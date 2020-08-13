@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pendrive on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/pendrive/</link>
+    <description>Recent content in pendrive on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Mon, 23 Mar 2020 21:50:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://morfikov.github.io/tags/pendrive/feed.xml" rel="self" type="application/rss" />
+    
+    
+    <item>
+      <title>Pendrive multiboot dla EFI/UEFI z Secure Boot</title>
+      <link>https://morfikov.github.io/post/pendrive-multiboot-dla-efi-uefi-z-secure-boot/</link>
+      <pubDate>Mon, 23 Mar 2020 21:50:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/pendrive-multiboot-dla-efi-uefi-z-secure-boot/</guid>
+      <description>&lt;p&gt;Przeniesienie mojego Debiana z laptopa mającego konfigurację BIOS i tablicę partycji MBR/MS-DOS do
+maszyny wyposażonej w firmware EFI/UEFI nie było jakoś stosunkowo trudnym zadaniem. Nawet &lt;a href=&#34;https://morfikov.github.io
+/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/&#34;&gt;kwestia
+włączenia Secure Boot&lt;/a&gt; okazała się o wiele mniej skomplikowana niż w rzeczywistości mogłoby się
+człowiekowi wydawać. Problem jednak pojawił się w przypadku płytek czy pendrive z systemami live.
+Nie chodzi przy tym o uruchamianie nośników z dopiero co wypalonymi obrazami ISO/IMG, bo te również
+nie sprawiają kłopotów. Chodzi bardziej o rozwiązanie multiboot, które oferuje wgranie wielu
+obrazów live na jedno urządzenie i odpalanie tego systemu, który sobie użytkownik w danym momencie
+zażyczy. Do tej pory korzystałem z &lt;a href=&#34;https://github.com/thias/glim&#34;&gt;projektu GLIM&lt;/a&gt; i może on posiada wsparcie dla EFI/UEFI ale
+już wsparcia dla Secure Boot mu zabrakło. W efekcie w konfiguracji EFI/UEFI + Secure Boot, GLIM stał
+się bezużyteczny i trzeba było rozejrzeć się za nieco innym rozwiązaniem. Okazało się, że nie
+trzeba daleko szukać, bo &lt;a href=&#34;https://www.rodsbooks.com/refind/&#34;&gt;rEFInd&lt;/a&gt; jest w stanie natywnie uruchomić system z obrazu ISO
+praktycznie każdej dystrybucji linux&#39;a (Ubuntu/Debian/Mint/GParted/CloneZilla) i w zasadzie trzeba
+tylko nieco inaczej przygotować nośnik, by móc na nowo cieszyć się korzyściami jakie oferuje
+pendrive multiboot.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Pendrive multiboot z GRUB2 i obrazami ISO różnych dystrybucji Linux</title>
+      <link>https://morfikov.github.io/post/pendrive-multiboot-z-grub2-i-obrazami-iso-roznych-dystrybucji-linux/</link>
+      <pubDate>Fri, 08 Nov 2019 18:02:33 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/pendrive-multiboot-z-grub2-i-obrazami-iso-roznych-dystrybucji-linux/</guid>
+      <description>&lt;p&gt;Obrazy ISO różnych dystrybucji Linux, szczególnie te live, bywają niezastąpione w sytuacjach
+kryzysowych. Dzięki takiej płytce CD/DVD czy pendrive (może być też i karta SD) można wybrnąć nawet
+z najgorszych opresji bez potrzeby rezygnowania przy tym z graficznego środowiska pracy
+podłączonego do internetu. Zwykle jednak użytkownicy są stawiani przed wyborem systemu, który mogą
+sobie wgrać na zewnętrzny nośnik, by w późniejszym czasie przeprowadzać ewentualne prace naprawcze.
+Chodzi generalnie o fakt, że taki obraz ISO czy IMG przy wgrywaniu konsumuje całe urządzenie bez
+względu na jego rozmiar, i tak mając 32G pamięci na flash możemy wgrać w zasadzie tylko jeden
+obraz, np. Debiana, a by wgrać obraz Ubuntu, to już trzeba albo osobnego pendrive albo nadpisać ten
+poprzednio wgrany obraz. Takie rozwiązanie jest mało praktyczne i też generuje koszty. Na szczęście
+można stworzyć boot&#39;owalny pendrive (w oparciu o GRUB/GRUB2), na którym można umieścić dowolną
+ilość obrazów ISO i w fazie rozruchu wybrać sobie ten system, który nas interesuje, a wszystko
+dzięki &lt;a href=&#34;https://github.com/thias/glim&#34;&gt;projektowi GLIM&lt;/a&gt; (GRUB Live ISO Multiboot).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak ukryć zaszyfrowany kontener LUKS pod linux</title>
+      <link>https://morfikov.github.io/post/jak-ukryc-zaszyfrowany-kontener-luks-pod-linux/</link>
+      <pubDate>Tue, 25 Oct 2016 19:30:23 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-ukryc-zaszyfrowany-kontener-luks-pod-linux/</guid>
+      <description>&lt;p&gt;Gdy w grę wchodzi poufność informacji, to przeciętny użytkownik komputera od razu zaczyna rozważać
+szyfrowanie danych. Są różne narzędzia, które te kwestię realizują w mniejszym lub większym stopniu.
+Kiedyś wszyscy korzystali z &lt;a href=&#34;http://truecrypt.sourceforge.net/&#34;&gt;TrueCrypt&lt;/a&gt; ale po jego dziwnych
+przygodach ludzie stopniowo zaczęli od tego oprogramowania odchodzić. W jego miejscu zaczęły
+pojawiać się różne forki, np. &lt;a href=&#34;https://veracrypt.codeplex.com/&#34;&gt;VeraCrypt&lt;/a&gt;. Abstrahując od tych ww.
+narzędzi, w każdym linux&#39;ie mamy również dostępny &lt;a href=&#34;https://gitlab.com/cryptsetup/cryptsetup/wikis/FrequentlyAskedQuestions&#34;&gt;mechanizm szyfrujący na bazie
+LUKS&lt;/a&gt; i jego gołą wersję
+wykorzystującą dm-crypt. Przy pomocy każdego z tych narzędzi jesteśmy w stanie zaszyfrować dysk
+komputera, pendrive, czy nawet kartę SD, w taki sposób, by nikt inny nie uzyskał dostępu do danych
+zgromadzonych na tych nośnikach informacji. Problem w tym, że w dalszym ciągu ktoś może nas
+torturować, by wydobyć od nas hasło czy keyfile i uzyskać dostęp do tych zaszyfrowanych danych bez
+większego trudu. Dlatego też pojawiło się coś nazwanego &lt;a href=&#34;https://en.wikipedia.org/wiki/Plausible_deniability&#34;&gt;Plausible
+Deniability&lt;/a&gt;, gdzie wykorzystywane są tak
+naprawdę dwa nośniki z czego jeden robi za przykrywkę, a na drugim mamy zgromadzone poufne pliki. W
+ten sposób agresorowi podajemy hasło do trefnego kontenera i wszyscy są zadowoleni. Czy aby na
+pewno?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Stałe nazwy urządzeń w OpenWRT (hotplug, udev)</title>
+      <link>https://morfikov.github.io/post/stale-nazwy-urzadzen-openwrt-hotplug-udev/</link>
+      <pubDate>Mon, 20 Jun 2016 16:46:48 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/stale-nazwy-urzadzen-openwrt-hotplug-udev/</guid>
+      <description>&lt;p&gt;Bezprzewodowy router WiFi to w miarę proste urządzenie, które w zasadzie realizuje kilka
+podstawowych aspektów pracy sieci domowej. Wielu użytkownikom jednak jest nieustannie potrzebna
+jakaś nowa funkcjonalność, której oryginalny firmware producenta nie oferuje. Dlatego też mamy do
+dyspozycji OpenWRT będący minimalistyczną formą bardziej rozbudowanej dystrybucji linux&#39;a. Może i
+OpenWRT daje nam możliwość zaawansowanej konfiguracji naszej sieci ale tego typu opcja powoduje też
+szereg problemów. Chodzi o to, że kernel dynamicznie tworzy nazwy dla wszystkich podłączanych
+urządzeń do routera. W dużych dystrybucjach linux&#39;a do ogarnięcia tych nazw wykorzystywany jest
+UDEV. W przypadku OpenWRT też możemy skorzystać tego mechanizmu. Jeśli jednak mamy niewiele miejsca
+na pamięci flash routera, to możemy też skorzystać ze zdarzeń hotplug. W tym wpisie postaramy się
+przepisać nazwy pendrive/dysków twardych oraz modemów USB (LTE), tak by ich kolejność podłączania do
+routera nie stwarzała problemów w konfiguracji.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Dysk, pendrive i inne nośniki pod OpenWRT</title>
+      <link>https://morfikov.github.io/post/dysk-pendrive-inne-nosniki-pod-openwrt/</link>
+      <pubDate>Wed, 27 Apr 2016 00:32:19 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/dysk-pendrive-inne-nosniki-pod-openwrt/</guid>
+      <description>&lt;p&gt;Czym by był router bez portów USB? Obecnie chyba wszystkie routery posiadają przy najmniej jeden
+taki port. Umożliwia to podłączenie pendrive, dysku USB, drukarki i innych urządzeń posiadających
+interfejs USB. W przypadku, gdy posiadamy jeden port USB i chcemy podłączyć dwa (lub więcej)
+urządzenia, musimy skorzystać z hubów USB. Ja w przypadku swojego routera &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WR1043ND.html&#34;&gt;TP-LINK TL-WR1043N/ND
+v2&lt;/a&gt; mam zastosowane właśnie takie
+rozwiązanie. Niby potrzebuję trzy porty USB, a ten router ma tylko jeden. Co prawda, pojawia się
+problem z zapotrzebowaniem na energię ale aktywne huby USB wyposażone w zasilacze niwelują tę
+dolegliwość. Ten wpis ma na celu przedstawić zarządzanie tymi wszystkimi nośnikami pod OpenWRT.
+Zostanie tutaj pokazane jak stworzyć i zamontować partycje o systemie plików EXT4, NTFS, FAT.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Nagłówek kontenera LUKS trzymany na pendrive</title>
+      <link>https://morfikov.github.io/post/naglowek-kontenera-luks-trzymany-na-pendrive/</link>
+      <pubDate>Fri, 15 Jan 2016 20:28:24 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/naglowek-kontenera-luks-trzymany-na-pendrive/</guid>
+      <description>&lt;p&gt;Jeśli kiedyś rozważaliśmy &lt;a href=&#34;https://morfikov.github.io
+/post/keyfile-trzymany-w-glebokim-ukryciu/&#34;&gt;umieszczenie pliku klucza (keyfile) do zaszyfrowanego kontenera LUKS na
+pendrive&lt;/a&gt;, to ciekawszą alternatywą
+może okazać się umieszczenie całego nagłówka takiego kontenera na zewnętrznym nośniku. Ma to tę
+przewagę nad keyfile, że wszystkie informacje zapewniające dostęp do kontenera, wliczając w to klucz
+główny, są oddzielone od zaszyfrowanych danych. W ten sposób nawet jeśli kontener wpadnie w
+niepowołane ręce, to nie ma żadnego sposobu na to, by ten ktoś te dane odzyskał, no bo przecie nie
+ma klucza szyfrującego. Przechwycenie hasła również nic to nie zmieni, no chyba, że ten ktoś
+zdobędzie również pendrive z nagłówkiem kontenera. Z ludzkiego punktu widzenia, to na takim dysku
+będą znajdować się jedynie losowymi dane i do tego w formie kompletnie nieczytelnej dla człowieka
+(brak systemu plików). Niemniej jednak, jest kilka rzeczy, o których warto pamiętać, gdy w grę
+wchodzi nagłówek LUKS i to o nich porozmawiamy sobie w tym wpisie.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak zwiększyć prędkość zapisu w urządzeniach USB</title>
+      <link>https://morfikov.github.io/post/jak-zwiekszyc-predkosc-zapisu-w-urzadzeniach-usb/</link>
+      <pubDate>Wed, 02 Dec 2015 17:06:40 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zwiekszyc-predkosc-zapisu-w-urzadzeniach-usb/</guid>
+      <description>&lt;p&gt;Przeglądając sobie &lt;a href=&#34;http://www.linux-usb.org/FAQ.html&#34;&gt;FAQ dotyczący urządzeń USB&lt;/a&gt; natknąłem się na
+punkt, który opisywał parametr &lt;code&gt;max_sectors&lt;/code&gt; . Niby nic wielkiego, w linux&#39;ie jest przecie pełno
+przeróżnych opcji, przy pomocy których jesteśmy w stanie zmienić szereg aspektów pracy naszego
+systemu operacyjnego. Rzecz w tym, że parametr &lt;code&gt;max_sectors&lt;/code&gt; potrafi nawet dość znacznie poprawić
+wydajność urządzeń USB, w tym tych wszystkich pendrive&#39;ach, w których prędkość zapisu pozostawia
+wiele do życzenia. W tym wpisie postaramy się nieco dostosować ten parametr, tak by przyśpieszyć
+transfer kopiowanych plików.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Zabezpieczenie konta root przy pomocy pam-usb</title>
+      <link>https://morfikov.github.io/post/zabezpieczenie-konta-root-przy-pomocy-pam-usb/</link>
+      <pubDate>Mon, 19 Oct 2015 21:01:03 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zabezpieczenie-konta-root-przy-pomocy-pam-usb/</guid>
+      <description>&lt;p&gt;Jakiś czas temu natknąłem się na moduł &lt;code&gt;pam-usb&lt;/code&gt; , który to w dość ciekawy sposób zabezpiecza dostęp
+do konta użytkownika root. &lt;a href=&#34;https://wiki.debian.org/pamusb&#34;&gt;Cały mechanizm opiera się o pendrive&lt;/a&gt;,
+którego to unikalne cechy są brane pod uwagę przy uwierzytelnianiu podczas logowania się na konto
+super użytkownika, czyli min. gdy wydajemy polecenie &lt;code&gt;su&lt;/code&gt; albo &lt;code&gt;sudo&lt;/code&gt; . Jest to o tyle ciekawa
+rzecz, że konto użytkownika root możne stać się niewrażliwe na próby złamania hasła w przypadku
+połączenia sieciowego. Jak by nie patrzeć, atakujący, który łączy się zdalnie, nie jest w stanie
+podłączyć do naszego komputera żadnego fizycznego urządzenia, w wyniku czego nigdy nie uzyska
+dostępu do konta administratora.&lt;/p&gt;
+&lt;p&gt;Pakiet &lt;code&gt;libpam-usb&lt;/code&gt; wyleciał z debiana jakiś czas temu. &lt;a href=&#34;https://tracker.debian.org/news/686153&#34;&gt;Powodem
+były&lt;/a&gt; zależności, które wskazywały na przestarzały już
+pakiet &lt;code&gt;udisks&lt;/code&gt; . Poza tym, nikt nie zajmował się tym pakietem. Obecnie jest on dostępny jedynie w
+starszych wydaniach debiana.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Udevil i montowanie zasobów bez uprawnień root</title>
+      <link>https://morfikov.github.io/post/udevil-i-montowanie-zasobow-bez-uprawnien-root/</link>
+      <pubDate>Fri, 19 Jun 2015 20:11:42 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/udevil-i-montowanie-zasobow-bez-uprawnien-root/</guid>
+      <description>&lt;p&gt;Linux jest bezpiecznym środowiskiem operacyjnym ale to nie ze względu na to, że jego kod jest jakoś
+mniej podatny na błędy czy coś w tym stylu, tylko przez restrykcyjną politykę dostępu do szeregu
+miejsc w systemie. Jednym z nich są wszelkie urządzenia, w skład których wchodzą również i dyski
+twarde, pendrive czy napędy cd/dvd. Oczywiście tych urządzeń może być o wile więcej ale my w tym
+wpisie omówimy sobie dostęp tylko do tych trzech wymienionych wyżej. Standardowo zwykły użytkownik w
+systemie nie ma możliwości przeprowadzenia szeregu czynności pod kątem większości z tych urządzeń i
+wliczyć w to można, np. montowanie zasobów. Tego typu operacje może przeprowadzać jedynie
+administrator. Ma to na celu ochronę bezpieczeństwa systemu. Jeśli chodzi o nośniki wymienne takie
+jak płytki cd/dvd czy pendrive, to na nich może znajdować się podejrzane oprogramowanie i po
+zamontowaniu takiego nośnika w systemie, wirusy, trojany czy keyloggery mogą się wgrać do systemu
+zagrażając tym samym prywatności wszystkich użytkowników.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Autostart i automatyczne montowanie nośników</title>
+      <link>https://morfikov.github.io/post/autostart-i-automatyczne-montowanie-nosnikow/</link>
+      <pubDate>Fri, 19 Jun 2015 17:17:11 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/autostart-i-automatyczne-montowanie-nosnikow/</guid>
+      <description>&lt;p&gt;Menadżery plików potrafią automatycznie montować nośniki wymienne w oparciu o pakiet
+&lt;a href=&#34;https://www.freedesktop.org/wiki/Software/udisks/&#34;&gt;udisks2&lt;/a&gt;. Potrafią także uruchamiać odpowiednie
+aplikacje zlokalizowane na tych urządzeniach. Może to prowadzić do oczywistych zagrożeń i jeśli nasz
+system ma być bezpieczny, to musimy wyłączyć obie te opcje. W różnych menadżerach plików, ten proces
+przebiega inaczej. Ja korzystam ze &lt;a href=&#34;https://ignorantguru.github.io/spacefm/&#34;&gt;spacefm&lt;/a&gt; i w jego
+przypadku mamy dość rozbudowany mechanizm polityki dotyczącej tych dwóch powyższych kwestii.
+Niemniej jednak, w przypadku każdego z menadżera plików, proces postępowania powinien przebiegać
+mniej więcej w ten sam sposób.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Keyfile trzymany w głębokim ukryciu</title>
+      <link>https://morfikov.github.io/post/keyfile-trzymany-w-glebokim-ukryciu/</link>
+      <pubDate>Mon, 15 Jun 2015 19:53:56 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/keyfile-trzymany-w-glebokim-ukryciu/</guid>
+      <description>&lt;p&gt;Pisząc ostatni &lt;a href=&#34;https://morfikov.github.io
+/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/&#34;&gt;artykuł na temat
+udeva&lt;/a&gt; i montowania przy jego
+pomocy zaszyfrowanego kontenera, wpadł mi do głowy ciekawy pomysł na trzymanie pliku klucza
+(keyfile) w czymś co się potocznie nazywa &amp;quot;głębokim ukryciem&amp;quot;. Z reguły ludzie nie chcą używać haseł
+do odblokowywania swoich systemów czy partycji i zamiast nich wolą stosować keyfile, czyli małe
+pliki, zwykle o rozmiarze paru KiB, które, jakby nie patrzeć, są dość unikatowe i odporne na ataki
+słownikowe czy inne formy przemocy. Jedyny problem z jakim człowiek musi się zmierzyć, to z
+zabezpieczeniem takiego keyfile i tutaj sprawa nie wygląda wcale dobrze. Takie pliki klucze są
+trzymane zwykle na tym samym urządzeniu, do których mają zapewniać bezpieczny dostęp, a nawet jeśli
+nie na tym samym, to w pobliżu takich urządzeń, dając nam tym samym jedynie fałszywe poczucie
+bezpieczeństwa.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>RAM, cache i dirty pages</title>
+      <link>https://morfikov.github.io/post/ram-cache-i-dirty-pages/</link>
+      <pubDate>Mon, 15 Jun 2015 15:03:21 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/ram-cache-i-dirty-pages/</guid>
+      <description>&lt;p&gt;Wiele czasu zajęło mi opanowanie w końcu tych bestii zwanych &lt;a href=&#34;https://www.kernel.org/doc/Documentation/sysctl/vm.txt&#34;&gt;dirty
+pages&lt;/a&gt;, które to są trzymane w cache pamięci
+RAM i potrafią dać się nieźle we znaki, zwłaszcza gdy ma się mało pamięci operacyjnej i maszynę &lt;a href=&#34;https://lwn.net/Articles/572911/&#34;&gt;64
+bitową&lt;/a&gt;. Chodzi o to, że podczas kopiowania plików z/na pendrive,
+system zaczyna się strasznie przycinać, bo następuje zrzucanie danych innych procesów z RAM do SWAP
+by zrobić miejsce pod te dane, które są aktualnie kopiowane.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Rzeczywista pojemność pendrive i kart SD</title>
+      <link>https://morfikov.github.io/post/rzeczywista-pojemnosc-pendrive-i-kart-sd/</link>
+      <pubDate>Sun, 14 Jun 2015 09:08:09 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/rzeczywista-pojemnosc-pendrive-i-kart-sd/</guid>
+      <description>&lt;p&gt;Parę dni temu &lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=26668&#34;&gt;jednemu z użytkowników forum DUG&lt;/a&gt;
+przytrafiła się niezbyt miła sytuacja. Rozchodzi się o to iż zakupił on kartę SD i, jak sprzedawca
+zapewniał, miała mieć pojemność 128 GiB. Wszyscy wiemy, że sprzedawcy nieco zawyżają te numerki na
+opakowaniach, bo operują na potęgach o podstawie 10, a nie 2, i tak ze 100 GB robi się zaraz 93 GiB.
+Do tego oczywiście jeszcze dochodzi rezerwacja miejsca na potrzebę obsługi systemu plików. Niemniej
+jednak, w tym przypadku, różnica była trochę większa i tutaj mamy do czynienia z czymś co się nazywa
+&lt;a href=&#34;http://www.ebay.com/gds/All-About-Fake-Flash-Drives-2013-/10000000177553258/g.html&#34;&gt;fake flash&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Jest taka żelazna zasada, by po zakupie jakiegoś sprzętu, sprawdzić go czy aby działa jak należy i
+czy jest z nim wszystko w porządku. Jest to wręcz obowiązek przy zakupie pamięci opartych o
+technologię flash, bez znaczenia z jakiego to źródła by one nie pochodziły.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Własny system live i tworzenie go od podstaw</title>
+      <link>https://morfikov.github.io/post/wlasny-system-live-i-tworzenie-go-od-podstaw/</link>
+      <pubDate>Fri, 12 Jun 2015 15:48:19 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wlasny-system-live-i-tworzenie-go-od-podstaw/</guid>
+      <description>&lt;p&gt;Jeśli mamy nieco odbiegające od standardowych oczekiwania dotyczące systemów live, np. wynikają one
+z braku obecności pewnych pakietów w obrazie wygenerowanym przez developerów jakiejś konkretnej
+dystrybucji, to możemy sobie stworzyć własny obraz live, gdzie mamy możliwość dostosowania całej
+konfiguracji takiego systemu wliczając w to również i instalację brakujących pakietów. Obrazy, które
+są &lt;a href=&#34;https://www.debian.org/CD/live/&#34;&gt;dostępne na stronie debiana&lt;/a&gt;, zawierają wydanie stabilne i jak
+wiadomo, nie jest ono zbyt aktualne pod względem oprogramowania. Natomiast jeśli chodzi o tworzenie
+własnych obrazów live, to możemy zdefiniować sobie gałąź, z której mają być pobierane pakiety użyte
+w procesie budowania, jak i również dograć te pakiety, które nie są w żaden sposób powiązane z daną
+dystrybucją.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Persistence czyli zachowanie zmian w systemie live</title>
+      <link>https://morfikov.github.io/post/persistence-czyli-zachowanie-zmian-w-systemie-live/</link>
+      <pubDate>Thu, 11 Jun 2015 19:12:27 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/persistence-czyli-zachowanie-zmian-w-systemie-live/</guid>
+      <description>&lt;p&gt;Systemy live mają jedną ale za to dość dającą się odczuć wadę, mianowicie chodzi o to, że po
+wypaleniu takiego obrazu, nie mamy możliwości zachowania zmian. Nawet jeśli doinstalujemy nowy
+pakiet czy wyedytujemy jakiś plik, to zmiany wprowadzone przez nas są jedynie tymczasowe, bo
+dokonywane w pamięci operacyjnej RAM. W efekcie jeśli uruchomimy taki system ponownie, będziemy
+zmuszeni przeprowadzać raz jeszcze wszystkie poprzednie czynności pod kątem jego dostosowania. W
+przypadku cd/dvd nie mamy praktycznie żadnego pola manewru. Inaczej jednak ma się sprawa jeśli
+chodzi o pendrive, bo tutaj możemy utworzyć osobną partycję, gdzie będą przechowywane wszystkie
+zmiany jakich dokonamy.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak wgrać system live na uszkodzony pendrive</title>
+      <link>https://morfikov.github.io/post/jak-wgrac-system-live-na-uszkodzony-pendrive/</link>
+      <pubDate>Thu, 11 Jun 2015 14:43:35 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-wgrac-system-live-na-uszkodzony-pendrive/</guid>
+      <description>&lt;p&gt;Każdy z nas spotkał się już chyba w swoim życiu z systemami live. To taki wynalazek zawierający
+domyślne oprogramowanie, tak skonfigurowane, by system zdołał się odpalić na większość maszyn w ich
+pamięci operacyjnej, oczywiście zakładając, że wymagania sprzętowe zostaną zaspokojone, głównie
+chodzi o pamięć RAM. Takie systemy live są dostarczane w postaci kilku rodzajów obrazów: iso, hdd
+oraz hybryda. Pierwszy z nich zwykle wypala się na płytkach, drugi na pendrive, z kolei hybrydowy
+obraz można wgrać na każdy rodzaj urządzenia i nawet wykorzystać w przypadku maszyn wirtualnych i
+zwykle spotkamy się z tym ostatnim typem, nawet jeśli plik ma rozszerzenie &lt;code&gt;.iso&lt;/code&gt; .&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Kiedy żywot pendrive dobiega końca...</title>
+      <link>https://morfikov.github.io/post/kiedy-zywot-pendrive-dobiega-konca/</link>
+      <pubDate>Tue, 09 Jun 2015 20:47:42 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/kiedy-zywot-pendrive-dobiega-konca/</guid>
+      <description>&lt;p&gt;Pendrive to jedno z cenniejszych urządzeń w obecnych czasach. Jest mały, poręczny i potrafi
+przechować parę set GiB danych oraz jako, że nie ma części ruchomych, można nie obchodzić się z nim
+jak z jajkiem i to bez ryzyka utraty danych. Często wykorzystuje się go jako środek transportu na
+krótkie odległości między kilkoma maszynami, gdzie z pewnych powodów nie można pociągnąć kabla
+sieciowego, nie wspominając przy tym o wifi. Systemy live wręcz nie mogą się bez nich obejść.
+Jesteśmy w sumie uzależnieni od tych małych urządzeń tak bardzo, że dostrzegamy to dopiero w chwili
+gdy, któryś pendrive zaczyna odmawiać posłuszeństwa.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

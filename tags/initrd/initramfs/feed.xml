@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>initrd/initramfs on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/initrd/initramfs/</link>
+    <description>Recent content in initrd/initramfs on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    
+	<atom:link href="https://morfikov.github.io/tags/initrd/initramfs/feed.xml" rel="self" type="application/rss" />
+    
+    
+    <item>
+      <title>Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</title>
+      <link>https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/</link>
+      <pubDate>Sun, 01 Mar 2020 20:30:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/</guid>
+      <description>&lt;p&gt;Mając możliwość skonfigurowania EFI/UEFI na moim laptopie, postanowiłem jak najbardziej się za to
+przedsięwzięcie zabrać. Okazało się jednak, że w przypadku takiej dystrybucji linux&#39;a jak Debian,
+to zadanie może być nieco problematyczne, zwłaszcza gdy chce się korzystać jedynie z menadżera
+rozruchu jakim jest &lt;a href=&#34;https://www.rodsbooks.com/refind/&#34;&gt;rEFInd&lt;/a&gt;, czyli bez dodatkowego bootloader&#39;a (grub/grub2/syslinux/extlinux)
+instalowanego bezpośrednio na dysku twardym i jednocześnie posiadając w pełni zaszyfrowany system
+(LUKSv2 + LVM). Rzecz w tym, że w takiej sytuacji w konfiguracji rEFInd trzeba podawać ścieżki
+bezpośrednio do plików &lt;code&gt;initrd.img&lt;/code&gt; oraz &lt;code&gt;vmlinuz&lt;/code&gt; (obecnych na partycji &lt;code&gt;/boot/&lt;/code&gt; ). W Debianie
+nazwy tych plików mają format &lt;code&gt;initrd.img-x.x.x-x-amd64&lt;/code&gt; i &lt;code&gt;vmlinuz-x.x.x-x-amd64&lt;/code&gt; . Za każdym
+razem, gdy wypuszczany jest nowy kernel, to ten numerek ( &lt;code&gt;x.x.x-x&lt;/code&gt; ) ulega zmianie, co pociąga za
+sobą potrzebę ręcznego dostosowania konfiguracji rEFInd. Może i aktualizacje kernela w Debianie nie
+są jakoś stosunkowo częste ale może istnieje sposób, by ten problem z dostosowaniem konfiguracji
+rozwiązać?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux</title>
+      <link>https://morfikov.github.io/post/jak-zaladowac-profile-apparmor-w-fazie-initrd-initramfs-na-debian-linux/</link>
+      <pubDate>Mon, 23 Sep 2019 19:05:21 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zaladowac-profile-apparmor-w-fazie-initrd-initramfs-na-debian-linux/</guid>
+      <description>&lt;p&gt;Zapewne wielu użytkowników Debiana zdążyło już zauważyć, że od wydania 10 (Buster), AppArmor jest
+włączony domyślnie. Nie powinien on raczej sprawiać żadnych problemów po doinstalowaniu pakietów
+&lt;code&gt;apparmor-profiles&lt;/code&gt; oraz &lt;code&gt;apparmor-profiles-extra&lt;/code&gt; , które zawierają szereg profili pod różne
+aplikacje użytkowe. Niemniej jednak, pewnych procesów nie da się ograniczyć przez AppArmor,
+przynajmniej nie w standardowy sposób. Chodzi o to, że jeśli mamy już odpalony jakiś proces, to nie
+ma możliwości zamknąć go w profilu AA do momentu aż zakończy on swoje działanie i zostanie
+uruchomiony ponownie. Profile AppArmor&#39;a są ładowane podczas startu systemu w pewnym określonym
+momencie ale szereg procesów systemowych startuje sporo wcześniej w stosunku do usługi AppArmor&#39;a.
+W taki sposób nawet jeśli w późniejszym czasie profile zostaną załadowane, to i tak część procesów
+nie będzie ograniczona bez względu na to czy zdefiniowaliśmy im zestaw reguł. Oczywiście można
+próbować restartować usługi lub szeregować je po &lt;code&gt;apparmor.service&lt;/code&gt; ale nie zawsze tak się da
+zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppArmor&#39;a w fazie
+initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu
+z PID z numerkiem &lt;code&gt;1&lt;/code&gt; .&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Zawartość obrazu z modułami kernela (initrd)</title>
+      <link>https://morfikov.github.io/post/zawartosc-obrazu-z-modulami-kernela-initrd/</link>
+      <pubDate>Sun, 06 Sep 2015 12:45:04 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zawartosc-obrazu-z-modulami-kernela-initrd/</guid>
+      <description>&lt;p&gt;Podczas instalowania jądra operacyjnego w jakiejś dystrybucji linux&#39;a, w katalogu &lt;code&gt;/boot/&lt;/code&gt; jest
+tworzonych kilka plików. Mamy tam między innymi
+&lt;a href=&#34;https://www.ibm.com/developerworks/linux/library/l-initrd/index.html&#34;&gt;initrd.img&lt;/a&gt; i jest to obraz
+posiadający swój własny system plików, który jest ładowany do pamięci RAM w fazie boot (via
+bootloader). W tym obrazie znajdują się moduły i narzędzia, przy pomocy których to główny system
+plików naszego linux&#39;a może zostać zamontowany. Czasem jednak potrzebujemy zajrzeć wgłąb tego
+obrazu, a to nie jest znowu taka prosta sprawa.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

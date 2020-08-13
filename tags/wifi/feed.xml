@@ -1,0 +1,760 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>wifi on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/wifi/</link>
+    <description>Recent content in wifi on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Fri, 06 Mar 2020 02:45:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://morfikov.github.io/tags/wifi/feed.xml" rel="self" type="application/rss" />
+    
+    
+    <item>
+      <title>Jak załadować firmware karty WiFi przed initrd/initramfs</title>
+      <link>https://morfikov.github.io/post/jak-zaladowac-firmware-karty-wifi-przed-initrd-initramfs/</link>
+      <pubDate>Fri, 06 Mar 2020 02:45:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zaladowac-firmware-karty-wifi-przed-initrd-initramfs/</guid>
+      <description>&lt;p&gt;Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową
+sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: &lt;code&gt;Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2&lt;/code&gt; . W tym przypadku sprawa dotyczyła karty &lt;code&gt;Intel Corporation Centrino Advanced-N 6205 [Taylor Peak]&lt;/code&gt; działającej w oparciu o moduł kernela
+&lt;code&gt;iwlwifi&lt;/code&gt; . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po
+kłopocie. No i faktycznie w Debianie jest dostępny pakiet &lt;code&gt;firmware-iwlwifi&lt;/code&gt; , który zawiera ten
+potrzebny plik &lt;code&gt;iwlwifi-6000g2a-6.ucode&lt;/code&gt; . Problem jednak w tym, że instalacja paczki z firmware
+niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware
+muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W
+takim przypadku zainstalowanie paczki z firmware w naszym linux&#39;ie nic nam nie da, bo pliki
+rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej
+sytuacji?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak zmienić hostname w telefonie z Androidem</title>
+      <link>https://morfikov.github.io/post/jak-zmienic-hostname-w-telefonie-z-androidem/</link>
+      <pubDate>Wed, 29 Jan 2020 19:00:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zmienic-hostname-w-telefonie-z-androidem/</guid>
+      <description>&lt;p&gt;Przeglądając ostatnio listę sprzętów podłączonych do mojego routera WiFi, zauważyłem, że niektóre
+pozycje na niej w polu z hostname mają coś na wzór &lt;code&gt;android-4c52c33baae0b4fa&lt;/code&gt; . Pierwsza część
+nazwy tego hosta wskazuje na system operacyjny, a drugi kawałek to unikalny numerek ID.  Nie jestem
+zbytnio fanem rozgłaszania takich informacji publicznie, bo mogą one ułatwić ewentualne ataki, oraz
+też identyfikują jednoznacznie dane urządzenie (&lt;a href=&#34;https://source.android.com/devices/tech/connect/wifi-mac-randomization&#34;&gt;osobną kwestią jest adres MAC karty sieciowej&lt;/a&gt;).
+Ponadto, mając w sieci wiele mobilnych urządzeń, ciężko jest czasem połapać się który telefon ma
+przypisany konkretny adres IP (bez patrzenia w ustawienia telefonu). Z reguły na linux&#39;owym
+desktopie czy laptopie zmiana hostname jest stosunkowo łatwym zadaniem ale w przypadku smartfona z
+Androidem ten zabieg okazał się niezmiernie trudnym procesem. Jak zatem zmienić hostname telefonu,
+by można było mu przypisać jakaś w miarę ludzką nazwę?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Wifi Roaming Fix i SWIFI, czyli roaming w smartfonie</title>
+      <link>https://morfikov.github.io/post/wifi-roaming-fix-swifi-roaming-w-smartfonie/</link>
+      <pubDate>Thu, 03 Nov 2016 19:33:54 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wifi-roaming-fix-swifi-roaming-w-smartfonie/</guid>
+      <description>&lt;p&gt;Ostatnimi czasy coraz więcej sieci domowych zaczyna być wyposażanych w sprzęt umożliwiający
+połączenie bezprzewodowe. Router WiFi ma już chyba znaczna większość z nas ale nie są to jedyne
+urządzenia, które są w stanie świadczyć bezprzewodowe usługi sieciowe. Im większy dystans dzieli
+odbiornik od nadajnika lub też im więcej przeszkód stoi na bezpośredniej drodze komunikacji, tym
+sygnał ulega większej degradacji. Zwykle w takiej sytuacji dokupujemy drugi router WiFi, ewentualnie
+&lt;a href=&#34;http://www.tp-link.com.pl/products/list-12.html&#34;&gt;prosty AP&lt;/a&gt;, &lt;a href=&#34;http://www.tp-link.com.pl/products/list-10.html&#34;&gt;wzmacniacz sygnału
+WiFi&lt;/a&gt; czy też &lt;a href=&#34;http://www.tp-link.com.pl/products/list-18.html&#34;&gt;ekstendery
+powerline&lt;/a&gt; (PLC). Wszystko po to, by jakoś
+przyzwoicie pokryć sygnałem całą przestrzeń użytkową naszego domu czy też miejsc, w których spędzamy
+wolny czas. Każde takie urządzenie realizuje połączenie WiFi mniej więcej w ten sam sposób, tj.
+zestawia punkt dostępu, do którego podłączamy komputer albo smartfona. O ile w przypadku desktopów
+czy laptopów przełączanie się między tymi AP w zależności od siły sygnału nie stanowi większego
+problemu, o tyle w przypadku smartfonów z Androidem nie jest już tak różowo, bo przełączenie
+następuje jedynie przy całkowitej utracie sygnału z AP. Takiej sytuacji można zaradzić ale trzeba
+posiłkować się dodatkowymi aplikacjami. W poniższym artykule zostaną opisane dwa takie programiki:
+&lt;a href=&#34;https://play.google.com/store/apps/details?id=com.seah0rse.swififree&#34;&gt;SWIFI&lt;/a&gt; i &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.heleron.wifiroamingfix&#34;&gt;Wifi Roaming
+Fix&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Udostępnianie LTE/3G ze smartfona przez router OpenWRT (tethering)</title>
+      <link>https://morfikov.github.io/post/udostepnianie-lte-3g-ze-smartfona-przez-router-openwrt-tethering/</link>
+      <pubDate>Tue, 01 Nov 2016 18:14:53 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/udostepnianie-lte-3g-ze-smartfona-przez-router-openwrt-tethering/</guid>
+      <description>&lt;p&gt;Przeglądając &lt;a href=&#34;http://eko.one.pl/forum/viewtopic.php?pid=175547&#34;&gt;forum eko.one.pl natrafiłem ciekawy
+problem&lt;/a&gt;, nad którym też się zastanawiałem jakiś
+czas temu. Chodzi o udostępnienie internetu komórkowego (LTE/3G) komputerom w domowej sieci za
+pomocą smartfona (tzw. &lt;a href=&#34;https://pl.wikipedia.org/wiki/Tethering&#34;&gt;tethering&lt;/a&gt;). W takiej sytuacji, w
+przypadku problemów z lokalnym dostawcą internetu moglibyśmy przepiąć wszystkie komputery na
+internet świadczony przez operatora GSM, z którego korzystamy. Z reguły standardowy firmware
+routerów WiFi nie pozwala na tego typu rozwiązania. Niemniej jednak, mając do dyspozycji router z
+OpenWRT można spróbować połączyć go z naszym smartfonem udostępniając sieci lokalnej internet
+LTE/3G. W tym artykule zostanie przedstawione tego typu rozwiązanie przy wykorzystaniu &lt;a href=&#34;http://www.tp-link.com.pl/en/products/details/cat-9_Archer-C7.html&#34;&gt;routera
+Archer C7&lt;/a&gt; v2 od TP-LINK oraz
+&lt;a href=&#34;http://www.neffos.com/en/product/details/C5&#34;&gt;smartfona Neffos C5&lt;/a&gt;, również od TP-LINK. Na routerze
+zaś jest wgrana najnowsza stabilna wersja OpenWRT (Chaos Calmer). Sprawdzimy sobie jak takie
+rozwiązanie wygląda oraz sprawuje się w praktyce i czy jest ono w ogóle godne jakiegoś większego
+zainteresowania.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mostek eth0 &#43; wlan0 z bridge-utils i wpa_supplicant</title>
+      <link>https://morfikov.github.io/post/mostek-eth0-wlan0-bridge-utils-wpa_supplicant/</link>
+      <pubDate>Sun, 18 Sep 2016 13:01:58 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/mostek-eth0-wlan0-bridge-utils-wpa_supplicant/</guid>
+      <description>&lt;p&gt;Posiadając w komputerze kilka interfejsów sieciowych, prędzej czy później dostrzeżemy wady jakie
+niesie ze sobą konfiguracja wszystkich posiadanych kart sieciowych. Skonfigurowanie szeregu
+interfejsów przewodowych nie stanowi raczej większego wyzwania. Można je spiąć w jeden za pomocą
+bonding&#39;u czy też konfigurując wirtualny interfejs mostka (bridge). A co w przypadku bezprzewodowych
+interfejsów? Tu również możemy &lt;a href=&#34;https://morfikov.github.io
+/post/konfiguracja-interfejsow-bond-bonding/&#34;&gt;skonfigurować interfejs
+bond0&lt;/a&gt; lub też podpiąć interfejs
+&lt;code&gt;wlan0&lt;/code&gt; pod mostek. Jako, że bonding już opisywałem, to w tym artykule zajmiemy się mostkowaniem
+interfejsu przewodowego i bezprzewodowego, które zwykle dostępne są w naszych laptopach. Ten proces
+zostanie opisany w oparciu o dystrybucję linux&#39;a Debian i skontrastujemy go sobie z w/w bonding&#39;iem.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recenzja: Router Archer C2600 od TP-LINK</title>
+      <link>https://morfikov.github.io/post/recenzja-router-archer-c2600-od-tp-link/</link>
+      <pubDate>Wed, 14 Sep 2016 18:20:30 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-router-archer-c2600-od-tp-link/</guid>
+      <description>&lt;p&gt;Któż z nas nie ma gdzieś koło swojego domowego ogniska takiego małego urządzenia z antenami, które
+nic tylko sobie leży gdzieś na półce i od czasu do czasu tylko mignie do nas swoimi diodami? Mowa
+oczywiście o routerach WiFi, które można powoli chyba zacząć traktować jak nowych członków naszej
+rodziny. Te elektroniczne stworzenia są tak bardzo użyteczne, że wielu z nas już sobie życia bez
+nich nie wyobraża. Technologia bezprzewodowej łączności rozwija się bardzo prężnie i, gdy niecałe
+dwa lata temu sprawiłem sobie mój pierwszy router WiFi (model
+&lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WR1043ND.html&#34;&gt;TL-WR1043ND&lt;/a&gt; v2), to myślałem, że
+wystarczy mi on na jakiś dłuższy czas. Wtedy 450 mbit/s w paśmie 2,4 GHz to były naprawdę przyzwoite
+osiągi, przynajmniej teoretycznie rzecz ujmując. Od tamtego czasu bardzo dużo się zmieniło w kwestii
+WiFi, nie tylko pod względem przepustowości ale także technologii, które znajdują zastosowanie w tym
+bezprzewodowym wymiarze otaczającej nas rzeczywistości. Tak się składa, że mam jedno z tych bardziej
+zaawansowanych urządzeń i postanowiłem sobie je dokładnie obadać. Jest to &lt;a href=&#34;http://www.tp-link.com.pl/products/details/Archer-C2600.html&#34;&gt;router Archer
+C2600&lt;/a&gt; od TP-LINK, który ma być zdolny
+przesłać sygnał po WiFi z prędkością 800 mbit/s w paśmie 2,4 GHz i 1733 mbit/s w paśmie 5 GHz, także
+zobaczmy co to jest za maszyna.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak skonfigurować roaming WiFi z wpa_supplicant w linux&#39;ie</title>
+      <link>https://morfikov.github.io/post/jak-skonfigurowac-roaming-wifi-wpa_supplicant-linux/</link>
+      <pubDate>Sat, 10 Sep 2016 12:13:09 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-skonfigurowac-roaming-wifi-wpa_supplicant-linux/</guid>
+      <description>&lt;p&gt;Bezprzewodowe sieci WiFi są wszędzie. Wystarczy tylko przejść się kawałek po okolicy i przeskanować
+eter, a sami zobaczymy, że wynik takiego skanowania zidentyfikuje nam całą masę domowych nadajników.
+Oczywiście do większości z nich raczej nigdy nie będziemy mieć dostępu ale są wśród nich takie AP,
+do których zwykliśmy się logować. Niekoniecznie te AP muszą należeć do naszej własnej domowej sieci
+WiFi. Mogą to być, np. firmowe hotspoty. Nawet jeśli ograniczymy się tylko do naszego domu, to gdy
+ten jest nieco większy, to prawdopodobnie jeden bezprzewodowy router nie wystarczy, by pokryć
+zasięgiem całą dostępną przestrzeń użytkową. Będziemy musieli dokupić drugi router, czy jakiś
+wzmacniacz sygnału. Być może też zdecydujemy się na &lt;a href=&#34;https://morfikov.github.io
+/post/transmitery-sieciowe-tl-wpa4226t-kit-tp-link/&#34;&gt;transmitery sieciowe
+(powerline)&lt;/a&gt;. Jest cała masa
+urządzeń, które mogą nam pomóc rozwiązać problem słabego zasięgu. To co zwykle łączy te urządzenia,
+to fakt, że wszystkie z nich zawierają dodatkowy AP, który trzeba skonfigurować. Pojawia się zatem
+problem przełączania między tymi punktami dostępowymi. Można sobie z tym poradzić konfigurując
+roaming. W takiej sytuacji przełączanie między sieciami będzie następowało automatycznie, szybko i
+bez naszego udziału. W linux&#39;ach roaming można włączyć przy pomocy narzędzia &lt;code&gt;wpa_supplicant&lt;/code&gt; i w
+tym artykule zobaczymy jak tego dokonać.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Debian: Profilowanie sieci z guessnet, ifplugd i wpasupplicant</title>
+      <link>https://morfikov.github.io/post/debian-profilowanie-sieci-guessnet-ifplugd-wpasupplicant/</link>
+      <pubDate>Mon, 05 Sep 2016 13:01:08 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/debian-profilowanie-sieci-guessnet-ifplugd-wpasupplicant/</guid>
+      <description>&lt;p&gt;Kilka dni temu na &lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=28903&#34;&gt;forum dug.net.pl&lt;/a&gt; pojawił się
+ciekawy wątek dotyczący problemu skonfigurowania profilowanych sieci. Chodzi o to, że praktycznie
+każdy z nas jest po części w jakiś sposób mobilny i zabiera laptopa ze sobą w dziwne miejsca. Sieci
+w tych lokalizacjach mogą cechować się różnym poziomem bezpieczeństwa. Dlatego też zamiast korzystać
+z jednej konfiguracji sieci na linux&#39;ie, można stworzyć szereg profili i w oparciu o nie dostosować
+sobie połączenie sieciowe. W tym artykule spróbujemy zaimplementować takie rozwiązanie na Debianie
+wyposażonym w menadżer okien Openbox. W skrócie stworzymy automat, który będzie nam działał w
+oparciu o pakiety guessnet, &lt;a href=&#34;http://0pointer.de/lennart/projects/ifplugd/&#34;&gt;ifplugd&lt;/a&gt; oraz
+&lt;a href=&#34;https://w1.fi/wpa_supplicant/&#34;&gt;wpasupplicant&lt;/a&gt;. Cała konfiguracja zaś sprowadzać się będzie jedynie
+do edycji plików &lt;code&gt;/etc/network/interfaces&lt;/code&gt; oraz &lt;code&gt;/etc/wpa_supplicant/wpa_supplicant.conf&lt;/code&gt; .&lt;/p&gt;
+&lt;p&gt;Niniejszy artykuł został nieco przerobiony po fazach eksperymentów. Przede wszystkim, zrezygnowałem
+z zaprzęgania &lt;code&gt;guessnet&lt;/code&gt; do rozpoznawania sieci WiFi i aplikowania roamingu. Zamiast tego zostały
+wykorzystane natywne rozwiązania roamingowe oferowane przez &lt;code&gt;wpa_supplicant&lt;/code&gt; . Zaowocowało to
+uproszczeniem całej konfiguracji, co przełożyło się na wyeliminowanie pewnych błędów.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Metryki tras interfejsów eth0 i wlan0 w laptopie (metric)</title>
+      <link>https://morfikov.github.io/post/metryki-tras-interfejsow-eth0-wlan0-laptop-metric/</link>
+      <pubDate>Fri, 02 Sep 2016 17:50:11 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/metryki-tras-interfejsow-eth0-wlan0-laptop-metric/</guid>
+      <description>&lt;p&gt;W obecnych czasach posiadanie komputera, który dysponuje kilkoma interfejsami sieciowymi nie jest
+niczym niezwykłym. Praktycznie każdy laptop posiada już na pokładzie co najmniej jedną kartę WiFi i
+minimum jeden port ethernet. W efekcie czego jesteśmy w stanie podłączyć się do sieci zarówno
+przewodowo jak i bezprzewodowo. Problem jednak pojawia się w momencie, gdy chcemy wykorzystywać oba
+te interfejsy, z tym, że dysponujemy jedynie niezbyt zaawansowanym menadżerem okien Openbox. Takie
+środowiska zwykle nie mają na pokładzie automatów pokroju Network Manager, przez co bardziej
+zaawansowana konfiguracja sieci może być dość skomplikowana. Do tej pory wykorzystywałem &lt;a href=&#34;https://morfikov.github.io
+/post/konfiguracja-interfejsow-bond-bonding/&#34;&gt;interfejs
+bond0&lt;/a&gt;, by mieć możliwość łatwego
+przełączania się miedzy sieciami. Istnieje inny sposób konfiguracji interfejsów &lt;code&gt;eth0&lt;/code&gt; i &lt;code&gt;wlan0&lt;/code&gt; w
+pliku &lt;code&gt;/etc/network/interfaces&lt;/code&gt; tak, by działały one nam równolegle i nie powodowały problemów z
+połączeniem, a wszystko za sprawą opcji &lt;code&gt;metric&lt;/code&gt; .&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recenzja: Przenośny router 3G/4G TL-MR3020  od TP-LINK</title>
+      <link>https://morfikov.github.io/post/recenzja-router-3g-4g-tl-mr3020-tp-link/</link>
+      <pubDate>Tue, 30 Aug 2016 17:44:53 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-router-3g-4g-tl-mr3020-tp-link/</guid>
+      <description>&lt;p&gt;Coraz więcej użytkowników migruje od lokalnych providerów internetowych na technologię LTE, która
+zapewnia nam połączenie z siecią globalną niezależnie od naszej fizycznej lokalizacji. Do obsługi
+LTE potrzebny jest odpowiedni modem lub router WiFi, który już ma taki modem wbudowany. Jeśli
+posiadamy modem LTE, to może się pojawić problem z udostępnianiem połączenia, np. w sieci domowej.
+Jakby nie patrzeć taki modem jest przeznaczony na jedno urządzenie. Oczywiście w dalszym ciągu
+możemy przerobić nasz router WiFi i dodać do niego obsługę modemów LTE ale takie rozwiązanie wymaga
+firmware OpenWRT/LEDE. Istnieje prostsza alternatywa, która, można by rzec, działa OOTB i nie trzeba
+się zbytnio wysilać przy jej implementacji. Musimy jednak posiadać odpowiednie urządzenie. W tym
+artykule obadamy sobie &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-MR3020.html&#34;&gt;przenośny router 3G/4G
+TL-MR3020&lt;/a&gt; od TP-LINK.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recenzja: Transmitery sieciowe TL-WPA4226T KIT od TP-LINK</title>
+      <link>https://morfikov.github.io/post/transmitery-sieciowe-tl-wpa4226t-kit-tp-link/</link>
+      <pubDate>Mon, 29 Aug 2016 18:01:22 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/transmitery-sieciowe-tl-wpa4226t-kit-tp-link/</guid>
+      <description>&lt;p&gt;Wszystkim nam jest znany problem z niewielkim zasięgiem bezprzewodowych sieci WiFi. Nierzadko bywa
+też tak, że sygnał z routera nie może się przebić przez grube ściany naszego domu, czy też większego
+mieszkania. W takiej sytuacji szereg osób próbuje przestawiać router w bardziej dogodne miejsce, by
+pokryć zasięgiem całą przestrzeń użytkową. Nie zawsze tego typu rozwiązanie jest jednak możliwe. Ci
+bardziej majętni użytkownicy dokupują drugi router i spinają oba urządzenia mostem bezprzewodowym
+WDS. O ile takie rozwiązanie może nam pomóc, to trzeba wziąć pod uwagę fakt, że punkty dostępowe
+(AP) muszą być w swoim zasięgu oraz muszą wysyłać i odbierać dane, zatem użytkowa przepustowość
+sieci WiFi spadnie nam dwukrotnie. Gdy do tego w grę wejdą nam jeszcze zakłócenia generowane przez
+inne sieci w okolicy, to efekty mogą być niezbyt zadowalające. Poza tym, trzeba mieć również na
+uwadze kompatybilność protokołu WDS, bo różni producenci inaczej go implementują. By rozwiązać ten
+cały problem zasięgu w sieciach bezprzewodowych, możemy pokusić się o zakup czegoś, co nazywa się
+transmiter sieciowy (ekstender powerline). Te urządzenia są w stanie &amp;quot;przebić się przez każdą
+ścianę&amp;quot; i zapewnić nam połączenie z routerem WiFi na dystansie nawet do 300 metrów. Jak to
+możliwe? W tym artykule odpowiemy na to pytanie testując jeden z &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WPA4226T-KIT.html&#34;&gt;ekstenderów powerline TL-WPA4226T
+KIT (AV500)&lt;/a&gt; od TP-LINK&#39;a.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recenzja: Antena TL-ANT2408C (8dBi, 2,4GHz) od TP-LINK</title>
+      <link>https://morfikov.github.io/post/recenzja-antena-tl-ant2408c-8dbi-tp-link/</link>
+      <pubDate>Fri, 26 Aug 2016 20:48:33 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-antena-tl-ant2408c-8dbi-tp-link/</guid>
+      <description>&lt;p&gt;Jako użytkownik alternatywnych systemów operacyjnych wiem, że nie łatwo o sprzęt, który po
+podłączeniu do komputera działa OOTB. Niemniej jednak, na rynku jest sporo urządzeń, które są w
+stanie działać pod linux&#39;em nawet dość przyzwoicie, z tym, że trzeba pierw się naprawdę wysilić, by
+je znaleźć. Tak było w przypadku &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WN722N.html&#34;&gt;adaptera WiFi
+TL-WN722N&lt;/a&gt; od TP-LINK, który jest już ze
+mną kilka lat. Nie miałem z nim problemów na swoim Debianie i praktycznie nie mam mu nic do
+zarzucenia. No może za wyjątkiem bardzo przeciętnego zasięgu, choć ta karta dysponuje zewnętrzną
+anteną 4 dBi. Postanowiłem zatem rozejrzeć się za nieco większymi antenami w celu wyeliminowania
+problemów z zasięgiem. W ofercie TP-LINK&#39;a była &lt;a href=&#34;http://www.tp-link.com.pl/products/details/cat-5691_TL-ANT2408C.html&#34;&gt;antena
+TL-ANT2408C&lt;/a&gt; (8 dBi, 2,4 GHz),
+to pomyślałem, że przetestują ją i sprawdzę czy problem słabego zasięgu zostanie w końcu
+wyeliminowany.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Transmiter sieciowy i jego panel admina pod linux&#39;em</title>
+      <link>https://morfikov.github.io/post/transmiter-sieciowy-panel-admina-linux/</link>
+      <pubDate>Sat, 20 Aug 2016 21:54:57 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/transmiter-sieciowy-panel-admina-linux/</guid>
+      <description>&lt;p&gt;Bawię się ostatnio trochę transmiterem sieciowym (powerline ekstender). Konkretnie jest to zestaw
+&lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WPA4226T-KIT.html&#34;&gt;TL-WPA4226T KIT (AV500)&lt;/a&gt; od
+TP-LINK. Same urządzenia działają przyzwoicie i realizują powierzane im funkcje w sposób bardzo
+zadowalający ale był jeden problem, który mi nie dawał spokoju. Do tych ekstenderów jest dołączona
+płytka. Na płytce są aplikacje, które umożliwiają konfigurację tych transmiterów sieciowych. Te
+programiki nie mają wersji dla linux&#39;a. Nasunęło mi się zatem pytanie: to jak mam niby te
+transmitery skonfigurować pod tym systemem operacyjny? Niby one działają OOTB ale w przypadku
+bezprzewodowego routera WiFi z alternatywnym firmware OpenWRT/LEDE na pokładzie występuje kolizja
+adresów IP. Zarówno ekstendery jak i router roszczą sobie prawo do adresu 192.168.1.1 . Panel admina
+takich transmiterów umożliwia zmianę tego adresu, tylko nie mamy jak się do niego dobrać z poziomu
+linux&#39;a. W tym artykule postaramy się rozwiązać problem kolizji adresów IP i skonfigurujemy nasz
+transmiter tak, by miał inny adres.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recenzja: Karta WiFi TP-LINK Archer T1U</title>
+      <link>https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-archer-t1u/</link>
+      <pubDate>Fri, 19 Aug 2016 19:10:44 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-archer-t1u/</guid>
+      <description>&lt;p&gt;Ostatnio recenzowałem dwie bezprzewodowe karty WiFi w standardzie mini/mikro, które podesłał mi
+TP-LINK. W zestawie był jeszcze jeden adapter, a konkretnie chodzi o &lt;a href=&#34;http://www.tp-link.com.pl/products/details/Archer-T1U.html&#34;&gt;kartę Archer
+T1U&lt;/a&gt;. Jest ona bardzo podobna do
+&lt;a href=&#34;https://morfikov.github.io
+/post/recenzja-karta-wifi-tp-link-tl-wn725n/&#34;&gt;TL-WN725N&lt;/a&gt;, przynajmniej pod
+względem wizualnym. To co odróżnia od siebie te dwa adaptery, to pasmo, w którym mogą pracować oraz
+oczywiście prędkość transferu. Archer T1U działa w 5 GHz (standard AC) i teoretycznie może pochwalić
+się prędkością do 433 mbit/s. Zobaczmy zatem jak on spisze się w przypadku linux&#39;ów.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Sterowniki dla karty WiFi Archer T1U (mt7610u_sta)</title>
+      <link>https://morfikov.github.io/post/sterowniki-karta-wifi-archer-t1u-mt7610u_sta/</link>
+      <pubDate>Thu, 18 Aug 2016 14:35:52 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/sterowniki-karta-wifi-archer-t1u-mt7610u_sta/</guid>
+      <description>&lt;p&gt;Dziś postanowiłem się wziąć za ostatnią kartę WiFi, którą podesłał mi TP-LINK. Jest to nano adapter
+Archer T1U V1 na &lt;a href=&#34;https://wikidevi.com/wiki/TP-LINK_TL-WDN5200&#34;&gt;czipie MediaTek MT7610U&lt;/a&gt;
+identyfikowany w systemie jako &lt;code&gt;idVendor=2357&lt;/code&gt; , &lt;code&gt;idProduct=0105&lt;/code&gt; . Na opakowaniu pisało, że ta
+karta działa na linux&#39;ach ale oczywiście w przypadku mojego Debiana, ten adapter nie został w ogóle
+wykryty. Winą są zbyt stare sterowniki, które nie zostały zaktualizowane przez MediaTek od 2013
+roku. TP-Link może i ma u siebie na stronie &lt;a href=&#34;http://www.tp-link.com/en/download/Archer-T1U.html#Driver&#34;&gt;nieco nowszą wersję
+sterowników&lt;/a&gt;, bo z 2015 roku ale nie
+udało mi się za ich sprawą zbudować poprawnie modułu &lt;code&gt;mt7610u_sta&lt;/code&gt; na kernelu 4.6 . Na szczęście
+mamy jedną alternatywę, która pomoże nam jako tako wybrnąć z tej sytuacji.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recenzja: Karta WiFi TP-LINK TL-WN823N</title>
+      <link>https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-tl-wn823n/</link>
+      <pubDate>Wed, 17 Aug 2016 19:16:51 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-tl-wn823n/</guid>
+      <description>&lt;p&gt;Jako mobilny osobnik wiem jak ważne są niewielkie rozmiary sprzętu, na którym przyjdzie mi operować
+gdzieś poza miejscem mojego zamieszkania. Wielkość urządzeń ma zatem dla mnie ogromne znaczenie.
+Nikogo raczej nie trzeba przekonywać, że wraz z miniaturyzacją sprzętu, maleje również jego
+funkcjonalność. Idealne urządzenie to takie, które ma na tyle małe wymiary, by za ich sprawą nie
+ucierpiały wszystkie te niezbędne nam dobrodziejstwa oferowane przez nowe technologie. Bez internetu
+w obecnych czasach ani rusz, zatem potrzebne nam są różnego rodzaju adaptery i karty WiFi
+umożliwiające naszym komputerom bezprzewodowe połączenie sieciowe. Jest cała masa urządzeń, które
+moglibyśmy podłączyć do naszych laptopów ale nie wszystkie z nich mają na tyle małe wymiary, by ich
+zastosowanie było dla nas iście komfortowe. TP-LINK dysponuje w swojej ofercie kilkoma
+bezprzewodowymi kartami sieciowymi w standardzie micro/mini. W tym wpisie zobaczymy jak na linux&#39;ie
+będzie sprawował się &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WN823N.html&#34;&gt;mini adapter
+TL-WN823N&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Sterowniki do karty TP-LINK TL-WN823N (8192eu)</title>
+      <link>https://morfikov.github.io/post/sterowniki-tp-link-tl-wn823n-8192eu/</link>
+      <pubDate>Fri, 12 Aug 2016 20:50:39 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/sterowniki-tp-link-tl-wn823n-8192eu/</guid>
+      <description>&lt;p&gt;Systemy operacyjne nie są w stanie wejść w interakcję ze sprzętem, do którego nie posiadają
+sterowników. Linux już od dość dawna żyje sobie wśród nas i coraz bardziej pcha się na desktopy.
+Niemniej jednak producenci tych wszystkich urządzeń niechętnie wypuszczają sterowniki dla
+alternatywnych systemów. Ostatnio próbowałem uruchomić &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WN823N.html&#34;&gt;adapter TL-WN823N
+V2&lt;/a&gt; od firmy TP-LINK. Na opakowaniu
+widnieje napis sugerujący, że ta karta działa pod linux&#39;em. Rzeczywistość jednak okazała się
+zupełnie inna. Mianowicie, mój Debian w ogóle nie rozpoznał tej karty. Jedyne informacje jakie mi
+zwrócił to nazwę producenta czipu, którym okazał się być &lt;code&gt;Realtek&lt;/code&gt; , oraz &lt;code&gt;idVendor=2357&lt;/code&gt; i
+&lt;code&gt;idProduct=0109&lt;/code&gt; . &lt;a href=&#34;http://www.tp-link.com/en/download/TL-WN823N.html#Driver&#34;&gt;Sterowników dostępnych na stronie
+TP-LINK&#39;a&lt;/a&gt; nie szło zbudować na obecnym
+kernelu 4.6 . Trzeba było zatem poszukać innej alternatywy. Na szczęście udało się znaleźć moduł
+8192eu (rtl8192eu), który się skompilował i zainstalował bez problemu. Karta TL-WN823N V2 została
+wykryta i działa. W tym wpisie zostanie pokazany proces kompilacji tego modułu.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recenzja: Karta WiFi TP-LINK TL-WN725N (r8188eu)</title>
+      <link>https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-tl-wn725n/</link>
+      <pubDate>Thu, 11 Aug 2016 21:00:33 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-tl-wn725n/</guid>
+      <description>&lt;p&gt;Świat ciągle idzie do przodu i oferuje nam coraz to nowsze rozwiązania, które są w większym stopniu
+dostosowane do naszych potrzeb. Mobilność w obecnych czasach to podstawa. Niekoniecznie jednak
+musimy upychać naszą wirtualną rzeczywistość w urządzeniu wielkości smartfona. Może takie
+rozwiązanie idealnie nadaje się dla osób podróżujących ale też nic nie stoi na przeszkodzie, by
+zabrać ze sobą nieco większy komputer w postaci laptopa. Niemniej jednak, w terenie ciężko o
+przewód, którym moglibyśmy się podpiąć do sieci. Dlatego też technologia WiFi jest nam zwykle
+niezbędna. Na rynku jest wiele kart i adapterów, które mogą nam umożliwić połączenie bezprzewodowe,
+choć nie wszystkie z nich są na tyle poręczne, abyśmy rozważali ich zakup i użytkowanie. Potrzebne
+jest nam raczej urządzenie na tyle minimalistyczne, że na pierwszy rzut oka nie zauważymy żadnej
+różnicy po jego podłączeniu do komputera. Firma TP-LINK oferuje kilka rozwiązań tego typu i w tym
+wpisie przyjrzymy się nieco bliżej &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WN725N.html&#34;&gt;nano adapterowi WiFi
+TL-WN725N&lt;/a&gt; i przetestujemy jego
+kompatybilność z linux&#39;ami.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Różne adresy LAN i WLAN w OpenWRT (Routed AP)</title>
+      <link>https://morfikov.github.io/post/rozne-adresy-lan-wlan-openwrt-routed-ap/</link>
+      <pubDate>Thu, 07 Jul 2016 16:20:17 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/rozne-adresy-lan-wlan-openwrt-routed-ap/</guid>
+      <description>&lt;p&gt;W standardowej konfiguracji OpenWRT, hosty łączące się za pomocą sieci bezprzewodowej jak i tej
+przewodowej są spięte razem za pomocą mostka (bridge) i tworzą jedną sieć lokalną. Nie ma w tym nic
+dziwnego, bo przecie chcemy, aby komunikacja między wszystkimi hostami w sieci LAN odbywała się bez
+większych przeszkód. Przynajmniej takie jest standardowe podejście przy konfiguracji sieci domowej.
+Niemniej jednak, w pewnych przypadkach istnieje potrzeba oddzielenia maszyn, które nawiązują
+połączenie za pomocą sieci WiFi od tych, które łączą się przewodowo. Generalnie chodzi o różne
+adresy, które zostaną przypisane sieciom LAN i WLAN. Rozwiązanie, które zostanie opisane w tym
+artykule jest podobne do tworzenia &lt;a href=&#34;https://morfikov.github.io
+/post/bezprzewodowa-siec-goscinna-guest-wlan/&#34;&gt;bezprzewodowej sieci
+gościnnej&lt;/a&gt; (guest WLAN), z tą
+różnicą, że w tym przypadku będziemy mieli do czynienia tylko z jedną siecią WiFi (tzw. &lt;a href=&#34;https://wiki.openwrt.org/doc/recipes/routedap&#34;&gt;Routed
+AP&lt;/a&gt;).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Bezprzewodowa sieć gościnna (guest WLAN)</title>
+      <link>https://morfikov.github.io/post/bezprzewodowa-siec-goscinna-guest-wlan/</link>
+      <pubDate>Wed, 06 Jul 2016 21:00:34 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/bezprzewodowa-siec-goscinna-guest-wlan/</guid>
+      <description>&lt;p&gt;Routery WiFi zwykle oferują jedną sieć bezprzewodową, do której użytkownicy mogą się łączyć po
+podaniu nazwy ESSID oraz hasła. W przypadku znanych nam osób chcących korzystać z udostępnianego
+przez nas AP, taka sieć powinna nam w pełni wystarczyć. Problem jednak zaczyna się w przypadku tych
+użytkowników, którym chcemy zezwolić na dostęp do naszej sieci WiFi ale nie darzymy ich zbytnio
+wysokim kredytem zaufania. By ten problem rozwiązać, w OpenWRT możemy skonfigurować &lt;a href=&#34;https://wiki.openwrt.org/doc/recipes/guest-wlan&#34;&gt;mechanizm zwany
+&amp;quot;guest WLAN&amp;quot;&lt;/a&gt;, czyli bezprzewodowa sieć gościnna. W
+tym artykule zobaczymy jak odseparować od siebie hosty w sieci LAN od tych w sieci gościnnej.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Most bezprzewodowy w OpenWRT (tryb WDS)</title>
+      <link>https://morfikov.github.io/post/most-bezprzewodowy-openwrt-tryb-wds/</link>
+      <pubDate>Sun, 19 Jun 2016 16:32:10 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/most-bezprzewodowy-openwrt-tryb-wds/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pl.wikipedia.org/wiki/Wireless_Distribution_System&#34;&gt;Tryb WDS (Wireless Distribution
+System)&lt;/a&gt; umożliwia stworzenie mostu
+bezprzewodowego, w którym to nadrzędny AP (Access Point) przekazuje pakiety do klientów WDS. Ci z
+kolei przesyłają te pakiety dalej do podrzędnych AP. Z reguły routery posiadają funkcję WDS i po jej
+aktywowaniu, ten drugi AP będzie wzmacniał i rozsyłał otrzymany sygnał dalej w granicach swojego
+zasięgu. Tryb WDS nie jest jednak standardem i producenci firmware oraz sterowników implementują go
+inaczej, co przekłada się na problemy z kompatybilnością. Jeśli chcemy korzystać z opcji WDS w
+OpenWRT, to najlepiej posiadać kilka takich samych urządzeń i dobrze jest mieć na nich wgrane to
+samo oprogramowanie. W tym wpisie zaprojektujemy sobie taki most bezprzewodowy w oparciu o dwa
+routery firmy TP-LINK: &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WDR3600.html&#34;&gt;TL-WDR3600 v1&lt;/a&gt;
+oraz &lt;a href=&#34;http://www.tp-link.com.pl/products/details/Archer-C7.html&#34;&gt;Archer C7 v2&lt;/a&gt;, na których jest
+wgrany firmware OpenWRT Chaos Calmer 15.05.1 .&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Konfiguracja WISP w OpenWRT (tryb STA &#43; AP)</title>
+      <link>https://morfikov.github.io/post/konfiguracja-wisp-openwrt-tryb-sta-ap/</link>
+      <pubDate>Sat, 18 Jun 2016 22:13:09 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-wisp-openwrt-tryb-sta-ap/</guid>
+      <description>&lt;p&gt;Routery wyposażone w firmware OpenWRT mają tę zaletę, że ich bezprzewodowe karty sieciowe można w
+miarę dowolnie sobie skonfigurować. Oryginalne oprogramowanie producenta takiego sprzętu zwykle nie
+umożliwia nam przełączenia kart routera w inny tryb niż AP (Access Point). W OpenWRT możemy ustawić
+praktycznie dowolny tryb, o ile pozwala na to sterownik karty WiFi. W ten sposób możemy aktywować,
+np. &lt;a href=&#34;https://morfikov.github.io
+/post/karta-wifi-trybie-monitor-openwrt/&#34;&gt;tryb MONITOR&lt;/a&gt;. W tym wpisie jednak
+będzie nas interesował tryb STA (STATION), czyli postaramy się przełączyć karty WiFi routera w tryb
+klienta. Jest to bardzo przydatna opcja w przypadku, gdy mamy do czynienia z &lt;a href=&#34;https://pl.wikipedia.org/wiki/WISP&#34;&gt;Wireless Internet
+Service Provider (WISP)&lt;/a&gt;, czyli bezprzewodowymi dostawcami
+internetu.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Karta WiFi w trybie MONITOR w OpenWRT</title>
+      <link>https://morfikov.github.io/post/karta-wifi-trybie-monitor-openwrt/</link>
+      <pubDate>Wed, 15 Jun 2016 20:33:34 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/karta-wifi-trybie-monitor-openwrt/</guid>
+      <description>&lt;p&gt;Routery WiFi, zwłaszcza te na podzespołach firmy Qualcomm, mają zwykle bardzo dobre wsparcie w
+alternatywnym firmware OpenWRT. Te bezprzewodowe routery posiadają na pokładzie zwykle jedną lub
+dwie karty WiFi, w zależności od obsługiwanego pasma (2,4 GHz i/lub 5 GHz). Karty tych routerów
+działają standardowo w trybie AP (Access Point), czyli &lt;a href=&#34;https://pl.wikipedia.org/wiki/Punkt_dost%C4%99pu&#34;&gt;punktu
+dostępowego&lt;/a&gt;. W taki sposób jesteśmy w stanie
+bezprzewodowo połączyć szereg urządzeń w sieci domowej z internetem. Niemniej jednak, karta WiFi
+może pracować w kilku innych trybach. W tym wpisie zobaczymy jak przełączyć kartę WiFi routera w
+tryb MONITOR.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Router OpenWRT jako serwer i klient RADIUS</title>
+      <link>https://morfikov.github.io/post/router-openwrt-jako-serwer-klient-radius/</link>
+      <pubDate>Wed, 15 Jun 2016 07:17:07 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/router-openwrt-jako-serwer-klient-radius/</guid>
+      <description>&lt;p&gt;Ten poniższy artykuł ma na celu pokazanie w jaki sposób stworzyć infrastrukturę WiFi w oparciu o
+oprogramowanie &lt;code&gt;freeradius&lt;/code&gt; (serwer RADIUS), które zostanie zainstalowane na przykładowym routerze
+&lt;a href=&#34;http://www.tp-link.com.pl/products/details/Archer-C7.html&#34;&gt;TP-Link Archer C7 v2&lt;/a&gt;. Router ma wgrany
+firmware OpenWRT Chaos Calmer w wersji 15.05.1 (r49294). Zostanie tutaj opisane dokładnie jak
+wdrożyć protokół WPA2 Enterprise z obsługą trzech metod uwierzytelniania: EAP-TLS, EAP-TTLS oraz
+PEAP (v0) .&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Konfiguracja trybu AP kart WiFi na debianie</title>
+      <link>https://morfikov.github.io/post/konfiguracja-trybu-ap-kart-wifi-na-debianie/</link>
+      <pubDate>Sat, 04 Jun 2016 15:26:58 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-trybu-ap-kart-wifi-na-debianie/</guid>
+      <description>&lt;p&gt;Jakiś czas temu dokonałem zakupu adaptera WiFi &lt;a href=&#34;https://morfikov.github.io
+/post/recenzja-karta-wifi-tp-link-tl-wn722n/&#34;&gt;TP-Link
+TL-WN722n&lt;/a&gt;, a to z tego względu, że
+potrzebowałem zewnętrznej karty sieciowej do mojego laptopa. Chodziło generalnie o to, że ten
+wbudowany w niego broadcom nie był w stanie robić kilku użytecznych rzeczy, min. testów
+penetracyjnych mojej bezprzewodowej sieci domowej. Jak się później okazało, ten zakupiony adapter
+posiada też dodatkowy ficzer, którym jest tryb AP (Access Point). Wprawdzie ta karta nie może się
+równać z routerami WiFi, bo te zwykle mają więcej anten, z których każda jest lepszej jakości ale
+jesteśmy w stanie połączyć ze sobą bezprzewodowo kilka stacji roboczych. Trzeba jednak wziąć po
+uwagę, że zasięg jak i transfer będą w dużej mierze ograniczone. W tym wpisie postaramy się
+przerobić zwykłą maszynę, na której jest zainstalowany debian, na punkt dostępowy sieci WiFi.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recenzja: karta WiFi TP-LINK Archer T4U</title>
+      <link>https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-archer-t4u/</link>
+      <pubDate>Wed, 01 Jun 2016 17:14:59 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-archer-t4u/</guid>
+      <description>&lt;p&gt;Ilość punktów dostępowych w paśmie 2,4 GHz rośnie bardzo szybko. Obecnie spora część użytkowników
+laptopów czy smartfonów zdolnych łączyć się bezprzewodowo korzysta z ruterów WiFi w swoim domowym
+zaciszu. W przypadku zatłoczonych blokowisk i innych większych skupisk ludzkich, transfer w paśmie
+2,4 GHz może nie być za duży. By rozwiązać ten problem, wprowadzono urządzenia nadające w paśmie 5
+GHz. Są one nieco droższe, bo i technologia jest nieco nowsza. Niemnie jednak, pasmo 5 GHz idealnie
+nadaje się do zastosowań miejskich. Chodzi generalnie o mniejszy zasięg punktu dostępowego, a co z
+tym się wiąże, mniejszą ilością zakłóceń, które osłabiają transfer w sieci bezprzewodowej. Sporo
+routerów WiFi ma już zaimplementowane dwa radia, po jednym dla każdego z w/w pasm i przydałoby się
+powoli postarać o zakup karty/adaptera pracującego w standardzie AC. Tak się składa, że mam na
+składzie dwuzakresowy adapter Archer T4U (czip Realtek RTL8812AU), który został mi sprezentowany
+przez firmę TP-LINK. Postaram go zatem opisać w tym artykule.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recenzja: karta WiFi TP-LINK TL-WN722N</title>
+      <link>https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-tl-wn722n/</link>
+      <pubDate>Tue, 31 May 2016 17:22:40 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-tl-wn722n/</guid>
+      <description>&lt;p&gt;Karty WiFi implementowane w różnego rodzaju laptopach zwykle są dość przyzwoite. Przynajmniej do
+czasu aż użytkownik zapragnie korzystać z alternatywnego systemu operacyjnego z rodziny linux. W
+takim przypadku często okazuje się, że większość kart bezprzewodowych pracuje na układach, których
+sterowniki nie są wolne i nie ma ich dostępnych w linux&#39;owym kernelu. Czasem takie karty można
+zmusić do pracy ale uzyskana w ten sposób prędkość transferu zbytnio nie zachwyca. Jedynym
+przyzwoitym rozwiązaniem jest zakup zewnętrznego adaptera WiFi, który pracuje na czipie wspieranym
+przez kernel. Zwykle są to karty na układach od firmy &lt;a href=&#34;https://en.wikipedia.org/wiki/Qualcomm_Atheros&#34;&gt;QUALCOMM
+ATHEROS&lt;/a&gt;. W tym artykule weźmiemy sobie pod lupę
+adapter &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WN722N.html&#34;&gt;TL-WN722N&lt;/a&gt; od firmy TP-LINK,
+który działa w standardzie N (pasmo 2,4 GHz, transfer do 150 mbit/s).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recenzja: router TP-LINK TL-WR1043ND v2</title>
+      <link>https://morfikov.github.io/post/recenzja-sprzetu-router-tp-link-tl-wr1043nd-v2/</link>
+      <pubDate>Tue, 31 May 2016 15:14:24 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-sprzetu-router-tp-link-tl-wr1043nd-v2/</guid>
+      <description>&lt;p&gt;Jednym z popularniejszych routerów bezprzewodowych firmy TP-LINK jest model &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WR1043ND.html&#34;&gt;TL-WR1043ND
+v2&lt;/a&gt; . Dlaczego ten router jest tak
+rozchwytywany? Wytłumaczenie tkwi w alternatywnym firmware OpenWRT, który daje znaczne możliwości
+rozbudowania funkcjonalności tego urządzenia. Jest to chyba jeden z najlepiej wpieranych przez
+OpenWRT modeli, co zapewnia bezproblemowe użytkowanie. Niewątpliwą zaletą TL-WR1043ND v2 jest dość
+silne WiFi, choć mamy do dyspozycji tylko pamso 2,4 GHz. Standardowo na wyposażeniu mamy także
+gigabitowy switch 5-cio portowy oraz tylko jeden port USB 2.0. Przy czym, ten jeden port USB nie
+powinien nam zbytnio przeszkadzać, zwłaszcza jeśli dysponujemy aktywnym hubem USB. W tym wpisie
+przyjrzymy się nieco bliżej temu routerowi.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Recenzja: router TP-LINK Archer C7 v2</title>
+      <link>https://morfikov.github.io/post/recenzja-router-tp-link-archer-c7-v2/</link>
+      <pubDate>Mon, 30 May 2016 22:23:26 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-router-tp-link-archer-c7-v2/</guid>
+      <description>&lt;p&gt;Routery bezprzewodowe to bardzo użyteczne urządzenia i na dobrą sprawę każdy dom powinien posiadać
+jeden taki wynalazek. Na rynku jest cała masa sprzętu WiFi, który w większości przypadków zaspokoi
+gust kupujących ale też trzeba wziąć pod uwagę fakt, że nie wszystkie routery posiadają pożądane
+przez nas ficzery. Część routerów ma tylko jedno radio, zwykle o zakresie 2,4 GHz. Te droższe modele
+mają także radio 5GHz. Routery różnią się także ilością portów w switch&#39;u, ilością pamięci RAM,
+częstotliwością pracy procesora, no i rozmiarem pamięci flash. Wszystkie te cechy trzeba wziąć pod
+uwagę przy próbie ewentualnego zakupu routera bezprzewodowego. Oczywiście spora część z tych
+gabarytów będzie miała znaczenie tylko w przypadku zainstalowania alternatywnego firmware, np.
+OpenWRT. Niemniej jednak, dobrze zdawać sobie sprawę z tego co dany router ma pod obudową. W tym
+wpisie zostanie przedstawiony router &lt;a href=&#34;http://www.tp-link.com.pl/products/details/Archer-C7.html&#34;&gt;TP-LINK Archer C7
+v2&lt;/a&gt;, obsługujący pasma 2.4 GHz i 5 GHz,
+mający 128 MiB pamięci RAM, 16 MiB flash, gigabitowy switch 5-cio portowy i dwa porty USB 2.0 .&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak ukryć hostname w protokole DHCP</title>
+      <link>https://morfikov.github.io/post/jak-ukryc-hostname-w-protokole-dhcp/</link>
+      <pubDate>Tue, 24 May 2016 20:07:14 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-ukryc-hostname-w-protokole-dhcp/</guid>
+      <description>&lt;p&gt;Darmowe hotspoty sieci WiFi są dostępne w każdym mieście. Dzięki nim możemy uzyskać połączenie z
+internetem praktycznie za free. Niemniej jednak, takie połączenie nie jest do końca bezpieczne i
+może zagrażać naszej prywatności. Wiele osób stara się temu przeciwdziałać &lt;a href=&#34;https://morfikov.github.io
+/post/jak-przypisac-losowy-adres-mac-interfejsu/&#34;&gt;generując losowy adres
+MAC&lt;/a&gt;. No i to jest jakieś
+wyjście, o ile ten adres jest generowany z głową. Niemniej jednak, w takich sieciach WiFi, host ma
+przydzielaną adresację za pomocą &lt;a href=&#34;https://pl.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol&#34;&gt;protokołu
+DHCP&lt;/a&gt;. Ci, którzy wiedza, jak
+odbywa się konfiguracja za pomocą tego protokołu, wiedzą też, że nasz komputer przesyła pewne dane
+do serwera DHCP. Jakie dane? To zwykle zależy od konfiguracji klienta DHCP. Na linux&#39;ach domyślnym
+klientem DHCP jest &lt;code&gt;dhclinet&lt;/code&gt; i on standardowo przesyła nazwę hosta (hostname) w zapytaniu o
+adresację. Co nam zatem po losowym adresie MAC, gdy można nas zidentyfikować po nazwie hosta? W tym
+artykule postaramy się ukryć lub też losowo wygenerować hostname danej maszyny w sieci.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>WPS, czyli WiFi Protected Setup w OpenWRT</title>
+      <link>https://morfikov.github.io/post/wps-czyli-wifi-protected-setup-w-openwrt/</link>
+      <pubDate>Thu, 05 May 2016 18:04:55 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wps-czyli-wifi-protected-setup-w-openwrt/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Wi-Fi_Protected_Setup&#34;&gt;Wi-Fi Protected Setup (WPS)&lt;/a&gt; powstał w celu
+ułatwienia konfiguracji urządzeń w sieci WiFi. Przy WPS nie musimy ustawiać wszystkich parametrów
+połączenia ręcznie. Nie musimy także pamiętać nazwy sieci czy samego hasła, które może mieć nawet 64
+znaki. Zamiast tego, cała konfiguracja sprowadza się to wciśnięcia dwóch przycisków: jednego na
+karcie WiFi, drugiego na obudowie routera. Niemniej jednak, wszędzie gdzie nie spojrzeć, ludzie
+rozpisują się na temat tego jakim to niebezpieczeństwem jest włączenie w routerach WiFi opcji WPS. O
+tych zagrożeniach, jeśli kogoś interesują, można poczytać, np.
+&lt;a href=&#34;https://dankaminsky.com/2012/01/26/wps2/&#34;&gt;tutaj&lt;/a&gt;. W tym wpisie rozprawimy się raz na zawsze z
+mitami dotyczącymi WPS, który jest implementowany w routerach WiFi. Postaramy się skonfigurować ten
+mechanizm pod OpenWRT i zobaczymy czy cokolwiek z tego co ludzie piszą na necie ma zastosowanie w
+praktyce.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Sieć bezprzewodowa WiFi w OpenWRT (WLAN)</title>
+      <link>https://morfikov.github.io/post/siec-bezprzewodowa-wifi-w-openwrt-wlan/</link>
+      <pubDate>Wed, 04 May 2016 20:26:35 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/siec-bezprzewodowa-wifi-w-openwrt-wlan/</guid>
+      <description>&lt;p&gt;Sieć bezprzewodowa w dzisiejszych czasach to podstawa. Z reguły routery posiadają jedno radio
+operujące na częstotliwości 2,4 GHz. Te nieco nowsze (i droższe) modele mają do dyspozycji dwa
+radia: 2,4 GHz oraz 5 GHz. OpenWRT zapewnia wsparcie zarówno dla sieci pracującej w paśmie 2.4 GHz
+jak i tej nadającej w 5 GHz. Konfiguracja tych pasm w OpenWRT różni się nieco. Weźmy dla przykładu
+obsługę kanału 12 i 13, którą dotyczy tylko sieci pasma 2.4 GHz. Podobnie sprawa ma się z
+szerokością kanałów, która jest inna w przypadku obu tych pasm. Niemniej jednak, większość opcji
+pozostaje taka sama i w tym artykule rzucimy okiem na zagadnienie konfiguracji sieci WiFi w OpenWRT.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak przypisać losowy adres MAC do interfejsu</title>
+      <link>https://morfikov.github.io/post/jak-przypisac-losowy-adres-mac-interfejsu/</link>
+      <pubDate>Fri, 29 Apr 2016 16:42:55 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-przypisac-losowy-adres-mac-interfejsu/</guid>
+      <description>&lt;p&gt;Interfejsy kart sieciowych, które są instalowane w komputerach, posiadają adres MAC (&lt;a href=&#34;https://en.wikipedia.org/wiki/MAC_address&#34;&gt;Media Access
+Control&lt;/a&gt;). Jest to unikalny identyfikator, który wyróżnia
+nasz komputer spośród tłumu. Na podstawie tego adresu można nie tylko określić markę sprzętu, którą
+się posługujemy ale także można sklasyfikować cały nasz ruch sieciowy. W ten sposób bardzo prosto
+możemy zostać zidentyfikowani wymieniając dane przez darmowe hotspoty sieci bezprzewodowych WiFi.
+Niemniej jednak, jesteśmy się w stanie obronić przed tego typu inwigilacją zmieniając adres MAC
+naszego komputera. Nie jest to zbytnio trudne ale trzeba uważać, by znowu nie przesadzić w drugą
+stronę i czasem nie zostać zidentyfikowanym przez naszą &amp;quot;odmienność&amp;quot;. W tym wpisie postaramy się
+wypracować taki mechanizm, który zmieni nam adres MAC przy każdym podłączeniu do sieci i przy
+zachowaniu zdroworozsądkowych zasad.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</title>
+      <link>https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/</link>
+      <pubDate>Sat, 02 Jan 2016 15:07:13 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/</guid>
+      <description>&lt;p&gt;W artykule poświęconym &lt;a href=&#34;https://morfikov.github.io
+/post/konfiguracja-polaczenia-wifi-pod-debianem/&#34;&gt;konfiguracji sieci WiFi na Debianie z wykorzystaniem narzędzia
+wpa_supplicant&lt;/a&gt; wspomniałem parę słów na temat &lt;a href=&#34;https://www.kernel.org/pub/linux/kernel/people/marcelo/linux-2.4/Documentation/networking/bonding.txt&#34;&gt;interfejsu bond&lt;/a&gt;. Bonding na linux
+wykorzystywany jest w zasadzie do spięcia kilku interfejsów sieciowych, w tym przewodowych
+( &lt;code&gt;eth0&lt;/code&gt; ) i bezprzewodowych ( &lt;code&gt;wlan0&lt;/code&gt; ) w jeden (zwykle &lt;code&gt;bond0&lt;/code&gt; ). Takie rozwiązanie sprawia, że
+w przypadku awarii któregoś z podpiętych interfejsów, my nie tracimy połączenia z siecią i nie
+musimy nic nigdzie przełączać, by to połączenie przywrócić. To rozwiązanie jest o tyle użyteczne,
+że w przypadku, gdy podepniemy przewód do gniazda RJ-45 w naszym laptopie, to komunikacja będzie
+odbywać się po kablu. Natomiast jeśli przewód zostanie odłączony, to system automatycznie przejdzie
+na komunikację bezprzewodową. W tym wpisie spróbujemy zaprojektować sobie właśnie tego typu
+mechanizm zarówno za sprawą pakietu &lt;code&gt;ifupdown&lt;/code&gt; , gdzie konfiguracja interfejsów sieciowych jest
+zarządzana przez plik &lt;code&gt;/etc/network/interfaces&lt;/code&gt; , jak i przy pomocy natywnego rozwiązania jakie
+oferuje systemd/networkd.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Konfiguracja połączenia WiFi pod debianem</title>
+      <link>https://morfikov.github.io/post/konfiguracja-polaczenia-wifi-pod-debianem/</link>
+      <pubDate>Thu, 15 Oct 2015 19:32:48 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-polaczenia-wifi-pod-debianem/</guid>
+      <description>&lt;p&gt;Sieci bezprzewodowe w obecnych czasach to standard i nie ma chyba miejsca na ziemi gdzie nie dałoby
+rady ulokować routera WiFi, do którego można by podłączyć szereg urządzeń. Każdy kto próbował
+konfigurować sieć bezprzewodową na debianie, wie, że może to być bardzo upierdliwe, zwłaszcza jeśli
+mamy dostęp do wielu AP, które posiadają różne konfiguracje. Wynaleziono, co prawda, automaty, które
+mają pomagać w ogarnięciu tego całego bezprzewodowego zamieszania, np. &lt;code&gt;network-manager&lt;/code&gt; czy &lt;code&gt;wicd&lt;/code&gt;
+ale w przypadku lekkich stacji roboczych, które nie mają wgranego pełnego środowiska graficznego, a
+jedynie jakiś menadżer okien, np. Openbox, to instalacja tych powyższych narzędzi może zwyczajnie
+nie wchodzić w grę.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Baza danych użytkowników serwera freeradius</title>
+      <link>https://morfikov.github.io/post/baza-danych-uzytkownikow-serwera-freeradius/</link>
+      <pubDate>Tue, 13 Oct 2015 19:31:05 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/baza-danych-uzytkownikow-serwera-freeradius/</guid>
+      <description>&lt;p&gt;Poprzedni wpis był o sieciach bezprzewodowych, a konkretnie dotyczył on &lt;a href=&#34;https://morfikov.github.io
+/post/wpa2-enterprise-serwer-freeradius/&#34;&gt;konfiguracji protokołu WPA
+Enterprise w oparciu o serwer
+freeradius&lt;/a&gt;. Ten post będzie w podobnym
+klimacie, z tym, że skupimy się tutaj na nieco innym podejściu to kwestii użytkowników, którzy mogą
+się łączyć do sieci WiFi. Ich konfiguracja nie zostanie praktycznie w żaden sposób ruszona, no może
+za wyjątkiem &lt;a href=&#34;http://wiki.freeradius.org/guide/SQL-HOWTO&#34;&gt;przeniesienia jej do bazy danych MySQL&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>WPA/WPA2 Enterprise i serwer freeradius</title>
+      <link>https://morfikov.github.io/post/wpa2-enterprise-serwer-freeradius/</link>
+      <pubDate>Tue, 13 Oct 2015 18:42:28 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wpa2-enterprise-serwer-freeradius/</guid>
+      <description>&lt;p&gt;Poniższy wpis ma na celu stworzenie infrastruktury WiFi w oparciu o oprogramowanie freeradius
+zainstalowane na debianowym serwerze. Projekt zakłada wykorzystanie osobnego urządzenia NAS (AP), w
+tym przypadku jest to router &lt;a href=&#34;http://wiki.openwrt.org/toh/tp-link/tl-wr1043nd&#34;&gt;TP-Link TL-WR1043N/ND
+v2&lt;/a&gt;, na którym jest zainstalowane oprogramowanie
+OpenWRT. W oparciu o te dwie maszyny spróbujemy skonfigurować protokół WPA2 Enterprise z obsługą
+trzech metod uwierzytelniania, tj. EAP-TLS, EAP-TTLS oraz PEAP (v0) . Będziemy również potrzebować
+kilku certyfikatów (w tym CA), bez których to pewne mechanizmy mogą nie działać.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Interwał pakietów Beacon w sieciach WiFi</title>
+      <link>https://morfikov.github.io/post/interwal-pakietow-beacon-w-sieciach-wifi/</link>
+      <pubDate>Mon, 13 Jul 2015 18:12:33 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/interwal-pakietow-beacon-w-sieciach-wifi/</guid>
+      <description>&lt;p&gt;Przerabiając analizę pakietów sieciowych, dotarłem w końcu do sieci bezprzewodowych, a te różnią się
+nieco od tych swoich przewodowych kuzynów. Generalnie rzecz biorąc nie będę tutaj opisywał samej
+analizy pakietów, które sobie przemierzają eter w pobliżu naszych urządzeń WiFi, a jedynie poruszę
+kwestię pakietów Beacon, które są rozsyłane przez punkty dostępowe w pewnych odstępach czasu.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Sterowniki do karty TP-LINK Archer T4U (8812au)</title>
+      <link>https://morfikov.github.io/post/sterowniki-karty-tp-link-archer-t4u-8812au/</link>
+      <pubDate>Tue, 23 Jun 2015 11:45:07 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/sterowniki-karty-tp-link-archer-t4u-8812au/</guid>
+      <description>&lt;p&gt;Póki co, w kernelu linux&#39;a (4.5) nie ma odpowiednich sterowników do &lt;a href=&#34;http://www.tp-link.com.pl/products/details/cat-11_Archer-T4U.html&#34;&gt;adaptera WiFi Archer
+T4U&lt;/a&gt; i trzeba je sobie
+skompilować ręcznie. Trochę to dziwne, bo przecie kod sterownika jest na licencji GPLv2 i dostępny
+już szmat czasu na &lt;a href=&#34;https://github.com/abperiasamy/rtl8812AU_8821AU_linux&#34;&gt;github&#39;ie&lt;/a&gt;. W każdym
+razie, jeśli zakupiliśmy w/w kartę i nie jest ona wykrywana po wsadzeniu jej do portu USB, to czeka
+nas proces kompilacji modułu &lt;code&gt;8812au&lt;/code&gt; i jego automatyzacja przy pomocy &lt;a href=&#34;https://morfikov.github.io
+/post/dkms-czyli-automatycznie-budowane-moduly/&#34;&gt;mechanizmu
+DKMS&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tryb oszczędzania energii w kartach wifi</title>
+      <link>https://morfikov.github.io/post/tryb-oszczedzania-energii-w-kartach-wifi/</link>
+      <pubDate>Tue, 23 Jun 2015 10:25:32 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/tryb-oszczedzania-energii-w-kartach-wifi/</guid>
+      <description>&lt;p&gt;Niektóre karty wifi znane są z tego, że niezbyt chcą one działać pod systemem operacyjnym linux. Nie
+jest to wina samego sprzętu, ani tym bardziej linuxa, tylko raczej faktu, że producent nie potrafi
+napisać pod ten OS odpowiednich sterowników. Czasem jednak pod względem programowym wszystko wydaje
+się być w porządku, tj. sterowniki zostały zainstalowane, są one dobrej jakości i karta działa
+praktycznie bez zarzutu. Niemniej jednak, strony www wydają się ładować jakoś tak ociężale, z pewnym
+opóźnieniem. Jeśli doświadczyliśmy tego typu zachowania ze strony naszej karty wifi, prawdopodobnie
+oznacza to, że ma ona włączony tryb oszczędzania energii (powersave).&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

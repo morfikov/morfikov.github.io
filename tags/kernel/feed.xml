@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kernel on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/kernel/</link>
+    <description>Recent content in kernel on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Sun, 09 Aug 2020 11:11:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://morfikov.github.io/tags/kernel/feed.xml" rel="self" type="application/rss" />
+    
+    
+    <item>
+      <title>Konfiguracja HugePages pod maszyny wirtualne QEMU/KVM</title>
+      <link>https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/</link>
+      <pubDate>Sun, 09 Aug 2020 11:11:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/</guid>
+      <description>&lt;p&gt;W linux rozmiar stron pamięci operacyjnej RAM ma domyślnie 4096 bajtów (4 KiB). Maszyny wirtualne
+QEMU/KVM mają to do siebie, że wykorzystują dość spore zasoby pamięci (wile GiB), przez co mały
+rozmiar strony może niekorzystnie wpływać na wydajność systemów gościa. Chodzi generalnie o to, że
+rozrostowi ulega tablica stron, której przeszukiwanie jest czasochłonną operacją. By temu zaradzić,
+wymyślono TLB (&lt;a href=&#34;https://en.wikipedia.org/wiki/Translation_lookaside_buffer&#34;&gt;Translation Lookaside Buffer&lt;/a&gt;), który ulokowany jest albo w CPU albo gdzieś
+pomiędzy CPU i główną pamięcią operacyjną. TLB to mały ale za to bardzo szybki cache. W przypadku
+systemów z duża ilością pamięci RAM, niewielki rozmiar TLB sprawia, że odpowiedzi na zapytania nie
+są brane z cache, tylko system wraca do przeszukiwania normalnej tablicy stron zlokalizowanej w
+pamięci RAM (TLB miss). Taka sytuacja jest bardzo kosztowna, spowalnia cały system i dlatego trzeba
+jej unikać. Na szczęście jest &lt;a href=&#34;https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt&#34;&gt;mechanizm HugePages&lt;/a&gt;, który pozwala na zwiększenie rozmiaru
+strony pamięci z domyślnych 4 KiB do 2 MiB lub nawet do 1 GiB w zależności od właściwości głównego
+procesora. W tym artykule postaramy się skonfigurować HugePages na potrzeby maszyn wirtualnych dla
+systemu Debian Linux.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Wirtualizacja QEMU/KVM (libvirt) na Debian Linux</title>
+      <link>https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/</link>
+      <pubDate>Sat, 08 Aug 2020 14:55:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/</guid>
+      <description>&lt;p&gt;Prawdopodobnie dla większości użytkowników linux&#39;a, wirtualizacja kojarzy się w zasadzie z jednym
+oprogramowaniem, tj. VirtualBox. &lt;a href=&#34;https://www.virtualbox.org/&#34;&gt;Niby strona VBox&#39;a podaje, że jest on na licencji GPL-2&lt;/a&gt; ale
+w Debianie nie ma go w głównym repozytorium (jest on obecny w sekcji &lt;code&gt;contrib&lt;/code&gt; ). Problem z
+VirtualBox&#39;em jest taki, że &lt;a href=&#34;https://salsa.debian.org/pkg-virtualbox-team/virtualbox/-/blob/master/debian/copyright&#34;&gt;wymaga on kompilatora Open Watcom&lt;/a&gt;, który już wolnym
+oprogramowaniem nie jest. VBox też nie jest jedynym oprogramowaniem, które na linux można
+wykorzystać w roli hiperwizora do obsługi maszyn wirtualnych. Jest o wiele lepsze rozwiązanie,
+mianowicie QEMU, które jest w stanie zrobić użytek z maszyny wirtualnej kernela (Kernel Virtual
+Machine, KVM) i realizować dokładnie to samo zadanie, które zwykł ogarniać VirtualBox.
+Wirtualizacja na bazie QEMU/KVM jest w pełni OpenSource, co ucieszy pewnie fanów wolnego i
+otwartego oprogramowania, choć zarządzanie maszynami wirtualnymi odbywa się za sprawą konsoli.
+Oczywiście, osoby które korzystają z VirtualBox&#39;a zdają sobie sprawę, że to narzędzie oferuje
+graficzny menadżer maszyn wirtualnych (Virtual Machine Manager, VMM), który usprawnia i znacznie
+ułatwia zarządzanie wirtualnymi maszynami. Jeśli GUI jest dla nas ważnym elementem środowiska pracy
+i nie uśmiecha nam się konfigurować maszyn wirtualnych przy pomocy terminala, to jest i dobra
+wiadomość dla takich osób, bo istnieje &lt;code&gt;virt-manager&lt;/code&gt; , który jest dość rozbudowanym menadżerem
+maszyn wirtualnych pozwalającym na ich tworzenie, konfigurowanie i zarządzanie nimi przy
+wykorzystaniu graficznego interfejsu użytkownika. W tym artykule postaramy się skonfigurować
+naszego Debiana w taki sposób, by przygotować go do pracy z maszynami wirtualnymi posługując się
+&lt;code&gt;qemu&lt;/code&gt;/&lt;code&gt;libvirt&lt;/code&gt;/&lt;code&gt;virt-manager&lt;/code&gt; .&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Czym jest linux kernel driver binding</title>
+      <link>https://morfikov.github.io/post/czym-jest-linux-kernel-driver-binding/</link>
+      <pubDate>Tue, 28 Jul 2020 19:39:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/czym-jest-linux-kernel-driver-binding/</guid>
+      <description>&lt;p&gt;Bawiąc się ostatnio QEMU/KVM na swoim laptopie z zainstalowanym Debianem natrafiłem na ciekawe
+zagadnienie związane z wirtualizacją, tj. z PCI passthrough. Nie chodzi mi tutaj o samą technikę
+PCI passthrough ale o dobór sterowników do urządzeń działających pod kontrolą linux. Każdy sprzęt,
+który ma działać w systemie, musi mieć załadowany w pamięci RAM stosowny moduł kernela. Te moduły
+zwykle są ładowane automatycznie podczas pracy systemu, np. gdy podłączamy nowy sprzęt do komputera
+(można też te moduły ładować i ręcznie via &lt;code&gt;modprobe&lt;/code&gt; ). Gdy nasz linux z jakiegoś powodu dobierze
+niewłaściwy (z naszego punktu widzenia) moduł dla jakiegoś urządzenia, to możemy to urządzenie
+odłączyć od komputera, a moduł bez problemu wyładować, po czym dokonać stosownych poprawek w
+systemie. Problem zaczyna się w sytuacji, gdy mamy do czynienia ze sprzętem, którego nie da się od
+komputera fizycznie odłączyć, np. wbudowana w płytę główną karta dźwiękowa, czy też wbudowana
+grafika bezpośrednio w CPU. Podobnie sprawa wygląda w przypadku wkompilowania modułów na stałe w
+kernel -- jak wyładować moduł, którego się nie da wyładować? By w takich sytuacjach zmienić
+przypisany urządzeniu sterownik trzeba dodać parę plików w katalogach &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; /
+&lt;code&gt;/etc/modprobe.d/&lt;/code&gt; oraz zrestartować maszynę, tak by podczas fazy boot kernel dobrał sprzętowi
+pożądane przez nas moduły i ich konfigurację. Niemniej jednak, istnieje prostszy sposób na zmianę
+sterownika działającego w systemie sprzętu i to bez potrzeby fizycznego restartowania maszyny.
+Chodzi o mechanizm ręcznego przypisywania urządzeń do konkretnych sterowników (&lt;a href=&#34;https://lwn.net/Articles/143397/&#34;&gt;manual driver
+binding and unbinding&lt;/a&gt;).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Moduł LKRG (Linux Kernel Runtime Guard)</title>
+      <link>https://morfikov.github.io/post/modul-lkrg-linux-kernel-runtime-guard/</link>
+      <pubDate>Tue, 09 Jun 2020 20:56:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/modul-lkrg-linux-kernel-runtime-guard/</guid>
+      <description>&lt;p&gt;Jakiś czas temu opisywałem &lt;a href=&#34;https://morfikov.github.io
+/post/modul-tpe-trusted-path-execution-dla-kernela-linux/&#34;&gt;moduł TPE&lt;/a&gt; (Trusted Path Execution) dla kernela linux, który jest w
+stanie dość znacznie poprawić bezpieczeństwo naszego systemu. Ostatnio jednak natknąłem się na
+&lt;a href=&#34;https://www.openwall.com/lkrg/&#34;&gt;moduł LKRG&lt;/a&gt; (Linux Kernel Runtime Guard), którego to zadaniem jest stać na straży samego jądra
+operacyjnego i chronić je w czasie rzeczywistym przed różnego rodzaju zagrożeniami poprzez
+wykrywanie eksploitów wykorzystujących luki w jego mechanizmach bezpieczeństwa. Jako, że ja
+bardzo lubię zbroić swojego Debiana, to postanowiłem się przyjrzeć nieco bliżej temu całemu LKRG i
+sprawdzić jego użyteczność. Trzeba jednak wiedzieć, że LKRG jest dostarczany w formie osobnego
+modułu zamiast łaty na kernel, przez co trzeba będzie także postarać się o automatyzację pewnych
+rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak załadować firmware karty WiFi przed initrd/initramfs</title>
+      <link>https://morfikov.github.io/post/jak-zaladowac-firmware-karty-wifi-przed-initrd-initramfs/</link>
+      <pubDate>Fri, 06 Mar 2020 02:45:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zaladowac-firmware-karty-wifi-przed-initrd-initramfs/</guid>
+      <description>&lt;p&gt;Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową
+sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: &lt;code&gt;Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2&lt;/code&gt; . W tym przypadku sprawa dotyczyła karty &lt;code&gt;Intel Corporation Centrino Advanced-N 6205 [Taylor Peak]&lt;/code&gt; działającej w oparciu o moduł kernela
+&lt;code&gt;iwlwifi&lt;/code&gt; . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po
+kłopocie. No i faktycznie w Debianie jest dostępny pakiet &lt;code&gt;firmware-iwlwifi&lt;/code&gt; , który zawiera ten
+potrzebny plik &lt;code&gt;iwlwifi-6000g2a-6.ucode&lt;/code&gt; . Problem jednak w tym, że instalacja paczki z firmware
+niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware
+muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W
+takim przypadku zainstalowanie paczki z firmware w naszym linux&#39;ie nic nam nie da, bo pliki
+rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej
+sytuacji?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)</title>
+      <link>https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/</link>
+      <pubDate>Mon, 02 Mar 2020 03:08:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/</guid>
+      <description>&lt;p&gt;Szukając informacji na temat uruchamiania mojego zaszyfrowanego Debiana (LUKSv2+LVM) na laptopie z
+EFI/UEFI, natrafiłem na dość ciekawy mechanizm zwany &lt;a href=&#34;https://www.kernel.org/doc/Documentation/efi-stub.txt&#34;&gt;kernel EFI boot stub&lt;/a&gt;, czasem też zwany
+kernel EFISTUB. Zadaniem tego mechanizmu jest uruchomienie linux&#39;a bezpośrednio z poziomu firmware
+EFI z pominięciem czy też bez potrzeby stosowania dodatkowych menadżerów rozruchu (rEFInd) czy
+bootloader&#39;ów (grub/grub2/syslinux/extlinux). Jakby nie patrzeć bardzo ciekawa alternatywa, która
+wymaga, by się z nią zapoznać i ocenić jej przydatność pod kątem użyteczności.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</title>
+      <link>https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/</link>
+      <pubDate>Sun, 01 Mar 2020 20:30:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/</guid>
+      <description>&lt;p&gt;Mając możliwość skonfigurowania EFI/UEFI na moim laptopie, postanowiłem jak najbardziej się za to
+przedsięwzięcie zabrać. Okazało się jednak, że w przypadku takiej dystrybucji linux&#39;a jak Debian,
+to zadanie może być nieco problematyczne, zwłaszcza gdy chce się korzystać jedynie z menadżera
+rozruchu jakim jest &lt;a href=&#34;https://www.rodsbooks.com/refind/&#34;&gt;rEFInd&lt;/a&gt;, czyli bez dodatkowego bootloader&#39;a (grub/grub2/syslinux/extlinux)
+instalowanego bezpośrednio na dysku twardym i jednocześnie posiadając w pełni zaszyfrowany system
+(LUKSv2 + LVM). Rzecz w tym, że w takiej sytuacji w konfiguracji rEFInd trzeba podawać ścieżki
+bezpośrednio do plików &lt;code&gt;initrd.img&lt;/code&gt; oraz &lt;code&gt;vmlinuz&lt;/code&gt; (obecnych na partycji &lt;code&gt;/boot/&lt;/code&gt; ). W Debianie
+nazwy tych plików mają format &lt;code&gt;initrd.img-x.x.x-x-amd64&lt;/code&gt; i &lt;code&gt;vmlinuz-x.x.x-x-amd64&lt;/code&gt; . Za każdym
+razem, gdy wypuszczany jest nowy kernel, to ten numerek ( &lt;code&gt;x.x.x-x&lt;/code&gt; ) ulega zmianie, co pociąga za
+sobą potrzebę ręcznego dostosowania konfiguracji rEFInd. Może i aktualizacje kernela w Debianie nie
+są jakoś stosunkowo częste ale może istnieje sposób, by ten problem z dostosowaniem konfiguracji
+rozwiązać?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Moduł TPE (Trusted Path Execution) dla kernela linux</title>
+      <link>https://morfikov.github.io/post/modul-tpe-trusted-path-execution-dla-kernela-linux/</link>
+      <pubDate>Fri, 22 Mar 2019 20:10:11 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/modul-tpe-trusted-path-execution-dla-kernela-linux/</guid>
+      <description>&lt;p&gt;Użytkownicy linux&#39;a są zwykle chronieni przez mechanizmy bezpieczeństwa, które ten system jest w
+stanie zaoferować. Oczywiście deweloperzy różnych dystrybucji, np. Debiana, dokładają wszelkich
+możliwych starań, by system jako całość był wstępnie skonfigurowany tak, by końcowy użytkownik nie
+musiał za wiele majstrować przy zabezpieczeniach i mógł się czuć i być (przynajmniej względnie)
+bezpieczny. No i faktycznie złowrogie oprogramowanie ma czasem spore problemy dostać się do maszyny,
+którą operuje linux. Niemniej jednak, gdy już taki syf się do systemu dostanie, to zwykle niewiele
+dzieli go od przejęcia kontroli nad komputerem. Może i część zabezpieczeń linux&#39;a zadziała i sprawi,
+że taki wirus/trojan czy nawet zwykły skrypt będzie miał ograniczone pole manewru, to i tak będzie
+on mógł przeprowadzić te akcje, które zwyczajny użytkownik systemu (nie root) jest zwykle w stanie
+poczynić, np. odebrać dźwięk i video ze stosownych urządzeń i przesłać te dane przez sieć. My z
+kolei możemy nawet tego faktu nie być świadomi. Jasne, że powinno się zwracać uwagę na to jakie
+pliki się pobiera z internetu i nie uruchamiać wszystkiego lekkomyślnie ale też trzeba mieć na
+uwadze fakt, że często jedna maszyna jest współdzielona, np. z członkami rodziny i oni już
+niekoniecznie muszą władać zaawansowaną wiedza z zakresu IT, by przewidzieć wszystkie możliwe
+zagrożenia czyhające na nich w sieci. Można za to postarać się, by uczynić naszą maszynę nieco
+bardziej odporną na niezbyt przemyślane zachowania użytkowników jej systemu operacyjnego. Jednym z
+kroków, które możemy podjąć, jest wdrożenie mechanizmu Trusted Path Execution (TPE), który póki co
+jest dostępny jedynie w &lt;a href=&#34;https://patchwork.kernel.org/patch/9773791/&#34;&gt;formie patch&#39;a&lt;/a&gt; na kernel
+linux&#39;a lub też jako jego &lt;a href=&#34;https://github.com/cormander/tpe-lkm&#34;&gt;osobny moduł&lt;/a&gt; oferujący sporo
+więcej możliwości w stosunku do wspomnianej wcześniej łaty. W niniejszym artykule rzucimy sobie
+okiem na ten cały mechanizm TPE i zobaczymy jak jest on w stanie uchronić nasz OS przed niezbyt
+zaawansowaną ludzką inteligencją.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)</title>
+      <link>https://morfikov.github.io/post/jak-na-debianie-zrobic-pakiet-deb-zawierajacy-modul-kernela-linux-dkms/</link>
+      <pubDate>Sun, 17 Mar 2019 09:37:28 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-na-debianie-zrobic-pakiet-deb-zawierajacy-modul-kernela-linux-dkms/</guid>
+      <description>&lt;p&gt;Kernel linux&#39;a jest dość złożonym organizmem, który może zostać rozbudowany przy pomocy dodatkowego
+kodu ładowanego w postaci zewnętrznych modułów. Czasem ze względu na wczesny etap prac nad nową
+funkcjonalnością jądra, taki moduł może zachowywać się dość nieprzewidywalnie, co przekreśla jego
+szanse na pojawienie się w stabilnych wydaniach kernela. Czasem też z jakiegoś niezrozumiałego
+powodu pewne rzeczy nie są celowo dodawane do jądra operacyjnego. Jedną z nich
+jest &lt;a href=&#34;https://github.com/cormander/tpe-lkm&#34;&gt;moduł Trusted Path Execution&lt;/a&gt; (TPE), który jest w
+stanie znacznie poprawić bezpieczeństwo systemu uniemożliwiając przeprowadzenie w nim szeregu
+podejrzanych działań. W Debianie tego typu niedogodności związane z brakiem pewnych modułów można
+obejść przez
+zastosowanie &lt;a href=&#34;https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support&#34;&gt;mechanizmu DKMS&lt;/a&gt;, który
+przy instalacji modułu spoza głównego drzewa kernela linux&#39;a jest nam go w stanie automatycznie
+zbudować. W repozytorium dystrybucji Debiana znajduje się już szereg pakietów z modułami (mają
+końcówki &lt;code&gt;-dkms&lt;/code&gt; ) i w prosty sposób można je sobie doinstalować. Co jednak w przypadku, gdy mamy
+moduł, którego nikt jeszcze nie przygotował i nie wrzucił do repozytorium? Co, gdy takich modułów
+mamy kilka, a przy tym korzystamy z najnowszego stabilnego kernela, który jest aktualizowany
+średnio co kilka dni? Ręczna budowa wszystkich zewnętrznych modułów za każdym razem jak tylko
+wyjdzie nowsza wersja kernela, to nie najlepsze wyjście, zwłaszcza jak dojdzie nam do tego
+aktualizacja samych modułów. Można za to zrobić sobie paczkę &lt;code&gt;.deb&lt;/code&gt; tak, by przy instalacji nowego
+jądra operacyjnego, system nam automatycznie zbudował wszystkie dodatkowe moduły, których nasz
+komputer wymaga do poprawnej pracy.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Czy brak wsparcia dla SYNPROXY w nftables jest problemem</title>
+      <link>https://morfikov.github.io/post/czy-brak-wsparcia-dla-synproxy-w-nftables-jest-problemem/</link>
+      <pubDate>Sat, 16 Feb 2019 10:20:52 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/czy-brak-wsparcia-dla-synproxy-w-nftables-jest-problemem/</guid>
+      <description>&lt;p&gt;Przenosząc swoje reguły z &lt;code&gt;iptables&lt;/code&gt; na &lt;code&gt;nftables&lt;/code&gt; zauważyłem, że jedna z nich (gdyby tylko jedna)
+nie została przetłumaczona przez ten dedykowany translator do reguł. Chodzi
+o &lt;a href=&#34;https://morfikov.github.io
+/post/unikanie-atakow-ddos-z-synproxy/&#34;&gt;mechanizm SYNPROXY&lt;/a&gt;, który jest zwykle wykorzystywany do ograniczenia skali ataków DDOS z
+wykorzystaniem pakietów SYN. Co by nie mówić, to ochrona jaką daje SYNPROXY jest jak najbardziej
+pożądana z perspektywy serwerów. Dlaczego zatem, gdy się zajrzy na stronę
+&lt;a href=&#34;https://wiki.nftables.org/wiki-nftables/index.php/Supported_features_compared_to_xtables&#34;&gt;wspieranych rzeczy w nftables&lt;/a&gt;, to przy SYNPROXY widnieje bliżej nieokreślone sformułowanie
+&lt;code&gt;consider native interface&lt;/code&gt; ? Po rozmowach z deweloperami udało się ustalić, że ten zapis oznacza
+brak wsparcia dla SYNPROXY w &lt;code&gt;nftables&lt;/code&gt; . Jeśli zatem ktoś wykorzystuje ten mechanizm mając dodane
+stosowne reguły w &lt;code&gt;iptables&lt;/code&gt; , to czy powinien się on obawiać przejścia na &lt;code&gt;nftables&lt;/code&gt; ?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak ręcznie zweryfikować sygnaturę modułu kernela linux</title>
+      <link>https://morfikov.github.io/post/jak-recznie-zweryfikowac-sygnature-modulu-kernela-linux/</link>
+      <pubDate>Sat, 26 Jan 2019 10:10:12 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-recznie-zweryfikowac-sygnature-modulu-kernela-linux/</guid>
+      <description>&lt;p&gt;Bawiąc się ostatnio kernelem linux na dystrybucji Debian i opcjami mającymi poprawić jego
+bezpieczeństwo, włączyłem
+sobie &lt;a href=&#34;https://morfikov.github.io
+/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/&#34;&gt;mechanizm podpisywania modułów&lt;/a&gt;.
+W ten sposób żaden zewnętrzny moduł nie zostanie załadowany przez jądro operacyjne, no chyba, że
+taki moduł będzie podpisany przez ten sam klucz co i kernel. Zdziwiłem się odrobinę, gdy moim
+oczom pokazał się hash &lt;code&gt;md4&lt;/code&gt; w wyjściu polecenia &lt;code&gt;modinfo&lt;/code&gt; . Jak się okazało później, to niezbyt
+dokładne zinterpretowanie wiadomości PKCS#7 przez &lt;code&gt;kmod&lt;/code&gt; było (i nadal jest) wynikiem &lt;a href=&#34;https://bugzilla.redhat.com/show_bug.cgi?id=1320921&#34;&gt;błędu
+obecnego w tym pakiecie od już paru lat&lt;/a&gt;. W
+efekcie &lt;code&gt;modinfo&lt;/code&gt; nie jest w stanie zweryfikować tej sygnatury, a w moim umyśle zaistniało pytanie:
+czy istnieje w ogóle możliwość manualnego sprawdzenia czy ta sygnatura jest w porządku? Kernel co
+prawda ten cały zabieg przeprowadza automatycznie ale przydałoby się ręcznie zweryfikować
+poprawność sygnatury modułu i przy okazji obadać sobie co tak naprawdę się dzieje podczas tego
+procesu.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Automatyczne podpisywanie modułów kernela przez DKMS</title>
+      <link>https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/</link>
+      <pubDate>Sat, 05 Jan 2019 04:10:10 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/</guid>
+      <description>&lt;p&gt;Budując kernel linux&#39;a trzeba zastanowić się nad kwestią modułów, które nie są wbudowane
+bezpośrednio w samo jądro operacyjne. Nie chodzi tutaj bezpośrednio o funkcjonalność kernela,
+którą można zbudować jako moduł w procesie jego kompilacji ale raczej o wszystkie zewnętrzne
+moduły, które przez zespół kernela są traktowane jako &lt;code&gt;out-of-tree&lt;/code&gt; . By poprawić nieco
+bezpieczeństwo związane z takimi modułami, można wdrożyć podpisy cyfrowe, które takie moduły
+muszą okazać podczas próby załadowania ich w systemie. Gdy moduł nie został podpisany, to kernel
+go nie załaduje zwracając przy tym błąd &lt;code&gt;modprobe: ERROR: could not insert &#39;module&#39;: Required key not available&lt;/code&gt; . W ten sposób można ochronić się przed częścią ataków, w których moduły pochodzenia
+trzeciego mogą zostać załadowane i poczynić nam ogromne spustoszenie w systemie. Problem w tym, że
+w dystrybucji Debian wykorzystywany jest mechanizm DKMS (Dynamic Kernel Module Support). Może i
+mamy dzięki niemu możliwość instalacji w systemie całej masy dodatkowych modułów ale ich również
+nie będzie można załadować, bo nie zostały podpisane kluczem, którego certyfikat został zaszyty
+w kernelu. Można jednak zmusić mechanizm DKMS, by wskazane przez nas moduły podpisywał
+automatycznie przy ich instalacji i aktualizacji.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Budowanie kernela linux dla konkretnej maszyny z Debianem</title>
+      <link>https://morfikov.github.io/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/</link>
+      <pubDate>Thu, 27 Dec 2018 22:14:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/</guid>
+      <description>&lt;p&gt;Każda maszyna działająca pod kontrolą dystrybucji linux ma na swoim pokładzie kernel, czyli jądro
+operacyjne, które zarządza praktycznie każdym aspektem pracy takiego komputera. W dystrybucji
+Debian, kernel jest dostarczany w pakietach mających nazwy zaczynające się od &lt;code&gt;linux-image-*&lt;/code&gt;.
+Te pakiety są budowane przez odpowiednie osoby z zespołu Debiana i udostępniane do łatwej
+instalacji użytkownikowi końcowemu. Niemniej jednak, taki kernel ma za zadanie działać na jak
+największej ilości komputerów, a przez to posiada całą masę modułów, które na naszej maszynie nigdy
+nie będą wykorzystane. Ten fakt nie wpływa w jakimś ogromnym stopniu na pracę maszyny, ale gdy
+później zachodzi potrzeba skonfigurowania kernela w nieco inny sposób, np. włączenie jednej czy
+dwóch opcji czy też nałożenie patch&#39;a, który nie został zaaplikowany przez dev&#39;ów Debiana, to
+trzeba taki kernel na nowo skompilować już samodzielnie, a to zajmie nam bardzo dużo czasu. Zamiast
+tego można pokusić się o przygotowanie kernela pod konkretny hardware wyłączając przy tym całą masę
+zbędnych rzeczy i ograniczając przy tym czas jaki jest potrzebny na zbudowanie całego jądra
+operacyjnego. Czy istnieje jakiś prosty sposób, by taki kernel zbudować sobie samemu mając przy tym
+minimalną wiedzę co do opcji kernela, które mogą nas przysporzyć o ból... głowy? Okazuje się, że
+tak i w tym artykule prześledzimy sobie cały ten proces.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak zdiagnozować kernel OOPS</title>
+      <link>https://morfikov.github.io/post/jak-zdiagnozowac-kernel-oops/</link>
+      <pubDate>Mon, 22 Feb 2016 18:41:27 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zdiagnozowac-kernel-oops/</guid>
+      <description>&lt;p&gt;Kernel linux&#39;a, jak każdy inny program, podczas swojego działania może napotkać nieprzewidzianą
+przez programistów sytuację. W przypadku zwykłych aplikacji, pewne błędy krytyczne mogą doprowadzić
+do &amp;quot;&lt;a href=&#34;https://pl.wikipedia.org/wiki/Naruszenie_ochrony_pami%C4%99ci&#34;&gt;naruszenia ochrony pamięci&lt;/a&gt;&amp;quot;, co
+szerzej jest znane jako segfault. W przypadku wystąpienia tego błędu, proces zwykle jest
+unicestwiany. Co jednak w przypadku kernela? Odpowiedź jest prosta: &lt;a href=&#34;https://pl.wikipedia.org/wiki/Kernel_panic&#34;&gt;kernel
+panic&lt;/a&gt;, czyli panika kernela, która pozostawia system w
+stanie braku jakichkolwiek oznak życia. Są jednak pewne błędy, z którymi kernel jest w stanie sobie
+poradzić i odzyskać sprawność w mniejszym lub większym stopniu. Te błędy są nazywane &lt;a href=&#34;http://slacksite.com/slackware/oops.html&#34;&gt;kernel
+OOPS&lt;/a&gt;. W tym wpisie postaramy się przeanalizować
+przykładowy OOPS i zobaczymy czy uda nam się ustalić przyczynę zaistniałego problemu.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Konfiguracja interfejsów IMQ w linux&#39;ie</title>
+      <link>https://morfikov.github.io/post/konfiguracja-interfejsow-imq-w-linuxie/</link>
+      <pubDate>Tue, 15 Dec 2015 14:38:30 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-interfejsow-imq-w-linuxie/</guid>
+      <description>&lt;p&gt;W linux&#39;ie, kształtowanie przychodzącego ruchu sieciowego stwarza dość poważne problemy. Na dobrą
+sprawę, obecnie w kernelu nie ma żadnego mechanizmu, który byłby w stanie to zadanie realizować.
+Istnieją, co prawda, &lt;a href=&#34;https://wiki.linuxfoundation.org/networking/ifb&#34;&gt;interfejsy IFB&lt;/a&gt; ale za ich
+pomocą jesteśmy w stanie z powodzeniem kształtować jedynie ruch wychodzący. W przypadku pakietów
+napływających, możemy jedynie ograniczyć im przepustowość. W tym powyższym linku jest wzmianka, że
+te interfejsy IFB są następcą &lt;a href=&#34;https://github.com/imq/linuximq/wiki/WhatIs&#34;&gt;interfejsów IMQ&lt;/a&gt;.
+Niemniej jednak, ten drugi projekt zdaje się działać, choć nie jest obecnie wspierany przez kernel
+linux&#39;a. W tym wpisie postaramy się skonfigurować działające interfejsy IMQ, tak, by za ich pomocą
+skutecznie kształtować ruch przychodzący.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Aktywacja i konfiguracja klawisza SysRq</title>
+      <link>https://morfikov.github.io/post/aktywacja-i-konfiguracja-klawisza-sysrq/</link>
+      <pubDate>Thu, 29 Oct 2015 01:57:30 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/aktywacja-i-konfiguracja-klawisza-sysrq/</guid>
+      <description>&lt;p&gt;SysRq (System Request) to klawisz na klawiaturze, po którego przyciśnięciu można wysłać
+niskopoziomowe zapytana bezpośrednio do kernela linux&#39;a. Te komendy działają nawet w przypadku
+pozornego braku kontaktu z systemem operacyjnym, tj. zacięcia dźwięku, nieruchomy kursor myszy, a
+nawet w przypadku braku możliwości wpisywania znaków z klawiatury. Zwykle po opisanych wyżej
+symptomach, człowiek jest skłonny przycisnąć przycisk reset na obudowie swojego komputera, no bo jak
+inaczej odwiesić taki system? Problem z twardym resetem (za pomocą przycisku) jest taki, że
+praktycznie zawsze po nim występuje uszkodzenie struktury systemu plików na dysku, a czasami
+uszkodzeniu ulega cała partycja. To niesie ze sobą ryzyko utraty danych. Dlatego też powinniśmy
+zaprzestać resetowania komputerów przy pomocy przycisków i zacząć korzystać z klawisza SysRq .&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Automatyczny restart maszyny po kernel panic</title>
+      <link>https://morfikov.github.io/post/automatyczny-restart-maszyny-po-kernel-panic/</link>
+      <pubDate>Wed, 28 Oct 2015 23:56:51 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/automatyczny-restart-maszyny-po-kernel-panic/</guid>
+      <description>&lt;p&gt;Gdy nasz linux napotka z jakiegoś powodu błąd wewnątrz swojej struktury, to istnieją sytuacje, w
+których obsługa tego błędu czasem nie jest możliwa. Wobec czego, zostaje wyrzucony komunikat
+systemowy oznajmiający nam, że &lt;a href=&#34;https://pl.wikipedia.org/wiki/Kernel_panic&#34;&gt;kernel spanikował (kernel
+panic)&lt;/a&gt;, bo nie wie co w takim przypadku zrobić. Gdy
+tego typu sytuacja się nam przytrafia, nie ma innego wyjścia jak tylko uruchomić system ponownie. Co
+jednak w przypadku gdy pracujemy zdalnie i nie jesteśmy w stanie zresetować takiej maszyny
+fizycznie? Na szczęście kernel ma kilka opcji, które mogą zainicjować automatyczny restart w
+przypadku wystąpienia kernel panic.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Reinstalacja kernela i bootloader&#39;a</title>
+      <link>https://morfikov.github.io/post/reinstalacja-kernela-bootloadera/</link>
+      <pubDate>Thu, 22 Oct 2015 18:41:06 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/reinstalacja-kernela-bootloadera/</guid>
+      <description>&lt;p&gt;Wykorzystywanie pełnego szyfrowania dysku twardego ma jedną zasadniczą wadę. O ile nasze dane są
+należycie zabezpieczone, o tyle trzeba zwracać uwagę na to komu zezwalamy na dostęp do naszego
+komputera. Nie chodzi tutaj o to, kto będzie używał samego systemu operacyjnego, choć to też jest
+ważne, ale przede wszystkim chodzi o te osoby, które mają dostęp fizyczny do naszej maszyny. Czasem
+możemy nabrać podejrzenia, że ktoś mógł nam jakąś pluskwę podłożyć. Wykrycie takiego robala, np. w
+postaci sprzętowego keylogger&#39;a, nie powinno sprawić problemów. Z kolei już manipulacja boot
+sektorem dysku twardego, lub też zmiany w initramfs, który znajduje się na niezaszyfrowanej partycji
+&lt;code&gt;/boot/&lt;/code&gt; mogą przejść niezauważone. Jak zatem odratować system, co do którego mamy jakieś
+zastrzeżenia?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Zawartość obrazu z modułami kernela (initrd)</title>
+      <link>https://morfikov.github.io/post/zawartosc-obrazu-z-modulami-kernela-initrd/</link>
+      <pubDate>Sun, 06 Sep 2015 12:45:04 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zawartosc-obrazu-z-modulami-kernela-initrd/</guid>
+      <description>&lt;p&gt;Podczas instalowania jądra operacyjnego w jakiejś dystrybucji linux&#39;a, w katalogu &lt;code&gt;/boot/&lt;/code&gt; jest
+tworzonych kilka plików. Mamy tam między innymi
+&lt;a href=&#34;https://www.ibm.com/developerworks/linux/library/l-initrd/index.html&#34;&gt;initrd.img&lt;/a&gt; i jest to obraz
+posiadający swój własny system plików, który jest ładowany do pamięci RAM w fazie boot (via
+bootloader). W tym obrazie znajdują się moduły i narzędzia, przy pomocy których to główny system
+plików naszego linux&#39;a może zostać zamontowany. Czasem jednak potrzebujemy zajrzeć wgłąb tego
+obrazu, a to nie jest znowu taka prosta sprawa.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>DKMS, czyli automatycznie budowane moduły</title>
+      <link>https://morfikov.github.io/post/dkms-czyli-automatycznie-budowane-moduly/</link>
+      <pubDate>Sat, 30 May 2015 21:05:27 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/dkms-czyli-automatycznie-budowane-moduly/</guid>
+      <description>&lt;p&gt;Jeśli zamierzamy kupić sprzęt, który dopiero co trafił na półki w sklepach, to prawdopodobnie zaraz
+po podłączeniu go do naszego komputera okaże się, że to urządzenie nie jest nawet wykrywane przez
+system operacyjny. W przypadku gdy jego producent zapewnia w miarę przyzwoity support, to być może
+problemy, których doświadczamy, zostaną rozwiązane wraz z instalacją najnowszego kernela. Co jednak
+w przypadku gdy nawet po aktualizacji kernela nie jesteśmy w stanie odpalić, np. nowo zakupionej
+karty WiFi? Jako, że te wszystkie sprzęty działają w oparciu określone moduły, wystarczy taki moduł
+pozyskać, skompilować i załadować w systemie. Problem w tym, że z każdą nową wersją jądra
+operacyjnego, która trafi do repo debiana, będziemy musieli ręcznie budować moduł na nowo i właśnie
+w tym artykule opiszę jak nauczyć system, by sam przeprowadzał tę mozolną czynność bez naszego
+udziału.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

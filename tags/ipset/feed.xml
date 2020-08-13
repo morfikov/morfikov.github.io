@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ipset on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/ipset/</link>
+    <description>Recent content in ipset on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Sat, 02 Mar 2019 02:21:12 +0000</lastBuildDate>
+    
+	<atom:link href="https://morfikov.github.io/tags/ipset/feed.xml" rel="self" type="application/rss" />
+    
+    
+    <item>
+      <title>Brak wsparcia dla ipset w nftables</title>
+      <link>https://morfikov.github.io/post/brak-wsparcia-dla-ipset-w-nftables/</link>
+      <pubDate>Sat, 02 Mar 2019 02:21:12 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/brak-wsparcia-dla-ipset-w-nftables/</guid>
+      <description>&lt;p&gt;Użytkownicy Debiana często w roli firewall&#39;a wykorzystują już dość leciwy &lt;code&gt;iptables&lt;/code&gt; . W zasadzie,
+to tej implementacji linux&#39;owego filtra pakietów sieciowych nic nie dolega, no może poza szeregiem
+wad konstrukcyjnych, które są obecnie tak ciężkie do zaadresowania, że w sumie trzeba by cały ten
+&lt;code&gt;iptables&lt;/code&gt; napisać od początku. Wszystko przez rozwój internetu, za sprawą którego pojawiło się
+zapotrzebowanie na tworzenie całej masy reguł (w postaci adresów/portów źródłowych/docelowych),
+gdzie w standardowym &lt;code&gt;iptables&lt;/code&gt; trzeba tworzyć osobne wpisy. Im więcej reguł w filtrze, tym
+przechodzenie pakietów przez zaporę sieciową trwa dłużej i wiąże się z mocnym obciążeniem dla
+procesora (zwłaszcza, gdy tych reguł jest kilkadziesiąt tysięcy). By jakoś uporać się z tymi
+problemami (nieznanymi w innych filtrach sieciowych) stworzono &lt;code&gt;ipset&lt;/code&gt; . I faktycznie odciążył on
+mocno procesor maszyny ale i tak nie wyeliminował on podstawowych wad &lt;code&gt;iptables&lt;/code&gt; . Dlatego też
+zaczęto szukać innego rozwiązania i tak pojawiła się alternatywa m.in. w postaci &lt;code&gt;nftables&lt;/code&gt; . W
+przyszłym stabilnym Debianie (buster) &lt;code&gt;nftables&lt;/code&gt; będzie wykorzystywany jako domyślny filtr pakietów
+i ci, który korzystali z &lt;code&gt;ipset&lt;/code&gt; mogą się nieco zdziwić, że &lt;code&gt;nftables&lt;/code&gt; nie posiada dla niego
+wsparcia. Rzecz w tym, że &lt;code&gt;nftables&lt;/code&gt; potrafi natywnie obsługiwać listy adresów/portów i &lt;code&gt;ipset&lt;/code&gt;
+nie jest mu w tym do niczego potrzebny.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Apache2: Moduł evasive, ipset i iptables (anty DOS/DDOS)</title>
+      <link>https://morfikov.github.io/post/apache2-modul-evasive-ipset-iptables/</link>
+      <pubDate>Sat, 06 Aug 2016 09:13:20 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/apache2-modul-evasive-ipset-iptables/</guid>
+      <description>&lt;p&gt;Apache2 ma kilka ciekawych modułów, które mogą uchronić nasz serwer www przed atakami DOS i DDOS.
+Jednym z nich jest moduł &lt;code&gt;evasive&lt;/code&gt; . Nie jest on jednak oficjalnym modułem i brak o nim
+jakiejkolwiek wzmianki w oficjalnej dokumentacji na stronie Apache2. Niemniej jednak, jest to bardzo
+prosty moduł składający się dosłownie z kilku dyrektyw, które są w stanie zablokować zapytania o
+zasoby serwera w przypadku, gdy zostanie przekroczony pewien ustalony przez nas limit. Dodatkowo,
+ten moduł może współgrać z filtrem &lt;code&gt;iptables&lt;/code&gt; oraz &lt;code&gt;ipset&lt;/code&gt; , dając nam możliwość wygodnego
+blokowania uporczywych klientów na poziomie pakietów sieciowych.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Jak zablokować Facebook i YouTube w OpenWRT</title>
+      <link>https://morfikov.github.io/post/jak-zablokowac-facebook-youtube-openwrt/</link>
+      <pubDate>Tue, 10 May 2016 22:17:38 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zablokowac-facebook-youtube-openwrt/</guid>
+      <description>&lt;p&gt;Serwisy społecznościowe takie jak Facebook, Twitter czy YouTube coraz bardziej dają się we znaki
+przedsiębiorcom, który muszą cały czas pilnować, by ich pracownicy nie siedzieli ciągle w
+internecie, przynajmniej w czasie pracy. Problem nagminnego przebywania w tych w/w portalach można
+bardzo łatwo rozwiązać przez... porozmawianie z pracownikami. No może nie zawsze ale co nam szkodzi
+spróbować? W przypadku, gdy upomnienia nie są w stanie zmusić ludzi w naszej firmie do pracy, a nie
+możemy przy tym ich zwolnić, to możemy pójść o krok dalej i spróbować im założyć blokadę na te
+powyższe serwisy. Oczywiście blokada szeregu adresów IP nie wchodzi w rachubę. Korporacje typu
+Facebook czy Google mają wiele adresów IP na których świadczą swoje usługi. Nie wszystkie z nich są
+uwzględniane na różnego rodzaju listach. Niemniej jednak, tak na dobrą sprawę to nie musimy nawet
+znać tych adresów. Jedyne czego nam potrzeba to nazwa domeny oraz kilka pakietów standardowo
+dostępnych w repozytorium OpenWRT. Mowa o &lt;code&gt;iptables&lt;/code&gt; , &lt;code&gt;dnsmasq&lt;/code&gt; oraz &lt;code&gt;ipset&lt;/code&gt; . W OpenWRT, przy
+pomocy tych narzędzi możemy zaprojektować filtr, który może zablokować ludziom z naszej sieci dostęp
+do praktycznie każdego serwisu www. W tym artykule zobaczymy jak taki filtr skonstruować.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>PeerGuardian w oparciu o ipset i iptables</title>
+      <link>https://morfikov.github.io/post/peerguardian-w-oparciu-o-ipset-iptables/</link>
+      <pubDate>Tue, 23 Jun 2015 22:50:14 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/peerguardian-w-oparciu-o-ipset-iptables/</guid>
+      <description>&lt;p&gt;Wiele klientów torrenta umożliwia ładowanie zewnętrznej listy z zakresami adresów IP i ta lista ma
+służyć jako swego rodzaju filtr połączeń chroniący nas przed różnego rodzaju organizacjami, które
+mogą zbierać i przetwarzać informacje na temat naszego IP i tego co on porabia w sieci p2p.
+Oczywiście, kwestia czy korzystać z takiego typu rozwiązania jest bardzo dyskusyjna i wiele osób
+jest zdania, że to tak naprawdę w niczym nie pomoże, a wręcz nawet przyczynia się do
+samounicestwienia sieci p2p. Także taki filter może czasem przynieść więcej szkody niż pożytku,
+zwłaszcza gdy się go używa lekkomyślnie, czyli na zasadzie, że ten co blokuje więcej adresów musi
+być lepszy. Poniżej opiszę wykorzystanie rozszerzenia &lt;code&gt;ipset&lt;/code&gt;, przy pomocy którego zostanie
+zablokowany szereg klas adresów. Całość raczej nie skupia się na implementacji filtra, to tylko
+przykład do czego &lt;code&gt;ipset&lt;/code&gt; może posłużyć, a że ja nie umiem teoretycznie pisać, to muszę na
+przykładach.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tcp on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/tcp/</link>
+    <description>Recent content in tcp on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Sat, 16 Feb 2019 10:20:52 +0000</lastBuildDate>
+    
+	<atom:link href="https://morfikov.github.io/tags/tcp/feed.xml" rel="self" type="application/rss" />
+    
+    
+    <item>
+      <title>Czy brak wsparcia dla SYNPROXY w nftables jest problemem</title>
+      <link>https://morfikov.github.io/post/czy-brak-wsparcia-dla-synproxy-w-nftables-jest-problemem/</link>
+      <pubDate>Sat, 16 Feb 2019 10:20:52 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/czy-brak-wsparcia-dla-synproxy-w-nftables-jest-problemem/</guid>
+      <description>&lt;p&gt;Przenosząc swoje reguły z &lt;code&gt;iptables&lt;/code&gt; na &lt;code&gt;nftables&lt;/code&gt; zauważyłem, że jedna z nich (gdyby tylko jedna)
+nie została przetłumaczona przez ten dedykowany translator do reguł. Chodzi
+o &lt;a href=&#34;https://morfikov.github.io
+/post/unikanie-atakow-ddos-z-synproxy/&#34;&gt;mechanizm SYNPROXY&lt;/a&gt;, który jest zwykle wykorzystywany do ograniczenia skali ataków DDOS z
+wykorzystaniem pakietów SYN. Co by nie mówić, to ochrona jaką daje SYNPROXY jest jak najbardziej
+pożądana z perspektywy serwerów. Dlaczego zatem, gdy się zajrzy na stronę
+&lt;a href=&#34;https://wiki.nftables.org/wiki-nftables/index.php/Supported_features_compared_to_xtables&#34;&gt;wspieranych rzeczy w nftables&lt;/a&gt;, to przy SYNPROXY widnieje bliżej nieokreślone sformułowanie
+&lt;code&gt;consider native interface&lt;/code&gt; ? Po rozmowach z deweloperami udało się ustalić, że ten zapis oznacza
+brak wsparcia dla SYNPROXY w &lt;code&gt;nftables&lt;/code&gt; . Jeśli zatem ktoś wykorzystuje ten mechanizm mając dodane
+stosowne reguły w &lt;code&gt;iptables&lt;/code&gt; , to czy powinien się on obawiać przejścia na &lt;code&gt;nftables&lt;/code&gt; ?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mechanizm SYN cookies w protokole TCP</title>
+      <link>https://morfikov.github.io/post/mechanizm-syn-cookies-w-protokole-tcp/</link>
+      <pubDate>Sat, 24 Oct 2015 20:22:02 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/mechanizm-syn-cookies-w-protokole-tcp/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pl.wikipedia.org/wiki/SYN_flood&#34;&gt;Atak SYN flood&lt;/a&gt; to rodzaj ataku DoS, którego celem jest
+wyczerpanie zasobów serwera uniemożliwiając mu tym samym poprawne realizowanie danej usługi, do
+której został oddelegowany. Jest to dość popularne zjawisko i w przypadku, gdy mamy postawioną
+jakąś maszynę na publicznym adresie IP, przydałoby się nieco zainteresować tym problem, który może
+wystąpić w najmniej oczekiwanym momencie. W tym wpisie rzucimy okiem na mechanizm SYN cookies.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Unikanie ataków DDoS z SYNproxy</title>
+      <link>https://morfikov.github.io/post/unikanie-atakow-ddos-z-synproxy/</link>
+      <pubDate>Sat, 24 Oct 2015 17:39:24 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/unikanie-atakow-ddos-z-synproxy/</guid>
+      <description>&lt;p&gt;Internet nie jest zbyt przyjaznym miejscem i jest wielce prawdopodobne, że prędzej czy później ktoś
+zaatakuje jedną z naszych maszyn, która świadczy w nim jakieś usługi. Są różne typy ataków, w tym
+przypadku chodzi o ataki DDoS z wykorzystaniem pakietów wchodzących w proces potrójnego witania
+(three way handshake) przy nawiązywaniu połączenia w protokole TCP, tj. pakiety &lt;code&gt;SYN&lt;/code&gt; , &lt;code&gt;SYN-ACK&lt;/code&gt; i
+&lt;code&gt;ACK&lt;/code&gt; . Istnieje szereg mechanizmów, które adresują problem SYN flooding&#39;u ale żaden z nich nie jest
+doskonały. Jakiś czas temu, do kernela linux&#39;owego trafił patch implementujący &lt;a href=&#34;https://lwn.net/Articles/563151/&#34;&gt;mechanizm
+SYNproxy&lt;/a&gt; i w tym wpisie obadamy go sobie nieco dokładniej.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Retransmisja i duplikaty pakietów w TCP</title>
+      <link>https://morfikov.github.io/post/retransmisja-i-duplikaty-pakietow-w-tcp/</link>
+      <pubDate>Wed, 23 Sep 2015 19:31:27 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/retransmisja-i-duplikaty-pakietow-w-tcp/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pl.wikipedia.org/wiki/Retransmisja&#34;&gt;Retransmisja&lt;/a&gt; pakietu w przypadku sieci opartych na
+protokołach TCP/IP nie jest niczym niezwykłym. Oczywiście, pozostaje kwestia samego realizowania
+tego przedsięwzięcia ale generalnie rzecz biorąc, systemy linux&#39;owe mają szereg opcji w kernelu,
+które możemy sobie dostosować konfigurując tym samym, to w jaki sposób nasz system reaguje na
+zjawisko utraty pakietów podczas ich przesyłu między dwoma punktami sieciowymi.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Wolny start połączeń w protokole TCP</title>
+      <link>https://morfikov.github.io/post/wolny-start-polaczen-w-protokole-tcp/</link>
+      <pubDate>Tue, 07 Jul 2015 19:33:16 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wolny-start-polaczen-w-protokole-tcp/</guid>
+      <description>&lt;p&gt;Wolny start jest wynikiem braku zaufania maszyny nadawczej do utworzonego kanału przesyłowego --
+połączenia. Nie wie ona czy to łącze jest bowiem w stanie obsłużyć taką porcję danych, którą ma
+zamiar przesłać bez czekania na pakiet &lt;code&gt;ACK&lt;/code&gt; . W przypadku bufora odbiorczego, wszystko jest proste,
+bo dane dotyczące wielkości okien są zdefiniowane w nagłówku pakietów, do których ma wgląd druga ze
+stron. W przypadku gdy nadawca przesyła dane, prędkość z jaką to robi zależy głównie od niego.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Bufor połączeń w protokole TCP</title>
+      <link>https://morfikov.github.io/post/bufor-polaczen-w-protokole-tcp/</link>
+      <pubDate>Wed, 01 Jul 2015 10:20:16 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/bufor-polaczen-w-protokole-tcp/</guid>
+      <description>&lt;p&gt;Wraz ze zwiększaniem zapotrzebowania na szybsze łącza internetowe, ograniczenia wynikające z
+protokółu TCP zaczęły powoli dawać się ludziom we znaki. Problemem była bariera prędkości, którą
+ciężko było pokonać mając do dyspozycji domyślną formę nagłówka protokołu TCP. Było w nim zwyczajnie
+za mało miejsca, co zapoczątkowało jego rozbudowę kosztem ilości danych, które można było przesłać w
+pojedynczym segmencie. W tym wpisie skupię się głównie na dwóch opcjach jakie zostały dodane do
+nagłówka TCP, tj. dynamiczne skalowanie okien oraz znaczniki czasu, bo te dwa parametry nie mogą
+wręcz bez siebie istnieć, zwłaszcza gdy rozmawiamy o łączach pokroju 1 czy 10 gbit/s.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>SACK, czyli selektywne potwierdzenia pakietów</title>
+      <link>https://morfikov.github.io/post/sack-czyli-selektywne-potwierdzenia-pakietow/</link>
+      <pubDate>Wed, 01 Jul 2015 06:04:18 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/sack-czyli-selektywne-potwierdzenia-pakietow/</guid>
+      <description>&lt;p&gt;Protokół TCP jest tak zbudowany by zapewnić rzetelny transfer danych między dwoma komunikującymi się
+punktami. Z początku jednak, ta cecha tego protokołu powodowała marnowanie dość sporych ilości
+zasobów jeśli chodzi o przepustowość łącza. Stało się to widoczne przy większych prędkościach
+połączeń, gdzie &lt;a href=&#34;https://morfikov.github.io
+/post/bufor-polaczen-w-protokole-tcp/&#34;&gt;skalowany był bufor&lt;/a&gt;
+(okno) TCP, co umożliwiło przesyłanie szeregu segmentów bez potrzeby czekania na ich potwierdzenie
+przez odbiorcę. To zwiększyło, co prawda, transfer danych ale pojawił się problem z zagubionymi
+pakietami.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>TSO, czyli odciążenie segmentacji TCP</title>
+      <link>https://morfikov.github.io/post/tso-czyli-odciazenie-segmentacji-tcp/</link>
+      <pubDate>Tue, 30 Jun 2015 21:15:08 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/tso-czyli-odciazenie-segmentacji-tcp/</guid>
+      <description>&lt;p&gt;Stawiając sobie środowisko testowe pod wireshark&#39;a w celu analizy pakietów sieciowych, zauważyłem,
+że coś mi się nie zgadza odnośnie wielkości przesyłanych pakietów między interfejsami kontenerów
+LXC. Jakby nie patrzeć, środowisko testowe ma być odwzorowaniem środowiska produkcyjnego i w tym
+przypadku wszelkie zasady dotyczące, np. podziału danych na segmenty, muszą być takie same.
+Generalnie rzecz biorąc rozmiar pakietu powinien wynosić 1514 bajtów, a był parokrotnie większy.
+Okazało się, że jest to za sprawą odciążenia segmentacji w protokole TCP (&lt;a href=&#34;https://lwn.net/Articles/564978/&#34;&gt;TCP Segmentation
+Offload&lt;/a&gt;).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Fragmentacja pakietu i zmiana wartości MTU</title>
+      <link>https://morfikov.github.io/post/fragmentacja-pakietu-i-zmiana-wartosci-mtu/</link>
+      <pubDate>Mon, 29 Jun 2015 21:35:12 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/fragmentacja-pakietu-i-zmiana-wartosci-mtu/</guid>
+      <description>&lt;p&gt;MTU (Maximum Transmission Unit) to maksymalna długość pakietu jaki może zostać przesłany przez sieć.
+Może ona wynosić do 64KiB ale większość punktów sieciowych, takich jak routery, wymusza o wiele
+mniejsze rozmiary pakietów. Domyślna wartość MTU dla protokołu Ethernet to 1500 bajtów, oczywiście
+bez nagłówka warstwy fizycznej, który ma dodatkowe 14 bajtów. Czasami te standardowe ustawienia mogą
+powodować problemy w przypadku pewnych konfiguracji sieci i gdy ich doświadczamy, przydałoby się
+zmienić rozmiar MTU przesyłanych pakietów.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Znacznik czasu (timestamp) w protokole TCP</title>
+      <link>https://morfikov.github.io/post/znacznik-czasu-timestamp-w-protokole-tcp/</link>
+      <pubDate>Sun, 28 Jun 2015 17:33:54 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/znacznik-czasu-timestamp-w-protokole-tcp/</guid>
+      <description>&lt;p&gt;O znacznikach czasu (timestamp) wspominałem już raz w ramach omawiania mechanizmu jakim jest &lt;a href=&#34;https://morfikov.github.io
+/post/bufor-polaczen-w-protokole-tcp/&#34;&gt;bufor
+połączenia&lt;/a&gt;, a konkretnie rozchodziło się o
+skalowanie okien TCP. Generalnie rzecz biorąc, przy wyższych prędkościach, rzędu 1 gbit/s, nie ma
+innej opcji jak skorzystanie z opcji znaczników czasu, które są niejako rozszerzeniem czegoś co
+widnieje pod nazwą &lt;a href=&#34;https://morfikov.github.io
+/post/numery-sekwencyjne-w-strumieniu-tcp/&#34;&gt;numery sekwencyjne&lt;/a&gt;
+. Z jednej strony może i mamy możliwość implementacji łącz o większej przepustowości ale z drugiej
+te znaczniki czasu w pakietach TCP &lt;a href=&#34;https://nfsec.pl/security/2306&#34;&gt;mogą zagrozić bezpieczeństwu&lt;/a&gt;
+stacji roboczej.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Numery sekwencyjne w strumieniu TCP</title>
+      <link>https://morfikov.github.io/post/numery-sekwencyjne-w-strumieniu-tcp/</link>
+      <pubDate>Thu, 25 Jun 2015 21:24:41 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/numery-sekwencyjne-w-strumieniu-tcp/</guid>
+      <description>&lt;p&gt;Jeśli zastanawialiście się czym są numery sekwencyjne i potwierdzeń w strumieniach protokołu TCP, to
+nie jesteście jedyni, którym to zagadnienie spędza sen z powiek. Dlatego też poniżej postanowiłem
+opisać najdokładniej jak umiem proces jaki zachodzi przy przesyłaniu danych z jednego punktu
+sieciowego na drugi. Bez zaprzęgnięcia sniffera sieciowego raczej nie da się zrozumieć tego tematu i
+poniższy przykład zawiera szereg odwołań do programu wireshark.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Flagi TCP i przełączanie stanów połączeń</title>
+      <link>https://morfikov.github.io/post/flagi-tcp-i-przelaczanie-stanow-polaczen/</link>
+      <pubDate>Wed, 24 Jun 2015 21:44:42 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/flagi-tcp-i-przelaczanie-stanow-polaczen/</guid>
+      <description>&lt;p&gt;Jakiś czas temu opisywałem &lt;a href=&#34;https://morfikov.github.io
+/post/firewall-na-linuxowe-maszyny-klienckie/&#34;&gt;jak zaprojektować swój własny
+firewall&lt;/a&gt;, wobec czego postanowiłem
+nieco bardziej pochylić się nad zagadnieniem stanów połączeń i je dokładniej przeanalizować. Ten
+wpis dotyczy głównie protokołu TCP, bo ten UDP jest bezpołączeniowy, więc nie ma tam żadnych stanów.
+Dodatkowo opiszę tutaj poszczególne flagi, które mogą zostać ustawione w pakietach zmieniając tym
+samym stan połączenia.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
