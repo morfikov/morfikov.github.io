@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Android: Framework Xposed i moduły do YouTube | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Android: Framework Xposed i moduły do YouTube" />
+<meta property="og:description" content="Stock&#39;owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji
+od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy
+wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się
+ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w
+Firefox&#39;ie i jeśli mamy zainstalowanego w telefonie adblock&#39;a, np.
+AdAway, czy też wdrożony
+podobny filtr na domowym routerze WiFi z
+LEDE/OpenWRT, to te
+reklamy mogą zostać z powodzeniem odfiltrowane, przynajmniej w Firefox&#39;ie. Jestem też świadom
+istnienia aplikacji
+NewPipe , która jest
+zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową wadę.
+Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być powiadamiania w
+przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał video. Taką opcję
+ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że włączy nam się jakaś
+wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć. Innym problemem w
+przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle czy też przy
+zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej aplikacji
+YouTube i wyeliminować te drażniące mnie problemy instalując w smartfonie framework
+Xposed wraz z odpowiednimi
+modułami: YouTube Background
+Playback oraz YouTube
+AdAway. Jako, że nie jest to proces łatwy,
+to postanowiłem go opisać krok po kroku." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/android-framework-xposed-i-moduly-do-youtube/" />
+<meta property="article:published_time" content="2017-03-04T21:56:54+00:00" />
+<meta property="article:modified_time" content="2017-03-04T21:56:54+00:00" />
+
+		<meta itemprop="name" content="Android: Framework Xposed i moduły do YouTube">
+<meta itemprop="description" content="Stock&#39;owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji
+od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy
+wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się
+ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w
+Firefox&#39;ie i jeśli mamy zainstalowanego w telefonie adblock&#39;a, np.
+AdAway, czy też wdrożony
+podobny filtr na domowym routerze WiFi z
+LEDE/OpenWRT, to te
+reklamy mogą zostać z powodzeniem odfiltrowane, przynajmniej w Firefox&#39;ie. Jestem też świadom
+istnienia aplikacji
+NewPipe , która jest
+zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową wadę.
+Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być powiadamiania w
+przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał video. Taką opcję
+ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że włączy nam się jakaś
+wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć. Innym problemem w
+przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle czy też przy
+zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej aplikacji
+YouTube i wyeliminować te drażniące mnie problemy instalując w smartfonie framework
+Xposed wraz z odpowiednimi
+modułami: YouTube Background
+Playback oraz YouTube
+AdAway. Jako, że nie jest to proces łatwy,
+to postanowiłem go opisać krok po kroku.">
+<meta itemprop="datePublished" content="2017-03-04T21:56:54+00:00" />
+<meta itemprop="dateModified" content="2017-03-04T21:56:54+00:00" />
+<meta itemprop="wordCount" content="1370">
+
+
+
+<meta itemprop="keywords" content="smartfon,lollipop,xposed,marshmallow," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Android: Framework Xposed i moduły do YouTube"/>
+<meta name="twitter:description" content="Stock&#39;owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji
+od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy
+wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się
+ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w
+Firefox&#39;ie i jeśli mamy zainstalowanego w telefonie adblock&#39;a, np.
+AdAway, czy też wdrożony
+podobny filtr na domowym routerze WiFi z
+LEDE/OpenWRT, to te
+reklamy mogą zostać z powodzeniem odfiltrowane, przynajmniej w Firefox&#39;ie. Jestem też świadom
+istnienia aplikacji
+NewPipe , która jest
+zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową wadę.
+Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być powiadamiania w
+przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał video. Taką opcję
+ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że włączy nam się jakaś
+wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć. Innym problemem w
+przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle czy też przy
+zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej aplikacji
+YouTube i wyeliminować te drażniące mnie problemy instalując w smartfonie framework
+Xposed wraz z odpowiednimi
+modułami: YouTube Background
+Playback oraz YouTube
+AdAway. Jako, że nie jest to proces łatwy,
+to postanowiłem go opisać krok po kroku."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Android: Framework Xposed i moduły do YouTube</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2017-03-04T21:56:54Z">Opublikowano: 04/03/2017</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Android: Framework Xposed i moduły do YouTube</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#ukorzeniony-android-root-oraz-backup-flasha-smartfona">Ukorzeniony Android (root) oraz backup flash'a smartfona</a></li>
+    <li><a href="#instalacja-instalatora-xposed">Instalacja instalatora Xposed</a></li>
+    <li><a href="#instalacja-frameworka-xposed">Instalacja framework'a Xposed</a>
+      <ol>
+        <li><a href="#framework-xposed-i-android-60-marshmallow">Framework Xposed i Android 6.0 (Marshmallow)</a></li>
+        <li><a href="#framework-xposed-i-android-51-lollipop">Framework Xposed i Android 5.1 (Lollipop)</a></li>
+      </ol>
+    </li>
+    <li><a href="#instalacja-modułów-xposed">Instalacja modułów Xposed</a></li>
+    <li><a href="#odinstalowanie-frameworka-xposed-i-jego-modułów">Odinstalowanie framework'a Xposed i jego modułów</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Stock'owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji
+od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy
+wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się
+ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w
+Firefox'ie i jeśli mamy <a href="https://morfikov.github.io
+/post/android-blokowanie-reklam-z-adaway-na-smartfonie/">zainstalowanego w telefonie adblock'a, np.
+AdAway</a>, czy też <a href="https://morfikov.github.io
+/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/">wdrożony
+podobny filtr na domowym routerze WiFi z
+LEDE/OpenWRT</a>, to te
+reklamy mogą zostać z powodzeniem odfiltrowane, przynajmniej w Firefox'ie. Jestem też świadom
+istnienia <a href="https://morfikov.github.io
+/post/android-youtube-bez-reklam-na-smartfonie-newpipe/">aplikacji
+NewPipe</a> , która jest
+zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową wadę.
+Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być powiadamiania w
+przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał video. Taką opcję
+ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że włączy nam się jakaś
+wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć. Innym problemem w
+przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle czy też przy
+zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej aplikacji
+YouTube i wyeliminować te drażniące mnie problemy <a href="http://repo.xposed.info/module/de.robv.android.xposed.installer">instalując w smartfonie framework
+Xposed</a> wraz z odpowiednimi
+modułami: <a href="http://repo.xposed.info/module/com.pyler.youtubebackgroundplayback">YouTube Background
+Playback</a> oraz <a href="http://repo.xposed.info/module/ma.wanam.youtubeadaway">YouTube
+AdAway</a>. Jako, że nie jest to proces łatwy,
+to postanowiłem go opisać krok po kroku.</p>
+<h2 id="ukorzeniony-android-root-oraz-backup-flasha-smartfona">Ukorzeniony Android (root) oraz backup flash'a smartfona</h2>
+<p>Może i Instalator Xposed można zainstalować na Androidzie, który nie przeszedł procesu root, ale
+pełna funkcjonalność framework'a Xposed zostanie aktywowana dopiero w momencie, gdy ukorzenimy
+sobie system. Naturalnie ta pełna funkcjonalność obejmuje instalowanie dodatkowych modułów. Zatem
+jak widzimy, bez root sam instalator jest w zasadzie bezużyteczny.</p>
+<p>Ten artykuł jest pisany w oparciu o smartfony Neffos, a konkretnie o modele C5 MAX oraz Y5, jako, że
+dysponują one różnymi platformami sprzętowymi (Mediatek i Qualcomm) oraz różnymi wersjami Androida
+(Lollipop oraz Marshmallow). Jeśli dysponujemy smartfonami Neffos C5 lub Y5L, to naturalnie poniżej
+opisane kroki można zastosować również i do tych modeli. Niemniej jednak, by cokolwiek zacząć robić
+potrzebny jest ukorzeniony system. Stosowne howto można znaleźć w osobnych wątkach: <a href="https://morfikov.github.io
+/post/android-root-smartfona-neffos-c5-max-od-tp-link/">Neffos C5
+MAX</a>, <a href="https://morfikov.github.io
+/post/android-root-smartfona-neffos-c5-od-tp-link/">Neffos
+C5</a>, <a href="https://morfikov.github.io
+/post/android-root-smartfona-neffos-y5l-tp-link/">Neffos
+Y5L</a> i <a href="https://morfikov.github.io
+/post/android-root-smartfona-neffos-y5-od-tp-link/">Neffos
+Y5</a>.</p>
+<p>Druga sprawa, to backup danych zgromadzonych w telefonie. Niby nic naszemu smartfonowi nie powinno
+się stać z racji instalowania w nim framework'a Xposed ale lepiej dmuchać na zimne i zrobić sobie
+kopię zapasową partycji <code>/system/</code> oraz <code>/data/</code> , a w ogóle to najlepiej zrobić pełny backup
+flash'a i w razie problemów przywrócić konkretne partycje. Informacje na temat tworzenia kopi
+zapasowej flash'a w smartfonach Neffos można znaleźć w wyżej podlinkowanych artykułach dotyczących
+przeprowadzania procesu root.</p>
+<p>Poniższa część artykułu zakłada, że mamy już ukorzeniony system i w razie ewentualnych problemów
+wiemy jak cofnąć w nim wprowadzone zmiany.</p>
+<h2 id="instalacja-instalatora-xposed">Instalacja instalatora Xposed</h2>
+<p>W zasadzie to musimy zainstalować w systemie dwie rzeczy: Instalator Xposed do zarządzania modułami
+oraz właściwy framework Xposed. Oba te pliki są dostępne <a href="https://forum.xda-developers.com/showthread.php?t=3034811">w oficjalnym wątku na
+XDA</a>.</p>
+<p>Sam instalator instalujemy z poziomu działającego Androida. Jeśli mamy dodatkowo zainstalowany
+F-Droid lub XDA Labs, to z ich repozytoriów również możemy ten instalator sobie wgrać na smartfona.
+Natomiast framework można zainstalować przez instalator Xposed lub też z poziomu TWRP recovery
+(ręcznie lub inicjując proces za pomocą instalatora Xposed).</p>
+<h2 id="instalacja-frameworka-xposed">Instalacja framework'a Xposed</h2>
+<p>Plik instalatora Xposed jest wspólny dla każdej wersji Androida (5.0, 5.1 i 6.0). Natomiast plik z
+framework'iem Xposed trzeba dobrać w zależności od wersji Androida i architektury systemowej. W tym
+przypadku mamy Androida 6.0 Marshmallow oraz Androida 5.1 Lollipop. Architektury z kolei to ARM64 i
+ARM32.</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/001.xposed-android-lollipop-marshmalow-tp-link-smartfon-platforma-arch.png"><img src="https://morfikov.github.io
+/img/2017/03/001.xposed-android-lollipop-marshmalow-tp-link-smartfon-platforma-arch-660x483.png" alt=""></a></p>
+<h3 id="framework-xposed-i-android-60-marshmallow">Framework Xposed i Android 6.0 (Marshmallow)</h3>
+<p>Niezależnie od wybranego sposobu instalacji instalatora Xposed (ręczne wgranie pliku <code>.apk</code> ,
+F-Droid czy XDA Labs), musimy jeszcze sobie zainstalować sam framework. Odpalamy zatem instalator
+Xposed i klikamy na numerku wersji, by zainstalować
+framework:</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/002.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja.png"><img src="https://morfikov.github.io
+/img/2017/03/002.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja-386x660.png" alt=""></a></p>
+<p>Jak widzimy, mamy do wyboru dwie opcje. Ja wybrałem sobie &quot;Install&quot; ale można też bez problemu
+zainstalować przez TWRP recovery. Po chwili proces instalacji powinien się zakończyć powodzeniem, a
+smartfon uruchomi się
+ponownie:</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/003.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja.png"><img src="https://morfikov.github.io
+/img/2017/03/003.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja-660x509.png" alt=""></a></p>
+<p>Urządzenie się będzie dość długo uruchamiać ponownie i nie powinniśmy się tym faktem przejmować.
+Pojawi się także informacja o optymalizowaniu wszystkich aplikacji w smartfonie, co potrwa dłuższą
+chwilę. Warto tutaj zaznaczyć, że to optymalizowanie aplikacji będzie miało miejsce zawsze po
+instalowaniu jak i usuwaniu framework'a Xposed.</p>
+<p>Mając zainstalowany framework możemy przejść do instalacji interesujących nas
+modułów.</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/004.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja.png"><img src="https://morfikov.github.io
+/img/2017/03/004.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja-386x660.png" alt=""></a></p>
+<h3 id="framework-xposed-i-android-51-lollipop">Framework Xposed i Android 5.1 (Lollipop)</h3>
+<p>Instalacja framework'a Xposed na smartfonach Neffos C5 MAX oraz C5 sprawia nieco więcej problemów,
+niż w przypadku Neffos'ów Y5 i Y5L. Prawdopodobnie winna jest tutaj starsza wersja Androida, która
+nie jest zbytnio kompatybilna z samym framework'iem. Niemniej jednak, w dalszym ciągu Xposed może
+zostać zainstalowany i uruchomiony z powodzeniem o ile zastosujemy się do poniższych wskazówek.</p>
+<p>Przede wszystkim, nie możemy zainstalować najnowszej wersji frameworka (obecnie jest to v87). Ta
+wersja powoduje jakieś bliżej nieznane problemy objawiające się następującym komunikatem w oknie
+instalatora: Wersja 87 Xposed framework jest zainstalowana ale nie jest aktywna. Proszę sprawdzić
+logi, aby poznać
+szczegóły.</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/005.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-bledy.png"><img src="https://morfikov.github.io
+/img/2017/03/005.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-bledy-660x519.png" alt=""></a></p>
+<p>Po zajrzeniu w logi, mamy taką informację:</p>
+<pre><code>-----------------
+Starting Xposed version 87, compiled for SDK 22
+Device: Neffos C5 Max (TP-LINK), Android version 5.1 (SDK 22)
+ROM: H10S103D01B20160812R1035
+Build fingerprint: Neffos/TP702A/C5_Max:5.1/LMY47D/H10S103D01B20160812R1035.160811:user/release-keys
+Platform: arm64-v8a, 64-bit binary, system server: yes
+SELinux enabled: yes, enforcing: yes
+: -----------------
+: Added Xposed (/system/framework/XposedBridge.jar) to CLASSPATH
+: Detected ART runtime
+: Found Xposed class 'de/robv/android/xposed/XposedBridge', now initializing
+: Error while loading XResources class 'android/content/res/XResources':
+: java.lang.IncompatibleClassChangeError: xposed.dummy.XResourcesSuperClass
+:   at java.lang.Class dalvik.system.DexFile.defineClassNative(java.lang.String, java.lang.ClassLoader, long) (DexFile.java:-2)
+:   at java.lang.Class dalvik.system.DexFile.defineClass(java.lang.String, java.lang.ClassLoader, long, java.util.List) (DexFile.java:226)
+:   at java.lang.Class dalvik.system.DexFile.loadClassBinaryName(java.lang.String, java.lang.ClassLoader, java.util.List) (DexFile.java:219)
+:   at java.lang.Class dalvik.system.DexPathList.findClass(java.lang.String, java.util.List) (DexPathList.java:321)
+:   at java.lang.Class dalvik.system.BaseDexClassLoader.findClass(java.lang.String) (BaseDexClassLoader.java:54)
+:   at java.lang.Class java.lang.ClassLoader.loadClass(java.lang.String, boolean) (ClassLoader.java:511)
+:   at java.lang.Class java.lang.ClassLoader.loadClass(java.lang.String, boolean) (ClassLoader.java:504)
+:   at java.lang.Class java.lang.ClassLoader.loadClass(java.lang.String) (ClassLoader.java:469)
+:   at java.lang.Class dalvik.system.DexFile.defineClassNative(java.lang.String, java.lang.ClassLoader, long) (DexFile.java:-2)
+:   at java.lang.Class dalvik.system.DexFile.defineClass(java.lang.String, java.lang.ClassLoader, long, java.util.List) (DexFile.java:226)
+:   at java.lang.Class dalvik.system.DexFile.loadClassBinaryName(java.lang.String, java.lang.ClassLoader, java.util.List) (DexFile.java:219)
+:   at java.lang.Class dalvik.system.DexPathList.findClass(java.lang.String, java.util.List) (DexPathList.java:321)
+:   at java.lang.Class dalvik.system.BaseDexClassLoader.findClass(java.lang.String) (BaseDexClassLoader.java:54)
+:   at java.lang.Class java.lang.ClassLoader.loadClass(java.lang.String, boolean) (ClassLoader.java:511)
+:   at java.lang.Class java.lang.ClassLoader.loadClass(java.lang.String) (ClassLoader.java:469)
+:   at boolean de.robv.android.xposed.XposedBridge.initXResourcesNative() (XposedBridge.java:-2)
+:   at void de.robv.android.xposed.XposedInit.hookResources() (XposedInit.java:217)
+:   at void de.robv.android.xposed.XposedBridge.main(java.lang.String[]) (XposedBridge.java:87)
+: Cannot hook resources
+: Cannot load any modules because /data/data/de.robv.android.xposed.installer/conf/modules.list was not found
+: -----------------
+</code></pre>
+<p>Wersja, która zdaje się działać, to v85 i to ją musimy sobie wgrać na smartfona. Wystarczy, że w
+oknie instalatora Xposed, z prawego górnego rogu rozwiniemy menu i wybierzemy &quot;Show outdated
+versions&quot;, a pojawi nam się lista wersji, które będziemy w stanie zainstalować. Jest tam też min.
+v85. Wybieramy i instalujemy
+ją:</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/006.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-instalacja.png"><img src="https://morfikov.github.io
+/img/2017/03/006.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-instalacja-660x518.png" alt=""></a></p>
+<p>Naturalnie smartfon się będzie dłużej uruchamiał i w tym przypadku również doświadczymy
+optymalizowania aplikacji, co potrwa kilka minut. Po uruchomieniu instalatora Xposed, zobaczymy ten
+sam komunikat ostrzeżenia, który był widoczny wyżej. By go zlikwidować, trzeba wejść w Ustawienia i
+zaznaczyć opcję &quot;Wyłącz zasoby konfliktów&quot;. Po zresetowaniu systemu, framework powinien już się
+załadować bez
+problemu:</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/007.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-opcje.png"><img src="https://morfikov.github.io
+/img/2017/03/007.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-opcje-660x519.png" alt=""></a></p>
+<p>Ta opcja &quot;Wyłącz zasoby konfliktów&quot; powoduje, że część modułów Xposed nie będzie nam funkcjonować
+prawidłowo (min. YouTube AdAway). Niemniej jednak, dobrze chociaż, że jakiekolwiek moduły w ogóle
+będą w stanie działać.</p>
+<h2 id="instalacja-modułów-xposed">Instalacja modułów Xposed</h2>
+<p>Moduły do Xposed możemy instalować bezpośrednio z instalatora. Możemy też do tego celu zaprzęgnąć
+<a href="https://morfikov.github.io
+/post/xda-labs-repozytorium-aplikacji-modulow-xposed/">aplikację XDA Labs</a>, która
+również ma wbudowane repozytorium modułów
+Xposed.</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/008.xposed-android-lollipop-marshmalow-tp-link-smartfon-xda-labs-repo.png"><img src="https://morfikov.github.io
+/img/2017/03/008.xposed-android-lollipop-marshmalow-tp-link-smartfon-xda-labs-repo-422x660.png" alt=""></a></p>
+<p>W tym przypadku interesują nas dwa moduły: YouTube Background Playback oraz YouTube AdAway. Ich
+instalacja sprowadza się do odszukania konkretnego modułu i pobrania
+go:</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/009.xposed-android-lollipop-marshmalow-tp-link-smartfon-xda-labs-moduly.png"><img src="https://morfikov.github.io
+/img/2017/03/009.xposed-android-lollipop-marshmalow-tp-link-smartfon-xda-labs-moduly-660x376.png" alt=""></a></p>
+<p>Po zainstalowaniu modułów Xposed, te nie są z automatu aktywne, o czym jesteśmy informowani w
+notyfikacjach systemowych. Wszystkie moduły mają swój własny autostart i możemy je dowolnie włączać
+lub
+wyłączać:</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/010.xposed-android-lollipop-marshmalow-tp-link-smartfon-aktywacja-moduly.png"><img src="https://morfikov.github.io
+/img/2017/03/010.xposed-android-lollipop-marshmalow-tp-link-smartfon-aktywacja-moduly-660x563.png" alt=""></a></p>
+<p>Wszystkie te wyżej zaznaczone moduły będą startowane wraz z systemem. Jeśli jakieś moduły chcemy
+czasowo wyłączyć, to nie musimy ich wywalać z systemu, tylko wystarczy odptakować stosowną pozycję
+na liście modułów. Każda zmiana konfiguracji modułów musi być załadowana ponownie, a do tego celu
+trzeba uruchomić ponownie system w telefonie.</p>
+<h2 id="odinstalowanie-frameworka-xposed-i-jego-modułów">Odinstalowanie framework'a Xposed i jego modułów</h2>
+<p>Cały framework Xposed wraz z jego modułami można naturalnie odinstalować. W tym celu wystarczy
+odpalić instalator Xposed i odinstalować
+framework:</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/011.xposed-android-lollipop-marshmalow-tp-link-smartfon-usuwanie.png"><img src="https://morfikov.github.io
+/img/2017/03/011.xposed-android-lollipop-marshmalow-tp-link-smartfon-usuwanie-419x660.png" alt=""></a></p>
+<p>Tutaj również mamy opcje usuwania bezpośrednio z systemu jak i przez tryb TWRP recovery. Oba
+działają bez zarzutu. Jeśli mieliśmy wgrane jakieś moduły Xposed, to one nie zostaną usunięte przy
+deinstalacji framework'a. Każdy moduł trzeba ręcznie usunąć, np. przez XDA Labs lub instalator
+Xposed. Po usunięciu modułów, instalator można usunąć w XDA Labs lub
+F-Droid.</p>
+<p><a href="https://morfikov.github.io
+/img/2017/03/012.xposed-android-lollipop-marshmalow-tp-link-smartfon-usuwanie-instalator-moduly.png"><img src="https://morfikov.github.io
+/img/2017/03/012.xposed-android-lollipop-marshmalow-tp-link-smartfon-usuwanie-instalator-moduly-660x519.png" alt=""></a></p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lollipop/">lollipop</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xposed/">xposed</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/marshmallow/">marshmallow</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-framework-xposed-i-moduly-do-youtube%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-framework-xposed-i-moduly-do-youtube%2f&amp;text=Android%3a%20Framework%20Xposed%20i%20modu%c5%82y%20do%20YouTube" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-framework-xposed-i-moduly-do-youtube%2f&amp;title=Android%3a%20Framework%20Xposed%20i%20modu%c5%82y%20do%20YouTube" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-framework-xposed-i-moduly-do-youtube%2f&amp;title=Android%3a%20Framework%20Xposed%20i%20modu%c5%82y%20do%20YouTube" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-framework-xposed-i-moduly-do-youtube%2f&title=Android%3a%20Framework%20Xposed%20i%20modu%c5%82y%20do%20YouTube" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-framework-xposed-i-moduly-do-youtube%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-framework-xposed-i-moduly-do-youtube%2f&amp;title=Android%3a%20Framework%20Xposed%20i%20modu%c5%82y%20do%20YouTube" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-framework-xposed-i-moduly-do-youtube%2f&description=Android%3a%20Framework%20Xposed%20i%20modu%c5%82y%20do%20YouTube" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-studio-i-android-sdk-pod-linux/">Android Studio i Android SDK pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zlokalizowac-skradziony-zagubiony-smartfon-z-androidem/">Jak zlokalizować skradziony/zagubiony smartfon z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/factory-reset-protection-frp-w-smartfonach-z-androidem/">Factory Reset Protection (FRP) w smartfonach z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/root-integrity-check-w-smartfonach-z-androidem/">Root Integrity Check w smartfonach z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/xda-labs-repozytorium-aplikacji-modulow-xposed/">XDA Labs: Repozytorium aplikacji i modułów Xposed</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

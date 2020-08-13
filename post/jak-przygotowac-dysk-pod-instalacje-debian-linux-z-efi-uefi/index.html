@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak przygotować dysk pod instalację Debian linux z EFI/UEFI | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak przygotować dysk pod instalację Debian linux z EFI/UEFI" />
+<meta property="og:description" content="Instalacja linux&#39;a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana
+często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu debootstrap Jeśli kupujemy
+nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows&#39;a i
+tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie
+EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji
+trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub
+też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie.
+Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my
+nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to
+stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną
+dystrybucję linux&#39;a w trybie EFI/UEFI." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/" />
+<meta property="article:published_time" content="2020-03-10T03:28:00+00:00" />
+<meta property="article:modified_time" content="2020-03-10T03:28:00+00:00" />
+
+		<meta itemprop="name" content="Jak przygotować dysk pod instalację Debian linux z EFI/UEFI">
+<meta itemprop="description" content="Instalacja linux&#39;a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana
+często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu debootstrap Jeśli kupujemy
+nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows&#39;a i
+tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie
+EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji
+trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub
+też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie.
+Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my
+nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to
+stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną
+dystrybucję linux&#39;a w trybie EFI/UEFI.">
+<meta itemprop="datePublished" content="2020-03-10T03:28:00+00:00" />
+<meta itemprop="dateModified" content="2020-03-10T03:28:00+00:00" />
+<meta itemprop="wordCount" content="5078">
+
+
+
+<meta itemprop="keywords" content="debian,efi/uefi,hdd/ssd,refind," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak przygotować dysk pod instalację Debian linux z EFI/UEFI"/>
+<meta name="twitter:description" content="Instalacja linux&#39;a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana
+często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu debootstrap Jeśli kupujemy
+nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows&#39;a i
+tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie
+EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji
+trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub
+też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie.
+Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my
+nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to
+stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną
+dystrybucję linux&#39;a w trybie EFI/UEFI."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak przygotować dysk pod instalację Debian linux z EFI/UEFI</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2020-03-10T03:28:00Z">Opublikowano: 10/03/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak przygotować dysk pod instalację Debian linux z EFI/UEFI</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#różnice-między-efiuefi-a-bios">Różnice między EFI/UEFI, a BIOS</a>
+      <ol>
+        <li><a href="#tablica-partycji-gpt">Tablica partycji GPT</a></li>
+        <li><a href="#partycja-esp">Partycja ESP</a></li>
+        <li><a href="#efi-boot-stub">EFI boot stub</a></li>
+        <li><a href="#secure-boot">Secure Boot</a></li>
+        <li><a href="#fast-boot">Fast Boot</a></li>
+        <li><a href="#moduł-csm">Moduł CSM</a></li>
+      </ol>
+    </li>
+    <li><a href="#przygotowanie-dysku-hddssd">Przygotowanie dysku HDD/SSD</a>
+      <ol>
+        <li><a href="#tworzenie-tablicy-partycji-gpt-za-sprawą-gdisk">Tworzenie tablicy partycji GPT za sprawą gdisk</a></li>
+        <li><a href="#tworzenie-partycji-boot-i-esp">Tworzenie partycji BOOT i ESP</a>
+          <ol>
+            <li><a href="#obecność-flagi-boot-i-esp-na-partycji-esp">Obecność flagi boot i esp na partycji ESP</a></li>
+            <li><a href="#system-plików-dla-partycji-boot-i-esp">System plików dla partycji BOOT i ESP</a></li>
+          </ol>
+        </li>
+        <li><a href="#pozostałe-partycje-na-dysku">Pozostałe partycje na dysku</a></li>
+      </ol>
+    </li>
+    <li><a href="#menadżer-rozruchu-refind-dla-trybu-efiuefi">Menadżer rozruchu rEFInd dla trybu EFI/UEFI</a>
+      <ol>
+        <li><a href="#system-live">System live</a>
+          <ol>
+            <li><a href="#moduł-efivars">Moduł efivars</a></li>
+            <li><a href="#instalacja-refind-na-partycji-esp">Instalacja rEFInd na partycji ESP</a></li>
+            <li><a href="#sterowniki-systemu-plików">Sterowniki systemu plików</a></li>
+            <li><a href="#tryb-fallback">Tryb fallback</a></li>
+            <li><a href="#instalować-czy-nie-instalować-bootloader-grub2syslinux">Instalować czy nie instalować bootloader Grub2/Syslinux</a></li>
+            <li><a href="#memtest86">Memtest86</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#instalacja-linuxa">Instalacja linux'a</a></li>
+    <li><a href="#a-co-z-windows">A co z windows</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Instalacja linux'a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana
+często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu <code>debootstrap</code> Jeśli kupujemy
+nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows'a i
+tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie
+EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji
+trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub
+też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie.
+Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my
+nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to
+stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną
+dystrybucję linux'a w trybie EFI/UEFI.</p>
+<h2 id="różnice-między-efiuefi-a-bios">Różnice między EFI/UEFI, a BIOS</h2>
+<p>Postanowiłem trochę poczytać na temat tego całego firmware EFI/UEFI oraz zebrać w paru słowach te
+co ważniejsze rzeczy, które powinny przygotować nas do instalacji linux'a w trybie EFI/UEFI.
+Większość informacji zawartych w niniejszym artykule pochodzi z <a href="https://www.rodsbooks.com/refind/">dokumentacji rEFInd</a>, a pod tym
+linkiem znajduje się <a href="https://uefi.org/sites/default/files/resources/UEFI_Spec_2_8_final.pdf#G17.1019485">specyfikacja UEFI wersja 2.8 z marca 2019 roku</a>, na którą przydałoby
+się od czasu do czasu rzucić okiem. Dlatego też zanim przejdziemy do sedna artykułu jakim będzie
+konfiguracja dysku SSD/HDD na potrzeby EFI/UEFI, to wypadałoby sobie parę tych istotniejszych
+rzeczy wyjaśnić, tak by rozwiać ewentualne wątpliwości, które z pewnością się pojawią w późniejszym
+procesie konfiguracyjnym</p>
+<h3 id="tablica-partycji-gpt">Tablica partycji GPT</h3>
+<p>Jeśli nigdy nie instalowaliśmy linux'a w trybie EFI/UEFI i w zasadzie trzymaliśmy się mocno trybu
+BIOS, to musimy poznać różnice między tymi dwoma trybami. Przede wszystkim zmianie ulega rodzaj
+tablicy partycji. W przypadku trybu BIOS była to <a href="https://en.wikipedia.org/wiki/Master_boot_record">tablica partycji MS-DOS</a> bardziej znana jako
+MBR, a w przypadku EFI/UEFI mamy do czynienia z <a href="https://en.wikipedia.org/wiki/GUID_Partition_Table">tablicą partycji GPT</a> (GUID Partition Table).
+Jest to dość istotna zmiana i nie damy rady uruchomić systemu w natywnym trybie EFI/UEFI, jeśli
+nasz dysk twardy nie posiada tablicy partycji GPT. Niemniej jednak, specyfikacja EFI/UEFI wymaga,
+by wparcie dla tablicy partycji MS-DOS/MBR było zachowane, co daje możliwość uruchomienia systemu
+za sprawą modułu CSM (Compatibility Support Module).</p>
+<h3 id="partycja-esp">Partycja ESP</h3>
+<p>Drugą istotną zmianą jest zastosowanie <a href="https://en.wikipedia.org/wiki/EFI_system_partition">partycji ESP</a>, która w zasadzie jest odpowiednikiem
+linux'owej partycji BOOT. Niemniej jednak, te dwie partycje różnią się dość znacznie. Przede
+wszystkim, systemem plików na partycji ESP jest określony przez specyfikację firmware EFI/UEFI,
+która wymaga zastosowania FAT32 oraz dodatkowo FAT16/FAT12 dla nośników wymiennych. Producenci
+sprzętu mogą jednak dorobić wsparcie też i dla innych systemów plików ale nie jest to od nich
+wymagane. Dodatkowo, partycja ESP nie może rezydować w obrębie zaszyfrowanego kontenera LUKS czy
+też być częścią LVM/RAID. Zatem ESP musi być fizyczną partycją dysku.</p>
+<p>Partycja ESP efektywnie znosi potrzebę używania osobnej partycji BOOT pod linux ale wciąż niektóre
+instalacje linux'a wymagają, by ta partycja była obecna. Nic jednak nie stoi na przeszkodzie, by
+partycję ESP zamontować w <code>/boot/</code> zamiast w <code>/efi/</code> lub <code>/boot/efi/</code> .</p>
+<p>Pierwszy sektor partycji ESP jest zawsze zarezerwowany na potrzeby starszych bootloader'ów, które
+instalują się w MBR w trybie BIOS. Jeśli kod bootloader'a zostanie odnaleziony w tym pierwszym
+sektorze partycji ESP, to firmware EFI/UEFI przekazuje mu kontrolę nad dalszą procedurą startu
+systemu (tzw. legacy boot). W natywnym trybie EFI/UEFI, to co się znajduje w tym sektorze nie ma
+najmniejszego znaczenia i firmware ignoruje ten sektor kompletnie.</p>
+<p>W przeciwieństwie do BIOS, firmware EFI/UEFI jest w stanie odczytać bez większego problemu tablicę
+partycji i umiejętnie operować na systemie plików, co umożliwia koegzystencję wielu bootloader'ów w
+obrębie pojedynczej partycji. Dzięki takiemu rozwiązaniu możemy określić, który bootloader
+zainicjować i tym samym, który system operacyjny uruchomić. Nie musimy przy tym ciągle przepisywać
+bootloader'a w MBR, czy też innych częściach dysku, co zwykle prowadzi do problemów z konfiguracją
+w przypadku instalowania wielu systemów na jednym dysku, w szczególności windows'a i linux'a.</p>
+<p>Partycja ESP poza bootloader'ami jest w stanie przechowywać kernele, sterowniki, skrypty, czy też
+zwykle aplikacje takie jak np. <a href="https://morfikov.github.io
+/post/memtest86-dla-efi-uefi-i-refind/">memtest86</a>. W zasadzie firmware EFI/UEFI jest w stanie wykonać
+dowolny kod PE/COFF (<a href="https://en.wikipedia.org/wiki/Portable_Executable">Portable Executable</a>/<a href="https://en.wikipedia.org/wiki/COFF">Common Object File Format</a>), który wrzucimy na
+partycję ESP.</p>
+<h3 id="efi-boot-stub">EFI boot stub</h3>
+<p>Technicznie rzecz biorąc, to firmware EFI/UEFI jest w stanie uruchomić dowolny system, w tym też
+sam kernel linux'a, bez dodatkowego menadżera rozruchu czy też bootloader'a. Taki scenariusz jest
+możliwy za sprawą wbudowanego w firmware EFI/UEFI menadżera rozruchu. Ten cały mechanizm nosi nazwę
+<a href="https://www.kernel.org/doc/Documentation/efi-stub.txt">EFI boot stub</a>. Niemniej jednak szereg warunków musi być spełnionych, by system nam się
+uruchomił w ten sposób. Poza tym EFI boot stub jest bardzo prostym i ubogim mechanizm nieoferujący
+praktycznie żadnej konfiguracji. Więcej na temat <a href="https://morfikov.github.io
+/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/">EFI boot stub</a> można znaleźć w osobnym
+artykule, jeśli kogoś interesuje ten temat.</p>
+<h3 id="secure-boot">Secure Boot</h3>
+<p>Secure Boot ma na celu minimalizowanie szkód jakie mogą wyrządzić trudne do wykrycia i usunięcia
+boot kit'y, które infekują bootloader komputera. By takiego wirusa wykryć i usunąć potrzebny jest
+inny niezainfekowany system, a to ze względu na fakt, że taki wirus uruchamia się przed inicjacją
+kernela i może w pełni się zamaskować, co w zasadzie nie jest możliwe w przypadku, gdyby ten sam
+wirus się dostał do systemu po tym jak kernel już zostanie do pamięci RAM załadowany i uruchomiony.</p>
+<p>Gdy Secure Boot jest włączony, to firmware EFI/UEFI sprawdza obecność sygnatur kryptograficznych w
+każdym programie, który może zostać przez ten firmware załadowany do pamięci i wykonany. W
+przypadku braku sygnatur lub też jeśli one nie pasują do tych przechowywanych w NVRAM maszyny (albo
+są na czarnej liście), to firmware EFI/UEFI odmówi uruchomienia takiego programu i start systemu
+się nie powiedzie. W ten sposób tylko bootloader'y podpisane zaufanymi kluczami mogą zostać
+uruchomione, co znacznie poprawia bezpieczeństwo systemu, przynajmniej w teorii.</p>
+<p>Oczywiście Secure Boot ma też wady i jedną taką poważniejszą jest utrudnienie życia linux'iarzom. Z
+racji, że Microsoft wymaga by windows 8+ na desktopach i laptopach miał Secure Boot włączony, to
+klucz, którym te systemy są podpisywane musi być zawarty w firmware EFI/UEFI ogromnej większości
+komputerów. Klucze innych systemów operacyjnych z kolei niekoniecznie muszą być dodane do tego
+firmware przez producenta sprzętu. Brak klucza z kolei uniemożliwi zweryfikowanie podpisu złożonego
+pod bootloader'em, co efektywnie uniemożliwi uruchomienie naszego linux'a.</p>
+<p>Warto zaznaczyć tutaj, że Microsoft współpracuje z Verisign w celu umożliwienia każdemu podpisania
+jego bootloader'a kluczem MS (choć nie jest to ten sam klucz, którym jest podpisany windows).
+Niemniej jednak, taka usługa kosztuje 99 doclów. Część dystrybucji linux'a skorzystała z tej opcji
+ale pozostali nie mają zamiaru ze względu na uzależnienie się od Microsoft w kwestii tak prostej
+jak odpalenie bootloader'a. Dlatego też powstały takie projekty jak <a href="https://github.com/rhboot/shim">shim</a> i <a href="https://blog.hansenpartnership.com/uefi-secure-boot/">PreLoader</a> od
+Linux Foundation, które dystrybucje linux'a (jak i my sami) mogą wykorzystać by zaimplementować
+wsparcie dla Secure Boot, choć nie do końca może być to trywialny proces.</p>
+<p>Niektóre dystrybucje wspierają Secure Boot lepiej niż inne, zatem wybór określonej dystrybucji
+będzie decydujący w kwestii czy ten mechanizm będzie włączony czy też nie. Jeśli dystrybucja,
+której zamierzamy używać nie posiada wsparcia dla Secure Boot, to musimy ten <a href="https://www.rodsbooks.com/efi-bootloaders/secureboot.html#disable">mechanizm
+wyłączyć</a> w konfiguracji firmware EFI/UEFI.</p>
+<p><img src="https://morfikov.github.io
+/img/2020/03/001-secure-boot-efi-uefi-config-firmware.jpg#huge" alt=""></p>
+<p><img src="https://morfikov.github.io
+/img/2020/03/002-secure-boot-efi-uefi-config-firmware.jpg#huge" alt=""></p>
+<p>Warto tutaj zaznaczyć fakt, że czasami interfejs EFI/UEFI może bardzo przypominać wygląd
+tradycyjnego BIOS'u ale to tylko pozory. W zasadzie to od producenta sprzętu zależy jak to menu
+konfiguracji firmware EFI/UEFI będzie wyglądać. W tym przypadku mamy do czynienia z trybem
+tekstowym ale często można się spotkać z pełnym trybem graficznym.</p>
+<p>W przypadku sporej części komputerów użytkownik ma pozostawioną opcję całkowitego wyłączenia
+Secure Boot, ze względu na fakt, że Microsoft wymaga tego w przypadku windows 8. Z kolei w
+przypadku windows 10, Microsoft już to obostrzenie złagodził jedynie do sugestii ale wciąż ogromna
+większość producentów desktopów i laptopów wspiera wyłączenie Secure Boot.</p>
+<p>Jeśli chodzi o systemy linux'owe, to wirusy nie są aż tak rozpowszechnione jak w przypadku windows
+i nie do końca jest pewne czy Secure Boot daje w przypadku tych systemów jakąś wymierną korzyść.
+Jeśli jednak zamierzamy uruchamiać więcej systemów niż jeden na danej maszynie (w tym windows), to
+Secure Boot powinien być włączony, by chronić windows'a, a my powinniśmy poszukać sobie takiej
+dystrybucji linux'a która wspiera ten mechanizm.</p>
+<h3 id="fast-boot">Fast Boot</h3>
+<p>Fast Boot (inne nazwy czasem też są spotykane) to mechanizm, który ma za zadanie jak najbardziej
+przyśpieszyć start systemu operacyjnego. Jest to możliwe do osiągnięcia zwykle kosztem pełnej
+inicjacji sprzętu, np. nie zostaną zainicjowane urządzenia USB, w efekcie czego nie będziemy w
+stanie uruchomić systemu z pendrive czy innych podobnych nośników. Jeśli nie planujemy uruchamiać
+systemu z nośników USB, to raczej nie ma przeciwwskazań, by Fast Boot pozostał włączony. Niemniej
+jednak, jeśli napotkamy jakieś problemy podczas startu systemu, to warto mieć ten mechanizm na
+uwadze.</p>
+<h3 id="moduł-csm">Moduł CSM</h3>
+<p>Nie powinno się instalować różnych systemów w różnych trybach, np. windows'a w trybie EFI/UEFI, a
+linux'a w trybie BIOS, bo tego typu mieszanka zawsze wygeneruje całą masę problemów. Jeśli mamy
+jakiś system już zainstalowany w trybie EFI/UEFI, to kolejny system również w tym trybie trzeba
+zainstalować i uruchamiać. Jeśli natomiast instalujemy pierwszy system, to go instalujmy w trybie
+EFI/UEFI, chyba, że mamy pewien specyficzny sprzęt, który wymaga od nas trybu BIOS (np. sterowniki
+sprzętu, zwykle karty graficznej).</p>
+<p>Na wypadek tych wyżej nadmienionych problemów, <a href="https://www.rodsbooks.com/efi-bootloaders/csm-good-bad-ugly.html">firmware EFI/UEFI ma zaszyty moduł CSM</a>
+(wspomniany wcześniej), który umożliwia uruchomienie systemów operacyjnych opartych o tryb BIOS. W
+ten sposób mamy niby zapewnione wstecznie kompatybilne wsparcie dla starszego trybu uruchamiania
+systemów. Trzeba jednak pamiętać, że ten cały moduł CSM czyni proces startu systemu o wiele
+bardziej skomplikowanym i podatnym na błędy, przez co nasz komputer może zacząć zachowywać się w
+sposób bardzo nieprzewidywalny. Dlatego też zaleca się wyłączenie CSM w konfiguracji EFI/UEFI:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/03/003-csm-module-efi-uefi-config-firmware.jpg#huge" alt=""></p>
+<p>Niemniej jednak, jeśli ktoś już bardzo nalega na tryb BIOS, to naturalnie może ten moduł CSM sobie
+włączyć.</p>
+<h2 id="przygotowanie-dysku-hddssd">Przygotowanie dysku HDD/SSD</h2>
+<p>Mając odpowiednio skonfigurowany firmware EFI/UEFI, możemy przejść do kluczowego etapu, czyli do
+przygotowania dysku. Niemniej jednak, zanim to uczynimy, to musimy sobie zadać pytanie czy
+będziemy instalować linux'a na dysku, który już ma zainstalowany jakiś system operacyjny (zwykle
+windows), czy też zaczynamy całą zabawę od zera ze świeżym dyskiem wyciągniętym wprost z pudełka?</p>
+<p>Jeśli instalujemy linux'a na dysku, który wcześniej zawierał (lub dalej zawiera) windows'a, to nic
+nie stoi na przeszkodzie by wykorzystać tę już istniejącą partycję ESP, bo nie powinno być z nią
+żadnego problemu. Nie powinniśmy więc tworzyć czy formatować tej partycji na nowo, bo taki zabieg
+wyczyści z niej wszystkie dane wliczając w to bootloader windows'a, bez którego nam ten system już
+się później nie odpali.</p>
+<p>Dobrze jest też zrobić binarny backup partycji ESP (przy pomocy <code>dd</code> ), tak na wszelki wypadek.
+Gdyby pojawiły się jakieś problemy, to zawsze tę partycję będziemy w stanie przywrócić do stanu
+pierwotnego i umożliwić start tym systemom, które mieliśmy wcześniej zainstalowane na dysku.</p>
+<p>Czasami może się też zdarzyć tak, że będziemy chcieli przenieść dysk ze starego komputera do
+nowszego i w takim przypadku będziemy musieli albo stworzyć na nowo tablicę partycji wraz ze
+wszystkimi niezbędnymi partycjami, albo też <a href="https://morfikov.github.io
+/post/konwersja-tablicy-partycji-ms-dos-na-gpt/">dokonać konwersji tablicy partycji MS-DOS na GPT</a>.
+Jeśli chodzi o konwersję tablicy partycji, to można ten proces przeprowadzić bez utraty danych
+zgromadzonych na dysku. Po procesie konwersji trzeba będzie utworzyć nową partycję ESP dokładnie w
+taki sam sposób jakbyśmy ją tworzyli na pustym nowym dysku twardym.</p>
+<p>W tym przypadku jednak, odpowiedź na to powyżej zadane pytanie jest taka, że mamy czysty nośnik, na
+którym będzie rezydować jeden system operacyjny, tj. Debian, wobec czego będziemy musieli utworzyć
+partycję ESP i ją w pełni zainicjować.</p>
+<p>Z reguły instalacja linux'a z płytki czy pendrive powinna być w pełni automatyczna, a cały ten
+proces powinien przebiegać przy minimum interakcji z naszej strony. Instalator powinien rozpoznać z
+jakim trybem (BIOS czy EFI/UEFI) mam do czynienia i wszystko dobrze skonfigurować za nas.</p>
+<p>My nie będziemy tutaj bawić się w automaty instalacyjne, czy też w ogóle instalować linux'a.
+Przygotujemy sobie za to dysk pod instalację dowolnego systemu spod znaku pingwina. Taki nośnik
+będzie można w późniejszym czasie wykorzystać i zainstalować na nim (dowolną metodą jaką uznamy za
+stosowne) każdą dystrybucję linux'a, która nas zainteresuje. Zatem najwyższy czas się wziąć do
+pracy.</p>
+<h3 id="tworzenie-tablicy-partycji-gpt-za-sprawą-gdisk">Tworzenie tablicy partycji GPT za sprawą gdisk</h3>
+<p>Mając świeży dysk twardy, nie mamy na nim żadnej partycji czy nawet tablicy partycji. Wypadałoby
+zatem ją stworzyć. Jak już wiemy, EFI/UEFI wymaga, by tablica partycji była w standardzie GPT i nie
+możemy posłużyć się tablicą MS-DOS/MBR. Nową tablicę partycji możemy stworzyć wykorzystując do tego
+celu graficzne narzędzie <code>gparted</code> , gdzie w zasadzie wszystko można sobie bardzo łatwo wyklikać.
+Można także posłużyć się tekstowym <code>gdisk</code> i my skorzystamy z tej drugiej opcji.</p>
+<p>Partycjonowanie dysku można przeprowadzić z poziomu działającego już systemu podłączając do niego
+nośnik albo też możemy uruchomić na nowej maszynie płytkę czy pendrive z systemem live. Czasami w
+takim systemie może brakować pakietu <code>gdisk</code> ale bez problemu powinniśmy być w stanie go
+doinstalować Gdy już wszystko mamy na swoim miejscu, w terminal wpisujemy poniższe polecenia i
+postępujemy według instrukcji:</p>
+<pre><code># gdisk /dev/sda
+GPT fdisk (gdisk) version 1.0.5
+
+Partition table scan:
+  MBR: not present
+  BSD: not present
+  APM: not present
+  GPT: not present
+
+Creating new GPT entries in memory.
+
+Command (? for help):
+</code></pre>
+<p>No jak widać wyżej, <code>gdisk</code> nie wykrył obecności żadnej tablicy partycji, zatem tworzymy nową
+podając polecenie <code>o</code> , a na pytanie, które się pojawi, odpowiadamy twierdząco:</p>
+<pre><code>Command (? for help): o
+This option deletes all partitions and creates a new protective MBR.
+Proceed? (Y/N): Y
+</code></pre>
+<p>Tablica partycji powinna zostać stworzona, choć póki co nie ma w niej jeszcze żadnego wpisu. Możemy
+ten stan rzeczy zweryfikować wpisując w terminalu <code>p</code> :</p>
+<pre><code>Command (? for help): p
+Disk /dev/sda: 30299520 sectors, 14.4 GiB
+Model: DT 101 G2
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): FB250EA3-2D37-414D-92E9-AEBA170D270D
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 30299486
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 30299453 sectors (14.4 GiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+</code></pre>
+<p>W tym powyższym wyjściu mamy informację o rozmiarze dysku, o tym, że możemy utworzyć do 128
+partycji oraz, że partycje będą wyrównane do 1 MiB (2048 sektorów 512 bajtowych).</p>
+<h3 id="tworzenie-partycji-boot-i-esp">Tworzenie partycji BOOT i ESP</h3>
+<p>Poza głównymi partycjami dla naszego linux'a, których nie będziemy tutaj tworzyć, potrzebne nam
+będą dwie dodatkowe partycje: BOOT oraz ESP. Warto tutaj wspomnieć, że w przypadku instalatorów
+linux'a, partycja ESP nie zawsze może być pokazywana, tak by można było sprecyzować jej manualnie
+punkt montowania. Jeśli nie widzimy partycji ESP w przypadku instalowania linux'a z płytki/pendrive,
+a jesteśmy pewni, że jest ona na dysku, to instalator powinien z niej zrobić użytek bez naszej
+ingerencji i zamontować ją w ściśle określonym przez siebie miejscu. Zwykle będzie to katalog
+<code>/boot/efi/</code> , <code>/efi/</code> lub <code>/boot/</code> .</p>
+<p>W przypadku manualnego określania punktu montowania partycji ESP, zaleca się ustawić go jako
+<code>/boot/efi/</code> , choć ja będę obstawał przy <code>/efi/</code> . Nie znalazłem żadnej informacji, która by
+rozstrzygała czy <code>/boot/efi/</code> lub <code>/efi/</code> powinno się używać i mam wrażenie, że są to zwykłe
+zamienniki i można sobie wybrać ten, który bardziej komuś odpowiada. Niemniej jednak, jeśli chodzi
+o montowanie partycji ESP w <code>/boot/</code> , to w tym przypadku sprawa się może skomplikować, bo wtedy na
+partycji ESP będą również rezydować obrazy kernela linux wraz z obrazami initrd/initrmfs oraz być
+może też konfiguracją linux'owego bootloader'a. Dlatego też odradzałbym montowanie partycji ESP w
+tym ostatnim miejscu, chyba, że wiemy co robimy.</p>
+<p>Zatem potrzebne nam będą dwie osobne partycje. Partycja BOOT będzie miała punkt montowania jako
+<code>/boot/</code> i będzie sformatowana systemem plików <code>ext4</code> . Zaś partycja ESP będzie montowana w
+<code>/efi/</code> i sformatujemy ją systemem plików <code>fat32</code> .</p>
+<p>Lokalizacja tych partycji na dysku nie ma większego znaczenia ale, że tworzymy je jako pierwsze, to
+stwórzmy je na początku dysku. Zalecane rozmiary do partycji BOOT to 1-2 GiB, zaś dla <a href="https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-uefigpt-based-hard-drive-partitions">ESP to
+minimum 512 MiB</a>.</p>
+<p>Wpisujemy w <code>gdisk</code> polecenie <code>n</code> i tworzymy kolejno dwie partycje:</p>
+<pre><code>Command (? for help): n
+Partition number (1-128, default 1): 1
+First sector (34-30299486, default = 2048) or {+-}size{KMGTP}: 2048
+Last sector (2048-30299486, default = 30299486) or {+-}size{KMGTP}: +1G
+Current type is 8300 (Linux filesystem)
+Hex code or GUID (L to show codes, Enter = 8300): 8300
+Changed type of partition to 'Linux filesystem'
+
+Command (? for help): n
+Partition number (2-128, default 2): 2
+First sector (34-30299486, default = 2099200) or {+-}size{KMGTP}:
+Last sector (2099200-30299486, default = 30299486) or {+-}size{KMGTP}: +512M
+Current type is 8300 (Linux filesystem)
+Hex code or GUID (L to show codes, Enter = 8300): ef00
+Changed type of partition to 'EFI system partition'
+</code></pre>
+<p>W tej chwili tablica partycji powinna zwierać dwa wpisy. Zweryfikujmy to podając polecenie <code>p</code> :</p>
+<pre><code>Command (? for help): p
+Disk /dev/sda: 30299520 sectors, 14.4 GiB
+Model: DT 101 G2
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): FB250EA3-2D37-414D-92E9-AEBA170D270D
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 30299486
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 27153725 sectors (12.9 GiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048         2099199   1024.0 MiB  8300  Linux filesystem
+   2         2099200         3147775   512.0 MiB   EF00  EFI system partition
+</code></pre>
+<p>Dla lepszej czytelności możemy tym partycjom zmienić nazwy:</p>
+<pre><code>Command (? for help): c
+Partition number (1-2): 1
+Enter name: linux boot
+
+Command (? for help): p
+Disk /dev/sda: 30299520 sectors, 14.4 GiB
+Model: DT 101 G2
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): FB250EA3-2D37-414D-92E9-AEBA170D270D
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 30299486
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 27153725 sectors (12.9 GiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048         2099199   1024.0 MiB  8300  linux boot
+   2         2099200         3147775   512.0 MiB   EF00  EFI system partition
+</code></pre>
+<p>Poniżej są jeszcze szczegółowe informacje na temat każdej z tych partycji:</p>
+<pre><code>Command (? for help): i
+Partition number (1-2): 1
+Partition GUID code: 0FC63DAF-8483-4772-8E79-3D69D8477DE4 (Linux filesystem)
+Partition unique GUID: 7C9A5843-6F1B-4A19-891D-3E90E066DF3A
+First sector: 2048 (at 1024.0 KiB)
+Last sector: 2099199 (at 1025.0 MiB)
+Partition size: 2097152 sectors (1024.0 MiB)
+Attribute flags: 0000000000000000
+Partition name: 'linux boot'
+
+Command (? for help): i
+Partition number (1-2): 2
+Partition GUID code: C12A7328-F81F-11D2-BA4B-00A0C93EC93B (EFI system partition)
+Partition unique GUID: 45B07135-E224-4D6D-B8EC-DFACD68CD98B
+First sector: 2099200 (at 1.0 GiB)
+Last sector: 3147775 (at 1.5 GiB)
+Partition size: 1048576 sectors (512.0 MiB)
+Attribute flags: 0000000000000000
+Partition name: 'EFI system partition'
+</code></pre>
+<p>Do tej pory wszystkie przeprowadzane zmiany były dokonywane w pamięci operacyjnej RAM. Tak
+utworzoną tablicę partycji musimy teraz zapisać na dysk poleceniem <code>w</code> i tę operację będziemy
+musieli potwierdzić:</p>
+<pre><code>Command (? for help): w
+
+Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+PARTITIONS!!
+
+Do you want to proceed? (Y/N): y
+OK; writing new GUID partition table (GPT) to /dev/sda.
+The operation has completed successfully.
+</code></pre>
+<h4 id="obecność-flagi-boot-i-esp-na-partycji-esp">Obecność flagi boot i esp na partycji ESP</h4>
+<p>Jeśli uważnie prześledziliśmy proces tworzenia partycji ESP, to możemy zauważyć, że nie
+ustawiliśmy tam w zasadzie żadnych flag. Niemniej jednak, na necie można się spotkać z ustawianiem
+flagi <code>boot</code> i <code>esp</code> na partycji ESP. Może i my ręcznie tych flag nie ustawialiśmy ale typ partycji,
+który określiliśmy dla partycji ESP ( <code>EF00</code> ), zrobił to za nas automatycznie. Możemy się o tym
+przekonać podglądając układ partycji w <code>parted</code> :</p>
+<pre><code># parted /dev/sda
+GNU Parted 3.3
+Using /dev/sda
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) unit s
+(parted) p
+Model: Kingston DT 101 G2 (scsi)
+Disk /dev/sda: 30299520s
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags:
+
+Number  Start     End       Size      File system  Name                  Flags
+ 1      2048s     2099199s  2097152s               linux boot
+ 2      2099200s  3147775s  1048576s               EFI system partition  boot, esp
+</code></pre>
+<p>Warto tutaj jednak zaznaczyć, że flaga <code>esp</code> jest nadmiarowa i w zasadzie służy jedynie do
+oznaczenia partycji ESP. Jeśli zaś chodzi o flagę <code>boot</code> , to w przypadku tablicy partycji GPT
+<a href="https://gist.github.com/leodutra/8779d468e9062058a3e90008295d3ca6">oznacza ona co innego</a> niż w przypadku MS-DOS/MBR (zmienia typ partycji na <code>EF00</code> ). Flagi
+<code>boot</code> nie powinno się ustawiać na innej partycji niż partycja ESP.</p>
+<h4 id="system-plików-dla-partycji-boot-i-esp">System plików dla partycji BOOT i ESP</h4>
+<p>Patrycje mamy stworzone ale potrzebujemy jeszcze na nich dorobić system plików. Partycję BOOT
+formatujemy standardowo jako <code>ext4</code>, natomiast partycję ESP musimy sformatować systemem plików
+<code>fat32</code> . Systemy plików tworzymy przy pomocy <code>mkfs.ext4</code> i <code>mkfs.vfat</code> w poniższy sposób:</p>
+<pre><code># mkfs.ext4 -m 0 -L boot /dev/sda1
+mke2fs 1.45.5 (07-Jan-2020)
+Creating filesystem with 262144 4k blocks and 65536 inodes
+Filesystem UUID: 75436842-85f3-485d-ad2a-83cd1980693a
+Superblock backups stored on blocks:
+        32768, 98304, 163840, 229376
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+# mkfs.vfat -v -n ESP /dev/sda2
+mkfs.fat 4.1 (2017-01-24)
+Auto-selecting FAT32 for large filesystem
+/dev/sda2 has 64 heads and 32 sectors per track,
+hidden sectors 0x200800;
+logical sector size is 512,
+using 0xf8 media descriptor, with 1048576 sectors;
+drive number 0x80;
+filesystem has 2 32-bit FATs and 8 sectors per cluster.
+FAT size is 1024 sectors, and provides 130812 clusters.
+There are 32 reserved sectors.
+Volume ID is ee132b21, volume label ESP        .
+</code></pre>
+<h3 id="pozostałe-partycje-na-dysku">Pozostałe partycje na dysku</h3>
+<p>Oczywiście stworzenie tylko tych dwóch powyższych partycji, to nieco za mało na pełnowymiarową
+instalację linux'a ale nam w tym artykule chodzi jedynie o przygotowanie dysku pod instalację
+linux'a w trybie EFI/UEFI i naturalnie będą nam potrzebne dodatkowe partycje, by linux'a na nich
+zainstalować.</p>
+<p>Tak czy inaczej, <a href="https://morfikov.github.io
+/post/jak-optymalnie-podzielic-dysk-hdd-ssd-na-partycje-pod-linux/">pozostałą część dysku HDD/SSD możemy podzielić według uznania</a>. Ja generalnie
+tworzę jedną dużą partycję pod szyfrowany kontener LUKS, w którym implementuję LVM i tworzę kilka
+dysków logicznych, którymi mogę zarządzać o wiele łatwiej niż fizycznymi partycjami. Także to jaki
+wariant instalacyjny linux'a sobie wybierzemy, to już osobna sprawa.</p>
+<h2 id="menadżer-rozruchu-refind-dla-trybu-efiuefi">Menadżer rozruchu rEFInd dla trybu EFI/UEFI</h2>
+<p>Mając przygotowane partycje BOOT oraz ESP, musimy wgrać szereg plików na partycję ESP. Z tych
+plików korzystać będzie firmware EFI/UEFI i są one niezbędne w procesie startu systemu. Najprostszym
+sposobem na wgranie odpowiednich plików na partycję ESP jest <a href="https://www.rodsbooks.com/refind/installing.html">zainstalowanie menadżera rozruchu
+rEFInd</a>. Z tym krokiem jednak trzeba uważać, bo potrzebny nam jest do tego system uruchomiony w
+trybie EFI/UEFI. Jeśli nie dysponujemy żadnym takim systemem, a wszystkie te powyższe kroki
+przeprowadzaliśmy na systemie w trybie BIOS, to nie powinniśmy dalej kontynuować z instalacją
+rEFInd'a. Musimy pierw pozyskać odpowiednią płytkę czy pendrive live i uruchomić z tego nośnika
+system w trybie EFI/UEFI.</p>
+<h3 id="system-live">System live</h3>
+<p>Jeśli nie wiemy czy system live naszego linux'a został <a href="https://www.rodsbooks.com/refind/bootmode.html">odpalony w trybie EFI/UEFI</a>, to łatwo
+możemy ten stan rzeczy zweryfikować sprawdzając obecność katalogu <code>/sys/firmware/efi/</code> . Brak tego
+katalogu świadczy o uruchomieniu systemu w trybie BIOS. Warto też rzucić okiem na log systemowy:</p>
+<pre><code># dmesg | grep -i EFI.
+[    0.000000] Command line: \\EFI\BOOT\vmlinuz-5.4.0-4-amd64 root=/dev/mapper/sd_debian-root rootfstype=ext4 ro add_efi_memmap initrd=\EFI\BOOT\initrd.img-5.4.0-4-amd64
+[    0.000000] efi: EFI v2.31 by Lenovo
+[    0.000000] efi:  ACPI=0xdaffe000  ACPI 2.0=0xdaffe014  SMBIOS=0xdae9e000
+[    0.030589] ACPI: UEFI 0x00000000DAFE0000 00003E (v01 LENOVO TP-G1    00001160 PTL  00000002)
+[    0.030595] ACPI: UEFI 0x00000000DAFDF000 000042 (v01 PTL    COMBUF   00000001 PTL  00000001)
+[    0.030634] ACPI: UEFI 0x00000000DAFD9000 0002A6 (v01 LENOVO TP-G1    00001160 PTL  00000002)
+[    0.272110] Kernel command line: \\EFI\BOOT\vmlinuz-5.4.0-4-amd64 root=/dev/mapper/sd_debian-root rootfstype=ext4 ro add_efi_memmap initrd=\EFI\BOOT\initrd.img-5.4.0-4-amd64
+[    0.791725] pci 0000:00:02.0: BAR 2: assigned to efifb
+[    0.802816] Registered efivars operations
+[    1.899497] efifb: probing for efifb
+[    1.899524] efifb: framebuffer at 0xe0000000, using 5628k, total 5625k
+[    1.899529] efifb: mode is 1600x900x32, linelength=6400, pages=1
+[    1.899533] efifb: scrolling: redraw
+[    1.899537] efifb: Truecolor: size=8:8:8:8, shift=24:16:8:0
+[    1.912565] fb0: EFI VGA frame buffer device
+[   16.953113] EFI Variables Facility v0.08 2004-May-17
+[   17.016091] pstore: Registered efi as persistent store backend
+[   18.669759] fb0: switching to inteldrmfb from EFI VGA
+</code></pre>
+<p>W zależności od maszyny, ten powyższy log może być mniej lub bardziej rozbudowany. Niemniej jednak,
+brak wpisów z EFI będzie świadczył dobitnie o braku trybu EFI/UEFI i trzeba ten problem poprawić
+zanim przejdziemy do instalacji rEFInd'a. Najprościej, to wejść w ustawienia BIOS'u i wymusić start
+maszyny w trybie EFI/UEFI. Jeśli mamy błędnie przygotowany nośnik z systemem live, to linux nam się
+nie powinien uruchomić.</p>
+<h4 id="moduł-efivars">Moduł efivars</h4>
+<p>Mając już uruchomiony system live w trybie EFI/UEFI (w tym przypadku jest to Ubuntu), upewnijmy się,
+że mamy załadowany moduł <code>efivars</code> . Ten moduł często jest wbudowany na stałe i polecenie <code>lsmod</code>
+może go nie zwrócić. Zawsze można posłużyć się <code>systool</code> (z pakietu <code>sysfsutils</code> ). Tak czy inaczej,
+obecność katalogu <code>/sys/firmware/efi/efivars/</code> , a w nim plików, świadczy, że moduł działa.
+Podobnie można sprawdzić czy system zamontował ten powyższy zasób w wyjściu polecenia <code>mount</code> :</p>
+<pre><code># mount | grep efivars
+efivarfs on /sys/firmware/efi/efivars type efivarfs (rw,nosuid,nodev,noexec,relatime)
+</code></pre>
+<p>Warto zwrócić uwagę, czy ten zasób jest podmontowany w trybie do zapisu. Jeśli jest on zamontowany
+w trybie tylko do odczytu ( <code>ro</code> zamiast <code>rw</code> ), to trzeba go przemontować w tryb do zapisu:</p>
+<pre><code># mount -o remount,rw  /sys/firmware/efi/efivars
+</code></pre>
+<p>Brak modułu <code>efivars</code> sprawi, że rEFInd wyrzuci poniższą informację podczas instalacji:</p>
+<pre><code>EFI variables are not supported on this system.
+</code></pre>
+<p>Nie będzie przez to w stanie dodać stosownego wpisu do tego wbudowanego w EFI/UEFI menadżera
+rozruchu. Niemniej jednak, w dalszym ciągu będziemy w stanie uruchomić system bezpośrednio z dysku
+twardego.</p>
+<h4 id="instalacja-refind-na-partycji-esp">Instalacja rEFInd na partycji ESP</h4>
+<p>Na systemie live zwykle będzie brakować pakietu <code>refind</code> . Dlatego też trzeba będzie go ręcznie
+doinstalować.</p>
+<pre><code># apt-get install refind
+</code></pre>
+<p>Przy instalacji pakietu zostanie wyrzucony monit dotyczący wgrania rEFInd'a na partycję ESP:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/03/004-refind-config-debian-ubuntu-live-install-efi-uefi.png#huge" alt=""></p>
+<p>Odpowiadamy tutaj przecząco, bo instalacją rEFInd'a zajmiemy się później sami.</p>
+<p>Montujemy jeszcze partycję ESP w <code>/mnt/efi/</code> oraz partycję BOOT w <code>/mnt/boot/</code> :</p>
+<pre><code># mkdir /mnt/{efi,boot}
+# mount /dev/sda1 /mnt/boot/
+# mount /dev/sda2 /mnt/efi/
+</code></pre>
+<p>Teraz już wystarczy zainstalować rEFInd przy pomocy polecenia <code>refind-install</code> . Jako, że
+instalujemy ten menadżer rozruchu z poziomu systemu live, to musimy dodatkowo określić parametr
+<code>--root</code> , którego argument musi wskazywać na nadrzędny katalog w stosunku do tego, gdzie zostały
+zamontowane partycje BOOT i ESP , w tym przypadku jest to folder <code>/mnt/</code>:</p>
+<pre><code># refind-install --root /mnt
+ShimSource is none
+Installing rEFInd on Linux....
+ESP was found at /mnt/efi using vfat
+Installing driver for ext4 (ext4_x64.efi)
+Copied rEFInd binary files
+
+Copying sample configuration file as refind.conf; edit this file to configure
+rEFInd.
+
+Creating new NVRAM entry
+rEFInd is set as the default boot manager.
+Creating /mnt/boot/refind_linux.conf; edit it to adjust kernel options.
+</code></pre>
+<p>Mamy tutaj informację, że partycja ESP została odnaleziona w katalogu <code>/mnt/efi/</code> oraz, że używa
+systemu plików <code>vfat</code> ( <code>fat32</code> ). Pliki rEFInd'a zostały z powodzeniem skopiowane na partycję ESP
+oraz została wgrana przykładowa konfiguracja, którą w późniejszym czasie trzeba będzie sobie
+dostosować. W zasadzie to rEFInd powinien nam bez problemu wykryć linux'a jeśli tylko go w
+późniejszym czasie zainstalujemy. Niemniej jednak, pewne aspekty wizualne, np. rozdzielczość ekranu,
+mogą nie do końca spełniać nasze oczekiwania i wypadałoby przejrzeć plik konfiguracyjny rEFInd'a
+(ten na partycji ESP) i go sobie dostosować wedle uznania.</p>
+<p>Wyżej mieliśmy też informację, że rEFInd stworzył nowy wpis w NVRAM ( w
+<code>/sys/firmware/efi/efivars/</code> ). Ten wpis możemy podejrzeć przy pomocy narzędzia <code>efibootmgr</code> :</p>
+<pre><code># efibootmgr -v
+BootCurrent: 0018
+Timeout: 0 seconds
+BootOrder: 0018,0000,0001,0002,0003,000D,0007,0008,0009,000A,000B,000C,000E,000F,0010,0011,0012
+...
+Boot0018* rEFInd Boot Manager	HD(2,GPT,45b07135-e224-4d6d-b8ec-dfacd68cd98b,0x38b4000,0xff800)/File(\EFI\refind\refind_x64.efi)
+</code></pre>
+<p>Była też wzmianka o stworzeniu pliku <code>/boot/refind_linux.conf</code> , który zawiera konfigurację
+parametrów dla kernel command line. Jako, że my będziemy określać wpisy bezpośrednio w głównym
+pliku konfiguracyjnym zlokalizowanym na partycji ESP (pod <code>EFI/refind/refind.conf</code> ), to możemy ten
+plik <code>/boot/refind_linux.conf</code> usunąć, tak by nie mieszał nam na późniejszym etapie przy
+konfiguracji rEFInd'a.</p>
+<p>Pomyślnie zainstalowany rEFInd powinien mieć poniższą strukturę katalogów na partycji ESP
+(podmontowanej w katalogu <code>/mnt/efi/</code> ):</p>
+<pre><code># tree -L 3 /mnt/efi/
+/efi/
+└── EFI
+    ├── refind
+    │   ├── BOOT.CSV
+    │   ├── drivers_x64
+    │   ├── icons
+    │   ├── keys
+    │   ├── refind.conf
+    │   └── refind_x64.efi
+    └── tools
+
+6 directories, 3 files
+</code></pre>
+<h4 id="sterowniki-systemu-plików">Sterowniki systemu plików</h4>
+<p>Czasami może się zdarzyć tak, że nie zostaną wgrane <a href="https://www.rodsbooks.com/refind/drivers.html">sterowniki od systemu plików</a> partycji
+BOOT. W takim przypadku najprawdopodobniej coś namieszaliśmy w konfiguracji, bo rEFInd powinien bez
+problemu ustalić system plików na partycji BOOT i dobrać odpowiedni sterownik, który następnie
+przekopiuje do katalogu <code>drivers_x64/</code> -- po to właśnie zamontowaliśmy tę partycję BOOT:</p>
+<pre><code># ls -al /mnt/efi/EFI/refind/drivers_x64/ext4_x64.efi
+-rwxr-xr-x 1 root root 68170 Mar  2 07:13 /mnt/efi/EFI/refind/drivers_x64/ext4_x64.efi
+</code></pre>
+<p>W razie czego można usunąć zawartość partycji ESP i ponowić proces instalacyjny rEFInd z
+wykorzystaniem polecenia <code>refind-install</code> . Brak sterownika uniemożliwi wczytanie obrazu kernela i
+initrd bezpośrednio z partycji BOOT (menadżer rozruchu się zawiesi). Niemniej jednak, w dalszym
+ciągu można bez problemu przekopiować obraz kernela i initrd na partycję ESP i po dostosowaniu
+konfiguracji rEFInd'a uruchomić kernela bezpośrednio z partycji ESP.</p>
+<h4 id="tryb-fallback">Tryb fallback</h4>
+<p>Czasami rEFInd może się zainstalować w <code>EFI/BOOT/bootx64.efi</code> na partycji ESP. Obecność pliku
+<code>bootx64.efi</code> w katalogu <code>EFI/BOOT/</code> oznacza, że rEFInd <a href="https://www.rodsbooks.com/efi-bootloaders/fallback.html">zainstalował się w trybie fallback</a>.
+Przyczyn może być kilka, choć taką najpopularniejszą jest instalacja rEFInd pod systemem
+działającym w trybie BIOS lub też brak modułu <code>efivars</code> .</p>
+<h4 id="instalować-czy-nie-instalować-bootloader-grub2syslinux">Instalować czy nie instalować bootloader Grub2/Syslinux</h4>
+<p>Gdy instalacja rEFInd'a została zakończona powodzeniem, to w zasadzie mamy już przygotowany dysk do
+pracy z systemem linux'a w trybie EFI/UEFI. Nie musimy przy tym instalować już dodatkowo
+bootloader'a, bo rEFInd będzie w stanie załadować kernel i obraz initrd bez większego problemu,
+czyli wykona pracę, którą standardowo w konfiguracji BIOS wykonywał bootloader Grub2 czy
+syslinux/extlinux.</p>
+<p>Niemniej jednak, w standardowej konfiguracji Debiana za każdym razem jak tylko będzie wypuszczana
+nowa wersja kernela, to trzeba będzie przepisywać plik <code>refind.conf</code> , by dostosować numerki obecne
+w nazwach kernela i initrd, które zostaną wgrane na partycję BOOT. Możemy jednak poinstruować nasz
+<a href="https://morfikov.github.io
+/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">system by tworzył dowiązania symboliczne initrd.img i vmlinuz</a> do plików w katalogu <code>/boot/</code> ,
+tak by tej konfiguracji rEFInd'a nie trzeba było w ogóle ruszać. Naturalnie jeśli chcielibyśmy
+uruchomić konkretną wersję kernela, to stosowny wpis trzeba już dopisać do <code>refind.conf</code> . Warto
+jest też rzucić okiem na <a href="https://www.rodsbooks.com/refind/configfile.html">manual refind.conf</a> w celu łatwiejszego dostosowania konfiguracji.</p>
+<h4 id="memtest86">Memtest86</h4>
+<p>Memtest86 to bardzo użyteczne narzędzie do testowania pamięci operacyjnej RAM komputera. Jeśli
+chcielibyśmy mieć w rEFInd opcję, która nam umożliwi skanowanie pamięci, to musimy pobrać paczkę
+<a href="https://www.memtest86.com/">memtest86-usb.zip</a> ze strony projektu. Problem w tym, że ten obraz, który zostanie wypakowany,
+jest przeznaczony do wgrania na pendrive. Jeśli chcielibyśmy, by rEFInd był w stanie uruchomić
+memtest86 bezpośrednio, to z tego obrazu trzeba <a href="https://morfikov.github.io
+/post/memtest86-dla-efi-uefi-i-refind/">wydobyć plik memtest86_x64.efi i umieścić go na
+partycji ESP</a>. Cały ten proces został opisany w osobnym artykule.</p>
+<p>Warto w tym miejscu wspomnieć, że memtest86 nie jest jedynym <a href="https://www.rodsbooks.com/refind/installing.html#addons">dodatkiem</a>, który możemy sobie
+wgrać, tak by rEFInd zrobił z niego użytek.</p>
+<h2 id="instalacja-linuxa">Instalacja linux'a</h2>
+<p>Tak przygotowany nośnik można bez problemu wykorzystać do instalacji dowolnej dystrybucji linux'a.
+Bez znaczenia przy tym jest fakt czy będziemy <a href="https://morfikov.github.io
+/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">instalować system via debootstrap</a>, czy przy
+pomocy płytki instalacyjnej lub pendrive konkretnej dystrybucji.</p>
+<h2 id="a-co-z-windows">A co z windows</h2>
+<p>Ja nie przewidziałem w swoim nowym laptopie miejsca dla tego przestarzałego już systemu. Przez
+ostatnich parę lat w zasadzie nie zdarzyło mi się bym zasiadł na windows 7, który miałem
+zainstalowany obok mojego Debiana na starym laptopie. Ostatecznie windows 7 stracił wsparcie, a
+10-ki i tak nie miałem zamiaru już nigdy nabywać. Także jeśli ktoś zastanawia się czy ten opisany
+tutaj setup zadziała mu z windows, to odpowiedź z mojej strony jest taka, że powinien. Choć mnie w
+zasadzie bardziej interesuje, czy ten setup zadziała z linux, a tu akurat odpowiedź jest
+prosta -- zadziała.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/efi/uefi/">efi/uefi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/ssd/">hdd/ssd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/refind/">refind</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi%2f&amp;text=Jak%20przygotowa%c4%87%20dysk%20pod%20instalacj%c4%99%20Debian%20linux%20z%20EFI%2fUEFI" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi%2f&amp;title=Jak%20przygotowa%c4%87%20dysk%20pod%20instalacj%c4%99%20Debian%20linux%20z%20EFI%2fUEFI" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi%2f&amp;title=Jak%20przygotowa%c4%87%20dysk%20pod%20instalacj%c4%99%20Debian%20linux%20z%20EFI%2fUEFI" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi%2f&title=Jak%20przygotowa%c4%87%20dysk%20pod%20instalacj%c4%99%20Debian%20linux%20z%20EFI%2fUEFI" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi%2f&amp;title=Jak%20przygotowa%c4%87%20dysk%20pod%20instalacj%c4%99%20Debian%20linux%20z%20EFI%2fUEFI" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi%2f&description=Jak%20przygotowa%c4%87%20dysk%20pod%20instalacj%c4%99%20Debian%20linux%20z%20EFI%2fUEFI" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/memtest86-dla-efi-uefi-i-refind/">Memtest86 dla EFI/UEFI i rEFInd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/">Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/montowanie-dyskow-jako-zwykly-uzytkownik-z-udisks-i-policykit/">Montowanie dysków jako zwykły użytkownik z UDisks i PolicyKit</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-dpi-w-openbox-xorg-dla-monitora-hidpi/">Zmiana DPI w Openbox/Xorg dla monitora HiDPI</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

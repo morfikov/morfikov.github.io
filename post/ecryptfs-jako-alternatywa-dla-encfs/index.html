@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>ECryptfs jako alternatywa dla encfs | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="ECryptfs jako alternatywa dla encfs" />
+<meta property="og:description" content="Dnia 2014-10-07 w Debianie była aktualizacja pakietu encfs , która to zawierała informację na
+temat audytu bezpieczeństwa jaki się dokonał parę miesięcy wstecz. Wyniki niezbyt dobrze
+wypadły, a nawet można powiedzieć, że wręcz katastrofalnie. Generalnie cały test został skwitowany
+słowami, że jeśli szyfrujemy pliki przy pomocy tego narzędzia, to jesteśmy relatywnie bezpieczni,
+nawet w przypadku jeśli ktoś te pliki przechwyci. Natomiast jeśli zaczniemy zmieniać/dodawać pliki
+i ten ktoś ponownie przechwyci nasz zaszyfrowany katalog, wtedy może on bez problemu odszyfrować
+całą jego zawartość. Jeśli wykorzystujemy encfs lokalnie, to być może nam nic nie grozi, nawet w
+przypadku raidu NSA na naszą chałupę. Problem w tym, że ogromna rzesza ludzi wykorzystuje encfs
+do zaszyfrowania plików w chmurze, np. na Dropbox&#39;ie czy MEGA, a jak wiadomo, przy każdej
+synchronizacji, zmiany w danym katalogu są przesyłane do chmury i wszelkie zabezpieczenie jakie
+daje encfs diabli biorą. Może najwyższy czas zainteresować się ecryptfs?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/ecryptfs-jako-alternatywa-dla-encfs/" />
+<meta property="article:published_time" content="2015-06-22T18:58:18+00:00" />
+<meta property="article:modified_time" content="2015-06-22T18:58:18+00:00" />
+
+		<meta itemprop="name" content="ECryptfs jako alternatywa dla encfs">
+<meta itemprop="description" content="Dnia 2014-10-07 w Debianie była aktualizacja pakietu encfs , która to zawierała informację na
+temat audytu bezpieczeństwa jaki się dokonał parę miesięcy wstecz. Wyniki niezbyt dobrze
+wypadły, a nawet można powiedzieć, że wręcz katastrofalnie. Generalnie cały test został skwitowany
+słowami, że jeśli szyfrujemy pliki przy pomocy tego narzędzia, to jesteśmy relatywnie bezpieczni,
+nawet w przypadku jeśli ktoś te pliki przechwyci. Natomiast jeśli zaczniemy zmieniać/dodawać pliki
+i ten ktoś ponownie przechwyci nasz zaszyfrowany katalog, wtedy może on bez problemu odszyfrować
+całą jego zawartość. Jeśli wykorzystujemy encfs lokalnie, to być może nam nic nie grozi, nawet w
+przypadku raidu NSA na naszą chałupę. Problem w tym, że ogromna rzesza ludzi wykorzystuje encfs
+do zaszyfrowania plików w chmurze, np. na Dropbox&#39;ie czy MEGA, a jak wiadomo, przy każdej
+synchronizacji, zmiany w danym katalogu są przesyłane do chmury i wszelkie zabezpieczenie jakie
+daje encfs diabli biorą. Może najwyższy czas zainteresować się ecryptfs?">
+<meta itemprop="datePublished" content="2015-06-22T18:58:18+00:00" />
+<meta itemprop="dateModified" content="2015-06-22T18:58:18+00:00" />
+<meta itemprop="wordCount" content="3706">
+
+
+
+<meta itemprop="keywords" content="bezpieczeństwo,szyfrowanie,pliki/foldery,pam," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ECryptfs jako alternatywa dla encfs"/>
+<meta name="twitter:description" content="Dnia 2014-10-07 w Debianie była aktualizacja pakietu encfs , która to zawierała informację na
+temat audytu bezpieczeństwa jaki się dokonał parę miesięcy wstecz. Wyniki niezbyt dobrze
+wypadły, a nawet można powiedzieć, że wręcz katastrofalnie. Generalnie cały test został skwitowany
+słowami, że jeśli szyfrujemy pliki przy pomocy tego narzędzia, to jesteśmy relatywnie bezpieczni,
+nawet w przypadku jeśli ktoś te pliki przechwyci. Natomiast jeśli zaczniemy zmieniać/dodawać pliki
+i ten ktoś ponownie przechwyci nasz zaszyfrowany katalog, wtedy może on bez problemu odszyfrować
+całą jego zawartość. Jeśli wykorzystujemy encfs lokalnie, to być może nam nic nie grozi, nawet w
+przypadku raidu NSA na naszą chałupę. Problem w tym, że ogromna rzesza ludzi wykorzystuje encfs
+do zaszyfrowania plików w chmurze, np. na Dropbox&#39;ie czy MEGA, a jak wiadomo, przy każdej
+synchronizacji, zmiany w danym katalogu są przesyłane do chmury i wszelkie zabezpieczenie jakie
+daje encfs diabli biorą. Może najwyższy czas zainteresować się ecryptfs?"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">ECryptfs jako alternatywa dla encfs</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-06-22T18:58:18Z">Opublikowano: 22/06/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">ECryptfs jako alternatywa dla encfs</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#czym-jest-ecryptfs">Czym jest eCryptfs</a></li>
+    <li><a href="#szyfrowanie-katalogu-homeuser-przy-pomocy-ecryptfs">Szyfrowanie katalogu /home/$USER/ przy pomocy eCryptfs</a></li>
+    <li><a href="#katalog-ecryptfs">Katalog .ecryptfs</a></li>
+    <li><a href="#mechanizm-działania-ecryptfs">Mechanizm działania eCryptfs</a></li>
+    <li><a href="#odzyskiwanieprzenoszenie-zaszyfrowanego-katalogu">Odzyskiwanie/przenoszenie zaszyfrowanego katalogu</a></li>
+    <li><a href="#szyfrowanie-folderu-private">Szyfrowanie folderu ~/Private/</a></li>
+    <li><a href="#szyfrowanie-dowolnego-folderu">Szyfrowanie dowolnego folderu</a></li>
+    <li><a href="#odszyfrowywanie-pojedynczych-plików">Odszyfrowywanie pojedynczych plików</a></li>
+    <li><a href="#dodatkowe-zabezpieczenia">Dodatkowe zabezpieczenia</a></li>
+    <li><a href="#prace-nad-encfs">Prace nad encfs</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Dnia 2014-10-07 w Debianie była aktualizacja pakietu <code>encfs</code> , która to zawierała informację na
+temat <a href="https://defuse.ca/audits/encfs.htm">audytu bezpieczeństwa</a> jaki się dokonał parę miesięcy wstecz. Wyniki niezbyt dobrze
+wypadły, a nawet można powiedzieć, że wręcz katastrofalnie. Generalnie cały test został skwitowany
+słowami, że jeśli szyfrujemy pliki przy pomocy tego narzędzia, to jesteśmy relatywnie bezpieczni,
+nawet w przypadku jeśli ktoś te pliki przechwyci. Natomiast jeśli zaczniemy zmieniać/dodawać pliki
+i ten ktoś ponownie przechwyci nasz zaszyfrowany katalog, wtedy może on bez problemu odszyfrować
+całą jego zawartość. Jeśli wykorzystujemy <code>encfs</code> lokalnie, to być może nam nic nie grozi, nawet w
+przypadku raidu NSA na naszą chałupę. Problem w tym, że ogromna rzesza ludzi wykorzystuje <code>encfs</code>
+do zaszyfrowania plików w chmurze, np. na Dropbox'ie czy MEGA, a jak wiadomo, przy każdej
+synchronizacji, zmiany w danym katalogu są przesyłane do chmury i wszelkie zabezpieczenie jakie
+daje <code>encfs</code> diabli biorą. Może najwyższy czas zainteresować się <code>ecryptfs</code>?</p>
+<h2 id="czym-jest-ecryptfs">Czym jest eCryptfs</h2>
+<p>Ja używałem <code>encfs</code> do szyfrowania katalogów w serwisach takich jak Dropbox, Spideroak oraz na MEGA
+i niestety zmuszony byłem usunąć całą ich zawartość. Zrobiłem to od razu, tuż po przeczytaniu
+podlinkowanego we wstępie artykułu i to nawet bez zastanawiania się. Jedyne co, to została mi
+odszyfrowana kopia lokalna katalogu. Niemniej jednak, nie uśmiecha mi się pakować tych plików
+bezpośrednio do kontenera LUKS czy TrueCrypt i chciałbym by opcja szyfrowania pojedynczych plików
+została. Szukając info na sieci na temat tego czym by tutaj zastąpić <code>encfs</code> , doszukałem się
+<a href="https://ecryptfs.org/">eCryptfs</a>.</p>
+<p>Cóż to takiego ten cały <code>eCryptfs</code> ? Zgodnie z tym co piszą na stronie projektu, jest to system
+plików, który przechowuje metadane kryptograficzne w nagłówkach zaszyfrowanych plików. <code>eCryptfs</code>
+jest częścią kernela i nie potrzeba instalować żadnych dodatkowych rzeczy by działał, w
+przeciwieństwie do <code>encfs</code> . No chyba, że ktoś potrzebuje pewnych narzędzi zawartych w pakiecie
+<code>ecryptfs-utils</code> ale można się też obejść i bez nich. Po zaszyfrowaniu plików, można je przesłać na
+innego linux'a i tam dokonać deszyfracji przy pomocy klucza, który jest przechowywany w keyring'u
+kernela. Do obsługi tego keyring'a potrzebne jest <a href="https://www.ibm.com/developerworks/library/l-key-retention/">narzędzie</a> <a href="https://lwn.net/Articles/210502/">keyctl</a> zawarte w pakiecie
+<code>keyutils</code> .</p>
+<p>Generalnie <code>eCryptfs</code> zwykło używać się do zaszyfrowania katalogu domowego użytkownika i przy tej
+operacji przydają się te <a href="https://ecryptfs.org/documentation.html">narzędzia</a> dostarczane z pakietem <code>ecryptfs-utils</code> , tylko są też
+pewne ograniczenia wynikające z ich używania. Przede wszystkim, maksymalna ilość obsługiwanych
+katalogów per user to jeden. Akurat na katalog <code>/home/$USER/</code> . Dodatkowo, nie mamy możliwości
+określenia długości klucza. Jest wkodowany na sztywno i jest to <code>AES 128</code> -- trochę słabo. Tak czy
+inaczej wszystko to, co można zrobić przy pomocy natywnych narzędzi w stosunku do katalogu domowego,
+można też uczynić ręcznie w stosunku do każdego innego katalogu i tu mamy już spore pole manewru.</p>
+<p><code>eCryptfs</code> może być montowany przez plik <code>/etc/fstab</code> . W przypadku <code>encfs</code> nie szło w prosty sposób
+tego zrobić, choć nie powinno się używać pliku <code>fstab</code> do obsługi montowania zasobów należących do
+użytkownika. Niemniej jednak, jeśli jesteśmy jedynym użytkownikiem naszego PC i przy tym, posiadamy
+zaszyfrowany system, możemy sobie dość znacząco ułatwić życie w przypadku korzystania z szyfrowanych
+katalogów trzymanych w chmurze.</p>
+<h2 id="szyfrowanie-katalogu-homeuser-przy-pomocy-ecryptfs">Szyfrowanie katalogu /home/$USER/ przy pomocy eCryptfs</h2>
+<p>Szyfrowanie katalogu domowego z wykorzystaniem ubuntowych narzędzi sprowadza się do zalogowania się
+na konto root'a i wydania jednego polecenia. Ja na potrzeby testów, stworzyłem dodatkowego
+użytkownika i to jego katalog domowy zaszyfrowałem:</p>
+<pre><code># adduser morfikanin
+
+# ecryptfs-migrate-home -u morfikanin
+INFO:  Checking disk space, this may take a few moments.  Please be patient.
+INFO:  Checking for open files in /home/morfikanin
+Enter your login passphrase [morfikanin]:
+
+************************************************************************
+YOU SHOULD RECORD YOUR MOUNT PASSPHRASE AND STORE IT IN A SAFE LOCATION.
+  ecryptfs-unwrap-passphrase ~/.ecryptfs/wrapped-passphrase
+THIS WILL BE REQUIRED IF YOU NEED TO RECOVER YOUR DATA AT A LATER TIME.
+************************************************************************
+
+
+Done configuring.
+
+chown: cannot access '/dev/shm/.ecryptfs-morfikanin': No such file or directory
+INFO:  Encrypted home has been set up, encrypting files now...this may take a while.
+sending incremental file list
+./
+.bash_logout
+            220 100%    0.00kB/s    0:00:00 (xfr#1, to-chk=2/4)
+.bashrc
+          3,515 100%    3.35MB/s    0:00:00 (xfr#2, to-chk=1/4)
+.profile
+            675 100%  329.59kB/s    0:00:00 (xfr#3, to-chk=0/4)
+
+========================================================================
+Some Important Notes!
+
+ 1. The file encryption appears to have completed successfully, however,
+    morfikanin MUST LOGIN IMMEDIATELY, _BEFORE_THE_NEXT_REBOOT_,
+    TO COMPLETE THE MIGRATION!!!
+
+ 2. If morfikanin can log in and read and write their files, then the migration is complete,
+    and you should remove /home/morfikanin.vvDPp6xm.
+    Otherwise, restore /home/morfikanin.vvDPp6xm back to /home/morfikanin.
+
+ 3. morfikanin should also run 'ecryptfs-unwrap-passphrase' and record
+    their randomly generated mount passphrase as soon as possible.
+
+ 4. To ensure the integrity of all encrypted data on this system, you
+    should also encrypt swap space with 'ecryptfs-setup-swap'.
+========================================================================
+</code></pre>
+<p>Jeśli dokonujemy szyfrowania katalogu domowego użytkownika, jego pliki zostaną pierw przeniesione do
+<code>/home/$USER.vvDPp6xm/</code> , a następnie skopiowane do podmontowanego folderu i tym samym zostaną
+zaszyfrowane. Także jeśli mamy sporo plików w katalogu <code>/home/$USER/</code> , to ten proces może trochę
+zająć. W tym przypadku były trzy małe pliki tekstowe.</p>
+<p>Zgodnie z powyższymi instrukcjami, logujemy się teraz na konto użytkownika, którego katalog domowy
+zaszyfrowaliśmy i sprawdzamy czy możemy odczytywać/zapisywać jego pliki:</p>
+<pre><code>$ ls -al /home/
+total 40
+drwxr-xr-x  7 root       root        4096 Oct 11 06:34 .
+drwxr-xr-x 24 root       root        4096 Oct  9 10:37 ..
+drwxr-xr-x  3 root       root        4096 Oct 11 06:34 .ecryptfs
+drwx------  2 root       root       16384 Jun 27  2013 lost+found
+drwxr-xr-x 80 morfik     morfik      4096 Oct 11 00:11 morfik
+drwx------  3 morfikanin morfikanin  4096 Oct 11 06:50 morfikanin
+drwx------  2 morfikanin morfikanin  4096 Oct 11 06:34 morfikanin.vvDPp6xm
+
+$ ls -al /home/morfikanin/
+total 80
+drwx------ 3 morfikanin morfikanin 4096 Oct 11 06:50 .
+drwxr-xr-x 7 root       root       4096 Oct 11 06:34 ..
+lrwxrwxrwx 1 morfikanin morfikanin   35 Oct 11 06:34 .Private -&gt; /home/.ecryptfs/morfikanin/.Private
+-rw-r--r-- 1 morfikanin morfikanin  220 Oct 11 06:34 .bash_logout
+-rw-r--r-- 1 morfikanin morfikanin 3515 Oct 11 06:34 .bashrc
+lrwxrwxrwx 1 morfikanin morfikanin   36 Oct 11 06:34 .ecryptfs -&gt; /home/.ecryptfs/morfikanin/.ecryptfs
+-rw-r--r-- 1 morfikanin morfikanin  675 Oct 11 06:34 .profile
+
+$ touch test
+
+$ echo test &gt; test
+
+$ cat test
+test
+</code></pre>
+<p>Wygląda w porządku. W katalogu <code>.Private</code> są trzymane zaszyfrowane pliki. Katalog <code>/home/$USER/</code> , w
+którym się znajdujemy, jest punktem montowania.</p>
+<p>Musimy także odczytać zaszyfrowane hasło przy pomocy <code>ecryptfs-unwrap-passphrase</code> i gdzieś je sobie
+zapisać. Jeśli to hasło przepadnie, nie uda nam się już odzyskać plików z tego katalogu.</p>
+<pre><code>$ ecryptfs-unwrap-passphrase
+Passphrase:
+4ce20ef0799aba39d28d511a452a0f90
+</code></pre>
+<p>Po tym jak się wylogujemy z konta, podgląd katalogu domowego będzie się prezentował następująco:</p>
+<pre><code># ls -al /home/morfikanin
+total 8.0K
+dr-x------ 2 morfikanin morfikanin 4.0K Oct 11 06:34 ./
+drwxr-xr-x 7 root       root       4.0K Oct 11 06:34 ../
+lrwxrwxrwx 1 morfikanin morfikanin   35 Oct 11 06:34 .Private -&gt; /home/.ecryptfs/morfikanin/.Private/
+lrwxrwxrwx 1 morfikanin morfikanin   36 Oct 11 06:34 .ecryptfs -&gt; /home/.ecryptfs/morfikanin/.ecryptfs/
+lrwxrwxrwx 1 morfikanin morfikanin   56 Oct 11 06:34 Access-Your-Private-Data.desktop -&gt; /usr/share/ecryptfs-utils/ecryptfs-mount-private.desktop
+lrwxrwxrwx 1 morfikanin morfikanin   52 Oct 11 06:34 README.txt -&gt; /usr/share/ecryptfs-utils/ecryptfs-mount-private.txt
+</code></pre>
+<p>Krótko pisząc, katalog domowy został odmontowany po wylogowaniu się użytkownika i nikt nie ma
+dostępu do jego plików, przynajmniej w formie odszyfrowanej.</p>
+<p>Automontowanie zasobu odbywa się za pośrednictwem modułu PAM. Jeśli nie wiemy czy mamy aktywowany
+ten moduł, możemy to sprawdzić wpisując w terminalu <code>pam-auth-update</code> jako root:</p>
+<p><img src="https://morfikov.github.io
+/img/2015/06/1.ecryptfs-pam-konfiguracja.png" alt=""></p>
+<p>Po udanej akcji zaszyfrowania katalogu domowego, kasujemy wcześniej utworzony automatycznie katalog
+z backup'em <code>/home/$USER.vvDPp6xm/</code> :</p>
+<pre><code># rm -R /home/morfikanin.vvDPp6xm/
+</code></pre>
+<h2 id="katalog-ecryptfs">Katalog .ecryptfs</h2>
+<p>Każdy katalog <code>/home/$USER/</code> ma podkatalog <code>.ecryptfs</code>, w którym to znajdują się informacje
+niezbędne do operowania na zaszyfrowanym katalogu domowym użytkownika. Mamy tam poniższe pliki:</p>
+<pre><code># ls -al /home/.ecryptfs/morfikanin/.ecryptfs/
+total 20K
+drwx------ 2 morfikanin morfikanin 4.0K Oct 11 06:34 ./
+drwxr-xr-x 4 morfikanin morfikanin 4.0K Oct 11 06:34 ../
+-rw------- 1 morfikanin morfikanin   17 Oct 11 06:34 Private.mnt
+-rw------- 1 morfikanin morfikanin   34 Oct 11 06:34 Private.sig
+-rw-r--r-- 1 morfikanin morfikanin    0 Oct 11 06:34 auto-mount
+-rw-r--r-- 1 morfikanin morfikanin    0 Oct 11 06:34 auto-umount
+-r-------- 1 morfikanin morfikanin   48 Oct 11 06:34 wrapped-passphrase
+</code></pre>
+<p>Pliki <code>auto-mount</code> oraz <code>auto-umount</code> to puste pliki i moduł PAM sprawdza ich obecność i jeśli
+istnieją, to automatycznie montuje/demontuje zasób, gdy użytkownik się loguje/wylogowuje do/z
+systemu. Sam zaszyfrowany katalog jest montowany w miejscu określonym w pliku <code>Private.mnt</code> . Z
+kolei w pliku <code>Private.sig</code> są przechowywane sygnatury haseł, którymi to są szyfrowane pliki i ich
+nazwy. W pliku <code>wrapped-passphrase</code> znajduje się losowo wygenerowane i zaszyfrowane hasło służące do
+automatycznego montowania katalogu domowego wraz z logowaniem się użytkownika do systemu. By
+odszyfrować to hasło, trzeba podać inne hasło, w tym przypadku jest to hasło do konta użytkownika w
+systemie -- to tego hasła używa moduł PAM.</p>
+<p>Domyślnie, zarówno pliki w katalogu jak i ich nazwy są szyfrowane niezależnie dwoma różnymi
+kluczami. Jeśli podejrzymy keyring w krenelu dla tego użytkownika, ujrzymy tam dwa wpisy:</p>
+<pre><code>$ keyctl list @u
+2 keys in keyring:
+167322969: --alswrv  1001  1001 user: d2a0514b5e5288d3
+645190684: --alswrv  1001  1001 user: 5edd65cdfbbb0a0f
+</code></pre>
+<p>Hash po prawej stronie to sygnatura hasła, na podstawie której kernel identyfikuje konkretne klucze
+w keyring'u. Są one także zapisane w pliku <code>Private.sig</code> :</p>
+<pre><code># cat /home/.ecryptfs/morfikanin/.ecryptfs/Private.sig
+5edd65cdfbbb0a0f
+d2a0514b5e5288d3
+</code></pre>
+<h2 id="mechanizm-działania-ecryptfs">Mechanizm działania eCryptfs</h2>
+<p>To jak ten mechanizm działa dokładnie, zostało wyjaśnione na <a href="https://blog.dustinkirkland.com/2009/02/how-encrypted-home-ecryptfs-works.html">blogu jednego z
+twórców</a> eCryptfs. W skrócie, gdy logujemy się do systemu, moduł <code>pam_ecryptfs</code> przy pomocy
+hasła do naszego konta deszyfruje symetrycznie plik <code>wrapped-passphrase</code> zlokalizowany w katalogu
+<code>~/.ecryptfs/</code> . W tym pliku domyślnie znajduje się 128-bitowy losowo wygenerowany klucz. Po
+odszyfrowaniu, jest on solony i hash'owany 65536 razy przy wykorzystaniu hash'a <code>sha512</code>. Następnie
+taki klucz jest ładowany do keyring'a kernela i to przy jego pomocy są szyfrowane nagłówki plików,
+w których to znajdują się unikatowe klucze szyfrujące same pliki. Dzięki takiemu rozwiązaniu, mając
+dwa pliki o takiej samej odszyfrowanej zawartości, po zaszyfrowaniu będą miały kompletnie inną
+formę. Wszystkie nowsze wersje kernela szyfrują także nazwy plików i robią to osobnym kluczem. W
+tym przypadku, hasło określone w pliku <code>wrapped-passphrase</code> jest wczytywane drugi raz i solone inną
+wartością niż miało to miejsce wcześniej, po czym jest ono również hash'owane 65536 razy przy
+użyciu <code>sha512</code> , a wynikowy klucz jest dodawany do keyring'a kernela. Dlatego też, na innej
+maszynie, przy pomocy znanego tylko nam hasła, możemy odszyfrować konkretny plik.</p>
+<p>Powyżej, w keyring'u kernela, mamy dwie sygnatury. Sprawdźmy zatem czy faktycznie pochodzą one od
+zaszyfrowanego hasła służącego do montowania katalogu domowego. By je porównać, trzeba wydobyć
+zaszyfrowane hasło z pliku i dodać je do keyring'a:</p>
+<pre><code>$ ecryptfs-unwrap-passphrase
+Passphrase:
+4ce20ef0799aba39d28d511a452a0f90
+
+$ ecryptfs-add-passphrase --fnek
+Passphrase:
+Inserted auth tok with sig [5edd65cdfbbb0a0f] into the user session keyring
+Inserted auth tok with sig [d2a0514b5e5288d3] into the user session keyring
+</code></pre>
+<p>Jak widać powyżej, obie sygnatury się zgadzają.</p>
+<h2 id="odzyskiwanieprzenoszenie-zaszyfrowanego-katalogu">Odzyskiwanie/przenoszenie zaszyfrowanego katalogu</h2>
+<p>Jeśli znaleźlibyśmy się w sytuacji krytycznej, tj. stracilibyśmy pliki w katalogu <code>.ecryptfs</code>, lub
+zwyczajnie chcielibyśmy odtworzyć zaszyfrowany katalog na innej maszynie ale mamy do dyspozycji
+tylko zaszyfrowane pliki oraz odszyfrowane hasło, możemy przeprowadzić poniższe kroki by uzyskać
+dostęp do zaszyfrowanego katalogu. Na potrzeby testu wylogowałem się z konta użytkownika, którego
+katalog domowy poddałem szyfrowaniu. Następnie nadpisałem kompletnie pliki w katalogu
+<code>/home/morfikanin/.ecryptfs/</code>:</p>
+<pre><code># cd /home/
+# &gt; ./morfikanin/.ecryptfs/wrapped-passphrase
+# &gt; ./morfikanin/.ecryptfs/Private.mnt
+# &gt; ./morfikanin/.ecryptfs/Private.sig
+
+# ls -al ./morfikanin/.ecryptfs/
+total 8.0K
+drwx------ 2 morfikanin morfikanin 4.0K Oct 11 08:12 ./
+drwxr-xr-x 4 morfikanin morfikanin 4.0K Oct 11 06:34 ../
+-rw------- 1 morfikanin morfikanin    0 Oct 11 08:17 Private.mnt
+-rw------- 1 morfikanin morfikanin    0 Oct 11 08:17 Private.sig
+-rw-r--r-- 1 morfikanin morfikanin    0 Oct 11 06:34 auto-mount
+-rw-r--r-- 1 morfikanin morfikanin    0 Oct 11 06:34 auto-umount
+-rw-r--r-- 1 morfikanin morfikanin    0 Oct 11 08:17 wrapped-passphrase
+</code></pre>
+<p>W tej chwili, bez posiadania odszyfrowanej formy hasła nie jesteśmy w stanie odzyskać zaszyfrowanych
+plików. Musimy zatem zaszyfrować hasło potrzebne do zamontowania katalogu <code>/home/$USER/</code> przy pomocy
+<code>ecryptfs-wrap-passphrase</code> podając w <code>Passphrase to wrap</code> odszyfrowaną formę hasła, a w <code>Wrapping passphrase</code> hasło do logowania do systemu:</p>
+<pre><code># ecryptfs-wrap-passphrase ./morfikanin/.ecryptfs/wrapped-passphrase
+Passphrase to wrap:
+Wrapping passphrase:
+</code></pre>
+<p>Sprawdzamy czy jesteśmy w stanie odszyfrować hasło, które znalazło się w pliku:</p>
+<pre><code># ecryptfs-unwrap-passphrase ./morfikanin/.ecryptfs/wrapped-passphrase
+Passphrase:
+4ce20ef0799aba39d28d511a452a0f90
+</code></pre>
+<p>Zatem ten krok mamy z głowy. Definiujemy także gdzie zamontować zaszyfrowany zasób:</p>
+<pre><code># echo &quot;/home/morfikanin/&quot; &gt; ./morfikanin/.ecryptfs/Private.mnt
+</code></pre>
+<p>Potrzebne nam są jeszcze sygnatury kluczy szyfrujących. W <code>Passphrase:</code> podajemy odszyfrowane hasło
+do montowania:</p>
+<pre><code># ecryptfs-add-passphrase --fnek
+Passphrase:
+Inserted auth tok with sig [5edd65cdfbbb0a0f] into the user session keyring
+Inserted auth tok with sig [d2a0514b5e5288d3] into the user session keyring
+</code></pre>
+<p>Uzupełniamy sygnatury:</p>
+<pre><code># echo 5edd65cdfbbb0a0f &gt; ./morfikanin/.ecryptfs/Private.sig
+# echo d2a0514b5e5288d3 &gt;&gt; ./morfikanin/.ecryptfs/Private.sig
+</code></pre>
+<p>Teraz już tylko zostało nam przetestować czy po zalogowaniu się, katalog <code>/home/$USER/</code> zostanie
+automatycznie odszyfrowany i zamontowany. W moim przypadku, wszystko przebiegło bez większych
+problemów.</p>
+<h2 id="szyfrowanie-folderu-private">Szyfrowanie folderu ~/Private/</h2>
+<p>Jeśli chcemy zaszyfrować <a href="https://help.ubuntu.com/community/EncryptedPrivateDirectory">inny folder niż domowy</a>, możemy to zrobić przy pomocy narzędzia
+<code>ecryptfs-setup-private</code> . Działać to będzie na tej samej zasadzie co szyfrowanie całego folderu
+domowego, z tym, że zostanie ograniczone tylko do folderu <code>~/Private/</code> . Korzystając z
+<code>ecryptfs-setup-private</code> nie mamy możliwości ani dostosowania długości klucza, który wynosi 128
+bitów, ani też określenia innego katalogu niż tego domyślny. Poniżej jest przedstawione
+wykorzystanie ww. narzędzia:</p>
+<pre><code>morfik:~$ ecryptfs-setup-private
+Enter your login passphrase [morfik]:
+Enter your mount passphrase [leave blank to generate one]:
+
+************************************************************************
+YOU SHOULD RECORD YOUR MOUNT PASSPHRASE AND STORE IT IN A SAFE LOCATION.
+  ecryptfs-unwrap-passphrase ~/.ecryptfs/wrapped-passphrase
+THIS WILL BE REQUIRED IF YOU NEED TO RECOVER YOUR DATA AT A LATER TIME.
+************************************************************************
+
+
+Done configuring.
+
+Testing mount/write/umount/read...
+Inserted auth tok with sig [b91ce3811ab95844] into the user session keyring
+Inserted auth tok with sig [c1884ffbc9e246b7] into the user session keyring
+Inserted auth tok with sig [b91ce3811ab95844] into the user session keyring
+Inserted auth tok with sig [c1884ffbc9e246b7] into the user session keyring
+Testing succeeded.
+
+Logout, and log back in to begin using your encrypted directory.
+</code></pre>
+<p>I to w zasadzie tyle. By móc korzystać z tego folderu, musimy się ponownie zalogować w systemie.
+Dobrze jest też sprawdzić po zalogowaniu czy folder jest poprawnie montowany przez wydanie polecenia
+<code>mount</code> :</p>
+<pre><code>$ mount
+...
+/home/morfik/.Private on /home/morfik/Private type ecryptfs (rw,nosuid,nodev,relatime,ecryptfs_fnek_sig=c1884ffbc9e246b7,ecryptfs_sig=b91ce3811ab95844,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_unlink_sigs)
+</code></pre>
+<p>Po wylogowaniu się, folder powinien zostać automatycznie zdemontowany.</p>
+<p>Istnieje też, co prawda, opcja sprecyzowania, który folder chcemy zaszyfrować i gdzie go zamontować
+ale w takim przypadku, PAM nie jest w stanie montować/demontować takiego katalogu, dlatego też
+darujemy sobie tę konfigurację.</p>
+<h2 id="szyfrowanie-dowolnego-folderu">Szyfrowanie dowolnego folderu</h2>
+<p>Ja zbytnio nie potrzebuję ani szyfrować katalogu domowego, ani katalogu <code>~/Private/</code> , bo mam
+zaimplementowane pełne szyfrowanie dysku na bazie LUKS. Poza tym, problem z powyższym rozwiązaniem
+jest oczywisty jeśli chodzi o przechowywanie tak zaszyfrowanych plików w różnego rodzaju chmurach.
+Mianowicie, jak udostępnić taki folder, np. na Dropbox? Dropbox wymaga od nas by udostępniane
+pliki umieszczać w określonym przez niego katalogu. Z kolei z MEGA jest trochę lepiej, bo możemy
+precyzować foldery niezależnie i możemy wybrać zaszyfrowany folder <code>~/.Private/</code> i go przesłać do
+chmury. A co w przypadku, gdy nam nie odpowiada położenie katalogu <code>~/.Private/</code> albo też co w
+przypadku gdybyśmy chcieli mieć wiele zaszyfrowanych folderów? Tego typu konfiguracji nie sprostają
+ubuntowe narzędzia. Jest to, co prawda, wykonalne ale trzeba ręcznie stworzyć cały setup.</p>
+<p>Na sam początek potrzebujemy kilka katalogów -- po dwa na każdy zaszyfrowany zasób. Dodatkowo,
+nadajemy im odpowiednie prawa dostępu:</p>
+<pre><code># cd /media/Server/test/
+# mkdir .1 1 .2 2 .3 3
+# chmod 500 1 2 3
+# chmod 700 .1 .2 .3
+
+# ls -al
+total 32K
+drwxr-xr-x  8 morfik morfik 4.0K Oct 11 20:07 ./
+drwxr-xr-x 18 morfik morfik 4.0K Oct 11 19:35 ../
+drwx------  2 morfik morfik 4.0K Oct 11 19:36 .1/
+drwx------  2 morfik morfik 4.0K Oct 11 19:36 .2/
+drwx------  2 morfik morfik 4.0K Oct 11 20:07 .3/
+dr-x------  2 morfik morfik 4.0K Oct 11 20:07 1/
+dr-x------  2 morfik morfik 4.0K Oct 11 20:07 2/
+dr-x------  2 morfik morfik 4.0K Oct 11 20:07 3/
+</code></pre>
+<p>To jaką konfigurację sobie obierzemy, zależy tylko od nas. Możemy mieć wszystkie katalogi na jedno
+hasło, lub każdy na inne. Niemniej jednak, w przypadku posiadania wielu katalogów, hasła do nich
+będziemy musieli przechowywać w postaci czystego tekstu gdzieś na dysku, dlatego, też jeśli mamy
+niezaszyfrowany system, to hasło może zostać przechwycone, z czym należy się jak najbardziej liczyć.</p>
+<p>Na necie doszukałem się informacji na temat pliku <code>~/.ecryptfsrc</code> i próbowałem przy jego pomocy
+zaszyfrować katalogi. Niby się nawet udało to zrobić ale tylko z konta użytkownika root. Nie szło za
+to przenieść tej konfiguracji na zwykłego user'a. Sam plik ma poniższą postać:</p>
+<pre><code>key=passphrase
+passphrase_passwd=4490af7434bebacd
+#passphrase_passwd_file=/mnt/usb/passwd_file.txt
+#ecryptfs_unlink_sigs
+ecryptfs_xattr
+ecryptfs_key_bytes=32
+ecryptfs_cipher=aes
+ecryptfs_passthrough=n
+ecryptfs_sig=eb8898761ad51521
+ecryptfs_fnek_sig=eb8898761ad51521
+</code></pre>
+<p>Dodatkowo są jakieś problemy z sygnaturami i nie idzie ustawić w tym pliku dwóch różnych, co
+powoduje, że nagłówki plików i nazwy plików są szyfrowane tym samym kluczem. Poza tym, natknąłem się
+na szereg błędów przy montowaniu, także raczej odradzam korzystanie z tego pliku.</p>
+<p>Na szczęście istnieje inne rozwiązanie, przy pomocy którego udało mi się osiągnąć pożądaną przeze
+mnie konfigurację. Zakłada ona wykorzystanie autostartu środowiska graficznego. Schemat działania
+jest prosty. Wczytujemy hasło i na jego podstawie są generowane dwie sygnatury, które są umieszczane
+w keyring'u kernela. Wszystkie opcje szyfrowania umieszczamy w pliku <code>/etc/fstab</code> . Dodatkowo, w
+opcjach dodajemy <code>users</code> tak, by montowanie tych zasobów mogło odbywać się także z konta zwykłego
+użytkownika ale tylko tego będącego członkiem grupy <code>users</code> .</p>
+<p>Na początek zajmijmy się hasłem. By wygenerować jakiś rozsądny losowy ciąg znaków (32 bajty),
+wpisujemy w terminal poniższe polecenie:</p>
+<pre><code>$ od -x -N 32 --width=32 /dev/urandom | head -n 1 | sed &quot;s/^0000000//&quot; | sed &quot;s/\s*//g&quot;
+dde1109bb38ede1b9d7309929a956365b132d454d8ea77636e0b02a792e9e82b
+</code></pre>
+<p>Teraz tym hasłem musimy nakarmić <code>ecryptfs-add-passphrase</code> :</p>
+<pre><code>$ ecryptfs-add-passphrase --fnek
+Passphrase:
+Inserted auth tok with sig [49d33e33ef5a3ecb] into the user session keyring
+Inserted auth tok with sig [80d9a32888b65b44] into the user session keyring
+</code></pre>
+<p>Uzyskane w ten sposób sygnatury wpisujemy do pliku <code>/etc/fstab</code> wraz z dodatkową
+konfiguracją:</p>
+<pre><code>/media/Server/test/.1 /media/Server/test/1 ecryptfs    defaults,user,noauto,nofail,ecryptfs_sig=49d33e33ef5a3ecb,ecryptfs_fnek_sig=80d9a32888b65b44,ecryptfs_cipher=aes,ecryptfs_key_bytes=32 0 0
+/media/Server/test/.2 /media/Server/test/2 ecryptfs   defaults,user,noauto,nofail,ecryptfs_sig=49d33e33ef5a3ecb,ecryptfs_fnek_sig=80d9a32888b65b44,ecryptfs_cipher=aes,ecryptfs_key_bytes=32 0 0
+/media/Server/test/.3 /media/Server/test/3 ecryptfs  defaults,user,noauto,nofail,ecryptfs_sig=49d33e33ef5a3ecb,ecryptfs_fnek_sig=80d9a32888b65b44,ecryptfs_cipher=aes,ecryptfs_key_bytes=32 0 0
+</code></pre>
+<p>By przetestować montowanie zasobów, wydajemy poniższe polecenia:</p>
+<pre><code>$ keyctl list @u
+2 keys in keyring:
+769826815: --alswrv  1000  1000 user: 49d33e33ef5a3ecb
+185921157: --alswrv  1000  1000 user: 80d9a32888b65b44
+
+morfik:~$ mount -i /media/Server/test/1
+morfik:~$ mount -i /media/Server/test/2
+morfik:~$ mount -i /media/Server/test/3
+
+$ mount
+...
+/media/Server/test/.1 on /media/Server/test/1 type ecryptfs (rw,nosuid,nodev,noexec,relatime,ecryptfs_fnek_sig=80d9a32888b65b44,ecryptfs_sig=49d33e33ef5a3ecb,ecryptfs_cipher=aes,ecryptfs_key_bytes=32,_netdev,user=morfik)
+/media/Server/test/.2 on /media/Server/test/2 type ecryptfs (rw,nosuid,nodev,noexec,relatime,ecryptfs_fnek_sig=80d9a32888b65b44,ecryptfs_sig=49d33e33ef5a3ecb,ecryptfs_cipher=aes,ecryptfs_key_bytes=32,_netdev,user=morfik)
+/media/Server/test/.3 on /media/Server/test/3 type ecryptfs (rw,nosuid,nodev,noexec,relatime,ecryptfs_fnek_sig=80d9a32888b65b44,ecryptfs_sig=49d33e33ef5a3ecb,ecryptfs_cipher=aes,ecryptfs_key_bytes=32,_netdev,user=morfik)
+</code></pre>
+<p>By zautomatyzować proces montowania zasobów na starcie systemu, do autostartu Openbox'a (lub
+innego środowiska graficznego) dodajemy poniższą zwrotkę:</p>
+<pre><code>if [ -z &quot;$(mount | grep ecryptfs)&quot; ] ; then
+      printf &quot;%s&quot; &quot;dde1109bb38ede1b9d7309929a956365b132d454d8ea77636e0b02a792e9e82b&quot; | ecryptfs-add-passphrase --fnek -
+      mount -i /media/Server/test/1
+      mount -i /media/Server/test/2
+      mount -i /media/Server/test/3
+fi
+</code></pre>
+<p>Za każdym razem gdy będziemy wywoływać graficzną sesję logowania, system sprawdzi czy jakieś
+zaszyfrowane katalogi są zamontowane i jeśli nie są, załaduje sygnatury do keyring'a kernela, po
+czym podmontuje zasoby.</p>
+<p>Powyższą zwrotkę możemy także dodać do pliku <code>~/.profile</code> lub <code>~/.bashrc</code> jeśli interesuje nas
+dostęp do zaszyfrowanych katalogów wyłącznie spod TTY.</p>
+<h2 id="odszyfrowywanie-pojedynczych-plików">Odszyfrowywanie pojedynczych plików</h2>
+<p>Jeśli bylibyśmy zmuszeni z jakiegoś powodu pobrać surową kopię pliku z Dropboxa, możemy tak uzyskany
+plik bez większego problemu odszyfrować. Wystarczy stworzyć dwa katalogi i w jednym z nich umieścić
+zaszyfrowany plik. Następnie znając hasło, możemy określić
+sygnatury:</p>
+<pre><code># printf &quot;%s&quot; &quot;dde1109bb38ede1b9d7309929a956365b132d454d8ea77636e0b02a792e9e82b&quot; | ecryptfs-add-passphrase --fnek -
+Inserted auth tok with sig [49d33e33ef5a3ecb] into the user session keyring
+Inserted auth tok with sig [80d9a32888b65b44] into the user session keyring
+</code></pre>
+<p>Mając sygnatury, możemy przejść do katalogu, w którym stworzyliśmy dwa testowe podkatalogi i z konta
+root dokonać zamontowania zasobu:</p>
+<pre><code># mount -t ecryptfs .1 1
+Select key type to use for newly created files:
+ 1) tspi
+ 2) passphrase
+Selection: 2
+Passphrase:
+Select cipher:
+ 1) aes: blocksize = 16; min keysize = 16; max keysize = 32
+ 2) blowfish: blocksize = 8; min keysize = 16; max keysize = 56
+ 3) des3_ede: blocksize = 8; min keysize = 24; max keysize = 24
+ 4) twofish: blocksize = 16; min keysize = 16; max keysize = 32
+ 5) cast6: blocksize = 16; min keysize = 16; max keysize = 32
+ 6) cast5: blocksize = 8; min keysize = 5; max keysize = 16
+Selection [aes]: 1
+Select key bytes:
+ 1) 16
+ 2) 32
+ 3) 24
+Selection [16]: 2
+Enable plaintext passthrough (y/n) [n]:
+Enable filename encryption (y/n) [n]: y
+Filename Encryption Key (FNEK) Signature [49d33e33ef5a3ecb]: 80d9a32888b65b44
+Attempting to mount with the following options:
+  ecryptfs_unlink_sigs
+  ecryptfs_fnek_sig=80d9a32888b65b44
+  ecryptfs_key_bytes=32
+  ecryptfs_cipher=aes
+  ecryptfs_sig=49d33e33ef5a3ecb
+WARNING: Based on the contents of [/root/.ecryptfs/sig-cache.txt],
+it looks like you have never mounted with this key
+before. This could mean that you have typed your
+passphrase wrong.
+
+Would you like to proceed with the mount (yes/no)? : yes
+Would you like to append sig [49d33e33ef5a3ecb] to
+[/root/.ecryptfs/sig-cache.txt]
+in order to avoid this warning in the future (yes/no)? : no
+Not adding sig to user sig cache file; continuing with mount.
+Mounted eCryptfs
+</code></pre>
+<p>Sprawdzamy, czy plik został pomyślnie odszyfrowany:</p>
+<pre><code># ls -al .1/
+total 19M
+drwxr-xr-x 2 morfik morfik 4.0K Oct 12 02:03 ./
+drwxr-xr-x 4 morfik morfik 4.0K Oct 12 02:03 ../
+-rw-r--r-- 1 morfik morfik  19M Oct 11 00:20 ECRYPTFS_FNEK_ENCRYPTED.FXbOcDQ6N4OQfkZidLU.rJ-fktfdjINirZfMNdk7XKECoP8wqi2eqiHmZJmgAms1xrIVSmwYtw5.l2s-
+
+# ls -al 1/
+total 19M
+drwxr-xr-x 2 morfik morfik 4.0K Oct 12 02:03 ./
+drwxr-xr-x 4 morfik morfik 4.0K Oct 12 02:03 ../
+-rw-r--r-- 1 morfik morfik  19M Oct 11 00:20 2014_10_11_00_13_29.tar.gz
+</code></pre>
+<p>Trzeba tylko pamiętać, by po skończonej robocie, zdemontować zaszyfrowany katalog.</p>
+<h2 id="dodatkowe-zabezpieczenia">Dodatkowe zabezpieczenia</h2>
+<p>Jako, że opcje szyfrowania mamy zdefiniowane w pliku <code>/etc/fstab</code> oraz, że hasło w postaci zwykłego
+tekstu widnieje w pliku autostartu środowiska graficznego, trzeba odpowiednio zabezpieczyć te pliki.
+W przypadku <code>/etc/fstab</code> , ustawiamy prawa dostępu na <code>600</code>, podobnie postępujemy z plikiem
+openboxa:</p>
+<pre><code># chmod 600 ~/.config/openbox/autostart
+# chmod 600 /etc/fstab
+</code></pre>
+<p>Jeśli nie korzystamy z pełnego szyfrowania dysku, a jedynie szyfrujemy katalog domowy, musimy także
+pomyśleć o zaszyfrowaniu przestrzeni wymiany, jeśli takową posiadamy w systemie, oraz o
+zabezpieczeniu katalogu <code>/tmp/</code> . Ubuntowe narzędzia od <code>eCryptfs</code> dostarczają oprogramowanie, które
+potrafi zaszyfrować SWAP ale z tego co czytałem, to działa ono jedynie pod ubuntu.</p>
+<p>Doczytałem się także informacji, że <code>eCryptfs</code> może obsługiwać certyfikaty zamiast haseł, co potrafi
+dodatkowo zwiększyć bezpieczeństwo zaszyfrowanych danych. Tylko, że ten ficzer zwyczajnie nie
+działa:</p>
+<pre><code># ecryptfs-manager
+
+eCryptfs key management menu
+-------------------------------
+        1. Add passphrase key to keyring
+        2. Add public key to keyring
+        3. Generate new public/private keypair
+        4. Exit
+
+Make selection: 3
+Select key type to use for newly created files:
+Selection:
+Select key type to use for newly created files:
+Selection: 1
+Select key type to use for newly created files:
+Selection: 2
+Select key type to use for newly created files:
+Selection: 4
+Select key type to use for newly created files:
+Selection: ^C
+</code></pre>
+<p>Jak widać powyżej, nie ma żadnego typu klucza. Dodatkowo, w syslog'u można zaobserwować poniższy
+błąd:</p>
+<pre><code>ecryptfs-manager: Error initializing key module [/usr/lib/x86_64-linux-gnu/ecryptfs/libecryptfs_key_mod_gpg.so]; rc = [-22]
+ecryptfs-manager: Key module [tspi] does not have a key generation subgraph transition node
+ecryptfs-manager: Key module [passphrase] does not have a key generation subgraph transition node
+</code></pre>
+<p>Pozostaje mieć nadzieję, że wszystkie błędy, na które natrafiłem przy przejściu z <code>encfs</code> na
+<code>eCryptfs</code> zostaną wyeliminowane.</p>
+<h2 id="prace-nad-encfs">Prace nad encfs</h2>
+<p>Doszukałem się informacji, że prace nad <code>encfs</code> ruszyły oraz, że kod projektu został przeniesiony na
+<a href="https://github.com/vgough/encfs">github'a</a> i jak pisze twórca, ten projekt teraz zależy głównie od społeczności. Przez trzy i
+pół roku aplikacja przebywała w stanie uśpienia ale 10 marca 2015 roku doczekała się wersji 1.8.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bezpiecze%C5%84stwo/">bezpieczeństwo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">szyfrowanie</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pliki/foldery/">pliki/foldery</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pam/">pam</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fecryptfs-jako-alternatywa-dla-encfs%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fecryptfs-jako-alternatywa-dla-encfs%2f&amp;text=ECryptfs%20jako%20alternatywa%20dla%20encfs" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fecryptfs-jako-alternatywa-dla-encfs%2f&amp;title=ECryptfs%20jako%20alternatywa%20dla%20encfs" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fecryptfs-jako-alternatywa-dla-encfs%2f&amp;title=ECryptfs%20jako%20alternatywa%20dla%20encfs" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fecryptfs-jako-alternatywa-dla-encfs%2f&title=ECryptfs%20jako%20alternatywa%20dla%20encfs" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fecryptfs-jako-alternatywa-dla-encfs%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fecryptfs-jako-alternatywa-dla-encfs%2f&amp;title=ECryptfs%20jako%20alternatywa%20dla%20encfs" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fecryptfs-jako-alternatywa-dla-encfs%2f&description=ECryptfs%20jako%20alternatywa%20dla%20encfs" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/bezpieczny-klucz-gpg/">Bezpieczny klucz GPG</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uwierzytelniajace-klucze-ssh/">Uwierzytelniające klucze SSH</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/riseup-vpn-na-strazy-prywatnosci/">Riseup VPN na straży prywatności</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/szyfrowanie-poczty-przy-pomocy-enigmail/">Szyfrowanie poczty przy pomocy enigmail</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/autostart-i-automatyczne-montowanie-nosnikow/">Autostart i automatyczne montowanie nośników</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

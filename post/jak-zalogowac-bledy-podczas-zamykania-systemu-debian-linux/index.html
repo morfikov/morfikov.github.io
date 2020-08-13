@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak zalogować błędy podczas zamykania systemu Debian Linux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak zalogować błędy podczas zamykania systemu Debian Linux" />
+<meta property="og:description" content="By wyłączyć komputer, jego system operacyjny musi pierw zatrzymać (lub też ubić siłowo) wszystkie
+działające usługi za wyjątkiem tego mającego PID z numerkiem 1. Zwykle proces zamykania się systemu
+Debian Linux nie trwa więcej niż parę sekund ale czasami pojawiają się dziwne problemy, które mogą
+to zadanie utrudnić lub też całkowicie uniemożliwić. Nawet jeśli system będzie się w stanie
+zresetować, to zanim to nastąpi, to na konsoli mogą pojawić się komunikaty mogące pomóc nam w
+zdiagnozowaniu dolegliwości, która doskwiera naszej maszynie. Problem w tym, że część tych
+wiadomości nie zostanie nigdy zalogowana do pliku, gdzie moglibyśmy ich poszukać. Dzieje się tak
+dlatego, że w pewnym określonym momencie zamykania się systemu trzeba wyłączyć usługę logowania, co
+zwykle widać w logu jako systemd-journald[]: Journal stopped . Gdy dziennik zostanie zatrzymany,
+żadna wiadomość, która od tego momentu pojawi się na ekranie, nie zostanie już zalogowana do pliku.
+Jeśli teraz pojawią nam się ostrzeżenia lub błędy, a po chwili komputer się zresetuje, to możemy
+mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza. Przydałoby się zapisać
+te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux/" />
+<meta property="article:published_time" content="2019-02-02T06:12:18+00:00" />
+<meta property="article:modified_time" content="2019-02-02T06:12:18+00:00" />
+
+		<meta itemprop="name" content="Jak zalogować błędy podczas zamykania systemu Debian Linux">
+<meta itemprop="description" content="By wyłączyć komputer, jego system operacyjny musi pierw zatrzymać (lub też ubić siłowo) wszystkie
+działające usługi za wyjątkiem tego mającego PID z numerkiem 1. Zwykle proces zamykania się systemu
+Debian Linux nie trwa więcej niż parę sekund ale czasami pojawiają się dziwne problemy, które mogą
+to zadanie utrudnić lub też całkowicie uniemożliwić. Nawet jeśli system będzie się w stanie
+zresetować, to zanim to nastąpi, to na konsoli mogą pojawić się komunikaty mogące pomóc nam w
+zdiagnozowaniu dolegliwości, która doskwiera naszej maszynie. Problem w tym, że część tych
+wiadomości nie zostanie nigdy zalogowana do pliku, gdzie moglibyśmy ich poszukać. Dzieje się tak
+dlatego, że w pewnym określonym momencie zamykania się systemu trzeba wyłączyć usługę logowania, co
+zwykle widać w logu jako systemd-journald[]: Journal stopped . Gdy dziennik zostanie zatrzymany,
+żadna wiadomość, która od tego momentu pojawi się na ekranie, nie zostanie już zalogowana do pliku.
+Jeśli teraz pojawią nam się ostrzeżenia lub błędy, a po chwili komputer się zresetuje, to możemy
+mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza. Przydałoby się zapisać
+te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?">
+<meta itemprop="datePublished" content="2019-02-02T06:12:18+00:00" />
+<meta itemprop="dateModified" content="2019-02-02T06:12:18+00:00" />
+<meta itemprop="wordCount" content="1113">
+
+
+
+<meta itemprop="keywords" content="debian,systemd,logi," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak zalogować błędy podczas zamykania systemu Debian Linux"/>
+<meta name="twitter:description" content="By wyłączyć komputer, jego system operacyjny musi pierw zatrzymać (lub też ubić siłowo) wszystkie
+działające usługi za wyjątkiem tego mającego PID z numerkiem 1. Zwykle proces zamykania się systemu
+Debian Linux nie trwa więcej niż parę sekund ale czasami pojawiają się dziwne problemy, które mogą
+to zadanie utrudnić lub też całkowicie uniemożliwić. Nawet jeśli system będzie się w stanie
+zresetować, to zanim to nastąpi, to na konsoli mogą pojawić się komunikaty mogące pomóc nam w
+zdiagnozowaniu dolegliwości, która doskwiera naszej maszynie. Problem w tym, że część tych
+wiadomości nie zostanie nigdy zalogowana do pliku, gdzie moglibyśmy ich poszukać. Dzieje się tak
+dlatego, że w pewnym określonym momencie zamykania się systemu trzeba wyłączyć usługę logowania, co
+zwykle widać w logu jako systemd-journald[]: Journal stopped . Gdy dziennik zostanie zatrzymany,
+żadna wiadomość, która od tego momentu pojawi się na ekranie, nie zostanie już zalogowana do pliku.
+Jeśli teraz pojawią nam się ostrzeżenia lub błędy, a po chwili komputer się zresetuje, to możemy
+mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza. Przydałoby się zapisać
+te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak zalogować błędy podczas zamykania systemu Debian Linux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2019-02-02T06:12:18Z">Opublikowano: 02/02/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak zalogować błędy podczas zamykania systemu Debian Linux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#jak-linux-wyłącza-komputer">Jak Linux wyłącza komputer</a></li>
+    <li><a href="#logi-kernela-dmesg-oraz-logi-systemd">Logi kernela (dmesg) oraz logi systemd</a></li>
+    <li><a href="#jak-zrzucić-dmesg-przy-zamykaniu-systemu-do-pliku">Jak zrzucić dmesg przy zamykaniu systemu do pliku</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>By wyłączyć komputer, jego system operacyjny musi pierw zatrzymać (lub też ubić siłowo) wszystkie
+działające usługi za wyjątkiem tego mającego PID z numerkiem 1. Zwykle proces zamykania się systemu
+Debian Linux nie trwa więcej niż parę sekund ale czasami pojawiają się dziwne problemy, które mogą
+to zadanie utrudnić lub też całkowicie uniemożliwić. Nawet jeśli system będzie się w stanie
+zresetować, to zanim to nastąpi, to na konsoli mogą pojawić się komunikaty mogące pomóc nam w
+zdiagnozowaniu dolegliwości, która doskwiera naszej maszynie. Problem w tym, że część tych
+wiadomości nie zostanie nigdy zalogowana do pliku, gdzie moglibyśmy ich poszukać. Dzieje się tak
+dlatego, że w pewnym określonym momencie zamykania się systemu trzeba wyłączyć usługę logowania, co
+zwykle widać w logu jako <code>systemd-journald[]: Journal stopped</code> . Gdy dziennik zostanie zatrzymany,
+żadna wiadomość, która od tego momentu pojawi się na ekranie, nie zostanie już zalogowana do pliku.
+Jeśli teraz pojawią nam się ostrzeżenia lub błędy, a po chwili komputer się zresetuje, to możemy
+mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza. Przydałoby się zapisać
+te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?</p>
+<h2 id="jak-linux-wyłącza-komputer">Jak Linux wyłącza komputer</h2>
+<p>Z chwilą, gdy w działającym Debianie wpiszemy na konsoli <code>reboot</code>/<code>poweroff</code> , systemd zaczyna
+zamykać usługi (zwykle w kolejności odwrotnej niż zostały one uruchomione). Gdy wszystko idzie
+według planu, to spora część procesów zostaje zatrzymana zgodnie z określonymi w plikach usług
+wytycznymi. Gdy procesy są już zatrzymane, to synchronizowane są bufory dysków, a po chwili
+następuje próba odmontowania wszystkich systemów plików, które do tej pory jeszcze nie zostały
+odmontowane. Warto tutaj zaznaczyć, że system plików, który jest zamontowany w miejsce <code>/</code> , nie
+zostanie nigdy odmontowany z racji, że działają na nim procesy, min. ten mający PID 1, a system
+plików może być odmontowany jedynie w sytuacji, gdy nie jest wykorzystywany przez żaden proces.
+Systemd doskonale zdaje sobie z tego faktu sprawę i dlatego tuż przed zresetowaniem/wyłączeniem
+maszyny, montuje <code>/</code> w trybie <code>ro</code> , czyli tylko do odczytu. Zanim to jednak nastąpi, to do
+każdego procesu (za wyjątkiem PID1), który jeszcze działa w systemie, są wysyłane sygnały
+<code>SIGTERM</code> oraz <code>SIGKILL</code> W ten sposób pod koniec fazy zamykania systemu działa nam w zasadzie
+tylko jeden proces i mamy podmontowany z reguły jeden system plików w trybie tylko do odczytu.</p>
+<p>Poniżej jest końcówka logu z zamykania systemu:</p>
+<pre><code>$  journalctl -b-1
+...
+systemd[1]: Reached target Unmount All Filesystems.
+systemd[1]: Reached target Final Step.
+systemd[1]: systemd-reboot.service: Succeeded.
+systemd[1]: Started Reboot.
+systemd[1]: Reached target Reboot.
+systemd[1]: Shutting down.
+systemd[1]: Hardware watchdog 'iTCO_wdt', version 0
+systemd[1]: Set hardware watchdog to 10min.
+kernel: watchdog: watchdog0: watchdog did not stop!
+systemd-shutdown[1]: Syncing filesystems and block devices.
+systemd-shutdown[1]: Sending SIGTERM to remaining processes...
+systemd-journald[396]: Journal stopped
+</code></pre>
+<p>Z komunikatu wyżej widać, że usługa logowania <code>systemd-journald</code> została ubita po tym jak
+<code>systemd-shutdown</code> posłał jej sygnał <code>SIGTERM</code> umożliwiając jej tym samym zapisanie danych na dysk.
+System jednak działa dalej, choć nie wyczytamy tego z powyższego logu.</p>
+<h2 id="logi-kernela-dmesg-oraz-logi-systemd">Logi kernela (dmesg) oraz logi systemd</h2>
+<p>Może i już nie jesteśmy w stanie zalogować komunikatów do pliku, bo stosowna usługa umożliwiająca
+nam to nie działa ale kernel posiada swój własny mechanizm logowania, tj. <code>dmesg</code> . Dane w <code>dmesg</code>
+są przechowywane w buforze zlokalizowanym w pamięci RAM, którego rozmiar można dostosować przez
+dopisanie do linijki kernela w bootloaderze parametru <code>log_buf_len</code> , np. <code>log_buf_len=24M</code> .
+Domyślnie jednak, w tym buforze znajdą się jedynie logi kernela, przez co niewiele się z nich
+dowiemy, gdy problem będzie tkwił w jakiejś usłudze systemowej. By zalogować nie tylko komunikaty
+kernela ale również i te pochodzące od systemd (oraz jego usług), trzeba również użyć parametru
+<code>systemd.log_target=kmsg</code> . Jeśli w dalszym ciągu logi nic nam nie powiedzą, to możemy przełączyć
+systemd w tryb debugowania za pomocą parametru <code>systemd.log_level=debug</code> , z tym, że tutaj
+przydałoby się również wyłączyć ratelimit logów przez określenie <code>printk.devkmsg=on</code> . Zatem do
+linijki kernela w bootloaderze powinniśmy dodać to poniższe:</p>
+<pre><code>APPEND root=... systemd.log_level=debug systemd.log_target=kmsg log_buf_len=24M printk.devkmsg=on ...
+</code></pre>
+<p>Poniżej znajduje się przykład tego, co zostaje zalogowane od momentu, gdy usługa <code>systemd-journald</code>
+zostaje zatrzymana:</p>
+<pre><code>[97745.444190] systemd-shutdown[1]: Sending SIGTERM to remaining processes...
+[97745.451446] systemd-journald[482]: Received SIGTERM from PID 1 (systemd-shutdow).
+[97745.649032] systemd-shutdown[1]: Sending SIGKILL to remaining processes...
+[97745.656809] systemd-shutdown[1]: Hardware watchdog 'iTCO_wdt', version 0
+[97745.659726] systemd-shutdown[1]: Unmounting file systems.
+[97745.663229] [47842]: Remounting '/' read-only in with options 'errors=remount-ro'.
+[97745.755769] EXT4-fs (dm-4): re-mounted. Opts: errors=remount-ro
+[97745.791525] systemd-shutdown[1]: All filesystems unmounted.
+[97745.794368] systemd-shutdown[1]: Deactivating swaps.
+[97745.796662] systemd-shutdown[1]: All swaps deactivated.
+[97745.798859] systemd-shutdown[1]: Detaching loop devices.
+[97745.806223] systemd-shutdown[1]: All loop devices detached.
+[97745.807701] systemd-shutdown[1]: Detaching DM devices.
+[97745.812357] systemd-shutdown[1]: Detaching DM 253:9.
+[97745.833097] systemd-shutdown[1]: Detaching DM 253:8.
+[97745.835815] systemd-shutdown[1]: Could not detach DM /dev/dm-8: Device or resource busy
+[97745.838396] systemd-shutdown[1]: Detaching DM 253:7.
+[97745.855184] systemd-shutdown[1]: Detaching DM 253:6.
+[97745.878200] systemd-shutdown[1]: Detaching DM 253:5.
+[97745.896543] systemd-shutdown[1]: Detaching DM 253:3.
+[97745.908330] systemd-shutdown[1]: Detaching DM 253:2.
+[97745.926478] systemd-shutdown[1]: Detaching DM 253:12.
+[97745.947184] systemd-shutdown[1]: Detaching DM 253:11.
+[97745.964219] systemd-shutdown[1]: Detaching DM 253:10.
+[97745.977158] systemd-shutdown[1]: Detaching DM 253:1.
+[97745.989103] systemd-shutdown[1]: Detaching DM 253:0.
+[97745.991164] systemd-shutdown[1]: Could not detach DM /dev/dm-0: Device or resource busy
+[97745.993165] systemd-shutdown[1]: Not all DM devices detached, 3 left.
+[97745.995581] systemd-shutdown[1]: Detaching DM devices.
+[97745.998183] systemd-shutdown[1]: Detaching DM 253:8.
+[97746.012280] systemd-shutdown[1]: Detaching DM 253:0.
+[97746.013710] systemd-shutdown[1]: Could not detach DM /dev/dm-0: Device or resource busy
+[97746.015103] systemd-shutdown[1]: Not all DM devices detached, 2 left.
+[97746.016793] systemd-shutdown[1]: Detaching DM devices.
+[97746.019221] systemd-shutdown[1]: Detaching DM 253:0.
+[97746.020676] systemd-shutdown[1]: Could not detach DM /dev/dm-0: Device or resource busy
+[97746.022143] systemd-shutdown[1]: Not all DM devices detached, 2 left.
+[97746.023867] systemd-shutdown[1]: Detaching DM devices.
+[97746.026179] systemd-shutdown[1]: Detaching DM 253:0.
+[97746.027658] systemd-shutdown[1]: Could not detach DM /dev/dm-0: Device or resource busy
+[97746.028776] systemd-shutdown[1]: Not all DM devices detached, 2 left.
+[97746.029878] systemd-shutdown[1]: Cannot finalize remaining DM devices, continuing.
+[97746.205732] EXT4-fs (dm-4): re-mounted. Opts: errors=remount-ro
+</code></pre>
+<p>Tych komunikatów naturalnie może być więcej, choć jak widać, to w zasadzie tylko <code>systemd-shutdown</code>
+i kernel na tym etapie zamykania systemu są jeszcze w stanie coś powiedzieć.</p>
+<h2 id="jak-zrzucić-dmesg-przy-zamykaniu-systemu-do-pliku">Jak zrzucić dmesg przy zamykaniu systemu do pliku</h2>
+<p>By te powyższe wiadomości zapisać do pliku, potrzebny jest
+nam <a href="https://freedesktop.org/wiki/Software/systemd/Debugging/">krótki skrypt</a>, który zamontuje nam
+na chwilę partycję <code>/</code> w trybie do zapisu ( <code>rw</code> ), zrzuci bufor <code>dmesg</code> do pliku (przykładowo
+<code>/shutdown-log.txt</code> ), zsynchronizuje bufor dysku i przemontuje z powrotem system plików w tryb
+tylko do odczytu ( <code>ro</code> ). Poniżej jest taki skrypt:</p>
+<pre><code>#!/bin/sh
+mount -o remount,rw /
+dmesg &gt; /shutdown-log.txt
+sync
+mount -o remount,ro /
+</code></pre>
+<p>Ten skrypt trzeba zapisać w katalogu <code>/lib/systemd/system-shutdown/</code> i nadać mu prawa do
+wykonywania:</p>
+<pre><code># chmod +x /lib/systemd/system-shutdown/debug.sh
+</code></pre>
+<p>Teraz już wystarczy zrestartować system i po ponownym jego uruchomieniu zajrzeć w plik
+<code>/shutdown-log.txt</code> . Warto tutaj zaznaczyć, że w tym pliku znajdą się również logi z
+wcześniejszego etapu pracy systemu i trzeba w nich odszukać moment, w którym proces wyłączania
+maszyny zostaje zainicjowany ale to zadanie nie powinno już sprawić problemu.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/logi/">logi</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux%2f&amp;text=Jak%20zalogowa%c4%87%20b%c5%82%c4%99dy%20podczas%20zamykania%20systemu%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux%2f&amp;title=Jak%20zalogowa%c4%87%20b%c5%82%c4%99dy%20podczas%20zamykania%20systemu%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux%2f&amp;title=Jak%20zalogowa%c4%87%20b%c5%82%c4%99dy%20podczas%20zamykania%20systemu%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux%2f&title=Jak%20zalogowa%c4%87%20b%c5%82%c4%99dy%20podczas%20zamykania%20systemu%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux%2f&amp;title=Jak%20zalogowa%c4%87%20b%c5%82%c4%99dy%20podczas%20zamykania%20systemu%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux%2f&description=Jak%20zalogowa%c4%87%20b%c5%82%c4%99dy%20podczas%20zamykania%20systemu%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uruchamianie-graficznych-aplikacji-w-kontenerach-dockera/">Uruchamianie graficznych aplikacji w kontenerach Docker&#39;a</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-recznie-zweryfikowac-sygnature-modulu-kernela-linux/">Jak ręcznie zweryfikować sygnaturę modułu kernela linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-uruchomic-firefoxa-w-osobnej-przestrzeni-nazw-sieciowych/">Jak uruchomić Firefox&#39;a w osobnej przestrzeni nazw sieciowych</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/">Automatyczne podpisywanie modułów kernela przez DKMS</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

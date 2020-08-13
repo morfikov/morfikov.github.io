@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Badsector dysku HDD w kontenerze LUKS zawierającym LVM | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Badsector dysku HDD w kontenerze LUKS zawierającym LVM" />
+<meta property="og:description" content="Podczas rutynowego skanu powierzchni dysków HDD w moim laptopie, S.M.A.R.T wykrył w jednym z nich
+podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
+powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
+czytaniu padniętego sektora też był nieco dziwny: bad/missing sense data, sb[] . Jakiś czas temu
+już opisywałem
+jak realokować uszkodzony sektor dysku HDD
+i w zasadzie wszystkie informacje zawarte w tamtym artykule można by wykorzystać do próby
+poprawienia zaistniałego problemu, gdyby tylko nie fakt, że w tym przypadku badblock znalazł się w
+obszarze voluminu logicznego LVM na partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki
+schemat układu partycji sprawia, że do realokowania błędnego bloku trzeba podejść nieco inaczej
+uwzględniając w tym procesie kilka offset&#39;ów, bez których w zasadzie nic nie da się zrobić.
+Postanowiłem zatem napisać na konkretnym przykładzie jak realokować badsector dysku, gdy do
+czynienia mamy z zaszyfrowanym linux&#39;em zainstalowanym na voluminach LVM." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/" />
+<meta property="article:published_time" content="2019-03-31T12:23:42+00:00" />
+<meta property="article:modified_time" content="2019-03-31T12:23:42+00:00" />
+
+		<meta itemprop="name" content="Badsector dysku HDD w kontenerze LUKS zawierającym LVM">
+<meta itemprop="description" content="Podczas rutynowego skanu powierzchni dysków HDD w moim laptopie, S.M.A.R.T wykrył w jednym z nich
+podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
+powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
+czytaniu padniętego sektora też był nieco dziwny: bad/missing sense data, sb[] . Jakiś czas temu
+już opisywałem
+jak realokować uszkodzony sektor dysku HDD
+i w zasadzie wszystkie informacje zawarte w tamtym artykule można by wykorzystać do próby
+poprawienia zaistniałego problemu, gdyby tylko nie fakt, że w tym przypadku badblock znalazł się w
+obszarze voluminu logicznego LVM na partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki
+schemat układu partycji sprawia, że do realokowania błędnego bloku trzeba podejść nieco inaczej
+uwzględniając w tym procesie kilka offset&#39;ów, bez których w zasadzie nic nie da się zrobić.
+Postanowiłem zatem napisać na konkretnym przykładzie jak realokować badsector dysku, gdy do
+czynienia mamy z zaszyfrowanym linux&#39;em zainstalowanym na voluminach LVM.">
+<meta itemprop="datePublished" content="2019-03-31T12:23:42+00:00" />
+<meta itemprop="dateModified" content="2019-03-31T12:23:42+00:00" />
+<meta itemprop="wordCount" content="3098">
+
+
+
+<meta itemprop="keywords" content="hdd/ssd,smart,luks,lvm," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Badsector dysku HDD w kontenerze LUKS zawierającym LVM"/>
+<meta name="twitter:description" content="Podczas rutynowego skanu powierzchni dysków HDD w moim laptopie, S.M.A.R.T wykrył w jednym z nich
+podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
+powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
+czytaniu padniętego sektora też był nieco dziwny: bad/missing sense data, sb[] . Jakiś czas temu
+już opisywałem
+jak realokować uszkodzony sektor dysku HDD
+i w zasadzie wszystkie informacje zawarte w tamtym artykule można by wykorzystać do próby
+poprawienia zaistniałego problemu, gdyby tylko nie fakt, że w tym przypadku badblock znalazł się w
+obszarze voluminu logicznego LVM na partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki
+schemat układu partycji sprawia, że do realokowania błędnego bloku trzeba podejść nieco inaczej
+uwzględniając w tym procesie kilka offset&#39;ów, bez których w zasadzie nic nie da się zrobić.
+Postanowiłem zatem napisać na konkretnym przykładzie jak realokować badsector dysku, gdy do
+czynienia mamy z zaszyfrowanym linux&#39;em zainstalowanym na voluminach LVM."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Badsector dysku HDD w kontenerze LUKS zawierającym LVM</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2019-03-31T12:23:42Z">Opublikowano: 31/03/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Badsector dysku HDD w kontenerze LUKS zawierającym LVM</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#błędy-dysku">Błędy dysku</a>
+      <ol>
+        <li><a href="#czym-jest-badmissing-sense-data">Czym jest bad/missing sense data</a></li>
+      </ol>
+    </li>
+    <li><a href="#ustalenie-partycji-z-badblockiem">Ustalenie partycji z badblock'iem</a></li>
+    <li><a href="#offset-badblocku">Offset badblock'u</a></li>
+    <li><a href="#rozmiar-fizycznego-zakresu-bloków-lvm">Rozmiar fizycznego zakresu bloków LVM</a></li>
+    <li><a href="#offset-kontenera-luks">Offset kontenera LUKS</a></li>
+    <li><a href="#offset-lvm">Offset LVM</a></li>
+    <li><a href="#ustalenie-voluminu-lvm-zawierającego-badblock">Ustalenie voluminu LVM zawierającego badblock</a></li>
+    <li><a href="#offset-badblocku-w-systemie-plików-ext4">Offset badblock'u w systemie plików ext4</a></li>
+    <li><a href="#realokowanie-błędnego-bloku">Realokowanie błędnego bloku</a></li>
+    <li><a href="#pełny-skan-smart">Pełny skan S.M.A.R.T</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Podczas rutynowego skanu powierzchni dysków HDD w moim laptopie, S.M.A.R.T wykrył w jednym z nich
+podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
+powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
+czytaniu padniętego sektora też był nieco dziwny: <code>bad/missing sense data, sb[]</code> . Jakiś czas temu
+już opisywałem
+jak <a href="https://morfikov.github.io
+/post/uszkodzony-sektor-na-dysku-i-jego-realokoacja/">realokować uszkodzony sektor dysku HDD</a>
+i w zasadzie wszystkie informacje zawarte w tamtym artykule można by wykorzystać do próby
+poprawienia zaistniałego problemu, gdyby tylko nie fakt, że w tym przypadku badblock znalazł się w
+obszarze voluminu logicznego LVM na partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki
+schemat układu partycji sprawia, że do realokowania błędnego bloku trzeba podejść nieco inaczej
+uwzględniając w tym procesie kilka offset'ów, bez których w zasadzie nic nie da się zrobić.
+Postanowiłem zatem napisać na konkretnym przykładzie jak realokować badsector dysku, gdy do
+czynienia mamy z zaszyfrowanym linux'em zainstalowanym na voluminach LVM.</p>
+<h2 id="błędy-dysku">Błędy dysku</h2>
+<p>Wszystko zaczęło się od niewinnego skanu S.M.A.R.T, bo do chwili jego wykonania w zasadzie mój
+Debian jak i dysk, na którym ten system jest zainstalowany, działał bez zarzutu. W logu systemowym
+nie było żadnych komunikatów świadczących o jakiekolwiek awarii nośnika, czy ewentualnych
+problemach z odczytem jego powierzchni. Niemniej jednak, w raporcie S.M.A.R.T widniał taki oto
+błąd:</p>
+<pre><code>Error 4 [3] occurred at disk power-on lifetime: 22336 hours (930 days + 16 hours)
+  When the command that caused the error occurred, the device was active or idle.
+
+  After command completion occurred, registers were:
+  ER -- ST COUNT  LBA_48  LH LM LL DV DC
+  -- -- -- == -- == == == -- -- -- -- --
+  40 -- 51 00 01 00 00 00 5e a7 db e0 00  Error: UNC at LBA = 0x005ea7db = 6203355
+
+  Commands leading to the command that caused the error were:
+  CR FEATR COUNT  LBA_48  LH LM LL DV DC  Powered_Up_Time  Command/Feature_Name
+  -- == -- == -- == == == -- -- -- -- --  ---------------  --------------------
+  20 00 00 00 01 00 00 00 5e a7 db e0 00     01:47:04.105  READ SECTOR(S)
+  ec 00 00 00 01 00 00 00 00 00 00 40 00     01:47:04.103  IDENTIFY DEVICE
+  ef 00 10 00 03 00 00 00 00 00 00 a0 00     01:47:01.930  SET FEATURES [Enable SATA feature]
+  ef 00 10 00 02 00 00 00 00 00 00 a0 00     01:47:01.920  SET FEATURES [Enable SATA feature]
+  ec 00 00 00 00 00 00 00 00 00 00 a0 00     01:47:01.918  IDENTIFY DEVICE
+</code></pre>
+<p>No i widać tutaj <code>Error: UNC at LBA</code> oraz numer bloku, do którego ten błąd się odnośni: <code>6203355</code> .</p>
+<p>Właściwie to tych błędów było kilka, co musiało oczywiście przerwać proces skanowania:</p>
+<p><img src="https://morfikov.github.io
+/img/2019/03/001-hdd-badblock-badsector-lvm2-luks-encrypted-linux-debian-smart.png#huge" alt=""></p>
+<p>Patrząc w podsumowanie raportu parametrów dysków, można zauważyć, że ten sektor został przeznaczony
+do realokacji:</p>
+<pre><code>ID# ATTRIBUTE_NAME          FLAGS    VALUE WORST THRESH FAIL RAW_VALUE
+...
+  5 Reallocated_Sector_Ct   PO--CK   200   200   140    -    0
+...
+196 Reallocated_Event_Count -O--CK   200   200   000    -    0
+197 Current_Pending_Sector  -O--CK   200   200   000    -    1
+198 Offline_Uncorrectable   ----CK   100   253   000    -    0
+</code></pre>
+<p>Wygląda na to, że są jakieś większe problemy z odczytaniem tego bloku numer <code>6203355</code> . Spróbujmy
+zatem odczytać go ręcznie:</p>
+<pre><code># time hdparm --read-sector 6203355 /dev/sda
+/dev/sda:
+reading sector 6203355: SG_IO: bad/missing sense data, sb[]:  70 00 03 00 00 00 00 0a 40 51 e0 01 11 04 00 00 00 db 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+succeeded
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+0.00s user 0.01s system 0% cpu 2.174 total
+</code></pre>
+<p>To dopiero ciekawa przypadłość, bo niby <code>hdparm</code> udało się odczytać ten sektor ( <code>succeeded</code> ) ale
+błąd <code>bad/missing sense data, sb[]:</code> nie brzmi jakość szczególnie miło. Jeśli zwrócimy uwagę na
+czas w jakim ten sektor został odczytany, to widać, że ta czynność zajęła ponad <code>2</code> sekundy. W
+przypadku czytania zdrowego sektora otrzymuje się coś na poniższy wzór:</p>
+<pre><code># time hdparm --read-sector 6203356 /dev/sda
+/dev/sda:
+reading sector 6203356: succeeded
+...
+0.00s user 0.00s system 22% cpu 0.021 total
+</code></pre>
+<p>Nie ma zatem ani widocznego wyżej błędu, a sam odczyt to kwestia kilku milisekund.</p>
+<p>Warto tutaj zaznaczyć, że podczas czytania tego badsector'a przy pomocy <code>hdparm</code> , w logu
+systemowym nie pojawiły się jakiekolwiek błędy. To trochę dziwna sytuacja, bo zwykle w takich
+przypadkach system powinien zacząć narzekać, że coś uniemożliwia poprawne czytanie powierzchni
+dysku.</p>
+<h3 id="czym-jest-badmissing-sense-data">Czym jest bad/missing sense data</h3>
+<p>Z początku nie miałem pojęcia jak zinterpretować ten błąd <code>bad/missing sense data</code> i te wartości
+HEX, które zostały zwrócone. Ten cały komunikat można jednak zdekodować przy pomocy narzędzia
+<code>sg_decode_sense</code> zawartego w Debianie w pakiecie <code>sg3-utils</code> :</p>
+<pre><code>$ sg_decode_sense 70 00 03 00 00 00 00 0a 40 51 e0 01 11 04 00 00 00 db 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Fixed format, current; Sense key: Medium Error
+Additional sense: Unrecovered read error - auto reallocate failed
+</code></pre>
+<p>Wygląda na to, że mamy do czynienia z uszkodzonym blokiem dysku, który wymaga ręcznej realokacji.</p>
+<h2 id="ustalenie-partycji-z-badblockiem">Ustalenie partycji z badblock'iem</h2>
+<p>Gdy przytrafi nam się ten cały <code>bad/missing sense data</code> , to nie ma innego wyjścia jak realokować
+blok danych, który powoduje błąd odczytu. Całą zabawę zaczynamy standardowo od ustalenia przy
+pomocy <code>fdisk</code>/<code>gdisk</code> (czy innych narzędzi do partycjonowania dysku), na której partycji ten
+padnięty sektor się znajduje:</p>
+<pre><code># fdisk -l /dev/sda
+Disk /dev/sda: 232.9 GiB, 250059350016 bytes, 488397168 sectors
+Disk model: WDC WD2500BEKT-6
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x0006320c
+
+Device     Boot   Start       End   Sectors   Size Id Type
+/dev/sda1  *       2048   4196351   4194304     2G 83 Linux
+/dev/sda2       4196352 488396799 484200448 230.9G 83 Linux
+</code></pre>
+<p>Jako, że numer problematycznego bloku wskazuje na <code>6203355</code> , to wiadomo, że znajduje się on na
+partycji <code>sda2</code> , bo <code>6203355</code> zawiera się w przedziale między <code>4196352</code> a <code>488396799</code> . W tym
+przypadku jest to zaszyfrowany kontener LUKS z kilkoma voluminami logicznymi LVM w środku.</p>
+<h2 id="offset-badblocku">Offset badblock'u</h2>
+<p>Mając informacje o początku partycji musimy znaleźć offset badblock'u względem tej partycji.
+Odejmujemy zatem od numeru LBA (widocznego w logu S.M.A.R.T) wartość w kolumnie <code>start</code> (widoczną
+wyżej w wyjściu <code>fdisk</code> ) dla partycji <code>sda2</code> : 6203355 − 4196352 = <code>2007003</code> .</p>
+<h2 id="rozmiar-fizycznego-zakresu-bloków-lvm">Rozmiar fizycznego zakresu bloków LVM</h2>
+<p>Musimy teraz znaleźć volumin logiczny LVM, do którego ten uszkodzony blok należy. Ustalamy na
+początek rozmiar fizycznego zakresu bloków LVM (Physical Extent, PE):</p>
+<pre><code># pvdisplay -c /dev/mapper/sda2_crypt | awk -F: '{print $8}'
+4096
+</code></pre>
+<p>Rozmiar fizycznego zakresu to 4096 KiB, czyli 4 MiB (standardowy kawałek).</p>
+<p>Ten dysk ma 512 bajtowe sektory, czyli 0,5 KiB. Musimy to uwzględnić w wyliczeniach i pomnożyć
+otrzymaną wyżej wartość przez 2, co daje nam 4096 * 2 = <code>8192</code> bloków na każdy fizyczny zakres LVM
+(8192 * 512 = 4194304, czyli również 4 MiB).</p>
+<p>Dyski logiczne nie zaczynają się zaraz na początku partycji fizycznej dysku HDD. W tym przypadku na
+początku partycji znajduje się nagłówek LUKS, a po nim nagłówek LVM. Te dwa offsety musimy znać.</p>
+<h2 id="offset-kontenera-luks">Offset kontenera LUKS</h2>
+<p>Kontener LUKS zwykle zaczyna się na początku partycji ale zaszyfrowane dane zawarte w nim znajdują
+się zaraz za nagłówkiem LUKS. Informacje o przesunięciu tych danych możemy wyciągnąć przez
+<code>cryptsetup</code> :</p>
+<pre><code># cryptsetup luksDump /dev/sda2
+LUKS header information
+Version:        2
+Epoch:          7
+Metadata area:  16384 [bytes]
+Keyslots area:  2064384 [bytes]
+UUID:           e017ac1c-c46f-4b3f-a319-e1f5ed15144a
+Label:          wd_black_label
+Subsystem:      (no subsystem)
+Flags:          (no flags)
+
+Data segments:
+  0: crypt
+        offset: 2097152 [bytes]
+        length: (whole device)
+        cipher: aes-xts-plain64
+        sector: 512 [bytes]
+
+Keyslots:
+  0: luks2
+        Key:        512 bits
+        Priority:   normal
+        Cipher:     aes-xts-plain64
+        Cipher key: 512 bits
+        PBKDF:      argon2i
+        Time cost:  2
+        Memory:     1048576
+        Threads:    1
+        Salt:       7e d0 31 80 49 c9 ba 1d 86 42 dd 76 69 4e 2a 99
+                    b6 79 82 64 76 0c a0 ad ea 4b 3f 97 66 df 94 3c
+        AF stripes: 4000
+        AF hash:    sha256
+        Area offset:32768 [bytes]
+        Area length:258048 [bytes]
+        Digest ID:  0
+Tokens:
+Digests:
+  0: pbkdf2
+        Hash:       sha512
+        Iterations: 56888
+        Salt:       55 6e 7e aa 70 ce 81 e9 23 94 8c 07 35 32 09 9d
+                    4a 06 cb 49 85 b3 4b 4c ec f1 44 18 86 da a8 da
+        Digest:     fe b5 16 eb b3 20 73 9d a7 e2
+                    e9 c8 c4 07 f6 ad 09 06 30 df
+</code></pre>
+<p>Mamy tutaj sekcję <code>Data segments:</code> i w niej <code>offset: 2097152 [bytes]</code> . Jest to <code>4096</code> sektorów 512
+bajtowych, lub 2 MiB.</p>
+<h2 id="offset-lvm">Offset LVM</h2>
+<p>Zakresy voluminów logicznych również nie zaczynają się na początku partycji fizycznej lub (tak jak
+w tym przypadku) zaraz za nagłówkiem LUKS. Bezpośrednio za nagłówkiem LUKS znajdują się metadane
+LVM. Musimy ustalić, gdzie zaczyna się wobec tego pierwszy fizyczny zakres bloków LVM. To zadanie
+można zrealizować na kilka sposobów. Najprościej jest odczytać offset z wyjścia polecenia <code>pvs</code> :</p>
+<pre><code># pvs -o+pe_start /dev/mapper/sda2_crypt
+  PV                     VG             Fmt  Attr PSize    PFree 1st PE
+  /dev/mapper/sda2_crypt wd_black_label lvm2 a--  &lt;230.88g 4.00g   1.00m
+</code></pre>
+<p>W ostatniej kolumnie mamy <code>1.00m</code> , czyli nasz offset LVM to 1 MiB, co daje <code>2048</code> sektorów 512
+bajtowych. Możemy to łatwo potwierdzić dodając do powyższego polecenia <code>--units s</code> :</p>
+<pre><code># pvs -o pe_start --units s /dev/mapper/sda2_crypt
+  1st PE
+    2048S
+</code></pre>
+<p>Drugim sposobem na ustalenie offsetu fizycznych zakresów LVM jest przejrzenie plików backupu
+zlokalizowanych w <code>/etc/lvm/backup/</code> :</p>
+<pre><code># grep pe_start $(grep -l /dev/mapper/sda2_crypt /etc/lvm/backup/*)
+                        pe_start = 2048
+</code></pre>
+<h2 id="ustalenie-voluminu-lvm-zawierającego-badblock">Ustalenie voluminu LVM zawierającego badblock</h2>
+<p>Mając wartość rozmiaru zakresu fizycznych bloków LVM, która wynosi <code>8192</code> , możemy ustalić volumin
+logiczny zawierający badblock. W tym celu trzeba podzielić offset padniętego bloku uzyskany w
+<code>fdisk</code> przez rozmiar zakresu: 2007003 / 8192 = <code>244.99548</code> . Sprawdźmy zatem jak prezentuje się
+mapa zakresów dysków LVM:</p>
+<pre><code># lvdisplay --maps wd_black_label | egrep 'Physical|LV Name|Type'
+  LV Name                freespace
+    Type                linear
+    Physical volume     /dev/mapper/sda2_crypt
+    Physical extents    0 to 15
+  LV Name                root
+    Type                linear
+    Physical volume     /dev/mapper/sda2_crypt
+    Physical extents    16 to 10255
+  LV Name                home
+    Type                linear
+    Physical volume     /dev/mapper/sda2_crypt
+    Physical extents    11280 to 27663
+  LV Name                kabi
+    Type                linear
+    Physical volume     /dev/mapper/sda2_crypt
+    Physical extents    27664 to 59104
+</code></pre>
+<p>Liczba, którą wyżej otrzymaliśmy ( <code>244.99548</code> ) znajduje się w zakresie od <code>16</code> do <code>10255</code> . Zatem
+uszkodzony sektor jest gdzieś w obrębie partycji <code>root</code> .</p>
+<h2 id="offset-badblocku-w-systemie-plików-ext4">Offset badblock'u w systemie plików ext4</h2>
+<p>Trzeba jeszcze odszukać ten badblock w systemie plików (w tym przypadku ext4) i ustalić co za plik
+w tym miejscu rezyduje. Do tego celu potrzebny nam będzie rozmiar bloku systemu plików:</p>
+<pre><code># dumpe2fs /dev/mapper/wd_black_label-root | grep 'Block size'
+dumpe2fs 1.45.0 (6-Mar-2019)
+Block size:               4096
+</code></pre>
+<p>Widoczna wyżej wartość <code>4096</code> (4 KiB) to standardowy rozmiar bloku w systemie plików ext4.</p>
+<p>Logiczny volumin LVM, który zawiera badsector, zaczyna się na fizycznym zakresie <code>16</code> . Mnożymy tę
+wartość przez rozmiar zakresu fizycznego i dodajemy do niego offset samego zakresu LVM jak i offset
+kontenera LUKS:</p>
+<pre><code>(ilość bloków LVM * rozmiar bloku LVM) + offset fizycznych zakresów + offset LUKS
+(16 * 8192) + 2048 + 4096 = 137216
+</code></pre>
+<p>Mamy 512 bajtowe bloki na dysku, zatem uszkodzony blok ma w systemie plików ext4 na partycji <code>root</code>
+numer:</p>
+<pre><code>(offset bloku w fdisk - offset LUKS+LVM+volumin) / (rozmiar bloku ext4 / rozmiar sektora dysku)
+(2007003 - 137216) / (4096 / 512) = 233723.38
+</code></pre>
+<p>Jeśli wszystko wyliczyliśmy prawidłowo, to przy próbie czytania bloku <code>233723</code> powinniśmy odnotować
+jakieś błędy w logu systemowym lub terminalu . Spróbujmy zatem odczytać ten blok przy pomocy <code>dd</code> :</p>
+<pre><code># dd if=/dev/mapper/wd_black_label-root of=block233723 bs=4096 count=1 skip=233723
+dd: error reading '/dev/mapper/wd_black_label-root': Input/output error
+0+0 records in
+0+0 records out
+0 bytes copied, 3.90926 s, 0.0 kB/s
+</code></pre>
+<p>No i tutaj już mamy wyraźny błąd <code>Input/output error</code> . Natomiast w logu systemowym nieco więcej
+komunikatów:</p>
+<pre><code>kernel: ata1.00: exception Emask 0x0 SAct 0x10 SErr 0x40000 action 0x0
+kernel: ata1.00: irq_stat 0x40000008
+kernel: ata1: SError: { CommWake }
+kernel: ata1.00: failed command: READ FPDMA QUEUED
+kernel: ata1.00: cmd 60/08:20:d8:a7:5e/00:00:00:00:00/40 tag 4 ncq dma 4096 in
+                                             res 41/40:00:db:a7:5e/00:00:00:00:00/40 Emask 0x409 (media error) &lt;F&gt;
+kernel: ata1.00: status: { DRDY ERR }
+kernel: ata1.00: error: { UNC }
+kernel: ata1.00: configured for UDMA/100
+kernel: sd 0:0:0:0: [sda] tag#4 FAILED Result: hostbyte=DID_OK driverbyte=DRIVER_SENSE
+kernel: sd 0:0:0:0: [sda] tag#4 Sense Key : Medium Error [current]
+kernel: sd 0:0:0:0: [sda] tag#4 Add. Sense: Unrecovered read error - auto reallocate failed
+kernel: sd 0:0:0:0: [sda] tag#4 CDB: Read(10) 28 00 00 5e a7 d8 00 00 08 00
+kernel: print_req_error: I/O error, dev sda, sector 6203355 flags 80700
+kernel: ata1: EH complete
+kernel: ata1.00: exception Emask 0x0 SAct 0x2000 SErr 0x0 action 0x0
+kernel: ata1.00: irq_stat 0x40000008
+kernel: ata1.00: failed command: READ FPDMA QUEUED
+kernel: ata1.00: cmd 60/08:68:d8:a7:5e/00:00:00:00:00/40 tag 13 ncq dma 4096 in
+                                             res 41/40:00:db:a7:5e/00:00:00:00:00/40 Emask 0x409 (media error) &lt;F&gt;
+kernel: ata1.00: status: { DRDY ERR }
+kernel: ata1.00: error: { UNC }
+kernel: ata1.00: configured for UDMA/100
+kernel: sd 0:0:0:0: [sda] tag#13 FAILED Result: hostbyte=DID_OK driverbyte=DRIVER_SENSE
+kernel: sd 0:0:0:0: [sda] tag#13 Sense Key : Medium Error [current]
+kernel: sd 0:0:0:0: [sda] tag#13 Add. Sense: Unrecovered read error - auto reallocate failed
+kernel: sd 0:0:0:0: [sda] tag#13 CDB: Read(10) 28 00 00 5e a7 d8 00 00 08 00
+kernel: print_req_error: I/O error, dev sda, sector 6203355 flags 0
+kernel: Buffer I/O error on dev dm-2, logical block 233723, async page read
+kernel: ata1: EH complete
+smartd[1636]: Device: /dev/disk/by-id/ata-WDC_WD2500BEKT-60A25T1_WD-WX41A90E5928 [SAT], 1 Currently unreadable (pending) sectors
+smartd[1636]: Device: /dev/disk/by-id/ata-WDC_WD2500BEKT-60A25T1_WD-WX41A90E5928 [SAT], SMART Usage Attribute: 187 Reported_Uncorrect changed from 93 to 91
+smartd[1636]: Device: /dev/disk/by-id/ata-WDC_WD2500BEKT-60A25T1_WD-WX41A90E5928 [SAT], ATA error count increased from 7 to 9
+</code></pre>
+<p>Mamy tam informację <code>Unrecovered read error - auto reallocate failed</code> (tę samą, którą zdekodował
+nam <code>sg_decode_sense</code> ) . Czyli prawdopodobnie na tym bloku rezyduje jakiś plik, bo automatyczna realokacja się nie powiodła. Przynajmniej wiemy, że wszystkie wyliczenia wyżej zostały
+przeprowadzone prawidłowo. Jeśli ten sektor by się dał odczytać bez problemu, to prawdopodobnie coś
+źle policzyliśmy.</p>
+<h2 id="realokowanie-błędnego-bloku">Realokowanie błędnego bloku</h2>
+<p>By realokować ten uszkodzony sektor musimy go zapisać. Warto zatem ustalić, który plik trzeba
+będzie skasować, bo nie będzie się on już nadawał do odzyskania. Odpalamy zatem <code>debugfs</code> i
+wskazujemy w nim ten blok, który próbowaliśmy odczytać w <code>dd</code> :</p>
+<pre><code># debugfs
+debugfs 1.45.0 (6-Mar-2019)
+debugfs:  open /dev/mapper/wd_black_label-root
+debugfs:  testb 233723
+Block 233723 not in use
+</code></pre>
+<p>To ciekawe, niby automatyczna realokacja badblock'u się nie powiodła ale ten blok nie jest
+wykorzystany przez żaden plik. Do tej pory myślałem, że blok może zostać automatycznie realokowany
+jedynie w sytuacji, w której żaden i-node (i-węzeł) się do niego nie odwołuje. Wygląda jednak na to,
+że puste bloki też mogą mieć problemy z automatyczną realokacją.</p>
+<p>Spróbujmy zapisać ten blok przy pomocy <code>dd</code> :</p>
+<pre><code># dd if=/dev/zero of=/dev/mapper/wd_black_label-root count=1 bs=4096 seek=233723
+1+0 records in
+1+0 records out
+4096 bytes (4.1 kB, 4.0 KiB) copied, 0.000132102 s, 31.0 MB/s
+</code></pre>
+<p>Jak widać, zapis bloku dokonał się bez większego problemu. Może jednak zapisaliśmy nie ten blok,
+który powinniśmy? Spróbujmy ponowić odczyt bloku, który wcześniej wyrzucił nam sporo błędów (chodzi
+o użycie tego samego polecenia co wcześniej):</p>
+<pre><code># dd if=/dev/mapper/wd_black_label-root of=block233723 bs=4096 count=1 skip=233723
+1+0 records in
+1+0 records out
+4096 bytes (4.1 kB, 4.0 KiB) copied, 0.00075293 s, 5.4 MB/s
+</code></pre>
+<p>No i proszę, uszkodzony sektor się odblokował. A jak prezentuje się wyjście <code>hdparm</code> ?</p>
+<pre><code># time hdparm --read-sector 6203355 /dev/sda
+
+/dev/sda:
+reading sector 6203355: succeeded
+6cf9 cd2a 7d6e 84c9 6685 bc59 62a5 2192
+abd0 ca00 c518 c183 578b 66b6 8115 5b89
+75c8 5381 7178 1702 358f 605d ebc6 6075
+4f66 b633 7d84 07e4 1ca6 33f1 d1fb 126f
+86b6 9642 244b f5b2 2709 4060 5954 8635
+bd50 fa22 3a0e 2023 8459 e791 822b 416f
+bfb9 0912 1ea2 7c34 9ba9 732c 3e7b ddfb
+0c5e f190 2a25 991a 5f24 a402 0cfe 1d9f
+a458 6815 45a4 ac90 9246 b081 8ee2 ba72
+1383 7f9c 5824 3532 0095 bea0 271f b67b
+1a0c a281 a7bf b4aa 7b58 0533 81e0 b219
+73f3 b228 77b2 1bc7 ec61 dce2 df62 2b49
+addf 216a fd10 a38c e090 1304 ef44 6afc
+abc4 2d05 e36b 2f29 080b a5df 6735 bb2f
+28d5 1fde 40d3 0010 45f1 a21d a311 6409
+75f3 7f76 eecd 5c71 2687 b0fd 925e 8aa5
+7e7e 9e99 29e2 1ecd 5cff badc 78c2 8e83
+b610 179d 770c 58f8 a012 547c b6b9 5ef3
+8145 ef62 36cb 5900 4c24 48a6 0c62 98fe
+5381 3775 83ff 3483 6b27 a856 e875 68c5
+8832 f0ca 576a add5 fc9b 9813 9db7 907b
+646e 715c 2b9e 5098 c83e 65c2 d1db d734
+f988 3fae dfec b465 fbcc 7235 cafa f4c5
+211d 34f8 e356 11a9 cf0e 03ec ea05 a47f
+7fc6 a98f 6a7c 0a15 7122 cc9c 152f 2840
+2317 a76a 3dad 8888 8d47 edb2 541e 500a
+ec0d e2e8 8ba9 cd71 270f bc9b aec6 ae78
+e219 d719 009b 176f 960b f052 9063 9658
+8e6b 739a e9c3 fd5f b51a 043e 902c 3e3b
+2cc3 92ac fb4d 0e7f 81d8 c49b 51d1 41f9
+ef4e c4b4 d9ca 84f2 b70b c391 1d3b 7e34
+c442 c3d2 2078 1cc1 0ac3 260a b900 41f8
+0.00s user 0.01s system 59% cpu 0.009 total
+</code></pre>
+<p>Czas dostępu jest niski, no i nie ma również samych <code>0000</code> , tak jak to było wcześniej.</p>
+<h2 id="pełny-skan-smart">Pełny skan S.M.A.R.T</h2>
+<p>Wypadałoby teraz przeskanować całą powierzchnię dysku i rzucić okiem na raport S.M.A.R.T. W tym
+przypadku skanowanie zakończyło się już powodzeniem:</p>
+<p><img src="https://morfikov.github.io
+/img/2019/03/002-hdd-badblock-badsector-lvm2-luks-encrypted-linux-debian-smart.png#huge" alt=""></p>
+<p>A raport pokazuje, że sektor udało się uratować:</p>
+<pre><code>ID# ATTRIBUTE_NAME          FLAGS    VALUE WORST THRESH FAIL RAW_VALUE
+...
+  5 Reallocated_Sector_Ct   PO--CK   200   200   140    -    0
+...
+196 Reallocated_Event_Count -O--CK   200   200   000    -    0
+197 Current_Pending_Sector  -O--CK   200   200   000    -    0
+198 Offline_Uncorrectable   ----CK   100   253   000    -    0
+</code></pre>
+<p>Więcej informacji na temat próby odzyskania uszkodzonych sektorów można
+znaleźć <a href="https://www.smartmontools.org/wiki/BadBlockHowto">tutaj</a>.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/ssd/">hdd/ssd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smart/">smart</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/luks/">luks</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lvm/">lvm</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fbadsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbadsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm%2f&amp;text=Badsector%20dysku%20HDD%20w%20kontenerze%20LUKS%20zawieraj%c4%85cym%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbadsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm%2f&amp;title=Badsector%20dysku%20HDD%20w%20kontenerze%20LUKS%20zawieraj%c4%85cym%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbadsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm%2f&amp;title=Badsector%20dysku%20HDD%20w%20kontenerze%20LUKS%20zawieraj%c4%85cym%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbadsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm%2f&title=Badsector%20dysku%20HDD%20w%20kontenerze%20LUKS%20zawieraj%c4%85cym%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbadsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbadsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm%2f&amp;title=Badsector%20dysku%20HDD%20w%20kontenerze%20LUKS%20zawieraj%c4%85cym%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbadsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm%2f&description=Badsector%20dysku%20HDD%20w%20kontenerze%20LUKS%20zawieraj%c4%85cym%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kopia-struktury-dysku-twardego/">Kopia struktury dysku twardego</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-ukryc-zaszyfrowany-kontener-luks-pod-linux/">Jak ukryć zaszyfrowany kontener LUKS pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-dodac-nowy-dysk-lvm/">Jak dodać nowy dysk do LVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">Instalacja debiana z wykorzystaniem debootstrap</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-rozmiaru-lvm/">Zmiana rozmiaru dysków w strukturze LVM</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

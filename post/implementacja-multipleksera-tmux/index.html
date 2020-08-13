@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Implementacja multipleksera tmux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Implementacja multipleksera tmux" />
+<meta property="og:description" content="Wszystko zaczęło się od pewnego posta na forum DUGa, w którym to jeden
+użytkownik polecał innemu, aby ten zainteresował się programem o nazwie tmux . Nie wiem czy tamta
+osoba to zrobiła ale ja postanowiłem się przyjrzeć temu wynalazkowi zwanemu terminal
+multiplekser. Po niezbyt wnikliwym przejrzeniu
+strony projektu rzuciło mi się w oczy dzielenie okna jednego terminala na
+szereg mniejszych. Ten ficzer znany był mi min. z terminala
+terminator. Zasadniczą różnicą tych dwóch
+aplikacji jest to, że tmux może być uruchomiony również pod TTY, efektywnie dzieląc obszar jednej
+konsoli. Nie to bym ciągle siedział w trybie tekstowym ale skoro tmux potrafi to samo co
+terminator oraz działa zarówno w trybie graficznym jak i tekstowym przy zaznaczeniu, że zjada
+także mniej pamięci RAM, to czemu nie zaimplementować sobie jego obsługi? W trakcie użytkowania
+tmux&#39;a okazało, że potrafi on sporo więcej i dlatego właśnie powstał ten wpis." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/implementacja-multipleksera-tmux/" />
+<meta property="article:published_time" content="2016-01-30T03:30:12+00:00" />
+<meta property="article:modified_time" content="2016-01-30T03:30:12+00:00" />
+
+		<meta itemprop="name" content="Implementacja multipleksera tmux">
+<meta itemprop="description" content="Wszystko zaczęło się od pewnego posta na forum DUGa, w którym to jeden
+użytkownik polecał innemu, aby ten zainteresował się programem o nazwie tmux . Nie wiem czy tamta
+osoba to zrobiła ale ja postanowiłem się przyjrzeć temu wynalazkowi zwanemu terminal
+multiplekser. Po niezbyt wnikliwym przejrzeniu
+strony projektu rzuciło mi się w oczy dzielenie okna jednego terminala na
+szereg mniejszych. Ten ficzer znany był mi min. z terminala
+terminator. Zasadniczą różnicą tych dwóch
+aplikacji jest to, że tmux może być uruchomiony również pod TTY, efektywnie dzieląc obszar jednej
+konsoli. Nie to bym ciągle siedział w trybie tekstowym ale skoro tmux potrafi to samo co
+terminator oraz działa zarówno w trybie graficznym jak i tekstowym przy zaznaczeniu, że zjada
+także mniej pamięci RAM, to czemu nie zaimplementować sobie jego obsługi? W trakcie użytkowania
+tmux&#39;a okazało, że potrafi on sporo więcej i dlatego właśnie powstał ten wpis.">
+<meta itemprop="datePublished" content="2016-01-30T03:30:12+00:00" />
+<meta itemprop="dateModified" content="2016-01-30T03:30:12+00:00" />
+<meta itemprop="wordCount" content="3817">
+
+
+
+<meta itemprop="keywords" content="terminal," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Implementacja multipleksera tmux"/>
+<meta name="twitter:description" content="Wszystko zaczęło się od pewnego posta na forum DUGa, w którym to jeden
+użytkownik polecał innemu, aby ten zainteresował się programem o nazwie tmux . Nie wiem czy tamta
+osoba to zrobiła ale ja postanowiłem się przyjrzeć temu wynalazkowi zwanemu terminal
+multiplekser. Po niezbyt wnikliwym przejrzeniu
+strony projektu rzuciło mi się w oczy dzielenie okna jednego terminala na
+szereg mniejszych. Ten ficzer znany był mi min. z terminala
+terminator. Zasadniczą różnicą tych dwóch
+aplikacji jest to, że tmux może być uruchomiony również pod TTY, efektywnie dzieląc obszar jednej
+konsoli. Nie to bym ciągle siedział w trybie tekstowym ale skoro tmux potrafi to samo co
+terminator oraz działa zarówno w trybie graficznym jak i tekstowym przy zaznaczeniu, że zjada
+także mniej pamięci RAM, to czemu nie zaimplementować sobie jego obsługi? W trakcie użytkowania
+tmux&#39;a okazało, że potrafi on sporo więcej i dlatego właśnie powstał ten wpis."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Implementacja multipleksera tmux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-01-30T03:30:12Z">Opublikowano: 30/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Implementacja multipleksera tmux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#dobór-terminala-pod-tmuxa">Dobór terminala pod tmux'a</a></li>
+    <li><a href="#konfiguracja-skrótów-klawiszowych-tmuxa">Konfiguracja skrótów klawiszowych tmux'a</a>
+      <ol>
+        <li><a href="#skróty-klawiszowe-bez-prefiksu">Skróty klawiszowe bez prefiksu</a></li>
+      </ol>
+    </li>
+    <li><a href="#zarządzanie-sesjami">Zarządzanie sesjami</a></li>
+    <li><a href="#konfiguracja-tmuxa">Konfiguracja tmux'a</a>
+      <ol>
+        <li><a href="#wsparcie-dla-myszy-w-tmuxie">Wsparcie dla myszy w tmux'ie</a></li>
+        <li><a href="#zmiana-kolorystyki">Zmiana kolorystyki</a></li>
+        <li><a href="#pasek-statusu-status-bar">Pasek statusu (status bar)</a></li>
+        <li><a href="#problemy-pod-tty">Problemy pod TTY</a></li>
+        <li><a href="#historia-tmuxa">Historia tmux'a</a></li>
+        <li><a href="#numerowanie-okienek">Numerowanie okienek</a></li>
+        <li><a href="#obsługa-256-kolorowych-terminali">Obsługa 256-kolorowych terminali</a></li>
+        <li><a href="#kopiowanie-wyjścia-terminala-do-pliku">Kopiowanie wyjścia terminala do pliku</a></li>
+        <li><a href="#tryb-copy-mode">Tryb copy-mode</a></li>
+        <li><a href="#bufor-terminala-vs-bufor-tmuxa">Bufor terminala vs. bufor tmux'a</a></li>
+        <li><a href="#problematyczne-sesje-tmuxa">Problematyczne sesje tmux'a</a></li>
+      </ol>
+    </li>
+    <li><a href="#jak-uruchamiać-tmuxa">Jak uruchamiać tmux'a</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Wszystko zaczęło się od pewnego posta na <a href="https://forum.dug.net.pl/">forum DUGa</a>, w którym to jeden
+użytkownik polecał innemu, aby ten zainteresował się programem o nazwie <code>tmux</code> . Nie wiem czy tamta
+osoba to zrobiła ale ja postanowiłem się przyjrzeć temu wynalazkowi zwanemu <a href="https://en.wikipedia.org/wiki/Terminal_multiplexer">terminal
+multiplekser</a>. Po niezbyt wnikliwym przejrzeniu
+<a href="https://tmux.github.io/">strony projektu</a> rzuciło mi się w oczy dzielenie okna jednego terminala na
+szereg mniejszych. Ten ficzer znany był mi min. z <a href="https://gnometerminator.blogspot.fr/p/introduction.html">terminala
+terminator</a>. Zasadniczą różnicą tych dwóch
+aplikacji jest to, że <code>tmux</code> może być uruchomiony również pod TTY, efektywnie dzieląc obszar jednej
+konsoli. Nie to bym ciągle siedział w trybie tekstowym ale skoro <code>tmux</code> potrafi to samo co
+<code>terminator</code> oraz działa zarówno w trybie graficznym jak i tekstowym przy zaznaczeniu, że zjada
+także mniej pamięci RAM, to czemu nie zaimplementować sobie jego obsługi? W trakcie użytkowania
+tmux'a okazało, że potrafi on sporo więcej i dlatego właśnie powstał ten wpis.</p>
+<h2 id="dobór-terminala-pod-tmuxa">Dobór terminala pod tmux'a</h2>
+<p>Przede wszystkim, by móc skorzystać z tmux'a, potrzebujemy mieć do dyspozycji jakiś terminal. W
+przypadku TTY, to żaden problem. W środowiskach graficznych musimy za to skorzystać z dostarczanych
+przez nie pseudo terminali. To z jakiego terminala będziemy korzystać zależy głównie od naszych
+upodobań. Jako, że ja staram się zwykle w swojej konfiguracji dbać o jak najmniejsze wykorzystanie
+zasobów systemowych przez wykorzystywane aplikacje, to zalecam do tego celu wykorzystanie <a href="https://morfikov.github.io
+/post/konfiguracja-terminala-urxvt/">terminala
+urxvt</a>, którego konfiguracja została opisana w
+osobnym wpisie i nie będę jej tutaj ponownie opisywał.</p>
+<p>Po zdecydowaniu się na określony terminal, musimy doinstalować w systemie kilka pakietów. Przede
+wszystkim, musimy zainstalować sam pakiet <code>tmux</code> . Do tego, musimy także zainstalować <code>xsel</code> , który
+odpowiada za zarządzanie schowkiem systemowym.</p>
+<h2 id="konfiguracja-skrótów-klawiszowych-tmuxa">Konfiguracja skrótów klawiszowych tmux'a</h2>
+<p>Tmux'a uruchamia się przez wpisanie w terminalu polecenia <code>tmux</code> . Pierwsze czego człowiek musi się
+nauczyć odnośnie w tmux'a, to obsługa skrótów klawiszowych. Nie będziemy jednak korzystać z tych
+domyślnych, bo nie są one zbyt wygodne. Choć na dobrą sprawę, to zależy od przyzwyczajenia. Jeśli
+jednak chcemy zostać przy standardowej konfiguracji skrótów klawiszowych, to trzeba będzie brać
+poprawkę do tego co zostanie opisane poniżej.</p>
+<p>Te częściej używane skróty zostały wyszczególnione poniżej. Dzięki nim będziemy w stanie poruszać
+się po tmux'ie w miarę swobodnie. Może nie od razu wszystkie z tych skrótów zapamiętamy ale
+zapewniam, że po 2-3 dniach korzystania z nich, w końcu wejdą nam do głowy. Poniżej jest także
+zawarta konfiguracja, którą należy umieścić w pliku <code>/etc/tmux.conf</code> lub też <code>~/.tmux.conf</code> w
+zależności od tego czy ma to być konfiguracja globalna czy dla konkretnego użytkownika. Aktualną
+konfigurację skrótów można zawsze podejrzeć za pomocą tego poniższego polecenia:</p>
+<pre><code>$ tmux list-keys
+</code></pre>
+<p>We wszystkich niżej wymienionych skrótach, będzie ustawiony prefiks Ctrl-a . Po wciśnięciu prefiksu,
+kombinacja klawiszy nie jest od razu podawana do serwera. Zamiast tego <code>tmux</code> czeka na kolejny znak,
+który musimy wprowadzić. W momencie, gdy to uczynimy, skrót zostaje przesłany. Dzięki temu można
+spokojnie rozluźnić łapki i po prostu wcisnąć Ctrl-a , a następnie pożądany klawisz. Prefiks
+naturalnie może być dowolny, a ustawiamy go w poniższy sposób:</p>
+<pre><code>unbind C-b
+set -g prefix C-a
+</code></pre>
+<p>Znak <code>C</code> oznacza Ctrl . Domyślnym prefiksem jest Ctrl-b i dlatego pierw skorzystaliśmy z <code>unbind</code> ,
+by zwolnić ten skrót. W drugiej linijce przypisaliśmy nowy skrót dla prefiksu.</p>
+<p>Mając określony prefiks, możemy przejść do kolejnych skrótów klawiszowych. Poniżej mamy skrót
+Ctrl-a-n odpowiedzialny za tworzenie nowego okna w tmux:</p>
+<pre><code>bind n new-window
+</code></pre>
+<p>Skoro mowa o oknach, to warto również wiedzieć jak się między nimi przełączać. Za te zdarzenia
+odpowiadać będą skróty Ctrl-a-Space oraz Ctrl-a-Backspace . Możemy także bezpośrednio podać numer
+okna za pomocą Ctrl-a-5 lub też skorzystać z listy okien sesji, która jest dostępna pod klawiszem
+Ctrl-a-' :</p>
+<pre><code>bind -r Space next-window
+bind -r BSpace previous-window
+bind &quot;'&quot; choose-window
+</code></pre>
+<p>Każde okno tmux'a można zamknąć przy pomocy skrótu Ctrl-a-Q . Trzeba jednak pamiętać, że nieostrożne
+posługiwanie się tym skrótem może spowodować utratę wszystkich informacji w danym oknie tmux'a.
+Dlatego też skorzystamy z opcji <code>confirm-before</code> , która wymusi potwierdzenie operacji zamknięcia
+okna:</p>
+<pre><code>bind Q confirm-before kill-window
+</code></pre>
+<p>Jako, że <code>tmux</code> jest w stanie dzielić okienka, to skróty Ctrl-a-| oraz Ctrl-a-_ zdają się być
+odpowiednie dla operacji wertykalnego i horyzontalnego dzielenia przestrzeni okna:</p>
+<pre><code>bind - split-window -v
+bind _ split-window -v
+bind | split-window -h
+</code></pre>
+<p>Mając kilka okienek (pane) w oknie terminala, możemy zmieniać ich rozmiar w poziomie za pomocą
+skrótów Ctrl-a-&gt; oraz Ctrl-a-&lt; . Możemy także zmieniać ich rozmiar w pionie przy pomocy Ctrl-a-+
+oraz Ctrl-a-= . Możemy także dostosować ilość wierszy czy kolumn, o które powiększy/zmniejszy się
+okienko:</p>
+<pre><code>bind -r &lt; resize-pane -L 3
+bind -r &gt; resize-pane -R 3
+bind -r + resize-pane -U 1
+bind -r = resize-pane -D 1
+</code></pre>
+<p>Warto też wiedzieć jak się przełączać między tymi okienkami. W poziomie robimy to przy pomocy
+skrótów Ctrl-a-Left oraz Ctrl-a-Right , zaś w pionie będą to Ctrl-a-Up oraz Ctrl-a-Down . Są to
+ustawienia domyślne i nic tutaj nie musimy zmieniać.</p>
+<p>Każde takie okienko powstałe poprzez podział głównego okna tmux'a można zamknąć. Służy do tego skrót
+Ctrl-a-q . Jest bardzo podobny do zamknięcia całego okna, dlatego też zalecana jest ostrożność.
+Podobnie jak w tamtym przypadku, tutaj też możemy się nieco zabezpieczyć opcją <code>confirm-before</code> :</p>
+<pre><code>bind q confirm-before kill-pane
+</code></pre>
+<p>W przypadku, gdy mamy dużo podzielonych okienek, może zajść potrzeba zwiększenia obszaru
+obejmowanego przez któreś z nich. Możemy naturalnie utworzyć osobne okno i tam wykonać określone
+polecenie albo też skorzystać z opcji zoom, która jest dostępna pod skrótem Ctrl-a-z . Ponowne
+przyciśnięcie tego skrótu zaowocuje przejściem do trybu okienkowego. W tym przypadku, skrót również
+jest domyślny i nie musimy nic dopisywać do pliku konfiguracyjnego tmux'a.</p>
+<p>Podzielone okienka, czy też całe okna tmux'a, są zarządzane przez serwer. Ten serwer możemy ubić
+przy pomocy skrótu Ctrl-a-\ . Również tutaj przyda się zastosowanie opcji <code>confirm-before</code> :</p>
+<pre><code>bind \ confirm-before kill-server
+</code></pre>
+<p>Listę aktywnych sesji tmux'a możemy uzyskać posługując się skrótem Ctrl-a-&quot; . Wygląda to mniej
+więcej tak:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/01/1.tmux-sesje.png" alt=""></p>
+<p>Między tymi sesjami możemy się przełączać przy pomocy strzałek i klawisza Enter . Zawartość innych
+sesji nie jest tracona i zawsze możemy do nich powrócić:</p>
+<pre><code>bind '&quot;' choose-session
+</code></pre>
+<p>Jeśli chcemy odłączyć się od tmux'a i zwolnić tym samym terminal, to możemy skorzystać ze skrótu
+Ctrl-a-d . Możemy nawet odłączyć dowolnego klienta skrótem Ctrl-a-D :</p>
+<pre><code>bind d detach
+bind D choose-client
+</code></pre>
+<p>Zmiany w pliku konfiguracyjnym <code>/etc/tmux.conf</code> lub <code>~/.tmux.conf</code> nie są uwzględniane do momentu
+ponownego uruchomienia serwera. Możemy jednak zainicjować przeładowanie tego pliku za pomocą skrótu
+Ctrl-a-r :</p>
+<pre><code>bind r source-file /etc/tmux.conf \; display-message &quot;Configuration reloaded&quot;
+</code></pre>
+<h3 id="skróty-klawiszowe-bez-prefiksu">Skróty klawiszowe bez prefiksu</h3>
+<p>Jeśli chodzi o wprowadzanie skrótów klawiszowych, to istnieje jeszcze jeden mechanizm, o którym
+warto wiedzieć. Chodzi o to, że niektóre polecenia, takie jak zmiana rozmiaru okienek czy
+przełączanie się między nimi, nie byłoby zbytnio użyteczne, gdybyśmy musieli ciągle wciskać
+prefiks. Wyżej korzystaliśmy z opcji <code>-r</code> , która umożliwia ustawienie timeout'u dla skrótu
+klawiszowego, dzięki któremu przez pewien określony czas <code>tmux</code> będzie traktował kolejne
+przyciśnięcia konkretnych klawiszy jako pełny skrót z prefiksem. Dla przykładu weźmy ten poniższy
+wpis:</p>
+<pre><code>bind -r + resize-pane -U 1
+</code></pre>
+<p>Po przyciśnięciu prefiksu Ctrl-a , <code>tmux</code> będzie oczekiwał na wciśnięcie kolejnego klawisza, którym
+w tym wypadku jest r . Po jego przyciśnięciu zostanie ustawiony zegar, który będzie odliczał czas.
+Jeśli podczas tego okresu ponownie przyciśniemy klawisz r ale już bez prefiksu, to akcja określona
+wyżej zostanie ponownie zainicjowana. Czas zegara zostanie zresetowany i ponownie zacznie się
+odliczanie. <code>tmux</code> przestanie interpretować przyciśnięcie klawisza r jako skrót dopiero po
+upłynięciu czasu, który jest liczony od ostatniego wciśnięcia klawisza r . Jeśli chcemy sobie ten
+czas dostosować, to możemy to zrobić dopisując w pliku konfiguracyjnym tmux'a tę poniższą linijkę
+(czas w milisekundach):</p>
+<pre><code>set -g repeat-time 800
+</code></pre>
+<h2 id="zarządzanie-sesjami">Zarządzanie sesjami</h2>
+<p>Skróty klawiszowe mamy mniej więcej z głowy. Teraz zajmijmy się sesjami w tmux'ie. Wyżej
+wspomniałem, że by zacząć używać tmux'a musimy w oknie terminala wpisać polecenie <code>tmux</code> . W
+zasadzie jest to prawdą ale to polecenie przyjmuje szereg argumentów, za pomocą których możemy
+sterować sesją jak i serwerem. Poniżej znajduje się lista tych częściej używanych poleceń:</p>
+<ul>
+<li><code>tmux attach-session -t sesja</code> -- podłącza nas do określonej sesji, skrót <code>attach</code> .</li>
+<li><code>tmux detach-client</code> -- odłącza klienta od sesji, skrót <code>detach</code> .</li>
+<li><code>tmux start-server</code> -- uruchamia serwer bez aktywnej sesji.</li>
+<li><code>tmux kill-server</code> -- zabija serwer.</li>
+<li><code>tmux kill-session -t sesja</code> -- zamyka określoną sesję.</li>
+<li><code>tmux list-sessions</code> -- pokazuje aktywne sesje, skrót <code>ls</code> .</li>
+<li><code>tmux new-session -t sesja</code> -- tworzy nową sesję, skrót <code>new</code> .</li>
+</ul>
+<p>Oczywiście te powyższe polecenia nadają się jedynie do prostego zarządzania sesjami z poziomu
+terminala. Co jednak w przypadku, gdy chcemy uruchomić gotową sesję, w skład której wchodzi szereg
+okien, z których to cześć jest podzielona na mniejsze i zawiera uruchomione aplikacje? W takiej
+sytuacji musimy stworzyć sobie blok sesji w pliku konfiguracyjnym <code>/etc/tmux.conf</code> lub
+<code>~/.tmux.conf</code> , przykładowo:</p>
+<pre><code>new -d -s main -n main &quot;htop&quot;
+splitw -t 1 -v -p 50 &quot;newsbeuter&quot;
+neww -n cmd
+selectw -t main:1
+selectp -t main:2
+</code></pre>
+<p>Składnia takiego bloku jest następująca. Słowo <code>new</code> oznacza tworzenie nowej sesji (w tym nowego
+okna) i wyżej przyjmuje ono trzy argumenty. Argument <code>-d</code> odpowiada za odłączenie sesji od
+terminala, <code>-s</code> za nazwa sesji, <code>-n</code> to nazwa okna. Wszystko to, co zostało ujęte w <code>&quot; &quot;</code> , to
+polecenie, które ma zostać wywołane zaraz po utworzeniu tego okna. Oczywiście mogą to być dowolne
+polecenia, niekoniecznie nazwy aplikacji. Wszystko to, co jesteśmy w stanie wpisać w terminalu,
+możemy umieścić tutaj.</p>
+<p>W kolejnej linijce mamy słówko <code>splitw</code> , które dzieli okno. Mamy tam trzy argumenty. Argument <code>-t</code>
+określa numerek okna, które należy podzielić. Dalej mamy <code>-v</code> dzielący okno wertykalnie (możliwe
+również do określenia <code>-h</code> ). Ostatni parametr <code>-p</code> określa procent podziału okna. W tak powstałym
+oknie uruchamiana jest zdefiniowana aplikacja.</p>
+<p>Dalej mamy słowo <code>neww</code> , które odpowiada za utworzenie nowego okna w sesji. W argumencie <code>-n</code>
+podajemy jego nazwę i, podobnie jak w przypadku wyżej, uruchamiamy program. Oczywiście możemy nie
+nazywać okien ale wtedy automat zrobi to za nas. Podobnie też z poleceniami, których nie musimy
+podawać. Jeśli nie podamy, to pojawi się w okienku jedynie prompt.</p>
+<p>Pozostałe dwa polecenia, tj. <code>selectw</code> oraz <code>selectp</code> określają, które okno ma zostać ustawione jako
+aktywne. Tutaj mamy tylko jeden argument <code>-t</code> , który odwołuje się do konkretnej sesji i jej okna.</p>
+<h2 id="konfiguracja-tmuxa">Konfiguracja tmux'a</h2>
+<p>Wiemy już zatem jak sterować tmux'em i jak konfigurować jego skróty klawiszowe. Poniżej zaś znajdują
+się te bardziej użyteczniejsze opcje, które można dodać do pliku konfiguracyjnego <code>/etc/tmux.conf</code>
+lub też <code>~/.tmux.conf</code> . Cały ten multiplekser jest nieco rozbudowany, dlatego też w miarę
+zgłębiania jego konfiguracji będę starał się dodawać tutaj nowe sekcje. Kompletny plik
+konfiguracyjny <a href="https://github.com/morfikov/files/blob/master/configs/etc/tmux.conf">znajduje się na
+github'ie</a>.</p>
+<h3 id="wsparcie-dla-myszy-w-tmuxie">Wsparcie dla myszy w tmux'ie</h3>
+<p>Przede wszystkim, włączamy support dla myszy. Będziemy mogli za jej pomocą aktywować okienka,
+zmieniać ich rozmiar, a nawet przełączać się między nimi klikając w odpowiednie pozycje na ekranie.
+Działa również przewijanie rolką. Niestety nie udało mi się zmusić tmux'a do współpracy z <code>gpm</code> (to
+taki support dla myszy pod TTY), a z informacji, które znalazłem, wychodzi na to, że <code>tmux</code> nie wie
+jak rozmawiać z <code>gpm</code> , w efekcie czego można zapomnieć o bawieniu się myszą pod TTY. Oczywiście
+nadal kopiowanie przy pomocy myszy działa ale nie można robić tych wszystkich rzeczy co w przypadku
+graficznej sesji Xserver'a. W każdym razie, by włączyć wsparcie dla myszy, dopisujemy do pliku
+konfiguracyjnego tę poniższą linijkę:</p>
+<pre><code>set -g mouse on
+</code></pre>
+<p>Jeśli chcemy sobie dostosować poszczególne akcje, które są przypisane do przycisków myszy, to musimy
+pierw ustalić nazwy tych przycisków. Poniżej jest tabelka, którą możemy wykorzystać:</p>
+<pre><code>MouseDown1    MouseUp1    MouseDrag1
+MouseDown2    MouseUp2    MouseDrag2
+MouseDown3    MouseUp3    MouseDrag3
+WheelUp       WheelDown
+</code></pre>
+<p>Na końcu tych powyższych nazw musimy także dopisać położenie, które może być jednym z <code>Pane</code> ,
+<code>Border</code> lub <code>Status</code> . Przykładowo, jeśli chcielibyśmy aktywować sobie wklejanie tekstu za pomocą
+środkowego przycisku myszki, to do konfiguracji dodajemy poniższy wpis:</p>
+<pre><code>bind -n MouseDown2Pane paste-buffer
+</code></pre>
+<h3 id="zmiana-kolorystyki">Zmiana kolorystyki</h3>
+<p>W przypadku, gdy nie odpowiadają nam domyślne kolory tmux'a, możemy je sobie dobrać ręcznie.
+Praktycznie cała kolorystyka jest zawarta w tych poniższych opcjach:</p>
+<pre><code>set -g display-panes-active-colour colour33
+set -g display-panes-colour colour166
+set -g message-style fg=colour166,bg=colour235,bright
+set -g status-style fg=colour136,bg=colour235
+set -gw clock-mode-colour colour166
+set -gw pane-active-border-style fg=colour166,bg=colour16
+set -gw pane-border-style fg=colour166,bg=colour16
+set -gw window-status-activity-style fg=colour166,bg=colour52,bold
+set -gw window-status-current-style fg=colour166,bg=default,underscore
+set -gw window-status-style fg=colour244,bg=default,dim
+</code></pre>
+<p>Jak widzimy, mamy tutaj szereg ustawień odpowiedzialnych za konfigurację wyglądu paska statusu, okna
+głównego czy też podzielonych okienek. Nazwy opcji powinny być zrozumiałe. Jeśli zaś chodzi o
+format, który został określony, to każda z opcji przyjmuje trzy wartości, kolor tła, kolor czcionki
+oraz listę atrybutów. Pozycja atrybutów może przyjąć wartość <code>none</code> lub też jedną z <code>bright</code> , <code>dim</code>
+, <code>underscore</code> , <code>blink</code> , <code>reverse</code> , <code>hidden</code> lub <code>italics</code> . Każde z tych powyższych opcji może
+zostać poprzedzone za pomocą <code>no</code> i w ten sposób wyłączyć którąś opcję. Kolor tła jest oznaczony
+przez <code>bg=</code> , kolor czcionki zaś za pomocą <code>fg=</code> . Poszczególne opcje oddziela się od siebie za
+pomocą <code>,</code> . Kolory mogą być w formie nazwy (red), postaci HEX (#000000) lub też colour0 -
+colour255 o ile dysponujemy terminalem 256-kolorowym.</p>
+<h3 id="pasek-statusu-status-bar">Pasek statusu (status bar)</h3>
+<p>Możemy także dostosować sobie wygląd paska statusu i to nie tylko kolory ale także to, co faktycznie
+będzie nam on pokazywał. Poniżej jest potrzebny nam blok kodu, który dodajemy do pliku
+konfiguracyjnego:</p>
+<pre><code>set -g status on
+set -g status-interval 1
+set -g status-justify centre
+set -g status-left &quot;#[fg=green,dim,bg=default]Session: #S #[fg=yellow,dim,bg=default]#I #[fg=cyan,dim,bg=default]#P&quot;
+set -g status-left-length 40
+set -g status-position bottom
+set -g status-right &quot;#[fg=red,dim,bg=default] #(cat /proc/loadavg) #[fg=white,dim,bg=default]%H:%M:%S #[fg=blue,dim,bg=default]%Y-%m-%d&quot;
+set -g status-right-length 140
+set -g status-style fg=colour136,bg=colour233
+</code></pre>
+<p>Ze zrozumieniem za co odpowiadają poszczególne opcje nie powinno być większych problemów. Natomiast
+cześć z nich (np. <code>status-right</code> ) ma dość zawiłą konstrukcję i przydałoby się dodać dwa słowa
+komentarza.</p>
+<p>Przede wszystkim, poszczególne elementy paska statusu są ujęte w nawiasy: <code>#[]</code> oraz <code>#()</code> . W
+nawiasach kwadratowych określamy informacje dotyczącą formatowania tekstu. W nawiasach okrągłych
+wpisujemy polecenia, które zostaną uruchomione w shell'u. Mamy także kilka zmiennych, np. <code>#S</code>
+odpowiadającą za nazwę sesji. Nie wszystkie zmienne mają takie skróty, a że jest ich cała masa, to
+odsyłam do <a href="http://man7.org/linux/man-pages/man1/tmux.1.html#FORMATS">man tmux, (sekcja FORMATS)</a>.
+To o czym warto pamiętać w przypadku zmiennych, to fakt, że ich długie nazwy trzeba ując w <code>#{}</code> .</p>
+<h3 id="problemy-pod-tty">Problemy pod TTY</h3>
+<p>W przypadku konsoli TTY, domyślne nie działają min. skróty zmiany rozmiaru okienek (pane). Problem
+tkwi w interpretacji klawiszy Ctrl , Alt czy Shift przez tę linux'ową konsolę. Dlatego też jeśli
+korzystamy ze skrótów, które wykorzystują te powyższe przyciski, to jedyną opcją jest ich
+przemapowanie. Oczywiście prefiks, który również wykorzystuje klawisz Ctrl , będzie działał bez
+przeszkód. Problemem są jedynie te skróty klawiszowe, które przesyłamy do tmux'a po przyciśnięciu
+prefiksu.</p>
+<h3 id="historia-tmuxa">Historia tmux'a</h3>
+<p><code>tmux</code> posiada swoją własną historię tekstu, która pojawia się na ekranie. Ten mechanizm jest
+zaimplementowany praktycznie w każdym pseudo terminalu. Podobnie jak w przypadku tej historii
+oferowanych przez terminale, szereg parametrów historii tmux'a również możemy dostosować. Jeśli
+zatem chcemy ustawić sobie limit pamiętanych linii, to wystarczy dodać do pliku konfiguracyjnego ten
+poniższy wpis:</p>
+<pre><code>set -g history-limit 10000
+</code></pre>
+<p>Jest to limit globalny i każde poszczególne okno będzie w stanie zapisać w historii tyle linii ile
+zostało określone powyżej. Warto o tym pamiętać, bo przy sporej liczbie okien, bufor może się dość
+znacząco rozrosnąć i konsumować sporo pamięci operacyjnej. Niemniej jednak, historia każdego okna
+może zostać wyczyszczona ręcznie za pomocą skrótu Ctrl-k :</p>
+<pre><code>bind -n C-k clear-history
+</code></pre>
+<p>Warto zauważyć, że nie stosujemy tutaj prefiksu. To czy prefiks będzie wymagany, zależy od
+przełącznika <code>-n</code> .</p>
+<h3 id="numerowanie-okienek">Numerowanie okienek</h3>
+<p>Standardowo <code>tmux</code> numeruje okienka od 0. Jeśli jednak nie przepadamy za tym systemem i preferujemy,
+by numerki zaczynały się od 1, czy jakiejkolwiek innej liczby, to możemy dopisać te dwa poniższe
+parametry do pliku konfiguracyjnego tmux'a i ustawić im odpowiednie wartości:</p>
+<pre><code>set -g base-index 1
+set -gw pane-base-index 1
+</code></pre>
+<h3 id="obsługa-256-kolorowych-terminali">Obsługa 256-kolorowych terminali</h3>
+<p>Jeśli nasz terminal jest w stanie wyświetlić 256 kolorów, to możemy poinstruować tmux'a, by
+odpowiednio ustawił zmienną TERM. Standardowo przyjmuje ona wartość <code>tmux</code> lub <code>screen</code> . Natomiast,
+by włączyć obsługę 256 kolorów, musi ona zawierać frazę <code>256color</code> , przykładowo:</p>
+<pre><code>set -s default-terminal screen-256color
+</code></pre>
+<h3 id="kopiowanie-wyjścia-terminala-do-pliku">Kopiowanie wyjścia terminala do pliku</h3>
+<p>Niekiedy istnieje potrzeba, by zalogować praktycznie całe wyjście terminala do pliku. Tak
+zgromadzone informacje można wykorzystać w późniejszym czasie. Możemy oczywiście po kawałku kopiować
+wyjście i wklejać je ręcznie do pliku ale <code>tmux</code> potrafi tę czynność przeprowadzić za nas
+automatycznie przy pomocy polecenia <code>pipe-pane</code> . Jak nazwa wskazuje, cały tekst, który pojawi się w
+danym okienku zostanie skopiowany i przesłany gdzieś dalej. Dobrze byłoby zatem ustawić sobie skrót
+Ctrl-a-Ctrl-p pod tę akcję:</p>
+<pre><code>bind C-p pipe-pane -o 'ansifilter &gt;&gt; ~/tmux-output.log'
+</code></pre>
+<p>Problem w tym, że zwykle, gdy się koloruje, np. prompt, czy wyjście polecenia <code>ls</code>, to w pliku będą
+uwzględnione <a href="https://en.wikipedia.org/wiki/Escape_character">znaki escape</a>, czyli coś co się
+zaczyna od <code>^[</code> . To zwykle czyni wyjście mało czytelnym. Na szczęście ktoś pokusił się o napisanie
+filtra, dzięki któremu tekst w pliku będzie przypominał ten, który widzimy w terminalu, tyle, że bez
+kolorów. Niestety programu <code>ansifilter</code> nie ma w repozytorium debiana i trzeba go ręcznie sobie
+zbudować. Kod źródłowy jest dostępny pod <a href="http://www.andre-simon.de/doku/ansifilter/en/ansifilter.php">tym
+adresem</a>. Programik <code>ansifilter</code> działa
+na podobnej zasadzie co narzędzie <code>script</code> . Dlatego też możemy się nim posłużyć, jeśli <code>ansifilter</code>
+jest poza naszym zasięgiem.</p>
+<h3 id="tryb-copy-mode">Tryb copy-mode</h3>
+<p><code>tmux</code> posiada także tryb kopiowania (copy-mode). By wejść w ten tryb, musimy posłużyć się skrótem
+Ctrl-a-[ . W tym trybie jesteśmy w stanie przeszukiwać i kopiować dosłownie każdą treść jaka
+widnieje w historii tmux'a. Tak skopiowany tekst można wkleić do terminala przy pomocy Ctrl-a-] . W
+trybie kopiowania po tekście poruszamy się za sprawą strzałek. By zaznaczyć tekst, wciskamy Space ,
+klawisz Enter zaś kopiuje podświetloną zawartość. Skróty klawiszowe odpowiadające za copy-mode
+możemy sobie dostosować w poniższy sposób:</p>
+<pre><code>bind Escape copy-mode
+bind p paste-buffer
+</code></pre>
+<p>Możemy także dostosować sobie szereg skrótów, które są dostępne jedynie w copy-mode:</p>
+<pre><code>bind -t vi-copy v begin-selection
+bind -t vi-copy V select-line
+bind -t vi-copy y copy-selection
+bind -t vi-copy r rectangle-toggle
+bind -t vi-copy Escape cancel
+</code></pre>
+<p>Każdy tak skopiowany tekst jest buforowany i przetrzymywany do momentu zresetowania serwera lub też
+ręcznego usunięcia bufora z listy. Listę buforów możemy podejrzeć za pomocą skrótu Ctrl-a-b .
+Konkretny bufor wybieramy przy pomocy Ctrl-a-p . Natomiast jeśli chcemy usunąć ostatni skopiowany
+tekst z bufora, to wciskamy Ctrl-a-x :</p>
+<pre><code>bind b list-buffers
+bind p choose-buffer
+bind x delete-buffer
+</code></pre>
+<p>Problem z trybem copy-mode jest taki, że bufor, w którym przechowywane są skopiowane wycinki tekstu,
+jest tylko do dyspozycji tmux'a. Możemy zatem skopiować pewne informacje, zamknąć terminal,
+podłączyć się ponownie przez innego klienta i wkleić w nim to, co skopiowaliśmy wcześniej. To
+działa niezależnie od klienta ale nie damy rady z tego bufora przenieść danych do schowka
+systemowego, tak by wkleić je, np. do edytora tekstu geany. Możemy jednak przesłać te informacje do
+<code>xsel</code> , który zarządza schowkiem systemowym:</p>
+<pre><code>bind c run &quot;tmux save-buffer - | xsel --clipboard --input&quot;
+</code></pre>
+<p>Po wejściu w tryb kopiowania, bez znaczenia czy za pomocą myszy, czy przez skrót klawiszy,
+zaznaczamy jakąś porcję tekstu i opuszczamy copy-mode. Następnie przyciskamy skrót Ctrl-a-c i to co
+skopiowaliśmy przed chwilą zostanie przesłane do schowka systemowego skąd będzie mogło powędrować do
+innych aplikacji.</p>
+<h3 id="bufor-terminala-vs-bufor-tmuxa">Bufor terminala vs. bufor tmux'a</h3>
+<p>Jako, że <code>tmux</code> posiada własną historię komunikatów, które przewijają się w terminalu, to pojawia
+się pewien problem. Chodzi o to, że, jak wspomniałem wyżej, każdy terminal ma swój własny bufor,
+zatem mamy teraz dwa. Na dobrą sprawę, nie przeszkadza to w niczym, za wyjątkiem tego, że dwukrotnie
+więcej pamięci RAM będzie konsumowane. Jeśli korzystamy z terminala <code>urxvt</code> , to możemy pokusić się
+o wyłączenie jego buforu. Oczywiście nie musimy robić tego globalnie, a jedynie dla określonej
+instancji, w której wywołujemy tmux'a. W ten sposób nie stracimy historii w terminalu bez tmux'a.
+Dodajmy zatem do pliku <code>~/.Xresources</code> te poniższe wpisy:</p>
+<pre><code>URxvt*saveLines: 10000
+*tmux.saveLines: 0
+</code></pre>
+<p>Nazwa <code>*tmux.saveLines</code> zależy od tytułu okna terminala ( <code>urxvtc -name &quot;tmux&quot;</code> ). Po dostosowaniu
+tego pliku, musimy jeszcze przeładować konfigurację:</p>
+<pre><code>$ xrdb  ~/.Xresources
+</code></pre>
+<h3 id="problematyczne-sesje-tmuxa">Problematyczne sesje tmux'a</h3>
+<p>W pliku konfiguracyjnym tmux'a można definiować bardzo rozbudowane sesje i nawet może być ich kilka.
+Powodować one mogą problemy przy przeładowaniu konfiguracji za pomocą polecenia <code>source-file</code> .
+Chodzi o to, że po przeładowaniu pliku, w aktywnej sesji będą tworzone dodatkowe okienka. By
+wyeliminować tę niedogodność, trzeba skorzystać z warunków, które dostarcza komenda <code>if-shell</code> .</p>
+<p>Weźmy sobie przykładowe wywołanie sesji, z którym mieliśmy do czynienia wyżej:</p>
+<pre><code>new -d -s main -n main &quot;htop&quot;
+splitw -t 1 -v -p 50 &quot;newsbeuter&quot;
+neww -n cmd
+selectw -t main:1
+selectp -t main:2
+</code></pre>
+<p>By ten powyższy blok sesji był zainicjowany tylko w momencie, gdy ta sesja nie istnieje, musimy
+dorobić jej warunki, przykładowo:</p>
+<pre><code>if 'tmux list-sessions| grep &quot;main&quot;'       '' 'new -d -s main -n main &quot;htop&quot;'
+if 'tmux list-windows | grep &quot;newsbeuter&quot;' '' 'neww -n newsbeuter &quot;newsbeuter&quot;'
+if 'tmux list-windows | grep &quot;cmd&quot;'        '' 'neww -n cmd'
+selectw -t main:1
+selectp -t main:2
+</code></pre>
+<p>Polecenie <code>if-shell</code> ma swój alias <code>if</code> i przyjmuje z grubsza trzy argumenty. Pierwszy z nich to
+polecenie, które ma zostać wywołane w shell'u. Następne dwa argumenty to polecenia tmux'a. Jeśli
+shell'owa komenda zwróci błąd, to zostanie wykonane drugie z tych tmux'owych poleceń. W powyższym
+bloku sprawdzamy czy istnieje sesja i czy istnieją jej okna. Jeśli sesji czy okien nie ma, to
+zostaną utworzone. W przypadku, gdy są, np. przy przeładowaniu pliku konfiguracyjnego, to nie
+zostanie wykonana żadna akcja, bo pierwsze polecenie tmux'a jest puste.</p>
+<h2 id="jak-uruchamiać-tmuxa">Jak uruchamiać tmux'a</h2>
+<p>Sesje tmux'a mogą nie być przypisane do żadnego terminala i mogą swobodnie działać nawet bez żadnego
+klienta. Powyżej mieliśmy przykład sesji, która była tworzona w pliku <code>/etc/tmux.conf</code> i na dobrą
+sprawę, to są polecenia dla tmux'a. By zatem odpalić serwer i utworzyć sesje, trzeba ten plik
+konfiguracyjny załadować. Możemy to zrobić na dwa sposoby. Pierwszy zakłada wywołanie odpowiedniego
+polecenia przy starcie sesji graficznej Xserver'a lub też po zalogowaniu się na TTY. Drugi sposób
+dotyczy utworzenia pliku <code>.desktop</code> , który zainicjuje serwer tmux'a w momencie, gdy będziemy
+chcieli skorzystać z terminala.</p>
+<p>Jeśli jest to środowisko graficzne, to do jego autostartu dodajemy poniższe polecenie:</p>
+<pre><code>urxvtc -name 'cdesktop' -e bash -c &quot;tmux attach-session -t main&quot; &amp;
+</code></pre>
+<p>Kluczowe jest tutaj wywołanie polecenia <code>attach-session</code> oraz, by parametr <code>-t</code> wskazywał na jedną z
+sesji istniejących w pliku konfiguracyjnym. W tym przypadku, jeśli serwer nie istnieje, to zostanie
+podniesiony tworząc wszystkie sesje. Po ich stworzeniu, zostaniemy podłączeni do tmux'a.</p>
+<p>W przypadku skrótu, który można umieścić, np. na panelu tint2, tworzymy plik <code>urxvt-tmux.desktop</code> o
+poniższej treści:</p>
+<pre><code>[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Urxvt
+Comment=Multiple terminals in one window
+Comment[pl]=Wiele terminali w jednym oknie
+TryExec=urxvtc -name &quot;tmux&quot; -e bash -c &quot;tmux attach-session -t main&quot;
+Exec=urxvtc -name &quot;tmux&quot; -e bash -c &quot;tmux attach-session -t main&quot;
+Icon=/home/morfik/.config/launchers/icons/urxvt-tmux-32x32.png
+Categories=System;TerminalEmulator;
+Keywords=terminal;tmux;
+</code></pre>
+<p>Dobrze jest sobie stworzyć drugi taki plik, który wywołuje sam terminal bez tmux'a. To na wypadek,
+gdyby z jakiegoś powodu <code>tmux</code> nie chciał się nam odpalić. Wrzucamy oba pliki do katalogu, który
+został określony w konfiguracji tint2 w parametrze <code>launcher_apps_dir</code> i restartujemy panel.</p>
+<p>Jeśli chcemy automatycznie być zrzucani do tmux'a po zalogowaniu się, np. na czwartą konsolę TTY, to
+do pliku <code>~/.bashrc</code> dodajemy tę poniższą zwrotkę:</p>
+<pre><code>if [[ $(tty) = /dev/tty4 ]]; then
+    tmux attach-session -t main
+fi
+</code></pre>
+<p>Tmux automatycznie synchronizuje zawartość okien, dlatego nawet jeśli jedno jest większe niż inne,
+rozmiar tmux'a będzie dostosowany do tego terminala o najmniejszych wymiarach. W tych większych
+okienkach, część przestrzeni zostanie zakropkowana. Jeśli przeszkadza nam to, możemy bez problemu
+odłączyć klienta od sesji przy pomocy <code>tmux detach</code> albo po prostu zamknąć terminal. Wtedy tmux od
+razu zwiększy swój rozmiar i dostosuje go do rozmiarów klienta, który pozostał.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/terminal/">terminal</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fimplementacja-multipleksera-tmux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fimplementacja-multipleksera-tmux%2f&amp;text=Implementacja%20multipleksera%20tmux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fimplementacja-multipleksera-tmux%2f&amp;title=Implementacja%20multipleksera%20tmux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fimplementacja-multipleksera-tmux%2f&amp;title=Implementacja%20multipleksera%20tmux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fimplementacja-multipleksera-tmux%2f&title=Implementacja%20multipleksera%20tmux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fimplementacja-multipleksera-tmux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fimplementacja-multipleksera-tmux%2f&amp;title=Implementacja%20multipleksera%20tmux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fimplementacja-multipleksera-tmux%2f&description=Implementacja%20multipleksera%20tmux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-terminala-urxvt/">Konfiguracja terminala urxvt</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/osadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa/">Osadzanie urxvt na pulpicie przy pomocy openbox&#39;a</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

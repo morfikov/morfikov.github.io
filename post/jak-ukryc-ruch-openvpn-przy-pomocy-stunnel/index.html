@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak ukryć ruch OpenVPN przy pomocy stunnel | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak ukryć ruch OpenVPN przy pomocy stunnel" />
+<meta property="og:description" content="Ci z nas, którzy korzystają codziennie z internetu, wiedzą, że większość nawiązywanych połączeń
+między dwoma punktami w tej sieci globalnej przechodzi przez szereg węzłów i jest podatnych na
+przechwycenie i podsłuchanie. Nawet jeśli ruch z określonymi serwisami jest szyfrowany, to w dalszym
+ciągu nie jesteśmy w stanie ukryć pewnych newralgicznych informacji, takich jak docelowy adres IP i
+port, na którym nasłuchuje zdalna usługa. Wszystkie połączenia sieciowe zestawiane z naszego
+komputera czy routera domowego przechodzą przez infrastrukturę ISP, u którego mamy wykupiony
+internet. Tacy ISP są nam w stanie pod naciskiem rządu zablokować połączenia z konkretnymi adresami
+wprowadzając na terenie danego kraju cenzurę treści dostępnej w internecie, czego obecnie jesteśmy
+świadkami w Europie, no i w Polsce. Można oczywiście posiłkować się rozwiązaniami opartymi o VPN,
+np. stawiając serwer OpenVPN w innym
+kraju. Problem jednak w
+tym, że ruch OpenVPN różni się od tego, z którym mamy do czynienia w przypadku choćby HTTPS. Jest
+zatem możliwość rozpoznania ruchu VPN i zablokowania go stosując głęboką analizę
+pakietów (Deep Packet Inspection, DPI). By
+się przed tego typu sytuacją ochronić, trzeba upodobnić ruch generowany przez OpenVPN do zwykłego
+ruchu SSL/TLS. Do tego celu służy narzędzie stunnel." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-ukryc-ruch-openvpn-przy-pomocy-stunnel/" />
+<meta property="article:published_time" content="2016-12-10T15:18:18+00:00" />
+<meta property="article:modified_time" content="2016-12-10T15:18:18+00:00" />
+
+		<meta itemprop="name" content="Jak ukryć ruch OpenVPN przy pomocy stunnel">
+<meta itemprop="description" content="Ci z nas, którzy korzystają codziennie z internetu, wiedzą, że większość nawiązywanych połączeń
+między dwoma punktami w tej sieci globalnej przechodzi przez szereg węzłów i jest podatnych na
+przechwycenie i podsłuchanie. Nawet jeśli ruch z określonymi serwisami jest szyfrowany, to w dalszym
+ciągu nie jesteśmy w stanie ukryć pewnych newralgicznych informacji, takich jak docelowy adres IP i
+port, na którym nasłuchuje zdalna usługa. Wszystkie połączenia sieciowe zestawiane z naszego
+komputera czy routera domowego przechodzą przez infrastrukturę ISP, u którego mamy wykupiony
+internet. Tacy ISP są nam w stanie pod naciskiem rządu zablokować połączenia z konkretnymi adresami
+wprowadzając na terenie danego kraju cenzurę treści dostępnej w internecie, czego obecnie jesteśmy
+świadkami w Europie, no i w Polsce. Można oczywiście posiłkować się rozwiązaniami opartymi o VPN,
+np. stawiając serwer OpenVPN w innym
+kraju. Problem jednak w
+tym, że ruch OpenVPN różni się od tego, z którym mamy do czynienia w przypadku choćby HTTPS. Jest
+zatem możliwość rozpoznania ruchu VPN i zablokowania go stosując głęboką analizę
+pakietów (Deep Packet Inspection, DPI). By
+się przed tego typu sytuacją ochronić, trzeba upodobnić ruch generowany przez OpenVPN do zwykłego
+ruchu SSL/TLS. Do tego celu służy narzędzie stunnel.">
+<meta itemprop="datePublished" content="2016-12-10T15:18:18+00:00" />
+<meta itemprop="dateModified" content="2016-12-10T15:18:18+00:00" />
+<meta itemprop="wordCount" content="1595">
+
+
+
+<meta itemprop="keywords" content="prywatność,vpn,debian," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak ukryć ruch OpenVPN przy pomocy stunnel"/>
+<meta name="twitter:description" content="Ci z nas, którzy korzystają codziennie z internetu, wiedzą, że większość nawiązywanych połączeń
+między dwoma punktami w tej sieci globalnej przechodzi przez szereg węzłów i jest podatnych na
+przechwycenie i podsłuchanie. Nawet jeśli ruch z określonymi serwisami jest szyfrowany, to w dalszym
+ciągu nie jesteśmy w stanie ukryć pewnych newralgicznych informacji, takich jak docelowy adres IP i
+port, na którym nasłuchuje zdalna usługa. Wszystkie połączenia sieciowe zestawiane z naszego
+komputera czy routera domowego przechodzą przez infrastrukturę ISP, u którego mamy wykupiony
+internet. Tacy ISP są nam w stanie pod naciskiem rządu zablokować połączenia z konkretnymi adresami
+wprowadzając na terenie danego kraju cenzurę treści dostępnej w internecie, czego obecnie jesteśmy
+świadkami w Europie, no i w Polsce. Można oczywiście posiłkować się rozwiązaniami opartymi o VPN,
+np. stawiając serwer OpenVPN w innym
+kraju. Problem jednak w
+tym, że ruch OpenVPN różni się od tego, z którym mamy do czynienia w przypadku choćby HTTPS. Jest
+zatem możliwość rozpoznania ruchu VPN i zablokowania go stosując głęboką analizę
+pakietów (Deep Packet Inspection, DPI). By
+się przed tego typu sytuacją ochronić, trzeba upodobnić ruch generowany przez OpenVPN do zwykłego
+ruchu SSL/TLS. Do tego celu służy narzędzie stunnel."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak ukryć ruch OpenVPN przy pomocy stunnel</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-12-10T15:18:18Z">Opublikowano: 10/12/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak ukryć ruch OpenVPN przy pomocy stunnel</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#konfiguracja-usługi-stunnel-na-serwerze">Konfiguracja usługi stunnel na serwerze</a></li>
+    <li><a href="#konfiguracja-certyfikatów">Konfiguracja certyfikatów</a></li>
+    <li><a href="#konfiguracja-usługi-stunnel-na-kliencie">Konfiguracja usługi stunnel na kliencie</a></li>
+    <li><a href="#usługa-dla-systemd">Usługa dla systemd</a></li>
+    <li><a href="#dostosowanie-konfiguracji-openvpn">Dostosowanie konfiguracji OpenVPN</a></li>
+    <li><a href="#dobór-portu-dla-usługi-stunnel">Dobór portu dla usługi stunnel</a></li>
+    <li><a href="#problem-z-wydajnością-połączenia-vpn">Problem z wydajnością połączenia VPN</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Ci z nas, którzy korzystają codziennie z internetu, wiedzą, że większość nawiązywanych połączeń
+między dwoma punktami w tej sieci globalnej przechodzi przez szereg węzłów i jest podatnych na
+przechwycenie i podsłuchanie. Nawet jeśli ruch z określonymi serwisami jest szyfrowany, to w dalszym
+ciągu nie jesteśmy w stanie ukryć pewnych newralgicznych informacji, takich jak docelowy adres IP i
+port, na którym nasłuchuje zdalna usługa. Wszystkie połączenia sieciowe zestawiane z naszego
+komputera czy routera domowego przechodzą przez infrastrukturę ISP, u którego mamy wykupiony
+internet. Tacy ISP są nam w stanie pod naciskiem rządu zablokować połączenia z konkretnymi adresami
+wprowadzając na terenie danego kraju cenzurę treści dostępnej w internecie, czego obecnie jesteśmy
+świadkami w Europie, no i w Polsce. Można oczywiście posiłkować się rozwiązaniami opartymi o VPN,
+np. <a href="https://morfikov.github.io
+/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">stawiając serwer OpenVPN w innym
+kraju</a>. Problem jednak w
+tym, że ruch OpenVPN różni się od tego, z którym mamy do czynienia w przypadku choćby HTTPS. Jest
+zatem możliwość rozpoznania ruchu VPN i zablokowania go stosując <a href="https://en.wikipedia.org/wiki/Deep_packet_inspection">głęboką analizę
+pakietów</a> (Deep Packet Inspection, DPI). By
+się przed tego typu sytuacją ochronić, trzeba upodobnić ruch generowany przez OpenVPN do zwykłego
+ruchu SSL/TLS. Do tego celu służy <a href="https://www.stunnel.org/index.html">narzędzie stunnel</a>.</p>
+<h2 id="konfiguracja-usługi-stunnel-na-serwerze">Konfiguracja usługi stunnel na serwerze</h2>
+<p>Konfiguracja dla demona <code>stunnel</code> jest trzymana standardowo w katalogu <code>/etc/stunnel/</code> . Domyślnie
+jest tam tylko plik <code>README</code> z instrukcjami, które pomogą nam skonfigurować usługę. Jest tam zawarta
+informacja, że przykładowy plik konfiguracyjny znajduje się w
+<code>/usr/share/doc/stunnel4/examples/stunnel.conf-sample</code> . Trzeba go będzie dostosować zarówno na
+serwerze jak i na kliencie. Przekopiujmy zatem ten plik do katalogu <code>/etc/stunnel/</code> nazywając go
+dowolnie ale tak, by jego rozszerzenie wskazywało na <code>.conf</code> ,
+przykładowo:</p>
+<pre><code># cp /usr/share/doc/stunnel4/examples/stunnel.conf-sample /etc/stunnel/morfitronik-stunnel-server.conf
+</code></pre>
+<p>Teraz musimy poddać edycji tak utworzony plik i zmienić w nim szereg rzeczy:</p>
+<pre><code>foreground = yes
+setuid = stunnel4
+setgid = stunnel4
+pid = /var/run/stunnel4/stunnel4.pid
+;chroot = /var/lib/stunnel4/
+debug = 7
+;output = /var/log/stunnel.log
+socket = l:TCP_NODELAY=1
+sslVersion = TLSv1.2
+ciphers = ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-DSS-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDH-RSA-AES256-GCM-SHA384:ECDH-ECDSA-AES256-GCM-SHA384:AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:DHE-RSA-AES128-GCM-SHA256:ECDH-RSA-AES128-GCM-SHA256:ECDH-ECDSA-AES128-GCM-SHA256:AES128-GCM-SHA256
+
+[openvpn]
+client = no
+accept = 11.22.33.44:443
+connect = 127.0.0.1:1194
+delay = yes
+CAfile = /etc/openvpn/certs/morfitronik-ca.crt
+cert = /etc/openvpn/certs/morfitronik-server-vpn-stunnel.crt
+key = /etc/openvpn/certs/morfitronik-server-vpn.key
+requireCert = yes
+verifyChain = yes
+;verifyPeer = yes
+</code></pre>
+<p>Ten powyższy plik składa się z dwóch części. W pierwszej mamy parametry dla samego demona, w drugiej
+zaś konfigurację usługi. Większość opcji powinna być raczej zrozumiała ale wypadałoby powiedzieć
+kilka słów na temat sekcji konfigurującej usługę <code>openvpn</code> .</p>
+<p>Generalnie rzecz biorąc, nazwa samej sekcji jest dowolna ale musi być ujęta w <code>[ ]</code>. Parametr
+<code>client</code> przełącza demona w tryb klienta lub serwera. W <code>accept</code> definiujemy adres i port serwera,
+na który będą przychodzić zapytania z sieci (zewnętrzny adres IP). Z kolei w <code>connect</code> określamy
+adres pętli zwrotnej i jej port, na którym będzie nasłuchiwał demon OpenVPN. Pozostałe opcje dotyczą
+konfiguracji certyfikatów i akceptowania jedynie tych klientów, którzy przedstawią ważny certyfikat.</p>
+<h2 id="konfiguracja-certyfikatów">Konfiguracja certyfikatów</h2>
+<p>Każda usługa oferująca szyfrowanie danych, a do takich zalicza się <code>stunnel</code> , wymaga zestawienia
+bezpiecznego połączenia. Potrzebne nam zatem będą odpowiednie certyfikaty i klucze szyfrujące. Nie
+musimy ich jednak generować na nowo. Mając działający serwer OpenVPN możemy wykorzystać jego
+certyfikaty i podać tylko odpowiednie ścieżki w pliku <code>/etc/stunnel/morfitronik-stunnel-server.conf</code>
+, tak jak to zostało zrobione wyżej. Trzeba tylko pamiętać, że <code>stunnel</code> akceptuje certyfikaty
+jedynie w formacie PEM. Dodatkowo, parametry Diffie-Hellman'a (DH), które w przypadku OpenVPN są
+zawarte w pliku <code>dh4096.pem</code> trzeba dołączyć do pliku z certyfikatem dla demona <code>stunnel</code> :</p>
+<pre><code># cat /etc/openvpn/certs/dh4096.pem &gt;&gt; /etc/openvpn/certs/morfitronik-server-vpn-stunnel.crt
+</code></pre>
+<p>W konfiguracji demona <code>stunnel</code> mogliśmy zauważyć prametry <code>requireCert</code> , <code>verifyChain</code> oraz
+<code>verifyPeer</code> . Odpowiadają one, jak nazwa wskazuje, za wymaganie i weryfikacje certyfikatów
+klienckich. W zasadzie są to parametry jedynie opcjonalne i generalnie potrzebny nam jest zwykle
+jeden z nich, tj. <code>verifyChain</code> lub <code>verifyPeer</code> . W przypadku wykorzystania któregoś z nich,
+parametr <code>requireCert</code> jest implikowany automatycznie.</p>
+<p>Jaka jest zatem różnica między <code>verifyChain</code> i <code>verifyPeer</code> ? Certyfikaty zarówno serwera jak i
+klienta <code>stunnel</code> są podpisane przez CA. Jeśli klient przedstawi certyfikat podpisany przez inne CA
+niż to, którym został podpisany certyfikat serwera, to <code>verifyChain</code> nie zezwoli na podłączenie się
+takiej maszynie. Jeśli zaś chodzi o <code>verifyPeer</code> , to w tym przypadku certyfikat klienta musi zostać
+dołączony do pliku zdefiniowanego w opcji <code>CAfile</code> w konfiguracji <code>stunnel</code> .</p>
+<h2 id="konfiguracja-usługi-stunnel-na-kliencie">Konfiguracja usługi stunnel na kliencie</h2>
+<p>W przypadku drugiej strony połączenia, tj. klienta, również musimy w odpowiedni sposób skonfigurować
+sobie demona <code>stunnel</code> . Kopiujemy zatem przykładowy plik konfiguracyjny do katalogu <code>/etc/stunnel/</code>
+:</p>
+<pre><code># cp /usr/share/doc/stunnel4/examples/stunnel.conf-sample /etc/stunnel/morfitronik-stunnel-client.conf
+</code></pre>
+<p>Plik poddajemy edycji i dostosowujemy w nim poniższe parametry:</p>
+<pre><code>foreground = yes
+setuid = stunnel4
+setgid = stunnel4
+pid = /var/run/stunnel4/stunnel4.pid
+;chroot = /var/lib/stunnel4/
+debug = 7
+;output = /var/log/stunnel.log
+socket = r:TCP_NODELAY=1
+sslVersion = TLSv1.2
+ciphers = ECDHE-RSA-AES256-GCM-SHA384
+
+[openvpn]
+client = yes
+accept = 127.0.0.1:1194
+connect = 11.22.33.44:443
+delay = yes
+CAfile = /etc/openvpn/certs/morfitronik-ca.crt
+cert = /etc/openvpn/certs/morfitronik-client-vpn-laptop.crt
+key = /etc/openvpn/certs/morfitronik-client-vpn-laptop.key
+requireCert = yes
+verifyChain = yes
+;verifyPeer = yes
+checkHost = morfitronik-server-vpn
+</code></pre>
+<p>Konfiguracja klienta <code>stunnel</code> jest podobna do tej po stronie serwera. Sekcja z parametrami dla
+samego demona nie różni się zbytnio, no może za wyjątkiem opcji <code>socket</code> (o niej będzie później)
+oraz zawęziliśmy też możliwe do wykorzystania szyfry. O ile serwer powinien wspierać wszystkie
+szyfry TLS 1.2, o tyle klient może ograniczyć się do jednego.</p>
+<p>Jeśli zaś chodzi o sekcję usługi <code>openvpn</code> , to naturalnie przestawiamy parametr <code>client</code> tak, by
+demon <code>stunnel</code> wiedział, że ma pracować w roli klienta. Z kolei w <code>accept</code> podajemy adres pętli
+zwrotnej i port, na którym działa klient OpenVPN, a w <code>connect</code> wpisujemy adres zdalnego serwera i
+jego port.</p>
+<p>Konfiguracja certyfikatów i uwierzytelniania drugiego końca połączenia jest mniej więcej taka sama
+co w przypadku serwera. Możemy także skorzystać z parametru <code>checkHost</code> weryfikującego pole CN w
+certyfikacie serwera. Generalnie możemy dowolnie sobie te cztery ostatnie opcje dobrać, tylko
+pamiętajmy o różnicach między <code>verifyChain</code> i <code>verifyPeer</code> .</p>
+<h2 id="usługa-dla-systemd">Usługa dla systemd</h2>
+<p>W paczce <code>stunnel4</code> próżno szukać usługi dla systemd. Możemy jednak takową dorobić sami. Wystarczy
+stworzyć plik <code>/etc/systemd/system/stunnel@.service</code> i dodać do niego poniższą zawartość:</p>
+<pre><code>[Unit]
+Description=SSL tunnel for %I
+Documentation=man:stunnel(8)
+After=syslog.target network.target
+
+[Service]
+Type=simple
+PrivateTmp=true
+ExecStart=/usr/bin/stunnel /etc/stunnel/%i.conf
+ExecReload=/bin/kill -HUP $MAINPID
+PIDFile=/var/run/stunnel4/stunnel4.pid
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>Pamiętajmy tylko, by dodać do pliku konfiguracyjnego demona <code>stunnel</code> opcję <code>foreground=yes</code> , bo
+ten demon nie może nam forkować przy takiej konfiguracji usługi systemd jak widzimy powyżej.</p>
+<p>Musimy także stworzyć katalog, w którym będzie przechowywany PID demona <code>stunnel</code> tak, by nie było
+problemów ze zrzucaniem uprawnień. Tworzymy zatem plik <code>/etc/tmpfiles.d/stunnel.conf</code> i wrzucamy do
+niego poniższą zawartość:</p>
+<pre><code>#Type   Path              Mode    UID       GID        Age   Arguments
+d       /run/stunnel4     0755    stunnel4  stunnel4   -     -
+</code></pre>
+<p>Usługę uruchamiamy standardowo podając po znaku <code>@</code> nazwę pliku konfiguracyjnego obecnego w katalogu
+<code>/etc/stunnel/</code> ale bez końcówki <code>.conf</code> przykładowo:</p>
+<pre><code># systemctl enable stunnel@morfitronik-stunnel-server
+# systemctl start stunnel@morfitronik-stunnel-server
+</code></pre>
+<h2 id="dostosowanie-konfiguracji-openvpn">Dostosowanie konfiguracji OpenVPN</h2>
+<p>Generalnie rzecz biorąc, jeśli dysponowaliśmy wcześniej działającym serwerem VPN i klienci byli w
+stanie z nim nawiązywać połączenia bez większego problemu, to dostosowanie całej konfiguracji
+OpenVPN sprowadza się jedynie do zmiany kilku parametrów w plikach serwera i klienta (katalog
+<code>/etc/openvpn/</code> ). W obu przypadkach musimy przepisać opcje odpowiadające za protokół i adres IP.
+Wykorzystywany protokół musi wskazywać na TCP, natomiast jako adres IP trzeba określić pętlę zwrotną
+(loopback). Jako, że demon <code>stunnel</code> będzie zbierał ruch od OpenVPN i go szyfrował przed przesłaniem
+na drugi koniec połączenia, to możemy także zrezygnować z szyfrowania ruchu w samym VPN:</p>
+<p>Dla serwera będą to te trzy poniższe wpisy:</p>
+<pre><code>local 127.0.0.1
+proto tcp
+cipher none
+</code></pre>
+<p>A dla klienta te trzy:</p>
+<pre><code>proto tcp
+remote 127.0.0.1 1194
+cipher none
+</code></pre>
+<p>Wykorzystywanie protokołu TCP nie jest najlepszym pomysłem w przypadku VPN, bo drastycznie odbije
+się to na wydajności ogólnej połączenia ale nie mamy zbytnio innego wyjścia. Oprogramowanie
+<code>stunnel</code> potrafi zabezpieczać jedynie komunikację opartą na protokole TCP. Oczywiście nic nie stoi
+na przeszkodzie, by uruchomić dwie osobne instancje VPN i wykorzystywać je w zależności od
+panujących warunków cenzorskich. Pamiętajmy tylko o dostosowaniu opcji <code>server</code> w konfiguracji
+serwera OpenVPN odpowiadającej za adresację sieci LAN wykorzystywanej w VPN.</p>
+<p>Dodatkowo, w przypadku klienta VPN trzeba także uwzględnić dodatkową trasę w tablicy routingu. Musi
+ona wskazywać na adres zewnętrzny naszego serwera.</p>
+<pre><code>route 11.22.33.44 255.255.255.255 net_gateway
+</code></pre>
+<h2 id="dobór-portu-dla-usługi-stunnel">Dobór portu dla usługi stunnel</h2>
+<p>Przy określaniu portu, na którym ma nasłuchiwać demon <code>stunnel</code> , dobrze jest wybrać ten, który jest
+wykorzystywany oficjalnie przez jakieś usługi. Poniżej jest krótka rozpiska takich portów:</p>
+<pre><code>nsiiops      261/tcp   # IIOP Name Service over TLS/SSL
+https        443/tcp   # http protocol over TLS/SSL
+smtps        465/tcp   # smtp protocol over TLS/SSL (was ssmtp)
+nntps        563/tcp   # nntp protocol over TLS/SSL (was snntp)
+imap4-ssl    585/tcp   # IMAP4+SSL (use 993 instead)
+sshell       614/tcp   # SSLshell
+ldaps        636/tcp   # ldap protocol over TLS/SSL (was sldap)
+ftps-data    989/tcp   # ftp protocol, data, over TLS/SSL
+ftps         990/tcp   # ftp protocol, control, over TLS/SSL
+telnets      992/tcp   # telnet protocol over TLS/SSL
+imaps        993/tcp   # imap4 protocol over TLS/SSL
+ircs         994/tcp   # irc protocol over TLS/SSL
+pop3s        995/tcp   # pop3 protocol over TLS/SSL (was spop3)
+msft-gc-ssl  3269/tcp  # Microsoft Global Catalog with LDAP/SSL
+</code></pre>
+<p>Generalnie rzecz biorąc, chodzi tutaj o niewzbudzanie podejrzeń. Jeśli przy skanowaniu naszego
+serwera zostanie wykryty port 993, który jest standardowo powiązany z bezpiecznym protokołem
+pocztowym, to raczej mało kto pomyśli, że tutaj nasłuchuje serwer VPN chroniony przez demona
+<code>stunnel</code> . Gdybyśmy na tym porcie umieścili jedynie sam serwer OpenVPN, to podłączenie do niego
+(nawet zakończone niepowodzeniem) ujawniłoby, że na tym porcie jest VPN. A tak, ruch będzie wyglądał
+jakby został zaszyfrowany zwykłym protokołem SSL/TLS i głęboka inspekcja pakietów nie będzie w
+stanie wykazać co na tym porcie faktycznie działa.</p>
+<h2 id="problem-z-wydajnością-połączenia-vpn">Problem z wydajnością połączenia VPN</h2>
+<p>W przypadku obserwowania znacznego spowolnienia transmisji danych przez VPN po wdrożeniu demona
+<code>stunnel</code> , możemy spróbować włączyć opcję <code>TCP_NODELAY</code> na obu końcach połączenia dodając do pliku
+konfiguracyjnego serwera poniższy wpis:</p>
+<pre><code>socket = l:TCP_NODELAY=1
+</code></pre>
+<p>Podobną linijkę trzeba dodać do pliku konfiguracyjnego klienta:</p>
+<pre><code>socket = r:TCP_NODELAY=1
+</code></pre>
+<p>W razie innych problemów z działaniem demona <code>stunnel</code> warto zajrzeć również do <a href="https://www.stunnel.org/faq.html">do FAQ na stronie
+projektu</a>, jak i do <a href="http://manpages.ubuntu.com/manpages/zesty/en/man8/stunnel.8.html">man
+stunnel</a>.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/prywatno%C5%9B%C4%87/">prywatność</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/vpn/">vpn</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-ruch-openvpn-przy-pomocy-stunnel%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-ruch-openvpn-przy-pomocy-stunnel%2f&amp;text=Jak%20ukry%c4%87%20ruch%20OpenVPN%20przy%20pomocy%20stunnel" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-ruch-openvpn-przy-pomocy-stunnel%2f&amp;title=Jak%20ukry%c4%87%20ruch%20OpenVPN%20przy%20pomocy%20stunnel" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-ruch-openvpn-przy-pomocy-stunnel%2f&amp;title=Jak%20ukry%c4%87%20ruch%20OpenVPN%20przy%20pomocy%20stunnel" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-ruch-openvpn-przy-pomocy-stunnel%2f&title=Jak%20ukry%c4%87%20ruch%20OpenVPN%20przy%20pomocy%20stunnel" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-ruch-openvpn-przy-pomocy-stunnel%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-ruch-openvpn-przy-pomocy-stunnel%2f&amp;title=Jak%20ukry%c4%87%20ruch%20OpenVPN%20przy%20pomocy%20stunnel" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-ruch-openvpn-przy-pomocy-stunnel%2f&description=Jak%20ukry%c4%87%20ruch%20OpenVPN%20przy%20pomocy%20stunnel" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">Jak skonfigurować serwer VPN na Debianie (OpenVPN)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-skonfigurowac-klienta-vpn-na-routerze-z-ledeopenwrt/">Jak skonfigurować klienta VPN na routerze z LEDE/OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przypisac-losowy-adres-mac-interfejsu/">Jak przypisać losowy adres MAC do interfejsu</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/przeciek-dns-dns-leak-w-vpn-resolvconf/">Przeciek DNS (DNS leak) w VPN (resolvconf)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/">Jak skonfigurować połączenie VPN na smartfonie z Androidem</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

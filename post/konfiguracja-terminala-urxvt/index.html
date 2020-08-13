@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Konfiguracja terminala urxvt | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Konfiguracja terminala urxvt" />
+<meta property="og:description" content="Na rynku oprogramowania linux&#39;owego mamy całą gamę różnego rodzaju pseudo terminali, które na dobrą
+sprawę robią za konsolę w środowiskach graficznych. Jako, że takie środowiska rozrosły się dość
+mocno ostatnimi czasy, to instalacja niektórych terminali może pociągać za sobą wiele zależności. To
+z kolei przyczynia się do wgrania zbędnego oprogramowania. Inną kwestią są zasoby systemowe, bo
+niektóre z terminali potrafią zjeść naprawdę sporo pamięci operacyjnej. Są oczywiście lżejsze
+alternatywy i w tym wpisie omówimy sobie konfigurację terminala urxvt." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-terminala-urxvt/" />
+<meta property="article:published_time" content="2016-01-23T19:13:22+00:00" />
+<meta property="article:modified_time" content="2016-01-23T19:13:22+00:00" />
+
+		<meta itemprop="name" content="Konfiguracja terminala urxvt">
+<meta itemprop="description" content="Na rynku oprogramowania linux&#39;owego mamy całą gamę różnego rodzaju pseudo terminali, które na dobrą
+sprawę robią za konsolę w środowiskach graficznych. Jako, że takie środowiska rozrosły się dość
+mocno ostatnimi czasy, to instalacja niektórych terminali może pociągać za sobą wiele zależności. To
+z kolei przyczynia się do wgrania zbędnego oprogramowania. Inną kwestią są zasoby systemowe, bo
+niektóre z terminali potrafią zjeść naprawdę sporo pamięci operacyjnej. Są oczywiście lżejsze
+alternatywy i w tym wpisie omówimy sobie konfigurację terminala urxvt.">
+<meta itemprop="datePublished" content="2016-01-23T19:13:22+00:00" />
+<meta itemprop="dateModified" content="2016-01-23T19:13:22+00:00" />
+<meta itemprop="wordCount" content="2836">
+
+
+
+<meta itemprop="keywords" content="terminal," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Konfiguracja terminala urxvt"/>
+<meta name="twitter:description" content="Na rynku oprogramowania linux&#39;owego mamy całą gamę różnego rodzaju pseudo terminali, które na dobrą
+sprawę robią za konsolę w środowiskach graficznych. Jako, że takie środowiska rozrosły się dość
+mocno ostatnimi czasy, to instalacja niektórych terminali może pociągać za sobą wiele zależności. To
+z kolei przyczynia się do wgrania zbędnego oprogramowania. Inną kwestią są zasoby systemowe, bo
+niektóre z terminali potrafią zjeść naprawdę sporo pamięci operacyjnej. Są oczywiście lżejsze
+alternatywy i w tym wpisie omówimy sobie konfigurację terminala urxvt."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Konfiguracja terminala urxvt</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-01-23T19:13:22Z">Opublikowano: 23/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Konfiguracja terminala urxvt</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#różnica-między-rxvt-urxvt-rxvt-unicode-i-rxvt-unicode-256color">Różnica między rxvt, urxvt, rxvt-unicode i rxvt-unicode-256color</a></li>
+    <li><a href="#konfiguracja-urxvt-w-xresources">Konfiguracja urxvt w ~/.Xresources</a>
+      <ol>
+        <li><a href="#czcionki-w-terminalu">Czcionki w terminalu</a></li>
+        <li><a href="#ikonka-dla-terminala">Ikonka dla terminala</a></li>
+        <li><a href="#pasek-przewijania-scrollbar">Pasek przewijania (scrollbar)</a></li>
+        <li><a href="#przewijanie-treści-w-okienku-terminala">Przewijanie treści w okienku terminala</a></li>
+        <li><a href="#obramowanie-i-położenie-okna">Obramowanie i położenie okna</a></li>
+        <li><a href="#przezroczystość-terminala">Przezroczystość terminala</a></li>
+        <li><a href="#kursor-i-wskaźnik-myszy">Kursor i wskaźnik myszy</a></li>
+        <li><a href="#kolory-terminala">Kolory terminala</a></li>
+        <li><a href="#ilość-pamiętanych-linii">Ilość pamiętanych linii</a></li>
+        <li><a href="#tryb-iso14755">Tryb iso14755</a></li>
+        <li><a href="#odstępy-między-wierszami">Odstępy między wierszami</a></li>
+        <li><a href="#odstępy-między-literami">Odstępy między literami</a></li>
+      </ol>
+    </li>
+    <li><a href="#rozszerzenia-dla-urxvt">Rozszerzenia dla urxvt</a>
+      <ol>
+        <li><a href="#schowek-clipboard">Schowek (clipboard)</a></li>
+        <li><a href="#powiększenie-tekstu-font-size">Powiększenie tekstu (font-size)</a></li>
+        <li><a href="#otwieranie-linków-w-przeglądarce">Otwieranie linków w przeglądarce</a></li>
+      </ol>
+    </li>
+    <li><a href="#relacje-klient-server-urxvtd">Relacje klient-server (urxvtd)</a></li>
+    <li><a href="#skrót-do-umieszczenia-na-panelu">Skrót do umieszczenia na panelu</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Na rynku oprogramowania linux'owego mamy całą gamę różnego rodzaju pseudo terminali, które na dobrą
+sprawę robią za konsolę w środowiskach graficznych. Jako, że takie środowiska rozrosły się dość
+mocno ostatnimi czasy, to instalacja niektórych terminali może pociągać za sobą wiele zależności. To
+z kolei przyczynia się do wgrania zbędnego oprogramowania. Inną kwestią są zasoby systemowe, bo
+niektóre z terminali potrafią zjeść naprawdę sporo pamięci operacyjnej. Są oczywiście lżejsze
+alternatywy i w tym wpisie omówimy sobie konfigurację terminala urxvt.</p>
+<h2 id="różnica-między-rxvt-urxvt-rxvt-unicode-i-rxvt-unicode-256color">Różnica między rxvt, urxvt, rxvt-unicode i rxvt-unicode-256color</h2>
+<p>Jeśli chodzi o zagadnienie terminala urxvt, to można się spotkać z szeregiem nazw, które mogą nieco
+skomplikować nam życie. Przede wszystkim, wszystko zaczęło się od
+<a href="https://en.wikipedia.org/wiki/Rxvt">rxvt</a>. Na jego podstawie powstał w późniejszym czasie fork,
+który został nazwany <a href="http://software.schmorp.de/pkg/rxvt-unicode.html">rxvt-unicode</a>, w skrócie
+urxvt. Jego główne różnice w stosunku do poprzednika, to obsługa wielu języków dzięki wsparciu dla
+kodowania UTF-8 oraz możliwość rozbudowania funkcjonalności terminala przy pomocy skryptów perl'a. Z
+kolei <code>256color</code> w nazwie oznacza, że ten terminal jest w stanie obsługiwać 256 kolorów. Standardowe
+terminale potrafią wyświetlać jedynie 16 kolorów. W debianie mamy dostępnych kilka pakietów, które
+mają w nazwie rxvt. Nas interesować będzie <code>rxvt-unicode-256color</code> .</p>
+<p>Domyślne ustawienia urxvt mogą jednak przerazić każdego. Sam terminal z kolei sprawia wrażenie
+niegodnego uwagi i zainteresowania. Pozory jednak mylą, trzeba tylko ten terminal doprowadzić do
+użytku.</p>
+<h2 id="konfiguracja-urxvt-w-xresources">Konfiguracja urxvt w ~/.Xresources</h2>
+<p>Gdy nie korzystamy z pełnych środowisk graficznych i nasz system <a href="https://morfikov.github.io
+/post/menadzer-okien-openbox/">opieramy jedynie na menadżerze
+okien, np. Openbox</a>, to jest wielce prawdopodobne,
+że spotkaliśmy się już z plikiem <code>~/.Xresources</code> . Na dobrą sprawę, to w tym pliku mogą zostać
+zdefiniowane ustawienia wyglądu praktycznie każdej aplikacji, którą odpalamy za pośrednictwem
+Xserver'a. Zwykle jednak nie korzystamy z tego pliku, bo przecie od zarządzania okienkami mamy
+zewnętrzny menadżer okien, a ich wygląd konfigurujemy za pomocą stylów GTK i QT. Niemniej jednak,
+konfiguracja zawarta w pliku <code>~/.Xresources</code> jest aplikowana w niższej warstwie i jeśli style GTK i
+QT nie są w stanie dostosować wizualnie jakiejś aplikacji, to nie ma innego wyjścia jak zrobić to za
+pomocą tego pliku.</p>
+<p>Na sam początek stwórzmy domyślną konfigurację dla terminala urxvt. Wpisy oczywiście można tworzyć
+ręcznie ale też można wygenerować je przy pomocy tego poniższego polecenia:</p>
+<pre><code>$ urxvt --help 2&gt;&amp;1| sed -n '/:  /s/^ */! URxvt*/gp' &gt; ~/.Xresources
+</code></pre>
+<p>Jeśli teraz zajrzymy do pliku <code>~/.Xresources</code> , to okaże się, że mamy dość sporo opcji, które możemy
+sobie dostosować. Nie są to oczywiście wszystkie możliwe parametry.</p>
+<h3 id="czcionki-w-terminalu">Czcionki w terminalu</h3>
+<p>By nasz terminal był w miarę czytelny i nie męczył nam zbytnio oczu, musimy skonfigurować mu wygląd
+czcionek. Nie chodzi tutaj tylko o krój i wielkość czcionki ale także hinting, antyaliasing i
+wygładzanie podpikselowe. W naszym przypadku potrzebujemy tych poniższych linijek::</p>
+<pre><code>Xft.autohint:      false
+Xft.antialias:     true
+Xft.rgba:          none
+Xft.hinting:       true
+Xft.hintstyle:     hintslight
+Xft.lcdfilter:     lcddefault
+Xft.dpi:           96
+</code></pre>
+<p>DPI czcionek, który zostanie tutaj ustawiony będzie miał wpływ na to jak duże będą czcionki.</p>
+<p>Krój i rozmiar czcionek definiujemy zaś w poniższy sposób:</p>
+<pre><code>URxvt*font:           xft:monospace:size=9
+URxvt*boldFont:       xft:monospace:bold:size=9
+URxvt*italicFont:     xft:monospace:italic:size=9
+URxvt*boldItalicFont: xft:monospace:bold:italic:size=9
+</code></pre>
+<p>Trzeba jednak pamiętać, że ostateczny wygląd czcionek zależy od <a href="https://morfikov.github.io
+/post/fontconfig-i-konfiguracja-czcionek-w-debianie/">globalnej konfiguracji czcionek w
+systemie (fontconfig)</a>. Zatem
+jeśli efekt jest inny od oczekiwanego, to musimy zajrzeć do katalogu <code>/etc/fonts/</code> , czy też innych
+miejsc zdefiniowanych w <a href="https://www.freedesktop.org/software/fontconfig/fontconfig-user.html">specyfikacji
+fontconfig'a</a>.</p>
+<h3 id="ikonka-dla-terminala">Ikonka dla terminala</h3>
+<p>Terminal urxvt domyślnie chyba nie posiada żadnej ikonki i przydałoby mu się jakąś ustawić. Jeśli
+nie mamy pomysłu na żaden wzór, to zawsze możemy zakosić ikonkę innemu terminalowi i odpowiednią ją
+sobie dostosować, np. zmienić kolorystykę, itp. Mając już ikonkę, dodajemy ten poniższy parametr do
+pliku <code>~/.Xresources</code> :</p>
+<pre><code>URxvt*iconFile: /sciezka/do/pliku.png
+</code></pre>
+<h3 id="pasek-przewijania-scrollbar">Pasek przewijania (scrollbar)</h3>
+<p>Obecnie rzadko się wykorzystuje scrollbar do przewijania treści w terminalu, bo jakby nie patrzeć w
+myszach mamy rolki. Nie powiedziałbym, że eliminują one całkowitą potrzebę istnienia pasków
+przewijania ale niektóre osoby, w tym też i ja, nie korzystają z nich praktycznie wcale, zwłaszcza
+gdy w grę wchodzi okno terminala. Jeśli nie potrzebujemy scrollbar'a, to można go zwyczajnie
+wyłączyć poprzez dodanie tej poniższej linijki do pliku <code>~/.Xresources</code> :</p>
+<pre><code>URxvt*scrollBar: false
+</code></pre>
+<p>Jeśli natomiast chcielibyśmy aby pasek przewijania był obecny w okienku ale chcielibyśmy dostosować
+jego pozycję, to przestawiamy wartość tego powyższego parametru na <code>true</code> i dodajemy również tę
+poniższą opcję (po jej ustawieniu, scrollbar pojawi się po prawej stronie):</p>
+<pre><code>URxvt*scrollBar_right: true
+</code></pre>
+<p>Możemy także dostosować sobie styl, kolor i grubość samego paska przewijania przy pomocy tych
+poniższych parametrów:</p>
+<pre><code>URxvt.scrollstyle: plain
+URxvt*scrollColor: #D75F00
+URxvt*thickness: 5
+</code></pre>
+<h3 id="przewijanie-treści-w-okienku-terminala">Przewijanie treści w okienku terminala</h3>
+<p>Niektóre z poleceń mogą produkować naprawdę sporo informacji. Przykładem może być aktualizacja
+systemu za pomocą <code>aptitude</code> czy <code>apt-get</code> w debianie, gdzie przez szereg minut na ekranie monitora
+jest nam zwracanych całe mnóstwo komunikatów. Ta wyświetlana treść jest przewijania jeśli nie jest w
+stanie się zmieścić na ekranie. W ten sposób nie tracimy bezpowrotnie tego co pojawiło się w
+terminalu. Niemniej jednak, jeśli przeglądamy historię wiadomości i pojawi się nowy komunikat, to
+automatycznie zostaniemy do niego przywołani. Alternatywą jest określenie, by terminal buforował
+sobie nowe komunikaty i wyświetlał nam je wtedy, gdy nie przeglądamy aktualnie historii komunikatów.
+W tym celu do pliku <code>~/.Xresources</code> dodajemy te poniższe parametry:</p>
+<pre><code>URxvt*scrollTtyOutput: false
+URxvt*scrollWithBuffer: true
+</code></pre>
+<p>Możemy także nakazać urxvt, by powrócił do znaku zachęty po rozpoczęciu pisania. Na dobrą sprawę
+chodzi jedynie o przyciśnięcie jakiegoś przycisku, a skoro to zwykle oznacza wydawanie polecenia, to
+przydaje się, by prompt był widoczny w tym czasie.</p>
+<pre><code>URxvt*scrollTtyKeypress: true
+</code></pre>
+<p>Czasem w terminalu pojawia się bardzo dużo nowych informacji, które mogą powodować problemy z
+przewijaniem się treści. Możemy nieco złagodzić ten proces przez niewyświetlanie wszystkich
+komunikatów, które system chce nam przekazać. Te dwie poniższe opcje mówią, że w przypadku
+pojawiania się dużej ilości linii, okno będzie odświeżane około 60 razy na sekundę lub, gdy zostanie
+zapełnione w całości nowymi komunikatami.</p>
+<pre><code>URxvt*jumpScroll: true
+URxvt*skipScroll: true
+</code></pre>
+<p>Jest także opcja, która sprawi, że przy kręceniu rolką myszki, cała strona komunikatów zostanie
+przewinięta naraz:</p>
+<pre><code>URxvt*mouseWheelScrollPage: false
+</code></pre>
+<h3 id="obramowanie-i-położenie-okna">Obramowanie i położenie okna</h3>
+<p>Możemy także sprecyzować czy terminal ma mieć obramowanie. Jeśli tak, to również jego kolor. No i
+oczywiście nic nie stoi na przeszkodzie, by okienko terminala umieścić w określonym miejscu.
+Niemniej jednak, te rzeczy mogą również być dostosowane za sprawą, np. menadżera okien Openbox, i
+radziłbym byśmy zdecydowali się na jeden z tych dwóch mechanizmów i nie mieszali ich ze sobą.
+Niemniej jednak, jeśli chcemy wypozycjonować okno terminala za sprawą pliku <code>~/.Xresources</code> , to
+musimy dodać te poniższe parametry:</p>
+<pre><code>URxvt*borderLess:false
+URxvt*borderColor: #E77320
+URxvt*geometry: 147x39+100+207
+</code></pre>
+<p>Dwie pierwsze wartości w parametrze <code>geometry</code> odpowiadają za liczbę kolumn i wierszy, tj szerokość
+i wysokość okienka terminala. Z kolei dwie następne są w pikselach i określają położenie okna na
+pulpicie.</p>
+<h3 id="przezroczystość-terminala">Przezroczystość terminala</h3>
+<p>Mamy także możliwość ustawienia przezroczystości okna terminala urxvt. Możemy też zdefiniować kolor
+tła oraz kolor tekstu. Jeśli chcemy zmienić domyślne wartości, to dopisujemy do pliku
+<code>~/.Xresources</code> te trzy poniższe parametry:</p>
+<pre><code>URxvt*foreground: #D75F00
+URxvt*depth: 32
+URxvt*background: [50]#000000
+</code></pre>
+<p>Cyfra w kwadratowym nawiasie <code>[50]</code> oznacza procent prześwitu koloru czarnego.</p>
+<p>W przypadku ustawienia przezroczystości, musimy się liczyć z dość nieprzyjemnym efektem wizualnym.
+Chodzi generalnie o to, że im dane okno jest bardziej przezroczyste, tym bardziej będą nam znikać
+napisy przy zaznaczaniu tekstu. Dzieje się tak za sprawą odwrócenia kolorów. Jeśli mamy tekst biały
+na czarnym tle, to po zaznaczeniu go, te kolory ulegną zamianie. Wobec czego, teraz tekst będzie
+czarny, a tło białe. Jeśli jednak w grę wchodzi przezroczystość, to kolor tła zanika, czyniąc
+podświetlony tekst praktycznie nieczytelnym. By jakoś sobie z tym problemem radzić, możemy na
+sztywno zdefiniować kolory tekstu i tła przy podświetleniu przy pomocy tych poniższych parametrów:</p>
+<pre><code>URxvt*highlightColor: #000000
+URxvt*highlightTextColor: #D75F00
+</code></pre>
+<h3 id="kursor-i-wskaźnik-myszy">Kursor i wskaźnik myszy</h3>
+<p>W pliku <code>~/.Xresources</code> możemy także skonfigurować sobie wygląd kursora i wskaźnika myszy. Możemy,
+np. określić czy kursor ma przybrać formę kreski czy też prostokącika:</p>
+<pre><code>URxvt*cursorUnderline: true
+</code></pre>
+<p>Jest też opcja włączenia lub wyłączenia migania kursora:</p>
+<pre><code>URxvt*cursorBlink: true
+</code></pre>
+<p>Z kolei jeśli chodzi o wskaźnik myszy, to możemy ustawić czas nieaktywności, po którym on zwyczajnie
+zniknie:</p>
+<pre><code>URxvt*pointerBlank: true
+URxvt*pointerBlankDelay: 2
+</code></pre>
+<p>Dodatkowo można pokolorować zarówno kursor jak i sam wskaźnik:</p>
+<pre><code>URxvt*cursorColor: #E77320
+URxvt*cursorColor2: #E77320
+URxvt*pointerColor: #E77320
+URxvt*pointerColor2: #E77320
+</code></pre>
+<h3 id="kolory-terminala">Kolory terminala</h3>
+<p>Każdy terminal ma możliwość zdefiniowania 16 podstawowych kolorów, które jest w stanie wyświetlić.
+Kolory możemy określać po nazwach albo po wartościach HEX (są też i inne sposoby). Jeśli nie
+zadowalają nas te podstawowe kolory, do dopiszmy sobie do pliku <code>~/.Xresources</code> taki blok kodu:</p>
+<pre><code>! Tango colors
+! black
+*color0:  #2E3436
+*color8:  #555753
+! red
+*color1:  #a40000
+*color9:  #EF2929
+! green
+*color2:  #4E9A06
+*color10: #8AE234
+! yellow
+*color3:  #C4A000
+*color11: #ffcc00
+! blue
+*color4:  #3465A4
+*color12: #729FCF
+! purple
+*color5:  #75507B
+*color13: #AD7FA8
+! orange (replaces cyan)
+*color6:  #ce5c00
+*color14: #fcaf3e
+! white
+*color7:  #babdb9
+*color15: #EEEEEC
+</code></pre>
+<p>Są to jedynie podstawowe kolory i nie należy ich mylić z tymi, które są do dyspozycji w terminalach
+256-kolorowych. Poniżej przykład:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/01/1.terminal-urxvt-16-kolorow.png" alt=""></p>
+<p>Natomiast w przypadku terminali 256-kolorowych będziemy mieli jeszcze do dyspozycji kilka
+dodatkowych opcji.</p>
+<p><img src="https://morfikov.github.io
+/img/2016/01/2.terminal-urxvt-256-kolorow.png" alt=""></p>
+<p>W obu tych przypadkach te pierwsze 16 kolorów (0-15) będzie takich samych. Poza tym, widzimy na
+powyższym obrazku, że kolory rozpoczynają się od numerka 16, a nie od 0.</p>
+<h3 id="ilość-pamiętanych-linii">Ilość pamiętanych linii</h3>
+<p>Terminal urxvt jest w stanie zapamiętać skończoną ilość komunikatów, które pojawiają się na ekranie.
+Każdy osobny komunikat zajmuje jedną linijkę. Nie musi to być jednak fizyczna linia, bo tę można
+dzielić za pomocą znaku <code>\</code> . W każdym razie, ilość pamiętanych linijek możemy zmienić poprzez
+dopisanie do pliku <code>~/.Xresources</code> tego poniższego parametru:</p>
+<pre><code>URxvt*saveLines: 10000
+</code></pre>
+<p>Trzeba jednak mieć na uwadze, że im większą wartość tutaj ustawimy, tym więcej pamięci RAM będzie
+konsumował terminal.</p>
+<h3 id="tryb-iso14755">Tryb iso14755</h3>
+<p><a href="https://en.wikipedia.org/wiki/ISO_14755">Tryb iso14755</a> przydaje się w celu wprowadzenia do
+terminala znaków, których normalnie nie ma na klawiaturze. Problem w tym, że by mieć dostęp do tych
+znaków, trzeba skorzystać z kombinacji klawiszy LCtrl-LShift , przez co traci się możliwość używania
+skrótów opartych o te klawisze. Jeśli używamy tego typu kombinacji klawiszy, to ten tryb musimy
+wyłączyć przez dodanie do pliku <code>~/.Xresources</code> poniższych linijek:</p>
+<pre><code>URxvt*iso14755: false
+URxvt*iso14755_52: false
+</code></pre>
+<h3 id="odstępy-między-wierszami">Odstępy między wierszami</h3>
+<p>Jeśli nie pasują nam zbytnio odstępy między kolejnymi wierszami w terminalu, to nic nie stoi na
+przeszkodzie, by i ten aspekt urxvt sobie dostosować. Musimy tylko dopisać do pliku <code>~/.Xresources</code>
+ten poniższy parametr i odpowiednio poeksperymentować z jego wartością:</p>
+<pre><code>URxvt*lineSpace: 0
+</code></pre>
+<h3 id="odstępy-między-literami">Odstępy między literami</h3>
+<p>Dostosowanie odstępów między literami tekstu wyświetlanymi w terminalu również może mieć miejsce.
+Niemniej jednak, zwykle zmiana parametru odpowiedzialnego za te odstępy nie niesie ze sobą nic
+dobrego, no chyba, że mamy bardzo nietypową czcionkę i jej elementy zachodzą na siebie. W tym
+przypadku czcionka była zwyczajna ale odstępy między literkami były bardzo duże. Być może jest to
+jakiś bliżej nieznany błąd. W każdym razie, można go wyeliminować przez dodanie do pliku
+<code>~/.Xresources</code> tego poniższego parametru i przestawienie jego wartości na <code>-1</code> :</p>
+<pre><code>URxvt*letterSpace: -1
+</code></pre>
+<h2 id="rozszerzenia-dla-urxvt">Rozszerzenia dla urxvt</h2>
+<p>Na początku artykułu wspomniałem, że jesteśmy w stanie rozbudować funkcjonalność terminala urxvt
+poprzez skrypty perl'a. Działają one mniej więcej na takiej samej zasadzie co addony w Fifrefox'ie.
+By z nich skorzystać, musimy pierw je aktywować. Dodajmy zatem do pliku <code>~/.Xresources</code> tę poniższą
+linijkę:</p>
+<pre><code>URxvt*perl-ext-common: default,matcher,font-size,clipboard
+</code></pre>
+<p>Powyżej włączyliśmy 3 dodatki, z czego dwa są zewnętrzne. Dodatki dla urxvt są przechowywane w
+katalogu <code>/usr/lib/urxvt/perl/</code> . Jeśli napisaliśmy własny skrypt perl'a, to wystarczy go umieścić w
+tym katalogu. Każdy z tych dodatków ma własne wpisy konfiguracyjne, które należy dodać do pliku
+<code>~/.Xresources</code> . By włączyć jakiś skrypt, trzeba uwzględnić w tej powyższej linijce nazwę pliku ze
+skryptem. Jeśli skrypty mamy zamiar umieszczać w innym katalogu, to możemy go zmienić za pomocą
+poniższego parametru:</p>
+<pre><code>URxvt*perl-lib: /usr/lib/urxvt/perl/
+</code></pre>
+<h3 id="schowek-clipboard">Schowek (clipboard)</h3>
+<p>Skrypt <code>clipboard</code> wprowadza bardziej przyjazne kopiowanie informacji, które opiera się o narzędzie
+<code>xsel</code> oraz schowek <code>CLIPBOARD</code> . By całość działała jak należy, musimy przypisać także odpowiednie
+klawisze. Dodajemy zatem te poniższe linijki do pliku <code>~/.Xresources</code> :</p>
+<pre><code>URxvt.keysym.C-c:         perl:clipboard:copy
+URxvt.keysym.C-v:         perl:clipboard:paste
+URxvt.keysym.C-M-v:       perl:clipboard:paste_escaped
+URxvt.clipboard.copycmd:  xsel -ib
+URxvt.clipboard.pastecmd: xsel -ob
+</code></pre>
+<p>Kopiowanie wyjścia będzie odbywać się za pomocą klawiszy Ctrl-C . Wklejanie zaś przy pomocy Ctrl-V ,
+czyli standardowo. Ostatnie dwie opcje, odpowiadają za polecenia, które zostaną wywołane po
+przyciśnięciu tych w/w skrótów. Więcej informacji o tym dodatku można znaleźć <a href="https://github.com/muennich/urxvt-perls">pod tym
+linkiem</a>.</p>
+<p>Skoro jesteśmy już przy schowku, to warto posuszyć problem, który większość z nas zdążyła raczej
+zauważyć. Chodzi o usunięcie zawartości schowka systemowego po zamknięciu, np. edytora tekstu. Jest
+to wina Xserver'a, a właściwie sposobu w jaki komunikują się ze sobą okienka (procesy). Generalnie
+rzecz biorąc, mamy dostęp do trzech schowków, nazwanych odpowiednio: PRIMARY, SECONDARY oraz
+CLIPBOARD.</p>
+<p>Na schowku PRIMARY operujemy, gdy wykorzystujemy myszę. By wrzucić do niego jakąś treść, zaznaczamy
+tekst kursorem myszy. Z kolei, by tak skopiowany tekst wydobyć z tego schowka, wciskamy środkowy
+przycisk myszy. Schowek CLIPBOARD jest używany przy standardowej operacji kopiowania, np. przy
+pomocy skrótów Ctrl-C i Ctrl-V . Jest jeszcze schowek SECONDARY i na dobrą sprawę nie mam pojęcia
+jak on działa. W każdym razie mamy dwa schowki, które są niezależne od siebie. Nie możemy skopiować
+tekstu przy pomocy Ctrl-C i wkleić go za pomocą środkowego przycisku myszy, tzn. możemy, bo jak
+zaznaczymy tekst myszą, to ten automatycznie powędruje też i do schowka myszy. Nie działa to jednak
+w drugą stronę, np. gdy już zaznaczymy jakąś porcję tekstu i będziemy próbowali wkleić ją przy
+pomocy Ctrl-V . W takim przypadku albo nam nic nie wklei, albo zostanie wklejone coś zupełnie
+innego.</p>
+<p>Operacje na schowku działają w oparciu o właściciela. Przykładowo, jeśli kopiujemy adres URL w
+Firefox'ie, to Firefox staje się właścicielem schowka i umieszcza tam skopiowaną zawartość. Załóżmy
+teraz, że chcemy wkleić ten adres do innej aplikacji, np. edytora tekstu Geany. Geany poprosi
+Firefox'a o tą treść i po jej uzyskaniu, my zobaczymy, że adres został wklejony. Co się jednak
+stanie, gdy teraz skopiujemy ten adres w Geany? Geany przejmie kontrolę nad schowkiem, skopiuje do
+niego zawartość i od tej chwili do Geany będą wędrować zapytania o wklejanie zawartości schowka.
+Takie zachowanie ma jedną wadę. Jeśli zamkniemy aplikację, która rości sobie prawa do schowka
+(wrzuciła tam dane), te dane zostaną stracone i żadna aplikacja nie będzie mogła ich uzyskać, tj.
+wkleić. Istnieje oczywiście sposób, by temu zapobiec. Można się posłużyć programikiem <code>xsel</code> . On ma
+tam opcję <code>--keep</code> , która pozwala zachować zawartość schowka nawet w przypadku, gdy proces będący
+jego właścicielem zostanie zakończony.</p>
+<h3 id="powiększenie-tekstu-font-size">Powiększenie tekstu (font-size)</h3>
+<p>Niekiedy tekst w terminalu wymaga powiększenia. Rozmiar czcionki w urxvt jest stały choć można nim
+operować dowolnie za sprawą określonych poleceń. Niemniej jednak, najprostszym wyjściem jest
+skorzystanie ze skryptu <code>font-size</code> , który wymaga od nas jedynie określenia skrótu klawiszowego. By
+zaimplementować sobie tę funkcjonalność w naszym urxvt, dodajemy do pliku <code>~/.Xresources</code> te
+poniższe linijki:</p>
+<pre><code>URxvt.keysym.C-S-Up:          perl:font-size:increase
+URxvt.keysym.C-S-Down:        perl:font-size:decrease
+</code></pre>
+<p>Skrót Ctrl-Shift-Up zwiększy rozmiar czcionki, natomiast Ctrl-Shift-Down zmniejszy jej rozmiar. W
+ten sposób jesteśmy w stanie dynamicznie zmieniać rozmiar, nawet w przypadku, gdy w terminalu jest
+uruchomiona jakaś aplikacja, choć to może powodować pewne problemy natury wizualnej. Więcej
+informacji na temat tego dodatku można znaleźć <a href="https://github.com/majutsushi/urxvt-font-size">na stronie
+projektu</a>.</p>
+<h3 id="otwieranie-linków-w-przeglądarce">Otwieranie linków w przeglądarce</h3>
+<p>Terminal urxvt jest w stanie wyróżnić linki, które pojawiają się na jego wyjściu. Zwykle są one
+podkreślone ale też możemy oznaczyć je innym kolorem. Jeśli interesuje nas nadanie linkom
+niebieskiego koloru, to dodajemy do pliku <code>~/.Xresources</code> ten poniższy parametr:</p>
+<pre><code>URxvt*colorUL: #4682B4
+</code></pre>
+<p>Problem w tym, że nie mamy możliwości kliknięcia w taki odnośnik, tak by strona została załadowana w
+wybranej przez nas przeglądarce. Niemniej jednak, również i tę niedogodność możemy wyeliminować.
+Musimy tylko skorzystać z dodatku <code>matcher</code> , który jest wewnętrznym pluginem urxvt. Zatem jeśli
+chcemy mieć klikalne odnośniki w terminalu, to dodajemy te dwie poniższe linijki:</p>
+<pre><code>URxvt*matcher.button: 2
+URxvt*url-launcher: /opt/firefox/firefox
+</code></pre>
+<p>Pierwszy z tych parametrów definiuje, który przycisk myszy będzie wykorzystywany do klikania w
+linki. W tym przypadku jest to środkowy przycisk. Drugi parametr zaś określa ścieżkę do
+przeglądarki, do której ten link ma zostać przesłany.</p>
+<h2 id="relacje-klient-server-urxvtd">Relacje klient-server (urxvtd)</h2>
+<p>Urxvt ma dwa tryby działania. Pierwszy wykorzystuje standardowe rozwiązanie samego klienta i w tym
+trybie działa jak każdy inny terminal. Drugi zaś operuje na zasadzie klient-serwer. Zaletą tego
+drugiego rozwiązania jest mniejsze zużycie zasobów. W przypadku kilku klientów, każdy z nich pobiera
+taką samą ilość pamięci RAM i jest to około 9 MiB. W przypadku odpalenia 10 instancji terminala
+urxvt, będą one zużywać 90 MiB. Jeśli zaś wykorzystujemy serwer, to zjada on, co prawda, 10 MiB
+ekstra ale za to każdy kolejny klient podłączony do tego serwera konsumuje około 1 MiB. Także w
+przypadku dwóch instancji terminala jesteśmy już do przodu o 7 MiB. Jeśli jednak korzystamy tylko z
+jednego terminala, to będziemy 2 MiB w plecy. No i oczywiście w przypadku posiadania serwera, ten
+może nawalić. Jeśli taka sytuacja zaistnieje, to tracimy wszystkich klientów i wszystkie
+zgromadzone w nich informacje. Jeśli jednak chcemy włączyć sobie tryb klient-serwer, to dodajemy do
+autostartu środowiska graficznego to poniższe wywołanie:</p>
+<pre><code>/usr/bin/urxvtd -q -f -o
+</code></pre>
+<p>By teraz podłączyć się do takiego serwera, odpalamy terminal przy pomocy <code>urxvtc</code> .</p>
+<p>Warto jeszcze wspomnieć, że do części opcji konfiguracyjnych terminala urxvt mamy dostęp przez
+wciśnięcie LCtrl i środkowego przycisku myszki.</p>
+<h2 id="skrót-do-umieszczenia-na-panelu">Skrót do umieszczenia na panelu</h2>
+<p>W środowisku graficznym często wykorzystujemy jakiś rodzaj aktywatorów aplikacji GUI. Zwykle są one
+umieszczane na panelach czy tego typu podobnych miejscach skąd za pomocą pojedynczego kliku jesteśmy
+w stanie wywołać pożądaną aplikację. Poniżej jest przykład umieszczenia takiego skrótu na panelu
+tint2.</p>
+<p>Wszystko czego nam trzeba, to utworzenie pliku <code>urxvt.desktop</code> o poniższej zawartości:</p>
+<pre><code>[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Urxvt
+Comment=Terminal
+Comment[pl]=Terminal
+TryExec=urxvtc -name &quot;standard&quot;
+Exec=urxvtc -name &quot;standard&quot;
+Icon=/home/morfik/.config/launchers/icons/urxvt-standard-32x32.png
+Categories=System;TerminalEmulator;
+Keywords=terminal;
+</code></pre>
+<p>Ten plik wrzucamy następnie do katalogu, który w konfiguracji tint2 jest określony w parametrze
+<code>launcher_apps_dir</code> . Po zresetowaniu panelu, skrót powinien na nim zagościć.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/terminal/">terminal</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-terminala-urxvt%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-terminala-urxvt%2f&amp;text=Konfiguracja%20terminala%20urxvt" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-terminala-urxvt%2f&amp;title=Konfiguracja%20terminala%20urxvt" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-terminala-urxvt%2f&amp;title=Konfiguracja%20terminala%20urxvt" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-terminala-urxvt%2f&title=Konfiguracja%20terminala%20urxvt" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-terminala-urxvt%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-terminala-urxvt%2f&amp;title=Konfiguracja%20terminala%20urxvt" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-terminala-urxvt%2f&description=Konfiguracja%20terminala%20urxvt" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/osadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa/">Osadzanie urxvt na pulpicie przy pomocy openbox&#39;a</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

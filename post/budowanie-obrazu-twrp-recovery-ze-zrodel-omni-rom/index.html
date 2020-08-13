@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Budowanie obrazu TWRP recovery ze źródeł OMNI ROM | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Budowanie obrazu TWRP recovery ze źródeł OMNI ROM" />
+<meta property="og:description" content="Gdy zamierzamy zbudować sobie własny ROM na smartfon z Androidem, np.
+LineageOS (CyanogenMod nie jest już rozwijany) czy nawet jedynie obraz
+recovery (TWRP albo CWM), to potrzebne nam jest
+stosowne urządzenie oraz odpowiedni kod źródłowy. Skoro chcemy budować te ww. rzeczy, to
+prawdopodobnie nasz telefon nie jest przez to oprogramowanie jeszcze wspierany lub też sam soft nie
+jest regularnie aktualizowany przez dewelopera. W zasadzie zarówno pełne ROM&#39;y jak i obrazy recovery
+są budowane ze źródeł Androida. Niemniej jednak, oficjalny kod dostarczany przez Google budzi czasem
+wiele kontrowersji i ci nieco bardziej zaawansowani użytkownicy zmieniają go, np. czyniąc go w pełni
+OpenSource czy też implementując w nim pewną niestandardową funkcjonalność. Tak powstają Custom
+ROM&#39;y, które w późniejszym czasie z racji swojej popularności przestają być &quot;Custom&quot; i zaczynają żyć
+swoim własnym życiem obok tego Góglowskiego Androida. W przypadku budowania obrazu recovery nie są
+nam potrzebne całe źródła konkretnego ROM&#39;u. Jakby nie patrzeć, potrafią one zajmować trochę
+miejsca, a poza tym proces ich budowania jest stosunkowo czasochłonny. Tak czy inaczej, jakieś
+źródła trzeba pozyskać i przygotować je do dalszej pracy. W tym artykule nie będziemy sobie
+jeszcze budować całego ROM&#39;u i skupimy się na zbudowaniu od podstaw jedynie obrazu TWRP recovery ze
+źródeł OMNI ROM. Ten proces zostanie pokazany na przykładzie smartfona
+Neffos Y5 od TP-LINK przy wykorzystaniu systemu linux, a konkretnie dystrybucji Debian." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/budowanie-obrazu-twrp-recovery-ze-zrodel-omni-rom/" />
+<meta property="article:published_time" content="2017-02-19T21:06:04+00:00" />
+<meta property="article:modified_time" content="2017-02-19T21:06:04+00:00" />
+
+		<meta itemprop="name" content="Budowanie obrazu TWRP recovery ze źródeł OMNI ROM">
+<meta itemprop="description" content="Gdy zamierzamy zbudować sobie własny ROM na smartfon z Androidem, np.
+LineageOS (CyanogenMod nie jest już rozwijany) czy nawet jedynie obraz
+recovery (TWRP albo CWM), to potrzebne nam jest
+stosowne urządzenie oraz odpowiedni kod źródłowy. Skoro chcemy budować te ww. rzeczy, to
+prawdopodobnie nasz telefon nie jest przez to oprogramowanie jeszcze wspierany lub też sam soft nie
+jest regularnie aktualizowany przez dewelopera. W zasadzie zarówno pełne ROM&#39;y jak i obrazy recovery
+są budowane ze źródeł Androida. Niemniej jednak, oficjalny kod dostarczany przez Google budzi czasem
+wiele kontrowersji i ci nieco bardziej zaawansowani użytkownicy zmieniają go, np. czyniąc go w pełni
+OpenSource czy też implementując w nim pewną niestandardową funkcjonalność. Tak powstają Custom
+ROM&#39;y, które w późniejszym czasie z racji swojej popularności przestają być &quot;Custom&quot; i zaczynają żyć
+swoim własnym życiem obok tego Góglowskiego Androida. W przypadku budowania obrazu recovery nie są
+nam potrzebne całe źródła konkretnego ROM&#39;u. Jakby nie patrzeć, potrafią one zajmować trochę
+miejsca, a poza tym proces ich budowania jest stosunkowo czasochłonny. Tak czy inaczej, jakieś
+źródła trzeba pozyskać i przygotować je do dalszej pracy. W tym artykule nie będziemy sobie
+jeszcze budować całego ROM&#39;u i skupimy się na zbudowaniu od podstaw jedynie obrazu TWRP recovery ze
+źródeł OMNI ROM. Ten proces zostanie pokazany na przykładzie smartfona
+Neffos Y5 od TP-LINK przy wykorzystaniu systemu linux, a konkretnie dystrybucji Debian.">
+<meta itemprop="datePublished" content="2017-02-19T21:06:04+00:00" />
+<meta itemprop="dateModified" content="2017-02-19T21:06:04+00:00" />
+<meta itemprop="wordCount" content="2730">
+
+
+
+<meta itemprop="keywords" content="smartfon,twrp,marshmallow,omni-rom," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Budowanie obrazu TWRP recovery ze źródeł OMNI ROM"/>
+<meta name="twitter:description" content="Gdy zamierzamy zbudować sobie własny ROM na smartfon z Androidem, np.
+LineageOS (CyanogenMod nie jest już rozwijany) czy nawet jedynie obraz
+recovery (TWRP albo CWM), to potrzebne nam jest
+stosowne urządzenie oraz odpowiedni kod źródłowy. Skoro chcemy budować te ww. rzeczy, to
+prawdopodobnie nasz telefon nie jest przez to oprogramowanie jeszcze wspierany lub też sam soft nie
+jest regularnie aktualizowany przez dewelopera. W zasadzie zarówno pełne ROM&#39;y jak i obrazy recovery
+są budowane ze źródeł Androida. Niemniej jednak, oficjalny kod dostarczany przez Google budzi czasem
+wiele kontrowersji i ci nieco bardziej zaawansowani użytkownicy zmieniają go, np. czyniąc go w pełni
+OpenSource czy też implementując w nim pewną niestandardową funkcjonalność. Tak powstają Custom
+ROM&#39;y, które w późniejszym czasie z racji swojej popularności przestają być &quot;Custom&quot; i zaczynają żyć
+swoim własnym życiem obok tego Góglowskiego Androida. W przypadku budowania obrazu recovery nie są
+nam potrzebne całe źródła konkretnego ROM&#39;u. Jakby nie patrzeć, potrafią one zajmować trochę
+miejsca, a poza tym proces ich budowania jest stosunkowo czasochłonny. Tak czy inaczej, jakieś
+źródła trzeba pozyskać i przygotować je do dalszej pracy. W tym artykule nie będziemy sobie
+jeszcze budować całego ROM&#39;u i skupimy się na zbudowaniu od podstaw jedynie obrazu TWRP recovery ze
+źródeł OMNI ROM. Ten proces zostanie pokazany na przykładzie smartfona
+Neffos Y5 od TP-LINK przy wykorzystaniu systemu linux, a konkretnie dystrybucji Debian."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Budowanie obrazu TWRP recovery ze źródeł OMNI ROM</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2017-02-19T21:06:04Z">Opublikowano: 19/02/2017</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Budowanie obrazu TWRP recovery ze źródeł OMNI ROM</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#środowisko-64-bit">Środowisko 64-bit</a></li>
+    <li><a href="#android-sdk">Android SDK</a></li>
+    <li><a href="#narzędzia-repo-i-git">Narzędzia repo i git</a></li>
+    <li><a href="#przygotowanie-katalogu-roboczego-pod-źródła">Przygotowanie katalogu roboczego pod źródła</a></li>
+    <li><a href="#inicjowanie-repozytorium-git">Inicjowanie repozytorium GIT</a></li>
+    <li><a href="#zależności-potrzebne-do-zbudowania-androida-ze-źródeł">Zależności potrzebne do zbudowania Androida ze źródeł</a></li>
+    <li><a href="#przyśpieszenie-procesu-kompilacji-z-ccache">Przyśpieszenie procesu kompilacji z ccache</a></li>
+    <li><a href="#tworzenie-konfiguracji-dla-twrp-recovery-pod-konkretny-model-smartfona">Tworzenie konfiguracji dla TWRP recovery pod konkretny model smartfona</a>
+      <ol>
+        <li><a href="#plik-devicemk">Plik device.mk</a></li>
+        <li><a href="#plik-omni_tp802amk">Plik omni_tp802a.mk</a></li>
+        <li><a href="#plik-androidproductsmk">Plik AndroidProducts.mk</a></li>
+        <li><a href="#plik-boardconfigmk">Plik BoardConfig.mk</a>
+          <ol>
+            <li><a href="#sekcja-platform">Sekcja Platform</a></li>
+            <li><a href="#sekcja-kernel">Sekcja Kernel</a></li>
+            <li><a href="#sekcja-qualcomm">Sekcja Qualcomm</a></li>
+            <li><a href="#sekcja-encryption">Sekcja Encryption</a></li>
+            <li><a href="#sekcja-partitions">Sekcja Partitions</a></li>
+            <li><a href="#sekcja-recovery">Sekcja Recovery</a></li>
+            <li><a href="#sekcja-twrp">Sekcja TWRP</a></li>
+          </ol>
+        </li>
+        <li><a href="#plik-vendorsetupsh">Plik vendorsetup.sh</a></li>
+      </ol>
+    </li>
+    <li><a href="#budowanie-obrazu-twrp-recovery">Budowanie obrazu TWRP recovery</a></li>
+    <li><a href="#repozytorium-git-na-githubie">Repozytorium git na Github'ie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Gdy zamierzamy zbudować sobie własny ROM na smartfon z Androidem, np.
+<a href="https://lineageos.org/">LineageOS</a> (CyanogenMod nie jest już rozwijany) czy nawet jedynie obraz
+recovery (<a href="https://twrp.me/">TWRP</a> albo <a href="https://www.clockworkmod.com/">CWM</a>), to potrzebne nam jest
+stosowne urządzenie oraz odpowiedni kod źródłowy. Skoro chcemy budować te ww. rzeczy, to
+prawdopodobnie nasz telefon nie jest przez to oprogramowanie jeszcze wspierany lub też sam soft nie
+jest regularnie aktualizowany przez dewelopera. W zasadzie zarówno pełne ROM'y jak i obrazy recovery
+są budowane ze źródeł Androida. Niemniej jednak, oficjalny kod dostarczany przez Google budzi czasem
+wiele kontrowersji i ci nieco bardziej zaawansowani użytkownicy zmieniają go, np. czyniąc go w pełni
+OpenSource czy też implementując w nim pewną niestandardową funkcjonalność. Tak powstają Custom
+ROM'y, które w późniejszym czasie z racji swojej popularności przestają być &quot;Custom&quot; i zaczynają żyć
+swoim własnym życiem obok tego Góglowskiego Androida. W przypadku budowania obrazu recovery nie są
+nam potrzebne całe źródła konkretnego ROM'u. Jakby nie patrzeć, potrafią one zajmować trochę
+miejsca, a poza tym proces ich budowania jest stosunkowo czasochłonny. Tak czy inaczej, jakieś
+źródła trzeba pozyskać i przygotować je do dalszej pracy. W tym artykule nie będziemy sobie
+jeszcze budować całego ROM'u i skupimy się na zbudowaniu od podstaw jedynie obrazu TWRP recovery ze
+źródeł <a href="https://omnirom.org/">OMNI ROM</a>. Ten proces zostanie pokazany na przykładzie smartfona
+Neffos Y5 od TP-LINK przy wykorzystaniu systemu linux, a konkretnie dystrybucji Debian.</p>
+<h2 id="środowisko-64-bit">Środowisko 64-bit</h2>
+<p>Zgodnie z <a href="https://source.android.com/source/requirements">informacjami jakie można znaleźć tutaj</a>,
+budowanie kodu Androida począwszy od wersji 2.3.x (Gingerbread) wymaga 64 bitowego systemu. Warto o
+tym pamiętać, by uniknąć problemów przy przygotowywaniu środowiska pod kompilację. Dobrze jest też
+posiadać maszynę z 8 GiB pamięci RAM.</p>
+<h2 id="android-sdk">Android SDK</h2>
+<p>Operowanie na oprogramowaniu, które mamy w naszych smartfonach, wymaga zainstalowania na komputerze
+pakietu Android SDK. W nim zawarte są narzędzia deweloperskie min. <code>fastboot</code> i <code>adb</code> , przy pomocy
+których będziemy w stanie przeprowadzić szereg akcji na smartfonie. Te narzędzia można zainstalować
+w systemie na kilka sposobów.</p>
+<p>Standardowo <code>fastboot</code> i <code>adb</code> są dostępne w repozytoriach Debiana w pakietach <code>android-tools-adb</code>
+oraz <code>android-tools-fastboot</code> . <a href="https://morfikov.github.io
+/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/">Proces instalacji i konfiguracji tych narzędzi na
+Debianie</a> został opisany
+w osobnym wątku. Niemniej jednak, nie są to wszystkie narzędzia, które Android SDK dostarcza, a
+biorąc pod uwagę fakt, że obecnie w Debianie panuje spory nieporządek w pakietach, to lepiej
+<a href="https://morfikov.github.io
+/post/android-studio-i-android-sdk-pod-linux/">zainstalować Android SDK lub Android
+Studio</a> bezpośrednio ze strony
+Google.</p>
+<h2 id="narzędzia-repo-i-git">Narzędzia repo i git</h2>
+<p>Do pobrania źródeł Androida jest wykorzystywane dedykowane narzędzie <code>repo</code> . W dystrybucji Debiana
+mamy taki pakiet i możemy go bez większego problemu zainstalować. Problem w tym, że wersja tego
+narzędzia może być nieaktualna. Obecnie jest to 1.23 . <a href="https://storage.googleapis.com/git-repo-downloads/repo">Najnowsza wersja repo jest dostępna zawsze
+pod tym linkiem</a>. By ją zainstalować ręcznie
+w systemie, w terminalu wpisujemy poniższe polecenia:</p>
+<pre><code># curl https://storage.googleapis.com/git-repo-downloads/repo &gt; /usr/local/bin/repo
+# chmod a+x /usr/local/bin/repo
+# chown root:staff /usr/local/bin/repo
+</code></pre>
+<p>Narzędzie <code>repo</code> operuje na <code>git</code> i ten pakiet również musimy w systemie sobie zainstalować.
+Podstawy operowania na repozytorium GIT musimy znać. Warto zatem rzucić okiem na <a href="https://git-scm.com/">dokumentację
+git'a</a> i ją sobie chociaż powierzchownie przejrzeć.</p>
+<h2 id="przygotowanie-katalogu-roboczego-pod-źródła">Przygotowanie katalogu roboczego pod źródła</h2>
+<p>Źródła Androida trzeba gdzieś pobrać. Stwórzmy sobie zatem dedykowany katalog roboczy i przejdźmy do
+niego:</p>
+<pre><code>$ mkdir /Android/android-src/
+$ cd /Android/android-src/
+</code></pre>
+<p>Od tej chwili wszystkie polecenia będą wydawane w tym właśnie katalogu.</p>
+<h2 id="inicjowanie-repozytorium-git">Inicjowanie repozytorium GIT</h2>
+<p>Na samym początku trzeba zainicjować lokalne repozytorium. Różne smartfony działają pod kontrolą
+innych wersji Androida (Lollipop, Marshmallow, Nougat). Jeśli zamierzamy kompilować jedynie część
+modułów, a nie cały ROM, i to głównie dla siebie, to warto zadbać o to, by wersja źródeł Androida
+pasowała do wersji Androida, którą mamy w telefonie. Niemniej jednak, w przypadku obrazu TWRP
+recovery możemy korzystać z najnowszych źródeł, bo w zasadzie nie będziemy wgrywać żadnych plików
+bezpośrednio na partycję <code>/system/</code> , która zawiera stock'owy ROM.</p>
+<p>Musimy zatem określić stosowną gałąź repozytorium GIT, którą zamierzamy sobie sklonować na dysk.
+<a href="https://source.android.com/source/build-numbers#source-code-tags-and-builds">Lista wszystkich gałęzi jest dostępna
+tutaj</a> i z reguły
+Custom ROM'y przestrzegają tego nazewnictwa. Warto też określić parametr <code>--depth=1</code> , który uchroni
+nas przed pobraniem wszystkich rewizji. Zamiast tego, zostanie pobrany jedynie ostatni snapshot
+wskazanej przez nas gałęzi, a to z kolei znacznie zmniejszy ilość danych, które trzeba będzie
+przetransferować przez sieć. Bez tej opcji zostałoby pobranych jakieś 30-40 GiB, a może nawet i
+więcej).</p>
+<p><a href="https://github.com/omnirom/android_bootable_recovery">Źródła TWRP recovery znajdują się tutaj</a>.
+Niektóre ROM'y nie mają zawartego w sobie tego repozytorium i trzeba je ręcznie określić w pliku
+<code>.repo/manifest.xml</code> w katalogu ze źródłami Androida. My jednak będziemy korzystać ze <a href="https://github.com/omnirom/android">źródeł OMNI
+ROM</a>, które już to repozytorium zawiera. Zatem żadnych
+dodatkowych kroków nie będziemy musieli przeprowadzać.</p>
+<p>Lokalne repozytorium inicjujemy w poniższy sposób:</p>
+<pre><code>$ repo init -u https://github.com/omnirom/android -b android-7.1 --depth=1
+</code></pre>
+<p>Po zainicjowaniu lokalnego repozytorium, w katalogu roboczym powinien pojawić się folder <code>.repo/</code> .
+W nim z kolei znajduje się plik (właściwie link) <code>manifest.xml</code> . Zajrzyjmy do niego i upewnijmy
+się, że w <code>default revision</code> widnieje numerek wskazanej wyżej wersji Androida ( <code>android-7.1.x</code> ).</p>
+<p>Warto wspomnieć, że większość repozytoriów zdefiniowanych w pliku <code>manifest.xml</code> jest zbędna przy
+budowaniu samego obrazu TWRP recovery. Jeśli komuś nie zależy na oszczędzaniu transferu danych oraz
+ma dostatecznie dużo miejsca na dysku, to może pobrać całe źródła OMNI ROM. Dla tych, którzy skąpią
+miejsca na dysku i transferu jest <a href="https://github.com/minimal-manifest-twrp">okrojona wersja</a>, którą
+można z powodzeniem wykorzystać.</p>
+<p>Poniżej jest polecenie inicjujące lokalne repozytorium z wykorzystaniem okrojonego pliku
+<code>manifest.xml</code>
+.</p>
+<pre><code>$ repo init -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-6.0 --depth=1
+</code></pre>
+<p><a href="https://morfikov.github.io
+/img/2017/02/001.twrp-recovery-budowanie-zrodla-omni-smartfon-inicjacja-repo.png"><img src="https://morfikov.github.io
+/img/2017/02/001.twrp-recovery-budowanie-zrodla-omni-smartfon-inicjacja-repo-660x288.png" alt=""></a></p>
+<p>W tym przypadku, lokalne repozytorium zostało zainicjowane w oparciu o ten okrojony plik
+<code>manifest.xml</code> . Trzeba tutaj jednak wyraźnie zaznaczyć, że niektóre konfiguracje sprzętowe (czy też
+opcje trybu recovery) będą wymagać dodatkowych repozytoriów, które trzeba będzie ręcznie dodać do
+pliku <code>.repo/local_manifests/local_manifest.xml</code> . Warto zatem <a href="https://forum.xda-developers.com/showthread.php?t=2329228">poznać budowę tego
+pliku</a> i nauczyć się na nim operować.</p>
+<p>Gdy już uporządkujemy sprawy związane z repozytoriami, to przy pomocy <code>repo sync</code> synchronizujemy
+źródła każdego repozytorium, które mamy zdefiniowane w pliku <code>manifests.xml</code> . Naturalnie im
+więcej ich mamy, tym więcej miejsca będą one zajmować i dłużej będzie trwał proces synchronizacji.
+W przypadku, gdy dysponujemy szybkim łączem internetowym, to możemy też zwiększyć liczbę
+jednoczesnych połączeń przy pomocy <code>--jobs</code> (domyślnie
+4):</p>
+<pre><code>$ repo sync --current-branch --jobs=4
+</code></pre>
+<p><a href="https://morfikov.github.io
+/img/2017/02/002.twrp-recovery-budowanie-zrodla-omni-smartfon-synchronizacja-repo.png"><img src="https://morfikov.github.io
+/img/2017/02/002.twrp-recovery-budowanie-zrodla-omni-smartfon-synchronizacja-repo-660x318.png" alt=""></a></p>
+<h2 id="zależności-potrzebne-do-zbudowania-androida-ze-źródeł">Zależności potrzebne do zbudowania Androida ze źródeł</h2>
+<p>Pobranie źródeł to jedna sprawa, a ich zbudowanie to całkiem inna kwestia. By uniknąć ewentualnych
+problemów będziemy musieli zainstalować w systemie kilka dodatkowych zależności. Poniżej jest <a href="https://source.android.com/source/initializing">lista
+potrzebnych rzeczy</a>:</p>
+<pre><code># aptitude install git-core gnupg flex bison gperf build-essential \
+  zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
+  lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
+  libgl1-mesa-dev libxml2-utils xsltproc unzip openjdk-7-jdk
+</code></pre>
+<p>Bez tych pakietów, proces budowy obrazu będzie napotkał błędy podobne do tego <a href="https://stackoverflow.com/questions/30430251/failed-to-build-android-kernel">opisanego
+tutaj</a>.</p>
+<h2 id="przyśpieszenie-procesu-kompilacji-z-ccache">Przyśpieszenie procesu kompilacji z ccache</h2>
+<p>Kompilacja to proces czasochłonny i dość zasobożerny. W zasadzie budując ten sam kod kilka razy, nie
+ma potrzeby ponawiania całego procesu kompilacji, bo w sporej części przypadków można odwołać się do
+już zbudowanych obiektów. Niemniej jednak, potrzebny jest nam jakiś cache dla kompilatora, którego
+standardowo w linux'ie nie ma. Dlatego właśnie powstało narzędzie <code>ccache</code> , które jest nam w stanie
+dość znacznie umilić życie, przy ciągłym budowaniu tych samych programów czy projektów.</p>
+<p>Narzędzie <code>ccache</code> musimy sobie odpowiednio skonfigurować. Na dobrą sprawę, to jedyne co musimy
+zrobić, to dodać te dwie poniższe zmienne do pliku <code>~/.bashrc</code> lub <code>~/.zshrc</code> :</p>
+<pre><code>export USE_CCACHE=1
+export CCACHE_DIR=/mnt/.ccache
+</code></pre>
+<p>Rozmiar całego cache definiujemy w poniższy sposób (polecenie wywołane z głównego katalogu ze
+źródłami Androida):</p>
+<pre><code>$ prebuilts/misc/linux-x86/ccache/ccache -M 50G
+</code></pre>
+<p>Jeśli chcemy się upewnić, czy <code>ccache</code> działa prawidłowo, to odpalamy osobny terminal podczas
+procesu kompilacji, przechodzimy do katalogu ze źródłami i wydajemy poniższe polecenie:</p>
+<pre><code>$ watch -n1 -d prebuilts/misc/linux-x86/ccache/ccache -s
+</code></pre>
+<h2 id="tworzenie-konfiguracji-dla-twrp-recovery-pod-konkretny-model-smartfona">Tworzenie konfiguracji dla TWRP recovery pod konkretny model smartfona</h2>
+<p>W zasadzie źródła już mamy przygotowane do budowania ale potrzebna nam jest jeszcze konfiguracja dla
+naszego smartfona. Musimy zatem stworzyć kilka plików i katalogów. Poniższe informacje dotyczą
+smartfona Neffos Y5 ale ten krok w zasadzie nie różni się w przypadku innych modeli telefonów.
+Jedyne co, to trzeba pozyskać pewne informacje na temat podzespołów urządzenia (min. SoC), dla
+którego zamierzamy zbudować obraz TWRP i wpisać te dane w stosowne miejsca.</p>
+<p>Najprościej jest zacząć od pliku <code>/system/build.prop</code> , który został zawarty w stock'owym firmware
+(można też wyciągać zawartość zmiennych przez <code>getprop</code> ). Podłączmy zatem na moment smartfon do
+komputera i przy pomocy <code>adb</code> patrzymy co siedzi w zmiennych <code>ro.product.manufacturer</code> oraz
+<code>ro.product.name</code> :</p>
+<pre><code># adb shell &quot;getprop ro.product.manufacturer&quot;
+TP-LINK
+
+# adb shell &quot;getprop ro.product.name&quot;
+TP802A
+</code></pre>
+<p>Przechodzimy teraz do głównego folderu ze źródłami Androida i pod <code>device/</code> tworzymy strukturę
+katalogów na zasadzie <code>manufacturer/name</code> . Wszystkie nazwy mają być pisane z małych liter:</p>
+<pre><code>$ mkdir device/tp-link/tp802a/
+</code></pre>
+<p>W tak powstałym katalogu tworzymy konfigurację dla naszego smartfona, <a href="https://github.com/morfikov/android_device_tp-link_tp802a">w tym przypadku Neffos
+Y5</a>. Poniżej znajduje się krótkie
+objaśnienie co do struktury plików.</p>
+<h3 id="plik-devicemk">Plik device.mk</h3>
+<p>Zaczynamy od utworzenia pliku <code>device.mk</code> , gdzie będziemy definiować wszystkie niezbędne moduły i
+pliki wymagane do zbudowania obrazu TWRP recovery dla naszego smartfona.</p>
+<h3 id="plik-omni_tp802amk">Plik omni_tp802a.mk</h3>
+<p>Następnie tworzymy plik <code>omni_tp802a.mk</code> , w którym będą deklarowane informacje takie jak nazwa,
+model i producent smartfona.</p>
+<h3 id="plik-androidproductsmk">Plik AndroidProducts.mk</h3>
+<p>Kolejny plik, który musimy utworzyć, to <code>AndroidProducts.mk</code> . W nim zamieszczamy wpis wskazujący na
+ten powyższy plik <code>omni_tp802a.mk</code> .</p>
+<h3 id="plik-boardconfigmk">Plik BoardConfig.mk</h3>
+<p>Plik <code>BoardConfig.mk</code> jest w zasadzie sercem całej konfiguracji. To w tym pliku określamy min. to co
+tak naprawdę siedzi w naszym smartfonie. Znajdują się tutaj ustawienia platformy sprzętowej,
+architektury systemowej, konfiguracja kernela, rozmiary poszczególnych partycji oraz oczywiście
+opcje TWRP recovery.</p>
+<p>Wszystkie te parametry mogą się różnic w zależności od podzespołów smartfona, z którym mamy do
+czynienia. W zasadzie obraz TWRP recovery powinien działać bez zarzutu nawet przy minimalnej
+konfiguracji ale w przypadku budowania pełnego ROM'u, to już niestety będziemy musieli nieco
+bardziej się postarać, by nasz smartfon działał bez problemu na nowym oprogramowaniu.</p>
+<p>Część opcji, które trzeba określić w <code>BoardConfig.mk</code> , można wyciągnąć ze smartfona zaglądając do
+pliku <code>/system/build.prop</code> . Poniżej znajduje się też lekka rozpiska ułatwiająca pozyskanie
+informacji dla poszczególnych sekcji.</p>
+<h4 id="sekcja-platform">Sekcja Platform</h4>
+<p>Sekcję <code>Platform</code> może nam sprawić najwięcej problemów, zwłaszcza gdy nie mamy za bardzo pojęcia
+jakie podzespoły siedzą w naszym smartfonie. W tym przypadku mamy do czynienia z Neffos Y5 i on
+posiada SoC MSM8909 od Qualcomm. Konfiguracja konkretnego SoC jest w zasadzie stała i można ją
+przepisać ze źródeł innego smartfona, który ma ten sam SoC, zakładając oczywiście, że deweloper nie
+popełnił błędów w konfiguracji tamtego urządzenia.</p>
+<h4 id="sekcja-kernel">Sekcja Kernel</h4>
+<p>Bawiąc się w ukorzenianie swoich Neffos'ów, jednym z wymaganych etapów było rozmontowanie obrazu
+<code>boot.img</code> za pomocą <a href="https://github.com/ndrancs/AIK-Linux-x32-x64/">tych skryptów</a>. Podczas tego
+procesu, w terminalu można było zanotować poniższe
+wyjście:</p>
+<p><a href="https://morfikov.github.io
+/img/2017/02/003.twrp-recovery-budowanie-zrodla-omni-smartfon-informacje-kernel.png"><img src="https://morfikov.github.io
+/img/2017/02/003.twrp-recovery-budowanie-zrodla-omni-smartfon-informacje-kernel-660x433.png" alt=""></a></p>
+<p>Jak widzimy, praktycznie cała sekcja jest nam podana jak na dłoni i wystarczy uzupełnić stosowne
+parametry dodając przed ich wartościami <code>0x</code> .</p>
+<p>Trzeba tutaj zaznaczyć, że my nie budujemy kernela ze źródeł Androida i załączamy tutaj plik
+kernela, który można wyciągnąć po rozmontowaniu stock'owego obrazu <code>boot.img</code> .</p>
+<h4 id="sekcja-qualcomm">Sekcja Qualcomm</h4>
+<p>Sekcja <code>Qualcomm</code> definiuje szereg opcji specyficznych dla SoC tego producenta. W zasadzie to trzeba
+dostosować ścieżkę, która musi wskazywać na bazę platformy naszego smartfona. Ścieżka w tym
+przypadku wskazuje na katalog <code>/sys/devices/soc.0/</code> ale z pominięciem <code>/sys/</code> .</p>
+<h4 id="sekcja-encryption">Sekcja Encryption</h4>
+<p>Nowsze wersje TWRP recovery wspierają szyfrowanie/deszyfrowanie partycji <code>/data/</code> . Jeśli z poziomu
+Androida zaszyfrowaliśmy dane użytkownika, to TWRP standardowo nie będzie w stanie zamontować tej
+partycji, co będzie przyczyną całej masy błędów. Dlatego też musimy włączyć moduł szyfrowania.</p>
+<p>W zasadzie mamy dwa rodzaje szyfrowania: programowe i sprzętowe. To, które w naszym smartfonie
+zostało zaimplementowane możemy odczytać przechodząc w Ustawienia Androida =&gt; Zabezpieczenia =&gt;
+Typ
+Pamięci.</p>
+<p><a href="https://morfikov.github.io
+/img/2017/02/004.twrp-recovery-budowanie-zrodla-omni-smartfon-informacje-szyfrowanie.png"><img src="https://morfikov.github.io
+/img/2017/02/004.twrp-recovery-budowanie-zrodla-omni-smartfon-informacje-szyfrowanie-371x660.png" alt=""></a></p>
+<p>W przypadku smartfona Neffos Y5, widzimy, że mamy do czynienia z szyfrowaniem sprzętowym, bo
+widnieje zapis &quot;Wspomagana sprzętowo&quot;. Gdyby tam widniał zapis &quot;Tylko programowa&quot;, to szyfrowanie
+byłoby jedynie programowe. Naturalnie szyfrowanie sprzętowe wymaga od nas dodatkowych nakładów
+pracy, by je skonfigurować. W zasadzie to trzeba będzie pozyskać szereg plików ze stock'owego
+firmware i uwzględnić je w obrazie TWRP. Bez tych plików, nie da rady odszyfrować danych na partycji
+<code>/data/</code> nawet podając prawidłowe hasło. System za każdym razem zwróci nam taki oto
+błąd.</p>
+<p><a href="https://morfikov.github.io
+/img/2017/02/005.twrp-recovery-budowanie-zrodla-omni-smartfon-blad-deszyfrowanie.png"><img src="https://morfikov.github.io
+/img/2017/02/005.twrp-recovery-budowanie-zrodla-omni-smartfon-blad-deszyfrowanie-371x660.png" alt=""></a></p>
+<p>To jakie pliki trzeba będzie uwzględnić w obrazie zależy od modelu smartfona. Nie da rady tego
+prosto ustalić i w zasadzie pozostaje nam dochodzenie do rozwiązania metodą prób i błędów. Możemy
+naturalnie podpierać się logami z trybu recovery, które mogą zawierać nazwy wymaganych bibliotek, a
+to już może nam wskazać dobrą drogę.</p>
+<h4 id="sekcja-partitions">Sekcja Partitions</h4>
+<p>W oparciu o dane z pliku <code>/proc/partitions</code> lub <code>/proc/emmc</code> trzeba odpowiednio opisać kilka
+partycji smartfona. Chodzi generalnie o partycje <code>/boot/</code> , <code>/recovery/</code> , <code>/system/</code> , <code>/data/</code>
+oraz <code>/cache/</code> . Do odczytania rozmiaru można też zaprzęgnąć różne aplikacje na Androida, np.
+diskinfo. Wartości podajemy w HEX.</p>
+<p>Możemy także skonfigurować sobie wsparcie dla szeregu dodatkowych systemów plików. Trzeba jednak
+pamiętać, że każde dodatkowe ficzery zajmują miejsce i w pewnych konfiguracjach może nam tej
+przestrzeni zwyczajnie zabraknąć. Tutaj mamy do dyspozycji 32 MiB i w zasadzie jest to dość sporo.</p>
+<h4 id="sekcja-recovery">Sekcja Recovery</h4>
+<p>W sekcji <code>Recovery</code> musimy wskazać lokalizację do pliku <code>fstab</code> . To przy jego pomocy TWRP będzie w
+stanie operować na partycjach smartfona. Ten plik trzeba sobie zbudować samemu podpierając się
+wpisami w <code>/proc/partitions</code> lub <code>/proc/emmc</code> oraz aplikacjami na smartfona typu diskinfo.</p>
+<h4 id="sekcja-twrp">Sekcja TWRP</h4>
+<p>W sekcji <code>TWRP</code> ustawia się opcje charakterystyczne dla TWRP recovery. Wszystkich opcji jest dość
+sporo i są one wyszczególnione <a href="https://forum.xda-developers.com/showthread.php?t=1943625">pod tym
+linkiem</a>. W zasadzie to musimy poprawnie
+ustawić zmienną <code>TW_THEME</code> , która odpowiada za rozdzielczość wyświetlacza smartfona. Do wyboru
+mamy:</p>
+<pre><code># portrait_mdpi  = 320x480 480x800 480x854 540x960
+# portrait_hdpi  = 720x1280 800x1280 1080x1920 1200x1920 1440x2560 1600x2560
+# watch_mdpi     = 240x240 280x280 320x320
+# landscape_mdpi = 800x480 1024x600 1024x768
+# landscape_hdpi = 1280x800 1920x1200 2560x1600
+</code></pre>
+<p>Neffos Y5 ma rozdzielczość 720x1280, dlatego został wybrany <code>portrait_hdpi</code> . Może i mamy tutaj do
+wyboru dwa tryby wyświetlania (portrait i landscape) ale TWRP nie potrafi się przełączać między nimi
+dynamicznie. Jeśli chcemy mieć układ poziomy, to nie da rady przełączyć go w pionowy i vice versa.
+Pozostałe opcje mają raczej samo opisujące się nazwy.</p>
+<h3 id="plik-vendorsetupsh">Plik vendorsetup.sh</h3>
+<p>Za sprawą pliku <code>vendorsetup.sh</code> będziemy w stanie dodać nasze urządzenie do budowania. Ten plik
+będzie miał jedną linijkę, w której musimy określić dwie rzeczy: <code>product_name</code> oraz <code>variant</code> .</p>
+<p>Jeśli chodzi o <code>product_name</code> , to odczytujemy go z pliku <code>omni_tp802a.mk</code> ze zmiennej
+<code>PRODUCT_NAME</code> . Natomiast w <code>variant</code> możemy ustawić min. <code>eng</code> , <code>user</code> albo <code>userdebug</code> . Nas
+interesuje ta ostatnia opcja oferująca dostęp root i tryb debugowania.</p>
+<h2 id="budowanie-obrazu-twrp-recovery">Budowanie obrazu TWRP recovery</h2>
+<p>By przygotować środowisko pod budowę źródeł TWRP recovery, musimy wyeksportować szereg zmiennych.
+Nie robimy tego jednak ręcznie, a za pomocą pliku <code>build/envsetup.sh</code> w poniższy sposób:</p>
+<pre><code>$ make clobber
+$ . ./build/envsetup.sh
+including device/tp-link/tp802a/vendorsetup.sh
+</code></pre>
+<p>Jak widać wyżej, konfiguracja dla naszego smartfona została załączona.</p>
+<p>W przypadku korzystania z innego shell'a niż <code>bash</code> (w moim przypadku <code>zsh</code> ) wydanie tego
+powyższego polecenia zwraca takie oto ostrzeżenie:</p>
+<pre><code>$ . ./build/envsetup.sh
+build/envsetup.sh:565: command not found: complete
+WARNING: Only bash is supported, use of other shell would lead to erroneous results
+</code></pre>
+<p>Wygląda na to, że na czas budowy czegoś związanego z Androidem, trzeba korzystać z bash'a.</p>
+<p>Teraz możemy wpisać <code>lunch</code> i wybrać wcześniej stworzoną kombinację:</p>
+<pre><code>$ lunch
+
+You're building on Linux
+
+Lunch menu... pick a combo:
+     1. aosp_arm-eng
+     2. aosp_arm64-eng
+     3. aosp_mips-eng
+     4. aosp_mips64-eng
+     5. aosp_x86-eng
+     6. aosp_x86_64-eng
+     7. omni_tp802a-userdebug
+
+Which would you like?
+</code></pre>
+<p>Mamy na liście <code>omni_tp802a-userdebug</code> i to ją musimy wskazać. Możemy także od razu podać tę pozycję
+w <code>lunch</code>
+:</p>
+<pre><code>$ lunch omni_tp802a-userdebug
+</code></pre>
+<p><img src="https://morfikov.github.io
+/img/2017/02/006.twrp-recovery-budowanie-zrodla-omni-smartfon-lunch.png" alt=""></p>
+<p>No i teraz pozostało nam już zbudowanie źródeł. Pamiętajmy tylko, że budujemy jedynie obraz TWRP
+recovery, a do tego celu służy poniższe polecenie:</p>
+<pre><code>$ make clean &amp;&amp; make -j2 recoveryimage
+</code></pre>
+<p>Po kilku czy kilkunastu minutach, obraz recovery powinien nam się
+zbudować:</p>
+<p><a href="https://morfikov.github.io
+/img/2017/02/007.twrp-recovery-budowanie-zrodla-omni-smartfon-finish-test.png"><img src="https://morfikov.github.io
+/img/2017/02/007.twrp-recovery-budowanie-zrodla-omni-smartfon-finish-test-660x297.png" alt=""></a></p>
+<h2 id="repozytorium-git-na-githubie">Repozytorium git na Github'ie</h2>
+<p>Po zbudowaniu obrazu TWRP sprawdzamy naturalnie czy działa on prawidłowo ładując plik
+<code>out/target/product/tp802a/recovery.img</code> na smartfon przy pomocy <code>fastboot boot</code> . Jeśli nie mamy
+zastrzeżeń co do działania trybu recovery, to możemy stworzoną w powyższy sposób konfigurację TWRP
+opublikować na GitHub'ie. Oczywiście musimy posiadać stosowne konto i stworzyć odpowiednie
+repozytorium. Nazwa tego repozytorium ma wskazywać na ścieżkę drzewa katalogów konfiguracji
+urządzenia. Przykładowo, mamy tutaj ścieżkę <code>source/device/tp-link/tp802a/</code> , zatem nazwa
+repozytorium to <code>android_device_tp-link_tp802a</code>
+:</p>
+<p><a href="https://morfikov.github.io
+/img/2017/02/008.twrp-recovery-budowanie-zrodla-omni-smartfon-github-repo.png"><img src="https://morfikov.github.io
+/img/2017/02/008.twrp-recovery-budowanie-zrodla-omni-smartfon-github-repo-660x538.png" alt=""></a></p>
+<p>Następnie przechodzimy do katalogu z plikami konfiguracyjnymi, z których zbudowaliśmy obraz TWRP
+recovery i inicjujemy w nim lokalne repozytorium:</p>
+<pre><code>$ cd /Android/omni-twrp-6.0/device/tp-link/tp802a/
+$ git init
+$ git remote add origin git@github.com:morfikov/android_device_tp-link_tp802a.git
+</code></pre>
+<p>W pliku <code>.git/config</code> dopisujemy sobie te poniższe parametry:</p>
+<pre><code>[user]
+    name = Mikhail Morfikov
+    email = morfik@nsa.com
+    signingkey = 0xCD046810771B6520
+[gpg]
+    program = gpg
+</code></pre>
+<p>Następnie dodajemy wszystkie plik, tworzymy commit i nową gałąź, którą nazywamy sobie, np.
+<code>twrp-6.0</code> :</p>
+<pre><code>$ git add --all
+$ git commit -S -m &quot;first commit&quot;
+$ git branch twrp-6.0
+$ git checkout twrp-6.0
+$ git add --all
+</code></pre>
+<p>Teraz już wystarczy przesłać zmiany do zdalnego repozytorium na GitHub'ie:</p>
+<pre><code>$ git push origin master
+$ git push origin twrp-6.0
+</code></pre>
+<p>I to w zasadzie cała robota. Wszelkie zmiany w repozytorium od tej pory będą rejestrowane przez
+system kontroli wersji. <a href="https://twrp.me/faq/OfficialMaintainer.html">Możemy także przesłać całą
+konfigurację</a>, tak by TWRP oficjalnie wspierało
+naszego smartfona.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/twrp/">twrp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/marshmallow/">marshmallow</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/omni-rom/">omni-rom</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fbudowanie-obrazu-twrp-recovery-ze-zrodel-omni-rom%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbudowanie-obrazu-twrp-recovery-ze-zrodel-omni-rom%2f&amp;text=Budowanie%20obrazu%20TWRP%20recovery%20ze%20%c5%bar%c3%b3de%c5%82%20OMNI%20ROM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbudowanie-obrazu-twrp-recovery-ze-zrodel-omni-rom%2f&amp;title=Budowanie%20obrazu%20TWRP%20recovery%20ze%20%c5%bar%c3%b3de%c5%82%20OMNI%20ROM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbudowanie-obrazu-twrp-recovery-ze-zrodel-omni-rom%2f&amp;title=Budowanie%20obrazu%20TWRP%20recovery%20ze%20%c5%bar%c3%b3de%c5%82%20OMNI%20ROM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbudowanie-obrazu-twrp-recovery-ze-zrodel-omni-rom%2f&title=Budowanie%20obrazu%20TWRP%20recovery%20ze%20%c5%bar%c3%b3de%c5%82%20OMNI%20ROM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbudowanie-obrazu-twrp-recovery-ze-zrodel-omni-rom%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbudowanie-obrazu-twrp-recovery-ze-zrodel-omni-rom%2f&amp;title=Budowanie%20obrazu%20TWRP%20recovery%20ze%20%c5%bar%c3%b3de%c5%82%20OMNI%20ROM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbudowanie-obrazu-twrp-recovery-ze-zrodel-omni-rom%2f&description=Budowanie%20obrazu%20TWRP%20recovery%20ze%20%c5%bar%c3%b3de%c5%82%20OMNI%20ROM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/backup-partycji-data-w-smartfonach-przez-recovery-twrp/">Backup partycji /data/ w smartfonach przez recovery TWRP</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/problem-z-zaszyfrowaniem-partycji-data-na-smartfonie-z-androidem/">Problem z zaszyfrowaniem partycji /data/ na smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-odszyfrowac-zawartosc-karty-sd-w-smartfonie-z-androidem/">Jak odszyfrować zawartość karty SD w smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-studio-i-android-sdk-pod-linux/">Android Studio i Android SDK pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zlokalizowac-skradziony-zagubiony-smartfon-z-androidem/">Jak zlokalizować skradziony/zagubiony smartfon z Androidem</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

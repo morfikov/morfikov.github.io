@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Opcja extents w systemach plików ext4 | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Opcja extents w systemach plików ext4" />
+<meta property="og:description" content="Dziś postanowiłem sprawdzić jak wygląda struktura plików mojego dysku. Chodzi oczywiście o ich
+fragmentację. Zgodnie z tym co pokazał mi fsck , pofragmentowanych plików jest 350. Po
+zapuszczeniu defragmentacji via e4defrag ilość tych plików spadła do nieco ponad 100 i jeśli by
+się przyjrzeć procesowi defragmentacji, to można było zauważyć linijki mające extents: 100 -&gt; 10
+. Wychodzi na to, że plik dalej jest w kawałkach i nie idzie go zdefragmentować. Jak rozumieć taki
+zapis?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/opcja-extents-w-systemach-plikow-ext4/" />
+<meta property="article:published_time" content="2015-07-10T15:20:44+00:00" />
+<meta property="article:modified_time" content="2015-07-10T15:20:44+00:00" />
+
+		<meta itemprop="name" content="Opcja extents w systemach plików ext4">
+<meta itemprop="description" content="Dziś postanowiłem sprawdzić jak wygląda struktura plików mojego dysku. Chodzi oczywiście o ich
+fragmentację. Zgodnie z tym co pokazał mi fsck , pofragmentowanych plików jest 350. Po
+zapuszczeniu defragmentacji via e4defrag ilość tych plików spadła do nieco ponad 100 i jeśli by
+się przyjrzeć procesowi defragmentacji, to można było zauważyć linijki mające extents: 100 -&gt; 10
+. Wychodzi na to, że plik dalej jest w kawałkach i nie idzie go zdefragmentować. Jak rozumieć taki
+zapis?">
+<meta itemprop="datePublished" content="2015-07-10T15:20:44+00:00" />
+<meta itemprop="dateModified" content="2015-07-10T15:20:44+00:00" />
+<meta itemprop="wordCount" content="1077">
+
+
+
+<meta itemprop="keywords" content="system-plików,hdd/ssd,ext4," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Opcja extents w systemach plików ext4"/>
+<meta name="twitter:description" content="Dziś postanowiłem sprawdzić jak wygląda struktura plików mojego dysku. Chodzi oczywiście o ich
+fragmentację. Zgodnie z tym co pokazał mi fsck , pofragmentowanych plików jest 350. Po
+zapuszczeniu defragmentacji via e4defrag ilość tych plików spadła do nieco ponad 100 i jeśli by
+się przyjrzeć procesowi defragmentacji, to można było zauważyć linijki mające extents: 100 -&gt; 10
+. Wychodzi na to, że plik dalej jest w kawałkach i nie idzie go zdefragmentować. Jak rozumieć taki
+zapis?"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Opcja extents w systemach plików ext4</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-07-10T15:20:44Z">Opublikowano: 10/07/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Opcja extents w systemach plików ext4</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#extents-czyli-zakresy-bloków">Extents, czyli zakresy bloków</a></li>
+    <li><a href="#fragmentacja-plików">Fragmentacja plików</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Dziś postanowiłem sprawdzić jak wygląda struktura plików mojego dysku. Chodzi oczywiście o ich
+fragmentację. Zgodnie z tym co pokazał mi <code>fsck</code> , pofragmentowanych plików jest 350. Po
+zapuszczeniu defragmentacji via <code>e4defrag</code> ilość tych plików spadła do nieco ponad 100 i jeśli by
+się przyjrzeć procesowi defragmentacji, to można było zauważyć linijki mające <code>extents: 100 -&gt; 10</code>
+. Wychodzi na to, że plik dalej jest w kawałkach i nie idzie go zdefragmentować. Jak rozumieć taki
+zapis?</p>
+<h2 id="extents-czyli-zakresy-bloków">Extents, czyli zakresy bloków</h2>
+<p><a href="https://en.wikipedia.org/wiki/Ext4">System plików ext4</a> ma opcję <code>extents</code> , która odpowiada za
+przydział pewnej ilości bloków w formie ciągłej. Chodzi o to, że domyślny blok danych na dysku ma
+4KiB i jeśli wgrywamy plik, który waży 1GiB, to zostanie on podzielony na 262,144 jednostki. By
+odczytać później taki plik, trzeba będzie się tyle razy odwołać do dysku, a to spowalnia transfer
+danych, zwłaszcza w dyskach hdd. Poza tym, ilość metadanych opisująca ten plik jest przeogromna. W
+przypadku opcji <code>extents</code> , system plików jest w stanie oznaczyć zakres bloków do 128MiB i jeśli w
+takim przypadku wgramy ten 1GiB plik, to jego odczyt będzie można zrobić w 8 podejściach. Poprawia
+to wydajność, drastycznie zmniejsza ilość metadanych i redukuje fragmentację plików.</p>
+<p>Cały ten mechanizm zakresów działa mniej więcej w poniższy sposób. Przy tworzeniu systemu plików są
+definiowane grupy bloków. Jako, że system plików ext4 ma domyślny rozmiar bloków 4KiB oraz, że każdy
+i-węzeł ma 256 bajtów, daje nam to 16 i-węzłów na blok. Każda grupa bloków ma 8192 i-węzły, co
+przekłada się na 512 bloków, które są przeznaczone na same i-węzły (2MiB danych). Grupa zaś składa
+się z 32768 bloków, czyli 128MiB i to właśnie kryje się pod nazwą extents.</p>
+<p>W każdym i-węźle zarezerwowanych jest 60 bajtów na zakresy bloków. Każdy z zakresów ma 12 bajtów, do
+tego dochodzi jeszcze 12 bajtowy nagłówek. Zatem każdy i-węzeł jest w stanie obsłużyć 4 zakresy.
+Taki zakres można porównać do klastra w systemach plików ntfs. Mamy tam określony początkowy adres
+bloku oraz liczbę kolejnych bloków składających się na ten zakres. Zatem jeśli plik by miał 512MiB,
+to bez problemu taki i-węzeł jest go w stanie obsłużyć. Natomiast w przypadku większych plików,
+system plików ext4 buduje drzewo zakresowe (<a href="https://en.wikipedia.org/wiki/HTree">extent tree</a>).
+System plików ext4 dba dość mocno o to by pliki były ciągłe ale zdarzają się takie, które mają
+więcej niż jeden zakres i to te pliki zwykliśmy nazywać pofragmentowanymi.</p>
+<h2 id="fragmentacja-plików">Fragmentacja plików</h2>
+<p>Każdy system plików posiada statystyki, a w nich znajdują się przeróżne informacje. Nas interesują
+głównie dane na temat pofragmentowanych plików, które możemy odczytać posługując się narzędziem
+<code>fsck</code> :</p>
+<pre><code># fsck.ext4 -nfv /dev/mapper/kabi
+...
+      111 non-contiguous files (0.0%)
+...
+</code></pre>
+<p>W tym przypadku jest to 111 pofragmentowanych plików, co oznacza, że pliki nie są ciągłe i mają
+kilka zakresów bloków. Z powyższego logu nie dowiemy się jednak ile kawałków mają te pliki. To zaś
+możemy ustalić posługując się narzędziem <code>filefrag</code> , przykładowo:</p>
+<pre><code># filefrag -v /media/morfik/sdb7-usb-WDC_WD15_EARS-00/1024
+Filesystem type is: ef53
+File size of /media/morfik/sdb7-usb-WDC_WD15_EARS-00/1024 is 1073741824 (262144 blocks of 4096 bytes)
+ ext:     logical_offset:        physical_offset: length:   expected: flags:
+   0:        0..   32767:      34816..     67583:  32768:
+   1:    32768..   63487:      67584..     98303:  30720:
+   2:    63488..   96255:     100352..    133119:  32768:      98304:
+   3:    96256..  126975:     133120..    163839:  30720:
+   4:   126976..  159743:     165888..    198655:  32768:     163840:
+   5:   159744..  190463:     198656..    229375:  30720:
+   6:   190464..  223231:     231424..    264191:  32768:     229376:
+   7:   223232..  253951:     264192..    294911:  30720:
+   8:   253952..  262143:     296960..    305151:   8192:     294912: last,eof
+/media/morfik/sdb7-usb-WDC_WD15_EARS-00/1024: 5 extents found
+</code></pre>
+<p>Powyżej mamy plik 1024MiB, który zdaje się mieć 9 zakresów ale na samym dole w logu widzimy, że jest
+ich tylko 5. Tego typu informację należy traktować w taki sposób, że plik ma 9 zakresów bloków ale
+tylko 5 fragmentów, tj. zakresów które nie występują jeden po drugim, w efekcie czego jest jakaś
+przerwa między nimi i to jest faktyczna fragmentacja w systemie plików ext4.</p>
+<p>Połowa z tych zakresów ma 128MiB (32768 bloków), czyli maksimum dla systemu plików ext4, natomiast
+pozostałe mają nieco mniej, co oznacza, że istnieje możliwość uzyskania mniejszej fragmentacji. Poza
+tym w kolumnie <code>expected</code> mamy 4 oczekiwane offsety bloków i jest to <code>physical_offset</code> + <code>length</code>
+poprzedniego zakresu. Idealna sytuacja to ta, w której mamy ciąg zakresów jeden za drugim. Możemy
+spróbować zdefragmentować ten plik kilka razy przy pomocy <code>e4defrag</code> . Choć jeśli posiadamy dużą
+ilości danych na dysku, cały proces może nic nam nie dać. Mi jednak się udało nieco zoptymalizować
+ten plik:</p>
+<pre><code># filefrag -v /media/morfik/sdb7-usb-WDC_WD15_EARS-00/1024
+Filesystem type is: ef53
+File size of /media/morfik/sdb7-usb-WDC_WD15_EARS-00/1024 is 1073741824 (262144 blocks of 4096 bytes)
+ ext:     logical_offset:        physical_offset: length:   expected: flags:
+   0:        0..   32767:    1161216..   1193983:  32768:
+   1:    32768..   65535:    1193984..   1226751:  32768:
+   2:    65536..   98303:    1226752..   1259519:  32768:
+   3:    98304..  131071:    1259520..   1292287:  32768:
+   4:   131072..  163839:    1292288..   1325055:  32768:
+   5:   163840..  196607:    1325056..   1357823:  32768:
+   6:   196608..  229375:    1357824..   1390591:  32768:
+   7:   229376..  262143:    1390592..   1423359:  32768:             last,eof
+/media/morfik/sdb7-usb-WDC_WD15_EARS-00/1024: 1 extent found
+</code></pre>
+<p>Jest to ten sam plik zdefragmentowany kilka razy. Jak widzimy nie ma już pozycji w kolumnie
+<code>expected</code> , zaś <code>length</code> wszędzie wskazuje na <code>32768</code> , czyli 128MiB zakres. Mimo, że ten plik ma 8
+zakresów, to nie jest traktowany przez system jako pofragmentowany.</p>
+<p>Ten powyższy plik został wgrany na partycję, która praktycznie była pusta i miała około 458GiB.
+Dlatego zakresy są 128MiB. Jeśli jednak weźmiemy sobie bardziej zapchany system plików, to jego
+wolna przestrzeń może się prezentować np. w poniższy sposób:</p>
+<pre><code># e2freefrag /dev/mapper/kabi
+...
+HISTOGRAM OF FREE EXTENT SIZES:
+Extent Size Range :  Free extents   Free Blocks  Percent
+    4K...    8K-  :          3955          3955    0.06%
+    8K...   16K-  :          3495          8194    0.13%
+   16K...   32K-  :          2601         13165    0.20%
+   32K...   64K-  :          2622         28991    0.45%
+   64K...  128K-  :          2565         58267    0.90%
+  128K...  256K-  :          1576         71371    1.11%
+  256K...  512K-  :          1331        118346    1.83%
+  512K... 1024K-  :          1058        190532    2.95%
+    1M...    2M-  :          1202        444210    6.89%
+    2M...    4M-  :          1211        884489   13.71%
+    4M...    8M-  :          1249       1803998   27.97%
+    8M...   16M-  :           622       1643226   25.48%
+   16M...   32M-  :           198       1024999   15.89%
+   32M...   64M-  :            16        163082    2.53%
+</code></pre>
+<p>Na tej partycji jest wolnych jeszcze 25GiB ale jak widzimy wyżej, w obrębie tego systemu plików nie
+mamy wolnej przestrzeni, która by miała więcej niż 32-64MiB. Zatem jeśli byśmy wgrali plik 1GiB, to
+zostanie on podzielony na dość sporą ilość zakresów. Dlatego też warto pamiętać, by nie tworzyć
+małych partycji i nie zapychać ich w dość znacznym stopniu, bo to powoduje drastyczną fragmentację
+wolnej przestrzeni i pliki zamiast być alokowane w kilku zakresach obok siebie, zaczynają być
+oznaczane przez dziesiątki, setki czy nawet tysiące z nich i do tego porozrzucane w obrębie całej
+partycji, co znacznie spowalnia operacje na plikach.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/system-plik%C3%B3w/">system-plików</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/ssd/">hdd/ssd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ext4/">ext4</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fopcja-extents-w-systemach-plikow-ext4%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fopcja-extents-w-systemach-plikow-ext4%2f&amp;text=Opcja%20extents%20w%20systemach%20plik%c3%b3w%20ext4" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fopcja-extents-w-systemach-plikow-ext4%2f&amp;title=Opcja%20extents%20w%20systemach%20plik%c3%b3w%20ext4" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fopcja-extents-w-systemach-plikow-ext4%2f&amp;title=Opcja%20extents%20w%20systemach%20plik%c3%b3w%20ext4" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fopcja-extents-w-systemach-plikow-ext4%2f&title=Opcja%20extents%20w%20systemach%20plik%c3%b3w%20ext4" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fopcja-extents-w-systemach-plikow-ext4%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fopcja-extents-w-systemach-plikow-ext4%2f&amp;title=Opcja%20extents%20w%20systemach%20plik%c3%b3w%20ext4" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fopcja-extents-w-systemach-plikow-ext4%2f&description=Opcja%20extents%20w%20systemach%20plik%c3%b3w%20ext4" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/etykieta-systemu-plikow-i-jej-dostosowanie/">Etykieta systemu plików i jej dostosowanie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zarezerwowane-miejsce-w-systemie-plikow-ext4/">Zarezerwowane miejsce w systemie plików ext4</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/sprawdzanie-bledow-systemu-plikow-ext4/">Sprawdzanie błędów systemu plików ext4</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/bad-sektor-w-dzienniku-systemu-plikow-ext4/">Bad sektor w dzienniku systemu plików ext4</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/parkowanie-glowicy-w-dyskach-wstern-digital/">Parkowanie głowicy w dyskach Wstern Digital</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

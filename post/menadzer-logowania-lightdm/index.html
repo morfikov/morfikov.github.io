@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Menadżer logowania LightDM | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Menadżer logowania LightDM" />
+<meta property="og:description" content="Istnieje kilka sposobów na to, by uruchomić sesję graficzną Xserver&#39;a. W przypadku, gdy nie
+wykorzystujemy zaawansowanych środowisk graficznych, zwykle korzystamy z polecenia startx
+wydawanego zaraz po zalogowaniu się na konsolę TTY. Niemniej jednak, nawet w tych najprostszych
+środowiskach graficznych możemy pokusić się o instalację lekkiego menadżera okien, tak by nie
+musieć konfigurować samodzielnie szeregu opcji sesji. Menadżery logowania (display managers) mają
+na celu zrobienie dokładnie tego samego co pliki ~/.xinitrc i ~/.xserverrc , z tym, że w nieco
+bardziej przyjaznej dla użytkownika formie. W tym wpisie przyjrzymy się nieco dokładniej
+menadżerowi LightDM. Zostanie także omówiony
+sposób blokowania aktywnej sesji Xserver&#39;a bez potrzeby jej zamykania przy pomocy narzędzia
+light-locker." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/menadzer-logowania-lightdm/" />
+<meta property="article:published_time" content="2016-01-08T20:12:46+00:00" />
+<meta property="article:modified_time" content="2016-01-08T20:12:46+00:00" />
+
+		<meta itemprop="name" content="Menadżer logowania LightDM">
+<meta itemprop="description" content="Istnieje kilka sposobów na to, by uruchomić sesję graficzną Xserver&#39;a. W przypadku, gdy nie
+wykorzystujemy zaawansowanych środowisk graficznych, zwykle korzystamy z polecenia startx
+wydawanego zaraz po zalogowaniu się na konsolę TTY. Niemniej jednak, nawet w tych najprostszych
+środowiskach graficznych możemy pokusić się o instalację lekkiego menadżera okien, tak by nie
+musieć konfigurować samodzielnie szeregu opcji sesji. Menadżery logowania (display managers) mają
+na celu zrobienie dokładnie tego samego co pliki ~/.xinitrc i ~/.xserverrc , z tym, że w nieco
+bardziej przyjaznej dla użytkownika formie. W tym wpisie przyjrzymy się nieco dokładniej
+menadżerowi LightDM. Zostanie także omówiony
+sposób blokowania aktywnej sesji Xserver&#39;a bez potrzeby jej zamykania przy pomocy narzędzia
+light-locker.">
+<meta itemprop="datePublished" content="2016-01-08T20:12:46+00:00" />
+<meta itemprop="dateModified" content="2016-01-08T20:12:46+00:00" />
+<meta itemprop="wordCount" content="1232">
+
+
+
+<meta itemprop="keywords" content="xserver,debian," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Menadżer logowania LightDM"/>
+<meta name="twitter:description" content="Istnieje kilka sposobów na to, by uruchomić sesję graficzną Xserver&#39;a. W przypadku, gdy nie
+wykorzystujemy zaawansowanych środowisk graficznych, zwykle korzystamy z polecenia startx
+wydawanego zaraz po zalogowaniu się na konsolę TTY. Niemniej jednak, nawet w tych najprostszych
+środowiskach graficznych możemy pokusić się o instalację lekkiego menadżera okien, tak by nie
+musieć konfigurować samodzielnie szeregu opcji sesji. Menadżery logowania (display managers) mają
+na celu zrobienie dokładnie tego samego co pliki ~/.xinitrc i ~/.xserverrc , z tym, że w nieco
+bardziej przyjaznej dla użytkownika formie. W tym wpisie przyjrzymy się nieco dokładniej
+menadżerowi LightDM. Zostanie także omówiony
+sposób blokowania aktywnej sesji Xserver&#39;a bez potrzeby jej zamykania przy pomocy narzędzia
+light-locker."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Menadżer logowania LightDM</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-01-08T20:12:46Z">Opublikowano: 08/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Menadżer logowania LightDM</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#wiele-menadżerów-logowania-w-jednym-systemie">Wiele menadżerów logowania w jednym systemie</a></li>
+    <li><a href="#konfiguracja-lightdm">Konfiguracja LightDM</a></li>
+    <li><a href="#accountsservice">AccountsService</a></li>
+    <li><a href="#narzędzie-light-locker">Narzędzie light-locker</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Istnieje kilka sposobów na to, by uruchomić sesję graficzną Xserver'a. W przypadku, gdy nie
+wykorzystujemy zaawansowanych środowisk graficznych, zwykle korzystamy z polecenia <code>startx</code>
+wydawanego zaraz po zalogowaniu się na konsolę TTY. Niemniej jednak, nawet w tych najprostszych
+środowiskach graficznych możemy pokusić się o instalację lekkiego menadżera okien, tak by nie
+musieć konfigurować samodzielnie szeregu opcji sesji. Menadżery logowania (display managers) mają
+na celu zrobienie dokładnie tego samego co pliki <code>~/.xinitrc</code> i <code>~/.xserverrc</code> , z tym, że w nieco
+bardziej przyjaznej dla użytkownika formie. W tym wpisie przyjrzymy się nieco dokładniej
+<a href="https://www.freedesktop.org/wiki/Software/LightDM/">menadżerowi LightDM</a>. Zostanie także omówiony
+sposób blokowania aktywnej sesji Xserver'a bez potrzeby jej zamykania przy pomocy narzędzia
+<a href="https://github.com/the-cavalry/light-locker">light-locker</a>.</p>
+<h2 id="wiele-menadżerów-logowania-w-jednym-systemie">Wiele menadżerów logowania w jednym systemie</h2>
+<p>W systemie możemy posiadać wiele różnych menadżerów logowania, choć zalecana jest instalacja jedynie
+tego, z którego korzystamy. Jeśli chodzi zaś o pakiety potrzebne do instalacji menadżera LightDM i
+narzędzia <code>light-locker</code> , to musimy doinstalować te poniższe:</p>
+<pre><code># aptitude install lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings light-locker \
+desktop-base accountsservice
+</code></pre>
+<p>Każde większe środowisko graficzne zwykle dostarcza swój własny menadżer logowania. Jest więc zatem
+bardzo prawdopodobne, że w systemie mamy więcej niż jeden taki menadżer. Jeśli tak jest w istocie i
+chcemy korzystać z LightDM, to możemy ustawić go jako domyślny za pomocą tego poniższego polecenia:</p>
+<pre><code># update-alternatives --config lightdm
+</code></pre>
+<p>W tych lżejszych środowiskach nie będziemy mieli takiego problemu.</p>
+<h2 id="konfiguracja-lightdm">Konfiguracja LightDM</h2>
+<p>Konfiguracja LightDM sprowadza się do edycji kilku plików, które są zlokalizowane w katalogu
+<code>/etc/lightdm/</code> . Oczywiście, domyślna konfiguracja jest w miarę optymalna i nie musimy nic
+dostosowywać. Jeśli jednak chcemy dokonać kilku zmian, to musimy wiedzieć, że osobno się konfiguruje
+wygląd tego menadżera logowania (tzw. greeter) i osobno sam menadżer logowania.</p>
+<p>Jest wiele greeter'ów, które możemy sobie wgrać i każdy z nich ma innych plik konfiguracyjny. W tym
+przypadku zainstalowaliśmy pakiet <code>lightdm-gtk-greeter</code> i konfiguracja tego greeter'a jest ulokowana
+w pliku <code>lightdm-gtk-greeter.conf</code> , poniżej przykład:</p>
+<pre><code>[greeter]
+background=/usr/share/images/desktop-base/login-background.svg
+theme-name=Adwaita
+icon-theme-name=matefaenzadark
+font-name=Sans 9
+xft-antialias=true
+xft-dpi=96
+xft-hintstyle=hintfull
+xft-rgba=none
+indicators=~host;~spacer;~clock;~spacer;~language;~session;~power
+clock-format=%Y-%m-%d %T
+#keyboard=
+#reader=
+position=100 100
+screensaver-timeout=10
+</code></pre>
+<p>Jak widzimy, mamy całkiem niezłe pole manewru. Możemy ustawić tapetę przy pomocy parametru
+<code>background</code> . Możemy także dostosować motyw jak i style ikonek przy pomocy <code>theme-name</code> i
+<code>icon-theme-name</code> . Mamy także możliwość określenia kroju i wielkości czcionki w <code>font-name</code> . Z
+kolei opcje <code>xft-*</code> odpowiadają za poprawę jakości czcionek. Jeśli są one niejasne, to w <a href="https://morfikov.github.io
+/post/fontconfig-i-konfiguracja-czcionek-w-debianie/">tym wpisie
+została opisana konfiguracja
+czcionek</a> i wyżej użyte
+terminy zostały dokładnie wyjaśnione. Dalej mamy format zegara ( <code>clock-format</code> ), który możemy
+sobie dostosować wedle własnego upodobania. Potrzebne zaś parametry można odczytać z <code>date --help</code> .
+W tym przypadku zegar ma postać <code>2016-01-08 16:45:55</code> . Parametr <code>position</code> odpowiada za
+umieszczenie okienka logowania w konkretnym miejscu na ekranie. Natomiast <code>screensaver-timeout</code>
+wyłączy ekran po 10 sekundach nieaktywności.</p>
+<p>Oczywiście nie musimy ręcznie konfigurować greeter'a. Możemy zdać się na graficzne narzędzie
+<code>lightdm-gtk-greeter-settings</code> , które jest w stanie ustawić praktycznie wszystkie wyszczególnione
+wyżej opcje:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/01/1.lightdm-greeter-ustawienia-gui.png" alt=""></p>
+<p>Jeśli chodzi zaś o konfigurację samego menadżera logowania, to jest ona bardziej skomplikowana.
+Dlatego też plik <code>lightdm.conf</code> jest nieco rozbudowany. Poniżej przykład konfiguracji:</p>
+<pre><code>[LightDM]
+greeter-user=lightdm
+minimum-display-number=0
+minimum-vt=7
+logind-check-graphical=true
+log-directory=/var/log/lightdm
+run-directory=/var/run/lightdm
+cache-directory=/var/cache/lightdm
+
+[Seat:*]
+greeter-session=lightdm-gtk-greeter
+greeter-hide-users=false
+greeter-allow-guest=false
+greeter-show-manual-login=true
+greeter-show-remote-login=true
+user-session=openbox
+allow-user-switching=true
+allow-guest=false
+autologin-guest=false
+autologin-user-timeout=0
+autologin-in-background=false
+#xserver-command=X -listen tcp -auth &quot;$HOME/.Xauthority&quot;
+#xserver-allow-tcp=true
+
+[XDMCPServer]
+
+[VNCServer]
+</code></pre>
+<p>To w tym pliku jesteśmy w stanie dostosować szereg aspektów pracy samego Xserver'a, wliczając w to
+opcje procesu <code>X</code> . Wyżej mamy wyłączone autologowanie użytkowników przy starcie systemu oraz nie
+zezwalamy na zalogowanie się gościom, czyli by skorzystać z tego systemu, trzeba się świadomie
+zalogować podając login i hasło. W parametrze <code>greeter-session</code> podajemy nazwę wykorzystywanego
+greeter'a. Jeśli chodzi zaś o <code>minimum-vt</code> , to określa on, na której konsoli TTY zaczynać podnosić
+sesje Xserver'a. Z reguły 1-6 są tekstowe, a graficzne zaczynają się od 7. Mamy także opcję
+<code>minimum-display-number</code> , która odpowiada za minimalny numer jaki może zostać przypisany sesji
+graficznej (widoczny w zmiennej <code>$DISPLAY</code> ). Dalej mamy już tylko <code>greeter-user</code> , który odpowiada
+za uruchomienie greeter'a na prawach innego użytkownika niż root.</p>
+<p>W konfiguracji LightDM mamy także szereg innych wykomentowanych wpisów i w takim wypadku są
+dobierane wartości domyślne. Wyżej przytoczyłem dwa z nich, które są w stanie skonfigurować jedną z
+bardziej przydanych cech Xserver'a. Chodzi oczywiście o edycję parametrów procesu <code>X</code> i umożliwienie
+nawiązywania połączeń sieciowych.</p>
+<p>Mamy także możliwość skonfigurowania samych użytkowników. Chodzi o to, że nie koniecznie chcemy aby
+wszyscy użytkownicy w systemie mogli logować się i korzystać z sesji graficznej. W tym celu
+korzystamy z pliku <code>users.conf</code> , poniżej przykład:</p>
+<pre><code>[UserList]
+minimum-uid=1000
+hidden-users=nobody nobody4 noaccess
+hidden-shells=/bin/false /usr/sbin/nologin
+</code></pre>
+<p>Ta powyższa konfiguracja zezwala na wyświetlenie na liście użytkowników jedynie tych loginów, które
+mają ID większe lub równe <code>1000</code>. Dodatkowo, użytkownicy, którzy mają nazwy <code>nobody</code> , <code>nobody4</code> i
+<code>noaccess</code> również się na niej nie pojawią. Odfiltrowane zostaną również wszystkie konta, które mają
+ustawionego nieprawidłowego shell'a. W taki oto sposób jesteśmy w stanie wyświetlić tylko te konta,
+które mają prawo się logować do sesji graficznej.</p>
+<h2 id="accountsservice">AccountsService</h2>
+<p>Pewne opcje menadżera LightDM można dostosować za pomocą pakietu <code>accountsservice</code> . W tym przypadku
+postaramy się go wykorzystać do ustawienia avatara dla konkretnego konta. Teoretycznie powinna być
+możliwość dokonania tego za pomocą pliku <code>~/.face</code> lub <code>~/.face.icon</code> . Nie zawsze jednak ten sposób
+działa. Natomiast jeśli chodzi o <code>accountsservice</code> , to nie ma tu żadnych problemów.</p>
+<p>Tworzymy zatem plik <code>/var/lib/AccountsService/users/morfik</code> , gdzie <code>morfik</code> oznacza nazwę konta,
+dla którego chcemy ustawić avatar. Do tego pliku dodajemy poniższą treść:</p>
+<pre><code>[User]
+Language=en_US.UTF-8
+XSession=lightdm-xsession
+Icon=/var/lib/AccountsService/icons/morfik.icon
+SystemAccount=false
+</code></pre>
+<p>Opcje <code>Language</code> określamy na podstawie <a href="https://morfikov.github.io
+/post/jezyk-polski-w-srodowisku-graficznym/">ustawionych w systemie
+locale</a>. W <code>XSession</code> definiujemy
+sesje graficzną, która ma być odpalana dla tego użytkownika. Jeśli nie wiemy jakie sesje mamy do
+wyboru, to możemy zawsze zajrzeć do katalogu <code>/usr/share/xsessions/</code> . Dalej mamy <code>Icon</code> , która
+właśnie odpowiada za avatar. Ostatnia pozycja, tj. <code>SystemAccount</code> określa dane konto jako
+systemowe, czyli takie, które nie ma możliwości logowania się do sesji graficznej.</p>
+<p>Następnie wgrywamy do katalogu <code>/var/lib/AccountsService/icons/</code> plik o nazwie zdefiniowanej wyżej.
+Obrazki powinny mieć 96x96 pikseli być w formacie <code>.png</code> .</p>
+<p>Większość środowisk graficznych jest w stanie ten proces zautomatyzować w swoich panelach
+sterowania. Ta powyższa instrukcja jest głównie do środowisk, które są oparte o menadżery okien, np.
+openbox.</p>
+<h2 id="narzędzie-light-locker">Narzędzie light-locker</h2>
+<p>Narzędzie <code>light-locker</code> jest w stanie zablokować sesję graficzną, gdy ta jest nieużywana przez
+jakiś dłuższy czas. Może także zostać zainicjowane przy pomocą skrótu klawiszowego. Domyślny czas,
+po którym <code>light-locker</code> zostanie uruchomiony jest określona przez DPMS, które są konfigurowane
+bezpośrednio w opcjach Xserver'a. Ta kwestia była lekko zarysowana we wpisie na temat <a href="https://morfikov.github.io
+/post/monitor-i-jego-konfiguracja-pod-linuxem/">jak
+skonfigurować sobie monitor pod
+linux'em</a>. W dużym skrócie, musimy
+utworzyć plik <code>20-monitor.conf</code> w katalogu <code>/etc/X11/xorg.conf.d/</code> i dodać w nim tę poniższą treść:</p>
+<pre><code>Section &quot;ServerLayout&quot;
+      Identifier &quot;Main&quot;
+      Screen      0 &quot;Screen0&quot;
+EndSection
+
+Section &quot;ServerFlags&quot;
+      Option &quot;DefaultServerLayout&quot; &quot;Main&quot;
+      Option &quot;BlankTime&quot; &quot;10&quot;
+      Option &quot;StandbyTime&quot; &quot;10&quot;
+      Option &quot;SuspendTime&quot; &quot;10&quot;
+      Option &quot;OffTime&quot; &quot;10&quot;
+EndSection
+</code></pre>
+<p>Czasy są w minutach i całą konfigurację można podejrzeć wydając w terminalu polecenie <code>set -q</code> .
+Czyli po 10 minutach nieużywania (brak ruchów myszy i wciskania przycisków na klawiaturze), ekran
+zostanie wyłączony przez Xserver i do tego zablokowany przez <code>light-locker</code> .</p>
+<p>W sporej części przypadków, tego typu zachowanie jest jak najbardziej pożądane ale co jeśli oglądamy
+jakiś film w VLC? Na dobrą sprawę, szereg player'ów video jest w stanie deaktywować tę blokadę na
+czas odtwarzania filmu i nie musimy się o nic martwić. Problem pojawia się w momencie odtwarzania
+filmów w przeglądarkach internetowych, np. w serwisie youtube. Oczywiście nic nie stoi na
+przeszkodzie, by ten materiał przesłać do playera video i w nim go oglądać, ewentualnie korzystać z
+takich linux'owych wynalazków jak <a href="https://github.com/mps-youtube/mps-youtube">mps-youtube</a> .</p>
+<p>Pamiętajmy też, by odpowiednio sobie <a href="https://morfikov.github.io
+/post/aktywacja-i-konfiguracja-klawisza-sysrq/">skonfigurować klawisz
+SysRq</a>, tak by czasem <a href="https://morfikov.github.io
+/post/bezpieczenstwo-xservera-pod-linuxem/">OOM-Killer
+nie zdjął przez przypadek blokady sesji
+Xserver'a</a>.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xserver/">xserver</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-logowania-lightdm%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-logowania-lightdm%2f&amp;text=Menad%c5%bcer%20logowania%20LightDM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-logowania-lightdm%2f&amp;title=Menad%c5%bcer%20logowania%20LightDM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-logowania-lightdm%2f&amp;title=Menad%c5%bcer%20logowania%20LightDM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-logowania-lightdm%2f&title=Menad%c5%bcer%20logowania%20LightDM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-logowania-lightdm%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-logowania-lightdm%2f&amp;title=Menad%c5%bcer%20logowania%20LightDM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-logowania-lightdm%2f&description=Menad%c5%bcer%20logowania%20LightDM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-xservera-na-debianie-xorg/">Konfiguracja Xserver&#39;a na debianie (Xorg)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/mysz-i-jej-konfiguracja-na-linuxie/">Mysz i jej konfiguracja na linux&#39;ie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-jasnosci-ekranu-w-laptopie-backlight/">Konfiguracja jasności ekranu w laptopie (backlight)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/monitor-i-jego-konfiguracja-pod-linuxem/">Monitor i jego konfiguracja pod linux&#39;em</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-touchpada-w-laptopie-pod-linuxem/">Konfiguracja touchpad&#39;a w laptopie pod linux&#39;em</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

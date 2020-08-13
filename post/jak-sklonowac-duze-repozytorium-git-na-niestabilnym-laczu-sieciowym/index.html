@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak sklonować duże repozytorium git na niestabilnym łączu sieciowym | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak sklonować duże repozytorium git na niestabilnym łączu sieciowym" />
+<meta property="og:description" content="Połączenie z internetem, z którego ostatnio przyszło mi korzystać, nie należało zbytnio do tych
+najbardziej wydajnych pod względem prędkości przesyłu danych. O ile szybkość transferu można by
+jeszcze przemilczeć, to owe łącze nie należało też do tych najstabilniejszych i czasem kontakt
+ze światem był zwyczajnie zrywany. Krótko rzecz ujmując, ten net nadawał się chyba jedynie do
+przeglądania stron WWW. Pech jednak chciał, że potrzebowałem zassać na takim
+połączeniu repozytorium git&#39;a z patch&#39;ami Debiana
+nakładanymi na kernel linux&#39;a. To repozytorium nie należy do największych ale też do małych ono
+się nie zalicza -- waży około 2 GiB. Oczywiście można by zrobić jedynie płytki klon takiego repo za
+sprawą git clone --depth=1 , co skutkowałoby pobraniem plików w wersji z ostatniego commit&#39;a, co
+z kolei zredukowałoby w znacznym stopniu wielkość pobieranych danych (parę-paręnaście MiB). Co
+jednak zrobić w przypadku, gdy musimy sklonować sporych rozmiarów repozytorium git, a dysponujemy
+przy tym dość wolnym połączeniem sieciowym? Czy jest to w ogóle możliwe, bo przecież git nie ma
+zaimplementowanej opcji wznawiania przerwanej synchronizacji i każde zakłócenie tego procesu
+skutkować będzie tym, że całe repozytorium trzeba będzie pobrać jeszcze raz i to bez względu na to,
+czy proces się zawiesi zaraz na początku, czy też pod koniec operacji." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-sklonowac-duze-repozytorium-git-na-niestabilnym-laczu-sieciowym/" />
+<meta property="article:published_time" content="2019-02-16T05:29:25+00:00" />
+<meta property="article:modified_time" content="2019-02-16T05:29:25+00:00" />
+
+		<meta itemprop="name" content="Jak sklonować duże repozytorium git na niestabilnym łączu sieciowym">
+<meta itemprop="description" content="Połączenie z internetem, z którego ostatnio przyszło mi korzystać, nie należało zbytnio do tych
+najbardziej wydajnych pod względem prędkości przesyłu danych. O ile szybkość transferu można by
+jeszcze przemilczeć, to owe łącze nie należało też do tych najstabilniejszych i czasem kontakt
+ze światem był zwyczajnie zrywany. Krótko rzecz ujmując, ten net nadawał się chyba jedynie do
+przeglądania stron WWW. Pech jednak chciał, że potrzebowałem zassać na takim
+połączeniu repozytorium git&#39;a z patch&#39;ami Debiana
+nakładanymi na kernel linux&#39;a. To repozytorium nie należy do największych ale też do małych ono
+się nie zalicza -- waży około 2 GiB. Oczywiście można by zrobić jedynie płytki klon takiego repo za
+sprawą git clone --depth=1 , co skutkowałoby pobraniem plików w wersji z ostatniego commit&#39;a, co
+z kolei zredukowałoby w znacznym stopniu wielkość pobieranych danych (parę-paręnaście MiB). Co
+jednak zrobić w przypadku, gdy musimy sklonować sporych rozmiarów repozytorium git, a dysponujemy
+przy tym dość wolnym połączeniem sieciowym? Czy jest to w ogóle możliwe, bo przecież git nie ma
+zaimplementowanej opcji wznawiania przerwanej synchronizacji i każde zakłócenie tego procesu
+skutkować będzie tym, że całe repozytorium trzeba będzie pobrać jeszcze raz i to bez względu na to,
+czy proces się zawiesi zaraz na początku, czy też pod koniec operacji.">
+<meta itemprop="datePublished" content="2019-02-16T05:29:25+00:00" />
+<meta itemprop="dateModified" content="2019-02-16T05:29:25+00:00" />
+<meta itemprop="wordCount" content="1437">
+
+
+
+<meta itemprop="keywords" content="debian,git," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak sklonować duże repozytorium git na niestabilnym łączu sieciowym"/>
+<meta name="twitter:description" content="Połączenie z internetem, z którego ostatnio przyszło mi korzystać, nie należało zbytnio do tych
+najbardziej wydajnych pod względem prędkości przesyłu danych. O ile szybkość transferu można by
+jeszcze przemilczeć, to owe łącze nie należało też do tych najstabilniejszych i czasem kontakt
+ze światem był zwyczajnie zrywany. Krótko rzecz ujmując, ten net nadawał się chyba jedynie do
+przeglądania stron WWW. Pech jednak chciał, że potrzebowałem zassać na takim
+połączeniu repozytorium git&#39;a z patch&#39;ami Debiana
+nakładanymi na kernel linux&#39;a. To repozytorium nie należy do największych ale też do małych ono
+się nie zalicza -- waży około 2 GiB. Oczywiście można by zrobić jedynie płytki klon takiego repo za
+sprawą git clone --depth=1 , co skutkowałoby pobraniem plików w wersji z ostatniego commit&#39;a, co
+z kolei zredukowałoby w znacznym stopniu wielkość pobieranych danych (parę-paręnaście MiB). Co
+jednak zrobić w przypadku, gdy musimy sklonować sporych rozmiarów repozytorium git, a dysponujemy
+przy tym dość wolnym połączeniem sieciowym? Czy jest to w ogóle możliwe, bo przecież git nie ma
+zaimplementowanej opcji wznawiania przerwanej synchronizacji i każde zakłócenie tego procesu
+skutkować będzie tym, że całe repozytorium trzeba będzie pobrać jeszcze raz i to bez względu na to,
+czy proces się zawiesi zaraz na początku, czy też pod koniec operacji."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak sklonować duże repozytorium git na niestabilnym łączu sieciowym</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2019-02-16T05:29:25Z">Opublikowano: 16/02/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak sklonować duże repozytorium git na niestabilnym łączu sieciowym</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#płytki-klon-repozytorium-git">Płytki klon repozytorium git</a></li>
+    <li><a href="#pogłębianie-płytkiego-klonu-repozytorium-git">Pogłębianie płytkiego klonu repozytorium git</a></li>
+    <li><a href="#opcja-unshallow">Opcja unshallow</a></li>
+    <li><a href="#problemy-z-gałęziami">Problemy z gałęziami</a>
+      <ol>
+        <li><a href="#określenie-gałęzi-w-pliku-gitconfig">Określenie gałęzi w pliku .git/config</a></li>
+      </ol>
+    </li>
+    <li><a href="#czyszczenie-lokalnego-klonu-repozytorium">Czyszczenie lokalnego klonu repozytorium</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Połączenie z internetem, z którego ostatnio przyszło mi korzystać, nie należało zbytnio do tych
+najbardziej wydajnych pod względem prędkości przesyłu danych. O ile szybkość transferu można by
+jeszcze przemilczeć, to owe łącze nie należało też do tych najstabilniejszych i czasem kontakt
+ze światem był zwyczajnie zrywany. Krótko rzecz ujmując, ten net nadawał się chyba jedynie do
+przeglądania stron WWW. Pech jednak chciał, że potrzebowałem zassać na takim
+połączeniu <a href="https://salsa.debian.org/kernel-team/linux">repozytorium git'a z patch'ami Debiana</a>
+nakładanymi na kernel linux'a. To repozytorium nie należy do największych ale też do małych ono
+się nie zalicza -- waży około 2 GiB. Oczywiście można by zrobić jedynie płytki klon takiego repo za
+sprawą <code>git clone --depth=1</code> , co skutkowałoby pobraniem plików w wersji z ostatniego commit'a, co
+z kolei zredukowałoby w znacznym stopniu wielkość pobieranych danych (parę-paręnaście MiB). Co
+jednak zrobić w przypadku, gdy musimy sklonować sporych rozmiarów repozytorium git, a dysponujemy
+przy tym dość wolnym połączeniem sieciowym? Czy jest to w ogóle możliwe, bo przecież git nie ma
+zaimplementowanej opcji wznawiania przerwanej synchronizacji i każde zakłócenie tego procesu
+skutkować będzie tym, że całe repozytorium trzeba będzie pobrać jeszcze raz i to bez względu na to,
+czy proces się zawiesi zaraz na początku, czy też pod koniec operacji.</p>
+<h2 id="płytki-klon-repozytorium-git">Płytki klon repozytorium git</h2>
+<p>W większości przypadków nie ma potrzeby zasysać całego repozytorium git, np. gdy nie uczestniczymy
+w rozwoju jakiegoś projektu, a chcemy go sobie jedynie lokalnie zbudować i używać. Przykładem
+takiego większego projektu może być Android. W jego przypadku pobieranie całego repozytorium,
+które waży chyba już koło 100 GiB nie jest najlepszym wyjściem dla użytkowników, którzy by chcieli
+sobie jedynie zbudować nowszą wersję ROM'u i wgrać ją na swój smartfon. Przez stworzenie płytkiego
+klonu repozytorium możemy zaoszczędzić całą masę zasobów sieciowych jak i również nasz cenny czas.</p>
+<p>Poniżej jest przykład jak tego typu płytki klon dowolnego repozytorium utworzyć:</p>
+<pre><code>$ git clone --depth=1 https://salsa.debian.org/kernel-team/linux.git/
+Cloning into 'linux'...
+remote: Enumerating objects: 1089, done.
+remote: Counting objects: 100% (1089/1089), done.
+remote: Compressing objects: 100% (738/738), done.
+remote: Total 1089 (delta 48), reused 651 (delta 31)
+Receiving objects: 100% (1089/1089), 1.49 MiB | 221.00 KiB/s, done.
+Resolving deltas: 100% (48/48), done.
+</code></pre>
+<p>Jak widać wyżej, zostało pobranych niecałe 1,5 MiB z tych ponad 2,2 GiB, zatem różnica jest dość
+znaczna.</p>
+<p>Jeśli zajrzymy sobie w log, to zobaczymy tam tylko i wyłącznie jeden commit:</p>
+<pre><code>$ git log --all --oneline
+
+7d94791 (grafted, HEAD -&gt; refs/heads/master, refs/remotes/origin/master, refs/remotes/origin/HEAD) Update to 4.20.7
+</code></pre>
+<h2 id="pogłębianie-płytkiego-klonu-repozytorium-git">Pogłębianie płytkiego klonu repozytorium git</h2>
+<p>Jeśli z jakichś przyczyn taki płytki klon repozytorium nas nie satysfakcjonuje, to możemy go
+pogłębić. Głębokość repozytorium jest mierzona w commit'ach. To wyżej utworzone lokalne
+repozytorium git ma jeden commit, więcej jego głębokość to 1.</p>
+<p>Do pogłębiania klonu repozytorium git używa się polecenia <code>git fetch</code> , z tym, że mamy możliwość
+przeprowadzenia tego procesu na dwa sposoby. Pierwszy z nich wykorzystuje parametr <code>--depth=</code> ,
+który określa ilość commit'ów, które trzeba będzie dociągnąć licząc od samej góry, czyli jeśli
+byśmy dali <code>--depth=100</code> , to pobranych by zostało 99 commit'ów, bo jeden już mamy u siebie (w
+sumie mielibyśmy ich 100). Drugi ze sposobów wykorzystuje opcję <code>--deepen</code> , która umożliwia
+pobranie dodatkowych commit'ów licząc od miejsca granicy klonu. W tym przypadku jeśli byśmy
+określili <code>--deepen=100</code> , to pobranych zostałoby 100 commit'ów, przez co byśmy mieli ich 101.</p>
+<p>Jeśli chcemy zatem pobrać 10000 commit'ów na słabej jakości łączu internetowym, to możemy je
+pobierać w porcjach, np. po 1000.</p>
+<pre><code>$ git fetch --depth=1000
+$ git fetch --depth=2000
+...
+$ git fetch --depth=6000
+...
+$ git fetch --depth=10000
+</code></pre>
+<p>lub też:</p>
+<pre><code>$ git fetch --deepen=1000
+$ git fetch --deepen=1000
+$ git fetch --deepen=1000
+...
+$ git fetch --deepen=1000
+</code></pre>
+<p>Gdy osiągniemy granicę repozytorium, czyli zejdziemy na maksymalną głębokość, to <code>git</code> nam zwróci
+poniższy komunikat:</p>
+<pre><code>$ git fetch --depth=10000
+remote: Total 0 (delta 0), reused 0 (delta 0)
+</code></pre>
+<p>Jeśli ujrzymy taką informację po wydaniu polecenia <code>git fetch</code> , to możemy być pewni, że pobraliśmy
+wszystkie możliwe commit'y.</p>
+<h2 id="opcja-unshallow">Opcja unshallow</h2>
+<p>Innym ze sposobów pobrania całego repozytorium git mając utworzony płytki klon jest skorzystanie z
+opcji <code>--unshallow</code> w poleceniu <code>git fetch</code> . Ta procedura w skutkach będzie dokładnie taka sama
+jak opisany wyżej proces pogłębiania klonu repozytorium. Jedyna różnica jest taka, że <code>--unshallow</code>
+pobierze nam wszystkie brakujące commit'y naraz. Jeśli dojdzie do przerwania tego procesu, to
+naturalnie trzeba będzie go ponowić. Z opcji <code>--unshallow</code> możemy skorzystać na dowolnej głębokości
+płytkiego klonu.</p>
+<p>W przypadku, gdy nie jesteśmy pewni, czy w procesie pogłębiania klonu repozytorium nie
+zapomnieliśmy o czymś, to zawsze można wydać to poniższe polecenie:</p>
+<pre><code>$ git fetch --unshallow
+fatal: --unshallow on a complete repository does not make sense
+</code></pre>
+<p>Mamy tutaj informację, która oznajmia nam, że to polecenie nie ma sensu, bo całe repozytorium mamy
+już pobrane na dysk.</p>
+<h2 id="problemy-z-gałęziami">Problemy z gałęziami</h2>
+<p>W zasadzie to można by ten artykuł skończy już, gdyby nie fakt, że coś się liczby nie zgadzają. W
+statystykach repozytorium można było wyczytać coś na wzór: <strong>13,746 Commits</strong> , 29 Branches ,
+1,418 , Tags , <strong>2.2 GB</strong> Files. Jednak przy głębokości 10000 mamy niby już całe repozytorium. Waga
+plików również się nie zgadzała.</p>
+<p>Okazuje się, że wykonując płytki klon repozytorium git, klonujemy jedynie główną gałąź. A jak widać
+wyżej, tych gałęzi w tym repozytorium było 29. Gdzie zatem podziało się pozostałe 28 gałęzi i jak
+je odtworzyć?</p>
+<p>Najprościej byłoby dodać parametr <code>--no-single-branch</code> do polecenia <code>git clone --depth=1</code> . W takim
+przypadku nie zostanie stworzony minimalny klon repozytorium, choć i tak zostanie pobranych sporo
+miej danych niż przy pełnej synchronizacji.</p>
+<p>Poniżej jest przykład polecenia:</p>
+<pre><code>$ git clone --depth=1 --no-single-branch https://salsa.debian.org/kernel-team/linux.git/
+Cloning into 'linux'...
+remote: Enumerating objects: 1003994, done.
+remote: Counting objects: 100% (1003994/1003994), done.
+remote: Compressing objects: 100% (395010/395010), done.
+Rceiving objects:  10% (107017/1003994), 89.49 MiB | 2.13 MiB/s
+</code></pre>
+<p>No jak widać wyżej, z 1,5 MiB, zrobiło się prawie 90 MiB, a to tylko 10% , bo proces pobierania
+ciągle jest toku. Po ilości obiektów można stwierdzić, że pobieranych jest około 1/7 faktycznej
+objętości repozytorium, co niekoniecznie musi się przekładać na takie same proporcje w MiB.
+Niemniej jednak, mając słabe łącze możemy nie być w stanie dociągnąć takiego wielkiego kawałka.</p>
+<h3 id="określenie-gałęzi-w-pliku-gitconfig">Określenie gałęzi w pliku .git/config</h3>
+<p>Jeżeli powyższe rozwiązanie nie wchodzi w grę, to zawsze możemy pokusić się o ręczną edycję pliku
+<code>.git/config</code> , który jest ulokowany w głównym katalogu repozytorium (po wykonaniu płytkiego klonu).
+Ten plik zawiera sekcję <code>[remote &quot;origin&quot;]</code> , która prezentuje się w poniższy sposób:</p>
+<pre><code>[remote &quot;origin&quot;]
+    url = https://salsa.debian.org/kernel-team/linux.git/
+    fetch = +refs/heads/master:refs/remotes/origin/master
+</code></pre>
+<p>Widzimy, że mamy tylko jeden wpis z <code>+refs/heads/...</code> , który odnosi się do gałęzi <code>master</code> . Tego
+typu linijek możemy dodać tyle ile w danym repozytorium jest gałęzi. Dla przykładu, by dodać
+kolejną interesującą nas gałąź, przepisujemy powyższy kawałek do poniższej postaci:</p>
+<pre><code>[remote &quot;origin&quot;]
+    url = https://salsa.debian.org/kernel-team/linux.git/
+    fetch = +refs/heads/master:refs/remotes/origin/master
+    fetch = +refs/heads/sid:refs/remotes/origin/sid
+    ...
+</code></pre>
+<p>Listę gałęzi można uzyskać posługując się poleceniem <code>git ls-remote</code> :</p>
+<pre><code>$ git ls-remote --heads
+From https://salsa.debian.org/kernel-team/linux.git/
+af210b506d24cf7585629e346c921aed90e07133        refs/heads/carnil/import-4.14.14
+a56ffb69de38383f26e77b740b9270ee0faf834c        refs/heads/carnil/jessie-security/CVE-2017-7533
+7c1804aa712bae44319bd481523c0500df16733b        refs/heads/carnil/stretch-security/CVE-2017-7533
+0205ec9ec76ff2d993241a55628e3bd196ecec44        refs/heads/dgit-master
+0839599a02f9cbbcb1933e4a60bcbbcf5bcacc11        refs/heads/etch
+46f3979bd0f6a567b563f0c99f95c592067e94bb        refs/heads/etch-security
+a0fe8cfa8617c895bf6d42383e1975199f342c5b        refs/heads/etchnhalf
+66235807ed13884dc8986d9238f83c54baa26ace        refs/heads/etchnhalf-security
+7b995d73957608b43a4b2dfacfa9e17bdc37e711        refs/heads/jessie
+1d63dcd6296b9ad495d1a7d70c63fa5db68b77b7        refs/heads/jessie-backports
+5009a129295a70d8017974c9821ecdd12d7d9675        refs/heads/jessie-security
+c7b190d1b45dd7a7df71eb0651b677754972f7fd        refs/heads/jessie-security-4.9
+13bc212fa183d61162a1708df0ee9382c0ac66f0        refs/heads/jessie-updates
+cd2e2790cfeebeec461ce28530f23b8bf0e24e7b        refs/heads/lenny
+14865a3daf8e808072ebca063297815e0967b129        refs/heads/lenny-security
+7d94791b95d147a13f2eae4fa9a5e852c95330c9        refs/heads/master
+ce61976b4810abb7e88f0bf08dc8efc7e6a19dc5        refs/heads/rosh/armel_mini
+26e9f62e399a67e454ff40deca2eef531c279139        refs/heads/sid
+9e549e30eb6e12e97f3ff29497821aa41564ee93        refs/heads/squeeze
+f8d465883cbbf23432db1d0139f0b43e570ebc9d        refs/heads/squeeze-backports
+03cf6ed02e5128674ac954b345cdea2a3c6b9ddd        refs/heads/squeeze-security
+155c325ba50c3cdd60d9fcdfdd961a4a636a6367        refs/heads/stretch
+5357a00fc4892878f8e532862540a575df621e2c        refs/heads/stretch-backports
+0a50b0efbc995f6c5710f4d52e321ef6102ee298        refs/heads/stretch-security
+1d69dac66c315a290fb61c5f400e056e8d01fe50        refs/heads/ukleinek/jessie
+beed93421656d6290a4fe3952e6a29696a6cbaf7        refs/heads/waldi/cloud-arm64
+15ca73ce51f27d275a1e67e570cfe3a13ade3368        refs/heads/wheezy
+b479e71dc9fd2215f08b3ea795e0fe9264cc39c3        refs/heads/wheezy-backports
+</code></pre>
+<p>Gdy teraz zaktualizujemy informacje o zdalnym repozytorium, to zostaną pobrane brakujące gałęzie.
+Nie musimy przy tym pobierać ich wszystkich na raz ale jeśli chcemy mieć ich lokalną kopię, to
+stosowne wpisy trzeba będzie ręcznie pododawać do pliku <code>.git/config</code> . Sprawdzamy teraz jak
+wygląda proces dodania nowej zdalnej gałęzi:</p>
+<pre><code>$ git remote update &amp;&amp; git status
+    Fetching origin
+    remote: Enumerating objects: 209, done.
+    remote: Counting objects: 100% (209/209), done.
+    remote: Compressing objects: 100% (72/72), done.
+    remote: Total 209 (delta 92), reused 199 (delta 89)
+    Receiving objects: 100% (209/209), 260.34 KiB | 136.00 KiB/s, done.
+    Resolving deltas: 100% (92/92), done.
+    From https://salsa.debian.org/kernel-team/linux
+     * [new branch]          sid        -&gt; origin/sid
+    On branch master
+    Your branch is up to date with 'origin/master'.
+
+    nothing to commit, working tree clean
+
+$ git branch -a
+
+* master
+  remotes/origin/HEAD -&gt; origin/master
+  remotes/origin/master
+  remotes/origin/sid
+</code></pre>
+<p>Jeśli chcielibyśmy pobrać wszystkie gałęzie naraz, to zamiast precyzować osobne linijki dla każdej
+z gałęzi w pliku <code>.git/config</code> , to możemy dodać tam poniższy wpis:</p>
+<pre><code>[remote &quot;origin&quot;]
+    url = https://salsa.debian.org/kernel-team/linux.git/
+    fetch = +refs/heads/*:refs/remotes/origin/*
+</code></pre>
+<p>Jeśli interesuje nas inna gałąź niż ta domyślna i chcemy wykonać jedynie jej płytki klon, to
+korzystamy z poniższego polecenia:</p>
+<pre><code>$ git clone --depth=1 https://salsa.debian.org/kernel-team/linux.git/ -b sid
+</code></pre>
+<h2 id="czyszczenie-lokalnego-klonu-repozytorium">Czyszczenie lokalnego klonu repozytorium</h2>
+<p>Gdy pobierzemy już całe zdalne repozytorium na dysk, to może się okazać, że ta nasza kopia lokalna
+zajmuje więcej miejsca niż niż jej zdalny odpowiednik. Można nieco zoptymalizować rozmiar tak
+utworzonego repozytorium przez wydanie poniższych poleceń:</p>
+<pre><code>$ git gc --prune=now
+$ git remote prune origin
+</code></pre>
+<p>Przebudują nam one lokalne repozytorium i pousuwają zbędne rzeczy, przez co zoptymalizują ilość
+zajmowanego przez repo miejsca na dysku.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/git/">git</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-sklonowac-duze-repozytorium-git-na-niestabilnym-laczu-sieciowym%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-sklonowac-duze-repozytorium-git-na-niestabilnym-laczu-sieciowym%2f&amp;text=Jak%20sklonowa%c4%87%20du%c5%bce%20repozytorium%20git%20na%20niestabilnym%20%c5%82%c4%85czu%20sieciowym" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-sklonowac-duze-repozytorium-git-na-niestabilnym-laczu-sieciowym%2f&amp;title=Jak%20sklonowa%c4%87%20du%c5%bce%20repozytorium%20git%20na%20niestabilnym%20%c5%82%c4%85czu%20sieciowym" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-sklonowac-duze-repozytorium-git-na-niestabilnym-laczu-sieciowym%2f&amp;title=Jak%20sklonowa%c4%87%20du%c5%bce%20repozytorium%20git%20na%20niestabilnym%20%c5%82%c4%85czu%20sieciowym" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-sklonowac-duze-repozytorium-git-na-niestabilnym-laczu-sieciowym%2f&title=Jak%20sklonowa%c4%87%20du%c5%bce%20repozytorium%20git%20na%20niestabilnym%20%c5%82%c4%85czu%20sieciowym" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-sklonowac-duze-repozytorium-git-na-niestabilnym-laczu-sieciowym%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-sklonowac-duze-repozytorium-git-na-niestabilnym-laczu-sieciowym%2f&amp;title=Jak%20sklonowa%c4%87%20du%c5%bce%20repozytorium%20git%20na%20niestabilnym%20%c5%82%c4%85czu%20sieciowym" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-sklonowac-duze-repozytorium-git-na-niestabilnym-laczu-sieciowym%2f&description=Jak%20sklonowa%c4%87%20du%c5%bce%20repozytorium%20git%20na%20niestabilnym%20%c5%82%c4%85czu%20sieciowym" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wlaczyc-ipv6-privacy-extensions-w-debianie-slaac/">Jak włączyć IPv6 Privacy Extensions w Debianie (SLAAC)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-ustalic-nazwe-procesu-korzystajacego-z-sieci/">Jak ustalić nazwę procesu korzystającego z sieci</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-uruchomic-kilka-uslug-w-kontenerze-dockera/">Jak uruchomić kilka usług w kontenerze Docker&#39;a</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux/">Jak zalogować błędy podczas zamykania systemu Debian Linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uruchamianie-graficznych-aplikacji-w-kontenerach-dockera/">Uruchamianie graficznych aplikacji w kontenerach Docker&#39;a</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

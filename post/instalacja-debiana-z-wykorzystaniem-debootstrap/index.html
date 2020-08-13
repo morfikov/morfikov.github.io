@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Instalacja debiana z wykorzystaniem debootstrap | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Instalacja debiana z wykorzystaniem debootstrap" />
+<meta property="og:description" content="Instalowanie debiana z wykorzystaniem debootstrap trochę się różni od instalacji z wykorzystaniem
+instalatora. Chodzi generalnie o to, że wszystkie kroki instalacyjne trzeba przeprowadzać ręcznie.
+Poza tym, cała konfiguracja będzie wymagać manualnego dostosowania. Plus tego rozwiązania jest
+oczywisty, albowiem mamy całkowitą władzę nad tym co się w systemie znajdzie oraz jak będzie on
+skonfigurowany. By mieć możliwość przeprowadzenia tego typu instalacji potrzebny będzie nam
+działający system. Może to być płytka lub pendrive live z Debianem czy Ubuntu. Można też
+wykorzystać już zainstalowany system operacyjny. Ważne jest tylko to, aby była możliwość
+zainstalowania w takim systemie pakietu debootstrap , no i oczywiście wymagany jest dostęp do
+internetu. W przeciwieństwie do instalatora debiana, mamy dostęp do graficznego środowiska, a w nim
+do przeglądarki i w przypadku utknięcia gdzieś po drodze podczas instalacji, możemy sobie wygooglać
+napotkane problemy nie przerywając przy tym prac instalacyjnych." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/" />
+<meta property="article:published_time" content="2016-01-02T03:52:49+00:00" />
+<meta property="article:modified_time" content="2016-01-02T03:52:49+00:00" />
+
+		<meta itemprop="name" content="Instalacja debiana z wykorzystaniem debootstrap">
+<meta itemprop="description" content="Instalowanie debiana z wykorzystaniem debootstrap trochę się różni od instalacji z wykorzystaniem
+instalatora. Chodzi generalnie o to, że wszystkie kroki instalacyjne trzeba przeprowadzać ręcznie.
+Poza tym, cała konfiguracja będzie wymagać manualnego dostosowania. Plus tego rozwiązania jest
+oczywisty, albowiem mamy całkowitą władzę nad tym co się w systemie znajdzie oraz jak będzie on
+skonfigurowany. By mieć możliwość przeprowadzenia tego typu instalacji potrzebny będzie nam
+działający system. Może to być płytka lub pendrive live z Debianem czy Ubuntu. Można też
+wykorzystać już zainstalowany system operacyjny. Ważne jest tylko to, aby była możliwość
+zainstalowania w takim systemie pakietu debootstrap , no i oczywiście wymagany jest dostęp do
+internetu. W przeciwieństwie do instalatora debiana, mamy dostęp do graficznego środowiska, a w nim
+do przeglądarki i w przypadku utknięcia gdzieś po drodze podczas instalacji, możemy sobie wygooglać
+napotkane problemy nie przerywając przy tym prac instalacyjnych.">
+<meta itemprop="datePublished" content="2016-01-02T03:52:49+00:00" />
+<meta itemprop="dateModified" content="2016-01-02T03:52:49+00:00" />
+<meta itemprop="wordCount" content="5099">
+
+
+
+<meta itemprop="keywords" content="debian,luks,lvm,debootstrap," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Instalacja debiana z wykorzystaniem debootstrap"/>
+<meta name="twitter:description" content="Instalowanie debiana z wykorzystaniem debootstrap trochę się różni od instalacji z wykorzystaniem
+instalatora. Chodzi generalnie o to, że wszystkie kroki instalacyjne trzeba przeprowadzać ręcznie.
+Poza tym, cała konfiguracja będzie wymagać manualnego dostosowania. Plus tego rozwiązania jest
+oczywisty, albowiem mamy całkowitą władzę nad tym co się w systemie znajdzie oraz jak będzie on
+skonfigurowany. By mieć możliwość przeprowadzenia tego typu instalacji potrzebny będzie nam
+działający system. Może to być płytka lub pendrive live z Debianem czy Ubuntu. Można też
+wykorzystać już zainstalowany system operacyjny. Ważne jest tylko to, aby była możliwość
+zainstalowania w takim systemie pakietu debootstrap , no i oczywiście wymagany jest dostęp do
+internetu. W przeciwieństwie do instalatora debiana, mamy dostęp do graficznego środowiska, a w nim
+do przeglądarki i w przypadku utknięcia gdzieś po drodze podczas instalacji, możemy sobie wygooglać
+napotkane problemy nie przerywając przy tym prac instalacyjnych."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Instalacja debiana z wykorzystaniem debootstrap</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-01-02T03:52:49Z">Opublikowano: 02/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Instalacja debiana z wykorzystaniem debootstrap</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#live-cd">Live-cd</a>
+      <ol>
+        <li><a href="#instalacja-potrzebnych-narzędzi">Instalacja potrzebnych narzędzi</a></li>
+        <li><a href="#przygotowywanie-dysku">Przygotowywanie dysku</a></li>
+        <li><a href="#efiuefi">EFI/UEFI</a></li>
+        <li><a href="#tworzenie-szyfrowanego-kontenera-luks-pod-lvm">Tworzenie szyfrowanego kontenera LUKS pod LVM</a></li>
+        <li><a href="#tworzenie-struktury-lvm">Tworzenie struktury LVM</a></li>
+        <li><a href="#tworzenie-systemu-plików">Tworzenie systemu plików</a></li>
+        <li><a href="#montowanie-systemów-plików">Montowanie systemów plików</a></li>
+        <li><a href="#wykorzystanie-debootstrap">Wykorzystanie debootstrap</a></li>
+      </ol>
+    </li>
+    <li><a href="#tworzenie-środowiska-pod-chroot">Tworzenie środowiska pod chroot</a>
+      <ol>
+        <li><a href="#konfiguracja-menadżera-pakietów">Konfiguracja menadżera pakietów</a></li>
+        <li><a href="#konfiguracja-lokalizacji-systemu-locales">Konfiguracja lokalizacji systemu (locales)</a>
+          <ol>
+            <li><a href="#plik-etcdefaultlocale">Plik /etc/default/locale</a></li>
+            <li><a href="#plik-etcdefaultkeyboard">Plik /etc/default/keyboard</a></li>
+            <li><a href="#plik-etcdefaultconsole-setup">Plik /etc/default/console-setup</a></li>
+            <li><a href="#plik-etctimezone-oraz-etclocaltime">Plik /etc/timezone oraz /etc/localtime</a></li>
+          </ol>
+        </li>
+        <li><a href="#instalacja-i-konfiguracja-podstawowych-narzędzi">Instalacja i konfiguracja podstawowych narzędzi</a></li>
+        <li><a href="#konfiguracja-punktów-montowania">Konfiguracja punktów montowania</a>
+          <ol>
+            <li><a href="#plik-etccrypttab">Plik /etc/crypttab</a></li>
+            <li><a href="#pliki-etcfstab--etcmtab-oraz-procmounts">Pliki /etc/fstab , /etc/mtab oraz /proc/mounts</a></li>
+            <li><a href="#plik-etcinitramfs-toolsconfdresume">Plik /etc/initramfs-tools/conf.d/resume</a></li>
+          </ol>
+        </li>
+        <li><a href="#konfiguracja-sieci">Konfiguracja sieci</a>
+          <ol>
+            <li><a href="#plik-etcnetworkinterfaces">Plik /etc/network/interfaces</a></li>
+            <li><a href="#plik-etchostname">Plik /etc/hostname</a></li>
+            <li><a href="#plik-etchosts">Plik /etc/hosts</a></li>
+            <li><a href="#plik-etcresolvconf">Plik /etc/resolv.conf</a></li>
+            <li><a href="#cache-i-szyfrowanie-zapytań-dns">Cache i szyfrowanie zapytań DNS</a></li>
+            <li><a href="#sieć-bezprzewodowa-wifi">Sieć bezprzewodowa (WiFi)</a></li>
+          </ol>
+        </li>
+        <li><a href="#synchronizacja-czasu">Synchronizacja czasu</a></li>
+        <li><a href="#instalacja-kernela">Instalacja kernela</a></li>
+        <li><a href="#bootloader">Bootloader</a></li>
+        <li><a href="#firewall">Firewall</a></li>
+        <li><a href="#hasła-użytkownicy-oraz-grupy">Hasła, użytkownicy oraz grupy</a></li>
+        <li><a href="#tasksel-oraz-priorytety-pakietów">Tasksel oraz priorytety pakietów</a></li>
+      </ol>
+    </li>
+    <li><a href="#kończenie-instalacji">Kończenie instalacji</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Instalowanie debiana z wykorzystaniem <code>debootstrap</code> trochę się różni od instalacji z wykorzystaniem
+instalatora. Chodzi generalnie o to, że wszystkie kroki instalacyjne trzeba przeprowadzać ręcznie.
+Poza tym, cała konfiguracja będzie wymagać manualnego dostosowania. Plus tego rozwiązania jest
+oczywisty, albowiem mamy całkowitą władzę nad tym co się w systemie znajdzie oraz jak będzie on
+skonfigurowany. By mieć możliwość przeprowadzenia tego typu instalacji potrzebny będzie nam
+działający system. Może to być płytka lub pendrive live z <a href="https://www.debian.org/CD/live/index.pl.html">Debianem</a> czy <a href="https://www.ubuntu.com/download/desktop/try-ubuntu-before-you-install">Ubuntu</a>. Można też
+wykorzystać już zainstalowany system operacyjny. Ważne jest tylko to, aby była możliwość
+zainstalowania w takim systemie pakietu <code>debootstrap</code> , no i oczywiście wymagany jest dostęp do
+internetu. W przeciwieństwie do instalatora debiana, mamy dostęp do graficznego środowiska, a w nim
+do przeglądarki i w przypadku utknięcia gdzieś po drodze podczas instalacji, możemy sobie wygooglać
+napotkane problemy nie przerywając przy tym prac instalacyjnych.</p>
+<h2 id="live-cd">Live-cd</h2>
+<p>Będąc już zaopatrzonym w system live, startujemy go i odpalamy terminal. Wszystkie poniższe
+polecenia muszą być przeprowadzane jako użytkownik root. Systemy live z reguły wykorzystują
+mechanizm <a href="https://pl.wikipedia.org/wiki/Sudo">sudo</a>, dlatego też najlepiej wklepać w terminal <code>sudo su</code> . Na wypadek gdyby ktoś
+potrzebował loginu i hasła użytkownika systemu live, to są to odpowiednio <code>user</code> i <code>live</code> .</p>
+<p>Instalowany tutaj system będzie znajdował się na 2 partycjach fizycznych. Jedna z nich będzie
+zaszyfrowana. Wewnątrz zaszyfrowanego kontenera LUKS zostaną umieszczone 4 voluminy LVM, po jednym
+na <code>/</code> , <code>/home/</code> , <code>/tmp/</code> oraz przestrzeń wymiany <code>SWAP</code> . Druga partycja będzie przeznaczona na
+pliki bootloader'a, tj. partycja <code>/boot/</code> . Będzie to klasyczna konfiguracja BIOS-MBR.</p>
+<h3 id="instalacja-potrzebnych-narzędzi">Instalacja potrzebnych narzędzi</h3>
+<p>Do obsługi LVM będzie nam potrzebny pakiet <code>lvm2</code> . Z kolei do kontenerów LUKS będziemy potrzebować
+pakietu <code>cryptsetup</code> . No i oczywiście potrzebny będzie nam sam pakiet <code>debootstrap</code> , który
+zainstaluje nam minimalnego debiana. Pobieramy zatem potrzebne pakiety:</p>
+<pre><code>$ sudo su
+# apt-get install debootstrap lvm2 cryptsetup
+# modprobe dm_mod
+</code></pre>
+<p>Prawdopodobnie nie będzie potrzeby ręcznego ładowania modułów. Jeśli jednak napotykamy problemy przy
+wydawaniu poleceń, to dobrze jest sprawdzić przy pomocy <code>lsmod</code> czy moduł <code>dm_mod</code> jest załadowany.</p>
+<h3 id="przygotowywanie-dysku">Przygotowywanie dysku</h3>
+<p>Przejdźmy zatem do partycjonowania dysku. W debianie jest kilka narzędzi, które mogą nam w tym
+pomóc. Jeśli ktoś lubi narzędzia konsolowe, to może skorzystać z <code>fdisk</code>/<code>gdisk</code> . Nic nie stoi na
+przeszkodzie, by również doinstalować w systemie live <code>gparted</code> i to w nim dostosować sobie
+odpowiedni układ partycji. Sam proces partycjonowania nie powinien sprawić większego problemu,
+dlatego też nie będę go opisywał tutaj.</p>
+<h3 id="efiuefi">EFI/UEFI</h3>
+<p>W przypadku, gdy nasz komputer korzysta z firmware EFI/UEFI zamiast z przestarzałego już BIOS'u, to
+trzeba będzie stworzyć dodatkowo partycję ESP i ją wstępnie zainicjować. Informacje o tym <a href="https://morfikov.github.io
+/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/">jak
+poprawnie przygotować partycję ESP pod instalację Debiana z EFI/UEFI</a> można znaleźć tutaj.</p>
+<h3 id="tworzenie-szyfrowanego-kontenera-luks-pod-lvm">Tworzenie szyfrowanego kontenera LUKS pod LVM</h3>
+<p>Pierwszym krokiem jaki musimy poczynić po stworzeniu partycji jest utworzenie zaszyfrowanego
+kontenera LUKS, w którym umieścimy logiczne voluminy LVM pod instalowany system. Obecnie mamy do
+wyboru dwie wersję LUKS: v1 i v2. Zalecane jest korzystanie z tej drugiej wersji jako, że ona
+posiada wsparcie dla ochrony haseł z wykorzystaniem <a href="https://en.wikipedia.org/wiki/Argon2">Argon2</a>, co znacząco utrudnia życie osobom
+próbującym siłowego złamania hasła klastrami graficznymi.</p>
+<p>Poniżej znajduje się linijka tworząca kontener LUKSv1:</p>
+<pre><code># cryptsetup luksFormat /dev/sda1 \
+  --cipher aes-xts-plain64 \
+  --key-size 512 \
+  --hash sha512 \
+  --iter-time 5000 \
+  --label debian \
+  --subsystem &quot;&quot; \
+  --use-random \
+  --verify-passphrase \
+  --verbose
+</code></pre>
+<p>Niżej zaś jest linijka tworząca kontener LUKSv2 (można też ręcznie określić
+<code>--pbkdf-force-iterations</code> , <code>--pbkdf-memory</code> oraz <code>--pbkdf-parallel</code>  ):</p>
+<pre><code># cryptsetup luksFormat /dev/sda1 \
+  --type luks2 \
+  --cipher aes-xts-plain64 \
+  --key-size 512 \
+  --hash sha512 \
+  --pbkdf argon2i \
+  --label debian \
+  --subsystem &quot;&quot; \
+  --use-random \
+  --verify-passphrase \
+  --verbose
+</code></pre>
+<p>Poniżej opis wykorzystanych parametrów:</p>
+<ul>
+<li><code>--cipher </code> określa wykorzystany szyfr. W tym przypadku jest to <code>aes</code> w trybie <code>xts</code>. Z kolei
+<code>plain64</code> niweluje przecieki informacji z kontenerów o rozmiarze większym niż 2 TiB.</li>
+<li><code>--key-size</code> definiuje rozmiar klucza. W trybie <code>xts</code> jest on zawsze dwa razy większy, więc
+faktyczny rozmiar to 256 bitów.</li>
+<li><code>--hash</code> odpowiada za użytą funkcję skrótu.</li>
+<li><code>--iter-time</code> odpowiada za czas (ms) spędzony na przetwarzaniu hasła (w przypadku LUKSv1).</li>
+<li><code>--pbkdf</code> określa funkcję PBKDF, która zostanie użyta do ochrony haseł. Można określić <code>pbkdf2</code>,
+<code>argon2i</code> oraz <code>argon2id</code> . Te dwie ostatnie są tylko dla LUKSv2.</li>
+<li><code>--label</code> i <code>--subsystem</code> mają za zadanie opisać kontener.</li>
+<li><code>--use-random</code> określa, które urządzenie będzie wykorzystane w celu dostarczenia liczb losowych.
+W tym przypadku jest to <code>/dev/random</code> .</li>
+<li><code>--verify-passphrase </code> weryfikuje hasło.</li>
+<li><code>--verbose</code> dostarcza więcej informacji.</li>
+<li><code>luksFormat</code> formatuje wskazane urządzenie i ustawia odpowiednie parametry w nagłówku kontenera.</li>
+</ul>
+<p>Upewniamy się, że wskazaliśmy odpowiednie urządzenie i wciskamy enter:</p>
+<pre><code>WARNING!
+========
+This will overwrite data on /dev/sda1 irrevocably.
+
+Are you sure? (Type uppercase yes): YES
+Enter LUKS passphrase:
+Verify passphrase:
+Command successful.
+</code></pre>
+<p>Kontener został utworzony. Jego nagłówek możemy podejrzeć za pomocą <code>cryptsetup luksDump</code> :</p>
+<pre><code># cryptsetup luksDump /dev/sda1
+</code></pre>
+<p>Oczywiście można dowolnie tym nagłówkiem zarządzać ale nie będę opisywał tego w tym artykule. To
+jest zagadnienie na inny tekst. W każdym razie, musimy jeszcze do tego kontenera uzyskać dostęp, by
+mieć możliwość zapisywania w nim informacji. Otwieramy go zatem za pomocą tego poniższego polecenia:</p>
+<pre><code># cryptsetup luksOpen /dev/sda1 sda1_crypt
+</code></pre>
+<p>Nazwa otwieranego kontenera jest dowolna. Ja jednak wolę nazywać je po partycji, na której kontener
+został utworzony i doczepiać na końcu <code>_crypt</code> . W taki sposób powstaje, np. <code>sda1_crypt</code> , bo
+kontener tworzyliśmy na pierwszej partycji.</p>
+<p>Po otwarciu, kontener powinien być widoczny przez system:</p>
+<pre><code># ls -al /dev/mapper/
+total 0
+drwxr-xr-x  2 root root      80 cze 11 09:12 .
+drwxr-xr-x 15 root root    4320 cze 11 09:12 ..
+crw-------  1 root root 10, 236 cze 11 09:01 control
+lrwxrwxrwx  1 root root       7 cze 11 09:13 sda1_crypt -&gt; ../dm-0
+</code></pre>
+<h3 id="tworzenie-struktury-lvm">Tworzenie struktury LVM</h3>
+<p>Przechodzimy teraz do tworzenia voluminów logicznych. Za pomocą <code>pvcreate</code> wskażemy systemowi, by
+używał danego dysku jako przestrzeń pod LVM. Przy czym, nie podajemy zaszyfrowanego <code>/dev/sda1</code> ,
+tylko odszyfrowany <code>/dev/mapper/sda1_crypt</code> .</p>
+<pre><code># pvcreate /dev/mapper/sda1_crypt
+  Physical volume &quot;/dev/mapper/sda1_crypt&quot; successfully created
+</code></pre>
+<p>Jeśli wszystko przebiegło pomyślnie, możemy sprawdzić jak wygląda powierzchnia przeznaczona pod LVM:</p>
+<pre><code># pvscan
+  PV /dev/mapper/sda1_crypt         lvm2 [20.00 GiB]
+  Total: 1 [20.00 GiB] / in use: 0 [0   ] / in no VG: 1 [20.00 GiB]
+
+# pvdisplay
+  &quot;/dev/mapper/sda1_crypt&quot; is a new physical volume of &quot;20.00 GiB&quot;
+  --- NEW Physical volume ---
+  PV Name               /dev/mapper/sda1_crypt
+  VG Name
+  PV Size               20.00 GiB
+  Allocatable           NO
+  PE Size               0
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               DDCYN1-Yggp-V52y-T0pL-mQbg-sHAZ-6Gtitd
+</code></pre>
+<p>Tworzymy grupę voluminów, w której zostaną utworzone wirtualne partycje:</p>
+<pre><code># vgcreate debian_laptop /dev/mapper/sda1_crypt
+  Volume group &quot;debian_laptop&quot; successfully created
+
+# lvcreate -L 12G -n root debian_laptop
+  Logical volume &quot;root&quot; created
+# lvcreate -L 5G -n home debian_laptop
+  Logical volume &quot;home&quot; created
+# lvcreate -L 1G -n tmp debian_laptop
+  Logical volume &quot;tmp&quot; created.
+# lvcreate -l +100%FREE -n swap debian_laptop
+  Logical volume &quot;swap&quot; created
+</code></pre>
+<p>Wyjaśnienie opcji:</p>
+<ul>
+<li><code>-L</code> odpowiada za rozmiar voluminu.</li>
+<li><code>-n</code> to etykieta. Pod taką nazwą dysk będzie widziany w systemie.</li>
+<li><code>debian_laptop</code> to nazwa grupy voluminów, w której wirtualny dysk zostanie utworzony.</li>
+<li><code>-l</code> (małe L) ustawia rozmiar dysku w oparciu o <code>%</code> , a nie o GiB. W przypadku wybrania
+<code>+100%FREE</code> , zostanie użyta dostępna wolna przestrzeń.</li>
+</ul>
+<p>W przypadku, gdy utworzyliśmy volumin, który nie spełnia naszych oczekiwań, to możemy go bez
+problemu usunąć podając odpowiednią ścieżkę w <code>lvremove</code> :</p>
+<pre><code># lvremove /dev/debian_laptop/home
+Do you really want to remove active logical volume home? [y/n]: y
+  Logical volume &quot;home&quot; successfully removed
+</code></pre>
+<p>W tej chwili przestrzeń pod LVM powinna być wykorzystana w 100%. Sprawdźmy zatem czy utworzyliśmy
+wszystko tak jak tego chcieliśmy:</p>
+<pre><code># pvscan
+  PV /dev/mapper/sda1_crypt   VG debian_laptop   lvm2 [20.00 GiB / 0    free]
+  Total: 1 [20.00 GiB] / in use: 1 [20.00 GiB] / in no VG: 0 [0   ]
+
+# lvscan
+  ACTIVE            '/dev/debian_laptop/root' [12.00 GiB] inherit
+  ACTIVE            '/dev/debian_laptop/home' [5.00 GiB] inherit
+  ACTIVE            '/dev/debian_laptop/tmp' [1.00 GiB] inherit
+  ACTIVE            '/dev/debian_laptop/swap' [2.00 GiB] inherit
+</code></pre>
+<p>Tak prezentuje się obecnie sam dysk:</p>
+<pre><code># lsblk /dev/sda
+NAME                     MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT
+sda                        8:0    0 232.9G  0 disk
+├─sda1                     8:1    0    20G  0 part
+│ └─sda1_crypt           254:0    0    20G  0 crypt
+│   ├─debian_laptop-root 254:1    0    12G  0 lvm
+│   ├─debian_laptop-home 254:2    0     5G  0 lvm
+│   ├─debian_laptop-tmp  254:3    0     1G  0 lvm
+│   └─debian_laptop-swap 254:4    0     2G  0 lvm
+├─sda2                     8:2    0     1G  0 part
+├─sda3                     8:3    0     1K  0 part
+├─sda4                     8:4    0    40G  0 part
+├─sda5                     8:5    0    30G  0 part
+└─sda6                     8:6    0 141.9G  0 part
+</code></pre>
+<p>Wygląda dobrze. Do zaszyfrowanych voluminów można się odwoływać przez pliki urządzeń w katalogach
+<code>/dev/mapper/</code> , <code>/dev/nazwa_grupy/</code> oraz <code>/dev/dm-*</code> .</p>
+<p>Polecenia od zarządzania LVM są bardzo proste w zapamiętaniu:</p>
+<pre><code>tworzy   --   wyświetla info    --    usuwa
+lvcreate -- lvscan -- lvdisplay -- lvremove  # logiczne voluminy
+pvcreate -- pvscan -- pvdisplay -- pvremove  # przestrzeń pod LVM
+vgcreate -- vgscan -- vgdisplay -- vgremove  # grupa voluminów
+</code></pre>
+<p>Inne polecenia używane przy operacji na LVM można przejrzeć przez wpisanie <code>vg</code> , <code>pv</code> , <code>lv</code> +
+klawisz Tab przyciśnięty dwukrotnie (automatycznie uzupełnianie).</p>
+<h3 id="tworzenie-systemu-plików">Tworzenie systemu plików</h3>
+<p>Mamy utworzone 4 voluminy wewnątrz zaszyfrowanego kontenera. Nie możemy ich jeszcze zamontować, a to
+z tego względu, że potrzebują one systemu plików. Do ich utworzenia posłuży nam narzędzie
+<code>mkfs.ext4</code> . Jest ich oczywiście więcej ale my ograniczymy się jedynie do systemu plików EXT4.
+System plików tworzymy w poniższy sposób:</p>
+<pre><code># mkfs.ext4 -c 20 -m 0 -L root /dev/mapper/debian_laptop-root
+Filesystem UUID: 451861b7-fec1-49cb-9fec-33cc7a2fe5fb
+
+# mkfs.ext4 -c 20 -m 0 -L home /dev/mapper/debian_laptop-home
+Filesystem UUID: a530563d-e254-4b05-8f67-fe695941741b
+
+# mkfs.ext4 -c 20 -m 0 -L tmp /dev/mapper/debian_laptop-tmp
+Filesystem UUID: ad2501b1-0bf1-4dbe-b12e-26254bfdb3f7
+
+# mkfs.ext4 -c 20 -m 0 -L boot /dev/sda2
+Filesystem UUID: 7e58cc8f-0426-4b0b-81ea-06e8274f8af4
+</code></pre>
+<p>Użyte opcje odpowiadają za:</p>
+<ul>
+<li><code>-c</code> ustawia maksymalna liczbę montować dla danego systemu plików. Po przekroczeniu tej wartości
+nastąpi sprawdzanie systemu plików pod kątem ewentualnych błędów.</li>
+<li><code>-m</code> określa procent przestrzeni jaki zostanie zarezerwowany dla użytkownika root.</li>
+<li><code>-L</code> odpowiada za etykietę systemu plików.</li>
+</ul>
+<p>Dodatkowo trzeba utworzyć przestrzeń wymiany:</p>
+<pre><code># mkswap /dev/mapper/debian_laptop-swap
+Setting up swapspace version 1, size = 2093052 KiB
+no label, UUID=61f16424-6ffd-43e0-b923-ba61d36c75e9
+</code></pre>
+<p>Te długie numerki zaczynające się od <code>UUID=</code> dobrze jest sobie zanotować, bo to w oparciu o nie
+będziemy budować plik <code>/etc/fstab</code> . Oczywiście, w każdej chwili możemy te numerki wyciągnąć, np.
+za pomocą narzędzia <code>tune2fs</code> . Nie bójmy się też, że przez przypadek nadpiszemy istniejący już
+system plików. Narzędzie <code>mkfs</code> uprzednio zwróci nam odpowiedni komunikat, który poinformuje nas, że
+próbujemy utworzyć system plików na partycji, która już go posiada, co wygląda mniej więcej tak:</p>
+<pre><code>mke2fs 1.42.12 (29-Aug-2014)
+/dev/sda2 contains a ext4 file system labelled 'boot'
+      last mounted on /boot on Wed Dec 30 13:34:34 2015
+Proceed anyway? (y,n) y
+</code></pre>
+<p>Musimy zatem świadomie potwierdzić ten krok.</p>
+<h3 id="montowanie-systemów-plików">Montowanie systemów plików</h3>
+<p>Teraz już tylko trzeba zamontować wszystko w odpowiednich katalogach. Kolejność montowania jest
+ważna. Jeśli korzystamy z zaszyfrowanych partycji i/lub LVM, to odwołujemy się do plików urządzeń w
+katalogu <code>/dev/mapper/</code> :</p>
+<pre><code># mount /dev/mapper/debian_laptop-root /mnt
+# mkdir /mnt/{boot,home,tmp,media}
+# mount /dev/sda2 /mnt/boot/
+# mount /dev/mapper/debian_laptop-home /mnt/home/
+# mount /dev/mapper/debian_laptop-tmp /mnt/tmp
+</code></pre>
+<p>Aktywujemy także przestrzeń wymiany:</p>
+<pre><code># swapon /dev/mapper/debian_laptop-swap
+</code></pre>
+<p>W tej chwili nasz dysk powinien się prezentować tak jak poniżej:</p>
+<pre><code># lsblk /dev/sda
+NAME                     MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT
+sda                        8:0    0 232.9G  0 disk
+├─sda1                     8:1    0    20G  0 part
+│ └─sda1_crypt           254:0    0    20G  0 crypt
+│   ├─debian_laptop-root 254:1    0    12G  0 lvm   /mnt
+│   ├─debian_laptop-home 254:2    0     5G  0 lvm   /mnt/home
+│   ├─debian_laptop-tmp  254:3    0     1G  0 lvm   /mnt/tmp
+│   └─debian_laptop-swap 254:4    0     2G  0 lvm   [SWAP]
+├─sda2                     8:2    0     1G  0 part  /mnt/boot
+├─sda3                     8:3    0     1K  0 part
+├─sda4                     8:4    0    40G  0 part
+├─sda5                     8:5    0    30G  0 part
+└─sda6                     8:6    0 141.9G  0 part
+</code></pre>
+<p>Przygotowaliśmy sobie właśnie dysk pod instalację świeżego systemu. W przypadku gdybyśmy w
+przyszłości musieli wgrać system na nowo, to możemy użyć tego ustawienia i zacząć instalację od
+tego miejsca.</p>
+<h3 id="wykorzystanie-debootstrap">Wykorzystanie debootstrap</h3>
+<p>Powinniśmy mieć już zainstalowane narzędzie <code>debootstrap</code>. W takim przypadku w katalogu
+<code>/usr/share/debootstrap/scripts/</code> powinniśmy być w stanie zobaczyć jakie systemy mogą zostać
+zainstalowane przy jego pomocy. Jako, że niedawno była aktualizacja wydania Debiana, starsze wersje
+<code>debootstrap</code> mogą wrzucać błąd przy instalacji określonych wydań. W każdym razie, zawsze można
+wybrać <code>testing</code> czy też i <code>sid</code> . Przejdźmy zatem do instalacji bardzo podstawowego systemu. By
+tego dokonać, wpisujemy w terminal to poniższe polecenie:</p>
+<pre><code># debootstrap --verbose --arch amd64 sid /mnt http://ftp.pl.debian.org/debian
+I: Retrieving Release
+I: Retrieving Release.gpg
+I: Checking Release signature
+I: Valid Release signature (key id 126C0D24BD8A2942CC7DF8AC7638D0442B90D010)
+I: Retrieving Packages
+I: Validating Packages
+I: Resolving dependencies of required packages...
+I: Resolving dependencies of base packages...
+...
+I: Checking component main on http://ftp.pl.debian.org/debian...
+I: Retrieving libacl1 2.2.52-2
+I: Validating libacl1 2.2.52-2
+...
+I: Base system installed successfully.
+</code></pre>
+<p>Możemy też podejrzeć jakie pakiety zostaną zainstalowane dodając parametr <code>--print-debs</code> . Będą to
+pakiety mające ustawiony priorytet <code>required</code> oraz <code>important</code> i raczej chcemy, by wszystkie te
+pakiety znalazły się w naszym systemie. Sama instalacja nie trwała długo ale i też zbyt wiele nie
+zostało zainstalowane. W każdym razie, bardzo podstawowy system mamy już wgrany. Co prawda jest
+nieskonfigurowany i nie da się go jeszcze uruchomić ale popracujemy nad tym.</p>
+<h2 id="tworzenie-środowiska-pod-chroot">Tworzenie środowiska pod chroot</h2>
+<p>By móc operować na nowym systemie, potrzebujemy odpowiednio <a href="https://morfikov.github.io
+/post/przygotowanie-srodowiska-chroot-do-pracy/">skonfigurować środowisko chroot</a>:</p>
+<pre><code># mount -o bind /dev/ /mnt/dev/
+# mount -o bind /dev/pts /mnt/dev/pts
+# mount -o bind /proc /mnt/proc
+# mount -o bind /sys /mnt/sys
+# chroot /mnt/ /bin/bash
+</code></pre>
+<p>Od tej chwili wszystkie polecenia będą wydawane w nowym systemie. Niemniej jednak, musimy się
+upewnić, że mamy łączność, że światem. Wpisujemy zatem do terminala to poniższe polecenie:</p>
+<pre><code># ping wp.pl -c 3
+</code></pre>
+<p>Jeśli serwer odpowiada, to możemy przejść do wstępnej konfiguracji systemu.</p>
+<h3 id="konfiguracja-menadżera-pakietów">Konfiguracja menadżera pakietów</h3>
+<p>Na sam początek dostosujmy sobie źródła pakietów, które są przechowywane w pliku
+<code>/etc/apt/sources.list</code> . Standardowe repozytoria Debiana zwierają zwykle po jednym wpisie <code>deb</code> i
+<code>deb-src</code> , odpowiednio dla pakietów binarnych i źródłowych. No i też mamy w nich jedną sekcję
+<code>main</code> . Dobrze jest nieco zmienić ten stan rzeczy i <a href="https://github.com/morfikov/files/tree/master/configs/etc/apt">przerobić wpisy w pliku sources.list</a> do
+poniższej postaci:</p>
+<pre><code>deb http://ftp.pl.debian.org/debian/ sid main non-free contrib
+#deb-src http://ftp.pl.debian.org/debian/ sid main non-free contrib
+</code></pre>
+<p>Zapisujemy plik i aktualizujemy listę repozytoriów:</p>
+<pre><code># apt-get update
+</code></pre>
+<p>Tworzymy teraz plik konfiguracyjny <code>/etc/apt/apt.conf</code> i dodajemy w nim tę poniższą treść:</p>
+<pre><code>APT::Install-Recommends &quot;false&quot;;
+APT::Install-Suggests &quot;false&quot;;
+APT::AutoRemove::RecommendsImportant &quot;false&quot;;
+APT::AutoRemove::SuggestsImportant &quot;false&quot;;
+</code></pre>
+<p>Dodanie tych powyższych wpisów sprawi, że menadżery pakietów (zarówno <code>apt</code> jak i <code>aptitude</code> ) nie
+będą instalowały automatycznie pakietów rekomendowanych i polecanych. Ma to na celu odchudzenie
+instalacji. Jeśli ktoś jest ciekaw, to może pokusić się o dodanie <a href="https://morfikov.github.io
+/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/">bardziej obszernej konfiguracji
+apt do pliku apt.conf</a>.</p>
+<p>Zainstalujmy sobie też pakiet <code>aptitude</code> . Nie jest on wprawdzie wymagany i całą instalację systemu
+możemy przeprowadzić za pomocą <code>apt</code> . Niemniej jednak, ja się przyzwyczaiłem do <code>aptitude</code> .</p>
+<pre><code># apt-get install aptitude
+</code></pre>
+<h3 id="konfiguracja-lokalizacji-systemu-locales">Konfiguracja lokalizacji systemu (locales)</h3>
+<p>Na początek instalujemy pakiety odpowiedzialne za konfigurację lokalizacji systemu (język), układu
+klawiatury oraz konfigurację terminala TTY:</p>
+<pre><code># aptitude install locales localepurge console-setup console-data kbd
+</code></pre>
+<p>Pakiet <code>locales</code> uchroni nas przed ciągłym wyrzucaniem komunikatów błędów podobnych do tego poniżej:</p>
+<pre><code>perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+      LANGUAGE = (unset),
+      LC_ALL = (unset),
+      LANG = &quot;en_US.UTF-8&quot;
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale (&quot;C&quot;).
+locale: Cannot set LC_CTYPE to default locale: No such file or directory
+locale: Cannot set LC_MESSAGES to default locale: No such file or directory
+locale: Cannot set LC_ALL to default locale: No such file or directory
+</code></pre>
+<p>Z kolei pakiet <code>localepurge</code> ma za zadanie czyścić system ze zbędnych plików językowych.</p>
+<p>W Debianie szereg pakietów można skonfigurować za pomocą narzędzia <code>dpkg-reconfigure</code> i tak też
+postępujemy w przypadku w/w pakietów:</p>
+<pre><code># dpkg-reconfigure locales
+</code></pre>
+<p>Wybieramy kolejno: <code>en_US.UTF-8</code>, <code>pl_PL.UTF-8</code> -&gt; <code>pl_PL.UTF-8</code> .</p>
+<pre><code># dpkg-reconfigure localepurge
+</code></pre>
+<p>Tutaj wybieramy: <code>en_US.UTF-8</code>, <code>pl_PL.UTF-8</code> , <code>en_US</code>, <code>pl_PL</code> &gt; <code>Yes</code> &gt; <code>Yes</code> .</p>
+<p>Konfiguracja pakietu <code>locales</code> zaowocuje wygenerowaniem pliku <code>/etc/default/locale</code> zawierającego
+poniższą treść:</p>
+<pre><code>#  File generated by update-locale
+LANG=&quot;pl_PL.UTF-8&quot;
+</code></pre>
+<h4 id="plik-etcdefaultlocale">Plik /etc/default/locale</h4>
+<p>W pliku <code>/etc/default/locale</code> są przechowywane zmienne językowe, tj. <code>LANG</code> oraz te z prefixem <code>LC_</code>
+. Podczas generowania tego pliku, została utworzona jedynie zmienna <code>LANG</code> . Niemniej jednak, do
+wyboru mamy sporo więcej opcji, przykładowo:</p>
+<pre><code>LANG=
+LANGUAGE=
+LC_CTYPE=
+LC_NUMERIC=
+LC_TIME=
+LC_COLLATE=
+LC_MONETARY=
+LC_MESSAGES=
+LC_PAPER=
+LC_NAME=
+LC_ADDRESS=
+LC_TELEPHONE=
+LC_MEASUREMENT=
+LC_IDENTIFICATION=
+LC_ALL=
+</code></pre>
+<p>W przypadku, gdy został określony jedynie <code>LANG</code> , pozostałe zmienne są ustawiane na taką samą
+wartość. By zmienić którąś ze zmiennych wypisanych wyżej, wystarczy dodać ją do tego pliku i
+odpowiednio ustawić. Ja zwykle korzystam też z <code>en_US.UTF-8</code> . Dokładny <a href="https://morfikov.github.io
+/post/jezyk-polski-w-srodowisku-graficznym/">opis konfiguracji
+lokalizacji systemu</a> został opisany już opisany w osobnym wpisie. Dlatego też jeśli coś z
+powyższej konfiguracji jest niejasne, to zachęcam do zapoznania się z tym podlinkowanym tekstem.</p>
+<h4 id="plik-etcdefaultkeyboard">Plik /etc/default/keyboard</h4>
+<p>Plik <code>/etc/default/keyboard</code> jest generowany przy konfiguracji pakietu <code>keyboard-configuration</code> :</p>
+<pre><code># dpkg-reconfigure keyboard-configuration
+</code></pre>
+<p>Wybieramy odpowiednio: <code>model</code> -&gt; <code>Polish</code> -&gt; <code>Right Alt (AltGr)</code> -&gt; <code>Right Control</code> .</p>
+<p>Plik <code>/etc/default/keyboard</code> możemy naturalnie sobie dostosować ręcznie. Trzeba tylko pamiętać, by
+nie korzystać później z <code>dpkg-reconfigure</code> , bo wprowadzone przez nas zmiany przepadną. Poniżej
+przykład mojego pliku:</p>
+<pre><code># KEYBOARD CONFIGURATION FILE
+
+# Consult the keyboard(5) manual page.
+
+XKBMODEL=&quot;logimel&quot;
+XKBLAYOUT=&quot;pl&quot;
+XKBVARIANT=&quot;&quot;
+XKBOPTIONS=&quot;kpdl:dot,grp:alt_shift_toggle,lv3:ralt_switch,compose:rctrl,terminate:ctrl_alt_bksp,grp_led:scroll&quot;
+BACKSPACE=&quot;guess&quot;
+</code></pre>
+<p><a href="https://morfikov.github.io
+/post/klawiatura-i-jej-konfiguracja-pod-debianem/">Konfiguracja ustawień klawiatury</a> została już opisana w osobnym wpisie. Jeśli któryś z
+powyższych parametrów jest niejasny, to zachęcam do lektury podlinkowanego artykułu.</p>
+<p>By ustawić odpowiedni układ klawiatury już podczas startu systemu, trzeba zmienić w pliku
+<code>/etc/initramfs-tools/initramfs.conf</code> zmienną <code>KEYMAP=y</code> oraz wygenerować nowy initramfs za pomocą
+<code>update-initramfs -u -k all</code>. Tego na razie nie musimy robić, przyda się dopiero w chwili jak
+zainstalujemy kernela.</p>
+<h4 id="plik-etcdefaultconsole-setup">Plik /etc/default/console-setup</h4>
+<p>Wielu ludzi narzeka na <a href="https://morfikov.github.io
+/post/polskie-znaki-pod-tty/">brak polskich znaków pod TTY</a>. Konfiguracja pakietu <code>console-setup</code>
+powinna rozwiązać ten problem:</p>
+<pre><code># dpkg-reconfigure console-setup
+</code></pre>
+<p>Wybieramy kolejno: ustawienia terminala <code>UTF-8</code> -&gt; <code>Latin2</code> -&gt; <code>Terminus</code> -&gt; <code>8x16</code> . W ten
+sposób zostanie stworzony plik <code>/etc/default/console-setup</code> o poniższej treści:</p>
+<pre><code># CONFIGURATION FILE FOR SETUPCON
+
+# Consult the console-setup(5) manual page.
+
+ACTIVE_CONSOLES=&quot;/dev/tty[1-6]&quot;
+
+CHARMAP=&quot;UTF-8&quot;
+
+CODESET=&quot;Lat2&quot;
+FONTFACE=&quot;Terminus&quot;
+FONTSIZE=&quot;8x16&quot;
+
+VIDEOMODE=
+
+# The following is an example how to use a braille font
+# FONT='lat9w-08.psf.gz brl-8x8.psf'
+</code></pre>
+<h4 id="plik-etctimezone-oraz-etclocaltime">Plik /etc/timezone oraz /etc/localtime</h4>
+<p>W plikach <code>/etc/timezone</code> oraz <code>/etc/localtime</code> znajdują się ustawienia strefy czasowej.
+Odpowiedzialny za nie jest pakiet <code>tzdata</code> :</p>
+<pre><code># dpkg-reconfigure tzdata
+</code></pre>
+<p>Wybieramy kolejno: <code>Europe</code> -&gt; <code>Warsaw</code> . Czas powinien zostać zmieniony. Natomiast konfiguracja
+obu plików powinna wyglądać mniej więcej tak:</p>
+<pre><code># cat /etc/timezone
+Europe/Warsaw
+
+# ls -al /etc/localtime
+lrwxrwxrwx 1 root root 35 2015-12-30 18:50:01 /etc/localtime -&gt; ../usr/share/zoneinfo/Europe/Warsaw
+</code></pre>
+<p>Warto zauważyć, że plik <code>localtime</code> jest dowiązaniem do odpowiedniego pliku w katalogu
+<code>/usr/share/zoneinfo/</code> . W standardowej konfiguracji Debiana tak nie jest i przydałoby się ten błąd
+poprawić.</p>
+<p>Dobrze jest także sprawdzić czy <a href="https://morfikov.github.io
+/post/zmienna-tz-w-srodowisku-linuxowym/">w środowisku jest ustawiona zmienna TZ</a>. Choć jest wielce
+prawdopodobne, że nie ma i będziemy musieli ją ręcznie wyeksportować przez dopisanie do pliku
+<code>/etc/environment</code> tego poniższego wpisu:</p>
+<pre><code>TZ=&quot;Europe/Warsaw&quot;
+</code></pre>
+<h3 id="instalacja-i-konfiguracja-podstawowych-narzędzi">Instalacja i konfiguracja podstawowych narzędzi</h3>
+<p>Poniżej jest lista pakietów, które każdy system powinien moim zdaniem posiadać. Większość z tych
+narzędzi to zwykle narzędzia konsolowe i przydają się w przypadku, gdy nie korzystamy ze środowiska
+graficznego:</p>
+<pre><code># aptitude install vim mc htop iftop iotop powertop pv ccze ipcalc tree eject finger vnstat tty-clock \
+colordiff dfc ncdu gawk speedtest-cli tmux sudo \
+exim4-base bsd-mailx \
+debian-keyring keyutils busybox \
+zsh python-pygments command-not-found bash-completion \
+systemd libnss-myhostname policykit-1 libmtp-runtime libpam-cap libcap-ng-utils uuid-runtime
+</code></pre>
+<h3 id="konfiguracja-punktów-montowania">Konfiguracja punktów montowania</h3>
+<p>By system działał prawidłowo, musi on wiedzieć gdzie mają być zamontowane określone zasoby. Jeśli
+korzystamy z zaszyfrowanych kontenerów LUKS, to również musimy je uwzględnić w tym procesie. Jakby
+nie patrzeć, taki kontener pierw trzeba otworzyć i dopiero wtedy uzyskujemy dostęp do systemu
+plików, który może być zamontowany.</p>
+<p>W przypadku wykorzystywania LVM i/lub LUKS, potrzebne nam będą dodatkowe narzędzia, które musimy
+zainstalować:</p>
+<pre><code># aptitude install cryptsetup lvm2
+</code></pre>
+<h4 id="plik-etccrypttab">Plik /etc/crypttab</h4>
+<p>W tym pliku musimy dopisać linijkę odpowiadającą za wskazanie zaszyfrowanej partycji, tak by system
+podczas startu wiedział, którą partycje musi odszyfrować. Plik ma taką postać:</p>
+<pre><code># target name    source device                             key file  options
+sda1_crypt       UUID=1820485b-6587-47ab-baa4-761ecc104c25 none        luks
+</code></pre>
+<p>Wyjaśnienie użytych opcji:</p>
+<ul>
+<li><code>sda1_crypt</code> odpowiada za nazwę pod jaką ma być otwierany kontener LUKS.</li>
+<li><code>UUID</code> to numer identyfikacyjny kontneera. Można także podawać urządzenia w postaci <code>/dev/sda1</code>
+.</li>
+<li><code>none</code> oznacza brak pliku klucza, zatem ten kontener będzie otwierany przy pomocy zwykłego
+hasła.</li>
+<li><code>luks</code> definiuje typ kontenera.</li>
+</ul>
+<p>UUID możemy odczytać przez <code>lsblk -o name,uuid</code> lub <code>blkid</code> , przykładowo:</p>
+<pre><code># lsblk -o name,uuid /dev/sda
+NAME                     UUID
+sda
+├─sda1                   1820485b-6587-47ab-baa4-761ecc104c25
+│ └─sda1_crypt           DDCYN1-Yggp-V52y-T0pL-mQbg-sHAZ-6Gtitd
+│   ├─debian_laptop-root 451861b7-fec1-49cb-9fec-33cc7a2fe5fb
+│   ├─debian_laptop-home a530563d-e254-4b05-8f67-fe695941741b
+│   ├─debian_laptop-tmp  ad2501b1-0bf1-4dbe-b12e-26254bfdb3f7
+│   └─debian_laptop-swap 61f16424-6ffd-43e0-b923-ba61d36c75e9
+├─sda2                   7e58cc8f-0426-4b0b-81ea-06e8274f8af4
+├─sda3
+├─sda4                   A0FCD66CFCD63BEA
+├─sda5                   d314ed20-ffaf-4a18-98a7-91538e79d981
+└─sda6                   f3c10054-0583-4e10-937b-dcdc9a05a25c
+  └─sda6                 b47e6dcd-924e-40fa-a8b1-7593419f86d7
+</code></pre>
+<p>Wartość <code>UUID</code> musi wskazywać na zaszyfrowaną partycję <code>/dev/sda1</code> . W przypadku, gdy dokonamy
+jakichkolwiek zmian w pliku <code>/etc/crypttab</code> , trzeba zawsze wygenerować nowy initramfs (
+<code>update-initramfs -u -k all</code> ), inaczej system nie odszyfruje odpowiedniej partycji. My nie mamy
+jeszcze zainstalowanego kernela, także bez obaw.</p>
+<h4 id="pliki-etcfstab--etcmtab-oraz-procmounts">Pliki /etc/fstab , /etc/mtab oraz /proc/mounts</h4>
+<p>Nie znalazłem żadnej satysfakcjonującej mnie metody generowania pliku <code>/etc/fstab</code> . Jest milusi
+skrypt <code>genfstab</code> w Archlinux ale pakiety w Debianie są czasem zbyt stare, by ten skrypt chciał
+działać prawidłowo. W przypadku, gdy nie używamy UUID do identyfikowania konkretnych systemów
+plików, to możemy przekopiować zawartość pliku <code>/etc/mtab</code> do <code>/etc/fstab</code> i tylko usunąć zbędne
+wpisy:</p>
+<pre><code># cat /etc/mtab &gt; /etc/fstab
+</code></pre>
+<p>Oczywiście w naszym systemie jeszcze nie posiadamy pliku <code>/etc/mtab</code> , a ten z kolei jest
+dowiązaniem do <code>/proc/mounts</code> . Podczas generowania initramfs przy instalacji kernela, zostanie
+wyrzucony szereg błędów spowodowany brakiem tego skrótu. Dlatego też stwórzmy go sobie:</p>
+<pre><code># ln -s /proc/mounts /etc/mtab
+</code></pre>
+<p>Używanie UUID też nie jest konieczne. Jeżeli używamy jednego dysku na tej samej maszynie i nie
+podpinamy żadnych nośników, z których można uruchomić inne systemy operacyjne, to UUID do niczego
+nam się nie przyda, a partycja <code>/dev/sda1</code> będzie zawsze widoczna jako <code>/dev/sda1</code> i nigdy nie
+ulegnie zmianie. W przypadku posiadania kilku dysków, nazwy urządzeń mogą ulec zmianie, zwłaszcza
+przy innym fizycznym podłączeniu nośnika na płycie głównej. Wtedy z <code>/dev/sda1</code> może się
+nieoczekiwanie zrobić <code>/dev/sdb1</code> i nie mając UUID, system się nie odpali i trzeba będzie te numerki
+ręcznie pozmieniać. Ja korzystam z wielu urządzeń dlatego u mnie UUID jest niezbędne.</p>
+<p>Oczywiście mamy do dyspozycji graficzny system live i odszukanie przykładowego pliku <code>fstab</code> na
+sieci nie powinno stanowić trudność. Zmieniamy go nieco i wrzucić do naszego systemu. Ja jednak
+postanowiłem stworzyć ten plik samemu. Może na pierwszy rzut oka wygląda skomplikowanie ale gdy się
+zacznie go pisać, to okazuje się, że to wcale takie trudne nie jest. Ja i tak preferuję skrypt
+<code>genfstab</code> , choćby ze względu oszczędności czasu. Mój plik <code>/etc/fstab</code> wygląda mniej więcej tak:</p>
+<pre><code># /etc/fstab: static file system information.
+#
+# file system                           mount point     type      options               dump  pass
+
+UUID=451861b7-fec1-49cb-9fec-33cc7a2fe5fb   /                 ext4  defaults,errors=remount-ro,commit=10      0 1
+#UUID=ad2501b1-0bf1-4dbe-b12e-26254bfdb3f7  /tmp              ext4  defaults,errors=remount-ro,commit=10      0 0
+UUID=7e58cc8f-0426-4b0b-81ea-06e8274f8af4   /boot             ext4  defaults,errors=remount-ro,commit=10      0 2
+UUID=a530563d-e254-4b05-8f67-fe695941741b   /home             ext4  defaults,errors=remount-ro,commit=10      0 2
+UUID=61f16424-6ffd-43e0-b923-ba61d36c75e9   swap              swap  defaults,pri=10         0 0
+
+/dev/sr0    /media/cdrom      udf,iso9660 noauto,ro,user,exec           0 0
+</code></pre>
+<p>Wyżej mamy określony wpis od napędu CD/DVD, dlatego też trzeba jeszcze utworzyć odpowiednie pliki i
+katalogi pod to urządzenie:</p>
+<pre><code># cd /media/
+media/# mkdir cdrom0
+media/# ln -s cdrom0 cdrom
+media/# cd /
+# ln -s media/cdrom
+</code></pre>
+<p>Dobrze jest mieć dodane <code>udf,iso9660</code> zamiast jedynie <code>iso9660</code>. A to z tego względu, że <code>udf</code> jest
+rozszerzeniem <code>iso9660</code> obchodzącym mnóstwo jego ograniczeń takich jak, np. wielkość zapisywanego
+pliku (max 2 GiB).</p>
+<h4 id="plik-etcinitramfs-toolsconfdresume">Plik /etc/initramfs-tools/conf.d/resume</h4>
+<p>W przypadku korzystania z hibernacji, potrzebna nam będzie przestrzeń wymiany. Sama obecność SWAP'a
+nie sprawi w jakiś magiczny sposób, że system będzie w stanie się z powodzeniem zahibernować i
+odhibernować. Musimy poinformować system, o tym, gdzie przechowywany jest zrzut pamięci i za to
+odpowiada plik <code>/etc/initramfs-tools/conf.d/resume</code> . Wygląda on mniej więcej tak:</p>
+<pre><code>RESUME=/dev/mapper/debian_laptop-swap
+</code></pre>
+<p>Po edycji powyższego pliku trzeba wygenerować nowy initramfs ( <code>update-initramfs -u -k all</code> ).</p>
+<h3 id="konfiguracja-sieci">Konfiguracja sieci</h3>
+<p>Sieć w obecnych czasach to podstawa i żaden linux się bez niej obejść nie może. W Debianie mamy
+kilka rozwiązań dotyczących konfiguracji sieci. Jedno z nich opiera się o systemd ale póki co nie
+będę go tutaj opisywał. Skupimy się tutaj na tradycyjnym rozwiązaniu, które większość z nas zna z
+czasów, gdy wszystkie dystrybucje korzystały domyślnie z sysvinit, tj pakietu <code>ifupdown</code> .</p>
+<h4 id="plik-etcnetworkinterfaces">Plik /etc/network/interfaces</h4>
+<p>W przypadku używania standardowych ustawień sieci, trzeba stworzyć plik <code>/etc/network/interfaces</code>
+lub odkomentować w nim odpowiednie sekcje. Tak wygląda mój plik:</p>
+<pre><code># interfaces(5) file used by ifup(8) and ifdown(8)
+# Include files from /etc/network/interfaces.d:
+source /etc/network/interfaces.d/*
+
+# We always want the loopback interface.
+#
+auto lo
+iface lo inet loopback
+
+# To use dhcp:
+#
+# auto eth0
+allow-hotplug eth0
+iface eth0 inet dhcp
+
+# An example static IP setup: (broadcast and gateway are optional)
+#
+#auto eth0
+#iface eth0 inet static
+#   address 10.1.3.61
+#   network 10.1.0.0/16
+#   netmask 255.255.0.0
+#   broadcast 10.1.255.255
+#   gateway 10.1.255.253
+</code></pre>
+<p>Mamy tutaj konfigurację dla DHCP, jak i również blok z wpisami statycznymi. Obecnie większość sieci
+działa w oparciu o DHCP i nie musimy tutaj zbytnio nic przestawiać.</p>
+<h4 id="plik-etchostname">Plik /etc/hostname</h4>
+<p>Nazwa hosta jest trzymana w pliku <code>/etc/hostname</code> . To ta nazwa będzie nas później identyfikować w
+sieci. Ważne jest, by odpowiednio uzupełnić później plik <code>/etc/hosts</code> . Tak czy inaczej, nazwę hosta
+ustawiamy w poniższy sposób:</p>
+<pre><code># echo morfikownia &gt; /etc/hostname
+</code></pre>
+<h4 id="plik-etchosts">Plik /etc/hosts</h4>
+<p>Ten plik robi za swojego rodzaju lokalny resolver i bardzo fajnie się za jego pomocą blokuje reklamy
+na necie. My jednak nie będziemy sobie tym na razie głowy zawracać i dodamy tutaj tylko te bardzo
+podstawowe wpisy:</p>
+<pre><code>127.0.0.1 localhost
+# 127.0.1.1 &lt;host_name&gt;.&lt;domain_name&gt; &lt;host_name&gt;
+# 127.0.1.1 morfikownia.mhouse morfikownia
+10.1.3.61 morfikownia.mhouse morfikownia
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+</code></pre>
+<p>Zastanawiający jest wpis od <code>127.0.1.1</code> . Zgodnie z tym co wyczytałem na necie, ten adres jest
+przypisywany automatycznie w przypadku braku stałego adresu IP eliminując tym bugi w pewnych
+aplikacjach, np. z rodziny GNOME. W przypadku, gdy się posiada stały adres IP, to w miejsce
+<code>127.0.1.1</code> wpisujemy ten adres.</p>
+<p>Druga sprawa dotyczy tego co znajduje się po adresie IP. Z reguły jest tam jedno pole wskazujące na
+hostname. U mnie jest jeszcze ustawiona nazwa domeny. Do danego hosta można się odwoływać przez
+adres IP, hostname albo przez hostname.domainname . Oczywiście można zrezygnować ze środkowego pola
+i zostawić tylko relacje ip &lt;-&gt; hostname.</p>
+<h4 id="plik-etcresolvconf">Plik /etc/resolv.conf</h4>
+<p>W pliku <code>/etc/resolv.conf</code> jest trzymana konfiguracja resolvera. To na podstawie wpisów w tym pliku,
+system wie gdzie nas kierować ilekroć próbujemy odwiedzić jakąś domenę. Również i w tym przypadku
+mamy możliwość korzystania z mechanizmu oferowanego przez systemd ale nie będziemy go tutaj
+opisywać. Skupimy się na standardowym mechanizmie rozwiązywania nazw jaki oferuje nam Debian.</p>
+<p>Jedyne czego od nas się oczekuje w przypadku konfiguracji systemowego resolvera, to zdefiniowanie
+odpowiednich adresów IP. Tak wygląda mój plik:</p>
+<pre><code>nameserver 208.67.222.222
+nameserver 208.67.220.220
+</code></pre>
+<p>W przypadku konfiguracji DHCP, wpisy w pliku <code>/etc/resolv.conf</code> będą automatycznie dostosowywane.
+Jeśli korzystamy z innego providera DNS, to możemy poinstruować klienta DHCP, by ignorował wpisy
+odpowiedzialne za serwery DNS. W tym celu edytujemy plik <code>/etc/dhcp/dhclient.conf</code> i odpowiednio
+dostosowujemy zapytanie DHCP. Tak wygląda to standardowe:</p>
+<pre><code>request subnet-mask, broadcast-address, time-offset, routers,
+        domain-name, domain-name-servers, domain-search, host-name,
+        dhcp6.name-servers, dhcp6.domain-search, dhcp6.fqdn, dhcp6.sntp-servers,
+        netbios-name-servers, netbios-scope, interface-mtu,
+        rfc3442-classless-static-routes, ntp-servers;
+</code></pre>
+<p>Jeśli nie chcemy korzystać z serwerów DNS od ISP, to usuwamy pozycję <code>domain-name-servers</code> .
+Powyższe zapytanie można sobie oczywiście dostosować wedle uznania.</p>
+<h4 id="cache-i-szyfrowanie-zapytań-dns">Cache i szyfrowanie zapytań DNS</h4>
+<p>Istnieje także opcja zaszyfrowania ruchu DNS. Niemniej jednak, ten temat wykracza poza ramy tego
+artykułu. Jeśli kogoś ciekawi ta opcja, to zachęcam do przeczytania wpisu na temat <a href="https://morfikov.github.io
+/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/">szyfrowania
+zapytań DNS przy użyciu dnscrypt-proxy</a>. Zachęcam także do rzucenia okiem na wpis traktujący o
+<a href="https://morfikov.github.io
+/post/cache-dns-buforowania-zapytan/">cache zapytań DNS</a> jak i również polecam artykuł o <a href="https://morfikov.github.io
+/post/konfiguracja-cache-dns-w-firefoxie/">konfiguracji cache DNS w przeglądarce
+Firefox</a>.</p>
+<h4 id="sieć-bezprzewodowa-wifi">Sieć bezprzewodowa (WiFi)</h4>
+<p>Jeśli interesuje nas łączność bezprzewodowa, to jak najbardziej Debian jest nam ją w stanie
+zapewnić. Jedyne czego potrzebujemy to odpowiedniego firmware dla naszej karty WiFi no i oczywiście
+stosownej konfiguracji interfejsu. Dodatkowo będziemy musieli się w takiej bezprzewodowej sieci
+uwierzytelnić i do tego celu będziemy potrzebować pakiet <code>wpasupplicant</code> . Nie będę tutaj opisywał
+<a href="https://morfikov.github.io
+/post/konfiguracja-polaczenia-wifi-pod-debianem/">jak skonfigurować sobie sieć WiFi na Debianie przy pomocy wpa_supplicant</a>, bo to zostało
+zrobione w osobnym artykule.</p>
+<h3 id="synchronizacja-czasu">Synchronizacja czasu</h3>
+<p>We wcześniejszych swoich wydaniach, Debian do synchronizacji czasu wykorzystywał demona NTP, który
+był dostarczany wraz z pakietem <code>ntp</code> . Po migracji na systemd, nie ma zbytnio potrzeby instalowania
+tego pakietu, a samą synchronizację możemy włączyć w opcjach systemd. Ważne jest jednak, by ten krok
+przeprowadzić już po całym procesie instalacji systemu.</p>
+<pre><code># timedatectl set-ntp 1
+
+# timedatectl status | grep -i ntp
+NTP synchronized: yes
+</code></pre>
+<h3 id="instalacja-kernela">Instalacja kernela</h3>
+<p>Przyszła pora na zainstalowanie kernela. To jakie pakiety zostaną tutaj zainstalowane zależy od
+posiadanego sprzętu. W dużej mierze będą decydować sterowniki/firmware do tych wszystkich urządzeń,
+z których składa się nasz komputer. Poniżej są te pakiety, które są wymagane przez podzespoły mojej
+maszyny:</p>
+<pre><code># aptitude install firmware-linux-free firmware-realtek firmware-brcm80211 firmware-atheros \
+intel-gpu-tools intel-microcode iucode-tool \
+v86d
+</code></pre>
+<p>Do tych powyższych należy także dodać pakiety z kernelem oraz szeregiem jego modułów. Podobnie jak w
+przypadku firmware, moduły również mogą być inne w sporej części przypadków. Poniżej są pakiety,
+które ja zwykłem instalować u
+siebie:</p>
+<pre><code># aptitude install initramfs-tools sysdig sysdig-dkms xtables-addons-common xtables-addons-dkms \
+conntrack ipset \
+linux-{image,headers}-amd64
+</code></pre>
+<h3 id="bootloader">Bootloader</h3>
+<p>Dokładny <a href="https://morfikov.github.io
+/post/instalacja-i-konfiguracja-bootloadera-extlinux/">opis instalacji bootloader'a extlinux w Debianie</a> został już opisany w osobnym wpisie.
+Zachęcam zatem do przeczytania tego artykułu, bo bez bootloader'a ani rusz.</p>
+<h3 id="firewall">Firewall</h3>
+<p>Przydałoby się jeszcze mieć prosty filtr pakietów, który zrzuci wszystkie próby nowych połączeń
+sieciowych pod adresem naszej maszyny. <a href="https://morfikov.github.io
+/post/firewall-na-linuxowe-maszyny-klienckie/">Projekt takiego firewall'a w oparciu o usługę systemd</a>
+został już opisany w osobnym artykule i również zalecam zapoznanie się z nim.</p>
+<p>Jeśli nie korzystamy z systemd albo też nie chcemy pisać plików usług pod zaporę systemową, to
+zawsze można też skorzystać z pakietu <code>iptables-persistent</code> , którego celem jest ładowanie reguł dla
+iptables podczas fazy boot.</p>
+<h3 id="hasła-użytkownicy-oraz-grupy">Hasła, użytkownicy oraz grupy</h3>
+<p>Mamy już wgrany i wstępnie skonfigurowany system podstawowy oraz bootloader. Mamy także
+zainstalowanego kernela. Możemy więc przejść już do ostatniej fazy przeprowadzonej w <code>chroot</code> z
+poziomu systemu live. Pozostało nam skonfigurowanie użytkowników.</p>
+<p>Na sam początek ustawmy hasło użytkownikowi root. Robimy to przez wydanie w terminalu polecenia
+<code>passwd</code> bez argumentów:</p>
+<pre><code># passwd
+</code></pre>
+<p>Dodamy jeszcze zwykłego użytkownika. Konfigurujemy mu także grupy oraz ustawiamy mu hasło:</p>
+<pre><code># groupadd -g 1000 morfik
+# useradd -m -g morfik -G users,sudo,cdrom,floppy,dip,plugdev -s /bin/bash morfik
+# passwd morfik
+</code></pre>
+<p>Parametr <code>-g</code> przy <code>groupadd</code> ustawia id grupy. Domyślnie są one numerowane od 1000 w górę.
+Informacje na temat grup w systemie są przechowywane w pliku <code>/etc/group</code> , użytkownicy zaś w
+<code>/etc/passwd</code> , a hasła w <code>/etc/shadow</code> .</p>
+<p>Poniżej jest także wyjaśnienie opcji użytych w <code>useradd</code> :</p>
+<ul>
+<li><code>-m</code> tworzy katalog domowy, domyślnie w <code>/home/</code> .</li>
+<li><code>-g</code> określa grupę główną.</li>
+<li><code>-G</code> definiuje grupy dodatkowe.</li>
+<li><code>-s</code> ustawia shell.</li>
+<li><code>morfik</code> nadaje nazwę dla konta.</li>
+</ul>
+<h3 id="tasksel-oraz-priorytety-pakietów">Tasksel oraz priorytety pakietów</h3>
+<p>I to w zasadzie by było tyle jeśli chodzi o bardzo podstawowy system operacyjny. Gdybyśmy
+zresetowali teraz maszynę, odpali się, a to najważniejsze. Nasz system za dużo jeszcze nie potrafi.
+Możemy za to rozszerzyć jego funkcjonalność przez instalację dodatkowych pakietów. Narzędzie
+<code>tasksel</code> potrafi instalować pakiety o określonych priorytetach. Priorytety do wyboru jakie mamy to:
+<code>required</code>, <code>important</code> (te dwa zostały zainstalowane przez <code>debootstrap</code> ), <code>standard</code>, <code>optional</code>
+i <code>extra</code>. Instalator Debiana zwykle dodaje jeszcze paczki z priorytetem <code>standard</code>. Możemy je
+doinstalować za pomocą:</p>
+<pre><code># tasksel install standard
+</code></pre>
+<p>Być może zdarzy się tak, że to powyższe polecenie zwróci błąd: <code>tasksel: apt-get failed (100)</code> . Nie
+wiem dlaczego tak się dzieje ale zawsze możemy te pakiety zainstalować za pomocą <code>aptitude</code> w
+poniższy sposób:</p>
+<pre><code># aptitude install ~pstandard ~prequired ~pimportant
+</code></pre>
+<h2 id="kończenie-instalacji">Kończenie instalacji</h2>
+<p>Możemy już wyjść z chroot'a i zresetować maszynę. System, który wgraliśmy powinien się bez problemu
+odpalić. Jest to czysty tryb tekstowy. Czeka nas jeszcze instalacja środowiska graficznego lub też
+<a href="https://morfikov.github.io
+/post/konfiguracja-xservera-na-debianie-xorg/">Xserver'a w połączeniu z prostym menadżerem okien</a>, np. <a href="https://morfikov.github.io
+/post/menadzer-okien-openbox/">openbox</a>.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/luks/">luks</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lvm/">lvm</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debootstrap/">debootstrap</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-debiana-z-wykorzystaniem-debootstrap%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-debiana-z-wykorzystaniem-debootstrap%2f&amp;text=Instalacja%20debiana%20z%20wykorzystaniem%20debootstrap" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-debiana-z-wykorzystaniem-debootstrap%2f&amp;title=Instalacja%20debiana%20z%20wykorzystaniem%20debootstrap" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-debiana-z-wykorzystaniem-debootstrap%2f&amp;title=Instalacja%20debiana%20z%20wykorzystaniem%20debootstrap" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-debiana-z-wykorzystaniem-debootstrap%2f&title=Instalacja%20debiana%20z%20wykorzystaniem%20debootstrap" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-debiana-z-wykorzystaniem-debootstrap%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-debiana-z-wykorzystaniem-debootstrap%2f&amp;title=Instalacja%20debiana%20z%20wykorzystaniem%20debootstrap" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-debiana-z-wykorzystaniem-debootstrap%2f&description=Instalacja%20debiana%20z%20wykorzystaniem%20debootstrap" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kopia-struktury-dysku-twardego/">Kopia struktury dysku twardego</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/odszyfrowanie-kontenerow-luks-w-systemd/">Odszyfrowanie kontenerów LUKS w systemd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-rozmiaru-lvm/">Zmiana rozmiaru dysków w strukturze LVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-rozmiaru-zaszyfrowanego-kontenera-luks/">Zmiana rozmiaru kontenera LUKS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">Poradnik maintainer&#39;a, czyli jak zrobić pakiet deb</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

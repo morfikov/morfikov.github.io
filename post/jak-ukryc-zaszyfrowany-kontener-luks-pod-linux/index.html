@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak ukryć zaszyfrowany kontener LUKS pod linux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak ukryć zaszyfrowany kontener LUKS pod linux" />
+<meta property="og:description" content="Gdy w grę wchodzi poufność informacji, to przeciętny użytkownik komputera od razu zaczyna rozważać
+szyfrowanie danych. Są różne narzędzia, które te kwestię realizują w mniejszym lub większym stopniu.
+Kiedyś wszyscy korzystali z TrueCrypt ale po jego dziwnych
+przygodach ludzie stopniowo zaczęli od tego oprogramowania odchodzić. W jego miejscu zaczęły
+pojawiać się różne forki, np. VeraCrypt. Abstrahując od tych ww.
+narzędzi, w każdym linux&#39;ie mamy również dostępny mechanizm szyfrujący na bazie
+LUKS i jego gołą wersję
+wykorzystującą dm-crypt. Przy pomocy każdego z tych narzędzi jesteśmy w stanie zaszyfrować dysk
+komputera, pendrive, czy nawet kartę SD, w taki sposób, by nikt inny nie uzyskał dostępu do danych
+zgromadzonych na tych nośnikach informacji. Problem w tym, że w dalszym ciągu ktoś może nas
+torturować, by wydobyć od nas hasło czy keyfile i uzyskać dostęp do tych zaszyfrowanych danych bez
+większego trudu. Dlatego też pojawiło się coś nazwanego Plausible
+Deniability, gdzie wykorzystywane są tak
+naprawdę dwa nośniki z czego jeden robi za przykrywkę, a na drugim mamy zgromadzone poufne pliki. W
+ten sposób agresorowi podajemy hasło do trefnego kontenera i wszyscy są zadowoleni. Czy aby na
+pewno?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-ukryc-zaszyfrowany-kontener-luks-pod-linux/" />
+<meta property="article:published_time" content="2016-10-25T19:30:23+00:00" />
+<meta property="article:modified_time" content="2016-10-25T19:30:23+00:00" />
+
+		<meta itemprop="name" content="Jak ukryć zaszyfrowany kontener LUKS pod linux">
+<meta itemprop="description" content="Gdy w grę wchodzi poufność informacji, to przeciętny użytkownik komputera od razu zaczyna rozważać
+szyfrowanie danych. Są różne narzędzia, które te kwestię realizują w mniejszym lub większym stopniu.
+Kiedyś wszyscy korzystali z TrueCrypt ale po jego dziwnych
+przygodach ludzie stopniowo zaczęli od tego oprogramowania odchodzić. W jego miejscu zaczęły
+pojawiać się różne forki, np. VeraCrypt. Abstrahując od tych ww.
+narzędzi, w każdym linux&#39;ie mamy również dostępny mechanizm szyfrujący na bazie
+LUKS i jego gołą wersję
+wykorzystującą dm-crypt. Przy pomocy każdego z tych narzędzi jesteśmy w stanie zaszyfrować dysk
+komputera, pendrive, czy nawet kartę SD, w taki sposób, by nikt inny nie uzyskał dostępu do danych
+zgromadzonych na tych nośnikach informacji. Problem w tym, że w dalszym ciągu ktoś może nas
+torturować, by wydobyć od nas hasło czy keyfile i uzyskać dostęp do tych zaszyfrowanych danych bez
+większego trudu. Dlatego też pojawiło się coś nazwanego Plausible
+Deniability, gdzie wykorzystywane są tak
+naprawdę dwa nośniki z czego jeden robi za przykrywkę, a na drugim mamy zgromadzone poufne pliki. W
+ten sposób agresorowi podajemy hasło do trefnego kontenera i wszyscy są zadowoleni. Czy aby na
+pewno?">
+<meta itemprop="datePublished" content="2016-10-25T19:30:23+00:00" />
+<meta itemprop="dateModified" content="2016-10-25T19:30:23+00:00" />
+<meta itemprop="wordCount" content="2587">
+
+
+
+<meta itemprop="keywords" content="pendrive,luks,hdd/ssd,szyfrowanie," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak ukryć zaszyfrowany kontener LUKS pod linux"/>
+<meta name="twitter:description" content="Gdy w grę wchodzi poufność informacji, to przeciętny użytkownik komputera od razu zaczyna rozważać
+szyfrowanie danych. Są różne narzędzia, które te kwestię realizują w mniejszym lub większym stopniu.
+Kiedyś wszyscy korzystali z TrueCrypt ale po jego dziwnych
+przygodach ludzie stopniowo zaczęli od tego oprogramowania odchodzić. W jego miejscu zaczęły
+pojawiać się różne forki, np. VeraCrypt. Abstrahując od tych ww.
+narzędzi, w każdym linux&#39;ie mamy również dostępny mechanizm szyfrujący na bazie
+LUKS i jego gołą wersję
+wykorzystującą dm-crypt. Przy pomocy każdego z tych narzędzi jesteśmy w stanie zaszyfrować dysk
+komputera, pendrive, czy nawet kartę SD, w taki sposób, by nikt inny nie uzyskał dostępu do danych
+zgromadzonych na tych nośnikach informacji. Problem w tym, że w dalszym ciągu ktoś może nas
+torturować, by wydobyć od nas hasło czy keyfile i uzyskać dostęp do tych zaszyfrowanych danych bez
+większego trudu. Dlatego też pojawiło się coś nazwanego Plausible
+Deniability, gdzie wykorzystywane są tak
+naprawdę dwa nośniki z czego jeden robi za przykrywkę, a na drugim mamy zgromadzone poufne pliki. W
+ten sposób agresorowi podajemy hasło do trefnego kontenera i wszyscy są zadowoleni. Czy aby na
+pewno?"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak ukryć zaszyfrowany kontener LUKS pod linux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-10-25T19:30:23Z">Opublikowano: 25/10/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak ukryć zaszyfrowany kontener LUKS pod linux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#sztuka-ukrycia-zaszyfrowanego-kontenera">Sztuka ukrycia zaszyfrowanego kontenera</a></li>
+    <li><a href="#jak-ukryć-pliki-wewnątrz-kontenera-luks">Jak ukryć pliki wewnątrz kontenera LUKS</a></li>
+    <li><a href="#ukryty-kontener-luks">Ukryty kontener LUKS</a>
+      <ol>
+        <li><a href="#czyszczenie-nośnika-danymi-losowymi">Czyszczenie nośnika danymi losowymi</a></li>
+        <li><a href="#tworzenie-szyfrowanego-kontenera-luks">Tworzenie szyfrowanego kontenera LUKS</a></li>
+        <li><a href="#umieszczanie-plików-w-określonym-obszarze-kontenera">Umieszczanie plików w określonym obszarze kontenera</a></li>
+        <li><a href="#tworzenie-ukrytego-kontenera-luks">Tworzenie ukrytego kontenera LUKS</a></li>
+      </ol>
+    </li>
+    <li><a href="#ukryty-kontener-przy-wykorzystaniu-dm-crypt">Ukryty kontener przy wykorzystaniu dm-crypt</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Gdy w grę wchodzi poufność informacji, to przeciętny użytkownik komputera od razu zaczyna rozważać
+szyfrowanie danych. Są różne narzędzia, które te kwestię realizują w mniejszym lub większym stopniu.
+Kiedyś wszyscy korzystali z <a href="http://truecrypt.sourceforge.net/">TrueCrypt</a> ale po jego dziwnych
+przygodach ludzie stopniowo zaczęli od tego oprogramowania odchodzić. W jego miejscu zaczęły
+pojawiać się różne forki, np. <a href="https://veracrypt.codeplex.com/">VeraCrypt</a>. Abstrahując od tych ww.
+narzędzi, w każdym linux'ie mamy również dostępny <a href="https://gitlab.com/cryptsetup/cryptsetup/wikis/FrequentlyAskedQuestions">mechanizm szyfrujący na bazie
+LUKS</a> i jego gołą wersję
+wykorzystującą dm-crypt. Przy pomocy każdego z tych narzędzi jesteśmy w stanie zaszyfrować dysk
+komputera, pendrive, czy nawet kartę SD, w taki sposób, by nikt inny nie uzyskał dostępu do danych
+zgromadzonych na tych nośnikach informacji. Problem w tym, że w dalszym ciągu ktoś może nas
+torturować, by wydobyć od nas hasło czy keyfile i uzyskać dostęp do tych zaszyfrowanych danych bez
+większego trudu. Dlatego też pojawiło się coś nazwanego <a href="https://en.wikipedia.org/wiki/Plausible_deniability">Plausible
+Deniability</a>, gdzie wykorzystywane są tak
+naprawdę dwa nośniki z czego jeden robi za przykrywkę, a na drugim mamy zgromadzone poufne pliki. W
+ten sposób agresorowi podajemy hasło do trefnego kontenera i wszyscy są zadowoleni. Czy aby na
+pewno?</p>
+<h2 id="sztuka-ukrycia-zaszyfrowanego-kontenera">Sztuka ukrycia zaszyfrowanego kontenera</h2>
+<p>Generalnie rzecz biorąc, ukrycie zaszyfrowanego kontenera zostało rozpowszechnione za sprawą
+TrueCrypt, gdzie cały proces był automatyczny i banalnie prosty. Gdy chodzi o inne narzędzia, to nie
+wszystkie one posiadają taki ficzer. W przypadku LUKS wszyscy są niemal zgodni, że nagłówek
+zaszyfrowanej partycji czy dysku nie nadaje się wręcz do operacji mających na celu ukrycie jakiegoś
+voluminu, tak jak to robi wspomniany TrueCrypt.</p>
+<p>Jeśli spróbowalibyśmy zaszyć taki ukryty kontener LUKS w innym zaszyfrowanym kontenerze czy nawet na
+gołej partycji, to jest tylko kwestią czasu, gdy ten nagłówek zostanie odnaleziony. W jaki sposób?
+Skoro system operacyjny jest w stanie rozpoznać zaszyfrowany nagłówek LUKS, to raczej nie jest on
+jakoś specjalnie ukryty. Jest więc niemal pewne, że są już narzędzia, które przeszukają binarnie
+dysk czy pendrive w poszukiwaniu pewnych sekwencji bitów charakterystycznych dla tego nagłówka. Po
+jego znalezieniu raczej będziemy mieć problem z wytłumaczeniem, co on tam robi. Zwłaszcza w
+przypadku, gdy coś się nie zgadza w ilości zajmowanego miejsca.</p>
+<p>Swego czasu, gdy korzystałem z TrueCrypt i testowałem te ukryte kontenery, to byłem w stanie zapisać
+tylko pewną określoną ilość miejsca na danym nośniku. Przykładowo, dysk miał 100 GiB. Podzieliłem go
+w równych proporcjach, tak by 50 GiB przypadło przykrywce, a drugie 50 GiB było ukryte. Każdy z tych
+kontenerów miał inny klucz szyfrujący oraz inne hasło służące do odszyfrowania tego klucza. Jeśliby
+ktoś na nas naciskał, to możemy mu podać hasło od przykrywki. Tam z kolei była informacja o
+maksymalnym rozmiarze partycji, gdzie widać było 100 GiB.</p>
+<p>Niemniej jednak, próbując zapisać te 100 GiB, w pewnym momencie zapis był przerywany. Działo się to
+po zapisie 50 GiB, no bo przecie na pozostałych 50 GiB znajduje się drugi volumin. Wiedząc to,
+automatycznie też wiemy, że istnieje także drugi dysk i możemy dalej torturować człowieka, by
+wyjawił również i drugie hasło.</p>
+<p>Podobnie sprawa ma się w przypadku LUKS. Takie schowane kontenery nie dają nam praktycznie żadnej
+ochrony, tylko mogą nam przysporzyć jeszcze więcej problemów. Czy nie ma zatem żadnego sposobu, by
+jakoś ukryć te zasoby? Ależ są, tylko trzeba nieco się wysilić i nie korzystać z rozwiązań OOTB,
+które działają po przyciśnięciu jednego przycisku.</p>
+<h2 id="jak-ukryć-pliki-wewnątrz-kontenera-luks">Jak ukryć pliki wewnątrz kontenera LUKS</h2>
+<p>Ukrycie danych na zasadzie podzielenia nośnika na część widoczną i ukrytą jest bardzo ciekawym
+pomysłem. Niemniej jednak, jego implementacja zwykle nie jest najlepsza. Chodzi o to, że do tej
+pory chowanie zasobów odbywa się horyzontalnie, przez co łatwo jest te dane odnaleźć. Może zamiast
+bawić się w tryb horyzontalny powinniśmy skupić się bardziej na trybie wertykalnym? Problem z tym
+drugim rozwiązaniem jest taki, że istnieje bardzo wysokie ryzyko utraty danych ale tylko w przypadku
+nieumiejętnego obchodzenia się z takim nośnikiem.</p>
+<p>Pliki przechowywane na dyskach twardych, pendrive, karach SD (czy na czymkolwiek co może nam
+posłużyć za jakiś nośnik informacji) wymagają systemu plików. Standardowo na dysku oznaczamy
+partycje i formatujemy je z wykorzystaniem takiego systemu plików. Każdy wie, że ponowne
+sformatowanie tej samej partycji wiążę się z utratą danych. Ale czy aby na pewno musimy formatować
+całą partycję? A co jeśli sformatujemy jedynie jej kawałek? Czy to w ogóle możliwe, no bo formatować
+można tylko całą partycję, a nie jej kawałek? Przecie nie ma takich opcji w <code>fdisk</code> , <code>gdisk</code> ,
+<code>parted</code> , <code>gparted</code> czy <code>mkfs</code> . No właśnie, a kto powiedział, że zamierzamy zdefiniować partycję w
+taki sposób jak to rozumieją te powyższe narzędzia?</p>
+<p>Patrycją może być dowolny kawałek przestrzeni na nośniku informacyjnym. Ta przestrzeń musi być na
+tyle duża by zmieściła się w niej struktura opisująca wykorzystywany system plików na tej partycji.
+Taka przestrzeń może też znajdować się w dowolnym miejscu tego nośnika. Rozmiary partycji mogą mieć
+kilka MiB albo i wiele GiB, zatem daje nam to niesamowitą dowolność w tworzeniu partycji.</p>
+<p>Myśląc nad rozwiązaniem ukrytego kontenera wpadłem na pomysł stworzenia dwóch niezależnych od siebie
+zaszyfrowanych kontenerów LUKS, z których jeden jest zaszyty wewnątrz drugiego. W ten sposób,
+standardowo pod odszyfrowaniu takiego zagnieżdżonego kontenera, dana osoba będzie mieć dostęp, tylko
+do pierwszego systemu plików, który z kolei rozciągałby się na całą partycję. Nawet jeśli ta osoba
+podejrzewałaby możliwość ukrycia czegoś wewnątrz zaszyfrowanego kontenera, to nie ma jak tego
+sprawdzić. Mogłaby, gdyby ten ukryty kontener zawierał nagłówek.</p>
+<p>Ten mechanizm jest o tyle ciekawy, że mając do dyspozycji 100 GiB, możemy ukryć tak 99 GiB
+zasłaniając je 1 GiB. Jak niby można zasłonić w ten sposób tak dużą część nośnika? Powiem więcej,
+nie tyle można zasłonić te 99 GiB ale także nikt nie będzie w stanie ustalić, że oszukujemy.</p>
+<h2 id="ukryty-kontener-luks">Ukryty kontener LUKS</h2>
+<p>Jak przygotować nośnik zawierający nałożone na siebie dwa kontenery LUKS? Przede wszystkim, musimy
+podzielić dysk/partycję/pendrive/kartę SD na dwa obszary. Rozmiary mogą być dowolne. Trzeba jednak
+pamiętać, że im więcej przestrzeni zostawimy na widoczne pliki, tym większa szansa powodzenia całego
+przedsięwzięcia.</p>
+<p>Pamiętajmy tylko, że ta zabawa stwarza bardzo poważne zagrożenie dla danych ukrytych i bez
+właściwego obchodzenia się z tym nośnikiem, dane na nim zgromadzone mogą ulec skasowaniu. Lepiej
+zastanówmy się czy chcemy się w to bawić. Dla przykładu, jeśli ktoś zacznie wgrywać dane na widoczny
+zasób, to w pewnym momencie zacznie zapisywać dane na ukrytym systemie plików niszcząc go przy tym
+kompletnie. W efekcie nasz przykładowy kontener 100 GiB zostałby zapisany w pełni jak gdyby nigdy
+nic, no tyle, że przy okazji została by przepisana nasza tajna konwersacja ze Snowden'em.</p>
+<p>W tym doświadczeniu wykorzystamy sobie kartę SD 2 GiB. Nie jest ona duża ale to nie ma większego
+znaczenia. Zasada jest zawsze taka sama. Ważne jest, by oba zasoby były jednolite, tj. miały ten sam
+system plików, katalog w którym zamierzamy je montować, a nawet nazwę odszyfrowanego zasobu. Ma to
+na celu ukrycie faktu posiadania ukrytego kontenera, np. w logach aplikacji, które mają zamiar
+korzystać z takiego zasobu. Niemniej jednak, nie zawsze wszystkie informacje da radę zataić i
+niektóre mogą powędrować do logu systemowego, np. różnica w pojemności voluminów.</p>
+<h3 id="czyszczenie-nośnika-danymi-losowymi">Czyszczenie nośnika danymi losowymi</h3>
+<p>Trzeba także pamiętać, by zapisać cały nośnik/partycję losowymi danymi przed próbą ukrycia w nim
+jakiegoś zasobu. Jeśli tego nie zrobimy, to analiza takiego dysku wykaże, w którym miejscu coś
+próbujemy ukryć.</p>
+<pre><code># dd if=/dev/urandom of=/dev/sdb bs=2M
+</code></pre>
+<h3 id="tworzenie-szyfrowanego-kontenera-luks">Tworzenie szyfrowanego kontenera LUKS</h3>
+<p>Teraz w przy pomocy <code>gparted</code> stwórzmy na nim jednolitą partycję <code>sdb1</code>
+:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/1.gparted-linux-tworzenie-partycji-pod-luks.png"><img src="https://morfikov.github.io
+/img/2016/10/1.gparted-linux-tworzenie-partycji-pod-luks-660x335.png" alt="1.gparted-linux-tworzenie-partycji-pod-luks"></a></p>
+<p>Tutaj wykorzystujemy system plików EXT4. Poniżej widzimy, że struktura opisowa tej partycji zajmuje
+około 70 MiB. To jest minimum, poniżej którego nie możemy
+zejść.</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/2.gparted-linux-tworzenie-partycji-pod-luks.png"><img src="https://morfikov.github.io
+/img/2016/10/2.gparted-linux-tworzenie-partycji-pod-luks-660x335.png" alt="2.gparted-linux-tworzenie-partycji-pod-luks"></a></p>
+<p>Do tego trzeba będzie przeznaczyć jeszcze jakieś miejsce na widoczne pliki. Rozmiar tej karty SD
+widziany w systemie to 1,84 GiB, a nasza przykrywka będzie miała 256 MiB. Pozostała część obszaru
+dysku będzie przykryta. Stwórzmy zatem na całej dostępnej przestrzeni zaszyfrowany kontener. Hasło
+nie musi być długie i skomplikowane, w końcu będziemy musieli je podać w razie torturowania nas i
+lepiej go nie zapomnieć w takiej sytuacji.</p>
+<pre><code># cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random --verify-passphrase --verbose luksFormat /dev/sdb1
+</code></pre>
+<p>Otwórzmy teraz ten kontener:</p>
+<pre><code># cryptsetup luksOpen /dev/sdb1 sdb1
+</code></pre>
+<p>Póki co, nie mamy jeszcze nic w kontenerze. To jest tylko wirtualny obszar, który zamierzamy sobie
+podzielić. Wewnątrz tego kontenera musimy teraz stworzyć przykrywkowy system plików. Pamiętajmy
+jednak, że z jednej strony on musi wypełniać całą dostępną przestrzeń zaszyfrowanego kontenera ale
+pliki muszą zostać zapisane na początku systemu plików (&lt;256 MiB). By tego typu sztuczkę
+zastosować, musimy nieco inaczej podejść do kwestii tworzenia systemu plików.</p>
+<p>Na samym początku stworzymy system plików dla całego kontenera. Później go skurczymy do 256 MiB i
+zapiszemy w nim jakieś mało znaczące dla nas pliki. Następnie ten system plików zostanie rozszerzony
+znów tak, by wypełnił cały kontener. Kolejnym krokiem będzie stworzenie ukrytego kontenera. Będzie
+on się znajdował gdzieś na granicy pierwszych 320 MiB. My będziemy wykorzystywać jedynie ukryty
+system plików, natomiast każdy inny niewtajemniczony osobnik będzie próbował zamontować przykrywkowy
+system plików po odszyfrowaniu kontenera. Mniej więcej tak jak to zrobi standardowo każdy system.
+Taka osoba zobaczy dane, które powinna i nie będzie miała żadnej możliwości zweryfikowania czy coś z
+tym system plików jest nie tak.</p>
+<p>Test zapisu również nic nie wykaże. Natomiast przy próbie zapisu nastąpi ciche zniszczenie ukrytego
+kontenera i jego systemu plików. Może i stracimy poufne dla nas informacje ale nikt się o tym nawet
+nie dowie. Zatem do dzieła, tworzymy system plików w kontenerze głównym:</p>
+<pre><code># mkfs.ext4 -m 0 -L sd-ext4 /dev/mapper/sdb1
+</code></pre>
+<p>Tak stworzony system plików zawiera journal, czyli dziennik, w którym są zapisywane informacje na
+temat operacji na plikach. Można go usunąć lub zostawić. Jeśli zostawiamy, to trzeba się liczyć, że
+on trochę zajmuje. W przypadku małych systemów plików (tak jak tutaj), jest to 4 MiB. W przypadku
+większych zasobów może być nawet 128 MiB i więcej. Ten dziennik jednak nie wpływa w żadnym stopniu
+na ukryty system plików. Mówi nam jednak nieco o wykorzystaniu przykrywkowego systemu plików.</p>
+<h3 id="umieszczanie-plików-w-określonym-obszarze-kontenera">Umieszczanie plików w określonym obszarze kontenera</h3>
+<p>Mając stworzony system plików, musimy go teraz skurczyć do rozmiarów 256 MiB. Możemy to zrobić przy
+pomocy <code>resize2fs</code> .</p>
+<pre><code># resize2fs -p /dev/mapper/sdb1 256M
+resize2fs 1.43.3 (04-Sep-2016)
+Resizing the filesystem on /dev/mapper/sdb1 to 65536 (4k) blocks.
+Begin pass 2 (max = 8192)
+Relocating blocks             XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Begin pass 3 (max = 15)
+Scanning inode table          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+The filesystem on /dev/mapper/sdb1 is now 65536 (4k) blocks long.
+</code></pre>
+<p>Montujemy teraz ten system plików:</p>
+<pre><code># mount /dev/mapper/sdb1 /mnt
+
+# df -h | grep -i mnt
+Filesystem                     Type      Size  Used Avail Use% Mounted on
+/dev/mapper/sdb1               ext4      221M  1.9M  214M   1% /mnt
+</code></pre>
+<p>Jak widzimy nasz kontener ma do dyspozycji 214 MiB. Zapiszmy w nim trochę mało poufnych dla nas
+danych, które mają być &quot;słabo szyfrowane&quot; (jak z tej reklamy dysków twardych pewnej firmy).</p>
+<pre><code># df -h | grep mnt
+Filesystem                     Type      Size  Used Avail Use% Mounted on
+/dev/mapper/sdb1               ext4      221M  103M  113M  48% /mnt
+</code></pre>
+<p>Dane są na swoim miejscu. Teraz odmontujmy ten system plików i powiększmy go tak, by wypełnił cały
+kontener. Pliki zostaną na swoim miejscu.</p>
+<pre><code># umount /mnt
+# e2fsck -f /dev/mapper/sdb1
+# resize2fs -p /dev/mapper/sdb1
+resize2fs 1.43.3 (04-Sep-2016)
+Resizing the filesystem on /dev/mapper/sdb1 to 481024 (4k) blocks.
+The filesystem on /dev/mapper/sdb1 is now 481024 (4k) blocks long.
+</code></pre>
+<h3 id="tworzenie-ukrytego-kontenera-luks">Tworzenie ukrytego kontenera LUKS</h3>
+<p>Mając przygotowany przykrywkowy system plików, możemy przejść do tworzenia ukrytego kontenera LUKS.
+Pamiętajmy, że dane mamy wgrane gdzieś w obrębie pierwszych 256 MiB. Zatem zaczniemy tworzyć nowy
+system plików gdzieś koło 320 MiB. Na sam początek zamknijmy główny kontener jeśli jeszcze jest on
+otwarty:</p>
+<pre><code># cryptsetup luksClose sdb1
+</code></pre>
+<p>I teraz cała sztuka polega na tym, by ustalić odpowiedni offset dla ukrytego kontenera. Ten z kolei
+podajemy w blokach 512 bajtowych. Zatem będzie to 320x1024x1024/512=655360. I to tę wartość trzeba
+podać w <code>--align-payload</code> narzędziu <code>cryptsetup</code> .</p>
+<p>Dodatkowo w celu zwiększenia poufności nowego kontenera możemy wykroić nagłówek i umieścić go na
+osobnym nośniku przy pomocy opcji <code>--header</code> . Jest to o tyle użyteczna opcja, że nie pozostawia
+śladu obecności ukrytego kontenera. Każdy, kto by analizował strukturę takiego nośnika, zobaczyłby
+jedynie losowe dane, co jeszcze bardziej by go upewniło, że nic nie skrywamy na naszym zaszyfrowanym
+dysku czy pendrive.</p>
+<pre><code># dd if=/dev/zero of=/home/morfik/Desktop/header-sd-ext4 bs=1M count=2
+
+# cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random --verify-passphrase --verbose luksFormat /dev/sdb1 --align-payload 655360 --header /home/morfik/Desktop/header-sd-ext4
+</code></pre>
+<p>Otwieramy nasz ukryty kontener i tworzymy na nim system plików:</p>
+<pre><code># cryptsetup luksOpen --header /home/morfik/Desktop/header-sd-ext4 /dev/sdb1 sdb1
+# mkfs.ext4 -m 0 -L sd-ext4 /dev/mapper/sdb1
+</code></pre>
+<p>Montujemy teraz ten ukryty system plików:</p>
+<pre><code># mount /dev/mapper/sdb1 /mnt
+# df -h | grep mnt
+Filesystem                     Type      Size  Used Avail Use% Mounted on
+/dev/mapper/sdb1               ext4      1.5G  4.6M  1.5G   1% /mnt
+</code></pre>
+<p>Jak widać, mamy do dyspozycji 1,5 GiB z całkowitych 1,9 GiB. Reszta robi za przykrywkę. Odmontujmy
+zatem nasz ukryty volumin i sprawdźmy czy nic nie dolega przykrywce:</p>
+<pre><code># umount /mnt
+# cryptsetup luksClose sdb1
+# cryptsetup luksOpen /dev/sdb1 sdb1
+# mount -r /dev/mapper/sdb1 /mnt
+
+# df -h | grep mnt
+Filesystem                     Type      Size  Used Avail Use% Mounted on
+/dev/mapper/sdb1               ext4      1.8G  106M  1.7G   6% /mnt
+</code></pre>
+<p>A tu już mamy widoczny zaszyfrowany kontener z paroma plikami wgranymi wcześniej no i oczywiście
+jego system plików rozciąga się na całym nośniku bez jakiegokolwiek znaku, że na granicy 320 MiB
+znajduje się ukryty kontener.</p>
+<p>Ważna uwaga tutaj, jeśli zamierzamy wchodzić w interakcję z przykrywkowym systemem plików, to zawsze
+montujmy go w trybie do odczytu. Ewentualna inspekcja tego nośnika nic nie wykaże, bo nagłówek jest
+na osobnym nośniku. A co z próbą zapisu danych w celu ustalenia faktycznej pojemności systemu
+plików? Cóż, sprawdźmy. Zapiszmy ten system plików danymi z <code>/dev/zero</code> :</p>
+<pre><code># dd if=/dev/zero of=/mnt/zero.img bs=2M
+dd: error writing '/mnt/zero.img': No space left on device
+848+0 records in
+847+0 records out
+1777975296 bytes (1.8 GB, 1.7 GiB) copied, 311.186 s, 5.7 MB/s
+
+# df -h
+Filesystem                     Type      Size  Used Avail Use% Mounted on
+/dev/mapper/sdb1               ext4      1.8G  1.8G     0 100% /mnt
+</code></pre>
+<p>Oczywiście dane wgrane na samym początku do tego przykrywkowego systemu plików pozostały nietknięte
+ale nasz ukryty kontener zwyczajnie wyparował. Teraz już nikt nie wyciągnie z niego żadnych danych,
+nawet i my. Możemy się o tym przekonać na własne oczy:</p>
+<pre><code># umount /mnt
+# cryptsetup luksClose sdb1
+# cryptsetup luksOpen --header /home/morfik/Desktop/header-sd-ext4 /dev/sdb1 sdb1
+# mount /dev/mapper/sdb1 /mnt
+mount: /dev/mapper/sdb1 is write-protected, mounting read-only
+mount: wrong fs type, bad option, bad superblock on /dev/mapper/sdb1,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+</code></pre>
+<p>Może i system poprawnie przetworzył nagłówek LUKS, który znajduje się u mnie na dysku, i stosownie
+oznaczy ukryty obszar karty SD ale próba zamontowania tego voluminu zwraca błąd. Pozostała nam zatem
+jedynie zaszyfrowana przykrywka, która nie wzbudzała i nadal nie wzbudza żadnych podejrzeń.</p>
+<h2 id="ukryty-kontener-przy-wykorzystaniu-dm-crypt">Ukryty kontener przy wykorzystaniu dm-crypt</h2>
+<p>LUKS ma ten problem, że na partycji zostawia ślad w postaci nagłówka. Ten nagłówek jest zwykle
+niezbędny jeśli potrzebujemy menadżera kluczy, który jest oferowany prze LUKS. Zwykle jednak
+korzystamy tylko z jednego hasła i cała funkcjonalność LUKS jest dla nas zwyczajnie zbędna. Dlatego
+też zamiast tworzyć ukryty kontener LUKS, możemy wykorzystać do tego celu <code>dm-crypt</code> . Nie zostawia
+on żadnych śladów na partycji i idealnie nadaje się do zastosowania w naszym przypadku. Do
+zmapowania interesującego nas obszaru dysku wykorzystamy poniższe
+polecenie:</p>
+<pre><code># cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --verify-passphrase --verbose open --type=plain /dev/sdb1 sdb1 --offset=655360
+</code></pre>
+<p>Tę linijkę trzeba będzie wpisywać za każdym razem odszyfrowując ukryty kontener, jako, że na
+partycji nie ma nagłówka, który by przechowywał choćby informacje na temat rodzaju i długości
+klucza. Może nie jest to wygodne ale za to nie musimy ze sobą targać nagłówka LUKS na osobnym
+nośniku.</p>
+<p>W tak zmapowanym obszarze, musimy jeszcze utworzyć system plików:</p>
+<pre><code># mkfs.ext4 -m 0 -L sd-ext4 /dev/mapper/sdb1
+</code></pre>
+<p>No i teraz już możemy zamontować nasz ukryty kontener w systemie:</p>
+<pre><code># mount /dev/mapper/sdb1 /mnt
+</code></pre>
+<p>Taki kontener zaś zamykamy standardowo:</p>
+<pre><code># umount /mnt
+# cryptsetup luksClose sdb1
+</code></pre></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pendrive/">pendrive</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/luks/">luks</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/ssd/">hdd/ssd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">szyfrowanie</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-zaszyfrowany-kontener-luks-pod-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-zaszyfrowany-kontener-luks-pod-linux%2f&amp;text=Jak%20ukry%c4%87%20zaszyfrowany%20kontener%20LUKS%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-zaszyfrowany-kontener-luks-pod-linux%2f&amp;title=Jak%20ukry%c4%87%20zaszyfrowany%20kontener%20LUKS%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-zaszyfrowany-kontener-luks-pod-linux%2f&amp;title=Jak%20ukry%c4%87%20zaszyfrowany%20kontener%20LUKS%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-zaszyfrowany-kontener-luks-pod-linux%2f&title=Jak%20ukry%c4%87%20zaszyfrowany%20kontener%20LUKS%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-zaszyfrowany-kontener-luks-pod-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-zaszyfrowany-kontener-luks-pod-linux%2f&amp;title=Jak%20ukry%c4%87%20zaszyfrowany%20kontener%20LUKS%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-ukryc-zaszyfrowany-kontener-luks-pod-linux%2f&description=Jak%20ukry%c4%87%20zaszyfrowany%20kontener%20LUKS%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/naglowek-kontenera-luks-trzymany-na-pendrive/">Nagłówek kontenera LUKS trzymany na pendrive</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/dysk-pendrive-inne-nosniki-pod-openwrt/">Dysk, pendrive i inne nośniki pod OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/odzyskanie-klucza-glownego-w-kontenerze-luks/">Klucz główny kontenera LUKS i jego odzyskanie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/odszyfrowanie-kontenerow-luks-w-systemd/">Odszyfrowanie kontenerów LUKS w systemd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kopia-struktury-dysku-twardego/">Kopia struktury dysku twardego</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

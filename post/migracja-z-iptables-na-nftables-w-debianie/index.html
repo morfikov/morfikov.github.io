@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Migracja z iptables na nftables w Debianie | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Migracja z iptables na nftables w Debianie" />
+<meta property="og:description" content="Zgodnie z informacją, która pojawiła się już ponad pół roku temu, dystrybucje linux&#39;a powoli
+zaczynają odchodzić od iptables . Prawdopodobnie w niedługim czasie iptables zostanie już
+całkowicie wyparty i zastąpiony przez nftables , przynajmniej jeśli chodzi o desktopy. Nawet
+Debian zakomunikował, że następne wydanie stabilne tej dystrybucji (Buster) będzie domyślnie
+wykorzystywało nftables . Wypadałoby zatem się przenieść na ten nowy framework i przygotować
+sobie kilka podstawowych reguł firewall&#39;a, które zabezpieczoną naszą maszynę przed nieautoryzowanym
+dostępem z sieci." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/migracja-z-iptables-na-nftables-w-debianie/" />
+<meta property="article:published_time" content="2019-02-16T11:05:40+00:00" />
+<meta property="article:modified_time" content="2019-02-16T11:05:40+00:00" />
+
+		<meta itemprop="name" content="Migracja z iptables na nftables w Debianie">
+<meta itemprop="description" content="Zgodnie z informacją, która pojawiła się już ponad pół roku temu, dystrybucje linux&#39;a powoli
+zaczynają odchodzić od iptables . Prawdopodobnie w niedługim czasie iptables zostanie już
+całkowicie wyparty i zastąpiony przez nftables , przynajmniej jeśli chodzi o desktopy. Nawet
+Debian zakomunikował, że następne wydanie stabilne tej dystrybucji (Buster) będzie domyślnie
+wykorzystywało nftables . Wypadałoby zatem się przenieść na ten nowy framework i przygotować
+sobie kilka podstawowych reguł firewall&#39;a, które zabezpieczoną naszą maszynę przed nieautoryzowanym
+dostępem z sieci.">
+<meta itemprop="datePublished" content="2019-02-16T11:05:40+00:00" />
+<meta itemprop="dateModified" content="2019-02-16T11:05:40+00:00" />
+<meta itemprop="wordCount" content="3684">
+
+
+
+<meta itemprop="keywords" content="debian,iptables,nftables," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Migracja z iptables na nftables w Debianie"/>
+<meta name="twitter:description" content="Zgodnie z informacją, która pojawiła się już ponad pół roku temu, dystrybucje linux&#39;a powoli
+zaczynają odchodzić od iptables . Prawdopodobnie w niedługim czasie iptables zostanie już
+całkowicie wyparty i zastąpiony przez nftables , przynajmniej jeśli chodzi o desktopy. Nawet
+Debian zakomunikował, że następne wydanie stabilne tej dystrybucji (Buster) będzie domyślnie
+wykorzystywało nftables . Wypadałoby zatem się przenieść na ten nowy framework i przygotować
+sobie kilka podstawowych reguł firewall&#39;a, które zabezpieczoną naszą maszynę przed nieautoryzowanym
+dostępem z sieci."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Migracja z iptables na nftables w Debianie</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2019-02-16T11:05:40Z">Opublikowano: 16/02/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Migracja z iptables na nftables w Debianie</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#narzędzia-iptables-nft-i-iptables-legacy">Narzędzia iptables-nft i iptables-legacy</a></li>
+    <li><a href="#narzędzie-nft">Narzędzie nft</a></li>
+    <li><a href="#migracja-reguł-iptables-na-nftables">Migracja reguł iptables na nftables</a></li>
+    <li><a href="#optymalizacja-filtra-nftables">Optymalizacja filtra nftables</a></li>
+    <li><a href="#nat-i-forwarding-pakietów-w-nftables">NAT i forwarding pakietów w nftables</a></li>
+    <li><a href="#typy-zaczepy-i-priorytety-łańcuchów-nftables">Typy, zaczepy i priorytety łańcuchów nftables</a></li>
+    <li><a href="#pliki-reguł-nftables">Pliki reguł nftables</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Zgodnie z <a href="http://ral-arturo.org/2018/06/16/nfws2018.html">informacją</a>, która pojawiła się już ponad pół roku temu, dystrybucje linux'a powoli
+zaczynają odchodzić od <code>iptables</code> . Prawdopodobnie w niedługim czasie <code>iptables</code> zostanie już
+całkowicie wyparty i zastąpiony przez <code>nftables</code> , przynajmniej jeśli chodzi o desktopy. Nawet
+<a href="https://wiki.debian.org/nftables#Current_status">Debian zakomunikował</a>, że następne wydanie stabilne tej dystrybucji (Buster) będzie domyślnie
+wykorzystywało <code>nftables</code> . Wypadałoby zatem się przenieść na ten nowy framework i przygotować
+sobie kilka podstawowych reguł firewall'a, które zabezpieczoną naszą maszynę przed nieautoryzowanym
+dostępem z sieci.</p>
+<h2 id="narzędzia-iptables-nft-i-iptables-legacy">Narzędzia iptables-nft i iptables-legacy</h2>
+<p>Aktualnie Debian posiada wsparcie zarówno dla <code>iptables</code> jak i <code>nftables</code> i pewnie przez długi czas
+ten stan rzeczy nie ulegnie zmianie, nawet gdy przyszłe wydania stabilne tej dystrybucji będą
+wykorzystywać domyślnie <code>nftables</code> . Jeśli chcemy dokonać migracji na <code>nftables</code> w Debianie, to
+musimy zdać sobie sprawę z paru rzeczy, co pomoże nam odpowiednio skonfigurować ten system.</p>
+<p>Przede wszystkim, w pakiecie <code>iptables</code> mamy narzędzia <code>xtables-nft-multi</code> oraz
+<code>xtables-legacy-multi</code> .  Do tych dwóch binarek zostało stworzonych szereg dowiązań symbolicznych.
+Poniżej znajduje się ich lista:</p>
+<pre><code>/usr/sbin/arptables-nft -&gt; xtables-nft-multi*
+/usr/sbin/arptables-nft-restore -&gt; xtables-nft-multi*
+/usr/sbin/arptables-nft-save -&gt; xtables-nft-multi*
+
+/usr/sbin/ebtables-nft -&gt; xtables-nft-multi*
+/usr/sbin/ebtables-nft-restore -&gt; xtables-nft-multi*
+/usr/sbin/ebtables-nft-save -&gt; xtables-nft-multi*
+
+/usr/sbin/iptables-nft -&gt; xtables-nft-multi*
+/usr/sbin/iptables-nft-restore -&gt; xtables-nft-multi*
+/usr/sbin/iptables-nft-save -&gt; xtables-nft-multi*
+/usr/sbin/iptables-restore-translate -&gt; xtables-nft-multi*
+/usr/sbin/iptables-translate -&gt; xtables-nft-multi*
+
+/usr/sbin/ip6tables-nft -&gt; xtables-nft-multi*
+/usr/sbin/ip6tables-nft-restore -&gt; xtables-nft-multi*
+/usr/sbin/ip6tables-nft-save -&gt; xtables-nft-multi*
+/usr/sbin/ip6tables-restore-translate -&gt; xtables-nft-multi*
+/usr/sbin/ip6tables-translate -&gt; xtables-nft-multi*
+
+/usr/sbin/iptables-legacy -&gt; xtables-legacy-multi*
+/usr/sbin/iptables-legacy-restore -&gt; xtables-legacy-multi*
+/usr/sbin/iptables-legacy-save -&gt; xtables-legacy-multi*
+
+/usr/sbin/ip6tables-legacy -&gt; xtables-legacy-multi*
+/usr/sbin/ip6tables-legacy-restore -&gt; xtables-legacy-multi*
+/usr/sbin/ip6tables-legacy-save -&gt; xtables-legacy-multi*
+</code></pre>
+<p>Zatem mamy do wyboru dwie opcje: albo będziemy korzystać ze starego API kernela (linki z
+<code>-legacy</code> ), albo z tego nowszego API (linki z <code>-nft</code> ). Aktualną konfigurację <code>iptables</code> w
+Debianie można wyciągnąć przez system alternatyw:</p>
+<pre><code> # update-alternatives --display iptables
+iptables - auto mode
+  link best version is /usr/sbin/iptables-nft
+  link currently points to /usr/sbin/iptables-nft
+  link iptables is /usr/sbin/iptables
+  slave iptables-restore is /usr/sbin/iptables-restore
+  slave iptables-save is /usr/sbin/iptables-save
+/usr/sbin/iptables-legacy - priority 10
+  slave iptables-restore: /usr/sbin/iptables-legacy-restore
+  slave iptables-save: /usr/sbin/iptables-legacy-save
+/usr/sbin/iptables-nft - priority 20
+  slave iptables-restore: /usr/sbin/iptables-nft-restore
+  slave iptables-save: /usr/sbin/iptables-nft-save
+
+# update-alternatives --display ip6tables
+ip6tables - auto mode
+  link best version is /usr/sbin/ip6tables-nft
+  link currently points to /usr/sbin/ip6tables-nft
+  link ip6tables is /usr/sbin/ip6tables
+  slave ip6tables-restore is /usr/sbin/ip6tables-restore
+  slave ip6tables-save is /usr/sbin/ip6tables-save
+/usr/sbin/ip6tables-legacy - priority 10
+  slave ip6tables-restore: /usr/sbin/ip6tables-legacy-restore
+  slave ip6tables-save: /usr/sbin/ip6tables-legacy-save
+/usr/sbin/ip6tables-nft - priority 20
+  slave ip6tables-restore: /usr/sbin/ip6tables-nft-restore
+  slave ip6tables-save: /usr/sbin/ip6tables-nft-save
+
+# update-alternatives --display arptables
+arptables - auto mode
+  link best version is /usr/sbin/arptables-nft
+  link currently points to /usr/sbin/arptables-nft
+  link arptables is /usr/sbin/arptables
+  slave arptables-restore is /usr/sbin/arptables-restore
+  slave arptables-save is /usr/sbin/arptables-save
+/usr/sbin/arptables-nft - priority 20
+  slave arptables-restore: /usr/sbin/arptables-nft-restore
+  slave arptables-save: /usr/sbin/arptables-nft-save
+
+# update-alternatives --display ebtables
+ebtables - auto mode
+  link best version is /usr/sbin/ebtables-nft
+  link currently points to /usr/sbin/ebtables-nft
+  link ebtables is /usr/sbin/ebtables
+  slave ebtables-restore is /usr/sbin/ebtables-restore
+  slave ebtables-save is /usr/sbin/ebtables-save
+/usr/sbin/ebtables-nft - priority 20
+  slave ebtables-restore: /usr/sbin/ebtables-nft-restore
+  slave ebtables-save: /usr/sbin/ebtables-nft-save
+</code></pre>
+<p>Jeśli podążymy za przykładowym linkiem:</p>
+<pre><code>#  ls -al /usr/sbin/iptables
+lrwxrwxrwx 1 root root 26 2018-11-22 19:36:34 /usr/sbin/iptables -&gt; /etc/alternatives/iptables*
+
+# ls -al /etc/alternatives/iptables
+lrwxrwxrwx 1 root root 22 2019-02-16 11:36:05 /etc/alternatives/iptables -&gt; /usr/sbin/iptables-nft*
+
+# ls -al /usr/sbin/iptables-nft
+lrwxrwxrwx 1 root root 17 2018-12-28 12:57:19 /usr/sbin/iptables-nft -&gt; xtables-nft-multi*
+</code></pre>
+<p>Zatem Debian jest domyślnie skonfigurowany w taki sposób, by wykorzystywać nowe API kernela (to
+samo, z którego korzysta <code>nftables</code> ) ale robi to za sprawą modułu <code>nft_compat</code> . Ten moduł daje
+możliwość wykorzystywania dokładnie tej samej składni, z którą można się zetknąć w natywnych
+narzędziach, tj.  <code>iptables</code> , <code>ip6tables</code> , <code>arptables</code> i <code>ebtables</code> , przez co z naszej
+perspektywy nie zmienia się praktycznie nic jeśli chodzi o operowanie na filtrze pakietów, bo nie
+musimy dokonywać żadnych zmian w składni reguł i przerabiać przy tym skryptów firewall'a.</p>
+<p>Niestety pewne narzędzia mogą mieć problemy z tą nową konfiguracją i jeśli ich doświadczamy, to
+trzeba przekonfigurować Debiana tak, by korzystał z tego starszego API kernela. Możemy to zrobić za
+sprawą systemu alternatyw ale tylko dla <code>iptables</code> i <code>ip6tables</code> , bo dla <code>ebtables</code> i <code>arpatbles</code>
+jest tylko jedna alternatywa:</p>
+<pre><code># update-alternatives --config iptables
+There are 2 choices for the alternative iptables (providing /usr/sbin/iptables).
+
+  Selection    Path                       Priority   Status
+------------------------------------------------------------
+* 0            /usr/sbin/iptables-nft      20        auto mode
+  1            /usr/sbin/iptables-legacy   10        manual mode
+  2            /usr/sbin/iptables-nft      20        manual mode
+
+Press &lt;enter&gt; to keep the current choice[*], or type selection number: 1
+update-alternatives: using /usr/sbin/iptables-legacy to provide /usr/sbin/iptables (iptables) in manual mode
+
+# update-alternatives --config ip6tables
+There are 2 choices for the alternative ip6tables (providing /usr/sbin/ip6tables).
+
+  Selection    Path                        Priority   Status
+------------------------------------------------------------
+* 0            /usr/sbin/ip6tables-nft      20        auto mode
+  1            /usr/sbin/ip6tables-legacy   10        manual mode
+  2            /usr/sbin/ip6tables-nft      20        manual mode
+
+Press &lt;enter&gt; to keep the current choice[*], or type selection number: 1
+update-alternatives: using /usr/sbin/ip6tables-legacy to provide /usr/sbin/ip6tables (ip6tables) in manual mode
+</code></pre>
+<p>Gdy wykorzystywane jest nowe API kernela, to za każdym razem, gdy będziemy operować na
+<code>iptables</code>/<code>ip6tables</code> na końcu wyjścia poleceń będziemy mieli to poniższe ostrzeżenie:</p>
+<pre><code># iptables -nvL
+...
+# Warning: iptables-legacy tables present, use iptables-legacy to see them
+</code></pre>
+<p>Jeśli <code>iptables-legacy -S</code> zwróci nam jakieś reguły za wyjątkiem tych poniższych:</p>
+<pre><code>-P INPUT ACCEPT
+-P FORWARD ACCEPT
+-P OUTPUT ACCEPT
+</code></pre>
+<p>To znaczy, że nie powinniśmy korzystać z tego nowego API kernela i trzeba skonfigurować system
+alternatyw tak, by nasz linux używał <code>iptables-legacy</code> . Ewentualnie trzeba poprawić sam
+program/skrypt, by wykorzystywał ten nowy interfejs kernela. Chodzi generalnie o to, że używanie
+dwóch różnych API kernela realizujących to samo zadanie w tym samym czasie może prowadzić do
+nieprzewidzianych w skutkach efektów i jest wysoce odradzane.</p>
+<h2 id="narzędzie-nft">Narzędzie nft</h2>
+<p>Jeśli jednak chcemy odpuścić sobie korzystanie z <code>iptables</code> czy też tego trybu kompatybilności, to
+najlepszym wyjściem jest po prostu zainstalowanie w systemie pakietu <code>nftables</code> . Znajduje się w
+nim narzędzie <code>nft</code> , które będziemy wykorzystywać tam, gdzie byśmy normalnie używali tych
+przestarzałych narzędzi z pakietu <code>iptables</code> .</p>
+<h2 id="migracja-reguł-iptables-na-nftables">Migracja reguł iptables na nftables</h2>
+<p>Ogarnięcie nowej składni reguł <code>nftables</code> , może nam zająć trochę czasu. By ułatwić to zadanie i
+jednocześnie złagodzić nieco proces przejścia z <code>iptables</code> na <code>nftables</code> , deweloperzy <code>nftables</code>
+zaprojektowali narzędzia, które mają na celu przetłumaczyć składnię reguł, co w sporej części
+przypadków jest nam w stanie zaoszczędzić sporo czasu podczas migracji. Oczywiście nic nie stoi na
+przeszkodzie by podpierając się <a href="https://wiki.nftables.org/wiki-nftables/index.php/Main_Page">wiki nftables</a>, w szczególnościtą <a href="https://wiki.nftables.org/wiki-nftables/index.php/Quick_reference-nftables_in_10_minutes">stroną</a>, zbudować sobie
+filtr pakietów od podstaw.</p>
+<p>Reguły iptables <a href="https://wiki.nftables.org/wiki-nftables/index.php/Moving_from_iptables_to_nftables">można tłumaczyć</a> jedna po drugiej lub też możemy przetłumaczyć je wszystkie
+naraz. Warto tutaj zaznaczyć, że te narzędzia do tłumaczenia reguł nie są w 100% akuratne i pewnych
+reguł nie będą w stanie przetłumaczyć (zwykle tych, które nie są wspierane w <code>nftables</code> , np.
+reguły od <code>ipset</code> ). Cześć reguł nawet może zostać przetłumaczona błędnie poprzez zgubienie pewnych
+ich elementów, np. port docelowy, czy wychodzący interfejs sieciowy, itd. Niemniej jednak,
+większość standardowych reguł, które spotyka się zwykle na desktopach, powinna zostać
+przetłumaczona poprawnie bez większego problemu. Dobrze jest jednak po procesie translacji
+zweryfikować każdą pojedynczą regułę i porównać ją z tym co poddaliśmy tłumaczeniu, by wyeliminować
+jakiekolwiek nieścisłości, które mogłyby zaistnieć.</p>
+<p>Na sam początek musimy wyeksportować reguły, które mamy aktualnie załadowane w filtrze. Do tego
+celu służą narzędzia <code>iptables-save</code> oraz <code>ip6tables-save</code> odpowiednio dla reguł protokołu IPv4 i
+IPv6:</p>
+<pre><code># iptables-save &gt; inet4.txt
+# ip6tables-save &gt; inet6.txt
+</code></pre>
+<p>Po wydaniu tych dwóch poleceń zostaną stworzone dwa pliki <code>inet4.txt</code> oraz <code>inet6.txt</code> zawierające
+reguły <code>iptables</code> , które następnie musimy wrzucić do translatora:</p>
+<pre><code># iptables-restore-translate -f inet4.txt &gt; ruleset4.nft
+# ip6tables-restore-translate -f inet6.txt &gt; ruleset6.nft
+</code></pre>
+<p>W ten sposób uzyskamy kolejne dwa pliki <code>ruleset4.nft</code> oraz <code>ruleset6.nft</code> , które będą zawierać
+odpowiedniki reguł <code>iptables</code> . I tu w zasadzie proces tłumaczenia reguł się kończy.</p>
+<p>Niemniej jednak, <code>nftables</code> posiada szereg cech, które sprawiają, że reguły filtra można dość mocno
+skompresować. Chodzi generalnie o fakt, że jesteśmy w stanie stworzyć jedną tablicę dla obu
+protokołów IPv4 i IPv6, przez co nie musimy dublować całej masy reguł. Naturalnie cześć reguł z
+racji różnicy w wersjach tych protokołów trzeba będzie napisać osobno dla IPv4 i IPv6, np. w
+momencie gdy będziemy chcieli określić adres źródłowy/docelowy, bo te mają przecie inny format. Za
+to, gdy będziemy określać, np. jedynie port źródłowy/docelowy dla jakiejś usługi, to wystarczy nam
+jedna reguła i ona ogarnie nam oba protokoły. Nawet jeśli tych reguł specyficznych dla konkretnego
+protokołu IP będzie sporo, to zawsze będą one w jednym miejscu. Niektórzy mogą pomyśleć, że
+przetwarzanie reguł IPv4, gdy w grę wchodzi ruch IPv6 (i odwrotnie) może dodać nieco opóźnień zanim
+pakiet zostanie wysłany lub odebrany. Oczywiście jakieś opóźnienia się pojawią ale one dopiero będą
+zauważane, gdy liczba reguł w filtrze będzie szła w dziesiątki tysięcy. Mój filtr jest dość
+zaawansowany ale i tak nie udało mi się wyjść poza 100 reguł. No i warto pamiętać jeszcze o tym, że
+w zasadzie to tylko pierwszy pakiet połączenia będzie przechodził przez te dodatkowe reguły, bo
+zwykle jedną z pierwszych reguł w filtrze jest ta akceptująca połączenia mające stan ESTABLISHED i
+RELATED, co znacznie odciąża FW.</p>
+<h2 id="optymalizacja-filtra-nftables">Optymalizacja filtra nftables</h2>
+<p>Po przetłumaczeniu reguł <code>iptables</code> , możemy zabrać się za optymalizację reguł <code>nftables</code> , przy
+czym warto pamiętać o kilku kwestiach przystępując do tego zadania.</p>
+<p>Przede wszystkim, startujemy z czystym filtrem. Oznacza to, że w odróżnieniu od <code>iptables</code> , gdzie
+mieliśmy predefiniowane tablice ( <code>filter</code> czy <code>nat</code> ) oraz łańcuchy ( <code>INPUT</code> czy <code>PREROUTING</code>), w
+<code>nftables</code> nie mamy dosłownie nic. Tablice czy łańcuchy musimy zatem sobie stworzyć sami. Po
+przetłumaczeniu reguł, tablice i łańcuchy w plikach z regułami <code>nftables</code> , tj. <code>ruleset4.nft</code> i
+<code>ruleset6.nft</code> , mają takie same nazwy, jakie miały w przypadku <code>iptables</code> . Możemy je zachować lub
+też dowolnie przepisać.</p>
+<p>Kolejna kwestia dotyczy sposobu komunikacji naszego hosta z siecią. Trzeba sobie zadać pytanie czy
+wszystkie tablice i łańcuchy obecne w <code>iptables</code> są nam również niezbędne w <code>nftables</code> . Jeśli nasz
+host jest jedynie klientem i nie świadczy żadnych usług sieciowych, czy też nie realizuje NAT i nie
+ma włączonego forwarding'u (krótko mówiąc nie udostępnia połączenia sieciowego), to ogromną część
+struktury filtra, która jest obecna w <code>iptables</code> , możemy pominąć. W zasadzie to dla stacji
+klienckiej wystarczą nam te poniższe reguły:</p>
+<pre><code>#!/usr/sbin/nft -f
+
+flush ruleset
+
+create table inet filter
+
+create chain inet filter INPUT { type filter hook input priority 0; policy drop; }
+create chain inet filter OUTPUT { type filter hook output priority 0; policy accept; }
+
+create chain inet filter state-check
+
+add rule inet filter state-check ct state { established, related } counter accept
+add rule inet filter state-check ct state invalid counter drop
+
+add rule inet filter INPUT counter jump state-check
+add rule inet filter INPUT iifname &quot;lo&quot; counter accept
+add rule inet filter INPUT counter drop
+
+add rule inet filter OUTPUT counter jump state-check
+</code></pre>
+<p>Nie jest to zbyt rozbudowany firewall ale idealnie się nadaje na podstawę filtra, którą można
+rozbudować dodając do niej różne elementy.</p>
+<p>Jeśli się uważnie przyjrzymy, to mamy w tym filtrze tylko jedną tablicę ( <code>filter</code> ) odnoszącą się
+zarówno do protokołu IPv4 jak i IPv6 ( <code>inet</code> ). W tej tablicy mamy tylko dwa łańcuchy podstawowe
+( <code>INPUT</code> oraz <code>OUTPUT</code> ) oraz jeden łańcuch zwykły ( <code>state-check</code> ). Te podstawowe łańcuchy mogą
+mieć szereg właściwości, które się definiuje między <code>{ }</code> (o tym później).</p>
+<p>Zarówno w łańcuchu <code>INPUT</code> jak i <code>OUTPUT</code> jest widoczne przekierowanie do łańcucha <code>state-check</code> ,
+w którym znajdują się dwie reguły. Jedna z nich akceptuje pakiety połączeń już nawiązanych, druga
+zaś zrzuca błędne pakiety. W łańcuchu <code>INPUT</code> nie może także zabraknąć reguły akceptującej ruch
+pętli zwrotnej (interfejs <code>lo</code> ). Domyślną polityką łańcucha <code>INPUT</code> jest zrzucanie wszystkich
+pakietów, które nie zostaną wcześniej dopasowane. Natomiast w łańcuchu <code>OUTPUT</code> akceptujemy
+wszystkie nowe połączenia wychodzące.</p>
+<p>Kolejna rzecz, to przetwarzanie reguł od lewej strony do prawej. W pewnych sytuacjach, zwłaszcza,
+gdy wykorzystywany jest mechanizm limitowania połączeń, reguły, które mogłyby dla nas oznaczać
+dokładnie to samo, dla <code>nftables</code> będą mieć różne znaczenie. Dla przykładu rozpatrzmy sobie te dwie
+poniższe reguły:</p>
+<pre><code>add rule inet filter INPUT limit rate 1/minute burst 1 packets log prefix &quot;* INPUT * &quot; counter accept
+add rule inet filter INPUT log prefix &quot;* INPUT * &quot; limit rate 1/minute burst 1 packets counter accept
+</code></pre>
+<p>Mają one na celu ograniczyć ilość komunikatów, które zostaną zalogowane w logu systemowym. Ta
+pierwsza reguła zaloguje pakiety w tempie 1 na minutę. Natomiast ta druga zaloguje komunikaty
+ilekroć pakiet będzie przez tę regułę przetwarzany. Niby te dwie reguły są podobne i dla człowieka
+oznaczają to samo, to jednak, gdy się zacznie je czytać od lewej strony, a nie jako całość, to
+wtedy widać, że pierwsza reguła najpierw próbuje dopasować limit i jeśli pakiet zostanie dopasowany
+w tym miejscu, to jest sprawdzany dalej w tej samej regule, a tu już pozostaje tylko zalogować
+komunikat i zaakceptować pakiet. Natomiast w przypadku drugiej reguły, najpierw jest logowany
+komunikat, bo każdy pakiet trafiający do tej reguły zostanie pierw zalogowany ale w dalszej części
+reguły mamy limit i tylko 1 pakiet na minutę zostanie zaakceptowany, a reszta będzie przetwarza
+przez następną regułę w filtrze. Dlatego też warto wziąć pod uwagę ten czynnik podczas tworzenia
+reguł, bo może on nam znacznie zoptymalizować przechodzenie reguł przez filtr. Warto też przeczytać
+sobie artykuł na wiki poświęcony <a href="https://wiki.nftables.org/wiki-nftables/index.php/Main_differences_with_iptables">różnicom między iptables i nftables</a>.</p>
+<h2 id="nat-i-forwarding-pakietów-w-nftables">NAT i forwarding pakietów w nftables</h2>
+<p>Jeśli potrzebujemy realizować udostępnianie połączenia sieciowego, bez względu na to, czy w grę
+wchodzą inne fizyczne komputery, czy też mamy w systemie maszyny wirtualne albo korzystamy z
+jakiegoś mechanizmu konteneryzacji (Docker, LXC), to by pakiety sieciowe były w stanie przejść
+przez naszego hosta musimy stworzyć tablicę <code>nat</code> w niej szereg łańcuchów oraz dodać łańcuch
+<code>FORWARD</code> w utworzonej wcześniej tablicy <code>filter</code> . Poniżej znajdują się odpowiednie regułki:</p>
+<pre><code>create chain inet filter FORWARD { type filter hook forward priority 0; policy drop; }
+
+create table ip nat
+create table ip6 nat
+
+create chain ip  nat PREROUTING { type nat hook prerouting priority -100; policy accept; }
+create chain ip  nat INPUT { type nat hook input priority 100; policy accept; }
+create chain ip  nat POSTROUTING { type nat hook postrouting priority 100; policy accept; }
+create chain ip  nat OUTPUT { type nat hook output priority -100; policy accept; }
+create chain ip6 nat PREROUTING { type nat hook prerouting priority -100; policy accept; }
+create chain ip6 nat INPUT { type nat hook input priority 100; policy accept; }
+create chain ip6 nat POSTROUTING { type nat hook postrouting priority 100; policy accept; }
+create chain ip6 nat OUTPUT { type nat hook output priority -100; policy accept; }
+</code></pre>
+<p>Niektóre tablice, np. widoczna wyżej <code>nat</code> , nie mogą zostać stworzone w formie <code>inet</code> , czyli by
+ogarniać połączenia zarówno protokołu IPv4 i IPv6. Dlatego też w ich przypadku trzeba stworzyć
+osobne tablice dla każdego z tych protokołów.
+(<a href="https://git.netfilter.org/nftables/commit/?id=fbe27464dee4588d90649274925145421c84b449">Wsparcie dla nat w inet zostało dodane w v0.9.1</a>).</p>
+<p>Widoczna wyżej struktura tablicy <code>nat</code> odpowiada tej, która była standardowo obecna w <code>iptables</code> .
+Mając odpowiednie tablice i łańcuchy możemy dodawać w nich
+<a href="https://wiki.nftables.org/wiki-nftables/index.php/Performing_Network_Address_Translation_(NAT">regułki realizuje NAT czy inny port forwarding</a>.</p>
+<h2 id="typy-zaczepy-i-priorytety-łańcuchów-nftables">Typy, zaczepy i priorytety łańcuchów nftables</h2>
+<p>Każdy łańcuch podstawowy w <code>nftables</code> jest podczepiony do stosu sieciowego w określone miejsce i ma
+również przypisany jakiś priorytet. Dla przykładu weźmy sobie łańcuch <code>INPUT</code> tablicy <code>filter</code> .
+Chodzi o tę poniższą regułę:</p>
+<pre><code>create chain inet filter INPUT { type filter hook input priority 0; policy drop; }
+</code></pre>
+<p>Widzimy tutaj <code>type filter</code> , który określa typ tego łańcucha. Do wyboru
+<a href="https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains#Base_chain_types">są w zasadzie trzy typy</a>:</p>
+<ul>
+<li><code>filter</code> -- ten typ jest wykorzystywany do filtrowania pakietów.</li>
+<li><code>route</code> -- ten typ jest wykorzystywany do przeroutowania pakietów, gdy zmianie ulega stosowne
+pole w nagłówku IP lub też, gdy oznaczenie pakietu ulega modyfikacji. Ten typ jest odpowiednikiem
+tablicy <code>mangle</code> w <code>iptables</code> ale tylko dla zaczepu <code>hook output</code> .</li>
+<li><code>nat</code> -- ten typ jest wykorzystywany w mechanizmie translacji adresów NAT (pierwszy pakiet
+połączenia zawsze trafia w łańcuch tego typu).</li>
+</ul>
+<p>Łańcuchów tego samego typu może być kilka, a to w które miejsce zostaną one podczepione do stosu
+sieciowego zależy od zdefiniowanego zaczepu (w tym przypadku mamy do czynienia z <code>hook input</code> ).
+Zaczepów też <a href="https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains#Base_chain_hooks">jest kilka</a>:</p>
+<ul>
+<li><code>prerouting</code> -- przed routingiem.</li>
+<li><code>input</code> -- pakiety przeznaczone dla lokalnej maszyny.</li>
+<li><code>forward</code> -- po routingu ale pakiety nie są przeznaczone dla lokalnej maszyny.</li>
+<li><code>output</code> -- pakiety wychodzące z lokalnej maszyny.</li>
+<li><code>postrouting</code> -- po routingu</li>
+<li><code>ingress</code> -- daleko przed routingiem, zaraz po odebraniu pakietów z NIC (karty sieciowej). Ten
+zaczep może być alternatywą dla narzędzia <code>tc</code> .</li>
+</ul>
+<p>Możemy podczepić wiele łańcuchów w to samo miejsce stosu ale by określić, przez który z nich pakiet
+przejdzie wcześniej lub później, to trzeba podać priorytet (tutaj <code>priority 0</code> ). Priorytety mogą
+mieć wartość ujemną lub dodatnią i możemy je dowolnie definiować. Poniżej jest odpowiednik
+priorytetów wykorzystywanych przez <code>iptables</code> :</p>
+<ul>
+<li>NF_IP_PRI_CONNTRACK_DEFRAG ( <code>-400</code> ): priorytet defragmentacji.</li>
+<li>NF_IP_PRI_RAW ( <code>-300</code> ): priorytet tablicy <code>raw</code> , która jest umieszczona przed mechanizmem
+śledzenia połączeń.</li>
+<li>NF_IP_PRI_SELINUX_FIRST ( <code>-225</code> ): priorytet mechanizmu SELinux.</li>
+<li>NF_IP_PRI_CONNTRACK ( <code>-200</code> ): priorytet mechanizmu śledzenia połączeń.</li>
+<li>NF_IP_PRI_MANGLE ( <code>-150</code> ): priorytet tablicy <code>mangle</code> .</li>
+<li>NF_IP_PRI_NAT_DST ( <code>-100</code> ): priorytet destination NAT .</li>
+<li>NF_IP_PRI_FILTER ( <code>0</code> ): priorytet tablicy <code>filter</code> .</li>
+<li>NF_IP_PRI_SECURITY ( <code>50</code> ): priorytet tablicy <code>security</code> , gdzie może być nałożony przykładowo
+<code>secmark</code> .</li>
+<li>NF_IP_PRI_NAT_SRC ( <code>100</code> ): priorytet source NAT .</li>
+<li>NF_IP_PRI_SELINUX_LAST ( <code>225</code> ): priorytet mechanizmu SELinux przy wyjściu pakietów.</li>
+<li>NF_IP_PRI_CONNTRACK_HELPER ( <code>300</code> ): priorytet mechanizmu śledzenia połączeń przy wyjściu
+pakietów.</li>
+</ul>
+<p>Te wyżej podane wartości priorytetów są jedynie referencyjne, a to jakie priorytety nadamy w
+<code>nftables</code> , to już zależy od nas. Podobnie sprawa wygląda w przypadku tworzenia kolejnych
+tablic -- możemy ich stworzyć wiele, przez co nie musimy pakować wszystkich reguł do jednej
+tablicy, a przepływem pakietów możemy sterować odpowiednio dobierając priorytety. To rozwiązanie
+jest w stanie ułatwić nieco budowę samego filtra i analizę jego działania.</p>
+<p>Warto tutaj zaznaczyć, że jeśli pakiet zostanie zrzucony na pewnym etapie przechodząc przez kolejne
+tablice i łańcuchy, to już jego przetwarzanie się kończy.</p>
+<p>Poniżej są jeszcze reguły, które są w stanie odtworzyć nam strukturę <code>iptables</code> :</p>
+<pre><code>create table inet raw
+create table inet filter
+create table ip mangle
+create table ip nat
+create table ip6 mangle
+create table ip6 nat
+
+create chain inet raw PREROUTING { type filter hook prerouting priority -300; policy accept; }
+create chain inet raw OUTPUT { type filter hook output priority -300; policy accept; }
+
+create chain inet filter INPUT { type filter hook input priority 0; policy drop; }
+create chain inet filter FORWARD { type filter hook forward priority 0; policy drop; }
+create chain inet filter OUTPUT { type filter hook output priority 0; policy accept; }
+
+create chain ip mangle PREROUTING { type filter hook prerouting priority -150; policy accept; }
+create chain ip mangle INPUT { type filter hook input priority -150; policy accept; }
+create chain ip mangle FORWARD { type filter hook forward priority -150; policy accept; }
+create chain ip mangle OUTPUT { type route hook output priority -150; policy accept; }
+create chain ip mangle POSTROUTING { type filter hook postrouting priority -150; policy accept; }
+create chain ip nat PREROUTING { type nat hook prerouting priority -100; policy accept; }
+create chain ip nat INPUT { type nat hook input priority 100; policy accept; }
+create chain ip nat POSTROUTING { type nat hook postrouting priority 100; policy accept; }
+create chain ip nat OUTPUT { type nat hook output priority -100; policy accept; }
+
+create chain ip6 mangle PREROUTING { type filter hook prerouting priority -150; policy accept; }
+create chain ip6 mangle INPUT { type filter hook input priority -150; policy accept; }
+create chain ip6 mangle FORWARD { type filter hook forward priority -150; policy accept; }
+create chain ip6 mangle OUTPUT { type route hook output priority -150; policy accept; }
+create chain ip6 mangle POSTROUTING { type filter hook postrouting priority -150; policy accept; }
+create chain ip6 nat PREROUTING { type nat hook prerouting priority -100; policy accept; }
+create chain ip6 nat INPUT { type nat hook input priority 100; policy accept; }
+create chain ip6 nat POSTROUTING { type nat hook postrouting priority 100; policy accept; }
+create chain ip6 nat OUTPUT { type nat hook output priority -100; policy accept; }
+</code></pre>
+<h2 id="pliki-reguł-nftables">Pliki reguł nftables</h2>
+<p>W tych bardziej zaawansowanych konfiguracjach <code>iptables</code> użytkownicy zwykle tworzyli sobie własne
+skrypty z regułami zamiast używać narzędzi <code>iptables-save</code> i <code>iptables-restore</code> . Posiadanie
+własnego skryptu ma całą masę zalet ale wywoływanie wiele razy <code>iptables -A INPUT...</code> (i jemu
+podobnych) spowalnia nieco ładowanie się filtra, no i oczywiście marnują się cykle procesora, co
+wydłuża cały proces odpalania się zapory sieciowej. Naturalnie jeśli mamy tylko kilka reguł, to
+raczej nie zauważymy żadnej różnicy ale w przypadku <code>nftables</code> możemy sobie stworzyć własny skrypt
+filtra i podać taki plik narzędziu <code>nft</code> .</p>
+<p>Struktura <a href="https://wiki.nftables.org/wiki-nftables/index.php/Scripting">pliku .nft</a> jest prosta. W zasadzie każde polecenie, które można podać w <code>nft</code> ,
+można zapisać w pliku usuwając z niego wywołanie <code>nft</code> . Poniżej znajduje się przykładowa reguła,
+którą można dodać do filtra przy pomocy narzędzia <code>nft</code> wpisując ją w terminal:</p>
+<pre><code># nft add rule inet filter INPUT iifname &quot;lo&quot; counter accept
+</code></pre>
+<p>By teraz tę regułę umieścić w pliku <code>.nft</code> robimy to w następujący sposób:</p>
+<pre><code>#!/usr/sbin/nft -f
+...
+add rule inet filter INPUT iifname &quot;lo&quot; counter accept
+</code></pre>
+<p>Nie musimy też wszystkich reguł pakować do jednego pliku, co przy bardziej zaawansowanych
+konfiguracjach linux'owej zapory sieciowej może wpływać na czytelność takiego pliku. Dla przykładu,
+mój podstawowy plik z konfiguracją filtra prezentuje się w poniższy sposób:</p>
+<pre><code>#!/usr/sbin/nft -f
+
+flush ruleset
+
+include &quot;./raw.nft&quot;
+include &quot;./mangle.nft&quot;
+include &quot;./nat.nft&quot;
+include &quot;./filter.nft&quot;
+
+include &quot;./sets.nft&quot;
+</code></pre>
+<p>Przy pomocy dyrektywy <code>include</code> jesteśmy w stanie dołączyć w dane miejsce pliku kolejny plik z
+regułami. Możemy sobie zatem pogrupować pewne rzeczy, tak jak to widać wyżej. Z kolei <code>flush ruleset</code> wyczyści poprzednie reguły.</p>
+<p>Problematyczne są jednak ścieżki do plików. Nie można stosować absolutnych ścieżek (tych
+zaczynających się od <code>/</code> ). Natomiast jeśli wpisałoby się jedynie nazwę pliku bez widocznego wyżej
+<code>./</code> , to wtedy plik jest szukany w miejscu, które zostało ustawione podczas kompilacji <code>nftables</code> .
+Jedyną rozsądną opcją jest skorzystanie z <code>./</code> , za sprawą którego pliki muszą być umieszczone w
+tym samym katalogu (lub niżej) w stosunku do głównego pliku z regułami.</p>
+<p>I to w zasadzie tyle jeśli chodzi o rozpoczęcie przygody z <code>nftables</code> . Teraz została nam już
+jedynie rozbudowa filtra przez tworzenie nowych reguł, tak by odpowiednio sobie skonfigurować ten
+linux'owy firewall. Niemniej jednak, warto też pamiętać, że nie wszystkie rzeczy jeszcze zostały
+(lub w ogóle zostaną) przeportowane z <code>iptables</code> . Pod tym linkiem znajduje
+się <a href="https://wiki.nftables.org/wiki-nftables/index.php/Supported_features_compared_to_xtables">lista wspieranych ficzerów nftables</a> w odniesieniu do tych, które można spotkać w
+<code>iptables</code> . Część ma natywne odpowiedniki, np. <code>ipset</code> , a implementacja części z pozostałych
+jest <a href="https://lwn.net/Articles/659199/">pozbawiona sensu w obecnych czasach, np. SYNPROXY</a>, bo kernel linux'a dorobił się nowych
+mechanizmów ochronnych. Warto tutaj dodać, że
+<a href="https://git.netfilter.org/nftables/commit/?id=1188a69604c3df2a63daca9e735fdb535e8f6b63">wsparcie dla SYNPROXY w nftables pojawiło się v0.9.2</a>.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/iptables/">iptables</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/nftables/">nftables</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-iptables-na-nftables-w-debianie%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-iptables-na-nftables-w-debianie%2f&amp;text=Migracja%20z%20iptables%20na%20nftables%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-iptables-na-nftables-w-debianie%2f&amp;title=Migracja%20z%20iptables%20na%20nftables%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-iptables-na-nftables-w-debianie%2f&amp;title=Migracja%20z%20iptables%20na%20nftables%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-iptables-na-nftables-w-debianie%2f&title=Migracja%20z%20iptables%20na%20nftables%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-iptables-na-nftables-w-debianie%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-iptables-na-nftables-w-debianie%2f&amp;title=Migracja%20z%20iptables%20na%20nftables%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-iptables-na-nftables-w-debianie%2f&description=Migracja%20z%20iptables%20na%20nftables%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-ustalic-nazwe-procesu-korzystajacego-z-sieci/">Jak ustalić nazwę procesu korzystającego z sieci</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czy-brak-wsparcia-dla-synproxy-w-nftables-jest-problemem/">Czy brak wsparcia dla SYNPROXY w nftables jest problemem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wyczyscic-tablice-conntrack-w-debianie/">Jak wyczyścić tablicę conntrack&#39;a w debianie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/">Równoważenie ruchu łącz kilku ISP (load balancing)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-sklonowac-duze-repozytorium-git-na-niestabilnym-laczu-sieciowym/">Jak sklonować duże repozytorium git na niestabilnym łączu sieciowym</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

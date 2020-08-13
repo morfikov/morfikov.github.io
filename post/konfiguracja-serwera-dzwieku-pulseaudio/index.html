@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Konfiguracja serwera dźwięku PulseAudio | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Konfiguracja serwera dźwięku PulseAudio" />
+<meta property="og:description" content="Wielu użytkowników linux&#39;a nie przepada zbytnio za PulseAudio, bo ten z jakiegoś powodu sprawia u
+nich same kłopoty. U mnie ten serwer dźwięku działa przyzwoicie i zwykle nie ma z nim żadnych
+problemów. Obecnie ten projekt jest już na tyle dojrzały, że te większe środowiska graficzne
+zwyczajnie polegają na nim w zależnościach. Jeśli jednak instalowaliśmy debiana za pomocą narzędzia
+debootstrap i
+konfigurowaliśmy osobno graficzną sesję
+Xserver&#39;a, menadżer logowania
+LightDM czy też menadżer okien
+Openbox, to raczej zależy nam na minimalnym
+środowisku, które może się zwyczajnie obejść bez PulseAudio. Niemniej jednak, PulseAudio ma kilka
+ciekawych bajerów, których ALSA nie posiada. By się nie rozpisywać zbytnio, mogę wspomnieć choćby o
+możliwościprzesyłania dźwięku przez
+sieć, czy też o takim
+ficzerze jak normalizacja głośności.
+Są to głównie zabawki dla nieco bardziej zaawansowanych użytkowników i gdy ich nie potrzebujemy, to
+serwer dźwięku nam się raczej do niczego nie przyda. Warto jednak się zaznajomić z tym nieco
+bardziej zaawansowanym kawałkiem oprogramowania i w tym wpisie postaramy się nieco omówić instalację
+i konfigurację tego serwera dźwięku." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-serwera-dzwieku-pulseaudio/" />
+<meta property="article:published_time" content="2016-01-11T21:49:37+00:00" />
+<meta property="article:modified_time" content="2016-01-11T21:49:37+00:00" />
+
+		<meta itemprop="name" content="Konfiguracja serwera dźwięku PulseAudio">
+<meta itemprop="description" content="Wielu użytkowników linux&#39;a nie przepada zbytnio za PulseAudio, bo ten z jakiegoś powodu sprawia u
+nich same kłopoty. U mnie ten serwer dźwięku działa przyzwoicie i zwykle nie ma z nim żadnych
+problemów. Obecnie ten projekt jest już na tyle dojrzały, że te większe środowiska graficzne
+zwyczajnie polegają na nim w zależnościach. Jeśli jednak instalowaliśmy debiana za pomocą narzędzia
+debootstrap i
+konfigurowaliśmy osobno graficzną sesję
+Xserver&#39;a, menadżer logowania
+LightDM czy też menadżer okien
+Openbox, to raczej zależy nam na minimalnym
+środowisku, które może się zwyczajnie obejść bez PulseAudio. Niemniej jednak, PulseAudio ma kilka
+ciekawych bajerów, których ALSA nie posiada. By się nie rozpisywać zbytnio, mogę wspomnieć choćby o
+możliwościprzesyłania dźwięku przez
+sieć, czy też o takim
+ficzerze jak normalizacja głośności.
+Są to głównie zabawki dla nieco bardziej zaawansowanych użytkowników i gdy ich nie potrzebujemy, to
+serwer dźwięku nam się raczej do niczego nie przyda. Warto jednak się zaznajomić z tym nieco
+bardziej zaawansowanym kawałkiem oprogramowania i w tym wpisie postaramy się nieco omówić instalację
+i konfigurację tego serwera dźwięku.">
+<meta itemprop="datePublished" content="2016-01-11T21:49:37+00:00" />
+<meta itemprop="dateModified" content="2016-01-11T21:49:37+00:00" />
+<meta itemprop="wordCount" content="1812">
+
+
+
+<meta itemprop="keywords" content="dźwięk,debian," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Konfiguracja serwera dźwięku PulseAudio"/>
+<meta name="twitter:description" content="Wielu użytkowników linux&#39;a nie przepada zbytnio za PulseAudio, bo ten z jakiegoś powodu sprawia u
+nich same kłopoty. U mnie ten serwer dźwięku działa przyzwoicie i zwykle nie ma z nim żadnych
+problemów. Obecnie ten projekt jest już na tyle dojrzały, że te większe środowiska graficzne
+zwyczajnie polegają na nim w zależnościach. Jeśli jednak instalowaliśmy debiana za pomocą narzędzia
+debootstrap i
+konfigurowaliśmy osobno graficzną sesję
+Xserver&#39;a, menadżer logowania
+LightDM czy też menadżer okien
+Openbox, to raczej zależy nam na minimalnym
+środowisku, które może się zwyczajnie obejść bez PulseAudio. Niemniej jednak, PulseAudio ma kilka
+ciekawych bajerów, których ALSA nie posiada. By się nie rozpisywać zbytnio, mogę wspomnieć choćby o
+możliwościprzesyłania dźwięku przez
+sieć, czy też o takim
+ficzerze jak normalizacja głośności.
+Są to głównie zabawki dla nieco bardziej zaawansowanych użytkowników i gdy ich nie potrzebujemy, to
+serwer dźwięku nam się raczej do niczego nie przyda. Warto jednak się zaznajomić z tym nieco
+bardziej zaawansowanym kawałkiem oprogramowania i w tym wpisie postaramy się nieco omówić instalację
+i konfigurację tego serwera dźwięku."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Konfiguracja serwera dźwięku PulseAudio</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-01-11T21:49:37Z">Opublikowano: 11/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Konfiguracja serwera dźwięku PulseAudio</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#instalacja-pulseaudio">Instalacja PulseAudio</a></li>
+    <li><a href="#kolejność-kart-dźwiękowych">Kolejność kart dźwiękowych</a></li>
+    <li><a href="#konfiguracja-pulseaudio">Konfiguracja PulseAudio</a>
+      <ol>
+        <li><a href="#autostart">Autostart</a></li>
+        <li><a href="#konfiguracja-demona">Konfiguracja demona</a></li>
+        <li><a href="#skrypt-dla-pulseaudio-defaultpa">Skrypt dla PulseAudio (default.pa)</a></li>
+      </ol>
+    </li>
+    <li><a href="#konfiguracja-systemu-pod-pulseaudio">Konfiguracja systemu pod PulseAudio</a></li>
+    <li><a href="#zajmowanie-karty-przez-pulseaudio">Zajmowanie karty przez PulseAudio</a></li>
+    <li><a href="#problemy-z-pulseaudio">Problemy z PulseAudio</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Wielu użytkowników linux'a nie przepada zbytnio za PulseAudio, bo ten z jakiegoś powodu sprawia u
+nich same kłopoty. U mnie ten serwer dźwięku działa przyzwoicie i zwykle nie ma z nim żadnych
+problemów. Obecnie ten projekt jest już na tyle dojrzały, że te większe środowiska graficzne
+zwyczajnie polegają na nim w zależnościach. Jeśli jednak <a href="https://morfikov.github.io
+/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">instalowaliśmy debiana za pomocą narzędzia
+debootstrap</a> i
+<a href="https://morfikov.github.io
+/post/konfiguracja-xservera-na-debianie-xorg/">konfigurowaliśmy osobno graficzną sesję
+Xserver'a</a>, <a href="https://morfikov.github.io
+/post/menadzer-logowania-lightdm/">menadżer logowania
+LightDM</a> czy też <a href="https://morfikov.github.io
+/post/menadzer-okien-openbox/">menadżer okien
+Openbox</a>, to raczej zależy nam na minimalnym
+środowisku, które może się zwyczajnie obejść bez PulseAudio. Niemniej jednak, PulseAudio ma kilka
+ciekawych bajerów, których ALSA nie posiada. By się nie rozpisywać zbytnio, mogę wspomnieć choćby o
+możliwości<a href="https://morfikov.github.io
+/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/">przesyłania dźwięku przez
+sieć</a>, czy też o takim
+ficzerze jak <a href="https://morfikov.github.io
+/post/normalizacja-glosnosci-w-pulseaudio/">normalizacja głośności</a>.
+Są to głównie zabawki dla nieco bardziej zaawansowanych użytkowników i gdy ich nie potrzebujemy, to
+serwer dźwięku nam się raczej do niczego nie przyda. Warto jednak się zaznajomić z tym nieco
+bardziej zaawansowanym kawałkiem oprogramowania i w tym wpisie postaramy się nieco omówić instalację
+i konfigurację tego serwera dźwięku.</p>
+<h2 id="instalacja-pulseaudio">Instalacja PulseAudio</h2>
+<p>Gdy nie korzystamy z pełnego środowiska graficznego, np. GNOME, musimy sami zatroszczyć się o
+zainstalowanie potrzebnych pakietów. Poza samym serwerem dźwięku PulseAudio, doinstalujemy jeszcze
+kilka dodatków, tak by dźwięk działał nam bez zarzutu w praktycznie każdej aplikacji, którą odpalimy
+w naszym systemie. Tak więc, potrzebujemy te poniższe pakiety:</p>
+<pre><code># aptitude install pulseaudio pulseaudio-utils pavucontrol rtkit swh-plugins \
+pulseaudio-module-gconf pulseaudio-module-x11 \
+gstreamer1.0-alsa gstreamer1.0-pulseaudio gstreamer1.0-plugins-base gstreamer1.0-plugins-bad \
+gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-libav \
+alsa-utils libao4 \
+phonon phonon-backend-vlc \
+libnotify-bin xfce4-notifyd volumeicon-alsa
+</code></pre>
+<p>W pakiecie <code>pavucontrol</code> mamy graficzny mikser, z poziomu którego będziemy w stanie zarządzać
+poziomem głośności każdej aplikacji, która się podłączy do PulseAudio. Wygląda to mniej więcej tak:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/01/1.pulseaudio-volume-control-pavucontrol.png" alt=""></p>
+<p>Z kolei pakiet <code>rtkit</code> zajmie się ustawieniem priorytetu dla demona dźwięku, tak by te bardziej
+żarłoczne aplikacje nie zdusiły nam czasem dźwięku. Pakiety, które mają w nazwie
+<code>pulseaudio-module</code> odpowiadają za dodatkowe moduły dla PulseAudio, podobnie jak <code>swh-plugin</code> ,
+który umożliwia zaimplementowanie normalizacji głośności. Przydadzą nam się też podstawowe
+narzędzia dla ALSA (np. <code>alsamixer</code> ). Dalej mamy jeszcze pakiet <code>phonon</code> wraz z backend'em VLC,
+który ma za zadanie zbierać dźwięk z aplikacji powiązanych ze środowiskami KDE (interfejs QT). Z
+kolei zaś ostatnia linijka zapewni naszemu systemowi notyfikacje dźwięku, np. przy przyciszaniu,
+zgłaszaniu czy mutowaniu.</p>
+<h2 id="kolejność-kart-dźwiękowych">Kolejność kart dźwiękowych</h2>
+<p>Czasami może się zdarzyć tak, że po uruchomieniu aplikacji i puszczeniu filmu czy muzyki, nie
+słyszymy nic w głośnikach. Niby aplikacja odtwarza dźwięk ale go nie słychać. Nie ma też przy tym
+żadnych błędów. Zwykle jest to za sprawą posiadania kilku kart dźwiękowych w systemie, np. jednej
+wbudowanej w płytę główną i drugiej zewnętrznej. W takim przypadku system do końca nie wie, z której
+karty my chcemy korzystać i ta, która zostanie wykryta jako pierwsza jest używana jako domyślna. W
+takiej sytuacji albo trzeba zablokować jedną z kart i używać tylko tej drugiej, albo też ustawić
+kolejność kart, tak by nie zamieniały się one nam miejscami podczas następnych startów systemu.</p>
+<p>W przypadku chęci posiadania kilku urządzeń dźwiękowych, trzeba pierw ustalić jakie moduły w kernelu
+są odpowiedzialne za ich obsługę. Pomóc nam w tym mogą poniższe polecenia:</p>
+<pre><code>$ cat /proc/asound/cards
+ 0 [CA0106         ]: CA0106 - CA0106
+                      Audigy SE [SB0570] at 0xa000 irq 19
+ 1 [Intel          ]: HDA-Intel - HDA Intel
+                      HDA Intel at 0xe3100000 irq 42
+
+$ cat /proc/asound/modules
+ 0 snd_ca0106
+ 1 snd_hda_intel
+</code></pre>
+<p>Jak widzimy wyżej, każda z kart ma przypisany inny numer, odpowiednio <code>0</code> i <code>1</code> . By każda z tych
+kart miała taki sam numerek cały czas, musimy stworzyć sobie plik <code>/etc/modprobe.d/alsa.conf</code> i
+dodać w nim tę poniższą treść:</p>
+<pre><code>options snd-ca0106 index=0
+options snd-hda-intel index=1
+</code></pre>
+<p>Można także skorzystać z opcji <code>slots</code> (nowsza metoda), przykładowo:</p>
+<pre><code>options snd slots=snd-hda-intel,snd-ca0106
+</code></pre>
+<p>W ten sposób rezerwujemy dwa numerki (0 i 1) dla tych poszczególnych kart. Jeśli podłączymy trzecią
+kartę do komputera, nie mając przy tym żadnej aktywnej karty dźwiękowej, to zostanie jej przypisany
+numer 2.</p>
+<p>Niemniej jednak, może się zdarzyć taka sytuacja, że kilka kart będzie obsługiwanych przez ten sam
+moduł i jak w takiej sytuacji ustawić kolejność? W tym przypadku trzeba będzie posłużyć się vendor i
+product ID, które możemy wyciągnąć z <code>lspci -nn</code> czy też <code>lsusb</code> w zależności od rodzaju karty.
+Mając ID, w tym przypadku <code>8086:3b56</code> oraz <code>0d8c:000c</code> tworzymy opcję dla modułu w poniższy sposób:</p>
+<pre><code>options snd-hda-intel index=0,1 vid=0x8086,0x0d8c pid=0x3b56,0x000c
+</code></pre>
+<p>I teraz odwołując się do pierwszej karty mam pewność, że dźwięk trafia w pożądane miejsce i nie leci
+czasem gdzieś indziej. Więcej informacji na temat kolejności kart dźwiękowych można znaleźć <a href="http://alsa.opensrc.org/MultipleCards#Reordering_the_driver_for_a_particular_card">pod tym
+linkiem</a>.</p>
+<h2 id="konfiguracja-pulseaudio">Konfiguracja PulseAudio</h2>
+<p>Pliki konfiguracyjne PulseAudio znajdują się w katalogu <code>/etc/pulse/</code> . Jest to konfiguracja
+systemowa i może zostać nadpisana przez pliki użytkownika, które można umieścić w katalogu
+<code>~/.pulse/</code> . W ten sposób każdy użytkownik w systemie może mieć skonfigurowanego demona osobno. W
+tym przypadku skupimy się na plikach systemowych.</p>
+<p>Przede wszystkim, PulseAudio może być uruchamiany w kilku trybach: systemowy i użytkownika. Nie
+zaleca się uruchamiania go w trybie systemowym, bo to może <a href="https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/WhatIsWrongWithSystemWide/">powodować problemy z
+bezpieczeństwem</a>.
+Dlatego też szereg dystrybucji nie korzysta z tego trybu. Demon PulseAudio jest odpalany
+automatycznie wraz ze startem środowiska graficznego, tuż po zalogowaniu się konkretnego
+użytkownika. Taki proces działa na prawach danego użytkownika, a nie jako root. Może to w pewnych
+sytuacjach powodować <a href="https://morfikov.github.io
+/post/brak-dzwieku-przy-nieaktywnej-sesji-logowania/">brak
+dźwięku</a>, zwłaszcza, gdy
+nie jesteśmy członkami grupy <code>audio</code> i posiadamy systemd. Nie jest to jednak jakiś poważny problem i
+można go bardzo łatwo rozwiązać (tak jako to zostało zrobione w podlinkowanym wpisie).</p>
+<h3 id="autostart">Autostart</h3>
+<p>Idąc dalej, PulseAudio ma także wbudowany mechanizm autostartu w przypadku, gdy jego proces zostanie
+ubity. Czasem nie jest to pożądane, dlatego też przydałoby się na fazy testów, wyłączyć ten ficzer.
+Możemy to zrobić za pomocą pliku <code>/etc/pulse/client.conf</code> przez usunięcie znaku <code>;</code> z początku
+poniższej linijki:</p>
+<pre><code>autospawn = no
+</code></pre>
+<p>Od tej chwili możemy swobodnie restartować demona za pomocą <code>pulseaudio -k</code> i <code>pulseaudio -D</code> .
+Pamiętajmy, że te dwa polecenia trzeba wydawać z konta zwykłego użytkownika.</p>
+<h3 id="konfiguracja-demona">Konfiguracja demona</h3>
+<p>Drugim plikiem, do którego musimy zajrzeć przy konfiguracji PulseAudio jest <code>/etc/pulse/daemon.conf</code>
+. To za jego sprawą konfigurujemy demona, który nasłuchuje żądań od aplikacji dźwiękowych. Poniżej
+jest rozpiska kilku opcji, które możemy określić w tym pliku.</p>
+<ul>
+<li><code>daemonize</code> -- PulseAudio uruchomi się w trybie demona.</li>
+<li><code>fail</code> -- jeśli jakaś dyrektywa w skrypcie <code>default.pa</code> zwróci błąd, to PulseAudio się nie
+uruchomi.</li>
+<li><code>allow-module-loading</code> -- zezwala na ładowanie modułów w trackie pracy demona.</li>
+<li><code>system-instance </code> -- uruchamia PulseAudio w trybie systemowym.</li>
+<li><code>cpu-limit</code> , <code>high-priority </code> , <code>realtime-scheduling</code> , <code>realtime-priority</code> , <code>nice-level</code> oraz
+<code>rlimit-*</code> -- odpowiadają za ustawienie odpowiednich priorytetów dla demona PulseAudio.</li>
+<li><code>default-script-file</code> oraz <code>load-default-script-file</code> -- określają czy oraz jaki skrypt
+załadować na starcie demona.</li>
+<li><code>flat-volumes</code> -- ustawiony może powodować problemy przy zmianie poziomu głośności w przypadku,
+gdy aktywnych jest kilka aplikacji odtwarzających dźwięk.</li>
+<li><code>default-sample-rate</code> oraz <code>alternate-sample-rate</code> -- określają częstotliwość próbkowania.</li>
+<li><code>default-sample-channels</code> oraz <code>default-channel-map</code> -- odpowiadają za ilość i mapowanie
+kanałów.</li>
+</ul>
+<p>Cały plik jest dostępny <a href="https://github.com/morfikov/files/tree/master/configs/etc/pulse">na moim
+gicie</a>. Standardowe ustawienia nie
+powinny sprawiać problemów. Jeśli jednak coś nam nie gra do końca tak jak byśmy tego oczekiwali, to
+zawsze możemy zajrzeć w ten przykładowy plik konfiguracyjny.</p>
+<h3 id="skrypt-dla-pulseaudio-defaultpa">Skrypt dla PulseAudio (default.pa)</h3>
+<p>Na dobrą sprawę mamy dwa skrypty, które są dostarczane wraz z PulseAudio. Jeden z nich to
+<code>default.pa</code> i to jest skrypt dla trybu użytkownika. Drugi zaś to <code>system.pa</code> dla trybu systemowego.
+My będziemy korzystać jedynie z tego pierwszego.</p>
+<p>W skrypcie <code>default.pa</code> są zawarte informacje, jakie moduły załadować przy starcie demona i jakie
+wartości im ustawić. To tutaj mamy między innymi określone zachowanie PulseAudio w przypadku, np.
+zapisywania poziomu głośności czy przełączania się z głośników na słuchawki. W całej masie
+przypadków nie będziemy musieli ruszać tego pliku.</p>
+<h2 id="konfiguracja-systemu-pod-pulseaudio">Konfiguracja systemu pod PulseAudio</h2>
+<p>Obecnie system powinien w dużej mierze sam dostosować sobie poszczególne aplikacje, tak by
+korzystały z PulseAudio automatycznie. Tak przynajmniej jest w przypadku tych bardziej
+rozbudowanych środowisk graficznych. Nie zawsze jednak ma to miejsce, gdy stawiamy sobie bardzo
+minimalne środowisko oparte jedynie o prosty menadżer okien. Poniżej jest kilka miejsc, w które
+warto zajrzeć, jeśli dźwięk nam nie działa tak jak powinien.</p>
+<p>W pliku <code>/etc/libao.conf</code> ustawiamy:</p>
+<pre><code>default_driver=pulse
+</code></pre>
+<p>W pliku <code>/etc/openal/alsoft.conf</code> zaś dajemy:</p>
+<pre><code>drivers = pulse,alsa
+</code></pre>
+<p>Jeśli chodzi natomiast o wszelkie odtwarzacze audio/video, to w opcjach każdego z nich mamy
+możliwość ustawienia wyjścia dźwięku. Z reguły to wyjście jest wykrywane automatycznie i nie
+musimy manualnie przestawiać go na <code>pulse</code> czy <code>pulseaudio</code> . Niemniej jednak, jeśli chcemy
+przestawić sobie wyjście dźwięku, to nic nie stoi na przeszkodzie, by to zrobić. Poniżej przykład:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/01/2.pulseaudio-smplayer-config.png" alt=""></p>
+<p>Trzeba jednak wziąć pod uwagę, że nie wszystkie aplikacje mają zaimplementowaną natywną obsługę
+PulseAudio i w takim przypadku mogą się pojawić problemy z dźwiękiem. Część z aplikacji może mieć
+też dedykowane wtyczki, które musimy doinstalować osobno, by dźwięk w tych aplikacjach działał jak
+trzeba. Warto też zajrzeć <a href="https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/PerfectSetup/">pod ten
+link</a>, który
+zawiera konfigurację szeregu aplikacji pod PulseAudio.</p>
+<h2 id="zajmowanie-karty-przez-pulseaudio">Zajmowanie karty przez PulseAudio</h2>
+<p>PulseAudio domyślnie skonfigurowany jest w taki sposób, by zajmować urządzenie dźwiękowe, na którym
+operuje. W ten sposób aplikacje, które mają ustawione wyjście dźwięku na ALSA, nie mogą zwyczajnie
+nic wysłać do karty dźwiękowej, bo PulseAudio ją blokuje. Jako, że nie wszystkie aplikacje mają
+zaimplementowaną obsługę PulseAudio, a emulacja ALSA nie zawsze działa poprawnie, to możemy
+skonfigurować ten serwer dźwięku, tak by nie zajmował całego urządzenia dla siebie. W tym celu
+musimy edytować plik <code>/etc/pulse/default.pa</code> i zmienić w nim te poniższe linijki:</p>
+<pre><code>load-module module-alsa-sink device=dmix
+load-module module-alsa-source device=dsnoop
+# load-module module-udev-detect
+# load-module module-detect
+</code></pre>
+<h2 id="problemy-z-pulseaudio">Problemy z PulseAudio</h2>
+<p>W przypadku, gdy doświadczamy problemów z dźwiękiem, to można zajrzeć w log PulseAudio. Log zaś
+możemy sporządzić przy pomocy tego poniższego polecenia:</p>
+<pre><code>$ LANG=C pulseaudio -vvvv --log-time=1 &gt; ~/pulseverbose.log 2&gt;&amp;1
+</code></pre>
+<p>Pamiętajmy jednak, że pierw trzeba zatrzymać demona ( <code>pulseaudio -k</code> ) i dopiero wtedy wprowadzić
+powyższe polecenie. Log będzie dość spory. Możemy także go zredukować przez odpowiednie ustawienie
+parametru <code>-v</code> .</p>
+<p>Warto też nie zapominać o ALSA. Do dyspozycji mamy <code>alsamixer</code>, w którym to mogą być wyciszone
+poszczególne potencjometry, a to może być przyczyną braku dźwięku. Nawet jeżeli po odpaleniu tego
+miksera, do naszej dyspozycji jest tylko coś na wzór tego poniższego obrazka:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/01/3.alsamixer-pulseaudio.png" alt=""></p>
+<p>To możemy wcisnąć klawisz F6 i wybrać z menu odpowiednią kartę. W ten sposób uzyskamy dostęp do jej
+przełączników:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/01/4.alsamixer-sound-card.png" alt=""></p>
+<p>Pomocne w rozwiązywaniu problemów może okazać się również usunięcie katalogu <code>~/.config/pulse/</code> przy
+wyłączonym środowisku graficznym, a następnie zresetowanie maszyny.</p>
+<p>Notyfikacje dźwięku</p>
+<p>Nie wszyscy z nas lubią te wyskakujące okienka, które zwykły nas powiadamiać o zbędnych z naszego
+punktu widzenia zdarzeniach. Inaczej jednak sprawa ma się w przypadku notyfikacji dźwięku, bo
+przecie one dostarczają cennych informacji na temat aktualnego poziomu głośności. Pakiety, które
+zainstalowaliśmy na początku dają nam możliwość wysyłania takich powiadomień ale potrzebna nam jest
+też jakaś aplikacja, która będzie je w stanie generować. W tym przypadku zdecydowaliśmy się na
+pakiet <code>volumeicon-alsa</code> . Nie jest to jakieś zaawansowane cudo ale grunt, że realizuje ono to czego
+od niego oczekujemy. Tak wygląda konfiguracja tego narzędzia:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/01/5.volumeicon-alsa-pulseaudio.png" alt=""></p>
+<p>Jak widzimy, możemy skonfigurować kanał, który będziemy regulować. Mamy także opcje wywołania
+miksera PulseAudio. A w dolnej części mamy zaznaczone trzy klawisze, które będą odpowiedzialne za
+regulację dźwięku, po których przyciśnięciu system otrzyma stosowne notyfikacje. By te klawisze
+działały, potrzebna jest nam <a href="https://morfikov.github.io
+/post/klawiatura-multimedialna-i-niedzialajace-klawisze/">odpowiednio skonfigurowana klawiatura
+multimedialna</a>, bo te
+klawisze nie zawsze są rozpoznawane przez Xserver.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/d%C5%BAwi%C4%99k/">dźwięk</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-serwera-dzwieku-pulseaudio%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-serwera-dzwieku-pulseaudio%2f&amp;text=Konfiguracja%20serwera%20d%c5%bawi%c4%99ku%20PulseAudio" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-serwera-dzwieku-pulseaudio%2f&amp;title=Konfiguracja%20serwera%20d%c5%bawi%c4%99ku%20PulseAudio" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-serwera-dzwieku-pulseaudio%2f&amp;title=Konfiguracja%20serwera%20d%c5%bawi%c4%99ku%20PulseAudio" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-serwera-dzwieku-pulseaudio%2f&title=Konfiguracja%20serwera%20d%c5%bawi%c4%99ku%20PulseAudio" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-serwera-dzwieku-pulseaudio%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-serwera-dzwieku-pulseaudio%2f&amp;title=Konfiguracja%20serwera%20d%c5%bawi%c4%99ku%20PulseAudio" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-serwera-dzwieku-pulseaudio%2f&description=Konfiguracja%20serwera%20d%c5%bawi%c4%99ku%20PulseAudio" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/menadzer-okien-openbox/">Menadżer okien Openbox</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/menadzer-logowania-lightdm/">Menadżer logowania LightDM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-xservera-na-debianie-xorg/">Konfiguracja Xserver&#39;a na debianie (Xorg)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">Instalacja debiana z wykorzystaniem debootstrap</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

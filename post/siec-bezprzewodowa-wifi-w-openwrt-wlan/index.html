@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Sieć bezprzewodowa WiFi w OpenWRT (WLAN) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Sieć bezprzewodowa WiFi w OpenWRT (WLAN)" />
+<meta property="og:description" content="Sieć bezprzewodowa w dzisiejszych czasach to podstawa. Z reguły routery posiadają jedno radio
+operujące na częstotliwości 2,4 GHz. Te nieco nowsze (i droższe) modele mają do dyspozycji dwa
+radia: 2,4 GHz oraz 5 GHz. OpenWRT zapewnia wsparcie zarówno dla sieci pracującej w paśmie 2.4 GHz
+jak i tej nadającej w 5 GHz. Konfiguracja tych pasm w OpenWRT różni się nieco. Weźmy dla przykładu
+obsługę kanału 12 i 13, którą dotyczy tylko sieci pasma 2.4 GHz. Podobnie sprawa ma się z
+szerokością kanałów, która jest inna w przypadku obu tych pasm. Niemniej jednak, większość opcji
+pozostaje taka sama i w tym artykule rzucimy okiem na zagadnienie konfiguracji sieci WiFi w OpenWRT." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/siec-bezprzewodowa-wifi-w-openwrt-wlan/" />
+<meta property="article:published_time" content="2016-05-04T20:26:35+00:00" />
+<meta property="article:modified_time" content="2016-05-04T20:26:35+00:00" />
+
+		<meta itemprop="name" content="Sieć bezprzewodowa WiFi w OpenWRT (WLAN)">
+<meta itemprop="description" content="Sieć bezprzewodowa w dzisiejszych czasach to podstawa. Z reguły routery posiadają jedno radio
+operujące na częstotliwości 2,4 GHz. Te nieco nowsze (i droższe) modele mają do dyspozycji dwa
+radia: 2,4 GHz oraz 5 GHz. OpenWRT zapewnia wsparcie zarówno dla sieci pracującej w paśmie 2.4 GHz
+jak i tej nadającej w 5 GHz. Konfiguracja tych pasm w OpenWRT różni się nieco. Weźmy dla przykładu
+obsługę kanału 12 i 13, którą dotyczy tylko sieci pasma 2.4 GHz. Podobnie sprawa ma się z
+szerokością kanałów, która jest inna w przypadku obu tych pasm. Niemniej jednak, większość opcji
+pozostaje taka sama i w tym artykule rzucimy okiem na zagadnienie konfiguracji sieci WiFi w OpenWRT.">
+<meta itemprop="datePublished" content="2016-05-04T20:26:35+00:00" />
+<meta itemprop="dateModified" content="2016-05-04T20:26:35+00:00" />
+<meta itemprop="wordCount" content="2318">
+
+
+
+<meta itemprop="keywords" content="wifi,chaos-calmer,sieć,router," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Sieć bezprzewodowa WiFi w OpenWRT (WLAN)"/>
+<meta name="twitter:description" content="Sieć bezprzewodowa w dzisiejszych czasach to podstawa. Z reguły routery posiadają jedno radio
+operujące na częstotliwości 2,4 GHz. Te nieco nowsze (i droższe) modele mają do dyspozycji dwa
+radia: 2,4 GHz oraz 5 GHz. OpenWRT zapewnia wsparcie zarówno dla sieci pracującej w paśmie 2.4 GHz
+jak i tej nadającej w 5 GHz. Konfiguracja tych pasm w OpenWRT różni się nieco. Weźmy dla przykładu
+obsługę kanału 12 i 13, którą dotyczy tylko sieci pasma 2.4 GHz. Podobnie sprawa ma się z
+szerokością kanałów, która jest inna w przypadku obu tych pasm. Niemniej jednak, większość opcji
+pozostaje taka sama i w tym artykule rzucimy okiem na zagadnienie konfiguracji sieci WiFi w OpenWRT."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Sieć bezprzewodowa WiFi w OpenWRT (WLAN)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-05-04T20:26:35Z">Opublikowano: 04/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Sieć bezprzewodowa WiFi w OpenWRT (WLAN)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#ustawienia-sieci-wifi">Ustawienia sieci WiFi</a></li>
+    <li><a href="#tryby-pracy-routera-wifi">Tryby pracy routera WiFi</a></li>
+    <li><a href="#szerokość-kanału-dla-pasma-24-ghz-htmode">Szerokość kanału dla pasma 2.4 GHz (htmode)</a></li>
+    <li><a href="#szerokość-kanału-dla-pasma-5-ghz-htmode">Szerokość kanału dla pasma 5 GHz (htmode)</a></li>
+    <li><a href="#włączenie-kanału-12-i-13-w-paśmie-24-ghz-country">Włączenie kanału 12 i 13 w paśmie 2,4 GHz (country)</a></li>
+    <li><a href="#moc-transmisyjna-distance-txpower">Moc transmisyjna (distance, txpower)</a></li>
+    <li><a href="#ukrycie-sieci-wifi-hidden">Ukrycie sieci WiFi (hidden)</a></li>
+    <li><a href="#filtr-adresów-mac-macfilter-maclist">Filtr adresów MAC (macfilter, maclist)</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Sieć bezprzewodowa w dzisiejszych czasach to podstawa. Z reguły routery posiadają jedno radio
+operujące na częstotliwości 2,4 GHz. Te nieco nowsze (i droższe) modele mają do dyspozycji dwa
+radia: 2,4 GHz oraz 5 GHz. OpenWRT zapewnia wsparcie zarówno dla sieci pracującej w paśmie 2.4 GHz
+jak i tej nadającej w 5 GHz. Konfiguracja tych pasm w OpenWRT różni się nieco. Weźmy dla przykładu
+obsługę kanału 12 i 13, którą dotyczy tylko sieci pasma 2.4 GHz. Podobnie sprawa ma się z
+szerokością kanałów, która jest inna w przypadku obu tych pasm. Niemniej jednak, większość opcji
+pozostaje taka sama i w tym artykule rzucimy okiem na zagadnienie konfiguracji sieci WiFi w OpenWRT.</p>
+<h2 id="ustawienia-sieci-wifi">Ustawienia sieci WiFi</h2>
+<p>Sieć bezprzewodowa różni się trochę od tej przewodowej. W przypadku sieci po kablu nie musimy
+martwić się o zabezpieczenia transmisji, tak jak to ma miejsce w przypadku WiFi. Dlatego też z tego
+powodu po świeżym flash'owaniu routera, sieć bezprzewodowa w OpenWRT jest domyślnie wyłączona.
+Musimy pierw odpowiednio ją skonfigurować i ustawić wszystkie niezbędne do poprawnej pracy
+parametry. Aktualny stan sieci WiFi możemy sprawdzić z poziomu routera wydając w terminalu polecenie
+<code>wifi status</code> . Zwróci ono szereg informacji dotyczących każdego radia.</p>
+<p><img src="https://morfikov.github.io
+/img/2016/05/1.konfiguracja-radia-wifi-openwrt.png" alt=""></p>
+<p>W powyższym przypadku mamy do czynienia z siecią 5 GHz ( <code>&quot;hwmode&quot;: &quot;11a&quot;,</code> ). Jest ona podniesiona
+<code>&quot;up&quot;: true,</code> . Mamy tam także informacje dotyczącą konfiguracji samego radia (aktualny kanał i jego
+szerokość, kraj czy moc transmisyjna). Niżej zaś mamy przypisany interfejs <code>wlan0</code> oraz konfigurację
+sieci wliczając w to identyfikator sieci SSID, rodzaj szyfrowania, hasło do sieci i szereg innych
+aspektów pracy sieci, które możemy skonfigurować przez plik <code>/etc/config/wireless</code> .</p>
+<p>Jeśli z jakichś powodów rozsypie się nam konfiguracja sieci WiFi, to w prosty sposób możemy
+przywrócić ją do ustawień domyślnych. Możemy to zrobić wydając w terminalu polecenie <code>wifi detect</code>
+. Trzeba tylko pamiętać, by przed jego wydaniem usunąć plik <code>/etc/config/wireless</code> . Jeśli zapomnimy
+to zrobić, to wspomniane polecenie zwróci pusty wynik.</p>
+<p>Przejdźmy zatem do konfiguracji sieci bezprzewodowej. Jeśli jeszcze nie jesteśmy zalogowani na
+router, to zróbmy to czym prędzej. Następnie przy pomocy <code>vi</code> edytujemy plik <code>/etc/config/wireless</code>
+. W zależności od routera, a konkretnie od tego jakie pasma częstotliwości obsługuje, w tym pliku
+możemy mieć kilka sekcji <code>config wifi-device</code> oraz <code>config wifi-iface</code> . Poniżej znajdują się
+przykładowe sekcje:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/05/2.konfiguracja-wifi-radio-interfejs-openwrt.png" alt=""></p>
+<p>Każda taka para konfiguruje jedną sieć WiFi. W <code>config wifi-device</code> określamy konfigurację dla
+urządzenia (karta WiFi). Natomiast w <code>config wifi-iface</code> konfigurujemy interfejs. Takich sekcji
+może być dowolna ilość. Niemniej jednak, tylko jedna sekcja <code>config wifi-device</code> może być aktywna w
+tym samym czasie. Te restrykcje nie dotyczą zaś sekcji <code>config wifi-iface</code> . W ten sposób możemy na
+jednej karcie WiFi uruchomić szereg sieci bezprzewodowych z różnymi SSID. To która sekcja jest
+włączona możemy określić przez odpowiednie ustawienie opcji <code>disabled</code> . Jeśli nie jesteśmy pewni,
+który interfejs jest przypisany do jakiej karty, to zawsze możemy to ustalić za pomocą polecenia
+<code>iwinfo</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2016/05/3.iwinfo-openwrt-interfejs-wifi.png" alt=""></p>
+<p>W <code>config wifi-device</code> zostały użyte następujące opcje:</p>
+<ul>
+<li><code>type</code> -- odpowiada za typ użytego sterownika i jest on wykrywany podczas pierwszego
+uruchomienia routera. Nie wymaga ręcznego dostosowania.</li>
+<li><code>phy</code> -- określa fizyczny interfejs powiązany z tą sekcją.</li>
+<li><code>channel</code> -- określa kanał, do którego będzie podpięta sieć WiFi. Na warunki polskie, w
+przypadku pasma 2,4 GHz, mamy do dyspozycji 1-13. Z kolei jeśli chodzi o pasmo 5GHz, to mamy
+36-64 oraz 100-140 z przeskokiem co 4. Możemy także wybrać tryb <code>auto</code> , który przeskanuje eter
+w poszukiwaniu ewentualnych zakłóceń i podłączy nas do najlepszego z dostępnych kanałów.</li>
+<li><code>hwmode</code> -- określa z jakiego pasma korzystamy: 11g dla 2.4 GHz, 11a dla 5 GHz.</li>
+<li><code>path</code> -- to ścieżka do urządzenia i jest ona wykrywana podczas pierwszego uruchomienia routera.
+Zwykle nie wymaga ręcznego dostosowania.</li>
+<li><code>htmode</code> -- określa szerokość kanałów.</li>
+<li><code>noscan</code> -- dezaktywuje mechanizm wykrywania zakłóceń przy korzystaniu z kanałów o szerokości 40
+MHz.</li>
+<li><code>country*</code> -- konfigurują kod kraju, co warunkuje dostępne kanały i maksymalną moc transmisyjną.</li>
+<li><code>txpower</code> -- ustawia moc transmisyjną.</li>
+<li><code>log_level</code> -- odpowiada za poziom logowania zdarzeń. Im niższy numerek, ty więcej logów będzie
+generowanych. Dostępne wartości od 0-4.</li>
+<li><code>disabled</code> -- wyłącza z konfiguracji daną sekcję.</li>
+</ul>
+<p>W sekcji <code>config wifi-iface</code> zostały użyte następujące opcje:</p>
+<ul>
+<li><code>device</code> -- określa wykorzystywaną kartę WiFi, tę którą została skonfigurowana w jednej z sekcji
+<code>wifi-device</code> .</li>
+<li><code>network</code> -- odpowiada za logiczny interfejs określony w pliku <code>/etc/config/network</code> , do
+którego sieć bezprzewodowa zostanie podpięta.</li>
+<li><code>mode</code> -- definiuje tryb działania radia.</li>
+<li><code>ssid</code> -- określa nazwę sieci.</li>
+<li><code>encryption</code> -- ustawia rodzaj wykorzystywanego szyfrowania.</li>
+<li><code>key</code> -- definiuje hasło do sieci WiFi.</li>
+<li><code>disabled</code> -- wyłącza z konfiguracji daną sekcję.</li>
+<li><code>hidden</code> -- wyłącza rozgłaszanie sieci.</li>
+<li><code>isolate</code> -- izoluje poszczególnych klientów sieci WiFi.</li>
+<li><code>mac*</code> -- opcje konfigurujące mechanizm kontroli adresów MAC.</li>
+<li><code>wps_*</code> -- opcje dotyczące protokołu WPS.</li>
+</ul>
+<p>Wykorzystane wyżej opcje mogą się różnić w zależności od posiadanej karty bezprzewodowej. W tym
+przypadku mamy do czynienia z routerem <a href="http://www.tp-link.com.pl/products/details/Archer-C7.html">TP-Link Archer C7
+v2</a> mającym na pokładzie czipy Qualcomm
+Atheros. Dokładna rozpiska możliwych do wykorzystania opcji w zależności od posiadanego sprzętu
+znajduje się na <a href="https://wiki.openwrt.org/doc/uci/wireless">wiki OpenWRT</a>.</p>
+<h2 id="tryby-pracy-routera-wifi">Tryby pracy routera WiFi</h2>
+<p>Bezprzewodowe karty sieciowe dostępne w routerze WiFi są zwykle dość wszechstronne. Mogą one
+pracować w kilku trybach, choć nie zawsze można je ze sobą łączyć. Podstawowym trybem pracy jest
+tryb AP, czyli punkt dostępu do sieci bezprzewodowej (Access Point). Zwykle takiej funkcjonalności
+będziemy oczekiwać od routera. Pewne tryby pracy, bądź też określona funkcjonalność może wymagać
+zainstalowania na routerze określonych pakietów. Weźmy sobie na przykład obsługę protokołu WPS.
+Standardowo OpenWRT nie ma oprogramowania, które byłoby w stanie nam zapewnić tę funkcjonalność.
+Jeśli jednak dysponujemy routerem o większej ilości pamięci flash, to możemy odinstalować pakiet
+<code>wpad-mini</code> i doinstalować w jego miejsce <code>wpad</code> oraz <code>hostapd-utils</code> .</p>
+<p>Jako, że głównym trybem pracy czipów WiFi w routerach bezprzewodowych jest tryb AP, to wypadałoby
+powiedzieć nieco więcej na jego temat. Konfiguracja punktu dostępu do sieci może być różna.
+Najpopularniejszym schematem w warunkach domowych jest WPA2 Personal (WPA2-PSK). W jego przypadku
+wszystkie urządzenia w sieci mają jedno i to samo hasło zezwalające na dostęp. Wszystkie karty WiFi
+w routerach posiadają ten tryb, w końcu to routery bezprzewodowe. By podłączenie do sieci mogło
+nastąpić, wymagane jest podanie dwóch parametrów: identyfikator (nazwa) sieci ( <code>ssid</code> ) i hasło (
+<code>key</code> ). Każda sieć musi posiadać unikalny identyfikator sieci. Unikajmy także stosowania spacji w
+nazwie sieci.</p>
+<p>Bezpieczeństwo naszej sieci w dużej mierze będzie zależeć od wykorzystywanego hasła oraz stosowanego
+szyfrowania. Mamy do wyboru dwa rodzaje haseł. Jednym z nich jest hasło w postaci czystego tekstu i
+musi ono posiadać od 8 do 63 znaków. Drugim typem hasła jest ciąg HEX o długości 64 znaków. Nikomu
+za bardzo nie chce się wymyślać długich i skomplikowanych haseł ale istnieje narzędzie, które może
+wygenerować hasło szesnastkowe w oparciu o nazwę sieci (ssid) oraz o jakąś frazę, dajmy na to
+faktyczne hasło. To rozwiązanie świetnie sprawuje się w przypadku systemów z rodziny linux. Poniżej
+przykład generowania hasła z wykorzystaniem narzędzia <code>wpa_passphrase</code> pod debianem:</p>
+<pre><code>$ wpa_passphrase &quot;Siec&quot; &quot;haslo1haslo2&quot;
+network={
+        ssid=&quot;Siec&quot;
+        #psk=&quot;haslo1haslo2&quot;
+        psk=6d0e99e5d90b07cfb9e24f2052583be5a65c2dbe6f6a856e1bd26aef3bb52d85
+}
+</code></pre>
+<p>W taki sposób mając słabe hasło, można dość solidnie zabezpieczyć swoją sieć. Przy czym trzeba
+pamiętać, że ten ciąg zawsze będzie taki sam, o ile SSID i hasło nie zostaną zmienione. Każdy kto
+zna te dwie wartości może wygenerować sobie ten 64 znakowy ciąg.</p>
+<p>Jeśli natomiast chodzi o kwestię szyfrowania, która została ustawiona w opcji <code>encryption</code> , to
+określa ona sposób zabezpieczenia sieci. Wszystkie dostępne wartości, można znaleźć na <a href="https://wiki.openwrt.org/doc/uci/wireless#wpa_modes">wiki
+OpenWRT</a>. Trzeba jednak powiedzieć, że mamy
+możliwość implementacji różnych typów szyfrów w konfiguracji. Im więcej ich zdefiniujemy tym więcej
+urządzeń będziemy mogli podłączyć do sieci. Nie wszystkie urządzenia, szczególnie te starsze,
+potrafią obsługiwać obecne standardy szyfrowania. Starsze szyfry może i potrafią odciążyć router
+oraz dają możliwość podłączenia większej ilości urządzeń ale jakby nie patrzeć obniżają one
+bezpieczeństwo sieci. Jeśli ktoś potrzebuje dobrze zabezpieczyć swoją sieć, to nie ma innego wyboru
+poza ustawieniem <code>psk2+aes</code> w opcji <code>encryption</code> .</p>
+<h2 id="szerokość-kanału-dla-pasma-24-ghz-htmode">Szerokość kanału dla pasma 2.4 GHz (htmode)</h2>
+<p>Pasmo 2,4GHz w Polsce jest podzielone na 13 kanałów. Każdy z nich jest przesunięty o 5 MHz. Kanał
+pierwszy ma częstotliwość 2412 MHz. Następne mają zwiększane o te 5 MHz, czyli 2417 MHz, 2422 MHz i
+tak dalej aż do kanału 13 o częstotliwości 2472 MHz. Wygląda to mniej więcej tak
+(<a href="https://en.wikipedia.org/wiki/List_of_WLAN_channels">źródło</a>):</p>
+<p><img src="https://morfikov.github.io
+/img/2016/05/4.kanaly-wifi-2.4ghz.png" alt=""></p>
+<p>Większe prędkości transmisji można uzyskać przez zwiększenie zakresu częstotliwości, na której
+router operuje. Jest to tzw. szerokość kanału i pod OpenWRT wynosi ona standardowo 20 MHz. Widzimy,
+że przy szerokości większej niż 10 MHz będziemy mieć do czynienia z nakładaniem się kilku
+sąsiadujących kanałów na siebie, w efekcie będą występować zakłócania transmisji. Niemniej jednak,
+przy standardowej szerokości kanałów, mamy do dyspozycji tylko 3 kanały, które nie będą siebie
+zakłócać: 1, 6 oraz 11 (ewentualnie 12 lub 13). Ta szerokość kanałów zezwala teoretycznie na
+uzyskanie prędkości transmisji 150 mbit/s. Obecnie routery WiFi potrafią obsługiwać kanały o
+szerokości 40 MHz, co może generować ogromną ilość zakłóceń zwłaszcza w warunkach miejskich, gdzie
+na blokowiskach mamy kilkadziesiąt sieci bezprzewodowych. W ten sposób przy zwiększonej szerokości
+kanału zamiast polepszyć sobie transfer, to tylko go pogorszymy, obniżając przy tym jakość sygnału
+również innym użytkownikom eteru w naszej okolicy.</p>
+<p>Zmianę domyślnych ustawień dotyczących szerokości kanałów przeprowadzamy dodając lub zmieniając te
+dwa poniższe parametry do pliku <code>/etc/config/wireles</code> w sekcji <code>config wifi-device</code> :</p>
+<pre><code>config wifi-device 'radio1'
+    ...
+    option htmode 'HT20'
+    option noscan '0'
+</code></pre>
+<p>W opcji <code>htmode</code> można sprecyzować <code>HT20</code> dla pojedynczego kanału 20 MHz , lub też <code>HT40-</code>/<code>HT40+</code> w
+przypadku wykorzystywania dwóch kanałów, każdy po 20 MHz. Jeśli planujemy umieścić sieć WiFi na
+jednym z kanałów 5-13, to wybieramy <code>HT40-</code> . Z kolei jeśli chcemy umiejscowić się na kanale 1-9,
+ustawiamy <code>HT40+</code> .</p>
+<p>Jeśli chodzi jeszcze o obsługę kanałów o szerokości 40 MHz, to nie zawsze będziemy mieć taką
+możliwość. Router potrafi przebadać pasmo i oszacować poziom zakłóceń. Niemniej jednak, pasmo 2,4
+GHz jest mocno zapchane. Podczas testów, nigdy mi nie udało ustawić sieci WiFi tak, by działała ona
+automatycznie na <code>HT40+</code> albo <code>HT40-</code> . Istnieje jednak opcja <code>noscan</code> , która po przestawieniu na
+<code>1</code>, sprawi, że router nie będzie skanował dostępnego pasma. W ten sposób bez problemu zacznie
+korzystać z dwóch kanałów i szerokości 40 MHz. Lepiej jednak nie korzystać z tej opcji, zwłaszcza w
+warunkach miejskich, bo dochodzi nam jeszcze ten problem, że część zakłóceń, która pogarsza jakość
+sygnału WiFi jest generowana przez pewne sprzęty gospodarstwa domowego oraz przez sprzęt
+elektroniczny inny niż bezprzewodowe routery czy karty WiFi, np. mikrofalówki, czy bezprzewodowe
+myszy albo klawiatury. Tego typu zakłóceń jest sporo mniej w paśmie 5GHz.</p>
+<h2 id="szerokość-kanału-dla-pasma-5-ghz-htmode">Szerokość kanału dla pasma 5 GHz (htmode)</h2>
+<p>Kanały w paśmie 5 GHz są mniej więcej takie same. Każdy z nich również ma szerokość 5 MHz. Różnica
+sprowadza się do numeru konkretnego kanału. W Europie, w tym też i w Polsce, mamy możliwość
+skorzystania z kanałów od 36 do 64 oraz od 100 do 140. Niemniej jednak szereg kanałów z tych dwóch
+zakresów nie jest używanych. W ten sposób kolejny kanał na numer o 4 większy, zatem 36, 40, 44, 100,
+104, 108, itd. Kanał 36 ma częstotliwość 5180 MHz, kanał 40 ma 5200 MHz, itd. Poniżej fotka
+obrazująca kanały w paśmie 5 GHz
+(<a href="https://networkengineering.stackexchange.com/questions/12720/cannot-use-5ghz-band-wi-fi-from-channels-100-140">źródło</a>):</p>
+<p><img src="https://morfikov.github.io
+/img/2016/05/5.kanaly-wifi-5ghz-.png" alt=""></p>
+<p>W konfiguracji OpenWRT mamy zatem do wyboru nieco inne wartości. Są to <code>VHT20</code> , <code>VHT40</code> , <code>VHT80</code>
+oraz <code>VHT160</code> , odpowiednio dla 20 MHz, 40 MHz, 80 MHz i 160 MHz. Te dwa ostatnie są dla standardu
+<code>ac</code> . Nie określamy przy tym <code>+</code> albo <code>-</code> , tak jak to ma miejsce w przypadku pasma 2,4 GHz.
+Dodatkowe kanały są dobierane automatycznie. By skonfigurować szerokość kanałów, w pliku
+<code>/etc/config/network</code> dodajemy lub zmieniamy poniższe opcje:</p>
+<pre><code>config wifi-device 'radio1'
+    ...
+    option htmode 'VHT80'
+    option noscan '0'
+</code></pre>
+<h2 id="włączenie-kanału-12-i-13-w-paśmie-24-ghz-country">Włączenie kanału 12 i 13 w paśmie 2,4 GHz (country)</h2>
+<p>Domyślne ustawienia routera są określone pod kątem USA. Tam nie ma możliwości używania kanałów o
+numerach większych niż 11. Niemniej jednak, w Polsce mamy możliwość korzystania z kanału 12 i 13. By
+móc ich używać, musimy określić odpowiedni kod kraju, w którym nadaje router. Robimy to w pliku
+<code>/etc/config/wireles</code> w sekcji <code>config wifi-device</code> :</p>
+<pre><code>config wifi-device 'radio1'
+    ...
+    option country 'PL'
+    option country_ie 'PL'
+</code></pre>
+<h2 id="moc-transmisyjna-distance-txpower">Moc transmisyjna (distance, txpower)</h2>
+<p>Standardowa moc transmisyjna routera WiFi to <code>20 dBm</code> . Aktualną moc możemy odczytać, np. z wyjścia
+<code>iwinfo</code> . Z pewnych przyczyn możemy chcieć zwiększyć lub zmniejszyć moc sygnału. O ile w przypadku
+zwiększenia mocy nie wiele zwykle da się zrobić, bo limitowani jesteśmy przez sprzęt, to w przypadku
+zmniejszenia mocy mamy większe pole manewru. Przede wszystkim w OpenWRT mamy do dyspozycji dwie
+opcje: <code>distance</code> (metry) oraz <code>txpower</code> (dBm) . Obie z nich określają moc nadajnika, z tym, że
+pierwszy z nich dostosowuje ją w zależności od określonej odległości. W przypadku, gdy zamierzamy
+sobie dostosować moc transmisyjną, to do pliku <code>/etc/config/wireless</code> dopisujemy te poniższe opcje:</p>
+<pre><code>config wifi-device 'radio1'
+    ...
+#   option distance '5'
+    option txpower '10'
+</code></pre>
+<h2 id="ukrycie-sieci-wifi-hidden">Ukrycie sieci WiFi (hidden)</h2>
+<p>Niektóre osoby chciałyby ukryć swoją sieć WiFi przed ludźmi, których mają w swoim zasięgu.
+Generalnie nie da się ukryć sieci, bo bez problemu można ją wykryć i nie trzeba być przy tym specem
+od technologi bezprzewodowych. W każdym razie, w OpenWRT jest dostępna opcja <code>hidden</code> , która może
+pomóc nam z ukryciem sieci wyłączając rozgłaszanie identyfikatora SSID. Na wiele to się nie zda ale
+jeśli ktoś potrzebuje, to może dodać sobie do pliku <code>/etc/config/wireless</code> poniższą linijkę:</p>
+<pre><code>config wifi-iface
+    ...
+    option hidden '0'
+</code></pre>
+<h2 id="filtr-adresów-mac-macfilter-maclist">Filtr adresów MAC (macfilter, maclist)</h2>
+<p>Innym pseudo zabezpieczeniem jest filtr adresów MAC. Teoretycznie każde urządzenie sieciowe ma mieć
+inny adres MAC. Co z tego, skoro taki MAC można bez problemu
+<a href="https://morfikov.github.io
+/post/jak-sklonowac-adres-mac-w-openwrt/">zespoofować</a> czy <a href="https://morfikov.github.io
+/post/jak-przypisac-losowy-adres-mac-interfejsu/">w dowolny sposób
+wygenerować</a> i przypisać
+interfejsowi karty sieciowej? Poza tym, węsząc po eterze za za pomocą sniffer'a <code>wireshark</code> możemy
+bez problemu ustalić adresy MAC każdej stacji, która się łączy do określonego
+AP:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/05/1.ukrywanie-sieci-wifi-openwrt-wireshark.png"><img src="https://morfikov.github.io
+/img/2016/05/1.ukrywanie-sieci-wifi-openwrt-wireshark-1024x599.png" alt="1.ukrywanie-sieci-wifi-openwrt-wireshark"></a></p>
+<p>W każdym razie OpenWRT daje też możliwość zdefiniowania adresów MAC, które należy
+blokować/przepuszczać przy podłączaniu do sieci bezprzewodowej. Jeśli chcemy korzystać z tego
+mechanizmu, dopisujemy do pliku <code>/etc/config/wireless</code> te poniższe linijki</p>
+<pre><code>config wifi-iface
+    ...
+    option macfilter 'disable'
+    option maclist '3c:4a:92:00:4c:5b 40:2b:a1:4d:50:7f'
+</code></pre>
+<p>Włączenie filtrowania adresów MAC osiągniemy przez przypisanie opcji <code>macfilter</code> wartości <code>deny</code> lub
+<code>allow</code> . W zależności od tego, którą z nich wybierzemy, adresy określone w opcji <code>maclist</code> będą
+blokowane lub akceptowane. W przypadku, gdy w opcji <code>macfilter</code> ustawimy <code>disable</code> , filtrowanie
+adresów MAC zostanie wyłączone.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wifi/">wifi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chaos-calmer/">chaos-calmer</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sie%C4%87/">sieć</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">router</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fsiec-bezprzewodowa-wifi-w-openwrt-wlan%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsiec-bezprzewodowa-wifi-w-openwrt-wlan%2f&amp;text=Sie%c4%87%20bezprzewodowa%20WiFi%20w%20OpenWRT%20%28WLAN%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsiec-bezprzewodowa-wifi-w-openwrt-wlan%2f&amp;title=Sie%c4%87%20bezprzewodowa%20WiFi%20w%20OpenWRT%20%28WLAN%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsiec-bezprzewodowa-wifi-w-openwrt-wlan%2f&amp;title=Sie%c4%87%20bezprzewodowa%20WiFi%20w%20OpenWRT%20%28WLAN%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsiec-bezprzewodowa-wifi-w-openwrt-wlan%2f&title=Sie%c4%87%20bezprzewodowa%20WiFi%20w%20OpenWRT%20%28WLAN%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsiec-bezprzewodowa-wifi-w-openwrt-wlan%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsiec-bezprzewodowa-wifi-w-openwrt-wlan%2f&amp;title=Sie%c4%87%20bezprzewodowa%20WiFi%20w%20OpenWRT%20%28WLAN%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsiec-bezprzewodowa-wifi-w-openwrt-wlan%2f&description=Sie%c4%87%20bezprzewodowa%20WiFi%20w%20OpenWRT%20%28WLAN%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-sieciowych-w-openwrt/">Konfiguracja interfejsów sieciowych w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-sklonowac-adres-mac-w-openwrt/">Jak sklonować adres MAC w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-polaczenia-aero2-na-openwrt/">Konfiguracja połączenia Aero2 na OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/modem-lte-pod-openwrt/">Modem LTE pod OpenWRT (Huawei E3372s-153)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/">Konfiguracja tunelu 6in4 w OpenWRT (IPv6)</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

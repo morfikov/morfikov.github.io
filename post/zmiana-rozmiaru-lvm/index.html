@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Zmiana rozmiaru dysków w strukturze LVM | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Zmiana rozmiaru dysków w strukturze LVM" />
+<meta property="og:description" content="Logical Volume Manager (LVM), czyli menadżer voluminów
+logicznych w systemach linux, to mechanizm, który jest w stanie podzielić jedną partycję fizyczną na
+szereg dysków logicznych. Każdy z tych dysków może być programowo dostosowany bez potrzeby edycji
+czy zmiany tablicy partycji fizycznego dysku. Dzięki LVM jesteśmy w stanie obejść kilka ograniczeń
+płynących z wykorzystywania tablicy partycji MS-DOS. Głównie chodzi tutaj o 4 partycje podstawowe,
+które mieszczą się w MBR. Jeśli zdecydowaliśmy
+się na wykorzystywanie LVM, to w pewnym momencie może okazać się, że niektóre voluminy mają zbyt
+duże lub też zbyt małe rozmiary. Trzeba będzie je zatem dostosować i w tym wpisie postaramy się ten
+proces zasymulować." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/zmiana-rozmiaru-lvm/" />
+<meta property="article:published_time" content="2015-12-17T20:15:26+00:00" />
+<meta property="article:modified_time" content="2015-12-17T20:15:26+00:00" />
+
+		<meta itemprop="name" content="Zmiana rozmiaru dysków w strukturze LVM">
+<meta itemprop="description" content="Logical Volume Manager (LVM), czyli menadżer voluminów
+logicznych w systemach linux, to mechanizm, który jest w stanie podzielić jedną partycję fizyczną na
+szereg dysków logicznych. Każdy z tych dysków może być programowo dostosowany bez potrzeby edycji
+czy zmiany tablicy partycji fizycznego dysku. Dzięki LVM jesteśmy w stanie obejść kilka ograniczeń
+płynących z wykorzystywania tablicy partycji MS-DOS. Głównie chodzi tutaj o 4 partycje podstawowe,
+które mieszczą się w MBR. Jeśli zdecydowaliśmy
+się na wykorzystywanie LVM, to w pewnym momencie może okazać się, że niektóre voluminy mają zbyt
+duże lub też zbyt małe rozmiary. Trzeba będzie je zatem dostosować i w tym wpisie postaramy się ten
+proces zasymulować.">
+<meta itemprop="datePublished" content="2015-12-17T20:15:26+00:00" />
+<meta itemprop="dateModified" content="2015-12-17T20:15:26+00:00" />
+<meta itemprop="wordCount" content="3963">
+
+
+
+<meta itemprop="keywords" content="hdd/ssd,lvm," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Zmiana rozmiaru dysków w strukturze LVM"/>
+<meta name="twitter:description" content="Logical Volume Manager (LVM), czyli menadżer voluminów
+logicznych w systemach linux, to mechanizm, który jest w stanie podzielić jedną partycję fizyczną na
+szereg dysków logicznych. Każdy z tych dysków może być programowo dostosowany bez potrzeby edycji
+czy zmiany tablicy partycji fizycznego dysku. Dzięki LVM jesteśmy w stanie obejść kilka ograniczeń
+płynących z wykorzystywania tablicy partycji MS-DOS. Głównie chodzi tutaj o 4 partycje podstawowe,
+które mieszczą się w MBR. Jeśli zdecydowaliśmy
+się na wykorzystywanie LVM, to w pewnym momencie może okazać się, że niektóre voluminy mają zbyt
+duże lub też zbyt małe rozmiary. Trzeba będzie je zatem dostosować i w tym wpisie postaramy się ten
+proces zasymulować."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Zmiana rozmiaru dysków w strukturze LVM</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-12-17T20:15:26Z">Opublikowano: 17/12/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Zmiana rozmiaru dysków w strukturze LVM</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#pozyskiwanie-informacji-o-lvm">Pozyskiwanie informacji o LVM</a></li>
+    <li><a href="#powiększanie-lvm">Powiększanie LVM</a></li>
+    <li><a href="#zmniejszanie-lvm">Zmniejszanie LVM</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p><a href="https://pl.wikipedia.org/wiki/LVM">Logical Volume Manager (LVM)</a>, czyli menadżer voluminów
+logicznych w systemach linux, to mechanizm, który jest w stanie podzielić jedną partycję fizyczną na
+szereg dysków logicznych. Każdy z tych dysków może być programowo dostosowany bez potrzeby edycji
+czy zmiany tablicy partycji fizycznego dysku. Dzięki LVM jesteśmy w stanie obejść kilka ograniczeń
+płynących z wykorzystywania tablicy partycji MS-DOS. Głównie chodzi tutaj o 4 partycje podstawowe,
+które mieszczą się w <a href="https://pl.wikipedia.org/wiki/Master_Boot_Record">MBR</a>. Jeśli zdecydowaliśmy
+się na wykorzystywanie LVM, to w pewnym momencie może okazać się, że niektóre voluminy mają zbyt
+duże lub też zbyt małe rozmiary. Trzeba będzie je zatem dostosować i w tym wpisie postaramy się ten
+proces zasymulować.</p>
+<h2 id="pozyskiwanie-informacji-o-lvm">Pozyskiwanie informacji o LVM</h2>
+<p>Poniżej mamy przykładowy dysk, który zawiera jedną partycję podstawową, na której to znajduje się
+kilka dysków logicznych. Tak wygląda ten dysk w <code>fdisk</code> :</p>
+<pre><code># fdisk -l /dev/sdb
+
+Disk /dev/sdb: 80.0 GB, 80025280000 bytes
+255 heads, 63 sectors/track, 9729 cylinders, total 156299375 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000c741d
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1            2048    81922047    40960000   83  Linux
+</code></pre>
+<p>Nie widzimy tutaj żadnych dodatkowych dysków, tylko podstawową partycję <code>sdb1</code> . By być w stanie
+zobaczyć voluminy logiczne, które są ulokowane na tej partycji, musimy podejrzeć dysk w <code>lsblk</code> :</p>
+<pre><code># lsblk /dev/sdb
+NAME                       MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sdb                          8:16   0  74,5G  0 disk
+└─sdb1                       8:17   0  39,1G  0 part
+  ├─grupa1-volumin1 (dm-1) 254:1    0     5G  0 lvm  /media/1
+  ├─grupa1-volumin2 (dm-2) 254:2    0     7G  0 lvm  /media/2
+  ├─grupa1-volumin3 (dm-3) 254:3    0     9G  0 lvm  /media/3
+  ├─grupa1-volumin4 (dm-4) 254:4    0    11G  0 lvm  /media/4
+  └─grupa1-volumin5 (dm-5) 254:5    0   7,1G  0 lvm  /media/5
+</code></pre>
+<p>By zacząć cokolwiek robić z kontenerem LVM, musimy pierw uzyskać stosowne informacje. Musimy min.
+wiedzieć jaki jest rozmiar fizycznego voluminu, z którego LVM może zrobić użytek. Uzyskamy go z
+<code>pvscan</code> :</p>
+<pre><code># pvscan
+  PV /dev/sdb1   VG grupa1   lvm2 [39,06 GiB / 0    free]
+  Total: 1 [39,06 GiB] / in use: 1 [39,06 GiB] / in no VG: 0 [0   ]
+</code></pre>
+<p>Musimy także poznać strukturę podziału tej przestrzeni na dyski logiczne. Możemy to wyciągnąć z
+<code>pvs</code> i <code>lvs</code> , przykładowo:</p>
+<pre><code># pvs -v --segments
+    Scanning for physical volume names
+  PV         VG     Fmt  Attr PSize  PFree Start SSize LV       Start Type   PE Ranges
+  /dev/sdb1  grupa1 lvm2 a--  39,06g    0      0  1280 volumin1     0 linear /dev/sdb1:0-1279
+  /dev/sdb1  grupa1 lvm2 a--  39,06g    0   1280  1792 volumin2     0 linear /dev/sdb1:1280-3071
+  /dev/sdb1  grupa1 lvm2 a--  39,06g    0   3072  2304 volumin3     0 linear /dev/sdb1:3072-5375
+  /dev/sdb1  grupa1 lvm2 a--  39,06g    0   5376  2816 volumin4     0 linear /dev/sdb1:5376-8191
+  /dev/sdb1  grupa1 lvm2 a--  39,06g    0   8192  1807 volumin5     0 linear /dev/sdb1:8192-9998
+
+# lvs -v --segments
+    Finding all logical volumes
+  LV       VG     Attr      Start SSize  #Str Type   Stripe Chunk
+  volumin1 grupa1 -wc-ao---    0   5,00g    1 linear     0     0
+  volumin2 grupa1 -wc-ao---    0   7,00g    1 linear     0     0
+  volumin3 grupa1 -wc-ao---    0   9,00g    1 linear     0     0
+  volumin4 grupa1 -wc-ao---    0  11,00g    1 linear     0     0
+  volumin5 grupa1 -wc-ao---    0   7,06g    1 linear     0     0
+</code></pre>
+<p>Jeśli ktoś preferuje sektory nad bajtami, wystarczy sprecyzować jednostkę przy pomocy <code>--units s</code> :</p>
+<pre><code># pvs -v --units s
+    Scanning for physical volume names
+  PV         VG     Fmt  Attr PSize     PFree DevSize   PV UUID
+  /dev/sdb1  grupa1 lvm2 a--  81911808S    0S 81920000S xMddCU-5h1X-ZZL4-GFfO-ea4L-PqW8-YCGLte
+
+# lvs -v --segments --units s
+    Finding all logical volumes
+  LV       VG     Attr      Start SSize     #Str Type   Stripe Chunk
+  volumin1 grupa1 -wc-ao---    0S 10485760S    1 linear     0S    0S
+  volumin2 grupa1 -wc-ao---    0S 14680064S    1 linear     0S    0S
+  volumin3 grupa1 -wc-ao---    0S 18874368S    1 linear     0S    0S
+  volumin4 grupa1 -wc-ao---    0S 23068672S    1 linear     0S    0S
+  volumin5 grupa1 -wc-ao---    0S 14802944S    1 linear     0S    0S
+</code></pre>
+<p>Jak widać z powyższych informacji, mamy 1 kontener o rozmiarze nieco ponad 39 GiB, na którym
+znajduje się 5 voluminów logicznych. Każdy z nich ma strukturę ciągłą, tzn. że zakresy bloków
+występują jeden po drugim. Wiąże się z tym problem zmiany rozmiaru dysków. Chodzi o to, że w takiej
+konfiguracji zachowują się one jak zwykłe partycje i limitowane są tym co leży obok nich. W tym
+przypadku można, by rozciągnąć i skurczyć bez problemu tylko ostatni dysk. W przypadku, gdy dyski
+nie mają struktury ciągłej, można bez problemu obracać nimi i nie ma znaczenia, gdzie one są, byleby
+tylko miejsca w kontenerze wystarczyło.</p>
+<p>Ogólne info na temat voluminów LVM można uzyskać też przez <code>dmsetup</code> :</p>
+<pre><code># dmsetup info --columns
+Name             Maj Min Stat Open Targ Event  UUID
+grupa1-volumin5  254   5 L--w    1    1      0 LVM-Yas25yA36PmWfMQNJ17UWf48Uat1Wd4MAkxiRDJ1HSjRhwAdfvQsvfaSKD3dqJ3J
+grupa1-volumin4  254   4 L--w    1    1      0 LVM-Yas25yA36PmWfMQNJ17UWf48Uat1Wd4MVLPNyLV6edfQ5F1Whn2cekmQzuHEiU2a
+grupa1-volumin3  254   3 L--w    1    1      0 LVM-Yas25yA36PmWfMQNJ17UWf48Uat1Wd4MXOe2Txojibc6XiGCLk5RPKxjEOJ9gRxk
+grupa1-volumin2  254   2 L--w    1    1      0 LVM-Yas25yA36PmWfMQNJ17UWf48Uat1Wd4MTUAwlgfkbmodBL5MSAb9Xt2yoNpNj9o8
+grupa1-volumin1  254   1 L--w    1    1      0 LVM-Yas25yA36PmWfMQNJ17UWf48Uat1Wd4MYaU6fBv6UC4XBJPOmeCJ1lrlqk0FA5cU
+</code></pre>
+<p>Atrybuty: (L)ive, (I)nactive, (s)uspended, (r)ead-only, read-(w)rite</p>
+<p>Jeśli potrzebujemy bardziej szczegółowych informacji na temat któregoś z voluminów, to możemy
+posłużyć się <code>lvdisplay</code> , przykładowo:</p>
+<pre><code># lvdisplay /dev/mapper/grupa1-volumin1
+  --- Logical volume ---
+  LV Path                /dev/grupa1/volumin1
+  LV Name                volumin1
+  VG Name                grupa1
+  LV UUID                YaU6fB-v6UC-4XBJ-POme-CJ1l-rlqk-0FA5cU
+  LV Write Access        read/write
+  LV Creation host, time livemor, 2014-01-15 09:46:44 +0100
+  LV Status              available
+  # open                 1
+  LV Size                5,00 GiB
+  Current LE             1280
+  Segments               1
+  Allocation             contiguous
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           254:1
+</code></pre>
+<h2 id="powiększanie-lvm">Powiększanie LVM</h2>
+<p>Spróbujmy teraz rozszerzyć partycję LVM i 2 voluminy w niej zawarte. Zgodnie z informacjami, które
+uzyskaliśmy w <code>pvs</code> , rozmiar fizycznego voluminu (pv) to 81911808 sektorów. Za to rozmiar
+urządzenia, na którym znajduje się LVM to 81920000 sektorów. Jak widać te dwie pozycje różnią się o
+8192 sektory (4 MiB). W fdisk'u rozmiar wyjściowy, to rozmiar partycji LVM, czyli 81920000. Do tej
+wartości trzeba dodać 10 GiB, co daje nam (10*1024*1024*1024)/512=20971520 sektorów. Rozmiar
+nowej partycji wynosić będzie zatem 81920000+20971520=102891520 sektorów (pamiętajmy by w <code>fdisk</code>
+odjąć 1). Wchodzimy do fdisk'a i dodajemy +10 GiB miejsca:</p>
+<pre><code># fdisk /dev/sdb
+
+Command (m for help): p
+
+Disk /dev/sdb: 80.0 GB, 80025280000 bytes
+255 heads, 63 sectors/track, 9729 cylinders, total 156299375 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000c741d
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1            2048    81922047    40960000   83  Linux
+
+Command (m for help): d
+Selected partition 1
+
+Command (m for help): n
+Partition type:
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended
+Select (default p):
+Using default response p
+Partition number (1-4, default 1):
+Using default value 1
+First sector (2048-156299374, default 2048):
+Using default value 2048
+Last sector, +sectors or +size{K,M,G} (2048-156299374, default 156299374): +102891519
+
+Command (m for help): t
+Selected partition 1
+Hex code (type L to list codes): 8e
+Changed system type of partition 1 to 8e (Linux LVM)
+
+Command (m for help): p
+
+Disk /dev/sdb: 80.0 GB, 80025280000 bytes
+255 heads, 63 sectors/track, 9729 cylinders, total 156299375 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000c741d
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1            2048   102893567    51445760   8e  Linux LVM
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+</code></pre>
+<p>Sprawdzamy czy rozmiar partycji pod LVM się zmienił:</p>
+<pre><code># lsblk /dev/sdb
+NAME                       MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sdb                          8:16   0  74,5G  0 disk
+└─sdb1                       8:17   0  49,1G  0 part
+  ├─grupa1-volumin1 (dm-1) 254:1    0     5G  0 lvm  /media/1
+  ├─grupa1-volumin2 (dm-2) 254:2    0     7G  0 lvm  /media/2
+  ├─grupa1-volumin3 (dm-3) 254:3    0     9G  0 lvm  /media/3
+  ├─grupa1-volumin4 (dm-4) 254:4    0    11G  0 lvm  /media/4
+  └─grupa1-volumin5 (dm-5) 254:5    0   7,1G  0 lvm  /media/5
+</code></pre>
+<p>Jest +10 GiB. Teraz trzeba jeszcze rozszerzyć kontener LVM:</p>
+<pre><code># pvscan
+  PV /dev/sdb1   VG grupa1   lvm2 [39,06 GiB / 0    free]
+  Total: 1 [39,06 GiB] / in use: 1 [39,06 GiB] / in no VG: 0 [0   ]
+
+# pvresize /dev/sdb1
+  Physical volume &quot;/dev/sdb1&quot; changed
+  1 physical volume(s) resized / 0 physical volume(s) not resized
+
+# pvscan
+  PV /dev/sdb1   VG grupa1   lvm2 [49,06 GiB / 10,00 GiB free]
+  Total: 1 [49,06 GiB] / in use: 1 [49,06 GiB] / in no VG: 0 [0   ]
+</code></pre>
+<p>Wolne miejsce wskazuje, że 10 GiB dodanych wewnątrz LVM zostało uwzględnione. Rozszerzmy zatem 2
+dyski logiczne. Powiedzmy, że będą to 2 i 5. Dodajmy im po 5 GiB. Z piątym, jako, że jest ostatni,
+nie będzie problemu:</p>
+<pre><code># lvresize -L +5G /dev/mapper/grupa1-volumin5
+  Extending logical volume volumin5 to 12,06 GiB
+  Logical volume volumin5 successfully resized
+</code></pre>
+<p>Ale gdy spróbujemy dodać +5 GiB do drugiego logicznego dysku, dostaniemy poniższy komunikat:</p>
+<pre><code># lvresize -L +5G /dev/mapper/grupa1-volumin2
+  Extending logical volume volumin2 to 12,00 GiB
+  Insufficient suitable contiguous allocatable extents for logical volume volumin2: 1280 more required
+</code></pre>
+<p>Co w takim przypadku zrobić? Wyjścia są dwa. Możemy usunąć volumin i stworzyć nowy, tym razem bez
+opcji <code>-C y</code> , Możemy także zmienić strukturę tego voluminu, tak by przestała być ciągła. Jeśli nie
+uśmiecha nam się kasowanie danych, możemy skorzystać z drugiego rozwiązania:</p>
+<pre><code># lvchange -C n /dev/mapper/grupa1-volumin2
+  Logical volume &quot;volumin2&quot; changed
+</code></pre>
+<p>I sprawdzamy czy volumin stracił ciągłość:</p>
+<pre><code># lvscan
+  ACTIVE            '/dev/grupa1/volumin1' [5,00 GiB] contiguous
+  ACTIVE            '/dev/grupa1/volumin2' [7,00 GiB] inherit
+  ACTIVE            '/dev/grupa1/volumin3' [9,00 GiB] contiguous
+  ACTIVE            '/dev/grupa1/volumin4' [11,00 GiB] contiguous
+  ACTIVE            '/dev/grupa1/volumin5' [12,06 GiB] contiguous
+</code></pre>
+<p>Rozszerzamy go o teraz o 5 GiB:</p>
+<pre><code># lvresize -L +5G /dev/mapper/grupa1-volumin2
+  Extending logical volume volumin2 to 12,00 GiB
+  Logical volume volumin2 successfully resized
+</code></pre>
+<p>Rozmiar został zmieniony. Sprawdźmy jeszcze jak wygląda struktura LVM:</p>
+<pre><code># pvs -v --segments
+    Scanning for physical volume names
+  PV         VG     Fmt  Attr PSize  PFree Start SSize LV       Start Type   PE Ranges
+  /dev/sdb1  grupa1 lvm2 a--  49,06g    0      0  1280 volumin1     0 linear /dev/sdb1:0-1279
+  /dev/sdb1  grupa1 lvm2 a--  49,06g    0   1280  1792 volumin2     0 linear /dev/sdb1:1280-3071
+  /dev/sdb1  grupa1 lvm2 a--  49,06g    0   3072  2304 volumin3     0 linear /dev/sdb1:3072-5375
+  /dev/sdb1  grupa1 lvm2 a--  49,06g    0   5376  2816 volumin4     0 linear /dev/sdb1:5376-8191
+  /dev/sdb1  grupa1 lvm2 a--  49,06g    0   8192  3087 volumin5     0 linear /dev/sdb1:8192-11278
+  /dev/sdb1  grupa1 lvm2 a--  49,06g    0  11279  1280 volumin2  1792 linear /dev/sdb1:11279-12558
+</code></pre>
+<p>Wszystko wygląda dobrze. Taka uwaga. Wszystkie powyższe operacje były przeprowadzane przy
+podmontowanych voluminach. Do tej pory nie było potrzeby, by te voluminy były odmontowane. Niemniej
+jednak, teraz trzeba rozciągnąć ich system plików, tak by wypełniał całą przestrzeń dostępną na tych
+logicznych dyskach. Dlatego też musimy odmontować voluminy, których system plików będzie zmieniany.
+W tym przypadku wszystkie voluminy mają system plików EXT4. Przed zmianą rozmiaru trzeba
+przeskanować voluminy przy pomocy <code>fsck</code> . Rozmiar zostanie zmieniony w przypadku dwóch, także
+skanujemy tylko te dwa:</p>
+<pre><code># umount /media/2
+# umount /media/5
+# e2fsck -f /dev/mapper/grupa1-volumin2
+# e2fsck -f /dev/mapper/grupa1-volumin5
+</code></pre>
+<p>I rozszerzamy ich system plików przy pomocy <code>resize2fs</code> . W przypadku niepodania argumentu rozmiaru,
+system plików zostanie rozciągnięty na całą dostępną przestrzeń w voluminie:</p>
+<pre><code># resize2fs -p /dev/mapper/grupa1-volumin2
+resize2fs 1.42.8 (20-Jun-2013)
+Resizing the filesystem on /dev/mapper/grupa1-volumin2 to 3145728 (4k) blocks.
+The filesystem on /dev/mapper/grupa1-volumin2 is now 3145728 blocks long.
+
+# resize2fs -p /dev/mapper/grupa1-volumin5
+resize2fs 1.42.8 (20-Jun-2013)
+Resizing the filesystem on /dev/mapper/grupa1-volumin5 to 3161088 (4k) blocks.
+The filesystem on /dev/mapper/grupa1-volumin5 is now 3161088 blocks long.
+</code></pre>
+<p>By sprawdzić czy wszystko działa jak należy, montujemy dyski logiczne:</p>
+<pre><code># mount /dev/mapper/grupa1-volumin2 /media/2
+# mount /dev/mapper/grupa1-volumin5 /media/5
+</code></pre>
+<p>Nie ma żadnych problemów, co oznacza, że dyski logiczne, jak i sam kontener LVM, zostały z
+powodzeniem rozciągnięte.</p>
+<h2 id="zmniejszanie-lvm">Zmniejszanie LVM</h2>
+<p>Wiemy zatem jak przebrnąć przez proces zwiększania kontenera LVM. Przydałoby się jeszcze odwrócić
+cały schemat i zmniejszyć przykładowy kontener. Statystyki tego voluminu wyglądają mniej więcej
+tak:</p>
+<pre><code># pvscan
+  PV /dev/sdb1   VG grupa1   lvm2 [49,06 GiB / 0    free]
+  Total: 1 [49,06 GiB] / in use: 1 [49,06 GiB] / in no VG: 0 [0   ]
+
+# lvscan
+  ACTIVE            '/dev/grupa1/volumin1' [5,00 GiB] contiguous
+  ACTIVE            '/dev/grupa1/volumin2' [12,00 GiB] inherit
+  ACTIVE            '/dev/grupa1/volumin3' [9,00 GiB] contiguous
+  ACTIVE            '/dev/grupa1/volumin4' [11,00 GiB] contiguous
+  ACTIVE            '/dev/grupa1/volumin5' [12,06 GiB] contiguous
+</code></pre>
+<p>Zmniejszmy zatem partycję pod LVM o 30 GiB. Załóżmy, że mamy dwa zbędne voluminy (numery 2 i 4). Da
+nam to tylko 23 GiB. Dodatkowo, volumin3 ma sporo wolnego miejsca i nadaje się do skurczenia.
+Odmontujmy wszystkie voluminy oraz usuńmy volumin2 oraz volumin4:</p>
+<pre><code># umount /media/1
+# umount /media/2
+# umount /media/3
+# umount /media/4
+# umount /media/5
+
+# lvremove /dev/mapper/grupa1-volumin2
+Do you really want to remove active logical volume volumin2? [y/n]: y
+  Logical volume &quot;volumin2&quot; successfully removed
+
+# lvremove /dev/mapper/grupa1-volumin4
+Do you really want to remove active logical volume volumin4? [y/n]: y
+  Logical volume &quot;volumin4&quot; successfully removed
+</code></pre>
+<p>Zmieniamy także rozmiar logicznego dysku numer 3. Musimy pierw skurczyć system plików przy pomocy
+<code>resize2fs</code> :</p>
+<pre><code># e2fsck -f /dev/mapper/grupa1-volumin3
+# resize2fs -p /dev/mapper/grupa1-volumin3 2G
+resize2fs 1.42.8 (20-Jun-2013)
+Resizing the filesystem on /dev/mapper/grupa1-volumin3 to 524288 (4k) block.
+Begin pass 3 (max = 24)
+Scanning inode table XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+The filesystem on /dev/mapper/grupa1-volumin3 is now 524288 blocks long.
+</code></pre>
+<p>Zmieniamy teraz rozmiar voluminu, tak by pasował do rozmiaru systemu plików. Ci którzy nie ufają
+rozmiarom definiowanym w bajtach (K,M,G), mogą oczywiście przeliczyć rozmiar na sektory. W tym celu
+bierzemy bloki wypisane przez <code>resize2fs</code> i mnożymy je przez 8, co daje 524288*8=4194304 sektorów
+512-bajtowych. Jeśli chcemy definiować rozmiar po sektorach, trzeba odjąć 1 od tej wartości:
+4194304-1=4194303.</p>
+<pre><code># lvresize -t -L 4194303s /dev/mapper/grupa1-volumin3
+TEST MODE: Metadata will NOT be updated and volumes will not be (de)activated.
+Rounding size to boundary between physical extents: 2,00 GiB
+WARNING: Reducing active and open logical volume to 2,00 GiB
+</code></pre>
+<p>Jeśli nie chce nam się bawić w przeliczanie, możemy po prostu ustawić 2G:</p>
+<pre><code># lvresize -t -L 2G /dev/mapper/grupa1-volumin3
+TEST MODE: Metadata will NOT be updated and volumes will not be (de)activated.
+WARNING: Reducing active and open logical volume to 2,00 GiB
+THIS MAY DESTROY YOUR DATA (filesystem etc.)
+</code></pre>
+<p>Jak widać na powyższym teście, w obu przypadkach nowy rozmiar to 2 GiB. Wybieramy jeden z powyższych
+i zmieniamy wielkość voluminu na 2 GiB:</p>
+<pre><code># lvresize -L 2G /dev/mapper/grupa1-volumin3
+  WARNING: Reducing active and open logical volume to 2,00 GiB
+  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+Do you really want to reduce volumin3? [y/n]: y
+  Reducing logical volume volumin3 to 2,00 GiB
+  Logical volume volumin3 successfully resized
+</code></pre>
+<p>Sprawdzamy czy udało się odzyskać 30 GiB:</p>
+<pre><code># pvscan
+  PV /dev/sdb1   VG grupa1   lvm2 [49,06 GiB / 30,00 GiB free]
+  Total: 1 [49,06 GiB] / in use: 1 [49,06 GiB] / in no VG: 0 [0   ]
+</code></pre>
+<p>Mamy 30 GiB wolnego miejsca, więc wszystko zgodnie z planem. Sprawdźmy jeszcze czy pozostałe 3
+voluminy montują się bez problemu:</p>
+<pre><code># mount /dev/mapper/grupa1-volumin1 /media/1
+# mount /dev/mapper/grupa1-volumin3 /media/3
+# mount /dev/mapper/grupa1-volumin5 /media/5
+
+# lsblk /dev/sdb
+NAME                       MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sdb                          8:16   0  74,5G  0 disk
+└─sdb1                       8:17   0  49,1G  0 part
+  ├─grupa1-volumin1 (dm-1) 254:1    0     5G  0 lvm  /media/1
+  ├─grupa1-volumin3 (dm-2) 254:2    0     2G  0 lvm  /media/3
+  └─grupa1-volumin5 (dm-3) 254:3    0  12,1G  0 lvm  /media/5
+</code></pre>
+<p>Nie ma żadnych błędów, co oznacza, że wszystko jest w porządku. Ostatni krok to zmniejszenie
+partycji pod LVM ale tu już nie będzie tak łatwo. Jeśli spojrzymy na to jak wygląda obecnie
+struktura kontenera LVM, zobaczymy dziury:</p>
+<pre><code># pvs -v --segments
+    Scanning for physical volume names
+  PV         VG     Fmt  Attr PSize  PFree  Start SSize LV       Start Type   PE Ranges
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g     0  1280 volumin1     0 linear /dev/sdb1:0-1279
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  1280  1792              0 free
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  3072   512 volumin3     0 linear /dev/sdb1:3072-3583
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  3584  4608              0 free
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  8192  3087 volumin5     0 linear /dev/sdb1:8192-11278
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g 11279  1280              0 free
+</code></pre>
+<p>Jeśli próbowalibyśmy zmniejszyć rozmiar partycji o 30 GiB, dostalibyśmy poniższy komunikat:</p>
+<pre><code># pvresize --setphysicalvolumesize 29,06G /dev/sdb1
+  /dev/sdb1: cannot resize to 7439 extents as later ones are allocated.
+  0 physical volume(s) resized / 1 physical volume(s) not resized
+</code></pre>
+<p>Dzieje się tak dlatego, że za ostatnim voluminem jest dostępnych 1280*4MiB=5 GiB wolnego miejsca. W
+tej chwili możemy zmniejszyć kontener LVM, jak i samą partycję, jedynie o 5 GiB z pożądanych 30 GiB.
+Jeśli policzymy sobie pozostałe przestrzenie, tj. 4608*4MiB=18 GiB oraz 1792*4MiB=7 GiB, to da nam
+to 5+18+7=30 GiB. Czemu mnożymy przez 4 MiB? To jest blok LVM, można go odczytać z:</p>
+<pre><code># vgdisplay
+  --- Volume group ---
+  VG Name               grupa1
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  13
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                3
+  Open LV               3
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               49,06 GiB
+  PE Size               4,00 MiB
+  Total PE              12559
+  Alloc PE / Size       4879 / 19,06 GiB
+  Free  PE / Size       7680 / 30,00 GiB
+  VG UUID               Yas25y-A36P-mWfM-QNJ1-7UWf-48Ua-t1Wd4M
+</code></pre>
+<p>Co zrobić by usunąć wolne miejsce z kontenera? Trzeba poprzenosić logiczne voluminy i upakować je
+blisko siebie ale trzeba zwracać uwagę na wolne miejsce, bo nie da rady wpakować większego voluminu
+do mniejszej dziury. Podobnie jest z przesuwaniem voluminu. Jeśli dziura przed voluminem ma 2 GiB, a
+sam volumin 3 GiB, to nie damy rady przesunąć voluminu. Trzeba będzie go skopiować gdzieś, by
+uwolnić pierw miejsce, tak by dziura miała minimum 3 GiB.</p>
+<p>W tym przypadku akurat sprawa wygląda prosto: volumin3 ma rozmiar 512 bloków i się zmieści w dziurę
+przed nim, a potem tylko dokleimy volumin5 za voluminem3. Zatem do dzieła. Każdy logiczny volumin
+jest reprezentowany przez dwie wartości: początek dysku i jego rozmiar. Rozpatrując przeniesienie
+voluminu3, jego rozmiar to 512 bloków i musi zostać przeniesiony na pozycję 1280. Zatem nowe
+parametry będą wynosić 1280-1791. Trzeba pamiętać o odjęciu 1 od końcowego bloku. Przenosimy volumin
+na tym samym fizycznym nośniku, zatem polecenie będzie miało poniższą postać:</p>
+<pre><code># pvmove --alloc anywhere -i 30 /dev/sdb1:3072-3583  /dev/sdb1:1280-1791
+  /dev/sdb1: Moved: 0,0%
+  /dev/sdb1: Moved: 15,0%
+  /dev/sdb1: Moved: 30,3%
+</code></pre>
+<p>Zobaczmy co się dzieje wewnątrz kontenera LVM podczas przenoszenia voluminów:</p>
+<pre><code># pvs -v --segments
+    Scanning for physical volume names
+  PV         VG     Fmt  Attr PSize  PFree  Start SSize LV        Start Type   PE Ranges
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 28,00g     0  1280 volumin1      0 linear /dev/sdb1:0-1279
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 28,00g  1280   512 [pvmove0]     0 mirror /dev/sdb1:3072-3583 /dev/sdb1:1280-1791
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 28,00g  1792  1280               0 free
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 28,00g  3072   512 [pvmove0]     0 mirror /dev/sdb1:3072-3583 /dev/sdb1:1280-1791
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 28,00g  3584  4608               0 free
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 28,00g  8192  3087 volumin5      0 linear /dev/sdb1:8192-11278
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 28,00g 11279  1280               0 free
+</code></pre>
+<p>Mamy tam nowy volumin: <code>pvmove0</code> . Jest on tworzony tylko na czas przenoszenia danych. Po pomyślnym
+zakończeniu, stary volumin zostanie usunięty. Gdy proces dobiegnie końca, przenosimy volumin5.
+Sprawdzamy pierw jak prezentuje się układ LVM:</p>
+<pre><code># pvs -v --segments
+    Scanning for physical volume names
+  PV         VG     Fmt  Attr PSize  PFree  Start SSize LV       Start Type   PE Ranges
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g     0  1280 volumin1     0 linear /dev/sdb1:0-1279
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  1280   512 volumin3     0 linear /dev/sdb1:1280-1791
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  1792  6400              0 free
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  8192  3087 volumin5     0 linear /dev/sdb1:8192-11278
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g 11279  1280              0 free 
+</code></pre>
+<p>Volumin przenosimy przy pomocy tego poniższego polecenia:</p>
+<pre><code># pvmove --alloc anywhere -i 30 /dev/sdb1:8129-11278  /dev/sdb1:1792-4878
+</code></pre>
+<p>Jeśli się pomyliliśmy lub z jakiegoś powodu chcemy przerwać proces przenoszenia voluminu, to nic nam
+nie da wciśnięcie Ctrl-C . Proces dalej będzie działał. Trzeba w konsoli wpisać <code>pvmove --abort</code> .
+Wtedy proces przenoszenia voluminu zostanie przerwany. Żadne zmiany nie zostaną poczynione w
+stosunku do starego voluminu.</p>
+<p>Po skończonej pracy, powinniśmy uzyskać wynik podobny do tego poniżej:</p>
+<pre><code># pvs -v --segments
+    Scanning for physical volume names
+  PV         VG     Fmt  Attr PSize  PFree  Start SSize LV       Start Type   PE Ranges
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g     0  1280 volumin1     0 linear /dev/sdb1:0-1279
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  1280   512 volumin3     0 linear /dev/sdb1:1280-1791
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  1792  3087 volumin5     0 linear /dev/sdb1:1792-4878
+  /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  4879  7680              0 free
+
+# lvs -v --segments
+    Finding all logical volumes
+  LV       VG     Attr      Start SSize  #Str Type   Stripe Chunk
+  volumin1 grupa1 -wc-ao---    0   5,00g    1 linear     0     0
+  volumin3 grupa1 -wc-ao---    0   2,00g    1 linear     0     0
+  volumin5 grupa1 -wc-ao---    0  12,06g    1 linear     0     0
+</code></pre>
+<p>Czas zmniejszyć kontener LVM. Jeśli spróbujemy skurczyć kontener za bardzo, dostaniemy błąd:</p>
+<pre><code># pvresize -v /dev/sdb1 --setphysicalvolumesize 19G
+    Using physical volume(s) on command line
+    Archiving volume group &quot;grupa1&quot; metadata (seqno 21).
+    /dev/sdb1: Pretending size is 39845888 not 102884229 sectors.
+    Resizing volume &quot;/dev/sdb1&quot; to 102884229 sectors.
+    Resizing physical volume /dev/sdb1 from 0 to 4863 extents.
+  /dev/sdb1: cannot resize to 4863 extents as 4879 are allocated.
+  0 physical volume(s) resized / 1 physical volume(s) not resized
+</code></pre>
+<p>Powyżej mamy wypisaną wartość jakiej powinniśmy użyć: 4879. Jest to (4879*4MiB)+1=19517M</p>
+<pre><code># pvresize -v /dev/sdb1 --setphysicalvolumesize 19517M
+    Using physical volume(s) on command line
+    Archiving volume group &quot;grupa1&quot; metadata (seqno 21).
+    /dev/sdb1: Pretending size is 39970816 not 102884229 sectors.
+    Resizing volume &quot;/dev/sdb1&quot; to 102884229 sectors.
+    Resizing physical volume /dev/sdb1 from 0 to 4879 extents.
+    Updating physical volume &quot;/dev/sdb1&quot;
+    Creating volume group backup &quot;/etc/lvm/backup/grupa1&quot; (seqno 22).
+  Physical volume &quot;/dev/sdb1&quot; changed
+  1 physical volume(s) resized / 0 physical volume(s) not resized
+</code></pre>
+<p>Sprawdzamy czy rzeczywiście rozmiar kontenera uległ zmianie:</p>
+<pre><code># pvscan
+  PV /dev/sdb1   VG grupa1   lvm2 [19,06 GiB / 0    free]
+  Total: 1 [19,06 GiB] / in use: 1 [19,06 GiB] / in no VG: 0 [0   ]
+</code></pre>
+<p>Rozmiar 19,06 GiB i 0 wolnego miejsca. Ostatni krok to zmniejszenie partycji via <code>fdisk</code> . Jakiego
+rozmiaru potrzebujemy? Sprawdzamy rozmiar kontenera w sektorach:</p>
+<pre><code># pvs -v --unit s
+    Scanning for physical volume names
+  PV         VG     Fmt  Attr PSize     PFree DevSize    PV UUID
+  /dev/sdb1  grupa1 lvm2 a--  39968768S    0S 102891520S xMddCU-5h1X-ZZL4-GFfO-ea4L-PqW8-YCGLte
+</code></pre>
+<p>Rozmiar partycji powinien być większy o 8192 sektory w stosunku do wielkości kontenera LVM. W tym
+przypadku kontener ma 39968768 sektorów. Zatem rozmiar partycji wyniesie: 39968768+8192=39976960
+sektorów (pamiętajmy, by odjąć 1 w <code>fdisk</code>). Nie należy brać pod uwagę wpisu w <code>DevSize</code> , bo on
+ciągle ma starą wartość.</p>
+<pre><code># fdisk /dev/sdb
+
+Command (m for help): d
+Selected partition 1
+
+Command (m for help): n
+Partition type:
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended
+Select (default p):
+Using default response p
+Partition number (1-4, default 1):
+Using default value 1
+First sector (2048-156299374, default 2048):
+Using default value 2048
+Last sector, +sectors or +size{K,M,G} (2048-156299374, default 156299374): +39976959
+
+Command (m for help): t
+Selected partition 1
+Hex code (type L to list codes): 8e
+Changed system type of partition 1 to 8e (Linux LVM)
+
+Command (m for help): p
+
+Disk /dev/sdb: 80.0 GB, 80025280000 bytes
+100 heads, 3 sectors/track, 520997 cylinders, total 156299375 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000c741d
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1            2048    39979007    19988480   8e  Linux LVM
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+Syncing disks.
+</code></pre>
+<p>Być może też czasem dostaniemy poniższy komunikat:</p>
+<pre><code>WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+</code></pre>
+<p>Może się on pojawić nawet przy odmontowanych voluminach. Jest to zasługą aktywnej grupy. Można ją
+albo deaktywować ( <code>vgchane -a n</code> ) na czas zmian tablicy partycji, albo zaktualizować wpisy przy
+pomocy <code>partprobe</code> . Nie ma potrzeby resetowania systemu, by nowe wartości zaczęły obowiązywać.</p>
+<p>Sprawdzamy, czy wszystko się montuje bez problemu:</p>
+<pre><code># vgchange -a n grupa1
+  0 logical volume(s) in volume group &quot;grupa1&quot; now active
+# lsblk /dev/sdb
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sdb      8:16   0  74,5G  0 disk
+└─sdb1   8:17   0  19,1G  0 part
+
+# vgchange -a y grupa1
+  3 logical volume(s) in volume group &quot;grupa1&quot; now active
+# lsblk /dev/sdb
+NAME                       MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sdb                          8:16   0  74,5G  0 disk
+└─sdb1                       8:17   0  19,1G  0 part
+  ├─grupa1-volumin1 (dm-1) 254:1    0     5G  0 lvm
+  ├─grupa1-volumin3 (dm-2) 254:2    0     2G  0 lvm
+  └─grupa1-volumin5 (dm-3) 254:3    0  12,1G  0 lvm
+
+# mount /dev/mapper/grupa1-volumin1 /media/1
+# mount /dev/mapper/grupa1-volumin3 /media/3
+# mount /dev/mapper/grupa1-volumin5 /media/5
+</code></pre>
+<p>Wychodzi na to, że wszystko gra.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/ssd/">hdd/ssd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lvm/">lvm</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-rozmiaru-lvm%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-rozmiaru-lvm%2f&amp;text=Zmiana%20rozmiaru%20dysk%c3%b3w%20w%20strukturze%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-rozmiaru-lvm%2f&amp;title=Zmiana%20rozmiaru%20dysk%c3%b3w%20w%20strukturze%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-rozmiaru-lvm%2f&amp;title=Zmiana%20rozmiaru%20dysk%c3%b3w%20w%20strukturze%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-rozmiaru-lvm%2f&title=Zmiana%20rozmiaru%20dysk%c3%b3w%20w%20strukturze%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-rozmiaru-lvm%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-rozmiaru-lvm%2f&amp;title=Zmiana%20rozmiaru%20dysk%c3%b3w%20w%20strukturze%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-rozmiaru-lvm%2f&description=Zmiana%20rozmiaru%20dysk%c3%b3w%20w%20strukturze%20LVM" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-rozmiaru-zaszyfrowanego-kontenera-luks/">Zmiana rozmiaru kontenera LUKS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ext4/">Zmiana rozmiaru partycji EXT4</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/">Zmiana rozmiaru partycji NTFS pod linux&#39;em</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/programowe-sprzetowe-zerowanie-dysku/">Programowe i sprzętowe zerowanie dysku</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/parametr-readahead-w-dyskach-twardych/">Parametr readahead w dyskach twardych</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

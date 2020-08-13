@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Konsola szeregowa, adapter USB-UART i uszkodzony router TP-LINK | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Konsola szeregowa, adapter USB-UART i uszkodzony router TP-LINK" />
+<meta property="og:description" content="Każdy z nas słyszał o alternatywnym firmware na bezprzewodowe routery WiFi. Mam tutaj na myśli
+oczywiście OpenWRT/LEDE oraz jego GUI
+Gargoyle i LUCI. Przy
+zabawach z takim oprogramowaniem bardzo łatwo jest uszkodzić router w sytuacji, gdy tak na dobrą
+sprawę nie wiemy co robimy. Mi się jeszcze nie zdarzyło ubić żadnej z moich maszyn, a mam ich kilka.
+Problem w tym, że tak naprawdę nie wiem jak wygląda proces odzyskiwania routera w przypadku
+zaistnienia takiego złego scenariusza. Dlatego też postanowiłem zainicjować zdarzenie, które
+doprowadziło do ubicia systemu w moim
+TL-WR1043ND V2 od TP-LINK. Co zrobić
+w takim przypadku, gdy system routera nie chce wystartować, a na obudowie diody sygnalizują
+nieprawidłową pracę urządzenia? W takiej sytuacji będziemy musieli rozebrać sprzęt i podłączyć się
+do portu szeregowego na PCB za pomocą adaptera USB-UART, najlepiej na układzie CP2102, który bez
+problemu działa pod linux. Ten artykuł nie powstałby (tak szybko), gdyby nie pomoc ze strony
+@Heinz." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/konsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link/" />
+<meta property="article:published_time" content="2016-10-16T20:36:17+00:00" />
+<meta property="article:modified_time" content="2016-10-16T20:36:17+00:00" />
+
+		<meta itemprop="name" content="Konsola szeregowa, adapter USB-UART i uszkodzony router TP-LINK">
+<meta itemprop="description" content="Każdy z nas słyszał o alternatywnym firmware na bezprzewodowe routery WiFi. Mam tutaj na myśli
+oczywiście OpenWRT/LEDE oraz jego GUI
+Gargoyle i LUCI. Przy
+zabawach z takim oprogramowaniem bardzo łatwo jest uszkodzić router w sytuacji, gdy tak na dobrą
+sprawę nie wiemy co robimy. Mi się jeszcze nie zdarzyło ubić żadnej z moich maszyn, a mam ich kilka.
+Problem w tym, że tak naprawdę nie wiem jak wygląda proces odzyskiwania routera w przypadku
+zaistnienia takiego złego scenariusza. Dlatego też postanowiłem zainicjować zdarzenie, które
+doprowadziło do ubicia systemu w moim
+TL-WR1043ND V2 od TP-LINK. Co zrobić
+w takim przypadku, gdy system routera nie chce wystartować, a na obudowie diody sygnalizują
+nieprawidłową pracę urządzenia? W takiej sytuacji będziemy musieli rozebrać sprzęt i podłączyć się
+do portu szeregowego na PCB za pomocą adaptera USB-UART, najlepiej na układzie CP2102, który bez
+problemu działa pod linux. Ten artykuł nie powstałby (tak szybko), gdyby nie pomoc ze strony
+@Heinz.">
+<meta itemprop="datePublished" content="2016-10-16T20:36:17+00:00" />
+<meta itemprop="dateModified" content="2016-10-16T20:36:17+00:00" />
+<meta itemprop="wordCount" content="5486">
+
+
+
+<meta itemprop="keywords" content="usb,chaos-calmer,router,tp-link,uart," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Konsola szeregowa, adapter USB-UART i uszkodzony router TP-LINK"/>
+<meta name="twitter:description" content="Każdy z nas słyszał o alternatywnym firmware na bezprzewodowe routery WiFi. Mam tutaj na myśli
+oczywiście OpenWRT/LEDE oraz jego GUI
+Gargoyle i LUCI. Przy
+zabawach z takim oprogramowaniem bardzo łatwo jest uszkodzić router w sytuacji, gdy tak na dobrą
+sprawę nie wiemy co robimy. Mi się jeszcze nie zdarzyło ubić żadnej z moich maszyn, a mam ich kilka.
+Problem w tym, że tak naprawdę nie wiem jak wygląda proces odzyskiwania routera w przypadku
+zaistnienia takiego złego scenariusza. Dlatego też postanowiłem zainicjować zdarzenie, które
+doprowadziło do ubicia systemu w moim
+TL-WR1043ND V2 od TP-LINK. Co zrobić
+w takim przypadku, gdy system routera nie chce wystartować, a na obudowie diody sygnalizują
+nieprawidłową pracę urządzenia? W takiej sytuacji będziemy musieli rozebrać sprzęt i podłączyć się
+do portu szeregowego na PCB za pomocą adaptera USB-UART, najlepiej na układzie CP2102, który bez
+problemu działa pod linux. Ten artykuł nie powstałby (tak szybko), gdyby nie pomoc ze strony
+@Heinz."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Konsola szeregowa, adapter USB-UART i uszkodzony router TP-LINK</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-10-16T20:36:17Z">Opublikowano: 16/10/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Konsola szeregowa, adapter USB-UART i uszkodzony router TP-LINK</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#jaki-adapter-usb-uart-wybrać">Jaki adapter USB-UART wybrać</a></li>
+    <li><a href="#test-napięcia-w-konwerterze-usb-uart">Test napięcia w konwerterze USB-UART</a></li>
+    <li><a href="#port-szeregowy-routera-serial-port">Port szeregowy routera (serial port)</a></li>
+    <li><a href="#konstrukcja-wtyczki-dla-portu-szeregowego-routera">Konstrukcja wtyczki dla portu szeregowego routera</a></li>
+    <li><a href="#konfiguracja-linuxa-na-potrzeby-połączenia-szeregowego">Konfiguracja linux'a na potrzeby połączenia szeregowego</a></li>
+    <li><a href="#oznaczenia-pinów-na-adapterze-usb-uart-i-pcb-routera">Oznaczenia pinów na adapterze USB-UART i PCB routera</a>
+      <ol>
+        <li><a href="#pin-gnd">Pin GND</a></li>
+        <li><a href="#pin-vcc">Pin VCC</a></li>
+        <li><a href="#pin-rx-i-tx">Pin RX i TX</a></li>
+      </ol>
+    </li>
+    <li><a href="#nawiązywanie-połączenia-z-routerem-za-pomocą-konsoli-szeregowej">Nawiązywanie połączenia z routerem za pomocą konsoli szeregowej</a></li>
+    <li><a href="#mapa-obszaru-flasha-routera">Mapa obszaru flash'a routera</a></li>
+    <li><a href="#procedura-wgrania-firmware-z-poziomu-bootloadera">Procedura wgrania firmware z poziomu bootloader'a</a>
+      <ol>
+        <li><a href="#konfiguracja-serwera-tftp-pod-linux">Konfiguracja serwera TFTP pod linux</a></li>
+        <li><a href="#jak-wgrać-firmware-przez-konsolę-szeregową-z-poziomu-bootloadera">Jak wgrać firmware przez konsolę szeregową z poziomu bootloader'a</a></li>
+        <li><a href="#jak-ustalić-odpowiednie-adresy-pamięci-ram-i-flash-routera">Jak ustalić odpowiednie adresy pamięci RAM i flash routera</a></li>
+      </ol>
+    </li>
+    <li><a href="#przykład-z-życia-czyli-planowe-ubicie-tl-wr1043nd">Przykład z życia, czyli planowe ubicie TL-WR1043ND</a>
+      <ol>
+        <li><a href="#czy-obraz-factory-uszkodzi-router-z-openwrtlede">Czy obraz &quot;factory&quot; uszkodzi router z OpenWRT/LEDE</a></li>
+        <li><a href="#czy-obraz-przeznaczony-na-inną-wersjęmodel-routera-uszkodzi-router">Czy obraz przeznaczony na inną wersję/model routera uszkodzi router</a></li>
+        <li><a href="#czy-zanik-prądu-uszkodzi-router-z-openwrtlede">Czy zanik prądu uszkodzi router z OpenWRT/LEDE</a></li>
+        <li><a href="#czy-obraz-przeznaczony-na-inną-wersjęmodel-routera-ubije-router-z-oficjalnym-firmware">Czy obraz przeznaczony na inną wersję/model routera ubije router z oficjalnym firmware</a></li>
+        <li><a href="#czy-wgranie-oficjalnego-firmware-z-boot-w-nazwie-via-sysupgrade-uszkodzi-router-z-openwrtlede">Czy wgranie oficjalnego firmware z &quot;boot&quot; w nazwie via sysupgrade uszkodzi router z OpenWRT/LEDE</a></li>
+        <li><a href="#czy-wgranie-oficjalnego-firmware-niemającego-boot-w-nazwie-przez-panel-admina-uszkodzi-router">Czy wgranie oficjalnego firmware NIEmającego &quot;boot&quot; w nazwie przez panel admina uszkodzi router</a></li>
+        <li><a href="#czy-obraz-sysupgrade-wgrany-z-panelu-tp-link-uszkodzi-router">Czy obraz &quot;sysupgrade&quot; wgrany z panelu TP-LINK uszkodzi router</a></li>
+      </ol>
+    </li>
+    <li><a href="#backup-pamięci-flash-routera">Backup pamięci flash router'a</a>
+      <ol>
+        <li><a href="#backup-z-poziomu-działającego-firmware">Backup z poziomu działającego firmware</a></li>
+        <li><a href="#odtwarzanie-backupu-z-poziomu-firmware">Odtwarzanie backup'u z poziomu firmware</a></li>
+        <li><a href="#backup-i-odtwarzanie-go-z-poziomu-bootloadera">Backup i odtwarzanie go z poziomu bootloader'a</a></li>
+      </ol>
+    </li>
+    <li><a href="#problemy-z-uruchomieniem-routera-przy-podłączonym-adapterze-usb-uart">Problemy z uruchomieniem routera przy podłączonym adapterze USB-UART</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Każdy z nas słyszał o alternatywnym firmware na bezprzewodowe routery WiFi. Mam tutaj na myśli
+oczywiście <a href="https://openwrt.org/">OpenWRT</a>/<a href="https://lede-project.org/">LEDE</a> oraz jego GUI
+<a href="https://www.gargoyle-router.com/">Gargoyle</a> i <a href="http://eko.one.pl/?p=openwrt-luci">LUCI</a>. Przy
+zabawach z takim oprogramowaniem bardzo łatwo jest uszkodzić router w sytuacji, gdy tak na dobrą
+sprawę nie wiemy co robimy. Mi się jeszcze nie zdarzyło ubić żadnej z moich maszyn, a mam ich kilka.
+Problem w tym, że tak naprawdę nie wiem jak wygląda proces odzyskiwania routera w przypadku
+zaistnienia takiego złego scenariusza. Dlatego też postanowiłem zainicjować zdarzenie, które
+doprowadziło do ubicia systemu w moim
+<a href="http://www.tp-link.com.pl/products/details/TL-WR1043ND.html">TL-WR1043ND</a> V2 od TP-LINK. Co zrobić
+w takim przypadku, gdy system routera nie chce wystartować, a na obudowie diody sygnalizują
+nieprawidłową pracę urządzenia? W takiej sytuacji będziemy musieli rozebrać sprzęt i podłączyć się
+do portu szeregowego na PCB za pomocą adaptera USB-UART, najlepiej na układzie CP2102, który bez
+problemu działa pod linux. Ten artykuł nie powstałby (tak szybko), <a href="http://tplink-forum.pl/index.php?/topic/5322-jak-ustali%C4%87-oznaczenia-port%C3%B3w-konsoli-szeregowej-na-pcb/">gdyby nie pomoc ze strony
+@Heinz</a>.</p>
+<h2 id="jaki-adapter-usb-uart-wybrać">Jaki adapter USB-UART wybrać</h2>
+<p>Przed przystąpieniem do procesu odzyskiwania władzy nad systemem routera, musimy się zaopatrzyć w
+odpowiednie narzędzia, które umożliwią na bardzo niskopoziomową komunikację z ubitym urządzeniem.
+Może i system takiego routera nie może się załadować ale jest duża szansa na to, że bootloader w
+dalszym ciągu pracuje prawidłowo (można to poznać po migających diodach), z tym, że z jakiegoś
+powodu nie może on uruchomić systemu.</p>
+<p>Jest wiele adapterów USB-UART, które możemy zakupić w sklepach internetowych. Co ciekawe, w
+fizycznych sklepach w ogóle o takich urządzeniach nie słyszeli (przynajmniej u mnie na wsi) i raczej
+pozostaje nam zakup zdalny. Cena takiego adaptera zamyka się w granicach 10-20 zł.</p>
+<p>Przy zakupie musimy brać pod uwagę jedną bardzo istotną rzecz. Chodzi o to, że standardowe napięcie
+w porcie USB komputera jest na poziomie 5 V. Te adaptery USB-UART na takim napięciu standardowo
+działają w przeciwieństwie do obwodu szeregowego w większości routerów. Nie możemy zatem się
+podłączyć do routera od tak. Jeśli ten obwód w naszym routerze jest zasilany innym napięciem,
+zwykle 3,3 V, to przed zakupem musimy się upewnić, że adapter USB-UART na pinach RX i TX będzie miał
+takie właśnie napięcie, ewentualnie będzie wyposażony w konwerter napięć. Patrząc na fotki
+urządzenia w sklepie możemy czasem na nich zobaczyć informacje o dwóch rodzajach napięć 3,3 V i 5
+V. Popatrzmy na te poniższe adaptery USB-UART na układach
+CP2102:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/002.usb-uart-adapter-konsola-szeregowa-serial.jpg"><img src="https://morfikov.github.io
+/img/2016/10/002.usb-uart-adapter-konsola-szeregowa-serial-660x197.jpg" alt="002.usb-uart-adapter-konsola-szeregowa-serial"></a></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/001.usb-uart-adapter-konsola-szeregowa-serial.jpg"><img src="https://morfikov.github.io
+/img/2016/10/001.usb-uart-adapter-konsola-szeregowa-serial-274x660.jpg" alt="001.usb-uart-adapter-konsola-szeregowa-serial"></a></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/003.usb-uart-adapter-konsola-szeregowa-serial.jpg"><img src="https://morfikov.github.io
+/img/2016/10/003.usb-uart-adapter-konsola-szeregowa-serial-660x242.jpg" alt="003.usb-uart-adapter-konsola-szeregowa-serial"></a></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/004.usb-uart-adapter-konsola-szeregowa-serial.jpg"><img src="https://morfikov.github.io
+/img/2016/10/004.usb-uart-adapter-konsola-szeregowa-serial-287x660.jpg" alt="004.usb-uart-adapter-konsola-szeregowa-serial"></a></p>
+<p>Na pierwszym adapterze konwerter napięć jest w postaci trzech padów i zespolenie dwóch z nich
+steruje napięciem. Na tym drugim zaś mamy nieco bardziej cywilizowane rozwiązanie, bo napięciem
+operujemy przy użyciu zworki. Niemniej jednak, w obu przypadkach sterujemy jedynie napięciem na
+pinie VCC, a nas interesują piny RX i TX. W przypadku adapterów na układzie CP2102 napięcie na
+pinach RX i TX jest zawsze takie samo i wynosi 3,3 V, zatem możemy zakupić dowolny adapter o ile
+jest on na tym właśnie układzie.</p>
+<h2 id="test-napięcia-w-konwerterze-usb-uart">Test napięcia w konwerterze USB-UART</h2>
+<p>Jeśli nie jesteśmy pewni czy zakupiliśmy odpowiedni adapter USB-UART i nie chcemy spalić routera
+(czy tylko jego obwodu szeregowego), to zawsze możemy sprawdzić jakie napięcie na pinach RX/TX tego
+adaptera faktycznie jest. Do tego celu posłuży nam multimetr. Napięcie mierzymy między GND i RX lub
+TX. Powinniśmy uzyskać wskazanie na poziomie około 3,3 V, tak jak to widać na poniższej
+fotce:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/11/005.usb-uart-adapter-konsola-szeregowa-test.jpg"><img src="https://morfikov.github.io
+/img/2016/11/005.usb-uart-adapter-konsola-szeregowa-test-660x431.jpg" alt="005.usb-uart-adapter-konsola-szeregowa-test"></a></p>
+<p>Jak widać z portu USB dostarczanych jest 5 V, a a między pinem GND i TX adaptera mamy już ~3,3 V.
+Możemy zatem bez obaw wykorzystać to urządzenie i wpiąć się do portu szeregowego routera. W tym
+przypadku położenie zworki nie ma żadnego znaczenia i wskazania są takie same nawet po jej
+usunięciu. W przypadku, gdyby zmiana położenia zworki dawała inne napięcia, to oczywiście wybieramy
+tę pozycję, która wskazuje 3,3 V.</p>
+<p>Warto też zaznaczyć, że oferty adapterów USB-UART znacznie się różnią pod względem dodatków, które
+dostajemy razem z adapterem. Zwykle kupujemy gołe urządzenie ale czasem też dorzucane są kolorowe
+kabelki albo też i goldpiny. Mi do jednego zestawu dorzucili kabelki, a drugiego trochę
+goldpinów:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/10/007.usb-uart-adapter-goldpin.jpg" alt=""></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/008.usb-uart-adapter-przewody.jpg"><img src="https://morfikov.github.io
+/img/2016/10/008.usb-uart-adapter-przewody-660x401.jpg" alt="008.usb-uart-adapter-przewody"></a></p>
+<p>Jeśli jednak nabyliśmy taki adapter bez kabelków i goldpinów, to albo musimy dokupić je osobno, albo
+też zrobić je samemu.</p>
+<h2 id="port-szeregowy-routera-serial-port">Port szeregowy routera (serial port)</h2>
+<p>Port szeregowy znajduje się na płycie głównej routera. By się dostać do płyty, trzeba ściągnąć
+obudowę. Czasami nie jest to proste zadanie i trzeba poszukać odpowiedniej instrukcji. Zwykle
+informacje na ten temat są podane na wiki OpenWRT przy specyfikacji konkretnego modelu routera.</p>
+<p>Jeśli zaś chodzi o TL-WR1043ND, to raczej ze ściągnięciem górnej części obudowy nie powinno być
+problemu. Po odkręceniu śrubek, trzeba wypiąć ją z zatrzasków. Jest ich 8: 1 na tylnej krawędzi, 2
+na prawej, 2 na lewej i 3 na przedniej. Są one rozlokowane w rogach i mniej więcej po środku.</p>
+<p>Otwieranie obudowy najlepiej zacząć od jednego z rogów przy tylnej krawędzi zahaczając palcami o
+wystający część obudowy i podnosząc ją lekko do góry, tak by można było w powstały otwór wsunąć
+cienki ale sztywny kawałek metalu czy czegoś podobnego. Później wystarczy przesunąć się jak
+najbliżej rogu i pewnie podważyć, zatrzask powinien bez problemu puścić. Później wystarczy
+przesuwać się wzdłuż krawędzi i powtarzać czynność podważenia w miejscu, w którym już nie możemy
+dalej się przemieścić.</p>
+<p>Po zdjęciu obudowy, mamy dostęp do płyty głównej. Port szeregowy, a właściwie tylko jego
+wyprowadzenia są ulokowane w lewej górnej części płyty, to te cztery dziurki widoczne na poniższej
+fotce:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/009.usb-uart-tp-link-router-serial-konsola-szeregowa.jpg"><img src="https://morfikov.github.io
+/img/2016/10/009.usb-uart-tp-link-router-serial-konsola-szeregowa-660x495.jpg" alt="009.usb-uart-tp-link-router-serial-konsola-szeregowa"></a></p>
+<p>Trzeba tam przylutować jakaś wtyczkę albo chociaż gołe goldpiny. Niemniej jednak, by to zrobić,
+musimy wyciągnąć ten PCB z routera. Trzeba pierw odkręcić gniazda anten. Niektóre z nich mogą mieć
+problemy z przeciśnięciem się przez otwór. Trzeba nimi trochę pokręcić i poruszać na
+boki:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/010.usb-uart-tp-link-router-anteny.jpg"><img src="https://morfikov.github.io
+/img/2016/10/010.usb-uart-tp-link-router-anteny-660x495.jpg" alt="010.usb-uart-tp-link-router-anteny"></a></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/011.usb-uart-tp-link-router-anteny.jpg"><img src="https://morfikov.github.io
+/img/2016/10/011.usb-uart-tp-link-router-anteny-660x495.jpg" alt="011.usb-uart-tp-link-router-anteny"></a></p>
+<h2 id="konstrukcja-wtyczki-dla-portu-szeregowego-routera">Konstrukcja wtyczki dla portu szeregowego routera</h2>
+<p>Po wyciągnięciu płyty z routera, możemy zabrać się za przylutowanie goldpinów czy wtyczki. Ja sobie
+skonstruowałem wtyczkę z elementów odzyskanych ze starej płyty głównej. Odlutowałem z niej 4
+goldpiny i ściągnąłem kawałek plastiku, który był do nich
+przymocowany:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/012.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg"><img src="https://morfikov.github.io
+/img/2016/10/012.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka-660x276.jpg" alt="012.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka"></a></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/013.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg"><img src="https://morfikov.github.io
+/img/2016/10/013.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka-660x430.jpg" alt="013.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka"></a></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/014.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg"><img src="https://morfikov.github.io
+/img/2016/10/014.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka-660x489.jpg" alt="014.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka"></a></p>
+<p>Później takie ustrojstwo wsadziłem na płytę routera i przylutowałem. Całość się trzyma w miarę
+pewnie, choć ciężko było to przylutować (brak profesjonalnych narzędzi i wprawy). Tak czy inaczej,
+całość
+działa.</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/015.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg"><img src="https://morfikov.github.io
+/img/2016/10/015.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka-660x366.jpg" alt="015.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka"></a></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/016.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg"><img src="https://morfikov.github.io
+/img/2016/10/016.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka-660x351.jpg" alt="016.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka"></a></p>
+<p>Warto przed podłączeniem zasilania routera sprawdzić multimetrem czy nie ma tam czasem jakiegoś
+zwarcia. Jeśli miernik nie zabrzęczy, tzn. że jest wszytko w porządku.</p>
+<h2 id="konfiguracja-linuxa-na-potrzeby-połączenia-szeregowego">Konfiguracja linux'a na potrzeby połączenia szeregowego</h2>
+<p>Ja korzystam z linux'a, a konkretnie z dystrybucji Debian. Dlatego też opiszę na jego przykładzie
+jak przebiega proces konfiguracji systemu pod kątem połączenia komputera z portem szeregowym
+routera.</p>
+<p>Przede wszystkim, podepnijmy sam adapter USB-UART do portu USB komputera. Układ CP2102 powinien
+zostać bez większego problemu rozpoznany w naszym systemie ( <code>idVendor=10c4</code> , <code>idProduct=ea60</code> ).
+Poniżej log ze zdarzenia:</p>
+<pre><code>kernel: usb 2-1.3: new full-speed USB device number 6 using ehci-pci
+kernel: usb 2-1.3: New USB device found, idVendor=10c4, idProduct=ea60
+kernel: usb 2-1.3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+kernel: usb 2-1.3: Product: CP2102 USB to UART Bridge Controller
+kernel: usb 2-1.3: Manufacturer: Silicon Labs
+kernel: usb 2-1.3: SerialNumber: 0001
+kernel: usbcore: registered new interface driver usbserial
+kernel: usbcore: registered new interface driver usbserial_generic
+kernel: usbserial: USB Serial support registered for generic
+kernel: usbcore: registered new interface driver cp210x
+kernel: usbserial: USB Serial support registered for cp210x
+kernel: cp210x 2-1.3:1.0: cp210x converter detected
+kernel: usb 2-1.3: cp210x converter now attached to ttyUSB0
+</code></pre>
+<p>Został zarejestrowany nowy interfejs <code>ttyUSB0</code> i to przy jego pomocy będziemy się komunikować z
+routerem. Standardowo tylko użytkownik root oraz członkowie grupy <code>dialout</code> mają prawa dostępu do
+urządzenia <code>/dev/ttyUSB0</code> . Dodajmy zatem standardowego użytkownika do tej grupy w poniższy sposób:</p>
+<pre><code># adduser morfik dialout
+</code></pre>
+<p>Potrzebne nam jest także jakieś oprogramowanie, które zinterpretuje nasze polecenia i prześle je do
+routera. Musimy zatem mieć dostęp do terminala i zainstalować program do komunikacji szeregowej, np.
+<code>minicom</code> czy <code>picocom</code> . W Debianie znajdują się one w pakietach pod tymi samymi nazwami. Wybieramy
+sobie jeden z nich i instalujemy w systemie. Ja będę korzystał z <code>picocom</code> .</p>
+<p>Kolejna sprawa, to konfiguracja <code>picocom</code> . By skomunikować się z routerem za pomocą konsoli
+szeregowej, musimy zdefiniować kilka parametrów dla połączenia. Konkretne ustawienie zależą od
+sprzętu lub jego firmware. Zwykle będziemy musieli dostosować parametr baud, którego najczęściej
+używane wartości to 9600, 38400 lub 115200 bit/s. W przypadku korzystania tylko z 3 przewodów (na
+PCB routera widzieliśmy 4 piny), tj. RX, TX, GND, powinniśmy ustawić flow control: none. W zasadzie
+to są te najważniejsze rzeczy ale możemy także sprecyzować data bits: 8, parity: none, stop bits: 1.</p>
+<h2 id="oznaczenia-pinów-na-adapterze-usb-uart-i-pcb-routera">Oznaczenia pinów na adapterze USB-UART i PCB routera</h2>
+<p>By zestawić połączenie z routerem potrzebujemy podłączyć do jego płyty co najmniej trzy przewody.
+Jeden z nich to masa (GND), drugi odpowiada za przesył danych (TX), a ostatni zaś za odbiór danych
+(RX). Jeśli chodzi zaś o sposób podłączenia przewodów, to łączymy następująco: GND-GND, RX-TX i
+TX-RX.</p>
+<p>Na Adapterze USB-UART mamy stosownie oznaczone piny. Pytanie tylko, które piny na płycie głównej
+routera to GND, RX i TX? Zwykle możemy te dane znaleźć na wiki OpenWRT. A co jeśli w przypadku
+naszego modelu routera tych danych nie znajdziemy na wiki? W takiej sytuacji trzeba ręcznie ustalić
+oznaczenia pinów, a do tego potrzebny nam będzie multimetr.</p>
+<h3 id="pin-gnd">Pin GND</h3>
+<p>Wyłączamy zatem nasz router i przełączamy multimetr w tryb omomierza na brzęczyk. Podłączamy czarną
+sondę do znanego nam punktu masy na PCB routera. Jak ustalić gdzie znajduje się znany punkt masy na
+PCB routera? Najprościej skorzystać z zasilacza, a konkretnie z gniazda zasilania w routerze. Na
+zasilaczu mamy oznaczenia + i - . Wygląda to mniej więcej tak jak na force
+poniżej:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/017.usb-uart-tp-link-router-serial-konsola-szeregowa-zasilacz.jpg"><img src="https://morfikov.github.io
+/img/2016/10/017.usb-uart-tp-link-router-serial-konsola-szeregowa-zasilacz-420x660.jpg" alt="017.usb-uart-tp-link-router-serial-konsola-szeregowa-zasilacz"></a></p>
+<p>W tym przypadku wiemy, że masa jest na zewnątrz. Gdybyśmy nie mieli oznaczeń na zasilaczu, to trzeba
+by sprawdzić ten stan rzeczy multimetrem. W tym celu podłączamy sam zasilacz do gniazdka i wtykamy
+jedną sondę we wtyczkę, a drugą sondą dotykamy zewnętrznej jej części, tak jak pokazane na poniższej
+fotce:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/018.usb-uart-tp-link-router-serial-konsola-szeregowa-masa.jpg"><img src="https://morfikov.github.io
+/img/2016/10/018.usb-uart-tp-link-router-serial-konsola-szeregowa-masa-630x660.jpg" alt="018.usb-uart-tp-link-router-serial-konsola-szeregowa-masa"></a></p>
+<p>Wskazanie multimetru przy takim podłączeniu przewodów zarówno do miernika jak i wtyczki zasilacza
+jest dodatnie, zatem wiemy, że masa jest tam, gdzie mamy podpięty czarny przewód, tj. na zewnątrz,
+co potwierdza oznaczenie na zasilaczu. Mając tę wiedzę, możemy przyjrzeć się bliżej routerowi. Ma on
+gniazdo
+zasilania:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/019.usb-uart-tp-link-router-serial-konsola-szeregowa-gniazdo-zasilania.jpg"><img src="https://morfikov.github.io
+/img/2016/10/019.usb-uart-tp-link-router-serial-konsola-szeregowa-gniazdo-zasilania-660x247.jpg" alt="019.usb-uart-tp-link-router-serial-konsola-szeregowa-gniazdo-zasilania"></a></p>
+<p>Widać tam bolec w środku i blaszkę na spodzie. Nasz znany punkt masy to właśnie ta blaszka, bo to
+ona styka się z zewnętrzną częścią wtyczki zasilacza. To do niej musimy podłączyć naszą czarną
+sondę, a czerwoną do każdego kolejnego pinu konsoli szeregowej. Przy jednym z pinów, multimetr
+zacznie nam brzęczeń, bo wskaże nam prawie zerową rezystancję. Oznacza to, że znaleźliśmy pin GND
+konsoli
+szeregowej:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/020.usb-uart-tp-link-router-serial-konsola-szeregowa-pin-gnd.jpg"><img src="https://morfikov.github.io
+/img/2016/10/020.usb-uart-tp-link-router-serial-konsola-szeregowa-pin-gnd-660x578.jpg" alt="020.usb-uart-tp-link-router-serial-konsola-szeregowa-pin-gnd"></a></p>
+<p>W przypadku pozostałych pinów, rezystancja będzie sporo
+wyższa:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/021.usb-uart-tp-link-router-serial-konsola-szeregowa-pin-nie-gnd.jpg"><img src="https://morfikov.github.io
+/img/2016/10/021.usb-uart-tp-link-router-serial-konsola-szeregowa-pin-nie-gnd-660x540.jpg" alt="021.usb-uart-tp-link-router-serial-konsola-szeregowa-pin-nie-gnd"></a></p>
+<h3 id="pin-vcc">Pin VCC</h3>
+<p>Mając pin GND, możemy włączyć router do prądu. Przełączamy multimetr w tryb woltomierza na zakres
+najbliższy 5 V (u mnie 20 DCV) i podpinamy czarną sondę do pinu GND, a czerwoną do każdego z
+pozostałych trzech pinów. Wynik jednego ze wskazań powinien nam pokazać 3,3 V (ewentualnie 5 V).
+Ten pin oznaczamy VCC. Lepiej wyprowadzić sobie kabelki z pinów na płycie, by czasem nie zewrzeć
+pinów, bo może nam to uszkodzić router.</p>
+<h3 id="pin-rx-i-tx">Pin RX i TX</h3>
+<p>Pozostały nam dwa piny RX i TX. Odróżnienie ich odbywa się na zasadzie prób i błędów. Mamy w sumie
+dwie konfiguracje na linii komputer-router: RX-RX/TX-TX lub RX-TX/TX-RX. Niewłaściwe podłączenie
+przewodów sprawi, że na konsoli nie zobaczymy żadnego wyjścia lub też będzie ono w ogóle nieczytelne
+dla nas. Z kolei poprawne połączenie RX i TX powinno pokazać nam na konsoli komunikaty z fazy startu
+routera.</p>
+<p>Z reguły powinniśmy podłączyć te piny naprzemiennie, tj. RX-TX i TX-RX ale czasami oznaczenia RX/TX
+na adapterze USB-UART mogą już uwzględniać zamianę tych pinów i wtedy trzeba łączyć RX-RX i TX-TX i
+tak było w tym przypadku.</p>
+<h2 id="nawiązywanie-połączenia-z-routerem-za-pomocą-konsoli-szeregowej">Nawiązywanie połączenia z routerem za pomocą konsoli szeregowej</h2>
+<p>Mając odpowiedni adapter USB-UART i oznaczone piny na routerze, możemy spróbować nawiązać połączenie
+z routerem przez konsolę szeregową. Podpinamy zatem przewody do adaptera USB-UART oraz do wtyczki
+konsoli szeregowej na płycie routera. Pamiętajmy, interesują nas jedynie piny GND, RX i TX. Adapter
+umieszczamy w porcie USB
+komputera.</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/022.usb-uart-tp-link-router-serial-konsola-szeregowa-podlaczenie.jpg"><img src="https://morfikov.github.io
+/img/2016/10/022.usb-uart-tp-link-router-serial-konsola-szeregowa-podlaczenie-660x495.jpg" alt="022.usb-uart-tp-link-router-serial-konsola-szeregowa-podlaczenie"></a></p>
+<p>Odpalamy terminal i wpisujemy w nim to poniższe polecenie:</p>
+<pre><code>$ picocom --baud 115200 --flow=none --parity=none --databits 8 /dev/ttyUSB0
+
+port is        : /dev/ttyUSB0
+flowcontrol    : none
+baudrate is    : 115200
+parity is      : none
+databits are   : 8
+escape is      : C-a
+local echo is  : no
+noinit is      : no
+noreset is     : no
+nolock is      : no
+send_cmd is    : sz -vv
+receive_cmd is : rz -vv
+imap is        :
+omap is        :
+emap is        : crcrlf,delbs,
+
+Terminal ready
+</code></pre>
+<p>Teraz włączamy przycisk power na routerze. Urządzenie powinno się nam włączyć (zapalą się
+diody):</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/023.usb-uart-tp-link-router-serial-konsola-szeregowa-podlaczenie.jpg"><img src="https://morfikov.github.io
+/img/2016/10/023.usb-uart-tp-link-router-serial-konsola-szeregowa-podlaczenie-660x383.jpg" alt="023.usb-uart-tp-link-router-serial-konsola-szeregowa-podlaczenie"></a></p>
+<p>Jednocześnie obserwujemy co się będzie działo na konsoli. Przy prawidłowej konfiguracji powinniśmy
+zobaczyć na niej jakieś
+komunikaty.</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/024.usb-uart-tp-link-router-serial-konsola-szeregowa-log-bootloader.png"><img src="https://morfikov.github.io
+/img/2016/10/024.usb-uart-tp-link-router-serial-konsola-szeregowa-log-bootloader-589x660.png" alt="024.usb-uart-tp-link-router-serial-konsola-szeregowa-log-bootloader"></a></p>
+<p>Jak widać, pierwsza część logu to sekwencja bootloader'a. Na samym dole zaś mamy zainicjowany start
+kernela. Ta powyższa sytuacja dotyczy sprawnego routera. Co jednak w przypadku, gdy naszemu
+routerowi coś dolega? Jeśli jesteśmy w stanie dojść do momentu, gdzie widoczny jest napis
+<code>Autobooting in 1 seconds</code> (pod koniec logu na powyższej fotce), to jak tylko się on pojawi nam na
+ekranie, to musimy wpisać <code>tpl</code> . Nie jest to łatwe zadanie i pewnie będziemy musieli powtórzyć tę
+czynność parokrotnie. Gdy wpiszemy tę fazę w wyznaczonym czasie, pojawi się
+prompt:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/10/025.usb-uart-tp-link-router-serial-konsola-szeregowa-bootloader.png" alt=""></p>
+<h2 id="mapa-obszaru-flasha-routera">Mapa obszaru flash'a routera</h2>
+<p>W przypadku, gdy udało nam się uzyskać dostęp do bootloader'a, możemy spróbować wgrać obraz firmware
+na router. Zanim jednak przejdziemy bezpośrednio do wgrywania obrazu, musimy ustalić kilka rzeczy.
+Gdy nasz router jest sprawny, lub też ktoś inny posiada dokładnie takie samo urządzenie, które
+działa bez zarzutu, można z niego wyciągnąć informacje na temat układu partycji na flash'u. Te dane
+są dla nas bardzo cenne, bo bez nich nie uda nam się z powodzeniem odratować naszego padniętego
+urządzenia.</p>
+<p>Układ flash'a routera można odczytać z dwóch plików: <code>/proc/partitions</code> oraz <code>/proc/mtd</code> . Poniżej
+jest zawartość pierwszego z nich:</p>
+<pre><code>root@OpenWrt:/# cat /proc/partitions
+major minor  #blocks  name
+
+  31        0        128 mtdblock0
+  31        1       1158 mtdblock1
+  31        2       6841 mtdblock2
+  31        3       4352 mtdblock3
+  31        4         64 mtdblock4
+  31        5       8000 mtdblock5
+</code></pre>
+<p>Rozmiar bloku równy jest 1024 KiB. Z powyższych informacji wiemy, że jakiś bliżej nieznany nam
+obszar na flash'u routera ma ściśle określony rozmiar. Nie mamy jednak żadnych ludzkich nazw, które
+byłyby w stanie nam coś o tych przestrzeniach powiedzieć. Bardziej czytelnym plikiem jest zaś
+<code>/proc/mtd</code> :</p>
+<pre><code>root@OpenWrt:/# cat /proc/mtd
+dev:    size   erasesize  name
+mtd0: 00020000 00010000 &quot;u-boot&quot;
+mtd1: 00121b70 00010000 &quot;kernel&quot;
+mtd2: 006ae490 00010000 &quot;rootfs&quot;
+mtd3: 00440000 00010000 &quot;rootfs_data&quot;
+mtd4: 00010000 00010000 &quot;art&quot;
+mtd5: 007d0000 00010000 &quot;firmware&quot;
+</code></pre>
+<p>Jak widać wyżej, poza rozmiarem konkretnego obszaru (wartość w HEX) mamy również jego ludzką nazwę.
+Cały obraz firmware routera TL-WR1043ND V2 ma 8192 KiB, czyli 8 MiB. Możemy to odczytać sumując
+u-boot, firmware i art. Da nam to wartość 0x00800000, czyli po przeliczeniu właśnie 8 MiB. Kernel i
+rootfs jest ulokowany w firmware. Z kolei rootfs_data zawiera się w rootfs.</p>
+<p>Jeśli nasz router nie chce się uruchomić z jakiegoś powodu ale mamy jednocześnie dostęp do
+bootloader'a przez konsolę szeregową, to znaczy, że obszar u-boot nie został naruszony i mamy sporą
+szansę na odzyskanie urządzenia. Niemnie jednak, musimy sobie zdawać sprawę, że nie będziemy
+zapisywać całej przestrzeni flash'a i z tego względu, ten proces jest iście niebezpieczny, bo źle
+wgrany firmware z poziomu bootloader'a może nam kompletnie uwalić router. Urządzenia po źle wgranym
+firmware już odratować się tak prosto nie da. Trzeba będzie odlutować flash z PCB routera i podpiąć
+go do zewnętrznego programatora. Jak się to robi, to nie mam zielonego pojęcia, więc lepiej się
+kilka razy zastanowić przed wydaniem jakichkolwiek poleceń będąc w konsoli bootloader'a.</p>
+<h2 id="procedura-wgrania-firmware-z-poziomu-bootloadera">Procedura wgrania firmware z poziomu bootloader'a</h2>
+<p>Przechodzimy zatem na stronę z obrazami firmware OpenWRT/LEDE i pobieramy plik dla modelu naszego
+routera mający w nazwie <code>factory</code>. Upewnijmy się też, że ten obraz jest przeznaczony na wersję
+sprzętową taką, którą router ma wypisaną na spodzie obudowy.</p>
+<p>Mając pobrany obraz z firmware, musimy go jakoś przesłać na router. Do tego celu wykorzystuje się
+<a href="https://pl.wikipedia.org/wiki/Trivial_File_Transfer_Protocol">protokół TFTP</a> (uboższa wersja
+protokołu FTP). Do zestawienia połączenia wymagany jest klient i serwer. Klientem będzie router.
+Serwerem zaś nasz komputer. Bootloader routera posiada odpowiednie oprogramowanie kliencie
+(narzędzie <code>tftp</code> ). Na komputerze musimy zaś postawić serwer.</p>
+<h3 id="konfiguracja-serwera-tftp-pod-linux">Konfiguracja serwera TFTP pod linux</h3>
+<p>W dystrybucji Debian jest kilka pakietów mających w nazwie <code>tftp</code> . Nas interesują pakiety
+zawierające demona umożliwiającego postawienie serwera TFTP, np. <code>atftpd</code> lub <code>tftpd</code> . Instalujemy
+zatem pierwszy z brzega, tj. <code>atftpd</code> .</p>
+<p>W procesie ratowania routera nie działa WiFi. Musimy zatem łączyć się przy wykorzystaniu przewodu.
+Nie będzie nam działał też serwer DHCP, przez co nie uzyskamy adresacji dynamicznej dla komputera.
+Musimy określić ją statycznie w poniższy sposób:</p>
+<pre><code># ifdown eth0
+# ip link set dev eth0 up
+# ip addr add 192.168.1.100/24 brd + dev eth0
+</code></pre>
+<p>Adres widoczny wyżej (192.168.1.100) nie może być przypadkowy. Będąc w konsoli bootloader'a, przy
+pomocy <code>printenv</code> możemy podejrzeć kilka zmiennych, które u-boot wykorzystuje do swojej pracy. Tam z
+kolei mamy min. te dwie poniższe:</p>
+<pre><code>ipaddr=192.168.1.111
+serverip=192.168.1.100
+</code></pre>
+<p>Zatem router będzie miał adres 192.168.1.111 i będzie próbował połączyć się z adresem 192.168.1.100
+. Dlatego to ten adres musimy ustawić w konfiguracji karty sieciowej komputera. Jeśli kogoś
+interesują pozostałe zmienne zwrócone przez <code>printenv</code> , to są one opisane na <a href="https://wiki.openwrt.org/doc/techref/bootloader/uboot.config">wiki
+OpenWRT</a>.</p>
+<p>Musimy jeszcze uruchomić serwer TFTP. W tym celu edytujemy pierw plik <code>/etc/default/atftpd</code> i
+przepisujemy go do poniższej postaci:</p>
+<pre><code>USE_INETD=false
+OPTIONS=&quot;--tftpd-timeout 300 --retry-timeout 5 --maxthread 100 --verbose=5 --bind-address=192.168.1.100 /srv/tftp-openwrt&quot;
+</code></pre>
+<p>Tworzymy jeszcze katalog <code>/srv/tftp-openwrt/</code> i nadajemy mu odpowiednie uprawnienia:</p>
+<pre><code># mkdir /srv/tftp-openwrt/
+# chown nobody:nogroup /srv/tftp-openwrt/
+</code></pre>
+<p>Teraz stawiamy serwer poniższym poleceniem, weryfikując przy tym czy został on faktycznie
+uruchomiony:</p>
+<pre><code># /etc/init.d/atftpd start
+# netstat -tupan | grep atftpd
+udp     0   0 192.168.1.100:69    0.0.0.0:*   25408/atftpd
+</code></pre>
+<h3 id="jak-wgrać-firmware-przez-konsolę-szeregową-z-poziomu-bootloadera">Jak wgrać firmware przez konsolę szeregową z poziomu bootloader'a</h3>
+<p>Serwer TFTP został uruchomiony, a jego katalog główny to <code>/srv/tftp-openwrt/</code> . Do tego katalogu
+musimy wrzucić plik z obrazem firmware, nazywając go przy tym, np. <code>obraz.bin</code> , nazwa
+dowolna:</p>
+<pre><code># cp /home/morfik/Desktop/openwrt-15.05-ar71xx-generic-tl-wr1043nd-v2-squashfs-factory.bin /srv/tftp-openwrt/obraz.bin
+</code></pre>
+<p>Przechodzimy teraz do konsoli szeregowej. U-boot dysponuje kilkoma użytecznymi poleceniami. My
+będziemy wykorzystywać <code>tftp</code> , <code>erase</code> oraz <code>cp.b</code> . Poniżej znajdują się polecenia, które ja
+wykorzystałem przy ratowaniu swojego TL-WR1043ND V2.</p>
+<p>Polecenie <code>tfpt</code> pobierze plik obrazu firmware z dysku komputera i wrzuci go do pamięci RAM routera.
+Ta komenda przyjmuje dwa argumenty. Są nimi adres pamięci RAM, od którego obraz firmware będzie
+zapisywany, oraz nazwa pliku firmware, który zostanie pobrany z serwera TFTP naszego komputera.
+Nazwę znamy ale problematyczne może być określenie adresu pamięci RAM. O tym będzie w dalszej
+części artykułu.</p>
+<pre><code>ap135&gt; tftp 0x80060000 obraz.bin
+Using eth1 device
+TFTP from server 192.168.1.100; our IP address is 192.168.1.111
+Filename 'obraz.bin'.
+Load address: 0x80060000
+Loading: #################################################################
+Bytes transferred = 8126464 (7c0000 hex)
+</code></pre>
+<p>Polecenie <code>erase</code> służy do zerowania pamięci flash. Przyjmuje ono również dwa argumenty. Pierwszym z
+nich jest adres pamięci flash, od którego ma się rozpocząć zerowanie. (ustalenie go również może być
+problematyczne). Drugim argumentem jest ilość bajtów, które zostaną wyzerowane (musi pasować do
+0x7c0000). Operację zerowania musimy wykonać ze względu na <a href="https://pl.wikipedia.org/wiki/Pami%C4%99%C4%87_flash#Ograniczenia">budowę komórek pamięci
+flash</a>. Dopiero po wyzerowaniu
+interesującego nas obszaru, możemy zacząć umieszczać na nim dane z firmware.</p>
+<pre><code>ap135&gt; erase 0x9f020000 +0x7c0000
+Erasing flash...
+First 0x2 last 0x7d sector size 0x10000
+ 125
+Erased 124 sectors
+</code></pre>
+<p>Polecenie <code>cp.b</code> ma za zdanie skopiować firmware z pamięci RAM i wgrać je na pamięć flash. Tutaj z
+kolei musimy określić trzy argumenty. Pierwszym z nich jest początkowy adres pamięci RAM, czyli to
+miejsce, w którym znajduje się początek obrazu firmware. Drugim argumentem jest początkowy adres
+pamięci flash, od którego zamierzamy zacząć wgrywać firmware. Trzecim zaś argumentem jest ilość
+bajtów, które zostaną skopiowane z pamięci RAM na pamięć flash routera.</p>
+<pre><code>ap135&gt; cp.b 0x80060000 0x9f020000 0x7c0000
+Copy to Flash... write addr: 9f020000
+done
+</code></pre>
+<p>Teraz można zrestartować router. Jeśli nie pomyliliśmy adresów i przeprowadziliśmy powyższe kroki
+prawidłowo, to będziemy w stanie się zalogować na router z wykorzystaniem protokołu telnet.</p>
+<h3 id="jak-ustalić-odpowiednie-adresy-pamięci-ram-i-flash-routera">Jak ustalić odpowiednie adresy pamięci RAM i flash routera</h3>
+<p>Powyższe adresy są unikatowe dla konkretnego modelu routera. Nie możemy zatem korzystać z nich w
+przypadku każdego routera, który nawali z jakiegoś bliżej nieznanego nam powodu. Nasuwa się zatem
+pytanie: jak ustalić te adresy?</p>
+<p>Zwykle tego typu informacje powinny być podane na wiki OpenWRT. W przypadku części
+routerów,polecenie <code>printenv</code> (wydane z poziomu bootloader'a) jest nam w stanie zwrócić kilka
+zmiennych zawierających pewne polecenia. Poniżej przykład z mojego routera:</p>
+<pre><code>...
+bootcmd=bootm 0x9f020000
+...
+lu=tftp 0x80060000 ${dir}u-boot.bin&amp;&amp;erase 0x9f000000 +$filesize&amp;&amp;cp.b $fileaddr 0x9f000000 $filesize
+lf=tftp 0x80060000 ${dir}ap135${bc}-jffs2&amp;&amp;erase 0x9f050000 +0x630000&amp;&amp;cp.b $fileaddr 0x9f050000 $filesize
+lk=tftp 0x80060000 ${dir}vmlinux${bc}.lzma.uImage&amp;&amp;erase 0x9f680000 +$filesize&amp;&amp;cp.b $fileaddr 0x9f680000 $filesize
+...
+</code></pre>
+<p>Na podstawie użytych tutaj adresów można ustalić adres pamięci RAM i flash, od których powinniśmy
+zacząć zapisywać dane.</p>
+<p>W <code>bootcmd</code> mamy adres pamięci flash, który ma zostać odczytany podczas fazy startu routera. Przed
+nim znajduje się tylko obszar bootloader'a. Wiemy zatem od którego adresu trzeba będzie flash
+wyczyścić. Znając rozmiar firmware (ten wgrany do pamięci RAM), wiemy jaki obszar należy wyzerować.
+W <code>lu</code> widzimy zaś <code>tftp 0x80060000</code> . Jako, że polecenie <code>tftp</code> ładuje obraz do pamięci RAM
+routera, to mamy adres pamięci od którego możemy zacząć zapisywać dane w RAM.</p>
+<p>Nie zawsze tego typu zmienne będziemy mieć dostępne w środowisku bootloader'a i odpowiednie adresy
+trzeba będzie ustalić w bliżej mi nie znany jeszcze sposób. :D</p>
+<p>Warto tutaj nadmienić, że wyżej widoczny adres odnoszący się do pamięci flash, tj. 0x9f000000,
+zostawiamy w spokoju. Określa on początek pamięci i nie możemy się nim posługiwać. Przy czyszczeniu
+i wgrywaniu danych na pamięć flash ( <code>erase</code> i <code>cp.b</code> ) musimy uwzględnić offset na bootloader.
+Standardowo jest to 128 KiB, które w zapisie HEX przyjmują wartość 0x20000. Trzeba zatem tę wartość
+dodać do 0x9f000000 i w ten sposób otrzymamy początkowy adres pamięci flash, od którego możemy
+zacząć kasować/zapisywać dane z firmware, tj. 0x9f020000, czyli uzyskaliśmy dokładnie taki sam
+adres co w <code>bootcmd</code> .</p>
+<p>Trzeba także uważać na długość wgrywanego obrazu (ilość bajtów). Na końcu flash'a routera mającego
+podzespoły od Qualcomm Atheros znajduje się obszar art (Atheros Radio Test). Zawiera on dane
+kalibracyjne dla WiFi (EEPROM). Informacje zawarte na tej partycji są unikatowe dla każdego
+indywidualnego routera. Jeśli uszkodzimy ten obszar, np. zapisując zbyt wiele danych, to trwale
+uwalimy WiFi w routerze, no chyba, że mamy backup tej przestrzeni albo i całego flash'a routera i
+będziemy w stanie ten obszar odtworzyć.</p>
+<h2 id="przykład-z-życia-czyli-planowe-ubicie-tl-wr1043nd">Przykład z życia, czyli planowe ubicie TL-WR1043ND</h2>
+<p>Nigdy mi się jeszcze nie zdarzyło ubić żadnego z posiadanych przeze mnie sprzętów. Niemniej jednak,
+przydałoby się odpowiedzieć na kilka pytań, a do tego potrzebny jest test na żywym organizmie.
+Postanowiłem zatem wgrać na mój router TL-WR1043ND V2 kilka różnych obrazów, w tym też te
+nieprzeznaczone dla niego. Obrazy są różne: oficjalne (z/bez boot) oraz OpenWRT/LEDE
+factory/sysupgrade. Przetestowałem też zanik zasilania podczas wgrywania firmware. Wszystko po to,
+by sprawdzić co tak naprawdę jest w stanie uszkodzić router i w jakim stopniu.</p>
+<h3 id="czy-obraz-factory-uszkodzi-router-z-openwrtlede">Czy obraz &quot;factory&quot; uszkodzi router z OpenWRT/LEDE</h3>
+<p>Mając wgrany firmware OpenWRT/LEDE zwykle flash'ujemy go obrazem mającym w nazwie <code>sysupgrade</code> . Jak
+jednak zareaguje nasz router po podaniu mu pełnego obrazu <code>factory</code> ? W sumie zawsze chciałem to
+sprawdzić ale jakoś nigdy nie było okazji. Kopiujemy zatem firmware do pamięci routera via <code>scp</code> ,
+logujemy się na router i wgrywamy firmware via <code>sysupgrade</code>
+:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/026.usb-uart-tp-link-router-serial-konsola-szeregowa-factory.png"><img src="https://morfikov.github.io
+/img/2016/10/026.usb-uart-tp-link-router-serial-konsola-szeregowa-factory-646x660.png" alt="026.usb-uart-tp-link-router-serial-konsola-szeregowa-factory"></a></p>
+<p>Jak widzimy wyżej, router działa bez problemu. Zatem wiemy, że obrazy OpenWRT/LEDE mające w nazwie
+<code>factory</code> nie ubiją nam routera. Niemniej jednak, w porównaniu do tych mających w nazwie
+<code>sysupgrade</code> są zwykle parokrotnie większe przez co lepiej jest korzystać z tych drugich, a
+<code>factory</code> używać jedynie przy zmianie firmware z oficjalnego na OpenWRT/LEDE.</p>
+<h3 id="czy-obraz-przeznaczony-na-inną-wersjęmodel-routera-uszkodzi-router">Czy obraz przeznaczony na inną wersję/model routera uszkodzi router</h3>
+<p>Wgranie obrazu firmware przeznaczonego na inną wersję/model routera powinno uszkodzić router. W
+przypadku innej wersji sprzętowej nie zawsze jest to regułą. Pytanie zwykle sprowadza się do różnicy
+w podzespołach routera. Jeśli te się zmieniły nieznacznie, to jest duża szansa, że router wstanie,
+choć może nie działać tak jak byśmy tego oczekiwali.</p>
+<p>Ja dysponuję routerem TL-WR1043ND w wersji V2, a on się zmienił dość znacznie w porównaniu do wersji
+V1. Możemy zatem przypuszczać, że wgranie firmware dla wersji V1 ubije router. Sprawdźmy zatem co
+faktycznie się stanie (bez znaczenia czy użyjemy <code>sysupgrade</code> czy <code>factory</code>
+).</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/027.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-model-wersja.png"><img src="https://morfikov.github.io
+/img/2016/10/027.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-model-wersja-660x266.png" alt="027.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-model-wersja"></a></p>
+<p>Nie mamy możliwości wgrania firmware przeznaczonego na inną wersję sprzętową routera. Podobnie
+sprawa będzie wyglądać w przypadku zupełnie innego modelu routera. Jak widać w powyższym
+komunikacie, został porównany ID: <code>Invalid image, hardware ID mismatch, hw:10430002 image:10430001</code>
+. Zatem ID sprzętu nie pasuje do ID uzyskanego z obrazu, w efekcie system odmawia próby wgrania
+takiego firmware z oczywistych względów.</p>
+<p>Może i mechanizmy obronne wbudowane w firmware OpenWRT/LEDE działają i są w stanie nas ochronić
+przed tak banalnymi błędami, to w dalszym ciągu możemy uszkodzić router wgrywając oprogramowanie na
+siłę przez <code>sysupgrade</code> (przełącznik <code>-F</code> ). Innym sposobem flash'owania, który może nam napytać
+biedy, jest nieumiejętne korzystanie z narzędzia <code>mtd</code> , przy pomocy którego można wykonywać
+operacje bezpośrednio na pamięci flash.</p>
+<p>Jeśli zatem zamierzamy przy pomocy <code>sysupgrade -F</code> lub <code>mtd write</code> wgrywać jakiś obraz firmware, to
+upewnijmy się, że nie jest on przeznaczony na inne wersje sprzętowe routerów albo i całkowicie inne
+modele.</p>
+<h3 id="czy-zanik-prądu-uszkodzi-router-z-openwrtlede">Czy zanik prądu uszkodzi router z OpenWRT/LEDE</h3>
+<p>Zanik prądu jest znanym mordercą routerów. Niemniej jednak, z racji różnicy w oficjalnym firmware
+TP-LINK'a i firmware OpenWRT/LEDE, sprawa może się inaczej potoczyć. Przede wszystkim, zanik prądu
+może pojawić się w różnych momentach. W przypadku obrazów TP-LINK'a mających w nazwie <code>boot</code> ,
+system będzie próbował przepisać bootloader (bez części konfiguracyjnej). By to zrobić musi
+wyczyścić ten obszar. Jeśli w tym czasie nastąpi zanik napięcia, to nie tylko router zostanie
+uszkodzony ale też już nie damy rady go odzyskać przez konsolę szeregową i trzeba będzie korzystać z
+programatora. W przypadku firmware OpenWRT/LEDE nie musimy się aż tak martwić, bo tutaj nie jest
+ruszany w ogóle bootloader. W efekcie nawet jeśli nastąpi zanik napięcia, to obszar u-boot zostaje
+nietknięty i możemy wgrać się później przez konsolę szeregową. Podobnie sprawa ma się w przypadku
+obrazów oficjalnych bez frazy <code>boot</code> w nazwie. Tutaj również nie jest przepisywany bootloader i przy
+zaniku napięcia będziemy w stanie odzyskać router.</p>
+<p>Sprawdźmy zatem co się stanie po puszczeniu procesu aktualizacji firmware via <code>sysupgrade</code> i
+odłączeniu zasilania routera tak po trzech sekundach. Oczywiście flash'ujemy router z poziomu
+<code>sysupgrade</code> na firmware
+OpenWRT/LEDE:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/028.usb-uart-tp-link-router-serial-konsola-szeregowa-zanik-zasilania.png"><img src="https://morfikov.github.io
+/img/2016/10/028.usb-uart-tp-link-router-serial-konsola-szeregowa-zanik-zasilania-660x266.png" alt="028.usb-uart-tp-link-router-serial-konsola-szeregowa-zanik-zasilania"></a></p>
+<p>W momencie uwiecznionym powyżej nastąpił symulowany zanik zasilania. System routera po włączeniu nie
+startuje. Zapalają się wszystkie diody, po czym część z nich gaśnie. Dioda Power, System i WPS
+świecą się ciągle. Dioda WLAN jest zgaszona cały czas, natomiast wszystkie pięć diod od portów
+ethernet miga. Ten proces zdaje się być zapętlony, czyli jakaś aktywność routera się zachowała.</p>
+<p>Jako, że diody migają i router się cały czas restartuje, oznacza to, że bootloader działa raczej
+prawidłowo i jego obszar nie uległ przepisaniu. Niemniej jednak, bootloader nie jest w stanie
+podnieść systemu. Napotyka jakiś &quot;bliżej nieznany błąd&quot; i restartuje system mając nadzieję, że to
+coś da. Poniżej jest komunikat, który można zobaczyć na konsoli szeregowej:</p>
+<pre><code>Autobooting in 1 seconds
+## Booting image at 9f020000 ...
+   Uncompressing Kernel Image ... ERROR: LzmaDecode.c, 543
+
+Decoding error = 1
+LZMA ERROR 1 - must RESET board to recover
+</code></pre>
+<p>Router jest do odzyskania ale musimy zrobić użytek z konsoli szeregowej i opisanym wyżej sposobem
+wgrać firmware z poziomu bootloader'a.</p>
+<h3 id="czy-obraz-przeznaczony-na-inną-wersjęmodel-routera-ubije-router-z-oficjalnym-firmware">Czy obraz przeznaczony na inną wersję/model routera ubije router z oficjalnym firmware</h3>
+<p>Podobnie jak w przypadku firmware OpenWRT/LEDE, oficjalny firmware TP-LINK'a również weryfikuje
+obrazy przed wgraniem ich przez panel administracyjny. Nie musimy się zatem obawiać, że przez
+przypadek wgramy obraz nieprzeznaczony dla naszego modelu/wersji
+routera.</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/029.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-router.png"><img src="https://morfikov.github.io
+/img/2016/10/029.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-router-660x289.png" alt="029.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-router"></a></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/030.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-router.png"><img src="https://morfikov.github.io
+/img/2016/10/030.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-router-660x289.png" alt="030.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-router"></a></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/031.usb-uart-tp-link-router-serial-konsola-szeregowa-inna-wesja.png"><img src="https://morfikov.github.io
+/img/2016/10/031.usb-uart-tp-link-router-serial-konsola-szeregowa-inna-wesja-660x289.png" alt="031.usb-uart-tp-link-router-serial-konsola-szeregowa-inna-wesja"></a></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/032.usb-uart-tp-link-router-serial-konsola-szeregowa-inna-wersja.png"><img src="https://morfikov.github.io
+/img/2016/10/032.usb-uart-tp-link-router-serial-konsola-szeregowa-inna-wersja-660x289.png" alt="032.usb-uart-tp-link-router-serial-konsola-szeregowa-inna-wersja"></a></p>
+<h3 id="czy-wgranie-oficjalnego-firmware-z-boot-w-nazwie-via-sysupgrade-uszkodzi-router-z-openwrtlede">Czy wgranie oficjalnego firmware z &quot;boot&quot; w nazwie via sysupgrade uszkodzi router z OpenWRT/LEDE</h3>
+<p>Firmware OpenWRT/LEDE nie dotyka praktycznie wcale obszaru flash, w którym siedzi bootloader. Jeśli
+teraz zamierzamy powrócić do oficjalnego firmware, to musimy pozyskać stosowny obraz. Wszystkie
+obrazy na stronie TP-LINK mają frazę <code>boot</code> . Oznacza to, że zawierają one część bootloader'a, którą
+proces flash'owania przepisuje podczas aktualizacji firmware z poziomu panelu administracyjnego
+TP-LINK'a. Jeśli taki obraz podamy w <code>sysupgrade</code> , to ta część bootloader'a z oficjalnego firmware
+powędruje na flash routera w miejsce, gdzie powinno znajdować się faktyczne oprogramowanie. W
+efekcie router nie będzie chciał się uruchomić ale będziemy w stanie go odzyskać przez konsolę
+szeregową.</p>
+<p>By uniknąć tego typu problemów, potrzebny nam jest obraz nieposiadający w nazwie frazy <code>boot</code> .
+Takie obrazy są dostępne w różnych miejscach: <a href="ftp://tplink-forum.pl/orgin_bez_boot/">tutaj</a>,
+<a href="http://dl.eko.one.pl/orig/">tutaj</a>, <a href="http://www.friedzombie.com/tplink-stripped-firmware/">tutaj</a> i
+pewnie jeszcze w wielu innych, o których nie wiem.</p>
+<p>Jeśli jednak dysponujemy obrazem mającym w nazwie <code>boot</code> i z jakiegoś powodu nie możemy pozyskać
+obrazu bez części bootloader'a, to możemy ten zbędny i niebezpieczny zarazem kawałek usunąć ręcznie.
+Możemy to zrobić przy pomocy <code>dd</code> z poziomu każdego linux'a (nawet OpenWRT/LEDE) w poniższy sposób:</p>
+<pre><code># dd if=firmware_z_boot.bin of=firmware_bez_boot.bin skip=257 bs=512
+</code></pre>
+<p>To powyższe polecenie usunie z początku obrazu pierwsze 131584 bajów (0x20200 w HEX) i taki obraz
+możemy już wgrać bez problemu na router via <code>sysupgrade</code> .</p>
+<h3 id="czy-wgranie-oficjalnego-firmware-niemającego-boot-w-nazwie-przez-panel-admina-uszkodzi-router">Czy wgranie oficjalnego firmware NIEmającego &quot;boot&quot; w nazwie przez panel admina uszkodzi router</h3>
+<p>Gdy oficjalny plik z firmware nie zawiera frazy <code>boot</code> w nazwie, to jest to mniej więcej taka sama
+wersja obrazu co w przypadku firmware OpenWRT/LEDE, który ma w nazwie <code>factory</code> . Wgranie
+oficjalnego obrazu bez <code>boot</code> z poziomu panelu administracyjnego TP-LINK'a nie uszkodzi naszego
+routera.</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/033.usb-uart-tp-link-router-serial-konsola-szeregowa-bez-boot.png"><img src="https://morfikov.github.io
+/img/2016/10/033.usb-uart-tp-link-router-serial-konsola-szeregowa-bez-boot-660x289.png" alt="033.usb-uart-tp-link-router-serial-konsola-szeregowa-bez-boot"></a></p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/034.usb-uart-tp-link-router-serial-konsola-szeregowa-bez-boot.png"><img src="https://morfikov.github.io
+/img/2016/10/034.usb-uart-tp-link-router-serial-konsola-szeregowa-bez-boot-660x289.png" alt="034.usb-uart-tp-link-router-serial-konsola-szeregowa-bez-boot"></a></p>
+<p>Wgrywanie oficjalnych obrazów bez <code>boot</code> w nazwie jest nawet bezpieczniejsze, bo w tym przypadku nie
+jest przepisywany obszar u-boot. Dlatego też nawet w przypadku utraty zasilania podczas procesu
+flash'owania routera, będziemy w stanie odzyskać router przez konsolę szeregową.</p>
+<h3 id="czy-obraz-sysupgrade-wgrany-z-panelu-tp-link-uszkodzi-router">Czy obraz &quot;sysupgrade&quot; wgrany z panelu TP-LINK uszkodzi router</h3>
+<p>Przy przechodzeniu z oficjalnego firmware na OpenWRT/LEDE stosuje się obrazy mające w nazwie
+<code>factory</code> . Z kolei zaś obrazy mające w nazwie <code>sysupgrade</code> są przeznaczone dla aktualizacji
+firmware routera. Czy wgrywając obraz <code>sysupgrade</code> można uszkodzić router?
+Sprawdźmy:</p>
+<p><a href="https://morfikov.github.io
+/img/2016/10/035.usb-uart-tp-link-router-serial-konsola-szeregowa-sysupgrade.png"><img src="https://morfikov.github.io
+/img/2016/10/035.usb-uart-tp-link-router-serial-konsola-szeregowa-sysupgrade-660x266.png" alt="035.usb-uart-tp-link-router-serial-konsola-szeregowa-sysupgrade"></a></p>
+<p>Wygląda na to, że oficjalne oprogramowanie nie przyjmuje takiego obrazu zupełnie. Obraz <code>factory</code> i
+<code>sysupgrade</code> praktycznie niczym się nie różnią pod kątem zawartości. W przypadku <code>factory</code> na
+początku obrazu znajduje się tylko dodatkowy nagłówek i prawdopodobnie jego brak uniemożliwia
+wgranie obrazu na router z poziomu panelu administracyjnego TP-LINK'a.</p>
+<h2 id="backup-pamięci-flash-routera">Backup pamięci flash router'a</h2>
+<p>Jak widać z powyższych obserwacji bardzo ciężko jest doprowadzić router do stanu nieużywalności.
+Jeśli nie przytrafi nam się nagły zanik zasilania podczas procesu flash'owania, to raczej nie mamy
+możliwości uszkodzić routera, no chyba, że bardzo się o taki stan rzeczy postaramy. By uniknąć
+problemów przy ewentualnym eksperymentowaniu z routerem, najlepiej postarać się o backup całej
+przestrzeni flash.</p>
+<h3 id="backup-z-poziomu-działającego-firmware">Backup z poziomu działającego firmware</h3>
+<p>Jeśli nasz router działa bez problemu, możemy się na niego zalogować po ssh i przy pomocy <code>dd</code>
+zrzucić obrazy wszystkich pozycji, które widnieją w pliku <code>/proc/mtd</code> . Oczywiście moglibyśmy zrobić
+backup tylko u-boot, firmware i art ale później musielibyśmy kroić obraz by <a href="https://wiki.openwrt.org/doc/techref/flash.layout">wyodrębnić konkretne
+jego części</a>. Backup robimy przy pomocy <code>dd</code>
+zapisując dane w pamięci RAM routera:</p>
+<pre><code>root@OpenWrt:/tmp# dd if=/dev/mtdblock0 of=/tmp/mtdblock0-u-boot.bin
+root@OpenWrt:/tmp# dd if=/dev/mtdblock1 of=/tmp/mtdblock1-kernel.bin
+root@OpenWrt:/tmp# dd if=/dev/mtdblock2 of=/tmp/mtdblock2-rootfs.bin
+root@OpenWrt:/tmp# dd if=/dev/mtdblock3 of=/tmp/mtdblock3-rootfs_data.bin
+root@OpenWrt:/tmp# dd if=/dev/mtdblock4 of=/tmp/mtdblock4-art.bin
+root@OpenWrt:/tmp# dd if=/dev/mtdblock5 of=/tmp/mtdblock5-firmware.bin
+</code></pre>
+<p>Następnie tak utworzone pliki trzeba przesłać na komputer, np. via <code>scp</code> :</p>
+<pre><code>$ scp root@192.168.1.1:/tmp/mtd\* ./
+</code></pre>
+<h3 id="odtwarzanie-backupu-z-poziomu-firmware">Odtwarzanie backup'u z poziomu firmware</h3>
+<p>Odtworzenie backup'u uszkodzonego obszaru pamięci flash z poziomu działającego firmware jest
+stosunkowo proste. Załóżmy, że uszkodziliśmy sobie obszar art, w wyniku czego uszkodziliśmy WiFi. By
+przywrócić ten obszar, logujemy się na router i wrzucamy do pamięci plik backup'u. Później przy
+pomocy <code>mtd write</code> wgrywamy backup na odpowiedni obszar pamięci flash w poniższy sposób:</p>
+<pre><code># mtd write /tmp/mtdblock4-art.bin art
+</code></pre>
+<h3 id="backup-i-odtwarzanie-go-z-poziomu-bootloadera">Backup i odtwarzanie go z poziomu bootloader'a</h3>
+<p>W przypadku, gdy nasz router znajduje się w stanie agonalnym ale mamy jeszcze możliwość zalogowania
+się do bootloader'a, to możemy pokusić się o zrobienie backup'u flash'a za sprawą konsoli
+szeregowej. Niemniej jednak, nie wszystkie wersje u-boot dysponują komendami umożliwiającymi
+przesłanie backup'u na serwer TFTP. Jeśli u-boot naszego routera takimi poleceniami nie dysponuje,
+to musimy postarać się o obraz initramfs, który załadujemy do pamięci RAM routera. W tym initramfs
+będą znajdować się potrzebne nam polecenia i backup wykonamy bez trudu. Obraz initramfs musimy
+sobie sami zbudować albo tez pozyskać od kogoś, kto już go zbudował. Jak przeprowadzić proces budowy
+obrazu initramfs wykracza poza ramy tego artykułu. (link FIXME).</p>
+<p>Jeśli zaś chodzi o kwestie odtworzenia backupu za pomocą bootloader'a, to raczej nie będziemy
+potrzebować takiej funkcjonalności. Poza tym, nie wszystkie bootloader'y dają nam możliwość
+skorzystania z <code>mtd</code> , tak jak to ma miejsce przy działającym firmware OpenWRT/LEDE. Nawet jeśli
+nasz bootloader wspiera taką możliwość, to trzeba uważać, bo nie zawsze obszary mtd widziane przez
+bootloader muszą się pokrywać z tymi udostępnianymi przez kernel w pliku <code>/proc/mtd</code> . Dlatego też
+lepiej posługiwać się offset'ami.</p>
+<h2 id="problemy-z-uruchomieniem-routera-przy-podłączonym-adapterze-usb-uart">Problemy z uruchomieniem routera przy podłączonym adapterze USB-UART</h2>
+<p>Mój routera TL-WR1043ND V2 miał wgrany firmware OpenWRT Chaos Calmer. Był też jak najbardziej
+sprawny ale po podłączeniu adaptera USB-UART nie chciał się uruchomić. Zatrzymywał się na etapie
+bootloader'a z poniższą informacją:</p>
+<pre><code>U-Boot 1.1.4 (Sep 10 2015 - 12:05:08)
+
+ap135 - Scorpion 1.0DRAM:
+sri
+Scorpion 1.0
+ath_ddr_initial_config(211): (16bit) ddr1 init
+tap = 0x00000002
+Tap (low, high) = (0xaa55aa55, 0x0)
+Tap values = (0x8, 0x8, 0x8, 0x8)
+ 4 MB
+</code></pre>
+<p>Niektóre adaptery USB-UART mogą uniemożliwić start routera. No to pojawia się pytanie jak próbować
+odzyskać router, gdy nie mamy możliwości zainicjowania bootloader'a?</p>
+<p>Najprościej jest kupić normalny adapter (jakieś polecane modele?), który nie zawiesi startu routera.
+Innym wyjściem jest podłączenie przewodu do pinu GND po włączeniu przycisku power routera. Trzeba
+tylko ustalić czas, po którym możemy ten pin GND podłączyć, a to już robimy metodą prób i błędów. W
+moim przypadku mogłem praktycznie od razu się podłączyć (tuż przed zgaśnięciem wszystkich diod na
+routerze). W innych sytuacjach trzeba będzie poczekać jedną czy kilka sekund i dopiero wtedy się
+wpiąć. Nie trzeba się oczywiście spieszyć z tym faktem, bo bootloader się będzie w kółko resetował,
+przez co i tak zobaczymy wszystkie komunikaty, które nam zostaną zwrócone.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/usb/">usb</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chaos-calmer/">chaos-calmer</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">router</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/tp-link/">tp-link</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/uart/">uart</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link%2f&amp;text=Konsola%20szeregowa%2c%20adapter%20USB-UART%20i%20uszkodzony%20router%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link%2f&amp;title=Konsola%20szeregowa%2c%20adapter%20USB-UART%20i%20uszkodzony%20router%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link%2f&amp;title=Konsola%20szeregowa%2c%20adapter%20USB-UART%20i%20uszkodzony%20router%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link%2f&title=Konsola%20szeregowa%2c%20adapter%20USB-UART%20i%20uszkodzony%20router%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link%2f&amp;title=Konsola%20szeregowa%2c%20adapter%20USB-UART%20i%20uszkodzony%20router%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link%2f&description=Konsola%20szeregowa%2c%20adapter%20USB-UART%20i%20uszkodzony%20router%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/instalacja-konfiguracja-firmware-openwrt-chaos-calmer/">Instalacja i konfiguracja firmware OpenWRT (Chaos Calmer)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wgrac-firmware-openwrt-na-router-tp-link/">Jak wgrać firmware OpenWRT na router TP-LINK</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-powrocic-z-firmware-openwrt-tp-linka/">Jak powrócić z firmware OpenWRT do TP-LINK&#39;a</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/recenzja-przenosny-router-lte3g-mifi-m7310-od-tp-link/">Recenzja: Przenośny router LTE/3G (MiFi) M7310 od TP-LINK</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/recenzja-karta-sieciowa-ethernet-usb-ue200-tp-link/">Recenzja: Karta sieciowa Ethernet na USB UE200 od TP-LINK</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

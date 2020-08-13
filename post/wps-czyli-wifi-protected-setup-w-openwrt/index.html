@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>WPS, czyli WiFi Protected Setup w OpenWRT | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="WPS, czyli WiFi Protected Setup w OpenWRT" />
+<meta property="og:description" content="Wi-Fi Protected Setup (WPS) powstał w celu
+ułatwienia konfiguracji urządzeń w sieci WiFi. Przy WPS nie musimy ustawiać wszystkich parametrów
+połączenia ręcznie. Nie musimy także pamiętać nazwy sieci czy samego hasła, które może mieć nawet 64
+znaki. Zamiast tego, cała konfiguracja sprowadza się to wciśnięcia dwóch przycisków: jednego na
+karcie WiFi, drugiego na obudowie routera. Niemniej jednak, wszędzie gdzie nie spojrzeć, ludzie
+rozpisują się na temat tego jakim to niebezpieczeństwem jest włączenie w routerach WiFi opcji WPS. O
+tych zagrożeniach, jeśli kogoś interesują, można poczytać, np.
+tutaj. W tym wpisie rozprawimy się raz na zawsze z
+mitami dotyczącymi WPS, który jest implementowany w routerach WiFi. Postaramy się skonfigurować ten
+mechanizm pod OpenWRT i zobaczymy czy cokolwiek z tego co ludzie piszą na necie ma zastosowanie w
+praktyce." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/wps-czyli-wifi-protected-setup-w-openwrt/" />
+<meta property="article:published_time" content="2016-05-05T18:04:55+00:00" />
+<meta property="article:modified_time" content="2016-05-05T18:04:55+00:00" />
+
+		<meta itemprop="name" content="WPS, czyli WiFi Protected Setup w OpenWRT">
+<meta itemprop="description" content="Wi-Fi Protected Setup (WPS) powstał w celu
+ułatwienia konfiguracji urządzeń w sieci WiFi. Przy WPS nie musimy ustawiać wszystkich parametrów
+połączenia ręcznie. Nie musimy także pamiętać nazwy sieci czy samego hasła, które może mieć nawet 64
+znaki. Zamiast tego, cała konfiguracja sprowadza się to wciśnięcia dwóch przycisków: jednego na
+karcie WiFi, drugiego na obudowie routera. Niemniej jednak, wszędzie gdzie nie spojrzeć, ludzie
+rozpisują się na temat tego jakim to niebezpieczeństwem jest włączenie w routerach WiFi opcji WPS. O
+tych zagrożeniach, jeśli kogoś interesują, można poczytać, np.
+tutaj. W tym wpisie rozprawimy się raz na zawsze z
+mitami dotyczącymi WPS, który jest implementowany w routerach WiFi. Postaramy się skonfigurować ten
+mechanizm pod OpenWRT i zobaczymy czy cokolwiek z tego co ludzie piszą na necie ma zastosowanie w
+praktyce.">
+<meta itemprop="datePublished" content="2016-05-05T18:04:55+00:00" />
+<meta itemprop="dateModified" content="2016-05-05T18:04:55+00:00" />
+<meta itemprop="wordCount" content="2465">
+
+
+
+<meta itemprop="keywords" content="wps,wifi,chaos-calmer,router," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="WPS, czyli WiFi Protected Setup w OpenWRT"/>
+<meta name="twitter:description" content="Wi-Fi Protected Setup (WPS) powstał w celu
+ułatwienia konfiguracji urządzeń w sieci WiFi. Przy WPS nie musimy ustawiać wszystkich parametrów
+połączenia ręcznie. Nie musimy także pamiętać nazwy sieci czy samego hasła, które może mieć nawet 64
+znaki. Zamiast tego, cała konfiguracja sprowadza się to wciśnięcia dwóch przycisków: jednego na
+karcie WiFi, drugiego na obudowie routera. Niemniej jednak, wszędzie gdzie nie spojrzeć, ludzie
+rozpisują się na temat tego jakim to niebezpieczeństwem jest włączenie w routerach WiFi opcji WPS. O
+tych zagrożeniach, jeśli kogoś interesują, można poczytać, np.
+tutaj. W tym wpisie rozprawimy się raz na zawsze z
+mitami dotyczącymi WPS, który jest implementowany w routerach WiFi. Postaramy się skonfigurować ten
+mechanizm pod OpenWRT i zobaczymy czy cokolwiek z tego co ludzie piszą na necie ma zastosowanie w
+praktyce."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">WPS, czyli WiFi Protected Setup w OpenWRT</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-05-05T18:04:55Z">Opublikowano: 05/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">WPS, czyli WiFi Protected Setup w OpenWRT</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#wps-pin-a-może-pbc">WPS PIN, a może PBC</a></li>
+    <li><a href="#implementacja-wps-na-routerze">Implementacja WPS na routerze</a></li>
+    <li><a href="#przycisk-wpsreset">Przycisk WPS/reset</a></li>
+    <li><a href="#konfiguracja-wps-na-kliencie">Konfiguracja WPS na kliencie</a></li>
+    <li><a href="#parowanie-urządzeń">Parowanie urządzeń</a>
+      <ol>
+        <li><a href="#wps-pbc-bez-przycisków">WPS PBC bez przycisków</a></li>
+        <li><a href="#stan-spoczynku-wps">Stan spoczynku WPS</a></li>
+        <li><a href="#przerwanie-procesu-parowania-urządzeń">Przerwanie procesu parowania urządzeń</a></li>
+      </ol>
+    </li>
+    <li><a href="#a-co-z-pinem">A co z PIN'em?</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p><a href="https://en.wikipedia.org/wiki/Wi-Fi_Protected_Setup">Wi-Fi Protected Setup (WPS)</a> powstał w celu
+ułatwienia konfiguracji urządzeń w sieci WiFi. Przy WPS nie musimy ustawiać wszystkich parametrów
+połączenia ręcznie. Nie musimy także pamiętać nazwy sieci czy samego hasła, które może mieć nawet 64
+znaki. Zamiast tego, cała konfiguracja sprowadza się to wciśnięcia dwóch przycisków: jednego na
+karcie WiFi, drugiego na obudowie routera. Niemniej jednak, wszędzie gdzie nie spojrzeć, ludzie
+rozpisują się na temat tego jakim to niebezpieczeństwem jest włączenie w routerach WiFi opcji WPS. O
+tych zagrożeniach, jeśli kogoś interesują, można poczytać, np.
+<a href="https://dankaminsky.com/2012/01/26/wps2/">tutaj</a>. W tym wpisie rozprawimy się raz na zawsze z
+mitami dotyczącymi WPS, który jest implementowany w routerach WiFi. Postaramy się skonfigurować ten
+mechanizm pod OpenWRT i zobaczymy czy cokolwiek z tego co ludzie piszą na necie ma zastosowanie w
+praktyce.</p>
+<h2 id="wps-pin-a-może-pbc">WPS PIN, a może PBC</h2>
+<p>Na wiki OpenWRT możemy wyczytać, że jest do wyboru <a href="https://wiki.openwrt.org/doc/uci/wireless#wps_options">spory wachlarz metod konfiguracyjnych
+WPS</a>. Mamy tam: usba, ethernet, label,
+display, ext_nfc_token, int_nfc_token, nfc_interface, push_button, keypad, virtual_display,
+physical_display, virtual_push_button oraz physical_push_button. Natomiast wspierana jest, póki
+co, jedna z nich: <code>push_button</code> . Dodatkowo mamy również w standardzie zaimplementowaną obsługę
+metody z PIN'em. Swego czasu ten PIN był zaimplementowany tak, że domyślnie przybierał postać
+<code>12345670</code> i jakby tego było mało, można było użyć tego PIN'u i zostać podłączonym do sieci nawet
+przy wyraźnym określeniu, że chce się korzystać z przycisków. Wszystko to za sprawą błędnej
+konfiguracji w pliku <code>/lib/netifd/hostapd.sh</code> . Ta dziura została załatana w nowszych wersjach
+OpenWRT, dokładniej w <a href="https://dev.openwrt.org/changeset/42553">r42553</a> i w przypadku, gdy używamy
+starszej wersji firmware, przydałoby się ją zaktualizować.</p>
+<p>Przede wszystkim, na necie zarzuty pod adresem WPS dotyczą kodu PIN. W skrócie, chodzi oto, że może
+i ten kod ma 8 cyfr ale z racji swojego zaimplementowania potrzeba maksymalnie 11000 prób, by go
+złamać. To nie jest dużo, bo można to zrobić w parę godzin, najwyżej kilka dni. W zasadzie to WPS w
+oparciu o kod PIN jest bezpieczny, tylko producent routera musi w nim zastosować WPS LOCK. Jest to
+blokada, która po kilku nieudanych próbach wpisania kodu PIN blokuje cały mechanizm WPS. W efekcie
+nie możemy wpisać żadnego kodu PIN, bez znaczenia przy tym czy trafimy na prawidłowy. Oczywiście są
+różne implementacje tej blokady. Różna jest ilość prób wyzwalająca LOCK, jak i czas, przez który
+jest on aktywny. Inną formą WPS LOCK jest ręczne konfigurowanie blokady przed dodaniem oraz po
+dodaniu urządzeń. W ten sposób, WPS pozostaje aktywny tylko wtedy, gdy my chcemy dodać jakieś
+urządzenie do sieci. Tego typu rozwiązanie praktycznie niweluje możliwość ataku pod kątem złamania
+kodu PIN w mechanizmie WPS. Jak widzimy z powyższego opisu, kod PIN może być bezpieczny, tylko
+trzeba się upewnić, że producent routera zastosował blokadę, poniżej przykład:</p>
+<p><img src="https://morfikov.github.io
+/img/2015/06/1.wps-lock-openwrt-test.png" alt=""></p>
+<p>W przypadku OpenWRT ta blokada wykonaniu <code>hostapd</code> jest średnia. Z moich ustaleń wynika, że jeden
+nieprawidłowy kod PIN powoduje założenie blokady na jakieś 30 sekund. Czasami mniej czasami więcej.
+Nie wiem od czego to zależy. Podczas blokady nie wchodzi prawidłowy PIN. Także mechanizm WPS nie
+jest wyłączany całkowicie i wykorzystanie każdego PIN'u zajmie jedynie 30 sekund, najwyżej 1 minutę.
+Przy okazji czytania szeregu artykułów natrafiłem na informacje o korzystaniu z losowego PIN'u,
+który jest zmieniany chyba z każdą próbą połączenia. Dokładnie nie wiem, bo coś brak dokumentacji
+na ten temat.</p>
+<p>Jeśli jednak nie przekonuje nas kod PIN, to zawsze możemy pokusić się o naciskanie przycisków (PBC,
+Push Button Connect). Zwykle karta WiFi posiada taki na swojej obudowie. Router również ma przycisk
+WPS na swoim wyposażeniu. W takim przypadku, by dodać urządzenie do sieci potrzebny jest fizyczny
+dostęp do routera i wszelkie ataki zdalne praktycznie zostają ograniczone do zera. Nawet jeśli żadne
+z tych urządzeń nie posiada fizycznego przycisku, to nie ma to większego znaczenia. Pod linux'ami, w
+tym też OpenWRT, mamy możliwość generowania event'ów, które symulują wciśnięcie przycisku. Zatem
+możemy programowo te przyciski wcisnąć i podłączyć się do sieci.</p>
+<h2 id="implementacja-wps-na-routerze">Implementacja WPS na routerze</h2>
+<p>Domyślnie w OpenWRT jest zainstalowany pakiet <code>wpad-mini</code> , który nie posiada obsługi WPS. Trzeba go
+odinstalować i doinstalować zamiast niego poniższe pakiety:</p>
+<pre><code># opkg remove wpad-mini
+# opkg install wpad hostapd-utils
+</code></pre>
+<p>WPS jest dostępny tylko w konfiguracji WPA2 Personal (PSK). Jeśli chcemy zaimplementować sobie
+obsługę WPS (PBC/PIN), to musimy mieć odpowiednio <a href="https://morfikov.github.io
+/post/siec-bezprzewodowa-wifi-w-openwrt-wlan/">skonfigurowane połączenie
+WiFi</a> na routerze. Wymagane jest, by
+w pliku <code>/etc/config/wireless</code> w sekcji <code>config wifi-iface</code> były obecne minimum trzy opcje:
+<code>encryption</code> , <code>ssid</code> oraz <code>key</code> :</p>
+<pre><code>config wifi-iface
+    ...
+    option ssid 'Valar_Morghulis'
+    option encryption 'psk2+aes'
+    option key 'pass1234'
+    ...
+</code></pre>
+<p>Teraz dopisujemy jeden z tych dwóch poniższych bloków. W zależności czy chcemy mieć PBC:</p>
+<pre><code>config wifi-iface
+    ...
+    option wps_pushbutton '0'
+    option wps_config 'push_button'
+    option wps_device_type '6-0050F204-1'
+    option wps_device_name 'the-mountain-2'
+    ...
+</code></pre>
+<p>czy PIN:</p>
+<pre><code>config wifi-iface
+    ...
+    option wps_label '0'
+    option wps_pin '12345670'
+    option wps_device_type '6-0050F204-1'
+    option wps_device_name 'the-mountain-2
+    ...
+</code></pre>
+<p>Opcje <code>wps_pushbutton</code> oraz <code>wps_label</code> aktywują WPS na routerze. Jeśli sparowaliśmy wszystkie
+urządzenia, możemy tę funkcjonalność po prostu wyłączyć przestawiając wartość z <code>1</code> na <code>0</code> . Dalej
+mamy opcję <code>wps_device_type</code> , która określa typ urządzenia i tu mamy do wyboru <code>1-0050F204-1</code>
+(Computer / PC), <code>1-0050F204-2</code> (Computer / Server), <code>5-0050F204-1</code> (Storage / NAS), <code>6-0050F204-1</code>
+(Network Infrastructure / AP). Ostatnia opcja, tj. <code>wps_device_name</code> , to opis urządzenia.
+Zapisujemy konfigurację i resetujemy połączenie bezprzewodowe wpisując w konsolę polecenie <code> wifi</code> .
+Jeśli nie korzystamy z opcji PIN, to zweryfikujmy czy w pliku <code>/var/run/hostapd-phy0.conf</code> jest
+jakaś wzmianka dotycząca kodu PIN. Nie powinno jej być.</p>
+<h2 id="przycisk-wpsreset">Przycisk WPS/reset</h2>
+<p>W przypadku routera <a href="http://www.tp-link.com.pl/products/details/Archer-C7.html">TP-LINK Archer C7
+v2</a> mamy do dyspozycji dwa przyciski.
+Jeden z nich jest od resetowania routera. Drugi zaś to przełącznik WiFi. Pod OpenWRT nie ma
+domyślnie zaimplementowanej obsługi WPS w przyciskach. Nic jednak nie stoi na przeszkodzie, by taką
+opcję sobie dodać. Musimy tylko nieco <a href="https://morfikov.github.io
+/post/konfiguracja-przyciskow-w-openwrt/">zmienić konfigurację przycisków
+routera</a>. Przechodzimy zatem do katalogu
+<code>/etc/rc.button/</code> i edytujemy odpowiedni plik. W przypadku tego routera jest to <code>wps</code> . Musimy
+przepisać jego zawartość, tak by wyglądała mniej więcej jak ta poniżej:</p>
+<pre><code>#!/bin/sh
+
+[ &quot;${ACTION}&quot; = &quot;released&quot; ] || exit 0
+
+. /lib/functions.sh
+
+logger &quot;$BUTTON pressed for $SEEN seconds&quot;
+
+if [ &quot;$SEEN&quot; -lt 2 ]; then
+    # Interface for 2GHz WiFi
+    iface=&quot;wlan1&quot;
+
+    is_wps_led=`ls -al /sys/class/leds/ | grep wps | cut -d &quot; &quot; -f 30`
+    is_qss_led=`ls -al /sys/class/leds/ | grep qss | cut -d &quot; &quot; -f 30`
+
+    if [ ! -z &quot;$is_wps_led&quot; ]; then
+        logger &quot;WPS at $is_wps_led&quot;
+        led=&quot;$is_wps_led&quot;
+    elif [ ! -z &quot;$is_qss_led&quot; ]; then
+        logger &quot;WPS at $is_qss_led&quot;
+        led=&quot;$is_qss_led&quot;
+    fi
+
+    wps_state_iface=`hostapd_cli -i $iface get_config  2&gt;/dev/null | grep wps_state | cut -d= -f2`
+    logger $wps_state_iface
+
+    if [ &quot;$wps_state_iface&quot; = &quot;disabled&quot; ]; then
+        logger &quot;The WPS feature is disabled, please enable it in the /etc/config/wireless file.&quot;
+        exit 1
+    elif [ &quot;$wps_state_iface&quot; = &quot;configured&quot; ]; then
+
+        logger &quot;Enabling WPS for interface: $iface&quot;
+        hostapd_cli -i $iface -p /var/run/hostapd/ wps_pbc
+
+        echo &quot;255&quot; &gt; /sys/class/leds/$led/brightness
+        logger &quot;WPS activated for 15s or until it gets a request&quot;
+
+        for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+        do
+            is_wps_active=`hostapd_cli -i $iface wps_get_status | grep &quot;PBC Status&quot; | cut -d &quot; &quot; -f 3`
+
+            if [ &quot;$is_wps_active&quot; != &quot;Active&quot; ]; then
+                    echo &quot;0&quot; &gt; /sys/class/leds/$led/brightness
+            fi
+
+            sleep 1
+        done
+
+        hostapd_cli -i $iface wps_cancel
+        logger &quot;WPS has been deactivated for interface: $iface&quot;
+        echo &quot;0&quot; &gt; /sys/class/leds/$led/brightness
+        sleep 3
+    else
+        logger &quot;WPS hasn't been activated because of some error.&quot;
+        exit 1
+    fi
+elif [ &quot;$SEEN&quot; -gt 2 ] &amp;&amp; [ &quot;$SEEN&quot; -lt 5 ]; then
+    # Interface for 5GHz WiFi
+    iface=&quot;wlan0&quot;
+
+    is_wps_led=`ls -al /sys/class/leds/ | grep wps | cut -d &quot; &quot; -f 30`
+    is_qss_led=`ls -al /sys/class/leds/ | grep qss | cut -d &quot; &quot; -f 30`
+
+    if [ ! -z &quot;$is_wps_led&quot; ]; then
+        logger &quot;WPS at $is_wps_led&quot;
+        led=&quot;$is_wps_led&quot;
+    elif [ ! -z &quot;$is_qss_led&quot; ]; then
+        logger &quot;WPS at $is_qss_led&quot;
+        led=&quot;$is_qss_led&quot;
+    fi
+
+    wps_state_iface=`hostapd_cli -i $iface get_config  2&gt;/dev/null | grep wps_state | cut -d= -f2`
+
+    if [ &quot;$wps_state_iface&quot; = &quot;disabled&quot; ]; then
+        logger &quot;The WPS feature is disabled, please enable it in the /etc/config/wireless file.&quot;
+            exit 1
+    elif [ &quot;$wps_state_iface&quot; = &quot;configured&quot; ]; then
+
+        logger &quot;Enabling WPS for interface: $iface&quot;
+        hostapd_cli -i $iface -p /var/run/hostapd/ wps_pbc
+
+        echo &quot;255&quot; &gt; /sys/class/leds/$led/brightness
+        logger &quot;WPS activated for 15s or until it gets a request&quot;
+
+        for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+        do
+            is_wps_active=`hostapd_cli -i $iface wps_get_status | grep &quot;PBC Status&quot; | cut -d &quot; &quot; -f 3`
+
+            if [ &quot;$is_wps_active&quot; != &quot;Active&quot; ]; then
+                    echo &quot;0&quot; &gt; /sys/class/leds/$led/brightness
+            fi
+
+            sleep 1
+        done
+
+        hostapd_cli -i $iface wps_cancel
+        logger &quot;WPS has been deactivated for interface: $iface&quot;
+        echo &quot;0&quot; &gt; /sys/class/leds/$led/brightness
+        sleep 3
+    else
+        exit 1
+    fi
+elif [ &quot;$SEEN&quot; -gt 5 -a &quot;$SEEN&quot; -lt 10 ]
+then
+    echo &quot;REBOOT&quot; &gt; /dev/console
+    /etc/init.d/statistics stop
+    sync
+    reboot
+
+elif [ &quot;$SEEN&quot; -gt 10 ]
+then
+    echo &quot;FACTORY RESET&quot; &gt; /dev/console
+    jffs2reset -y &amp;&amp; reboot &amp;
+fi
+
+return 0
+</code></pre>
+<p>Skrypt obszerny bo i sporo akcji jest przypisanych do tego przycisku <code>wps</code> . Mamy tam w sumie
+cztery, z czego dwie (restart i
+<a href="https://morfikov.github.io
+/post/reset-ustawien-w-openwrt-firstboot/">firstboot</a>) są standardowe. My
+dodaliśmy tam te dwa pierwsze bloki. Kluczowe w nich jest ustawienie zmiennej <code>iface</code> , która
+odpowiada za interfejs bezprzewodowy. Oczywiście w powyższym przypadku mamy dwa radia: 2,4 GHz oraz
+5 GHz. Sporo routerów nie obsługuje dwóch pasm, zatem jeden z tych dwóch pierwszych bloków można
+usunąć.</p>
+<p>Po wciśnięciu przycisku <code>wps</code> sprawdzane są kolejno warunki. W przypadku, gdy WPS jest włączony w
+konfiguracji WiFi w pliku <code>/etc/config/wireless</code> , zostaje on aktywowany i zapalana jest dioda WPS
+na routerze. Następnie przez 15 sekund (co 1 sekundę) sprawdzana jest aktywność WPS. Można sobie
+dostosować zarówno interwał jak i długość okresu ale nie więcej niż 120 sekund. Po tym jak WPS
+został aktywowany, mogą wystąpić dwa zdarzenia. WPS może przejść w stan spoczynku z powodu wybicia
+zegara. Zwykle ma to miejsce, gdy urządzenia nie zdążyły się sparować w czasie przeznaczonym dla
+tego procesu. Może także się zdarzyć tak, że parowanie urządzeń przebiegnie w krótszym czasie niż
+ustawione wyżej 15 sekund. W obu przypadkach nie potrzebujemy, by WPS był dalej aktywny i może on
+zostać wyłączony. Następnie gaszona jest również dioda sygnalizując tym samym, że WPS nie jest już
+dłużej aktywny.</p>
+<h2 id="konfiguracja-wps-na-kliencie">Konfiguracja WPS na kliencie</h2>
+<p>Praktycznie wszystkie systemy linux'owe wykorzystują do konfiguracji połączenia bezprzewodowego
+narzędzie <code>wpasupplicant</code> dostępnego w pakiecie pod tą samą nazwą. Z tym, że sprawa dotyczy tych
+maszyn, które nie używają automatów w stylu
+<a href="https://wiki.gnome.org/Projects/NetworkManager">network-manager</a> czy
+<a href="https://launchpad.net/wicd">wicd</a>. Tam raczej nie powinno być problemów ze skonfigurowaniem sieci
+WiFi na stacjach klienckich. Jeśli jednak nie korzystamy z tych powyższych automatów, to musimy
+utworzyć plik <code>/etc/wpa_supplicant/wpa_supplicant.conf</code> i wrzucić do niego poniższą linijkę:</p>
+<pre><code>update_config=1
+</code></pre>
+<p>Powyższy parametr nakazuje narzędziu <code>wpasupplicant</code> , by zaktualizował ten plik o wartości, które
+otrzyma za sprawą protokołu WPS. Po uzupełnieniu tego pliku, połączenie zostanie ustanowione w
+oparciu o te dane. Jedyny problem jaki jest z powyższą opcją, to taki, że czyści ona wszelkie
+komentarze jakie mamy w tym pliku.</p>
+<p>Można też zrezygnować z pliku <code>/etc/wpa_supplicant/wpa_supplicant.conf</code> całkowicie, tylko wtedy za
+każdym razem, gdy będziemy się podłączać do sieci, trzeba będzie wciskać przyciski, by na nowo
+powiązać urządzenia.</p>
+<p>Teraz jeszcze potrzebujemy konfiguracji dla interfejsu sieciowego w pliku <code>/etc/network/interfaces</code>
+:</p>
+<pre><code>auto wlan1
+allow-hotplug wlan1
+iface wlan1 inet dhcp
+      wpa-driver nl80211
+      wpa-debug-level -1
+      wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+</code></pre>
+<h2 id="parowanie-urządzeń">Parowanie urządzeń</h2>
+<p>Podłączamy kartę do PC i skanujemy eter w poszukiwaniu sieci:</p>
+<pre><code># wpa_cli scan_results
+Selected interface 'wlan1'
+bssid / frequency / signal level / flags / ssid
+...
+e8:94:f6:68:79:f0       2447    -33     [WPA2-PSK-CCMP][WPS-PBC][ESS]       Winter Is Coming
+...
+</code></pre>
+<p>Jak widzimy wyżej, <code>[WPS-PBC]</code>sugeruje, że opcja WPS jest aktywowana oraz, że korzystamy z
+przycisków. W przypadku gdyby tam widniał sam <code>[WPS]</code> , oznaczałoby to, że wykorzystywany jest PIN.
+Dlatego też dobrze jest zwrócić na ten szczegół uwagę po naciśnięciu przycisku WPS.</p>
+<p>Ze względów bezpieczeństwa dobrze jest najpierw wciskać przycisk na kliencie, a dopiero na routerze.
+Jeśli router wykryje co najmniej dwa klienty oczekujące na konfigurację przez protokół WPS, żaden z
+nich jej nie otrzyma po wciśnięciu przycisku na routerze. Tego typu zachowanie ma zapobiec wyciekowi
+poufnych danych na wypadek, gdyby ktoś czekał na naciśnięcie przez nas przycisku.</p>
+<h3 id="wps-pbc-bez-przycisków">WPS PBC bez przycisków</h3>
+<p>Naturalnie nie musimy przyciskać przycisków na obudowach, by sparować urządzenia. Tę akcję możemy
+zwyczajnie zasymulować. W tym celu, na maszynie klienckiej wydajemy poniższe polecenie:</p>
+<pre><code># wpa_cli wps_pbc
+Selected interface 'wlan1'
+OK
+</code></pre>
+<p>Na routerze również możemy zasymulować wciśnięcie przycisku:</p>
+<pre><code># hostapd_cli wps_get_status
+Selected interface 'wlan0'
+PBC Status: Disabled
+Last WPS result: None
+
+# hostapd_cli wps_pbc
+Selected interface 'wlan0'
+OK
+
+# hostapd_cli wps_get_status
+Selected interface 'wlan0'
+PBC Status: Active
+Last WPS result: None
+</code></pre>
+<p>Czas przewidziany na parowanie urządzeń to równo dwie minuty. Podczas tego okresu musimy wcisnąć
+przyciski na drugim urządzeniu. Jeśli nie zmieścimy się w tym przedziale, na routerze będziemy mogli
+odczytać poniższą wiadomość:</p>
+<pre><code># hostapd_cli wps_get_status
+Selected interface 'wlan0'
+PBC Status: Timed-out
+Last WPS result: None
+</code></pre>
+<p>Po rozpoczęciu procesu parowania, diody na karcie oraz routerze powinny zacząć migać. Po chwili
+powinien zostać uzupełniony plik <code>/etc/wpa_supplicant/wpa_supplicant.conf</code> . Sprawdźmy czy tak się
+stało:</p>
+<pre><code>ctrl_interface=/var/run/wpa_supplicant
+update_config=1
+
+network={
+      ssid=&quot;Winter Is Coming&quot;
+      psk=krotszego-hasla-to-juz-nie-bylo?
+      proto=RSN
+      key_mgmt=WPA-PSK
+      pairwise=CCMP
+      auth_alg=OPEN
+}
+</code></pre>
+<p>Mamy zatem skonfigurowane parametry dla sieci WiFi. Teraz tylko zresetujmy interfejs sieciowy by
+dostać adres IP:</p>
+<pre><code># ifdown wlan1
+
+# ifup wlan1
+...
+DHCPACK from 192.168.1.1
+bound to 192.168.1.207 -- renewal in 36711 seconds.
+</code></pre>
+<h3 id="stan-spoczynku-wps">Stan spoczynku WPS</h3>
+<p>Po dokonaniu konfiguracji, WPS automatycznie przechodzi w stan spoczynku i drugie urządzenie, które
+by chciało skorzystać i potajemnie wtargnąć do naszej sieci, nie będzie miało takiej możliwości.
+Jeśli wydamy poniższe polecenie na routerze:</p>
+<pre><code># hostapd_cli wps_get_status
+Selected interface 'wlan0'
+PBC Status: Disabled
+Last WPS result: Success
+Peer Address: e8:94:f6:1e:15:e9
+</code></pre>
+<p>Możemy dostrzec <code>Peer Address</code>. Dobrze jest zweryfikować tego MACa ale nawet bez tego będzie wiadomo
+czy komuś przez przypadek udało się uzyskać dostęp do naszej sieci via WPS, bo wtedy my go
+zwyczajnie nie uzyskamy.</p>
+<h3 id="przerwanie-procesu-parowania-urządzeń">Przerwanie procesu parowania urządzeń</h3>
+<p>W przypadku gdybyśmy przez przypadek aktywowali funkcję WPS, istnieje możliwość ręcznego przerwania
+procesu parowania urządzeń i nie trzeba czekać 2 minuty aż ten proces się zakończy sam z siebie.
+Wystarczy na routerze wpisać poniższe polecenie:</p>
+<pre><code># hostapd_cli wps_cancel
+Selected interface 'wlan0'
+OK
+</code></pre>
+<h2 id="a-co-z-pinem">A co z PIN'em?</h2>
+<p>Jeśli ktoś jednak chciałby korzystać z PIN'u, to może naturalnie z niego korzystać, tylko przydałoby
+się pierw ustalić czy nasz router posiada mechanizm zabezpieczający przed wprowadzaniem zbyt wielu
+błędnych kodów PIN pod rząd. Jeśli tak, to na jaki czas zostaje zablokowana funkcja WPS. Można to
+ustalić posługując się narzędziem <code>reaver</code> . Nie będę tutaj opisywał całego procesu, jedynie to w
+jaki sposób ustalić czas WPS LOCK:</p>
+<pre><code># reaver -i mon0 -b E8:94:F6:68:79:F0 -vv -c 8 --lock-delay 10
+# reaver -i mon0 -b E8:94:F6:68:79:F0 -vv -c 8 --lock-delay 30
+# reaver -i mon0 -b E8:94:F6:68:79:F0 -vv -c 8 --lock-delay 50
+# reaver -i mon0 -b E8:94:F6:68:79:F0 -vv -c 8 --lock-delay 60
+# reaver -i mon0 -b E8:94:F6:68:79:F0 -vv -c 8 --lock-delay 50
+</code></pre>
+<p>Dostrajamy odpowiednio parametr <code>--lock-delay</code> zwiększając czas, a ten jest w sekundach. Jeśli będą
+wyrzucane komunikaty o zablokowaniu WPS, trzeba zwiększyć odstępy czasu, aż do chwili, gdy nie
+będziemy łapać się na WPS LOCK. Trzeba jednak pamiętać, że nawet w przypadku WPS LOCK ustawionego
+na 60 sekund na przeskanowanie 11000 możliwości, potrzeba 660000 sekund, czyli nieco ponad 7 dni.
+Biorąc pod uwagę średnią, złamanie PIN'u potrwa maksymalnie 4 dni.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wps/">wps</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wifi/">wifi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chaos-calmer/">chaos-calmer</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">router</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fwps-czyli-wifi-protected-setup-w-openwrt%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwps-czyli-wifi-protected-setup-w-openwrt%2f&amp;text=WPS%2c%20czyli%20WiFi%20Protected%20Setup%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwps-czyli-wifi-protected-setup-w-openwrt%2f&amp;title=WPS%2c%20czyli%20WiFi%20Protected%20Setup%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwps-czyli-wifi-protected-setup-w-openwrt%2f&amp;title=WPS%2c%20czyli%20WiFi%20Protected%20Setup%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwps-czyli-wifi-protected-setup-w-openwrt%2f&title=WPS%2c%20czyli%20WiFi%20Protected%20Setup%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwps-czyli-wifi-protected-setup-w-openwrt%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwps-czyli-wifi-protected-setup-w-openwrt%2f&amp;title=WPS%2c%20czyli%20WiFi%20Protected%20Setup%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwps-czyli-wifi-protected-setup-w-openwrt%2f&description=WPS%2c%20czyli%20WiFi%20Protected%20Setup%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/siec-bezprzewodowa-wifi-w-openwrt-wlan/">Sieć bezprzewodowa WiFi w OpenWRT (WLAN)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/automatyczna-blokada-internetu-lte-w-openwrt/">Automatyczna blokada internetu LTE w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/podzial-switcha-na-kilka-vlan-w-openwrt/">Podział switch&#39;a na kilka VLAN&#39;ów w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-sieciowych-w-openwrt/">Konfiguracja interfejsów sieciowych w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-sklonowac-adres-mac-w-openwrt/">Jak sklonować adres MAC w OpenWRT</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

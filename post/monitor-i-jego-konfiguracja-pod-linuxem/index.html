@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Monitor i jego konfiguracja pod linux&#39;em | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Monitor i jego konfiguracja pod linux&#39;em" />
+<meta property="og:description" content="Obecnie w linux&#39;ach spora cześć sprzętu jest rozpoznawana prawidłowo, a my nie musimy poświęcać
+czasu na dodatkową konfigurację. Domyślne ustawienia sprawdzają się praktycznie za każdym razem, gdy
+w grę nie wchodzi nic bardziej zaawansowanego. W tym wpisie rzucimy okiem na konfigurację Xserver&#39;a,
+która dotyczyć będzie wyświetlanego obrazu na monitorze. Pośrednio też będziemy musieli
+skonfigurować sobie kartę graficzną, bo to ona jest odpowiedzialna w dużej mierze za to, co jest
+odbierane przez nasz monitor." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/monitor-i-jego-konfiguracja-pod-linuxem/" />
+<meta property="article:published_time" content="2016-01-04T18:02:20+00:00" />
+<meta property="article:modified_time" content="2016-01-04T18:02:20+00:00" />
+
+		<meta itemprop="name" content="Monitor i jego konfiguracja pod linux&#39;em">
+<meta itemprop="description" content="Obecnie w linux&#39;ach spora cześć sprzętu jest rozpoznawana prawidłowo, a my nie musimy poświęcać
+czasu na dodatkową konfigurację. Domyślne ustawienia sprawdzają się praktycznie za każdym razem, gdy
+w grę nie wchodzi nic bardziej zaawansowanego. W tym wpisie rzucimy okiem na konfigurację Xserver&#39;a,
+która dotyczyć będzie wyświetlanego obrazu na monitorze. Pośrednio też będziemy musieli
+skonfigurować sobie kartę graficzną, bo to ona jest odpowiedzialna w dużej mierze za to, co jest
+odbierane przez nasz monitor.">
+<meta itemprop="datePublished" content="2016-01-04T18:02:20+00:00" />
+<meta itemprop="dateModified" content="2016-01-04T18:02:20+00:00" />
+<meta itemprop="wordCount" content="1798">
+
+
+
+<meta itemprop="keywords" content="xserver,monitor," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Monitor i jego konfiguracja pod linux&#39;em"/>
+<meta name="twitter:description" content="Obecnie w linux&#39;ach spora cześć sprzętu jest rozpoznawana prawidłowo, a my nie musimy poświęcać
+czasu na dodatkową konfigurację. Domyślne ustawienia sprawdzają się praktycznie za każdym razem, gdy
+w grę nie wchodzi nic bardziej zaawansowanego. W tym wpisie rzucimy okiem na konfigurację Xserver&#39;a,
+która dotyczyć będzie wyświetlanego obrazu na monitorze. Pośrednio też będziemy musieli
+skonfigurować sobie kartę graficzną, bo to ona jest odpowiedzialna w dużej mierze za to, co jest
+odbierane przez nasz monitor."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Monitor i jego konfiguracja pod linux&#39;em</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-01-04T18:02:20Z">Opublikowano: 04/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Monitor i jego konfiguracja pod linux&#39;em</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#konfiguracja-xservera">Konfiguracja Xserver'a</a>
+      <ol>
+        <li><a href="#różnica-między-monitor-i-screen">Różnica między Monitor i Screen</a></li>
+        <li><a href="#konfiguracja-sekcji-device">Konfiguracja sekcji Device</a>
+          <ol>
+            <li><a href="#jak-ustalić-busid-karty-graficznej">Jak ustalić BusID karty graficznej</a></li>
+          </ol>
+        </li>
+        <li><a href="#konfiguracja-sekcji-monitor">Konfiguracja sekcji Monitor</a>
+          <ol>
+            <li><a href="#modeline">Modeline</a></li>
+          </ol>
+        </li>
+        <li><a href="#konfiguracja-sekcji-screen">Konfiguracja sekcji Screen</a></li>
+        <li><a href="#display-power-management-signaling-dpms">Display Power Management Signaling (DPMS)</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Obecnie w linux'ach spora cześć sprzętu jest rozpoznawana prawidłowo, a my nie musimy poświęcać
+czasu na dodatkową konfigurację. Domyślne ustawienia sprawdzają się praktycznie za każdym razem, gdy
+w grę nie wchodzi nic bardziej zaawansowanego. W tym wpisie rzucimy okiem na konfigurację Xserver'a,
+która dotyczyć będzie wyświetlanego obrazu na monitorze. Pośrednio też będziemy musieli
+skonfigurować sobie kartę graficzną, bo to ona jest odpowiedzialna w dużej mierze za to, co jest
+odbierane przez nasz monitor.</p>
+<h2 id="konfiguracja-xservera">Konfiguracja Xserver'a</h2>
+<p>Zainstalowanie sterowników do karty graficznej nie zawsze wystarcza. Zwłaszcza w przypadku, gdy mamy
+do czynienia z tymi o zamkniętym kodzie źródłowym. Te otwarte odpowiedniki powinny działać
+automatycznie. Tak czy inaczej, poniżej jest przykładowa konfiguracja, którą można obrać sobie jako
+punkt wyjścia. Tworzymy zatem plik <code>/etc/X11/xorg.conf.d/20-monitor.conf</code> , w którym to dodajemy tę
+poniższą treść:</p>
+<pre><code>Section &quot;Device&quot;
+      Identifier  &quot;Device0&quot;
+      Driver      &quot;intel&quot;
+      BusID       &quot;PCI:0:2:0&quot;
+      Option      &quot;Backlight&quot; &quot;acpi_video0&quot;
+EndSection
+
+Section &quot;Monitor&quot;
+      Identifier   &quot;LVDS1&quot;
+
+#     DisplaySize 344 193
+      Modeline &quot;1366x768x60.0-manual&quot;  69.30  1366 1398 1422 1432  768 771 775 806  -HSync +Vsync
+      Option &quot;PreferredMode&quot; &quot;1366x768x60.0-manual&quot;
+
+#     Option      &quot;VendorName&quot;      &quot;&quot;
+#     Option      &quot;ModelName&quot;       &quot;&quot;
+      Option      &quot;DPMS&quot;            &quot;true&quot;
+#     Option      &quot;HorizSync&quot;       &quot;30-81&quot;
+#     Option      &quot;VertRefresh&quot;     &quot;56-75&quot;
+#     Option      &quot;Position&quot;  &quot;0 0&quot;
+#     Option      &quot;LeftOf&quot;    &quot;VGA1&quot;
+#     Option      &quot;Rotate&quot;    &quot;normal&quot;
+#     Option      &quot;Gamma&quot;     &quot;1.0&quot;
+#     Option      &quot;Enable&quot;    &quot;true&quot;
+#     Option      &quot;Ignore&quot;    &quot;false&quot;
+#     Option      &quot;Primary&quot;   &quot;true&quot;
+EndSection
+
+Section &quot;Screen&quot;
+    Identifier     &quot;Screen0&quot;
+    Device         &quot;Device0&quot;
+    Monitor        &quot;LVDS1&quot;
+    DefaultDepth    24
+    SubSection     &quot;Display&quot;
+            Depth     24
+            Modes     &quot;1366x768x60.0-manual&quot;
+    EndSubSection
+EndSection
+</code></pre>
+<p>Wyżej mamy określone trzy sekcje: <code>Monitor</code> , <code>Device</code> oraz <code>Screen</code> . By ta konfiguracja byłą
+spójna i miała sens, musimy zwracać uwagę na identyfikatory, których używamy. W sekcji <code>Screen</code> ,
+na pozycjach <code>Device</code> oraz <code>Monitor</code> są wartości ustawione w <code>Identifier</code> w poprzednich dwóch
+sekcjach. Sekcja <code>Monitor</code> odpowiada za konfigurację monitora, zaś sekcja <code>Device</code> za konfigurację
+karty graficznej.</p>
+<h3 id="różnica-między-monitor-i-screen">Różnica między Monitor i Screen</h3>
+<p>Kluczowe też jest zrozumienie różnicy między użytymi wyżej pojęciami <code>Monitor</code> i <code>Screen</code> .
+<code>Monitor</code> to fizyczny obiekt, który zwykle swoi na biurku. Natomiast <code>Screen</code> wiąże ze sobą monitor
+z kartą graficzną. Jest to generalnie obraz karty graficznej, który musi zostać gdzieś wyświetlony.
+Do karty graficznej może być podpiętych szereg monitorów. Dlatego też wymagana jest konfiguracja
+każdego Screen'a. Mając skonfigurowanych kilka Screen'ów, możemy je ze sobą łączyć i otrzymać w ten
+sposób większy obraz, np. jego cześć może być wyświetlana na jednym monitorze, zaś druga część na
+drugim monitorze, itp. W taki sposób, mimo, że pracujemy na dwóch fizycznych monitorach, to tak
+naprawdę mamy do dyspozycji większą powierzchnię pulpitu.</p>
+<p>Parametry dla poszczególnych monitorów powinny być w miarę zbliżone, a najlepiej by były takie same,
+ewentualnie proporcjonalnie większe lub mniejsze. Wtedy nie ma większego problemu ze skalowaniem
+obrazu czy rozdzielaniem go na poszczególne monitory. Jeśli parametry sprzętu różnią się, to wtedy
+Screen może wyglądać tak jak ten poniżej:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/01/1.monitor-screen-arandr.png" alt=""></p>
+<p>W taki sposób nie damy rady, np. rozdzielić filmu na oba monitory bez obcinania kawałka obrazu, lub
+całkowitego wypełnienia obu monitorów. Podobnie sprawa ma się w przypadku powielania obrazu na oba
+te urządzenia, bo na tym mniejszym monitorze, obraz będzie lekko obcięty. Niemniej jednak, jeśli
+potrzebujemy jedynie większej przestrzeni pulpitu w celu rozmieszczenia większej ilości okien, to
+różnice w parametrach monitorów nie mają większego znaczenia.</p>
+<h3 id="konfiguracja-sekcji-device">Konfiguracja sekcji Device</h3>
+<p>W zależności od posiadanej karty graficznej, będziemy mieć do wyboru różne sterowniki. Te z kolei
+podzielić można na dwie grupy: opensource oraz proprietary (własnościowe). Pierwsza grupa zwykle
+cechuje się sporo gorszą wydajnością niż ta druga. Z kolei jeśli chodzi o sterowniki własnościowe,
+to w debianie one oficjalnie nie są wspierane i generują całą masę problemów.</p>
+<p>Po zainstalowaniu odpowiednich sterowników, będziemy musieli skonfigurować sobie sekcję <code>Device</code> w
+utworzonym wcześniej pliku konfiguracyjnym. <a href="https://wiki.debian.org/Xorg">W zależności od wybranych
+sterowników</a>, wartość parametru <code>Driver</code> ulegnie zmianie. To, jakie
+wartości mogą zostać określone, można znaleźć w katalogu <code>/usr/lib/xorg/modules/drivers/</code> . Mamy tam
+przykładowo <code>intel_drv.so</code> . Obcinamy <code>_drv.so</code> , a pozostałą cześć wpisujemy w linijce z <code>Driver</code> .</p>
+<p>Przyjrzyjmy się zatem bliżej sekcji <code>Device</code> . Dla przypomnienia wygląda ona mniej więcej tak:</p>
+<pre><code>Section &quot;Device&quot;
+      Identifier  &quot;Device0&quot;
+      Driver      &quot;intel&quot;
+      BusID       &quot;PCI:0:2:0&quot;
+      Option      &quot;Backlight&quot; &quot;acpi_video0&quot;
+EndSection
+</code></pre>
+<p>Wszystkie możliwe do skonfigurowania opcje są opisane w <a href="ftp://www.x.org/pub/X11R6.8.2/doc/xorg.conf.5.html#sect7">man
+xorg.conf</a>. Tutaj opiszę tylko te wyżej
+wymienione:</p>
+<ul>
+<li><code>Identifier</code> to identyfikator. Można wpisać dowolną frazę.</li>
+<li><code>Driver</code> odpowiada za użyty sterownik. Zwykle tylko tę opcję będziemy musieli dostosować.</li>
+<li><code>BusID</code> określa adres karty graficznej.</li>
+</ul>
+<p>Możemy także definiować szereg opcji za pomocą <code>Option</code> . Wyżej mamy zdefiniowany jedynie
+<code>&quot;Backlight&quot;</code> , który odpowiada za manipulację jasnością matrycy w laptopie. Czasem w katalogu
+<code>/sys/class/backlight/</code> może znaleźć się kila dowiązań i system może korzystać nie z tego modułu co
+potrzeba pociągając za sobą szereg problemów z zapisywaniem ustawień jasności monitora. Precyzując
+tę opcję tutaj, możemy określić z którego sterownika system ma korzystać.</p>
+<h4 id="jak-ustalić-busid-karty-graficznej">Jak ustalić BusID karty graficznej</h4>
+<p>Jeśli chodzi zaś o <code>BusID</code> , to zwykle system potrafi bez problemu określić ścieżkę do karty
+graficznej. Niemniej jednak, nie stanowi problemu odszukanie jej w sposób manualny. Zapis jaki
+musimy podać Xserver'owi ma być w formie <code>PCI:bus:device:function</code> . Potrzebne wartości możemy
+odczytać z wyjścia <code>lspci</code> , przykładowo:</p>
+<pre><code>$ lspci | grep VGA
+00:02.0 VGA compatible controller: Intel Corporation Core Processor Integrated Graphics Controller (rev 02)
+</code></pre>
+<p>W <a href="http://manpages.ubuntu.com/manpages/wily/en/man8/lspci.8.html">man lspci</a> możemy odszukać
+informację, że ten numerek na początku ma format <code>[domain:]bus:device.function</code> , czyli pasuje do
+tego, który mamy podać Xserver'owi, z tym, że <code>.</code> zamieniamy na <code>:</code> . Dodatkowo, wartości na wyjściu
+<code>lspci</code> są w hexach. Natomiast Xserver korzysta z systemu dziesiętnego i te wartości trzeba pierw
+przekonwertować. Mamy zatem trzy pozycje: <code>00</code> -&gt; <code>0</code> , <code>02</code> -&gt; <code>2</code> oraz <code>0</code> -&gt; <code>0</code> . W taki
+sposób otrzymujemy <code>0:2:0</code> , gdzie na początku doklejamy <code>PCI:</code> i tę frazę dodajemy do pliku
+konfiguracyjnego.</p>
+<h3 id="konfiguracja-sekcji-monitor">Konfiguracja sekcji Monitor</h3>
+<p>Sekcja <code>Monitor</code> jest z reguły opcjonalna, gdy mamy do czynienia z jednym monitorem. Zwykle
+wszystkie jego parametry są wykrywane poprawnie. Czasem jednak chcielibyśmy zmienić natywną
+rozdzielczość monitora, czy też przyciemnić go nieco, lub też rozjaśnić. Być może orientacja obrazu
+jest nie taka jak trzeba. To wszystko jesteśmy w stanie skonfigurować w tej sekcji. Dla
+przypomnienia, wygląda ona mniej więcej tak:</p>
+<pre><code>Section &quot;Monitor&quot;
+      Identifier   &quot;LVDS1&quot;
+
+#     DisplaySize 344 193
+      Modeline &quot;1366x768x60.0-manual&quot;  69.30  1366 1398 1422 1432  768 771 775 806  -HSync +Vsync
+      Option &quot;PreferredMode&quot; &quot;1366x768x60.0-manual&quot;
+
+#     Option      &quot;VendorName&quot;      &quot;&quot;
+#     Option      &quot;ModelName&quot;       &quot;&quot;
+      Option      &quot;DPMS&quot;            &quot;true&quot;
+#     Option      &quot;HorizSync&quot;       &quot;30-81&quot;
+#     Option      &quot;VertRefresh&quot;     &quot;56-75&quot;
+#     Option      &quot;Position&quot;  &quot;0 0&quot;
+#     Option      &quot;LeftOf&quot;    &quot;VGA1&quot;
+#     Option      &quot;Rotate&quot;    &quot;normal&quot;
+#     Option      &quot;Gamma&quot;     &quot;1.0&quot;
+#     Option      &quot;Enable&quot;    &quot;true&quot;
+#     Option      &quot;Ignore&quot;    &quot;false&quot;
+#     Option      &quot;Primary&quot;   &quot;true&quot;
+EndSection
+</code></pre>
+<p>Poniżej znajduje się wyjaśnienie użytych opcji, zaś opis wszystkich można naturalnie odszukać w <a href="ftp://www.x.org/pub/X11R6.8.2/doc/xorg.conf.5.html#sect9">man
+xorg.conf</a>:</p>
+<ul>
+<li><code>Identifier</code> to identyfikator. Można wpisać dowolną frazę.</li>
+<li><code>DisplaySize</code> określa wymiary (mm) tej części monitora, na której jest wyświetlany obraz. Gdy
+ten parametr zostanie określony, na jego podstawie zostaną także wyliczone DPI.</li>
+<li><code>Modeline</code> odpowiada za <a href="https://pl.wikipedia.org/wiki/EDID">informacje EDID</a>.</li>
+<li><code>PreferredMode</code> określa preferowany tryb pracy monitora.</li>
+<li><code>VendorName</code> oraz <code>ModelName</code> określają producenta i model monitora.</li>
+<li><code>DPMS</code> włącza funkcje DPMS (<a href="http://www.tldp.org/HOWTO/Battery-Powered/displaytypes.html">Display Power Management
+Signaling</a>) dla monitora.</li>
+<li><code>HorizSync</code> odpowiada za częstotliwość odchylania poziomego lub jej zakres.</li>
+<li><code>VertRefresh</code> odpowiada za częstotliwość synchronizacji pionowej lub jej zakres.</li>
+<li><code>Position</code> określa pozycję lewego górnego rogu obrazu monitora.</li>
+<li><code>LeftOf</code> , <code>RightOf</code> , <code>Below</code> i <code>Above</code> określają położenie względem innych monitorów.</li>
+<li><code>Rotate</code> umożliwia obrócenie obrazu o 90 (left), 180 (inverted) i 270 (right) stopni.</li>
+<li><code>Gamma</code> odpowiada za jasność obrazu. Zakres od 0.1 to 10.0 . Można także podać osobne wartości
+dla Red, Green, Blue.</li>
+<li><code>Enable</code> jeśli ustawiony, domyślnie włącza dany monitor.</li>
+<li><code>Ignore</code> jeśli ustawiony, ten monitor będzie ignorowany w całości.</li>
+<li><code>Primary</code> jeśli ustawiony, określa monitor jako główny.</li>
+</ul>
+<p>Nie wszystkie opcje w tej sekcji mogą być wspierane przez dany sterownik urządzenia.</p>
+<h4 id="modeline">Modeline</h4>
+<p>Przydałoby się jeszcze powiedzieć kilka słów na temat <code>Modeline</code> . Generalnie rzecz biorąc,
+wszystkie potrzebne wartości możemy odczytać z logu Xserver'a. Poniżej przykład:</p>
+<pre><code>[ 37422.916] (II) intel(0): clock: 69.3 MHz   Image Size:  344 x 193 mm
+[ 37422.916] (II) intel(0): h_active: 1366  h_sync: 1398  h_sync_end 1422 h_blank_end 1432 h_border: 0
+[ 37422.916] (II) intel(0): v_active: 768  v_sync: 771  v_sync_end 775 v_blanking: 806 v_border: 0
+</code></pre>
+<p>Na wiki znalazłem rozpiskę na temat <a href="https://en.wikipedia.org/wiki/XFree86_Modeline">formatu
+Modeline</a>. Wygląda on mniej więcej tak:</p>
+<pre><code>pclk hdisp hsyncstart hsyncend htotal vdisp vsyncstart vsyncend vtotal [flags]
+Flags (optional): +HSync, -HSync, +VSync, -VSync, Interlace, DoubleScan, CSync, +CSync, -CSync
+
+Option      &quot;Modeline&quot; &quot;1366x768x60.0&quot;  69.30  1366 1398 1422 1432  768 771 775 806  -HSync -Vsync
+                            (Label)     (clk)     (x-resolution)     (y-resolution)
+                                          |
+                                 (pixel clock in MHz)
+</code></pre>
+<p>Jeśli nie chce nam się ręcznie uzupełniać tych wartości w oparciu o log Xserver'a, to zawsze możemy
+skorzystać z narzędzi <code>cvt</code> lub <code>gtf</code> . Częstotliwość odświeżania tego monitora wynosi 60Hz. Wiemy
+to z powyższych parametrów. Wzór na wyliczenie częstotliwości jest następujący:
+69.30MHz/(1432*806)=69300000/(1432*806)=60.04Hz.</p>
+<p>Jak możemy wyczytać w podlinkowanym wyżej wpisie, ręczne ustawianie <code>Modeline</code> jest już
+przestarzałe, bo Xserver sam wylicza konkretne wartości podczas swojego startu w oparciu o
+<a href="https://en.wikipedia.org/wiki/Extended_Display_Identification_Data">zapytania EDID</a> oraz pozostałą
+konfigurację określoną w pliku konfiguracyjnym. Jeśli jednak chcemy ręcznie dodać nowy modeline, to
+musimy także zainteresować się sekcją <code>Screen</code> .</p>
+<h3 id="konfiguracja-sekcji-screen">Konfiguracja sekcji Screen</h3>
+<p>Pozostała nam jeszcze jedna sekcja do skonfigurowania i jest nią <code>Screen</code> . Jak już wspomnieliśmy,
+ma ona na celu spięcie monitora z kartą graficzną. Jakby ktoś zapomniał jak ona wygląda, to poniżej
+przypomnienie:</p>
+<pre><code>Section &quot;Screen&quot;
+    Identifier     &quot;Screen0&quot;
+    Device         &quot;Device0&quot;
+    Monitor        &quot;LVDS1&quot;
+    DefaultDepth    24
+    SubSection     &quot;Display&quot;
+            Depth     24
+            Modes     &quot;1366x768x60.0-manual&quot;
+    EndSubSection
+EndSection
+</code></pre>
+<p>Wszystkie parametry, jakie możemy skonfigurować w tej sekcji, również można odszukać w <a href="ftp://www.x.org/pub/X11R6.8.2/doc/xorg.conf.5.html#sect11">man
+xorg.conf</a>. Poniżej wyjaśnienie tych
+opcji, które zostały użyte wyżej:</p>
+<ul>
+<li><code>Identifier</code> to identyfikator.</li>
+<li><code>Device</code> musi pasować do pola <code>Identifier</code> w sekcji <code>Device</code> .</li>
+<li><code>Monitor</code> musi pasować do pola <code>Identifier</code> w sekcji <code>Monitor</code> .</li>
+<li><code>DefaultDepth</code> odpowiada za domyślną głębię kolorów.</li>
+</ul>
+<p>Mamy również określoną podsekcję z dwoma parametrami: <code>Depth</code> oraz <code>Modes</code> . Ten pierwszy jest
+podobny do <code>DefaultDepth</code> , zaś <code>Modes</code> przydaje się jedynie w przypadku definiowania własnych
+wartości dla modeline.</p>
+<h3 id="display-power-management-signaling-dpms">Display Power Management Signaling (DPMS)</h3>
+<p>Jeśli włączyliśmy w opcjach monitora DPMS, to potrzebujemy dodatkowej konfiguracji, która
+skonfiguruje nam zarządzenie energią tego urządzenia. W tym celu stwórzmy sobie dwie dodatkowe
+sekcje: <code>ServerLayout</code> oraz <code>ServerFlags</code> . Coś na wzór tych poniższych:</p>
+<pre><code>Section &quot;ServerLayout&quot;
+      Identifier &quot;Main&quot;
+      Screen      0 &quot;Screen0&quot;
+EndSection
+
+Section &quot;ServerFlags&quot;
+      Option &quot;DefaultServerLayout&quot; &quot;Main&quot;
+      Option &quot;BlankTime&quot; &quot;10&quot;
+      Option &quot;StandbyTime&quot; &quot;10&quot;
+      Option &quot;SuspendTime&quot; &quot;10&quot;
+      Option &quot;OffTime&quot; &quot;10&quot;
+EndSection
+</code></pre>
+<p>Wartość opcji <code>Screen</code> w sekcji <code>ServerLayout</code> musi pasować do wartości <code>Identifier</code> w sekcji
+<code>Screen</code> , którą zdefiniowaliśmy wyżej. Dodatkowo wartość opcji <code>DefaultServerLayout</code> ma wskazywać
+na <code>Identifier</code> w sekcji <code>ServerLayout</code> . W ten sposób jesteśmy w stanie definiować szereg flag dla
+Xserver'a. Poniżej wyjaśnienie użytych opcji:</p>
+<ul>
+<li><code>BlankTime</code> to czas wygaszenia monitora.</li>
+<li><code>StandbyTime</code> to czas, po którym monitor przejdzie w stan czuwania.</li>
+<li><code>SuspendTime</code> to czas, po którym monitor przejdzie w stan uśpienia.</li>
+<li><code>OffTime</code> to czas, po którym nastąpi wyłączenie monitora.</li>
+</ul>
+<p>Wszystkie określone wyżej czasy są w minutach. Zatem monitor powinien się wyłączyć po 10 minutach.
+Różnica pomiędzy poszczególnymi trybami pracy jest w <a href="http://www.shallowsky.com/linux/x-screen-blanking.html">poborze
+prądu</a>. Konfigurację DPMS możemy sprawdzić
+za pomocą <code>xset</code> , przykładowo:</p>
+<pre><code>$ xset -q
+...
+Screen Saver:
+  prefer blanking:  yes    allow exposures:  yes
+  timeout:  600    cycle:  600
+...
+DPMS (Energy Star):
+  Standby: 600    Suspend: 600    Off: 600
+  DPMS is Enabled
+  Monitor is On
+</code></pre>
+<p>Z kolei tutaj czasy są w sekundach, a 600 sekund to 10 minut.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xserver/">xserver</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/monitor/">monitor</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fmonitor-i-jego-konfiguracja-pod-linuxem%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmonitor-i-jego-konfiguracja-pod-linuxem%2f&amp;text=Monitor%20i%20jego%20konfiguracja%20pod%20linux%27em" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmonitor-i-jego-konfiguracja-pod-linuxem%2f&amp;title=Monitor%20i%20jego%20konfiguracja%20pod%20linux%27em" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmonitor-i-jego-konfiguracja-pod-linuxem%2f&amp;title=Monitor%20i%20jego%20konfiguracja%20pod%20linux%27em" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmonitor-i-jego-konfiguracja-pod-linuxem%2f&title=Monitor%20i%20jego%20konfiguracja%20pod%20linux%27em" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmonitor-i-jego-konfiguracja-pod-linuxem%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmonitor-i-jego-konfiguracja-pod-linuxem%2f&amp;title=Monitor%20i%20jego%20konfiguracja%20pod%20linux%27em" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmonitor-i-jego-konfiguracja-pod-linuxem%2f&description=Monitor%20i%20jego%20konfiguracja%20pod%20linux%27em" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wylaczyc-monitor-z-linii-polecen/">Jak wyłączyć monitor z linii poleceń</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-touchpada-w-laptopie-pod-linuxem/">Konfiguracja touchpad&#39;a w laptopie pod linux&#39;em</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/szyfrowanie-ruchu-do-xservera-przy-pomocy-ssh/">Szyfrowanie ruchu do Xserver&#39;a przy pomocy SSH</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/xauth-i-xhost-na-strazy-bezpieczenstwa-xservera/">Xauth i xhost na straży bezpieczeństwa Xserver&#39;a</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wine-w-kontenerze-lxc/">Wine w kontenerze LXC</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

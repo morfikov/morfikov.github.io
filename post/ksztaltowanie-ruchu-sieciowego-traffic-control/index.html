@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Kształtowanie ruchu sieciowego (Traffic Control) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Kształtowanie ruchu sieciowego (Traffic Control)" />
+<meta property="og:description" content="Każdy z nas chciałby, aby jego sieć działała możliwie szybko i bezproblemowo. W przypadku, gdy łącze
+nie jest zbytnio obciążone, a my jesteśmy jedynym użytkownikiem internetu, to nie doświadczymy
+raczej żadnych problemów z połączeniem. Rzecz w tym, że im więcej użytkowników ma nasza sieć, tym
+większe prawdopodobieństwo, że zostanie ona przeciążona, tj. będziemy chcieli przesyłać więcej
+danych niż sieć jest w stanie obsłużyć. W ten sposób zaczną pojawiać się kolejki pakietów na
+interfejsach, których obsługa zajmuje trochę czasu. Rosą zatem opóźnienia, które są bardzo
+odczuwalne w momencie, gdy ktoś lubi sobie pograć w różnego rodzaju gry online. Innym problemem może
+być sieć P2P, gdzie pojedynczy host z naszej sieci może nawiązywać dziesiątki czy nawet setki
+połączeń i tym samym zapychać łącze nie dając szansy innym użytkownikom na komfortowe korzystanie
+z internetu. W obu przypadkach może nam pomóc kształtowanie ruchu
+sieciowego (Traffic Control), która jest w stanie nadać pakietom
+odpowiedni priorytet, tak by część z nich nie musiała czekać zbyt długo w kolejce. W tym wpisie
+przyjrzymy się bliżej temu mechanizmowi." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/ksztaltowanie-ruchu-sieciowego-traffic-control/" />
+<meta property="article:published_time" content="2015-12-15T20:40:52+00:00" />
+<meta property="article:modified_time" content="2015-12-15T20:40:52+00:00" />
+
+		<meta itemprop="name" content="Kształtowanie ruchu sieciowego (Traffic Control)">
+<meta itemprop="description" content="Każdy z nas chciałby, aby jego sieć działała możliwie szybko i bezproblemowo. W przypadku, gdy łącze
+nie jest zbytnio obciążone, a my jesteśmy jedynym użytkownikiem internetu, to nie doświadczymy
+raczej żadnych problemów z połączeniem. Rzecz w tym, że im więcej użytkowników ma nasza sieć, tym
+większe prawdopodobieństwo, że zostanie ona przeciążona, tj. będziemy chcieli przesyłać więcej
+danych niż sieć jest w stanie obsłużyć. W ten sposób zaczną pojawiać się kolejki pakietów na
+interfejsach, których obsługa zajmuje trochę czasu. Rosą zatem opóźnienia, które są bardzo
+odczuwalne w momencie, gdy ktoś lubi sobie pograć w różnego rodzaju gry online. Innym problemem może
+być sieć P2P, gdzie pojedynczy host z naszej sieci może nawiązywać dziesiątki czy nawet setki
+połączeń i tym samym zapychać łącze nie dając szansy innym użytkownikom na komfortowe korzystanie
+z internetu. W obu przypadkach może nam pomóc kształtowanie ruchu
+sieciowego (Traffic Control), która jest w stanie nadać pakietom
+odpowiedni priorytet, tak by część z nich nie musiała czekać zbyt długo w kolejce. W tym wpisie
+przyjrzymy się bliżej temu mechanizmowi.">
+<meta itemprop="datePublished" content="2015-12-15T20:40:52+00:00" />
+<meta itemprop="dateModified" content="2015-12-15T20:40:52+00:00" />
+<meta itemprop="wordCount" content="2032">
+
+
+
+<meta itemprop="keywords" content="iptables,systemd,sieć,cgroups,qos," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Kształtowanie ruchu sieciowego (Traffic Control)"/>
+<meta name="twitter:description" content="Każdy z nas chciałby, aby jego sieć działała możliwie szybko i bezproblemowo. W przypadku, gdy łącze
+nie jest zbytnio obciążone, a my jesteśmy jedynym użytkownikiem internetu, to nie doświadczymy
+raczej żadnych problemów z połączeniem. Rzecz w tym, że im więcej użytkowników ma nasza sieć, tym
+większe prawdopodobieństwo, że zostanie ona przeciążona, tj. będziemy chcieli przesyłać więcej
+danych niż sieć jest w stanie obsłużyć. W ten sposób zaczną pojawiać się kolejki pakietów na
+interfejsach, których obsługa zajmuje trochę czasu. Rosą zatem opóźnienia, które są bardzo
+odczuwalne w momencie, gdy ktoś lubi sobie pograć w różnego rodzaju gry online. Innym problemem może
+być sieć P2P, gdzie pojedynczy host z naszej sieci może nawiązywać dziesiątki czy nawet setki
+połączeń i tym samym zapychać łącze nie dając szansy innym użytkownikom na komfortowe korzystanie
+z internetu. W obu przypadkach może nam pomóc kształtowanie ruchu
+sieciowego (Traffic Control), która jest w stanie nadać pakietom
+odpowiedni priorytet, tak by część z nich nie musiała czekać zbyt długo w kolejce. W tym wpisie
+przyjrzymy się bliżej temu mechanizmowi."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Kształtowanie ruchu sieciowego (Traffic Control)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-12-15T20:40:52Z">Opublikowano: 15/12/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Kształtowanie ruchu sieciowego (Traffic Control)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#problematyczna-sieć-torrent">Problematyczna sieć Torrent</a></li>
+    <li><a href="#kształtowanie-ruchu-wychodzącego">Kształtowanie ruchu wychodzącego</a>
+      <ol>
+        <li><a href="#target--j-classify">Target -j CLASSIFY</a></li>
+        <li><a href="#cgroups">Cgroups</a>
+          <ol>
+            <li><a href="#kształtowanie-ruchu-w-systemd">Kształtowanie ruchu w systemd</a></li>
+            <li><a href="#kształtowanie-ruchu-bez-systemd">Kształtowanie ruchu bez systemd</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#interfejsy-imq">Interfejsy IMQ</a></li>
+    <li><a href="#interfejsy-ifb">Interfejsy IFB</a></li>
+    <li><a href="#quantum-oraz-r2q">Quantum oraz r2q</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Każdy z nas chciałby, aby jego sieć działała możliwie szybko i bezproblemowo. W przypadku, gdy łącze
+nie jest zbytnio obciążone, a my jesteśmy jedynym użytkownikiem internetu, to nie doświadczymy
+raczej żadnych problemów z połączeniem. Rzecz w tym, że im więcej użytkowników ma nasza sieć, tym
+większe prawdopodobieństwo, że zostanie ona przeciążona, tj. będziemy chcieli przesyłać więcej
+danych niż sieć jest w stanie obsłużyć. W ten sposób zaczną pojawiać się kolejki pakietów na
+interfejsach, których obsługa zajmuje trochę czasu. Rosą zatem opóźnienia, które są bardzo
+odczuwalne w momencie, gdy ktoś lubi sobie pograć w różnego rodzaju gry online. Innym problemem może
+być sieć P2P, gdzie pojedynczy host z naszej sieci może nawiązywać dziesiątki czy nawet setki
+połączeń i tym samym zapychać łącze nie dając szansy innym użytkownikom na komfortowe korzystanie
+z internetu. W obu przypadkach może nam pomóc <a href="http://lartc.org/lartc.html">kształtowanie ruchu
+sieciowego</a> (Traffic Control), która jest w stanie nadać pakietom
+odpowiedni priorytet, tak by część z nich nie musiała czekać zbyt długo w kolejce. W tym wpisie
+przyjrzymy się bliżej temu mechanizmowi.</p>
+<h2 id="problematyczna-sieć-torrent">Problematyczna sieć Torrent</h2>
+<p>Każdy chyba wie, że gdy odpalimy klienta sieci
+<a href="https://pl.wikipedia.org/wiki/BitTorrent">BitTorrent</a>, np.
+<a href="https://www.qbittorrent.org/">Qbittorrent</a>, to pingi mają w zwyczaju strasznie skakać i utrzymywać
+się w przedziale 300-1000 ms. W skrajnych przypadkach, czas można liczyć nawet w sekundach.
+Dodatkowo, jeśli pobieramy (lub wysyłamy) kilka plików jednocześnie, to transfer rozkłada się mniej
+więcej po równo. W taki sposób dysponując łączem 10 mbit/s, przy założeniu, że pobieramy tylko dwa
+pliki, transfer rozłoży się po 5 mbit/s na każdy z nich. Jeśli byśmy do tego zaczęli coś pobierać w
+sieci P2P, to jest wielce prawdopodobne, że klient Torrent'a zje nam całe pasmo i te dwa pliki
+dostaną jedynie niewielką jego część.</p>
+<p>By radzić sobie z tą niedogodnością płynącą z korzystania z sieci Torrent, opracowano <a href="https://en.wikipedia.org/wiki/Micro_Transport_Protocol">protokół
+UTP</a>. Niemniej jednak, u mnie coś to nie
+bardzo chce działać i pingi są bardzo wysokie. Innym wyjściem może być skorzystanie z harmonogramu
+zadań, który jest oferowany przez chyba większość klientów Torrent'a. Możemy zatem ustawić sobie
+ograniczenie transferu w określonych godzinach, a w pozostałych klient może działać bez przeszkód,
+np. w nocy. Ja korzystałem z tego typu rozwiązania przez pewien czas ale ciągle musiałem te godziny
+przestawiać. Ostatecznie zrezygnowałem z tej opcji, a przełączanie między tymi dwoma stanami obywało
+się manualnie.</p>
+<p>Kontrola ruchu sieciowego w takim przypadku umożliwi nam dynamiczny przydział łącza w zależności od
+obciążenia sieci. Konfiguracja możne być prosta lub też bardzo zaawansowana, w zależności od tego co
+tak na dobrą sprawę chcemy osiągnąć. Największe problemy stwarza ruch przychodzący i jeśli chcemy go
+również kształtować, to będziemy musieli się trochę napracować. W przypadku, gdy w grę wchodzi
+jedynie kształtowanie ruchu wychodzącego, to nie ma z tym większych problemów.</p>
+<p>Podstawowym narzędziem jakie będziemy wykorzystywać w swojej pracy przy kształtowaniu ruchu
+sieciowego to <code>tc</code> (dostępne w pakiecie <code>iproute2</code> ). To za jego pomocą wyznaczymy kolejki na
+interfejsach sieciowych, do których będą napływać pakiety. To nim również będą ustawione
+gwarantowane limity łącza, oraz jak dużo pasma może zapożyczyć sobie dana kolejka. Jednak samo
+stworzenie kolejek nic nam nie da, pakiety trzeba jakoś do nich przekierować i tu możemy skorzystać
+z filtra oferowanego przez <code>tc</code> , oznaczać pakiety za pomocą
+<a href="https://morfikov.github.io
+/post/firewall-na-linuxowe-maszyny-klienckie/">firewall'a</a> lub też zaciągnąć do
+tego celu cgroups. Należy pamiętać przy tym, że cgroups może oznaczać tylko (chyba) pakiety
+wychodzące i nie da rady go użyć na ruchu skierowanym do naszej maszyny.</p>
+<h2 id="kształtowanie-ruchu-wychodzącego">Kształtowanie ruchu wychodzącego</h2>
+<p>Do kształtowania ruchu wychodzącego możemy wykorzystać <code>iptables</code> z celami <code>-j MARK</code> oraz <code>-j CLASSIFY</code> . Mamy też możliwość skorzystania z cgroups, oraz z <code>tc filter</code> . Nie będę tutaj opisywał
+celu <code>-j MARK</code> , bo to już zostało zrobione przy okazji zabawy z interfejsami IMQ i reguły tam
+zastosowane nie różnią się zbytnio od tych, które by zostały użyte w tym przypadku. Jedyne co, to
+trzeba by było pozmieniać interfejsy. W każdym razie, gdy w grę wchodzi jedynie kształtowanie ruchu
+wychodzącego, to nie ma sensu sobie zawracać głowy celem <code>-j MARK</code> .</p>
+<h3 id="target--j-classify">Target -j CLASSIFY</h3>
+<p>Cel <code>-j CLASSIFY</code> daje nam możliwość przekierowania ruchu do odpowiednich kolejek bez potrzeby
+zaprzęgania do tego <code>tc filter</code> . Po tym jak reguła zostanie dopasowana, pakiet trafia do
+odpowiedniej kolejki. Poniżej mamy kilka linijek, które mają na celu utworzenie odpowiednich kolejek
+przy pomocy narzędzia <code>tc</code> :</p>
+<pre><code>tc qdisc del dev bond0 root 2&gt;&amp;1
+
+tc qdisc add dev bond0 root handle 1: htb default 400 r2q 10
+      tc class add dev bond0 parent 1:0 classid 1:1 htb rate 1000mbit ceil 1000mbit quantum 60000
+            tc class add dev bond0 parent 1:1 classid 1:10 htb rate 980kbit ceil 980kbit
+                  tc class add dev bond0 parent 1:10 classid 1:200 htb rate 480kbit ceil 980kbit prio 0
+                  tc class add dev bond0 parent 1:10 classid 1:300 htb rate 200kbit ceil 980kbit prio 2
+                  tc class add dev bond0 parent 1:10 classid 1:400 htb rate 150kbit ceil 980kbit prio 4
+                  tc class add dev bond0 parent 1:10 classid 1:500 htb rate 150kbit ceil 980kbit prio 5
+            tc class add dev bond0 parent 1:1 classid 1:20 htb rate 999mbit ceil 999mbit quantum 60000
+                  tc class add dev bond0 parent 1:20 classid 1:1000 htb rate 99mbit ceil 999mbit prio 1 quantum 60000
+</code></pre>
+<p>Mając kolejki, możemy przejść do przekierowania pakietów przy pomocy odpowiednich reguł <code>iptables</code> :</p>
+<pre><code>$ipt -N qos_egress
+
+$ipt -A POSTROUTING -o bond0 -j qos_egress
+
+$ipt -A qos_egress -s 192.168.0.0/16 -d 192.168.0.0/16 -j CLASSIFY --set-class 1:1000
+$ipt -A qos_egress -s 192.168.0.0/16 -d 192.168.0.0/16 -j ACCEPT
+$ipt -A qos_egress -m owner --gid-owner p2p -j CLASSIFY --set-class 1:500
+$ipt -A qos_egress -m owner --gid-owner p2p -j ACCEPT
+$ipt -A qos_egress -m owner --gid-owner morfik -j CLASSIFY --set-class 1:200
+$ipt -A qos_egress -m owner --gid-owner morfik -j ACCEPT
+$ipt -A qos_egress -m owner --gid-owner root -j CLASSIFY --set-class 1:300
+$ipt -A qos_egress -m owner --gid-owner root -j ACCEPT
+$ipt -A qos_egress -s 192.168.10.0/24 -j CLASSIFY --set-class 1:400
+$ipt -A qos_egress -s 192.168.10.0/24 -j ACCEPT
+</code></pre>
+<p>To co zasługuje na uwagę, to <code>--set-class</code> . Wartość tego parametru musi pasować do wartości
+<code>classid</code> w <code>tc</code> , który ustawiliśmy wyżej. Poniżej przykład
+działania:</p>
+<p><img src="https://morfikov.github.io
+/img/2015/12/1.ksztaltowanie-ruchu-sieciowego-classify-iptables.png" alt=""></p>
+<h3 id="cgroups">Cgroups</h3>
+<p>Systemd robi przyzwoity użytek z cgroups. Cgroups również możemy wykorzystać do kierowania ruchu do
+odpowiednich kolejek. <a href="https://morfikov.github.io
+/post/ograniczanie-zasobow-procesom-przez-cgroups/">O samej konfiguracji cgroups pisałem nieco w tym
+wpisie</a> i sporo informacji tam
+zawartych przyda się nam tutaj.</p>
+<h4 id="kształtowanie-ruchu-w-systemd">Kształtowanie ruchu w systemd</h4>
+<p>Każda usługa systemowa, która posiada plik <code>.service</code> może być skonfigurowana pod kątem kontroli jej
+pakietów. Taka funkcjonalność została dodana do systemd w wersji <code>227</code> . Jeśli posiadamy jedną z
+nowszych wersji tego init'u, to zarządzanie pakietami usług systemowych jest banalnie proste.
+Wystarczy dodać do pliku usługi parametr <code>NetClass</code> , przykładowo:</p>
+<pre><code>[Service]
+...
+NetClass=500
+</code></pre>
+<p><a href="https://www.freedesktop.org/software/systemd/man/systemd.resource-control.html">Zgodnie z
+dokumentacją</a>,
+systemd powinien odpowiednio dostosować plik <code>net_cls.classid</code> w strukturze cgroups ale z jakichś
+powodów tak się nie dzieje i ten mechanizm na dzień dzisiejszy <a href="https://github.com/systemd/systemd/issues/1522">nie działa tak jak
+powinien</a>.</p>
+<h4 id="kształtowanie-ruchu-bez-systemd">Kształtowanie ruchu bez systemd</h4>
+<p>W przypadku, gdy nie korzystamy z systemd lub też chcemy nadawać priorytety pakietom, które pochodzą
+od innych usług niż te systemowe, to musimy skorzystać z dodatkowych narzędzi zawartych w pakiecie
+<code>cgroup-tools</code> . By kontrolować pakiety jakieś aplikacji, musimy dopisać odpowiednią linijkę z
+uwzględnieniem kontrolera <code>net_cls</code> w pliku <code>/etc/cgrules.conf</code> , przykładowo:</p>
+<pre><code>*:firefox               cpu,net_cls             users/firefox/
+*:firefox*              cpu,net_cls             users/firefox/
+
+*:qbittorrent           cpu,net_cls             users/qbittorrent/
+*:qbittorrent*          cpu,net_cls             users/qbittorrent/
+</code></pre>
+<p>Powyższe wpisy utworzą odpowiednią strukturę katalogów w <code>/sys/fs/cgroups/</code> . Musimy jeszcze
+odpowiednio uzupełnić plik <code>net_cls.classid</code> , który zawierać będzie numer grupy, do której te
+pakiety będą trafiać. Dodajemy zatem do pliku <code>/etc/cgconfig.conf</code> bloki kodu podobne do tego
+poniżej:</p>
+<pre><code>group users/firefox {
+    perm {
+        task {
+            uid = root;
+            gid = root;
+            dperm = 775;
+            fperm = 664;
+        }
+        admin {
+            uid = root;
+            gid = root;
+            dperm = 775;
+            fperm = 664;
+        }
+    }
+    cpu {
+        cpu.shares = &quot;512&quot;;
+    }
+    net_cls {
+        net_cls.classid = 0x00010200;
+    }
+}
+</code></pre>
+<p>Ten numerek <code>0x00010200</code> składa się tak naprawdę z dwóch liczb w zapisie HEX: 0001 oraz 0200. Liczba
+<code>0001</code> odpowiada za 1, a <code>0200</code> za 200 (tak wiem, dziwne). W ten sposób otrzymujemy grupę w postaci
+<code>1:200</code> . Pamiętajmy też, by po edycji powyższych plików zresetować usługi <code>cgconfig.service</code> oraz
+<code>cgrulesengd.service</code> .</p>
+<p>Pozostało nam jeszcze stworzenie odpowiednich kolejek w <code>tc</code> :</p>
+<pre><code>tc qdisc add dev bond0 root handle 1: htb default 400 r2q 10
+      tc class add dev bond0 parent 1:0 classid 1:1 htb rate 1000mbit ceil 1000mbit quantum 60000
+            tc class add dev bond0 parent 1:1 classid 1:10 htb rate 980kbit ceil 980kbit
+                  tc class add dev bond0 parent 1:10 classid 1:200 htb rate 480kbit ceil 980kbit prio 0
+                  tc class add dev bond0 parent 1:10 classid 1:300 htb rate 200kbit ceil 980kbit prio 2
+                  tc class add dev bond0 parent 1:10 classid 1:400 htb rate 150kbit ceil 980kbit prio 4
+                  tc class add dev bond0 parent 1:10 classid 1:500 htb rate 150kbit ceil 980kbit prio 5
+            tc class add dev bond0 parent 1:1 classid 1:20 htb rate 999mbit ceil 999mbit quantum 60000
+                  tc class add dev bond0 parent 1:20 classid 1:1000 htb rate 99mbit ceil 999mbit prio 1 quantum 60000
+</code></pre>
+<p>Teraz już tylko wystarczy przekierować do nich pakiety via <code>tc filter</code> :</p>
+<pre><code>tc filter add dev bond0 protocol ip parent 1:0 prio 10 handle 500 cgroup
+tc filter add dev bond0 protocol ip parent 1:0 prio 5 handle 200 cgroup
+tc filter add dev bond0 protocol ip parent 1:0 prio 90 handle 300 cgroup
+tc filter add dev bond0 protocol ip parent 1:0 prio 20 handle 400 cgroup
+tc filter add dev bond0 protocol ip parent 1:0 prio 10 handle 500 cgroup
+tc filter add dev bond0 protocol ip parent 1:0 prio 100 handle 1000 cgroup
+</code></pre>
+<p>Nie potrzebujemy żadnych wpisów w <code>iptables</code> , bo wszystko jest zarządzane przez cgroups w
+połączeniu z <code>tc</code> . Warto nadmienić, że wartość w <code>handle 200 cgroup</code> ma odpowiadać tej określonej
+w pliku <code>/etc/cgconfig.conf</code> (0x0001<strong>0200</strong>). Poniżej zaś test:</p>
+<p><img src="https://morfikov.github.io
+/img/2015/12/2.ksztaltowanie-ruchu-sieciowego-cgroups.png" alt=""></p>
+<h2 id="interfejsy-imq">Interfejsy IMQ</h2>
+<p>Dokładny opis na temat tego <a href="https://morfikov.github.io
+/post/konfiguracja-interfejsow-imq-w-linuxie/">jak aktywować interfejsy IMQ oraz jak przy ich pomocy ograniczyć i
+kształtować ruch</a> zostały opisane w
+osobnym artykule. Ten mechanizm nie jest już wspierany przez kernel i iptables i bez rekompilacji
+tych pakietów niestety się nie obejdzie. Niemniej jednak, niewątpliwą zaletą interfejsów IMQ jest
+możliwość bezproblemowego kształtowania ruchu w obu kierunkach.</p>
+<h2 id="interfejsy-ifb">Interfejsy IFB</h2>
+<p>Jeśli nie odpowiada nam za bardzo zabawa z kompilacją kernela i iptables, a przy tym chcemy
+kontrolować pakiety w obu kierunkach, to możemy skorzystać z natywnego rozwiązania oferowanego przez
+kernel, czyli <a href="https://morfikov.github.io
+/post/konfiguracja-interfejsow-ifb-w-linuxie/">interfejsów IFB</a>.</p>
+<h2 id="quantum-oraz-r2q">Quantum oraz r2q</h2>
+<p>W powyższych przykładach, kolejki, które ustawiliśmy sobie, maja określone dwa dość niejasne
+parametry: <code>quantum</code> oraz <code>r2q</code> . Znalazłem ciekawe wyjaśnienie na temat ich działania <a href="http://www.docum.org/faq/cache/31.html">pod tym
+linkiem</a> i postaram się pokrótce opisać jak korzystać z tych
+opcji.</p>
+<p>Przede wszystkim zarówno <code>quantum</code> jak i <code>r2q</code> mają jedynie znacznie w przypadku, gdy pasmo, które
+zostało rozdysponowane pomiędzy szereg kolejek, jest utylizowane w pełni. Dla uproszczenia
+przyjmijmy, że mamy trzy kolejki. Do dwóch z nich trafiają pakiety, a trzecia leży odłogiem. W obu
+tych kolejkach, do których napływają pakiety, został osiągnięty limit ( <code>rate</code> ) i obie te kolejki
+są w stanie korzystać z pasma tej kolejki, która nie jest obciążona. W jaki sposób zostaną
+rozdysponowane jej zasoby? Właśnie ta kwestia jest rozstrzygana przy pomocy parametrów <code>quantum</code> jak
+i <code>r2q</code> , które każda z kolejek ma ustawione, nawet w przypadku, gdy nie określamy ich ręcznie w
+konfiguracji.</p>
+<p>Standardowo <code>quantum</code> jest wyliczane przez <code>rate</code>/<code>r2q</code> . Z kolei <code>r2q</code> domyślnie wynosi 10 ale ta
+wartość może zostać zmieniona. Natomiast wartość parametru <code>quantum</code> powinna być większa niż MTU i
+mniejsza niż 60000.</p>
+<p>Na necie spotkałem się z dwiema wartościami, które mogą być ustawione jako minimum: 1500 oraz 1514.
+W różnych dokumentach jest to zdefiniowane inaczej i jedne nie uwzględniają nagłówka ethernet'owego,
+inne zaś go wliczają. Chodzi generalnie o to, aby kolejka była w stanie przesłać pełny pakiet
+podczas jednej tury (gdy dwie lub więcej kolejek rywalizuje o zasoby ponad swój limit). Górny limit
+(60000) zaś jest ustawiony na sztywno w samym qdisc, by zapobiec zduszeniu pozostałych kolejek oraz
+w celu minimalizowania opóźnień.</p>
+<p>W przypadku złego dobrania wartości, w logu zostanie zanotowany komunikat podobny do tego poniżej:</p>
+<pre><code>kernel: HTB: quantum of class 10500 is small. Consider r2q change.
+</code></pre>
+<p>Te błędy nie wpływają na samą funkcjonalność kolejek, a jedynie na ich precyzję przy ograniczaniu
+ruchu.</p>
+<p>Wracając do naszego przykładu. Jeśli te dwie kolejki będą mieć ustawioną taką samą wartość parametru
+<code>quantum</code> , to niewykorzystane zasoby będą rozdzielone po równo. W przypadku, gdy jedna z kolejek
+będzie miała dwukrotnie większy <code>quantum</code> niż ta druga, to przypadnie jej 2/3 zasobów.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/iptables/">iptables</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sie%C4%87/">sieć</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/cgroups/">cgroups</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/qos/">qos</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fksztaltowanie-ruchu-sieciowego-traffic-control%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fksztaltowanie-ruchu-sieciowego-traffic-control%2f&amp;text=Kszta%c5%82towanie%20ruchu%20sieciowego%20%28Traffic%20Control%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fksztaltowanie-ruchu-sieciowego-traffic-control%2f&amp;title=Kszta%c5%82towanie%20ruchu%20sieciowego%20%28Traffic%20Control%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fksztaltowanie-ruchu-sieciowego-traffic-control%2f&amp;title=Kszta%c5%82towanie%20ruchu%20sieciowego%20%28Traffic%20Control%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fksztaltowanie-ruchu-sieciowego-traffic-control%2f&title=Kszta%c5%82towanie%20ruchu%20sieciowego%20%28Traffic%20Control%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fksztaltowanie-ruchu-sieciowego-traffic-control%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fksztaltowanie-ruchu-sieciowego-traffic-control%2f&amp;title=Kszta%c5%82towanie%20ruchu%20sieciowego%20%28Traffic%20Control%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fksztaltowanie-ruchu-sieciowego-traffic-control%2f&description=Kszta%c5%82towanie%20ruchu%20sieciowego%20%28Traffic%20Control%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-imq-w-linuxie/">Konfiguracja interfejsów IMQ w linux&#39;ie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/ograniczanie-zasobow-procesom-przez-cgroups/">Ograniczanie zasobów procesom przez cgroups</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/przewidywalne-nazwy-interfejsow-sieciowych/">Przewidywalne nazwy interfejsów sieciowych</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/peerguardian-w-oparciu-o-ipset-iptables/">PeerGuardian w oparciu o ipset i iptables</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/firewall-na-linuxowe-maszyny-klienckie/">Firewall na linux&#39;owe maszyny klienckie</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

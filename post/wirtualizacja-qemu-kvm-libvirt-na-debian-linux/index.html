@@ -1,0 +1,1968 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Wirtualizacja QEMU/KVM (libvirt) na Debian Linux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Wirtualizacja QEMU/KVM (libvirt) na Debian Linux" />
+<meta property="og:description" content="Prawdopodobnie dla większości użytkowników linux&#39;a, wirtualizacja kojarzy się w zasadzie z jednym
+oprogramowaniem, tj. VirtualBox. Niby strona VBox&#39;a podaje, że jest on na licencji GPL-2 ale
+w Debianie nie ma go w głównym repozytorium (jest on obecny w sekcji contrib ). Problem z
+VirtualBox&#39;em jest taki, że wymaga on kompilatora Open Watcom, który już wolnym
+oprogramowaniem nie jest. VBox też nie jest jedynym oprogramowaniem, które na linux można
+wykorzystać w roli hiperwizora do obsługi maszyn wirtualnych. Jest o wiele lepsze rozwiązanie,
+mianowicie QEMU, które jest w stanie zrobić użytek z maszyny wirtualnej kernela (Kernel Virtual
+Machine, KVM) i realizować dokładnie to samo zadanie, które zwykł ogarniać VirtualBox.
+Wirtualizacja na bazie QEMU/KVM jest w pełni OpenSource, co ucieszy pewnie fanów wolnego i
+otwartego oprogramowania, choć zarządzanie maszynami wirtualnymi odbywa się za sprawą konsoli.
+Oczywiście, osoby które korzystają z VirtualBox&#39;a zdają sobie sprawę, że to narzędzie oferuje
+graficzny menadżer maszyn wirtualnych (Virtual Machine Manager, VMM), który usprawnia i znacznie
+ułatwia zarządzanie wirtualnymi maszynami. Jeśli GUI jest dla nas ważnym elementem środowiska pracy
+i nie uśmiecha nam się konfigurować maszyn wirtualnych przy pomocy terminala, to jest i dobra
+wiadomość dla takich osób, bo istnieje virt-manager , który jest dość rozbudowanym menadżerem
+maszyn wirtualnych pozwalającym na ich tworzenie, konfigurowanie i zarządzanie nimi przy
+wykorzystaniu graficznego interfejsu użytkownika. W tym artykule postaramy się skonfigurować
+naszego Debiana w taki sposób, by przygotować go do pracy z maszynami wirtualnymi posługując się
+qemu/libvirt/virt-manager ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/" />
+<meta property="article:published_time" content="2020-08-08T14:55:00+00:00" />
+<meta property="article:modified_time" content="2020-08-09T13:52:00+02:00" />
+
+		<meta itemprop="name" content="Wirtualizacja QEMU/KVM (libvirt) na Debian Linux">
+<meta itemprop="description" content="Prawdopodobnie dla większości użytkowników linux&#39;a, wirtualizacja kojarzy się w zasadzie z jednym
+oprogramowaniem, tj. VirtualBox. Niby strona VBox&#39;a podaje, że jest on na licencji GPL-2 ale
+w Debianie nie ma go w głównym repozytorium (jest on obecny w sekcji contrib ). Problem z
+VirtualBox&#39;em jest taki, że wymaga on kompilatora Open Watcom, który już wolnym
+oprogramowaniem nie jest. VBox też nie jest jedynym oprogramowaniem, które na linux można
+wykorzystać w roli hiperwizora do obsługi maszyn wirtualnych. Jest o wiele lepsze rozwiązanie,
+mianowicie QEMU, które jest w stanie zrobić użytek z maszyny wirtualnej kernela (Kernel Virtual
+Machine, KVM) i realizować dokładnie to samo zadanie, które zwykł ogarniać VirtualBox.
+Wirtualizacja na bazie QEMU/KVM jest w pełni OpenSource, co ucieszy pewnie fanów wolnego i
+otwartego oprogramowania, choć zarządzanie maszynami wirtualnymi odbywa się za sprawą konsoli.
+Oczywiście, osoby które korzystają z VirtualBox&#39;a zdają sobie sprawę, że to narzędzie oferuje
+graficzny menadżer maszyn wirtualnych (Virtual Machine Manager, VMM), który usprawnia i znacznie
+ułatwia zarządzanie wirtualnymi maszynami. Jeśli GUI jest dla nas ważnym elementem środowiska pracy
+i nie uśmiecha nam się konfigurować maszyn wirtualnych przy pomocy terminala, to jest i dobra
+wiadomość dla takich osób, bo istnieje virt-manager , który jest dość rozbudowanym menadżerem
+maszyn wirtualnych pozwalającym na ich tworzenie, konfigurowanie i zarządzanie nimi przy
+wykorzystaniu graficznego interfejsu użytkownika. W tym artykule postaramy się skonfigurować
+naszego Debiana w taki sposób, by przygotować go do pracy z maszynami wirtualnymi posługując się
+qemu/libvirt/virt-manager .">
+<meta itemprop="datePublished" content="2020-08-08T14:55:00+00:00" />
+<meta itemprop="dateModified" content="2020-08-09T13:52:00+02:00" />
+<meta itemprop="wordCount" content="11735">
+
+
+
+<meta itemprop="keywords" content="debian,wirtualizacja,kvm,qemu,libvirt,kernel," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Wirtualizacja QEMU/KVM (libvirt) na Debian Linux"/>
+<meta name="twitter:description" content="Prawdopodobnie dla większości użytkowników linux&#39;a, wirtualizacja kojarzy się w zasadzie z jednym
+oprogramowaniem, tj. VirtualBox. Niby strona VBox&#39;a podaje, że jest on na licencji GPL-2 ale
+w Debianie nie ma go w głównym repozytorium (jest on obecny w sekcji contrib ). Problem z
+VirtualBox&#39;em jest taki, że wymaga on kompilatora Open Watcom, który już wolnym
+oprogramowaniem nie jest. VBox też nie jest jedynym oprogramowaniem, które na linux można
+wykorzystać w roli hiperwizora do obsługi maszyn wirtualnych. Jest o wiele lepsze rozwiązanie,
+mianowicie QEMU, które jest w stanie zrobić użytek z maszyny wirtualnej kernela (Kernel Virtual
+Machine, KVM) i realizować dokładnie to samo zadanie, które zwykł ogarniać VirtualBox.
+Wirtualizacja na bazie QEMU/KVM jest w pełni OpenSource, co ucieszy pewnie fanów wolnego i
+otwartego oprogramowania, choć zarządzanie maszynami wirtualnymi odbywa się za sprawą konsoli.
+Oczywiście, osoby które korzystają z VirtualBox&#39;a zdają sobie sprawę, że to narzędzie oferuje
+graficzny menadżer maszyn wirtualnych (Virtual Machine Manager, VMM), który usprawnia i znacznie
+ułatwia zarządzanie wirtualnymi maszynami. Jeśli GUI jest dla nas ważnym elementem środowiska pracy
+i nie uśmiecha nam się konfigurować maszyn wirtualnych przy pomocy terminala, to jest i dobra
+wiadomość dla takich osób, bo istnieje virt-manager , który jest dość rozbudowanym menadżerem
+maszyn wirtualnych pozwalającym na ich tworzenie, konfigurowanie i zarządzanie nimi przy
+wykorzystaniu graficznego interfejsu użytkownika. W tym artykule postaramy się skonfigurować
+naszego Debiana w taki sposób, by przygotować go do pracy z maszynami wirtualnymi posługując się
+qemu/libvirt/virt-manager ."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Wirtualizacja QEMU/KVM (libvirt) na Debian Linux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2020-08-08T14:55:00Z">Opublikowano: 08/08/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-08-09T13:52:00&#43;02:00">Zaktualizowano: 09/08/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Wirtualizacja QEMU/KVM (libvirt) na Debian Linux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#terminy-związane-z-wirtualizacją">Terminy związane z wirtualizacją</a>
+      <ol>
+        <li><a href="#różnica-między-emulacjąa-wirtualizacją">Różnica między emulacją a wirtualizacją</a></li>
+        <li><a href="#typy-hiperwizorów">Typy hiperwizorów</a></li>
+        <li><a href="#techniki-wirtualizacji">Techniki wirtualizacji</a>
+          <ol>
+            <li><a href="#pełna-wirtualizacja">Pełna wirtualizacja</a></li>
+            <li><a href="#parawirtualizacja">Parawirtualizacja</a></li>
+            <li><a href="#wirtualizacja-wspomagana-sprzętowo">Wirtualizacja wspomagana sprzętowo</a></li>
+            <li><a href="#wirtualizacja-pamięci-ram">Wirtualizacja pamięci RAM</a></li>
+            <li><a href="#wirtualizacja-urządzeń-oraz-operacji-io">Wirtualizacja urządzeń oraz operacji I/O</a></li>
+          </ol>
+        </li>
+        <li><a href="#co-to-jest-kvm-qemu-i-libvirt">Co to jest KVM, QEMU i libvirt</a></li>
+      </ol>
+    </li>
+    <li><a href="#czy-mój-komputerprocesorlinux-wspiera-wirtualizację">Czy mój komputer/procesor/linux wspiera wirtualizację</a>
+      <ol>
+        <li><a href="#ustawienia-biosefiuefi">Ustawienia BIOS/EFI/UEFI</a></li>
+      </ol>
+    </li>
+    <li><a href="#konfiguracja-kernela-linux-pod-qemukvm">Konfiguracja kernela linux pod QEMU/KVM</a>
+      <ol>
+        <li><a href="#kernel-64-bit-vs-32-bit">Kernel 64-bit vs. 32-bit</a></li>
+      </ol>
+    </li>
+    <li><a href="#konfiguracja-hugepages-pod-qemukvm">Konfiguracja HugePages pod QEMU/KVM</a></li>
+    <li><a href="#potrzebne-oprogramowanie">Potrzebne oprogramowanie</a>
+      <ol>
+        <li><a href="#pakiety-qemu-system-x86-oraz-qemu-kvm">Pakiety qemu-system-x86 oraz qemu-kvm</a></li>
+        <li><a href="#pakiet-qemu-system-gui">Pakiet qemu-system-gui</a></li>
+        <li><a href="#pakiet-qemu-utils">Pakiet qemu-utils</a></li>
+        <li><a href="#pakiety-libvirt-daemon-oraz-libvirt-daemon-system">Pakiety libvirt-daemon oraz libvirt-daemon-system</a></li>
+        <li><a href="#pakiet-virt-manager">Pakiet virt-manager</a></li>
+        <li><a href="#pakiety-bridge-utils-dnsmasq-base-i-iptables">Pakiety bridge-utils, dnsmasq-base i iptables</a></li>
+        <li><a href="#pakiet-gir12-spiceclientgtk-30">Pakiet gir1.2-spiceclientgtk-3.0</a></li>
+      </ol>
+    </li>
+    <li><a href="#grupy-w-linux-a-operowanie-na-maszynach-wirtualnych">Grupy w linux a operowanie na maszynach wirtualnych</a>
+      <ol>
+        <li><a href="#grupa-libvirt">Grupa libvirt</a></li>
+        <li><a href="#grupa-libvirt-qemu">Grupa libvirt-qemu</a></li>
+        <li><a href="#grupa-kvm">Grupa kvm</a></li>
+      </ol>
+    </li>
+    <li><a href="#tworzenie-maszyn-wirtualnych-qemukvm">Tworzenie maszyn wirtualnych QEMU/KVM</a>
+      <ol>
+        <li><a href="#instalacja-systemu-operacyjnego-maszyny-wirtualnej">Instalacja systemu operacyjnego maszyny wirtualnej</a></li>
+      </ol>
+    </li>
+    <li><a href="#konfiguracja-maszyn-wirtualnych-qemukvm">Konfiguracja maszyn wirtualnych QEMU/KVM</a>
+      <ol>
+        <li><a href="#zmienne-libvirt_debug-oraz-libvirt_log_outputs">Zmienne LIBVIRT_DEBUG oraz LIBVIRT_LOG_OUTPUTS</a></li>
+        <li><a href="#zmienna-libvirt_default_uri">Zmienna LIBVIRT_DEFAULT_URI</a></li>
+        <li><a href="#jak-edytować-xml-maszyn-wirtualnych">Jak edytować XML maszyn wirtualnych</a></li>
+        <li><a href="#kolejność-nośników-rozruchu-systemu">Kolejność nośników rozruchu systemu</a></li>
+        <li><a href="#protokół-spicevnc">Protokół SPICE/VNC</a>
+          <ol>
+            <li><a href="#zdalny-dostęp-do-maszyny-wirtualnej-remote-viewer">Zdalny dostęp do maszyny wirtualnej (remote-viewer)</a></li>
+            <li><a href="#klient-spicevnc-virt-viewer">Klient SPICE/VNC (virt-viewer)</a></li>
+            <li><a href="#agent-spice">Agent SPICE</a></li>
+            <li><a href="#dzielenie-schowka-hosta-z-maszyną-wirtualną">Dzielenie schowka hosta z maszyną wirtualną</a></li>
+            <li><a href="#przesyłanie-plików-za-sprawą-przeciągnij-i-upuść-drag-and-drop">Przesyłanie plików za sprawą przeciągnij i upuść (drag and drop)</a></li>
+            <li><a href="#poprawa-wydajności-myszy">Poprawa wydajności myszy</a></li>
+          </ol>
+        </li>
+        <li><a href="#rozdzielczość-ekranu-maszyny-wirtualnej">Rozdzielczość ekranu maszyny wirtualnej</a>
+          <ol>
+            <li><a href="#dynamiczna-zmiana-rozdzielczości-ekranu">Dynamiczna zmiana rozdzielczości ekranu</a></li>
+          </ol>
+        </li>
+        <li><a href="#przypisanie-maszyn-wirtualnych-do-konkretnych-cpu">Przypisanie maszyn wirtualnych do konkretnych CPU</a></li>
+        <li><a href="#bios-vs-efiuefi">BIOS vs. EFI/UEFI</a></li>
+        <li><a href="#qemu-guest-agent-ga">QEMU Guest Agent (GA)</a></li>
+        <li><a href="#sterownik-balloon">Sterownik balloon</a>
+          <ol>
+            <li><a href="#automatyczne-odzyskiwanie-pamięci-ram">Automatyczne odzyskiwanie pamięci RAM</a></li>
+          </ol>
+        </li>
+        <li><a href="#sterowniki-virtio">Sterowniki VirtIO</a></li>
+      </ol>
+    </li>
+    <li><a href="#qemukvm-i-nftables">QEMU/KVM i nftables</a>
+      <ol>
+        <li><a href="#failed-to-apply-firewall-rules-usrsbiniptables--w---table-nat">Failed to apply firewall rules /usr/sbin/iptables -w --table nat</a></li>
+        <li><a href="#konfiguracja-nftables">Konfiguracja nftables</a></li>
+        <li><a href="#test-konfiguracji-połączenia-sieciowego-maszyn-wirtualnych">Test konfiguracji połączenia sieciowego maszyn wirtualnych</a></li>
+      </ol>
+    </li>
+    <li><a href="#dostęp-do-maszyny-wirtualnej-po-ssh">Dostęp do maszyny wirtualnej po SSH</a>
+      <ol>
+        <li><a href="#sshfs">SSHFS</a></li>
+      </ol>
+    </li>
+    <li><a href="#współdzielenie-katalogów-maszyny-hosta-z-maszyną-wirtualną">Współdzielenie katalogów maszyny hosta z maszyną wirtualną</a>
+      <ol>
+        <li><a href="#problemy-z-uprawnieniami">Problemy z uprawnieniami</a>
+          <ol>
+            <li><a href="#tryb-squash">Tryb Squash</a></li>
+            <li><a href="#tryb-mapped">Tryb Mapped</a></li>
+            <li><a href="#tryb-passthrough">Tryb Passthrough</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#udostępnianie-maszynie-wirtualnej-całego-dyskupartycji">Udostępnianie maszynie wirtualnej całego dysku/partycji</a>
+      <ol>
+        <li><a href="#ryzyko-uszkodzenia-danych-zgromadzonych-na-dyskupartycji">Ryzyko uszkodzenia danych zgromadzonych na dysku/partycji</a></li>
+      </ol>
+    </li>
+    <li><a href="#hostname-maszyn-wirtualnych-zamiast-ich-adresów-ip">Hostname maszyn wirtualnych zamiast ich adresów IP</a></li>
+    <li><a href="#systemowy-interfejs-mostka-dla-maszyn-wirtualnych">Systemowy interfejs mostka dla maszyn wirtualnych</a>
+      <ol>
+        <li><a href="#jedna-instancja-dnsmasq">Jedna instancja dnsmasq</a></li>
+      </ol>
+    </li>
+    <li><a href="#zmiana-rozmiaru-obrazu-maszyny-wirtualnej">Zmiana rozmiaru obrazu maszyny wirtualnej</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Prawdopodobnie dla większości użytkowników linux'a, wirtualizacja kojarzy się w zasadzie z jednym
+oprogramowaniem, tj. VirtualBox. <a href="https://www.virtualbox.org/">Niby strona VBox'a podaje, że jest on na licencji GPL-2</a> ale
+w Debianie nie ma go w głównym repozytorium (jest on obecny w sekcji <code>contrib</code> ). Problem z
+VirtualBox'em jest taki, że <a href="https://salsa.debian.org/pkg-virtualbox-team/virtualbox/-/blob/master/debian/copyright">wymaga on kompilatora Open Watcom</a>, który już wolnym
+oprogramowaniem nie jest. VBox też nie jest jedynym oprogramowaniem, które na linux można
+wykorzystać w roli hiperwizora do obsługi maszyn wirtualnych. Jest o wiele lepsze rozwiązanie,
+mianowicie QEMU, które jest w stanie zrobić użytek z maszyny wirtualnej kernela (Kernel Virtual
+Machine, KVM) i realizować dokładnie to samo zadanie, które zwykł ogarniać VirtualBox.
+Wirtualizacja na bazie QEMU/KVM jest w pełni OpenSource, co ucieszy pewnie fanów wolnego i
+otwartego oprogramowania, choć zarządzanie maszynami wirtualnymi odbywa się za sprawą konsoli.
+Oczywiście, osoby które korzystają z VirtualBox'a zdają sobie sprawę, że to narzędzie oferuje
+graficzny menadżer maszyn wirtualnych (Virtual Machine Manager, VMM), który usprawnia i znacznie
+ułatwia zarządzanie wirtualnymi maszynami. Jeśli GUI jest dla nas ważnym elementem środowiska pracy
+i nie uśmiecha nam się konfigurować maszyn wirtualnych przy pomocy terminala, to jest i dobra
+wiadomość dla takich osób, bo istnieje <code>virt-manager</code> , który jest dość rozbudowanym menadżerem
+maszyn wirtualnych pozwalającym na ich tworzenie, konfigurowanie i zarządzanie nimi przy
+wykorzystaniu graficznego interfejsu użytkownika. W tym artykule postaramy się skonfigurować
+naszego Debiana w taki sposób, by przygotować go do pracy z maszynami wirtualnymi posługując się
+<code>qemu</code>/<code>libvirt</code>/<code>virt-manager</code> .</p>
+<h2 id="terminy-związane-z-wirtualizacją">Terminy związane z wirtualizacją</h2>
+<p>Szukając informacji na necie dotyczących QEMU/KVM nie sposób nie natknąć się na szereg dziwnych i
+trudnych słów związanych z różnymi technikami wirtualizacji. Poniżej zostały zebrane i opisane te
+częściej wykorzystywane sformułowania, a to z tego względu, że w sporej części te terminy są mylone,
+nierozróżniane lub stosowane zamiennie i ciężko jest się czasem połapać o czym ktoś pisze czy mówi.</p>
+<h3 id="różnica-między-emulacjąa-wirtualizacją">Różnica między emulacją a wirtualizacją</h3>
+<p><a href="https://blog.dell.com/en-us/emulation-or-virtualization-what-s-the-difference/">Terminy emulacja i wirtualizacja są podobne</a>, choć mają w stosunku do siebie kilka różnic.
+Emulacja polega na tym, że jeden system imituje inny system. Dla przykładu, jeśli jakiś kawałek
+oprogramowania działa w systemie ARM (np. Android) i nie działa jednocześnie na innym systemie, np.
+naszym domowym PC (x86), to możemy sprawić, że nasz domowy PC będzie emulował działanie systemu ARM,
+tak by ten kawałek oprogramowania uruchomił się również na systemie x86. Gdybyśmy w tej samej
+sytuacji chcieli skorzystać z wirtualizacji (zamiast emulacji), to musielibyśmy nasz system x86
+podzielić na dwa wirtualne systemy: x86 i ARM. Każdy z tych wirtualnych systemów byłby niezależnym
+kontenerem oprogramowania mającym swój własny dostęp do programowych zasobów (CPU, RAM, dysk i
+sieć). Każdy z tych systemów można by też niezależnie uruchomić ponownie. Te wirtualne maszyny
+zachowywałyby się dokładnie tam samo jak prawdziwy sprzęt fizyczny, przez co aplikacje/systemy
+operacyjne uruchomione w ich obrębie nie byłby w stanie zauważyć jakiejkolwiek różnicy.</p>
+<p>W przypadku emulacji, to oprogramowanie zastępuje sprzęt tworząc odpowiednie środowisko sprzętowe.
+Niestety taki zabieg sprawia, że spora część cykli procesora jest oddelegowana do obsługi procesu
+emulacji, przez co tylko część cykli procesora może być przeznaczona na przeprowadzanie faktycznych
+obliczeń. W ten sposób spada dość znacznie wydajność emulowanych aplikacji/OS. Emulacja jest bardzo
+przydatna przy projektowaniu oprogramowania na wiele systemów operacyjnych -- można to zrobić w
+obrębie jednej maszyny fizycznej, co znacznie ułatwia testowanie, ogranicza koszty i przyśpiesza
+cały proces.</p>
+<p>W przypadku wirtualizacji, szybka maszyna fizyczna z dużą ilością pamięci RAM oraz wystarczającą
+ilością przestrzeni dyskowej może być podzielona na wiele mniejszych maszyn wirtualnych, z której
+każda ma własne zasoby sprzętowe. Każda z tych maszyn może zostać wdrożona jako osobny serwer
+hostujący jakieś usługi, np. serwer WWW czy email. W taki sposób te zasoby obliczeniowe, które szły
+na obsługę emulacji, są teraz dostępne i można je w pełni wykorzystać, co może pomóc w znacznym
+cięciu kosztów.</p>
+<p>W emulowanych środowiskach istnieje potrzeba zastosowania programowego połączenia zapewniającego
+interakcję z fizycznym sprzętem. W przypadku wirtualizacji, ten dostęp do sprzętu odbywa się
+bezpośrednio. Mimo, że wirtualizacja jest na ogół szybszą opcją, to jest ona ograniczona przez
+oprogramowanie będące w stanie działać na podległym sprzęcie fizycznym.</p>
+<h3 id="typy-hiperwizorów">Typy hiperwizorów</h3>
+<p>Rozróżnia się trzy typy hiperwizorów. Pierwszym z nich jest natywny hiperwizor, który jest
+aplikacją uruchomioną bezpośrednio na sprzęcie (bare metal), przykładowo Xen, VMWare ESX. Ten typ
+wymaga dedykowanych sterowników sprzętu dla hiperwizora. Drugim typem jest hostowany hiperwizor,
+który to jest uruchamiany w obrębie jakiegoś systemu operacyjnego, przykładowo VirtualBox, QEMU,
+KVM. Tutaj zarządzanie sterownikami leży po stronie systemu operacyjnego hosta. Trzecim typem
+hiperwizora jest sam system operacyjny, na którym mogą być uruchamiane różnego rodzaju kontenery,
+przykładowo chroot, LXC czy Docker.</p>
+<h3 id="techniki-wirtualizacji">Techniki wirtualizacji</h3>
+<p>W przypadku procesorów możemy mieć do czynienia z kilkoma technikami wirtualizacji, tj. z pełną
+wirtualizacją, parawirtualizacją oraz wirtualizacją wspomaganą sprzętowo. Poniżej jest prosta
+grafika (<a href="https://www.vmware.com/techpapers/2007/understanding-full-virtualization-paravirtualizat-1008.html">źródło</a>) obrazująca różnice pomiędzy tymi technikami wirtualizacji procesora:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/001-virtualization-techniques-linux-qemu-kvm-processor.png#huge" alt="">{:width=&quot;640px&quot;}</p>
+<p>Kolejno od lewej: brak wirtualizacji, pełna wirtualizacja, parawirtualizacja i jako ostatnia
+wirtualizacja wspomagana sprzętowo.</p>
+<p>Jeśli zaś chodzi o terminy wykorzystane w tej powyższej grafice, to:</p>
+<ul>
+<li><code>OS</code> -- system operacyjny (kernel) hosta.</li>
+<li><code>Guest OS</code> -- system operacyjny gościa (maszyny wirtualnej).</li>
+<li><code>User Apps</code> -- aplikacje przestrzeni/poziomu użytkownika.</li>
+<li><code>VMM</code> -- Monitor/Menadżer Maszyn Wirtualnych (<a href="https://en.wikipedia.org/wiki/Virtual_Machine_Manager">Virtual Machine Monitor/Manager</a>), choć w
+powszechnym użyciu stosuje się częściej termin hiperwizor (<a href="https://en.wikipedia.org/wiki/Hypervisor">Hypervisor</a>).</li>
+<li><code>Virtualization Layer</code> -- warstwa wirtualizacji hiperwizora.</li>
+<li><code>Ring 0-3</code> -- <a href="https://en.wikipedia.org/wiki/Protection_ring">pierścień ochrony</a>. Im wyższy numer, tym aplikacja działająca w jego obrębie
+ma mniejsze uprawnienia. W <code>Ring 3</code> działają procesy przestrzeni użytkownika, w
+<code>Ring 2</code> i <code>Ring 1</code> działają sterowniki urządzeń, w <code>Ring 0</code> działa system
+operacyjny (kernel).</li>
+<li><code>Direct execution</code> -- bezpośrednie wykonywanie zapytań aplikacji przestrzeni/poziomu użytkownika.</li>
+<li><code>Binary translation</code> -- binarna translacja zapytań systemu operacyjnego.</li>
+<li><code>Hipercall</code> -- wywołanie hiperwizora umożliwiające bezpośrednią komunikację systemu operacyjnego
+gościa z warstwą wirtualizacji hiperwizora. Hypercall dla hiperwizora jest w
+zasadzie tym samym co syscall (wywołanie systemowe) dla kernela.</li>
+<li><code>Non-root Mode Privilege Levels</code> -- tryby nieadministracyjne poziomów uprzywilejowania (Ring 0-3).</li>
+<li><code>Root Mode Privilege Levels</code> --  tryb administracyjny poziomów uprzywilejowania (Ring -1).</li>
+</ul>
+<h4 id="pełna-wirtualizacja">Pełna wirtualizacja</h4>
+<p>Pełną wirtualizację (<a href="https://en.wikipedia.org/wiki/Full_virtualization">full virtualization</a>) można osiągnąć przez zastosowanie <a href="https://en.wikipedia.org/wiki/Binary_translation">binarnej
+translacji</a> zapytań systemu operacyjnego (binary translation of OS requests) w połączeniu z
+bezpośrednim wykonywaniem zapytań aplikacji przestrzeni/poziomu użytkownika (direct execution of
+user requests). W takim przypadku system operacyjny gościa jest w pełni oddzielony od sprzętu, na
+którym działa, przez warstwę wirtualizacji -- ma własny wirtualny BIOS, wirtualne urządzenia i
+zwirtualizowane zarządzanie pamięcią. System gościa nie jest świadomy faktu bycia wirtualizowanym i
+nie wymaga żadnych modyfikacji do poprawnego działania. Pełna wirtualizacja jest w zasadzie jedyną
+opcją, która nie wymaga pomocy od sprzętu lub systemu operacyjnego przy wirtualizacji instrukcji
+wrażliwych (zmieniających konfigurację zasobów OS) i uprzywilejowanych (powodujących przerwania i
+wywołania systemowe). Hiperwizor tłumaczy wszystkie instrukcje systemu operacyjnego (kernela) w
+locie i buforuje wyniki w cache dla przyszłego wykorzystania, podczas gdy instrukcje przestrzeni
+użytkownika nie są w żaden sposób zmieniane i są wykonywane z prędkością natywną. Pełna
+wirtualizacja oferuje najlepszą izolację i bezpieczeństwo maszyn wirtualnych. Dodatkowo, ten sam
+system gościa może bez problemu działać zarówno na maszynie wirtualnej jak i bezpośrednio na
+natywnym sprzęcie hosta.</p>
+<h4 id="parawirtualizacja">Parawirtualizacja</h4>
+<p>Z parawirtualizacją (<a href="https://en.wikipedia.org/wiki/Paravirtualization">paravirtualization</a>, OS Assisted Virtualization) mamy do czynienia wtedy,
+gdy system operacyjny gościa (maszyny wirtualnej) komunikuje się z hiperwizorem w celu poprawy
+wydajności. Parawirtualizacja wymaga modyfikacji jądra systemu operacyjnego w celu zastąpienia
+niemożliwych do zwirtualizowania instrukcji wywołaniami hiperwizora (hypercall). Hiperwizor zapewnia
+także interfejsy hiperwołań (hypercalls) dla innych krytycznych operacji jądra operacyjnego, takich
+jak zarządzanie pamięcią, obsługa przerwań i utrzymywanie czasu. W przypadku parawirtualizacji mamy
+mniejszy narzut (overhead) związany z samym zadaniem wirtualizacji niż przy pełnej wirtualizacji,
+choć zysk wydajnościowy w porównaniu do niej zależy w dużej mierze od obciążenia, któremu podda się
+system gościa. Przykładem parawirtualizacji jest projekt Xen, który wirtualizuje procesor i pamięć
+wykorzystując do tego zmodyfikowane jądro linux'a oraz wirtualizuje I/O przy użyciu
+niestandardowych sterowników urządzeń systemu operacyjnego gościa.</p>
+<h4 id="wirtualizacja-wspomagana-sprzętowo">Wirtualizacja wspomagana sprzętowo</h4>
+<p>Wirtualizacja wspomagana sprzętowo umożliwia pełne odizolowanie maszyn wirtualnych i osiągana jest
+przez implementowanie dodatkowych rozszerzeń bezpośrednio w procesorach. Procesory Intel dysponują
+technologią <a href="https://en.wikipedia.org/wiki/X86_virtualization#Intel_virtualization_(VT-x)">VT-x</a>, a procesory AMD mają <a href="https://en.wikipedia.org/wiki/X86_virtualization#AMD_virtualization_(AMD-V)">AMD-V</a>. Te technologie dodają nowe uprzywilejowane
+instrukcje wirtualizacji dla hiperwizora, które pozwalają mu działać w nowym trybie
+administracyjnym (root mode) poniżej <code>Ring 0</code> (zwykle stosowany termin <code>Ring -1</code> ). W taki sposób,
+system operacyjny gościa jest w stanie wykonywać natywnie operacje przeznaczone dla <code>Ring 0</code>
+(dostęp do sprzętu) bez wpływania w żaden sposób na inne systemy gościa czy też system operacyjny
+hosta.  W tej technice wirtualizacji wrażliwe i uprzywilejowane instrukcje są automatycznie
+przechwytywane przez hiperwizor, przez co nie ma potrzeby stosowania już binarnej translacji czy
+też parawirtualizacji.</p>
+<h4 id="wirtualizacja-pamięci-ram">Wirtualizacja pamięci RAM</h4>
+<p>Procesor nie jest jedynym elementem, który trzeba poddać wirtualizacji. Podobnie trzeba postąpić w
+przypadku pamięci RAM, wliczając w to dzielenie fizycznej pamięci operacyjnej oraz dynamiczny jej
+przydział maszynom wirtualnym. Wirtualizacja pamięci maszyny wirtualnej jest bardzo podobna do
+obsługi pamięci wirtualnej zapewnianej przez nowsze systemy operacyjne. Aplikacje widzą ciągłą
+przestrzeń adresową, która niekoniecznie jest powiązana z podstawową pamięcią fizyczną w systemie.
+System operacyjny zachowuje odwzorowania numerów stron wirtualnych na numery stron fizycznych
+przechowywanych w tablicach stron. Wszystkie nowoczesne procesory x86 zawierają jednostkę
+zarządzania pamięcią (Memory Management Unit, MMU) i bufor TLB (Translation Lookaside Buffer) w
+celu optymalizacji wydajności pamięci wirtualnej. Aby uruchomić wiele maszyn wirtualnych na jednym
+systemie hosta, wymagany jest dodatkowy poziom wirtualizacji pamięci. Innymi słowy, by być w stanie
+obsłużyć system gościa należy zwirtualizować MMU. System gościa nadal kontroluje mapowanie adresów
+wirtualnych do pamięci gościa, ale system gościa nie może mieć bezpośredniego dostępu do
+rzeczywistej pamięci operacyjnej maszyny hosta. Hiperwizor jest odpowiedzialny za mapowanie pamięci
+fizycznej gościa na rzeczywistą pamięć maszyny hosta i wykorzystuje cieniste tablice stron (shadow
+page tables) by to mapowanie przyśpieszyć. Hiperwizor wykorzystuje sprzętowy TLB do mapowania
+pamięci wirtualnej bezpośrednio do pamięci maszyny hosta aby uniknąć dwóch poziomów translacji przy
+każdym dostępie. Gdy system gościa zmienia mapowanie pamięci, hiperwizor aktualizuje cieniste
+tablice stron aby umożliwić bezpośrednie wyszukiwanie.</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/001-virtualization-techniques-linux-qemu-kvm-memory.png#big" alt=""></p>
+<h4 id="wirtualizacja-urządzeń-oraz-operacji-io">Wirtualizacja urządzeń oraz operacji I/O</h4>
+<p>Poza wirtualizacją procesora i pamięci wymagana jest także wirtualizacja urządzeń oraz operacji
+wejścia/wyjścia (I/O). Ten proces obejmuje zarządzanie zapytaniami I/O między urządzeniami
+wirtualnymi a współdzielonym sprzętem fizycznym. Programowa wirtualizacja I/O daje wiele możliwości
+i znacznie upraszcza zarządzanie urządzeniami. Dla przykładu, wirtualne interfejsy sieciowe i
+przełączniki tworzą wirtualne sieci pomiędzy maszynami wirtualnymi, przez co nie korzystają z
+fizycznych interfejsów sieciowych i nie obciążają w żaden sposób sieci hosta. Kluczem do efektywnej
+wirtualizacji I/O jest zachowanie zalet wirtualizacji przy jednoczesnym ograniczeniu dodatkowego
+wykorzystania procesora do minimum. Hiperwizor wirtualizuje sprzęt fizyczny i przedstawia każdej
+maszynie wirtualnej ustandaryzowany zestaw urządzeń wirtualnych. Te urządzenia wirtualne efektywnie
+emulują dobrze znany sprzęt i tłumaczą zapytania maszyny wirtualnej na zapytania do urządzeń hosta.</p>
+<h3 id="co-to-jest-kvm-qemu-i-libvirt">Co to jest KVM, QEMU i libvirt</h3>
+<p><a href="https://www.linux-kvm.org/">KVM (Kernel-based Virtual Machine)</a>, to otwartoźródłowa technologia wirtualizacji wbudowana
+bezpośrednio w kernel linux'a, pozwalająca maszynie hosta na uruchomienie wielu izolowanych
+środowisk wirtualnych szerzej znanych jako maszyny wirtualne lub systemy gościa. KVM w zasadzie
+zapewnia linux'owi możliwości hiperwizora, co oznacza, że szereg jego komponentów, takich jak
+zarządzanie pamięcią, planista/dyspozytor (scheduler), stos sieciowy, itp. są dostarczane jako
+część kernela linux. Maszyny wirtualne są w ten sposób zwykłymi procesami w systemie hosta mającymi
+dedykowany wirtualny sprzęt, taki jak np. adaptery sieciowe. KVM jest dostarczany w formie modułu
+<code>kvm.ko</code> będącym rdzeniem infrastruktury wirtualizacji oraz modułów specyficznych dla rodzaju
+procesora, tj. <code>kvm-intel.ko</code> dla procesorów Intel, oraz <code>kvm-amd.ko</code> dla procesorów AMD.</p>
+<p><a href="https://wiki.qemu.org/">QEMU to Quick Emulator</a> jest to w zasadzie emulator maszyn i zarazem wirtualizator
+(hostowany hiperwizor). Gdy QEMU jest wykorzystywany w roli emulatora, to jest on w stanie uruchomić
+pojedyncze aplikacje (albo też i całe systemy operacyjne) przeznaczone na konkretne maszyny (np.
+ARM), na innych maszynach, np. na nasz domowy PC. Jeśli zaś QEMU jest wykorzystywany w roli
+hiperwizora, to jest on w stanie wykonywać kod gościa (maszyny wirtualnej) bezpośrednio na
+procesorze hosta, co przyśpiesza znacząco wydajność maszyny wirtualnej, która mocno zbliżona jest
+do tej natywnej, tak jakby system maszyny wirtualnej działał bezpośrednio na maszynie hosta. QEMU w
+roli hiperwizora jest w stanie robić użytek z technologi wirtualizacji oferowanej przez kernel
+linux'a i w ten sposób kod binarny maszyny wirtualnej może być wykonywany bez emulacji CPU i
+problemów z nią związanymi (słaba wydajność). Maszyna wirtualna może zostać uruchomiona przy pomocy
+wiersza poleceń qemu, gdzie można też określić wszystkie niezbędne opcje konfiguracyjne dla QEMU.</p>
+<p>Libvirt z kolei jest interfejsem, który tłumaczy konfigurację zapisaną w plikach XML na wywołania
+<code>qemu</code> . Libvirt dostarcza także demona, który jest w stanie skonfigurować procesy potomne <code>qemu</code> w
+taki sposób, by nie potrzebowały one uprawnień administratora root. By uruchomić maszynę wirtualną,
+libvirt jest wykorzystywany do zestawienia procesu <code>qemu</code> dla każdej takiej maszyny osobno.</p>
+<h2 id="czy-mój-komputerprocesorlinux-wspiera-wirtualizację">Czy mój komputer/procesor/linux wspiera wirtualizację</h2>
+<p>Zanim przejdziemy do głównej części tego artykułu jaką jest konfiguracja maszyn wirtualnych pod
+linux, trzeba sobie zadać pytanie czy nasz komputer (a w zasadzie jego procesor) posiada wsparcie
+dla sprzętowej wirtualizacji. Ten krok sprowadza się w zasadzie do przejrzenia pliku
+<code>/proc/cpuinfo</code> w poszukiwaniu określonej flagi. Jeśli mamy procesor Intel, to szukamy za <code>vmx</code>
+(Virtual Machine Extensions), a jeśli AMD, to za <code>svm</code> (Secure Virtual Machine). Poniżej są
+informacje na temat procesora Intel i5-3320M (a konkretnie jednego z jego rdzeni), który figuruje w
+moim ThinkPad T430:</p>
+<pre><code># cat /proc/cpuinfo
+processor       : 0
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 58
+model name      : Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz
+stepping        : 9
+microcode       : 0x21
+cpu MHz         : 1375.278
+cache size      : 3072 KB
+physical id     : 0
+siblings        : 4
+core id         : 0
+cpu cores       : 2
+apicid          : 0
+initial apicid  : 0
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 13
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36
+                  clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_
+                  tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf
+                  pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid
+                  sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_
+                  lm cpuid_fault epb pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept
+                  vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts md_clear flush_l1d
+vmx flags       : vnmi preemption_timer invvpid ept_x_only flexpriority tsc_offset vtpr mtf
+                  vapic ept vpid unrestricted_guest
+bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_
+                  multihit srbds
+bogomips        : 5188.31
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 36 bits physical, 48 bits virtual
+power management:
+</code></pre>
+<p>Jak widać, flaga <code>vmx</code> jest obecna, zatem ten procesor ma wsparcie dla sprzętowej wirtualizacji.</p>
+<p>Można także posłużyć się narzędziem <code>lscpu</code> :</p>
+<pre><code># lscpu
+Architecture:                    x86_64
+CPU op-mode(s):                  32-bit, 64-bit
+Byte Order:                      Little Endian
+Address sizes:                   36 bits physical, 48 bits virtual
+CPU(s):                          4
+On-line CPU(s) list:             0-3
+Thread(s) per core:              2
+Core(s) per socket:              2
+Socket(s):                       1
+NUMA node(s):                    1
+Vendor ID:                       GenuineIntel
+CPU family:                      6
+Model:                           58
+Model name:                      Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz
+Stepping:                        9
+CPU MHz:                         2416.594
+CPU max MHz:                     3300.0000
+CPU min MHz:                     1200.0000
+BogoMIPS:                        5188.07
+Virtualization:                  VT-x
+L1d cache:                       64 KiB
+L1i cache:                       64 KiB
+L2 cache:                        512 KiB
+L3 cache:                        3 MiB
+NUMA node0 CPU(s):               0-3
+Vulnerability Itlb multihit:     KVM: Mitigation: Split huge pages
+Vulnerability L1tf:              Mitigation; PTE Inversion; VMX conditional cache flushes, SMT vulnerable
+Vulnerability Mds:               Mitigation; Clear CPU buffers; SMT vulnerable
+Vulnerability Meltdown:          Mitigation; PTI
+Vulnerability Spec store bypass: Mitigation; Speculative Store Bypass disabled
+Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:        Mitigation; Full generic retpoline, IBPB conditional, IBRS_FW,
+                                             STIBP conditional, RSB filling
+Vulnerability Srbds:             Vulnerable: No microcode
+Vulnerability Tsx async abort:   Not affected
+Flags:                           fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat
+                                 pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx
+                                 rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl
+                                 xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor
+                                 ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid sse4_1 sse4_2
+                                 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm
+                                 cpuid_fault epb pti ssbd ibrs ibpb stibp tpr_shadow vnmi
+                                 flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat
+                                 pln pts md_clear flush_l1d
+</code></pre>
+<p>Jak widać wyżej, na pozycji <code>Virtualization:</code> mamy <code>VT-x</code> , który to odpowiada, za wirtualizację w
+procesorach Intel.</p>
+<p>Warto dodać w tym miejscu, że istnieje także narzędzie <code>kvm-ok</code> (dostępne w Debianie w pakiecie
+<code>cpu-checker</code> ), które jest w stanie zweryfikować wsparcie naszej maszyny dla wirtualizacji i po
+części też nakierować nas na prawidłowy trop w przypadku ewentualnych problemów:</p>
+<pre><code># kvm-ok
+INFO: /dev/kvm exists
+KVM acceleration can be used
+</code></pre>
+<h3 id="ustawienia-biosefiuefi">Ustawienia BIOS/EFI/UEFI</h3>
+<p>Praktycznie wszystkie nowsze procesory (produkowane od ponad dekady) posiadają w standardzie
+wsparcie dla sprzętowej wirtualizacji. Jeśli jednak w pliku <code>/proc/cpuinfo</code> nie znajdziemy
+interesującej nas flagi, to jest niemal pewne, że wirtualizacja została wyłączona na poziomie
+EFI/UEFI lub BIOS (w zależności, które z nich posiadamy). W takim przypadku trzeba wejść w
+ustawienia BIOS/EFI/UEFI i włączyć stosowne opcje. Poniżej jest przykład z mojego ThinkPad'a T430:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/002-virtualization-processor-bios-efi-uefi-kvm-qemu.jpg#huge" alt=""></p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/003-virtualization-processor-bios-efi-uefi-kvm-qemu.jpg#huge" alt=""></p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/004-virtualization-processor-bios-efi-uefi-kvm-qemu.jpg#huge" alt=""></p>
+<p>Oczywiście nazwy opcji mogą się nieco różnić ale raczej nie powinniśmy mieć problemów z ustaleniem,
+które opcje w BIOS/EFI/UEFI odpowiadają za włączenie wirtualizacji.</p>
+<h2 id="konfiguracja-kernela-linux-pod-qemukvm">Konfiguracja kernela linux pod QEMU/KVM</h2>
+<p>Standardowy kernel dystrybucji Debian zawiera praktycznie wszystkie niezbędne opcje, które muszą
+być włączone w konfiguracji jądra by wsparcie dla wirtualizacji było zapewnione. Nie trzeba zatem
+nic dodatkowo ustawiać. Ja jednak od dłuższego czasu <a href="https://morfikov.github.io
+/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/">buduję kernel dla swojego laptopa
+samodzielnie</a> i do tej pory nie korzystałem na tym sprzęcie z dobrodziejstw jakie zapewniają
+maszyny wirtualne. Dlatego też wszystkie opcje kernela dotyczące mechanizmu wirtualizacji (z
+<code>CONFIG_VIRTUALIZATION</code> na czele) były wyłączone. Jeśli nasz kernel nie posiada wsparcia dla
+wirtualizacji i chcielibyśmy mu je dorobić, to <a href="https://wiki.gentoo.org/wiki/QEMU">musimy włączyć w nim te poniższe opcje</a>:</p>
+<pre><code>CONFIG_VIRTUALIZATION
+CONFIG_KVM
+</code></pre>
+<p>W zależności od posiadanego procesora (Intel/AMD), trzeba wybrać moduł dla KVM. Jeśli mamy procesor
+Intela, to dodatkowo zaznaczamy:</p>
+<pre><code>CONFIG_KVM_INTEL
+</code></pre>
+<p>Jeśli zaś mamy procesor AMD, to włączamy:</p>
+<pre><code>CONFIG_KVM_AMD
+</code></pre>
+<p>Możemy również włączyć obie te opcje ale taki stan rzeczy będzie powodował problemy w przypadku,
+gdy wkompilujemy te moduły bezpośrednio w jądro. Jeśli faktycznie potrzebujemy obu tych opcji (co
+raczej nie powinno mieć miejsca w przypadku budowania kernela dla konkretnej maszyny), to lepiej
+jest pozostawić je w formie modułów.</p>
+<p>Poniższe parametry są opcjonalne ale <a href="https://www.linux-kvm.org/page/UsingVhost">mogą znacznie poprawić wydajność sieci maszyn
+wirtualnych</a>:</p>
+<pre><code>CONFIG_VHOST=y
+CONFIG_VHOST_MENU=y
+CONFIG_VHOST_NET=y
+</code></pre>
+<p>Upewnijmy się też, że mamy zaznaczone te poniższe opcje, tak by nie było problemu z tworzeniem
+wirtualnych interfejsów mostka oraz interfejsów sieciowych maszyn wirtualnych:</p>
+<pre><code>CONFIG_NETDEVICES
+CONFIG_NET_CORE
+CONFIG_TUN
+CONFIG_BRIDGE
+</code></pre>
+<h3 id="kernel-64-bit-vs-32-bit">Kernel 64-bit vs. 32-bit</h3>
+<p>Jeśli chodzi o wirtualizację, to powinniśmy korzystać z 64-bitowego kernela linux. Nie jest to co
+prawda wymagane ale jeśli chcemy mieć możliwość przydzielić maszynie wirtualnej więcej niż 2 GiB
+pamięci RAM, to nie damy rady tego uczynić jeśli na maszynie hosta mamy kernel 32-bit.</p>
+<p>Warto tutaj zaznaczyć, że mając na maszynie hosta kernel 64-bitowy, w dalszym ciągu możemy tworzyć
+32-bitowe maszyny wirtualne. W drugą stronę to nie zadziała, czyli mając 32-bitowy kernel na hoście
+jesteśmy ograniczeni jedynie do 32-bitowych maszyn wirtualnych.</p>
+<h2 id="konfiguracja-hugepages-pod-qemukvm">Konfiguracja HugePages pod QEMU/KVM</h2>
+<p><a href="https://morfikov.github.io
+/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/">Konfiguracja HugePages na potrzeby maszyn wirtualnych QEMU/KVM</a> została opisana w osobnym
+artykule.</p>
+<h2 id="potrzebne-oprogramowanie">Potrzebne oprogramowanie</h2>
+<p>Możemy przejść do instalacji potrzebnego oprogramowania, które umożliwi nam tworzenie i zarządzanie
+maszynami wirtualnymi na naszym linux'ie. Poniżej znajduje się lista pakietów, które trzeba
+zainstalować w systemie:</p>
+<pre><code># aptitude install \
+         qemu-system-x86 qemu-system-gui qemu-utils \
+         libvirt-daemon libvirt-daemon-system virt-manager \
+         bridge-utils dnsmasq-base iptables \
+         gir1.2-spiceclientgtk-3.0
+</code></pre>
+<h3 id="pakiety-qemu-system-x86-oraz-qemu-kvm">Pakiety qemu-system-x86 oraz qemu-kvm</h3>
+<p>W wielu miejscach na necie można się spotkać z instalacją w systemie pakietu <code>qemu-kvm</code> . Niemniej
+jednak, obecnie w Debianie (Sid) instalacja tego pakietu kończy się poniższym komunikatem:</p>
+<pre><code># aptitude install qemu-kvm
+The following NEW packages will be installed:
+  qemu-kvm
+0 packages upgraded, 1 newly installed, 0 to remove and 29 not upgraded.
+Need to get 76.4 kB of archives. After unpacking 114 kB will be used.
+The following packages have unmet dependencies:
+ qemu-system-x86 : Breaks: qemu-kvm but 1:5.0-8 is to be installed
+The following actions will resolve these dependencies:
+
+     Keep the following packages at their current version:
+1)     qemu-kvm [Not Installed]
+
+Accept this solution? [Y/n/q/?]
+</code></pre>
+<p>Winny jest tutaj pakiet <code>qemu-system-x86</code> , który to z kolei ma w swoich zależnościach:</p>
+<pre><code>Breaks:   qemu-kvm
+Replaces: qemu-kvm
+Provides: qemu-kvm, qemu-system-i386, qemu-system-x86-64
+</code></pre>
+<p>I to właśnie <code>qemu-system-x86</code> powinien być instalowany w miejsce <code>qemu-kvm</code> .</p>
+<h3 id="pakiet-qemu-system-gui">Pakiet qemu-system-gui</h3>
+<p>Pakiet <code>qemu-system-gui</code> dostarcza z kolei lokalny graficzny interfejs użytkownika (GTK) oraz
+bakendy audio dla pełnej emulacji systemu (pakiety <code>qemu-system-*</code> , m.in. <code>qemu-system-x86</code> ,
+który będzie wykorzystywany w tym artykule).</p>
+<h3 id="pakiet-qemu-utils">Pakiet qemu-utils</h3>
+<p>W pakiecie <code>qemu-utils</code> znajduje się m.in. narzędzie <code>qemu-img</code> , które umożliwia operowanie na
+obrazach maszyn wirtualnych, wliczając w to zmianę ich rozmiaru czy kompresję danych, tak by te
+obrazy nie zajmowały niepotrzebnie zbyt dużo miejsca na dysku. Jeśli mamy zamiar operować na
+obrazach maszyn wirtualnych, to dobrze jest ten pakiet również sobie zainstalować.</p>
+<h3 id="pakiety-libvirt-daemon-oraz-libvirt-daemon-system">Pakiety libvirt-daemon oraz libvirt-daemon-system</h3>
+<p>Pakiet <code>libvirt-daemon</code> dostarcza  demona <code>libvirtd</code> zarządzającego mechanizmami wirtualizacji
+(QEMU, KVM, XEN, OpenVZ, LXC, oraz VirtualBox). Z kolei w pakiecie <code>libvirt-daemon-system</code> znajduje
+się konfiguracja dla demona <code>libvirtd</code> . Dodatkowo, pakiet <code>libvirt-daemon-system</code> pociąga w
+zależnościach również <code>libvirt-daemon-system-systemd</code> lub <code>libvirt-daemon-system-sysv</code> . W tym
+przypadku jako, że używany jest systemd, to <code>libvirt-daemon-system-systemd</code> zostanie zainstalowany.
+Ten pakiet zawiera jedynie zależności, które umożliwiają libvirt współpracowanie z systemd.</p>
+<h3 id="pakiet-virt-manager">Pakiet virt-manager</h3>
+<p>W pakiecie <code>virt-manager</code> znajduje się aplikacja (w stadium eksperymentalnym) <a href="https://virt-manager.org/">umożliwiająca
+graficzne zarządzanie maszynami wirtualnymi</a>. W zasadzie każdy aspekt pracy związany z
+tworzeniem i zarządzaniem maszynami wirtualnymi (albo też ich ogromną część) można ogarnąć przy
+pomocy aplikacji <code>virt-manager</code> . Z tych ciekawszych rzeczy można jeszcze wspomnieć, że
+<code>virt-manager</code> posiada wbudowany klient SPICE/VNC.</p>
+<h3 id="pakiety-bridge-utils-dnsmasq-base-i-iptables">Pakiety bridge-utils, dnsmasq-base i iptables</h3>
+<p>By nieco ułatwić konfigurację sieci, libvirt ma zdefiniowaną NAT'owską sieć <code>192.168.122.1/24</code> i
+wszystkie maszyny wirtualne domyślnie do tej sieci będą przypisane. By połączenie było realizowane
+za pomocą NAT, potrzebny będzie wirtualny interfejs mostka, którym to libvirt będzie zarządzał.
+Potrzebne są zatem stosowne narzędzia dostępne w pakiecie <code>bridge-utils</code> . Każda maszyna wirtualna
+otrzyma swój adres IP za pomocą protokołu DHCP, i do tego celu potrzebny będzie nam serwer DHCP, w
+roli którego wystąpi <code>dnsmasq</code> dostępny w Debianie w pakiecie <code>dnsmasq-base</code> . By komunikacja
+maszyn wirtualnych ze światem zewnętrznym przez sieci była możliwa, potrzebny będzie filtr pakietów
+<code>iptables</code> oraz odpowiednia jego konfiguracja.</p>
+<p>Trzeba tutaj zaznaczyć, że ta domyślna sieć dla maszyn wirtualnych nie jest domyślnie włączona i
+nie jest obligatoryjne instalowanie któregokolwiek z tych trzech pakietów. Jeśli jednak
+chcielibyśmy korzystać z tych predefiniowanych ustawień sieci, to te pakiety trzeba doinstalować.</p>
+<p>Kolejna sprawa, to sam filtr pakietów. Debian oraz inne dystrybucje linux'a przeszły jakiś czas
+temu z <code>iptables</code> na <code>nftables</code> . Jeśli wykorzystujemy narzędzie <code>nft</code> do konfiguracji zapory
+sieciowej, to ta domyślna konfiguracja sieci nie będzie kompatybilna i trzeba będzie ręcznie
+skonfigurować reguły, by sieć w maszynach wirtualnych działała jak należy (o tym później).</p>
+<h3 id="pakiet-gir12-spiceclientgtk-30">Pakiet gir1.2-spiceclientgtk-3.0</h3>
+<p>W przypadku, gdy podczas startu maszyny wirtualnej zobaczymy na ekranie komunikat <code>Error connecting to graphical console: Error opening Spice console, SpiceClientGtk missing.</code> , co wygląda mniej
+więcej tak:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/005-virtualization-kvm-qemu-virt-manager-error-console.jpg#big" alt=""></p>
+<p>Oznacza to, że brakuje w systemie pakietu <code>gir1.2-spiceclientgtk-3.0</code> .</p>
+<p>Co co ciekawe, ja u siebie miałem zainstalowany pakiety <code>spice-client-gtk</code> , który ma w
+zależnościach <code>gir1.2-spiceclientgtk-3.0</code> , a mimo to, ten powyższy błąd ciągle występował. Problem
+ustał dopiero po odinstalowaniu pakietu <code>spice-client-gtk</code> i bezpośrednim zainstalowaniu
+<code>gir1.2-spiceclientgtk-3.0</code> . To tak na wypadek, gdyby ktoś miał podobny problem z uruchamianiem
+maszyn wirtualnych.</p>
+<h2 id="grupy-w-linux-a-operowanie-na-maszynach-wirtualnych">Grupy w linux a operowanie na maszynach wirtualnych</h2>
+<p>Po zainstalowaniu potrzebnego oprogramowania, w linux'ie powinny pojawić się dodatkowe grupy, tj.
+<code>kvm</code> , <code>libvirt</code> oraz <code>libvirt-qemu</code> . W wielu tutorialach poświęconych QEMU/KVM pojawiają się
+sugestie by dodać zwykłego użytkownika do każdej z tych trzech grup. Wygląda jednak na to, że nie
+jest to konieczne i do tego jeszcze może nieco zagrażać bezpieczeństwu systemu.</p>
+<p>Jeżeli nie dodamy zwykłego użytkownika do żadnej z wyżej wymienionych grup, to np. przy
+uruchamianiu <code>virt-manager</code> (przy łączeniu się z demonem <code>libvirtd</code> ) będziemy ciągle pytani o
+hasło administratora:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/006-virtualization-kvm-qemu-virt-manager-password.jpg#big" alt=""></p>
+<h3 id="grupa-libvirt">Grupa libvirt</h3>
+<p>By nie być pytanym o hasło za każdym razem jak będziemy uruchamiać <code>virt-manager</code> czy korzystać z
+narzędzia <code>virsh</code> (przykładowo <code>virsh -c qemu:///system 'list --all'</code> ), to musimy dodać zwykłego
+użytkownika do grupy <code>libvirt</code> :</p>
+<pre><code># adduser morfik libvirt
+</code></pre>
+<p>Wymaga tego polityka <code>policykit</code>, która jest określona w pliku
+<code>/usr/share/polkit-1/rules.d/60-libvirt.rules</code> :</p>
+<pre><code># cat /usr/share/polkit-1/rules.d/60-libvirt.rules
+// Allow any user in the 'libvirt' group to connect to system libvirtd
+// without entering a password.
+
+polkit.addRule(function(action, subject) {
+    if (action.id == &quot;org.libvirt.unix.manage&quot; &amp;&amp;
+        subject.isInGroup(&quot;libvirt&quot;)) {
+        return polkit.Result.YES;
+    }
+});
+</code></pre>
+<h3 id="grupa-libvirt-qemu">Grupa libvirt-qemu</h3>
+<p>Jeśli zaś chodzi o grupę <code>libvirt-qemu</code> , to systemowe procesy QEMU/KVM są uruchomione jako
+użytkownik/grupa <code>libvirt-qemu</code> (można ten aspekt dostosować w pliku <code>/etc/libvirt/qemu.conf</code> ),
+przez co szereg plików w katalogu <code>/var/lib/libvirt/</code> posiada użytkownika/grupę <code>libvirt-qemu</code> :</p>
+<pre><code># tree -fpugs /var/lib/libvirt/
+/var/lib/libvirt
+├── [drwx--x--x root     root            4096]  /var/lib/libvirt/boot
+├── [drwxr-xr-x root     root            4096]  /var/lib/libvirt/dnsmasq
+│   ├── [-rw-r--r-- root     root               0]  /var/lib/libvirt/dnsmasq/default.addnhosts
+│   ├── [-rw------- root     root             598]  /var/lib/libvirt/dnsmasq/default.conf
+│   ├── [-rw-r--r-- root     root               0]  /var/lib/libvirt/dnsmasq/default.hostsfile
+│   ├── [-rw-r--r-- root     root              87]  /var/lib/libvirt/dnsmasq/virbr0.macs
+│   └── [-rw-r--r-- root     root             211]  /var/lib/libvirt/dnsmasq/virbr0.status
+├── [drwx--x--x root     root            4096]  /var/lib/libvirt/images
+│   └── [-rw-r--r-- libvirt-qemu libvirt-qemu  4337762304]  /var/lib/libvirt/images/ubuntu20.04-small.qcow2
+├── [drwxr-x--- libvirt-qemu libvirt-qemu        4096]  /var/lib/libvirt/qemu
+│   ├── [drwxr-x--- libvirt-qemu libvirt-qemu        4096]  /var/lib/libvirt/qemu/channel
+│   │   └── [drwxr-x--- libvirt-qemu libvirt-qemu        4096]  /var/lib/libvirt/qemu/channel/target
+│   │       └── [drwxr-x--- libvirt-qemu libvirt-qemu        4096]  /var/lib/libvirt/qemu/channel/target/domain-19-ubuntu20.04
+│   │           └── [srwxrwxr-x libvirt-qemu libvirt-qemu           0]  /var/lib/libvirt/qemu/channel/target/domain-19-ubuntu20.04/org.qemu.guest_agent.0
+│   ├── [drwxr-xr-x libvirt-qemu libvirt-qemu        4096]  /var/lib/libvirt/qemu/checkpoint
+│   ├── [drwxr-x--- libvirt-qemu libvirt-qemu        4096]  /var/lib/libvirt/qemu/domain-19-ubuntu20.04
+│   │   ├── [-rw------- libvirt-qemu libvirt-qemu          32]  /var/lib/libvirt/qemu/domain-19-ubuntu20.04/master-key.aes
+│   │   └── [srwxrwxr-x root     root               0]  /var/lib/libvirt/qemu/domain-19-ubuntu20.04/monitor.sock
+│   ├── [drwxr-xr-x libvirt-qemu libvirt-qemu        4096]  /var/lib/libvirt/qemu/dump
+│   ├── [drwxr-xr-x libvirt-qemu libvirt-qemu        4096]  /var/lib/libvirt/qemu/nvram
+│   ├── [drwxr-xr-x libvirt-qemu libvirt-qemu        4096]  /var/lib/libvirt/qemu/ram
+│   ├── [drwxr-xr-x libvirt-qemu libvirt-qemu        4096]  /var/lib/libvirt/qemu/save
+│   └── [drwxr-xr-x libvirt-qemu libvirt-qemu        4096]  /var/lib/libvirt/qemu/snapshot
+└── [drwx------ root     root            4096]  /var/lib/libvirt/sanlock
+
+15 directories, 9 files
+</code></pre>
+<p>W katalogu <code>/var/lib/libvirt/</code> są przechowywane obrazy maszyn wirtualnych, jak i również informacje
+o uruchomionych i aktualnie działających w systemie hosta maszynach wirtualnych. Zwykły użytkownik
+niekoniecznie powinien mieć swobodny dostęp do tych plików i standardowo go nie posiada i lepiej by
+tak zostało. Dlatego też lepiej nie dodawać zwykłego użytkownika do grupy <code>libvirt-qemu</code> .</p>
+<h3 id="grupa-kvm">Grupa kvm</h3>
+<p>Z kolei grupa <code>kvm</code> potrafi zapewnić zwykłym użytkownikom dostęp do urządzenia <code>/dev/kvm</code> , które
+jest niezbędne do uruchamiania maszyn wirtualnych na bazie KVM. UDEV nadaje stosowne uprawnienia
+urządzeniu <code>/dev/kvm</code> za pośrednictwem pliku <code>/lib/udev/rules.d/50-udev-default.rules</code> , który to
+ma określoną tę poniższą regułę:</p>
+<pre><code>KERNEL==&quot;kvm&quot;, GROUP=&quot;kvm&quot;, MODE=&quot;0660&quot;, OPTIONS+=&quot;static_node=kvm&quot;
+</code></pre>
+<p>Zatem dodanie użytkownika do grupy <code>kvm</code> sprawi, że będzie miał on dostęp (zapis/odczyt) do tego
+urządzenia. Niemniej jednak, w systemach mających na pokładzie systemd jest dostępny również plik
+<code>/lib/udev/rules.d/70-uaccess.rules</code> , który zawiera tę poniższą linijkę:</p>
+<pre><code>SUBSYSTEM==&quot;misc&quot;, KERNEL==&quot;kvm&quot;, TAG+=&quot;uaccess&quot;
+</code></pre>
+<p>Ma ona dodany tag <code>uaccess</code> , który to jest używany przez <code>logind</code> do dynamicznego nadawania praw
+dostępu do określonych urządzeń lokalnym użytkownikom via ACL (Access Control List). Ta powyższa
+linijka dotyczy urządzenia <code>/dev/kvm</code> , przez co nie ma potrzeby ręcznego dodawania użytkownika do
+grupy <code>kvm</code> . Możemy się o tym przekonać wydając poniższe polecenia:</p>
+<pre><code>$ egrep kvm /etc/group
+kvm:x:136:
+
+$ getfacl /dev/kvm
+getfacl: Removing leading '/' from absolute path names
+# file: dev/kvm
+# owner: root
+# group: kvm
+user::rw-
+user:morfik:rw-
+group::rw-
+mask::rw-
+other::---
+</code></pre>
+<p>Zatem użytkownik <code>morfik</code> nie jest dodany do grupy <code>kvm</code> ale ma uprawnienia zapisu i odczytu
+urządzenia <code>/dev/kvm</code> .</p>
+<p>Trzeba tutaj wyraźnie zaznaczyć, że dostęp do urządzenia <code>/dev/kvm</code> jest przyznany jedynie w
+przypadku, gdy sesja jest lokalna i do tego aktywna. Ten fakt możemy zweryfikować w poniższy sposób:</p>
+<pre><code>$ loginctl list-sessions
+SESSION  UID USER   SEAT  TTY
+      1 1000 morfik seat0 tty4
+
+1 sessions listed.
+
+$ loginctl show-session 1
+...
+Remote=no
+Active=yes
+...
+</code></pre>
+<p>Jeśli któryś z tych dwóch warunków nie zostanie spełniony, np. przejdziemy do konsoli TTY1 via
+CTRL+ALT+F1, to nasza sesja graficzna stanie się nieaktywna i dostęp do urządzenia <code>/dev/kvm</code>
+zostanie odebrany. Możemy się o tym przekonać logując się na TTY1 na innego użytkownika niż ten
+zalogowany w sesji graficznej (np. root) i ponownie wydając poniższe polecenie:</p>
+<pre><code># getfacl /dev/kvm
+getfacl: Removing leading '/' from absolute path names
+# file: dev/kvm
+# owner: root
+# group: kvm
+user::rw-
+group::rw-
+mask::rw-
+other::---
+</code></pre>
+<p>Nie ma już tutaj linijki z <code>user:morfik:rw-</code> , która była wcześniej. Oczywiście jak tylko powrócimy
+do sesji graficznej, to te uprawnienia automatycznie zostaną ponownie nadane.</p>
+<p>Nadanie uprawnień zwykłemu użytkownikowi by mógł wejść w interakcję z urządzeniem <code>/dev/kvm</code>
+niezbędne jest jedynie w przypadku, gdy chcemy bezpośrednio korzystać z KVM. W tym artykule jednak
+wykorzystywany będzie głównie <code>virt-manager</code> , który to robi użytek z <code>libvirt</code> . W takim przypadku
+proces <code>qemu-system-x86_64</code> jest uruchomiony jako użytkownik <code>libvirt-qemu</code> , którego to grupą
+główną jest <code>kvm</code> :</p>
+<pre><code>$ cat /etc/group | grep kvm
+kvm:x:136:
+
+$ cat /etc/passwd | grep 136
+libvirt-qemu:x:64055:136:Libvirt Qemu,,,:/var/lib/libvirt:/usr/sbin/nologin
+</code></pre>
+<p>Dlatego też proces <code>qemu-system-x86_64</code> będzie miał zawsze dostęp do urządzenia <code>/dev/kvm</code> , przez
+co my w zasadzie nie musimy dodawać swojego użytkownika do grupy <code>kvm</code> , o ile oczywiście
+zamierzamy korzystać (bezpośrednio lub pośrednio) z <code>libvirt</code> lub korzystamy z systemd.</p>
+<h2 id="tworzenie-maszyn-wirtualnych-qemukvm">Tworzenie maszyn wirtualnych QEMU/KVM</h2>
+<p>Przyszła już chyba najwyższa pora by wziąć się za same maszyny wirtualne. Niemniej jednak,
+przydałoby się pierw jakąś utworzyć. Do tego celu potrzebny nam będzie w zasadzie kawałek nośnika
+instalacyjnego -- tego samego, który zwykliśmy wykorzystywać do instalacji linux'a na regularnym
+desktopie czy laptopie. W tym przypadku został wykorzystany <a href="https://ubuntu.com/download/desktop">obraz Ubuntu 20.04</a>. Po pobraniu
+stosownego pliku, odpalamy <code>virt-manager</code> i łączymy się z <code>qemu:///system</code> (domyślnie jest
+utworzony):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2020/08/014-virtualization-kvm-qemu-virt-manager-create-machine.png#medium" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2020/08/015-virtualization-kvm-qemu-virt-manager-create-machine-connect.png#medium" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>Następnie klikając w ikonkę monitora tworzymy maszynę wirtualną:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/016-virtualization-kvm-qemu-virt-manager-create-machine.png#medium" alt=""></p>
+<p>Wybieramy lokalne medium instalacyjne, tj. ten obraz ISO, który pobraliśmy wcześniej:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/017-virtualization-kvm-qemu-virt-manager-create-machine.png#medium" alt=""></p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/018-virtualization-kvm-qemu-virt-manager-create-machine.png#big" alt=""></p>
+<p>Jeśli wskazaliśmy jeden z tych bardziej popularnych obrazów ISO, to <code>virt-manager</code> powinien
+rozpoznać z jakim obrazem ma do czynienia:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/019-virtualization-kvm-qemu-virt-manager-create-machine.png#medium" alt=""></p>
+<p>Wstępnie też konfigurujemy przydział pamięci operacyjnej RAM oraz rdzeni procesora:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/020-virtualization-kvm-qemu-virt-manager-create-machine.png#medium" alt=""></p>
+<p>Następnie wybieramy format obrazu maszyny wirtualnej oraz ilość przestrzeni dyskowej, którą będzie
+ta maszyna mogła wykorzystać. Jeśli nie chcemy tworzyć obrazów maszyn wirtualnych na partycji
+systemowej w katalogu <code>/var/lib/libvirt/images/</code> , to musimy zdefiniować lokalizację ręcznie:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/021-virtualization-kvm-qemu-virt-manager-create-machine.png#medium" alt=""></p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/022-virtualization-kvm-qemu-virt-manager-create-machine.png#big" alt=""></p>
+<p>Klikamy teraz w ten zielony plusik obok <code>Volumes</code> , dodajemy nowy obraz w formacie <code>.qcow2</code> i
+określamy jego rozmiar:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/023-virtualization-kvm-qemu-virt-manager-create-machine.png#medium" alt=""></p>
+<p>Następnie wybieramy tak utworzony obraz maszyny wirtualnej:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/024-virtualization-kvm-qemu-virt-manager-create-machine.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/025-virtualization-kvm-qemu-virt-manager-create-machine.png#medium" alt=""></p>
+<p>Pozostał nam ostatni krok, tj. nazwanie maszyny wirtualnej i przypisanie jej do konkretnej sieci.
+Standardowe ustawienia sieci powinny wystarczyć chyba, że korzystamy z <code>nftables</code> . W takim
+przypadku trzeba będzie nieco przerobić domyślną sieć lub utworzyć nową &quot;otwartą&quot;:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/026-virtualization-kvm-qemu-virt-manager-create-machine.png#medium" alt=""></p>
+<p>Warto też zaznaczyć opcję <code>Customize configuration before install</code> , co pozwoli nam skonfigurować
+wstępnie maszynę wirtualną zanim rozpocznie się proces instalacji systemu operacyjnego.</p>
+<h3 id="instalacja-systemu-operacyjnego-maszyny-wirtualnej">Instalacja systemu operacyjnego maszyny wirtualnej</h3>
+<p>Po wstępnym skonfigurowaniu parametrów maszyny wirtualnej możemy w końcu już puścić instalację
+systemu operacyjnego, który w tej maszynie będzie działał. Zapisujemy zatem wszystkie ustawienia
+(jeśli jeszcze tego nie zrobiliśmy) i wciskamy przycisk <code>Begin Installation</code> . Chwilę po jego
+przyciśnięciu, powinniśmy zobaczyć znajome okienko instalacji Ubuntu:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/031-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/032-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/033-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge" alt=""></p>
+<p>Możemy wybrać minimalną instalację w celu zaoszczędzenia miejsca w obrazie maszyny wirtualnej:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/034-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge" alt=""></p>
+<p>Tworzymy też tablicę partycji oraz jedną partycję EXT4 z punktem montowania <code>/</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/035-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/036-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge" alt=""></p>
+<p>Jeśli chcemy poprawić trochę prywatność operacji, które zamierzamy przeprowadzać w maszynie
+wirtualnej, to możemy też wybrać inną strefę czasową:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/037-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge" alt=""></p>
+<p>Ustawiamy dane logowania do systemu oraz włączamy automatyczne logowanie:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/038-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge" alt=""></p>
+<p>No i czekamy, aż system się zainstaluje:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/039-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge" alt=""></p>
+<p>Gdy ten proces dobiegnie końca, restartujemy maszynę wirtualną i odpalamy ją z wirtualnego dysku:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/040-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge" alt=""></p>
+<p>Po chwili powinien nam się załadować zainstalowany system:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/041-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge" alt=""></p>
+<h2 id="konfiguracja-maszyn-wirtualnych-qemukvm">Konfiguracja maszyn wirtualnych QEMU/KVM</h2>
+<p>Sporą część konfiguracji maszyny wirtualnej przeprowadziliśmy już na wstępnym etapie stawiania
+systemu operacyjnego. Niemniej jednak, jest kilka kwestii, które możemy jeszcze dodatkowo ustawić.</p>
+<p>Maszyny wirtualne można konfigurować przy pomocy GUI (via <code>virt-manager</code> ) ale można też ręcznie
+edytować plik konfiguracyjny XML za sprawą polecenia <code>virsh</code>. Ta druga opcja daje nam nieco większe
+możliwości, bo nie wszystkie opcje da radę ustawić via <code>virt-manager</code> .</p>
+<h3 id="zmienne-libvirt_debug-oraz-libvirt_log_outputs">Zmienne LIBVIRT_DEBUG oraz LIBVIRT_LOG_OUTPUTS</h3>
+<p>Jeśli kiedykolwiek napotkamy błędy przy wydawaniu poleceń <code>virsh</code> , to zawsze możemy przełączyć
+libvirt w tryb debugowania przy pomocy zmiennej <code>LIBVIRT_DEBUG</code> . Jako, że log uzyskany w ten
+sposób może być dość spory, to dobrze jest także automatycznie zapisać go w pliku i do tego celu
+można skorzystać ze zmiennej <code>LIBVIRT_LOG_OUTPUTS</code> :</p>
+<pre><code>$ export LIBVIRT_DEBUG=1
+$ export LIBVIRT_LOG_OUTPUTS=&quot;1:file:virsh.log&quot;
+</code></pre>
+<h3 id="zmienna-libvirt_default_uri">Zmienna LIBVIRT_DEFAULT_URI</h3>
+<p>Jeśli nie chce nam się ciągle używać konta administratora systemu root do zarządzania maszynami
+wirtualnymi (w tym edycji plików XML), to możemy sobie wyeksportować zmienną <code>LIBVIRT_DEFAULT_URI</code> ,
+przykładowo:</p>
+<pre><code>$ export LIBVIRT_DEFAULT_URI='qemu:///system'
+</code></pre>
+<p>W taki sposób nie będziemy musieli korzystać z konta root lub też ciągle podawać parametru
+<code>--connect qemu:///system</code> w poleceniu <code>virsh</code> wydawanych jako zwykły użytkownik. Uprości nam to
+znacznie korzystanie z narzędzia <code>virsh</code> , przykładowo:</p>
+<pre><code>$ virsh list --all
+ Id   Name                State
+------------------------------------
+ -    ubuntu20.04         shut off
+</code></pre>
+<p>zamiast:</p>
+<pre><code>$ virsh --connect qemu:///system list --all
+ Id   Name                State
+------------------------------------
+ -    ubuntu20.04         shut off
+</code></pre>
+<h3 id="jak-edytować-xml-maszyn-wirtualnych">Jak edytować XML maszyn wirtualnych</h3>
+<p>Konfiguracja maszyn wirtualnych jest przechowywana w katalogu <code>/etc/libvirt/qemu/</code> . Jeśli jednak,
+podejrzymy przykładowy plik, to zobaczymy w nim poniższą informację:</p>
+<pre><code># head /etc/libvirt/qemu/ubuntu20.04.xml
+&lt;!--
+WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+  virsh edit ubuntu20.04
+or other application using the libvirt API.
+--&gt;
+</code></pre>
+<p>Nie powinniśmy zatem ręcznie edytować tych plików, tylko korzystać z <code>virsh edit</code> , podając w
+argumencie nazwę/domenę maszyny wirtualnej, w tym przypadku <code>ubuntu20.04</code> :</p>
+<pre><code># virsh edit ubuntu20.04
+</code></pre>
+<p>Jeśli nie wiemy jak się nazywa nasza maszyna wirtualna to zawsze możemy skorzystać z
+automatycznego uzupełniania polecenia via klawisz <code>TAB</code> .</p>
+<h3 id="kolejność-nośników-rozruchu-systemu">Kolejność nośników rozruchu systemu</h3>
+<p>W przypadku problemów z uruchomieniem systemu z medium instalacyjnego, trzeba skonfigurować sobie
+kolejność nośników rozruchu włączając przy tym wirtualny cd-rom. Ten krok zwykle nie jest potrzebny
+przy pierwszym uruchomieniu maszyny wirtualnej (podczas procesu instalacji systemu operacyjnego).</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/027-virtualization-kvm-qemu-virt-manager-create-machine-boot-order.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/027-virtualization-kvm-qemu-virt-manager-create-machine-boot-order-cd-rom.png#huge" alt=""></p>
+<h3 id="protokół-spicevnc">Protokół SPICE/VNC</h3>
+<p>Jeśli chcemy mieć pogląd graficzny tego co się dzieje w maszynie wirtualnej to musimy skonfigurować
+sobie urządzenie monitora. Domyślnie jest skonfigurowany monitor na bazie protokołu SPICE (<a href="https://www.spice-space.org/spice-for-newbies.html">Simple
+Protocol for Independent Computing Environments</a>). Jest też dostępny protokół VNC (<a href="https://en.wikipedia.org/wiki/Virtual_Network_Computing">Virtual
+Network Computing</a>), choć w moim przypadku występują z nim jakieś dziwne problemy, tj. brak
+precyzyjnego ustawienia myszy. Dlatego też będę korzystał z serwera SPICE. Dla poprawy wydajności,
+dobrze jest włączyć wsparcie dla OpenGL:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/028-virtualization-kvm-qemu-virt-manager-create-machine-monitor-spice.png#huge" alt=""></p>
+<p>oraz zmienić model video z <code>QXL</code> na <code>Virtio</code> , a także włączyć akcelerację <code>3D</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/028-virtualization-kvm-qemu-virt-manager-create-machine-monitor-virtio-3d.png#huge" alt=""></p>
+<h4 id="zdalny-dostęp-do-maszyny-wirtualnej-remote-viewer">Zdalny dostęp do maszyny wirtualnej (remote-viewer)</h4>
+<p>Do maszyn wirtualnych można także uzyskać dostęp spoza maszyny hosta. Do tego celu potrzebne jest
+jednak dodatkowe oprogramowanie, które można znaleźć w pakiecie <code>virt-viewer</code> . Mamy tutaj m.in.
+narzędzie <code>remote-viewer</code> . Przy jego pomocy możemy łączyć się ze zdalnymi maszynami wirtualnymi
+przy pomocy różnych protokołów.</p>
+<p>By się podłączyć przy pomocy <code>remote-viewer</code> do maszyny wirtualnej, trzeba podać protokół ( <code>vnc</code>
+lub <code>spice</code> ), adres IP oraz port. Domyślnie do maszyn wirtualnych uruchamianych przez
+<code>virt-manager</code> można dostać się jedynie z adresu pętli zwrotnej ( <code>127.0.0.1:5900</code> ). Zatem by się
+testowo podłączyć do maszyny wirtualnej, wpisujemy w terminal jedno z tych poniższych poleceń:</p>
+<pre><code>$ remote-viewer spice://127.0.0.1:5900
+$ remote-viewer vnc://127.0.0.1:5900
+</code></pre>
+<p>Jeśli chcielibyśmy zezwolić na dostęp do maszyny wirtualnej spoza naszego komputera, np. z sieci
+lokalnej, to trzeba zmienić w konfiguracji maszyny wirtualnej <code>Address</code> z <code>Localhost only</code> na <code>All Interfaces</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/072-virtualization-kvm-qemu-spice-network-access.png#huge" alt=""></p>
+<p>Trzeba się jednak liczyć z faktem, że zdalne połączenia mogą zostać podsłuchane. Dlatego też dobrze
+jest sobie <a href="https://www.spice-space.org/spice-user-manual.html#_tls">wdrożyć szyfrowany SPICE</a>.</p>
+<p>Warto w tym miejscu dodać, że <code>remote-viewer</code> może zostać wykorzystany do poglądu lokalnego przy
+wykorzystaniu soketów unix. Trzeba tylko w konfiguracji maszyny wirtualnej (w pliku XML, bo
+<code>virt-manager</code> na to nie pozwala póki co) przerobić zwrotkę <code>graphics</code> , tak by wygląda mniej więcej
+jak ta poniższa:</p>
+<pre><code>&lt;graphics type='spice' keymap='en-us'&gt;
+  &lt;listen type='socket'/&gt;
+  &lt;gl enable='yes' rendernode='/dev/dri/by-path/pci-0000:00:02.0-render'/&gt;
+&lt;/graphics&gt;
+</code></pre>
+<p>Sprawdźmy jeszcze jak wygląda konfiguracja po uruchomieniu maszyny wirtualnej:</p>
+<pre><code># virsh dumpxml --domain ubuntu20.04
+...
+&lt;graphics type='spice' keymap='en-us'&gt;
+  &lt;listen type='socket' socket='/var/lib/libvirt/qemu/domain-10-ubuntu20.04/spice.sock'/&gt;
+  &lt;gl enable='yes' rendernode='/dev/dri/by-path/pci-0000:00:02.0-render'/&gt;
+&lt;/graphics&gt;
+</code></pre>
+<p>Jako, że wcześniej nie określiliśmy parametru <code>socket=</code> , to został on określony domyślnie.</p>
+<p>By się teraz podłączyć do maszyny wirtualnej przy pomocy <code>remote-viewer</code> , korzystamy z poniższego
+polecenia:</p>
+<pre><code>$ remote-viewer spice+unix:///var/lib/libvirt/qemu/domain-10-ubuntu20.04/spice.sock
+</code></pre>
+<h4 id="klient-spicevnc-virt-viewer">Klient SPICE/VNC (virt-viewer)</h4>
+<p>Narzędzie <code>virt-manager</code> ma wbudowany w siebie klient SPICE/VNC i w zasadzie możemy z niego
+korzystać by operować na maszynach wirtualnych w trybie graficznym. Jeśli jednak chcielibyśmy
+skorzystać z dedykowanego klienta, to w pakiecie <code>virt-viewer</code> jest dostępne narzędzie
+<code>virt-viewer</code> , które to jest prostym klientem SPICE/VNC umożliwiającym podejrzenie maszyny
+wirtualnej w trybie graficznym. Ten klient nie zezwala w zasadzie na nic innego jak tylko
+wyświetlenie zawartości graficznej konsoli i konfiguracji paru opcji, które z tym wyświetlaniem
+obrazu są związane. Nie da rady przy pomocy <code>virt-viewer</code> zarządzać maszynami wirtualnymi czy też
+zmieniać ich konfiguracji. W zasadzie jest to taka lokalna wersja <code>remote-viewer</code> .</p>
+<h4 id="agent-spice">Agent SPICE</h4>
+<p>Agent SPICE jest dedykowaną usługą działająca w systemie maszyny wirtualnej. Czasami jednak
+stosowny pakiet nie zostanie zainstalowany podczas wgrywania systemu operacyjnego gościa. Dlatego
+też jeśli brakuje nam pakietu <code>spice-vdagent</code> , to trzeba go będzie ręcznie doinstalować wewnątrz
+maszyny wirtualnej:</p>
+<pre><code># apt-get install spice-vdagent
+</code></pre>
+<p>Ten pakiet zawiera usługę <code>spice-vdagentd.service</code> dla systemd, która po instalacji powinna
+automatycznie wystartować. Niemniej jednak, restart maszyny wirtualnej w moim przypadku był
+wymagany, by ta usługa zaczęła działać poprawnie.</p>
+<p>Dodatkowo, Agent SPICE wymaga szeregowego urządzenia PCI ze sterownikiem VirtIO, oraz dedykowanego
+urządzenia znakowego <code>spicevmc</code> . Obie te rzeczy trzeba dodać w konfiguracji maszyny wirtualnej, bo
+w przeciwnym przypadku Agent SPICE nie będzie nam działał. Odpalamy zatem <code>virt-manager</code> i dodajemy
+w nim te dwa poniższe urządzenia (oczywiście jeśli ich jeszcze na liście urządzeń nie mamy).</p>
+<p>Controler VirtIO Serial:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/070-virtualization-kvm-qemu-spice-agent.png#huge" alt=""></p>
+<p>Channel SPICE Agent:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/069-virtualization-kvm-qemu-spice-agent.png#huge" alt=""></p>
+<p>Co ciekawe, nawet po poprawnym skonfigurowaniu tego Agenta SPICE, <code>State</code> widoczny wyżej zawsze
+wskazuje na <code>disconnected</code> . Niemniej jednak, sam Agent SPICE działa bez problemu:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/071-virtualization-kvm-qemu-spice-agent.png#huge" alt=""></p>
+<h4 id="dzielenie-schowka-hosta-z-maszyną-wirtualną">Dzielenie schowka hosta z maszyną wirtualną</h4>
+<p>Po zainstalowaniu systemu operacyjnego gościa (dla odmiany to był Debian), chciałem skopiować parę
+poleceń do terminala (tego w systemie maszyny wirtualnej), tak by nie musieć ręcznie wpisywać
+komend do wykonania. Okazało się, że zarówno maszyna wirtualna jak i maszyna hosta mają osobne
+schowki, przez co nie da rady skopiować zawartości schowka maszyny hosta i przesłać jej do maszyny
+wirtualnej (podobnie też w drugą stronę). Zainstalowanie i poprawne skonfigurowanie Agenta SPICE
+rozwiązało ten problem.</p>
+<h4 id="przesyłanie-plików-za-sprawą-przeciągnij-i-upuść-drag-and-drop">Przesyłanie plików za sprawą przeciągnij i upuść (drag and drop)</h4>
+<p>Po włączeniu Agenta SPICE, będziemy także w stanie przesłać pliki z maszyny hosta do maszyny
+wirtualnej za pomocą przeciągnięcia pliku i puszczenia go w oknie maszyny wirtualnej. Wszystkie
+pliki upuszczone w oknie maszyny wirtualnej zostaną automatycznie umieszczone w katalogu
+<code>~/Downloads/</code> . Ten mechanizm &quot;przeciągnij i upuść&quot; nie działa jednak w drugą stronę, tj. nie da
+rady wyciągnąć pliku z okna maszyny wirtualnej i umieścić go na maszynie hosta, przynajmniej mi się
+nie udało tego zrobić.</p>
+<h4 id="poprawa-wydajności-myszy">Poprawa wydajności myszy</h4>
+<p>Co ciekawe, zanim się zainstalowało pakiet <code>spice-vdagent</code> , to by móc opuścić okno maszyny
+wirtualnej (wyjść myszą poza obszar jej monitora), trzeba było wcisnąć lewy CTRL+ALT. Do tego sama
+mysz w obrębie okna maszyny wirtualnej miała dość spore opóźnienia podczas przemieszczania jej i
+nie dało się nią komfortowo operować. Jak tylko się doinstalowało pakiet <code>spice-vdagent</code> i ponownie
+uruchomiło maszynę wirtualną, to wszystkie te problemy zniknęły w zasadzie od razu.</p>
+<h3 id="rozdzielczość-ekranu-maszyny-wirtualnej">Rozdzielczość ekranu maszyny wirtualnej</h3>
+<p>Ubuntu uruchomiony wewnątrz maszyny wirtualnej ma rozdzielczość ekranu <code>1024x768</code> . Jakby nie
+patrzeć jest to trochę mała rozdziałka ale bez problemu możemy ją zwiększyć zmieniając odpowiednio
+ustawienia systemowe, dokładnie w taki sam sposób jakbyśmy to robili w systemie hosta:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/046-virtualization-kvm-qemu-monitor-display-resolution-change.png#huge" alt=""></p>
+<p>Warto tutaj dodać, że jeśli chcielibyśmy ustawić niestandardową rozdzielczość, to zawsze możemy
+zmienić rozmiar okna i wpisać w terminalu na maszynie wirtualnej to poniższe polecenie:</p>
+<pre><code>$ xrandr --output Virtual-1 --auto
+</code></pre>
+<h4 id="dynamiczna-zmiana-rozdzielczości-ekranu">Dynamiczna zmiana rozdzielczości ekranu</h4>
+<p>Przeglądarki maszyn wirtualnych są w stanie wyświetlać graficzną konsolę systemów gościa w
+określonej rozdzielczości. Po zainstalowaniu Agenta SPICE, powinniśmy mieć także możliwość
+dynamicznej zmiany rozdzielczości ekranu maszyny wirtualnej w zależności od aktualnych wymiarów jej
+okna. Bez dynamicznej zmiany rozdzielczości, gdy monitor maszyny hosta jest za mały, to w oknie
+maszyny wirtualnej pojawią się paski przewijania. Jedyną opcją, by się tych pasków pozbyć jest
+zmiana rozdzielczości w ustawieniach systemu gościa lub zmiana wymiarów samego okna. Mając Agenta
+SPICE, te ustawienia rozdzielczości ekranu maszyny wirtualnej są dynamicznie aplikowane w
+zależności od wymiarów jej okna. W ten sposób system jest w stanie dostosować rozdzielczość za nas,
+a my nie musimy przy tym nic zmieniać czy to na maszynie hosta, czy też w systemie gościa.</p>
+<h3 id="przypisanie-maszyn-wirtualnych-do-konkretnych-cpu">Przypisanie maszyn wirtualnych do konkretnych CPU</h3>
+<p><a href="https://wiki.debian.org/KVM#CPU">Z informacji zawartych tutaj</a> wynika iż można dość znacznie poprawić wydajność maszyn
+wirtualnych przypisując im konkretne rdzenie CPU maszyny hosta. W jaki sposób? Rozchodzi się tutaj
+o technologię HT (Hyper-Threading), za której to sprawą w systemie mamy do dyspozycji dwa razy
+więcej rdzeni niż faktycznie jest ich dostępnych w procesorze. Dla przykładu, mój laptop ma 2
+fizyczne rdzenie + 2 rdzenie HT, razem w systemie można zobaczyć 4 CPU. Problem z rdzeniami HT w
+procesorach jest taki, że one nigdy nie mają takiej samej wydajności w stosunku do normalnego
+rdzenia procesora (<a href="https://en.wikipedia.org/wiki/Hyper-threading#Performance_claims">zwykle &lt;30%</a>). Możemy zatem poprawić wydajność maszyny wirtualnej
+przypisując jej procesy do fizycznych rdzeni procesora, zamiast do rdzeni HT.</p>
+<p>Jeśli mamy problem z oceną, które rdzenie są fizyczne, a które HT, to możemy wspomóc się
+narzędziami <code>lscpu</code> oraz <code>cpuid</code> :</p>
+<pre><code># lscpu --all --extended
+CPU NODE SOCKET CORE L1d:L1i:L2:L3 ONLINE    MAXMHZ    MINMHZ
+  0    0      0    0 0:0:0:0          yes 3300.0000 1200.0000
+  1    0      0    0 0:0:0:0          yes 3300.0000 1200.0000
+  2    0      0    1 1:1:1:0          yes 3300.0000 1200.0000
+  3    0      0    1 1:1:1:0          yes 3300.0000 1200.0000
+</code></pre>
+<p>Zatem mamy dwa fizyczne rdzenie oznaczone numerkami 0 i 1 (w kolumnie <code>CORE</code> ). CPU0 i CPU1 siedzą
+na pierwszym rdzeniu, zaś CPU2 i CPU3 na drugim. I jak można się spodziewać, CPU0 i CPU1 dzielą
+cache L1 i L2 między sobą, podobnie jak CPU2 i CPU3 mają wspólny cache. Zaś cache L3 jest wspólny
+dla wszystkich CPU.</p>
+<p>Z kolei z <code>cpuid</code> możemy wyciągnąć poniższe informacje:</p>
+<pre><code># cpuid | egrep &quot;^CPU|PKG_ID&quot;
+CPU 0:
+   (APIC synth): PKG_ID=0 CORE_ID=0 SMT_ID=0
+CPU 1:
+   (APIC synth): PKG_ID=0 CORE_ID=0 SMT_ID=1
+CPU 2:
+   (APIC synth): PKG_ID=0 CORE_ID=1 SMT_ID=0
+CPU 3:
+   (APIC synth): PKG_ID=0 CORE_ID=1 SMT_ID=1
+</code></pre>
+<p>Zatem w tym CPU normalne rdzenie mają numerki 0 i 2, a rdzenie HT mają 1 i 3. Możemy ten fakt
+zweryfikować podglądając pliki w katalogu <code>/sys/</code> :</p>
+<pre><code># cat /sys/devices/system/cpu/cpu0/topology/thread_siblings_list
+0-1
+#  cat /sys/devices/system/cpu/cpu1/topology/thread_siblings_list
+0-1
+#  cat /sys/devices/system/cpu/cpu2/topology/thread_siblings_list
+2-3
+#  cat /sys/devices/system/cpu/cpu3/topology/thread_siblings_list
+2-3
+</code></pre>
+<p>W przypadku dwóch pierwszych poleceń, mimo iż ścieżka <code>cpu*</code> jest inna, to mamy wynik <code>0-1</code> ,
+podobnie w przypadku dwóch ostatnich poleceń, gdzie zostało zwrócone <code>2-3</code> . Pierwsza liczba zawsze
+wskazuje na rdzeń fizyczny, a druga rdzeń HT.</p>
+<p>Jeśli maszynie wirtualnej dalibyśmy przydział 2 dowolnych rdzeni procesora z 4 dostępnych, to
+procesy maszyny wirtualnej będą alokowane na wolnych CPU, w tym na rdzeniach HT. Jeśli zaś im
+przypiszemy konkretne fizyczne rdzenie, to te procesy nie będą mogły migrować sobie pomiędzy
+rdzeniami fizycznymi a rdzeniami HT, nawet jeśli te rdzenie HT będą w stanie IDLE (nieużywane).
+Jeśli się zdecydujemy na wybór fizycznych rdzeni, to niestety kosztem trafień w cache, choć
+wydajność i tak powinna dość znacznie wzrosnąć.</p>
+<p>By ustawić przydział CPU na sztywno, edytujemy konfigurację maszyny wirtualnej (via <code>virsh edit ubuntu20.04</code> ) i dodajemy do niej poniższy kod zaraz pod <code>&lt;vcpu&gt;&lt;/vcpu&gt;</code> :</p>
+<pre><code>&lt;cputune&gt;
+  &lt;vcpupin vcpu='0' cpuset='0'/&gt;
+  &lt;vcpupin vcpu='1' cpuset='2'/&gt;
+&lt;/cputune&gt;
+</code></pre>
+<p>Tej maszynie wirtualnej zostały oddelegowane dwa rdzenie, stąd <code>vcpu</code> o numerkach 0 i 1 (nadajemy
+tutaj kolejne numerki, w zależności od tego ile tych rdzeni chcemy dać do dyspozycji maszynie
+wirtualnej). Jeśli zaś chodzi o parametr <code>cpuset</code> , to określamy tutaj przydział rdzeni fizycznego
+CPU hosta. Do dyspozycji są numerki 0, 1, 2 i 3.  Dlatego też pierwszemu wirtualnemu rdzeniowi
+maszyny wirtualnej został przypisany pierwszy (0) fizyczny rdzeń, a drugiemu wirtualnemu rdzeniowi
+trzeci (2) fizyczny rdzeń CPU. W ten sposób maszyna wirtualna będzie operować jedynie na fizycznych
+rdzeniach, a nie na rdzeniach HT, co powinniśmy natychmiast odczuć, choćby podczas rozruchu systemu
+gościa.</p>
+<h3 id="bios-vs-efiuefi">BIOS vs. EFI/UEFI</h3>
+<p>Standardowa instalacja systemu w maszynach wirtualnych zakłada wykorzystanie czipsetu Q35 z
+konfiguracją BIOS:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/029-virtualization-kvm-qemu-virt-manager-create-machine-chipset-bios.png#huge" alt=""></p>
+<p>Istnieje jednak możliwość skonfigurowania maszyny wirtualnej w taki sposób, by robiła użytek z
+EFI/UEFI, a nawet można w niej <a href="https://morfikov.github.io
+/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/">włączyć Secure Boot</a>:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/030-virtualization-kvm-qemu-virt-manager-create-machine-chipset-efi-uefi-secure-boot.png#huge" alt=""></p>
+<p>By te dodatkowe opcje od EFI/UEFI się pojawiły, to <a href="https://wiki.debian.org/SecureBoot/VirtualMachine">musimy zainstalować</a> w systemie hosta
+pakiet <code>ovmf</code> :</p>
+<pre><code># aptitude install ovmf
+</code></pre>
+<p>Trzeba jednak liczyć się z faktem, że ustawienia w tej zakładce nie będą mogłoby być zmienione, gdy
+rozpoczniemy tworzenie maszyny wirtualnej. Dlatego też trzeba się zastanowić jaki czipset chcemy
+wykorzystać oraz czy potrzebny jest nam EFI/UEFI z lub bez Secure Boot.</p>
+<h3 id="qemu-guest-agent-ga">QEMU Guest Agent (GA)</h3>
+<p><a href="https://wiki.libvirt.org/page/Qemu_guest_agent">QEMU Guest Agent</a> jestem demonem uruchomionym wewnątrz maszyny wirtualnej (podobnie jak Agent
+SPICE). Jego zadaniem jest pomoc aplikacjom zarządzającym (management applications) przy
+wykonywaniu funkcji, które potrzebują pomocy ze strony systemu operacyjnego gościa. Dla przykładu
+może to być wejście w stan uśpienia (suspend) lub zamrożenie/odmrożenie systemu plików (freezing
+and thawing filesystems). QEMU Guest Agent może także zostać użyty do włączenia/wyłączenia
+wirtualnych procesorów (vCPUs) podczas pracy systemu gościa. Można w ten sposób dostosować liczbę
+wirtualnych CPU bez potrzeby użycia do tego celu mechanizmów hot plug/unplug.</p>
+<p>Trzeba sobie jednak zdawać sprawę z faktu, że QEMU Guest Agent nie jest do końca bezpiecznym
+mechanizmem. Jeśli mamy do czynienia z niezaufanymi systemami gościa, to QEMU Guest Agent może być
+nadużywany i to mimo wbudowanych w niego zabezpieczeń. Wykorzystanie QEMU Guest Agent w pewnych
+sytuacjach może zatem prowadzić do ataków DoS na maszynę hosta.</p>
+<p>Jeśli chcielibyśmy włączyć obsługę QEMU Guest Agent w naszej maszynie wirtualnej, to trzeba dodać
+<code>Channel Device</code> w jej konfiguracji:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/007-virtualization-kvm-qemu-virt-manager-guest-agent-ga.png#huge" alt=""></p>
+<p>Jeśli <code>State:</code> w <code>Channel qemu-ga</code>  wskazuje na <code>disconnected</code> , tak jak w poniższym przykładzie:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/008-virtualization-kvm-qemu-virt-manager-guest-agent-ga-disconnected.png#huge" alt=""></p>
+<p>to trzeba jeszcze doinstalować systemie gościa (na maszynie wirtualnej) pakiet <code>qemu-guest-agent</code>
+oraz uruchomić w nim usługę <code>qemu-guest-agent.service</code> (via <code>systemctl start</code> ). Jak tylko usługa
+zacznie działać, to <code>State:</code> powinien ulec zmianie na <code>connected</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/009-virtualization-kvm-qemu-virt-manager-guest-agent-ga-connected.png#huge" alt=""></p>
+<p>Możemy teraz przetestować QEMU Guest Agent wydając w terminalu na maszynie hosta poniższe polecenie:</p>
+<pre><code>$ virsh -c qemu:///system 'reboot --mode agent --domain ubuntu20.04'
+Domain ubuntu20.04 is being rebooted
+</code></pre>
+<p>Gdy usługa w systemie gościa jest nieaktywna, wtedy zostanie zwrócony poniższy błąd:</p>
+<pre><code>$ virsh -c qemu:///system 'reboot --mode agent --domain ubuntu20.04'
+error: Failed to reboot domain ubuntu20.04
+error: Guest agent is not responding: QEMU guest agent is not connected
+</code></pre>
+<h3 id="sterownik-balloon">Sterownik balloon</h3>
+<p>Przydzielenie maszynie wirtualnej jakiejś konkretnej wartości ilości RAM nie koniecznie oznacza, że
+zostanie jej zarezerwowane tyle pamięci w przypadku, gdy ona w rzeczywistości wykorzystuje mniej
+zasobów. Przykładowo, jeśli system maszyny wirtualnej po załadowaniu będzie utylizował 1 GiB RAM, a
+maszynie przydzieliliśmy 2 GiB, to faktyczne zużycie pamięci RAM maszyny wirtualnej będzie na
+poziomie 1 GiB. Jeśli teraz zaczniemy uruchamiać aplikacje w maszynie wirtualnej tak, że zużycie
+pamięci operacyjnej wzrośnie z 1 GiB do 1,5 GiB, to ta maszyna wirtualna zwiększy wykorzystanie
+pamięci RAM dynamicznie do tych 1,5 GiB. Nie działa to jednak w drugą stronę, tj. w przypadku
+gdybyśmy pozamykali aplikacje w systemie maszyny wirtualnej, przez co zużycie pamięci RAM spadłoby
+do 1 GiB, to w dalszym ciągu ta maszyna wirtualna będzie zjadać 1,5 GiB. Do tego dochodzi jeszcze
+systemowy cache, który buforuje w pamięci RAM pewne dane. Jeśli teraz maszyna wirtualna ma do
+dyspozycji sporo wolnej pamięci, to będzie więcej danych buforować, a to jeszcze dodatkowo zwiększy
+jej apetyt na pamięć RAM w systemie hosta. Może się zdarzyć więc tak, że spora część pamięci
+operacyjnej hosta będzie się marnować, bo nie będzie wykorzystywana przez maszynę wirtualną. W
+takiej sytuacji możemy odzyskać część pamięci za sprawą sterownika <code>balloon</code> , poniżej przykład:</p>
+<p>Maszynie wirtualnej przydzielone zostały 2G, co widać na na poniższej fotce:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/010-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge" alt=""></p>
+<p>Jeśli teraz na maszynie hosta wydamy to poniższe polecenie:</p>
+<pre><code># virsh qemu-monitor-command --domain ubuntu20.04 --hmp &quot;balloon 1500&quot;
+</code></pre>
+<p>to ilość pamięci RAM w obrębie maszyny wirtualnej zostanie dynamicznie zmniejszona i to podczas jej
+normalnej pracy (nie trzeba jej wyłączać/resetować by zmiany weszły w życie):</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/011-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge" alt=""></p>
+<p>Można też zmniejszyć ilość dostępnej pamięci RAM poniżej tej, która jest aktualnie w użyciu, choć w
+takim przypadku system maszyny wirtualnej zacznie wykorzystywać SWAP:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/012-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge" alt=""></p>
+<p>Oczywiście ten mechanizm działa również w drugą stronę, tj. możemy przydzielić maszynie wirtualnej
+więcej pamięci niż aktualnie posiada:</p>
+<pre><code># virsh qemu-monitor-command --domain ubuntu20.04 --hmp &quot;balloon 2048&quot;
+</code></pre>
+<p><img src="https://morfikov.github.io
+/img/2020/08/013-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge" alt=""></p>
+<p>Jak widać, zmiana ilość przydzielonej pamięci operacyjnej nie jest natychmiastowa ale system
+maszyny wirtualnej dostosowuje się bez najmniejszego problemu. Po zmniejszeniu przydziału pamięci RAM maszynie wirtualnej, ta pamięć operacyjna jest natychmiast odzyskiwana na maszynie hosta:</p>
+<pre><code># ps_mem -S | grep qemu
+  1.5 GiB +   3.5 MiB =   1.5 GiB     1.7 MiB   qemu-system-x86_64
+
+# virsh qemu-monitor-command --domain ubuntu20.04 --hmp &quot;balloon 1000&quot;
+
+# ps_mem -S | grep qemu
+  1.0 GiB +   3.5 MiB =   1.1 GiB     1.7 MiB   qemu-system-x86_64
+</code></pre>
+<p>Te wprowadzone zmiany są tymczasowe, tj. po restarcie maszyny wirtualnej jej ustawienia pamięci
+RAM zostaną przywrócone do tych, które skonfigurowaliśmy tworząc maszynę wirtualną.</p>
+<h4 id="automatyczne-odzyskiwanie-pamięci-ram">Automatyczne odzyskiwanie pamięci RAM</h4>
+<p>Niestety póki co nie ma możliwości odzyskania nieużywanej przez maszyny wirtualne pamięci
+operacyjnej. Jeśli taka maszyna ma wolnych 2G z przydzielonych jej 4G, to te niewykorzystane 2G nie
+będą mogły zostać odzyskane przez hosta. Istnieje co prawda <a href="https://git.cs.umu.se/luis/libvirt/commit/981c01d419782af2e38f71f42a21091aeb0754b7">atrybut autodeflate</a>, który można
+określić w pliku XML z konfiguracją maszyny wirtualnej (brak możliwości ustawienia via
+<code>virt-manager</code> ) przy sterowniku <code>balloon</code> , przykładowo:</p>
+<pre><code>&lt;memballoon model='virtio' autodeflate='on'&gt;
+  &lt;address type='pci' domain='0x0000' bus='0x05' slot='0x00' function='0x0'/&gt;
+&lt;/memballoon&gt;
+</code></pre>
+<p>ale ten parametr kontroluje jedynie odzyskiwanie pamięci operacyjnej przydzielonej maszynie
+wirtualnej w przypadku, gdy pamięć operacyjna maszyny hosta jest już na wyczerpaniu (sytuacja Out
+Of Memmory, OOM). Po ustawieniu tego parametru, system hosta spróbuje odzyskać trochę pamięci z
+maszyn wirtualnych i może powstrzyma się od ich zabijania.</p>
+<p>Warto zauważyć tutaj, że <code>autodeflate</code> oraz <code>deflate-on-oom</code> oznaczają dokładnie to samo -- ten
+pierwszy jest tylko wykorzystywany w pliku XML, ten drugi zaś w wierszu poleceń <code>qemu</code> .</p>
+<h3 id="sterowniki-virtio">Sterowniki VirtIO</h3>
+<p>Z racji, że hiperwizor przy pełnej wirtualizacji musi emulować fizyczny sprzęt (np. dyski czy karty
+sieciowe), to ta technika wirtualizacji może się średnio sprawdzić (albo też i w ogóle) jeśli ma
+dla nas znaczenie wysoka wydajność całego procesu. Dlatego też w przypadku KVM wykorzystuje się
+VirtIO, który to działa na zasadzie parawirtualizacji zapewniającej szybki i wydajny sposób
+komunikacji systemu gościa przy korzystaniu z urządzeń maszyny hosta. KVM prezentuje tak
+zwirtualizowane urządzenia maszynom wirtualnym wykorzystując API VirtIO jako warstwę pośrednią
+pomiędzy hiperwizorem na systemem gościa. By móc skorzystać ze <a href="https://wiki.libvirt.org/page/Virtio">sterowników VirtIO</a>, muszą być
+one włączone w kernelu maszyn wirtualnych (opcje <code>CONFIG_VIRTIO_*</code> ). Dystrybucyjne kernele mają
+wszystko czego potrzeba i nie musimy nic w zasadzie dodatkowo konfigurować.</p>
+<p>Sterowniki VirtIO poprawiają znacząco wydajność maszyn wirtualnych zmniejszając im opóźnienia
+operacji I/O i zwiększając za razem ich przepustowość. Zaleca się wykorzystywanie tych sterowników
+parawirtualizacji w przypadku maszyn wirtualnych, w obrębie których działają aplikacje intensywnie
+wykorzystujące I/O.</p>
+<p>Jeśli nie wiemy czy linux, którego zainstalowaliśmy na maszynie wirtualnej, ma potrzebne moduły, to
+zawsze możemy to zweryfikować przy pomocy <code>lsmod</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/064-virtualization-kvm-qemu-virtio-lsmod.png#huge" alt=""></p>
+<p>Mamy tutaj załadowane moduły <code>virtio_blk</code> , <code>virtio_net</code> , <code>virtio_gpu</code> oraz  <code>virtio_rng</code> .
+Niekoniecznie muszą być to wszystkie moduły <code>virtio_*</code> , z których maszyna robi użytek, bo część z
+nich jest zwykle też wkompilowana na stałe w jądro:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/065-virtualization-kvm-qemu-virtio-kernel-config.png#huge" alt=""></p>
+<p>By zrobić użytek ze sterowników VirtIO, wystarczy w konfiguracji konkretnych urządzeń maszyny
+wirtualnej określić odpowiedni sterownik. Poniżej znajduje się kilka przykładów.</p>
+<p>VirtIO dla dysku twardego:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/066-virtualization-kvm-qemu-virtio-config-disk.png#huge" alt=""></p>
+<p>VirtIO dla karty sieciowej:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/067-virtualization-kvm-qemu-virtio-config-nic-network.png#huge" alt=""></p>
+<p>VirtIO dla karty graficznej:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/068-virtualization-kvm-qemu-virtio-config-monitor-video-graphic.png#huge" alt=""></p>
+<h2 id="qemukvm-i-nftables">QEMU/KVM i nftables</h2>
+<p>Jak już zostało wspomniane wyżej w tym artykule, maszyny wirtualne QEMU/KVM nie bardzo chcą działać
+w sytuacji, gdy zamiast <code>iptables</code> wykorzystujemy <code>nft</code> do konfiguracji filtra pakietów w naszym
+linux'ie. Chodzi generalnie o różnice w translacji NAT, przez co domyślna konfiguracja sieci jaka
+jest dostarczana z libvirt nie zadziała nam w przypadku <code>nftables</code> i musimy sobie <a href="https://libvirt.org/firewall.html">ręcznie
+skonfigurować firewall pod maszyny wirtualne</a>.</p>
+<h3 id="failed-to-apply-firewall-rules-usrsbiniptables--w---table-nat">Failed to apply firewall rules /usr/sbin/iptables -w --table nat</h3>
+<p>Przede wszystkim, musimy coś zrobić z tą domyślą siecią, która ma określony NAT:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/042-virtualization-kvm-qemu-network-nat-nftables.png#huge" alt=""></p>
+<p>Tego typu sieci powodują <a href="https://www.redhat.com/archives/libvirt-users/2019-May/msg00022.html">dodanie łańcuchów LIBVIRT-*</a> do filtra <code>iptables</code> . Dlatego też jeśli
+korzystamy z <code>nftables</code> , to przy próbie podniesienia tej sieci dostaniemy taki komunikat błędu:</p>
+<pre><code>Error starting network 'default': internal error: Failed to apply firewall rules
+/usr/sbin/iptables -w --table nat --list-rules: # Warning: iptables-legacy tables present, use
+iptables-legacy to see them
+iptables v1.8.5 (nf_tables): table `nat' is incompatible, use 'nft' tool.
+
+Traceback (most recent call last):
+  File &quot;/usr/share/virt-manager/virtManager/asyncjob.py&quot;, line 75, in cb_wrapper
+    callback(asyncjob, *args, **kwargs)
+  File &quot;/usr/share/virt-manager/virtManager/asyncjob.py&quot;, line 111, in tmpcb
+    callback(*args, **kwargs)
+  File &quot;/usr/share/virt-manager/virtManager/object/libvirtobject.py&quot;, line 66, in newfn
+    ret = fn(self, *args, **kwargs)
+  File &quot;/usr/share/virt-manager/virtManager/object/network.py&quot;, line 75, in start
+    self._backend.create()
+  File &quot;/usr/lib/python3/dist-packages/libvirt.py&quot;, line 3173, in create
+    if ret == -1: raise libvirtError ('virNetworkCreate() failed', net=self)
+libvirt.libvirtError: internal error: Failed to apply firewall rules
+/usr/sbin/iptables -w --table nat --list-rules: # Warning: iptables-legacy tables present, use
+iptables-legacy to see them
+iptables v1.8.5 (nf_tables): table `nat' is incompatible, use 'nft' tool.
+</code></pre>
+<p>Niekoniecznie musimy usuwać tę domyślną sieć, bo możemy jej zmienić typ z <code>nat</code> na <code>open</code> . Nie da
+się jednak tego zrobić z poziomu <code>virt-manager</code> i trzeba edytować plik XML maszyny wirtualnej.
+Poniżej przykład:</p>
+<pre><code># virsh net-destroy default
+# virsh net-edit default
+</code></pre>
+<p>To pierwsze polecenie nie niszczy (jak nazwa parametru może sugerować) domyślnej sieci, tylko ją
+wyłącza. Drugi polecenie edytuje tę wyłączoną sieć. Po wydaniu tego drugiego polecenia ujrzymy
+konfigurację sieci <code>default</code> , w której to musimy zmienić <code>&lt;forward mode='nat'/&gt;</code> na
+<code>&lt;forward mode='open'/&gt;</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/042-virtualization-kvm-qemu-network-nat-open-nftables.png#huge" alt=""></p>
+<h3 id="konfiguracja-nftables">Konfiguracja nftables</h3>
+<p>Oczywiście to tylko część pracy jaką musimy wykonać. Ta powyższa zmiana zapobiegnie jedynie
+dodawaniu jakichkolwiek reguł do filtra pakietów. W ten sposób możemy stworzyć własną konfigurację
+firewall'a i bez znaczenia przy tym czy korzystamy z <code>iptables</code> czy też <code>nftables</code> . By dostęp do
+internetu na maszynach wirtualnych był zapewniony, trzeba jeszcze dodać te poniższe reguły do
+filtra.</p>
+<p>Standardowe reguły mające na celu akceptowanie pakietów w stanie ESTABLISHED i RELATED i blokowanie
+pakietów w stanie INVALID:</p>
+<pre><code>create chain inet filter check-state
+
+add rule inet filter check-state ct state { established, related } accept
+add rule inet filter check-state ct state { invalid } counter drop
+
+add rule inet filter INPUT jump check-state
+add rule inet filter INPUT meta iif { &quot;lo&quot; } accept
+
+add rule inet filter OUTPUT jump check-state
+add rule inet filter OUTPUT meta oif { &quot;lo&quot; } counter accept
+</code></pre>
+<p>Tworzymy osobne łańcuchy dla ruchu z i do maszyn wirtualnych:</p>
+<pre><code>create chain inet filter input-kvm
+create chain inet filter output-kvm
+</code></pre>
+<p>Przekierowujemy ruch do tych łańcuchów:</p>
+<pre><code>add rule inet filter INPUT meta iifname &quot;virbr0&quot; ip saddr 192.168.122.0/24 counter jump input-kvm comment &quot;kvm network&quot;
+add rule inet filter OUTPUT meta oifname &quot;virbr0&quot; ip daddr 192.168.122.0/24 counter jump output-kvm comment &quot;kvm network&quot;
+</code></pre>
+<p>Tworzymy politykę w łańcuchach zezwalającą na komunikację maszyny hosta z maszynami wirtualnymi ( <code>ping</code> , <code>dhcp</code> , <code>dns</code> oraz <code>ssh</code> ):</p>
+<pre><code>add rule inet filter input-kvm meta l4proto icmp counter accept
+add rule inet filter input-kvm ip6 nexthdr icmpv6 counter accept
+add rule inet filter input-kvm udp sport { 68 } udp dport { 67 }  counter accept
+add rule inet filter input-kvm udp dport { 53 } counter accept
+add rule inet filter input-kvm limit rate 30/minute burst 1 packets log flags all prefix &quot;* IPTABLES:input-kvm * &quot; counter
+add rule inet filter input-kvm meta nfproto { ipv4, ipv6} counter reject with icmpx type port-unreachable comment &quot;Reject all connections&quot;
+add rule inet filter input-kvm counter drop
+
+add rule inet filter output-kvm meta l4proto icmp counter accept
+add rule inet filter output-kvm ip6 nexthdr icmpv6 counter accept
+add rule inet filter output-kvm udp sport { 67 } udp dport { 68 } counter accept
+add rule inet filter output-kvm tcp dport { 22 } counter accept
+add rule inet filter output-kvm limit rate 30/minute burst 1 packets log flags all prefix &quot;* IPTABLES:output-kvm * &quot; counter
+add rule inet filter output-kvm meta nfproto { ipv4, ipv6} counter reject with icmpx type port-unreachable comment &quot;Reject all connections&quot;
+add rule inet filter output-kvm counter drop
+</code></pre>
+<p>Dalej konfigurujemy forwarding pakietów oraz NAT:</p>
+<pre><code>create chain ip nat kvm
+
+create chain inet filter kvm
+create chain inet filter kvm-user
+create chain inet filter kvm-isolation-stage-1
+create chain inet filter kvm-isolation-stage-2
+
+add rule inet filter FORWARD counter jump kvm-user
+add rule inet filter FORWARD counter jump kvm-isolation-stage-1
+
+add rule inet filter FORWARD meta oifname &quot;virbr0&quot; counter jump check-state
+add rule inet filter FORWARD meta oifname &quot;virbr0&quot; counter jump kvm
+add rule inet filter FORWARD meta iifname &quot;virbr0&quot; meta oifname != &quot;virbr0&quot; counter accept
+add rule inet filter FORWARD meta iifname &quot;virbr0&quot; meta oifname &quot;virbr0&quot; counter accept
+
+add rule ip nat PREROUTING fib daddr type local counter jump kvm
+add rule ip nat OUTPUT ip daddr != { 127.0.0.0/8 } fib daddr type local counter jump kvm
+add rule ip nat POSTROUTING meta oifname != &quot;virbr0&quot; ip saddr { 192.168.122.0/24 } counter masquerade
+add rule ip nat kvm meta iifname &quot;virbr0&quot; counter return
+
+add rule inet filter kvm-isolation-stage-1 meta iifname &quot;virbr0&quot; meta oifname != &quot;virbr0&quot; counter jump kvm-isolation-stage-2
+add rule inet filter kvm-isolation-stage-2 meta oifname &quot;virbr0&quot; counter drop
+add rule inet filter kvm meta iifname { &quot;bond0&quot; , &quot;wwan0&quot; , &quot;usb0&quot;, &quot;eth0&quot;, &quot;wlan0&quot; } counter drop comment &quot;block external access to kvm network&quot;
+</code></pre>
+<p>Ta powyższa konfiguracja filtra <code>nftables</code> pozwala na ograniczoną komunikację maszyn wirtualnych z
+maszyną hosta. Dodatkowo zezwala na komunikację między maszynami wirtualnymi. Przy pomocy
+translacji adresów (NAT) mamy możliwość dostępu do internetu na maszynach wirtualnych.</p>
+<p>Nie zapomnijmy też dodać do /etc/sysctl.conf poniższego parametru:</p>
+<pre><code>net.ipv4.ip_forward = 1
+</code></pre>
+<h3 id="test-konfiguracji-połączenia-sieciowego-maszyn-wirtualnych">Test konfiguracji połączenia sieciowego maszyn wirtualnych</h3>
+<p>Przetestujmy czy internet w maszynie wirtualnej działa (ten adres 192.168.1.150, to adres maszyny
+hosta):</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/043-virtualization-kvm-qemu-network-nat-open-nftables-test-ping.png#huge" alt=""></p>
+<p>Zatem połączenie z internetem na maszynie wirtualnej można uzyskać. Podobnie też host bez problemu
+jest w stanie ping'nąć maszynę wirtualną:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/044-virtualization-kvm-qemu-network-nat-open-nftables-test-ping.png#huge" alt=""></p>
+<p>No i na koniec sprawdzenie połączenia między dwiema maszynami wirtualnymi:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/045-virtualization-kvm-qemu-network-nat-open-nftables-test-ping.png#huge" alt=""></p>
+<p>Wygląda, że połączenie sieciowe działa tak jak byśmy tego oczekiwali.</p>
+<h2 id="dostęp-do-maszyny-wirtualnej-po-ssh">Dostęp do maszyny wirtualnej po SSH</h2>
+<p>Jeśli nie zamierzamy korzystać z protokołu SPICE/VNC przy dostępie do maszyn wirtualnych i zamiast
+w trybie GUI chcielibyśmy operować w trybie tekstowym (via SSH), to musimy w systemie gościa
+doinstalować pakiet <code>openssh-server</code> :</p>
+<pre><code># apt-get install openssh-server
+</code></pre>
+<p>Jeśli usługa SSH na maszynie wirtualnej nie została automatycznie uruchomiona, to trzeba ją ręcznie
+uruchomić i dodać do autostartu:</p>
+<pre><code># systemctl enable ssh.service
+# systemctl start ssh.service
+</code></pre>
+<p>Teraz z maszyny hosta można się łączyć po SSH do maszyny wirtualnej w poniższy sposób:</p>
+<pre><code>$ ssh morfik@192.168.122.221
+</code></pre>
+<h3 id="sshfs">SSHFS</h3>
+<p>Jeśli chcielibyśmy mieć możliwość montowania katalogów maszyny wirtualnej w obrębie systemu plików
+maszyny hosta, to trzeba w systemie gościa doinstalować pakiet <code>openssh-sftp-server</code> (powinien
+zainstalować się razem z serwerem SSH):</p>
+<pre><code># apt-get install openssh-sftp-server
+</code></pre>
+<p>Przy pomocy <code>sshfs</code> możemy zamontować dowolny katalog maszyny wirtualnej na maszynie hosta, choć
+my ograniczymy się jedynie do katalogu domowego. Zatem na maszynie hosta wydajemy to poniższe
+polecenie (trzeba doinstalować pakiet <code>sshfs</code>):</p>
+<pre><code>$ sshfs james@ubuntu.libvirt:/home/james/ ~/Desktop/ubuntu-vm
+james@ubuntu.libvirt's password:
+</code></pre>
+<p>To polecenie zamontuje katalog domowy użytkownika <code>james</code> maszyny wirtualnej <code>ubuntu.libvirt</code> na
+maszynie hosta w katalogu <code>~/Desktop/ubuntu-vm/</code> . Po przejściu do katalogu <code>~/Desktop/ubuntu-vm/</code>
+dowolnym menadżerze plików, będziemy mieli listing plików katalogu domowego użytkownika <code>james</code> .
+Na tych plikach możemy operować dokładnie w taki sam sposób jak na lokalnych plikach maszyny hosta.
+Jeśli stworzymy/usuniemy/edytujemy jakiś plik w katalogu <code>~/Desktop/ubuntu-vm/</code> , to wszystkie te
+zmiany natychmiast dostrzeże użytkownik <code>james</code> wewnątrz maszyny wirtualnej. Jeśli zaś chcielibyśmy
+skopiować jakiś plik z maszyny wirtualnej gościa na maszynę hosta, to wystarczy zwykłe CRTL+C i
+CTRL+V do dowolnego katalogu na maszynie hosta (podobnie też w drugą stronę). Dodatkowo możemy np.
+odtworzyć film z maszyny wirtualnej na maszynie hosta bez potrzeby kopiowania w tym celu plików na
+maszynę hosta.</p>
+<h2 id="współdzielenie-katalogów-maszyny-hosta-z-maszyną-wirtualną">Współdzielenie katalogów maszyny hosta z maszyną wirtualną</h2>
+<p>SSHFS ma swoje zalety ale też ma jedną wadę. Chodzi o brak możliwości dzielenia systemu plików w
+obie strony, czyli jeśli zamontujemy katalog maszyny wirtualnej na maszynie hosta, to host ma pełny
+dostęp do katalogu gościa, ale jednocześnie gość nie ma w zasadzie żadnego dostępu do katalogów
+maszyny hosta. W takiej sytuacji trzeba kopiować pliki z maszyny hosta na maszynę wirtualną, co
+niekoniecznie ma sens, no i oczywiście zajmuje czas, zwłaszcza gdy to są większe pliki. Dlatego też
+w takich sytuacjach można zrezygnować z SSHFS na rzecz współdzielenia katalogów maszyny hosta z
+maszyną wirtualną.</p>
+<p>Szukając na necie jak rozwiązać ten problem znalazłem w zasadzie trochę <a href="https://www.kernel.org/doc/Documentation/filesystems/9p.txt">informacji na temat
+V9FS</a>, tj. UNIX'owej implementacji protokołu zdalnego systemu plików 9P (Plan 9). Założenia są
+proste, tj. trzeba stworzyć nowe urządzenie w <code>virt-manager</code> typu system plików (filesystem) i
+wskazać w nim ścieżkę do katalogu hosta, którą chcemy udostępnić, mniej więcej tak jak na poniższej
+fotce:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/073-virtualization-kvm-qemu-share-folder-dir-9p-v9fs.png#huge" alt=""></p>
+<p>W <code>Source Path</code> podajemy ścieżkę do katalogu hosta, zaś <code>Target Path</code> jest ździebko mylącą nazwą,
+bo oznacza ona w zasadzie jedynie TAG (zwykłą nazwę, a nie ścieżkę). Tak czy inaczej, to co
+określimy w polu <code>Target Path</code> będzie wykorzystywane w późniejszym czasie. Jeśli chodzi zaś o
+<code>Driver</code> , to zostawiamy domyślny ale w polu <code>Mode</code> trzeba określić <code>Squash</code> , by uniknąć problemów
+z uprawnieniami do plików.</p>
+<p>Po dodaniu tak stworzonego urządzenia, uruchamiamy maszynę wirtualną, odpalamy w niej terminal i
+logujemy się na użytkownika root. Następnie w oknie terminala wpisujemy poniższe polecenie:</p>
+<pre><code># mount kvm-share -t 9p -o trans=virtio -oversion=9p2000.L /home/james/kvm-share/
+</code></pre>
+<p>Od tej chwili powinniśmy mieć dostęp do plików hosta z poziomu maszyny wirtualnej.</p>
+<p>By nie wpisywać z każdym uruchomieniem maszyny wirtualnej tego powyższego polecenia, dobrze jest
+dodać w systemie gościa do <code>/etc/fstab</code> poniższy wpis:</p>
+<pre><code>kvm-share /home/james/kvm-share/ 9p trans=virtio,version=9p2000.L 0 0
+</code></pre>
+<h3 id="problemy-z-uprawnieniami">Problemy z uprawnieniami</h3>
+<p>Teoretycznie po wydaniu tych powyższych poleceń wszystko powinno zadziałać cacy. Problem w tym, że
+w Debianie proces <code>qemu</code> jest uruchomiony jako użytkownik/grupa <code>libvirt-qemu</code> . W ten sposób
+pojawiają się problemy z uprawnieniami do plików w tym współdzielonym katalogu. Parametr <code>Mode</code> ,
+który można było ustawić przy tworzeniu zasobu w <code>virt-manager</code> , mógł w zasadzie przyjąć trzy
+wartości: <code>Mapped</code> , <code>Passthrough</code> oraz <code>Squash</code> (który jest aliasem na <code>None</code>). Wybór każdego z
+nich inaczej konfiguruje uprawnienia do plików.</p>
+<h4 id="tryb-squash">Tryb Squash</h4>
+<p>Z tego co znalazłem, to ten <code>Squash</code> powinien umożliwić zapis/odczyt współdzielonego katalogu w obu
+kierunkach ale tylko w przypadku, gdy proces maszyny wirtualnej jest uruchomiony jako zwykły
+użytkownik (ten, który udostępnia zasób).</p>
+<h4 id="tryb-mapped">Tryb Mapped</h4>
+<p>Jeśli zaś chodzi o <code>Mapped</code> , to każdy plik/katalog utworzony na maszynie wirtualnej będzie w
+maszynie hosta miał właściciela/grupę <code>libvirt-qemu</code> oraz uprawnienia dostępu tylko dla właściciela.
+Weźmy przykładowo sytuację, w której na maszynie wirtualnej tworzymy katalog i plik testowy w
+udostępnionym folderze:</p>
+<pre><code>james@ubuntu:~$ mkdir kvm-share/testdir
+james@ubuntu:~$ touch kvm-share/testfile
+james@ubuntu:~$ ls -al kvm-share/
+total 20
+drwxrwx---  3 james 64055 4096 Aug  7 10:22 .
+drwxr-xr-x 19 james james 4096 Aug  7 10:22 ..
+drwxrwxr-x  2 james james 4096 Aug  7 10:22 testdir
+-rw-rw-r--  1 james james    0 Aug  7 10:22 testfile
+</code></pre>
+<p>Ten numerek <code>64055</code> widoczny wyżej odpowiada grupie <code>libvirt-qemu</code> w obrębie maszyny hosta.</p>
+<p>Na maszynie hosta, ten katalog współdzielony wygląda tak:</p>
+<pre><code># ls -al /home/morfik/kvm-share/
+
+total 20
+drwxrwx---  3 morfik       libvirt-qemu 4096 2020-08-07 18:22:28 ./
+drwxr-xr-x 86 morfik       morfik       4096 2020-08-07 17:59:27 ../
+drwx------  2 libvirt-qemu libvirt-qemu 4096 2020-08-07 18:22:20 testdir/
+-rw-------  1 libvirt-qemu libvirt-qemu    0 2020-08-07 18:22:28 testfile
+</code></pre>
+<p>Pierw trzeba było zmienić grupę tego katalogu na <code>libvirt-qemu</code> oraz nadać tej grupie prawa <code>rwx</code>
+(bez tego użytkownik na maszynie wirtualnej nie miał praw dostępu do tego katalogu). A po
+utworzeniu plików na maszynie wirtualnej, te same pliki na hoście mają innego użytkownika, grupę i
+uprawnienia. W efekcie zwykły użytkownik na maszynie hosta nie ma nawet do nich dostępu.</p>
+<h4 id="tryb-passthrough">Tryb Passthrough</h4>
+<p>Ostatnią opcją był <code>Passthrough</code> , który też nie jest w stanie poprawić problemów z uprawnieniami
+do katalogu współdzielonego. Nawet można powiedzieć, że tylko pogorszył sprawę:</p>
+<pre><code>james@ubuntu:~$ ls -al kvm-share/
+total 8
+drwxrwx---  2 james 64055 4096 Aug  7 10:31 .
+drwxr-xr-x 19 james james 4096 Aug  7 10:22 ..
+james@ubuntu:~$
+
+james@ubuntu:~$ mkdir kvm-share/testdir
+mkdir: cannot create directory ‘kvm-share/testdir’: Operation not permitted
+james@ubuntu:~$ mkdir kvm-share/testfile
+mkdir: cannot create directory ‘kvm-share/testfile’: Operation not permitted
+</code></pre>
+<p>Zatem w przypadku <code>Passthrough</code> nie jesteśmy nawet w stanie nic utworzyć w tym współdzielonym
+katalogu, przynajmniej jeśli chodzi o maszynę wirtualną.</p>
+<p>Nie wiem zbytnio jak to udostępnianie katalogów ma działać skoro albo host, albo maszyna wirtualna
+ma problemy z wgrywaniem plików do tego współdzielonego katalogu. Jeśli ktoś ma pomysł jak sprawić,
+by to udostępnianie folderów zadziałało, to niech śmiało pisze, bo mi się już pomysły skończyły.</p>
+<h2 id="udostępnianie-maszynie-wirtualnej-całego-dyskupartycji">Udostępnianie maszynie wirtualnej całego dysku/partycji</h2>
+<p>Wygląda na to, że nie tylko pojedyncze foldery hosta można podpiąć pod maszynę wirtualną ale też
+można w systemie gościa zamontować cały dysk twardy hosta czy też konkretne jego partycje. W tym
+celu trzeba stworzyć nowe urządzenie typu <code>storage</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/077-virtualization-kvm-qemu-share-storage-disk.png#huge" alt=""></p>
+<p>W ścieżce musimy podać lokalizację dysku/partycji w katalogu <code>/dev/</code> hosta. Najlepiej jest to
+zrobić po ID jako, że numerki typu sda/sdb mogą ulec zmianie z każdym restartem maszyny hosta.
+Linki z ID możemy wyciągnąć z katalogu <code>/dev/disk/by-id/</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/078-virtualization-kvm-qemu-share-storage-disk-id.png#huge" alt=""></p>
+<p>Wybieramy jedną z tych widocznych wyżej ścieżek, i podajemy ją w <code>virt-manager</code> . Po dodaniu nowego
+urządzenia, powinno ono znaleźć się na liście i powinno się prezentować mniej więcej tak:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/079-virtualization-kvm-qemu-share-storage-disk.png#huge" alt=""></p>
+<p>Możemy teraz wystartować maszynę wirtualną by sprawdzić, czy ten dodatkowy zasób jest widoczny w
+systemie gościa:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/080-virtualization-kvm-qemu-share-storage-disk-ubuntu.png#huge" alt=""></p>
+<p>Jak widać, partycja dysku hosta, jest obecna w systemie gościa.</p>
+<h3 id="ryzyko-uszkodzenia-danych-zgromadzonych-na-dyskupartycji">Ryzyko uszkodzenia danych zgromadzonych na dysku/partycji</h3>
+<p>W przypadku montowania całych dysków lub pojedynczych partycji hosta w systemie gościa trzeba być
+dość ostrożnym. Testowo zamontowałem tę partycję zarówno w systemie gościa jak i hosta w trybie do
+zapisu. Samo zamontowanie przebiegło bez większego problemu. Postanowiłem z poziomu gościa stworzyć
+katalog na tej partycji, po czym po chwili go usunąłem i tu już pojawiły się problemy.</p>
+<p>Po skasowaniu katalogu z poziomu maszyny wirtualnej, system hosta w dalszym ciągu ten katalog
+widział. W logu systemowym maszyny hosta zaś pojawiły się takie oto komunikaty błędów:</p>
+<pre><code>kernel: EXT4-fs error (device dm-4): ext4_mb_generate_buddy:805: group 48, block bitmap and bg descriptor inconsistent: 0 vs 1 free clusters
+kernel: Aborting journal on device dm-4-8.
+kernel: EXT4-fs (dm-4): Remounting filesystem read-only
+kernel: EXT4-fs error (device dm-4) in ext4_free_blocks:5140: Journal has aborted
+kernel: EXT4-fs error (device dm-4) in ext4_reserve_inode_write:5652: Journal has aborted
+kernel: EXT4-fs error (device dm-4): __ext4_ext_dirty:169: inode #516422: comm spacefm: mark_inode_dirty error
+kernel: EXT4-fs error (device dm-4) in ext4_reserve_inode_write:5652: Journal has aborted
+kernel: EXT4-fs error (device dm-4): __ext4_ext_dirty:169: inode #516422: comm spacefm: mark_inode_dirty error
+kernel: EXT4-fs error (device dm-4) in ext4_ext_remove_space:3030: Journal has aborted
+kernel: EXT4-fs error (device dm-4) in ext4_reserve_inode_write:5652: Journal has aborted
+kernel: EXT4-fs error (device dm-4): ext4_truncate:4240: inode #516422: comm spacefm: mark_inode_dirty error
+kernel: EXT4-fs error (device dm-4) in ext4_truncate:4243: Journal has aborted
+</code></pre>
+<p>System zdecydował się przemontować od razu tę partycję w tryb tylko do odczytu by zapobiec utracie
+danych -- na wypadek, gdybyśmy zaczęli wgrywać dane również z maszyny hosta na tę partycję. Ten
+powyższy błąd nie jest jakoś straszny i w zasadzie nic się z tą partycją nie stało ale zamontowanie
+dysku/partycji na obu maszynach w trybie do zapisu skończy się rozwaleniem jej systemu plików i, co
+z tym się wiąże, utratą zgromadzonych na niej danych. Dlatego też jeśli zamierzamy podpinać całe
+dyski czy też partycje hosta po maszynę wirtualną, to w systemie hosta przemontujmy ją pierw w tryb
+do odczytu albo też w ogóle ją odmontujmy, tak by maszyna wirtualna miała do tego nośnika swobodny
+dostęp.</p>
+<h2 id="hostname-maszyn-wirtualnych-zamiast-ich-adresów-ip">Hostname maszyn wirtualnych zamiast ich adresów IP</h2>
+<p>Mając wiele maszyn wirtualnych oraz serwer DHCP, który im przydziela adresację w sposób dynamiczny,
+w którymś momencie stanie się dość męczące łączenie do maszyn przy pomocy ich adresów IP. Możemy za
+to tak skonfigurować sobie system, by łączyć się do maszyn wirtualnych wykorzystując ich nazwy
+hosta (hostname). W tym celu trzeba <a href="https://morfikov.github.io
+/post/cache-dns-buforowania-zapytan/">skonfigurować dnsmasq</a> na maszynie hosta. Nie będę tutaj
+opisywał całego procesu konfiguracji <code>dnsmasq</code> , bo to zostało zrobione w osobnym artykule, a
+jedynie opiszę tutaj kluczowe parametry konfiguracyjne, które powinny się znaleźć w pliku
+<code>/etc/dnsmasq.conf</code> .</p>
+<p>Przy założeniu, że mamy działający już <code>dnsmasq</code> , te poniższe linijki winny się znaleźć w pliku
+<code>/etc/dnsmasq.conf</code> :</p>
+<pre><code>stop-dns-rebind
+rebind-localhost-ok
+rebind-domain-ok=libvirt
+server=/libvirt/192.168.122.1
+</code></pre>
+<p>jeśli korzystamy z <code>stop-dns-rebind</code> , to trzeba także określić <code>rebind-localhost-ok</code> oraz
+<code>rebind-domain-ok=</code> , który wskazuje na domenę maszyn wirtualnych. W tym przypadku domena maszyn
+wirtualnych została ustawiona na <code>libvirt</code> , choć można sobie określić dowolną nazwę.</p>
+<p>Dalej musimy edytować sieć, do której maszyny wirtualne są podłączane:</p>
+<pre><code># virsh net-edit default
+</code></pre>
+<p>Trzeba tutaj dodać <code>&lt;domain name='libvirt' localOnly='yes'/&gt;</code> , gdzie parametr <code>name=</code> pasuje do
+tego, który ustawiliśmy w pliku <code>/etc/dnsmasq.conf</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/047-virtualization-kvm-qemu-ssh-hostname-dnsmasq.png#huge" alt=""></p>
+<p>Następnie uruchamiamy maszynę wirtualną i ustawiamy jej pożądany hostname przy pomocy
+<code>hostnamectl</code> :</p>
+<pre><code># hostnamectl set-hostname ubuntu.libvirt
+</code></pre>
+<p>Po tym zabiegu restartujemy maszynę wirtualną, a z maszyny hosta próbujemy podłączyć się do systemu
+gościa przy pomocy SSH z tym, że zamiast adresu IP, korzystamy teraz z tego ustawionego wyżej
+hostname:</p>
+<pre><code>$ ssh james@ubuntu.libvirt
+</code></pre>
+<p>Jeśli wszystko ustawiliśmy jak należy, to naszym oczom powinien ukazać się prompt systemu gościa:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/048-virtualization-kvm-qemu-ssh-hostname-dnsmasq.png#huge" alt=""></p>
+<p>Jeśli z jakichś powodów nie działa nam rozwiązywanie nazw maszyn wirtualnych, to trzeba poszukać
+przyczyny i najlepiej zacząć od sprawdzenia, czy <code>dnsmasq</code> w ogóle te nazwy rozwiązuje. By ten fakt
+ustalić, na maszynie hosta wydajemy poniższe polecenie:</p>
+<pre><code># kill -s USR1 `pidof dnsmasq`
+</code></pre>
+<p>W logu systemowym powinniśmy zaś ujrzeć komunikaty podobne do tych poniżej:</p>
+<pre><code>dnsmasq[3148]: time 1596533285
+dnsmasq[3148]: cache size 10000, 0/262 cache insertions re-used unexpired cache entries.
+dnsmasq[3148]: queries forwarded 336, queries answered locally 165
+dnsmasq[3148]: queries for authoritative zones 0
+dnsmasq[3148]: pool memory in use 288, max 288, allocated 2400
+dnsmasq[3148]: server 192.168.122.1#53: queries sent 2, retried or failed 0
+dnsmasq[3148]: server 192.168.1.1#53: queries sent 0, retried or failed 0
+dnsmasq[3148]: server 127.0.2.1#53: queries sent 334, retried or failed 2
+</code></pre>
+<p>Jeśli mamy odpalone maszyny wirtualne, to w tym logu będzie więcej takich zwrotek (po jednej
+dodatkowej na każda uruchomioną maszynę wirtualną). Odszukujemy te komunikaty, które dotyczą
+naszego <code>dnsmasq</code> i patrzymy po adresie IP <code>192.168.122.1</code> . Jeśli przy nim widnieje <code>queries sent</code>
+w ilości większej od 0 i nie ma przy tym żadnych zapytań nieudanych, to znaczy, że wszystko działa
+jak należy.</p>
+<h2 id="systemowy-interfejs-mostka-dla-maszyn-wirtualnych">Systemowy interfejs mostka dla maszyn wirtualnych</h2>
+<p>Domyślnie w libvirt jest stworzona jedna sieć i wszystkie maszyny wirtualne są do niej podłączane
+automatycznie. Ta sieć przy podnoszeniu tworzy interfejs mostka <code>virbr0</code> (konfiguracja w pliku
+<code>/etc/libvirt/qemu/networks/default.xml</code> ), dzięki czemu może być realizowany NAT. Poniżej jest
+konfiguracja tej domyślnej sieci:</p>
+<pre><code>&lt;network&gt;
+  &lt;name&gt;default&lt;/name&gt;
+  &lt;uuid&gt;b16efb4a-73a9-43d2-b109-77fdc21b8511&lt;/uuid&gt;
+  &lt;forward mode='open'/&gt;
+  &lt;bridge name='virbr0' stp='on' delay='0'/&gt;
+  &lt;mac address='52:54:00:9d:6b:aa'/&gt;
+  &lt;domain name='libvirt' localOnly='yes'/&gt;
+  &lt;ip address='192.168.122.1' netmask='255.255.255.0'&gt;
+    &lt;dhcp&gt;
+      &lt;range start='192.168.122.2' end='192.168.122.254'/&gt;
+    &lt;/dhcp&gt;
+  &lt;/ip&gt;
+&lt;/network&gt;
+</code></pre>
+<p>Nie jestem fanem takiego rozwiązania i zamiast niego preferuję statycznie konfigurowane interfejsy
+sieciowe za sprawą pliku <code>/etc/network/interfaces</code> . By z takiego rozwiązania skorzystać, trzeba
+ręcznie stworzyć i skonfigurować mostek dodając poniższą zwrotkę w pliku <code>/etc/network/interfaces</code> :</p>
+<pre><code>auto virbr0
+iface virbr0 inet static
+    bridge_bridgeprio 20
+    address 192.168.122.1
+    netmask 255.255.255.0
+    bridge_ports none
+    bridge_stp on
+    bridge_waitport 5
+    dns-nameservers 127.0.0.1
+    dns-search libvirt
+</code></pre>
+<p>Konfiguracja mostka <code>virbr0</code> widoczna powyżej jest wzorowana na konfiguracji tego dynamicznie
+tworzonego mostka przez libvirt przy podnoszeniu sieci wirtualnej ( <code>virsh net-start  default</code> ).</p>
+<p>Warto też zwrócić uwagę na fakt ustawienia <code>dns-nameservers</code> na <code>127.0.0.1</code> . Dzięki takiemu
+zabiegowi, zapytania DNS będą przesyłane do instancji <code>dnsmasq</code> hosta, a nie bezpośrednio do
+upstream'owych serwerów DNS.</p>
+<p>By maszyny wirtualne mogły z tego mostka skorzystać, <a href="https://libvirt.org/formatnetwork.html#examplesBridge">trzeba zdefiniować nową sieć wirtualną</a>.
+Najprościej jest stworzyć nowy plik <code>/etc/libvirt/qemu/networks/host-bridge.xml</code> i dodać do niego
+poniższą zawartość:</p>
+<pre><code>&lt;network&gt;
+  &lt;name&gt;host-bridge&lt;/name&gt;
+  &lt;forward mode=&quot;bridge&quot;/&gt;
+  &lt;bridge name=&quot;virbr0&quot;/&gt;
+&lt;/network&gt;
+</code></pre>
+<p>Następnie restartujemy demona <code>libvirtd</code> :</p>
+<pre><code># systemctl restart libvirtd
+</code></pre>
+<p>Ta nowa sieć powinna pojawić się na listingu sieci w <code>virt-manager</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/049-virtualization-kvm-qemu-system-bridge-network.png#huge" alt=""></p>
+<p>Teraz przy tworzeniu maszyn wirtualnych wystarczy wybrać tę utworzoną przez nas sieć:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/050-virtualization-kvm-qemu-system-bridge-network.png#medium" alt=""></p>
+<p>I w ten sposób tak stworzone maszyny wirtualne będą przypisane automatycznie do tego statycznego
+interfejsu mostka.</p>
+<p>Jeśli zaś chodzi o maszyny wirtualne, które już mamy utworzone, to trzeba edytować ich konfigurację
+zmieniając przypisanie do tej nowej, utworzonej przez nas sieci:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/051-virtualization-kvm-qemu-system-bridge-network.png#huge" alt=""></p>
+<h3 id="jedna-instancja-dnsmasq">Jedna instancja dnsmasq</h3>
+<p>W przypadku korzystania z domyślnej sieci dla maszyn wirtualnych, libvrit tworzy dla niej osobny
+proces <code>dnsmasq</code> przy podnoszeniu sieci. <a href="https://www.redhat.com/archives/libvir-list/2010-March/msg00005.html">Może to powodować problemy</a> zwłaszcza, gdy sami już
+korzystamy z <code>dnsmasq</code> . W takiej sytuacji najlepiej jest skonfigurować własny interfejs mostka
+oraz korzystać z jednej instancji <code>dnsmasq</code> , tj. tej uruchomionej na stałe na hoście, tak by
+zapewnić zarówno maszynie hosta, jak i maszynom wirtualnym, dynamiczny przydział adresów IP za
+pomocą protokołu DHCP oraz usługi DNS. Edytujemy zatem plik <code>/etc/dnsmasq.conf</code> na maszynie hosta i
+dodajemy w nim te poniższe wpisy:</p>
+<pre><code>interface=virbr0
+
+bind-interfaces
+
+domain=libvirt,192.168.122.2,192.168.122.254,
+
+dhcp-range=192.168.122.2,192.168.122.254,255.255.255.0,12h
+
+dhcp-lease-max=253
+
+dhcp-authoritative
+</code></pre>
+<p>Podobnie jak w przypadku konfiguracji mostka, konfiguracja <code>dnsmasq</code> jest wzorowana na tej
+dostarczanej z libvirt, by oba rozwiązania były możliwie zbliżone do siebie.</p>
+<p>Trzeba tutaj określić interfejs mostka, w tym przypadku <code>virbr0</code> . Dodatkowo, dla maszyn
+wirtualnych będzie obowiązywać inna domena, tj. <code>libvirt</code> . Sam mostek ma statyczną konfigurację
+adresacji IP (192.168.122.1), dlatego też zakres adresów IP, które są oddelegowane do wykorzystania
+przez maszyny wirtualne to <code>192.168.122.2</code> do <code>192.168.122.254</code> (łącznie 253 lease mogą zostać
+wydane).</p>
+<p>Teraz już powinna być tylko jedna instancja <code>dnsmasq</code> obecna w systemie hosta:</p>
+<pre><code># ps aux | grep -i dnsmasq
+dnsmasq     3231  0.0  0.0  18296  3600 ?        S    15:24   0:00 /usr/sbin/dnsmasq -x /run/dnsmasq/dnsmasq.pid -u dnsmasq -7 /etc/dnsmasq.d,.dpkg-dist,.dpkg-old,.dpkg-new --local-service
+</code></pre>
+<h2 id="zmiana-rozmiaru-obrazu-maszyny-wirtualnej">Zmiana rozmiaru obrazu maszyny wirtualnej</h2>
+<p>Rozmiar pliku <code>.qcow2</code> , który przechowuje obraz maszyny wirtualnej, można zmienić. Możemy zarówno
+<a href="https://morfikov.github.io
+/post/jak-zmienic-rozmiar-obrazu-maszyny-wirtualnej-qemu-kvm/">zmniejszyć rozmiar obrazu maszyny wirtualnej, jak i również go zwiększyć</a>. Cały proces zmiany
+rozmiaru obrazu został opisany w osobnym artykule.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wirtualizacja/">wirtualizacja</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kvm/">kvm</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/qemu/">qemu</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/libvirt/">libvirt</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kernel/">kernel</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fwirtualizacja-qemu-kvm-libvirt-na-debian-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwirtualizacja-qemu-kvm-libvirt-na-debian-linux%2f&amp;text=Wirtualizacja%20QEMU%2fKVM%20%28libvirt%29%20na%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwirtualizacja-qemu-kvm-libvirt-na-debian-linux%2f&amp;title=Wirtualizacja%20QEMU%2fKVM%20%28libvirt%29%20na%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwirtualizacja-qemu-kvm-libvirt-na-debian-linux%2f&amp;title=Wirtualizacja%20QEMU%2fKVM%20%28libvirt%29%20na%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwirtualizacja-qemu-kvm-libvirt-na-debian-linux%2f&title=Wirtualizacja%20QEMU%2fKVM%20%28libvirt%29%20na%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwirtualizacja-qemu-kvm-libvirt-na-debian-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwirtualizacja-qemu-kvm-libvirt-na-debian-linux%2f&amp;title=Wirtualizacja%20QEMU%2fKVM%20%28libvirt%29%20na%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwirtualizacja-qemu-kvm-libvirt-na-debian-linux%2f&description=Wirtualizacja%20QEMU%2fKVM%20%28libvirt%29%20na%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czym-jest-linux-kernel-driver-binding/">Czym jest linux kernel driver binding</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/modul-lkrg-linux-kernel-runtime-guard/">Moduł LKRG (Linux Kernel Runtime Guard)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zaladowac-firmware-karty-wifi-przed-initrd-initramfs/">Jak załadować firmware karty WiFi przed initrd/initramfs</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/">Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

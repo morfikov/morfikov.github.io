@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Czy smartfon z Androidem bez Google Apps/Services ma sens | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Czy smartfon z Androidem bez Google Apps/Services ma sens" />
+<meta property="og:description" content="Jakiś czas
+temu natknąłem się na artykuł
+chwalący Google Play Services i sugerujący zarazem, że nasz smartfon bez tych usług (i appek
+zależnych od nich) na niewiele się zda człowiekowi. Nie jest to jednak do końca prawdą i
+postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na telefonie z Androidem
+pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W rolach głównych wystąpi
+mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać LineageOS (lub też inny
+ROM na bazie AOSP). Po wgraniu ROM&#39;u, w telefonie znajduje się jedynie garstka podstawowych
+aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po drugie można je bez
+problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można dzwonić, przeglądać net
+(WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju multimediów. W zasadzie czego
+oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć możliwość używania, np. nawigacji.
+No i tu już zaczynają się schody, bo na takim w pełni otwartoźródłowym Androidzie, GPS nie zadziała
+OOTB i potrzebna nam jest jakaś alternatywa w postaci pośrednika między aplikacjami a GPS.
+Standardowo w Andkach tym zadaniem zajmują się właśnie te usługi Google. Jak więc zatem zmusić GPS
+do poprawnej pracy nie chcąc przy tym wgrywać sobie tego rozbudowanego w uprawnieniach szpiega od
+Google? Problemów naturalnie może być więcej, a to czy doświadczymy któregokolwiek z nich zależy
+głównie od odpowiedniej konfiguracji systemu. Niniejszy artykuł postara się zebrać wszystkie te
+niezbędne informacje mające na celu zaimplementowanie w naszym smartfonie otwartoźródłowej
+alternatywy dla Google Play Services w postaci microG." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/czy-smartfon-z-androidem-bez-google-apps-services-ma-sens/" />
+<meta property="article:published_time" content="2019-04-16T21:00:15+00:00" />
+<meta property="article:modified_time" content="2019-04-16T21:00:15+00:00" />
+
+		<meta itemprop="name" content="Czy smartfon z Androidem bez Google Apps/Services ma sens">
+<meta itemprop="description" content="Jakiś czas
+temu natknąłem się na artykuł
+chwalący Google Play Services i sugerujący zarazem, że nasz smartfon bez tych usług (i appek
+zależnych od nich) na niewiele się zda człowiekowi. Nie jest to jednak do końca prawdą i
+postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na telefonie z Androidem
+pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W rolach głównych wystąpi
+mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać LineageOS (lub też inny
+ROM na bazie AOSP). Po wgraniu ROM&#39;u, w telefonie znajduje się jedynie garstka podstawowych
+aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po drugie można je bez
+problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można dzwonić, przeglądać net
+(WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju multimediów. W zasadzie czego
+oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć możliwość używania, np. nawigacji.
+No i tu już zaczynają się schody, bo na takim w pełni otwartoźródłowym Androidzie, GPS nie zadziała
+OOTB i potrzebna nam jest jakaś alternatywa w postaci pośrednika między aplikacjami a GPS.
+Standardowo w Andkach tym zadaniem zajmują się właśnie te usługi Google. Jak więc zatem zmusić GPS
+do poprawnej pracy nie chcąc przy tym wgrywać sobie tego rozbudowanego w uprawnieniach szpiega od
+Google? Problemów naturalnie może być więcej, a to czy doświadczymy któregokolwiek z nich zależy
+głównie od odpowiedniej konfiguracji systemu. Niniejszy artykuł postara się zebrać wszystkie te
+niezbędne informacje mające na celu zaimplementowanie w naszym smartfonie otwartoźródłowej
+alternatywy dla Google Play Services w postaci microG.">
+<meta itemprop="datePublished" content="2019-04-16T21:00:15+00:00" />
+<meta itemprop="dateModified" content="2019-04-16T21:00:15+00:00" />
+<meta itemprop="wordCount" content="3779">
+
+
+
+<meta itemprop="keywords" content="aosp,microg,safetynet,push," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Czy smartfon z Androidem bez Google Apps/Services ma sens"/>
+<meta name="twitter:description" content="Jakiś czas
+temu natknąłem się na artykuł
+chwalący Google Play Services i sugerujący zarazem, że nasz smartfon bez tych usług (i appek
+zależnych od nich) na niewiele się zda człowiekowi. Nie jest to jednak do końca prawdą i
+postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na telefonie z Androidem
+pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W rolach głównych wystąpi
+mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać LineageOS (lub też inny
+ROM na bazie AOSP). Po wgraniu ROM&#39;u, w telefonie znajduje się jedynie garstka podstawowych
+aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po drugie można je bez
+problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można dzwonić, przeglądać net
+(WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju multimediów. W zasadzie czego
+oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć możliwość używania, np. nawigacji.
+No i tu już zaczynają się schody, bo na takim w pełni otwartoźródłowym Androidzie, GPS nie zadziała
+OOTB i potrzebna nam jest jakaś alternatywa w postaci pośrednika między aplikacjami a GPS.
+Standardowo w Andkach tym zadaniem zajmują się właśnie te usługi Google. Jak więc zatem zmusić GPS
+do poprawnej pracy nie chcąc przy tym wgrywać sobie tego rozbudowanego w uprawnieniach szpiega od
+Google? Problemów naturalnie może być więcej, a to czy doświadczymy któregokolwiek z nich zależy
+głównie od odpowiedniej konfiguracji systemu. Niniejszy artykuł postara się zebrać wszystkie te
+niezbędne informacje mające na celu zaimplementowanie w naszym smartfonie otwartoźródłowej
+alternatywy dla Google Play Services w postaci microG."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Czy smartfon z Androidem bez Google Apps/Services ma sens</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2019-04-16T21:00:15Z">Opublikowano: 16/04/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Czy smartfon z Androidem bez Google Apps/Services ma sens</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#problemy-związane-z-brakiem-google-play-services">Problemy związane z brakiem Google Play Services</a>
+      <ol>
+        <li><a href="#konto-google">Konto Google</a></li>
+        <li><a href="#brak-gps">Brak GPS</a></li>
+        <li><a href="#problemy-z-działaniem-aplikacji">Problemy z działaniem aplikacji</a></li>
+        <li><a href="#brak-sklepu-google-play">Brak sklepu Google Play</a>
+          <ol>
+            <li><a href="#f-droid">F-Droid</a></li>
+            <li><a href="#yalp-store">Yalp Store</a></li>
+            <li><a href="#instalowanie-aplikacji-z-nieznanych-źródeł">Instalowanie aplikacji z nieznanych źródeł.</a></li>
+          </ol>
+        </li>
+        <li><a href="#synchronizacja-i-backup-danych">Synchronizacja i backup danych</a></li>
+        <li><a href="#znajdź-moje-urządzenie">Znajdź moje urządzenie</a></li>
+        <li><a href="#powiadomienia-push">Powiadomienia PUSH</a></li>
+      </ol>
+    </li>
+    <li><a href="#microg-jako-alternatywa-dla-google-play-services">MicroG jako alternatywa dla Google Play Services</a></li>
+    <li><a href="#integracja-microg-z-aosp">Integracja microG z AOSP</a>
+      <ol>
+        <li><a href="#signature-spoofing">Signature spoofing</a>
+          <ol>
+            <li><a href="#magisk-xposed-i-fakegapps">Magisk, Xposed i FakeGApps</a></li>
+          </ol>
+        </li>
+        <li><a href="#backendy-unified-nlp-i-gps">Backend'y Unified NLP i GPS</a>
+          <ol>
+            <li><a href="#weryfikacja-poprawnego-działania-gps">Weryfikacja poprawnego działania GPS</a></li>
+          </ol>
+        </li>
+        <li><a href="#notyfikacje-push">Notyfikacje PUSH</a>
+          <ol>
+            <li><a href="#test-powiadomień-push">Test powiadomień PUSH</a></li>
+          </ol>
+        </li>
+        <li><a href="#a-co-z-aplikacjami-google">A co z aplikacjami Google</a></li>
+        <li><a href="#safetynet">SafetyNet</a></li>
+      </ol>
+    </li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Jakiś czas
+temu <a href="https://android.com.pl/programowanie/188397-po-co-nam-uslugi-google-play/">natknąłem się na artykuł</a>
+chwalący Google Play Services i sugerujący zarazem, że nasz smartfon bez tych usług (i appek
+zależnych od nich) na niewiele się zda człowiekowi. Nie jest to jednak do końca prawdą i
+postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na telefonie z Androidem
+pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W rolach głównych wystąpi
+mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać LineageOS (lub też inny
+ROM na bazie AOSP). Po wgraniu ROM'u, w telefonie znajduje się jedynie garstka podstawowych
+aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po drugie można je bez
+problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można dzwonić, przeglądać net
+(WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju multimediów. W zasadzie czego
+oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć możliwość używania, np. nawigacji.
+No i tu już zaczynają się schody, bo na takim w pełni otwartoźródłowym Androidzie, GPS nie zadziała
+OOTB i potrzebna nam jest jakaś alternatywa w postaci pośrednika między aplikacjami a GPS.
+Standardowo w Andkach tym zadaniem zajmują się właśnie te usługi Google. Jak więc zatem zmusić GPS
+do poprawnej pracy nie chcąc przy tym wgrywać sobie tego rozbudowanego w uprawnieniach szpiega od
+Google? Problemów naturalnie może być więcej, a to czy doświadczymy któregokolwiek z nich zależy
+głównie od odpowiedniej konfiguracji systemu. Niniejszy artykuł postara się zebrać wszystkie te
+niezbędne informacje mające na celu zaimplementowanie w naszym smartfonie otwartoźródłowej
+alternatywy dla Google Play Services w postaci microG.</p>
+<h2 id="problemy-związane-z-brakiem-google-play-services">Problemy związane z brakiem Google Play Services</h2>
+<p>W zasadzie każdy Android jest pozbawiony tego całego wynalazku zwanego Google Play Services, jako,
+że jest to produkt własnościowy od Google, a licencja Androida jednoznacznie takie elementy
+wyklucza. Google Play Services jest kompletnie niezależnym elementem, który można (ale
+niekoniecznie trzeba) doinstalować po wgraniu nowego ROM'u. Te stock'owe ROM'y producentów
+telefonów (czy też operatorów GSM) zawierają już szereg aplikacji od Google, w tym też ten cały
+Google Play Services.</p>
+<p>W tym przypadku został wgrany <a href="https://www.resurrectionremix.com/">Resurrection Remix OS</a>. Jest to
+w zasadzie czysty Android 7.1.2 z szeregiem modyfikacji (dorzuconych przez zespół tworzący ten ROM)
+umożliwiających nieco bardziej zaawansowaną konfigurację systemu. W tym ROM'ie nie znajdziemy
+żadnych własnościowych aplikacji od Google. Można naturalnie wgrać
+osobno <a href="https://opengapps.org/">pakiet GAPPS</a> ale my tego robić nie będziemy, przez co trzeba
+będzie uporać się z szeregiem problemów.</p>
+<h3 id="konto-google">Konto Google</h3>
+<p>Zanim jednak przejdziemy bezpośrednio do samych problemów, wypadałoby by powiedzieć kilka słów o
+koncie Google. Przez cały ten czas byliśmy przyzwyczajani, że w Androidzie trzeba mieć dodane i
+skonfigurowane jakieś konto Google, tak by np. można było instalować aplikacje ze sklepu Google
+Play. Trzeba w tym miejscu wyraźnie zaznaczyć, że te stock'owe Androidy różnych producentów
+telefonów mają opcję umożliwiającą pominięcie procesu dodawania konta, co otwiera drogę do
+używania telefonu bez potrzeby logowania się na to konto. Oczywiście sporo rzeczy nam albo nie
+będzie działać (np. ten wspomniany wyżej sklep z aplikacjami), albo też funkcjonalność danej
+aplikacji zostanie dość mocno ograniczona. Niemniej jednak, ze smartfona jak najbardziej się da
+korzystać nie mając w nim skonfigurowanego konta Google.</p>
+<p>Konto Google jest powiązane bezpośrednio z Google Play Services. Gdy nie zamierzamy korzystać z
+Google Play Services (czy ogólnie aplikacji Google), to owe konto nie jest nam w zasadzie do
+niczego potrzebne i bez problemu możemy się bez niego obejść, co ukróci nieco zbieranie danych na
+nasz temat przez tego giganta. Niemniej jednak, jeśli zamierzamy korzystać z pojedynczych aplikacji
+od Google, to takie konto musimy dodać do telefonu, z tym, że aplikacje wykorzystujące konto
+Google nie zadziałają nam bez Google Play Services, przynajmniej nie bez dodatkowej konfiguracji.</p>
+<h3 id="brak-gps">Brak GPS</h3>
+<p>Nie mając na pokładzie Google Play Services nie będzie nam na pewno działał GPS. Nie mając GPS,
+wszystkie aplikacje próbujące ustalić naszą pozycję w oparciu o niego nie będą w stanie tego
+uczynić. Jakby nie patrzeć, to spory plus do prywatności. Niemnie jednak, jeśli nie potrafimy
+operować na mapach bez kropki wskazującej nasze aktualne położenie i kierunek ruchu, to możemy mieć
+spory problem z odnalezieniem się w terenie i lepiej by ten GPS nam działał poprawnie. Warto tu
+podkreślić, że mapy jako takie działać będą.</p>
+<h3 id="problemy-z-działaniem-aplikacji">Problemy z działaniem aplikacji</h3>
+<p>Szereg aplikacji może mieć nieco upośledzoną funkcjonalność, np. wspomniane wyżej mapy, lub w ogóle
+te appki odmówią nam współpracy przy uruchamianiu. Niektóre aplikacje są przygotowane na scenariusz
+braku Google Play Services i są nas w stanie poinformować komunikatami na ekranie co powinniśmy
+zrobić aby aplikacja była w stanie poprawnie działać. Poniżej przykład aplikacji Signal:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/001-signal-google-play-services-missing.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/002-signal-google-play-services-missing.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<h3 id="brak-sklepu-google-play">Brak sklepu Google Play</h3>
+<p>Skoro nie mamy zainstalowanych w systemie Google Play Services, to o sklepie Google Play również
+możemy zapomnieć. Nawet jeśli byśmy go zainstalowali ręcznie (pobierając skądś plik <code>.apk</code> ), to
+nie ruszy on nam bez usług Google. Jak zatem instalować aplikacje na Androida bez posiadania sklepu
+Google Play?</p>
+<p>Warto tutaj zaznaczyć, że przy odpowiedniej konfiguracji microG można zaimplementować sobie
+funkcjonalność sklepu Google Play. Trzeba tylko skorzystać
+z <a href="https://forum.xda-developers.com/showthread.php?t=1715375">BlankStore</a> lub też Yalp Store. Obie
+te appki są otwartoźródłowymi alternatywami dla aplikacji Google Play. Każda z nich wymaga od nas
+posiadania konta Google. Na potrzeby tego artykułu będziemy korzystać z tego drugiego rozwiązania.
+Trzeba sobie jednak też zdawać sprawę, że używanie z tego typu alternatywnych klientów sklepu
+Google Play może doprowadzić do zablokowania naszego konta Google. Jeśli się tego obawiamy, to
+możemy stworzyć osobne konto Google i to je podpiąć pod te aplikacje. Można również skorzystać z
+F-Droid.</p>
+<h4 id="f-droid">F-Droid</h4>
+<p>W zasadzie to wszystkie aplikacje opensource (albo też znaczna ich większość) dostępnych na
+Androida nie wymaga do poprawnego działania Google Play Services. Te otwartoźródłowe appki bez
+problemu można ogarnąć przy pomocy <a href="https://f-droid.org/">F-Droid</a> i
+jego <a href="https://f-droid.org/en/packages/org.fdroid.fdroid.privileged/">uprzywilejowanego dodatku</a>,
+który umożliwia zbiorcze aktualizacje w tle bez potrzeby przeprowadzania działań ze strony
+użytkownika. Bez tego dodatku, użytkownik musiałby ręcznie każdą aplikację zaktualizować osobno, a
+to wymagałoby trochę czasu i byłoby przy tym trochę upierdliwe.</p>
+<p><img src="https://morfikov.github.io
+/img/2019/04/003-f-droid-google-play.png#small" alt=""></p>
+<h4 id="yalp-store">Yalp Store</h4>
+<p>Jeśli zaś chodzi o aplikacje, które figurują w sklepie Google Play, to możemy je dociągnąć za
+pomocą <a href="https://github.com/yeriomin/YalpStore">Yalp Store</a>. Jest to aplikacja, która pobiera pliki
+<code>.apk</code> z tego sklepu i umożliwia ich ręczną (choć w pełni zautomatyzowaną) instalację/aktualizację
+w systemie. Takie plik <code>.apk</code> mają stosowne sygnatury (takie same jak te w Google Play), co
+zapewnia integralność danych konkretnej aplikacji. Mamy zatem pewność, że jest to ten sam plik co w
+sklepie Google Play oraz, że nie został on w żaden sposób zmieniony przez podmioty trzecie
+(oczywiście jeśli zweryfikowaliśmy jego podpis i mu ufamy). Podobnie w późniejszym czasie, gdy
+zajdzie potrzeba aktualizacji aplikacji -- nie da się tego zrobić w przypadku gdyby podpisy się
+różniły, czyli dokładnie tak samo jak w przypadku sklepu Google Play.</p>
+<p><img src="https://morfikov.github.io
+/img/2019/04/004-yalp-store-google-play.png#small" alt=""></p>
+<p>Yalp Store jest dostępny w repozytorium F-Droid i można go bez większego trudu zainstalować na
+każdym urządzeniu. Do pobierania plików <code>.apk</code> potrzebne jest jednak konto Google. Możemy albo
+wykorzystać własne konto, albo też posłużyć się tym oferowanym przez samą aplikację.</p>
+<h4 id="instalowanie-aplikacji-z-nieznanych-źródeł">Instalowanie aplikacji z nieznanych źródeł.</h4>
+<p>Problemem natomiast może być potrzeba przełączenia opcji umożliwiającej instalowanie aplikacji z
+nieznanych źródeł. Ta czynność może negatywnie odbić się na bezpieczeństwie naszego Androida. Po
+przestawieniu tej opcji, w systemie będzie mogła być zainstalowana praktycznie dowolna aplikacja,
+co może budzić pewne obawy.</p>
+<p>F-Droid ma swój uprzywilejowany dodatek, który wymaga praw administratora systemu. Gdy nada mu się
+stosowne uprawnienia, to przy instalowaniu aplikacji (i ich aktualizowaniu) z repozytorium F-Droid
+nie będzie potrzeby ruszania opcji umożliwiającej instalowanie aplikacji z nieznanych źródeł.</p>
+<p>Podobnie sprawa wygląda w przypadku Yalp Store, z tym, że tutaj nie mamy żadnego dodatku. Yalp
+Store musi zostać zainstalowany jako aplikacja systemowa. Tylko w takiej sytuacji ta appka będzie
+się zachowywać podobnie do F-Droid, co umożliwi bezproblemową instalację i aktualizację pakietów w
+tle bez potrzeby zdejmowania tego jakże przydatnego zabezpieczenia.</p>
+<h3 id="synchronizacja-i-backup-danych">Synchronizacja i backup danych</h3>
+<p>Być może część użytkowników przywykła do funkcjonalności oferowanej przez Google w kwestii backup'u
+prywatnych danych, takich jak zdjęcia, filmy, kontakty, historia połączeń, wysłane/odebrane
+wiadomości SMS, czy też konfiguracja konkretnych aplikacji. Bez usług Google, synchronizacja i
+backup danych za jej sprawą do serwerów Google przestanie działać. Trzeba będzie zatem rozejrzeć
+się za alternatywną formą backup'u danych.</p>
+<p>Praktycznie każda aplikacja umożliwia eksport swoich ustawień ale też mając w systemie ponad setkę
+aplikacji, nie uśmiechałoby się raczej nikomu przeprowadzać proces eksportu ustawień dla każdej z
+tych aplikacji oddzielnie, bo jest to zwyczajnie mało praktyczne. Jeśli bawimy się w custom ROM'y
+(tak jak w tym przypadku), to mamy wgrany również TWRP recovery. Przez tryb recovery jesteśmy w
+stanie zrobić backup danych użytkownika (w zasadzie całego telefonu) i skopiować go sobie na
+komputer, a wszystko to bez potrzeby dostępu do internetu i narażania się na wyciek jakby nie
+patrzeć dość wrażliwych danych. Wypadałoby jedynie zadbać albo o zaszyfrowanie tworzonej kopi
+zapasowej systemu smartfona (TWRP to umożliwia) jeśli ma ona być przechowywana na niezaszyfrowanym
+dysku, albo też zaszyfrować dysk w komputerze. Przeprowadzenie samej czynności tworzenia backup'u
+telefonu trwa kilka minut, zatem może ona być wykonana praktycznie w dowolnym czasie, choć trzeba
+liczyć się z chwilowym wyłączeniem telefonu.</p>
+<h3 id="znajdź-moje-urządzenie">Znajdź moje urządzenie</h3>
+<p>Google jest w stanie pomóc nam odszukać nasz telefon w przypadku, gdy nam się on gdzieś zawieruszy
+albo nam zwyczajnie ktoś go ukradnie. Wszystko za sprawą
+usługi <a href="https://www.google.com/android/find">&quot;znajdź moje urządzenie&quot;</a>. Gdy pozbawimy się Google
+Play Services, to możemy pożegnać się z opcją odzyskania urządzenia za pomocą wspomnianego serwisu.</p>
+<p>Wypadałoby jednak zadać sobie pytanie: ile razy z tej usługi szukania telefonu korzystaliśmy? Ja na
+przestrzeni kilku lat w zasadzie ani razu. No może poza testowaniem jak ta usługa działa. Zwykle
+też, gdy zajdzie potrzeba zlokalizować to zaginione urządzenie, to będzie to raczej niemożliwe.
+Usługa &quot;znajdź moje urządzenie&quot; wymaga, by to szukane urządzenie było podłączone do internetu.
+Jeśli połączenie z siecią zostanie odcięte, to już smartfona nie odnajdziemy. Niekoniecznie ktoś
+musi celowo nam wyłączyć WiFi czy wyciągnąć kartę SIM z telefonu, bo możemy to urządzenie zgubić w
+miejscu, w którym akurat nie ma zasięgu sieci GSM, np. w lesie. Poza tym, przy odrobinie wiedzy
+technicznej (i szczęścia), takie urządzenie można zresetować (z pominięciem wszelkich blokad) i
+Google już nie będzie w stanie go nigdy namierzyć, przez co ta usługa będzie bezużyteczna.</p>
+<p>Usługa &quot;znajdź moje urządzenie&quot; jest chyba w zasadzie adresowana tylko do tych osób, które nie
+pamiętają, w którym miejscu położyły telefon w obrębie swojego mieszkania. W każdym innym przypadku
+jest spore prawdopodobieństwo, że się przeliczymy oczekując jakichś wymiernych rezultatów, gdy nam
+faktycznie ten telefon rozpłynie się w powietrzu. W zasadzie w zamian za komfort psychiczny
+wywodzący się z fałszywego poczucia bezpieczeństwa, które oferuje nam Google, dajemy mu praktycznie
+nieograniczony wgląd w nasze życie, bo ta usługa oprócz połączenia internetowego wymaga również
+włączonego GPS. Google jest zatem w stanie monitorować nasze położenie praktycznie non stop, a
+kwestii czy to robi (lub będzie
+robił) <a href="https://niebezpiecznik.pl/post/google-wie-gdzie-jestes-i-gdzie-byles-i-dzieli-sie-tym-z-policja/">bez naszej świadomej zgody</a>
+lepiej nie poruszać.</p>
+<h3 id="powiadomienia-push">Powiadomienia PUSH</h3>
+<p>Obecnie sporo aplikacji wykorzystuje powiadomienia PUSH. Co to takiego? Jest to komunikat ze strony
+serwera, który ma zwykle na celu wywołać u nas jakąś interakcję, np. sprawdzenie nowej poczty, czy
+obejrzenie filmu na YouTube, który został dodany przez jeden z subskrybowanych przez nas kanałów.</p>
+<p>Dana aplikacja zamiast łączyć się bezpośrednio z serwerem co określony interwał czasu nasłuchuje
+jedynie powiadomień PUSH. Jeśli serwer aplikacji będzie chciał abyśmy, np. sprawdzili pocztę, bo
+ktoś nam wysłał wiadomość email, to do aplikacji trafi stosowne powiadomienie dosłownie chwilę po
+nadejściu tego mail'a. Dzięki takiemu rozwiązaniu oszczędzamy pakiet danych oraz wydłuża się czas
+pracy na baterii, bo aplikacja nie utrzymuje żadnego połączenia z serwerem i nie wybudza przy tym
+co chwilę telefonu, by przesłać jakieś dane przez sieć.</p>
+<p>Problem w tym, że te wszystkie powiadomienia
+PUSH <a href="https://android.com.pl/programowanie/159193-powiadomienia-push/">przechodzą dodatkowo przez serwery Google</a>.
+Ten cały mechanizm może działać tylko dlatego, że aplikacja sklepu Google Play otwiera połączenie z
+serwerem Google i przełącza je w tryb nasłuchu. Dlatego też ta aplikacja musi być zainstalowana w
+telefonie, by te powiadomienia PUSH działały prawidłowo, co z kolei pociąga zależności w postaci
+Google Play Services. Jeśli teraz nie mamy w systemie usług Google, to możemy mieć problem z
+odebraniem tych powiadomień PUSH, a bez nich aplikacje nie będą działać tak jak powinny.</p>
+<h2 id="microg-jako-alternatywa-dla-google-play-services">MicroG jako alternatywa dla Google Play Services</h2>
+<p>Jakby nie patrzeć, w tym krótkim podsumowaniu wyżej pojawiła się cała masa problemów, które trzeba
+by zaadresować jeśli w ogóle mamy zamiar używać telefonu do czegoś innego niż tylko wykonywanie
+połączeń głosowych, odbieranie SMS'ów i używanie przeglądarki internetowej. No może to nieco zbyt
+duże uproszczenie ale widać, że ewidentnie coś jest na rzeczy i trzeba się z tymi problemami jakoś
+uporać. Z pomocą przychodzi nam <a href="https://microg.org/">projekt microG</a>.</p>
+<p>MicroG to otwartoźródłowa alternatywa dla Google Play Services, która jest w stanie rozwiązać
+problemy z GPS i powiadomieniami PUSH. MicroG jest także w stanie umożliwić poprawne działanie
+indywidualnym aplikacjom od Google, które buntują się, gdy w Androidzie nie ma zainstalowanego
+Google Play Services, np. aplikacja YouTube. Oczywiście jeśli chcemy korzystać z aplikacji Google,
+to zwykle potrzebne będzie dodanie konta Google.</p>
+<h2 id="integracja-microg-z-aosp">Integracja microG z AOSP</h2>
+<p>Wykorzystując microG możemy mieć zatem w pełni funkcjonalny smartfon, z tym, że pierw musimy sobie
+zintegrować microG z jego systemem. Na stronie microG w
+dziale <a href="https://microg.org/download.html">Download</a> mamy zestaw plików, które musimy pobrać i
+zainstalować w telefonie. Jest także
+dostępne <a href="https://microg.org/fdroid/repo">oficjalne repozytorium microG dla F-Droid</a>, dzięki czemu
+nie będzie potrzeby ręcznej aktualizacji microG w późniejszym czasie. Włączamy także opcje
+deweloperskie w ustawieniach Androida, by mieć dostęp do ADB .</p>
+<p>W przypadku Androida w wersji 7 i wyższych trzeba nieco inaczej podejść do instalacji microG w
+systemie. Mianowicie, trzeba ręcznie pobrać pliki microG i umieścić je przy pomocy <code>adb push</code>w
+katalogu <code>/system/priv-app</code> :</p>
+<pre><code>$ adb push \
+   com.google.android.gms-13280012.apk \
+   com.android.vending-16.apk \
+   com.google.android.gsf-8.apk \
+   /sdcard
+
+$ adb shell
+c90:/ $ su
+c90:/ # mount -o remount,rw /system
+c90:/ # cp /sdcard/com.*.apk /system/priv-app/
+c90:/ # chmod 644 /system/priv-app/com.*.apk
+</code></pre>
+<p>Po wykonaniu tych powyższych czynności restartujemy urządzenie. Na liście aplikacji powinna się nam
+pojawić nowa pozycja <code>microG settings</code> . Odpalamy ją i przyznajemy uprawnienia, o które nas poprosi:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/005-microg-missing-permissions.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/006-microg-missing-permissions.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/007-microg-missing-permissions.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>Następnie przeprowadzamy <code>Self-Check</code> :</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/009-microg-self-check-fail.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/010-microg-self-check-fail.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/011-microg-self-check-fail.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>No jak widać test nie wypadł po naszej myśli, bo powinny się zapalić wszystkie kontrolki, a w tym
+przypadku paru rzeczy brakuje. Te wszystkie zaistniałe problemy trzeba poprawić. Jeśli któryś z
+nich nie zostanie wyeliminowany, to nasz telefon nie będzie działał jak należy.</p>
+<h3 id="signature-spoofing">Signature spoofing</h3>
+<p>Jak było widać wyżej, system w moim smartfonie nie posiada wsparcia
+dla <a href="https://github.com/microg/android_packages_apps_GmsCore/wiki/Signature-Spoofing">signature spoofing</a>.
+Dzięki <code>signature spoofing</code>, GmsCore będzie w stanie udawać, że w telefonie jest obecna oficjalna
+wersja Google Play Services w momencie, gdy aplikacje będą się odwoływały do API Google. Trzeba
+tutaj zaznaczyć, że nie wszystkie ROM'y wspierają <code>signature spoofing</code> , a bez tego microG nie
+będzie działał poprawnie.</p>
+<h4 id="magisk-xposed-i-fakegapps">Magisk, Xposed i FakeGApps</h4>
+<p>W tym przypadku mamy do czynienia z Resurrection Remix OS, który najwyraźniej nie wspiera tego
+całego <code>signature spoofing</code> . Część ROM'ów ma już wszystko na swoim miejscu i poniższe kroki nie są
+potrzebne. Niemniej jednak, jeśli odnajdziemy się w takiej sytuacji jak ta, to pozostaje nam w
+zasadzie zainstalować <a href="https://forum.xda-developers.com/showthread.php?t=3034811">Xposed</a> i
+dociągnąć stosowny moduł. Najlepiej jest instalować Xposed przy
+pomocy <a href="https://forum.xda-developers.com/apps/magisk/official-magisk-v7-universal-systemless-t3473445">Magisk'a</a>.
+Przesyłamy zatem <code>MagiskManager-v7.1.1.apk</code> oraz <code>Magisk-v18.1.zip</code> na telefon:</p>
+<pre><code>$ adb push MagiskManager-v7.1.1.apk Magisk-v18.1.zip /sdcard
+</code></pre>
+<p>Paczkę <code>.zip</code> instalujemy z poziomu TWRP recovery, a plik <code>.apk</code> bezpośrednio w systemie jako
+zwykłą aplikację.</p>
+<p><img src="https://morfikov.github.io
+/img/2019/04/013-twrp-magisk-flash-recovery.png#small" alt=""></p>
+<p>Następnie odpalamy aplikację <code>MagiskManager</code> i instalujemy Xposed:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/013-microg-magisk-xposed-installation.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/014-microg-magisk-xposed-installation.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/015-microg-magisk-xposed-installation.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>I dociągamy
+również <a href="https://forum.xda-developers.com/xposed/unofficial-systemless-xposed-t3388268">XposedInstaller_3.1.5-Magisk.apk</a>
+i wrzucamy na telefon:</p>
+<pre><code>$ adb push XposedInstaller_3.1.5-Magisk.apk /sdcard
+</code></pre>
+<p>Naturalnie instalujemy tę paczkę w standardowy sposób i uruchamiamy smartfon ponownie. Od tego
+momentu Xposed powinien nam już działać poprawnie:</p>
+<p><img src="https://morfikov.github.io
+/img/2019/04/016-xposed-systemless.png#small" alt=""></p>
+<p>Po skończonym procesie instalacji Xposed, instalujemy moduł <code>FakeGApps by thermatk</code> :</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/017-xposed-systemless-microg-fakegapps.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/018-xposed-systemless-microg-fakegapps.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>Po raz kolejny uruchamiamy urządzenie ponownie i sprawdzamy w logu Xposed czy są jakieś wzmianki na
+temat zwracania podrobionych sygnatur przez moduł <code>FakeGApps</code>:</p>
+<p><img src="https://morfikov.github.io
+/img/2019/04/019-xposed-systemless-microg-fakegapps-signature-spoofing.png#small" alt=""></p>
+<p>Ich obecność świadczy, że moduł wykonuje swoją robotę poprawnie.</p>
+<p>Mając Zainstalowany moduł <code>FakeGApps</code> powinniśmy mieć już w systemie wsparcie dla <code>signature spoofing</code> . Odpalamy zatem ustawienia microG i sprawdzamy czy dostaliśmy check przy stosownej
+pozycji:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/020-microg-signature-spoofing-check.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/021-microg-signature-spoofing-check.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/022-microg-signature-spoofing-check.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>No i jak widać, obecnie system mojego smartfona ma zapalone praktycznie wszystkie check'i. Pora
+zająć się tymi dwoma ostatnimi, czyli konfiguracją backend'ów lokalizacji.</p>
+<h3 id="backendy-unified-nlp-i-gps">Backend'y Unified NLP i GPS</h3>
+<p>Kolejną rzeczą, którą musimy zrobić by zintegrować microG z systemem telefonu to skonfigurowanie
+co najmniej jednego backend'u lokalizacji dla
+Unified NLP (<a href="https://github.com/microg/android_packages_apps_UnifiedNlp">Unified Network Location Provider</a>).
+Ten cały Unified NLP jest zawarty w paczce z microG, którą pobraliśmy wcześniej i nie trzeba nic
+dodatkowo już pobierać, by ten Unified NLP działał poprawnie. Potrzebny nam jest jednak co najmniej
+jeden
+backend. <a href="https://f-droid.org/en/packages/com.google.android.gms/">Tych backend'ów NLP jest kilka</a>.
+Na nasze potrzeby wystarczą: <code>NominatimNlpBackend</code> oraz <code>MozillaNlpBackend</code> -- obie te rzeczy można
+pobrać przez F-Droid.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/023-f-droid-nlp-backend-list.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/024-f-droid-nlp-backend-mozillanlpbackend.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/025-f-droid-nlp-backend-nominatimnlpbackend.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>Teraz konfigurujemy backend'y w ustawieniach microG:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/026-microg-nlp-backend-configuration.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/027-microg-nlp-backend-configuration.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>Poniżej są ustawienia dla backend'u <code>MozillaNlpBackend</code> :</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/028-f-microg-nlp-backend-mozillanlpbackend-configuration.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/029-f-microg-nlp-backend-mozillanlpbackend-configuration.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>A niżej ustawienia dla backend'u <code>NominatimNlpBackend</code></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/030-f-microg-nlp-backend-nominatimnlpbackend-configuration.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/031-f-microg-nlp-backend-nominatimnlpbackend-configuration.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>W ustawieniach Androida przestawiamy jeszcze tryb lokalizacji na ten o największej dokładności:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/032-android-localization-mode.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/033-android-localization-mode.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/034-android-localization-mode-microg-fix.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>Jeśli ostatnie dwie pozycje nie przejdą testu, to trzeba trochę poczekać, aż system ustali nasze
+położenie.</p>
+<h4 id="weryfikacja-poprawnego-działania-gps">Weryfikacja poprawnego działania GPS</h4>
+<p>Wypadałoby teraz zainstalować jakąś aplikację od sprawdzenia koordynatów GPS i zweryfikować czy GPS
+działa prawidłowo. Można zainstalować mapy OsmAnd+ i poczekać na pojawienie się kropki.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/035-microg-gps-test-osmand-maps.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/036-microg-gps-test-osmand-maps.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>No i jak widać, mapy OsmAnd+ nie miały problemów ze skorzystaniem z GPS. W ustawieniach Androida
+widzimy także, że i inne aplikacje są w stanie bez problemu żądać lokalizacji GPS od microG, zatem
+GPS mamy z głowy.</p>
+<h3 id="notyfikacje-push">Notyfikacje PUSH</h3>
+<p>Pora się zająć jeszcze notyfikacjami PUSH. W zasadzie to musimy jedynie włączyć dwie opcje w
+ustawieniach microG. Pierwszą z nich jest <code>Google device registration</code> , która umożliwia
+zarejestrowanie naszego urządzenia w usługach Google i nadaniu mu unikalnego identyfikatora. MicroG
+usuwa z tego identyfikatora wszystkie zbędne bity za wyjątkiem nazwy konta z danych rejestracyjnych.
+Bez tego identyfikatora, powiadomienia PUSH nie będą w stanie działać, wiec jeśli chcemy je mieć,
+to musimy zezwolić na proces rejestracji swojego urządzenia. Drugą rzeczą jest zaś włączenie
+<code>Google Cloud Messaging</code> :</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/037-microg-google-services-configuration.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/038-microg-google-device-registration.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/039-microg-google-cloud-messaging.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>Od tego momentu nasz telefon będzie w stanie otrzymać powiadomienia PUSH przekazywane z serwerów
+Google.</p>
+<h4 id="test-powiadomień-push">Test powiadomień PUSH</h4>
+<p>Zainstalujmy zatem w systemie jakąś appkę, która ma wsparcie dla powiadomień PUSH. Firefox jest
+jedną z takich aplikacji. Po jej uruchomieniu i skonfigurowaniu synchronizacji historii między
+urządzeniami, Firefox powinien zarejestrować się i otrzymać kilka wiadomości:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/040-microg-push-notification-test-firefox.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/041-microg-push-notification-test-firefox.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/042-microg-push-notification-test-firefox.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>Widać wyraźnie, że microG jest w stanie nawiązać i utrzymać połączenie z serwerami Google oraz
+odebrać od nich notyfikacje PUSH i przekazać je do konkretnych aplikacji. Zatem również i
+powiadomienia PUSH mamy z głowy.</p>
+<h3 id="a-co-z-aplikacjami-google">A co z aplikacjami Google</h3>
+<p>Jeśli ktoś chciałby używać pojedynczych aplikacji Google,
+np. <a href="https://forum.xda-developers.com/android/apps-games/app-youtube-vanced-edition-t3758757">YouTube Vanced</a>
+(taka bardziej podrasowana wersja przeglądarki YouTube), to wystarczy, że doinstaluje stosowną
+aplikację i opcjonalnie stworzy konto Google. </p>
+<p>Poniższy przykład odnosi się do YouTube Vanced ale można go zaaplikować chyba do dowolnej aplikacji
+Google, bo póki co wszystkie appki od Google, z których czasem korzystam (YT, Translate i Street
+View), bez problemu działają bez Google Play Services w takim ustawieniu microG jak sobie wyżej
+skonfigurowaliśmy.</p>
+<p>Jeśli chodzi akurat o YouTube Vanced, to jest on dostępny w repozytorium Magisk'a. Inne aplikacje
+Google trzeba pobrać za pomocą Yalp Store.</p>
+<p><img src="https://morfikov.github.io
+/img/2019/04/043-youtube-vanced-magisk-systemless-install.png#small" alt=""></p>
+<p>Po zainstalowaniu appki YouTube Vanced możemy bez problemu przeglądać serwis YouTube, choć
+funkcjonalność tej aplikacji zbliżona jest bardziej do tej znanej ze SkyTube albo NewPipe. Jeśli
+jednak chcielibyśmy mieć nasze subskrypcje i ogólnie wszystkie te rzeczy, które YouTube oferuje, np.
+powiadomienie o strimach, czy możliwość komentowania materiałów video, to potrzebne będzie nam
+konto Google:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/044-microg-youtube-vanced-google-account.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/045-microg-youtube-vanced-google-account.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/046-microg-youtube-vanced-google-account.png#small" alt=""></td>
+</tr>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/047-microg-youtube-vanced-google-account.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/048-microg-youtube-vanced-google-account.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/049-microg-youtube-vanced-google-account.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>Stworzenie konta Google jak widać jest bezproblemowe i w pełni wspierane przez microG. Po
+zalogowaniu się w YouTube Vanced mamy w pełni działającą aplikację od YouTube. Zarejestrowała się
+ona też w tym całym mechanizmie notyfikacji:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/050-microg-youtube-vanced-push-nitification.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/051-microg-youtube-vanced-push-nitification.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>Co do samego konta Google, to wypadałoby powiedzieć, że nawet po jego dodaniu cała masa rzeczy
+wymagających konta Google nie do końca będzie działać, np. synchronizacji danych:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/052-google-account-data-sync.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/053-google-account-data-sync.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>Oczywiście w przypadku innych aplikacji, które wspierają synchronizację, np. widoczny wyżej
+Firefox, ten proces jest jak najbardziej możliwy, bo to już od samej aplikacji zależy czy oferuje
+ona tego typu funkcjonalność:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://morfikov.github.io
+/img/2019/04/054-firefox-sync-microg.png#small" alt=""></td>
+<td><img src="https://morfikov.github.io
+/img/2019/04/055-firefox-sync-microg.png#small" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>W przypadku aplikacji od Google do synchronizacji wymagane jest Google Play Services i dlatego ta
+synchronizacja danych w naszym przypadku nie będzie możliwa.</p>
+<h3 id="safetynet">SafetyNet</h3>
+<p>W zależności od tego jaki ROM posiadamy i czy ma on wsparcie dla <code>signature spoofing</code> zależeć
+będzie przejście testów SafetyNet. W tym przypadku niestety trzeba było się ratować modułem dla
+Xposed. Może i Xposed został zainstalowany w formie systemless, czyli bez wprowadzania zmian na
+partycji <code>/system/</code> ale ten fakt na nic nie wpływa. Po prostu jeśli zainstalujemy Xposed, to nasz
+telefon nigdy tego testu SafetyNet nie przejdzie. W przypadku, gdy korzystamy z w miarę przyzwoicie
+wspieranego ROM'u, który ma zaimplementowane <code>signature spoofing</code> , to odpada nam potrzeba
+instalowania Xposed, a to z kolei otwiera nam drogę do zdania testu SafetyNet.</p>
+<p>No niestety nie mam jak skonfigurować na tym telefonie SafetyNet i raczej nie opiszę tego procesu
+tutaj. Niemniej jednak, zgodnie z tym co można wyczytać w ustawieniach microG, to musimy jedynie
+włączyć opcję Google SafetyNet i dociągnąć paczkę <code>DroidGuard Helper</code> , która jest dostępna
+w <a href="https://microg.org/download.html">repozytorium microG</a>.</p>
+<p>Oczywiście później czeka nas również proces dostosowania systemu pod kątem SafetyNet, tak by ten
+test wypadł poprawnie ale to już nie powinno sprawiać problemów, a nawet jeśli, to jest to
+zagadnienie na zupełnie inny artykuł.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Jakby nie patrzeć trochę się napracowaliśmy by tego w pełni otwartoźródłowego Androida doprowadzić
+do stanu używalności, choć i tak jego lwia część działała bez problemu przed przeprowadzeniem tych
+wszystkich wymienionych wyżej czynności. Niemniej jednak, widać na żywym przykładzie, że smartfon z
+Androidem jest w stanie normalnie funkcjonować bez Google Play Services, o ile zaimplementuje się w
+nim poprawnie microG.</p>
+<p>Można było zauważyć też, że uruchamianie pojedynczych aplikacji od Google nie stanowi żadnego
+wyzwania i w zasadzie użytkownik może sam zdecydować czy ma ochotę w ogóle z nich korzystać. Nic
+nie przychodzi preinstalowane i nie zmusza się użytkownika telefonu do korzystania z aplikacji,
+których on zwyczajnie nie chce używać, bo ma alternatywne w pełni otwartoźródłowe rozwiązania,
+np. <code>gmail</code> vs. <code>k9mail</code> .</p>
+<p>Trzeba także pamiętać o zachowaniu rozwagi przy korzystaniu z telefonu, bo jeśli wpadnie on w
+niepowołane łapki, to może się to skończyć źle i nie chodzi tutaj tylko o przypadek kradzieży
+urządzenia ale również o codzienne korzystanie z niego. Część mechanizmów bezpieczeństwa w takim
+smartfonie nie działa, przez co jest on mniej odporny na niezbyt przemyślane zachowania swojego
+użytkownika.</p>
+<p>No i oczywiście synchronizacja danych w takim telefonie odbywać się będzie na poziomie aplikacji.
+Jeśli aplikacja nie wspiera synchronizacji danych do chmury, tak by po ponownym jej zainstalowaniu
+te dane z serwera pobrać, to trzeba raz na jakiś czas robić backup danych telefonu za pomocą TWRP
+recovery. Być może dla niektórych osób chwilowe wyłączenie telefonu na czas tworzenia kopi
+zapasowej może być ździebko niepożądane ale też taki backup zawierać będzie w zasadzie cały
+snapshot systemu i w razie czego będziemy w stanie w minutę czy dwie odtworzyć sobie system
+całkowicie i to bez dostępu do internetu oraz polegania na podmiotach trzecich.</p>
+<p>Powyżej przedstawione rozwiązanie nie jest dla wszystkich. Nawet jeśli trud konfiguracji zostanie
+przezwyciężony, to w późniejszym czasie korzystania z telefonu trzeba zwracać uwagę na to co się
+faktycznie na nim robi, by czasem systemowi (i przy okazji sobie) krzywdy nie zrobić. Ci bardziej
+zaawansowani użytkownicy Androida (czy ogólnie linux'a) bez problemu będą w stanie z takiego
+telefonu bezpiecznie korzystać, a inni powinni się tego po prostu nauczyć.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aosp/">aosp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/microg/">microg</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/safetynet/">safetynet</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/push/">push</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-smartfon-z-androidem-bez-google-apps-services-ma-sens%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-smartfon-z-androidem-bez-google-apps-services-ma-sens%2f&amp;text=Czy%20smartfon%20z%20Androidem%20bez%20Google%20Apps%2fServices%20ma%20sens" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-smartfon-z-androidem-bez-google-apps-services-ma-sens%2f&amp;title=Czy%20smartfon%20z%20Androidem%20bez%20Google%20Apps%2fServices%20ma%20sens" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-smartfon-z-androidem-bez-google-apps-services-ma-sens%2f&amp;title=Czy%20smartfon%20z%20Androidem%20bez%20Google%20Apps%2fServices%20ma%20sens" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-smartfon-z-androidem-bez-google-apps-services-ma-sens%2f&title=Czy%20smartfon%20z%20Androidem%20bez%20Google%20Apps%2fServices%20ma%20sens" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-smartfon-z-androidem-bez-google-apps-services-ma-sens%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-smartfon-z-androidem-bez-google-apps-services-ma-sens%2f&amp;title=Czy%20smartfon%20z%20Androidem%20bez%20Google%20Apps%2fServices%20ma%20sens" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-smartfon-z-androidem-bez-google-apps-services-ma-sens%2f&description=Czy%20smartfon%20z%20Androidem%20bez%20Google%20Apps%2fServices%20ma%20sens" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przy-pomocy-magiska-pogodzic-safetynet-i-adb-usb-debug/">Jak przy pomocy Magisk&#39;a pogodzić SafetyNet i ADB/USB debug</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>
