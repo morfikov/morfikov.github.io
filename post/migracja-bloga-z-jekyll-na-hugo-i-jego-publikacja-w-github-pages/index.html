@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Migracja bloga z Jekyll na Hugo i jego publikacja w GitHub Pages | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Migracja bloga z Jekyll na Hugo i jego publikacja w GitHub Pages" />
+<meta property="og:description" content="Prawdopodobnie zauważyliście drobne zmiany w wyglądzie tego bloga oraz pewnie też cześć osób miała
+w ostatnim czasie problemy z uzyskaniem do niego dostępu. Odpowiedzialne za zaistniałą sytuację są
+limity narzucone przez GitHub Pages. Zakładają one maksymalny rozmiar repozytorium pod stronę
+WWW w granicach 1 GiB oraz czas budowania takiego serwisu krótszy niż 10 minut. Limit miejsca na
+pliki przekroczony został w zasadzie w chwili przeniesienia bloga WordPress na GitHub Pages.
+Natomiast parę dni temu został przekroczony limit czasu budowania tego projektu. Do momentu
+transformacji, niniejszy blog działał w oparciu o Jekyll, który generował w zasadzie statyczny
+kod HTML ze zwykłych plików tekstowych (np. artykuły pisane w MarkDown). GitHub Pages
+posiada wsparcie dla Jekyll, przez co taką stronę WWW można bardzo prosto wdrożyć. Niemniej
+jednak, cały ten mechanizm generowania projektu w obrębie infrastruktury GitHub&#39;a zajmuje bardzo
+dużo czasu. Po rozmowie z supportem okazało się, że gdyby chodziło o miejsce na pliki, to mogli by
+nagiąć reguły i nie było by problemu ale nie dadzą rady tego zrobić w przypadku przekroczenia czasu
+generowania projektu. Dlatego też trzeba było zrezygnować z Jekyll&#39;a i poszukać dla niego jakiejś
+alternatywy. Padło na Hugo, który w odróżnieniu od Jekyll&#39;a nie jest jako tako wspierany przez
+GitHub i by stronę wygenerowaną przez Hugo podpiąć pod GitHub Pages trzeba się trochę wysilić,
+bo ten proces nie jest automatyczny i właśnie o tym jak dokonać migracji z Jekyll na Hugo w
+kontekście GitHub Pages będzie ten poniższy artykuł." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/migracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages/" />
+<meta property="article:published_time" content="2020-08-13T23:50:00+02:00" />
+<meta property="article:modified_time" content="2020-08-13T23:50:00+02:00" />
+
+		<meta itemprop="name" content="Migracja bloga z Jekyll na Hugo i jego publikacja w GitHub Pages">
+<meta itemprop="description" content="Prawdopodobnie zauważyliście drobne zmiany w wyglądzie tego bloga oraz pewnie też cześć osób miała
+w ostatnim czasie problemy z uzyskaniem do niego dostępu. Odpowiedzialne za zaistniałą sytuację są
+limity narzucone przez GitHub Pages. Zakładają one maksymalny rozmiar repozytorium pod stronę
+WWW w granicach 1 GiB oraz czas budowania takiego serwisu krótszy niż 10 minut. Limit miejsca na
+pliki przekroczony został w zasadzie w chwili przeniesienia bloga WordPress na GitHub Pages.
+Natomiast parę dni temu został przekroczony limit czasu budowania tego projektu. Do momentu
+transformacji, niniejszy blog działał w oparciu o Jekyll, który generował w zasadzie statyczny
+kod HTML ze zwykłych plików tekstowych (np. artykuły pisane w MarkDown). GitHub Pages
+posiada wsparcie dla Jekyll, przez co taką stronę WWW można bardzo prosto wdrożyć. Niemniej
+jednak, cały ten mechanizm generowania projektu w obrębie infrastruktury GitHub&#39;a zajmuje bardzo
+dużo czasu. Po rozmowie z supportem okazało się, że gdyby chodziło o miejsce na pliki, to mogli by
+nagiąć reguły i nie było by problemu ale nie dadzą rady tego zrobić w przypadku przekroczenia czasu
+generowania projektu. Dlatego też trzeba było zrezygnować z Jekyll&#39;a i poszukać dla niego jakiejś
+alternatywy. Padło na Hugo, który w odróżnieniu od Jekyll&#39;a nie jest jako tako wspierany przez
+GitHub i by stronę wygenerowaną przez Hugo podpiąć pod GitHub Pages trzeba się trochę wysilić,
+bo ten proces nie jest automatyczny i właśnie o tym jak dokonać migracji z Jekyll na Hugo w
+kontekście GitHub Pages będzie ten poniższy artykuł.">
+<meta itemprop="datePublished" content="2020-08-13T23:50:00+02:00" />
+<meta itemprop="dateModified" content="2020-08-13T23:50:00+02:00" />
+<meta itemprop="wordCount" content="2778">
+
+
+
+<meta itemprop="keywords" content="debian,blog,hugo,jekyll," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Migracja bloga z Jekyll na Hugo i jego publikacja w GitHub Pages"/>
+<meta name="twitter:description" content="Prawdopodobnie zauważyliście drobne zmiany w wyglądzie tego bloga oraz pewnie też cześć osób miała
+w ostatnim czasie problemy z uzyskaniem do niego dostępu. Odpowiedzialne za zaistniałą sytuację są
+limity narzucone przez GitHub Pages. Zakładają one maksymalny rozmiar repozytorium pod stronę
+WWW w granicach 1 GiB oraz czas budowania takiego serwisu krótszy niż 10 minut. Limit miejsca na
+pliki przekroczony został w zasadzie w chwili przeniesienia bloga WordPress na GitHub Pages.
+Natomiast parę dni temu został przekroczony limit czasu budowania tego projektu. Do momentu
+transformacji, niniejszy blog działał w oparciu o Jekyll, który generował w zasadzie statyczny
+kod HTML ze zwykłych plików tekstowych (np. artykuły pisane w MarkDown). GitHub Pages
+posiada wsparcie dla Jekyll, przez co taką stronę WWW można bardzo prosto wdrożyć. Niemniej
+jednak, cały ten mechanizm generowania projektu w obrębie infrastruktury GitHub&#39;a zajmuje bardzo
+dużo czasu. Po rozmowie z supportem okazało się, że gdyby chodziło o miejsce na pliki, to mogli by
+nagiąć reguły i nie było by problemu ale nie dadzą rady tego zrobić w przypadku przekroczenia czasu
+generowania projektu. Dlatego też trzeba było zrezygnować z Jekyll&#39;a i poszukać dla niego jakiejś
+alternatywy. Padło na Hugo, który w odróżnieniu od Jekyll&#39;a nie jest jako tako wspierany przez
+GitHub i by stronę wygenerowaną przez Hugo podpiąć pod GitHub Pages trzeba się trochę wysilić,
+bo ten proces nie jest automatyczny i właśnie o tym jak dokonać migracji z Jekyll na Hugo w
+kontekście GitHub Pages będzie ten poniższy artykuł."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Migracja bloga z Jekyll na Hugo i jego publikacja w GitHub Pages</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2020-08-13T23:50:00&#43;02:00">Opublikowano: 13/08/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Migracja bloga z Jekyll na Hugo i jego publikacja w GitHub Pages</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#hugo-i-debian">Hugo i Debian</a></li>
+    <li><a href="#importowanie-projektu-jekyll-do-hugo">Importowanie projektu Jekyll do Hugo</a></li>
+    <li><a href="#repozytorium-git-dla-bloga">Repozytorium git dla bloga</a></li>
+    <li><a href="#motyw-dla-hugo">Motyw dla Hugo</a></li>
+    <li><a href="#lokalny-test-hugo">Lokalny test Hugo</a></li>
+    <li><a href="#projekt-hugo-na-github-pages">Projekt Hugo na GitHub Pages</a>
+      <ol>
+        <li><a href="#kwestia-opróżniania-katalogu-public">Kwestia opróżniania katalogu public/</a></li>
+        <li><a href="#github-pages-a-gałąź-do-budowania-projektu">GitHub Pages a gałąź do budowania projektu</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Prawdopodobnie zauważyliście drobne zmiany w wyglądzie tego bloga oraz pewnie też cześć osób miała
+w ostatnim czasie problemy z uzyskaniem do niego dostępu. Odpowiedzialne za zaistniałą sytuację są
+<a href="https://docs.github.com/en/github/working-with-github-pages/about-github-pages#usage-limits">limity narzucone przez GitHub Pages</a>. Zakładają one maksymalny rozmiar repozytorium pod stronę
+WWW w granicach 1 GiB oraz czas budowania takiego serwisu krótszy niż 10 minut. Limit miejsca na
+pliki przekroczony został w zasadzie w chwili przeniesienia bloga WordPress na GitHub Pages.
+Natomiast parę dni temu został przekroczony limit czasu budowania tego projektu. Do momentu
+transformacji, niniejszy blog działał w oparciu o <a href="https://jekyllrb.com/">Jekyll</a>, który generował w zasadzie statyczny
+kod HTML ze zwykłych plików tekstowych (np. artykuły pisane w <a href="https://www.markdownguide.org/">MarkDown</a>). <a href="https://pages.github.com/">GitHub Pages
+posiada wsparcie dla Jekyll</a>, przez co taką stronę WWW można bardzo prosto wdrożyć. Niemniej
+jednak, cały ten mechanizm generowania projektu w obrębie infrastruktury GitHub'a zajmuje bardzo
+dużo czasu. Po rozmowie z supportem okazało się, że gdyby chodziło o miejsce na pliki, to mogli by
+nagiąć reguły i nie było by problemu ale nie dadzą rady tego zrobić w przypadku przekroczenia czasu
+generowania projektu. Dlatego też trzeba było zrezygnować z Jekyll'a i poszukać dla niego jakiejś
+alternatywy. Padło na <a href="https://gohugo.io/">Hugo</a>, który w odróżnieniu od Jekyll'a nie jest jako tako wspierany przez
+GitHub i by <a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/">stronę wygenerowaną przez Hugo podpiąć pod GitHub Pages</a> trzeba się trochę wysilić,
+bo ten proces nie jest automatyczny i właśnie o tym jak dokonać migracji z Jekyll na Hugo w
+kontekście GitHub Pages będzie ten poniższy artykuł.</p>
+<h2 id="hugo-i-debian">Hugo i Debian</h2>
+<p>Jako, że projekt Hugo jest otwartoźródłowy, to stosowny pakiet do instalacji w systemie znajduje
+się w głównym repozytorium Debiana. Możemy go zatem bez najmniejszego problemu zainstalować przy
+pomocy menadżera pakietów <code>apt-get</code>/<code>aptitude</code> :</p>
+<pre><code># aptitude install hugo
+</code></pre>
+<h2 id="importowanie-projektu-jekyll-do-hugo">Importowanie projektu Jekyll do Hugo</h2>
+<p>By ułatwić nieco przejście z Jekyll na Hugo, istnieje możliwość zaimportowania naszego bloga, tak
+by nie musieć przeprowadzać tego procesu ręcznie. Projekt będzie importowany do osobnego katalogu,
+także nie ma co się bać ewentualnej utraty danych. By zaimportować nasz serwis WWW do Hugo,
+wpisujemy w terminalu polecenie <code>hugo import jekyll</code> podając mu dwa argumenty w postaci ścieżki do
+katalogu z projektem Jekyll oraz ścieżki do katalogu wynikowego:</p>
+<pre><code>$ hugo import jekyll ~/morfikov.jekyll/ ~/morfikov.hugo/
+</code></pre>
+<p>Po chwili, nasz serwis powinien znaleźć się w miejscu docelowym. Przechodzimy do tego katalogu:</p>
+<pre><code>$ cd ~/morfikov.hugo/
+</code></pre>
+<p>Od tego momentu, wszystkie polecenia w tym wpisie będą wydawane względem tego katalogu roboczego.</p>
+<h2 id="repozytorium-git-dla-bloga">Repozytorium git dla bloga</h2>
+<p>Strony hostowane na GitHub Pages są utrzymywane w systemie kontroli wersji git. W przypadku mojego
+bloga niestety jego import (i późniejsze dostosowanie plików) wymagał bardzo dużej ilości zmian,
+przez co pliki repozytorium by się dość znacznie rozrosły i zaczęłyby niepotrzebnie marnować
+miejsce zarówno na dysku mojego laptopa, jak i w zdalnym repozytorium na GitHub. Dlatego też po
+przygotowaniu całego projektu zdecydowałem się na zaoranie katalogu <code>.git/</code> oraz usunięcie projektu
+GitHub Pages (zdalnego repo) i utworzenie na jego miejsce świeżego repozytorium.</p>
+<pre><code>$ git init
+$ git add .
+$ git commit -S -m &quot;move the blog from jekyll to hugo&quot;
+$ git remote add origin git@github.com:morfikov/morfikov.github.io.git
+$ git push --set-upstream origin master
+</code></pre>
+<p>Zanim popchniemy zmiany do zdalnego repozytorium, upewnijmy się, że w katalogu projektu Hugo nie ma
+żadnych wygenerowanych plików serwisu, tj. tych wygenerowanych przez Jekyll/Hugo. To co ma zostać
+pchnięte do zdalnego zdalnego repozytorium, to tylko i wyłącznie pliki źródłowe bloga, z których
+Hugo będzie budował w późniejszym czasie nasz serwis.</p>
+<h2 id="motyw-dla-hugo">Motyw dla Hugo</h2>
+<p>Pierwszą rzeczą, którą będziemy musieli zrobić po imporcie bloga, to poszukać jakiegoś motywu
+(theme), który będzie odpowiedzialny za wyrenderowanie strony. Bez tego motywu, w przeglądarce
+przywita nas jedynie biała strona. <a href="https://themes.gohugo.io/">Skórek dla Hugo jest cała masa</a> i z pewnością znajdziemy tę,
+która nam będzie odpowiadać. Jeśli jednak będziemy mieli z tym problem, to będziemy musieli napisać
+własny motyw. Ja zdecydowałem się na <a href="https://github.com/vimux/binario/">Binario</a> jako, że jego kolorystyka bardzo przypomina mi
+wygląd pulpitu mojego linux'a.</p>
+<p>Motywy dla Hugo są przechowywane w systemie kontroli wersji git, podobnie jak nasz projekt GitHub
+Pages. Wiążą się z tym pewne komplikacje, mianowicie projekt skórki trzeba będzie dołączyć do
+projektu naszego serwisu WWW w <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">postaci modułu</a>. Zarówno nasz blog jak i jego skórka będą
+posiadać dwa niezależne repozytoria git i nie mogą ze sobą w żaden sposób kolidować. By dodać moduł,
+wpisujemy w terminal poniższe polecenie:</p>
+<pre><code>$ git submodule add https://github.com/vimux/binario themes/binario
+
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)
+        new file:   .gitmodules
+        new file:   themes/binario
+</code></pre>
+<p>Jak widać, wydanie tego polecenia wygenerowało plik <code>.gitmodules</code> oraz pojawił się też katalog
+<code>themes/binario/</code> . W <code>themes/binario/</code> jest zawartość motywu Hugo, a w <code>.gitmodules</code> mamy poniższą
+treść:</p>
+<pre><code>[submodule &quot;themes/binario&quot;]
+    path = themes/binario
+    url = https://github.com/vimux/binario
+</code></pre>
+<p>Dodatkowo w pliku <code>.git/config</code> została dodana taka zwrotka:</p>
+<pre><code>[submodule &quot;themes/binario&quot;]
+    url = https://github.com/vimux/binario
+    active = true
+</code></pre>
+<p>Potwierdzamy dodanie plików modułu (motywu Hugo) do głównego repozytorium:</p>
+<pre><code>$ git commit -S -m &quot;add the binario theme submodule&quot;
+$ git push origin master
+</code></pre>
+<h2 id="lokalny-test-hugo">Lokalny test Hugo</h2>
+<p>Powinniśmy w tej chwili mieć już zaimportowany stary serwis Jekyll'a oraz jeden motyw do
+wyrenderowania strony WWW. W głównym katalogu repozytorium powinien znajdować się plik
+<code>config.toml</code> , w którym to określamy szereg opcji konfiguracyjnych dla Hugo. Poniżej znajduje się
+cały mój <code>config.toml</code> :</p>
+<pre><code>baseurl          = &quot;https://morfikov.github.io&quot;
+title            = &quot;Morfitronik&quot;
+languageCode     = &quot;pl-PL&quot;
+paginate         = &quot;10&quot; # Number of elements per page in pagination
+theme            = &quot;binario&quot;
+disqusShortname  = &quot;morfitronik&quot; # Enable comments by entering your Disqus shortname
+googleAnalytics  = &quot;UA-119125303-1&quot; # Enable Google Analytics by entering your tracking id
+canonifyURLs     = true
+#summarylength   = 100
+rssLimit         = 20
+defaultContentLanguage = &quot;pl&quot;
+#publishDir      = &quot;docs&quot;
+
+[taxonomies]
+  category = &quot;categories&quot;
+  tag = &quot;tags&quot;
+
+[permalinks]
+  post = &quot;/post/:filename/&quot;
+
+[sitemap]
+  changefreq = &quot;weekly&quot;
+  filename = &quot;sitemap.xml&quot;
+  priority = 1.0
+
+[Author] # Used in authorbox
+  name   = &quot;Mikhail Morfikov&quot;
+  bio    = &quot;Po ponad 10 latach spędzonych z różnej maści linux'ami (Debian/Ubuntu, OpenWRT,
+  Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da
+  się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej
+  najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.&quot;
+  avatar = &quot;img/avatar.png&quot;
+
+[Params]
+  description        = &quot;Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)&quot; # Site Description. Used in meta description
+  copyright          = &quot;Mikhail Morfikov&quot; # Copyright holder, otherwise will use .Site.Title
+  opengraph          = true # Enable OpenGraph if true
+  schema             = true # Enable Schema
+  twitter_cards      = true # Enable Twitter Cards if true
+  columns            = 2 # Set the number of cards columns. Possible values: 1, 2, 3
+  mainSections       = [&quot;post&quot;] # Set main page sections
+  dateFormat         = &quot;02/01/2006&quot; # Change the format of dates
+  colorTheme         = &quot;&quot; # dark-green, dark-blue, dark-red, dark-violet
+  customCSS          = [&quot;css/custom.css&quot;] # Include custom CSS files
+  customJS           = [&quot;js/custom.js&quot;] # Include custom JS files
+  mainMenuAlignment  = &quot;right&quot; # Align main menu (desktop version) to the right side
+  authorbox          = true # Show authorbox at bottom of single pages if true
+  comments           = true # Enable comments for all site pages
+  related            = true # Enable Related content for single pages
+  relatedMax         = 5 # Set the maximum number of elements that can be displayed in related block. Optional
+  mathjax            = true # Enable MathJax for all site pages
+  mathjaxPath        = &quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js&quot; # Specify MathJax path. Optional
+  mathjaxConfig      = &quot;TeX-AMS-MML_HTMLorMML&quot; # Specify MathJax config. Optional
+  hideNoPostsWarning = false # Don't show no posts empty state warning in main page, if true
+
+[Params.Entry]
+  meta    = [&quot;date&quot;, &quot;categories&quot;] # Enable meta fields in given order
+  toc     = true # Enable Table of Contents
+  tocOpen = false # Open Table of Contents block. Optional
+
+[Params.Featured]
+  previewOnly = false # Show only preview featured image
+
+[Params.Breadcrumb]
+  enable   = true # Enable breadcrumb block globally
+  homeText = &quot;Home&quot; # Home node text
+
+[Params.Social]
+  email         = &quot;morfik@nsa.com&quot;
+# facebook      = &quot;username&quot;
+  twitter       = &quot;mikhailmorfikov&quot;
+  telegram      = &quot;morfikov&quot;
+# instagram     = &quot;username&quot;
+# pinterest     = &quot;username&quot;
+# vk            = &quot;username&quot;
+# linkedin      = &quot;username&quot;
+  github        = &quot;morfikov&quot;
+  gitlab        = &quot;morfikov&quot;
+  stackoverflow = &quot;3015317&quot;
+# mastodon      = &quot;https://some.instance/@username&quot;
+# medium        = &quot;username&quot;
+
+[Params.Share] # Entry Share block
+  facebook  = true
+  twitter   = true
+  reddit    = true
+  telegram  = true
+  linkedin  = true
+  vk        = true
+  pocket    = true
+  pinterest = true
+
+# Web App Manifest settings
+# https://www.w3.org/TR/appmanifest/
+# https://developers.google.com/web/fundamentals/web-app-manifest/
+[Params.Manifest]
+  name            = &quot;Morfitronik&quot;
+  shortName       = &quot;Morfitronik&quot;
+  display         = &quot;browser&quot;
+  startUrl        = &quot;/&quot;
+  backgroundColor = &quot;#2a2a2a&quot;
+  themeColor      = &quot;#1b1b1b&quot;
+  description     = &quot;Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)&quot;
+  orientation     = &quot;portrait&quot;
+  scope           = &quot;/&quot;
+
+[outputFormats]
+  [outputFormats.MANIFEST]
+    mediaType      = &quot;application/json&quot;
+    baseName       = &quot;manifest&quot;
+    isPlainText    = true
+    notAlternative = true
+  [outputFormats.RSS]
+    mediatype      = &quot;application/rss&quot;
+    baseName       = &quot;feed&quot;
+
+[mediaTypes]
+  [mediaTypes.&quot;application/rss&quot;]
+    suffixes = [&quot;xml&quot;]
+
+[outputs]
+  home = [&quot;HTML&quot;, &quot;RSS&quot;, &quot;MANIFEST&quot;]
+
+[menu]
+#  [[menu.main]]
+#    identifier = &quot;archives&quot;
+#    name       = &quot;Archiwum&quot;
+#    url        = &quot;/archives/&quot;
+#    weight     = 10
+
+  [[menu.main]]
+    identifier = &quot;categories&quot;
+    name       = &quot;Kategorie&quot;
+    url        = &quot;/categories/&quot;
+    weight     = 20
+
+  [[menu.main]]
+    identifier = &quot;tags&quot;
+    name       = &quot;Tagi&quot;
+    url        = &quot;/tags/&quot;
+    weight     = 30
+
+[markup]
+  defaultMarkdownHandler = &quot;goldmark&quot;
+  [markup.asciidocExt]
+    backend = &quot;html5&quot;
+    docType = &quot;article&quot;
+    extensions = []
+    failureLevel = &quot;fatal&quot;
+    noHeaderOrFooter = true
+    safeMode = &quot;unsafe&quot;
+    sectionNumbers = false
+    trace = false
+    verbose = true
+    workingFolderCurrent = false
+    [markup.asciidocExt.attributes]
+  [markup.blackFriday]
+    angledQuotes = false
+    footnoteAnchorPrefix = &quot;&quot;
+    footnoteReturnLinkContents = &quot;&quot;
+    fractions = true
+    hrefTargetBlank = false
+    latexDashes = true
+    nofollowLinks = false
+    noreferrerLinks = false
+    plainIDAnchors = true
+    skipHTML = false
+    smartDashes = false
+    smartypants = false
+    smartypantsQuotesNBSP = false
+    taskLists = true
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = false
+    [markup.goldmark.parser]
+      attribute = true
+      autoHeadingID = true
+      autoHeadingIDType = &quot;github&quot;
+    [markup.goldmark.renderer]
+      hardWraps = false
+      unsafe = false
+      xhtml = false
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = &quot;&quot;
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = &quot;monokai&quot;
+    tabWidth = 4
+  [markup.tableOfContents]
+    endLevel = 5
+    ordered = true
+    startLevel = 2
+</code></pre>
+<p>Trochę tych opcji nazbierałem w drodze konfiguracji swojego bloga ale niekoniecznie potrzebujemy
+ich wszystkich. Te najważniejsze to <code>baseurl</code> , który ma wskazywać na stronę naszego serwisu (w tym
+przypadku, blog jest dostępny pod <code>https://morfikov.github.io</code> ). Dalej mamy <code>theme</code> , który
+określa skórkę użytą przy renderowaniu strony. I to są w zasadzie kluczowe elementy, które musimy
+skonfigurować, by Hugo nam wygenerował stronę.</p>
+<p>Możemy teraz odpalić testowo Hugo, by sprawdzić czy nasz blog się bez problemu zbuduje:</p>
+<pre><code>$ hugo server
+</code></pre>
+<p>Polecenie <code>hugo server</code> generuje lokalną wersję strony WWW, tj. blog będzie serwowany z adresu
+pętli zwrotnej ( <code>127.0.0.1:1313</code> ) przez wbudowany w Hugo serwer WWW. To rozwiązanie jest
+przeznaczone głównie do testów, choć też może być wykorzystywane na produkcji. Niemniej jednak,
+zaleca się wykorzystywanie pełnowymiarowego serwera WWW do tego celu. W przypadku GitHub Pages,
+taki serwer WWW będzie zapewniony i by wygenerować w późniejszym czasie stronę, trzeba będzie
+ominąć <code>server</code> z powyższego polecenia i użyć jedynie <code>hugo</code> . Standardowo też projekt będzie
+budowany w pamięci RAM. Jeśli mamy mało pamięci operacyjnej albo też chcemy by pliki były zapisywane
+na dysku, to musimy określić opcję <code>--renderToDisk</code> . Dobrze jest także włączyć tryb rozmowny
+<code>--verbose</code> oraz ostrzeżenia związane z translacją strony WWW <code>--i18n-warnings</code> . Reasumując, do
+lokalnych testów bloga Hugo będziemy używać poniższego polecenia:</p>
+<pre><code>$ hugo server --i18n-warnings --renderToDisk --verbose
+</code></pre>
+<p>Po wydaniu tego polecenia, nasz serwis powinien zostać zbudowany w katalogu <code>public/</code> i powinniśmy
+być w stanie go wyświetlić w przeglądarce odwiedzając adres <a href="http://127.0.0.1:1313">http://127.0.0.1:1313</a> :</p>
+<pre><code>$ hugo server --i18n-warnings --renderToDisk --verbose
+INFO 2020/08/13 21:30:03 Using config file:
+Building sites … INFO 2020/08/13 21:30:03 syncing static files to /home/morfik/morfikov.hugo/public/
+
+                   |  PL
+-------------------+--------
+  Pages            |  1049
+  Paginator pages  |   273
+  Non-page files   |     1
+  Static files     | 10497
+  Processed images |     0
+  Aliases          |   254
+  Sitemaps         |     1
+  Cleaned          |     0
+
+Built in 69544 ms
+Watching for changes in /home/morfik/morfikov.hugo/{archetypes,content,data,i18n,layouts,static,themes}
+Watching for config changes in /home/morfik/morfikov.hugo/config.toml
+Environment: &quot;development&quot;
+Serving pages from /home/morfik/morfikov.hugo/public
+Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+Press Ctrl+C to stop
+</code></pre>
+<h2 id="projekt-hugo-na-github-pages">Projekt Hugo na GitHub Pages</h2>
+<p>Migrację bloga z Jekyll na Hugo mamy za sobą. Niemniej jednak, z tych plików projektu nie da rady
+zbudować strony WWW i udostępnić jej za sprawą GitHub Pages. By strona wygenerowana przez Hugo mogła
+zostać wyświetlona przez GitHub Pages musimy poczynić kilka dodatkowych kroków.</p>
+<p>Podejścia są dwa. Pierwsze z nich zakłada zmianę nazwy budowanego katalogu z <code>public/</code> na <code>docs/</code>
+jako, że GitHub Pages jest w stanie budować projekty z plików w katalogu <code>docs/</code> . Jeśli interesuje
+nas to rozwiązanie, to wystarczy w konfiguracji Hugo (plik <code>config.toml</code> głównym katalogu
+repozytorium git) określić parametr <code>publishDir</code> i podać mu wartość <code>docs</code> . My jednak stworzymy
+nieco bardziej zaawansowaną konfigurację, która zakłada utworzenie nowej gałęzi dla wygenerowanych
+plików. W taki sposób zmiany w kodzie źródłowym bloga będą utrzymywane osobno, w stosunku do zmian
+wygenerowanej strony. Później w ustawieniach GitHub Pages wskażemy, że chcemy by projekt był
+budowany z tej osobnej gałęzi. Zatem do dzieła.</p>
+<p>Na początek tworzymy plik <code>.gitignore</code> w głównym katalogu repozytorium i dodajemy do niego nazwę
+katalogu, w którym będą przechowywane wygenerowane przez Hugo pliki. W tym przypadku wykorzystywany
+jest standardowy katalog, tj. <code>public/</code> :</p>
+<pre><code>$ echo &quot;public&quot; &gt;&gt; .gitignore
+</code></pre>
+<p>Potwierdzamy zmiany w git:</p>
+<pre><code>$ commit -S -m &quot;add .gitignore&quot;
+</code></pre>
+<p>Następnie musimy przygotować gałąź <code>gh-pages</code> i ją zainicjować:</p>
+<pre><code>$ git checkout --orphan gh-pages
+$ git reset --hard
+$ git commit --allow-empty -m &quot;Initializing gh-pages branch&quot;
+$ git push origin gh-pages
+$ git checkout master
+</code></pre>
+<p>Po wydaniu polecenia <code>git reset --hard</code> prawdopodobnie nie będzie można skasować katalogu z
+motywami Hugo. Pod żadnym pozorem nie kasujmy go ręcznie. Pozostawmy go w takiej formie jakiej jest
+i zwyczajnie wydajmy następne polecenie, tj. <code>git commit ...</code> .</p>
+<p>Musimy teraz usunąć cały katalog <code>public/</code> i <a href="https://git-scm.com/docs/git-worktree">utworzyć go za pomocą git-worktree</a>:</p>
+<pre><code>$ rm -rf public/
+$ git worktree add -B gh-pages public origin/gh-pages
+
+$ git worktree list
+/home/morfik/morfikov.hugo/         ebca1ad [master]
+/home/morfik/morfikov.hugo/public   52b3630 [gh-pages]
+</code></pre>
+<p>Ma to na celu stworzenie niezależnych drzew roboczych w osobnych katalogach i podpięcie ich pod
+osobne gałęzie. W taki sposób pliki źródłowe naszego bloga (+ moduł motywu Hugo) będą w gałęzi
+<code>master</code> , a wygenerowana zawartość strony w gałęzi <code>gh-pages</code> .</p>
+<p>Przy pomocy polecenia <code>hugo</code> generujemy nasz blog na produkcję:</p>
+<pre><code>$ hugo
+
+                   |  PL
+-------------------+--------
+  Pages            |  1044
+  Paginator pages  |   272
+  Non-page files   |     1
+  Static files     | 10497
+  Processed images |     0
+  Aliases          |   252
+  Sitemaps         |     1
+  Cleaned          |     0
+
+Total in 41934 ms
+</code></pre>
+<p>Po wygenerowaniu, przechodzimy do katalogu <code>public/</code> , dodajemy wygenerowane pliki i zatwierdzamy
+zmiany w git:</p>
+<pre><code>$ cd public &amp;&amp; git add --all &amp;&amp; git commit -m &quot;Publishing to gh-pages&quot; &amp;&amp; cd ..
+</code></pre>
+<p>Za każdym razem jak będziemy zmieniać zawartość strony, czy to poprawiać jej kod czy dodawać nowe
+artykuły na blogu, te dwa powyższe polecenia trzeba będzie wydawać, by wygenerować nową stronę do
+wdrożenia na produkcji.</p>
+<p>Teraz już pozostaje nam pchniecie zmian do zdalnego repozytorium na GitHub:</p>
+<pre><code>$ git push origin master
+$ git push origin gh-pages
+</code></pre>
+<p>Pierwsze z powyższych poleceń przesyła zmiany kodu źródłowego strony do zdalnej gałęzi <code>master</code> ,
+drugie zaś wygenerowany kod strony do zdalnej gałęzi <code>gh-pages</code> . W przypadku wprowadzania zmian w
+kodzie strony, tylko różnice będą przesyłane, choć rozmiary commit'ów  mogą czasem przytłoczyć.</p>
+<h3 id="kwestia-opróżniania-katalogu-public">Kwestia opróżniania katalogu public/</h3>
+<p>Być może w którymś momencie w przyszłości zajdzie potrzeba opróżnienia zawartości katalogu
+<code>public/</code> . Hugo w zasadzie nie operuje na tych plikach i wykorzystuje je jedynie do serwowania
+strony przez wbudowany serwer WWW. Jak plików brakuje, to zostaną na nowo wygenerowane. Problemy
+mogą się zacząć, gdy w grę wchodzi git. Trzeba pamiętać, że w katalogu <code>public/</code> utworzyliśmy
+drzewo robocze, co z kolei skutkuje utworzeniem pliku <code>public/.git</code> . Jest to zwykły i do tego mały
+plik tekstowy zawierający w zasadzie jedną linijkę:</p>
+<pre><code>gitdir: /home/morfik/morfikov.hugo/.git/worktrees/public
+</code></pre>
+<p>Jeśli ten plik zostanie skasowany, to system przestanie widzieć zmiany w katalogu <code>public/</code> .
+Dlatego też jeśli będziemy chcieli opróżnić zawartość katalogu <code>public/</code> , to nie ruszajmy tego
+pliku -- wszystkie pozostałe pliki z tego katalogu możemy jak najbardziej skasować.</p>
+<h3 id="github-pages-a-gałąź-do-budowania-projektu">GitHub Pages a gałąź do budowania projektu</h3>
+<p>Ostatnim krokiem jest wskazanie GitHub Pages gałęzi do budowania projektu. Teoretycznie GitHub
+Pages powinien automatycznie podebrać gałąź <code>gh-pages</code> i z niej budować stronę WWW. Jeśli jednak
+tak się nie dzieje, to wchodzimy w ustawienia zdalnego repozytorium:</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/001-github-pages-jekyll-hugo-settings.png#huge" alt=""></p>
+<p>I przechodzimy do sekcji <code>GitHub Pages</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/002-github-pages-jekyll-hugo-settings-branch.png#huge" alt=""></p>
+<p>Wybieramy gałąź <code>gh-pages</code> i zapisujemy ustawienia. Po paru minutach strona powinna zostać
+wygenerowana. Proces generowania możemy śledzić przechodząc do gałęzi <code>gh-pages</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/003-github-pages-jekyll-hugo-build-check.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io
+/img/2020/08/004-github-pages-jekyll-hugo-build-check.png#huge" alt=""></p>
+<p>I jak widać z powyższych fotek, blog zbudował się bez problemów. Co ciekawe, w porównaniu do 11-12
+minut potrzebnych na zbudowanie projektu Jekyll, ten sam projekt Hugo buduje się na GitHub Pages w
+około 2 minuty. oczywiście lokalnie pierw te pliki zbudowaliśmy ale i tak nawet dodając tę 1 minutę
+lokalnego generowania strony, to jest około 3 minut. Zatem jeśli zdarzy nam się trafić na podobny
+problem z uderzeniem w limit czasu generowania strony na GitHub Pages i korzystamy przy tym z
+Jekyll'a, to pomyślmy nad przejściem na Hugo.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/blog/">blog</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hugo/">hugo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/jekyll/">jekyll</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages%2f&amp;text=Migracja%20bloga%20z%20Jekyll%20na%20Hugo%20i%20jego%20publikacja%20w%20GitHub%20Pages" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages%2f&amp;title=Migracja%20bloga%20z%20Jekyll%20na%20Hugo%20i%20jego%20publikacja%20w%20GitHub%20Pages" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages%2f&amp;title=Migracja%20bloga%20z%20Jekyll%20na%20Hugo%20i%20jego%20publikacja%20w%20GitHub%20Pages" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages%2f&title=Migracja%20bloga%20z%20Jekyll%20na%20Hugo%20i%20jego%20publikacja%20w%20GitHub%20Pages" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages%2f&amp;title=Migracja%20bloga%20z%20Jekyll%20na%20Hugo%20i%20jego%20publikacja%20w%20GitHub%20Pages" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages%2f&description=Migracja%20bloga%20z%20Jekyll%20na%20Hugo%20i%20jego%20publikacja%20w%20GitHub%20Pages" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/">Jak włączyć w Firefox ESNI (Encrypted SNI)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zmienic-rozmiar-obrazu-maszyny-wirtualnej-qemu-kvm/">Jak zmienić rozmiar obrazu maszyny wirtualnej QEMU/KVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/">Konfiguracja HugePages pod maszyny wirtualne QEMU/KVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/">Wirtualizacja QEMU/KVM (libvirt) na Debian Linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/boothole-nie-taki-straszny-o-ile-ma-sie-wlasne-klucze-efi-uefi/">BootHole nie taki straszny, o ile ma się własne klucze EFI/UEFI</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+			<img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" />
+		</a>
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+</body>
+</html>

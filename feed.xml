@@ -6,7 +6,33 @@
     <description>Recent content on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Mon, 10 Aug 2020 18:15:00 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/feed.xml" rel="self" type="application/rss" />
+    <lastBuildDate>Thu, 13 Aug 2020 23:50:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/feed.xml" rel="self" type="application/rss" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Migracja bloga z Jekyll na Hugo i jego publikacja w GitHub Pages</title>
+      <link>https://morfikov.github.io/post/migracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages/</link>
+      <pubDate>Thu, 13 Aug 2020 23:50:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/migracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages/</guid>
+      <description>&lt;p&gt;Prawdopodobnie zauważyliście drobne zmiany w wyglądzie tego bloga oraz pewnie też cześć osób miała
+w ostatnim czasie problemy z uzyskaniem do niego dostępu. Odpowiedzialne za zaistniałą sytuację są
+&lt;a href=&#34;https://docs.github.com/en/github/working-with-github-pages/about-github-pages#usage-limits&#34;&gt;limity narzucone przez GitHub Pages&lt;/a&gt;. Zakładają one maksymalny rozmiar repozytorium pod stronę
+WWW w granicach 1 GiB oraz czas budowania takiego serwisu krótszy niż 10 minut. Limit miejsca na
+pliki przekroczony został w zasadzie w chwili przeniesienia bloga WordPress na GitHub Pages.
+Natomiast parę dni temu został przekroczony limit czasu budowania tego projektu. Do momentu
+transformacji, niniejszy blog działał w oparciu o &lt;a href=&#34;https://jekyllrb.com/&#34;&gt;Jekyll&lt;/a&gt;, który generował w zasadzie statyczny
+kod HTML ze zwykłych plików tekstowych (np. artykuły pisane w &lt;a href=&#34;https://www.markdownguide.org/&#34;&gt;MarkDown&lt;/a&gt;). &lt;a href=&#34;https://pages.github.com/&#34;&gt;GitHub Pages
+posiada wsparcie dla Jekyll&lt;/a&gt;, przez co taką stronę WWW można bardzo prosto wdrożyć. Niemniej
+jednak, cały ten mechanizm generowania projektu w obrębie infrastruktury GitHub&#39;a zajmuje bardzo
+dużo czasu. Po rozmowie z supportem okazało się, że gdyby chodziło o miejsce na pliki, to mogli by
+nagiąć reguły i nie było by problemu ale nie dadzą rady tego zrobić w przypadku przekroczenia czasu
+generowania projektu. Dlatego też trzeba było zrezygnować z Jekyll&#39;a i poszukać dla niego jakiejś
+alternatywy. Padło na &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, który w odróżnieniu od Jekyll&#39;a nie jest jako tako wspierany przez
+GitHub i by &lt;a href=&#34;https://gohugo.io/hosting-and-deployment/hosting-on-github/&#34;&gt;stronę wygenerowaną przez Hugo podpiąć pod GitHub Pages&lt;/a&gt; trzeba się trochę wysilić,
+bo ten proces nie jest automatyczny i właśnie o tym jak dokonać migracji z Jekyll na Hugo w
+kontekście GitHub Pages będzie ten poniższy artykuł.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Jak włączyć w Firefox ESNI (Encrypted SNI)</title>
@@ -403,27 +429,6 @@ kernel EFISTUB. Zadaniem tego mechanizmu jest uruchomienie linux&#39;a bezpośre
 EFI z pominięciem czy też bez potrzeby stosowania dodatkowych menadżerów rozruchu (rEFInd) czy
 bootloader&#39;ów (grub/grub2/syslinux/extlinux). Jakby nie patrzeć bardzo ciekawa alternatywa, która
 wymaga, by się z nią zapoznać i ocenić jej przydatność pod kątem użyteczności.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</title>
-      <link>https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/</link>
-      <pubDate>Sun, 01 Mar 2020 20:30:00 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/</guid>
-      <description>&lt;p&gt;Mając możliwość skonfigurowania EFI/UEFI na moim laptopie, postanowiłem jak najbardziej się za to
-przedsięwzięcie zabrać. Okazało się jednak, że w przypadku takiej dystrybucji linux&#39;a jak Debian,
-to zadanie może być nieco problematyczne, zwłaszcza gdy chce się korzystać jedynie z menadżera
-rozruchu jakim jest &lt;a href=&#34;https://www.rodsbooks.com/refind/&#34;&gt;rEFInd&lt;/a&gt;, czyli bez dodatkowego bootloader&#39;a (grub/grub2/syslinux/extlinux)
-instalowanego bezpośrednio na dysku twardym i jednocześnie posiadając w pełni zaszyfrowany system
-(LUKSv2 + LVM). Rzecz w tym, że w takiej sytuacji w konfiguracji rEFInd trzeba podawać ścieżki
-bezpośrednio do plików &lt;code&gt;initrd.img&lt;/code&gt; oraz &lt;code&gt;vmlinuz&lt;/code&gt; (obecnych na partycji &lt;code&gt;/boot/&lt;/code&gt; ). W Debianie
-nazwy tych plików mają format &lt;code&gt;initrd.img-x.x.x-x-amd64&lt;/code&gt; i &lt;code&gt;vmlinuz-x.x.x-x-amd64&lt;/code&gt; . Za każdym
-razem, gdy wypuszczany jest nowy kernel, to ten numerek ( &lt;code&gt;x.x.x-x&lt;/code&gt; ) ulega zmianie, co pociąga za
-sobą potrzebę ręcznego dostosowania konfiguracji rEFInd. Może i aktualizacje kernela w Debianie nie
-są jakoś stosunkowo częste ale może istnieje sposób, by ten problem z dostosowaniem konfiguracji
-rozwiązać?&lt;/p&gt;</description>
     </item>
     
   </channel>
