@@ -94,7 +94,7 @@ W przypadku procesorów możemy mieć do czynienia z kilkoma technikami wirtuali
 wirtualizacją, parawirtualizacją oraz wirtualizacją wspomaganą sprzętowo. Poniżej jest prosta
 grafika ([źródło][12]) obrazująca różnice pomiędzy tymi technikami wirtualizacji procesora:
 
-![]({{< baseurl >}}/img/2020/08/001-virtualization-techniques-linux-qemu-kvm-processor.png#huge){:width="640px"}
+![]({{< baseurl >}}/img/2020/08/001-virtualization-techniques-linux-qemu-kvm-processor.png#huge)
 
 Kolejno od lewej: brak wirtualizacji, pełna wirtualizacja, parawirtualizacja i jako ostatnia
 wirtualizacja wspomagana sprzętowo.
