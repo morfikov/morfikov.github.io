@@ -39,7 +39,7 @@ będą znajdować się jedynie losowymi dane i do tego w formie kompletnie niecz
 wchodzi nagłówek LUKS i to o nich porozmawiamy sobie w tym wpisie.">
 <meta itemprop="datePublished" content="2016-01-15T20:28:24+00:00" />
 <meta itemprop="dateModified" content="2016-01-15T20:28:24+00:00" />
-<meta itemprop="wordCount" content="1312">
+<meta itemprop="wordCount" content="1320">
 
 
 
@@ -181,7 +181,15 @@ zastosujemy, to do otworzenia kontenera będzie nam potrzebny ten zewnętrzny no
 pamiętać podczas startu systemu, oczywiście jeśli będziemy chcieli go w tym czasie montować ale tym
 zajmiemy się później. Natomiast teraz stwórzmy sobie kontener,
 przykładowo:</p>
-<pre><code># cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random --verify-passphrase --verbose luksFormat /dev/sda2
+<pre><code># cryptsetup \
+  --cipher aes-xts-plain64 \
+  --key-size 512 \
+  --hash sha512 \
+  --iter-time 5000 \
+  --use-random \
+  --verify-passphrase \
+  --verbose \
+  luksFormat /dev/sda2
 
 # cryptsetup luksOpen /dev/sda2 sda2
 
@@ -274,7 +282,8 @@ sdb
 │ ├─lvm-root ext4        root  ee759aa3-4977-4c08-b14f-a62d17a47478   /
 │ └─lvm-swap swap              bf480ef5-e5f0-43b9-9282-c3f1d0d446fa
 └─sdb2       crypto_LUKS       11f480d6-950b-40ff-9739-e8244a4b5a30
-</code></pre><p>I o takie coś nam chodzi.</p>
+</code></pre>
+<p>I o takie coś nam chodzi.</p>
 <h2 id="umieszczanie-nagłówka-luks-na-pendrive">Umieszczanie nagłówka LUKS na pendrive</h2>
 <p>Przy zaszyfrowanych dyskach i pewnych niestandardowych ustawieniach systemu, katalog <code>/boot/</code> zwykle
 jest ulokowany na osobnej partycji. Możemy ten mechanizm wykorzystać pozbywając się jednocześnie

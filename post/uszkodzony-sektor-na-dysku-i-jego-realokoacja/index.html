@@ -41,7 +41,7 @@ odblokować taki sektor.">
 
 
 
-<meta itemprop="keywords" content="smart,hdd/ssd," />
+<meta itemprop="keywords" content="smart,hdd,ssd," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Uszkodzony sektor na dysku i jego realokoacja"/>
@@ -222,8 +222,7 @@ prawdopodobnie, że dysk używa technologii
 <a href="https://en.wikipedia.org/wiki/Advanced_Format">format</a>, czyli ma sektory nie 512 bajtów, a
 8*512=4096 bajtów. Czasami dysk może zwracać wartość 512 bajtów w każdym możliwym miejscu, pomimo
 faktu, że ma sektory 4096 bajtowe.</p>
-<p>W syslogu, przy próbie odczytu uszkodzonego sektora, można zobaczyć taki
-komunikat:</p>
+<p>W syslogu, przy próbie odczytu uszkodzonego sektora, można zobaczyć taki komunikat:</p>
 <pre><code>Nov 21 12:57:29 morfikownia kernel: [ 5503.342060] ata1.01: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x0
 Nov 21 12:57:29 morfikownia kernel: [ 5503.342069] ata1.01: failed command: READ SECTOR(S)
 Nov 21 12:57:29 morfikownia kernel: [ 5503.342077] ata1.01: cmd 20/00:01:00:40:37/00:00:00:00:00/f6 tag 0 pio 512 in
@@ -252,8 +251,7 @@ doszukać nieco więcej informacji na temat tego zdarzenia. Tylko jak ustalić j
 sektory dokładnie się znajdują i co oznacza <code>LBA=104284160</code> w raporcie S.M.A.R.T?</p>
 <h2 id="plik-rezydujący-na-uszkodzonym-sektorze">Plik rezydujący na uszkodzonym sektorze</h2>
 <p>Zgodnie z tym co piszą na wiki: &quot;LBA (ang. Logical Block Addressing) - metoda obsługi dysku twardego
-przez system operacyjny. I aby go wyliczyć, trzeba skorzystać z poniższego
-wzoru&quot;:</p>
+przez system operacyjny. I aby go wyliczyć, trzeba skorzystać z poniższego wzoru&quot;:</p>
 <pre><code>LBA = ( numer_cylindra * liczba_glowic_na_cylinder + numer_glowicy ) * liczba_sektorow_na_sciezke + numer_sektora -1
 </code></pre>
 <p>Hmmm, taa, a nie da się jakoś po ludzku? Da się. Przede wszystkim musimy ustalić, na której partycji
@@ -379,7 +377,8 @@ czyli udało się go odblokować.</p>
 196 Reallocated_Event_Count 0x0032   200   200   000    Old_age   Always       -       1
 197 Current_Pending_Sector  0x0032   200   200   000    Old_age   Always       -       0
 198 Offline_Uncorrectable   0x0030   200   200   000    Old_age   Offline      -       2
-</code></pre><p>Zostanie wyzerowany atrybut <code>197</code>, a do atrybutów <code>5</code> i <code>196</code> zostanie dopisane <code>+1</code>. Natomiast
+</code></pre>
+<p>Zostanie wyzerowany atrybut <code>197</code>, a do atrybutów <code>5</code> i <code>196</code> zostanie dopisane <code>+1</code>. Natomiast
 atrybut <code>198</code> nie zostanie zmieniony.</p>
 <p>Po zakończeniu prac, przeprowadzić musimy jeszcze test skanowania całej powierzchni dysku:</p>
 <pre><code># smartctl -t offline /dev/sda
@@ -429,7 +428,8 @@ kawałki złączyć i może nawet by nie było zauważalnej różnicy.</p></div>
 					
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smart/">smart</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/ssd/">hdd/ssd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/">hdd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssd/">ssd</a>
 </div>
 					
 <div class="entry__share share">

@@ -175,10 +175,10 @@ do wydania tych poniższych poleceń:</p>
 <p>Usługa standardowo nasłuchuje zapytań na adresie <code>127.0.0.1</code> i porcie <code>5353</code> . Jeśli komuś nie
 odpowiadają te parametry, to może je zwyczajnie zmienić w pliku <code>/etc/config/dnscrypt-proxy</code> :</p>
 <pre><code>config dnscrypt-proxy
-        option address '127.0.0.1'
-        option port '5353'
-        # option resolver 'opendns'
-        # option resolvers_list '/usr/share/dnscrypt-proxy/dnscrypt-resolvers.csv'
+    option address '127.0.0.1'
+    option port '5353'
+    # option resolver 'opendns'
+    # option resolvers_list '/usr/share/dnscrypt-proxy/dnscrypt-resolvers.csv'
 </code></pre>
 <p>Wyżej mamy także wykomentowane dwie inne opcje: <code>resolvers_list</code> wskazuje plik z serwerami, które
 obsługują szyfrowanie zapytań, oraz <code>resolver</code> określający wybór jednego z tych resolver'ów. W pliku
@@ -189,13 +189,14 @@ listingiem i wybrać dla siebie odpowiedni serwer DNS.</p>
 <p>Teraz musimy przekierować zapytania DNS. W tym celu musimy poinstruować <code>dnsmasq</code> by korzystał z
 <code>dnscrypt-proxy</code> , a nie z domyślnych serwerów DNS pobranych z serwera DHCP od naszego ISP. Na
 początek, w pliku <code>/etc/config/dhcp</code> komentujemy poniższy wpis:</p>
-<pre><code>#      option resolvfile '/tmp/resolv.conf.auto'
+<pre><code># option resolvfile '/tmp/resolv.conf.auto'
 </code></pre>
 <p>Następnie dodajemy ten poniższy blok kodu:</p>
-<pre><code>      option noresolv '1'
-      list server '127.0.0.1#5353'
-      list server '/pool.ntp.org/208.67.222.222'
-</code></pre><p>Opcja <code>noresolv</code> sprawi, że <code>dnsmasq</code> nie będzie używał DNS'ów pobranych z lease DHCP. Druga linijka
+<pre><code>option noresolv '1'
+list server '127.0.0.1#5353'
+list server '/pool.ntp.org/208.67.222.222'
+</code></pre>
+<p>Opcja <code>noresolv</code> sprawi, że <code>dnsmasq</code> nie będzie używał DNS'ów pobranych z lease DHCP. Druga linijka
 określa, gdzie przesyłać zapytania DNS. Ostatni wpis sprawi, że wszelkie zapytania do serwerów czasu
 będą rozwiązywane przez OpenDNS w formie niezaszyfrowanej. Chodzi generalnie o precyzję pobranego
 czasu tak, by był możliwie dokładny. Szyfrowanie, jakby nie patrzeć, spowalnia nieco synchronizację
@@ -254,12 +255,12 @@ zakończeniu procedury startowej routera:</p>
 <p>W przypadku, gdy drażnią nas nieco zasyfione logi, możemy zmniejszyć poziom logowania przez
 dopisanie w <code>/etc/init.d/dnscrypt-proxy</code> parametru <code>--loglevel</code> :</p>
 <pre><code>...
-      service_start /usr/sbin/dnscrypt-proxy -d \
-            -a ${address}:${port} \
-            -u nobody \
-            -L ${resolvers_list:-'/usr/share/dnscrypt-proxy/dnscrypt-resolvers.csv'} \
-            -R ${resolver:-'opendns'}
-            --loglevel=5
+service_start /usr/sbin/dnscrypt-proxy -d \
+    -a ${address}:${port} \
+    -u nobody \
+    -L ${resolvers_list:-'/usr/share/dnscrypt-proxy/dnscrypt-resolvers.csv'} \
+    -R ${resolver:-'opendns'}
+    --loglevel=5
 ...
 </code></pre></div>
 				

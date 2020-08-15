@@ -174,8 +174,7 @@ w przypadku pakietów przypisanych do nawiązanego już połączenia. W ten spos
 odciążyć maszynę i zapobiec ciągłemu przepisywaniu oznaczeń w przypadku połączeń, które już
 posiadają znacznik. Te markery są widoczne w tablicy conntrack'a pod <code>/proc/net/nf_conntrack</code> lub
 <code>/proc/net/ip_conntrack</code> , w zależności od wykorzystywanego modułu do śledzenia połączeń. Poniżej
-przykład takiego
-wpisu:</p>
+przykład takiego wpisu:</p>
 <pre><code>ipv4     2 tcp      6 431994 ESTABLISHED src=192.168.1.150 dst=52.11.112.70 sport=54280 dport=443
 src=52.11.112.70 dst=192.168.1.150 sport=443 dport=54280 [ASSURED] mark=2 zone=0 use=2
 </code></pre>
@@ -202,15 +201,13 @@ sposób. Jest on przedstawiony na poniższej fotce
 /img/2016/05/1.iptables-przeplyw-pakietow-netfilter.png"><img src="https://morfikov.github.io
 /img/2016/05/1.iptables-przeplyw-pakietow-netfilter-1024x335.png" alt="1.iptables-przeplyw-pakietow-netfilter"></a></p>
 <p>Teraz w łańcuchach <code>base-1</code> oraz <code>base-2</code> umieszczamy po bazie oznaczającej całe połączenia:</p>
-<p>Pierwsza baza
-markująca:</p>
+<p>Pierwsza baza markująca:</p>
 <pre><code># iptables -t mangle -A base-1 -j CONNMARK --restore-mark --nfmask 0x0000ff00 --ctmask 0x0000ff00
 # iptables -t mangle -A base-1 -m mark ! --mark 0x00000000/0x0000ff00 -j RETURN
 # iptables -t mangle -A base-1 -m mark --mark 0x00000000/0x0000ff00 -j marking-1
 # iptables -t mangle -A base-1 -j CONNMARK --save-mark --nfmask 0x0000ff00 --ctmask 0x0000ff00
 </code></pre>
-<p>Druga baza
-markująca:</p>
+<p>Druga baza markująca:</p>
 <pre><code># iptables -t mangle -A base-2 -j CONNMARK --restore-mark --nfmask 0x000000ff --ctmask 0x000000ff
 # iptables -t mangle -A base-2 -m mark ! --mark 0x00000000/0x000000ff -j RETURN
 # iptables -t mangle -A base-2 -m mark --mark 0x00000000/0x000000ff -j marking-2
@@ -246,8 +243,7 @@ oznaczeniach bez przeszkadzania sobie.</p>
 <p>Te powyższe bazy markujące są ustawione w taki sposób, by pakiet, który nie został jeszcze
 oznaczony, przechodził przez reguły markujące. W pierwszej bazie mamy zdefiniowany łańcuch
 <code>marking-1</code> , w drugiej zaś <code>marking-2</code> . W tych łańcuchach musimy teraz umieścić reguły. Dla
-przykładu dodajmy tam te
-poniższe:</p>
+przykładu dodajmy tam te poniższe:</p>
 <pre><code># iptables -t mangle -A marking-1 -p icmp -m icmp --icmp-type 8 -j MARK --set-xmark 0x00000100/0x0000ff00
 
 # iptables -t mangle -A marking-2 -d 8.8.8.8 -j MARK --set-xmark 0x00000002/0x000000ff
@@ -260,13 +256,11 @@ drugiej bazy markującej i przejdą przez dwie ostatnie reguły widoczne powyże
 miejsca przeznaczenia ping'u, pakiety zostaną tutaj oznaczone 0x1 lub 0x2. Jako, że korzystamy z
 innej maski, to te wartości zostaną dodane do tej poprzedniej. Czyli pakiet po przejściu przez drugą
 bazę markującą będzie miał oznaczenie 0x101 lub 0x102 , czyli 257 lub 258. Poniżej prezentuje się
-listing tablicy <code>mangle</code>
-:</p>
+listing tablicy <code>mangle</code> :</p>
 <p><img src="https://morfikov.github.io
 /img/2016/05/1.tablica-mangle-iptables-mark-oznaczanie-pakietow.png" alt=""></p>
 <p>Sprawdźmy czy ten mechanizm działa jak należy. Odpalamy zatem terminal i wysyłamy żądania <code>ping</code> do
-kilku
-serwisów:</p>
+kilku serwisów:</p>
 <p><a href="https://morfikov.github.io
 /img/2016/05/2.ping-iptables-mark-oznaczanie-pakietow-conntrack.png"><img src="https://morfikov.github.io
 /img/2016/05/2.ping-iptables-mark-oznaczanie-pakietow-conntrack-1024x407.png" alt="2.ping-iptables-mark-oznaczanie-pakietow-conntrack"></a></p>
@@ -276,8 +270,7 @@ Wszystkie żądania <code>ping</code> zostały oznaczone znacznikiem minimum 0x1
 conntrack'a mają przypisany mark 0x101 oraz 0x102, czyli 257 i 268 w zapisie dziesiętnym. Są to
 połączenia, które zostały dopasowane w obu bazach markujących. Pozostałe zaś zostały dopasowane
 tylko w pierwszej bazie i dlatego ich oznaczenie wskazuje na 0x100, czyli 256. Jeśli podejrzymy
-jeszcze raz reguły w tablicy <code>mangle</code> , powinniśmy zobaczyć szereg
-dopasowań:</p>
+jeszcze raz reguły w tablicy <code>mangle</code> , powinniśmy zobaczyć szereg dopasowań:</p>
 <p><img src="https://morfikov.github.io
 /img/2016/05/3.tablica-mangle-iptables-mark-oznaczanie-pakietow.png" alt=""></p>
 <p>Mamy cztery sesje <code>ping</code> . W łańcuchu <code>marking-1</code> mamy cztery dopasowania, zaś w łańcuchu
@@ -294,23 +287,25 @@ wszystkie te wartości biorąc pod uwagę przepływ pakietów przez reguły.</p>
 <p>Wszystkie pakiety, które trafiają do <code>iptables</code> są oznaczone markiem 0x0. W pierwszej bazie
 markującej chcemy ustawić oznaczenie 0x100/0xff00. By tego dokonać, trzeba przeprowadzić dwie
 operacje: <code>AND NOT</code> oraz <code>XOR</code> . Spójrzmy poniżej:</p>
-<pre><code>       MARK 0000 0000 0000 0000    bazowe oznaczenie (0x0)
-       MASK 1111 1111 0000 0000    nasza maska (0xff00)
-    AND NOT -------------------    w MASK trzeba pierw poodwracać bity (0-&gt;1, 1-&gt;0), po czym dać logiczny AND z MARK
-     RESULT 0000 0000 0000 0000    w ten sposób stary MARK zawsze jest przepisywany (0x0)
-  SET XMARK 0000 0001 0000 0000    ustawiamy nowy mark (0x100)
-        XOR -------------------    przeprowadzamy operację XOR (przepisujemy różniące się bity)
-     RESULT 0000 0001 0000 0000    otrzymujemy nowy mark (0x100) --&gt; 256
-</code></pre><p>W przypadku bazowego marka 0x0, ten proces nie jest tak klarowny jak być powinien. Na szczęście mamy
+<pre><code>     MARK 0000 0000 0000 0000    bazowe oznaczenie (0x0)
+     MASK 1111 1111 0000 0000    nasza maska (0xff00)
+  AND NOT -------------------    w MASK trzeba pierw poodwracać bity (0-&gt;1, 1-&gt;0), po czym dać logiczny AND z MARK
+   RESULT 0000 0000 0000 0000    w ten sposób stary MARK zawsze jest przepisywany (0x0)
+SET XMARK 0000 0001 0000 0000    ustawiamy nowy mark (0x100)
+      XOR -------------------    przeprowadzamy operację XOR (przepisujemy różniące się bity)
+   RESULT 0000 0001 0000 0000    otrzymujemy nowy mark (0x100) --&gt; 256
+</code></pre>
+<p>W przypadku bazowego marka 0x0, ten proces nie jest tak klarowny jak być powinien. Na szczęście mamy
 drugą fazę oznaczania i tu już proces powinien być już bardziej przejrzysty:</p>
-<pre><code>       MARK 0000 0001 0000 0000    bazowe oznaczenie (0x100)
-       MASK 0000 0000 ffff ffff    nasza maska (0xff)
-    AND NOT -------------------    w MASK trzeba pierw poodwracać bity (0-&gt;1, 1-&gt;0), po czym dać logiczny AND z MARK
-     RESULT 0000 0001 0000 0000    w ten sposób stary MARK zawsze jest przepisywany (0x100)
-  SET XMARK 0000 0000 0000 0001    ustawiamy nowy mark (0x1)
-        XOR -------------------    przeprowadzamy operację XOR (przepisujemy różniące się bity)
-     RESULT 0000 0001 0000 0001    otrzymujemy nowy mark (0x101) --&gt; 257
-</code></pre><p>Tak właśnie działa dodawanie (sumowanie) oznaczeń w <code>iptables</code> przy pomocy target <code>MARK</code> .</p></div>
+<pre><code>     MARK 0000 0001 0000 0000    bazowe oznaczenie (0x100)
+     MASK 0000 0000 ffff ffff    nasza maska (0xff)
+  AND NOT -------------------    w MASK trzeba pierw poodwracać bity (0-&gt;1, 1-&gt;0), po czym dać logiczny AND z MARK
+   RESULT 0000 0001 0000 0000    w ten sposób stary MARK zawsze jest przepisywany (0x100)
+SET XMARK 0000 0000 0000 0001    ustawiamy nowy mark (0x1)
+      XOR -------------------    przeprowadzamy operację XOR (przepisujemy różniące się bity)
+   RESULT 0000 0001 0000 0001    otrzymujemy nowy mark (0x101) --&gt; 257
+</code></pre>
+<p>Tak właśnie działa dodawanie (sumowanie) oznaczeń w <code>iptables</code> przy pomocy target <code>MARK</code> .</p></div>
 				
 				<footer class="entry__footer">
 					

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ssl on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/ssl/</link>
+    <description>Recent content in ssl on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Wed, 24 Aug 2016 22:52:29 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/ssl/feed.xml" rel="self" type="application/rss" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Request body exceeds maximum size (131072) for SSL buffer</title>
+      <link>https://morfikov.github.io/post/request-body-exceeds-maximum-size-131072-for-ssl-buffer/</link>
+      <pubDate>Wed, 24 Aug 2016 22:52:29 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/request-body-exceeds-maximum-size-131072-for-ssl-buffer/</guid>
+      <description>&lt;p&gt;Dziś chciałem zaktualizować jeden z moich bardziej obszerniejszych wpisów na tym blogu ale
+oczywiście nie mogło odbyć się bez problemów. Gdy już wszystkie poprawki zostały naniesione i cały
+artykuł trafił do formularza WordPress&#39;a, przeglądarka zwróciła mi błąd &lt;code&gt;Request Entity Too Large&lt;/code&gt; .
+Z początku nie wiedziałem o co chodzi ale, że ten aktualizowany artykuł był naprawdę długi, to
+domyśliłem się, że chodzi o ilość bajtów, które chciałem przesłać w zapytaniu. Przeglądając logi
+serwera Apache2, znalazłem tam jeszcze dodatkowo komunikaty &lt;code&gt;[ssl:error] request body exceeds maximum size (131072) for SSL buffer&lt;/code&gt; oraz &lt;code&gt;[ssl:error] could not buffer message body to allow SSL renegotiation to proceed&lt;/code&gt; . Może ta cała sytuacja brzmi groźnie ale wybrnięcie z niej jest wręcz
+banalne. Wystarczy dostosować wartość dyrektywy &lt;code&gt;SSLRenegBufferSize&lt;/code&gt; w konfiguracji serwera Apache2.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Apache2: Konfiguracja OCSP Stapling</title>
+      <link>https://morfikov.github.io/post/apache2-konfiguracja-ocsp-stapling/</link>
+      <pubDate>Sat, 06 Aug 2016 19:16:09 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/apache2-konfiguracja-ocsp-stapling/</guid>
+      <description>&lt;p&gt;Serwery udostępniające nam różnego rodzaju strony www na protokole SSL/TLS posiadają certyfikaty,
+które są ważne przez pewien okres czasu. Z reguły jest to rok albo, jak w przypadku
+&lt;a href=&#34;https://morfikov.github.io
+/post/certyfikat-letsencrypt-dla-bloga-certbot/&#34;&gt;letsencrypt&lt;/a&gt;, są to 3 miesiące.
+Taki certyfikat może zostać unieważniony z różnych przyczyn ale informacja o tym fakcie musi trafić
+do wszystkich klientów odwiedzających taki serwis www. Do tego celu mogą posłużyć dwa mechanizmy.
+Pierwszym z nich są listy &lt;a href=&#34;https://pl.wikipedia.org/wiki/Lista_uniewa%C5%BCnionych_certyfikat%C3%B3w&#34;&gt;Certificate Revocation
+Lists&lt;/a&gt; (CRL). Drugim zaś
+jest &lt;a href=&#34;https://pl.wikipedia.org/wiki/Online_Certificate_Status_Protocol&#34;&gt;Online Certificate Status
+Protocol&lt;/a&gt; (OCSP). W tym wpisie
+postaramy się zaimplementować to drugie rozwiązanie na serwerze Apache2.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Problemy z dyrektywą SSLOpenSSLConfCmd w Apache2</title>
+      <link>https://morfikov.github.io/post/problemy-z-dyrektywa-sslopensslconfcmd-w-apache2/</link>
+      <pubDate>Fri, 05 Aug 2016 15:52:05 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/problemy-z-dyrektywa-sslopensslconfcmd-w-apache2/</guid>
+      <description>&lt;p&gt;W stabilnej dystrybucji linux&#39;a debian niewiele rzeczy ulega zmianie w przeciągu roku czy dwóch lat.
+Dlatego też ta gałąź jest wykorzystywana głównie w przypadku serwerów, min. na tym VPS. Na co dzień
+jednak korzystam z debiana SID, czyli gałęzi niestabilnej, która jest nieco bardziej aktualna i
+przystosowana do otaczającej nas tej wirtualnej rzeczywistości. Chodzi generalnie o nowsze
+oprogramowanie implementujące całą masę ficzerów, których starsze wersje nie posiadają. W tym
+przypadku problem dotyczy serwera Apache2, który ostatnimi czasy wypracował szereg mechanizmów
+obronnych adresujących ataki na protokół SSL/TLS. Jedną z podatności jest słaba liczba pierwsza
+wykorzystywana w &lt;a href=&#34;https://pl.wikipedia.org/wiki/Protok%C3%B3%C5%82_Diffiego-Hellmana&#34;&gt;protokole
+Diffie-Hellman&#39;a&lt;/a&gt;. Ten problem
+można stosunkowo łatwo poprawić w nowszej wersji Apache2 wykorzystując dyrektywę &lt;code&gt;SSLOpenSSLConfCmd&lt;/code&gt;
+. W starszych wersjach ona niestety nie działa. Niemniej jednak, w dalszym ciągu możemy użyć
+własnych parametrów dla protokołu Diffie-Hellman&#39;a, z tym, że trzeba to zrobić nieco inaczej.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Certyfikat Let&#39;s Encrypt dla bloga WordPress (certbot)</title>
+      <link>https://morfikov.github.io/post/certyfikat-letsencrypt-dla-bloga-certbot/</link>
+      <pubDate>Sat, 23 Jul 2016 12:00:28 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/certyfikat-letsencrypt-dla-bloga-certbot/</guid>
+      <description>&lt;p&gt;Jeszcze nie tak dawno temu, rzadko który serwis internetowy wykorzystywał certyfikaty SSL/TLS do
+zabezpieczenia komunikacji między serwerem, a łączącymi się do niego klientami. W dalszym ciągu
+jednak notuje się strony bez &amp;quot;zielonej kłódki&amp;quot; ale na szczęście jest ich coraz mniej w naszym
+otoczeniu. Liczbę tych stron można by z powodzeniem ograniczyć jeszcze bardziej, gdyby takie
+certyfikaty były za free, łatwe do zaimplementowania i dostępne praktycznie dla każdego od tak. No i
+na dobrą sprawę są, tylko ludzie jeszcze nie zdają sobie z tego sprawy. Istnieje bowiem &lt;a href=&#34;https://letsencrypt.org/&#34;&gt;projekt
+Let&#39;s Encrypt&lt;/a&gt;, który umożliwia stosunkowo bardzo proste wdrożenie
+certyfikatu na serwerze www opartym, np. o oprogramowanie Apache2. W tym wpisie zobaczymy jak ta
+cała procedura implementacji certyfikatu SSL/TLS przebiega.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>HTTP Strict Transport Security (HSTS) w Apache2</title>
+      <link>https://morfikov.github.io/post/http-strict-transport-security-hsts-apache2/</link>
+      <pubDate>Tue, 19 Jul 2016 19:08:40 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/http-strict-transport-security-hsts-apache2/</guid>
+      <description>&lt;p&gt;Ostatnio na niebezpieczniku czytałem &lt;a href=&#34;https://niebezpiecznik.pl/post/podroze-kosztuja/&#34;&gt;taki oto
+post&lt;/a&gt;. Historia jak historia, nieco długa ale
+mniej więcej w połowie pojawiła się informacja na temat nagłówków HSTS (&lt;a href=&#34;https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security&#34;&gt;HTTP Strict Transport
+Security&lt;/a&gt;), który jest przesyłany w
+zapytaniach HTTP/HTTPS. Postanowiłem nieco się zainteresować tym tematem i zbadać czym są te
+nagłówki HSTS i w jaki sposób są one w stanie poprawić bezpieczeństwo protokołów SSL/TLS
+wykorzystywanych podczas szyfrowania zawartości stron internetowych.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -35,7 +35,7 @@ miejsca dla procesów użytkownika root.">
 
 
 
-<meta itemprop="keywords" content="system-plików,hdd/ssd,ext4," />
+<meta itemprop="keywords" content="system-plików,hdd,ssd,ext4," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Zarezerwowane miejsce w systemie plików ext4"/>
@@ -162,7 +162,7 @@ partycję. Co oznacza słowo <strong>format</strong> w tym kontekście? Chodzi g
 systemu plików. Nie musimy nawet usuwać i tworzyć partycji. Wystarczy ograniczyć się do skorzystania
 z narzędzia <code>mkfs.ext4</code> . W jego manualu możemy przeczytać informację na temat parametru <code>-m</code> :</p>
 <blockquote>
-<p><code>-m</code> reserved-blocks-percentage<br>
+<p><code>-m</code> reserved-blocks-percentage
 Specify the percentage of the filesystem blocks reserved for the super-user. This avoids
 fragmentation, and allows root-owned daemons, such as syslogd(8), to continue to function
 correctly after non-privileged processes are prevented from writing to the filesystem. The default
@@ -193,17 +193,19 @@ Reserved block count:     13107
 <p>Liczba <code>13107</code> to ilość zarezerwowanych bloków, co przekłada się na nieco ponad 51MiB (13107*4096).
 Sama partycja ma niecały 1GiB, także 5% próg obowiązuje. Jeśli nie potrzebujemy tych zarezerwowanych
 bloków, to wydajemy to poniższe polecenie:</p>
-<pre><code> # tune2fs -m 0 /dev/sda2
+<pre><code># tune2fs -m 0 /dev/sda2
 tune2fs 1.42.13 (17-May-2015)
 Setting reserved blocks percentage to 0% (0 blocks)
-</code></pre><p>Trzeba pamiętać, by nie dokonywać zmian parametrów przy podmontowanym systemie plików. Sam parametr
+</code></pre>
+<p>Trzeba pamiętać, by nie dokonywać zmian parametrów przy podmontowanym systemie plików. Sam parametr
 <code>-m</code> możemy także wykorzystać bezpośrednio przy tworzeniu nowego systemu plików via <code>mkfs.ext4</code> .</p></div>
 				
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/system-plik%C3%B3w/">system-plików</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/ssd/">hdd/ssd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/">hdd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssd/">ssd</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ext4/">ext4</a>
 </div>
 					

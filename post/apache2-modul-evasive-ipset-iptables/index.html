@@ -35,7 +35,7 @@ blokowania uporczywych klientów na poziomie pakietów sieciowych.">
 
 
 
-<meta itemprop="keywords" content="apache2,iptables,ipset,dos/ddos," />
+<meta itemprop="keywords" content="apache2,iptables,ipset,dos,ddos," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Apache2: Moduł evasive, ipset i iptables (anty DOS/DDOS)"/>
@@ -185,7 +185,7 @@ tak jak ten komunikat poniżej:</p>
 <p>Cała konfiguracja dla modułu <code>evasive</code> jest umieszczona w pliku
 <code>/etc/apache2/mods-enabled/evasive.conf</code> . Przejdźmy zatem do edycji tego pliku, by zobaczyć co tam
 się znajduje:</p>
-<pre><code>    &lt;IfModule mod_evasive20.c&gt;
+<pre><code>&lt;IfModule mod_evasive20.c&gt;
     DOSHashTableSize    3079
     DOSPageCount        2
     DOSSiteCount        50
@@ -197,19 +197,21 @@ się znajduje:</p>
     #DOSSystemCommand    &quot;su - someuser -c '/sbin/... %s ...'&quot;
     #DOSLogDir           &quot;/var/log/mod_evasive&quot;
 &lt;/IfModule&gt;
-</code></pre><p>Im większy rozmiar tablicy hashów określimy w dyrektywie <code>DOSHashTableSize</code> , tym więcej pamięci ona
+</code></pre>
+<p>Im większy rozmiar tablicy hashów określimy w dyrektywie <code>DOSHashTableSize</code> , tym więcej pamięci ona
 będzie utylizować ale też lepiej będzie działał cały mechanizm, bo nie trzeba usuwać rekordów z tej
 tablicy przed dodaniem nowych. Każdy proces serwera Apache2 (domyślnie 5-100), ma osobną tablicę
 hashów. Nie zaleca się zwiększania tego parametru, no chyba, że nasz serwer jest sporych rozmiarów i
 realizuje naprawdę wiele zapytań. Jeśli wartość, którą określimy nie będzie liczbą pierwszą, to
 zostanie ona automatycznie wybrana w oparciu o tę poniższą listę:</p>
-<pre><code>    53         97         193       389       769
-    1543       3079       6151      12289     24593
-    49157      98317      196613    393241    786433
-    1572869    3145739    6291469   12582917  25165843
-    50331653   100663319  201326611 402653189 805306457
-    1610612741 3221225473 4294967291
-</code></pre><p>Dyrektywy <code>DOSPageInterval</code> i <code>DOSPageCount</code> ustanawiają limit żądań w stosunku do konkretnego
+<pre><code>53         97         193       389       769
+1543       3079       6151      12289     24593
+49157      98317      196613    393241    786433
+1572869    3145739    6291469   12582917  25165843
+50331653   100663319  201326611 402653189 805306457
+1610612741 3221225473 4294967291
+</code></pre>
+<p>Dyrektywy <code>DOSPageInterval</code> i <code>DOSPageCount</code> ustanawiają limit żądań w stosunku do konkretnego
 zasobu na serwerze (URI). W tym przypadku, każdy adres IP może wykonać maksymalnie dwa żądania w
 ciągu 1 sekundy. Z kolei zaś dyrektywy <code>DOSSiteInterval</code> oraz <code>DOSSiteCount</code> precyzują limit dla
 całego serwisu. Zatem każdy adres IP może wysłać maksymalnie 50 zapytań pod różne zasoby serwera.
@@ -288,7 +290,8 @@ wcześniejszych atakach DOS/DDOS, tj. pliki <code>dos-*</code> w katalogu <code>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apache2/">apache2</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/iptables/">iptables</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ipset/">ipset</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dos/ddos/">dos/ddos</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dos/">dos</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ddos/">ddos</a>
 </div>
 					
 <div class="entry__share share">
@@ -344,9 +347,9 @@ wcześniejszych atakach DOS/DDOS, tj. pliki <code>dos-*</code> w katalogu <code>
 	<h3 class="related__title">Powiązane</h3>
 	<ul class="related__list">
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zablokowac-facebook-youtube-openwrt/">Jak zablokować Facebook i YouTube w OpenWRT</a></li>
-		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/unikanie-atakow-ddos-z-synproxy/">Unikanie ataków DDoS z SYNproxy</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zablokowac-facebook-youtube-openwrt/">Jak zablokować Facebook i YouTube w OpenWRT</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/peerguardian-w-oparciu-o-ipset-iptables/">PeerGuardian w oparciu o ipset i iptables</a></li>
 		

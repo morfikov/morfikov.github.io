@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hdd on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/hdd/</link>
+    <description>Recent content in hdd on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Tue, 10 Mar 2020 03:28:00 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/hdd/feed.xml" rel="self" type="application/rss" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak przygotować dysk pod instalację Debian linux z EFI/UEFI</title>
+      <link>https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/</link>
+      <pubDate>Tue, 10 Mar 2020 03:28:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/</guid>
+      <description>&lt;p&gt;Instalacja linux&#39;a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana
+często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu &lt;code&gt;debootstrap&lt;/code&gt; Jeśli kupujemy
+nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows&#39;a i
+tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie
+EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji
+trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub
+też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie.
+Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my
+nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to
+stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną
+dystrybucję linux&#39;a w trybie EFI/UEFI.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Montowanie dysków jako zwykły użytkownik z UDisks i PolicyKit</title>
+      <link>https://morfikov.github.io/post/montowanie-dyskow-jako-zwykly-uzytkownik-z-udisks-i-policykit/</link>
+      <pubDate>Fri, 26 Apr 2019 21:10:15 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/montowanie-dyskow-jako-zwykly-uzytkownik-z-udisks-i-policykit/</guid>
+      <description>&lt;p&gt;Jeszcze nie tak dawno temu przeciętnej klasy desktop był wyposażony w pojedynczy i do tego
+niewielkiej pojemności dysk twardy, który był w stanie pomieścić wszystkie pliki swojego
+właściciela. Obecnie jednak większość maszyn ma tych nośników już kilka. Mowa tutaj nie tylko o
+dyskach systemowych, które są fizycznie na stałe zamontowane w komputerze ale również o tych
+wszystkich urządzeniach, które można podłączyć do portu USB. Polityka linux&#39;a wymusza, by wszystkie
+nośniki pamięci masowej (HDD, SSD, pendrive czy też karty SD) były montowane w systemie jedynie
+przez użytkowników posiadających uprawnienia administratora. Domyślnie taki przywilej ma jedynie
+root. Zatem by uzyskać dostęp do danych na takim zewnętrznym nośniku musimy logować się na root&#39;a.
+Jakby nie patrzeć ma to swoje plusy patrząc z perspektywy bezpieczeństwa, niemniej jednak czy
+naprawdę potrzebny nam jest root do wgrania czegoś na nasz ulubiony pendrive? Widać nie tylko ja
+zadawałem sobie takie pytanie i ktoś postanowił stworzyć narzędzie UDisks (lub jego nowszą wersję
+UDisks2), które za pomocą mechanizmu PolicyKit (zwanym też PolKit) jest w stanie nadać stosowne
+uprawnienia konkretnym użytkownikom systemu, przez co można określić zespół akcji, które będą oni w
+stanie przeprowadzić bez potrzeby podawania hasła, np. montowanie czy odmontowanie zasobu.
+Postanowiłem zatem zobaczyć jak ten duet sobie radzi na moim Debianie przy tradycyjnym użytkowaniu
+systemu i ocenić jego stopień przydatności.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Badsector dysku HDD w kontenerze LUKS zawierającym LVM</title>
+      <link>https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/</link>
+      <pubDate>Sun, 31 Mar 2019 12:23:42 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/</guid>
+      <description>&lt;p&gt;Podczas rutynowego skanu powierzchni dysków HDD w moim laptopie, S.M.A.R.T wykrył w jednym z nich
+podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
+powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
+czytaniu padniętego sektora też był nieco dziwny: &lt;code&gt;bad/missing sense data, sb[]&lt;/code&gt; . Jakiś czas temu
+już opisywałem
+jak &lt;a href=&#34;https://morfikov.github.io
+/post/uszkodzony-sektor-na-dysku-i-jego-realokoacja/&#34;&gt;realokować uszkodzony sektor dysku HDD&lt;/a&gt;
+i w zasadzie wszystkie informacje zawarte w tamtym artykule można by wykorzystać do próby
+poprawienia zaistniałego problemu, gdyby tylko nie fakt, że w tym przypadku badblock znalazł się w
+obszarze voluminu logicznego LVM na partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki
+schemat układu partycji sprawia, że do realokowania błędnego bloku trzeba podejść nieco inaczej
+uwzględniając w tym procesie kilka offset&#39;ów, bez których w zasadzie nic nie da się zrobić.
+Postanowiłem zatem napisać na konkretnym przykładzie jak realokować badsector dysku, gdy do
+czynienia mamy z zaszyfrowanym linux&#39;em zainstalowanym na voluminach LVM.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak optymalnie podzielić dysk HDD/SSD na partycje pod linux</title>
+      <link>https://morfikov.github.io/post/jak-optymalnie-podzielic-dysk-hdd-ssd-na-partycje-pod-linux/</link>
+      <pubDate>Fri, 15 Mar 2019 17:05:42 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-optymalnie-podzielic-dysk-hdd-ssd-na-partycje-pod-linux/</guid>
+      <description>&lt;p&gt;Ostatnio przeglądając nowe wpisy na forach trafiłem
+na &lt;a href=&#34;https://forum.linuxmint.pl/showthread.php?tid=112&#34;&gt;pytanie o podział dysku&lt;/a&gt; pod instalację
+linux&#39;a. Autorowi wątku chodziło o jak najlepszy podział dysku HDD ale najwyraźniej pogubił się on
+w tym całym bałaganie informacyjnym, który tyczy się procesu partycjonowania nośnika pod kątem jego
+optymalnego wykorzystania przez linux. Zagadnienie podziału dysków HDD/SSD nie jest zbytnio jakoś
+skomplikowane, a mimo to wciąż pojawiają się pytania o poprawne przeprowadzenie tego procesu i to
+pomimo faktu, że mamy obecnie już dość sporych rozmiarów dyski. To pytanie powoli przestaje mieć
+jakikolwiek sens, przynajmniej jeśli chodzi o przeciętnego Kowalskiego instalującego linux&#39;a u
+siebie na kompie (desktop/laptop). Postanowiłem jednak napisać parę słów na temat tego całego
+podziału dysku na partycje, tak by dobrać optymalny ich rozmiar przy instalowaniu dowolnej
+dystrybucji linux&#39;a.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak ukryć zaszyfrowany kontener LUKS pod linux</title>
+      <link>https://morfikov.github.io/post/jak-ukryc-zaszyfrowany-kontener-luks-pod-linux/</link>
+      <pubDate>Tue, 25 Oct 2016 19:30:23 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-ukryc-zaszyfrowany-kontener-luks-pod-linux/</guid>
+      <description>&lt;p&gt;Gdy w grę wchodzi poufność informacji, to przeciętny użytkownik komputera od razu zaczyna rozważać
+szyfrowanie danych. Są różne narzędzia, które te kwestię realizują w mniejszym lub większym stopniu.
+Kiedyś wszyscy korzystali z &lt;a href=&#34;http://truecrypt.sourceforge.net/&#34;&gt;TrueCrypt&lt;/a&gt; ale po jego dziwnych
+przygodach ludzie stopniowo zaczęli od tego oprogramowania odchodzić. W jego miejscu zaczęły
+pojawiać się różne forki, np. &lt;a href=&#34;https://veracrypt.codeplex.com/&#34;&gt;VeraCrypt&lt;/a&gt;. Abstrahując od tych ww.
+narzędzi, w każdym linux&#39;ie mamy również dostępny &lt;a href=&#34;https://gitlab.com/cryptsetup/cryptsetup/wikis/FrequentlyAskedQuestions&#34;&gt;mechanizm szyfrujący na bazie
+LUKS&lt;/a&gt; i jego gołą wersję
+wykorzystującą dm-crypt. Przy pomocy każdego z tych narzędzi jesteśmy w stanie zaszyfrować dysk
+komputera, pendrive, czy nawet kartę SD, w taki sposób, by nikt inny nie uzyskał dostępu do danych
+zgromadzonych na tych nośnikach informacji. Problem w tym, że w dalszym ciągu ktoś może nas
+torturować, by wydobyć od nas hasło czy keyfile i uzyskać dostęp do tych zaszyfrowanych danych bez
+większego trudu. Dlatego też pojawiło się coś nazwanego &lt;a href=&#34;https://en.wikipedia.org/wiki/Plausible_deniability&#34;&gt;Plausible
+Deniability&lt;/a&gt;, gdzie wykorzystywane są tak
+naprawdę dwa nośniki z czego jeden robi za przykrywkę, a na drugim mamy zgromadzone poufne pliki. W
+ten sposób agresorowi podajemy hasło do trefnego kontenera i wszyscy są zadowoleni. Czy aby na
+pewno?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Dysk, pendrive i inne nośniki pod OpenWRT</title>
+      <link>https://morfikov.github.io/post/dysk-pendrive-inne-nosniki-pod-openwrt/</link>
+      <pubDate>Wed, 27 Apr 2016 00:32:19 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/dysk-pendrive-inne-nosniki-pod-openwrt/</guid>
+      <description>&lt;p&gt;Czym by był router bez portów USB? Obecnie chyba wszystkie routery posiadają przy najmniej jeden
+taki port. Umożliwia to podłączenie pendrive, dysku USB, drukarki i innych urządzeń posiadających
+interfejs USB. W przypadku, gdy posiadamy jeden port USB i chcemy podłączyć dwa (lub więcej)
+urządzenia, musimy skorzystać z hubów USB. Ja w przypadku swojego routera &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WR1043ND.html&#34;&gt;TP-LINK TL-WR1043N/ND
+v2&lt;/a&gt; mam zastosowane właśnie takie
+rozwiązanie. Niby potrzebuję trzy porty USB, a ten router ma tylko jeden. Co prawda, pojawia się
+problem z zapotrzebowaniem na energię ale aktywne huby USB wyposażone w zasilacze niwelują tę
+dolegliwość. Ten wpis ma na celu przedstawić zarządzanie tymi wszystkimi nośnikami pod OpenWRT.
+Zostanie tutaj pokazane jak stworzyć i zamontować partycje o systemie plików EXT4, NTFS, FAT.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Backup dysku przez sieć przy pomocy dd i netcat</title>
+      <link>https://morfikov.github.io/post/backup-dysku-przez-siec-przy-pomocy-dd-netcat/</link>
+      <pubDate>Mon, 08 Feb 2016 00:45:07 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/backup-dysku-przez-siec-przy-pomocy-dd-netcat/</guid>
+      <description>&lt;p&gt;Dyski talerzowe mają to do siebie, że zawierają elementy mechaniczne, np. ramię głowicy czy też sam
+napęd dysku. Te ruchome elementy się zużywają podczas eksploatacji dysku i trzeba mieć na uwadze, że
+prędzej czy później taki dysk ulegnie awarii. Statystycznie rzecz biorąc, około 5% dysków rocznie
+zdycha. Oczywiście to tylko statystyka i w sporej części przypadków dyski twarde ulegają awarii
+znacznie wcześniej. Niekoniecznie musimy mieć tutaj do czynienia z &lt;a href=&#34;https://pl.wikipedia.org/wiki/Planowane_starzenie&#34;&gt;planowanym postarzaniem
+sprzętu&lt;/a&gt; i zwyczajnie możemy trafić na trefny
+model, którego wada fabryczna wyjdzie po 2-3 miesiącach użytkowania. Poza tym, producenci dysków
+implementują w nich te energooszczędne rozwiązania, które znacznie skracają żywotność nośników.
+Można o tym przekonać się analizując &lt;a href=&#34;https://morfikov.github.io
+/post/parkowanie-glowicy-w-dyskach-wstern-digital/&#34;&gt;193 parametr SMART (Load/Unload Cycle) odpowiadający za
+parkowanie głowicy&lt;/a&gt; w dyskach
+firmy Western Digital. Także na dobrą sprawę nie możemy być pewni kiedy nam ten dysk zwyczajnie
+odmówi posłuszeństwa. Dlatego też powinniśmy się zabezpieczyć na taką ewentualność robiąc kopię
+bezpieczeństwa (backup) danych zawartych na dysku. W tym wpisie postaramy się zrobić kompletny obraz
+dysku laptopa przy pomocy narzędzi &lt;code&gt;dd&lt;/code&gt; i &lt;code&gt;nc&lt;/code&gt; (netcat). Nie będziemy przy tym rozkręcać urządzenia
+czy też podłączać do portu USB zewnętrznego nośnika. Dane prześlemy zwyczajnie przez sieć.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak dodać nowy dysk do LVM</title>
+      <link>https://morfikov.github.io/post/jak-dodac-nowy-dysk-lvm/</link>
+      <pubDate>Tue, 02 Feb 2016 16:21:08 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-dodac-nowy-dysk-lvm/</guid>
+      <description>&lt;p&gt;Rozmiary obecnych dysków twardych zwykliśmy już liczyć w TiB. Jest to dość sporo ale ciągle zdarzają
+się sytuacje, gdzie zaczyna nam brakować miejsca na pliki. W takich przypadkach myślimy raczej o
+zmianie rozmiaru istniejących już partycji czy też dokupieniu nowego dysku. Pierwsza z powyższych
+opcji nie zawsze może wchodzić w grę, no chyba, że zaimplementowaliśmy sobie
+&lt;a href=&#34;https://pl.wikipedia.org/wiki/LVM&#34;&gt;LVM&lt;/a&gt;. Jeśli tak, to możemy bez większego problemu &lt;a href=&#34;https://morfikov.github.io
+/post/zmiana-rozmiaru-lvm/&#34;&gt;zmieniać
+rozmiar każdego z tych voluminów LVM&lt;/a&gt;. Niemniej jednak,
+nawet jeśli już dostosujemy sobie te wirtualne dyski, to miejsce wciąż może nam się skończyć i
+raczej można przyjąć za pewne, że tak się stanie w bliżej nieokreślonej przyszłości. Gdy to nastąpi,
+czeka nas druga opcja wymieniona wyżej, tj. zaopatrzenie się w dodatkowy nośnik danych. Przy pomocy
+LVM jesteśmy w stanie ten nowy dysk dodać do istniejącej grupy voluminów i zwiększyć tym wirtualnym
+partycjom rozmiar bez potrzeby przerywania pracy systemu, czy też wykonywania dodatkowych czynności
+związanych z formatowaniem i instalowaniem systemu na nowo. W tym wpisie postaramy się przebrnąć
+przez ten proces.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Zmiana identyfikatora UUID</title>
+      <link>https://morfikov.github.io/post/zmiana-identyfikatora-uuid/</link>
+      <pubDate>Sat, 30 Jan 2016 16:52:05 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zmiana-identyfikatora-uuid/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=28210&#34;&gt;Na forum DUG&#39;a po raz kolejny pojawił się post&lt;/a&gt;
+dotyczący unikalnych identyfikatorów, które są nadawane partycjom dysków twardych. Nie wiem jak
+sprawa ma się w przypadku windowsów ale linux na podstawie tych numerów
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Universally_unique_identifier&#34;&gt;UUID&lt;/a&gt;
+(&lt;a href=&#34;https://pl.wikipedia.org/wiki/Globally_Unique_Identifier&#34;&gt;GUID&lt;/a&gt;) jest w stanie identyfikować
+konkretne urządzenia. Czasem się zdarza tak, że dwa dyski czy partycje mają taki sam identyfikator,
+co prowadzi zwykle do problemów. Kolizja numerów identyfikacyjnych może być wynikiem pozostałości po
+procesie produkcyjnym ale może także powstać za sprawą klonowania nośnika za pomocą narzędzia &lt;code&gt;dd&lt;/code&gt; .
+Tak czy inaczej, przydałoby się wiedzieć jak ustalić, poprawnie wygenerować czy też zmienić UUID
+wszędzie tam, gdzie jest on wykorzystywany i o tym będzie ten wpis.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Temperatura dysku twardego (hddtemp)</title>
+      <link>https://morfikov.github.io/post/temperatura-dysku-twardego-hddtemp/</link>
+      <pubDate>Sun, 03 Jan 2016 16:24:45 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/temperatura-dysku-twardego-hddtemp/</guid>
+      <description>&lt;p&gt;Obecnie dyski twarde nie są potrzebne do prawidłowego działania komputera. Mając sporo pamięci
+operacyjnej oraz &lt;a href=&#34;https://pl.wikipedia.org/wiki/Live_CD&#34;&gt;system live&lt;/a&gt;, możemy bez problemu korzystać
+z takiego sprzętu. Niemniej jednak, systemy live są nieco ograniczone. Najdotkliwszą ich wadą jest
+brak zapisywania wprowadzanych zmian. W pewnych przypadkach ta cecha może być bardzo pożądana ale
+jeśli chodzi o przeciętnego użytkownika, to chciałby on raczej mieć możliwość zapisu swojej pracy.
+Dlatego też zewnętrzny magazyn danych w postaci dysku twardego nie prędko wyjdzie z użytku. Te
+urządzenia, jak i większość tych, które podłączamy do naszego komputera, wydzielają ciepło.
+Temperatura jest wrogiem numer 1 w przypadku maszyn i musi stale być monitorowana, tak by czasem nie
+doszło do przegrzania sprzętu. &lt;a href=&#34;https://pl.wikipedia.org/wiki/Dysk_twardy&#34;&gt;Dyski HDD&lt;/a&gt; mają ten
+problem, że im wyższa jest temperatura, tym obszar magnetyczny się bardziej rozszerza, a to powoduje
+błędy odczytu i zapisu. Podobnie jest ze zbyt niską temperaturą, gdzie ścieżki i sektory ulegają
+skurczeniu. Taki dysk musi pracować w odpowiednich warunkach termalnych. W tym wpisie postaramy się
+ustalić aktualną temperaturę dysku oraz spróbujemy ją monitorować, tak by wiedzieć czy czynnik
+temperaturowy nie zagraża czasem dyskom podpiętym do naszego PC.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Kopia struktury dysku twardego</title>
+      <link>https://morfikov.github.io/post/kopia-struktury-dysku-twardego/</link>
+      <pubDate>Fri, 18 Dec 2015 17:01:12 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/kopia-struktury-dysku-twardego/</guid>
+      <description>&lt;p&gt;Wszyscy wiedzą, że zabawa z dyskiem zwykle kończy się tragicznie dla zawartych na nim danych. W tym
+wpisie spróbujemy się przyjrzeć sytuacjom, które nie jednego użytkownika linux&#39;a potrafią przyprawić
+o zawał serca. Chodzi generalnie o uszkodzenie struktury dysku, oczywiście tylko tej programowej. Na
+błędy fizyczne nie możemy zbytnio nic poradzić. Natomiast jeśli chodzi o sferę logiczną, to mamy
+tutaj dość duże pole do popisu i jesteśmy w stanie się zabezpieczyć przed wieloma krytycznymi
+sytuacjami. Postaramy się tutaj omówić to jak wykonać kopię dysku. Taka kopia będzie miała tylko
+kilka (ew. kilkanaście) MiB, w skład której wchodzić będzie superblok systemu plików, nagłówki
+zaszyfrowanych partycji LUKS, struktura LVM i tablica partycji. Uszkodzenie każdego z tych
+powyższych uniemożliwia nam dostęp do danych zgromadzonych na dysku.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Zmiana rozmiaru dysków w strukturze LVM</title>
+      <link>https://morfikov.github.io/post/zmiana-rozmiaru-lvm/</link>
+      <pubDate>Thu, 17 Dec 2015 20:15:26 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zmiana-rozmiaru-lvm/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pl.wikipedia.org/wiki/LVM&#34;&gt;Logical Volume Manager (LVM)&lt;/a&gt;, czyli menadżer voluminów
+logicznych w systemach linux, to mechanizm, który jest w stanie podzielić jedną partycję fizyczną na
+szereg dysków logicznych. Każdy z tych dysków może być programowo dostosowany bez potrzeby edycji
+czy zmiany tablicy partycji fizycznego dysku. Dzięki LVM jesteśmy w stanie obejść kilka ograniczeń
+płynących z wykorzystywania tablicy partycji MS-DOS. Głównie chodzi tutaj o 4 partycje podstawowe,
+które mieszczą się w &lt;a href=&#34;https://pl.wikipedia.org/wiki/Master_Boot_Record&#34;&gt;MBR&lt;/a&gt;. Jeśli zdecydowaliśmy
+się na wykorzystywanie LVM, to w pewnym momencie może okazać się, że niektóre voluminy mają zbyt
+duże lub też zbyt małe rozmiary. Trzeba będzie je zatem dostosować i w tym wpisie postaramy się ten
+proces zasymulować.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Zmiana rozmiaru kontenera LUKS</title>
+      <link>https://morfikov.github.io/post/zmiana-rozmiaru-zaszyfrowanego-kontenera-luks/</link>
+      <pubDate>Thu, 17 Dec 2015 18:38:25 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zmiana-rozmiaru-zaszyfrowanego-kontenera-luks/</guid>
+      <description>&lt;p&gt;Ci z nas, którzy zabezpieczają swoje systemy przy pomocy technik kryptograficznych wiedzą, że taki
+system trzeba traktować nieco inaczej niż ten, który nie jest w żaden sposób zaszyfrowany. Gdy mamy
+na swoim dysku kilka &lt;a href=&#34;https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup&#34;&gt;kontenerów LUKS&lt;/a&gt; (czy
+też TrueCrypt), problematyczna może się okazać zmiana rozmiaru tego typu partycji. Praktycznie żadne
+narzędzia graficzne, ewentualnie inne automaty, nie są w stanie nas przez ten proces bezstresowo
+przeprowadzić. Musimy zatem skorzystać z niskopoziomowych aplikacji, takich jak &lt;code&gt;fdisk&lt;/code&gt; czy
+&lt;code&gt;cryptsetup&lt;/code&gt; , by ten rozmiar sobie dostosować. Problem w tym, że nieumiejętne operowanie na tych
+narzędziach może skończyć się tragicznie dla zgromadzonych na dysku danych. W tym wpisie postaram
+się opisać cały proces zmiany rozmiaru zaszyfrowanego kontenera LUKS wliczając w to również
+dostosowanie partycji i jej systemu plików.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Zmiana rozmiaru partycji EXT4</title>
+      <link>https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ext4/</link>
+      <pubDate>Wed, 16 Dec 2015 19:06:57 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ext4/</guid>
+      <description>&lt;p&gt;Jeśli jeszcze nie dokonaliśmy &lt;a href=&#34;https://morfikov.github.io
+/post/migracja-systemu-plikow-ext2-i-ext3-na-ext4/&#34;&gt;migracji systemu plików z EXT2/3 na
+EXT4&lt;/a&gt;, to powinniśmy rozważyć
+tę kwestię z przyczyn czysto praktycznych. W tym wpisie nie będziemy sobie głowy zawracać migracją
+między poszczególnymi wersjami systemu plików z rodziny EXT, a raczej skupimy się na tym jak zmienić
+rozmiar partycji, której systemem plików jest właśnie EXT4. Bawienie się rozmiarem partycji w tym
+przypadku niczym zbytnio się nie różni w stosunku do omawianego wcześniej &lt;a href=&#34;https://morfikov.github.io
+/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/&#34;&gt;systemu plików
+NTFS&lt;/a&gt;. Będziemy wykorzystywać
+tylko nieco inne narzędzia.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Zmiana rozmiaru partycji NTFS pod linux&#39;em</title>
+      <link>https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/</link>
+      <pubDate>Wed, 16 Dec 2015 18:03:54 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/</guid>
+      <description>&lt;p&gt;Zmiana rozmiaru partycji, nie tylko tej zawierającej system plików NTFS, nie sprawia w dzisiejszych
+czasach praktycznie żadnych problemów. Mamy przecie do dyspozycji takie narzędzia jak
+&lt;a href=&#34;http://gparted.org/&#34;&gt;gparted&lt;/a&gt;, które w dużej mierze automatyzują cały proces tworzenia i usuwania
+partycji, czy też zmiany ich rozmiaru. W tym wpisie przyjrzymy się temu procesowi z bliska, z tym,
+że nie będziemy korzystać z żadnych graficznych nakładek. Wszystkie kroki postaramy się
+zreprodukować ręcznie z poziomu konsoli przy pomocy takich narzędzi jak &lt;code&gt;fdisk&lt;/code&gt; czy &lt;code&gt;ntfsresize&lt;/code&gt; .&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Programowe i sprzętowe zerowanie dysku</title>
+      <link>https://morfikov.github.io/post/programowe-sprzetowe-zerowanie-dysku/</link>
+      <pubDate>Tue, 24 Nov 2015 17:54:17 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/programowe-sprzetowe-zerowanie-dysku/</guid>
+      <description>&lt;p&gt;Zerowanie dysku twardego ma na celu usunięcie wszystkich znajdujących się na nim danych. Generalnie
+chodzi o zapisanie całej powierzchni danego nośnika samymi zerami. Ten proces różni się znacząco of
+formatowania dysku, czyli utworzenia nowego systemu plików, gdzie praktycznie wszystkie dane można
+bez większego problemu odzyskać. Zerowanie dysku (czy też pendrive) może w pewnych przypadkach
+&lt;a href=&#34;https://morfikov.github.io
+/post/uszkodzony-sektor-na-dysku-i-jego-realokoacja/&#34;&gt;naprawić logiczne błędy
+sektorów&lt;/a&gt; na dysku. Niemniej
+jednak, nie usuniemy za jego pomocą fizycznych bad&#39;ów. Generalnie rzecz biorąc, mamy do wyboru dwie
+techniki zerowania. Jedna jest dokonywana na poziomie programowym, np. przy pomocy &lt;code&gt;dd&lt;/code&gt; , druga zaś
+na poziomie sprzętowym, np. w &lt;code&gt;hdparm&lt;/code&gt; . W tym wpisie postaramy się wyzerować przykładowy dysk.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Parametr readahead w dyskach twardych</title>
+      <link>https://morfikov.github.io/post/parametr-readahead-w-dyskach-twardych/</link>
+      <pubDate>Wed, 07 Oct 2015 15:45:35 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/parametr-readahead-w-dyskach-twardych/</guid>
+      <description>&lt;p&gt;W celu optymalizacji swojej pracy i poprawy wydajności przy transferze danych, dyski twarde często
+odczytują więcej sektorów niż było to określone w żądaniu. Chodzi o to, że odczytywany przez nas z
+dysku plik jest podzielony na sektory i gdy dysk odczytuje pierwszy sektor tego pliku, to wczytuje
+także kilka kolejnych sektorów zlokalizowanych za tym, którego żądanie odczytania zostało właśnie
+zrealizowane. Te dodatkowe sektory trafiają do wewnętrznego cache dysku twardego, z którego mogą
+zostać odczytane w późniejszym czasie, jeśli zajdzie taka potrzeba. Dostęp do danych w cache jest o
+wiele szybszy w porównaniu do repozycjonownia głowicy i odczytywania fizycznych sektorów na dysku. W
+efekcie czego mamy zwykle dość znaczny wzrost wydajności przy transferze danych. Ten mechanizm nosi
+nazwę &lt;strong&gt;readahead&lt;/strong&gt; i w tym wpisie przyjrzymy mu się nieco bliżej.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Parametr multcount w dyskach twardych</title>
+      <link>https://morfikov.github.io/post/parametr-multcount-w-dyskach-twardych/</link>
+      <pubDate>Tue, 06 Oct 2015 21:57:06 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/parametr-multcount-w-dyskach-twardych/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://manpages.ubuntu.com/manpages/xenial/pl/man8/hdparm.8.html&#34;&gt;W manualu hdparm&lt;/a&gt; możemy
+przeczytać o opcji &lt;code&gt;-m&lt;/code&gt; , która szerzej jest znana jako &lt;strong&gt;multcount&lt;/strong&gt;. Obecnie praktycznie każdy
+dysk w większym lub mniejszym stopniu ma zaimplementowaną jej obsługę, tj. wartość tego parametru
+różni się i zwykle im większą, tym lepiej dysk powinien się sprawować. Nie wszystkie dyski mają tę
+opcję włączoną standardowo. Na przykład te z rodziny WDC, jak czytamy w dokumentacji, są znane z
+tego, że działają wolniej po jej ustawieniu. Jako, że mam dysk firmy Western Digital, to
+postanowiłem sprawdzić jak, o ile w ogóle, zmieni się wydajność takiego urządzenia po przestawieniu
+tego parametru.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Opcja extents w systemach plików ext4</title>
+      <link>https://morfikov.github.io/post/opcja-extents-w-systemach-plikow-ext4/</link>
+      <pubDate>Fri, 10 Jul 2015 15:20:44 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/opcja-extents-w-systemach-plikow-ext4/</guid>
+      <description>&lt;p&gt;Dziś postanowiłem sprawdzić jak wygląda struktura plików mojego dysku. Chodzi oczywiście o ich
+fragmentację. Zgodnie z tym co pokazał mi &lt;code&gt;fsck&lt;/code&gt; , pofragmentowanych plików jest 350. Po
+zapuszczeniu defragmentacji via &lt;code&gt;e4defrag&lt;/code&gt; ilość tych plików spadła do nieco ponad 100 i jeśli by
+się przyjrzeć procesowi defragmentacji, to można było zauważyć linijki mające &lt;code&gt;extents: 100 -&amp;gt; 10&lt;/code&gt;
+. Wychodzi na to, że plik dalej jest w kawałkach i nie idzie go zdefragmentować. Jak rozumieć taki
+zapis?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Parkowanie głowicy w dyskach Wstern Digital</title>
+      <link>https://morfikov.github.io/post/parkowanie-glowicy-w-dyskach-wstern-digital/</link>
+      <pubDate>Wed, 08 Jul 2015 20:28:44 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/parkowanie-glowicy-w-dyskach-wstern-digital/</guid>
+      <description>&lt;p&gt;Dyski zużywają się z różnych powodów. Jednak najczęstszą przyczyną są nowe wynalazki, które
+producent w nich implementuje, bo te niezbyt dobrze działają w określonych warunkach, czy też pod
+kontrolą pewnych systemów operacyjnych. Tak właśnie jest w przypadku nowszych dysków firmy Western
+Digital (WD). Maja one wprowadzony ficzer parkowania głowicy w przypadku, gdy dysk &lt;a href=&#34;http://wdc.custhelp.com/app/answers/detail/a_id/5357&#34;&gt;jest
+nieużywany&lt;/a&gt;. Ma to na celu zmniejszyć pobór
+prądu i, co za tym idzie, temperaturę urządzenia. Jako, że parkowanie głowicy w dyskach WD nie
+działa poprawnie pod moim linux&#39;em (dystrybucja Debian), to nasuwa się pytanie: jak wyłączyć
+parkowanie głowicy by wydłużyć żywotność dysku twardego?&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
