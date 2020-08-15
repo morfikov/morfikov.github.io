@@ -9,7 +9,8 @@ status: publish
 tags:
 - apache2
 - blog
-- ssl/tls
+- ssl
+- tls
 title: Request body exceeds maximum size (131072) for SSL buffer
 ---
 
@@ -58,7 +59,7 @@ pojawia się komunikat:
     Request Entity Too Large
     The requested resource
     /wp-admin/post.php
-    does not allow request data with POST requests, or the amount of data provided in the request exceeds the capacity limit. 
+    does not allow request data with POST requests, or the amount of data provided in the request exceeds the capacity limit.
 
 A w logu serwera Apache2 poniższe wiadomości:
 

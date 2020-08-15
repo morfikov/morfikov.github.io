@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - debian
-- xmpp/jabber
+- xmpp
+- jabber
 title: Konfiguracja serwera XMPP/Jabber pod linux (ejabberd)
 ---
 

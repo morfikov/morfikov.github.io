@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - system-plików
-- pliki/foldery
+- pliki
+- foldery
 title: Sparse files (rozrzedzone pliki)
 ---
 

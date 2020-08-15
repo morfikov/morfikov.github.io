@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - debian
-- apt/aptitude
+- apt
+- aptitude
 title: 'Debian: Bezpieczne pobieranie aktualizacji (apt-transport-https)'
 ---
 

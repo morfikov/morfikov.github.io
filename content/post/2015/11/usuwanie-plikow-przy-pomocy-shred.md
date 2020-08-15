@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - system-plików
-- pliki/foldery
+- pliki
+- foldery
 - prywatność
 title: Całkowite usuwanie plików przy pomocy shred
 ---

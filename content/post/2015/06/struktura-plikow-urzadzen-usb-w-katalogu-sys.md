@@ -7,7 +7,8 @@ date_gmt: 2015-06-23 18:23:09 +0200
 published: true
 status: publish
 tags:
-- pliki/foldery
+- pliki
+- foldery
 - usb
 title: Struktura plików urządzeń usb w katalogu /sys/
 ---
@@ -54,7 +55,7 @@ również przy pomocy polecenia `lsusb` , tylko tym razem z dodajmy opcję `-t` 
         |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/6p, 480M
             |__ Port 3: Dev 3, If 0, Class=Video, Driver=uvcvideo, 480M
             |__ Port 3: Dev 3, If 1, Class=Video, Driver=uvcvideo, 480M
-    
+
     /:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/3p, 480M
         |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/8p, 480M
             |__ Port 1: Dev 53, If 0, Class=Hub, Driver=hub/4p, 480M

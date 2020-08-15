@@ -8,7 +8,8 @@ status: publish
 tags:
 - debian
 - kernel
-- efi/uefi
+- efi
+- uefi
 - luks
 - lvm
 title: Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS+LVM)

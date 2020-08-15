@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - bezpieczeństwo
-- pliki/foldery
+- pliki
+- foldery
 title: Ukrywanie informacji w plikach (steganografia)
 ---
 
@@ -62,7 +63,7 @@ poniższym poleceniem:
     $ steghide extract -sf obrazek.jpg
     Enter passphrase:
     wrote extracted data to "wiadomosc.txt".
-    
+
     $ cat wiadomosc.txt
     matrix has you
 

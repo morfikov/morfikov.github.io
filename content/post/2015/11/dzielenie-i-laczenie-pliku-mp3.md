@@ -7,7 +7,8 @@ date_gmt: 2015-11-13 12:03:57 +0100
 published: true
 status: publish
 tags:
-- pliki/foldery
+- pliki
+- foldery
 - dźwięk
 title: Dzielenie i łączenie pliku mp3
 ---

@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - bezpieczeństwo
-- użytkownicy/grupy
+- użytkownicy
+- grupy
 title: Integralność plików passwd, group, shadow, gshadow
 ---
 

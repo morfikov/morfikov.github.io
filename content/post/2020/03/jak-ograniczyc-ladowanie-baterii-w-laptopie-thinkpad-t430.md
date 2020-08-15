@@ -7,7 +7,8 @@ published: true
 status: publish
 tags:
 - debian
-- bateria/akumulator
+- bateria
+- akumulator
 - lenovo
 - thinkpad
 - t430

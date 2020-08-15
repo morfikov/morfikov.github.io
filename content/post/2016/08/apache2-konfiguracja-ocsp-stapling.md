@@ -9,7 +9,8 @@ status: publish
 tags:
 - bezpieczeństwo
 - apache2
-- ssl/tls
+- ssl
+- tls
 title: 'Apache2: Konfiguracja OCSP Stapling'
 ---
 

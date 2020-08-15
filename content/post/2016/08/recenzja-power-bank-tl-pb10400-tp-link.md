@@ -10,7 +10,8 @@ tags:
 - recenzja
 - power-bank
 - energia
-- bateria/akumulator
+- bateria
+- akumulator
 title: 'Recenzja: Power Bank TL-PB10400 od TP-LINK'
 ---
 

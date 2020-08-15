@@ -9,7 +9,8 @@ status: publish
 tags:
 - system-plików
 - smart
-- hdd/ssd
+- hdd
+- ssd
 - ext4
 title: Bad sektor w dzienniku systemu plików ext4
 ---

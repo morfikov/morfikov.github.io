@@ -7,7 +7,8 @@ date_gmt: 2016-01-21 15:58:55 +0100
 published: true
 status: publish
 tags:
-- pliki/foldery
+- pliki
+- foldery
 - prywatność
 - grafika
 title: Metadane plików graficznych (EXIF)

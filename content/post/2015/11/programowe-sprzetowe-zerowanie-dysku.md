@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - bezpieczeństwo
-- hdd/ssd
+- hdd
+- ssd
 title: Programowe i sprzętowe zerowanie dysku
 ---
 

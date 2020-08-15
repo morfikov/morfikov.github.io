@@ -8,8 +8,10 @@ status: publish
 tags:
 - debian
 - kernel
-- initrd/initramfs
-- efi/uefi
+- initrd
+- initramfs
+- efi
+- uefi
 - refind
 - luks
 - lvm

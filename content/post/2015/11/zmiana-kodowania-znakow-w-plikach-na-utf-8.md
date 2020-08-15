@@ -7,7 +7,8 @@ date_gmt: 2015-11-13 15:18:56 +0100
 published: true
 status: publish
 tags:
-- pliki/foldery
+- pliki
+- foldery
 - utf-8
 title: Zmiana kodowania znaków w plikach na UTF-8
 ---

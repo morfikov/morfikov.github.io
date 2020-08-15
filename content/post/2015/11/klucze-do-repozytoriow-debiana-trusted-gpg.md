@@ -9,7 +9,8 @@ status: publish
 tags:
 - gpg
 - debian
-- apt/aptitude
+- apt
+- aptitude
 title: Klucze do repozytoriów debiana (trusted.gpg)
 ---
 

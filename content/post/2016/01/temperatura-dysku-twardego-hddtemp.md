@@ -7,7 +7,8 @@ date_gmt: 2016-01-03 15:24:45 +0100
 published: true
 status: publish
 tags:
-- hdd/ssd
+- hdd
+- ssd
 - systemd
 title: Temperatura dysku twardego (hddtemp)
 ---

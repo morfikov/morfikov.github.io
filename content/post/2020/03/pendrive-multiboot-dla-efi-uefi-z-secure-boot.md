@@ -7,7 +7,8 @@ published: true
 status: publish
 tags:
 - debian
-- efi/uefi
+- efi
+- uefi
 - multiboot
 - pendrive
 - secure-boot

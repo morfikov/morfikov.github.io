@@ -10,7 +10,8 @@ tags:
 - iptables
 - tcp
 - sysctl
-- dos/ddos
+- dos
+- ddos
 - synproxy
 title: Unikanie ataków DDoS z SYNproxy
 ---

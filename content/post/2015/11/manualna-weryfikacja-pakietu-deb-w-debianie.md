@@ -9,7 +9,8 @@ status: publish
 tags:
 - gpg
 - debian
-- apt/aptitude
+- apt
+- aptitude
 title: Manualna weryfikacja pakietu deb w debianie
 ---
 
@@ -44,7 +45,7 @@ zależności od tego z jakim repozytorium mamy do czynienia, weryfikację danych
 w poniższy sposób:
 
     # cd /var/lib/apt/lists/
-    
+
     # gpg --verify ftp.de.debian.org_debian_dists_sid_InRelease
     # gpg --verify dl.google.com_linux_chrome_deb_dists_stable_Release.gpg dl.google.com_linux_chrome_deb_dists_stable_Release
 

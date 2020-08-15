@@ -7,7 +7,8 @@ date_gmt: 2015-06-19 11:24:34 +0200
 published: true
 status: publish
 tags:
-- pliki/foldery
+- pliki
+- foldery
 title: Dzielenie pliku i łączenie jego części w całość
 ---
 

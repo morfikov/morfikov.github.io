@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - mbr
-- hdd/ssd
+- hdd
+- ssd
 - gpt
 title: Konwersja tablicy partycji GPT na MS-DOS
 ---

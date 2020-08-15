@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - smart
-- hdd/ssd
+- hdd
+- ssd
 title: Uszkodzony sektor na dysku i jego realokoacja
 ---
 

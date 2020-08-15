@@ -7,8 +7,10 @@ published: true
 status: publish
 tags:
 - debian
-- efi/uefi
-- hdd/ssd
+- efi
+- uefi
+- hdd
+- ssd
 - refind
 title: Jak przygotować dysk pod instalację Debian linux z EFI/UEFI
 ---

@@ -7,7 +7,8 @@ date_gmt: 2015-06-16 19:13:57 +0200
 published: true
 status: publish
 tags:
-- hdd/ssd
+- hdd
+- ssd
 - bootloader
 - grub
 title: Reinstalacja bootloadera grub

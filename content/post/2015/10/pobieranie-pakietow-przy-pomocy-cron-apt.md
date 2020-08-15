@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - debian
-- apt/aptitude
+- apt
+- aptitude
 - cron
 title: Pobieranie pakietów przy pomocy cron-apt
 ---

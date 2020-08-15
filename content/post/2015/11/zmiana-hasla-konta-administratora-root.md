@@ -7,7 +7,8 @@ date_gmt: 2015-11-25 12:55:44 +0100
 published: true
 status: publish
 tags:
-- użytkownicy/grupy
+- użytkownicy
+- grupy
 title: Zmiana hasła konta administratora root
 ---
 

@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - debian
-- apt/aptitude
+- apt
+- aptitude
 title: Migawka (snapshot) repozytorium debiana
 ---
 

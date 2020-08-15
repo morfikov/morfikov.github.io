@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - debian
-- efi/uefi
+- efi
+- uefi
 - secure-boot
 - shim
 - refind

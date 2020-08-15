@@ -8,7 +8,8 @@ status: publish
 tags:
 - apparmor
 - debian
-- initrd/initramfs
+- initrd
+- initramfs
 title: Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux
 ---
 

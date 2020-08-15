@@ -10,7 +10,8 @@ tags:
 - tp-link
 - smartfon
 - aplikacje
-- kamera/aparat
+- kamera
+- aparat
 title: Aplikacja tpCamera do obsługi kamer TP-LINK z poziomu smartfona
 ---
 

@@ -7,7 +7,8 @@ date_gmt: 2015-06-18 20:11:45 +0200
 published: true
 status: publish
 tags:
-- hdd/ssd
+- hdd
+- ssd
 - swap
 title: Przestrzeń wymiany SWAP jako plik
 ---

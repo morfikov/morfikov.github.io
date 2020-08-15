@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - luks
-- hdd/ssd
+- hdd
+- ssd
 title: Zmiana rozmiaru kontenera LUKS
 ---
 

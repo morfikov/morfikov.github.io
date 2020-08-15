@@ -6,7 +6,8 @@ date: "2019-03-15T17:05:42Z"
 published: true
 status: publish
 tags:
-- hdd/ssd
+- hdd
+- ssd
 title: Jak optymalnie podzielić dysk HDD/SSD na partycje pod linux
 ---
 

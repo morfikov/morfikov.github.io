@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - system-plików
-- hdd/ssd
+- hdd
+- ssd
 - ext4
 title: Zarezerwowane miejsce w systemie plików ext4
 ---
@@ -31,12 +32,12 @@ partycję. Co oznacza słowo **format** w tym kontekście? Chodzi generalnie o u
 systemu plików. Nie musimy nawet usuwać i tworzyć partycji. Wystarczy ograniczyć się do skorzystania
 z narzędzia `mkfs.ext4` . W jego manualu możemy przeczytać informację na temat parametru `-m` :
 
-> `-m` reserved-blocks-percentage  
+> `-m` reserved-blocks-percentage
 > Specify the percentage of the filesystem blocks reserved for the super-user. This avoids
 > fragmentation, and allows root-owned daemons, such as syslogd(8), to continue to function
 > correctly after non-privileged processes are prevented from writing to the filesystem. The default
 > percentage is 5%.
-> 
+>
 > [man mkfs.ext4](http://manpages.ubuntu.com/manpages/xenial/en/man8/mkfs.ext4.8.html)
 
 Jak widzimy, ten powyższy parametr przybiera domyślną wartość `5%`. Zatem jeśli tworzymy system
@@ -69,7 +70,7 @@ Liczba `13107` to ilość zarezerwowanych bloków, co przekłada się na nieco p
 Sama partycja ma niecały 1GiB, także 5% próg obowiązuje. Jeśli nie potrzebujemy tych zarezerwowanych
 bloków, to wydajemy to poniższe polecenie:
 
-``` 
+```
  # tune2fs -m 0 /dev/sda2
 tune2fs 1.42.13 (17-May-2015)
 Setting reserved blocks percentage to 0% (0 blocks)

@@ -7,7 +7,8 @@ date_gmt: 2015-12-17 19:15:26 +0100
 published: true
 status: publish
 tags:
-- hdd/ssd
+- hdd
+- ssd
 - lvm
 title: Zmiana rozmiaru dysków w strukturze LVM
 ---
@@ -29,14 +30,14 @@ Poniżej mamy przykładowy dysk, który zawiera jedną partycję podstawową, na
 kilka dysków logicznych. Tak wygląda ten dysk w `fdisk` :
 
     # fdisk -l /dev/sdb
-    
+
     Disk /dev/sdb: 80.0 GB, 80025280000 bytes
     255 heads, 63 sectors/track, 9729 cylinders, total 156299375 sectors
     Units = sectors of 1 * 512 = 512 bytes
     Sector size (logical/physical): 512 bytes / 512 bytes
     I/O size (minimum/optimal): 512 bytes / 512 bytes
     Disk identifier: 0x000c741d
-    
+
        Device Boot      Start         End      Blocks   Id  System
     /dev/sdb1            2048    81922047    40960000   83  Linux
 
@@ -72,7 +73,7 @@ Musimy także poznać strukturę podziału tej przestrzeni na dyski logiczne. Mo
       /dev/sdb1  grupa1 lvm2 a--  39,06g    0   3072  2304 volumin3     0 linear /dev/sdb1:3072-5375
       /dev/sdb1  grupa1 lvm2 a--  39,06g    0   5376  2816 volumin4     0 linear /dev/sdb1:5376-8191
       /dev/sdb1  grupa1 lvm2 a--  39,06g    0   8192  1807 volumin5     0 linear /dev/sdb1:8192-9998
-    
+
     # lvs -v --segments
         Finding all logical volumes
       LV       VG     Attr      Start SSize  #Str Type   Stripe Chunk
@@ -88,7 +89,7 @@ Jeśli ktoś preferuje sektory nad bajtami, wystarczy sprecyzować jednostkę pr
         Scanning for physical volume names
       PV         VG     Fmt  Attr PSize     PFree DevSize   PV UUID
       /dev/sdb1  grupa1 lvm2 a--  81911808S    0S 81920000S xMddCU-5h1X-ZZL4-GFfO-ea4L-PqW8-YCGLte
-    
+
     # lvs -v --segments --units s
         Finding all logical volumes
       LV       VG     Attr      Start SSize     #Str Type   Stripe Chunk
@@ -150,22 +151,22 @@ nowej partycji wynosić będzie zatem 81920000+20971520=102891520 sektorów (pam
 odjąć 1). Wchodzimy do fdisk'a i dodajemy +10 GiB miejsca:
 
     # fdisk /dev/sdb
-    
+
     Command (m for help): p
-    
+
     Disk /dev/sdb: 80.0 GB, 80025280000 bytes
     255 heads, 63 sectors/track, 9729 cylinders, total 156299375 sectors
     Units = sectors of 1 * 512 = 512 bytes
     Sector size (logical/physical): 512 bytes / 512 bytes
     I/O size (minimum/optimal): 512 bytes / 512 bytes
     Disk identifier: 0x000c741d
-    
+
        Device Boot      Start         End      Blocks   Id  System
     /dev/sdb1            2048    81922047    40960000   83  Linux
-    
+
     Command (m for help): d
     Selected partition 1
-    
+
     Command (m for help): n
     Partition type:
        p   primary (0 primary, 0 extended, 4 free)
@@ -177,27 +178,27 @@ odjąć 1). Wchodzimy do fdisk'a i dodajemy +10 GiB miejsca:
     First sector (2048-156299374, default 2048):
     Using default value 2048
     Last sector, +sectors or +size{K,M,G} (2048-156299374, default 156299374): +102891519
-    
+
     Command (m for help): t
     Selected partition 1
     Hex code (type L to list codes): 8e
     Changed system type of partition 1 to 8e (Linux LVM)
-    
+
     Command (m for help): p
-    
+
     Disk /dev/sdb: 80.0 GB, 80025280000 bytes
     255 heads, 63 sectors/track, 9729 cylinders, total 156299375 sectors
     Units = sectors of 1 * 512 = 512 bytes
     Sector size (logical/physical): 512 bytes / 512 bytes
     I/O size (minimum/optimal): 512 bytes / 512 bytes
     Disk identifier: 0x000c741d
-    
+
        Device Boot      Start         End      Blocks   Id  System
     /dev/sdb1            2048   102893567    51445760   8e  Linux LVM
-    
+
     Command (m for help): w
     The partition table has been altered!
-    
+
     Calling ioctl() to re-read partition table.
 
 Sprawdzamy czy rozmiar partycji pod LVM się zmienił:
@@ -217,11 +218,11 @@ Jest +10 GiB. Teraz trzeba jeszcze rozszerzyć kontener LVM:
     # pvscan
       PV /dev/sdb1   VG grupa1   lvm2 [39,06 GiB / 0    free]
       Total: 1 [39,06 GiB] / in use: 1 [39,06 GiB] / in no VG: 0 [0   ]
-    
+
     # pvresize /dev/sdb1
       Physical volume "/dev/sdb1" changed
       1 physical volume(s) resized / 0 physical volume(s) not resized
-    
+
     # pvscan
       PV /dev/sdb1   VG grupa1   lvm2 [49,06 GiB / 10,00 GiB free]
       Total: 1 [49,06 GiB] / in use: 1 [49,06 GiB] / in no VG: 0 [0   ]
@@ -294,7 +295,7 @@ system plików zostanie rozciągnięty na całą dostępną przestrzeń w volumi
     resize2fs 1.42.8 (20-Jun-2013)
     Resizing the filesystem on /dev/mapper/grupa1-volumin2 to 3145728 (4k) blocks.
     The filesystem on /dev/mapper/grupa1-volumin2 is now 3145728 blocks long.
-    
+
     # resize2fs -p /dev/mapper/grupa1-volumin5
     resize2fs 1.42.8 (20-Jun-2013)
     Resizing the filesystem on /dev/mapper/grupa1-volumin5 to 3161088 (4k) blocks.
@@ -317,7 +318,7 @@ tak:
     # pvscan
       PV /dev/sdb1   VG grupa1   lvm2 [49,06 GiB / 0    free]
       Total: 1 [49,06 GiB] / in use: 1 [49,06 GiB] / in no VG: 0 [0   ]
-    
+
     # lvscan
       ACTIVE            '/dev/grupa1/volumin1' [5,00 GiB] contiguous
       ACTIVE            '/dev/grupa1/volumin2' [12,00 GiB] inherit
@@ -334,11 +335,11 @@ Odmontujmy wszystkie voluminy oraz usuńmy volumin2 oraz volumin4:
     # umount /media/3
     # umount /media/4
     # umount /media/5
-    
+
     # lvremove /dev/mapper/grupa1-volumin2
     Do you really want to remove active logical volume volumin2? [y/n]: y
       Logical volume "volumin2" successfully removed
-    
+
     # lvremove /dev/mapper/grupa1-volumin4
     Do you really want to remove active logical volume volumin4? [y/n]: y
       Logical volume "volumin4" successfully removed
@@ -394,7 +395,7 @@ voluminy montują się bez problemu:
     # mount /dev/mapper/grupa1-volumin1 /media/1
     # mount /dev/mapper/grupa1-volumin3 /media/3
     # mount /dev/mapper/grupa1-volumin5 /media/5
-    
+
     # lsblk /dev/sdb
     NAME                       MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
     sdb                          8:16   0  74,5G  0 disk
@@ -492,7 +493,7 @@ Sprawdzamy pierw jak prezentuje się układ LVM:
       /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  1280   512 volumin3     0 linear /dev/sdb1:1280-1791
       /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  1792  6400              0 free
       /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  8192  3087 volumin5     0 linear /dev/sdb1:8192-11278
-      /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g 11279  1280              0 free 
+      /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g 11279  1280              0 free
 
 Volumin przenosimy przy pomocy tego poniższego polecenia:
 
@@ -512,7 +513,7 @@ Po skończonej pracy, powinniśmy uzyskać wynik podobny do tego poniżej:
       /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  1280   512 volumin3     0 linear /dev/sdb1:1280-1791
       /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  1792  3087 volumin5     0 linear /dev/sdb1:1792-4878
       /dev/sdb1  grupa1 lvm2 a--  49,06g 30,00g  4879  7680              0 free
-    
+
     # lvs -v --segments
         Finding all logical volumes
       LV       VG     Attr      Start SSize  #Str Type   Stripe Chunk
@@ -564,10 +565,10 @@ sektorów (pamiętajmy, by odjąć 1 w `fdisk`). Nie należy brać pod uwagę wp
 ciągle ma starą wartość.
 
     # fdisk /dev/sdb
-    
+
     Command (m for help): d
     Selected partition 1
-    
+
     Command (m for help): n
     Partition type:
        p   primary (0 primary, 0 extended, 4 free)
@@ -579,27 +580,27 @@ ciągle ma starą wartość.
     First sector (2048-156299374, default 2048):
     Using default value 2048
     Last sector, +sectors or +size{K,M,G} (2048-156299374, default 156299374): +39976959
-    
+
     Command (m for help): t
     Selected partition 1
     Hex code (type L to list codes): 8e
     Changed system type of partition 1 to 8e (Linux LVM)
-    
+
     Command (m for help): p
-    
+
     Disk /dev/sdb: 80.0 GB, 80025280000 bytes
     100 heads, 3 sectors/track, 520997 cylinders, total 156299375 sectors
     Units = sectors of 1 * 512 = 512 bytes
     Sector size (logical/physical): 512 bytes / 512 bytes
     I/O size (minimum/optimal): 512 bytes / 512 bytes
     Disk identifier: 0x000c741d
-    
+
        Device Boot      Start         End      Blocks   Id  System
     /dev/sdb1            2048    39979007    19988480   8e  Linux LVM
-    
+
     Command (m for help): w
     The partition table has been altered!
-    
+
     Calling ioctl() to re-read partition table.
     Syncing disks.
 
@@ -621,7 +622,7 @@ Sprawdzamy, czy wszystko się montuje bez problemu:
     NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
     sdb      8:16   0  74,5G  0 disk
     └─sdb1   8:17   0  19,1G  0 part
-    
+
     # vgchange -a y grupa1
       3 logical volume(s) in volume group "grupa1" now active
     # lsblk /dev/sdb
@@ -631,7 +632,7 @@ Sprawdzamy, czy wszystko się montuje bez problemu:
       ├─grupa1-volumin1 (dm-1) 254:1    0     5G  0 lvm
       ├─grupa1-volumin3 (dm-2) 254:2    0     2G  0 lvm
       └─grupa1-volumin5 (dm-3) 254:3    0  12,1G  0 lvm
-    
+
     # mount /dev/mapper/grupa1-volumin1 /media/1
     # mount /dev/mapper/grupa1-volumin3 /media/3
     # mount /dev/mapper/grupa1-volumin5 /media/5

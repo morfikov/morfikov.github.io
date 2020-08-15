@@ -7,7 +7,8 @@ date_gmt: 2015-11-27 14:15:45 +0100
 published: true
 status: publish
 tags:
-- pliki/foldery
+- pliki
+- foldery
 title: Kodowanie nazw plików i jego zmiana
 ---
 

@@ -10,7 +10,8 @@ tags:
 - apache2
 - iptables
 - ipset
-- dos/ddos
+- dos
+- ddos
 title: 'Apache2: Moduł evasive, ipset i iptables (anty DOS/DDOS)'
 ---
 
@@ -59,7 +60,7 @@ Cała konfiguracja dla modułu `evasive` jest umieszczona w pliku
 `/etc/apache2/mods-enabled/evasive.conf` . Przejdźmy zatem do edycji tego pliku, by zobaczyć co tam
 się znajduje:
 
-``` 
+```
     <IfModule mod_evasive20.c>
     DOSHashTableSize    3079
     DOSPageCount        2
@@ -81,7 +82,7 @@ hashów. Nie zaleca się zwiększania tego parametru, no chyba, że nasz serwer 
 realizuje naprawdę wiele zapytań. Jeśli wartość, którą określimy nie będzie liczbą pierwszą, to
 zostanie ona automatycznie wybrana w oparciu o tę poniższą listę:
 
-``` 
+```
     53         97         193       389       769
     1543       3079       6151      12289     24593
     49157      98317      196613    393241    786433
@@ -125,10 +126,10 @@ Teraz podpinamy listę pod filtr `iptables` :
 
     # iptables -t raw -N evasive-in
     # iptables -t raw -N evasive-out
-    
+
     # iptables -t raw -A PREROUTING -j evasive-in
     # iptables -t raw -A OUTPUT -j evasive-out
-    
+
     # iptables -t raw -A evasive-in -m set --match-set evasive src -j DROP
     # iptables -t raw -A evasive-out -m set --match-set evasive dst -j DROP
 

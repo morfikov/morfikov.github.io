@@ -10,7 +10,8 @@ tags:
 - tp-link
 - smartfon
 - aplikacje
-- kamera/aparat
+- kamera
+- aparat
 - neffos
 title: 'Android: OpenCamera i aparat w Neffos C5'
 ---

@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - udev
-- hdd/ssd
+- hdd
+- ssd
 title: Parametr multcount w dyskach twardych
 ---
 

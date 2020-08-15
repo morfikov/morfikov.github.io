@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - smart
-- hdd/ssd
+- hdd
+- ssd
 title: Problematyczny parametr "Offline Uncorrectable"
 ---
 
@@ -55,7 +56,7 @@ zmieniając plik urządzenia. Poniżej zaś jest krótkie wyjaśnienie użytych 
 Zapisujemy plik i restartujemy usługę:
 
     # systemctl restart smartd.service
-    
+
     smartd[26236] Device: /dev/sda [SAT], state written to /var/lib/smartmontools/smartd.WDC_WD15EARS_00MVWB0-WD_WCAZA3607921.ata.state
     smartd[26236] smartd is exiting (exit status 0)
     smartd[29402] smartd 6.2 2013-07-26 r3841 [x86_64-linux-3.12-3.slh.2-aptosid-amd64] (local build)

@@ -8,7 +8,8 @@ status: publish
 tags:
 - debian
 - dns
-- dot/doh
+- dot
+- doh
 - prywatność
 - szyfrowanie
 - firefox

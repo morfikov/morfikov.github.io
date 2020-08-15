@@ -9,7 +9,8 @@ status: publish
 tags:
 - chaos-calmer
 - lte
-- rbm/play
+- rbm
+- play
 - router
 - modem
 - huawei

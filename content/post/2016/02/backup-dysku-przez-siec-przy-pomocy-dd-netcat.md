@@ -7,7 +7,8 @@ date_gmt: 2016-02-07 23:45:07 +0100
 published: true
 status: publish
 tags:
-- hdd/ssd
+- hdd
+- ssd
 - sieć
 title: Backup dysku przez sieć przy pomocy dd i netcat
 ---

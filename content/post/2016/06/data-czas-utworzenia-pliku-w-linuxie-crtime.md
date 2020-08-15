@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - system-plików
-- pliki/foldery
+- pliki
+- foldery
 - ext4
 title: Data i czas utworzenia pliku w linux'ie (crtime)
 ---

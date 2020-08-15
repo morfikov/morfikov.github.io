@@ -6,7 +6,8 @@ date: "2019-03-31T12:23:42Z"
 published: true
 status: publish
 tags:
-- hdd/ssd
+- hdd
+- ssd
 - smart
 - luks
 - lvm

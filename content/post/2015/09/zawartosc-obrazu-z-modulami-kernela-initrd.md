@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - kernel
-- initrd/initramfs
+- initrd
+- initramfs
 title: Zawartość obrazu z modułami kernela (initrd)
 ---
 
@@ -102,7 +103,7 @@ folder, co wygląda mniej więcej tak:
 
     # cpio -i < initrd.img-4.1.0-2-amd64
     8 blocks
-    
+
     # tree
     .
     ├── initrd.img-4.1.0-2-amd64
@@ -110,7 +111,7 @@ folder, co wygląda mniej więcej tak:
         └── x86
             └── microcode
                 └── GenuineIntel.bin
-    
+
     3 directories, 2 files
 
 Naturalnie, ta cała struktura katalogów jest uwzględniona w obrazie ale nie może zostać wyciągnięta

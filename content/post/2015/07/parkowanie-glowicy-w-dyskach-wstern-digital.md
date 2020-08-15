@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - smart
-- hdd/ssd
+- hdd
+- ssd
 - western-digital
 title: Parkowanie głowicy w dyskach Wstern Digital
 ---

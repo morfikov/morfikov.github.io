@@ -7,7 +7,8 @@ date_gmt: 2015-06-15 13:20:52 +0200
 published: true
 status: publish
 tags:
-- cd/dvd
+- cd
+- dvd
 - iso
 title: Suma kontrolna nagranego obrazu .iso
 ---

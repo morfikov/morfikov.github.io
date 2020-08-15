@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - debian
-- apt/aptitude
+- apt
+- aptitude
 title: Aktualizacja systemu i logowanie komunikatów
 ---
 
@@ -119,10 +120,10 @@ więcej tak:
 
     Aptitude 0.7.2: log report
     Wed, Oct  7 2015 11:21:48 +0200
-    
+
     IMPORTANT: this log only lists intended actions; actions which fail due to
     dpkg problems may not be completed.
-    
+
     Will install 37 packages, and remove 1 packages.
     7,111 kB of disk space will be used
     ===============================================================================
@@ -136,7 +137,7 @@ więcej tak:
     [UPGRADE] uget:amd64 2.0-1 -> 2.0.2-1
     [UPGRADE] xdg-utils:amd64 1.1.0-1 -> 1.1.1-1
     ===============================================================================
-    
+
     Log complete.
 
 Jak widzimy, zamiast jednej długiej linijki, mamy jedną linijkę na pakiet, gdzie mamy określone

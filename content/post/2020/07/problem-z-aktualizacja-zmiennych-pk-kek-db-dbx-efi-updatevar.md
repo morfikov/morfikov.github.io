@@ -7,7 +7,8 @@ published: true
 status: publish
 tags:
 - debian
-- efi/uefi
+- efi
+- uefi
 title: Problem z aktualizacją zmiennych PK, KEK, db i dbx via efi-updatevar
 ---
 

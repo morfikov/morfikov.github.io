@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - bezpieczeństwo
-- użytkownicy/grupy
+- użytkownicy
+- grupy
 title: Czy zmiana nazwy użytkownika root ma sens?
 ---
 
@@ -41,13 +42,13 @@ Po dokonaniu zmian, wpisy od nowego konta administracyjnego powinny wyglądać m
 
     # egrep roo /etc/passwd
     roocica:x:0:0:roocica:/roocica:/bin/zsh
-    
+
     # egrep roo /etc/shadow
     roocica:zahashowane-haslo:16401:0:99999:7:::
-    
+
     # egrep roo /etc/group
     roocica:x:0:
-    
+
     # egrep roo /etc/gshadow
     roocica:*::
 

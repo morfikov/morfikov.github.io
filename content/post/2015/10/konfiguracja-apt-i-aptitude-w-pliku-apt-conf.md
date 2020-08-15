@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - debian
-- apt/aptitude
+- apt
+- aptitude
 title: Konfiguracja apt i aptitude w pliku apt.conf
 ---
 

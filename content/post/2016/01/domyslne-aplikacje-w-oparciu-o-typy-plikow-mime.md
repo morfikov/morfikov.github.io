@@ -7,7 +7,8 @@ date_gmt: 2016-01-12 19:18:33 +0100
 published: true
 status: publish
 tags:
-- pliki/foldery
+- pliki
+- foldery
 title: Domyślne aplikacje w oparciu o typy plików (MIME)
 ---
 

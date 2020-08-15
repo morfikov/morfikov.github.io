@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - bezpieczeństwo
-- pliki/foldery
+- pliki
+- foldery
 title: Uprawnienia do plików systemowych w linux'ie
 ---
 
@@ -68,44 +69,44 @@ dug'a](https://dug.net.pl/tekst/117/) . Ma on za zadanie przeskanowanie określo
 pomocy `find` i wyciągnięcie uprawnień do wszystkich plików i katalogów w nich się znajdujących.
 
     #!/bin/sh
-    
+
     GDZIE=$PWD
-    
+
     #FOLDER /bin
     touch /$GDZIE/bin.sh
     echo '/bin/sh'>/$GDZIE/bin.sh
     find /bin -printf "chown %u:%g %p && chmod  %m %p\n">>/$GDZIE/bin.sh
-    
+
     #FOLDER /sbin
     touch /$GDZIE/sbin.sh
     echo '/bin/sh'>/$GDZIE/sbin.sh
     find /sbin -printf "chown %u:%g %p && chmod  %m %p\n">>/$GDZIE/sbin.sh
-    
+
     #FOLDER /lib
     touch /$GDZIE/lib.sh
     echo '/bin/sh'>/$GDZIE/lib.sh
     find /lib -printf "chown %u:%g %p && chmod  %m %p\n">>/$GDZIE/lib.sh
-    
+
     #FOLDER /usr
     touch /$GDZIE/usr.sh
     echo '/bin/sh'>/$GDZIE/usr.sh
     find /usr -printf "chown %u:%g %p && chmod  %m %p\n">>/$GDZIE/usr.sh
-    
+
     #FOLDER /etc
     touch /$GDZIE/etc.sh
     echo '/bin/sh'>/$GDZIE/etc.sh
     find /etc -printf "chown %u:%g %p && chmod  %m %p\n">>/$GDZIE/etc.sh
-    
+
     #FOLDER /opt
     touch /$GDZIE/opt.sh
     echo '/bin/sh'>/$GDZIE/opt.sh
     find /opt -printf "chown %u:%g %p && chmod  %m %p\n">>/$GDZIE/opt.sh
-    
+
     #Folder /var
     touch /$GDZIE/var.sh
     echo '/bin/sh'>/$GDZIE/var.sh
     find /var -printf "chown %u:%g %p && chmod  %m %p\n">>/$GDZIE/var.sh
-    
+
     chmod +x /$GDZIE/*.sh
 
 Ten skrypt powinien być uruchamiany jedynie na dopiero co postawionym systemie, bo tylko w takim

@@ -9,7 +9,8 @@ status: publish
 tags:
 - bezpieczeństwo
 - szyfrowanie
-- pliki/foldery
+- pliki
+- foldery
 - pam
 title: ECryptfs jako alternatywa dla encfs
 ---

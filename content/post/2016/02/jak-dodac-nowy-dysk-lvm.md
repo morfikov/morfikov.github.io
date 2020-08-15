@@ -7,7 +7,8 @@ date_gmt: 2016-02-02 15:21:08 +0100
 published: true
 status: publish
 tags:
-- hdd/ssd
+- hdd
+- ssd
 - lvm
 title: Jak dodać nowy dysk do LVM
 ---

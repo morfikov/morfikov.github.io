@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - pendrive
-- hdd/ssd
+- hdd
+- ssd
 - chaos-calmer
 - router
 title: Dysk, pendrive i inne nośniki pod OpenWRT

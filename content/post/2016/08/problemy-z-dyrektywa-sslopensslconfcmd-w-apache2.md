@@ -9,7 +9,8 @@ status: publish
 tags:
 - apache2
 - debian
-- ssl/tls
+- ssl
+- tls
 title: Problemy z dyrektywą SSLOpenSSLConfCmd w Apache2
 ---
 

@@ -10,7 +10,8 @@ tags:
 - apache2
 - blog
 - certyfikaty
-- ssl/tls
+- ssl
+- tls
 title: Certyfikat Let's Encrypt dla bloga WordPress (certbot)
 ---
 

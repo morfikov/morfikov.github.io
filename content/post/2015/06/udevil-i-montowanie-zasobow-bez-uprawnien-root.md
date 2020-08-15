@@ -8,8 +8,10 @@ published: true
 status: publish
 tags:
 - pendrive
-- cd/dvd
-- hdd/ssd
+- cd
+- dvd
+- hdd
+- ssd
 title: Udevil i montowanie zasobów bez uprawnień root
 ---
 

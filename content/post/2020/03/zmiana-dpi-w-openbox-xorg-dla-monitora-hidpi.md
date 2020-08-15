@@ -12,7 +12,8 @@ tags:
 - openbox
 - xserver
 - qt
-- gtk2/gtk3
+- gtk2
+- gtk3
 - czcionki
 title: Zmiana DPI w Openbox/Xorg dla monitora HiDPI
 ---

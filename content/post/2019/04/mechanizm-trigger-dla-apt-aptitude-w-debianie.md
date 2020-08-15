@@ -7,7 +7,8 @@ published: true
 status: publish
 tags:
 - debian
-- apt/aptitude
+- apt
+- aptitude
 - apparmor
 title: Mechanizm trigger'ów dla apt/aptitude w Debianie
 ---

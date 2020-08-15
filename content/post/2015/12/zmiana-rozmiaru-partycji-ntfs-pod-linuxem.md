@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - system-plików
-- hdd/ssd
+- hdd
+- ssd
 - ntfs
 title: Zmiana rozmiaru partycji NTFS pod linux'em
 ---
@@ -38,7 +39,7 @@ i w tym też jest partycja NTFS. Wygląda to mniej więcej tak:
     Disk /dev/sdb: 156299375s
     Sector size (logical/physical): 512B/512B
     Partition Table: msdos
-    
+
     Number  Start       End         Size       Type     File system  Flags
             63s         2047s       1985s               Free Space
      1      2048s       61442047s   61440000s  primary  ntfs
@@ -180,7 +181,7 @@ co, to zmieni się położenie jej końca:
     # fdisk /dev/sdb
     Command (m for help): d
     Partition number (1-4): 1
-    
+
     Command (m for help): n
     Partition type:
        p   primary (1 primary, 0 extended, 3 free)
@@ -198,28 +199,28 @@ partycję i ustawiamy jej pożądany typ:
 
     Command (m for help): t
     Partition number (1-4): 1
-    
+
     Hex code (type L to list codes): 7
     Changed system type of partition 1 to 7 (HPFS/NTFS/exFAT)
 
 Sprawdzamy czy wszystko się zgadza i jeśli jesteśmy zadowoleni z wyniku, zapisujemy układ partycji:
 
     Command (m for help): p
-    
+
     Disk /dev/sdb: 80.0 GB, 80025280000 bytes
     255 heads, 63 sectors/track, 9729 cylinders, total 156299375 sectors
     Units = sectors of 1 * 512 = 512 bytes
     Sector size (logical/physical): 512 bytes / 512 bytes
     I/O size (minimum/optimal): 512 bytes / 512 bytes
     Disk identifier: 0x000c741d
-    
+
        Device Boot      Start         End      Blocks   Id  System
     /dev/sdb1            2048    19533289     9765621    7  HPFS/NTFS/exFAT
     /dev/sdb2        61442048   156299263    47428608   83  Linux
-    
+
     Command (m for help): w
     The partition table has been altered!
-    
+
     Calling ioctl() to re-read partition table.
     Syncing disks.
 
@@ -254,7 +255,7 @@ kasujemy starą partycję i na jej miejsce tworzymy nową:
 
     Command (m for help): d
     Partition number (1-4): 1
-    
+
     Command (m for help): n
     Partition type:
        p   primary (1 primary, 0 extended, 3 free)
@@ -264,15 +265,15 @@ kasujemy starą partycję i na jej miejsce tworzymy nową:
     First sector (2048-156299374, default 2048):
     Using default value 2048
     Last sector, +sectors or +size{K,M,G} (2048-61442047, default 61442047): +20G
-    
+
     Command (m for help): t
     Partition number (1-4): 1
     Hex code (type L to list codes): 7
     Changed system type of partition 1 to 7 (HPFS/NTFS/exFAT)
-    
+
     Command (m for help): w
     The partition table has been altered!
-    
+
     Calling ioctl() to re-read partition table.
     Syncing disks.
 

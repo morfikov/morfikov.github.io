@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - system-plików
-- pliki/foldery
+- pliki
+- foldery
 - ext4
 title: Jak odzyskać usunięte z dysku pliki
 ---

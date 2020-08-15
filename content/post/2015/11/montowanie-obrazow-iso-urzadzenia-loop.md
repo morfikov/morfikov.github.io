@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - loop
-- cd/dvd
+- cd
+- dvd
 - iso
 title: Montowanie obrazów ISO (urządzenia loop)
 ---

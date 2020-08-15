@@ -9,7 +9,8 @@ status: publish
 tags:
 - luks
 - system-plików
-- hdd/ssd
+- hdd
+- ssd
 - lvm
 title: Kopia struktury dysku twardego
 ---

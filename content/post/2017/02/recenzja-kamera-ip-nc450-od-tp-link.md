@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - tp-link
-- kamera/aparat
+- kamera
+- aparat
 - monitoring
 title: 'Recenzja: Kamera IP NC450 od TP-LINK'
 ---

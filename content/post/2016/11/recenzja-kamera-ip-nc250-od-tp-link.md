@@ -9,7 +9,8 @@ status: publish
 tags:
 - recenzja
 - tp-link
-- kamera/aparat
+- kamera
+- aparat
 title: 'Recenzja: Kamera IP NC250 od TP-LINK'
 ---
 

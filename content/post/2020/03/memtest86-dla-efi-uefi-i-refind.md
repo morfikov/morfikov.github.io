@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - debian
-- efi/uefi
+- efi
+- uefi
 - memtest86
 - refind
 title: Memtest86 dla EFI/UEFI i rEFInd

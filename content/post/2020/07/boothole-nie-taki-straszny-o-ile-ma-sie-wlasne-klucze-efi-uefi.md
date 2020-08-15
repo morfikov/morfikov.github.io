@@ -7,7 +7,8 @@ published: true
 status: publish
 tags:
 - debian
-- efi/uefi
+- efi
+- uefi
 title: BootHole nie taki straszny, o ile ma się własne klucze EFI/UEFI
 ---
 

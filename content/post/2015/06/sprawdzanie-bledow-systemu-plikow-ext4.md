@@ -8,7 +8,8 @@ published: true
 status: publish
 tags:
 - system-plików
-- hdd/ssd
+- hdd
+- ssd
 - ext4
 title: Sprawdzanie błędów systemu plików ext4
 ---

@@ -9,7 +9,8 @@ tags:
 - debian
 - udisks
 - policykit
-- hdd/ssd
+- hdd
+- ssd
 - usb
 title: Montowanie dysków jako zwykły użytkownik z UDisks i PolicyKit
 ---

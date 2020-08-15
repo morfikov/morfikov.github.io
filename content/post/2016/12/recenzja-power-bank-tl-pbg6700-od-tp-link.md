@@ -9,7 +9,8 @@ status: publish
 tags:
 - tp-link
 - power-bank
-- bateria/akumulator
+- bateria
+- akumulator
 title: 'Recenzja: Power Bank TL-PBG6700 od TP-LINK'
 ---
 

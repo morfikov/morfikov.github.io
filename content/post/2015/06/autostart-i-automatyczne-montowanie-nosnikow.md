@@ -9,8 +9,10 @@ status: publish
 tags:
 - pendrive
 - bezpieczeństwo
-- cd/dvd
-- hdd/ssd
+- cd
+- dvd
+- hdd
+- ssd
 title: Autostart i automatyczne montowanie nośników
 ---
 

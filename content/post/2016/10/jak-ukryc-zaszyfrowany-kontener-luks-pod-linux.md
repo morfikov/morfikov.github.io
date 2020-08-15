@@ -9,7 +9,8 @@ status: publish
 tags:
 - pendrive
 - luks
-- hdd/ssd
+- hdd
+- ssd
 - szyfrowanie
 title: Jak ukryć zaszyfrowany kontener LUKS pod linux
 ---

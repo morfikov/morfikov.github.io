@@ -7,9 +7,11 @@ date_gmt: 2015-11-02 21:54:42 +0100
 published: true
 status: publish
 tags:
-- pliki/foldery
+- pliki
+- foldery
 - prywatność
-- gtk2/gtk3
+- gtk2
+- gtk3
 title: Ostatnio używane pliki (recently-used.xbel)
 ---
 

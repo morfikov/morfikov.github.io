@@ -9,7 +9,8 @@ status: publish
 tags:
 - sieć
 - lte
-- rbm/play
+- rbm
+- play
 - debian
 - modem
 - huawei
