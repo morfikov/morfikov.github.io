@@ -257,13 +257,9 @@ Po tym jak wygenerujemy własne certyfikaty (metoda bez znaczenia), musimy edyto
 `/etc/freeradius/eap.conf` i wykomentować pozycję z `make_cert_command` w podsekcji `tls` , tak by
 wyglądało to jak poniżej:
 
-```
-...
-    tls {
-    ...
-#   make_cert_command = "${certdir}/bootstrap"
-...
-```
+        tls {
+        ...
+    #   make_cert_command = "${certdir}/bootstrap"
 
 Po tym kroku, przechodzimy do katalogu `/usr/share/doc/freeradius/examples/certs/` , gdzie będą
 wykonywane kolejne polecenia. Następnie edytujemy pliki `ca.cnf` , `client.cnf` i `server.cnf` . Są

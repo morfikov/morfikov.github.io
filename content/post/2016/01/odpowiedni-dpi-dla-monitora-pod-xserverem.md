@@ -54,10 +54,8 @@ jego fizyczne wymiany. Z tym, że interesuje nas wysokość i szerokość przest
 nie dysponujemy dokumentacją techniczną monitora (instrukcja obsługi), to zawsze możemy skorzystać z
 `xrandr` lub też bezpośrednio zajrzeć w log Xserver'a:
 
-```
- $ xrandr | grep -w connected
-LVDS1 connected primary 1366x768+0+0 (normal left inverted right x axis y axis) 344mm x 193mm
-```
+    $ xrandr | grep -w connected
+    LVDS1 connected primary 1366x768+0+0 (normal left inverted right x axis y axis) 344mm x 193mm
 
 Jak widzimy, rozdzielczość tego monitora, to `1366x768` . Natomiast jego przestrzeń widzialna ma
 `344mm x 193mm` . By uzyskać DPI (PPI), musimy podzielić rozdzielczość poziomą przez szerokość

@@ -92,11 +92,9 @@ naturalnie mój model ma już ten proces za sobą.
 Jeśli nie zamierzamy instalować dodatkowych aplikacji w telefonie, to naturalnie możemy skorzystać z
 `adb` . Podłączamy zatem nasz telefon do portu USB komputera i logujemy się na użytkownika root:
 
-```
- # adb shell
-shell@Y5:/ $ su
-root@Y5:/ #
-```
+    # adb shell
+    shell@Y5:/ $ su
+    root@Y5:/ #
 
 Luzujemy nieco politykę bezpieczeństwa SELinux tak, by widzieć komunikaty zwracane przez `vdc` .
 Zmiany są jedynie tymczasowe i po zresetowaniu smartfona wszystko wróci do normy. Same komunikaty

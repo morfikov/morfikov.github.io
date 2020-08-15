@@ -41,21 +41,19 @@ By aktywować to zabezpieczenie, musimy mieć w systemie te dwa pakiety `libpam-
 `pamusb-tool` . Po ich instalacji, odpalamy `pam-auth-update` i zaznaczamy pozycję `USB
 authentication` :
 
-```
-           ┌──────────────────┤ PAM configuration ├───────────────────┐
-           │ PAM profiles to enable:                                  │
-           │                                                          │
-           │    [*] USB authentication                                │
-           │    [ ] encfs encrypted home directories                  │
-           │    [*] Unix authentication                               │
-           │    [ ] Mount volumes for user                            │
-           │    [*] GNOME Keyring Daemon - Login keyring management   │
-           │    [*] ConsoleKit Session Management                     │
-           │    [*] Inheritable Capabilities Management               │
-           │              <Ok>                  <Cancel>              │
-           │                                                          │
-           └──────────────────────────────────────────────────────────┘
-```
+    ┌──────────────────┤ PAM configuration ├───────────────────┐
+    │ PAM profiles to enable:                                  │
+    │                                                          │
+    │    [*] USB authentication                                │
+    │    [ ] encfs encrypted home directories                  │
+    │    [*] Unix authentication                               │
+    │    [ ] Mount volumes for user                            │
+    │    [*] GNOME Keyring Daemon - Login keyring management   │
+    │    [*] ConsoleKit Session Management                     │
+    │    [*] Inheritable Capabilities Management               │
+    │              <Ok>                  <Cancel>              │
+    │                                                          │
+    └──────────────────────────────────────────────────────────┘
 
 ## Konfiguracja modułu pam-usb
 

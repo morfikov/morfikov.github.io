@@ -38,10 +38,10 @@ Usługa standardowo nasłuchuje zapytań na adresie `127.0.0.1` i porcie `5353` 
 odpowiadają te parametry, to może je zwyczajnie zmienić w pliku `/etc/config/dnscrypt-proxy` :
 
     config dnscrypt-proxy
-            option address '127.0.0.1'
-            option port '5353'
-            # option resolver 'opendns'
-            # option resolvers_list '/usr/share/dnscrypt-proxy/dnscrypt-resolvers.csv'
+        option address '127.0.0.1'
+        option port '5353'
+        # option resolver 'opendns'
+        # option resolvers_list '/usr/share/dnscrypt-proxy/dnscrypt-resolvers.csv'
 
 Wyżej mamy także wykomentowane dwie inne opcje: `resolvers_list` wskazuje plik z serwerami, które
 obsługują szyfrowanie zapytań, oraz `resolver` określający wybór jednego z tych resolver'ów. W pliku
@@ -55,15 +55,13 @@ Teraz musimy przekierować zapytania DNS. W tym celu musimy poinstruować `dnsma
 `dnscrypt-proxy` , a nie z domyślnych serwerów DNS pobranych z serwera DHCP od naszego ISP. Na
 początek, w pliku `/etc/config/dhcp` komentujemy poniższy wpis:
 
-    #      option resolvfile '/tmp/resolv.conf.auto'
+    # option resolvfile '/tmp/resolv.conf.auto'
 
 Następnie dodajemy ten poniższy blok kodu:
 
-``` 
-      option noresolv '1'
-      list server '127.0.0.1#5353'
-      list server '/pool.ntp.org/208.67.222.222'
-```
+    option noresolv '1'
+    list server '127.0.0.1#5353'
+    list server '/pool.ntp.org/208.67.222.222'
 
 Opcja `noresolv` sprawi, że `dnsmasq` nie będzie używał DNS'ów pobranych z lease DHCP. Druga linijka
 określa, gdzie przesyłać zapytania DNS. Ostatni wpis sprawi, że wszelkie zapytania do serwerów czasu
@@ -102,7 +100,7 @@ adresie IP, drugiego po domenie. Poniżej przykład:
 
     # ping wp.pl
     ping: bad address 'wp.pl'
-    
+
     # ping 8.8.8.8
     PING 8.8.8.8 (8.8.8.8): 56 data bytes
     64 bytes from 8.8.8.8: seq=0 ttl=44 time=58.543 ms
@@ -137,10 +135,10 @@ W przypadku, gdy drażnią nas nieco zasyfione logi, możemy zmniejszyć poziom 
 dopisanie w `/etc/init.d/dnscrypt-proxy` parametru `--loglevel` :
 
     ...
-          service_start /usr/sbin/dnscrypt-proxy -d \
-                -a ${address}:${port} \
-                -u nobody \
-                -L ${resolvers_list:-'/usr/share/dnscrypt-proxy/dnscrypt-resolvers.csv'} \
-                -R ${resolver:-'opendns'}
-                --loglevel=5
+    service_start /usr/sbin/dnscrypt-proxy -d \
+        -a ${address}:${port} \
+        -u nobody \
+        -L ${resolvers_list:-'/usr/share/dnscrypt-proxy/dnscrypt-resolvers.csv'} \
+        -R ${resolver:-'opendns'}
+        --loglevel=5
     ...

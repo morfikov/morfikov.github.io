@@ -66,12 +66,10 @@ ma też górnego limitu i możemy tutaj ustawić sobie dowolną wartość. Z tym
 więcej niż `2048` . Tak czy inaczej poniżej jest test, który porównał wartości 64, 240, 2048 i
 32678:
 
-```
- 5.1 MB/s       0.00s user 2.51s system 1% cpu 3:32.19 total
- 8.4 MB/s       0.00s user 2.38s system 1% cpu 2:11.17 total
-10.2 MB/s       0.00s user 2.49s system 2% cpu 1:48.32 total
- 9.6 MB/s       0.00s user 2.34s system 2% cpu 1:54.42 total
-```
+     5.1 MB/s       0.00s user 2.51s system 1% cpu 3:32.19 total
+     8.4 MB/s       0.00s user 2.38s system 1% cpu 2:11.17 total
+    10.2 MB/s       0.00s user 2.49s system 2% cpu 1:48.32 total
+     9.6 MB/s       0.00s user 2.34s system 2% cpu 1:54.42 total
 
 Prędkość zapisu dla tego pendrive w standardowych warunkach waha się w granicach 8M/s. Po
 przestawieniu `max_sectors` na 2048, prędkość zapisu skoczyła do ponad 10M/s. Jest zatem dość spora

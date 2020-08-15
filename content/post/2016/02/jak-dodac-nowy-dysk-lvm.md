@@ -80,20 +80,18 @@ fizyczny volumin LVM. Robimy to przy pomocy tego poniższego polecenia:
 
 Sprawdźmy co się w tej chwili stało:
 
-```
-# pvscan
-  PV /dev/sda2   VG debian          lvm2 [73.59 GiB / 0    free]
-  PV /dev/sdd1                      lvm2 [74.53 GiB]
-  Total: 2 [148.12 GiB] / in use: 1 [73.59 GiB] / in no VG: 1 [74.53 GiB]
+    # pvscan
+      PV /dev/sda2   VG debian          lvm2 [73.59 GiB / 0    free]
+      PV /dev/sdd1                      lvm2 [74.53 GiB]
+      Total: 2 [148.12 GiB] / in use: 1 [73.59 GiB] / in no VG: 1 [74.53 GiB]
 
-# pvs -v --segments
-  PV         VG     Fmt  Attr PSize  PFree  Start SSize LV   Start Type   PE Ranges
-  /dev/sda2  debian lvm2 a--  73.59g     0      0  4768 root     0 linear /dev/sda2:0-4767
-  /dev/sda2  debian lvm2 a--  73.59g     0   4768  2384 home     0 linear /dev/sda2:4768-7151
-  /dev/sda2  debian lvm2 a--  73.59g     0   7152   476 swap     0 linear /dev/sda2:7152-7627
-  /dev/sda2  debian lvm2 a--  73.59g     0   7628 11212 ext      0 linear /dev/sda2:7628-18839
-  /dev/sdd1         lvm2 ---  74.53g 74.53g     0     0          0 free
-```
+    # pvs -v --segments
+      PV         VG     Fmt  Attr PSize  PFree  Start SSize LV   Start Type   PE Ranges
+      /dev/sda2  debian lvm2 a--  73.59g     0      0  4768 root     0 linear /dev/sda2:0-4767
+      /dev/sda2  debian lvm2 a--  73.59g     0   4768  2384 home     0 linear /dev/sda2:4768-7151
+      /dev/sda2  debian lvm2 a--  73.59g     0   7152   476 swap     0 linear /dev/sda2:7152-7627
+      /dev/sda2  debian lvm2 a--  73.59g     0   7628 11212 ext      0 linear /dev/sda2:7628-18839
+      /dev/sdd1         lvm2 ---  74.53g 74.53g     0     0          0 free
 
 LVM zaczął widzieć nowy dysk ale nie jest on jeszcze przydzielony do żadnej grupy voluminów. Musimy
 zatem go dodać do grupy `debian` przy pomocy `vgextend` , przykładowo:

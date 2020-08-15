@@ -70,11 +70,9 @@ Liczba `13107` to ilość zarezerwowanych bloków, co przekłada się na nieco p
 Sama partycja ma niecały 1GiB, także 5% próg obowiązuje. Jeśli nie potrzebujemy tych zarezerwowanych
 bloków, to wydajemy to poniższe polecenie:
 
-```
- # tune2fs -m 0 /dev/sda2
-tune2fs 1.42.13 (17-May-2015)
-Setting reserved blocks percentage to 0% (0 blocks)
-```
+    # tune2fs -m 0 /dev/sda2
+    tune2fs 1.42.13 (17-May-2015)
+    Setting reserved blocks percentage to 0% (0 blocks)
 
 Trzeba pamiętać, by nie dokonywać zmian parametrów przy podmontowanym systemie plików. Sam parametr
 `-m` możemy także wykorzystać bezpośrednio przy tworzeniu nowego systemu plików via `mkfs.ext4` .

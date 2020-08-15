@@ -37,7 +37,15 @@ pamiętać podczas startu systemu, oczywiście jeśli będziemy chcieli go w tym
 zajmiemy się później. Natomiast teraz stwórzmy sobie kontener,
     przykładowo:
 
-    # cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random --verify-passphrase --verbose luksFormat /dev/sda2
+    # cryptsetup \
+      --cipher aes-xts-plain64 \
+      --key-size 512 \
+      --hash sha512 \
+      --iter-time 5000 \
+      --use-random \
+      --verify-passphrase \
+      --verbose \
+      luksFormat /dev/sda2
 
     # cryptsetup luksOpen /dev/sda2 sda2
 
@@ -128,17 +136,15 @@ powinniśmy otrzymać mniej więcej taki komunikat:
 Mimo, że system nie jest w stanie odczytać nagłówka tego kontenera, to wciąż jest w stanie ustalić
 jego UUID:
 
-```
-# partprobe
+    # partprobe
 
-# lsblk -f /dev/sdb
-NAME         FSTYPE      LABEL UUID                                   MOUNTPOINT
-sdb
-├─sdb1       LVM2_member       VsO7QD-1uxK-q0zr-KDa4-DVSM-Levr-p93ewp
-│ ├─lvm-root ext4        root  ee759aa3-4977-4c08-b14f-a62d17a47478   /
-│ └─lvm-swap swap              bf480ef5-e5f0-43b9-9282-c3f1d0d446fa
-└─sdb2       crypto_LUKS       11f480d6-950b-40ff-9739-e8244a4b5a30
-```
+    # lsblk -f /dev/sdb
+    NAME         FSTYPE      LABEL UUID                                   MOUNTPOINT
+    sdb
+    ├─sdb1       LVM2_member       VsO7QD-1uxK-q0zr-KDa4-DVSM-Levr-p93ewp
+    │ ├─lvm-root ext4        root  ee759aa3-4977-4c08-b14f-a62d17a47478   /
+    │ └─lvm-swap swap              bf480ef5-e5f0-43b9-9282-c3f1d0d446fa
+    └─sdb2       crypto_LUKS       11f480d6-950b-40ff-9739-e8244a4b5a30
 
 I o takie coś nam chodzi.
 

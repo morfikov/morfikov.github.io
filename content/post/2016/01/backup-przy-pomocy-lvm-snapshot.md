@@ -89,13 +89,11 @@ Mamy trzy voluminy, przy dwóch zaś stosowne oznaczenia: `Original` i `Snapshot
 jakim stopniu dysk `root` uległ przekształceniu w wyniku dokonywanych na nim operacji, wydajemy to
 poniższe polecenie:
 
-```
-# lvs
-  LV   VG   Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
-  root lvm  owi-aos--- 18.00g
-  snap lvm  swi-aos--- 18.00g      root   0.05
-  swap lvm  -wi-a-----  4.00g
-```
+    # lvs
+      LV   VG   Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+      root lvm  owi-aos--- 18.00g
+      snap lvm  swi-aos--- 18.00g      root   0.05
+      swap lvm  -wi-a-----  4.00g
 
 Wyżej mamy szereg atrybutów. Przydałoby się więc wiedzieć co one oznaczają. Po pełną listę możliwych
 opcji odsyłam do [man lvs](http://manpages.ubuntu.com/manpages/wily/en/man8/lvs.8.html). Niżej mamy
@@ -126,23 +124,21 @@ podejrzeć oryginalne pliki.
 Poniżej jest zaś przykład tego co się dzieje ze snapshot'em w przypadku, gdy zmieniamy szereg plików
 na dysku `root` :
 
-```
-# lvs
-  LV   VG   Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
-  root lvm  owi-aos--- 18.00g
-  snap lvm  swi-a-s--- 18.00g      root   0.06
-  swap lvm  -wi-a-----  4.00g
-# lvs
-  LV   VG   Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
-  root lvm  owi-aos--- 18.00g
-  snap lvm  swi-a-s--- 18.00g      root   3.12
-  swap lvm  -wi-a-----  4.00g
-# lvs
-  LV   VG   Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
-  root lvm  owi-aos--- 18.00g
-  snap lvm  swi-a-s--- 18.00g      root   9.52
-  swap lvm  -wi-a-----  4.00g
-```
+    # lvs
+      LV   VG   Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+      root lvm  owi-aos--- 18.00g
+      snap lvm  swi-a-s--- 18.00g      root   0.06
+      swap lvm  -wi-a-----  4.00g
+    # lvs
+      LV   VG   Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+      root lvm  owi-aos--- 18.00g
+      snap lvm  swi-a-s--- 18.00g      root   3.12
+      swap lvm  -wi-a-----  4.00g
+    # lvs
+      LV   VG   Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+      root lvm  owi-aos--- 18.00g
+      snap lvm  swi-a-s--- 18.00g      root   9.52
+      swap lvm  -wi-a-----  4.00g
 
 Jak widać, snapshot się rozrasta i obecnie zajmuje 9.52%
 

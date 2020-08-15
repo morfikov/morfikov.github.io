@@ -48,8 +48,7 @@ zależności od docelowych adresów IP. Wszystkie nielokalne zapytania są kiero
 Zatem jeśli chcemy się połączyć ze zdalnym serwerem, który nie należy do naszej sieci lokalnej, to
 zapytania powędrują przez VPN. Natomiast ruch DNS zostanie przesłany bezpośrednio do lokalnego
 serwera DNS i tu właśnie doświadczymy DNS leak. Poniżej przykład z wireshark'a. Z lewej strony mamy
-interfejs `tun0` . Po prawej zaś jest fizyczny interfejs `eth0`
-:
+interfejs `tun0` . Po prawej zaś jest fizyczny interfejs `eth0` :
 
 [![1.dns-leak-lokalny-serwer-isp]({{< baseurl >}}/img/2016/04/1.dns-leak-lokalny-serwer-isp-1024x215.png)]({{< baseurl >}}/img/2016/04/1.dns-leak-lokalny-serwer-isp.png)
 
@@ -80,8 +79,7 @@ sieciowej.
 Z kolei, jeśli konfiguracja hosta w sieci lokalnej odbywa się za sprawą protokołu DHCP i nie chce
 nam się korzystać z tego powyższego rozwiązania, to musimy w pliku `/etc/resolv.conf` zawrzeć adres
 DNS dostarczany przez VPN. Zwykle taki adres może zostać odczytany z logu podczas nawiązywania
-połączenia. Poniżej
-    przykład:
+połączenia. Poniżej przykład:
 
     ovpn-riseup[38262]: [vpn.riseup.net] Peer Connection Initiated with [AF_INET]198.252.153.226:1194
     ovpn-riseup[38262]: SENT CONTROL [vpn.riseup.net]: 'PUSH_REQUEST' (status=1)
@@ -135,8 +133,7 @@ więcej poniższej postaci:
 
 To oznacza, że mechanizm działa prawidłowo i zapytania DNS są kierowane do serwera DNS otrzymanego
 od VPN. Możemy także zweryfikować połączenie pod kątem DNS leak zapuszczając ponownie wireshark'a na
-interfejsach `eth0` i `tun0` . Poniżej
-przykład:
+interfejsach `eth0` i `tun0` . Poniżej przykład:
 
 [![3.brak-dns-leak-serwer-vpn]({{< baseurl >}}/img/2016/04/3.brak-dns-leak-serwer-vpn-1024x221.png)]({{< baseurl >}}/img/2016/04/3.brak-dns-leak-serwer-vpn.png)
 
@@ -152,19 +149,17 @@ VPN. Jak zatem zrealizować takie zadanie? Możemy posłużyć się skryptem
 Skrypt jest wywoływany przy zestawianiu połączenia i przy jego niszczeniu. Są tam dwa przypadki:
 `up` i `down` . W `up` na końcu dopisujemy ten poniższy blok kodu:
 
-```
-  $IPT -N openvpn
-  $IPT -I OUTPUT 1 -p tcp --dport 53 -j openvpn
-  $IPT -I OUTPUT 1 -p udp --dport 53 -j openvpn
-  $IPT -A openvpn -p tcp -o lo -j ACCEPT
-  $IPT -A openvpn -p udp -o lo -j ACCEPT
-  for NS in $IF_DNS_NAMESERVERS ; do
-    $IPT -A openvpn -p tcp -o ${dev} -d $NS -j ACCEPT
-    $IPT -A openvpn -p udp -o ${dev} -d $NS -j ACCEPT
-  done
-  $IPT -A openvpn -p udp -j DROP
-  $IPT -A openvpn -p tcp -j DROP
-```
+      $IPT -N openvpn
+      $IPT -I OUTPUT 1 -p tcp --dport 53 -j openvpn
+      $IPT -I OUTPUT 1 -p udp --dport 53 -j openvpn
+      $IPT -A openvpn -p tcp -o lo -j ACCEPT
+      $IPT -A openvpn -p udp -o lo -j ACCEPT
+      for NS in $IF_DNS_NAMESERVERS ; do
+        $IPT -A openvpn -p tcp -o ${dev} -d $NS -j ACCEPT
+        $IPT -A openvpn -p udp -o ${dev} -d $NS -j ACCEPT
+      done
+      $IPT -A openvpn -p udp -j DROP
+      $IPT -A openvpn -p tcp -j DROP
 
 Ma on za zadanie stworzyć nowy łańcuch `openvpn` , przekierować do niego ruch kierowany na port `53`
 oraz umieścić w nim szereg reguł. Zezwalamy w ten sposób na rozwiązywanie domen z interfejsu `lo`
@@ -173,14 +168,14 @@ od VPN. Każde inne zapytanie DNS będzie blokowane przez dwie ostatnie reguły.
 
 W przypadku `down` musimy dopisać na końcu ten poniższy kod:
 
-```
-  if [ ! -z "$foreign_option_1" ] || [ ! -z "$foreign_option_2" ] ; then
-    $IPT -D OUTPUT -p tcp --dport 53 -j openvpn
-    $IPT -D OUTPUT -p udp --dport 53 -j openvpn
-    $IPT -F openvpn
-    $IPT -X openvpn
-  fi
-```
+
+	  if [ ! -z "$foreign_option_1" ] || [ ! -z "$foreign_option_2" ] ; then
+		$IPT -D OUTPUT -p tcp --dport 53 -j openvpn
+		$IPT -D OUTPUT -p udp --dport 53 -j openvpn
+		$IPT -F openvpn
+		$IPT -X openvpn
+	  fi
+
 
 Sprawdza on czy zmienne, w których są przechowywane adresy serwerów DNS, są puste. Jeśli któraś z
 nich nie jest, oznacza to, że VPN dysponuje serwerami DNS. W takim przypadku należy usunąć

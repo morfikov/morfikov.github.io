@@ -86,8 +86,7 @@ prawdopodobnie, że dysk używa technologii
 8\*512=4096 bajtów. Czasami dysk może zwracać wartość 512 bajtów w każdym możliwym miejscu, pomimo
 faktu, że ma sektory 4096 bajtowe.
 
-W syslogu, przy próbie odczytu uszkodzonego sektora, można zobaczyć taki
-    komunikat:
+W syslogu, przy próbie odczytu uszkodzonego sektora, można zobaczyć taki komunikat:
 
     Nov 21 12:57:29 morfikownia kernel: [ 5503.342060] ata1.01: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x0
     Nov 21 12:57:29 morfikownia kernel: [ 5503.342069] ata1.01: failed command: READ SECTOR(S)
@@ -120,8 +119,7 @@ sektory dokładnie się znajdują i co oznacza `LBA=104284160` w raporcie S.M.A.
 ## Plik rezydujący na uszkodzonym sektorze
 
 Zgodnie z tym co piszą na wiki: "LBA (ang. Logical Block Addressing) - metoda obsługi dysku twardego
-przez system operacyjny. I aby go wyliczyć, trzeba skorzystać z poniższego
-    wzoru":
+przez system operacyjny. I aby go wyliczyć, trzeba skorzystać z poniższego wzoru":
 
     LBA = ( numer_cylindra * liczba_glowic_na_cylinder + numer_glowicy ) * liczba_sektorow_na_sciezke + numer_sektora -1
 
@@ -260,12 +258,10 @@ czyli udało się go odblokować.
 
 W przypadku gdyby się nie udało, raport smart by wyglądał jak poniżej:
 
-```
-  5 Reallocated_Sector_Ct   0x0033   200   200   140    Pre-fail  Always       -       1
-196 Reallocated_Event_Count 0x0032   200   200   000    Old_age   Always       -       1
-197 Current_Pending_Sector  0x0032   200   200   000    Old_age   Always       -       0
-198 Offline_Uncorrectable   0x0030   200   200   000    Old_age   Offline      -       2
-```
+      5 Reallocated_Sector_Ct   0x0033   200   200   140    Pre-fail  Always       -       1
+    196 Reallocated_Event_Count 0x0032   200   200   000    Old_age   Always       -       1
+    197 Current_Pending_Sector  0x0032   200   200   000    Old_age   Always       -       0
+    198 Offline_Uncorrectable   0x0030   200   200   000    Old_age   Offline      -       2
 
 Zostanie wyzerowany atrybut `197`, a do atrybutów `5` i `196` zostanie dopisane `+1`. Natomiast
 atrybut `198` nie zostanie zmieniony.

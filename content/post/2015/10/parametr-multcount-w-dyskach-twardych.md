@@ -88,13 +88,11 @@ mechanizm działa. Problematyczne jednak jest ustawianie opcji, które wymagają
 inne jej podobne) nie zostaje ustawiona poprawnie. W logu natomiast możemy odnotować poniższy
 komunikat:
 
-```
- hdparm[8567]: Setting parameters of disc:
-hdparm[8567]: /dev/sda:
-hdparm[8567]: setting multcount to 16
-systemd[1]: Started LSB: Tune IDE hard disks.
-hdparm[8567]: /dev/sda failed!
-```
+    hdparm[8567]: Setting parameters of disc:
+    hdparm[8567]: /dev/sda:
+    hdparm[8567]: setting multcount to 16
+    systemd[1]: Started LSB: Tune IDE hard disks.
+    hdparm[8567]: /dev/sda failed!
 
 Zalecaną metodą na aplikowanie ustawień przy pomocy `hdparm` jest [napisanie prostych reguł dla
 udev'a](https://lists.freedesktop.org/archives/systemd-devel/2012-June/005600.html) , przy

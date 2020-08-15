@@ -41,15 +41,13 @@ MS-DOS. Natomiast, zawsze można je stworzyć kurcząc odpowiednie partycje. Te 
 partycjami muszą mieć 2048 sektorów. Odpalamy narzędzie `gdisk` i wpisujemy kolejno `r` , `g` oraz
 `p` :
 
-```
-                                                   Can Be   Can Be
-Number  Boot  Start Sector   End Sector   Status   Logical  Primary   Code
-   1                264192     78125055   primary              Y      0x83
-   2              78125056     99096575   primary              Y      0x83
-   3                  2048       264191   primary     Y        Y      0xEF
-   4              99096576    128460799   primary              Y      0x83
-   6             128460800    156299263   omitted                     0x83
-```
+                                                       Can Be   Can Be
+    Number  Boot  Start Sector   End Sector   Status   Logical  Primary   Code
+       1                264192     78125055   primary              Y      0x83
+       2              78125056     99096575   primary              Y      0x83
+       3                  2048       264191   primary     Y        Y      0xEF
+       4              99096576    128460799   primary              Y      0x83
+       6             128460800    156299263   omitted                     0x83
 
 Została nam wyświetlona informacja na temat tego jaką rolę może pełnić dana partycja. W tym
 przypadku mam 5 partycji. Z tym, że jedna przeznaczona na kod bootloadera. Jako, że mam taki a nie
@@ -59,14 +57,12 @@ w tablicy partycji MS-DOS.
 Po usunięciu tej i tak zbędnej partycji, wszystkie pozostałe są uwzględniane w nowej tablicy
 partycji:
 
-```
-                                                   Can Be   Can Be
-Number  Boot  Start Sector   End Sector   Status   Logical  Primary   Code
-   1                264192     78125055   primary     Y        Y      0x83
-   2              78125056     99096575   primary              Y      0x83
-   4              99096576    128460799   primary              Y      0x83
-   6             128460800    156299263   primary              Y      0x83
-```
+                                                       Can Be   Can Be
+    Number  Boot  Start Sector   End Sector   Status   Logical  Primary   Code
+       1                264192     78125055   primary     Y        Y      0x83
+       2              78125056     99096575   primary              Y      0x83
+       4              99096576    128460799   primary              Y      0x83
+       6             128460800    156299263   primary              Y      0x83
 
 Jeśli udało nam się uzyskać układ partycji taki jak chcieliśmy, to wpisujemy `w` :
 

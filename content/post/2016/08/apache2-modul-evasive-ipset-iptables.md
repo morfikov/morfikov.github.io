@@ -60,20 +60,18 @@ Cała konfiguracja dla modułu `evasive` jest umieszczona w pliku
 `/etc/apache2/mods-enabled/evasive.conf` . Przejdźmy zatem do edycji tego pliku, by zobaczyć co tam
 się znajduje:
 
-```
     <IfModule mod_evasive20.c>
-    DOSHashTableSize    3079
-    DOSPageCount        2
-    DOSSiteCount        50
-    DOSPageInterval     1
-    DOSSiteInterval     1
-    DOSBlockingPeriod   10
+        DOSHashTableSize    3079
+        DOSPageCount        2
+        DOSSiteCount        50
+        DOSPageInterval     1
+        DOSSiteInterval     1
+        DOSBlockingPeriod   10
 
-    #DOSEmailNotify      you@yourdomain.com
-    #DOSSystemCommand    "su - someuser -c '/sbin/... %s ...'"
-    #DOSLogDir           "/var/log/mod_evasive"
-</IfModule>
-```
+        #DOSEmailNotify      you@yourdomain.com
+        #DOSSystemCommand    "su - someuser -c '/sbin/... %s ...'"
+        #DOSLogDir           "/var/log/mod_evasive"
+    </IfModule>
 
 Im większy rozmiar tablicy hashów określimy w dyrektywie `DOSHashTableSize` , tym więcej pamięci ona
 będzie utylizować ale też lepiej będzie działał cały mechanizm, bo nie trzeba usuwać rekordów z tej
@@ -82,14 +80,12 @@ hashów. Nie zaleca się zwiększania tego parametru, no chyba, że nasz serwer 
 realizuje naprawdę wiele zapytań. Jeśli wartość, którą określimy nie będzie liczbą pierwszą, to
 zostanie ona automatycznie wybrana w oparciu o tę poniższą listę:
 
-```
     53         97         193       389       769
     1543       3079       6151      12289     24593
     49157      98317      196613    393241    786433
     1572869    3145739    6291469   12582917  25165843
     50331653   100663319  201326611 402653189 805306457
     1610612741 3221225473 4294967291
-```
 
 Dyrektywy `DOSPageInterval` i `DOSPageCount` ustanawiają limit żądań w stosunku do konkretnego
 zasobu na serwerze (URI). W tym przypadku, każdy adres IP może wykonać maksymalnie dwa żądania w
