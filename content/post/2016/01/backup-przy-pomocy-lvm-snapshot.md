@@ -3,12 +3,15 @@ author: Morfik
 categories:
 - Linux
 date: "2016-01-15T14:09:15Z"
-date_gmt: 2016-01-15 13:09:15 +0100
+lastmod: 2020-08-16 17:11:00 +0200
 published: true
 status: publish
 tags:
-- bezpieczeństwo
 - lvm
+- hdd
+- ssd
+- pliki
+- backup
 title: Backup systemu przy pomocy LVM snapshot
 ---
 
@@ -17,21 +20,20 @@ czy kilkanaście lat temu. Bardzo ciężko jest się zatem odnaleźć w sytuacji
 współpracy i nie chce się w ogóle uruchomić. Niemniej jednak, jeśli chodzi o samą kwestię
 naprawiania szkód po ewentualnej awarii systemu, to, jakby nie patrzeć, zajmuje ona nasz cenny czas.
 Oczywiście takie błędy sprawiają, że mamy szansę nieco zgłębić strukturę używanego systemu
-operacyjnego ale też pojawiają się w najmniej oczekiwanym momencie. W takiej sytuacji nie ma mowy
-byśmy siedzieli paręnaście minut i zastanawiali się nad tym dlaczego coś nie działa jak należy.
+operacyjnego ale też pojawiają się one w najmniej oczekiwanym momencie. W takiej sytuacji nie ma
+mowy byśmy siedzieli paręnaście minut i zastanawiali się nad tym dlaczego coś nie działa jak należy.
 Jest kilka mechanizmów bezpieczeństwa, które mogą nam nieco czasu zaoszczędzić. W tym wpisie omówimy
-sobie zagadnienia związane z [LVM
-snapshot](http://www.tldp.org/HOWTO/html_single/LVM-HOWTO/#snapshotintro), czyli migawką systemu,
-którą możemy wykonać praktycznie natychmiast i w razie problemów przywrócić.
+sobie zagadnienia związane z [LVM snapshot][1], czyli migawką systemu, którą możemy wykonać
+praktycznie natychmiast i w razie problemów przywrócić system do stanu sprzed wprowadzenia w nim
+zmian.
 
 <!--more-->
 ## LVM i jego snapshot'y
 
-[LVM](https://pl.wikipedia.org/wiki/LVM) to mechanizm, który umożliwia przyzwoite zarządzanie
-partycjami przez tworzenie dysków wirtualnych. W taki sposób można obejść szereg ograniczeń
-wynikających ze stosowania, np. tablicy partycji MS-DOS, czy też jesteśmy w stanie [dowolnie
-zmieniać rozmiar poszczególnych voluminów LVM]({{< baseurl >}}/post/zmiana-rozmiaru-lvm/) nie
-wyłączając przy tym systemu.
+[LVM][2] to mechanizm, który umożliwia przyzwoite zarządzanie partycjami przez tworzenie dysków
+wirtualnych. W taki sposób można obejść szereg ograniczeń wynikających ze stosowania, np. tablicy
+partycji MS-DOS, czy też jesteśmy w stanie [dowolnie zmieniać rozmiar poszczególnych voluminów
+LVM][3] nie wyłączając przy tym systemu.
 
 Jeśli chodzi zaś o same snapshot'y, to umożliwiają one natychmiastowe dokonanie kopi pracującego
 systemu. Nie ma przy tym znaczenia, czy pliki są otwarte i zmieniane. Generalnie rzecz biorąc, wraz
@@ -51,8 +53,7 @@ jakieś ważne dokumenty. No chyba, że tam również zaimplementujemy LVM.
 
 Zakładam, że mamy już na dysku strukturę LVM i wiemy jak na niej operować. Jeśli jednak nie
 stworzyliśmy jej jeszcze, to przykład jej wdrożenia możemy znaleźć, np. we wpisie poświęconym
-[instalacji debiana przy pomocy
-debootstrap]({{< baseurl >}}/post/instalacja-debiana-z-wykorzystaniem-debootstrap/). Poniżej jest
+[instalacji debiana przy pomocy debootstrap][4]. Poniżej jest
 przykład takiej struktury:
 
     # pvscan
@@ -96,8 +97,7 @@ poniższe polecenie:
       swap lvm  -wi-a-----  4.00g
 
 Wyżej mamy szereg atrybutów. Przydałoby się więc wiedzieć co one oznaczają. Po pełną listę możliwych
-opcji odsyłam do [man lvs](http://manpages.ubuntu.com/manpages/wily/en/man8/lvs.8.html). Niżej mamy
-jedynie te, które pojawiły się w wyjściu `lvs` :
+opcji odsyłam do [man lvs][5]. Niżej mamy jedynie te, które pojawiły się w wyjściu `lvs` :
 
   - `o`rigin przy voluminie `root` wskazuje, że ten dysk jest snapshot'owany.
   - `s`napshot przy voluminie `snap` wskazuje, gdzie są przechowywane zmieniane dane dysku `root` .
@@ -144,7 +144,7 @@ Jak widać, snapshot się rozrasta i obecnie zajmuje 9.52%
 
 ## Przywracanie snapshot'a
 
-Tak stworzony spanshot nie nadaje się raczej do ciągłej pracy, przynajmniej w przypadku domowego
+Tak stworzony snapshot nie nadaje się raczej do ciągłej pracy, przynajmniej w przypadku domowego
 systemu operacyjnego. Dużo lepiej jest taki snapshot sobie stworzyć tuż przed aktualizacją systemu.
 W przypadku, gdy aktualizacja się powiedzie, to tak stworzona migawka jest nam zbędna i możemy ją
 zwyczajnie usunąć, np. przy pomocy tego poniższego polecenia:
@@ -164,10 +164,45 @@ wyjściem będzie przywrócenie systemu do stanu sprzed aktualizacji, poniżej p
       Merging of snapshot lvm/snap will occur on next activation of lvm/root.
 
 W przypadku przywracania snapshot'a, zasób musi być odmontowany. Wyżej jednak próbujemy przywrócić
-stan partycji systemowej, a tej nie da się odmontować. Dlatego też przywrócenie backup'u dokona się
-po ponownym uruchomieniu komputera, tuż po aktywacji grupy LVM. Po całym procesie, snapshot zostanie
+stan partycji systemowej, a tej nie da się odmontować. Dlatego też odtworzenie stanu tego voluminu
+może mieć miejsce dopiero po ponownym uruchomieniu komputera. Po całym procesie, snapshot zostanie
 usunięty zwalniając tym samy zajmowane miejsce:
 
     # pvscan
       PV /dev/sda1   VG lvm             lvm2 [40.00 GiB / 18.00 GiB free]
       Total: 1 [40.00 GiB] / in use: 1 [40.00 GiB] / in no VG: 0 [0   ]
+
+Warto tutaj dodać, że ten proces odtwarzania stanu voluminu nie jest natychmiastowy. W zależności
+od ilości danych, które zostały załadowane do snapshot'a, przywrócenie oryginalnego voluminu do
+stanu sprzed utworzenia jego migawki może zając nawet kilka godzin. Oczywiście z systemu będzie
+można korzystać w tym czasie ale będzie on nam trochę mulił albo nawet i bardzo.
+
+## Bardzo słaba wydajność snapshot'ów
+
+O ile snapshot'y LVM bardzo się przydają, to niestety ich problemem jest [bardzo słaba wydajność
+przy operacjach zapisu][6], zwłaszcza na dyskach HDD (talerzowych). Spowolnienie pracy części
+systemu w takim przypadku może sięgnąć wartości rzędu 10-20 razy, a w pewnych sytuacjach nawet i
+więcej. Chodzi generalnie o to, że by zachować spójność danych snapshot'a, jego aktualizacje COW
+(copy-on-write) muszą być zapisane na dysk zanim zapis do oryginalnego voluminu się dokona.W
+przeciwnym wypadku, snapshot mógłby nie zawierać kopi oryginalnych danych, gdyby nastąpiła nagła
+utrata zasilania. Większość dysków nie posiada wsparcia dla barier zapisu ([write barriers][7]), co
+oznacza, że jedynym sposobem na zachowanie spójności danych jest synchronizowanie buforów dysku
+snapshot'a przed zapisem oryginalnego voluminu. Te operacje `sync` są bardzo powolne na dyskach
+talerzowych. W ten sposób, jeśli mamy utworzony taki snapshot, to asynchroniczne operacje zapisu
+przechodzą w synchroniczny zapis (każdy asynchroniczny zapis może potencjalnie implikować dodatkowy
+zapis synchroniczny). Idąc dalej, jeśli snapshot jest przechowywany na tym samym fizycznym nośniku,
+co oryginalny volumin, to taka sytuacja dodatkowo powoduje całą masę operacji przeszukiwania
+nośnika, co jeszcze bardziej spowalnia działanie snapshot'a. Jedyny plus jest taki, że to
+spowolnienie ma miejsce jedynie przy zapisie części oryginalnego voluminu, które nie zostały
+jeszcze skopiowane do snapshot'a. Zatem jeśli będziemy przepisywać te same bity, to po pierwszym
+wolnym zapisie wydajność wróci do normy, przynajmniej dla tych danych. Dlatego też jeśli zamierzamy
+korzystać ze snapshot'ów LVM, to pomyślmy o dysku SSD.
+
+
+[1]: http://www.tldp.org/HOWTO/html_single/LVM-HOWTO/#snapshotintro
+[2]: https://pl.wikipedia.org/wiki/LVM
+[3]: {{< baseurl >}}/post/zmiana-rozmiaru-lvm
+[4]: {{< baseurl >}}/post/instalacja-debiana-z-wykorzystaniem-debootstrap/
+[5]: http://manpages.ubuntu.com/manpages/wily/en/man8/lvs.8.html
+[6]: https://www.nikhef.nl/~dennisvd/lvmcrap.html
+[7]: https://en.wikipedia.org/wiki/Write_barrier
