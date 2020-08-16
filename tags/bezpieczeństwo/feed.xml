@@ -219,26 +219,6 @@ wchodzi nagłówek LUKS i to o nich porozmawiamy sobie w tym wpisie.&lt;/p&gt;</
     
     <item>
 	  <author>Mikhail Morfikov</author>
-      <title>Backup systemu przy pomocy LVM snapshot</title>
-      <link>https://morfikov.github.io/post/backup-przy-pomocy-lvm-snapshot/</link>
-      <pubDate>Fri, 15 Jan 2016 14:09:15 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/backup-przy-pomocy-lvm-snapshot/</guid>
-      <description>&lt;p&gt;W dzisiejszych czasach systemy operacyjne są bardziej odporne na błędy niż to miało miejsce kilka
-czy kilkanaście lat temu. Bardzo ciężko jest się zatem odnaleźć w sytuacji, gdzie nasz linux odmawia
-współpracy i nie chce się w ogóle uruchomić. Niemniej jednak, jeśli chodzi o samą kwestię
-naprawiania szkód po ewentualnej awarii systemu, to, jakby nie patrzeć, zajmuje ona nasz cenny czas.
-Oczywiście takie błędy sprawiają, że mamy szansę nieco zgłębić strukturę używanego systemu
-operacyjnego ale też pojawiają się w najmniej oczekiwanym momencie. W takiej sytuacji nie ma mowy
-byśmy siedzieli paręnaście minut i zastanawiali się nad tym dlaczego coś nie działa jak należy.
-Jest kilka mechanizmów bezpieczeństwa, które mogą nam nieco czasu zaoszczędzić. W tym wpisie omówimy
-sobie zagadnienia związane z &lt;a href=&#34;http://www.tldp.org/HOWTO/html_single/LVM-HOWTO/#snapshotintro&#34;&gt;LVM
-snapshot&lt;/a&gt;, czyli migawką systemu,
-którą możemy wykonać praktycznie natychmiast i w razie problemów przywrócić.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
       <title>Odszyfrowanie kontenerów LUKS w systemd</title>
       <link>https://morfikov.github.io/post/odszyfrowanie-kontenerow-luks-w-systemd/</link>
       <pubDate>Fri, 01 Jan 2016 17:18:03 +0000</pubDate>
@@ -394,6 +374,25 @@ wpis dotyczył głównie wykorzystania szyfrów symetrycznych ale istnieje też 
 kluczy GPG. W ten sposób uwierzytelnianie oraz szyfrowanie pakietów odbywałoby się przy ich pomocy.
 W tym wpisie postaramy się tak skonfigurować narzędzie &lt;code&gt;fwknop&lt;/code&gt; , tak by było ono w stanie
 przepuszczać jedynie tych klientów, którzy posługują się kluczami GPG.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Moduł xt_recent i limitowanie połączeń w iptables</title>
+      <link>https://morfikov.github.io/post/modul-xt_recent-i-limitowanie-polaczen-w-iptables/</link>
+      <pubDate>Thu, 05 Nov 2015 17:17:16 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/modul-xt_recent-i-limitowanie-polaczen-w-iptables/</guid>
+      <description>&lt;p&gt;Kluczową rolę w filtrze iptables pełnią stany połączeń. Zwykle mamy do czynienia z trzema z nich:
+NEW, RELATED i ESTABLISHED. Wszystko co nie pasuje do tych stanów, jest traktowane jako INVALID i
+tak dla przykładu trafiają tam pakiety mające niemożliwe kombinacje flag, przynajmniej jeśli chodzi
+o punkt widzenia poprawnej komunikacji sieciowej (ustawione flagi &lt;code&gt;SYN&lt;/code&gt; i &lt;code&gt;FIN&lt;/code&gt; jednocześnie).
+Jednak istnieje szereg pakietów, które mogą potencjalnie zagrażać bezpieczeństwu maszyny i nie są
+one uwzględnione w stanie INVALID. Takie pakiety są używane do skanowania portów w celu wykrycia
+usług znajdujących się na serwerze. Krótko mówiąc, stan INVALID nie złapie skanów &lt;code&gt;UDP&lt;/code&gt;, &lt;code&gt;ACK&lt;/code&gt; oraz
+&lt;code&gt;SYN&lt;/code&gt; . Czy jesteśmy faktycznie bezbronni i nic nie możemy zrobić? Na szczęście iptables ma do
+dyspozycji &lt;a href=&#34;http://ipset.netfilter.org/iptables-extensions.man.html&#34;&gt;moduł xt_recent&lt;/a&gt;, który jest w
+stanie zablokować wszystkie te powyżej wymienione formy ataków.&lt;/p&gt;</description>
     </item>
     
   </channel>
