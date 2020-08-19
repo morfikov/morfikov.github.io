@@ -9,6 +9,9 @@ tags:
 - debian
 - sysctl
 - ipv6
+- sieć
+- slaac
+- prywatność
 title: Jak włączyć IPv6 Privacy Extensions w Debianie (SLAAC)
 ---
 
