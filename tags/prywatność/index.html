@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/tags/prywatno%C5%9B%C4%87/" />
-<meta property="og:updated_time" content="2020-08-10T18:15:00+00:00" />
+<meta property="og:updated_time" content="2020-08-19T19:31:00+02:00" />
 
 		<meta itemprop="name" content="prywatność">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -109,6 +109,34 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wlaczyc-stabilne-adresy-prywatne-w-ipv6-na-linux/">Jak włączyć stabilne adresy prywatne w IPv6 na linux</a></h1>
+	<div class="entry__content"><p>Jakiś już czas temu opisywałem <a href="https://morfikov.github.io
+/post/jak-wlaczyc-ipv6-privacy-extensions-w-debianie-slaac/">jak włączyć rozszerzenia prywatności IPv6 na Debianie</a> (IPv6
+Privacy Extensions) w przypadku korzystania z mechanizmu automatycznej konfiguracji adresacji
+hostów SLAAC (StateLess Address AutoConfiguration). Miało to za zadanie poprawić nieco prywatność
+osób podłączonych do internetu za sprawą protokołu IPv6, bo generowane adresy IP standardowo
+zawierają adresy MAC kart sieciowych (<a href="https://en.wikipedia.org/wiki/MAC_address">identyfikator EUI64</a>). Parę dni temu dowiedziałem się, że
+w linux można również aktywować inny mechanizm zwany stabilnymi adresami prywatnymi
+(<a href="https://tools.ietf.org/html/rfc7217">stable-privacy addresses</a>), które to wykorzystują inny system przy generowaniu identyfikatorów
+interfejsów sieciowych. Ten mechanizm sprawia, że część adresu IPv6 odpowiedzialna za identyfikację
+hosta ma losowe, choć stabilne wartości, które nie mają nic wspólnego z adresem MAC karty sieciowej
+naszego komputera. W ten sposób możemy ukrócić śledzenie nas w sieci na podstawie adresu IPv6.
+Poniższy artykuł ma za zadanie pomóc skonfigurować nam te stabilne adresy prywatne na linux oraz
+pokazać w jaki sposób są one w stanie pomóc naszej prywatności.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-08-19T19:31:00&#43;02:00">Opublikowano: 19/08/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/">Jak włączyć w Firefox ESNI (Encrypted SNI)</a></h1>
 	<div class="entry__content"><p>Obecnie szyfrowanie zapytań DNS staje się powoli normą za sprawą protokołu DoH (<a href="https://en.wikipedia.org/wiki/DNS_over_HTTPS">DNS over HTTPS</a>)
 lub DoT (<a href="https://en.wikipedia.org/wiki/DNS_over_TLS">DNS over TLS</a>). Można by zatem pomyśleć, że wraz z implementacją szyfrowania tego
@@ -193,6 +221,37 @@ jest takie niebezpieczne?</p></div>
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wlaczyc-ipv6-privacy-extensions-w-debianie-slaac/">Jak włączyć IPv6 Privacy Extensions w Debianie (SLAAC)</a></h1>
+	<div class="entry__content"><p>Protokół IPv6 został opracowany już dość dawno temu, a jednak ilość hostów w internecie
+komunikujących się za jego pomocą wciąż nie jest zbyt wysoka
+i <a href="https://www.google.com/intl/en/ipv6/statistics.html">oscyluje w granicach 25%</a>. Faktem jest, że
+migracja z IPv4 na IPv6 może być sporym kosztem dla niektórych podmiotów jeśli chodzi o kwestię
+związaną z wymianą sprzętu i ze zmianą konfiguracji sieci, co pewnie zniechęca część ISP do
+wdrożenia tego protokołu. Użytkownicy korzystający z sieci z kolei nie wiedzieć czemu też
+preferują IPv4 nad IPv6. Jakiś czas temu czytałem nawet artykuł na temat zagrożenia prywatności
+jakie może nieść ze sobą protokół IPv6. Chodzi generalnie o to, że obecnie wszyscy przywykliśmy do
+rozwiązania jakie oferuje nam NAT, które jest w stanie utrudnić nieco naszą identyfikację i analizę
+naszej aktywności w internecie. W przypadku IPv6 adresy IP są dość unikatowe w skali globalnej, a
+część odpowiedzialna za identyfikację hosta (ostatnie 64 bity) stanowi identyfikator EUI64, który z
+kolei jest generowany na podstawie adresu MAC karty sieciowej. W taki oto sposób interfejs tej
+karty będzie miał stały identyfikator EUI64, a hosta będzie można zidentyfikować bez problemu i
+bez względu na to u którego ISP podłączymy nasz komputer. Rozwiązaniem tego problemu jest mechanizm
+zwany IPv6 Privacy Extensions. Przydałoby się zatem rzucić na niego okiem i jeśli okaże się
+użyteczny, to wypadałoby go włączyć w naszym Debian Linux.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-02-10T08:22:55Z">Opublikowano: 10/02/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
 	</span>
 </span>
 	</div>
@@ -332,54 +391,6 @@ smartfony również wymagają zaimplementowania w nich mechanizmu szyfrującego 
 zostaną opisane w osobnych wątkach.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-12-06T19:22:49Z">Opublikowano: 06/12/2016</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-ukryc-user-agent-w-naglowku-email/">Jak ukryć user-agent w nagłówku email</a></h1>
-	<div class="entry__content"><p>Na każdym kroku można natknąć się na przecieki informacyjne, które zagrażają naszej prywatności.
-Widzieliśmy to choćby i na przykładzie <a href="https://morfikov.github.io
-/post/jak-ukryc-prywatny-adres-ip-w-naglowku-email/">prywatnego adresu IP widocznego w nagłówku w wiadomości
-email</a>. Przeglądając ten
-podlinkowany wpis mogliśmy z grubsza zobaczyć jak wygląda taki nagłówek wiadomości. Bardziej uważni
-czytelnicy zwrócili uwagę na jego zawartość. Poza polem zawierającym adres IP, można było też
-zobaczyć pole odpowiadające za <a href="https://pl.wikipedia.org/wiki/User_agent">user-agent</a>. Ciąg zawarty
-w tym polu zdradza informacje na temat wykorzystywanego klienta pocztowego oraz systemu
-operacyjnego. Ten komunikat możemy jednak ukryć i w tym wpisie zostanie to pokazane na przykładzie
-<a href="https://www.mozilla.org/pl/thunderbird/">Thunderbird'a</a>.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2016-05-29T12:05:46Z">Opublikowano: 29/05/2016</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-ukryc-prywatny-adres-ip-w-naglowku-email/">Jak ukryć prywatny adres IP w nagłówku email</a></h1>
-	<div class="entry__content"><p>Korzystając z różnego rodzaju klientów email udostępniamy serwerom mailowym nieco więcej informacji
-niż gdybyśmy to robili z panelu webowego serwera pocztowego. Chodzi generalnie o adres IP hosta,
-który przesłał wiadomość na serwer. Tradycyjnie w nagłówku email'a znajdzie się nasz adres
-zewnętrzny, ten przypisany przez ISP. Niemniej jednak, w części przypadków będzie załączony również
-adres IP z przestrzeni prywatnej, np. 10.0.0.0/8 lub 192.168.0.0/16 . O ile nie damy rady zataić
-publicznego IP naszego ISP, to jesteśmy w stanie ukryć ten prywatny adres i tym samym nieco poprawić
-naszą prywatność. W tym wpisie zostanie pokazane, to jak ten adres prywatny ukryć w nagłówku
-wiadomości email w kliencie <a href="https://www.mozilla.org/pl/thunderbird/">Thunderbird</a>.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2016-05-28T18:29:40Z">Opublikowano: 28/05/2016</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

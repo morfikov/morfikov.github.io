@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/post/" />
-<meta property="og:updated_time" content="2020-08-16T17:11:00+02:00" />
+<meta property="og:updated_time" content="2020-08-19T19:31:00+02:00" />
 
 		<meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -103,6 +103,34 @@ if (!doNotTrack) {
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/memtest86-dla-efi-uefi-i-refind/">Memtest86 dla EFI/UEFI i rEFInd</a></h1>
+	<div class="entry__content"><p>Zapewne każdy z nas słyszał o narzędziu do testowania pamięci operacyjnej RAM zwanym memtest86. W
+Debianie są dostępne dwa pakiety <a href="https://tracker.debian.org/pkg/memtest86">memtest86</a> (<a href="https://www.memtest86.com/">strona projektu</a>) oraz <a href="https://tracker.debian.org/pkg/memtest86+">memtest86+</a>
+(<a href="http://www.memtest.org/">strona projektu</a>) , które można sobie zainstalować w systemie. Niemniej jednak, jak się
+popatrzy na daty ostatnich wersji obu tych aplikacji (rok 2014), to mamy do czynienia z dość starym
+oprogramowaniem. Tak czy inaczej, jeśli dany soft działa, to bez znaczenia powinno być jak stary on
+jest. Problem w przypadku memtest86 dostarczanego w tych dwóch pakietach jest taki, że działa on w
+zasadzie jedynie w konfiguracji BIOS, a nie EFI/UEFI. Dodatkowo, oryginalny memtest86 został
+sprzedany PassMark'owi, który <a href="https://en.wikipedia.org/wiki/Memtest86">od wersji 5.0 uczynił go własnościowym softem</a>. To dlatego w
+Debianie nie będzie już nowszej wersji memtest86. W dalszym ciągu memtest86 może działać w
+konfiguracji EFI/UEFI ale potrzebna nam jest wersja, która to EFI/UEFI wspiera. Memtest86 zaczął
+wspierać EFI/UEFI od wersji 5.0. Jeśli nam nie przeszkadza licencja własnościowa, to możemy sobie
+przygotować memtest86, tak by można go było bez problemu odpalić z menadżera rozruchu <a href="https://www.rodsbooks.com/refind/">rEFInd</a>.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-03-03T04:05:00Z">Opublikowano: 03/03/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-06-13T14:52:00&#43;02:00">Zaktualizowano: 13/06/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -330,37 +358,6 @@ konkretnego urządzenia, gdzie będziemy mogli łatwo sterować (przez plik <cod
 dane urządzenie ma mieć możliwość wybudzania systemu czy też nie.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-06-06T16:10:15Z">Opublikowano: 06/06/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/montowanie-dyskow-jako-zwykly-uzytkownik-z-udisks-i-policykit/">Montowanie dysków jako zwykły użytkownik z UDisks i PolicyKit</a></h1>
-	<div class="entry__content"><p>Jeszcze nie tak dawno temu przeciętnej klasy desktop był wyposażony w pojedynczy i do tego
-niewielkiej pojemności dysk twardy, który był w stanie pomieścić wszystkie pliki swojego
-właściciela. Obecnie jednak większość maszyn ma tych nośników już kilka. Mowa tutaj nie tylko o
-dyskach systemowych, które są fizycznie na stałe zamontowane w komputerze ale również o tych
-wszystkich urządzeniach, które można podłączyć do portu USB. Polityka linux'a wymusza, by wszystkie
-nośniki pamięci masowej (HDD, SSD, pendrive czy też karty SD) były montowane w systemie jedynie
-przez użytkowników posiadających uprawnienia administratora. Domyślnie taki przywilej ma jedynie
-root. Zatem by uzyskać dostęp do danych na takim zewnętrznym nośniku musimy logować się na root'a.
-Jakby nie patrzeć ma to swoje plusy patrząc z perspektywy bezpieczeństwa, niemniej jednak czy
-naprawdę potrzebny nam jest root do wgrania czegoś na nasz ulubiony pendrive? Widać nie tylko ja
-zadawałem sobie takie pytanie i ktoś postanowił stworzyć narzędzie UDisks (lub jego nowszą wersję
-UDisks2), które za pomocą mechanizmu PolicyKit (zwanym też PolKit) jest w stanie nadać stosowne
-uprawnienia konkretnym użytkownikom systemu, przez co można określić zespół akcji, które będą oni w
-stanie przeprowadzić bez potrzeby podawania hasła, np. montowanie czy odmontowanie zasobu.
-Postanowiłem zatem zobaczyć jak ten duet sobie radzi na moim Debianie przy tradycyjnym użytkowaniu
-systemu i ocenić jego stopień przydatności.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-04-26T21:10:15Z">Opublikowano: 26/04/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
