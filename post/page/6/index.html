@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/post/" />
-<meta property="og:updated_time" content="2020-08-19T19:31:00+02:00" />
+<meta property="og:updated_time" content="2020-08-22T14:35:00+02:00" />
 
 		<meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -103,6 +103,31 @@ if (!doNotTrack) {
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/czy-brak-wsparcia-dla-synproxy-w-nftables-jest-problemem/">Czy brak wsparcia dla SYNPROXY w nftables jest problemem</a></h1>
+	<div class="entry__content"><p>Przenosząc swoje reguły z <code>iptables</code> na <code>nftables</code> zauważyłem, że jedna z nich (gdyby tylko jedna)
+nie została przetłumaczona przez ten dedykowany translator do reguł. Chodzi
+o <a href="https://morfikov.github.io
+/post/unikanie-atakow-ddos-z-synproxy/">mechanizm SYNPROXY</a>, który jest zwykle wykorzystywany do ograniczenia skali ataków DDOS z
+wykorzystaniem pakietów SYN. Co by nie mówić, to ochrona jaką daje SYNPROXY jest jak najbardziej
+pożądana z perspektywy serwerów. Dlaczego zatem, gdy się zajrzy na stronę
+<a href="https://wiki.nftables.org/wiki-nftables/index.php/Supported_features_compared_to_xtables">wspieranych rzeczy w nftables</a>, to przy SYNPROXY widnieje bliżej nieokreślone sformułowanie
+<code>consider native interface</code> ? Po rozmowach z deweloperami udało się ustalić, że ten zapis oznacza
+brak wsparcia dla SYNPROXY w <code>nftables</code> . Jeśli zatem ktoś wykorzystuje ten mechanizm mając dodane
+stosowne reguły w <code>iptables</code> , to czy powinien się on obawiać przejścia na <code>nftables</code> ?</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-02-16T10:20:52Z">Opublikowano: 16/02/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -343,34 +368,6 @@ poprawność sygnatury modułu i przy okazji obadać sobie co tak naprawdę się
 procesu.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-01-26T10:10:12Z">Opublikowano: 26/01/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-uruchomic-firefoxa-w-osobnej-przestrzeni-nazw-sieciowych/">Jak uruchomić Firefox&#39;a w osobnej przestrzeni nazw sieciowych</a></h1>
-	<div class="entry__content"><p>Domyślnie każdy proces uruchomiony na linux (w tym przypadku Debian) dziedziczy swoją przestrzeń
-nazw sieciowych (network namespaces) od procesu nadrzędnego, standardowo od procesu init (tego z
-pid 1). W takim przypadku, wszystkie procesy współdzielą tę samą przestrzeń nazw sieciowych, przez
-co mają dostęp do tych samych interfejsów sieciowych, tych samych tras routingu, a reguły
-firewall'a czy ustawienia serwerów DNS w jednakowym stopniu dotyczą wszystkich procesów i
-zmieniając sieciową konfigurację systemu robimy to globalnie dla wszystkich tych procesów
-jednocześnie. Czasami tego typu mechanika działania sieci nie jest zbyt pożądana z punktu
-widzenia bezpieczeństwa lub też prywatności użytkownika. Przykładem mogą być przeglądarki
-internetowe, np. Firefox, Opera czy Google Chrome/Chromium, które mogą zdradzić nasz lokalny adres
-IP (w przypadku stosowania NAT). Jako, że też zostawiamy wszędzie nasz namiar w postaci
-zewnętrznego adresu IP, to oba te adresy mogą nas bez większego problemu zidentyfikować w
-internecie. Można jednak postarać się, by ten adres lokalny, który zwróci przeglądarka
-internetowa, różnił się od tego, który przydziela nam nasz operator ISP.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-01-20T21:10:32Z">Opublikowano: 20/01/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
