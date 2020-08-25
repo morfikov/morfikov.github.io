@@ -12,6 +12,8 @@ tags:
 - kvm
 - qemu
 - libvirt
+- vnc
+- spice
 - kernel
 title: Wirtualizacja QEMU/KVM (libvirt) na Debian Linux
 ---
