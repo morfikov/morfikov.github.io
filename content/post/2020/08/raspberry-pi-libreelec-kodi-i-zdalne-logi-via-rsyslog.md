@@ -1,7 +1,8 @@
 ---
 author: Morfik
 categories:
-- RaspberryPi, Linux
+- RaspberryPi
+- Linux
 date:    2020-08-25 19:21:00 +0200
 lastmod: 2020-08-25 19:21:00 +0200
 published: true
