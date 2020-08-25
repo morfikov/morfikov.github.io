@@ -9,6 +9,7 @@ status: publish
 tags:
 - openbox
 - terminal
+- rsyslog
 title: Osadzanie urxvt na pulpicie przy pomocy openbox'a
 ---
 

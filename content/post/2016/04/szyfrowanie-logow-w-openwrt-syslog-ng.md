@@ -11,6 +11,7 @@ tags:
 - logi
 - router
 - barrier-breaker
+- rsyslog
 title: Szyfrowanie logów w OpenWRT (syslog-ng)
 ---
 

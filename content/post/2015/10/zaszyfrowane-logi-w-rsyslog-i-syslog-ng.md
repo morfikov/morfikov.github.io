@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - szyfrowanie
 - openssl
+- rsyslog
 title: Zaszyfrowane logi w rsyslog i syslog-ng
 ---
 
@@ -64,34 +65,34 @@ Plik `/etc/CA/template/ca_192.168.1.150` :
     # X.509 Certificate options
     #
     # DN options
-    
+
     # The organization of the subject.
     organization = "morfikownia"
-    
+
     # The organizational unit of the subject.
     #unit = "sleeping dept."
-    
+
     # The state of the certificate owner.
     #state = "Example"
-    
+
     # The country of the subject. Two letter code.
     country = GB
-    
+
     # The common name of the certificate owner.
     cn = "192.168.1.150"
-    
+
     # The serial number of the certificate. Should be incremented each time a new certificate is generated.
     serial = 001
-    
+
     # In how many days, counting from today, this certificate will expire.
     expiration_days = 3650
-    
+
     # Whether this is a CA certificate or not
     ca
-    
+
     # Whether this key will be used to sign other certificates.
     cert_signing_key
-    
+
     # Whether this key will be used to sign CRLs.
     crl_signing_key
 
@@ -100,43 +101,43 @@ Plik `/etc/CA/template/client_192.168.1.1` :
     # X.509 Certificate options
     #
     # DN options
-    
+
     # The organization of the subject.
     organization = "morfikownia"
-    
+
     # The organizational unit of the subject.
     #unit = "sleeping dept."
-    
+
     # The state of the certificate owner.
     state = "localhost"
-    
+
     # The country of the subject. Two letter code.
     country = GB
-    
+
     # The common name of the certificate owner.
     cn = "192.168.1.1"
-    
+
     # A user id of the certificate owner.
     #uid = "scertowner"
-    
+
     # The serial number of the certificate. Should be incremented each time a new certificate is generated.
     serial = 004
-    
+
     # In how many days, counting from today, this certificate will expire.
     expiration_days = 3650
-    
+
     # X.509 v3 extensions
-    
+
     # DNS name(s) of the server
     #dns_name = "server.example.com"
     #dns_name = "server_alias.example.com"
-    
+
     # (Optional) Server IP address
     ip_address = "192.168.1.150"
-    
+
     # Whether this certificate will be used for a TLS server
     tls_www_server
-    
+
     # Whether this certificate will be used to encrypt data (needed
     # in TLS RSA ciphersuites). Note that it is preferred to use different
     # keys for encryption and signing.
@@ -148,43 +149,43 @@ Plik `/etc/CA/template/client_192.168.1.166` :
     # X.509 Certificate options
     #
     # DN options
-    
+
     # The organization of the subject.
     organization = "morfikownia"
-    
+
     # The organizational unit of the subject.
     #unit = "sleeping dept."
-    
+
     # The state of the certificate owner.
     state = "localhost"
-    
+
     # The country of the subject. Two letter code.
     country = GB
-    
+
     # The common name of the certificate owner.
     cn = "192.168.1.166"
-    
+
     # A user id of the certificate owner.
     #uid = "scertowner"
-    
+
     # The serial number of the certificate. Should be incremented each time a new certificate is generated.
     serial = 003
-    
+
     # In how many days, counting from today, this certificate will expire.
     expiration_days = 3650
-    
+
     # X.509 v3 extensions
-    
+
     # DNS name(s) of the server
     #dns_name = "server.example.com"
     #dns_name = "server_alias.example.com"
-    
+
     # (Optional) Server IP address
     ip_address = "192.168.1.150"
-    
+
     # Whether this certificate will be used for a TLS server
     tls_www_server
-    
+
     # Whether this certificate will be used to encrypt data (needed
     # in TLS RSA ciphersuites). Note that it is preferred to use different
     # keys for encryption and signing.
@@ -196,43 +197,43 @@ Plik `/etc/CA/template/server_192.168.1.1` :
     # X.509 Certificate options
     #
     # DN options
-    
+
     # The organization of the subject.
     organization = "morfikownia"
-    
+
     # The organizational unit of the subject.
     #unit = "sleeping dept."
-    
+
     # The state of the certificate owner.
     state = "localhost"
-    
+
     # The country of the subject. Two letter code.
     country = GB
-    
+
     # The common name of the certificate owner.
     cn = "192.168.1.150"
-    
+
     # A user id of the certificate owner.
     #uid = "scertowner"
-    
+
     # The serial number of the certificate. Should be incremented each time a new certificate is generated.
     serial = 002
-    
+
     # In how many days, counting from today, this certificate will expire.
     expiration_days = 3650
-    
+
     # X.509 v3 extensions
-    
+
     # DNS name(s) of the server
     #dns_name = "server.example.com"
     #dns_name = "server_alias.example.com"
-    
+
     # (Optional) Server IP address
     ip_address = "192.168.1.150"
-    
+
     # Whether this certificate will be used for a TLS server
     tls_www_server
-    
+
     # Whether this certificate will be used to encrypt data (needed
     # in TLS RSA ciphersuites). Note that it is preferred to use different
     # keys for encryption and signing.
@@ -249,13 +250,13 @@ szablonów:
 
     # certtool --generate-privkey --rsa --sec-param high --outfile ca_192.168.1.150.key
     Generating a 3072 bit RSA private key...
-    
+
     # certtool --generate-privkey --rsa --sec-param high --outfile server_192.168.1.150.key
     Generating a 3072 bit RSA private key...
-    
+
     # certtool --generate-privkey --rsa --sec-param high --outfile client_192.168.1.1.key
     Generating a 3072 bit RSA private key...
-    
+
     # certtool --generate-privkey --rsa --sec-param high --outfile client_192.168.1.166.key
     Generating a 3072 bit RSA private key...
 
@@ -283,7 +284,7 @@ Oraz dwóch pozostałych
     Generating a signed certificate...
     ...
     Signing certificate...
-    
+
     # certtool --generate-certificate --template template/client_192.168.1.166 --load-privkey client_192.168.1.166.key --load-ca-certificate ca_192.168.1.150.crt --load-ca-privkey ca_192.168.1.150.key --outfile client_192.168.1.166.crt
     Generating a signed certificate...
     ...
@@ -306,7 +307,7 @@ W tej chwili, katalog `/etc/CA/` powinien się prezentować następująco:
         ├── client_192.168.1.1
         ├── client_192.168.1.166
         └── server_192.168.1.150
-    
+
     1 directory, 12 files
 
 Przesyłamy tak stworzone certyfikaty na odpowiednie maszyny przy pomocy `scp`. W tym przypadku,
@@ -318,7 +319,7 @@ Trzeba także pamiętać by skopiować certyfikat samego CA:
     ca_192.168.1.150.crt                 100% 1525     1.5KB/s   00:00
     client_192.168.1.1.crt               100% 1643     1.6KB/s   00:00
     client_192.168.1.1.key               100% 8394     8.2KB/s   00:00
-    
+
     # scp ca_192.168.1.150.crt client_192.168.1.166.* 192.168.1.166:/etc/rsyslog.cert/
     root@192.168.1.166's password:
     ca_192.168.1.150.crt                 100% 1525     1.5KB/s   00:00
@@ -332,27 +333,27 @@ Edytujemy plik `/etc/rsyslog.conf` na serwerze i dopisujemy tam poniższe linijk
     #################
     #### MODULES ####
     #################
-    
+
     # make gtls driver the default
     $DefaultNetstreamDriver gtls
-    
+
     # certificate files
     $DefaultNetstreamDriverCAFile /etc/CA/ca_192.168.1.150.crt
     $DefaultNetstreamDriverCertFile /etc/CA/server_192.168.1.150.crt
     $DefaultNetstreamDriverKeyFile /etc/CA/server_192.168.1.150.key
-    
+
     $ModLoad imuxsock # provides support for local system logging
     $ModLoad imklog   # provides kernel logging support
     #$ModLoad immark  # provides --MARK-- message capability
-    
+
     # provides UDP syslog reception
     #$ModLoad imudp
     #$UDPServerRun 514
-    
+
     # provides TCP syslog reception
     $ModLoad imtcp
     $InputTCPServerRun 514                                # start up listener at port 514
-    
+
     $InputTCPServerStreamDriverMode 1                     # run driver in TLS-only mode
     #$InputTCPServerStreamDriverAuthMode anon             # client is NOT authenticated
     #$ActionSendStreamDriverAuthMode x509/name            # authenticate by hostname
@@ -375,30 +376,30 @@ generowane w systemie do serwera skonfigurowanego wyżej. W tym celu edytujemy p
     #################
     #### MODULES ####
     #################
-    
+
     # make gtls driver the default
     $DefaultNetstreamDriver gtls
-    
+
     # certificate files
     $DefaultNetstreamDriverCAFile /etc/rsyslog.cert/ca_192.168.1.150.crt
     $DefaultNetstreamDriverCertFile /etc/rsyslog.cert/client_192.168.1.166.crt
     $DefaultNetstreamDriverKeyFile /etc/rsyslog.cert/client_192.168.1.166.key
-    
+
     $ModLoad imuxsock # provides support for local system logging
     $ModLoad imklog   # provides kernel logging support
     #$ModLoad immark  # provides --MARK-- message capability
-    
+
     # provides UDP syslog reception
     #$ModLoad imudp
     #$UDPServerRun 514
-    
+
     # provides TCP syslog reception
     #$ModLoad imtcp
     #$InputTCPServerRun 514
-    
+
     # set up the action
     $ActionSendStreamDriverMode 1                   # require TLS for the connection
-    
+
     *.* @@(o)192.168.1.150:514
 
 Ostatnia linijka będzie przesyłać wszystkie logi `*.*` protokołem TCP `@@` na zdalny serwer.
@@ -412,9 +413,9 @@ jeden zabieg na certyfikatach. Konkretnie to musimy nazwać certyfikat CA po jeg
 
     # openssl x509 -noout -hash -in ca_192.168.1.150.crt
     f31e2e50
-    
+
     # ln -s ./ca_192.168.1.150.crt f31e2e50.0
-    
+
     # ls -al
     drwxr-xr-x    2 root     root          4096 Oct 10 20:03 .
     drwxr-xr-x    1 root     root          4096 Oct 10 15:27 ..
@@ -426,63 +427,63 @@ jeden zabieg na certyfikatach. Konkretnie to musimy nazwać certyfikat CA po jeg
 Przechodzimy teraz do konfiguracji `syslog-ng` . Poniżej znajduje się mój plik konfiguracyjny:
 
     @version:3.0
-    
+
     options {
           # disable the chained hostname format in logs
           chain_hostnames(off);
-    
+
           # the time to wait before a died connection is re-established
           time_reopen (600);
-    
+
           # the time to wait before an idle destination file is closed
           time_reap(0);
-    
+
           # the number of lines buffered before written to file
           # you might want to increase this if your disk isn't catching with
           # all the log messages you get or if you want less disk activity
           # (say on a laptop)
           flush_lines(0);
-    
+
           # the number of lines fitting in the output queue
           log_fifo_size(256);
-    
+
           # enable or disable directory creation for destination files
           create_dirs(no);
-    
+
           # default owner, group, and permissions for log files
           owner(root);
           perm(0600);
           #group("log");
-    
+
           # default owner, group, and permissions for created directories
           #dir_owner(root);
           #dir_group(root);
           #dir_perm(0755);
-    
+
           # enable or disable DNS usage
           # syslog-ng blocks on DNS queries, so enabling DNS may lead to
           # a Denial of Service attack
           use_dns(no);
-    
+
           # maximum length of message in bytes
           # this is only limited by the program listening on the /dev/log Unix
           # socket, glibc can handle arbitrary length log messages, but -- for
           # example -- syslogd accepts only 1024 bytes
           log_msg_size(1024);
-    
+
           # Disable statistic log messages.
           stats_freq(0);
-    
+
           # "--MARK--" entries in the log
           mark_freq (1800);
-    
+
           keep_hostname(yes);
           use_fqdn(no);
           long_hostnames(on);
     #     ts_format(iso);      #make ISO-8601 timestamps
     };
-    
-    
+
+
     source s_all {
           # message generated by Syslog-NG
           internal();
@@ -491,16 +492,16 @@ Przechodzimy teraz do konfiguracji `syslog-ng` . Poniżej znajduje się mój pli
           # messages from the kernel
           file("/proc/kmsg" program_override("kernel"));
     };
-    
+
     source s_localhost {
           tcp(ip(127.0.0.1) port(514));
           udp(ip(127.0.0.1) port(514));
     };
-    
+
     destination d_messages {
           file("/var/log/messages");
     };
-    
+
     destination d_network {
     #     tcp( "192.168.1.150" port(514) );
           tcp( "192.168.1.150" port(514)
@@ -512,8 +513,8 @@ Przechodzimy teraz do konfiguracji `syslog-ng` . Poniżej znajduje się mój pli
                       )
                 );
     };
-    
-    
+
+
     log {
           source(s_all);
           source(s_localhost);
@@ -539,7 +540,7 @@ tak, by znajdowały się one przed wszystkimi lokalnymi regułami, przykładowo:
     ###############
     #### RULES ####
     ###############
-    
+
     if $fromhost-ip startswith "192.168.1.1" then /var/log/router.log
     & stop
     ...
@@ -577,16 +578,16 @@ Serwer:
     #################
     #### MODULES ####
     #################
-    
+
     $DefaultNetstreamDriver gtls
     $DefaultNetstreamDriverCAFile /etc/CA/ca_192.168.1.150.crt
     $DefaultNetstreamDriverCertFile /etc/CA/server_192.168.1.150.crt
     $DefaultNetstreamDriverKeyFile /etc/CA/server_192.168.1.150.key
-    
+
     module(load="imuxsock")
     module(load="imklog")
     #module(load="immark")
-    
+
     module( load="imtcp"
         StreamDriver.Name="gtls"                    # ptcp or gtls
         StreamDriver.mode="1"                       # run driver in TLS-only mode
@@ -607,25 +608,25 @@ Klient:
     #################
     #### MODULES ####
     #################
-    
+
     module(load="imuxsock")
     module(load="imklog")
     #module(load="immark")
-    
+
     $DefaultNetstreamDriver gtls
     $DefaultNetstreamDriverCAFile /etc/rsyslog.cert/ca_192.168.1.150.crt
     $DefaultNetstreamDriverCertFile /etc/rsyslog.cert/client_morfitronik.lh.crt
     $DefaultNetstreamDriverKeyFile /etc/rsyslog.cert/client_morfitronik.lh.key
-    
+
     # provides UDP syslog reception
     #module(load="imudp")
     #input(type="imudp" port="514")
-    
+
     # provides TCP syslog reception
     #module(load="imtcp")
     #input(type="imtcp" port="514")
-    
+
     # set up the action
     $ActionSendStreamDriverMode 1                   # require TLS for the connection
-    
+
     *.* @@(o)192.168.1.150:514

@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - logi
 - router
+- rsyslog
 title: Logread, czyli system logowania w OpenWRT
 ---
 
