@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/post/" />
-<meta property="og:updated_time" content="2020-08-25T19:21:00+02:00" />
+<meta property="og:updated_time" content="2020-08-25T20:08:00+02:00" />
 
 		<meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -103,6 +103,34 @@ if (!doNotTrack) {
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/">Równoważenie ruchu łącz kilku ISP (load balancing)</a></h1>
+	<div class="entry__content"><p>Podłączenie pojedynczego komputera do sieci raczej nie stanowi żadnego problemu dla przeciętnego
+użytkownika linux'a. Wystarczy jedynie skonfigurować kilka parametrów i możemy oglądać swoje
+ulubione serwisy www. Co jednak w przypadku, gdy mamy do dyspozycji kilka łącz internetowych? Jedną
+z opcji jest używanie łącza tego ISP, które jest lepsze gabarytowo, a pozostałe łącza trzymać na
+wypadek awarii tego pierwszego. Nie jest to zbytnio satysfakcjonujące rozwiązanie, zwłaszcza w
+przypadku, gdy tym providerom płacimy za świadczone nam usługi. W taki sposób płacimy, np. za dwa
+łącza, a korzystamy z jednego w danej chwili. W linux'ie obsługa wielu łącz różnych ISP jest dość
+skomplikowana. By taki mechanizm zaimplementować sobie, trzeba stworzyć kilka tablic routingu.
+Następnie ruch sieciowy musi zostać oznaczony w <code>iptables</code> i przekierowany do tych tablic przez
+kernel. Przy odrobienie wysiłku jesteśmy jednak w stanie zaprojektować sobie load balancer, który
+będzie równoważył obciążenie łącza między kilku ISP. Dodatkowo, jeśli jedno z łączy nam nawali, to
+automatycznie zostaniemy przełączeni na drugie łącze (failover). W tym artykule postaramy się
+zaprojektować taki właśnie mechanizm.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-05-22T13:40:04Z">Opublikowano: 22/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -325,32 +353,6 @@ pomocy tych narzędzi możemy zaprojektować filtr, który może zablokować lud
 do praktycznie każdego serwisu www. W tym artykule zobaczymy jak taki filtr skonstruować.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-05-10T22:17:38Z">Opublikowano: 10/05/2016</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt" rel="category">OpenWRT</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/filtr-pakietow-sieciowych-w-openwrt-firewall/">Filtr pakietów sieciowych w OpenWRT (firewall)</a></h1>
-	<div class="entry__content"><p>Router wyposażony w firmware OpenWRT posiada wbudowany firewall, który ma za zadnie stać na straży
-bezpieczeństwa naszej sieci domowej. Standardowo ta zapora przepuszcza cały ruch sieciowy z obszaru
-LAN do WAN, czyli z sieci lokalnej do sieci naszego ISP. W ten sposób komputery znajdujące się w
-naszej sieci mają dostęp do internetu i mogą z niego korzystać bez przeszkód. Niemniej jednak, ten
-mechanizm nie działa tak samo w drugą stronę, czyli z WAN do LAN. Tutaj są już blokowane wszystkie
-próby nawiązania nowych połączeń (<a href="https://morfikov.github.io
-/post/kompromitacja-firewalla-openwrt-za-sprawa-ping/">za wyjątkiem żądań
-ping</a>) ale nic nie stoi na
-przeszkodzie, by zastosować przekierowanie portów. Dzięki takiemu rozwiązaniu możemy przekierować
-ruch, który jest kierowany na dany port w routerze, do określonego hosta w sieci lokalnej. Wszystkie
-te zadania realizowane są przez <code>iptables</code> i w tym wpisie postaramy się ogarnąć to narzędzie.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2016-05-09T23:26:58Z">Opublikowano: 09/05/2016</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
