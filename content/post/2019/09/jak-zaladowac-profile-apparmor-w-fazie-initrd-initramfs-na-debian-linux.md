@@ -2,7 +2,8 @@
 author: Morfik
 categories:
 - Linux
-date: "2019-09-23T19:05:21Z"
+date:    2019-09-23 19:05:21 +0200
+lastmod: 2020-09-02 17:50:00 +0200
 published: true
 status: publish
 tags:
@@ -159,6 +160,37 @@ działających w systemie, 51 jest ograniczonych przez politykę AA (49 enforce 
 zwrócić uwagę, że nie ma żadnego procesu który by miał zdefiniowany profil ale działał bez
 ograniczeń ze strony AppArmor'a. W taki oto sposób można ograniczyć praktycznie dowolny proces
 działający w systemie, nawet ten mający [PID z numerem 1][1].
+
+## Cache profili
+
+Standardowo usługa mająca na celu załadowanie wszystkich profili podczas startu systemu może czytać
+całą masę plików, zwłaszcza gdy dość mocno oprofilowaliśmy sobie system. W takim przypadku
+aplikowanie reguł AppArmor'a może zająć nawet dłuższą chwilę spowalniając tym samym start systemu.
+Istnieje jednak sposób, by ten czas wczytywania profili dość mocno zredukować za sprawą cache,
+który domyślnie jest wyłączony. By włączyć cache profili trzeba edytować plik
+`/etc/apparmor/parser.conf` usuwając `#` w poniższej linijce:
+
+    write-cache
+
+W taki sposób `apparmor_parser` będzie tworzył i aktualizował cache ilekroć tylko będziemy dodać
+czy przeładowywać profile aplikacji. Standardowo cache jest przechowywany w katalogu
+`/var/cache/apparmor/` i by mieć możliwość skorzystania z niego w fazie initramfs/initrd, musimy
+przekopiować ten katalog do obrazu initramfs/initrd. Musimy zatem do skryptu
+`/etc/initramfs-tools/hooks/apparmor` dodać poniższy wpis:
+
+    mkdir -p $DESTDIR/var/cache/apparmor/
+    cp -a /var/cache/apparmor/ $DESTDIR/var/cache/
+
+Teraz już wystarczy wygenerować cache, np. za pomocą usługi `apparmor.service` dla systemd oraz
+zaktualizować obraz initramfs/initd:
+
+    # systemctl restart apparmor.service
+    # update-initramfs -u -k 5.8.5-amd64
+
+Podczas startu systemu powinniśmy zauważyć dość mocny wzrost wydajności podczas wczytywania profili
+AppArmor'a. W moim przypadku, gdzie mam tych profili już blisko koło tysiąca, czas potrzebny na ich
+wczytanie został zredukowany z około 40s do poniżej jednej sekundy. Zatem moja maszyna startuje o
+wiele szybciej niż w sytuacji, gdy nie robiło się użytku z tego cache.
 
 
 [1]: https://gitlab.com/apparmor/apparmor/wikis/FullSystemPolicy
