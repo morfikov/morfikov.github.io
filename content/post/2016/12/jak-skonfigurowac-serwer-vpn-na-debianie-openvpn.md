@@ -10,6 +10,7 @@ tags:
 - prywatność
 - vpn
 - debian
+- sieć
 title: Jak skonfigurować serwer VPN na Debianie (OpenVPN)
 ---
 

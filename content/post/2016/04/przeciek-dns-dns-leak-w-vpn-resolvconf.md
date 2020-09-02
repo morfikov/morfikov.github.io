@@ -7,10 +7,12 @@ date_gmt: 2016-04-25 12:37:51 +0200
 published: true
 status: publish
 tags:
+- debian
+- vpn
+- prywatność
+- sieć
 - dns
 - resolver
-- prywatność
-- vpn
 title: Przeciek DNS (DNS leak) w VPN (resolvconf)
 ---
 
