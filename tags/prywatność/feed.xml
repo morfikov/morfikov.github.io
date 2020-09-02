@@ -6,7 +6,35 @@
     <description>Recent content in prywatność on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Wed, 19 Aug 2020 19:31:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/prywatno%C5%9B%C4%87/feed.xml" rel="self" type="application/rss" />
+    <lastBuildDate>Wed, 02 Sep 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/prywatno%C5%9B%C4%87/feed.xml" rel="self" type="application/rss" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)</title>
+      <link>https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/</link>
+      <pubDate>Wed, 02 Sep 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/</guid>
+      <description>&lt;p&gt;Parę dni temu &lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=31514&#34;&gt;na forum dug.net.pl pojawiło się zapytanie&lt;/a&gt; dotyczące skonfigurowania linux&#39;a w
+taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN,
+podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego
+ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć
+też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba
+zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel
+przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma
+przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i
+na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń
+czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów
+konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w
+zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować
+filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko
+odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe
+będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje
+jednak sposób, by nauczyć linux&#39;a aby tylko procesy określonych użytkowników czy grup miały dostęp
+do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze
+standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy &lt;code&gt;iptables&lt;/code&gt; / &lt;code&gt;nftables&lt;/code&gt; ,
+tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Jak włączyć stabilne adresy prywatne w IPv6 na linux</title>
@@ -405,23 +433,6 @@ profil przeglądarki. I na tym zwykle podział się kończy ale przecie to nie w
 sama nazwa wskazuje, jest w stanie dostosować opcje przeglądarki, np. pod kątem pewnych aktywności.
 W tym wpisie postaramy się utworzyć kilka profili w Firefox&#39;ie i sprawdzimy korzystanie z nich
 będzie odczuwalne w jakiś sposób dla przeciętnego użytkownika internetu.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Konfiguracja wtyczki flash na linux&#39;ie (mms.cfg)</title>
-      <link>https://morfikov.github.io/post/konfiguracja-wtyczki-flash-na-linuxie-mms-cfg/</link>
-      <pubDate>Wed, 28 Oct 2015 21:21:51 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/konfiguracja-wtyczki-flash-na-linuxie-mms-cfg/</guid>
-      <description>&lt;p&gt;W obecnych czasach powoli się odchodzi od stosowania technologi flash w przeglądarkach. Na dobra
-sprawę, po tym jak google w youtube przesiadł się na html5, to korzystanie z flash player&#39;a nie ma
-już większego sensu. Są jednak serwisy, które nie nadążają za zmieniającą się rzeczywistością i w
-ich przypadku przejście z flash&#39;a na html5 może jeszcze zająć kilka lat. Zatem nawet jeśli nie
-korzystamy z flash&#39;a na co dzień, to i tak większość z nas będzie chciała go mieć w systemie, tak na
-wszelki wypadek, by nie być pozbawionym możliwości oglądania materiałów video na tych drugorzędnych
-serwisach. Jako, że wtyczka flash jest bardzo dziurawa, przydałoby się ją nieco skonfigurować i w
-tym wpisie zostanie przedstawionych szereg opcji, które można umieścić w pliku &lt;code&gt;mms.cfg&lt;/code&gt; .&lt;/p&gt;</description>
     </item>
     
   </channel>

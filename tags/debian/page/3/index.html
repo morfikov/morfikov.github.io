@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/tags/debian/" />
-<meta property="og:updated_time" content="2020-08-25T20:08:00+02:00" />
+<meta property="og:updated_time" content="2020-09-02T18:36:00+02:00" />
 
 		<meta itemprop="name" content="debian">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -106,6 +106,32 @@ if (!doNotTrack) {
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zaladowac-firmware-karty-wifi-przed-initrd-initramfs/">Jak załadować firmware karty WiFi przed initrd/initramfs</a></h1>
+	<div class="entry__content"><p>Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową
+sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: <code>Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2</code> . W tym przypadku sprawa dotyczyła karty <code>Intel Corporation Centrino Advanced-N 6205 [Taylor Peak]</code> działającej w oparciu o moduł kernela
+<code>iwlwifi</code> . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po
+kłopocie. No i faktycznie w Debianie jest dostępny pakiet <code>firmware-iwlwifi</code> , który zawiera ten
+potrzebny plik <code>iwlwifi-6000g2a-6.ucode</code> . Problem jednak w tym, że instalacja paczki z firmware
+niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware
+muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W
+takim przypadku zainstalowanie paczki z firmware w naszym linux'ie nic nam nie da, bo pliki
+rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej
+sytuacji?</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-03-06T02:45:00Z">Opublikowano: 06/03/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-03-12T16:30:00&#43;01:00">Zaktualizowano: 12/03/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -224,7 +250,8 @@ zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppA
 initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu
 z PID z numerkiem <code>1</code> .</p></div>
 	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-09-23T19:05:21Z">Opublikowano: 23/09/2019</time>
+	<time class="entry__meta-published meta-published" datetime="2019-09-23T19:05:21&#43;02:00">Opublikowano: 23/09/2019</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-09-02T17:50:00&#43;02:00">Zaktualizowano: 02/09/2020</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -345,34 +372,6 @@ tamto rozwiązanie dotyczy jedynie <code>iptables</code> w połączeniu z <code>
 go w przypadku <code>nftables</code> ale to zadanie jest jak najbardziej możliwe.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-04-12T20:53:40Z">Opublikowano: 12/04/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/unikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables/">Unikanie SYN/ICMP/UDP/PING flood w linux z nftables</a></h1>
-	<div class="entry__content"><p>Obecnie <code>nftables</code> cierpi dość mocno z powodu pewnych problemów związanych z wydajnością przy
-aplikowaniu reguł zapory sieciowej. Niemniej jednak, w stosunku do <code>iptables</code> , <code>nftables</code> posiada
-tablicę <code>netdev</code> , która jest w stanie nieco zyskać w oczach tych nieco bardziej wybrednych
-użytkowników linux'a. Chodzi generalnie o fakt, że ta tablica jest umieszczona zaraz na początku
-drogi pakietów, tuż po odebraniu ich z NIC (interfejsu karty sieciowej), a biorąc pod uwagę fakt,
-że ruch sieciowy, który nigdy ma nie trafić do naszej maszyny, powinien być zrzucany jak
-najwcześniej (by nie marnować zasobów procesora i pamięci), to ta tablica wydaje się być idealnym
-miejscem by zablokować cały niepożądany ruch przychodzący. Przy wykorzystaniu <code>iptables</code> , takie
-pakiety zrzuca się w tablicy <code>raw</code> . Jeśli zaś chodzi o <code>nftables</code> , to zrzucanie pakietów w
-tablicy <code>netdev</code> jest ponad dwu lub nawet trzykrotnie bardziej wydajne (szybsze i mniej
-zasobożerne). Można zatem dość dobrze poradzić sobie z wszelkiego rodzaju atakami DOS/DDOS, np.
-ICMP/PING flood czy SYN flood. Zastanawiające może być natomiast ogarnięcie ataku UDP flood ale
-przed tym rodzajem ataku linux również jest w stanie się bez problemu ochronić.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-04-12T20:12:42Z">Opublikowano: 12/04/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

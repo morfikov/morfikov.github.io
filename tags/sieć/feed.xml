@@ -6,7 +6,35 @@
     <description>Recent content in sieć on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Tue, 25 Aug 2020 20:08:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/sie%C4%87/feed.xml" rel="self" type="application/rss" />
+    <lastBuildDate>Wed, 02 Sep 2020 18:36:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/sie%C4%87/feed.xml" rel="self" type="application/rss" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)</title>
+      <link>https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/</link>
+      <pubDate>Wed, 02 Sep 2020 18:36:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/</guid>
+      <description>&lt;p&gt;Parę dni temu &lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=31514&#34;&gt;na forum dug.net.pl pojawiło się zapytanie&lt;/a&gt; dotyczące skonfigurowania linux&#39;a w
+taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN,
+podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego
+ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć
+też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba
+zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel
+przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma
+przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i
+na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń
+czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów
+konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w
+zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować
+filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko
+odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe
+będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje
+jednak sposób, by nauczyć linux&#39;a aby tylko procesy określonych użytkowników czy grup miały dostęp
+do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze
+standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy &lt;code&gt;iptables&lt;/code&gt; / &lt;code&gt;nftables&lt;/code&gt; ,
+tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Zarządzanie Raspberry Pi 4B z LibreELEC przez VNC/SPICE</title>
@@ -112,6 +140,51 @@ karty będzie miał stały identyfikator EUI64, a hosta będzie można zidentyfi
 bez względu na to u którego ISP podłączymy nasz komputer. Rozwiązaniem tego problemu jest mechanizm
 zwany IPv6 Privacy Extensions. Przydałoby się zatem rzucić na niego okiem i jeśli okaże się
 użyteczny, to wypadałoby go włączyć w naszym Debian Linux.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak ukryć ruch OpenVPN przy pomocy stunnel</title>
+      <link>https://morfikov.github.io/post/jak-ukryc-ruch-openvpn-przy-pomocy-stunnel/</link>
+      <pubDate>Sat, 10 Dec 2016 15:18:18 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-ukryc-ruch-openvpn-przy-pomocy-stunnel/</guid>
+      <description>&lt;p&gt;Ci z nas, którzy korzystają codziennie z internetu, wiedzą, że większość nawiązywanych połączeń
+między dwoma punktami w tej sieci globalnej przechodzi przez szereg węzłów i jest podatnych na
+przechwycenie i podsłuchanie. Nawet jeśli ruch z określonymi serwisami jest szyfrowany, to w dalszym
+ciągu nie jesteśmy w stanie ukryć pewnych newralgicznych informacji, takich jak docelowy adres IP i
+port, na którym nasłuchuje zdalna usługa. Wszystkie połączenia sieciowe zestawiane z naszego
+komputera czy routera domowego przechodzą przez infrastrukturę ISP, u którego mamy wykupiony
+internet. Tacy ISP są nam w stanie pod naciskiem rządu zablokować połączenia z konkretnymi adresami
+wprowadzając na terenie danego kraju cenzurę treści dostępnej w internecie, czego obecnie jesteśmy
+świadkami w Europie, no i w Polsce. Można oczywiście posiłkować się rozwiązaniami opartymi o VPN,
+np. &lt;a href=&#34;https://morfikov.github.io
+/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/&#34;&gt;stawiając serwer OpenVPN w innym
+kraju&lt;/a&gt;. Problem jednak w
+tym, że ruch OpenVPN różni się od tego, z którym mamy do czynienia w przypadku choćby HTTPS. Jest
+zatem możliwość rozpoznania ruchu VPN i zablokowania go stosując &lt;a href=&#34;https://en.wikipedia.org/wiki/Deep_packet_inspection&#34;&gt;głęboką analizę
+pakietów&lt;/a&gt; (Deep Packet Inspection, DPI). By
+się przed tego typu sytuacją ochronić, trzeba upodobnić ruch generowany przez OpenVPN do zwykłego
+ruchu SSL/TLS. Do tego celu służy &lt;a href=&#34;https://www.stunnel.org/index.html&#34;&gt;narzędzie stunnel&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak skonfigurować serwer VPN na Debianie (OpenVPN)</title>
+      <link>https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/</link>
+      <pubDate>Tue, 06 Dec 2016 19:22:49 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/</guid>
+      <description>&lt;p&gt;Co raz częściej słychać w mediach o próbie cenzurowania internetu i blokowaniu dostępu do kolejnych
+serwisów i stron www. Ostatnio znowu podnieśli kwestię blokowania pokemonów bezpośrednio u ISP tak,
+by za zgodą ISP (władzy) można przeglądać tego typu serwisy. W sumie mam już tego dość i korzystając
+z okazji, że posiadam za granicą niewielkich rozmiarów VPS, który i tak nie jest zbytnio obciążony,
+to postanowiłem sobie skonfigurować na nim serwer VPN w oparciu o &lt;a href=&#34;https://openvpn.net/index.php/open-source/documentation/howto.html&#34;&gt;oprogramowanie
+OpenVPN&lt;/a&gt;, które jest standardowo
+dostępne w każdej dystrybucji linux&#39;a. Proces konfiguracji serwera jak i klienta z zainstalowanym
+Debianem zostanie opisany poniżej. Niemniej jednak, inne urządzenia takie jak routery WiFi i
+smartfony również wymagają zaimplementowania w nich mechanizmu szyfrującego ruch ale te rozwiązania
+zostaną opisane w osobnych wątkach.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -353,63 +426,6 @@ oprogramowanie &lt;code&gt;freeradius&lt;/code&gt; (serwer RADIUS), które zosta
 firmware OpenWRT Chaos Calmer w wersji 15.05.1 (r49294). Zostanie tutaj opisane dokładnie jak
 wdrożyć protokół WPA2 Enterprise z obsługą trzech metod uwierzytelniania: EAP-TLS, EAP-TTLS oraz
 PEAP (v0) .&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Konfiguracja interfejsów sieciowych w dhclient</title>
-      <link>https://morfikov.github.io/post/konfiguracja-interfejsow-sieciowych-w-dhclient/</link>
-      <pubDate>Thu, 09 Jun 2016 18:05:00 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/konfiguracja-interfejsow-sieciowych-w-dhclient/</guid>
-      <description>&lt;p&gt;Konfiguracja maszyn w sieci za sprawą protokołu DHCP znacznie ułatwia życie administratorom. Cały
-ten proces jest nie tylko szybszy ale też eliminuje szereg błędów, które mogą pojawić się za sprawą
-czynnika ludzkiego. W przypadku, gdy nasza maszyna dysponuje kilkoma interfejsami sieciowymi, to
-każdy z nich możemy skonfigurować nieco inaczej. Oczywiście, nie chodzi o samą konfigurację
-adresacji ale o szereg parametrów, które klient przesyła do serwera DHCP. To dzięki nim host min.
-wie jak ustawić adresację na interfejsie i pod jaki adres słać zapytania DNS. Każdy interfejs może w
-ten sposób posiadać własne opcje, które klient DHCP będzie przesyłał do serwera. W tym artykule
-postaramy się konfigurować niezależnie dwa interfejsy sieciowe przy pomocy &lt;code&gt;dhclient&lt;/code&gt; , czyli
-domyślnego klienta DHCP w linux&#39;ie.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Losowy adres MAC dla WAN w OpenWRT</title>
-      <link>https://morfikov.github.io/post/losowy-adres-mac-dla-wan-w-openwrt/</link>
-      <pubDate>Sun, 05 Jun 2016 18:28:12 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/losowy-adres-mac-dla-wan-w-openwrt/</guid>
-      <description>&lt;p&gt;Na dużych dystrybucjach linux&#39;a adres MAC można zmienić bez problemu. Podobnie sprawa ma się w
-przypadku &lt;a href=&#34;https://morfikov.github.io
-/post/jak-przypisac-losowy-adres-mac-interfejsu/&#34;&gt;automatycznego generowania takiego adresu
-MAC&lt;/a&gt; za każdym razem, gdy chcemy
-nawiązać połączenie z internetem. W OpenWRT rozwiązanie tego zadania nie jest tak oczywiste jak, np.
-na debianie, ale też znowu nie jest niemożliwe. W repozytorium OpenWRT mamy dostępny pakiet
-&lt;code&gt;macchanger&lt;/code&gt; . Niemniej jednak, w przypadku routerów o małych pamięciach flash, instalowanie
-dodatkowych pakietów może nie być dobrym pomysłem. Przydałoby się zatem zaprojektować mechanizm
-generowania i zmiany adresu MAC interfejsu WAN za każdym razem, gdy będziemy resetować router i to
-zadanie postaramy się zrealizować w tym artykule.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Konfiguracja trybu AP kart WiFi na debianie</title>
-      <link>https://morfikov.github.io/post/konfiguracja-trybu-ap-kart-wifi-na-debianie/</link>
-      <pubDate>Sat, 04 Jun 2016 15:26:58 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/konfiguracja-trybu-ap-kart-wifi-na-debianie/</guid>
-      <description>&lt;p&gt;Jakiś czas temu dokonałem zakupu adaptera WiFi &lt;a href=&#34;https://morfikov.github.io
-/post/recenzja-karta-wifi-tp-link-tl-wn722n/&#34;&gt;TP-Link
-TL-WN722n&lt;/a&gt;, a to z tego względu, że
-potrzebowałem zewnętrznej karty sieciowej do mojego laptopa. Chodziło generalnie o to, że ten
-wbudowany w niego broadcom nie był w stanie robić kilku użytecznych rzeczy, min. testów
-penetracyjnych mojej bezprzewodowej sieci domowej. Jak się później okazało, ten zakupiony adapter
-posiada też dodatkowy ficzer, którym jest tryb AP (Access Point). Wprawdzie ta karta nie może się
-równać z routerami WiFi, bo te zwykle mają więcej anten, z których każda jest lepszej jakości ale
-jesteśmy w stanie połączyć ze sobą bezprzewodowo kilka stacji roboczych. Trzeba jednak wziąć po
-uwagę, że zasięg jak i transfer będą w dużej mierze ograniczone. W tym wpisie postaramy się
-przerobić zwykłą maszynę, na której jest zainstalowany debian, na punkt dostępowy sieci WiFi.&lt;/p&gt;</description>
     </item>
     
   </channel>

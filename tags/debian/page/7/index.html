@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/tags/debian/" />
-<meta property="og:updated_time" content="2020-08-25T20:08:00+02:00" />
+<meta property="og:updated_time" content="2020-09-02T18:36:00+02:00" />
 
 		<meta itemprop="name" content="debian">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -106,6 +106,35 @@ if (!doNotTrack) {
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/debian-profilowanie-sieci-guessnet-ifplugd-wpasupplicant/">Debian: Profilowanie sieci z guessnet, ifplugd i wpasupplicant</a></h1>
+	<div class="entry__content"><p>Kilka dni temu na <a href="https://forum.dug.net.pl/viewtopic.php?id=28903">forum dug.net.pl</a> pojawił się
+ciekawy wątek dotyczący problemu skonfigurowania profilowanych sieci. Chodzi o to, że praktycznie
+każdy z nas jest po części w jakiś sposób mobilny i zabiera laptopa ze sobą w dziwne miejsca. Sieci
+w tych lokalizacjach mogą cechować się różnym poziomem bezpieczeństwa. Dlatego też zamiast korzystać
+z jednej konfiguracji sieci na linux'ie, można stworzyć szereg profili i w oparciu o nie dostosować
+sobie połączenie sieciowe. W tym artykule spróbujemy zaimplementować takie rozwiązanie na Debianie
+wyposażonym w menadżer okien Openbox. W skrócie stworzymy automat, który będzie nam działał w
+oparciu o pakiety guessnet, <a href="http://0pointer.de/lennart/projects/ifplugd/">ifplugd</a> oraz
+<a href="https://w1.fi/wpa_supplicant/">wpasupplicant</a>. Cała konfiguracja zaś sprowadzać się będzie jedynie
+do edycji plików <code>/etc/network/interfaces</code> oraz <code>/etc/wpa_supplicant/wpa_supplicant.conf</code> .</p>
+<p>Niniejszy artykuł został nieco przerobiony po fazach eksperymentów. Przede wszystkim, zrezygnowałem
+z zaprzęgania <code>guessnet</code> do rozpoznawania sieci WiFi i aplikowania roamingu. Zamiast tego zostały
+wykorzystane natywne rozwiązania roamingowe oferowane przez <code>wpa_supplicant</code> . Zaowocowało to
+uproszczeniem całej konfiguracji, co przełożyło się na wyeliminowanie pewnych błędów.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-09-05T13:01:08Z">Opublikowano: 05/09/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -328,34 +357,6 @@ uwagę, że zasięg jak i transfer będą w dużej mierze ograniczone. W tym wpi
 przerobić zwykłą maszynę, na której jest zainstalowany debian, na punkt dostępowy sieci WiFi.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-06-04T15:26:58Z">Opublikowano: 04/06/2016</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/">Równoważenie ruchu łącz kilku ISP (load balancing)</a></h1>
-	<div class="entry__content"><p>Podłączenie pojedynczego komputera do sieci raczej nie stanowi żadnego problemu dla przeciętnego
-użytkownika linux'a. Wystarczy jedynie skonfigurować kilka parametrów i możemy oglądać swoje
-ulubione serwisy www. Co jednak w przypadku, gdy mamy do dyspozycji kilka łącz internetowych? Jedną
-z opcji jest używanie łącza tego ISP, które jest lepsze gabarytowo, a pozostałe łącza trzymać na
-wypadek awarii tego pierwszego. Nie jest to zbytnio satysfakcjonujące rozwiązanie, zwłaszcza w
-przypadku, gdy tym providerom płacimy za świadczone nam usługi. W taki sposób płacimy, np. za dwa
-łącza, a korzystamy z jednego w danej chwili. W linux'ie obsługa wielu łącz różnych ISP jest dość
-skomplikowana. By taki mechanizm zaimplementować sobie, trzeba stworzyć kilka tablic routingu.
-Następnie ruch sieciowy musi zostać oznaczony w <code>iptables</code> i przekierowany do tych tablic przez
-kernel. Przy odrobienie wysiłku jesteśmy jednak w stanie zaprojektować sobie load balancer, który
-będzie równoważył obciążenie łącza między kilku ISP. Dodatkowo, jeśli jedno z łączy nam nawali, to
-automatycznie zostaniemy przełączeni na drugie łącze (failover). W tym artykule postaramy się
-zaprojektować taki właśnie mechanizm.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2016-05-22T13:40:04Z">Opublikowano: 22/05/2016</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

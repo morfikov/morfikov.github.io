@@ -25,8 +25,8 @@ initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet u
 z PID z numerkiem 1 ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/jak-zaladowac-profile-apparmor-w-fazie-initrd-initramfs-na-debian-linux/" />
-<meta property="article:published_time" content="2019-09-23T19:05:21+00:00" />
-<meta property="article:modified_time" content="2019-09-23T19:05:21+00:00" />
+<meta property="article:published_time" content="2019-09-23T19:05:21+02:00" />
+<meta property="article:modified_time" content="2020-09-02T17:50:00+02:00" />
 
 		<meta itemprop="name" content="Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux">
 <meta itemprop="description" content="Zapewne wielu użytkowników Debiana zdążyło już zauważyć, że od wydania 10 (Buster), AppArmor jest
@@ -43,9 +43,9 @@ próbować restartować usługi lub szeregować je po apparmor.service ale nie z
 zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppArmor&#39;a w fazie
 initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu
 z PID z numerkiem 1 .">
-<meta itemprop="datePublished" content="2019-09-23T19:05:21+00:00" />
-<meta itemprop="dateModified" content="2019-09-23T19:05:21+00:00" />
-<meta itemprop="wordCount" content="720">
+<meta itemprop="datePublished" content="2019-09-23T19:05:21+02:00" />
+<meta itemprop="dateModified" content="2020-09-02T17:50:00+02:00" />
+<meta itemprop="wordCount" content="930">
 
 
 
@@ -150,7 +150,8 @@ if (!doNotTrack) {
 		<div class="single block">
 			<article class="entry">
 	<div class="entry__meta meta mb">
-	<time class="entry__meta-published meta-published" datetime="2019-09-23T19:05:21Z">Opublikowano: 23/09/2019</time>
+	<time class="entry__meta-published meta-published" datetime="2019-09-23T19:05:21&#43;02:00">Opublikowano: 23/09/2019</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-09-02T17:50:00&#43;02:00">Zaktualizowano: 02/09/2020</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -170,6 +171,7 @@ if (!doNotTrack) {
     </li>
     <li><a href="#usługa-systemd-apparmorservice">Usługa systemd apparmor.service</a></li>
     <li><a href="#test-ładowania-polityki-apparmora">Test ładowania polityki AppArmor'a</a></li>
+    <li><a href="#cache-profili">Cache profili</a></li>
   </ol>
 </nav>
 </details>
@@ -301,7 +303,33 @@ załadowane oraz czy interesujące nas usługi systemowe są chronione:</p>
 działających w systemie, 51 jest ograniczonych przez politykę AA (49 enforce i 2 complain). Warto
 zwrócić uwagę, że nie ma żadnego procesu który by miał zdefiniowany profil ale działał bez
 ograniczeń ze strony AppArmor'a. W taki oto sposób można ograniczyć praktycznie dowolny proces
-działający w systemie, nawet ten mający <a href="https://gitlab.com/apparmor/apparmor/wikis/FullSystemPolicy">PID z numerem 1</a>.</p></div>
+działający w systemie, nawet ten mający <a href="https://gitlab.com/apparmor/apparmor/wikis/FullSystemPolicy">PID z numerem 1</a>.</p>
+<h2 id="cache-profili">Cache profili</h2>
+<p>Standardowo usługa mająca na celu załadowanie wszystkich profili podczas startu systemu może czytać
+całą masę plików, zwłaszcza gdy dość mocno oprofilowaliśmy sobie system. W takim przypadku
+aplikowanie reguł AppArmor'a może zająć nawet dłuższą chwilę spowalniając tym samym start systemu.
+Istnieje jednak sposób, by ten czas wczytywania profili dość mocno zredukować za sprawą cache,
+który domyślnie jest wyłączony. By włączyć cache profili trzeba edytować plik
+<code>/etc/apparmor/parser.conf</code> usuwając <code>#</code> w poniższej linijce:</p>
+<pre><code>write-cache
+</code></pre>
+<p>W taki sposób <code>apparmor_parser</code> będzie tworzył i aktualizował cache ilekroć tylko będziemy dodać
+czy przeładowywać profile aplikacji. Standardowo cache jest przechowywany w katalogu
+<code>/var/cache/apparmor/</code> i by mieć możliwość skorzystania z niego w fazie initramfs/initrd, musimy
+przekopiować ten katalog do obrazu initramfs/initrd. Musimy zatem do skryptu
+<code>/etc/initramfs-tools/hooks/apparmor</code> dodać poniższy wpis:</p>
+<pre><code>mkdir -p $DESTDIR/var/cache/apparmor/
+cp -a /var/cache/apparmor/ $DESTDIR/var/cache/
+</code></pre>
+<p>Teraz już wystarczy wygenerować cache, np. za pomocą usługi <code>apparmor.service</code> dla systemd oraz
+zaktualizować obraz initramfs/initd:</p>
+<pre><code># systemctl restart apparmor.service
+# update-initramfs -u -k 5.8.5-amd64
+</code></pre>
+<p>Podczas startu systemu powinniśmy zauważyć dość mocny wzrost wydajności podczas wczytywania profili
+AppArmor'a. W moim przypadku, gdzie mam tych profili już blisko koło tysiąca, czas potrzebny na ich
+wczytanie został zredukowany z około 40s do poniżej jednej sekundy. Zatem moja maszyna startuje o
+wiele szybciej niż w sytuacji, gdy nie robiło się użytku z tego cache.</p></div>
 				
 				<footer class="entry__footer">
 					
