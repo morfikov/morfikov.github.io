@@ -180,17 +180,16 @@ zarzutu, bo tutaj nie trzeba zmieniać adresacji IP.
 
 ## Testy mostka
 
-Poniżej jest test konfiguracji
-mostka.
+Poniżej jest test konfiguracji mostka.
 
-[![1.mostek-bridge-linux-debian-test]({{< baseurl >}}/img/2016/09/1.mostek-bridge-linux-debian-test-1024x662.png)]({{< baseurl >}}/img/2016/09/1.mostek-bridge-linux-debian-test.png)
+![]({{< baseurl >}}/img/2016/09/1.mostek-bridge-linux-debian-test.png#huge)
 
 Jak widzimy, mamy tutaj aktywny zarówno interfejs `wlan0` jak i `eth0` . Interfejs `wlan0` został
 przełączony w stan blokady i wykorzystywany jest interfejs `eth0` , przez który została otrzymana
 konfiguracja dla `br-lan` . Sprawdźmy zatem co się stanie po odłączeniu i podłączeniu przewodu do
 portu ethernet:
 
-![]({{< baseurl >}}/img/2016/09/2.mostek-bridge-linux-debian-test.png)
+![]({{< baseurl >}}/img/2016/09/2.mostek-bridge-linux-debian-test.png#huge)
 
 Po odłączeniu przewodu mamy tylko jeden interfejs aktywny i to przez niego zostają przepuszczone
 pakiety. W przypadku podpięciu przewodu do portu ethernet, pojawia się drugi interfejs aktywny i

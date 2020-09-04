@@ -44,7 +44,7 @@ dopytywał się klient.
 Przeglądarka musi jednak wiedzieć, gdzie wysłać zapytanie o ważność certyfikatu. Ta informacja jest
 zawarta bezpośrednio w samym certyfikacie CA w jednym z jego rozszerzeń:
 
-![]({{< baseurl >}}/img/2016/08/1.ocsp-adres-responder-przegladarka.png)
+![]({{< baseurl >}}/img/2016/08/1.ocsp-adres-responder-przegladarka.png#big)
 
 Więcej informacji na temat samego protokołu OCSP można znaleźć w [dokumencie
 RFC2560](https://tools.ietf.org/html/rfc2560).
@@ -83,7 +83,7 @@ serwer www prześle taką zbuforowaną odpowiedź do klienta, tylko i wyłączni
 nią wyraźnie poprosi. Może to zrobić przez ustawienie w pakiecie "Client Hello" rozszerzenia
 `status_request` . Wygląda to mniej więcej tak jak na tej fotce poniżej:
 
-![]({{< baseurl >}}/img/2016/08/2.ocsp-status-request-wireshark-klient.png)
+![]({{< baseurl >}}/img/2016/08/2.ocsp-status-request-wireshark-klient.png#huge)
 
 Odpowiedź od respondera może siedzieć w cache serwera www do 48 godzin. Co pewien okres czasu,
 serwer www będzie odpytywał responder o status certyfikatu i pobierał od niego odpowiedź.
@@ -118,6 +118,6 @@ możemy sprawdzić wpisując w terminalu to poniższe polecenie:
 
 W logu powinna znajdować się odpowiedź OCSP:
 
-![]({{< baseurl >}}/img/2016/08/3.ocsp-stapling-test-server-responder.png)
+![]({{< baseurl >}}/img/2016/08/3.ocsp-stapling-test-server-responder.png#huge)
 
 Status certyfikatu w odpowiedzi wskazuje na `good` , zatem certyfikat jest ważny.

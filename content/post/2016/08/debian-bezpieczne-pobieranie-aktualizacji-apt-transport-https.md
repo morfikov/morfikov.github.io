@@ -43,7 +43,7 @@ TOR]({{< baseurl >}}/post/debian-anonimowe-pobieranie-aktualizacji-apt-transport
 przypadku, gdy korzystamy ze standardowego transportu przy pobieraniu pakietów trochę informacji
 zdradzamy wszystkim, którzy nasłuchują:
 
-![]({{< baseurl >}}/img/2016/08/1.wireshark-pobieranie-pakietu-http.png)
+![]({{< baseurl >}}/img/2016/08/1.wireshark-pobieranie-pakietu-http.png#huge)
 
 ## Pakiet apt-transport-https, a repozytoria
 
@@ -83,7 +83,7 @@ faktyczne pobieranie pakietu, zostanie zestawiony tunel TLS, który posłuży do
 wszystkich danych. Potencjalny atakujący nie będzie miał w ten sposób już możliwość podejrzeć jakie
 pliki są pobierane:
 
-![]({{< baseurl >}}/img/2016/08/2.wireshark-pobieranie-pakietu-https.png)
+![]({{< baseurl >}}/img/2016/08/2.wireshark-pobieranie-pakietu-https.png#huge)
 
 ## Kwestia security.debian.org oraz deb.debian.org/debian-security
 

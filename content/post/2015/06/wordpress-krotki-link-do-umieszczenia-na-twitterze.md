@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+- twitter
 title: 'WordPress: Krótki link do umieszczenia na Twitterze'
 ---
 
@@ -28,7 +29,7 @@ które umożliwiają skracanie linków. WordPress ma swój własny mechanizm gen
 krótkich odnośników typu `http://wp.me/8cz78asd` będzie nam zapewniona i do każdego opublikowanego
 przez nas postu będziemy w stanie wyciągnąć taki linki za pomocą formularza edycji:
 
-![]({{< baseurl >}}/img/2015/06/1.wordpress-krotki-link.png)
+![]({{< baseurl >}}/img/2015/06/1.wordpress-krotki-link.png#big)
 
 Natomiast jeśli nasz blog jest hostowany poza stroną WordPress'a, to nie będziemy mogli skorzystać z
 tych krótkich odnośników. Nie wszystko jednak stracone, bowiem jeśli spróbujemy wygenerować krótki
@@ -36,7 +37,7 @@ link dla jakiegoś postu, zostanie nam on podany w formie `http://domena.com/?p=
 standardowy link do treści w WordPress'ie przed przepisaniem go do postaci
 [permalinku]({{< baseurl >}}/post/wordpress-odnosniki-bezposrednie-permalinks/):
 
-![]({{< baseurl >}}/img/2015/06/2.wordpress-krotki-link-permalink.png)
+![]({{< baseurl >}}/img/2015/06/2.wordpress-krotki-link-permalink.png#small)
 
 Tak czy inaczej, oba linki będą działać bez żadnych dodatkowych kroków z naszej strony, bo jeśli
 korzystamy z permalinków, to te krótsze ich wersje zostaną przekierowane automatycznie przy pomocy
@@ -49,8 +50,8 @@ korzystać, to przydałoby się ją odznaczyć. Wprawdzie nie zauważymy żadnej
 bo w kodzie nawet nie są generowane linijki z `rel="shortlink"` ale dobrze jest czasem zajrzeć
 WordPresowi pod maskę i sprawdzić jak on działa.
 
-Za generowanie tych skróconych odnośników odpowiedzialny jest plik `wp-includes/default-filters.php`
-, a konkretnie poniższy kod:
+Za generowanie tych skróconych odnośników odpowiedzialny jest plik
+`wp-includes/default-filters.php` , a konkretnie poniższy kod:
 
     add_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
 

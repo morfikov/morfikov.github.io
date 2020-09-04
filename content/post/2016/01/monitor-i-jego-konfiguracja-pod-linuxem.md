@@ -9,6 +9,8 @@ status: publish
 tags:
 - xserver
 - monitor
+- openbox
+- debian
 title: Monitor i jego konfiguracja pod linux'em
 ---
 
@@ -89,7 +91,7 @@ ewentualnie proporcjonalnie większe lub mniejsze. Wtedy nie ma większego probl
 obrazu czy rozdzielaniem go na poszczególne monitory. Jeśli parametry sprzętu różnią się, to wtedy
 Screen może wyglądać tak jak ten poniżej:
 
-![]({{< baseurl >}}/img/2016/01/1.monitor-screen-arandr.png)
+![]({{< baseurl >}}/img/2016/01/1.monitor-screen-arandr.png#medium)
 
 W taki sposób nie damy rady, np. rozdzielić filmu na oba monitory bez obcinania kawałka obrazu, lub
 całkowitego wypełnienia obu monitorów. Podobnie sprawa ma się w przypadku powielania obrazu na oba
@@ -147,7 +149,7 @@ W [man lspci](http://manpages.ubuntu.com/manpages/wily/en/man8/lspci.8.html) mo�
 informację, że ten numerek na początku ma format `[domain:]bus:device.function` , czyli pasuje do
 tego, który mamy podać Xserver'owi, z tym, że `.` zamieniamy na `:` . Dodatkowo, wartości na wyjściu
 `lspci` są w hexach. Natomiast Xserver korzysta z systemu dziesiętnego i te wartości trzeba pierw
-przekonwertować. Mamy zatem trzy pozycje: `00` -\> `0` , `02` -\> `2` oraz `0` -\> `0` . W taki
+przekonwertować. Mamy zatem trzy pozycje: `00` -> `0` , `02` -> `2` oraz `0` -> `0` . W taki
 sposób otrzymujemy `0:2:0` , gdzie na początku doklejamy `PCI:` i tę frazę dodajemy do pliku
 konfiguracyjnego.
 
@@ -227,7 +229,7 @@ Modeline](https://en.wikipedia.org/wiki/XFree86_Modeline). Wygląda on mniej wi�
 Jeśli nie chce nam się ręcznie uzupełniać tych wartości w oparciu o log Xserver'a, to zawsze możemy
 skorzystać z narzędzi `cvt` lub `gtf` . Częstotliwość odświeżania tego monitora wynosi 60Hz. Wiemy
 to z powyższych parametrów. Wzór na wyliczenie częstotliwości jest następujący:
-69.30MHz/(1432\*806)=69300000/(1432\*806)=60.04Hz.
+69.30MHz/(1432*806)=69300000/(1432*806)=60.04Hz.
 
 Jak możemy wyczytać w podlinkowanym wyżej wpisie, ręczne ustawianie `Modeline` jest już
 przestarzałe, bo Xserver sam wylicza konkretne wartości podczas swojego startu w oparciu o

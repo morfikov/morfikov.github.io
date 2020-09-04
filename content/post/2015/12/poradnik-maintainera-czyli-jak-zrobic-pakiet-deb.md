@@ -508,7 +508,7 @@ Innym miejscem jest repozytorium [AUR dystrybucji Archlinux](https://aur.archlin
 zawsze idzie coś znaleźć, tylko paczki nie są zbytnio kompatybilne z debianem i trzeba wiedzieć
 gdzie i czego szukać. Przykładowo, załóżmy, że interesuje nas pakiet `monitorix` :
 
-![]({{< baseurl >}}/img/2015/12/1.pakiet-aur-deb.png)
+![]({{< baseurl >}}/img/2015/12/1.pakiet-aur-deb.png#big)
 
 Jak widzimy pakiet został odnaleziony i mamy tam info o licencji i o zależnościach. Niemniej jednak,
 to nie wszystko co możemy wyciągnąć z AUR. Tam w prawym górnym rogu jest `PKGBUILD` . Jest to plik,
@@ -910,13 +910,13 @@ powinien sobie z procesem budowania poradzić bez naszej ingerencji ale czasem s
 będzie usunąć, a niektóre stworzyć lub przenieść w inne miejsce, tak by paczka miała ręce i nogi i
 nie zawierała przy tym zbędnych śmieci.
 
-Jeśli kiedyś zdarzyło nam się instalować pakiet ręcznie, tj. via `./configure` (dh_auto_configure)
-, `make` (dh_auto_build) i `make install` (dh_auto_install), to może nam to podsunąć kilka
-pomysłów, bo tak na dobrą sprawę, to jak sama nazwa wskazuje `makefile` tworzy pliki. Zatem jest to
-prosta instrukcja gdzie wgrać jakie pliki, by program działał jak trza. Zatem możemy podejrzeć plik
-`makefile` dołączony do źródeł i prześledzić co tak naprawdę w nim się odbywa. Z reguły pliki
-`makefile` są długie i nie będę tutaj przytaczał całości. Rzucimy jedynie okiem na najważniejsze
-jego fragmenty:
+Jeśli kiedyś zdarzyło nam się instalować pakiet ręcznie, tj. via `./configure`
+(dh_auto_configure) , `make` (dh_auto_build) i `make install` (dh_auto_install), to może nam to
+podsunąć kilka pomysłów, bo tak na dobrą sprawę, to jak sama nazwa wskazuje `makefile` tworzy pliki.
+Zatem jest to prosta instrukcja gdzie wgrać jakie pliki, by program działał jak trza. Zatem możemy
+podejrzeć plik `makefile` dołączony do źródeł i prześledzić co tak naprawdę w nim się odbywa. Z
+reguły pliki `makefile` są długie i nie będę tutaj przytaczał całości. Rzucimy jedynie okiem na
+najważniejsze jego fragmenty:
 
     PN = monitorix
 
@@ -1448,9 +1448,9 @@ korzystać z polecenia `man -l plik-mana.1` aby podejrzeć jak wyglądać będzi
 
 #### Automatyczne generowanie manuali
 
-Watro też wspomnieć iż istnieje możliwość wygenerowania pliku manuala w oparciu o polecenie `--help`
-, z tym, że nie zawsze wszystkie aplikacje posiadają w swoim wyposażeniu ten parametr. Poza tym,
-jeśli chodzi o aplikacje GUI, muszą one mieć dostęp do sesji graficznej, by taki manual
+Watro też wspomnieć iż istnieje możliwość wygenerowania pliku manuala w oparciu o polecenie
+`--help` , z tym, że nie zawsze wszystkie aplikacje posiadają w swoim wyposażeniu ten parametr.
+Poza tym, jeśli chodzi o aplikacje GUI, muszą one mieć dostęp do sesji graficznej, by taki manual
 wygenerować. I takim automatycznym generowaniem plików manuali zajmuje się `help2man` . Można go
 wywołać bezpośrednio przy budowaniu paczki, z tym, że to pociąga za sobą dodatkowe zależności oraz
 kilka linijek w pliku `debian/rules` , a konkretnie trzeba będzie nadpisać target `dh_installman`
@@ -1522,11 +1522,11 @@ zaczepienia.
 
 #### debian/*.init
 
-Niby `debhelper` tworzy plik `*.init.d` ale wszędzie w paczkach spotkałem się tylko z samym `*.init`
-. W każdym razie, nie ma to większego znaczenia, z której nazwy skorzystamy. Oba pliki odpowiadają
-za instalowanie skryptów startowych sysvinit, tych w katalogu `/etc/init.d/` . By sprawnie tworzyć
-takie skrypty, trzeba zrozumieć sam nagłówek [LSB](https://wiki.debian.org/LSBInitScripts) oraz
-ogarnąć narzędzie
+Niby `debhelper` tworzy plik `*.init.d` ale wszędzie w paczkach spotkałem się tylko z samym
+`*.init` . W każdym razie, nie ma to większego znaczenia, z której nazwy skorzystamy. Oba pliki
+odpowiadają za instalowanie skryptów startowych sysvinit, tych w katalogu `/etc/init.d/` . By
+sprawnie tworzyć takie skrypty, trzeba zrozumieć sam nagłówek
+[LSB](https://wiki.debian.org/LSBInitScripts) oraz ogarnąć narzędzie
 [start-stop-daemon](http://manpages.ubuntu.com/manpages/wily/man8/start-stop-daemon.8.html).
 Dodatkowo trzeba również opanować obsługę `sh` ( `dash` ), tak by
 [uniknąć](http://mywiki.wooledge.org/Bashism) [bashismów](https://wiki.ubuntu.com/DashAsBinSh).
@@ -2282,8 +2282,8 @@ W katalogu z wypakowanymi źródłami znajduje się podkatalog `debian/` i to w 
 praktycznie wszelkich zmian. Sam katalog, jak możemy wywnioskować z tych wszystkich powyższych
 informacji, jest odrębną całością i jest pakowany oddzielnie. Można go też przenosić między
 kolejnymi wersjami źródeł. Jeśli zajrzymy do katalogu gdzie pobraliśmy źródła, możemy dostrzec
-również spakowany plik `wpa_2.2-1.debian.tar.xz` . To tam właśnie jest ulokowany katalog `debian/`
-.
+również spakowany plik `wpa_2.2-1.debian.tar.xz` . To tam właśnie jest ulokowany katalog
+`debian/` .
 
 ### Aktualizacja długo nieaktualizowanego pakietu
 

@@ -9,6 +9,8 @@ status: publish
 tags:
 - pendrive
 - live
+- karta-sd
+- flash
 title: Jak wgrać system live na uszkodzony pendrive
 ---
 
@@ -44,7 +46,7 @@ czego uszkodzone sektory są rozsiane na pierwszych 5GiB. Zwykle obraz live ma n
 zatem najlepiej odpuścić sobie ten obszar początkowy i utworzyć minimum dwie partycje, z których
 jedna będzie mieć 5GiB, a druga będzie rozciągać się na pozostałe miejsce na pendrive, przykładowo:
 
-![]({{< baseurl >}}/img/2015/06/1.gparted-uszkodzony-pendrive-live.png)
+![]({{< baseurl >}}/img/2015/06/1.gparted-uszkodzony-pendrive-live.png#big)
 
 Naturalnie, możemy stworzyć więcej partycji i przeznaczyć jedynie 2GiB na system live. W dalszym
 ciągu także możemy korzystać z pierwszej partycji, choć nie jest to zalecane, bo istnieje spore
@@ -72,7 +74,7 @@ po czym sprawdzamy jego zawartość przy pomocy narzędzia `parted` :
 
 Plik można traktować jak zwykły dysk twardy, bo zawiera partycje i wszelkie operacje, które można
 przeprowadzić na dyskach, można również przeprowadzić na obrazach live. Jak widzimy wyżej, plik
-zawiera jedną partycję, która zaczyna się na 64 sektorze. Jest to 64\*512=32768 bajtów. Możemy tę
+zawiera jedną partycję, która zaczyna się na 64 sektorze. Jest to 64*512=32768 bajtów. Możemy tę
 partycję zamontować w systemie uwzględniając ten offset:
 
     # mount -o loop,offset=32768 /home/morfik/Desktop/debian-live-8.1.0-amd64-mate-desktop.iso /mnt

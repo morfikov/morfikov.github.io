@@ -11,6 +11,7 @@ tags:
 - wifi
 - sieć
 - dhcp
+- hostname
 title: Jak ukryć hostname w protokole DHCP
 ---
 
@@ -37,14 +38,13 @@ być problemów z jego zainstalowaniem. Po procesie instalacyjnym, odpalamy tę 
 przechodzimy co "Capture Options" (4 ikonka na lewo w menu). Wybieramy interfejs sieciowy i
 ustawiamy mu filtr tak, by łapał jedynie pakiety z protokołu DHCP: `port 67 or port 68` :
 
-![]({{< baseurl >}}/img/2016/05/1.wireshark-filtr-dhcp.png)
+![]({{< baseurl >}}/img/2016/05/1.wireshark-filtr-dhcp.png#huge)
 
 Po zapuszczeniu sniffer'a, podnosimy interfejs sieciowy, np. za pomocą `ifup bond0` . Powinny zostać
 odnotowane cztery pakiety. Klikamy pierwszy z nich i rozwijamy opcje protokołu. Tam z kolei widzimy,
-że klient DHCP przesłał do serwera DHCP hostname naszego
-komputera:
+że klient DHCP przesłał do serwera DHCP hostname naszego komputera:
 
-[![2.wireshark-dhcp-hostname]({{< baseurl >}}/img/2016/05/2.wireshark-dhcp-hostname-1024x569.png)]({{< baseurl >}}/img/2016/05/2.wireshark-dhcp-hostname.png)
+![]({{< baseurl >}}/img/2016/05/2.wireshark-dhcp-hostname.png#huge)
 
 W ten sposób sami się identyfikujemy w darmowych sieciach i to nie tylko muszą być sieci WiFi.
 
@@ -79,7 +79,7 @@ linijkę:
 Zapiszmy konfigurację i jeszcze raz zapuśćmy
 wiresharka:
 
-[![3.wireshark-dhcp-ukrycie-hostname]({{< baseurl >}}/img/2016/05/3.wireshark-dhcp-ukrycie-hostname-1024x569.png)]({{< baseurl >}}/img/2016/05/3.wireshark-dhcp-ukrycie-hostname.png)
+![]({{< baseurl >}}/img/2016/05/3.wireshark-dhcp-ukrycie-hostname.png#huge)
 
 Jak widzimy na powyższym obrazku, `dhclient` nie przesłał tym razem naszego hostname do serwera
 DHCP.

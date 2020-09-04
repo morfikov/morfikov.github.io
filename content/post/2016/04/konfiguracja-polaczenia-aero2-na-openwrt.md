@@ -71,9 +71,9 @@ z większym flash'em albo zrobić [extroot](http://eko.one.pl/?p=openwrt-externa
 
 ## Konfiguracja połączenia Aero2
 
-Przechodzimy teraz do konfiguracji połączenia. Standardowo interesuje nas plik `/etc/config/network`
-. By tutaj skonfigurować połączenie Aero2, musimy przerobić odpowiednio sekcję `wan` . Domyślnie ta
-sekcja w tym routerze wygląda tak:
+Przechodzimy teraz do konfiguracji połączenia. Standardowo interesuje nas plik
+`/etc/config/network` . By tutaj skonfigurować połączenie Aero2, musimy przerobić odpowiednio
+sekcję `wan` . Domyślnie ta sekcja w tym routerze wygląda tak:
 
     config interface 'wan'
             option ifname 'eth0.2'
@@ -197,15 +197,15 @@ Zapisujemy i restartujemy `dnsmasq` :
 
 Teraz już powinniśmy zostać przekierowani bez większego problemu na odpowiednią stronę:
 
-![]({{< baseurl >}}/img/2016/04/1.aero2-dostep-do-internetu-www.png)
+![]({{< baseurl >}}/img/2016/04/1.aero2-dostep-do-internetu-www.png#big)
 
 I możemy wpisać kod CAPTCHA:
 
-![]({{< baseurl >}}/img/2016/04/2.aero2-wpisanie-captcha.png)
+![]({{< baseurl >}}/img/2016/04/2.aero2-wpisanie-captcha.png#big)
 
 Po chwili dostęp do sieci powinien zostać przyznany:
 
-![]({{< baseurl >}}/img/2016/04/3.aero2-przywrocenie-dostepu-internet.png)
+![]({{< baseurl >}}/img/2016/04/3.aero2-przywrocenie-dostepu-internet.png#huge)
 
 Nie trzeba również resetować połączenia, tak jak to [miało miejsce w
 przeszłości](http://jdtech.pl/2015/04/aero2-rezygnuje-z-koniecznosci-rozlaczania-po-wpisaniu-kodu.html).

@@ -10,6 +10,8 @@ tags:
 - debian
 - sieć
 - ftp
+- ssl
+- tls
 title: Implementacja protokołu SSL/TLS w vsftpd
 ---
 
@@ -57,8 +59,8 @@ konfigurację dla
     signing_key
     encryption_key
 
-Przykładową konfigurację certyfikatu można znaleźć w katalogu `/usr/share/doc/gnutls-bin/examples/`
-. Sam certyfikat generujemy w poniższy sposób:
+Przykładową konfigurację certyfikatu można znaleźć w katalogu
+`/usr/share/doc/gnutls-bin/examples/` . Sam certyfikat generujemy w poniższy sposób:
 
     # certtool --generate-certificate \
           --template template/server-vsftpd-morfikownia.lh \
@@ -75,7 +77,7 @@ Informacje o kluczu jak i certyfikacie serwera FTP możemy podejrzeć za pomocą
 
 Możemy także wykorzystać do tego celu `gcr-viewer` (pakiet `gcr` ) :
 
-![]({{< baseurl >}}/img/2016/02/1.certyfikat-vsftpd-gcr-viewer.png)
+![]({{< baseurl >}}/img/2016/02/1.certyfikat-vsftpd-gcr-viewer.png#medium)
 
 ## Konfiguracja SSL/TLS w vsftpd
 
@@ -183,7 +185,7 @@ połączeniem. By te wiadomości zaczęły nam się pokazywać w logu, musimy do
 Poniżej komunikaty z przykładowego logowania z wykorzystaniem metody `Explicit FTP over SSL` bez
 certyfikatów klienckich:
 
-![]({{< baseurl >}}/img/2016/02/2.log-vsftpd-ssl-tls-debug.png)
+![]({{< baseurl >}}/img/2016/02/2.log-vsftpd-ssl-tls-debug.png#huge)
 
 ## Test połączenia z vsftpd
 
@@ -191,7 +193,7 @@ Odpalamy teraz klienta FTP, w tym przypadku będzie to `filezilla` i próbujemy 
 wykorzystując jedną z powyższych metod. Chwilę po wysłaniu żądania połączenia, powinien naszym oczom
 pokazać się mniej więcej taki certyfikat:
 
-![]({{< baseurl >}}/img/2016/02/3.vsftpd-certyfikat-polaczenie-filezilla.png)
+![]({{< baseurl >}}/img/2016/02/3.vsftpd-certyfikat-polaczenie-filezilla.png#big)
 
 Sprawdzamy go pod kątem poprawności i jeśli wszystko jest w porządku, to akceptujemy.
 

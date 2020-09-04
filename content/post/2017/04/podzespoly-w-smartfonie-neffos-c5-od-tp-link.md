@@ -33,10 +33,9 @@ Ta część obudowy, którą zamierzamy ściągnąć, składa się w zasadzie z 
 ściągnąć osobno zahaczając paznokciem czy innym cienkim przedmiotem w rogu smartfona tuż nad
 ekranem. W powstały otwór trzeba następnie wsadzić cienki kawałek plastiku, np. kartę płatniczą i
 przesunąć wzdłuż krawędzi. Wszystkie zatrzaski powinny nam w ten sposób łatwo zeskoczyć umożliwiając
-nam tym samym ściągnięcie
-obudowy.
+nam tym samym ściągnięcie obudowy.
 
-[![]({{< baseurl >}}/img/2017/04/001.neffos-c5-tp-link-podzespoly-660x643.jpg)]({{< baseurl >}}/img/2017/04/001.neffos-c5-tp-link-podzespoly.jpg)
+![]({{< baseurl >}}/img/2017/04/001.neffos-c5-tp-link-podzespoly.jpg#huge)
 
 ## Jak wyciągnąć PCB
 
@@ -44,32 +43,30 @@ Jak widzimy na powyższej fotce, PCB w tym telefonie jest jednoczęściowy i zlo
 przy górnej, dolnej i lewej części obudowy. By wyciągnąć tę płytkę, trzeba pierw odkręcić kilka
 śrubek oraz odłączyć trzy konektory. W dolnej części obudowy jest także ulokowany kawałek
 wibratora, z którego są wyprowadzone i przylutowane na PCB dwa przewody. Ten element jest także
-przyklejony do
-obudowy:
+przyklejony do obudowy:
 
-[![]({{< baseurl >}}/img/2017/04/002.neffos-c5-tp-link-podzespoly-601x660.jpg)]({{< baseurl >}}/img/2017/04/002.neffos-c5-tp-link-podzespoly.jpg)
+![]({{< baseurl >}}/img/2017/04/002.neffos-c5-tp-link-podzespoly.jpg#huge)
 
 ## Podzespoły zastosowane w Neffos C5
 
 Mając wyciągnięty PCB, możemy przyjrzeć się nieco bliżej samej płytce oraz bez większego problemu
-odczytać jakie modele układów zostały zastosowane w Neffos
-C5.
+odczytać jakie modele układów zostały zastosowane w Neffos C5.
 
-[![]({{< baseurl >}}/img/2017/04/003.neffos-c5-tp-link-podzespoly-660x442.jpg)]({{< baseurl >}}/img/2017/04/003.neffos-c5-tp-link-podzespoly.jpg)
+![]({{< baseurl >}}/img/2017/04/003.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-[![]({{< baseurl >}}/img/2017/04/004.neffos-c5-tp-link-podzespoly-660x427.jpg)]({{< baseurl >}}/img/2017/04/004.neffos-c5-tp-link-podzespoly.jpg)
+![]({{< baseurl >}}/img/2017/04/004.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-[![]({{< baseurl >}}/img/2017/04/005.neffos-c5-tp-link-podzespoly-660x538.jpg)]({{< baseurl >}}/img/2017/04/005.neffos-c5-tp-link-podzespoly.jpg)
+![]({{< baseurl >}}/img/2017/04/005.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-[![]({{< baseurl >}}/img/2017/04/006.neffos-c5-tp-link-podzespoly-400x660.jpg)]({{< baseurl >}}/img/2017/04/006.neffos-c5-tp-link-podzespoly.jpg)
+![]({{< baseurl >}}/img/2017/04/006.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-[![]({{< baseurl >}}/img/2017/04/007.neffos-c5-tp-link-podzespoly-660x312.jpg)]({{< baseurl >}}/img/2017/04/007.neffos-c5-tp-link-podzespoly.jpg)
+![]({{< baseurl >}}/img/2017/04/007.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-[![]({{< baseurl >}}/img/2017/04/008.neffos-c5-tp-link-podzespoly-521x660.jpg)]({{< baseurl >}}/img/2017/04/008.neffos-c5-tp-link-podzespoly.jpg)
+![]({{< baseurl >}}/img/2017/04/008.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-[![]({{< baseurl >}}/img/2017/04/009.neffos-c5-tp-link-podzespoly-660x272.jpg)]({{< baseurl >}}/img/2017/04/009.neffos-c5-tp-link-podzespoly.jpg)
+![]({{< baseurl >}}/img/2017/04/009.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-[![]({{< baseurl >}}/img/2017/04/010.neffos-c5-tp-link-podzespoly-660x631.jpg)]({{< baseurl >}}/img/2017/04/010.neffos-c5-tp-link-podzespoly.jpg)
+![]({{< baseurl >}}/img/2017/04/010.neffos-c5-tp-link-podzespoly.jpg#huge)
 
 Niżej jest zapis tekstowy wszystkich tych układów widocznych na powyższych fotkach:
 

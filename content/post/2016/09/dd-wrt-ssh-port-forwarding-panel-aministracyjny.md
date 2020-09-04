@@ -31,16 +31,16 @@ maszynami, które zamierzają się komunikować. Wymagana zatem jest konfiguracj
 serwera, którym w tym przypadku jest router z DD-WRT.
 
 W przypadku routera, sprawa wygląda dość prosto. Logujemy się do panelu administracyjnego na adres
-`http://192.168.1.1/` i przechodzimy na zakładkę Services =\> Services. Tam mamy zaś pozycję `Secure
+`http://192.168.1.1/` i przechodzimy na zakładkę Services => Services. Tam mamy zaś pozycję `Secure
 Shell` . Po jej aktywacji będziemy mieć dostęp do opcji `SSH TCP Forwarding` . Tę opcję również
 zaznaczamy:
 
-![]({{< baseurl >}}/img/2016/09/1.ssh-port-forwarding-router-dd-wrt-panel-admina.png)
+![]({{< baseurl >}}/img/2016/09/1.ssh-port-forwarding-router-dd-wrt-panel-admina.png#huge)
 
-Następnie przechodzimy na zakładkę Administration =\> Management i szukamy za `Remote Access` ,
+Następnie przechodzimy na zakładkę Administration => Management i szukamy za `Remote Access` ,
 gdzie zaznaczamy `SSH Management` . Port możemy sobie dostosować wedle uznania, 22 jest domyślny:
 
-![]({{< baseurl >}}/img/2016/09/2.ssh-port-forwarding-router-dd-wrt-panel-admina.png)
+![]({{< baseurl >}}/img/2016/09/2.ssh-port-forwarding-router-dd-wrt-panel-admina.png#huge)
 
 Zapisujemy i aplikujemy ustawienia.
 
@@ -82,5 +82,6 @@ Teraz zestawianie tunelu SSH upraszcza się do standardowego polecenia SSH:
     $ ssh 192.168.1.235
 
 Jeśli nie chce nam się wpisywać hasła za każdym razem, gdy wydajemy to powyższe polecenie, to zawsze
-możemy [zaimplementować sobie klucze
-SSH.]({{< baseurl >}}/post/dd-wrt-dostep-do-routera-telnet-ssh-panel-web/)
+możemy [zaimplementować sobie klucze SSH][1].
+
+[1]: {{< baseurl >}}/post/dd-wrt-dostep-do-routera-telnet-ssh-panel-web/

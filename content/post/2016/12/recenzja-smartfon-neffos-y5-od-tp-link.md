@@ -27,29 +27,27 @@ telefonów. Czy w przypadku Neffos'a Y5 (TP802A), TP-LINK jest nas w stanie czym
 
 W stosunku do poprzednich modeli smartfonów TP-LINK (C5 i C5 MAX), które miałem okazję testować,
 Neffos Y5 nie ma dołączonych w zestawie słuchawek. Poza brakiem tego elementu, który moim zdaniem
-powinien znaleźć się w zestawie każdego smartfona, zawartość pudełka jest raczej
-standardowa:
+powinien znaleźć się w zestawie każdego smartfona, zawartość pudełka jest raczej standardowa:
 
-[![]({{< baseurl >}}/img/2016/12/001.neffos-y5-smartfon-tp-link-opakowanie-660x522.jpg)]({{< baseurl >}}/img/2016/12/001.neffos-y5-smartfon-tp-link-opakowanie.jpg)
+![]({{< baseurl >}}/img/2016/12/001.neffos-y5-smartfon-tp-link-opakowanie.jpg#big)
 
-[![]({{< baseurl >}}/img/2016/12/002.neffos-y5-smartfon-tp-link-opakowanie-zawartosc-660x632.jpg)]({{< baseurl >}}/img/2016/12/002.neffos-y5-smartfon-tp-link-opakowanie-zawartosc.jpg)
+![]({{< baseurl >}}/img/2016/12/002.neffos-y5-smartfon-tp-link-opakowanie-zawartosc.jpg#big)
 
-Poza smartfonem mamy naturalnie ładowarkę
-5V/1A:
+Poza smartfonem mamy naturalnie ładowarkę 5V/1A:
 
-[![]({{< baseurl >}}/img/2016/12/003.neffos-y5-smartfon-tp-link-ladowarka-660x286.jpg)]({{< baseurl >}}/img/2016/12/003.neffos-y5-smartfon-tp-link-ladowarka.jpg)
+![]({{< baseurl >}}/img/2016/12/003.neffos-y5-smartfon-tp-link-ladowarka.jpg#big)
 
-[![]({{< baseurl >}}/img/2016/12/004.neffos-y5-smartfon-tp-link-ladowarka-660x468.jpg)]({{< baseurl >}}/img/2016/12/004.neffos-y5-smartfon-tp-link-ladowarka.jpg)
+![]({{< baseurl >}}/img/2016/12/004.neffos-y5-smartfon-tp-link-ladowarka.jpg#big)
 
 Oraz przewód mikro USB umożliwiający podłączenie smartfona do ładowarki lub też do portu USB
 komputera:
 
-[![]({{< baseurl >}}/img/2016/12/005.neffos-y5-smartfon-tp-link-przewod-usb-660x415.jpg)]({{< baseurl >}}/img/2016/12/005.neffos-y5-smartfon-tp-link-przewod-usb.jpg)
+![]({{< baseurl >}}/img/2016/12/005.neffos-y5-smartfon-tp-link-przewod-usb.jpg#big)
 
 Niewątpliwą zaletą smartfona Neffos Y5 jest wymienna bateria o pojemności 2130 mAh (model
 NBL-39A2130):
 
-[![]({{< baseurl >}}/img/2016/12/006.neffos-y5-smartfon-tp-link-bateria-660x549.jpg)]({{< baseurl >}}/img/2016/12/006.neffos-y5-smartfon-tp-link-bateria.jpg)
+![]({{< baseurl >}}/img/2016/12/006.neffos-y5-smartfon-tp-link-bateria.jpg#big)
 
 No i to z grubsza wszystko co było w zestawie, oczywiście nie licząc skróconych instrukcji obsługi i
 innych tego typu papierzysk.
@@ -71,59 +69,51 @@ W przypadku smartfona Neffos Y5 mamy do czynienia ze standardową obudową wykon
 plastiku. Lewej krawędzi obudowy TP-LINK zdaje się nie wykorzystywać w swoich smartfonach zupełnie i
 robi jedynie użytek z pozostałych trzech krawędzi. Przyciski są umieszczone jak zawsze na prawym
 boku obudowy. Mamy tutaj jeden większy przycisk głośności robiący za VolumeUp/VolumeDown oraz
-przycisk
-zasilania.
+przycisk zasilania.
 
-[![]({{< baseurl >}}/img/2016/12/007.neffos-y5-smartfon-tp-link-obudowa-przyciski-660x107.jpg)]({{< baseurl >}}/img/2016/12/007.neffos-y5-smartfon-tp-link-obudowa-przyciski.jpg)
+![]({{< baseurl >}}/img/2016/12/007.neffos-y5-smartfon-tp-link-obudowa-przyciski.jpg#big)
 
-Górna krawędź Neffos'a Y5 skrywa jedynie gniazdo słuchawkowe minijack 3,5
-mm:
+Górna krawędź Neffos'a Y5 skrywa jedynie gniazdo słuchawkowe minijack 3,5 mm:
 
-[![]({{< baseurl >}}/img/2016/12/008.neffos-y5-smartfon-tp-link-obudowa-660x172.jpg)]({{< baseurl >}}/img/2016/12/008.neffos-y5-smartfon-tp-link-obudowa.jpg)
+![]({{< baseurl >}}/img/2016/12/008.neffos-y5-smartfon-tp-link-obudowa.jpg#big)
 
 Jeśli zaś chodzi o dolną krawędź, to tutaj mamy standardowo port mikro USB oraz mikrofon do rozmów
 telefonicznych:
 
-[![]({{< baseurl >}}/img/2016/12/009.neffos-y5-smartfon-tp-link-obudowa-660x171.jpg)]({{< baseurl >}}/img/2016/12/009.neffos-y5-smartfon-tp-link-obudowa.jpg)
+![]({{< baseurl >}}/img/2016/12/009.neffos-y5-smartfon-tp-link-obudowa.jpg#big)
 
 Tuż nad ekranem mamy czerwoną diodę powiadomień, czujnik światła, głośnik oraz aparat selfie 2 mpix
 (1600x1200 px fotki, 1280x720 px video). Może i kamera jest w stanie nagrywać obraz w rozdzielczości
-HD ale ma z tym zdaniem pewne problemy, bo ilość FPS jest na poziomie
-5/s.
+HD ale ma z tym zdaniem pewne problemy, bo ilość FPS jest na poziomie 5/s.
 
-[![]({{< baseurl >}}/img/2016/12/010.neffos-y5-smartfon-tp-link-obudowa-660x162.jpg)]({{< baseurl >}}/img/2016/12/010.neffos-y5-smartfon-tp-link-obudowa.jpg)
+![]({{< baseurl >}}/img/2016/12/010.neffos-y5-smartfon-tp-link-obudowa.jpg#big)
 
 Z tyłu obudowy mamy zaś mikrofon z redukcją szumów, aparat 8 mpix (fotki 2448x3264, video 1280x720
-px 20 FPS ) oraz jedną diodę robiącą za lampę błyskową i
-latarkę:
+px 20 FPS ) oraz jedną diodę robiącą za lampę błyskową i latarkę:
 
-[![]({{< baseurl >}}/img/2016/12/011.neffos-y5-smartfon-tp-link-obudowa-aparat-660x410.jpg)]({{< baseurl >}}/img/2016/12/011.neffos-y5-smartfon-tp-link-obudowa-aparat.jpg)
+![]({{< baseurl >}}/img/2016/12/011.neffos-y5-smartfon-tp-link-obudowa-aparat.jpg#big)
 
 Niżej na obudowie mamy zaś dziurki na głośnik. Może jest ich dość sporo ale sam głośnik jest o wiele
 mniejszy niż przestrzeń przeznaczona na te małe otworki. Generalnie to chyba dźwięk nieco łatwiej ma
 się wydostać z obudowy przy takim rozwiązaniu. Niemniej jednak, ja nie przepadam za bardzo za
-głośnikami umiejscowionymi z tyłu
-obudowy.
+głośnikami umiejscowionymi z tyłu obudowy.
 
-[![]({{< baseurl >}}/img/2016/12/012.neffos-y5-smartfon-tp-link-obudowa-glosnik-660x342.jpg)]({{< baseurl >}}/img/2016/12/012.neffos-y5-smartfon-tp-link-obudowa-glosnik.jpg)
+![]({{< baseurl >}}/img/2016/12/012.neffos-y5-smartfon-tp-link-obudowa-glosnik.jpg#big)
 
 Po ściągnięciu tylnej klapki możemy zauważyć, że bateria w Neffos Y5 jest wyjmowalna i bez problemu
-będziemy ją w stanie sami wymienić, gdy ta się już
-zużyje.
+będziemy ją w stanie sami wymienić, gdy ta się już zużyje.
 
-[![]({{< baseurl >}}/img/2016/12/013.neffos-y5-smartfon-tp-link-obudowa-wnetrze-660x320.jpg)]({{< baseurl >}}/img/2016/12/013.neffos-y5-smartfon-tp-link-obudowa-wnetrze.jpg)
+![]({{< baseurl >}}/img/2016/12/013.neffos-y5-smartfon-tp-link-obudowa-wnetrze.jpg#huge)
 
 Widać także usprawnienia konstrukcyjne w stosunku do Neffos C5, który miał nieco inne rozmieszczenie
-slotów na karty SIM i kartę mikro
-SD.
+slotów na karty SIM i kartę mikro SD.
 
-[![]({{< baseurl >}}/img/2016/12/014.neffos-y5-smartfon-tp-link-sim-sd-karta-660x471.jpg)]({{< baseurl >}}/img/2016/12/014.neffos-y5-smartfon-tp-link-sim-sd-karta.jpg)
+![]({{< baseurl >}}/img/2016/12/014.neffos-y5-smartfon-tp-link-sim-sd-karta.jpg#big)
 
 W przypadku smartfona Neffos Y5, bateria przysłania jedynie sloty na karty SIM, przez co mamy
-możliwość wyciągnięcia karty SD bez potrzeby wyciągania baterii i wyłączania
-telefonu:
+możliwość wyciągnięcia karty SD bez potrzeby wyciągania baterii i wyłączania telefonu:
 
-[![]({{< baseurl >}}/img/2016/12/015.neffos-y5-smartfon-tp-link-obudowa-wnetrze-660x332.jpg)]({{< baseurl >}}/img/2016/12/015.neffos-y5-smartfon-tp-link-obudowa-wnetrze.jpg)
+![]({{< baseurl >}}/img/2016/12/015.neffos-y5-smartfon-tp-link-obudowa-wnetrze.jpg#huge)
 
 ### Wyświetlacz IPS 5.0"
 
@@ -141,10 +131,9 @@ komfortowe.
 
 Ciekawą rzeczą z kolei w przypadku Neffos'a Y5 jest ilość punków stycznych, które zostały uzyskane w
 teście multitouch. W zasadzie to nie do końca byłem w stanie sprawdzić ilość styków, bo zabrakło mi
-palców, a wynik mówi raczej sam za
-siebie:
+palców, a wynik mówi raczej sam za siebie:
 
-[![]({{< baseurl >}}/img/2016/12/15.neffos-y5-smartfon-tp-link-multitouch-styk-371x660.png)]({{< baseurl >}}/img/2016/12/15.neffos-y5-smartfon-tp-link-multitouch-styk.png)
+![]({{< baseurl >}}/img/2016/12/15.neffos-y5-smartfon-tp-link-multitouch-styk.png#medium)
 
 ### Pasywny dual SIM
 
@@ -152,10 +141,9 @@ Jak w pozostałych modelach smartfonów TP-LINK, tak i w przypadku Neffos Y5 mam
 pasywnym dual SIM'em. Naturalnie każda karta SIM może być 2G/3G/4G i bez problemu możemy je sobie
 skonfigurować w opcjach Android'a. Nawet jeśli mamy tylko jedną kartę SIM, bo korzystamy tylko z
 jednego operatora GSM, to zawsze możemy pokusić się o pozyskanie karty SIM od Aero2, przez co
-będziemy mieć darmowy internet w
-telefonie.
+będziemy mieć darmowy internet w telefonie.
 
-[![]({{< baseurl >}}/img/2016/12/016.neffos-y5-smartfon-tp-link-dual-sim-388x660.png)]({{< baseurl >}}/img/2016/12/016.neffos-y5-smartfon-tp-link-dual-sim.png)
+![]({{< baseurl >}}/img/2016/12/016.neffos-y5-smartfon-tp-link-dual-sim.png#medium)
 
 ### Procesor Qualcomm Snapdragon 210 (4 rdzenie)
 
@@ -164,28 +152,25 @@ Qualcomm. Ma on cztery rdzenie oparte na architekturze ARM Cortex-A53 taktowane 
 od 200 MHz do 1,3 GHz. Układ graficzny zaś to Adreno 304 taktowany zegarem 400 MHz (nie wiem czemu
 CPU-Z pokazuje 450 MHz). Procesor graficzny posiada także wsparcie dla API takich standardów jak
 OpenGL ES 1.1/2.0/3.0, OpenCL 1.0/1.1, OpenGL 3.1 oraz DirectX 11.1. Proces technologiczny tego
-SoC'a to 28
-nm.
+SoC'a to 28 nm.
 
-[![]({{< baseurl >}}/img/2016/12/017.neffos-y5-smartfon-tp-link-cpuz-660x282.png)]({{< baseurl >}}/img/2016/12/017.neffos-y5-smartfon-tp-link-cpuz.png)
+![]({{< baseurl >}}/img/2016/12/017.neffos-y5-smartfon-tp-link-cpuz.png#huge)
 
 ### Pamięć RAM i flash
 
 Neffos Y5 jest wyposażony w 2 GiB pamięci operacyjnej RAM i jest to moim zdaniem optymalne minimum,
 którym muszą władać smartfony pracujące pod kontrolą systemu Android. Po uruchomieniu telefonu,
-ilość zajętego miejsca prezentuje się
-następująco:
+ilość zajętego miejsca prezentuje się następująco:
 
-[![]({{< baseurl >}}/img/2016/12/018.neffos-y5-smartfon-tp-link-ram-386x660.png)]({{< baseurl >}}/img/2016/12/018.neffos-y5-smartfon-tp-link-ram.png)
+![]({{< baseurl >}}/img/2016/12/018.neffos-y5-smartfon-tp-link-ram.png#medium)
 
 W przypadku pamięci flash, Neffos Y5 ma do dyspozycji 16 GiB. Z czego około 12 GiB jest dostępne dla
 użytkownika. Tutaj warto zaznaczyć, że modele C5 i C5 MAX udostępniały użytkownikowi jedynie 10 GiB,
 czyli o 2 GiB mniej. Generalnie jest to zaletą przycięcia partycji `/system/` , która miała zwykle 4
 GiB zapełnione jedynie w połowie, przez co 2 GiB przestrzeni flash szły zwyczajnie na zmarnowanie.
-Zatem TP-LINK poczynił krok w dobrą
-stronę:
+Zatem TP-LINK poczynił krok w dobrą stronę:
 
-[![]({{< baseurl >}}/img/2016/12/019.neffos-y5-smartfon-tp-link-flash-386x660.png)]({{< baseurl >}}/img/2016/12/019.neffos-y5-smartfon-tp-link-flash.png)
+![]({{< baseurl >}}/img/2016/12/019.neffos-y5-smartfon-tp-link-flash.png#medium)
 
 ### Bateria
 
@@ -193,18 +178,16 @@ Bateria Neffos'a Y5 ma pojemność 2130 mAh. Nie jest to jakoś szczególnie du�
 potrafi nawet zaskoczyć czasem pracy na tym akumulatorze. Generalnie rzecz ujmując, to [testy
 wydajnościowe Neffos'a Y5]({{< baseurl >}}/post/test-wydajnosci-smartfona-neffos-y5-od-tp-link/)
 szacunkowo wykazały, że jest on w stanie pracować pod obciążeniem non stop przez nieco ponad 8
-godzin. Poniżej zaś znajdują się fotki obrazujące proces ładowania
-baterii.
+godzin. Poniżej zaś znajdują się fotki obrazujące proces ładowania baterii.
 
-[![]({{< baseurl >}}/img/2016/12/020.neffos-y5-smartfon-tp-link-bateria-ladowanie-415x660.png)]({{< baseurl >}}/img/2016/12/020.neffos-y5-smartfon-tp-link-bateria-ladowanie.png)
-
-[![]({{< baseurl >}}/img/2016/12/021.neffos-y5-smartfon-tp-link-bateria-ladowanie-415x660.png)]({{< baseurl >}}/img/2016/12/021.neffos-y5-smartfon-tp-link-bateria-ladowanie.png)
+|   |   |
+|---|---|
+| ![]({{< baseurl >}}/img/2016/12/020.neffos-y5-smartfon-tp-link-bateria-ladowanie.png#medium) | ![]({{< baseurl >}}/img/2016/12/021.neffos-y5-smartfon-tp-link-bateria-ladowanie.png#medium)|
 
 Niemniej jednak, jeśli chodzi o stan spoczynku, to ten smartfon potrafi wytrzymać prawie miesiąc bez
-ponownego ładowania, czyli nieco dłużej niż w przypadku pozostałych modeli smartfonów
-TP-LINK.
+ponownego ładowania, czyli nieco dłużej niż w przypadku pozostałych modeli smartfonów TP-LINK.
 
-[![]({{< baseurl >}}/img/2016/12/022.neffos-y5-smartfon-tp-link-bateria-rozladowanie-660x348.png)]({{< baseurl >}}/img/2016/12/022.neffos-y5-smartfon-tp-link-bateria-rozladowanie.png)
+![]({{< baseurl >}}/img/2016/12/022.neffos-y5-smartfon-tp-link-bateria-rozladowanie.png#huge)
 
 ### Głośnik i brak słuchawek
 
@@ -222,16 +205,15 @@ fantazji. Standardowo mamy akcelerometr, czujnik zbliżeniowy i czujnik światł
 magnetometru oraz wszystkich tych dodatkowych czujników, które przydałyby się na wypadek apokalipsy
 zombi:
 
-[![]({{< baseurl >}}/img/2016/12/023.neffos-y5-smartfon-tp-link-sensory-386x660.png)]({{< baseurl >}}/img/2016/12/023.neffos-y5-smartfon-tp-link-sensory.png)
+![]({{< baseurl >}}/img/2016/12/023.neffos-y5-smartfon-tp-link-sensory.png#medium)
 
 ### Łączność 2G/3G/LTE
 
 Neffos Y5 ma naturalnie na pokładzie modem LTE kategorii 4 (Cat4). Przy jego pomocy teoretycznie
 jesteśmy w stanie osiągnąć transfer na poziomie 150/50 mbit/s (download/upload). Z testów wynika, że
-ten transfer jest trochę niższy ale wciąż na zadowalającym
-poziomie:
+ten transfer jest trochę niższy ale wciąż na zadowalającym poziomie:
 
-[![]({{< baseurl >}}/img/2016/12/024.neffos-y5-smartfon-tp-link-lte-386x660.png)]({{< baseurl >}}/img/2016/12/024.neffos-y5-smartfon-tp-link-lte.png)
+![]({{< baseurl >}}/img/2016/12/024.neffos-y5-smartfon-tp-link-lte.png#medium)
 
 Ten modem obsługuje standardowe europejskie pasma częstotliwości dla LTE w technologi FDD, kanały
 B1/B3/B7/B8/B20 (2100/1800/2600/900/800 MHz). Neffos Y5 jest także w stanie obsługiwać standardy
@@ -242,18 +224,16 @@ DC-HSPA+/HSPA/UMTS: B1/B8(2100/900 MHz) oraz EDGE/GPRS/GSM: 850/900/1800/1900 MH
 Szkoda, że Neffos Y5 nie dysponuje WiFi 5 GHz. Dobrze jednak, że ma chociaż WiFi 2,4 GHz obsługujące
 standard N. Transfer jaki udało mi się uzyskać był na poziomie około 50 mbit/s, czyli trochę mało.
 Chcąc wyeliminować ewentualne zakłócenia podłączyłem na chwilę inny telefon ale tamten uzyskał 100
-mbit/s. Także nie wiem z jakiego powodu ten smartfon ma 2x niższą prędkość
-transferu.
+mbit/s. Także nie wiem z jakiego powodu ten smartfon ma 2x niższą prędkość transferu.
 
-[![]({{< baseurl >}}/img/2016/12/025.neffos-y5-smartfon-tp-link-wifi-387x660.png)]({{< baseurl >}}/img/2016/12/025.neffos-y5-smartfon-tp-link-wifi.png)
+![]({{< baseurl >}}/img/2016/12/025.neffos-y5-smartfon-tp-link-wifi.png#medium)
 
 Zasięg WiFi jest przeciętny. Poniżej jest fotka moich trzech AP rozmieszczonych po domu w różnych
 pomieszczeniach. Kanał 11 obrazuje siłę sygnału docierającą do smartfona z AP zlokalizowanego w tym
 samym pokoju. Na kanale 6 jest AP w odległości około 4 metrów + ściana. Na kanale 1 jest AP w
-odległości 6 metrów + trzy
-ściany:
+odległości 6 metrów + trzy ściany:
 
-[![]({{< baseurl >}}/img/2016/12/026.neffos-y5-smartfon-tp-link-wifi-384x660.png)]({{< baseurl >}}/img/2016/12/026.neffos-y5-smartfon-tp-link-wifi.png)
+![]({{< baseurl >}}/img/2016/12/026.neffos-y5-smartfon-tp-link-wifi.png#medium)
 
 By być szczerym, to dziwne są te wyniki. Niby ogólna jakość połączenia jest słabsza w stosunku do
 pozostałych smartfonów TP-LINK ale też za bardzo nie ma wielkiej różnicy między poszczególnymi AP.
@@ -268,10 +248,9 @@ Raczej nie powinno być problemów z podłączeniem się do AP, który skonfigur
 Niemniej jednak, z tego co obserwuję, to w Neffos'ach ESSID sieci WiFi zawiera spacje. Spacje w
 nazwach sieci są znane z tego, że powodują problemy z połączeniem. Zatem jeśli dane logowania do
 sieci podaliśmy prawidłowe ale nie możemy nawiązać połączenia, to zmieńmy sobie nazwę sieci WiFi na
-taką bez
-spacji.
+taką bez spacji.
 
-[![]({{< baseurl >}}/img/2016/12/027.neffos-y5-smartfon-tp-link-tethering-386x660.png)]({{< baseurl >}}/img/2016/12/027.neffos-y5-smartfon-tp-link-tethering.png)
+![]({{< baseurl >}}/img/2016/12/027.neffos-y5-smartfon-tp-link-tethering.png#medium)
 
 Jeśli chodzi zaś o udostępnianie połączenia via USB, to na linux działa ono bez większego problemu.
 Poniżej jest log z mojego Debiana po podpięciu Neffos'a Y5 do portu USB komputera i przełączeniu
@@ -325,10 +304,9 @@ pdłączenia do smartfona zewnętrznej klawiatury czy myszy.
 Na plus za to można zaliczyć nowszą wersję Androida, tj. 6.0 Marshmallow. Jeśli chodzi zaś działanie
 samego systemu, to jak najbardziej jest ono płynnie. Jeśli ktoś jest ciekaw jak wyglądają
 temperatury podczas zwykłej pracy telefonu oraz przy 100% obciążeniu procesora (po 5 minutach), to
-poniżej są stosowne
-wyniki:
+poniżej są stosowne wyniki:
 
-[![]({{< baseurl >}}/img/2016/12/028.neffos-y5-smartfon-tp-link-temperatura-660x564.png)]({{< baseurl >}}/img/2016/12/028.neffos-y5-smartfon-tp-link-temperatura.png)
+![]({{< baseurl >}}/img/2016/12/028.neffos-y5-smartfon-tp-link-temperatura.png#big)
 
 ## Czy da radę przeprowadzić root na Neffos Y5
 

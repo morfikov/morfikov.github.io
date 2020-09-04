@@ -52,7 +52,7 @@ uprawnienia ( `chmod +x` ). Teraz możemy bez problemu zweryfikować czy przycis
 naciśnięcie czy też są martwe i nic więcej z nimi się nie da zrobić. Poniżej przykład z routera
 TL-WR1043ND:
 
-![]({{< baseurl >}}/img/2016/04/1.test-dzialanie-przyciskow-openwrt-router.png)
+![]({{< baseurl >}}/img/2016/04/1.test-dzialanie-przyciskow-openwrt-router.png#huge)
 
 Oczywiście w sytuacji, gdy router fizycznie reaguje na naciśnięcie przycisku, tak jak w tym
 przypadku została wyłączona sieć WiFi, to naturalnie bez problemu jesteśmy w stanie wywnioskować, że
@@ -85,7 +85,7 @@ mogą być aktywowane w zależności od stanu przycisku (przyciśnięty lub pusz
 czasu trzymania takiego przycisku w pozycji przyciśniętej. Wszystkie te informacje są zwracane przez
 `logread` . Poniżej przykład trzymania wciśniętego przycisku `reset` przez 3 sekundy:
 
-![]({{< baseurl >}}/img/2016/04/2.test-przyciskow-czas-openwrt-router.png)
+![]({{< baseurl >}}/img/2016/04/2.test-przyciskow-czas-openwrt-router.png#huge)
 
 Oczywiście urządzenie nie zresetowało się, bo akurat ten przycisk ma przypisane dwie akcje, z
 których żadna nie spełnia warunku przyciśnięcia przez 3 sekundy.
@@ -95,7 +95,7 @@ których żadna nie spełnia warunku przyciśnięcia przez 3 sekundy.
 Omówmy zatem sobie przykładowy plik z katalogu `/etc/rc.button/` . Niech będzie ten powyżej
 wykorzystany `reset` . Zajrzymy do niego. Mamy tutaj mniej więcej taki kod:
 
-![]({{< baseurl >}}/img/2016/04/3.akcje-przypisane-do-przyciskow-openwrt-router.png)
+![]({{< baseurl >}}/img/2016/04/3.akcje-przypisane-do-przyciskow-openwrt-router.png#medium)
 
 Na samym początku mamy warunek `[ "${ACTION}" = "released" ]` . Czyli zawartość tego skryptu
 zostanie przetworzona po puszczeniu przycisku. [Czas trzymania przycisku jest

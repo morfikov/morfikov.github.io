@@ -64,11 +64,11 @@ prezentacji samego ekstendera powerline TL-WPA4226T KIT. Na dobrą sprawę, w pr
 dostajemy trzy
 transmitery.
 
-[![1.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK]({{< baseurl >}}/img/2016/08/1.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK-1024x577.jpg)]({{< baseurl >}}/img/2016/08/1.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK.jpg)
+![]({{< baseurl >}}/img/2016/08/1.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK.jpg#huge)
 
-[![2.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK]({{< baseurl >}}/img/2016/08/2.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK-1024x577.jpg)]({{< baseurl >}}/img/2016/08/2.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK.jpg)
+![]({{< baseurl >}}/img/2016/08/2.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK.jpg#huge)
 
-[![3.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK]({{< baseurl >}}/img/2016/08/3.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK-1024x577.jpg)]({{< baseurl >}}/img/2016/08/3.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK.jpg)
+![]({{< baseurl >}}/img/2016/08/3.transmiter-sieciowy-TL-WPA4226T-KIT-TP-LINK.jpg#huge)
 
 Te dwa transmitery z lewej strony to TL-WPA4220, zaś ten z prawej to TL-PA4020P.
 
@@ -82,13 +82,13 @@ Transmiter TL-PA4020P ma dwa porty 100 mbit/s, dzięki którym możemy podpiąć
 za pomocą przewodu RJ-45 (skrętka). Na obudowie tego transmitera mamy przycisk PAIR oraz trzy diody
 LED.
 
-[![8.transmiter-sieciowy-TL-PA4020P-TP-LINK]({{< baseurl >}}/img/2016/08/8.transmiter-sieciowy-TL-PA4020P-TP-LINK-1024x577.jpg)]({{< baseurl >}}/img/2016/08/8.transmiter-sieciowy-TL-PA4020P-TP-LINK.jpg)
+![]({{< baseurl >}}/img/2016/08/8.transmiter-sieciowy-TL-PA4020P-TP-LINK.jpg#huge)
 
-[![9.transmiter-sieciowy-TL-PA4020P-TP-LINK]({{< baseurl >}}/img/2016/08/9.transmiter-sieciowy-TL-PA4020P-TP-LINK-1024x577.jpg)]({{< baseurl >}}/img/2016/08/9.transmiter-sieciowy-TL-PA4020P-TP-LINK.jpg)
+![]({{< baseurl >}}/img/2016/08/9.transmiter-sieciowy-TL-PA4020P-TP-LINK.jpg#huge)
 
-[![10.transmiter-sieciowy-TL-PA4020P-TP-LINK]({{< baseurl >}}/img/2016/08/10.transmiter-sieciowy-TL-PA4020P-TP-LINK-1024x577.jpg)]({{< baseurl >}}/img/2016/08/10.transmiter-sieciowy-TL-PA4020P-TP-LINK.jpg)
+![]({{< baseurl >}}/img/2016/08/10.transmiter-sieciowy-TL-PA4020P-TP-LINK.jpg#huge)
 
-[![11.transmiter-sieciowy-TL-PA4020P-TP-LINK]({{< baseurl >}}/img/2016/08/11.transmiter-sieciowy-TL-PA4020P-TP-LINK-1024x577.jpg)]({{< baseurl >}}/img/2016/08/11.transmiter-sieciowy-TL-PA4020P-TP-LINK.jpg)
+![]({{< baseurl >}}/img/2016/08/11.transmiter-sieciowy-TL-PA4020P-TP-LINK.jpg#huge)
 
 Zatem mamy trzy diody: POWER, POWERLINE, ETHERNET. Te diody mogą nam coś sygnalizować. Każda z nich
 może znajdować się w trzech stanach: może się świecić, może się nie świecić oraz może też migać.
@@ -117,16 +117,15 @@ zostanie tym faktem wybudzony.
 
 Transmiter TL-WPA4220 dysponuje dwoma portami fast ethernet (100 mbit/s). Posiada także punkt
 dostępowy WiFi pracujący w standardzie N do 300 mbit/s. Na obudowie tego transmitera mamy cztery
-diody oraz przyciski: PAIR, WIFI CLONE i
-RESET.
+diody oraz przyciski: PAIR, WIFI CLONE i RESET.
 
-[![4.transmiter-sieciowy-TL-WPA4220-TP-LINK]({{< baseurl >}}/img/2016/08/4.transmiter-sieciowy-TL-WPA4220-TP-LINK-577x1024.jpg)]({{< baseurl >}}/img/2016/08/4.transmiter-sieciowy-TL-WPA4220-TP-LINK.jpg)
+![]({{< baseurl >}}/img/2016/08/4.transmiter-sieciowy-TL-WPA4220-TP-LINK.jpg#huge)
 
-[![5.transmiter-sieciowy-TL-WPA4220-TP-LINK]({{< baseurl >}}/img/2016/08/5.transmiter-sieciowy-TL-WPA4220-TP-LINK-1024x577.jpg)]({{< baseurl >}}/img/2016/08/5.transmiter-sieciowy-TL-WPA4220-TP-LINK.jpg)
+![]({{< baseurl >}}/img/2016/08/5.transmiter-sieciowy-TL-WPA4220-TP-LINK.jpg#huge)
 
-[![6.transmiter-sieciowy-TL-WPA4220-TP-LINK]({{< baseurl >}}/img/2016/08/6.transmiter-sieciowy-TL-WPA4220-TP-LINK-1024x577.jpg)]({{< baseurl >}}/img/2016/08/6.transmiter-sieciowy-TL-WPA4220-TP-LINK.jpg)
+![]({{< baseurl >}}/img/2016/08/6.transmiter-sieciowy-TL-WPA4220-TP-LINK.jpg#huge)
 
-[![7.transmiter-sieciowy-TL-WPA4220-TP-LINK]({{< baseurl >}}/img/2016/08/7.transmiter-sieciowy-TL-WPA4220-TP-LINK-1024x577.jpg)]({{< baseurl >}}/img/2016/08/7.transmiter-sieciowy-TL-WPA4220-TP-LINK.jpg)
+![]({{< baseurl >}}/img/2016/08/7.transmiter-sieciowy-TL-WPA4220-TP-LINK.jpg#huge)
 
 W tym przypadku mamy cztery diody: POWER, POWERLINE, ETHERNET i WiFi/WiFi CLONE. Każda z tych diod
 może znajdować się w trzech stanach: może się świecić, może się nie świecić oraz może też migać.
@@ -191,7 +190,7 @@ Później na routerze wciskamy przycisk WPS. Po chwili transmiter powinien uzysk
 sieci i zaaplikować ją do swojego punktu dostępowego. W efekcie powinniśmy mieć dwa lub trzy punkty
 z taką samą nazwą sieci ale różnym adresem MAC:
 
-![]({{< baseurl >}}/img/2016/08/12.skanowanie-sieci-transmitery-sieciowe.png)
+![]({{< baseurl >}}/img/2016/08/12.skanowanie-sieci-transmitery-sieciowe.png#huge)
 
 ## Jak zresetować transmiter sieciowy
 
@@ -219,16 +218,14 @@ elektrycznego (ta sama faza). Niemniej jednak, u mnie udało się uzyskać poł�
 przy dwóch różnych fazach. Problem w tym, że w takiej sytuacji sygnał może być bardzo mocno
 zakłócany i w efekcie transfer danych może nam mocno siąść.
 
-Ta poniższa fotka obrazuje transfer wewnątrz jednej fazy (w
-mieszkaniu):
+Ta poniższa fotka obrazuje transfer wewnątrz jednej fazy (w mieszkaniu):
 
-![]({{< baseurl >}}/img/2016/08/14.iperf-transmiter-sieciowy-powerline-test-transfer.png)
+![]({{< baseurl >}}/img/2016/08/14.iperf-transmiter-sieciowy-powerline-test-transfer.png#huge)
 
 Porty transmitera są 100 mbit/s, zatem wynik w miarę w porządku. Po przeniesieniu transmitera do
-piwnicy, transfer obniżył się
-troszeczkę:
+piwnicy, transfer obniżył się troszeczkę:
 
-![]({{< baseurl >}}/img/2016/08/13.iperf-transmiter-sieciowy-powerline-test-transfer.png)
+![]({{< baseurl >}}/img/2016/08/13.iperf-transmiter-sieciowy-powerline-test-transfer.png#huge)
 
 Postanowiłem wyciągnąć [kamerę IP model
 NC250](http://www.tp-link.com.pl/products/details/cat-19_NC250.html) również od TP-LINK'a i zrobić

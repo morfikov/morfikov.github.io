@@ -36,7 +36,7 @@ przesyłane są przy pomocy ciasteczka dane uwierzytelniające, które są nast�
 funkcję `wp_validate_auth_cookie()` . Poniżej jest wyciągnięte ciasteczko przy pomocy snifera
 wireshark:
 
-![]({{< baseurl >}}/img/2015/05/1.wordpress-cookie.png)
+![]({{< baseurl >}}/img/2015/05/1.wordpress-cookie.png#huge)
 
 Jeśli komuś udałoby się podrobić te zaznaczoną pozycję, mógłby on uzyskać dostęp do konta na
 stronie. Poniżej sprawdzimy czy wykucie takiego ciasteczka i tym samym obejście zabezpieczeń
@@ -141,7 +141,7 @@ Krótko mówiąc, jeśli istnieje jest funkcja `hash` to zostanie użyty `sha256
 `sha1` . Chodzi o to, że funkcja PHP `hash_hmac()` nie obsługuje `sha256` . Jeśli nie wiemy, który
 hash zostanie użyty na konkretnym serwerze, zawsze możemy to sprawdzić via `<php phpinfo() ?>` :
 
-![]({{< baseurl >}}/img/2015/05/2.php-hash.png)
+![]({{< baseurl >}}/img/2015/05/2.php-hash.png#huge)
 
 Dalej w pliku mamy kod odpowiadający za generowanie samego hasha:
 

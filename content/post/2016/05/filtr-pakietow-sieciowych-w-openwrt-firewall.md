@@ -69,14 +69,13 @@ przybliżyć sobie nieco strukturę firewall'a. Przede wszystkim, `iptables` sk�
 tablic `raw` , `mangle` , `nat` oraz `filter` . W każdej z tablicy mamy szereg wbudowanych
 łańcuchów, przez które przechodzą pakiety. Są też z grubsza trzy kierunki przepływu pakietów: do
 routera, z routera i przez router. Wszystkie te rzeczy są dokładnie zobrazowane na poniższych
-fotkach
-([źródło](https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg)):
+fotkach ([źródło](https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg)):
 
-![]({{< baseurl >}}/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png)
+![]({{< baseurl >}}/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png#medium)
 
 oraz:
 
-[![1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall]({{< baseurl >}}/img/2016/05/1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall-1024x335.png)]({{< baseurl >}}/img/2016/05/1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall.png)
+![]({{< baseurl >}}/img/2016/05/1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall.png#huge)
 
 Te schematy zostały jednak nieco rozbudowane przez OpenWRT. Chodzi generalnie o to, że w każdej z
 tych czterech tablic można definiować własne łańcuchy i kierować do nich ruch. OpenWRT dostarcza
@@ -275,8 +274,8 @@ takim przypadku, wszystkie nowe połączenia (stan NEW) przechodzą przez tablic
 jeśli taki pakiet rozpoczynający nowe połączenie opuszcza router przez interfejs WAN, to jest
 przepuszczany przez regułę maskarady. Wszystkie następne pakiety powiązane z ustanowionym
 połączeniem są opisywane w oparciu o tablicę conntrack'a, gdzie kernel śledzi sobie dokładnie
-każde połączenie. Poniżej znajduje się taki przykładowy wpis (do wglądu w `/proc/net/nf_conntrack`
-):
+każde połączenie. Poniżej znajduje się taki przykładowy wpis (do wglądu w
+`/proc/net/nf_conntrack` ):
 
     ipv4     2 tcp      6 3575 ESTABLISHED src=77.68.11.22 dst=82.160.11.22 sport=41369 dport=8398 packets=195 bytes=13899 src=192.168.1.150 dst=77.68.11.22 sport=8398 dport=41369 packets=193 bytes=143243 [ASSURED] mark=4 use=2
 

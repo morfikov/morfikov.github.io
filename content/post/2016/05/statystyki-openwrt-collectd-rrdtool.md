@@ -72,8 +72,8 @@ Wszystkie widoczne wyżej linijki, które zaczynają się od znaku `#` oznaczaj�
 wykomentowany i nie będzie brany pod uwagę przez `uhttpd` . Chodzi generalnie o to, że nie
 potrzebujemy, by demon nasłuchiwał na wszystkich możliwych interfejsach. No i również zbędne nam
 jest połączenie SSL/TLS. W opcji `listen_http` ustawiliśmy za to adres interfejsu `br-lan` .
-Zmieniliśmy także katalog główny, w którym są przechowywane pliki stron www przy pomocy opcji `home`
-. Zapisujemy plik, tworzymy ręcznie w/w katalog i restartujemy demona poniższym poleceniem:
+Zmieniliśmy także katalog główny, w którym są przechowywane pliki stron www przy pomocy opcji
+`home` . Zapisujemy plik, tworzymy ręcznie w/w katalog i restartujemy demona poniższym poleceniem:
 
     /# mkdir -p /tmp/router/www/
     # /etc/init.d/uhttpd restart
@@ -375,12 +375,10 @@ internetową i przechodzimy na adres `http://192.168.2.1/load.html` . Jeśli wsz
 przeprowadziliśmy zgodnie z powyższym opisem, to naszym oczom powinny się ukazać wykresy podobne do
 tych poniżej:
 
-Moduł
-ping:
+Moduł ping:
 
-![]({{< baseurl >}}/img/2016/05/1.statystyki-ruch-openwrt-router-collectd-rrdtool.png)
+![]({{< baseurl >}}/img/2016/05/1.statystyki-ruch-openwrt-router-collectd-rrdtool.png#huge)
 
-Moduł
-load:
+Moduł load:
 
-![]({{< baseurl >}}/img/2016/05/2.statystyki-ruch-openwrt-router-collectd-rrdtool.png)
+![]({{< baseurl >}}/img/2016/05/2.statystyki-ruch-openwrt-router-collectd-rrdtool.png#huge)

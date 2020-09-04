@@ -29,26 +29,24 @@ a konkretnie na dystrybucji Debian, której używam na co dzień.
 ## Zawartość opakowania UE300
 
 Na początek jak zawsze fotki omawianego urządzenia. W przypadku adaptera UE300 nie ma ich zbyt
-wiele, bo sam adapter jest w miarę prosty i niezbyt
-skomplikowany.
+wiele, bo sam adapter jest w miarę prosty i niezbyt skomplikowany.
 
-[![]({{< baseurl >}}/img/2016/12/001.ue300-tp-link-ethernet-adapter-usb3-pudelko-660x324.jpg)]({{< baseurl >}}/img/2016/12/001.ue300-tp-link-ethernet-adapter-usb3-pudelko.jpg)
+![]({{< baseurl >}}/img/2016/12/001.ue300-tp-link-ethernet-adapter-usb3-pudelko.jpg#big)
 
-[![]({{< baseurl >}}/img/2016/12/002.ue300-tp-link-ethernet-adapter-usb3-zawartosc-pudelka-660x495.jpg)]({{< baseurl >}}/img/2016/12/002.ue300-tp-link-ethernet-adapter-usb3-zawartosc-pudelka.jpg)
+![]({{< baseurl >}}/img/2016/12/002.ue300-tp-link-ethernet-adapter-usb3-zawartosc-pudelka.jpg#big)
 
 ## Specyfikacja adaptera UE300
 
 Adapter UE300 jakby nie patrzeć to w końcu zwykły kawałek sieciowego czipu w plastikowej obudowie z
 wyprowadzonym interfejsem USB 3.0 z jednej strony i gigabitowym portem Ethernet (RJ-45) z drugiej.
-Jeśli ktoś jest ciekaw wymiarów tego adaptera, to oto i one: 71x26x16 mm
-(dł/sz/wy).
+Jeśli ktoś jest ciekaw wymiarów tego adaptera, to oto i one: 71x26x16 mm (dł/sz/wy).
 
-[![]({{< baseurl >}}/img/2016/12/004.ue300-tp-link-ethernet-adapter-usb3-interfejs-586x660.jpg)]({{< baseurl >}}/img/2016/12/004.ue300-tp-link-ethernet-adapter-usb3-interfejs.jpg)
+![]({{< baseurl >}}/img/2016/12/004.ue300-tp-link-ethernet-adapter-usb3-interfejs.jpg#big)
 
 Na górnej części obudowy, znajduje się także biała dioda sygnalizująca stan połączenia/zasilania
 urządzenia:
 
-[![]({{< baseurl >}}/img/2016/12/003.ue300-tp-link-ethernet-adapter-usb3-dioda-660x531.jpg)]({{< baseurl >}}/img/2016/12/003.ue300-tp-link-ethernet-adapter-usb3-dioda.jpg)
+![]({{< baseurl >}}/img/2016/12/003.ue300-tp-link-ethernet-adapter-usb3-dioda.jpg#big)
 
 ### Czip RTL8153
 

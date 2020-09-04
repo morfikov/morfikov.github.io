@@ -47,12 +47,11 @@ wyeliminować błędy, które za jej sprawą się pojawiły.
 Po ustawieniu statycznej konfiguracji na komputerze, resetujemy (lub wyłączamy/włączamy) router i
 przyciskamy dość energicznie jeden z jego działających przycisków, inny niż przycisk zasilania.
 Dokładny moment, w którym należałoby wcisnąć przycisk można ustalić podsłuchując pakiety w sieci. W
-odpowiednim momencie, router wysyła pakiet na adres 192.168.1.255 (broadcast sieci) na port 4919/UDP
-. Można ustawić odpowiednią regułkę na firewall'u i zalogować to zdarzenie. Na linux'ach w logu
-wtedy wygląda to mniej więcej
-tak:
+odpowiednim momencie, router wysyła pakiet na adres 192.168.1.255 (broadcast sieci) na port
+4919/UDP. Można ustawić odpowiednią regułkę na firewall'u i zalogować to zdarzenie. Na linux'ach w
+logu wtedy wygląda to mniej więcej tak:
 
-[![1.tryb-failsafe-iptables-log-router]({{< baseurl >}}/img/2016/04/1.tryb-failsafe-iptables-log-router-1024x259.png)]({{< baseurl >}}/img/2016/04/1.tryb-failsafe-iptables-log-router.png)
+![]({{< baseurl >}}/img/2016/04/1.tryb-failsafe-iptables-log-router.png#huge)
 
 Po pojawieniu się powyższego komunikatu, trzeba wcisnąć przycisk na routerze i to automatycznie
 zainicjuje tryb `failsafe` . Jeśli nie mamy możliwości obserwowania logów, to pozostaje nam
@@ -63,7 +62,7 @@ bardzo szybko.
 Pozostaje nam już tylko zalogować się na ruter za pomocą protokołu telnet. Po pomyślny dostaniu się
 do systemu, powinien nas przywitać komunikat podobny do tego poniżej:
 
-![]({{< baseurl >}}/img/2016/04/2.tryb-failsafe-logowanie-telnet-openwrt.png)
+![]({{< baseurl >}}/img/2016/04/2.tryb-failsafe-logowanie-telnet-openwrt.png#big)
 
 Proces naprawczy rozpoczynamy zawsze od zamontowania partycji, która przechowuje wprowadzane przez
 nas zmiany. Robimy to przez wpisanie w terminalu poniższego polecenia:

@@ -100,23 +100,23 @@ Gdybyśmy w tym momencie otworzyli przeglądarkę internetową i spróbowali prz
 admina (katalog `wp-admin/`) lub zalogować się (plik `wp-login.php` ), to naszym oczom powinien
 ukazać się poniższy komunikat:
 
-![]({{< baseurl >}}/img/2016/07/1.wp-admin-wp-login.php-apache2-brak-certyfikat.png)
+![]({{< baseurl >}}/img/2016/07/1.wp-admin-wp-login.php-apache2-brak-certyfikat.png#big)
 
 Serwis jako taki będzie działać bez problemu po SSL/TLS. Niemniej jednak, na obecną chwilę nie
 uzyskamy dostępu do tych powyższych zasobów. Musimy posiadać certyfikat kliencki, który zostanie
 zweryfikowany przez serwer. Ten certyfikat kliencki już sobie utworzyliśmy i jest to plik
 `/etc/CA/keys/client.p12` . Musimy go teraz zaimportować w przeglądarce. W tym przypadku zrobimy to
-na przykładzie Firefox'a. Przechodzimy zatem kolejno do Preferences \> Advanced. Następnie na
+na przykładzie Firefox'a. Przechodzimy zatem kolejno do Preferences > Advanced. Następnie na
 zakładce Certificates klikamy View Certificates. W okienku, które się pojawi, przechodzimy na
 zakładkę Your Certificates i klikamy w przycisk Import, gdzie podajemy ścieżkę do pliku
 `client.p12` :
 
-![]({{< baseurl >}}/img/2016/07/2.firefox-dodawanie-certyfikat.png)
+![]({{< baseurl >}}/img/2016/07/2.firefox-dodawanie-certyfikat.png#big)
 
 Ponownie odwiedzamy stronę logowania lub panel administracyjny na naszym blogu. Tym razem powinno
 nam wyskoczyć takie oto okienko:
 
-![]({{< baseurl >}}/img/2016/07/3.firefox-potwierdzenie-certyfikat.png)
+![]({{< baseurl >}}/img/2016/07/3.firefox-potwierdzenie-certyfikat.png#huge)
 
 Klikamy `OK` i po chwili powinniśmy uzyskać dostęp do chronionych zasobów serwera.
 

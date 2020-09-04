@@ -9,6 +9,7 @@ status: publish
 tags:
 - dźwięk
 - debian
+- pulseaudio
 title: Konfiguracja serwera dźwięku PulseAudio
 ---
 
@@ -50,7 +51,7 @@ w naszym systemie. Tak więc, potrzebujemy te poniższe pakiety:
 W pakiecie `pavucontrol` mamy graficzny mikser, z poziomu którego będziemy w stanie zarządzać
 poziomem głośności każdej aplikacji, która się podłączy do PulseAudio. Wygląda to mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/01/1.pulseaudio-volume-control-pavucontrol.png)
+![]({{< baseurl >}}/img/2016/01/1.pulseaudio-volume-control-pavucontrol.png#big)
 
 Z kolei pakiet `rtkit` zajmie się ustawieniem priorytetu dla demona dźwięku, tak by te bardziej
 żarłoczne aplikacje nie zdusiły nam czasem dźwięku. Pakiety, które mają w nazwie
@@ -142,9 +143,9 @@ Pamiętajmy, że te dwa polecenia trzeba wydawać z konta zwykłego użytkownika
 
 ### Konfiguracja demona
 
-Drugim plikiem, do którego musimy zajrzeć przy konfiguracji PulseAudio jest `/etc/pulse/daemon.conf`
-. To za jego sprawą konfigurujemy demona, który nasłuchuje żądań od aplikacji dźwiękowych. Poniżej
-jest rozpiska kilku opcji, które możemy określić w tym pliku.
+Drugim plikiem, do którego musimy zajrzeć przy konfiguracji PulseAudio jest
+`/etc/pulse/daemon.conf` . To za jego sprawą konfigurujemy demona, który nasłuchuje żądań od
+aplikacji dźwiękowych. Poniżej jest rozpiska kilku opcji, które możemy określić w tym pliku.
 
   - `daemonize` -- PulseAudio uruchomi się w trybie demona.
   - `fail` -- jeśli jakaś dyrektywa w skrypcie `default.pa` zwróci błąd, to PulseAudio się nie
@@ -198,7 +199,7 @@ możliwość ustawienia wyjścia dźwięku. Z reguły to wyjście jest wykrywane
 musimy manualnie przestawiać go na `pulse` czy `pulseaudio` . Niemniej jednak, jeśli chcemy
 przestawić sobie wyjście dźwięku, to nic nie stoi na przeszkodzie, by to zrobić. Poniżej przykład:
 
-![]({{< baseurl >}}/img/2016/01/2.pulseaudio-smplayer-config.png)
+![]({{< baseurl >}}/img/2016/01/2.pulseaudio-smplayer-config.png#big)
 
 Trzeba jednak wziąć pod uwagę, że nie wszystkie aplikacje mają zaimplementowaną natywną obsługę
 PulseAudio i w takim przypadku mogą się pojawić problemy z dźwiękiem. Część z aplikacji może mieć
@@ -236,17 +237,17 @@ Warto też nie zapominać o ALSA. Do dyspozycji mamy `alsamixer`, w którym to m
 poszczególne potencjometry, a to może być przyczyną braku dźwięku. Nawet jeżeli po odpaleniu tego
 miksera, do naszej dyspozycji jest tylko coś na wzór tego poniższego obrazka:
 
-![]({{< baseurl >}}/img/2016/01/3.alsamixer-pulseaudio.png)
+![]({{< baseurl >}}/img/2016/01/3.alsamixer-pulseaudio.png#huge)
 
 To możemy wcisnąć klawisz F6 i wybrać z menu odpowiednią kartę. W ten sposób uzyskamy dostęp do jej
 przełączników:
 
-![]({{< baseurl >}}/img/2016/01/4.alsamixer-sound-card.png)
+![]({{< baseurl >}}/img/2016/01/4.alsamixer-sound-card.png#huge)
 
 Pomocne w rozwiązywaniu problemów może okazać się również usunięcie katalogu `~/.config/pulse/` przy
 wyłączonym środowisku graficznym, a następnie zresetowanie maszyny.
 
-Notyfikacje dźwięku
+## Notyfikacje dźwięku
 
 Nie wszyscy z nas lubią te wyskakujące okienka, które zwykły nas powiadamiać o zbędnych z naszego
 punktu widzenia zdarzeniach. Inaczej jednak sprawa ma się w przypadku notyfikacji dźwięku, bo
@@ -256,7 +257,7 @@ też jakaś aplikacja, która będzie je w stanie generować. W tym przypadku zd
 pakiet `volumeicon-alsa` . Nie jest to jakieś zaawansowane cudo ale grunt, że realizuje ono to czego
 od niego oczekujemy. Tak wygląda konfiguracja tego narzędzia:
 
-![]({{< baseurl >}}/img/2016/01/5.volumeicon-alsa-pulseaudio.png)
+![]({{< baseurl >}}/img/2016/01/5.volumeicon-alsa-pulseaudio.png#medium)
 
 Jak widzimy, możemy skonfigurować kanał, który będziemy regulować. Mamy także opcje wywołania
 miksera PulseAudio. A w dolnej części mamy zaznaczone trzy klawisze, które będą odpowiedzialne za

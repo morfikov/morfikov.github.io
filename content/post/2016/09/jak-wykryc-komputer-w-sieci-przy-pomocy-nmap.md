@@ -59,12 +59,11 @@ ARP. Poniżej są przykłady obu tych skanów.
 W przypadku żądań ARP, w terminalu wpisujemy polecenie `nmap -sn 192.168.1.0/24` . Czas skanowania
 zamknął się w granicach 3 sekund:
 
-![]({{< baseurl >}}/img/2016/09/1.wykrywanie-komputer-host-siec-arp-nmap.png)
+![]({{< baseurl >}}/img/2016/09/1.wykrywanie-komputer-host-siec-arp-nmap.png#huge)
 
-Poniżej jest jeszcze fotka z wireshark'a, która obrazuje cały
-proces:
+Poniżej jest jeszcze fotka z wireshark'a, która obrazuje cały proces:
 
-[![2.wykrywanie-komputer-host-siec-arp-wireshark]({{< baseurl >}}/img/2016/09/2.wykrywanie-komputer-host-siec-arp-wireshark-660x253.png)]({{< baseurl >}}/img/2016/09/2.wykrywanie-komputer-host-siec-arp-wireshark.png)
+![]({{< baseurl >}}/img/2016/09/2.wykrywanie-komputer-host-siec-arp-wireshark.png#huge)
 
 Jak widać, każdy pojedynczy adres IP został przez `nmap` odpytany. Z adresów, które są aktualnie
 wykorzystywane w sieci, zostaje zwrócona odpowiedź, tak jak to widzimy w jednym przypadku wyżej na
@@ -75,13 +74,12 @@ fotce.
 Jeśli chcielibyśmy wykonać pełen skan wszystkich hostów w sieci, to w terminalu wydajemy polecenie
 `nmap -sn --send-ip 192.168.1.0/24` . I tutaj już ten proces trwał ponad 20 sekund:
 
-![]({{< baseurl >}}/img/2016/09/3.wykrywanie-komputer-host-siec-nmap-pelny-skan.png)
+![]({{< baseurl >}}/img/2016/09/3.wykrywanie-komputer-host-siec-nmap-pelny-skan.png#huge)
 
 Poniżej jest zaś fotka z wireshark'a, która pokazuje ruch do jednego hosta przy korzystaniu z tego
-typu
-skanowania:
+typu skanowania:
 
-[![4.wykrywanie-komputer-host-siec-wireshark-pelny-skan-nmap]({{< baseurl >}}/img/2016/09/4.wykrywanie-komputer-host-siec-wireshark-pelny-skan-nmap-660x253.png)]({{< baseurl >}}/img/2016/09/4.wykrywanie-komputer-host-siec-wireshark-pelny-skan-nmap.png)
+![]({{< baseurl >}}/img/2016/09/4.wykrywanie-komputer-host-siec-wireshark-pelny-skan-nmap.png#huge)
 
 ## Wykryte hosty w sieci
 
@@ -89,7 +87,6 @@ Jak widać, aktualnie w sieci są zalogowane cztery urządzenia. Jedno, z które
 zapytanie, oraz trzy znalezione za sprawą protokołu ARP i pełnego skanowania. Znamy ich adresy MAC
 oraz przypisane im adresy IP. Szukany transmiter sieciowy ma adres 192.168.1.11 i to ten adres
 trzeba było wpisać w przeglądarce, by dostać się do panelu administracyjnego w celu przeniesienia AP
-na inny
-kanał:
+na inny kanał:
 
-[![5.siec-wifi-skan-smartfon]({{< baseurl >}}/img/2016/09/5.siec-wifi-skan-smartfon-401x660.png)]({{< baseurl >}}/img/2016/09/5.siec-wifi-skan-smartfon.png)
+![]({{< baseurl >}}/img/2016/09/5.siec-wifi-skan-smartfon.png#medium)

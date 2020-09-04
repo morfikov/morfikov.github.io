@@ -115,42 +115,37 @@ Mając plik `scatter.txt` możemy go wskazać w SP Flash Tool. Przechodzimy zate
 wypakowaną zawartością pobranej paczki i uruchamiamy SP Flash Tool wpisując w terminalu
 `./flash_tool` . Powinniśmy zobaczyć okienko, z kilkoma zakładkami. Na jednej z nich widnie napis
 `Download` . W niej z kolei znajduje się pozycja `Scatter-loading file` . To tutaj musimy wskazać
-ścieżkę do pliku `scatter.txt` , który utworzyliśmy
-wcześniej:
+ścieżkę do pliku `scatter.txt` , który utworzyliśmy wcześniej:
 
-[![1.neffos-c5-smartfon-android-root-backup-sp-flash-tool]({{< baseurl >}}/img/2016/10/1.neffos-c5-smartfon-android-root-backup-sp-flash-tool-660x444.png)]({{< baseurl >}}/img/2016/10/1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png)
+![]({{< baseurl >}}/img/2016/10/1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#huge)
 
 Teraz przechodzimy na zakładkę `Readback` i tam dodajemy nową pozycję w tabelce. To tutaj określamy
 przestrzeń flash'a w telefonie, która zostanie skopiowana na dysk komputera. Nas interesuje cały
 flash. Dlatego też początek ustawiamy na `0x0` , a koniec musimy obliczyć z danych dostarczanych
 przez `adb` . Interesuje nas ostatnia partycja. Ma ona początek na `0x3a3d80000` , a jej rozmiar to
 `0x80000` . Te dwie wartości musimy do siebie dodać, w wyniku czego otrzymujemy `0x3a3e00000` i to
-tę wartość wpisujemy w SP Flash Tool. Region określamy jako `EMC_USER`
-:
+tę wartość wpisujemy w SP Flash Tool. Region określamy jako `EMC_USER` :
 
-![]({{< baseurl >}}/img/2016/10/2.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png)
+![]({{< baseurl >}}/img/2016/10/2.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#big)
 
 Dodajemy również drugą pozycję, która zrobi nam backup preloader'a. Z tym, że tutaj wybieramy region
-`EMMC_BOOT_1` i określamy początek jako `0x0` , a koniec jako `0x40000`
-:
+`EMMC_BOOT_1` i określamy początek jako `0x0` , a koniec jako `0x40000` :
 
-![]({{< baseurl >}}/img/2016/10/2.1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png)
+![]({{< baseurl >}}/img/2016/10/2.1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#big)
 
 Teraz wyłączamy telefon i podłączamy go do portu USB komputera. Następnie w SP Flash Tool aktywujemy
 proces backup'u Neffos'a C5 przyciskając `Read Back` . Włączamy teraz telefon przyciskając i
 trzymając przycisk Volume Up + Power do momentu aż nam zawibruje. Smartfon się nie włączy ale za to
 rozpocznie się kopiowanie danych z telefonu na dysk. Proces backup'u potrwa dłuższą chwilę. W moim
-przypadku trwało prawie dwie godziny (transfer na poziomie 3
-MiB/s).
+przypadku trwało prawie dwie godziny (transfer na poziomie 3 MiB/s).
 
-[![3.1.neffos-c5-smartfon-android-root-backup-sp-flash-tool]({{< baseurl >}}/img/2016/10/3.1.neffos-c5-smartfon-android-root-backup-sp-flash-tool-660x427.png)]({{< baseurl >}}/img/2016/10/3.1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png)
+![]({{< baseurl >}}/img/2016/10/3.1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#huge)
 
 Ten backup jest nas w stanie zabezpieczyć na wypadek popełnionych błędów przy flash'owaniu telefonu.
 Podejrzymy jeszcze ten obraz w `fdisk`/`gdisk` , by mieć absolutną pewność, że jest w nim faktyczna
-kopia flash'a Neffos'a
-C5:
+kopia flash'a Neffos'a C5:
 
-[![4.neffos-c5-smartfon-android-root-backup-obraz-gdisk]({{< baseurl >}}/img/2016/10/4.neffos-c5-smartfon-android-root-backup-obraz-gdisk-586x660.png)]({{< baseurl >}}/img/2016/10/4.neffos-c5-smartfon-android-root-backup-obraz-gdisk.png)
+![]({{< baseurl >}}/img/2016/10/4.neffos-c5-smartfon-android-root-backup-obraz-gdisk.png#huge)
 
 ## Jak odblokować bootloader w Neffos C5
 
@@ -167,10 +162,9 @@ podczas odblokowywania jest inicjowany [factory
 reset]({{< baseurl >}}/post/android-reset-ustawien-do-fabrycznych-factory-defaults/). Dane na
 karcie SD pozostają nietknięte. By ten proces zainicjować zaczynamy od przestawienia jednej opcji w
 telefonie. W tym celu musimy udać się w Ustawienia =\> Opcje Programistyczne i tam przełączyć
-`Zdjęcie blokady OEM`
-:
+`Zdjęcie blokady OEM` :
 
-[![5.neffos-c5-smartfon-android-root-unlock-bootloader]({{< baseurl >}}/img/2016/10/5.neffos-c5-smartfon-android-root-unlock-bootloader-660x361.png)]({{< baseurl >}}/img/2016/10/5.neffos-c5-smartfon-android-root-unlock-bootloader.png)
+![]({{< baseurl >}}/img/2016/10/5.neffos-c5-smartfon-android-root-unlock-bootloader.png#huge)
 
 Następnie wyłączamy telefon i włączamy go trzymając Volume Up + Power. Z menu wybieramy tryb
 fastboot. Następnie w terminalu wpisujemy poniższe polecenia:
@@ -334,16 +328,14 @@ Zacznijmy od pobrania stosownej paczki z
 Jako, że my nie mamy jeszcze zrobionego root'a, to musimy pobrać `TWRP / FlashFire installable ZIP`
 . Tej paczki nie wypakowujemy, tylko wrzucamy ją w pobranej formie na kartę SD w telefonie. Odpalamy
 teraz tryb recovery w smartfonie (VolumeUp + Power) i przechodzimy kolejno do Instaluj (TWRP jest
-również w języku
-polskim):
+również w języku polskim):
 
-[![1.twrp-instalacja-supersu-tryb-recovery]({{< baseurl >}}/img/2016/10/1.twrp-instalacja-supersu-tryb-recovery-660x390.png)]({{< baseurl >}}/img/2016/10/1.twrp-instalacja-supersu-tryb-recovery.png)
+![]({{< baseurl >}}/img/2016/10/1.twrp-instalacja-supersu-tryb-recovery.png#huge)
 
 Następnie wskazujemy paczkę `.zip` , którą umieściliśmy na karcie SD. Tam z kolei zaznaczamy
-`Weryfikuj sygnatury pliku zip` i przeciągamy trzy strzałki na prawą
-stronę.
+`Weryfikuj sygnatury pliku zip` i przeciągamy trzy strzałki na prawą stronę.
 
-[![2.twrp-instalacja-supersu-tryb-recovery]({{< baseurl >}}/img/2016/10/2.twrp-instalacja-supersu-tryb-recovery-660x390.png)]({{< baseurl >}}/img/2016/10/2.twrp-instalacja-supersu-tryb-recovery.png)
+![]({{< baseurl >}}/img/2016/10/2.twrp-instalacja-supersu-tryb-recovery.png#huge)
 
 Teraz możemy uruchomić ponownie Neffos'a C5 i zainstalować jakąś aplikację, która pokaże nam czy
 nasz smartfon ma root'a.
@@ -356,23 +348,21 @@ uruchamiamy ją. Powinien się pojawić monit informujący, że ta aplikacja ż�
 na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosowny
 komunikat:
 
-[![6.neffos-c5-smartfon-android-root-success-root-check]({{< baseurl >}}/img/2016/10/6.neffos-c5-smartfon-android-root-success-root-check-1-660x543.png)]({{< baseurl >}}/img/2016/10/6.neffos-c5-smartfon-android-root-success-root-check-1.png)
+![]({{< baseurl >}}/img/2016/10/6.neffos-c5-smartfon-android-root-success-root-check-1.png#huge)
 
 ### Instalacja BusyBOX
 
 Kolejnym krokiem jest instalacja
 [BusyBOX'a](https://play.google.com/store/apps/details?id=stericson.busybox). Po wgraniu tej
 aplikacji na smartfona, musimy ją uruchomić i wcisnąć w niej przycisk `install` . BusyBOX również
-nas poprosi o dostęp do praw
-administracyjnych:
+nas poprosi o dostęp do praw administracyjnych:
 
-[![7.neffos-c5-smartfon-android-root-busybox]({{< baseurl >}}/img/2016/10/7.neffos-c5-smartfon-android-root-busybox-660x362.png)]({{< baseurl >}}/img/2016/10/7.neffos-c5-smartfon-android-root-busybox.png)
+![]({{< baseurl >}}/img/2016/10/7.neffos-c5-smartfon-android-root-busybox.png#huge)
 
 Po zainstalowaniu, weryfikujemy jeszcze, czy aby wszystko zostało pomyślne wgrane. Możemy to zrobić
-zarówno w samej aplikacji BusyBOX, jak w w
-CheckRoot:
+zarówno w samej aplikacji BusyBOX, jak i w CheckRoot:
 
-[![8.neffos-c5-smartfon-android-root-busybox-success-check]({{< baseurl >}}/img/2016/10/8.neffos-c5-smartfon-android-root-busybox-success-check-660x543.png)]({{< baseurl >}}/img/2016/10/8.neffos-c5-smartfon-android-root-busybox-success-check.png)
+![]({{< baseurl >}}/img/2016/10/8.neffos-c5-smartfon-android-root-busybox-success-check.png#huge)
 
 ### Instalacja terminala
 
@@ -387,18 +377,16 @@ Generalnie to znalazłem dwa terminale, które są OpenSource i bez reklam/opła
 instalujemy w systemie. Tutaj warto jeszcze zaznaczyć, że ten drugi terminal instaluje sobie również
 shell `dash` (domyślny shell w Debianie) . Również w jego przypadku możemy łatwo doinstalować sobie
 aplikacje za pomocą `apt` , podobnie jak w Debianie (do tego celu nie jest wymagany root). Jako, że
-ja korzystam na co dzień z Debiana, to instaluje
-Termux'a.
+ja korzystam na co dzień z Debiana, to instaluje Termux'a.
 
-[![9.neffos-c5-smartfon-android-root-termux-htop]({{< baseurl >}}/img/2016/10/9.neffos-c5-smartfon-android-root-termux-htop-660x371.png)]({{< baseurl >}}/img/2016/10/9.neffos-c5-smartfon-android-root-termux-htop.png)
+![]({{< baseurl >}}/img/2016/10/9.neffos-c5-smartfon-android-root-termux-htop.png#huge)
 
 ### Aplikacje i prawa administracyjne
 
 Teraz już pozostało nam tylko odpalenie terminala i zalogowanie się na użytkownika root. Do tego
-celu służy polecenie `su` . Wpiszmy je zatem w okienku
-Termux'a:
+celu służy polecenie `su` . Wpiszmy je zatem w okienku Termux'a:
 
-[![10.neffos-c5-smartfon-android-root-termux-su]({{< baseurl >}}/img/2016/10/10.neffos-c5-smartfon-android-root-termux-su-660x542.png)]({{< baseurl >}}/img/2016/10/10.neffos-c5-smartfon-android-root-termux-su.png)
+![]({{< baseurl >}}/img/2016/10/10.neffos-c5-smartfon-android-root-termux-su.png#huge)
 
 I teraz możemy uruchamiać aplikacjie z prawami admina, tak jak to zwykliśmy robić w każdym innym
 linux'ie. Pamiętajmy tylko, że standardowo system plików jest zamontowany w trybie tylko do odczytu

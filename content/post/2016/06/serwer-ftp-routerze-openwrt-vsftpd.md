@@ -98,12 +98,12 @@ sprawdzenia czy konfiguracja umożliwi nam na odczyt i zapis plików. W tym przy
 programu [Filezilla](https://filezilla-project.org/). Gdy w grę wchodzi użytkownik anonimowy, to nie
 musimy praktycznie nic zmieniać w ustawieniach połączenia:
 
-![]({{< baseurl >}}/img/2016/06/1.ftp-openwrt-filezilla-vsftpd.png)
+![]({{< baseurl >}}/img/2016/06/1.ftp-openwrt-filezilla-vsftpd.png#big)
 
 Poniżej zaś jest test przesyłania plików na serwer:
 
-![]({{< baseurl >}}/img/2016/06/2.ftp-openwrt-filezilla-vsftpd.png)
+![]({{< baseurl >}}/img/2016/06/2.ftp-openwrt-filezilla-vsftpd.png#huge)
 
 Nasz serwer powinien być także widoczny w przeglądarce po przejściu na adres `ftp://192.168.2.1/` :
 
-![]({{< baseurl >}}/img/2016/06/3.ftp-openwrt-firefox-przegladarka-vsftpd.png)
+![]({{< baseurl >}}/img/2016/06/3.ftp-openwrt-firefox-przegladarka-vsftpd.png#huge)

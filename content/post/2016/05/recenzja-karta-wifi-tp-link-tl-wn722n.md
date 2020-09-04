@@ -34,54 +34,48 @@ powodów, ten przycisk WPS nie chce zbytnio działać. Karta ma doczepianą ante
 ta karta jest w stanie nadawać z prędkością 150 mbit/s. Poniżej jest fotka prezentująca jej wygląd
 zewnętrzny:
 
-[![1.tp-link-tl-wn722n-wyglad-adapter-wifi]({{< baseurl >}}/img/2016/05/1.tp-link-tl-wn722n-wyglad-adapter-wifi-1024x768.jpg)]({{< baseurl >}}/img/2016/05/1.tp-link-tl-wn722n-wyglad-adapter-wifi.jpg)
+![]({{< baseurl >}}/img/2016/05/1.tp-link-tl-wn722n-wyglad-adapter-wifi.jpg#big)
 
-Zobaczmy co ten adapter skrywa w
-sobie:
+Zobaczmy co ten adapter skrywa w sobie:
 
-[![2.tp-link-tl-wn722n-adapter-wifi]({{< baseurl >}}/img/2016/05/2.tp-link-tl-wn722n-adapter-wifi-1024x683.jpg)]({{< baseurl >}}/img/2016/05/2.tp-link-tl-wn722n-adapter-wifi.jpg)
+![]({{< baseurl >}}/img/2016/05/2.tp-link-tl-wn722n-adapter-wifi.jpg#big)
 
-Niżej jest wyciągnięty cały układ z
-obudowy:
+Niżej jest wyciągnięty cały układ z obudowy:
 
-[![4.tp-link-tl-wn722n-adapter-wifi-uklad]({{< baseurl >}}/img/2016/05/4.tp-link-tl-wn722n-adapter-wifi-uklad-1024x482.jpg)]({{< baseurl >}}/img/2016/05/4.tp-link-tl-wn722n-adapter-wifi-uklad.jpg)
+![]({{< baseurl >}}/img/2016/05/4.tp-link-tl-wn722n-adapter-wifi-uklad.jpg#big)
 
-Jeszcze jego
-spód:
+Jeszcze jego spód:
 
-[![5.tp-link-tl-wn722n-adapter-wifi-uklad]({{< baseurl >}}/img/2016/05/5.tp-link-tl-wn722n-adapter-wifi-uklad-1024x507.jpg)]({{< baseurl >}}/img/2016/05/5.tp-link-tl-wn722n-adapter-wifi-uklad.jpg)
+![]({{< baseurl >}}/img/2016/05/5.tp-link-tl-wn722n-adapter-wifi-uklad.jpg#big)
 
 Z jednej ze stron układu jest wyprowadzone gniazdo antenowe:
 
-![]({{< baseurl >}}/img/2016/05/6.tp-link-tl-wn722n-adapter-wifi-gniazdo-antena.jpg)
+![]({{< baseurl >}}/img/2016/05/6.tp-link-tl-wn722n-adapter-wifi-gniazdo-antena.jpg#big)
 
-Z drugiej zaś przycisk
-WPS:
+Z drugiej zaś przycisk WPS:
 
-[![7.tp-link-tl-wn722n-adapter-wifi-przycisk-wps]({{< baseurl >}}/img/2016/05/7.tp-link-tl-wn722n-adapter-wifi-przycisk-wps-1024x935.jpg)]({{< baseurl >}}/img/2016/05/7.tp-link-tl-wn722n-adapter-wifi-przycisk-wps.jpg)
+![]({{< baseurl >}}/img/2016/05/7.tp-link-tl-wn722n-adapter-wifi-przycisk-wps.jpg#big)
 
 Karta TL-WN722N posiada także zieloną diodę, sygnalizującą stan pracy urządzenia (włączony, transfer
 danych):
 
-[![8.tp-link-tl-wn722n-adapter-wifi-podlaczony]({{< baseurl >}}/img/2016/05/8.tp-link-tl-wn722n-adapter-wifi-podlaczony-1024x768.jpg)]({{< baseurl >}}/img/2016/05/8.tp-link-tl-wn722n-adapter-wifi-podlaczony.jpg)
+![]({{< baseurl >}}/img/2016/05/8.tp-link-tl-wn722n-adapter-wifi-podlaczony.jpg#big)
 
-[![9.tp-link-tl-wn722n-adapter-wifi-test]({{< baseurl >}}/img/2016/05/9.tp-link-tl-wn722n-adapter-wifi-test-1024x768.jpg)]({{< baseurl >}}/img/2016/05/9.tp-link-tl-wn722n-adapter-wifi-test.jpg)
+![]({{< baseurl >}}/img/2016/05/9.tp-link-tl-wn722n-adapter-wifi-test.jpg#big)
 
 Poniżej zaś jest fotka anteny dołączanej do zestawu (ta mniejsza). Ta większa zaś pochodzi od
 [routera TP-LINK TL-WR1043ND
 v2]({{< baseurl >}}/post/recenzja-sprzetu-router-tp-link-tl-wr1043nd-v2/). Porównane są one
-jedynie w celach
-orientacyjnych.
+jedynie w celach orientacyjnych.
 
-[![10.tp-link-tl-wn722n-adapter-wifi-antena]({{< baseurl >}}/img/2016/05/10.tp-link-tl-wn722n-adapter-wifi-antena-1024x321.jpg)]({{< baseurl >}}/img/2016/05/10.tp-link-tl-wn722n-adapter-wifi-antena.jpg)
+![]({{< baseurl >}}/img/2016/05/10.tp-link-tl-wn722n-adapter-wifi-antena.jpg#big)
 
-[![11.tp-link-tl-wn722n-adapter-wifi-antena]({{< baseurl >}}/img/2016/05/11.tp-link-tl-wn722n-adapter-wifi-antena-1000x1024.jpg)]({{< baseurl >}}/img/2016/05/11.tp-link-tl-wn722n-adapter-wifi-antena.jpg)
+![]({{< baseurl >}}/img/2016/05/11.tp-link-tl-wn722n-adapter-wifi-antena.jpg#big)
 
 Mimo znacznej różnicy w rozmiarze, gniazda anten są takie same i nic nie stoi na przeszkodzie, by
-korzystać z tej większej anteny, oczywiście jeśli posiadamy takową na
-zbyciu.
+korzystać z tej większej anteny, oczywiście jeśli posiadamy takową na zbyciu.
 
-[![12.tp-link-tl-wn722n-adapter-wifi-antena]({{< baseurl >}}/img/2016/05/12.tp-link-tl-wn722n-adapter-wifi-antena-1024x1015.jpg)]({{< baseurl >}}/img/2016/05/12.tp-link-tl-wn722n-adapter-wifi-antena.jpg)
+![]({{< baseurl >}}/img/2016/05/12.tp-link-tl-wn722n-adapter-wifi-antena.jpg#big)
 
 ## Instalacja adaptera TL-WN722N w systemie linux (debian)
 

@@ -30,16 +30,17 @@ praktyce.
 ## WPS PIN, a może PBC
 
 Na wiki OpenWRT możemy wyczytać, że jest do wyboru [spory wachlarz metod konfiguracyjnych
-WPS](https://wiki.openwrt.org/doc/uci/wireless#wps_options). Mamy tam: usba, ethernet, label,
-display, ext\_nfc\_token, int\_nfc\_token, nfc\_interface, push\_button, keypad, virtual\_display,
-physical\_display, virtual\_push\_button oraz physical\_push\_button. Natomiast wspierana jest, póki
-co, jedna z nich: `push_button` . Dodatkowo mamy również w standardzie zaimplementowaną obsługę
-metody z PIN'em. Swego czasu ten PIN był zaimplementowany tak, że domyślnie przybierał postać
-`12345670` i jakby tego było mało, można było użyć tego PIN'u i zostać podłączonym do sieci nawet
-przy wyraźnym określeniu, że chce się korzystać z przycisków. Wszystko to za sprawą błędnej
-konfiguracji w pliku `/lib/netifd/hostapd.sh` . Ta dziura została załatana w nowszych wersjach
-OpenWRT, dokładniej w [r42553](https://dev.openwrt.org/changeset/42553) i w przypadku, gdy używamy
-starszej wersji firmware, przydałoby się ją zaktualizować.
+WPS](https://wiki.openwrt.org/doc/uci/wireless#wps_options). Mamy tam: `usba` , `ethernet` ,
+`label` , `display` , `ext_nfc_token` , `int_nfc_token` , `nfc_interface` , `push_button` ,
+`keypad` , `virtual_display` , `physical_display` , `virtual_push_button` oraz
+`physical_push_button` . Natomiast wspierana jest, póki co, jedna z nich: `push_button` . Dodatkowo
+mamy również w standardzie zaimplementowaną obsługę metody z PIN'em. Swego czasu ten PIN był
+zaimplementowany tak, że domyślnie przybierał postać `12345670` i jakby tego było mało, można było
+użyć tego PIN'u i zostać podłączonym do sieci nawet przy wyraźnym określeniu, że chce się korzystać
+z przycisków. Wszystko to za sprawą błędnej konfiguracji w pliku `/lib/netifd/hostapd.sh` . Ta
+dziura została załatana w nowszych wersjach OpenWRT, dokładniej w
+[r42553](https://dev.openwrt.org/changeset/42553) i w przypadku, gdy używamy starszej wersji
+firmware, przydałoby się ją zaktualizować.
 
 Przede wszystkim, na necie zarzuty pod adresem WPS dotyczą kodu PIN. W skrócie, chodzi oto, że może
 i ten kod ma 8 cyfr ale z racji swojego zaimplementowania potrzeba maksymalnie 11000 prób, by go
@@ -54,7 +55,7 @@ urządzenie do sieci. Tego typu rozwiązanie praktycznie niweluje możliwość a
 kodu PIN w mechanizmie WPS. Jak widzimy z powyższego opisu, kod PIN może być bezpieczny, tylko
 trzeba się upewnić, że producent routera zastosował blokadę, poniżej przykład:
 
-![]({{< baseurl >}}/img/2015/06/1.wps-lock-openwrt-test.png)
+![]({{< baseurl >}}/img/2015/06/1.wps-lock-openwrt-test.png#huge)
 
 W przypadku OpenWRT ta blokada wykonaniu `hostapd` jest średnia. Z moich ustaleń wynika, że jeden
 nieprawidłowy kod PIN powoduje założenie blokady na jakieś 30 sekund. Czasami mniej czasami więcej.
@@ -290,8 +291,8 @@ Można też zrezygnować z pliku `/etc/wpa_supplicant/wpa_supplicant.conf` całk
 każdym razem, gdy będziemy się podłączać do sieci, trzeba będzie wciskać przyciski, by na nowo
 powiązać urządzenia.
 
-Teraz jeszcze potrzebujemy konfiguracji dla interfejsu sieciowego w pliku `/etc/network/interfaces`
-:
+Teraz jeszcze potrzebujemy konfiguracji dla interfejsu sieciowego w pliku
+`/etc/network/interfaces` :
 
     auto wlan1
     allow-hotplug wlan1

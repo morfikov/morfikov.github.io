@@ -51,7 +51,7 @@ podłączyć się do innej sieci, już po zalogowaniu się do systemu, to nasz l
 starych ustawień sieci, czego efektem będzie brak połączenia. Poniżej jest zobrazowany moment
 konfiguracji połączenia i przepięcia do drugiej sieci:
 
-![]({{< baseurl >}}/img/2016/08/1.konfiguracja-sieci-ifplugd-eth0-log.png)
+![]({{< baseurl >}}/img/2016/08/1.konfiguracja-sieci-ifplugd-eth0-log.png#huge)
 
 Ostatnie dwa komunikaty, tj. `eth0: link down` oraz `eth0: link up` informują nas, że połączenie
 zostało zerwane w tym momencie. Może i zostało ono ponownie ustanowione, tylko co z tego, jak nie
@@ -84,16 +84,16 @@ Naszym oczom pokaże się szereg okienek, które pomogą nam skonfigurować demo
 Poniżej określamy wszystkie interfejsy przewodowe, które mają być ogarniane przez `ifplugd` (te bez
 hotplug'u) :
 
-![]({{< baseurl >}}/img/2016/08/2.konfiguracja-sieci-ifplugd-eth0.png)
+![]({{< baseurl >}}/img/2016/08/2.konfiguracja-sieci-ifplugd-eth0.png#huge)
 
 W następnym okienku określamy interfejsy z hotplug'iem:
 
-![]({{< baseurl >}}/img/2016/08/3.konfiguracja-sieci-ifplugd-eth0.png)
+![]({{< baseurl >}}/img/2016/08/3.konfiguracja-sieci-ifplugd-eth0.png#huge)
 
 Dalej mamy instrukcję dotyczącą opcji demona (można przewijać strzałkami). Domyślnie są
 wykorzystywane te poniższe flagi:
 
-![]({{< baseurl >}}/img/2016/08/4.konfiguracja-sieci-ifplugd-eth0.png)
+![]({{< baseurl >}}/img/2016/08/4.konfiguracja-sieci-ifplugd-eth0.png#huge)
 
 Z tych powyższych dostosowujemy jedynie `-u` i `-d` odpowiadające za czas rekonfiguracji interfejsu
 sieciowego. W tym przypadku ustawiliśmy czas 2 sekundy. Po odłączeniu przewodu, interfejs zostanie
@@ -106,7 +106,7 @@ przydaje się przy korzystaniu z narzędzi takich jak `guessnet` lub `whereami` 
 wykryć zmiany w środowisku sieciowym, np. podczas hibernacji laptop z roboty przynieśliśmy do domu i
 tutaj go podłączamy do sieci.
 
-![]({{< baseurl >}}/img/2016/08/5.konfiguracja-sieci-ifplugd-eth0.png)
+![]({{< baseurl >}}/img/2016/08/5.konfiguracja-sieci-ifplugd-eth0.png#huge)
 
 Wszystkie te powyżej określone ustawienia są zapisywane w pliku `/etc/default/ifplugd` (dawniej w
 `/etc/ifplugd/ifplugd.conf` ). Demona możemy naturalnie konfigurować bezpośrednio przez ten plik,
@@ -117,16 +117,16 @@ tylko pamiętajmy, by zresetować demona po dokonaniu zmian.
 Demon powinien już nasłuchiwać i przydałoby się przetestować jak działa nasze połączenie sieciowe.
 Podłączamy zatem przewód do karty sieciowej i patrzymy w log:
 
-![]({{< baseurl >}}/img/2016/08/6.konfiguracja-sieci-ifplugd-eth0-log.png)
+![]({{< baseurl >}}/img/2016/08/6.konfiguracja-sieci-ifplugd-eth0-log.png#huge)
 
 Jak widzimy, demon `ifplugd` podniósł interfejs sieciowy `eth0` i uzyskaliśmy adresację sieci. No to
 teraz wyciągnijmy wtykę z portu i zobaczmy co się stanie:
 
-![]({{< baseurl >}}/img/2016/08/7.konfiguracja-sieci-ifplugd-eth0-log.png)
+![]({{< baseurl >}}/img/2016/08/7.konfiguracja-sieci-ifplugd-eth0-log.png#huge)
 
 Interfejs został położony zgodnie z planem. No to jeszcze sprawdźmy czy przy podłączeniu do drugiej
 sieci, adresacja zostanie zmieniona również bez większego problemu:
 
-![]({{< baseurl >}}/img/2016/08/8.konfiguracja-sieci-ifplugd-eth0-log.png)
+![]({{< baseurl >}}/img/2016/08/8.konfiguracja-sieci-ifplugd-eth0-log.png#huge)
 
 I o takie zachowanie nam chodziło.

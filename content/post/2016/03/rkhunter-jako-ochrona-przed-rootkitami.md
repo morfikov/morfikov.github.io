@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - rootkit
+- debian
 title: Rkhunter jako ochrona przed rootkit'ami
 ---
 
@@ -97,7 +98,7 @@ W zależności od tego z jakiego hasha korzystamy oraz jakie testy przeprowadzam
 zająć mniej lub więcej czasu. Odpalamy zatem terminal i jako root wydajemy polecenie `rkhunter
 --check` . Skanowanie wygląda mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/03/1.rkhunter-debian-rootkit-skan.png)
+![]({{< baseurl >}}/img/2016/03/1.rkhunter-debian-rootkit-skan.png#big)
 
 Wszystkie wyrzucone ostrzeżenia niekoniecznie oznaczają problemy z systemem. Jest duże
 prawdopodobieństwo, że to tylko fałszywy alarm. Niemniej jednak, musimy mieć pewność i dobrze jest

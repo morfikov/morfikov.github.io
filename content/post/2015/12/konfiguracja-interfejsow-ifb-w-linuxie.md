@@ -174,7 +174,7 @@ numerki](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 Teraz odpalmy jakąś przeglądarkę internetową, np. Firefox'a, w celach testowych. Pakiety powinny
 wędrować do kolejek 1:200 oraz 2:300. Poniżej przykład:
 
-![]({{< baseurl >}}/img/2015/12/1.ksztaltowanie-ruchu-interfejsy-ifb-tc.png)
+![]({{< baseurl >}}/img/2015/12/1.ksztaltowanie-ruchu-interfejsy-ifb-tc.png#huge)
 
 ## Statystyki ruchu
 
@@ -190,11 +190,11 @@ Inforamcje o qdisc:
 
 Informacje o filtrach:
 
-    tc -s -d -p filter show dev ifb1
+    # tc -s -d -p filter show dev ifb1
 
 Informacje na temat klas:
 
-    tc -s -d class show dev ifb1
+    # tc -s -d class show dev ifb1
 
 Jeśli komuś niezbyt odpowiada zapis tekstowy i wolałby zobaczyć rozpiskę w postaci jakiegoś wykresu,
 to istnieje [narzędzie tcviz](https://github.com/ze-phyr-us/tcviz), które na podstawie tych

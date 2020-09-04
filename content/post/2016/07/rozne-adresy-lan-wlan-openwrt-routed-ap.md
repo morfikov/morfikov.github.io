@@ -72,7 +72,7 @@ w nim nową strefę i ustawiamy w niej możliwość nawiązywania połączenia z
         option 'src'        'wifi'
         option 'dest'       'wan'
 
-Zezwalamy także na ruch na linii LAN \<-\> WLAN:
+Zezwalamy także na ruch na linii LAN <=> WLAN:
 
     config 'forwarding'
         option 'src'        'lan'
@@ -86,7 +86,7 @@ I to w zasadzie cała konfiguracja. Restartujemy router i łączymy się po kabl
 sprawdzenia poprawności konfiguracji. Jak widzimy poniżej, interfejsowi sieciowemu klienta zostały
 przypisane adresy z różnych sieci:
 
-![]({{< baseurl >}}/img/2016/07/1.rozne-adresy-lan-wlan-router-openwrt-routed-ap.png)
+![]({{< baseurl >}}/img/2016/07/1.rozne-adresy-lan-wlan-router-openwrt-routed-ap.png#huge)
 
 Zwróćmy też uwagę na fakt, że w tym przypadku nie mamy ustawionych żadnych obostrzeń w stosunku do
 klientów sieci WiFi, tak jak to ma miejsce, np. w sieci gościnnej. Hosty tutaj mogą się łączyć

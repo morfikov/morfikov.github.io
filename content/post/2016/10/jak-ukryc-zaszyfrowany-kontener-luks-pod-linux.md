@@ -131,16 +131,14 @@ próbujemy ukryć.
 
 ### Tworzenie szyfrowanego kontenera LUKS
 
-Teraz w przy pomocy `gparted` stwórzmy na nim jednolitą partycję `sdb1`
-:
+Teraz w przy pomocy `gparted` stwórzmy na nim jednolitą partycję `sdb1` :
 
-[![1.gparted-linux-tworzenie-partycji-pod-luks]({{< baseurl >}}/img/2016/10/1.gparted-linux-tworzenie-partycji-pod-luks-660x335.png)]({{< baseurl >}}/img/2016/10/1.gparted-linux-tworzenie-partycji-pod-luks.png)
+![]({{< baseurl >}}/img/2016/10/1.gparted-linux-tworzenie-partycji-pod-luks.png#huge)
 
 Tutaj wykorzystujemy system plików EXT4. Poniżej widzimy, że struktura opisowa tej partycji zajmuje
-około 70 MiB. To jest minimum, poniżej którego nie możemy
-zejść.
+około 70 MiB. To jest minimum, poniżej którego nie możemy zejść.
 
-[![2.gparted-linux-tworzenie-partycji-pod-luks]({{< baseurl >}}/img/2016/10/2.gparted-linux-tworzenie-partycji-pod-luks-660x335.png)]({{< baseurl >}}/img/2016/10/2.gparted-linux-tworzenie-partycji-pod-luks.png)
+![]({{< baseurl >}}/img/2016/10/2.gparted-linux-tworzenie-partycji-pod-luks.png#huge)
 
 Do tego trzeba będzie przeznaczyć jeszcze jakieś miejsce na widoczne pliki. Rozmiar tej karty SD
 widziany w systemie to 1,84 GiB, a nasza przykrywka będzie miała 256 MiB. Pozostała część obszaru
@@ -157,7 +155,7 @@ Otwórzmy teraz ten kontener:
 Póki co, nie mamy jeszcze nic w kontenerze. To jest tylko wirtualny obszar, który zamierzamy sobie
 podzielić. Wewnątrz tego kontenera musimy teraz stworzyć przykrywkowy system plików. Pamiętajmy
 jednak, że z jednej strony on musi wypełniać całą dostępną przestrzeń zaszyfrowanego kontenera ale
-pliki muszą zostać zapisane na początku systemu plików (\<256 MiB). By tego typu sztuczkę
+pliki muszą zostać zapisane na początku systemu plików (<256 MiB). By tego typu sztuczkę
 zastosować, musimy nieco inaczej podejść do kwestii tworzenia systemu plików.
 
 Na samym początku stworzymy system plików dla całego kontenera. Później go skurczymy do 256 MiB i
@@ -312,8 +310,7 @@ niezbędny jeśli potrzebujemy menadżera kluczy, który jest oferowany prze LUK
 korzystamy tylko z jednego hasła i cała funkcjonalność LUKS jest dla nas zwyczajnie zbędna. Dlatego
 też zamiast tworzyć ukryty kontener LUKS, możemy wykorzystać do tego celu `dm-crypt` . Nie zostawia
 on żadnych śladów na partycji i idealnie nadaje się do zastosowania w naszym przypadku. Do
-zmapowania interesującego nas obszaru dysku wykorzystamy poniższe
-    polecenie:
+zmapowania interesującego nas obszaru dysku wykorzystamy poniższe polecenie:
 
     # cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --verify-passphrase --verbose open --type=plain /dev/sdb1 sdb1 --offset=655360
 

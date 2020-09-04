@@ -101,7 +101,7 @@ By sprawdzić czy zapytania DNS są szyfrowane za sprawą `dnscrypt-proxy` , mo�
 testową OpenDNS](https://www.opendns.com/welcome/), gdzie powinniśmy zobaczyć ten poniższy
 komunikat:
 
-![]({{< baseurl >}}/img/2015/06/1.test-konfiguracji-dnscrypt-proxy.png)
+![]({{< baseurl >}}/img/2015/06/1.test-konfiguracji-dnscrypt-proxy.png#medium)
 
 Nie mamy tam żadnych informacji dotyczących szyfrowania ruchu ale skoro przekierowaliśmy ruch na
 lokalny resolver i jesteśmy w stanie odwiedzić stronę OpenDNS, to znaczy, że ruch musi być przesłany

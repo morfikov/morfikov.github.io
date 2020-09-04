@@ -80,16 +80,14 @@ Niemniej jednak, obraz `recovery.img` w dalszym ciągu możemy zbudować ale pot
 firmware Neffos'a Y5L, który na szczęście możemy pobrać ze [strony producenta tego
 smartfona](http://www.neffos.com/en/support/download/Y5L). Pamiętajmy by pobrać plik przeznaczony na
 ten konkretny model telefonu, który posiadamy (w tym przypadku TP801A). Poniżej jest pełna
-specyfikacja wgranego oprogramowania oraz dokładne numery mojego
-smartfona:
+specyfikacja wgranego oprogramowania oraz dokładne numery mojego smartfona:
 
-[![]({{< baseurl >}}/img/2017/01/001.neffos-y5l-smartfon-tp-link-root-informacje-model-266x660.png)]({{< baseurl >}}/img/2017/01/001.neffos-y5l-smartfon-tp-link-root-informacje-model.png)
+![]({{< baseurl >}}/img/2017/01/001.neffos-y5l-smartfon-tp-link-root-informacje-model.png#small)
 
 W paczce `.zip` z firmware, którą pobraliśmy, znajduje się plik `boot.img` . Musimy go wydobyć w
-celu wyodrębnienia pewnych plików i wgrania ich na portowany obraz `recovery.img`
-.
+celu wyodrębnienia pewnych plików i wgrania ich na portowany obraz `recovery.img` .
 
-[![]({{< baseurl >}}/img/2017/01/002.neffos-y5l-smartfon-tp-link-root-obraz-boot-660x289.png)]({{< baseurl >}}/img/2017/01/002.neffos-y5l-smartfon-tp-link-root-obraz-boot.png)
+![]({{< baseurl >}}/img/2017/01/002.neffos-y5l-smartfon-tp-link-root-obraz-boot.png#huge)
 
 ## Przepakowanie obrazu recovery.img
 
@@ -292,11 +290,10 @@ Proces odblokowania bootloader'a usuwa wszystkie dane, które wgraliśmy na flas
 podczas odblokowywania jest inicjowany [factory
 reset]({{< baseurl >}}/post/android-reset-ustawien-do-fabrycznych-factory-defaults/). Dane na
 karcie SD pozostają nietknięte. By ten proces zainicjować zaczynamy od przestawienia jednej opcji w
-telefonie. W tym celu musimy udać się w Ustawienia =\> Opcje Programistyczne i tam przełączyć
-`Zdjęcie blokady OEM`
-:
+telefonie. W tym celu musimy udać się w Ustawienia => Opcje Programistyczne i tam przełączyć
+`Zdjęcie blokady OEM` :
 
-[![]({{< baseurl >}}/img/2017/01/003.neffos-y5l-smartfon-tp-link-root-blokada-booloader-660x274.png)]({{< baseurl >}}/img/2017/01/003.neffos-y5l-smartfon-tp-link-root-blokada-booloader.png)
+![]({{< baseurl >}}/img/2017/01/003.neffos-y5l-smartfon-tp-link-root-blokada-booloader.png#huge)
 
 Następnie w terminalu wpisujemy poniższe polecenia:
 
@@ -381,15 +378,14 @@ Jak już ustalimy jakie partycje uwzględnimy w backup'ie, to przechodzimy do po
 wybieramy kartę SD oraz zaznaczamy odpowiednie obszary pamięci flash, tak jak to widać na poniższej
 fotce:
 
-[![]({{< baseurl >}}/img/2017/01/004.neffos-y5l-smartfon-tp-link-root-backup-flash-660x234.png)]({{< baseurl >}}/img/2017/01/004.neffos-y5l-smartfon-tp-link-root-backup-flash.png)
+![]({{< baseurl >}}/img/2017/01/004.neffos-y5l-smartfon-tp-link-root-backup-flash.png#huge)
 
 W przypadku robienia pełnego backup'u, cały proces może zająć dłuższą chwilę. Po jego ukończeniu, na
-karcie SD pojawi się obraz flash'a, który możemy sprawdzić w `gdisk` lub `parted`
-:
+karcie SD pojawi się obraz flash'a, który możemy sprawdzić w `gdisk` lub `parted` :
 
-![]({{< baseurl >}}/img/2017/01/005.neffos-y5l-smartfon-tp-link-root-flash-gdisk.png)
+![]({{< baseurl >}}/img/2017/01/005.neffos-y5l-smartfon-tp-link-root-flash-gdisk.png#huge)
 
-![]({{< baseurl >}}/img/2017/01/006.neffos-y5l-smartfon-tp-link-root-flash-parted.png)
+![]({{< baseurl >}}/img/2017/01/006.neffos-y5l-smartfon-tp-link-root-flash-parted.png#huge)
 
 ## Wgranie obrazu recovery z TWRP na Neffos Y5L
 
@@ -420,10 +416,9 @@ Jako, że my nie mamy jeszcze zrobionego root'a, to musimy pobrać `TWRP / Flash
 . Tej paczki nie wypakowujemy, tylko wrzucamy ją w pobranej formie na kartę SD w telefonie. Odpalamy
 teraz tryb recovery w smartfonie (VolumeUp + Power) i przechodzimy do Install i wskazujemy paczkę
 `.zip` , którą umieściliśmy na karcie SD. Tam z kolei zaznaczamy `ZIP signature verification` i
-przeciągamy trzy strzałki na prawą
-stronę.
+przeciągamy trzy strzałki na prawą stronę.
 
-[![]({{< baseurl >}}/img/2017/01/007.neffos-y5l-smartfon-tp-link-root-supersu-instalacja-660x293.png)]({{< baseurl >}}/img/2017/01/007.neffos-y5l-smartfon-tp-link-root-supersu-instalacja.png)
+![]({{< baseurl >}}/img/2017/01/007.neffos-y5l-smartfon-tp-link-root-supersu-instalacja.png#huge)
 
 Teraz możemy uruchomić ponownie Neffos'a Y5L i zainstalować jakąś aplikację, która pokaże nam czy
 nasz smartfon ma root'a.
@@ -436,7 +431,7 @@ uruchamiamy ją. Powinien się pojawić monit informujący, że ta aplikacja ż�
 na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosowny
 komunikat:
 
-[![]({{< baseurl >}}/img/2017/01/008.neffos-y5l-smartfon-tp-link-root-checkroot-660x561.png)]({{< baseurl >}}/img/2017/01/008.neffos-y5l-smartfon-tp-link-root-checkroot.png)
+![]({{< baseurl >}}/img/2017/01/008.neffos-y5l-smartfon-tp-link-root-checkroot.png#big)
 
 ### Instalacja BusyBOX
 
@@ -447,7 +442,7 @@ nas poprosi o dostęp do praw administracyjnych. Po zainstalowaniu, weryfikujemy
 wszystko zostało pomyślne wgrane. Możemy to zrobić zarówno w samej aplikacji BusyBOX, jak w
 CheckRoot:
 
-[![]({{< baseurl >}}/img/2017/01/009.neffos-y5l-smartfon-tp-link-root-busybox-660x374.png)]({{< baseurl >}}/img/2017/01/009.neffos-y5l-smartfon-tp-link-root-busybox.png)
+![]({{< baseurl >}}/img/2017/01/009.neffos-y5l-smartfon-tp-link-root-busybox.png#huge)
 
 ### Instalacja terminala
 
@@ -464,10 +459,9 @@ instalujemy w systemie. Jako, że ja korzystam na co dzień z Debiana, to instal
 ### Aplikacje i prawa administracyjne
 
 Teraz już pozostało nam tylko odpalenie terminala i zalogowanie się na użytkownika root. Do tego
-celu służy polecenie `su` . Wpiszmy je zatem w okienku
-Termux'a:
+celu służy polecenie `su` . Wpiszmy je zatem w okienku Termux'a:
 
-[![]({{< baseurl >}}/img/2017/01/010.neffos-y5l-smartfon-tp-link-root-termux-su-660x371.png)]({{< baseurl >}}/img/2017/01/010.neffos-y5l-smartfon-tp-link-root-termux-su.png)
+![]({{< baseurl >}}/img/2017/01/010.neffos-y5l-smartfon-tp-link-root-termux-su.png#huge)
 
 I teraz możemy uruchamiać aplikacje z prawami admina, tak jak to zwykliśmy robić w każdym innym
 linux'ie. Pamiętajmy tylko, że standardowo system plików jest zamontowany w trybie tylko do odczytu

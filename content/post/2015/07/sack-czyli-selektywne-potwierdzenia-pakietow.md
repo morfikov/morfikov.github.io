@@ -9,6 +9,7 @@ status: publish
 tags:
 - tcp
 - sysctl
+- sieć
 title: SACK, czyli selektywne potwierdzenia pakietów
 ---
 
@@ -31,7 +32,7 @@ wysłać zduplikowane pakiety `ACK` sygnalizując problem z jednym z wcześniejs
 duplikatów byłoby 98. Ten proces został zobrazowany poniżej
 ([źródło](http://www.tcpipguide.com/free/t_TCPNonContiguousAcknowledgmentHandlingandSelective.htm)):
 
-![]({{< baseurl >}}/img/2015/06/1.retransmisja-pakietow-ack.png)
+![]({{< baseurl >}}/img/2015/06/1.retransmisja-pakietow-ack.png#big)
 
 Niezła rozrzutność i tu właśnie w grę wchodzi mechanizm `SACK`, czyli selektywny ACK.
 
@@ -41,7 +42,7 @@ Jak zatem wyglądałaby powyżej opisana sytuacja po zaimplementowaniu mechanizm
 kolejną fotkę
 ([źródło](http://www.tcpipguide.com/free/t_TCPNonContiguousAcknowledgmentHandlingandSelective.htm)):
 
-![]({{< baseurl >}}/img/2015/06/2.retransmisja-pakietow-sack.png.png)
+![]({{< baseurl >}}/img/2015/06/2.retransmisja-pakietow-sack.png.png#big)
 
 Odbiorca otrzymał pakiet 1, 2 oraz 4. Pakiet 3 uległ zagubieniu. Odbiorca potwierdza wszystkie
 pakiety, które otrzymał. W buforze nadawczym, ciągle są dostępne te segmenty, które nie zostały

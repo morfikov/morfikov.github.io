@@ -57,10 +57,9 @@ tryb recovery.
 
 Ja korzystając z dobrodziejstw wyprowadzonego portu dla konsoli szeregowej mogę podejrzeć co się
 dzieje na routerze po uruchomieniu go z wciśniętym przyciskiem reset. Poniżej znajduje się log
-bootloader'a z mojego TL-WR1043ND
-V2:
+bootloader'a z mojego TL-WR1043ND V2:
 
-![]({{< baseurl >}}/img/2016/10/1.tryb-recovery-router-tp-link-openwrt-lede.png)
+![]({{< baseurl >}}/img/2016/10/1.tryb-recovery-router-tp-link-openwrt-lede.png#huge)
 
 W stosunku do normalnego procesu boot zmienił się `is_auto_upload_firmware` z `0` na `1` , co
 sugeruje automatyczny upload obrazu firmware przy starcie routera z wciśniętym przyciskiem Reset.
@@ -111,8 +110,7 @@ Teraz odpalamy serwer TFTP i sprawdzamy czy demon nasłuchuje:
 
 Wyłączamy router. Pobieramy obraz firmware, czy to ze strony TP-LINK czy OpenWRT/LEDE. Plik nazywamy
 zgodnie z instrukcją, którą wypisał nam bootloader, tj. `wr1043v2_tp_recovery.bin` i wrzucamy go do
-katalogu `/srv/tftp-openwrt/`
-    :
+katalogu `/srv/tftp-openwrt/` :
 
     # cp /home/morfik/Desktop/TL-WR1043ND/openwrt-15.05-ar71xx-generic-tl-wr1043nd-v2-squashfs-factory.bin /srv/tftp-openwrt/wr1043v2_tp_recovery.bin
 
@@ -130,15 +128,14 @@ włączamy zasilanie przyciskiem Power. Proces flash'owania potrwa chwilę. Jest
 automatyczny i nie musimy wykonywać praktycznie żadnych czynności. Wystarczy trochę poczekać. Router
 powinien się samoczynnie uruchomić ponownie, tym razem już z działającym systemem.
 
-Cały ten powyższy proces podejrzałem sobie na konsoli
-szeregowej:
+Cały ten powyższy proces podejrzałem sobie na konsoli szeregowej:
 
-![]({{< baseurl >}}/img/2016/10/2.tryb-recovery-router-tp-link-openwrt-lede.png)
+![]({{< baseurl >}}/img/2016/10/2.tryb-recovery-router-tp-link-openwrt-lede.png#huge)
 
 Jak widać, tryb recovery automatyzuje cały proces naprawy routera przez konsolę szeregową. Niżej zaś
 w logu mamy jeszcze:
 
-![]({{< baseurl >}}/img/2016/10/3.tryb-recovery-router-tp-link-openwrt-lede.png)
+![]({{< baseurl >}}/img/2016/10/3.tryb-recovery-router-tp-link-openwrt-lede.png#huge)
 
 Czyli proces flash'owania przebiegł bez problemów i router startuje. Zatem jeśli bootloader w naszym
 routerze posiada taki tryb recovery, to możemy zapomnieć o bawieniu się konsolą szeregową,

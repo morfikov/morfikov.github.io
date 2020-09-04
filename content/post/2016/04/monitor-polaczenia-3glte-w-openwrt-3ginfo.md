@@ -40,8 +40,8 @@ na router i wpisujemy w terminalu te poniższe polecenia:
 
 Jak możemy wyczytać w podlinkowanej wyżej stronie, `3ginfo` to w zasadzie skrypt, który w graficznej
 formie za pomocą interfejsu webowego zwraca przetworzone wyniki. Nie zjada zatem zbyt dużo zasobów,
-zwłaszcza miejsca na flash'u routera. Niemniej jednak, wymagana jest instalacja serwera www `uhttpd`
-, który zostanie pociągnięty automatycznie w zależnościach.
+zwłaszcza miejsca na flash'u routera. Niemniej jednak, wymagana jest instalacja serwera www
+`uhttpd` , który zostanie pociągnięty automatycznie w zależnościach.
 
 ## Konfiguracja 3ginfo
 
@@ -77,7 +77,7 @@ dość obszerny. W tym przypadku wersja tekstowa ma około 1,5 MiB. spakowana 14
 
 Poniżej przykład formularza:
 
-![]({{< baseurl >}}/img/2016/04/1.formularz-bts-3ginfo.png)
+![]({{< baseurl >}}/img/2016/04/1.formularz-bts-3ginfo.png#big)
 
 ## Monitorowanie połączenia
 
@@ -113,15 +113,15 @@ Zostanie także utworzony nowy proces:
 Czyli wiemy, że demon `uhttpd` nasłuchuje, a interfejs webowy aplikacji `3ginfo` oczekuje na nas pod
 adresem `http://192.168.1.1:81` . Przejdźmy tam i sprawdźmy co tam zastaniemy:
 
-![]({{< baseurl >}}/img/2016/04/2.3ginfo-rozlaczony.png)
+![]({{< baseurl >}}/img/2016/04/2.3ginfo-rozlaczony.png#big)
 
 By się połączyć, wciskamy Connect:
 
-![]({{< baseurl >}}/img/2016/04/3.3ginfo-polaczony.png)
+![]({{< baseurl >}}/img/2016/04/3.3ginfo-polaczony.png#big)
 
 Możemy także podejrzeć szczegóły połączenia rozwijając Show details:
 
-![]({{< baseurl >}}/img/2016/04/4.3ginfo-dodatkowe-informacje.png)
+![]({{< baseurl >}}/img/2016/04/4.3ginfo-dodatkowe-informacje.png#big)
 
 W oparciu o wygenerowaną listę BTS, `3ginfo` podał nam informacje na temat lokalizacji BTS'a, do
 którego zostaliśmy podłączeni. Nie zawsze jednak te informacje będą dostępne, nawet po

@@ -32,7 +32,7 @@ Ponadto, każda z tablic ma pewien zestaw łańcuchów, w których skład mogą 
 przechodzące przez dowolną maszynę znajdującą się w sieci, bez względu na to czy to router, serwer,
 czy klient, robią to w ściśle określonej kolejności. Najlepiej to zobrazować poniższą fotką:
 
-![]({{< baseurl >}}/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png)
+![]({{< baseurl >}}/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png#big)
 
 Pakiety dzielimy na te otrzymane ( `RX` ) oraz te wysłane ( `TX` ). Każdy z nich przechodzi przez
 powyższy schemat, z tym, że nieco inną drogą. Najprostsza sytuacja ma miejsce gdy pakiet jest
@@ -261,12 +261,12 @@ hosta lokalnego (localhost) nie może nawiązać połączenia z tą klasą adres
 bez wahania odhaczyć. W przypadku gdybyśmy zablokowali ten ruch, pewne procesy systemowe mogą
 przestać działać.
 
-Stworzyliśmy także kilka dodatkowych łańcuchów: `tcp`, `udp`, `icmp_in`, `fw-interfaces`, `fw-open`
-. Pierwsze trzy rozgraniczają trzy główne protokoły gdzie będą kierowane określone pakiety. Z kolei
-czwarty z nich odpowiada za lokalne interfejsy, które mogą wysyłać pakiety w świat. To na wypadek
-udostępniania połączenia. Z kolei ostatni łańcuch jest od otwierania i przekierowania portów na
-maszyny lokalne. Cały pozostały ruch będzie trafiał z automatu na reguły zajmujące się zwracaniem
-odpowiednich komunikatów hostom, które próbowały się z nami połączyć.
+Stworzyliśmy także kilka dodatkowych łańcuchów: `tcp`, `udp`, `icmp_in`, `fw-interfaces`,
+`fw-open` . Pierwsze trzy rozgraniczają trzy główne protokoły gdzie będą kierowane określone
+pakiety. Z kolei czwarty z nich odpowiada za lokalne interfejsy, które mogą wysyłać pakiety w świat.
+To na wypadek udostępniania połączenia. Z kolei ostatni łańcuch jest od otwierania i przekierowania
+portów na maszyny lokalne. Cały pozostały ruch będzie trafiał z automatu na reguły zajmujące się
+zwracaniem odpowiednich komunikatów hostom, które próbowały się z nami połączyć.
 
 Ta powyższa konfiguracja zapory jest bardzo podstawowa i nadaje się jedynie na stację kliencką. Nie
 akceptuje ona żadnych nowych połączeń z sieci. Wszystkie z nich muszą pierw zostać zainicjowane

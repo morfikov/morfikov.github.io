@@ -62,7 +62,7 @@ modułu](https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User
 
 Problematyczne może być rozszyfrowanie wartości, które zostały podane w opcji `control` . Generalnie
 rzecz biorąc, zależą one od samego pluginu i mogą się dość znacznie różnić. W tym przypadku został
-użyty plugin [sc4m\_1916](http://plugin.org.uk/ladspa-swh/docs/ladspa-swh.html#tth_sEc2.92) . By
+użyty plugin [sc4m_1916](http://plugin.org.uk/ladspa-swh/docs/ladspa-swh.html#tth_sEc2.92) . By
 dowiedzieć się coś nieco więcej o tym pluginie, musimy doinstalować pakiet `ladspa-sdk` , po czym
 wydać poniższe polecenie:
 
@@ -94,7 +94,7 @@ wartości wraz z wartościami domyślnymi (na wypadek ich nie podania w konfigur
 prawda, 9 portów ale te dwa ostatnie (bez wartości default) są dla wyjścia (np. podejrzenie w locie
 o ile dB sygnał jest redukowany), jednak PulseAudio nie potrafi ich obsłużyć.
 
-### Porty w sc4m\_1916
+### Porty w sc4m_1916
 
 Doszukałem się na necie w miarę przystępnego wyjaśnienia [jak działa kompresor
 dźwięku](http://www.studiomastering.net/mastering05.html). Poniżej jest krótki opis portów
@@ -132,7 +132,7 @@ każdego.
 Po zresetowaniu PulseAudio, w `pavcontrol` powinniśmy ujrzeć dodatkowy strumień, do którego możemy
 przesyłać dźwięki z określonych aplikacji, co wygląda mniej więcej tak:
 
-![]({{< baseurl >}}/img/2015/09/1.normalizacja-glosnosci-w-pulseaudio.png)
+![]({{< baseurl >}}/img/2015/09/1.normalizacja-glosnosci-w-pulseaudio.png#big)
 
 Mimo, że amarok został złapany na tej force podczas odtwarzania dźwięku ze sporym natężeniem, to ten
 niebieski pasek, który widnieje także pod strumieniem modułu, wskazuje, że dźwięk jest odtwarzany

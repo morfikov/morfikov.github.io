@@ -48,11 +48,11 @@ metadane, o których wspomniałem wyżej. Wobec czego, menadżery plików, edyto
 przeglądarki obrazków, czy playery audio/video są w stanie skorzystać z tych informacji i ułatwić
 nam nieco życie. By wyjaśnić jak działa ten mechanizm, musimy posłużyć się przykładem. Otwórzmy w
 swoim ulubionym graficznym edytorze tekstu jakiś plik. Następnie go zamknijmy. Ponownie odpalmy
-edytor, z tym, że tym razem nie otwierajmy żadnego pliku. Następnie w menu wybierzmy File -\> Open.
+edytor, z tym, że tym razem nie otwierajmy żadnego pliku. Następnie w menu wybierzmy File -> Open.
 Jest tam pozycja `Recently Used` . Po przejściu do niej, powinniśmy być w stanie uzyskać listę
 plików, które ostatnio otwieraliśmy w tym edytorze. U mnie wygląda to tak:
 
-![]({{< baseurl >}}/img/2015/11/1.recently-used.xbel-geany.png)
+![]({{< baseurl >}}/img/2015/11/1.recently-used.xbel-geany.png#huge)
 
 Co w przypadku, gdy posiadamy w systemie pliki, które nie powinny być umieszczane na takiej liście?
 Każda aplikacja graficzna posiadająca interfejs GTK2/GTK3 jest w stanie dodawać do pliku

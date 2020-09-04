@@ -38,7 +38,7 @@ obecny w bazie danych providera. Zatem jeśli do sieci był podpięty zwykły ko
 MAC musimy odczytać w opcjach sieciowych. Na linux'ie służą do tego polecenia `ifconfig` lub `ip` .
 Poniżej przykład:
 
-![]({{< baseurl >}}/img/2016/05/1.sklonowac-adres-mac-komputer-openwrt.png)
+![]({{< baseurl >}}/img/2016/05/1.sklonowac-adres-mac-komputer-openwrt.png#huge)
 
 Widoczne wyżej `link/ether 3c:4a:92:00:4c:5b` , to właśnie adres MAC tej karty sieciowej. To ten
 numer musimy uwzględnić w konfiguracji OpenWRT. Logujemy się zatem na router i przechodzimy do
@@ -51,4 +51,4 @@ edycji pliku `/etc/config/network` . Tam odszukujemy sekcję `wan` i dopisujemy 
 Zapisujemy plik i restartujemy router. Adres MAC powinien zostać sklonowany, co możemy odczytać w
 konfiguracji routera wydając polecenie `ifconfig` wskazując w argumencie interfejs WAN:
 
-![]({{< baseurl >}}/img/2016/05/2.sklonowac-adres-mac-komputer-openwrt.png)
+![]({{< baseurl >}}/img/2016/05/2.sklonowac-adres-mac-komputer-openwrt.png#big)

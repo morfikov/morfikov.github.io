@@ -9,6 +9,8 @@ status: publish
 tags:
 - bezpieczeństwo
 - apache2
+- ssl
+- tls
 title: Wymuszenie SSL/TLS przy pomocy vhost'ów w Apache2
 ---
 

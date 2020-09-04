@@ -39,17 +39,15 @@ ostatecznie cofnąć. W zasadzie, to tylko przypadek sprawił, że się zaintere
 Integrity Check w menu recovery. Jedyne co chciałem zrobić pod kątem partycji `/recovery/` , to
 sprawdzić czy przywrócenie oryginalnej partycji zakończyło się powodzeniem. No i jak można zobaczyć
 na poniższej fotce, opcja Root Integrity Check jest zaraz obok Power Off, którą to chciałem
-zaznaczyć. Wyszło tak, że zaznaczyłem tę niżej -- zwykły
-missclick.
+zaznaczyć. Wyszło tak, że zaznaczyłem tę niżej -- zwykły missclick.
 
-[![]({{< baseurl >}}/img/2017/01/001.root-integrity-check-smartfon-android-inicjacja-procesu-660x469.jpg)]({{< baseurl >}}/img/2017/01/001.root-integrity-check-smartfon-android-inicjacja-procesu.jpg)
+![]({{< baseurl >}}/img/2017/01/001.root-integrity-check-smartfon-android-inicjacja-procesu.jpg#big)
 
 Po aktywowaniu tej opcji rozpoczął się bliżej nie znany mi proces skanowania. Trwał on dłuższą
 chwilę, a jako, że ja nie lubię przerywać rozpoczętych rzeczy, to poczekałem aż ten proces
-dobiegnie
-końca.
+dobiegnie końca.
 
-[![]({{< baseurl >}}/img/2017/01/002.root-integrity-check-smartfon-android-skanowanie-558x660.jpg)]({{< baseurl >}}/img/2017/01/002.root-integrity-check-smartfon-android-skanowanie.jpg)
+![]({{< baseurl >}}/img/2017/01/002.root-integrity-check-smartfon-android-skanowanie.jpg#big)
 
 Ostatecznie proces zakończył się błędami. Z początku nie miałem pojęcia co jest nie tak. Niby
 smartfona odratowałem i nie wykazywał on żadnych problemów w działaniu ale ten proces Root Integrity
@@ -69,10 +67,9 @@ Generalnie rzecz biorąc, w grę wchodzą trzy składowe.
 
 Pierwszą z nich jest system plików na partycji `/system/` . Jeśli jakiś plik na tej partycji został
 usunięty, dodany lub też zmieniony, proces zwróci błąd i wypisze na ekranie problematyczne pliki.
-Poniżej
-przykład:
+Poniżej przykład:
 
-[![]({{< baseurl >}}/img/2017/01/003.root-integrity-check-smartfon-android-blad-system-660x618.jpg)]({{< baseurl >}}/img/2017/01/003.root-integrity-check-smartfon-android-blad-system.jpg)
+![]({{< baseurl >}}/img/2017/01/003.root-integrity-check-smartfon-android-blad-system.jpg#big)
 
 Tutaj został dodany tylko jeden plik i jak możemy odczytać jest to `/system/etc/resolv.conf` .
 Zwykle odtworzenie stock'owego obrazu partycji `/system/` poprawi ten błąd. Jeśli zaś nie mamy jak
@@ -96,16 +93,14 @@ przy cofaniu zmian. Natomiast w przypadku modeli Y5 i Y5L, SuperSU już jakieś 
 `/boot/` odprawiał. Okazało się, że może i przywróciłem partycję `/system/` i `/recovery/` do stanu
 fabrycznego podczas procesu unroot ale najwyraźniej SuperSU namieszał coś w partycji `/boot/` i nie
 posprzątał po sobie należycie. W efekcie partycja `/boot/` została zmieniona i Root Integrity Check
-wyrzucał błąd, bo był w stanie wykryć właśnie te
-zmiany.
+wyrzucał błąd, bo był w stanie wykryć właśnie te zmiany.
 
-[![]({{< baseurl >}}/img/2017/01/004.root-integrity-check-smartfon-android-blad-boot-644x660.jpg)]({{< baseurl >}}/img/2017/01/004.root-integrity-check-smartfon-android-blad-boot.jpg)
+![]({{< baseurl >}}/img/2017/01/004.root-integrity-check-smartfon-android-blad-boot.jpg#big)
 
 By Root Integrity Check zakończył się powodzeniem, te trzy partycje muszą pochodzić ze stock'owego
 firmware. W zasadzie ten powyższy błąd nie przeszkadza w użytkowaniu telefonu ale należy liczyć się
 z problemami podczas ewentualnych aktualizacji oferowanych przez producenta smartfona. Po
 przywróceniu wszystkich trzech partycji z backup'u flash'a, Root Integrity Check przeszedł bez
-problemu i zakończył się
-powodzeniem:
+problemu i zakończył się powodzeniem:
 
-[![]({{< baseurl >}}/img/2017/01/005.root-integrity-check-smartfon-android-sukces-594x660.jpg)]({{< baseurl >}}/img/2017/01/005.root-integrity-check-smartfon-android-sukces.jpg)
+![]({{< baseurl >}}/img/2017/01/005.root-integrity-check-smartfon-android-sukces.jpg#big)

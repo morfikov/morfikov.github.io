@@ -9,6 +9,8 @@ status: publish
 tags:
 - iptables
 - sysctl
+- sieć
+- ip
 title: Czas życia pakietów, czyli zmiana TTL
 ---
 
@@ -30,7 +32,7 @@ obsługiwanej przez ten system maszynie. To pole występuje w nagłówku IP i by
 wyobraźni, poniżej jest fotka obrazująca lokalizację tego pola
 ([źródło](https://nmap.org/book/tcpip-ref.html)):
 
-![]({{< baseurl >}}/img/2015/06/1.ip-header-ttl.png)
+![]({{< baseurl >}}/img/2015/06/1.ip-header-ttl.png#huge)
 
 Dla systemów operacyjny z rodziny windows, to pole ma wartość `128` . Z kolei jeśli zaś chodzi o
 chyba wszystkie dystrybucje linuxa, wliczając w to też i OpenWRT, jest to `64`. Tą wartość możemy

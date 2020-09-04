@@ -40,7 +40,7 @@ jesteśmy w stanie nadpisać konfigurację serwerów DNS pobieraną z serwera DH
 Niemniej jednak, w tym powyższym przypadku, plik `/etc/resolv.conf` również jest przepisywany.
 Poniżej przykład logu systemowego:
 
-![]({{< baseurl >}}/img/2016/09/1.resolv-conf-dns-resolver-dhclinet.png)
+![]({{< baseurl >}}/img/2016/09/1.resolv-conf-dns-resolver-dhclinet.png#huge)
 
 Może i nasze serwery DNS zostaną umieszczone w tym pliku ale nadal nie jest to konfiguracja, która
 by zaspokoiła te bardziej wyrafinowane umysły informatyczne.
@@ -89,7 +89,7 @@ Zapisujemy skrypt i sprawdzamy, czy tym razem `dhclinet` zostawi plik `/etc/reso
 czy błąd z przepisaniem pliku zostanie wyeliminowany. Odpalamy zatem terminal i wpisujemy w nim
 `ifup eth0` :
 
-![]({{< baseurl >}}/img/2016/09/2.resolv-conf-dns-resolver-dhclinet.png)
+![]({{< baseurl >}}/img/2016/09/2.resolv-conf-dns-resolver-dhclinet.png#huge)
 
 Jak widzimy, nie ma już błędu, bo system nie chce nam już przepisywać pliku `/etc/resolv.conf` ,
 który w dalszym ciągu ma ustawiony atrybut odporności ( `i` widoczne w ostatniej linijce na

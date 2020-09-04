@@ -16,11 +16,10 @@ title: Karta WiFi w trybie MONITOR w OpenWRT
 Routery WiFi, zwłaszcza te na podzespołach firmy Qualcomm, mają zwykle bardzo dobre wsparcie w
 alternatywnym firmware OpenWRT. Te bezprzewodowe routery posiadają na pokładzie zwykle jedną lub
 dwie karty WiFi, w zależności od obsługiwanego pasma (2,4 GHz i/lub 5 GHz). Karty tych routerów
-działają standardowo w trybie AP (Access Point), czyli [punktu
-dostępowego](https://pl.wikipedia.org/wiki/Punkt_dost%C4%99pu). W taki sposób jesteśmy w stanie
-bezprzewodowo połączyć szereg urządzeń w sieci domowej z internetem. Niemniej jednak, karta WiFi
-może pracować w kilku innych trybach. W tym wpisie zobaczymy jak przełączyć kartę WiFi routera w
-tryb MONITOR.
+działają standardowo w trybie AP (Access Point), czyli [punktu dostępowego][1]. W taki sposób
+jesteśmy w stanie bezprzewodowo połączyć szereg urządzeń w sieci domowej z internetem. Niemniej
+jednak, karta WiFi może pracować w kilku innych trybach. W tym wpisie zobaczymy jak przełączyć
+kartę WiFi routera w tryb MONITOR.
 
 <!--more-->
 ## Różnica między trybem AP i MONITOR
@@ -59,9 +58,11 @@ Edytujemy zatem plik `/etc/config/wireless` i na jego końcu dodajemy ten oto po
 Teraz przy pomocy polecenia `iwinfo` sprawdzamy czy karta działa w pożądanym przez nas trybie. W tym
 przypadku, karta działa zarówno w trybie AP, jak i MONITOR. Wygląda to mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/06/1.openwrt-router-wifi-monitor-mode-tryb.png)
+![]({{< baseurl >}}/img/2016/06/1.openwrt-router-wifi-monitor-mode-tryb.png#big)
 
 Mając kartę w trybie MONITOR, możemy na routerze doinstalować szereg pakietów, min. `reaver` lub
 `aircrack-ng` , których przeznaczeniem są testy penetracyjne sieci WiFi. W ten sposób możemy
 przeskanować naszą domową sieć bezprzewodową i sprawdzić czy jest ona odporna na szereg popularnych
 ataków.
+
+[1]: https://pl.wikipedia.org/wiki/Punkt_dost%C4%99pu

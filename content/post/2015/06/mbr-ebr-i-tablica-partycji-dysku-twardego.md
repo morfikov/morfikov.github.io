@@ -10,6 +10,8 @@ tags:
 - mbr
 - partycja
 - ebr
+- ssd
+- hdd
 title: MBR, EBR i tablica partycji dysku twardego
 ---
 
@@ -28,10 +30,9 @@ program rozruchowy (bootloader). Druga część MBR, to tablica partycji i zwykl
 opisujące poszczególne partycje podstawowe. Każdy wpis ma 16 bajtów, razem 64 bajty. Na końcu MBR
 znajdują się 2 bajty sygnatury rozruchu. W sumie daje to 512 bajtów. Poniżej milusia fotka
 ([źródło](http://www.invoke-ir.com/2015/05/ontheforensictrail-part2.html)) przestawiająca
-strukturę MBR, na wypadek gdyby ktoś miał problemy z
-wyobraźnią:
+strukturę MBR, na wypadek gdyby ktoś miał problemy z wyobraźnią:
 
-[![1.struktura-mbr]({{< baseurl >}}/img/2015/06/1.struktura-mbr-1024x780.png)]({{< baseurl >}}/img/2015/06/1.struktura-mbr.png)
+![]({{< baseurl >}}/img/2015/06/1.struktura-mbr.png#huge)
 
 Wraz ze wzrostem pojemności dysków i zapotrzebowaniem na kolejne partycje, pojawił się problem
 ograniczenia ich liczby jedynie do 4. Jako tymczasowe rozwiązanie zaproponowano
@@ -40,7 +41,7 @@ partycji rozszerzonej, na której można ulokować dowolną liczbę dysków logi
 posiada 512 bajtów i praktycznie niczym nie różni się od MBR, za wyjątkiem sposobu działania. Rzućmy
 zatem okiem na poniższą fotkę ([źródło](http://thestarman.pcministry.com/asm/mbr/PartTables2.htm)):
 
-![]({{< baseurl >}}/img/2015/06/2.struktura-mbr-ebr.png)
+![]({{< baseurl >}}/img/2015/06/2.struktura-mbr-ebr.png#big)
 
 Wyżej mamy rozrysowaną dokładnie partycję rozszerzoną. Jej wpis w MBR niczym nie różni się od
 pozostałych partycji podstawowych. Generalnie rzecz biorąc, to z punktu widzenia maszyny, ten

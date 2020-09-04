@@ -70,7 +70,7 @@ Neffos C5](http://www.neffos.pl/product/details/C5) z Androidem 5.1 (Lollipop) i
 powinna działać bez zarzutu. [Tether można pobrać z Google
 Play](https://play.google.com/store/apps/details?id=com.tplink.tether).
 
-[![001.tether-tp-link-smartfon-instalacja]({{< baseurl >}}/img/2016/11/001.tether-tp-link-smartfon-instalacja-660x361.png)]({{< baseurl >}}/img/2016/11/001.tether-tp-link-smartfon-instalacja.png)
+![]({{< baseurl >}}/img/2016/11/001.tether-tp-link-smartfon-instalacja.png#huge)
 
 Co ciekawe, w stosunku do innych aplikacji TP-LINK, np.
 [tpMiFi](https://play.google.com/store/apps/details?id=com.tplink.tpmifi),
@@ -83,91 +83,79 @@ aplikacja jest nam w stanie zaoferować.
 
 Po podłączeniu smartfona do domowej sieci WiFi, aplikacja Tether powinna rozpoznać nasz
 bezprzewodowy router, o ile mamy na nim wgrany odpowiedni firmware. Poniżej przykład wykrycia mojego
-routera Archer
-C9:
+routera Archer C9:
 
-[![002.tether-tp-link-smartfon-wykrywanie-routera]({{< baseurl >}}/img/2016/11/002.tether-tp-link-smartfon-wykrywanie-routera-660x542.png)]({{< baseurl >}}/img/2016/11/002.tether-tp-link-smartfon-wykrywanie-routera.png)
+![]({{< baseurl >}}/img/2016/11/002.tether-tp-link-smartfon-wykrywanie-routera.png#big)
 
 Jeśli nasz router został rozpoznany, oznacza to, że wszystko jest w należytym porządku i możemy
 spróbować się na to urządzenie zalogować klikając na odpowiednią pozycję na liście. Jako, że w tym
-przypadku jest tylko jedna pozycja, to nie mamy za dużego wyboru. Dane logowania to `admin`/`admin`
-, czyli standardowy użytkownik i hasło, które są wykorzystywane w panelach administracyjnych
-TP-LINK'a:
+przypadku jest tylko jedna pozycja, to nie mamy za dużego wyboru. Dane logowania to
+`admin`/`admin` , czyli standardowy użytkownik i hasło, które są wykorzystywane w panelach
+administracyjnych TP-LINK'a:
 
-[![003.tether-tp-link-smartfon-logowanie]({{< baseurl >}}/img/2016/11/003.tether-tp-link-smartfon-logowanie-401x660.png)]({{< baseurl >}}/img/2016/11/003.tether-tp-link-smartfon-logowanie.png)
+![]({{< baseurl >}}/img/2016/11/003.tether-tp-link-smartfon-logowanie.png#medium)
 
-Po zalogowaniu się na router przywita nas takie oto
-okienko:
+Po zalogowaniu się na router przywita nas takie oto okienko:
 
-[![004.tether-tp-link-smartfon-aplikacja]({{< baseurl >}}/img/2016/11/004.tether-tp-link-smartfon-aplikacja-401x660.png)]({{< baseurl >}}/img/2016/11/004.tether-tp-link-smartfon-aplikacja.png)
+![]({{< baseurl >}}/img/2016/11/004.tether-tp-link-smartfon-aplikacja.png#medium)
 
 Mamy tutaj informacje na temat liczby aktualnie podłączonych urządzeń do routera oraz o stanie
 połączenia z internetem. Klikając zaś w nazwę urządzenia, zostaną nam pokazane bardziej
 szczegółowe dane dotyczące modelu, typu połączenia, wersji firmware oraz wersji sprzętowej samego
-routera. Nazwę wyświetlaną zawsze można sobie dostosować klikając na
-nią:
+routera. Nazwę wyświetlaną zawsze można sobie dostosować klikając na nią:
 
-[![005.tether-tp-link-smartfon-nazwa]({{< baseurl >}}/img/2016/11/005.tether-tp-link-smartfon-nazwa-660x542.png)]({{< baseurl >}}/img/2016/11/005.tether-tp-link-smartfon-nazwa.png)
+![]({{< baseurl >}}/img/2016/11/005.tether-tp-link-smartfon-nazwa.png#big)
 
 Niżej w głównym oknie aplikacji Tether mamy listę podłączonych urządzeń w formie ikonek przypisanych
 w oparciu o wykrytego/ustawionego klienta. Jak widzimy, aktualnie są podłączone dwa klienty, jeden
 przedstawia się jako Android, drugi jako laptop. Klikając na każdej z tych pozycji, możemy uzyskać
-nieco więcej informacji na temat połączenia danego klienta, min. adres IP oraz
-MAC:
+nieco więcej informacji na temat połączenia danego klienta, min. adres IP oraz MAC:
 
-[![006.tether-tp-link-smartfon-klienci]({{< baseurl >}}/img/2016/11/006.tether-tp-link-smartfon-klienci-660x542.png)]({{< baseurl >}}/img/2016/11/006.tether-tp-link-smartfon-klienci.png)
+![]({{< baseurl >}}/img/2016/11/006.tether-tp-link-smartfon-klienci.png#big)
 
 Jak widać wyżej, jesteśmy też w stanie zablokować tego konkretnego klienta przyciskając przycisk
 "Blokuj".
 
 Na samym dole okna głównego aplikacji Tether mamy jeszcze pozycję z opcjami (to ten żółty przycisk).
-Tutaj możemy skonfigurować szereg aspektów pracy
-routera:
+Tutaj możemy skonfigurować szereg aspektów pracy routera:
 
-[![007.tether-tp-link-smartfon-ustawienia]({{< baseurl >}}/img/2016/11/007.tether-tp-link-smartfon-ustawienia-401x660.png)]({{< baseurl >}}/img/2016/11/007.tether-tp-link-smartfon-ustawienia.png)
+![]({{< baseurl >}}/img/2016/11/007.tether-tp-link-smartfon-ustawienia.png#medium)
 
 Możemy włączyć lub wyłączyć bezprzewodową sieć oraz ustawić jej zarówno nazwę jak i hasło logowania.
 Jest też opcja konfiguracji zabezpieczeń sieci WiFi, z tym, że możemy albo wyłączyć te
-zabezpieczenia kompletnie, albo włączyć
-WPA-PSK/WPA2-PSK:
+zabezpieczenia kompletnie, albo włączyć WPA-PSK/WPA2-PSK:
 
-[![008.tether-tp-link-smartfon-wifi]({{< baseurl >}}/img/2016/11/008.tether-tp-link-smartfon-wifi-660x542.png)]({{< baseurl >}}/img/2016/11/008.tether-tp-link-smartfon-wifi.png)
+![]({{< baseurl >}}/img/2016/11/008.tether-tp-link-smartfon-wifi.png#big)
 
 Dalej jesteśmy w stanie skonfigurować połączenie z internetem oraz jest też widoczna dokładna
-informacja na temat uzyskanej
-adresacji.
+informacja na temat uzyskanej adresacji.
 
-[![009.tether-tp-link-smartfon-internet]({{< baseurl >}}/img/2016/11/009.tether-tp-link-smartfon-internet-660x542.png)]({{< baseurl >}}/img/2016/11/009.tether-tp-link-smartfon-internet.png)
+![]({{< baseurl >}}/img/2016/11/009.tether-tp-link-smartfon-internet.png#big)
 
-Mamy także możliwość konfiguracji sieci dla
-gości:
+Mamy także możliwość konfiguracji sieci dla gości:
 
-[![010.tether-tp-link-smartfon-siec-goscinna]({{< baseurl >}}/img/2016/11/010.tether-tp-link-smartfon-siec-goscinna-660x542.png)]({{< baseurl >}}/img/2016/11/010.tether-tp-link-smartfon-siec-goscinna.png)
+![]({{< baseurl >}}/img/2016/11/010.tether-tp-link-smartfon-siec-goscinna.png#big)
 
 W przypadku, gdy blokowaliśmy jakichś klientów, to ci są dodawani na specjalną listę i do momentu
 usunięcia określonych pozycji dana maszyna nie będzie w stanie się podłączyć bezprzewodowo do
-naszego routera. Wszystkie pozycje z listy możemy usunąć klikając na
-nich:
+naszego routera. Wszystkie pozycje z listy możemy usunąć klikając na nich:
 
-[![011.tether-tp-link-smartfon-lista-zablokowanych-klientow]({{< baseurl >}}/img/2016/11/011.tether-tp-link-smartfon-lista-zablokowanych-klientow-660x542.png)]({{< baseurl >}}/img/2016/11/011.tether-tp-link-smartfon-lista-zablokowanych-klientow.png)
+![]({{< baseurl >}}/img/2016/11/011.tether-tp-link-smartfon-lista-zablokowanych-klientow.png#big)
 
 W aplikacji Tether mamy też opcję dotyczącą kontroli rodzicielskiej. Po jej aktywacji będziemy w
-stanie dodać do listy urządzenia, które mają podlegać kontroli (maksymalnie
-32).
+stanie dodać do listy urządzenia, które mają podlegać kontroli (maksymalnie 32).
 
-[![012.tether-tp-link-smartfon-kontrola-rodzicielska]({{< baseurl >}}/img/2016/11/012.tether-tp-link-smartfon-kontrola-rodzicielska-660x542.png)]({{< baseurl >}}/img/2016/11/012.tether-tp-link-smartfon-kontrola-rodzicielska.png)
+![]({{< baseurl >}}/img/2016/11/012.tether-tp-link-smartfon-kontrola-rodzicielska.png#big)
 
 Po dodaniu stosownych klientów pojawi nam się harmonogram, w którym możemy określić czas
-obowiązywania
-restrykcji.
+obowiązywania restrykcji.
 
-[![013.tether-tp-link-smartfon-harmonogram]({{< baseurl >}}/img/2016/11/013.tether-tp-link-smartfon-harmonogram-660x361.png)]({{< baseurl >}}/img/2016/11/013.tether-tp-link-smartfon-harmonogram.png)
+![]({{< baseurl >}}/img/2016/11/013.tether-tp-link-smartfon-harmonogram.png#huge)
 
 Ostatnimi funkcjami jakie oferuje nam aplikacja Tether są restart urządzenia, resetowanie jego
-ustawień do fabrycznych oraz zmiana hasła do panelu
-admina/aplikacji:
+ustawień do fabrycznych oraz zmiana hasła do panelu admina/aplikacji:
 
-[![014.tether-tp-link-smartfon-opcje-system]({{< baseurl >}}/img/2016/11/014.tether-tp-link-smartfon-opcje-system-660x271.png)]({{< baseurl >}}/img/2016/11/014.tether-tp-link-smartfon-opcje-system.png)
+![]({{< baseurl >}}/img/2016/11/014.tether-tp-link-smartfon-opcje-system.png#huge)
 
 ## Mobilna wersja panelu administracyjnego
 
@@ -175,7 +163,6 @@ Jeśli miałbym być szczery, to ta aplikacja Tether niezbyt mi przypadła do gu
 dość uboga w opcje, no i nie umknął mi też fakt niezbyt precyzyjnego dopasowania interfejsu
 aplikacji na moim smartfonie, co widać na kilku fotkach wyżej. Gdybym miał wybierać między aplikacją
 Tether i mobilną wersją standardowego panelu administracyjnego, to jednak wolę zarządzać routerem z
-poziomu
-Firefox'a:
+poziomu Firefox'a:
 
-[![015.tether-tp-link-smartfon-panel-wersja-mobilna]({{< baseurl >}}/img/2016/11/015.tether-tp-link-smartfon-panel-wersja-mobilna-660x542.png)]({{< baseurl >}}/img/2016/11/015.tether-tp-link-smartfon-panel-wersja-mobilna.png)
+![]({{< baseurl >}}/img/2016/11/015.tether-tp-link-smartfon-panel-wersja-mobilna.png#big)

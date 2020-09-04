@@ -32,7 +32,7 @@ Liczba `300` jest wyrażona w sekundach, czyli krótko mówiąc 5 min.
 Jeśli nie ufamy WordPresowi, a raczej jego edytorowi, to zawsze możemy sprawdzić datę ostatniego
 zapisu. Znajduje się ona w stopce formularza tekstowego:
 
-![]({{< baseurl >}}/img/2015/05/0.status-zapisu.png)
+![]({{< baseurl >}}/img/2015/05/0.status-zapisu.png#big)
 
 W zależności od tego czy edytujemy szkic wiadomości, czy jest to opublikowany post, zachowanie auto
 zapisu ulega zmianie.
@@ -51,7 +51,7 @@ na przycisk **Publikuj**, zmieniany jest czas postu. Natomiast w przypadku gdy a
 to aktualizowana jest data i czas kopi postu. Tak czy inaczej, możemy czasem natrafić na poniższy
 komunikat:
 
-![]({{< baseurl >}}/img/2015/05/1.autosave-blad.png)
+![]({{< baseurl >}}/img/2015/05/1.autosave-blad.png#huge)
 
 Jest on wynikiem automatycznego zapisu opublikowanego już postu ale tylko w przypadku gdy nie
 zaktualizowaliśmy samego artykułu przy pomocy przycisku **Publikuj/Aktualizuj**.
@@ -64,7 +64,7 @@ przeglądarki (o ile ten jest włączony i jest tam dostateczna ilość miejsca)
 momentu ponownego podłączenia się do internetu. O całym zdarzeniu zostaniemy poinformowani poniższym
 monitem:
 
-![]({{< baseurl >}}/img/2015/05/2.autosave-browser.png)
+![]({{< baseurl >}}/img/2015/05/2.autosave-browser.png#huge)
 
 Mamy tam informację iż wersja, która siedzi w cache naszej przeglądarki jest inna od tej ostatnio
 zapisanej w bazie danych WordPressa i mamy do wyboru dwie opcje: zaaplikować backup z przeglądarki
@@ -75,11 +75,11 @@ lub też zignorować komunikat i przejść do edycji postu wyciągniętego bezpo
 Ludzie z WordPressa przewidzieli tego tupu mankamenty i postanowili odpowiednio oznaczyć rewizje
 automatycznych zapisów. Jeśli spojrzymy na te dwie fotki poniżej:
 
-![]({{< baseurl >}}/img/2015/05/3.roznica-rewizji.png)
+![]({{< baseurl >}}/img/2015/05/3.roznica-rewizji.png#huge)
 
 oraz:
 
-![]({{< baseurl >}}/img/2015/05/4.roznica-rewizji.png)
+![]({{< baseurl >}}/img/2015/05/4.roznica-rewizji.png#huge)
 
 To jasno możemy stwierdzić, który zapis został dokonany przez nas, a który automatycznie przez
 WordPressa.

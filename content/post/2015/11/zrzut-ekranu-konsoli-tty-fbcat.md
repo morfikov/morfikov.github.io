@@ -40,7 +40,6 @@ polecenia:
 
     # fbcat > fotka.png
 
-I to w sumie cała filozofia. Poniżej fotka, która została zrobiona na potrzeby tego
-wpisu:
+I to w sumie cała filozofia. Poniżej fotka, która została zrobiona na potrzeby tego wpisu:
 
-[![1.tty-fbcat-zrzut-ekranu]({{< baseurl >}}/img/2015/11/1.tty-fbcat-zrzut-ekranu-1024x576.png)]({{< baseurl >}}/img/2015/11/1.tty-fbcat-zrzut-ekranu.png)
+![]({{< baseurl >}}/img/2015/11/1.tty-fbcat-zrzut-ekranu.png#huge)

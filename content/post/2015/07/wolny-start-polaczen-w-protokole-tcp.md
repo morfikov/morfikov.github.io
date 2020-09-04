@@ -9,6 +9,7 @@ status: publish
 tags:
 - tcp
 - sysctl
+- sieć
 title: Wolny start połączeń w protokole TCP
 ---
 
@@ -34,8 +35,8 @@ drugiej fazy nazywa się wolnym startem.
 Kluczowym elementem wolnego startu jest CWND (Congestion Window Size), czyli bufor nadawczy hosta
 wysyłającego dane. Odpowiada on za ilość segmentów składających się na początkowe okno TCP.
 Domyślnie ten parametr ma różną wartość i zależy od konkretnego systemu operacyjnego. Na linuxach
-było to z początku [4\*MSS](https://lwn.net/Articles/427104/) (Maximum Segment Size). Obecnie jest
-to wartość 10\*MSS. Jako, że MSS to zwykle 1460 bajtów, to rozmiar okna, który jest zgłaszany w
+było to z początku [4*MSS](https://lwn.net/Articles/427104/) (Maximum Segment Size). Obecnie jest
+to wartość 10*MSS. Jako, że MSS to zwykle 1460 bajtów, to rozmiar okna, który jest zgłaszany w
 pakietach `SYN` wynosi `14600` bajtów.
 
 ## Zmiana wielkości okna początkowego
@@ -62,7 +63,7 @@ Zatem jest to 10 pakietów. Możemy zwiększyć tę wartość do 20, np. przez d
 Jeśli teraz odpalimy sniffer sieciowy, np. wireshark, to powinniśmy ujrzeć wartość `29200` w opcjach
 okna TCP w pakietach `SYN` , poniżej fotka:
 
-![]({{< baseurl >}}/img/2015/06/1.wolny-start-okno-poczatkowe-wireshark.png)
+![]({{< baseurl >}}/img/2015/06/1.wolny-start-okno-poczatkowe-wireshark.png#huge)
 
 ## Zagubione pakiety oraz połączenia IDLE
 

@@ -10,6 +10,7 @@ tags:
 - dns
 - resolver
 - ipv6
+- debian
 title: Blokowanie zapytań DNS z dnscrypt-proxy na linux'ie
 ---
 
@@ -30,10 +31,9 @@ Niby już od 20 lat protokół IPv6 jest wśród nas, a w dalszym ciągu cała m
 internetowych nie ma zaimplementowanej obsługi tego protokołu. W efekcie aplikacje, które chcą
 komunikować się z siecią, mogą próbować wysyłać zapytania o rekordy AAAA (IPv6) do serwerów DNS.
 Jako, że te zapytania są zupełnie zbędne przy takiej konfiguracji sieci, to tylko spowalniają
-połączenie. Poniżej jest przykładowa
-sytuacja:
+połączenie. Poniżej jest przykładowa sytuacja:
 
-[![1.wireshark-domena-rekord-aaaa-dns]({{< baseurl >}}/img/2016/08/1.wireshark-domena-rekord-aaaa-dns-1024x199.png)]({{< baseurl >}}/img/2016/08/1.wireshark-domena-rekord-aaaa-dns.png)
+![]({{< baseurl >}}/img/2016/08/1.wireshark-domena-rekord-aaaa-dns.png#huge)
 
 Jak widać, do serwera DNS zostały wysłane dwa zapytania o adres IP serwisu YT. Serwer DNS zwrócił
 dwie odpowiedzi zawierające dwa adresy, po jednym dla protokołu IPv4 i IPv6.
@@ -64,7 +64,7 @@ Plugin powinien zostać załadowany. Możemy także przetestować, czy zapytania
 obsługiwane
 lokalnie:
 
-[![2.wireshark-domena-rekord-aaaa-dns-dnscrypt-proxy]({{< baseurl >}}/img/2016/08/2.wireshark-domena-rekord-aaaa-dns-dnscrypt-proxy-1024x199.png)]({{< baseurl >}}/img/2016/08/2.wireshark-domena-rekord-aaaa-dns-dnscrypt-proxy.png)
+![]({{< baseurl >}}/img/2016/08/2.wireshark-domena-rekord-aaaa-dns-dnscrypt-proxy.png#huge)
 
 Jak widzimy wyżej, ponownie aplikacja wysłała dwa zapytania o IP serwisu YT ale rekord AAAA nie
 zawiera adresu IPv6. Jeśli dodatkowo popatrzymy na znacznik czasu, to dostrzeżemy, że czas między
@@ -158,6 +158,6 @@ Domeny mogą zawierać `*` w celu dopasowaniu szeregu adresów.
 Spróbujmy teraz odwiedzić serwis YT w przeglądarce. Powinien nas przywitać ten poniższy
 błąd:
 
-![]({{< baseurl >}}/img/2016/08/3.dnscrypt-proxy-blokowanie-domen-facebook-youtube.png)
+![]({{< baseurl >}}/img/2016/08/3.dnscrypt-proxy-blokowanie-domen-facebook-youtube.png#huge)
 
 Wszystkie inne domeny powinny działać bez zarzutu.

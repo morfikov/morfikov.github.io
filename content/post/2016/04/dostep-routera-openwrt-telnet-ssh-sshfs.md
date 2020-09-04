@@ -42,7 +42,7 @@ występuje w momencie, gdy router nam odmawia posłuszeństwa
 i [musimy się ratować trybem failsafe]({{< baseurl >}}/post/tryb-ratunkowy-failsafe-w-openwrt/).
 Poniżej jest fotka obrazująca dostęp do routera za pośrednictwem protokołu telnet:
 
-![]({{< baseurl >}}/img/2016/04/1.openwrt-dostep-telnet-router.png)
+![]({{< baseurl >}}/img/2016/04/1.openwrt-dostep-telnet-router.png#big)
 
 Widzimy, że router dostępny jest pod adresem 192.168.1.1, a komenda, która zainicjowała połączenie
 to:
@@ -52,7 +52,7 @@ to:
 Z chwilą, gdy zalogujemy się na router po raz pierwszy, będziemy mieli możliwość zmiany hasła
 użytkownika root. Robimy to przez wpisanie w terminalu polecenia `passwd` :
 
-![]({{< baseurl >}}/img/2016/04/2.openwrt-telnet-zmiana-hasla-router.png)
+![]({{< baseurl >}}/img/2016/04/2.openwrt-telnet-zmiana-hasla-router.png#big)
 
 Po tej operacji telnet zostanie automatycznie dezaktywowany i od tej pory będziemy w stanie logować
 się za pomocą protokołu SSH.
@@ -64,7 +64,7 @@ on na porcie 22 i akceptuje jedynie połączenia od strony LAN. By zalogować si
 terminalu wpisujemy `ssh 192.168.1.1` . Po wpisaniu tej komendy, zostanie nam wyrzucony poniższy
 komunikat:
 
-![]({{< baseurl >}}/img/2016/04/3.openwrt-dostep-ssh-hash-weryfikacja.png)
+![]({{< baseurl >}}/img/2016/04/3.openwrt-dostep-ssh-hash-weryfikacja.png#big)
 
 Mamy tutaj informację na temat odciska palca (fingerprint) klucza SSH. Zwykle ten hash jest
 unikatowy i jego weryfikacja zabezpiecza komunikację przed podsłuchem. W tym przypadku nie ma to
@@ -74,7 +74,7 @@ flash'owaniu routera. Dlatego też akceptujemy ten klucz i po chwili powinien si
 proszący o podanie hasła do konta administratora root. Po jego podaniu zostaniemy zalogowani na
 router:
 
-![]({{< baseurl >}}/img/2016/04/4.openwrt-dostep-ssh-router.png)
+![]({{< baseurl >}}/img/2016/04/4.openwrt-dostep-ssh-router.png#big)
 
 ### Konfiguracja dopbear'a
 
@@ -120,15 +120,15 @@ lub:
 
     $ scp root@192.168.1.1:/test/plik.txt ~/plik.txt
 
-W przypadku pierwszego z nich, skopiowaliśmy lokalny plik `plik.txt` na router do katalogu `/test/`
-. Druga komenda zaś pobrała z routera ten plik i zapisała go we wskazanej lokalizacji na dysku
-komputera. Taka wymiana plików za pomocą `scp` jest szyfrowana i obciąża router, z czego trzeba
-sobie zdawać sprawę. Fraza `root@192.168.1.1:/plik.txt` określa kolejno użytkownika ( `root` ), na
-którego chcemy się zalogować przy kopiowaniu plików. Następnie po znaku `@` mamy adres IP, z którym
-chcemy się połączyć. Potem występuje `:` sygnalizujący katalog domowy użytkownika, na którego się
-logujemy na zdalnym serwerze. Jeśli po nim dodamy `/` , zaczniemy tym samym precyzować ścieżkę w
-drzewie katalogów, a te z kolei muszą istnieć. W przeciwnym wypadku, przesyłanie plików się nie
-powiedzie.
+W przypadku pierwszego z nich, skopiowaliśmy lokalny plik `plik.txt` na router do katalogu
+`/test/` . Druga komenda zaś pobrała z routera ten plik i zapisała go we wskazanej lokalizacji na
+dysku komputera. Taka wymiana plików za pomocą `scp` jest szyfrowana i obciąża router, z czego
+trzeba sobie zdawać sprawę. Fraza `root@192.168.1.1:/plik.txt` określa kolejno użytkownika
+( `root` ), na którego chcemy się zalogować przy kopiowaniu plików. Następnie po znaku `@` mamy
+adres IP, z którym chcemy się połączyć. Potem występuje `:` sygnalizujący katalog domowy
+użytkownika, na którego się logujemy na zdalnym serwerze. Jeśli po nim dodamy `/` , zaczniemy tym
+samym precyzować ścieżkę w drzewie katalogów, a te z kolei muszą istnieć. W przeciwnym wypadku,
+przesyłanie plików się nie powiedzie.
 
 ## SSHFS
 
@@ -152,7 +152,6 @@ System plików routera montujemy wydając w terminalu to poniższe polecenie:
 Zamontuje ono katalog główny routera we wskazanej lokalizacji na komputerze. Od tego momentu mamy
 dostęp do każdego folderu na routerze i możemy używać graficznych edytorów, by operować na plikach.
 Możemy też przy pomocy menadżera plików przesyłać pliki między tymi dwiema maszynami bez większego
-problemu, co ułatwi nam znacznie konfigurację routera. Poniżej
-fotka:
+problemu, co ułatwi nam znacznie konfigurację routera. Poniżej fotka:
 
-[![5.openwrt-dostep-sshfs-gui]({{< baseurl >}}/img/2016/04/5.openwrt-dostep-sshfs-gui-1024x549.png)]({{< baseurl >}}/img/2016/04/5.openwrt-dostep-sshfs-gui.png)
+![]({{< baseurl >}}/img/2016/04/5.openwrt-dostep-sshfs-gui.png#huge)

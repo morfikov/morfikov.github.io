@@ -39,7 +39,7 @@ I instalujemy to narzędzie:
 
 Podczas tego procesu zostaniemy poproszeni o udzielenie odpowiedni na kilka pytań:
 
-![]({{< baseurl >}}/img/2016/06/1.fzf-tmux-instalacja.png)
+![]({{< baseurl >}}/img/2016/06/1.fzf-tmux-instalacja.png#huge)
 
 Cała niezbędna konfiguracja w przypadku shell'a BASH i ZSH została automatycznie uwzględniona w ich
 plikach konfiguracyjnych i nie musimy przeprowadzać żadnych dodatkowych czynności. Musimy jedynie
@@ -55,7 +55,7 @@ zależności od wykorzystywanego shell'a mamy oddelegowany jakiś skrót klawisz
 tym przypadku jest wykorzystywany ZSH i skrót Ctrl-R . Odpalmy zatem terminal z tmux'em i
 przyciśnijmy ten skrót:
 
-![]({{< baseurl >}}/img/2016/06/2.fzf-tmux-przeszukiwanie-historia-shell-zsh.png)
+![]({{< baseurl >}}/img/2016/06/2.fzf-tmux-przeszukiwanie-historia-shell-zsh.png#huge)
 
 Jak widzimy, okno terminala zostało podzielone na dwie części. W dolnym oknie mamy zainicjowany FZF,
 gdzie mamy kilka ostatnich poleceń shell'a ZSH. Liczby po lewej stronie to pozycje w historii. Obok
@@ -72,11 +72,11 @@ to te poniższe:
 W taki sposób jesteśmy w stanie bardzo szybko odszukać pozycje w historii zawierające, np. polecenie
 `cd` oraz katalog `debian` :
 
-![]({{< baseurl >}}/img/2016/06/3.fzf-tmux-przeszukiwanie-historia-shell-zsh.png)
+![]({{< baseurl >}}/img/2016/06/3.fzf-tmux-przeszukiwanie-historia-shell-zsh.png#huge)
 
 Zaznaczając pozycję i przyciskając Enter , zostanie ona wybrana i wklejona do okienka powyżej:
 
-![]({{< baseurl >}}/img/2016/06/4.fzf-tmux-wybor-pozycja-historia.png)
+![]({{< baseurl >}}/img/2016/06/4.fzf-tmux-wybor-pozycja-historia.png#huge)
 
 Jak widzimy, okienko z FZF zniknęło automatycznie po wciśnięciu klawisza Enter . Dlatego właśnie ten
 mechanizm jest tak wielce użyteczny w przypadku tmux'a.
@@ -88,13 +88,13 @@ zawsze możemy skorzystać ze skrótu Alt-C . Odpowiada on za przeglądanie i pr
 podrzędnych katalogów względem tego, w którym się aktualnie znajdujemy. By zobrazować jak działa
 ten mechanizm, przejdźmy do przykładowego katalogu i przyciśnijmy ten w/w skrót klawiszowy:
 
-![]({{< baseurl >}}/img/2016/06/5.fzf-tmux-cd-katalog.png)
+![]({{< baseurl >}}/img/2016/06/5.fzf-tmux-cd-katalog.png#huge)
 
 Okno terminala zostało podzielone tak jak poprzednio ale zwrócone pozycje już są nieco inne. Na
 listingu są uwzględnione tylko katalogi podrzędne. W dalszym ciągu działa przeszukiwanie tych
 pozycji ale po wybraniu którejś z nich, zostaniemy automatycznie przeniesieni do tego katalogu:
 
-![]({{< baseurl >}}/img/2016/06/6.fzf-tmux-cd-przejscie-katalog.png)
+![]({{< baseurl >}}/img/2016/06/6.fzf-tmux-cd-przejscie-katalog.png#huge)
 
 ## Auto uzupełnianie dla FZF
 
@@ -106,7 +106,7 @@ wpisujemy jakąś frazę i za nią dwie gwiazdki. Dla przykładu, znajdujemy si�
 chcemy przejść pod `~/.config/autostart/` . Jak tylko przyciśniemy klawisz Tab po `**` , to otworzy
 nam się lista pasujących podkatalogów:
 
-![]({{< baseurl >}}/img/2016/06/7.fzf-tmux-auto-uzupelnianie.png)
+![]({{< baseurl >}}/img/2016/06/7.fzf-tmux-auto-uzupelnianie.png#huge)
 
 W dalszym ciągu tę listę możemy przeszukać jeśli wynik nie spełnia naszych oczekiwań. Trzeba jednak
 liczyć się z faktem, że im więcej plików/folderów znajduje się w jakimś katalogu, tym wolniej
@@ -129,17 +129,17 @@ tym celu w teminalu wpisujemy słówko `kill` i przyciskamy klawisz Tab . Oczywi
 sygnału, który chcemy przesłać do procesu. Okno terminala powinno zostać podzielone i w dolnej
 części powinniśmy ujrzeć procesy działające w systemie:
 
-![]({{< baseurl >}}/img/2016/06/8.fzf-tmux-kill-procesy.png)
+![]({{< baseurl >}}/img/2016/06/8.fzf-tmux-kill-procesy.png#huge)
 
 Listę tych procesów możemy standardowo przeszukać. W tym przypadku szukamy `geany` :
 
-![]({{< baseurl >}}/img/2016/06/9.fzf-tmux-kill-procesy.png)
+![]({{< baseurl >}}/img/2016/06/9.fzf-tmux-kill-procesy.png#huge)
 
 Jako, że mamy kilka procesów, to zaznaczamy/odznaczamy je przy pomocy Tab i Shift-Tab . Po
 zaznaczeniu przyciskamy Enter . W poleceniu `kill` powinny zostać uwzględnione PID'y tych procesów.
 Po wydaniu polecenia `kill` , wszystkie te procesy powinny zostać ubite.
 
-![]({{< baseurl >}}/img/2016/06/10.fzf-tmux-kill-procesy.png)
+![]({{< baseurl >}}/img/2016/06/10.fzf-tmux-kill-procesy.png#huge)
 
 ## Zmienne sterujące FZF
 

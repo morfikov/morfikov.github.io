@@ -33,7 +33,7 @@ mógł go użyć do odszyfrowania zabezpieczonego urządzenia? Jeśli weźmiemy 
 pendrive, czy dysk twardy, to możemy zobaczyć poniższy schemat partycji (fotka za
 wikipedią):
 
-[![1.linux-mbr-keyfile]({{< baseurl >}}/img/2015/06/1.linux-mbr-keyfile-1024x576.png)]({{< baseurl >}}/img/2015/06/1.linux-mbr-keyfile.png)
+![]({{< baseurl >}}/img/2015/06/1.linux-mbr-keyfile.png#huge)
 
 Mamy tutaj dwie różne tablice partycji: MS-DOS oraz GPT. Nas głównie interesuje
 [MS-DOS](https://pl.wikipedia.org/wiki/Master_Boot_Record), bo na nim mamy większe pole manewru. W
@@ -76,7 +76,7 @@ W ten sposób mamy losowe dane w MBR-GAP. Pozostało nam jeszcze określenie, kt
 robił za keyfile. Niech będzie to 2 KiB zaczynając od 101 sektora nośnika. Oczywiście rozmiar może
 być dowolny, tzn. nie większy niż 8192KiB.
 
-Pierwsze z poniższych poleceń czyta 4\*512 bajtów, czyli 2 KiB danych, pomijając 100 sektorów. To
+Pierwsze z poniższych poleceń czyta 4*512 bajtów, czyli 2 KiB danych, pomijając 100 sektorów. To
 tam właśnie będzie znajdował się nasz keyfile. Drugie polecenie zaś dodaje ten klucz do nagłówka
 LUKS:
 

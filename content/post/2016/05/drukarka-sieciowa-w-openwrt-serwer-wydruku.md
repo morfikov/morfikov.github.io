@@ -36,10 +36,9 @@ jest lista pakietów, które musimy doinstalować na routerze:
     # opkg install p910nd kmod-usb-printer kmod-usb-uhci kmod-usb-core kmod-usb2
 
 Podłączamy teraz drukarkę do portu USB routera i podajemy jej zasilanie. Powinna być ona po chwili
-rozpoznana przez
-system:
+rozpoznana przez system:
 
-![]({{< baseurl >}}/img/2016/05/1.p910nd-drukarka-sieciowa-serwer-wydruku-openwrt.png)
+![]({{< baseurl >}}/img/2016/05/1.p910nd-drukarka-sieciowa-serwer-wydruku-openwrt.png#huge)
 
 Wyżej widzimy frazę `usblp0` . Odpowiada ona za urządzenie `/dev/usb/lp0` . To urządzenie musi
 istnieć byśmy mogli korzystać z drukarki.

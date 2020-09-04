@@ -54,16 +54,14 @@ możemy to sprawdzić wpisując w terminalu poniższe polecenie:
 
 Na smartfonie musimy włączyć z kolei `Debugowanie USB` . Możemy to uczynić w chodząc w ustawienia,
 gdzie na samym dole mamy pozycję `Informacje o telefonie` . Tam z kolei (również na dole) mamy
-informację dotyczącą numeru
-kompilacji:
+informację dotyczącą numeru kompilacji:
 
-[![1.adb-informacje-telefon-smartfon-linux]({{< baseurl >}}/img/2016/10/1.adb-informacje-telefon-smartfon-linux-401x660.png)]({{< baseurl >}}/img/2016/10/1.adb-informacje-telefon-smartfon-linux.png)
+![]({{< baseurl >}}/img/2016/10/1.adb-informacje-telefon-smartfon-linux.png#medium)
 
 Musimy stuknąć w ten numerek siedem razy. Dopiero wtedy w ustawieniach telefonu pojawi się pozycja
-`Opcje programistyczne` , w których to będziemy mogli zaznaczyć szukany tryb debugowania
-USB:
+`Opcje programistyczne` , w których to będziemy mogli zaznaczyć szukany tryb debugowania USB:
 
-[![2.adb-telefon-smartfon-debug-usb-linux]({{< baseurl >}}/img/2016/10/2.adb-telefon-smartfon-debug-usb-linux-660x361.png)]({{< baseurl >}}/img/2016/10/2.adb-telefon-smartfon-debug-usb-linux.png)
+![]({{< baseurl >}}/img/2016/10/2.adb-telefon-smartfon-debug-usb-linux.png#huge)
 
 Teraz możemy podłączyć telefon do komputera i sprawdzić czy zostanie on rozpoznany przez naszego
 linux'a. Mój Neffos C5 z początku nie został rozpoznany:
@@ -93,10 +91,9 @@ do ww. pliku jako:
 Od tej chwili, za każdym razem jak tylko podłączymy telefon w trybie debugowania USB do komputera za
 pomocą przewodu, te dwa urządzenia będą parowane automatycznie. Oczywiście za pierwszym razem na
 telefonie musimy dodać informację o kluczu publicznym, którym identyfikuje się komputer. Klucz jest
-zaś w katalogu `~/.android/`
-:
+zaś w katalogu `~/.android/` :
 
-[![3.adb-telefon-smartfon-parowanie-linux]({{< baseurl >}}/img/2016/10/3.adb-telefon-smartfon-parowanie-linux-401x660.png)]({{< baseurl >}}/img/2016/10/3.adb-telefon-smartfon-parowanie-linux.png)
+![]({{< baseurl >}}/img/2016/10/3.adb-telefon-smartfon-parowanie-linux.png#medium)
 
 Po zweryfikowaniu klucza publicznego komputera, możemy ponownie wpisać w terminalu polecenie `adb
 devices` i tym razem już powinniśmy ujrzeć na liście nasz smartfon:

@@ -7,6 +7,7 @@ date_gmt: 2015-06-14 11:05:13 +0200
 published: true
 status: publish
 tags:
+- pliki
 - img
 - loop
 title: Zmiana rozmiaru obrazu .img
@@ -35,7 +36,7 @@ polecenie:
 Mamy zatem plik o rozmiarze 400MiB. Jako, że on zawiera same zera, to nie ma także jeszcze
 utworzonej struktury dysku twardego. Zobaczmy zatem jak widzi go `fdisk` :
 
-![]({{< baseurl >}}/img/2015/06/1.podglad-obrazu-img.png)
+![]({{< baseurl >}}/img/2015/06/1.podglad-obrazu-img.png#big)
 
 Jak widać wyżej, z automatu została utworzona tablica partycji ms-dos, bo bez niej nie dalibyśmy
 rady utworzyć żadnej partycji. Stwórzmy zatem dwie partycje. Całość powinna wyglądać mniej więcej

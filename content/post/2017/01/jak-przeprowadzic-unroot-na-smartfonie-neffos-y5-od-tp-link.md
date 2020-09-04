@@ -44,10 +44,10 @@ partycji `/system/` , do przeprowadzenia których potrzebny nam był SuperSU, i 
 odinstalowanie tego programiku. Po skonfigurowaniu Androida, SuperSU jest nam zwyczajnie zbędny i
 stwarza on tylko niepotrzebne zagrożenie dla bezpieczeństwa systemu.
 
-SuperSU w Neffos Y5 możemy odinstalować z menu tejże aplikacji przechodząc w Ustawienia =\> Pełny
+SuperSU w Neffos Y5 możemy odinstalować z menu tejże aplikacji przechodząc w Ustawienia => Pełny
 Unroot.
 
-[![]({{< baseurl >}}/img/2017/01/001.unroot-neffos-y5-tp-link-smartfon-supersu-660x390.png)]({{< baseurl >}}/img/2017/01/001.unroot-neffos-y5-tp-link-smartfon-supersu.png)
+![]({{< baseurl >}}/img/2017/01/001.unroot-neffos-y5-tp-link-smartfon-supersu.png#huge)
 
 Jeśli nie chcemy przywracać partycji `/recovery/` , to w ostatnim kroku wybieramy opcję NIE. Jeśli
 smartfon nie uruchomi się ponownie automatycznie, to naturalnie po całym procesie telefon
@@ -55,10 +55,9 @@ restartujemy ręcznie. W przypadku, gdy proces usuwania SuperSU się zawiesi nam
 zrestartować smartfon i ponowić proces unroot bezpośrednio po włączeniu telefonu.
 
 Możemy naturalnie sprawdzić czy cały proces przebiegł zgodnie z planem i czy nasz Neffos Y5 w
-dalszym ciągu posiada
-root:
+dalszym ciągu posiada root:
 
-[![]({{< baseurl >}}/img/2017/01/002.unroot-neffos-y5-tp-link-smartfon-root-check-371x660.png)]({{< baseurl >}}/img/2017/01/002.unroot-neffos-y5-tp-link-smartfon-root-check.png)
+![]({{< baseurl >}}/img/2017/01/002.unroot-neffos-y5-tp-link-smartfon-root-check.png#small)
 
 Niemniej jednak, jeśli w Neffos Y5 chcemy przywrócić całą partycję `/system/` usuwając tym samym
 wszelkie zmiany wprowadzone w telefonie, to trzeba do tej kwestii podejść nieco inaczej.
@@ -70,7 +69,7 @@ partycje via `dd` i wgrać je w stosowne miejsca przez bootloader za pomocą fas
 zatem ten obraz backup'u w systemie (za pomocą `losetup` ) i sprawdźmy jak wygląda jego layout, np.
 w `gdisk` :
 
-![]({{< baseurl >}}/img/2017/01/003.unroot-neffos-y5-tp-link-smartfon-flash.png)
+![]({{< baseurl >}}/img/2017/01/003.unroot-neffos-y5-tp-link-smartfon-flash.png#huge)
 
 Interesują nas partycje 21 ( `/system/` ), 24 ( `/recovery/` ) oraz 20 ( `/boot/` ). Robimy ich
 zrzut do osobnych plików via `dd` :
@@ -207,7 +206,6 @@ Dlatego też wyłączamy telefon i uruchamiamy go w trybie bootloader'a za pomoc
 
 Nasz Neffos Y5 powinien nam się uruchomić ponownie, a na jego ekranie powinniśmy zobaczyć zielonego
 robocika przeprowadzającego proces Factory Reset. Po chwili smartfon uruchomi się ponownie, a po
-jeszcze dłuższej chwili system powinien się załadować już na fabrycznych
-ustawieniach:
+jeszcze dłuższej chwili system powinien się załadować już na fabrycznych ustawieniach:
 
-[![]({{< baseurl >}}/img/2017/01/004.unroot-neffos-y5-tp-link-smartfon-defaults-371x660.png)]({{< baseurl >}}/img/2017/01/004.unroot-neffos-y5-tp-link-smartfon-defaults.png)
+![]({{< baseurl >}}/img/2017/01/004.unroot-neffos-y5-tp-link-smartfon-defaults.png#small)

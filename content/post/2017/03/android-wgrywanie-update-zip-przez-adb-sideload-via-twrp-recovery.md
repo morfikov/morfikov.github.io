@@ -31,10 +31,9 @@ chyba na każdym innym smartfonie.
 
 Usuwając dane z partycji `/system/` pozbawiamy nasz telefon praktycznie całego oprogramowania. Taki
 smartfon nie może działa bez Androida czy innego systemu operacyjnego i w zasadzie urządzenie
-resetuje się co około minutę po
-włączeniu.
+resetuje się co około minutę po włączeniu.
 
-[![]({{< baseurl >}}/img/2017/03/001.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-usuniety-system-371x660.png)]({{< baseurl >}}/img/2017/03/001.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-usuniety-system.png)
+![]({{< baseurl >}}/img/2017/03/001.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-usuniety-system.png#medium)
 
 W takim stanie po włączeniu smartfona, na ekranie można zobaczyć jedynie loga TP-LINK i Androida.
 Natomiast w logu systemowym mojego Debiana można zaobserwować poniższe komunikaty:
@@ -65,7 +64,7 @@ TWRP recovery począwszy od wersji 2.3 wspiera tryb ADB sideload. Dlatego też t
 mamy wgraną na smartfonie w miarę nową wersję tego oprogramowania. [Gotowe obrazy TWRP recovery dla
 smartfonów Neffos](http://tplink-forum.pl/pub/neffos/) są dostępne w tym wątku.
 
-W przypadku, gdy mamy starszą wersję TWRP (\< 2.3), no to niestety musimy zaktualizować to
+W przypadku, gdy mamy starszą wersję TWRP (< 2.3), no to niestety musimy zaktualizować to
 oprogramowanie wgrywając binarnie obraz przy pomocy `dd` mniej więcej w taki sam sposób jak zostało
 to opisane przy okazji odzyskiwania partycji `/system/` (link we wstępie).
 
@@ -120,20 +119,18 @@ Problem jak widać dotyczy weryfikacji sygnatury pliku `.zip` . Musimy zatem poi
 weryfikował sygnatury. Możemy to zrobić odhaczając opcję `ZIP signature verification` w
 ustawieniach:
 
-[![]({{< baseurl >}}/img/2017/03/002.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-opcje-371x660.png)]({{< baseurl >}}/img/2017/03/002.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-opcje.png)
+![]({{< baseurl >}}/img/2017/03/002.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-opcje.png#medium)
 
-Teraz możemy aktywować tryb ADB sideload przechodząc w Advanced =\> ADB
-Sideload:
+Teraz możemy aktywować tryb ADB sideload przechodząc w Advanced => ADB Sideload:
 
-[![]({{< baseurl >}}/img/2017/03/003.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-menu-660x586.png)]({{< baseurl >}}/img/2017/03/003.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-menu.png)
+![]({{< baseurl >}}/img/2017/03/003.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-menu.png#big)
 
 Czyszczenie cache jest opcjonalne ale można je zaznaczyć. Dane użytkownika i tak pozostaną
 nietknięte, zatem bez obaw. Niemniej jednak, trzeba pamiętać, że w przypadku modyfikacji partycji
 `/system/` , np. przez Xposed, możemy napotkać dziwne problemy, które mogą uniemożliwić start lub
-też poprawne działanie systemu i wymagane będzie przeprowadzenie procesu Factory
-Reset.
+też poprawne działanie systemu i wymagane będzie przeprowadzenie procesu Factory Reset.
 
-[![]({{< baseurl >}}/img/2017/03/004.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-cache-371x660.png)]({{< baseurl >}}/img/2017/03/004.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-cache.png)
+![]({{< baseurl >}}/img/2017/03/004.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-cache.png#medium)
 
 Po przesunięciu trzech strzałek na prawą stronę, ADB przełączy się w tryb sideload. Teraz wracamy na
 komputer i ładujemy plik `update.zip` przy pomocy poniższego polecenia ([trzeba doinstalować
@@ -143,26 +140,22 @@ narzędzie adb]({{< baseurl >}}/post/android-jak-zainstalowac-adb-i-fastboot-pod
     serving: '/neffos/Y5_H10S100D00B20161207R1344_update.zip'  (~24%)
 
 Proces flash'owania plikiem `update.zip` zajmie dłuższą chwilę ale ostatecznie powinien zakończyć
-się
-powodzeniem:
+się powodzeniem:
 
-[![]({{< baseurl >}}/img/2017/03/005.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-proces-371x660.png)]({{< baseurl >}}/img/2017/03/005.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-proces.png)
+![]({{< baseurl >}}/img/2017/03/005.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-proces.png#medium)
 
 Uruchamiamy smartfon ponownie i ignorujemy przy tym informację, że to urządzenie nie mam
-zainstalowanego systemu operacyjnego (w zasadzie właśnie go
-zainstalowaliśmy):
+zainstalowanego systemu operacyjnego (w zasadzie właśnie go zainstalowaliśmy):
 
-[![]({{< baseurl >}}/img/2017/03/006.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-brak-os-371x660.png)]({{< baseurl >}}/img/2017/03/006.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-brak-os.png)
+![]({{< baseurl >}}/img/2017/03/006.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-brak-os.png#medium)
 
-Po chwili powinien nam się załadować ekran z wyborem języka
-systemu:
+Po chwili powinien nam się załadować ekran z wyborem języka systemu:
 
-[![]({{< baseurl >}}/img/2017/03/007.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-system-371x660.png)]({{< baseurl >}}/img/2017/03/007.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-system.png)
+![]({{< baseurl >}}/img/2017/03/007.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-system.png#medium)
 
 Po skonfigurowaniu systemu warto sprawdzić czy są dostępne jakieś aktualizacje. To na wypadek,
 gdybyśmy chcieli wgrać sobie jeszcze raz TWRP recovery czy przeprowadzać proces root Androida. W
 przypadku wprowadzenia jakichkolwiek zmian na partycji `/boot/` , `/system/` lub `/recovery/` nie
-będziemy w stanie tych aktualizacji wgrać na smartfon i warto o tym
-pamiętać.
+będziemy w stanie tych aktualizacji wgrać na smartfon i warto o tym pamiętać.
 
-[![]({{< baseurl >}}/img/2017/03/008.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-update-371x660.png)]({{< baseurl >}}/img/2017/03/008.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-update.png)
+![]({{< baseurl >}}/img/2017/03/008.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-update.png#medium)

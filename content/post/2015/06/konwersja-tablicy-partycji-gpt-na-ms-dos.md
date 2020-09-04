@@ -11,6 +11,7 @@ tags:
 - hdd
 - ssd
 - gpt
+- partycja
 title: Konwersja tablicy partycji GPT na MS-DOS
 ---
 
@@ -34,7 +35,7 @@ bajtów. Dodatkowo by wyrównać partycje do 1MiB trzeba również dodać 2047 s
 
 Pamiętacie te dziury w strukturze partycji po przejściu na tablicę GPT? Niżej przypomnienie:
 
-![]({{< baseurl >}}/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png)
+![]({{< baseurl >}}/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png#huge)
 
 Jeśli ich nie mamy na dysku, prawdopodobnie nie da rady przenieść niektórych partycji z GPT na
 MS-DOS. Natomiast, zawsze można je stworzyć kurcząc odpowiednie partycje. Te dziury między

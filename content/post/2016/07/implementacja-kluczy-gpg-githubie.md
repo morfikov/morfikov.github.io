@@ -44,11 +44,11 @@ Mając już odpowiednie klucze oraz przygotowane repozytorium GIT, możemy przej
 kluczy GPG na github'ie. W tym celu logujemy się w tym serwisie, przechodzimy do opcji swojego
 profilu i z menu po lewej stronie wybieramy `SSH and GPG keys` :
 
-![]({{< baseurl >}}/img/2016/07/1.github-git-klucze-gpg.png)
+![]({{< baseurl >}}/img/2016/07/1.github-git-klucze-gpg.png#small)
 
 Po prawej stronie, pod kluczami SSH, powinien znajdować się formularz dodania klucza GPG:
 
-![]({{< baseurl >}}/img/2016/07/2.github-git-klucze-gpg.png)
+![]({{< baseurl >}}/img/2016/07/2.github-git-klucze-gpg.png#huge)
 
 Odpalamy teraz terminal i eksportujemy publiczną część klucza GPG w poniższy sposób:
 
@@ -59,17 +59,17 @@ Odpalamy teraz terminal i eksportujemy publiczną część klucza GPG w poniższ
 
 Teraz całą zwróconą zawartość trzeba przekopiować i wrzucić do formularza na stronie:
 
-![]({{< baseurl >}}/img/2016/07/3.github-git-klucze-gpg.png)
+![]({{< baseurl >}}/img/2016/07/3.github-git-klucze-gpg.png#huge)
 
 Po kliknięciu w przycisk `Add GPG key` powinniśmy zostać poproszeniu o podanie hasła do konta. Tylko
 po jego poprawnym podaniu klucz zostanie dodany:
 
-![]({{< baseurl >}}/img/2016/07/4.github-git-klucze-gpg.png)
+![]({{< baseurl >}}/img/2016/07/4.github-git-klucze-gpg.png#huge)
 
 Jeśli teraz przejdziemy na stronę naszego projektu w celu przejrzenia ostatnich commit'ów, to
 zobaczymy, że szereg z nich ma ikonkę `Verified` :
 
-![]({{< baseurl >}}/img/2016/07/5.github-git-klucze-gpg.png)
+![]({{< baseurl >}}/img/2016/07/5.github-git-klucze-gpg.png#huge)
 
 Ta ikonka informuje nas o fakcie zweryfikowania podpisu osoby, która przesłała commit'a i
 identyfikuje się znanym nam kluczem GPG.

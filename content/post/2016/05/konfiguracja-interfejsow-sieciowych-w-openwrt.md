@@ -30,10 +30,9 @@ w OpenWRT.
 
 Na sam początek ustalmy to jakimi interfejsami dysponuje nasze urządzenie. Logujemy się zatem na
 router i w terminalu wpisujemy polecenie `ifconfig` . Jak sama nazwa wskazuje, powinno ono zwrócić
-listę aktywnych interfejsów
-sieciowych:
+listę aktywnych interfejsów sieciowych:
 
-![]({{< baseurl >}}/img/2016/05/1.konfiguracja-interfejsow-sieciowych-archer-c7-openwrt.png)
+![]({{< baseurl >}}/img/2016/05/1.konfiguracja-interfejsow-sieciowych-archer-c7-openwrt.png#big)
 
 Powyżej mamy szereg interfejsów fizycznych, czyli tych, które zostały poprawnie rozpoznane przez
 system operacyjny routera. Do nich zaliczają się `eth0` , `eth1` , `wlan0` oraz `wlan1` . Mamy tam

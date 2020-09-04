@@ -37,10 +37,9 @@ jaką funkcjonalność ono oferuje.
 Przeanalizujmy sobie pierw standardowe oprogramowanie kamery/aparatu, które jest zainstalowane
 domyślnie w Neffos C5. Po wejściu w aplikację "Aparat" przywita nas bardzo prosty interfejs z
 możliwością łatwego przełączania się miedzy trybem aparatu i kamery. Z głównego okna interfejsu
-mamy też możliwość wyboru aparatu głównego lub
-selfie:
+mamy też możliwość wyboru aparatu głównego lub selfie:
 
-[![001.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-interfejs-standard]({{< baseurl >}}/img/2016/10/001.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-interfejs-standard-371x660.png)]({{< baseurl >}}/img/2016/10/001.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-interfejs-standard.png)
+![]({{< baseurl >}}/img/2016/10/001.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-interfejs-standard.png#medium)
 
 ### Aparat główny
 
@@ -48,10 +47,9 @@ Sprawdźmy zatem jakie opcje zostały nam oddane do dyspozycji jeśli chodzi o a
 wszystkim, mamy możliwość dostosowania lampy błyskowej. Możemy ją wyłączyć, włączyć na stałe, lub
 też zostawić tę kwestię smartfonowi, który na podstawie danych z czujnika światła oceni czy lampa
 ma zostać włączona podczas robienia zdjęcia. Możemy także wybrać sobie filtr w celu lepszego efektu
-wizualnego robionych
-fotek:
+wizualnego robionych fotek:
 
-[![002.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-filtry]({{< baseurl >}}/img/2016/10/002.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-filtry-660x586.png)]({{< baseurl >}}/img/2016/10/002.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-filtry.png)
+![]({{< baseurl >}}/img/2016/10/002.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-filtry.png#huge)
 
 Z lewej krawędzi ekranu możemy także wyciągnąć menu, w którym to mamy możliwość ustawienia kilku
 przydanych opcji. Możemy tutaj włączyć stempel czasu, za sprawą którego na fotce zostanie
@@ -78,10 +76,9 @@ Wybrane ustawienia zawsze można przywrócić do domyślnych za pomocą jednego 
 ekran. Natomiast nie mamy możliwości dostosowania zachowania autofokusa. Przy repozycjonowaniu
 aparatu, pojawia nam się białe kółko, które po wyostrzeniu obrazu przybiera kolor zielony, po czym
 znika. Można naturalnie wybrać obszar na którym aparat ma się skupić przed zrobieniem fotki stukając
-w interesującą nas część
-ekranu.
+w interesującą nas część ekranu.
 
-[![003.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-interfejs]({{< baseurl >}}/img/2016/10/003.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-interfejs-660x293.png)]({{< baseurl >}}/img/2016/10/003.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-interfejs.png)
+![]({{< baseurl >}}/img/2016/10/003.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-interfejs.png#huge)
 
 ### Kamera główna
 
@@ -95,7 +92,7 @@ bitrate, choć ten można wyciągnąć z informacji o pliku a/v. Jest też możl
 błyskowej na stałe podczas kręcenia filmu, choć nie ma możliwości wyłączenia jej w trakcie
 nagrywania.
 
-[![004.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video]({{< baseurl >}}/img/2016/10/004.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video-371x660.png)]({{< baseurl >}}/img/2016/10/004.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video.png)
+![]({{< baseurl >}}/img/2016/10/004.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video.png#medium)
 
 ### Aparat selfie
 
@@ -104,10 +101,9 @@ głównego aparatu i ma trochę mniej opcji. Niemniej jednak, opcja stempla czas
 trybu robienia zdjęć jak i dźwięku migawki jest dokładnie taka sama co w przypadku głównego aparatu.
 Jedynymi widocznymi różnicami ą uszczuplony wybór filtrów, jak i rozdzielczość robionych fotek. W
 tym przypadku mamy do wyboru 5 mpix (2560x1920 px, 4:3), 4 (2560x1440 px, 16:9) mpix, 3 (2048x1536
-px, 4:3) mpix, 2 (1600x1200 px, 4:3) mpix, 1,3 mpix (1280x960 px,
-4:3).
+px, 4:3) mpix, 2 (1600x1200 px, 4:3) mpix, 1,3 mpix (1280x960 px, 4:3).
 
-[![005.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-selfie]({{< baseurl >}}/img/2016/10/005.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-selfie-660x361.png)]({{< baseurl >}}/img/2016/10/005.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-selfie.png)
+![]({{< baseurl >}}/img/2016/10/005.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-selfie.png#huge)
 
 ### Kamera selfie
 
@@ -116,8 +112,7 @@ wyjątkiem zmiany rozdzielczości materiału video, która może być wysoka (64
 kbit/s audio) albo niska (176x144 px, 30 FPS, 64 kbit/s audio) oraz też włączenia i wyłączenia
 mikrofonu.
 
-[![006.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje
-video]({{< baseurl >}}/img/2016/10/006.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video-401x660.png)]({{< baseurl >}}/img/2016/10/006.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video.png)
+![]({{< baseurl >}}/img/2016/10/006.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video.png#medium)
 
 Jak widać, to oprogramowanie, które jest domyślnie zainstalowane w Neffos C5 daje nam jedynie
 podstawową funkcjonalność aparatu i kamery. Te wyżej wymienione opcje raczej powinny zadowolić
@@ -132,15 +127,13 @@ W wstępie nadmieniłem, że aplikacja OpenCamera jest dostępna w alternatywnym
 jakim jest F-Droid. Oczywiście nie musimy instalować sobie od razu F-Droid'a, bo [OpenCamera jest
 także dostępny w sklepie Google
 Play](https://play.google.com/store/apps/details?id=net.sourceforge.opencamera). Poniżej jest
-ofotkowany proces
-instalacji:
+ofotkowany proces instalacji:
 
-[![007.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-instalacja]({{< baseurl >}}/img/2016/10/007.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-instalacja-660x361.png)]({{< baseurl >}}/img/2016/10/007.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-instalacja.png)
+![]({{< baseurl >}}/img/2016/10/007.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-instalacja.png#huge)
 
-A tak z kolei wygląda interfejs
-OpenCamera:
+A tak z kolei wygląda interfejs OpenCamera:
 
-[![008.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-intefejs]({{< baseurl >}}/img/2016/10/008.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-intefejs-371x660.png)]({{< baseurl >}}/img/2016/10/008.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-intefejs.png)
+![]({{< baseurl >}}/img/2016/10/008.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-intefejs.png#medium)
 
 Informacja na temat aktualnie ustawionej rozdzielczości fotki/video zawsze jest pokazywana po
 uruchomieniu aplikacji. Praktycznie wszystkie wyżej widoczne elementy interfejsu można sobie
@@ -151,12 +144,11 @@ dowolnie dostosować, wliczając w to całkowite ich ukrycie.
 Przejdźmy zatem do tej kwestii, którą linux'iarze lubią najbardziej, tj. do opcji konfiguracyjnych,
 które oferuje OpenCamera. W porównaniu do opcji dostępnych w standardowej aplikacji będącej na
 wyposażeniu Neffos'a C5, przeciętny użytkownik telefonu może czuć się nieco przytłoczony, bo jakby
-nie patrzeć opcji jest naprawdę
-sporo:
+nie patrzeć opcji jest naprawdę sporo:
 
-[![009.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje]({{< baseurl >}}/img/2016/10/009.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-660x542.png)]({{< baseurl >}}/img/2016/10/009.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje.png)
+![]({{< baseurl >}}/img/2016/10/009.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje.png#huge)
 
-[![010.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje]({{< baseurl >}}/img/2016/10/010.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-660x361.png)]({{< baseurl >}}/img/2016/10/010.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje.png)
+![]({{< baseurl >}}/img/2016/10/010.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje.png#huge)
 
 To co odróżnia OpenCamera od standardowego oprogramowania zawartego w Neffos C5, to przede wszystkim
 możliwość dostosowania sobie praktycznie każdego aspektu pracy aparatu czy kamery. Mamy po prostu
@@ -171,14 +163,13 @@ opcje, których w standardowym oprogramowaniu nie znajdziemy. Poniżej jest kró
 
 Czas wyzwalacza w domyślnym sofcie można było również dostosować. Z tym, że mieliśmy do wyboru
 między 5 i 10 sekund. W przypadku OpenCamera również możemy ustawić 5 i 10 sekund ale mamy także do
-dyspozycji 1, 2, 3, 15, 20, 30 sekund oraz 1, 3 i 5
-minut.
+dyspozycji 1, 2, 3, 15, 20, 30 sekund oraz 1, 3 i 5 minut.
 
-[![011.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-timer]({{< baseurl >}}/img/2016/10/011.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-timer-660x542.png)]({{< baseurl >}}/img/2016/10/011.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-timer.png)
+![]({{< baseurl >}}/img/2016/10/011.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-timer.png#huge)
 
 Przy robieniu zdjęć z opóźnieniem mamy także opcję beeper'a, który nam będzie sygnalizował dźwiękiem
 upływający czas (co sekundę). Jest też możliwość aktywowania odliczania głosowego i wtedy system
-ludzkim głosem nam to odliczanie przeprowadzi (\<60 sekund). Te dwie funkcje mogą być włączone
+ludzkim głosem nam to odliczanie przeprowadzi (<60 sekund). Te dwie funkcje mogą być włączone
 równocześnie ale też można z nich zrezygnować zupełnie, przez co odliczanie będzie przeprowadzane
 po cichu. Wciąż jednak będziemy widzieli na ekranie upływający czas.
 
@@ -189,10 +180,9 @@ możliwość określenia co ile sekund ma być robione kolejne zdjęcie oraz ile
 pstryknąć naraz. Nie ma minimalnego interwału, natomiast maksymalny to 2 godziny. Jeśli zaś chodzi o
 ilość robionych zdjęć, to mogą być to dwie, trzy, cztery, pięć, dziesięć lub bez ograniczeń. Trzeba
 tylko pamiętać o autofokusie, który między fotkami może wymagać czasu na wyostrzenie zdjęcia, przez
-co może się pojawić dodatkowe
-opóźnienie.
+co może się pojawić dodatkowe opóźnienie.
 
-[![016.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-burst]({{< baseurl >}}/img/2016/10/016.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-burst-660x361.png)]({{< baseurl >}}/img/2016/10/016.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-burst.png)
+![]({{< baseurl >}}/img/2016/10/016.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-burst.png#huge)
 
 ### Głosowa aktywacja aparatu/kamery
 
@@ -200,10 +190,9 @@ Mizianie ekranu, czy wciskanie przycisków by zrobić zdjęcie czy rozpocząć r
 wymaga od nas fizycznego kontaktu z urządzeniem. Możemy jednak sterować aparatem/kamerą przy pomocy
 dźwięku. Generalnie są dwie opcje, z których możemy skorzystać: słówko "cheese" lub głośny hałas. By
 być szczerym "cheese" średnio działa, natomiast nie udało mi się aktywować ani aparatu, ani kamery
-głośnymi dźwiękami. Nie wiem czy to problem z samą aplikacją czy moim Neffos'em
-C5.
+głośnymi dźwiękami. Nie wiem czy to problem z samą aplikacją czy moim Neffos'em C5.
 
-[![012.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-kontrola-dzwiekiem]({{< baseurl >}}/img/2016/10/012.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-kontrola-dzwiekiem-660x542.png)]({{< baseurl >}}/img/2016/10/012.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-kontrola-dzwiekiem.png)
+![]({{< baseurl >}}/img/2016/10/012.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-kontrola-dzwiekiem.png#huge)
 
 ### Przypisywanie akcji pod klawisze Volume Up/Down
 
@@ -215,7 +204,7 @@ opcja włączenia i wyłączenia stabilizacji obrazu oraz zmiany głośności ur
 aktywować fokus, z tym, że zawsze będzie on skupiał się na środkowej części obszaru robionego
 zdjęcia.
 
-[![013.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-przyciski]({{< baseurl >}}/img/2016/10/013.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-przyciski-401x660.png)]({{< baseurl >}}/img/2016/10/013.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-przyciski.png)
+![]({{< baseurl >}}/img/2016/10/013.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-przyciski.png#medium)
 
 ### Ścieżki do zapisu i nazwy plików
 
@@ -231,10 +220,9 @@ smartfona.]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-od-tp-link/)
 Kolejna sprawa, to nazwy zapisywanych plików. Przede wszystkim, jesteśmy w stanie zmienić prefiks
 nazwy pliku. Dla zdjęć jest osobny prefiks, a dla materiałów video osobny. Nazwa pliku zawsze
 przybierze format daty i czasu. My natomiast możemy ten czas dostosować w oparciu o czas lokalny lub
-też o czas UTC. Dla Polski różnica będzie wynosić jedną lub dwie godziny (czas
-zimowy/letni).
+też o czas UTC. Dla Polski różnica będzie wynosić jedną lub dwie godziny (czas zimowy/letni).
 
-[![015.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-nazwy-plikow]({{< baseurl >}}/img/2016/10/015.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-nazwy-plikow-660x271.png)]({{< baseurl >}}/img/2016/10/015.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-nazwy-plikow.png)
+![]({{< baseurl >}}/img/2016/10/015.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-nazwy-plikow.png#huge)
 
 Te powyższe opcje dają nam możliwość grupowania fotek/filmów bezpośrednio na telefonie w czasie
 rzeczywistym, co z pewnością przekłada się na lepszą organizację plików w telefonie, przez co
@@ -245,27 +233,25 @@ rzeczywistym, co z pewnością przekłada się na lepszą organizację plików w
 Przejdźmy zatem do opcji specyficznych dla aparatu. które możemy ustawić. Jest ich również dość
 sporo:
 
-[![017.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-aparatu]({{< baseurl >}}/img/2016/10/017.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-aparatu-660x542.png)]({{< baseurl >}}/img/2016/10/017.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-aparatu.png)
+![]({{< baseurl >}}/img/2016/10/017.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-aparatu.png#huge)
 
 #### Rozdzielczość robionych zdjęć
 
 W przypadku domyślnego oprogramowania mieliśmy do dyspozycji tylko kilka rozdzielczości aparatu
 określanych w mpix (megapikselach). W przypadku OpenCamera jest nieco inaczej. Tak samo mamy
 informację o mpix ale dodatkowo mamy też określoną rozdzielczość fotki oraz proporcje ekranu. Te
-informacje naprawdę ułatwiają rozeznanie co do tego jaką fotkę spodziewamy się
-zrobić:
+informacje naprawdę ułatwiają rozeznanie co do tego jaką fotkę spodziewamy się zrobić:
 
-[![018.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-rozdzielczosc-zdjec]({{< baseurl >}}/img/2016/10/018.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-rozdzielczosc-zdjec-660x542.png)]({{< baseurl >}}/img/2016/10/018.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-rozdzielczosc-zdjec.png)
+![]({{< baseurl >}}/img/2016/10/018.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-rozdzielczosc-zdjec.png#huge)
 
 #### Stopień kompresji zdjęć
 
 OpenCamera udostępnia nam możliwość kontroli kompresji plików `.jpg` , przez co możemy wpływać na
 jakość robionych zdjęć. Jesteśmy w stanie ustawić tutaj zarówno jakość zdjęcia na 100% (brak
 kompresji) jak i na 1% (duży stopień kompresji). Możemy również wybrać pośredni stopień kompresji.
-Domyślnym jest
-90%:
+Domyślnym jest 90%:
 
-[![019.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-jakosc-zdjec]({{< baseurl >}}/img/2016/10/019.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-jakosc-zdjec-660x542.png)]({{< baseurl >}}/img/2016/10/019.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-jakosc-zdjec.png)
+![]({{< baseurl >}}/img/2016/10/019.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-jakosc-zdjec.png#huge)
 
 #### Znakowanie zdjęć
 
@@ -274,18 +260,16 @@ sobie wybrać format daty (np. rrrr/mm/dd) jak i format czasu (12/24/brak). Gdy 
 włączonym GPS, możemy także na fotce zawrzeć informacje o
 lokalizacji.
 
-[![020.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-znakowanie-zdjec]({{< baseurl >}}/img/2016/10/020.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-znakowanie-zdjec-660x271.png)]({{< baseurl >}}/img/2016/10/020.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-znakowanie-zdjec.png)
+![]({{< baseurl >}}/img/2016/10/020.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-znakowanie-zdjec.png#huge)
 
 Jakby tego było mało to możemy umieścić własny tekst na zdjęciu oraz dostosować styl czcionki jej
-kolor i
-wielkość:
+kolor i wielkość:
 
-[![021.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-format-znakowania]({{< baseurl >}}/img/2016/10/021.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-format-znakowania-660x217.png)]({{< baseurl >}}/img/2016/10/021.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-format-znakowania.png)
+![]({{< baseurl >}}/img/2016/10/021.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-format-znakowania.png#huge)
 
-Po ustawieniu wszystkich tych opcji otrzymamy mniej więcej taki
-podpis:
+Po ustawieniu wszystkich tych opcji otrzymamy mniej więcej taki podpis:
 
-![]({{< baseurl >}}/img/2016/10/023.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-oznaczenie.png)
+![]({{< baseurl >}}/img/2016/10/023.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-oznaczenie.png#medium)
 
 #### Pauzowanie po zrobionym zdjęciu
 
@@ -293,28 +277,25 @@ Gdy robimy zdjęcia, to są one automatycznie zapisywane na flash (ew. kartę SD
 znajdujemy się w sytuacji takiej, że po cyknięciu fotki chcemy coś z nią zrobić, to możemy
 zaoszczędzić trochę czasu zaznaczając opcję pauzowania. W takim przypadku po cyknięciu fotki ekran
 zostanie zamrożony, a my będziemy mieli podgląd zdjęcia, które właśnie zostało wykonane. Ponadto
-będziemy mieli także opcję skasowania pliku czy podzielenia się nim w
-sieci.
+będziemy mieli także opcję skasowania pliku czy podzielenia się nim w sieci.
 
-![]({{< baseurl >}}/img/2016/10/022.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-pauza.png)
+![]({{< baseurl >}}/img/2016/10/022.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-pauza.png#medium)
 
 ### Opcje specyficzne dla kamery (obraz)
 
 Opcje zdjęć mamy z grubsza z głowy. Pora zając się opcjami video. Na dobrą sprawę mamy ich jeszcze
-więcej niż w przypadku
-fotek.
+więcej niż w przypadku fotek.
 
-[![024.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video]({{< baseurl >}}/img/2016/10/024.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video-660x361.png)]({{< baseurl >}}/img/2016/10/024.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video.png)
+![]({{< baseurl >}}/img/2016/10/024.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video.png#huge)
 
 #### Rozdzielczość, bitrate i FPS video
 
 W standardowym oprogramowaniu kamery mieliśmy możliwość wyboru kilku trybów video. Wszystkie z nich
 były określone w mpix. W przypadku OpenCamera mamy również informację o danej rozdzielczości użytej
 przy nagrywaniu materiału video. Możemy także określić jakość takiego materiału definiując ręcznie
-bitrate obrazu. Jest też opcja od ustawienia niestandardowej ilości FPS (klatek na
-sekundę):
+bitrate obrazu. Jest też opcja od ustawienia niestandardowej ilości FPS (klatek na sekundę):
 
-[![025.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-rozdzielczosc-jakosc-fps]({{< baseurl >}}/img/2016/10/025.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-rozdzielczosc-jakosc-fps-660x271.png)]({{< baseurl >}}/img/2016/10/025.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-rozdzielczosc-jakosc-fps.png)
+![]({{< baseurl >}}/img/2016/10/025.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-rozdzielczosc-jakosc-fps.png#huge)
 
 Może i mamy bardzo dużą swobodę w dostosowaniu tych trzech powyższych parametrów ale trzeba sobie
 zdawać sprawę, że nasz smartfon niekoniecznie musi obsługiwać dany tryb pracy kamery. Generalnie to
@@ -324,21 +305,19 @@ jesteśmy tutaj ograniczeni przez możliwości sprzętowe.
 
 Ciekawą funkcją tez jest ustawienie maksymalnej długości czy rozmiaru nagrywanego materiału video.
 Możemy także określić czy po osiągnięciu ustawionego progu ma nastąpić restart nagrywania,
-oczywiście materiał będzie zapisywany w osobnym
-pliku.
+oczywiście materiał będzie zapisywany w osobnym pliku.
 
-[![026.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-czas-trwania]({{< baseurl >}}/img/2016/10/026.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-czas-trwania-660x361.png)]({{< baseurl >}}/img/2016/10/026.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-czas-trwania.png)
+![]({{< baseurl >}}/img/2016/10/026.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-czas-trwania.png#huge)
 
-[![027.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-restart]({{< baseurl >}}/img/2016/10/027.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-restart-660x542.png)]({{< baseurl >}}/img/2016/10/027.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-restart.png)
+![]({{< baseurl >}}/img/2016/10/027.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-restart.png#huge)
 
 #### Określenie źródła nagrywanego dźwięku
 
 W przypadku, gdy zamierzamy nagrywać jedynie obraz video, możemy bez większego problemy wyłączyć
 nagrywanie dźwięku. Jeśli jednak chcemy, by w nagraniu się pojawił dźwięk, to mamy możliwość
-określenia źródła
-dźwięku:
+określenia źródła dźwięku:
 
-[![028.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-zrodlo-audio]({{< baseurl >}}/img/2016/10/028.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-zrodlo-audio-660x361.png)]({{< baseurl >}}/img/2016/10/028.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-zrodlo-audio.png)
+![]({{< baseurl >}}/img/2016/10/028.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-zrodlo-audio.png#huge)
 
 #### Blokada ekranu przed przypadkowym wyłączeniem nagrywania
 
@@ -346,7 +325,7 @@ Kolejną ciekawą funkcją jest blokada ekranu tuż po wciśnięciu przycisku na
 sposób nie będziemy mieli możliwości wyłączenia nagrywania, no chyba, że wcześniej odblokujemy
 ekran.
 
-[![029.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-zabezpieczenie]({{< baseurl >}}/img/2016/10/029.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-zabezpieczenie-371x660.png)]({{< baseurl >}}/img/2016/10/029.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-zabezpieczenie.png)
+![]({{< baseurl >}}/img/2016/10/029.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-zabezpieczenie.png#medium)
 
 Szkoda tylko, że przyciski w dalszym ciągu są w stanie wyłączyć nagrywanie.
 
@@ -355,36 +334,32 @@ Szkoda tylko, że przyciski w dalszym ciągu są w stanie wyłączyć nagrywanie
 Gdy nagrywamy jakiś materiał video, to najgorszą rzeczą jaka może nam się przytrafić jest
 wyczerpanie się baterii. W takiej sytuacji jest niemal pewne, że film zostanie uszkodzony i stracimy
 cały nagrany materiał albo jakąś jego cześć. Można się przed tym zabezpieczyć przerywając nagrywanie
-przed wyczerpaniem się baterii (~3%). OpenCamera oferuje nam tego typu
-funkcjonalność.
+przed wyczerpaniem się baterii (~3%). OpenCamera oferuje nam tego typu funkcjonalność.
 
-[![030.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-bateria]({{< baseurl >}}/img/2016/10/030.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-bateria-660x268.png)]({{< baseurl >}}/img/2016/10/030.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-bateria.png)
+![]({{< baseurl >}}/img/2016/10/030.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-bateria.png#medium)
 
 #### Dioda sygnalizująca proces nagrywania
 
 Jeśli zamierzamy zostawić naszego smartfona gdzieś w oddali w celu uwiecznienia zdarzeń na filmie,
 możemy włączyć opcję sygnalizowania procesu nagrywania przy pomocy lampy błyskowej. Wtedy nawet
 siedząc kilkanaście metrów od telefonu wystarczy spojrzeć na niego by być pewnym, że nic nie
-przerwało
-nagrywania.
+przerwało nagrywania.
 
-[![031.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-flash]({{< baseurl >}}/img/2016/10/031.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-flash-660x190.png)]({{< baseurl >}}/img/2016/10/031.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-flash.png)
+![]({{< baseurl >}}/img/2016/10/031.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-flash.png#medium)
 
 ### Opcje lokalizacji (GPS)
 
 Kolejną grupą ustawień są te dotyczące lokalizacji. Standardowo geotagowanie zdjęć/filmów jest
 wyłączone. Możemy je nie tylko włączyć ale również je wymusić, przez co nie będziemy w stanie
 zrobić zdjęcia, gdy funkcja GPS będzie wyłączona. W zdjęciach możemy zaszyć także informacje ze
-wskazania
-kompasu.
+wskazania kompasu.
 
-[![032.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-gps-geotagging]({{< baseurl >}}/img/2016/10/032.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-gps-geotagging-660x586.png)]({{< baseurl >}}/img/2016/10/032.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-gps-geotagging.png)
+![]({{< baseurl >}}/img/2016/10/032.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-gps-geotagging.png#huge)
 
 Poniżej się prezentują dane EXIF, które można wyciągnąć po włączeniu GPS i otagowaniu obrazka przez
-aplikację
-OpenCamera:
+aplikację OpenCamera:
 
-[![033.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-dane-gps]({{< baseurl >}}/img/2016/10/033.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-dane-gps-660x248.png)]({{< baseurl >}}/img/2016/10/033.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-dane-gps.png)
+![]({{< baseurl >}}/img/2016/10/033.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-dane-gps.png#huge)
 
 ### Dostosowanie interfejsu OpenCamera
 
@@ -396,26 +371,23 @@ interfejs w każdej chwil po tapnięciu w ekran. Jest także możliwość pokaza
 części interfejsu, np. przycisków/paska zoom, informacji o ilości wolnego miejsca na pamięci flash,
 aktualnego czasu czy stanu baterii. Jest tez opcja zapobiegania wyłączeniu ekranu, gdy włączony jest
 podgląd z kamery/aparatu. Jeśli natomiast drażni nas nieco maksymalna jasność ekranu w trybie
-robienia zdjęć/video to też możemy tę funkcję łatwo tutaj
-wyłączyć.
+robienia zdjęć/video to też możemy tę funkcję łatwo tutaj wyłączyć.
 
-[![034.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd-opcje]({{< baseurl >}}/img/2016/10/034.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd-opcje-660x361.png)]({{< baseurl >}}/img/2016/10/034.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd-opcje.png)
+![]({{< baseurl >}}/img/2016/10/034.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd-opcje.png#huge)
 
 Te powyższe opcje dotyczą jedynie samego wyglądu interfejsu aparatu/kamery. Niemniej jednak,
-istnieją jeszcze opcje, do których możemy uzyskać dostęp z poziomu tego
-interfejsu:
+istnieją jeszcze opcje, do których możemy uzyskać dostęp z poziomu tego interfejsu:
 
-[![035.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd]({{< baseurl >}}/img/2016/10/035.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd-660x586.png)]({{< baseurl >}}/img/2016/10/035.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd.png)
+![]({{< baseurl >}}/img/2016/10/035.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd.png#huge)
 
 Z lewej lub prawej strony mamy kilka ikonek. Licząc od góry, odpowiadają one za przełączenie aparatu
 głównego/selfie, przełączenie trybu aparatu/kamery, dostosowanie i zablokowanie poziomu ekspozycji,
 dostęp do bardziej rozbudowanego menu interfejsu oraz menu opcji. Jeśli zaś chodzi o rozbudowane
-menu interfejsu jakim dysponuje aparat/kamera, to wygląda on mniej więcej
-tak:
+menu interfejsu jakim dysponuje aparat/kamera, to wygląda on mniej więcej tak:
 
-[![036.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd]({{< baseurl >}}/img/2016/10/036.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd-660x390.png)]({{< baseurl >}}/img/2016/10/036.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd.png)
+![]({{< baseurl >}}/img/2016/10/036.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd.png#huge)
 
-[![037.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd]({{< baseurl >}}/img/2016/10/037.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd-660x390.png)]({{< baseurl >}}/img/2016/10/037.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd.png)
+![]({{< baseurl >}}/img/2016/10/037.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd.png#huge)
 
 Trochę tego jest i to przewijane menu jest moim zdaniem trochę zbyt długie. Przydałby się je pociąć
 i ulokować pod osobnymi ikonkami na pasku interfejsu. Niemniej jednak, widzimy, że w bardzo łatwy

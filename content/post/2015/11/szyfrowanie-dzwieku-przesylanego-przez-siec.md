@@ -63,7 +63,7 @@ maszynie, zatem konfiguracja połączenia ma wyglądać mniej więcej tak:
           Compression yes
           RemoteForward 127.0.0.1:4713 127.0.0.1:4713
 
-### Zmienna $PULSE\_SERVER
+### Zmienna $PULSE_SERVER
 
 Trzeba jeszcze wskazać systemowi gdzie ma szukać serwera PulseAudio. Odpowiada za to, co prawda,
 zmienna `$PULSE_SERVER` ale problem w tym, że ruch na zdalnej maszynie trzeba pierw przesłać na jej
@@ -94,4 +94,4 @@ komunikację sieciową, tj. jakie porty są w niej wykorzystywane. Najprościej 
 jeden od serwera dźwięku PulseAudio, drugi zaś od SSH. W przypadku gdy ruch jest szyfrowany, tylko
 ta druga reguła powinna łapać pakiety, przykładowo:
 
-![]({{< baseurl >}}/img/2015/11/1.szyfrowanie-dzwieku-pulseaudio-iptables.png)
+![]({{< baseurl >}}/img/2015/11/1.szyfrowanie-dzwieku-pulseaudio-iptables.png#huge)

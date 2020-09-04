@@ -9,6 +9,9 @@ status: publish
 tags:
 - pliki
 - foldery
+- mime
+- debian
+- openbox
 title: Domyślne aplikacje w oparciu o typy plików (MIME)
 ---
 
@@ -31,7 +34,7 @@ bardziej liczy się to co siedzi w jego nagłówku. Na dobrą sprawę, to chyba 
 jest nam w stanie określić typ MIME. Te informacje widnieją zwykle we właściwościach tego pliku.
 Poniżej okienko właściwości na przykładzie menadżera plików SpaceFM:
 
-![]({{< baseurl >}}/img/2016/01/1.spacefm-wlasciwosci-mime-typ.png)
+![]({{< baseurl >}}/img/2016/01/1.spacefm-wlasciwosci-mime-typ.png#medium)
 
 Mamy tutaj informację, że jest to dokument PDF, a jego typ MIME to `application/pdf` . Widzimy
 również jaka aplikacja jest ustawiona jako domyślna dla tego typu plików i w tym przypadku jest to
@@ -46,7 +49,7 @@ zawarte w pakiecie `xdg-utils`, przykładowo:
 Dzięki tym typom, szereg aplikacji może zostać przypisanych określonym rodzajom plików, co wygląda
 mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/01/2.spacefm-powiazania-typ-mime.png)
+![]({{< baseurl >}}/img/2016/01/2.spacefm-powiazania-typ-mime.png#medium)
 
 ## Domyślne aplikacje dla poszczególnych typów MIME
 
@@ -134,7 +137,7 @@ konfiguracji typów MIME za nas. Jest to o wiele wygodniejsze niż ręczna edycj
 no i unikniemy w ten sposób literówek czy jakichś większych błędów. Poniżej jest zrzut konfiguracji
 w SpaceFM:
 
-![]({{< baseurl >}}/img/2016/01/3.spacefm-edycja-typ-mime.png)
+![]({{< baseurl >}}/img/2016/01/3.spacefm-edycja-typ-mime.png#big)
 
 Każdy powiązany z plikiem typ MIME jesteśmy w stanie poddać edycji klikając na jego pozycji prawym
 przyciskiem myszki. Jesteśmy w stanie edytować pliki zarówno w katalogu `/usr/share/applications/`

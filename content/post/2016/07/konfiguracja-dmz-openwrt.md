@@ -86,7 +86,7 @@ porty LAN na switchu miały interfejs `eth1` , któremu zostały przypisane dwa 
 Po zresetowaniu routera, w systemie powinny być widoczne w/w interfejsy. Interfejs `eth1.1` powinien
 być podpięty pod mostek. Natomiast interfejs `eth1.3` powinien mieć określoną wyżej adresację:
 
-![]({{< baseurl >}}/img/2016/07/1.dmz-podzial-vlan-openwrt-router.png)
+![]({{< baseurl >}}/img/2016/07/1.dmz-podzial-vlan-openwrt-router.png#huge)
 
 W przypadku, gdy hosty w strefie zdemilitaryzowanej mają być konfigurowane dynamicznie za sprawą
 protokołu DHCP, musimy także edytować plik `/etc/config/dhcp` i dopisać w nim tę poniższą zwrotkę:

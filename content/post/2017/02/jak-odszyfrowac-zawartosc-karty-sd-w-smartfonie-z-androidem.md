@@ -44,17 +44,15 @@ Zakładam zatem w tym miejscu, że nasz smartfon przeszedł proces root.
 
 Weźmy sobie zatem w łapki nasz smartfon i wsadźmy do niego jakąś kartę SD, którą zamierzamy
 sformatować jako pamięć wewnętrzna. Cały proces jest niemal automatyczny i wystarczy przejść do
-Ustawienia =\> Pamięć plików i kliknąć w "Karta SD". Mamy tam pozycję "Sformatuj jako pamięć wewn."
-i to w nią
-klikamy.
+Ustawienia => Pamięć plików i kliknąć w "Karta SD". Mamy tam pozycję "Sformatuj jako pamięć wewn."
+i to w nią klikamy.
 
-[![]({{< baseurl >}}/img/2017/02/001.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd-371x660.png)]({{< baseurl >}}/img/2017/02/001.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png)
+![]({{< baseurl >}}/img/2017/02/001.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#medium)
 
 Postępujemy zgodnie z informacjami na ekranie i po chwili karta powinna zostać przygotowana do
-pracy, tj. sformatowana, zaszyfrowana i zamontowana w
-systemie:
+pracy, tj. sformatowana, zaszyfrowana i zamontowana w systemie:
 
-[![]({{< baseurl >}}/img/2017/02/002.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd-660x390.png)]({{< baseurl >}}/img/2017/02/002.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png)
+![]({{< baseurl >}}/img/2017/02/002.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#huge)
 
 Możemy też sprawdzić, gdzie Android montuje naszą kartę SD w systemie (przez `adb`) korzystając z
 polecenia `mount` :
@@ -103,8 +101,8 @@ smartfonie, pytanie tylko gdzie? Wzór nazwy klucza można wyciągnąć w poniż
     /mnt/expand/%s
     %s/expand_%s.key
 
-Wiemy zatem, że klucz nazywa się `expand_%s.key` , z tym, że do końca nie wiem za co odpowiada `%s`
-. Tak czy inaczej, wszystkie klucze są przechowywane pod `/data/misc/vold/` :
+Wiemy zatem, że klucz nazywa się `expand_%s.key` , z tym, że do końca nie wiem za co odpowiada
+`%s` . Tak czy inaczej, wszystkie klucze są przechowywane pod `/data/misc/vold/` :
 
     root@Y5:/ # ls -al /data/misc/vold/
     drwx------ root     root              2017-02-08 22:40 bench
@@ -133,8 +131,7 @@ wykorzystywany w procesie szyfrowania i deszyfrowania informacji na karcie SD or
 szereg offsetów. Zgodnie z [informacjami jakie znalazłem
 tutaj](https://source.android.com/devices/storage/adoptable#security), Android korzysta z
 `aes-cbc-essiv:sha256` . Offsety mogą być różne ale za punkt wyjścia można obrać `0` . Zatem linijka
-z `dmsetup` przybierze poniższą
-    postać:
+z `dmsetup` przybierze poniższą postać:
 
     # dmsetup create sdcard --table "0 `blockdev --getsize /dev/sdb2` crypt aes-cbc-essiv:sha256 6c33be5ddf7ba0d0ca41fed7a78f75db 0 /dev/sdb2 0"
 

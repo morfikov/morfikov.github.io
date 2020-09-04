@@ -170,11 +170,11 @@ przejść na dowolny adres wpisując w przeglądarce w pasku adresu jakąś dome
 strona nie będzie nam się chciała załadować. W takim przypadku, musimy przejść na adres `wp.pl` i
 zostaniemy przekierowani na stronę z kodem CAPTCHA:
 
-![]({{< baseurl >}}/img/2016/04/1.aero2-captcha-kod.png)
+![]({{< baseurl >}}/img/2016/04/1.aero2-captcha-kod.png#huge)
 
 Wpisujemy kod i po chwili powinien nam zostać przywrócony dostęp do internetu:
 
-![]({{< baseurl >}}/img/2016/04/2.aero2-captcha-kod.png)
+![]({{< baseurl >}}/img/2016/04/2.aero2-captcha-kod.png#huge)
 
 Musimy jeszcze zresetować połączenie modemu. Przechodzimy do terminala i wciskamy Ctrl-C . Po chwili
 ponowne wpisujemy poniższe polecenie:

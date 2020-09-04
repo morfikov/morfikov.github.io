@@ -27,7 +27,7 @@ Jak mówi klasyk: "Niestety nie da się wytłumaczyć czym jest system rewizji w
 po prostu zobaczyć na własne oczy", także poniżej fotka, która powinna rozjaśnić wszystkie
 wątpliwości:
 
-![]({{< baseurl >}}/img/2015/05/1.podglad-rewizji.png)
+![]({{< baseurl >}}/img/2015/05/1.podglad-rewizji.png#huge)
 
 Zatem wiemy już czym jest system rewizji i jak widzimy wyżej, niczym się ten patent nie różni od
 zwykłego diffa znanego choćby z systemów kontroli wersji (CVS), np. GIT. Jeśli nie chcemy wersjować
@@ -61,7 +61,7 @@ rewizje będą automatycznie usuwane z bazy danych.
 Liczbę przechowywanych aktualnie rewizji w bazie danych możemy śledzić w każdym poście po przejściu
 do jego edycji:
 
-![]({{< baseurl >}}/img/2015/05/2.liczba-rewizji.png)
+![]({{< baseurl >}}/img/2015/05/2.liczba-rewizji.png#small)
 
 ## Wyłączenie systemu rewizji
 

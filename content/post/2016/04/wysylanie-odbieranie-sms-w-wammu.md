@@ -40,16 +40,16 @@ interfejs, to prawdopodobnie inne usługi czy demony nie będą w stanie korzyst
 przynajmniej do czasu zamknięcia aplikacji.
 
 Odpalmy zatem `wammu` i dodajmy przykładowe połączenie z modemem czy telefonem. By to zrobić
-uruchamiamy konfigurator połączenia (Wammu -\> Phone wizard). Powinno nam się wyświetlić to poniższe
+uruchamiamy konfigurator połączenia (Wammu -> Phone wizard). Powinno nam się wyświetlić to poniższe
 okienko:
 
-![]({{< baseurl >}}/img/2016/04/1.wammu-kreator-polaczenia.png)
+![]({{< baseurl >}}/img/2016/04/1.wammu-kreator-polaczenia.png#big)
 
 Z godnie z instrukcjami na ekranie, upewniamy się, że mamy podłączony modem lub telefon. Aplikacja
 `wammu` potrafi nawiązać połączenie przez bluetooth, IrDA (Infrared Data Association) i zwykły kabel
 USB. Przechodzimy dalej i wybieramy w jaki sposób chcemy skonfigurować to urządzenie:
 
-![]({{< baseurl >}}/img/2016/04/2.wammu-kreator-polaczenia.png)
+![]({{< baseurl >}}/img/2016/04/2.wammu-kreator-polaczenia.png#big)
 
 Mamy tam trzy opcje do wyboru: przewodnik, automat i tryb manualny. Automat powinien wykryć
 praktycznie większość sprzętu i jest zalecany dla początkujących użytkowników. Przewodnik daje nam
@@ -62,31 +62,31 @@ powyżej. Natomiast typ połączenia zależy głównie od urządzenia. Jako, że
 ten obsługuje polecenia AT. Liczba wskazuje na prędkość transmisji danych podczas komunikacji z
 modemem. Jeśli nie jesteśmy pewni co do samej prędkości, to wybierzmy po prostu `AT` :
 
-![]({{< baseurl >}}/img/2016/04/3.wammu-kreator-polaczenia.png)
+![]({{< baseurl >}}/img/2016/04/3.wammu-kreator-polaczenia.png#big)
 
 Po chwili zostanie przeprowadzony test połączenia z modemem:
 
-![]({{< baseurl >}}/img/2016/04/4.wammu-kreator-polaczenia.png)
+![]({{< baseurl >}}/img/2016/04/4.wammu-kreator-polaczenia.png#big)
 
 Jak widzimy, urządzenie zostało rozpoznane poprawnie. Możemy zatem przejść do ostatniego kroku, tj.
 zapisania konfiguracji:
 
-![]({{< baseurl >}}/img/2016/04/5.wammu-kreator-polaczenia.png)
+![]({{< baseurl >}}/img/2016/04/5.wammu-kreator-polaczenia.png#big)
 
 Parametry konfiguracji zostały zapisane w pliku `~/.gammurc` . To nie jest jednak cała konfiguracja.
 W menu `wammu` mamy jeszcze pozycję z ustawieniami (Settings) i na nią też powinniśmy rzucić okiem:
 
-![]({{< baseurl >}}/img/2016/04/5.wammu-ustawienia.png)
+![]({{< baseurl >}}/img/2016/04/5.wammu-ustawienia.png#big)
 
 Tutaj możemy skonfigurować min. zachowanie samej aplikacji. Te ustawienia są z kolei przechowywane w
 pliku `~/.Wammu` .
 
 ## Nawiązywanie połączenia z modemem przez wammu
 
-Mając skonfigurowane połączenie, nawiążmy je (Phone -\> Connect). Po chwili połączenie powinno
-zostać ustanowione. Sprawdźmy z jakim urządzeniem mamy do czynienia (Retrieve -\> Info):
+Mając skonfigurowane połączenie, nawiążmy je (Phone -> Connect). Po chwili połączenie powinno
+zostać ustanowione. Sprawdźmy z jakim urządzeniem mamy do czynienia (Retrieve -> Info):
 
-![]({{< baseurl >}}/img/2016/04/6.wammu-info-modem.png)
+![]({{< baseurl >}}/img/2016/04/6.wammu-info-modem.png#big)
 
 Być może przy pobieraniu informacji o urządzeniu napotkamy jakiś błąd, w efekcie którego nie
 wszystkie informacje o urządzeniu zostaną nam wyświetlone. Ten błąd nie wpływa jednak na samą
@@ -95,9 +95,9 @@ interakcję z urządzeniem.
 ## Kontakty w wammu
 
 Jako, że w tym przypadku mamy do czynienia z modemem LTE, to część funkcji `wammu` nie działa.
-Możemy jednak pobrać kontakty z karty SIM (Retrieve -\> Contacts (SIM)):
+Możemy jednak pobrać kontakty z karty SIM (Retrieve -> Contacts (SIM)):
 
-![]({{< baseurl >}}/img/2016/04/7.wammu-kontakty-sim.png)
+![]({{< baseurl >}}/img/2016/04/7.wammu-kontakty-sim.png#big)
 
 Te powyższe są domyślne dla tego konkretnego startera. Nic jednak nie stoi na przeszkodzie by dodać
 nowe kontakty. Limitowani jesteśmy jednak przez pojemność karty SIM. Tak czy inaczej. Mając
@@ -108,13 +108,13 @@ i wysłać jej SMS.
 
 Po zaznaczeniu kontaktu i wybraniu opcji "Send Message" powinno nam pojawić się to poniższe okienko:
 
-![]({{< baseurl >}}/img/2016/04/8.wammu-wiadomosc-sms.png)
+![]({{< baseurl >}}/img/2016/04/8.wammu-wiadomosc-sms.png#big)
 
 Teraz pozostaje nam już tylko napisać kilka słów i wysłać wiadomość. Tego SMS'a możemy także zapisać
-sobie. Z kolei by sprawdzić odebrane wiadomości SMS, wybieramy z menu Retrieve -\> Messages. Po
+sobie. Z kolei by sprawdzić odebrane wiadomości SMS, wybieramy z menu Retrieve -> Messages. Po
 chwili wszystkie wiadomości powinny zostać nam zaprezentowane:
 
-![]({{< baseurl >}}/img/2016/04/9.wammu-odebrane-wiadomosci-sms.png)
+![]({{< baseurl >}}/img/2016/04/9.wammu-odebrane-wiadomosci-sms.png#big)
 
 Wiadomości SMS są przez `wammu` stosownie oznaczane i umieszczane w odpowiednich katalogach. Na
 każdą z nich możemy w łatwy i szybki sposób odpowiedzieć. Możemy też bez problemu hurtowo skasować

@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+- bezpieczeństwo
 title: 'WordPress: Wyłączenie protokołu XML-RPC'
 ---
 
@@ -80,6 +81,6 @@ do `.htaccess` poniższe kod:
 ## Pingbacki i Trackbaki
 
 Trzeba także pamiętać, że jeśli wyłączamy całkowicie protokół XML-RPC, to również musimy wyłączyć
-pingbacki i trackbaki w opcjach WordPressa (Settings =\> Discussion):
+pingbacki i trackbaki w opcjach WordPressa (Settings => Discussion):
 
-![]({{< baseurl >}}/img/2015/06/1.wordpress-xml-rpc-trackback.png)
+![]({{< baseurl >}}/img/2015/06/1.wordpress-xml-rpc-trackback.png#big)

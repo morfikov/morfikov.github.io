@@ -28,10 +28,10 @@ Gdy przeglądamy internet za pomocą tylko jednego profilu w Firefox'ie, cała n
 nim rejestrowana. Zapisywane są takie dane jak historia przeglądanych stron, ciasteczka dla
 konkretnych domen, hasła do serwisów czy też wpisywane frazy w formularzach na stronach www. W
 Firefox'ie mamy możliwość dostosowania szeregu opcji, w tym też tych wszystkich wyżej wymienionych,
-i nie powinno to sprawić większego problemu, bo wystarczy wejść w Preferences -\> Privacy i rzucić
+i nie powinno to sprawić większego problemu, bo wystarczy wejść w Preferences -> Privacy i rzucić
 okiem na te poniższe opcje:
 
-![]({{< baseurl >}}/img/2015/10/1.opcje-firefox-profil.png)
+![]({{< baseurl >}}/img/2015/10/1.opcje-firefox-profil.png#huge)
 
 Mamy możliwość skonfigurowania przeglądarki tak by nie akceptowała ciasteczek, czy też nie
 zapisywała historii i całej masy innych rzeczy ale to powoduje, że w większości przypadków tego
@@ -60,7 +60,7 @@ Pliki profili Firefox'a na linux'ie są zlokalizowane w katalogu `~/.mozilla/fir
 od tego ile mamy profili, tyle będzie katalogów -- jeden na każdy profil. Wygląda to mniej więcej
 tak:
 
-![]({{< baseurl >}}/img/2015/10/2.katalog-profil-firefox.png)
+![]({{< baseurl >}}/img/2015/10/2.katalog-profil-firefox.png#small)
 
 Poza katalogami o dziwacznych nazwach, widzimy także plik `profiles.ini` . To w nim są zawarte
 [informacje identyfikujące konkretny profil](http://kb.mozillazine.org/Profiles.ini_file). Poniżej
@@ -96,16 +96,16 @@ Niżej zaś są wyjaśnione wykorzystane w nim opcje.:
 Tworzenie profili jest bardzo proste i sprowadza się do odpalenia w terminalu Firefox'a z parametrem
 `--ProfileManager` . Spowoduje to pojawienie się tego poniższego okienka:
 
-![]({{< baseurl >}}/img/2015/10/3.tworzenie-profil-firefox.png)
+![]({{< baseurl >}}/img/2015/10/3.tworzenie-profil-firefox.png#medium)
 
 Klikamy na przycisk `Create Profile` i dodajemy tyle profili ile potrzebujemy. W każdym z nich
 możemy określić nazwę oraz katalog:
 
-![]({{< baseurl >}}/img/2015/10/5.wybor-profil-firefox.png)
+![]({{< baseurl >}}/img/2015/10/5.wybor-profil-firefox.png#medium)
 
 Po skończonej robocie, powinniśmy mieć na liście kilka profili:
 
-![]({{< baseurl >}}/img/2015/10/4.zmiana-nazwy-profil-firefox.png)
+![]({{< baseurl >}}/img/2015/10/4.zmiana-nazwy-profil-firefox.png#big)
 
 Pamiętajmy też by odznaczyć pozycję `Use the selected profile without asking at startup` . W
 przeciwnym wypadku, ostatnio użyty profil będzie wykorzystywany jako domyślny.

@@ -77,17 +77,15 @@ niż nic.
 
 Pierwszym z przypadków jest sytuacja, w której mamy do czynienia z AP skonfigurowanymi na różne
 sieci WiFi. By nasz smartfon był w stanie przełączać się między takimi sieciami w zależności od siły
-sygnału, musimy w Androidzie doinstalować narzędzie
-SWIFI:
+sygnału, musimy w Androidzie doinstalować narzędzie SWIFI:
 
-[![1.swifi-roaming-smartfon-tp-link-instalacja]({{< baseurl >}}/img/2016/11/1.swifi-roaming-smartfon-tp-link-instalacja-660x361.png)]({{< baseurl >}}/img/2016/11/1.swifi-roaming-smartfon-tp-link-instalacja.png)
+![]({{< baseurl >}}/img/2016/11/1.swifi-roaming-smartfon-tp-link-instalacja.png#huge)
 
 SWIFI ma również opcję płatną ale w tym artykule została wykorzystana darmowa wersja. Warto tutaj
 zaznaczyć, że w darmowej wersji nie ma reklam. Sama aplikacja jest za to bardzo prosta w obsłudze,
-bo ma niewiele
-opcji:
+bo ma niewiele opcji:
 
-[![2.swifi-roaming-smartfon-tp-link-konfiguracja]({{< baseurl >}}/img/2016/11/2.swifi-roaming-smartfon-tp-link-konfiguracja-419x660.png)]({{< baseurl >}}/img/2016/11/2.swifi-roaming-smartfon-tp-link-konfiguracja.png)
+![]({{< baseurl >}}/img/2016/11/2.swifi-roaming-smartfon-tp-link-konfiguracja.png#medium)
 
 Konfiguracja roamingu w SWIFI sprowadza się do ustawienia siły sygnału, poniżej której smartfon
 rozpocznie skanowanie eteru w poszukiwaniu lepszej alternatywy dla połączenia. Zakres jaki możemy
@@ -120,30 +118,26 @@ górnym rogu.
 Ze SWIFI nie damy rady skorzystać w przypadku sieci opartych o wiele AP skonfigurowanych na tę samą
 sieć WiFi. Musimy zatem zainstalować Wifi Roaming Fix. W przypadku tej aplikacji ważna jest nie
 tylko nazwa sieci (ESSID) i hasło, które muszą pasować do siebie ale również każdy z AP musi być
-dostępny na innym
-kanale:
+dostępny na innym kanale:
 
-[![3.wifi-roaming-fix-smartfon-tp-link-instalacja]({{< baseurl >}}/img/2016/11/3.wifi-roaming-fix-smartfon-tp-link-instalacja-660x361.png)]({{< baseurl >}}/img/2016/11/3.wifi-roaming-fix-smartfon-tp-link-instalacja.png)
+![]({{< baseurl >}}/img/2016/11/3.wifi-roaming-fix-smartfon-tp-link-instalacja.png#huge)
 
 Po odpaleniu aplikacji zostanie wykryta ilość AP, które mają ten sam ESSID. W moim przypadku są to 3
 AP. W menu można wybrać pozycję info, która jest w stanie nam zwrócić informacje o sile sygnału
-docierającego z każdego punktu dostępowego w
-okolicy.
+docierającego z każdego punktu dostępowego w okolicy.
 
-[![4.wifi-roaming-fix-smartfon-tp-link-sila-sygnalu]({{< baseurl >}}/img/2016/11/4.wifi-roaming-fix-smartfon-tp-link-sila-sygnalu-660x542.png)]({{< baseurl >}}/img/2016/11/4.wifi-roaming-fix-smartfon-tp-link-sila-sygnalu.png)
+![]({{< baseurl >}}/img/2016/11/4.wifi-roaming-fix-smartfon-tp-link-sila-sygnalu.png#big)
 
 Są też proste ustawienia, które umożliwiają włączenie aplikacji Wifi Roaming Fix przy starcie
 systemu, pokazywanie notyfikacji przy przełączaniu między AP oraz konfigurację poziomu sygnału,
-poniżej którego smartfon zdecyduje się
-przełączyć.
+poniżej którego smartfon zdecyduje się przełączyć.
 
-[![5.wifi-roaming-fix-smartfon-tp-link-konfiguracja]({{< baseurl >}}/img/2016/11/5.wifi-roaming-fix-smartfon-tp-link-konfiguracja-660x542.png)]({{< baseurl >}}/img/2016/11/5.wifi-roaming-fix-smartfon-tp-link-konfiguracja.png)
+![]({{< baseurl >}}/img/2016/11/5.wifi-roaming-fix-smartfon-tp-link-konfiguracja.png#big)
 
 Moje AP są rozlokowane na kanałach 1, 6 i 11, gdzie siła sygnału w tym konkretnym miejscu mojego
 domu jest na poziomie -52 dBm, -74 dBm i -33 dBm. Jestem aktualnie podłączony do AP na kanale 11,
 jako, że sygnał z tego punktu dostępowego jest najmocniejszy. Jeśli zmieniłbym teraz położenie i
 przeszedł w pobliże któregoś z dwóch pozostałych AP, to nastąpi automatyczne rozłączenie sieci i
-podłączenie do tego punktu, z którego jest najmocniejszy
-sygnał.
+podłączenie do tego punktu, z którego jest najmocniejszy sygnał.
 
-[![6.wifi-roaming-fix-smartfon-tp-link-przelaczanie-sieci]({{< baseurl >}}/img/2016/11/6.wifi-roaming-fix-smartfon-tp-link-przelaczanie-sieci-371x660.png)]({{< baseurl >}}/img/2016/11/6.wifi-roaming-fix-smartfon-tp-link-przelaczanie-sieci.png)
+![]({{< baseurl >}}/img/2016/11/6.wifi-roaming-fix-smartfon-tp-link-przelaczanie-sieci.png#medium)

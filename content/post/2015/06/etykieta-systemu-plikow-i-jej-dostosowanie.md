@@ -11,6 +11,7 @@ tags:
 - hdd
 - ssd
 - ext4
+- partycja
 title: Etykieta systemu plików i jej dostosowanie
 ---
 
@@ -36,12 +37,12 @@ Na początek spróbujemy zmienić etykietę przy pomocy `gparted` . Odpalamy zat
 wybieramy pożądany dysk. Następnie klikamy prawym przyciskiem myszy na danej partycji i powinno nam
 się ukazać poniższe menu:
 
-![]({{< baseurl >}}/img/2015/06/1.etykieta-zmiana-gparted.png)
+![]({{< baseurl >}}/img/2015/06/1.etykieta-zmiana-gparted.png#big)
 
 Wybieramy `Label` (etykieta) i podajemy nazwę. Przy dokonywaniu zmian, zostanie nam wyrzucony ten
 poniższy komunikat:
 
-![]({{< baseurl >}}/img/2015/06/2.etykieta-zmiana-blad.png)
+![]({{< baseurl >}}/img/2015/06/2.etykieta-zmiana-blad.png#big)
 
 Informuje on nas, że dokonywanie zmian w partycjach zwykle kończy się utratą danych. Nie wiem czemu
 ten komunikat jest wyświetlany w przypadku operacji, które do niej nie prowadzą, a taką przecie jest
@@ -96,8 +97,8 @@ Jak widać, zmiana przebiegła również bez większych problemów.
 ## Ustawianie etykiety przy tworzeniu systemu plików
 
 Podobnie jak w przypadku narzędzia `tune2fs` , istnieje możliwość sprecyzowania dodatkowego
-parametru przy tworzeniu systemu plików i jak możemy wyczytać w manualu, również jest to opcja `-L`
-:
+parametru przy tworzeniu systemu plików i jak możemy wyczytać w manualu, również jest to opcja
+`-L` :
 
 > `-L` new-volume-label
 > Set the volume label for the filesystem to new-volume-label. The maximum length of the volume

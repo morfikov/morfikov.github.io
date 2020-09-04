@@ -10,6 +10,7 @@ tags:
 - hdd
 - ssd
 - systemd
+- temperatura
 title: Temperatura dysku twardego (hddtemp)
 ---
 
@@ -115,7 +116,7 @@ jednak poprawna konfiguracja demona `hddtemp` . By ta temperatura zwracana przez
 wyświetlona w `conky` , musimy do jego pliku konfiguracyjnego dopisać `${hddtemp /dev/sda}˚C` .
 Temperatura dysku w conky prezentuje się mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/01/1.conky-hddtemp-temperatura-dysku.png)
+![]({{< baseurl >}}/img/2016/01/1.conky-hddtemp-temperatura-dysku.png#small)
 
 ### Monitorowanie temperatury w monitorix
 
@@ -141,7 +142,7 @@ Zapisujemy zmiany i restartujemy usługę. Monitor systemu jest dostępny z pozi
 internetowej pod adresem `{{< baseurl >}}:8080/monitorix/` . Wykres temperatury wygląda mniej
 więcej tak:
 
-![]({{< baseurl >}}/img/2016/01/2.hddtemp-temperatura-monitoring-monitorix.png)
+![]({{< baseurl >}}/img/2016/01/2.hddtemp-temperatura-monitoring-monitorix.png#huge)
 
 Obserwując go możemy w bardzo prosty sposób wywnioskować czy dyski w naszych komputerach mogą ulec
 przegrzaniu w wyniki zbyt wysokiej temperatury i czy już najwyższy czas, by rozkręcić laptopa i go

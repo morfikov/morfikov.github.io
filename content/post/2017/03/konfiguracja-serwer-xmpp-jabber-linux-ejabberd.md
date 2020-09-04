@@ -95,7 +95,7 @@ rekord A/AAAA dla subdomeny, lepiej jest utworzyć rekord CNAME i tam określić
 docelowego adresu z CNAME będzie powodować problemy i tak jest w przypadku
 OVH:
 
-[![]({{< baseurl >}}/img/2017/03/000-0.jabber-ejabberd-serwer-debian-linux-cname-problem-660x101.png)]({{< baseurl >}}/img/2017/03/000-0.jabber-ejabberd-serwer-debian-linux-cname-problem.png)
+![]({{< baseurl >}}/img/2017/03/000-0.jabber-ejabberd-serwer-debian-linux-cname-problem.png#huge)
 
 Dlatego też ja stworzyłem sobie osobny rekord A/AAAA zamiast CNAME.
 
@@ -104,29 +104,29 @@ przykładu opiszę jak to wygląda w przypadku panelu webowego OVH. Udajmy się 
 administracyjnego i przejdźmy na zakładkę `WWW`
 .
 
-![]({{< baseurl >}}/img/2017/03/000-1.jabber-ejabberd-serwer-debian-linux-ovh-domena.png)
+![]({{< baseurl >}}/img/2017/03/000-1.jabber-ejabberd-serwer-debian-linux-ovh-domena.png#small)
 
 Po wybraniu domeny, pojawią nam się informacje ogólne dotyczące konfiguracji. Mamy tam też min.
 zakładkę `Strefa DNS` . Po przejściu na nią, po prawej stronie będziemy mieć poniższe
 przyciski:
 
-[![]({{< baseurl >}}/img/2017/03/001.jabber-ejabberd-serwer-debian-linux-dns-przyciski-660x216.png)]({{< baseurl >}}/img/2017/03/001.jabber-ejabberd-serwer-debian-linux-dns-przyciski.png)
+![]({{< baseurl >}}/img/2017/03/001.jabber-ejabberd-serwer-debian-linux-dns-przyciski.png#huge)
 
 Klikamy naturalnie w `Dodaj wpis` , a następnie wybieramy rodzaj pola DNS i tu wskazujemy `A` dla
 IPv4 lub/i `AAAA` dla
 IPv6:
 
-![]({{< baseurl >}}/img/2017/03/002.jabber-ejabberd-serwer-debian-linux-dns-rekord-a.png)
+![]({{< baseurl >}}/img/2017/03/002.jabber-ejabberd-serwer-debian-linux-dns-rekord-a.png#big)
 
 Określamy subdomenę na `jabber` oraz wskazujemy adres
 docelowy:
 
-![]({{< baseurl >}}/img/2017/03/003.jabber-ejabberd-serwer-debian-linux-dns-rekord-subdomena.png)
+![]({{< baseurl >}}/img/2017/03/003.jabber-ejabberd-serwer-debian-linux-dns-rekord-subdomena.png#big)
 
 Akceptujemy i powinniśmy ujrzeć poniższe
 podsumowanie:
 
-![]({{< baseurl >}}/img/2017/03/004.jabber-ejabberd-serwer-debian-linux-dns-rekord-subdomena.png)
+![]({{< baseurl >}}/img/2017/03/004.jabber-ejabberd-serwer-debian-linux-dns-rekord-subdomena.png#big)
 
 Niżej jest jeszcze tekstowa wersja wpisu, gdyby ktoś chciał ręcznie go dodać w konfiguracji DNS:
 
@@ -150,21 +150,21 @@ Ponownie odwiedzamy panel OVH i dodajemy kolejny wpis. Tym razem wybieramy jedno
 rozszerzonych, tj. `SRV`
 :
 
-![]({{< baseurl >}}/img/2017/03/006.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv.png)
+![]({{< baseurl >}}/img/2017/03/006.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv.png#big)
 
 I uzupełniamy tak jak to widać na poniższym
 obrazku:
 
-![]({{< baseurl >}}/img/2017/03/007.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv-konfiguracja.png)
+![]({{< baseurl >}}/img/2017/03/007.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv-konfiguracja.png#big)
 
-![]({{< baseurl >}}/img/2017/03/008.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv-konfiguracja.png)
+![]({{< baseurl >}}/img/2017/03/008.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv-konfiguracja.png#big)
 
 Podobnie postępujemy dla drugiego
 rekordu:
 
-![]({{< baseurl >}}/img/2017/03/009.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv-konfiguracja.png)
+![]({{< baseurl >}}/img/2017/03/009.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv-konfiguracja.png#big)
 
-![]({{< baseurl >}}/img/2017/03/010.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv-konfiguracja.png)
+![]({{< baseurl >}}/img/2017/03/010.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv-konfiguracja.png#big)
 
 Poniżej jeszcze dodatkowo tekstowa wersja tych dwóch rekordów na wypadek, gdyby ktoś chciał ręcznie
 edytować konfigurację DNS:
@@ -196,9 +196,9 @@ przeprowadzić dla obu domen jednocześnie. Robimy to w poniższy sposób:
         -d morfitronik.pl,www.morfitronik.pl,jabber.morfitronik.pl \
         --standalone
 
-[![]({{< baseurl >}}/img/2017/03/011.jabber-ejabberd-serwer-debian-linux-certyfikat-letsencrypt-660x212.png)]({{< baseurl >}}/img/2017/03/011.jabber-ejabberd-serwer-debian-linux-certyfikat-letsencrypt.png)
+![]({{< baseurl >}}/img/2017/03/011.jabber-ejabberd-serwer-debian-linux-certyfikat-letsencrypt.png#huge)
 
-![]({{< baseurl >}}/img/2017/03/012.jabber-ejabberd-serwer-debian-linux-certyfikat-letsencrypt.png)
+![]({{< baseurl >}}/img/2017/03/012.jabber-ejabberd-serwer-debian-linux-certyfikat-letsencrypt.png#huge)
 
 Podczas generowania certyfikatu, trzeba tymczasowo wyłączyć serwer www jeśli takowy posiadamy. Warto
 też wspomnieć, że ta subdomena standardowo będzie wskazywać na główny katalog serwisu. W końcu
@@ -413,12 +413,12 @@ w obu przypadkach otrzymał ocenę `A` .
 [Link do testu
 klienckiego](https://xmpp.net/result.php?id=687741):
 
-[![]({{< baseurl >}}/img/2017/03/013.jabber-ejabberd-serwer-debian-linux-wynik-klient-660x189.png)]({{< baseurl >}}/img/2017/03/013.jabber-ejabberd-serwer-debian-linux-wynik-klient.png)
+![]({{< baseurl >}}/img/2017/03/013.jabber-ejabberd-serwer-debian-linux-wynik-klient.png#huge)
 
 [Link to testu
 serwerowego](https://xmpp.net/result.php?id=687742):
 
-[![]({{< baseurl >}}/img/2017/03/014.jabber-ejabberd-serwer-debian-linux-wynik-server-660x189.png)]({{< baseurl >}}/img/2017/03/014.jabber-ejabberd-serwer-debian-linux-wynik-server.png)
+![]({{< baseurl >}}/img/2017/03/014.jabber-ejabberd-serwer-debian-linux-wynik-server.png#huge)
 
 ## Tworzenie kont użytkownikom i podłączenia do serwera
 
@@ -437,7 +437,7 @@ manuala](https://docs.ejabberd.im/admin/guide/managing/)).
 A tak wygląda panel
 admina:
 
-![]({{< baseurl >}}/img/2017/03/015.jabber-ejabberd-serwer-debian-linux-panel-admina.png)
+![]({{< baseurl >}}/img/2017/03/015.jabber-ejabberd-serwer-debian-linux-panel-admina.png#big)
 
 ## Zmiana adresu i zabezpieczenie panelu admina
 
@@ -582,7 +582,7 @@ Certificates klikamy View Certificates. W okienku, które się pojawi, przechodz
 Certificates i klikamy w przycisk Import, gdzie podajemy ścieżkę do pliku `client.p12`
 :
 
-![]({{< baseurl >}}/img/2017/03/016.jabber-ejabberd-serwer-debian-linux-certyfikat-zasoby.png)
+![]({{< baseurl >}}/img/2017/03/016.jabber-ejabberd-serwer-debian-linux-certyfikat-zasoby.png#huge)
 
 Odwiedzamy teraz adres `jabber.morfitronik.pl` . Bez znaczenia jest tutaj czy dodamy z na początku
 `http`/`https` oraz czy określimy zasób `/admin/` , bo i tak wylądujemy docelowo w tym samym

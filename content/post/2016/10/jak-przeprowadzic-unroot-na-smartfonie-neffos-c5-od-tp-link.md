@@ -34,10 +34,9 @@ niniejszym artykule.
 Standardowo w Androidzie każda aplikacja zainstalowana w telefonie ma przypisane indywidualne
 UID/GID (użytkownika i grupę). Żadna aplikacja nie jest w stanie odczytać danych innych programów,
 które zainstalowaliśmy w systemie. Zaprzęgając mechanizm root dajemy możliwość pewnym aplikacjom na
-dostęp do danych każdego innego
-programu.
+dostęp do danych każdego innego programu.
 
-[![001.neffos-c5-unroot-tp-link-prawa-aplikacji-andriud]({{< baseurl >}}/img/2016/10/001.neffos-c5-unroot-tp-link-prawa-aplikacji-andriud-660x371.png)]({{< baseurl >}}/img/2016/10/001.neffos-c5-unroot-tp-link-prawa-aplikacji-andriud.png)
+![]({{< baseurl >}}/img/2016/10/001.neffos-c5-unroot-tp-link-prawa-aplikacji-andriud.png#huge)
 
 Jeśli teraz wgramy podejrzaną aplikację, to może ona wykorzystać fakt ukorzenienia Androida i
 uzyskać dostęp do poufnych danych czy nawet przejąc całkowitą kontrolę nad systemem operacyjnym
@@ -85,10 +84,9 @@ nie byłby możliwy root Neffos'a C5. Tę partycję również musimy przywróci�
 Od czego zatem zacząć powrót do stock'owego oprogramowania naszego Neffos'a C5? To pytanie trzeba
 rozważyć pod kątem wprowadzanych zmian po dokonaniu procesu root. Jeśli nie były one zbyt
 zaawansowane, np. instalowaliśmy jedynie kilka aplikacji wymagających praw administracyjnych w celu
-odczytu plików systemowych, to możemy skorzystać z opcji dostępnej w SuperSU, tj. `Pełny unroot`
-:
+odczytu plików systemowych, to możemy skorzystać z opcji dostępnej w SuperSU, tj. `Pełny unroot` :
 
-[![002.neffos-c5-unroot-tp-link-supersu]({{< baseurl >}}/img/2016/10/002.neffos-c5-unroot-tp-link-supersu-660x361.png)]({{< baseurl >}}/img/2016/10/002.neffos-c5-unroot-tp-link-supersu.png)
+![]({{< baseurl >}}/img/2016/10/002.neffos-c5-unroot-tp-link-supersu.png#huge)
 
 Pamiętajmy tylko, by usunąć wszelkie aplikacje wymagające root przed usunięciem SuperSU.
 
@@ -98,10 +96,9 @@ Jeśli też natrafiliśmy na tego typu problem, to trzeba zresetować smartfon i
 bezpośrednio po włączeniu urządzenia. Po odinstalowaniu SuperSU trzeba uruchomić smartfon ponownie.
 
 Spróbujmy się teraz zalogować na użytkownika root z poziomu jakiegoś terminala. Powinniśmy zobaczyć
-poniższy
-komunikat:
+poniższy komunikat:
 
-[![003.neffos-c5-unroot-tp-link-termux-su]({{< baseurl >}}/img/2016/10/003.neffos-c5-unroot-tp-link-termux-su-660x371.png)]({{< baseurl >}}/img/2016/10/003.neffos-c5-unroot-tp-link-termux-su.png)
+![]({{< baseurl >}}/img/2016/10/003.neffos-c5-unroot-tp-link-termux-su.png#huge)
 
 Nie musimy się obawiać o dane zgromadzone na partycji `/data/` , bo nie zostaną one ruszone w żaden
 sposób. Podobnie sprawa ma się w przypadku karty SD. No i nie zostaną cofnięte żadne zmiany na
@@ -127,10 +124,9 @@ Oczywiście możemy ten krok całkowicie pominąć. W przypadku ewentualnych pro
 telefonu, Factory Reset będziemy mogli przeprowadzić z poziomu trybu recovery (przyciski Power +
 Volume UP trzymane podczas startu telefonu). Jeśli jednak chcemy wyczyścić wszystkie dane na
 partycji `/data/` przed flash'owaniem telefonu, to możemy to zrobić z poziomu działającego systemu
-przechodząc do Ustawienia =\> Kopia i kasowanie danych =\> Ustawienia
-fabryczne:
+przechodząc do Ustawienia => Kopia i kasowanie danych => Ustawienia fabryczne:
 
-[![004.neffos-c5-unroot-tp-link-factory-reset]({{< baseurl >}}/img/2016/10/004.neffos-c5-unroot-tp-link-factory-reset-660x361.png)]({{< baseurl >}}/img/2016/10/004.neffos-c5-unroot-tp-link-factory-reset.png)
+![]({{< baseurl >}}/img/2016/10/004.neffos-c5-unroot-tp-link-factory-reset.png#huge)
 
 ## Przywrócenie partycji /system/ na Neffos C5
 
@@ -172,10 +168,9 @@ Mając wyodrębnioną partycję `/system/` możemy ją wgrać na smartfon przy p
 Potrzebna nam jest tylko mapa przestrzeni flash, a ta siedzi w [pliku
 mt6735-neffos-c5-tp-link-scatter.txt]({{< baseurl >}}/img/manual/mt6735-neffos-c5-tp-link-scatter.txt).
 Jest tam również pozycja dotycząca partycji `/system/` . Odpalamy zatem SP Flash Tool i przechodzimy
-na zakładkę Download, gdzie wskazujemy nasz plik `scatter.txt`
-:
+na zakładkę Download, gdzie wskazujemy nasz plik `scatter.txt` :
 
-[![005.neffos-c5-unroot-tp-link-sp-flash-tool-scatter]({{< baseurl >}}/img/2016/10/005.neffos-c5-unroot-tp-link-sp-flash-tool-scatter-660x418.png)]({{< baseurl >}}/img/2016/10/005.neffos-c5-unroot-tp-link-sp-flash-tool-scatter.png)
+![]({{< baseurl >}}/img/2016/10/005.neffos-c5-unroot-tp-link-sp-flash-tool-scatter.png#huge)
 
 Mamy tutaj wyszczególnione obszary pamięci flash w Neffos C5, które możemy zapisać. Nas interesuje w
 tej chwili tylko pozycja `system` . Zaznaczamy ją i upewniamy się, że nad tabelką wybraliśmy
@@ -185,10 +180,9 @@ telefonu, czyli to on będzie pobierał dane z komputera.
 Podłączamy teraz Neffos'a C5 do portu USB komputera. Następnie w SP Flash Tool przyciskamy przycisk
 Download i wyłączamy telefon. Następnie próbujemy go uruchomić w trybie recovery przyciskając
 przycisk Power + Volume UP jednocześnie. Smartfon się nie uruchomi ale rozpocznie się proces
-flash'owania. Sam proces powinien zakończyć się
-powodzeniem.
+flash'owania. Sam proces powinien zakończyć się powodzeniem.
 
-[![006.neffos-c5-unroot-tp-link-sp-flash-tool-flash]({{< baseurl >}}/img/2016/10/006.neffos-c5-unroot-tp-link-sp-flash-tool-flash-660x419.png)]({{< baseurl >}}/img/2016/10/006.neffos-c5-unroot-tp-link-sp-flash-tool-flash.png)
+![]({{< baseurl >}}/img/2016/10/006.neffos-c5-unroot-tp-link-sp-flash-tool-flash.png#huge)
 
 Teraz można wyciągnąć smartfona z portu USB i uruchomić.
 
@@ -206,7 +200,7 @@ cofnięte. Factory reset powinien nam wyczyścić wszystkie dane na partycji `/d
 także stock'ową partycję `/system/` oraz `recovery` . Z kolei root możemy sprawdzić za pomocą Root
 Check:
 
-[![007.neffos-c5-unroot-tp-link-root-check]({{< baseurl >}}/img/2016/10/007.neffos-c5-unroot-tp-link-root-check-401x660.png)]({{< baseurl >}}/img/2016/10/007.neffos-c5-unroot-tp-link-root-check.png)
+![]({{< baseurl >}}/img/2016/10/007.neffos-c5-unroot-tp-link-root-check.png#medium)
 
 ## Zablokowanie bootloader'a
 
@@ -243,4 +237,4 @@ Smartfon zrestartuje się parokrotnie podczas procesu blokowania bootloader'a al
 powinien się bez większego problemu załadować na domyślnych
 ustawieniach.
 
-[![]({{< baseurl >}}/img/2016/12/008.neffos-c5-unroot-smartfon-tp-link-box-371x660.png)]({{< baseurl >}}/img/2016/12/008.neffos-c5-unroot-smartfon-tp-link-box.png)
+![]({{< baseurl >}}/img/2016/12/008.neffos-c5-unroot-smartfon-tp-link-box.png#medium)

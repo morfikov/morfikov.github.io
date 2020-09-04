@@ -9,6 +9,8 @@ status: publish
 tags:
 - sieć
 - ipv6
+- 6to4
+- sysctl
 title: Implementacja protokołu IPv6 za pomocą tunelu 6to4
 ---
 
@@ -53,13 +55,14 @@ włączą nam obsługi protokołu IPv6. Możemy się o tym przekonać [testując
 połączenie](http://test-ipv6.com/). Jeśli nasz wynik jest podobny do tego poniżej, to nic nie
 szkodzi:
 
-![]({{< baseurl >}}/img/2016/02/1.brak-polaczenia-ipv6-test.png)
+![]({{< baseurl >}}/img/2016/02/1.brak-polaczenia-ipv6-test.png#huge)
 
 ## Tunel 6to4
 
 By zaimplementować sobie protokół IPv6 musimy skonfigurować tunel 6to4. Nie będziemy tutaj korzystać
-z graficznych automatów typu network-manager. Interesuje nas głównie plik `/etc/network/interfaces`
-, do którego musimy dodać konfigurację dla interfejsu `6to4` . Oczywiście [możemy taki tunel
+z graficznych automatów typu network-manager. Interesuje nas głównie plik
+`/etc/network/interfaces` , do którego musimy dodać konfigurację dla interfejsu `6to4` . Oczywiście
+[możemy taki tunel
 utworzyć ręcznie](http://tldp.org/HOWTO/html_single/Linux+IPv6-HOWTO/#configuring-ipv6to4-tunnels)
 za pomocą narzędzi `ip` czy `ifconfig` ale my posłużymy się tym powyższym plikiem. Poniżej jest
 przykładowa konfiguracja:
@@ -113,12 +116,12 @@ i IPv6. Nie jest on przypadkowy i został wyraźnie określony w
 Na dobrą sprawę, to jest cała konfiguracja tunelu 6to4 w debianie. Sprawdźmy zatem czy tunel
 realizuje swoje zadanie:
 
-![]({{< baseurl >}}/img/2016/02/2.test-polaczenia-ipv6-tunel-6to4.png)
+![]({{< baseurl >}}/img/2016/02/2.test-polaczenia-ipv6-tunel-6to4.png#huge)
 
 Wygląda, że działa. W prawdzie ocena połączenia jest 7/10 ale lepsze to niż 0/10. Możemy także
 sprawdzić dodatkowe informacje dotyczące czasów:
 
-![]({{< baseurl >}}/img/2016/02/3.wydajnosc-polaczenia-ipv6-tunel-6to4.png)
+![]({{< baseurl >}}/img/2016/02/3.wydajnosc-polaczenia-ipv6-tunel-6to4.png#big)
 
 ## Oprogramowanie, a protokół IPv6
 

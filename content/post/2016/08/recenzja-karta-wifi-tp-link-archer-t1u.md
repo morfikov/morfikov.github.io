@@ -26,26 +26,24 @@ się prędkością do 433 mbit/s. Zobaczmy zatem jak on spisze się w przypadku 
 
 Opakowanie standardowe, tj. bardzo duże jak na rozmiary samego adaptera. W środku poza kartą Archer
 T1U mamy też płytkę ze sterownikami i całą masę makulatury. Jest też instrukcja w języku polskim.
-Całość wygląda mniej więcej
-tak:
+Całość wygląda mniej więcej tak:
 
-[![1.TP-LINK-Archer-T1U-pudelko]({{< baseurl >}}/img/2016/08/1.TP-LINK-Archer-T1U-pudelko-1024x577.jpg)]({{< baseurl >}}/img/2016/08/1.TP-LINK-Archer-T1U-pudelko.jpg)
+![]({{< baseurl >}}/img/2016/08/1.TP-LINK-Archer-T1U-pudelko.jpg#huge)
 
-[![2.TP-LINK-Archer-T1U-zawartosc-pudelka]({{< baseurl >}}/img/2016/08/2.TP-LINK-Archer-T1U-zawartosc-pudelka-1024x577.jpg)]({{< baseurl >}}/img/2016/08/2.TP-LINK-Archer-T1U-zawartosc-pudelka.jpg)
+![]({{< baseurl >}}/img/2016/08/2.TP-LINK-Archer-T1U-zawartosc-pudelka.jpg#huge)
 
-[![3.TP-LINK-Archer-T1U-karta-adapter-wifi]({{< baseurl >}}/img/2016/08/3.TP-LINK-Archer-T1U-karta-adapter-wifi-1024x577.jpg)]({{< baseurl >}}/img/2016/08/3.TP-LINK-Archer-T1U-karta-adapter-wifi.jpg)
+![]({{< baseurl >}}/img/2016/08/3.TP-LINK-Archer-T1U-karta-adapter-wifi.jpg#huge)
 
-[![4.TP-LINK-Archer-T1U-karta-adapter-wifi]({{< baseurl >}}/img/2016/08/4.TP-LINK-Archer-T1U-karta-adapter-wifi-1024x577.jpg)]({{< baseurl >}}/img/2016/08/4.TP-LINK-Archer-T1U-karta-adapter-wifi.jpg)
+![]({{< baseurl >}}/img/2016/08/4.TP-LINK-Archer-T1U-karta-adapter-wifi.jpg#huge)
 
-[![5.TP-LINK-Archer-T1U-karta-adapter-wifi]({{< baseurl >}}/img/2016/08/5.TP-LINK-Archer-T1U-karta-adapter-wifi-1024x577.jpg)]({{< baseurl >}}/img/2016/08/5.TP-LINK-Archer-T1U-karta-adapter-wifi.jpg)
+![]({{< baseurl >}}/img/2016/08/5.TP-LINK-Archer-T1U-karta-adapter-wifi.jpg#huge)
 
-[![6.TP-LINK-Archer-T1U-karta-adapter-wifi]({{< baseurl >}}/img/2016/08/6.TP-LINK-Archer-T1U-karta-adapter-wifi-1024x577.jpg)]({{< baseurl >}}/img/2016/08/6.TP-LINK-Archer-T1U-karta-adapter-wifi.jpg)
+![]({{< baseurl >}}/img/2016/08/6.TP-LINK-Archer-T1U-karta-adapter-wifi.jpg#huge)
 
 Jak widać, adapter jest malutki. Po wsadzeniu go do portu USB, idealnie komponuje się z obudową
-laptopa. Nie wystaje zanadto i nie idzie go uszkodzić przez przypadkowe
-zahaczenie:
+laptopa. Nie wystaje zanadto i nie idzie go uszkodzić przez przypadkowe zahaczenie:
 
-[![7.TP-LINK-Archer-T1U-laptop]({{< baseurl >}}/img/2016/08/7.TP-LINK-Archer-T1U-laptop-1024x577.jpg)]({{< baseurl >}}/img/2016/08/7.TP-LINK-Archer-T1U-laptop.jpg)
+![]({{< baseurl >}}/img/2016/08/7.TP-LINK-Archer-T1U-laptop.jpg#huge)
 
 ## Sterowniki i firmware dla Archer T1U
 
@@ -73,7 +71,7 @@ Po wielu trudach znalezienia rozwiązania problemu sterowników do karty Archer 
 [fork bazowych sterowników](https://github.com/xaep/mt7610u_wifi_sta_v3002_dpo_20130916), które
 znośnie się budują na najnowszym kernelu dostępnym w Debianie. Znośnie nie oznacza bez błędów, oraz
 też pozostaje kwestia jakości samego modułu. [Proces budowy modułu
-mt7610u\_sta]({{< baseurl >}}/post/sterowniki-karta-wifi-archer-t1u-mt7610u_sta/) został opisany w
+mt7610u_sta]({{< baseurl >}}/post/sterowniki-karta-wifi-archer-t1u-mt7610u_sta/) został opisany w
 osobnym artykule.
 
 ## Specyfikacja karty Archer T1U
@@ -243,7 +241,7 @@ Jakieś testy trzeba przeprowadzić, by nie być gołosłownym. Zatem po podpię
 zapuściłem `iperf` . Poniżej jest fotka obrazująca transfer z laptopa oddalonego od routera o jakieś
 2 metry:
 
-![]({{< baseurl >}}/img/2016/08/7.TP-LINK-Archer-T1U-test-linux.png)
+![]({{< baseurl >}}/img/2016/08/7.TP-LINK-Archer-T1U-test-linux.png#huge)
 
 Biorąc pod uwagę fakt rozpoczęcia pracy i przepracowane 2 minuty, to transfer jest taki sobie.
 Pamiętajmy, że Archer T1U ma pracować w paśmie 5 GHz i osiągać prędkość do 433 mbit/s. Póki co
@@ -252,13 +250,13 @@ nawet się nie zbliżył do połowy tej wartości.
 Przestawmy laptopa trochę dalej (3-4 metry) od routera i między te dwa urządzenia wstawmy niezbyt
 grubą ścianę:
 
-![]({{< baseurl >}}/img/2016/08/8.TP-LINK-Archer-T1U-test-linux.png)
+![]({{< baseurl >}}/img/2016/08/8.TP-LINK-Archer-T1U-test-linux.png#huge)
 
 Tu już mamy dość poważny problem z ubytkiem transferu.
 
 No to pójdźmy jeszcze dalej (6 metrów) i dołóżmy jeszcze jedną ścianę:
 
-![]({{< baseurl >}}/img/2016/08/9.TP-LINK-Archer-T1U-test-linux.png)
+![]({{< baseurl >}}/img/2016/08/9.TP-LINK-Archer-T1U-test-linux.png#huge)
 
 Z początku nie było tak źle, w porównaniu do poprzedniej próby. Natomiast w połowie testu coś się
 stało i transfer zdechł zupełnie. To jest właśnie ten moment, w którym karta uległa przegrzaniu.

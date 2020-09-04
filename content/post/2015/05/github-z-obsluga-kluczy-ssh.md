@@ -9,10 +9,10 @@ status: publish
 tags:
 - ssh
 - git
-title: Github z obsługą kluczy SSH
+title: GitHub z obsługą kluczy SSH
 ---
 
-W końcu przyszedł czas na eksperymenty z serwisem github. Jakby nie patrzeć, do tej pory jedyne co
+W końcu przyszedł czas na eksperymenty z serwisem GitHub. Jakby nie patrzeć, do tej pory jedyne co
 potrafiłem zrobić w przypadku samego gita, to wydać jedno polecenie, którym było `git clone` .
 Wszelkie inne rzeczy, choć nie było ich wcale tak dużo, robiłem via panel www, co trochę było
 upierdliwe. Postanowiłem nauczyć się obsługi gita i nieco uprościć sobie życie. Jeśli chodzi o samą
@@ -22,7 +22,7 @@ przeczytałem, tylko zajmę się ciekawym tematem jakim jest implementacja klucz
 na gicie bez zbędnych haseł.
 
 <!--more-->
-## Implementacja kluczy SSH w serwisie github
+## Implementacja kluczy SSH w serwisie GitHub
 
 Przede wszystkim potrzebne będą nam [klucze
 SSH]({{< baseurl >}}/post/uwierzytelniajace-klucze-ssh/) ale cały proces ich tworzenia nie
@@ -32,18 +32,18 @@ SSH oraz, że jesteśmy w posiadaniu konta na [githabie](https://github.com/).
 Mając klucz SSH i konto, możemy przejść do powiązania tych dwóch rzeczy ze sobą. W tym celu włazimy
 w opcje konta i po lewej stronie klikamy w `SSH keys` :
 
-![]({{< baseurl >}}/img/2015/06/1.ssh-github-profil.png)
+![]({{< baseurl >}}/img/2015/06/1.ssh-github-profil.png#medium)
 
 Teraz klikamy na `ADD SSH key` (prawy róg) i uzupełniamy pola od nazwy i klucza. Powinno to wyglądać
 mniej więcej tak:
 
-![]({{< baseurl >}}/img/2015/06/2.dodawanie-kluczy-ssh-github.png)
+![]({{< baseurl >}}/img/2015/06/2.dodawanie-kluczy-ssh-github.png#huge)
 
 Po pomyślnym dodaniu klucza powinniśmy zobaczyć go na liście:
 
-![]({{< baseurl >}}/img/2015/06/3.dodawanie-kluczy-ssh-github-2.png)
+![]({{< baseurl >}}/img/2015/06/3.dodawanie-kluczy-ssh-github-2.png#huge)
 
-I to w sumie z grubsza tyle jeśli chodzi o konfigurację github'a. Natomiast by mieć pewność, że
+I to w sumie z grubsza tyle jeśli chodzi o konfigurację GitHub'a. Natomiast by mieć pewność, że
 wszystkie powyższe kroki przeprowadziliśmy należycie, możemy przetestować konfigurację:
 
     $ ssh -T git@github.com

@@ -29,7 +29,7 @@ automatycznie zostaniemy przełączeni na drugie łącze (failover). W tym artyk
 zaprojektować taki właśnie mechanizm.
 
 <!--more-->
-## Filtrowanie trasy powrotnej (rp\_filter)
+## Filtrowanie trasy powrotnej (rp_filter)
 
 Ze względów bezpieczeństwa, cześć dystrybucji linux'a włącza mechanizm filtrowania trasy powrotnej
 pakietów. Gdy maszyna, która ma włączony ten mechanizm otrzymuje pakiet, próbuje pierw sprawdzić czy
@@ -194,7 +194,7 @@ tras ([tutaj są przykłady](http://linux-ip.net/html/routing-tables.html#routin
     otrzymają błąd EACCESS.
   - `blackhole` -- miejsce docelowe jest nieosiągalne. Pakiety są zrzucane po cichu. Lokalni nadawcy
     otrzymują błąd EINVAL.
-  - `nat` -- ten typ trasy służył do realizacji NAT. W jądrze serii \>2.6 nie jest obsługiwany.
+  - `nat` -- ten typ trasy służył do realizacji NAT. W jądrze serii >2.6 nie jest obsługiwany.
   - `anycast` -- nie zaimplementowane. Miejsce docelowe jest adresem typu `anycast`
     przyporządkowanym do lokalnej maszyny. Ten typ trasy jest podobny do `local` z tą różnicą, że
     adres docelowy nie jest poprawnym adresem źródłowym.
@@ -310,7 +310,7 @@ musimy określić domyślną bramę. Robimy to przy pomocy tych poniższych pole
 W tej chwili tablice routingu powinny wyglądać mniej więcej tak jak na tym poniższym
 obrazku:
 
-![]({{< baseurl >}}/img/2016/05/1.load-balancing-failover-debian-linux-isp-tablica-routingu.png)
+![]({{< baseurl >}}/img/2016/05/1.load-balancing-failover-debian-linux-isp-tablica-routingu.png#huge)
 
 By ten cały mechanizm routujący puścić w ruch potrzebne nam są jeszcze reguły routingu. To w oparciu
 o nie, kernel będzie wiedział gdzie ma przesłać dany pakiet.
@@ -391,12 +391,12 @@ ruch zostanie przełączony automatycznie na drugi z nich.
 ## Równoważenie obciążenia (load balancing)
 
 Równoważenie obciążenia również zahacza o markowanie pakietów w `iptables` . Potrzebna nam jest
-tylko reguła, która z pewnym prawdopodobieństwem oznaczy pakiety nowych połączeń markiem `0x5/0xff`
-. Natomiast pozostałe połączenia, które nie mają jeszcze nałożonego marka, zostaną oznaczone
-markerem `0x2/0xff` . Jak tego typu zadanie zrealizować? Przede wszystkim, potrzebna nam jest baza
-markująca. Jeśli korzystamy z kontroli ruchu w wykonaniu `tc` (traffic control), to po dokładny opis
-jak ten mechanizm wykonać odsyłam pod podlinkowany wyżej wpis. Nam natomiast potrzebne są te
-poniższe reguły, które trzeba dodać do `iptables` :
+tylko reguła, która z pewnym prawdopodobieństwem oznaczy pakiety nowych połączeń markiem
+`0x5/0xff` . Natomiast pozostałe połączenia, które nie mają jeszcze nałożonego marka, zostaną
+oznaczone markerem `0x2/0xff` . Jak tego typu zadanie zrealizować? Przede wszystkim, potrzebna nam
+jest baza markująca. Jeśli korzystamy z kontroli ruchu w wykonaniu `tc` (traffic control), to po
+dokładny opis jak ten mechanizm wykonać odsyłam pod podlinkowany wyżej wpis. Nam natomiast
+potrzebne są te poniższe reguły, które trzeba dodać do `iptables` :
 
     iptables -t mangle -N load-in
     iptables -t mangle -N load-out
@@ -434,15 +434,14 @@ No to przyszła pora teraz przetestować, czy aby na pewno pakiety są rozsyłan
 nam powinno rzucić od razu w oczy, to oczywiście poprawa transferu. Można dla sprawdzenia odpalić
 klienta torrent i nim zapuścić kilka obrazów z linux'ami. Poniżej jest przykładowy wykres:
 
-![]({{< baseurl >}}/img/2016/05/2.load-balancing-failover-debian-linux-isp-test.png)
+![]({{< baseurl >}}/img/2016/05/2.load-balancing-failover-debian-linux-isp-test.png#huge)
 
 Przepustowość łącza jednego z moich ISP to 15/1 mbit/s. Drugie łącze to LTE i pod względem
 przepustowości, to waha się znacznie w zależności od pory dnia. Widzimy wyżej na wykresie, że ogólny
 transfer przekroczył te 15 mbit/s. Zatem oba łącza są w wykorzystaniu. Jeśli nadal nie wierzymy, że
-pakiety idą przez obu ISP, to wystarczy zobaczyć statystyki interfejsów sieciowych w `bmon`
-:
+pakiety idą przez obu ISP, to wystarczy zobaczyć statystyki interfejsów sieciowych w `bmon` :
 
-![]({{< baseurl >}}/img/2016/05/3.load-balancing-failover-debian-linux-isp-test-bmon.png)
+![]({{< baseurl >}}/img/2016/05/3.load-balancing-failover-debian-linux-isp-test-bmon.png#huge)
 
 Tu już widzimy, że tej konkretnej chwili na interfejsie `bond0` mamy transfer 1.29 MiB/s oraz, że na
 interfejsie `wwan0` mamy nieco ponad 720 KiB/s. Interfejs `eth0` jest w tym przypadku bez znaczenia,

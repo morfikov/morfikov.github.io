@@ -18,16 +18,14 @@ zwykle leżą one gdzieś w konfiguracji urządzenia. Jeśli dodatkowo wystąpi�
 sieci/internetu, to wybrnięcie z tej sytuacji może być dość kłopotliwe. DD-WRT posiada mechanizm
 resetu, tzw. factory defaults, który jest w stanie zresetować router do ustawień fabrycznych i
 przywrócić nam nad nim kontrolę. W tym wpisie zobaczymy jak przeprowadzić taki reset ustawień na
-przykładzie mojego [routera TL-WDR3600](http://www.tp-link.com.pl/products/details/TL-WDR3600.html)
-od TP-LINK.
+przykładzie mojego [routera TL-WDR3600][1] od TP-LINK.
 
 <!--more-->
 ## Problemy z ustawieniami DD-WRT
 
-Zmiany w ustawieniach firmware DD-WRT są przechowywane w
-[NVRAM](https://pl.wikipedia.org/wiki/Nieulotna_pami%C4%99%C4%87_o_dost%C4%99pie_swobodnym)
-(Non-Volatile RAM). W ten sposób wszystkie zmiany, które wprowadzamy w panelu administracyjnym mogą
-przetrwać restart routera czy też aktualizację jego firmware.
+Zmiany w ustawieniach firmware DD-WRT są przechowywane w [NVRAM][2] (Non-Volatile RAM). W ten
+sposób wszystkie zmiany, które wprowadzamy w panelu administracyjnym mogą przetrwać restart routera
+czy też aktualizację jego firmware.
 
 W przypadku pojawienia się krytycznego błędu w tych ustawieniach, taki błąd również przetrwa restart
 routera. Problemy z ustawieniami mogą się także pojawić, gdy chcemy wgrać nowszą wersję firmware na
@@ -41,18 +39,16 @@ w stanie ją odzyskać resetując ustawienia do domyślnych, czyli czyszcząc ca
 
 Reset ustawień z poziomu panelu administracyjnego można przeprowadzić odwiedzając w przeglądarce
 adres `http://192.168.1.1/` i przechodząc na zakładkę =\> Administration =\> Factory Defaults. Tutaj
-wystarczy zaznaczyć `Restore Factory Defaults` i zaaplikować
-ustawienia:
+wystarczy zaznaczyć `Restore Factory Defaults` i zaaplikować ustawienia:
 
-![]({{< baseurl >}}/img/2016/09/1.dd-wrt-factory-defaults-panel-admina-reset-ustawien.png)
+![]({{< baseurl >}}/img/2016/09/1.dd-wrt-factory-defaults-panel-admina-reset-ustawien.png#huge)
 
 Za każdym razem, gdy będziemy aktualizować DD-WRT do nowszej wersji, przydałoby się zresetować
 ustawienia firmware. Nie musimy jednak robić tego osobno w powyższej zakładce. Możemy przejść na
-Administration =\> Firmware Upgrade i tam mamy opcję `After flashing, reset to` , która wyczyści
-przestrzeń NVRAM tuż po procesie flash'owania
-routera:
+Administration => Firmware Upgrade i tam mamy opcję `After flashing, reset to` , która wyczyści
+przestrzeń NVRAM tuż po procesie flash'owania routera:
 
-![]({{< baseurl >}}/img/2016/09/2.dd-wrt-factory-defaults-panel-admina-reset-ustawien.png)
+![]({{< baseurl >}}/img/2016/09/2.dd-wrt-factory-defaults-panel-admina-reset-ustawien.png#huge)
 
 ## Reset ustawień przez przez przycisk na obudowie routera
 
@@ -73,11 +69,11 @@ nim komendę `telnet 192.168.2.1` . Adres oczywiście trzeba sobie dostosować d
 Zostaniemy poproszeni o login i hasło. Login to `root` , a hasło jest takie jak ustawialiśmy przez
 panel administracyjny (domyślnie `admin` ).
 
-![]({{< baseurl >}}/img/2016/09/2.dd-wrt-hard-reset-telnet.png)
+![]({{< baseurl >}}/img/2016/09/2.dd-wrt-hard-reset-telnet.png#huge)
 
 Teraz wystarczy już tylko wpisać w terminalu `erase nvram` i zresetować router poleceniem `reboot` :
 
-![]({{< baseurl >}}/img/2016/09/3.dd-wrt-hard-reset-telnet.png)
+![]({{< baseurl >}}/img/2016/09/3.dd-wrt-hard-reset-telnet.png#huge)
 
 Po tych krokach, stracimy połączenie z routerem. Samo urządzenie zaś powinno się po chwili uruchomić
 ponownie. Teraz już powinniśmy być w stanie zalogować się na router z poziomu panelu webowego
@@ -85,11 +81,10 @@ wpisując w przeglądarce adres `http://192.168.1.1/` .
 
 ## Factory defaults, a Hard Reset
 
-Na wiki DD-WRT jest artykuł dotyczący czegoś co się nazywa [Hard
-Reset 30/30/30](https://www.dd-wrt.com/wiki/index.php/Hard_reset_or_30/30/30). Możemy tam wyczytać,
-że przed i po każdym procesie flash'owania routera nowym firmware powinniśmy resetować router z
-wykorzystaniem tego mechanizmu Hard Reset. Mamy też tam informację, że Hard Reset nie jest tym samym
-co factory defaults.
+Na wiki DD-WRT jest artykuł dotyczący czegoś co się nazywa [Hard Reset 30/30/30][3]. Możemy tam
+wyczytać, że przed i po każdym procesie flash'owania routera nowym firmware powinniśmy resetować
+router z wykorzystaniem tego mechanizmu Hard Reset. Mamy też tam informację, że Hard Reset nie jest
+tym samym co factory defaults.
 
 Okazuje się jednak, że ten cały Hard Reset to dość stary sposób na reset ustawień routerów i to
 głównie tych wyposażonych w podzespoły producenta Broadcom. W nowszych routerach, zwłaszcza tych
@@ -102,3 +97,7 @@ czynność, którą można opisać obecnie jako Hard Reset 30/30/30. Nie musimy 
 w sposób zalecany przez wiki DD-WRT. Po prostu instalujemy/aktualizujemy firmware, a jak wystąpią
 jakieś problemy z konfiguracją, to przywracamy ją do ustawień domyślnych za pomocą jednego z powyżej
 opisanych sposobów.
+
+[1]: http://www.tp-link.com.pl/products/details/TL-WDR3600.html
+[2]: https://pl.wikipedia.org/wiki/Nieulotna_pami%C4%99%C4%87_o_dost%C4%99pie_swobodnym
+[3]: https://www.dd-wrt.com/wiki/index.php/Hard_reset_or_30/30/30

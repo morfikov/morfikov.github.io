@@ -11,6 +11,7 @@ tags:
 - hdd
 - ssd
 - gpt
+- partycja
 title: Konwersja tablicy partycji MS-DOS na GPT
 ---
 
@@ -29,7 +30,7 @@ trochę bardziej wysilić.
 Do celów testowych wykorzystam mój stary dysk, na którym to są obecne 4 partycje, w tym jedna
 rozszerzona, na której to zostały ulokowane dwa dyski logiczne:
 
-![]({{< baseurl >}}/img/2015/06/3.dysk-po-konwersji-tablicy-ms-dos-na-gpt.png)
+![]({{< baseurl >}}/img/2015/06/3.dysk-po-konwersji-tablicy-ms-dos-na-gpt.png#huge)
 
 Tak z kolei wygląda dysk widziany oczami `parted` , z tym, że z uwzględnieniem wolnych przestrzeni:
 
@@ -51,10 +52,9 @@ Tak z kolei wygląda dysk widziany oczami `parted` , z tym, że z uwzględnienie
 
 By przeprowadzić bezproblemowo konwersję tablicy partycji MS-DOS na GPT, trzeba mieć troszeczkę
 wolnego miejsca na początku i na końcu dysku. Ile? Struktura GPT wygląda tak jak na rysunku poniżej
-(zaczerpnięty z
-[wiki](https://en.wikipedia.org/wiki/GUID_Partition_Table)):
+(zaczerpnięty z [wiki](https://en.wikipedia.org/wiki/GUID_Partition_Table)):
 
-[![2.gpt-schemat]({{< baseurl >}}/img/2015/06/2.gpt-schemat-745x1024.png)]({{< baseurl >}}/img/2015/06/2.gpt-schemat.png)
+![]({{< baseurl >}}/img/2015/06/2.gpt-schemat.png#medium)
 
 Mamy tam zatem po jednym sektorze na MBR oraz nagłówek GPT, oraz 32 sektory na tablicę partycji.
 Łącznie daje to 34 sektory 512 bajtowe, co przekłada się na `17408` bajtów wolnego miejsca na
@@ -92,7 +92,7 @@ dysku:
 
 Jak widać wyżej, `gdisk` wykrył, że ma do czynienia z tablicą partycji MS-DOS oraz poinformował nas,
 że dokonał jej konwersji na GPT, z tym, że zmiany póki co są dokonane jedynie w pamięci operacyjnej.
-Jeśli chcemy je wprowadzić w życie, wpisujemy `w`:
+Jeśli chcemy je wprowadzić w życie, wpisujemy `w` :
 
     Command (? for help): w
 
@@ -119,7 +119,7 @@ Sprawdzamy, czy faktycznie tablica partycji uległa zmianie:
 Czyli proces bez problemu się zakończył. Rzućmy jeszcze okiem na to jak wygląda struktura partycji w
 `gparted` :
 
-![]({{< baseurl >}}/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png)
+![]({{< baseurl >}}/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png#huge)
 
 Są widoczne jakieś dwie dziury. Może `parted` nam coś więcej podpowie:
 
@@ -151,7 +151,7 @@ bootloadera o rozmiarze minimum 1MiB, najlepiej dać tam 128MiB. Ważne jest by 
 ustawioną flagę `bios_grub` . Ja wyciąłem ten kawałek z pierwszej partycji. Cały układ powinien
 zatem wyglądać tak jak na obrazku poniżej:
 
-![]({{< baseurl >}}/img/2015/06/4.odpowiedni-uklad-partycji-gpt.png)
+![]({{< baseurl >}}/img/2015/06/4.odpowiedni-uklad-partycji-gpt.png#huge)
 
 Jeśli na dysku mieliśmy system operacyjny, to trzeba także przeinstalować bootloader przy pomocy
 [środowiska chroot]({{< baseurl >}}/post/przygotowanie-srodowiska-chroot-do-pracy/), najlepiej z

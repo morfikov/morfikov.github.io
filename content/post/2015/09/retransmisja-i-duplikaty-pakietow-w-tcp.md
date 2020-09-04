@@ -9,6 +9,7 @@ status: publish
 tags:
 - tcp
 - sysctl
+- sieć
 title: Retransmisja i duplikaty pakietów w TCP
 ---
 
@@ -23,9 +24,9 @@ zjawisko utraty pakietów podczas ich przesyłu między dwoma punktami sieciowym
 
 Czas oczekiwania na retransmisję (RTO -- Retransmission TimeOut) jest oparty na zmierzonej wartości
 RTT (Round-Trip Time) pomiędzy nadawcą i odbiorcą. By zapobiec zbędnym retransmisjom segmentów,
-które uległy jedynie opóźnieniu i nie zostały zgubione, minimalne RTO (stała TCP\_RTO\_MIN
+które uległy jedynie opóźnieniu i nie zostały zgubione, minimalne RTO (stała TCP_RTO_MIN
 zdefiniowana w kenrelu) zostało ustawione na minimum 200ms. Możemy się o tym przekonać analizując
-wyjście `ss -i` , gdzie nie znajdziemy wpisu z RTO\<200 .
+wyjście `ss -i` , gdzie nie znajdziemy wpisu z RTO <200 .
 
 Jeśli się przyjrzymy uważniej, dostrzeżemy, że pakiety `SYN` mają jakąś niestandardową wartość,
 która sugeruje iż te pakiety nie są podpięte pod tę powyższą zasadę wyliczania czasu RTO. W sumie
@@ -74,10 +75,9 @@ kilka takich pakietów (zwykle 3), musi natychmiast wstrzymać transmisję nast�
 retransmisji zagubionego segmentu. Dopiero po otrzymaniu od klienta potwierdzenia tego pakietu,
 transmisja wraca do normy.
 
-Poniżej jest przykładowa sytuacja, gdzie nastąpiła szybka retransmisja
-pakietu:
+Poniżej jest przykładowa sytuacja, gdzie nastąpiła szybka retransmisja pakietu:
 
-[![1.szybka-retransmisja-pakietu-wireshark]({{< baseurl >}}/img/2015/07/1.szybka-retransmisja-pakietu-wireshark-1024x222.png)]({{< baseurl >}}/img/2015/07/1.szybka-retransmisja-pakietu-wireshark.png)
+![]({{< baseurl >}}/img/2015/07/1.szybka-retransmisja-pakietu-wireshark.png#huge)
 
 Jak widzimy, pakiet 344 został dostarczony do klienta i potwierdzenie (254041) w pakiecie 345
 zostało wysłane do nadawcy. Następny pakiet się zagubił i do klienta dotarł inny pakiet, który ma
@@ -174,7 +174,7 @@ zretransmitować pakiet `SYN` 4 razy i jeśli żadna z tych prób się nie powie
 kernel odpuści. Popatrzmy zatem jak takie zachowanie wygląda w
 praktyce:
 
-[![1.retransmisja-syn-wireshark]({{< baseurl >}}/img/2015/07/1.retransmisja-syn-wireshark-1024x124.png)]({{< baseurl >}}/img/2015/07/1.retransmisja-syn-wireshark.png)
+![]({{< baseurl >}}/img/2015/07/1.retransmisja-syn-wireshark.png#huge)
 
 ### Retransmisja pakietów SYN-ACK
 
@@ -192,10 +192,9 @@ połączeń przez zmianę ilości retransmisji pakietów `SYN-ACK` . Dopisujemy 
     net.ipv4.tcp_synack_retries = 2
 
 Trzeba jednak pamiętać, że obniżenie wartości tego parametru w przypadku słabych łącz może powodować
-problemy. Poniżej fotka z próbą retransmisji dwóch pakietów `SYN-ACK`
-:
+problemy. Poniżej fotka z próbą retransmisji dwóch pakietów `SYN-ACK` :
 
-[![2.retransmisja-syn-ack-wireshark]({{< baseurl >}}/img/2015/07/2.retransmisja-syn-ack-wireshark-1024x114.png)]({{< baseurl >}}/img/2015/07/2.retransmisja-syn-ack-wireshark.png)
+![]({{< baseurl >}}/img/2015/07/2.retransmisja-syn-ack-wireshark.png#huge)
 
 ## Zbędna retransmisja (Spurious retransmission)
 

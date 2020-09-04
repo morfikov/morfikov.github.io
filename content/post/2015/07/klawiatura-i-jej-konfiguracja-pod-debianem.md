@@ -10,7 +10,8 @@ tags:
 - xserver
 - initramfs
 - locale
-title: Klawiatura i jej konfiguracja pod debianem
+- klawiatura
+title: Klawiatura i jej konfiguracja pod Debianem
 ---
 
 W środowiskach graficznych, np. GNOME czy KDE, nie musimy zbytnio się zastanawiać nad tym jak
@@ -24,7 +25,7 @@ multimedialne]({{< baseurl >}}/post/klawiatura-multimedialna-i-niedzialajace-kla
 <!--more-->
 ## Klawiatura pod Xserver'em
 
-Na debianie klawiaturę można konfigurować w kilku miejscach. Jedną z opcji jest stworzenie
+Na Debianie klawiaturę można konfigurować w kilku miejscach. Jedną z opcji jest stworzenie
 odpowiednich plików konfiguracyjnych dla Xserver'a. Niemniej jednak, trzeba pamiętać, że środowiska
 graficzne kompletnie ignorują te ustawienia. Dla przykładu, stwórzmy plik Xorga w
 `/etc/X11/xorg.conf.d/10-keyboard.conf` z konfiguracją klawiatury podobną do tej poniżej:
@@ -65,7 +66,7 @@ tutaj](https://wiki.archlinux.org/index.php/Keyboard_configuration_in_Xorg#Frequ
   - `grp_led:scroll` -- sygnalizowanie diodą scroll lock na klawiaturze, który układ aktualnie
     obowiązuje.
 
-## Natywne narzędzia debiana
+## Natywne narzędzia Debiana
 
 Debian ma swoje własne narzędzia, które ułatwiają konfigurację klawiatury i służy do tego pakiet
 `keyboard-configuration` . Prawdopodobnie mamy go zainstalowanego w systemie, jeśli jednak go
@@ -76,28 +77,28 @@ szereg pytań i raczej nie powinno z nimi być żadnych problemów.
 
 Możemy wybrać model klawiatury:
 
-![]({{< baseurl >}}/img/2015/06/1.debian-konfiguracja-klawiatura.png)
+![]({{< baseurl >}}/img/2015/06/1.debian-konfiguracja-klawiatura.png#huge)
 
 Jak i również język:
 
-![]({{< baseurl >}}/img/2015/06/2.debian-konfiguracja-klawiatura.png)
+![]({{< baseurl >}}/img/2015/06/2.debian-konfiguracja-klawiatura.png#huge)
 
 Oraz układ:
 
-![]({{< baseurl >}}/img/2015/06/3.debian-konfiguracja-klawiatura.png)
+![]({{< baseurl >}}/img/2015/06/3.debian-konfiguracja-klawiatura.png#huge)
 
 A także dostosować klawisz `AltGr` , który odpowiada za możliwość wprowadzania polskich znaków:
 
-![]({{< baseurl >}}/img/2015/06/4.debian-konfiguracja-klawiatura.png)
+![]({{< baseurl >}}/img/2015/06/4.debian-konfiguracja-klawiatura.png#huge)
 
 Jest też opcja dla klawisza `compose` , to ten co umożliwia wprowadzanie dodatkowych znaków utf-8,
 np. `®` :
 
-![]({{< baseurl >}}/img/2015/06/5.debian-konfiguracja-klawiatura.png)
+![]({{< baseurl >}}/img/2015/06/5.debian-konfiguracja-klawiatura.png#huge)
 
 Możemy także zdefiniować kilka opcji dla Xserver'a, choć jedynie tylko te podstawowe:
 
-![]({{< baseurl >}}/img/2015/06/6.debian-konfiguracja-klawiatura.png)
+![]({{< baseurl >}}/img/2015/06/6.debian-konfiguracja-klawiatura.png#huge)
 
 Zaowocuje to stworzeniem pliku `/etc/default/keyboard` o poniższej zawartości:
 

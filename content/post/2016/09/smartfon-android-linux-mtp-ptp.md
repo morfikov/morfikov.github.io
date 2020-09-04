@@ -63,10 +63,9 @@ więcej na takiej samej zasadzie jak odbywa się nasza komunikacja z serwerami H
 
 W opcjach Androida możemy sobie wybrać czy zamierzamy korzystać z protokołu MTP czy też i PTP. W tym
 celu wystarczy podłączyć smartfon do portu USB komputera. Na ekranie smartfona powinna nam się
-pojawić poniższa
-wiadomość:
+pojawić poniższa wiadomość:
 
-[![1smartfon-linux-protokol-mtp-ptp-podlaczanie-usb]({{< baseurl >}}/img/2016/09/1smartfon-linux-protokol-mtp-ptp-podlaczanie-usb-371x660.png)]({{< baseurl >}}/img/2016/09/1smartfon-linux-protokol-mtp-ptp-podlaczanie-usb.png)
+![]({{< baseurl >}}/img/2016/09/1smartfon-linux-protokol-mtp-ptp-podlaczanie-usb.png#medium)
 
 Jak widzimy wyżej, jeśli nasz komputer nie wspiera protokołu MTP, to wybieramy PTP. Linux'y na
 szczęście nie mają problemów z protokołem MTP i dlatego to on został wyżej zaznaczony.
@@ -796,11 +795,11 @@ W tym przypadku zostały zwrócone numerki `2` oraz `71` , zatem adres, który m
 menadżerze plików to `mtp://[usb:002,071]/` . Niestety mój menadżer plików nie obsługuje tego typu
 adresów. Można natomiast posłużyć się [narzędziem gmtp](https://gmtp.sourceforge.io/):
 
-![]({{< baseurl >}}/img/2016/09/2.smartfon-linux-protokol-mtp-ptp-gmtp.png)
+![]({{< baseurl >}}/img/2016/09/2.smartfon-linux-protokol-mtp-ptp-gmtp.png#huge)
 
 I jeszcze info o urządzeniu zwracane przez `gmtp` :
 
-![]({{< baseurl >}}/img/2016/09/3.smartfon-linux-protokol-mtp-ptp-gmtp.png)
+![]({{< baseurl >}}/img/2016/09/3.smartfon-linux-protokol-mtp-ptp-gmtp.png#huge)
 
 ## Problemy z przeglądaniem zasobów smartfona
 

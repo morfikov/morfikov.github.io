@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+- pliki
 title: 'WordPress: Jakość miniaturek zdjęć'
 ---
 
@@ -24,14 +25,14 @@ Problem jest jednak z jakością samych miniaturek.
 ## Wymiary miniaturek
 
 Zacznijmy może od określenia wymiarów miniaturek. Naturalnie możemy to zrobić przez panel
-administracyjny (Settings =\> Media):
+administracyjny (Settings => Media):
 
-![]({{< baseurl >}}/img/2015/06/1.wordpress-jakosc-miniaturek-ustawienia.png)
+![]({{< baseurl >}}/img/2015/06/1.wordpress-jakosc-miniaturek-ustawienia.png#big)
 
 Jeśli teraz wgramy jakiś obrazek i spróbujemy umieścić go na blogu, powinniśmy mieć do wyboru kilka
 dodatkowych rozmiarów:
 
-![]({{< baseurl >}}/img/2015/06/2.wordpress-jakosc-miniaturek-rozmiar.png)
+![]({{< baseurl >}}/img/2015/06/2.wordpress-jakosc-miniaturek-rozmiar.png#small)
 
 Każdy z tych rozmiarów, za wyjątkiem `Full Size` prawdopodobnie będzie w dość strasznej jakości.
 Naturalnie, że skoro obrazki są mniejsze, to i ich jakość nie jest taka sama jak tego

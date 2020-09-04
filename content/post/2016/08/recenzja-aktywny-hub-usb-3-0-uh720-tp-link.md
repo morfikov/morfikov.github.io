@@ -30,39 +30,36 @@ UH720](http://www.tp-link.com.pl/products/details/UH720.html)od TP-LINK
 Zobaczmy sobie na początek jak prezentuje się HUB UH720. Poniżej są fotki opakowania i jego
 zawartości:
 
-[![1.hub-usb3-UH270-tp-link-pudelko]({{< baseurl >}}/img/2016/08/1.hub-usb3-UH270-tp-link-pudelko-1024x577.jpg)]({{< baseurl >}}/img/2016/08/1.hub-usb3-UH270-tp-link-pudelko.jpg)
+![]({{< baseurl >}}/img/2016/08/1.hub-usb3-UH270-tp-link-pudelko.jpg#big)
 
-[![2.hub-usb3-UH270-tp-link-zawartosc-pudelka]({{< baseurl >}}/img/2016/08/2.hub-usb3-UH270-tp-link-zawartosc-pudelka-1024x577.jpg)]({{< baseurl >}}/img/2016/08/2.hub-usb3-UH270-tp-link-zawartosc-pudelka.jpg)
+![]({{< baseurl >}}/img/2016/08/2.hub-usb3-UH270-tp-link-zawartosc-pudelka.jpg#big)
 
-[![3.hub-usb3-UH270-tp-link-zawartosc-pudelka]({{< baseurl >}}/img/2016/08/3.hub-usb3-UH270-tp-link-zawartosc-pudelka-1024x577.jpg)]({{< baseurl >}}/img/2016/08/3.hub-usb3-UH270-tp-link-zawartosc-pudelka.jpg)
+![]({{< baseurl >}}/img/2016/08/3.hub-usb3-UH270-tp-link-zawartosc-pudelka.jpg#big)
 
-[![4.1.hub-usb3-UH270-tp-link-zawartosc-pudelka]({{< baseurl >}}/img/2016/08/4.1.hub-usb3-UH270-tp-link-zawartosc-pudelka-1024x730.jpg)]({{< baseurl >}}/img/2016/08/4.1.hub-usb3-UH270-tp-link-zawartosc-pudelka.jpg)
+![]({{< baseurl >}}/img/2016/08/4.1.hub-usb3-UH270-tp-link-zawartosc-pudelka.jpg#big)
 
 Jak widzimy, nie jest to małe urządzenie. Jego wymiary oscylują w granicach 165 x 65,5 x 17,5 mm. Na
 spodzie HUB'a zaś mamy dwie gumowe nóżki zapobiegające jego przemieszczaniu na śliskich
 powierzchniach.
 
-[![4.2.hub-usb3-UH270-tp-link-gumowe-nozki]({{< baseurl >}}/img/2016/08/4.2.hub-usb3-UH270-tp-link-gumowe-nozki-1024x577.jpg)]({{< baseurl >}}/img/2016/08/4.2.hub-usb3-UH270-tp-link-gumowe-nozki.jpg)
+![]({{< baseurl >}}/img/2016/08/4.2.hub-usb3-UH270-tp-link-gumowe-nozki.jpg#big)
 
 W pudełku poza samym HUB'em USB, mamy jeszcze przewód USB3 (długość około 1 metra), przy pomocy
-którego możemy to urządzenie podłączyć do
-komputera:
+którego możemy to urządzenie podłączyć do komputera:
 
-[![5.hub-usb3-UH270-tp-link-przewod]({{< baseurl >}}/img/2016/08/5.hub-usb3-UH270-tp-link-przewod-1024x577.jpg)]({{< baseurl >}}/img/2016/08/5.hub-usb3-UH270-tp-link-przewod.jpg)
+![]({{< baseurl >}}/img/2016/08/5.hub-usb3-UH270-tp-link-przewod.jpg#big)
 
-Do zestawu jest także dołączony zasilacz
-12V/3,3A:
+Do zestawu jest także dołączony zasilacz 12V/3,3A:
 
-[![6.hub-usb3-UH270-tp-link-zasilacz]({{< baseurl >}}/img/2016/08/6.hub-usb3-UH270-tp-link-zasilacz-1024x577.jpg)]({{< baseurl >}}/img/2016/08/6.hub-usb3-UH270-tp-link-zasilacz.jpg)
+![]({{< baseurl >}}/img/2016/08/6.hub-usb3-UH270-tp-link-zasilacz.jpg#big)
 
 ## Porty USB3
 
 HUB UH720 dysponuje siedmioma portami USB3. Zatem mamy możliwość wykorzystania do 5 gbit/s przy
 transferze danych z i do urządzeń. Trzeba jednak pamiętać, że faktyczna prędkość zwykle będzie
-limitowana przez same urządzenia podpięte do
-HUB'a.
+limitowana przez same urządzenia podpięte do HUB'a.
 
-[![7.hub-usb3-UH270-tp-link-porty]({{< baseurl >}}/img/2016/08/7.hub-usb3-UH270-tp-link-porty-1024x577.jpg)]({{< baseurl >}}/img/2016/08/7.hub-usb3-UH270-tp-link-porty.jpg)
+![]({{< baseurl >}}/img/2016/08/7.hub-usb3-UH270-tp-link-porty.jpg#big)
 
 Nad każdym niebieskim gniazdkiem jest malutka dioda, która świeci białym światłem po podłączeniu
 urządzenia do HUB'a. Myślałem, że może ta dioda będzie sygnalizować, np. transfer danych ale tak
@@ -81,10 +78,9 @@ raczej ten problem zostanie wyeliminowany na dobre.
 ## Porty ładujące
 
 Na bocznym panelu HUB'a UH720 mamy dwa dodatkowe porty USB, z tym, że są to typowe porty ładujące.
-Umożliwiają one ładowanie urządzeń, które pobierają maksymalnie 2,4 A (smartfony,
-tablety).
+Umożliwiają one ładowanie urządzeń, które pobierają maksymalnie 2,4 A (smartfony, tablety).
 
-[![8.hub-usb3-UH270-tp-link-porty-ladujace]({{< baseurl >}}/img/2016/08/8.hub-usb3-UH270-tp-link-porty-ladujace-1024x577.jpg)]({{< baseurl >}}/img/2016/08/8.hub-usb3-UH270-tp-link-porty-ladujace.jpg)
+![]({{< baseurl >}}/img/2016/08/8.hub-usb3-UH270-tp-link-porty-ladujace.jpg#big)
 
 Problem z tymi portami jest taki, że nie damy rady przetransferować przez nie żadnych danych do
 komputera. Czyli za pomocą tych portów możemy wprawdzie naładować naszego smartfona ale by przesłać
@@ -110,10 +106,9 @@ temat interesował.
 
 HUB UH720 może być zasilany z portu USB komputera (tryb pasywny) lub za pomocą zasilacza dołączonego
 do zestawu (tryb aktywny). Z tyłu HUB'a UH720 mamy dwa gniazdka. Do jednego podpinamy przewód USB z
-wtyczką Micro USB 3.0 Standard B. Do drugiego podłączamy
-zasilacz:
+wtyczką Micro USB 3.0 Standard B. Do drugiego podłączamy zasilacz:
 
-[![9.hub-usb3-UH270-tp-link-zasilanie]({{< baseurl >}}/img/2016/08/9.hub-usb3-UH270-tp-link-zasilanie-1024x577.jpg)]({{< baseurl >}}/img/2016/08/9.hub-usb3-UH270-tp-link-zasilanie.jpg)
+![]({{< baseurl >}}/img/2016/08/9.hub-usb3-UH270-tp-link-zasilanie.jpg#big)
 
 Warto zaznaczyć, że przypadku trybu pasywnego, takie urządzenie jest zasilane z portu USB komputera.
 Jest zatem niemal pewne, że przy podpięciu dwóch bardziej prądożernych urządzeń, np. modem LTE i
@@ -142,10 +137,9 @@ W lewym górnym rogu na powierzchni HUB'a UH720 jest ulokowany przycisk power. D
 przypadku podłączenia zasilacza. Przy pomocy tego przycisku, jesteśmy w stanie całkowicie odciąć
 zasilanie HUB'a, tj. system operacyjny przestanie nam widzieć to urządzenie. W przypadku, gdy HUB
 działa w trybie pasywnym, przycisk nie reaguje w żaden sposób na przyciśnięcie, a dioda, która jest
-w przycisku power, święci się cały
-czas.
+w przycisku power, święci się cały czas.
 
-[![10.hub-usb3-UH270-tp-link-przycisk-power]({{< baseurl >}}/img/2016/08/10.hub-usb3-UH270-tp-link-przycisk-power-1024x577.jpg)]({{< baseurl >}}/img/2016/08/10.hub-usb3-UH270-tp-link-przycisk-power.jpg)
+![]({{< baseurl >}}/img/2016/08/10.hub-usb3-UH270-tp-link-przycisk-power.jpg#big)
 
 ## HUB UH720 pod linux'em
 

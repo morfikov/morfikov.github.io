@@ -52,16 +52,15 @@ zapytania powędrują przez VPN. Natomiast ruch DNS zostanie przesłany bezpośr
 serwera DNS i tu właśnie doświadczymy DNS leak. Poniżej przykład z wireshark'a. Z lewej strony mamy
 interfejs `tun0` . Po prawej zaś jest fizyczny interfejs `eth0` :
 
-[![1.dns-leak-lokalny-serwer-isp]({{< baseurl >}}/img/2016/04/1.dns-leak-lokalny-serwer-isp-1024x215.png)]({{< baseurl >}}/img/2016/04/1.dns-leak-lokalny-serwer-isp.png)
+![]({{< baseurl >}}/img/2016/04/1.dns-leak-lokalny-serwer-isp.png#huge)
 
 Trzeba wyraźnie zaznaczyć, że ten problem dotyczy jedynie lokalnych serwerów DNS, które zwykle są
 implementowane w domowych routerach WiFi. Po części też taki DNS leak może wystąpić w przypadku
 serwerów DNS od ISP ale to tylko wtedy, gdy ISP korzysta z prywatnych bloków adresowych, tj
 10.0.0.0/8 czy 192.168.0.0/16 . W przypadku globalnych providerów DNS, takich jak google, czy
-OpenDNS, DNS leak nie występuje. Poniżej
-przykład:
+OpenDNS, DNS leak nie występuje. Poniżej przykład:
 
-[![2.brak-dns-leak-google-serwer]({{< baseurl >}}/img/2016/04/2.brak-dns-leak-google-serwer-1024x229.png)]({{< baseurl >}}/img/2016/04/2.brak-dns-leak-google-serwer.png)
+![]({{< baseurl >}}/img/2016/04/2.brak-dns-leak-google-serwer.png#huge)
 
 Dzieje się tak dlatego, że adres IP 8.8.8.8 nie jest lokalny i zapytania do tego serwera muszą
 zostać przesłane przez bramę domyślną, tj. wrzucone w szyfrowany tunel, którym powędrują do VPN.
@@ -137,7 +136,7 @@ To oznacza, że mechanizm działa prawidłowo i zapytania DNS są kierowane do s
 od VPN. Możemy także zweryfikować połączenie pod kątem DNS leak zapuszczając ponownie wireshark'a na
 interfejsach `eth0` i `tun0` . Poniżej przykład:
 
-[![3.brak-dns-leak-serwer-vpn]({{< baseurl >}}/img/2016/04/3.brak-dns-leak-serwer-vpn-1024x221.png)]({{< baseurl >}}/img/2016/04/3.brak-dns-leak-serwer-vpn.png)
+![]({{< baseurl >}}/img/2016/04/3.brak-dns-leak-serwer-vpn.png#huge)
 
 ## Dodatkowe zabezpieczenia przed DNS leak
 
@@ -170,14 +169,12 @@ od VPN. Każde inne zapytanie DNS będzie blokowane przez dwie ostatnie reguły.
 
 W przypadku `down` musimy dopisać na końcu ten poniższy kod:
 
-
 	  if [ ! -z "$foreign_option_1" ] || [ ! -z "$foreign_option_2" ] ; then
 		$IPT -D OUTPUT -p tcp --dport 53 -j openvpn
 		$IPT -D OUTPUT -p udp --dport 53 -j openvpn
 		$IPT -F openvpn
 		$IPT -X openvpn
 	  fi
-
 
 Sprawdza on czy zmienne, w których są przechowywane adresy serwerów DNS, są puste. Jeśli któraś z
 nich nie jest, oznacza to, że VPN dysponuje serwerami DNS. W takim przypadku należy usunąć

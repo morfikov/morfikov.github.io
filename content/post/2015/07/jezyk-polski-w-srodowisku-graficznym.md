@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - locale
+- openbox
 title: Język polski w środowisku graficznym
 ---
 
@@ -56,7 +57,7 @@ zmienną na `C`, wtedy listowane najpierw będą pliki zawierające z przodu kro
 następne będą pliki, których nazwy zaczynają się od wielkich liter i na końcu te zaczynające się z
 małych liter. Problematyczna może być zmienna `LC_TIME` , która odpowiada za ustawienie formatu daty
 i czasu. Ja bardzo lubię datę w formacie [ISO-8601](https://pl.wikipedia.org/wiki/ISO_8601), tj.
-YYYY-MM-DD ale domyślne ustawienia języka en\_US.UTF-8 preferują datę w zapisie MM/DD/YYYY . I tu
+YYYY-MM-DD ale domyślne ustawienia języka en_US.UTF-8 preferują datę w zapisie MM/DD/YYYY . I tu
 mamy właśnie ukazaną wyższość ręcznego dostosowywania lokalizacji nad wszelkimi rodzajami automatów,
 bo możemy wpłynąć na format danych, które będą nam prezentowane przez interfejsy aplikacji.
 
@@ -81,12 +82,12 @@ Odpalamy zatem terminal i logujemy się na konto root, po czym wydajemy poniższ
 
 Naszym oczom powinien się ukazać następujący komunikat:
 
-![]({{< baseurl >}}/img/2015/06/1.linux-jezyk-polski.png)
+![]({{< baseurl >}}/img/2015/06/1.linux-jezyk-polski.png#huge)
 
 Mamy tam informację, że standardowo powinniśmy zaznaczyć pozycje, które mają kodowanie UTF-8 ale o
 tym za moment. Klikamy `OK` i teraz już powinniśmy mieć dostęp do wyboru lokalizacji:
 
-![]({{< baseurl >}}/img/2015/06/2.linux-jezyk-polski.png)
+![]({{< baseurl >}}/img/2015/06/2.linux-jezyk-polski.png#huge)
 
 Jak widzimy wyżej mamy dwie pozycje odpowiadające za język polski, zgodnie ze wcześniejszą
 instrukcją zaznaczamy jedynie tę przy której stoi `UTF-8` . Mi nigdy ta druga pozycja nie była do
@@ -99,14 +100,14 @@ jeśli jakaś z nich nie została przetłumaczona na język polski, to wtedy ten
 
 Jako, że mamy co najmniej dwie różne lokalizacje, to trzeba wskazać domyślną dla całego systemu:
 
-![]({{< baseurl >}}/img/2015/06/3.linux-jezyk-polski.png)
+![]({{< baseurl >}}/img/2015/06/3.linux-jezyk-polski.png#huge)
 
 Ten krok spowoduje utworzenie pliku `/etc/default/locale` z ustawioną zmienną `LANG` na
 `pl_PL.UTF-8` .
 
 Po konfiguracji powinno zostać wygenerowane również i archiwum:
 
-![]({{< baseurl >}}/img/2015/06/4.linux-jezyk-polski.png)
+![]({{< baseurl >}}/img/2015/06/4.linux-jezyk-polski.png#huge)
 
 Język polski powinien być dostępny po ponownym uruchomieniu komputera. Powyższe kroki jednak nie
 wszędzie ustawią odpowiednie kodowanie znaków, mianowicie pod TTY będą problemy z ich wyświetlaniem

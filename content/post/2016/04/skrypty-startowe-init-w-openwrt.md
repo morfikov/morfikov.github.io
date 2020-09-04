@@ -9,6 +9,7 @@ status: publish
 tags:
 - chaos-calmer
 - router
+- init
 title: Skrypty startowe init w OpenWRT
 ---
 
@@ -32,7 +33,7 @@ przeszkodzie, aby stworzyć własne opcje i przypisać im określone akcje. By s
 opcjami dysponuje jakiś skrypt startowy, najlepiej jest go po prostu podejrzeć lub też wywołać go
 bez żadnej opcji. Poniżej przykład:
 
-![]({{< baseurl >}}/img/2016/04/2.skrypty-startowe-openwrt.png)
+![]({{< baseurl >}}/img/2016/04/2.skrypty-startowe-openwrt.png#huge)
 
 Przy pomocy opcji `start` lub `stop` jesteśmy w stanie uruchomić usługę lub ją zatrzymać. Możemy
 także taką usługę zrestartować przy pomocy `restart` . Choć można ten sam stan rzeczy otrzymać
@@ -48,12 +49,13 @@ Każdy z plików zlokalizowanych w `/etc/init.d/` posiada nagłówek. W nim zawa
 temat pozycji skryptu w kolejce podczas fazy boot. Odpowiada za to zmienna `START` . Z kolei zmienna
 `STOP` jest opcjonalna i dotyczy kolejności wyłączania usług. Poniżej jest przykład:
 
-![]({{< baseurl >}}/img/2016/04/3.skrypty-startowe-openwrt-naglowek.png)
+![]({{< baseurl >}}/img/2016/04/3.skrypty-startowe-openwrt-naglowek.png#medium)
 
-Te dwie powyższe zmienne są brane pod uwagę przy wywoływaniu skryptu z opcjami `enable` i `disable`
-. Po ich wydaniu, w katalogu `/etc/rc.d/` zostaną utworzone dowiązania do skryptu, przykładowo:
+Te dwie powyższe zmienne są brane pod uwagę przy wywoływaniu skryptu z opcjami `enable` i
+`disable` . Po ich wydaniu, w katalogu `/etc/rc.d/` zostaną utworzone dowiązania do skryptu,
+przykładowo:
 
-![]({{< baseurl >}}/img/2016/04/1.skrypty-startowe-kolejnosc-startu-openwrt-boot.png)
+![]({{< baseurl >}}/img/2016/04/1.skrypty-startowe-kolejnosc-startu-openwrt-boot.png#huge)
 
 Nazwa linku jest taka sama jak nazwa skryptu, z tą różnicą, że mamy tam dodatkowo literki `S` lub
 `K` i jakiś numerek. Skrypty, które mają linki zaczynające się od `S` będą ładowane przy starcie

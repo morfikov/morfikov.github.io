@@ -37,41 +37,35 @@ która jest w stanie zapisywać obraz i dźwięk na kartę SD.
 Zaczniemy standardowo, czyli na początek fotki pudełka i jego
 zawartości.
 
-[![]({{< baseurl >}}/img/2017/02/001.nc450-tp-link-kamera-ip-pudelko-660x504.jpg)]({{< baseurl >}}/img/2017/02/001.nc450-tp-link-kamera-ip-pudelko.jpg)
+![]({{< baseurl >}}/img/2017/02/001.nc450-tp-link-kamera-ip-pudelko.jpg#big)
 
-[![]({{< baseurl >}}/img/2017/02/002.nc450-tp-link-kamera-ip-zawartosc-660x495.jpg)]({{< baseurl >}}/img/2017/02/002.nc450-tp-link-kamera-ip-zawartosc.jpg)
+![]({{< baseurl >}}/img/2017/02/002.nc450-tp-link-kamera-ip-zawartosc.jpg#big)
 
-[![]({{< baseurl >}}/img/2017/02/003.nc450-tp-link-kamera-ip-zawartosc-opakowania-660x498.jpg)]({{< baseurl >}}/img/2017/02/003.nc450-tp-link-kamera-ip-zawartosc-opakowania.jpg)
+![]({{< baseurl >}}/img/2017/02/003.nc450-tp-link-kamera-ip-zawartosc-opakowania.jpg#big)
 
 ## Specyfikacja kamery NC450
 
 Jak widać, opakowanie jest duże, bo mamy dość sporo elementów. Najważniejszym z nich jest oczywiście
 to urządzenie w kształcie nieco przerośniętego kurzego jaja. Dokładne wymiary naszej kamery to:
-144x109x106 mm. A tak się ono prezentuje z
-bliska:
+144x109x106 mm. A tak się ono prezentuje z bliska:
 
-[![]({{< baseurl >}}/img/2017/02/004.nc450-tp-link-kamera-ip-przod-634x660.jpg)]({{< baseurl >}}/img/2017/02/004.nc450-tp-link-kamera-ip-przod.jpg)
-
-[![]({{< baseurl >}}/img/2017/02/005.nc450-tp-link-kamera-ip-tyl-660x650.jpg)]({{< baseurl >}}/img/2017/02/005.nc450-tp-link-kamera-ip-tyl.jpg)
-
-[![]({{< baseurl >}}/img/2017/02/006.nc450-tp-link-kamera-ip-bok1-644x660.jpg)]({{< baseurl >}}/img/2017/02/006.nc450-tp-link-kamera-ip-bok1.jpg)
-
-[![]({{< baseurl >}}/img/2017/02/007.nc450-tp-link-kamera-ip-bok2-629x660.jpg)]({{< baseurl >}}/img/2017/02/007.nc450-tp-link-kamera-ip-bok2.jpg)
+|   |   |
+|---|---|
+| ![]({{< baseurl >}}/img/2017/02/004.nc450-tp-link-kamera-ip-przod.jpg#medium) | ![]({{< baseurl >}}/img/2017/02/005.nc450-tp-link-kamera-ip-tyl.jpg#medium) |
+| ![]({{< baseurl >}}/img/2017/02/006.nc450-tp-link-kamera-ip-bok1.jpg#medium) | ![]({{< baseurl >}}/img/2017/02/007.nc450-tp-link-kamera-ip-bok2.jpg#medium) |
 
 Na bokach kamery mamy szereg otworów, choć dziurki są tylko z jednej strony (może zapomnieli
-dowiercić z
-drugiej):
+dowiercić z drugiej):
 
-[![]({{< baseurl >}}/img/2017/02/0071.nc450-tp-link-kamera-ip-glosnik-660x383.jpg)]({{< baseurl >}}/img/2017/02/0071.nc450-tp-link-kamera-ip-glosnik.jpg)
+![]({{< baseurl >}}/img/2017/02/0071.nc450-tp-link-kamera-ip-glosnik.jpg#medium)
 
 Za tymi otworami skrywany jest dość głośny głośniczek, przez który możemy nadawać komunikaty
 głosowe.
 
 Na spodzie frontowej części obudowy mamy zielono-czerwoną diodę oraz mikrofon, przy pomocy którego
-osoba monitorowana może się z nami
-porozumieć:
+osoba monitorowana może się z nami porozumieć:
 
-[![]({{< baseurl >}}/img/2017/02/0072.nc450-tp-link-kamera-ip-dioda-mikrofon-660x321.jpg)]({{< baseurl >}}/img/2017/02/0072.nc450-tp-link-kamera-ip-dioda-mikrofon.jpg)
+![]({{< baseurl >}}/img/2017/02/0072.nc450-tp-link-kamera-ip-dioda-mikrofon.jpg#big)
 
 W ten sposób ta kamera NC450 zapewnia nam komunikację w obie strony, co bardzo cieszy, choć głośność
 tego wbudowanego głośniczka mogłaby być regulowana, bo serio mam wrażenie jakbym gadał przez
@@ -82,14 +76,13 @@ mikro SD (max 32G). Obok mamy port Ethernet (RJ-45), gniazdo zasilania oraz przy
 dzięki któremu zresetujemy ustawienia kamery do fabrycznych i nawiążemy szybko połączenie z siecią
 bezprzewodową.
 
-[![]({{< baseurl >}}/img/2017/02/0073.nc450-tp-link-kamera-ip-tyl-panel-660x386.jpg)]({{< baseurl >}}/img/2017/02/0073.nc450-tp-link-kamera-ip-tyl-panel.jpg)
+![]({{< baseurl >}}/img/2017/02/0073.nc450-tp-link-kamera-ip-tyl-panel.jpg#big)
 
 Kamera NC450 została wyposażona w progresywny przetwornik obrazu CMOS 1/4 cala i soczewki F:2,0
 (jasność obiektywu), f: 3,6 mm (ogniskowa). Kąt widzenia na podglądzie obrazu to około 75°. Poniżej
-jeszcze fotka samego obiektywu, nad którą mamy czujnik poziomu
-światła:
+jeszcze fotka samego obiektywu, nad którą mamy czujnik poziomu światła:
 
-[![]({{< baseurl >}}/img/2017/02/008.nc450-tp-link-kamera-ip-obiektyw-562x660.jpg)]({{< baseurl >}}/img/2017/02/008.nc450-tp-link-kamera-ip-obiektyw.jpg)
+![]({{< baseurl >}}/img/2017/02/008.nc450-tp-link-kamera-ip-obiektyw.jpg#medium)
 
 To urządzenie jest w stanie rejestrować obraz w rozdzielczości 1280x720p (1 mpix) przy maksymalnie
 30 FPS. Pliki zapisywane są w formacie H.264.
@@ -99,16 +92,12 @@ To urządzenie jest w stanie rejestrować obraz w rozdzielczości 1280x720p (1 m
 Może i kąt widzenia na podglądzie obrazu to około 75° ale w zasadzie można ten parametr zignorować.
 To, co niewątpliwie odróżnia kamerę NC450 od innych TP-LINK'owych kamer, to możliwość obrotu kamery
 w poziomie (300°) oraz pionie (110°), co zapewnia dość szerokie pole widzenia w granicach 360° i
-150°
-(poziom/pion).
+150° (poziom/pion).
 
-[![]({{< baseurl >}}/img/2017/02/009.nc450-tp-link-kamera-ip-poziom1-660x533.jpg)]({{< baseurl >}}/img/2017/02/009.nc450-tp-link-kamera-ip-poziom1.jpg)
-
-[![]({{< baseurl >}}/img/2017/02/010.nc450-tp-link-kamera-ip-poziom2-660x566.jpg)]({{< baseurl >}}/img/2017/02/010.nc450-tp-link-kamera-ip-poziom2.jpg)
-
-[![]({{< baseurl >}}/img/2017/02/011.nc450-tp-link-kamera-ip-pion1-612x660.jpg)]({{< baseurl >}}/img/2017/02/011.nc450-tp-link-kamera-ip-pion1.jpg)
-
-[![]({{< baseurl >}}/img/2017/02/012.nc450-tp-link-kamera-ip-pion2-569x660.jpg)]({{< baseurl >}}/img/2017/02/012.nc450-tp-link-kamera-ip-pion2.jpg)
+|   |   |
+|---|---|
+| ![]({{< baseurl >}}/img/2017/02/009.nc450-tp-link-kamera-ip-poziom1.jpg#medium) | ![]({{< baseurl >}}/img/2017/02/010.nc450-tp-link-kamera-ip-poziom2.jpg#medium) |
+| ![]({{< baseurl >}}/img/2017/02/011.nc450-tp-link-kamera-ip-pion1.jpg#medium) | ![]({{< baseurl >}}/img/2017/02/012.nc450-tp-link-kamera-ip-pion2.jpg#medium) |
 
 Co ciekawe, kamerą można obracać również programowo czy to przez aplikację na smartfona (tpCamera),
 czy też przez panel administracyjny z poziomu przeglądarki. Zatem możemy uzyskać podgląd z dowolnego
@@ -118,42 +107,37 @@ miejsca monitoringu, o ile jest ono w zasięgu kamery.
 
 Kamera NC450 jest w stanie komunikować się bezprzewodowo w paśmie 2,4 GHz w standardzie N do 300
 mbit/s. TP-LINK podaje, że liczba jednoczesnych klientów, którzy mogą uzyskać podgląd z kamery to
-13. Do zestawu została dołączona także taka oto zewnętrzna antena w celu poprawy zasięgu
-WiFi.
+13. Do zestawu została dołączona także taka oto zewnętrzna antena w celu poprawy zasięgu WiFi.
 
-[![]({{< baseurl >}}/img/2017/02/013.nc450-tp-link-kamera-ip-antena-660x194.jpg)]({{< baseurl >}}/img/2017/02/013.nc450-tp-link-kamera-ip-antena.jpg)
+![]({{< baseurl >}}/img/2017/02/013.nc450-tp-link-kamera-ip-antena.jpg#medium)
 
-[![]({{< baseurl >}}/img/2017/02/014.nc450-tp-link-kamera-ip-antena-zlacze-660x628.jpg)]({{< baseurl >}}/img/2017/02/014.nc450-tp-link-kamera-ip-antena-zlacze.jpg)
+![]({{< baseurl >}}/img/2017/02/014.nc450-tp-link-kamera-ip-antena-zlacze.jpg#medium)
 
-A tak wygląda NC450 z podpiętą
-antenką:
+A tak wygląda NC450 z podpiętą antenką:
 
-[![]({{< baseurl >}}/img/2017/02/015.nc450-tp-link-kamera-ip-z-antena-660x531.jpg)]({{< baseurl >}}/img/2017/02/015.nc450-tp-link-kamera-ip-z-antena.jpg)
+![]({{< baseurl >}}/img/2017/02/015.nc450-tp-link-kamera-ip-z-antena.jpg#big)
 
 Niestety na stronie TP-LINK nie ma informacji na temat zysku energetycznego tej anteny. Podejrzewam
 jednak, że jest to standardowe 3 dBi. Tak czy inaczej, umożliwienie podłączenia zewnętrznej anteny
 można zaliczyć jak najbardziej na plus. Może niekoniecznie ta antena dołączona do zestawu urywa
 pewną część ciała ale do tego złącza RP-SMA można podłączyć, np. [antenę
 TL-ANT2408C](http://www.tp-link.com.pl/products/details/cat-5691_TL-ANT2408C.html) , która w pewnych
-sytuacjach może znacząco poprawić odbiór sygnału z domowego routera
-WiFi:
+sytuacjach może znacząco poprawić odbiór sygnału z domowego routera WiFi:
 
-[![]({{< baseurl >}}/img/2017/02/016.nc450-tp-link-kamera-ip-z-antena-zew-532x660.jpg)]({{< baseurl >}}/img/2017/02/016.nc450-tp-link-kamera-ip-z-antena-zew.jpg)
+![]({{< baseurl >}}/img/2017/02/016.nc450-tp-link-kamera-ip-z-antena-zew.jpg#big)
 
 ### Power over Ethernet (PoE)
 
 Kamera NC450 jest także wyposażona w jeden port RJ-45 (100 mbit/s), który może zostać wykorzystany
 do przewodowej komunikacji z tym urządzeniem. Jednak to, na co warto zwrócić największą uwagę, to
-fakt, że TP-LINK dołączył do zestawu adapter
-PoE:
+fakt, że TP-LINK dołączył do zestawu adapter PoE:
 
-[![]({{< baseurl >}}/img/2017/02/017.nc450-tp-link-kamera-ip-poe-adapter-660x412.jpg)]({{< baseurl >}}/img/2017/02/017.nc450-tp-link-kamera-ip-poe-adapter.jpg)
+![]({{< baseurl >}}/img/2017/02/017.nc450-tp-link-kamera-ip-poe-adapter.jpg#medium)
 
 Możemy zatem bez problemu tę kamerę zasilić przez przewód Ethernet. Niemniej jednak, w dalszym ciągu
-w jakiś sposób musimy zasilić sam
-adapter:
+w jakiś sposób musimy zasilić sam adapter:
 
-[![]({{< baseurl >}}/img/2017/02/018.nc450-tp-link-kamera-ip-poe-adapter-podlaczenie-495x660.jpg)]({{< baseurl >}}/img/2017/02/018.nc450-tp-link-kamera-ip-poe-adapter-podlaczenie.jpg)
+![]({{< baseurl >}}/img/2017/02/018.nc450-tp-link-kamera-ip-poe-adapter-podlaczenie.jpg#big)
 
 Jeśli stosujemy takie rozwiązanie i chcemy podłączyć kamerę przewodowo zamiast po WiFi, to
 naturalnie możemy pociągnąć drugą skrętkę z portu LAN adaptera i podpiąć przewód do routera.
@@ -161,10 +145,9 @@ naturalnie możemy pociągnąć drugą skrętkę z portu LAN adaptera i podpią�
 ### Tryb nocny
 
 Kamera NC450 posiada także zestaw diod podczerwieni, a konkretnie jest ich 8, co zapewnia dość dobrą
-widoczność w całkowitych ciemnościach na dystansie około 6-8
-metrów.
+widoczność w całkowitych ciemnościach na dystansie około 6-8 metrów.
 
-[![]({{< baseurl >}}/img/2017/02/019.nc450-tp-link-kamera-ip-diody-podczerwieni-449x660.jpg)]({{< baseurl >}}/img/2017/02/019.nc450-tp-link-kamera-ip-diody-podczerwieni.jpg)
+![]({{< baseurl >}}/img/2017/02/019.nc450-tp-link-kamera-ip-diody-podczerwieni.jpg#big)
 
 ### Pobór prądu
 
@@ -172,9 +155,9 @@ W pudełku z NC450 można także doszukać się zasilacza 12V/1A wraz z przedłu
 przewód o długości około 1,5 metra. Natomiast przedłużacz jest w stanie jeszcze dołożyć kolejne 3
 metry.
 
-[![]({{< baseurl >}}/img/2017/02/020.nc450-tp-link-kamera-ip-zasilacz-660x600.jpg)]({{< baseurl >}}/img/2017/02/020.nc450-tp-link-kamera-ip-zasilacz.jpg)
-
-[![]({{< baseurl >}}/img/2017/02/021.nc450-tp-link-kamera-ip-zasilacz-info-660x464.jpg)]({{< baseurl >}}/img/2017/02/021.nc450-tp-link-kamera-ip-zasilacz-info.jpg)
+|   |   |
+|---|---|
+| ![]({{< baseurl >}}/img/2017/02/020.nc450-tp-link-kamera-ip-zasilacz.jpg#medium) | ![]({{< baseurl >}}/img/2017/02/021.nc450-tp-link-kamera-ip-zasilacz-info.jpg#medium) |
 
 Nasza kamera jest zatem w stanie pociągnąć do 12 Wat energii na godzinę. A jak jest w istocie? W
 zasadzie ta kamera podłączona przewodowo z podpiętym jednym klientem pobiera około 2,5W. W przypadku
@@ -187,18 +170,13 @@ godzinę.
 
 Kamerę NC450 można postawić na biurku czy na półce i tyle ale w zestawie mamy również elementy
 montażowe, które pozwalają przymocować to urządzenie do ściany lub sufitu. Poniżej znajduje się
-regulowana podstawka, którą można przykręcić do spodu
-kamery:
+regulowana podstawka, którą można przykręcić do spodu kamery:
 
-[![]({{< baseurl >}}/img/2017/02/022.nc450-tp-link-kamera-ip-uchwyt1-660x460.jpg)]({{< baseurl >}}/img/2017/02/022.nc450-tp-link-kamera-ip-uchwyt1.jpg)
-
-[![]({{< baseurl >}}/img/2017/02/023.nc450-tp-link-kamera-ip-uchwyt2-654x660.jpg)]({{< baseurl >}}/img/2017/02/023.nc450-tp-link-kamera-ip-uchwyt2.jpg)
-
-[![]({{< baseurl >}}/img/2017/02/024.nc450-tp-link-kamera-ip-urchwyt3-660x379.jpg)]({{< baseurl >}}/img/2017/02/024.nc450-tp-link-kamera-ip-urchwyt3.jpg)
-
-[![]({{< baseurl >}}/img/2017/02/025.nc450-tp-link-kamera-ip-spod-660x637.jpg)]({{< baseurl >}}/img/2017/02/025.nc450-tp-link-kamera-ip-spod.jpg)
-
-[![]({{< baseurl >}}/img/2017/02/026.nc450-tp-link-kamera-ip-srubki-660x398.jpg)]({{< baseurl >}}/img/2017/02/026.nc450-tp-link-kamera-ip-srubki.jpg)
+|   |   |
+|---|---|
+| ![]({{< baseurl >}}/img/2017/02/022.nc450-tp-link-kamera-ip-uchwyt1.jpg#medium) | ![]({{< baseurl >}}/img/2017/02/023.nc450-tp-link-kamera-ip-uchwyt2.jpg#medium) |
+| ![]({{< baseurl >}}/img/2017/02/024.nc450-tp-link-kamera-ip-urchwyt3.jpg#medium) | ![]({{< baseurl >}}/img/2017/02/025.nc450-tp-link-kamera-ip-spod.jpg#medium) |
+| ![]({{< baseurl >}}/img/2017/02/026.nc450-tp-link-kamera-ip-srubki.jpg#medium) |
 
 Ta podstawka jest solidna, choć wykonana z plastiku. Jak widać wyżej, uchwyt ma możliwość regulacji.
 Dobrze, że w tej kamerze nie ma już tego śmiesznego kulkowego regulatora, który się odkręcał przy
@@ -206,10 +184,9 @@ zmianie położenia kamery. Tutaj, by zmienić położenie kamery trzeba pierw p
 śrubkę. Po zmianie położenia zaś wszystko można mocno i pewnie skręcić, co zapewnia nas, że kamera
 sama z siebie przypadkiem się nie przemieści.
 
-A tak wygląda NC450 na
-mocowaniu:
+A tak wygląda NC450 na mocowaniu:
 
-[![]({{< baseurl >}}/img/2017/02/027.nc450-tp-link-kamera-ip-uchwyt-mocowanie-625x660.jpg)]({{< baseurl >}}/img/2017/02/027.nc450-tp-link-kamera-ip-uchwyt-mocowanie.jpg)
+![]({{< baseurl >}}/img/2017/02/027.nc450-tp-link-kamera-ip-uchwyt-mocowanie.jpg#big)
 
 ## Praca kamery NC450 pod linux
 
@@ -229,7 +206,7 @@ nadanie mu stosownej adresacji. Ta z kolei jest uzyskiwana automatycznie od nasz
 panelu administracyjnego można przejść wpisując w przeglądarce adres IP, który został przypisany
 kamerze.
 
-[![]({{< baseurl >}}/img/2017/02/028.nc450-tp-link-kamera-ip-panel-admina-podglad-660x346.png)]({{< baseurl >}}/img/2017/02/028.nc450-tp-link-kamera-ip-panel-admina-podglad.png)
+![]({{< baseurl >}}/img/2017/02/028.nc450-tp-link-kamera-ip-panel-admina-podglad.png#huge)
 
 Kamerą sterować można za pomocą tego pokrętła z prawej strony podglądu obrazu. Pod poglądem mamy
 kilka opcji, które możemy przełączać. Są to: zrobienie zdjęcia, odwrócenie podglądu w pionie i
@@ -238,47 +215,42 @@ i nasycenie barw. Nie ma jednak przycisku do nagrywania obrazu/dźwięku.
 
 Kamerę NC450 można podłączyć do [serwisu tplinkcloud](https://www.tplinkcloud.com/)i odbierać obraz
 z każdego miejsca na ziemi, o ile mamy tam internet. Kamerę trzeba pierw w tym serwisie
-zarejestrować, co możemy naturalnie zrobić z panelu
-administracyjnego:
+zarejestrować, co możemy naturalnie zrobić z panelu administracyjnego:
 
-[![]({{< baseurl >}}/img/2017/02/029.nc450-tp-link-kamera-ip-panel-admina-tplinkcloud-660x207.png)]({{< baseurl >}}/img/2017/02/029.nc450-tp-link-kamera-ip-panel-admina-tplinkcloud.png)
+![]({{< baseurl >}}/img/2017/02/029.nc450-tp-link-kamera-ip-panel-admina-tplinkcloud.png#huge)
 
 Później można już tylko przejść na stronę tplinkcloud.com i sprawdzić czy kamera została dodana do
 systemu.
 
-[![]({{< baseurl >}}/img/2017/02/030.nc450-tp-link-kamera-ip-tplinkcloud-660x376.png)]({{< baseurl >}}/img/2017/02/030.nc450-tp-link-kamera-ip-tplinkcloud.png)
+![]({{< baseurl >}}/img/2017/02/030.nc450-tp-link-kamera-ip-tplinkcloud.png#huge)
 
 Niestety pod linux nie da rady przez ten serwis uzyskać podglądu z kamery. Natomiast jeśli
 dysponujemy smartfonem, to bez problemu obraz damy radę podejrzeć przez aplikację tpCamera.
 
 Jeśli chodzi zaś jeszcze o ustawienia samej kamery, które można dostosować z poziomu panelu
 administracyjnego, to mamy tam opcje video, gdzie możemy min. zmienić ilości klatek na sekundę. Do
-wyboru mamy 10, 15, 20, 25 i
-30:
+wyboru mamy 10, 15, 20, 25 i 30:
 
-[![]({{< baseurl >}}/img/2017/02/031.nc450-tp-link-kamera-ip-panel-admina-opcje-video-660x257.png)]({{< baseurl >}}/img/2017/02/031.nc450-tp-link-kamera-ip-panel-admina-opcje-video.png)
+![]({{< baseurl >}}/img/2017/02/031.nc450-tp-link-kamera-ip-panel-admina-opcje-video.png#huge)
 
-Naturalnie to urządzenie wspiera także detekcję dźwięku i
-ruchu:
+Naturalnie to urządzenie wspiera także detekcję dźwięku i ruchu:
 
-[![]({{< baseurl >}}/img/2017/02/032.nc450-tp-link-kamera-ip-panel-admina-detektor-dzwieku-660x339.png)]({{< baseurl >}}/img/2017/02/032.nc450-tp-link-kamera-ip-panel-admina-detektor-dzwieku.png)
+![]({{< baseurl >}}/img/2017/02/032.nc450-tp-link-kamera-ip-panel-admina-detektor-dzwieku.png#huge)
 
-[![]({{< baseurl >}}/img/2017/02/033.nc450-tp-link-kamera-ip-panel-admina-detektor-ruchu-660x356.png)]({{< baseurl >}}/img/2017/02/033.nc450-tp-link-kamera-ip-panel-admina-detektor-ruchu.png)
+![]({{< baseurl >}}/img/2017/02/033.nc450-tp-link-kamera-ip-panel-admina-detektor-ruchu.png#huge)
 
 Kolejna ciekawa rzecz, którą oferuje kamera NC450, to nagrywanie obrazu na kartę SD. Sama karta musi
 być w formacie mikro SDHC (maksymalna pojemność takiej karty to 32G). Kamera automatycznie robi
 zrzut ekranu oraz rozpoczyna nagrywanie obrazu po wykryciu dźwięku lub ruchu, w zależności od
 ustawień określonych wyżej. Nie widziałem jednak w tym panelu opcji, by rozpocząć nagrywanie na
-żądanie. Być może tylko pod linux brakuje tej
-opcji.
+żądanie. Być może tylko pod linux brakuje tej opcji.
 
-[![]({{< baseurl >}}/img/2017/02/034.nc450-tp-link-kamera-ip-zapis-karta-sd-660x267.png)]({{< baseurl >}}/img/2017/02/034.nc450-tp-link-kamera-ip-zapis-karta-sd.png)
+![]({{< baseurl >}}/img/2017/02/034.nc450-tp-link-kamera-ip-zapis-karta-sd.png#huge)
 
 W tym webowym panelu administracyjnym brakuje także opcji przesyłania powiadomień drogą email.
-Jedyną formę powiadomień jaką możemy skonfigurować to
-FTP:
+Jedyną formę powiadomień jaką możemy skonfigurować to FTP:
 
-[![]({{< baseurl >}}/img/2017/02/035.nc450-tp-link-kamera-ip-notif-ftp-660x285.png)]({{< baseurl >}}/img/2017/02/035.nc450-tp-link-kamera-ip-notif-ftp.png)
+![]({{< baseurl >}}/img/2017/02/035.nc450-tp-link-kamera-ip-notif-ftp.png#huge)
 
 Niemniej jednak, jeśli włączymy aplikację tpCamera, to tam już można ustawić notyfikacje czy to via
 email czy przez aplikację w smartfonie.
@@ -291,10 +263,9 @@ tpCamera](https://play.google.com/store/apps/details?id=com.tplink.skylight). Ni
 opisywał [jak zainstalować i skonfigurować aplikację
 tpCamera]({{< baseurl >}}/post/aplikacja-tpcamera-do-obslugi-kamer-tp-link-z-poziomu-smartfona/),
 bo na ten temat był już osobny wpis. Zatem jeśli ktoś jest ciekaw co potrafi ta aplikacja to
-zachęcam do zapoznania się z tym wyżej podlinkowanym
-wpisem.
+zachęcam do zapoznania się z tym wyżej podlinkowanym wpisem.
 
-[![]({{< baseurl >}}/img/2017/02/036.nc450-tp-link-kamera-ip-tpcamera-dodanie-420x660.png)]({{< baseurl >}}/img/2017/02/036.nc450-tp-link-kamera-ip-tpcamera-dodanie.png)
+![]({{< baseurl >}}/img/2017/02/036.nc450-tp-link-kamera-ip-tpcamera-dodanie.png#medium)
 
 ## TL;DR
 

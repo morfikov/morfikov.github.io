@@ -70,11 +70,11 @@ GPG](https://www.kernel.org/category/signatures.html).
 Kopiujemy starą konfigurację kernela, odpalamy `menuconfig` i dostosowujemy konfigurację włączając
 odpowiednie opcje odpowiedzialne za interfejsy IMQ. Interesują nas te poniższe pozycje:
 
-![]({{< baseurl >}}/img/2015/12/1.konfiguracja-kernel-interfejsy-imq.png)
+![]({{< baseurl >}}/img/2015/12/1.konfiguracja-kernel-interfejsy-imq.png#huge)
 
 oraz:
 
-![]({{< baseurl >}}/img/2015/12/2.konfiguracja-kernel-interfejsy-imq.png)
+![]({{< baseurl >}}/img/2015/12/2.konfiguracja-kernel-interfejsy-imq.png#huge)
 
 W konfiguracji kernela (plik `.config` ) powinny znaleźć się te poniższe wpisy:
 
@@ -186,7 +186,7 @@ poniższy sposób:
 
 Powyższe linijki stworzą nam 2 klasy główne oraz 5 klas podrzędnych dla każdego interfejsu. W tym
 przypadku korzystamy z [algorytmu HTB](http://luxik.cdi.cz/~devik/qos/htb/) ale jest też kilka
-innych, a wszystkie można podzielić na dwie kategorie: bezklasowe (pfifo, bfifo, pfifo\_fast, red,
+innych, a wszystkie można podzielić na dwie kategorie: bezklasowe (pfifo, bfifo, pfifo_fast, red,
 sfq, tbf) i klasowe (CBQ, HTB, PRIO). Informacje na temat każdego z powyższych algorytmów można
 znaleźć [tym linkiem](https://lukasz.bromirski.net/docs/translations/lartc-pl.html#LARTC.QDISC).
 
@@ -284,10 +284,9 @@ zostanie przekierowany do odpowiedniej kolejki ( `classid 1:1000` ). Liczba w `h
 odpowiadać tej określonej przez `--set-mark` w `iptables` .
 
 Przy pomocy narzędzia `bmon` możemy zaobserwować czy pakiety trafiają do odpowiednich kolejek.
-Poniżej
-przykład
+Poniżej przykład:
 
-[![3.test-interfejsow-imq-bmon]({{< baseurl >}}/img/2015/12/3.test-interfejsow-imq-bmon-1024x636.png)]({{< baseurl >}}/img/2015/12/3.test-interfejsow-imq-bmon.png)
+![]({{< baseurl >}}/img/2015/12/3.test-interfejsow-imq-bmon.png#huge)
 
 Jak można zaobserwować, obciążenie łącza jest w granicach w 8% i 9%, odpowiednio dla upload'u i
 download'u. Jest to prawie full, bo karta sieciowa w moim laptopie ma przepustowość 100 mbit/s.

@@ -25,7 +25,7 @@ a dla innych za długi. Postaramy się więc go dostosować.
 Przede wszystkim, każda strona, post czy załączniki mają opcję przeniesienia do kosza, co wygląda
 mniej więcej tak:
 
-![]({{< baseurl >}}/img/2015/06/1.wordpress-kosz.png)
+![]({{< baseurl >}}/img/2015/06/1.wordpress-kosz.png#small)
 
 Po tej czynności, wszystkie posty, które usuniemy, trafią do koszta. To jest swojego rodzaju
 zabezpieczenie mające ochraniać nas przed przypadkowym skasowaniem sobie ważnego kontentu. W każdym
@@ -39,7 +39,7 @@ za mało dla innych za dużo. Niektórzy chcieliby wyłączenia opcji kosza zupe
 nich chciała by aby posty po skasowaniu od razu były wywalane z bazy, a pozostała połowa, by były
 wiecznie przechowywane w koszu aż ich ręcznie i świadomie nie skasują.
 
-## Manualne określenie czasu 
+## Manualne określenie czasu
 
 Na szczęście WordPress ma rozwiązanie tego problemu, bowiem [wprowadził możliwość zdefiniowania
 czasu](https://codex.wordpress.org/Trash_status) przebywania wiadomości czy komentarza w koszu. By z

@@ -10,7 +10,10 @@ tags:
 - pliki
 - foldery
 - prywatność
+- gps
+- exif
 - grafika
+- firefox
 title: Metadane plików graficznych (EXIF)
 ---
 
@@ -97,12 +100,12 @@ deg 51' 21.91" S, 151 deg 13' 11.73" E` , co trzeba przepisać do `-33 51.2191, 
 `33°51'21.91"S 151°13'11.73"E` . Odpalamy zatem mapy google i wyszukujemy to miejsce. Po chwili
 otrzymujemy:
 
-![]({{< baseurl >}}/img/2016/01/1.exif-linux-gps.png)
+![]({{< baseurl >}}/img/2016/01/1.exif-linux-gps.png#huge)
 
 Jak teraz zmienić te dane, tak by lokalizacja zdjęcia wskazywała np. na Nowy York w US? Odszukujemy
 pożądaną lokalizację i uzyskujemy jej współrzędne:
 
-![]({{< baseurl >}}/img/2016/01/2.exif-linux-gps-podmiana.png)
+![]({{< baseurl >}}/img/2016/01/2.exif-linux-gps-podmiana.png#huge)
 
 Mamy zatem `40.687653, -74.054682` i jest to format DD (Decimal degrees). Musimy to przekonwertować
 do postaci DMS (Degrees, minutes, and seconds). Robimy to w następujący sposób. Odrzucamy wszystko
@@ -150,4 +153,4 @@ musimy zaciągać w tym celu `exiftool` . Możemy zwyczajnie doinstalować jeden
 Firefox'a, który umożliwia analizę danych EXIF i automatycznie podaje link do map google, by
 sprawdzić wykrytą lokalizację. Poniżej przykład [FxIF](http://christian-eyrich.de/mozilla/fxif/) :
 
-![]({{< baseurl >}}/img/2016/01/3.exif-fxif-firefox.png)
+![]({{< baseurl >}}/img/2016/01/3.exif-fxif-firefox.png#big)

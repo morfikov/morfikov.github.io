@@ -11,6 +11,7 @@ tags:
 - sysctl
 - ip
 - systemd
+- sieć
 title: Fragmentacja pakietu i zmiana wartości MTU
 ---
 
@@ -46,7 +47,7 @@ podzielony na kilka mniejszych. Po dotarciu do odbiorcy, te fragmenty są skład
 o numer identyfikacyjny pakietu, flagę `More fragments` oraz `offset` danych przed przesłaniem go do
 wyższej warstwy. Wszystkie te informacje są podane w nagłówku IP:
 
-![]({{< baseurl >}}/img/2015/06/1.mtu-fragmentacja-pakietow.png)
+![]({{< baseurl >}}/img/2015/06/1.mtu-fragmentacja-pakietow.png#huge)
 
 Fragmentacja pakietów pociąga za sobą kilka nieprzyjemnych następstw. Przede wszystkim, zwiększone
 zapotrzebowanie na procesor i pamięć operacyjną, bo przecie trzeba te pakiety podzielić przed
@@ -120,7 +121,7 @@ sniffer sieciowy (np. wireshark) i wydajmy w terminalu to poniższe polecenie:
 Jeśli w snifferze widzimy, że pakiety ulegają fragmentacji, tak jak to widoczne jest na poniższym
 obrazku:
 
-[![2.mtu-fragmentacja-pakietow-wireshark]({{< baseurl >}}/img/2015/06/2.mtu-fragmentacja-pakietow-wireshark-1024x125.png)]({{< baseurl >}}/img/2015/06/2.mtu-fragmentacja-pakietow-wireshark.png)
+![]({{< baseurl >}}/img/2015/06/2.mtu-fragmentacja-pakietow-wireshark.png#huge)
 
 Oznacza to, że MTU o wartości 1500 jest nieodpowiedni. Co prawda, wydaliśmy polecenie z parametrem
 `-s 1472` ale do tego dochodzi jeszcze nagłówek UDP ( `8` bajtów), no i oczywiście nagłówki IP

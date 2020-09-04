@@ -85,10 +85,9 @@ bootloader'a i zaaplikować obraz z partycją `/recovery/` za pomocą narzędzia
 [Instalacja i konfiguracja fastboot pod
 linux]({{< baseurl >}}/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/) jest opisana w
 osobnym wątku. Niezależnie od wybranego sposobu, naszym oczom powinno ukazać się menu TWRP podobne
-do tego poniżej (w opcjach można wybrać język
-polski):
+do tego poniżej (w opcjach można wybrać język polski):
 
-[![]({{< baseurl >}}/img/2017/01/001.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia-371x660.png)]({{< baseurl >}}/img/2017/01/001.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia.png)
+![]({{< baseurl >}}/img/2017/01/001.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia.png#medium)
 
 Jak widać na obrazku, mamy dwie pozycje: `Kopia` i `Przywróć`. Jeśli zamierzamy dokonać backup'u, to
 naturalnie przechodzimy do pozycji `Kopia`. Jeśli zaś zamierzamy uprzednio utworzoną kopię zapasową
@@ -100,10 +99,9 @@ Po przejściu do pozycji `Kopia` zostaną nam zaprezentowane opcje wyboru poszcz
 których kopie zamierzamy przeprowadzić. To jakie partycje znajdziemy w tym okienku zależy głównie
 od pliku `fstab` , który znalazł się w obrazie TWRP. Niektóre są bardziej rozbudowane, a inne
 ograniczają się jedynie do podstawowych wpisów. W każdym razie, partycja `/data/` powinna być
-widoczna na
-liście:
+widoczna na liście:
 
-[![]({{< baseurl >}}/img/2017/01/002.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia-371x660.png)]({{< baseurl >}}/img/2017/01/002.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia.png)
+![]({{< baseurl >}}/img/2017/01/002.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia.png#medium)
 
 W tym przypadku na liście mamy dwie pozycje z nazwą `Data` . Ta zaznaczona pozycja odpowiada za
 zrobienie backup'u samych plików na partycji `/data/` . Ta druga opcja umożliwia naturalnie
@@ -112,10 +110,9 @@ w ilości kopiowanych danych. Same pliki w tym przypadku mają nieco ponad 100 M
 partycja ma ponad 12 GiB. Różnica jest ogromna.
 
 Po zaznaczeniu odpowiedniej pozycji upewniamy się jeszcze, że wybraliśmy stosowną pamięć do zapisu
-pliku kopii zapasowej, tj. Kartę
-SD.
+pliku kopii zapasowej, tj. Kartę SD.
 
-[![]({{< baseurl >}}/img/2017/01/003.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia-371x660.png)]({{< baseurl >}}/img/2017/01/003.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia.png)
+![]({{< baseurl >}}/img/2017/01/003.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia.png#medium)
 
 Jako, że tutaj nie ma dużo danych do zapisu, to można wykorzystać nawet małe karty SD, które mają
 rozmiar 1-2 GiB. Obraz partycji na taką małą kartę SD by nam się nie zmieścił, a same dane wejdą bez
@@ -127,10 +124,9 @@ zapis takich plików na kartę SD sformatowaną system plików z rodziny FAT. Ob
 `/data/` , jako, że przekracza on limit 4 GIB, trzeba by umieścić na karcie SD sformatowanej innym
 systemem plików, np. linux'owym EXT4.
 
-By zrobić backup, przesuwamy strzałki na prawą
-stronę:
+By zrobić backup, przesuwamy strzałki na prawą stronę:
 
-[![]({{< baseurl >}}/img/2017/01/004.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia-660x586.png)]({{< baseurl >}}/img/2017/01/004.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia.png)
+![]({{< baseurl >}}/img/2017/01/004.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia.png#big)
 
 Po zakończeniu całego procesu, na karcie SD zostaną utworzone następujące pliki: `data.ext4.win`
 (archiwum TAR), `data.ext4.win.md5` (zawiera sumę kontrolną archiwum), `recovery.log` (zawiera log z
@@ -158,25 +154,22 @@ przywracania go do ustawień fabrycznych, możemy naturalnie po zainicjowaniu Fa
 uprzednio zrobiony backup również przez tryb recovery.
 
 Będąc w trybie recovery, w głównym menu TWRP wybieramy pozycję `Przywróć` . Tam z kolei mamy listę
-plików kopii zapasowych, które możemy
-przywrócić.
+plików kopii zapasowych, które możemy przywrócić.
 
-[![]({{< baseurl >}}/img/2017/01/005.backup-kopia-zapasowa-smartfon-data-android-twrp-przywracanie-kopii-660x586.png)]({{< baseurl >}}/img/2017/01/005.backup-kopia-zapasowa-smartfon-data-android-twrp-przywracanie-kopii.png)
+![]({{< baseurl >}}/img/2017/01/005.backup-kopia-zapasowa-smartfon-data-android-twrp-przywracanie-kopii.png#big)
 
 Po kliknięciu na interesującą nas pozycję zostanie nam zwrócona informacja na temat danych, które w
 takim pliku się znajdują, tj. partycji, które zostały w tej kopii zawarte. W tym przypadku mamy dane
-z partycji `/data/`
-:
+z partycji `/data/` :
 
-[![]({{< baseurl >}}/img/2017/01/006.backup-kopia-zapasowa-smartfon-data-android-twrp-przywracanie-kopii-371x660.png)]({{< baseurl >}}/img/2017/01/006.backup-kopia-zapasowa-smartfon-data-android-twrp-przywracanie-kopii.png)
+![]({{< baseurl >}}/img/2017/01/006.backup-kopia-zapasowa-smartfon-data-android-twrp-przywracanie-kopii.png#medium)
 
 Na dole mamy również opcję `Włącz weryfikację MD5 kopii zapasowych` . Tę opcję można naturalnie
 zaznaczyć ale trzeba mieć na uwadze, że proces odtwarzania backup'u będzie trwał dłużej, zwłaszcza w
 przypadku, gdy danych w kopii jest dość sporo. Po zaznaczeniu stosownych opcji, przeciągamy strzałki
-na prawą
-stronę:
+na prawą stronę:
 
-[![]({{< baseurl >}}/img/2017/01/007.backup-kopia-zapasowa-smartfon-data-android-twrp-przywracanie-kopii-660x586.png)]({{< baseurl >}}/img/2017/01/007.backup-kopia-zapasowa-smartfon-data-android-twrp-przywracanie-kopii.png)
+![]({{< baseurl >}}/img/2017/01/007.backup-kopia-zapasowa-smartfon-data-android-twrp-przywracanie-kopii.png#big)
 
 Jak widać z komunikatów na fotce, nie ma potrzeby przeprowadzania wcześniej procesu Factory Reset,
 bo partycja przed wgraniem na nią backup'u jest automatycznie czyszczona.
@@ -189,22 +182,19 @@ tego nie zrobimy, nie damy rady zdjąć blokady ekranu i nie dostaniemy się do 
 
 Jeśli kopia partycji `/data/` była przeprowadzana na telefonie, który miał włączoną blokadę ekranu,
 to w pewnych sytuacjach po odpaleniu systemu nie damy rady ściągnąć tej blokady nawet podając
-poprawny
-PIN:
+poprawny PIN:
 
-[![]({{< baseurl >}}/img/2017/01/008.backup-kopia-zapasowa-smartfon-data-android-problem-pin-660x586.png)]({{< baseurl >}}/img/2017/01/008.backup-kopia-zapasowa-smartfon-data-android-problem-pin.png)
+![]({{< baseurl >}}/img/2017/01/008.backup-kopia-zapasowa-smartfon-data-android-problem-pin.png#big)
 
 Problem naturalnie można poprawić ale trzeba odpalić telefon ponownie w trybie recovery. Tam z menu
-TWRP przechodzimy do Zaawansowane =\> Menadżer
-Plików:
+TWRP przechodzimy do Zaawansowane => Menadżer Plików:
 
-[![]({{< baseurl >}}/img/2017/01/009.backup-kopia-zapasowa-smartfon-data-android-twrp-usuwanie-pin-660x390.png)]({{< baseurl >}}/img/2017/01/009.backup-kopia-zapasowa-smartfon-data-android-twrp-usuwanie-pin.png)
+![]({{< baseurl >}}/img/2017/01/009.backup-kopia-zapasowa-smartfon-data-android-twrp-usuwanie-pin.png#huge)
 
 W menadżerze plików przechodzimy do katalogu `/data/system/` , z którego to musimy skasować kilka
-plików. Kasujemy wszystko to co ma w nazwie `.key` oraz `locksettings.`
-:
+plików. Kasujemy wszystko to co ma w nazwie `.key` oraz `locksettings.` :
 
-[![]({{< baseurl >}}/img/2017/01/010.backup-kopia-zapasowa-smartfon-data-android-twrp-usuwanie-pin-660x390.png)]({{< baseurl >}}/img/2017/01/010.backup-kopia-zapasowa-smartfon-data-android-twrp-usuwanie-pin.png)
+![]({{< baseurl >}}/img/2017/01/010.backup-kopia-zapasowa-smartfon-data-android-twrp-usuwanie-pin.png#huge)
 
 W tym przypadku skasowanych zostało 5 plików: `gatekeeper.password.key` , `gatekeeper.pattern.key` ,
 `locksettings.db` , `locksettings.db-shm` oraz `locksettings.db-wal` . Po ich usunięciu restartujemy

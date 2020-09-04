@@ -30,7 +30,7 @@ Dostęp do wszystkich interesujących nas opcji możemy uzyskać wpisując w pol
 `about:config` . Tam z kolei wyszukujemy frazę `network.dns` . Powinno to wyglądać mniej więcej tak
 jak na tym obrazku poniżej:
 
-![]({{< baseurl >}}/img/2015/11/1.cache-dns-firefox-about-config.png)
+![]({{< baseurl >}}/img/2015/11/1.cache-dns-firefox-about-config.png#huge)
 
 ### network.dns.disablePrefetch
 
@@ -102,7 +102,7 @@ wskazuje, że działa ona poprawnie, to prawdopodobnie jest jakiś problem z wpi
 Zawartość tego cache możemy wyciągnąć wpisując w polu adresu Firefox'a `about:networking` , poniżej
 przykład:
 
-![]({{< baseurl >}}/img/2015/11/2.statystyki-cache-dns-firefox.png)
+![]({{< baseurl >}}/img/2015/11/2.statystyki-cache-dns-firefox.png#huge)
 
 W kolumnie `Expires` jest określony czas ważności wpisu. W przypadku gdy znajdują się w niej duże
 wartości, np. 3600 (godzina), to przydałoby się ten cache opróżnić. Możemy to zrobić przez

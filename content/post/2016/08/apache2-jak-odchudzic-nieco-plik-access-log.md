@@ -38,10 +38,10 @@ lepiej nie wstawiać znaku `#` na początku tej poniższej linijki:
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
 Zamiast tego rozwiązania, dużo lepszym sposobem jest ogarnięcie [modułu
-mod\_log\_config](https://httpd.apache.org/docs/current/mod/mod_log_config.html) i wykorzystanie
+mod_log_config](https://httpd.apache.org/docs/current/mod/mod_log_config.html) i wykorzystanie
 drzemiącego w nim potencjału.
 
-## Moduł mod\_log\_config w Apache2
+## Moduł mod_log_config w Apache2
 
 Moduł `mod_log_config` jest standardowo włączony w konfiguracji i wykorzystywany praktycznie przez
 każdy serwer Apache2. Jedyne co musimy zrobić, to wskazać mu, które wiadomości życzymy sobie
@@ -91,8 +91,7 @@ postaci:
 
 Kompletna lista wszystkich możliwych do wykorzystania opcji [jest dostępna w dokumentacji
 Apache2](https://httpd.apache.org/docs/current/mod/mod_log_config.html#formats). Poniżej zaś jest
-przykładowy komunikat, który został zalogowany w pliku `access.log`
-    :
+przykładowy komunikat, który został zalogowany w pliku `access.log` :
 
     crawl-66-249-66-157.googlebot.com - - [03/Aug/2016:16:51:12 +0200] "GET /tag/dnsmasq/ HTTP/1.1" 200 13847 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
 
@@ -110,20 +109,19 @@ HTTP](https://pl.wikipedia.org/wiki/Kod_odpowiedzi_HTTP): OK, NOT MODIFIED, FOUN
 użyty `!` , który oznacza negację. Zatem referer nie zostanie zalogowany w tych trzech powyższych
 przypadkach.
 
-## Moduł mod\_setenvif i zaawansowane logowanie warunkowe
+## Moduł mod_setenvif i zaawansowane logowanie warunkowe
 
 Opcjonalnym trzecim argumentem dyrektywy `CustomLog` jest warunek. Opiera się on o zmienne
 środowiskowe, które mogą zostać ustawione za sprawą modułów `mod_setenvif` i/lub `mod_rewrite` .
 Nam wystarczy jedynie [moduł
-mod\_setenvif](https://httpd.apache.org/docs/current/mod/mod_setenvif.html). By z niego skorzystać
+mod_setenvif](https://httpd.apache.org/docs/current/mod/mod_setenvif.html). By z niego skorzystać
 trzeba go pierw włączyć w konfiguracji Apache2:
 
     # a2enmod setenvif
     # systemctl restart apache2
 
 Teraz w konfiguracji wirtualnego hosta możemy określić dyrektywę `SetEnvIf`/`SetEnvIFNoCase` i podać
-jej wzór dopasowania,
-    przykładowo:
+jej wzór dopasowania, przykładowo:
 
     SetEnvIf Request_URI "^\/wp-content\/uploads\/[0-9]*\/[0-9]*\/[\.\-0-9a-zA-Z]*\.(png)|(jpg)|(gif)|(jpeg)$" dontlog
 

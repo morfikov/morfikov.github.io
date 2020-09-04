@@ -10,7 +10,8 @@ tags:
 - openbox
 - terminal
 - rsyslog
-title: Osadzanie urxvt na pulpicie przy pomocy openbox'a
+- logi
+title: Osadzanie urxvt na pulpicie przy pomocy Openbox'a
 ---
 
 Wszyscy wiemy, że ogromna rzesza ludzi nie patrzy w logi systemowe. Nawet jeśli części z nas zdarza
@@ -19,8 +20,8 @@ przypadku jakichkolwiek problemów, mamy spore prawdopodobieństwo, że szereg z
 zalogowanych w dzienniku systemowym. Dlaczego zatem nie osadzić jakiegoś terminala na pulpicie, w
 którym będą zbierane logi w czasie rzeczywistym? W takim przypadku co kilka (czy kilkanaście) minut
 będziemy w stanie podejrzeć wszystkie komunikaty jakie zostały zalogowane przez system. W tym wpisie
-postaramy się osadzić na pulpicie terminal urxvt i posłużymy się w tym celu menadżerem okien openbox
-.
+postaramy się osadzić na pulpicie terminal urxvt i posłużymy się w tym celu menadżerem okien
+openbox .
 
 <!--more-->
 ## Devilspie, devilspie2, openbox i terminale
@@ -110,9 +111,9 @@ Opcji, jakie możemy określić w pliku `rc.xml` , [jest oczywiście
 więcej](http://git.icculus.org/?p=mikachu/openbox.git;a=blob_plain;f=data/rc.xml;hb=master). Te
 powyższe są nam potrzebne do osadzenia okna pozbawionego obramowania ( `decor` ), które będzie na
 samym spodzie pulpitu ( `layer` ), tak by nie wchodziło na okna innych aplikacji. To okno nie
-powinno też łapać fokusu, gdy się pojawia ( `focus` ) i nie powinno rzucać żadnych cieni ( `shade` )
-. Nie chcemy też by się ono pojawiało na pasku zadań ( `skip_taskbar` ) czy też na pager'ach
-(`skip_pager` ). Położenie i rozmiar okna określamy zaś w `position` i `size` .
+powinno też łapać fokusu, gdy się pojawia ( `focus` ) i nie powinno rzucać żadnych cieni
+( `shade` ). Nie chcemy też by się ono pojawiało na pasku zadań ( `skip_taskbar` ) czy też na
+pager'ach (`skip_pager` ). Położenie i rozmiar okna określamy zaś w `position` i `size` .
 
 W przypadku gdyby tak ustawione okno miało obramowanie, trzeba w pliku `rc.xml` odnaleźć pozycję
 `keepBorder` i przestawić jej wartość na `No` .
@@ -145,7 +146,7 @@ jaki kolor przyjmie tło i tekst podczas zaznaczania. W przypadku ustawienia prz
 100%, zaznaczony tekst zwyczajnie zniknie i będzie to wyglądać mniej więcej
 tak:
 
-[![1.konsola-na-pulpicie-przezroczystosc]({{< baseurl >}}/img/2015/11/1.konsola-na-pulpicie-przezroczystosc-1024x199.png)]({{< baseurl >}}/img/2015/11/1.konsola-na-pulpicie-przezroczystosc.png)
+![]({{< baseurl >}}/img/2015/11/1.konsola-na-pulpicie-przezroczystosc.png#huge)
 
 Z lewej strony jest terminal, który ma czarne tło. Ten z prawej zaś jest przezroczysty. Dlatego
 właśnie nam są potrzebne te dwa parametry. Mając już osadzony i skonfigurowany terminal na
@@ -258,7 +259,7 @@ Od tego momentu, po zalogowaniu się w sesji graficznej, terminal powinien się 
 uruchomić, a openbox powinien go umieścić w odpowiednim miejscu na pulpicie. U mnie prezentuje się
 tak:
 
-[![2.konsola-na-pulpicie-efekt-koncowy]({{< baseurl >}}/img/2015/11/2.konsola-na-pulpicie-efekt-koncowy-1024x267.png)]({{< baseurl >}}/img/2015/11/2.konsola-na-pulpicie-efekt-koncowy.png)
+![]({{< baseurl >}}/img/2015/11/2.konsola-na-pulpicie-efekt-koncowy.png#huge)
 
 Jako, że to okienko nie posiada żadnego obramowania, to nie mamy zbytnio możliwości jego
 przesuwania. Jeśli chcielibyśmy jednak zmienić jego pozycję lub rozmiar, to musimy wcisnąć klawisz

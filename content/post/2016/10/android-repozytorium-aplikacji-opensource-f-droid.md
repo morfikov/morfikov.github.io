@@ -56,20 +56,18 @@ właśnie powstał F-Droid.
 F-Droid, to repozytorium aplikacji, mniej więcej takie jak Google Play, z tym, że znajdujące się w
 nim programiki muszą być na wolnych licencjach, np GPL, Apache czy MIT. Każda taka pozycja na liście
 jest bardzo przyzwoicie opisana. Wiemy, kto tworzy dany projekt, gdzie go znaleźć oraz też gdzie
-znajdują się źródła tej konkretnej
-aplikacji:
+znajdują się źródła tej konkretnej aplikacji:
 
-[![1.f-droid-smartfon-android-info-aplikacja]({{< baseurl >}}/img/2016/10/1.f-droid-smartfon-android-info-aplikacja-401x660.png)]({{< baseurl >}}/img/2016/10/1.f-droid-smartfon-android-info-aplikacja.png)
+![]({{< baseurl >}}/img/2016/10/1.f-droid-smartfon-android-info-aplikacja.png#medium)
 
 Każdą aplikację można zainstalować sobie w Androidzie za pomocą paczki `.apk` z pominięciem
 F-Droid'a. Problem w tym, że w ten sposób zainstalowany program nie będzie otrzymywał aktualizacji.
 Ten mechanizm był/jest znany choćby z windowsów, gdzie po pewnym czasie mamy w systemie całą masę
 nieaktualnego softu, co stwarza zagrożenie dla bezpieczeństwa. Jako, że F-Droid oferuje nam
 repozytorium aplikacji, to każdy app'ek będzie podlegać procesowi aktualizacji, tak jak to ma
-miejsce w Google Play, czy każdym
-linux'ie.
+miejsce w Google Play, czy każdym linux'ie.
 
-[![2.f-droid-smartfon-android-aktualizacja]({{< baseurl >}}/img/2016/10/2.f-droid-smartfon-android-aktualizacja-660x542.png)]({{< baseurl >}}/img/2016/10/2.f-droid-smartfon-android-aktualizacja.png)
+![]({{< baseurl >}}/img/2016/10/2.f-droid-smartfon-android-aktualizacja.png#big)
 
 ## Instalacja F-Droid (brak w Google Play)
 
@@ -83,28 +81,25 @@ niej plik .apk](https://f-droid.org/).
 F-Droid pochodzi za zewnętrznego źródła w stosunku do Google Play. Nie damy rady standardowo
 zainstalować takiej aplikacji. Przed procesem instalacyjnym musimy włączyć w Androidzie możliwość
 instalacji programów z niezaufanych źródeł. W przypadku, gdy ta opcja nie jest zaznaczona, to
-zostaniemy o tym fakcie poinformowani podczas
-instalacji:
+zostaniemy o tym fakcie poinformowani podczas instalacji:
 
-[![3.f-droid-smartfon-android-wlaczenie-nieznane-zrodla-aplikacji]({{< baseurl >}}/img/2016/10/3.f-droid-smartfon-android-wlaczenie-nieznane-zrodla-aplikacji-660x271.png)]({{< baseurl >}}/img/2016/10/3.f-droid-smartfon-android-wlaczenie-nieznane-zrodla-aplikacji.png)
+![]({{< baseurl >}}/img/2016/10/3.f-droid-smartfon-android-wlaczenie-nieznane-zrodla-aplikacji.png#huge)
 
-Po włączeniu powyższej opcji, instalujemy F-Droid i uruchamiamy
-go:
+Po włączeniu powyższej opcji, instalujemy F-Droid i uruchamiamy go:
 
-[![4.f-droid-smartfon-android-instalacja]({{< baseurl >}}/img/2016/10/4.f-droid-smartfon-android-instalacja-660x361.png)]({{< baseurl >}}/img/2016/10/4.f-droid-smartfon-android-instalacja.png)
+![]({{< baseurl >}}/img/2016/10/4.f-droid-smartfon-android-instalacja.png#huge)
 
 Czekamy chwilę, aż F-Droid zaktualizuje informacje, przechodzimy na zakładkę aktualizacje i
-instalujemy update przeznaczony dla
-F-Droid.
+instalujemy update przeznaczony dla F-Droid.
 
-[![5.f-droid-smartfon-android-aktualizacja]({{< baseurl >}}/img/2016/10/5.f-droid-smartfon-android-aktualizacja-660x271.png)]({{< baseurl >}}/img/2016/10/5.f-droid-smartfon-android-aktualizacja.png)
+![]({{< baseurl >}}/img/2016/10/5.f-droid-smartfon-android-aktualizacja.png#huge)
 
 Po chwili okno F-Droid'a zostanie zamknięte. Czekamy moment i odpalamy tę aplikację skrótem na
 pulpicie. Wchodzimy w menu (trzy kropki w prawym górnym rogu) i wybieramy Repozytoria. Tam z kolei
 zaznaczamy również [repozytorium The Guardian
-Project](https://en.wikipedia.org/wiki/The_Guardian_Project_\(software\)):
+Project](https://en.wikipedia.org/wiki/The_Guardian_Project_(software)):
 
-[![6.f-droid-smartfon-android-repozytoria]({{< baseurl >}}/img/2016/10/6.f-droid-smartfon-android-repozytoria-660x542.png)]({{< baseurl >}}/img/2016/10/6.f-droid-smartfon-android-repozytoria.png)
+![]({{< baseurl >}}/img/2016/10/6.f-droid-smartfon-android-repozytoria.png#big)
 
 Teraz możemy zacząć szukać interesujących nas aplikacji. Warto zaznaczyć, że by korzystać z F-Droid
 nie musimy się nigdzie rejestrować, tak jak to ma miejsce, np. w Google Play.
@@ -114,21 +109,18 @@ nie musimy się nigdzie rejestrować, tak jak to ma miejsce, np. w Google Play.
 Aktualnie w repozytorium F-Droid znajduje się około 2100 aplikacji. Nie jest to przytłaczająca
 liczba, przynajmniej nie w porównaniu z około 1,5 miliona aplikacji, które można znaleźć w Google
 Play. Niemniej jednak, jest z czego wybierać. Pod zakładkami jest ulokowane rozwijane menu. W nim z
-kolei mamy różne kategorie
-oprogramowania:
+kolei mamy różne kategorie oprogramowania:
 
-[![7.f-droid-smartfon-android-repozytoria-zawartosc]({{< baseurl >}}/img/2016/10/7.f-droid-smartfon-android-repozytoria-zawartosc-660x271.png)]({{< baseurl >}}/img/2016/10/7.f-droid-smartfon-android-repozytoria-zawartosc.png)
+![]({{< baseurl >}}/img/2016/10/7.f-droid-smartfon-android-repozytoria-zawartosc.png#huge)
 
-Wystarczy wybrać jedną z pozycji i zostaną nam wyświetlone informacje o danej
-aplikacji.
+Wystarczy wybrać jedną z pozycji i zostaną nam wyświetlone informacje o danej aplikacji.
 
-[![8.f-droid-smartfon-android-instalacja-aplikacja]({{< baseurl >}}/img/2016/10/8.f-droid-smartfon-android-instalacja-aplikacja-660x540.png)]({{< baseurl >}}/img/2016/10/8.f-droid-smartfon-android-instalacja-aplikacja.png)
+![]({{< baseurl >}}/img/2016/10/8.f-droid-smartfon-android-instalacja-aplikacja.png#big)
 
 Oczywiście listę aplikacji możemy przeszukać, wystarczy kliknąć na lupę w prawym górnym rogu i
-wpisać w formularzu kilka
-znaków:
+wpisać w formularzu kilka znaków:
 
-[![9.f-droid-smartfon-android-szukanie-repozytorium]({{< baseurl >}}/img/2016/10/9.f-droid-smartfon-android-szukanie-repozytorium-401x660.png)]({{< baseurl >}}/img/2016/10/9.f-droid-smartfon-android-szukanie-repozytorium.png)
+![]({{< baseurl >}}/img/2016/10/9.f-droid-smartfon-android-szukanie-repozytorium.png#medium)
 
 ### Historia wersji aplikacji
 
@@ -136,10 +128,9 @@ Niewątpliwą zaletą F-Droid'a jest historia wersji aplikacji. Weźmy dla przyk
 Jeśli z jakiegoś powodu najnowsza wersja tego programu nam nie działa, to możemy zainstalować
 starszą wersję. Nie zalecałbym tego typu działań ale skoro F-Droid ma wbudowany taki ficzer, to
 wypadałoby o nim wspomnieć. Ostatnie trzy wersje są dostępne w informacjach o aplikacji. Gdy zajdzie
-potrzeba dania downgrade do starszej wersji, wystarczy ją
-wskazać:
+potrzeba dania downgrade do starszej wersji, wystarczy ją wskazać:
 
-[![10.f-droid-smartfon-android-starsza-wersja-aplikacji]({{< baseurl >}}/img/2016/10/10.f-droid-smartfon-android-starsza-wersja-aplikacji-660x540.png)]({{< baseurl >}}/img/2016/10/10.f-droid-smartfon-android-starsza-wersja-aplikacji.png)
+![]({{< baseurl >}}/img/2016/10/10.f-droid-smartfon-android-starsza-wersja-aplikacji.png#big)
 
 ### Aplikacje wymagające root
 
@@ -148,10 +139,9 @@ root'a,]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-od-tp-link/) moż
 opcję ukrywającą na liście aplikacji te pozycje, które wymagają do działania praw administracyjnych.
 Generalnie nie zalecam instalacji tego typu aplikacji ale jako, że w tym przypadku mamy spełniony
 jeden z warunków bezpieczeństwa (aplikacja musi być OpenSource), to nie widzę przeszkód by możliwość
-instalacji takich programów w systemie
-włączyć.
+instalacji takich programów w systemie włączyć.
 
-[![11.f-droid-smartfon-android-aplikacje-wymagajace-root]({{< baseurl >}}/img/2016/10/11.f-droid-smartfon-android-aplikacje-wymagajace-root-401x660.png)]({{< baseurl >}}/img/2016/10/11.f-droid-smartfon-android-aplikacje-wymagajace-root.png)
+![]({{< baseurl >}}/img/2016/10/11.f-droid-smartfon-android-aplikacje-wymagajace-root.png#medium)
 
 Oczywiście samą aplikację przed instalacją wypadałoby jeszcze zweryfikować i obadać ale to już
 raczej nie powinno sprawić problemów.
@@ -159,10 +149,9 @@ raczej nie powinno sprawić problemów.
 ### Aplikacje promujące niewolne usługi
 
 Przy przeszukiwaniu repozytorium F-Droid, natknąłem się na kilka ciekawych aplikacji. Niemniej
-jednak, przy części z nich widnieje dość rzucające się w oczy
-ostrzeżenie:
+jednak, przy części z nich widnieje dość rzucające się w oczy ostrzeżenie:
 
-[![12.f-droid-smartfon-android-ostrzezenie-aplikacja]({{< baseurl >}}/img/2016/10/12.f-droid-smartfon-android-ostrzezenie-aplikacja-401x660.png)]({{< baseurl >}}/img/2016/10/12.f-droid-smartfon-android-ostrzezenie-aplikacja.png)
+![]({{< baseurl >}}/img/2016/10/12.f-droid-smartfon-android-ostrzezenie-aplikacja.png#medium)
 
 Ta aplikacja jest jak najbardziej Free & OpenSource ale opiera się na usłudze YouTube. [Wszystkie
 tego typu usługi są flagowane przez F-Droid](https://f-droid.org/wiki/page/Antifeatures) i oznaczane
@@ -173,10 +162,9 @@ mniej więcej na podobnej zasadzie.
 Na początku wspomniałem o jednej z bardziej użytecznych właściwości F-Droid'a jaką jest możliwość
 aktualizacji oprogramowania, które z jego pomocą zainstalujemy na swoim smartfonie. Ten proces może
 być dla nas zupełnie niewidoczny, lub też możemy przejąć nad nim całkowitą kontrolę. Stosowne opcje
-są w
-menu:
+są w menu:
 
-[![13.f-droid-smartfon-android-konfiguracja-aktualizacje]({{< baseurl >}}/img/2016/10/13.f-droid-smartfon-android-konfiguracja-aktualizacje-401x660.png)]({{< baseurl >}}/img/2016/10/13.f-droid-smartfon-android-konfiguracja-aktualizacje.png)
+![]({{< baseurl >}}/img/2016/10/13.f-droid-smartfon-android-konfiguracja-aktualizacje.png#medium)
 
 Jak widać powyżej, mamy tutaj mniej więcej standardowe ustawienia aktualizacji. Możemy wymusić
 pobieranie nowych pakietów przez WiFi. Możemy także zainicjować pobieranie pakietów w tle, tak by
@@ -189,7 +177,6 @@ Ciekawą rzeczą jest również możliwość przepuszczenia ruchu generowanego z
 TOR. Jedyna rzecz, która nam jest potrzebna, to stosowny klient TOR, a ten z kolei można pobrać
 przez Google Play lub też z repozytorium F-Droid. Mowa oczywiście o
 [ORBOT](https://www.torproject.org/docs/android.html.en). Mając skonfigurowanego ORBOT'a, możemy
-zaznaczyć poniższą opcję w
-F-Droid:
+zaznaczyć poniższą opcję w F-Droid:
 
-[![14.f-droid-smartfon-android-orbot-tor]({{< baseurl >}}/img/2016/10/14.f-droid-smartfon-android-orbot-tor-660x540.png)]({{< baseurl >}}/img/2016/10/14.f-droid-smartfon-android-orbot-tor.png)
+![]({{< baseurl >}}/img/2016/10/14.f-droid-smartfon-android-orbot-tor.png#big)

@@ -59,7 +59,7 @@ dostaniemy informację o byciu programistą. W tej chwili w Ustawieniach pojawi 
 "Opcje programistyczne". Tam z kolei zaznaczamy opcję "Zdjęcie blokady
 OEM".
 
-[![]({{< baseurl >}}/img/2017/03/001.neffos-smartfon-tp-link-root-unlock-bootloader-660x390.png)]({{< baseurl >}}/img/2017/03/001.neffos-smartfon-tp-link-root-unlock-bootloader.png)
+![]({{< baseurl >}}/img/2017/03/001.neffos-smartfon-tp-link-root-unlock-bootloader.png#huge)
 
 Zdjęcie blokady OEM umożliwi odblokowanie bootloader'a. Pamiętajmy jednak, że proces odblokowania
 bootloader'a usuwa wszystkie dane użytkownika, tj. podczas odblokowywania jest inicjowany Factory
@@ -191,7 +191,7 @@ jeszcze raz ponowić proces flash'owania obrazem TWRP.
 Po wejściu w tryb recovery, naszym oczom powinien pokazać się poniższy
 obrazek:
 
-[![]({{< baseurl >}}/img/2017/03/002-neffos-smartfon-tp-link-root-twrp-zmiany-371x660.png)]({{< baseurl >}}/img/2017/03/002-neffos-smartfon-tp-link-root-twrp-zmiany.png)
+![]({{< baseurl >}}/img/2017/03/002-neffos-smartfon-tp-link-root-twrp-zmiany.png#small)
 
 Mamy tutaj zapytanie odnośnie wprowadzania zmian przez TWRP na partycji `/system/` . Zmiana jest w
 zasadzie tylko jedna i polega ona na przepisaniu nazwy pliku `/system/recovery-from-boot.p` na
@@ -228,20 +228,20 @@ TWRP wyrzuci informację, że to urządzenie nie ma jeszcze root'a i zapyta nas 
 SuperSU (w przypadku Neffos X1 niestety trzeba instalować manualnie za pomocą [paczki dostępnej
 tutaj](https://forum.xda-developers.com/apps/supersu/stable-2016-09-01supersu-v2-78-release-t3452703)):
 
-[![]({{< baseurl >}}/img/2017/03/003.neffos-smartfon-tp-link-root-twrp-instalacja-supersu-660x586.png)]({{< baseurl >}}/img/2017/03/003.neffos-smartfon-tp-link-root-twrp-instalacja-supersu.png)
+![]({{< baseurl >}}/img/2017/03/003.neffos-smartfon-tp-link-root-twrp-instalacja-supersu.png#big)
 
 TWRP zainstalował również swoją aplikację, która ma na celu umożliwić łatwą aktualizację obrazów
 TWRP, gdy zostanie wypuszczona nowa wersją tego trybu recovery (można ją też pobrać z Google
 Play).
 
-[![]({{< baseurl >}}/img/2017/03/004.neffos-smartfon-tp-link-root-instalacja-supersu-371x660.png)]({{< baseurl >}}/img/2017/03/004.neffos-smartfon-tp-link-root-instalacja-supersu.png)
+![]({{< baseurl >}}/img/2017/03/004.neffos-smartfon-tp-link-root-instalacja-supersu.png#small)
 
 Na tych dodatkowych ikonkach widocznych wyżej trzeba kliknąć i postępować zgodnie z instrukcjami
 aktualizacji:
 
-[![]({{< baseurl >}}/img/2017/03/005.neffos-smartfon-tp-link-root-instalacja-supersu-660x293.png)]({{< baseurl >}}/img/2017/03/005.neffos-smartfon-tp-link-root-instalacja-supersu.png)
+![]({{< baseurl >}}/img/2017/03/005.neffos-smartfon-tp-link-root-instalacja-supersu.png#huge)
 
-[![]({{< baseurl >}}/img/2017/03/006.neffos-smartfon-tp-link-instalacja-twrp-660x390.png)]({{< baseurl >}}/img/2017/03/006.neffos-smartfon-tp-link-instalacja-twrp.png)
+![]({{< baseurl >}}/img/2017/03/006.neffos-smartfon-tp-link-instalacja-twrp.png#huge)
 
 Po zainstalowaniu, restartujemy smartfon.
 
@@ -253,9 +253,9 @@ aplikacji](https://play.google.com/store/apps/details?id=com.jrummyapps.rootchec
 sam rzeczy oznajmi. Poniżej są fotki obrazujące root smartfonów Neffos C5, C5 MAX, Y5, Y5L i
 X1:
 
-[![]({{< baseurl >}}/img/2017/03/007.neffos-smartfon-tp-link-sprawdzenie-root-660x260.png)]({{< baseurl >}}/img/2017/03/007.neffos-smartfon-tp-link-sprawdzenie-root.png)
+![]({{< baseurl >}}/img/2017/03/007.neffos-smartfon-tp-link-sprawdzenie-root.png#huge)
 
-[![]({{< baseurl >}}/img/2017/05/008-neffos-x1-root-check-150x150.png)]({{< baseurl >}}/img/2017/05/008-neffos-x1-root-check.png)
+![]({{< baseurl >}}/img/2017/05/008-neffos-x1-root-check.png#small)
 
 ## Unroot
 

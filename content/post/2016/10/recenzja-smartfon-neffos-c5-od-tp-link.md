@@ -36,41 +36,36 @@ konkretnie jest to [model Neffos C5](http://www.neffos.pl/product/details/C5) (T
 Smartfon Neffos C5 to chyba jedyna rzecz, która dotarła do mnie za pośrednictwem Poczty Polskiej
 nietknięta. Nie jest to raczej zasługa tego przewoźnika, a raczej samego pudełka, które moim zdaniem
 jest Poczta-Polska-Proof. Samo pudełko jest w kolorze, którego faceci nie rozróżniają, a w nim
-znajduje się kilka ciekawych
-rzeczy:
+znajduje się kilka ciekawych rzeczy:
 
-[![001-smartfon-neffos-c5-tp-link-pudelko]({{< baseurl >}}/img/2016/10/001-smartfon-neffos-c5-tp-link-pudelko-660x435.jpg)]({{< baseurl >}}/img/2016/10/001-smartfon-neffos-c5-tp-link-pudelko.jpg)
+![]({{< baseurl >}}/img/2016/10/001-smartfon-neffos-c5-tp-link-pudelko.jpg#big)
 
-[![002-smartfon-neffos-c5-tp-link-pudelko-zawartosc]({{< baseurl >}}/img/2016/10/002-smartfon-neffos-c5-tp-link-pudelko-zawartosc-660x370.jpg)]({{< baseurl >}}/img/2016/10/002-smartfon-neffos-c5-tp-link-pudelko-zawartosc.jpg)
+![]({{< baseurl >}}/img/2016/10/002-smartfon-neffos-c5-tp-link-pudelko-zawartosc.jpg#big)
 
 W zestawie mamy oczywiście smartfon Neffos C5, którego obudowa jest wykonana w całości z matowego
 plastiku, przez co nie zbiera tak łatwo odcisków palców i trudniej tez o zarysowania na
 powierzchni:
 
-[![003-smartfon-neffos-c5-tp-link-obudowa]({{< baseurl >}}/img/2016/10/003-smartfon-neffos-c5-tp-link-obudowa-660x372.jpg)]({{< baseurl >}}/img/2016/10/003-smartfon-neffos-c5-tp-link-obudowa.jpg)
+![]({{< baseurl >}}/img/2016/10/003-smartfon-neffos-c5-tp-link-obudowa.jpg#big)
 
-[![004-smartfon-neffos-c5-tp-link-obudowa]({{< baseurl >}}/img/2016/10/004-smartfon-neffos-c5-tp-link-obudowa-660x372.jpg)]({{< baseurl >}}/img/2016/10/004-smartfon-neffos-c5-tp-link-obudowa.jpg)
+![]({{< baseurl >}}/img/2016/10/004-smartfon-neffos-c5-tp-link-obudowa.jpg#big)
 
-Mamy także ładowarkę 5V/1A z standardowym gniazdem
-USB:
+Mamy także ładowarkę 5V/1A z standardowym gniazdem USB:
 
-[![005-smartfon-neffos-c5-tp-link-ladowarka]({{< baseurl >}}/img/2016/10/005-smartfon-neffos-c5-tp-link-ladowarka-641x660.jpg)]({{< baseurl >}}/img/2016/10/005-smartfon-neffos-c5-tp-link-ladowarka.jpg)
+![]({{< baseurl >}}/img/2016/10/005-smartfon-neffos-c5-tp-link-ladowarka.jpg#medium)
 
 Oraz przewód mikro USB, dzięki któremu będziemy w stanie podpiąć naszego Neffos'a C5 do ładowarki
-lub portu USB
-komputera:
+lub portu USB komputera:
 
-[![006-smartfon-neffos-c5-tp-link-przewod-usb]({{< baseurl >}}/img/2016/10/006-smartfon-neffos-c5-tp-link-przewod-usb-660x372.jpg)]({{< baseurl >}}/img/2016/10/006-smartfon-neffos-c5-tp-link-przewod-usb.jpg)
+![]({{< baseurl >}}/img/2016/10/006-smartfon-neffos-c5-tp-link-przewod-usb.jpg#big)
 
-Do zestawu są także dołączone słuchawki posiadające złącze audio minijack (3,5
-mm):
+Do zestawu są także dołączone słuchawki posiadające złącze audio minijack (3,5 mm):
 
-[![007-smartfon-neffos-c5-tp-link-sluchawki]({{< baseurl >}}/img/2016/10/007-smartfon-neffos-c5-tp-link-sluchawki-660x372.jpg)]({{< baseurl >}}/img/2016/10/007-smartfon-neffos-c5-tp-link-sluchawki.jpg)
+![]({{< baseurl >}}/img/2016/10/007-smartfon-neffos-c5-tp-link-sluchawki.jpg#big)
 
-Nie mogło też zabraknąć akumulatora 2200 mAh, model
-NBL-42A2200:
+Nie mogło też zabraknąć akumulatora 2200 mAh, model NBL-42A2200:
 
-[![008-smartfon-neffos-c5-tp-link-bateria-akumulator]({{< baseurl >}}/img/2016/10/008-smartfon-neffos-c5-tp-link-bateria-akumulator-660x372.jpg)]({{< baseurl >}}/img/2016/10/008-smartfon-neffos-c5-tp-link-bateria-akumulator.jpg)
+![]({{< baseurl >}}/img/2016/10/008-smartfon-neffos-c5-tp-link-bateria-akumulator.jpg#medium)
 
 Do zestawu jest także dołączona skrócona instrukcja obsługi w języku polskim i kilka innych
 papierzysk oraz kawałek plastikowej osłony naklejanej na wyświetlacz.
@@ -78,10 +73,9 @@ papierzysk oraz kawałek plastikowej osłony naklejanej na wyświetlacz.
 ## Specyfikacja Neffos'a C5
 
 No to już wiemy co było w pudełku. Pora przyjrzeć się nieco bliżej samemu smartfonowi. Poniżej
-znajduje się fotka obrazująca część urządzenia tuż nad
-wyświetlaczem:
+znajduje się fotka obrazująca część urządzenia tuż nad wyświetlaczem:
 
-[![009-smartfon-neffos-c5-tp-link-glosnik-aparat]({{< baseurl >}}/img/2016/10/009-smartfon-neffos-c5-tp-link-glosnik-aparat-660x248.jpg)]({{< baseurl >}}/img/2016/10/009-smartfon-neffos-c5-tp-link-glosnik-aparat.jpg)
+![]({{< baseurl >}}/img/2016/10/009-smartfon-neffos-c5-tp-link-glosnik-aparat.jpg#big)
 
 Najbardziej z lewej strony mamy aparat selfie 5 mpix. Rozdzielczość zdjęć wykonywanych przy pomocy
 tego aparatu to 2560 x 1920 pikseli. Można nim także tworzyć materiały video, z tym, że tutaj już
@@ -91,7 +85,7 @@ standardowy głośnik. A na prawo od głośnika znajduje się czujnik światła 
 Z tyłu telefonu mamy zaś główny aparat 8 mpix z przysłoną f/2.0, oraz dwie diody w roli lampy
 błyskowej:
 
-[![010-smartfon-neffos-c5-tp-link-aparat-dioda]({{< baseurl >}}/img/2016/10/010-smartfon-neffos-c5-tp-link-aparat-dioda-660x372.jpg)]({{< baseurl >}}/img/2016/10/010-smartfon-neffos-c5-tp-link-aparat-dioda.jpg)
+![]({{< baseurl >}}/img/2016/10/010-smartfon-neffos-c5-tp-link-aparat-dioda.jpg#big)
 
 Może i ten aparat ma 8 mpix ale jakość zdjęć pozostawia trochę do życzenia, szczególnie przy
 słabszym oświetleniu. W takich warunkach, autofokus ma problemy ze złapaniem ostrości, a jak już
@@ -108,40 +102,35 @@ rozdzielczość video, to tutaj jest już nieco lepiej, bo jesteśmy w stanie na
 rozdzielczości 1920 x 1080 pikseli, przy 30 FPS. Rodzaj wykorzystywanego kodeka to h264 (bitrate na
 poziomie 17250 kbps).
 
-Również z tyłu obudowy mamy głośnik
-multimedialny:
+Również z tyłu obudowy mamy głośnik multimedialny:
 
-[![011-smartfon-neffos-c5-tp-link-glosnik]({{< baseurl >}}/img/2016/10/011-smartfon-neffos-c5-tp-link-glosnik-660x372.jpg)]({{< baseurl >}}/img/2016/10/011-smartfon-neffos-c5-tp-link-glosnik.jpg)
+![]({{< baseurl >}}/img/2016/10/011-smartfon-neffos-c5-tp-link-glosnik.jpg#big)
 
-Na prawej krawędzi obudowy mamy trzy przyciski: power, volume down i volume
-up:
+Na prawej krawędzi obudowy mamy trzy przyciski: power, volume down i volume up:
 
-[![012-smartfon-neffos-c5-tp-link-przyciski]({{< baseurl >}}/img/2016/10/012-smartfon-neffos-c5-tp-link-przyciski-660x182.jpg)]({{< baseurl >}}/img/2016/10/012-smartfon-neffos-c5-tp-link-przyciski.jpg)
+![]({{< baseurl >}}/img/2016/10/012-smartfon-neffos-c5-tp-link-przyciski.jpg#big)
 
-Z kolei zaś na górnej krawędzi znajduje się gniazdo słuchawkowe oraz mikrofon z redukcją
-szumów:
+Z kolei zaś na górnej krawędzi znajduje się gniazdo słuchawkowe oraz mikrofon z redukcją szumów:
 
-[![013-smartfon-neffos-c5-tp-link-mikrofon-minijack]({{< baseurl >}}/img/2016/10/013-smartfon-neffos-c5-tp-link-mikrofon-minijack-660x173.jpg)]({{< baseurl >}}/img/2016/10/013-smartfon-neffos-c5-tp-link-mikrofon-minijack.jpg)
+![]({{< baseurl >}}/img/2016/10/013-smartfon-neffos-c5-tp-link-mikrofon-minijack.jpg#big)
 
 No i standardowo na dolnej krawędzi mamy port mikro USB typ B oraz zwykły mikrofon do rozmów
 telefonicznych:
 
-[![014-smartfon-neffos-c5-tp-link-mikrofon-usb]({{< baseurl >}}/img/2016/10/014-smartfon-neffos-c5-tp-link-mikrofon-usb-660x139.jpg)]({{< baseurl >}}/img/2016/10/014-smartfon-neffos-c5-tp-link-mikrofon-usb.jpg)
+![]({{< baseurl >}}/img/2016/10/014-smartfon-neffos-c5-tp-link-mikrofon-usb.jpg#big)
 
-Zajrzyjmy jeszcze do wnętrza Neffos'a
-C5:
+Zajrzyjmy jeszcze do wnętrza Neffos'a C5:
 
-[![015-smartfon-neffos-c5-tp-link-sim-bateria]({{< baseurl >}}/img/2016/10/015-smartfon-neffos-c5-tp-link-sim-bateria-660x315.jpg)]({{< baseurl >}}/img/2016/10/015-smartfon-neffos-c5-tp-link-sim-bateria.jpg)
+![]({{< baseurl >}}/img/2016/10/015-smartfon-neffos-c5-tp-link-sim-bateria.jpg#huge)
 
 Mamy tutaj miejsce na akumulator oraz trzy sloty. Dwa z nich są na karty mini SIM. Jeśli mamy
 adapter mikro-mini, to możemy także korzystać z karty mikro SIM. Standardowych rozmiarów karty SIM
 są niestety za duże i trzeba będzie postarać się o mniejsze odpowiedniki. Trzeci zaś slot jest na
 kartę mikro SDHC (max 32 GiB). W to duże zagłębienie zaś wchodzi bateria i jak widać, przysłania ona
 wszystkie trzy sloty, przez co nie damy rady wyciągnąć żadnej karty bez wyciągania akumulatora i
-wyłączania
-telefonu:
+wyłączania telefonu:
 
-[![016-smartfon-neffos-c5-tp-link-sim-mikro-sd-bateria]({{< baseurl >}}/img/2016/10/016-smartfon-neffos-c5-tp-link-sim-mikro-sd-bateria-660x372.jpg)]({{< baseurl >}}/img/2016/10/016-smartfon-neffos-c5-tp-link-sim-mikro-sd-bateria.jpg)
+![]({{< baseurl >}}/img/2016/10/016-smartfon-neffos-c5-tp-link-sim-mikro-sd-bateria.jpg#huge)
 
 ### Procesor MediaTek MT6735
 
@@ -152,44 +141,39 @@ tutaj układ graficzny ARM Mali-T720 MP2 taktowany zegarem 450 MHz będący w st
 wyświetlacz w rozdzielczości 720 x 1280 pikseli (HD) oraz nagrywać i odtwarzać materiały wideo w
 rozdzielczości maksymalnej 1080p przy 30 FPS'ach. Procesor graficzny posiada także wsparcie dla API
 takich standardów jak OpenGL ES 1.1/2.0/3.0, OpenCL 1.0/1.1/1.2 oraz DirectX9. Proces technologiczny
-tego SoC'a to 28
-nm.
+tego SoC'a to 28 nm.
 
-[![017.1-smartfon-neffos-c5-tp-link-cpuz-system]({{< baseurl >}}/img/2016/10/017.1-smartfon-neffos-c5-tp-link-cpuz-system-660x361.png)]({{< baseurl >}}/img/2016/10/017.1-smartfon-neffos-c5-tp-link-cpuz-system.png)
+![]({{< baseurl >}}/img/2016/10/017.1-smartfon-neffos-c5-tp-link-cpuz-system.png#huge)
 
 ### Pamięć RAM oraz flash
 
 Niewątpliwą zasługą bardzo płynnego działania systemu smartfona (Android 5.1) jest fakt, że ten
 Neffos C5 ma zainstalowane 2 GiB pamięci operacyjnej RAM (LPDDR3). Nie jestem pewien jaka jest
 częstotliwość tej pamięci. Wpadła mi w oczy wartość 640 MHz. Po wyłączeniu zbędnych rzeczy z
-autostartu, mamy około 1,4 GiB pamięci na odpalane w systemie
-aplikacje.
+autostartu, mamy około 1,4 GiB pamięci na odpalane w systemie aplikacje.
 
-[![018-smartfon-neffos-c5-tp-link-utylizacja-pamieci-ram]({{< baseurl >}}/img/2016/10/018-smartfon-neffos-c5-tp-link-utylizacja-pamieci-ram-660x478.png)]({{< baseurl >}}/img/2016/10/018-smartfon-neffos-c5-tp-link-utylizacja-pamieci-ram.png)
+![]({{< baseurl >}}/img/2016/10/018-smartfon-neffos-c5-tp-link-utylizacja-pamieci-ram.png#medium)
 
 Neffos C5 jest wyposażony także w pamięć flash o pojemności 16 GiB. Niemniej jednak, jak to zwykle
 bywa w smartfonach, część przestrzeni tego flash'a zjada nam już system operacyjny i preinstalowane
 aplikacje dodatkowe. Odliczając te rzeczy, zostaje nam do użytku nieco poniżej 10 GiB ale to i tak
 całkiem przyzwoita ilość miejsca. Dla wymagających zawsze jest opcja skorzystania z kart SD, które
-mogą pomóc nam tę pamięć rozbudować o dodatkowe 32
-GiB.
+mogą pomóc nam tę pamięć rozbudować o dodatkowe 32 GiB.
 
-[![019.1-smartfon-neffos-c5-tp-link-flash-partycje]({{< baseurl >}}/img/2016/10/019.1-smartfon-neffos-c5-tp-link-flash-partycje-401x660.png)]({{< baseurl >}}/img/2016/10/019.1-smartfon-neffos-c5-tp-link-flash-partycje.png)
+![]({{< baseurl >}}/img/2016/10/019.1-smartfon-neffos-c5-tp-link-flash-partycje.png#medium)
 
 ### Pasywny Dual SIM
 
 Dual SIM działa w trybie pasywnym (Dual Standby), czyli możemy wykorzystywać tylko jedną kartę SIM w
 danym czasie. Oczywiście obie karty SIM działają równolegle i mamy możliwość skonfigurowania ich
 niezależnie pod rozmowy, SMS i pakiety danych. Karty SIM mogą być 2/3/4G przez co mamy wygodny
-dostęp do technologi
-LTE:
+dostęp do technologi LTE:
 
-[![020-smartfon-neffos-c5-tp-link-konfiguracja-sim]({{< baseurl >}}/img/2016/10/020-smartfon-neffos-c5-tp-link-konfiguracja-sim-401x660.png)]({{< baseurl >}}/img/2016/10/020-smartfon-neffos-c5-tp-link-konfiguracja-sim.png)
+![]({{< baseurl >}}/img/2016/10/020-smartfon-neffos-c5-tp-link-konfiguracja-sim.png#medium)
 
-Możemy także bez problemu skonfigurować limity danych dla każdej karty SIM
-osobno:
+Możemy także bez problemu skonfigurować limity danych dla każdej karty SIM osobno:
 
-[![021-smartfon-neffos-c5-tp-link-konfiguracja-sim-limit]({{< baseurl >}}/img/2016/10/021-smartfon-neffos-c5-tp-link-konfiguracja-sim-limit-660x459.png)]({{< baseurl >}}/img/2016/10/021-smartfon-neffos-c5-tp-link-konfiguracja-sim-limit.png)
+![]({{< baseurl >}}/img/2016/10/021-smartfon-neffos-c5-tp-link-konfiguracja-sim-limit.png#big)
 
 Po zamianie kart miejscami w slotach, czy też po ich fizycznej podmianie, po włączeniu telefonu
 zostaniemy o tym fakcie powiadomieni i poproszeni o zdefiniowanie nowej konfiguracji dla dual SIM.
@@ -229,10 +213,9 @@ Neffos C5 dysponuje akumulatorem litowo-jonowy o pojemności 2200 mAh, model NBL
 on może do najpojemniejszych ale niewątpliwą jego zaletą jest możliwość wymiany bez odwiedzania
 serwisu, bo nie jest wmontowany na stałe. Czas ładowania od 0-100% przy zastosowaniu ładowarki 5V/2A
 wynosi około 3 godzin. Zatem to urządzenie nie wspiera szybkiego ładowania. Nie jest wspierane także
-ładowanie
-bezprzewodowe.
+ładowanie bezprzewodowe.
 
-[![022-smartfon-neffos-c5-tp-link-ladowanie-baterii]({{< baseurl >}}/img/2016/10/022-smartfon-neffos-c5-tp-link-ladowanie-baterii-660x371.png)]({{< baseurl >}}/img/2016/10/022-smartfon-neffos-c5-tp-link-ladowanie-baterii.png)
+![]({{< baseurl >}}/img/2016/10/022-smartfon-neffos-c5-tp-link-ladowanie-baterii.png#big)
 
 Żywotność baterii przy włączonym ciągle module GPS i WiFi jest w granicach 12-14 godzin. W stanie
 czuwania bez tych wszystkich modułów, telefon potrafi wytrzymać jakieś 14 dni. Przynajmniej taka
@@ -240,26 +223,23 @@ wartość została zwrócona przez ten wbudowany mechanizm szacujący czas rozł
 spojrzy się na wykres rozładowania baterii, to można zauważyć, że niewiele jej ubywa podczas stanu
 czuwania:
 
-[![023-smartfon-neffos-c5-tp-link-rozladowanie-baterii]({{< baseurl >}}/img/2016/10/023-smartfon-neffos-c5-tp-link-rozladowanie-baterii-660x371.png)]({{< baseurl >}}/img/2016/10/023-smartfon-neffos-c5-tp-link-rozladowanie-baterii.png)
+![]({{< baseurl >}}/img/2016/10/023-smartfon-neffos-c5-tp-link-rozladowanie-baterii.png#big)
 
 Jeśli chodzi zaś o temperaturę baterii, to w stanie spoczynku telefonu ma ona w granicach 20 stopni.
 Ta wartość rośnie trochę podczas procesu ładowania akumulatora, choć rzadko przekracza 30 stopni.
 Maksymalna wartość temperatury do jakiej rozgrzała mi się ta bateria podczas pracy, to około 36
-stopni (przeglądanie YT w 720p). Jak dla mnie, to nie są zbyt wysokie
-wartości.
+stopni (przeglądanie YT w 720p). Jak dla mnie, to nie są zbyt wysokie wartości.
 
-[![024-smartfon-neffos-c5-tp-link-temperatura-baterii]({{< baseurl >}}/img/2016/10/024-smartfon-neffos-c5-tp-link-temperatura-baterii-660x371.png)]({{< baseurl >}}/img/2016/10/024-smartfon-neffos-c5-tp-link-temperatura-baterii.png)
+![]({{< baseurl >}}/img/2016/10/024-smartfon-neffos-c5-tp-link-temperatura-baterii.png#big)
 
 Napięcie baterii w stanie totalnego rozładowania jest na poziomie 3,4 V. Przy maksymalnym
-naładowaniu jakieś 4,35
-V.
+naładowaniu jakieś 4,35 V.
 
-[![025-smartfon-neffos-c5-tp-link-napiecie-baterii]({{< baseurl >}}/img/2016/10/025-smartfon-neffos-c5-tp-link-napiecie-baterii-660x371.png)]({{< baseurl >}}/img/2016/10/025-smartfon-neffos-c5-tp-link-napiecie-baterii.png)
+![]({{< baseurl >}}/img/2016/10/025-smartfon-neffos-c5-tp-link-napiecie-baterii.png#big)
 
-Poniżej jest jeszcze fotka zestawiająca te trzy powyższe wykresy
-razem:
+Poniżej jest jeszcze fotka zestawiająca te trzy powyższe wykresy razem:
 
-[![026-smartfon-neffos-c5-tp-link-bateria-staty]({{< baseurl >}}/img/2016/10/026-smartfon-neffos-c5-tp-link-bateria-staty-401x660.png)]({{< baseurl >}}/img/2016/10/026-smartfon-neffos-c5-tp-link-bateria-staty.png)
+![]({{< baseurl >}}/img/2016/10/026-smartfon-neffos-c5-tp-link-bateria-staty.png#medium)
 
 ## Głośnik, słuchawki i wydobywający się z nich dźwięk
 
@@ -277,10 +257,9 @@ MP3/320). Niemniej jednak, temu mp3player'owi raczej niewiele urządzeń jest w 
 jakby nie patrzeć, to w końcu dedykowany sprzęt do odtwarzania muzyki.
 
 W opcjach smartfona dotyczących poprawy dźwięku mamy niby kilka rzeczy, które teoretycznie mają za
-zadanie poprawiać jakoś odtwarzanej
-muzyki:
+zadanie poprawiać jakoś odtwarzanej muzyki:
 
-[![027-smartfon-neffos-c5-tp-link-poprawa-dzwieku]({{< baseurl >}}/img/2016/10/027-smartfon-neffos-c5-tp-link-poprawa-dzwieku-660x656.png)]({{< baseurl >}}/img/2016/10/027-smartfon-neffos-c5-tp-link-poprawa-dzwieku.png)
+![]({{< baseurl >}}/img/2016/10/027-smartfon-neffos-c5-tp-link-poprawa-dzwieku.png#medium)
 
 By być szczerym, na moje ucho, to one tylko pogarszają jakość dźwięku zarówno przez głośnik jak i
 przez słuchawki. Nie powiem, że różnicy nie ma ale to jest w zasadzie taka różnica, że "nie wiem,
@@ -295,17 +274,15 @@ do odpalania i pauzowania odtwarzacza muzyki.
 ### Czujniki
 
 Na pokładzie Neffos'a C5 mamy także zaszytych kilka czujników. Są to akcelerometr, czujnik
-zbliżeniowy, czujnik światła oraz
-magnetometr:
+zbliżeniowy, czujnik światła oraz magnetometr:
 
-[![028-smartfon-neffos-c5-tp-link-cpuz-czujniki]({{< baseurl >}}/img/2016/10/028-smartfon-neffos-c5-tp-link-cpuz-czujniki-401x660.png)]({{< baseurl >}}/img/2016/10/028-smartfon-neffos-c5-tp-link-cpuz-czujniki.png)
+![]({{< baseurl >}}/img/2016/10/028-smartfon-neffos-c5-tp-link-cpuz-czujniki.png#medium)
 
 Ten ostatni z kolei wykrywa zmiany w polu elektromagnetycznym przez co możemy przerobić nasz telefon
 na kompas. Trzeba tylko pilnować, by nie zbliżyć się zbytnio do jakiegoś magnesu, bo wtedy wynik
-może nie być zbyt
-wiarygodny.
+może nie być zbyt wiarygodny.
 
-[![029-smartfon-neffos-c5-tp-link-kompas]({{< baseurl >}}/img/2016/10/029-smartfon-neffos-c5-tp-link-kompas-401x660.png)]({{< baseurl >}}/img/2016/10/029-smartfon-neffos-c5-tp-link-kompas.png)
+![]({{< baseurl >}}/img/2016/10/029-smartfon-neffos-c5-tp-link-kompas.png#medium)
 
 Te standardowe czujniki są w porządku ale zabrakło mi tutaj żyroskopu oraz wysokościomierza.
 Przydałby mi się też termometr, barometr no i oczywiście licznik Geigera, choć pewnie przesadzam
@@ -321,7 +298,7 @@ transferu w tej technologi 150/50 mbit/s (download/upload). Przy mojej lokalizac
 metrów od BTS'a (widoczność zachowana), w nocy około 2-3 godziny, transfer jest na poziomie 40/20
 mbit/s.
 
-[![029.1-smartfon-neffos-c5-tp-link-speedtest-lte]({{< baseurl >}}/img/2016/10/029.1-smartfon-neffos-c5-tp-link-speedtest-lte-401x660.png)]({{< baseurl >}}/img/2016/10/029.1-smartfon-neffos-c5-tp-link-speedtest-lte.png)
+![]({{< baseurl >}}/img/2016/10/029.1-smartfon-neffos-c5-tp-link-speedtest-lte.png#medium)
 
 Może jest to daleko do tych obiecanych 150/50 mbit/s ale i tak jest to prawie dwukrotnie lepiej co w
 przypadku zewnętrznego modemu Huawei E3372s (pomiary przeprowadzane w budynku).
@@ -336,16 +313,14 @@ Nie mogło także zabraknąć obsługi bezprzewodowej sieci WiFi. Jeśli o nią 
 potrafi obsługiwać jedynie pasmo 2,4 GHz w standardzie 802.11 b/g/n do 150 mbit/s (pojedynczy
 strumień). Trochę szkoda, bo nie ułatwia to jakże wielce potrzebnej migracji na 5 GHz. Zasięg jest
 raczej przeciętny ze wskazaniem na dobry. Poniżej są fotki zasięgu z moich AP, które w czasie
-pomiaru były rozlokowane w różnych pomieszczeniach (ten sam pokój, 4m + ściana, 6m + trzy
-ściany):
+pomiaru były rozlokowane w różnych pomieszczeniach (ten sam pokój, 4m + ściana, 6m + trzy ściany):
 
-[![031-smartfon-neffos-c5-tp-link-wifi-zasieg]({{< baseurl >}}/img/2016/10/031-smartfon-neffos-c5-tp-link-wifi-zasieg-543x660.png)]({{< baseurl >}}/img/2016/10/031-smartfon-neffos-c5-tp-link-wifi-zasieg.png)
+![]({{< baseurl >}}/img/2016/10/031-smartfon-neffos-c5-tp-link-wifi-zasieg.png#big)
 
 Jeśli chodzi zaś o rzeczywisty transfer, to jest on na poziomie trochę powyżej 100 mbit/s (mierzone
-w tym samym pomieszczeniu co główny
-router):
+w tym samym pomieszczeniu co główny router):
 
-[![032-smartfon-neffos-c5-tp-link-wifi-predkosc]({{< baseurl >}}/img/2016/10/032-smartfon-neffos-c5-tp-link-wifi-predkosc-401x660.png)]({{< baseurl >}}/img/2016/10/032-smartfon-neffos-c5-tp-link-wifi-predkosc.png)
+![]({{< baseurl >}}/img/2016/10/032-smartfon-neffos-c5-tp-link-wifi-predkosc.png#medium)
 
 Standardowo też nie mamy wsparcia dla roamingu WiFi i trzeba ratować się zewnętrzną [aplikacją
 SWIFI](https://play.google.com/store/apps/details?id=com.seah0rse.swififree), która i tak ma defekt
@@ -357,16 +332,15 @@ Jeśli nie dysponujemy routerem 3G/LTE, lub też nie posiadamy dedykowanego mode
 chcielibyśmy korzystać z internetu w tej technologi, to możemy pokusić się przerobienie naszego
 Neffos'a C5 na hotspot sieci WiFi i przy jego pomocy udostępnić połączenie 3G/LTE w sieci lokalnej
 (max. 8 użytkowników). Oczywiście trzeba liczyć się z większą utylizacją baterii ale ta
-funkcjonalność jest jak najbardziej wpierana przez ten
-smartfon.
+funkcjonalność jest jak najbardziej wpierana przez ten smartfon.
 
-[![033-smartfon-neffos-c5-tp-link-wifi-hotspot]({{< baseurl >}}/img/2016/10/033-smartfon-neffos-c5-tp-link-wifi-hotspot-660x533.png)]({{< baseurl >}}/img/2016/10/033-smartfon-neffos-c5-tp-link-wifi-hotspot.png)
+![]({{< baseurl >}}/img/2016/10/033-smartfon-neffos-c5-tp-link-wifi-hotspot.png#big)
 
 Neffos C5 jest także w stanie świadczyć połączenie przez Bluetooth czy nawet za pośrednictwem
 przewodu USB, tzw.
 [Tethering](https://pl.wikipedia.org/wiki/Tethering).
 
-[![034-smartfon-neffos-c5-tp-link-usb-tethering]({{< baseurl >}}/img/2016/10/034-smartfon-neffos-c5-tp-link-usb-tethering-401x660.png)]({{< baseurl >}}/img/2016/10/034-smartfon-neffos-c5-tp-link-usb-tethering.png)
+![]({{< baseurl >}}/img/2016/10/034-smartfon-neffos-c5-tp-link-usb-tethering.png#medium)
 
 Po podłączeniu smartfona przez przewód USB do komputera, w systemie linux pojawia się nowy interfejs
 `usb0` , który możemy skonfigurować sobie jak każdy inny interfejs przewodowy. Poniżej jest log ze
@@ -427,10 +401,9 @@ korzystając z wbudowanego mechanizmu aktualizacji.
 
 System działa stabilnie i płynnie, a sam telefon się za nadto nie grzeje. Podczas dłuższego
 odtwarzania filmu na YT w rozdzielczości 720p, czujniki temperatury zlokalizowane wewnątrz smartfona
-wskazują poniższe
-wartości:
+wskazują poniższe wartości:
 
-[![035-smartfon-neffos-c5-tp-link-temperatura]({{< baseurl >}}/img/2016/10/035-smartfon-neffos-c5-tp-link-temperatura-401x660.png)]({{< baseurl >}}/img/2016/10/035-smartfon-neffos-c5-tp-link-temperatura.png)
+![]({{< baseurl >}}/img/2016/10/035-smartfon-neffos-c5-tp-link-temperatura.png#medium)
 
 Ten Android co jest w Neffos'ie C5 jest praktycznie czysty i zawiera jedynie prostą nakładkę
 TP-LINK'a. Nie będę o niej zbytnio pisał, bo to czy ona komuś przypadnie do gustu czy też nie, to
@@ -442,23 +415,22 @@ Dla mnie użyteczny okazał się menadżer zainstalowanych w telefonie aplikacji
 w stanie bardzo łatwo zweryfikować uprawnienia konkretnych aplikacji i w prosty sposób je sobie
 dostosować:
 
-[![036-smartfon-neffos-c5-tp-link-menadzer-aplikacji-uprawnienia]({{< baseurl >}}/img/2016/10/036-smartfon-neffos-c5-tp-link-menadzer-aplikacji-uprawnienia-660x362.png)]({{< baseurl >}}/img/2016/10/036-smartfon-neffos-c5-tp-link-menadzer-aplikacji-uprawnienia.png)
+![]({{< baseurl >}}/img/2016/10/036-smartfon-neffos-c5-tp-link-menadzer-aplikacji-uprawnienia.png#huge)
 
 Inną ciekawą rzeczą jest możliwość zaprogramowania Neffos'a C5 by ten się automatycznie włączał i
 wyłączał o określonej godzinie. Bardzo użyteczna rzecz zwłaszcza w przypadku godzin nocnych, gdzie
 podczas snu nie chcemy by nam ktoś dzwonił. No a skoro też w tym czasie nie korzystamy z telefonu w
 ogóle to czemu go nie wyłączyć na okres snu? Jedyny problem jaki mam z tym ficzerem to możliwość
-zaprogramowania tylko jeden akcji włączenia i jednej akcji
-wyłączenia.
+zaprogramowania tylko jeden akcji włączenia i jednej akcji wyłączenia.
 
-[![037-smartfon-neffos-c5-tp-link-harmonogram-pracy]({{< baseurl >}}/img/2016/10/037-smartfon-neffos-c5-tp-link-harmonogram-pracy-401x660.png)]({{< baseurl >}}/img/2016/10/037-smartfon-neffos-c5-tp-link-harmonogram-pracy.png)
+![]({{< baseurl >}}/img/2016/10/037-smartfon-neffos-c5-tp-link-harmonogram-pracy.png#medium)
 
 Kolejna ciekawa sprawa, to możliwość zaszyfrowania telefonu. Dokładnie nie wiem jak jest realizowane
 to szyfrowanie ale na necie znalazłem informację, że ten SoC MediaTek MT6735 ma wsparcie dla
 szyfrowania AES. Na pewno przyjrzę się tej opcji i sprawdzę, czy faktycznie jest ona godna
 rozważenia.
 
-[![038-smartfon-neffos-c5-tp-link-szyfrowanie-telefonu]({{< baseurl >}}/img/2016/10/038-smartfon-neffos-c5-tp-link-szyfrowanie-telefonu-401x660.png)]({{< baseurl >}}/img/2016/10/038-smartfon-neffos-c5-tp-link-szyfrowanie-telefonu.png)
+![]({{< baseurl >}}/img/2016/10/038-smartfon-neffos-c5-tp-link-szyfrowanie-telefonu.png#medium)
 
 Idąc dalej mamy tryb oszczędzania energii, który jest w stanie bardzo przyzwoicie ograniczyć
 funkcjonalność Neffos'a C5 ale też dość znacznie wydłużyć jego czas pracy na baterii. Przy
@@ -468,10 +440,9 @@ wyłączonym wyświetlaczu jest to czas rzędu 14+ dni.
 
 Nie powiem, że proces root'owania Neffos'a C5 przebiegł bez większego problemu ale udało się ten
 telefon ukorzenić. Chodzi oczywiście o odblokowanie zabezpieczeń i uzyskanie administracyjnego
-dostępu do całego systemu plików na flash'u w telefonie (artykuł będzie
-osobno).
+dostępu do całego systemu plików na flash'u w telefonie (artykuł będzie osobno).
 
-[![039-smartfon-neffos-c5-tp-link-root]({{< baseurl >}}/img/2016/10/039-smartfon-neffos-c5-tp-link-root-401x660.png)]({{< baseurl >}}/img/2016/10/039-smartfon-neffos-c5-tp-link-root.png)
+![]({{< baseurl >}}/img/2016/10/039-smartfon-neffos-c5-tp-link-root.png#medium)
 
 ## Praca pod linux'em
 

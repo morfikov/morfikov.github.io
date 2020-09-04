@@ -25,9 +25,8 @@ Backspace .
 
 Przy przeglądaniu stron internetowych w Operze, gdy człowiek chciał powrócić do poprzedniej strony,
 wszystko czego potrzebował to wciśnięcie klawisza Backspace . Jeśli spróbujemy wcisnąć ten klawisz w
-Firefox'ie, to na dobrą sprawę nic się nie stanie, a to z tego względu, że [od prawie 2007
-roku](http://kb.mozillazine.org/Browser.backspace_action), klawisz Backspace jest niemapowany
-domyślnie, czego efektem jest brak reakcji na jego przyciśnięcie.
+Firefox'ie, to na dobrą sprawę nic się nie stanie, a to z tego względu, że [od prawie 2007 roku][1],
+klawisz Backspace jest niemapowany domyślnie, czego efektem jest brak reakcji na jego przyciśnięcie.
 
 W powyższym linku możemy wyczytać, że akcja powrotu do poprzedniej strony była przypisana do
 klawisza Backspace by zachować zgodność z przeglądarką Internet Explorer ale w trosce o
@@ -49,4 +48,6 @@ Jeśli chcemy zmienić domyślne zachowanie klawisza Backspace , to przechodzimy
 konfiguracyjnych Firefox'a, które kryją się pod `about:config` . Wpisujemy zatem ten adres w polu
 adresu i wyszukujemy `backspace` , po czym przestawiamy jego wartość tej zmiennej wedle upodobań:
 
-![]({{< baseurl >}}/img/2015/07/1.firefox-backspace.png)
+![]({{< baseurl >}}/img/2015/07/1.firefox-backspace.png#big)
+
+[1]: http://kb.mozillazine.org/Browser.backspace_action

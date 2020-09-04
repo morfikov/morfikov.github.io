@@ -81,7 +81,7 @@ dostosowanie struktury katalogów wewnątrz folderu `/jail/` . Chodzi o to, że 
 odwiedzili katalog serwera, który umożliwia listing plików, to pierwsze co nam się rzuci w oczy to
 brak ikonek. Zamiast nich zostaną nam jedynie pokazane `[ICO]` , `[DIR]` czy `[TXT]` :
 
-![]({{< baseurl >}}/img/2016/08/1.chroot-apache2-mysql-php-bledy.png)
+![]({{< baseurl >}}/img/2016/08/1.chroot-apache2-mysql-php-bledy.png#medium)
 
 Te ikonki znajdują się w katalogu `/usr/share/apache2/` i by je wyświetlić w środowisku chroot,
 musimy stworzyć taki katalog wewnątrz folderu `/jail/` i przekopiować do niego odpowiednie pliki.
@@ -120,7 +120,7 @@ Zakładając, że nasz serwer www został poprawnie skonfigurowany pod kątem pr
 możemy teraz spróbować odwiedzić nasz blog. Z reguły taki serwis wymaga do pracy serwera bazy
 danych. Po przejściu pod adres www, przywita nas ten poniższy komunikat:
 
-![]({{< baseurl >}}/img/2016/08/2.chroot-apache2-mysql-php-bledy.png)
+![]({{< baseurl >}}/img/2016/08/2.chroot-apache2-mysql-php-bledy.png#medium)
 
 Serwerowi bazy danych nic nie dolega ale skrypty PHP w środowisku chroot nie potrafią go odnaleźć. W
 efekcie zwracają błąd połączenia: `Can't connect to local MySQL server through socket
@@ -163,7 +163,7 @@ I resetujemy serwer bazy danych MySQL. W tej chwili nasz serwis www powinien ju�
 bazy danych. Na wypadek błędów dobrze jest zajrzeć do katalogu `/var/log/apache2/` lub też
 `/var/log/mysql/` i przejrzeć znajdujące się w tych folderach logi systemowe.
 
-## Dyrektywa open\_basedir w PHP
+## Dyrektywa open_basedir w PHP
 
 Jak widać, upchnięcie serwera www w środowisku chroot może być nieco problematyczne. Poza tym,
 niektórzy użytkownicy niezbyt przychylnie są nastawieni do tego typu rozwiązań argumentując swoje
@@ -174,7 +174,7 @@ Apache2 nie działa z uprawnieniami root, zatem może mieć on lekki problem z u
 Jako, że w artykule, którego link został przytoczony we wstępie, nacisk został położony na
 uniemożliwienie skryptom PHP odczytywania plików systemowych, to możemy skorzystać z nieco innego
 rozwiązania. Chodzi o [parametr
-open\_basedir](http://php.net/manual/en/ini.core.php#ini.open-basedir), który jest do
+open_basedir](http://php.net/manual/en/ini.core.php#ini.open-basedir), który jest do
 skonfigurowania w pliku `/etc/php5/apache2/php.ini` :
 
     open_basedir = "/var/www/"

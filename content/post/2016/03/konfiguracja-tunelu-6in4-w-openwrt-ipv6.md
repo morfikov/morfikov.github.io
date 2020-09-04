@@ -11,6 +11,7 @@ tags:
 - sieć
 - ipv6
 - router
+- 6in4
 title: Konfiguracja tunelu 6in4 w OpenWRT (IPv6)
 ---
 
@@ -52,7 +53,7 @@ konfigurację będziemy mogli wdrożyć na routerze. By móc korzystać z usług
 pierw zarejestrować. Po zarejestrowaniu, tworzymy tunel wybierając z menu po lewej stronie `Create
 Regular Tunnel` .
 
-![]({{< baseurl >}}/img/2016/03/1.rejestracja-tunelu-6in4-hurricane-electric.png)
+![]({{< baseurl >}}/img/2016/03/1.rejestracja-tunelu-6in4-hurricane-electric.png#small)
 
 Przy tworzeniu tunelu 6in4, trzeba określić jeden z jego z końców. Po to nam jest właśnie potrzebny
 zewnętrzny adres IP w protokole IPv4. Nasz aktualny adres powinien zostać automatycznie wykryty i
@@ -60,16 +61,16 @@ wystarczy go przekopiować w pole `IPv4 Endpoint` . Ważne jest by podczas tego 
 stanie odpowiadać na zapytania `ping` od strony WAN. W przeciwnym razie dostaniemy taki oto
 komunikat i nie będziemy mogli kontynuować:
 
-![]({{< baseurl >}}/img/2016/03/2.problem-sprawdzanie-tunel-6in4.png)
+![]({{< baseurl >}}/img/2016/03/2.problem-sprawdzanie-tunel-6in4.png#big)
 
 Jeśli nasz router odpowiada na żądanie `ping` z tego serwisu, to powinniśmy zobaczyć wiadomość o
 tym, że dany adres może być potencjalną końcówką dla tunelu 6in4:
 
-![]({{< baseurl >}}/img/2016/03/3.pomyslna-weryfikacja-tunel-6in4.png)
+![]({{< baseurl >}}/img/2016/03/3.pomyslna-weryfikacja-tunel-6in4.png#big)
 
 Standardowo możemy zarejestrować 5 tunelów ale tylko jeden tunel może być przypisany do konkretnego
 zewnętrznego adresu IP w protokole IPv4. Wybieramy także serwer, do którego mamy najbliżej. W tym
-przypadku jest to Europa \> Warszawa. Po chwili zostanie nam zwrócona strona z informacjami o nowo
+przypadku jest to Europa > Warszawa. Po chwili zostanie nam zwrócona strona z informacjami o nowo
 utworzonym tunelu.
 
 ## Konfiguracja tunelu 6in4 w OpenWRT
@@ -78,7 +79,7 @@ Mając tunel, musimy uzyskać jego konfigurację, którą później wpiszemy w O
 na zakładkę `Example Configurations` i wybieramy z listy OpenWRT. Nie ma, co prawda, Chaos Calmer
 ale ta konfiguracja podana dla Barrier Breaker również działa prawidłowo.
 
-![]({{< baseurl >}}/img/2016/03/4.konfiguracja-tunelu-6in4-openwrt.png)
+![]({{< baseurl >}}/img/2016/03/4.konfiguracja-tunelu-6in4-openwrt.png#big)
 
 W tej konfiguracji jest wykorzystywane narzędzie `uci` ale nic nie stoi na przeszkodzie, by
 wszystkie wpisy ręcznie sobie dodać przez edycję pliku `/etc/config/network` . Logujemy się zatem na
@@ -150,9 +151,9 @@ Tak czy inaczej, musimy sprawdzić czy połączenie na lokalnych hostach działa
 i przechodzimy na adres `http://ipv6test.google.com/` . Jeśli wszystko działa jak należy, powinniśmy
 zobaczyć ten poniższy komunikat:
 
-![]({{< baseurl >}}/img/2016/03/5.test-tunel-6in4-google-ivp6.png)
+![]({{< baseurl >}}/img/2016/03/5.test-tunel-6in4-google-ivp6.png#medium)
 
 Możemy także sprawdzić jakość tego połączenia przechodząc pod adres `http://test-ipv6.com/` . W tym
 przypadku wygląda to tak:
 
-![]({{< baseurl >}}/img/2016/03/6.test-tunel-6in4-jakosc-ipv6.png)
+![]({{< baseurl >}}/img/2016/03/6.test-tunel-6in4-jakosc-ipv6.png#big)

@@ -39,11 +39,7 @@ weźmy sobie to poniższe polecenie:
     $ echo -e "\a"
 
 Można także skorzystać [z siódmego znaku ASCII lub
-Unicode](https://en.wikipedia.org/wiki/Bell_character) (bell code):
-
-    $ echo -e "
-
-7"
+Unicode](https://en.wikipedia.org/wiki/Bell_character) (bell code).
 
 Jeśli nasz głośnik piszczy przy wydawaniu tych poleceń i nie podoba nam się generowany przez niego
 dźwięk, to możemy to w bardzo prosty sposób zmienić.
@@ -70,7 +66,7 @@ debianie w pakiecie `alsa-utils` . Jeśli korzystamy z PulseAudio, to musimy prz
 dźwiękowej wciskając klawisz F6 i wybierając odpowiednią pozycję. W przypadku mojej karty, suwaki
 wyglądają mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/01/1.glosnik-beep-alsamixer.png)
+![]({{< baseurl >}}/img/2016/01/1.glosnik-beep-alsamixer.png#huge)
 
 Suwak na pozycji `Beep` odpowiada za nasz głośnik. Jak widzimy jest ustawiony na full. Jeśli chcemy
 nieco przyciszyć dźwięki generowane za jego sprawą, to wystarczy tutaj dostosować sobie poziom

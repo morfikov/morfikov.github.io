@@ -40,7 +40,7 @@ postępuje w przypadku wysłanego żądanie do serwera oraz otrzymanej odpowiedz
 zapytania i
 odpowiedzi:
 
-![]({{< baseurl >}}/img/2016/08/1.etag-last-modified-header-naglowek-przegladarka.png)
+![]({{< baseurl >}}/img/2016/08/1.etag-last-modified-header-naglowek-przegladarka.png#huge)
 
 `Request Headers` , to są nagłówki zapytania, które przesłała przeglądarka serwerowi. Po otrzymaniu
 ich, serwer wysłał odpowiedź z szeregiem nagłówków, które są widoczne w `Response Headers` . Nas na
@@ -53,7 +53,7 @@ standardowe nagłówki HTTP, które dotyczą konfiguracji cache. Są to `ETag` o
 Gdybyśmy teraz w przeglądarce załadowali następną stronę w obrębie tej witryny, to praktycznie
 wszystkie jej elementy (za wyjątkiem głównego pliku `text/html` ) zostaną wczytane z cache:
 
-![]({{< baseurl >}}/img/2016/08/2.przegladarka-cache-zasobow.png)
+![]({{< baseurl >}}/img/2016/08/2.przegladarka-cache-zasobow.png#huge)
 
 Nagłówki `Last-Modified` oraz `ETag` to walidatory (validators), które mają za zadanie zweryfikować
 aktualność zasobu, czyli nakazać przeglądarce wysłanie do serwera zapytania warunkowego (conditional
@@ -111,7 +111,7 @@ zostanie załadowany z cache przeglądarki. Natomiast w drugim przypadku, przegl
 wysłać zapytanie GET i pobrać raz jeszcze cały zasób, który stracił ważność. Poniżej jest
 zobrazowana ta sytuacja:
 
-![]({{< baseurl >}}/img/2016/08/3.etag-last-modified-304-walidacja.png)
+![]({{< baseurl >}}/img/2016/08/3.etag-last-modified-304-walidacja.png#huge)
 
 Widzimy tutaj dwie dyrektywy: `If-Modified-Since:Mon, 01 Aug 2016 09:53:38 GMT` oraz
 `If-None-Match:"717-538ff93078200"` . To są warunki zapytania warunkowego. Jeśli, któryś z nich nie
@@ -133,7 +133,7 @@ przeglądarki. Jeśli go określimy na serwerze, zostanie także ustawiony param
 nagłówku `Cache-Control` .
 
 Za ustawienie nagłówka `Expires` w Apache2 odpowiada [moduł
-mod\_expires](https://httpd.apache.org/docs/current/mod/mod_expires.html). Jeśli zamierzamy ten
+mod_expires](https://httpd.apache.org/docs/current/mod/mod_expires.html). Jeśli zamierzamy ten
 nagłówek włączyć w odpowiedzi serwera, musimy pierw włączyć moduł `mod_expires` w konfiguracji
 Apache2:
 
@@ -171,7 +171,7 @@ cache, który tym razem będzie się odnosił do czasu modyfikacji pliku na serw
 obrazująca nagłówek `Expires`
 :
 
-![]({{< baseurl >}}/img/2016/08/4.expires-cache-control-header-naglowek-przegladarka.png)
+![]({{< baseurl >}}/img/2016/08/4.expires-cache-control-header-naglowek-przegladarka.png#huge)
 
 Widzimy, że nagłówek `Expires` wskazuje konkretną datę w przyszłości: `Mon, 08 Aug 2016 14:56:15
 GMT` . Jeśli przeliczyć sekundy, to okaże się, że są one równe tej wartości, która figuruje w
@@ -186,7 +186,7 @@ zaadresować problem z ograniczeniami wynikającymi ze stosowania nagłówka `Ex
 mieć większą swobodę w dostosowaniu cache, możemy skorzystać z tych dodatkowych opcji, które oferuje
 nam nagłówek `Cache-Control` . Niemniej jednak, by z nich skorzystać, musimy ustawić poszczególne
 parametry nagłówka przy pomocy dyrektywy `Header` , która jest obsługiwana przez moduł
-[mod\_headers](https://httpd.apache.org/docs/current/mod/mod_headers.html). Ten moduł musi być
+[mod_headers](https://httpd.apache.org/docs/current/mod/mod_headers.html). Ten moduł musi być
 włączony w konfiguracji Apache2:
 
     # a2enmod headers
@@ -231,7 +231,7 @@ kolejności.](https://devcenter.heroku.com/articles/increasing-application-perfo
 Poniżej jest przykład ustawienia nagłówka `Cache-Control` . Ten kawałek kodu trzeba dopisać do pliku
 `/etc/apache2/apache2.conf` :
 
-    <FilesMatch "\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$">
+    <FilesMatch ".(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$">
         Header set Cache-Control "max-age=29030400, private"
     </FilesMatch>
 
@@ -250,14 +250,14 @@ zweryfikuje ustawienia nagłówków konkretnych zasobów w serwisie, to zawsze m
 redbot](https://redbot.org/), który nam wyrzuci przyjazne
 podsumowanie:
 
-![]({{< baseurl >}}/img/2016/08/5.cache-control-expires-last-modified-etag-redbot-test.png)
+![]({{< baseurl >}}/img/2016/08/5.cache-control-expires-last-modified-etag-redbot-test.png#huge)
 
 [Pod tym
 linkiem](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching)
 z kolei jest ciekawa rozpiska na temat wykorzystania nagłówków HTTP odpowiedzialnych za instrukcje
 dla cache przeglądarek. Jest tam min. ta poniższa fotka:
 
-![]({{< baseurl >}}/img/2016/08/http-cache-decision-tree.png)
+![]({{< baseurl >}}/img/2016/08/http-cache-decision-tree.png#huge)
 
 Widzimy zatem, że są wykorzystane jedynie dwa nagłówki: `Cache-Control` i `ETag` . Z tym, że ten
 drugi jest używany jedynie w przypadku, gdy odpowiedź z serwera ma podlegać buforowaniu. Wszystkie

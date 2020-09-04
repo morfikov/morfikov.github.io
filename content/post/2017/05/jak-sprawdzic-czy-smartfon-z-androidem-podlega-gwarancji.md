@@ -139,7 +139,7 @@ udało mi się ustalić, że ustawienia dotyczące gwarancji są przechowywane n
 Partycja `seccfg` ma jedynie 256 KiB ale z analizy struktury w edytorze HEX wychodzi, że tylko
 pierwsze 60 bajtów jest w jakiś sposób zmienionych.
 
-![]({{< baseurl >}}/img/2017/05/001.gwarancja-smartfon-android.png)
+![]({{< baseurl >}}/img/2017/05/001.gwarancja-smartfon-android.png#big)
 
 Co ciekawe, nawet nie posiadając backup'u tej partycji można bez większego problemu przestawić bit
 odpowiadający za gwarancję. Wystarczy stworzyć przy pomocy `dd` obraz składający się z samych zer o

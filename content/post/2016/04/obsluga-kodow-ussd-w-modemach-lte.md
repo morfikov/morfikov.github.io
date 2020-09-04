@@ -57,13 +57,13 @@ Szukając na sieci jakiegoś przyjaznego narzędzia do obsługi kodów USSD, nat
 [ussd-gui](https://github.com/mhogomchungu/ussd-gui). Ten programik posiada w miarę prosty interfejs
 QT i wygląda mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/04/1.ussd-gui-kod.png)
+![]({{< baseurl >}}/img/2016/04/1.ussd-gui-kod.png#big)
 
 W polu `Input` wpisujemy kod USSD i wciskamy przycisk `Send` . Po chwili powinna zostać nam zwrócona
 odpowiedź z sieci, tak jak to widzimy wyżej. `ussd-gui` potrafi też odbierać wiadomości SMS ale nie
 potrafi ich wysyłać.
 
-![]({{< baseurl >}}/img/2016/04/3.wysylanie-sms-ussd-gui.png)
+![]({{< baseurl >}}/img/2016/04/3.wysylanie-sms-ussd-gui.png#big)
 
 Niemniej jednak, [wysyłanie i obieranie SMS lepiej zostawić
 wammu]({{< baseurl >}}/post/wysylanie-odbieranie-sms-w-wammu/). On chyba najlepiej ma opanowaną tę
@@ -101,7 +101,7 @@ którego ma korzystać `ussd-gui`. W `ussdInfo` zaś są przechowywane wszystkie
 wraz z ich opisami. Kody USSD jak i opisy można definiować bezpośrednio w oknie `ussd-gui` , co
 wygląda mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/04/2.hostoria-kodow-ussd-gui.png)
+![]({{< baseurl >}}/img/2016/04/2.hostoria-kodow-ussd-gui.png#big)
 
 Mamy także dwie dość enigmatyczne opcje: `initCommand` oraz `terminatorSequence` . Obie z nich są
 wykorzystywane, gdy w grę wchodzi backend `source=internal` . W `initCommand` podajemy sekwencję
@@ -127,7 +127,7 @@ Jako, że `ussd-gui` wykorzystuje `gammu` , to możemy spróbować przesłać te
 poleceń. Tak dla przykładu, by przesłać kod `*111#` , wpisujemy `gammu getussd '*111#'` . Poniżej
 przykład:
 
-![]({{< baseurl >}}/img/2016/04/4.gammu-kod-ussd.png)
+![]({{< baseurl >}}/img/2016/04/4.gammu-kod-ussd.png#big)
 
 Niestety czas oczekiwania na odpowiedź jest bardzo długi. Nie udało mi się także odpowiedzieć na
 otrzymany komunikat i to pomimo faktu, że wyraźnie widnieje tam `Action needed` . Być może było to
@@ -145,14 +145,14 @@ Czas reakcji na kody w obu przypadkach jest bardzo szybki. Niemniej jednak, trze
 poleceń AT i ręcznie je wpisywać za każdym razem do terminala, co jest bardzo niewygodne. Poniżej
 przykład:
 
-![]({{< baseurl >}}/img/2016/04/5.kod-ussd-cu-terminal.png)
+![]({{< baseurl >}}/img/2016/04/5.kod-ussd-cu-terminal.png#huge)
 
 Sposób z `echo` jest nieco wygodniejszy, bo wykorzystywana jest historia shell'a. Jeśli mamy `zsh`
 zamiast domyślnego `bash` , to operowanie na tych kodach może być naprawdę proste. Wymagane będą też
 dwa okna terminala. W jednym z nich będą wpisywane polecenia, w drugi będą zwracane wyniki. Poniżej
 przykład w oparciu o multiplekser `tmux` :
 
-![]({{< baseurl >}}/img/2016/04/6.tmux-kod-ussd-echo-cat.png)
+![]({{< baseurl >}}/img/2016/04/6.tmux-kod-ussd-echo-cat.png#huge)
 
 W górnym okienku przy pomocy `echo` wpisaliśmy dwa polecenia:
 
@@ -160,25 +160,25 @@ W górnym okienku przy pomocy `echo` wpisaliśmy dwa polecenia:
     $ echo -e "AT+CUSD=1,\"*101#\",15\r" >/dev/huawei-E3372-0
 
 Pierwsze z nich konfiguruje odpowiednio modem, drugie zaś wysyła faktyczny kod USSD. W tym przypadku
-jest to `*101#` . Ważne jest by kod ująć w `\" \"` oraz by zakończyć polecenie za pomocą `\r` .
+jest to `*101#` . Ważne jest by kod ująć w `" "` oraz by zakończyć polecenie za pomocą `\r` .
 Odpowiedzi są zwracane w przeciągu 2-3 sekund.
 
 W ten sposób również jesteśmy w stanie odpowiadać na komunikaty, które się pojawiają w dolnym oknie.
 Dla przykładu, w górnym oknie prześlijmy kod `*111#` .
 
-![]({{< baseurl >}}/img/2016/04/7.tmux-kod-ussd-echo-cat.png)
+![]({{< baseurl >}}/img/2016/04/7.tmux-kod-ussd-echo-cat.png#huge)
 
 Widzimy, że pojawiło się kilka opcji do wyboru. Wybierzmy `Kontro` w odpowiedzi wysyłając `1` :
 
-![]({{< baseurl >}}/img/2016/04/8.tmux-kod-ussd-echo-cat.png)
+![]({{< baseurl >}}/img/2016/04/8.tmux-kod-ussd-echo-cat.png#huge)
 
 Teraz sprawdźmy stan konta również przesyłając `1` :
 
-![]({{< baseurl >}}/img/2016/04/9.tmux-kod-ussd-echo-cat.png)
+![]({{< baseurl >}}/img/2016/04/9.tmux-kod-ussd-echo-cat.png#huge)
 
 Teraz możemy zakończyć pracę przesyłając `0` :
 
-![]({{< baseurl >}}/img/2016/04/10.tmux-kod-ussd-echo-cat.png)
+![]({{< baseurl >}}/img/2016/04/10.tmux-kod-ussd-echo-cat.png#huge)
 
 W ten sposób przy wykorzystaniu historii i możliwości shell'a ZSH oraz poleceń `echo` i `cat` możemy
 komunikować się z siecią przesyłając jej kody USSD.

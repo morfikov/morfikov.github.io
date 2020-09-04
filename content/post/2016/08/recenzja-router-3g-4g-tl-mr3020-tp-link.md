@@ -30,34 +30,30 @@ TL-MR3020](http://www.tp-link.com.pl/products/details/TL-MR3020.html) od TP-LINK
 ## Zawartość opakowania
 
 Opakowanie routera TL-MR3020 jest dość spore ale to z tego powodu, że do zestawu jest dołączonych
-jeszcze kilka rzeczy. Poniżej fotki zawartości
-pudełka:
+jeszcze kilka rzeczy. Poniżej fotki zawartości pudełka:
 
-[![1.router-TL-MR3020-pudelko]({{< baseurl >}}/img/2016/08/1.router-TL-MR3020-pudelko-1024x975.jpg)]({{< baseurl >}}/img/2016/08/1.router-TL-MR3020-pudelko.jpg)
+![]({{< baseurl >}}/img/2016/08/1.router-TL-MR3020-pudelko.jpg#huge)
 
-[![2.router-TL-MR3020-zawartosc-opakowania]({{< baseurl >}}/img/2016/08/2.router-TL-MR3020-zawartosc-opakowania-1024x577.jpg)]({{< baseurl >}}/img/2016/08/2.router-TL-MR3020-zawartosc-opakowania.jpg)
+![]({{< baseurl >}}/img/2016/08/2.router-TL-MR3020-zawartosc-opakowania.jpg#huge)
 
-[![3.router-TL-MR3020-zawartosc-opakowania]({{< baseurl >}}/img/2016/08/3.router-TL-MR3020-zawartosc-opakowania-1024x577.jpg)]({{< baseurl >}}/img/2016/08/3.router-TL-MR3020-zawartosc-opakowania.jpg)
+![]({{< baseurl >}}/img/2016/08/3.router-TL-MR3020-zawartosc-opakowania.jpg#huge)
 
-Jak widzimy wyżej, poza samym routerem, mamy jeszcze dołączony płaski przewód ethernet
-CAT5:
+Jak widzimy wyżej, poza samym routerem, mamy jeszcze dołączony płaski przewód ethernet CAT5:
 
-[![4.router-TL-MR3020-zawartosc-opakowania-ethernet]({{< baseurl >}}/img/2016/08/4.router-TL-MR3020-zawartosc-opakowania-ethernet-1024x577.jpg)]({{< baseurl >}}/img/2016/08/4.router-TL-MR3020-zawartosc-opakowania-ethernet.jpg)
+![]({{< baseurl >}}/img/2016/08/4.router-TL-MR3020-zawartosc-opakowania-ethernet.jpg#huge)
 
-Mamy także biały zasilacz (5V/1A), do którego możemy podłączyć przewód
-USB:
+Mamy także biały zasilacz (5V/1A), do którego możemy podłączyć przewód USB:
 
-[![5.router-TL-MR3020-zawartosc-opakowania-zasilacz]({{< baseurl >}}/img/2016/08/5.router-TL-MR3020-zawartosc-opakowania-zasilacz-1024x577.jpg)]({{< baseurl >}}/img/2016/08/5.router-TL-MR3020-zawartosc-opakowania-zasilacz.jpg)
+![]({{< baseurl >}}/img/2016/08/5.router-TL-MR3020-zawartosc-opakowania-zasilacz.jpg#huge)
 
-[![6.router-TL-MR3020-zawartosc-opakowania-zasilacz]({{< baseurl >}}/img/2016/08/6.router-TL-MR3020-zawartosc-opakowania-zasilacz-1024x577.jpg)]({{< baseurl >}}/img/2016/08/6.router-TL-MR3020-zawartosc-opakowania-zasilacz.jpg)
+![]({{< baseurl >}}/img/2016/08/6.router-TL-MR3020-zawartosc-opakowania-zasilacz.jpg#huge)
 
 Router można zasilać na kilka sposobów. Najpopularniejszym jest oczywiście podłączenie zasilacza.
 Ten przewód w zestawie jest zakończony z jednej strony wtykiem mini USB (do gniazda w routerze), a
 drugiej strony ma dwie standardowe wtyki USB typ A. Jedną z nich podłączamy do zasilacza, a zasilacz
-wpinamy do
-gniazdka.
+wpinamy do gniazdka.
 
-[![7.router-TL-MR3020-zawartosc-opakowania-usb]({{< baseurl >}}/img/2016/08/7.router-TL-MR3020-zawartosc-opakowania-usb-1024x577.jpg)]({{< baseurl >}}/img/2016/08/7.router-TL-MR3020-zawartosc-opakowania-usb.jpg)
+![]({{< baseurl >}}/img/2016/08/7.router-TL-MR3020-zawartosc-opakowania-usb.jpg#huge)
 
 Po co nam dwie wtyczki USB na tym przewodzie? Otóż w przypadku braku dostępu do gniazdka, możemy
 posiłkować się portami USB w komputerze. Niemniej jednak, standardowy port USB 2.0 dysponuje
@@ -68,12 +64,11 @@ zasilić router.
 
 Jeśli dysponujemy power bankiem, np. takim jak ten ostatnio recenzowany
 [TL-PB10400]({{< baseurl >}}/post/recenzja-power-bank-tl-pb10400-tp-link/), to za jego pomocą
-również jesteśmy w stanie zasilić router
-TL-MR3020:
+również jesteśmy w stanie zasilić router TL-MR3020:
 
-[![8.router-TL-MR3020-tp-link-zasilanie-power-bank]({{< baseurl >}}/img/2016/08/8.router-TL-MR3020-tp-link-zasilanie-power-bank-1024x577.jpg)]({{< baseurl >}}/img/2016/08/8.router-TL-MR3020-tp-link-zasilanie-power-bank.jpg)
+![]({{< baseurl >}}/img/2016/08/8.router-TL-MR3020-tp-link-zasilanie-power-bank.jpg#huge)
 
-[![9.router-TL-MR3020-tp-link-zasilanie-power-bank]({{< baseurl >}}/img/2016/08/9.router-TL-MR3020-tp-link-zasilanie-power-bank-1024x577.jpg)]({{< baseurl >}}/img/2016/08/9.router-TL-MR3020-tp-link-zasilanie-power-bank.jpg)
+![]({{< baseurl >}}/img/2016/08/9.router-TL-MR3020-tp-link-zasilanie-power-bank.jpg#huge)
 
 Zakładając, że ten router będzie konsumował średnio 1 A (z podłączonym modemem LTE), to ten power
 bank jest w stanie go zasilać przez jakieś 10 godzin. Przyda się to na wypadek chwilowej awarii
@@ -86,22 +81,20 @@ której jest dołączona bardziej rozbudowana instrukcja obsługi, z tym, że ju
 ## Specyfikacja routera TL-MR3020
 
 Router TL-MR3020 jest bardzo niewielkich rozmiarów: 74x67x22 milimetrów i waży dosłownie kilka gram.
-Na jego obudowie mamy widocznych kilka
-diod:
+Na jego obudowie mamy widocznych kilka diod:
 
-[![9.router-TL-MR3020-diody-przyciski]({{< baseurl >}}/img/2016/08/9.router-TL-MR3020-diody-przyciski-1024x577.jpg)]({{< baseurl >}}/img/2016/08/9.router-TL-MR3020-diody-przyciski.jpg)
+![]({{< baseurl >}}/img/2016/08/9.router-TL-MR3020-diody-przyciski.jpg#big)
 
 Licząc od lewej strony, diody sygnalizują stan zasilania, stan połączenia z internetem, stan WiFi,
 stan portu ethernet oraz stan WPS. Dioda WPS robi także za przycisk WPS/RESET. Jeśli ten przycisk
 zostanie przytrzymany przez czas do 5 sekund, to zadziała funkcja WPS. W przypadku przytrzymania
 przycisku przez 10 sekund i więcej, router zostanie zresetowany do ustawień fabrycznych.
 
-Na dwóch z czterech boków routera TL-MR3020 mamy szereg gniazdek i jeden
-przełącznik:
+Na dwóch z czterech boków routera TL-MR3020 mamy szereg gniazdek i jeden przełącznik:
 
-[![10.router-TL-MR3020-port-ethernet-przelacznik]({{< baseurl >}}/img/2016/08/10.router-TL-MR3020-port-ethernet-przelacznik-1024x517.jpg)]({{< baseurl >}}/img/2016/08/10.router-TL-MR3020-port-ethernet-przelacznik.jpg)
+![]({{< baseurl >}}/img/2016/08/10.router-TL-MR3020-port-ethernet-przelacznik.jpg#big)
 
-[![11.router-TL-MR3020-port-usb]({{< baseurl >}}/img/2016/08/11.router-TL-MR3020-port-usb-1024x577.jpg)]({{< baseurl >}}/img/2016/08/11.router-TL-MR3020-port-usb.jpg)
+![]({{< baseurl >}}/img/2016/08/11.router-TL-MR3020-port-usb.jpg#big)
 
 Przełącznik jest w stanie przestawić tryb pracy routera. Mamy z grubsza trzy tryby do wyboru: 3G/4G
 (LTE), WISP (Wireless ISP) oraz AP (punkt dostępowy). Dalej mamy port fast ethernet (100 mbit/s)
@@ -126,26 +119,23 @@ zapewniających nam dostęp do internetu w naszych domach. Router TL-MR3020 nada
 jako urządzenie zapasowe, na wypadek awarii głównego routera. Poza tym, to urządzenie pobiera
 niezmiernie mało energii, średnio w granicach 0,6 W.
 
-Poniżej są fotki
-podzespołów.
+Poniżej są fotki podzespołów.
 
-[![12.pcb-TL-MR3020-tp-link-top]({{< baseurl >}}/img/2016/08/12.pcb-TL-MR3020-tp-link-top-1024x995.jpg)]({{< baseurl >}}/img/2016/08/12.pcb-TL-MR3020-tp-link-top.jpg)
+![]({{< baseurl >}}/img/2016/08/12.pcb-TL-MR3020-tp-link-top.jpg#huge)
 
-[![13.pcb-TL-MR3020-tp-link-bottom]({{< baseurl >}}/img/2016/08/13.pcb-TL-MR3020-tp-link-bottom-1024x974.jpg)]({{< baseurl >}}/img/2016/08/13.pcb-TL-MR3020-tp-link-bottom.jpg)
+![]({{< baseurl >}}/img/2016/08/13.pcb-TL-MR3020-tp-link-bottom.jpg#huge)
 
-WiSoC
-AR9331:
+WiSoC AR9331:
 
-[![14.pcb-TL-MR3020-tp-link-soc]({{< baseurl >}}/img/2016/08/14.pcb-TL-MR3020-tp-link-soc-1024x691.jpg)]({{< baseurl >}}/img/2016/08/14.pcb-TL-MR3020-tp-link-soc.jpg)
+![]({{< baseurl >}}/img/2016/08/14.pcb-TL-MR3020-tp-link-soc.jpg#huge)
 
-Pamięć RAM Windbond
-W9425G6JH:
+Pamięć RAM Windbond W9425G6JH:
 
-[![15.pcb-TL-MR3020-tp-link-pamiec-ram]({{< baseurl >}}/img/2016/08/15.pcb-TL-MR3020-tp-link-pamiec-ram-1024x832.jpg)]({{< baseurl >}}/img/2016/08/15.pcb-TL-MR3020-tp-link-pamiec-ram.jpg)
+![]({{< baseurl >}}/img/2016/08/15.pcb-TL-MR3020-tp-link-pamiec-ram.jpg#huge)
 
 Flash Windbond 26232FVSIG:
 
-![]({{< baseurl >}}/img/2016/08/16.pcb-TL-MR3020-tp-link-pamiec-flash.jpg)
+![]({{< baseurl >}}/img/2016/08/16.pcb-TL-MR3020-tp-link-pamiec-flash.jpg#huge)
 
 ## Konfiguracja routera TL-MR3020
 
@@ -157,7 +147,7 @@ Część pozostałych opcji zostanie zresetowana do ustawień domyślnych dla da
 routera możemy zmieniać także z poziomu panela administracyjnego. Musimy tylko aktywować opcję
 "Software Switch":
 
-![]({{< baseurl >}}/img/2016/08/17.router-TL-MR3020-software-switch.png)
+![]({{< baseurl >}}/img/2016/08/17.router-TL-MR3020-software-switch.png#huge)
 
 Wyżej mamy informację, że po aktywowaniu tej funkcji, fizyczny przycisk przełączający tryby
 urządzenia na routerze zostanie dezaktywowany. Zatem mamy do wyboru przełączanie trybu za pomocą
@@ -176,7 +166,7 @@ jednak podłączyć do niego komputer za pomocą skrętki, z tym, że musimy ust
 konfigurację sieci 192.168.0.0/24 . Po podłączeniu możemy przejść do panela administracyjnego. Tam
 z kolei wchodzimy w `Quick Setup` i możemy zacząć konfigurować poszczególne tryby AP:
 
-![]({{< baseurl >}}/img/2016/08/18.router-TL-MR3020-tryb-pracy-ap.png)
+![]({{< baseurl >}}/img/2016/08/18.router-TL-MR3020-tryb-pracy-ap.png#huge)
 
 W przypadku trybu AP, z routerem łączymy się zwykle przez WiFi. Adres IP otrzymamy z serwera DHCP
 sieci, do której jest podłączony router za pomocą poru WAN. Jest też zdjęty firewall i inne tego
@@ -190,7 +180,7 @@ się przewodowo do routera i nim zarządzać przez panel administracyjny. W pane
 skonfigurowania zarówno klienta sieci WiFi jak i samego AP, za pomocą którego będziemy mogli się
 łączyć z routerem również bezprzewodowo.
 
-![]({{< baseurl >}}/img/2016/08/19.router-TL-MR3020-tryb-pracy-wisp.png)
+![]({{< baseurl >}}/img/2016/08/19.router-TL-MR3020-tryb-pracy-wisp.png#huge)
 
 Hasło do AP routera możemy ustawić w opcjach bezpieczeństwa sieci WiFi. Jeśli tego nie zrobimy, to
 domyślnie obowiązuje hasło to, które jest nadrukowane na obudowie routera TL-MR3020.
@@ -210,7 +200,7 @@ Ciekawą opcją jest możliwość skonfigurowania routera na dwóch ISP -- jedne
 braku sygnału LTE powinno nastąpić przełączenie na internet z portu WAN. Podobnie też w drugą
 stronę, w zależności od ustawionych preferencji:
 
-![]({{< baseurl >}}/img/2016/08/20.router-TL-MR3020-tryb-pracy-lte-3g-4g.png)
+![]({{< baseurl >}}/img/2016/08/20.router-TL-MR3020-tryb-pracy-lte-3g-4g.png#huge)
 
 Oczywiście możemy zabronić takiego trybu failover i korzystać jedynie z łącza przewodowego lub LTE.
 W tym pierwszym przypadku, port ethernet zostanie skonfigurowany jako WAN, a w tym drugim jako LAN i
@@ -224,16 +214,14 @@ linkiem](http://www.tp-link.com.pl/support/3g-comp-list/?model=TL-MR3020). Jeśl
 liście ale nie działa po podpięciu do routera, to prawdopodobnie powinniśmy zaktualizować firmware
 routera.
 
-Domyślnie mamy szereg predefiniowanych operatorów GSM (w zależności od
-kraju):
+Domyślnie mamy szereg predefiniowanych operatorów GSM (w zależności od kraju):
 
-![]({{< baseurl >}}/img/2016/08/21.router-TL-MR3020-tryb-pracy-lte-3g-4g-operator-gsm.png)
+![]({{< baseurl >}}/img/2016/08/21.router-TL-MR3020-tryb-pracy-lte-3g-4g-operator-gsm.png#huge)
 
 Jeśli nie ma na tej liście tego operatora, z którego usług korzystamy, to zawsze ręcznie możemy
-określić parametry
-połączenia:
+określić parametry połączenia:
 
-![]({{< baseurl >}}/img/2016/08/22.router-TL-MR3020-tryb-pracy-lte-3g-4g-operator-gsm.png)
+![]({{< baseurl >}}/img/2016/08/22.router-TL-MR3020-tryb-pracy-lte-3g-4g-operator-gsm.png#huge)
 
 ### WPS
 
@@ -241,7 +229,7 @@ Router TL-MR3020 dysponuje przyciskiem WPS i jest możliwość za jego pomocą p
 sieci WiFi. Standardowo router obsługuje parowanie przez PIN jak i PBC. Przydałoby się ten PIN jak
 najszybciej wyłączyć i ustawić jedynie parowanie za pomocą przycisków:
 
-![]({{< baseurl >}}/img/2016/08/23.router-TL-MR3020-wps-pin-pbc.png)
+![]({{< baseurl >}}/img/2016/08/23.router-TL-MR3020-wps-pin-pbc.png#big)
 
 ## Wsparcie OpenWRT/LEDE dla routera TL-MR3020
 
@@ -249,7 +237,7 @@ Router TL-MR3020 jest [wspierany przez alternatywny firmware
 OpenWRT/LEDE](https://wiki.openwrt.org/toh/tp-link/tl-mr3020) i nie powinno być z nim większych
 problemów.
 
-![]({{< baseurl >}}/img/2016/08/24.router-TL-MR3020-openwrt-lede.png)
+![]({{< baseurl >}}/img/2016/08/24.router-TL-MR3020-openwrt-lede.png#big)
 
 Poniżej znajduje się wynik kilku poleceń.
 

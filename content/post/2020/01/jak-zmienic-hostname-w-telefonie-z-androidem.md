@@ -9,6 +9,7 @@ tags:
 - prywatność
 - sieć
 - wifi
+- hostname
 title: Jak zmienić hostname w telefonie z Androidem
 ---
 

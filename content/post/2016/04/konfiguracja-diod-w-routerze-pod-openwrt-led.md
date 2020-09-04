@@ -32,7 +32,7 @@ pracujących pod kontrolą OpenWRT. To jakie diody zostały wykryte przez system
 zaglądając do katalogu `/sys/class/leds/` . Dla tego modelu routera, ten katalog prezentuje się
 następująco:
 
-![]({{< baseurl >}}/img/2016/04/1.dioda-led-openwrt-router.png)
+![]({{< baseurl >}}/img/2016/04/1.dioda-led-openwrt-router.png#huge)
 
 W przypadku tego routera wszystkie diody zostały wykryte poprawnie. Niemniej jednak, OpenWRT nie
 zawsze zapewnia wsparcie dla wszystkich diod. Część z nich może w ogóle nie działać. Choć tego typu

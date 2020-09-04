@@ -9,6 +9,8 @@ status: publish
 tags:
 - bezpieczeństwo
 - blog
+- ssl
+- tls
 title: 'WordPress: Szyfrowanie SSL/TLS'
 ---
 
@@ -27,10 +29,10 @@ SSL/TLS. Jak znajdę trochę czasu, to na pewno wstawię tutaj link do przystęp
 ## Konfiguracja adresu
 
 Na sam początek przydałoby się odpowiednio dostosować adres bloga, bo ten standardowo zaczyna się od
-**http** . Nie jest to nic trudnego i można to zrobić z poziomu panelu WordPress'a (Settings =\>
+**http** . Nie jest to nic trudnego i można to zrobić z poziomu panelu WordPress'a (Settings =>
 General):
 
-![]({{< baseurl >}}/img/2015/05/1.przepisanie-adresu-bloga-na-https.png)
+![]({{< baseurl >}}/img/2015/05/1.przepisanie-adresu-bloga-na-https.png#big)
 
 ## Formularz logowania/rejestracji
 
@@ -92,7 +94,7 @@ Jeśli już zdecydowaliśmy się na szyfrowanie bloga (niekoniecznie w pełni), 
 spotkamy się z komunikatem na pasku adresu w przeglądarce, który będzie nas informował, że część
 elementów strony została zablokowana:
 
-![]({{< baseurl >}}/img/2015/05/2.blokowanie-kontentu-http.png)
+![]({{< baseurl >}}/img/2015/05/2.blokowanie-kontentu-http.png#big)
 
 Zwykle jest to wina niezabezpieczonych adresów URL i pod terminem "niezabezpieczone" rozumiem
 zawartość na stronie pochodzącą z linków zaczynających się od **http** . [Na jednym z blogów

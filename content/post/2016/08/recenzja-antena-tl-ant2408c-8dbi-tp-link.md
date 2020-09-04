@@ -34,16 +34,15 @@ Pudełko jest dość duże, bo i sama antena do najmniejszych nie należy. Jej d
 Poniżej fotki zawartości
 opakowania.
 
-[![1.antena-TL-ANT2408C-opakowanie]({{< baseurl >}}/img/2016/08/1.antena-TL-ANT2408C-opakowanie-1024x577.jpg)]({{< baseurl >}}/img/2016/08/1.antena-TL-ANT2408C-opakowanie.jpg)
+![]({{< baseurl >}}/img/2016/08/1.antena-TL-ANT2408C-opakowanie.jpg#medium)
 
-[![2.antena-TL-ANT2408C-zawartosc-pudelka]({{< baseurl >}}/img/2016/08/2.antena-TL-ANT2408C-zawartosc-pudelka-1024x577.jpg)]({{< baseurl >}}/img/2016/08/2.antena-TL-ANT2408C-zawartosc-pudelka.jpg)
+![]({{< baseurl >}}/img/2016/08/2.antena-TL-ANT2408C-zawartosc-pudelka.jpg#huge)
 
-Poza samą anteną, w zestawie znajduje się też podstawka, do której można antenę
-przykręcić:
+Poza samą anteną, w zestawie znajduje się też podstawka, do której można antenę przykręcić:
 
-[![3.antena-TL-ANT2408C-podstawka]({{< baseurl >}}/img/2016/08/3.antena-TL-ANT2408C-podstawka-1024x577.jpg)]({{< baseurl >}}/img/2016/08/3.antena-TL-ANT2408C-podstawka.jpg)
+![]({{< baseurl >}}/img/2016/08/3.antena-TL-ANT2408C-podstawka.jpg#huge)
 
-[![4.antena-TL-ANT2408C-podstawka-magnes]({{< baseurl >}}/img/2016/08/4.antena-TL-ANT2408C-podstawka-magnes-1024x577.jpg)]({{< baseurl >}}/img/2016/08/4.antena-TL-ANT2408C-podstawka-magnes.jpg)
+![]({{< baseurl >}}/img/2016/08/4.antena-TL-ANT2408C-podstawka-magnes.jpg#medium)
 
 Ciekawym rozwiązaniem jest zastosowanie w podstawce magnesu, za pomocą którego jesteśmy w stanie
 przyczepić antenę do metalowych przedmiotów, np. do obudowy naszego dekstopa. Sama podstawka nie
@@ -54,7 +53,7 @@ siły włożyć, by tę podstawkę od obudowy oderwać.
 Przewód, który jest widoczny niżej to RG174 o długości około 130 cm i jest zakończony złączem
 RP-SMA:
 
-[![5.antena-TL-ANT2408C-podstawka-przewod-rp-sma]({{< baseurl >}}/img/2016/08/5.antena-TL-ANT2408C-podstawka-przewod-rp-sma-1024x577.jpg)]({{< baseurl >}}/img/2016/08/5.antena-TL-ANT2408C-podstawka-przewod-rp-sma.jpg)
+![]({{< baseurl >}}/img/2016/08/5.antena-TL-ANT2408C-podstawka-przewod-rp-sma.jpg#medium)
 
 Złącze RP-SMA jest stosowane w większości routerów WiFi i adapterów/kart bezprzewodowych. Zatem bez
 problemu można tę antenę stosować z tymi urządzeniami.
@@ -62,10 +61,9 @@ problemu można tę antenę stosować z tymi urządzeniami.
 ## Antena TL-ANT2408C i adapter WiFi TL-WN722N
 
 Zatem wiemy mniej więcej jak wygląda antena TL-ANT2408C. Poniżej jest zaś fotka mojego adaptera WiFi
-TL-WN722N z podczepioną nową
-anteną:
+TL-WN722N z podczepioną nową anteną:
 
-[![6.antena-TL-ANT2408C-adapter-wifi-TL-WN722N]({{< baseurl >}}/img/2016/08/6.antena-TL-ANT2408C-adapter-wifi-TL-WN722N-1024x577.jpg)]({{< baseurl >}}/img/2016/08/6.antena-TL-ANT2408C-adapter-wifi-TL-WN722N.jpg)
+![]({{< baseurl >}}/img/2016/08/6.antena-TL-ANT2408C-adapter-wifi-TL-WN722N.jpg#huge)
 
 Ten zestaw wygląda naprawdę przyzwoicie. Nic tylko podłączyć teraz adapter do portu USB komputera i
 cieszyć się lepszym zasięgiem. Jest tylko jeden problem. Podobnie jak większość użytkowników, nie do
@@ -110,16 +108,14 @@ mocą. Niemniej jednak, na opakowaniu jest napisane (gain 8 dBi), czyli zysk ene
 wynosić 8 dBi. Różnica w zysku między tymi dwiema antenami (dużą i mała z zestawu adaptera WiFi)
 wynosi zatem 4 dBi. Sprawdźmy jak wyglądają statystyki sygnału z odległości około 4 metrów przez
 niezbyt grubą ścianę. Poniższa fotka obrazuje jakość i siłę sygnału, gdy do adaptera WiFi nie ma
-podłączonej żadnej
-anteny:
+podłączonej żadnej anteny:
 
-![]({{< baseurl >}}/img/2016/08/7.antena-TL-ANT2408C-adapter-wifi-TL-WN722N-test-sygnal.png)
+![]({{< baseurl >}}/img/2016/08/7.antena-TL-ANT2408C-adapter-wifi-TL-WN722N-test-sygnal.png#big)
 
 Niżej zaś mamy fotkę, która zestawia jakość i siłę sygnału po doczepieniu anteny małej (z lewej) i
-dużej (z
-prawej):
+dużej (z prawej):
 
-[![8.antena-TL-ANT2408C-adapter-wifi-TL-WN722N-test-sygnal]({{< baseurl >}}/img/2016/08/8.antena-TL-ANT2408C-adapter-wifi-TL-WN722N-test-sygnal-1024x361.png)]({{< baseurl >}}/img/2016/08/8.antena-TL-ANT2408C-adapter-wifi-TL-WN722N-test-sygnal.png)
+![]({{< baseurl >}}/img/2016/08/8.antena-TL-ANT2408C-adapter-wifi-TL-WN722N-test-sygnal.png#huge)
 
 Jak widzimy, nie ma zbytnio żadnej różnicy, a biorąc pod uwagę restrykcje prawne, takiej różnicy być
 nie może. Chodzi generalnie o to, że producent sprzętu by móc go legalnie sprzedawać w Polsce, musi
@@ -136,8 +132,7 @@ trochę informacji na temat parametrów samych anten.
 Postanowiłem zatem poszukać ile wynosi tłumienie sygnału za sprawą tego przewodu RG174 o długości
 około 130 cm w paśmie 2,4 GHz, bo częstotliwość również ma znaczenie. Zajrzałem do [pierwszego
 lepszego sklepu](https://sklep.avt.pl/przewod-koncentryczny-rg174-50om-kab0031.html) zwróconego mi
-przez gógla. Tam mamy poniższą
-    informację:
+przez gógla. Tam mamy poniższą informację:
 
     tłumienie [dB/100m]: 30MHz - 17,6; 50MHz - 21,1; 100MHz - 28,2; 146MHz - 41,6; 440MHz - 80; 1000MHz - 96; 2400MHz - 240
 

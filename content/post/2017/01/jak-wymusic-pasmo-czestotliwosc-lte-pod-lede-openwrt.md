@@ -51,12 +51,12 @@ sekcja `"huawei": { }` . Tam z kolei mamy podsekcję `"modes": { }` i tutaj wła
 konfiguracje trybów pracy modemu. Standardowo mamy tutaj te poniższe wpisy:
 
     "modes": {
-        "preferlte": "AT^SYSCFGEX=\\"030201\\",3fffffff,2,4,7fffffffffffffff,,",
-        "preferumts": "AT^SYSCFGEX=\\"0201\\",3fffffff,2,4,7fffffffffffffff,,",
-        "lte": "AT^SYSCFGEX=\\"03\\",3fffffff,2,4,7fffffffffffffff,,",
-        "umts": "AT^SYSCFGEX=\\"02\\",3fffffff,2,4,7fffffffffffffff,,",
-        "gsm": "AT^SYSCFGEX=\\"01\\",3fffffff,2,4,7fffffffffffffff,,",
-        "auto": "AT^SYSCFGEX=\\"00\\",3fffffff,2,4,7fffffffffffffff,,"
+        "preferlte": "AT^SYSCFGEX=\"030201\",3fffffff,2,4,7fffffffffffffff,,",
+        "preferumts": "AT^SYSCFGEX=\"0201\",3fffffff,2,4,7fffffffffffffff,,",
+        "lte": "AT^SYSCFGEX=\"03\",3fffffff,2,4,7fffffffffffffff,,",
+        "umts": "AT^SYSCFGEX=\"02\",3fffffff,2,4,7fffffffffffffff,,",
+        "gsm": "AT^SYSCFGEX=\"01\",3fffffff,2,4,7fffffffffffffff,,",
+        "auto": "AT^SYSCFGEX=\"00\",3fffffff,2,4,7fffffffffffffff,,"
     },
 
 Mając dostępne tylko te powyższe tryby, nie da rady wymusić konkretnego pasma LTE, bo każdy z tych
@@ -64,11 +64,11 @@ trybów ma `7fffffffffffffff` , co odpowiada za obsługę wszystkich pasm. Może
 wartość na taką, którą odpowiada za konkretną częstotliwość. Najprościej jest po prostu dodać kilka
 dodatkowych wpisów i odpowiednio przerobić `7fffffffffffffff` , poniżej przykład:
 
-    "lte-fdd-2100": "AT^SYSCFGEX=\\"03\\",3fffffff,2,1,1,,",
-    "lte-fdd-1800": "AT^SYSCFGEX=\\"03\\",3fffffff,2,4,4,,",
-    "lte-fdd-2600": "AT^SYSCFGEX=\\"03\\",3fffffff,2,4,40,,",
-    "lte-fdd-900": "AT^SYSCFGEX=\\"03\\",3fffffff,2,4,80,,",
-    "lte-fdd-800": "AT^SYSCFGEX=\\"03\\",3fffffff,2,4,80000,,"
+    "lte-fdd-2100": "AT^SYSCFGEX=\"03\",3fffffff,2,1,1,,",
+    "lte-fdd-1800": "AT^SYSCFGEX=\"03\",3fffffff,2,4,4,,",
+    "lte-fdd-2600": "AT^SYSCFGEX=\"03\",3fffffff,2,4,40,,",
+    "lte-fdd-900": "AT^SYSCFGEX=\"03\",3fffffff,2,4,80,,",
+    "lte-fdd-800": "AT^SYSCFGEX=\"03\",3fffffff,2,4,80000,,"
 
 Pierwsza wartość liczbowa w komendzie AT, czyli `03` , wymusza LTE, zatem modem ma pracować tylko w
 tym trybie. Ostatnia wartość liczbowa, tj. `1` , `4` , `40` , `80` oraz `80000` , odpowiada kolejno
@@ -98,7 +98,7 @@ serwisie speedtest. Ja dla wygody testy robiłem z poziomu aplikacji na smartfon
 dla 2100 MHz, 1800 MHz, 2600 MHz i 800 MHz. Niestety na 900 MHz modem nie był w stanie zrealizować
 połączenia.
 
-[![]({{< baseurl >}}/img/2017/01/001-czestotliwosc-pasmo-lte-test-openwrt-lede-660x293.png)]({{< baseurl >}}/img/2017/01/001-czestotliwosc-pasmo-lte-test-openwrt-lede.png)
+![]({{< baseurl >}}/img/2017/01/001-czestotliwosc-pasmo-lte-test-openwrt-lede.png#huge)
 
 Widać zatem, że największą prędkość udało się uzyskać w paśmie 2600 MHz i w zasadzie można tę
 częstotliwość wymusić. Niemniej jednak, jeśli zmieniamy dość często miejsce pobytu, to lepiej jest

@@ -153,10 +153,9 @@ wp czy interia. Zanim jednak je odwiedzimy, zalogujmy się na router i wyłączm
     # /etc/init.d/adblock stop
 
 Odwiedźmy teraz jakiś serwis i po chwili włączmy nasz filtr. Poniżej jest fotka pokazująca różnice w
-wyglądzie przykładowej
-strony:
+wyglądzie przykładowej strony:
 
-[![1.adblock-reklamy-wp-router-openwrt]({{< baseurl >}}/img/2016/09/1.adblock-reklamy-wp-router-openwrt-1024x338.png)]({{< baseurl >}}/img/2016/09/1.adblock-reklamy-wp-router-openwrt.png)
+![]({{< baseurl >}}/img/2016/09/1.adblock-reklamy-wp-router-openwrt.png#huge)
 
 Jak widzimy, różnica jest dość spora. Na onecie efekt jest podobny. Z kolei na interii są przecieki.
 Wygląda na to, że filtr nie uwzględnia pewnych domen i przydałoby się je dopisać ręcznie. Po chwili
@@ -168,10 +167,9 @@ udało mi się wyselekcjonować adres `hub.com.pl` . Tę domenę trzeba dopisać
             option enabled '1'
     ...
 
-Po zresetowaniu adblock'a, reklamy powinny zniknąć, poniżej
-porównanie:
+Po zresetowaniu adblock'a, reklamy powinny zniknąć, poniżej porównanie:
 
-[![2-adblock-reklamy-interia-router-openwrt]({{< baseurl >}}/img/2016/09/2-adblock-reklamy-interia-router-openwrt-1024x240.png)]({{< baseurl >}}/img/2016/09/2-adblock-reklamy-interia-router-openwrt.png)
+![]({{< baseurl >}}/img/2016/09/2-adblock-reklamy-interia-router-openwrt.png#huge)
 
 Podobnie trzeba postąpić ze wszystkimi reklamami, które nie są blokowane przez domyślne filtry lub
 też poszukać list, które te domeny uwzględniają. Akurat w tym przypadku, ta problematyczna domena
@@ -185,10 +183,9 @@ nam router z minimum 128 MiB pamięci RAM.
 
 Problem pojawia się także w przypadku filtrowania adresów w oparciu o dużą listę domen. W przypadku
 wykonywania dużej ilości zapytań DNS, proces `dnsmasq` może zjadać praktycznie cały procesor.
-Poniżej fotka z mojego routera Archer
-C2600:
+Poniżej fotka z mojego routera Archer C2600:
 
-![]({{< baseurl >}}/img/2016/09/3.adblock-openwrt-router-utylizacja-procesor-archer-c2600.png)
+![]({{< baseurl >}}/img/2016/09/3.adblock-openwrt-router-utylizacja-procesor-archer-c2600.png#huge)
 
 Im bardziej rozbudowana jest lista adresów, tym w większym stopniu jest utylizowany procesor, a wiec
 i mocniej odczujemy spadek wydajności przesyłu danych przez router.

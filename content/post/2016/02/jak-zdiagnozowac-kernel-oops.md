@@ -66,7 +66,7 @@ pytani o zgodę przed wysłaniem komunikatów. Będzie nam też potrzebny pakiet
 który nam wyświetli monit, gdzie min. będziemy mogli się zapoznać z treścią wiadomości, którą
 zamierzamy przesłać na serwer kernela. Poniżej przykładowa notyfikacja zgłaszająca kernel OOPS'a:
 
-![]({{< baseurl >}}/img/2016/02/1.kernel-oops-notyfikacja-kerneloops.png)
+![]({{< baseurl >}}/img/2016/02/1.kernel-oops-notyfikacja-kerneloops.png#huge)
 
 Inną ważną rzeczą jest ustawienie odpowiedniej ścieżki w `log-file` . Jeśli posiadamy systemd, to
 mamy pewien problem. Systemd ma swój plik kontenera, którego demon `kerneloops` nie przeczyta.

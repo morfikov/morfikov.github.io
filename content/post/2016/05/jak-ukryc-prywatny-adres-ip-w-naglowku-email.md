@@ -32,21 +32,20 @@ zbytnio rozwodzić. Nas interesuje w tej chwili jak podejrzeć cały nagłówek 
 zatem Thunderbird'a i zaznaczamy wiadomość, którą wysłaliśmy. Następnie z menu wybieramy `View
 Source` :
 
-![]({{< baseurl >}}/img/2016/05/1.thunderbird-podlgad-naglowek-email.png)
+![]({{< baseurl >}}/img/2016/05/1.thunderbird-podlgad-naglowek-email.png#huge)
 
 Powinna nam się pokazać wiadomość w formie tekstowej. W niej, na samej górze mamy nagłówek:
 
-![]({{< baseurl >}}/img/2016/05/2.prywatny-adres-ip-naglowek-email.png)
+![]({{< baseurl >}}/img/2016/05/2.prywatny-adres-ip-naglowek-email.png#huge)
 
 ## Prywatny adres IP w nagłówku
 
 Widzimy wyraźnie na powyższej fotce, że w polu `Received: from` mamy uwzględnione dwa adresy IP.
 Jeden z nich to adres z przestrzeni prywatnej. To właśnie ten adres IP zamierzamy ukryć. By to
-zrobić, musimy wejść w opcje Thunderbird'a (Edit \> Preferences \> Advanced \> Config Editor). Tam
-odszukujemy wpis `mail.smtpserver.default.hello_argument` i zmieniamy jego wartość na `localhost`
-:
+zrobić, musimy wejść w opcje Thunderbird'a (Edit > Preferences > Advanced > Config Editor). Tam
+odszukujemy wpis `mail.smtpserver.default.hello_argument` i zmieniamy jego wartość na `localhost` :
 
-![]({{< baseurl >}}/img/2016/05/3.about-config-thunderbird-naglowek-email-adres-ip.png)
+![]({{< baseurl >}}/img/2016/05/3.about-config-thunderbird-naglowek-email-adres-ip.png#huge)
 
 Jeśli nie mamy tego powyższego wpisu, to musimy go sobie stworzyć. W tym celu klikamy w powyższym
 oknie prawym przyciskiem myszy i wybieramy kolejno New \> String i wpisujemy
@@ -55,4 +54,4 @@ oknie prawym przyciskiem myszy i wybieramy kolejno New \> String i wpisujemy
 W tej chwili możemy przetestować czy nasz adres prywatny został ukryty i zastąpiony nazwą
 `localhost` . W tym przypadku dodanie powyższego parametru odnosi zamierzony skutek:
 
-![]({{< baseurl >}}/img/2016/05/4.adres-ip-localhost-naglowek-email.png)
+![]({{< baseurl >}}/img/2016/05/4.adres-ip-localhost-naglowek-email.png#huge)

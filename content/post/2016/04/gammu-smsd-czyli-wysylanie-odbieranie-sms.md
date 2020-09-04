@@ -129,8 +129,8 @@ powyższych opcjach, jak i o szeregu innych, które można wykorzystać w tym pl
 
 To co nas będzie w tym pliku interesować najbardziej, to ostatnia linijka, tj. `RunOnReceive` .
 Odpowiada ona za wykonanie skryptu, do którego ścieżka została tam określona. Jako, że `gammu-smsd`
-ma działać na zasadzie przekaźnika SMS, to niezbędny będzie nam poniższy kod, który zapisujemy w w/w
-pliku:
+ma działać na zasadzie przekaźnika SMS, to niezbędny będzie nam poniższy kod, który zapisujemy w
+ww. pliku:
 
     #!/bin/sh
 
@@ -157,7 +157,7 @@ SIM, która jest aktualnie w modemie. Jeśli wszystko pójdzie zgodnie z planem,
 powinien zalogować odpowiedni komunikat, jak i odebraną wiadomość posłać pod wskazany numer. Wyszło
 to mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/04/1.gammu-smsd-modem-sms-linux.png)
+![]({{< baseurl >}}/img/2016/04/1.gammu-smsd-modem-sms-linux.png#huge)
 
 Jak widać, wiadomość została odebrana. Po chwili skrypt został wykonany i komunikat został posłany
 na telefon.

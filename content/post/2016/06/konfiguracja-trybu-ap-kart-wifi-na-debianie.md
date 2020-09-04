@@ -10,7 +10,7 @@ tags:
 - wifi
 - debian
 - sieć
-title: Konfiguracja trybu AP kart WiFi na debianie
+title: Konfiguracja trybu AP kart WiFi na Debianie
 ---
 
 Jakiś czas temu dokonałem zakupu adaptera WiFi [TP-Link
@@ -22,7 +22,7 @@ posiada też dodatkowy ficzer, którym jest tryb AP (Access Point). Wprawdzie ta
 równać z routerami WiFi, bo te zwykle mają więcej anten, z których każda jest lepszej jakości ale
 jesteśmy w stanie połączyć ze sobą bezprzewodowo kilka stacji roboczych. Trzeba jednak wziąć po
 uwagę, że zasięg jak i transfer będą w dużej mierze ograniczone. W tym wpisie postaramy się
-przerobić zwykłą maszynę, na której jest zainstalowany debian, na punkt dostępowy sieci WiFi.
+przerobić zwykłą maszynę, na której jest zainstalowany Debian, na punkt dostępowy sieci WiFi.
 
 <!--more-->
 ## Czy moja karta WiFi obsługuje tryb AP
@@ -49,7 +49,7 @@ możemy to sprawdzić przez wydanie poniższego polecenia:
 ## Firmware i oprogramowanie
 
 Adapter TP-Link TL-WN722n do poprawnego działania wymaga doinstalowania odpowiedniego
-[firmware](https://pl.wikipedia.org/wiki/Firmware). W debianie, pakietów zawierających firmware do
+[firmware](https://pl.wikipedia.org/wiki/Firmware). W Debianie, pakietów zawierających firmware do
 określonych urządzeń jest dość sporo, a to jaki pakiet musimy zainstalować możemy odczytać z logu
 systemowego po podpięciu adaptera do portu USB. Poniżej przykład:
 
@@ -68,7 +68,7 @@ ponownie adapter do portu USB. W tym momencie powinniśmy mieć w systemie nowy 
 Musimy także zainstalować odpowiednie oprogramowanie. W sumie będą to trzy pakiety: `hostapd` ,
 `dnsmasq` i `crda` . Jeśli ktoś miał do czynienia z [OpenWRT](https://openwrt.org/), to powinien
 kojarzyć te narzędzia. W OpenWRT są one wykorzystywane dokładnie w tym samym celu, w którym my
-zamierzamy ich używać na debianie. Jeśli chcemy połączyć tylko dwie maszyny ze sobą, to
+zamierzamy ich używać na Debianie. Jeśli chcemy połączyć tylko dwie maszyny ze sobą, to
 niekoniecznie potrzebujemy [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) . Odpowiada on
 bowiem za usługi takie jak DNS i DHCP, z których możemy bez problemu zrezygnować na rzecz ręcznej
 [konfiguracji połączenia WiFi]({{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/) na
@@ -240,10 +240,9 @@ restartujemy demona `hostapd` .
 Nasz AP powinien już rozgłaszać w eterze swoją obecność. Przechodzimy na stację kliencką i skanujemy
 z niej eter w poszukiwaniu punktu dostępowego, który utworzyliśmy. Można to zrobić na kilka
 sposobów. My skorzystamy do tego celu z narzędzia `wpa_cli` , które jest dostarczane z pakietem
-`wpasupplicant`
-:
+`wpasupplicant` :
 
-![]({{< baseurl >}}/img/2015/11/1.wpa_cli-ap-access-point-punkt-dostepu-skanowanie.png)
+![]({{< baseurl >}}/img/2015/11/1.wpa_cli-ap-access-point-punkt-dostepu-skanowanie.png#huge)
 
 Widzimy, że nasz AP jest na liście.
 
@@ -335,4 +334,4 @@ firewall'a]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/):
     iptables -t filter -A fw-interfaces -i wlan1 -o eth0 -s 192.168.20.0/24 -j ACCEPT
 
 Parametr `-o eth0` określa, przez który interfejs jest wyjście na świat. W taki oto sposób mamy
-bardzo niskobudżetowy AP sieci WiFi z debianem na pokładzie.
+bardzo niskobudżetowy AP sieci WiFi z Debianem na pokładzie.

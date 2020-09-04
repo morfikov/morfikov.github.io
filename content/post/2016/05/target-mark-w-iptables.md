@@ -60,7 +60,7 @@ Chodzi generalnie o to, że pakiety w `iptables` przechodzą przez ten filtr w p
 sposób. Jest on przedstawiony na poniższej fotce
 ([źródło](https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg)):
 
-[![1.iptables-przeplyw-pakietow-netfilter]({{< baseurl >}}/img/2016/05/1.iptables-przeplyw-pakietow-netfilter-1024x335.png)]({{< baseurl >}}/img/2016/05/1.iptables-przeplyw-pakietow-netfilter.png)
+![]({{< baseurl >}}/img/2016/05/1.iptables-przeplyw-pakietow-netfilter.png#huge)
 
 Teraz w łańcuchach `base-1` oraz `base-2` umieszczamy po bazie oznaczającej całe połączenia:
 
@@ -128,12 +128,12 @@ innej maski, to te wartości zostaną dodane do tej poprzedniej. Czyli pakiet po
 bazę markującą będzie miał oznaczenie 0x101 lub 0x102 , czyli 257 lub 258. Poniżej prezentuje się
 listing tablicy `mangle` :
 
-![]({{< baseurl >}}/img/2016/05/1.tablica-mangle-iptables-mark-oznaczanie-pakietow.png)
+![]({{< baseurl >}}/img/2016/05/1.tablica-mangle-iptables-mark-oznaczanie-pakietow.png#huge)
 
 Sprawdźmy czy ten mechanizm działa jak należy. Odpalamy zatem terminal i wysyłamy żądania `ping` do
 kilku serwisów:
 
-[![2.ping-iptables-mark-oznaczanie-pakietow-conntrack]({{< baseurl >}}/img/2016/05/2.ping-iptables-mark-oznaczanie-pakietow-conntrack-1024x407.png)]({{< baseurl >}}/img/2016/05/2.ping-iptables-mark-oznaczanie-pakietow-conntrack.png)
+![]({{< baseurl >}}/img/2016/05/2.ping-iptables-mark-oznaczanie-pakietow-conntrack.png#huge)
 
 W górnym okienku mamy podgląd tablicy conntrack'a. W pozostałych czterech oknach mamy ping'i.
 Widzimy, że tablica conntrack'a jest filtrowana i zwracane są wyniki ze znacznikiem innym niż 0.
@@ -143,7 +143,7 @@ połączenia, które zostały dopasowane w obu bazach markujących. Pozostałe z
 tylko w pierwszej bazie i dlatego ich oznaczenie wskazuje na 0x100, czyli 256. Jeśli podejrzymy
 jeszcze raz reguły w tablicy `mangle` , powinniśmy zobaczyć szereg dopasowań:
 
-![]({{< baseurl >}}/img/2016/05/3.tablica-mangle-iptables-mark-oznaczanie-pakietow.png)
+![]({{< baseurl >}}/img/2016/05/3.tablica-mangle-iptables-mark-oznaczanie-pakietow.png#huge)
 
 Mamy cztery sesje `ping` . W łańcuchu `marking-1` mamy cztery dopasowania, zaś w łańcuchu
 `marking-2` mamy dwa dopasowania. W łańcuchach `base-1` oraz `base-2` w regule drugiej (ta z

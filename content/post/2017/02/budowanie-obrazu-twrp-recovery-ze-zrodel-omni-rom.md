@@ -121,12 +121,11 @@ miejsca na dysku i transferu jest [okrojona wersja](https://github.com/minimal-m
 można z powodzeniem wykorzystać.
 
 Poniżej jest polecenie inicjujące lokalne repozytorium z wykorzystaniem okrojonego pliku
-`manifest.xml`
-    .
+`manifest.xml` .
 
     $ repo init -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-6.0 --depth=1
 
-[![]({{< baseurl >}}/img/2017/02/001.twrp-recovery-budowanie-zrodla-omni-smartfon-inicjacja-repo-660x288.png)]({{< baseurl >}}/img/2017/02/001.twrp-recovery-budowanie-zrodla-omni-smartfon-inicjacja-repo.png)
+![]({{< baseurl >}}/img/2017/02/001.twrp-recovery-budowanie-zrodla-omni-smartfon-inicjacja-repo.png#huge)
 
 W tym przypadku, lokalne repozytorium zostało zainicjowane w oparciu o ten okrojony plik
 `manifest.xml` . Trzeba tutaj jednak wyraźnie zaznaczyć, że niektóre konfiguracje sprzętowe (czy też
@@ -138,12 +137,11 @@ Gdy już uporządkujemy sprawy związane z repozytoriami, to przy pomocy `repo s
 źródła każdego repozytorium, które mamy zdefiniowane w pliku `manifests.xml` . Naturalnie im
 więcej ich mamy, tym więcej miejsca będą one zajmować i dłużej będzie trwał proces synchronizacji.
 W przypadku, gdy dysponujemy szybkim łączem internetowym, to możemy też zwiększyć liczbę
-jednoczesnych połączeń przy pomocy `--jobs` (domyślnie
-4):
+jednoczesnych połączeń przy pomocy `--jobs` (domyślnie 4):
 
     $ repo sync --current-branch --jobs=4
 
-[![]({{< baseurl >}}/img/2017/02/002.twrp-recovery-budowanie-zrodla-omni-smartfon-synchronizacja-repo-660x318.png)]({{< baseurl >}}/img/2017/02/002.twrp-recovery-budowanie-zrodla-omni-smartfon-synchronizacja-repo.png)
+![]({{< baseurl >}}/img/2017/02/002.twrp-recovery-budowanie-zrodla-omni-smartfon-synchronizacja-repo.png#huge)
 
 ## Zależności potrzebne do zbudowania Androida ze źródeł
 
@@ -216,7 +214,7 @@ objaśnienie co do struktury plików.
 Zaczynamy od utworzenia pliku `device.mk` , gdzie będziemy definiować wszystkie niezbędne moduły i
 pliki wymagane do zbudowania obrazu TWRP recovery dla naszego smartfona.
 
-### Plik omni\_tp802a.mk
+### Plik omni_tp802a.mk
 
 Następnie tworzymy plik `omni_tp802a.mk` , w którym będą deklarowane informacje takie jak nazwa,
 model i producent smartfona.
@@ -257,7 +255,7 @@ Bawiąc się w ukorzenianie swoich Neffos'ów, jednym z wymaganych etapów było
 procesu, w terminalu można było zanotować poniższe
 wyjście:
 
-[![]({{< baseurl >}}/img/2017/02/003.twrp-recovery-budowanie-zrodla-omni-smartfon-informacje-kernel-660x433.png)]({{< baseurl >}}/img/2017/02/003.twrp-recovery-budowanie-zrodla-omni-smartfon-informacje-kernel.png)
+![]({{< baseurl >}}/img/2017/02/003.twrp-recovery-budowanie-zrodla-omni-smartfon-informacje-kernel.png#huge)
 
 Jak widzimy, praktycznie cała sekcja jest nam podana jak na dłoni i wystarczy uzupełnić stosowne
 parametry dodając przed ich wartościami `0x` .
@@ -278,21 +276,19 @@ Androida zaszyfrowaliśmy dane użytkownika, to TWRP standardowo nie będzie w s
 partycji, co będzie przyczyną całej masy błędów. Dlatego też musimy włączyć moduł szyfrowania.
 
 W zasadzie mamy dwa rodzaje szyfrowania: programowe i sprzętowe. To, które w naszym smartfonie
-zostało zaimplementowane możemy odczytać przechodząc w Ustawienia Androida =\> Zabezpieczenia =\>
-Typ
-Pamięci.
+zostało zaimplementowane możemy odczytać przechodząc w Ustawienia Androida => Zabezpieczenia =>
+Typ Pamięci.
 
-[![]({{< baseurl >}}/img/2017/02/004.twrp-recovery-budowanie-zrodla-omni-smartfon-informacje-szyfrowanie-371x660.png)]({{< baseurl >}}/img/2017/02/004.twrp-recovery-budowanie-zrodla-omni-smartfon-informacje-szyfrowanie.png)
+![]({{< baseurl >}}/img/2017/02/004.twrp-recovery-budowanie-zrodla-omni-smartfon-informacje-szyfrowanie.png#medium)
 
 W przypadku smartfona Neffos Y5, widzimy, że mamy do czynienia z szyfrowaniem sprzętowym, bo
 widnieje zapis "Wspomagana sprzętowo". Gdyby tam widniał zapis "Tylko programowa", to szyfrowanie
 byłoby jedynie programowe. Naturalnie szyfrowanie sprzętowe wymaga od nas dodatkowych nakładów
 pracy, by je skonfigurować. W zasadzie to trzeba będzie pozyskać szereg plików ze stock'owego
 firmware i uwzględnić je w obrazie TWRP. Bez tych plików, nie da rady odszyfrować danych na partycji
-`/data/` nawet podając prawidłowe hasło. System za każdym razem zwróci nam taki oto
-błąd.
+`/data/` nawet podając prawidłowe hasło. System za każdym razem zwróci nam taki oto błąd.
 
-[![]({{< baseurl >}}/img/2017/02/005.twrp-recovery-budowanie-zrodla-omni-smartfon-blad-deszyfrowanie-371x660.png)]({{< baseurl >}}/img/2017/02/005.twrp-recovery-budowanie-zrodla-omni-smartfon-blad-deszyfrowanie.png)
+![]({{< baseurl >}}/img/2017/02/005.twrp-recovery-budowanie-zrodla-omni-smartfon-blad-deszyfrowanie.png#medium)
 
 To jakie pliki trzeba będzie uwzględnić w obrazie zależy od modelu smartfona. Nie da rady tego
 prosto ustalić i w zasadzie pozostaje nam dochodzenie do rozwiązania metodą prób i błędów. Możemy
@@ -381,13 +377,12 @@ Teraz możemy wpisać `lunch` i wybrać wcześniej stworzoną kombinację:
 
     Which would you like?
 
-Mamy na liście `omni_tp802a-userdebug` i to ją musimy wskazać. Możemy także od razu podać tę pozycję
-w `lunch`
-:
+Mamy na liście `omni_tp802a-userdebug` i to ją musimy wskazać. Możemy także od razu podać tę
+pozycję w `lunch` :
 
     $ lunch omni_tp802a-userdebug
 
-![]({{< baseurl >}}/img/2017/02/006.twrp-recovery-budowanie-zrodla-omni-smartfon-lunch.png)
+![]({{< baseurl >}}/img/2017/02/006.twrp-recovery-budowanie-zrodla-omni-smartfon-lunch.png#huge)
 
 No i teraz pozostało nam już zbudowanie źródeł. Pamiętajmy tylko, że budujemy jedynie obraz TWRP
 recovery, a do tego celu służy poniższe polecenie:
@@ -397,7 +392,7 @@ recovery, a do tego celu służy poniższe polecenie:
 Po kilku czy kilkunastu minutach, obraz recovery powinien nam się
 zbudować:
 
-[![]({{< baseurl >}}/img/2017/02/007.twrp-recovery-budowanie-zrodla-omni-smartfon-finish-test-660x297.png)]({{< baseurl >}}/img/2017/02/007.twrp-recovery-budowanie-zrodla-omni-smartfon-finish-test.png)
+![]({{< baseurl >}}/img/2017/02/007.twrp-recovery-budowanie-zrodla-omni-smartfon-finish-test.png#huge)
 
 ## Repozytorium git na Github'ie
 
@@ -407,10 +402,9 @@ zastrzeżeń co do działania trybu recovery, to możemy stworzoną w powyższy 
 opublikować na GitHub'ie. Oczywiście musimy posiadać stosowne konto i stworzyć odpowiednie
 repozytorium. Nazwa tego repozytorium ma wskazywać na ścieżkę drzewa katalogów konfiguracji
 urządzenia. Przykładowo, mamy tutaj ścieżkę `source/device/tp-link/tp802a/` , zatem nazwa
-repozytorium to `android_device_tp-link_tp802a`
-:
+repozytorium to `android_device_tp-link_tp802a` :
 
-[![]({{< baseurl >}}/img/2017/02/008.twrp-recovery-budowanie-zrodla-omni-smartfon-github-repo-660x538.png)]({{< baseurl >}}/img/2017/02/008.twrp-recovery-budowanie-zrodla-omni-smartfon-github-repo.png)
+![]({{< baseurl >}}/img/2017/02/008.twrp-recovery-budowanie-zrodla-omni-smartfon-github-repo.png#huge)
 
 Następnie przechodzimy do katalogu z plikami konfiguracyjnymi, z których zbudowaliśmy obraz TWRP
 recovery i inicjujemy w nim lokalne repozytorium:

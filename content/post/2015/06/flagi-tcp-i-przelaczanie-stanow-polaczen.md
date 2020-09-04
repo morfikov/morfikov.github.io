@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - tcp
+- sieć
 title: Flagi TCP i przełączanie stanów połączeń
 ---
 
@@ -25,7 +26,7 @@ Zacznijmy zatem od rozrysowania schematu wszystkich możliwych stanów jakie mo�
 oparte na protokole TCP. Poniżej stosowna fotka
 ([źródło](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)):
 
-![]({{< baseurl >}}/img/2015/06/1.schemat-przelaczania-stanow-flagi-tcp.png)
+![]({{< baseurl >}}/img/2015/06/1.schemat-przelaczania-stanow-flagi-tcp.png#huge)
 
 Poniżej zaś znajduje się krótkie objaśnienie użytych nazw na powyższym schemacie:
 
@@ -103,7 +104,7 @@ Takie pakiety zwykle nie zawierają żadnych danych i mają ustawione konkretne 
 połączeniem. W nagłówku TCP jest miejsce na 8 flag. Obrazuje je powinna fotka
 ([źródło](https://nmap.org/book/tcpip-ref.html)):
 
-![]({{< baseurl >}}/img/2015/06/2.naglowek-tcp-flagi.png)
+![]({{< baseurl >}}/img/2015/06/2.naglowek-tcp-flagi.png#huge)
 
 Flagi `CWR` , `ECE` odpowiadają za mechanizm kontroli zatorów.
 

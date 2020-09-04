@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+- hasła
 title: 'WordPress: Zapomniane hasło administratora'
 ---
 
@@ -22,10 +23,10 @@ skorzystać, by hasło odzyskać.
 ## Reset hasła przez panel admina
 
 Jeśli nasza sesja na blogu nie wygasła i jesteśmy w stanie się na niego zalogować przy pomocy
-ciasteczek, to bez problemu możemy zmienić hasło przez panel administracyjny (Users =\> Your
+ciasteczek, to bez problemu możemy zmienić hasło przez panel administracyjny (Users => Your
 Profile):
 
-![]({{< baseurl >}}/img/2015/05/1.zmiana-hasła-przez-panel-admina.png)
+![]({{< baseurl >}}/img/2015/05/1.zmiana-hasła-przez-panel-admina.png#huge)
 
 ## Formularz logowania
 
@@ -34,14 +35,4 @@ logowania/rejestracji, to zawsze pod tym formularzem mamy opcję odzyskiwania ha
 swój login lub email, to nie będzie problemu z przesłaniem linku, przy pomocy którego zresetujemy
 sobie hasło:
 
-![]({{< baseurl >}}/img/2015/05/2.zmiana-hasła-przez-email.png)
-
-## WP CLI
-
-Wordpress ma także do dyspozycji narzędzie [WP CLI](http://wp-cli.org/) (zostało opisane w osobnym
-wpisie), które ułatwia zarządzanie instalacją Wordpressa bez potrzeby zaprzęgania do tego
-przeglądarki. By za jego pomocą odzyskać hasło, logujemy się na shella i wpisujemy kolejno te dwa
-poniższe polecenia:
-
-    $ php wp-cli.phar user list
-    +----+------------+--------------+----------------+---------------------+---------------+
+![]({{< baseurl >}}/img/2015/05/2.zmiana-hasła-przez-email.png#small)

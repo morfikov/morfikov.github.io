@@ -63,10 +63,9 @@ switch'a, to ten pakiet zostaje podpisany adresem MAC, który jest nadrukowany n
 przypadku jest to E8:94:F6:68:79:F0, który po konfiguracji zostanie przypisany portom LAN, a dla WAN
 zostanie wygenerowany nowy MAC. W efekcie ISP najpierw widzi pakiet failsafe z jednym adresem MAC, a
 po skonfigurowaniu switch'a, router przesyła prośbę o konfigurację sieci przez protokół DHCP już
-portem WAN, który ma inny adres MAC. Wygląda to mniej więcej
-tak:
+portem WAN, który ma inny adres MAC. Wygląda to mniej więcej tak:
 
-[![1.rozny-adres-mac-isp-openwrt-wireshark]({{< baseurl >}}/img/2016/09/1.rozny-adres-mac-isp-openwrt-wireshark-1024x454.png)]({{< baseurl >}}/img/2016/09/1.rozny-adres-mac-isp-openwrt-wireshark.png)
+![]({{< baseurl >}}/img/2016/09/1.rozny-adres-mac-isp-openwrt-wireshark.png#huge)
 
 Tutaj mój laptop był wpięty do portu WAN routera, by z perspektywy ISP ustalić jakie pakiety do
 niego trafiają. Widzimy, że pierwszy pakiet jest zgłoszeniem gotowości trybu failsafe. Zwróćmy uwagę
@@ -114,10 +113,9 @@ poniższe adresy MAC:
 Może i interfejs `eth0` i `eth1` mają te same MAC ale wirtualny interfejs mostka ma już ten MAC,
 który ustawiliśmy w pliku `/etc/config/network` w sekcji `LAN` . Nie wiem czy takie ustawienie w
 czymś przeszkadza ale jeśli teraz podepniemy się do portu WAN routera i ponownie sprawdzimy jak
-wygląda komunikacja routera z ISP, to zobaczymy coś
-takiego:
+wygląda komunikacja routera z ISP, to zobaczymy coś takiego:
 
-[![2.rozny-adres-mac-isp-openwrt-wireshark]({{< baseurl >}}/img/2016/09/2.rozny-adres-mac-isp-openwrt-wireshark-1024x449.png)]({{< baseurl >}}/img/2016/09/2.rozny-adres-mac-isp-openwrt-wireshark.png)
+![]({{< baseurl >}}/img/2016/09/2.rozny-adres-mac-isp-openwrt-wireshark.png#huge)
 
 Jak widzimy, teraz już wszystkie pakiety mają jeden i ten sam adres MAC, co powinno rozwiązać
 kwestię problemów z podwójnym adresem MAC po stronie ISP.

@@ -12,6 +12,7 @@ tags:
 - szyfrowanie
 - vpn
 - sieć
+- prywatność
 title: Riseup VPN na straży prywatności
 ---
 
@@ -126,7 +127,7 @@ By przekonać się i sprawdzić czy faktycznie ruch przepuszczany jest za pośre
 wchodzimy na pierwszą z brzegu stronę sprawdzającą adres IP. Ja korzystałem z
 <http://whatismyipaddress.com/> . Poniżej wynik:
 
-![]({{< baseurl >}}/img/2015/06/1.riseup-vpn-adres-ip-test.png)
+![]({{< baseurl >}}/img/2015/06/1.riseup-vpn-adres-ip-test.png#medium)
 
 Właśnie przeprowadziłem się do US. Ale jest mały problem. Połączenia VPN, zwłaszcza te darmowe jak
 riseup, czasem nie są zbyt szybkie. W prawdzie nie ma co porównywać do TORa ale pingi mówią same za

@@ -52,11 +52,11 @@ Odpalamy teraz przeglądarkę internetową i przechodzimy na adres `https://logo
 logujemy się do serwisu online Play'a w celu włączenia darmowej usługi LTE. Wchodzimy kolejno w
 `Pakiety i usługi` i wybieramy zakładkę `Pakiety` :
 
-![]({{< baseurl >}}/img/2016/04/1.rbm-play-darmowy-internet-lte.png)
+![]({{< baseurl >}}/img/2016/04/1.rbm-play-darmowy-internet-lte.png#huge)
 
 Niżej mamy opcję włączenia usługi LTE:
 
-![]({{< baseurl >}}/img/2016/04/2.rbm-play-darmowy-internet-lte.png)
+![]({{< baseurl >}}/img/2016/04/2.rbm-play-darmowy-internet-lte.png#huge)
 
 Aktywujemy i czekamy na potwierdzenie SMS. Tę usługę niekoniecznie trzeba aktywować via panel www i
 można także to zrobić za pomocą kodu USSD `*111*480*1#` . Na wszelki wypadek sprawdzamy czy ta

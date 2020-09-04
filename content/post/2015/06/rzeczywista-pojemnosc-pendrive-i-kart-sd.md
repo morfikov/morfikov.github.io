@@ -9,6 +9,7 @@ status: publish
 tags:
 - karta-sd
 - pendrive
+- flash
 title: Rzeczywista pojemność pendrive i kart SD
 ---
 
@@ -54,7 +55,7 @@ model o takich gabarytach w ogóle jest przez niego produkowany.
 
 Poniżej jest fotka tej trefnej karty SD:
 
-![]({{< baseurl >}}/img/2015/06/1.trefna-karta-sd.png)
+![]({{< baseurl >}}/img/2015/06/1.trefna-karta-sd.png#small)
 
 Jak widać, nadruk jest sprzeczny sam ze sobą. Karta `SDHC` i do tego 128 GB, czyli już na pierwszy
 rzut oka wiadomo, że coś jest nie tak.
@@ -149,7 +150,7 @@ Jak widać wyżej, 7 plików ze 125 wcześniej utworzonych zostało odczytanych 
 ósmego pliku rezyduje poza obszarem pamięci flash, tj. niby plik jest widoczny ale nie ma sektorów,
 z których mógłby on zostać odczytany, dlatego zaczynają pojawiać się błędy. To samo jest już z
 kolejnymi plikami i żaden następny sektor nie może zostać odczytany. Zatem faktyczna wielkość tej
-karty SD to 8 GB, a konkretnie (7\*2097152\*512)+(1182951\*512)=8121863680 bajtów, lub
+karty SD to 8 GB, a konkretnie (7*2097152*512)+(1182951*512)=8121863680 bajtów, lub
 8121863680/512=15863015 sektorów.
 
 ## Czy fake flash nadaje się do użytku
@@ -256,4 +257,4 @@ Nie ma błędów, zatem testujemy zapis/odczyt danych:
 I jak widać, partycja nadaje się do odczytu/zapisu danych, z tym, że zamiast 125 GiB jest nieco
 ponad 7 GiB. Narzędzie `gparted` też bez problemu wykrywa tę partycję:
 
-![]({{< baseurl >}}/img/2015/06/2.okrojona-karta-sd.png)
+![]({{< baseurl >}}/img/2015/06/2.okrojona-karta-sd.png#huge)

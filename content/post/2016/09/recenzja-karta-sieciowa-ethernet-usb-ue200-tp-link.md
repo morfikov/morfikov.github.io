@@ -27,26 +27,23 @@ linux'em. W tym wpisie obadamy sobie właśnie tę kwestię.
 
 W sumie, to na dobrą sprawę nie ma co pokazywać, bo pudełko małe i w zasadzie znajduje się w nim sam
 adapter i kawałek kartki z instrukcją dotyczącą tego jak taką kartę podłączyć do laptopa czy innego
-komputera. Niemniej jednak, jak ktoś ciekaw to poniżej są
-fotki:
+komputera. Niemniej jednak, jak ktoś ciekaw to poniżej są fotki:
 
-[![1.adapter-ue200-karta-sieciowa-ethernet-usb-opakowanie]({{< baseurl >}}/img/2016/09/1.adapter-ue200-karta-sieciowa-ethernet-usb-opakowanie-495x660.jpg)]({{< baseurl >}}/img/2016/09/1.adapter-ue200-karta-sieciowa-ethernet-usb-opakowanie.jpg)
+![]({{< baseurl >}}/img/2016/09/1.adapter-ue200-karta-sieciowa-ethernet-usb-opakowanie.jpg#huge)
 
-[![2.adapter-ue200-karta-sieciowa-ethernet-usb]({{< baseurl >}}/img/2016/09/2.adapter-ue200-karta-sieciowa-ethernet-usb-660x495.jpg)]({{< baseurl >}}/img/2016/09/2.adapter-ue200-karta-sieciowa-ethernet-usb.jpg)
+![]({{< baseurl >}}/img/2016/09/2.adapter-ue200-karta-sieciowa-ethernet-usb.jpg#huge)
 
 Do najmniejszych ten adapter nie należy. Jego wymiary to 71 x 26 x 16,2 mm. Na adapterze nie ma
 żadnych przycisków. Jest tylko jedna mała dioda, która sygnalizuje status urządzenia, tj. czy jest
-ono włączone oraz czy są przesyłane dane przez sieć. Dioda ma kolor bały i świeci dość
-jasno.
+ono włączone oraz czy są przesyłane dane przez sieć. Dioda ma kolor bały i świeci dość jasno.
 
-[![3.adapter-ue200-karta-sieciowa-ethernet-usb-dioda]({{< baseurl >}}/img/2016/09/3.adapter-ue200-karta-sieciowa-ethernet-usb-dioda-660x495.jpg)]({{< baseurl >}}/img/2016/09/3.adapter-ue200-karta-sieciowa-ethernet-usb-dioda.jpg)
+![]({{< baseurl >}}/img/2016/09/3.adapter-ue200-karta-sieciowa-ethernet-usb-dioda.jpg#huge)
 
-Poniżej jest jeszcze widok od
-spodu:
+Poniżej jest jeszcze widok od spodu:
 
-[![4.adapter-ue200-karta-sieciowa-ethernet-usb-spod]({{< baseurl >}}/img/2016/09/4.adapter-ue200-karta-sieciowa-ethernet-usb-spod-660x495.jpg)]({{< baseurl >}}/img/2016/09/4.adapter-ue200-karta-sieciowa-ethernet-usb-spod.jpg)
+![]({{< baseurl >}}/img/2016/09/4.adapter-ue200-karta-sieciowa-ethernet-usb-spod.jpg#huge)
 
-[![5.adapter-ue200-karta-sieciowa-ethernet-usb-spod]({{< baseurl >}}/img/2016/09/5.adapter-ue200-karta-sieciowa-ethernet-usb-spod-660x495.jpg)]({{< baseurl >}}/img/2016/09/5.adapter-ue200-karta-sieciowa-ethernet-usb-spod.jpg)
+![]({{< baseurl >}}/img/2016/09/5.adapter-ue200-karta-sieciowa-ethernet-usb-spod.jpg#huge)
 
 ## Specyfikacja adaptera UE200
 
@@ -277,12 +274,12 @@ alternatywnym środowisku, o ile w ogóle on nam będzie działać. Podłączamy
 ethernet i konfigurujemy interfejs `eth1` za pomocą pliku `/etc/network/interfaces` , czy też w inny
 dogodny dla nas sposób. Po skonfigurowaniu podnosimy interfejs:
 
-![]({{< baseurl >}}/img/2016/09/6.adapter-ue200-linux-adresacja.png)
+![]({{< baseurl >}}/img/2016/09/6.adapter-ue200-linux-adresacja.png#huge)
 
 Adresacja została uzyskana, zatem przetestujmy przy pomocy `iperf` jaką faktyczną przepustowość ma
 ten adapter pod linux:
 
-![]({{< baseurl >}}/img/2016/09/7.adapter-ue200-linux-test.png)
+![]({{< baseurl >}}/img/2016/09/7.adapter-ue200-linux-test.png#huge)
 
 Jak widać, udało się osiągną 94 mbit/s i jest w sumie maksimum dla takich kart ethernet. Pozostałe
 5-6 mbit/s zjada narzut (overhead) protokołu TCP/IP. Karta działa stabilnie i nie grzeje się. Jedyny

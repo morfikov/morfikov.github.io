@@ -75,10 +75,9 @@ stacjonarne.
 
 Jako, że ja dysponuję smartfonem Neffos C5, który ma na pokładzie system Android 5.1 (Lollipop), to
 w oparciu o to urządzenie opiszę jak włączyć i skonfigurować tethering. Potrzebne nam opcje są w
-menu pod Ustawienia =\> Więcej =\> Tethering i punkt
-dostępu.
+menu pod Ustawienia => Więcej => Tethering i punkt dostępu.
 
-[![001.tethering-smartfon-router-openwrt-lte-wlaczenie]({{< baseurl >}}/img/2016/11/001.tethering-smartfon-router-openwrt-lte-wlaczenie-660x361.png)]({{< baseurl >}}/img/2016/11/001.tethering-smartfon-router-openwrt-lte-wlaczenie.png)
+![]({{< baseurl >}}/img/2016/11/001.tethering-smartfon-router-openwrt-lte-wlaczenie.png#huge)
 
 Wyżej na fotce widzimy kilka opcji, z których nas interesują głownie dwie: Hotspot WLAN i Tethering
 przez USB. W zależności od możliwości naszej sieci domowej będziemy korzystać z jednego lub drugiego
@@ -90,20 +89,18 @@ Jako, że tethering najprościej jest skonfigurować za pomocą sieci WiFi, to o
 zaczniemy. W tym przypadku niekoniecznie potrzebujemy router WiFi z OpenWRT. Na dobrą sprawę, to
 bezprzewodowy router w ogóle nie jest nam potrzebny, no chyba, że część komputerów w naszej sieci
 domowej nie jest w stanie połączyć się bezprzewodowo. Zacznijmy zatem od skonfigurowania tethering'u
-w smartfonie. By to zrobić, włączamy bezprzewodowy punkt dostępowy
-WiFi:
+w smartfonie. By to zrobić, włączamy bezprzewodowy punkt dostępowy WiFi:
 
-[![002.tethering-smartfon-router-openwrt-lte-konfiguracja]({{< baseurl >}}/img/2016/11/002.tethering-smartfon-router-openwrt-lte-konfiguracja-660x361.png)]({{< baseurl >}}/img/2016/11/002.tethering-smartfon-router-openwrt-lte-konfiguracja.png)
+![]({{< baseurl >}}/img/2016/11/002.tethering-smartfon-router-openwrt-lte-konfiguracja.png#huge)
 
 W celu oszczędzania baterii możemy ustawić automatyczne wyłączanie WiFi po 5 lub 10 minutach
 bezczynności. Nas jednak bardziej interesuje konfiguracja zabezpieczeń. Opcji nie ma zbyt wiele i
 jedyne co musimy ustawić to hasło do sieci WiFi (WPA2-PSK). Jeśli nie odpowiada nam domyślny ESSID,
 to również możemy go zmienić. Jak widać wyżej, mamy też możliwość określenia liczby urządzeń, które
 będą w stanie nawiązać połączenie ze smartfonem w tym samym czasie (maksymalnie 8). Mając
-skonfigurowany hotspot WiFi możemy go
-uruchomić:
+skonfigurowany hotspot WiFi możemy go uruchomić:
 
-[![003.tethering-smartfon-router-openwrt-lte-hotspot]({{< baseurl >}}/img/2016/11/003.tethering-smartfon-router-openwrt-lte-hotspot-401x660.png)]({{< baseurl >}}/img/2016/11/003.tethering-smartfon-router-openwrt-lte-hotspot.png)
+![]({{< baseurl >}}/img/2016/11/003.tethering-smartfon-router-openwrt-lte-hotspot.png#medium)
 
 Poniżej znajdują się sytuacje, w których człowiek może się znaleźć przy udostępnianiu połączenia
 internetowego komputerom za pomocą smartfona.
@@ -126,10 +123,9 @@ moich routerów, które są w stanie skonfigurować połączenie WISP na oficjal
 pełnowymiarowy router ale posiada jeden port RJ-45, przez co jesteśmy w stanie podłączyć do tego
 routera przewodowo co najmniej jeden komputer. Co najmniej, bo zawsze można podpiąć zwykły switch i
 rozdzielić sygnał na kilka maszyn. Konfiguracja klienta WiFi sprowadza się do uzupełnienia
-poniższego formularza w panelu
-administracyjnym:
+poniższego formularza w panelu administracyjnym:
 
-[![004.tethering-smartfon-router-openwrt-lte-tp-link-stock]({{< baseurl >}}/img/2016/11/004.tethering-smartfon-router-openwrt-lte-tp-link-stock-657x660.png)]({{< baseurl >}}/img/2016/11/004.tethering-smartfon-router-openwrt-lte-tp-link-stock.png)
+![]({{< baseurl >}}/img/2016/11/004.tethering-smartfon-router-openwrt-lte-tp-link-stock.png#huge)
 
 Zatem nie jest to jakiś skomplikowany proces. Ważne jest tylko, by router wspierał tryb WISP, bo bez
 niego nie damy rady podłączyć routera do smartfona, no chyba, że mamy na nim wgrany alternatywny
@@ -188,18 +184,17 @@ przykład:
         option ifname 'usb0'
         option proto 'dhcpv6'
 
-Zapisujemy plik i restartujemy router. Połączenie na linii komputer \<=\> router WiFi \<=\> smartfon
-\<=\> LTE/3G powinno zostać zestawione. Można puścić `ping` dla pewności ale nie powinno być
+Zapisujemy plik i restartujemy router. Połączenie na linii komputer <=> router WiFi <=> smartfon
+<=> LTE/3G powinno zostać zestawione. Można puścić `ping` dla pewności ale nie powinno być
 problemów.
 
-![]({{< baseurl >}}/img/2016/11/005.tethering-smartfon-router-openwrt-lte-test.png)
+![]({{< baseurl >}}/img/2016/11/005.tethering-smartfon-router-openwrt-lte-test.png#big)
 
 Tam na wiki OpenWRT można przeczytać, że mogą się pojawić problemy przy podłączaniu smartfona do
 portu USB czy wyłączaniu w opcjach Androida tethering'u. Rzekomo OpenWRT ma mieć problem z ponownym
 nawiązaniem połączenia po aktywacji tethering'u. Mój Neffos C5 i router Archer C7 v2 nie wykazują
-takich dziwnych zachowań. Poniżej jest log z rozłączenia
-tethering'u:
+takich dziwnych zachowań. Poniżej jest log z rozłączenia tethering'u:
 
-[![006.tethering-smartfon-router-openwrt-lte-log]({{< baseurl >}}/img/2016/11/006.tethering-smartfon-router-openwrt-lte-log-660x287.png)]({{< baseurl >}}/img/2016/11/006.tethering-smartfon-router-openwrt-lte-log.png)
+![]({{< baseurl >}}/img/2016/11/006.tethering-smartfon-router-openwrt-lte-log.png#huge)
 
 Podobnie sprawa wygląda po wyciągnięciu wtyczki z portu USB routera.

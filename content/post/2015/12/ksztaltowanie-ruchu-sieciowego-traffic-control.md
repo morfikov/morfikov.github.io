@@ -113,10 +113,9 @@ Mając kolejki, możemy przejść do przekierowania pakietów przy pomocy odpowi
     $ipt -A qos_egress -s 192.168.10.0/24 -j ACCEPT
 
 To co zasługuje na uwagę, to `--set-class` . Wartość tego parametru musi pasować do wartości
-`classid` w `tc` , który ustawiliśmy wyżej. Poniżej przykład
-działania:
+`classid` w `tc` , który ustawiliśmy wyżej. Poniżej przykład działania:
 
-![]({{< baseurl >}}/img/2015/12/1.ksztaltowanie-ruchu-sieciowego-classify-iptables.png)
+![]({{< baseurl >}}/img/2015/12/1.ksztaltowanie-ruchu-sieciowego-classify-iptables.png#huge)
 
 ### Cgroups
 
@@ -213,7 +212,7 @@ Nie potrzebujemy żadnych wpisów w `iptables` , bo wszystko jest zarządzane pr
 połączeniu z `tc` . Warto nadmienić, że wartość w `handle 200 cgroup` ma odpowiadać tej określonej
 w pliku `/etc/cgconfig.conf` (0x0001**0200**). Poniżej zaś test:
 
-![]({{< baseurl >}}/img/2015/12/2.ksztaltowanie-ruchu-sieciowego-cgroups.png)
+![]({{< baseurl >}}/img/2015/12/2.ksztaltowanie-ruchu-sieciowego-cgroups.png#huge)
 
 ## Interfejsy IMQ
 

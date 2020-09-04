@@ -37,18 +37,17 @@ Jak zawsze, zacznijmy od tego co znajduje się wewnątrz opakowania. Poniżej s�
 oraz wszystkich elementów załączonych w
 zestawie:
 
-[![1.router-archer-c2600-pudelko]({{< baseurl >}}/img/2016/09/1.router-archer-c2600-pudelko-1024x620.jpg)]({{< baseurl >}}/img/2016/09/1.router-archer-c2600-pudelko.jpg)
+![]({{< baseurl >}}/img/2016/09/1.router-archer-c2600-pudelko.jpg#huge)
 
-[![2.router-archer-c2600-pudelko-zawartosc]({{< baseurl >}}/img/2016/09/2.router-archer-c2600-pudelko-zawartosc-1024x776.jpg)]({{< baseurl >}}/img/2016/09/2.router-archer-c2600-pudelko-zawartosc.jpg)
+![]({{< baseurl >}}/img/2016/09/2.router-archer-c2600-pudelko-zawartosc.jpg#huge)
 
 Przede wszystkim, w pudełku mamy router. Jak widać jest to dość byczy sprzęt (mniej więcej 2x
 TL-WR1043ND). Jego dokładne wymiary to jakieś 264x198x38mm (dł-sz-wy) i waży prawie 1 kilogram.
 Połowa powierzchni tego routera robi za matową kratkę wentylacyjną, a połowa za coś co się świeci
 jak nie powiem komu co. Przynajmniej router jest tylko w połowie łatwy do zarysowania, także krok w
-dobrą
-stronę.
+dobrą stronę.
 
-[![3.router-archer-c2600-wyglad]({{< baseurl >}}/img/2016/09/3.router-archer-c2600-wyglad-1024x484.jpg)]({{< baseurl >}}/img/2016/09/3.router-archer-c2600-wyglad.jpg)
+![]({{< baseurl >}}/img/2016/09/3.router-archer-c2600-wyglad.jpg#huge)
 
 Na środku tej dwurodzajowej powierzchni znajdują się diody. Diody świecą się na kolor biały, za
 wyjątkiem tej, która ma sygnalizować połączenie ze światem. W przypadku podłączenia przewodu i
@@ -56,43 +55,38 @@ braku łączności z internetem, router podświetla diodę na pomarańczowo. Dio
 przyciskiem lub też zaprogramować ich automatyczne włączanie i wyłączanie w panelu administracyjnym
 w zależności od pory dnia. Bardzo przydatna rzecz jeśli w nocy nam te diody nie dają spać.
 
-Spód oczywiście jest cały zakratkowany i na szczęście
-matowy:
+Spód oczywiście jest cały zakratkowany i na szczęście matowy:
 
-[![4.router-archer-c2600-wyglad-spod]({{< baseurl >}}/img/2016/09/4.router-archer-c2600-wyglad-spod-1024x665.jpg)]({{< baseurl >}}/img/2016/09/4.router-archer-c2600-wyglad-spod.jpg)
+![]({{< baseurl >}}/img/2016/09/4.router-archer-c2600-wyglad-spod.jpg#huge)
 
-Do zestawu są dołączone cztery anteny
-dwupasmowe:
+Do zestawu są dołączone cztery anteny dwupasmowe:
 
-[![5.router-archer-c2600-anteny]({{< baseurl >}}/img/2016/09/5.router-archer-c2600-anteny-1024x545.jpg)]({{< baseurl >}}/img/2016/09/5.router-archer-c2600-anteny.jpg)
+![]({{< baseurl >}}/img/2016/09/5.router-archer-c2600-anteny.jpg#huge)
 
 Jeden przewód ethernet
 CAT5E:
 
-[![6.router-archer-c2600-skretka]({{< baseurl >}}/img/2016/09/6.router-archer-c2600-skretka-1024x950.jpg)]({{< baseurl >}}/img/2016/09/6.router-archer-c2600-skretka.jpg)
+![]({{< baseurl >}}/img/2016/09/6.router-archer-c2600-skretka.jpg#huge)
 
-Nie mogło też zabraknąć
-zasilacza:
+Nie mogło też zabraknąć zasilacza:
 
-[![7.router-archer-c2600-zasilacz]({{< baseurl >}}/img/2016/09/7.router-archer-c2600-zasilacz-1024x696.jpg)]({{< baseurl >}}/img/2016/09/7.router-archer-c2600-zasilacz.jpg)
+![]({{< baseurl >}}/img/2016/09/7.router-archer-c2600-zasilacz.jpg#huge)
 
-[![8.router-archer-c2600-zasilacz]({{< baseurl >}}/img/2016/09/8.router-archer-c2600-zasilacz-1024x577.jpg)]({{< baseurl >}}/img/2016/09/8.router-archer-c2600-zasilacz.jpg)
+![]({{< baseurl >}}/img/2016/09/8.router-archer-c2600-zasilacz.jpg#huge)
 
 Jak widzimy, na zasilaczu widnieje 12V/4A, zatem ten router jest w stanie wyciągnąć prawie 50 W.
 Oczywiście w przypadku standardowej pracy tego urządzenia, pobiera ono sporo mniej energii i jest to
 rząd wielkości 7-10 W. No chyba, że podłączymy do niego urządzenia USB. Archer C2600 posiada również
-dwa porty USB
-3.0:
+dwa porty USB 3.0:
 
-[![9.router-archer-c2600-porty-usb-przyciski]({{< baseurl >}}/img/2016/09/9.router-archer-c2600-porty-usb-przyciski-1024x245.jpg)]({{< baseurl >}}/img/2016/09/9.router-archer-c2600-porty-usb-przyciski.jpg)
+![]({{< baseurl >}}/img/2016/09/9.router-archer-c2600-porty-usb-przyciski.jpg#huge)
 
 Wyżej poza portami widzimy również przyciski WiFi i WPS oraz małą dziurkę, która skrywa przycisk
 reset. Wymagana będzie igła czy inny tego typu przedmiot, by ten ostatni przycisk wcisnąć.
 
-Tylny panel routera Archer C2600 prezentuje się raczej
-standardowo:
+Tylny panel routera Archer C2600 prezentuje się raczej standardowo:
 
-[![10.router-archer-c2600-switch-power]({{< baseurl >}}/img/2016/09/10.router-archer-c2600-switch-power-1024x207.jpg)]({{< baseurl >}}/img/2016/09/10.router-archer-c2600-switch-power.jpg)
+![]({{< baseurl >}}/img/2016/09/10.router-archer-c2600-switch-power.jpg#huge)
 
 Mamy cztery żółte gniazdka RJ-45 przeznaczone na porty LAN. Dalej jest też jeden niebieski port WAN.
 No i oczywiście włącznik oraz gniazdo zasilania. Widzimy również cztery złącza antenowe RP-SMA.
@@ -227,32 +221,29 @@ Przyjrzyjmy się zatem nieco podzespołom z jakich zbudowany jest router Archer 
 urządzenia dobrać, trzeba pierw wyciągnąć cztery nóżki ze spodu obudowy i odkręcić skrywane pod nimi
 śrubki:
 
-[![11.router-archer-c2600-obudowa-otwieranie]({{< baseurl >}}/img/2016/09/11.router-archer-c2600-obudowa-otwieranie-1024x576.jpg)]({{< baseurl >}}/img/2016/09/11.router-archer-c2600-obudowa-otwieranie.jpg)
+![]({{< baseurl >}}/img/2016/09/11.router-archer-c2600-obudowa-otwieranie.jpg#huge)
 
 Później wystarczy podważyć nieco pokrywę routera i powinna ona bez problemu zeskoczyć z zaczepów.
 Dobrze jest poszukać ciemniejszych miejsc, w których znajdują się zaczepy i tam podważać. Po
-ściągnięciu pokrywy trzeba nieco uważać, bo diody na niej są połączone z płytą
-główną:
+ściągnięciu pokrywy trzeba nieco uważać, bo diody na niej są połączone z płytą główną:
 
-[![12.router-archer-c2600-obudowa-otwieranie]({{< baseurl >}}/img/2016/09/12.router-archer-c2600-obudowa-otwieranie-782x1024.jpg)]({{< baseurl >}}/img/2016/09/12.router-archer-c2600-obudowa-otwieranie.jpg)
+![]({{< baseurl >}}/img/2016/09/12.router-archer-c2600-obudowa-otwieranie.jpg#huge)
 
 Po odłączeniu przewodu, mamy dostęp do płytki. Pierwsze co rzuca się w oczy do dwa masywne
 radiatory:
 
-[![13.router-archer-c2600-wnętrze-obudowy-pcb]({{< baseurl >}}/img/2016/09/13.router-archer-c2600-wnętrze-obudowy-pcb-1024x733.jpg)]({{< baseurl >}}/img/2016/09/13.router-archer-c2600-wnętrze-obudowy-pcb.jpg)
+![]({{< baseurl >}}/img/2016/09/13.router-archer-c2600-wnętrze-obudowy-pcb.jpg#huge)
 
-A tu jeszcze widok płytki od
-spodu:
+A tu jeszcze widok płytki od spodu:
 
-[![14.router-archer-c2600-wnętrze-obudowy-pcb]({{< baseurl >}}/img/2016/09/14.router-archer-c2600-wnętrze-obudowy-pcb-757x1024.jpg)]({{< baseurl >}}/img/2016/09/14.router-archer-c2600-wnętrze-obudowy-pcb.jpg)
+![]({{< baseurl >}}/img/2016/09/14.router-archer-c2600-wnętrze-obudowy-pcb.jpg#huge)
 
 By wyjąc płytkę z obudowy, trzeba pierw odłączyć widoczne wyżej cztery przewody antenowe. Po
-ściągnięciu radiatorów, płytka prezentuje się
-następująco:
+ściągnięciu radiatorów, płytka prezentuje się następująco:
 
-[![13.router-archer-c2600-pcb]({{< baseurl >}}/img/2016/09/13.router-archer-c2600-pcb-1024x720.jpg)]({{< baseurl >}}/img/2016/09/13.router-archer-c2600-pcb.jpg)
+![]({{< baseurl >}}/img/2016/09/13.router-archer-c2600-pcb.jpg#huge)
 
-[![15.router-archer-c2600-pcb]({{< baseurl >}}/img/2016/09/15.router-archer-c2600-pcb-1024x748.jpg)]({{< baseurl >}}/img/2016/09/15.router-archer-c2600-pcb.jpg)
+![]({{< baseurl >}}/img/2016/09/15.router-archer-c2600-pcb.jpg#huge)
 
 Poniżej zaś jest nieco bardziej dokładny opis poszczególnych elementów.
 
@@ -261,12 +252,12 @@ Poniżej zaś jest nieco bardziej dokładny opis poszczególnych elementów.
 Gigabitowy switch jest na układzie [Qualcomm Atheros
 QCA8337](https://www.google.pl/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwjs2K6c1ozPAhXHiCwKHexhBEcQFggeMAA&url=http%3A%2F%2Fwww.deyisupport.com%2Fcfs-file.ashx%2F__key%2Ftelligent-evolution-components-attachments%2F00-25-01-00-00-20-73-71%2FQCA8337N_5F00_Data_5F00_Sheet_5F00_MKG_2D00_17793_5F00_v1.0.pdf&usg=AFQjCNFzHXL7j-83SrjvtndZswPFYAdl_g&sig2=VwASZsnSRnCtmSgk1IXBVA):
 
-[![16.router-archer-c2600-pcb-switch]({{< baseurl >}}/img/2016/09/16.router-archer-c2600-pcb-switch-1024x831.jpg)]({{< baseurl >}}/img/2016/09/16.router-archer-c2600-pcb-switch.jpg)
+![]({{< baseurl >}}/img/2016/09/16.router-archer-c2600-pcb-switch.jpg#huge)
 
 Oraz układy [Group-Tek HST-24002SAR i
 HST-48002SAR](https://www.google.pl/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwjex76_0IrPAhWHhSwKHYOxBmwQFgggMAA&url=http%3A%2F%2Fhands.com%2F~lkcl%2Feoma%2Frouter%2FHST-24002SAR.pdf&usg=AFQjCNFmi-mKi1kTlXJXvyXYcB9l8gFyzw&sig2=y-mSyYASUsoJHITuKkpQoQ):
 
-[![17.router-archer-c2600-pcb-switch]({{< baseurl >}}/img/2016/09/17.router-archer-c2600-pcb-switch-1024x377.jpg)]({{< baseurl >}}/img/2016/09/17.router-archer-c2600-pcb-switch.jpg)
+![]({{< baseurl >}}/img/2016/09/17.router-archer-c2600-pcb-switch.jpg#huge)
 
 ### WiFi 2,4 GHz (QCA9980 + SKY2623L)
 
@@ -274,27 +265,26 @@ W sekcji radia 2,4 GHz (4x4:4, standard N) znajduje się czip WiFi QCA9980 oraz 
 sygnału
 SKY2623L](https://www.google.pl/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwjhrIb4yorPAhWE1ywKHT5qCZ8QFggeMAA&url=http%3A%2F%2Fwww.skyworksinc.com%2Fuploads%2Fdocuments%2FSE2623L_202397E.pdf&usg=AFQjCNGEtCcUcuYoHMzJ7rY825QiaI7GXw&sig2=I0IpxTVVN9zgLKKnC5jWyw).
 
-[![18.router-archer-c2600-pcb-wifi-wireless]({{< baseurl >}}/img/2016/09/18.router-archer-c2600-pcb-wifi-wireless-1024x465.jpg)]({{< baseurl >}}/img/2016/09/18.router-archer-c2600-pcb-wifi-wireless.jpg)
+![]({{< baseurl >}}/img/2016/09/18.router-archer-c2600-pcb-wifi-wireless.jpg#huge)
 
-[![19.router-archer-c2600-pcb-wifi-wireless]({{< baseurl >}}/img/2016/09/19.router-archer-c2600-pcb-wifi-wireless-1024x378.jpg)]({{< baseurl >}}/img/2016/09/19.router-archer-c2600-pcb-wifi-wireless.jpg)
+![]({{< baseurl >}}/img/2016/09/19.router-archer-c2600-pcb-wifi-wireless.jpg#huge)
 
 ### WiFi 5 GHz (QCA9980 + SKY85405)
 
 W sekcji radia 5 GHz (4x4:4, standard AC) znajduje się czip WiFi QCA9980 oraz 4 [wzmacniacze sygnału
 SKY85405](https://www.google.pl/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwjh7N-JyorPAhXHCCwKHZ-KAA8QFggeMAA&url=http%3A%2F%2Fwww.skyworksinc.com%2Fuploads%2Fdocuments%2FSKY85405_11_PS_203617A.pdf&usg=AFQjCNGTGHYofR6d2cZ4uiC9wetuYSNQvA&sig2=fLRx2OE2s8g5MGjnaTW9fQ)
 
-[![20.router-archer-c2600-pcb-wifi-wireless]({{< baseurl >}}/img/2016/09/20.router-archer-c2600-pcb-wifi-wireless-1024x306.jpg)]({{< baseurl >}}/img/2016/09/20.router-archer-c2600-pcb-wifi-wireless.jpg)
+![]({{< baseurl >}}/img/2016/09/20.router-archer-c2600-pcb-wifi-wireless.jpg#huge)
 
-[![21.router-archer-c2600-pcb-wifi-wireless]({{< baseurl >}}/img/2016/09/21.router-archer-c2600-pcb-wifi-wireless-1024x397.jpg)]({{< baseurl >}}/img/2016/09/21.router-archer-c2600-pcb-wifi-wireless.jpg)
+![]({{< baseurl >}}/img/2016/09/21.router-archer-c2600-pcb-wifi-wireless.jpg#huge)
 
 ### System-On-Chip (IPQ8064)
 
 W routerze Archer C2600 znajduje się [SoC
 IPQ8064](http://www.anandtech.com/show/7526/qualcomm-atheros-announces-new-internet-processor-lineup-ipq8064-and-ipq8062),
-w którym to z kolei mamy dwa procesory Krait 300 z taktowaniem 1,4
-GHz.
+w którym to z kolei mamy dwa procesory Krait 300 z taktowaniem 1,4 GHz.
 
-[![22.router-archer-c2600-pcb-soc-procesor]({{< baseurl >}}/img/2016/09/22.router-archer-c2600-pcb-soc-procesor-1024x642.jpg)]({{< baseurl >}}/img/2016/09/22.router-archer-c2600-pcb-soc-procesor.jpg)
+![]({{< baseurl >}}/img/2016/09/22.router-archer-c2600-pcb-soc-procesor.jpg#huge)
 
 ### Pamięć operacyjna RAM
 
@@ -303,57 +293,53 @@ pewno nie będzie się marnować pod alternatywnym firmware OpenWRT/LEDE. Na pok
 po 256 MiB DDR3. Producentem układów jest zaś Micron, model
 [MT41K128M16JT-125:K](https://www.micron.com/parts/dram/ddr3-sdram/mt41k128m16jt-125):
 
-[![23.router-archer-c2600-pcb-pamiec-ram]({{< baseurl >}}/img/2016/09/23.router-archer-c2600-pcb-pamiec-ram-1024x570.jpg)]({{< baseurl >}}/img/2016/09/23.router-archer-c2600-pcb-pamiec-ram.jpg)
+![]({{< baseurl >}}/img/2016/09/23.router-archer-c2600-pcb-pamiec-ram.jpg#huge)
 
 ### Flash
 
-Router Archer C2600 ma flash o wielkości 32 MiB. Układ Spansion
-FL256SAIFR0:
+Router Archer C2600 ma flash o wielkości 32 MiB. Układ Spansion FL256SAIFR0:
 
-[![24.router-archer-c2600-pcb-flash]({{< baseurl >}}/img/2016/09/24.router-archer-c2600-pcb-flash-682x1024.jpg)]({{< baseurl >}}/img/2016/09/24.router-archer-c2600-pcb-flash.jpg)
+![]({{< baseurl >}}/img/2016/09/24.router-archer-c2600-pcb-flash.jpg#medium)
 
 ## Zarządzanie routerem Archer C2600
 
 Routerem Archer C2600 zarządza się przez panel administracyjny, który jest dostępny pod adresem
 `http://192.168.0.1/` . Dane logowania są standardowe, tj. `admin`/`admin` :
 
-![]({{< baseurl >}}/img/2016/09/25.router-archer-c2600-panel-admina-logowanie.png)
+![]({{< baseurl >}}/img/2016/09/25.router-archer-c2600-panel-admina-logowanie.png#huge)
 
 Po zalogowaniu się na router, zostaniemy poproszeni o zmianę hasła:
 
-![]({{< baseurl >}}/img/2016/09/26.router-archer-c2600-panel-admina-zmiana-hasla.png)
+![]({{< baseurl >}}/img/2016/09/26.router-archer-c2600-panel-admina-zmiana-hasla.png#huge)
 
 Następnie zostaniemy przeprowadzeni przez szybki proces konfiguracji routera Archer C2600, podczas
-którego będziemy w stanie dostosować kraj oraz strefę
-czasową:
+którego będziemy w stanie dostosować kraj oraz strefę czasową:
 
-![]({{< baseurl >}}/img/2016/09/27.router-archer-c2600-panel-admina-strefa-czasowa.png)
+![]({{< baseurl >}}/img/2016/09/27.router-archer-c2600-panel-admina-strefa-czasowa.png#huge)
 
 Adresację IP:
 
-![]({{< baseurl >}}/img/2016/09/28.router-archer-c2600-panel-admina-adresacja.png)
+![]({{< baseurl >}}/img/2016/09/28.router-archer-c2600-panel-admina-adresacja.png#huge)
 
 Nazwy i hasła sieci WiFi:
 
-![]({{< baseurl >}}/img/2016/09/29.router-archer-c2600-panel-admina-wifi.png)
+![]({{< baseurl >}}/img/2016/09/29.router-archer-c2600-panel-admina-wifi.png#huge)
 
 Jak widzimy, proces konfiguracji routera Archer C2600 jest bardzo prosty, praktycznie automatyczny i
-sprowadza się jedynie do kilku klików
-myszką:
+sprowadza się jedynie do kilku klików myszką:
 
-![]({{< baseurl >}}/img/2016/09/30.router-archer-c2600-panel-admina-konfiguracja-pomysla.png)
+![]({{< baseurl >}}/img/2016/09/30.router-archer-c2600-panel-admina-konfiguracja-pomysla.png#huge)
 
 Sam panel administracyjny jest podzielony na dwie części. Jedna z nich skupia się na prostocie
 konfiguracji, przez co nawet osoby, które nie znają się zbytnio na komputerach, powinny sobie
 poradzić ze skonfigurowaniem routera Archer C2600:
 
-![]({{< baseurl >}}/img/2016/09/31.router-archer-c2600-panel-admina-tryb-prosty.png)
+![]({{< baseurl >}}/img/2016/09/31.router-archer-c2600-panel-admina-tryb-prosty.png#huge)
 
 Dla bardziej wymagających są ustawienia zaawansowane, gdzie można dostosować sobie praktycznie każdy
-aspekt pracy routera Archer
-C2600:
+aspekt pracy routera Archer C2600:
 
-![]({{< baseurl >}}/img/2016/09/32.router-archer-c2600-panel-admina-tryb-zaawansowany.png)
+![]({{< baseurl >}}/img/2016/09/32.router-archer-c2600-panel-admina-tryb-zaawansowany.png#huge)
 
 W tym panelu admina można skonfigurować naprawdę całą masę rzeczy i zamiast je tutaj wszystkie
 wymieniać, to zachęcam do zapoznania się z tym panelem w [emulatorze jaki jest udostępniany przez
@@ -391,14 +377,13 @@ firmware. Wygląda na to, że ten model [ma wsparcie (częściowe póki co) w
 LEDE](https://forum.openwrt.org/viewtopic.php?pid=332184). Jest nawet stosowna [strona na wiki
 OpenWRT](https://wiki.openwrt.org/toh/tp-link/tp-link_archer_c2600_v1). Obraz można zaś znaleźć na
 [dl.eko.one.pl](http://dl.eko.one.pl/lede/17.01-SNAPSHOT/targets/ipq806x/generic/). Jako, że jest
-obraz, to postanowiłem go wgrać na router i zobaczyć, czy aktualnie ten firmware jest
-zjadliwy.
+obraz, to postanowiłem go wgrać na router i zobaczyć, czy aktualnie ten firmware jest zjadliwy.
 
-![]({{< baseurl >}}/img/2016/09/33.router-archer-c2600-panel-admina-flash-openwrt-lede-firmware.png)
+![]({{< baseurl >}}/img/2016/09/33.router-archer-c2600-panel-admina-flash-openwrt-lede-firmware.png#big)
 
 Router nawet działa:
 
-![]({{< baseurl >}}/img/2016/09/34.router-archer-c2600-openwrt-lede-firmware.png)
+![]({{< baseurl >}}/img/2016/09/34.router-archer-c2600-openwrt-lede-firmware.png#huge)
 
 Niemniej jednak, są z nim problemy. Przede wszystkim, część przycisków nie działa. Działają tylko
 reset i WPS. Nie świecą się też diody od WiFi, no i brakuje pomarańczowej diody sygnalizującej

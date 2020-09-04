@@ -39,10 +39,9 @@ mało. Niektórzy mogą się ratować folderami, w których można upychać apli
 czego ja bym oczekiwał od mojego pulpitu.
 
 Poniżej jest zestawienie domyślnego launcher'a Neffos'a C5 i mojego już dostosowanego pulpitu na
-bazie Nova
-Launcher:
+bazie Nova Launcher:
 
-[![001.nova-launcher-neffos-c5-porownanie]({{< baseurl >}}/img/2016/10/001.nova-launcher-neffos-c5-porownanie-660x540.png)]({{< baseurl >}}/img/2016/10/001.nova-launcher-neffos-c5-porownanie.png)
+![]({{< baseurl >}}/img/2016/10/001.nova-launcher-neffos-c5-porownanie.png#big)
 
 Różnica jest znaczna. Nie chodzi tylko o ilość ikonek ale także o sposób ich formatowania. Na
 pierwszy rzut oka widać, że układ siatki jest inny. W tym schemacie mamy 8x8. Oczywiście dla
@@ -66,22 +65,20 @@ wersja nie zawiera reklam, co cieszy. Niemniej jednak, ta wersja jest pozbawiona
 funkcji. Przy pisaniu tego artykułu korzystałem z wersji Free. Poniżej jest ofotkowany proces
 instalacji:
 
-[![002.nova-launcher-neffos-c5-instalacja]({{< baseurl >}}/img/2016/10/002.nova-launcher-neffos-c5-instalacja-603x660.png)]({{< baseurl >}}/img/2016/10/002.nova-launcher-neffos-c5-instalacja.png)
+![]({{< baseurl >}}/img/2016/10/002.nova-launcher-neffos-c5-instalacja.png#huge)
 
 Po otworzeniu Nova Launcher mamy do dyspozycji czysty pulpit, tak jak to widać na fotce wyżej. By
 dodać do pulpitu nową ikonkę, musimy otworzyć listę aplikacji, tj. tapnąć to białe kółko z sześcioma
 dziurkami, które jest ulokowane w dolnej części ekranu. Otworzy nam się lista zainstalowanych w
 systemie programów. Jednym z nich są ustawienia Nova Launcher (pierwsza ikonka na poniższej fotce).
-Po otworzeniu ustawień, mamy dostęp do całej masy opcji konfigurujących zachowanie
-launcher'a:
+Po otworzeniu ustawień, mamy dostęp do całej masy opcji konfigurujących zachowanie launcher'a:
 
-[![003.nova-launcher-neffos-c5-opcje]({{< baseurl >}}/img/2016/10/003.nova-launcher-neffos-c5-opcje-660x361.png)]({{< baseurl >}}/img/2016/10/003.nova-launcher-neffos-c5-opcje.png)
+![]({{< baseurl >}}/img/2016/10/003.nova-launcher-neffos-c5-opcje.png#huge)
 
 Dostęp do menu konfiguracyjnego jak i tapet oraz widżetów możemy także uzyskać przez dłuższe
-przytrzymanie pustej przestrzeni
-pulpitu:
+przytrzymanie pustej przestrzeni pulpitu:
 
-[![004.nova-launcher-neffos-c5-wyglad]({{< baseurl >}}/img/2016/10/004.nova-launcher-neffos-c5-wyglad-660x361.png)]({{< baseurl >}}/img/2016/10/004.nova-launcher-neffos-c5-wyglad.png)
+![]({{< baseurl >}}/img/2016/10/004.nova-launcher-neffos-c5-wyglad.png#huge)
 
 Jak widać, trochę tego jest, a i tak nie wszystkie opcje udało się uchwycić. Przejdźmy zatem do
 konfiguracji pulpitu.
@@ -93,19 +90,17 @@ tylko rozdzielczość siatki ikon ale także podpisy pod nimi, oczywiście jeśl
 potrzebuje. Jeśli się przyjrzeliśmy porównaniu launcher'ów (na tej pierwszej fotce), to mogliśmy
 zauważyć brak podpisów pod ikonkami. Ja ich zwyczajnie nie potrzebuję i uważam, że są one całkowicie
 zbędne i psują tylko całą estetykę, zwłaszcza przy większej ilości ikon na pulpicie. Poniżej jest
-zaś fotka wszystkich opcji dotyczących
-pulpitu:
+zaś fotka wszystkich opcji dotyczących pulpitu:
 
-[![005.nova-launcher-neffos-c5-ustawienia-pilpit]({{< baseurl >}}/img/2016/10/005.nova-launcher-neffos-c5-ustawienia-pilpit-660x361.png)]({{< baseurl >}}/img/2016/10/005.nova-launcher-neffos-c5-ustawienia-pilpit.png)
+![]({{< baseurl >}}/img/2016/10/005.nova-launcher-neffos-c5-ustawienia-pilpit.png#huge)
 
 ### Siatka pulpitu
 
 To tutaj możemy dostosować rozdzielczość siatki pulpitu. Minimalna wartość to 2x2, maksymalna zaś to
 12x12. Zatem całkiem przyzwoite konfiguracje można tworzyć. Oczywiście możemy również ustawić
-niestandardowy układ, np. 4x6, mamy tutaj pełną
-dowolność:
+niestandardowy układ, np. 4x6, mamy tutaj pełną dowolność:
 
-[![006.nova-launcher-neffos-c5-pulpit-siatka]({{< baseurl >}}/img/2016/10/006.nova-launcher-neffos-c5-pulpit-siatka-660x542.png)]({{< baseurl >}}/img/2016/10/006.nova-launcher-neffos-c5-pulpit-siatka.png)
+![]({{< baseurl >}}/img/2016/10/006.nova-launcher-neffos-c5-pulpit-siatka.png#big)
 
 Opcja widoczna wyżej, umożliwia nam nieco swobodniejsze rozmieszczenie widżetów i ikonek.
 
@@ -115,42 +110,38 @@ Czcionkę tekstu, który jest pod ikonami, możemy sobie również bez większeg
 grę wchodzą takie ustawienia jak rozmiar czcionki, jej kolor, a nawet rzucane cienie na pulpit.
 Możemy także zlikwidować wielolinijkowość tekstu, jak i całkowicie go wyłączyć (zostaną nam same
 ikonki). Wszystkie nasze ustawienia są widoczne w podglądzie, dzięki czemu w bardzo prosty sposób
-dostosujemy wygląd podpisów do własnych
-potrzeb.
+dostosujemy wygląd podpisów do własnych potrzeb.
 
-[![007.nova-launcher-neffos-c5-pulpit-uklad-ikon]({{< baseurl >}}/img/2016/10/007.nova-launcher-neffos-c5-pulpit-uklad-ikon-660x542.png)]({{< baseurl >}}/img/2016/10/007.nova-launcher-neffos-c5-pulpit-uklad-ikon.png)
+![]({{< baseurl >}}/img/2016/10/007.nova-launcher-neffos-c5-pulpit-uklad-ikon.png#big)
 
 ### Margines poziomy i pionowy
 
 Siatka aplikacji może wypełniać całą dostępną przestrzeń pulpitu. Niemniej jednak, przy mniejszym
 rozmiarze ikon, ikonki mogą nam się przysunąć zbyt blisko krawędzi ekranu, co psuje nieco estetykę.
 Można ten problem wyeliminować przez ustawienie marginesu poziomego i pionowego. Do wyboru mamy:
-brak, mały, średni i
-duży.
+brak, mały, średni i duży.
 
-[![008.nova-launcher-neffos-c5-pulpit-margines]({{< baseurl >}}/img/2016/10/008.nova-launcher-neffos-c5-pulpit-margines-660x542.png)]({{< baseurl >}}/img/2016/10/008.nova-launcher-neffos-c5-pulpit-margines.png)
+![]({{< baseurl >}}/img/2016/10/008.nova-launcher-neffos-c5-pulpit-margines.png#big)
 
 ### Efekty przewijania i wskaźnik strony
 
 W przypadku posiadania wielu pulpitów, możemy się między nimi przełączać. Temu procesowi z reguły
-towarzyszy jakaś animacja, której zachowaniem możemy
-sterować.
+towarzyszy jakaś animacja, której zachowaniem możemy sterować.
 
-[![009.nova-launcher-neffos-c5-pulit-efekty]({{< baseurl >}}/img/2016/10/009.nova-launcher-neffos-c5-pulit-efekty-660x542.png)]({{< baseurl >}}/img/2016/10/009.nova-launcher-neffos-c5-pulit-efekty.png)
+![]({{< baseurl >}}/img/2016/10/009.nova-launcher-neffos-c5-pulit-efekty.png#big)
 
 Gdy już mamy kilka pulpitów, to w dolnej części ekranu mamy również informację na temat aktualnej
 pozycji. Kształt i kolor tego wskaźnika możemy zmienić. Możemy także wyłączyć go
 całkowicie.
 
-[![010.nova-launcher-neffos-c5-pulpit-wskaznik]({{< baseurl >}}/img/2016/10/010.nova-launcher-neffos-c5-pulpit-wskaznik-660x542.png)]({{< baseurl >}}/img/2016/10/010.nova-launcher-neffos-c5-pulpit-wskaznik.png)
+![]({{< baseurl >}}/img/2016/10/010.nova-launcher-neffos-c5-pulpit-wskaznik.png#big)
 
 Standardowo też nie mamy możliwości przewijać ekranu po przejściu do ostatniego pulpitu z lewej lub
 prawej strony. Jeśli chcielibyśmy zmienić to zachowanie i móc przełączyć się z 3 pulpitu
 bezpośrednio na 1 pulpit przewijając w prawą stronę, to możemy naturalnie zaznaczyć sobie opcję
-"Przewijanie w
-nieskończoność":
+"Przewijanie w nieskończoność":
 
-[![011.nova-launcher-neffos-c5-przewijanie]({{< baseurl >}}/img/2016/10/011.nova-launcher-neffos-c5-przewijanie-660x648.png)]({{< baseurl >}}/img/2016/10/011.nova-launcher-neffos-c5-przewijanie.png)
+![]({{< baseurl >}}/img/2016/10/011.nova-launcher-neffos-c5-przewijanie.png#medium)
 
 ### Automatyczne dodawanie skrótów
 
@@ -158,10 +149,9 @@ Mając listę aplikacji schowaną pod guzikiem umiejscowionym w dock'u, raczej n
 automatycznego dodawania skrótów na pulpicie tuż po zainstalowaniu jakiejś aplikacji. Niektórych
 programów nie używamy tak często i zaśmiecają one nam tylko cenną przestrzeń pulpitu. Niemniej
 jednak, jeśli są użytkownicy, którzy nie potrafią wręcz żyć bez tej opcji, to nic nie stoi na
-przeszkodzie by ją
-włączyć:
+przeszkodzie by ją włączyć:
 
-[![012.nova-launcher-neffos-c5-pulpit-skroty]({{< baseurl >}}/img/2016/10/012.nova-launcher-neffos-c5-pulpit-skroty-660x495.png)]({{< baseurl >}}/img/2016/10/012.nova-launcher-neffos-c5-pulpit-skroty.png)
+![]({{< baseurl >}}/img/2016/10/012.nova-launcher-neffos-c5-pulpit-skroty.png#medium)
 
 ### Blokada pulpitu
 
@@ -170,27 +160,24 @@ dostępna w ustawieniach zaawansowanych pulpitu. Po jej aktywowaniu, nie będzie
 ikonek, tak jak to możemy robić bez blokady. Niemniej jednak, gdy zajdzie potrzeba zmiany układu
 pulpitu, blokada może być zdjęta tymczasowo. Wystarczy przytrzymać dłużej ikonkę, którą zamierzamy
 przemieścić. Pojawi nam się monit informujący o zablokowaniu pulpitu. Będzie tam kłódka, której
-dłuższe przytrzymanie dezaktywuje
-blokadę:
+dłuższe przytrzymanie dezaktywuje blokadę:
 
-[![013.nova-launcher-neffos-c5-pulpit-blokada]({{< baseurl >}}/img/2016/10/013.nova-launcher-neffos-c5-pulpit-blokada-660x542.png)]({{< baseurl >}}/img/2016/10/013.nova-launcher-neffos-c5-pulpit-blokada.png)
+![]({{< baseurl >}}/img/2016/10/013.nova-launcher-neffos-c5-pulpit-blokada.png#big)
 
 ## Lista aplikacji
 
 Dostosowanie pulpitu mamy z grubsza z głowy. Drugim elementem Nova Launcher, którym warto się
 zainteresować, jest lista aplikacji. W jej przypadku mamy do dyspozycji nawet więcej opcji, niż
-mieliśmy przy konfigurowaniu
-panelu:
+mieliśmy przy konfigurowaniu panelu:
 
-[![014.nova-launcher-neffos-c5-lista-aplikacji-ustawienia]({{< baseurl >}}/img/2016/10/014.nova-launcher-neffos-c5-lista-aplikacji-ustawienia-660x271.png)]({{< baseurl >}}/img/2016/10/014.nova-launcher-neffos-c5-lista-aplikacji-ustawienia.png)
+![]({{< baseurl >}}/img/2016/10/014.nova-launcher-neffos-c5-lista-aplikacji-ustawienia.png#huge)
 
 Lista aplikacji niczym nadzwyczajnym się nie wyróżnia ale skrywa ona dwie ciekawe właściwości. Jedną
 z nich jest możliwość wyszukiwania aplikacji. Wystarczy wyciągnąć szukajkę spod górnej krawędzi
 listy, do momentu aż pojawi się niebieska lupa. Po puszczeniu zobaczymy listę ostatnio instalowanych
-aplikacji, no i oczywiście formularz, w którym możemy zacząć wpisywać
-tekst:
+aplikacji, no i oczywiście formularz, w którym możemy zacząć wpisywać tekst:
 
-[![015.nova-launcher-neffos-c5-lista-aplikacja-szukaj]({{< baseurl >}}/img/2016/10/015.nova-launcher-neffos-c5-lista-aplikacja-szukaj-660x361.png)]({{< baseurl >}}/img/2016/10/015.nova-launcher-neffos-c5-lista-aplikacja-szukaj.png)
+![]({{< baseurl >}}/img/2016/10/015.nova-launcher-neffos-c5-lista-aplikacja-szukaj.png#huge)
 
 W pierwszym rzędzie mamy najczęściej używane aplikacje. Możemy je naturalnie wyłączyć jeśli komuś
 one przeszkadzają. Do tego celu służy opcja "Często używane aplikacje" w ustawieniach listy
@@ -200,10 +187,9 @@ aplikacji.
 
 Podobnie jak w przypadku pulpitu, lista aplikacji również ma do skonfigurowania siatkę. Możemy także
 zmienić jej zachowanie. Chodzi o przewijanie z lewej na prawą (poziomy) lub z góry na dół (pionowy).
-Jeśli żadna z tych opcji nas nie zadowala, to możemy zrobić faktyczną listę
-aplikacji:
+Jeśli żadna z tych opcji nas nie zadowala, to możemy zrobić faktyczną listę aplikacji:
 
-[![016.nova-launcher-neffos-c5-lista-aplikacji-siatka0uklad]({{< baseurl >}}/img/2016/10/016.nova-launcher-neffos-c5-lista-aplikacji-siatka0uklad-660x361.png)]({{< baseurl >}}/img/2016/10/016.nova-launcher-neffos-c5-lista-aplikacji-siatka0uklad.png)
+![]({{< baseurl >}}/img/2016/10/016.nova-launcher-neffos-c5-lista-aplikacji-siatka0uklad.png#huge)
 
 ### Pozostałe opcje konfigurujące widok listy aplikacji
 
@@ -217,18 +203,16 @@ one wam się przydały. Jeśli się przekonam do tych opcji, to ich opis uwzglę
 
 Ostatnim z elementów Nova Launcher jest dock, czyli ten pasek z aplikacjami, które widnieją u dołu
 ekranu i nie podlegają zmianie przy przechodzeniu do innych pulpitów. W zasadzie jest tutaj niewiele
-opcji ale za to jakże niezbędnych z perspektywy użytkownika
-telefonu.
+opcji ale za to jakże niezbędnych z perspektywy użytkownika telefonu.
 
-[![017.nova-launcher-neffos-c5-dock-ustawienia]({{< baseurl >}}/img/2016/10/017.nova-launcher-neffos-c5-dock-ustawienia-660x542.png)]({{< baseurl >}}/img/2016/10/017.nova-launcher-neffos-c5-dock-ustawienia.png)
+![]({{< baseurl >}}/img/2016/10/017.nova-launcher-neffos-c5-dock-ustawienia.png#big)
 
 Przede wszystkim mamy możliwość dostosowania wyglądu samego dock'a. Możemy nie tylko zmienić jego
 kształt czy kolor ale także przezroczystość. Możemy także dostosować ilość dock'ów, które będziemy
 mieć do dyspozycji po przesunięciu palcem w lewo lub prawo (max 2 w lewo i max 2 w prawo, co łącznie
-daje 5 dock'ów). Jest też opcja zmiany ilości ikonek, maksymalnie
-7:
+daje 5 dock'ów). Jest też opcja zmiany ilości ikonek, maksymalnie 7:
 
-[![018.nova-launcher-neffos-c5-dock-przewijanie-kolorystyka]({{< baseurl >}}/img/2016/10/018.nova-launcher-neffos-c5-dock-przewijanie-kolorystyka-660x361.png)]({{< baseurl >}}/img/2016/10/018.nova-launcher-neffos-c5-dock-przewijanie-kolorystyka.png)
+![]({{< baseurl >}}/img/2016/10/018.nova-launcher-neffos-c5-dock-przewijanie-kolorystyka.png#huge)
 
 Również na dock'u jesteśmy w stanie dostosować sobie układ ikon i napisy pod nimi. Choć zwykle w
 przypadku dock'ów ta opcja jest kompletnie zbędna. Warto także zsynchronizować sobie margines
@@ -247,7 +231,7 @@ pole. Niemniej jednak, jeśli przeciągniemy kilka ikonek w to samo miejsce, utw
 którym możemy przechowywać więcej aplikacji niż tylko dwie. Widok folderu na pulpicie można
 dostosować.
 
-[![019.nova-launcher-neffos-c5-foldery-konfiguracja]({{< baseurl >}}/img/2016/10/019.nova-launcher-neffos-c5-foldery-konfiguracja-660x361.png)]({{< baseurl >}}/img/2016/10/019.nova-launcher-neffos-c5-foldery-konfiguracja.png)
+![]({{< baseurl >}}/img/2016/10/019.nova-launcher-neffos-c5-foldery-konfiguracja.png#huge)
 
 Pozostałe opcje animacji i układu ikon są takie same jak w powyższych przypadkach. Ja generalnie
 usunąłem całe formatowanie z folderów uzyskując w ten sposób coś na wzór mniejszych ikonek w
@@ -255,44 +239,40 @@ stosunku do tych standardowych. Jest to złudzenie, bo każdy folder pokazuje w 
 pierwsze aplikacje, które są w nim ulokowane. Kolejnością aplikacji w folderach możemy dowolnie
 zarządzać:
 
-[![020.nova-launcher-neffos-c5-foldery-male-ikony]({{< baseurl >}}/img/2016/10/020.nova-launcher-neffos-c5-foldery-male-ikony-660x219.png)]({{< baseurl >}}/img/2016/10/020.nova-launcher-neffos-c5-foldery-male-ikony.png)
+![]({{< baseurl >}}/img/2016/10/020.nova-launcher-neffos-c5-foldery-male-ikony.png#medium)
 
 Po kliknięciu w folder otwiera się małe okienko z zawartością folderu. Ikonki są tutaj już
-pełnowymiarowe (kolor tła i przezroczystość można
-dostosować):
+pełnowymiarowe (kolor tła i przezroczystość można dostosować):
 
-[![021.nova-launcher-neffos-c5-foldery-wyglad-pulpit]({{< baseurl >}}/img/2016/10/021.nova-launcher-neffos-c5-foldery-wyglad-pulpit-401x660.png)]({{< baseurl >}}/img/2016/10/021.nova-launcher-neffos-c5-foldery-wyglad-pulpit.png)
+![]({{< baseurl >}}/img/2016/10/021.nova-launcher-neffos-c5-foldery-wyglad-pulpit.png#medium)
 
 ## Styl i wygląd Nova Launcher
 
 Kolejną pozycją na liście opcji, które mamy dostępne w ustawieniach Nova Launcher, jest Wygląd i
 Styl:
 
-[![022.nova-launcher-neffos-c5-styl-wyglad]({{< baseurl >}}/img/2016/10/022.nova-launcher-neffos-c5-styl-wyglad-660x542.png)]({{< baseurl >}}/img/2016/10/022.nova-launcher-neffos-c5-styl-wyglad.png)
+![]({{< baseurl >}}/img/2016/10/022.nova-launcher-neffos-c5-styl-wyglad.png#big)
 
 Mamy tutaj możliwość wyboru zestawu ikon. Póki co dostępne są dwie opcje: ikonki systemowe oraz
 ikonki z Androida 6.0 (Marshmallow). Możemy także wyrównać nieco rozmiar ikonek, tak by były zgodne
 z zasadami [Material Design](https://material.io/guidelines/). Generalnie część większych ikonek
 będzie nieco mniejsza co uczyni sam pulpit bardziej czytelnym. Nie wiem czemu nie wszystkie duże
-ikonki są pomniejszane (Google Chrome vs
-Firefox):
+ikonki są pomniejszane (Google Chrome vs Firefox):
 
-[![023.nova-launcher-neffos-c5-material-design]({{< baseurl >}}/img/2016/10/023.nova-launcher-neffos-c5-material-design-660x542.png)]({{< baseurl >}}/img/2016/10/023.nova-launcher-neffos-c5-material-design.png)
+![]({{< baseurl >}}/img/2016/10/023.nova-launcher-neffos-c5-material-design.png#big)
 
 Standardowo też Nova Launcher jest skonfigurowany dla orientacji pionowej telefonu i przy obrocie
 smartfona układ pulpitu się nam nie zmienia. Jeśli pracujemy więcej w układzie poziomym, to możemy
 taki tryb wymusić albo przestawić Nova Launcher w tryb automatycznego dopasowania w zależności od
-położenia telefonu. Ja pozostanę przy pionowej
-orientacji.
+położenia telefonu. Ja pozostanę przy pionowej orientacji.
 
-[![024.nova-launcher-neffos-c5-orientacja-ekranu]({{< baseurl >}}/img/2016/10/024.nova-launcher-neffos-c5-orientacja-ekranu-401x660.png)]({{< baseurl >}}/img/2016/10/024.nova-launcher-neffos-c5-orientacja-ekranu.png)
+![]({{< baseurl >}}/img/2016/10/024.nova-launcher-neffos-c5-orientacja-ekranu.png#medium)
 
 Mamy także możliwość dostosowania prędkości animacji i przewijania, co bardzo przydaje się w
 przypadku, gdy mają dla nas ogromne znaczenie efekty wizualne. Również efekt animacji przy
-otwieraniu aplikacji możemy sobie
-wybrać:
+otwieraniu aplikacji możemy sobie wybrać:
 
-[![025.nova-launcher-neffos-c5-animacje]({{< baseurl >}}/img/2016/10/025.nova-launcher-neffos-c5-animacje-660x361.png)]({{< baseurl >}}/img/2016/10/025.nova-launcher-neffos-c5-animacje.png)
+![]({{< baseurl >}}/img/2016/10/025.nova-launcher-neffos-c5-animacje.png#huge)
 
 Bardziej użytecznymi funkcjami są jednak te dotyczące paska powiadomień (przy górnej krawędzi
 ekranu). Możemy ten pasek ukryć, choć będzie się on pojawiał automatycznie przy mizianiu ekranu tuż
@@ -302,64 +282,57 @@ trochę cennego miejsca. Z tym, że w przypadku ukrycia zegara potrzebny nam jes
 ## Tryb nocny
 
 Dla lunatyków i innych wilkołaków, Nova Launcher przewidział także tryb nocny, który możemy ustawić
-na kilka
-sposobów.
+na kilka sposobów.
 
-[![026.nova-launcher-neffos-c5-tryb-nocny]({{< baseurl >}}/img/2016/10/026.nova-launcher-neffos-c5-tryb-nocny-660x542.png)]({{< baseurl >}}/img/2016/10/026.nova-launcher-neffos-c5-tryb-nocny.png)
+![]({{< baseurl >}}/img/2016/10/026.nova-launcher-neffos-c5-tryb-nocny.png#big)
 
 Jeśli mamy w systemie skonfigurowany tryb nocny, to Nova Launcher może te ustawienia wykorzystać i
 dostosować przełączanie trybu. Możemy także wybrać tryb automatyczny, który ustawi godziny
 przełączania w oparciu o naszą strefę czasową. Jeśli natomiast chcielibyśmy sobie dostosować owe
 godziny przełączania, to nic nie stoi na przeszkodzie, by tak uczynić. Z kolei zaś, gdy chcemy non
 stop korzystać z trybu nocnego, to również i z tym nie ma najmniejszego problemu. Pamiętajmy tylko,
-by dostosować sobie również wygląd poszczególnych elementów w trybie
-nocnym:
+by dostosować sobie również wygląd poszczególnych elementów w trybie nocnym:
 
-[![027.nova-launcher-neffos-c5-tryb-nocny-konfiguracja]({{< baseurl >}}/img/2016/10/027.nova-launcher-neffos-c5-tryb-nocny-konfiguracja-660x361.png)]({{< baseurl >}}/img/2016/10/027.nova-launcher-neffos-c5-tryb-nocny-konfiguracja.png)
+![]({{< baseurl >}}/img/2016/10/027.nova-launcher-neffos-c5-tryb-nocny-konfiguracja.png#huge)
 
 ## Bakcup i ustawienia domyślne
 
 Jak widać po powyższym opisie, Nova Launcher dysponuje całą masą opcji, których konfiguracja może
 nam zająć trochę czasu. Jeśli nie zmienialiśmy za dużo ustawień, to i tak problematyczne może się
 okazać odtworzenie choćby układu ikon na pulpicie. By ulżyć nieco użytkownikom, ten launcher ma
-wbudowany mechanizm backup'u
-ustawień:
+wbudowany mechanizm backup'u ustawień:
 
-[![028.nova-launcher-neffos-c5-kopia-zapasowa]({{< baseurl >}}/img/2016/10/028.nova-launcher-neffos-c5-kopia-zapasowa-660x361.png)]({{< baseurl >}}/img/2016/10/028.nova-launcher-neffos-c5-kopia-zapasowa.png)
+![]({{< baseurl >}}/img/2016/10/028.nova-launcher-neffos-c5-kopia-zapasowa.png#huge)
 
 Nie wiem czemu ale nie mogłem tych ustawień wyeksportować bezpośrednio na kartę pamięci.
 
 ## Domyślny launcher
 
 Jeśli Nova Launcher przypadł nam do gustu, to możemy go uczynić domyślnym launcher'em w naszym
-Androidzie. Możemy to zrobić przechodząc w Ustawienia =\> Ekran główny, albo też możemy tapnąć w
-przycisk Home na ekranie
-smartfona:
+Androidzie. Możemy to zrobić przechodząc w Ustawienia => Ekran główny, albo też możemy tapnąć w
+przycisk Home na ekranie smartfona:
 
-[![029.nova-launcher-neffos-c5-domyslny-launcher]({{< baseurl >}}/img/2016/10/029.nova-launcher-neffos-c5-domyslny-launcher-660x361.png)]({{< baseurl >}}/img/2016/10/029.nova-launcher-neffos-c5-domyslny-launcher.png)
+![]({{< baseurl >}}/img/2016/10/029.nova-launcher-neffos-c5-domyslny-launcher.png#huge)
 
 Warto na zakończenie wspomnieć, że ikonki na pulpicie w Nova Launcher możemy nie tylko przyciskać
 ale też możemy za ich sprawą aktywować pewne akcje. Wystarczy taką ikonkę trochę przytrzymać, a po
 chwili pojawi nam się menu odnoszące się do konkretnej pozycji na pulpicie. Możemy tutaj
 odinstalować aplikację, do której skrót należy. Mamy też możliwość zmiany nazwy skrótu, o ile
 korzystamy z podpisów ikonek. Jest też odwołanie do informacji o aplikacji. No i oczywiście możemy
-taki skrót z pulpitu
-usnąć:
+taki skrót z pulpitu usnąć:
 
-[![030.nova-launcher-neffos-c5-edycja-ikon-pulpit]({{< baseurl >}}/img/2016/10/030.nova-launcher-neffos-c5-edycja-ikon-pulpit-660x361.png)]({{< baseurl >}}/img/2016/10/030.nova-launcher-neffos-c5-edycja-ikon-pulpit.png)
+![]({{< baseurl >}}/img/2016/10/030.nova-launcher-neffos-c5-edycja-ikon-pulpit.png#huge)
 
 Jeśli chodzi zaś o widżety, to je również możemy usuwać, czy uzyskiwać informacje o aplikacjach, do
-których one przynależą. Możemy także zmieniać rozmiar widżetów, zarówno w pionie jak i
-poziomie:
+których one przynależą. Możemy także zmieniać rozmiar widżetów, zarówno w pionie jak i poziomie:
 
-[![031.nova-launcher-neffos-c5-edycja-widzet-pulpit]({{< baseurl >}}/img/2016/10/031.nova-launcher-neffos-c5-edycja-widzet-pulpit-660x542.png)]({{< baseurl >}}/img/2016/10/031.nova-launcher-neffos-c5-edycja-widzet-pulpit.png)
+![]({{< baseurl >}}/img/2016/10/031.nova-launcher-neffos-c5-edycja-widzet-pulpit.png#big)
 
 Istotną funkcją jest też możliwość buforowania danych w pamięci przez Nova Launcher. Poprawia to
 znacznie wydajność działania aplikacji, bo system nie musi w kółko na nowo rysować interfejsu
-graficznego aplikacji. Tę opcję znajdziemy w ustawieniach
-zaawansowanych:
+graficznego aplikacji. Tę opcję znajdziemy w ustawieniach zaawansowanych:
 
-[![032.nova-launcher-neffos-c5-buforowanie-pamiec]({{< baseurl >}}/img/2016/10/032.nova-launcher-neffos-c5-buforowanie-pamiec-401x660.png)]({{< baseurl >}}/img/2016/10/032.nova-launcher-neffos-c5-buforowanie-pamiec.png)
+![]({{< baseurl >}}/img/2016/10/032.nova-launcher-neffos-c5-buforowanie-pamiec.png#medium)
 
 I to w sumie już wszystko co tyczy się wymiany launcher'a w Neffos C5. Myślę, że TP-LINK powinien
 trochę popracować nad tą jakże kluczową aplikacją, bez której raczej żaden użytkownik smartfona nie

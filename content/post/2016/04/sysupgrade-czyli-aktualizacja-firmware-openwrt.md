@@ -136,12 +136,11 @@ paczek, można porównać oba katalogi, np. przy pomocy narzędzia `meld` . Wyli
 poszczególnych plikach i na podstawie tych zmian będziemy w stanie stwierdzić, czy utworzony przez
 nas backup nadaje się do wgrania na router. W przypadku, gdy nowsza wersja firmware wprowadziła
 jakieś zmiany w konfiguracji, to wszystkie te zmiany można zwyczajnie przenieść. Wygląda to mniej
-więcej
-tak:
+więcej tak:
 
-![]({{< baseurl >}}/img/2016/04/1.sysupgrade-meld-diff-openwrt-firmware-aktualizacja.png)
+![]({{< baseurl >}}/img/2016/04/1.sysupgrade-meld-diff-openwrt-firmware-aktualizacja.png#huge)
 
-![]({{< baseurl >}}/img/2016/04/2.sysupgrade-meld-diff-openwrt-firmware-aktualizacja.png)
+![]({{< baseurl >}}/img/2016/04/2.sysupgrade-meld-diff-openwrt-firmware-aktualizacja.png#huge)
 
 Po zakończeniu tego procesu, pakujemy pliki:
 

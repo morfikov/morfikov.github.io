@@ -9,6 +9,7 @@ status: publish
 tags:
 - smartfon
 - mediatek
+- bootloader
 title: Jak usunąć blokadę bootloader'a (OEM lock) w smartfonie z Androidem
 ---
 
@@ -91,16 +92,14 @@ Potrzebny nam będzie obraz partycji `frp` , ewentualnie można przy pomocy `dd`
 wypełniony zerami o odpowiedniej długości. Jak sobie wykroiłem tę partycję z backup'u flash'a. W
 tym przypadku partycja `frp` zajmuje 1 MiB. Ten obraz trzeba załadować do edytora HEX. Jak korzystam
 z [wxhexeditor](http://www.wxhexeditor.org/) . Po załadowaniu obrazu w tym programiku powinniśmy
-ujrzeć poniższe
-okienko:
+ujrzeć poniższe okienko:
 
-[![]({{< baseurl >}}/img/2017/04/001-oem-lock-frp-smartfon-android-bootloader-hex-660x328.png)]({{< baseurl >}}/img/2017/04/001-oem-lock-frp-smartfon-android-bootloader-hex.png)
+![]({{< baseurl >}}/img/2017/04/001-oem-lock-frp-smartfon-android-bootloader-hex.png#huge)
 
 Jak widać wyżej ostatnie dwie cyferki (bajt) mają `00` , zatem blokada jest założona. Trzeba tutaj
-ten bajt przepisać do postaci `01`
-.
+ten bajt przepisać do postaci `01` .
 
-[![]({{< baseurl >}}/img/2017/04/002-oem-lock-frp-smartfon-android-bootloader-hex-660x328.png)]({{< baseurl >}}/img/2017/04/002-oem-lock-frp-smartfon-android-bootloader-hex.png)
+![]({{< baseurl >}}/img/2017/04/002-oem-lock-frp-smartfon-android-bootloader-hex.png#huge)
 
 Następnie zapisujemy plik i ładujemy go w SP Flash Tool i wgrywamy na partycję `frp`. Po wgraniu,
 pamiętajmy, by smartfon uruchomić w trybie bootloader'a (zwykle VolDown+Power, ewentualnie przez

@@ -9,33 +9,33 @@ status: publish
 tags:
 - bootloader
 - grub
-title: Błędy bootloadera grub
+title: Błędy bootloader'a GRUB/GRUB2
 ---
 
-Grub to najpopularniejszy bootloader w systemach linuxowych. Dorobił się tego miejsca na podium
+GRUB to najpopularniejszy bootloader w systemach linuxowych. Dorobił się tego miejsca na podium
 głównie ze względu na swoją pełną automatyzację. Potrafi obsłużyć pokaźną ilości systemów plików,
 no i również nie zostaje w tyle w stosunku do aktualnych standardów partycjonowania dysków -- mowa
 oczywiście o tablicy partycji GPT. Przeglądając internet w poszukiwaniu odpowiedzi na temat jednego
-z błędów jaki grub wyrzucił mi podczas startu systemu, znalazłem [ten oto
+z błędów jaki GRUB/GRUB2 wyrzucił mi podczas startu systemu, znalazłem [ten oto
 artykuł](http://www.uruk.org/orig-grub/errors.html). Zawarte są tam dokładnie wszystkie możliwe
-błędy jakie grub potrafi zwrócić wraz z krótkim wyjaśnieniem ich przyczyny. Postanowiłem sobie je
+błędy jakie GRUB potrafi zwrócić wraz z krótkim wyjaśnieniem ich przyczyny. Postanowiłem sobie je
 przejrzeć i dorobić do nich polskie tłumaczenie.
 
 <!--more-->
-## Grub i jego trzy etapy
+## GRUB i jego trzy etapy
 
-Proces uruchamiania systemu przy wykorzystaniu bootloadera grub podzielony jest z grubsza na dwa
+Proces uruchamiania systemu przy wykorzystaniu bootloader'a GRUB podzielony jest z grubsza na dwa
 etapy. Popatrzmy na fotkę poniżej (źródło
 [wikipedia](https://en.wikipedia.org/wiki/GNU_GRUB)):
 
-[![1.linux-mbr-keyfile]({{< baseurl >}}/img/2015/06/1.linux-mbr-keyfile-1024x576.png)]({{< baseurl >}}/img/2015/06/1.linux-mbr-keyfile.png)
+![]({{< baseurl >}}/img/2015/06/1.linux-mbr-keyfile.png#huge)
 
 Pierwszy etap (stage 1) ma na celu załadowanie `boot.img` , który jest przechowywany w MBR
-(ewentualnie VBR). Zadaniem tego kodu jest wskazanie położenia `core.img` bootloadera, który z
+(ewentualnie VBR). Zadaniem tego kodu jest wskazanie położenia `core.img` bootloader'a, który z
 reguły jest zlokalizowany bezpośrednio za sektorem MBR i przed pierwszą partycją, chyba, że mamy do
 czynienia z tablicą partycji GPT. Podczas etapu pośredniego (stage 1.5) ładowany jest kod obecny w
 `core.img` , gdzie przechowywana jest konfiguracja i niezbędne moduły w szczególności sterowniki
-systemu plików. W `core.img` są także zawarte dalsze instrukcje dla bootloadera grub. W etapie
+systemu plików. W `core.img` są także zawarte dalsze instrukcje dla bootloader'a GRUB. W etapie
 drugim (stage 2) są ładowane pliki z katalogu `/boot/grub/` . Gdy ten proces dobiegnie końca,
 powinniśmy zobaczyć ekran wyboru systemu operacyjnego.
 
@@ -75,7 +75,7 @@ BIOS obszaru. Zdarza się to głównie wtedy gdy dysk jest większy niż BIOS je
 ### 6: "Attempt to access block outside partition"
 
 Ten komunikat może pojawić się gdy adres bloku jest poza obszarem partycji. Może to być wynikiem
-uszkodzonego systemu plików na dysku lub też jakiegoś błędu w kodzie samego gruba.
+uszkodzonego systemu plików na dysku lub też jakiegoś błędu w kodzie samego GRUB'a.
 
 ### 7: "Partition table invalid or corrupt"
 
@@ -103,23 +103,23 @@ wszystko inne, jak np. informacje o dysku/partycji, jest w porządku.
 ### 12: "Cannot mount selected partition"
 
 Ten błąd pojawia się gdy żądana partycja istnieje ale jej typ systemu plików nie może zostać
-rozpoznany przez gruba.
+rozpoznany przez GRUB'a.
 
 ### 13: "Inconsistent filesystem structure"
 
 Ten błąd jest zwracany przez kod systemu plików w celu oznaczenia wewnętrznego błędu spowodowanego
 przez testy stanu struktury systemu plików na dysku. Zwykle jest to wynikiem uszkodzonego systemu
-plików lub błędu w kodzie gruba.
+plików lub błędu w kodzie GRUB'a.
 
 ### 14: "Filesystem compatibility error, can't read whole file"
 
-Część kodu odpowiadającego za czytanie systemu plików w grubie ma ograniczenia co do długości
+Część kodu odpowiadającego za czytanie systemu plików w GRUB'ie ma ograniczenia co do długości
 plików, które mogą zostać przez niego przeczytane. Ten błąd pojawia się w momencie, gdy użytkownik
 wychodzi poza ten określony limit.
 
 ### 15: "Error while parsing number"
 
-Ten błąd jest zwracany w przypadku gdy grub spodziewał się odczytać jakąś liczbę, a zamiast tego
+Ten błąd jest zwracany w przypadku gdy GRUB spodziewał się odczytać jakąś liczbę, a zamiast tego
 napotkał inne dane.
 
 ### 16: "Device string unrecognizable"
@@ -147,7 +147,7 @@ adres i maksymalny rozmiar.
 ### 20: "Unsupported Multiboot features requested"
 
 Ten błąd jest zwracany gdy Multiboot wymaga czegoś co jest nierozpoznawalne. Chodzi o to, że kernel
-wymaga specjalnego traktowania, którego grub nie jest w stanie zapewnić.
+wymaga specjalnego traktowania, którego GRUB nie jest w stanie zapewnić.
 
 ### 21: "Unknown boot failure"
 
@@ -157,7 +157,7 @@ nieznanych.
 ### 22: "Must load Multiboot kernel before modules"
 
 Ten błąd jest zwracany gdy polecenie załadowania modułu zostało użyte przed załadowaniem samego
-kernela Multiboot. To ma tylko sens w tym przypadku, bo grub nie ma pojęcia jak powiązać ze sobą
+kernela Multiboot. To ma tylko sens w tym przypadku, bo GRUB nie ma pojęcia jak powiązać ze sobą
 obecność takich modułów z kernelem, który nie obsługuje Multiboot.
 
 ### 23: "Must load Linux kernel before initrd"
@@ -167,7 +167,7 @@ kernela. Podobnie jak w przypadku `22` , to ma tylko sens w tym przypadku.
 
 ### 24: "Cannot boot without kernel loaded"
 
-Ten błąd jest wynikiem nakazania grubowi wykonania sekwencji startu bez uprzedniego załadowania się
+Ten błąd jest wynikiem nakazania GRUB'owi wykonania sekwencji startu bez uprzedniego załadowania się
 kernela.
 
 ### 25: "Unrecognized command"

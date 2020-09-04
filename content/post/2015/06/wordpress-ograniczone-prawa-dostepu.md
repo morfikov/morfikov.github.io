@@ -10,6 +10,8 @@ tags:
 - pliki
 - foldery
 - blog
+- bezpieczeństwo
+- baza-danych
 title: 'WordPress: Ograniczone prawa dostępu'
 ---
 
@@ -72,10 +74,10 @@ Jeśli chodzi o katalog `plugins/` , to również i w tym przypadku prawa do zap
 jedynie właściciel. Trzeba jednak mieć na uwadze, że nie zainstalujemy/zaktualizujemy już pluginów z
 poziomu panelu admina, przy najmniej nie z taką prostotą jak dotychczas:
 
-![]({{< baseurl >}}/img/2015/06/1.wordpress-problemy-przez-restrykcyjne-prawa.png)
+![]({{< baseurl >}}/img/2015/06/1.wordpress-problemy-przez-restrykcyjne-prawa.png#medium)
 
 Po zmianie praw będziemy zmuszeni albo do korzystania z ftp/ftps, tak jak to widać wyżęj, albo z
-wp-cli.
+`wp-cli` .
 
 Jeśli chodzi o katalog `uploads/` , prawa zapisu trzeba nadać również dla serwera (grupy), bo
 inaczej nie będziemy w stanie wgrywać plików, które będziemy załączać w publikowanych postach. Zatem
@@ -100,7 +102,7 @@ problemu potrafi operować na bardziej restrykcyjnych prawach, w których skład
 posty na blogu, dodawać użytkowników, wysyłać załączniki, dodawać komentarze pod wpisami, czy
 instalować motywy/pluginy.
 
-![]({{< baseurl >}}/img/2015/06/2.wordpress-mysql-prawa-uzytkownika.png)
+![]({{< baseurl >}}/img/2015/06/2.wordpress-mysql-prawa-uzytkownika.png#big)
 
 Jeśli ktoś woli tekstowego klienta, to poniżej są odpowiednie linijki:
 

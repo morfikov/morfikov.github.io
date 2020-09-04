@@ -8,6 +8,9 @@ published: true
 status: publish
 tags:
 - email
+- pliki
+- katalogi
+- thunderbird
 title: Kompaktowanie katalogów w Thunderbird
 ---
 
@@ -33,30 +36,30 @@ mniej będą one zajmować miejsca, co przyczyni się do poprawy wydajności sam
 jeśli nie wykonujemy tej czynności regularnie, możemy doświadczyć dziwnych zjawisk, jak np.
 powracanie usuniętych wiadomości, lub też nieprawidłowe daty w wyniku zagubienia się nagłówka takiej
 wiadomości. Thunderbird potrafi automatycznie przeprowadzać kompaktowanie folderów, z tym, że trzeba
-mieć zaznaczoną odpowiednią opcję (Edit =\> Preferences =\> Advanced =\> Network & Disk Space):
+mieć zaznaczoną odpowiednią opcję (Edit => Preferences => Advanced => Network & Disk Space):
 
-![]({{< baseurl >}}/img/2015/06/1.thunderbird-kompaktowanie-filderów.png)
+![]({{< baseurl >}}/img/2015/06/1.thunderbird-kompaktowanie-filderów.png#big)
 
 U mnie jakimś cudem była ona odznaczona i dlatego właśnie ten katalog się rozrósł tak potwornie. Po
 dokonaniu kompaktowania, z tych 650MiB zjechałem do nieco ponad 200MiB. Także jest spora różnica.
 
 By nie być ciągle nurtowanym pytaniem o to czy wyrażamy zgodę na automatycznie kompaktowanie
 folderów, możemy przestawić pewną opcję w Thunderbird, by pozbyć się tego monitu. W tym celu
-przechodzimy pod Edit =\> Preferences =\> Advanced =\> General:
+przechodzimy pod Edit => Preferences => Advanced => General:
 
-![]({{< baseurl >}}/img/2015/06/2.thunderbird-config-editor.png)
+![]({{< baseurl >}}/img/2015/06/2.thunderbird-config-editor.png#big)
 
 Tam klikamy w `Config Editor` i otworzy nam się okienko z szeregiem parametrów do ustawienia.
 Wyszukujemy `mail.purge.ask` i przestawiamy jego wartość na `False` :
 
-![]({{< baseurl >}}/img/2015/06/3.thunderbird-about-config.png)
+![]({{< baseurl >}}/img/2015/06/3.thunderbird-about-config.png#huge)
 
 Jeśli korzystamy z protokołu IMAP, to powinniśmy także zaznaczyć dwie inne opcje, z tym, że te
-akurat są specyficzne dla tego typu kont i można je znaleźć w Edit =\> Account Settings, a
+akurat są specyficzne dla tego typu kont i można je znaleźć w Edit => Account Settings, a
 konkretnie, po wybraniu konta przechodzimy do `Server Settings` . I tam zaznaczamy te dwie poniższe
 opcje:
 
-![]({{< baseurl >}}/img/2015/06/4.thunderbird-kompaktowanie-imap.png)
+![]({{< baseurl >}}/img/2015/06/4.thunderbird-kompaktowanie-imap.png#small)
 
 Dzięki nim, folder odebranych i kosz będą automatycznie kompaktowane przy zamykaniu Thunderbird'a.
 
@@ -68,9 +71,9 @@ szybciej i łatwiej było można znaleźć interesujące nas informacje. Z tym, 
 sama, im więcej mamy wiadomości, tym większy będzie ten plik i co jakiś czas trzeba przebudować bazę
 w nim przechowywaną. By tego dokonać, musimy pierw usunąć ten plik z katalogu Thunderbird'a. Baza
 zostanie utworzona na nowo po uruchomieniu aplikacji, zaś postęp prac możemy obserwować przez
-menadżer aktywności (Tools =\> Activity Manager):
+menadżer aktywności (Tools => Activity Manager):
 
-![]({{< baseurl >}}/img/2015/06/5.thunderbird-activity-manager.png)
+![]({{< baseurl >}}/img/2015/06/5.thunderbird-activity-manager.png#big)
 
 U mnie po przebudowanie globalnej bazy indeksów, rozmiar pliku `global-messages-db.sqlite`
 zmniejszył się ze 168MiB do niecałych 7MiB.

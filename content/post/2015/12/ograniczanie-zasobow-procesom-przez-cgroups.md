@@ -39,10 +39,10 @@ systemu plików, w którego skład wchodzą:
 [devices](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-devices.html),
 [freezer](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-freezer.html),
 [memory](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-memory.html),
-[net\_cls](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-net_cls.html),
-[net\_prio](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/net_prio.html)
+[net_cls](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-net_cls.html),
+[net_prio](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/net_prio.html)
 oraz
-[perf\_event](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-perf_event.html).
+[perf_event](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-perf_event.html).
 Linki są do strony RedHat'a, bo tam jest dużo przyjemniejszy opis niż na stronie kernela.
 
 Z grubsza moduły odpowiadają kolejno kontrolę I/O dysków, za przydział procesora, za statystyki CPU,
@@ -50,7 +50,7 @@ za przydział konkretnego rdzenia i nodów pamięci, za dostęp do urządzeń, z
 wznawianie procesów, za przydział pamięci i statystyki pamięci, za przypisywanie pakietom sieciowym
 odpowiednich klas dla [kontroli ruchu (traffic
 control)](https://pl.wikipedia.org/wiki/Tc_%28Linux%29), za ustawianie priorytetu pakietom sieciowym
-generowanym przez określone aplikacje w oparciu o soket SO\_PRIORITY i ostatnia pozycja za
+generowanym przez określone aplikacje w oparciu o soket SO_PRIORITY i ostatnia pozycja za
 monitorowanie grup przy pomocy narzędzia `pref` .
 
 W przeszłości debian miał pewne problemy z obsługą cgroups. [Obecnie cgroups jest wykorzystywany
@@ -95,7 +95,7 @@ pakiecie `lxc` . Po weryfikacji, pakiet `lxc` możemy zwyczajnie usunąć, chyba
 jest w porządku. Generalnie rzecz biorąc, to wszystkie pozycje powinny nam się zapalić na zielono,
 tak jak to widać na fotce poniżej:
 
-![]({{< baseurl >}}/img/2015/12/1.cgroups-konfiguracja-linux-debian.png)
+![]({{< baseurl >}}/img/2015/12/1.cgroups-konfiguracja-linux-debian.png#big)
 
 Operowanie na cgroups odbywa się przez identyfikację procesu i aplikowanie reguł, co do tego ile
 zasobów ten proces może wykorzystać. Tylko RAM można ustawić na sztywno. Pozostałe parametry nie
@@ -355,7 +355,7 @@ grupie `A` wynosi 2/5, 1/5 i 2/5. Mnożymy to przez ratio wyższej grupy (1/3) i
 2/15, 1/15 i 2/15. Łącznie daje nam to 5/15, czyli 1/3. Podobnie postępujemy z grupami `B` i `B1` ,
 które mają współczynniki przydziału 1/2 i 1/2, mnożymy przez ratio 2/3, co daje 2/6 i 2/6, razem
 4/6=2/3 . Jako, że 1/3+2/3=1, to wszystko się zgadza. Jeszcze dajemy to na wspólny mianownik 90
-(6\*15) i mamy współczynniki 12/90, 6/90, 12/90, 30/90 i 30/90, odpowiednio dla `A` , `A1` , `A2` ,
+(6*15) i mamy współczynniki 12/90, 6/90, 12/90, 30/90 i 30/90, odpowiednio dla `A` , `A1` , `A2` ,
 `B` i `B1` . Łącznie również 1. Przykład zaczerpnięty z [tej
 strony](https://oakbytes.wordpress.com/2012/09/02/cgroup-cpu-allocation-cpu-shares-examples/) ale
 odrobinę został zmieniony.

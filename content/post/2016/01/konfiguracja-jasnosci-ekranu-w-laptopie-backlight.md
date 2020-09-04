@@ -10,6 +10,8 @@ tags:
 - xserver
 - systemd
 - monitor
+- backlight
+- laptop
 title: Konfiguracja jasności ekranu w laptopie (backlight)
 ---
 
@@ -69,7 +71,7 @@ zamaskować tę drugą usługę. Robimy to w poniższy sposób:
 
 Sprawdzamy też czy ta pożądana przez nas usługa działa poprawnie:
 
-![]({{< baseurl >}}/img/2016/01/1.backlight-systemd-usluga.png)
+![]({{< baseurl >}}/img/2016/01/1.backlight-systemd-usluga.png#huge)
 
 ## Backlight i Xserver
 
@@ -120,7 +122,7 @@ się nadaje do tego celu. Instalujemy go i wpisujemy w terminal poniższe polece
 
     $ xbacklight -set 40%
 
-## Wyłączenie acpi\_video0
+## Wyłączenie acpi_video0
 
 Możemy także pokusić się o całkowite wyłączenie modułu ACPI odpowiedzialnego za backlight, a
 sterowanie podświetleniem matrycy zostawić sterownikowi karty graficznej. By wyłączyć ten moduł,

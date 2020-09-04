@@ -27,7 +27,7 @@ Przede wszystkim, ciężko jest przeoczyć możliwość ustawienia języka swoje
 odpowiednich plików na serwer i wywołaniu w przeglądarce adresu instalacji, zostanie nam wyrzucone
 to poniższe okienko:
 
-![]({{< baseurl >}}/img/2015/05/1.wordpress-wybor-jezyk.png)
+![]({{< baseurl >}}/img/2015/05/1.wordpress-wybor-jezyk.png#small)
 
 Jest tylko jedno "ale". W przypadku gdy prawa do plików nie będą takie jak powinny być, tj. serwer
 nie będzie miał możliwości zapisu pewnych plików/katalogów, to powyższe okienko się nam nie pojawi i
@@ -74,9 +74,9 @@ danych. Dodatkowo, dopisujemy w tym pliku poniższą linijkę:
 Jeśli w tej chwili odpalimy instalację WordPressa w przeglądarce, naszym oczom powinny się ukazać
 instrukcje w języku polskim:
 
-![]({{< baseurl >}}/img/2015/05/2.wordpress-instalacja-po-polsku.png)
+![]({{< baseurl >}}/img/2015/05/2.wordpress-instalacja-po-polsku.png#huge)
 
-Po zakończeniu instalacji, dobrze jest przy pomocy panelu admina (Ustawienia =\> Ogólne) zmienić
+Po zakończeniu instalacji, dobrze jest przy pomocy panelu admina (Ustawienia => Ogólne) zmienić
 język na polski (po prostu kliknąć w przycisk `Zapisz zmiany`). A to z tego względu, że bez tego
 kroku nie zostanie utworzona odpowiednia opcja w bazie danych w tabeli `wp_options`. Nie wiem czy to
 ma jakiś wpływ na pluginy albo motywy, czy w ogóle na resztę skryptu WordPressa ale lepiej dmuchać

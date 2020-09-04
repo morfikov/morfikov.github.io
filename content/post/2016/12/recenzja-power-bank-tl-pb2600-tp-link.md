@@ -30,21 +30,19 @@ TL-PB2600](http://www.tp-link.com.pl/products/details/cat-5689_TL-PB2600.html) o
 ## Zawartość opakowania TL-PB2600
 
 Poniżej znajdują się fotki opakowania power banku TL-PB2600 oraz jego całej zawartości. Samo
-urządzenie jest dość niewielkich rozmiarów (94x26x26 mm) i waży zaledwie 70
-gram.
+urządzenie jest dość niewielkich rozmiarów (94x26x26 mm) i waży zaledwie 70 gram.
 
-[![]({{< baseurl >}}/img/2016/12/001.tl-pb2600-power-bank-tp-link-pudelko-660x334.jpg)]({{< baseurl >}}/img/2016/12/001.tl-pb2600-power-bank-tp-link-pudelko.jpg)
+![]({{< baseurl >}}/img/2016/12/001.tl-pb2600-power-bank-tp-link-pudelko.jpg#big)
 
-[![]({{< baseurl >}}/img/2016/12/002.tl-pb2600-power-bank-tp-link-zawartosc-opakowania-660x499.jpg)]({{< baseurl >}}/img/2016/12/002.tl-pb2600-power-bank-tp-link-zawartosc-opakowania.jpg)
+![]({{< baseurl >}}/img/2016/12/002.tl-pb2600-power-bank-tp-link-zawartosc-opakowania.jpg#big)
 
-Tak wygląda TL-PB2600 z
-bliska:
+Tak wygląda TL-PB2600 z bliska:
 
-[![]({{< baseurl >}}/img/2016/12/003.tl-pb2600-power-bank-tp-link-wyglad-660x530.jpg)]({{< baseurl >}}/img/2016/12/003.tl-pb2600-power-bank-tp-link-wyglad.jpg)
+![]({{< baseurl >}}/img/2016/12/003.tl-pb2600-power-bank-tp-link-wyglad.jpg#medium)
 
-[![]({{< baseurl >}}/img/2016/12/004.tl-pb2600-power-bank-tp-link-wyglad-470x660.jpg)]({{< baseurl >}}/img/2016/12/004.tl-pb2600-power-bank-tp-link-wyglad.jpg)
+![]({{< baseurl >}}/img/2016/12/004.tl-pb2600-power-bank-tp-link-wyglad.jpg#medium)
 
-[![]({{< baseurl >}}/img/2016/12/005.tl-pb2600-power-bank-tp-link-wyglad-525x660.jpg)]({{< baseurl >}}/img/2016/12/005.tl-pb2600-power-bank-tp-link-wyglad.jpg)
+![]({{< baseurl >}}/img/2016/12/005.tl-pb2600-power-bank-tp-link-wyglad.jpg#medium)
 
 Jak widzimy wyżej, TL-PB2600 ma na przednim panelu standardowy port USB 2.0 oraz port mikro USB.
 Drugi z tych portów służy do ładowania power banku, a do pierwszego podłączamy ładowane urządzenie.
@@ -52,30 +50,26 @@ Zarówno sam power bank, jak i urządzenie podpięte do niego mogą być ładowa
 1A przy 5V.
 
 Gdy power bank jest podłączony pod ładowarkę, nie da rady z niego ładować innego urządzenia.
-Niektóre power banki oferują tego typu funkcjonalność ale nie jest zalecane korzystanie z tej
-opcji.
+Niektóre power banki oferują tego typu funkcjonalność ale nie jest zalecane korzystanie z tej opcji.
 
 Jak widzieliśmy wyżej, na spodniej części obudowy power banku jest informacja, że to urządzenie na
 wejściu może pobierać maksymalnie 1A. I faktycznie pobór prądu przez to urządzenie podczas jego
 ładowania w stanie kompletnego rozładowania oscyluje w granicach 1A (ładowarka 3,1A). Naturalnie im
-pełniejsza bateria, tym wartość natężenia prądu spada do
-0.
+pełniejsza bateria, tym wartość natężenia prądu spada do 0.
 
-[![]({{< baseurl >}}/img/2016/12/006.tl-pb2600-power-bank-tp-link-ladowanie-657x660.jpg)]({{< baseurl >}}/img/2016/12/006.tl-pb2600-power-bank-tp-link-ladowanie.jpg)
+![]({{< baseurl >}}/img/2016/12/006.tl-pb2600-power-bank-tp-link-ladowanie.jpg#big)
 
 By naładować ten TL-PB2600 od 0% do 100% potrzebny jest czas około 2,5 godziny.
 
 Na boku obudowy jest przycisk, przy pomocy którego możemy sprawdzić stan rozładowania akumulatora.
 Sygnalizuje go widoczna niżej dioda. Gdy akumulator jest pełen, to wtedy dioda się świeci ciągle
-przez okres kilku sekund. Jeśli akumulator jest na wyczerpaniu, to wtedy dioda będzie
-migać.
+przez okres kilku sekund. Jeśli akumulator jest na wyczerpaniu, to wtedy dioda będzie migać.
 
-[![]({{< baseurl >}}/img/2016/12/007.tl-pb2600-power-bank-tp-link-przycisk-dioda-660x397.jpg)]({{< baseurl >}}/img/2016/12/007.tl-pb2600-power-bank-tp-link-przycisk-dioda.jpg)
+![]({{< baseurl >}}/img/2016/12/007.tl-pb2600-power-bank-tp-link-przycisk-dioda.jpg#medium)
 
-Do zestawu został także dołączony przewód mikro
-USB.
+Do zestawu został także dołączony przewód mikro USB.
 
-[![]({{< baseurl >}}/img/2016/12/008.tl-pb2600-power-bank-tp-link-przewod-usb-660x576.jpg)]({{< baseurl >}}/img/2016/12/008.tl-pb2600-power-bank-tp-link-przewod-usb.jpg)
+![]({{< baseurl >}}/img/2016/12/008.tl-pb2600-power-bank-tp-link-przewod-usb.jpg#medium)
 
 W zestawie nie ma natomiast ładowarki. Może to i dobrze, bo tylko by podbiła cenę samego power
 banku, a i tak raczej każdy z nas ma już kilka takich ładowarek USB.
@@ -95,13 +89,13 @@ informacji](http://www.pcworld.pl/ranking/Power-banki-2015-Najlepsze-przenosne-l
 
 Przede wszystkim, ogniwa power banków (nie tylko tego ale generalnie wszystkich) mają napięcia rzędu
 3,6-3,7V, a jak wiadomo, na wyjściu takiego urządzenia mamy mieć 5V, czyli tyle ile w standardzie ma
-zwykły port USB. Można zatem prosto wyliczyć, że 2600 mAh \* 3,6V daje nam zgromadzoną energię na
+zwykły port USB. Można zatem prosto wyliczyć, że 2600 mAh * 3,6V daje nam zgromadzoną energię na
 poziomie 9360 mWh. Jeśli teraz będziemy taki power bank rozładowywać napięciem 5V, to 9360 mWh / 5V
 da nam wartość 1872 mAh. To i tak jest więcej niż zostało przesłane do smartfona w procesie
 ładowania.
 
 Okazuje się jeszcze, że do strat trzeba także doliczyć wydajność energetyczną urządzenia, która dla
-TL-PB2600 wynosi według TP-LINK około 90%. Zatem 1872 mAh \* 90% daje nam około 1684 mAh i
+TL-PB2600 wynosi według TP-LINK około 90%. Zatem 1872 mAh * 90% daje nam około 1684 mAh i
 zakładając niewielki błąd pomiarowy i lekkie odchyły od niektórych wartości, można przyjąć, że ten
 power bank potrafi zgromadzić jakieś 1650 mAh, a nie 2600 mAh energii. Generalnie to obowiązuje
 zasada przyjmowania 60% wartości tego co zostało napisane na opakowaniu. Mi tutaj wyszło około 63%.

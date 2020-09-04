@@ -10,6 +10,7 @@ tags:
 - cd
 - dvd
 - iso
+- pliki
 title: Suma kontrolna nagranego obrazu .iso
 ---
 
@@ -89,8 +90,8 @@ Ok, to mamy zatem punkt oparcia -- sumę kontrolną. Jak teraz sprawdzić czy po
 odpalić `sha1sum`, podając w argumencie ścieżkę do obrazu. W tym przypadku zostanie wyrzucony ciąg
 znaków, który następnie trzeba porównać z tym na stronie. Trochę to niezbyt praktyczne. Ja zwykle
 porównywałem dwa pierwsze i dwa ostanie znaki. Jeśli się zgadzały, zakładałem, że suma kontrolna się
-zgadza. Innym rozwiązaniem jest wrzucenie pliku z sumami ( `SHA1SUMS` ) do folderu z plikiem `.iso`
-. Teraz już wystarczy wydać poniższe polecenie:
+zgadza. Innym rozwiązaniem jest wrzucenie pliku z sumami ( `SHA1SUMS` ) do folderu z plikiem
+`.iso` . Teraz już wystarczy wydać poniższe polecenie:
 
     $ sha1sum -c SHA1SUMS
     debian-live-8.1.0-amd64-cinnamon-desktop.iso: OK
@@ -110,12 +111,12 @@ Dla tych, którzy nie przepadają za konsolą są i graficzne narzędzia. Mi oso
 gustu [wxHexEditor](http://www.wxhexeditor.org/). Co w nim takiego ciekawego? Potrafi liczyć zarazem
 kilkadziesiąt sum:
 
-![]({{< baseurl >}}/img/2015/06/1.suma-kontrolna-wxhexeditor-lista.png)
+![]({{< baseurl >}}/img/2015/06/1.suma-kontrolna-wxhexeditor-lista.png#big)
 
 Wystarczy wskazać mu plik, po czym wybrać interesujące nas algorytmy, a ten program nam to wszystko
 ładnie wyliczy:
 
-![]({{< baseurl >}}/img/2015/06/2.wynikowa-suma-kontrolna.png)
+![]({{< baseurl >}}/img/2015/06/2.wynikowa-suma-kontrolna.png#huge)
 
 ## Suma kontrolna wypalonego obrazu ISO
 

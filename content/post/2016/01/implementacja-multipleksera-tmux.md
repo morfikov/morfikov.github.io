@@ -56,40 +56,40 @@ konfigurację skrótów można zawsze podejrzeć za pomocą tego poniższego pol
 
     $ tmux list-keys
 
-We wszystkich niżej wymienionych skrótach, będzie ustawiony prefiks Ctrl-a . Po wciśnięciu prefiksu,
-kombinacja klawiszy nie jest od razu podawana do serwera. Zamiast tego `tmux` czeka na kolejny znak,
-który musimy wprowadzić. W momencie, gdy to uczynimy, skrót zostaje przesłany. Dzięki temu można
-spokojnie rozluźnić łapki i po prostu wcisnąć Ctrl-a , a następnie pożądany klawisz. Prefiks
-naturalnie może być dowolny, a ustawiamy go w poniższy sposób:
+We wszystkich niżej wymienionych skrótach, będzie ustawiony prefiks `Ctrl-a` . Po wciśnięciu
+prefiksu, kombinacja klawiszy nie jest od razu podawana do serwera. Zamiast tego `tmux` czeka na
+kolejny znak, który musimy wprowadzić. W momencie, gdy to uczynimy, skrót zostaje przesłany. Dzięki
+temu można spokojnie rozluźnić łapki i po prostu wcisnąć Ctrl-a , a następnie pożądany klawisz.
+Prefiks naturalnie może być dowolny, a ustawiamy go w poniższy sposób:
 
     unbind C-b
     set -g prefix C-a
 
-Znak `C` oznacza Ctrl . Domyślnym prefiksem jest Ctrl-b i dlatego pierw skorzystaliśmy z `unbind` ,
-by zwolnić ten skrót. W drugiej linijce przypisaliśmy nowy skrót dla prefiksu.
+Znak `C` oznacza `Ctrl` . Domyślnym prefiksem jest Ctrl-b i dlatego pierw skorzystaliśmy z
+`unbind` , by zwolnić ten skrót. W drugiej linijce przypisaliśmy nowy skrót dla prefiksu.
 
 Mając określony prefiks, możemy przejść do kolejnych skrótów klawiszowych. Poniżej mamy skrót
-Ctrl-a-n odpowiedzialny za tworzenie nowego okna w tmux:
+`Ctrl-a-n` odpowiedzialny za tworzenie nowego okna w tmux:
 
     bind n new-window
 
 Skoro mowa o oknach, to warto również wiedzieć jak się między nimi przełączać. Za te zdarzenia
-odpowiadać będą skróty Ctrl-a-Space oraz Ctrl-a-Backspace . Możemy także bezpośrednio podać numer
-okna za pomocą Ctrl-a-5 lub też skorzystać z listy okien sesji, która jest dostępna pod klawiszem
-Ctrl-a-' :
+odpowiadać będą skróty `Ctrl-a-Space` oraz `Ctrl-a-Backspace` . Możemy także bezpośrednio podać
+numer okna za pomocą `Ctrl-a-5` lub też skorzystać z listy okien sesji, która jest dostępna pod
+klawiszem `Ctrl-a-'` :
 
     bind -r Space next-window
     bind -r BSpace previous-window
     bind "'" choose-window
 
-Każde okno tmux'a można zamknąć przy pomocy skrótu Ctrl-a-Q . Trzeba jednak pamiętać, że nieostrożne
-posługiwanie się tym skrótem może spowodować utratę wszystkich informacji w danym oknie tmux'a.
-Dlatego też skorzystamy z opcji `confirm-before` , która wymusi potwierdzenie operacji zamknięcia
-okna:
+Każde okno tmux'a można zamknąć przy pomocy skrótu `Ctrl-a-Q` . Trzeba jednak pamiętać, że
+nieostrożne posługiwanie się tym skrótem może spowodować utratę wszystkich informacji w danym oknie
+tmux'a. Dlatego też skorzystamy z opcji `confirm-before` , która wymusi potwierdzenie operacji
+zamknięcia okna:
 
     bind Q confirm-before kill-window
 
-Jako, że `tmux` jest w stanie dzielić okienka, to skróty Ctrl-a-| oraz Ctrl-a-\_ zdają się być
+Jako, że `tmux` jest w stanie dzielić okienka, to skróty `Ctrl-a-|` oraz `Ctrl-a-\` zdają się być
 odpowiednie dla operacji wertykalnego i horyzontalnego dzielenia przestrzeni okna:
 
     bind - split-window -v
@@ -97,9 +97,9 @@ odpowiednie dla operacji wertykalnego i horyzontalnego dzielenia przestrzeni okn
     bind | split-window -h
 
 Mając kilka okienek (pane) w oknie terminala, możemy zmieniać ich rozmiar w poziomie za pomocą
-skrótów Ctrl-a-\> oraz Ctrl-a-\< . Możemy także zmieniać ich rozmiar w pionie przy pomocy Ctrl-a-+
-oraz Ctrl-a-= . Możemy także dostosować ilość wierszy czy kolumn, o które powiększy/zmniejszy się
-okienko:
+skrótów `Ctrl-a->` oraz `Ctrl-a-<` . Możemy także zmieniać ich rozmiar w pionie przy pomocy
+`Ctrl-a-+` `oraz Ctrl-a-=` . Możemy także dostosować ilość wierszy czy kolumn, o
+które powiększy/zmniejszy się okienko:
 
     bind -r < resize-pane -L 3
     bind -r > resize-pane -R 3
@@ -107,45 +107,45 @@ okienko:
     bind -r = resize-pane -D 1
 
 Warto też wiedzieć jak się przełączać między tymi okienkami. W poziomie robimy to przy pomocy
-skrótów Ctrl-a-Left oraz Ctrl-a-Right , zaś w pionie będą to Ctrl-a-Up oraz Ctrl-a-Down . Są to
-ustawienia domyślne i nic tutaj nie musimy zmieniać.
+skrótów `Ctrl-a-Left` oraz `Ctrl-a-Right` , zaś w pionie będą to `Ctrl-a-Up` oraz `Ctrl-a-Down` .
+Są to ustawienia domyślne i nic tutaj nie musimy zmieniać.
 
 Każde takie okienko powstałe poprzez podział głównego okna tmux'a można zamknąć. Służy do tego skrót
-Ctrl-a-q . Jest bardzo podobny do zamknięcia całego okna, dlatego też zalecana jest ostrożność.
+`Ctrl-a-q` . Jest bardzo podobny do zamknięcia całego okna, dlatego też zalecana jest ostrożność.
 Podobnie jak w tamtym przypadku, tutaj też możemy się nieco zabezpieczyć opcją `confirm-before` :
 
     bind q confirm-before kill-pane
 
 W przypadku, gdy mamy dużo podzielonych okienek, może zajść potrzeba zwiększenia obszaru
 obejmowanego przez któreś z nich. Możemy naturalnie utworzyć osobne okno i tam wykonać określone
-polecenie albo też skorzystać z opcji zoom, która jest dostępna pod skrótem Ctrl-a-z . Ponowne
+polecenie albo też skorzystać z opcji zoom, która jest dostępna pod skrótem `Ctrl-a-z` . Ponowne
 przyciśnięcie tego skrótu zaowocuje przejściem do trybu okienkowego. W tym przypadku, skrót również
 jest domyślny i nie musimy nic dopisywać do pliku konfiguracyjnego tmux'a.
 
 Podzielone okienka, czy też całe okna tmux'a, są zarządzane przez serwer. Ten serwer możemy ubić
-przy pomocy skrótu Ctrl-a-\\ . Również tutaj przyda się zastosowanie opcji `confirm-before` :
+przy pomocy skrótu `Ctrl-a-\` . Również tutaj przyda się zastosowanie opcji `confirm-before` :
 
     bind \ confirm-before kill-server
 
-Listę aktywnych sesji tmux'a możemy uzyskać posługując się skrótem Ctrl-a-" . Wygląda to mniej
+Listę aktywnych sesji tmux'a możemy uzyskać posługując się skrótem `Ctrl-a-"` . Wygląda to mniej
 więcej tak:
 
-![]({{< baseurl >}}/img/2016/01/1.tmux-sesje.png)
+![]({{< baseurl >}}/img/2016/01/1.tmux-sesje.png#huge)
 
-Między tymi sesjami możemy się przełączać przy pomocy strzałek i klawisza Enter . Zawartość innych
-sesji nie jest tracona i zawsze możemy do nich powrócić:
+Między tymi sesjami możemy się przełączać przy pomocy strzałek i klawisza `Enter` . Zawartość
+innych sesji nie jest tracona i zawsze możemy do nich powrócić:
 
     bind '"' choose-session
 
 Jeśli chcemy odłączyć się od tmux'a i zwolnić tym samym terminal, to możemy skorzystać ze skrótu
-Ctrl-a-d . Możemy nawet odłączyć dowolnego klienta skrótem Ctrl-a-D :
+`Ctrl-a-d` . Możemy nawet odłączyć dowolnego klienta skrótem `Ctrl-a-D` :
 
     bind d detach
     bind D choose-client
 
 Zmiany w pliku konfiguracyjnym `/etc/tmux.conf` lub `~/.tmux.conf` nie są uwzględniane do momentu
 ponownego uruchomienia serwera. Możemy jednak zainicjować przeładowanie tego pliku za pomocą skrótu
-Ctrl-a-r :
+`Ctrl-a-r` :
 
     bind r source-file /etc/tmux.conf \; display-message "Configuration reloaded"
 
@@ -161,14 +161,14 @@ wpis:
 
     bind -r + resize-pane -U 1
 
-Po przyciśnięciu prefiksu Ctrl-a , `tmux` będzie oczekiwał na wciśnięcie kolejnego klawisza, którym
-w tym wypadku jest r . Po jego przyciśnięciu zostanie ustawiony zegar, który będzie odliczał czas.
-Jeśli podczas tego okresu ponownie przyciśniemy klawisz r ale już bez prefiksu, to akcja określona
-wyżej zostanie ponownie zainicjowana. Czas zegara zostanie zresetowany i ponownie zacznie się
-odliczanie. `tmux` przestanie interpretować przyciśnięcie klawisza r jako skrót dopiero po
-upłynięciu czasu, który jest liczony od ostatniego wciśnięcia klawisza r . Jeśli chcemy sobie ten
-czas dostosować, to możemy to zrobić dopisując w pliku konfiguracyjnym tmux'a tę poniższą linijkę
-(czas w milisekundach):
+Po przyciśnięciu prefiksu `Ctrl-a` , `tmux` będzie oczekiwał na wciśnięcie kolejnego klawisza,
+którym w tym wypadku jest `r` . Po jego przyciśnięciu zostanie ustawiony zegar, który będzie
+odliczał czas. Jeśli podczas tego okresu ponownie przyciśniemy klawisz r ale już bez prefiksu, to
+akcja określona wyżej zostanie ponownie zainicjowana. Czas zegara zostanie zresetowany i ponownie
+zacznie się odliczanie. `tmux` przestanie interpretować przyciśnięcie klawisza `r` jako skrót
+dopiero  po upłynięciu czasu, który jest liczony od ostatniego wciśnięcia klawisza `r` . Jeśli
+chcemy sobie ten czas dostosować, to możemy to zrobić dopisując w pliku konfiguracyjnym tmux'a tę
+poniższą linijkę (czas w milisekundach):
 
     set -g repeat-time 800
 
@@ -274,12 +274,12 @@ Praktycznie cała kolorystyka jest zawarta w tych poniższych opcjach:
 Jak widzimy, mamy tutaj szereg ustawień odpowiedzialnych za konfigurację wyglądu paska statusu, okna
 głównego czy też podzielonych okienek. Nazwy opcji powinny być zrozumiałe. Jeśli zaś chodzi o
 format, który został określony, to każda z opcji przyjmuje trzy wartości, kolor tła, kolor czcionki
-oraz listę atrybutów. Pozycja atrybutów może przyjąć wartość `none` lub też jedną z `bright` , `dim`
-, `underscore` , `blink` , `reverse` , `hidden` lub `italics` . Każde z tych powyższych opcji może
-zostać poprzedzone za pomocą `no` i w ten sposób wyłączyć którąś opcję. Kolor tła jest oznaczony
-przez `bg=` , kolor czcionki zaś za pomocą `fg=` . Poszczególne opcje oddziela się od siebie za
-pomocą `,` . Kolory mogą być w formie nazwy (red), postaci HEX (\#000000) lub też colour0 -
-colour255 o ile dysponujemy terminalem 256-kolorowym.
+oraz listę atrybutów. Pozycja atrybutów może przyjąć wartość `none` lub też jedną z `bright` ,
+`dim` , `underscore` , `blink` , `reverse` , `hidden` lub `italics` . Każde z tych powyższych opcji
+może zostać poprzedzone za pomocą `no` i w ten sposób wyłączyć którąś opcję. Kolor tła jest
+oznaczony przez `bg=` , kolor czcionki zaś za pomocą `fg=` . Poszczególne opcje oddziela się od
+siebie za pomocą `,` . Kolory mogą być w formie nazwy (red), postaci HEX ( `#000000` ) lub też
+`colour0` - `colour255` o ile dysponujemy terminalem 256-kolorowym.
 
 ### Pasek statusu (status bar)
 
@@ -330,7 +330,7 @@ poniższy wpis:
 Jest to limit globalny i każde poszczególne okno będzie w stanie zapisać w historii tyle linii ile
 zostało określone powyżej. Warto o tym pamiętać, bo przy sporej liczbie okien, bufor może się dość
 znacząco rozrosnąć i konsumować sporo pamięci operacyjnej. Niemniej jednak, historia każdego okna
-może zostać wyczyszczona ręcznie za pomocą skrótu Ctrl-k :
+może zostać wyczyszczona ręcznie za pomocą skrótu `Ctrl-k` :
 
     bind -n C-k clear-history
 
@@ -339,9 +339,9 @@ przełącznika `-n` .
 
 ### Numerowanie okienek
 
-Standardowo `tmux` numeruje okienka od 0. Jeśli jednak nie przepadamy za tym systemem i preferujemy,
-by numerki zaczynały się od 1, czy jakiejkolwiek innej liczby, to możemy dopisać te dwa poniższe
-parametry do pliku konfiguracyjnego tmux'a i ustawić im odpowiednie wartości:
+Standardowo `tmux` numeruje okienka od `0`. Jeśli jednak nie przepadamy za tym systemem i
+preferujemy, by numerki zaczynały się od `1` , czy jakiejkolwiek innej liczby, to możemy dopisać te
+dwa poniższe parametry do pliku konfiguracyjnego tmux'a i ustawić im odpowiednie wartości:
 
     set -g base-index 1
     set -gw pane-base-index 1
@@ -361,7 +361,7 @@ zgromadzone informacje można wykorzystać w późniejszym czasie. Możemy oczyw
 wyjście i wklejać je ręcznie do pliku ale `tmux` potrafi tę czynność przeprowadzić za nas
 automatycznie przy pomocy polecenia `pipe-pane` . Jak nazwa wskazuje, cały tekst, który pojawi się w
 danym okienku zostanie skopiowany i przesłany gdzieś dalej. Dobrze byłoby zatem ustawić sobie skrót
-Ctrl-a-Ctrl-p pod tę akcję:
+`Ctrl-a-Ctrl-p` pod tę akcję:
 
     bind C-p pipe-pane -o 'ansifilter >> ~/tmux-output.log'
 
@@ -378,11 +378,11 @@ jest poza naszym zasięgiem.
 ### Tryb copy-mode
 
 `tmux` posiada także tryb kopiowania (copy-mode). By wejść w ten tryb, musimy posłużyć się skrótem
-Ctrl-a-\[ . W tym trybie jesteśmy w stanie przeszukiwać i kopiować dosłownie każdą treść jaka
-widnieje w historii tmux'a. Tak skopiowany tekst można wkleić do terminala przy pomocy Ctrl-a-\] . W
-trybie kopiowania po tekście poruszamy się za sprawą strzałek. By zaznaczyć tekst, wciskamy Space ,
-klawisz Enter zaś kopiuje podświetloną zawartość. Skróty klawiszowe odpowiadające za copy-mode
-możemy sobie dostosować w poniższy sposób:
+`Ctrl-a-[` . W tym trybie jesteśmy w stanie przeszukiwać i kopiować dosłownie każdą treść jaka
+widnieje w historii tmux'a. Tak skopiowany tekst można wkleić do terminala przy pomocy `Ctrl-a-]` .
+W trybie kopiowania po tekście poruszamy się za sprawą strzałek. By zaznaczyć tekst, wciskamy
+`Space` , klawisz `Enter` zaś kopiuje podświetloną zawartość. Skróty klawiszowe odpowiadające za
+copy-mode możemy sobie dostosować w poniższy sposób:
 
     bind Escape copy-mode
     bind p paste-buffer
@@ -397,8 +397,8 @@ Możemy także dostosować sobie szereg skrótów, które są dostępne jedynie 
 
 Każdy tak skopiowany tekst jest buforowany i przetrzymywany do momentu zresetowania serwera lub też
 ręcznego usunięcia bufora z listy. Listę buforów możemy podejrzeć za pomocą skrótu Ctrl-a-b .
-Konkretny bufor wybieramy przy pomocy Ctrl-a-p . Natomiast jeśli chcemy usunąć ostatni skopiowany
-tekst z bufora, to wciskamy Ctrl-a-x :
+Konkretny bufor wybieramy przy pomocy `Ctrl-a-p` . Natomiast jeśli chcemy usunąć ostatni skopiowany
+tekst z bufora, to wciskamy `Ctrl-a-x` :
 
     bind b list-buffers
     bind p choose-buffer
@@ -414,9 +414,9 @@ systemowego, tak by wkleić je, np. do edytora tekstu geany. Możemy jednak prze
     bind c run "tmux save-buffer - | xsel --clipboard --input"
 
 Po wejściu w tryb kopiowania, bez znaczenia czy za pomocą myszy, czy przez skrót klawiszy,
-zaznaczamy jakąś porcję tekstu i opuszczamy copy-mode. Następnie przyciskamy skrót Ctrl-a-c i to co
-skopiowaliśmy przed chwilą zostanie przesłane do schowka systemowego skąd będzie mogło powędrować do
-innych aplikacji.
+zaznaczamy jakąś porcję tekstu i opuszczamy copy-mode. Następnie przyciskamy skrót `Ctrl-a-c` i to
+co skopiowaliśmy przed chwilą zostanie przesłane do schowka systemowego skąd będzie mogło
+powędrować do innych aplikacji.
 
 ### Bufor terminala vs. bufor tmux'a
 

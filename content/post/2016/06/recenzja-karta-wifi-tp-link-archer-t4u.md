@@ -32,25 +32,25 @@ Pudełko jest trochę duże ale adapter Archer T4U również do najmniejszych ni
 znajduje się kilka fotek przedstawiających samo opakowanie jak i wszystkie jego elementy
 składowe.
 
-[![1.karta-adapter-TP-LINK-Archer-T4U-linux]({{< baseurl >}}/img/2016/08/1.karta-adapter-TP-LINK-Archer-T4U-linux-1024x577.jpg)]({{< baseurl >}}/img/2016/08/1.karta-adapter-TP-LINK-Archer-T4U-linux.jpg)
+![]({{< baseurl >}}/img/2016/08/1.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-[![2.karta-adapter-TP-LINK-Archer-T4U-linux]({{< baseurl >}}/img/2016/08/2.karta-adapter-TP-LINK-Archer-T4U-linux-1024x577.jpg)]({{< baseurl >}}/img/2016/08/2.karta-adapter-TP-LINK-Archer-T4U-linux.jpg)
+![]({{< baseurl >}}/img/2016/08/2.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-[![3.karta-adapter-TP-LINK-Archer-T4U-linux]({{< baseurl >}}/img/2016/08/3.karta-adapter-TP-LINK-Archer-T4U-linux-1024x641.jpg)]({{< baseurl >}}/img/2016/08/3.karta-adapter-TP-LINK-Archer-T4U-linux.jpg)
+![]({{< baseurl >}}/img/2016/08/3.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-[![4.karta-adapter-TP-LINK-Archer-T4U-linux]({{< baseurl >}}/img/2016/08/4.karta-adapter-TP-LINK-Archer-T4U-linux-1024x577.jpg)]({{< baseurl >}}/img/2016/08/4.karta-adapter-TP-LINK-Archer-T4U-linux.jpg)
+![]({{< baseurl >}}/img/2016/08/4.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-[![5.karta-adapter-TP-LINK-Archer-T4U-linux]({{< baseurl >}}/img/2016/08/5.karta-adapter-TP-LINK-Archer-T4U-linux-1024x577.jpg)]({{< baseurl >}}/img/2016/08/5.karta-adapter-TP-LINK-Archer-T4U-linux.jpg)
+![]({{< baseurl >}}/img/2016/08/5.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-[![6.karta-adapter-TP-LINK-Archer-T4U-linux]({{< baseurl >}}/img/2016/08/6.karta-adapter-TP-LINK-Archer-T4U-linux-1024x577.jpg)]({{< baseurl >}}/img/2016/08/6.karta-adapter-TP-LINK-Archer-T4U-linux.jpg)
+![]({{< baseurl >}}/img/2016/08/6.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-[![7.karta-adapter-TP-LINK-Archer-T4U-linux]({{< baseurl >}}/img/2016/08/7.karta-adapter-TP-LINK-Archer-T4U-linux-1024x577.jpg)]({{< baseurl >}}/img/2016/08/7.karta-adapter-TP-LINK-Archer-T4U-linux.jpg)
+![]({{< baseurl >}}/img/2016/08/7.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-[![8.karta-adapter-TP-LINK-Archer-T4U-linux]({{< baseurl >}}/img/2016/08/8.karta-adapter-TP-LINK-Archer-T4U-linux-1024x577.jpg)]({{< baseurl >}}/img/2016/08/8.karta-adapter-TP-LINK-Archer-T4U-linux.jpg)
+![]({{< baseurl >}}/img/2016/08/8.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-[![9.karta-adapter-TP-LINK-Archer-T4U-linux]({{< baseurl >}}/img/2016/08/9.karta-adapter-TP-LINK-Archer-T4U-linux-1024x577.jpg)]({{< baseurl >}}/img/2016/08/9.karta-adapter-TP-LINK-Archer-T4U-linux.jpg)
+![]({{< baseurl >}}/img/2016/08/9.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-[![10.karta-adapter-TP-LINK-Archer-T4U-linux]({{< baseurl >}}/img/2016/08/10.karta-adapter-TP-LINK-Archer-T4U-linux-1024x577.jpg)]({{< baseurl >}}/img/2016/08/10.karta-adapter-TP-LINK-Archer-T4U-linux.jpg)
+![]({{< baseurl >}}/img/2016/08/10.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
 Jak widzimy, port USB tej karty jest niebieski, czyli jest to standard USB 3.0 . Karta ma wbudowany
 przycisk WPS, a zielona dioda sygnalizuje stan urządzenia (włączone, transfer danych). Do zestawu
@@ -354,11 +354,11 @@ modułu, z tym, żę obsługa tego adaptera nie jest bezproblemowa. Weźmy przyk
 poszukiwaniu innych sieci, które są w naszym zasięgu. Pod debianem mamy do tego celu kilka narzędzi,
 np. `wpa_cli` , `wavemon` i `linssid` . Poniżej są wyniki zwracane przez te aplikacje:
 
-![]({{< baseurl >}}/img/2016/06/3.tp-link-archer-t4u-adapter-wifi-wavemon.png)
+![]({{< baseurl >}}/img/2016/06/3.tp-link-archer-t4u-adapter-wifi-wavemon.png#huge)
 
-![]({{< baseurl >}}/img/2016/06/4.tp-link-archer-t4u-adapter-wifi-linssid.png)
+![]({{< baseurl >}}/img/2016/06/4.tp-link-archer-t4u-adapter-wifi-linssid.png#huge)
 
-![]({{< baseurl >}}/img/2016/06/5.tp-link-archer-t4u-adapter-wifi-wpa-cli.png)
+![]({{< baseurl >}}/img/2016/06/5.tp-link-archer-t4u-adapter-wifi-wpa-cli.png#huge)
 
 Widzimy wyraźnie, że nie ma co się opierać na tych wynikach. System zwyczajnie nie jest w stanie
 oszacować jakości sygnału. Ta z kolei jest stała i nie ulega zmianie. Jak dla mnie, to za wcześnie

@@ -9,6 +9,7 @@ status: publish
 tags:
 - chaos-calmer
 - router
+- hostname
 title: Hostname, czyli nazwa hosta w OpenWRT
 ---
 
@@ -28,13 +29,13 @@ Każdy router po flash'owaniu, ma ustawiony adres IP na 192.168.1.1 . Nazwa host
 przypisana i jest to `OpenWrt` . Możemy się o tym przekonać nawiązując połączenie z routerem przez
 protokół telnet lub SSH. W takim przypadku, nazwa hosta jest wyświetlana koło prompt'a:
 
-![]({{< baseurl >}}/img/2016/04/1.domyslny-hostname-openwrt.png)
+![]({{< baseurl >}}/img/2016/04/1.domyslny-hostname-openwrt.png#big)
 
 Wyżej logowaliśmy się na router z wykorzystaniem jego adresu IP. Nic jednak nie stoi na
 przeszkodzie, by zacząć się posługiwać jego hostname. Poniżej przykład z wykorzystaniem polecenia
 `ping` :
 
-![]({{< baseurl >}}/img/2016/04/2.ping-po-hostname-openwrt.png)
+![]({{< baseurl >}}/img/2016/04/2.ping-po-hostname-openwrt.png#big)
 
 Wielkość znaków nie ma znaczenia. Można używać małych, a i tak odpowie nam prawidłowa maszyna. Z
 tym, że w odpowiedzi widzimy zapis `OpenWrt.lan (192.168.1.1)` . Ustaliliśmy już, że `OpenWrt`
@@ -52,8 +53,8 @@ min. ten poniższy wpis:
           option hostname 'OpenWrt'
     ...
 
-Nazwa hosta ustawiona tutaj jest przesyłana przy pomocy `echo` do pliku `/proc/sys/kernel/hostname`
-.
+Nazwa hosta ustawiona tutaj jest przesyłana przy pomocy `echo` do pliku
+`/proc/sys/kernel/hostname` .
 
 ## Zmiana domeny routera
 
@@ -87,12 +88,12 @@ pracuje. Dlatego też potrafi rozwiązać przesłaną nazwę hosta i zwrócić o
 Możemy zweryfikować ten powyższy schemat działań przez przesłanie zapytania `ping` do innego hosta w
 sieci. Poniżej przykład:
 
-![]({{< baseurl >}}/img/2016/04/3.ping-hostname-domain-name-openwrt.png)
+![]({{< baseurl >}}/img/2016/04/3.ping-hostname-domain-name-openwrt.png#big)
 
 Bez `dnsmasq` trzeba by konfigurować hosty przez dodawanie wpisów w pliku `/etc/hosts` . Obecnie
-jesteśmy w stanie wysyłać żądania na trzy sposoby. Pierwszy przez podanie samego hostname (
-`openwrt` ). Drugi przez pełną nazwę domenową ( `openwrt.lan` ). Trzeci przez adres IP (
-`192.168.1.1` ).
+jesteśmy w stanie wysyłać żądania na trzy sposoby. Pierwszy przez podanie samego hostname
+( `openwrt` ). Drugi przez pełną nazwę domenową ( `openwrt.lan` ). Trzeci przez adres IP
+( `192.168.1.1` ).
 
 ## Klient udhcpc nie przesyła hostname do serwera DHCP
 

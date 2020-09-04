@@ -44,7 +44,7 @@ napisać, że dana fraza ma w języku polskim być zapisana w jakiś konkretny s
 zawarta jest zwykle w pliku `xx_XX.pot` , który jest dostarczany w paczce z motywem czy wtyczką.
 Jest to zwykły plik tekstowy, który zawiera wpisy podobne do tego poniżej:
 
-    #: ../functions/init.php:67
+    # ../functions/init.php:67
     msgid "Footer"
     msgstr ""
 
@@ -63,15 +63,13 @@ pakietu [poledit](https://poedit.net/) . W nim znajduje się graficzny edytor pl
 nam się uporać z tłumaczeniem. Odpalamy zatem terminal i wpisujemy w nim `poledit` . W okienku,
 które nam wyskoczy, przechodzimy do menu, z którego to wybieramy File \> From POT/PO File.
 Wskazujemy lokalizację pliku `.pot` lub `.po` . Po chwili plik powinien zostać załadowany, a my
-poproszeni o wybór
-języka:
+poproszeni o wybór języka:
 
-![]({{< baseurl >}}/img/2016/07/1.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png)
+![]({{< baseurl >}}/img/2016/07/1.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png#huge)
 
-Teraz wystarczy już uzupełnić odpowiednio prawą kolumnę w oparciu o tekst, który widnieje w
-lewej:
+Teraz wystarczy już uzupełnić odpowiednio prawą kolumnę w oparciu o tekst, który widnieje w lewej:
 
-![]({{< baseurl >}}/img/2016/07/2.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png)
+![]({{< baseurl >}}/img/2016/07/2.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png#huge)
 
 Gdy skończymy, zapisujemy. Oba pliki zostaną utworzone, a WordPress automatycznie dobierze sobie
 nazwę pliku binarnego `.mo` w oparciu o ustawienia językowe określone w panelu administracyjnym.

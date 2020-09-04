@@ -30,68 +30,60 @@ linux'em.
 ## Zawartość opakowania kamery NC250
 
 Zacznijmy może od pudełka i jego zawartości. Wewnątrz opakowania mamy oczywiście samą kamerę NC250.
-Jest też kilka dodatkowych
-rzeczy.
+Jest też kilka dodatkowych rzeczy.
 
-[![001.nc250-kamera-tp-link-opakowanie]({{< baseurl >}}/img/2016/11/001.nc250-kamera-tp-link-opakowanie-660x372.jpg)]({{< baseurl >}}/img/2016/11/001.nc250-kamera-tp-link-opakowanie.jpg)
+![]({{< baseurl >}}/img/2016/11/001.nc250-kamera-tp-link-opakowanie.jpg#big)
 
-[![002.nc250-kamera-tp-link-opakowanie-zawartosc]({{< baseurl >}}/img/2016/11/002.nc250-kamera-tp-link-opakowanie-zawartosc-660x372.jpg)]({{< baseurl >}}/img/2016/11/002.nc250-kamera-tp-link-opakowanie-zawartosc.jpg)
+![]({{< baseurl >}}/img/2016/11/002.nc250-kamera-tp-link-opakowanie-zawartosc.jpg#big)
 
-[![003.nc250-kamera-tp-link-opakowanie-zawartosc]({{< baseurl >}}/img/2016/11/003.nc250-kamera-tp-link-opakowanie-zawartosc-660x372.jpg)]({{< baseurl >}}/img/2016/11/003.nc250-kamera-tp-link-opakowanie-zawartosc.jpg)
+![]({{< baseurl >}}/img/2016/11/003.nc250-kamera-tp-link-opakowanie-zawartosc.jpg#big)
 
-Do zestawu jest dołączony przewód ethernet RJ-45 kategorii 5 (CAT5) o długości 1,2
-m:
+Do zestawu jest dołączony przewód ethernet RJ-45 kategorii 5 (CAT5) o długości 1,2 m:
 
-[![004.nc250-kamera-tp-link-rj-45]({{< baseurl >}}/img/2016/11/004.nc250-kamera-tp-link-rj-45-660x372.jpg)]({{< baseurl >}}/img/2016/11/004.nc250-kamera-tp-link-rj-45.jpg)
+![]({{< baseurl >}}/img/2016/11/004.nc250-kamera-tp-link-rj-45.jpg#big)
 
-Oraz zasilacz
-9V/0,6A:
+Oraz zasilacz 9V/0,6A:
 
-[![005.nc250-kamera-tp-link-zasilacz]({{< baseurl >}}/img/2016/11/005.nc250-kamera-tp-link-zasilacz-660x372.jpg)]({{< baseurl >}}/img/2016/11/005.nc250-kamera-tp-link-zasilacz.jpg)
+![]({{< baseurl >}}/img/2016/11/005.nc250-kamera-tp-link-zasilacz.jpg#big)
 
-[![006.nc250-kamera-tp-link-zasilacz]({{< baseurl >}}/img/2016/11/006.nc250-kamera-tp-link-zasilacz-660x372.jpg)]({{< baseurl >}}/img/2016/11/006.nc250-kamera-tp-link-zasilacz.jpg)
+![]({{< baseurl >}}/img/2016/11/006.nc250-kamera-tp-link-zasilacz.jpg#big)
 
 Przewód na zasilaczu ma około 1,5 m. Dla tych użytkowników, którzy uważają, że może być to ździebko
-za mało, to w zestawie jest także dołączony przedłużacz, który ma około 2,5
-m:
+za mało, to w zestawie jest także dołączony przedłużacz, który ma około 2,5 m:
 
-[![007.nc250-kamera-tp-link-przedluzacz]({{< baseurl >}}/img/2016/11/007.nc250-kamera-tp-link-przedluzacz-660x372.jpg)]({{< baseurl >}}/img/2016/11/007.nc250-kamera-tp-link-przedluzacz.jpg)
+![]({{< baseurl >}}/img/2016/11/007.nc250-kamera-tp-link-przedluzacz.jpg#big)
 
-Kamera generalnie składa się z dwóch części, tej właściwej oraz
-podstawki:
+Kamera generalnie składa się z dwóch części, tej właściwej oraz podstawki:
 
-[![008.nc250-kamera-tp-link]({{< baseurl >}}/img/2016/11/008.nc250-kamera-tp-link-660x372.jpg)]({{< baseurl >}}/img/2016/11/008.nc250-kamera-tp-link.jpg)
+![]({{< baseurl >}}/img/2016/11/008.nc250-kamera-tp-link.jpg#big)
 
-[![009.nc250-kamera-tp-link-podstawka]({{< baseurl >}}/img/2016/11/009.nc250-kamera-tp-link-podstawka-660x372.jpg)]({{< baseurl >}}/img/2016/11/009.nc250-kamera-tp-link-podstawka.jpg)
+![]({{< baseurl >}}/img/2016/11/009.nc250-kamera-tp-link-podstawka.jpg#big)
 
 Podstawkę trzeba dokręcić do kamery, z tym, że w miejscu łączenia podstawki z kamerą mamy także
-regulator
-kulowy:
+regulator kulowy:
 
-[![010.nc250-kamera-tp-link-regulator]({{< baseurl >}}/img/2016/11/010.nc250-kamera-tp-link-regulator-660x372.jpg)]({{< baseurl >}}/img/2016/11/010.nc250-kamera-tp-link-regulator.jpg)
+![]({{< baseurl >}}/img/2016/11/010.nc250-kamera-tp-link-regulator.jpg#big)
 
-[![011.nc250-kamera-tp-link-regulator]({{< baseurl >}}/img/2016/11/011.nc250-kamera-tp-link-regulator-660x372.jpg)]({{< baseurl >}}/img/2016/11/011.nc250-kamera-tp-link-regulator.jpg)
+![]({{< baseurl >}}/img/2016/11/011.nc250-kamera-tp-link-regulator.jpg#big)
 
 Niezbyt mi takie rozwiązanie przypadło do gustu. Praktycznie każda regulacja położenia kamery
 sprawia, że podstawka się odkręca. Mocniejsze dokręcenie podstawki uniemożliwia z kolei regulację.
 Także moim zdaniem niezbyt udane rozwiązanie. Z tym, że jeśli ktoś ustawi jedno położenie kamery, to
-raczej nie będzie mu ten fakt
-przeszkadzał.
+raczej nie będzie mu ten fakt przeszkadzał.
 
-[![012.nc250-kamera-tp-link-regulator]({{< baseurl >}}/img/2016/11/012.nc250-kamera-tp-link-regulator-660x372.jpg)]({{< baseurl >}}/img/2016/11/012.nc250-kamera-tp-link-regulator.jpg)
+![]({{< baseurl >}}/img/2016/11/012.nc250-kamera-tp-link-regulator.jpg#big)
 
-[![013.nc250-kamera-tp-link-regulator]({{< baseurl >}}/img/2016/11/013.nc250-kamera-tp-link-regulator-660x372.jpg)]({{< baseurl >}}/img/2016/11/013.nc250-kamera-tp-link-regulator.jpg)
+![]({{< baseurl >}}/img/2016/11/013.nc250-kamera-tp-link-regulator.jpg#big)
 
-[![014.nc250-kamera-tp-link-z-podstawka]({{< baseurl >}}/img/2016/11/014.nc250-kamera-tp-link-z-podstawka-660x372.jpg)]({{< baseurl >}}/img/2016/11/014.nc250-kamera-tp-link-z-podstawka.jpg)
+![]({{< baseurl >}}/img/2016/11/014.nc250-kamera-tp-link-z-podstawka.jpg#big)
 
 Kamerę można postawić na biurku/szafce i od razu można z niej zacząć korzystać. Podstawka nie ma
 jednak żadnych gumowych nóżek przez co może nam jeździć dość mocno po blacie. Jeśli chcielibyśmy
 kamerę umiejscowić w pewnym określonym punkcie, to zawsze możemy ją przykleić dołączoną do zestawu
 taśmą. W przypadku ścian i innych tego typu miejsc, lepszym rozwiązaniem będzie stałe mocowanie przy
-pomocy śrubek. W podstawce są już nawiercone odpowiednie otwory, choć w zestawie brak
-śrubek.
+pomocy śrubek. W podstawce są już nawiercone odpowiednie otwory, choć w zestawie brak śrubek.
 
-[![015.nc250-kamera-tp-link-montaz]({{< baseurl >}}/img/2016/11/015.nc250-kamera-tp-link-montaz-660x495.jpg)]({{< baseurl >}}/img/2016/11/015.nc250-kamera-tp-link-montaz.jpg)
+![]({{< baseurl >}}/img/2016/11/015.nc250-kamera-tp-link-montaz.jpg#big)
 
 Za to jak zwykle nie mogło zabraknąć całej sterty papierzysk. Dobrze, że jest tutaj również skrócona
 instrukcja obsługi w języku polskim, choć moim zdaniem nie powinno być problemów z obsługą tej
@@ -101,32 +93,28 @@ kamery.
 
 No to wiemy mniej więcej jak kamera NC250 wygląda. Sprawdźmy teraz jej parametry techniczne. Na
 tylnym panelu kamery NC250 poza gniazdem zasilania znajduje się także port RJ-45 o przepustowości
-100
-mbit/s.
+100 mbit/s.
 
-[![016.nc250-kamera-tp-link-gniazda]({{< baseurl >}}/img/2016/11/016.nc250-kamera-tp-link-gniazda-660x372.jpg)]({{< baseurl >}}/img/2016/11/016.nc250-kamera-tp-link-gniazda.jpg)
+![]({{< baseurl >}}/img/2016/11/016.nc250-kamera-tp-link-gniazda.jpg#big)
 
 Niżej zaś ulokowany jest przycisk RESET/WPS, dzięki któremu możemy łatwo zresetować kamerę do
-ustawień fabrycznych oraz możemy także nawiązać połączenie z siecią
-WiFi.
+ustawień fabrycznych oraz możemy także nawiązać połączenie z siecią WiFi.
 
-[![017.nc250-kamera-tp-link-wps]({{< baseurl >}}/img/2016/11/017.nc250-kamera-tp-link-wps-660x372.jpg)]({{< baseurl >}}/img/2016/11/017.nc250-kamera-tp-link-wps.jpg)
+![]({{< baseurl >}}/img/2016/11/017.nc250-kamera-tp-link-wps.jpg#big)
 
 Kamera NC250 jest w stanie łączyć się bezprzewodowo w standardzie 802.11n do 300 mbit/s w paśmie 2,4
 GHz. Warto też odnotować, że sama kamera jest w stanie także robić za ekstender sieciowy, przez co
 może poszerzyć zasięg naszej domowej sieci WiFi. Klienta sieci bezprzewodowej jak i sam ekstender
-można naturalnie wyłączyć w panelu
-administracyjnym.
+można naturalnie wyłączyć w panelu administracyjnym.
 
-[![018.nc250-kamera-tp-link-wifi]({{< baseurl >}}/img/2016/11/018.nc250-kamera-tp-link-wifi-660x340.png)]({{< baseurl >}}/img/2016/11/018.nc250-kamera-tp-link-wifi.png)
+![]({{< baseurl >}}/img/2016/11/018.nc250-kamera-tp-link-wifi.png#huge)
 
-[![019.nc250-kamera-tp-link-ekstender-wifi]({{< baseurl >}}/img/2016/11/019.nc250-kamera-tp-link-ekstender-wifi-660x283.png)]({{< baseurl >}}/img/2016/11/019.nc250-kamera-tp-link-ekstender-wifi.png)
+![]({{< baseurl >}}/img/2016/11/019.nc250-kamera-tp-link-ekstender-wifi.png#huge)
 
 To co jest niewątpliwą zaletą tej kamery, to obsługa trybu nocnego. NC250 posiada bowiem 6 diod
-podczerwieni zdolnych oświetlić dość przyzwoicie obszar do 5 metrów w absolutnej
-ciemności:
+podczerwieni zdolnych oświetlić dość przyzwoicie obszar do 5 metrów w absolutnej ciemności:
 
-[![020.nc250-kamera-tp-link-diody-podczerwien]({{< baseurl >}}/img/2016/11/020.nc250-kamera-tp-link-diody-podczerwien-490x660.jpg)]({{< baseurl >}}/img/2016/11/020.nc250-kamera-tp-link-diody-podczerwien.jpg)
+![]({{< baseurl >}}/img/2016/11/020.nc250-kamera-tp-link-diody-podczerwien.jpg#medium)
 
 Kamera rejestruje obraz w formacie h.264 w rozdzielczości 1280x720 (1 mpix) przy 10, 15, 20, 25 i 30
 FPS. Oprogramowanie kamery pozwala także na zoom cyfrowy 2x, 3x i 4x. Pole widzenia (FOV) kamery
@@ -155,10 +143,9 @@ przewodowym i kompletnym wyłączeniu WiFi, ilość pobieranej energii przez kam
 Po podpięciu kamery NC250 do sieci zostanie jej przydzielony adres IP. Na tym adresie IP będzie
 dostępny panel administracyjny. To co się rzuca w oczy niemal natychmiast, to brak możliwość
 podejrzenia obrazu z kamery pod linux'em z poziomu przeglądarki. Wygląda na to, że potrzebny jest
-jakiś niestandardowy plugin, który nie ma wersji na
-linux'a.
+jakiś niestandardowy plugin, który nie ma wersji na linux'a.
 
-[![021.nc250-kamera-tp-link-plugin-web]({{< baseurl >}}/img/2016/11/021.nc250-kamera-tp-link-plugin-web-660x423.png)]({{< baseurl >}}/img/2016/11/021.nc250-kamera-tp-link-plugin-web.png)
+![]({{< baseurl >}}/img/2016/11/021.nc250-kamera-tp-link-plugin-web.png#huge)
 
 Niemniej jednak, część z widocznych wyżej przycisków działa, tylko co nam po nich, skoro nie mamy
 podglądu? Licząc od lewej strony, to nie działa nam przycisk od robienia fotek i nagrywania obrazu.
@@ -204,17 +191,15 @@ tutaj stosowną adnotację. (FIXME)
 
 Jako, że kamera NC250 ma wbudowany mikrofon, to rejestruje dźwięk. Potrafi także rejestrować poziom
 tego dźwięku w danej chwili. Można zatem zaprogramować system tej kamery tak, by po przekroczeniu
-pewnego ustalonego poziomu dźwięku wysłał nam powiadomienie o
-aktywności.
+pewnego ustalonego poziomu dźwięku wysłał nam powiadomienie o aktywności.
 
-[![022.nc250-kamera-tp-link-dzwiek-detekcja]({{< baseurl >}}/img/2016/11/022.nc250-kamera-tp-link-dzwiek-detekcja-660x333.png)]({{< baseurl >}}/img/2016/11/022.nc250-kamera-tp-link-dzwiek-detekcja.png)
+![]({{< baseurl >}}/img/2016/11/022.nc250-kamera-tp-link-dzwiek-detekcja.png#huge)
 
 Takie powiadomienie może się odbyć drogą mailową jak i za pośrednictwem protokołu FTP. W obu
 przypadkach po przekroczeniu dopuszczalnego poziomu dźwięku zostaną wysłane cztery fotografie. W
-przypadku wybrania opcji powiadamiania przez email, wysyłane jest także poniższe
-info:
+przypadku wybrania opcji powiadamiania przez email, wysyłane jest także poniższe info:
 
-[![023.nc250-kamera-tp-link-mail]({{< baseurl >}}/img/2016/11/023.nc250-kamera-tp-link-mail-660x329.png)]({{< baseurl >}}/img/2016/11/023.nc250-kamera-tp-link-mail.png)
+![]({{< baseurl >}}/img/2016/11/023.nc250-kamera-tp-link-mail.png#huge)
 
 Mając podgląd na fotkach w wiadomości email, łatwo możemy ustalić co się dzieje w monitorowanym
 pomieszczeniu. Jeśli nawet na fotkach nic nie zostało uchwycone, to taka notyfikacja zawsze może dać
@@ -228,10 +213,9 @@ jest wielce prawdopodobne, że go ten mechanizm nie wychwyci i nie zarejestruje.
 rozwiązaniem jest czujnik ruchu. W przypadku tego czujnika duże znaczenie mają zmiany monitorowanej
 sceny. Niekoniecznie musi to być cały obszar, który jest obserwowany przez kamerę. Może to być
 dowolny wycinek obrazu, w zależności od naszych upodobań. Problem w tym, że pod linux'em nie działa
-nam plugin w przeglądarce i nie mamy możliwości skonfigurowania czujnika
-ruchu:
+nam plugin w przeglądarce i nie mamy możliwości skonfigurowania czujnika ruchu:
 
-[![024.nc250-kamera-tp-link-detekcja-ruchu-web]({{< baseurl >}}/img/2016/11/024.nc250-kamera-tp-link-detekcja-ruchu-web-660x369.png)]({{< baseurl >}}/img/2016/11/024.nc250-kamera-tp-link-detekcja-ruchu-web.png)
+![]({{< baseurl >}}/img/2016/11/024.nc250-kamera-tp-link-detekcja-ruchu-web.png#huge)
 
 W dalszym ciągu możemy jednak korzystać z tego czujnika ruchu ale będzie brany pod uwagę cały
 monitorowany obszar. Powiadomienia są wysyłane dokładnie w taki sam sposób, co przy czujniku

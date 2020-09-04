@@ -85,33 +85,30 @@ framework'iem Xposed trzeba dobrać w zależności od wersji Androida i architek
 przypadku mamy Androida 6.0 Marshmallow oraz Androida 5.1 Lollipop. Architektury z kolei to ARM64 i
 ARM32.
 
-[![]({{< baseurl >}}/img/2017/03/001.xposed-android-lollipop-marshmalow-tp-link-smartfon-platforma-arch-660x483.png)]({{< baseurl >}}/img/2017/03/001.xposed-android-lollipop-marshmalow-tp-link-smartfon-platforma-arch.png)
+![]({{< baseurl >}}/img/2017/03/001.xposed-android-lollipop-marshmalow-tp-link-smartfon-platforma-arch.png#big)
 
 ### Framework Xposed i Android 6.0 (Marshmallow)
 
 Niezależnie od wybranego sposobu instalacji instalatora Xposed (ręczne wgranie pliku `.apk` ,
 F-Droid czy XDA Labs), musimy jeszcze sobie zainstalować sam framework. Odpalamy zatem instalator
-Xposed i klikamy na numerku wersji, by zainstalować
-framework:
+Xposed i klikamy na numerku wersji, by zainstalować framework:
 
-[![]({{< baseurl >}}/img/2017/03/002.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja-386x660.png)]({{< baseurl >}}/img/2017/03/002.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja.png)
+![]({{< baseurl >}}/img/2017/03/002.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja.png#medium)
 
 Jak widzimy, mamy do wyboru dwie opcje. Ja wybrałem sobie "Install" ale można też bez problemu
 zainstalować przez TWRP recovery. Po chwili proces instalacji powinien się zakończyć powodzeniem, a
-smartfon uruchomi się
-ponownie:
+smartfon uruchomi się ponownie:
 
-[![]({{< baseurl >}}/img/2017/03/003.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja-660x509.png)]({{< baseurl >}}/img/2017/03/003.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja.png)
+![]({{< baseurl >}}/img/2017/03/003.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja.png#big)
 
 Urządzenie się będzie dość długo uruchamiać ponownie i nie powinniśmy się tym faktem przejmować.
 Pojawi się także informacja o optymalizowaniu wszystkich aplikacji w smartfonie, co potrwa dłuższą
 chwilę. Warto tutaj zaznaczyć, że to optymalizowanie aplikacji będzie miało miejsce zawsze po
 instalowaniu jak i usuwaniu framework'a Xposed.
 
-Mając zainstalowany framework możemy przejść do instalacji interesujących nas
-modułów.
+Mając zainstalowany framework możemy przejść do instalacji interesujących nas modułów.
 
-[![]({{< baseurl >}}/img/2017/03/004.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja-386x660.png)]({{< baseurl >}}/img/2017/03/004.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja.png)
+![]({{< baseurl >}}/img/2017/03/004.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-y5-instalacja.png#medium)
 
 ### Framework Xposed i Android 5.1 (Lollipop)
 
@@ -123,10 +120,9 @@ zostać zainstalowany i uruchomiony z powodzeniem o ile zastosujemy się do poni
 Przede wszystkim, nie możemy zainstalować najnowszej wersji frameworka (obecnie jest to v87). Ta
 wersja powoduje jakieś bliżej nieznane problemy objawiające się następującym komunikatem w oknie
 instalatora: Wersja 87 Xposed framework jest zainstalowana ale nie jest aktywna. Proszę sprawdzić
-logi, aby poznać
-szczegóły.
+logi, aby poznać szczegóły.
 
-[![]({{< baseurl >}}/img/2017/03/005.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-bledy-660x519.png)]({{< baseurl >}}/img/2017/03/005.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-bledy.png)
+![]({{< baseurl >}}/img/2017/03/005.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-bledy.png#big)
 
 Po zajrzeniu w logi, mamy taką informację:
 
@@ -168,19 +164,17 @@ Po zajrzeniu w logi, mamy taką informację:
 Wersja, która zdaje się działać, to v85 i to ją musimy sobie wgrać na smartfona. Wystarczy, że w
 oknie instalatora Xposed, z prawego górnego rogu rozwiniemy menu i wybierzemy "Show outdated
 versions", a pojawi nam się lista wersji, które będziemy w stanie zainstalować. Jest tam też min.
-v85. Wybieramy i instalujemy
-ją:
+v85. Wybieramy i instalujemy ją:
 
-[![]({{< baseurl >}}/img/2017/03/006.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-instalacja-660x518.png)]({{< baseurl >}}/img/2017/03/006.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-instalacja.png)
+![]({{< baseurl >}}/img/2017/03/006.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-instalacja.png#big)
 
 Naturalnie smartfon się będzie dłużej uruchamiał i w tym przypadku również doświadczymy
 optymalizowania aplikacji, co potrwa kilka minut. Po uruchomieniu instalatora Xposed, zobaczymy ten
 sam komunikat ostrzeżenia, który był widoczny wyżej. By go zlikwidować, trzeba wejść w Ustawienia i
 zaznaczyć opcję "Wyłącz zasoby konfliktów". Po zresetowaniu systemu, framework powinien już się
-załadować bez
-problemu:
+załadować bez problemu:
 
-[![]({{< baseurl >}}/img/2017/03/007.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-opcje-660x519.png)]({{< baseurl >}}/img/2017/03/007.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-opcje.png)
+![]({{< baseurl >}}/img/2017/03/007.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-opcje.png#big)
 
 Ta opcja "Wyłącz zasoby konfliktów" powoduje, że część modułów Xposed nie będzie nam funkcjonować
 prawidłowo (min. YouTube AdAway). Niemniej jednak, dobrze chociaż, że jakiekolwiek moduły w ogóle
@@ -190,23 +184,20 @@ będą w stanie działać.
 
 Moduły do Xposed możemy instalować bezpośrednio z instalatora. Możemy też do tego celu zaprzęgnąć
 [aplikację XDA Labs]({{< baseurl >}}/post/xda-labs-repozytorium-aplikacji-modulow-xposed/), która
-również ma wbudowane repozytorium modułów
-Xposed.
+również ma wbudowane repozytorium modułów Xposed.
 
-[![]({{< baseurl >}}/img/2017/03/008.xposed-android-lollipop-marshmalow-tp-link-smartfon-xda-labs-repo-422x660.png)]({{< baseurl >}}/img/2017/03/008.xposed-android-lollipop-marshmalow-tp-link-smartfon-xda-labs-repo.png)
+![]({{< baseurl >}}/img/2017/03/008.xposed-android-lollipop-marshmalow-tp-link-smartfon-xda-labs-repo.png#medium)
 
 W tym przypadku interesują nas dwa moduły: YouTube Background Playback oraz YouTube AdAway. Ich
-instalacja sprowadza się do odszukania konkretnego modułu i pobrania
-go:
+instalacja sprowadza się do odszukania konkretnego modułu i pobrania go:
 
-[![]({{< baseurl >}}/img/2017/03/009.xposed-android-lollipop-marshmalow-tp-link-smartfon-xda-labs-moduly-660x376.png)]({{< baseurl >}}/img/2017/03/009.xposed-android-lollipop-marshmalow-tp-link-smartfon-xda-labs-moduly.png)
+![]({{< baseurl >}}/img/2017/03/009.xposed-android-lollipop-marshmalow-tp-link-smartfon-xda-labs-moduly.png#huge)
 
 Po zainstalowaniu modułów Xposed, te nie są z automatu aktywne, o czym jesteśmy informowani w
 notyfikacjach systemowych. Wszystkie moduły mają swój własny autostart i możemy je dowolnie włączać
-lub
-wyłączać:
+lub wyłączać:
 
-[![]({{< baseurl >}}/img/2017/03/010.xposed-android-lollipop-marshmalow-tp-link-smartfon-aktywacja-moduly-660x563.png)]({{< baseurl >}}/img/2017/03/010.xposed-android-lollipop-marshmalow-tp-link-smartfon-aktywacja-moduly.png)
+![]({{< baseurl >}}/img/2017/03/010.xposed-android-lollipop-marshmalow-tp-link-smartfon-aktywacja-moduly.png#big)
 
 Wszystkie te wyżej zaznaczone moduły będą startowane wraz z systemem. Jeśli jakieś moduły chcemy
 czasowo wyłączyć, to nie musimy ich wywalać z systemu, tylko wystarczy odptakować stosowną pozycję
@@ -216,15 +207,13 @@ trzeba uruchomić ponownie system w telefonie.
 ## Odinstalowanie framework'a Xposed i jego modułów
 
 Cały framework Xposed wraz z jego modułami można naturalnie odinstalować. W tym celu wystarczy
-odpalić instalator Xposed i odinstalować
-framework:
+odpalić instalator Xposed i odinstalować framework:
 
-[![]({{< baseurl >}}/img/2017/03/011.xposed-android-lollipop-marshmalow-tp-link-smartfon-usuwanie-419x660.png)]({{< baseurl >}}/img/2017/03/011.xposed-android-lollipop-marshmalow-tp-link-smartfon-usuwanie.png)
+![]({{< baseurl >}}/img/2017/03/011.xposed-android-lollipop-marshmalow-tp-link-smartfon-usuwanie.png#medium)
 
 Tutaj również mamy opcje usuwania bezpośrednio z systemu jak i przez tryb TWRP recovery. Oba
 działają bez zarzutu. Jeśli mieliśmy wgrane jakieś moduły Xposed, to one nie zostaną usunięte przy
 deinstalacji framework'a. Każdy moduł trzeba ręcznie usunąć, np. przez XDA Labs lub instalator
-Xposed. Po usunięciu modułów, instalator można usunąć w XDA Labs lub
-F-Droid.
+Xposed. Po usunięciu modułów, instalator można usunąć w XDA Labs lub F-Droid.
 
-[![]({{< baseurl >}}/img/2017/03/012.xposed-android-lollipop-marshmalow-tp-link-smartfon-usuwanie-instalator-moduly-660x519.png)]({{< baseurl >}}/img/2017/03/012.xposed-android-lollipop-marshmalow-tp-link-smartfon-usuwanie-instalator-moduly.png)
+![]({{< baseurl >}}/img/2017/03/012.xposed-android-lollipop-marshmalow-tp-link-smartfon-usuwanie-instalator-moduly.png#big)

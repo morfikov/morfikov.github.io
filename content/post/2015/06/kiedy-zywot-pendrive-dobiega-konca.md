@@ -8,6 +8,8 @@ published: true
 status: publish
 tags:
 - pendrive
+- flash
+- karta-sd
 title: Kiedy żywot pendrive dobiega końca...
 ---
 
@@ -36,7 +38,7 @@ Jak widać wyżej, po skopiowaniu jedynie 50MiB, proces został przerwany w wyni
 tylko i wyłącznie wgrywania obrazów bit po bicie. W każdym innym przypadku, nie powinno być
 problemów. Samo tworzenie partycji na tym pendrive nie zwraca żadnych błędów:
 
-![]({{< baseurl >}}/img/2015/06/1.linux-gparted-pendrive.png)
+![]({{< baseurl >}}/img/2015/06/1.linux-gparted-pendrive.png#huge)
 
 Zatem co się z nim dzieje?
 
@@ -114,7 +116,7 @@ Innym narzędziem, które nam może pomóc w analizie struktury pendrive, to [wh
 Skanuje ono i pokazuje czas dostępu do sektorów na całej powierzchni nośnika. W przypadku mojego
 pendrive jest trochę problemów, poniżej focia z początku skanowania:
 
-![]({{< baseurl >}}/img/2015/06/3.linux-pendrive-whdd-scan.png)
+![]({{< baseurl >}}/img/2015/06/3.linux-pendrive-whdd-scan.png#huge)
 
 Wyraźnie coś jest nie tak z tym niejednorodnym obszarem. Są, co prawda, tylko 4 błędy ale problemy z
 odczytem/zapisem pozostałych sektorów mogą się również pojawić, dlatego `f3` zgłosił 168 sektorów.
@@ -133,7 +135,7 @@ przeskanować go przy pomocy `fsck` z opcją `-c` , za sprawą to której zostan
 `badblocks` i wszystkie padnięte sektory zostaną oznaczone i dodane do i-węzła bad bloków, co
 zapobiegnie ich alokacji:
 
-![]({{< baseurl >}}/img/2015/06/2.linux-badblocks-pendrive.png)
+![]({{< baseurl >}}/img/2015/06/2.linux-badblocks-pendrive.png#huge)
 
 U mnie jednak ilość padniętych bloków ciągle zmieniała się z każdym kolejnym skanem i raczej wątpię
 by w ten sposób szło coś ugrać.

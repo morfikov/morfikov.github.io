@@ -24,10 +24,10 @@ wpisie postaramy skonfigurować sobie właśnie te odnośniki.
 <!--more-->
 ## Permalinks w WordPress'ie
 
-Przede wszystkim, odnośniki bezpośrednie możemy ustawić z poziomu panelu administracyjnego (Settings
-=\> Permalinks):
+Przede wszystkim, odnośniki bezpośrednie możemy ustawić z poziomu panelu administracyjnego
+(Settings => Permalinks):
 
-![]({{< baseurl >}}/img/2015/05/1.wordpress-permalinks.png)
+![]({{< baseurl >}}/img/2015/05/1.wordpress-permalinks.png#huge)
 
 I jak widzimy wyżej, mamy do dyspozycji kilka opcji ale nie wszystkie są dobrym rozwiązaniem.
 Generalnie, z punktu widzenia SEO, powinniśmy uwzględnić w linku jedynie nazwę postu, pomijając przy
@@ -48,10 +48,9 @@ z kilku powodów.
 
 W zależności od typu instalacji WordPress'a, dostęp do pewnych plików może być utrudniony i pewnych
 przypadkach WordPress nie będzie w stanie stworzyć sobie pliku `.htaccess` , o czym nas powinien
-poinformować poniższym
-komunikatem:
+poinformować poniższym komunikatem:
 
-![]({{< baseurl >}}/img/2015/05/3.wordpress-info-o-potrzebie-aktualizacji-htaccess.png)
+![]({{< baseurl >}}/img/2015/05/3.wordpress-info-o-potrzebie-aktualizacji-htaccess.png#small)
 
 Niżej tam na stronie po aktualizacji permalinków mamy instrukcję co dokładnie musimy zrobić aby nowe
 adresy zaczęły obowiązywać. Konkretnie chodzi o dodanie poniższego bloku kodu do pliku `.htaccess` ,

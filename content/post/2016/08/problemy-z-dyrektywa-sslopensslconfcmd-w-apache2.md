@@ -31,7 +31,7 @@ własnych parametrów dla protokołu Diffie-Hellman'a, z tym, że trzeba to zrob
 ## Optymalna liczba pierwsza dla protokołu Diffie-Hellman'a
 
 Zgodnie z [informacjami zawartymi na tej
-stronie](https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html#Logjam_\(DH_EXPORT\)),
+stronie](https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html#Logjam_(DH_EXPORT)),
 liczby pierwsze wykorzystywane w protokole Diffie-Hellman'a są podatne na atak w przypadku jeśli ich
 wielkość jest w granicach do 1024 bitów. Jeśli nasz serwer wykorzystuje liczbę o takiej długości, to
 powinniśmy ją jak najszybciej zmienić.
@@ -43,7 +43,7 @@ ustalić długość tej liczby. [Sam test liczby pierwszej jest dostępny
 tutaj](https://weakdh.org/sysadmin.html). W przypadku tego debiana, co sieci na moim VPS, wynik się
 prezentuje następująco:
 
-![]({{< baseurl >}}/img/2016/08/1.dh-liczba-pierwsza-test.png)
+![]({{< baseurl >}}/img/2016/08/1.dh-liczba-pierwsza-test.png#huge)
 
 Zatem tutaj wszystko jest w porządku. Co jednak w przypadku, gdy na powyższej fotce widniałaby
 wartość 1024 albo nawet i mniejsza? W takiej sytuacji trzeba by wygenerować własne parametry dla
@@ -93,6 +93,6 @@ poniższy sposób:
 Teraz już wystarczy zresetować serwer Apache2 i przetestować czy ta liczba pierwsza została
 uwzględniona przeprowadzając jeszcze raz test:
 
-![]({{< baseurl >}}/img/2016/08/2.dh-liczba-pierwsza-test.png)
+![]({{< baseurl >}}/img/2016/08/2.dh-liczba-pierwsza-test.png#huge)
 
 I jak widzimy, ilość bitów z 2048 wzrosła do 4096.

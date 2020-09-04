@@ -37,7 +37,7 @@ większe niż rozmiar całej partycji. Problem zaczyna się w momencie, gdy taki
 wypełniać faktycznymi danymi. Spójrzmy sobie na ten obrazek poniżej
 ([źródło](https://en.wikipedia.org/wiki/Sparse_file)):
 
-![]({{< baseurl >}}/img/2016/06/1.rozrzedone-pliki-sparse-files.png)
+![]({{< baseurl >}}/img/2016/06/1.rozrzedone-pliki-sparse-files.png#big)
 
 Zielonym kolorem oznaczono faktyczne dane w pliku. Szarym kolorem zaś zaznaczono puste bloki, które
 nie są zapisane na dysku. Gdy teraz do takiego pliku będziemy chcieli dodać kolejną porcję danych, w
@@ -81,8 +81,8 @@ stanie odczytać rozmiar plików zwrócą nam wyniki podobne do tego jaki otrzym
 poleceń `ls` i `du` .
 
 Część narzędzi potrafiących rozpoznawać pliki rozrzedzone ma dodatkowy przełącznik, który można
-wykorzystać do wykrycia takich plików. Dla przykładu weźmy sobie ten `ls` . On dysponuje opcją `-s`
-, która jest nam w stanie wskazać faktyczny rozmiar utworzonego powyżej pliku:
+wykorzystać do wykrycia takich plików. Dla przykładu weźmy sobie ten `ls` . On dysponuje opcją
+`-s` , która jest nam w stanie wskazać faktyczny rozmiar utworzonego powyżej pliku:
 
     # ls -als sparse-file
     0 -rw-r--r-- 1 root root 10G 2016-06-02 14:05:25 sparse-file
@@ -143,9 +143,9 @@ możemy zauważyć, że plik został pofragmentowany:
 
 Zatem mamy niby plik o faktycznym rozmiarze 4,2 MiB ale ma on 15 części. Plik został pokrojony za
 sprawą metadanych systemu plików. Jeśli się przyjrzymy uważnie, to w kolumnie `logical_offset`
-możemy dostrzec numery zapasowych sektorów głównego bloku systemu plików (te wpisane w `mkfs.ext4`
-). Im większy jest system plików, tym więcej jest kopi superbloka i więcej metadanych potrzebnych do
-opisu jego zawartości.
+możemy dostrzec numery zapasowych sektorów głównego bloku systemu plików
+(te wpisane w `mkfs.ext4` ). Im większy jest system plików, tym więcej jest kopi superbloka i
+więcej metadanych potrzebnych do opisu jego zawartości.
 
 Gdybyśmy mieli zamiast tego pliku sparse zwykły plik wypełniony zerami i chcieli utworzyć na nim
 system plików, to on również by został tak pofragmentowany. Na dobrą sprawę będzie wyglądał tak samo

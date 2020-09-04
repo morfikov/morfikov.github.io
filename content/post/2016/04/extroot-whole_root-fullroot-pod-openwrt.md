@@ -24,7 +24,7 @@ zabieg nosi nazwę `extroot` ([external root](https://wiki.openwrt.org/doc/howto
 `whole_root` (fullroot) i w tym wpisie prześledzimy procedurę tworzenia tego mechanizmu.
 
 <!--more-->
-## Różnice między extroot i whole\_root
+## Różnice między extroot i whole_root
 
 Gdy chodzi o rozbudowanie systemu plików routera, to mamy do wyboru dwie opcje. Możemy to zrobić w
 oparciu o `extroot` lub `whole_root` . Różnica między tymi dwoma mechanizmami polega na tym, że
@@ -34,7 +34,7 @@ mechanizmów można znaleźć tutaj](https://wiki.openwrt.org/doc/howto/extroot/
 tych powyższych przypadkach partycja na pendrive musi być sformatowana w systemie plików z rodziny
 EXT, zwykle EXT4. Jest to domyślny system plików stosowany na linux'ach.
 
-## Wady i zalety extroot i whole\_root
+## Wady i zalety extroot i whole_root
 
 Wydawać by się mogło, że zarówno `extroot` jak i `whole_root` to bardzo przyzwoite mechanizmy, który
 w znacznym stopniu przyczyną się do rozbudowy naszego routera, praktycznie za free. Trzeba mieć
@@ -96,7 +96,7 @@ znajduje się pełna lista potrzebnych nam rzeczy:
 Pakiet `kmod-crypto-crc32c` jest wymagany w przypadku wystąpienia błędu `EXT4-fs (sda4): Cannot load
 crc32c driver.` podczas montowania zasobu (w `logread`) .
 
-## Przygotowanie i konfiguracja partycji pod extroot i whole\_root
+## Przygotowanie i konfiguracja partycji pod extroot i whole_root
 
 Kluczem w tej całej zabawie z rozszerzaniem systemu plików routera jest utworzenie odpowiedniej
 partycji. Tę zaś możemy przygotować bez większego problemu z płytki live mającą na pokładzie jakąś
@@ -105,7 +105,7 @@ partycji na routerze. W tym wpisie ograniczymy się jedynie do utworzenia partyc
 systemu live. Pendrive może zostać podzielony w dowolny sposób, np. tak jak to widać na poniższej
 fotce:
 
-![]({{< baseurl >}}/img/2016/04/1.gparted-linux-live-partycja-extroot-whole_root.png)
+![]({{< baseurl >}}/img/2016/04/1.gparted-linux-live-partycja-extroot-whole_root.png#huge)
 
 Mając przygotowaną partycję, wsadzamy pendrive do jednego z portów USB w routerze. Urządzenie
 powinno zostać wykryte przez system i stosownie oznaczone:
@@ -162,14 +162,14 @@ przedstawiona poniżej:
           option  fstype  'ext4'
           option  enabled '1'
 
-Opcja `target` określa gdzie zamontować daną partycję. W przypadku `extroot` korzystamy z `/overlay`
-. Natomiast jeśli chodzi o `whole_root` , to dajemy tutaj `/` . W obu przypadkach wszelkie zmiany
-jakich dokonujemy w systemie, będą zapisywane partycji określonej w `device`. Niemniej jednak, w
-przypadku podpięcia innego pendrive, OpenWRT będzie próbował zamontować jedną z jego partycji.
-Dlatego też, lepiej unikać definiowania zasobów w taki sposób. Zamiast tego, lepiej jest wykorzystać
-opcję `uuid` , która identyfikuje konkretne urządzenie (partycję) podpięte do portu USB routera.
-Następnie mamy opcję `fstype` , która określa system plików partycji. Opcja `enabled` ustawiona na
-`1` sprawi, że zasób zostanie zamontowany w fazie boot routera.
+Opcja `target` określa gdzie zamontować daną partycję. W przypadku `extroot` korzystamy z
+`/overlay` . Natomiast jeśli chodzi o `whole_root` , to dajemy tutaj `/` . W obu przypadkach
+wszelkie zmiany jakich dokonujemy w systemie, będą zapisywane partycji określonej w `device`.
+Niemniej jednak, w przypadku podpięcia innego pendrive, OpenWRT będzie próbował zamontować jedną z
+jego partycji. Dlatego też, lepiej unikać definiowania zasobów w taki sposób. Zamiast tego, lepiej
+jest wykorzystać opcję `uuid` , która identyfikuje konkretne urządzenie (partycję) podpięte do
+portu USB routera. Następnie mamy opcję `fstype` , która określa system plików partycji. Opcja
+`enabled` ustawiona na `1` sprawi, że zasób zostanie zamontowany w fazie boot routera.
 
 Jeśli nie chce nam się od początku konfigurować routera, możemy zgrać całą konfigurację. W przypadku
 `extroot` ten krok jest opcjonalny. Natomiast jeśli chodzi o `whole_root` , to jest to wymagana
@@ -204,7 +204,7 @@ Po uruchomieniu routera, logujemy się na urządzenie standardowo za pomocą pro
 chyba, że skopiowaliśmy sobie konfigurację. Tak czy inaczej, naszym oczom powinien się pokazać taki
 oto obrazek:
 
-![]({{< baseurl >}}/img/2016/04/2.openwrt-extroot-whole_root.png)
+![]({{< baseurl >}}/img/2016/04/2.openwrt-extroot-whole_root.png#big)
 
 Jak widzimy, ilość wolnego miejsca na flash'u to 1,7 GiB.
 
@@ -232,7 +232,7 @@ Niżej zaś jest trochę informacji na temat systemu plików po aktywacji `extro
     devpts on /dev/pts type devpts (rw,nosuid,noexec,relatime,mode=600)
     debugfs on /sys/kernel/debug type debugfs (rw,noatime
 
-## Konfiguracja systemu na whole\_root
+## Konfiguracja systemu na whole_root
 
 W przypadku `whole_root` , informacje zwracane przez `df` i `mount` prezentują się następująco:
 
@@ -258,7 +258,7 @@ W przypadku `whole_root` , informacje zwracane przez `df` i `mount` prezentują 
 To co odróżnia `whole_root` od `extroot` , to fakt, że w tym pierwszym nie mamy wpisu
 `overlayfs:/overlay` .
 
-## Partycja rootfs\_data (mtdblock3, mtd3)
+## Partycja rootfs_data (mtdblock3, mtd3)
 
 Czasem przy korzystaniu z `extroot`/`whole_root` może zajść potrzeba, by podejrzeć pewne pliki
 systemowe, które utworzyliśmy czy zmieniliśmy zanim przeszliśmy na któryś z tych powyższych
