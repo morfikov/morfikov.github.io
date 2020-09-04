@@ -439,7 +439,7 @@ musimy określić domyślną bramę. Robimy to przy pomocy tych poniższych pole
 <p>W tej chwili tablice routingu powinny wyglądać mniej więcej tak jak na tym poniższym
 obrazku:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/1.load-balancing-failover-debian-linux-isp-tablica-routingu.png" alt=""></p>
+/img/2016/05/1.load-balancing-failover-debian-linux-isp-tablica-routingu.png#huge" alt=""></p>
 <p>By ten cały mechanizm routujący puścić w ruch potrzebne nam są jeszcze reguły routingu. To w oparciu
 o nie, kernel będzie wiedział gdzie ma przesłać dany pakiet.</p>
 <h2 id="reguły-routingu">Reguły routingu</h2>
@@ -511,12 +511,12 @@ jednak ciągu działa nam failover, czyli w przypadku zaniku połączenia na jed
 ruch zostanie przełączony automatycznie na drugi z nich.</p>
 <h2 id="równoważenie-obciążenia-load-balancing">Równoważenie obciążenia (load balancing)</h2>
 <p>Równoważenie obciążenia również zahacza o markowanie pakietów w <code>iptables</code> . Potrzebna nam jest
-tylko reguła, która z pewnym prawdopodobieństwem oznaczy pakiety nowych połączeń markiem <code>0x5/0xff</code>
-. Natomiast pozostałe połączenia, które nie mają jeszcze nałożonego marka, zostaną oznaczone
-markerem <code>0x2/0xff</code> . Jak tego typu zadanie zrealizować? Przede wszystkim, potrzebna nam jest baza
-markująca. Jeśli korzystamy z kontroli ruchu w wykonaniu <code>tc</code> (traffic control), to po dokładny opis
-jak ten mechanizm wykonać odsyłam pod podlinkowany wyżej wpis. Nam natomiast potrzebne są te
-poniższe reguły, które trzeba dodać do <code>iptables</code> :</p>
+tylko reguła, która z pewnym prawdopodobieństwem oznaczy pakiety nowych połączeń markiem
+<code>0x5/0xff</code> . Natomiast pozostałe połączenia, które nie mają jeszcze nałożonego marka, zostaną
+oznaczone markerem <code>0x2/0xff</code> . Jak tego typu zadanie zrealizować? Przede wszystkim, potrzebna nam
+jest baza markująca. Jeśli korzystamy z kontroli ruchu w wykonaniu <code>tc</code> (traffic control), to po
+dokładny opis jak ten mechanizm wykonać odsyłam pod podlinkowany wyżej wpis. Nam natomiast
+potrzebne są te poniższe reguły, które trzeba dodać do <code>iptables</code> :</p>
 <pre><code>iptables -t mangle -N load-in
 iptables -t mangle -N load-out
 
@@ -550,14 +550,13 @@ pozostałe 50% pakietów, bo przecie w dalszym ciągu nie będą mieć żadnego 
 nam powinno rzucić od razu w oczy, to oczywiście poprawa transferu. Można dla sprawdzenia odpalić
 klienta torrent i nim zapuścić kilka obrazów z linux'ami. Poniżej jest przykładowy wykres:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/2.load-balancing-failover-debian-linux-isp-test.png" alt=""></p>
+/img/2016/05/2.load-balancing-failover-debian-linux-isp-test.png#huge" alt=""></p>
 <p>Przepustowość łącza jednego z moich ISP to 15/1 mbit/s. Drugie łącze to LTE i pod względem
 przepustowości, to waha się znacznie w zależności od pory dnia. Widzimy wyżej na wykresie, że ogólny
 transfer przekroczył te 15 mbit/s. Zatem oba łącza są w wykorzystaniu. Jeśli nadal nie wierzymy, że
-pakiety idą przez obu ISP, to wystarczy zobaczyć statystyki interfejsów sieciowych w <code>bmon</code>
-:</p>
+pakiety idą przez obu ISP, to wystarczy zobaczyć statystyki interfejsów sieciowych w <code>bmon</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/3.load-balancing-failover-debian-linux-isp-test-bmon.png" alt=""></p>
+/img/2016/05/3.load-balancing-failover-debian-linux-isp-test-bmon.png#huge" alt=""></p>
 <p>Tu już widzimy, że tej konkretnej chwili na interfejsie <code>bond0</code> mamy transfer 1.29 MiB/s oraz, że na
 interfejsie <code>wwan0</code> mamy nieco ponad 720 KiB/s. Interfejs <code>eth0</code> jest w tym przypadku bez znaczenia,
 bo wchodzi on w skład bondingu. Efektywność podziału łącza możemy oszacować po podejrzeniu połączeń
@@ -631,6 +630,8 @@ w tablicy conntracka w pliku <code>/proc/net/nf_conntrack</code> :</p>
 	<h3 class="related__title">Powiązane</h3>
 	<ul class="related__list">
 		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czas-zycia-pakietow-czyli-zmiana-ttl/">Czas życia pakietów, czyli zmiana TTL</a></li>
+		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/nat-reflection-oraz-nat-loopback-w-openwrt/">NAT Reflection oraz NAT Loopback w OpenWRT</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przypisac-losowy-adres-mac-interfejsu/">Jak przypisać losowy adres MAC do interfejsu</a></li>
@@ -638,8 +639,6 @@ w tablicy conntracka w pliku <code>/proc/net/nf_conntrack</code> :</p>
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/przeciek-dns-dns-leak-w-vpn-resolvconf/">Przeciek DNS (DNS leak) w VPN (resolvconf)</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wvdial-ppp-czyli-modem-lte-w-trybie-ras/">Wvdial i PPP, czyli modem LTE w trybie RAS</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/">Konfiguracja modemu LTE w trybie NDIS (NCM)</a></li>
 		
 	</ul>
 </div>

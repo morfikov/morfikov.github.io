@@ -57,7 +57,7 @@ i konfigurację tego serwera dźwięku.">
 
 
 
-<meta itemprop="keywords" content="dźwięk,debian," />
+<meta itemprop="keywords" content="dźwięk,debian,pulseaudio," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Konfiguracja serwera dźwięku PulseAudio"/>
@@ -187,6 +187,7 @@ if (!doNotTrack) {
     <li><a href="#konfiguracja-systemu-pod-pulseaudio">Konfiguracja systemu pod PulseAudio</a></li>
     <li><a href="#zajmowanie-karty-przez-pulseaudio">Zajmowanie karty przez PulseAudio</a></li>
     <li><a href="#problemy-z-pulseaudio">Problemy z PulseAudio</a></li>
+    <li><a href="#notyfikacje-dźwięku">Notyfikacje dźwięku</a></li>
   </ol>
 </nav>
 </details>
@@ -230,7 +231,7 @@ libnotify-bin xfce4-notifyd volumeicon-alsa
 <p>W pakiecie <code>pavucontrol</code> mamy graficzny mikser, z poziomu którego będziemy w stanie zarządzać
 poziomem głośności każdej aplikacji, która się podłączy do PulseAudio. Wygląda to mniej więcej tak:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/01/1.pulseaudio-volume-control-pavucontrol.png" alt=""></p>
+/img/2016/01/1.pulseaudio-volume-control-pavucontrol.png#big" alt=""></p>
 <p>Z kolei pakiet <code>rtkit</code> zajmie się ustawieniem priorytetu dla demona dźwięku, tak by te bardziej
 żarłoczne aplikacje nie zdusiły nam czasem dźwięku. Pakiety, które mają w nazwie
 <code>pulseaudio-module</code> odpowiadają za dodatkowe moduły dla PulseAudio, podobnie jak <code>swh-plugin</code> ,
@@ -306,9 +307,9 @@ poniższej linijki:</p>
 <p>Od tej chwili możemy swobodnie restartować demona za pomocą <code>pulseaudio -k</code> i <code>pulseaudio -D</code> .
 Pamiętajmy, że te dwa polecenia trzeba wydawać z konta zwykłego użytkownika.</p>
 <h3 id="konfiguracja-demona">Konfiguracja demona</h3>
-<p>Drugim plikiem, do którego musimy zajrzeć przy konfiguracji PulseAudio jest <code>/etc/pulse/daemon.conf</code>
-. To za jego sprawą konfigurujemy demona, który nasłuchuje żądań od aplikacji dźwiękowych. Poniżej
-jest rozpiska kilku opcji, które możemy określić w tym pliku.</p>
+<p>Drugim plikiem, do którego musimy zajrzeć przy konfiguracji PulseAudio jest
+<code>/etc/pulse/daemon.conf</code> . To za jego sprawą konfigurujemy demona, który nasłuchuje żądań od
+aplikacji dźwiękowych. Poniżej jest rozpiska kilku opcji, które możemy określić w tym pliku.</p>
 <ul>
 <li><code>daemonize</code> -- PulseAudio uruchomi się w trybie demona.</li>
 <li><code>fail</code> -- jeśli jakaś dyrektywa w skrypcie <code>default.pa</code> zwróci błąd, to PulseAudio się nie
@@ -354,7 +355,7 @@ możliwość ustawienia wyjścia dźwięku. Z reguły to wyjście jest wykrywane
 musimy manualnie przestawiać go na <code>pulse</code> czy <code>pulseaudio</code> . Niemniej jednak, jeśli chcemy
 przestawić sobie wyjście dźwięku, to nic nie stoi na przeszkodzie, by to zrobić. Poniżej przykład:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/01/2.pulseaudio-smplayer-config.png" alt=""></p>
+/img/2016/01/2.pulseaudio-smplayer-config.png#big" alt=""></p>
 <p>Trzeba jednak wziąć pod uwagę, że nie wszystkie aplikacje mają zaimplementowaną natywną obsługę
 PulseAudio i w takim przypadku mogą się pojawić problemy z dźwiękiem. Część z aplikacji może mieć
 też dedykowane wtyczki, które musimy doinstalować osobno, by dźwięk w tych aplikacjach działał jak
@@ -385,14 +386,14 @@ parametru <code>-v</code> .</p>
 poszczególne potencjometry, a to może być przyczyną braku dźwięku. Nawet jeżeli po odpaleniu tego
 miksera, do naszej dyspozycji jest tylko coś na wzór tego poniższego obrazka:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/01/3.alsamixer-pulseaudio.png" alt=""></p>
+/img/2016/01/3.alsamixer-pulseaudio.png#huge" alt=""></p>
 <p>To możemy wcisnąć klawisz F6 i wybrać z menu odpowiednią kartę. W ten sposób uzyskamy dostęp do jej
 przełączników:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/01/4.alsamixer-sound-card.png" alt=""></p>
+/img/2016/01/4.alsamixer-sound-card.png#huge" alt=""></p>
 <p>Pomocne w rozwiązywaniu problemów może okazać się również usunięcie katalogu <code>~/.config/pulse/</code> przy
 wyłączonym środowisku graficznym, a następnie zresetowanie maszyny.</p>
-<p>Notyfikacje dźwięku</p>
+<h2 id="notyfikacje-dźwięku">Notyfikacje dźwięku</h2>
 <p>Nie wszyscy z nas lubią te wyskakujące okienka, które zwykły nas powiadamiać o zbędnych z naszego
 punktu widzenia zdarzeniach. Inaczej jednak sprawa ma się w przypadku notyfikacji dźwięku, bo
 przecie one dostarczają cennych informacji na temat aktualnego poziomu głośności. Pakiety, które
@@ -401,7 +402,7 @@ też jakaś aplikacja, która będzie je w stanie generować. W tym przypadku zd
 pakiet <code>volumeicon-alsa</code> . Nie jest to jakieś zaawansowane cudo ale grunt, że realizuje ono to czego
 od niego oczekujemy. Tak wygląda konfiguracja tego narzędzia:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/01/5.volumeicon-alsa-pulseaudio.png" alt=""></p>
+/img/2016/01/5.volumeicon-alsa-pulseaudio.png#medium" alt=""></p>
 <p>Jak widzimy, możemy skonfigurować kanał, który będziemy regulować. Mamy także opcje wywołania
 miksera PulseAudio. A w dolnej części mamy zaznaczone trzy klawisze, które będą odpowiedzialne za
 regulację dźwięku, po których przyciśnięciu system otrzyma stosowne notyfikacje. By te klawisze
@@ -415,6 +416,7 @@ klawisze nie zawsze są rozpoznawane przez Xserver.</p></div>
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/d%C5%BAwi%C4%99k/">dźwięk</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pulseaudio/">pulseaudio</a>
 </div>
 					
 <div class="entry__share share">
@@ -470,15 +472,15 @@ klawisze nie zawsze są rozpoznawane przez Xserver.</p></div>
 	<h3 class="related__title">Powiązane</h3>
 	<ul class="related__list">
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/menadzer-okien-openbox/">Menadżer okien Openbox</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/">PulseAudio i przesyłanie dźwięku przez sieć</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/menadzer-logowania-lightdm/">Menadżer logowania LightDM</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/szyfrowanie-dzwieku-przesylanego-przez-siec/">Szyfrowanie dźwięku przesyłanego przez sieć</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-xservera-na-debianie-xorg/">Konfiguracja Xserver&#39;a na debianie (Xorg)</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/brak-dzwieku-przy-nieaktywnej-sesji-logowania/">Brak dźwięku przy nieaktywnej sesji logowania</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/normalizacja-glosnosci-w-pulseaudio/">Normalizacja głośności w PulseAudio</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">Instalacja debiana z wykorzystaniem debootstrap</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/automatyczne-wyciszanie-dzwieku-w-pulseaudio/">Automatyczne wyciszanie dźwięku w PulseAudio</a></li>
 		
 	</ul>
 </div>

@@ -705,7 +705,7 @@ przeprowadził już ktoś za nas.</p>
 zawsze idzie coś znaleźć, tylko paczki nie są zbytnio kompatybilne z debianem i trzeba wiedzieć
 gdzie i czego szukać. Przykładowo, załóżmy, że interesuje nas pakiet <code>monitorix</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2015/12/1.pakiet-aur-deb.png" alt=""></p>
+/img/2015/12/1.pakiet-aur-deb.png#big" alt=""></p>
 <p>Jak widzimy pakiet został odnaleziony i mamy tam info o licencji i o zależnościach. Niemniej jednak,
 to nie wszystko co możemy wyciągnąć z AUR. Tam w prawym górnym rogu jest <code>PKGBUILD</code> . Jest to plik,
 na podstawie którego buduje się pakiet dla Archlinux'a. Jak on nam może pomóc? Wystarczy do niego
@@ -1061,13 +1061,13 @@ tutaj wpisać i jakie reguły zaaplikować? Zwykle <code>debhelper</code> wykryj
 powinien sobie z procesem budowania poradzić bez naszej ingerencji ale czasem szereg plików trzeba
 będzie usunąć, a niektóre stworzyć lub przenieść w inne miejsce, tak by paczka miała ręce i nogi i
 nie zawierała przy tym zbędnych śmieci.</p>
-<p>Jeśli kiedyś zdarzyło nam się instalować pakiet ręcznie, tj. via <code>./configure</code> (dh_auto_configure)
-, <code>make</code> (dh_auto_build) i <code>make install</code> (dh_auto_install), to może nam to podsunąć kilka
-pomysłów, bo tak na dobrą sprawę, to jak sama nazwa wskazuje <code>makefile</code> tworzy pliki. Zatem jest to
-prosta instrukcja gdzie wgrać jakie pliki, by program działał jak trza. Zatem możemy podejrzeć plik
-<code>makefile</code> dołączony do źródeł i prześledzić co tak naprawdę w nim się odbywa. Z reguły pliki
-<code>makefile</code> są długie i nie będę tutaj przytaczał całości. Rzucimy jedynie okiem na najważniejsze
-jego fragmenty:</p>
+<p>Jeśli kiedyś zdarzyło nam się instalować pakiet ręcznie, tj. via <code>./configure</code>
+(dh_auto_configure) , <code>make</code> (dh_auto_build) i <code>make install</code> (dh_auto_install), to może nam to
+podsunąć kilka pomysłów, bo tak na dobrą sprawę, to jak sama nazwa wskazuje <code>makefile</code> tworzy pliki.
+Zatem jest to prosta instrukcja gdzie wgrać jakie pliki, by program działał jak trza. Zatem możemy
+podejrzeć plik <code>makefile</code> dołączony do źródeł i prześledzić co tak naprawdę w nim się odbywa. Z
+reguły pliki <code>makefile</code> są długie i nie będę tutaj przytaczał całości. Rzucimy jedynie okiem na
+najważniejsze jego fragmenty:</p>
 <pre><code>PN = monitorix
 
 PREFIX ?= /usr
@@ -1534,9 +1534,9 @@ pozostałych przypadkach będziemy szli na skróty. Samo poprawianie poszczegól
 powinno sprawić problemów, zwłaszcza jeśli się opanuje składnię pliku manuala. Możemy także
 korzystać z polecenia <code>man -l plik-mana.1</code> aby podejrzeć jak wyglądać będzie ten manual w systemie.</p>
 <h4 id="automatyczne-generowanie-manuali">Automatyczne generowanie manuali</h4>
-<p>Watro też wspomnieć iż istnieje możliwość wygenerowania pliku manuala w oparciu o polecenie <code>--help</code>
-, z tym, że nie zawsze wszystkie aplikacje posiadają w swoim wyposażeniu ten parametr. Poza tym,
-jeśli chodzi o aplikacje GUI, muszą one mieć dostęp do sesji graficznej, by taki manual
+<p>Watro też wspomnieć iż istnieje możliwość wygenerowania pliku manuala w oparciu o polecenie
+<code>--help</code> , z tym, że nie zawsze wszystkie aplikacje posiadają w swoim wyposażeniu ten parametr.
+Poza tym, jeśli chodzi o aplikacje GUI, muszą one mieć dostęp do sesji graficznej, by taki manual
 wygenerować. I takim automatycznym generowaniem plików manuali zajmuje się <code>help2man</code> . Można go
 wywołać bezpośrednio przy budowaniu paczki, z tym, że to pociąga za sobą dodatkowe zależności oraz
 kilka linijek w pliku <code>debian/rules</code> , a konkretnie trzeba będzie nadpisać target <code>dh_installman</code>
@@ -1594,11 +1594,11 @@ pliki związane z odpalaniem usług systemowych, bo to jest poza zakresem tego p
 jednak, zostanie załączony link do dokumentacji poszczególnych plików, tak by mieć jakiś punkt
 zaczepienia.</p>
 <h4 id="debianinit">debian/*.init</h4>
-<p>Niby <code>debhelper</code> tworzy plik <code>*.init.d</code> ale wszędzie w paczkach spotkałem się tylko z samym <code>*.init</code>
-. W każdym razie, nie ma to większego znaczenia, z której nazwy skorzystamy. Oba pliki odpowiadają
-za instalowanie skryptów startowych sysvinit, tych w katalogu <code>/etc/init.d/</code> . By sprawnie tworzyć
-takie skrypty, trzeba zrozumieć sam nagłówek <a href="https://wiki.debian.org/LSBInitScripts">LSB</a> oraz
-ogarnąć narzędzie
+<p>Niby <code>debhelper</code> tworzy plik <code>*.init.d</code> ale wszędzie w paczkach spotkałem się tylko z samym
+<code>*.init</code> . W każdym razie, nie ma to większego znaczenia, z której nazwy skorzystamy. Oba pliki
+odpowiadają za instalowanie skryptów startowych sysvinit, tych w katalogu <code>/etc/init.d/</code> . By
+sprawnie tworzyć takie skrypty, trzeba zrozumieć sam nagłówek
+<a href="https://wiki.debian.org/LSBInitScripts">LSB</a> oraz ogarnąć narzędzie
 <a href="http://manpages.ubuntu.com/manpages/wily/man8/start-stop-daemon.8.html">start-stop-daemon</a>.
 Dodatkowo trzeba również opanować obsługę <code>sh</code> ( <code>dash</code> ), tak by
 <a href="http://mywiki.wooledge.org/Bashism">uniknąć</a> <a href="https://wiki.ubuntu.com/DashAsBinSh">bashismów</a>.</p>
@@ -2234,8 +2234,8 @@ zabiegu mamy przygotowany katalog <code>wpa/</code> .</p>
 praktycznie wszelkich zmian. Sam katalog, jak możemy wywnioskować z tych wszystkich powyższych
 informacji, jest odrębną całością i jest pakowany oddzielnie. Można go też przenosić między
 kolejnymi wersjami źródeł. Jeśli zajrzymy do katalogu gdzie pobraliśmy źródła, możemy dostrzec
-również spakowany plik <code>wpa_2.2-1.debian.tar.xz</code> . To tam właśnie jest ulokowany katalog <code>debian/</code>
-.</p>
+również spakowany plik <code>wpa_2.2-1.debian.tar.xz</code> . To tam właśnie jest ulokowany katalog
+<code>debian/</code> .</p>
 <h3 id="aktualizacja-długo-nieaktualizowanego-pakietu">Aktualizacja długo nieaktualizowanego pakietu</h3>
 <p>Jakiś czas temu, próbowałem sobie zaktualizować pakiet <code>minitube</code> , bo w repozytorium była dostępna
 wersja sprzed chyba 2 lat. Co w takim przypadku należałoby zrobić, by zaktualizować ten pakiet? Na
@@ -2398,7 +2398,7 @@ Można ją wyciągnąć z logu git'a w poniższy sposób:</p>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/">Klucze do repozytoriów debiana (trusted.gpg)</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/pobieranie-pakietow-przy-pomocy-cron-apt/">Pobieranie pakietów przy pomocy cron-apt</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/">PulseAudio i przesyłanie dźwięku przez sieć</a></li>
 		
 	</ul>
 </div>

@@ -31,7 +31,7 @@ poniższy przykład zawiera szereg odwołań do programu wireshark.">
 
 
 
-<meta itemprop="keywords" content="tcp,sysctl," />
+<meta itemprop="keywords" content="tcp,sysctl,sieć," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Numery sekwencyjne w strumieniu TCP"/>
@@ -163,14 +163,12 @@ przewidywalne numerki zamiast ciągle analizować te liczby z w/w przedziału.</
 <h2 id="względne-numery-sekwencyjne">Względne numery sekwencyjne</h2>
 <p>Odpalmy zatem jakiś sniffer sieciowy i zobaczmy na własne oczy jak wyglądają te numerki i gdzie
 można je znaleźć. Na poniższej fotce jest zaprezentowany względny numer sekwencyjny 0 w pakiecie
-rozpoczynającym nowe
-połączenie:</p>
-<p><a href="https://morfikov.github.io
-/img/2015/06/1.wireshark-flagi-tcp.png"><img src="https://morfikov.github.io
-/img/2015/06/1.wireshark-flagi-tcp-1024x544.png" alt="1.wireshark-flagi-tcp"></a></p>
+rozpoczynającym nowe połączenie:</p>
+<p><img src="https://morfikov.github.io
+/img/2015/06/1.wireshark-flagi-tcp.png#huge" alt=""></p>
 <p>Prawdziwa wartość tego numeru jest zapisana w postaci hexalnej:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/06/2.wireshark-numery-sekwencyjne-hex.png" alt=""></p>
+/img/2015/06/2.wireshark-numery-sekwencyjne-hex.png#huge" alt=""></p>
 <p>Jak widzimy jest to <code>b0241fe1</code> , czyli po ludzku 2,955,157,473 i raczej trudno jest operować na
 takich wartościach.</p>
 <h2 id="jak-działają-numery-sekwencyjne">Jak działają numery sekwencyjne</h2>
@@ -179,11 +177,9 @@ opcję relatywnych numerów sekwencyjnych (Edit =&gt; Preferences =&gt; Protocol
 operować, co prawda, na większych liczbach ale będzie za to zauważalna różnica przy ich liczeniu.
 Poniżej jest przykład tego co się dzieje w sytuacji gdy odwiedzamy stronę www i pobieramy z niej
 zawartość. W tym przypadku jest to proces pobierania jakiegoś obrazka. Rzućmy zatem okiem na
-pierwsze pakiety w oknie
-wiresharka:</p>
-<p><a href="https://morfikov.github.io
-/img/2015/06/4.wireshark-numery-sekwencyjne-1.png"><img src="https://morfikov.github.io
-/img/2015/06/4.wireshark-numery-sekwencyjne-1-1024x57.png" alt="4.wireshark-numery-sekwencyjne-1"></a></p>
+pierwsze pakiety w oknie wiresharka:</p>
+<p><img src="https://morfikov.github.io
+/img/2015/06/4.wireshark-numery-sekwencyjne-1.png#huge" alt=""></p>
 <p>Pakiet <code>126</code> ma ustawioną flagę <code>SYN</code> i został przesłany do serwera w celu nawiązania połączenia
 (etap <a href="https://pl.wikipedia.org/wiki/Transmission_Control_Protocol#Nawi.C4.85zywanie_po.C5.82.C4.85czenia">three-way
 handshake</a>).
@@ -204,11 +200,9 @@ wynoszą odpowiednio: 2,955,157,474 (klient) oraz 1,348,638,688 (serwer). Obie m
 jeszcze do siebie żadnych danych ale w procesie witania, każda z nich przesłała po jednym pakiecie z
 ustawioną flagą <code>SYN</code> . To początkowe podbicie numerów o 1 występuje w przypadku ustanawiania
 wszystkich sesji TCP.</p>
-<p>Po zestawieniu połączenia, następuje faktyczna wymiana danych między klientem a
-serwerem:</p>
-<p><a href="https://morfikov.github.io
-/img/2015/06/4.wireshark-numery-sekwencyjne-2.png"><img src="https://morfikov.github.io
-/img/2015/06/4.wireshark-numery-sekwencyjne-2-1024x158.png" alt="4.wireshark-numery-sekwencyjne-2"></a></p>
+<p>Po zestawieniu połączenia, następuje faktyczna wymiana danych między klientem a serwerem:</p>
+<p><img src="https://morfikov.github.io
+/img/2015/06/4.wireshark-numery-sekwencyjne-2.png#huge" alt=""></p>
 <p>Klient wysyła pakiet <code>129</code> i jest on pierwszym, który zawiera payload. Konkretnie jest to żądanie
 HTTP. Numer sekwencyjny zostaje tak jak był, a to ze względu na fakt, że żadne dane nie zostały
 przesłane do serwera od chwili otrzymania ostatniego pakietu w strumieniu. Z kolei numer
@@ -218,11 +212,9 @@ Zwróćmy uwagę na fakt, że payload w tym pakiecie waży 189 bajtów.</p>
 <code>129</code> . Numer potwierdzenia został podbity o 189 (2,955,157,663), czyli o wartość payloadu
 otrzymanego przez serwer pakietu. Numer sekwencyjny serwera zostaje bez zmian, bo serwer nie wysłał
 żadnych danych.</p>
-<p>Następne pakiety są już odpowiedzią serwera
-HTTP:</p>
-<p><a href="https://morfikov.github.io
-/img/2015/06/4.wireshark-numery-sekwencyjne-3.png"><img src="https://morfikov.github.io
-/img/2015/06/4.wireshark-numery-sekwencyjne-3-1024x164.png" alt="4.wireshark-numery-sekwencyjne-3"></a></p>
+<p>Następne pakiety są już odpowiedzią serwera HTTP:</p>
+<p><img src="https://morfikov.github.io
+/img/2015/06/4.wireshark-numery-sekwencyjne-3.png#huge" alt=""></p>
 <p>Pakiet <code>133</code> określa początek odpowiedzi. Jego numer sekwencyjny jest cały czas taki sam, bo żaden z
 poprzednich pakietów pochodzących z serwera nie zawierał payloadu. Z kolei ten pakiet zawiera dane
 ważące <code>1460</code> bajtów.</p>
@@ -234,18 +226,16 @@ serwera o 1460 (1,348,640,148).</p>
 będzie numerem sekwencyjnym drugiej ale zwiększonym o ilość bajtów w payloadzie przesyłanego
 pakietu. Mogliśmy to zaobserwować w polu <code>Next sequence numer:</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2015/06/4.wireshark-numery-sekwencyjne-5.png" alt=""></p>
+/img/2015/06/4.wireshark-numery-sekwencyjne-5.png#small" alt=""></p>
 <p>Zatem 1,348,640,148 + 1460 = 1,348,641,608 .</p>
 <p>Numer sekwencyjny klienta przez cały czas trwania komunikacji pozostanie ciągle taki sam, bo ten
 klient nie przesyła żadnych danych do serwera, jedynie pakiety potwierdzające odbiór danych. Z kolei
 numer sekwencyjny serwera będzie się zwiększał z każdym odesłanym pakietem, bo te zawierają payload
 odpowiedzi żądania HTTP.</p>
 <p>Ten proces trwa aż do momentu przesłania wszystkich potrzebnych pakietów, które zawierają dane
-pobieranego obrazka z serwera
-HTTP:</p>
-<p><a href="https://morfikov.github.io
-/img/2015/06/4.wireshark-numery-sekwencyjne-6.png"><img src="https://morfikov.github.io
-/img/2015/06/4.wireshark-numery-sekwencyjne-6-1024x203.png" alt="4.wireshark-numery-sekwencyjne-6"></a></p>
+pobieranego obrazka z serwera HTTP:</p>
+<p><img src="https://morfikov.github.io
+/img/2015/06/4.wireshark-numery-sekwencyjne-6.png#huge" alt=""></p>
 <p>Pakiet <code>178</code> jest potwierdzeniem ostatniego segmentu, który klient otrzymał od serwera.</p>
 <p>W pakiecie <code>179</code> klient wysyła chęć zakończenia połączenia (flaga <code>FIN</code>). Numer sekwencyjny i
 potwierdzenia tego pakietu pozostaje taki sam jak w przypadku pakietu <code>178</code> , a to z tego powodu, że
@@ -260,7 +250,7 @@ się sprawa w przypadku pakietu <code>181</code> , bo również potwierdza odebr
 numerów. Znajduje się ono w Statistics =&gt; Flow Graph . W przypadku połączeń TCP, powinniśmy
 otrzymać poniższy obrazek:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/06/5.wireshark-graf-flow.png" alt=""></p>
+/img/2015/06/5.wireshark-graf-flow.png#big" alt=""></p>
 <p>Każda linijka to osobny pakiet TCP. Z lewej strony mamy rozrysowane kierunki przesyłu pakietu,
 porty, długość segmentu i oczywiście ustawione flagi. Po prawej zaś stronie mamy numery sekwencyjny
 i potwierdzenia w zapisie decymalnym.</p></div>
@@ -270,6 +260,7 @@ i potwierdzenia w zapisie decymalnym.</p></div>
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/tcp/">tcp</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sysctl/">sysctl</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sie%C4%87/">sieć</a>
 </div>
 					
 <div class="entry__share share">
@@ -331,9 +322,9 @@ i potwierdzenia w zapisie decymalnym.</p></div>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/udostepnianie-polaczenia-internetowego/">Udostępnianie połączenia internetowego</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/ram-cache-i-dirty-pages/">RAM, cache i dirty pages</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/riseup-vpn-na-strazy-prywatnosci/">Riseup VPN na straży prywatności</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/bezpieczenstwo-xservera-pod-linuxem/">Bezpieczeństwo Xserver&#39;a pod linux&#39;em</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/ram-cache-i-dirty-pages/">RAM, cache i dirty pages</a></li>
 		
 	</ul>
 </div>

@@ -185,18 +185,15 @@ Zatem jeśli chcemy się połączyć ze zdalnym serwerem, który nie należy do 
 zapytania powędrują przez VPN. Natomiast ruch DNS zostanie przesłany bezpośrednio do lokalnego
 serwera DNS i tu właśnie doświadczymy DNS leak. Poniżej przykład z wireshark'a. Z lewej strony mamy
 interfejs <code>tun0</code> . Po prawej zaś jest fizyczny interfejs <code>eth0</code> :</p>
-<p><a href="https://morfikov.github.io
-/img/2016/04/1.dns-leak-lokalny-serwer-isp.png"><img src="https://morfikov.github.io
-/img/2016/04/1.dns-leak-lokalny-serwer-isp-1024x215.png" alt="1.dns-leak-lokalny-serwer-isp"></a></p>
+<p><img src="https://morfikov.github.io
+/img/2016/04/1.dns-leak-lokalny-serwer-isp.png#huge" alt=""></p>
 <p>Trzeba wyraźnie zaznaczyć, że ten problem dotyczy jedynie lokalnych serwerów DNS, które zwykle są
 implementowane w domowych routerach WiFi. Po części też taki DNS leak może wystąpić w przypadku
 serwerów DNS od ISP ale to tylko wtedy, gdy ISP korzysta z prywatnych bloków adresowych, tj
 10.0.0.0/8 czy 192.168.0.0/16 . W przypadku globalnych providerów DNS, takich jak google, czy
-OpenDNS, DNS leak nie występuje. Poniżej
-przykład:</p>
-<p><a href="https://morfikov.github.io
-/img/2016/04/2.brak-dns-leak-google-serwer.png"><img src="https://morfikov.github.io
-/img/2016/04/2.brak-dns-leak-google-serwer-1024x229.png" alt="2.brak-dns-leak-google-serwer"></a></p>
+OpenDNS, DNS leak nie występuje. Poniżej przykład:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/04/2.brak-dns-leak-google-serwer.png#huge" alt=""></p>
 <p>Dzieje się tak dlatego, że adres IP 8.8.8.8 nie jest lokalny i zapytania do tego serwera muszą
 zostać przesłane przez bramę domyślną, tj. wrzucone w szyfrowany tunel, którym powędrują do VPN.
 VPN otrzyma takie żądanie DNS i prześle je w naszym imieniu do serwera DNS google. Następnie otrzyma
@@ -263,9 +260,8 @@ nameserver 192.168.3.1
 <p>To oznacza, że mechanizm działa prawidłowo i zapytania DNS są kierowane do serwera DNS otrzymanego
 od VPN. Możemy także zweryfikować połączenie pod kątem DNS leak zapuszczając ponownie wireshark'a na
 interfejsach <code>eth0</code> i <code>tun0</code> . Poniżej przykład:</p>
-<p><a href="https://morfikov.github.io
-/img/2016/04/3.brak-dns-leak-serwer-vpn.png"><img src="https://morfikov.github.io
-/img/2016/04/3.brak-dns-leak-serwer-vpn-1024x221.png" alt="3.brak-dns-leak-serwer-vpn"></a></p>
+<p><img src="https://morfikov.github.io
+/img/2016/04/3.brak-dns-leak-serwer-vpn.png#huge" alt=""></p>
 <h2 id="dodatkowe-zabezpieczenia-przed-dns-leak">Dodatkowe zabezpieczenia przed DNS leak</h2>
 <p>Dodatkowym zabezpieczeniem, które ochroni nas przed DNS leak jest zapora sieciowa. Przy pomocy
 <code>iptables</code> jesteśmy w stanie zablokować pakiety, które są przeznaczone na port 53. Chcielibyśmy

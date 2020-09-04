@@ -185,7 +185,7 @@ większe niż rozmiar całej partycji. Problem zaczyna się w momencie, gdy taki
 wypełniać faktycznymi danymi. Spójrzmy sobie na ten obrazek poniżej
 (<a href="https://en.wikipedia.org/wiki/Sparse_file">źródło</a>):</p>
 <p><img src="https://morfikov.github.io
-/img/2016/06/1.rozrzedone-pliki-sparse-files.png" alt=""></p>
+/img/2016/06/1.rozrzedone-pliki-sparse-files.png#big" alt=""></p>
 <p>Zielonym kolorem oznaczono faktyczne dane w pliku. Szarym kolorem zaś zaznaczono puste bloki, które
 nie są zapisane na dysku. Gdy teraz do takiego pliku będziemy chcieli dodać kolejną porcję danych, w
 strukturze systemu plików zostaną opisane któreś z tych pozostałych pustych bloków widocznych
@@ -221,8 +221,8 @@ sparse od normalnych plików? Jakby nie patrzeć, wszystkie menadżery plików j
 stanie odczytać rozmiar plików zwrócą nam wyniki podobne do tego jaki otrzymaliśmy wyżej w przypadku
 poleceń <code>ls</code> i <code>du</code> .</p>
 <p>Część narzędzi potrafiących rozpoznawać pliki rozrzedzone ma dodatkowy przełącznik, który można
-wykorzystać do wykrycia takich plików. Dla przykładu weźmy sobie ten <code>ls</code> . On dysponuje opcją <code>-s</code>
-, która jest nam w stanie wskazać faktyczny rozmiar utworzonego powyżej pliku:</p>
+wykorzystać do wykrycia takich plików. Dla przykładu weźmy sobie ten <code>ls</code> . On dysponuje opcją
+<code>-s</code> , która jest nam w stanie wskazać faktyczny rozmiar utworzonego powyżej pliku:</p>
 <pre><code># ls -als sparse-file
 0 -rw-r--r-- 1 root root 10G 2016-06-02 14:05:25 sparse-file
 </code></pre>
@@ -276,9 +276,9 @@ File size of /media/Grafi/sparse-file is 10737418240 (2621440 blocks of 4096 byt
 </code></pre>
 <p>Zatem mamy niby plik o faktycznym rozmiarze 4,2 MiB ale ma on 15 części. Plik został pokrojony za
 sprawą metadanych systemu plików. Jeśli się przyjrzymy uważnie, to w kolumnie <code>logical_offset</code>
-możemy dostrzec numery zapasowych sektorów głównego bloku systemu plików (te wpisane w <code>mkfs.ext4</code>
-). Im większy jest system plików, tym więcej jest kopi superbloka i więcej metadanych potrzebnych do
-opisu jego zawartości.</p>
+możemy dostrzec numery zapasowych sektorów głównego bloku systemu plików
+(te wpisane w <code>mkfs.ext4</code> ). Im większy jest system plików, tym więcej jest kopi superbloka i
+więcej metadanych potrzebnych do opisu jego zawartości.</p>
 <p>Gdybyśmy mieli zamiast tego pliku sparse zwykły plik wypełniony zerami i chcieli utworzyć na nim
 system plików, to on również by został tak pofragmentowany. Na dobrą sprawę będzie wyglądał tak samo
 jak ten wyżej. Przynajmniej w standardowej konfiguracji tworzenia systemu plików, tj. gdy tworzy się

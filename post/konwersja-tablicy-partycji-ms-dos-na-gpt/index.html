@@ -33,11 +33,11 @@ zarówno przy przechodzeniu z MS-DOS na GPT jak i odwrotnie, choć w tym drugim 
 trochę bardziej wysilić.">
 <meta itemprop="datePublished" content="2015-06-16T19:26:00+00:00" />
 <meta itemprop="dateModified" content="2015-06-16T19:26:00+00:00" />
-<meta itemprop="wordCount" content="841">
+<meta itemprop="wordCount" content="842">
 
 
 
-<meta itemprop="keywords" content="mbr,hdd,ssd,gpt," />
+<meta itemprop="keywords" content="mbr,hdd,ssd,gpt,partycja," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Konwersja tablicy partycji MS-DOS na GPT"/>
@@ -162,7 +162,7 @@ trochę bardziej wysilić.</p>
 <p>Do celów testowych wykorzystam mój stary dysk, na którym to są obecne 4 partycje, w tym jedna
 rozszerzona, na której to zostały ulokowane dwa dyski logiczne:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/06/3.dysk-po-konwersji-tablicy-ms-dos-na-gpt.png" alt=""></p>
+/img/2015/06/3.dysk-po-konwersji-tablicy-ms-dos-na-gpt.png#huge" alt=""></p>
 <p>Tak z kolei wygląda dysk widziany oczami <code>parted</code> , z tym, że z uwzględnieniem wolnych przestrzeni:</p>
 <pre><code>(parted) print free
 Model: WDC WD80 0JB-00JJA0 (scsi)
@@ -182,11 +182,9 @@ Number  Start       End         Size       Type      File system  Flags
 </code></pre>
 <p>By przeprowadzić bezproblemowo konwersję tablicy partycji MS-DOS na GPT, trzeba mieć troszeczkę
 wolnego miejsca na początku i na końcu dysku. Ile? Struktura GPT wygląda tak jak na rysunku poniżej
-(zaczerpnięty z
-<a href="https://en.wikipedia.org/wiki/GUID_Partition_Table">wiki</a>):</p>
-<p><a href="https://morfikov.github.io
-/img/2015/06/2.gpt-schemat.png"><img src="https://morfikov.github.io
-/img/2015/06/2.gpt-schemat-745x1024.png" alt="2.gpt-schemat"></a></p>
+(zaczerpnięty z <a href="https://en.wikipedia.org/wiki/GUID_Partition_Table">wiki</a>):</p>
+<p><img src="https://morfikov.github.io
+/img/2015/06/2.gpt-schemat.png#medium" alt=""></p>
 <p>Mamy tam zatem po jednym sektorze na MBR oraz nagłówek GPT, oraz 32 sektory na tablicę partycji.
 Łącznie daje to 34 sektory 512 bajtowe, co przekłada się na <code>17408</code> bajtów wolnego miejsca na
 początku dysku. Jak możemy zaobserwować, struktura tablicy partycji GPT ma jeszcze backup swojej
@@ -219,7 +217,7 @@ to GPT format!
 </code></pre>
 <p>Jak widać wyżej, <code>gdisk</code> wykrył, że ma do czynienia z tablicą partycji MS-DOS oraz poinformował nas,
 że dokonał jej konwersji na GPT, z tym, że zmiany póki co są dokonane jedynie w pamięci operacyjnej.
-Jeśli chcemy je wprowadzić w życie, wpisujemy <code>w</code>:</p>
+Jeśli chcemy je wprowadzić w życie, wpisujemy <code>w</code> :</p>
 <pre><code>Command (? for help): w
 
 Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
@@ -244,7 +242,7 @@ Found valid GPT with protective MBR; using GPT.
 <p>Czyli proces bez problemu się zakończył. Rzućmy jeszcze okiem na to jak wygląda struktura partycji w
 <code>gparted</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png" alt=""></p>
+/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png#huge" alt=""></p>
 <p>Są widoczne jakieś dwie dziury. Może <code>parted</code> nam coś więcej podpowie:</p>
 <pre><code>(parted) print free
 Model: WDC WD80 0JB-00JJA0 (scsi)
@@ -275,7 +273,7 @@ bootloadera o rozmiarze minimum 1MiB, najlepiej dać tam 128MiB. Ważne jest by 
 ustawioną flagę <code>bios_grub</code> . Ja wyciąłem ten kawałek z pierwszej partycji. Cały układ powinien
 zatem wyglądać tak jak na obrazku poniżej:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/06/4.odpowiedni-uklad-partycji-gpt.png" alt=""></p>
+/img/2015/06/4.odpowiedni-uklad-partycji-gpt.png#huge" alt=""></p>
 <p>Jeśli na dysku mieliśmy system operacyjny, to trzeba także przeinstalować bootloader przy pomocy
 <a href="https://morfikov.github.io
 /post/przygotowanie-srodowiska-chroot-do-pracy/">środowiska chroot</a>, najlepiej z
@@ -289,6 +287,7 @@ poziomu <a href="https://morfikov.github.io
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/">hdd</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssd/">ssd</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/gpt/">gpt</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/partycja/">partycja</a>
 </div>
 					
 <div class="entry__share share">
@@ -344,13 +343,13 @@ poziomu <a href="https://morfikov.github.io
 	<h3 class="related__title">Powiązane</h3>
 	<ul class="related__list">
 		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/mbr-ebr-i-tablica-partycji-dysku-twardego/">MBR, EBR i tablica partycji dysku twardego</a></li>
+		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/bad-sektor-w-dzienniku-systemu-plikow-ext4/">Bad sektor w dzienniku systemu plików ext4</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uszkodzony-sektor-na-dysku-i-jego-realokoacja/">Uszkodzony sektor na dysku i jego realokoacja</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/problematyczny-parametr-offline-uncorrectable/">Problematyczny parametr &#34;Offline Uncorrectable&#34;</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/mbr-ebr-i-tablica-partycji-dysku-twardego/">MBR, EBR i tablica partycji dysku twardego</a></li>
 		
 	</ul>
 </div>

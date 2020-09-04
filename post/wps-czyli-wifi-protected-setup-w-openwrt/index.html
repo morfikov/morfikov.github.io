@@ -39,7 +39,7 @@ mechanizm pod OpenWRT i zobaczymy czy cokolwiek z tego co ludzie piszą na necie
 praktyce.">
 <meta itemprop="datePublished" content="2016-05-05T18:04:55+00:00" />
 <meta itemprop="dateModified" content="2016-05-05T18:04:55+00:00" />
-<meta itemprop="wordCount" content="2465">
+<meta itemprop="wordCount" content="2477">
 
 
 
@@ -182,16 +182,17 @@ mechanizm pod OpenWRT i zobaczymy czy cokolwiek z tego co ludzie piszą na necie
 praktyce.</p>
 <h2 id="wps-pin-a-może-pbc">WPS PIN, a może PBC</h2>
 <p>Na wiki OpenWRT możemy wyczytać, że jest do wyboru <a href="https://wiki.openwrt.org/doc/uci/wireless#wps_options">spory wachlarz metod konfiguracyjnych
-WPS</a>. Mamy tam: usba, ethernet, label,
-display, ext_nfc_token, int_nfc_token, nfc_interface, push_button, keypad, virtual_display,
-physical_display, virtual_push_button oraz physical_push_button. Natomiast wspierana jest, póki
-co, jedna z nich: <code>push_button</code> . Dodatkowo mamy również w standardzie zaimplementowaną obsługę
-metody z PIN'em. Swego czasu ten PIN był zaimplementowany tak, że domyślnie przybierał postać
-<code>12345670</code> i jakby tego było mało, można było użyć tego PIN'u i zostać podłączonym do sieci nawet
-przy wyraźnym określeniu, że chce się korzystać z przycisków. Wszystko to za sprawą błędnej
-konfiguracji w pliku <code>/lib/netifd/hostapd.sh</code> . Ta dziura została załatana w nowszych wersjach
-OpenWRT, dokładniej w <a href="https://dev.openwrt.org/changeset/42553">r42553</a> i w przypadku, gdy używamy
-starszej wersji firmware, przydałoby się ją zaktualizować.</p>
+WPS</a>. Mamy tam: <code>usba</code> , <code>ethernet</code> ,
+<code>label</code> , <code>display</code> , <code>ext_nfc_token</code> , <code>int_nfc_token</code> , <code>nfc_interface</code> , <code>push_button</code> ,
+<code>keypad</code> , <code>virtual_display</code> , <code>physical_display</code> , <code>virtual_push_button</code> oraz
+<code>physical_push_button</code> . Natomiast wspierana jest, póki co, jedna z nich: <code>push_button</code> . Dodatkowo
+mamy również w standardzie zaimplementowaną obsługę metody z PIN'em. Swego czasu ten PIN był
+zaimplementowany tak, że domyślnie przybierał postać <code>12345670</code> i jakby tego było mało, można było
+użyć tego PIN'u i zostać podłączonym do sieci nawet przy wyraźnym określeniu, że chce się korzystać
+z przycisków. Wszystko to za sprawą błędnej konfiguracji w pliku <code>/lib/netifd/hostapd.sh</code> . Ta
+dziura została załatana w nowszych wersjach OpenWRT, dokładniej w
+<a href="https://dev.openwrt.org/changeset/42553">r42553</a> i w przypadku, gdy używamy starszej wersji
+firmware, przydałoby się ją zaktualizować.</p>
 <p>Przede wszystkim, na necie zarzuty pod adresem WPS dotyczą kodu PIN. W skrócie, chodzi oto, że może
 i ten kod ma 8 cyfr ale z racji swojego zaimplementowania potrzeba maksymalnie 11000 prób, by go
 złamać. To nie jest dużo, bo można to zrobić w parę godzin, najwyżej kilka dni. W zasadzie to WPS w
@@ -205,7 +206,7 @@ urządzenie do sieci. Tego typu rozwiązanie praktycznie niweluje możliwość a
 kodu PIN w mechanizmie WPS. Jak widzimy z powyższego opisu, kod PIN może być bezpieczny, tylko
 trzeba się upewnić, że producent routera zastosował blokadę, poniżej przykład:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/06/1.wps-lock-openwrt-test.png" alt=""></p>
+/img/2015/06/1.wps-lock-openwrt-test.png#huge" alt=""></p>
 <p>W przypadku OpenWRT ta blokada wykonaniu <code>hostapd</code> jest średnia. Z moich ustaleń wynika, że jeden
 nieprawidłowy kod PIN powoduje założenie blokady na jakieś 30 sekund. Czasami mniej czasami więcej.
 Nie wiem od czego to zależy. Podczas blokady nie wchodzi prawidłowy PIN. Także mechanizm WPS nie
@@ -427,8 +428,8 @@ komentarze jakie mamy w tym pliku.</p>
 <p>Można też zrezygnować z pliku <code>/etc/wpa_supplicant/wpa_supplicant.conf</code> całkowicie, tylko wtedy za
 każdym razem, gdy będziemy się podłączać do sieci, trzeba będzie wciskać przyciski, by na nowo
 powiązać urządzenia.</p>
-<p>Teraz jeszcze potrzebujemy konfiguracji dla interfejsu sieciowego w pliku <code>/etc/network/interfaces</code>
-:</p>
+<p>Teraz jeszcze potrzebujemy konfiguracji dla interfejsu sieciowego w pliku
+<code>/etc/network/interfaces</code> :</p>
 <pre><code>auto wlan1
 allow-hotplug wlan1
 iface wlan1 inet dhcp

@@ -204,23 +204,23 @@ celu jego konfiguracji. Jako, że my tutaj dysponujemy modemem LTE od Huawei, to
 sekcja <code>&quot;huawei&quot;: { }</code> . Tam z kolei mamy podsekcję <code>&quot;modes&quot;: { }</code> i tutaj właśnie są zlokalizowane
 konfiguracje trybów pracy modemu. Standardowo mamy tutaj te poniższe wpisy:</p>
 <pre><code>&quot;modes&quot;: {
-    &quot;preferlte&quot;: &quot;AT^SYSCFGEX=\\&quot;030201\\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;,
-    &quot;preferumts&quot;: &quot;AT^SYSCFGEX=\\&quot;0201\\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;,
-    &quot;lte&quot;: &quot;AT^SYSCFGEX=\\&quot;03\\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;,
-    &quot;umts&quot;: &quot;AT^SYSCFGEX=\\&quot;02\\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;,
-    &quot;gsm&quot;: &quot;AT^SYSCFGEX=\\&quot;01\\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;,
-    &quot;auto&quot;: &quot;AT^SYSCFGEX=\\&quot;00\\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;
+    &quot;preferlte&quot;: &quot;AT^SYSCFGEX=\&quot;030201\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;,
+    &quot;preferumts&quot;: &quot;AT^SYSCFGEX=\&quot;0201\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;,
+    &quot;lte&quot;: &quot;AT^SYSCFGEX=\&quot;03\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;,
+    &quot;umts&quot;: &quot;AT^SYSCFGEX=\&quot;02\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;,
+    &quot;gsm&quot;: &quot;AT^SYSCFGEX=\&quot;01\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;,
+    &quot;auto&quot;: &quot;AT^SYSCFGEX=\&quot;00\&quot;,3fffffff,2,4,7fffffffffffffff,,&quot;
 },
 </code></pre>
 <p>Mając dostępne tylko te powyższe tryby, nie da rady wymusić konkretnego pasma LTE, bo każdy z tych
 trybów ma <code>7fffffffffffffff</code> , co odpowiada za obsługę wszystkich pasm. Możemy jednak zmienić tę
 wartość na taką, którą odpowiada za konkretną częstotliwość. Najprościej jest po prostu dodać kilka
 dodatkowych wpisów i odpowiednio przerobić <code>7fffffffffffffff</code> , poniżej przykład:</p>
-<pre><code>&quot;lte-fdd-2100&quot;: &quot;AT^SYSCFGEX=\\&quot;03\\&quot;,3fffffff,2,1,1,,&quot;,
-&quot;lte-fdd-1800&quot;: &quot;AT^SYSCFGEX=\\&quot;03\\&quot;,3fffffff,2,4,4,,&quot;,
-&quot;lte-fdd-2600&quot;: &quot;AT^SYSCFGEX=\\&quot;03\\&quot;,3fffffff,2,4,40,,&quot;,
-&quot;lte-fdd-900&quot;: &quot;AT^SYSCFGEX=\\&quot;03\\&quot;,3fffffff,2,4,80,,&quot;,
-&quot;lte-fdd-800&quot;: &quot;AT^SYSCFGEX=\\&quot;03\\&quot;,3fffffff,2,4,80000,,&quot;
+<pre><code>&quot;lte-fdd-2100&quot;: &quot;AT^SYSCFGEX=\&quot;03\&quot;,3fffffff,2,1,1,,&quot;,
+&quot;lte-fdd-1800&quot;: &quot;AT^SYSCFGEX=\&quot;03\&quot;,3fffffff,2,4,4,,&quot;,
+&quot;lte-fdd-2600&quot;: &quot;AT^SYSCFGEX=\&quot;03\&quot;,3fffffff,2,4,40,,&quot;,
+&quot;lte-fdd-900&quot;: &quot;AT^SYSCFGEX=\&quot;03\&quot;,3fffffff,2,4,80,,&quot;,
+&quot;lte-fdd-800&quot;: &quot;AT^SYSCFGEX=\&quot;03\&quot;,3fffffff,2,4,80000,,&quot;
 </code></pre>
 <p>Pierwsza wartość liczbowa w komendzie AT, czyli <code>03</code> , wymusza LTE, zatem modem ma pracować tylko w
 tym trybie. Ostatnia wartość liczbowa, tj. <code>1</code> , <code>4</code> , <code>40</code> , <code>80</code> oraz <code>80000</code> , odpowiada kolejno
@@ -245,9 +245,8 @@ interfejs sieciowy przypisany modemowi LTE:</p>
 serwisie speedtest. Ja dla wygody testy robiłem z poziomu aplikacji na smartfona. Uzyskałem wyniki
 dla 2100 MHz, 1800 MHz, 2600 MHz i 800 MHz. Niestety na 900 MHz modem nie był w stanie zrealizować
 połączenia.</p>
-<p><a href="https://morfikov.github.io
-/img/2017/01/001-czestotliwosc-pasmo-lte-test-openwrt-lede.png"><img src="https://morfikov.github.io
-/img/2017/01/001-czestotliwosc-pasmo-lte-test-openwrt-lede-660x293.png" alt=""></a></p>
+<p><img src="https://morfikov.github.io
+/img/2017/01/001-czestotliwosc-pasmo-lte-test-openwrt-lede.png#huge" alt=""></p>
 <p>Widać zatem, że największą prędkość udało się uzyskać w paśmie 2600 MHz i w zasadzie można tę
 częstotliwość wymusić. Niemniej jednak, jeśli zmieniamy dość często miejsce pobytu, to lepiej jest
 pozostać przy automatycznym doborze częstotliwości, bo nie zawsze będziemy w zasięgu, np. tego pasma

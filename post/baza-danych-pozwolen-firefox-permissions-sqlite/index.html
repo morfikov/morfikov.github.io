@@ -172,7 +172,7 @@ dość prosty sposób. Niemniej jednak, nie we wszystkich z nich da się to tak 
 Add-ons -&gt; Plugins. Mamy tutaj wypisane wszystkie wtyczki, które zostały wykryte przez naszą
 przeglądarkę:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/07/1.firefox-plugins-wtyczki-konfiguracja-pozwolenia.png" alt=""></p>
+/img/2016/07/1.firefox-plugins-wtyczki-konfiguracja-pozwolenia.png#huge" alt=""></p>
 <p>Każda strona w internecie może uzyskać do nich dostęp jeśli będzie chciała. Zwróćmy zatem szczególną
 uwagę na przyciski przy każdej z wtyczek i upewnijmy się, że mamy tam <code>Ask to Acticate</code> . W ten
 sposób każdy taki plugin trzeba będzie aktywować ręcznie za każdym razem, gdy strona będzie chciała
@@ -180,13 +180,13 @@ z niego korzystać. Przejdźmy teraz na stronę Adobe, gdzie przetestujemy sobie
 aktywacji na wtyczce flash. Na samej stronie powinniśmy ujrzeć szereg obrazków podobnych do tego
 poniżej:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/07/2.firefox-strona-test-aktywacja-wtyczki.png" alt=""></p>
+/img/2016/07/2.firefox-strona-test-aktywacja-wtyczki.png#small" alt=""></p>
 <p>Każdy taki obrazek oznacza, że strona chciała skorzystać z danej wtyczki ale Firefox zablokował te
 żądania. Informacje o tym jaka wtyczka jest potrzebna, znajduje się na widocznym wyżej obrazku.
 Jeśli faktycznie chcemy aktywować daną wtyczkę na tej stronie, to klikamy w taki obrazek i po
 chwili pojawia nam się taki oto pop-up:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/07/3.firefox-pop-up-allow-and-remember.png" alt=""></p>
+/img/2016/07/3.firefox-pop-up-allow-and-remember.png#huge" alt=""></p>
 <p>Mamy tutaj widoczne dwa przyciski: <code>Allow Now</code> oraz <code>Allow and Remember</code> . W przypadku wybrania
 pierwszej opcji, strona będzie mogła skorzystać z pluginu flash ale tylko tymczasowo. Gdy z kolei
 wybierzemy drugą opcję, to do pliku <code>permissions.sqlite</code> zostanie dodany wyjątek i w późniejszym
@@ -194,11 +194,11 @@ czasie nie będziemy musieli sobie głowy zawracać aktywacją tej konkretnej wt
 <p>Problem natomiast zaczyna się w chwili odbierania tych uprawnień. O ile znamy adres domeny, to po
 jej załadowaniu możemy wybrać z menu kontekstowego <code>View Page Info</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2016/07/4.firefox-uprawnienia-strony-wtyczki.png" alt=""></p>
+/img/2016/07/4.firefox-uprawnienia-strony-wtyczki.png#small" alt=""></p>
 <p>W okienku, które nam się pojawi, przechodzimy do <code>Permissions</code> i tutaj już mamy wyszczególnione
 informacje na temat wszystkich zezwoleń dotyczących danego serwisu www:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/07/5.firefox-uprawnienia-strony-wtyczki.png" alt=""></p>
+/img/2016/07/5.firefox-uprawnienia-strony-wtyczki.png#big" alt=""></p>
 <p>Wszędzie tam, gdzie status różni się od <code>Use Default</code> są tworzone wyjątki, a informacje o nich
 wędrują do pliku <code>permissions.sqlite</code> .</p>
 <h2 id="czyszczenie-pliku-permissionssqlite">Czyszczenie pliku permissions.sqlite</h2>
@@ -215,8 +215,8 @@ zmienialiśmy jej uprawnienia? Oczywiście można to wyciągnąć z informacji o
 to bawił. Jako, że w pliku <code>permissions.sqlite</code> znajduje się lista wyjątków, to przydałoby się
 podejrzeć ten plik i usunąć wszystkie zbędne wpisy. Problem w tym, że Firefox nie umożliwia nam
 tego. Zatem zostają nam z grubsza dwie opcje: zmiana zezwoleń dla każdej pojedynczej strony oraz
-zwyczajne usunięcie tego pliku z katalogu profilu (
-<code>~/.mozilla/firefox/12345678.default/permissions.sqlite</code> ).</p>
+zwyczajne usunięcie tego pliku z katalogu
+profilu ( <code>~/.mozilla/firefox/12345678.default/permissions.sqlite</code> ).</p>
 <h2 id="edytowanie-pliku-permissionssqlite-przez-sqlite-manager">Edytowanie pliku permissions.sqlite przez SQLite Manager</h2>
 <p>Może i Firefox nie umożliwia nam ręcznej edycji pliku <code>permissions.sqlite</code> ale są dostępne dodatki,
 które operują bezpośrednio na nim. Jednym z nich jest <a href="https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/">SQLite
@@ -224,14 +224,14 @@ Manager</a>. Przy pomocy tego dodatku
 jesteśmy w stanie uzyskać dostęp do tabeli z uprawnieniami, gdzie mamy ładnie opisane domeny.
 Poniżej przykład:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/07/6.firefox-sql-manager-add-on.png" alt=""></p>
+/img/2016/07/6.firefox-sql-manager-add-on.png#huge" alt=""></p>
 <p>W kolumnie <code>permission</code> mamy dwie wartości: <code>1</code> lub <code>2</code> . Wartość <code>1</code> oznacza zezwolenie dostępu,
 zaś <code>2</code> odmowę dostępu. Każde ustawienie, które mogliśmy zmienić przez <code>View Page Info</code> na danej
 stronie, będzie miało w tej tabeli osobny wpis. Jeśli chcemy teraz cofnąć wszystkim domenom prawa do
 korzystania z pluginu flash, to wystarczy kliknąć na odpowiednich pozycjach prawym przyciskiem
 myszki i wybrać <code>Delete</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2016/07/7.firefox-sql-manager-add-on.png" alt=""></p>
+/img/2016/07/7.firefox-sql-manager-add-on.png#huge" alt=""></p>
 <p>Można także wykonać zwykłe zapytanie do bazy danych i przy jego pomocy usunąć konkretne rekordy. Dla
 przykładu przechodzimy na zakładkę <code>Execute SQL</code> i wybieramy Data Manipulation &gt; DELETE . Następnie
 wpisujemy to poniższe zapytanie:</p>
@@ -240,7 +240,7 @@ wpisujemy to poniższe zapytanie:</p>
 <p>Zapytanie powinno wykonać się bez błędów, a z tabeli uprawnień powinny zniknąć wszystkie wpisy,
 które miały w kolumnie <code>type</code> wartość <code>plugin:flash</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2016/07/8.firefox-sql-manager-add-on.png" alt=""></p>
+/img/2016/07/8.firefox-sql-manager-add-on.png#huge" alt=""></p>
 <p>Po edycji bazy danych musimy jeszcze uruchomić ponownie przeglądarkę.</p></div>
 				
 				<footer class="entry__footer">
@@ -303,15 +303,15 @@ które miały w kolumnie <code>type</code> wartość <code>plugin:flash</code> :
 	<h3 class="related__title">Powiązane</h3>
 	<ul class="related__list">
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/systemowy-klient-tor-w-torbrowser/">Systemowy klient TOR w TorBrowser</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/systemowy-klient-tor-w-torbrowser/">Systemowy klient Tor w TorBrowser</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/aktualizacja-firefoxa-thunderbirda-w-debianie/">Aktualizacja Firefox&#39;a i Thunderbird&#39;a w debianie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/metadane-plikow-graficznych-exif/">Metadane plików graficznych (EXIF)</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-cache-dns-w-firefoxie/">Konfiguracja cache DNS w Firefox&#39;ie</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wiecej-niz-jeden-profil-w-firefoxie/">Więcej niż jeden profil w Firefox&#39;ie</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/usuwanie-wpisow-z-aboutconfig-w-firefoxie/">Usuwanie wpisów z about:config w Firefox&#39;ie</a></li>
 		
 	</ul>
 </div>

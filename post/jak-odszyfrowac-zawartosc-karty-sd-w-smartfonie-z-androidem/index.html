@@ -189,17 +189,13 @@ Zakładam zatem w tym miejscu, że nasz smartfon przeszedł proces root.</p>
 <p>Weźmy sobie zatem w łapki nasz smartfon i wsadźmy do niego jakąś kartę SD, którą zamierzamy
 sformatować jako pamięć wewnętrzna. Cały proces jest niemal automatyczny i wystarczy przejść do
 Ustawienia =&gt; Pamięć plików i kliknąć w &quot;Karta SD&quot;. Mamy tam pozycję &quot;Sformatuj jako pamięć wewn.&quot;
-i to w nią
-klikamy.</p>
-<p><a href="https://morfikov.github.io
-/img/2017/02/001.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png"><img src="https://morfikov.github.io
-/img/2017/02/001.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd-371x660.png" alt=""></a></p>
+i to w nią klikamy.</p>
+<p><img src="https://morfikov.github.io
+/img/2017/02/001.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#medium" alt=""></p>
 <p>Postępujemy zgodnie z informacjami na ekranie i po chwili karta powinna zostać przygotowana do
-pracy, tj. sformatowana, zaszyfrowana i zamontowana w
-systemie:</p>
-<p><a href="https://morfikov.github.io
-/img/2017/02/002.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png"><img src="https://morfikov.github.io
-/img/2017/02/002.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd-660x390.png" alt=""></a></p>
+pracy, tj. sformatowana, zaszyfrowana i zamontowana w systemie:</p>
+<p><img src="https://morfikov.github.io
+/img/2017/02/002.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#huge" alt=""></p>
 <p>Możemy też sprawdzić, gdzie Android montuje naszą kartę SD w systemie (przez <code>adb</code>) korzystając z
 polecenia <code>mount</code> :</p>
 <pre><code>root@Y5:/ # mount | grep expand
@@ -243,8 +239,8 @@ root@Y5:/ # strings /system/bin/vold | grep -i expand
 /mnt/expand/%s
 %s/expand_%s.key
 </code></pre>
-<p>Wiemy zatem, że klucz nazywa się <code>expand_%s.key</code> , z tym, że do końca nie wiem za co odpowiada <code>%s</code>
-. Tak czy inaczej, wszystkie klucze są przechowywane pod <code>/data/misc/vold/</code> :</p>
+<p>Wiemy zatem, że klucz nazywa się <code>expand_%s.key</code> , z tym, że do końca nie wiem za co odpowiada
+<code>%s</code> . Tak czy inaczej, wszystkie klucze są przechowywane pod <code>/data/misc/vold/</code> :</p>
 <pre><code>root@Y5:/ # ls -al /data/misc/vold/
 drwx------ root     root              2017-02-08 22:40 bench
 -rw------- root     root           16 2017-02-08 22:40 expand_06bc225178c5900fe64800e4b70efd25.key
@@ -269,8 +265,7 @@ wykorzystywany w procesie szyfrowania i deszyfrowania informacji na karcie SD or
 szereg offsetów. Zgodnie z <a href="https://source.android.com/devices/storage/adoptable#security">informacjami jakie znalazłem
 tutaj</a>, Android korzysta z
 <code>aes-cbc-essiv:sha256</code> . Offsety mogą być różne ale za punkt wyjścia można obrać <code>0</code> . Zatem linijka
-z <code>dmsetup</code> przybierze poniższą
-postać:</p>
+z <code>dmsetup</code> przybierze poniższą postać:</p>
 <pre><code># dmsetup create sdcard --table &quot;0 `blockdev --getsize /dev/sdb2` crypt aes-cbc-essiv:sha256 6c33be5ddf7ba0d0ca41fed7a78f75db 0 /dev/sdb2 0&quot;
 </code></pre>
 <p>Dokładne <a href="https://gitlab.com/cryptsetup/cryptsetup/wikis/DMCrypt">wyjaśnienie wszystkich opcji</a>

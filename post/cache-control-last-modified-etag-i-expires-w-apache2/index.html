@@ -193,7 +193,7 @@ postępuje w przypadku wysłanego żądanie do serwera oraz otrzymanej odpowiedz
 zapytania i
 odpowiedzi:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/08/1.etag-last-modified-header-naglowek-przegladarka.png" alt=""></p>
+/img/2016/08/1.etag-last-modified-header-naglowek-przegladarka.png#huge" alt=""></p>
 <p><code>Request Headers</code> , to są nagłówki zapytania, które przesłała przeglądarka serwerowi. Po otrzymaniu
 ich, serwer wysłał odpowiedź z szeregiem nagłówków, które są widoczne w <code>Response Headers</code> . Nas na
 dobrą sprawę interesują tylko dwa nagłówki w odpowiedzi: <code>Last-Modified</code> oraz <code>ETag</code> .</p>
@@ -203,7 +203,7 @@ standardowe nagłówki HTTP, które dotyczą konfiguracji cache. Są to <code>ET
 Gdybyśmy teraz w przeglądarce załadowali następną stronę w obrębie tej witryny, to praktycznie
 wszystkie jej elementy (za wyjątkiem głównego pliku <code>text/html</code> ) zostaną wczytane z cache:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/08/2.przegladarka-cache-zasobow.png" alt=""></p>
+/img/2016/08/2.przegladarka-cache-zasobow.png#huge" alt=""></p>
 <p>Nagłówki <code>Last-Modified</code> oraz <code>ETag</code> to walidatory (validators), które mają za zadanie zweryfikować
 aktualność zasobu, czyli nakazać przeglądarce wysłanie do serwera zapytania warunkowego (conditional
 request) w odpowiednim momencie. Zapytania warunkowe są wysyłane w oparciu o informacje dotyczące
@@ -252,7 +252,7 @@ zostanie załadowany z cache przeglądarki. Natomiast w drugim przypadku, przegl
 wysłać zapytanie GET i pobrać raz jeszcze cały zasób, który stracił ważność. Poniżej jest
 zobrazowana ta sytuacja:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/08/3.etag-last-modified-304-walidacja.png" alt=""></p>
+/img/2016/08/3.etag-last-modified-304-walidacja.png#huge" alt=""></p>
 <p>Widzimy tutaj dwie dyrektywy: <code>If-Modified-Since:Mon, 01 Aug 2016 09:53:38 GMT</code> oraz
 <code>If-None-Match:&quot;717-538ff93078200&quot;</code> . To są warunki zapytania warunkowego. Jeśli, któryś z nich nie
 jest spełniony, to zasób zostanie pobrany ponownie. W tym przypadku <code>If-Modified-Since</code> wskazuje tę
@@ -304,7 +304,7 @@ cache, który tym razem będzie się odnosił do czasu modyfikacji pliku na serw
 obrazująca nagłówek <code>Expires</code>
 :</p>
 <p><img src="https://morfikov.github.io
-/img/2016/08/4.expires-cache-control-header-naglowek-przegladarka.png" alt=""></p>
+/img/2016/08/4.expires-cache-control-header-naglowek-przegladarka.png#huge" alt=""></p>
 <p>Widzimy, że nagłówek <code>Expires</code> wskazuje konkretną datę w przyszłości: <code>Mon, 08 Aug 2016 14:56:15 GMT</code> . Jeśli przeliczyć sekundy, to okaże się, że są one równe tej wartości, która figuruje w
 nagłówku <code>Cache-Control</code> w <code>max-age=604800</code> , czyli równo 7 dni. Przez ten czas, przeglądarka
 będzie wczytywać zasoby ze swojego cache.</p>
@@ -356,7 +356,7 @@ określone przez dyrektywę <code>proxy-revalidate</code> .</li>
 kolejności.</a></p>
 <p>Poniżej jest przykład ustawienia nagłówka <code>Cache-Control</code> . Ten kawałek kodu trzeba dopisać do pliku
 <code>/etc/apache2/apache2.conf</code> :</p>
-<pre><code>&lt;FilesMatch &quot;\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$&quot;&gt;
+<pre><code>&lt;FilesMatch &quot;.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$&quot;&gt;
     Header set Cache-Control &quot;max-age=29030400, private&quot;
 &lt;/FilesMatch&gt;
 </code></pre>
@@ -373,13 +373,13 @@ zweryfikuje ustawienia nagłówków konkretnych zasobów w serwisie, to zawsze m
 redbot</a>, który nam wyrzuci przyjazne
 podsumowanie:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/08/5.cache-control-expires-last-modified-etag-redbot-test.png" alt=""></p>
+/img/2016/08/5.cache-control-expires-last-modified-etag-redbot-test.png#huge" alt=""></p>
 <p><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching">Pod tym
 linkiem</a>
 z kolei jest ciekawa rozpiska na temat wykorzystania nagłówków HTTP odpowiedzialnych za instrukcje
 dla cache przeglądarek. Jest tam min. ta poniższa fotka:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/08/http-cache-decision-tree.png" alt=""></p>
+/img/2016/08/http-cache-decision-tree.png#huge" alt=""></p>
 <p>Widzimy zatem, że są wykorzystane jedynie dwa nagłówki: <code>Cache-Control</code> i <code>ETag</code> . Z tym, że ten
 drugi jest używany jedynie w przypadku, gdy odpowiedź z serwera ma podlegać buforowaniu. Wszystkie
 opcje dla cache są dostosowywane przez poszczególne parametry nagłówka <code>Cache-Control</code> . Dlaczego

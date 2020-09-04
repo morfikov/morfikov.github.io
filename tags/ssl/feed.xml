@@ -98,5 +98,79 @@ nagłówki HSTS i w jaki sposób są one w stanie poprawić bezpieczeństwo prot
 wykorzystywanych podczas szyfrowania zawartości stron internetowych.&lt;/p&gt;</description>
     </item>
     
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Implementacja protokołu SSL/TLS w vsftpd</title>
+      <link>https://morfikov.github.io/post/implementacja-protokolu-ssltls-w-vsftpd/</link>
+      <pubDate>Sat, 13 Feb 2016 22:30:54 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/implementacja-protokolu-ssltls-w-vsftpd/</guid>
+      <description>&lt;p&gt;Kwestię &lt;a href=&#34;https://morfikov.github.io
+/post/konfiguracja-vsftpd-w-debianie/&#34;&gt;konfiguracji serwera FTP na debianie w oparciu o
+vsftpd&lt;/a&gt; już przerabialiśmy. Została nam
+jeszcze do omówienia implementacja protokołu SSL/TLS. FTP nie jest bezpiecznym protokołem i wszelkie
+dane logowania są przesyłane przez sieć otwartym tekstem. W przypadku, gdy stawiamy lokalny serwer
+FTP w zaufanej sieci lub też będziemy korzystać jedynie z dostępu anonimowego, to raczej nie
+potrzebujemy szyfrować danych. Trzeba pamiętać, że każde szyfrowanie dość mocno obciąża procesor,
+który może stanowić wąskie gardło przy przesyle danych. W tym wpisie założenie jest takie, że
+bezpieczeństwo danych, które będziemy przesyłać za pomocą protokołu FTP, jest rzeczą najważniejszą i
+dlatego wdrożyć szyfrowanie.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Wymuszenie SSL/TLS przy pomocy vhost&#39;ów w Apache2</title>
+      <link>https://morfikov.github.io/post/wymuszenie-ssl-tls-przy-pomocy-vhostow-apache2/</link>
+      <pubDate>Tue, 26 May 2015 11:24:13 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wymuszenie-ssl-tls-przy-pomocy-vhostow-apache2/</guid>
+      <description>&lt;p&gt;Mając na stronie www formularze logowania czy rejestracji (ewentualnie panele administracyjne),
+rozmyślnym krokiem jest implementacja protokołu SSL/TLS. Jeśli mamy potrzebę, możemy także pokusić
+się o zaszyfrowanie całego ruchu w obrębie naszej witryny. Problem w tym, że odwiedzający naszą
+stronę użytkownicy mogą korzystać z linków, czy wpisywać adresy, które nie rozpoczynają się od
+&lt;code&gt;https://&lt;/code&gt; , a jedynie od &lt;code&gt;http://&lt;/code&gt; . W takim przypadku, nawet jeśli szyfrujemy ruch w serwisie, to
+odwiedzenie tego typu adresu zwróci nam stronę kanałem nieszyfrowanym, co może godzić w
+bezpieczeństwo samej strony jak i również w naszą/czyjąś prywatność. W tym krótki artykule
+spróbujemy tak skonfigurować serwer Apache2, by przekierował tego typu zapytania i słał je
+szyfrowanym tunelem.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Logjam, czyli nowa podatność w SSL/TLS</title>
+      <link>https://morfikov.github.io/post/logjam-czyli-nowa-podatnosc-w-ssltls/</link>
+      <pubDate>Mon, 25 May 2015 08:12:39 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/logjam-czyli-nowa-podatnosc-w-ssltls/</guid>
+      <description>&lt;p&gt;Jak donoszą &lt;a href=&#34;https://blog.cryptographyengineering.com/2015/05/22/attack-of-week-logjam/&#34;&gt;ostatnio&lt;/a&gt;
+&lt;a href=&#34;https://niebezpiecznik.pl/post/logjam-nowa-podatnosc-w-protokolach-https-ssh-i-ipsec/&#34;&gt;media&lt;/a&gt;, mamy
+kolejną dziurę (&lt;em&gt;&lt;strong&gt;logjam&lt;/strong&gt;&lt;/em&gt;) dotyczącą szyfrowania SSL/TLS, a konkretnie rozchodzi się o
+powszechnie stosowany na całym świecie protokół
+&lt;a href=&#34;https://pl.wikipedia.org/wiki/Protok%C3%B3%C5%82_Diffiego-Hellmana&#34;&gt;Diffiego-Hellmana&lt;/a&gt; . I znów
+jest podobny scenariusz, bo ten problem nie powinien mieć miejsca ale z powodu wstecznej
+kompatybilności, tj. zapewnienie wsparcia dla wszystkich tych przestarzałych szyfrów tak by te
+przedwieczne systemy/maszyny mogły działać, można doprowadzić do osłabienie mechanizmów, które
+powinny być wykorzystywane obecnie. OK, może nie tyle osłabić, co wykorzystać te słabsze
+odpowiedniki zamiast tych mocniejszych.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>WordPress: Szyfrowanie SSL/TLS</title>
+      <link>https://morfikov.github.io/post/wordpress-szyfrowanie-ssltls/</link>
+      <pubDate>Sun, 24 May 2015 19:54:15 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wordpress-szyfrowanie-ssltls/</guid>
+      <description>&lt;p&gt;W dzisiejszych czasach bez szyfrowania ani rusz i na dobrą sprawę by prowadzić jakikolwiek serwis
+www, trzeba wliczyć w koszty overhead jaki niesie ze sobą zaszyfrowanie zawartości takiej witryny.
+Oczywiście, niektórzy minimalizują straty ograniczając się jedynie do zaszyfrowania formularza
+rejestracji/logowania lub też i ewentualnego panelu administracyjnego. Tak czy inaczej, &lt;a href=&#34;https://codex.wordpress.org/Administration_Over_SSL&#34;&gt;WordPress
+domyślnie nie szyfruje niczego&lt;/a&gt; i przydałoby
+się zmienić nieco jego konfigurację.&lt;/p&gt;
+&lt;p&gt;Poniższe instrukcje zadziałają jedynie w przypadku gdy pod serwer mamy już podpięty certyfikat. Nie
+będę tutaj opisywał jak poprawnie skonfigurować serwer Apache by włączyć w nim obsługę szyfrowania
+SSL/TLS. Jak znajdę trochę czasu, to na pewno wstawię tutaj link do przystępnego opisu.&lt;/p&gt;</description>
+    </item>
+    
   </channel>
 </rss>

@@ -27,11 +27,11 @@ które możemy sobie dostosować konfigurując tym samym, to w jaki sposób nasz
 zjawisko utraty pakietów podczas ich przesyłu między dwoma punktami sieciowymi.">
 <meta itemprop="datePublished" content="2015-09-23T19:31:27+00:00" />
 <meta itemprop="dateModified" content="2015-09-23T19:31:27+00:00" />
-<meta itemprop="wordCount" content="1873">
+<meta itemprop="wordCount" content="1874">
 
 
 
-<meta itemprop="keywords" content="tcp,sysctl," />
+<meta itemprop="keywords" content="tcp,sysctl,sieć," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Retransmisja i duplikaty pakietów w TCP"/>
@@ -164,7 +164,7 @@ zjawisko utraty pakietów podczas ich przesyłu między dwoma punktami sieciowym
 RTT (Round-Trip Time) pomiędzy nadawcą i odbiorcą. By zapobiec zbędnym retransmisjom segmentów,
 które uległy jedynie opóźnieniu i nie zostały zgubione, minimalne RTO (stała TCP_RTO_MIN
 zdefiniowana w kenrelu) zostało ustawione na minimum 200ms. Możemy się o tym przekonać analizując
-wyjście <code>ss -i</code> , gdzie nie znajdziemy wpisu z RTO&lt;200 .</p>
+wyjście <code>ss -i</code> , gdzie nie znajdziemy wpisu z RTO &lt;200 .</p>
 <p>Jeśli się przyjrzymy uważniej, dostrzeżemy, że pakiety <code>SYN</code> mają jakąś niestandardową wartość,
 która sugeruje iż te pakiety nie są podpięte pod tę powyższą zasadę wyliczania czasu RTO. W sumie
 nie może być przecież inaczej, bo pakiety <code>SYN</code> rozpoczynają nowe połączenie i żaden pakiet z
@@ -205,11 +205,9 @@ otrzymany poza kolejnością pakiet wysyła zduplikowane potwierdzenie <code>ACK
 kilka takich pakietów (zwykle 3), musi natychmiast wstrzymać transmisję następnych danych i dokonać
 retransmisji zagubionego segmentu. Dopiero po otrzymaniu od klienta potwierdzenia tego pakietu,
 transmisja wraca do normy.</p>
-<p>Poniżej jest przykładowa sytuacja, gdzie nastąpiła szybka retransmisja
-pakietu:</p>
-<p><a href="https://morfikov.github.io
-/img/2015/07/1.szybka-retransmisja-pakietu-wireshark.png"><img src="https://morfikov.github.io
-/img/2015/07/1.szybka-retransmisja-pakietu-wireshark-1024x222.png" alt="1.szybka-retransmisja-pakietu-wireshark"></a></p>
+<p>Poniżej jest przykładowa sytuacja, gdzie nastąpiła szybka retransmisja pakietu:</p>
+<p><img src="https://morfikov.github.io
+/img/2015/07/1.szybka-retransmisja-pakietu-wireshark.png#huge" alt=""></p>
 <p>Jak widzimy, pakiet 344 został dostarczony do klienta i potwierdzenie (254041) w pakiecie 345
 zostało wysłane do nadawcy. Następny pakiet się zagubił i do klienta dotarł inny pakiet, który ma
 zły numer sekwencyjny. W pakiecie 347, klient wysyła duplikat potwierdzenia z numerem takim jak był
@@ -290,9 +288,8 @@ próbował ustanowić nowe połączenie. By zmienić ilość retransmisji pakiet
 zretransmitować pakiet <code>SYN</code> 4 razy i jeśli żadna z tych prób się nie powiedzie, po czasie 15 sekund
 kernel odpuści. Popatrzmy zatem jak takie zachowanie wygląda w
 praktyce:</p>
-<p><a href="https://morfikov.github.io
-/img/2015/07/1.retransmisja-syn-wireshark.png"><img src="https://morfikov.github.io
-/img/2015/07/1.retransmisja-syn-wireshark-1024x124.png" alt="1.retransmisja-syn-wireshark"></a></p>
+<p><img src="https://morfikov.github.io
+/img/2015/07/1.retransmisja-syn-wireshark.png#huge" alt=""></p>
 <h3 id="retransmisja-pakietów-syn-ack">Retransmisja pakietów SYN-ACK</h3>
 <p>Gdy serwer otrzymuje zapytanie <code>SYN</code>, natychmiast wysyła odpowiedź w postaci pakietu z ustawionymi
 flagami <code>SYN</code> i <code>ACK</code> umieszczając jednocześnie to połączenie w kolejce (backlog queue) do chwili aż
@@ -307,11 +304,9 @@ połączeń przez zmianę ilości retransmisji pakietów <code>SYN-ACK</code> . 
 <pre><code>net.ipv4.tcp_synack_retries = 2
 </code></pre>
 <p>Trzeba jednak pamiętać, że obniżenie wartości tego parametru w przypadku słabych łącz może powodować
-problemy. Poniżej fotka z próbą retransmisji dwóch pakietów <code>SYN-ACK</code>
-:</p>
-<p><a href="https://morfikov.github.io
-/img/2015/07/2.retransmisja-syn-ack-wireshark.png"><img src="https://morfikov.github.io
-/img/2015/07/2.retransmisja-syn-ack-wireshark-1024x114.png" alt="2.retransmisja-syn-ack-wireshark"></a></p>
+problemy. Poniżej fotka z próbą retransmisji dwóch pakietów <code>SYN-ACK</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2015/07/2.retransmisja-syn-ack-wireshark.png#huge" alt=""></p>
 <h2 id="zbędna-retransmisja-spurious-retransmission">Zbędna retransmisja (Spurious retransmission)</h2>
 <p>Warto też wiedzieć, że istnieją także przypadki gdzie protokół TCP może zainicjować retransmisję
 segmentu, który nie został utracony. Oczywistym jest, że tego typu sytuacja nie powinna mieć miejsca
@@ -347,6 +342,7 @@ już odebrany przez odbiorcę i szybka retransmisja w takim przypadku często ni
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/tcp/">tcp</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sysctl/">sysctl</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sie%C4%87/">sieć</a>
 </div>
 					
 <div class="entry__share share">
@@ -410,7 +406,7 @@ już odebrany przez odbiorcę i szybka retransmisja w takim przypadku często ni
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/fragmentacja-pakietu-i-zmiana-wartosci-mtu/">Fragmentacja pakietu i zmiana wartości MTU</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/znacznik-czasu-timestamp-w-protokole-tcp/">Znacznik czasu (timestamp) w protokole TCP</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/numery-sekwencyjne-w-strumieniu-tcp/">Numery sekwencyjne w strumieniu TCP</a></li>
 		
 	</ul>
 </div>

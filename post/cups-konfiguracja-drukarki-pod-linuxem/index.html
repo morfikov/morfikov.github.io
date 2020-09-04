@@ -181,59 +181,55 @@ na szczegółowej jej konfiguracji.</p>
 <h2 id="konfiguracja-drukarki-via-cups">Konfiguracja drukarki via CUPS</h2>
 <p>Pliki konfiguracyjne dla demona <code>cupsd</code> znajdują się w katalogu <code>/etc/cups/</code> . Jeśli chcemy
 dostosować usługę drukowania do własnych potrzeb rezygnując przy tym ze standardowej konfiguracji
-demona, powinniśmy zainteresować się plikami <code>/etc/cups/cupsd.conf</code> oraz <code>/etc/cups/cups-files.conf</code>
-. W przypadku tej drukarki, nie musimy nic ruszać, bo po dodaniu jej działa ona OOTB. Prawdopodobnie
-większość drukarek z CUPS działa w ten sposób. Także przechodzimy na podany wyżej adres. Naszym
-oczom powinien ukazać się poniższy panel:</p>
+demona, powinniśmy zainteresować się plikami <code>/etc/cups/cupsd.conf</code> oraz
+<code>/etc/cups/cups-files.conf</code> . W przypadku tej drukarki, nie musimy nic ruszać, bo po dodaniu jej
+działa ona OOTB. Prawdopodobnie większość drukarek z CUPS działa w ten sposób. Także przechodzimy
+na podany wyżej adres. Naszym oczom powinien ukazać się poniższy panel:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/1.cups-drukarka-linux-debian-serwer-wydruku.png" alt=""></p>
+/img/2016/05/1.cups-drukarka-linux-debian-serwer-wydruku.png#huge" alt=""></p>
 <p>Klikamy na zakładkę <code>Administration</code> i dodajemy nową drukarkę klikając w <code>Add Printer</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/2.cups-drukarka-linux-debian-serwer-wydruku.png" alt=""></p>
+/img/2016/05/2.cups-drukarka-linux-debian-serwer-wydruku.png#huge" alt=""></p>
 <p>Jeśli konfigurujemy drukarkę sieciową, to z dostępnych opcji wybieramy <code>AppSocket/HP JetDirect</code> . W
 przypadku lokalnych drukarek, powinny one być widoczne automatycznie:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/3.cups-drukarka-linux-debian-serwer-wydruku.png" alt=""></p>
-<p>W polu <code>Connection</code> określamy adres drukarki sieciowej. W tym przypadku <code>socket://192.168.1.1:9100</code>
-, jako, że na routerze nasłuchuje na porcie 9100 demon <code>p910nd</code> :</p>
+/img/2016/05/3.cups-drukarka-linux-debian-serwer-wydruku.png#huge" alt=""></p>
+<p>W polu <code>Connection</code> określamy adres drukarki sieciowej. W tym przypadku
+<code>socket://192.168.1.1:9100</code> , jako, że na routerze nasłuchuje na porcie 9100 demon <code>p910nd</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/4.cups-drukarka-linux-debian-serwer-wydruku.png" alt=""></p>
+/img/2016/05/4.cups-drukarka-linux-debian-serwer-wydruku.png#huge" alt=""></p>
 <p>Teraz opisujemy drukarkę. Podajemy jej nazwę, krótki opis oraz lokalizację:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/5.cups-drukarka-linux-debian-serwer-wydruku.png" alt=""></p>
+/img/2016/05/5.cups-drukarka-linux-debian-serwer-wydruku.png#big" alt=""></p>
 <p>Następnie wybieramy producenta drukarki:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/6.cups-drukarka-linux-debian-serwer-wydruku.png" alt=""></p>
+/img/2016/05/6.cups-drukarka-linux-debian-serwer-wydruku.png#huge" alt=""></p>
 <p>Oraz jej model:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/7.cups-drukarka-linux-debian-serwer-wydruku.png" alt=""></p>
+/img/2016/05/7.cups-drukarka-linux-debian-serwer-wydruku.png#huge" alt=""></p>
 <p>Dostosowujemy także domyślne ustawienia wydruku (można je zmienić w dowolnym czasie):</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/8.cups-drukarka-linux-debian-serwer-wydruku.png" alt=""></p>
+/img/2016/05/8.cups-drukarka-linux-debian-serwer-wydruku.png#huge" alt=""></p>
 <p>Po chwili drukarka powinna zostać dodana:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/9.cups-drukarka-linux-debian-serwer-wydruku.png" alt=""></p>
+/img/2016/05/9.cups-drukarka-linux-debian-serwer-wydruku.png#huge" alt=""></p>
 <p>Na samym dole mamy informacje, że póki co, drukarka jest w stanie bezczynnym, bo nie przetwarza
 żadnych prac. Przetestujmy ją zatem, by sprawdzić czy nam coś wydrukuje. Dla przykładu odpalmy
 pierwszy z brzega edytor tekstu i z jego menu wybierzmy <code>Print</code> . Powinno nam się pojawić to
 poniższe okienko:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/10.cups-drukarka-linux-debian-serwer-wydruku.png" alt=""></p>
+/img/2016/05/10.cups-drukarka-linux-debian-serwer-wydruku.png#big" alt=""></p>
 <p>Widzimy, że drukarka została rozpoznana. Po ikonce z lewej strony możemy stwierdzić, że jest to
 drukarka sieciowa. Mamy również informacje na temat jej nazwy oraz lokalizacji. Gdy klikniemy na
 drukarkę, rozpocznie się próba połączenia z demonem, który ją obsługuje na routerze. Na powyższej
 fotce widzimy też, że trwa pobieranie informacji o drukarce. Jeśli połączenie zostanie ustanowione,
-informacje zostaną pobrane i będziemy mogli wydrukować sobie stronę
-testową:</p>
-<p><a href="https://morfikov.github.io
-/img/2016/05/11.cups-drukarka-linux-debian-serwer-wydruku.png"><img src="https://morfikov.github.io
-/img/2016/05/11.cups-drukarka-linux-debian-serwer-wydruku-1024x320.png" alt="11.cups-drukarka-linux-debian-serwer-wydruku"></a></p>
+informacje zostaną pobrane i będziemy mogli wydrukować sobie stronę testową:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/05/11.cups-drukarka-linux-debian-serwer-wydruku.png#huge" alt=""></p>
 <p>Powyżej widzimy, że plik został zakolejkowany i jest aktualnie przetwarzany przez drukarkę. Po
-chwili zadanie zostanie ukończone i drukarka wypluje zadrukowaną
-kartkę:</p>
-<p><a href="https://morfikov.github.io
-/img/2016/05/12.cups-drukarka-linux-debian-serwer-wydruku.png"><img src="https://morfikov.github.io
-/img/2016/05/12.cups-drukarka-linux-debian-serwer-wydruku-1024x322.png" alt="12.cups-drukarka-linux-debian-serwer-wydruku"></a></p></div>
+chwili zadanie zostanie ukończone i drukarka wypluje zadrukowaną kartkę:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/05/12.cups-drukarka-linux-debian-serwer-wydruku.png#huge" alt=""></p></div>
 				
 				<footer class="entry__footer">
 					

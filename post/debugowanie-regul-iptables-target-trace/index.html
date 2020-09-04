@@ -172,11 +172,9 @@ iptables-extensions</a>.</p>
 <h2 id="śledzenie-reguł-z-target-trace">Śledzenie reguł z target TRACE</h2>
 <p>Wszystkie te powyższe informacje będą nieco klarowniejsze, gdy rozpatrzymy sobie jakiś przykład.
 Jeśli mamy problemy z ogarnięciem przepływu reguł przez pusty filtr, to dobrze jest się zapoznać z
-tym poniższym
-diagramem:</p>
-<p><a href="https://morfikov.github.io
-/img/2016/05/1.iptables-przeplyw-pakietow-netfilter.png"><img src="https://morfikov.github.io
-/img/2016/05/1.iptables-przeplyw-pakietow-netfilter-1024x335.png" alt="1.iptables-przeplyw-pakietow-netfilter"></a></p>
+tym poniższym diagramem:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/05/1.iptables-przeplyw-pakietow-netfilter.png#huge" alt=""></p>
 <p>Może nie wydaje się on zbyt skomplikowany ale nie uwzględnia on żadnych łańcuchów użytkownika, no i
 nie ma też w nim reguł, które mogą blokować ruch. Tak czy inaczej, jeśli już <a href="https://morfikov.github.io
 /post/firewall-na-linuxowe-maszyny-klienckie/">zbudowaliśmy swój
@@ -204,7 +202,7 @@ jak i te z niej wychodzące. Co się stanie jeśli teraz jakiś użytkownik spr�
 FTP'a? W logu powinniśmy zanotować sporo komunikatów. Wyglądają one mniej więcej tak jak te na tej
 poniższej fotce:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/2.target-trace-iptables-log-pakiet.png" alt=""></p>
+/img/2016/05/2.target-trace-iptables-log-pakiet.png#huge" alt=""></p>
 <p>Powyżej mamy 8 komunikatów. Z nich możemy wyczytać, że pakiet pochodzi z adresu 192.168.10.10 i miał
 dotrzeć do hosta o adresie 192.168.1.150. Był także przeznaczony na port 21/tcp. Pakiet miał
 ustawioną flagę <code>SYN</code> , zatem był to pakiet inicjujący połączenie. Pierwszy komunikat mówi nam, że
@@ -224,13 +222,13 @@ dalej.</p>
 <p>Kolejny komunikat w logu informuje nas, że pakiet trafia ponownie do tablicy <code>mangle</code> , tym razem do
 łańcucha <code>INPUT</code> . Przechodzi przez niego, jako, że mamy tutaj ponownie <code>policy</code> .</p>
 <p>Ostatnie dwa komunikaty dotyczą tablicy <code>filter</code> . Pakiet po trafieniu do tej tablicy został
-dopasowany do 8 reguły w łańcuchu <code>INPUT</code>. W tym przypadku było to przekierowanie do łańcucha <code>tcp</code>
-. Następnie widzimy, że pakiet w tym drugim łańcuchu został dopasowany do 5 reguły. I na tym kończy
-się droga pakietu.</p>
+dopasowany do 8 reguły w łańcuchu <code>INPUT</code>. W tym przypadku było to przekierowanie do łańcucha
+<code>tcp</code> . Następnie widzimy, że pakiet w tym drugim łańcuchu został dopasowany do 5 reguły. I na tym
+kończy się droga pakietu.</p>
 <p>Mając informację na temat tego, gdzie zakończyła się droga pakietu, możemy odszukać tę regułę, bo
 przecie znamy tablicę, łańcuch oraz numer reguły. Możemy to zrobić przy pomocy polecenia <code>iptables -t filter -nvL tcp --line-numbers</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/3.target-trace-iptables-regula.png" alt=""></p>
+/img/2016/05/3.target-trace-iptables-regula.png#huge" alt=""></p>
 <p>Wyżej widzimy czarno na białym (właściwie to pomarańczowo na czarnym), że reguła numer 5 wskazuje na
 tę, którą dodaliśmy na początku artykułu. By umożliwić połączenie z FTP, trzeba ją usunąć lub
 zmienić.</p></div>

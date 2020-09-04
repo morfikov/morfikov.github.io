@@ -220,14 +220,12 @@ przybliżyć sobie nieco strukturę firewall'a. Przede wszystkim, <code>iptables
 tablic <code>raw</code> , <code>mangle</code> , <code>nat</code> oraz <code>filter</code> . W każdej z tablicy mamy szereg wbudowanych
 łańcuchów, przez które przechodzą pakiety. Są też z grubsza trzy kierunki przepływu pakietów: do
 routera, z routera i przez router. Wszystkie te rzeczy są dokładnie zobrazowane na poniższych
-fotkach
-(<a href="https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg">źródło</a>):</p>
+fotkach (<a href="https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg">źródło</a>):</p>
 <p><img src="https://morfikov.github.io
-/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png" alt=""></p>
+/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png#medium" alt=""></p>
 <p>oraz:</p>
-<p><a href="https://morfikov.github.io
-/img/2016/05/1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall.png"><img src="https://morfikov.github.io
-/img/2016/05/1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall-1024x335.png" alt="1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall"></a></p>
+<p><img src="https://morfikov.github.io
+/img/2016/05/1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall.png#huge" alt=""></p>
 <p>Te schematy zostały jednak nieco rozbudowane przez OpenWRT. Chodzi generalnie o to, że w każdej z
 tych czterech tablic można definiować własne łańcuchy i kierować do nich ruch. OpenWRT dostarcza
 szereg takich łańcuchów. Każdy z nich pełni pewną rolę w strukturze filtra. Bez zrozumienia zasady
@@ -404,8 +402,8 @@ takim przypadku, wszystkie nowe połączenia (stan NEW) przechodzą przez tablic
 jeśli taki pakiet rozpoczynający nowe połączenie opuszcza router przez interfejs WAN, to jest
 przepuszczany przez regułę maskarady. Wszystkie następne pakiety powiązane z ustanowionym
 połączeniem są opisywane w oparciu o tablicę conntrack'a, gdzie kernel śledzi sobie dokładnie
-każde połączenie. Poniżej znajduje się taki przykładowy wpis (do wglądu w <code>/proc/net/nf_conntrack</code>
-):</p>
+każde połączenie. Poniżej znajduje się taki przykładowy wpis (do wglądu w
+<code>/proc/net/nf_conntrack</code> ):</p>
 <pre><code>ipv4     2 tcp      6 3575 ESTABLISHED src=77.68.11.22 dst=82.160.11.22 sport=41369 dport=8398 packets=195 bytes=13899 src=192.168.1.150 dst=77.68.11.22 sport=8398 dport=41369 packets=193 bytes=143243 [ASSURED] mark=4 use=2
 </code></pre>
 <p>Mamy tutaj połączenie TCP w protokole IPv4 w stanie ustanowionym (ESTABLISHED). Pakiety są

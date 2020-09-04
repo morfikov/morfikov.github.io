@@ -37,7 +37,7 @@ się osiągnąć dość zadowalające efekty wizualne.">
 
 
 
-<meta itemprop="keywords" content="debian,czcionki,monitor," />
+<meta itemprop="keywords" content="debian,czcionki,monitor,lcd," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Fontconfig i konfiguracja czcionek w Debianie"/>
@@ -181,7 +181,7 @@ nam trzeba to kilku informacji, tj. rozdzielczość poziomą, pionową monitora 
 ekranu. Dla przykładu weźmy monitor 21.5 cala o rozdzielczości 1920x1080. Poniżej jest wzór, do
 którego podstawimy te liczby:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/07/1.wyliczanie-ppi-wzor.png" alt=""></p>
+/img/2015/07/1.wyliczanie-ppi-wzor.png#small" alt=""></p>
 <p><code>a</code> to rozdzielczość pozioma w pikselach, <code>b</code> to rozdzielczość pionowa, również w pikselach, z kolei
 <code>x</code> to długość przekątnej w calach. Zatem mamy 1080^2=1166400 oraz 1920^2=3686400, co po zsumowaniu
 daje wartość 4852800. Wyciągamy pierwiastek i otrzymujemy liczbę liczbę około 2203, którą to trzeba
@@ -202,7 +202,7 @@ W przypadku tekstu, może to być kilka pikseli zbitych w coś, co my postrzegam
 czcionką Times New Roman. Nie jest ona zbyt wyraźna. Jeśli powiększymy ją sobie parokrotnie, tak by
 zobaczyć układ pikseli, to naszym oczom ukaże się taki obrazek:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/07/3.litera-a-piksele.gif" alt=""></p>
+/img/2015/07/3.litera-a-piksele.gif#small" alt=""></p>
 <p>Większość ludzi raczej nie chciała by oglądać tekstu na swoich monitorach w takiej formie. Dlatego
 też ludzkość stworzyła kilka technik, które miały uporać się z prezentacją czcionek na naszych
 ekranach.</p>
@@ -211,13 +211,13 @@ zbytnio poszarpane. Ta technika polega na zaprzęgnięciu do pracy odcieni szaro
 ludzkie, widząc dwa przyległe szare piksele, dostrzeże jedynie ten po środku. Poniżej jest fotka tej
 samej litery <code>A</code> , którą widzieliśmy wyżej ale z nałożonym antyaliasingiem:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/07/4.litera-a-antyaliasing.gif" alt=""></p>
+/img/2015/07/4.litera-a-antyaliasing.gif#small" alt=""></p>
 <p>Problem z tego typu rozwiązaniem można zaobserwować w przypadku małych czcionek, gdzie takie
 rozlanie pikseli powoduje, że tekst jest zwyczajnie nieczytelny. I tu w grę wchodzi hinting. Na
 poniższej fotce (<a href="https://pl.wikipedia.org/wiki/Hinting">źródło</a>), dolne wiersze są z hintingiem i,
 jak możemy zauważyć, są wyraźnie ostrzejsze:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/07/5.konfiguracja-czionek-hinting.png" alt=""></p>
+/img/2015/07/5.konfiguracja-czionek-hinting.png#small" alt=""></p>
 <h2 id="piksele-i-wygładzanie-podpikselowe-w-monitorach-lcd">Piksele i wygładzanie podpikselowe w monitorach LCD</h2>
 <p>Obecnie chyba każdy korzysta z monitorów LCD, a w nich to, co my zwykliśmy nazywać pikselem nie do
 końca znajduje zastosowanie. Każdy piksel bowiem składa się z trzech podpikseli (subpixels):
@@ -236,7 +236,7 @@ które mają dość postrzępione krawędzie. Popatrzmy na te poniższe obrazki.
 kawałek jakiejś literki. Grafika z lewej przedstawia zastosowanie całych pikseli, natomiast te dwie
 z prawej obrazują podział piksela na podpiksele:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/07/8.kraw%C4%99dz-lcd.gif" alt=""></p>
+/img/2015/07/8.krawedz-lcd.gif#medium" alt=""></p>
 <p>Jak widzimy krawędź jest o wiele bardziej wygładzona w przypadku rozbicia piksela na trzy
 podpiksele. I choć te kawałki pikseli tuż przy krawędzi nie są do końca białe (bo nie zawierają
 poszczególnych podpikseli), to nasze oko i tak postrzega je w taki sposób, a dzieje się to za sprawą
@@ -245,18 +245,18 @@ LCD. Jeśli teraz spojrzymy jeszcze raz na tę literkę <code>A</code> , to będ
 więcej w poniższy sposób, oczywiście przy założeniu, że nasz monitor korzysta z układu poziomego
 RGB:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/07/9.litera-a-podpiksele.gif" alt=""></p>
+/img/2015/07/9.litera-a-podpiksele.gif#small" alt=""></p>
 <p>Jako, że wygładzanie podpikselowe zależy głównie od fizycznej bliskości przyległych podpikseli,
 algorytm renderujący musi znać ich kolejność, tj. czy mamy do czynienia z RGB, BGR, VRGB czy VBGR.
 Jeśli wskażemy złą sekwencję podpikseli, jakoś obrazu ulegnie znacznemu pogorszeniu:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/07/10.litera-a-zly-uk%C5%82ad-podpikseli.gif" alt=""></p>
+/img/2015/07/10.litera-a-zly-uklad-podpikseli.gif#small" alt=""></p>
 <p>W przypadku, gdy nie wiemy jaki układ podpikseli ma nasz monitor, zawsze możemy <a href="http://www.lagom.nl/lcd-test/subpixel.php">przeprowadzić
 test</a>, który pomoże nam to określić.</p>
 <p>Większość ludzi jest zdania, że jakość czcionek ulega znacznej poprawie. Mnie jednak szlag trafia
 gdy muszę patrzeć na tekst, który wygląda mniej więcej tak:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/07/11.konfiguracja-czcionek-wygladzanie-podpikselowe.png" alt=""></p>
+/img/2015/07/11.konfiguracja-czcionek-wygladzanie-podpikselowe.png#small" alt=""></p>
 <p>To jest oczywiście dość duże powiększenie ale ta czcionka mieni się wszystkimi kolorami za wyjątkiem
 czerni i mi się strasznie wzrok męczy od czytania tekstu napisanego czymś takim.</p>
 <h2 id="przestarzała-konfiguracja-fontconfiga">Przestarzała konfiguracja fontconfig'a</h2>
@@ -348,7 +348,7 @@ Dzięki tym aliasom jesteśmy w stanie znacznie ułatwić sobie konfigurację cz
 każdym programie osobno definiować nazw czcionek. Aplikacje domyślnie mają określone te trzy
 powyższe typy, poniżej przykład:</p>
 <p><img src="https://morfikov.github.io
-/img/2015/07/12.konfiguracja-czcionek-domy%C5%9Blnych-geany.png" alt=""></p>
+/img/2015/07/12.konfiguracja-czcionek-domyslnych-geany.png#big" alt=""></p>
 <p>Jeśli w tym przypadku zmienimy domyślne czcionki, ta powyższa aplikacja przy takiej konfiguracji
 automatycznie uwzględni zmiany. Jedyne czego potrzebujemy to odpowiednio ustawić aliasy w
 konfiguracji fontconfig'a.</p>
@@ -428,6 +428,7 @@ dowiązania <code>/etc/fonts/conf.d/50-user.conf</code> .</p></div>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/czcionki/">czcionki</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/monitor/">monitor</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lcd/">lcd</a>
 </div>
 					
 <div class="entry__share share">

@@ -278,17 +278,13 @@ próbujemy ukryć.</p>
 <pre><code># dd if=/dev/urandom of=/dev/sdb bs=2M
 </code></pre>
 <h3 id="tworzenie-szyfrowanego-kontenera-luks">Tworzenie szyfrowanego kontenera LUKS</h3>
-<p>Teraz w przy pomocy <code>gparted</code> stwórzmy na nim jednolitą partycję <code>sdb1</code>
-:</p>
-<p><a href="https://morfikov.github.io
-/img/2016/10/1.gparted-linux-tworzenie-partycji-pod-luks.png"><img src="https://morfikov.github.io
-/img/2016/10/1.gparted-linux-tworzenie-partycji-pod-luks-660x335.png" alt="1.gparted-linux-tworzenie-partycji-pod-luks"></a></p>
+<p>Teraz w przy pomocy <code>gparted</code> stwórzmy na nim jednolitą partycję <code>sdb1</code> :</p>
+<p><img src="https://morfikov.github.io
+/img/2016/10/1.gparted-linux-tworzenie-partycji-pod-luks.png#huge" alt=""></p>
 <p>Tutaj wykorzystujemy system plików EXT4. Poniżej widzimy, że struktura opisowa tej partycji zajmuje
-około 70 MiB. To jest minimum, poniżej którego nie możemy
-zejść.</p>
-<p><a href="https://morfikov.github.io
-/img/2016/10/2.gparted-linux-tworzenie-partycji-pod-luks.png"><img src="https://morfikov.github.io
-/img/2016/10/2.gparted-linux-tworzenie-partycji-pod-luks-660x335.png" alt="2.gparted-linux-tworzenie-partycji-pod-luks"></a></p>
+około 70 MiB. To jest minimum, poniżej którego nie możemy zejść.</p>
+<p><img src="https://morfikov.github.io
+/img/2016/10/2.gparted-linux-tworzenie-partycji-pod-luks.png#huge" alt=""></p>
 <p>Do tego trzeba będzie przeznaczyć jeszcze jakieś miejsce na widoczne pliki. Rozmiar tej karty SD
 widziany w systemie to 1,84 GiB, a nasza przykrywka będzie miała 256 MiB. Pozostała część obszaru
 dysku będzie przykryta. Stwórzmy zatem na całej dostępnej przestrzeni zaszyfrowany kontener. Hasło
@@ -436,8 +432,7 @@ niezbędny jeśli potrzebujemy menadżera kluczy, który jest oferowany prze LUK
 korzystamy tylko z jednego hasła i cała funkcjonalność LUKS jest dla nas zwyczajnie zbędna. Dlatego
 też zamiast tworzyć ukryty kontener LUKS, możemy wykorzystać do tego celu <code>dm-crypt</code> . Nie zostawia
 on żadnych śladów na partycji i idealnie nadaje się do zastosowania w naszym przypadku. Do
-zmapowania interesującego nas obszaru dysku wykorzystamy poniższe
-polecenie:</p>
+zmapowania interesującego nas obszaru dysku wykorzystamy poniższe polecenie:</p>
 <pre><code># cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --verify-passphrase --verbose open --type=plain /dev/sdb1 sdb1 --offset=655360
 </code></pre>
 <p>Tę linijkę trzeba będzie wpisywać za każdym razem odszyfrowując ukryty kontener, jako, że na

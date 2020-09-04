@@ -207,7 +207,7 @@ i <a href="https://morfikov.github.io
 /post/tryb-ratunkowy-failsafe-w-openwrt/">musimy się ratować trybem failsafe</a>.
 Poniżej jest fotka obrazująca dostęp do routera za pośrednictwem protokołu telnet:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/04/1.openwrt-dostep-telnet-router.png" alt=""></p>
+/img/2016/04/1.openwrt-dostep-telnet-router.png#big" alt=""></p>
 <p>Widzimy, że router dostępny jest pod adresem 192.168.1.1, a komenda, która zainicjowała połączenie
 to:</p>
 <pre><code># telnet 192.168.1.1
@@ -215,7 +215,7 @@ to:</p>
 <p>Z chwilą, gdy zalogujemy się na router po raz pierwszy, będziemy mieli możliwość zmiany hasła
 użytkownika root. Robimy to przez wpisanie w terminalu polecenia <code>passwd</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2016/04/2.openwrt-telnet-zmiana-hasla-router.png" alt=""></p>
+/img/2016/04/2.openwrt-telnet-zmiana-hasla-router.png#big" alt=""></p>
 <p>Po tej operacji telnet zostanie automatycznie dezaktywowany i od tej pory będziemy w stanie logować
 się za pomocą protokołu SSH.</p>
 <h2 id="dostęp-przez-ssh">Dostęp przez SSH</h2>
@@ -224,7 +224,7 @@ on na porcie 22 i akceptuje jedynie połączenia od strony LAN. By zalogować si
 terminalu wpisujemy <code>ssh 192.168.1.1</code> . Po wpisaniu tej komendy, zostanie nam wyrzucony poniższy
 komunikat:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/04/3.openwrt-dostep-ssh-hash-weryfikacja.png" alt=""></p>
+/img/2016/04/3.openwrt-dostep-ssh-hash-weryfikacja.png#big" alt=""></p>
 <p>Mamy tutaj informację na temat odciska palca (fingerprint) klucza SSH. Zwykle ten hash jest
 unikatowy i jego weryfikacja zabezpiecza komunikację przed podsłuchem. W tym przypadku nie ma to
 większego znaczenia, bo przecie między nami i naszym domowym routerem raczej nikt podsłuchu nie
@@ -233,7 +233,7 @@ flash'owaniu routera. Dlatego też akceptujemy ten klucz i po chwili powinien si
 proszący o podanie hasła do konta administratora root. Po jego podaniu zostaniemy zalogowani na
 router:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/04/4.openwrt-dostep-ssh-router.png" alt=""></p>
+/img/2016/04/4.openwrt-dostep-ssh-router.png#big" alt=""></p>
 <h3 id="konfiguracja-dopbeara">Konfiguracja dopbear'a</h3>
 <p>Narzędzie <code>dropbear</code> posiada swój plik konfiguracyjny zlokalizowany w <code>/etc/config/dropbear</code> .
 Możemy tam określić m.in. te poniższe parametry:</p>
@@ -272,15 +272,15 @@ przynajmniej w przypadku linux'ów. Cała procedura sprowadza się do wydania po
 <p>lub:</p>
 <pre><code>$ scp root@192.168.1.1:/test/plik.txt ~/plik.txt
 </code></pre>
-<p>W przypadku pierwszego z nich, skopiowaliśmy lokalny plik <code>plik.txt</code> na router do katalogu <code>/test/</code>
-. Druga komenda zaś pobrała z routera ten plik i zapisała go we wskazanej lokalizacji na dysku
-komputera. Taka wymiana plików za pomocą <code>scp</code> jest szyfrowana i obciąża router, z czego trzeba
-sobie zdawać sprawę. Fraza <code>root@192.168.1.1:/plik.txt</code> określa kolejno użytkownika ( <code>root</code> ), na
-którego chcemy się zalogować przy kopiowaniu plików. Następnie po znaku <code>@</code> mamy adres IP, z którym
-chcemy się połączyć. Potem występuje <code>:</code> sygnalizujący katalog domowy użytkownika, na którego się
-logujemy na zdalnym serwerze. Jeśli po nim dodamy <code>/</code> , zaczniemy tym samym precyzować ścieżkę w
-drzewie katalogów, a te z kolei muszą istnieć. W przeciwnym wypadku, przesyłanie plików się nie
-powiedzie.</p>
+<p>W przypadku pierwszego z nich, skopiowaliśmy lokalny plik <code>plik.txt</code> na router do katalogu
+<code>/test/</code> . Druga komenda zaś pobrała z routera ten plik i zapisała go we wskazanej lokalizacji na
+dysku komputera. Taka wymiana plików za pomocą <code>scp</code> jest szyfrowana i obciąża router, z czego
+trzeba sobie zdawać sprawę. Fraza <code>root@192.168.1.1:/plik.txt</code> określa kolejno użytkownika
+( <code>root</code> ), na którego chcemy się zalogować przy kopiowaniu plików. Następnie po znaku <code>@</code> mamy
+adres IP, z którym chcemy się połączyć. Potem występuje <code>:</code> sygnalizujący katalog domowy
+użytkownika, na którego się logujemy na zdalnym serwerze. Jeśli po nim dodamy <code>/</code> , zaczniemy tym
+samym precyzować ścieżkę w drzewie katalogów, a te z kolei muszą istnieć. W przeciwnym wypadku,
+przesyłanie plików się nie powiedzie.</p>
 <h2 id="sshfs">SSHFS</h2>
 <p>Istnieje także bardziej wygodna metoda interakcji z routerem. Co prawda, nie mamy może na routerze
 podpiętego monitora ale możemy zamontować systemu plików routera u siebie w systemie. Z tym, że nie
@@ -300,11 +300,9 @@ System plików routera montujemy wydając w terminalu to poniższe polecenie:</p
 <p>Zamontuje ono katalog główny routera we wskazanej lokalizacji na komputerze. Od tego momentu mamy
 dostęp do każdego folderu na routerze i możemy używać graficznych edytorów, by operować na plikach.
 Możemy też przy pomocy menadżera plików przesyłać pliki między tymi dwiema maszynami bez większego
-problemu, co ułatwi nam znacznie konfigurację routera. Poniżej
-fotka:</p>
-<p><a href="https://morfikov.github.io
-/img/2016/04/5.openwrt-dostep-sshfs-gui.png"><img src="https://morfikov.github.io
-/img/2016/04/5.openwrt-dostep-sshfs-gui-1024x549.png" alt="5.openwrt-dostep-sshfs-gui"></a></p></div>
+problemu, co ułatwi nam znacznie konfigurację routera. Poniżej fotka:</p>
+<p><img src="https://morfikov.github.io
+/img/2016/04/5.openwrt-dostep-sshfs-gui.png#huge" alt=""></p></div>
 				
 				<footer class="entry__footer">
 					

@@ -41,11 +41,11 @@ failover (łącze awaryjne) lub load balancing (równoważenie ruchu) mając do 
 różnych ISP.">
 <meta itemprop="datePublished" content="2016-05-15T13:37:08+00:00" />
 <meta itemprop="dateModified" content="2016-05-15T13:37:08+00:00" />
-<meta itemprop="wordCount" content="2047">
+<meta itemprop="wordCount" content="2042">
 
 
 
-<meta itemprop="keywords" content="chaos-calmer,sieć,router," />
+<meta itemprop="keywords" content="chaos-calmer,sieć,router,failover,load-balancing," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Failover i load balancing w OpenWRT (mwan3)"/>
@@ -274,7 +274,7 @@ ostatniego interfejsu WAN przepisze bramę domyślną w tablicy routingu. I to o
 do połączenia z internetem. W przypadku LTE, to modem zawsze konfiguruje się kilka sekund. Dlatego
 to on na poniższym listingu określił swoją bramę jako domyślną:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/2.wwan3-openwrt-tablica-routingu-brama.png" alt=""></p>
+/img/2016/05/2.wwan3-openwrt-tablica-routingu-brama.png#huge" alt=""></p>
 <p>Na powyższej fotce widzimy tablicę routingu dla interfejsów routera. Mamy tam 3 interfejsy: <code>wwan0</code>
 (LTE), <code>eth0</code> (WAN), oraz <code>br-lan</code> (LAN). Mamy zatem na trzech interfejsach skonfigurowane trzy
 różne sieci: 10.136.111.216/30 (brama 10.136.111.218), 82.160.124.0/24 (brama 82.160.124.254) i
@@ -283,7 +283,7 @@ różne sieci: 10.136.111.216/30 (brama 10.136.111.218), 82.160.124.0/24 (brama 
 interfejs <code>wwan0</code> na adres 10.136.111.218 .</p>
 <p>Konfiguracja interfejsów WAN routera wygląda zaś następująco:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/1.wwan3-openwrt-interfejsy-wan.png" alt=""></p>
+/img/2016/05/1.wwan3-openwrt-interfejsy-wan.png#huge" alt=""></p>
 <h3 id="metryki">Metryki</h3>
 <p>Jeśli chcemy korzystać z obu tych ISP jednocześnie, to musimy nakazać routerowi skonfigurowanie
 bramy domyślnej ( <code>default</code> ) zarówno dla interfejsu <code>eth0</code> jak i <code>wwan0</code> . By móc tego typu zabieg
@@ -308,7 +308,7 @@ przewodowe konfiguruje się tak jak widać powyżej.</p>
 <p>Mając już przypisane metryki, restartujemy interfejsy. Sprawdzamy tablicę routingu oraz testujemy
 połączenie za pomocą polecenia <code>ping</code> :</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/4.wwan3-test-lacza.png" alt=""></p>
+/img/2016/05/4.wwan3-test-lacza.png#huge" alt=""></p>
 <p>Jak widzimy, bramy domyślne są dwie. Po jednej dla każdego interfejsu WAN. Również <code>ping</code> przechodzi
 przez oba interfejsy, czyli internet jest osiągalny przez obu ISP. Taka konfiguracja otwiera nam
 drogę do zainstalowania i skonfigurowania pakietu <code>mwan3</code> . To właśnie przy jego pomocy zrobimy
@@ -363,20 +363,19 @@ przypadku, gdy metryka ma taki sam numerek na obu interfejsach, wtedy nastąpi p
 stosunku określonym przez parametr <code>weight</code> , w tym przypadku 2/3 czyli 40%/60%.</p>
 <p>Jako, że mamy 2 interfejsy WAN, możemy ustawić następujące polityki zachowań:</p>
 <ul>
-<li>- Korzystamy tylko z pierwszego interfejsu WAN.</li>
-<li>- Korzystamy tylko z drugiego interfejsu WAN.</li>
-<li>- Korzystamy z obu interfejsów do równoważenia obciążenia.</li>
-<li>- Preferujemy korzystanie z pierwszego interfejsu WAN. Gdy ten zawiedzie, pakiety lecą przez
+<li>Korzystamy tylko z pierwszego interfejsu WAN.</li>
+<li>Korzystamy tylko z drugiego interfejsu WAN.</li>
+<li>Korzystamy z obu interfejsów do równoważenia obciążenia.</li>
+<li>Preferujemy korzystanie z pierwszego interfejsu WAN. Gdy ten zawiedzie, pakiety lecą przez
 drugi interfejs WAN.</li>
-<li>- Preferujemy korzystanie z drugiego interfejsu WAN. Gdy ten zawiedzie, pakiety lecą przez
+<li>Preferujemy korzystanie z drugiego interfejsu WAN. Gdy ten zawiedzie, pakiety lecą przez
 pierwszy interfejs WAN.</li>
 </ul>
 <p>Wszystkie te powyższe przypadki zostały ujęte w bloki <code>config policy</code> . Zdefiniowanie polityki nic
-jeszcze nie oznacza. Trzeba do nich dorobić reguły, a te są określane przez zwrotki z <code>config rule</code>
-. Reguły można aplikować do portów źródłowych ( <code>src_port</code> ) i docelowych ( <code>dest_port</code> ), adresów
-źródłowych ( <code>src_ip</code> ) i docelowych ( <code>dest_ip</code> ) oraz do protokołów ( <code>proto</code> ). Kolejność w
-jakiej zostały określone reguły ma znaczenie. Dlatego też najlepiej na samym końcu umieścić domyślną
-regułę, a powyżej niej te bardziej specyficzne.</p>
+jeszcze nie oznacza. Trzeba do nich dorobić reguły, a te są określane przez zwrotki z <code>config rule</code> . Reguły można aplikować do portów źródłowych ( <code>src_port</code> ) i docelowych ( <code>dest_port</code> ),
+adresów źródłowych ( <code>src_ip</code> ) i docelowych ( <code>dest_ip</code> ) oraz do protokołów ( <code>proto</code> ).
+Kolejność w jakiej zostały określone reguły ma znaczenie. Dlatego też najlepiej na samym końcu
+umieścić domyślną regułę, a powyżej niej te bardziej specyficzne.</p>
 <p>Jeśli chcemy, aby nasz router zachowywał się jak load balancer, czyli równoważył ruch między dwóch
 różnych ISP, to w pliku <code>/etc/config/mwan3</code> ustawiamy poniższą regułę:</p>
 <pre><code>config rule 'default_rule'
@@ -400,13 +399,13 @@ zdefiniować wszystkie protokoły, to trzeba je opisać jako <code>all</code> .<
 szczęście, <code>mwan3</code> jest nam w stanie zwrócić aktualny status łącza. W nim możemy zobaczyć czy
 interfejsy są podniesione, czy też któryś z nich ma awarię:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/5.wwan3-status.png" alt=""></p>
+/img/2016/05/5.wwan3-status.png#medium" alt=""></p>
 <p>Mamy także rozpisaną politykę:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/6.wwan3-status.png" alt=""></p>
+/img/2016/05/6.wwan3-status.png#medium" alt=""></p>
 <p>Oraz reguły:</p>
 <p><img src="https://morfikov.github.io
-/img/2016/05/7.wwan3-status.png" alt=""></p>
+/img/2016/05/7.wwan3-status.png#huge" alt=""></p>
 <p>Z powyższych informacji wynika, że mam dwa interfejsy podzielone w proporcji 2/3. Oba interfejsy są
 aktywne i działają. Ruch na port 443/tcp oraz 80/tcp jest kierowany według zdefiniowanych wyżej
 reguł. Natomiast w przypadku pozostałego ruchu mamy zastosowany failover. Czyli w przypadku awarii
@@ -418,6 +417,8 @@ interfejsu <code>eth0</code> , zostaniemy przełączeni na interfejs <code>wwan0
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chaos-calmer/">chaos-calmer</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sie%C4%87/">sieć</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">router</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/failover/">failover</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/load-balancing/">load-balancing</a>
 </div>
 					
 <div class="entry__share share">
