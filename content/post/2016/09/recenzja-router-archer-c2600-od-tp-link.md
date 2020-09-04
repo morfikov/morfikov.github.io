@@ -232,11 +232,11 @@ Dobrze jest poszukać ciemniejszych miejsc, w których znajdują się zaczepy i 
 Po odłączeniu przewodu, mamy dostęp do płytki. Pierwsze co rzuca się w oczy do dwa masywne
 radiatory:
 
-![]({{< baseurl >}}/img/2016/09/13.router-archer-c2600-wnętrze-obudowy-pcb.jpg#huge)
+![]({{< baseurl >}}/img/2016/09/13.router-archer-c2600-wnetrze-obudowy-pcb.jpg#huge)
 
 A tu jeszcze widok płytki od spodu:
 
-![]({{< baseurl >}}/img/2016/09/14.router-archer-c2600-wnętrze-obudowy-pcb.jpg#huge)
+![]({{< baseurl >}}/img/2016/09/14.router-archer-c2600-wnetrze-obudowy-pcb.jpg#huge)
 
 By wyjąc płytkę z obudowy, trzeba pierw odłączyć widoczne wyżej cztery przewody antenowe. Po
 ściągnięciu radiatorów, płytka prezentuje się następująco:

@@ -54,7 +54,7 @@ reguły są to dwie pierwsze opcje). By wyeliminować podatność, trzeba te dwi
 Teraz możemy przejść ponownie do testowania podatności na stronie <https://weakdh.org/> i tym razem
 powinniśmy już ujrzeć komunikat oświadczający nam, że jesteśmy bezpieczni:
 
-![]({{< baseurl >}}/img/2015/05/3.odporność-na-logjam.png#huge)
+![]({{< baseurl >}}/img/2015/05/3.odpornosc-na-logjam.png#huge)
 
 Jeśli dysponujemy serwerami, np. Apache, możemy przetestować jego podatność
 [tutaj](https://weakdh.org/sysadmin.html) . W tym linku znajdują się również informację na temat

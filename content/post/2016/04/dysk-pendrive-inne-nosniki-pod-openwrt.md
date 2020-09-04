@@ -152,7 +152,7 @@ miejsca na partycji na potrzeby użytkownika root. Opcja `-m 0` wyłącza rezerw
 partycji, która już posiada system plików, to zostaniemy o tym fakcie uprzedzeni i będziemy musieli
 świadomie wyrazić zgodę na to:
 
-![]({{< baseurl >}}/img/2016/04/6.mkfs-ext4-openwrt-tworzenie-system-plików-dysk-pendrive.png#huge)
+![]({{< baseurl >}}/img/2016/04/6.mkfs-ext4-openwrt-tworzenie-system-plikow-dysk-pendrive.png#huge)
 
 ## Montowanie zasobów w OpenWRT
 

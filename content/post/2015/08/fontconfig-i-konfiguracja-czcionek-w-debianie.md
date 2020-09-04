@@ -97,7 +97,7 @@ które mają dość postrzępione krawędzie. Popatrzmy na te poniższe obrazki.
 kawałek jakiejś literki. Grafika z lewej przedstawia zastosowanie całych pikseli, natomiast te dwie
 z prawej obrazują podział piksela na podpiksele:
 
-![]({{< baseurl >}}/img/2015/07/8.krawędz-lcd.gif#medium)
+![]({{< baseurl >}}/img/2015/07/8.krawedz-lcd.gif#medium)
 
 Jak widzimy krawędź jest o wiele bardziej wygładzona w przypadku rozbicia piksela na trzy
 podpiksele. I choć te kawałki pikseli tuż przy krawędzi nie są do końca białe (bo nie zawierają
@@ -113,7 +113,7 @@ Jako, że wygładzanie podpikselowe zależy głównie od fizycznej bliskości pr
 algorytm renderujący musi znać ich kolejność, tj. czy mamy do czynienia z RGB, BGR, VRGB czy VBGR.
 Jeśli wskażemy złą sekwencję podpikseli, jakoś obrazu ulegnie znacznemu pogorszeniu:
 
-![]({{< baseurl >}}/img/2015/07/10.litera-a-zly-układ-podpikseli.gif#small)
+![]({{< baseurl >}}/img/2015/07/10.litera-a-zly-uklad-podpikseli.gif#small)
 
 W przypadku, gdy nie wiemy jaki układ podpikseli ma nasz monitor, zawsze możemy [przeprowadzić
 test](http://www.lagom.nl/lcd-test/subpixel.php), który pomoże nam to określić.
@@ -232,7 +232,7 @@ Dzięki tym aliasom jesteśmy w stanie znacznie ułatwić sobie konfigurację cz
 każdym programie osobno definiować nazw czcionek. Aplikacje domyślnie mają określone te trzy
 powyższe typy, poniżej przykład:
 
-![]({{< baseurl >}}/img/2015/07/12.konfiguracja-czcionek-domyślnych-geany.png#big)
+![]({{< baseurl >}}/img/2015/07/12.konfiguracja-czcionek-domyslnych-geany.png#big)
 
 Jeśli w tym przypadku zmienimy domyślne czcionki, ta powyższa aplikacja przy takiej konfiguracji
 automatycznie uwzględni zmiany. Jedyne czego potrzebujemy to odpowiednio ustawić aliasy w

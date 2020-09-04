@@ -107,7 +107,7 @@ Każdy i-węzeł rozpoczyna się od `A4 81` . Wiemy także, że rozmiar takiego 
 zatem ładujemy plik i oszukujemy tę wspomnianą wartość. Pamiętajmy, że interesuje nas drugi i-węzeł,
 a nie pierwszy. Zaznaczony niżej fragment odpowiada rozmiarowi pliku:
 
-![]({{< baseurl >}}/img/2015/11/1.i-węzeł-edytor-hex-ext4-1.png#huge)
+![]({{< baseurl >}}/img/2015/11/1.i-wezel-edytor-hex-ext4-1.png#huge)
 
 W tym przypadku jest to `1A` co oznacza liczbę 26 i jeśli wrócimy wyżej do logu `ls` , to faktycznie
 nasz plik tekstowy ma 26 bajtów.
@@ -116,7 +116,7 @@ Jako, że system plików `ext4` używa [extent'ów](https://pl.wikipedia.org/wik
 pozycji od 40-99 włącznie (licząc w stosunku do konkretnego i-węzła) przechowuje informacje o
 zakresach bloków:
 
-![]({{< baseurl >}}/img/2015/11/2.i-węzeł-edytor-hex-ext4-2.png#huge)
+![]({{< baseurl >}}/img/2015/11/2.i-wezel-edytor-hex-ext4-2.png#huge)
 
 W sumie jest to pięć wpisów, każdy po 12 bajtów. Z tym, że pierwsze 12 bajtów to nagłówek, pozostałe
 bajty są w stanie opisać maksymalnie 4 zakresy bloków. Rzućmy zatem okiem na sam nagłówek. Mamy tam

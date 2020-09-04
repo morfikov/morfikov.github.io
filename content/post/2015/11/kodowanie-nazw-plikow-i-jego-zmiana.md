@@ -67,4 +67,4 @@ Widzimy wyraźnie, że nazwy wynikowe nie zawierają krzaków. Zatem jest to odp
 możemy teraz dodać do polecenia parametr `--notest` i masowo zmienić nazwy plików w tym katalogu.
 Efekt jest mniej więcej taki jak na fotce poniżej:
 
-![]({{< baseurl >}}/img/2015/11/2.convmv-zmiana-kodowania-nazy-plików-po.png#big)
+![]({{< baseurl >}}/img/2015/11/2.convmv-zmiana-kodowania-nazy-plikow-po.png#big)

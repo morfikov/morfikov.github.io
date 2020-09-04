@@ -36,7 +36,7 @@ ilekroć podłączamy telefon do portu USB. Ta czynność jest mało wygodna, gd
 telefon do komputera i takie ciągłe przestawianie tego trybu może nawet spokojnego człowieka
 wyprowadzić z równowagi:
 
-![]({{< baseurl >}}/img/2017/03/001.usb-charge-only-mtp-tryb-android-marshmallow-domyślne.png#big)
+![]({{< baseurl >}}/img/2017/03/001.usb-charge-only-mtp-tryb-android-marshmallow-domyslne.png#big)
 
 ## Konfiguracja trybu USB w opcjach programistycznych
 

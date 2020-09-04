@@ -38,7 +38,7 @@ powracanie usuniętych wiadomości, lub też nieprawidłowe daty w wyniku zagubi
 wiadomości. Thunderbird potrafi automatycznie przeprowadzać kompaktowanie folderów, z tym, że trzeba
 mieć zaznaczoną odpowiednią opcję (Edit => Preferences => Advanced => Network & Disk Space):
 
-![]({{< baseurl >}}/img/2015/06/1.thunderbird-kompaktowanie-filderów.png#big)
+![]({{< baseurl >}}/img/2015/06/1.thunderbird-kompaktowanie-folderow.png#big)
 
 U mnie jakimś cudem była ona odznaczona i dlatego właśnie ten katalog się rozrósł tak potwornie. Po
 dokonaniu kompaktowania, z tych 650MiB zjechałem do nieco ponad 200MiB. Także jest spora różnica.
