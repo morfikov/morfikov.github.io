@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Linux
-date: "2015-06-18T20:00:54Z"
-date_gmt: 2015-06-18 18:00:54 +0200
+date:    2015-06-18 20:00:54 +0200
+lastmod: 2015-06-18 20:00:54 +0200
 published: true
 status: publish
 tags:
@@ -11,6 +11,9 @@ tags:
 - resolver
 - szyfrowanie
 - systemd
+- dnscrypt
+- prywatność
+- bezpieczeństwo
 title: DNScrypt-proxy, czyli szyfrowanie zapytań DNS
 ---
 
@@ -25,7 +28,7 @@ wniosku, że szyfrowanie zapytań jest pozbawione sensu, bo z reguły nazwa dome
 adres IP. Znając adres IP, możemy ustalić kto na jakie strony wchodzi. Nie do końca jest to prawdą,
 poza tym istnieją jeszcze inne czynniki, które sprawiają, że ukrycie zapytań DNS ma jak najbardziej
 sens. W tym wpisie zaimplementujemy sobie na naszych linux'ach szyfrowanie zapytań DNS przy
-wykorzystaniu [narzędzia dnscrypt-proxy](https://dnscrypt.org/).
+wykorzystaniu [narzędzia dnscrypt-proxy][1].
 
 <!--more-->
 ## Wiele domen i cenzura
@@ -67,18 +70,17 @@ Gdy chcemy korzystać z serwerów OpenDNS, dodajemy w pliku `/etc/resolv.conf` p
     nameserver 208.67.222.222
     nameserver 208.67.220.220
 
-W przypadku korzystania z [systemd](https://www.freedesktop.org/wiki/Software/systemd/), plik
-`resolv.conf` jest dowiązaniem do `/run/systemd/resolve/resolv.conf` i jako, że ten plik znajduje
-się w katalogu `/run/` jest on tworzony na nowo przy starcie systemu. Zatem manualna edycja tego
-pliku nie jest zalecana. Lepszym wyjściem jest konfiguracja resolver'a bezpośrednio przez [pliki
-.network](https://www.freedesktop.org/software/systemd/man/systemd.network.html).
+W przypadku korzystania z [systemd][2], plik `resolv.conf` jest dowiązaniem do
+`/run/systemd/resolve/resolv.conf` i jako, że ten plik znajduje się w katalogu `/run/` jest on
+tworzony na nowo przy starcie systemu. Zatem manualna edycja tego pliku nie jest zalecana. Lepszym
+wyjściem jest konfiguracja resolver'a bezpośrednio przez [pliki .network][3].
 
 ## DNScrypt-proxy na straży prywatności
 
 My jednak będziemy korzystać z opcji szyfrowania zapytań i nie możemy bezpośrednio użyć powyższych
 adresów. Musimy pierw utworzyć lokalny serwer, który będzie zapytania szyfrował i przesyłał je do
 jednego z resolver'ów, które mają zaimplementowaną obsługę szyfrowania. W tym przypadku posłużymy
-się [OpenDNS](https://www.opendns.com/).
+się [OpenDNS][4].
 
 Oprogramowanie, które posłuży nam do zaszyfrowania ruchu DNS to `dnscrypt-proxy` . W repozytorium
 Debiana mamy dostępny pakiet o takiej nazwie, zatem z jego instalacją nie powinno być problemów.
@@ -98,8 +100,7 @@ Dla pewności, że plik nie zostanie przepisany przez jakieś automaty systemowe
 ## Testowanie konfiguracji resolver'a
 
 By sprawdzić czy zapytania DNS są szyfrowane za sprawą `dnscrypt-proxy` , możemy odwiedzić [stronę
-testową OpenDNS](https://www.opendns.com/welcome/), gdzie powinniśmy zobaczyć ten poniższy
-komunikat:
+testową OpenDNS][5], gdzie powinniśmy zobaczyć ten poniższy komunikat:
 
 ![]({{< baseurl >}}/img/2015/06/1.test-konfiguracji-dnscrypt-proxy.png#medium)
 
@@ -120,3 +121,10 @@ należy, to powinniśmy uzyskać mniej więcej taki log:
 
 Linijka z `dnscrypt enabled` jasno nas informuje, że ruch jest szyfrowany. Dodatkowo, niżej mamy
 adres resolver'a, który wskazuje na nasz adres lokalny `127.0.2.1#53` .
+
+
+[1]: https://dnscrypt.org/
+[2]: https://www.freedesktop.org/wiki/Software/systemd/
+[3]: https://www.freedesktop.org/software/systemd/man/systemd.network.html
+[4]: https://www.opendns.com/
+[5]: https://www.opendns.com/welcome/

@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - OpenWRT
-date: "2016-04-24T20:10:01Z"
-date_gmt: 2016-04-24 18:10:01 +0200
+date:    2016-04-24 20:10:01 +0200
+lastmod: 2016-04-24 20:10:01 +0200
 published: true
 status: publish
 tags:
@@ -11,6 +11,7 @@ tags:
 - resolver
 - chaos-calmer
 - router
+- dnscrypt
 title: Konfiguracja dnscrypt-proxy w OpenWRT
 ---
 
@@ -19,7 +20,7 @@ OpenWRT na pokładzie bez problemu potrafi rozwiązywać domeny na adresy IP. Je
 oprogramowanie `dnsmasq` . Problem w tym, że zwykle resolver, który będzie uwzględniany w
 konfiguracji routera, wskazuje na serwery DNS naszego ISP, czy też jakiejś większej korporacji. W
 ten sposób, wszystkie dane z przeglądania stron internetowych podajemy tym organizacjom za free.
-Przy pomocy [narzędzia dnscrypt-proxy](https://dnscrypt.org/) jesteśmy w stanie zabezpieczyć naszą
+Przy pomocy [narzędzia dnscrypt-proxy][1] jesteśmy w stanie zabezpieczyć naszą
 sieć przed tego typu zabiegami zbierania danych. Po części też możemy uchronić się przed cenzurą,
 którą może nam zafundować lokalny provider internetowy. W tym artykule zaimplementujemy obsługę
 szyfrowanego resolver'a DNS na naszym domowym routerze.
@@ -142,3 +143,6 @@ dopisanie w `/etc/init.d/dnscrypt-proxy` parametru `--loglevel` :
         -R ${resolver:-'opendns'}
         --loglevel=5
     ...
+
+
+[1]: https://dnscrypt.org/

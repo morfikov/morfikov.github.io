@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Linux
-date: "2016-04-02T18:47:47Z"
-date_gmt: 2016-04-02 16:47:47 +0200
+date:    2016-04-02 18:47:47 +0200
+lastmod: 2016-04-02 18:47:47 +0200
 published: true
 status: publish
 tags:
@@ -14,20 +14,22 @@ tags:
 - modem
 - huawei
 - e3372
+- dns
+- dnsmasq
+- dnscrypt
 title: Aero2 w połączeniu z dnsmasq i dnscrypt-proxy
 ---
 
-[Aero2](https://aero2.pl/) już od dość dawna oferuje darmowy dostęp do internetu w technologi LTE
-ale jakoś wcześniej nie byłem tym tematem zainteresowany. Parę dni temu złożyłem jednak wniosek o
-kartę SIM, tak by posiadać zapasowe łącze na wypadek, gdyby mój obecny ISP z jakiegoś powodu padł.
-Aero2 oferuje wersję komercyjną jak i tę za free i każda z nich ma swoje wady i zalety. Jako, że to
-łącze ma robić jedynie za zapas, to korzystam z wersji FREE, a jest ono dość poważne ograniczenie,
-tj. występuje tutaj [kod CAPTCHA](https://pl.wikipedia.org/wiki/CAPTCHA), który trzeba wpisywać tak
-co godzinę, po czym należy resetować modem. Ten kod może zostać zaserwowany jedynie w przypadku
-korzystania z DNS Aero2 i pozornie odpada możliwość używania własnego systemu DNS opartego o
-[dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) i [dnscrypt-proxy](https://dnscrypt.org/).
-Po kilku dniach eksperymentów udało mi się wypracować przyzwoitą konfigurację, która potrafi obejść
-to ograniczenie, poprawiając tym samym prywatność i bezpieczeństwo w internecie korzystając z
+[Aero2][1] już od dość dawna oferuje darmowy dostęp do internetu w technologi LTE ale jakoś
+wcześniej nie byłem tym tematem zainteresowany. Parę dni temu złożyłem jednak wniosek o kartę SIM,
+tak by posiadać zapasowe łącze na wypadek, gdyby mój obecny ISP z jakiegoś powodu padł. Aero2
+oferuje wersję komercyjną jak i tę za free i każda z nich ma swoje wady i zalety. Jako, że to łącze
+ma robić jedynie za zapas, to korzystam z wersji FREE, a jest ono dość poważne ograniczenie, tj.
+występuje tutaj [kod CAPTCHA][2], który trzeba wpisywać tak co godzinę, po czym należy resetować
+modem. Ten kod może zostać zaserwowany jedynie w przypadku korzystania z DNS Aero2 i pozornie
+odpada możliwość używania własnego systemu DNS opartego o [dnsmasq][3] i [dnscrypt-proxy][4]. Po
+kilku dniach eksperymentów udało mi się wypracować przyzwoitą konfigurację, która potrafi obejść to
+ograniczenie, poprawiając tym samym prywatność i bezpieczeństwo w internecie korzystając z
 darmowego LTE za sprawą Aero2. W tym wpisie postaramy się zaimplementować ten mechanizm na debianie.
 
 <!--more-->
@@ -35,10 +37,9 @@ darmowego LTE za sprawą Aero2. W tym wpisie postaramy się zaimplementować ten
 
 Przede wszystkim, potrzebne nam będą odpowiednie pakiety i konfiguracja systemu. Nie będziemy
 korzystać z automatów, bo one tylko będą przeszkadzać. [Tutaj znajduje się opis konfiguracji
-narzędzia dnscrypt-proxy]({{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/), a
-[tutaj zaś jest opisana konfiguracja
-dnsmasq]({{< baseurl >}}/post/cache-dns-buforowania-zapytan/). Nie będę poruszał tutaj tych
-tematów i zakładam, że mamy już odpowiedni setup zaprojektowany oraz, że on działa.
+narzędzia dnscrypt-proxy][5], a [tutaj zaś jest opisana konfiguracja dnsmasq][6]. Nie będę
+poruszał tutaj tych tematów i zakładam, że mamy już odpowiedni setup zaprojektowany oraz, że on
+działa.
 
 By ułatwić nieco zrozumienie samej konfiguracji, trzeba ustalić kilka rzeczy. Przede wszystkim,
 wpisy w pliku `/etc/resolv.conf` wskazują na adres `127.0.0.1` . Jest to adres, na którym nasłuchuje
@@ -90,10 +91,9 @@ dodać ten poniższy blok kodu do pliku `/etc/dnsmasq.conf` :
     rebind-domain-ok=free.aero2.net.pl
 
 Opcja `stop-dns-rebind` zapobiega przekierowaniu w oparciu od DNS, tj. wpisujemy jedną domenę, a
-jest nam zwracana inna, tzw [DNS rebinding](https://en.wikipedia.org/wiki/DNS_rebinding) i dokładnie
-ten mechanizm ma miejsce w przypadku serwowania strony z kodem CAPTCHA przez Aero2. Dlatego też
-musimy jedną domenę wyłączyć spod działania tego mechanizmu i za to odpowiada parametr
-`rebind-domain-ok` .
+jest nam zwracana inna, tzw [DNS rebinding][7] i dokładnie ten mechanizm ma miejsce w przypadku
+serwowania strony z kodem CAPTCHA przez Aero2. Dlatego też musimy jedną domenę wyłączyć spod
+działania tego mechanizmu i za to odpowiada parametr `rebind-domain-ok` .
 
 ## Konfiguracja wvdial
 
@@ -185,3 +185,11 @@ Od tego momentu przez następną godzinę możemy przeglądać internet swobodni
 może poza jedną i jej subdomenami) będą rozwiązywane przez lokalny resolver, ewentualnie przesyłane
 do upstream'owego serwera DNS drogą szyfrowaną i nikt nie będzie w stanie zidentyfikować domen,
 które odwiedzaliśmy korzystając z darmowego internetu LTE od Aero2.
+
+[1]: https://aero2.pl/
+[2]: https://pl.wikipedia.org/wiki/CAPTCHA
+[3]: http://www.thekelleys.org.uk/dnsmasq/doc.html
+[4]: https://dnscrypt.org/
+[5]: {{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/
+[6]: {{< baseurl >}}/post/cache-dns-buforowania-zapytan/
+[7]: https://en.wikipedia.org/wiki/DNS_rebinding

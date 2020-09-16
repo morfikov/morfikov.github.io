@@ -201,7 +201,7 @@ korzystać ze snapshot'ów LVM, to pomyślmy o dysku SSD.
 
 [1]: http://www.tldp.org/HOWTO/html_single/LVM-HOWTO/#snapshotintro
 [2]: https://pl.wikipedia.org/wiki/LVM
-[3]: {{< baseurl >}}/post/zmiana-rozmiaru-lvm
+[3]: {{< baseurl >}}/post/zmiana-rozmiaru-lvm/
 [4]: {{< baseurl >}}/post/instalacja-debiana-z-wykorzystaniem-debootstrap/
 [5]: http://manpages.ubuntu.com/manpages/wily/en/man8/lvs.8.html
 [6]: https://www.nikhef.nl/~dennisvd/lvmcrap.html

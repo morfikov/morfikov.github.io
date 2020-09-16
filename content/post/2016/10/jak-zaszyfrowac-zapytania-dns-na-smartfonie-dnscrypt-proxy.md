@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Android
-date: "2016-10-27T18:52:19Z"
-date_gmt: 2016-10-27 16:52:19 +0200
+date:    2016-10-27 18:52:19 +0200
+lastmod: 2016-10-27 18:52:19 +0200
 published: true
 status: publish
 tags:
@@ -12,6 +12,7 @@ tags:
 - smartfon
 - lollipop
 - aplikacje
+- dnscrypt
 title: Jak zaszyfrować zapytania DNS na smartfonie (dnscrypt-proxy)
 ---
 
@@ -26,7 +27,7 @@ sytuacji będziemy zdani na łaskę admina obcej sieci w kwestii poufności odwi
 www czy jakichkolwiek innych domen w internecie. Z doświadczenia wiem, by nie składać swojej
 prywatności w czyjeś ręce i dlatego też postanowiłem poszukać sposobu na zaszyfrowanie zapytań DNS
 bezpośrednio na smartfonie. Długo nie musiałem szukać, bo okazuje się, że [dnscrypt-proxy jest
-dostępny również na Androida](https://dnscrypt.org/#dnscrypt-android).
+dostępny również na Androida][1].
 
 <!--more-->
 ## Root smartfona
@@ -36,12 +37,10 @@ smartfonach potrzebny jest dostęp root. Podobnie jest w przypadku przekierowani
 nasz Android nie jest ukorzeniony i nie znamy sposobu by ten fakt zmienić, to niestety pozostaje nam
 korzystanie z DNS'ów Google lub tych sieci, do których zostaniemy podłączeni.
 
-Ja posiadam smartfon od TP-LINK, a konkretnie jest to [model Neffos
-C5]({{< baseurl >}}/post/recenzja-smartfon-neffos-c5-od-tp-link/). Jakiś czas temu [udało mi się
-na nim przeprowadzić proces
-root'owania]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-od-tp-link/), przez co mam
-pełny dostęp do systemu plików tego telefonu, co z kolei otworzyło mi drogę do eksperymentowania z
-wymuszeniem szyfrowania zapytań DNS.
+Ja posiadam smartfon od TP-LINK, a konkretnie jest to [model Neffos C5][2]. Jakiś czas temu [udało
+mi się na nim przeprowadzić proces root'owania][3], przez co mam pełny dostęp do systemu plików
+tego telefonu, co z kolei otworzyło mi drogę do eksperymentowania z wymuszeniem szyfrowania zapytań
+DNS.
 
 ## Jak pozyskać dnscrypt-proxy na Androida
 
@@ -49,13 +48,10 @@ Mając ukorzeniony system na smartfonie, możemy przejść do pozyskania `dnscry
 instalacji w Androidzie. Na tym Neffos C5 siedzi Android w wersji 5.1 (Lollipop). W starszych
 wersjach Androida mogą pojawić się błędy, przez co instalacja i prawidłowe funkcjonowanie tego
 narzędzia nie zawsze będzie możliwe. Trzeba także wziąć pod uwagę fakt, że tej aplikacji nie ma w
-sklepie Google Play ani w [repozytorium
-F-Droid]({{< baseurl >}}/post/android-repozytorium-aplikacji-opensource-f-droid/) i trzeba
-posiłkować się zewnętrznym źródłem. Odpowiedni plik [można pobrać
-stąd](https://download.dnscrypt.org/dnscrypt-proxy/), konkretnie chodzi o
+sklepie Google Play ani w [repozytorium F-Droid][4] i trzeba posiłkować się zewnętrznym źródłem.
+Odpowiedni plik [można pobrać stąd][5], konkretnie chodzi o
 `dnscrypt-proxy-android-armv7-a-1.7.0.zip` . Musimy go zainstalować z poziomu trybu recovery mając
-przy tym wgrany [TWRP](https://twrp.me/) lub [CWM](https://www.clockworkmod.com/). Ja będę korzystał
-z TWRP.
+przy tym wgrany [TWRP][6] lub [CWM][7]. Ja będę korzystał z TWRP.
 
 W pobranej paczce `.zip` znajduje się plik `system/etc/init.d/99dnscrypt` . W nim zaś jest zmienna
 `RESOLVER_NAME` zawierająca nazwę serwera DNS, do którego będą wysyłane zapytania o domeny w formie
@@ -80,10 +76,8 @@ czy na flash'u telefonu mamy katalog `/system/etc/init.d/` . Jeśli on jest, to 
 jest. Jeśli zaś nie mamy tego katalogu, to musimy postarać się o alternatywny menadżer uruchamiania
 skryptów init, który będzie je nam inicjował na starcie systemu.
 
-Ten Neffos C5 nie ma wsparcia dla skryptów init, zatem trzeba zainstalować [Universal
-Init.d](https://play.google.com/store/apps/details?id=com.androguide.universal.init.d). Ta aplikacja
-będzie wymagać dostępu root ale [jest ona
-OpenSource](https://github.com/Androguide/Universal-init.d), także bez obaw:
+Ten Neffos C5 nie ma wsparcia dla skryptów init, zatem trzeba zainstalować [Universal Init.d][8].
+Ta aplikacja będzie wymagać dostępu root ale [jest ona OpenSource][9], także bez obaw:
 
 ![]({{< baseurl >}}/img/2016/10/002.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-instalacja-universal-init-d.png#huge)
 
@@ -158,3 +152,14 @@ Widzimy wyraźnie, że zapytanie jest szyfrowane. Możemy również przetestowa�
 Odpalmy zatem, np. Firefox'a i odwiedźmy adres `https://www.opendns.com/welcome/` :
 
 ![]({{< baseurl >}}/img/2016/10/010.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-firefox-opendns-test.png#huge)
+
+
+[1]: https://dnscrypt.org/#dnscrypt-android
+[2]: {{< baseurl >}}/post/recenzja-smartfon-neffos-c5-od-tp-link/
+[3]: {{< baseurl >}}/post/android-root-smartfona-neffos-c5-od-tp-link/
+[4]: {{< baseurl >}}/post/android-repozytorium-aplikacji-opensource-f-droid/
+[5]: https://download.dnscrypt.org/dnscrypt-proxy/
+[6]: https://twrp.me/
+[7]: https://www.clockworkmod.com/
+[8]: https://play.google.com/store/apps/details?id=com.androguide.universal.init.d
+[9]: https://github.com/Androguide/Universal-init.d

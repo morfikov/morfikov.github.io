@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - OpenWRT
-date: "2016-05-02T16:21:20Z"
-date_gmt: 2016-05-02 14:21:20 +0200
+date:    2016-05-02 16:21:20 +0200
+lastmod: 2016-05-02 16:21:20 +0200
 published: true
 status: publish
 tags:
@@ -11,6 +11,9 @@ tags:
 - chaos-calmer
 - router
 - dhcp
+- dnsmasq
+- cache
+- resolver
 title: DHCP i DNS, czyli konfiguracja sieci w OpenWRT
 ---
 
@@ -18,12 +21,11 @@ Rutery WiFi są w stanie zorganizować przewodową i/lub bezprzewodową sieć w 
 sieć działała bez zarzutu, potrzebna jest odpowiednia adresacja wszystkich komputerów wewnątrz niej.
 W obecnych czasach już praktycznie nie stosuje się statycznej konfiguracji, bo to zadanie zostało
 zrzucone na barki serwera DHCP. W OpenWRT do tego celu oddelegowane jest [oprogramowanie
-dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html). Zapewnia ono nie tylko wspomniany wyżej
-serwer DHCP ale także serwer cache'ujący zapytania DNS. Ten drugi z kolei jest niezastąpiony w
-przypadku przekazywania zapytań o nazwy domen do upstream'owego serwera DNS, który zajmuje się
-rozwiązywaniem tych nazw na odpowiadające im adresy IP. Bez `dnsmasq` ogarnięcie naszej sieci
-przerodziłoby się w istne piekło. Dlatego też w tym artykule przybliżymy sobie nieco konfigurację
-tego narzędzia.
+dnsmasq][1]. Zapewnia ono nie tylko wspomniany wyżej serwer DHCP ale także serwer cache'ujący
+zapytania DNS. Ten drugi z kolei jest niezastąpiony w przypadku przekazywania zapytań o nazwy domen
+do upstream'owego serwera DNS, który zajmuje się rozwiązywaniem tych nazw na odpowiadające im adresy
+IP. Bez `dnsmasq` ogarnięcie naszej sieci przerodziłoby się w istne piekło. Dlatego też w tym
+artykule przybliżymy sobie nieco konfigurację tego narzędzia.
 
 <!--more-->
 ## Jak konfigurować dnsmasq w OpenWRT
@@ -41,9 +43,8 @@ przez plik `/etc/dnsmasq.conf` i to tam dodać stosowne wpisy.
 O samej konfiguracji narzędzia `dnsmasq` wspominałem już wielokrotnie na tym blogu w kontekście
 różnych aspektów pracy zarówno systemów z rodziny linux jak i OpenWRT. Niemniej jednak, tutaj
 postaram się zebrać wszystkie te bardziej użyteczne opcje, tak by były w jednym miejscu. Warto też
-wspomnieć, że cała masa parametrów jest opisana na [wiki
-OpenWRT](https://wiki.openwrt.org/doc/uci/dhcp). Przejdźmy zatem do edycji pliku `/etc/config/dhcp`
-.
+wspomnieć, że cała masa parametrów jest opisana na [wiki OpenWRT][2]. Przejdźmy zatem do edycji
+pliku `/etc/config/dhcp` .
 
 ## Serwer DNS
 
@@ -54,8 +55,8 @@ domeny). Zaś `boguspriv` nie zezwala na przekazywanie adresów z prywatnej prze
     option domainneeded '1'
     option boguspriv '1'
 
-Opcja `local` sprawia, że wszystkie zapytania we wskazanej domenie będą rozwiązywane lokalnie, tj. w
-oparciu o plik `/etc/hosts` lub lease wydawane za sprawą protokołu DHCP. Opcja `domain` ustawia
+Opcja `local` sprawia, że wszystkie zapytania we wskazanej domenie będą rozwiązywane lokalnie, tj.
+w oparciu o plik `/etc/hosts` lub lease wydawane za sprawą protokołu DHCP. Opcja `domain` ustawia
 domenę dla routera. W efekcie wszystkie hosty, które otrzymują konfiguracje od serwera DHCP, będą
 skonfigurowane na tę domenę. Dodatkowo, nazwa określona tutaj jest wykorzystywana w opcji
 `expandhosts` , która z kolei odpowiada za dodanie części domenowej do nazwy hostów, które jej nie
@@ -71,11 +72,10 @@ rozwiązywaniu nazw hostów.
     option nohosts '0'
 
 Opcja `rebind_protection` zapobiega przekierowaniu w oparciu od DNS, tj. wpisujemy jedną domenę, a
-jest nam zwracana inna, tzw [DNS rebinding](https://en.wikipedia.org/wiki/DNS_rebinding). Za pomocą
-opcji `rebind_localhost` z tego mechanizmu jest wyłączony blok 127.0.0.0/8. A to ze względu na fakt,
-że szereg lokalnych usług wymaga tego typu operacji do poprawnego działania. Jeśli jednak są domeny,
-które życzylibyśmy sobie również wyłączyć spod mechanizmu DNS rebinding, to możemy je sprecyzować w
-`list rebind_domain` .
+jest nam zwracana inna, tzw [DNS rebinding][3]. Za pomocą opcji `rebind_localhost` z tego
+mechanizmu jest wyłączony blok 127.0.0.0/8. A to ze względu na fakt, że szereg lokalnych usług
+wymaga tego typu operacji do poprawnego działania. Jeśli jednak są domeny, które życzylibyśmy sobie
+również wyłączyć spod mechanizmu DNS rebinding, to możemy je sprecyzować w `list rebind_domain` .
 
     option rebind_protection '1'
     option rebind_localhost '1'
@@ -99,8 +99,8 @@ takiego cache (ilość wpisów) można dostosować sobie przy pomocy opcji `cach
 
 Kolejne dwie opcje, tj. `min-cache-ttl` oraz `max-cache-ttl` , nie mogą zostać określone w pliku
 `/etc/config/dhcp` i trzeba je umieścić w pliku `/etc/dnsmasq.conf` . Odpowiadają one za [czas
-ważności rekordu DNS w cache](https://en.wikipedia.org/wiki/Time_to_live#DNS_records). Po
-upłynięciu tego czasu trzeba będzie ponownie odpytać upstream'owy serwer DNS, by rozwiązać nazwę.
+ważności rekordu DNS w cache][4]. Po upłynięciu tego czasu trzeba będzie ponownie odpytać
+upstream'owy serwer DNS, by rozwiązać nazwę.
 
     min-cache-ttl=3600
     max-cache-ttl=7200
@@ -163,7 +163,7 @@ określonych interfejsach sieciowych.
         option leasetime '12h'
         option dhcpv6 'server'
         option ra 'server'
-    
+
     config dhcp 'wan'
         option interface 'wan'
         option ignore '1'
@@ -211,8 +211,7 @@ przypisany adres IP `192.168.1.166` i nazwa `the-hound` .
 ## Opcje dla klientów DHCP
 
 W pliku `/etc/confg/dhcp` możemy także zdefiniować opcje, które będą przesyłane z lease DHCP do
-hostów w sieci lokalnej. Pełna lista wszystkich dostępnych parametrów [znajduje się
-tutaj](http://www.digilab.com.pl/pub/RESOURCE.KIT/W2K%20SERVER%20RESOURCE%20KIT%20PL/TCPIP/dod_e.htm).
+hostów w sieci lokalnej. Pełna lista wszystkich dostępnych parametrów [znajduje się tutaj][5].
 Poniżej przykład:
 
     config dhcp 'lan'
@@ -227,3 +226,10 @@ jednocześnie bramą sieciową. Natomiast jeśli chodzi o drugą opcję, to okre
 DNS, które powinny zostać ustawione na hostach pobierających lease DHCP. Standardowo router
 uzupełnia to pole wpisując swój własny adres, po czym wszystkie zapytania DNS skierowane do niego
 są forward'owane zwykle do serwerów DNS naszego ISP.
+
+
+[1]: http://www.thekelleys.org.uk/dnsmasq/doc.html
+[2]: https://wiki.openwrt.org/doc/uci/dhcp
+[3]: https://en.wikipedia.org/wiki/DNS_rebinding
+[4]: https://en.wikipedia.org/wiki/Time_to_live#DNS_records
+[5]: https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xml

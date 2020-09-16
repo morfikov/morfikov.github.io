@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Linux
-date: "2016-08-25T20:04:33Z"
-date_gmt: 2016-08-25 18:04:33 +0200
+date:    2016-08-25 20:04:33 +0200
+lastmod: 2016-08-25 20:04:33 +0200
 published: true
 status: publish
 tags:
@@ -14,10 +14,9 @@ tags:
 title: Blokowanie zapytań DNS z dnscrypt-proxy na linux'ie
 ---
 
-[Narzędzie dnscrypt-proxy](https://dnscrypt.org/) począwszy od
-[wersji 1.7.0](https://github.com/jedisct1/dnscrypt-proxy/releases) ma domyślnie włączoną obsługę
+[Narzędzie dnscrypt-proxy][1] począwszy od [wersji 1.7.0][2] ma domyślnie włączoną obsługę
 wtyczek. W standardzie nie ma ich dużo, bo jedynie trzy ale mogą one się okazać dla pewnych osób
-bardzo użyteczne. Dzięki tym plugin'om możemy, np. zablokować rozwiązywanie nazw w protokole IPv6 na
+bardzo użyteczne. Dzięki tym pluginom możemy, np. zablokować rozwiązywanie nazw w protokole IPv6 na
 wypadek, gdyby ten protokół nie był wspierany w naszej sieci domowej czy też u naszego ISP. Możemy
 także zdefiniować sobie adresy/domeny, które powinny zostać zablokowane i w efekcie użytkownicy nie
 będą w stanie odwiedzić tych miejsc w internecie. Jest także wtyczka, która może nam pomóc zalogować
@@ -38,9 +37,8 @@ połączenie. Poniżej jest przykładowa sytuacja:
 Jak widać, do serwera DNS zostały wysłane dwa zapytania o adres IP serwisu YT. Serwer DNS zwrócił
 dwie odpowiedzi zawierające dwa adresy, po jednym dla protokołu IPv4 i IPv6.
 
-W przypadku, gdy mamy [lokalnie skonfigurowaną usługę
-dnscrypt-proxy]({{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/), wszystkie te
-zapytania mogą zostać przechwycone. `dnscrypt-proxy` natychmiast udzieli na nie pustej odpowiedzi, a
+W przypadku, gdy mamy [lokalnie skonfigurowaną usługę dnscrypt-proxy][3], wszystkie te zapytania
+mogą zostać przechwycone. `dnscrypt-proxy` natychmiast udzieli na nie pustej odpowiedzi, a
 aplikacja nie będzie musiała czekać na odpowiedź z serwera DNS.
 
 Plugin odpowiedzialny za blokowanie rekordów AAAA to `ldns-aaaa-blocking` . By go włączyć, musimy
@@ -161,3 +159,8 @@ błąd:
 ![]({{< baseurl >}}/img/2016/08/3.dnscrypt-proxy-blokowanie-domen-facebook-youtube.png#huge)
 
 Wszystkie inne domeny powinny działać bez zarzutu.
+
+
+[1]: https://dnscrypt.org/
+[2]: https://github.com/jedisct1/dnscrypt-proxy/releases
+[3]: {{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/
