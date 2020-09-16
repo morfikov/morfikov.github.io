@@ -17,12 +17,11 @@ www, musimy wykonać szereg zapytań DNS, by rozwiązać nazwy domen na adresy I
 mieli cache DNS, to te nazwy nie musiałyby być za każdym każdym razem rozwiązywane na nowo,
 przynajmniej nie przez odpytywanie zdalnego serwera DNS, do którego RTT wynosi jakieś 20-40ms.
 Przydałoby się zatem nieco poprawić wydajność stron www i w tym wpisie postaramy się zaimplementować
-prosty cache DNS z wykorzystaniem narzędzia
-dnsmasq." />
+prosty cache DNS z wykorzystaniem narzędzia dnsmasq." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/cache-dns-buforowania-zapytan/" />
-<meta property="article:published_time" content="2015-11-16T20:13:06+00:00" />
-<meta property="article:modified_time" content="2015-11-16T20:13:06+00:00" />
+<meta property="article:published_time" content="2015-11-16T20:13:06+02:00" />
+<meta property="article:modified_time" content="2015-11-16T20:13:06+02:00" />
 
 		<meta itemprop="name" content="Cache DNS, czyli włączenie buforowania zapytań">
 <meta itemprop="description" content="Większość z nas wie, że standardowe instalacje systemu linux nie buforują żadnych zapytań do
@@ -33,15 +32,14 @@ www, musimy wykonać szereg zapytań DNS, by rozwiązać nazwy domen na adresy I
 mieli cache DNS, to te nazwy nie musiałyby być za każdym każdym razem rozwiązywane na nowo,
 przynajmniej nie przez odpytywanie zdalnego serwera DNS, do którego RTT wynosi jakieś 20-40ms.
 Przydałoby się zatem nieco poprawić wydajność stron www i w tym wpisie postaramy się zaimplementować
-prosty cache DNS z wykorzystaniem narzędzia
-dnsmasq.">
-<meta itemprop="datePublished" content="2015-11-16T20:13:06+00:00" />
-<meta itemprop="dateModified" content="2015-11-16T20:13:06+00:00" />
-<meta itemprop="wordCount" content="1255">
+prosty cache DNS z wykorzystaniem narzędzia dnsmasq.">
+<meta itemprop="datePublished" content="2015-11-16T20:13:06+02:00" />
+<meta itemprop="dateModified" content="2015-11-16T20:13:06+02:00" />
+<meta itemprop="wordCount" content="1253">
 
 
 
-<meta itemprop="keywords" content="dns," />
+<meta itemprop="keywords" content="dns,cache,dnsmasq,systemd,resolver," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Cache DNS, czyli włączenie buforowania zapytań"/>
@@ -53,8 +51,7 @@ www, musimy wykonać szereg zapytań DNS, by rozwiązać nazwy domen na adresy I
 mieli cache DNS, to te nazwy nie musiałyby być za każdym każdym razem rozwiązywane na nowo,
 przynajmniej nie przez odpytywanie zdalnego serwera DNS, do którego RTT wynosi jakieś 20-40ms.
 Przydałoby się zatem nieco poprawić wydajność stron www i w tym wpisie postaramy się zaimplementować
-prosty cache DNS z wykorzystaniem narzędzia
-dnsmasq."/>
+prosty cache DNS z wykorzystaniem narzędzia dnsmasq."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -138,11 +135,11 @@ if (!doNotTrack) {
 		<div class="single block">
 			<article class="entry">
 	<div class="entry__meta meta mb">
-	<time class="entry__meta-published meta-published" datetime="2015-11-16T20:13:06Z">Opublikowano: 16/11/2015</time>
+	<time class="entry__meta-published meta-published" datetime="2015-11-16T20:13:06&#43;02:00">Opublikowano: 16/11/2015</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
 </span>
 	</div>
@@ -166,18 +163,16 @@ www, musimy wykonać szereg zapytań DNS, by rozwiązać nazwy domen na adresy I
 mieli cache DNS, to te nazwy nie musiałyby być za każdym każdym razem rozwiązywane na nowo,
 przynajmniej nie przez odpytywanie zdalnego serwera DNS, do którego RTT wynosi jakieś 20-40ms.
 Przydałoby się zatem nieco poprawić wydajność stron www i w tym wpisie postaramy się zaimplementować
-prosty cache DNS z wykorzystaniem <a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">narzędzia
-dnsmasq</a>.</p>
+prosty cache DNS z wykorzystaniem <a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">narzędzia dnsmasq</a>.</p>
 <h2 id="konfiguracja-dnsmasq">Konfiguracja dnsmasq</h2>
 <p>Z <code>dnsmasq</code> spotkaliśmy się już przy okazji <a href="https://morfikov.github.io
-/post/konfiguracja-trybu-ap-kart-wifi-na-debianie/">konfiguracji AP WiFi (Access Point) pod
-debianem</a>. Poniższy wpis nie
-będzie miał jednak nic wspólnego z sieciami bezprzewodowymi. Dlatego też dla tych, który nie są
-zaznajomieni z tym narzędziem, warto nadmienić, że <code>dnsmasq</code> realizuje zdania serwera DHCP, oraz ma
-także możliwość obsługi zapytań DNS i potrafi także te zapytania buforować. Obie te funkcjonalności
-(DHCP i DNS) są niezależne i w tym przypadku serwer DHCP nie będzie nam do niczego potrzebny. Tak
-czy inaczej, instalujemy pakiet <code>dnsmasq</code> i przechodzimy od razu do konfiguracji pliku
-<code>/etc/dnsmasq.conf</code> . Umieszczamy w nim te poniższe wpisy:</p>
+/post/konfiguracja-trybu-ap-kart-wifi-na-debianie/">konfiguracji AP WiFi (Access Point) pod debianem</a>.
+Poniższy wpis nie będzie miał jednak nic wspólnego z sieciami bezprzewodowymi. Dlatego też dla tych,
+który nie są zaznajomieni z tym narzędziem, warto nadmienić, że <code>dnsmasq</code> realizuje zdania serwera
+DHCP, oraz ma także możliwość obsługi zapytań DNS i potrafi także te zapytania buforować. Obie te
+funkcjonalności (DHCP i DNS) są niezależne i w tym przypadku serwer DHCP nie będzie nam do niczego
+potrzebny. Tak czy inaczej, instalujemy pakiet <code>dnsmasq</code> i przechodzimy od razu do konfiguracji
+pliku <code>/etc/dnsmasq.conf</code> . Umieszczamy w nim te poniższe wpisy:</p>
 <pre><code>domain-needed
 bogus-priv
 no-resolv
@@ -207,11 +202,11 @@ upubliczniać, to dobrze jest ją odseparować od reszty świata przenosząc ją
 zwrotnej. Nie chcemy także by działał serwer DHCP, dlatego też precyzujemy opcję <code>no-dhcp-interface</code>
 . Dalej w pliku mamy <code>no-hosts</code> , który zabroni czytania pliku <code>/etc/hosts</code> . Kolejne trzy opcje
 dotyczą cache serwera DNS i mamy tam <code>cache-size</code> odpowiadający za ilość wpisów w cache (o tym też
-za moment), oraz <code>min-cache-ttl</code> i <code>max-cache-ttl</code> , które ustalają <a href="https://en.wikipedia.org/wiki/Time_to_live#DNS_records">czas ważności rekordu
-DNS</a>, po upłynięciu którego trzeba będzie
-ponownie odpytać upstream'owy serwer DNS. Opcja <code>dns-forward-max</code> odpowiada za ilość jednoczesnych
-zapytań, które mogą być obsługiwane przez serwer DNS. Z kolei ostatnia opcja, tj. <code>no-negcache</code>
-sprawi, że do cache nie będą dodawane wpisy, których nie udało się rozwiązać.</p>
+za moment), oraz <code>min-cache-ttl</code> i <code>max-cache-ttl</code> , które ustalają <a href="https://en.wikipedia.org/wiki/Time_to_live#DNS_records">czas ważności rekordu DNS</a>,
+po upłynięciu którego trzeba będzie ponownie odpytać upstream'owy serwer DNS. Opcja
+<code>dns-forward-max</code> odpowiada za ilość jednoczesnych zapytań, które mogą być obsługiwane przez serwer
+DNS. Z kolei ostatnia opcja, tj. <code>no-negcache</code> sprawi, że do cache nie będą dodawane wpisy, których
+nie udało się rozwiązać.</p>
 <h2 id="przesyłanie-zapytań-do-lokalnego-serwera-dns">Przesyłanie zapytań do lokalnego serwera DNS</h2>
 <p>Ta powyższa konfiguracja dotyczy jedynie serwera DNS i po zresetowaniu demona <code>dnsmasq</code>, ten
 powinien już zacząć realizować swoją funkcję. Jest tylko jeden problem. Mianowicie, trzeba przesłać
@@ -230,23 +225,20 @@ DNS=127.0.0.1
 </code></pre>
 <p>Trzeba także pamiętać, że jeśli korzystamy dodatkowych wynalazków jeśli chodzi o zapytania DNS, np.
 ich <a href="https://morfikov.github.io
-/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/">szyfrowanie przy pomocy
-dnscrypt-proxy</a>, to musimy
-odpowiednio przekierować ruch. Generalnie rzecz biorąc, wszystkie zapytania o domeny mają lecieć na
-adres 127.0.0.1, port udp/53, na którym nasłuchuje <code>dnsmasq</code> . Po tym jak te zapytania dotrą na ten
-adres, zostaną przekierowane na adres, który został określony w konfiguracji <code>dnsmasq</code> (parametr
-<code>server</code> ), tj. <code>127.0.2.1</code> , port udp/5353. Na nim z kolei nasłuchuje
-<a href="https://dnscrypt.org/">dnscrypt-proxy</a> , który przesyła otrzymane od <code>dnsmasq</code> zapytania do
-upstream'owego serwera DNS określonego w konfiguracji <code>dnscrypt-proxy</code> .</p>
+/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/">szyfrowanie przy pomocy dnscrypt-proxy</a>, to musimy odpowiednio przekierować ruch.
+Generalnie rzecz biorąc, wszystkie zapytania o domeny mają lecieć na adres 127.0.0.1, port 53/udp,
+na którym nasłuchuje <code>dnsmasq</code> . Po tym jak te zapytania dotrą na ten adres, zostaną przekierowane
+na adres, który został określony w konfiguracji <code>dnsmasq</code> (parametr <code>server</code> ), tj. <code>127.0.2.1</code> ,
+port 5353/udp. Na nim z kolei nasłuchuje <a href="https://dnscrypt.org/">dnscrypt-proxy</a>, który przesyła otrzymane od <code>dnsmasq</code>
+zapytania do upstream'owego serwera DNS określonego w konfiguracji <code>dnscrypt-proxy</code> .</p>
 <h2 id="rozmiar-i-ważność-cache-serwera-dns">Rozmiar i ważność cache serwera DNS</h2>
 <p>W pliku <code>dnsmasq.conf</code> określiliśmy parametr <code>cache-size</code> odpowiadający za ilość wpisów, które mogą
 trafić do cache <code>dnsmasq</code> . W tym przypadku jest to 10.000. Czy to mało, czy to dużo? Generalnie
 rzecz biorąc, to zależy od sprzętu jakim dysponujemy. W dużej mierze decyduje tylko ilość pamięci
-RAM. Jak możemy wyczytać <a href="https://flux242.blogspot.fr/2012/06/dnsmasq-cache-size-tuning.html">tutaj</a>
-, nie powinniśmy z rozmiarem cache przeginać zanadto. Na maszynach 32 bitowych, każdy wpis w cache
-ma 82 lub 74 bajty w zależności od protokołu, tj. ipv6 lub ipv4. W przypadku maszyn 64 bitowych,
-rozmiar wpisów wynosi odpowiednio 94 oraz 86 bajtów. Zatem 10.000 wpisów to około 1MiB pamięci. Na
-desktopach to praktycznie nie ma większego znaczenia.</p>
+RAM. Jak możemy wyczytać <a href="https://flux242.blogspot.fr/2012/06/dnsmasq-cache-size-tuning.html">tutaj</a>, nie powinniśmy z rozmiarem cache przeginać zanadto. Na
+maszynach 32 bitowych, każdy wpis w cache ma 82 lub 74 bajty w zależności od protokołu, tj. IPv6 lub
+IPv4. W przypadku maszyn 64 bitowych, rozmiar wpisów wynosi odpowiednio 94 oraz 86 bajtów. Zatem
+10.000 wpisów to około 1MiB pamięci. Na desktopach to praktycznie nie ma większego znaczenia.</p>
 <p>Każdy taki wpis w cache ma określony termin ważności. Zwykle jest to dyktowane przez główny serwer
 DNS. Ten czas możemy zweryfikować sobie w każdej chwili za pomocą narzędzia <code>dig</code> , przykładowo:</p>
 <pre><code>$ dig wp.pl
@@ -290,18 +282,22 @@ dnsmasq[1880]: server 208.67.222.222#53: queries sent 2, retried or failed 0
 dnsmasq[1880]: server 127.0.2.1#5353: queries sent 8971, retried or failed 109
 </code></pre>
 <p>Jak czytać te powyższe statystyki? Zgodnie z tym co wyczytałem na <a href="http://lists.thekelleys.org.uk/pipermail/dnsmasq-discuss/2013q2/007331.html">liście mailingowej
-dnsmasq</a>, mając w
-pierwszej linijce <code>0/2431</code> , <code>0</code> oznacza brak usuniętych wpisów z cache zanim utraciły one ważność,
-natomiast <code>2431</code> oznacza ilość wpisów w cache ogółem. Te dwie wartości mówią nam czy ustawienia
-rozmiaru cache, czy też czasu ważności wpisów w nim należy dostosować. W przypadku gdy pierwsza
-wartość zacznie się zwiększać, trzeba pomyśleć nad zmianą parametrów cache. Dalej w logu nie ma już
-nic niezwykłego. Są zapytania, które zostały przesłane do upstream'owego serwera DNS ( <code>1502</code> ) i
-ilość rozwiązanych lokalnie ( <code>660</code> ). Są także statystyki dla konkretnych serwerów DNS.</p></div>
+dnsmasq</a>, mając w pierwszej linijce <code>0/2431</code> , <code>0</code> oznacza brak usuniętych wpisów z cache zanim
+utraciły one ważność, natomiast <code>2431</code> oznacza ilość wpisów w cache ogółem. Te dwie wartości mówią
+nam czy ustawienia rozmiaru cache, czy też czasu ważności wpisów w nim należy dostosować.
+W przypadku gdy pierwsza wartość zacznie się zwiększać, trzeba pomyśleć nad zmianą parametrów cache.
+Dalej w logu nie ma już nic niezwykłego. Są zapytania, które zostały przesłane do upstream'owego
+serwera DNS ( <code>1502</code> ) i ilość rozwiązanych lokalnie ( <code>660</code> ). Są także statystyki dla konkretnych
+serwerów DNS.</p></div>
 				
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dns/">dns</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/cache/">cache</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dnsmasq/">dnsmasq</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/resolver/">resolver</a>
 </div>
 					
 <div class="entry__share share">
@@ -358,6 +354,14 @@ ilość rozwiązanych lokalnie ( <code>660</code> ). Są także statystyki dla k
 	<ul class="related__list">
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/">DNScrypt-proxy, czyli szyfrowanie zapytań DNS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czyszczenie-konsoli-tty-w-systemd/">Czyszczenie konsoli TTY w systemd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/skrot-ctrl-alt-del-w-systemd/">Skrót Ctrl-Alt-Del w systemd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/brak-dzwieku-przy-nieaktywnej-sesji-logowania/">Brak dźwięku przy nieaktywnej sesji logowania</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wylaczenie-wol-w-karcie-sieciowej/">Wyłączenie WOL w karcie sieciowej</a></li>
 		
 	</ul>
 </div>

@@ -9,57 +9,54 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:title" content="Aero2 w połączeniu z dnsmasq i dnscrypt-proxy" />
-<meta property="og:description" content="Aero2 już od dość dawna oferuje darmowy dostęp do internetu w technologi LTE
-ale jakoś wcześniej nie byłem tym tematem zainteresowany. Parę dni temu złożyłem jednak wniosek o
-kartę SIM, tak by posiadać zapasowe łącze na wypadek, gdyby mój obecny ISP z jakiegoś powodu padł.
-Aero2 oferuje wersję komercyjną jak i tę za free i każda z nich ma swoje wady i zalety. Jako, że to
-łącze ma robić jedynie za zapas, to korzystam z wersji FREE, a jest ono dość poważne ograniczenie,
-tj. występuje tutaj kod CAPTCHA, który trzeba wpisywać tak
-co godzinę, po czym należy resetować modem. Ten kod może zostać zaserwowany jedynie w przypadku
-korzystania z DNS Aero2 i pozornie odpada możliwość używania własnego systemu DNS opartego o
-dnsmasq i dnscrypt-proxy.
-Po kilku dniach eksperymentów udało mi się wypracować przyzwoitą konfigurację, która potrafi obejść
-to ograniczenie, poprawiając tym samym prywatność i bezpieczeństwo w internecie korzystając z
+<meta property="og:description" content="Aero2 już od dość dawna oferuje darmowy dostęp do internetu w technologi LTE ale jakoś
+wcześniej nie byłem tym tematem zainteresowany. Parę dni temu złożyłem jednak wniosek o kartę SIM,
+tak by posiadać zapasowe łącze na wypadek, gdyby mój obecny ISP z jakiegoś powodu padł. Aero2
+oferuje wersję komercyjną jak i tę za free i każda z nich ma swoje wady i zalety. Jako, że to łącze
+ma robić jedynie za zapas, to korzystam z wersji FREE, a jest ono dość poważne ograniczenie, tj.
+występuje tutaj kod CAPTCHA, który trzeba wpisywać tak co godzinę, po czym należy resetować
+modem. Ten kod może zostać zaserwowany jedynie w przypadku korzystania z DNS Aero2 i pozornie
+odpada możliwość używania własnego systemu DNS opartego o dnsmasq i dnscrypt-proxy. Po
+kilku dniach eksperymentów udało mi się wypracować przyzwoitą konfigurację, która potrafi obejść to
+ograniczenie, poprawiając tym samym prywatność i bezpieczeństwo w internecie korzystając z
 darmowego LTE za sprawą Aero2. W tym wpisie postaramy się zaimplementować ten mechanizm na debianie." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/aero2-w-polaczeniu-z-dnsmasq-dnscrypt-proxy/" />
-<meta property="article:published_time" content="2016-04-02T18:47:47+00:00" />
-<meta property="article:modified_time" content="2016-04-02T18:47:47+00:00" />
+<meta property="article:published_time" content="2016-04-02T18:47:47+02:00" />
+<meta property="article:modified_time" content="2016-04-02T18:47:47+02:00" />
 
 		<meta itemprop="name" content="Aero2 w połączeniu z dnsmasq i dnscrypt-proxy">
-<meta itemprop="description" content="Aero2 już od dość dawna oferuje darmowy dostęp do internetu w technologi LTE
-ale jakoś wcześniej nie byłem tym tematem zainteresowany. Parę dni temu złożyłem jednak wniosek o
-kartę SIM, tak by posiadać zapasowe łącze na wypadek, gdyby mój obecny ISP z jakiegoś powodu padł.
-Aero2 oferuje wersję komercyjną jak i tę za free i każda z nich ma swoje wady i zalety. Jako, że to
-łącze ma robić jedynie za zapas, to korzystam z wersji FREE, a jest ono dość poważne ograniczenie,
-tj. występuje tutaj kod CAPTCHA, który trzeba wpisywać tak
-co godzinę, po czym należy resetować modem. Ten kod może zostać zaserwowany jedynie w przypadku
-korzystania z DNS Aero2 i pozornie odpada możliwość używania własnego systemu DNS opartego o
-dnsmasq i dnscrypt-proxy.
-Po kilku dniach eksperymentów udało mi się wypracować przyzwoitą konfigurację, która potrafi obejść
-to ograniczenie, poprawiając tym samym prywatność i bezpieczeństwo w internecie korzystając z
+<meta itemprop="description" content="Aero2 już od dość dawna oferuje darmowy dostęp do internetu w technologi LTE ale jakoś
+wcześniej nie byłem tym tematem zainteresowany. Parę dni temu złożyłem jednak wniosek o kartę SIM,
+tak by posiadać zapasowe łącze na wypadek, gdyby mój obecny ISP z jakiegoś powodu padł. Aero2
+oferuje wersję komercyjną jak i tę za free i każda z nich ma swoje wady i zalety. Jako, że to łącze
+ma robić jedynie za zapas, to korzystam z wersji FREE, a jest ono dość poważne ograniczenie, tj.
+występuje tutaj kod CAPTCHA, który trzeba wpisywać tak co godzinę, po czym należy resetować
+modem. Ten kod może zostać zaserwowany jedynie w przypadku korzystania z DNS Aero2 i pozornie
+odpada możliwość używania własnego systemu DNS opartego o dnsmasq i dnscrypt-proxy. Po
+kilku dniach eksperymentów udało mi się wypracować przyzwoitą konfigurację, która potrafi obejść to
+ograniczenie, poprawiając tym samym prywatność i bezpieczeństwo w internecie korzystając z
 darmowego LTE za sprawą Aero2. W tym wpisie postaramy się zaimplementować ten mechanizm na debianie.">
-<meta itemprop="datePublished" content="2016-04-02T18:47:47+00:00" />
-<meta itemprop="dateModified" content="2016-04-02T18:47:47+00:00" />
+<meta itemprop="datePublished" content="2016-04-02T18:47:47+02:00" />
+<meta itemprop="dateModified" content="2016-04-02T18:47:47+02:00" />
 <meta itemprop="wordCount" content="1098">
 
 
 
-<meta itemprop="keywords" content="resolver,sieć,aero2,lte,modem,huawei,e3372," />
+<meta itemprop="keywords" content="resolver,sieć,aero2,lte,modem,huawei,e3372,dns,dnsmasq,dnscrypt," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Aero2 w połączeniu z dnsmasq i dnscrypt-proxy"/>
-<meta name="twitter:description" content="Aero2 już od dość dawna oferuje darmowy dostęp do internetu w technologi LTE
-ale jakoś wcześniej nie byłem tym tematem zainteresowany. Parę dni temu złożyłem jednak wniosek o
-kartę SIM, tak by posiadać zapasowe łącze na wypadek, gdyby mój obecny ISP z jakiegoś powodu padł.
-Aero2 oferuje wersję komercyjną jak i tę za free i każda z nich ma swoje wady i zalety. Jako, że to
-łącze ma robić jedynie za zapas, to korzystam z wersji FREE, a jest ono dość poważne ograniczenie,
-tj. występuje tutaj kod CAPTCHA, który trzeba wpisywać tak
-co godzinę, po czym należy resetować modem. Ten kod może zostać zaserwowany jedynie w przypadku
-korzystania z DNS Aero2 i pozornie odpada możliwość używania własnego systemu DNS opartego o
-dnsmasq i dnscrypt-proxy.
-Po kilku dniach eksperymentów udało mi się wypracować przyzwoitą konfigurację, która potrafi obejść
-to ograniczenie, poprawiając tym samym prywatność i bezpieczeństwo w internecie korzystając z
+<meta name="twitter:description" content="Aero2 już od dość dawna oferuje darmowy dostęp do internetu w technologi LTE ale jakoś
+wcześniej nie byłem tym tematem zainteresowany. Parę dni temu złożyłem jednak wniosek o kartę SIM,
+tak by posiadać zapasowe łącze na wypadek, gdyby mój obecny ISP z jakiegoś powodu padł. Aero2
+oferuje wersję komercyjną jak i tę za free i każda z nich ma swoje wady i zalety. Jako, że to łącze
+ma robić jedynie za zapas, to korzystam z wersji FREE, a jest ono dość poważne ograniczenie, tj.
+występuje tutaj kod CAPTCHA, który trzeba wpisywać tak co godzinę, po czym należy resetować
+modem. Ten kod może zostać zaserwowany jedynie w przypadku korzystania z DNS Aero2 i pozornie
+odpada możliwość używania własnego systemu DNS opartego o dnsmasq i dnscrypt-proxy. Po
+kilku dniach eksperymentów udało mi się wypracować przyzwoitą konfigurację, która potrafi obejść to
+ograniczenie, poprawiając tym samym prywatność i bezpieczeństwo w internecie korzystając z
 darmowego LTE za sprawą Aero2. W tym wpisie postaramy się zaimplementować ten mechanizm na debianie."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
@@ -144,11 +141,11 @@ if (!doNotTrack) {
 		<div class="single block">
 			<article class="entry">
 	<div class="entry__meta meta mb">
-	<time class="entry__meta-published meta-published" datetime="2016-04-02T18:47:47Z">Opublikowano: 02/04/2016</time>
+	<time class="entry__meta-published meta-published" datetime="2016-04-02T18:47:47&#43;02:00">Opublikowano: 02/04/2016</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
 </span>
 	</div>
@@ -164,27 +161,25 @@ if (!doNotTrack) {
   </ol>
 </nav>
 </details>
-				<div class="entry__content"><p><a href="https://aero2.pl/">Aero2</a> już od dość dawna oferuje darmowy dostęp do internetu w technologi LTE
-ale jakoś wcześniej nie byłem tym tematem zainteresowany. Parę dni temu złożyłem jednak wniosek o
-kartę SIM, tak by posiadać zapasowe łącze na wypadek, gdyby mój obecny ISP z jakiegoś powodu padł.
-Aero2 oferuje wersję komercyjną jak i tę za free i każda z nich ma swoje wady i zalety. Jako, że to
-łącze ma robić jedynie za zapas, to korzystam z wersji FREE, a jest ono dość poważne ograniczenie,
-tj. występuje tutaj <a href="https://pl.wikipedia.org/wiki/CAPTCHA">kod CAPTCHA</a>, który trzeba wpisywać tak
-co godzinę, po czym należy resetować modem. Ten kod może zostać zaserwowany jedynie w przypadku
-korzystania z DNS Aero2 i pozornie odpada możliwość używania własnego systemu DNS opartego o
-<a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a> i <a href="https://dnscrypt.org/">dnscrypt-proxy</a>.
-Po kilku dniach eksperymentów udało mi się wypracować przyzwoitą konfigurację, która potrafi obejść
-to ograniczenie, poprawiając tym samym prywatność i bezpieczeństwo w internecie korzystając z
+				<div class="entry__content"><p><a href="https://aero2.pl/">Aero2</a> już od dość dawna oferuje darmowy dostęp do internetu w technologi LTE ale jakoś
+wcześniej nie byłem tym tematem zainteresowany. Parę dni temu złożyłem jednak wniosek o kartę SIM,
+tak by posiadać zapasowe łącze na wypadek, gdyby mój obecny ISP z jakiegoś powodu padł. Aero2
+oferuje wersję komercyjną jak i tę za free i każda z nich ma swoje wady i zalety. Jako, że to łącze
+ma robić jedynie za zapas, to korzystam z wersji FREE, a jest ono dość poważne ograniczenie, tj.
+występuje tutaj <a href="https://pl.wikipedia.org/wiki/CAPTCHA">kod CAPTCHA</a>, który trzeba wpisywać tak co godzinę, po czym należy resetować
+modem. Ten kod może zostać zaserwowany jedynie w przypadku korzystania z DNS Aero2 i pozornie
+odpada możliwość używania własnego systemu DNS opartego o <a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a> i <a href="https://dnscrypt.org/">dnscrypt-proxy</a>. Po
+kilku dniach eksperymentów udało mi się wypracować przyzwoitą konfigurację, która potrafi obejść to
+ograniczenie, poprawiając tym samym prywatność i bezpieczeństwo w internecie korzystając z
 darmowego LTE za sprawą Aero2. W tym wpisie postaramy się zaimplementować ten mechanizm na debianie.</p>
 <h2 id="resolver-na-potrzeby-aero2">Resolver na potrzeby Aero2</h2>
 <p>Przede wszystkim, potrzebne nam będą odpowiednie pakiety i konfiguracja systemu. Nie będziemy
 korzystać z automatów, bo one tylko będą przeszkadzać. <a href="https://morfikov.github.io
 /post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/">Tutaj znajduje się opis konfiguracji
-narzędzia dnscrypt-proxy</a>, a
-<a href="https://morfikov.github.io
-/post/cache-dns-buforowania-zapytan/">tutaj zaś jest opisana konfiguracja
-dnsmasq</a>. Nie będę poruszał tutaj tych
-tematów i zakładam, że mamy już odpowiedni setup zaprojektowany oraz, że on działa.</p>
+narzędzia dnscrypt-proxy</a>, a <a href="https://morfikov.github.io
+/post/cache-dns-buforowania-zapytan/">tutaj zaś jest opisana konfiguracja dnsmasq</a>. Nie będę
+poruszał tutaj tych tematów i zakładam, że mamy już odpowiedni setup zaprojektowany oraz, że on
+działa.</p>
 <p>By ułatwić nieco zrozumienie samej konfiguracji, trzeba ustalić kilka rzeczy. Przede wszystkim,
 wpisy w pliku <code>/etc/resolv.conf</code> wskazują na adres <code>127.0.0.1</code> . Jest to adres, na którym nasłuchuje
 <code>dnsmasq</code> . Zapytania DNS wędrują do <code>dnsmasq</code> i ten albo odpowiada adresami IP ze swojego cache,
@@ -228,10 +223,9 @@ rebind-localhost-ok
 rebind-domain-ok=free.aero2.net.pl
 </code></pre>
 <p>Opcja <code>stop-dns-rebind</code> zapobiega przekierowaniu w oparciu od DNS, tj. wpisujemy jedną domenę, a
-jest nam zwracana inna, tzw <a href="https://en.wikipedia.org/wiki/DNS_rebinding">DNS rebinding</a> i dokładnie
-ten mechanizm ma miejsce w przypadku serwowania strony z kodem CAPTCHA przez Aero2. Dlatego też
-musimy jedną domenę wyłączyć spod działania tego mechanizmu i za to odpowiada parametr
-<code>rebind-domain-ok</code> .</p>
+jest nam zwracana inna, tzw <a href="https://en.wikipedia.org/wiki/DNS_rebinding">DNS rebinding</a> i dokładnie ten mechanizm ma miejsce w przypadku
+serwowania strony z kodem CAPTCHA przez Aero2. Dlatego też musimy jedną domenę wyłączyć spod
+działania tego mechanizmu i za to odpowiada parametr <code>rebind-domain-ok</code> .</p>
 <h2 id="konfiguracja-wvdial">Konfiguracja wvdial</h2>
 <p>Musimy jeszcze skonfigurować połączenie. Na debianie sid, ta procedura sprowadza się do
 zainstalowania pakietów <code>ppp</code> , <code>usb-modeswitch</code> oraz <code>wvdial</code> . W zależności od posiadanego modemu,
@@ -323,6 +317,9 @@ które odwiedzaliśmy korzystając z darmowego internetu LTE od Aero2.</p></div>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/modem/">modem</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/huawei/">huawei</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/e3372/">e3372</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dns/">dns</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dnsmasq/">dnsmasq</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dnscrypt/">dnscrypt</a>
 </div>
 					
 <div class="entry__share share">
@@ -378,15 +375,15 @@ które odwiedzaliśmy korzystając z darmowego internetu LTE od Aero2.</p></div>
 	<h3 class="related__title">Powiązane</h3>
 	<ul class="related__list">
 		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/cache-dns-buforowania-zapytan/">Cache DNS, czyli włączenie buforowania zapytań</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/">DNScrypt-proxy, czyli szyfrowanie zapytań DNS</a></li>
+		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/">Konfiguracja tunelu 6in4 w OpenWRT (IPv6)</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/implementacja-protokolu-ssltls-w-vsftpd/">Implementacja protokołu SSL/TLS w vsftpd</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-vsftpd-w-debianie/">Konfiguracja vsftpd w Debianie</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/backup-dysku-przez-siec-przy-pomocy-dd-netcat/">Backup dysku przez sieć przy pomocy dd i netcat</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/implementacja-protokolu-ipv6-za-pomoca-tunelu-6to4/">Implementacja protokołu IPv6 za pomocą tunelu 6to4</a></li>
 		
 	</ul>
 </div>

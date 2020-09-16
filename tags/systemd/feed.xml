@@ -244,6 +244,24 @@ doświadczyć problemów związanych z tą migracją nazw.&lt;/p&gt;</descriptio
     
     <item>
 	  <author>Mikhail Morfikov</author>
+      <title>Cache DNS, czyli włączenie buforowania zapytań</title>
+      <link>https://morfikov.github.io/post/cache-dns-buforowania-zapytan/</link>
+      <pubDate>Mon, 16 Nov 2015 20:13:06 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/cache-dns-buforowania-zapytan/</guid>
+      <description>&lt;p&gt;Większość z nas wie, że standardowe instalacje systemu linux nie buforują żadnych zapytań do
+serwerów DNS. Dzieje się tak dlatego, że te systemy domyślnie nie mają zainstalowanego żadnego
+oprogramowania, które by im to umożliwiało. Niesie to ze sobą zwiększenie opóźnień transakcji
+krótkoterminowych, np. tych w protokole http czy https. Za każdym razem gdy odwiedzamy jakiś serwis
+www, musimy wykonać szereg zapytań DNS, by rozwiązać nazwy domen na adresy IP. W przypadku gdybyśmy
+mieli cache DNS, to te nazwy nie musiałyby być za każdym każdym razem rozwiązywane na nowo,
+przynajmniej nie przez odpytywanie zdalnego serwera DNS, do którego RTT wynosi jakieś 20-40ms.
+Przydałoby się zatem nieco poprawić wydajność stron www i w tym wpisie postaramy się zaimplementować
+prosty cache DNS z wykorzystaniem &lt;a href=&#34;http://www.thekelleys.org.uk/dnsmasq/doc.html&#34;&gt;narzędzia dnsmasq&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
       <title>Czyszczenie konsoli TTY w systemd</title>
       <link>https://morfikov.github.io/post/czyszczenie-konsoli-tty-w-systemd/</link>
       <pubDate>Sat, 07 Nov 2015 11:48:02 +0000</pubDate>
@@ -369,27 +387,6 @@ rozległy&lt;/a&gt; i nie będziemy tutaj
 opisywać wszystkich możliwych scenariuszy jej zastosowania. Zamiast tego skupimy się jedynie na
 bazowym skrypcie, który można rozbudować bez przeszkód i dostosować go zarówno pod maszyny klienckie
 jak i te serwerowe.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>DNScrypt-proxy, czyli szyfrowanie zapytań DNS</title>
-      <link>https://morfikov.github.io/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/</link>
-      <pubDate>Thu, 18 Jun 2015 20:00:54 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/</guid>
-      <description>&lt;p&gt;Do protokołów SSL/TLS w serwisach www chyba wszyscy już przywykli. Obecnie praktycznie na każdej
-stronie, gdzie jest okienko logowania, mamy do czynienia z szyfrowaniem danych przesyłanych w
-różnego rodzaju formularzach. Co prawda, klucze nie są zbyt długie (512-2048 bitów) ale zawsze to
-lepsze niż nic. O ile dane służące do logowania czy też wszelkie operacje dokonywane w panelach
-administracyjnych da radę ukryć bez większego problemu, o tyle zapytania DNS są przesyłane otwartym
-tekstem i każdy może je sobie podejrzeć. Pytanie tylko, po co szyfrować ruch DNS? Czy są tam
-przesyłane jakieś ważne informacje? Jeśli przyjrzymy się jak działa system DNS, możemy dojść do
-wniosku, że szyfrowanie zapytań jest pozbawione sensu, bo z reguły nazwa domeny oznacza konkretny
-adres IP. Znając adres IP, możemy ustalić kto na jakie strony wchodzi. Nie do końca jest to prawdą,
-poza tym istnieją jeszcze inne czynniki, które sprawiają, że ukrycie zapytań DNS ma jak najbardziej
-sens. W tym wpisie zaimplementujemy sobie na naszych linux&#39;ach szyfrowanie zapytań DNS przy
-wykorzystaniu &lt;a href=&#34;https://dnscrypt.org/&#34;&gt;narzędzia dnscrypt-proxy&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -23,8 +23,8 @@ sens. W tym wpisie zaimplementujemy sobie na naszych linux&#39;ach szyfrowanie z
 wykorzystaniu narzędzia dnscrypt-proxy." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/" />
-<meta property="article:published_time" content="2015-06-18T20:00:54+00:00" />
-<meta property="article:modified_time" content="2015-06-18T20:00:54+00:00" />
+<meta property="article:published_time" content="2015-06-18T20:00:54+02:00" />
+<meta property="article:modified_time" content="2015-06-18T20:00:54+02:00" />
 
 		<meta itemprop="name" content="DNScrypt-proxy, czyli szyfrowanie zapytań DNS">
 <meta itemprop="description" content="Do protokołów SSL/TLS w serwisach www chyba wszyscy już przywykli. Obecnie praktycznie na każdej
@@ -39,13 +39,13 @@ adres IP. Znając adres IP, możemy ustalić kto na jakie strony wchodzi. Nie do
 poza tym istnieją jeszcze inne czynniki, które sprawiają, że ukrycie zapytań DNS ma jak najbardziej
 sens. W tym wpisie zaimplementujemy sobie na naszych linux&#39;ach szyfrowanie zapytań DNS przy
 wykorzystaniu narzędzia dnscrypt-proxy.">
-<meta itemprop="datePublished" content="2015-06-18T20:00:54+00:00" />
-<meta itemprop="dateModified" content="2015-06-18T20:00:54+00:00" />
+<meta itemprop="datePublished" content="2015-06-18T20:00:54+02:00" />
+<meta itemprop="dateModified" content="2015-06-18T20:00:54+02:00" />
 <meta itemprop="wordCount" content="883">
 
 
 
-<meta itemprop="keywords" content="dns,resolver,szyfrowanie,systemd," />
+<meta itemprop="keywords" content="dns,resolver,szyfrowanie,systemd,dnscrypt,prywatność,bezpieczeństwo," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="DNScrypt-proxy, czyli szyfrowanie zapytań DNS"/>
@@ -144,11 +144,11 @@ if (!doNotTrack) {
 		<div class="single block">
 			<article class="entry">
 	<div class="entry__meta meta mb">
-	<time class="entry__meta-published meta-published" datetime="2015-06-18T20:00:54Z">Opublikowano: 18/06/2015</time>
+	<time class="entry__meta-published meta-published" datetime="2015-06-18T20:00:54&#43;02:00">Opublikowano: 18/06/2015</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux" rel="category">Linux</a>
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
 </span>
 	</div>
@@ -208,11 +208,10 @@ serwerów DNS nie uległy zmianie.</p>
 <pre><code>nameserver 208.67.222.222
 nameserver 208.67.220.220
 </code></pre>
-<p>W przypadku korzystania z <a href="https://www.freedesktop.org/wiki/Software/systemd/">systemd</a>, plik
-<code>resolv.conf</code> jest dowiązaniem do <code>/run/systemd/resolve/resolv.conf</code> i jako, że ten plik znajduje
-się w katalogu <code>/run/</code> jest on tworzony na nowo przy starcie systemu. Zatem manualna edycja tego
-pliku nie jest zalecana. Lepszym wyjściem jest konfiguracja resolver'a bezpośrednio przez <a href="https://www.freedesktop.org/software/systemd/man/systemd.network.html">pliki
-.network</a>.</p>
+<p>W przypadku korzystania z <a href="https://www.freedesktop.org/wiki/Software/systemd/">systemd</a>, plik <code>resolv.conf</code> jest dowiązaniem do
+<code>/run/systemd/resolve/resolv.conf</code> i jako, że ten plik znajduje się w katalogu <code>/run/</code> jest on
+tworzony na nowo przy starcie systemu. Zatem manualna edycja tego pliku nie jest zalecana. Lepszym
+wyjściem jest konfiguracja resolver'a bezpośrednio przez <a href="https://www.freedesktop.org/software/systemd/man/systemd.network.html">pliki .network</a>.</p>
 <h2 id="dnscrypt-proxy-na-straży-prywatności">DNScrypt-proxy na straży prywatności</h2>
 <p>My jednak będziemy korzystać z opcji szyfrowania zapytań i nie możemy bezpośrednio użyć powyższych
 adresów. Musimy pierw utworzyć lokalny serwer, który będzie zapytania szyfrował i przesyłał je do
@@ -232,8 +231,7 @@ i na jej miejscu dodać tę poniższą linijkę:</p>
 </code></pre>
 <h2 id="testowanie-konfiguracji-resolvera">Testowanie konfiguracji resolver'a</h2>
 <p>By sprawdzić czy zapytania DNS są szyfrowane za sprawą <code>dnscrypt-proxy</code> , możemy odwiedzić <a href="https://www.opendns.com/welcome/">stronę
-testową OpenDNS</a>, gdzie powinniśmy zobaczyć ten poniższy
-komunikat:</p>
+testową OpenDNS</a>, gdzie powinniśmy zobaczyć ten poniższy komunikat:</p>
 <p><img src="https://morfikov.github.io
 /img/2015/06/1.test-konfiguracji-dnscrypt-proxy.png#medium" alt=""></p>
 <p>Nie mamy tam żadnych informacji dotyczących szyfrowania ruchu ale skoro przekierowaliśmy ruch na
@@ -260,6 +258,9 @@ adres resolver'a, który wskazuje na nasz adres lokalny <code>127.0.2.1#53</code
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/resolver/">resolver</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">szyfrowanie</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dnscrypt/">dnscrypt</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/prywatno%C5%9B%C4%87/">prywatność</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bezpiecze%C5%84stwo/">bezpieczeństwo</a>
 </div>
 					
 <div class="entry__share share">
@@ -319,7 +320,11 @@ adres resolver'a, który wskazuje na nasz adres lokalny <code>127.0.2.1#53</code
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uwierzytelniajace-klucze-ssh/">Uwierzytelniające klucze SSH</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/skryptowa-nakladka-na-kernelowski-modul-zram/">Skryptowa nakładka na kernelowski moduł ZRAM</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/automatyczne-wylogowanie-uzytkownika-z-konsoli/">Automatyczne wylogowanie użytkownika z konsoli</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-gpg-w-pliku-gpg-conf/">Konfiguracja GPG w pliku gpg.conf</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/automatycznie-generowane-haslo-do-serwisu-www/">Automatycznie generowane hasło do serwisu WWW</a></li>
 		
 	</ul>
 </div>
