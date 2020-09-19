@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Linux
 date:    2015-06-18 20:00:54 +0200
-lastmod: 2015-06-18 20:00:54 +0200
+lastmod: 2020-00-19 15:40:54 +0200
 published: true
 status: publish
 tags:
@@ -31,6 +31,9 @@ sens. W tym wpisie zaimplementujemy sobie na naszych linux'ach szyfrowanie zapyt
 wykorzystaniu [narzędzia dnscrypt-proxy][1].
 
 <!--more-->
+
+> Bardziej aktualna wersja tego wpisu znajduje się [tutaj][6].
+
 ## Wiele domen i cenzura
 
 Czy naprawdę możemy ustalić kto jakie serwisy odwiedza na podstawie adresu IP? W sporej części
@@ -128,3 +131,4 @@ adres resolver'a, który wskazuje na nasz adres lokalny `127.0.2.1#53` .
 [3]: https://www.freedesktop.org/software/systemd/man/systemd.network.html
 [4]: https://www.opendns.com/
 [5]: https://www.opendns.com/welcome/
+[6]: {{< baseurl >}}/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/
