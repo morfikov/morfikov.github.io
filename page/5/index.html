@@ -13,7 +13,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/" />
-<meta property="og:updated_time" content="2020-09-07T20:15:00+02:00" />
+<meta property="og:updated_time" content="2020-09-19T14:13:00+02:00" />
 
 		<meta itemprop="name" content="Morfitronik">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -90,6 +90,37 @@ if (!doNotTrack) {
 	
 	<main class="main">
 			<div class="cards">
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/blokowanie-niepozadanej-komunikacji-z-nftables-na-linux/">Blokowanie niepożądanej komunikacji z nftables na linux</a></h1>
+	<div class="entry__content"><p>Minęło już trochę czasu od momentu, w którym postanowiłem się przerzucić z <code>iptables</code> na <code>nftables</code>
+w swoim Debianie i w zasadzie większość mechanizmów obronnych mojego laptopowego firewall'a została
+już z powodzeniem przeportowana na ten nowy filtr pakietów. Poza tymi starymi regułami próbuję
+czasem ogarniać nieco bardziej wyrafinowane sposoby na unikanie zagrożeń sieciowych, choć
+implementacja niektórych rzeczy nie zawsze jest taka oczywista, z tym, że niekoniecznie niemożliwa
+do zrealizowana. Tak było w przypadku mechanizmu automatycznego blokowania hostów próbujących się
+łączyć z daną maszyną, która sobie najwyraźniej tego nie życzy. Dla przykładu, jest serwer
+udostępniający usługę SSH na porcie <code>11111</code> i tylko ten port jest wystawiony na świat. Wszelkiego
+rodzaju boty próbujące dostać się do maszyn linux'owych próbkują z kolei głównie standardowe porty,
+w tym przypadku <code>22</code> . Ci użytkownicy, którzy powinni mieć dostęp do usługi SSH, wiedzą na jakim
+porcie ona nasłuchuje. Można zatem założyć, że wszystkie połączenia na port <code>22</code> będą dokonywane
+przez boty albo przez użytkowników, którzy mają niecne zamiary. Wszystkie te połączenia można by
+zatem zablokować tworząc mechanizm automatycznego banowania hostów w oparciu o czas ostatniej próby
+połączenia, tak jak to zostało opisane mniej
+więcej <a href="https://forum.dug.net.pl/viewtopic.php?pid=269383">w tym wątku na forum</a>. Problem w tym, że
+tamto rozwiązanie dotyczy jedynie <code>iptables</code> w połączeniu z <code>ipset</code> , co nieco komplikuje wdrożenie
+go w przypadku <code>nftables</code> ale to zadanie jest jak najbardziej możliwe.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-04-12T20:53:40Z">Opublikowano: 12/04/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
 					<div class="card card--2col">
 					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/unikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables/">Unikanie SYN/ICMP/UDP/PING flood w linux z nftables</a></h1>
@@ -326,33 +357,6 @@ jądra operacyjnego, system nam automatycznie zbudował wszystkie dodatkowe modu
 komputer wymaga do poprawnej pracy.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-03-17T09:37:28Z">Opublikowano: 17/03/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-					</div>
-					<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/czy-linuxowy-firewall-powinien-blokowac-pakiety-not-syn-w-stanie-new/">Czy linux&#39;owy firewall powinien blokować pakiety not-syn w stanie NEW</a></h1>
-	<div class="entry__content"><p>Od czasu do czasu w logu systemowym mojego Debiana można zanotować szereg pakietów przychodzących,
-które są zrzucane przez linux'owy firewall (<code>nftables</code>/<code>iptables</code> ). Po krótkiej analizie okazało
-się, że są to pakiety protokołu TCP mające stan <code>NEW</code> (czyli są to nowe połączenia) ale
-niezawierające przy tym flagi <code>SYN</code> . Mój laptop nie ma aktualnie przydzielonego zewnętrznego
-routowalnego adresu IPv4/IPv6, więc nasunęło się pytanie o przyczynę takiego stanu
-rzeczy -- przecie będąc za NAT, nikt spoza sieci nie powinien być w stanie nawiązać połączenia z
-moją maszyną, a ewidentnie co się do jej bram dobija i to nie z adresu lokalnego. Niby mam też
-odfiltrowane pakiety w stanie <code>INVALID</code> (np. te mające niepoprawny zestaw flag) ale widać te
-pakiety, o których mowa, nie zaliczają się do tego stanu, więc wygląda na to, że wszystko z nimi
-jest w porządku. Czy tego typu pakiety TCP w stanie <code>NEW</code> niemające ustawionej flagi <code>SYN</code>
-stanowią jakieś zagrożenie dla naszego komputera? Czy powinno się je zablokować, a może przepuścić
-w filtrze pakietów? A jeśli zablokować, to czy zwykły <code>DROP</code> wystarczy czy może powinno się te
-pakiety potraktować przy pomocy <code>REJECT</code> ?</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-03-15T18:02:21Z">Opublikowano: 15/03/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

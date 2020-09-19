@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/categories/linux/" />
-<meta property="og:updated_time" content="2020-09-07T20:15:00+02:00" />
+<meta property="og:updated_time" content="2020-09-19T14:13:00+02:00" />
 
 		<meta itemprop="name" content="Linux">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -106,6 +106,35 @@ if (!doNotTrack) {
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/">Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux</a></h1>
+	<div class="entry__content"><p>Ostatnio na forum dug.net.pl jeden z użytkowników <a href="https://forum.dug.net.pl/viewtopic.php?id=31524">miał dość spory problem</a> z ogarnięciem
+zadania polegającego na zaszyfrowaniu zapytań DNS z wykorzystaniem <a href="https://dnscrypt.info/">dnscrypt-proxy</a> i
+<a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a>. Ładnych parę lat temu opisywałem <a href="https://morfikov.github.io
+/tags/resolver/">jak skonfigurować te dwa narzędzia na Debianie</a>
+(i też na OpenWRT), choć od tamtego czasu w świecie linux'owym trochę rzeczy się pozmieniało. Dla
+przykładu, dnscrypt-proxy przeszedł gruntowną przebudowę, no i też systemd jest w powszechniejszym
+użyciu niż to miało miejsce w tamtych czasach, przez co w sporej części przypadków usługi takie jak
+<code>systemd-networkd.service</code> czy <code>systemd-resolved.service</code> są już włączone domyślnie. Zatem sporo
+informacji zawartych w tych napisanych przeze mnie artykułach już niekoniecznie może znaleźć
+obecnie zastosowanie. Dlatego też pomyślałem, że nadszedł już czas, by ździebko zaktualizować tamte
+wpisy. Ostatecznie stanęło jednak na tym, by w oparciu o te artykuły napisać kompletnie nowy tekst
+na temat szyfrowania zapytań DNS na linux przy wykorzystaniu oprogramowania <code>dnscrypt-proxy</code> oraz
+<code>dnsmasq</code> i zawrzeć w nim te wszystkie ciekawsze informacje, które udało mi się pozyskać przez te
+ostatnie lata w kwestii poprawy bezpieczeństwa i prywatności przy przeglądaniu stron WWW.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-09-19T14:13:00&#43;02:00">Opublikowano: 19/09/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -371,34 +400,6 @@ zmianę rozmiaru tych istniejących już obrazów maszyn wirtualnych? Postaramy 
 zweryfikować, a cały proces zostanie opisany przy wykorzystaniu systemu Debian Linux.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-08-09T13:45:00Z">Opublikowano: 09/08/2020</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/">Konfiguracja HugePages pod maszyny wirtualne QEMU/KVM</a></h1>
-	<div class="entry__content"><p>W linux rozmiar stron pamięci operacyjnej RAM ma domyślnie 4096 bajtów (4 KiB). Maszyny wirtualne
-QEMU/KVM mają to do siebie, że wykorzystują dość spore zasoby pamięci (wile GiB), przez co mały
-rozmiar strony może niekorzystnie wpływać na wydajność systemów gościa. Chodzi generalnie o to, że
-rozrostowi ulega tablica stron, której przeszukiwanie jest czasochłonną operacją. By temu zaradzić,
-wymyślono TLB (<a href="https://en.wikipedia.org/wiki/Translation_lookaside_buffer">Translation Lookaside Buffer</a>), który ulokowany jest albo w CPU albo gdzieś
-pomiędzy CPU i główną pamięcią operacyjną. TLB to mały ale za to bardzo szybki cache. W przypadku
-systemów z duża ilością pamięci RAM, niewielki rozmiar TLB sprawia, że odpowiedzi na zapytania nie
-są brane z cache, tylko system wraca do przeszukiwania normalnej tablicy stron zlokalizowanej w
-pamięci RAM (TLB miss). Taka sytuacja jest bardzo kosztowna, spowalnia cały system i dlatego trzeba
-jej unikać. Na szczęście jest <a href="https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt">mechanizm HugePages</a>, który pozwala na zwiększenie rozmiaru
-strony pamięci z domyślnych 4 KiB do 2 MiB lub nawet do 1 GiB w zależności od właściwości głównego
-procesora. W tym artykule postaramy się skonfigurować HugePages na potrzeby maszyn wirtualnych dla
-systemu Debian Linux.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-08-09T11:11:00Z">Opublikowano: 09/08/2020</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

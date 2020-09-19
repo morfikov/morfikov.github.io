@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/categories/linux/" />
-<meta property="og:updated_time" content="2020-09-07T20:15:00+02:00" />
+<meta property="og:updated_time" content="2020-09-19T14:13:00+02:00" />
 
 		<meta itemprop="name" content="Linux">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -106,6 +106,34 @@ if (!doNotTrack) {
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/">Konfiguracja HugePages pod maszyny wirtualne QEMU/KVM</a></h1>
+	<div class="entry__content"><p>W linux rozmiar stron pamięci operacyjnej RAM ma domyślnie 4096 bajtów (4 KiB). Maszyny wirtualne
+QEMU/KVM mają to do siebie, że wykorzystują dość spore zasoby pamięci (wile GiB), przez co mały
+rozmiar strony może niekorzystnie wpływać na wydajność systemów gościa. Chodzi generalnie o to, że
+rozrostowi ulega tablica stron, której przeszukiwanie jest czasochłonną operacją. By temu zaradzić,
+wymyślono TLB (<a href="https://en.wikipedia.org/wiki/Translation_lookaside_buffer">Translation Lookaside Buffer</a>), który ulokowany jest albo w CPU albo gdzieś
+pomiędzy CPU i główną pamięcią operacyjną. TLB to mały ale za to bardzo szybki cache. W przypadku
+systemów z duża ilością pamięci RAM, niewielki rozmiar TLB sprawia, że odpowiedzi na zapytania nie
+są brane z cache, tylko system wraca do przeszukiwania normalnej tablicy stron zlokalizowanej w
+pamięci RAM (TLB miss). Taka sytuacja jest bardzo kosztowna, spowalnia cały system i dlatego trzeba
+jej unikać. Na szczęście jest <a href="https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt">mechanizm HugePages</a>, który pozwala na zwiększenie rozmiaru
+strony pamięci z domyślnych 4 KiB do 2 MiB lub nawet do 1 GiB w zależności od właściwości głównego
+procesora. W tym artykule postaramy się skonfigurować HugePages na potrzeby maszyn wirtualnych dla
+systemu Debian Linux.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-08-09T11:11:00Z">Opublikowano: 09/08/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -344,32 +372,6 @@ repozytorium tej dystrybucji. Przydałoby się coś na to poradzić, by zmusić 
 pracy pod linux.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-03-11T21:03:00Z">Opublikowano: 11/03/2020</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/">Jak przygotować dysk pod instalację Debian linux z EFI/UEFI</a></h1>
-	<div class="entry__content"><p>Instalacja linux'a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana
-często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu <code>debootstrap</code> Jeśli kupujemy
-nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows'a i
-tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie
-EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji
-trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub
-też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie.
-Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my
-nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to
-stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną
-dystrybucję linux'a w trybie EFI/UEFI.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-03-10T03:28:00Z">Opublikowano: 10/03/2020</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
