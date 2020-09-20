@@ -28,12 +28,11 @@ Odpowiadała za niego ta poniższa linijka:
     ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now
 
 Zatem bez większego problemu byliśmy w stanie zmienić to polecenie na takie, które uważaliśmy za
-odpowiednie. Jeśli już coś chcieliśmy tutaj przestawić, to zwykle opcję `-r` podmienialiśmy na `-h`
-, co powodowało, że po przyciśnięciu klawiszy Ctrl-Alt-Del , system się wyłączał. Dodatkowo, po
+odpowiednie. Jeśli już coś chcieliśmy tutaj przestawić, to zwykle opcję `-r` podmienialiśmy na
+`-h` , co powodowało, że po przyciśnięciu klawiszy Ctrl-Alt-Del , system się wyłączał. Dodatkowo, po
 skorzystaniu z opcji `-a` mieliśmy możliwość określenia w pliku `/etc/shutdown.allow` użytkowników,
-którzy byli w stanie używać tego skrótu. [Systemd nie korzysta z pliku
-/etc/inittab](https://lists.debian.org/debian-user/2014/02/msg00826.html) , dlatego też te powyższe
-ustawienia nie mają większego sensu.
+którzy byli w stanie używać tego skrótu. [Systemd nie korzysta z pliku /etc/inittab][1], dlatego
+też te powyższe ustawienia nie mają większego sensu.
 
 ## Target ctrl-alt-del.target
 
@@ -50,3 +49,6 @@ musimy podlinkować do `poweroff.target` :
 
     # ln -s /lib/systemd/system/poweroff.target /etc/systemd/system/ctrl-alt-del.target
     # systemctl daemon-reload
+
+
+[1]: https://lists.debian.org/debian-user/2014/02/msg00826.html

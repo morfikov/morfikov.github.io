@@ -19,10 +19,9 @@ informacji w locie, system musi posiadać klucz główny (master key). Ten klucz
 nagłówku i by go wydobyć, musimy wprowadzić jedno z haseł do kontenera. Później klucz wędruje do
 pamięci, a hasło jest z niej usuwane. W ten sposób system ma dostęp do klucza głównego przez cały
 czas począwszy od chwili otwarcia kontenera, aż do momentu jego zamknięcia. [Ten klucz jesteśmy w
-stanie bez większego problemu
-wydobyć](https://gitlab.com/cryptsetup/cryptsetup/wikis/FrequentlyAskedQuestions), co może być
-bardzo przydatne na wypadek zapomnienia hasła, czy też uszkodzenia samego nagłówka. W tym wpisie
-postaramy się odzyskać klucz główny zaszyfrowanego kontenera LUKS.
+stanie bez większego problemu wydobyć][1], co może być bardzo przydatne na wypadek zapomnienia
+hasła, czy też uszkodzenia samego nagłówka. W tym wpisie postaramy się odzyskać klucz główny
+zaszyfrowanego kontenera LUKS.
 
 <!--more-->
 ## Przykładowy kontener LUKS
@@ -40,7 +39,7 @@ głównego, oraz również zostanie utworzony keyslot z hasłem, które wyżej p
 kontener i tworzymy na nim system plików:
 
     # cryptsetup luksOpen /dev/sda2 sda2
-    
+
     # mkfs.ext4 /dev/mapper/sda2
     # mount /dev/mapper/sda2 /mnt
 
@@ -66,9 +65,9 @@ polecenia:
 Pamiętajmy, że jest to klucz główny, zatem nie zapisujmy tego pliku na dysku (zwłaszcza
 niezaszyfrowanym), skąd go można bez problemu odzyskać. Najlepiej zrobić to w pamięci RAM.
 
-Tak wyeksportowany klucz powinien mieć 64 bajty. Upewnijmy się, że tak jest w istocie za pomocą `ls`
-. Jeśli z jakiegoś powodu ten klucz ma mniejszy rozmiar, oznacza to, że popełniliśmy gdzieś błąd i
-przy próbie dodania takiego klucza do nagłówka, zostanie nam zwrócony poniższy komunikat:
+Tak wyeksportowany klucz powinien mieć 64 bajty. Upewnijmy się, że tak jest w istocie za pomocą
+`ls` . Jeśli z jakiegoś powodu ten klucz ma mniejszy rozmiar, oznacza to, że popełniliśmy gdzieś
+błąd i przy próbie dodania takiego klucza do nagłówka, zostanie nam zwrócony poniższy komunikat:
 
     Cannot read 64 bytes from keyfile ./master-key.
     Command failed with code 22: Invalid argument
@@ -79,7 +78,7 @@ głównego przed konwersją do postaci binarnej.
 Mając binarną reprezentację klucza, możemy odmontować system plików i zamknąć kontener:
 
     # umount /mnt
-    # cryptsetup luksClose sda2 
+    # cryptsetup luksClose sda2
 
 ## Uszkodzenie nagłówka LUKS
 
@@ -89,10 +88,18 @@ jedynie sam nagłówek LUKS (pierwsze 2 MiB na początku partycji). Musimy tylko
 nagłówka podać ten powyższy klucz. W ten sposób to on zostanie użyty do szyfrowania i deszyfrowania
 informacji, a nie jakiś losowo wygenerowany klucz w procesie tworzenia kontenera. Jeśli kontener był
 tworzony w oparciu o inne niż te standardowe parametry, to musimy je także uwzględnić podczas
-tworzenia nowego nagłówka. W tym przypadku polecenie wygląda
-    następująco:
+tworzenia nowego nagłówka. W tym przypadku polecenie wygląda następująco:
 
-    # cryptsetup --master-key-file=./master-key --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random --verify-passphrase --verbose luksFormat /dev/sda2
+    # cryptsetup \
+      --master-key-file=./master-key \
+      --cipher aes-xts-plain64 \
+      --key-size 512 \
+      --hash sha512 \
+      --iter-time 5000 \
+      --use-random \
+      --verify-passphrase
+      --verbose \
+      luksFormat /dev/sda2
 
 Różnica w stosunku do tego poprzedniego polecenia tworzącego zaszyfrowany kontener polega na dodaniu
 parametru `--master-key-file` i wskazaniu ścieżki do binarnej postaci klucza głównego. Nowy nagłówek
@@ -121,3 +128,6 @@ Po tym procesie, stare hasło możemy wyczyścić za pomocą `luksKillSlot` , pr
 Od tego momentu otwarcie kontenera będzie odbywać się w oparciu o nowe hasło. Klucz główny kontenera
 zostaje bez zmian i nie powinno być problemów przy szyfrowaniu i deszyfrowaniu informacji zawartych
 na dysku.
+
+
+[1]: https://gitlab.com/cryptsetup/cryptsetup/wikis/FrequentlyAskedQuestions

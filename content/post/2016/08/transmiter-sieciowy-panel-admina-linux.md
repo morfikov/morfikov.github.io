@@ -15,17 +15,16 @@ title: Transmiter sieciowy i jego panel admina pod linux'em
 ---
 
 Bawię się ostatnio trochę transmiterem sieciowym (powerline ekstender). Konkretnie jest to zestaw
-[TL-WPA4226T KIT (AV500)](http://www.tp-link.com.pl/products/details/TL-WPA4226T-KIT.html) od
-TP-LINK. Same urządzenia działają przyzwoicie i realizują powierzane im funkcje w sposób bardzo
-zadowalający ale był jeden problem, który mi nie dawał spokoju. Do tych ekstenderów jest dołączona
-płytka. Na płytce są aplikacje, które umożliwiają konfigurację tych transmiterów sieciowych. Te
-programiki nie mają wersji dla linux'a. Nasunęło mi się zatem pytanie: to jak mam niby te
-transmitery skonfigurować pod tym systemem operacyjny? Niby one działają OOTB ale w przypadku
-bezprzewodowego routera WiFi z alternatywnym firmware OpenWRT/LEDE na pokładzie występuje kolizja
-adresów IP. Zarówno ekstendery jak i router roszczą sobie prawo do adresu 192.168.1.1 . Panel admina
-takich transmiterów umożliwia zmianę tego adresu, tylko nie mamy jak się do niego dobrać z poziomu
-linux'a. W tym artykule postaramy się rozwiązać problem kolizji adresów IP i skonfigurujemy nasz
-transmiter tak, by miał inny adres.
+[TL-WPA4226T KIT (AV500)][1] od TP-LINK. Same urządzenia działają przyzwoicie i realizują powierzane
+im funkcje w sposób bardzo zadowalający ale był jeden problem, który mi nie dawał spokoju. Do tych
+ekstenderów jest dołączona płytka. Na płytce są aplikacje, które umożliwiają konfigurację tych
+transmiterów sieciowych. Te programiki nie mają wersji dla linux'a. Nasunęło mi się zatem pytanie:
+to jak mam niby te transmitery skonfigurować pod tym systemem operacyjny? Niby one działają OOTB ale
+w przypadku bezprzewodowego routera WiFi z alternatywnym firmware OpenWRT/LEDE na pokładzie
+występuje kolizja adresów IP. Zarówno ekstendery jak i router roszczą sobie prawo do adresu
+192.168.1.1 . Panel admina takich transmiterów umożliwia zmianę tego adresu, tylko nie mamy jak się
+do niego dobrać z poziomu linux'a. W tym artykule postaramy się rozwiązać problem kolizji adresów IP
+i skonfigurujemy nasz transmiter tak, by miał inny adres.
 
 <!--more-->
 ## Czy każdy transmiter sieciowy ma adres IP
@@ -49,8 +48,8 @@ Dwa transmitery zostały ze sobą powiązane (sparowane) i została skopiowana k
 bezprzewodowej (WiFi CLONE) udostępnianej na routerze wyposażonym w firmware OpenWRT/LEDE. Cały
 proces przebiegł szybko i sprawnie, a sieć działa tak jak powinna.
 
-Jeśli teraz podłączymy sobie maszynę kliencką do naszej sieci i odpalimy na niej sniffer `wireshark`
-, to zobaczymy coś w poniższym stylu:
+Jeśli teraz podłączymy sobie maszynę kliencką do naszej sieci i odpalimy na niej sniffer
+`wireshark` , to zobaczymy coś w poniższym stylu:
 
 ![]({{< baseurl >}}/img/2016/08/1.wireshark-duplikad-adres-ip-transmiter-sieciowy.png#huge)
 
@@ -110,3 +109,6 @@ przypisanego do dwóch różnych adresów MAC. Natomiast panel administracyjny n
 powinien być dostępny pod adresem 192.168.1.10 . Pamiętajmy, że każdy taki ekstender WiFi na
 linux'ach trzeba będzie w ten sposób potraktować jeśli chcemy skonfigurować szereg opcji, które
 udostępnia nam panel admina.
+
+
+[1]: http://www.tp-link.com.pl/products/details/TL-WPA4226T-KIT.html

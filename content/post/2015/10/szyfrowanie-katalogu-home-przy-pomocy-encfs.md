@@ -20,10 +20,9 @@ wymagających szyfrowania" i skupię się tu raczej na tym jak troszeczkę podra
 szyfrowanie, które ludzie, nie wiedząc czemu, są bardziej skłonni stosować, niż cały ten full disk
 encryption.
 
-Narzędzie `encfs` nie przeszło pomyślnie [audytu bezpieczeństwa](https://defuse.ca/audits/encfs.htm)
-, a to z takiego powodu, że projekt nie był rozwijany przez szereg lat. [Obecnie jest on w rekach
-społeczności](https://github.com/vgough/encfs) i to od niej będzie zależeć czy te wykryte błędy
-zostaną poprawione.
+Narzędzie `encfs` nie przeszło pomyślnie [audytu bezpieczeństwa][1], a to z takiego powodu, że
+projekt nie był rozwijany przez szereg lat. [Obecnie jest on w rekach społeczności][2] i to od niej
+będzie zależeć czy te wykryte błędy zostaną poprawione.
 
 <!--more-->
 ## Katalog domowy
@@ -274,17 +273,21 @@ go skopiować i trzymać gdzieś w ukryciu.
 Samo zaszyfrowanie katalogu `/home/` , to nie wszystko. Wrażliwe dane mogą być złapane przez SWAP i
 zapisane na dysku w formie niezaszyfrowanej. W przypadku gdy z jakiegoś powodu posiadamy SWAP, np.
 korzystamy z hibernacji, trzeba go zaszyfrować. Nie będę tutaj opisywał całego procesu, bo zostało
-to zrobione to [we wpisie dotyczącym szyfrowania
-SWAP]({{< baseurl >}}/post/zaszyfrowana-przestrzen-wymiany-swap/).
+to zrobione to [we wpisie dotyczącym szyfrowania SWAP][3].
 
 ## Katalog /tmp/
 
-Ostatnia kwestia, która mi przychodzi na myśl, jeśli już mowa o zabezpieczeniach, to katalog `/tmp/`
-. Jak nie patrzeć on zostaje odszyfrowany, a tam przecie trafiają pliki użytkownika. Można go
-oczywiście zaszyfrować, a cały proces tworzenia zaszyfrowanego kontenera pod katalog `/tmp/` jest
+Ostatnia kwestia, która mi przychodzi na myśl, jeśli już mowa o zabezpieczeniach, to katalog
+`/tmp/` . Jak nie patrzeć on zostaje odszyfrowany, a tam przecie trafiają pliki użytkownika. Można
+go oczywiście zaszyfrować, a cały proces tworzenia zaszyfrowanego kontenera pod katalog `/tmp/` jest
 dokładnie taki sam jak w przypadku przestrzeni wymiany. Jedynie co, to zamiast `mkswap`, trzeba użyć
 `mkfs` z odpowiednim systemem plików.
 
 Jak widać, w przypadku `encfs` trochę śmieszne się wydaje nieszyfrowanie pozostałej części systemu.
 Zaszyfrowanie przestrzeni SWAP oraz katalogu `/tmp/` powinno zatrzymać wyciek wrażliwych informacji.
 Nie dają jednak żadnej gwarancji nienaruszalności plików systemowych, o czym trzeba pamiętać.
+
+
+[1]: https://defuse.ca/audits/encfs.htm
+[2]: https://github.com/vgough/encfs
+[3]: {{< baseurl >}}/post/zaszyfrowana-przestrzen-wymiany-swap/

@@ -14,16 +14,14 @@ tags:
 title: Jak skonfigurować połączenie VPN przez SSH
 ---
 
-Szukając informacji na [temat ukrycia ruchu generowanego przez
-OpenVPN]({{< baseurl >}}/post/jak-ukryc-ruch-openvpn-przy-pomocy-stunnel/), natrafiłem także na
-sposób, który [wykorzystuje do tego celu połączenie SSH](https://help.ubuntu.com/community/SSH_VPN).
-W efekcie jesteśmy w stanie upodobnić ruch VPN do tego, który zwykle służy do zarządzania zdalnymi
-systemami linux. Jako, że temat maskowania połączenia VPN jest kluczowy w walce z cenzurą internetu,
-to im więcej sposobów, by taki zabieg przeprowadzić, tym lepiej. Dlatego też postanowiłem odświeżyć
-nieco podlinkowany wyżej artykuł i sprawdzić czy jest on jeszcze aktualny. Wprawdzie nie dysponuję
-Ubuntu, a jedynie dystrybucją Debian ale raczej nie powinno być problemów z odwzorowaniem
-konfiguracji na tym systemie, choć artykuł jest dość leciwy już i pewnie trzeba będzie kilka rzeczy
-zaktualizować.
+Szukając informacji na [temat ukrycia ruchu generowanego przez OpenVPN][1], natrafiłem także na
+sposób, który [wykorzystuje do tego celu połączenie SSH][2]. W efekcie jesteśmy w stanie upodobnić
+ruch VPN do tego, który zwykle służy do zarządzania zdalnymi systemami linux. Jako, że temat
+maskowania połączenia VPN jest kluczowy w walce z cenzurą internetu, to im więcej sposobów, by taki
+zabieg przeprowadzić, tym lepiej. Dlatego też postanowiłem odświeżyć nieco podlinkowany wyżej
+artykuł i sprawdzić czy jest on jeszcze aktualny. Wprawdzie nie dysponuję Ubuntu, a jedynie
+dystrybucją Debian ale raczej nie powinno być problemów z odwzorowaniem konfiguracji na tym
+systemie, choć artykuł jest dość leciwy już i pewnie trzeba będzie kilka rzeczy zaktualizować.
 
 <!--more-->
 ## Konfiguracja SSH pod tunel VPN
@@ -34,8 +32,7 @@ administratora systemu zarówno na kliencie jak i na serwerze. Musimy zatem tak 
 konfigurację demona `ssh` , by akceptował żądanie tunelu VPN. Niemniej jednak, ze względu na fakt
 tworzenia interfejsów `tun` po stronie serwera, musimy także umożliwić zalogowanie się na
 użytkownika root na serwerze. Nie jest to jednak bezpieczne rozwiązanie, chyba, że zaimplementujemy
-na serwerze SSH obsługę [uwierzytelniających kluczy
-SSH]({{< baseurl >}}/post/uwierzytelniajace-klucze-ssh/). Wtedy będziemy mogli zrezygnować z
+na serwerze SSH obsługę [uwierzytelniających kluczy SSH][3]. Wtedy będziemy mogli zrezygnować z
 wykorzystywania haseł, co znacząco podwyższy poziom zabezpieczeń usługi.
 
 Zakładając, że dysponujemy już odpowiednimi kluczami SSH, logujemy się na serwer i w pliku
@@ -103,9 +100,9 @@ na pierwszy rzut oka. Opcje `-S` i `-M` włączają możliwość korzystania z s
 który jesteśmy w stanie sterować połączeniem. Bez nich, po położeniu interfejsu `tun9` , połączenie
 SSH byłoby cały czas aktywne i nie moglibyśmy ponownie zestawić tunelu na potrzeby VPN bez
 uprzedniego ubicia demona SSH. Opcja `-f` ma za zadanie zainicjować połączenie w tle, tak by nie
-blokowało konfiguracji interfejsu. Dalej jest parametr `-w` , który definiuje użyty interfejs `tun`
-. Cyferki `9:9` określają numer interfejsu zarówno po stronie klienta jak i serwera, czyli w obu
-przypadkach zostanie użyty interfejs `tun9` . Następnie mamy użytkownika SSH wraz z adres IP
+blokowało konfiguracji interfejsu. Dalej jest parametr `-w` , który definiuje użyty interfejs
+`tun` . Cyferki `9:9` określają numer interfejsu zarówno po stronie klienta jak i serwera, czyli w
+obu przypadkach zostanie użyty interfejs `tun9` . Następnie mamy użytkownika SSH wraz z adres IP
 serwera, no i oczywiście jego port. Wszystko co zostało ujęte w `' '` , to polecenie, które ma
 zostać wykonane na drugim końcu połączenia po zalogowaniu się via SSH. W tym przypadku są to
 polecenia `ifdown` i `ifup` , które mają za zadanie skonfigurować interfejs `tun9` na serwerze.
@@ -113,11 +110,11 @@ Dlatego też będzie nam potrzebna odpowiednia konfiguracja tego interfejsu rów
 
 Jeśli zaś chodzi o same trasy routingu, to `10.100.0.0/24` ma za zadanie dostarczyć informacji o
 sieci serwera VPN. Z kolei zaś wpisy `0.0.0.0/1` oraz `128.0.0.0/1` przekierowują cały ruch klienta
-do interfejsu `tun9` . No i oczywiście mamy również `11.22.33.44/32 via $(ip route show | awk '$1
-=="default" {print $3}')` , który umożliwi opuszczenie tunelu pakietom i posłanie ich dalej w świat
-przez serwer. Może i zapis jest trochę dziwny ale generalnie są tutaj użyte dwa adresy. Pierwszy z
-nich to zewnętrzny adresem serwera, drugi zaś jest dynamicznie dobranym adresem bramy domyślnej
-zewnętrznego interfejsu sieciowego na kliencie.
+do interfejsu `tun9` . No i oczywiście mamy również
+`11.22.33.44/32 via $(ip route show | awk '$1 =="default" {print $3}')` , który umożliwi opuszczenie
+tunelu pakietom i posłanie ich dalej w świat przez serwer. Może i zapis jest trochę dziwny ale
+generalnie są tutaj użyte dwa adresy. Pierwszy z nich to zewnętrzny adresem serwera, drugi zaś jest
+dynamicznie dobranym adresem bramy domyślnej zewnętrznego interfejsu sieciowego na kliencie.
 
 ### Konfiguracja serwera
 
@@ -161,3 +158,8 @@ zarzutu. By się o tym przekonać, odpalamy terminal na kliencie i wpisujemy w n
 Nie powinno być żadnych błędów. By zakończyć połączenie, w terminalu na kliencie wpisujemy:
 
     # ifdown tun9
+
+
+[1]: {{< baseurl >}}/post/jak-ukryc-ruch-openvpn-przy-pomocy-stunnel/
+[2]: https://help.ubuntu.com/community/SSH_VPN
+[3]: {{< baseurl >}}/post/uwierzytelniajace-klucze-ssh/

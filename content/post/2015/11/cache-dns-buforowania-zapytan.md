@@ -62,14 +62,14 @@ czasu (domeny `*pool.ntp.org` ) do osobnego serwera DNS. Kolejne trzy opcje, tj.
 `listen-address` oraz `bind-interfaces` , mają na celu określenie interfejsu i adresu, na którym
 będzie nasłuchiwał serwer DNS. Jako, że jest to dość wrażliwa usługa i nie mamy zamiaru jej
 upubliczniać, to dobrze jest ją odseparować od reszty świata przenosząc ją na interfejs pętli
-zwrotnej. Nie chcemy także by działał serwer DHCP, dlatego też precyzujemy opcję `no-dhcp-interface`
-. Dalej w pliku mamy `no-hosts` , który zabroni czytania pliku `/etc/hosts` . Kolejne trzy opcje
-dotyczą cache serwera DNS i mamy tam `cache-size` odpowiadający za ilość wpisów w cache (o tym też
-za moment), oraz `min-cache-ttl` i `max-cache-ttl` , które ustalają [czas ważności rekordu DNS][3],
-po upłynięciu którego trzeba będzie ponownie odpytać upstream'owy serwer DNS. Opcja
-`dns-forward-max` odpowiada za ilość jednoczesnych zapytań, które mogą być obsługiwane przez serwer
-DNS. Z kolei ostatnia opcja, tj. `no-negcache` sprawi, że do cache nie będą dodawane wpisy, których
-nie udało się rozwiązać.
+zwrotnej. Nie chcemy także by działał serwer DHCP, dlatego też precyzujemy opcję
+`no-dhcp-interface` . Dalej w pliku mamy `no-hosts` , który zabroni czytania pliku `/etc/hosts` .
+Kolejne trzy opcje dotyczą cache serwera DNS i mamy tam `cache-size` odpowiadający za ilość wpisów
+w cache (o tym też za moment), oraz `min-cache-ttl` i `max-cache-ttl` , które ustalają [czas
+ważności rekordu DNS][3], po upłynięciu którego trzeba będzie ponownie odpytać upstream'owy serwer
+DNS. Opcja `dns-forward-max` odpowiada za ilość jednoczesnych zapytań, które mogą być obsługiwane
+przez serwer DNS. Z kolei ostatnia opcja, tj. `no-negcache` sprawi, że do cache nie będą dodawane
+wpisy, których nie udało się rozwiązać.
 
 ## Przesyłanie zapytań do lokalnego serwera DNS
 

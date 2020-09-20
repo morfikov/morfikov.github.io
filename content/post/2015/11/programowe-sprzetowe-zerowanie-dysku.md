@@ -17,11 +17,10 @@ Zerowanie dysku twardego ma na celu usunięcie wszystkich znajdujących się na 
 chodzi o zapisanie całej powierzchni danego nośnika samymi zerami. Ten proces różni się znacząco of
 formatowania dysku, czyli utworzenia nowego systemu plików, gdzie praktycznie wszystkie dane można
 bez większego problemu odzyskać. Zerowanie dysku (czy też pendrive) może w pewnych przypadkach
-[naprawić logiczne błędy
-sektorów]({{< baseurl >}}/post/uszkodzony-sektor-na-dysku-i-jego-realokoacja/) na dysku. Niemniej
-jednak, nie usuniemy za jego pomocą fizycznych bad'ów. Generalnie rzecz biorąc, mamy do wyboru dwie
-techniki zerowania. Jedna jest dokonywana na poziomie programowym, np. przy pomocy `dd` , druga zaś
-na poziomie sprzętowym, np. w `hdparm` . W tym wpisie postaramy się wyzerować przykładowy dysk.
+[naprawić logiczne błędy sektorów][1] na dysku. Niemniej jednak, nie usuniemy za jego pomocą
+fizycznych bad'ów. Generalnie rzecz biorąc, mamy do wyboru dwie techniki zerowania. Jedna jest
+dokonywana na poziomie programowym, np. przy pomocy `dd` , druga zaś na poziomie sprzętowym, np. w
+`hdparm` . W tym wpisie postaramy się wyzerować przykładowy dysk.
 
 <!--more-->
 ## Programowe zerowanie
@@ -42,16 +41,15 @@ dotyczyć jedynie pojedynczej partycji, to zamiast `sdc` powinniśmy użyć `sdc
 
 ## Sprzętowe zerowanie
 
-[Zerowanie na poziomie sprzętowym](https://ata.wiki.kernel.org/index.php/ATA_Secure_Erase) różni się
-nieco od zerowania programowego. Zwykle w tym procesie są wykorzystywane mechanizmy oferowane przez
-firmware konkretnego nośnika, tj. Secure Erase oraz Enhanced Secure Erase. Różnica między nimi
-polega na tym, że ta druga metoda nadpisuje dane kilkoma różnymi wzorcami bitów, by mieć pewność, że
-wszelkie informacje na nośniku zostały kompletnie zniszczone. Dodatkowo, Enhanced Secure Erase jest
-w stanie także przepisać sektory, które nie są już używane ze względu na błędy zapisu/odczytu, czyli
-przemapowane błędne sektory. Ta technika jest także w stanie wyzerować również takie obszary dysku
-jak HPA ([Host Protected Area](https://en.wikipedia.org/wiki/Host_protected_area)), DCO ([Device
-Configuration Overlay](https://en.wikipedia.org/wiki/Device_configuration_overlay)) czy nawet
-ustawienia samego firmware. Zerowanie sprzętowe jest też szybsze niż to programowe.
+[Zerowanie na poziomie sprzętowym][2] różni się nieco od zerowania programowego. Zwykle w tym
+procesie są wykorzystywane mechanizmy oferowane przez firmware konkretnego nośnika, tj. Secure
+Erase oraz Enhanced Secure Erase. Różnica między nimi polega na tym, że ta druga metoda nadpisuje
+dane kilkoma różnymi wzorcami bitów, by mieć pewność, że wszelkie informacje na nośniku zostały
+kompletnie zniszczone. Dodatkowo, Enhanced Secure Erase jest w stanie także przepisać sektory, które
+nie są już używane ze względu na błędy zapisu/odczytu, czyli przemapowane błędne sektory. Ta
+technika jest także w stanie wyzerować również takie obszary dysku jak HPA ([Host Protected
+Area][3]), DCO ([Device Configuration Overlay][4]) czy nawet ustawienia samego firmware. Zerowanie
+sprzętowe jest też szybsze niż to programowe.
 
 ### Czy mój dysk wspiera sprzętowe zerowanie
 
@@ -81,8 +79,7 @@ ERASE są takie same, możemy założyć, że te dwie metody się niczym nie ró
 ### Zerowanie przy pomocy hdparm
 
 Nigdy nie przeprowadzałem zerowania sprzętowego, bo na dobrą sprawę żaden mój dysk, za wyjątkiem
-głównego, nie obsługuje tej opcji. Tak czy inaczej [pod tym
-linkiem](https://tinyapps.org/docs/wipe_drives_hdparm.html) jest dość przyzwoity opis
+głównego, nie obsługuje tej opcji. Tak czy inaczej [pod tym linkiem][5] jest dość przyzwoity opis
 przeprowadzonych operacji, który postaram się tutaj przepisać, tak by nigdzie się nie zawieruszył.
 To tak na wszelki wypadek, gdybym kiedyś w przyszłości posiadał więcej dysków i chciał przeprowadzić
 sprzętowe zerowanie dysku.
@@ -151,3 +148,10 @@ By wyłączyć ten mechanizm ręcznie, wpisujemy w terminal te dwa poniższe pol
     # hdparm --user-master u --security-unlock p /dev/sda
 
     # hdparm --user-master u --security-disable p /dev/sda
+
+
+[1]: {{< baseurl >}}/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/
+[2]: https://ata.wiki.kernel.org/index.php/ATA_Secure_Erase
+[3]: https://en.wikipedia.org/wiki/Host_protected_area
+[4]: https://en.wikipedia.org/wiki/Device_configuration_overlay
+[5]: https://tinyapps.org/docs/wipe_drives_hdparm.html

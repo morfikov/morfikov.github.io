@@ -20,31 +20,27 @@ ale w zasadzie ten fakt nie przeszkadza nam, by przeprowadzić na Neffos Y5L (TP
 Ten smartfon ma zbliżony SoC do Neffos Y5, a konkretnie mamy tutaj do czynienia z Snapdragon 210
 (MSM8209) od Qualcomm'a. Ten fakt sprawia, że w przypadku Neffos Y5L cały proces uzyskiwania
 uprawnień administratora systemu przebiega bardzo podobnie do tego [opisywanego wcześniej dla Neffos
-Y5]({{< baseurl >}}/post/android-root-smartfona-neffos-y5-od-tp-link/). Dlatego też poniższy
-artykuł za bardzo się nie różni i w zasadzie został jedynie lekko przerobiony pod kątem zgodności ze
-smartfonem Neffos Y5L.
+Y5][1]. Dlatego też poniższy artykuł za bardzo się nie różni i w zasadzie został jedynie lekko
+przerobiony pod kątem zgodności ze smartfonem Neffos Y5L.
 
 Prostszy sposób na przeprowadzanie procesu root w smartfonach Neffos od TP-LINK z wykorzystaniem
-natywnych obrazów TWRP [został opisany w nowym wątku]({{< baseurl >}}/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/).
+natywnych obrazów TWRP [został opisany w nowym wątku][2].
 
 <!--more-->
 ## Narzędzia ADB i fastboot
 
 Przede wszystkim, by zabrać się za proces root'owania smartfona Neffos Y5L, musimy przygotować sobie
 odpowiednie narzędzia. Zapewnią one nam możliwość rozmawiania z telefonem. Będziemy potrzebować
-`adb` ([Android Debug Bridge](https://developer.android.com/studio/command-line/adb.html)) oraz
-`fastboot` . [Proces instalacji tych narzędzi na
-linux]({{< baseurl >}}/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/), a konkretnie w
-dystrybucji Debian, został opisany osobno.
+`adb` ([Android Debug Bridge][3]) oraz `fastboot` . [Proces instalacji tych narzędzi na linux][4],
+a konkretnie w dystrybucji Debian, został opisany osobno.
 
 ## Problematyczny backup flash'a smartfona Neffos Y5L
 
-W przypadku [Neffos C5]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-max-od-tp-link/) i
-[Neffos C5 MAX]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-max-od-tp-link/), do
-zrobienia backup'u całego flash'a można było wykorzystać narzędzie SP Flash Tool. Niemniej jednak,
-to oprogramowanie jest przeznaczone jedynie dla smartfonów mających SoC od MediaTek, a jak już
-zostało wspomniane we wstępie, Neffos Y5L ma SoC Snapdragon 210 (MSM8209) od Qualcomm'a. Jak zatem
-zrobić backup flash'a tego smartfona przed wprowadzaniem w nim jakichkolwiek zmian?
+W przypadku [Neffos C5][5] i [Neffos C5 MAX][6], do zrobienia backup'u całego flash'a można było
+wykorzystać narzędzie SP Flash Tool. Niemniej jednak, to oprogramowanie jest przeznaczone jedynie
+dla smartfonów mających SoC od MediaTek, a jak już zostało wspomniane we wstępie, Neffos Y5L ma SoC
+Snapdragon 210 (MSM8209) od Qualcomm'a. Jak zatem zrobić backup flash'a tego smartfona przed
+wprowadzaniem w nim jakichkolwiek zmian?
 
 Generalnie trzeba się zmierzyć z problemem jajka i kury, czyli by dokonać backup'u flash'a trzeba
 skorzystać z niestandardowego obrazu partycji `/recovery/` , np. TWRP, a nie możemy go przecież
@@ -55,19 +51,17 @@ flash'a telefonu bez wprowadzania żadnych zmian. Niemniej jednak, w dalszym ci�
 
 ## Pozyskanie obrazu recovery.img z TWRP
 
-Niestety, póki co [nie ma obrazów dla Neffos'a Y5L](https://twrp.me/Devices/). Dlatego też musimy
-sobie taki obraz `recovery.img` stworzyć sami przerabiając inny obraz, który jest przeznaczony na
-telefon zbliżony parametrami do naszego urządzenia (ten sam SoC, wielkość flash i rozdzielczość
-ekranu). Ja posłużyłem się [obrazem dla Neffos'a
-C5L](http://4pda.ru/forum/index.php?showtopic=738058&st=80#entry52106796), którego SoC (MSM8909)
-jest bardzo podobny do tego zastosowanego w Neffos Y5L. W zasadzie rozdziałka ekranu i wielkość
-flash się zgadzają ale układ partycji jest nieco inny i trzeba będzie ten obraz trochę przerobić, a
-do tego celu potrzebny nam będzie stock'owy obraz `boot.img` lub `recovery.img` .
+Niestety, póki co [nie ma obrazów dla Neffos'a Y5L][7]. Dlatego też musimy sobie taki obraz
+`recovery.img` stworzyć sami przerabiając inny obraz, który jest przeznaczony na telefon zbliżony
+parametrami do naszego urządzenia (ten sam SoC, wielkość flash i rozdzielczość ekranu). Ja
+posłużyłem się [obrazem dla Neffos'a C5L][8], którego SoC (MSM8909) jest bardzo podobny do tego
+zastosowanego w Neffos Y5L. W zasadzie rozdziałka ekranu i wielkość flash się zgadzają ale układ
+partycji jest nieco inny i trzeba będzie ten obraz trochę przerobić, a do tego celu potrzebny nam
+będzie stock'owy obraz `boot.img` lub `recovery.img` .
 
-Gotowy [obraz recovery.img dla smartfona Neffos
-Y5L]({{< baseurl >}}/img/manual/recovery-neffos-y5l-tp-link-twrp.img) znajduje się
-tutaj i jedyne co, to musimy go wgrać na telefon. Jeśli jednak ktoś jest ciekaw jak proces
-przepakowania tego obrazu przebiega, to jest on opisany poniżej.
+Gotowy [obraz recovery.img dla smartfona Neffos Y5L][9] znajduje się tutaj i jedyne co, to musimy
+go wgrać na telefon. Jeśli jednak ktoś jest ciekaw jak proces przepakowania tego obrazu przebiega,
+to jest on opisany poniżej.
 
 ## Pozyskanie stock'owego obrazu boot/recovery
 
@@ -77,10 +71,10 @@ co w przypadku Neffos Y5. Chodzi o to, że w zasadzie nie mamy jak wydobyć obra
 `/recovery/` z telefonu, no bo przecież nie możemy skorzystać z SP Flash Tool, a póki co nie jestem
 świadom alternatywnego oprogramowania, które by nam z tym zadaniem pomogło w podobny sposób.
 Niemniej jednak, obraz `recovery.img` w dalszym ciągu możemy zbudować ale potrzebny nam jest
-firmware Neffos'a Y5L, który na szczęście możemy pobrać ze [strony producenta tego
-smartfona](http://www.neffos.com/en/support/download/Y5L). Pamiętajmy by pobrać plik przeznaczony na
-ten konkretny model telefonu, który posiadamy (w tym przypadku TP801A). Poniżej jest pełna
-specyfikacja wgranego oprogramowania oraz dokładne numery mojego smartfona:
+firmware Neffos'a Y5L, który na szczęście możemy pobrać ze [strony producenta tego smartfona][10].
+Pamiętajmy by pobrać plik przeznaczony na ten konkretny model telefonu, który posiadamy (w tym
+przypadku TP801A). Poniżej jest pełna specyfikacja wgranego oprogramowania oraz dokładne numery
+mojego smartfona:
 
 ![]({{< baseurl >}}/img/2017/01/001.neffos-y5l-smartfon-tp-link-root-informacje-model.png#small)
 
@@ -93,9 +87,8 @@ celu wyodrębnienia pewnych plików i wgrania ich na portowany obraz `recovery.i
 
 By przepakować obraz przeznaczony na inny smartfon, który jest zbliżony parametrami do naszego
 Neffos'a Y5L, musimy pierw pozyskać odpowiednie narzędzia. Na linux'ie możemy skorzystać do tego
-celu z [abootimg](https://github.com/codeworkx/abootimg) lub też ze [skryptów Android Image
-Kitchen](https://github.com/ndrancs/AIK-Linux-x32-x64/). Ja będę korzystał z tego drugiego
-rozwiązania.
+celu z [abootimg][11] lub też ze [skryptów Android Image Kitchen][12]. Ja będę korzystał z tego
+drugiego rozwiązania.
 
 Tworzymy sobie jakiś katalog roboczy i kopiujemy do niego zarówno oryginalny obraz `boot.img` , jak
 i obraz `recovery.img` z innego smartfona. Następnie znajdując się w tym katalogu roboczym,
@@ -136,10 +129,9 @@ Neffos'a Y5L do obrazu TWRP:
 Musimy także dostosować nieco plik `port/ramdisk/etc/recovery.fstab` , bo flash telefonu, z którego
 wzięliśmy obraz `recovery.img` z TWRP ma inny nieco inny układ partycji.
 
-W oparciu o informacje uzyskane z [aplikacji
-DiskInfo](https://play.google.com/store/apps/details?id=me.kuder.diskinfo&hl=pl) oraz z pliku
-`/proc/partitions` w telefonie, układ flash'a w przypadku Neffos Y5L prezentuje się następująco
-(kolumna najbardziej na prawo została dodana przeze mnie):
+W oparciu o informacje uzyskane z [aplikacji DiskInfo][13] oraz z pliku `/proc/partitions` w
+telefonie, układ flash'a w przypadku Neffos Y5L prezentuje się następująco (kolumna najbardziej na
+prawo została dodana przeze mnie):
 
     # adb shell
     shell@Y5L:/ $ cat /proc/partitions
@@ -257,8 +249,7 @@ poszczególnych jego partycji. Tak czy inaczej potrzebne nam są odpowiednie wpi
     /data_image     emmc      /dev/block/bootdevice/by-name/userdata             flags=display="Data-Image";backup=1
     /full_flash     emmc      /dev/block/mmcblk0                                 flags=display="Full-Flash-Image";backup=1
 
-Jeśli ktoś jest ciekaw użytych tutaj opcji, to są one wyjaśnione [w tym wątku na forum
-XDA](https://forum.xda-developers.com/showthread.php?t=1943625).
+Jeśli ktoś jest ciekaw użytych tutaj opcji, to są one wyjaśnione [w tym wątku na forum XDA][14].
 
 ## Tworzenie obrazu recovery z TWRP dla Neffos Y5L
 
@@ -283,15 +274,13 @@ bootloader. Chodzi o to, że na smartfonach zwykle jest ulokowana partycja `/rec
 znajduje się oprogramowanie umożliwiające przeprowadzanie niskopoziomowych operacji, np. backup lub
 też flash'owanie ROM'u. Problem w tym, że to oprogramowanie w standardzie zwykle za wiele nie
 potrafi i by przeprowadzić proces root'owania Androida, musimy pozyskać bardziej zaawansowany soft,
-np. [ClockworkMod](https://www.clockworkmod.com/) czy [TWRP](https://twrp.me/), i wgrać go na
-partycję `/recovery/` . By to zrobić musimy pierw odblokować bootloader.
+np. [ClockworkMod][15] czy [TWRP][16], i wgrać go na partycję `/recovery/` . By to zrobić musimy
+pierw odblokować bootloader.
 
 Proces odblokowania bootloader'a usuwa wszystkie dane, które wgraliśmy na flash telefonu, tj.
-podczas odblokowywania jest inicjowany [factory
-reset]({{< baseurl >}}/post/android-reset-ustawien-do-fabrycznych-factory-defaults/). Dane na
-karcie SD pozostają nietknięte. By ten proces zainicjować zaczynamy od przestawienia jednej opcji w
-telefonie. W tym celu musimy udać się w Ustawienia => Opcje Programistyczne i tam przełączyć
-`Zdjęcie blokady OEM` :
+podczas odblokowywania jest inicjowany [factory reset][17]. Dane na karcie SD pozostają nietknięte.
+By ten proces zainicjować zaczynamy od przestawienia jednej opcji w telefonie. W tym celu musimy
+udać się w Ustawienia => Opcje Programistyczne i tam przełączyć `Zdjęcie blokady OEM` :
 
 ![]({{< baseurl >}}/img/2017/01/003.neffos-y5l-smartfon-tp-link-root-blokada-booloader.png#huge)
 
@@ -329,9 +318,9 @@ pewno ten obraz działa jak należy. Podpinamy telefon do portu USB komputera i 
 
     # fastboot boot image-new.img
 
-W przypadku, gdyby pojawiła nam się informacja `FAILED (remote: unlock device to use this command)`
-, to prawdopodobnie zapomnieliśmy odblokować bootloader. Jeśli blokada została zdjęta, to wydanie
-tego powyższego polecenia powinno załadować do pamięci RAM telefonu zmieniony obraz partycji
+W przypadku, gdyby pojawiła nam się informacja `FAILED (remote: unlock device to use this
+command)` , to prawdopodobnie zapomnieliśmy odblokować bootloader. Jeśli blokada została zdjęta, to
+wydanie tego powyższego polecenia powinno załadować do pamięci RAM telefonu zmieniony obraz partycji
 `/recovery/` , oczywiście o ile obraz jest poprawny. Jeśli zamiast tego smartfon uruchomi się
 ponownie, to coś z takim obrazem jest nie tak i lepiej nie wgrywać go na telefon.
 
@@ -389,7 +378,7 @@ karcie SD pojawi się obraz flash'a, który możemy sprawdzić w `gdisk` lub `pa
 
 ## Wgranie obrazu recovery z TWRP na Neffos Y5L
 
-Po sprawdzeniu czy obraz się bootuje poprawnie i dokonaniu backup'u określonych obszarów pamięci
+Po sprawdzeniu czy obraz się boot'uje poprawnie i dokonaniu backup'u określonych obszarów pamięci
 flash, możemy ten obraz wgrać na telefon lub też możemy zainstalować jedynie samo SuperSU. Ja
 postanowiłem wgrać TWRP recovery na mojego Neffos'a Y5L. W sumie ta procedura się za wiele nie różni
 od testowania samego obrazu w pamięci telefonu. Jedyne co trzeba zrobić to zrestartować telefon do
@@ -410,13 +399,12 @@ będziemy wpisywać wszystkie nasze polecenia.
 
 ### Instalacja SuperSU
 
-Zacznijmy od pobrania stosownej paczki z
-[SuperSU](https://forum.xda-developers.com/apps/supersu/stable-2016-09-01supersu-v2-78-release-t3452703).
-Jako, że my nie mamy jeszcze zrobionego root'a, to musimy pobrać `TWRP / FlashFire installable ZIP`
-. Tej paczki nie wypakowujemy, tylko wrzucamy ją w pobranej formie na kartę SD w telefonie. Odpalamy
-teraz tryb recovery w smartfonie (VolumeUp + Power) i przechodzimy do Install i wskazujemy paczkę
-`.zip` , którą umieściliśmy na karcie SD. Tam z kolei zaznaczamy `ZIP signature verification` i
-przeciągamy trzy strzałki na prawą stronę.
+Zacznijmy od pobrania stosownej paczki z [SuperSU][18]. Jako, że my nie mamy jeszcze zrobionego
+root'a, to musimy pobrać `TWRP / FlashFire installable ZIP` . Tej paczki nie wypakowujemy, tylko
+wrzucamy ją w pobranej formie na kartę SD w telefonie. Odpalamy teraz tryb recovery w smartfonie
+(VolumeUp + Power) i przechodzimy do Install i wskazujemy paczkę `.zip` , którą umieściliśmy na
+karcie SD. Tam z kolei zaznaczamy `ZIP signature verification` i przeciągamy trzy strzałki na prawą
+stronę.
 
 ![]({{< baseurl >}}/img/2017/01/007.neffos-y5l-smartfon-tp-link-root-supersu-instalacja.png#huge)
 
@@ -425,22 +413,18 @@ nasz smartfon ma root'a.
 
 ### Sprawdzenie czy Neffos Y5L ma root'a
 
-Po uruchomieniu się systemu na smartfonie, instalujemy aplikację
-[RootCheck](https://play.google.com/store/apps/details?id=com.jrummyapps.rootchecker), po czym
+Po uruchomieniu się systemu na smartfonie, instalujemy aplikację [RootCheck][19], po czym
 uruchamiamy ją. Powinien się pojawić monit informujący, że ta aplikacja żąda praw administracyjnych,
-na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosowny
-komunikat:
+na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosowny komunikat:
 
 ![]({{< baseurl >}}/img/2017/01/008.neffos-y5l-smartfon-tp-link-root-checkroot.png#big)
 
 ### Instalacja BusyBOX
 
-Kolejnym krokiem jest instalacja
-[BusyBOX'a](https://play.google.com/store/apps/details?id=stericson.busybox). Po wgraniu tej
-aplikacji na smartfona, musimy ją uruchomić i wcisnąć w niej przycisk `install` . BusyBOX również
-nas poprosi o dostęp do praw administracyjnych. Po zainstalowaniu, weryfikujemy jeszcze, czy aby
-wszystko zostało pomyślne wgrane. Możemy to zrobić zarówno w samej aplikacji BusyBOX, jak w
-CheckRoot:
+Kolejnym krokiem jest instalacja [BusyBOX'a][20]. Po wgraniu tej aplikacji na smartfona, musimy ją
+uruchomić i wcisnąć w niej przycisk `install` . BusyBOX również nas poprosi o dostęp do praw
+administracyjnych. Po zainstalowaniu, weryfikujemy jeszcze, czy aby wszystko zostało pomyślne
+wgrane. Możemy to zrobić zarówno w samej aplikacji BusyBOX, jak w CheckRoot:
 
 ![]({{< baseurl >}}/img/2017/01/009.neffos-y5l-smartfon-tp-link-root-busybox.png#huge)
 
@@ -452,9 +436,8 @@ korzystać z tych niskopoziomowych narzędzi dostarczonych przez BusyBOX, czy te
 obecnych standardowo w Androidzie na uprawnieniach root, to terminal jak najbardziej się nam przyda.
 
 Znalazłem dwa terminale, które są OpenSource i bez reklam/opłat. Są to
-[Android-Terminal-Emulator](https://play.google.com/store/apps/details?id=jackpal.androidterm) oraz
-[Termux](https://play.google.com/store/apps/details?id=com.termux). Wybieramy sobie jeden z nich i
-instalujemy w systemie. Jako, że ja korzystam na co dzień z Debiana, to instaluję Termux'a.
+[Android-Terminal-Emulator][21] oraz [Termux][22]. Wybieramy sobie jeden z nich i instalujemy w
+systemie. Jako, że ja korzystam na co dzień z Debiana, to instaluję Termux'a.
 
 ### Aplikacje i prawa administracyjne
 
@@ -474,3 +457,27 @@ tryb do zapisu (RW). Robimy to w poniższy sposób:
 Gdy skończymy się bawić, to montujemy ten system plików ponownie w tryb RO:
 
     # mount -o remount,ro /system
+
+
+[1]: {{< baseurl >}}/post/android-root-smartfona-neffos-y5-od-tp-link/
+[2]: {{< baseurl >}}/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/
+[3]: https://developer.android.com/studio/command-line/adb.html
+[4]: {{< baseurl >}}/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/
+[5]: {{< baseurl >}}/post/android-root-smartfona-neffos-c5-max-od-tp-link/
+[6]: {{< baseurl >}}/post/android-root-smartfona-neffos-c5-max-od-tp-link/
+[7]: https://twrp.me/Devices/
+[8]: http://4pda.ru/forum/index.php?showtopic=738058&st=80#entry52106796
+[9]: {{< baseurl >}}/img/manual/recovery-neffos-y5l-tp-link-twrp.img
+[10]: http://www.neffos.com/en/support/download/Y5L
+[11]: https://github.com/codeworkx/abootimg
+[12]: https://github.com/ndrancs/AIK-Linux-x32-x64/
+[13]: https://play.google.com/store/apps/details?id=me.kuder.diskinfo&hl=pl
+[14]: https://forum.xda-developers.com/showthread.php?t=1943625
+[15]: https://www.clockworkmod.com/
+[16]: https://twrp.me/
+[17]: {{< baseurl >}}/post/android-reset-ustawien-do-fabrycznych-factory-defaults/
+[18]: https://forum.xda-developers.com/apps/supersu/stable-2016-09-01supersu-v2-78-release-t3452703
+[19]: https://play.google.com/store/apps/details?id=com.jrummyapps.rootchecker
+[20]: https://play.google.com/store/apps/details?id=stericson.busybox
+[21]: https://play.google.com/store/apps/details?id=jackpal.androidterm
+[22]: https://play.google.com/store/apps/details?id=com.termux

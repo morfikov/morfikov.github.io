@@ -10,7 +10,7 @@ tags:
 - smart
 - hdd
 - ssd
-title: Uszkodzony sektor na dysku i jego realokoacja
+title: Uszkodzony sektor na dysku i jego realokacja
 ---
 
 Uszkodzone sektory w przypadku dysków HDD, to jak sama nazwa wskazuje, sektory, które z jakichś
@@ -27,9 +27,8 @@ odblokować taki sektor.
 <!--more-->
 ## Pierwszy uszkodzony sektor
 
-Po 18.798 godzinach pracy, mój główny dysk złapał prawdopodobnie bad sektor. W logu
-[S.M.A.R.T](https://pl.wikipedia.org/wiki/S.M.A.R.T._%28informatyka%29) można przeczytać info o
-takim błędzie:
+Po 18.798 godzinach pracy, mój główny dysk złapał prawdopodobnie bad sektor. W logu [S.M.A.R.T][1]
+można przeczytać info o takim błędzie:
 
     Error 25 occurred at disk power-on lifetime: 18798 hours (783 days + 6 hours)
       When the command that caused the error occurred, the device was active or idle.
@@ -80,13 +79,11 @@ za dużo w nim jeszcze się nie zdążyło nazbierać. W każdym razie, wszystki
 odczytane pomyślnie.
 
 Jeśli pojawiają się błędy w liczbie sektorów `8` (tak jak w tym przypadku), oznacza to
-prawdopodobnie, że dysk używa technologii
-[advanced](https://www.ibm.com/developerworks/linux/library/l-4kb-sector-disks/index.html)
-[format](https://en.wikipedia.org/wiki/Advanced_Format), czyli ma sektory nie 512 bajtów, a
-8\*512=4096 bajtów. Czasami dysk może zwracać wartość 512 bajtów w każdym możliwym miejscu, pomimo
-faktu, że ma sektory 4096 bajtowe.
+prawdopodobnie, że dysk używa technologii [advanced][2] [format][3], czyli ma sektory nie 512
+bajtów, a 8*512=4096 bajtów. Czasami dysk może zwracać wartość 512 bajtów w każdym możliwym miejscu,
+pomimo faktu, że ma sektory 4096 bajtowe.
 
-W syslogu, przy próbie odczytu uszkodzonego sektora, można zobaczyć taki komunikat:
+W syslog'u, przy próbie odczytu uszkodzonego sektora, można zobaczyć taki komunikat:
 
     Nov 21 12:57:29 morfikownia kernel: [ 5503.342060] ata1.01: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x0
     Nov 21 12:57:29 morfikownia kernel: [ 5503.342069] ata1.01: failed command: READ SECTOR(S)
@@ -188,7 +185,7 @@ przez system plików na danej partycji. Musimy zbadać ten blok przy pomocy `deb
 
 Polecenie `open` przechodzi do analizy systemu plików na wskazanej partycji. Następnie przy pomocy
 `testb` sprawdzamy czy dany blok jest w użyciu czy też nie. Jeśli jest, znaczy, że znajduje się tam
-plik. Sprawdzamy zatem przy pomocy `icheck`, który inode używa tego bloku, a następnie przy pomocy
+plik. Sprawdzamy zatem przy pomocy `icheck`, który i-node używa tego bloku, a następnie przy pomocy
 `ncheck` sprawdzamy jaka ścieżka pliku na dysku jest mu przypisana. Po nitce do kłębka i tak
 znaleźliśmy plik, którego dane znajdują się na uszkodzonym sektorze. No taa, też nie miało gdzie
 tego sektora wywalić...
@@ -204,7 +201,7 @@ Jak widać skopiowało się tylko 1.2GiB danych z faktycznych 3.8GiB . Zaglądaj
 S.M.A.R.T, można odnotować kilka kolejnych błędów. Jeśli tak się stało, znaczy, że znaleźliśmy
 winowajcę. Oczywiście nie da się już tego pliku skopiować, dysk przywiesza system przy próbie
 odczytu wadliwego sektora, jedyne co można zrobić to usunąć plik z systemu, a właściwie zwolnić
-inode oraz ręcznie realokować ten sektor przy pomocy `dd` lub `hdparm` . Ja skorzystałem z `dd` :
+i-node oraz ręcznie realokować ten sektor przy pomocy `dd` lub `hdparm` . Ja skorzystałem z `dd` :
 
     # dd if=/dev/zero of=/dev/mapper/crypt_filmy bs=4096 count=1 seek=584192
     # sync
@@ -231,11 +228,11 @@ będzie dysk obciążony, tym wolniej zostanie przeskanowany.
 
 ## Problemy z realokowaniem bad sektora
 
-U mnie ten powyższy schemat nie zdał egzaminu, być może dlatego, że próbowałem przez `/dev/mapper/`
-. W każdym razie, próba nadpisania tego sektora wyrzucała błąd zapisu. Za bardzo nie wiedziałem w
-czym tkwi problem z realokowaniem tego bad bloka, dlatego też posłużyłem się `hdparm` . Chciałem
-sprawdzić czy jemu się uda realokować padnięty sektor. Tutaj uwaga na numerki -- podajemy liczbę
-wyrzuconą przez raport S.M.A.R.T:
+U mnie ten powyższy schemat nie zdał egzaminu, być może dlatego, że próbowałem przez
+`/dev/mapper/` . W każdym razie, próba nadpisania tego sektora wyrzucała błąd zapisu. Za bardzo nie
+wiedziałem w czym tkwi problem z realokowaniem tego bad bloka, dlatego też posłużyłem się `hdparm` .
+Chciałem sprawdzić czy jemu się uda realokować padnięty sektor. Tutaj uwaga na numerki -- podajemy
+liczbę wyrzuconą przez raport S.M.A.R.T:
 
     # hdparm --yes-i-know-what-i-am-doing --write-sector 104284160 /dev/sda
 
@@ -313,3 +310,7 @@ liczba uszkodzonych sektorów się czasem nie zwiększa. Oczywiście każdy bad 
 danych, w tym przypadku dość kosztowną, bo prawie 4GiB. Choć w sumie jakby to był film, to pewnie
 dałoby radę wyciąć kawałek od początku filmu do sektora i od sektora do końca filmu, a potem oba
 kawałki złączyć i może nawet by nie było zauważalnej różnicy.
+
+[1]: https://pl.wikipedia.org/wiki/S.M.A.R.T._%28informatyka%29
+[2]: https://www.ibm.com/developerworks/linux/library/l-4kb-sector-disks/index.html
+[3]: https://en.wikipedia.org/wiki/Advanced_Format

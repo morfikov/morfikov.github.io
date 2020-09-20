@@ -15,18 +15,16 @@ tags:
 title: Jak przeprowadzić unroot na smartfonie Neffos C5 MAX od TP-LINK
 ---
 
-[Proces root na smartfonie Neffos C5
-MAX]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-max-od-tp-link/) od TP-LINK można
-przeprowadzić w miarę bez większych problemów, choć nie jest to rozwiązanie działające OOTB.
-Niemniej jednak, taki root telefonu czyni go bardziej podatnym na zagrożenia ze strony wrogich
-aplikacji. Ponadto, kasując czy też zmieniając pliki systemowe, możemy sprawić, że nasze urządzenie
-zwyczajnie przestanie nam działać, tj. już się nie uruchomi. Niektórzy użytkownicy smartfonów nie
-zdają sobie z tego sprawy i ukorzeniają Androida bez głębszego zastanowienia się. Mi jako
-linux'iarzowi, root jest niezbędny do pracy ale czy aby na pewno każdy musi go mieć? Ci z was,
-którzy taki root systemu przeprowadzili i nie korzystają z niego praktycznie wcale, zastanawiają
-się pewnie czy istnieje sposób, by cofnąć wprowadzone zmiany i przywrócić Androida do stanu
-pierwotnego. Krótka odpowiedź brzmi: "oczywiście, że tak" i temu procesowi przyjrzymy się w
-niniejszym artykule.
+[Proces root na smartfonie Neffos C5 MAX][1] od TP-LINK można przeprowadzić w miarę bez większych
+problemów, choć nie jest to rozwiązanie działające OOTB. Niemniej jednak, taki root telefonu czyni
+go bardziej podatnym na zagrożenia ze strony wrogich aplikacji. Ponadto, kasując czy też zmieniając
+pliki systemowe, możemy sprawić, że nasze urządzenie zwyczajnie przestanie nam działać, tj. już się
+nie uruchomi. Niektórzy użytkownicy smartfonów nie zdają sobie z tego sprawy i ukorzeniają Androida
+bez głębszego zastanowienia się. Mi jako linux'iarzowi, root jest niezbędny do pracy ale czy aby na
+pewno każdy musi go mieć? Ci z was, którzy taki root systemu przeprowadzili i nie korzystają z niego
+praktycznie wcale, zastanawiają się pewnie czy istnieje sposób, by cofnąć wprowadzone zmiany i
+przywrócić Androida do stanu pierwotnego. Krótka odpowiedź brzmi: "oczywiście, że tak" i temu
+procesowi przyjrzymy się w niniejszym artykule.
 
 <!--more-->
 ## Czy potrzebny mi jest root Android'a
@@ -71,8 +69,7 @@ część, na której znajduje się partycja `/system/` oraz `/data/` .
 O ile przywrócenie partycji `/system/` jest wielce niezbędne, o tyle przywrócenie partycji `/data/`
 może trwać sporo czasu. Biorąc pod uwagę, że są tam jedynie dane użytkownika, których nie ma za
 wiele tuż po wyjęciu smartfona z pudełka, to przydałoby się wyczyścić również i tę przestrzeń przed
-odkorzenieniem Androida. Ten proces możemy przeprowadzić korzystając z [Factory
-Reset]({{< baseurl >}}/post/android-reset-ustawien-do-fabrycznych-factory-defaults/) z poziomu
+odkorzenieniem Androida. Ten proces możemy przeprowadzić korzystając z [Factory Reset][2] z poziomu
 systemu. Powinien nam on efektywnie te dane bardzo szybko usunąć.
 
 Trzeba także pamiętać, że zmiany wprowadzone w procesie ukorzeniania telefonu nie ograniczają się
@@ -84,8 +81,7 @@ nie byłby możliwy root Neffos'a C5 MAX. Tę partycję również musimy przywr�
 Od czego zatem zacząć powrót do stock'owego oprogramowania naszego Neffos'a C5 MAX? To pytanie
 trzeba rozważyć pod kątem wprowadzanych zmian po dokonaniu procesu root. Jeśli nie były one zbyt
 zaawansowane, np. instalowaliśmy jedynie kilka aplikacji wymagających praw administracyjnych w celu
-odczytu plików systemowych, to możemy skorzystać z opcji dostępnej w SuperSU, tj. `Pełny unroot`
-:
+odczytu plików systemowych, to możemy skorzystać z opcji dostępnej w SuperSU, tj. `Pełny unroot` :
 
 ![]({{< baseurl >}}/img/2016/12/002.neffos-c5-max-unroot-smartfon-tp-link-supersu.png#huge)
 
@@ -127,7 +123,7 @@ Oczywiście możemy ten krok całkowicie pominąć. W przypadku ewentualnych pro
 telefonu, Factory Reset będziemy mogli przeprowadzić z poziomu trybu recovery (przyciski Power +
 Volume UP trzymane podczas startu telefonu). Jeśli jednak chcemy wyczyścić wszystkie dane na
 partycji `/data/` przed flash'owaniem telefonu, to możemy to zrobić z poziomu działającego systemu
-przechodząc do Ustawienia => Kopia i kasowanie danych =\> Ustawienia fabryczne:
+przechodząc do Ustawienia => Kopia i kasowanie danych => Ustawienia fabryczne:
 
 ![]({{< baseurl >}}/img/2016/12/004.neffos-c5-max-unroot-smartfon-tp-link-factory-reset.png#huge)
 
@@ -141,9 +137,8 @@ backup flash. Zamontujmy ten backup w systemie przy pomocy poniższego polecenia
     # losetup /dev/loop0 /media/Kabi/neffos/backup_phone/NeffosC5MAX-orig.img
 
 W systemie powinniśmy mieć dostęp do szeregu partycji tego obrazu. Jeśli się tak nie stało to musimy
-odpowiednio [skonfigurować moduł
-loop]({{< baseurl >}}/post/obsluga-wielu-partycji-w-module-loop/). Podejrzymy także w `gdisk` jak
-prezentuje się tablica partycji samego obrazu. Interesuje nas generalnie pozycja `system` :
+odpowiednio [skonfigurować moduł loop][3]. Podejrzymy także w `gdisk` jak prezentuje się tablica
+partycji samego obrazu. Interesuje nas generalnie pozycja `system` :
 
     # gdisk -l /media/Kabi/neffos/backup_phone/NeffosC5MAX-orig.img
 
@@ -169,9 +164,9 @@ urządzenia loop do pliku przy pomocy `dd` :
 
 Mając wyodrębnioną partycję `/system/` możemy ją wgrać na smartfon przy pomocy SP Flash Tool.
 Potrzebna nam jest tylko mapa przestrzeni flash, a ta siedzi w [pliku
-mt6735-neffos-c5-max-tp-link-scatter.txt]({{< baseurl >}}/img/manual/mt6753-neffos-c5-max-tp-link-scatter.txt).
-Jest tam również pozycja dotycząca partycji `/system/` . Odpalamy zatem SP Flash Tool i przechodzimy
-na zakładkę Download, gdzie wskazujemy nasz plik `scatter.txt` :
+mt6735-neffos-c5-max-tp-link-scatter.txt][4]. Jest tam również pozycja dotycząca partycji
+`/system/` . Odpalamy zatem SP Flash Tool i przechodzimy na zakładkę Download, gdzie wskazujemy
+nasz plik `scatter.txt` :
 
 ![]({{< baseurl >}}/img/2016/12/005.neffos-c5-max-unroot-smartfon-tp-link-przywracanie-system.png#huge)
 
@@ -241,3 +236,9 @@ Smartfon zrestartuje się parokrotnie podczas procesu blokowania bootloader'a al
 powinien się bez większego problemu załadować na domyślnych ustawieniach.
 
 ![]({{< baseurl >}}/img/2016/12/008.neffos-c5-max-unroot-smartfon-tp-link-box.png#medium)
+
+
+[1]: {{< baseurl >}}/post/android-root-smartfona-neffos-c5-max-od-tp-link/
+[2]: {{< baseurl >}}/post/android-reset-ustawien-do-fabrycznych-factory-defaults/
+[3]: {{< baseurl >}}/post/obsluga-wielu-partycji-w-module-loop/
+[4]: {{< baseurl >}}/img/manual/mt6753-neffos-c5-max-tp-link-scatter.txt

@@ -33,8 +33,8 @@ Jako, że moduł `evasive` nie jest częścią projektu Apache2, to trzeba go po
     # a2enmod evasive
     # systemctl restart apache2
 
-Dokumentacja modułu znajduje się na [blogu autora](https://www.zdziarski.com/blog/?page_id=442).
-Warto także zajrzeć do pliku `/usr/share/doc/libapache2-mod-evasive/README.gz` .
+Dokumentacja modułu znajduje się na [blogu autora][1]. Warto także zajrzeć do pliku
+`/usr/share/doc/libapache2-mod-evasive/README.gz` .
 
 ## Zasada działania mechanizmu blokującego
 
@@ -108,11 +108,10 @@ zablokować dany adres, ten plik musi być pierw usunięty (o tym będzie dalej)
 Pozostała nam do omówienia ostatnia z dyrektyw, które widnieją w pliku
 `/etc/apache2/mods-enabled/evasive.conf` . Jest to `DOSSystemCommand` , czyli polecenie, które
 zostanie uruchomione w przypadku, gdy jakiś klient przekroczy limit zapytań. Najprostszym i zarazem
-najefektywniejszym rozwiązaniem jest stworzenie [listy dla ipset'a](http://ipset.netfilter.org/) i
-dynamiczne dodawanie do niej adresów IP. Wymagane jest jednak dodatkowe oprogramowanie w postaci
-pakietu `ipset` , które musimy zainstalować na debianie. Będzie nam też potrzebne `sudo` , bo
-inaczej nie dodamy adresów do listy, gdyż serwer Apache2 nie działa domyślnie z prawami
-administratora systemu.
+najefektywniejszym rozwiązaniem jest stworzenie [listy dla ipset'a][2] i dynamiczne dodawanie do
+niej adresów IP. Wymagane jest jednak dodatkowe oprogramowanie w postaci pakietu `ipset` , które
+musimy zainstalować na debianie. Będzie nam też potrzebne `sudo` , bo inaczej nie dodamy adresów do
+listy, gdyż serwer Apache2 nie działa domyślnie z prawami administratora systemu.
 
 Następnie musimy stworzyć listę, na którą będą trafiać pakiety:
 
@@ -155,9 +154,10 @@ Jeśli jednak, będzie próbował nawiązać połączenie, to czas ulegnie odśw
 ## Test ataku DOS/DDOS
 
 Przydałoby się teraz przetestować jak ten mechanizm anty DOS/DDOS działa. Możemy to zrobić na dwa
-sposoby. Pierwszy z nich, to wykorzystanie skryptu dostarczanego z pakietem `libapache2-mod-evasive`
-. Znajduje się on pod `/usr/share/doc/libapache2-mod-evasive/examples/test.pl` . Wystarczy go
-przekopiować na maszynę kliencką i nieco dostosować. Generalnie chodzi o zmianę adresu:
+sposoby. Pierwszy z nich, to wykorzystanie skryptu dostarczanego z pakietem
+`libapache2-mod-evasive` . Znajduje się on pod
+`/usr/share/doc/libapache2-mod-evasive/examples/test.pl` . Wystarczy go przekopiować na maszynę
+kliencką i nieco dostosować. Generalnie chodzi o zmianę adresu:
 
     ...
     PeerAddr=> "1.2.3.4:80");
@@ -172,3 +172,7 @@ strony via `curl` wyzwoli mechanizm blokujący.
 
 Jeśli adres IP nie jest dodawany do listy ipset'a, to prawdopodobnie mamy pozostałości po
 wcześniejszych atakach DOS/DDOS, tj. pliki `dos-*` w katalogu `/tmp/` . Musimy je usunąć usunąć.
+
+
+[1]: https://www.zdziarski.com/blog/?page_id=442
+[2]: http://ipset.netfilter.org/

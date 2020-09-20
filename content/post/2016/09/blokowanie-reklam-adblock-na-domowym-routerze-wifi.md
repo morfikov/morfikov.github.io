@@ -16,11 +16,10 @@ title: Blokowanie reklam z adblock na domowym routerze WiFi
 Na sporej części stron internetowych są nam prezentowane reklamy w miej lub bardziej nachalny
 sposób. Takie banery są w stanie w dużej mierze przesłonić faktyczną treść serwisu albo też wręcz
 uniemożliwić nam spokojne czytanie tekstu, który się w takiej witrynie znajduje. By walczyć z tego
-typu praktykami, powstała cała masa dodatków do przeglądarek, np.
-[adblock](https://adblockplus.org/) czy [ublock](https://www.ublock.org/), które są w stanie
-odfiltrować praktycznie wszystkie reklamy. Możemy pokusić się o zaimplementowanie takiego adblock'a
-bezpośrednio na naszym routerze WiFi, z tym, że by taki filtr reklam wdrożyć w naszej sieci domowej,
-na routerze musimy zainstalować alternatywny firmware OpenWRT/LEDE.
+typu praktykami, powstała cała masa dodatków do przeglądarek, np. [adblock][1] czy [ublock][2],
+które są w stanie odfiltrować praktycznie wszystkie reklamy. Możemy pokusić się o zaimplementowanie
+takiego adblock'a bezpośrednio na naszym routerze WiFi, z tym, że by taki filtr reklam wdrożyć w
+naszej sieci domowej, na routerze musimy zainstalować alternatywny firmware OpenWRT/LEDE.
 
 <!--more-->
 ## Problemy z adblock/ublock
@@ -72,8 +71,7 @@ pozbawiony tego typu mechanizmu.
 Oryginalny firmware producentów nie daje nam możliwości przerobienia routera na swojego rodzaju
 bloker reklam. Jeśli chcemy się w takie rzeczy bawić, to musimy postarać się o taki router, który
 jest wspierany przez alternatywny firmware OpenWRT/LEDE. Na potrzeby tego artykułu wykorzystywany
-był [router Archer C2600](http://www.tp-link.com.pl/products/details/Archer-C2600.html) od TP-LINK
-z wgranym najnowszą wersją LEDE.
+był [router Archer C2600][3] od TP-LINK z wgranym najnowszą wersją LEDE.
 
 Jeśli już planujemy sprawić sobie jakiś router, na którym zamierzamy zainstalować adblock'a, to
 pamiętajmy, że potrzebne nam oprogramowanie i jego zależności swoje ważą. Dlatego też routery z 4
@@ -95,10 +93,10 @@ ilością wolnego miejsc na flash. Po zainstalowaniu tych rzeczy musimy sobie od
 skonfigurować adblock'a. Praktycznie cała konfiguracja sprowadza się do edycji pliku
 `/etc/config/adblock` .
 
-Przede wszystkim, musimy sobie dostosować jeden parametr w sekcji globalnej. Mowa o `adb_restricted`
-, który umożliwia generowanie statystyk. Problem w tym, że takie statystyki są zapisywane w pliku
-`/etc/config/adblock` , a więc na flash'u routera. Musimy zatem upewnić się, że taki zapis nie
-następuje. Edytujemy zatem ww. plik i dodajemy do niego poniższy parametr:
+Przede wszystkim, musimy sobie dostosować jeden parametr w sekcji globalnej. Mowa o
+`adb_restricted` , który umożliwia generowanie statystyk. Problem w tym, że takie statystyki są
+zapisywane w pliku `/etc/config/adblock` , a więc na flash'u routera. Musimy zatem upewnić się, że
+taki zapis nie następuje. Edytujemy zatem ww. plik i dodajemy do niego poniższy parametr:
 
     config adblock 'global'
         ...
@@ -117,9 +115,8 @@ włączyć lub wyłączyć przez dostosowanie opcji `enabled` , przykładowo:
 
 Ostatnia sprawa, to lista polskich adserwerów. Nie ma jej domyślnie w pliku `/etc/config/adblock` i
 musimy ją sobie zrobić. Nie jest to jakoś specjalnie trudne. Musimy tylko znaleźć listę z takimi
-serwerami i zaimportować ją na routerze. Możemy posłużyć się [polską listą do
-adblock/ublock](http://www.adblocklist.org/). Edytujemy zatem plik `/etc/config/adblock` i dodajemy
-w nim poniższy blok kodu:
+serwerami i zaimportować ją na routerze. Możemy posłużyć się [polską listą do adblock/ublock][4].
+Edytujemy zatem plik `/etc/config/adblock` i dodajemy w nim poniższy blok kodu:
 
     config source 'polish'
         option enabled '1'
@@ -127,11 +124,10 @@ w nim poniższy blok kodu:
         option adb_src_rset '{FS=\"[|^]\"} \$0 ~/^\|\|([A-Za-z0-9_-]+\.){1,}[A-Za-z]+\^$/{print tolower(\$3)}'
         option adb_src_desc 'focus on polish ads'
 
-Jeśli kogoś interesuje format tej zwrotki, to jest on [dokładnie rozpisany
-tutaj](https://github.com/openwrt/packages/tree/master/net/adblock/files). Warto jednak wiedzieć, że
-ten powyższy blok jest w stanie przetworzyć wszystkie listy, które są importowane w przeglądarkowym
-adblock'u. Jedyne co, to adres listy trzeba dostosować w `adb_src` , no i ewentualnie opis w
-`adb_src_desc` .
+Jeśli kogoś interesuje format tej zwrotki, to jest on [dokładnie rozpisany tutaj][5]. Warto jednak
+wiedzieć, że ten powyższy blok jest w stanie przetworzyć wszystkie listy, które są importowane w
+przeglądarkowym adblock'u. Jedyne co, to adres listy trzeba dostosować w `adb_src` , no i
+ewentualnie opis w `adb_src_desc` .
 
 Po zaimportowaniu tej listy, w logu systemowym możemy doszukać się takiego komunikatu:
 
@@ -173,7 +169,7 @@ Po zresetowaniu adblock'a, reklamy powinny zniknąć, poniżej porównanie:
 
 Podobnie trzeba postąpić ze wszystkimi reklamami, które nie są blokowane przez domyślne filtry lub
 też poszukać list, które te domeny uwzględniają. Akurat w tym przypadku, ta problematyczna domena
-znajduje się na jeden z list adblocka, tj. sysctl. Zatem nie musimy jej dodawać ręcznie, tylko
+znajduje się na jeden z list adblock'a, tj. sysctl. Zatem nie musimy jej dodawać ręcznie, tylko
 wystarczy włączyć te listę w ustawieniach.
 
 Im więcej list dodamy, tym nasz filtr sprawniej będzie blokował reklamy. Problem w tym, że wraz z
@@ -206,6 +202,13 @@ Od tej chwili isty będą pobierane i aktualizowane automatycznie o godzinie 4:3
 
 Jako, że nasz mechanizm blokujący reklamy opiera się o przekierowywanie zapytań DNS, to w pewnych
 sytuacjach może on powodować problemy z konfiguracją innych usług na routerze WiFi. Na szczęście
-[szyfrowanie zapytań DNS za pomocą
-dnscrypt-proxy]({{< baseurl >}}/post/konfiguracja-dnscrypt-proxy-w-openwrt/) nie koliduje zupełnie
-z adblock'iem i obie te usługi mogą działać równolegle.
+[szyfrowanie zapytań DNS za pomocą dnscrypt-proxy][6] nie koliduje zupełnie z adblock'iem i obie te
+usługi mogą działać równolegle.
+
+
+[1]: https://adblockplus.org/
+[2]: https://www.ublock.org/
+[3]: http://www.tp-link.com.pl/products/details/Archer-C2600.html
+[4]: http://www.adblocklist.org/
+[5]: https://github.com/openwrt/packages/tree/master/net/adblock/files
+[6]: {{< baseurl >}}/post/konfiguracja-dnscrypt-proxy-w-openwrt/

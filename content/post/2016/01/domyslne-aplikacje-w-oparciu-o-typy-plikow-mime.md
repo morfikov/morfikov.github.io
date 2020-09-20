@@ -16,15 +16,15 @@ title: Domyślne aplikacje w oparciu o typy plików (MIME)
 ---
 
 Pełne środowiska graficzne zwykle oferują odpowiednie narzędzia, które mogą posłużyć skonfigurowaniu
-domyślnych aplikacji. Jesteśmy zatem w stanie bardzo prosto przypisać szereg [typów
-MIME](https://pl.wikipedia.org/wiki/Typ_MIME) do odpowiednich programów. Wobec takiego stanu rzeczy,
-przy próbie uruchomienia jakiegoś pliku, ten zostanie odpalony przez konkretną aplikację. Niemniej
-jednak, jeśli chodzi o środowiska graficzne oparte o menadżery okien, np. Openbox, to na dobrą
-sprawę mamy bardzo małe pole manewru. Niezależnie czy korzystamy z GNOME, KDE, XFCE, MATE czy też
-Openbox'a, wszystkie z nich wykorzystują dokładnie ten sam mechanizm wiązania aplikacji z typami
-plików. Możemy zatem ominąć te wszystkie graficzne nakładki i ręcznie skonfigurować sobie typy MIME,
-tak by działały niezależnie od wykorzystywanego środowiska graficznego. W tym wpisie spróbujemy
-przyjrzeć się nieco bliżej konfiguracji tego całego mechanizmu.
+domyślnych aplikacji. Jesteśmy zatem w stanie bardzo prosto przypisać szereg [typów MIME][1] do
+odpowiednich programów. Wobec takiego stanu rzeczy, przy próbie uruchomienia jakiegoś pliku, ten
+zostanie odpalony przez konkretną aplikację. Niemniej jednak, jeśli chodzi o środowiska graficzne
+oparte o menadżery okien, np. Openbox, to na dobrą sprawę mamy bardzo małe pole manewru.
+Niezależnie czy korzystamy z GNOME, KDE, XFCE, MATE czy też Openbox'a, wszystkie z nich
+wykorzystują dokładnie ten sam mechanizm wiązania aplikacji z typami plików. Możemy zatem ominąć te
+wszystkie graficzne nakładki i ręcznie skonfigurować sobie typy MIME, tak by działały niezależnie
+od wykorzystywanego środowiska graficznego. W tym wpisie spróbujemy przyjrzeć się nieco bliżej
+konfiguracji tego całego mechanizmu.
 
 <!--more-->
 ## Jak ustalić typ MIME
@@ -61,10 +61,10 @@ aplikację dla tego typu, dostaniemy mniej więcej taką wiadomość:
     kde4-okularApplication_pdf.desktop
 
 Mamy tutaj informację, że za ten typ MIME jest odpowiedzialny plik
-`kde4-okularApplication_pdf.desktop` . Nie jest to faktyczna aplikacja ale jedynie sam [plik
-.desktop](https://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html),
-który znajdować się może w katalogu `/usr/share/applications/` lub też jego lokalnym odpowiedniku,
-tj. `~/.local/share/applications/` . Plik, o którym mowa wygląda mniej więcej tak:
+`kde4-okularApplication_pdf.desktop` . Nie jest to faktyczna aplikacja ale jedynie sam
+[plik .desktop][2], który znajdować się może w katalogu `/usr/share/applications/` lub też jego
+lokalnym odpowiedniku, tj. `~/.local/share/applications/` . Plik, o którym mowa wygląda mniej
+więcej tak:
 
     [Desktop Entry]
     MimeType=application/pdf;application/x-gzpdf;application/x-bzpdf;application/x-wwf;
@@ -169,3 +169,7 @@ wartości: `gnome` , `kde` , `lxde` oraz `mate` . Niemniej jednak, w przypadku m
 systemu, ustawienie wartości `xfce` jest chyba jedyną opcją. Warto też wiedzieć, że w zależności od
 wybranej tutaj wartości, musimy doinstalować dodatkowe pakiety. W przypadku `xfce` jest to pakiet
 `exo-utils` .
+
+
+[1]: https://pl.wikipedia.org/wiki/Typ_MIME
+[2]: https://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html

@@ -14,13 +14,12 @@ tags:
 title: HTTP Strict Transport Security (HSTS) w Apache2
 ---
 
-Ostatnio na niebezpieczniku czytałem [taki oto
-post](https://niebezpiecznik.pl/post/podroze-kosztuja/). Historia jak historia, nieco długa ale
+Ostatnio na niebezpieczniku czytałem [taki oto post][1]. Historia jak historia, nieco długa ale
 mniej więcej w połowie pojawiła się informacja na temat nagłówków HSTS ([HTTP Strict Transport
-Security](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)), który jest przesyłany w
-zapytaniach HTTP/HTTPS. Postanowiłem nieco się zainteresować tym tematem i zbadać czym są te
-nagłówki HSTS i w jaki sposób są one w stanie poprawić bezpieczeństwo protokołów SSL/TLS
-wykorzystywanych podczas szyfrowania zawartości stron internetowych.
+Security][2]), który jest przesyłany w zapytaniach HTTP/HTTPS. Postanowiłem nieco się zainteresować
+tym tematem i zbadać czym są te nagłówki HSTS i w jaki sposób są one w stanie poprawić
+bezpieczeństwo protokołów SSL/TLS wykorzystywanych podczas szyfrowania zawartości stron
+internetowych.
 
 <!--more-->
 ## Po co nam HSTS, skoro mamy SSL/TLS
@@ -29,11 +28,11 @@ Bardzo dużo osób zapytanych o to czy połączenie za pomocą protokołu SSL/TL
 odpowiada, że tak, bo nawet jeśli ktoś ten ruch przechwyci, to przecie w formie nieczytelnej i
 niezrozumiałej dla człowieka. Po co nam zatem te całe nagłówki HSTS, skoro nasza komunikacja jest
 należycie zabezpieczona? Szereg stron w sieci potrafi serwować zawartość serwisu przy wykorzystaniu
-dwóch protokołów w zależności od tego czy klient wpisał w przeglądarce `http://` czy też `https://`
-. Nawet jeśli zwykle odwiedzamy taka stronę po `https://` , to wystarczy raz ją odwiedzić po
-`http://` (np. przez link wewnętrzny do innej strony w serwisie) i przez sieć lecą otwartym tekstem
-hasła, ciasteczka i inne poufne dane. Jeśli teraz ktoś podsłuchiwał ruch, to pozyskał on również i
-te newralgiczne informacje.
+dwóch protokołów w zależności od tego czy klient wpisał w przeglądarce `http://` czy też
+`https://` . Nawet jeśli zwykle odwiedzamy taka stronę po `https://` , to wystarczy raz ją odwiedzić
+po `http://` (np. przez link wewnętrzny do innej strony w serwisie) i przez sieć lecą otwartym
+tekstem hasła, ciasteczka i inne poufne dane. Jeśli teraz ktoś podsłuchiwał ruch, to pozyskał on
+również i te newralgiczne informacje.
 
 Rozwiązaniem wyżej opisanego problemu może wydawać się wymuszenie połączenia szyfrowanego. No i na
 dobrą sprawę szereg stron internetowych podejmuje tego typu akcję i przy pomocy kodów 301 i 302
@@ -41,12 +40,11 @@ jesteśmy przekierowywani na nowy adres. W taki sposób nawet po wpisaniu samego
 na zabezpieczonej stronie `https://` . Innym wyjściem może być umieszczanie linków na stronie, które
 mają `https://` zamiast `http://` . Niemniej jednak, gdy ktoś między nami a serwerem (MITM) będzie
 nasłuchiwał ruchu HTTP, może wyłowić z niego te bezpieczne przekierowania oraz linki `https://` .
-Następnie może usunąć `s` ze wszystkich wyłapanych linków
-([sslstrip](https://moxie.org/software/sslstrip/)) i robić za proxy między klientem a serwerem. Z
-klientem ruch będzie odbywał się w formie nieszyfrowanej, z serwerem zaś, proxy zestawi połączenie
-szyfrowane. Ruch przepływający przez proxy będzie zatem w formacie czystego teksu i ani
-przeglądarka, ani serwer nie zgłoszą żadnych problemów przy przeglądaniu serwisu. Dlatego właśnie
-powstał [HSTS](https://tools.ietf.org/html/rfc6797).
+Następnie może usunąć `s` ze wszystkich wyłapanych linków ([sslstrip][3]) i robić za proxy między
+klientem a serwerem. Z klientem ruch będzie odbywał się w formie nieszyfrowanej, z serwerem zaś,
+proxy zestawi połączenie szyfrowane. Ruch przepływający przez proxy będzie zatem w formacie czystego
+teksu i ani przeglądarka, ani serwer nie zgłoszą żadnych problemów przy przeglądaniu serwisu.
+Dlatego właśnie powstał [HSTS][4].
 
 ## Czy HSTS jest pozbawiony wad
 
@@ -66,16 +64,15 @@ też w stanie ominąć tej blokady, przez "kliknięcie OK albo Anuluj". Krótko 
 odwiedzić witryny.
 
 By sobie jakoś radzić z tą podatnością pierwszego odwiedzenia serwisu, stworzono [projekt
-hstspreload](https://hstspreload.org/). Ma on na celu stworzenie listy domen, które mają być
-odwiedzane tylko po `https://` (o tym za moment).
+hstspreload][5]. Ma on na celu stworzenie listy domen, które mają być odwiedzane tylko po `https://`
+(o tym za moment).
 
 ## Jak włączyć HSTS w konfiguracji Apache2
 
 Mając dostęp do konfiguracji serwera Apache2, możemy wymusić w nim przesyłanie nagłówka HSTS do
 wszystkich klientów, którzy odwiedzają nasz serwis. Najlepiej też przy okazji pokusić się o
-[wymuszenie szyfrowania całej zawartości strony
-www]({{< baseurl >}}/post/wymuszenie-ssl-tls-przy-pomocy-vhostow-apache2/). Jeśli naprawdę zależy
-nam na bezpieczeństwie naszej witryny, to powinniśmy ją zaszyfrować w pełni, a nie jedynie formularz
+[wymuszenie szyfrowania całej zawartości strony www][6]. Jeśli naprawdę zależy nam na
+bezpieczeństwie naszej witryny, to powinniśmy ją zaszyfrować w pełni, a nie jedynie formularz
 logowania.
 
 Przede wszystkim, musimy włączyć w Apache2 moduł `headers` . Robimy to wpisując w terminalu poniższe
@@ -110,7 +107,7 @@ połączenie nie zostanie nigdy zrealizowane.
 ## Test nagłówka HSTS
 
 Nagłówek możemy przetestować za pomocą narzędzia `curl` lub też za sprawą dodatku do Firefox'a [Live
-HTTP headers](https://addons.mozilla.org/pl/firefox/addon/live-http-headers/).
+HTTP headers][7].
 
 Poniżej przykład `curl` :
 
@@ -163,3 +160,12 @@ Po chwili powinno zostać one wysłane:
 
 Adres naszego serwisu nie zostanie natychmiast dopisany do listy. Zgodnie z widoczną wyżej
 informacją, może upłynąć nawet kilka tygodni zanim stosowny rekord zostanie do niej dodany.
+
+
+[1]: https://niebezpiecznik.pl/post/podroze-kosztuja/
+[2]: https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
+[3]: https://moxie.org/software/sslstrip/
+[4]: https://tools.ietf.org/html/rfc6797
+[5]: https://hstspreload.org/
+[6]: {{< baseurl >}}/post/wymuszenie-ssl-tls-przy-pomocy-vhostow-apache2/
+[7]: https://addons.mozilla.org/pl/firefox/addon/live-http-headers/

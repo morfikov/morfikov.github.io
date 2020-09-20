@@ -19,8 +19,7 @@ skonfigurować klawiaturę, bo wszystko możemy sobie szybko i w prosty sposób 
 panelu administracyjnego systemu. Natomiast jeśli korzystamy jedynie z odchudzonych instalacji
 linux'a zawierających jedynie jakiś menadżer okien, np. OPENBOX, to sami musimy zadbać o
 skonfigurowanie klawiatury, tak by układ się zgadzał, by były dostępne polskie znaki, no i
-oczywiście by system potrafił rozpoznać ewentualne [klawisze
-multimedialne]({{< baseurl >}}/post/klawiatura-multimedialna-i-niedzialajace-klawisze/).
+oczywiście by system potrafił rozpoznać ewentualne [klawisze multimedialne][1].
 
 <!--more-->
 ## Klawiatura pod Xserver'em
@@ -52,9 +51,8 @@ klawiatury:
 
 Jeśli chodzi o `XkbLayout` , to można go odszukać w katalogu `/usr/share/X11/xkb/symbols/` . W
 przypadku polskiego układu klawiatury jest to `pl` . Jeśli chodzi zaś o opcje, to jest ich dość
-dużo, a te częściej używane [zostały wyszczególnione
-tutaj](https://wiki.archlinux.org/index.php/Keyboard_configuration_in_Xorg#Frequently_used_XKB_options)
-. Ja jednak korzystam z tych poniższych:
+dużo, a te częściej używane [zostały wyszczególnione tutaj][2]. Ja jednak korzystam z tych
+poniższych:
 
   - `kpdl:dot` -- ustawia `.` na klawiaturze numerycznej zamiast `,` .
   - `lv3:ralt_switch` -- wciśnięcie przycisku prawy Alt umożliwi wprowadzanie polskich znaków.
@@ -155,3 +153,7 @@ ustawić odpowiedni układ klawiatury już podczas startu systemu, trzeba zmieni
 wygenerować nowy initramfs za pomocą:
 
     # update-initramfs -u -k all
+
+
+[1]: {{< baseurl >}}/post/klawiatura-multimedialna-i-niedzialajace-klawisze/
+[2]: https://wiki.archlinux.org/index.php/Keyboard_configuration_in_Xorg#Frequently_used_XKB_options

@@ -16,9 +16,9 @@ title: Struktura plików urządzeń usb w katalogu /sys/
 Jeśli próbowaliśmy odnaleźć odpowiednią ścieżkę do urządzenia usb w linuxowym drzewie katalogów, to
 wiemy, że nie jest to łatwe zadanie. Mamy, co prawda, do dyspozycji polecenie `lsusb` ale ono nie
 daje nam precyzyjnych informacji na temat tego gdzie dokładnie w katalogu `/sys/` znajdują się
-określone urządzenia. Na necie natrafiłem na [FAQ](http://www.linux-usb.org/) dotyczący tego
-zagadnienia i postanowiłem napisać kilka zdań o tym jak zinterpretować ciągi typu `2-1.1.2:1.1` oraz
-jakie to może być urządzenie.
+określone urządzenia. Na necie natrafiłem na [FAQ][1] dotyczący tego zagadnienia i postanowiłem
+napisać kilka zdań o tym jak zinterpretować ciągi typu `2-1.1.2:1.1` oraz jakie to może być
+urządzenie.
 
 <!--more-->
 ## Schemat obsługiwanych urządzeń usb
@@ -71,10 +71,10 @@ numerek szyny oddzielony od sekwencji portów za pomocą `-` . Każdy z portów 
 siebie za pomocą `.` . Dwa z tych powyższych plików, to specjalne przypadki: `1-0:1.0` oraz
 `2-0:1.0` . Odnoszą się one do interfejsów głównych hubów.
 
-Weźmy zatem jakieś przykładowe urządzenie, np. `2-1` . Jest ono wpięte na szynę `2` i w jej port `1`
-. W powyższym przypadku okazuje się, że to urządzenie to hub ( `Class=Hub` ). Następnie w port `1`
-tego huba jest wpięte inne urządzenie i to również się okazuje być kolejny hub ( `2-1.1` ). W porty
-tego ostatniego huba są wpięte dwa urządzenia o numerkach `2-1.1.1` oraz `2-1.1.2` .
+Weźmy zatem jakieś przykładowe urządzenie, np. `2-1` . Jest ono wpięte na szynę `2` i w jej port
+`1` . W powyższym przypadku okazuje się, że to urządzenie to hub ( `Class=Hub` ). Następnie w port
+`1` tego huba jest wpięte inne urządzenie i to również się okazuje być kolejny hub ( `2-1.1` ). W
+porty tego ostatniego huba są wpięte dwa urządzenia o numerkach `2-1.1.1` oraz `2-1.1.2` .
 
 Zatem mamy rozpisane same urządzenia ale za numerkami urządzeń, mamy także `:` i cyferki oddzielone
 za pomocą `.` . W tym przypadku są to `:1.0` oraz `:1.1` . Co one oznaczają? Cyfra przed `.` to
@@ -102,10 +102,12 @@ jakie zostały zwrócone w stosunku do mojej klawiatury:
     I:  If#= 0 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=01 Prot=01 Driver=usbhid
     I:  If#= 1 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=00 Prot=00 Driver=usbhid
 
-Wszystkie powyższe parametry są dokładnie opisane
-[tutaj](http://www.linux-usb.org/USB-guide/c607.html#AEN609). Raczej nie powinno być problemów z ich
+Wszystkie powyższe parametry są dokładnie opisane [tutaj][2]. Raczej nie powinno być problemów z ich
 analizą. To co zasługuje na największą uwagę to linijki zaczynające się od `C:` oraz `I:` . W
 pierwszej z nich mamy określone `#Ifs= 2 Cfg#= 1` , czyli dwa interfejsy i jedna konfiguracja. Z
 kolei dwie ostatnie linijki to specyfikacja każdego z interfejsu. Jak widzimy wyżej, oba z nich mają
 przypisany sterownik `usbhid` i w przypadku gdy jakieś urządzenie posiada kilka interfejsów, można
 dla każdego z nich ustawić osobny sterownik.
+
+[1]: http://www.linux-usb.org/
+[2]: http://www.linux-usb.org/USB-guide/c607.html#AEN609

@@ -27,8 +27,8 @@ poradzi sobie z tym zdaniem bez większego problemu.
 
 Zakładam, że mamy już jakąś partycję, na której znajduje się system plików FAT32. Przed
 przystąpieniem do zmiany rozmiaru, ten system plików musimy odmontować i sprawdzić go w
-poszukiwaniu ewentualnych błędów. Wszystkie potrzebne narzędzia znajdują się w pakiecie `dosfstools`
-. Poniżej przykład skanowania:
+poszukiwaniu ewentualnych błędów. Wszystkie potrzebne narzędzia znajdują się w pakiecie
+`dosfstools` . Poniżej przykład skanowania:
 
     # dosfsck -v -a -w /dev/sdb3
     dosfsck 3.0.16 (01 Mar 2013)
@@ -57,8 +57,8 @@ poszukiwaniu ewentualnych błędów. Wszystkie potrzebne narzędzia znajdują si
 Jeśli chodzi o zmianę rozmiaru partycji FAT32, to nie znalazłem narzędzia, które zmieniałoby tylko
 rozmiar systemu plików. Za to w debianie jest dostępny pakiet `fatresize` , który jak nazwa
 wskazuje, umożliwia zmianę rozmiaru systemu plików FAT. Można do tego celu wykorzystać także
-`parted` . Nie będziemy tutaj korzystać z jego graficznej nakładki [gparted](http://gparted.org/),
-bo tam wszystko można sobie wyklikać bez większych problemów.
+`parted` . Nie będziemy tutaj korzystać z jego graficznej nakładki [gparted][1], bo tam wszystko
+można sobie wyklikać bez większych problemów.
 
 ## Wykorzystanie fatresize do zmiany rozmiaru partycji FAT32
 
@@ -138,14 +138,17 @@ Sprawdzamy czy partycja ma nowy rozmiar:
             156290001s  156299374s  9374s               Free Space
 
 Lepiej zawsze zostawić trochę miejsca na końcu dysku. Być może kiedyś będziemy potrzebować
-[przekonwertować tablicę partycji z MS-DOS na
-GPT]({{< baseurl >}}/post/konwersja-tablicy-partycji-ms-dos-na-gpt/).
+[przekonwertować tablicę partycji z MS-DOS na GPT][2].
 
-W przypadku [zmiany rozmiaru systemu plików
-EXT4]({{< baseurl >}}/post/zmiana-rozmiaru-partycji-ext4/) również możemy korzystać z `parted` w
-celu zautomatyzowania i przyśpieszenia całej pracy. Nie ma on jednak zaimplementowanej obsługi NTFS
-i ewentualną [zmianę rozmiaru systemy plików NTFS musimy przeprowadzać
-ręcznie]({{< baseurl >}}/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/).
+W przypadku [zmiany rozmiaru systemu plików EXT4][3] również możemy korzystać z `parted` w celu
+zautomatyzowania i przyśpieszenia całej pracy. Nie ma on jednak zaimplementowanej obsługi NTFS i
+ewentualną [zmianę rozmiaru systemy plików NTFS musimy przeprowadzać ręcznie][4].
 
 Jeśli system nie widzi nowych partycji, być może pomocne okaże się wydanie w terminalu polecenia
 `partprobe` jako użytkownik root.
+
+
+[1]: http://gparted.org/
+[2]: {{< baseurl >}}/post/konwersja-tablicy-partycji-ms-dos-na-gpt/
+[3]: {{< baseurl >}}/post/zmiana-rozmiaru-partycji-ext4/
+[4]: {{< baseurl >}}/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/

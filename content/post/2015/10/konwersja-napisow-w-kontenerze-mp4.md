@@ -12,10 +12,9 @@ title: Konwersja napisów w kontenerze MP4
 ---
 
 Podczas ogarniania kolekcji filmów i przerabiania jej w taki sposób by został nam tylko jeden plik,
-tj. [kontener MKV]({{< baseurl >}}/post/kontener-multimedialny-mkv/), możemy czasem napotkać
-problemy, które mogą nam uniemożliwić to zadanie. Może się zdarzyć tak, że będziemy mieli do
-czynienia z innymi kontenerami niż MKV, np. MP4. Ten wpis będzie poświęcony właśnie tego rodzaju
-kontenerom.
+tj. [kontener MKV][1], możemy czasem napotkać problemy, które mogą nam uniemożliwić to zadanie.
+Może się zdarzyć tak, że będziemy mieli do czynienia z innymi kontenerami niż MKV, np. MP4. Ten wpis
+będzie poświęcony właśnie tego rodzaju kontenerom.
 
 <!--more-->
 ## Uzyskiwanie informacji o kontenerze MP4
@@ -39,9 +38,9 @@ te są w dość egzotycznym formacje:
 
 Będzie trzeba te napisy jakoś wyciągnąć i przekonwertować do formatu SRT ale o tym później.
 
-Po dłuższych poszukiwaniach okazało się, że do kontenerów MP4 wykorzystywane jest narzędzie `MP4Box`
-, które w debianie jest dostępne w [pakiecie gpac](https://gpac.wp.imt.fr/) . No to teraz już bez
-problemu możemy uzyskać informacje na temat kontenera MP4:
+Po dłuższych poszukiwaniach okazało się, że do kontenerów MP4 wykorzystywane jest narzędzie
+`MP4Box` , które w debianie jest dostępne w [pakiecie gpac][2]. No to teraz już bez problemu
+możemy uzyskać informacje na temat kontenera MP4:
 
     $ MP4Box -info film.mp4
     * Movie Info *
@@ -139,10 +138,14 @@ I jak widzimy powyżej, mamy trochę więcej ścieżek niż nam pokazał `mkvmer
 ## Wydobywanie i konwersja napisów
 
 Narzędzie `MP4Box` potrafi wydobyć i przekonwertować napisy bez większego problemu, tak jak to miało
-miejsce w przypadku kontenerów MKV. Wystarczy wydać to poniższe polecenie, podając format napisów (
-`srt` ) oraz numer ścieżki ( `3` ), przykładowo:
+miejsce w przypadku kontenerów MKV. Wystarczy wydać to poniższe polecenie, podając format napisów
+( `srt` ) oraz numer ścieżki ( `3` ), przykładowo:
 
     $ MP4Box -srt 3 film.mp4
 
 Napisy zostaną przekonwertowane do formatu SRT, czyli do tego jedynie słusznego formatu, który
 powinien w końcu zapanować nad światem.
+
+
+[1]: {{< baseurl >}}/post/kontener-multimedialny-mkv/
+[2]: https://gpac.wp.imt.fr/

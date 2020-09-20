@@ -52,22 +52,20 @@ mógł ich posiadać maksymalnie 150. Jeśli serwer będzie realizował w danej 
 klientami, to 40 procesów będzie wykorzystywanych do tego celu, plus 5-10 zapasowych na wypadek
 obsługi kolejnych żądań.
 
-Za każdym razem, gdy liczba procesów zapasowych spadnie poniżej progu ustalonego w `MinSpareServers`
-, proces główny utworzy kolejny proces potomny. Podobnie sprawa ma się w przypadku, gdy liczba
-przekroczy próg w `MaxSpareServers` . Wtedy proces główny ubije taki proces potomny i zwolni
-wykorzystywane przez niego zasoby. W przypadku niedoboru procesów, będą one tworzone w interwale
-jednej sekundy. Z każdą następną sekundą będzie tworzonych 1, 2, 4 ... 32 procesów, aż zostanie
-zaspokojony limit w `MaxSpareServers` . Więcej informacji na ten temat można znaleźć w [dokumentacji
-Apache2](https://httpd.apache.org/docs/2.4/mod/prefork.html).
+Za każdym razem, gdy liczba procesów zapasowych spadnie poniżej progu ustalonego w
+`MinSpareServers` , proces główny utworzy kolejny proces potomny. Podobnie sprawa ma się w
+przypadku, gdy liczba przekroczy próg w `MaxSpareServers` . Wtedy proces główny ubije taki proces
+potomny i zwolni wykorzystywane przez niego zasoby. W przypadku niedoboru procesów, będą one
+tworzone w interwale jednej sekundy. Z każdą następną sekundą będzie tworzonych 1, 2, 4 ... 32
+procesów, aż zostanie zaspokojony limit w `MaxSpareServers` . Więcej informacji na ten temat można
+znaleźć w [dokumentacji Apache2][1].
 
 ## Skąd się bierze komunikat "internal dummy connection"
 
-Na [wiki Apache2](https://wiki.apache.org/httpd/InternalDummyConnection) znalazłem artykuł
-wyjaśniający kwestię tego całego "internal dummy connection". Okazuje się, że ten komunikat
-pojawia się w logu za sprawą opisanych wyżej procesów potomnych, które Apache2 musi co jakiś czas
-wybudzać. Robi to przez przesyłanie do samego siebie zwykłego zapytania HTTP. To zapytanie jest
-rejestrowane w logu mniej więcej w poniższy
-    sposób:
+Na [wiki Apache2][2] znalazłem artykuł wyjaśniający kwestię tego całego "internal dummy connection".
+Okazuje się, że ten komunikat pojawia się w logu za sprawą opisanych wyżej procesów potomnych, które
+Apache2 musi co jakiś czas wybudzać. Robi to przez przesyłanie do samego siebie zwykłego zapytania
+HTTP. To zapytanie jest rejestrowane w logu mniej więcej w poniższy sposób:
 
     ::1 - - [30/Jul/2016:13:05:58 +0200] "OPTIONS * HTTP/1.0" 200 110 "-" "Apache (Debian) OpenSSL/1.0.1 (internal dummy connection)"
 
@@ -90,9 +88,13 @@ logowania:
     #CustomLog ${APACHE_LOG_DIR}/access.log combined
     CustomLog ${APACHE_LOG_DIR}/access.log combined env=!dontlog
 
-[Dyrektywie SetEnvIf](https://httpd.apache.org/docs/current/mod/mod_setenvif.html#setenvif) podajemy
-jako aspekt dopasowania `Remote_Addr` i porównujemy go z adresem loopback dla IPv4/IPv6. Wyrażenie
-regularne musi być ujęte w `" "` . Na końcu zaś mamy dowolną frazę, która otaguje wszystkie
-dopasowane wiadomości. Komunikat "internal dummy connection" pojawia się w pliku `access.log` ,
-zatem na końcu dyrektywy `CustomLog` dopisujemy `env=!dontlog` , by do tego pliku leciało wszystko
-co nie ma ustawionego taga `dontlog` .
+[Dyrektywie SetEnvIf][3] podajemy jako aspekt dopasowania `Remote_Addr` i porównujemy go z adresem
+loopback dla IPv4/IPv6. Wyrażenie regularne musi być ujęte w `" "` . Na końcu zaś mamy dowolną
+frazę, która otaguje wszystkie dopasowane wiadomości. Komunikat "internal dummy connection" pojawia
+się w pliku `access.log` , zatem na końcu dyrektywy `CustomLog` dopisujemy `env=!dontlog` , by do
+tego pliku leciało wszystko co nie ma ustawionego taga `dontlog` .
+
+
+[1]: https://httpd.apache.org/docs/2.4/mod/prefork.html
+[2]: https://wiki.apache.org/httpd/InternalDummyConnection
+[3]: https://httpd.apache.org/docs/current/mod/mod_setenvif.html#setenvif

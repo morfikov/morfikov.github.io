@@ -15,15 +15,14 @@ tags:
 title: Jak przeprowadzić unroot na smartfonie Neffos Y5L od TP-LINK
 ---
 
-Przeprowadzenie [procesu root na smartfonie Neffos
-Y5L]({{< baseurl >}}/post/android-root-smartfona-neffos-y5l-tp-link/) od TP-LINK nie było tak
-łatwe jak w przypadku innych modeli telefonów tego producenta. Niemniej jednak, trzeba zdawać sobie
-sprawę, że ukorzenianie Androida niesie za sobą pewne zagrożenia. Nie chodzi tutaj tylko o
-niezaufane aplikacje ale też trzeba brać pod uwagę możliwość przypadkowego (przypadki nie istnieją)
-skasowania czy zmienienia plików systemowych, przez co nasz telefon może przestać nam działać
-poprawnie lub też przestanie się w ogóle uruchamiać. Jeśli natomiast wgraliśmy SuperSU i praktycznie
-w ogóle z niego nie korzystamy, to moim zdaniem lepiej jest przeprowadzić proces unroot i korzystać
-z Neffos'a Y5L, tak jak ze zwykłego urządzenia z Androidem na pokładzie. Proces cofania zmian w
+Przeprowadzenie [procesu root na smartfonie Neffos Y5L][1] od TP-LINK nie było tak łatwe jak w
+przypadku innych modeli telefonów tego producenta. Niemniej jednak, trzeba zdawać sobie sprawę, że
+ukorzenianie Androida niesie za sobą pewne zagrożenia. Nie chodzi tutaj tylko o niezaufane
+aplikacje ale też trzeba brać pod uwagę możliwość przypadkowego (przypadki nie istnieją) skasowania
+czy zmienienia plików systemowych, przez co nasz telefon może przestać nam działać poprawnie lub
+też przestanie się w ogóle uruchamiać. Jeśli natomiast wgraliśmy SuperSU i praktycznie w ogóle z
+niego nie korzystamy, to moim zdaniem lepiej jest przeprowadzić proces unroot i korzystać z
+Neffos'a Y5L, tak jak ze zwykłego urządzenia z Androidem na pokładzie. Proces cofania zmian w
 systemie nie jest jakoś specjalnie trudny ale trzeba uważać, by w jego trakcie nie uszkodzić
 smartfona. Ten artykuł ma na celu pokazanie jak cofnąć wszelkie zmiany wprowadzone w telefonie za
 sprawą dostępu do praw administracyjnych w Neffos Y5L.
@@ -44,7 +43,7 @@ partycji `/system/` , do przeprowadzenia których potrzebny nam był SuperSU, i 
 odinstalowanie tego programiku. Po skonfigurowaniu Androida, SuperSU jest nam zwyczajnie zbędny i
 stwarza on tylko niepotrzebne zagrożenie dla bezpieczeństwa systemu.
 
-SuperSU w Neffos Y5L możemy odinstalować z menu tejże aplikacji przechodząc w Ustawienia =\> Pełny
+SuperSU w Neffos Y5L możemy odinstalować z menu tejże aplikacji przechodząc w Ustawienia => Pełny
 Unroot.
 
 ![]({{< baseurl >}}/img/2017/01/001.unroot-neffos-y5l-tp-link-smartfon-supersu.png#huge)
@@ -55,8 +54,7 @@ restartujemy ręcznie. W przypadku, gdy proces usuwania SuperSU się zawiesi nam
 zrestartować smartfon i ponowić proces unroot bezpośrednio po włączeniu telefonu.
 
 Możemy naturalnie sprawdzić czy cały proces przebiegł zgodnie z planem i czy nasz Neffos Y5L w
-dalszym ciągu posiada
-root:
+dalszym ciągu posiada root:
 
 ![]({{< baseurl >}}/img/2017/01/002.unroot-neffos-y5l-tp-link-smartfon-root-check.png#small)
 
@@ -68,8 +66,7 @@ wszelkie zmiany wprowadzone w telefonie, to trzeba do tej kwestii podejść niec
 W zasadzie mając zrobiony pełny obraz flash'a smartfona Neffos Y5L możemy wydobyć z niego określone
 partycje via `dd` i wgrać je w stosowne miejsca przez bootloader za pomocą fastboot. Zamontujmy
 zatem ten obraz backup'u w systemie (za pomocą `losetup` ) i sprawdźmy jak wygląda jego layout, np.
-w `gdisk`
-:
+w `gdisk` :
 
 ![]({{< baseurl >}}/img/2017/01/003.unroot-neffos-y5l-tp-link-smartfon-uklad-flash.png#huge)
 
@@ -201,8 +198,8 @@ znajomy nam wszystkim ekran pierwszego logowania z wyborem języka systemu.
 To jednak nie jest koniec i w zasadzie możemy sobie darować konfigurację telefonu w tej fazie. A to
 z tego względu, że bootloader w dalszym ciągu jest odblokowany. Jeśli teraz byśmy skonfigurowali
 wstępnie system, to po zablokowaniu bootloader'a ponownie będziemy musieli wszystko ustawiać.
-Dlatego też wyłączamy telefon i uruchamiamy go w trybie bootloader'a za pomocą przycisków VolumeDown
-+ Power. Następnie w terminalu wpisujemy poniższe polecenie:
+Dlatego też wyłączamy telefon i uruchamiamy go w trybie bootloader'a za pomocą przycisków
+VolumeDown + Power. Następnie w terminalu wpisujemy poniższe polecenie:
 
     # fastboot oem lock
 
@@ -212,3 +209,6 @@ jeszcze dłuższej chwili system powinien się załadować już na fabrycznych
 ustawieniach:
 
 ![]({{< baseurl >}}/img/2017/01/001.unroot-neffos-y5l-tp-link-smartfon-defaults.png#small)
+
+
+[1]: {{< baseurl >}}/post/android-root-smartfona-neffos-y5l-tp-link/

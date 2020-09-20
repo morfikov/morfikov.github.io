@@ -27,19 +27,17 @@ przy pomocy tych pakietów.
 <!--more-->
 ## Wshaper, qos-scripts i sqm-scripts
 
-Przede wszystkim, jeśli ktoś jest zainteresowany ręczną [konfiguracją mechanizmu QoS w
-OpenWRT]({{< baseurl >}}/post/quality-service-qos-w-openwrt/), to odsyłam go do tego artykułu. My
-tutaj skupimy się na wyborze odpowiednich narzędzi tak, by możliwie bezproblemowo zaimplementować na
-routerze kształtowanie ruchu.
+Przede wszystkim, jeśli ktoś jest zainteresowany ręczną [konfiguracją mechanizmu QoS w OpenWRT][1],
+to odsyłam go do tego artykułu. My tutaj skupimy się na wyborze odpowiednich narzędzi tak, by
+możliwie bezproblemowo zaimplementować na routerze kształtowanie ruchu.
 
 W OpenWRT mamy z grubsza trzy pakiet, które udostępniają nam możliwość implementacji mechanizmu QoS.
-Są to `wshaper` , `qos-scripts` lub `sqm-scripts` . Jak możemy wyczytać [pod tym
-linkiem](https://wiki.openwrt.org/doc/uci/qos), `wshaper` nie jest już rozwijany i lepszą
-alternatywą jest korzystanie z `qos-scripts` lub `sqm-scripts` . Ten ostatni ma wsparcie w LUCI
-(graficzna nakładka na OpenWRT). My jednak będziemy korzystać z konsoli i potrzebny nam będzie
-pakiet `qos-scripts` . Logujemy się zatem na router i instalujemy wspomniany pakiet. Razem z nim
-zostanie pociągniętych szereg zależności. Dlatego też upewnijmy się, że mamy około 400 KiB wolnego
-miejsca na pamięci flash:
+Są to `wshaper` , `qos-scripts` lub `sqm-scripts` . Jak możemy wyczytać [pod tym linkiem][2],
+`wshaper` nie jest już rozwijany i lepszą alternatywą jest korzystanie z `qos-scripts` lub
+`sqm-scripts` . Ten ostatni ma wsparcie w LUCI (graficzna nakładka na OpenWRT). My jednak będziemy
+korzystać z konsoli i potrzebny nam będzie pakiet `qos-scripts` . Logujemy się zatem na router i
+instalujemy wspomniany pakiet. Razem z nim zostanie pociągniętych szereg zależności. Dlatego też
+upewnijmy się, że mamy około 400 KiB wolnego miejsca na pamięci flash:
 
     # opkg update
     # opkg install qos-scripts
@@ -89,10 +87,9 @@ opóźnień. Standardowo mamy zdefiniowanych kilka klas, które w zasadzie powin
 ogarnięcie ruchu, który przepływa przez domowy router.
 
 Nigdzie nie znalazłem jakiejś przyzwoitej dokumentacji opisującej opcje w blokach `config class` ,
-także trzeba się posiłkować nazwami klas. [Pod tym
-linkiem](https://wiki.openwrt.org/doc/uci/qos#types_and_groups) znajduje się także informacja, że
-klasa `Priority` lepiej się nadaje do nadawania priorytetu małym pakietom, chyba do 400 bajtów oraz
-, że klasa `Express` bardziej sprawdza się przy większych pakietach (do 1000 bajtów). Trzeba zatem
+także trzeba się posiłkować nazwami klas. [Pod tym linkiem][3] znajduje się także informacja, że
+klasa `Priority` lepiej się nadaje do nadawania priorytetu małym pakietom, chyba do 400 bajtów oraz,
+że klasa `Express` bardziej sprawdza się przy większych pakietach (do 1000 bajtów). Trzeba zatem
 rozważnie dobierać te klasy. Klas zaś domyślnie mamy cztery, z których `Normal` jest klasą domyślą,
 gdzie trafia ruch niesklasyfikowany.
 
@@ -141,5 +138,10 @@ definiować kilka jednocześnie):
 
 Część dopasowań opiera się o określone moduły filtra `iptables` . Prawdopodobnie będzie wymagana
 instalacja dodatkowych pakietów, by móc skorzystać z części tych powyższych opcji. Więcej informacji
-na temat tych modułów można znaleźć
-[tutaj](http://ipset.netfilter.org/iptables-extensions.man.html).
+na temat tych modułów można znaleźć [tutaj][4].
+
+
+[1]: {{< baseurl >}}/post/quality-service-qos-w-openwrt/
+[2]: https://wiki.openwrt.org/doc/uci/qos
+[3]: https://wiki.openwrt.org/doc/uci/qos#types_and_groups
+[4]: http://ipset.netfilter.org/iptables-extensions.man.html

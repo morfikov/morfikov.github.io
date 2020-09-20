@@ -16,12 +16,11 @@ title: Przewidywalne nazwy interfejsów sieciowych
 Podczas jednej z aktualizacji systemu został mi zwrócony pewien komunikat. Oświadczał on bowiem, że
 od jakiegoś czasu nazewnictwo interfejsów sieciowych w systemie uległo zmianie, oraz, że w wersji 10
 debiana, ten obecny system nazw nie będzie już wspierany. Rozchodzi się o coś co nazywa się
-[Predictable Network Interface
-Names](https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/), czyli
-przewidywalne nazwy interfejsów sieciowych. Jako, że aktualne wydanie stabilnego debiana ma numerek
-8 i w niedalekiej przyszłości zostanie wydana 9, to przydałoby się już zacząć migrować na ten nowy
-system nazw. W tym wpisie dokonamy takiej migracji i zobaczymy jakie zmiany musimy poczynić, by nie
-doświadczyć problemów związanych z tą migracją nazw.
+[Predictable Network Interface Names][1], czyli przewidywalne nazwy interfejsów sieciowych. Jako,
+że aktualne wydanie stabilnego debiana ma numerek 8 i w niedalekiej przyszłości zostanie wydana 9,
+to przydałoby się już zacząć migrować na ten nowy system nazw. W tym wpisie dokonamy takiej
+migracji i zobaczymy jakie zmiany musimy poczynić, by nie doświadczyć problemów związanych z tą
+migracją nazw.
 
 <!--more-->
 ## Nazwy interfejsów sieciowych i problemy z nimi związane
@@ -43,9 +42,9 @@ które zależą od tego jaki sprzęt podpinaliśmy do naszego komputera. Poniże
     SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="00:e0:4c:75:13:09", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="eth*", NAME="eth0"
 
 W skrócie, karcie sieciowej mającej adres MAC `00:e0:4c:75:13:09` zostanie przypisany interfejs
-`eth0` . Jeśli byśmy podłączyli drugą kartę sieciową, to będzie ona miła inny numerek niż ma `eth0`
-, prawdopodobnie będzie to `eth1` , itd. W taki sposób, mamy mniej więcej pewność, że każda karta ma
-stały interfejs.
+`eth0` . Jeśli byśmy podłączyli drugą kartę sieciową, to będzie ona miła inny numerek niż ma
+`eth0` , prawdopodobnie będzie to `eth1` , itd. W taki sposób, mamy mniej więcej pewność, że każda
+karta ma stały interfejs.
 
 Co zatem jest złego w tym sposobie przepisywania nazw, przecież mamy przewidywalne nazwy
 interfejsów? Co jest nie tak z tym mechanizmem, że trzeba go zastąpić nowym? Odpowiedź możemy
@@ -78,7 +77,7 @@ root i wydajemy w terminalu to poniższe polecenie dostosowując je pod kątem n
 
 Wszystkie te pliki, które zostaną wypisane, trzeba będzie odpowiednio przerobić. Oczywiście
 zwracajmy uwagę na komentarze. Jest tylko jeden problem, mianowicie nie wiemy jakie będą nowe nazwy
-interfejsów. By to ustalić musimy usunąć plik z regułami udeva (
+interfejsów. By to ustalić musimy usunąć plik z regułami udev'a (
 `/etc/udev/rules.d/70-persistent-net.rules` ). Dodatkowo na wszystkich maszynach wirtualnych musimy
 także usunąć plik `/etc/udev/rules.d/80-net-setup-link.rules` . Regenerujemy teraz initramfs przy
 pomocy tego poniższego polecenia:
@@ -93,17 +92,14 @@ problemu odinstalować.
 ## Nowe nazwy interfejsów
 
 W stosunku do starych nazw, tj. `eth0` czy `wlan1` , nazwy takie jak `wlp3s0b1` mogą nieco
-przytłoczyć. Wyjaśnienie struktury tych nazw znajduje się
-[tutaj](https://github.com/systemd/systemd/blob/master/src/udev/udev-builtin-net_id.c#L20). Jeśli
-komuś się nie chce zaglądać do przytoczonego linka, to warto nadmienić, że interfejsy przewodowe
-zawsze zaczynają się od `en*` , a bezprzewodowe od `wl*`. Pozostała część nazwy będzie stała dla
-konkretnej maszyny.
+przytłoczyć. Wyjaśnienie struktury tych nazw znajduje się [tutaj][2]. Jeśli komuś się nie chce
+zaglądać do przytoczonego linka, to warto nadmienić, że interfejsy przewodowe zawsze zaczynają się
+od `en*` , a bezprzewodowe od `wl*`. Pozostała część nazwy będzie stała dla konkretnej maszyny.
 
 Warto też dodać, że jest kilka schematów nadawania nazw interfejsom sieciowym. Możemy wyróżnić nazwy
 w oparciu o fizyczne położenie ( `path` ). Są też nazwy interfejsów w oparciu o adres MAC ( `mac` )
 czy też nazwy zwracane przez sterownik karty ( `onboard` ). [Naturalnie jest jeszcze więcej polityk
-nadawania nazw](https://www.freedesktop.org/software/systemd/man/systemd.link.html) ale zwykle z
-tymi powyższymi typami nazw będziemy mieli największą styczność.
+nadawania nazw][3] ale zwykle z tymi powyższymi typami nazw będziemy mieli największą styczność.
 
 Wszystkie aktualnie rozpoznane interfejsy w systemie są do wglądu w katalogu `/sys/class/net/` .
 Weźmy sobie przykładowo interfejs `wlan1` . Jego alternatywne nazwy są przechowywane w zmiennych
@@ -123,7 +119,7 @@ sobie plik `/etc/systemd/network/05-wlan1.link` i dodać w nim tę poniższą tr
 
     [Match]
     MACAddress=e8:de:27:1d:4c:a5
-    
+
     [Link]
     Description=Wireless interface configuration (wlan1)
     Name=wlan1
@@ -131,3 +127,8 @@ sobie plik `/etc/systemd/network/05-wlan1.link` i dodać w nim tę poniższą tr
 W tym przypadku mamy do czynienia z kartą USB, dlatego lepiej nie korzystać ze ścieżki, bo ta może
 ulec zmianie. Można natomiast wykorzystać adres MAC tego urządzenia, bo ten zwykle jest
 niepowtarzalny i stały dla konkretnej karty.
+
+
+[1]: https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/
+[2]: https://github.com/systemd/systemd/blob/master/src/udev/udev-builtin-net_id.c#L20
+[3]: https://www.freedesktop.org/software/systemd/man/systemd.link.html

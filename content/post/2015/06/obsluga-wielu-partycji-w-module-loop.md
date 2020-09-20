@@ -55,7 +55,7 @@ Powinniśmy być także w stanie zamontować obie partycje za pomocą standardow
 
     # mount /dev/loop1 /mnt
     # mount /dev/loop2 /mnt2
-    
+
     # mount | grep loop
     /dev/loop1 on /mnt type ext4 (rw,relatime,data=ordered)
     /dev/loop2 on /mnt2 type ext4 (rw,relatime,data=ordered)
@@ -80,7 +80,7 @@ wiele partycji. Wyładujmy zatem ten moduł i załadujmy go jeszcze raz, tym raz
 By teraz załadować taki obraz na urządzenie `loop` , wpisujemy poniższe polecenie:
 
     # losetup /dev/loop0 binary.img
-    
+
     # losetup
     NAME       SIZELIMIT OFFSET AUTOCLEAR RO BACK-FILE
     /dev/loop0         0      0         0  0 /home/morfik/Desktop/binary.img
@@ -112,8 +112,8 @@ a próba wyładowania modułu zwróci poniższy błąd:
 
 Tego typu moduły można konfigurować jedynie za pomocą parametrów podawanych w linijce kernela przez
 bootloader, np. Grub czy extlinux. Edytujemy zatem konfigurację bootloader'a. W tym przypadku jest
-to plik `/boot/extlinux/extlinux.conf` i dopisujemy parametr `loop.max_part=31` w linijce z `APPEND`
-, przykładowo:
+to plik `/boot/extlinux/extlinux.conf` i dopisujemy parametr `loop.max_part=31` w linijce z
+`APPEND` , przykładowo:
 
     APPEND root=/dev/mapper/debian_laptop-root ... loop.max_part=31 ... quiet splash ro
 

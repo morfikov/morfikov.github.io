@@ -56,8 +56,7 @@ poleceniu `rsync` . Zatem nasza linijka upraszcza się nieco i teraz wygląda mn
 
 To powyższe polecenie powinno już nam wykonać synchronizację katalogów ale jako, że szereg plików
 wymaga dostępu root, to musimy korzystać z tego konta na VPS. Nie zaleca się jednak logowania przez
-SSH na root'a. Chyba, że mu [skonfigurujemy klucze
-SSH]({{< baseurl >}}/post/uwierzytelniajace-klucze-ssh/) oraz ustawimy na serwerze poniższą opcję
+SSH na root'a. Chyba, że mu [skonfigurujemy klucze SSH][1] oraz ustawimy na serwerze poniższą opcję
 w pliku `/etc/ssh/sshd_config` :
 
     PermitRootLogin without-password
@@ -101,8 +100,8 @@ przerobić powyższe polecenie `/usr/bin/rsync` . Możemy, np. dać coś takiego
 
 Trzeba tutaj wspomnieć o kilku rzeczach. Przede wszystkim, będziemy mogli wpisać polecenie dokładnie
 w takiej formie jak zostało ono powyżej uwzględnione. Będziemy musieli pilnować kolejności
-parametrów, jak i praktycznie każdego znaku, np. nie możemy zapomnieć dopisać na końcu ścieżki `/`
-. Jako, że zamierzamy sobie zbudować skrypt, to ten problem nas raczej nie dotyczy.
+parametrów, jak i praktycznie każdego znaku, np. nie możemy zapomnieć dopisać na końcu ścieżki
+`/` . Jako, że zamierzamy sobie zbudować skrypt, to ten problem nas raczej nie dotyczy.
 
 Druga sprawa, to użytkownik w `root@192.168.10.10` . Musimy go podać w `sudo` i konsekwentnie
 definiować w wydawanych poleceniach. Jeśli tego nie uczynimy, to dostaniemy poniższy błąd:
@@ -138,3 +137,6 @@ dodać stosowne wpisy w konfiguracji `sudo` :
 I to w zasadzie cała filozofia robienia backup'u przy pomocy `rsync` , `ssh` oraz `sudo` . Skrypt
 można odpalić jako zwykły użytkownik, a synchronizacja określonych katalogów dokona się
 automatycznie bez naszej ingerencji.
+
+
+[1]: {{< baseurl >}}/post/uwierzytelniajace-klucze-ssh/

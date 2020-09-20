@@ -16,19 +16,16 @@ title: Konsola szeregowa, adapter USB-UART i uszkodzony router TP-LINK
 ---
 
 Każdy z nas słyszał o alternatywnym firmware na bezprzewodowe routery WiFi. Mam tutaj na myśli
-oczywiście [OpenWRT](https://openwrt.org/)/[LEDE](https://lede-project.org/) oraz jego GUI
-[Gargoyle](https://www.gargoyle-router.com/) i [LUCI](http://eko.one.pl/?p=openwrt-luci). Przy
-zabawach z takim oprogramowaniem bardzo łatwo jest uszkodzić router w sytuacji, gdy tak na dobrą
-sprawę nie wiemy co robimy. Mi się jeszcze nie zdarzyło ubić żadnej z moich maszyn, a mam ich kilka.
-Problem w tym, że tak naprawdę nie wiem jak wygląda proces odzyskiwania routera w przypadku
-zaistnienia takiego złego scenariusza. Dlatego też postanowiłem zainicjować zdarzenie, które
-doprowadziło do ubicia systemu w moim
-[TL-WR1043ND](http://www.tp-link.com.pl/products/details/TL-WR1043ND.html) V2 od TP-LINK. Co zrobić
-w takim przypadku, gdy system routera nie chce wystartować, a na obudowie diody sygnalizują
-nieprawidłową pracę urządzenia? W takiej sytuacji będziemy musieli rozebrać sprzęt i podłączyć się
-do portu szeregowego na PCB za pomocą adaptera USB-UART, najlepiej na układzie CP2102, który bez
-problemu działa pod linux. Ten artykuł nie powstałby (tak szybko), [gdyby nie pomoc ze strony
-@Heinz](http://tplink-forum.pl/index.php?/topic/5322-jak-ustali%C4%87-oznaczenia-port%C3%B3w-konsoli-szeregowej-na-pcb/).
+oczywiście [OpenWRT][1]/[LEDE][2] oraz jego GUI [Gargoyle][3] i [LUCI][4]. Przy zabawach z takim
+oprogramowaniem bardzo łatwo jest uszkodzić router w sytuacji, gdy tak na dobrą sprawę nie wiemy co
+robimy. Mi się jeszcze nie zdarzyło ubić żadnej z moich maszyn, a mam ich kilka. Problem w tym, że
+tak naprawdę nie wiem jak wygląda proces odzyskiwania routera w przypadku zaistnienia takiego złego
+scenariusza. Dlatego też postanowiłem zainicjować zdarzenie, które doprowadziło do ubicia systemu w
+moim [TL-WR1043ND][5] V2 od TP-LINK. Co zrobić w takim przypadku, gdy system routera nie chce
+wystartować, a na obudowie diody sygnalizują nieprawidłową pracę urządzenia? W takiej sytuacji
+będziemy musieli rozebrać sprzęt i podłączyć się do portu szeregowego na PCB za pomocą adaptera
+USB-UART, najlepiej na układzie CP2102, który bez problemu działa pod linux. Ten artykuł nie
+powstałby (tak szybko), [gdyby nie pomoc ze strony @Heinz][6].
 
 <!--more-->
 ## Jaki adapter USB-UART wybrać
@@ -362,10 +359,9 @@ routera mający w nazwie `factory`. Upewnijmy się też, że ten obraz jest prze
 sprzętową taką, którą router ma wypisaną na spodzie obudowy.
 
 Mając pobrany obraz z firmware, musimy go jakoś przesłać na router. Do tego celu wykorzystuje się
-[protokół TFTP](https://pl.wikipedia.org/wiki/Trivial_File_Transfer_Protocol) (uboższa wersja
-protokołu FTP). Do zestawienia połączenia wymagany jest klient i serwer. Klientem będzie router.
-Serwerem zaś nasz komputer. Bootloader routera posiada odpowiednie oprogramowanie kliencie
-(narzędzie `tftp` ). Na komputerze musimy zaś postawić serwer.
+[protokół TFTP][7] (uboższa wersja protokołu FTP). Do zestawienia połączenia wymagany jest klient i
+serwer. Klientem będzie router. Serwerem zaś nasz komputer. Bootloader routera posiada odpowiednie
+oprogramowanie kliencie (narzędzie `tftp` ). Na komputerze musimy zaś postawić serwer.
 
 ### Konfiguracja serwera TFTP pod linux
 
@@ -388,10 +384,10 @@ kolei mamy min. te dwie poniższe:
     ipaddr=192.168.1.111
     serverip=192.168.1.100
 
-Zatem router będzie miał adres 192.168.1.111 i będzie próbował połączyć się z adresem 192.168.1.100
-. Dlatego to ten adres musimy ustawić w konfiguracji karty sieciowej komputera. Jeśli kogoś
-interesują pozostałe zmienne zwrócone przez `printenv` , to są one opisane na [wiki
-OpenWRT](https://wiki.openwrt.org/doc/techref/bootloader/uboot.config).
+Zatem router będzie miał adres `192.168.1.111` i będzie próbował połączyć się z adresem
+`192.168.1.100` . Dlatego to ten adres musimy ustawić w konfiguracji karty sieciowej komputera.
+Jeśli  kogoś interesują pozostałe zmienne zwrócone przez `printenv` , to są one opisane na [wiki
+OpenWRT][8].
 
 Musimy jeszcze uruchomić serwer TFTP. W tym celu edytujemy pierw plik `/etc/default/atftpd` i
 przepisujemy go do poniższej postaci:
@@ -439,9 +435,8 @@ części artykułu.
 Polecenie `erase` służy do zerowania pamięci flash. Przyjmuje ono również dwa argumenty. Pierwszym z
 nich jest adres pamięci flash, od którego ma się rozpocząć zerowanie. (ustalenie go również może być
 problematyczne). Drugim argumentem jest ilość bajtów, które zostaną wyzerowane (musi pasować do
-0x7c0000). Operację zerowania musimy wykonać ze względu na [budowę komórek pamięci
-flash](https://pl.wikipedia.org/wiki/Pami%C4%99%C4%87_flash#Ograniczenia). Dopiero po wyzerowaniu
-interesującego nas obszaru, możemy zacząć umieszczać na nim dane z firmware.
+0x7c0000). Operację zerowania musimy wykonać ze względu na [budowę komórek pamięci flash][9].
+Dopiero po wyzerowaniu interesującego nas obszaru, możemy zacząć umieszczać na nim dane z firmware.
 
     ap135> erase 0x9f020000 +0x7c0000
     Erasing flash...
@@ -521,8 +516,7 @@ by sprawdzić co tak naprawdę jest w stanie uszkodzić router i w jakim stopniu
 Mając wgrany firmware OpenWRT/LEDE zwykle flash'ujemy go obrazem mającym w nazwie `sysupgrade` . Jak
 jednak zareaguje nasz router po podaniu mu pełnego obrazu `factory` ? W sumie zawsze chciałem to
 sprawdzić ale jakoś nigdy nie było okazji. Kopiujemy zatem firmware do pamięci routera via `scp` ,
-logujemy się na router i wgrywamy firmware via `sysupgrade`
-:
+logujemy się na router i wgrywamy firmware via `sysupgrade` :
 
 ![]({{< baseurl >}}/img/2016/10/026.usb-uart-tp-link-router-serial-konsola-szeregowa-factory.png#huge)
 
@@ -576,8 +570,7 @@ zaniku napięcia będziemy w stanie odzyskać router.
 
 Sprawdźmy zatem co się stanie po puszczeniu procesu aktualizacji firmware via `sysupgrade` i
 odłączeniu zasilania routera tak po trzech sekundach. Oczywiście flash'ujemy router z poziomu
-`sysupgrade` na firmware
-OpenWRT/LEDE:
+`sysupgrade` na firmware OpenWRT/LEDE:
 
 ![]({{< baseurl >}}/img/2016/10/028.usb-uart-tp-link-router-serial-konsola-szeregowa-zanik-zasilania.png#huge)
 
@@ -627,9 +620,8 @@ efekcie router nie będzie chciał się uruchomić ale będziemy w stanie go odz
 szeregową.
 
 By uniknąć tego typu problemów, potrzebny nam jest obraz nieposiadający w nazwie frazy `boot` .
-Takie obrazy są dostępne w różnych miejscach: [tutaj](ftp://tplink-forum.pl/orgin_bez_boot/),
-[tutaj](http://dl.eko.one.pl/orig/), [tutaj](http://www.friedzombie.com/tplink-stripped-firmware/) i
-pewnie jeszcze w wielu innych, o których nie wiem.
+Takie obrazy są dostępne w różnych miejscach: [tutaj][10], [tutaj][11], [tutaj][12] i pewnie
+jeszcze w wielu innych, o których nie wiem.
 
 Jeśli jednak dysponujemy obrazem mającym w nazwie `boot` i z jakiegoś powodu nie możemy pozyskać
 obrazu bez części bootloader'a, to możemy ten zbędny i niebezpieczny zarazem kawałek usunąć ręcznie.
@@ -668,7 +660,7 @@ Wygląda na to, że oficjalne oprogramowanie nie przyjmuje takiego obrazu zupeł
 początku obrazu znajduje się tylko dodatkowy nagłówek i prawdopodobnie jego brak uniemożliwia
 wgranie obrazu na router z poziomu panelu administracyjnego TP-LINK'a.
 
-## Backup pamięci flash router'a
+## Backup pamięci flash routera
 
 Jak widać z powyższych obserwacji bardzo ciężko jest doprowadzić router do stanu nieużywalności.
 Jeśli nie przytrafi nam się nagły zanik zasilania podczas procesu flash'owania, to raczej nie mamy
@@ -681,8 +673,7 @@ przestrzeni flash.
 Jeśli nasz router działa bez problemu, możemy się na niego zalogować po ssh i przy pomocy `dd`
 zrzucić obrazy wszystkich pozycji, które widnieją w pliku `/proc/mtd` . Oczywiście moglibyśmy zrobić
 backup tylko u-boot, firmware i art ale później musielibyśmy kroić obraz by [wyodrębnić konkretne
-jego części](https://wiki.openwrt.org/doc/techref/flash.layout). Backup robimy przy pomocy `dd`
-zapisując dane w pamięci RAM routera:
+jego części][13]. Backup robimy przy pomocy `dd` zapisując dane w pamięci RAM routera:
 
     root@OpenWrt:/tmp# dd if=/dev/mtdblock0 of=/tmp/mtdblock0-u-boot.bin
     root@OpenWrt:/tmp# dd if=/dev/mtdblock1 of=/tmp/mtdblock1-kernel.bin
@@ -749,3 +740,18 @@ moim przypadku mogłem praktycznie od razu się podłączyć (tuż przed zgaśni
 routerze). W innych sytuacjach trzeba będzie poczekać jedną czy kilka sekund i dopiero wtedy się
 wpiąć. Nie trzeba się oczywiście spieszyć z tym faktem, bo bootloader się będzie w kółko resetował,
 przez co i tak zobaczymy wszystkie komunikaty, które nam zostaną zwrócone.
+
+
+[1]: https://openwrt.org/
+[2]: https://lede-project.org/
+[3]: https://www.gargoyle-router.com/
+[4]: http://eko.one.pl/?p=openwrt-luci
+[5]: http://www.tp-link.com.pl/products/details/TL-WR1043ND.html
+[6]: http://tplink-forum.pl/index.php?/topic/5322-jak-ustali%C4%87-oznaczenia-port%C3%B3w-konsoli-szeregowej-na-pcb/
+[7]: https://pl.wikipedia.org/wiki/Trivial_File_Transfer_Protocol
+[8]: https://wiki.openwrt.org/doc/techref/bootloader/uboot.config
+[9]: https://pl.wikipedia.org/wiki/Pami%C4%99%C4%87_flash#Ograniczenia
+[10]: ftp://tplink-forum.pl/orgin_bez_boot/
+[11]: http://dl.eko.one.pl/orig/
+[12]: http://www.friedzombie.com/tplink-stripped-firmware/
+[13]: https://wiki.openwrt.org/doc/techref/flash.layout

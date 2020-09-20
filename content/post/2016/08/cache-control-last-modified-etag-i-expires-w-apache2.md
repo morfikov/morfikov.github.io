@@ -37,8 +37,7 @@ konfiguracji serwera www.
 
 Po otrzymaniu dokumentu, przeglądarka zapisuje sobie jego kopię w swoim lokalnym cache. Podobnie ona
 postępuje w przypadku wysłanego żądanie do serwera oraz otrzymanej odpowiedzi. Poniżej jest przykład
-zapytania i
-odpowiedzi:
+zapytania i odpowiedzi:
 
 ![]({{< baseurl >}}/img/2016/08/1.etag-last-modified-header-naglowek-przegladarka.png#huge)
 
@@ -65,22 +64,19 @@ przybrać atrybuty świeżości.
 
 Nagłówki `Last-Modified` oraz `ETag` przesyłają przeglądarce ważne informacje na temat stanu danego
 zasobu. Nagłówek `Last-Modified` mówi jej, kiedy dokładnie na serwerze został zmodyfikowany dany
-plik. Z kolei [nagłówek ETag zawiera sumę
-kontrolną](https://httpd.apache.org/docs/2.2/mod/core.html#FileETag) kilku elementów składowych.
-Mogą to być: `INode` (numer i-węzła) , `MTime` (czas modyfikacji) oraz `Size` (rozmiar w bajtach).
-Domyślnie są wykorzystywane jedynie te dwa ostatnie. Im więcej elementów zostanie uwzględnionych,
-tym wolniej będzie przetwarzane zapytanie ale też tym bardziej akuratny wynik.
+plik. Z kolei [nagłówek ETag zawiera sumę kontrolną][1] kilku elementów składowych. Mogą to być:
+`INode` (numer i-węzła) , `MTime` (czas modyfikacji) oraz `Size` (rozmiar w bajtach). Domyślnie są
+wykorzystywane jedynie te dwa ostatnie. Im więcej elementów zostanie uwzględnionych, tym wolniej
+będzie przetwarzane zapytanie ale też tym bardziej akuratny wynik.
 
 Nagłówek `Etag` jest też bardziej wiarygodny niż `Last-Modified` w sytuacjach, gdzie nie przechowuje
 się (nie utrzymuje) się dat modyfikacji plików, lub też w przypadku, gdy rozdzielczość zegara HTTP
 (1s) jest niewystarczająca. Stwarza on także zagrożenie dla prywatności klientów i [powoduje
-problemy](https://stackoverflow.com/questions/499966/etag-vs-header-expires) przy implementacji
-mechanizmu równoważącego ruch.
+problemy][2] przy implementacji mechanizmu równoważącego ruch.
 
 Domyślnie Apache2 robi użytek z obu tych walidatorów i nie generuje w odpowiedziach informacji na
 temat świeżości zasobu (brak nagłówków `Expires` i `Cache-Control`). Jeśli zrezygnujemy z obu tych
-walidatorów, to przeglądarka [w ogóle nie będzie przechowywać odpowiedzi w
-cache](https://www.mnot.net/cache_docs/#VALIDATE).
+walidatorów, to przeglądarka [w ogóle nie będzie przechowywać odpowiedzi w cache][3].
 
 Zakładając jednak, że chcemy, aby pewne elementy naszej witryny były buforowane, musimy
 skonfigurować co najmniej jeden walidator. Oczywiście można korzystać z obu ale to przyczynia się
@@ -132,8 +128,7 @@ pobierać danego pliku z serwera. Generalnie rzecz ujmując, ten nagłówek nadp
 przeglądarki. Jeśli go określimy na serwerze, zostanie także ustawiony parametr `max-age` w
 nagłówku `Cache-Control` .
 
-Za ustawienie nagłówka `Expires` w Apache2 odpowiada [moduł
-mod_expires](https://httpd.apache.org/docs/current/mod/mod_expires.html). Jeśli zamierzamy ten
+Za ustawienie nagłówka `Expires` w Apache2 odpowiada [moduł mod_expires][4]. Jeśli zamierzamy ten
 nagłówek włączyć w odpowiedzi serwera, musimy pierw włączyć moduł `mod_expires` w konfiguracji
 Apache2:
 
@@ -153,23 +148,18 @@ podobną do tej poniżej:
     </Directory>
 
 Dyrektywa `ExpiresActive` aktywuje dodawanie nagłówka `Expires` i `Cache-Control` w odpowiedzi
-serwera dla plików znajdujących się w katalogu określonym przez dyrektywę
-[Directory](https://httpd.apache.org/docs/2.4/mod/core.html#directory). Oczywiście możemy skorzystać
-z innych dyrektyw do oznaczenia plików, np.
-[Files](https://httpd.apache.org/docs/2.4/mod/core.html#files),
-[FilesMatch](https://httpd.apache.org/docs/2.4/mod/core.html#filesmatch) czy też
-[DirectoryMatch](https://httpd.apache.org/docs/2.4/mod/core.html#directorymatch). Dalej mamy
-dyrektywę `ExpiresDefault` , która ustawia domyślny czas świeżości dla wszystkich plików w tym
-katalogu. Z kolei dyrektywy `ExpiresByType` są w stanie ustawić inny czas dla plików o określonych
-typach MIME.
+serwera dla plików znajdujących się w katalogu określonym przez dyrektywę [Directory][5].
+Oczywiście możemy skorzystać z innych dyrektyw do oznaczenia plików, np. [Files][6],
+[FilesMatch][7] czy też [DirectoryMatch][8]. Dalej mamy dyrektywę `ExpiresDefault` , która ustawia
+domyślny czas świeżości dla wszystkich plików w tym katalogu. Z kolei dyrektywy `ExpiresByType` są
+w stanie ustawić inny czas dla plików o określonych typach MIME.
 
 Wartości liczbowe widoczne wyżej są wyrażone w sekundach. Każda z tych wartości musi być poprzedzona
 literką `A` (czas dostępu) lub `M` (czas modyfikacji). W przypadku ustawienia `A` na danym typie
 plików, każdy klient będzie miał ustawiony osobny zegar w swoim cache w oparciu o czas dostępu do
 zasobu. Z kolei, gdy ustawimy `M` , to wszyscy klienci będą mięć ustawiony taki sam czas świeżości
 cache, który tym razem będzie się odnosił do czasu modyfikacji pliku na serwerze. Poniżej jest fotka
-obrazująca nagłówek `Expires`
-:
+obrazująca nagłówek `Expires` :
 
 ![]({{< baseurl >}}/img/2016/08/4.expires-cache-control-header-naglowek-przegladarka.png#huge)
 
@@ -186,8 +176,7 @@ zaadresować problem z ograniczeniami wynikającymi ze stosowania nagłówka `Ex
 mieć większą swobodę w dostosowaniu cache, możemy skorzystać z tych dodatkowych opcji, które oferuje
 nam nagłówek `Cache-Control` . Niemniej jednak, by z nich skorzystać, musimy ustawić poszczególne
 parametry nagłówka przy pomocy dyrektywy `Header` , która jest obsługiwana przez moduł
-[mod_headers](https://httpd.apache.org/docs/current/mod/mod_headers.html). Ten moduł musi być
-włączony w konfiguracji Apache2:
+[mod_headers][9]. Ten moduł musi być włączony w konfiguracji Apache2:
 
     # a2enmod headers
     # systemctl restart apache2
@@ -203,17 +192,16 @@ Generalnie, to do ustawienia nagłówka `Cache-Control` będziemy używać opcji
 korzystać także z nagłówka `Expires` , to zamiast `set` trzeba korzystać z `append` . Podobnie jak w
 przypadku nagłówka `Expires` , możemy korzystać z dyrektyw dopasowujących pliki i katalogi.
 
-Opcje używane [w nagłówku Cache-Control są opisane tutaj](https://tools.ietf.org/html/rfc7234).
-Generalnie są dwa rodzaje opcji: te używane w zapytaniu oraz te używane w odpowiedzi. Jako, że my
-konfigurujemy serwer Apache2, to nas interesują nagłówki przesyłane w odpowiedziach:
+Opcje używane [w nagłówku Cache-Control są opisane tutaj][10]. Generalnie są dwa rodzaje opcji: te
+używane w zapytaniu oraz te używane w odpowiedzi. Jako, że my konfigurujemy serwer Apache2, to nas
+interesują nagłówki przesyłane w odpowiedziach:
 
   - `must-revalidate` -- gdy odpowiedź w cache przestaje być świeża, nie może zostać użyta bez
     uprzedniej walidacji na serwerze.
   - `no-cache` -- odpowiedź z serwera nie może zostać użyta bez uprzedniej pomyślnej walidacji na
     serwerze.
   - `no-store` -- przeglądarka lub proxy nie mogą buforować zasobów.
-  - `no-transform` -- proxy [nie może zmienić payload'u
-    wiadomości](https://stackoverflow.com/questions/20134257/any-reason-not-to-add-cache-control-no-transform-header-to-every-page).
+  - `no-transform` -- proxy [nie może zmienić payload'u wiadomości][11].
   - `public` -- zarówno przeglądarka jak i proxy mogą buforować zasoby.
   - `private` -- tylko przeglądarka może buforować zasoby.
   - `proxy-revalidate` -- ma takie samo znaczenie co `must-revalidate` z tym, że nie odnosi się do
@@ -225,8 +213,7 @@ konfigurujemy serwer Apache2, to nas interesują nagłówki przesyłane w odpowi
     określone przez dyrektywę `proxy-revalidate` .
 
 W przypadku, gdy zarówno nagłówek `Expires` i `Cache-Control` są określone w odpowiedzi serwera,
-[max-age zawsze jest barny pod uwagę w pierwszej
-kolejności.](https://devcenter.heroku.com/articles/increasing-application-performance-with-http-cache-headers#expires)
+[max-age zawsze jest barny pod uwagę w pierwszej kolejności.][12]
 
 Poniżej jest przykład ustawienia nagłówka `Cache-Control` . Ten kawałek kodu trzeba dopisać do pliku
 `/etc/apache2/apache2.conf` :
@@ -247,15 +234,12 @@ notuje się przeważnie trzy nagłówki i są to kombinacje `Last-Modified`-`Exp
 
 Chyba najlepszą opcją są własne eksperymenty. Jeśli potrzebujemy jakiegoś mechanizmu, który nam
 zweryfikuje ustawienia nagłówków konkretnych zasobów w serwisie, to zawsze możemy [skorzystać z
-redbot](https://redbot.org/), który nam wyrzuci przyjazne
-podsumowanie:
+redbot][13], który nam wyrzuci przyjazne podsumowanie:
 
 ![]({{< baseurl >}}/img/2016/08/5.cache-control-expires-last-modified-etag-redbot-test.png#huge)
 
-[Pod tym
-linkiem](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching)
-z kolei jest ciekawa rozpiska na temat wykorzystania nagłówków HTTP odpowiedzialnych za instrukcje
-dla cache przeglądarek. Jest tam min. ta poniższa fotka:
+[Pod tymlinkiem][14] z kolei jest ciekawa rozpiska na temat wykorzystania nagłówków HTTP
+odpowiedzialnych za instrukcje dla cache przeglądarek. Jest tam min. ta poniższa fotka:
 
 ![]({{< baseurl >}}/img/2016/08/http-cache-decision-tree.png#huge)
 
@@ -265,3 +249,19 @@ opcje dla cache są dostosowywane przez poszczególne parametry nagłówka `Cach
 zatem niektóre strony wykorzystują nawet wszystkie cztery nagłówki? Być może to przez kompatybilność
 wsteczną dla bardzo starych przeglądarek, które nie wiedzą jak zinterpretować te nowe nagłówki
 wprowadzone w wersji 1.1 protokołu HTTP. To jedyne wytłumaczenie, które przychodzi mi do głowy.
+
+
+[1]: https://httpd.apache.org/docs/2.2/mod/core.html#FileETag
+[2]: https://stackoverflow.com/questions/499966/etag-vs-header-expires
+[3]: https://www.mnot.net/cache_docs/#VALIDATE
+[4]: https://httpd.apache.org/docs/current/mod/mod_expires.html
+[5]: https://httpd.apache.org/docs/2.4/mod/core.html#directory
+[6]: https://httpd.apache.org/docs/2.4/mod/core.html#files
+[7]: https://httpd.apache.org/docs/2.4/mod/core.html#filesmatch
+[8]: https://httpd.apache.org/docs/2.4/mod/core.html#directorymatch
+[9]: https://httpd.apache.org/docs/current/mod/mod_headers.html
+[10]: https://tools.ietf.org/html/rfc7234
+[11]: https://stackoverflow.com/questions/20134257/any-reason-not-to-add-cache-control-no-transform-header-to-every-page
+[12]: https://devcenter.heroku.com/articles/increasing-application-performance-with-http-cache-headers#expires
+[13]: https://redbot.org/
+[14]: https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching

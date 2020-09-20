@@ -92,30 +92,25 @@ wcześniej aplikowana. Reasumując, nazwa pliku powinna wyglądać następująco
 
 Xserver zwykle jest w stanie poprawnie rozpoznać parametry monitora i odpowiednio je ustawić.
 Podobnie jest w większości przypadków modułów do kart graficznych. Jeśli jednak mamy problemy z
-uruchomieniem sesji graficznej, to być może trzeba [odpowiednio skonfigurować
-monitor]({{< baseurl >}}/post/monitor-i-jego-konfiguracja-pod-linuxem/).
+uruchomieniem sesji graficznej, to być może trzeba [odpowiednio skonfigurować monitor][1].
 
 ### Konfiguracja klawiatury
 
 Podobnie spawa ma się w przypadku klawiatury. Z reguły działa ona sprawnie ale też mogą być wymagane
-małe poprawki. [Konfiguracja
-klawiatury]({{< baseurl >}}/post/klawiatura-i-jej-konfiguracja-pod-debianem/) została dokładnie
-opisana w osobnym wpisie. [Konfiguracja klawiszy
-multimedialnych]({{< baseurl >}}/post/klawiatura-multimedialna-i-niedzialajace-klawisze/), które
-mogą nie być nawet wykrywane przez Xserver, została opisana także osobno.
+małe poprawki. [Konfiguracja klawiatury][2] została dokładnie opisana w osobnym wpisie.
+[Konfiguracja klawiszy multimedialnych][3], które mogą nie być nawet wykrywane przez Xserver,
+została opisana także osobno.
 
 ### Konfiguracja myszki
 
 Mysz, to jedno z prostszych urządzeń, jakie podłączamy do komputera. Podobnie jak klawiatura,
-powinno ono działać bez zarzutu. Możemy jednak [dostosować sobie ręcznie swoją
-mysz]({{< baseurl >}}/post/mysz-i-jej-konfiguracja-na-linuxie/) jeśli jej ustawienia nam nie
-odpowiadają z jakiegoś powodu.
+powinno ono działać bez zarzutu. Możemy jednak [dostosować sobie ręcznie swoją mysz][4] jeśli jej
+ustawienia nam nie odpowiadają z jakiegoś powodu.
 
 ### Konfiguracja touchpad'a
 
 Jeśli jesteśmy posiadaczami laptopów, to w ich przypadku mamy do dyspozycji touchpad zamiast myszy.
-[Konfiguracja touchpad'a]({{< baseurl >}}/post/konfiguracja-touchpada-w-laptopie-pod-linuxem/)
-została opisana również w osobnym wpisie.
+[Konfiguracja touchpad'a][5] została opisana również w osobnym wpisie.
 
 ## Logi Xserver'a
 
@@ -167,7 +162,7 @@ globalną konfiguracją.
 
 Wygląd poszczególnych aplikacji dostosowujemy za pomocą plików `~/.Xdefaults` lub `~/.Xresources`.
 Ten pierwszy jest już przestarzały i nie powinno się go używać. Więcej informacji na temat tych
-plików można znaleźć [pod tym adresem](https://wiki.archlinux.org/index.php/X_resources).
+plików można znaleźć [pod tym adresem][6].
 
 ### Uruchamianie Xserver'a
 
@@ -182,15 +177,25 @@ wpis w konfiguracji shell'a. Domyślnym shell'em w debianie jest bash, zatem dod
           exec startx &> ~/.xsession-errors
     fi
 
-W takim przypadku po zalogowaniu się na konsoli nr. 4, automatycznie zostanie zainicjowany `startx`
-. W przypadku pozostałych konsol będziemy logowani tak jak przedtem. Domyślnie jednak system po
-załadowaniu pozostaje na konsoli nr. 1. Jeśli korzystamy z innej konsoli w celu odpaleniu sesji
-graficznej, to musimy poinstruować system, by po zakończeniu startu przeszedł do tej konsoli. Możemy
-to zrobić przez plik `/etc/rc.local` dopisując w nim tę poniższą linijkę:
+W takim przypadku po zalogowaniu się na konsoli nr. 4, automatycznie zostanie zainicjowany
+`startx` . W przypadku pozostałych konsol będziemy logowani tak jak przedtem. Domyślnie jednak
+system po załadowaniu pozostaje na konsoli nr. 1. Jeśli korzystamy z innej konsoli w celu odpaleniu
+sesji graficznej, to musimy poinstruować system, by po zakończeniu startu przeszedł do tej konsoli.
+Możemy to zrobić przez plik `/etc/rc.local` dopisując w nim tę poniższą linijkę:
 
     chvt 4
 
 W taki sposób mamy przygotowaną sesję Xserver'a ale to nie jest koniec. Czeka nas jeszcze
-[konfiguracja menadżera logowania LightDM]({{< baseurl >}}/post/menadzer-logowania-lightdm/),
-[menadżera okien Openbox]({{< baseurl >}}/post/menadzer-okien-openbox/) i [serwera dźwięku
-PulseAudio]({{< baseurl >}}/post/konfiguracja-serwera-dzwieku-pulseaudio/).
+[konfiguracja menadżera logowania LightDM]([7]), [menadżera okien Openbox][8] i [serwera dźwięku
+PulseAudio][9].
+
+
+[1]: {{< baseurl >}}/post/monitor-i-jego-konfiguracja-pod-linuxem/
+[2]: {{< baseurl >}}/post/klawiatura-i-jej-konfiguracja-pod-debianem/
+[3]: {{< baseurl >}}/post/klawiatura-multimedialna-i-niedzialajace-klawisze/
+[4]: {{< baseurl >}}/post/mysz-i-jej-konfiguracja-na-linuxie/
+[5]: {{< baseurl >}}/post/konfiguracja-touchpada-w-laptopie-pod-linuxem/
+[6]: https://wiki.archlinux.org/index.php/X_resources
+[7]: {{< baseurl >}}/post/menadzer-logowania-lightdm/
+[8]: {{< baseurl >}}/post/menadzer-okien-openbox/
+[9]: {{< baseurl >}}/post/konfiguracja-serwera-dzwieku-pulseaudio/

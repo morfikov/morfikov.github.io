@@ -15,14 +15,12 @@ tags:
 title: Bad sektor w dzienniku systemu plików ext4
 ---
 
-Parę dni temu opisywałem jak udało mi się [realokować uszkodzony
-sektor]({{< baseurl >}}/post/uszkodzony-sektor-na-dysku-i-jego-realokoacja/) z dysku, który już
+Parę dni temu opisywałem jak udało mi się [realokować uszkodzony sektor][1] z dysku, który już
 przepracował dość długi okres czasu. Nie było to znowu jakoś specjalnie trudne, z tym, że cały
 problem dotyczył jakiegoś losowego sektora gdzieś w środku partycji. Jako, że domyślnym systemem
-plików na linuxie są te z rodziny `ext` (ext2, ext3, ext4) , oraz, że [trzecia
-wersja](https://en.wikipedia.org/wiki/Ext3) tego systemu plików została wyposażona w dziennik
-(journal), to trzeba by się zastanowić, co w przypadku gdy taki uszkodzony sektor trafi się właśnie
-w dzienniku tego systemu plików?
+plików na linuxie są te z rodziny `ext` (ext2, ext3, ext4) , oraz, że [trzecia wersja][2] tego
+systemu plików została wyposażona w dziennik (journal), to trzeba by się zastanowić, co w przypadku
+gdy taki uszkodzony sektor trafi się właśnie w dzienniku tego systemu plików?
 
 <!--more-->
 ## Gdzie się kończy dziennik systemu plików ext4
@@ -33,7 +31,7 @@ W manualu narzędzia `mkfs.ext4` możemy odnaleźć następujące zdanie:
 > if using 4k blocks, etc.) and may be no more than 10,240,000 filesystem blocks or half the total
 > file system size (whichever is smaller)
 >
-> [man mkfs.ext4](http://manpages.ubuntu.com/manpages/xenial/en/man8/mkfs.ext4.8.html)
+> [man mkfs.ext4][3]
 
 Zatem dziennik systemu plików ext4 nie może mieć mniej niż 4MiB (domyślnie blok ma 4K) i nie może
 być większy niż połowa systemu plików na partycji. Ile zatem taki dziennik zajmuje w naszym
@@ -72,3 +70,8 @@ sektor, trzeba stworzyć dziennik na nowo:
     # tune2fs -j /dev/sda2
 
 I to w zasadzie wszystko.
+
+
+[1]: {{< baseurl >}}/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/
+[2]: https://en.wikipedia.org/wiki/Ext3
+[3]: http://manpages.ubuntu.com/manpages/xenial/en/man8/mkfs.ext4.8.html

@@ -442,11 +442,11 @@ postępujemy w przypadku w/w pakietów:
 
     # dpkg-reconfigure locales
 
-Wybieramy kolejno: `en_US.UTF-8`, `pl_PL.UTF-8` -\> `pl_PL.UTF-8` .
+Wybieramy kolejno: `en_US.UTF-8`, `pl_PL.UTF-8` -> `pl_PL.UTF-8` .
 
     # dpkg-reconfigure localepurge
 
-Tutaj wybieramy: `en_US.UTF-8`, `pl_PL.UTF-8` , `en_US`, `pl_PL` \> `Yes` \> `Yes` .
+Tutaj wybieramy: `en_US.UTF-8`, `pl_PL.UTF-8` , `en_US`, `pl_PL` > `Yes` > `Yes` .
 
 Konfiguracja pakietu `locales` zaowocuje wygenerowaniem pliku `/etc/default/locale` zawierającego
 poniższą treść:
@@ -456,9 +456,9 @@ poniższą treść:
 
 #### Plik /etc/default/locale
 
-W pliku `/etc/default/locale` są przechowywane zmienne językowe, tj. `LANG` oraz te z prefixem `LC_`
-. Podczas generowania tego pliku, została utworzona jedynie zmienna `LANG` . Niemniej jednak, do
-wyboru mamy sporo więcej opcji, przykładowo:
+W pliku `/etc/default/locale` są przechowywane zmienne językowe, tj. `LANG` oraz te z prefixem
+`LC_` . Podczas generowania tego pliku, została utworzona jedynie zmienna `LANG` . Niemniej jednak,
+do wyboru mamy sporo więcej opcji, przykładowo:
 
     LANG=
     LANGUAGE=
@@ -488,7 +488,7 @@ Plik `/etc/default/keyboard` jest generowany przy konfiguracji pakietu `keyboard
 
     # dpkg-reconfigure keyboard-configuration
 
-Wybieramy odpowiednio: `model` -\> `Polish` -\> `Right Alt (AltGr)` -\> `Right Control` .
+Wybieramy odpowiednio: `model` -> `Polish` -> `Right Alt (AltGr)` -> `Right Control` .
 
 Plik `/etc/default/keyboard` możemy naturalnie sobie dostosować ręcznie. Trzeba tylko pamiętać, by
 nie korzystać później z `dpkg-reconfigure` , bo wprowadzone przez nas zmiany przepadną. Poniżej
@@ -519,7 +519,7 @@ powinna rozwiązać ten problem:
 
     # dpkg-reconfigure console-setup
 
-Wybieramy kolejno: ustawienia terminala `UTF-8` -\> `Latin2` -\> `Terminus` -\> `8x16` . W ten
+Wybieramy kolejno: ustawienia terminala `UTF-8` -> `Latin2` -> `Terminus` -> `8x16` . W ten
 sposób zostanie stworzony plik `/etc/default/console-setup` o poniższej treści:
 
     # CONFIGURATION FILE FOR SETUPCON
@@ -546,7 +546,7 @@ Odpowiedzialny za nie jest pakiet `tzdata` :
 
     # dpkg-reconfigure tzdata
 
-Wybieramy kolejno: `Europe` -\> `Warsaw` . Czas powinien zostać zmieniony. Natomiast konfiguracja
+Wybieramy kolejno: `Europe` -> `Warsaw` . Czas powinien zostać zmieniony. Natomiast konfiguracja
 obu plików powinna wyglądać mniej więcej tak:
 
     # cat /etc/timezone
@@ -771,7 +771,7 @@ aplikacjach, np. z rodziny GNOME. W przypadku, gdy się posiada stały adres IP,
 Druga sprawa dotyczy tego co znajduje się po adresie IP. Z reguły jest tam jedno pole wskazujące na
 hostname. U mnie jest jeszcze ustawiona nazwa domeny. Do danego hosta można się odwoływać przez
 adres IP, hostname albo przez hostname.domainname . Oczywiście można zrezygnować ze środkowego pola
-i zostawić tylko relacje ip \<-\> hostname.
+i zostawić tylko relacje ip <-> hostname.
 
 #### Plik /etc/resolv.conf
 
@@ -814,7 +814,7 @@ Jeśli interesuje nas łączność bezprzewodowa, to jak najbardziej Debian jest
 zapewnić. Jedyne czego potrzebujemy to odpowiedniego firmware dla naszej karty WiFi no i oczywiście
 stosownej konfiguracji interfejsu. Dodatkowo będziemy musieli się w takiej bezprzewodowej sieci
 uwierzytelnić i do tego celu będziemy potrzebować pakiet `wpasupplicant` . Nie będę tutaj opisywał
-[jak skonfigurować sobie sieć WiFi na Debianie przy pomocy wpa\_supplicant][15], bo to zostało
+[jak skonfigurować sobie sieć WiFi na Debianie przy pomocy wpa_supplicant][15], bo to zostało
 zrobione w osobnym artykule.
 
 ### Synchronizacja czasu

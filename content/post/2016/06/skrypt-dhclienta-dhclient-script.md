@@ -17,10 +17,9 @@ sieciowej konfiguracji hosta za sprawą protokółu DHCP. W zasadzie cała konfi
 sprowadza się do określenia szeregu opcji w pliku `/etc/dhcp/dhclient.conf` . W debianie nawet nie
 musimy dotykać tego pliku, by wszystko działało nam jak trzeba. Niemniej jednak, czasem konfiguracja
 interfejsów sieciowych może wymagać od nas dodatkowych zabiegów. W celu ułatwienia życia adminom
-dodano obsługę skryptów shell'owych
-([dhclient-script](http://manpages.ubuntu.com/manpages/xenial/en/man8/dhclient-script.8.html)). Taki
-skrypt jesteśmy w stanie wywołać w zależności od zaistniałych zdarzeń protokołu DHCP. W tym wpisie
-zostanie pokazane w jaki sposób te skrypty możemy utworzyć i wykorzystać.
+dodano obsługę skryptów shell'owych ([dhclient-script][1]). Taki skrypt jesteśmy w stanie wywołać w
+zależności od zaistniałych zdarzeń protokołu DHCP. W tym wpisie zostanie pokazane w jaki sposób te
+skrypty możemy utworzyć i wykorzystać.
 
 <!--more-->
 ## Tryb debugowania w dhclient
@@ -79,10 +78,10 @@ Najważniejsza rzecz to `reason` . To na podstawie wartości w tej zmiennej, `dh
 skrypt ma zostać wywołany, np. przy pozyskiwaniu lease, czy też przy odnowieniu lease. Jest szereg
 wartości, które mogą zostać ustawione w zmiennej `reason` . Zaliczają się do nich te następujące:
 `MEDIUM` , `PREINIT` , `BOUND` , `RENEW` , `REBIND` , `REBOOT` , `EXPIRE` , `FAIL` , `STOP` ,
-`RELEASE` , `NBI` i `TIMEOUT` . Wyżej widzieliśmy dwa z tych powodów. Pierwszym z nich był `PREINIT`
-, który jest zawsze wywoływany przy pozyskiwaniu lease po raz pierwszy z serwera DHCP. Drugim z
-kolei był `BOUND` i tu `dhclient` odczytał adresację lease w celu zaaplikowania jej w konfiguracji
-hosta.
+`RELEASE` , `NBI` i `TIMEOUT` . Wyżej widzieliśmy dwa z tych powodów. Pierwszym z nich był
+`PREINIT` , który jest zawsze wywoływany przy pozyskiwaniu lease po raz pierwszy z serwera DHCP.
+Drugim z kolei był `BOUND` i tu `dhclient` odczytał adresację lease w celu zaaplikowania jej w
+konfiguracji hosta.
 
 W przypadku `BOUND` widzimy też uwzględnionych szereg zmiennych. Wszystkie te z nich mające prefiks
 `old_*` zawierają w sobie starą konfigurację hosta. Z kolei wpisy z prefiksem `new_*` mają wartości
@@ -97,8 +96,9 @@ uzyskane od serwera DHCP. Poniżej jest przykład tych zmiennych:
     new_domain_name='mhouse'
     new_domain_name_servers='192.168.1.1'
 
-Nie wszystkie z tych powyższych zmiennych zostaną uwzględnione w pliku `/tmp/dhclient-script.debug`
-. Zależy to głównie od konfiguracji samego dhclient'a jak i serwera DHCP.
+Nie wszystkie z tych powyższych zmiennych zostaną uwzględnione w pliku
+`/tmp/dhclient-script.debug` . Zależy to głównie od konfiguracji samego dhclient'a jak i serwera
+DHCP.
 
 ## Skrypty w dhclient-enter-hooks.d/ oraz dhclient-exit-hooks.d/
 
@@ -118,10 +118,8 @@ skryptów. W ten sposób możemy bardzo prosto stworzyć skrypty, które będą 
 zmienne. Wystarczy stworzyć szereg warunków i przypisać im odpowiednie polecenia, które zwykle
 chcielibyśmy wpisać w terminal po konfiguracji maszyny za sprawą protokołu DHCP. Przykładem
 sytuacji, która wymagałaby dodatkowych poleceń, może być zwykły [failover łącza czy też równoważenie
-obciążenia (load
-balancing)]({{< baseurl >}}/post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/), gdzie musimy
-skonfigurować trasy routingu. Przy pomocy skryptów dhclient'a, możemy cały proces konfiguracji hosta
-w pełni zautomatyzować.
+obciążenia (load balancing)][2], gdzie musimy skonfigurować trasy routingu. Przy pomocy skryptów
+dhclient'a, możemy cały proces konfiguracji hosta w pełni zautomatyzować.
 
 ## Jak stworzyć skrypt dla dhclient
 
@@ -155,3 +153,7 @@ skrypt musimy zapisać w katalogu `/etc/dhcp/dhclient-enter-hooks.d/` lub
 `/etc/dhcp/dhclient-exit-hooks.d/` , w zależności od tego czy skrypt ma się wykonać przed czy po
 akcji dhclient'a. W sytuacji, gdy tworzymy skrypt, który ma się wykonać w obu przypadkach, możemy go
 umieścić w folderze `/etc/dhcp/` i podlinkować go do w/w katalogów.
+
+
+[1]: http://manpages.ubuntu.com/manpages/xenial/en/man8/dhclient-script.8.html
+[2]: {{< baseurl >}}/post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/

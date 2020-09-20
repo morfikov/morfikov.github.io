@@ -15,11 +15,10 @@ title: WPA/WPA2 Enterprise i serwer freeradius
 
 Poniższy wpis ma na celu stworzenie infrastruktury WiFi w oparciu o oprogramowanie freeradius
 zainstalowane na debianowym serwerze. Projekt zakłada wykorzystanie osobnego urządzenia NAS (AP), w
-tym przypadku jest to router [TP-Link TL-WR1043N/ND
-v2](http://wiki.openwrt.org/toh/tp-link/tl-wr1043nd), na którym jest zainstalowane oprogramowanie
-OpenWRT. W oparciu o te dwie maszyny spróbujemy skonfigurować protokół WPA2 Enterprise z obsługą
-trzech metod uwierzytelniania, tj. EAP-TLS, EAP-TTLS oraz PEAP (v0) . Będziemy również potrzebować
-kilku certyfikatów (w tym CA), bez których to pewne mechanizmy mogą nie działać.
+tym przypadku jest to router [TP-Link TL-WR1043N/ND v2][1], na którym jest zainstalowane
+oprogramowanie OpenWRT. W oparciu o te dwie maszyny spróbujemy skonfigurować protokół WPA2
+Enterprise z obsługą trzech metod uwierzytelniania, tj. EAP-TLS, EAP-TTLS oraz PEAP (v0) . Będziemy
+również potrzebować kilku certyfikatów (w tym CA), bez których to pewne mechanizmy mogą nie działać.
 
 <!--more-->
 ## Instalacja komponentów
@@ -238,12 +237,10 @@ pochodzą one z pakietu `ssl-cert` . Świetnie się one nadają do celów testow
 instalacja freeradius'a działa jak należy. Te certyfikaty nie są zalecane na serwerach
 produkcyjnych, dlatego też musimy wygenerować sobie własne certyfikaty.
 
-[Generowanie certyfikatów]({{< baseurl >}}/post/generowanie-certyfikatow/) można przeprowadzić
-ręcznie. Można także posłużyć się [pakietem
-easy-rsa]({{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/). Istnieje także
-możliwość skorzystania z przygotowanego do tego celu narzędzi zawartych w pakiecie freeradius.
-Informacje na temat korzystania z narzędzi freeradius'a są dostępne w pliku
-`/usr/share/doc/freeradius/examples/certs/README` .
+[Generowanie certyfikatów][2] można przeprowadzić ręcznie. Można także posłużyć się [pakietem
+easy-rsa][3]. Istnieje także możliwość skorzystania z przygotowanego do tego celu narzędzi
+zawartych w pakiecie freeradius. Informacje na temat korzystania z narzędzi freeradius'a są
+dostępne w pliku `/usr/share/doc/freeradius/examples/certs/README` .
 
 Po tym jak zainstalowaliśmy pakiet freeradius, kilka plików zostało utworzonych w katalogu
 `/usr/share/doc/freeradius/examples/certs` i mamy tam między innymi `bootstrap` , `ca.cnf` ,
@@ -289,20 +286,19 @@ Dodatkowo musimy stworzyć certyfikaty dla klientów:
 
 Teraz powinniśmy mieć już komplet plików.
 
-Listując katalog roboczy możemy dostrzec, że te pliki [mają różne
-rozszerzenia](https://blogs.msdn.microsoft.com/kaushal/2010/11/04/various-ssltls-certificate-file-typesextensions/).
-Czym zatem różnią się one między sobą? Plik `.crt` to certyfikat główny. W osobnym pliku `.key `
-znajduje się klucz prywatny od tego certyfikatu. Można rozpoznać to po "-----BEGIN ENCRYPTED PRIVATE
-KEY-----" i "-----END ENCRYPTED PRIVATE KEY-----". W przypadku gdy nie potrzebujemy oddzielać
-certyfikatu od klucza, możemy posłużyć się plikiem `.p12` lub plikiem `.pem` . Mogą one zawierać
-zarówno certyfikat jak i klucz prywatny i zamiast dwóch osobnych plików, jest tylko jeden. Różnica
-między nimi polega na tym, że plik `.p12` jest używany głównie na windowsach, ten drugi zaś przez
-OpenSSL. Plik `.csr` jest prośbą o podpisanie certyfikatu (Certificate Signing Request) wysyłaną
-przez aplikację do CA (Certification Authority). Można to poznać po linijkach "-----BEGIN NEW
-CERTIFICATE REQUEST-----" oraz "-----END NEW CERTIFICATE REQUEST-----". Dodatkowo, mamy plik binarny
-certyfikatu `.der` zakodowany w DER. Nie ma jednak możliwości umieszczenia w tym pliku klucza
-prywatnego, czy też certyfikatów ze struktury certyfikatów (certification path). Wygenerowany on
-został głównie na potrzeby windowsów.
+Listując katalog roboczy możemy dostrzec, że te pliki [mają różne rozszerzenia][4]. Czym zatem
+różnią się one między sobą? Plik `.crt` to certyfikat główny. W osobnym pliku `.key` znajduje się
+klucz prywatny od tego certyfikatu. Można rozpoznać to po "-----BEGIN ENCRYPTED PRIVATE KEY-----" i
+"-----END ENCRYPTED PRIVATE KEY-----". W przypadku gdy nie potrzebujemy oddzielać certyfikatu od
+klucza, możemy posłużyć się plikiem `.p12` lub plikiem `.pem` . Mogą one zawierać zarówno certyfikat
+jak i klucz prywatny i zamiast dwóch osobnych plików, jest tylko jeden. Różnica między nimi polega
+na tym, że plik `.p12` jest używany głównie na windowsach, ten drugi zaś przez OpenSSL. Plik `.csr`
+jest prośbą o podpisanie certyfikatu (Certificate Signing Request) wysyłaną przez aplikację do CA
+(Certification Authority). Można to poznać po linijkach "-----BEGIN NEW CERTIFICATE REQUEST-----"
+oraz "-----END NEW CERTIFICATE REQUEST-----". Dodatkowo, mamy plik binarny certyfikatu `.der`
+zakodowany w DER. Nie ma jednak możliwości umieszczenia w tym pliku klucza prywatnego, czy też
+certyfikatów ze struktury certyfikatów (certification path). Wygenerowany on został głównie na
+potrzeby windowsów.
 
 Oprogramowanie freeradius w swojej konfiguracji potrzebuje nastepujących plików: `server.key` ,
 `server.pem` oraz `ca.pem` . Te pliki trzeba przenieść do katalogu `/etc/freeradius/certs/` . Z
@@ -318,10 +314,9 @@ jednak znajdują się tam certyfikaty stworzone po instalacji pakietu freeradius
     # rm /etc/freeradius/certs/*
     # cp /etc/CA/ca.pem /etc/CA/server.key /etc/CA/server.pem /etc/freeradius/certs/
 
-Przechodzimy do katalogu z certyfikatami dla freeradius'a i generujemy przy pomocy OpenSSL plik `dh`
-, który zawiera [szereg parametrów wykorzystywanych przy wymianie kluczy w protokole
-Diffie-Hellman'a](https://security.stackexchange.com/questions/94390/whats-the-purpose-of-dh-parameters).
-Standardowo ta liczba ma 1024 bity i przydałoby się nieco zwiększyć:
+Przechodzimy do katalogu z certyfikatami dla freeradius'a i generujemy przy pomocy OpenSSL plik
+`dh` , który zawiera [szereg parametrów wykorzystywanych przy wymianie kluczy w protokole
+Diffie-Hellman'a][5]. Standardowo ta liczba ma 1024 bity i przydałoby się nieco zwiększyć:
 
     # cd /etc/freeradius/certs/
     # openssl dhparam -out dh 4096
@@ -336,9 +331,8 @@ Na linuxach, do konfiguracji sieci WiFi są wykorzystywane narzędzia zawarte w 
 `wpasupplicant` . Można oczywiście skorzystać z `wicd` albo `network-manager` jeśli ktoś nie
 przepada za ręczą edycją plików tekstowych. W zależności od wybranej metody, nieco inaczej będzie
 wyglądać konfiguracja suplikanta (klienta WiFi). Ja korzystałem z trybu tekstowego przy
-[konfiguracji WiFi]({{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/). Nie będę
-tutaj opisywał całego procesu ale jeśli ktoś ma problemy związane z konfiguracją linux'owego
-klienta, to odsyłam go do podlinkowanego wpisu.
+[konfiguracji WiFi][6]. Nie będę tutaj opisywał całego procesu ale jeśli ktoś ma problemy związane
+z konfiguracją linux'owego klienta, to odsyłam go do podlinkowanego wpisu.
 
 ### Niedogodności związane z certyfikatami
 
@@ -360,16 +354,15 @@ EAP-TTLS albo PEAP.
 
 ## Protokoły EAP
 
-[Jest wiele metod uwierzytelniania
-EAP](http://www.networkworld.com/article/2223672/access-control/which-eap-types-do-you-need-for-which-identity-projects.html)
-i nas interesować będą trzy z nich EAP-TLS, EAP-TTLS i PEAP. Metoda `EAP-TLS`, w odróżnieniu od
-EAP-TTLS i PEAP, wymaga wzajemnej weryfikacji certyfikatów na linii serwer-klient. Z kolei
-`EAP-TTLS` i `PEAP` zbytnio się nie różnią między sobą, no może za wyjątkiem wsparcia, bo ten drugi
-jest rozwijany przez MS. Obie te metody wykorzystują szyfrowany tunel TLS, który jest również
-podstawą dla uwierzytelniania przy metodzie EAP-TLS i by korzystać z EAP-TTLS lub PEAP, trzeba po
-części skonfigurować uwierzytelnianie EAP-TLS. Same certyfikaty klienckie w przypadku EAP-TTLS i
-PEAP są nieobowiązkowe i gdy nie korzystamy z nich, uwierzytelnianie klienta odbywa się przy pomocy
-loginu i hasła, co znacznie upraszcza wdrożenie protokołu WPA2 Enterprise.
+[Jest wiele metod uwierzytelniania EAP][7] i nas interesować będą trzy z nich EAP-TLS, EAP-TTLS i
+PEAP. Metoda `EAP-TLS`, w odróżnieniu od EAP-TTLS i PEAP, wymaga wzajemnej weryfikacji certyfikatów
+na linii serwer-klient. Z kolei `EAP-TTLS` i `PEAP` zbytnio się nie różnią między sobą, no może za
+wyjątkiem wsparcia, bo ten drugi jest rozwijany przez MS. Obie te metody wykorzystują szyfrowany
+tunel TLS, który jest również podstawą dla uwierzytelniania przy metodzie EAP-TLS i by korzystać z
+EAP-TTLS lub PEAP, trzeba po części skonfigurować uwierzytelnianie EAP-TLS. Same certyfikaty
+klienckie w przypadku EAP-TTLS i PEAP są nieobowiązkowe i gdy nie korzystamy z nich,
+uwierzytelnianie klienta odbywa się przy pomocy loginu i hasła, co znacznie upraszcza wdrożenie
+protokołu WPA2 Enterprise.
 
 Jeśli chodzi jeszcze o porównanie EAP-TTLS/PEAP w stosunku do EAP-TLS, to proces uwierzytelniania w
 przypadku tych pierwszych odbywa się w dwóch fazach. EAP-TLS ma tylko jedną fazę, podczas której
@@ -700,16 +693,15 @@ klient WiFi posiada konto w systemie i jest ono aktywne, będzie mógł wykorzys
 jako dane dostępowe do sieci WiFi.
 
 Trzeba jednak pamiętać, że to z jakiego modułu będziemy korzystać przy weryfikacji użytkowników, ma
-[wpływ na dostępne dla nas metody
-uwierzytelniania](http://deployingradius.com/documents/protocols/compatibility.html). Protokół PAP
-może być użyty ze wszystkimi dostępnymi metodami, bo przesyła hasła zwykłym tekstem. Podobnie
-protokół CHAP. Z kolei MS-CHAP wymaga, albo haseł podanych zwykłym tekstem, albo hashów
-NT-Password. W przypadku haseł debiana, musimy skorzystać z protokołu PAP. Nie ma zbytnio dla nas
-znaczenia czy przesyłanie haseł jest jakoś zabezpieczone przez dany protokół, bo i tak wszystko
-wleci w kanał TLS. Jeśli zdecydujemy się zmienić domyślne zarządzanie hasłami we freeradius'ie,
-trzeba zmodyfikować odpowiednie sekcje w plikach konfiguracyjnych. Edytujemy zatem pliki
-`/etc/freeradius/sites-enabled/default` oraz `/etc/freeradius/sites-enabled/inner-tunnel` i w sekcji
-`authorize` zmieniamy sposób obsługiwania użytkowników:
+[wpływ na dostępne dla nas metody uwierzytelniania][8]. Protokół PAP może być użyty ze wszystkimi
+dostępnymi metodami, bo przesyła hasła zwykłym tekstem. Podobnie protokół CHAP. Z kolei MS-CHAP
+wymaga, albo haseł podanych zwykłym tekstem, albo hashów NT-Password. W przypadku haseł debiana,
+musimy skorzystać z protokołu PAP. Nie ma zbytnio dla nas znaczenia czy przesyłanie haseł jest
+jakoś zabezpieczone przez dany protokół, bo i tak wszystko wleci w kanał TLS. Jeśli zdecydujemy się
+zmienić domyślne zarządzanie hasłami we freeradius, trzeba zmodyfikować odpowiednie sekcje w
+plikach konfiguracyjnych. Edytujemy zatem pliki `/etc/freeradius/sites-enabled/default` oraz
+`/etc/freeradius/sites-enabled/inner-tunnel` i w sekcji `authorize` zmieniamy sposób obsługiwania
+użytkowników:
 
     ...
     authorize {
@@ -838,7 +830,7 @@ Jeśli interesuje nas ograniczanie ilości aktywnych sesji użytkownika, edytuje
 Jeśli teraz ten użytkownik spróbuje się zalogować na drugim urządzeniu mając przy tym już jedną
 aktywną sesję, nowa sesja nie zostanie ustanowiona.
 
-### Filtrowanie nazw użytkowników (moduł filter\_username)
+### Filtrowanie nazw użytkowników (moduł filter_username)
 
 W celu zapewnienia rozsądnych nazw użytkowników używanych przy logowaniu do sieci WiFi, możemy
 wykorzystać moduł `filter_username` . Jeśli trafią się zapytania, które będą pasować do wzorca
@@ -1010,4 +1002,15 @@ będzie narzędzie `eapol_test` , które jest dostarczane z pakietem wpasupplica
 domyślnie opcje od `eapol_test` są zahashowane i by móc używać tego narzędzia, trzeba je sobie
 samemu skompilować. Inny problem w tym, że mi na debianie nie udało się tego narzędzia zbudować, bo
 przy kompilacji ciągle mi wyrzucało jakiegoś wrednego błęda. W każdym razie, opis kompilacji jak i
-samego narzędzia można znaleźć [pod tym linkiem](http://deployingradius.com/scripts/eapol_test/).
+samego narzędzia można znaleźć [pod tym linkiem][9].
+
+
+[1]: http://wiki.openwrt.org/toh/tp-link/tl-wr1043nd
+[2]: {{< baseurl >}}/post/generowanie-certyfikatow/
+[3]: {{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/
+[4]: https://blogs.msdn.microsoft.com/kaushal/2010/11/04/various-ssltls-certificate-file-typesextensions/
+[5]: https://security.stackexchange.com/questions/94390/whats-the-purpose-of-dh-parameters
+[6]: {{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/
+[7]: http://www.networkworld.com/article/2223672/access-control/which-eap-types-do-you-need-for-which-identity-projects.html
+[8]: http://deployingradius.com/documents/protocols/compatibility.html
+[9]: http://deployingradius.com/scripts/eapol_test/

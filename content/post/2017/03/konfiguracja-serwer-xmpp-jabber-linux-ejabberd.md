@@ -20,16 +20,15 @@ przesiadłem się na Jabber'a i tak z niego korzystam do dziś. W zasadzie GG i 
 chyba na wymarciu, bo większość ludzi (jak nie wszyscy) przerzuciła się na Facebook'a czy Twitter'a.
 Niemniej jednak, pisanie o sprawach prywatnych w tych serwisach nie jest najlepszym rozwiązaniem.
 Jeśli chcemy zadbać o poufność przesyłanych przez internet komunikatów, to trzeba to robić na inne
-sposoby. Jednym z nich jest właśnie korzystanie z [protokołu XMPP/Jabber](https://xmpp.org/). To co
-odróżnia Jabber'a od innych technologii na rynku, to fakt zdecentralizowania sieci, czyli mamy całą
-masę serwerów Jabber'a, na których możemy sobie stworzyć konto. Uwalenie jednego serwera nie wpływa
-na działanie pozostałych. Google także wykorzystuje protokół XMPP/Jabber i mając konto na gmail'u,
+sposoby. Jednym z nich jest właśnie korzystanie z [protokołu XMPP/Jabber][1]. To co odróżnia
+Jabber'a od innych technologii na rynku, to fakt zdecentralizowania sieci, czyli mamy całą masę
+serwerów Jabber'a, na których możemy sobie stworzyć konto. Uwalenie jednego serwera nie wpływa na
+działanie pozostałych. Google także wykorzystuje protokół XMPP/Jabber i mając konto na gmail'u,
 mamy również stosowny JID w postaci adresu email, który możemy sobie wklepać do jednego z klientów
-Jabber'a, np. [PSI czy Gajim](https://xmpp.org/software/clients.html), i jesteśmy już w stanie
-rozmawiać z osobami, które mają konta na innych serwerach. Właśnie, inne serwery, a może by tak
-sobie postawić własny serwer Jabber'a? Tak się składa, że w repozytorium Debiana znajduje się
-[oprogramowanie ejabberd](https://www.ejabberd.im/), które jest nam w stanie umożliwić realizację
-tego przedsięwzięcia.
+Jabber'a, np. [PSI czy Gajim][2], i jesteśmy już w stanie rozmawiać z osobami, które mają konta na
+innych serwerach. Właśnie, inne serwery, a może by tak sobie postawić własny serwer Jabber'a? Tak
+się składa, że w repozytorium Debiana znajduje się [oprogramowanie ejabberd][3], które jest nam w
+stanie umożliwić realizację tego przedsięwzięcia.
 
 <!--more-->
 ## Zalety posiadania własnego serwera Jabber'a
@@ -45,9 +44,9 @@ port `5222` . We wcześniejszych wersjach oprogramowania Jabber'a był używany 
 jest on uważany za przestarzały i się go już nie stosuje, przynajmniej nie jest to zalecane. Różnica
 między tymi dwoma portami tkwi głównie w nawiązywaniu szyfrowanego połączenia między klientem a
 serwerem. W przypadku portu `5222` ruch może nie być w ogóle szyfrowany lub też wykorzystywana jest
-[metoda STARTTLS](https://en.wikipedia.org/wiki/Opportunistic_TLS) (zwykle ta opcja jest spotykana).
-Natomiast jeśli chodzi o port `5223` , to tutaj używany jest klasyczny SSL/TLS, z którym mamy do
-czynienia przeglądając, np. strony WWW po HTTPS.
+[metoda STARTTLS][4] (zwykle ta opcja jest spotykana). Natomiast jeśli chodzi o port `5223` , to
+tutaj używany jest klasyczny SSL/TLS, z którym mamy do czynienia przeglądając, np. strony WWW po
+HTTPS.
 
 Nie wszystkie serwery Jabber'a równają do najwyższych standardów bezpieczeństwa. Część z serwerów
 może obsługiwać jedynie słabe szyfry, np. SSLv2 czy SSLv3, których stosowanie zagraża
@@ -65,8 +64,7 @@ serwery te nie nawiążą połączenia i komunikacja nie będzie w ogóle możli
 
 Przykładem takiego serwera, który nie chce współpracować z wymuszonym szyfrowaniem jest ten od
 Google (adresy GMAIL). W przypadku tego typu serwerów możemy naturalnie wykorzystać
-[OTR](https://pl.wikipedia.org/wiki/Off-the-record_messaging) (Off-The-Record messaging) czy [klucze
-szyfrujące PGP/GPG](https://pl.wikipedia.org/wiki/GNU_Privacy_Guard), by we własnym zakresie
+[OTR][5] (Off-The-Record messaging) czy [klucze szyfrujące PGP/GPG][6], by we własnym zakresie
 zabezpieczyć komunikację. Problem w tym, że jest to mało wygodne. Może i OTR dość znacznie ułatwia
 cały proces ale i tak wymaga od użytkownika przeprowadzenia kilku dodatkowych czynności. A w
 przypadku posiadania własnego serwera Jabber'a (z wymuszonym TLSv1.2) w zasadzie nie trzeba robić
@@ -78,8 +76,8 @@ warstwę zabezpieczającą.
 
 W dystrybucji Debian jest dostępny pakiet `ejabberd` oraz również kilka pakietów z różnymi modułami
 `ejabberd-mod-*` . W stabilnym wydaniu, te pakiety są w dość leciwej wersji (14.07). Dlatego też
-lepiej [dodać sobie repozytorium Debian backports](https://backports.debian.org/Instructions/) i to
-z niego zainstalować stosowne pakiety, bo tutaj mamy wersję 16.09 .
+lepiej [dodać sobie repozytorium Debian backports][7] i to z niego zainstalować stosowne pakiety,
+bo tutaj mamy wersję 16.09 .
 
 Po zainstalowaniu pakietu `ejabberd` , w katalogu `/etc/ejabberd/` zostanie utworzony plik
 `ejabberd.yml` . W tym pliku znajduje się konfiguracja naszego serwera Jabber'a. Niemniej jednak,
@@ -91,9 +89,8 @@ Morfitronik jest hostowany na OVH i jego domena to `morfitronik.pl` . Serwer Jab
 podpięty pod subdomenę `jabber.morfitronik.pl` . Tę subdomenę trzeba pierw stworzyć, tj. dodać
 stosowny rekord A/AAAA w konfiguracji DNS. Można się spotkać z informacją, że zamiast tworzyć osobny
 rekord A/AAAA dla subdomeny, lepiej jest utworzyć rekord CNAME i tam określić docelowy adres. Z tego
-[co znalazłem na sieci](https://prosody.im/doc/dns) wynika, że późniejsze wskazanie w rekordzie SRV
-docelowego adresu z CNAME będzie powodować problemy i tak jest w przypadku
-OVH:
+[co znalazłem na sieci][8] wynika, że późniejsze wskazanie w rekordzie SRV docelowego adresu z
+CNAME będzie powodować problemy i tak jest w przypadku OVH:
 
 ![]({{< baseurl >}}/img/2017/03/000-0.jabber-ejabberd-serwer-debian-linux-cname-problem.png#huge)
 
@@ -101,30 +98,25 @@ Dlatego też ja stworzyłem sobie osobny rekord A/AAAA zamiast CNAME.
 
 Zarządzanie rekordami DNS może wyglądać inaczej u różnych DNS provider'ów. Niemniej jednak, dla
 przykładu opiszę jak to wygląda w przypadku panelu webowego OVH. Udajmy się zatem do panelu
-administracyjnego i przejdźmy na zakładkę `WWW`
-.
+administracyjnego i przejdźmy na zakładkę `WWW` .
 
 ![]({{< baseurl >}}/img/2017/03/000-1.jabber-ejabberd-serwer-debian-linux-ovh-domena.png#small)
 
 Po wybraniu domeny, pojawią nam się informacje ogólne dotyczące konfiguracji. Mamy tam też min.
-zakładkę `Strefa DNS` . Po przejściu na nią, po prawej stronie będziemy mieć poniższe
-przyciski:
+zakładkę `Strefa DNS` . Po przejściu na nią, po prawej stronie będziemy mieć poniższe przyciski:
 
 ![]({{< baseurl >}}/img/2017/03/001.jabber-ejabberd-serwer-debian-linux-dns-przyciski.png#huge)
 
 Klikamy naturalnie w `Dodaj wpis` , a następnie wybieramy rodzaj pola DNS i tu wskazujemy `A` dla
-IPv4 lub/i `AAAA` dla
-IPv6:
+IPv4 lub/i `AAAA` dla IPv6:
 
 ![]({{< baseurl >}}/img/2017/03/002.jabber-ejabberd-serwer-debian-linux-dns-rekord-a.png#big)
 
-Określamy subdomenę na `jabber` oraz wskazujemy adres
-docelowy:
+Określamy subdomenę na `jabber` oraz wskazujemy adres docelowy:
 
 ![]({{< baseurl >}}/img/2017/03/003.jabber-ejabberd-serwer-debian-linux-dns-rekord-subdomena.png#big)
 
-Akceptujemy i powinniśmy ujrzeć poniższe
-podsumowanie:
+Akceptujemy i powinniśmy ujrzeć poniższe podsumowanie:
 
 ![]({{< baseurl >}}/img/2017/03/004.jabber-ejabberd-serwer-debian-linux-dns-rekord-subdomena.png#big)
 
@@ -138,29 +130,25 @@ Mamy zatem skonfigurowaną subdomenę. Teraz musimy jeszcze dodać rekordy SRV. 
 transparentne przekierowanie zapytań na inną domenę lub port, czyli tam, gdzie znajduje się usługa.
 W naszym przypadku będzie to subdomena `jabber.morfitronik.pl` .
 
-W przypadku protokołu XMPP/Jabber [jest kilka typów rekordów
-SRV](https://wiki.xmpp.org/web/SRV_Records). Nas interesują client-to-server (c2s) oraz
-server-to-server (s2s). W ten sposób klienci używają rekordu c2s, natomiast inne serwery używają
-rekordu s2s i wiedzą na jakie porty słać zapytania. Standardowe porty dla protokołu XMPP/Jabber to:
-5222 (XMPP client connection (RFC 6120)) oraz 5269 (XMPP server connection (RFC 6120)). To właśnie
-te dwa porty musimy podać w konfiguracji DNS wskazując jednocześnie subdomenę
-`jabber.morfitronik.pl` .
+W przypadku protokołu XMPP/Jabber [jest kilka typów rekordów SRV][9]. Nas interesują
+client-to-server (c2s) oraz server-to-server (s2s). W ten sposób klienci używają rekordu c2s,
+natomiast inne serwery używają rekordu s2s i wiedzą na jakie porty słać zapytania. Standardowe
+porty dla protokołu XMPP/Jabber to: 5222 (XMPP client connection (RFC 6120)) oraz 5269 (XMPP server
+connection (RFC 6120)). To właśnie te dwa porty musimy podać w konfiguracji DNS wskazując
+jednocześnie subdomenę `jabber.morfitronik.pl` .
 
 Ponownie odwiedzamy panel OVH i dodajemy kolejny wpis. Tym razem wybieramy jedno z pól
-rozszerzonych, tj. `SRV`
-:
+rozszerzonych, tj. `SRV` :
 
 ![]({{< baseurl >}}/img/2017/03/006.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv.png#big)
 
-I uzupełniamy tak jak to widać na poniższym
-obrazku:
+I uzupełniamy tak jak to widać na poniższym obrazku:
 
 ![]({{< baseurl >}}/img/2017/03/007.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv-konfiguracja.png#big)
 
 ![]({{< baseurl >}}/img/2017/03/008.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv-konfiguracja.png#big)
 
-Podobnie postępujemy dla drugiego
-rekordu:
+Podobnie postępujemy dla drugiego rekordu:
 
 ![]({{< baseurl >}}/img/2017/03/009.jabber-ejabberd-serwer-debian-linux-dns-rekord-srv-konfiguracja.png#big)
 
@@ -181,16 +169,14 @@ również dodać ten rekord SRV:
 
 Mając skonfigurowaną domenę oraz wiedząc, że ruch w protokole XMPP/Jabber powinien być szyfrowany,
 musimy postarać się o odpowiednie certyfikaty dla naszego serwera. Te z kolei można wygenerować
-sobie ręcznie, np. [przy pomocy pakietu
-easy-rsa]({{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/), ale też można
-skorzystać z [gotowego rozwiązania oferowanego przez Let's Encrypt](https://letsencrypt.org/) i my
-właśnie z niego skorzystamy.
+sobie ręcznie, np. [przy pomocy pakietu easy-rsa][10], ale też można skorzystać z [gotowego
+rozwiązania oferowanego przez Let's Encrypt][11] i my właśnie z niego skorzystamy.
 
 Na Morfitroniku znajduje się już kilka usług, które zapewniają szyfrowane połączenie. Jest tutaj
 zainstalowany min. serwer www. Tak się składa, że [Let's Encrypt dostarcza już certyfikat dla tego
-bloga]({{< baseurl >}}/post/certyfikat-letsencrypt-dla-bloga-certbot/), a konkretnie dla domeny
-`morfitronik.pl` . Nie da rady wygenerować certyfikatu osobno dla drugiej domeny i trzeba ten proces
-przeprowadzić dla obu domen jednocześnie. Robimy to w poniższy sposób:
+bloga][12], a konkretnie dla domeny `morfitronik.pl` . Nie da rady wygenerować certyfikatu osobno
+dla drugiej domeny i trzeba ten proces przeprowadzić dla obu domen jednocześnie. Robimy to w
+poniższy sposób:
 
     # certbot certonly \
         -d morfitronik.pl,www.morfitronik.pl,jabber.morfitronik.pl \
@@ -262,17 +248,16 @@ serwerem.
 Może zacznijmy od ostatniej kwestii czyli czarnej listy adresów. Nie musimy jej budować od podstaw,
 bo stosowne listy są już utrzymywane i regularnie aktualizowane. My musimy tylko te listy jakoś
 wrzucić na zaporę sieciową naszego serwera. Najprościej do tego celu wykorzystać
-[ipset](http://ipset.netfilter.org/). W dystrybucji Debian, to narzędzie jest dostępne w pakiecie
-`ipset` i wystarczy je zainstalować.
+[ipset][13]. W dystrybucji Debian, to narzędzie jest dostępne w pakiecie `ipset` i wystarczy je
+zainstalować.
 
 List z adresami można poszukać na Google ale ktoś już tę pracę wykonał za nas i stworzył prosty
 skrypt, który jest w stanie bardzo łatwo dodać całe zakresy adresów IP i filtrować w oparciu o nie
-ruch sieciowy docierający do naszego serwera. Projekt, o którym mowa, [znajduje się
-tutaj](https://github.com/trick77/ipset-blacklist). W tym linku mamy dokładną instrukcję obsługi
-tego narzędzia i raczej nie powinno być problemów z zaimplementowaniem go w systemie. Można
-oczywiście sobie dostosować pewne rzeczy, np. pozycję reguły w filtrze przenosząc ją z łańcucha
-INPUT w tablicy FILTER do łańcucha PREROUTING w tablicy RAW, przez co żądania połączeń nie będą
-przechodzić przez sporą część samego filtra.
+ruch sieciowy docierający do naszego serwera. Projekt, o którym mowa, [znajduje się tutaj][14]. W
+tym linku mamy dokładną instrukcję obsługi tego narzędzia i raczej nie powinno być problemów z
+zaimplementowaniem go w systemie. Można oczywiście sobie dostosować pewne rzeczy, np. pozycję
+reguły w filtrze przenosząc ją z łańcucha INPUT w tablicy FILTER do łańcucha PREROUTING w tablicy
+RAW, przez co żądania połączeń nie będą przechodzić przez sporą część samego filtra.
 
 #### Limitowanie połączeń
 
@@ -281,8 +266,7 @@ wszystkich złych użytkowników internetu. Zawsze znajdzie się ktoś, kto będ
 zaatakować i uzyskać do niego nieuprawniony dostęp czy wykorzystać jego zasoby w sposób
 nieodpowiedni. Dlatego też drugim zabezpieczeniem jakie sobie zaimplementujemy będzie ograniczenie
 ilości połączeń jakie pojedynczy klient będzie w stanie nawiązać. Do tego celu posłużą nam dwa
-moduły: [connlimit](http://ipset.netfilter.org/iptables-extensions.man.html#lbAM) oraz
-[hashlimit](http://ipset.netfilter.org/iptables-extensions.man.html#lbAY).
+moduły: [connlimit][15] oraz [hashlimit][16].
 
 Przekierujmy sobie zatem wszystkie nowe połączenia w protokole TCP do łańcucha `tcp` :
 
@@ -392,8 +376,7 @@ Dla poprawy bezpieczeństwa połączeń szyfrowanych korzystamy z własnego plik
 (Diffie-Hellman). Gdybyśmy nie wygenerowali wcześniej pliku `dh4096.pem` , to `ejabberd` by
 wykorzystywał liczbę pierwszą o długości 1024 bitów.
 
-Konfigurujemy także domenę oraz uwierzytelnianie przez [mechanizm
-SASL](https://pl.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer) (Simple Authentication
+Konfigurujemy także domenę oraz uwierzytelnianie przez [mechanizm SASL][17] (Simple Authentication
 and Security Layer):
 
     disable_sasl_mechanisms: "digest-md5"
@@ -407,16 +390,14 @@ and Security Layer):
 
 Gdy już poustawiamy wszystko jak należy, przydałoby się sprawdzić konfigurację serwera pod kątem
 szyfrowania oferowanego przy połączeniu z klientami i innymi serwerami. Tego typu test możemy
-przeprowadzić w serwisie [xmpp.net](https://xmpp.net). Są tam dwa osobne testy. Mój serwer Jabber'a
-w obu przypadkach otrzymał ocenę `A` .
+przeprowadzić w serwisie [xmpp.net][18]. Są tam dwa osobne testy. Mój serwer Jabber'a w obu
+przypadkach otrzymał ocenę `A` .
 
-[Link do testu
-klienckiego](https://xmpp.net/result.php?id=687741):
+[Link do testu klienckiego][19]:
 
 ![]({{< baseurl >}}/img/2017/03/013.jabber-ejabberd-serwer-debian-linux-wynik-klient.png#huge)
 
-[Link to testu
-serwerowego](https://xmpp.net/result.php?id=687742):
+[Link to testu serwerowego][20]:
 
 ![]({{< baseurl >}}/img/2017/03/014.jabber-ejabberd-serwer-debian-linux-wynik-server.png#huge)
 
@@ -431,11 +412,9 @@ Poniżej znajduje się przykładowe polecenie konsolowe, które tworzy konto na 
     # ejabberdctl register user morfitronik.pl haslo
     User user@morfitronik.pl successfully registered
 
-Warto sobie obadać narzędzie `ejabberdctl` ([tutaj znajduje się link do
-manuala](https://docs.ejabberd.im/admin/guide/managing/)).
+Warto sobie obadać narzędzie `ejabberdctl` ([tutaj znajduje się link do manuala][21]).
 
-A tak wygląda panel
-admina:
+A tak wygląda panel admina:
 
 ![]({{< baseurl >}}/img/2017/03/015.jabber-ejabberd-serwer-debian-linux-panel-admina.png#big)
 
@@ -450,9 +429,9 @@ tego panelu ale w tym przypadku na tych portach nasłuchuje już Apache2 i serwu
 rady zatem mieć dwóch usług, które będą nasłuchiwać na tym samym porcie. Można natomiast dorobić
 proxy do serwera Apache2 i przekierować zapytania pod wskazany adres i port. W ten sposób wpisując w
 przeglądarce adres `http://jabber.morfitronik.pl` (port 80) lub `https://jabber.morfitronik.pl`
-(port 443) zostaniemy z automatu przekierowani na adres `https://jabber.morfitronik.pl:5280/admin/`
-, gdzie zostanie nam wyrzucone okienko logowania do serwera Jabber'a, które zabezpieczymy sobie
-dodatkowo certyfikatami x509.
+(port 443) zostaniemy z automatu przekierowani na adres
+`https://jabber.morfitronik.pl:5280/admin/` , gdzie zostanie nam wyrzucone okienko logowania do
+serwera Jabber'a, które zabezpieczymy sobie dodatkowo certyfikatami x509.
 
 Zaczniemy od napisania konfiguracji dla wirtualnego hosta. Stwórzmy sobie zatem plik `ejabberd.conf`
 w katalogu `/etc/apache2/sites-available/` i dodajmy do niego poniższą treść:
@@ -505,8 +484,8 @@ w katalogu `/etc/apache2/sites-available/` i dodajmy do niego poniższą treść
 Konfigurację dla tego wirtualnego hosta włączamy linkując wyżej utworzony plik do katalogu
 `/etc/apache2/sites-enabled/` .
 
-Teraz włączmy w Apache2 [moduł proxy\_http](https://httpd.apache.org/docs/2.4/mod/mod_proxy.html),
-za sprawą którego nasz serwer www zyska umiejętność przekierowania zapytań:
+Teraz włączmy w Apache2 [moduł proxy_http][22], za sprawą którego nasz serwer www zyska umiejętność
+przekierowania zapytań:
 
     # a2enmod proxy_http
 
@@ -542,10 +521,9 @@ dyrektywy `RedirectMatch` lub modułu `mod_rewrite` :
 
 Ostatnią rzeczą jest zabezpieczenie panelu admina certyfikatami. Tutaj musimy już posiadać własne CA
 oraz odpowiednie certyfikaty. Jeśli nie mamy stosownych plików, to trzeba je sobie pierw
-wygenerować. Cały [proces generowania certyfikatów przy pomocy
-easy-rsa]({{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/) został opisany
-osobno. My tutaj już wykorzystamy gotowe certyfikaty. W zasadzie to musimy przesłać na serwer
-certyfikat CA i dodać w pliku `/etc/apache2/sites-available/ejabberd.conf` poniższą linijkę:
+wygenerować. Cały [proces generowania certyfikatów przy pomocy easy-rsa][23] został opisany osobno.
+My tutaj już wykorzystamy gotowe certyfikaty. W zasadzie to musimy przesłać na serwer certyfikat CA
+i dodać w pliku `/etc/apache2/sites-available/ejabberd.conf` poniższą linijkę:
 
     SSLCACertificateFile    /etc/CA/keys/ca.crt
 
@@ -577,10 +555,9 @@ Zapisujemy konfigurację i restartujemy serwer Apache2:
     # systemctl restart apache2
 
 Certyfikat kliencki musimy zaimportować sobie w przeglądarce. W tym przypadku zrobimy to na
-przykładzie Firefox'a. Przechodzimy zatem kolejno do Preferences \> Advanced. Następnie na zakładce
+przykładzie Firefox'a. Przechodzimy zatem kolejno do Preferences > Advanced. Następnie na zakładce
 Certificates klikamy View Certificates. W okienku, które się pojawi, przechodzimy na zakładkę Your
-Certificates i klikamy w przycisk Import, gdzie podajemy ścieżkę do pliku `client.p12`
-:
+Certificates i klikamy w przycisk Import, gdzie podajemy ścieżkę do pliku `client.p12` :
 
 ![]({{< baseurl >}}/img/2017/03/016.jabber-ejabberd-serwer-debian-linux-certyfikat-zasoby.png#huge)
 
@@ -594,12 +571,11 @@ admina.
 `ejabberd` domyślnie korzysta z wbudowanej bazy danych zwanej Mnesia. Jeśli na naszym VPS mamy już
 zainstalowany jakiś serwer bazy danych, np. MySQL czy MariaDB, to naturalnie możemy ten serwer
 podpiąć do serwera Jabber'a. Musimy tylko pozyskać schemat, na podstawie którego stworzymy sobie
-bazę danych na potrzeby `ejabberd` . [Tutaj znajdują się wzory schematów
-bazy](https://github.com/processone/ejabberd/tree/master/sql), które możemy wykorzystać. Musimy
-tylko zdawać sobie sprawę, że jeśli nasz serwer bazy danych to MySQL, to musi on być w wersji co
-najmniej 5.6 . W przeciwnym wypadku, przy importowaniu schematu bazy danych napotkamy błąd przy
-tworzeniu indeksu FULLTEXT. Pobieramy plik `mysql.sql` i importujemy na serwerze baz danych.
-Najpierw tworzymy nową bazę danych:
+bazę danych na potrzeby `ejabberd` . [Tutaj znajdują się wzory schematów bazy][24], które możemy
+wykorzystać. Musimy tylko zdawać sobie sprawę, że jeśli nasz serwer bazy danych to MySQL, to musi
+on być w wersji co najmniej 5.6 . W przeciwnym wypadku, przy importowaniu schematu bazy danych
+napotkamy błąd przy tworzeniu indeksu FULLTEXT. Pobieramy plik `mysql.sql` i importujemy na
+serwerze baz danych. Najpierw tworzymy nową bazę danych:
 
     # mysql -u root -p
 
@@ -634,5 +610,31 @@ Zapisujemy konfigurację i restartujemy resetujemy serwer Jabber'a.
 
 Powyżej udało nam się jedynie postawić bardzo podstawowy serwer Jabber'a i dość dobrze go
 zabezpieczyć ale to jedynie początek. `ejabberd` ma całą masę modułów, które trzeba sobie już we
-własnym zakresie skonfigurować podpierając się przy tym [oficjalnym
-manualem](https://docs.ejabberd.im/admin/configuration/).
+własnym zakresie skonfigurować podpierając się przy tym [oficjalnym manualem][25].
+
+
+[1]: https://xmpp.org/
+[2]: https://xmpp.org/software/clients.html
+[3]: https://www.ejabberd.im/
+[4]: https://en.wikipedia.org/wiki/Opportunistic_TLS
+[5]: https://pl.wikipedia.org/wiki/Off-the-record_messaging
+[6]: https://pl.wikipedia.org/wiki/GNU_Privacy_Guard
+[7]: https://backports.debian.org/Instructions/
+[8]: https://prosody.im/doc/dns
+[9]: https://wiki.xmpp.org/web/SRV_Records
+[10]: {{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/
+[11]: https://letsencrypt.org/
+[12]: {{< baseurl >}}/post/certyfikat-letsencrypt-dla-bloga-certbot/
+[13]: http://ipset.netfilter.org/
+[14]: https://github.com/trick77/ipset-blacklist
+[15]: http://ipset.netfilter.org/iptables-extensions.man.html#lbAM
+[16]: http://ipset.netfilter.org/iptables-extensions.man.html#lbAY
+[17]: https://pl.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer
+[18]: https://xmpp.net
+[19]: https://xmpp.net/result.php?id=687741
+[20]: https://xmpp.net/result.php?id=687742
+[21]: https://docs.ejabberd.im/admin/guide/managing/
+[22]: https://httpd.apache.org/docs/2.4/mod/mod_proxy.html
+[23]: {{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/
+[24]: https://github.com/processone/ejabberd/tree/master/sql
+[25]: https://docs.ejabberd.im/admin/configuration/

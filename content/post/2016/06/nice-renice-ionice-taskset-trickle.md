@@ -15,13 +15,12 @@ W każdym systemie operacyjnym cała masa procesów rywalizuje ze sobą o zasoby
 wchodzą min. pamięć operacyjna RAM, procesor i operacje I/O dysku twardego. Czasami zdarza się tak,
 że niektóre aplikacje są w stanie zdusić inne programy, bo mają zbyt duże wymagania co do zasobów
 systemowych. W takich przypadkach administrator systemu powinien zatroszczyć się o przydział zasobów
-konkretnym procesom. W linux'ie do tego typu prac przeznaczony jest [mechanizm
-cgroups]({{< baseurl >}}/post/ograniczanie-zasobow-procesom-przez-cgroups/) obecny w kernelu.
-Niemniej jednak, jeśli cgroups przerasta nasze umiejętności albo też z jakiegoś powodu nie możemy z
-niego korzystać, to istnieje inne rozwiązanie, które może nam pomóc ograniczyć zasoby przydzielane
-procesom przez nasz system. Chodzi generalnie o narzędzia `nice`/`renice` (procesor) , `ionice`
-(dysku twardy) , `taskset` (przypisanie procesu do konkretnego procesora) oraz `trickle` (sieć). W
-tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować procesy systemowe.
+konkretnym procesom. W linux'ie do tego typu prac przeznaczony jest [mechanizm cgroups][1] obecny w
+kernelu. Niemniej jednak, jeśli cgroups przerasta nasze umiejętności albo też z jakiegoś powodu nie
+możemy z niego korzystać, to istnieje inne rozwiązanie, które może nam pomóc ograniczyć zasoby
+przydzielane procesom przez nasz system. Chodzi generalnie o narzędzia `nice`/`renice` (procesor) ,
+`ionice` (dysku twardy) , `taskset` (przypisanie procesu do konkretnego procesora) oraz `trickle`
+(sieć). W tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować procesy systemowe.
 
 <!--more-->
 ## Przydział procesora i dysku twardego (nice, renice, ionice)
@@ -70,9 +69,9 @@ dysku.
 
 Warto też wiedzieć, że priorytet procesów w dostępie do procesora i dysku twardego można zmienić w
 czasie pracy takiego procesu. W przypadku zasobów procesora zamiast `nice` korzystamy z `renice` . Z
-kolei jeśli chodzi o dysk twardy, to procedura jest taka sama jak wyżej, czyli korzystamy z `ionice`
-. W obu przypadkach musimy korzystać z przełącznika `-p` , za pomocą którego wskazujemy numer
-procesu, którego priorytet chcemy zmienić. Poniżej są przykłady zmiany priorytetu procesu:
+kolei jeśli chodzi o dysk twardy, to procedura jest taka sama jak wyżej, czyli korzystamy z
+`ionice` . W obu przypadkach musimy korzystać z przełącznika `-p` , za pomocą którego wskazujemy
+numer procesu, którego priorytet chcemy zmienić. Poniżej są przykłady zmiany priorytetu procesu:
 
     # renice -n 10 -p 1110
     # ionice -c 2 -n 5 -p 1110
@@ -144,3 +143,6 @@ Poniżej jest przykład nadania ograniczeń sieciowych przykładowemu procesowi:
 
 Za pomocą przełącznika `-d` określamy prędkość pobierania danych z internetu. Z kolei przy pomocy
 opcji `-u` definiujemy ograniczeniu upload'u. Obie wartości są w KiB/s
+
+
+[1]: {{< baseurl >}}/post/ograniczanie-zasobow-procesom-przez-cgroups/

@@ -16,16 +16,15 @@ title: Jak dodać nowy dysk do LVM
 Rozmiary obecnych dysków twardych zwykliśmy już liczyć w TiB. Jest to dość sporo ale ciągle zdarzają
 się sytuacje, gdzie zaczyna nam brakować miejsca na pliki. W takich przypadkach myślimy raczej o
 zmianie rozmiaru istniejących już partycji czy też dokupieniu nowego dysku. Pierwsza z powyższych
-opcji nie zawsze może wchodzić w grę, no chyba, że zaimplementowaliśmy sobie
-[LVM](https://pl.wikipedia.org/wiki/LVM). Jeśli tak, to możemy bez większego problemu [zmieniać
-rozmiar każdego z tych voluminów LVM]({{< baseurl >}}/post/zmiana-rozmiaru-lvm/). Niemniej jednak,
-nawet jeśli już dostosujemy sobie te wirtualne dyski, to miejsce wciąż może nam się skończyć i
-raczej można przyjąć za pewne, że tak się stanie w bliżej nieokreślonej przyszłości. Gdy to nastąpi,
-czeka nas druga opcja wymieniona wyżej, tj. zaopatrzenie się w dodatkowy nośnik danych. Przy pomocy
-LVM jesteśmy w stanie ten nowy dysk dodać do istniejącej grupy voluminów i zwiększyć tym wirtualnym
-partycjom rozmiar bez potrzeby przerywania pracy systemu, czy też wykonywania dodatkowych czynności
-związanych z formatowaniem i instalowaniem systemu na nowo. W tym wpisie postaramy się przebrnąć
-przez ten proces.
+opcji nie zawsze może wchodzić w grę, no chyba, że zaimplementowaliśmy sobie [LVM][1]. Jeśli tak,
+to możemy bez większego problemu [zmieniać rozmiar każdego z tych voluminów LVM][2]. Niemniej
+jednak, nawet jeśli już dostosujemy sobie te wirtualne dyski, to miejsce wciąż może nam się
+skończyć i raczej można przyjąć za pewne, że tak się stanie w bliżej nieokreślonej przyszłości. Gdy
+to nastąpi, czeka nas druga opcja wymieniona wyżej, tj. zaopatrzenie się w dodatkowy nośnik danych.
+Przy pomocy LVM jesteśmy w stanie ten nowy dysk dodać do istniejącej grupy voluminów i zwiększyć tym
+wirtualnym partycjom rozmiar bez potrzeby przerywania pracy systemu, czy też wykonywania dodatkowych
+czynności związanych z formatowaniem i instalowaniem systemu na nowo. W tym wpisie postaramy się
+przebrnąć przez ten proces.
 
 <!--more-->
 ## Nowy dysk, a LVM
@@ -107,10 +106,10 @@ oddana nam do dyspozycji. Sprawdźmy czy tak jest w istocie:
       PV /dev/sdd1   VG debian          lvm2 [74.53 GiB / 74.53 GiB free]
       Total: 2 [148.12 GiB] / in use: 2 [148.12 GiB] / in no VG: 0 [0   ]
 
-Wyżej widzimy, że dysk ma przypisaną grupę `VG debian` oraz, że mamy do rozdysponowania `74.53 GiB`
-. Cała grupa voluminów, jako, że składa się z dwóch dysków 80G, ma łącznie rozmiar 148 GiB. Na dobrą
-sprawę, to jest maksymalny rozmiar partycji, jaką moglibyśmy tutaj utworzyć i to mimo faktu, że
-każdy z fizycznych nośników ma do dyspozycji jedynie 80G.
+Wyżej widzimy, że dysk ma przypisaną grupę `VG debian` oraz, że mamy do rozdysponowania
+`74.53 GiB` . Cała grupa voluminów, jako, że składa się z dwóch dysków 80G, ma łącznie rozmiar
+148 GiB. Na dobrą sprawę, to jest maksymalny rozmiar partycji, jaką moglibyśmy tutaj utworzyć i to
+mimo faktu, że każdy z fizycznych nośników ma do dyspozycji jedynie 80G.
 
 Przy założeniu, że na poszczególnych voluminach logicznych kończy nam się miejsce, przydałoby się
 przestrzeń nowego dysku odpowiednio przydzielić. Robimy to przy pomocy `lvextend` w poniższy sposób:
@@ -154,3 +153,7 @@ Po wydaniu tych powyższych poleceń, struktura LVM powinna się nieco zmienić:
 Widzimy zatem, że zakresy poszczególnych voluminów uległy zmianie. Część z tych zakresów jest
 ulokowana na nowym dysku. Na rozmiar całkowity, np. voluminu `ext` , składa się suma dwóch jego
 części, tj. 43.80 GiB i 44.53 GiB. Podobnie z pozostałymi dyskami logicznymi.
+
+
+[1]: https://pl.wikipedia.org/wiki/LVM
+[2]: {{< baseurl >}}/post/zmiana-rozmiaru-lvm/

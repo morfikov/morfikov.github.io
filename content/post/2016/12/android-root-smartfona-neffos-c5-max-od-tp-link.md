@@ -16,35 +16,32 @@ tags:
 title: 'Android: Root smartfona Neffos C5 MAX od TP-LINK'
 ---
 
-Bawiąc się ostatnio [smartfonem Neffos C5
-MAX]({{< baseurl >}}/post/recenzja-smartfon-neffos-c5-max-od-tp-link/) od TP-LINK, obiecałem
-sobie, że jak tylko będę miał chwilę czasu, to postaram się ukorzenić Androida, który w tym
-telefonie siedzi (Lollipop). Generalnie rzecz biorąc, sposób root'owania tego urządzenia jest bardzo
-podobny do tego, który miałem już możliwość [przeprowadzić na innym modelu TP-LINK'a, tj. Neffos
-C5]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-od-tp-link/). Dlatego też poniższy
-artykuł jest bardzo zbliżony treścią, choć lekko zaktualizowany pod kątem Neffos'a C5 MAX. Grunt, że
-nie było żadnych problemów z przeprowadzeniem backup'u flash'a telefonu jak i samego procesu root.
-
-Prostszy sposób na przeprowadzanie procesu root w smartfonach Neffos od TP-LINK z wykorzystaniem
-natywnych obrazów TWRP [został opisany w nowym wątku]({{< baseurl >}}/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/).
+Bawiąc się ostatnio [smartfonem Neffos C5 MAX][1] od TP-LINK, obiecałem sobie, że jak tylko będę
+miał chwilę czasu, to postaram się ukorzenić Androida, który w tym telefonie siedzi (Lollipop).
+Generalnie rzecz biorąc, sposób root'owania tego urządzenia jest bardzo podobny do tego, który
+miałem już możliwość [przeprowadzić na innym modelu TP-LINK'a, tj. Neffos C5][2]. Dlatego też
+poniższy artykuł jest bardzo zbliżony treścią, choć lekko zaktualizowany pod kątem Neffos'a C5 MAX.
+Grunt, że nie było żadnych problemów z przeprowadzeniem backup'u flash'a telefonu jak i samego
+procesu root.
 
 <!--more-->
+
+> Prostszy sposób na przeprowadzanie procesu root w smartfonach Neffos od TP-LINK z wykorzystaniem
+> natywnych obrazów TWRP [został opisany w nowym wątku][3].
+
 ## Narzędzia ADB i fastboot
 
 Przede wszystkim, by zabrać się za proces root'owania smartfona Neffos C5 MAX, musimy przygotować
 sobie odpowiednie narzędzia. Zapewnią one nam możliwość rozmawiania z telefonem. Będziemy
-potrzebować `adb` ([Android Debug
-Bridge](https://developer.android.com/studio/command-line/adb.html)) oraz `fastboot` . [Proces
-instalacji tych narzędzi na
-linux]({{< baseurl >}}/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/), a konkretnie w
-dystrybucji Debian, został opisany osobno.
+potrzebować `adb` ([Android Debug Bridge][4]) oraz `fastboot` . [Proces instalacji tych narzędzi na
+linux][5], a konkretnie w dystrybucji Debian, został opisany osobno.
 
 ## Narzędzie SP Flash Tool
 
-Kolejnym narzędziem, które będzie nam niezbędne jest [SP Flash Tool](http://spflashtool.com/).
-Niestety nie jest ono włączone do dystrybucji Debian i musimy posiłkować się paczką, którą można
-znaleźć w podanym wyżej linku. Tutaj ważna uwaga. SP FLash Tool jest przeznaczony tylko dla
-smartfonów mających SoC od Mediatek.
+Kolejnym narzędziem, które będzie nam niezbędne jest [SP Flash Tool][6]. Niestety nie jest ono
+włączone do dystrybucji Debian i musimy posiłkować się paczką, którą można znaleźć w podanym wyżej
+linku. Tutaj ważna uwaga. SP FLash Tool jest przeznaczony tylko dla smartfonów mających SoC od
+Mediatek.
 
 Pobieramy paczkę `.zip` dla linux'a i wypakowujemy ją. Jako, że SP Flash Tool wykorzystuje do
 komunikacji interfejs `/dev/ttyACM0` , to do poprawnej pracy wymaga on operowania na tym
@@ -96,17 +93,15 @@ jest na szereg widocznych wyżej partycji.
 
 ### Plik scatter.txt dla Neffos C5 MAX
 
-[Tutaj znajduje się plik
-scatter.txt]({{< baseurl >}}/img/manual/mt6753-neffos-c5-max-tp-link-scatter.txt),
-który ja wykorzystałem do pracy z Neffos C5 MAX. Kluczowa sprawa, to opisanie każdej partycji. W
-sumie to musimy odpowiednio dostosować pole `partition_index` , które jest zwyczajnie kolejnym
-numerkiem. Z kolei w `partition_name` podajemy nazwę partycji, którą uzyskaliśmy przez `adb` . Dalej
-w `linear_start_addr` oraz `physical_start_addr` wpisujemy tę wartość, która została wypisana przez
-`adb` w kolumnie `Start` . Na podobnej zasadzie uzupełniamy `partition_size` , podając wartość,
-którą widzieliśmy w `adb` w kolumnie `Size` . I to w zasadzie wszystkie zmiany, które musimy
-wprowadzić do pliku `scatter.txt` . Póki co nie mam informacji co do pozostałych opcji w tym pliku,
-wiem tylko, że część z nich jest uzupełniana przez SP Flash Tool podczas przeprowadzania działań w
-tym programie.
+[Tutaj znajduje się plik scatter.txt][7], który ja wykorzystałem do pracy z Neffos C5 MAX. Kluczowa
+sprawa, to opisanie każdej partycji. W sumie to musimy odpowiednio dostosować pole
+`partition_index` , które jest zwyczajnie kolejnym numerkiem. Z kolei w `partition_name` podajemy
+nazwę partycji, którą uzyskaliśmy przez `adb` . Dalej w `linear_start_addr` oraz `physical_start_
+addr` wpisujemy tę wartość, która została wypisana przez `adb` w kolumnie `Start` . Na podobnej
+zasadzie uzupełniamy `partition_size` , podając wartość, którą widzieliśmy w `adb` w kolumnie
+`Size` . I to w zasadzie wszystkie zmiany, które musimy wprowadzić do pliku `scatter.txt` . Póki co
+nie mam informacji co do pozostałych opcji w tym pliku, wiem tylko, że część z nich jest uzupełniana
+przez SP Flash Tool podczas przeprowadzania działań w tym programie.
 
 ### Tworzenie backupu
 
@@ -153,15 +148,13 @@ Mając zrobiony kompletny backup flash'a, możemy przejść do odblokowania boot
 umożliwiające przeprowadzanie operacji na poziomie systemowym, np. backup lub też flash'owanie
 ROM'u. Problem w tym, że to oprogramowanie w standardzie zwykle za wiele nie potrafi i by
 przeprowadzić proces root'owania Androida, musimy pozyskać bardziej zaawansowany soft, np.
-[ClockworkMod](https://www.clockworkmod.com/) czy [TWRP](https://twrp.me/), i wgrać go na partycję
-`/recovery/` . By to zrobić musimy pierw odblokować bootloader.
+[ClockworkMod][8] czy [TWRP][9], i wgrać go na partycję `/recovery/` . By to zrobić musimy pierw
+odblokować bootloader.
 
 Proces odblokowania bootloader'a usuwa wszystkie dane, które wgraliśmy na flash telefonu, tj.
-podczas odblokowywania jest inicjowany [factory
-reset]({{< baseurl >}}/post/android-reset-ustawien-do-fabrycznych-factory-defaults/). Dane na
-karcie SD pozostają nietknięte. By ten proces zainicjować zaczynamy od przestawienia jednej opcji w
-telefonie. W tym celu musimy udać się w Ustawienia => Opcje Programistyczne i tam przełączyć
-`Zdjęcie blokady OEM` :
+podczas odblokowywania jest inicjowany [factory reset][10]. Dane na karcie SD pozostają nietknięte.
+By ten proces zainicjować zaczynamy od przestawienia jednej opcji w telefonie. W tym celu musimy
+udać się w Ustawienia => Opcje Programistyczne i tam przełączyć `Zdjęcie blokady OEM` :
 
 ![]({{< baseurl >}}/img/2016/12/006.neffos-c5-max-smartfon-root-android-tp-link-unlock-bootloader.png#huge)
 
@@ -197,9 +190,9 @@ Opcje Programistyczne, a w nich tryb debugowania portu USB.
 Mając zrobiony backup flash'a telefonu, możemy z niego wyciągnąć obraz partycji `/recovery/` .
 Musimy tylko zamontować ten obraz w systemie za pomocą `losetup` . Pamiętajmy, że ten obraz ma wiele
 partycji. Trzeba zatem nieco dostosować moduł kernela, by wszystkie z tych partycji zostały
-zamontowane za pomocą jednego polecenia. Informacje na temat tego [jak dostosować moduł
-loop]({{< baseurl >}}/post/obsluga-wielu-partycji-w-module-loop/) znajdują się tutaj. Przechodzimy
-zatem w miejsce, w którym zapisaliśmy obraz i montujemy go w poniższy sposób:
+zamontowane za pomocą jednego polecenia. Informacje na temat tego [jak dostosować moduł loop][11]
+znajdują się tutaj. Przechodzimy zatem w miejsce, w którym zapisaliśmy obraz i montujemy go w
+poniższy sposób:
 
     # cd /path/to/image/
     # losetup /dev/loop0 ROM_0
@@ -215,10 +208,10 @@ musimy podać `dd` :
 ## Pozyskanie obrazu recovery.img z TWRP
 
 Musimy także pozyskać obraz `recovery.img` zawierający TWRP. Niestety, póki co [nie ma obrazów dla
-Neffos'a C5 MAX](https://twrp.me/Devices/). Dlatego też musimy sobie taki obraz `recovery.img`
-stworzyć sami przerabiając inny obraz, który jest przeznaczony na telefon zbliżony parametrami do
-naszego urządzenia (ten sam SoC, wielkość flash i rozdzielczość ekranu). [Pod tym linkiem znajduje
-się gotowy obraz recovery.img]({{< baseurl >}}/img/manual/recovery-neffos-c5-tp-link-twrp.img).
+Neffos'a C5 MAX][12]. Dlatego też musimy sobie taki obraz `recovery.img` stworzyć sami przerabiając
+inny obraz, który jest przeznaczony na telefon zbliżony parametrami do naszego urządzenia (ten sam
+SoC, wielkość flash i rozdzielczość ekranu). [Pod tym linkiem znajduje się gotowy obraz
+recovery.img][13].
 
 Warto tutaj zaznaczyć, że nie zawsze taki obraz będzie nam działać bez problemu. W takim przypadku
 trzeba próbować innych obrazów, aż któryś zadziała. Nie musimy się tez obawiać wgrania złego obrazu
@@ -230,9 +223,8 @@ uszkodzimy smartfona. Zamiast tego telefon się zrestartuje i przywróci sobie s
 
 By przepakować obraz przeznaczony na inny smartfon, który jest zbliżony parametrami do naszego
 Neffos'a C5 MAX, musimy pierw pozyskać odpowiednie narzędzia. Na linux'ie możemy skorzystać tego
-celu z [abootimg](https://github.com/codeworkx/abootimg) lub też ze [skryptów Android Image
-Kitchen](https://github.com/ndrancs/AIK-Linux-x32-x64/). Ja będę korzystał z tego drugiego
-rozwiązania.
+celu z [abootimg][14] lub też ze [skryptów Android Image Kitchen][15]. Ja będę korzystał z tego
+drugiego rozwiązania.
 
 Tworzymy sobie jakiś katalog roboczy i kopiujemy do niego zarówno oryginalny obraz partycji
 `/recovery/` jak i ten z innego smartfona. Następnie znajdując się w tym katalogu roboczym,
@@ -261,9 +253,8 @@ do katalogu `port/` :
     $ mv split_img/ ramdisk/ port/
     $ rm recovery.img
 
-Zgodnie z [informacją zawartą w tym HOWTO
-(windows)](http://www.chinaphonearena.com/forum/Thread-Tutorial-HOW-TO-PORT-TWRP-MT6735-MT6752-MT6753-MT6795-MT6797-TWRP-MT67xx-tutorial),
-musimy przekopiować kilka plików z oryginalnego obrazu naszego Neffos'a C5 MAX do obrazu TWRP:
+Zgodnie z [informacją zawartą w tym HOWTO (windows)][16], musimy przekopiować kilka plików z
+oryginalnego obrazu naszego Neffos'a C5 MAX do obrazu TWRP:
 
     $ cp ./stock/split_img/recovery.img-kerneloff ./port/split_img/
     $ cp ./stock/split_img/recovery.img-zImage ./port/split_img/
@@ -317,11 +308,10 @@ będziemy wpisywać wszystkie nasze polecenia.
 ### Instalacja SuperSU
 
 Zacznijmy od pobrania stosownej paczki z
-[SuperSU](https://forum.xda-developers.com/apps/supersu/stable-2016-09-01supersu-v2-78-release-t3452703).
-Jako, że my nie mamy jeszcze zrobionego root'a, to musimy pobrać `TWRP / FlashFire installable ZIP`
-. Tej paczki nie wypakowujemy, tylko wrzucamy ją w pobranej formie na kartę SD w telefonie. Odpalamy
-teraz tryb recovery w smartfonie (VolumeUp + Power) i przechodzimy do Instaluj (TWRP jest również w
-języku polskim):
+[SuperSU][17]. Jako, że my nie mamy jeszcze zrobionego root'a, to musimy pobrać
+`TWRP / FlashFire installable ZIP` . Tej paczki nie wypakowujemy, tylko wrzucamy ją w pobranej
+formie na kartę SD w telefonie. Odpalamy teraz tryb recovery w smartfonie (VolumeUp + Power) i
+przechodzimy do Instaluj (TWRP jest również w języku polskim):
 
 ![]({{< baseurl >}}/img/2016/12/007.neffos-c5-max-smartfon-root-android-tp-link-supersu-tryb-recovery-twrp.png#huge)
 
@@ -335,8 +325,7 @@ nasz smartfon ma root'a.
 
 ### Sprawdzenie czy Neffos C5 MAX ma root'a
 
-Po uruchomieniu się systemu na smartfonie, instalujemy aplikację
-[RootCheck](https://play.google.com/store/apps/details?id=com.jrummyapps.rootchecker), po czym
+Po uruchomieniu się systemu na smartfonie, instalujemy aplikację [RootCheck][18], po czym
 uruchamiamy ją. Powinien się pojawić monit informujący, że ta aplikacja żąda praw administracyjnych,
 na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosowny komunikat:
 
@@ -344,10 +333,9 @@ na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosow
 
 ### Instalacja BusyBOX
 
-Kolejnym krokiem jest instalacja
-[BusyBOX'a](https://play.google.com/store/apps/details?id=stericson.busybox). Po wgraniu tej
-aplikacji na smartfona, musimy ją uruchomić i wcisnąć w niej przycisk `install` . BusyBOX również
-nas poprosi o dostęp do praw administracyjnych:
+Kolejnym krokiem jest instalacja [BusyBOX'a][19]. Po wgraniu tej aplikacji na smartfona, musimy ją
+uruchomić i wcisnąć w niej przycisk `install` . BusyBOX również nas poprosi o dostęp do praw
+administracyjnych:
 
 ![]({{< baseurl >}}/img/2016/12/010.neffos-c5-max-smartfon-root-android-tp-link-busybox.png#huge)
 
@@ -364,12 +352,11 @@ czymś je uruchomić. Do tego celu potrzebny jest nam shell oraz emulator termin
 `ash` jest dostarczany razem z BusyBOX. Terminal musimy doinstalować osobno.
 
 Generalnie to znalazłem dwa terminale, które są OpenSource i bez reklam/opłat. Są to
-[Android-Terminal-Emulator](https://play.google.com/store/apps/details?id=jackpal.androidterm) oraz
-[Termux](https://play.google.com/store/apps/details?id=com.termux). Wybieramy sobie jeden z nich i
-instalujemy w systemie. Tutaj warto jeszcze zaznaczyć, że ten drugi terminal instaluje sobie również
-shell `dash` (domyślny shell w Debianie) . Również w jego przypadku możemy łatwo doinstalować sobie
-aplikacje za pomocą `apt` , podobnie jak w Debianie (do tego celu nie jest wymagany root). Jako, że
-ja korzystam na co dzień z Debiana, to instaluje Termux'a.
+[Android-Terminal-Emulator][20] oraz [Termux][21]. Wybieramy sobie jeden z nich i instalujemy w
+systemie. Tutaj warto jeszcze zaznaczyć, że ten drugi terminal instaluje sobie również shell `dash`
+(domyślny shell w Debianie) . Również w jego przypadku możemy łatwo doinstalować sobie aplikacje za
+pomocą `apt` , podobnie jak w Debianie (do tego celu nie jest wymagany root). Jako, że ja korzystam
+na co dzień z Debiana, to instaluje Termux'a.
 
 ![]({{< baseurl >}}/img/2016/12/012.neffos-c5-max-smartfon-root-android-tp-link-htop.png#huge)
 
@@ -380,7 +367,7 @@ celu służy polecenie `su` . Wpiszmy je zatem w okienku Termux'a:
 
 ![]({{< baseurl >}}/img/2016/12/013.neffos-c5-max-smartfon-root-android-tp-link-termux.png#huge)
 
-I teraz możemy uruchamiać aplikacjie z prawami admina, tak jak to zwykliśmy robić w każdym innym
+I teraz możemy uruchamiać aplikacje z prawami admina, tak jak to zwykliśmy robić w każdym innym
 linux'ie. Pamiętajmy tylko, że standardowo system plików jest zamontowany w trybie tylko do odczytu
 (RO) i by móc zmieniać pliki systemowe z poziomu tego terminala, musimy przemontować system plików w
 tryb do zapisu (RW). Robimy to w poniższy sposób:
@@ -391,3 +378,26 @@ tryb do zapisu (RW). Robimy to w poniższy sposób:
 Gdy skończymy się bawić, to montujemy ten system plików ponownie w tryb RO:
 
     # mount -o remount,ro /system
+
+
+[1]: {{< baseurl >}}/post/recenzja-smartfon-neffos-c5-max-od-tp-link/
+[2]: {{< baseurl >}}/post/android-root-smartfona-neffos-c5-od-tp-link/
+[3]: {{< baseurl >}}/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/
+[4]: https://developer.android.com/studio/command-line/adb.html
+[5]: {{< baseurl >}}/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/
+[6]: http://spflashtool.com/
+[7]: {{< baseurl >}}/img/manual/mt6753-neffos-c5-max-tp-link-scatter.txt
+[8]: https://www.clockworkmod.com/
+[9]: https://twrp.me/
+[10]: {{< baseurl >}}/post/android-reset-ustawien-do-fabrycznych-factory-defaults/
+[11]: {{< baseurl >}}/post/obsluga-wielu-partycji-w-module-loop/
+[12]: https://twrp.me/Devices/
+[13]: {{< baseurl >}}/img/manual/recovery-neffos-c5-tp-link-twrp.img
+[14]: https://github.com/codeworkx/abootimg
+[15]: https://github.com/ndrancs/AIK-Linux-x32-x64/
+[16]: http://www.chinaphonearena.com/forum/Thread-Tutorial-HOW-TO-PORT-TWRP-MT6735-MT6752-MT6753-MT6795-MT6797-TWRP-MT67xx-tutorial
+[17]: https://forum.xda-developers.com/apps/supersu/stable-2016-09-01supersu-v2-78-release-t3452703
+[18]: https://play.google.com/store/apps/details?id=com.jrummyapps.rootchecker
+[19]: https://play.google.com/store/apps/details?id=stericson.busybox
+[20]: https://play.google.com/store/apps/details?id=jackpal.androidterm
+[21]: https://play.google.com/store/apps/details?id=com.termux

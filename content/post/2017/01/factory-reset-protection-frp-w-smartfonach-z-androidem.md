@@ -58,12 +58,9 @@ telefon odblokować. Jakie inne opcje nam zatem pozostają?
 
 ## Zasada działania FRP Lock
 
-Szukając informacji na temat zasady działania tego całego FRP Lock, na [jednym z forów
-Androida](http://forum.android.com.pl/topic/307282-jak-dzia%C5%82a-mechanizm-factory-reset-protection-lock-frp-lock/#comment-4963533)
-użytkownik piskorfa podesłał mi linki do dwóch chińskich blogów
-[[1](http://blog.csdn.net/woshing123456/article/details/44524051)] i
-[[2](https://echuang54.blogspot.com/2015/03/factory-reset-protection.html)]. Chińskiego co prawda
-nie znam ale zawartość tych stron można przetłumaczyć na angielski w Google Translate.
+Szukając informacji na temat zasady działania tego całego FRP Lock, na [jednym z forów Androida][1]
+użytkownik piskorfa podesłał mi linki do dwóch chińskich blogów [[1][2]] i [[2][3]]. Chińskiego co
+prawda nie znam ale zawartość tych stron można przetłumaczyć na angielski w Google Translate.
 
 Zgodnie z informacjami zawartymi w tych powyższych artykułach, mechanizm FRP Lock działa w oparciu o
 dedykowaną partycję na flash'u telefonu. Nazwa tej partycji może być różna, choć zwykle przyjmuje
@@ -96,8 +93,8 @@ skonfigurowane.
 W jaki sposób system rozpoznaje czy podaliśmy dane do odpowiedniego konta? Serwery Google w tym
 procesie nie biorą udziału. Te dane są zapisywane również na partycji `frp` , z tym, że raczej w
 formie jakieś hasha, który można uzyskać podając konkretny login i hasło. Podając prawidłowe dane,
-system jest w stanie wygenerować taki hash i porównać go z tym co zostało zapisane na partycji `frp`
-.
+system jest w stanie wygenerować taki hash i porównać go z tym co zostało zapisane na partycji
+`frp` .
 
 Pewności do końca nie mam jak ten proces weryfikacji przebiega ale patrząc na zrzuty partycji w
 edytorze HEX, można dojść do wniosku, że system dodaje jakieś informacje na tej partycji po
@@ -126,11 +123,9 @@ tych telefonach siedzi Android w wersji 6.0 . Mamy zatem dwie różne sytuacje d
 ### Odblokowanie Neffos C5 i C5 MAX
 
 Jako, że te dwa modele smartfonów mają SoC od MediaTek, to nadpisanie partycji `frp` w ich przypadku
-jest stosunkowo proste, bo możemy do tego celu zaprzęgnąć [SP Flash Tool](http://spflashtool.com/).
-Problematyczne może być ustalenie gdzie na flash'u smartfona znajduje się partycja `frp` . Ja
-korzystałem ze [swojego pliku
-scatter.txt]({{< baseurl >}}/img/manual/mt6753-neffos-c5-max-tp-link-scatter.txt),
-gdzie mam taki oto blok kodu:
+jest stosunkowo proste, bo możemy do tego celu zaprzęgnąć [SP Flash Tool][4]. Problematyczne może
+być ustalenie gdzie na flash'u smartfona znajduje się partycja `frp` . Ja korzystałem ze [swojego
+pliku scatter.txt][5], gdzie mam taki oto blok kodu:
 
     - partition_index: SYS18
       partition_name: frp
@@ -155,8 +150,7 @@ miał dokładnie taki rozmiar. Możemy to zrobić przy pomocy `dd` z poziomu ka�
 
 Tak wygenerowany plik trzeba przy po mocy SP Flash Tool wgrać w odpowiednie miejsce na flash'u
 smartfona. Odpalamy zatem narzędzie SP Flash Tool i przechodzimy na zakładkę `Download` i tam
-zaznaczamy partycję `frp` i wskazujemy ścieżkę do pliku z
-zerami:
+zaznaczamy partycję `frp` i wskazujemy ścieżkę do pliku z zerami:
 
 ![]({{< baseurl >}}/img/2017/01/002.factory-reset-protection-frp-lock-smartfon-android-czyszczenie-partycji.png#huge)
 
@@ -238,8 +232,7 @@ konfiguracji telefonu będzie nas prosił o podanie danych do starego konta Goog
 
 Kluczem do zdjęcia blokady FRP Lock jest odblokowanie bootloader'a, a to można zrobić zdejmując
 pierw blokadę OEM z poziomu opcji developerskich. Mając dostęp do opcji telefonu, możemy wejść w
-"Informacje o telefonie" i spróbować postukać w numer
-kompilacji.
+"Informacje o telefonie" i spróbować postukać w numer kompilacji.
 
 ![]({{< baseurl >}}/img/2017/01/011.factory-reset-protection-frp-lock-smartfon-android-numer-kompilacji.png#big)
 
@@ -308,3 +301,10 @@ smartfona do ustawień fabrycznych.
 Jeśli zaś kupujemy telefon od kogoś, to poprośmy tę osobę o wykonanie procesu Factory Reset z
 poziomu trybu recovery, tak by ta czynność została wykonana przy nas. Po czym sprawdźmy czy w
 procesie wstępnej konfiguracji telefonu nie złapiemy FRP Lock'a.
+
+
+[1]: http://forum.android.com.pl/topic/307282-jak-dzia%C5%82a-mechanizm-factory-reset-protection-lock-frp-lock/#comment-4963533
+[2]: http://blog.csdn.net/woshing123456/article/details/44524051
+[3]: https://echuang54.blogspot.com/2015/03/factory-reset-protection.html
+[4]: http://spflashtool.com/
+[5]: {{< baseurl >}}/img/manual/mt6753-neffos-c5-max-tp-link-scatter.txt

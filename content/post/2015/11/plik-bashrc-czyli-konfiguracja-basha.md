@@ -11,15 +11,14 @@ tags:
 title: Plik .bashrc, czyli konfiguracja bash'a
 ---
 
-Jakiś czas temu opisywałem [konfigurację historii bash'a w pliku
-.bash\_history]({{< baseurl >}}/post/plik-bash_history-czyli-historia-polecen-basha/) ale
-możliwości konfiguracyjne bash'a nie ograniczają się jedynie do zmiany kilku parametrów czy
-zmiennych dotyczących historii wpisywanych w terminalu poleceń. Ten wpis ma na celu zebranie tych
-bardziej użytecznych funkcjonalności bash'a, które często są wykorzystywane przez użytkowników
-linux'a i dopisywane w pliku `.bashrc` .
+Jakiś czas temu opisywałem [konfigurację historii bash'a w pliku .bash_history][1] ale możliwości
+konfiguracyjne bash'a nie ograniczają się jedynie do zmiany kilku parametrów czy zmiennych
+dotyczących historii wpisywanych w terminalu poleceń. Ten wpis ma na celu zebranie tych bardziej
+użytecznych funkcjonalności bash'a, które często są wykorzystywane przez użytkowników linux'a i
+dopisywane w pliku `.bashrc` .
 
 <!--more-->
-## Pliki .bash\_history, .bash\_aliases, .bashrc, .bash\_profile i .bash\_logout
+## Pliki .bash_history, .bash_aliases, .bashrc, .bash_profile i .bash_logout
 
 W katalogu użytkownika mamy kilka plików, które składają się na konfigurację shell'a bash. W pliku
 `.bash_history` jest trzymana historia wykonywanych poleceń. Wszystkie parametry dotyczące historii
@@ -39,27 +38,23 @@ warunki:
     [[ -f ~/.profile ]] && . ~/.profile
 
 Jak widzimy wyżej, najpierw jest ładowana główna konfiguracja bash'a, a po niej jeszcze plik
-`.profle` . Jaki jest zatem cel pliku `.bash_profile` i czy nie możemy korzystać jedynie z `.bashrc`
-? Bash może zostać wywołany [interaktywnie lub
-nieinteraktywnie](https://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell).
-Różnica między tymi dwoma sposobami polega na tym, że ten drugi dotyczy głównie sesji logowania, np.
-na konsoli TTY. Z kolei sesje interaktywne są powiązane z pseudoterminalami, gdzie nie ma potrzeby
-się logować, np. w środowisku graficznym. Zatem w każdym z tych powyższych przypadków zostanie
-załadowany plik `.bashrc` , natomiast w trybie tekstowym (TTY) zostanie także załadowana
-konfiguracja z pliku `.profile` . To rozgraniczenie jest bardzo użyteczne ze względu na fakt, że
-część konfiguracji bash'a może działać znakomicie w środowisku graficznym ale powodować błędy w
-trybie tekstowym.
+`.profle` . Jaki jest zatem cel pliku `.bash_profile` i czy nie możemy korzystać jedynie z
+`.bashrc` ? Bash może zostać wywołany [interaktywnie lub nieinteraktywnie][2]. Różnica między tymi
+dwoma sposobami polega na tym, że ten drugi dotyczy głównie sesji logowania, np. na konsoli TTY. Z
+kolei sesje interaktywne są powiązane z pseudoterminalami, gdzie nie ma potrzeby się logować, np. w
+środowisku graficznym. Zatem w każdym z tych powyższych przypadków zostanie załadowany plik
+`.bashrc` , natomiast w trybie tekstowym (TTY) zostanie także załadowana konfiguracja z pliku
+`.profile` . To rozgraniczenie jest bardzo użyteczne ze względu na fakt, że część konfiguracji
+bash'a może działać znakomicie w środowisku graficznym ale powodować błędy w trybie tekstowym.
 
 Ostatnim plikiem jest `.bash_logout` , w którym są określone polecenia jakie mają zostać wykonane,
 gdy w konsoli zostanie wpisane `exit` lub `logout` . Ten plik jest ładowany tylko w trybie
-nieinteraktywnym, [głównie na konsolach
-TTY](https://superuser.com/questions/410525/explain-why-bash-logout-wont-run-commands).
+nieinteraktywnym, [głównie na konsolach TTY][3].
 
 Jako, że wszystkie poniższe opcje będą ustawiane za pomocą `shopt` , to aktualną konfigurację możemy
 podejrzeć wpisując w terminalu to właśnie polecenie. Te opcje, które zostaną wpisane do pliku
 `.bashrc` , będą mieć efekt permanentny. Dlatego też dobrze jest je pierw przetestować. Wszystkie
-możliwe opcje są opisane w [manualu
-bash'a](http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html).
+możliwe opcje są opisane w [manualu bash'a][4].
 
 ### Sprawdzanie parametrów okna przy wykonywaniu polecenia (checkwinsize)
 
@@ -84,7 +79,7 @@ poniższą linijkę:
 
     shopt -s cdspell
 
-### Przejściowe zmienne (cdable\_vars)
+### Przejściowe zmienne (cdable_vars)
 
 Ścieżki do katalogów mogą być naprawdę długie, a przechodzenie do nich (nawet z uzupełnianiem przy
 pomocy klawisza TAB ) powolne. Każdą z tych długich ścieżek możemy zamknąć w zmiennej. Problem w
@@ -96,3 +91,9 @@ się znajduje. Możemy jednak zmienić to zachowanie bash'a i dopisać w pliku `
 
 Trzeba mieć jednak na uwadze, że znak `~` , który symbolizuje katalog domowy użytkowników, nie
 zadziała z tą opcją i trzeba precyzować pełne ścieżki, tj. zaczynając od `/home/morfik/` .
+
+
+[1]: {{< baseurl >}}/post/plik-bash_history-czyli-historia-polecen-basha/
+[2]: https://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell
+[3]: https://superuser.com/questions/410525/explain-why-bash-logout-wont-run-commands
+[4]: http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html

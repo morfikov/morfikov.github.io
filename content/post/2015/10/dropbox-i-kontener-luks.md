@@ -14,26 +14,24 @@ tags:
 title: Dropbox i kontener LUKS
 ---
 
-Ogarnęliśmy już szyfrowanie plików na dropbox'ie przy pomocy
-[encfs]({{< baseurl >}}/post/implementacja-encfs-na-dropboxie/) oraz [kontenerów
-TrueCrypt]({{< baseurl >}}/post/kontener-truecrypt-trzymany-na-dropboxie/). Każda z w/w operacji
-drastycznie poprawiła prywatność naszych plików, które przechowujemy w chmurze. Poniższy wpis będzie
-w podobnym klimacie, tj. spróbujemy umieścić na dropbox'ie [kontener
-LUKS](https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup), co niesie ze sobą sporo udogodnień i
-czyni korzystanie z zaszyfrowanego dropbox'a praktycznie transparentnym.
+Ogarnęliśmy już szyfrowanie plików na Dropbox przy pomocy [encfs][1] oraz [kontenerów
+TrueCrypt][2]. Każda z w/w operacji drastycznie poprawiła prywatność naszych plików, które
+przechowujemy w chmurze. Poniższy wpis będzie w podobnym klimacie, tj. spróbujemy umieścić na
+Dropbox [kontener LUKS][3], co niesie ze sobą sporo udogodnień i czyni korzystanie z
+zaszyfrowanego Dropbox'a praktycznie transparentnym.
 
 <!--more-->
-## Tworzenie kontenera pod dane na dropbox'ie
+## Tworzenie kontenera pod dane na Dropbox
 
 Przede wszystkim, musimy utworzyć plik składający się z samych zer. Tak stworzony plik umieszczamy
-na dropbox'ie. Sam plik może być dowolnego rozmiaru i nie ma tutaj znaczenia czy będzie to 100 MiB
-czy 10GiB. Liczy się tylko to ile miejsca chcemy przeznaczyć na dropbox'ie na szyfrowane pliki.
+na Dropbox. Sam plik może być dowolnego rozmiaru i nie ma tutaj znaczenia czy będzie to 100 MiB
+czy 10GiB. Liczy się tylko to ile miejsca chcemy przeznaczyć na Dropbox na szyfrowane pliki.
 Najciekawsze w tym wszystkim jest to, że plik składający się z samych zer zostanie przed wysłaniem
 do chmury skompresowany, a kompresja samych zer daje wynik porównywalny z zerem. I tak, np. 10 GiB
 plik będzie zajmować parę KiB, co oczywiście cieszy, bo nie będzie trzeba wysyłać do chmury całych
 10GiB danych.
 
-Na sam początek zatrzymujemy synchronizację plików w dropbox'ie i przechodzimy do katalogu gdzie
+Na sam początek zatrzymujemy synchronizację plików w Dropbox i przechodzimy do katalogu gdzie
 mamy swoją lokalną kopię plików. W nim tworzymy plik kontenera LUKS:
 
     $ cd /media/Server/Dropbox/
@@ -57,8 +55,7 @@ urządzenia `loop`, które zamontuje nam w systemie plik kontenera:
     /dev/loop0: [0807]:2883594 (/media/Server/Dropbox/luks_dropbox)
 
 Teraz trzeba zaszyfrować plik kontenera przy pomocy `cryptsetup` . Pamiętajmy by wskazać urządzenie
-`/dev/loop0` , a nie faktyczny plik na
-    dysku:
+`/dev/loop0` , a nie faktyczny plik na dysku:
 
     # cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random --verify-passphrase --verbose luksFormat /dev/loop0
 
@@ -68,7 +65,7 @@ Otwieramy kontener i tworzymy w nim system plików:
 
     # mkfs.ext4 -m 0 -L dropbox /dev/mapper/crypt_dropbox
 
-W tej chwili mamy przygotowany kontener na dane. Zamykamy go i synchronizujemy dropbox'a:
+W tej chwili mamy przygotowany kontener na dane. Zamykamy go i synchronizujemy Dropbox'a:
 
     # cryptsetup luksClose crypt_dropbox
 
@@ -82,10 +79,10 @@ Powyższy setup powinien działać prawidłowo. Musimy jednak jeszcze nauczyć s
 montować ten kontener. Ja już mam w swoim systemie kilka zaszyfrowanych dysków, dlatego też u mnie
 nie będzie potrzebne dodatkowe hasło, które trzeba by podawać przy starcie systemu. Hasła co prawda
 są inne, i w przypadku systemu, i w przypadku kontenera dropbox ale przy pomocy ciekawej sztuczki
-można uzależnić kontener dropbox'a od klucza jakiejś zaszyfrowanej już partycji. Można też
+można uzależnić kontener Dropbox'a od klucza jakiejś zaszyfrowanej już partycji. Można też
 wykasować hasło do kontenera ale wtedy uzależnimy kontener zupełnie od nagłówków tej partycji.
 Jeśli te nagłówki ulegną uszkodzeniu albo przez przypadek stworzymy nowy kontener pod nowy system,
-stracimy dostęp do danych na dropbox'ie.
+stracimy dostęp do danych na Dropbox.
 
 Przede wszystkim narzędzie `losetup` musi widzieć nasz kontener:
 
@@ -139,7 +136,7 @@ Zamykany kontener:
 
 ### Plik /etc/fstab
 
-Otwórzmy raz jeszcze kontener z plikami dropbox'a, bo jakby nie patrzeć, to nie jest koniec naszej
+Otwórzmy raz jeszcze kontener z plikami Dropbox'a, bo jakby nie patrzeć, to nie jest koniec naszej
 pracy. Musimy min. dodać odpowiedni wpis w `/etc/fstab` . By to zrobić trzeba uzyskać UUID systemu
 plików w kontenerze:
 
@@ -163,7 +160,7 @@ poniższego polecenia:
     # update-initramfs -u -k all
 
 W tej chwili system będzie w stanie wykorzystać hexalną wartość klucza partycji systemowej do
-odblokowania kontenera przeznaczonego pod pliki dropbox'a. Możemy sprawdzić czy tak faktycznie się
+odblokowania kontenera przeznaczonego pod pliki Dropbox'a. Możemy sprawdzić czy tak faktycznie się
 stanie. By otworzyć kontener wydajemy poniższe polecenie:
 
     # cryptdisks_start crypt_dropbox
@@ -182,8 +179,8 @@ na partycji, a jej system plików z kolei trzeba pierw zamontować by uzyskać d
 się na nim kontenera. To powoduje, że nie można ustawić automatycznego otwarcia kontenera przy
 starcie systemu w `/etc/crypttab` . Jeśli się przyjrzymy bliżej temu plikowi, to dostrzeżemy tam
 opcję `noauto`. Jeśli nie można otworzyć kontenera na starcie, nie można też zamontować
-automatycznie jego systemu plików. A to z kolei obeszliśmy przez opcję `noauto` w pliku `/etc/fstab`
-.
+automatycznie jego systemu plików. A to z kolei obeszliśmy przez opcję `noauto` w pliku
+`/etc/fstab` .
 
 Problem jest jeszcze taki, że mimo iż kontener nie jest otwierany, a jego system plików nie jest
 montowany to i tak podczas startu systemu jest wyrzucany błąd o braku urządzenia z UUID naszego
@@ -250,12 +247,12 @@ I to by było w zasadzie wszystko. Po starcie systemu, kontener zostanie otworzo
 plików zamontowany. Przy czym, taki otwarty kontener jest przez dropboxa traktowany jako plik w
 fazie edycji.
 
-## Ochrona kontenera z plikami dropbox'a
+## Ochrona kontenera z plikami Dropbox'a
 
 Jeszcze kilka słów na temat tego w jaki sposób dostęp do kontenera dropbox powinien być chroniony.
 Słabe hasło najlepiej jest zastąpić przez keyfile. Oczywiście sposób uzyskiwania dostępu do
 kontenera zostaje taki sam ale na wypadek problemów z zależną partycją musimy mieć jakieś
-zabezpieczenie, by dane z dropbox'a nie przepadły. Najlepiej stworzyć keyfile w oparciu o plik
+zabezpieczenie, by dane z Dropbox'a nie przepadły. Najlepiej stworzyć keyfile w oparciu o plik
 binarny, który jest trzymany "w głębokim ukryciu". Głębokie ukrycie będzie polegało na wybraniu
 jakiegoś pliku, który rezyduje na naszym dysku ale jest już używany w jakiś sposób, np. plik mp3 czy
 avi.
@@ -293,3 +290,8 @@ slotów w nagłówku kontenera LUKS. Służy do tego `cryptsetup luksKillSlot`:
 
     # cryptsetup luksKillSlot '/media/Server/Dropbox/luks_dropbox' 0
     Enter any remaining passphrase:
+
+
+[1]: {{< baseurl >}}/post/implementacja-encfs-na-dropboxie/
+[2]: {{< baseurl >}}/post/kontener-truecrypt-trzymany-na-dropboxie/
+[3]: https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup

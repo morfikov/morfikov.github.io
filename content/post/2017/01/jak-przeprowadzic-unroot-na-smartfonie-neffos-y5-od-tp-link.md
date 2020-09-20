@@ -15,15 +15,14 @@ tags:
 title: Jak przeprowadzić unroot na smartfonie Neffos Y5 od TP-LINK
 ---
 
-[Przeprowadzenie procesu root na smartfonie Neffos
-Y5]({{< baseurl >}}/post/android-root-smartfona-neffos-y5-od-tp-link/) od TP-LINK nie było tak
-łatwe jak w przypadku innych modeli telefonów tego producenta. Niemniej jednak, trzeba zdawać sobie
-sprawę, że ukorzenianie Androida niesie za sobą pewne zagrożenia. Nie chodzi tutaj tylko o
-niezaufane aplikacje ale też trzeba brać pod uwagę możliwość przypadkowego (przypadki nie istnieją)
-skasowania czy zmienienia plików systemowych, przez co nasz telefon może przestać nam działać
-poprawnie lub też przestanie się w ogóle uruchamiać. Jeśli natomiast wgraliśmy SuperSU i praktycznie
-w ogóle z niego nie korzystamy, to moim zdaniem lepiej jest przeprowadzić proces unroot i korzystać
-z Neffos'a Y5, tak jak ze zwykłego urządzenia z Androidem na pokładzie. Proces cofania zmian w
+[Przeprowadzenie procesu root na smartfonie Neffos Y5] od TP-LINK nie było tak łatwe jak w
+przypadku innych modeli telefonów tego producenta. Niemniej jednak, trzeba zdawać sobie sprawę, że
+ukorzenianie Androida niesie za sobą pewne zagrożenia. Nie chodzi tutaj tylko o niezaufane
+aplikacje ale też trzeba brać pod uwagę możliwość przypadkowego (przypadki nie istnieją) skasowania
+czy zmienienia plików systemowych, przez co nasz telefon może przestać nam działać poprawnie lub
+też przestanie się w ogóle uruchamiać. Jeśli natomiast wgraliśmy SuperSU i praktycznie w ogóle z
+niego nie korzystamy, to moim zdaniem lepiej jest przeprowadzić proces unroot i korzystać z
+Neffos'a Y5, tak jak ze zwykłego urządzenia z Androidem na pokładzie. Proces cofania zmian w
 systemie nie jest jakoś specjalnie trudny ale trzeba uważać, by w jego trakcie nie uszkodzić
 smartfona. Ten artykuł ma na celu pokazanie jak cofnąć wszelkie zmiany wprowadzone w telefonie za
 sprawą dostępu do praw administracyjnych w Neffos Y5.
@@ -199,8 +198,8 @@ znajomy nam wszystkim ekran pierwszego logowania z wyborem języka systemu.
 To jednak nie jest koniec i w zasadzie możemy sobie darować konfigurację telefonu w tej fazie. A to
 z tego względu, że bootloader w dalszym ciągu jest odblokowany. Jeśli teraz byśmy skonfigurowali
 wstępnie system, to po zablokowaniu bootloader'a ponownie będziemy musieli wszystko ustawiać.
-Dlatego też wyłączamy telefon i uruchamiamy go w trybie bootloader'a za pomocą przycisków VolumeDown
-+ Power. Następnie w terminalu wpisujemy poniższe polecenie:
+Dlatego też wyłączamy telefon i uruchamiamy go w trybie bootloader'a za pomocą przycisków
+VolumeDown + Power. Następnie w terminalu wpisujemy poniższe polecenie:
 
     # fastboot oem lock
 
@@ -209,3 +208,6 @@ robocika przeprowadzającego proces Factory Reset. Po chwili smartfon uruchomi s
 jeszcze dłuższej chwili system powinien się załadować już na fabrycznych ustawieniach:
 
 ![]({{< baseurl >}}/img/2017/01/004.unroot-neffos-y5-tp-link-smartfon-defaults.png#small)
+
+
+[1]: {{< baseurl >}}/post/android-root-smartfona-neffos-y5-od-tp-link/

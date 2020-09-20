@@ -14,17 +14,15 @@ tags:
 title: Sieciowy system plików w OpenWRT (NFS)
 ---
 
-[Network File System](https://pl.wikipedia.org/wiki/Network_File_System_\(protok%C3%B3%C5%82\)) to
-sieciowy system plików, za pomocą którego maszyny mające na pokładzie system operacyjny linux, w tym
-tez OpenWRT, są w stanie udostępniać pliki w sieci. Zatem NFS to głównie domena linux'ów. W
-przypadku windowsów można korzystać z protokołu SMB
-([samba](https://pl.wikipedia.org/wiki/Samba_\(program\))). Sposób udostępniania zasobów przy pomocy
-tego sieciowego systemu plików jest bardzo podobny do tego, który jest realizowany w przypadku
-protokołu SSHFS. Zasadniczą różnicą między NFS i SSHFS jest brak szyfrowania komunikacji. W
-warunkach domowej sieci, ta cecha raczej nie stanowi większego problemu. Poza tym, trzeba też brać
-pod uwagę fakt, że szyfrowanie znacznie obciążyłoby router, co przełożyłoby się na spadek prędkości
-transferu. W tym wpisie zobaczymy jak na routerze z OpenWRT zaimplementować protokół NFS i
-udostępnić za jego pomocą zasoby w sieci lokalnej.
+[Network File System][1]) to sieciowy system plików, za pomocą którego maszyny mające na pokładzie
+system operacyjny linux, w tym tez OpenWRT, są w stanie udostępniać pliki w sieci. Zatem NFS to
+głównie domena linux'ów. W przypadku windowsów można korzystać z protokołu SMB ([samba][2]). Sposób
+udostępniania zasobów przy pomocy tego sieciowego systemu plików jest bardzo podobny do tego, który
+jest realizowany w przypadku protokołu SSHFS. Zasadniczą różnicą między NFS i SSHFS jest brak
+szyfrowania komunikacji. W warunkach domowej sieci, ta cecha raczej nie stanowi większego problemu.
+Poza tym, trzeba też brać pod uwagę fakt, że szyfrowanie znacznie obciążyłoby router, co
+przełożyłoby się na spadek prędkości transferu. W tym wpisie zobaczymy jak na routerze z OpenWRT
+zaimplementować protokół NFS i udostępnić za jego pomocą zasoby w sieci lokalnej.
 
 <!--more-->
 ## Instalacja pakietów na potrzeby NFS
@@ -43,7 +41,7 @@ Na końcu procesu instalacyjnego zostanie wyrzuconych kilka
     exportfs: /etc/exports [1]: Neither 'subtree_check' or 'no_subtree_check' specified for export "*:/mnt".
       Assuming default behaviour ('no_subtree_check').
       NOTE: this default has changed since nfs-utils version 1.0.x
-    
+
     exportfs: /mnt does not support NFS export
 
 Na razie nie musimy się nimi zbytnio przejmować ale w drodze konfiguracji, te powyższe wiadomości
@@ -57,10 +55,10 @@ serwer NFS na routerze ale wymaga on jeszcze konfiguracji zasobów, które chcem
 
 ## Konfiguracja zasobów NFS udostępnianych w sieci
 
-Zasoby udostępniane w sieci za sprawą protokołu NFS trzeba wyraźnie określić w pliku `/etc/exports`
-. Podajemy tam zwyczajnie ścieżki do katalogów, które chcemy udostępnić. Pamiętajmy, że w miejscu
-konkretnego katalogu możemy zamontować partycję dysku twardego. Wpisy w pliku `/etc/exports`
-określamy w poniższy sposób:
+Zasoby udostępniane w sieci za sprawą protokołu NFS trzeba wyraźnie określić w pliku
+`/etc/exports` . Podajemy tam zwyczajnie ścieżki do katalogów, które chcemy udostępnić. Pamiętajmy,
+że w miejscu konkretnego katalogu możemy zamontować partycję dysku twardego. Wpisy w pliku
+`/etc/exports` określamy w poniższy sposób:
 
     /mnt/sda3   192.168.1.0/24(rw,no_subtree_check,all_squash,anongid=1000,anonuid=1000)
 
@@ -95,8 +93,13 @@ podejmowane decyzje na temat obsługi udostępnianych w sieci zasobów.
 
 By zamontować zasób NFS na kliencie, potrzebne są standardowo prawa użytkownika root. Możemy
 naturalnie korzystać z całej masy mechanizmów, które upraszczają montowanie zasobów sieciowych.
-Przykładem może być [udevil](https://ignorantguru.github.io/udevil/). Niżej są dwa polecenia, które
-zamontują nam zasoby routera na stacji klienckiej:
+Przykładem może być [udevil][3]. Niżej są dwa polecenia, które zamontują nam zasoby routera na
+stacji klienckiej:
 
     # mount -t nfs 192.168.1.1:/mnt/sda3 /media/sda3/
     $ udevil mount -t nfs 192.168.1.1:/mnt/sda3 /media/sda3/
+
+
+[1]: https://pl.wikipedia.org/wiki/Network_File_System_(protok%C3%B3%C5%82)
+[2]: https://pl.wikipedia.org/wiki/Samba_(program)
+[3]: https://ignorantguru.github.io/udevil/

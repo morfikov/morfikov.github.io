@@ -14,31 +14,28 @@ title: Automatyczne wyciszanie dźwięku w PulseAudio
 ---
 
 Wszystkie główne dystrybucje, a może raczej ich środowiska graficzne, wykorzystują do odtwarzania
-dźwięku [serwer PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/) . Niektóre wręcz
-są tak z nim zżyte, że nie idzie ich oddzielić od siebie. Ja generalnie uważam, że ten kawałek
-oprogramowania jest jak najbardziej przydatny człowiekowi i potrafi realizować kilka kwestii, które
-bez niego, albo by nie były możliwe do osiągnięcia, albo trzeba by się natrudzić przy ich
-implementacji, np. przesyłanie dźwięku przez sieć. U siebie na debianie nigdy nie miałem większych
-problemów z PulseAudio, z kolei zaś te, które się przytrafiały na drodze jego użytkowania, szło w
-miarę prosty sposób wyeliminować. Jest jednak jeden problem, z którym prawdopodobnie spotkaliśmy się
-wszyscy, przynajmniej jeśli wykorzystujemy mikrofon w stopniu większym niż przeciętny użytkownik
-komputera. Chodzi o to, że po odpaleniu pewnych aplikacji (lub też i w trakcie ich działania),
-takich jak np. Skype, Mumble, czy TeamSpeak3, dźwięk we wszystkich pozostałych programach potrafi
-zwyczajnie zdechnąć.
+dźwięku [serwer PulseAudio][1]. Niektóre wręcz są tak z nim zżyte, że nie idzie ich oddzielić od
+siebie. Ja generalnie uważam, że ten kawałek oprogramowania jest jak najbardziej przydatny
+człowiekowi i potrafi realizować kilka kwestii, które bez niego, albo by nie były możliwe do
+osiągnięcia, albo trzeba by się natrudzić przy ich implementacji, np. przesyłanie dźwięku przez
+sieć. U siebie na debianie nigdy nie miałem większych problemów z PulseAudio, z kolei zaś te, które
+się przytrafiały na drodze jego użytkowania, szło w miarę prosty sposób wyeliminować. Jest jednak
+jeden problem, z którym prawdopodobnie spotkaliśmy się wszyscy, przynajmniej jeśli wykorzystujemy
+mikrofon w stopniu większym niż przeciętny użytkownik komputera. Chodzi o to, że po odpaleniu
+pewnych aplikacji (lub też i w trakcie ich działania), takich jak np. Skype, Mumble, czy
+TeamSpeak3, dźwięk we wszystkich pozostałych programach potrafi zwyczajnie zdechnąć.
 
 <!--more-->
 ## Moduły zarządzające dźwiękiem
 
 "Problem" leży oczywiście po stronie PulseAudio, a konkretnie jego modułów. W tej chwili interesują
-nas dwa z nich -- module-role-cork oraz
-[module-role-ducking](https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/#module-role-ducking).
-Ten pierwszy nie ma, co prawda, dokumentacji ale wiemy, że jego zadaniem jest zatykać (mutować)
-strumienie pewnych aplikacji, które odtwarzają dźwięk w danej chwili, tak by inny program nie był
-przez nie zakłócany w żaden sposób. Raczej zdarzało nam się wyłączyć choć raz muzykę, gdy dzwonił do
-nas telefon, prawda? I właśnie to zachowanie próbuje zreprodukować za pośrednictwem tego modułu
-PulseAudio. Kłopot w tym, że nie zawsze chcemy tłumić wszelki dźwięk wydobywający się z głośników i
-zamiast mutować go, chcielibyśmy go nieco przyciszyć i za tego typu zachowanie odpowiada ten drugi
-moduł.
+nas dwa z nich -- module-role-cork oraz [module-role-ducking][2]. Ten pierwszy nie ma, co prawda,
+dokumentacji ale wiemy, że jego zadaniem jest zatykać (mutować)  strumienie pewnych aplikacji, które
+odtwarzają dźwięk w danej chwili, tak by inny program nie był przez nie zakłócany w żaden sposób.
+Raczej zdarzało nam się wyłączyć choć raz muzykę, gdy dzwonił do nas telefon, prawda? I właśnie to
+zachowanie próbuje zreprodukować za pośrednictwem tego modułu PulseAudio. Kłopot w tym, że nie
+zawsze chcemy tłumić wszelki dźwięk wydobywający się z głośników i zamiast mutować go, chcielibyśmy
+go nieco przyciszyć i za tego typu zachowanie odpowiada ten drugi moduł.
 
 ### Blokada modułu odpowiedzialnego za wyciszenie dźwięku
 
@@ -84,10 +81,9 @@ Możemy również ten moduł, wraz z jego opcjami, załadować w celu testowania
 
 Przydało by się kilka słów wyjaśnienia odnośnie samego modułu `module-role-ducking` i użytych w nim
 opcji. Przede wszystkim, PulseAudio potrafi rozróżniać strumienie dźwięku na podstawie ich
-[właściwości](https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/Developer/Clients/ApplicationProperties/),
-wobec czego każdy program odtwarzający dźwięk może być traktowany indywidualnie, choć ze względów
-praktycznych lepiej jest je sobie pogrupować. Kompletna lista właściwości, jakie możemy ustawić,
-znajduje się [tutaj](http://0pointer.de/lennart/projects/pulseaudio/doxygen/proplist_8h.html).
+[właściwości][3], wobec czego każdy program odtwarzający dźwięk może być traktowany indywidualnie,
+choć ze względów praktycznych lepiej jest je sobie pogrupować. Kompletna lista właściwości, jakie
+możemy ustawić, znajduje się [tutaj][4].
 
 Pierwszy parametr jaki widzimy wyżej, tj. `trigger_roles` , wskazuje ona na właściwość aplikacji,
 której odpalenie objawiać się będzie ściszeniem dźwięku innych programów, które aktualnie coś
@@ -96,16 +92,16 @@ opcji `ducking_roles` określamy, które aplikacje mają być ściszane. Zatem w
 jeśli strumień, który ma ustawioną opcję `PA_PROP_MEDIA_ROLE` na `phone` (czyli np. Skype),
 zostanie zainicjowany, spowoduje on automatyczne przyciszenie strumieni, które mają tę samą
 właściwość ustawioną na `music` lub `video` . Parametr `volume` określa co zrobić z dźwiękiem i w
-tym przypadku zostanie on przyciszony do poziomu `60%` Z tym, że wartość tutaj możemy podawać w `%`
-, `dB` , albo jako zwykłą liczbę z zakresu `0-65536`.
+tym przypadku zostanie on przyciszony do poziomu `60%` Z tym, że wartość tutaj możemy podawać w
+`%` , `dB` , albo jako zwykłą liczbę z zakresu `0-65536`.
 
-Tylko pozostaje jeden problem -- sporo programów w debianie (czy w ogóle linuxie) nie ma ustawionych
-odpowiednich właściwości, co będzie się objawiać w taki sposób, że cześć z nich zwyczajnie zignoruje
-politykę, którą wyżej sobie ustawiliśmy, a ludzie winą obarczą jak zwykle PulseAudio... By uniknąć
-tego typu sytuacji, możemy ręcznie nadać wszystkim aplikacjom odtwarzającym dźwięk (w tym też i
-playery video) odpowiednie właściwości poprzez wyeksportowanie zmiennych systemowych. I tak dla
-przykładu, jako, że potrzebujemy zmienić/nadać `PA_PROP_MEDIA_ROLE` , przepiszmy właściwości
-smplayerowi:
+Tylko pozostaje jeden problem -- sporo programów w debianie (czy w ogóle linux'ie) nie ma
+ustawionych odpowiednich właściwości, co będzie się objawiać w taki sposób, że cześć z nich
+zwyczajnie zignoruje politykę, którą wyżej sobie ustawiliśmy, a ludzie winą obarczą jak zwykle
+PulseAudio... By uniknąć tego typu sytuacji, możemy ręcznie nadać wszystkim aplikacjom odtwarzającym
+dźwięk (w tym też i playery video) odpowiednie właściwości poprzez wyeksportowanie zmiennych
+systemowych. I tak dla przykładu, jako, że potrzebujemy zmienić/nadać `PA_PROP_MEDIA_ROLE` ,
+przepiszmy właściwości SMPlayer'owi:
 
     PULSE_PROP='media.role=video' smplayer film.mp4
 
@@ -131,3 +127,9 @@ W przypadku jakichkolwiek błędów dobrze jest odpalić pulseaudio w trybie ver
     pulseaudio[61212]:     module-stream-restore.id = "sink-input-by-media-role:video"
 
 I jak widzimy, amarok ma przypisaną rolę `video` .
+
+
+[1]: https://www.freedesktop.org/wiki/Software/PulseAudio/
+[2]: https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/#module-role-ducking
+[3]: https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/Developer/Clients/ApplicationProperties/
+[4]: http://0pointer.de/lennart/projects/pulseaudio/doxygen/proplist_8h.html

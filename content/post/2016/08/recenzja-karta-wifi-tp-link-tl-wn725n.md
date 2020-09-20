@@ -23,8 +23,7 @@ niezbędna. Na rynku jest wiele kart i adapterów, które mogą nam umożliwić 
 choć nie wszystkie z nich są na tyle poręczne, abyśmy rozważali ich zakup i użytkowanie. Potrzebne
 jest nam raczej urządzenie na tyle minimalistyczne, że na pierwszy rzut oka nie zauważymy żadnej
 różnicy po jego podłączeniu do komputera. Firma TP-LINK oferuje kilka rozwiązań tego typu i w tym
-wpisie przyjrzymy się nieco bliżej [nano adapterowi WiFi
-TL-WN725N](http://www.tp-link.com.pl/products/details/TL-WN725N.html) i przetestujemy jego
+wpisie przyjrzymy się nieco bliżej [nano adapterowi WiFi TL-WN725N][1] i przetestujemy jego
 kompatybilność z linux'ami.
 
 <!--more-->
@@ -59,8 +58,7 @@ bezprzewodowych, które wystają kilka centymetrów poza obudowę laptopa.
 ## Jaką wersję adaptera TL-WN725N posiadam
 
 Na rynku można spotkać dwie wersje karty TL-WN725N. W tym przypadku mamy do czynienia z
-[V2](https://wikidevi.com/wiki/TP-LINK_TL-WN725N_v2) ale też gdzieniegdzie widuje się
-[V1](https://wikidevi.com/wiki/TP-LINK_TL-WN725N_v1) . Po wyglądzie praktycznie nie damy rady ich
+[V2][2] ale też gdzieniegdzie widuje się [V1][3] . Po wyglądzie praktycznie nie damy rady ich
 odróżnić. Jeśli nie posiadamy pudełka, to jedyną opcją, jaka nam pozostaje, to podłączenie karty do
 portu USB i identyfikacja jej przez system. Każda z wersji działa na linux'ie w oparciu o inny
 moduł. Wersja V1 wykorzystuje `rtl8192cu` zaś wersja V2 `r8188eu` .
@@ -85,10 +83,9 @@ kartę do portu USB naszego komputera. W logu systemowym powinny pojawić się p
     kernel: r8188eu 2-1.3:1.0 wlan10: renamed from wlan1
 
 Widzimy zatem, że adapter TL-WN725N jest identyfikowany przez kernel linux'a jako `idVendor=0bda`
-oraz `idProduct=8179` . Dalej mamy informację, że karta działa w oparciu o [moduł
-r8188eu](https://github.com/lwfinger/rtl8188eu). Z tym, że w aktualnym kernelu (4.6), ten moduł
-pochodzi z tzw. [staging directory](https://lwn.net/Articles/324279/), przez co mogą pojawić się
-problemy natury użytkowej.
+oraz `idProduct=8179` . Dalej mamy informację, że karta działa w oparciu o [moduł r8188eu][4]. Z
+tym, że w aktualnym kernelu (4.6), ten moduł pochodzi z tzw. [staging directory][5], przez co mogą
+pojawić się problemy natury użytkowej.
 
 Jeśli byśmy z miejsca chcieli podłączyć się do sieci WiFi, to nie będziemy w stanie tego zrobić:
 
@@ -104,20 +101,19 @@ obejdzie.
 ### Sterowniki dla TL-WN725N oferowane przez TP-LINK
 
 Na płytce dołączonej do karty jest informacja, że na stronie TP-LINK znajdują się [linux'owe
-sterowniki](http://www.tp-link.com/en/download/TL-WN725N.html#Driver) dla tego adaptera. Jest nawet
-instrukcja jak skompilować i zainstalować wymagany moduł, z tym, że dla kernela od wersji 2.6.18 do
-3.19.3 , czyli nieco leciwego. Oczywiście moduł może działać i na późniejszych wersjach ale nikt nie
-gwarantuje, że da się ten moduł zbudować oraz, że będzie on działał stabilnie. Przy obecnej wersji
-kernela w gałęzi testowej pozostaje nam raczej korzystanie z modułu oferowanego przez sam kernel.
+sterowniki][6] dla tego adaptera. Jest nawet instrukcja jak skompilować i zainstalować wymagany
+moduł, z tym, że dla kernela od wersji 2.6.18 do 3.19.3 , czyli nieco leciwego. Oczywiście moduł
+może działać i na późniejszych wersjach ale nikt nie gwarantuje, że da się ten moduł zbudować oraz,
+że będzie on działał stabilnie. Przy obecnej wersji kernela w gałęzi testowej pozostaje nam raczej
+korzystanie z modułu oferowanego przez sam kernel.
 
 ## Specyfikacja karty TL-WN725N
 
 Kawałek logu widoczny powyżej mówi nam tylko tyle, że karta TL-WN725N jest w stanie pracować pod
 linux'em. Jeśli chodzi zaś o bardziej szczegółowe informacje, to wiemy, że na pokładzie tego
 adaptera znajduje się chipset Realtek RTL8188EUS ale nasz sterownik cierpi na brak wsparcia dla
-[interfejsu nl80211](https://wireless.wiki.kernel.org/en/developers/documentation/nl80211), przez co
-są drobne problemy z obsługą tego czipa w narzędziach `iw` , `crda` , `hostapd` oraz
-`wpa_supplicant` .
+[interfejsu nl80211][7], przez co są drobne problemy z obsługą tego czipa w narzędziach `iw` ,
+`crda` , `hostapd` oraz `wpa_supplicant` .
 
 Poniżej zaś jest zamieszczone wyjście polecenia `lsusb` :
 
@@ -256,10 +252,9 @@ dostosować. Poniżej znajduje się kompletna lista wraz z domyślnymi ustawieni
 ### Tryb monitor
 
 Lista opcji zwróciła nam min. pozycję `monitor_enable` , która sugeruje, że adapter TL-WN725N może
-posiadać obsługę [trybu monitor](https://pl.wikipedia.org/wiki/Promiscuous_mode). Standardowo jest
-on wyłączony ale jeśli chcielibyśmy włączyć go, to trzeba załadować moduł z opcją `monitor_enable=1`
-. A to z kolei można zrobić, np. za pomocą pliku `/etc/modprobe.d/modules.conf` przez dodanie w nim
-poniższej linijki:
+posiadać obsługę [trybu monitor][8]. Standardowo jest on wyłączony ale jeśli chcielibyśmy włączyć
+go, to trzeba załadować moduł z opcją `monitor_enable=1` . A to z kolei można zrobić, np. za pomocą
+pliku `/etc/modprobe.d/modules.conf` przez dodanie w nim poniższej linijki:
 
     options r8188eu monitor_enable=1
 
@@ -291,7 +286,7 @@ dodajemy poniższy wpis:
 
 Do końca nie wiem czy obsługa trybu oszczędnego jest zaimplementowana w tym module, czy też i nie
 jest. Karta zdaje się pracować poprawnie bez względu na stan opcji `rtw_power_mgnt` . Niemniej
-jednak, w `iwconfig` widnieje `Power Management:off` zarówno w przypadku ustawienia tej opcj na 0
+jednak, w `iwconfig` widnieje `Power Management:off` zarówno w przypadku ustawienia tej opcji na 0
 jak i na 1.
 
 ### Programowy WPS
@@ -310,10 +305,9 @@ być w stanie bez problemu wynegocjować parametry połączenia.
 
 Istnieje także możliwość przełączenia tej karty w tryb AP, z tym, że standardowo w linux'ie się tego
 nie da zrobić -- brak wsparcia dla sterownika `nl80211` w `hostapd` . Z tej sytuacji można wybrnąć
-przez wgranie łaty na `hostapd` implementującą [sterownik
-rtl871xdrv](https://github.com/pritambaral/hostapd-rtl871xdrv). Niemniej jednak dokładny opis jak
-uruchomić tryb AP na karcie TL-WN725N jest poza zakresem tego artykułu. Na pewno taki opis pojawi
-się w przyszłości i zostanie tutaj podlinkowany (FIXME).
+przez wgranie łaty na `hostapd` implementującą [sterownik rtl871xdrv][9]. Niemniej jednak dokładny
+opis jak uruchomić tryb AP na karcie TL-WN725N jest poza zakresem tego artykułu. Na pewno taki opis
+pojawi się w przyszłości i zostanie tutaj podlinkowany (FIXME).
 
 ## Test karty TL-WN725N
 
@@ -375,3 +369,14 @@ Oczywiście parametry specyficzne dla samej sieci WiFi podajemy już w konfigura
 ![]({{< baseurl >}}/img/2016/08/7.karta-TL-WN725N-dzialanie-pod-linux.png#huge)
 
 Także trochę błędów jest ale na szczęście nic poważnego.
+
+
+[1]: http://www.tp-link.com.pl/products/details/TL-WN725N.html
+[2]: https://wikidevi.com/wiki/TP-LINK_TL-WN725N_v2
+[3]: https://wikidevi.com/wiki/TP-LINK_TL-WN725N_v1
+[4]: https://github.com/lwfinger/rtl8188eu
+[5]: https://lwn.net/Articles/324279/
+[6]: http://www.tp-link.com/en/download/TL-WN725N.html#Driver
+[7]: https://wireless.wiki.kernel.org/en/developers/documentation/nl80211
+[8]: https://pl.wikipedia.org/wiki/Promiscuous_mode
+[9]: https://github.com/pritambaral/hostapd-rtl871xdrv

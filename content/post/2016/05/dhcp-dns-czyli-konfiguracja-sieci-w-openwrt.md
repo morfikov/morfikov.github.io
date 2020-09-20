@@ -33,10 +33,10 @@ artykule przybliżymy sobie nieco konfigurację tego narzędzia.
 W przypadku OpenWRT, `dnsmasq` można konfigurować na dwa sposoby. Pierwszym z nich jest konfiguracja
 przez plik `/etc/config/dhcp` . I jest to standardowe podejście. Przy starcie routera, po
 przetworzeniu skryptu `/etc/init.d/dnsmasq` jest generowany plik `/var/etc/dnsmasq.conf` . Niemniej
-jednak, tak utworzona konfiguracja nie zawiera wszystkich opcji możliwych do określenia w `dnsmasq`
-. Z tego właśnie powodu developerzy OpenWRT zostawili furtkę bezpieczeństwa, dzięki której możemy
-korzystać z dodatkowego pliku konfiguracyjnego `/etc/dnsmasq.conf` . I to jest właśnie drugi ze
-sposobów konfiguracji. Wszystkie niestandardowe opcje są umieszczane właśnie w tym pliku. Zatem
+jednak, tak utworzona konfiguracja nie zawiera wszystkich opcji możliwych do określenia w
+`dnsmasq` . Z tego właśnie powodu developerzy OpenWRT zostawili furtkę bezpieczeństwa, dzięki której
+możemy korzystać z dodatkowego pliku konfiguracyjnego `/etc/dnsmasq.conf` . I to jest właśnie drugi
+ze sposobów konfiguracji. Wszystkie niestandardowe opcje są umieszczane właśnie w tym pliku. Zatem
 jeśli jakieś opcje nie są uwzględniane przez natywny mechanizm OpenWRT, to zawsze możemy go obejść
 przez plik `/etc/dnsmasq.conf` i to tam dodać stosowne wpisy.
 

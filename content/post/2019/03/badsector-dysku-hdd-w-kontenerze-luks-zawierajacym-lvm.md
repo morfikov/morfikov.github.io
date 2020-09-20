@@ -18,15 +18,14 @@ Podczas rutynowego skanu powierzchni dysków HDD w moim laptopie, S.M.A.R.T wykr
 podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
 powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
 czytaniu padniętego sektora też był nieco dziwny: `bad/missing sense data, sb[]` . Jakiś czas temu
-już opisywałem
-jak [realokować uszkodzony sektor dysku HDD]({{< baseurl >}}/post/uszkodzony-sektor-na-dysku-i-jego-realokoacja/)
-i w zasadzie wszystkie informacje zawarte w tamtym artykule można by wykorzystać do próby
-poprawienia zaistniałego problemu, gdyby tylko nie fakt, że w tym przypadku badblock znalazł się w
-obszarze voluminu logicznego LVM na partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki
-schemat układu partycji sprawia, że do realokowania błędnego bloku trzeba podejść nieco inaczej
-uwzględniając w tym procesie kilka offset'ów, bez których w zasadzie nic nie da się zrobić.
-Postanowiłem zatem napisać na konkretnym przykładzie jak realokować badsector dysku, gdy do
-czynienia mamy z zaszyfrowanym linux'em zainstalowanym na voluminach LVM.
+już opisywałem jak [realokować uszkodzony sektor dysku HDD][1] i w zasadzie wszystkie informacje
+zawarte w tamtym artykule można by wykorzystać do próby poprawienia zaistniałego problemu, gdyby
+tylko nie fakt, że w tym przypadku badblock znalazł się w obszarze voluminu logicznego LVM na
+partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki schemat układu partycji sprawia, że do
+realokowania błędnego bloku trzeba podejść nieco inaczej uwzględniając w tym procesie kilka
+offset'ów, bez których w zasadzie nic nie da się zrobić. Postanowiłem zatem napisać na konkretnym
+przykładzie jak realokować badsector dysku, gdy do czynienia mamy z zaszyfrowanym linux'em
+zainstalowanym na voluminach LVM.
 
 <!--more-->
 ## Błędy dysku
@@ -366,7 +365,8 @@ komunikatów:
     smartd[1636]: Device: /dev/disk/by-id/ata-WDC_WD2500BEKT-60A25T1_WD-WX41A90E5928 [SAT], ATA error count increased from 7 to 9
 
 Mamy tam informację `Unrecovered read error - auto reallocate failed` (tę samą, którą zdekodował
-nam `sg_decode_sense` ) . Czyli prawdopodobnie na tym bloku rezyduje jakiś plik, bo automatyczna realokacja się nie powiodła. Przynajmniej wiemy, że wszystkie wyliczenia wyżej zostały
+nam `sg_decode_sense` ) . Czyli prawdopodobnie na tym bloku rezyduje jakiś plik, bo automatyczna
+realokacja się nie powiodła. Przynajmniej wiemy, że wszystkie wyliczenia wyżej zostały
 przeprowadzone prawidłowo. Jeśli ten sektor by się dał odczytać bez problemu, to prawdopodobnie coś
 źle policzyliśmy.
 
@@ -462,5 +462,8 @@ A raport pokazuje, że sektor udało się uratować:
     197 Current_Pending_Sector  -O--CK   200   200   000    -    0
     198 Offline_Uncorrectable   ----CK   100   253   000    -    0
 
-Więcej informacji na temat próby odzyskania uszkodzonych sektorów można
-znaleźć [tutaj](https://www.smartmontools.org/wiki/BadBlockHowto).
+Więcej informacji na temat próby odzyskania uszkodzonych sektorów można znaleźć [tutaj][2].
+
+
+[1]: {{< baseurl >}}/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/
+[2]: https://www.smartmontools.org/wiki/BadBlockHowto

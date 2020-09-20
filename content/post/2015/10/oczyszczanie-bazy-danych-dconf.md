@@ -12,30 +12,25 @@ tags:
 title: Oczyszczanie bazy danych dconf
 ---
 
-Jak możemy przeczytać [na wiki projektu GNOME](https://wiki.gnome.org/action/show/Projects/dconf) ,
-`dconf` to swojego rodzaju baza danych, która zawiera informacje o konfiguracji systemu w postaci
-klucz-wartość. Jak nie korzystam, co prawda, ze środowisk graficznych ale wykorzystuję w swoim
-linux'ie szereg ich elementów, które mogą działać z powodzeniem w okrojonym systemie, np.
-`gnome-keyring` . Część programów wykorzystuje tę bazę danych do przechowywania swoich ustawień,
-które możemy zmieniać via `gsettings` , `gconf` lub też `dconf` . Problem pojawia się po dłuższym
-czasie używania systemu, gdzie cześć z ustawień jest już przestarzała, np. w wyniku zaprzestania
-użytkowania jakiejś aplikacji. Przydałoby się zatem raz na jakiś czas oczyścić te bazę danych ze
-zbędnych wpisów i o tym będzie ten wpis.
+Jak możemy przeczytać [na wiki projektu GNOME][1], `dconf` to swojego rodzaju baza danych, która
+zawiera informacje o konfiguracji systemu w postaci klucz-wartość. Jak nie korzystam, co prawda, ze
+środowisk graficznych ale wykorzystuję w swoim linux'ie szereg ich elementów, które mogą działać z
+powodzeniem w okrojonym systemie, np. `gnome-keyring` . Część programów wykorzystuje tę bazę danych
+do przechowywania swoich ustawień, które możemy zmieniać via `gsettings` , `gconf` lub też `dconf` .
+Problem pojawia się po dłuższym czasie używania systemu, gdzie cześć z ustawień jest już
+przestarzała, np. w wyniku zaprzestania użytkowania jakiejś aplikacji. Przydałoby się zatem raz na
+jakiś czas oczyścić te bazę danych ze zbędnych wpisów i o tym będzie ten wpis.
 
 <!--more-->
 ## Gsettings, gconf oraz dconf
 
-Zgodnie z informacjami jakie znalazłem
-[tutaj](https://askubuntu.com/questions/249887/gconf-dconf-gsettings-and-the-relationship-between-them)
-, [tutaj](https://askubuntu.com/questions/34490/what-are-the-differences-between-gconf-and-dconf) i
-[tutaj](https://wiki.archlinux.org/index.php/GNOME_package_guidelines#GSettings_schemas), `gconf`
-jest już przestarzały i odnosi się do konfiguracji w środowiskach GNOME 2.x . Część z aplikacji
-jednak nadal może wykorzystywać to API. W nowszych wersjach GNOME, korzysta się z `gsettings` . Z
-kolei `gsettings` wykorzystuje `dconf` jako backend oferujący GUI ( `dconf-editor` ), które ułatwia
-zmianę ustawień. Tak na marginesie, opisy poszczególnych kluczy w `dconf` są pobierane z katalogu
+Zgodnie z informacjami jakie znalazłem [tutaj][2], [tutaj][3] i [tutaj][4], `gconf` jest już
+przestarzały i odnosi się do konfiguracji w środowiskach GNOME 2.x . Część z aplikacji jednak nadal
+może wykorzystywać to API. W nowszych wersjach GNOME, korzysta się z `gsettings` . Z kolei
+`gsettings` wykorzystuje `dconf` jako backend oferujący GUI ( `dconf-editor` ), które ułatwia zmianę
+ustawień. Tak na marginesie, opisy poszczególnych kluczy w `dconf` są pobierane z katalogu
 `/usr/share/glib-2.0/schemas/` , natomiast baza danych [jest trzymana w min. katalogu
-użytkownika](https://developer.gnome.org/dconf/unstable/dconf-overview.html) pod
-`~/.config/dconf/user` .
+użytkownika][5] pod `~/.config/dconf/user` .
 
 ## Plik ~/.config/dconf/user
 
@@ -96,3 +91,10 @@ W tym miejscu restartujemy sesję graficzną. Po zalogowaniu się, ponownie prze
     $ dconf update /
 
 Teraz już tylko restartujemy sesję graficzną. I to w zasadzie wszystko.
+
+
+[1]: https://wiki.gnome.org/action/show/Projects/dconf
+[2]: https://askubuntu.com/questions/249887/gconf-dconf-gsettings-and-the-relationship-between-them
+[3]: https://askubuntu.com/questions/34490/what-are-the-differences-between-gconf-and-dconf
+[4]: https://wiki.archlinux.org/index.php/GNOME_package_guidelines#GSettings_schemas
+[5]: https://developer.gnome.org/dconf/unstable/dconf-overview.html

@@ -14,18 +14,14 @@ tags:
 title: 'Recenzja: Smartfon Neffos X1 od TP-LINK'
 ---
 
-Stosunkowo niedawno do polskiej oferty TP-LINK trafił [smartfon Neffos
-X1](http://www.neffos.com/en/product/details/X1). To urządzenie było dostępne już dłuższy czas na
-rynku (zaprezentowane w Berlinie na targach IFA we wrześniu 2016) ale do Polski trafiło ono z dość
-mocnym opóźnieniem. Tak czy inaczej, ten telefon można już nabyć w sklepach, przez co wypadałoby
-rzucić na niego okiem i przyjrzeć się mu nieco bliżej. Dzięki uprzejmości TP-LINK Polska, Neffos X1
-trafił do mnie na testy i postanowiłem napisać krótką recenzję tego sprzętu w kontekście pozostałych
-smartfonów Neffos, którymi miałem okazję się bawić w przeszłości, tj. modelami
-[C5]({{< baseurl >}}/post/recenzja-smartfon-neffos-c5-od-tp-link/), [C5
-MAX]({{< baseurl >}}/post/recenzja-smartfon-neffos-c5-max-od-tp-link/),
-[Y5]({{< baseurl >}}/post/recenzja-smartfon-neffos-y5-od-tp-link/) i
-[Y5L]({{< baseurl >}}/post/recenzja-smartfon-neffos-y5l-od-tp-link/). Czy Neffos X1 jest nas w
-stanie czymś zaskoczyć w stosunku do wcześniejszych modelów tych TP-LINK'owych smartfonów?
+Stosunkowo niedawno do polskiej oferty TP-LINK trafił [smartfon Neffos X1][1]. To urządzenie było
+dostępne już dłuższy czas na rynku (zaprezentowane w Berlinie na targach IFA we wrześniu 2016) ale
+do Polski trafiło ono z dość mocnym opóźnieniem. Tak czy inaczej, ten telefon można już nabyć w
+sklepach, przez co wypadałoby rzucić na niego okiem i przyjrzeć się mu nieco bliżej. Dzięki
+uprzejmości TP-LINK Polska, Neffos X1 trafił do mnie na testy i postanowiłem napisać krótką
+recenzję tego sprzętu w kontekście pozostałych smartfonów Neffos, którymi miałem okazję się bawić w
+przeszłości, tj. modelami [C5][2], [C5 MAX][3], [Y5][4] i [Y5L][5]. Czy Neffos X1 jest nas w stanie
+czymś zaskoczyć w stosunku do wcześniejszych modelów tych TP-LINK'owych smartfonów?
 
 <!--more-->
 ## Zawartość opakowania Neffos X1
@@ -64,16 +60,14 @@ razem cieńszy i lżejszy smartfon.
 
 W przypadku Neffos X1 mamy do czynienia z obudową metalową (aluminium). Tę cechę można zaliczyć jak
 najbardziej na plus, bo metalowa obudowa poprawia znacznie nie tylko trwałość smartfona ale też i
-jego
-wygląd.
+jego wygląd.
 
 ![]({{< baseurl >}}/img/2017/04/008.neffos-x1-tp-link-smartfon-obudowa.jpg#huge)
 
 ![]({{< baseurl >}}/img/2017/04/009.neffos-x1-tp-link-smartfon-obudowa.jpg#medium)
 
 Niemniej jednak, jeśli się uważniej przyjrzymy, to ta obudowa obok górnej i dolnej krawędzi ma
-plastikowe
-elementy.
+plastikowe elementy.
 
 |    |     |
 | ---| --- |
@@ -85,14 +79,12 @@ producent nie zadbał o to, by w jakiś sposób zabezpieczyć telefon przed wyś
 Nawet ten plastik, który był obecny w poprzednich smartfonach Neffos zapewniał o wiele pewniejszy
 chwyt.
 
-Górna krawędź obudowy skrywa gniazdo słuchawkowe w standardzie minijack (3,5 mm) oraz
-mikrofon.
+Górna krawędź obudowy skrywa gniazdo słuchawkowe w standardzie minijack (3,5 mm) oraz mikrofon.
 
 ![]({{< baseurl >}}/img/2017/04/012.neffos-x1-tp-link-smartfon-krawedz-gorna.jpg#huge)
 
 Na dolnej krawędzi po lewej stronie mamy ulokowany mikrofon do rozmów. W środku mamy port mikro USB,
-a po prawej zaś jest głośnik multimedialny
-(mono).
+a po prawej zaś jest głośnik multimedialny (mono).
 
 ![]({{< baseurl >}}/img/2017/04/013.neffos-x1-tp-link-smartfon-krawedz-dolna.jpg#huge)
 
@@ -100,16 +92,14 @@ Jeśli chodzi zaś o lewą krawędź, to w Neffos X1 nie jest ona już niezagosp
 zasadzie dwa elementy, których nie spotkamy w starszych modelach Neffos'ów. Jednym z nich jest
 przycisk (a właściwie przełącznik) Mute służący do wyciszania dźwięków smartfona. W sumie ciekawa
 rzecz. Niżej zaś jest wysuwana tacka na karty SIM/mikro SD, którą można wyciągnąć przez wsunięcie
-igły w dziurkę widoczną obok (igła w
-zestawie):
+igły w dziurkę widoczną obok (igła w zestawie):
 
 ![]({{< baseurl >}}/img/2017/04/014.neffos-x1-tp-link-smartfon-bok.jpg#huge)
 
 ![]({{< baseurl >}}/img/2017/04/015.neffos-x1-tp-link-smartfon-bok-przyciski.jpg#huge)
 
 Na prawej krawędzi zaś mamy standardowo przyciski głośności (VolumeUp/VolumeDown) oraz przycisk
-zasilania
-(Power).
+zasilania (Power).
 
 ![]({{< baseurl >}}/img/2017/04/016.neffos-x1-tp-link-smartfon-bok.jpg#huge)
 
@@ -132,14 +122,12 @@ Wyświetlacz w Neffos X1 jest zrobiony w technologi IPS. Przekątna tego wyświe
 rozdzielczość to 1280x720 px. Jak łatwo możemy wyliczyć, ilość punktów na cal (PPI) to około 293,7 i
 jest to akceptowane minimum, które moim zdaniem powinien spełniać dobry smartfon. Obraz jest ostry i
 bez przekłamań kolorów. Kąty widzenia również są bardzo dobre i pod względem samego wyświetlacza nie
-mogę złego słowa o Neffos X1
-powiedzieć.
+mogę złego słowa o Neffos X1 powiedzieć.
 
 ![]({{< baseurl >}}/img/2017/04/020.neffos-x1-tp-link-smartfon-wyswietlacz.jpg#huge)
 
 Wyświetlacz jest chroniony szkłem Corning Gorilla Glass i jak widać na poniższej fotce, samo
-szkiełko jest zaokrąglone na krawędziach, co wpływa też bardzo pozytywnie na sam wygląd Neffos'a
-X1.
+szkiełko jest zaokrąglone na krawędziach, co wpływa też bardzo pozytywnie na sam wygląd Neffos'a X1.
 
 ![]({{< baseurl >}}/img/2017/04/021.neffos-x1-tp-link-smartfon-corning-gorilla-glass.jpg#huge)
 
@@ -163,8 +151,7 @@ produkcję samego wyświetlacza, co przekłada się też na jego niższy koszt.
 
 Ilość punktów dotykowych, które wyświetlacz w Neffos X1 jest w stanie rozpoznać w tym samym czasie,
 to co najmniej 10 (brakło palców do testów) i w zasadzie tylko Neffos Y5 był w stanie również
-pochwalić się takim wynikiem. Neffos C5 i C5 MAX miały tych punktów
-5.
+pochwalić się takim wynikiem. Neffos C5 i C5 MAX miały tych punktów 5.
 
 ![]({{< baseurl >}}/img/2017/04/022.neffos-x1-tp-link-smartfon-dotyk-styczne.png#medium)
 
@@ -182,9 +169,8 @@ Pracując trochę ze smartfonami wyposażonymi w SoC od producentów Mediatek or
 porównanie w stosunku do tego, co takie urządzenia są w stanie zaoferować miłośnikom ukorzeniania
 systemu Android i cieszę się, że TP-LINK postanowił wykorzystać SoC tego pierwszego producenta, jako
 że układy od Mediatek zapewniają większą odporność na ewentualne programowe uszkodzenie telefonu. W
-Neffos X1 mamy zatem SoC MT6755, w skład którego wchodzi min. [procesor Helio
-P10](http://mediatek-helio.com/p10/) mający 8 rdzeni opartych o 64-bitową architekturę ARM
-Cortex-A53.
+Neffos X1 mamy zatem SoC MT6755, w skład którego wchodzi min. [procesor Helio P10][6] mający 8
+rdzeni opartych o 64-bitową architekturę ARM Cortex-A53.
 
 Może i mamy w sumie 8 rdzeni ale cztery z nich są taktowane zegarem 1,8 GHz, natomiast pozostałe
 cztery zegarem 1 GHz. Do tej pory tylko Neffos C5 MAX posiadał 8 rdzeni ale tam wszystkie z nich
@@ -198,8 +184,7 @@ W skład SoC MT6755 wchodzi również dwurdzeniowy układ graficzny ARM Mali-T86
 dyspozycji ARM Mali-T720 MP2 taktowany zegarem 450 MHz. W specyfikacji układu graficznego Neffos'a
 X1 można wyczytać, że jest on w stanie wyświetlić obraz w 1920x1080 px (FHD) ale prawdopodobnie z
 racji mniejszego wyświetlacza (5") mamy rozdziałkę 1280x720 px (HD). Układ ARM Mali-T860 MP2 posiada
-wsparcie dla API OpenGL ES 3.1, OpenCL 1.2 oraz DirectX 11.1
-.
+wsparcie dla API OpenGL ES 3.1, OpenCL 1.2 oraz DirectX 11.1.
 
 ![]({{< baseurl >}}/img/2017/04/023.neffos-x1-tp-link-smartfon-cpu-z.png#huge)
 
@@ -216,8 +201,7 @@ mało i przydałoby się myśleć nad standardem 3 GiB. Podobnie sprawa wygląda
 flash, gdzie 16 GiB może jeszcze zadowoli sporo osób ale na pewno nie na długo biorąc pod uwagę to
 do czego użytkownicy wykorzystują obecnie swoje telefony.
 
-Poniżej jest fotka obrazująca wykorzystanie pamięci RAM tuż po uruchomieniu się
-smartfona:
+Poniżej jest fotka obrazująca wykorzystanie pamięci RAM tuż po uruchomieniu się smartfona:
 
 ![]({{< baseurl >}}/img/2017/04/024.neffos-x1-tp-link-smartfon-ram.png#medium)
 
@@ -230,8 +214,7 @@ Jeśli zaś chodzi o podział pamięci flash na partycje, to jest on podobny do 
 obserwować w przypadku Neffos C5/C5 MAX. Partycja `/system/` jest nieco mniejsza (o 0,5 GiB), przez
 co na dane użytkownika pozostaje nam mniej więcej tyle samo miejsca, tj. około 10 GiB. Biorąc pod
 uwagę, że w Neffos X1 rozmiar stock'owego ROM'u jest w granicach 3 GiB, to nic więcej nie uda nam
-się wyskrobać z tego układu
-partycji.
+się wyskrobać z tego układu partycji.
 
 ![]({{< baseurl >}}/img/2017/04/025.neffos-x1-tp-link-smartfon-flash.png#medium)
 
@@ -242,17 +225,15 @@ może ta sprawa się wyjaśni przy okazji próby ukorzenienia Androida w tym tel
 
 W Neffos X1 mamy zamontowane dwie kamery. W zasadzie są one ulokowane w standardowych miejscach, tj.
 jedna na tylnej części obudowy pod górną krawędzią, a druga z przodu tuż nad wyświetlaczem. Poniżej
-fotka głównej
-kamery:
+fotka głównej kamery:
 
 ![]({{< baseurl >}}/img/2017/04/026.neffos-x1-tp-link-smartfon-kamera.jpg#medium)
 
-Ta główna kamera ma 13 mpix i pochodzi od SONY ([sensor
-IMX258](http://www.sony-semicon.co.jp/products_en/IS/sensor1/products/imx258.html) z przysłoną
-f/2.0). Ma ona również zaimplementowany mechanizm PDAF (Phase Detection Auto Focus), przez co
-obiekty w ruchu są w zasadzie cały czas ostre (sporo mniej czasu zajmuje kamerze, by te obiekty
-wyostrzyć). Zdjęcia i materiały video z głównej kamery są przyzwoitej jakości, przynajmniej przy
-dobrym oświetleniu obiektu.
+Ta główna kamera ma 13 mpix i pochodzi od SONY ([sensor IMX258][7] z przysłoną f/2.0). Ma ona
+również zaimplementowany mechanizm PDAF (Phase Detection Auto Focus), przez co obiekty w ruchu są w
+zasadzie cały czas ostre (sporo mniej czasu zajmuje kamerze, by te obiekty wyostrzyć). Zdjęcia i
+materiały video z głównej kamery są przyzwoitej jakości, przynajmniej przy dobrym oświetleniu
+obiektu.
 
 Różnica w tej głównej kamerze w stosunku do poprzednich modelów smartfonów Neffos jest bardzo
 widoczna w momencie, gdy zmieniamy położenie smartfona i chcemy fotografować inny obiekt. W Neffos
@@ -274,9 +255,9 @@ w stanie swoją kamerą selfie rejestrować obraz maksymalnie w rozdzielczości 
 i można w zasadzie uznać, że era VGA w kamerach selfie w przypadku Neffos'ów jest już raczej za
 nami.
 
-Obraz i dźwięk z kamer jest zapisywany w [kontenerze 3GP](https://pl.wikipedia.org/wiki/3GP). Video
-jest kodowane przy pomocy H.264, a audio przy pomocy ACC. Poniżej znajdują się parametry obrazu,
-które można zarejestrować przy pomocy kamer w Neffos X1:
+Obraz i dźwięk z kamer jest zapisywany w [kontenerze 3GP][8]. Video jest kodowane przy pomocy H.264,
+a audio przy pomocy ACC. Poniżej znajdują się parametry obrazu, które można zarejestrować przy
+pomocy kamer w Neffos X1:
 
     Rozdzielczości zdjęć
        Kamera główna: 3120x4160 px, 3072x3072 px oraz 2304x4096 px
@@ -343,9 +324,8 @@ energii:
 Tempo w jakim Neffos X1 się rozładowuje podczas spoczynku jest raczej przeciętne. By rozładować w
 pełni naładowany smartfon potrzeba około 16-18 dni. W przypadku, gdy używamy urządzenia, to ten
 czas skróci się dość znacznie. [W teście PC MARK, Neffos X1 osiągnął wynik około 6,5
-godziny]({{< baseurl >}}/post/test-wydajnosci-smartfona-neffos-x1-od-tp-link/). Biorąc pod uwagę,
-że poprzednie wersje Neffos'ów miały wyniki w granicach 8-9 godzin, to Neffos X1 wypada pod tym
-względem dość słabo.
+godziny][9]. Biorąc pod uwagę, że poprzednie wersje Neffos'ów miały wyniki w granicach 8-9 godzin,
+to Neffos X1 wypada pod tym względem dość słabo.
 
 ### Wysuwana tacka na karty SIM/mikro SD
 
@@ -356,8 +336,7 @@ oraz kary mikro SD.
 W poprzednich modelach Neffos zdejmowaliśmy obudowę i odsłanialiśmy tym samym dwa sloty na karty SIM
 i jeden slot na kartę mikro SD. Zwykle część z tych slotów była przysłonięta przez baterię. W
 przypadku Neffos X1, karty SIM i karta SD są umieszczana na tacce, którą trzeba wysunąć z lewej
-krawędzi
-smartfona:
+krawędzi smartfona:
 
 ![]({{< baseurl >}}/img/2017/04/030.neffos-x1-tp-link-smartfon-sim.jpg#huge)
 
@@ -369,8 +348,7 @@ zabiegu w terenie, bo musimy przy sobie posiadać kawałek cienkiej igły, by t�
 
 Dziś już spora część operatorów GSM oferuje docięte karty SIM i w ten sposób możemy mieć standardową
 kartę SIM lub też jej wersję mikro/nano. Neffos X1 akceptuje jedynie karty w tym najmniejszym
-standardzie. Powoduje to oczywiste problemy w przypadku kart SIM niektórych operatorów, w tym
-Aero2.
+standardzie. Powoduje to oczywiste problemy w przypadku kart SIM niektórych operatorów, w tym Aero2.
 
 ![]({{< baseurl >}}/img/2017/04/031.neffos-x1-tp-link-smartfon-sim.jpg#huge)
 
@@ -388,8 +366,7 @@ ma wsparcie dla dwóch kart SIM (obie 2G/3G/LTE) ale nie w momencie, gdy chcemy 
 mikro SD (SDXC do 128G). Mamy zatem niezbyt przyjemną sytuację, gdzie musimy wybrać między
 korzystaniem z dual SIM lub jednej karty SIM i karty mikro SD. W poprzednich smartfonach Neffos
 mogliśmy korzystać zarówno z dual SIM jak i karty SD. Czemu na takie samo rozwiązanie w przypadku
-Neffos X1 nie zdecydował się TP-LINK? Tego nie wiem ale dla mnie to poważny
-minus.
+Neffos X1 nie zdecydował się TP-LINK? Tego nie wiem ale dla mnie to poważny minus.
 
 ![]({{< baseurl >}}/img/2017/04/032.neffos-x1-tp-link-smartfon-sim.jpg#huge)
 
@@ -417,8 +394,7 @@ mbit/s. Ten modem obsługuje standardowe europejskie pasma częstotliwości dla 
 kanały B1/B3/B5/B7/B8/B20 (2100/1800/850/2600/900/800 MHz). Neffos X1 jest także w stanie obsługiwać
 standardy DC-HSPA+/HSPA/UMTS: B1/B5/B8 (2100/850/900 MHz) oraz EDGE/GPRS/GSM: B2/B3/B5/B8
 (1900/1800/850/900 MHz). Poniżej znajduje się fotka obrazująca transfer danych za pośrednictwem tego
-właśnie
-modemu:
+właśnie modemu:
 
 ![]({{< baseurl >}}/img/2017/04/033.neffos-x1-tp-link-smartfon-lte.png#medium)
 
@@ -427,16 +403,14 @@ modemu:
 Standardowo smartfony dysponują już radiami WiFi operującymi w paśmie częstotliwości 2,4 GHz.
 Wszyscy jednak wiemy, że to pasmo jest już zapchane i trzeba migrować na pasmo 5 GHz. Niemniej
 jednak, te niskobudżetowe smartfony zwykle nie posiadają radia 5 GHz. Zdziwiłem się trochę, gdy
-podczas wstępnej konfiguracji zobaczyłem na ekranie dwie moje sieci
-WiFi:
+podczas wstępnej konfiguracji zobaczyłem na ekranie dwie moje sieci WiFi:
 
 ![]({{< baseurl >}}/img/2017/04/034.neffos-x1-tp-link-smartfon-wifi.png#medium)
 
 Jedna z tych sieci jest na paśmie 2,4 GHz, a druga na 5 GHz. Zatem Neffos X1 jest w stanie łączyć
 się bezprzewodowo w obu pasmach, co znacznie pomoże nam w migracji na to mniej zatłoczone pasmo i
 tym samym poprawi komfort przy korzystaniu z internetu na smartfonie. Jak jednak prezentuje się
-transfer danych w obu tych pasmach? Spójrzmy na poniższą fotkę (po lewej 5 GHz, po prawej 2,4
-GHz)
+transfer danych w obu tych pasmach? Spójrzmy na poniższą fotkę (po lewej 5 GHz, po prawej 2,4 GHz)
 
 ![]({{< baseurl >}}/img/2017/04/035.neffos-x1-tp-link-smartfon-wifi-2-5-ghz.png#huge)
 
@@ -450,13 +424,11 @@ router, zwłaszcza w paśmie 5 GHz. Ja akurat mam router Archer C2600 i Neffos X
 komunikować się z routerem w obu sieciach nawet przez te 2-3 grubsze ściany, choć jakoś sygnału się
 dość mocno degraduje.
 
-Siła sygnału dla pasma 2,4
-GHz:
+Siła sygnału dla pasma 2,4 GHz:
 
 ![]({{< baseurl >}}/img/2017/04/036.neffos-x1-tp-link-smartfon-wifi-sygnal.png#medium)
 
-Siła sygnału dla pasma 5
-GHz:
+Siła sygnału dla pasma 5 GHz:
 
 ![]({{< baseurl >}}/img/2017/04/037.neffos-x1-tp-link-smartfon-wifi-sygnal.png#medium)
 
@@ -475,8 +447,7 @@ Sputnikowaja Sistiema).
 
 Neffos X1 łapie FIX'a bardzo szybko (dosłownie parę sekund), zwłaszcza na otwartym terenie. Gdy
 znajdujemy się w pomieszczeniu, to ten czas będzie naturalnie dłuższy ale i tak zamknie się w
-granicach kilkunastu
-sekund.
+granicach kilkunastu sekund.
 
 ![]({{< baseurl >}}/img/2017/04/038.neffos-x1-tp-link-smartfon-gps.png#medium)
 
@@ -522,8 +493,7 @@ Do smartfona Neffos X1 zostały dołączone także słuchawki. Prawdę mówiąc 
 typu słuchawkami i gdyby miał wybierać, to jednak wolałbym te słuchawki, które były dołączane do
 zestawów z Neffos C5 czy C5 MAX. Nie chodzi o jakość dźwięku, bo ta zdaje się nawet być sporo na
 plus dla tych słuchawek dołączonych do Neffos X1 ale nie przypadł mi do gustu ich design. Niemniej
-jednak, dobrze, że słuchawki są w zestawie, a dźwięk który można w nich usłyszeć nie kaleczy
-uszu.
+jednak, dobrze, że słuchawki są w zestawie, a dźwięk który można w nich usłyszeć nie kaleczy uszu.
 
 ![]({{< baseurl >}}/img/2017/04/039.neffos-x1-tp-link-smartfon-sluchawki.jpg#huge)
 
@@ -546,8 +516,7 @@ Neffos X1 jest wyposażony w szereg czujników. W zasadzie to mamy do czynienia 
 czujnikami, co w przypadku pozostałych smartfonów TP-LINK'a ale z jedną drobną różnicą -- żyroskop.
 Mamy zatem do dyspozycji pięć czujników: akcelerometr, czujnik światła oraz czujnik zbliżeniowy
 (łapie z 5 cm), magnetometr (mamy wbudowany w smartfon kompas), no i wspomniany wcześniej żyroskop,
-którego mi najbardziej brakowało w poprzednich
-Neffos'ach:
+którego mi najbardziej brakowało w poprzednich Neffos'ach:
 
 ![]({{< baseurl >}}/img/2017/04/041.neffos-x1-tp-link-smartfon-czujniki.png#huge)
 
@@ -614,7 +583,7 @@ dyski.
 
 Jedyny problem jaki napotkałem w przypadku tych zewnętrznych nośników informacji, to brak wsparcia
 dla innych systemów plików niż FAT. Android jest w stanie rozpoznać kilka partycji na tym samym
-nośniku ale jeśli będą one miały inny system plików niż FAT, to nie zostane uwzględnione wyżej na
+nośniku ale jeśli będą one miały inny system plików niż FAT, to nie zostanie uwzględnione wyżej na
 liście.
 
 ### Blokowanie niechcianych połączeń
@@ -687,8 +656,7 @@ telefon:
 Z tych bardziej przydanych rzeczy, które potrafią okazać się wielce użyteczne, to można jeszcze
 wymienić Turbo Pobieranie. Rzecz znana z jednego z poprzednich modeli Neffos'ów, a konkretnie z C5
 MAX. Dzięki temu ficzerowi możemy nieco przyśpieszyć pobieranie większych plików, za sprawą
-połączenia przepustowości WiFi oraz
-LTE.
+połączenia przepustowości WiFi oraz LTE.
 
 ![]({{< baseurl >}}/img/2017/04/048.neffos-x1-tp-link-smartfon-turbo.png#medium)
 
@@ -706,8 +674,7 @@ Ten problem można było obejść w tych dwóch modelach smartfonów przez zains
 aplikacji, która wymagała uprawnień root. Na szczęście ten domyślny tryb pracy po podłączeniu
 smartfona do portu USB został zmieniony w Neffos X1 przez TP-LINK. W przypadku tego modelu telefonu,
 po podłączeniu go do portu USB zostaniemy poproszeni o wyrażenie zgody na dostęp do danych, co
-wygląda mniej więcej
-tak:
+wygląda mniej więcej tak:
 
 ![]({{< baseurl >}}/img/2017/04/049.neffos-x1-tp-link-smartfon-tryb-usb.png#huge)
 
@@ -720,8 +687,7 @@ tylko podłączamy do komputera nasz smartfon.
 W spoczynku Neffos X1 jest w zasadzie chłodny. A jak sprawa wygląda podczas zwykłej pracy oraz pod
 obciążeniem 100% mocy procesora? Poniżej są czujniki temperatur i z lewej strony mamy sytuację
 zwykłego przeglądania internetu (YT@720p), natomiast po prawej mamy już zapuszczony stres na
-procesor przez około 3 minuty (liczenie liczb pierwszych w CPU Prime
-Benchmark).
+procesor przez około 3 minuty (liczenie liczb pierwszych w CPU Prime Benchmark).
 
 ![]({{< baseurl >}}/img/2017/04/050.neffos-x1-tp-link-smartfon-temperatura-pracy.png#huge)
 
@@ -742,8 +708,7 @@ będzie już wspierany.
 
 W przypadku, gdy ktoś nie chce czekać na oficjalne wsparcie, to zawsze może sobie dopisać poniższą
 regułę dla UDEV'a, która umożliwi zwykłemu użytkownikowi systemu zamontowanie zasobów telefonu przy
-pomocy narzędzi takich jak `jmtpfs`
-    :
+pomocy narzędzi takich jak `jmtpfs` :
 
     ATTR{idVendor}=="2357", ATTR{idProduct}=="033c", SYMLINK+="libmtp-%k", MODE="660", GROUP="audio", ENV{ID_MTP_DEVICE}="1", ENV{ID_MEDIA_PLAYER}="1"
 
@@ -753,9 +718,8 @@ protokołu MTP oscylował w granicach 25 MiB/s i jest to naprawdę przyzwoity wy
 ## Root Neffos X1
 
 Tutaj znajduje się link z informacjami [jak przeprowadzić proces root na smartfonie Neffos
-X1]({{< baseurl >}}/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/). Ta czynność
-nie sprawia większych problemów, choć trzeba uważać, bo można w pewnych specyficznych sytuacjach
-doprowadzić do uwalenia telefonu, na szczęście tylko programowego.
+X1][10]. Ta czynność nie sprawia większych problemów, choć trzeba uważać, bo można w pewnych
+specyficznych sytuacjach doprowadzić do uwalenia telefonu, na szczęście tylko programowego.
 
 ## TL;DR
 
@@ -781,3 +745,15 @@ lekko mnie od tego modelu odpycha. Ja zawsze będę optował za dual/triple SIM 
 rozbudowania pamięci flash smartfona za sprawą karty mikro SD. A każdy smartfon, który próbuje
 uszczuplać tę funkcjonalność, od razu będzie za ten fakt przeze mnie ganiony. Niemniej jednak, nie
 jest źle ale mogłoby być znacznie lepiej.
+
+
+[1]: http://www.neffos.com/en/product/details/X1
+[2]: {{< baseurl >}}/post/recenzja-smartfon-neffos-c5-od-tp-link/
+[3]: {{< baseurl >}}/post/recenzja-smartfon-neffos-c5-max-od-tp-link/
+[4]: {{< baseurl >}}/post/recenzja-smartfon-neffos-y5-od-tp-link/
+[5]: {{< baseurl >}}/post/recenzja-smartfon-neffos-y5l-od-tp-link/
+[6]: http://mediatek-helio.com/p10/
+[7]: http://www.sony-semicon.co.jp/products_en/IS/sensor1/products/imx258.html
+[8]: https://pl.wikipedia.org/wiki/3GP
+[9]: {{< baseurl >}}/post/test-wydajnosci-smartfona-neffos-x1-od-tp-link/
+[10]: {{< baseurl >}}/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/

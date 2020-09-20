@@ -23,13 +23,11 @@ komputera czy routera domowego przechodzą przez infrastrukturę ISP, u którego
 internet. Tacy ISP są nam w stanie pod naciskiem rządu zablokować połączenia z konkretnymi adresami
 wprowadzając na terenie danego kraju cenzurę treści dostępnej w internecie, czego obecnie jesteśmy
 świadkami w Europie, no i w Polsce. Można oczywiście posiłkować się rozwiązaniami opartymi o VPN,
-np. [stawiając serwer OpenVPN w innym
-kraju]({{< baseurl >}}/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/). Problem jednak w
-tym, że ruch OpenVPN różni się od tego, z którym mamy do czynienia w przypadku choćby HTTPS. Jest
-zatem możliwość rozpoznania ruchu VPN i zablokowania go stosując [głęboką analizę
-pakietów](https://en.wikipedia.org/wiki/Deep_packet_inspection) (Deep Packet Inspection, DPI). By
-się przed tego typu sytuacją ochronić, trzeba upodobnić ruch generowany przez OpenVPN do zwykłego
-ruchu SSL/TLS. Do tego celu służy [narzędzie stunnel](https://www.stunnel.org/index.html).
+np. [stawiając serwer OpenVPN w innym kraju][1]. Problem jednak w tym, że ruch OpenVPN różni się od
+tego, z którym mamy do czynienia w przypadku choćby HTTPS. Jest zatem możliwość rozpoznania ruchu
+VPN i zablokowania go stosując [głęboką analizę pakietów][2] (Deep Packet Inspection, DPI). By się
+przed tego typu sytuacją ochronić, trzeba upodobnić ruch generowany przez OpenVPN do zwykłego ruchu
+SSL/TLS. Do tego celu służy [narzędzie stunnel][3].
 
 <!--more-->
 ## Konfiguracja usługi stunnel na serwerze
@@ -84,14 +82,15 @@ konfiguracji certyfikatów i akceptowania jedynie tych klientów, którzy przeds
 Każda usługa oferująca szyfrowanie danych, a do takich zalicza się `stunnel` , wymaga zestawienia
 bezpiecznego połączenia. Potrzebne nam zatem będą odpowiednie certyfikaty i klucze szyfrujące. Nie
 musimy ich jednak generować na nowo. Mając działający serwer OpenVPN możemy wykorzystać jego
-certyfikaty i podać tylko odpowiednie ścieżki w pliku `/etc/stunnel/morfitronik-stunnel-server.conf`
-, tak jak to zostało zrobione wyżej. Trzeba tylko pamiętać, że `stunnel` akceptuje certyfikaty
-jedynie w formacie PEM. Dodatkowo, parametry Diffie-Hellman'a (DH), które w przypadku OpenVPN są
-zawarte w pliku `dh4096.pem` trzeba dołączyć do pliku z certyfikatem dla demona `stunnel` :
+certyfikaty i podać tylko odpowiednie ścieżki w pliku
+`/etc/stunnel/morfitronik-stunnel-server.conf` , tak jak to zostało zrobione wyżej. Trzeba tylko
+pamiętać, że `stunnel` akceptuje certyfikaty jedynie w formacie PEM. Dodatkowo, parametry
+Diffie-Hellman'a (DH), które w przypadku OpenVPN są zawarte w pliku `dh4096.pem` trzeba dołączyć do
+pliku z certyfikatem dla demona `stunnel` :
 
     # cat /etc/openvpn/certs/dh4096.pem >> /etc/openvpn/certs/morfitronik-server-vpn-stunnel.crt
 
-W konfiguracji demona `stunnel` mogliśmy zauważyć prametry `requireCert` , `verifyChain` oraz
+W konfiguracji demona `stunnel` mogliśmy zauważyć parametry `requireCert` , `verifyChain` oraz
 `verifyPeer` . Odpowiadają one, jak nazwa wskazuje, za wymaganie i weryfikacje certyfikatów
 klienckich. W zasadzie są to parametry jedynie opcjonalne i generalnie potrzebny nam jest zwykle
 jeden z nich, tj. `verifyChain` lub `verifyPeer` . W przypadku wykorzystania któregoś z nich,
@@ -106,8 +105,8 @@ dołączony do pliku zdefiniowanego w opcji `CAfile` w konfiguracji `stunnel` .
 ## Konfiguracja usługi stunnel na kliencie
 
 W przypadku drugiej strony połączenia, tj. klienta, również musimy w odpowiedni sposób skonfigurować
-sobie demona `stunnel` . Kopiujemy zatem przykładowy plik konfiguracyjny do katalogu `/etc/stunnel/`
-:
+sobie demona `stunnel` . Kopiujemy zatem przykładowy plik konfiguracyjny do katalogu
+`/etc/stunnel/` :
 
     # cp /usr/share/doc/stunnel4/examples/stunnel.conf-sample /etc/stunnel/morfitronik-stunnel-client.conf
 
@@ -263,5 +262,11 @@ Podobną linijkę trzeba dodać do pliku konfiguracyjnego klienta:
     socket = r:TCP_NODELAY=1
 
 W razie innych problemów z działaniem demona `stunnel` warto zajrzeć również do [do FAQ na stronie
-projektu](https://www.stunnel.org/faq.html), jak i do [man
-stunnel](http://manpages.ubuntu.com/manpages/zesty/en/man8/stunnel.8.html).
+projektu][4], jak i do [man stunnel][5].
+
+
+[1]: {{< baseurl >}}/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/
+[2]: https://en.wikipedia.org/wiki/Deep_packet_inspection
+[3]: https://www.stunnel.org/index.html
+[4]: https://www.stunnel.org/faq.html
+[5]: https://manpages.ubuntu.com/manpages/zesty/en/man8/stunnel.8.html

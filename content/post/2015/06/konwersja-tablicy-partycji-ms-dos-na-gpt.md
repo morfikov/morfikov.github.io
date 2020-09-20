@@ -17,12 +17,10 @@ title: Konwersja tablicy partycji MS-DOS na GPT
 
 Od jakiegoś czasu nosiłem się z zamiarem utworzenia na swoim dysku tablicy partycji GPT. Problem w
 tym, że tam jest wgranych sporo cennych danych i nie mam gdzie ich przenieść. Jedyne co mi wpadło do
-głowy to konwersja tablicy MS-DOS ([zwanej też
-MBR](https://superuser.com/questions/700770/mbr-equals-msdos-for-gparted)) na GPT. Nie żebym jakoś
-tego potrzebował ale tak z ciekawości chciałem zobaczyć czy da się to zrobić w sposób łatwy i
-bezproblemowy. Z tego co wyczytałem na necie, to taka konwersja nie powinna sprawić problemów,
-zarówno przy przechodzeniu z MS-DOS na GPT jak i odwrotnie, choć w tym drugim przypadku trzeba się
-trochę bardziej wysilić.
+głowy to konwersja tablicy MS-DOS ([zwanej też MBR][1]) na GPT. Nie żebym jakoś tego potrzebował
+ale tak z ciekawości chciałem zobaczyć czy da się to zrobić w sposób łatwy i bezproblemowy. Z tego
+co wyczytałem na necie, to taka konwersja nie powinna sprawić problemów, zarówno przy przechodzeniu
+z MS-DOS na GPT jak i odwrotnie, choć w tym drugim przypadku trzeba się trochę bardziej wysilić.
 
 <!--more-->
 ## Struktura GPT
@@ -52,7 +50,7 @@ Tak z kolei wygląda dysk widziany oczami `parted` , z tym, że z uwzględnienie
 
 By przeprowadzić bezproblemowo konwersję tablicy partycji MS-DOS na GPT, trzeba mieć troszeczkę
 wolnego miejsca na początku i na końcu dysku. Ile? Struktura GPT wygląda tak jak na rysunku poniżej
-(zaczerpnięty z [wiki](https://en.wikipedia.org/wiki/GUID_Partition_Table)):
+(zaczerpnięty z [wiki][2]):
 
 ![]({{< baseurl >}}/img/2015/06/2.gpt-schemat.png#medium)
 
@@ -142,17 +140,22 @@ Są widoczne jakieś dwie dziury. Może `parted` nam coś więcej podpowie:
 
 Te dziury są w miejscach gdzie zaczynały się dyski logiczne partycji rozszerzonej. Jest to wynikiem
 równania do 1MiB (2048 sektorów). Można te przestrzenie pokasować przez [rozszerzenie partycji i
-rozciągnięcie systemu plików, w tym przypadku
-EXT4]({{< baseurl >}}/post/zmiana-rozmiaru-partycji-ext4/). Można też zauważyć, że ilość wolnego
+rozciągnięcie systemu plików, w tym przypadku EXT4][3]. Można też zauważyć, że ilość wolnego
 miejsca na początku i końcu dysku uległa zmianie. Trzeba jednak pamiętać, że po zmianie partycji
-zostaną wygenerowane nowe numerki UUID, co pociąga za sobą edycję i dostosowanie pliku `/etc/fstab`
-. W przeciwnym razie system się nie odpali. Trzeba także wyznaczyć osobną partycję na kod
-bootloadera o rozmiarze minimum 1MiB, najlepiej dać tam 128MiB. Ważne jest by ta partycja miała
+zostaną wygenerowane nowe numerki UUID, co pociąga za sobą edycję i dostosowanie pliku
+`/etc/fstab` . W przeciwnym razie system się nie odpali. Trzeba także wyznaczyć osobną partycję na
+kod bootloader'a o rozmiarze minimum 1MiB, najlepiej dać tam 128MiB. Ważne jest by ta partycja miała
 ustawioną flagę `bios_grub` . Ja wyciąłem ten kawałek z pierwszej partycji. Cały układ powinien
 zatem wyglądać tak jak na obrazku poniżej:
 
 ![]({{< baseurl >}}/img/2015/06/4.odpowiedni-uklad-partycji-gpt.png#huge)
 
 Jeśli na dysku mieliśmy system operacyjny, to trzeba także przeinstalować bootloader przy pomocy
-[środowiska chroot]({{< baseurl >}}/post/przygotowanie-srodowiska-chroot-do-pracy/), najlepiej z
-poziomu [systemu live]({{< baseurl >}}/post/wlasny-system-live-i-tworzenie-go-od-podstaw/) .
+[środowiska chroot][4], najlepiej z poziomu [systemu live].
+
+
+[1]: https://superuser.com/questions/700770/mbr-equals-msdos-for-gparted
+[2]: https://en.wikipedia.org/wiki/GUID_Partition_Table
+[3]: {{< baseurl >}}/post/zmiana-rozmiaru-partycji-ext4/
+[4]: {{< baseurl >}}/post/przygotowanie-srodowiska-chroot-do-pracy/
+[5]: {{< baseurl >}}/post/wlasny-system-live-i-tworzenie-go-od-podstaw/

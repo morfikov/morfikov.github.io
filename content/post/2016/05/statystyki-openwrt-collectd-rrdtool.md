@@ -19,7 +19,7 @@ czasem się marnuje. Mając router z OpenWRT, możemy przerobić go tak, by zbie
 dla statystyki. Te dane mogą pochodzić z różnych źródeł i nie koniecznie muszą one dotyczyć samego
 routera. Tego typu funkcjonalność mogą zapewnić nam narzędzia `collectd` oraz `rrdtool` . W tym
 artykule spróbujemy zaprogramować router, by zbierał pewne dane dotyczące połączenia sieciowego. Na
-podstawie tych informacji będą rysowane wykresy, które nastepnie będą udostępniane przez serwer
+podstawie tych informacji będą rysowane wykresy, które następnie będą udostępniane przez serwer
 `uhttpd` .
 
 <!--more-->
@@ -27,12 +27,12 @@ podstawie tych informacji będą rysowane wykresy, które nastepnie będą udost
 
 Jest wiele różnych narzędzi realizujących to przedsięwzięcie, za które się zabieramy. Jak
 wspomnieliśmy we wstępie, tutaj skupimy się głównie na `collecd` . To przy jego pomocy będziemy
-tworzyć bazy danych zawierające określone wartości. Drugim potrzebnym nam programem będzie `rrdtool`
-. Przy jego pomocy zaś będziemy wydobywać informacje z bazy i na ich podstawie generować zrozumiałe
-dla człowieka wykresy. Dodatkowo, by mieć łatwy dostęp do tak stworzonych obrazków, musimy postawić
-serwer www. Do tego celu znakomicie się nadaje `uhttpd` . Te fotki mogą być do wglądu nawet i spoza
-sieci domowej, niemniej jednak, my się ograniczymy tylko do sieci lokalnej. Instalujemy zatem
-potrzebne pakiety:
+tworzyć bazy danych zawierające określone wartości. Drugim potrzebnym nam programem będzie
+`rrdtool` . Przy jego pomocy zaś będziemy wydobywać informacje z bazy i na ich podstawie generować
+zrozumiałe dla człowieka wykresy. Dodatkowo, by mieć łatwy dostęp do tak stworzonych obrazków,
+musimy postawić serwer www. Do tego celu znakomicie się nadaje `uhttpd` . Te fotki mogą być do
+wglądu nawet i spoza sieci domowej, niemniej jednak, my się ograniczymy tylko do sieci lokalnej.
+Instalujemy zatem potrzebne pakiety:
 
     # opkg update
     # opkg install \
@@ -75,7 +75,7 @@ jest połączenie SSL/TLS. W opcji `listen_http` ustawiliśmy za to adres interf
 Zmieniliśmy także katalog główny, w którym są przechowywane pliki stron www przy pomocy opcji
 `home` . Zapisujemy plik, tworzymy ręcznie w/w katalog i restartujemy demona poniższym poleceniem:
 
-    /# mkdir -p /tmp/router/www/
+    # mkdir -p /tmp/router/www/
     # /etc/init.d/uhttpd restart
 
 ## Konfiguracja collectd
@@ -148,16 +148,17 @@ W celu generowania statystyk z wykorzystaniem `rddtool` , musimy załadować ten
 
 Opcja `DataDir` określa gdzie zapisywać zbierane dane. Kluczowe jest wyliczenie ile PDP (Primary
 Data Point) przypada na jeden CDP (Consolidated Data Point) i robi się to ze wzoru: liczba PDP =
-timespan/(stepsize \* rrarows). W oparciu o powyższą konfigurację otrzymujemy: liczba CDP =
-1800/(10\*720), czyli 0.25. Podobnie z pozostałymi przedziałami czasu określonymi w opcjach
+timespan/(stepsize * rrarows). W oparciu o powyższą konfigurację otrzymujemy: liczba CDP =
+1800/(10*720), czyli 0.25. Podobnie z pozostałymi przedziałami czasu określonymi w opcjach
 `RRATimespan` : 0.5 , 6 , 12 oraz 84 . Chodzi o to by wyszły w miarę okrągłe liczby. Co one nam
 dają? Tam gdzie CDP jest mniejsze lub równe 1, to nie ma większego problemu z określeniem tego co
 zostanie pokazane na wykresie. Natomiast jeśli wartość ta jest większa od 1, np. dla przedziału
 czasu 2 dni, CDP przyjmuje wartość 12, wtedy rzecz jasna nie można umieścić wszystkich 12 wartości
-na wykresie. Zostanie wybrana tylko jedna z nich i możemy określić ją na podstawie parametrów `MAX`
-, `MIN`, `AVERAGE` albo też `LAST` . Jeśli określimy `MAX` , wtedy najwyższa z tych 12 wartości
-zostanie uwzględniona na grafie. Jeśli `MIN`, to najmniejsza, itd. O tym będzie nieco później. Jeśli
-chcemy korzystać z innych wartości niż uśrednione, to przestawiamy `RRASingle` na `false` .
+na wykresie. Zostanie wybrana tylko jedna z nich i możemy określić ją na podstawie parametrów
+`MAX` , `MIN`, `AVERAGE` albo też `LAST` . Jeśli określimy `MAX` , wtedy najwyższa z tych 12
+wartości zostanie uwzględniona na grafie. Jeśli `MIN`, to najmniejsza, itd. O tym będzie nieco
+później. Jeśli chcemy korzystać z innych wartości niż uśrednione, to przestawiamy `RRASingle` na
+`false` .
 
 Pozostałe moduły nie wymagają precyzowania konfiguracji. Wystarczy zatem załadować je w poniższy
 sposób:
@@ -168,9 +169,8 @@ sposób:
     LoadPlugin conntrack
 
 Więcej informacji na temat wszystkich modułów oraz możliwych parametrów jakie idzie ustawić w pliku
-`/etc/collectd.conf` , można znaleźć [pod tym
-linkiem](https://collectd.org/documentation/manpages/collectd.conf.5.shtml). Zapisujemy plik i
-restartujemy demona `collectd` :
+`/etc/collectd.conf` , można znaleźć [pod tym linkiem][1]. Zapisujemy plik i restartujemy demona
+`collectd` :
 
     # /etc/init.d/collectd restart
 
@@ -215,8 +215,7 @@ routera, szlag je trafi. Dlatego też za każdym razem jak router będzie się b
 będzie tworzyć te katalogi na nowo.
 
 W zależności od wybranych modułów, musimy umieścić w skrypcie sekcje podobne do tej poniżej. Dla
-przykładu określiłem tylko jedną sekcję ale cały skrypt jest na [moim
-github'ie](https://github.com/morfikov/files/blob/master/configs/openwrt/mkgraph.sh).
+przykładu określiłem tylko jedną sekcję ale cały skrypt jest na [moim github'ie][2].
 
     ...
     ##############################
@@ -382,3 +381,7 @@ Moduł ping:
 Moduł load:
 
 ![]({{< baseurl >}}/img/2016/05/2.statystyki-ruch-openwrt-router-collectd-rrdtool.png#huge)
+
+
+[1]: https://collectd.org/documentation/manpages/collectd.conf.5.shtml
+[2]: https://github.com/morfikov/files/blob/master/configs/openwrt/mkgraph.sh

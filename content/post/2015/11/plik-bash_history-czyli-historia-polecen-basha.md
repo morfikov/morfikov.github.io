@@ -18,20 +18,19 @@ z nas na początku wpisywał wszystkie polecenia ręcznie i nawet nie wiedział,
 jak uzupełnianie pewnych fraz, czy też nazw, przy pomocy klawisza Tab . Z czasem nasz stopień
 poznania jakiejś dystrybucji linux'a osiąga pewien dość zaawansowany poziom i wpisywanie za każdym
 razem tych samych poleceń jedynie spowalnia naszą pracę. Dlatego właśnie bash, podobnie jak i inne
-shell'e, mają swoje pliki konfiguracyjne, w których to możemy [dostosować naprawdę sporo
-rzeczy](https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables). W tym wpisie skupimy
-się na historii poleceń, która trafia do pliku `.bash_history` w katalogu domowym każdego
-użytkownika w systemie.
+shell'e, mają swoje pliki konfiguracyjne, w których to możemy [dostosować naprawdę sporo rzeczy][1].
+W tym wpisie skupimy się na historii poleceń, która trafia do pliku `.bash_history` w katalogu
+domowym każdego użytkownika w systemie.
 
 <!--more-->
 ## Konfiguracja bash'a w plik ~/.bashrc
 
-Bash'a możemy konfigurować globalnie w pliku `/etc/bash.bashrc` lub też lokalnie w pliku `~/.bashrc`
-. Jako, że te wszystkie poniższe parametry są raczej specyficzne dla konkretnego użytkownika w
-systemie, to nie zalecałbym ich umieszczania w globalnym pliku konfiguracyjnym. Dlatego też będziemy
-operować jedynie na pliku `~/.bashrc` i to tam będziemy umieszczać wszystkie poniższe parametry. Po
-edycji tego pliku konfiguracyjnego, trzeba przeładować shell by zmiany zaczęły obowiązywać. Możemy
-to zrobić poniższym poleceniem:
+Bash'a możemy konfigurować globalnie w pliku `/etc/bash.bashrc` lub też lokalnie w pliku
+`~/.bashrc` . Jako, że te wszystkie poniższe parametry są raczej specyficzne dla konkretnego
+użytkownika w systemie, to nie zalecałbym ich umieszczania w globalnym pliku konfiguracyjnym.
+Dlatego też będziemy operować jedynie na pliku `~/.bashrc` i to tam będziemy umieszczać wszystkie
+poniższe parametry. Po edycji tego pliku konfiguracyjnego, trzeba przeładować shell by zmiany
+zaczęły obowiązywać. Możemy to zrobić poniższym poleceniem:
 
     $ source ~/.bashrc
 
@@ -80,7 +79,7 @@ Po co wywołujemy tyle razy `history` ? Parametr `-a` natychmiast dodaje wpisane
 historii. Z kolei parametr `-c` czyści bufor historii dla aktualnej sesji. Na koniec mamy jeszcze
 parametr `-r` , który wczytuje plik `.bash_history` do pamięci i ładuje przy tym wszystkie ostatnio
 wpisywane polecenia. Więcej informacji jest
-[tutaj](https://unix.stackexchange.com/questions/18212/bash-history-ignoredups-and-erasedups-setting-conflict-with-common-history).
+[tutaj][2].
 
 ### Ignorowanie duplikatów (ignoredups)
 
@@ -115,9 +114,9 @@ sztywno poleceń w `HISTIGNORE` . Dopiszmy zatem ten poniższy wpis do konfigura
 
 ### Ignorowanie określonych poleceń (HISTIGNORE)
 
-Są takie polecenia, których nie chcemy zapisywać w pliku `.bash_history` . Weźmy na przykład `exit`
-. Czy naprawdę powinno ono trafić do pliku historii? Być może mamy szereg innych poleceń, których
-nie chcemy umieszczać w tym pliku. Dla tych i wszelkich innych poleceń stworzono zmienną
+Są takie polecenia, których nie chcemy zapisywać w pliku `.bash_history` . Weźmy na przykład
+`exit` . Czy naprawdę powinno ono trafić do pliku historii? Być może mamy szereg innych poleceń,
+których nie chcemy umieszczać w tym pliku. Dla tych i wszelkich innych poleceń stworzono zmienną
 `$HISTIGNORE` , w której możemy określić, jakie polecenia mają być wyjęte spod mechanizmu historii
 bash'a przykładowo.
 
@@ -137,3 +136,7 @@ Dodajmy zatem do konfiguracji bash'a ten poniższy wpis:
 
 Format daty można wyciągnąć z help'a `date` . W tym przypadku `%F` odpowiada za datę w formie
 `2015-11-05` , zaś `%T` za czas w postaci `23:09:22` .
+
+
+[1]: https://www.gnu.org/software/bash/manual/bash.html#Shell-Variables
+[2]: https://unix.stackexchange.com/questions/18212/bash-history-ignoredups-and-erasedups-setting-conflict-with-common-history

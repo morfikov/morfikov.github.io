@@ -10,6 +10,7 @@ tags:
 - debian
 - apt
 - aptitude
+- logi
 title: Aktualizacja systemu i logowanie komunikatów
 ---
 
@@ -143,6 +144,6 @@ więcej tak:
 Jak widzimy, zamiast jednej długiej linijki, mamy jedną linijkę na pakiet, gdzie mamy określone
 wersje oraz to co z danym pakietem zostało zrobione i z jakiego powodu.
 
-Niestety `aptitude` nie dysponuje logiem z terminala ale jako, że `aptitude` jest nakładką na `apt`
-, to log z akcji przeprowadzanych za pomocą `aptitude` zostanie przesłany również do pliku
+Niestety `aptitude` nie dysponuje logiem z terminala ale jako, że `aptitude` jest nakładką na
+`apt` , to log z akcji przeprowadzanych za pomocą `aptitude` zostanie przesłany również do pliku
 `/var/log/apt/term.log` .

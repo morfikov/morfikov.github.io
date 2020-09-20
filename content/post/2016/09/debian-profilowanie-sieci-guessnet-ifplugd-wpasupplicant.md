@@ -14,16 +14,15 @@ tags:
 title: 'Debian: Profilowanie sieci z guessnet, ifplugd i wpasupplicant'
 ---
 
-Kilka dni temu na [forum dug.net.pl](https://forum.dug.net.pl/viewtopic.php?id=28903) pojawił się
-ciekawy wątek dotyczący problemu skonfigurowania profilowanych sieci. Chodzi o to, że praktycznie
-każdy z nas jest po części w jakiś sposób mobilny i zabiera laptopa ze sobą w dziwne miejsca. Sieci
-w tych lokalizacjach mogą cechować się różnym poziomem bezpieczeństwa. Dlatego też zamiast korzystać
-z jednej konfiguracji sieci na linux'ie, można stworzyć szereg profili i w oparciu o nie dostosować
-sobie połączenie sieciowe. W tym artykule spróbujemy zaimplementować takie rozwiązanie na Debianie
-wyposażonym w menadżer okien Openbox. W skrócie stworzymy automat, który będzie nam działał w
-oparciu o pakiety guessnet, [ifplugd](http://0pointer.de/lennart/projects/ifplugd/) oraz
-[wpasupplicant](https://w1.fi/wpa_supplicant/). Cała konfiguracja zaś sprowadzać się będzie jedynie
-do edycji plików `/etc/network/interfaces` oraz `/etc/wpa_supplicant/wpa_supplicant.conf` .
+Kilka dni temu na [forum dug.net.pl][1] pojawił się ciekawy wątek dotyczący problemu skonfigurowania
+profilowanych sieci. Chodzi o to, że praktycznie każdy z nas jest po części w jakiś sposób mobilny
+i zabiera laptopa ze sobą w dziwne miejsca. Sieci w tych lokalizacjach mogą cechować się różnym
+poziomem bezpieczeństwa. Dlatego też zamiast korzystać z jednej konfiguracji sieci na linux'ie,
+można stworzyć szereg profili i w oparciu o nie dostosować sobie połączenie sieciowe. W tym artykule
+spróbujemy zaimplementować takie rozwiązanie na Debianie wyposażonym w menadżer okien Openbox. W
+skrócie stworzymy automat, który będzie nam działał w oparciu o pakiety guessnet, [ifplugd][2] oraz
+[wpasupplicant][3]. Cała konfiguracja zaś sprowadzać się będzie jedynie do edycji plików
+`/etc/network/interfaces` oraz `/etc/wpa_supplicant/wpa_supplicant.conf` .
 
 Niniejszy artykuł został nieco przerobiony po fazach eksperymentów. Przede wszystkim, zrezygnowałem
 z zaprzęgania `guessnet` do rozpoznawania sieci WiFi i aplikowania roamingu. Zamiast tego zostały
@@ -45,13 +44,11 @@ sieci.
 Przyda się nam także pakiet `ifplugd` . Będzie on miał za zadanie monitorowania interfejsu
 przewodowego pod kątem podpięcia/odłączenia przewodu do/od portu ethernet. W taki sposób nie
 będziemy musieli ręcznie podnosić i kłaść interfejsu `eth0` . Niemniej jednak, wymagana jest
-poprawna [konfiguracja demona
-ifplugd]({{< baseurl >}}/post/dynamiczna-konfiguracja-sieci-ifplugd/).
+poprawna [konfiguracja demona ifplugd][4].
 
 Do ogarniania interfejsów bezprzewodowych w linux'ie służy pakiet `wpasupplicant` . Powinien być on
 już standardowo zainstalowany w naszym systemie. Jeśli nie jest, to koniecznie doinstalujmy ten
-pakiet. Za jego sprawą będziemy w stanie [skonfigurować sobie roaming sieci
-bezprzewodowych]({{< baseurl >}}/post/jak-skonfigurowac-roaming-wifi-wpa_supplicant-linux/).
+pakiet. Za jego sprawą będziemy w stanie [skonfigurować sobie roaming sieci bezprzewodowych][5].
 
 Z instalacją tych powyższych narzędzi nie powinno być raczej większego problemu. Zatem przejdźmy od
 razu do konfiguracji wszystkich niezbędnych elementów naszego mechanizmu profilującego sieć.
@@ -170,8 +167,7 @@ firmowej.
 W tym przypadku nie korzystamy z `guessnet` , bo nie ma to większego sensu. Parametry sieci WiFi
 jednoznacznie identyfikują daną sieć i w oparciu o ESSID, BSSID oraz hasło możemy bez problemu
 stwierdzić czy zostaliśmy podłączeni do tej sieci, do której powinniśmy. Niemniej jednak, jeśli ktoś
-jest ciekaw [rozwiązania roamingowego opartego o guessnet, to może je znaleźć
-tutaj](http://manual.aptosid.com/pl/inet-setup-pl.htm).
+jest ciekaw [rozwiązania roamingowego opartego o guessnet, to może je znaleźć tutaj][6].
 
 Edytujemy teraz plik `/etc/wpa_supplicant/wpa_supplicant.conf` . Tutaj z kolei możemy nadać
 priorytet sieciom lub też włączyć lub wyłączyć łączenie się do określonych sieci bezprzewodowych. By
@@ -257,9 +253,9 @@ log:
 
 Log nieco skrócony dla czytelności. W każdym razie widzimy, że przewód został podłączony do portu
 ethernet. Po chwili interfejs `wlan0` został położony i `guessnet` wysłał zapytanie ARP, na które
-otrzymał odpowiedź. Pasuje ona do jednego ze zdefiniowanych hostów w pliku `/etc/network/interfaces`
-. System rozpoznał, że jest to sieć domowa i skonfigurował połączenie z wykorzystaniem protokołu
-DHCP. Po otrzymaniu adresacji zostały także dostosowane reguły firewall'a.
+otrzymał odpowiedź. Pasuje ona do jednego ze zdefiniowanych hostów w pliku
+`/etc/network/interfaces` . System rozpoznał, że jest to sieć domowa i skonfigurował połączenie z
+wykorzystaniem protokołu DHCP. Po otrzymaniu adresacji zostały także dostosowane reguły firewall'a.
 
 No to odłączmy teraz przewód od portu ethernet i zobaczmy co nam system w logu wypisze:
 
@@ -312,3 +308,11 @@ W warunkach domowych, gdzie zwykle mamy dostęp do konfiguracji głównego route
 sam adres IP z kilkoma adresami MAC, co wyeliminuje problem z różnymi adresami IP. W warunkach
 firmowych trzeba będzie raczej korzystać z różnych adresów, chyba, że jakoś uda mi się rozwiązać
 problem z zapętlaniem demona roamingowego.
+
+
+[1]: https://forum.dug.net.pl/viewtopic.php?id=28903
+[2]: http://0pointer.de/lennart/projects/ifplugd/
+[3]: https://w1.fi/wpa_supplicant/
+[4]: {{< baseurl >}}/post/dynamiczna-konfiguracja-sieci-ifplugd/
+[5]: {{< baseurl >}}/post/jak-skonfigurowac-roaming-wifi-wpa_supplicant-linux/
+[6]: http://manual.aptosid.com/pl/inet-setup-pl.htm

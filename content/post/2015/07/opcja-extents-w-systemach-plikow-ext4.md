@@ -17,36 +17,36 @@ title: Opcja extents w systemach plików ext4
 Dziś postanowiłem sprawdzić jak wygląda struktura plików mojego dysku. Chodzi oczywiście o ich
 fragmentację. Zgodnie z tym co pokazał mi `fsck` , pofragmentowanych plików jest 350. Po
 zapuszczeniu defragmentacji via `e4defrag` ilość tych plików spadła do nieco ponad 100 i jeśli by
-się przyjrzeć procesowi defragmentacji, to można było zauważyć linijki mające `extents: 100 -> 10`
-. Wychodzi na to, że plik dalej jest w kawałkach i nie idzie go zdefragmentować. Jak rozumieć taki
-zapis?
+się przyjrzeć procesowi defragmentacji, to można było zauważyć linijki mające
+`extents: 100 -> 10` . Wychodzi na to, że plik dalej jest w kawałkach i nie idzie go
+zdefragmentować. Jak rozumieć taki zapis?
 
 <!--more-->
 ## Extents, czyli zakresy bloków
 
-[System plików ext4](https://en.wikipedia.org/wiki/Ext4) ma opcję `extents` , która odpowiada za
-przydział pewnej ilości bloków w formie ciągłej. Chodzi o to, że domyślny blok danych na dysku ma
-4KiB i jeśli wgrywamy plik, który waży 1GiB, to zostanie on podzielony na 262,144 jednostki. By
-odczytać później taki plik, trzeba będzie się tyle razy odwołać do dysku, a to spowalnia transfer
-danych, zwłaszcza w dyskach hdd. Poza tym, ilość metadanych opisująca ten plik jest przeogromna. W
-przypadku opcji `extents` , system plików jest w stanie oznaczyć zakres bloków do 128MiB i jeśli w
-takim przypadku wgramy ten 1GiB plik, to jego odczyt będzie można zrobić w 8 podejściach. Poprawia
-to wydajność, drastycznie zmniejsza ilość metadanych i redukuje fragmentację plików.
+[System plików ext4][1] ma opcję `extents` , która odpowiada za przydział pewnej ilości bloków w
+formie ciągłej. Chodzi o to, że domyślny blok danych na dysku ma 4 KiB i jeśli wgrywamy plik, który
+waży 1 GiB, to zostanie on podzielony na 262,144 jednostki. By odczytać później taki plik, trzeba
+będzie się tyle razy odwołać do dysku, a to spowalnia transfer danych, zwłaszcza w dyskach hdd.
+Poza tym, ilość metadanych opisująca ten plik jest przeogromna. W przypadku opcji `extents` , system
+plików jest w stanie oznaczyć zakres bloków do 128 MiB i jeśli w takim przypadku wgramy ten 1 GiB
+plik, to jego odczyt będzie można zrobić w 8 podejściach. Poprawia to wydajność, drastycznie
+zmniejsza ilość metadanych i redukuje fragmentację plików.
 
 Cały ten mechanizm zakresów działa mniej więcej w poniższy sposób. Przy tworzeniu systemu plików są
-definiowane grupy bloków. Jako, że system plików ext4 ma domyślny rozmiar bloków 4KiB oraz, że każdy
-i-węzeł ma 256 bajtów, daje nam to 16 i-węzłów na blok. Każda grupa bloków ma 8192 i-węzły, co
-przekłada się na 512 bloków, które są przeznaczone na same i-węzły (2MiB danych). Grupa zaś składa
-się z 32768 bloków, czyli 128MiB i to właśnie kryje się pod nazwą extents.
+definiowane grupy bloków. Jako, że system plików ext4 ma domyślny rozmiar bloków 4 KiB oraz, że
+każdy i-węzeł ma 256 bajtów, daje nam to 16 i-węzłów na blok. Każda grupa bloków ma 8192 i-węzły,
+co przekłada się na 512 bloków, które są przeznaczone na same i-węzły (2 MiB danych). Grupa zaś
+składa się z 32768 bloków, czyli 128 MiB i to właśnie kryje się pod nazwą extents.
 
 W każdym i-węźle zarezerwowanych jest 60 bajtów na zakresy bloków. Każdy z zakresów ma 12 bajtów, do
 tego dochodzi jeszcze 12 bajtowy nagłówek. Zatem każdy i-węzeł jest w stanie obsłużyć 4 zakresy.
 Taki zakres można porównać do klastra w systemach plików ntfs. Mamy tam określony początkowy adres
-bloku oraz liczbę kolejnych bloków składających się na ten zakres. Zatem jeśli plik by miał 512MiB,
+bloku oraz liczbę kolejnych bloków składających się na ten zakres. Zatem jeśli plik by miał 512 MiB,
 to bez problemu taki i-węzeł jest go w stanie obsłużyć. Natomiast w przypadku większych plików,
-system plików ext4 buduje drzewo zakresowe ([extent tree](https://en.wikipedia.org/wiki/HTree)).
-System plików ext4 dba dość mocno o to by pliki były ciągłe ale zdarzają się takie, które mają
-więcej niż jeden zakres i to te pliki zwykliśmy nazywać pofragmentowanymi.
+system plików ext4 buduje drzewo zakresowe ([extent tree][2]). System plików ext4 dba dość mocno o
+to by pliki były ciągłe ale zdarzają się takie, które mają więcej niż jeden zakres i to te pliki
+zwykliśmy nazywać pofragmentowanymi.
 
 ## Fragmentacja plików
 
@@ -109,8 +109,8 @@ Jest to ten sam plik zdefragmentowany kilka razy. Jak widzimy nie ma już pozycj
 `expected` , zaś `length` wszędzie wskazuje na `32768` , czyli 128MiB zakres. Mimo, że ten plik ma 8
 zakresów, to nie jest traktowany przez system jako pofragmentowany.
 
-Ten powyższy plik został wgrany na partycję, która praktycznie była pusta i miała około 458GiB.
-Dlatego zakresy są 128MiB. Jeśli jednak weźmiemy sobie bardziej zapchany system plików, to jego
+Ten powyższy plik został wgrany na partycję, która praktycznie była pusta i miała około 458 GiB.
+Dlatego zakresy są 128 MiB. Jeśli jednak weźmiemy sobie bardziej zapchany system plików, to jego
 wolna przestrzeń może się prezentować np. w poniższy sposób:
 
     # e2freefrag /dev/mapper/kabi
@@ -132,10 +132,14 @@ wolna przestrzeń może się prezentować np. w poniższy sposób:
        16M...   32M-  :           198       1024999   15.89%
        32M...   64M-  :            16        163082    2.53%
 
-Na tej partycji jest wolnych jeszcze 25GiB ale jak widzimy wyżej, w obrębie tego systemu plików nie
-mamy wolnej przestrzeni, która by miała więcej niż 32-64MiB. Zatem jeśli byśmy wgrali plik 1GiB, to
+Na tej partycji jest wolnych jeszcze 25 GiB ale jak widzimy wyżej, w obrębie tego systemu plików nie
+mamy wolnej przestrzeni, która by miała więcej niż 32-64 MiB. Zatem jeśli byśmy wgrali plik 1GiB, to
 zostanie on podzielony na dość sporą ilość zakresów. Dlatego też warto pamiętać, by nie tworzyć
 małych partycji i nie zapychać ich w dość znacznym stopniu, bo to powoduje drastyczną fragmentację
 wolnej przestrzeni i pliki zamiast być alokowane w kilku zakresach obok siebie, zaczynają być
 oznaczane przez dziesiątki, setki czy nawet tysiące z nich i do tego porozrzucane w obrębie całej
 partycji, co znacznie spowalnia operacje na plikach.
+
+
+[1]: https://en.wikipedia.org/wiki/Ext4
+[2]: https://en.wikipedia.org/wiki/HTree

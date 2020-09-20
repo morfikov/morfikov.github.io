@@ -17,17 +17,15 @@ się zbytnio szczegółami oznaczania pakietów/połączeń, bo zwykle jest ono 
 Niemniej jednak, są przypadki, w których markery nie będą ustawiane poprawnie. Chodzi o sytuacje,
 gdzie mamy do czynienia z kilkoma mechanizmami oznaczającymi pakiety. Dla przykładu weźmy sobie
 kształtowanie ruchu za pomocą narzędzia `tc` oraz failover czy load balancing łącza w oparciu o
-różne tablice routingu. W obu tych mechanizmach zwykle używa się markowania pakietów w `iptables`
-. Co się jednak dzieje z takim pakietem, gdy przechodzi przez reguły zarówno pierwszego jak i
-drugiego mechanizmu? To właśnie spróbujemy ustalić w tym wpisie.
+różne tablice routingu. W obu tych mechanizmach zwykle używa się markowania pakietów w
+`iptables` . Co się jednak dzieje z takim pakietem, gdy przechodzi przez reguły zarówno pierwszego
+jak i drugiego mechanizmu? To właśnie spróbujemy ustalić w tym wpisie.
 
 <!--more-->
 ## Różnica między target MARK i CONNMARK oraz domyślna maska
 
 We wstępie wspomniałem o oznaczaniu pojedynczych pakietów oraz całych połączeń. W `iptables`
-wykorzystuje się do tych celów dwa targety:
-[MARK](http://ipset.netfilter.org/iptables-extensions.man.html#lbDE) oraz
-[CONNMARK](http://ipset.netfilter.org/iptables-extensions.man.html#lbCS). Target `MARK` nakłada
+wykorzystuje się do tych celów dwa targety: [MARK][1] oraz [CONNMARK][2]. Target `MARK` nakłada
 oznaczenie na pojedynczy pakiet. Używa się go głównie przy dopasowaniu nowych połączeń, tj. pakietów
 w stanie `NEW`. Natomiast z targetu `CONNMARK` korzysta się przy zapisywaniu i odtwarzaniu oznaczeń
 w przypadku pakietów przypisanych do nawiązanego już połączenia. W ten sposób jesteśmy w stanie
@@ -57,8 +55,7 @@ mechanizm oznaczania pakietów i połączeń. Na sam początek stwórzmy sobie w
 
 W zależności od przeznaczenia oznaczeń (kontrola ruchu, routing) trzeba dobrać odpowiednie łańcuchy.
 Chodzi generalnie o to, że pakiety w `iptables` przechodzą przez ten filtr w pewien określony
-sposób. Jest on przedstawiony na poniższej fotce
-([źródło](https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg)):
+sposób. Jest on przedstawiony na poniższej fotce ([źródło][3]):
 
 ![]({{< baseurl >}}/img/2016/05/1.iptables-przeplyw-pakietow-netfilter.png#huge)
 
@@ -87,16 +84,16 @@ W każdej z tych dwu baz wykorzystujemy inną maskę. W pierwszej mamy 0x0000ff0
 0xff. Tego typu oznaczenia będą zwracane przez `iptables` podczas listowania reguł.
 
 Tak stworzony mechanizm markujący działa w następujący sposób. Pakiet w stanie `NEW` nie mający
-jeszcze nałożonego oznaczenia (0x00000000, 0x0) dociera do tablicy `mangle` do łańcucha `PREROUTING`
-. Tam wpada do pierwszej bazy markującej i przechodzi przez pierwszą regułę. Jako, że ten pakiet ma
-oznaczenie 0x00000000, to ta pierwsza reguła nic zbytnio z nim nie robi. Pakiet po przejściu przez
-nią dalej ma oznaczenie 0x00000000 . Druga reguła dopasowuje pakiet w oparciu o moduł `-m mark` i
-jeśli pakiet ma inne oznaczenie niż 0x00000000, to zostaje zwrócony do łańcucha wyżej, czyli nie
-przechodzi już przez pozostałe reguły tej bazy markującej. Trzecia reguła również porównuje
-ustawione oznaczenie. Jeśli pakiet nie jest oznaczony, tzn. ma 0x00000000, to jest przesyłany do
-łańcucha `marking-1` , w którym będą się znajdować reguły markujące. Te reguły nas na razie nie
-interesują. Po przejściu przez łańcuch `marking-1` , pakiet trafia do ostatniej reguły w pierwszej
-bazie markującej. To tutaj właśnie jest zapisywane oznaczenie dla całego połączenia, które
+jeszcze nałożonego oznaczenia (0x00000000, 0x0) dociera do tablicy `mangle` do łańcucha
+`PREROUTING` . Tam wpada do pierwszej bazy markującej i przechodzi przez pierwszą regułę. Jako, że
+ten pakiet ma oznaczenie 0x00000000, to ta pierwsza reguła nic zbytnio z nim nie robi. Pakiet po
+przejściu przez nią dalej ma oznaczenie 0x00000000 . Druga reguła dopasowuje pakiet w oparciu o
+moduł `-m mark` i jeśli pakiet ma inne oznaczenie niż 0x00000000, to zostaje zwrócony do łańcucha
+wyżej, czyli nie przechodzi już przez pozostałe reguły tej bazy markującej. Trzecia reguła również
+porównuje ustawione oznaczenie. Jeśli pakiet nie jest oznaczony, tzn. ma 0x00000000, to jest
+przesyłany do łańcucha `marking-1` , w którym będą się znajdować reguły markujące. Te reguły nas na
+razie nie interesują. Po przejściu przez łańcuch `marking-1` , pakiet trafia do ostatniej reguły w
+pierwszej bazie markującej. To tutaj właśnie jest zapisywane oznaczenie dla całego połączenia, które
 widzieliśmy wyżej w tablicy conntrack'a. Niemniej jednak, zapisywane są tylko bity określone przez
 maskę 0x0000ff00. Podobnie sprawa wygląda w przypadku drugiej bazy markującej. W tym przypadku
 wykorzystujemy maskę 0x000000ff .
@@ -119,7 +116,7 @@ przykładu dodajmy tam te poniższe:
     # iptables -t mangle -A marking-2 -d 8.8.8.8 -j MARK --set-xmark 0x00000002/0x000000ff
     # iptables -t mangle -A marking-2 -d 8.8.4.4 -j MARK --set-xmark 0x00000001/0x000000ff
 
-W pierwszej bazie markującej dodaliśmy regułę, która oznacza pakiety protokołu ICPM echo-request.
+W pierwszej bazie markującej dodaliśmy regułę, która oznacza pakiety protokołu ICMP echo-request.
 Będzie im nadawane oznaczenie 0x100, czyli 256 po przeliczeniu na ludzki język. To oznaczenie po
 przejściu przez tę bazę, zostanie przypisane do całego połączenia. Następnie pakiety trafią do
 drugiej bazy markującej i przejdą przez dwie ostatnie reguły widoczne powyżej. W zależności od
@@ -155,10 +152,10 @@ bo przecie tylko dwie z czterech sesji `ping` idzie na adresy 8.8.8.8 i 8.8.4.4 
 
 ## Jak działa --set-xmark w target MARK
 
-Przy oznaczaniu pakietów za pomocą target `MARK`, reguły mają postać `-j MARK
---set-xmark 0x100/0xff00` lub `-j MARK --set-xmark 0x2/0xff` (pomińmy te poprzedzające zera). By
-zrozumieć co dokładnie zachodzi przy przetwarzaniu tych reguł, trzeba sobie rozpisać binarnie
-wszystkie te wartości biorąc pod uwagę przepływ pakietów przez reguły.
+Przy oznaczaniu pakietów za pomocą target `MARK`, reguły mają postać
+`-j MARK --set-xmark 0x100/0xff00` lub `-j MARK --set-xmark 0x2/0xff` (pomińmy te poprzedzające
+zera). By zrozumieć co dokładnie zachodzi przy przetwarzaniu tych reguł, trzeba sobie rozpisać
+binarnie wszystkie te wartości biorąc pod uwagę przepływ pakietów przez reguły.
 
 Wszystkie pakiety, które trafiają do `iptables` są oznaczone markiem 0x0. W pierwszej bazie
 markującej chcemy ustawić oznaczenie 0x100/0xff00. By tego dokonać, trzeba przeprowadzić dwie
@@ -175,7 +172,6 @@ operacje: `AND NOT` oraz `XOR` . Spójrzmy poniżej:
 W przypadku bazowego marka 0x0, ten proces nie jest tak klarowny jak być powinien. Na szczęście mamy
 drugą fazę oznaczania i tu już proces powinien być już bardziej przejrzysty:
 
-
          MARK 0000 0001 0000 0000    bazowe oznaczenie (0x100)
          MASK 0000 0000 ffff ffff    nasza maska (0xff)
       AND NOT -------------------    w MASK trzeba pierw poodwracać bity (0->1, 1->0), po czym dać logiczny AND z MARK
@@ -184,5 +180,9 @@ drugą fazę oznaczania i tu już proces powinien być już bardziej przejrzysty
           XOR -------------------    przeprowadzamy operację XOR (przepisujemy różniące się bity)
        RESULT 0000 0001 0000 0001    otrzymujemy nowy mark (0x101) --> 257
 
-
 Tak właśnie działa dodawanie (sumowanie) oznaczeń w `iptables` przy pomocy target `MARK` .
+
+
+[1]: http://ipset.netfilter.org/iptables-extensions.man.html#lbDE
+[2]: http://ipset.netfilter.org/iptables-extensions.man.html#lbCS
+[3]: https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg

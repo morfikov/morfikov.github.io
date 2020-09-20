@@ -13,15 +13,14 @@ tags:
 title: Rkhunter jako ochrona przed rootkit'ami
 ---
 
-[Rootkit](https://pl.wikipedia.org/wiki/Rootkit) to takie ustrojstwo, które jest w stanie przebywać
-niepostrzeżenie w naszym systemie przez bardzo długi czas. Dzieje się tak ze względu na uśpioną
-czujność administratora. Teoretycznie wszystko jest w należytym porządku, nie widać żadnych
-złowrogich procesów, a szereg narzędzi, które mają przeciwdziałać rootkit'om, nie zwraca żadnych
-ostrzeżeń o ewentualnych próbach naruszenia bezpieczeństwa systemu operacyjnego. Taki rootkit jest w
-stanie całkowicie przejąc kontrolę nad linux'em i np. może decydować o tym jakie procesy zostaną nam
-pokazane, a jakie ukryte. W świetle takiego zagrożenia, linux'y wypracowały sobie pewne mechanizmy
-obronne. W tym wpisie przebadamy sobie jeden z projektów, tj.
-[rkhunter](http://rkhunter.sourceforge.net/).
+[Rootkit][1] to takie ustrojstwo, które jest w stanie przebywać niepostrzeżenie w naszym systemie
+przez bardzo długi czas. Dzieje się tak ze względu na uśpioną czujność administratora. Teoretycznie
+wszystko jest w należytym porządku, nie widać żadnych złowrogich procesów, a szereg narzędzi, które
+mają przeciwdziałać rootkit'om, nie zwraca żadnych ostrzeżeń o ewentualnych próbach naruszenia
+bezpieczeństwa systemu operacyjnego. Taki rootkit jest w stanie całkowicie przejąc kontrolę nad
+linux'em i np. może decydować o tym jakie procesy zostaną nam pokazane, a jakie ukryte. W świetle
+takiego zagrożenia, linux'y wypracowały sobie pewne mechanizmy obronne. W tym wpisie przebadamy
+sobie jeden z projektów, tj. [rkhunter][2].
 
 <!--more-->
 ## Rkhunter i dodatkowe narzędzia
@@ -54,8 +53,8 @@ Innym wyjściem jest utworzenie świeżej bazy danych z tych plików, które akt
 naszym systemie. Trzeba być tutaj bardzo uważnym, bo jeśli w tym momencie mamy wgranego rootkit'a,
 to takie sumy kontrolne nam się raczej do niczego nie przydadzą. Dlatego musimy być pewni co do
 pochodzenia plików, których sumy będą generowane. Zaletą tego rozwiązania z kolei jest fakt, że
-możemy określić hash. Do wyboru mamy: `MD5` , `SHA1` , `SHA224` , `SHA256` , `SHA384` oraz `SHA512`
-. Pamiętajmy, że im dłuższy hash, tym więcej czasu zajmie wyliczanie sum. Poniżej przykład
+możemy określić hash. Do wyboru mamy: `MD5` , `SHA1` , `SHA224` , `SHA256` , `SHA384` oraz
+`SHA512` . Pamiętajmy, że im dłuższy hash, tym więcej czasu zajmie wyliczanie sum. Poniżej przykład
 generowania bazy danych z hashami `SHA256` :
 
     # rkhunter --propupd --hash SHA256
@@ -85,18 +84,15 @@ starajmy się sprawdzić jego poprawność w poniższy sposób:
     # rkhunter -C
 
 Konfiguracja zawarta w pliku `/etc/rkhunter.conf` może nieco przytłoczyć z początku ale warto
-wiedzieć, że zawsze można zajrzeć na stronę projektu do
-[FAQ](http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/FAQ) lub
-[README](http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/README) i znaleźć tam
-użyteczne informacje. Nie zapomnijmy też przejrzeć [man
-rkhunter](http://manpages.ubuntu.com/manpages/xenial/en/man8/rkhunter.8.html).
+wiedzieć, że zawsze można zajrzeć na stronę projektu do [FAQ][3] lub [README][4] i znaleźć tam
+użyteczne informacje. Nie zapomnijmy też przejrzeć [man rkhunter][5].
 
 ## Skanowanie systemu
 
 Po utworzeniu bazy danych i skonfigurowaniu samego rkhunter'a, możemy przejść do skanowania systemu.
 W zależności od tego z jakiego hasha korzystamy oraz jakie testy przeprowadzamy, taka operacja może
-zająć mniej lub więcej czasu. Odpalamy zatem terminal i jako root wydajemy polecenie `rkhunter
---check` . Skanowanie wygląda mniej więcej tak:
+zająć mniej lub więcej czasu. Odpalamy zatem terminal i jako root wydajemy polecenie
+`rkhunter --check` . Skanowanie wygląda mniej więcej tak:
 
 ![]({{< baseurl >}}/img/2016/03/1.rkhunter-debian-rootkit-skan.png#big)
 
@@ -123,9 +119,17 @@ przeprowadzać regularnie.
 
 ## A może chkrootkit?
 
-Istnieje jeszcze jedno narzędzie, z którym warto się zaznajomić, tj.
-[chkrootkit](http://www.chkrootkit.org/). Różni się ono nieco od `rkhunter` ale też ma za zadanie
-wykryć rootkit'a. Jest to zbitka kilku skryptów, które nie wymagają praktycznie żadnej konfiguracji
-ze strony użytkownika. Oczywiście, uruchamianie tego narzędzia w zainfekowanym systemie też raczej
-nam się na niewiele zda. Niemniej jednak, warto mieć je w wyposażeniu swojego systemu live i w razie
-problemów, przeskanować macierzysty system za jego pomocą.
+Istnieje jeszcze jedno narzędzie, z którym warto się zaznajomić, tj. [chkrootkit][6]. Różni się ono
+nieco od `rkhunter` ale też ma za zadanie wykryć rootkit'a. Jest to zbitka kilku skryptów, które
+nie wymagają praktycznie żadnej konfiguracji ze strony użytkownika. Oczywiście, uruchamianie tego
+narzędzia w zainfekowanym systemie też raczej nam się na niewiele zda. Niemniej jednak, warto mieć
+je w wyposażeniu swojego systemu live i w razie problemów, przeskanować macierzysty system za jego
+pomocą.
+
+
+[1]: https://pl.wikipedia.org/wiki/Rootkit
+[2]: http://rkhunter.sourceforge.net/
+[3]: http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/FAQ
+[4]: http://rkhunter.cvs.sourceforge.net/viewvc/rkhunter/rkhunter/files/README
+[5]: https://manpages.ubuntu.com/manpages/xenial/en/man8/rkhunter.8.html
+[6]: http://www.chkrootkit.org/

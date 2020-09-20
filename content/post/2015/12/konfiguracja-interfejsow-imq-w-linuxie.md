@@ -17,13 +17,12 @@ title: Konfiguracja interfejsów IMQ w linux'ie
 
 W linux'ie, kształtowanie przychodzącego ruchu sieciowego stwarza dość poważne problemy. Na dobrą
 sprawę, obecnie w kernelu nie ma żadnego mechanizmu, który byłby w stanie to zadanie realizować.
-Istnieją, co prawda, [interfejsy IFB](https://wiki.linuxfoundation.org/networking/ifb) ale za ich
-pomocą jesteśmy w stanie z powodzeniem kształtować jedynie ruch wychodzący. W przypadku pakietów
-napływających, możemy jedynie ograniczyć im przepustowość. W tym powyższym linku jest wzmianka, że
-te interfejsy IFB są następcą [interfejsów IMQ](https://github.com/imq/linuximq/wiki/WhatIs).
-Niemniej jednak, ten drugi projekt zdaje się działać, choć nie jest obecnie wspierany przez kernel
-linux'a. W tym wpisie postaramy się skonfigurować działające interfejsy IMQ, tak, by za ich pomocą
-skutecznie kształtować ruch przychodzący.
+Istnieją, co prawda, [interfejsy IFB][1] ale za ich pomocą jesteśmy w stanie z powodzeniem
+kształtować jedynie ruch wychodzący. W przypadku pakietów napływających, możemy jedynie ograniczyć
+im przepustowość. W tym powyższym linku jest wzmianka, że te interfejsy IFB są następcą
+[interfejsów IMQ][2]. Niemniej jednak, ten drugi projekt zdaje się działać, choć nie jest obecnie
+wspierany przez kernel linux'a. W tym wpisie postaramy się skonfigurować działające interfejsy IMQ,
+tak, by za ich pomocą skutecznie kształtować ruch przychodzący.
 
 <!--more-->
 ## Kompilacja kernela na potrzeby IMQ
@@ -33,12 +32,11 @@ się o źródła tego kernela oraz o nałożenie na nie odpowiedniej łaty. Tak 
 trzeba skompilować. Jeśli chcemy mieć w systemie interfejsy IMQ, to bez rekompilacji kernela się
 niestety nie obejdzie.
 
-Patch'e na konkretne wersje kernela są dostępne [pod tym
-adresem](https://github.com/imq/linuximq/tree/master/kernel). To, którą łatę musimy zassać zależy od
-posiadanego kernela. W tym przypadku jest to `4.3.0-1-amd64` , zatem potrzebny jest nam patch
-`linux-4.3-imq.diff` . Musimy także skołować źródła kernela. Możemy je pobrać albo ze [strony
-kernela](https://www.kernel.org/) albo też posłużyć się tymi źródłami dostępnymi w debianie.
-Skorzystamy z tej drugiej opcji.
+Patch'e na konkretne wersje kernela są dostępne [pod tym adresem][3]. To, którą łatę musimy zassać
+zależy od posiadanego kernela. W tym przypadku jest to `4.3.0-1-amd64` , zatem potrzebny jest nam
+patch `linux-4.3-imq.diff` . Musimy także skołować źródła kernela. Możemy je pobrać albo ze [strony
+kernela][4] albo też posłużyć się tymi źródłami dostępnymi w debianie. Skorzystamy z tej drugiej
+opcji.
 
 By pobrać źródła kernela z repozytorium debiana, potrzebujemy dodać do pliku `/etc/apt/sources.list`
 wpis z `deb-src` , przykładowo:
@@ -59,13 +57,12 @@ kernela 4.3, patch wchodzi prawie czysto ale najważniejsze, że bez błędów:
 
 Wyżej skorzystałem z opcji `--dry-run` po to, by nie aplikować łaty bezpośrednio na źródła. Chodziło
 generalnie o przetestowanie czy zostanie ona zaaplikowana bez większych problemów. Teraz mogę ten
-patch dodać do listy patch'y zarządzanych przez `quilt` i w prosty sposób [zbudować pakiet
-.deb]({{< baseurl >}}/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/) wykorzystując do
-tego celu natywne narzędzia debiana. Oczywiście nic nie stoi na przeszkodzie, by pozbyć się
-parametru `--dry-run` , nałożyć łatę, po czym ręcznie skompilować i zainstalować sobie kernel.
+patch dodać do listy patch'y zarządzanych przez `quilt` i w prosty sposób [zbudować pakiet .deb][5]
+wykorzystując do tego celu natywne narzędzia debiana. Oczywiście nic nie stoi na przeszkodzie, by
+pozbyć się parametru `--dry-run` , nałożyć łatę, po czym ręcznie skompilować i zainstalować sobie
+kernel.
 
-W przypadku, gdy będziemy pobierać czyste źródła kernela, [zweryfikujmy sygnaturę
-GPG](https://www.kernel.org/category/signatures.html).
+W przypadku, gdy będziemy pobierać czyste źródła kernela, [zweryfikujmy sygnaturę GPG][6].
 
 Kopiujemy starą konfigurację kernela, odpalamy `menuconfig` i dostosowujemy konfigurację włączając
 odpowiednie opcje odpowiedzialne za interfejsy IMQ. Interesują nas te poniższe pozycje:
@@ -101,8 +98,7 @@ przy kompilacji kernela. Te pakiety można w późniejszym czasie zwyczajnie odi
 Przebudować musimy nie tylko samego kernela ale również filtr pakietów `iptables` . Standardowy
 `iptables` nie zawiera interesujących nas targetów, a bez nich nie będziemy w stanie przekierować
 ruchu do odpowiednich interfejsów. Podobnie jak w przypadku kernela, musimy pozyskać [źródła
-iptables](http://www.netfilter.org/) oraz odpowiednią
-[łatę](https://github.com/imq/linuximq/tree/master/iptables).
+iptables][7] oraz odpowiednią [łatę][8].
 
     # apt-get -t unstable source iptables
     # cd iptables-1.4.21/
@@ -185,10 +181,9 @@ poniższy sposób:
                 tc class add dev imq1 parent 2:20 classid 2:1000 htb rate 85mbit ceil 985mbit prio 1 quantum 60000
 
 Powyższe linijki stworzą nam 2 klasy główne oraz 5 klas podrzędnych dla każdego interfejsu. W tym
-przypadku korzystamy z [algorytmu HTB](http://luxik.cdi.cz/~devik/qos/htb/) ale jest też kilka
-innych, a wszystkie można podzielić na dwie kategorie: bezklasowe (pfifo, bfifo, pfifo_fast, red,
-sfq, tbf) i klasowe (CBQ, HTB, PRIO). Informacje na temat każdego z powyższych algorytmów można
-znaleźć [tym linkiem](https://lukasz.bromirski.net/docs/translations/lartc-pl.html#LARTC.QDISC).
+przypadku korzystamy z [algorytmu HTB][9] ale jest też kilka innych, a wszystkie można podzielić na
+dwie kategorie: bezklasowe (pfifo, bfifo, pfifo_fast, red, sfq, tbf) i klasowe (CBQ, HTB, PRIO).
+Informacje na temat każdego z powyższych algorytmów można znaleźć [tym linkiem][10].
 
 Składnia HTB jest prosta i tam gdzie nie precyzujemy opcji, to są one ustawiane na wartości
 domyślne. W powyższym przykładzie tworzymy qdisc na interfejsie imq0 i określamy kolejkę 400 jako
@@ -298,6 +293,18 @@ pasma od innych kolejek. Po prawej stronie w okienku mamy statystyki pingów i j
 mocnym obciążeniu sieci, połączenie z internetem działa stabilnie, choć pingi są nieco podwyższone.
 Oczywiście w tle działa również sieć P2P (kolejka :500).
 
-Wszystkie powyższe regułki możemy bez problemu dodać sobie do [skryptu
-firewall'a]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/), tak, by były aplikowane
-wraz ze startem systemu.
+Wszystkie powyższe regułki możemy bez problemu dodać sobie do [skryptu firewall'a][11], tak, by
+były aplikowane wraz ze startem systemu.
+
+
+[1]: https://wiki.linuxfoundation.org/networking/ifb
+[2]: https://github.com/imq/linuximq/wiki/WhatIs
+[3]: https://github.com/imq/linuximq/tree/master/kernel
+[4]: https://www.kernel.org/
+[5]: {{< baseurl >}}/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/
+[6]: https://www.kernel.org/category/signatures.html
+[7]: http://www.netfilter.org/
+[8]: https://github.com/imq/linuximq/tree/master/iptables
+[9]: http://luxik.cdi.cz/~devik/qos/htb/
+[10]: https://lukasz.bromirski.net/docs/translations/lartc-pl.html#LARTC.QDISC
+[11]: {{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/
