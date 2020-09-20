@@ -14,7 +14,7 @@ czasem się marnuje. Mając router z OpenWRT, możemy przerobić go tak, by zbie
 dla statystyki. Te dane mogą pochodzić z różnych źródeł i nie koniecznie muszą one dotyczyć samego
 routera. Tego typu funkcjonalność mogą zapewnić nam narzędzia collectd oraz rrdtool . W tym
 artykule spróbujemy zaprogramować router, by zbierał pewne dane dotyczące połączenia sieciowego. Na
-podstawie tych informacji będą rysowane wykresy, które nastepnie będą udostępniane przez serwer
+podstawie tych informacji będą rysowane wykresy, które następnie będą udostępniane przez serwer
 uhttpd ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/statystyki-openwrt-collectd-rrdtool/" />
@@ -27,7 +27,7 @@ czasem się marnuje. Mając router z OpenWRT, możemy przerobić go tak, by zbie
 dla statystyki. Te dane mogą pochodzić z różnych źródeł i nie koniecznie muszą one dotyczyć samego
 routera. Tego typu funkcjonalność mogą zapewnić nam narzędzia collectd oraz rrdtool . W tym
 artykule spróbujemy zaprogramować router, by zbierał pewne dane dotyczące połączenia sieciowego. Na
-podstawie tych informacji będą rysowane wykresy, które nastepnie będą udostępniane przez serwer
+podstawie tych informacji będą rysowane wykresy, które następnie będą udostępniane przez serwer
 uhttpd .">
 <meta itemprop="datePublished" content="2016-05-19T21:38:00+00:00" />
 <meta itemprop="dateModified" content="2016-05-19T21:38:00+00:00" />
@@ -44,7 +44,7 @@ czasem się marnuje. Mając router z OpenWRT, możemy przerobić go tak, by zbie
 dla statystyki. Te dane mogą pochodzić z różnych źródeł i nie koniecznie muszą one dotyczyć samego
 routera. Tego typu funkcjonalność mogą zapewnić nam narzędzia collectd oraz rrdtool . W tym
 artykule spróbujemy zaprogramować router, by zbierał pewne dane dotyczące połączenia sieciowego. Na
-podstawie tych informacji będą rysowane wykresy, które nastepnie będą udostępniane przez serwer
+podstawie tych informacji będą rysowane wykresy, które następnie będą udostępniane przez serwer
 uhttpd ."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
@@ -155,17 +155,17 @@ czasem się marnuje. Mając router z OpenWRT, możemy przerobić go tak, by zbie
 dla statystyki. Te dane mogą pochodzić z różnych źródeł i nie koniecznie muszą one dotyczyć samego
 routera. Tego typu funkcjonalność mogą zapewnić nam narzędzia <code>collectd</code> oraz <code>rrdtool</code> . W tym
 artykule spróbujemy zaprogramować router, by zbierał pewne dane dotyczące połączenia sieciowego. Na
-podstawie tych informacji będą rysowane wykresy, które nastepnie będą udostępniane przez serwer
+podstawie tych informacji będą rysowane wykresy, które następnie będą udostępniane przez serwer
 <code>uhttpd</code> .</p>
 <h2 id="instalacja-potrzebnego-oprogramowania">Instalacja potrzebnego oprogramowania</h2>
 <p>Jest wiele różnych narzędzi realizujących to przedsięwzięcie, za które się zabieramy. Jak
 wspomnieliśmy we wstępie, tutaj skupimy się głównie na <code>collecd</code> . To przy jego pomocy będziemy
-tworzyć bazy danych zawierające określone wartości. Drugim potrzebnym nam programem będzie <code>rrdtool</code>
-. Przy jego pomocy zaś będziemy wydobywać informacje z bazy i na ich podstawie generować zrozumiałe
-dla człowieka wykresy. Dodatkowo, by mieć łatwy dostęp do tak stworzonych obrazków, musimy postawić
-serwer www. Do tego celu znakomicie się nadaje <code>uhttpd</code> . Te fotki mogą być do wglądu nawet i spoza
-sieci domowej, niemniej jednak, my się ograniczymy tylko do sieci lokalnej. Instalujemy zatem
-potrzebne pakiety:</p>
+tworzyć bazy danych zawierające określone wartości. Drugim potrzebnym nam programem będzie
+<code>rrdtool</code> . Przy jego pomocy zaś będziemy wydobywać informacje z bazy i na ich podstawie generować
+zrozumiałe dla człowieka wykresy. Dodatkowo, by mieć łatwy dostęp do tak stworzonych obrazków,
+musimy postawić serwer www. Do tego celu znakomicie się nadaje <code>uhttpd</code> . Te fotki mogą być do
+wglądu nawet i spoza sieci domowej, niemniej jednak, my się ograniczymy tylko do sieci lokalnej.
+Instalujemy zatem potrzebne pakiety:</p>
 <pre><code># opkg update
 # opkg install \
     collectd \
@@ -202,7 +202,7 @@ potrzebujemy, by demon nasłuchiwał na wszystkich możliwych interfejsach. No i
 jest połączenie SSL/TLS. W opcji <code>listen_http</code> ustawiliśmy za to adres interfejsu <code>br-lan</code> .
 Zmieniliśmy także katalog główny, w którym są przechowywane pliki stron www przy pomocy opcji
 <code>home</code> . Zapisujemy plik, tworzymy ręcznie w/w katalog i restartujemy demona poniższym poleceniem:</p>
-<pre><code>/# mkdir -p /tmp/router/www/
+<pre><code># mkdir -p /tmp/router/www/
 # /etc/init.d/uhttpd restart
 </code></pre>
 <h2 id="konfiguracja-collectd">Konfiguracja collectd</h2>
@@ -274,10 +274,11 @@ timespan/(stepsize * rrarows). W oparciu o powyższą konfigurację otrzymujemy:
 dają? Tam gdzie CDP jest mniejsze lub równe 1, to nie ma większego problemu z określeniem tego co
 zostanie pokazane na wykresie. Natomiast jeśli wartość ta jest większa od 1, np. dla przedziału
 czasu 2 dni, CDP przyjmuje wartość 12, wtedy rzecz jasna nie można umieścić wszystkich 12 wartości
-na wykresie. Zostanie wybrana tylko jedna z nich i możemy określić ją na podstawie parametrów <code>MAX</code>
-, <code>MIN</code>, <code>AVERAGE</code> albo też <code>LAST</code> . Jeśli określimy <code>MAX</code> , wtedy najwyższa z tych 12 wartości
-zostanie uwzględniona na grafie. Jeśli <code>MIN</code>, to najmniejsza, itd. O tym będzie nieco później. Jeśli
-chcemy korzystać z innych wartości niż uśrednione, to przestawiamy <code>RRASingle</code> na <code>false</code> .</p>
+na wykresie. Zostanie wybrana tylko jedna z nich i możemy określić ją na podstawie parametrów
+<code>MAX</code> , <code>MIN</code>, <code>AVERAGE</code> albo też <code>LAST</code> . Jeśli określimy <code>MAX</code> , wtedy najwyższa z tych 12
+wartości zostanie uwzględniona na grafie. Jeśli <code>MIN</code>, to najmniejsza, itd. O tym będzie nieco
+później. Jeśli chcemy korzystać z innych wartości niż uśrednione, to przestawiamy <code>RRASingle</code> na
+<code>false</code> .</p>
 <p>Pozostałe moduły nie wymagają precyzowania konfiguracji. Wystarczy zatem załadować je w poniższy
 sposób:</p>
 <pre><code>LoadPlugin cpu
@@ -286,9 +287,8 @@ LoadPlugin memory
 LoadPlugin conntrack
 </code></pre>
 <p>Więcej informacji na temat wszystkich modułów oraz możliwych parametrów jakie idzie ustawić w pliku
-<code>/etc/collectd.conf</code> , można znaleźć <a href="https://collectd.org/documentation/manpages/collectd.conf.5.shtml">pod tym
-linkiem</a>. Zapisujemy plik i
-restartujemy demona <code>collectd</code> :</p>
+<code>/etc/collectd.conf</code> , można znaleźć <a href="https://collectd.org/documentation/manpages/collectd.conf.5.shtml">pod tym linkiem</a>. Zapisujemy plik i restartujemy demona
+<code>collectd</code> :</p>
 <pre><code># /etc/init.d/collectd restart
 </code></pre>
 <h2 id="generowanie-statystyk">Generowanie statystyk</h2>
@@ -328,8 +328,7 @@ odpowiednie katalogi. Jakby nie patrzeć, statystyki będą przechowane w RAM i 
 routera, szlag je trafi. Dlatego też za każdym razem jak router będzie się budził do życia, trzeba
 będzie tworzyć te katalogi na nowo.</p>
 <p>W zależności od wybranych modułów, musimy umieścić w skrypcie sekcje podobne do tej poniżej. Dla
-przykładu określiłem tylko jedną sekcję ale cały skrypt jest na <a href="https://github.com/morfikov/files/blob/master/configs/openwrt/mkgraph.sh">moim
-github'ie</a>.</p>
+przykładu określiłem tylko jedną sekcję ale cały skrypt jest na <a href="https://github.com/morfikov/files/blob/master/configs/openwrt/mkgraph.sh">moim github'ie</a>.</p>
 <pre><code>...
 ##############################
 #        load section        #

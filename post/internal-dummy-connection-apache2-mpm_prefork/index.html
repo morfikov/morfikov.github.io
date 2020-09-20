@@ -177,20 +177,18 @@ połączenia bez końca. Gdyby tutaj dać wartość, np. <code>1024</code> , wte
 mógł ich posiadać maksymalnie 150. Jeśli serwer będzie realizował w danej chwili 40 połączeń z
 klientami, to 40 procesów będzie wykorzystywanych do tego celu, plus 5-10 zapasowych na wypadek
 obsługi kolejnych żądań.</p>
-<p>Za każdym razem, gdy liczba procesów zapasowych spadnie poniżej progu ustalonego w <code>MinSpareServers</code>
-, proces główny utworzy kolejny proces potomny. Podobnie sprawa ma się w przypadku, gdy liczba
-przekroczy próg w <code>MaxSpareServers</code> . Wtedy proces główny ubije taki proces potomny i zwolni
-wykorzystywane przez niego zasoby. W przypadku niedoboru procesów, będą one tworzone w interwale
-jednej sekundy. Z każdą następną sekundą będzie tworzonych 1, 2, 4 ... 32 procesów, aż zostanie
-zaspokojony limit w <code>MaxSpareServers</code> . Więcej informacji na ten temat można znaleźć w <a href="https://httpd.apache.org/docs/2.4/mod/prefork.html">dokumentacji
-Apache2</a>.</p>
+<p>Za każdym razem, gdy liczba procesów zapasowych spadnie poniżej progu ustalonego w
+<code>MinSpareServers</code> , proces główny utworzy kolejny proces potomny. Podobnie sprawa ma się w
+przypadku, gdy liczba przekroczy próg w <code>MaxSpareServers</code> . Wtedy proces główny ubije taki proces
+potomny i zwolni wykorzystywane przez niego zasoby. W przypadku niedoboru procesów, będą one
+tworzone w interwale jednej sekundy. Z każdą następną sekundą będzie tworzonych 1, 2, 4 ... 32
+procesów, aż zostanie zaspokojony limit w <code>MaxSpareServers</code> . Więcej informacji na ten temat można
+znaleźć w <a href="https://httpd.apache.org/docs/2.4/mod/prefork.html">dokumentacji Apache2</a>.</p>
 <h2 id="skąd-się-bierze-komunikat-internal-dummy-connection">Skąd się bierze komunikat &quot;internal dummy connection&quot;</h2>
-<p>Na <a href="https://wiki.apache.org/httpd/InternalDummyConnection">wiki Apache2</a> znalazłem artykuł
-wyjaśniający kwestię tego całego &quot;internal dummy connection&quot;. Okazuje się, że ten komunikat
-pojawia się w logu za sprawą opisanych wyżej procesów potomnych, które Apache2 musi co jakiś czas
-wybudzać. Robi to przez przesyłanie do samego siebie zwykłego zapytania HTTP. To zapytanie jest
-rejestrowane w logu mniej więcej w poniższy
-sposób:</p>
+<p>Na <a href="https://wiki.apache.org/httpd/InternalDummyConnection">wiki Apache2</a> znalazłem artykuł wyjaśniający kwestię tego całego &quot;internal dummy connection&quot;.
+Okazuje się, że ten komunikat pojawia się w logu za sprawą opisanych wyżej procesów potomnych, które
+Apache2 musi co jakiś czas wybudzać. Robi to przez przesyłanie do samego siebie zwykłego zapytania
+HTTP. To zapytanie jest rejestrowane w logu mniej więcej w poniższy sposób:</p>
 <pre><code>::1 - - [30/Jul/2016:13:05:58 +0200] &quot;OPTIONS * HTTP/1.0&quot; 200 110 &quot;-&quot; &quot;Apache (Debian) OpenSSL/1.0.1 (internal dummy connection)&quot;
 </code></pre>
 <p>Zalogowanie zapytanie przyszło z pętli zwrotnej. W tym przypadku z adresu IPV6 ( <code>::1</code> ). Jeśli
@@ -209,12 +207,11 @@ ErrorLog ${APACHE_LOG_DIR}/error.log
 #CustomLog ${APACHE_LOG_DIR}/access.log combined
 CustomLog ${APACHE_LOG_DIR}/access.log combined env=!dontlog
 </code></pre>
-<p><a href="https://httpd.apache.org/docs/current/mod/mod_setenvif.html#setenvif">Dyrektywie SetEnvIf</a> podajemy
-jako aspekt dopasowania <code>Remote_Addr</code> i porównujemy go z adresem loopback dla IPv4/IPv6. Wyrażenie
-regularne musi być ujęte w <code>&quot; &quot;</code> . Na końcu zaś mamy dowolną frazę, która otaguje wszystkie
-dopasowane wiadomości. Komunikat &quot;internal dummy connection&quot; pojawia się w pliku <code>access.log</code> ,
-zatem na końcu dyrektywy <code>CustomLog</code> dopisujemy <code>env=!dontlog</code> , by do tego pliku leciało wszystko
-co nie ma ustawionego taga <code>dontlog</code> .</p></div>
+<p><a href="https://httpd.apache.org/docs/current/mod/mod_setenvif.html#setenvif">Dyrektywie SetEnvIf</a> podajemy jako aspekt dopasowania <code>Remote_Addr</code> i porównujemy go z adresem
+loopback dla IPv4/IPv6. Wyrażenie regularne musi być ujęte w <code>&quot; &quot;</code> . Na końcu zaś mamy dowolną
+frazę, która otaguje wszystkie dopasowane wiadomości. Komunikat &quot;internal dummy connection&quot; pojawia
+się w pliku <code>access.log</code> , zatem na końcu dyrektywy <code>CustomLog</code> dopisujemy <code>env=!dontlog</code> , by do
+tego pliku leciało wszystko co nie ma ustawionego taga <code>dontlog</code> .</p></div>
 				
 				<footer class="entry__footer">
 					

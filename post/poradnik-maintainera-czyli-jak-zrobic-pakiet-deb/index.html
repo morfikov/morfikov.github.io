@@ -43,7 +43,7 @@ obsługą narzędzi takich jak dh_make , dpkg-buildpackage , pbuilder , quilt cz
 tak by tworzyć pakiety w prosty sposób i przy tym równając do najwyższych standardów debiana.">
 <meta itemprop="datePublished" content="2015-12-07T20:26:45+00:00" />
 <meta itemprop="dateModified" content="2015-12-07T20:26:45+00:00" />
-<meta itemprop="wordCount" content="15530">
+<meta itemprop="wordCount" content="15524">
 
 
 
@@ -272,9 +272,8 @@ określonych plików w tym katalogu. W przypadku pakietów już dostępnych w dy
 zwykle nie powinna stwarzać problemów, a nawet jeśli już, to jest ich sporo mniej niż w przypadku,
 gdy byśmy budowali tę paczkę od podstaw.</p>
 <p>Poniżej znajduje się lista narzędzi wraz z ich krótkim opisem. To przy ich pomocy będziemy
-odpowiednio <a href="https://www.debian.org/doc/manuals/maint-guide/">dostosowywać katalog debian/</a>. Spora
-część z nich jest w pełni zautomatyzowana i od nas wymagać będzie się jedynie ustawienia określonych
-przełączników przy wydawaniu konkretnych poleceń.</p>
+odpowiednio <a href="https://www.debian.org/doc/manuals/maint-guide/">dostosowywać katalog debian/</a>. Spora część z nich jest w pełni zautomatyzowana i od
+nas wymagać będzie się jedynie ustawienia określonych przełączników przy wydawaniu konkretnych poleceń.</p>
 <ul>
 <li><code>packaging-dev</code> -- meta pakiet, który zainstaluje min:
 <ul>
@@ -311,9 +310,8 @@ bezpieczeństwa plików wykonywalnych.</li>
 <p>Wato też nadmienić, że skoro mamy do czynienia z budową pakietów, to przydałby się gdzieś te pakiety
 umieszczać. Jest raczej mało prawdopodobne, że dostaną się do głównego repozytorium debiana, dlatego
 też dobrze jest się pierw pokusić o <a href="https://morfikov.github.io
-/post/tworzenie-repozytorium-przy-pomocy-reprepro/">stworzenie własnego repozytorium przy pomocy
-reprepro</a> i to w nim umieszczać
-pakiety, które będziemy instalować przy pomocy <code>aptitude</code> czy też <code>apt</code> .</p>
+/post/tworzenie-repozytorium-przy-pomocy-reprepro/">stworzenie własnego repozytorium przy pomocy reprepro</a> i to
+w nim umieszczać pakiety, które będziemy instalować przy pomocy <code>aptitude</code> czy też <code>apt</code> .</p>
 <p>Jak widać jest tego dość sporo, no i oczywiście będzie tego więcej, gdy każdy z powyższych pakietów
 dociągnie swoje zależności. Poza tymi powyższymi, dojdą nam jeszcze pewnie inne pakiety, w
 zależności od tego co tak naprawdę będziemy budować.</p>
@@ -325,8 +323,8 @@ python-minimal binutils strace fakeroot
 <p>Powyższe pakiety (za wyjątkiem pewnych dodatków) są jedynymi pakietami, które będziemy instalować w
 swoim głównym systemie. Wszelkie zależności budowanych pakietów będą już pakowane do <a href="https://morfikov.github.io
 /post/przygotowanie-srodowiska-chroot-do-pracy/">środowiska
-chroot</a>, które zostanie utworzone
-automatycznie przez <code>pbuilder</code> . Takie rozwiązanie pomoże nam utrzymać porządek w systemie.</p>
+chroot</a>, które zostanie utworzone automatycznie przez <code>pbuilder</code> . Takie rozwiązanie pomoże nam
+utrzymać porządek w systemie.</p>
 <p>Upychanie plików w paczkach ma na celu jedynie ich organizację i niczym zbytnio nie różni się od
 zwykłego przekopiowania ich do odpowiednich katalogów (czy zainstalowania via <code>make install</code> ), no
 może poza faktem, że w przypadku paczki, wszystkie pliki są śledzone przez menadżer pakietów. Chodzi
@@ -359,12 +357,10 @@ export DEBEMAIL DEBFULLNAME
 będziemy potrzebować kluczy GPG, by taką paczkę podpisać. Nie będę tutaj opisywał całego procesu
 generowania i konfigurowania kluczy GPG, bo zostało to już zrobione w odpowiednich wpisach na tym
 blogu. Zachęcam zatem do zapoznania się z tymi artykułami: <a href="https://morfikov.github.io
-/post/bezpieczny-klucz-gpg/">Bezpieczny klucz
-GPG</a>, <a href="https://morfikov.github.io
-/post/konfiguracja-gpg-w-pliku-gpg-conf/">Konfiguracja GPG w pliku
-gpg.conf</a> oraz <a href="https://morfikov.github.io
-/post/serwer-kluczy-gpg-i-kwestia-prywatnosci/">Serwer kluczy GPG i
-kwestia prywatności</a>.</p>
+/post/bezpieczny-klucz-gpg/">Bezpieczny klucz GPG</a>, <a href="https://morfikov.github.io
+/post/konfiguracja-gpg-w-pliku-gpg-conf/">Konfiguracja
+GPG w pliku gpg.conf</a> oraz <a href="https://morfikov.github.io
+/post/serwer-kluczy-gpg-i-kwestia-prywatnosci/">Serwer kluczy GPG i kwestia prywatności</a>.</p>
 <h3 id="devscripts">devscripts</h3>
 <p>Jak wspomniałem na początku, w tym pakiecie znajduje się szereg użytecznych skryptów, które będziemy
 wykorzystywać w swojej pracy. Jednym z częściej używanych narzędzi będzie <code>debsign</code> , które to
@@ -390,9 +386,8 @@ Default settings modified by devscripts configuration files:
   DEBSIGN_KEYID=B820057A
 </code></pre>
 <h3 id="lintian">lintian</h3>
-<p>Konfiguracja <a href="https://lintian.debian.org/manual/index.html">lintian'a</a> trzymana jest w pliku
-<code>/etc/lintianrc</code> i w dużej mierze odpowiada za to jaki rodzaj błędów będzie nam pokazywany. Poniżej
-mój plik:</p>
+<p>Konfiguracja <a href="https://lintian.debian.org/manual/index.html">lintian'a</a> trzymana jest w pliku <code>/etc/lintianrc</code> i w dużej mierze odpowiada za to
+jaki rodzaj błędów będzie nam pokazywany. Poniżej mój plik:</p>
 <pre><code># /etc/lintianrc -- Lintian configuration file
 #
 # Note, that Lintian has reasonable default values for all variables
@@ -452,17 +447,16 @@ wyjaśnienie.</p>
 przydaje, a to z tego względu, że często będziemy postawieni w sytuacji, gdzie pakiet nie będzie
 mógł się poprawnie zbudować i to przez brak jakiegoś pliku. Przy pomocy <code>apt-file</code> będziemy w
 stanie ten plik namierzyć. Nie będę tutaj opisywał tego jak korzystać z tego narzędzia, bo to
-zostało dokładnie wyjaśnione we wpisie dotyczącym
-<a href="https://morfikov.github.io
-/post/przeszukiwanie-zawartosci-pakietow-apt-file/">apt-file</a>. Zachęcam zatem do
-zapoznania się również i z tym tekstem.</p>
+zostało dokładnie wyjaśnione we wpisie dotyczącym <a href="https://morfikov.github.io
+/post/przeszukiwanie-zawartosci-pakietow-apt-file/">apt-file</a>. Zachęcam zatem do zapoznania się
+również i z tym tekstem.</p>
 <h3 id="pbuilder">pbuilder</h3>
-<p><a href="http://pbuilder.alioth.debian.org/">Pbuilder</a> to narzędzie, które zrobi praktycznie cała robotę za
-nas, przynajmniej jeśli chodzi o zbudowanie pakietu <code>.deb</code> . Trzeba mu tylko skonfigurować szereg
-parametrów. Przykładowy plik konfiguracyjny dla pbuilder'a znajduje się w
-<code>/usr/share/doc/pbuilder/examples/pbuilderrc</code> . Trzeba go skopiować do katalogu <code>/etc/</code> i
-odpowiednio przerobić. Można także zrobić sobie lokalną wersję tego pliku i umieścić go w katalogu
-domowym pod nazwą <code>.pbuilderrc</code> . Poniżej zaś znajduje się mój aktualny plik konfiguracyjny:</p>
+<p><a href="http://pbuilder.alioth.debian.org/">Pbuilder</a> to narzędzie, które zrobi praktycznie cała robotę za nas, przynajmniej jeśli chodzi
+o zbudowanie pakietu <code>.deb</code> . Trzeba mu tylko skonfigurować szereg parametrów. Przykładowy plik
+konfiguracyjny dla pbuilder'a znajduje się w <code>/usr/share/doc/pbuilder/examples/pbuilderrc</code> . Trzeba
+go skopiować do katalogu <code>/etc/</code> i odpowiednio przerobić. Można także zrobić sobie lokalną wersję
+tego pliku i umieścić go w katalogu domowym pod nazwą <code>.pbuilderrc</code> . Poniżej zaś znajduje się mój
+aktualny plik konfiguracyjny:</p>
 <pre><code># pbuilder defaults; edit /etc/pbuilderrc to override these and see
 # pbuilderrc.5 for documentation
 
@@ -590,8 +584,7 @@ COMPRESSPROG=&quot;gzip&quot;
 <p>W <code>EXTRAPACKAGES</code> umieściłem kilka dodatkowych pakietów, które będą instalowane po wypakowaniu
 środowiska chroot, a to ze względu na szereg ostrzeżeń jakie wyrzucał mi <code>pbuilder</code> przy budowaniu
 pakietów. Te pozycje tutaj nie są obowiązkowe i raczej nic się paczkom nie stanie z powodu ich
-braku. Jeśli ktoś nie rozumie konkretnych opcji, to odsyłam do
-<a href="http://manpages.ubuntu.com/manpages/wily/en/man5/pbuilderrc.5.html">manuala</a>, gdzie wszystkie z
+braku. Jeśli ktoś nie rozumie konkretnych opcji, to odsyłam do <a href="http://manpages.ubuntu.com/manpages/wily/en/man5/pbuilderrc.5.html">manuala</a>, gdzie wszystkie z
 nich są przystępnie opisane.</p>
 <h3 id="ccache">ccache</h3>
 <p>W przypadku <code>ccache</code> nie musimy zbytnio nic robić, bo wszystko zostało już określone w pliku
@@ -603,12 +596,14 @@ CCACHEDIR=&quot;/media/Kabi/pbuilder/ccache&quot;
 export CCACHE_DIR=&quot;/media/Kabi/pbuilder/ccache&quot;
 ...
 </code></pre>
-<p>Tylko jest jeden problem. Ten <code>ccache</code> zadziała jedynie przy wywoływaniu polecenia <code>pbuilder --build</code> . W przypadku, gdy napotkamy błąd podczas budowy pakietu, to mamy opcję by sprawdzić co się
-stało. Wtedy zostaniemy zalogowani wewnątrz środowiska chroot. Jeśli zmienimy pliki konfiguracyjne,
-to wewnątrz tego chroot'a będziemy w stanie zbudować pakiet via <code>dpkg-buildpackage</code> . Niemniej
-jednak, nie będziemy mieli dostępu do cache <code>ccache</code> i pakiet się będzie budował tak jakbyśmy z
-niego w ogóle nie korzystali. Nie mam pojęcia czemu się tak dzieje, być może to bug albo coś nie tak
-z powyższą konfiguracją, ewntualnie <code>pbuilder</code> tak po prostu już ma.</p>
+<p>Tylko jest jeden problem. Ten <code>ccache</code> zadziała jedynie przy wywoływaniu polecenia
+<code>pbuilder --build</code> . W przypadku, gdy napotkamy błąd podczas budowy pakietu, to mamy opcję by
+sprawdzić co się stało. Wtedy zostaniemy zalogowani wewnątrz środowiska chroot. Jeśli zmienimy
+pliki konfiguracyjne, to wewnątrz tego chroot'a będziemy w stanie zbudować pakiet via
+<code>dpkg-buildpackage</code> . Niemniej jednak, nie będziemy mieli dostępu do cache <code>ccache</code> i pakiet się
+będzie budował tak jakbyśmy z niego w ogóle nie korzystali. Nie mam pojęcia czemu się tak dzieje,
+być może to bug albo coś nie tak z powyższą konfiguracją, ewentualnie <code>pbuilder</code> tak po prostu już
+ma.</p>
 <h3 id="sudo">sudo</h3>
 <p>Dostęp do narzędzia <code>pbuilder</code> jest standardowo zarezerwowany jedynie dla użytkownika root. Nie jest
 to zbytnio wygodne i przydałoby się umożliwić korzystanie z niego zwykłemu użytkownikowi. W tym celu
@@ -617,8 +612,7 @@ edytujemy konfigurację <code>sudo</code> wpisując w terminalu <code>visudo</co
 
 morfik     HOSTY = (root) NOPASSWD: /usr/sbin/pbuilder
 </code></pre>
-<p>Więcej informacji na temat samego <code>sudo</code> jak i pliku konfiguracyjnego można znaleźć
-<a href="https://dug.net.pl/tekst/63/przewodnik_po_sudo/">tutaj</a>.</p>
+<p>Więcej informacji na temat samego <code>sudo</code> jak i pliku konfiguracyjnego można znaleźć <a href="https://dug.net.pl/tekst/63/przewodnik_po_sudo/">tutaj</a>.</p>
 <h2 id="przygotowanie-środowiska-chroot">Przygotowanie środowiska chroot</h2>
 <p>Narzędzie <code>puilder</code> musi na czymś operować, inaczej odmówi współpracy. Musimy mu stworzyć podstawowe
 środowisko pracy. Chodzi o zrobienia minimalnego i do tego spakowanego chroot'a, który będzie
@@ -629,7 +623,7 @@ katalogów, do których ścieżki podaliśmy w pliku konfiguracyjnym pbuilder'a.
 dostosować konfigurację dla <code>apt</code> . Jeśli chodzi zaś o same repozytoria, to raczej poniżej sida nie
 ma co schodzić. Jeśli jakichś pakietów nie ma w repo testowym czy stabilnym, to albo przez licencję,
 albo przez niespełnione zależności, które zwykle muszą być w najnowszych wersjach, a te są z reguły
-w sidzie i/lub experimental, bo powodują problemy. Tworzymy zatem potrzebne nam katalogi:</p>
+w sid i/lub experimental, bo powodują problemy. Tworzymy zatem potrzebne nam katalogi:</p>
 <pre><code>$ mkdir /media/Kabi/pbuilder/
 
 $ mkdir /media/Kabi/pbuilder/{hooks,build,result,pbuilder_apt_cache,ccache,pbuilder_apt_conf,lintian}
@@ -689,7 +683,7 @@ aktualizować w miarę regularnie, a konkretnie, przed budowaniem pakietu. By za
 </code></pre>
 <h2 id="źródła-i-informacje-o-nich">Źródła i informacje o nich</h2>
 <p>W internecie jest wiele rozmaitych miejsc, gdzie można znaleźć źródła pakietu, który chcemy
-zbudować. Zwykle będzie to strona projektu lub też i jakiś git, np. github. Niemniej jednak, w tych
+zbudować. Zwykle będzie to strona projektu lub też i jakiś git, np. GitHub. Niemniej jednak, w tych
 lokalizacjach bardzo rzadko spotkamy się ze źródłami, które pozwolą nam na zbudowanie pakietu tuż po
 ściągnięciu ich na dysk.</p>
 <p>W sporej części przypadków, większość roboty jaką będziemy musieli odwalić, to zbieranie informacji
@@ -698,12 +692,11 @@ Czasem możemy pójść nieco na skróty i skorzystać z czyjejś pracy, tak by 
 zbieranie tych danych.</p>
 <p>Jeśli strona projektu nie jest w najlepszym stanie i brakuje kluczowych dla nas informacji, możemy
 oczywiście wysłać maila do twórcy i poprosić go o stosowne info ale to zajmuje czas. Możemy także
-zajrzeć na <a href="https://anonscm.debian.org/cgit/webwml/packages.git/">git debiana</a> i tam spróbować
-odnaleźć interesujący nas projekt. Jeśli doszukamy się go, możemy być pewni, że część pracy
-przeprowadził już ktoś za nas.</p>
-<p>Innym miejscem jest repozytorium <a href="https://aur.archlinux.org/">AUR dystrybucji Archlinux</a> . Tam
-zawsze idzie coś znaleźć, tylko paczki nie są zbytnio kompatybilne z debianem i trzeba wiedzieć
-gdzie i czego szukać. Przykładowo, załóżmy, że interesuje nas pakiet <code>monitorix</code> :</p>
+zajrzeć na <a href="https://anonscm.debian.org/cgit/webwml/packages.git/">git debiana</a> i tam spróbować odnaleźć interesujący nas projekt. Jeśli doszukamy się
+go, możemy być pewni, że część pracy przeprowadził już ktoś za nas.</p>
+<p>Innym miejscem jest repozytorium <a href="https://aur.archlinux.org/">AUR dystrybucji Archlinux</a>. Tam zawsze idzie coś znaleźć,
+tylko paczki nie są zbytnio kompatybilne z debianem i trzeba wiedzieć gdzie i czego szukać.
+Przykładowo, załóżmy, że interesuje nas pakiet <code>monitorix</code> :</p>
 <p><img src="https://morfikov.github.io
 /img/2015/12/1.pakiet-aur-deb.png#big" alt=""></p>
 <p>Jak widzimy pakiet został odnaleziony i mamy tam info o licencji i o zależnościach. Niemniej jednak,
@@ -717,11 +710,11 @@ w miarę rozsądna i można się doszukać na niej wszystkich informacji.</p>
 <p>Katalog <code>debian/</code> zawsze będziemy tworzyć po wypakowaniu źródeł i to w nim będziemy dokonywać
 większości zmian, dlatego też musimy poznać nieco jego strukturę. Poniżej postaram się opisać
 wszystkie pliki z tego katalogu, z którymi się spotkałem budując pakiety.</p>
-<p>Generalnie rzecz biorąc, w oparciu o dane określone w tych plikach, narzędzie
-<a href="http://manpages.ubuntu.com/manpages/wily/en/man1/install.1.html">install</a> będzie kopiować
-odpowiednie pliki/foldery i budować z tego drzewo katalogów, które następnie zostanie przeniesione
-do pakietu wynikowego. Dlatego też dobrze jest sobie przyswoić poszczególne parametry tego
-polecenia, bo to ułatwi ewentualne szukanie przyczyn problemów, np z błędnymi uprawnieniami plików.</p>
+<p>Generalnie rzecz biorąc, w oparciu o dane określone w tych plikach, narzędzie <a href="http://manpages.ubuntu.com/manpages/wily/en/man1/install.1.html">install</a> będzie
+kopiować odpowiednie pliki/foldery i budować z tego drzewo katalogów, które następnie zostanie
+przeniesione do pakietu wynikowego. Dlatego też dobrze jest sobie przyswoić poszczególne parametry
+tego polecenia, bo to ułatwi ewentualne szukanie przyczyn problemów, np z błędnymi uprawnieniami
+plików.</p>
 <h3 id="tworzenie-szkieletu">Tworzenie szkieletu</h3>
 <p>Zakładając, że nie udało nam się znaleźć zdebianizowanych źródeł, musimy przejść przez proces ich
 zmiany. Na sam początek pobieramy źródła takie jak widzimy na stronie projektu i wypakowujemy je:</p>
@@ -802,13 +795,13 @@ Description: Web system monitoring tool
  ...
 </code></pre>
 <p>Trochę tego jest. Jedziemy zatem od góry. Linijka <code>Source</code> określa nazwę źródła, czyli to co
-zostanie pobrane po wydaniu polecenia <code>apt-get source</code> , z tym, że bez wersji i sufix'u <code>.tar.gz</code> .</p>
+zostanie pobrane po wydaniu polecenia <code>apt-get source</code> , z tym, że bez wersji i sufiksu <code>.tar.gz</code> .</p>
 <p>Dalej mamy <code>Section</code> i odpowiada to za przypisanie pakietu do konkretnej sekcji, a tych jest dość
-sporo. Wszystkie można znaleźć <a href="https://packages.debian.org/unstable/">tutaj</a>. Tylko taka mała
-uwaga, zwykle tam w linku spotkamy się z nazwami typu &quot;Administration Utilities&quot; lub &quot;Network&quot; i to
-nie są te nazwy, które musimy wpisać do pliku <code>debian/control</code> . Jeśli klikniemy w daną sekcję, na
-samej górze dopiero dostaniemy prawidłową nazwę, przykładowo: Software Packages in &quot;sid&quot;, Subsection
-<code>net</code> i to właśnie to musimy wpisać.</p>
+sporo. Wszystkie można znaleźć <a href="https://packages.debian.org/unstable/">tutaj</a>. Tylko taka mała uwaga, zwykle tam w linku spotkamy się
+z nazwami typu &quot;Administration Utilities&quot; lub &quot;Network&quot; i to nie są te nazwy, które musimy wpisać
+do pliku <code>debian/control</code> . Jeśli klikniemy w daną sekcję, na samej górze dopiero dostaniemy
+prawidłową nazwę, przykładowo: Software Packages in &quot;sid&quot;, Subsection <code>net</code> i to właśnie to musimy
+wpisać.</p>
 <p>Kolejna linijka to <code>Priority</code> i określa ona jak ważna jest paczka z punktu widzenia prawidłowego
 działania systemu i z reguły tutaj będziemy wpisywać <code>optional</code> albo <code>extra</code> . Różnica między tymi
 dwoma polega na tym, że ten pierwszy nie koliduje z żadnymi pakietami, które mają ustawiony
@@ -879,7 +872,7 @@ razie, jeśli już mamy w systemie jakiś pakiet, to zależności ustalamy tak:<
   NEEDED               libm.so.6
   NEEDED               libc.so.6
 </code></pre>
-<p>Podobnie jak w przypadku <code>dpkg-depcheck</code> , obcinamy <code>.so.*</code> i dołączamy sufix <code>-dev</code> .</p>
+<p>Podobnie jak w przypadku <code>dpkg-depcheck</code> , obcinamy <code>.so.*</code> i dołączamy sufiks <code>-dev</code> .</p>
 <p>Następnie mamy <code>Standards-Version</code> i jest to wersja standardu polityki debiana jaka ma być
 spełniona, aby zbudować tę paczkę i zawsze trzeba ustawiać tutaj najnowszą wersję, obecnie jest to
 3.9.6 . Jeśli w późniejszym czasie wersja ulegnie zmianie, pakiet trzeba będzie przebudować i
@@ -905,8 +898,8 @@ przecie z jego perspektywy, jeśli jakiś pakiet zawiera znaczne ilości plików
 architektury, to nie możemy dawać arch <code>any</code> i musimy dać <code>all</code> i jak z takiej sytuacji wybrnąć?
 Trzeba pakiet podzielić na dwie części. W jednej z nich dać pliki wymagające kompilacji, a w drugiej
 (zwykle paczka-common) dać wszystkie pliki niezależne od architektury i dodać odpowiednie zależności
-do paczki trzymającej plik binarny -- o tym będzie więcej przy okazji omawiania pliku <code>debian/rules</code>
-.</p>
+do paczki trzymającej plik binarny -- o tym będzie więcej przy okazji omawiania pliku
+<code>debian/rules</code> .</p>
 <p>Następne linijki to <code>Depends</code> , <code>Suggests</code> , <code>Recommends</code> , <code>Conflicts</code> , <code>Breaks</code> , <code>Provides</code> i
 <code>Replaces</code> i są to zależności, które muszą być spełnione przy instalacji pakietu. Nie wszystkie z
 wyżej wymienionych opcji będziemy zawsze używać. Zwykle ograniczymy się do pierwszych trzech.
@@ -935,11 +928,9 @@ trzeba dopisać <code>${perl:Depends}</code> , jeśli jest to python'owy skrypt,
 lub <code>${python3:Depends}</code> w zależności od wersji python'a. Wszystkie te dodatkowe listy z
 generowanymi pakietami są wpisywane do pliku <code>debian/control</code> w paczce wynikowej i możemy te
 zależności dokładnie obejrzeć i ewentualnie oszacować czy czegoś brakuje. Więcej informacji na
-temat określania zależności między pakietami, można znaleźć
-<a href="https://www.debian.org/doc/debian-policy/ch-relationships.html">tutaj</a>. Wspomnieć też należy, że to
-nie są jedyne opcje, które możemy wykorzystać przy podstawianiu zmiennych, więcej o pozostałych
-można przeczytać w manie
-<a href="http://manpages.ubuntu.com/manpages/wily/man5/deb-substvars.5.html">deb-substvars</a> .</p>
+temat określania zależności między pakietami, można znaleźć <a href="https://www.debian.org/doc/debian-policy/ch-relationships.html">tutaj</a>. Wspomnieć też należy, że
+to nie są jedyne opcje, które możemy wykorzystać przy podstawianiu zmiennych, więcej o pozostałych
+można przeczytać w manie <a href="http://manpages.ubuntu.com/manpages/wily/man5/deb-substvars.5.html">deb-substvars</a>.</p>
 <p>I ostatnia pozycja w tym pliku to <code>Description</code> , czyli opis pakietu. Ten po dwukropku zwykle jest
 krótki i nie powinien przekraczać 65 znaków -- więcej zostanie obciętych. Jeśli zaś chodzi o dłuższy
 opis, to wpisujemy go bezpośrednio pod tą linijką, z tym, że wcinamy tekst o jedną spację i długość
@@ -949,7 +940,7 @@ chcemy skorzystać z list, czyli wypunktować różne rzeczy, wcinamy linijkę p
 dajemy myślnik albo gwiazdkę. Ja zwykle daję gwiazdki.</p>
 <h3 id="debianrules">debian/rules</h3>
 <p>Jak sama nazwa wskazuje, ten plik będzie zawierał szereg reguł, w oparciu o które pakiet zostanie
-zbudowany. Generalnie rzecz biorac jest to plik <code>makefile</code> tylko nieco inny.</p>
+zbudowany. Generalnie rzecz biorąc jest to plik <code>makefile</code> tylko nieco inny.</p>
 <p>Budowanie pakietu odbywa się w etapach. Wywoływany jest pierwszy etap i dokonywane są zdefiniowane w
 nim reguły, po czym następuje przejście do kolejnego etapu i aplikowane są reguły określone tutaj i
 tak dalej, aż do samego końca.</p>
@@ -1061,13 +1052,13 @@ tutaj wpisać i jakie reguły zaaplikować? Zwykle <code>debhelper</code> wykryj
 powinien sobie z procesem budowania poradzić bez naszej ingerencji ale czasem szereg plików trzeba
 będzie usunąć, a niektóre stworzyć lub przenieść w inne miejsce, tak by paczka miała ręce i nogi i
 nie zawierała przy tym zbędnych śmieci.</p>
-<p>Jeśli kiedyś zdarzyło nam się instalować pakiet ręcznie, tj. via <code>./configure</code>
-(dh_auto_configure) , <code>make</code> (dh_auto_build) i <code>make install</code> (dh_auto_install), to może nam to
-podsunąć kilka pomysłów, bo tak na dobrą sprawę, to jak sama nazwa wskazuje <code>makefile</code> tworzy pliki.
-Zatem jest to prosta instrukcja gdzie wgrać jakie pliki, by program działał jak trza. Zatem możemy
-podejrzeć plik <code>makefile</code> dołączony do źródeł i prześledzić co tak naprawdę w nim się odbywa. Z
-reguły pliki <code>makefile</code> są długie i nie będę tutaj przytaczał całości. Rzucimy jedynie okiem na
-najważniejsze jego fragmenty:</p>
+<p>Jeśli kiedyś zdarzyło nam się instalować pakiet ręcznie, tj. via <code>./configure</code> (dh_auto_configure),
+<code>make</code> (dh_auto_build) i <code>make install</code> (dh_auto_install), to może nam to podsunąć kilka pomysłów,
+bo tak na dobrą sprawę, to jak sama nazwa wskazuje <code>makefile</code> tworzy pliki. Zatem jest to prosta
+instrukcja gdzie wgrać jakie pliki, by program działał jak trza. Zatem możemy podejrzeć plik
+<code>makefile</code> dołączony do źródeł i prześledzić co tak naprawdę w nim się odbywa. Z reguły pliki
+<code>makefile</code> są długie i nie będę tutaj przytaczał całości. Rzucimy jedynie okiem na najważniejsze
+jego fragmenty:</p>
 <pre><code>PN = monitorix
 
 PREFIX ?= /usr
@@ -1211,7 +1202,7 @@ znalazłby się on pod <code>/usr/share/doc/ansifilter/INSTALL</code> .</p>
 <p>Każdy projekt musi mieć listę wprowadzanych zmian, a te z kolei dzielimy na takie, które sami
 wprowadzamy lub też zostały uwzględnione w upstream'ie. Generalnie rzecz biorąc, większość projektów
 utrzymuje swój plik changelog (z reguły zlokalizowany w głównym katalogu źródeł) i nie musimy się o
-niego martwić. Niemniej jednak, spotkamy się z takimi projektami, które nie mają pliku changeloga,
+niego martwić. Niemniej jednak, spotkamy się z takimi projektami, które nie mają pliku changelog'a,
 lub w ogóle nie posiadają żadnej historii zmian za wyjątkiem kolejnego numerku wersji.</p>
 <p>Jeśli jest to przypadek pierwszy, czyli projekt ma changelog, np. na swojej stronie, ale nie
 dostarcza pliku, w którym zmiany by były uwzględnione, możemy taki plik zrobić i do niego skopiować
@@ -1268,27 +1259,24 @@ morfik:~/debian_build$ cd monitorix-3.6.0/
 morfik:~/debian_build/monitorix-3.6.0$
 </code></pre>
 <p>W przypadku, gdy będziemy chcieli włączyć pakiet do repozytorium debiana, trzeba będzie założyć
-stosowny wątek na bugtrackerze, któremu zostanie przypisany odpowiedni numer identyfikacyjny i to
+stosowny wątek na bugtracker, któremu zostanie przypisany odpowiedni numer identyfikacyjny i to
 ten numer będziemy musieli podać w pliku <code>debian/changelog</code> , np. <code>(Closes: #123456</code> . Ma to na celu
 zautomatyzowanie procesu śledzenia i zamykania błędów, bo plik <code>debian/changelog</code> jest skanowany w
 poszukiwaniu pewnych wyrażeń i np. BTS po dodaniu powyższego pakietu automatycznie zamknie zawarte w
 nim kody błędów, oczywiście o ile wpiszemy poprawne numerki. To samo tyczy się zgłaszania kolejnych
 błędów. Jeśli uda nam się je poprawić albo zostaną poprawione w upstream'ie, to wystarczy dopisać w
-changelogu numerki zgłoszonych przez kogoś błędów i po przesłaniu paczki, system zamknie je
+changelog'u numerki zgłoszonych przez kogoś błędów i po przesłaniu paczki, system zamknie je
 automatycznie. Bez tego automatu, sami musielibyśmy to robić.</p>
 <p>Jeśli chcielibyśmy się bawić w maintainera z prawdziwego zdarzenia, trzeba będzie nam przyswoić
-umiejętność operowania na listach mailingowych debiana. To tam będziemy mieć dostęp do bugtrackera,
+umiejętność operowania na listach mailingowych debiana. To tam będziemy mieć dostęp do bugtracker'a,
 gdzie będą zgłaszane i omawiane błędy w pakietach, którymi będziemy musieli się zająć. Debian ma
 także kilka użytecznych narzędzi, które pomogą nam w tym zadaniu i jednym z nich jest
-<a href="https://www.debian.org/Bugs/Reporting">reportbug</a>. Przydaje się ono nie tylko do zgłaszania błędów.
-Zbiór list mailingowych debiana można znaleźć <a href="https://lists.debian.org/">tutaj</a>, z kolei <a href="https://www.debian.org/MailingLists/">pod tym
-linkiem</a> można znaleźć garść użytecznych informacji na temat
-tego jak używać samych list.</p>
+<a href="https://www.debian.org/Bugs/Reporting">reportbug</a>. Przydaje się ono nie tylko do zgłaszania błędów. Zbiór list mailingowych debiana
+można znaleźć <a href="https://lists.debian.org/">tutaj</a>, z kolei <a href="https://www.debian.org/MailingLists/">pod tym linkiem</a> można znaleźć garść użytecznych informacji
+na temat tego jak używać samych list.</p>
 <p>Skrypt <code>dch</code> jest dość rozbudowany i ma sporo opcji. Jeśli ktoś chciałby w pełni zgłębić możliwości
-tego narzędzia, to informacje znajdzie w
-<a href="http://manpages.ubuntu.com/manpages/wily/en/man1/dch.1.html">manie</a>. Więcej informacji na temat
-formatu samego pliku <code>debian/changelog</code> można znaleźć
-<a href="https://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog">tutaj</a>.</p>
+tego narzędzia, to informacje znajdzie w <a href="http://manpages.ubuntu.com/manpages/wily/en/man1/dch.1.html">manie</a>. Więcej informacji na temat formatu samego
+pliku <code>debian/changelog</code> można znaleźć <a href="https://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog">tutaj</a>.</p>
 <h4 id="debiannews">debian/NEWS</h4>
 <p>Wszystkie ważne informacje na temat zmian w pakiecie możemy wrzucić również do tego pliku. Podczas
 instalacji nowszej wersji takiego pakietu, narzędzie takie jak <code>apt-listchanges</code> wyrzuci monit z
@@ -1449,17 +1437,16 @@ opts=filenamemangle=s/.+\/v?(\d\S*)\.tar\.gz/Monitorix-$1\.tar\.gz/ \
 skomplikowana. Mamy tam wyrażenia regularne perl'a. Nie będziemy zajmować się tutaj samymi
 wyrażeniami i skupimy się na wzorcach, które jedynie będziemy dostosowywać. Więcej informacji o
 samych wyrażeniach regularnych można znaleźć <a href="http://perldoc.perl.org/perlre.html">tutaj</a>.</p>
-<p>Większość projektów jest hostowana na githubie czy sourceforge i w ich przypadku możemy skorzystać z
+<p>Większość projektów jest hostowana na GitHub czy sourceforge i w ich przypadku możemy skorzystać z
 czyjejś pracy, czyli skopiować sobie tę powyższą linijkę i odpowiednio dostosować. Powyżej mamy
-przykład projektu hostowanego na githubie i raczej przerobienie linku nie powinno przysporzyć
+przykład projektu hostowanego na GitHub i raczej przerobienie linku nie powinno przysporzyć
 problemów.</p>
 <p>Wszystkie inne większe strony z projektami opensource mają swoje regułki zebrane <a href="https://wiki.debian.org/debian/watch/">pod tym
-linkiem</a>. Jeśli tam nie znajdziemy strony, z której
-pobraliśmy źródła, będziemy musieli sami naskrobać odpowiednią regułkę. Wprawdzie nie jest to
-obowiązkowe ale znacząco ułatwia późniejsze aktualizowanie źródeł, bo wystarczy, że w katalogu ze
-źródłami wydamy polecenie <code>uscan</code> i ten już sprawdzi czy pojawiła się nowsza wersja w upstream'ie.
-Jeśli tak, pobierze ją i automatycznie dostosuje nazwy plików, co przyśpieszy migrację pakietu do
-nowszej wersji.</p>
+linkiem</a>. Jeśli tam nie znajdziemy strony, z której pobraliśmy źródła, będziemy musieli sami
+naskrobać odpowiednią regułkę. Wprawdzie nie jest to obowiązkowe ale znacząco ułatwia późniejsze
+aktualizowanie źródeł, bo wystarczy, że w katalogu ze źródłami wydamy polecenie <code>uscan</code> i ten już
+sprawdzi czy pojawiła się nowsza wersja w upstream'ie. Jeśli tak, pobierze ją i automatycznie
+dostosuje nazwy plików, co przyśpieszy migrację pakietu do nowszej wersji.</p>
 <p>Po uzupełnieniu pliku, aktualizację przeprowadzamy w poniższy sposób:</p>
 <pre><code>$ uscan --verbose
 -- Scanning for watchfiles in .
@@ -1515,9 +1502,9 @@ opts=pgpsigurlmangle=s/$/.sig/ \
 jakie zadania ma realizować dany program. Zwykle jest nieco bardziej obszerna niż parametr <code>--help</code>
 doczepiony do wywołanego programu. Jeśli dany projekt się szanuje, powinien wypuścić przyzwoitą
 dokumentację i dołączyć ją paczki ze źródłami. Nie zawsze jednak taki manual ma odpowiednią formę.
-<a href="http://liw.fi/manpages/">Pod tym linkiem</a> znajduje się krótki tutorial na temat składni stosowanej
-w plikach manuala wykorzystywanych w debianie. Będziemy musieli się tego nauczyć, w przeciwnym
-wypadku, może się zdarzyć tak, że nasze paczki zostaną bez dokumentacji, a to niedobrze.</p>
+<a href="http://liw.fi/manpages/">Pod tym linkiem</a> znajduje się krótki tutorial na temat składni stosowanej w plikach manuala
+wykorzystywanych w debianie. Będziemy musieli się tego nauczyć, w przeciwnym wypadku, może się
+zdarzyć tak, że nasze paczki zostaną bez dokumentacji, a to niedobrze.</p>
 <p>Z grubsza będziemy mieli styczność z trzema rodzajami przypadków. W pierwszym z nich nie będzie
 żadnej dokumentacji. W drugim będzie dokumentacja ale trzeba będzie ją przeformatować. Zaś w
 trzecim będziemy musieli poprawić błędy w formatowaniu, które wypunktuje nam <code>lintian</code> . Pomijam
@@ -1597,10 +1584,8 @@ zaczepienia.</p>
 <p>Niby <code>debhelper</code> tworzy plik <code>*.init.d</code> ale wszędzie w paczkach spotkałem się tylko z samym
 <code>*.init</code> . W każdym razie, nie ma to większego znaczenia, z której nazwy skorzystamy. Oba pliki
 odpowiadają za instalowanie skryptów startowych sysvinit, tych w katalogu <code>/etc/init.d/</code> . By
-sprawnie tworzyć takie skrypty, trzeba zrozumieć sam nagłówek
-<a href="https://wiki.debian.org/LSBInitScripts">LSB</a> oraz ogarnąć narzędzie
-<a href="http://manpages.ubuntu.com/manpages/wily/man8/start-stop-daemon.8.html">start-stop-daemon</a>.
-Dodatkowo trzeba również opanować obsługę <code>sh</code> ( <code>dash</code> ), tak by
+sprawnie tworzyć takie skrypty, trzeba zrozumieć sam nagłówek <a href="https://wiki.debian.org/LSBInitScripts">LSB</a> oraz ogarnąć narzędzie
+<a href="http://manpages.ubuntu.com/manpages/wily/man8/start-stop-daemon.8.html">start-stop-daemon</a>. Dodatkowo trzeba również opanować obsługę <code>sh</code> ( <code>dash</code> ), tak by
 <a href="http://mywiki.wooledge.org/Bashism">uniknąć</a> <a href="https://wiki.ubuntu.com/DashAsBinSh">bashismów</a>.</p>
 <p>Skrypty init dobrze jest także potraktować poleceniem <code>sh -n</code> , które zwróci ewentualne problemy ze
 składnią, przykładowo:</p>
@@ -1618,16 +1603,13 @@ manuala.</p>
 <h4 id="debianservice-dh_systemd_enable-dh_systemd_start">debian/*service (dh_systemd_enable, dh_systemd_start)</h4>
 <p>W tym pliku jest trzymana konfiguracja unitów dla systemd. By z nich skorzystać musimy w pliku
 <code>debian/rules</code> uwzględnić moduł <code>dh_systemd</code> . Dokładne informacje na temat opcji, które możemy użyć
-w plikach unitów, możemy znaleźć w dokumentacji systemd dostępnej
-<a href="https://www.freedesktop.org/software/systemd/man/systemd.index.html">tutaj</a>. Jest tego dość sporo i
-dla ułatwienia podpowiem tylko, że interesować nas będą głównie strony od
-<a href="https://www.freedesktop.org/software/systemd/man/systemd.service.html">systemd.service</a> oraz
-<a href="https://www.freedesktop.org/software/systemd/man/systemd.unit.html">systemd.unit</a>.</p>
+w plikach unitów, możemy znaleźć w dokumentacji systemd dostępnej <a href="https://www.freedesktop.org/software/systemd/man/systemd.index.html">tutaj</a>. Jest tego dość sporo
+i dla ułatwienia podpowiem tylko, że interesować nas będą głównie strony od <a href="https://www.freedesktop.org/software/systemd/man/systemd.service.html">systemd.service</a>
+oraz <a href="https://www.freedesktop.org/software/systemd/man/systemd.unit.html">systemd.unit</a>.</p>
 <h4 id="debiantmpfile">debian/*tmpfile</h4>
 <p>W tym pliku jest trzymana konfiguracja plików tymczasowych, które są niezbędne do działania danego
 programu. Wszystkie pliki i katalogi określone tutaj będą tworzone i konfigurowane automatycznie na
-starcie systemu. Dokładne informacje na temat formatu samego pliku można znaleźć
-<a href="https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html">tutaj</a>.</p>
+starcie systemu. Dokładne informacje na temat formatu samego pliku można znaleźć <a href="https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html">tutaj</a>.</p>
 <h3 id="debiansymbols">debian/*.symbols</h3>
 <p>Z tym plikiem spotkamy się jedynie przy budowaniu bibliotek, co nie jest prostym zadaniem.
 Zakładając, że udało nam się zbudować bibliotekę, będziemy musieli wygenerować dla niej plik
@@ -1648,8 +1630,7 @@ zatem ustalić odpowiednią nazwę? Do tego celu posłuży nam narzędzie <code>
  0x000000000000000e (SONAME)             Library soname: [libssr-glinject.so]
 </code></pre>
 <p>I już wiemy, że paczka ma się nazywać <code>libssr-glinject</code> . Więcej informacji na temat symboli można
-znaleźć <a href="https://www.debian.org/doc/manuals/maint-guide/advanced.en.html#librarysymbols">tutaj</a> i
-<a href="https://www.debian.org/doc/debian-policy/ch-sharedlibs.html#s-sharedlibs-symbols">tutaj</a>.</p>
+znaleźć <a href="https://www.debian.org/doc/manuals/maint-guide/advanced.en.html#librarysymbols">tutaj</a> i <a href="https://www.debian.org/doc/debian-policy/ch-sharedlibs.html#s-sharedlibs-symbols">tutaj</a>.</p>
 <h3 id="debiandirs-dh_installdirs">debian/*.dirs (dh_installdirs)</h3>
 <p>Jeśli do zbudowania pakietu potrzebne nam są dodatkowe katalogi, które standardowo nie są tworzone,
 oznaczać to może najprawdopodobniej błąd w pliku <code>makefile</code> . Możemy te katalogi wpisać do tego
@@ -1737,7 +1718,7 @@ i będzie można cały komunikat zakwalifikować jako false-positive.</p>
 <p>W obu przypadkach mamy możliwość ukrycia tych komunikatów, tak by nas już więcej nie niepokoiły.
 Jeśli problem dotyczy źródeł, będziemy wykorzystywać plik <code>debian/source/lintian-overrides</code> .
 Natomiast jeśli <code>lintian</code> ma problem z jakąś paczką wynikową, wtedy trzeba będzie stworzyć osobny
-plik z nazwą paczki i sufixem <code>.lintian-overrides</code> .</p>
+plik z nazwą paczki i sufiksem <code>.lintian-overrides</code> .</p>
 <p>Źródła powinny zostać zweryfikowane, a to zwykle odbywa się przez sprawdzenie sygnatury GPG. Nie
 każdy serwis daje nam taką możliwość i nie mamy tak naprawdę żadnego pola manewru w sytuacji, gdy
 twórca źródeł nie podpisał swojego dzieła cyfrowo. Jeśli napotkamy podobny problem, to jako, że
@@ -1759,7 +1740,7 @@ E: libssr-glinject: pkg-has-shlibs-control-file-but-no-actual-shared-libs
 </code></pre>
 <p>Jak widać, praktycznie niczym się te linijki z błędami nie różnią od tego co wpisaliśmy wyżej w
 pliku, no za wyjątkiem początkowych <code>W:</code> i <code>E:</code> . Struktura obu powyższych plików jest taka sama i
-dokładnie opisana jest <a href="https://lintian.debian.org/manual/section-2.4.html">tutaj</a> .</p>
+dokładnie opisana jest <a href="https://lintian.debian.org/manual/section-2.4.html">tutaj</a>.</p>
 <h3 id="sourceformat">source/format</h3>
 <p>Ten plik określa format źródeł pakietu i z reguły wpisujemy w nim <code>3.0 (native)</code> dla natywnych
 debianowych pakietów, oraz <code>3.0 (quilt)</code> dla wszystkiego innego i zwykle będziemy budować właśnie
@@ -1823,19 +1804,16 @@ Parametr <code>-a</code> dopisany do obu z powyższych poleceń, odpowiednio za�
 Jeśli przez przypadek usunęliśmy pliki z patch'ami ale przy tym uprzednio ich nie ściągnęliśmy,
 będziemy musieli posłużyć się opcją <code>-f</code> . By sprawdzić, jaki patch jest aktualnie założony,
 wydajemy <code>quilt applied</code> . Możemy także przeprowadzać różne operacje na samych łatach, np. zmieniać
-ich nazwy. Dobrze jest rzucić okiem na <a href="http://manpages.ubuntu.com/manpages/wily/man1/quilt.1.html">manual
-quilt'a</a> , gdzie znajdziemy opis
-wszystkich przydatnych funkcji. Można również zajrzeć pod <a href="https://raphaelhertzog.com/2012/08/08/how-to-use-quilt-to-manage-patches-in-debian-packages/">ten
-adres</a>,
-gdzie znajdziemy opis praktycznego zastosowania tego narzędzia.</p>
+ich nazwy. Dobrze jest rzucić okiem na <a href="http://manpages.ubuntu.com/manpages/wily/man1/quilt.1.html">manual quilt'a</a>, gdzie znajdziemy opis wszystkich
+przydatnych funkcji. Można również zajrzeć pod <a href="https://raphaelhertzog.com/2012/08/08/how-to-use-quilt-to-manage-patches-in-debian-packages/">ten adres</a>, gdzie znajdziemy opis praktycznego
+zastosowania tego narzędzia.</p>
 <h4 id="nagłówek-łaty">Nagłówek łaty</h4>
 <p>Z bardziej przydatnych rzeczy musimy jeszcze wiedzieć co nieco o edycji nagłówków plików łat. Każdy
-patch musi bowiem spełniać <a href="http://dep.debian.net/deps/dep3/">standard DEP-3</a>, który definiuje
-szereg pół wykorzystywanych w nagłówkach. Nagłówek wygenerowany przez <code>dpkg-source --commit</code> jest
-dość rozbudowany. Jeśli nie chce nam się wypełniać wszystkich linijek albo zwyczajnie nie jesteśmy
-w posiadaniu informacji, które moglibyśmy tam umieścić, to możemy ograniczyć się do dwóch
-obowiązkowych pól, czyli <code>Description:</code> oraz <code>Author</code> (opis i autor). Resztę natomiast można bez
-problemu skasować.</p>
+patch musi bowiem spełniać <a href="http://dep.debian.net/deps/dep3/">standard DEP-3</a>, który definiuje szereg pół wykorzystywanych w
+nagłówkach. Nagłówek wygenerowany przez <code>dpkg-source --commit</code> jest dość rozbudowany. Jeśli nie
+chce nam się wypełniać wszystkich linijek albo zwyczajnie nie jesteśmy w posiadaniu informacji,
+które moglibyśmy tam umieścić, to możemy ograniczyć się do dwóch obowiązkowych pól, czyli
+<code>Description:</code> oraz <code>Author</code> (opis i autor). Resztę natomiast można bez problemu skasować.</p>
 <p>Spotkamy się także z sytuacjami, gdzie ktoś stworzy lub podeśle patch ale nie poda w nim żadnego
 nagłówka lub informacje w nim będą błędne. Być może nawet sami zapomnimy zmienić powyższy nagłówek,
 lub zwyczajnie go przeoczymy i nie uwzględnimy w łacie. W takich przypadkach możemy oczywiście
@@ -1848,8 +1826,7 @@ będziemy tutaj umieszczać pliki zawierające przykłady, np. konfiguracji.</p>
 <p>Ten plik jest używany do interakcji z użytkownikiem przy instalacji pakietu i odbywa się to przez
 zadawanie pytań, na które trzeba udzielić odpowiedzi i w oparciu o nie można skonfigurować pakiet.
 Generalnie rzecz biorąc nie spotkałem się z tym plikiem i za bardzo nic na jego temat nie napiszę.
-Za to, <a href="https://www.leaseweb.com/labs/2013/06/creating-custom-debian-packages/">pod tym linkiem</a>
-jest przykład jego wykorzystania.</p>
+Za to, <a href="https://www.leaseweb.com/labs/2013/06/creating-custom-debian-packages/">pod tym linkiem</a> jest przykład jego wykorzystania.</p>
 <h3 id="debianconffiles-dh_installdeb">debian/conffiles (dh_installdeb)</h3>
 <p>Debian automatycznie oznacza wszystkie pliki w katalogu <code>/etc/</code> jako pliki konfiguracyjne i ich
 domyślnie ani nie usuwa przy pozbywaniu się pakietu z systemu ani też nie nadpisuje ich przy
@@ -1886,8 +1863,7 @@ kilku) plików: <code>debian/*.cron.hourly</code> , <code>debian/*.cron.daily</c
 <code>debian/*.cron.monthly</code> , <code>debian/*.cron.d</code> . Każdy z tych plików powędruje w określone miejsce w
 systemie, odpowiednio będzie to katalog <code>/etc/cron.hourly/</code> , <code>/etc/cron.daily/</code> ,
 <code>/etc/cron.monthly/</code> , <code>/etc/cron.weekly/</code> oraz <code>/etc/cron.d/</code> . Do pierwszych czterech wrzuca się
-skrypty, zaś do ostatniego plik, który musi ma być w formacie określonym przez
-<a href="http://manpages.ubuntu.com/manpages/wily/en/man5/crontab.5.html">crontab</a> .</p>
+skrypty, zaś do ostatniego plik, który musi ma być w formacie określonym przez <a href="http://manpages.ubuntu.com/manpages/wily/en/man5/crontab.5.html">crontab</a>.</p>
 <h3 id="debianlogrotate-dh_installlogrotate">debian/*.logrotate (dh_installlogrotate)</h3>
 <p>Jeśli nasza paczka będzie zawierać demony, które będą logować zdarzenia, dobrze jest także zadbać o
 rotację logów, tak by jeden plik nie rozrastał się w nieskończoność. Wszystkie pliki określone w
@@ -1902,19 +1878,16 @@ czasem nie skasować sobie połowy systemu.</p>
 <p>Skrypt <code>preinst</code> jest wywoływany przed rozpakowaniem paczki, z kolei skrypt <code>postinst</code> po jej
 rozpakowaniu. Podobnie z dwoma pozostałymi skryptami. <code>prerm</code> jest wywoływany przed usunięciem
 pakietu, a <code>postrm</code> po usunięciu.</p>
-<p>Dokładny proces instalowania/deinstalowania/aktualizowania pakietu jest opisany
-<a href="https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html">tutaj</a>. Są tam wyszczególnione
-wszystkie akcje podejmowane podczas powyższych czynności. Z kolei zaś, <a href="https://wiki.debian.org/ConfigPackages">pod tym
-linkiem</a> można znaleźć przykłady samych skryptów. Dobrze
-jest też zajrzeć w katalog <code>debian/</code> innych pakietów, by podejrzeć jak inni maintainerzy tworzą te
-skrypty.</p>
+<p>Dokładny proces instalowania/deinstalowania/aktualizowania pakietu jest opisany <a href="https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html">tutaj</a>. Są tam
+wyszczególnione wszystkie akcje podejmowane podczas powyższych czynności. Z kolei zaś, <a href="https://wiki.debian.org/ConfigPackages">pod tym
+linkiem</a> można znaleźć przykłady samych skryptów. Dobrze jest też zajrzeć w katalog <code>debian/</code>
+innych pakietów, by podejrzeć jak inni maintainerzy tworzą te skrypty.</p>
 <h3 id="desktop">*.desktop</h3>
 <p>Ten plik nie jest bezpośrednio związany z katalogiem <code>debian/</code> ale jest bardzo użyteczny w przypadku
 aplikacji graficznych, bo na jego podstawie mogą zostać utworzone skróty w menu, w które można
-kliknąć myszą. Format tego pliku jest opisany
-<a href="https://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#entries">tutaj</a>.
-Warto wiedzieć, że istnieje także narzędzie, które może pomóc nam w weryfikacji składni tego pliku.
-Jest to <code>desktop-file-validate</code> (pakiet <code>desktop-file-utils</code> ).</p>
+kliknąć myszą. Format tego pliku jest opisany <a href="https://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#entries">tutaj</a>. Warto wiedzieć, że istnieje także
+narzędzie, które może pomóc nam w weryfikacji składni tego pliku. Jest to <code>desktop-file-validate</code>
+(pakiet <code>desktop-file-utils</code> ).</p>
 <h2 id="hardening-pakietów">Hardening pakietów</h2>
 <p>Jeśli nasz pakiet zawierać będzie pliki wykonywalne, trzeba będzie je skompilować i trzeba będzie to
 zrobić z pewnymi określonymi flagami. Większość projektów ma już ustawione pewne flagi domyślne.
@@ -1957,11 +1930,9 @@ MKDIR         = mkdir -p
 ...
 </code></pre>
 <p>Mamy tam takie linijki jak <code>CFLAGS</code> , <code>CXXFLAGS</code> oraz <code>LFLAGS</code> . To właśnie te pozycje musimy
-zmienić. To jakie flagi musimy ustawić, możemy odnaleźć na wiki debiana, do poczytania
-<a href="https://wiki.debian.org/HardeningWalkthrough">tutaj</a>,
-<a href="https://wiki.debian.org/ReleaseGoals/SecurityHardeningBuildFlags">tutaj</a> i
-<a href="https://wiki.debian.org/Hardening">tutaj</a> . Nie zagłębiając się w szczegóły, zwykle wystarczy
-dopisać na początku pliku <code>debian/rules</code> , te poniższe linijki:</p>
+zmienić. To jakie flagi musimy ustawić, możemy odnaleźć na wiki debiana, do poczytania <a href="https://wiki.debian.org/HardeningWalkthrough">tutaj</a>,
+<a href="https://wiki.debian.org/ReleaseGoals/SecurityHardeningBuildFlags">tutaj</a> i <a href="https://wiki.debian.org/Hardening">tutaj</a> . Nie zagłębiając się w szczegóły, zwykle wystarczy dopisać na początku
+pliku <code>debian/rules</code> , te poniższe linijki:</p>
 <pre><code>export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 DPKG_EXPORT_BUILDFLAGS = 1
 include /usr/share/dpkg/buildflags.mk
@@ -1980,10 +1951,9 @@ celu polecenie <code>hardening-check</code> (pakiet <code>hardening-includes</co
 kombinować jak je poprawić. Najłatwiejszym sposobem jest oczywiście edycja flag w plikach
 źródłowych, z tym, że nie zawsze to działa, np. projekty, które są budowane przy pomocy <code>qmake</code>
 generują sobie plik makefile i co z tego, że przepiszemy flagi, jak podczas budowania, ten plik
-zostanie nadpisany. Na <a href="https://wiki.debian.org/Hardening#dpkg-buildflags">wiki debiana</a> jest kilka
-przykładów opisujących min. <code>qmake</code> czy <code>cmake</code> i możemy z nich skorzystać. W tym przypadku (
-<code>qmake</code> ) trzeba było edytować plik <code>.pro</code> i ustawić w
-nim:</p>
+zostanie nadpisany. Na <a href="https://wiki.debian.org/Hardening#dpkg-buildflags">wiki debiana</a> jest kilka przykładów opisujących min. <code>qmake</code> czy
+<code>cmake</code> i możemy z nich skorzystać. W tym przypadku ( <code>qmake</code> ) trzeba było edytować plik <code>.pro</code> i
+ustawić w nim:</p>
 <pre><code>QMAKE_CPPFLAGS *= -g -O2 -fPIE -fstack-protector-strong -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -fPIE -pie -Wl,-z,relro -Wl,-z,now
 QMAKE_CFLAGS   *= -g -O2 -fPIE -fstack-protector-strong -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -fPIE -pie -Wl,-z,relro -Wl,-z,now
 QMAKE_CXXFLAGS *= -g -O2 -fPIE -fstack-protector-strong -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -fPIE -pie -Wl,-z,relro -Wl,-z,now
@@ -2288,12 +2258,10 @@ wyżej, na <code>unstable</code> , przykład:</p>
 </code></pre>
 <p>I to jest w zasadzie wszystko czego od nas wymaga proces przygotowywania źródeł, przynajmniej w
 przypadku aktualizowanych paczek. Musimy teraz zbudować osobno źródła i paczkę <code>.deb</code> , tak jak to
-zostało opisane wyżej w rozdziale <code>8</code> . Dobrze jest także zajrzeć sobie do <a href="https://debian-handbook.info/browse/stable/sect.building-first-package.html">tego
-poradnika</a> i przejrzeć
-poszczególne podrozdziały. Więcej bardziej zaawansowanych informacji można znaleźć w <a href="https://www.debian.org/doc/manuals/developers-reference/index.html">podręczniku
-dla deweloperów</a> oraz w
-<a href="https://www.debian.org/doc/debian-policy/index.html">dokumencie poświęconym polityce debiana</a>. Na
-wiki debiana jest też kilka obszerniejszych wpisów min. ten dotyczący <a href="https://wiki.debian.org/Packaging/Intro">wprowadzenia do
+zostało opisane wyżej w rozdziale <code>8</code> . Dobrze jest także zajrzeć sobie do <a href="https://debian-handbook.info/browse/stable/sect.building-first-package.html">tego poradnika</a> i
+przejrzeć poszczególne podrozdziały. Więcej bardziej zaawansowanych informacji można znaleźć w
+<a href="https://www.debian.org/doc/manuals/developers-reference/index.html">podręczniku dla deweloperów</a> oraz w <a href="https://www.debian.org/doc/debian-policy/index.html">dokumencie poświęconym polityce debiana</a>. Na wiki
+debiana jest też kilka obszerniejszych wpisów min. ten dotyczący <a href="https://wiki.debian.org/Packaging/Intro">wprowadzenia do
 pakietowania</a>, który można obrać jako punkt wyjścia.</p>
 <h3 id="aktualizacja-pakietu-z-repozytorium-git">Aktualizacja pakietu z repozytorium git</h3>
 <p>Jako, że spora ilość projektów jest utrzymywana w jakimś systemie kontroli wersji (CVS), to
@@ -2310,11 +2278,11 @@ danej aplikacji i to z niej zbudować pakiet <code>.deb</code> .</p>
 <p>Najnowsze źródła zawsze pobieramy za pomocą <code>git clone</code> (lub <code>git pull</code> , jeśli repozytorium mamy
 już na dysku). Następnie tak uzyskany katalog trzeba spakować. Poniżej przykład:</p>
 <pre><code>$ git clone https://github.com/mhogomchungu/ussd-gui/
-$ tar --exclude='.git*' --exclude='.pc' -cf - ussd-gui | xz -9 -c - &gt; ussd-gui_1.2.0~git20160426.orig.tar.xz
+$ tar --exclude='.git*' --exclude='.pc' -cf - ussd-gui | xz -9 -c - &gt; ussd-gui_1.2.0+git20160426.orig.tar.xz
 </code></pre>
 <p>W ten sposób uzyskujemy paczkę z oryginalnymi źródłami niezbędnymi w dalszym procesie budowania
-pakietu <code>.deb</code> . Nazwa tego archiwum zawiera w sobie <code>~git20160426</code> . Standardowo po numerze wersji
-ostatniego release jest wskazanie, że mamy do czynienia z wersją git ( <code>~git</code> ). Następnie jest
+pakietu <code>.deb</code> . Nazwa tego archiwum zawiera w sobie <code>+git20160426</code> . Standardowo po numerze wersji
+ostatniego release jest wskazanie, że mamy do czynienia z wersją git ( <code>+git</code> ). Następnie jest
 określona data najświeższego commit'a, który został przepchnięty do repozytorium, w formie YYYYMMDD.</p>
 <p>W changelog'u ( <code>dch -i</code> ) uwzględniamy tą wersję oraz dorzucamy informacje na temat tego commit'a.
 Można ją wyciągnąć z logu git'a w poniższy sposób:</p>
@@ -2323,7 +2291,7 @@ Można ją wyciągnąć z logu git'a w poniższy sposób:</p>
 ...
 </code></pre>
 <p>Poniżej zaś przykładowy wpis w pliku changelog'a:</p>
-<pre><code>ussd-gui (1.2.0~git20160426-2) unstable; urgency=medium
+<pre><code>ussd-gui (1.2.0+git20160426-2) unstable; urgency=medium
 
   * New upstream snapshot (84b2c13)
 

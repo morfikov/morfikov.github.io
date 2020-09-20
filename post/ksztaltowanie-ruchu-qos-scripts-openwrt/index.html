@@ -37,7 +37,7 @@ konfiguracji od podstaw. Niemniej jednak, w tym artykule postaramy się ogarną�
 przy pomocy tych pakietów.">
 <meta itemprop="datePublished" content="2016-07-08T18:00:54+00:00" />
 <meta itemprop="dateModified" content="2016-07-08T18:00:54+00:00" />
-<meta itemprop="wordCount" content="965">
+<meta itemprop="wordCount" content="964">
 
 
 
@@ -174,18 +174,16 @@ konfiguracji od podstaw. Niemniej jednak, w tym artykule postaramy się ogarną�
 przy pomocy tych pakietów.</p>
 <h2 id="wshaper-qos-scripts-i-sqm-scripts">Wshaper, qos-scripts i sqm-scripts</h2>
 <p>Przede wszystkim, jeśli ktoś jest zainteresowany ręczną <a href="https://morfikov.github.io
-/post/quality-service-qos-w-openwrt/">konfiguracją mechanizmu QoS w
-OpenWRT</a>, to odsyłam go do tego artykułu. My
-tutaj skupimy się na wyborze odpowiednich narzędzi tak, by możliwie bezproblemowo zaimplementować na
-routerze kształtowanie ruchu.</p>
+/post/quality-service-qos-w-openwrt/">konfiguracją mechanizmu QoS w OpenWRT</a>,
+to odsyłam go do tego artykułu. My tutaj skupimy się na wyborze odpowiednich narzędzi tak, by
+możliwie bezproblemowo zaimplementować na routerze kształtowanie ruchu.</p>
 <p>W OpenWRT mamy z grubsza trzy pakiet, które udostępniają nam możliwość implementacji mechanizmu QoS.
-Są to <code>wshaper</code> , <code>qos-scripts</code> lub <code>sqm-scripts</code> . Jak możemy wyczytać <a href="https://wiki.openwrt.org/doc/uci/qos">pod tym
-linkiem</a>, <code>wshaper</code> nie jest już rozwijany i lepszą
-alternatywą jest korzystanie z <code>qos-scripts</code> lub <code>sqm-scripts</code> . Ten ostatni ma wsparcie w LUCI
-(graficzna nakładka na OpenWRT). My jednak będziemy korzystać z konsoli i potrzebny nam będzie
-pakiet <code>qos-scripts</code> . Logujemy się zatem na router i instalujemy wspomniany pakiet. Razem z nim
-zostanie pociągniętych szereg zależności. Dlatego też upewnijmy się, że mamy około 400 KiB wolnego
-miejsca na pamięci flash:</p>
+Są to <code>wshaper</code> , <code>qos-scripts</code> lub <code>sqm-scripts</code> . Jak możemy wyczytać <a href="https://wiki.openwrt.org/doc/uci/qos">pod tym linkiem</a>,
+<code>wshaper</code> nie jest już rozwijany i lepszą alternatywą jest korzystanie z <code>qos-scripts</code> lub
+<code>sqm-scripts</code> . Ten ostatni ma wsparcie w LUCI (graficzna nakładka na OpenWRT). My jednak będziemy
+korzystać z konsoli i potrzebny nam będzie pakiet <code>qos-scripts</code> . Logujemy się zatem na router i
+instalujemy wspomniany pakiet. Razem z nim zostanie pociągniętych szereg zależności. Dlatego też
+upewnijmy się, że mamy około 400 KiB wolnego miejsca na pamięci flash:</p>
 <pre><code># opkg update
 # opkg install qos-scripts
 </code></pre>
@@ -226,10 +224,9 @@ określonym pakietom wyższy priorytet i przyśpieszyć proces ich przetwarzania
 opóźnień. Standardowo mamy zdefiniowanych kilka klas, które w zasadzie powinny wystarczyć na
 ogarnięcie ruchu, który przepływa przez domowy router.</p>
 <p>Nigdzie nie znalazłem jakiejś przyzwoitej dokumentacji opisującej opcje w blokach <code>config class</code> ,
-także trzeba się posiłkować nazwami klas. <a href="https://wiki.openwrt.org/doc/uci/qos#types_and_groups">Pod tym
-linkiem</a> znajduje się także informacja, że
-klasa <code>Priority</code> lepiej się nadaje do nadawania priorytetu małym pakietom, chyba do 400 bajtów oraz
-, że klasa <code>Express</code> bardziej sprawdza się przy większych pakietach (do 1000 bajtów). Trzeba zatem
+także trzeba się posiłkować nazwami klas. <a href="https://wiki.openwrt.org/doc/uci/qos#types_and_groups">Pod tym linkiem</a> znajduje się także informacja, że
+klasa <code>Priority</code> lepiej się nadaje do nadawania priorytetu małym pakietom, chyba do 400 bajtów oraz,
+że klasa <code>Express</code> bardziej sprawdza się przy większych pakietach (do 1000 bajtów). Trzeba zatem
 rozważnie dobierać te klasy. Klas zaś domyślnie mamy cztery, z których <code>Normal</code> jest klasą domyślą,
 gdzie trafia ruch niesklasyfikowany.</p>
 <p>Podobnie jak w przypadku bloku <code>config interface</code> , również blok <code>config classgroup</code> może być
@@ -270,8 +267,7 @@ definiować kilka jednocześnie):</p>
 </ul>
 <p>Część dopasowań opiera się o określone moduły filtra <code>iptables</code> . Prawdopodobnie będzie wymagana
 instalacja dodatkowych pakietów, by móc skorzystać z części tych powyższych opcji. Więcej informacji
-na temat tych modułów można znaleźć
-<a href="http://ipset.netfilter.org/iptables-extensions.man.html">tutaj</a>.</p></div>
+na temat tych modułów można znaleźć <a href="http://ipset.netfilter.org/iptables-extensions.man.html">tutaj</a>.</p></div>
 				
 				<footer class="entry__footer">
 					

@@ -9,26 +9,24 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:title" content="HTTP Strict Transport Security (HSTS) w Apache2" />
-<meta property="og:description" content="Ostatnio na niebezpieczniku czytałem taki oto
-post. Historia jak historia, nieco długa ale
+<meta property="og:description" content="Ostatnio na niebezpieczniku czytałem taki oto post. Historia jak historia, nieco długa ale
 mniej więcej w połowie pojawiła się informacja na temat nagłówków HSTS (HTTP Strict Transport
-Security), który jest przesyłany w
-zapytaniach HTTP/HTTPS. Postanowiłem nieco się zainteresować tym tematem i zbadać czym są te
-nagłówki HSTS i w jaki sposób są one w stanie poprawić bezpieczeństwo protokołów SSL/TLS
-wykorzystywanych podczas szyfrowania zawartości stron internetowych." />
+Security), który jest przesyłany w zapytaniach HTTP/HTTPS. Postanowiłem nieco się zainteresować
+tym tematem i zbadać czym są te nagłówki HSTS i w jaki sposób są one w stanie poprawić
+bezpieczeństwo protokołów SSL/TLS wykorzystywanych podczas szyfrowania zawartości stron
+internetowych." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/http-strict-transport-security-hsts-apache2/" />
 <meta property="article:published_time" content="2016-07-19T19:08:40+00:00" />
 <meta property="article:modified_time" content="2016-07-19T19:08:40+00:00" />
 
 		<meta itemprop="name" content="HTTP Strict Transport Security (HSTS) w Apache2">
-<meta itemprop="description" content="Ostatnio na niebezpieczniku czytałem taki oto
-post. Historia jak historia, nieco długa ale
+<meta itemprop="description" content="Ostatnio na niebezpieczniku czytałem taki oto post. Historia jak historia, nieco długa ale
 mniej więcej w połowie pojawiła się informacja na temat nagłówków HSTS (HTTP Strict Transport
-Security), który jest przesyłany w
-zapytaniach HTTP/HTTPS. Postanowiłem nieco się zainteresować tym tematem i zbadać czym są te
-nagłówki HSTS i w jaki sposób są one w stanie poprawić bezpieczeństwo protokołów SSL/TLS
-wykorzystywanych podczas szyfrowania zawartości stron internetowych.">
+Security), który jest przesyłany w zapytaniach HTTP/HTTPS. Postanowiłem nieco się zainteresować
+tym tematem i zbadać czym są te nagłówki HSTS i w jaki sposób są one w stanie poprawić
+bezpieczeństwo protokołów SSL/TLS wykorzystywanych podczas szyfrowania zawartości stron
+internetowych.">
 <meta itemprop="datePublished" content="2016-07-19T19:08:40+00:00" />
 <meta itemprop="dateModified" content="2016-07-19T19:08:40+00:00" />
 <meta itemprop="wordCount" content="990">
@@ -39,13 +37,12 @@ wykorzystywanych podczas szyfrowania zawartości stron internetowych.">
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="HTTP Strict Transport Security (HSTS) w Apache2"/>
-<meta name="twitter:description" content="Ostatnio na niebezpieczniku czytałem taki oto
-post. Historia jak historia, nieco długa ale
+<meta name="twitter:description" content="Ostatnio na niebezpieczniku czytałem taki oto post. Historia jak historia, nieco długa ale
 mniej więcej w połowie pojawiła się informacja na temat nagłówków HSTS (HTTP Strict Transport
-Security), który jest przesyłany w
-zapytaniach HTTP/HTTPS. Postanowiłem nieco się zainteresować tym tematem i zbadać czym są te
-nagłówki HSTS i w jaki sposób są one w stanie poprawić bezpieczeństwo protokołów SSL/TLS
-wykorzystywanych podczas szyfrowania zawartości stron internetowych."/>
+Security), który jest przesyłany w zapytaniach HTTP/HTTPS. Postanowiłem nieco się zainteresować
+tym tematem i zbadać czym są te nagłówki HSTS i w jaki sposób są one w stanie poprawić
+bezpieczeństwo protokołów SSL/TLS wykorzystywanych podczas szyfrowania zawartości stron
+internetowych."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -150,35 +147,33 @@ if (!doNotTrack) {
   </ol>
 </nav>
 </details>
-				<div class="entry__content"><p>Ostatnio na niebezpieczniku czytałem <a href="https://niebezpiecznik.pl/post/podroze-kosztuja/">taki oto
-post</a>. Historia jak historia, nieco długa ale
+				<div class="entry__content"><p>Ostatnio na niebezpieczniku czytałem <a href="https://niebezpiecznik.pl/post/podroze-kosztuja/">taki oto post</a>. Historia jak historia, nieco długa ale
 mniej więcej w połowie pojawiła się informacja na temat nagłówków HSTS (<a href="https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security">HTTP Strict Transport
-Security</a>), który jest przesyłany w
-zapytaniach HTTP/HTTPS. Postanowiłem nieco się zainteresować tym tematem i zbadać czym są te
-nagłówki HSTS i w jaki sposób są one w stanie poprawić bezpieczeństwo protokołów SSL/TLS
-wykorzystywanych podczas szyfrowania zawartości stron internetowych.</p>
+Security</a>), który jest przesyłany w zapytaniach HTTP/HTTPS. Postanowiłem nieco się zainteresować
+tym tematem i zbadać czym są te nagłówki HSTS i w jaki sposób są one w stanie poprawić
+bezpieczeństwo protokołów SSL/TLS wykorzystywanych podczas szyfrowania zawartości stron
+internetowych.</p>
 <h2 id="po-co-nam-hsts-skoro-mamy-ssltls">Po co nam HSTS, skoro mamy SSL/TLS</h2>
 <p>Bardzo dużo osób zapytanych o to czy połączenie za pomocą protokołu SSL/TLS jest bezpieczne
 odpowiada, że tak, bo nawet jeśli ktoś ten ruch przechwyci, to przecie w formie nieczytelnej i
 niezrozumiałej dla człowieka. Po co nam zatem te całe nagłówki HSTS, skoro nasza komunikacja jest
 należycie zabezpieczona? Szereg stron w sieci potrafi serwować zawartość serwisu przy wykorzystaniu
-dwóch protokołów w zależności od tego czy klient wpisał w przeglądarce <code>http://</code> czy też <code>https://</code>
-. Nawet jeśli zwykle odwiedzamy taka stronę po <code>https://</code> , to wystarczy raz ją odwiedzić po
-<code>http://</code> (np. przez link wewnętrzny do innej strony w serwisie) i przez sieć lecą otwartym tekstem
-hasła, ciasteczka i inne poufne dane. Jeśli teraz ktoś podsłuchiwał ruch, to pozyskał on również i
-te newralgiczne informacje.</p>
+dwóch protokołów w zależności od tego czy klient wpisał w przeglądarce <code>http://</code> czy też
+<code>https://</code> . Nawet jeśli zwykle odwiedzamy taka stronę po <code>https://</code> , to wystarczy raz ją odwiedzić
+po <code>http://</code> (np. przez link wewnętrzny do innej strony w serwisie) i przez sieć lecą otwartym
+tekstem hasła, ciasteczka i inne poufne dane. Jeśli teraz ktoś podsłuchiwał ruch, to pozyskał on
+również i te newralgiczne informacje.</p>
 <p>Rozwiązaniem wyżej opisanego problemu może wydawać się wymuszenie połączenia szyfrowanego. No i na
 dobrą sprawę szereg stron internetowych podejmuje tego typu akcję i przy pomocy kodów 301 i 302
 jesteśmy przekierowywani na nowy adres. W taki sposób nawet po wpisaniu samego <code>http://</code> wylądujemy
 na zabezpieczonej stronie <code>https://</code> . Innym wyjściem może być umieszczanie linków na stronie, które
 mają <code>https://</code> zamiast <code>http://</code> . Niemniej jednak, gdy ktoś między nami a serwerem (MITM) będzie
 nasłuchiwał ruchu HTTP, może wyłowić z niego te bezpieczne przekierowania oraz linki <code>https://</code> .
-Następnie może usunąć <code>s</code> ze wszystkich wyłapanych linków
-(<a href="https://moxie.org/software/sslstrip/">sslstrip</a>) i robić za proxy między klientem a serwerem. Z
-klientem ruch będzie odbywał się w formie nieszyfrowanej, z serwerem zaś, proxy zestawi połączenie
-szyfrowane. Ruch przepływający przez proxy będzie zatem w formacie czystego teksu i ani
-przeglądarka, ani serwer nie zgłoszą żadnych problemów przy przeglądaniu serwisu. Dlatego właśnie
-powstał <a href="https://tools.ietf.org/html/rfc6797">HSTS</a>.</p>
+Następnie może usunąć <code>s</code> ze wszystkich wyłapanych linków (<a href="https://moxie.org/software/sslstrip/">sslstrip</a>) i robić za proxy między
+klientem a serwerem. Z klientem ruch będzie odbywał się w formie nieszyfrowanej, z serwerem zaś,
+proxy zestawi połączenie szyfrowane. Ruch przepływający przez proxy będzie zatem w formacie czystego
+teksu i ani przeglądarka, ani serwer nie zgłoszą żadnych problemów przy przeglądaniu serwisu.
+Dlatego właśnie powstał <a href="https://tools.ietf.org/html/rfc6797">HSTS</a>.</p>
 <h2 id="czy-hsts-jest-pozbawiony-wad">Czy HSTS jest pozbawiony wad</h2>
 <p>Problem z HSTS jest taki, że nie uchroni on nas w sytuacji, gdy po raz pierwszy odwiedzamy jakiś
 serwis www. Chodzi o to, że by ten cały mechanizm HSTS działał prawidłowo, serwer musi przekazać
@@ -194,15 +189,14 @@ po <code>https://</code> . Jeśli w międzyczasie wystąpi zdarzenie, które bę
 też w stanie ominąć tej blokady, przez &quot;kliknięcie OK albo Anuluj&quot;. Krótko pisząc, nie damy rady
 odwiedzić witryny.</p>
 <p>By sobie jakoś radzić z tą podatnością pierwszego odwiedzenia serwisu, stworzono <a href="https://hstspreload.org/">projekt
-hstspreload</a>. Ma on na celu stworzenie listy domen, które mają być
-odwiedzane tylko po <code>https://</code> (o tym za moment).</p>
+hstspreload</a>. Ma on na celu stworzenie listy domen, które mają być odwiedzane tylko po <code>https://</code>
+(o tym za moment).</p>
 <h2 id="jak-włączyć-hsts-w-konfiguracji-apache2">Jak włączyć HSTS w konfiguracji Apache2</h2>
 <p>Mając dostęp do konfiguracji serwera Apache2, możemy wymusić w nim przesyłanie nagłówka HSTS do
 wszystkich klientów, którzy odwiedzają nasz serwis. Najlepiej też przy okazji pokusić się o
 <a href="https://morfikov.github.io
-/post/wymuszenie-ssl-tls-przy-pomocy-vhostow-apache2/">wymuszenie szyfrowania całej zawartości strony
-www</a>. Jeśli naprawdę zależy
-nam na bezpieczeństwie naszej witryny, to powinniśmy ją zaszyfrować w pełni, a nie jedynie formularz
+/post/wymuszenie-ssl-tls-przy-pomocy-vhostow-apache2/">wymuszenie szyfrowania całej zawartości strony www</a>. Jeśli naprawdę zależy nam na
+bezpieczeństwie naszej witryny, to powinniśmy ją zaszyfrować w pełni, a nie jedynie formularz
 logowania.</p>
 <p>Przede wszystkim, musimy włączyć w Apache2 moduł <code>headers</code> . Robimy to wpisując w terminalu poniższe
 polecenie:</p>

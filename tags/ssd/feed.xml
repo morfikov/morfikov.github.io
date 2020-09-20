@@ -83,16 +83,15 @@ systemu i ocenić jego stopień przydatności.&lt;/p&gt;</description>
 podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
 powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
 czytaniu padniętego sektora też był nieco dziwny: &lt;code&gt;bad/missing sense data, sb[]&lt;/code&gt; . Jakiś czas temu
-już opisywałem
-jak &lt;a href=&#34;https://morfikov.github.io
-/post/uszkodzony-sektor-na-dysku-i-jego-realokoacja/&#34;&gt;realokować uszkodzony sektor dysku HDD&lt;/a&gt;
-i w zasadzie wszystkie informacje zawarte w tamtym artykule można by wykorzystać do próby
-poprawienia zaistniałego problemu, gdyby tylko nie fakt, że w tym przypadku badblock znalazł się w
-obszarze voluminu logicznego LVM na partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki
-schemat układu partycji sprawia, że do realokowania błędnego bloku trzeba podejść nieco inaczej
-uwzględniając w tym procesie kilka offset&#39;ów, bez których w zasadzie nic nie da się zrobić.
-Postanowiłem zatem napisać na konkretnym przykładzie jak realokować badsector dysku, gdy do
-czynienia mamy z zaszyfrowanym linux&#39;em zainstalowanym na voluminach LVM.&lt;/p&gt;</description>
+już opisywałem jak &lt;a href=&#34;https://morfikov.github.io
+/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/&#34;&gt;realokować uszkodzony sektor dysku HDD&lt;/a&gt; i w zasadzie wszystkie informacje
+zawarte w tamtym artykule można by wykorzystać do próby poprawienia zaistniałego problemu, gdyby
+tylko nie fakt, że w tym przypadku badblock znalazł się w obszarze voluminu logicznego LVM na
+partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki schemat układu partycji sprawia, że do
+realokowania błędnego bloku trzeba podejść nieco inaczej uwzględniając w tym procesie kilka
+offset&#39;ów, bez których w zasadzie nic nie da się zrobić. Postanowiłem zatem napisać na konkretnym
+przykładzie jak realokować badsector dysku, gdy do czynienia mamy z zaszyfrowanym linux&#39;em
+zainstalowanym na voluminach LVM.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -193,17 +192,16 @@ czy też podłączać do portu USB zewnętrznego nośnika. Dane prześlemy zwycz
       <description>&lt;p&gt;Rozmiary obecnych dysków twardych zwykliśmy już liczyć w TiB. Jest to dość sporo ale ciągle zdarzają
 się sytuacje, gdzie zaczyna nam brakować miejsca na pliki. W takich przypadkach myślimy raczej o
 zmianie rozmiaru istniejących już partycji czy też dokupieniu nowego dysku. Pierwsza z powyższych
-opcji nie zawsze może wchodzić w grę, no chyba, że zaimplementowaliśmy sobie
-&lt;a href=&#34;https://pl.wikipedia.org/wiki/LVM&#34;&gt;LVM&lt;/a&gt;. Jeśli tak, to możemy bez większego problemu &lt;a href=&#34;https://morfikov.github.io
-/post/zmiana-rozmiaru-lvm/&#34;&gt;zmieniać
-rozmiar każdego z tych voluminów LVM&lt;/a&gt;. Niemniej jednak,
-nawet jeśli już dostosujemy sobie te wirtualne dyski, to miejsce wciąż może nam się skończyć i
-raczej można przyjąć za pewne, że tak się stanie w bliżej nieokreślonej przyszłości. Gdy to nastąpi,
-czeka nas druga opcja wymieniona wyżej, tj. zaopatrzenie się w dodatkowy nośnik danych. Przy pomocy
-LVM jesteśmy w stanie ten nowy dysk dodać do istniejącej grupy voluminów i zwiększyć tym wirtualnym
-partycjom rozmiar bez potrzeby przerywania pracy systemu, czy też wykonywania dodatkowych czynności
-związanych z formatowaniem i instalowaniem systemu na nowo. W tym wpisie postaramy się przebrnąć
-przez ten proces.&lt;/p&gt;</description>
+opcji nie zawsze może wchodzić w grę, no chyba, że zaimplementowaliśmy sobie &lt;a href=&#34;https://pl.wikipedia.org/wiki/LVM&#34;&gt;LVM&lt;/a&gt;. Jeśli tak,
+to możemy bez większego problemu &lt;a href=&#34;https://morfikov.github.io
+/post/zmiana-rozmiaru-lvm/&#34;&gt;zmieniać rozmiar każdego z tych voluminów LVM&lt;/a&gt;. Niemniej
+jednak, nawet jeśli już dostosujemy sobie te wirtualne dyski, to miejsce wciąż może nam się
+skończyć i raczej można przyjąć za pewne, że tak się stanie w bliżej nieokreślonej przyszłości. Gdy
+to nastąpi, czeka nas druga opcja wymieniona wyżej, tj. zaopatrzenie się w dodatkowy nośnik danych.
+Przy pomocy LVM jesteśmy w stanie ten nowy dysk dodać do istniejącej grupy voluminów i zwiększyć tym
+wirtualnym partycjom rozmiar bez potrzeby przerywania pracy systemu, czy też wykonywania dodatkowych
+czynności związanych z formatowaniem i instalowaniem systemu na nowo. W tym wpisie postaramy się
+przebrnąć przez ten proces.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -253,19 +251,18 @@ zmian.&lt;/p&gt;</description>
       
       <guid>https://morfikov.github.io/post/temperatura-dysku-twardego-hddtemp/</guid>
       <description>&lt;p&gt;Obecnie dyski twarde nie są potrzebne do prawidłowego działania komputera. Mając sporo pamięci
-operacyjnej oraz &lt;a href=&#34;https://pl.wikipedia.org/wiki/Live_CD&#34;&gt;system live&lt;/a&gt;, możemy bez problemu korzystać
-z takiego sprzętu. Niemniej jednak, systemy live są nieco ograniczone. Najdotkliwszą ich wadą jest
-brak zapisywania wprowadzanych zmian. W pewnych przypadkach ta cecha może być bardzo pożądana ale
-jeśli chodzi o przeciętnego użytkownika, to chciałby on raczej mieć możliwość zapisu swojej pracy.
-Dlatego też zewnętrzny magazyn danych w postaci dysku twardego nie prędko wyjdzie z użytku. Te
-urządzenia, jak i większość tych, które podłączamy do naszego komputera, wydzielają ciepło.
-Temperatura jest wrogiem numer 1 w przypadku maszyn i musi stale być monitorowana, tak by czasem nie
-doszło do przegrzania sprzętu. &lt;a href=&#34;https://pl.wikipedia.org/wiki/Dysk_twardy&#34;&gt;Dyski HDD&lt;/a&gt; mają ten
-problem, że im wyższa jest temperatura, tym obszar magnetyczny się bardziej rozszerza, a to powoduje
-błędy odczytu i zapisu. Podobnie jest ze zbyt niską temperaturą, gdzie ścieżki i sektory ulegają
-skurczeniu. Taki dysk musi pracować w odpowiednich warunkach termalnych. W tym wpisie postaramy się
-ustalić aktualną temperaturę dysku oraz spróbujemy ją monitorować, tak by wiedzieć czy czynnik
-temperaturowy nie zagraża czasem dyskom podpiętym do naszego PC.&lt;/p&gt;</description>
+operacyjnej oraz &lt;a href=&#34;https://pl.wikipedia.org/wiki/Live_CD&#34;&gt;system live&lt;/a&gt;, możemy bez problemu korzystać z takiego sprzętu. Niemniej jednak,
+systemy live są nieco ograniczone. Najdotkliwszą ich wadą jest brak zapisywania wprowadzanych zmian.
+W pewnych przypadkach ta cecha może być bardzo pożądana ale jeśli chodzi o przeciętnego użytkownika,
+to chciałby on raczej mieć możliwość zapisu swojej pracy. Dlatego też zewnętrzny magazyn danych w
+postaci dysku twardego nie prędko wyjdzie z użytku. Te urządzenia, jak i większość tych, które
+podłączamy do naszego komputera, wydzielają ciepło. Temperatura jest wrogiem numer 1 w przypadku
+maszyn i musi stale być monitorowana, tak by czasem nie doszło do przegrzania sprzętu.
+&lt;a href=&#34;https://pl.wikipedia.org/wiki/Dysk_twardy&#34;&gt;Dyski HDD&lt;/a&gt; mają ten problem, że im wyższa jest temperatura, tym obszar magnetyczny się bardziej
+rozszerza, a to powoduje błędy odczytu i zapisu. Podobnie jest ze zbyt niską temperaturą, gdzie
+ścieżki i sektory ulegają skurczeniu. Taki dysk musi pracować w odpowiednich warunkach termalnych.
+W tym wpisie postaramy się ustalić aktualną temperaturę dysku oraz spróbujemy ją monitorować, tak
+by wiedzieć czy czynnik temperaturowy nie zagraża czasem dyskom podpiętym do naszego PC.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -369,11 +366,10 @@ chodzi o zapisanie całej powierzchni danego nośnika samymi zerami. Ten proces 
 formatowania dysku, czyli utworzenia nowego systemu plików, gdzie praktycznie wszystkie dane można
 bez większego problemu odzyskać. Zerowanie dysku (czy też pendrive) może w pewnych przypadkach
 &lt;a href=&#34;https://morfikov.github.io
-/post/uszkodzony-sektor-na-dysku-i-jego-realokoacja/&#34;&gt;naprawić logiczne błędy
-sektorów&lt;/a&gt; na dysku. Niemniej
-jednak, nie usuniemy za jego pomocą fizycznych bad&#39;ów. Generalnie rzecz biorąc, mamy do wyboru dwie
-techniki zerowania. Jedna jest dokonywana na poziomie programowym, np. przy pomocy &lt;code&gt;dd&lt;/code&gt; , druga zaś
-na poziomie sprzętowym, np. w &lt;code&gt;hdparm&lt;/code&gt; . W tym wpisie postaramy się wyzerować przykładowy dysk.&lt;/p&gt;</description>
+/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/&#34;&gt;naprawić logiczne błędy sektorów&lt;/a&gt; na dysku. Niemniej jednak, nie usuniemy za jego pomocą
+fizycznych bad&#39;ów. Generalnie rzecz biorąc, mamy do wyboru dwie techniki zerowania. Jedna jest
+dokonywana na poziomie programowym, np. przy pomocy &lt;code&gt;dd&lt;/code&gt; , druga zaś na poziomie sprzętowym, np. w
+&lt;code&gt;hdparm&lt;/code&gt; . W tym wpisie postaramy się wyzerować przykładowy dysk.&lt;/p&gt;</description>
     </item>
     
     <item>

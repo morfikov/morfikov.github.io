@@ -213,12 +213,9 @@ na tym telefonie przed zakupem. W przypadku zakupu telefonu na odległość, rac
 prawdopodobne, że poprzedni właściciel poda nam dane do swojego konta Google byśmy sami mogli ten
 telefon odblokować. Jakie inne opcje nam zatem pozostają?</p>
 <h2 id="zasada-działania-frp-lock">Zasada działania FRP Lock</h2>
-<p>Szukając informacji na temat zasady działania tego całego FRP Lock, na <a href="http://forum.android.com.pl/topic/307282-jak-dzia%C5%82a-mechanizm-factory-reset-protection-lock-frp-lock/#comment-4963533">jednym z forów
-Androida</a>
-użytkownik piskorfa podesłał mi linki do dwóch chińskich blogów
-[<a href="http://blog.csdn.net/woshing123456/article/details/44524051">1</a>] i
-[<a href="https://echuang54.blogspot.com/2015/03/factory-reset-protection.html">2</a>]. Chińskiego co prawda
-nie znam ale zawartość tych stron można przetłumaczyć na angielski w Google Translate.</p>
+<p>Szukając informacji na temat zasady działania tego całego FRP Lock, na <a href="http://forum.android.com.pl/topic/307282-jak-dzia%C5%82a-mechanizm-factory-reset-protection-lock-frp-lock/#comment-4963533">jednym z forów Androida</a>
+użytkownik piskorfa podesłał mi linki do dwóch chińskich blogów [<a href="http://blog.csdn.net/woshing123456/article/details/44524051">1</a>] i [<a href="https://echuang54.blogspot.com/2015/03/factory-reset-protection.html">2</a>]. Chińskiego co
+prawda nie znam ale zawartość tych stron można przetłumaczyć na angielski w Google Translate.</p>
 <p>Zgodnie z informacjami zawartymi w tych powyższych artykułach, mechanizm FRP Lock działa w oparciu o
 dedykowaną partycję na flash'u telefonu. Nazwa tej partycji może być różna, choć zwykle przyjmuje
 wartość <code>frp</code> (od Factory Reset Protection). W smartfonach Neffos C5 i C5 MAX ta partycja figuruje
@@ -246,8 +243,8 @@ skonfigurowane.</p>
 <p>W jaki sposób system rozpoznaje czy podaliśmy dane do odpowiedniego konta? Serwery Google w tym
 procesie nie biorą udziału. Te dane są zapisywane również na partycji <code>frp</code> , z tym, że raczej w
 formie jakieś hasha, który można uzyskać podając konkretny login i hasło. Podając prawidłowe dane,
-system jest w stanie wygenerować taki hash i porównać go z tym co zostało zapisane na partycji <code>frp</code>
-.</p>
+system jest w stanie wygenerować taki hash i porównać go z tym co zostało zapisane na partycji
+<code>frp</code> .</p>
 <p>Pewności do końca nie mam jak ten proces weryfikacji przebiega ale patrząc na zrzuty partycji w
 edytorze HEX, można dojść do wniosku, że system dodaje jakieś informacje na tej partycji po
 zalogowaniu się na konto Google. Jest to około 20 KiB, zatem dość sporo. Te dane jednak są w formie
@@ -268,12 +265,10 @@ ważny. Android jest zaś w wersji 5.1 (Lollipop). Natomiast Neffos Y5 i Y5L maj
 tych telefonach siedzi Android w wersji 6.0 . Mamy zatem dwie różne sytuacje do rozważenia.</p>
 <h3 id="odblokowanie-neffos-c5-i-c5-max">Odblokowanie Neffos C5 i C5 MAX</h3>
 <p>Jako, że te dwa modele smartfonów mają SoC od MediaTek, to nadpisanie partycji <code>frp</code> w ich przypadku
-jest stosunkowo proste, bo możemy do tego celu zaprzęgnąć <a href="http://spflashtool.com/">SP Flash Tool</a>.
-Problematyczne może być ustalenie gdzie na flash'u smartfona znajduje się partycja <code>frp</code> . Ja
-korzystałem ze <a href="https://morfikov.github.io
-/img/manual/mt6753-neffos-c5-max-tp-link-scatter.txt">swojego pliku
-scatter.txt</a>,
-gdzie mam taki oto blok kodu:</p>
+jest stosunkowo proste, bo możemy do tego celu zaprzęgnąć <a href="http://spflashtool.com/">SP Flash Tool</a>. Problematyczne może
+być ustalenie gdzie na flash'u smartfona znajduje się partycja <code>frp</code> . Ja korzystałem ze <a href="https://morfikov.github.io
+/img/manual/mt6753-neffos-c5-max-tp-link-scatter.txt">swojego
+pliku scatter.txt</a>, gdzie mam taki oto blok kodu:</p>
 <pre><code>- partition_index: SYS18
   partition_name: frp
   file_name: NONE
@@ -296,8 +291,7 @@ miał dokładnie taki rozmiar. Możemy to zrobić przy pomocy <code>dd</code> z 
 </code></pre>
 <p>Tak wygenerowany plik trzeba przy po mocy SP Flash Tool wgrać w odpowiednie miejsce na flash'u
 smartfona. Odpalamy zatem narzędzie SP Flash Tool i przechodzimy na zakładkę <code>Download</code> i tam
-zaznaczamy partycję <code>frp</code> i wskazujemy ścieżkę do pliku z
-zerami:</p>
+zaznaczamy partycję <code>frp</code> i wskazujemy ścieżkę do pliku z zerami:</p>
 <p><img src="https://morfikov.github.io
 /img/2017/01/002.factory-reset-protection-frp-lock-smartfon-android-czyszczenie-partycji.png#huge" alt=""></p>
 <p>Upewniamy się, że nad listingiem partycji mamy zaznaczone <code>Download Only</code> i wciskamy przycisk
@@ -361,8 +355,7 @@ konfiguracji telefonu będzie nas prosił o podanie danych do starego konta Goog
 <h4 id="sposób-ze-zdjęciem-blokady-oem">Sposób ze zdjęciem blokady OEM</h4>
 <p>Kluczem do zdjęcia blokady FRP Lock jest odblokowanie bootloader'a, a to można zrobić zdejmując
 pierw blokadę OEM z poziomu opcji developerskich. Mając dostęp do opcji telefonu, możemy wejść w
-&quot;Informacje o telefonie&quot; i spróbować postukać w numer
-kompilacji.</p>
+&quot;Informacje o telefonie&quot; i spróbować postukać w numer kompilacji.</p>
 <p><img src="https://morfikov.github.io
 /img/2017/01/011.factory-reset-protection-frp-lock-smartfon-android-numer-kompilacji.png#big" alt=""></p>
 <p>Problem w tym, że ten sposób również nie działa i w tym przypadku stukanie w numerek kompilacji nic

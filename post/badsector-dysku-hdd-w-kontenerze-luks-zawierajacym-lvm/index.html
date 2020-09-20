@@ -13,15 +13,14 @@
 podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
 powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
 czytaniu padniętego sektora też był nieco dziwny: bad/missing sense data, sb[] . Jakiś czas temu
-już opisywałem
-jak realokować uszkodzony sektor dysku HDD
-i w zasadzie wszystkie informacje zawarte w tamtym artykule można by wykorzystać do próby
-poprawienia zaistniałego problemu, gdyby tylko nie fakt, że w tym przypadku badblock znalazł się w
-obszarze voluminu logicznego LVM na partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki
-schemat układu partycji sprawia, że do realokowania błędnego bloku trzeba podejść nieco inaczej
-uwzględniając w tym procesie kilka offset&#39;ów, bez których w zasadzie nic nie da się zrobić.
-Postanowiłem zatem napisać na konkretnym przykładzie jak realokować badsector dysku, gdy do
-czynienia mamy z zaszyfrowanym linux&#39;em zainstalowanym na voluminach LVM." />
+już opisywałem jak realokować uszkodzony sektor dysku HDD i w zasadzie wszystkie informacje
+zawarte w tamtym artykule można by wykorzystać do próby poprawienia zaistniałego problemu, gdyby
+tylko nie fakt, że w tym przypadku badblock znalazł się w obszarze voluminu logicznego LVM na
+partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki schemat układu partycji sprawia, że do
+realokowania błędnego bloku trzeba podejść nieco inaczej uwzględniając w tym procesie kilka
+offset&#39;ów, bez których w zasadzie nic nie da się zrobić. Postanowiłem zatem napisać na konkretnym
+przykładzie jak realokować badsector dysku, gdy do czynienia mamy z zaszyfrowanym linux&#39;em
+zainstalowanym na voluminach LVM." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/" />
 <meta property="article:published_time" content="2019-03-31T12:23:42+00:00" />
@@ -32,15 +31,14 @@ czynienia mamy z zaszyfrowanym linux&#39;em zainstalowanym na voluminach LVM." /
 podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
 powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
 czytaniu padniętego sektora też był nieco dziwny: bad/missing sense data, sb[] . Jakiś czas temu
-już opisywałem
-jak realokować uszkodzony sektor dysku HDD
-i w zasadzie wszystkie informacje zawarte w tamtym artykule można by wykorzystać do próby
-poprawienia zaistniałego problemu, gdyby tylko nie fakt, że w tym przypadku badblock znalazł się w
-obszarze voluminu logicznego LVM na partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki
-schemat układu partycji sprawia, że do realokowania błędnego bloku trzeba podejść nieco inaczej
-uwzględniając w tym procesie kilka offset&#39;ów, bez których w zasadzie nic nie da się zrobić.
-Postanowiłem zatem napisać na konkretnym przykładzie jak realokować badsector dysku, gdy do
-czynienia mamy z zaszyfrowanym linux&#39;em zainstalowanym na voluminach LVM.">
+już opisywałem jak realokować uszkodzony sektor dysku HDD i w zasadzie wszystkie informacje
+zawarte w tamtym artykule można by wykorzystać do próby poprawienia zaistniałego problemu, gdyby
+tylko nie fakt, że w tym przypadku badblock znalazł się w obszarze voluminu logicznego LVM na
+partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki schemat układu partycji sprawia, że do
+realokowania błędnego bloku trzeba podejść nieco inaczej uwzględniając w tym procesie kilka
+offset&#39;ów, bez których w zasadzie nic nie da się zrobić. Postanowiłem zatem napisać na konkretnym
+przykładzie jak realokować badsector dysku, gdy do czynienia mamy z zaszyfrowanym linux&#39;em
+zainstalowanym na voluminach LVM.">
 <meta itemprop="datePublished" content="2019-03-31T12:23:42+00:00" />
 <meta itemprop="dateModified" content="2019-03-31T12:23:42+00:00" />
 <meta itemprop="wordCount" content="3098">
@@ -55,15 +53,14 @@ czynienia mamy z zaszyfrowanym linux&#39;em zainstalowanym na voluminach LVM.">
 podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
 powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
 czytaniu padniętego sektora też był nieco dziwny: bad/missing sense data, sb[] . Jakiś czas temu
-już opisywałem
-jak realokować uszkodzony sektor dysku HDD
-i w zasadzie wszystkie informacje zawarte w tamtym artykule można by wykorzystać do próby
-poprawienia zaistniałego problemu, gdyby tylko nie fakt, że w tym przypadku badblock znalazł się w
-obszarze voluminu logicznego LVM na partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki
-schemat układu partycji sprawia, że do realokowania błędnego bloku trzeba podejść nieco inaczej
-uwzględniając w tym procesie kilka offset&#39;ów, bez których w zasadzie nic nie da się zrobić.
-Postanowiłem zatem napisać na konkretnym przykładzie jak realokować badsector dysku, gdy do
-czynienia mamy z zaszyfrowanym linux&#39;em zainstalowanym na voluminach LVM."/>
+już opisywałem jak realokować uszkodzony sektor dysku HDD i w zasadzie wszystkie informacje
+zawarte w tamtym artykule można by wykorzystać do próby poprawienia zaistniałego problemu, gdyby
+tylko nie fakt, że w tym przypadku badblock znalazł się w obszarze voluminu logicznego LVM na
+partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki schemat układu partycji sprawia, że do
+realokowania błędnego bloku trzeba podejść nieco inaczej uwzględniając w tym procesie kilka
+offset&#39;ów, bez których w zasadzie nic nie da się zrobić. Postanowiłem zatem napisać na konkretnym
+przykładzie jak realokować badsector dysku, gdy do czynienia mamy z zaszyfrowanym linux&#39;em
+zainstalowanym na voluminach LVM."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -181,16 +178,15 @@ if (!doNotTrack) {
 podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
 powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
 czytaniu padniętego sektora też był nieco dziwny: <code>bad/missing sense data, sb[]</code> . Jakiś czas temu
-już opisywałem
-jak <a href="https://morfikov.github.io
-/post/uszkodzony-sektor-na-dysku-i-jego-realokoacja/">realokować uszkodzony sektor dysku HDD</a>
-i w zasadzie wszystkie informacje zawarte w tamtym artykule można by wykorzystać do próby
-poprawienia zaistniałego problemu, gdyby tylko nie fakt, że w tym przypadku badblock znalazł się w
-obszarze voluminu logicznego LVM na partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki
-schemat układu partycji sprawia, że do realokowania błędnego bloku trzeba podejść nieco inaczej
-uwzględniając w tym procesie kilka offset'ów, bez których w zasadzie nic nie da się zrobić.
-Postanowiłem zatem napisać na konkretnym przykładzie jak realokować badsector dysku, gdy do
-czynienia mamy z zaszyfrowanym linux'em zainstalowanym na voluminach LVM.</p>
+już opisywałem jak <a href="https://morfikov.github.io
+/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/">realokować uszkodzony sektor dysku HDD</a> i w zasadzie wszystkie informacje
+zawarte w tamtym artykule można by wykorzystać do próby poprawienia zaistniałego problemu, gdyby
+tylko nie fakt, że w tym przypadku badblock znalazł się w obszarze voluminu logicznego LVM na
+partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki schemat układu partycji sprawia, że do
+realokowania błędnego bloku trzeba podejść nieco inaczej uwzględniając w tym procesie kilka
+offset'ów, bez których w zasadzie nic nie da się zrobić. Postanowiłem zatem napisać na konkretnym
+przykładzie jak realokować badsector dysku, gdy do czynienia mamy z zaszyfrowanym linux'em
+zainstalowanym na voluminach LVM.</p>
 <h2 id="błędy-dysku">Błędy dysku</h2>
 <p>Wszystko zaczęło się od niewinnego skanu S.M.A.R.T, bo do chwili jego wykonania w zasadzie mój
 Debian jak i dysk, na którym ten system jest zainstalowany, działał bez zarzutu. W logu systemowym
@@ -489,7 +485,8 @@ smartd[1636]: Device: /dev/disk/by-id/ata-WDC_WD2500BEKT-60A25T1_WD-WX41A90E5928
 smartd[1636]: Device: /dev/disk/by-id/ata-WDC_WD2500BEKT-60A25T1_WD-WX41A90E5928 [SAT], ATA error count increased from 7 to 9
 </code></pre>
 <p>Mamy tam informację <code>Unrecovered read error - auto reallocate failed</code> (tę samą, którą zdekodował
-nam <code>sg_decode_sense</code> ) . Czyli prawdopodobnie na tym bloku rezyduje jakiś plik, bo automatyczna realokacja się nie powiodła. Przynajmniej wiemy, że wszystkie wyliczenia wyżej zostały
+nam <code>sg_decode_sense</code> ) . Czyli prawdopodobnie na tym bloku rezyduje jakiś plik, bo automatyczna
+realokacja się nie powiodła. Przynajmniej wiemy, że wszystkie wyliczenia wyżej zostały
 przeprowadzone prawidłowo. Jeśli ten sektor by się dał odczytać bez problemu, to prawdopodobnie coś
 źle policzyliśmy.</p>
 <h2 id="realokowanie-błędnego-bloku">Realokowanie błędnego bloku</h2>
@@ -574,8 +571,7 @@ przypadku skanowanie zakończyło się już powodzeniem:</p>
 197 Current_Pending_Sector  -O--CK   200   200   000    -    0
 198 Offline_Uncorrectable   ----CK   100   253   000    -    0
 </code></pre>
-<p>Więcej informacji na temat próby odzyskania uszkodzonych sektorów można
-znaleźć <a href="https://www.smartmontools.org/wiki/BadBlockHowto">tutaj</a>.</p></div>
+<p>Więcej informacji na temat próby odzyskania uszkodzonych sektorów można znaleźć <a href="https://www.smartmontools.org/wiki/BadBlockHowto">tutaj</a>.</p></div>
 				
 				<footer class="entry__footer">
 					

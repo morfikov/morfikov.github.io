@@ -9,7 +9,7 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:title" content="PeerGuardian w oparciu o ipset i iptables" />
-<meta property="og:description" content="Wiele klientów torrenta umożliwia ładowanie zewnętrznej listy z zakresami adresów IP i ta lista ma
+<meta property="og:description" content="Wiele klientów torrent&#39;a umożliwia ładowanie zewnętrznej listy z zakresami adresów IP i ta lista ma
 służyć jako swego rodzaju filtr połączeń chroniący nas przed różnego rodzaju organizacjami, które
 mogą zbierać i przetwarzać informacje na temat naszego IP i tego co on porabia w sieci p2p.
 Oczywiście, kwestia czy korzystać z takiego typu rozwiązania jest bardzo dyskusyjna i wiele osób
@@ -26,7 +26,7 @@ przykładach." />
 <meta property="article:modified_time" content="2015-06-23T22:50:14+00:00" />
 
 		<meta itemprop="name" content="PeerGuardian w oparciu o ipset i iptables">
-<meta itemprop="description" content="Wiele klientów torrenta umożliwia ładowanie zewnętrznej listy z zakresami adresów IP i ta lista ma
+<meta itemprop="description" content="Wiele klientów torrent&#39;a umożliwia ładowanie zewnętrznej listy z zakresami adresów IP i ta lista ma
 służyć jako swego rodzaju filtr połączeń chroniący nas przed różnego rodzaju organizacjami, które
 mogą zbierać i przetwarzać informacje na temat naszego IP i tego co on porabia w sieci p2p.
 Oczywiście, kwestia czy korzystać z takiego typu rozwiązania jest bardzo dyskusyjna i wiele osób
@@ -39,7 +39,7 @@ przykład do czego ipset może posłużyć, a że ja nie umiem teoretycznie pisa
 przykładach.">
 <meta itemprop="datePublished" content="2015-06-23T22:50:14+00:00" />
 <meta itemprop="dateModified" content="2015-06-23T22:50:14+00:00" />
-<meta itemprop="wordCount" content="1819">
+<meta itemprop="wordCount" content="1818">
 
 
 
@@ -47,7 +47,7 @@ przykładach.">
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PeerGuardian w oparciu o ipset i iptables"/>
-<meta name="twitter:description" content="Wiele klientów torrenta umożliwia ładowanie zewnętrznej listy z zakresami adresów IP i ta lista ma
+<meta name="twitter:description" content="Wiele klientów torrent&#39;a umożliwia ładowanie zewnętrznej listy z zakresami adresów IP i ta lista ma
 służyć jako swego rodzaju filtr połączeń chroniący nas przed różnego rodzaju organizacjami, które
 mogą zbierać i przetwarzać informacje na temat naszego IP i tego co on porabia w sieci p2p.
 Oczywiście, kwestia czy korzystać z takiego typu rozwiązania jest bardzo dyskusyjna i wiele osób
@@ -161,7 +161,7 @@ if (!doNotTrack) {
         <li><a href="#plik-iptables_rawsh">Plik iptables_raw.sh</a></li>
       </ol>
     </li>
-    <li><a href="#praca-dla-crona">Praca dla crona</a></li>
+    <li><a href="#praca-dla-crona">Praca dla cron'a</a></li>
     <li><a href="#usługa-dla-systemd">Usługa dla systemd</a></li>
     <li><a href="#niekompatybilny-format-list-ipseta">Niekompatybilny format list ipset'a</a></li>
     <li><a href="#biała-lista">Biała lista</a></li>
@@ -169,7 +169,7 @@ if (!doNotTrack) {
   </ol>
 </nav>
 </details>
-				<div class="entry__content"><p>Wiele klientów torrenta umożliwia ładowanie zewnętrznej listy z zakresami adresów IP i ta lista ma
+				<div class="entry__content"><p>Wiele klientów torrent'a umożliwia ładowanie zewnętrznej listy z zakresami adresów IP i ta lista ma
 służyć jako swego rodzaju filtr połączeń chroniący nas przed różnego rodzaju organizacjami, które
 mogą zbierać i przetwarzać informacje na temat naszego IP i tego co on porabia w sieci p2p.
 Oczywiście, kwestia czy korzystać z takiego typu rozwiązania jest bardzo dyskusyjna i wiele osób
@@ -183,9 +183,9 @@ przykładach.</p>
 <h2 id="reguły-dla-ipseta">Reguły dla ipset'a</h2>
 <p>Standardowo pakietu <code>ipset</code> nie ma wgranego w systemie i trzeba go dociągnąć. Jako, że znajduje się
 on w repozytorium debiana, to nie powinno być problemu z jego instalacją. Musimy także stworzyć
-katalog, w którym to będziemy trzymać listy z adresami IP. Ja obrałem sobie folder <code>/etc/peerblock/</code>
-. Dodatkowo musimy utworzyć osobny folder z konfiguracją dla iptables, np. <code>/etc/filtr/</code> i od tego
-katalogu zaczniemy.</p>
+katalog, w którym to będziemy trzymać listy z adresami IP. Ja obrałem sobie folder
+<code>/etc/peerblock/</code> . Dodatkowo musimy utworzyć osobny folder z konfiguracją dla iptables, np.
+<code>/etc/filtr/</code> i od tego katalogu zaczniemy.</p>
 <p>Potrzebne nam będą trzy pliki: <code>base.sh</code>, <code>ipset.sh</code> oraz <code>iptables_raw.sh</code> :</p>
 <pre><code># cd /etc/filtr/
 # touch base.sh ipset.sh iptables_raw.sh
@@ -193,7 +193,7 @@ katalogu zaczniemy.</p>
 </code></pre>
 <h3 id="plik-basesh">Plik base.sh</h3>
 <p>W pliku <code>base.sh</code> znajduje się podstawowy filtr dla stacji klienckich. Będzie on aplikowany zawsze
-wtedy gdy będziemy z jakiegoś powodu potrzebowali zdjąć główną zaporę. W ten sposób nie zostaniemy
+wtedy, gdy będziemy z jakiegoś powodu potrzebowali zdjąć główną zaporę. W ten sposób nie zostaniemy
 bez ochrony. Plik ma poniższą postać:</p>
 <pre><code>#!/bin/sh
 
@@ -277,9 +277,8 @@ do
       $ips restore -exist;
 done
 </code></pre>
-<p>Mamy tutaj do obróbki trzy listy, które będziemy pobierać z serwisu
-<a href="https://www.iblocklist.com/lists.php">iblocklist.com</a> . Naturalnie, można sobie dobrać jakiekolwiek
-zestawy.</p>
+<p>Mamy tutaj do obróbki trzy listy, które będziemy pobierać z serwisu <a href="https://www.iblocklist.com/lists.php">iblocklist.com</a>.
+Naturalnie, można sobie dobrać jakiekolwiek zestawy.</p>
 <h3 id="plik-iptables_rawsh">Plik iptables_raw.sh</h3>
 <p>Musimy także utworzyć konfigurację dla filtra <code>iptables</code> . Interesuje nas głównie tablica <code>raw</code> .
 Tworzymy plik <code>iptables_raw.sh</code> o poniższej treści:</p>
@@ -311,26 +310,27 @@ $ipt -A peerblock_out -m set --match-set bt_webexploit dst -j DROP
 <p>Zanim pakiety dotrą do celu, trafiają pierw do tablicy <code>raw</code> i tam można je wstępnie odfiltrować.
 Stworzyliśmy tam dwa dodatkowe łańcuchy, po jednym dla pakietów przychodzących i wychodzących.
 Kluczowa sprawa to wywołanie modułu przy pomocy parametru <code>-m set</code> i dopasowanie pakietów do
-odpowiedniego filtra w ipsecie przy pomocy <code>--match-set</code>. Ja mam 4 filtry, po 1 regule dla każdego,
+odpowiedniego filtra w ipset przy pomocy <code>--match-set</code>. Ja mam 4 filtry, po 1 regule dla każdego,
 w każdym łańcuchu, łącznie daje 8 wpisów. Białą listę dajemy na początek, tak by pakiety, które
 zostałyby zablokowane przez przez 3 pozostałe filtry, były przepuszczane bez większego problemu i
 wędrowały do tablicy <code>filter</code>. Lista <code>bt_level1</code> jest to typowa lista p2p i generalnie lepiej jest
 jej nie używać na portach <code>80</code> i <code>443</code> , czyli na stronach www, bo ona nawet gógla blokuje.
-Najlepiej ustawić sobie zakres portów, na których klient bittorrenta może dokonywać połączeń. U mnie
-qbittorrent ma zabronione łączenie się na porty poniżej numeru 1024 i na dobrą sprawę, ustawiłem mu
-zakres 2k portów od 20-22k. I praktycznie można by sprecyzować ten zakres w regule iptables.
-Pozostałe dwa filtry są już użyte bardziej restrykcyjnie ale to dlatego, że zakresów adresów IP
-jest tam relatywnie niewielki i w ciągu dnia trafia mi się tam może 20-30 pakietów. Różnica w
-stosunku do tego dużego filtra polega na tym, że te dwa mniejsze filtrują ruch również na http i
-https.</p>
-<h2 id="praca-dla-crona">Praca dla crona</h2>
+Najlepiej ustawić sobie zakres portów, na których klient bittorrent'a może dokonywać połączeń. U
+mnie qbittorrent ma zabronione łączenie się na porty poniżej numeru 1024 i na dobrą sprawę,
+ustawiłem mu zakres 2k portów od 20-22k. I praktycznie można by sprecyzować ten zakres w regule
+iptables. Pozostałe dwa filtry są już użyte bardziej restrykcyjnie ale to dlatego, że zakresów
+adresów IP jest tam relatywnie niewielki i w ciągu dnia trafia mi się tam może 20-30 pakietów.
+Różnica w stosunku do tego dużego filtra polega na tym, że te dwa mniejsze filtrują ruch również na
+http i https.</p>
+<h2 id="praca-dla-crona">Praca dla cron'a</h2>
 <p>Co prawda skrypt z filtrem będzie ładowany przy starcie systemu ale on nie pobiera list. Zamiast
-tego, ładuje je tylko do ipseta. Ku temu jest kilka powodów. Pierwszym jest oczywiście spowolnienie
+tego, ładuje je tylko do ipset'a. Ku temu jest kilka powodów. Pierwszym jest oczywiście spowolnienie
 startu systemu. Kolejnym powodem może być brak sieci. Jak nie patrzeć, sieć zostanie dopiero
 uruchomiona jak listy zostaną zaaplikowane, czyli muszą już istnieć na dysku. Najlepszym wyjściem w
 tej sytuacji jest rozdzielenie kwestii pobierania i aplikowania list. Listy będą aktualizowane co
-dzień, dlatego też najlepiej po prostu obarczyć tym zadaniem crona i adresy z plików, które on
-stworzy, ładować do ipseta. Tworzymy zatem plik <code>/etc/cron.daily/peerblock_list</code> o poniższej treści:</p>
+dzień, dlatego też najlepiej po prostu obarczyć tym zadaniem cron'a i adresy z plików, które on
+stworzy, ładować do ipset'a. Tworzymy zatem plik <code>/etc/cron.daily/peerblock_list</code> o poniższej
+treści:</p>
 <pre><code>#!/bin/bash
 
 #echo &quot;pozyskiwanie listy bt_level1...&quot;
@@ -341,14 +341,13 @@ curl --silent --show-error -L &quot;http://list.iblocklist.com/?list=bt_spyware&
 curl --silent --show-error -L &quot;http://list.iblocklist.com/?list=ghlzqtqxnzctvvajwwag&amp;fileformat=p2p&amp;archiveformat=gz&quot; &gt; /etc/peerblock/bt_webexploit.gz
 </code></pre>
 <p>Ta lista będzie pobierana raz dziennie. Niemniej jednak, potrzebujemy wszystkich z powyższych plików
-przed odpaleniem zapory. Dlatego też odpalmy w/w skrypt ręcznie, by pliki zostały pobrane i
+przed odpaleniem zapory. Dlatego też odpalmy ww. skrypt ręcznie, by pliki zostały pobrane i
 umieszczone w odpowiednim miejscu.</p>
 <h2 id="usługa-dla-systemd">Usługa dla systemd</h2>
 <p>Pozostało nam jeszcze napisanie odpowiedniego pliku usługi dla systemd . Jeśli wcześniej
 <a href="https://morfikov.github.io
-/post/firewall-na-linuxowe-maszyny-klienckie/">zbudowaliśmy sobie firewall</a> , to
-musimy jedynie dostosować plik <code>/etc/systemd/system/firewall.service</code> . Jego zawartość powinna być
-mniej więcej taka:</p>
+/post/firewall-na-linuxowe-maszyny-klienckie/">zbudowaliśmy sobie firewall</a>, to musimy jedynie dostosować plik
+<code>/etc/systemd/system/firewall.service</code> . Jego zawartość powinna być mniej więcej taka:</p>
 <pre><code>[Unit]
 Description=firewall
 Documentation=man:iptables
@@ -379,7 +378,7 @@ tego względu, że mogą się one różnić w przypadku każdej maszyny.</p>
 <p>Trzeba także pamiętać, że ilość wpisów na listach ulega zmianie i może się zdarzyć tak, że limit
 ustawiony w zmiennej <code>maxelem</code> w pliku <code>ipset.sh</code> zostanie przekroczony. Gdy taka sytuacja wystąpi,
 to wystarczy podbić ten limit. Nie należy jednak z nim przesadzać. Co prawda, przy długości <code>290000</code>
-taka lista zajmuje koło 3,5MiB RAMu. Nie jest to dużo ale jeśli byśmy tam mieli tylko jeden adres,
+taka lista zajmuje koło 3,5 MiB RAMu. Nie jest to dużo ale jeśli byśmy tam mieli tylko jeden adres,
 to ilość okupowanej pamięci nie ulegnie zmianie. To i tak sporo lepiej w porównaniu do qbittorrenta,
 który za obsługę tej samej listy chciał ponad 200MiB.</p>
 <h2 id="niekompatybilny-format-list-ipseta">Niekompatybilny format list ipset'a</h2>
@@ -419,8 +418,7 @@ części oraz zostanie wycięty kawałek od dwukropka do końca wiersza.</li>
 <li><code>grep -E &quot;^[-0-9.]+$&quot;</code> nie wiem co dokładnie znaczy ale chyba wyciąga z wyniku wpisy, które mają
 cyfry, kropki i znak minusa powtórzone co najmniej raz. Czyli wynik w postaci
 <code>62.27.97.232-62.27.97.235</code> . Takie zakresy IP zostaną automatycznie przepisane przez ipset z
-uwzględnieniem maski podsieci (patrz
-<a href="http://manpages.ubuntu.com/manpages/xenial/en/man1/ipcalc.1.html">ipcalc</a>).</li>
+uwzględnieniem maski podsieci (patrz <a href="http://manpages.ubuntu.com/manpages/xenial/en/man1/ipcalc.1.html">ipcalc</a>).</li>
 <li><code>gawk -v my_set=$set '{print &quot;add &quot; my_set &quot; &quot; $1}'</code> dodaje na początku frazę <code>add bt_level1</code></li>
 </ul>
 <p>Tak przerobioną listę można bez problemu teraz zaaplikować w ipsecie.</p>
@@ -439,17 +437,15 @@ rozwiązanie na wypadek gdy ktoś z naszych znajomych trafi na taką listę.</p>
 </code></pre>
 <h2 id="logowanie-blokowanych-przez-ipset-pakietów">Logowanie blokowanych przez ipset pakietów</h2>
 <p>Jeśli pakiety zostaną zablokowane z jakiegoś ip, a my nie wiemy z jakiego. Możemy włączyć logowanie
-dodając do regułek iptables do łańcuchów <code>PREROUTING</code> oraz <code>OUTPUT</code> coś na wzór poniższej
-linijki:</p>
+dodając do regułek iptables do łańcuchów <code>PREROUTING</code> oraz <code>OUTPUT</code> coś na wzór poniższej linijki:</p>
 <pre><code>-A OUTPUT -p tcp -m multiport ! --dports 80,443 -m set --match-set bt_level1 dst -j LOG -m limit --limit 10/m  --log-level 4 --log-prefix &quot;*** BT_LEVEL1 *** &quot;
 </code></pre>
 <p>Oczywiście to tylko przykład logowania, prawdopodobnie trzeba będzie go dostosować. Jedna rzecz o
 której trzeba pamiętać to by dodać go przed faktyczną regułą filtrującą, w przeciwnym razie nie
 przejdą przez nią pakiety i nie zostaną zalogowane.</p>
-<p>I to w sumie wszystko, testowałem tego peerguardiana opartego o ipset i to po prostu działa. Jeśli
-kogoś przeraża tego typu działanie, może pokusić się o <a href="https://sourceforge.net/projects/peerguardian/">prawie gotowe
-rozwiązanie</a>. Wymaga tylko skompilowania i
-instalacji. W każdym razie posiada gui i zjada więcej RAMu niż ipset.</p></div>
+<p>I to w sumie wszystko, testowałem tego PeerGuardian'a opartego o ipset i to po prostu działa. Jeśli
+kogoś przeraża tego typu działanie, może pokusić się o <a href="https://sourceforge.net/projects/peerguardian/">prawie gotowe rozwiązanie</a>. Wymaga tylko
+skompilowania i instalacji. W każdym razie posiada GUI i zjada więcej RAMu niż ipset.</p></div>
 				
 				<footer class="entry__footer">
 					

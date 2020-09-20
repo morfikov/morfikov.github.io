@@ -9,18 +9,15 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:title" content="Podział switch&#39;a na kilka VLAN&#39;ów w OpenWRT" />
-<meta property="og:description" content="Każdy router ma w swoim wyposażeniu
-switch, czyli przełącznik
-umożliwiający rozdzielenie sygnału na kilka portów. W ten sposób przy pomocy przewodu możemy
-podłączyć więcej komputerów niż by to miało miejsce w przypadku posiadania tylko jednego gniazda
-RJ-45. Na oryginalnym firmware zwykle nie mamy możliwości
-dodatkowej konfiguracji switch&#39;a. Z kolei ta co jest, oferuje nam jedynie jeden port WAN i kilka
-portów dla podłączenia komputerów w sieci lokalnej. Jeśli jednak pokusilibyśmy się o wgranie OpenWRT
-na nasz router, to będziemy mieli możliwość zarządzania konfiguracją switch&#39;a. W ten sposób będziemy
-mogli tworzyć dowolne konfiguracje portów (VLAN), wliczając w to utworzenie, np. kilku portów WAN.
-Tego typu rozwiązanie może się przydać do bardziej zaawansowanych konfiguracji sieciowych, np.
-failover łącza czy load
-balancing w przypadku,
+<meta property="og:description" content="Każdy router ma w swoim wyposażeniu switch, czyli przełącznik umożliwiający rozdzielenie
+sygnału na kilka portów. W ten sposób przy pomocy przewodu możemy podłączyć więcej komputerów niż
+by to miało miejsce w przypadku posiadania tylko jednego gniazda RJ-45. Na oryginalnym firmware
+zwykle nie mamy możliwości dodatkowej konfiguracji switch&#39;a. Z kolei ta co jest, oferuje nam jedynie
+jeden port WAN i kilka portów dla podłączenia komputerów w sieci lokalnej. Jeśli jednak
+pokusilibyśmy się o wgranie OpenWRT na nasz router, to będziemy mieli możliwość zarządzania
+konfiguracją switch&#39;a. W ten sposób będziemy mogli tworzyć dowolne konfiguracje portów (VLAN),
+wliczając w to utworzenie, np. kilku portów WAN. Tego typu rozwiązanie może się przydać do bardziej
+zaawansowanych konfiguracji sieciowych, np. failover łącza czy load balancing w przypadku,
 gdy posiadamy kilku ISP i chcemy wykorzystać w pełni łącze oferowane przez te podmioty." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/podzial-switcha-na-kilka-vlan-w-openwrt/" />
@@ -28,22 +25,19 @@ gdy posiadamy kilku ISP i chcemy wykorzystać w pełni łącze oferowane przez t
 <meta property="article:modified_time" content="2016-05-03T20:49:50+00:00" />
 
 		<meta itemprop="name" content="Podział switch&#39;a na kilka VLAN&#39;ów w OpenWRT">
-<meta itemprop="description" content="Każdy router ma w swoim wyposażeniu
-switch, czyli przełącznik
-umożliwiający rozdzielenie sygnału na kilka portów. W ten sposób przy pomocy przewodu możemy
-podłączyć więcej komputerów niż by to miało miejsce w przypadku posiadania tylko jednego gniazda
-RJ-45. Na oryginalnym firmware zwykle nie mamy możliwości
-dodatkowej konfiguracji switch&#39;a. Z kolei ta co jest, oferuje nam jedynie jeden port WAN i kilka
-portów dla podłączenia komputerów w sieci lokalnej. Jeśli jednak pokusilibyśmy się o wgranie OpenWRT
-na nasz router, to będziemy mieli możliwość zarządzania konfiguracją switch&#39;a. W ten sposób będziemy
-mogli tworzyć dowolne konfiguracje portów (VLAN), wliczając w to utworzenie, np. kilku portów WAN.
-Tego typu rozwiązanie może się przydać do bardziej zaawansowanych konfiguracji sieciowych, np.
-failover łącza czy load
-balancing w przypadku,
+<meta itemprop="description" content="Każdy router ma w swoim wyposażeniu switch, czyli przełącznik umożliwiający rozdzielenie
+sygnału na kilka portów. W ten sposób przy pomocy przewodu możemy podłączyć więcej komputerów niż
+by to miało miejsce w przypadku posiadania tylko jednego gniazda RJ-45. Na oryginalnym firmware
+zwykle nie mamy możliwości dodatkowej konfiguracji switch&#39;a. Z kolei ta co jest, oferuje nam jedynie
+jeden port WAN i kilka portów dla podłączenia komputerów w sieci lokalnej. Jeśli jednak
+pokusilibyśmy się o wgranie OpenWRT na nasz router, to będziemy mieli możliwość zarządzania
+konfiguracją switch&#39;a. W ten sposób będziemy mogli tworzyć dowolne konfiguracje portów (VLAN),
+wliczając w to utworzenie, np. kilku portów WAN. Tego typu rozwiązanie może się przydać do bardziej
+zaawansowanych konfiguracji sieciowych, np. failover łącza czy load balancing w przypadku,
 gdy posiadamy kilku ISP i chcemy wykorzystać w pełni łącze oferowane przez te podmioty.">
 <meta itemprop="datePublished" content="2016-05-03T20:49:50+00:00" />
 <meta itemprop="dateModified" content="2016-05-03T20:49:50+00:00" />
-<meta itemprop="wordCount" content="1523">
+<meta itemprop="wordCount" content="1517">
 
 
 
@@ -51,18 +45,15 @@ gdy posiadamy kilku ISP i chcemy wykorzystać w pełni łącze oferowane przez t
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Podział switch&#39;a na kilka VLAN&#39;ów w OpenWRT"/>
-<meta name="twitter:description" content="Każdy router ma w swoim wyposażeniu
-switch, czyli przełącznik
-umożliwiający rozdzielenie sygnału na kilka portów. W ten sposób przy pomocy przewodu możemy
-podłączyć więcej komputerów niż by to miało miejsce w przypadku posiadania tylko jednego gniazda
-RJ-45. Na oryginalnym firmware zwykle nie mamy możliwości
-dodatkowej konfiguracji switch&#39;a. Z kolei ta co jest, oferuje nam jedynie jeden port WAN i kilka
-portów dla podłączenia komputerów w sieci lokalnej. Jeśli jednak pokusilibyśmy się o wgranie OpenWRT
-na nasz router, to będziemy mieli możliwość zarządzania konfiguracją switch&#39;a. W ten sposób będziemy
-mogli tworzyć dowolne konfiguracje portów (VLAN), wliczając w to utworzenie, np. kilku portów WAN.
-Tego typu rozwiązanie może się przydać do bardziej zaawansowanych konfiguracji sieciowych, np.
-failover łącza czy load
-balancing w przypadku,
+<meta name="twitter:description" content="Każdy router ma w swoim wyposażeniu switch, czyli przełącznik umożliwiający rozdzielenie
+sygnału na kilka portów. W ten sposób przy pomocy przewodu możemy podłączyć więcej komputerów niż
+by to miało miejsce w przypadku posiadania tylko jednego gniazda RJ-45. Na oryginalnym firmware
+zwykle nie mamy możliwości dodatkowej konfiguracji switch&#39;a. Z kolei ta co jest, oferuje nam jedynie
+jeden port WAN i kilka portów dla podłączenia komputerów w sieci lokalnej. Jeśli jednak
+pokusilibyśmy się o wgranie OpenWRT na nasz router, to będziemy mieli możliwość zarządzania
+konfiguracją switch&#39;a. W ten sposób będziemy mogli tworzyć dowolne konfiguracje portów (VLAN),
+wliczając w to utworzenie, np. kilku portów WAN. Tego typu rozwiązanie może się przydać do bardziej
+zaawansowanych konfiguracji sieciowych, np. failover łącza czy load balancing w przypadku,
 gdy posiadamy kilku ISP i chcemy wykorzystać w pełni łącze oferowane przez te podmioty."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
@@ -166,25 +157,21 @@ if (!doNotTrack) {
   </ol>
 </nav>
 </details>
-				<div class="entry__content"><p>Każdy router ma w swoim wyposażeniu
-<a href="https://pl.wikipedia.org/wiki/Prze%C5%82%C4%85cznik_sieciowy">switch</a>, czyli przełącznik
-umożliwiający rozdzielenie sygnału na kilka portów. W ten sposób przy pomocy przewodu możemy
-podłączyć więcej komputerów niż by to miało miejsce w przypadku posiadania tylko jednego gniazda
-<a href="https://pl.wikipedia.org/wiki/RJ-45">RJ-45</a>. Na oryginalnym firmware zwykle nie mamy możliwości
-dodatkowej konfiguracji switch'a. Z kolei ta co jest, oferuje nam jedynie jeden port WAN i kilka
-portów dla podłączenia komputerów w sieci lokalnej. Jeśli jednak pokusilibyśmy się o wgranie OpenWRT
-na nasz router, to będziemy mieli możliwość zarządzania konfiguracją switch'a. W ten sposób będziemy
-mogli tworzyć dowolne konfiguracje portów (VLAN), wliczając w to utworzenie, np. kilku portów WAN.
-Tego typu rozwiązanie może się przydać do bardziej zaawansowanych konfiguracji sieciowych, np.
-<a href="https://en.wikipedia.org/wiki/Failover">failover łącza</a> czy <a href="https://pl.wikipedia.org/wiki/R%C3%B3wnowa%C5%BCenie_obci%C4%85%C5%BCenia">load
-balancing</a> w przypadku,
+				<div class="entry__content"><p>Każdy router ma w swoim wyposażeniu <a href="https://pl.wikipedia.org/wiki/Prze%C5%82%C4%85cznik_sieciowy">switch</a>, czyli przełącznik umożliwiający rozdzielenie
+sygnału na kilka portów. W ten sposób przy pomocy przewodu możemy podłączyć więcej komputerów niż
+by to miało miejsce w przypadku posiadania tylko jednego gniazda <a href="https://pl.wikipedia.org/wiki/RJ-45">RJ-45</a>. Na oryginalnym firmware
+zwykle nie mamy możliwości dodatkowej konfiguracji switch'a. Z kolei ta co jest, oferuje nam jedynie
+jeden port WAN i kilka portów dla podłączenia komputerów w sieci lokalnej. Jeśli jednak
+pokusilibyśmy się o wgranie OpenWRT na nasz router, to będziemy mieli możliwość zarządzania
+konfiguracją switch'a. W ten sposób będziemy mogli tworzyć dowolne konfiguracje portów (VLAN),
+wliczając w to utworzenie, np. kilku portów WAN. Tego typu rozwiązanie może się przydać do bardziej
+zaawansowanych konfiguracji sieciowych, np. <a href="https://en.wikipedia.org/wiki/Failover">failover łącza</a> czy <a href="https://pl.wikipedia.org/wiki/R%C3%B3wnowa%C5%BCenie_obci%C4%85%C5%BCenia">load balancing</a> w przypadku,
 gdy posiadamy kilku ISP i chcemy wykorzystać w pełni łącze oferowane przez te podmioty.</p>
 <h2 id="domyślna-konfiguracja-switcha">Domyślna konfiguracja switch'a</h2>
 <p>Przede wszystkim należy powiedzieć, że nie każdy switch jest programowalny. Jeśli trafimy na taki,
 to OpenWRT nam nie pomoże w jego podziale. Zbierzmy zatem trochę informacji na temat domyślnej
-konfiguracji przełącznika, który jest w routerze. W tym celu pomoże nam <a href="https://wiki.openwrt.org/doc/techref/swconfig">polecenie
-swconfig</a>. Przy jego pomocy najpierw ustalamy nazwę
-przełącznika:</p>
+konfiguracji przełącznika, który jest w routerze. W tym celu pomoże nam <a href="https://wiki.openwrt.org/doc/techref/swconfig">polecenie swconfig</a>.
+Przy jego pomocy najpierw ustalamy nazwę przełącznika:</p>
 <pre><code># swconfig list
 Found: switch0 - ag71xx-mdio.0
 </code></pre>
@@ -269,25 +256,25 @@ VLAN 2:
         vid: 2
         ports: 1 6
 </code></pre>
-<p>Ta powyższa konfiguracja switch'a jest domyślną dla routera <a href="http://www.tp-link.com.pl/products/details/Archer-C7.html">TP-LINK Archer C7
-v2</a>. Przeanalizujmy zatem ten log. Przede
-wszystkim został on skrócony dla czytelności. To co zostało wycięte, to statystyki każdego z portu
-switch'a. Ten przełącznik jest podzielony na dwa VLAN'y: <code>VLAN 1</code> (vid 1) oraz <code>VLAN 2</code> (vid 2).
-Poniżej mamy fotkę tego routera, która pokazuje jego panel tylni:</p>
+<p>Ta powyższa konfiguracja switch'a jest domyślną dla routera <a href="http://www.tp-link.com.pl/products/details/Archer-C7.html">TP-LINK Archer C7 v2</a>.
+Przeanalizujmy zatem ten log. Przede wszystkim został on skrócony dla czytelności. To co zostało
+wycięte, to statystyki każdego z portu switch'a. Ten przełącznik jest podzielony na dwa VLAN'y:
+<code>VLAN 1</code> (vid 1) oraz <code>VLAN 2</code> (vid 2). Poniżej mamy fotkę tego routera, która pokazuje jego panel
+tylni:</p>
 <p><img src="https://morfikov.github.io
 /img/2016/05/1.router-switch-vlan-openwrt.jpg#big" alt=""></p>
 <p>Port oznaczony na niebiesko to VLAN 2 (WAN). Z kolei porty oznaczone na pomarańczowo, to VLAN 1
-(LAN). <a href="https://wiki.openwrt.org/toh/tp-link/archer-c5-c7-wdr7500">Na wiki OpenWRT</a> można znaleźć
-trochę pożytecznych informacji na temat samej konfiguracji switch'a, jak i jego portów. Tak dla
-przykładu, powyższy router ma rozpisane porty w następujący sposób: 0 eth1, 1 WAN , 2 LAN1 , 3 LAN2
-, 4 LAN3 , 5 LAN4 , 6 eth0 . Z tym, że na panelu jest 5 gniazdek, a nie 7. Jeśli się przyjrzymy
-nieco uważniej, to porty od LAN (te pomarańczowe) mają dodatkowy numerek <code>0</code> , podczas gdy port WAN
-ma przypisaną <code>6</code> . Zarówno <code>eth0</code> jak i <code>eth1</code> odpowiadają interfejsom routera, które są widoczne w
-systemie, np. przy wydawaniu polecenia <code>ifconfig</code> . Zatem wiemy, który z tych dwóch interfejsów
-będzie obsługiwał połączenie z internetem, a który sieć lokalną. Z reguły tylko interfejs WAN
-będzie miał przypisany adres IP, bo interfejs LAN jest zwykle spięty mostem (bridge) z interfejsami
-bezprzewodowymi WLAN. W ten sposób wszystkie interfejsy poza WAN są spięte razem i temu w systemie
-mamy dodatkowo interfejs wirtualny <code>br-lan</code> i to on dostaje adres IP po stronie LAN.</p>
+(LAN). <a href="https://wiki.openwrt.org/toh/tp-link/archer-c5-c7-wdr7500">Na wiki OpenWRT</a> można znaleźć trochę pożytecznych informacji na temat samej
+konfiguracji switch'a, jak i jego portów. Tak dla przykładu, powyższy router ma rozpisane porty w
+następujący sposób: 0 eth1, 1 WAN, 2 LAN1, 3 LAN2, 4 LAN3, 5 LAN4, 6 eth0. Z tym, że na panelu jest
+5 gniazdek, a nie 7. Jeśli się przyjrzymy nieco uważniej, to porty od LAN (te pomarańczowe) mają
+dodatkowy numerek <code>0</code> , podczas gdy port WAN ma przypisaną <code>6</code> . Zarówno <code>eth0</code> jak i <code>eth1</code>
+odpowiadają interfejsom routera, które są widoczne w systemie, np. przy wydawaniu polecenia
+<code>ifconfig</code> . Zatem wiemy, który z tych dwóch interfejsów będzie obsługiwał połączenie z internetem,
+a który sieć lokalną. Z reguły tylko interfejs WAN będzie miał przypisany adres IP, bo interfejs
+LAN jest zwykle spięty mostem (bridge) z interfejsami bezprzewodowymi WLAN. W ten sposób wszystkie
+interfejsy poza WAN są spięte razem i temu w systemie mamy dodatkowo interfejs wirtualny <code>br-lan</code> i
+to on dostaje adres IP po stronie LAN.</p>
 <h2 id="konfiguracja-switcha-w-openwrt">Konfiguracja switch'a w OpenWRT</h2>
 <p>Konfiguracja switch'a w OpenWRT obywa się przez plik <code>/etc/config/network</code> . To jakie wpisy tam
 zastaniemy zależy w dużej mierze od modelu routera i zastosowanego w nim przełącznika. W tym
@@ -387,9 +374,7 @@ linijkę:</p>
     option macaddr 'E8:94:F6:68:80:F1'
 </code></pre>
 <p><a href="https://morfikov.github.io
-/post/jak-przypisac-losowy-adres-mac-interfejsu/">Prawidłowy adres MAC możemy
-wygenerować</a> w oparciu o ten
-artykuł.</p>
+/post/jak-przypisac-losowy-adres-mac-interfejsu/">Prawidłowy adres MAC możemy wygenerować</a> w oparciu o ten artykuł.</p>
 <p>Musimy także skonfigurować firewall. Robimy to w pliku <code>/etc/config/firewall</code> i dopisujemy do niego
 te dwa poniższe bloki kodu:</p>
 <pre><code>config zone

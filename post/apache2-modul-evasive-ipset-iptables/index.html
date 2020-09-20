@@ -164,8 +164,8 @@ blokowania uporczywych klientów na poziomie pakietów sieciowych.</p>
 <pre><code># a2enmod evasive
 # systemctl restart apache2
 </code></pre>
-<p>Dokumentacja modułu znajduje się na <a href="https://www.zdziarski.com/blog/?page_id=442">blogu autora</a>.
-Warto także zajrzeć do pliku <code>/usr/share/doc/libapache2-mod-evasive/README.gz</code> .</p>
+<p>Dokumentacja modułu znajduje się na <a href="https://www.zdziarski.com/blog/?page_id=442">blogu autora</a>. Warto także zajrzeć do pliku
+<code>/usr/share/doc/libapache2-mod-evasive/README.gz</code> .</p>
 <h2 id="zasada-działania-mechanizmu-blokującego">Zasada działania mechanizmu blokującego</h2>
 <p>W chwili nadejścia zapytania do serwera www, jest ono przetwarzane przez moduł <code>evasive</code> . Na
 początku jest sprawdzany adres IP klienta, który wysłał zapytanie. Ten adres jest porównywany z
@@ -229,11 +229,10 @@ zablokować dany adres, ten plik musi być pierw usunięty (o tym będzie dalej)
 <p>Pozostała nam do omówienia ostatnia z dyrektyw, które widnieją w pliku
 <code>/etc/apache2/mods-enabled/evasive.conf</code> . Jest to <code>DOSSystemCommand</code> , czyli polecenie, które
 zostanie uruchomione w przypadku, gdy jakiś klient przekroczy limit zapytań. Najprostszym i zarazem
-najefektywniejszym rozwiązaniem jest stworzenie <a href="http://ipset.netfilter.org/">listy dla ipset'a</a> i
-dynamiczne dodawanie do niej adresów IP. Wymagane jest jednak dodatkowe oprogramowanie w postaci
-pakietu <code>ipset</code> , które musimy zainstalować na debianie. Będzie nam też potrzebne <code>sudo</code> , bo
-inaczej nie dodamy adresów do listy, gdyż serwer Apache2 nie działa domyślnie z prawami
-administratora systemu.</p>
+najefektywniejszym rozwiązaniem jest stworzenie <a href="http://ipset.netfilter.org/">listy dla ipset'a</a> i dynamiczne dodawanie do
+niej adresów IP. Wymagane jest jednak dodatkowe oprogramowanie w postaci pakietu <code>ipset</code> , które
+musimy zainstalować na debianie. Będzie nam też potrzebne <code>sudo</code> , bo inaczej nie dodamy adresów do
+listy, gdyż serwer Apache2 nie działa domyślnie z prawami administratora systemu.</p>
 <p>Następnie musimy stworzyć listę, na którą będą trafiać pakiety:</p>
 <pre><code># ipset create evasive hash:net family inet maxelem 5000 --timeout 60
 </code></pre>
@@ -269,9 +268,10 @@ ipset'a. Jeśli klient nie dokona żadnych akcji w tym czasie, to adres z tej li
 Jeśli jednak, będzie próbował nawiązać połączenie, to czas ulegnie odświeżeniu.</p>
 <h2 id="test-ataku-dosddos">Test ataku DOS/DDOS</h2>
 <p>Przydałoby się teraz przetestować jak ten mechanizm anty DOS/DDOS działa. Możemy to zrobić na dwa
-sposoby. Pierwszy z nich, to wykorzystanie skryptu dostarczanego z pakietem <code>libapache2-mod-evasive</code>
-. Znajduje się on pod <code>/usr/share/doc/libapache2-mod-evasive/examples/test.pl</code> . Wystarczy go
-przekopiować na maszynę kliencką i nieco dostosować. Generalnie chodzi o zmianę adresu:</p>
+sposoby. Pierwszy z nich, to wykorzystanie skryptu dostarczanego z pakietem
+<code>libapache2-mod-evasive</code> . Znajduje się on pod
+<code>/usr/share/doc/libapache2-mod-evasive/examples/test.pl</code> . Wystarczy go przekopiować na maszynę
+kliencką i nieco dostosować. Generalnie chodzi o zmianę adresu:</p>
 <pre><code>...
 PeerAddr=&gt; &quot;1.2.3.4:80&quot;);
 ...

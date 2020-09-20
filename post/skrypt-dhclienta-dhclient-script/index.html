@@ -14,10 +14,9 @@ sieciowej konfiguracji hosta za sprawą protokółu DHCP. W zasadzie cała konfi
 sprowadza się do określenia szeregu opcji w pliku /etc/dhcp/dhclient.conf . W debianie nawet nie
 musimy dotykać tego pliku, by wszystko działało nam jak trzeba. Niemniej jednak, czasem konfiguracja
 interfejsów sieciowych może wymagać od nas dodatkowych zabiegów. W celu ułatwienia życia adminom
-dodano obsługę skryptów shell&#39;owych
-(dhclient-script). Taki
-skrypt jesteśmy w stanie wywołać w zależności od zaistniałych zdarzeń protokołu DHCP. W tym wpisie
-zostanie pokazane w jaki sposób te skrypty możemy utworzyć i wykorzystać." />
+dodano obsługę skryptów shell&#39;owych (dhclient-script). Taki skrypt jesteśmy w stanie wywołać w
+zależności od zaistniałych zdarzeń protokołu DHCP. W tym wpisie zostanie pokazane w jaki sposób te
+skrypty możemy utworzyć i wykorzystać." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/skrypt-dhclienta-dhclient-script/" />
 <meta property="article:published_time" content="2016-06-14T16:26:15+00:00" />
@@ -29,10 +28,9 @@ sieciowej konfiguracji hosta za sprawą protokółu DHCP. W zasadzie cała konfi
 sprowadza się do określenia szeregu opcji w pliku /etc/dhcp/dhclient.conf . W debianie nawet nie
 musimy dotykać tego pliku, by wszystko działało nam jak trzeba. Niemniej jednak, czasem konfiguracja
 interfejsów sieciowych może wymagać od nas dodatkowych zabiegów. W celu ułatwienia życia adminom
-dodano obsługę skryptów shell&#39;owych
-(dhclient-script). Taki
-skrypt jesteśmy w stanie wywołać w zależności od zaistniałych zdarzeń protokołu DHCP. W tym wpisie
-zostanie pokazane w jaki sposób te skrypty możemy utworzyć i wykorzystać.">
+dodano obsługę skryptów shell&#39;owych (dhclient-script). Taki skrypt jesteśmy w stanie wywołać w
+zależności od zaistniałych zdarzeń protokołu DHCP. W tym wpisie zostanie pokazane w jaki sposób te
+skrypty możemy utworzyć i wykorzystać.">
 <meta itemprop="datePublished" content="2016-06-14T16:26:15+00:00" />
 <meta itemprop="dateModified" content="2016-06-14T16:26:15+00:00" />
 <meta itemprop="wordCount" content="898">
@@ -48,10 +46,9 @@ sieciowej konfiguracji hosta za sprawą protokółu DHCP. W zasadzie cała konfi
 sprowadza się do określenia szeregu opcji w pliku /etc/dhcp/dhclient.conf . W debianie nawet nie
 musimy dotykać tego pliku, by wszystko działało nam jak trzeba. Niemniej jednak, czasem konfiguracja
 interfejsów sieciowych może wymagać od nas dodatkowych zabiegów. W celu ułatwienia życia adminom
-dodano obsługę skryptów shell&#39;owych
-(dhclient-script). Taki
-skrypt jesteśmy w stanie wywołać w zależności od zaistniałych zdarzeń protokołu DHCP. W tym wpisie
-zostanie pokazane w jaki sposób te skrypty możemy utworzyć i wykorzystać."/>
+dodano obsługę skryptów shell&#39;owych (dhclient-script). Taki skrypt jesteśmy w stanie wywołać w
+zależności od zaistniałych zdarzeń protokołu DHCP. W tym wpisie zostanie pokazane w jaki sposób te
+skrypty możemy utworzyć i wykorzystać."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -159,10 +156,9 @@ sieciowej konfiguracji hosta za sprawą protokółu DHCP. W zasadzie cała konfi
 sprowadza się do określenia szeregu opcji w pliku <code>/etc/dhcp/dhclient.conf</code> . W debianie nawet nie
 musimy dotykać tego pliku, by wszystko działało nam jak trzeba. Niemniej jednak, czasem konfiguracja
 interfejsów sieciowych może wymagać od nas dodatkowych zabiegów. W celu ułatwienia życia adminom
-dodano obsługę skryptów shell'owych
-(<a href="http://manpages.ubuntu.com/manpages/xenial/en/man8/dhclient-script.8.html">dhclient-script</a>). Taki
-skrypt jesteśmy w stanie wywołać w zależności od zaistniałych zdarzeń protokołu DHCP. W tym wpisie
-zostanie pokazane w jaki sposób te skrypty możemy utworzyć i wykorzystać.</p>
+dodano obsługę skryptów shell'owych (<a href="http://manpages.ubuntu.com/manpages/xenial/en/man8/dhclient-script.8.html">dhclient-script</a>). Taki skrypt jesteśmy w stanie wywołać w
+zależności od zaistniałych zdarzeń protokołu DHCP. W tym wpisie zostanie pokazane w jaki sposób te
+skrypty możemy utworzyć i wykorzystać.</p>
 <h2 id="tryb-debugowania-w-dhclient">Tryb debugowania w dhclient</h2>
 <p>Przede wszystkim, musimy zaznajomić się ze zdarzeniami, które mają miejsce w protokole DHCP. Ta
 wiedza będzie nam potrzebna do budowania samego skryptu. Dlatego też na samym początku zaleca się
@@ -215,10 +211,10 @@ Najważniejsza rzecz to <code>reason</code> . To na podstawie wartości w tej zm
 skrypt ma zostać wywołany, np. przy pozyskiwaniu lease, czy też przy odnowieniu lease. Jest szereg
 wartości, które mogą zostać ustawione w zmiennej <code>reason</code> . Zaliczają się do nich te następujące:
 <code>MEDIUM</code> , <code>PREINIT</code> , <code>BOUND</code> , <code>RENEW</code> , <code>REBIND</code> , <code>REBOOT</code> , <code>EXPIRE</code> , <code>FAIL</code> , <code>STOP</code> ,
-<code>RELEASE</code> , <code>NBI</code> i <code>TIMEOUT</code> . Wyżej widzieliśmy dwa z tych powodów. Pierwszym z nich był <code>PREINIT</code>
-, który jest zawsze wywoływany przy pozyskiwaniu lease po raz pierwszy z serwera DHCP. Drugim z
-kolei był <code>BOUND</code> i tu <code>dhclient</code> odczytał adresację lease w celu zaaplikowania jej w konfiguracji
-hosta.</p>
+<code>RELEASE</code> , <code>NBI</code> i <code>TIMEOUT</code> . Wyżej widzieliśmy dwa z tych powodów. Pierwszym z nich był
+<code>PREINIT</code> , który jest zawsze wywoływany przy pozyskiwaniu lease po raz pierwszy z serwera DHCP.
+Drugim z kolei był <code>BOUND</code> i tu <code>dhclient</code> odczytał adresację lease w celu zaaplikowania jej w
+konfiguracji hosta.</p>
 <p>W przypadku <code>BOUND</code> widzimy też uwzględnionych szereg zmiennych. Wszystkie te z nich mające prefiks
 <code>old_*</code> zawierają w sobie starą konfigurację hosta. Z kolei wpisy z prefiksem <code>new_*</code> mają wartości
 uzyskane od serwera DHCP. Poniżej jest przykład tych zmiennych:</p>
@@ -231,8 +227,9 @@ new_routers='192.168.1.1'
 new_domain_name='mhouse'
 new_domain_name_servers='192.168.1.1'
 </code></pre>
-<p>Nie wszystkie z tych powyższych zmiennych zostaną uwzględnione w pliku <code>/tmp/dhclient-script.debug</code>
-. Zależy to głównie od konfiguracji samego dhclient'a jak i serwera DHCP.</p>
+<p>Nie wszystkie z tych powyższych zmiennych zostaną uwzględnione w pliku
+<code>/tmp/dhclient-script.debug</code> . Zależy to głównie od konfiguracji samego dhclient'a jak i serwera
+DHCP.</p>
 <h2 id="skrypty-w-dhclient-enter-hooksd-oraz-dhclient-exit-hooksd">Skrypty w dhclient-enter-hooks.d/ oraz dhclient-exit-hooks.d/</h2>
 <p>Mamy zatem w grubsza omówioną strukturę pliku <code>/tmp/dhclient-script.debug</code> . Dlaczego jednak mamy
 dwa osobne katalogi <code>/etc/dhcp/dhclient-enter-hooks.d/</code> oraz <code>/etc/dhcp/dhclient-exit-hooks.d/</code> ?
@@ -250,10 +247,8 @@ zmienne. Wystarczy stworzyć szereg warunków i przypisać im odpowiednie polece
 chcielibyśmy wpisać w terminal po konfiguracji maszyny za sprawą protokołu DHCP. Przykładem
 sytuacji, która wymagałaby dodatkowych poleceń, może być zwykły <a href="https://morfikov.github.io
 /post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/">failover łącza czy też równoważenie
-obciążenia (load
-balancing)</a>, gdzie musimy
-skonfigurować trasy routingu. Przy pomocy skryptów dhclient'a, możemy cały proces konfiguracji hosta
-w pełni zautomatyzować.</p>
+obciążenia (load balancing)</a>, gdzie musimy skonfigurować trasy routingu. Przy pomocy skryptów
+dhclient'a, możemy cały proces konfiguracji hosta w pełni zautomatyzować.</p>
 <h2 id="jak-stworzyć-skrypt-dla-dhclient">Jak stworzyć skrypt dla dhclient</h2>
 <p>Do stworzenia skryptu potrzebnych nam jest kilka informacji. Przede wszystkim, musimy znać nazwę
 interfejsu sieciowego, w przypadku którego skrypt zostanie wykonany. Musimy znać także powód (

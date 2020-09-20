@@ -9,26 +9,22 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:title" content="Dropbox i kontener LUKS" />
-<meta property="og:description" content="Ogarnęliśmy już szyfrowanie plików na dropbox&#39;ie przy pomocy
-encfs oraz kontenerów
-TrueCrypt. Każda z w/w operacji
-drastycznie poprawiła prywatność naszych plików, które przechowujemy w chmurze. Poniższy wpis będzie
-w podobnym klimacie, tj. spróbujemy umieścić na dropbox&#39;ie kontener
-LUKS, co niesie ze sobą sporo udogodnień i
-czyni korzystanie z zaszyfrowanego dropbox&#39;a praktycznie transparentnym." />
+<meta property="og:description" content="Ogarnęliśmy już szyfrowanie plików na Dropbox przy pomocy encfs oraz kontenerów
+TrueCrypt. Każda z w/w operacji drastycznie poprawiła prywatność naszych plików, które
+przechowujemy w chmurze. Poniższy wpis będzie w podobnym klimacie, tj. spróbujemy umieścić na
+Dropbox kontener LUKS, co niesie ze sobą sporo udogodnień i czyni korzystanie z
+zaszyfrowanego Dropbox&#39;a praktycznie transparentnym." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/dropbox-i-kontener-luks/" />
 <meta property="article:published_time" content="2015-10-21T20:34:42+00:00" />
 <meta property="article:modified_time" content="2015-10-21T20:34:42+00:00" />
 
 		<meta itemprop="name" content="Dropbox i kontener LUKS">
-<meta itemprop="description" content="Ogarnęliśmy już szyfrowanie plików na dropbox&#39;ie przy pomocy
-encfs oraz kontenerów
-TrueCrypt. Każda z w/w operacji
-drastycznie poprawiła prywatność naszych plików, które przechowujemy w chmurze. Poniższy wpis będzie
-w podobnym klimacie, tj. spróbujemy umieścić na dropbox&#39;ie kontener
-LUKS, co niesie ze sobą sporo udogodnień i
-czyni korzystanie z zaszyfrowanego dropbox&#39;a praktycznie transparentnym.">
+<meta itemprop="description" content="Ogarnęliśmy już szyfrowanie plików na Dropbox przy pomocy encfs oraz kontenerów
+TrueCrypt. Każda z w/w operacji drastycznie poprawiła prywatność naszych plików, które
+przechowujemy w chmurze. Poniższy wpis będzie w podobnym klimacie, tj. spróbujemy umieścić na
+Dropbox kontener LUKS, co niesie ze sobą sporo udogodnień i czyni korzystanie z
+zaszyfrowanego Dropbox&#39;a praktycznie transparentnym.">
 <meta itemprop="datePublished" content="2015-10-21T20:34:42+00:00" />
 <meta itemprop="dateModified" content="2015-10-21T20:34:42+00:00" />
 <meta itemprop="wordCount" content="1423">
@@ -39,13 +35,11 @@ czyni korzystanie z zaszyfrowanego dropbox&#39;a praktycznie transparentnym.">
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Dropbox i kontener LUKS"/>
-<meta name="twitter:description" content="Ogarnęliśmy już szyfrowanie plików na dropbox&#39;ie przy pomocy
-encfs oraz kontenerów
-TrueCrypt. Każda z w/w operacji
-drastycznie poprawiła prywatność naszych plików, które przechowujemy w chmurze. Poniższy wpis będzie
-w podobnym klimacie, tj. spróbujemy umieścić na dropbox&#39;ie kontener
-LUKS, co niesie ze sobą sporo udogodnień i
-czyni korzystanie z zaszyfrowanego dropbox&#39;a praktycznie transparentnym."/>
+<meta name="twitter:description" content="Ogarnęliśmy już szyfrowanie plików na Dropbox przy pomocy encfs oraz kontenerów
+TrueCrypt. Każda z w/w operacji drastycznie poprawiła prywatność naszych plików, które
+przechowujemy w chmurze. Poniższy wpis będzie w podobnym klimacie, tj. spróbujemy umieścić na
+Dropbox kontener LUKS, co niesie ze sobą sporo udogodnień i czyni korzystanie z
+zaszyfrowanego Dropbox&#39;a praktycznie transparentnym."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -142,7 +136,7 @@ if (!doNotTrack) {
 	<summary class="toc__title">Spis treści</summary>
 	<nav id="TableOfContents">
   <ol>
-    <li><a href="#tworzenie-kontenera-pod-dane-na-dropboxie">Tworzenie kontenera pod dane na dropbox'ie</a></li>
+    <li><a href="#tworzenie-kontenera-pod-dane-na-dropbox">Tworzenie kontenera pod dane na Dropbox</a></li>
     <li><a href="#konfiguracja-kontenera-luks">Konfiguracja kontenera LUKS</a>
       <ol>
         <li><a href="#plik-etccrypttab">Plik /etc/crypttab</a></li>
@@ -152,28 +146,26 @@ if (!doNotTrack) {
       </ol>
     </li>
     <li><a href="#automatyczne-montowanie-systemu-plików-kontenera">Automatyczne montowanie systemu plików kontenera</a></li>
-    <li><a href="#ochrona-kontenera-z-plikami-dropboxa">Ochrona kontenera z plikami dropbox'a</a></li>
+    <li><a href="#ochrona-kontenera-z-plikami-dropboxa">Ochrona kontenera z plikami Dropbox'a</a></li>
   </ol>
 </nav>
 </details>
-				<div class="entry__content"><p>Ogarnęliśmy już szyfrowanie plików na dropbox'ie przy pomocy
-<a href="https://morfikov.github.io
+				<div class="entry__content"><p>Ogarnęliśmy już szyfrowanie plików na Dropbox przy pomocy <a href="https://morfikov.github.io
 /post/implementacja-encfs-na-dropboxie/">encfs</a> oraz <a href="https://morfikov.github.io
 /post/kontener-truecrypt-trzymany-na-dropboxie/">kontenerów
-TrueCrypt</a>. Każda z w/w operacji
-drastycznie poprawiła prywatność naszych plików, które przechowujemy w chmurze. Poniższy wpis będzie
-w podobnym klimacie, tj. spróbujemy umieścić na dropbox'ie <a href="https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup">kontener
-LUKS</a>, co niesie ze sobą sporo udogodnień i
-czyni korzystanie z zaszyfrowanego dropbox'a praktycznie transparentnym.</p>
-<h2 id="tworzenie-kontenera-pod-dane-na-dropboxie">Tworzenie kontenera pod dane na dropbox'ie</h2>
+TrueCrypt</a>. Każda z w/w operacji drastycznie poprawiła prywatność naszych plików, które
+przechowujemy w chmurze. Poniższy wpis będzie w podobnym klimacie, tj. spróbujemy umieścić na
+Dropbox <a href="https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup">kontener LUKS</a>, co niesie ze sobą sporo udogodnień i czyni korzystanie z
+zaszyfrowanego Dropbox'a praktycznie transparentnym.</p>
+<h2 id="tworzenie-kontenera-pod-dane-na-dropbox">Tworzenie kontenera pod dane na Dropbox</h2>
 <p>Przede wszystkim, musimy utworzyć plik składający się z samych zer. Tak stworzony plik umieszczamy
-na dropbox'ie. Sam plik może być dowolnego rozmiaru i nie ma tutaj znaczenia czy będzie to 100 MiB
-czy 10GiB. Liczy się tylko to ile miejsca chcemy przeznaczyć na dropbox'ie na szyfrowane pliki.
+na Dropbox. Sam plik może być dowolnego rozmiaru i nie ma tutaj znaczenia czy będzie to 100 MiB
+czy 10GiB. Liczy się tylko to ile miejsca chcemy przeznaczyć na Dropbox na szyfrowane pliki.
 Najciekawsze w tym wszystkim jest to, że plik składający się z samych zer zostanie przed wysłaniem
 do chmury skompresowany, a kompresja samych zer daje wynik porównywalny z zerem. I tak, np. 10 GiB
 plik będzie zajmować parę KiB, co oczywiście cieszy, bo nie będzie trzeba wysyłać do chmury całych
 10GiB danych.</p>
-<p>Na sam początek zatrzymujemy synchronizację plików w dropbox'ie i przechodzimy do katalogu gdzie
+<p>Na sam początek zatrzymujemy synchronizację plików w Dropbox i przechodzimy do katalogu gdzie
 mamy swoją lokalną kopię plików. W nim tworzymy plik kontenera LUKS:</p>
 <pre><code>$ cd /media/Server/Dropbox/
 $ dropbox status
@@ -194,8 +186,7 @@ urządzenia <code>loop</code>, które zamontuje nam w systemie plik kontenera:</
 /dev/loop0: [0807]:2883594 (/media/Server/Dropbox/luks_dropbox)
 </code></pre>
 <p>Teraz trzeba zaszyfrować plik kontenera przy pomocy <code>cryptsetup</code> . Pamiętajmy by wskazać urządzenie
-<code>/dev/loop0</code> , a nie faktyczny plik na
-dysku:</p>
+<code>/dev/loop0</code> , a nie faktyczny plik na dysku:</p>
 <pre><code># cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random --verify-passphrase --verbose luksFormat /dev/loop0
 </code></pre>
 <p>Otwieramy kontener i tworzymy w nim system plików:</p>
@@ -203,7 +194,7 @@ dysku:</p>
 
 # mkfs.ext4 -m 0 -L dropbox /dev/mapper/crypt_dropbox
 </code></pre>
-<p>W tej chwili mamy przygotowany kontener na dane. Zamykamy go i synchronizujemy dropbox'a:</p>
+<p>W tej chwili mamy przygotowany kontener na dane. Zamykamy go i synchronizujemy Dropbox'a:</p>
 <pre><code># cryptsetup luksClose crypt_dropbox
 
 $ dropbox status
@@ -215,10 +206,10 @@ Uploading &quot;luks_dropbox&quot; (70.0 kB/sec, 9 mins left)
 montować ten kontener. Ja już mam w swoim systemie kilka zaszyfrowanych dysków, dlatego też u mnie
 nie będzie potrzebne dodatkowe hasło, które trzeba by podawać przy starcie systemu. Hasła co prawda
 są inne, i w przypadku systemu, i w przypadku kontenera dropbox ale przy pomocy ciekawej sztuczki
-można uzależnić kontener dropbox'a od klucza jakiejś zaszyfrowanej już partycji. Można też
+można uzależnić kontener Dropbox'a od klucza jakiejś zaszyfrowanej już partycji. Można też
 wykasować hasło do kontenera ale wtedy uzależnimy kontener zupełnie od nagłówków tej partycji.
 Jeśli te nagłówki ulegną uszkodzeniu albo przez przypadek stworzymy nowy kontener pod nowy system,
-stracimy dostęp do danych na dropbox'ie.</p>
+stracimy dostęp do danych na Dropbox.</p>
 <p>Przede wszystkim narzędzie <code>losetup</code> musi widzieć nasz kontener:</p>
 <pre><code>#  losetup -a
 /dev/loop0: [0807]:2883594 (/media/Server/Dropbox/luks_dropbox)
@@ -261,7 +252,7 @@ Key Slot 1: ENABLED
 # losetup -D
 </code></pre>
 <h3 id="plik-etcfstab">Plik /etc/fstab</h3>
-<p>Otwórzmy raz jeszcze kontener z plikami dropbox'a, bo jakby nie patrzeć, to nie jest koniec naszej
+<p>Otwórzmy raz jeszcze kontener z plikami Dropbox'a, bo jakby nie patrzeć, to nie jest koniec naszej
 pracy. Musimy min. dodać odpowiedni wpis w <code>/etc/fstab</code> . By to zrobić trzeba uzyskać UUID systemu
 plików w kontenerze:</p>
 <pre><code># tune2fs -l /dev/mapper/crypt_dropbox | grep UUID
@@ -280,7 +271,7 @@ poniższego polecenia:</p>
 <pre><code># update-initramfs -u -k all
 </code></pre>
 <p>W tej chwili system będzie w stanie wykorzystać hexalną wartość klucza partycji systemowej do
-odblokowania kontenera przeznaczonego pod pliki dropbox'a. Możemy sprawdzić czy tak faktycznie się
+odblokowania kontenera przeznaczonego pod pliki Dropbox'a. Możemy sprawdzić czy tak faktycznie się
 stanie. By otworzyć kontener wydajemy poniższe polecenie:</p>
 <pre><code># cryptdisks_start crypt_dropbox
 </code></pre>
@@ -295,8 +286,8 @@ na partycji, a jej system plików z kolei trzeba pierw zamontować by uzyskać d
 się na nim kontenera. To powoduje, że nie można ustawić automatycznego otwarcia kontenera przy
 starcie systemu w <code>/etc/crypttab</code> . Jeśli się przyjrzymy bliżej temu plikowi, to dostrzeżemy tam
 opcję <code>noauto</code>. Jeśli nie można otworzyć kontenera na starcie, nie można też zamontować
-automatycznie jego systemu plików. A to z kolei obeszliśmy przez opcję <code>noauto</code> w pliku <code>/etc/fstab</code>
-.</p>
+automatycznie jego systemu plików. A to z kolei obeszliśmy przez opcję <code>noauto</code> w pliku
+<code>/etc/fstab</code> .</p>
 <p>Problem jest jeszcze taki, że mimo iż kontener nie jest otwierany, a jego system plików nie jest
 montowany to i tak podczas startu systemu jest wyrzucany błąd o braku urządzenia z UUID naszego
 kontenera. Opcja <code>nofail</code> w <code>/etc/fstab</code> rozwiązuje ten problem i tłumi ten komunikat.</p>
@@ -355,11 +346,11 @@ Options=defaults,errors=remount-ro,commit=20,loop=/dev/loop5
 <p>I to by było w zasadzie wszystko. Po starcie systemu, kontener zostanie otworzony a jego system
 plików zamontowany. Przy czym, taki otwarty kontener jest przez dropboxa traktowany jako plik w
 fazie edycji.</p>
-<h2 id="ochrona-kontenera-z-plikami-dropboxa">Ochrona kontenera z plikami dropbox'a</h2>
+<h2 id="ochrona-kontenera-z-plikami-dropboxa">Ochrona kontenera z plikami Dropbox'a</h2>
 <p>Jeszcze kilka słów na temat tego w jaki sposób dostęp do kontenera dropbox powinien być chroniony.
 Słabe hasło najlepiej jest zastąpić przez keyfile. Oczywiście sposób uzyskiwania dostępu do
 kontenera zostaje taki sam ale na wypadek problemów z zależną partycją musimy mieć jakieś
-zabezpieczenie, by dane z dropbox'a nie przepadły. Najlepiej stworzyć keyfile w oparciu o plik
+zabezpieczenie, by dane z Dropbox'a nie przepadły. Najlepiej stworzyć keyfile w oparciu o plik
 binarny, który jest trzymany &quot;w głębokim ukryciu&quot;. Głębokie ukrycie będzie polegało na wybraniu
 jakiegoś pliku, który rezyduje na naszym dysku ale jest już używany w jakiś sposób, np. plik mp3 czy
 avi.</p>

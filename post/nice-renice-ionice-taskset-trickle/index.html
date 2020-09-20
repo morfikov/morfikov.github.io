@@ -13,13 +13,12 @@
 wchodzą min. pamięć operacyjna RAM, procesor i operacje I/O dysku twardego. Czasami zdarza się tak,
 że niektóre aplikacje są w stanie zdusić inne programy, bo mają zbyt duże wymagania co do zasobów
 systemowych. W takich przypadkach administrator systemu powinien zatroszczyć się o przydział zasobów
-konkretnym procesom. W linux&#39;ie do tego typu prac przeznaczony jest mechanizm
-cgroups obecny w kernelu.
-Niemniej jednak, jeśli cgroups przerasta nasze umiejętności albo też z jakiegoś powodu nie możemy z
-niego korzystać, to istnieje inne rozwiązanie, które może nam pomóc ograniczyć zasoby przydzielane
-procesom przez nasz system. Chodzi generalnie o narzędzia nice/renice (procesor) , ionice
-(dysku twardy) , taskset (przypisanie procesu do konkretnego procesora) oraz trickle (sieć). W
-tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować procesy systemowe." />
+konkretnym procesom. W linux&#39;ie do tego typu prac przeznaczony jest mechanizm cgroups obecny w
+kernelu. Niemniej jednak, jeśli cgroups przerasta nasze umiejętności albo też z jakiegoś powodu nie
+możemy z niego korzystać, to istnieje inne rozwiązanie, które może nam pomóc ograniczyć zasoby
+przydzielane procesom przez nasz system. Chodzi generalnie o narzędzia nice/renice (procesor) ,
+ionice (dysku twardy) , taskset (przypisanie procesu do konkretnego procesora) oraz trickle
+(sieć). W tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować procesy systemowe." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/nice-renice-ionice-taskset-trickle/" />
 <meta property="article:published_time" content="2016-06-16T21:35:20+00:00" />
@@ -30,13 +29,12 @@ tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować proce
 wchodzą min. pamięć operacyjna RAM, procesor i operacje I/O dysku twardego. Czasami zdarza się tak,
 że niektóre aplikacje są w stanie zdusić inne programy, bo mają zbyt duże wymagania co do zasobów
 systemowych. W takich przypadkach administrator systemu powinien zatroszczyć się o przydział zasobów
-konkretnym procesom. W linux&#39;ie do tego typu prac przeznaczony jest mechanizm
-cgroups obecny w kernelu.
-Niemniej jednak, jeśli cgroups przerasta nasze umiejętności albo też z jakiegoś powodu nie możemy z
-niego korzystać, to istnieje inne rozwiązanie, które może nam pomóc ograniczyć zasoby przydzielane
-procesom przez nasz system. Chodzi generalnie o narzędzia nice/renice (procesor) , ionice
-(dysku twardy) , taskset (przypisanie procesu do konkretnego procesora) oraz trickle (sieć). W
-tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować procesy systemowe.">
+konkretnym procesom. W linux&#39;ie do tego typu prac przeznaczony jest mechanizm cgroups obecny w
+kernelu. Niemniej jednak, jeśli cgroups przerasta nasze umiejętności albo też z jakiegoś powodu nie
+możemy z niego korzystać, to istnieje inne rozwiązanie, które może nam pomóc ograniczyć zasoby
+przydzielane procesom przez nasz system. Chodzi generalnie o narzędzia nice/renice (procesor) ,
+ionice (dysku twardy) , taskset (przypisanie procesu do konkretnego procesora) oraz trickle
+(sieć). W tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować procesy systemowe.">
 <meta itemprop="datePublished" content="2016-06-16T21:35:20+00:00" />
 <meta itemprop="dateModified" content="2016-06-16T21:35:20+00:00" />
 <meta itemprop="wordCount" content="1071">
@@ -51,13 +49,12 @@ tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować proce
 wchodzą min. pamięć operacyjna RAM, procesor i operacje I/O dysku twardego. Czasami zdarza się tak,
 że niektóre aplikacje są w stanie zdusić inne programy, bo mają zbyt duże wymagania co do zasobów
 systemowych. W takich przypadkach administrator systemu powinien zatroszczyć się o przydział zasobów
-konkretnym procesom. W linux&#39;ie do tego typu prac przeznaczony jest mechanizm
-cgroups obecny w kernelu.
-Niemniej jednak, jeśli cgroups przerasta nasze umiejętności albo też z jakiegoś powodu nie możemy z
-niego korzystać, to istnieje inne rozwiązanie, które może nam pomóc ograniczyć zasoby przydzielane
-procesom przez nasz system. Chodzi generalnie o narzędzia nice/renice (procesor) , ionice
-(dysku twardy) , taskset (przypisanie procesu do konkretnego procesora) oraz trickle (sieć). W
-tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować procesy systemowe."/>
+konkretnym procesom. W linux&#39;ie do tego typu prac przeznaczony jest mechanizm cgroups obecny w
+kernelu. Niemniej jednak, jeśli cgroups przerasta nasze umiejętności albo też z jakiegoś powodu nie
+możemy z niego korzystać, to istnieje inne rozwiązanie, które może nam pomóc ograniczyć zasoby
+przydzielane procesom przez nasz system. Chodzi generalnie o narzędzia nice/renice (procesor) ,
+ionice (dysku twardy) , taskset (przypisanie procesu do konkretnego procesora) oraz trickle
+(sieć). W tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować procesy systemowe."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -166,13 +163,12 @@ wchodzą min. pamięć operacyjna RAM, procesor i operacje I/O dysku twardego. C
 że niektóre aplikacje są w stanie zdusić inne programy, bo mają zbyt duże wymagania co do zasobów
 systemowych. W takich przypadkach administrator systemu powinien zatroszczyć się o przydział zasobów
 konkretnym procesom. W linux'ie do tego typu prac przeznaczony jest <a href="https://morfikov.github.io
-/post/ograniczanie-zasobow-procesom-przez-cgroups/">mechanizm
-cgroups</a> obecny w kernelu.
-Niemniej jednak, jeśli cgroups przerasta nasze umiejętności albo też z jakiegoś powodu nie możemy z
-niego korzystać, to istnieje inne rozwiązanie, które może nam pomóc ograniczyć zasoby przydzielane
-procesom przez nasz system. Chodzi generalnie o narzędzia <code>nice</code>/<code>renice</code> (procesor) , <code>ionice</code>
-(dysku twardy) , <code>taskset</code> (przypisanie procesu do konkretnego procesora) oraz <code>trickle</code> (sieć). W
-tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować procesy systemowe.</p>
+/post/ograniczanie-zasobow-procesom-przez-cgroups/">mechanizm cgroups</a> obecny w
+kernelu. Niemniej jednak, jeśli cgroups przerasta nasze umiejętności albo też z jakiegoś powodu nie
+możemy z niego korzystać, to istnieje inne rozwiązanie, które może nam pomóc ograniczyć zasoby
+przydzielane procesom przez nasz system. Chodzi generalnie o narzędzia <code>nice</code>/<code>renice</code> (procesor) ,
+<code>ionice</code> (dysku twardy) , <code>taskset</code> (przypisanie procesu do konkretnego procesora) oraz <code>trickle</code>
+(sieć). W tym wpisie zobaczymy jak przy pomocy tych powyższych narzędzi limitować procesy systemowe.</p>
 <h2 id="przydział-procesora-i-dysku-twardego-nice-renice-ionice">Przydział procesora i dysku twardego (nice, renice, ionice)</h2>
 <p>Z reguły <code>nice</code> i <code>ionice</code> są wykorzystywane razem. Oczywiście, nic nie stoi na przeszkodzie, by
 korzystać z tych dwóch narzędzi osobno. Niemniej jednak, gdy w grę wchodzi ograniczanie zasobów
@@ -211,9 +207,9 @@ dysku.</p>
 <h2 id="zmiana-priorytetu-procesu-w-locie">Zmiana priorytetu procesu w locie</h2>
 <p>Warto też wiedzieć, że priorytet procesów w dostępie do procesora i dysku twardego można zmienić w
 czasie pracy takiego procesu. W przypadku zasobów procesora zamiast <code>nice</code> korzystamy z <code>renice</code> . Z
-kolei jeśli chodzi o dysk twardy, to procedura jest taka sama jak wyżej, czyli korzystamy z <code>ionice</code>
-. W obu przypadkach musimy korzystać z przełącznika <code>-p</code> , za pomocą którego wskazujemy numer
-procesu, którego priorytet chcemy zmienić. Poniżej są przykłady zmiany priorytetu procesu:</p>
+kolei jeśli chodzi o dysk twardy, to procedura jest taka sama jak wyżej, czyli korzystamy z
+<code>ionice</code> . W obu przypadkach musimy korzystać z przełącznika <code>-p</code> , za pomocą którego wskazujemy
+numer procesu, którego priorytet chcemy zmienić. Poniżej są przykłady zmiany priorytetu procesu:</p>
 <pre><code># renice -n 10 -p 1110
 # ionice -c 2 -n 5 -p 1110
 </code></pre>

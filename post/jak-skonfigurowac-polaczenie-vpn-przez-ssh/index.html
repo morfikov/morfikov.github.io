@@ -9,32 +9,28 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:title" content="Jak skonfigurować połączenie VPN przez SSH" />
-<meta property="og:description" content="Szukając informacji na temat ukrycia ruchu generowanego przez
-OpenVPN, natrafiłem także na
-sposób, który wykorzystuje do tego celu połączenie SSH.
-W efekcie jesteśmy w stanie upodobnić ruch VPN do tego, który zwykle służy do zarządzania zdalnymi
-systemami linux. Jako, że temat maskowania połączenia VPN jest kluczowy w walce z cenzurą internetu,
-to im więcej sposobów, by taki zabieg przeprowadzić, tym lepiej. Dlatego też postanowiłem odświeżyć
-nieco podlinkowany wyżej artykuł i sprawdzić czy jest on jeszcze aktualny. Wprawdzie nie dysponuję
-Ubuntu, a jedynie dystrybucją Debian ale raczej nie powinno być problemów z odwzorowaniem
-konfiguracji na tym systemie, choć artykuł jest dość leciwy już i pewnie trzeba będzie kilka rzeczy
-zaktualizować." />
+<meta property="og:description" content="Szukając informacji na temat ukrycia ruchu generowanego przez OpenVPN, natrafiłem także na
+sposób, który wykorzystuje do tego celu połączenie SSH. W efekcie jesteśmy w stanie upodobnić
+ruch VPN do tego, który zwykle służy do zarządzania zdalnymi systemami linux. Jako, że temat
+maskowania połączenia VPN jest kluczowy w walce z cenzurą internetu, to im więcej sposobów, by taki
+zabieg przeprowadzić, tym lepiej. Dlatego też postanowiłem odświeżyć nieco podlinkowany wyżej
+artykuł i sprawdzić czy jest on jeszcze aktualny. Wprawdzie nie dysponuję Ubuntu, a jedynie
+dystrybucją Debian ale raczej nie powinno być problemów z odwzorowaniem konfiguracji na tym
+systemie, choć artykuł jest dość leciwy już i pewnie trzeba będzie kilka rzeczy zaktualizować." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/jak-skonfigurowac-polaczenie-vpn-przez-ssh/" />
 <meta property="article:published_time" content="2016-12-11T15:59:06+00:00" />
 <meta property="article:modified_time" content="2016-12-11T15:59:06+00:00" />
 
 		<meta itemprop="name" content="Jak skonfigurować połączenie VPN przez SSH">
-<meta itemprop="description" content="Szukając informacji na temat ukrycia ruchu generowanego przez
-OpenVPN, natrafiłem także na
-sposób, który wykorzystuje do tego celu połączenie SSH.
-W efekcie jesteśmy w stanie upodobnić ruch VPN do tego, który zwykle służy do zarządzania zdalnymi
-systemami linux. Jako, że temat maskowania połączenia VPN jest kluczowy w walce z cenzurą internetu,
-to im więcej sposobów, by taki zabieg przeprowadzić, tym lepiej. Dlatego też postanowiłem odświeżyć
-nieco podlinkowany wyżej artykuł i sprawdzić czy jest on jeszcze aktualny. Wprawdzie nie dysponuję
-Ubuntu, a jedynie dystrybucją Debian ale raczej nie powinno być problemów z odwzorowaniem
-konfiguracji na tym systemie, choć artykuł jest dość leciwy już i pewnie trzeba będzie kilka rzeczy
-zaktualizować.">
+<meta itemprop="description" content="Szukając informacji na temat ukrycia ruchu generowanego przez OpenVPN, natrafiłem także na
+sposób, który wykorzystuje do tego celu połączenie SSH. W efekcie jesteśmy w stanie upodobnić
+ruch VPN do tego, który zwykle służy do zarządzania zdalnymi systemami linux. Jako, że temat
+maskowania połączenia VPN jest kluczowy w walce z cenzurą internetu, to im więcej sposobów, by taki
+zabieg przeprowadzić, tym lepiej. Dlatego też postanowiłem odświeżyć nieco podlinkowany wyżej
+artykuł i sprawdzić czy jest on jeszcze aktualny. Wprawdzie nie dysponuję Ubuntu, a jedynie
+dystrybucją Debian ale raczej nie powinno być problemów z odwzorowaniem konfiguracji na tym
+systemie, choć artykuł jest dość leciwy już i pewnie trzeba będzie kilka rzeczy zaktualizować.">
 <meta itemprop="datePublished" content="2016-12-11T15:59:06+00:00" />
 <meta itemprop="dateModified" content="2016-12-11T15:59:06+00:00" />
 <meta itemprop="wordCount" content="1147">
@@ -45,16 +41,14 @@ zaktualizować.">
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Jak skonfigurować połączenie VPN przez SSH"/>
-<meta name="twitter:description" content="Szukając informacji na temat ukrycia ruchu generowanego przez
-OpenVPN, natrafiłem także na
-sposób, który wykorzystuje do tego celu połączenie SSH.
-W efekcie jesteśmy w stanie upodobnić ruch VPN do tego, który zwykle służy do zarządzania zdalnymi
-systemami linux. Jako, że temat maskowania połączenia VPN jest kluczowy w walce z cenzurą internetu,
-to im więcej sposobów, by taki zabieg przeprowadzić, tym lepiej. Dlatego też postanowiłem odświeżyć
-nieco podlinkowany wyżej artykuł i sprawdzić czy jest on jeszcze aktualny. Wprawdzie nie dysponuję
-Ubuntu, a jedynie dystrybucją Debian ale raczej nie powinno być problemów z odwzorowaniem
-konfiguracji na tym systemie, choć artykuł jest dość leciwy już i pewnie trzeba będzie kilka rzeczy
-zaktualizować."/>
+<meta name="twitter:description" content="Szukając informacji na temat ukrycia ruchu generowanego przez OpenVPN, natrafiłem także na
+sposób, który wykorzystuje do tego celu połączenie SSH. W efekcie jesteśmy w stanie upodobnić
+ruch VPN do tego, który zwykle służy do zarządzania zdalnymi systemami linux. Jako, że temat
+maskowania połączenia VPN jest kluczowy w walce z cenzurą internetu, to im więcej sposobów, by taki
+zabieg przeprowadzić, tym lepiej. Dlatego też postanowiłem odświeżyć nieco podlinkowany wyżej
+artykuł i sprawdzić czy jest on jeszcze aktualny. Wprawdzie nie dysponuję Ubuntu, a jedynie
+dystrybucją Debian ale raczej nie powinno być problemów z odwzorowaniem konfiguracji na tym
+systemie, choć artykuł jest dość leciwy już i pewnie trzeba będzie kilka rzeczy zaktualizować."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -167,16 +161,14 @@ if (!doNotTrack) {
 </nav>
 </details>
 				<div class="entry__content"><p>Szukając informacji na <a href="https://morfikov.github.io
-/post/jak-ukryc-ruch-openvpn-przy-pomocy-stunnel/">temat ukrycia ruchu generowanego przez
-OpenVPN</a>, natrafiłem także na
-sposób, który <a href="https://help.ubuntu.com/community/SSH_VPN">wykorzystuje do tego celu połączenie SSH</a>.
-W efekcie jesteśmy w stanie upodobnić ruch VPN do tego, który zwykle służy do zarządzania zdalnymi
-systemami linux. Jako, że temat maskowania połączenia VPN jest kluczowy w walce z cenzurą internetu,
-to im więcej sposobów, by taki zabieg przeprowadzić, tym lepiej. Dlatego też postanowiłem odświeżyć
-nieco podlinkowany wyżej artykuł i sprawdzić czy jest on jeszcze aktualny. Wprawdzie nie dysponuję
-Ubuntu, a jedynie dystrybucją Debian ale raczej nie powinno być problemów z odwzorowaniem
-konfiguracji na tym systemie, choć artykuł jest dość leciwy już i pewnie trzeba będzie kilka rzeczy
-zaktualizować.</p>
+/post/jak-ukryc-ruch-openvpn-przy-pomocy-stunnel/">temat ukrycia ruchu generowanego przez OpenVPN</a>, natrafiłem także na
+sposób, który <a href="https://help.ubuntu.com/community/SSH_VPN">wykorzystuje do tego celu połączenie SSH</a>. W efekcie jesteśmy w stanie upodobnić
+ruch VPN do tego, który zwykle służy do zarządzania zdalnymi systemami linux. Jako, że temat
+maskowania połączenia VPN jest kluczowy w walce z cenzurą internetu, to im więcej sposobów, by taki
+zabieg przeprowadzić, tym lepiej. Dlatego też postanowiłem odświeżyć nieco podlinkowany wyżej
+artykuł i sprawdzić czy jest on jeszcze aktualny. Wprawdzie nie dysponuję Ubuntu, a jedynie
+dystrybucją Debian ale raczej nie powinno być problemów z odwzorowaniem konfiguracji na tym
+systemie, choć artykuł jest dość leciwy już i pewnie trzeba będzie kilka rzeczy zaktualizować.</p>
 <h2 id="konfiguracja-ssh-pod-tunel-vpn">Konfiguracja SSH pod tunel VPN</h2>
 <p>Począwszy od wersji 4.3, OpenSSH zyskał ciekawą zdolność tworzenia VPN w locie wykorzystując do tego
 celu interfejsy <code>tun</code> . Operowanie na interfejsach <code>tun</code> wymaga od nas posiadania praw
@@ -185,8 +177,7 @@ konfigurację demona <code>ssh</code> , by akceptował żądanie tunelu VPN. Nie
 tworzenia interfejsów <code>tun</code> po stronie serwera, musimy także umożliwić zalogowanie się na
 użytkownika root na serwerze. Nie jest to jednak bezpieczne rozwiązanie, chyba, że zaimplementujemy
 na serwerze SSH obsługę <a href="https://morfikov.github.io
-/post/uwierzytelniajace-klucze-ssh/">uwierzytelniających kluczy
-SSH</a>. Wtedy będziemy mogli zrezygnować z
+/post/uwierzytelniajace-klucze-ssh/">uwierzytelniających kluczy SSH</a>. Wtedy będziemy mogli zrezygnować z
 wykorzystywania haseł, co znacząco podwyższy poziom zabezpieczeń usługi.</p>
 <p>Zakładając, że dysponujemy już odpowiednimi kluczami SSH, logujemy się na serwer i w pliku
 <code>/etc/ssh/sshd_config</code> dopisujemy te dwa parametry:</p>
@@ -244,19 +235,20 @@ na pierwszy rzut oka. Opcje <code>-S</code> i <code>-M</code> włączają możli
 który jesteśmy w stanie sterować połączeniem. Bez nich, po położeniu interfejsu <code>tun9</code> , połączenie
 SSH byłoby cały czas aktywne i nie moglibyśmy ponownie zestawić tunelu na potrzeby VPN bez
 uprzedniego ubicia demona SSH. Opcja <code>-f</code> ma za zadanie zainicjować połączenie w tle, tak by nie
-blokowało konfiguracji interfejsu. Dalej jest parametr <code>-w</code> , który definiuje użyty interfejs <code>tun</code>
-. Cyferki <code>9:9</code> określają numer interfejsu zarówno po stronie klienta jak i serwera, czyli w obu
-przypadkach zostanie użyty interfejs <code>tun9</code> . Następnie mamy użytkownika SSH wraz z adres IP
+blokowało konfiguracji interfejsu. Dalej jest parametr <code>-w</code> , który definiuje użyty interfejs
+<code>tun</code> . Cyferki <code>9:9</code> określają numer interfejsu zarówno po stronie klienta jak i serwera, czyli w
+obu przypadkach zostanie użyty interfejs <code>tun9</code> . Następnie mamy użytkownika SSH wraz z adres IP
 serwera, no i oczywiście jego port. Wszystko co zostało ujęte w <code>' '</code> , to polecenie, które ma
 zostać wykonane na drugim końcu połączenia po zalogowaniu się via SSH. W tym przypadku są to
 polecenia <code>ifdown</code> i <code>ifup</code> , które mają za zadanie skonfigurować interfejs <code>tun9</code> na serwerze.
 Dlatego też będzie nam potrzebna odpowiednia konfiguracja tego interfejsu również i tam.</p>
 <p>Jeśli zaś chodzi o same trasy routingu, to <code>10.100.0.0/24</code> ma za zadanie dostarczyć informacji o
 sieci serwera VPN. Z kolei zaś wpisy <code>0.0.0.0/1</code> oraz <code>128.0.0.0/1</code> przekierowują cały ruch klienta
-do interfejsu <code>tun9</code> . No i oczywiście mamy również <code>11.22.33.44/32 via $(ip route show | awk '$1 ==&quot;default&quot; {print $3}')</code> , który umożliwi opuszczenie tunelu pakietom i posłanie ich dalej w świat
-przez serwer. Może i zapis jest trochę dziwny ale generalnie są tutaj użyte dwa adresy. Pierwszy z
-nich to zewnętrzny adresem serwera, drugi zaś jest dynamicznie dobranym adresem bramy domyślnej
-zewnętrznego interfejsu sieciowego na kliencie.</p>
+do interfejsu <code>tun9</code> . No i oczywiście mamy również
+<code>11.22.33.44/32 via $(ip route show | awk '$1 ==&quot;default&quot; {print $3}')</code> , który umożliwi opuszczenie
+tunelu pakietom i posłanie ich dalej w świat przez serwer. Może i zapis jest trochę dziwny ale
+generalnie są tutaj użyte dwa adresy. Pierwszy z nich to zewnętrzny adresem serwera, drugi zaś jest
+dynamicznie dobranym adresem bramy domyślnej zewnętrznego interfejsu sieciowego na kliencie.</p>
 <h3 id="konfiguracja-serwera">Konfiguracja serwera</h3>
 <p>Jako, że polecenie zestawiające tunel SSH na kliencie miało za zadanie przesłać do serwera komendę
 podnoszącą interfejs <code>tun9</code> , to na serwerze musimy również ten interfejs skonfigurować przez

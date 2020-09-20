@@ -9,34 +9,30 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:title" content="Sieciowy system plików w OpenWRT (NFS)" />
-<meta property="og:description" content="Network File System to
-sieciowy system plików, za pomocą którego maszyny mające na pokładzie system operacyjny linux, w tym
-tez OpenWRT, są w stanie udostępniać pliki w sieci. Zatem NFS to głównie domena linux&#39;ów. W
-przypadku windowsów można korzystać z protokołu SMB
-(samba). Sposób udostępniania zasobów przy pomocy
-tego sieciowego systemu plików jest bardzo podobny do tego, który jest realizowany w przypadku
-protokołu SSHFS. Zasadniczą różnicą między NFS i SSHFS jest brak szyfrowania komunikacji. W
-warunkach domowej sieci, ta cecha raczej nie stanowi większego problemu. Poza tym, trzeba też brać
-pod uwagę fakt, że szyfrowanie znacznie obciążyłoby router, co przełożyłoby się na spadek prędkości
-transferu. W tym wpisie zobaczymy jak na routerze z OpenWRT zaimplementować protokół NFS i
-udostępnić za jego pomocą zasoby w sieci lokalnej." />
+<meta property="og:description" content="Network File System) to sieciowy system plików, za pomocą którego maszyny mające na pokładzie
+system operacyjny linux, w tym tez OpenWRT, są w stanie udostępniać pliki w sieci. Zatem NFS to
+głównie domena linux&#39;ów. W przypadku windowsów można korzystać z protokołu SMB (samba). Sposób
+udostępniania zasobów przy pomocy tego sieciowego systemu plików jest bardzo podobny do tego, który
+jest realizowany w przypadku protokołu SSHFS. Zasadniczą różnicą między NFS i SSHFS jest brak
+szyfrowania komunikacji. W warunkach domowej sieci, ta cecha raczej nie stanowi większego problemu.
+Poza tym, trzeba też brać pod uwagę fakt, że szyfrowanie znacznie obciążyłoby router, co
+przełożyłoby się na spadek prędkości transferu. W tym wpisie zobaczymy jak na routerze z OpenWRT
+zaimplementować protokół NFS i udostępnić za jego pomocą zasoby w sieci lokalnej." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/sieciowy-system-plikow-openwrt-nfs/" />
 <meta property="article:published_time" content="2016-06-26T19:15:01+00:00" />
 <meta property="article:modified_time" content="2016-06-26T19:15:01+00:00" />
 
 		<meta itemprop="name" content="Sieciowy system plików w OpenWRT (NFS)">
-<meta itemprop="description" content="Network File System to
-sieciowy system plików, za pomocą którego maszyny mające na pokładzie system operacyjny linux, w tym
-tez OpenWRT, są w stanie udostępniać pliki w sieci. Zatem NFS to głównie domena linux&#39;ów. W
-przypadku windowsów można korzystać z protokołu SMB
-(samba). Sposób udostępniania zasobów przy pomocy
-tego sieciowego systemu plików jest bardzo podobny do tego, który jest realizowany w przypadku
-protokołu SSHFS. Zasadniczą różnicą między NFS i SSHFS jest brak szyfrowania komunikacji. W
-warunkach domowej sieci, ta cecha raczej nie stanowi większego problemu. Poza tym, trzeba też brać
-pod uwagę fakt, że szyfrowanie znacznie obciążyłoby router, co przełożyłoby się na spadek prędkości
-transferu. W tym wpisie zobaczymy jak na routerze z OpenWRT zaimplementować protokół NFS i
-udostępnić za jego pomocą zasoby w sieci lokalnej.">
+<meta itemprop="description" content="Network File System) to sieciowy system plików, za pomocą którego maszyny mające na pokładzie
+system operacyjny linux, w tym tez OpenWRT, są w stanie udostępniać pliki w sieci. Zatem NFS to
+głównie domena linux&#39;ów. W przypadku windowsów można korzystać z protokołu SMB (samba). Sposób
+udostępniania zasobów przy pomocy tego sieciowego systemu plików jest bardzo podobny do tego, który
+jest realizowany w przypadku protokołu SSHFS. Zasadniczą różnicą między NFS i SSHFS jest brak
+szyfrowania komunikacji. W warunkach domowej sieci, ta cecha raczej nie stanowi większego problemu.
+Poza tym, trzeba też brać pod uwagę fakt, że szyfrowanie znacznie obciążyłoby router, co
+przełożyłoby się na spadek prędkości transferu. W tym wpisie zobaczymy jak na routerze z OpenWRT
+zaimplementować protokół NFS i udostępnić za jego pomocą zasoby w sieci lokalnej.">
 <meta itemprop="datePublished" content="2016-06-26T19:15:01+00:00" />
 <meta itemprop="dateModified" content="2016-06-26T19:15:01+00:00" />
 <meta itemprop="wordCount" content="695">
@@ -47,17 +43,15 @@ udostępnić za jego pomocą zasoby w sieci lokalnej.">
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Sieciowy system plików w OpenWRT (NFS)"/>
-<meta name="twitter:description" content="Network File System to
-sieciowy system plików, za pomocą którego maszyny mające na pokładzie system operacyjny linux, w tym
-tez OpenWRT, są w stanie udostępniać pliki w sieci. Zatem NFS to głównie domena linux&#39;ów. W
-przypadku windowsów można korzystać z protokołu SMB
-(samba). Sposób udostępniania zasobów przy pomocy
-tego sieciowego systemu plików jest bardzo podobny do tego, który jest realizowany w przypadku
-protokołu SSHFS. Zasadniczą różnicą między NFS i SSHFS jest brak szyfrowania komunikacji. W
-warunkach domowej sieci, ta cecha raczej nie stanowi większego problemu. Poza tym, trzeba też brać
-pod uwagę fakt, że szyfrowanie znacznie obciążyłoby router, co przełożyłoby się na spadek prędkości
-transferu. W tym wpisie zobaczymy jak na routerze z OpenWRT zaimplementować protokół NFS i
-udostępnić za jego pomocą zasoby w sieci lokalnej."/>
+<meta name="twitter:description" content="Network File System) to sieciowy system plików, za pomocą którego maszyny mające na pokładzie
+system operacyjny linux, w tym tez OpenWRT, są w stanie udostępniać pliki w sieci. Zatem NFS to
+głównie domena linux&#39;ów. W przypadku windowsów można korzystać z protokołu SMB (samba). Sposób
+udostępniania zasobów przy pomocy tego sieciowego systemu plików jest bardzo podobny do tego, który
+jest realizowany w przypadku protokołu SSHFS. Zasadniczą różnicą między NFS i SSHFS jest brak
+szyfrowania komunikacji. W warunkach domowej sieci, ta cecha raczej nie stanowi większego problemu.
+Poza tym, trzeba też brać pod uwagę fakt, że szyfrowanie znacznie obciążyłoby router, co
+przełożyłoby się na spadek prędkości transferu. W tym wpisie zobaczymy jak na routerze z OpenWRT
+zaimplementować protokół NFS i udostępnić za jego pomocą zasoby w sieci lokalnej."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -160,17 +154,15 @@ if (!doNotTrack) {
   </ol>
 </nav>
 </details>
-				<div class="entry__content"><p><a href="https://pl.wikipedia.org/wiki/Network_File_System_(protok%C3%B3%C5%82)">Network File System</a> to
-sieciowy system plików, za pomocą którego maszyny mające na pokładzie system operacyjny linux, w tym
-tez OpenWRT, są w stanie udostępniać pliki w sieci. Zatem NFS to głównie domena linux'ów. W
-przypadku windowsów można korzystać z protokołu SMB
-(<a href="https://pl.wikipedia.org/wiki/Samba_(program)">samba</a>). Sposób udostępniania zasobów przy pomocy
-tego sieciowego systemu plików jest bardzo podobny do tego, który jest realizowany w przypadku
-protokołu SSHFS. Zasadniczą różnicą między NFS i SSHFS jest brak szyfrowania komunikacji. W
-warunkach domowej sieci, ta cecha raczej nie stanowi większego problemu. Poza tym, trzeba też brać
-pod uwagę fakt, że szyfrowanie znacznie obciążyłoby router, co przełożyłoby się na spadek prędkości
-transferu. W tym wpisie zobaczymy jak na routerze z OpenWRT zaimplementować protokół NFS i
-udostępnić za jego pomocą zasoby w sieci lokalnej.</p>
+				<div class="entry__content"><p><a href="https://pl.wikipedia.org/wiki/Network_File_System_(protok%C3%B3%C5%82)">Network File System</a>) to sieciowy system plików, za pomocą którego maszyny mające na pokładzie
+system operacyjny linux, w tym tez OpenWRT, są w stanie udostępniać pliki w sieci. Zatem NFS to
+głównie domena linux'ów. W przypadku windowsów można korzystać z protokołu SMB (<a href="https://pl.wikipedia.org/wiki/Samba_(program)">samba</a>). Sposób
+udostępniania zasobów przy pomocy tego sieciowego systemu plików jest bardzo podobny do tego, który
+jest realizowany w przypadku protokołu SSHFS. Zasadniczą różnicą między NFS i SSHFS jest brak
+szyfrowania komunikacji. W warunkach domowej sieci, ta cecha raczej nie stanowi większego problemu.
+Poza tym, trzeba też brać pod uwagę fakt, że szyfrowanie znacznie obciążyłoby router, co
+przełożyłoby się na spadek prędkości transferu. W tym wpisie zobaczymy jak na routerze z OpenWRT
+zaimplementować protokół NFS i udostępnić za jego pomocą zasoby w sieci lokalnej.</p>
 <h2 id="instalacja-pakietów-na-potrzeby-nfs">Instalacja pakietów na potrzeby NFS</h2>
 <p>Praktycznie każda funkcjonalność, którą zamierzamy wdrożyć na routerze, wymaga od nas doinstalowania
 kilku pakietów. W tym przypadku również musimy wyskrobać nieco pamięci na flash routera. Generalnie
@@ -195,10 +187,10 @@ pewności możemy zajrzeć do katalogu <code>/etc/rc.d/</code> . Dodatkowo, te w
 odpalone i nasłuchiwać zapytań, co możemy sprawdzić przy pomocy <code>ps</code> . W tej chwili mamy działający
 serwer NFS na routerze ale wymaga on jeszcze konfiguracji zasobów, które chcemy udostępnić.</p>
 <h2 id="konfiguracja-zasobów-nfs-udostępnianych-w-sieci">Konfiguracja zasobów NFS udostępnianych w sieci</h2>
-<p>Zasoby udostępniane w sieci za sprawą protokołu NFS trzeba wyraźnie określić w pliku <code>/etc/exports</code>
-. Podajemy tam zwyczajnie ścieżki do katalogów, które chcemy udostępnić. Pamiętajmy, że w miejscu
-konkretnego katalogu możemy zamontować partycję dysku twardego. Wpisy w pliku <code>/etc/exports</code>
-określamy w poniższy sposób:</p>
+<p>Zasoby udostępniane w sieci za sprawą protokołu NFS trzeba wyraźnie określić w pliku
+<code>/etc/exports</code> . Podajemy tam zwyczajnie ścieżki do katalogów, które chcemy udostępnić. Pamiętajmy,
+że w miejscu konkretnego katalogu możemy zamontować partycję dysku twardego. Wpisy w pliku
+<code>/etc/exports</code> określamy w poniższy sposób:</p>
 <pre><code>/mnt/sda3   192.168.1.0/24(rw,no_subtree_check,all_squash,anongid=1000,anonuid=1000)
 </code></pre>
 <p>Na samym początku mamy ścieżkę do zasobu. W tym przypadku jest to katalog <code>/mnt/sda3</code> . Pamiętajmy,
@@ -227,8 +219,8 @@ podejmowane decyzje na temat obsługi udostępnianych w sieci zasobów.</p>
 <h2 id="montowanie-zasobów-nfs-na-kliencie">Montowanie zasobów NFS na kliencie</h2>
 <p>By zamontować zasób NFS na kliencie, potrzebne są standardowo prawa użytkownika root. Możemy
 naturalnie korzystać z całej masy mechanizmów, które upraszczają montowanie zasobów sieciowych.
-Przykładem może być <a href="https://ignorantguru.github.io/udevil/">udevil</a>. Niżej są dwa polecenia, które
-zamontują nam zasoby routera na stacji klienckiej:</p>
+Przykładem może być <a href="https://ignorantguru.github.io/udevil/">udevil</a>. Niżej są dwa polecenia, które zamontują nam zasoby routera na
+stacji klienckiej:</p>
 <pre><code># mount -t nfs 192.168.1.1:/mnt/sda3 /media/sda3/
 $ udevil mount -t nfs 192.168.1.1:/mnt/sda3 /media/sda3/
 </code></pre></div>
