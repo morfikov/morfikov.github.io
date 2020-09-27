@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ .Site.LanguageCode | default "en-us" }}">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="{{ .Site.Params.Manifest.themeColor | default "#1b1b1b" }}">
+	<title>{{ block "title" . }}{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ .Site.Title }}{{ end }}</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}">
+	{{- if .Site.Params.opengraph }}
+		{{ template "_internal/opengraph.html" . }}
+	{{- end }}
+	{{- if .Site.Params.schema }}
+		{{ template "_internal/schema.html" . }}
+	{{- end }}
+	{{- if .Site.Params.twitter_cards }}
+		{{ template "_internal/twitter_cards.html" . }}
+	{{- end }}
+	{{- $cssReboot := resources.Get "css/reboot.css" }}
+	{{- $cssMain := resources.Get "css/main.css" }}
+	{{- $cssPrint := resources.Get "css/print.css" }}
+	{{- $style := slice $cssReboot $cssMain $cssPrint | resources.Concat "css/bundle.css" }}
+	<link rel="stylesheet" href="{{ $style.RelPermalink }}">
+	{{- range .Site.Params.customCSS }}
+	<link rel="stylesheet" href="{{ . | relURL }}">
+	{{- end }}
+	{{- with .Site.Params.colorTheme }}
+	<link rel="stylesheet" href="{{ (printf "css/themes/%s.css" .) | relURL }}">
+	{{- end }}
+	<link rel="icon" href="{{ "icons/16.png" | relURL }}" sizes="16x16" type="image/png">
+	<link rel="icon" href="{{ "icons/32.png" | relURL }}" sizes="32x32" type="image/png">
+	{{- with .OutputFormats.Get "rss" }}
+	{{ printf `<link rel="%s" type="%s" href="%s" title="%s">` .Rel .MediaType.Type .RelPermalink $.Site.Title | safeHTML }}
+	{{- end }}
+	{{- with ((.Site.GetPage "home").OutputFormats.Get "manifest") }}
+	<link rel="manifest" href="{{ "manifest.json" | relURL }}">
+	{{- end }}
+	{{- if not .Site.IsServer }}
+		{{ template "_internal/google_analytics_async.html" . }}
+	{{- end }}
+</head>
+<body>
+	{{ partial "header" . }}
+	<div class="primary">
+	{{ block "main" . }}
+		{{- if or .Title .Content }}
+		<div class="page block">
+			{{ with .Title }}<h1 class="page__title">{{ . }}</h1>{{ end }}
+			{{ with .Content }}<div class="page__content{{ if not $.Title }} page__content--notitle{{ end }}">{{ . }}</div>{{ end }}
+		</div>
+		{{ end }}
+	{{ end }}
+	</div>
+	{{ partial "footer" . }}
+{{- with .Site.Menus.main }}
+<script src="{{ "js/menu.js" | relURL }}"></script>
+{{- end }}
+{{- partial "mathjax.html" . -}}
+{{- range .Site.Params.customJS }}
+<script src="{{ . | relURL }}"></script>
+{{- end }}
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+</body>
+</html>
