@@ -10,19 +10,19 @@ tags:
 - chaos-calmer
 - router
 - ntp
+- czas
 title: Strefa czasowa (timezone) w OpenWRT
 ---
 
 Tanie routery WiFi przeznaczone do użytku domowego nie zawierają w sobie [zegara czasu
-rzeczywistego](https://pl.wikipedia.org/wiki/Zegar_czasu_rzeczywistego) (RTC, Real Time Clock). Taki
-zegar jest implementowany w standardowych komputerach PC czy laptopach ale większość routerów go nie
-posiada. Niesie to za sobą pewne komplikacje. Skąd niby router ma wiedzieć jaki mamy aktualnie czas,
-skoro nie ma żadnego punktu odniesienia? Komputer bez precyzyjnie ustawionego czasu może mieć
-problemy z certyfikatami SSL/TLS. Niewłaściwy czas może także utrudnić analizę pewnych zdarzeń typu
-nieautoryzowane próby dostępu do sieci. Ważne jest zatem, by czas na routerze wyposażonym w firmware
-OpenWRT był zawsze aktualny i w tym wpisie postaramy się zadbać o to, by strefa czasowa była
-odpowiednia, oraz by router uwzględniał czas letni. Przyjrzymy się także mechanizmom aktualizacji
-czasu przez protokół NTP.
+rzeczywistego][1] (RTC, Real Time Clock). Taki zegar jest implementowany w standardowych
+komputerach PC czy laptopach ale większość routerów go nie posiada. Niesie to za sobą pewne
+komplikacje. Skąd niby router ma wiedzieć jaki mamy aktualnie czas, skoro nie ma żadnego punktu
+odniesienia? Komputer bez precyzyjnie ustawionego czasu może mieć problemy z certyfikatami SSL/TLS.
+Niewłaściwy czas może także utrudnić analizę pewnych zdarzeń typu nieautoryzowane próby dostępu do
+sieci. Ważne jest zatem, by czas na routerze wyposażonym w firmware OpenWRT był zawsze aktualny i w
+tym wpisie postaramy się zadbać o to, by strefa czasowa była odpowiednia, oraz by router uwzględniał
+czas letni. Przyjrzymy się także mechanizmom aktualizacji czasu przez protokół NTP.
 
 <!--more-->
 ## Strefa czasowa i zmiany czasu
@@ -42,9 +42,8 @@ interesują:
 
 Opcja `zonename` określa strefę czasową. W przypadku, gdybyśmy przebywali w innej lokalizacji niż
 Polska, to wtedy trzeba będzie odpowiednio zmienić wartość tej opcji. [Wszystkie strefy czasowe są
-wyszczególnione tutaj](https://wiki.openwrt.org/doc/uci/system#time_zones). Problematyczne może
-okazać się zrozumienie opcji `timezone` . Dlatego też poniżej jest szczegółowe wyjaśnienie całego
-zapisu, który został użyty w tej opcji:
+wyszczególnione tutaj][2]. Problematyczne może okazać się zrozumienie opcji `timezone` . Dlatego
+też poniżej jest szczegółowe wyjaśnienie całego zapisu, który został użyty w tej opcji:
 
   - `CET` -- to standardowy czas środkowoeuropejski (Central European Time) , w chwili gdy nie
     obowiązuje czas letni.
@@ -66,12 +65,11 @@ linku w `/etc/TZ` .
 
 Strefa czasowa została ustawiona. To jednak nie sprawi w jakiś automagiczny sposób, że nasz router
 nagle będzie potrafił ustawić sobie aktualny czas. Podczas startu systemu, zegar routera będzie
-wskazywać rok 1970, czyli [początek epoki linux'a](https://pl.wikipedia.org/wiki/Czas_uniksowy)
-(Unix Epoch). Przynajmniej tak to wyglądało do wypuszczenia OpenWRT Barrier Breaker, gdzie
-wprowadzono skrypt `/etc/init.d/sysfixtime` . Skanuje on katalog `/etc/` w poszukiwaniu czasów
-modyfikacji plików, które się w nim znajdują. Ten, który ma najnowszą datę jest brany pod uwagę i to
-na jego podstawie jest ustawiany nowy czas systemowy. Oczywiście, to tylko na wypadek braku
-łączności z siecią.
+wskazywać rok 1970, czyli [początek epoki linux'a][3] (Unix Epoch). Przynajmniej tak to wyglądało
+do wypuszczenia OpenWRT Barrier Breaker, gdzie wprowadzono skrypt `/etc/init.d/sysfixtime` . Skanuje
+on katalog `/etc/` w poszukiwaniu czasów modyfikacji plików, które się w nim znajdują. Ten, który ma
+najnowszą datę jest brany pod uwagę i to na jego podstawie jest ustawiany nowy czas systemowy.
+Oczywiście, to tylko na wypadek braku łączności z siecią.
 
 Rozbieżności w czasie mogą przysporzyć szereg problemów. Dlatego też czas na routerze trzeba ciągle
 synchronizować z serwerami czasu dostępnymi w internecie. Możemy sprecyzować kilka takich serwerów,
@@ -94,3 +92,8 @@ pamiętać, że jeśli nasz router nie posiada zegara RTC, to w pewnych przypadk
 można odczuć w dość niemiły sposób. Dlatego zasada jest jedna, jeśli router dysponuje zegarem RTC,
 to aktywujemy `enable_server` i określamy interfejs w opcji `interface` . W przeciwnym wypadku
 wyłączamy tę opcję zupełnie.
+
+
+[1]: https://pl.wikipedia.org/wiki/Zegar_czasu_rzeczywistego
+[2]: https://wiki.openwrt.org/doc/uci/system#time_zones
+[3]: https://pl.wikipedia.org/wiki/Czas_uniksowy
