@@ -10,15 +10,14 @@
 	<meta name="description" content="">
 		<meta property="og:title" content="Strefa czasowa (timezone) w OpenWRT" />
 <meta property="og:description" content="Tanie routery WiFi przeznaczone do użytku domowego nie zawierają w sobie zegara czasu
-rzeczywistego (RTC, Real Time Clock). Taki
-zegar jest implementowany w standardowych komputerach PC czy laptopach ale większość routerów go nie
-posiada. Niesie to za sobą pewne komplikacje. Skąd niby router ma wiedzieć jaki mamy aktualnie czas,
-skoro nie ma żadnego punktu odniesienia? Komputer bez precyzyjnie ustawionego czasu może mieć
-problemy z certyfikatami SSL/TLS. Niewłaściwy czas może także utrudnić analizę pewnych zdarzeń typu
-nieautoryzowane próby dostępu do sieci. Ważne jest zatem, by czas na routerze wyposażonym w firmware
-OpenWRT był zawsze aktualny i w tym wpisie postaramy się zadbać o to, by strefa czasowa była
-odpowiednia, oraz by router uwzględniał czas letni. Przyjrzymy się także mechanizmom aktualizacji
-czasu przez protokół NTP." />
+rzeczywistego (RTC, Real Time Clock). Taki zegar jest implementowany w standardowych
+komputerach PC czy laptopach ale większość routerów go nie posiada. Niesie to za sobą pewne
+komplikacje. Skąd niby router ma wiedzieć jaki mamy aktualnie czas, skoro nie ma żadnego punktu
+odniesienia? Komputer bez precyzyjnie ustawionego czasu może mieć problemy z certyfikatami SSL/TLS.
+Niewłaściwy czas może także utrudnić analizę pewnych zdarzeń typu nieautoryzowane próby dostępu do
+sieci. Ważne jest zatem, by czas na routerze wyposażonym w firmware OpenWRT był zawsze aktualny i w
+tym wpisie postaramy się zadbać o to, by strefa czasowa była odpowiednia, oraz by router uwzględniał
+czas letni. Przyjrzymy się także mechanizmom aktualizacji czasu przez protokół NTP." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/strefa-czasowa-timezone-w-openwrt/" />
 <meta property="article:published_time" content="2016-04-28T00:58:33+00:00" />
@@ -26,35 +25,33 @@ czasu przez protokół NTP." />
 
 		<meta itemprop="name" content="Strefa czasowa (timezone) w OpenWRT">
 <meta itemprop="description" content="Tanie routery WiFi przeznaczone do użytku domowego nie zawierają w sobie zegara czasu
-rzeczywistego (RTC, Real Time Clock). Taki
-zegar jest implementowany w standardowych komputerach PC czy laptopach ale większość routerów go nie
-posiada. Niesie to za sobą pewne komplikacje. Skąd niby router ma wiedzieć jaki mamy aktualnie czas,
-skoro nie ma żadnego punktu odniesienia? Komputer bez precyzyjnie ustawionego czasu może mieć
-problemy z certyfikatami SSL/TLS. Niewłaściwy czas może także utrudnić analizę pewnych zdarzeń typu
-nieautoryzowane próby dostępu do sieci. Ważne jest zatem, by czas na routerze wyposażonym w firmware
-OpenWRT był zawsze aktualny i w tym wpisie postaramy się zadbać o to, by strefa czasowa była
-odpowiednia, oraz by router uwzględniał czas letni. Przyjrzymy się także mechanizmom aktualizacji
-czasu przez protokół NTP.">
+rzeczywistego (RTC, Real Time Clock). Taki zegar jest implementowany w standardowych
+komputerach PC czy laptopach ale większość routerów go nie posiada. Niesie to za sobą pewne
+komplikacje. Skąd niby router ma wiedzieć jaki mamy aktualnie czas, skoro nie ma żadnego punktu
+odniesienia? Komputer bez precyzyjnie ustawionego czasu może mieć problemy z certyfikatami SSL/TLS.
+Niewłaściwy czas może także utrudnić analizę pewnych zdarzeń typu nieautoryzowane próby dostępu do
+sieci. Ważne jest zatem, by czas na routerze wyposażonym w firmware OpenWRT był zawsze aktualny i w
+tym wpisie postaramy się zadbać o to, by strefa czasowa była odpowiednia, oraz by router uwzględniał
+czas letni. Przyjrzymy się także mechanizmom aktualizacji czasu przez protokół NTP.">
 <meta itemprop="datePublished" content="2016-04-28T00:58:33+00:00" />
 <meta itemprop="dateModified" content="2016-04-28T00:58:33+00:00" />
 <meta itemprop="wordCount" content="693">
 
 
 
-<meta itemprop="keywords" content="chaos-calmer,router,ntp," />
+<meta itemprop="keywords" content="chaos-calmer,router,ntp,czas," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Strefa czasowa (timezone) w OpenWRT"/>
 <meta name="twitter:description" content="Tanie routery WiFi przeznaczone do użytku domowego nie zawierają w sobie zegara czasu
-rzeczywistego (RTC, Real Time Clock). Taki
-zegar jest implementowany w standardowych komputerach PC czy laptopach ale większość routerów go nie
-posiada. Niesie to za sobą pewne komplikacje. Skąd niby router ma wiedzieć jaki mamy aktualnie czas,
-skoro nie ma żadnego punktu odniesienia? Komputer bez precyzyjnie ustawionego czasu może mieć
-problemy z certyfikatami SSL/TLS. Niewłaściwy czas może także utrudnić analizę pewnych zdarzeń typu
-nieautoryzowane próby dostępu do sieci. Ważne jest zatem, by czas na routerze wyposażonym w firmware
-OpenWRT był zawsze aktualny i w tym wpisie postaramy się zadbać o to, by strefa czasowa była
-odpowiednia, oraz by router uwzględniał czas letni. Przyjrzymy się także mechanizmom aktualizacji
-czasu przez protokół NTP."/>
+rzeczywistego (RTC, Real Time Clock). Taki zegar jest implementowany w standardowych
+komputerach PC czy laptopach ale większość routerów go nie posiada. Niesie to za sobą pewne
+komplikacje. Skąd niby router ma wiedzieć jaki mamy aktualnie czas, skoro nie ma żadnego punktu
+odniesienia? Komputer bez precyzyjnie ustawionego czasu może mieć problemy z certyfikatami SSL/TLS.
+Niewłaściwy czas może także utrudnić analizę pewnych zdarzeń typu nieautoryzowane próby dostępu do
+sieci. Ważne jest zatem, by czas na routerze wyposażonym w firmware OpenWRT był zawsze aktualny i w
+tym wpisie postaramy się zadbać o to, by strefa czasowa była odpowiednia, oraz by router uwzględniał
+czas letni. Przyjrzymy się także mechanizmom aktualizacji czasu przez protokół NTP."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -157,15 +154,14 @@ if (!doNotTrack) {
 </nav>
 </details>
 				<div class="entry__content"><p>Tanie routery WiFi przeznaczone do użytku domowego nie zawierają w sobie <a href="https://pl.wikipedia.org/wiki/Zegar_czasu_rzeczywistego">zegara czasu
-rzeczywistego</a> (RTC, Real Time Clock). Taki
-zegar jest implementowany w standardowych komputerach PC czy laptopach ale większość routerów go nie
-posiada. Niesie to za sobą pewne komplikacje. Skąd niby router ma wiedzieć jaki mamy aktualnie czas,
-skoro nie ma żadnego punktu odniesienia? Komputer bez precyzyjnie ustawionego czasu może mieć
-problemy z certyfikatami SSL/TLS. Niewłaściwy czas może także utrudnić analizę pewnych zdarzeń typu
-nieautoryzowane próby dostępu do sieci. Ważne jest zatem, by czas na routerze wyposażonym w firmware
-OpenWRT był zawsze aktualny i w tym wpisie postaramy się zadbać o to, by strefa czasowa była
-odpowiednia, oraz by router uwzględniał czas letni. Przyjrzymy się także mechanizmom aktualizacji
-czasu przez protokół NTP.</p>
+rzeczywistego</a> (RTC, Real Time Clock). Taki zegar jest implementowany w standardowych
+komputerach PC czy laptopach ale większość routerów go nie posiada. Niesie to za sobą pewne
+komplikacje. Skąd niby router ma wiedzieć jaki mamy aktualnie czas, skoro nie ma żadnego punktu
+odniesienia? Komputer bez precyzyjnie ustawionego czasu może mieć problemy z certyfikatami SSL/TLS.
+Niewłaściwy czas może także utrudnić analizę pewnych zdarzeń typu nieautoryzowane próby dostępu do
+sieci. Ważne jest zatem, by czas na routerze wyposażonym w firmware OpenWRT był zawsze aktualny i w
+tym wpisie postaramy się zadbać o to, by strefa czasowa była odpowiednia, oraz by router uwzględniał
+czas letni. Przyjrzymy się także mechanizmom aktualizacji czasu przez protokół NTP.</p>
 <h2 id="strefa-czasowa-i-zmiany-czasu">Strefa czasowa i zmiany czasu</h2>
 <p>Konfigurację czasu na OpenWRT zaczynamy od określenia odpowiedniej strefy czasowej, w której
 znajduje się router. W Polsce, strefa czasowa jest zawsze taka sama, tj. <code>Europe/Warsaw</code> . Niemniej
@@ -181,9 +177,8 @@ interesują:</p>
 </code></pre>
 <p>Opcja <code>zonename</code> określa strefę czasową. W przypadku, gdybyśmy przebywali w innej lokalizacji niż
 Polska, to wtedy trzeba będzie odpowiednio zmienić wartość tej opcji. <a href="https://wiki.openwrt.org/doc/uci/system#time_zones">Wszystkie strefy czasowe są
-wyszczególnione tutaj</a>. Problematyczne może
-okazać się zrozumienie opcji <code>timezone</code> . Dlatego też poniżej jest szczegółowe wyjaśnienie całego
-zapisu, który został użyty w tej opcji:</p>
+wyszczególnione tutaj</a>. Problematyczne może okazać się zrozumienie opcji <code>timezone</code> . Dlatego
+też poniżej jest szczegółowe wyjaśnienie całego zapisu, który został użyty w tej opcji:</p>
 <ul>
 <li><code>CET</code> -- to standardowy czas środkowoeuropejski (Central European Time) , w chwili gdy nie
 obowiązuje czas letni.</li>
@@ -203,12 +198,11 @@ linku w <code>/etc/TZ</code> .</p>
 <h2 id="czas-sieciowy-ntp">Czas sieciowy (NTP)</h2>
 <p>Strefa czasowa została ustawiona. To jednak nie sprawi w jakiś automagiczny sposób, że nasz router
 nagle będzie potrafił ustawić sobie aktualny czas. Podczas startu systemu, zegar routera będzie
-wskazywać rok 1970, czyli <a href="https://pl.wikipedia.org/wiki/Czas_uniksowy">początek epoki linux'a</a>
-(Unix Epoch). Przynajmniej tak to wyglądało do wypuszczenia OpenWRT Barrier Breaker, gdzie
-wprowadzono skrypt <code>/etc/init.d/sysfixtime</code> . Skanuje on katalog <code>/etc/</code> w poszukiwaniu czasów
-modyfikacji plików, które się w nim znajdują. Ten, który ma najnowszą datę jest brany pod uwagę i to
-na jego podstawie jest ustawiany nowy czas systemowy. Oczywiście, to tylko na wypadek braku
-łączności z siecią.</p>
+wskazywać rok 1970, czyli <a href="https://pl.wikipedia.org/wiki/Czas_uniksowy">początek epoki linux'a</a> (Unix Epoch). Przynajmniej tak to wyglądało
+do wypuszczenia OpenWRT Barrier Breaker, gdzie wprowadzono skrypt <code>/etc/init.d/sysfixtime</code> . Skanuje
+on katalog <code>/etc/</code> w poszukiwaniu czasów modyfikacji plików, które się w nim znajdują. Ten, który ma
+najnowszą datę jest brany pod uwagę i to na jego podstawie jest ustawiany nowy czas systemowy.
+Oczywiście, to tylko na wypadek braku łączności z siecią.</p>
 <p>Rozbieżności w czasie mogą przysporzyć szereg problemów. Dlatego też czas na routerze trzeba ciągle
 synchronizować z serwerami czasu dostępnymi w internecie. Możemy sprecyzować kilka takich serwerów,
 maksymalnie cztery. Robimy to w pliku <code>/etc/config/system</code> . Poniżej przykład:</p>
@@ -236,6 +230,7 @@ wyłączamy tę opcję zupełnie.</p></div>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chaos-calmer/">chaos-calmer</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">router</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ntp/">ntp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/czas/">czas</a>
 </div>
 					
 <div class="entry__share share">
@@ -364,5 +359,10 @@ wyłączamy tę opcję zupełnie.</p></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
 
 <script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
 </body>
 </html>

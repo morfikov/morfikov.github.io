@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/tags/systemd/" />
-<meta property="og:updated_time" content="2020-03-29T16:20:00+01:00" />
+<meta property="og:updated_time" content="2020-09-27T12:29:00+02:00" />
 
 		<meta itemprop="name" content="systemd">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -106,6 +106,39 @@ if (!doNotTrack) {
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/uwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts/">Uwierzytelnianie odpowiedzi z serwerów czasu NTP przy pomocy NTS</a></h1>
+	<div class="entry__content"><p>Przepisując ostatnio stare artykuły dotyczące <a href="https://morfikov.github.io
+/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/">zabezpieczenia zapytań DNS za sprawą wdrożenia na
+linux dnsmasq i dnscrypt-proxy</a>, natknąłem się <a href="https://blog.cloudflare.com/secure-time/">na informację</a>, że nie tylko komunikacja DNS
+w obecnych czasach w sporej mierze nie jest zaszyfrowana. W zasadzie każda maszyna podłączona do
+internetu potrzebuje dysponować w miarę dokładnym czasem. By ten czas był dokładny, wymyślono
+mechanizm synchronizacji czasu przez wysyłanie zapytań do serwerów NTP (<a href="https://pl.wikipedia.org/wiki/Network_Time_Protocol">Network Time Protocol</a>).
+Niemniej jednak, odpowiedzi z tych serwerów czasu nie są w żaden sposób zabezpieczone i praktycznie
+każdy na drodze tych pakietów może nam zmienić ustawienia czasu w systemie (MITM). W taki sposób
+możemy zostać cofnięci w czasie, co z kolei może oznaczać, że system zaakceptuje certyfikaty SSL/TLS
+czy też <a href="https://trimstray.github.io/posts/2019-07-21-nginx-optymalizacja_sesji_ssl-tls/#ssl_session_tickets">klucze/bilety sesji</a> (używane do wznawiania sesji TLS), które już dawno temu wygasły
+lub/i zostały w jakiś sposób skompromitowane. Pchnięcie nas do przodu w czasie również oznacza
+problemy, bo możemy zaakceptować certyfikat, który jeszcze nie zaczął być ważny. To z kolei otwiera
+drogę do odszyfrowania połączeń z serwisami WWW, a przecie nie po to szyfrujemy ruch, by go ktoś bez
+większego problemu odszyfrował. Dlatego też powinniśmy zadbać o to, by informacje o aktualnym czasie
+otrzymywane z sieci docierały do nas z wiarygodnego źródła i były w jakiś sposób uwierzytelnione.
+Na Debianie standardowo do synchronizacji czasu wykorzystywany jest <code>systemd-timesyncd</code> ale <a href="https://github.com/systemd/systemd/issues/9481">nie
+wspiera on póki co protokołu NTS</a>. Trzeba będzie zatem się go pozbyć i zastąpić go demonem <code>ntpd</code>
+z pakietu <code>ntpsec</code> .</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-09-27T12:29:00&#43;02:00">Opublikowano: 27/09/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -359,31 +392,6 @@ konfiguracji tego mechanizmu i spróbujemy wyprofilować sobie nasz system.</p><
 </article>
 				</div>
 			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wymusic-sprawdzenie-systemu-plikow-w-systemd/">Jak wymusić sprawdzenie systemu plików w systemd</a></h1>
-	<div class="entry__content"><p>Jakiś czas temu opisywałem jak w systemach linux'owych przeprowadzić <a href="https://morfikov.github.io
-/post/sprawdzanie-bledow-systemu-plikow-ext4/">sprawdzenie systemu plików pod
-kątem ewentualnych błędów</a>. Był tam
-poświęcony kawałek na temat ręcznego wymuszenia takiego skanowania. Ten sposób, który został opisany
-w tamtym wpisie działa wyśmienicie w przypadku sysvinit. Natomiast przy systemd mogą pojawić się
-pewne problemy, w efekcie czego nie będziemy w stanie wymusić skanowania pewnych partycji.
-Generalnie to rozchodzi się o tę główną, na której znajduje się system plików <code>/</code> . Postanowiłem się
-przyjrzeć nieco temu mechanizmowi i sprawdzić czy faktycznie nic nie da się zrobić i czy musimy
-czekać pełną ilość cykli startu systemu, by ten system plików został przez niego przeskanowany
-automatycznie.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2015-12-04T20:11:46Z">Opublikowano: 04/12/2015</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
 		</div>
 	</main>
 	
@@ -431,5 +439,10 @@ automatycznie.</p></div>
 
 <script src="https://morfikov.github.io/js/menu.js"></script>
 <script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
 </body>
 </html>

@@ -6,7 +6,34 @@
     <description>Recent content in systemd on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Sat, 02 Feb 2019 06:12:18 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/systemd/feed.xml" rel="self" type="application/rss" />
+    <lastBuildDate>Sun, 27 Sep 2020 12:29:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/systemd/feed.xml" rel="self" type="application/rss" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Uwierzytelnianie odpowiedzi z serwerów czasu NTP przy pomocy NTS</title>
+      <link>https://morfikov.github.io/post/uwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts/</link>
+      <pubDate>Sun, 27 Sep 2020 12:29:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/uwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts/</guid>
+      <description>&lt;p&gt;Przepisując ostatnio stare artykuły dotyczące &lt;a href=&#34;https://morfikov.github.io
+/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/&#34;&gt;zabezpieczenia zapytań DNS za sprawą wdrożenia na
+linux dnsmasq i dnscrypt-proxy&lt;/a&gt;, natknąłem się &lt;a href=&#34;https://blog.cloudflare.com/secure-time/&#34;&gt;na informację&lt;/a&gt;, że nie tylko komunikacja DNS
+w obecnych czasach w sporej mierze nie jest zaszyfrowana. W zasadzie każda maszyna podłączona do
+internetu potrzebuje dysponować w miarę dokładnym czasem. By ten czas był dokładny, wymyślono
+mechanizm synchronizacji czasu przez wysyłanie zapytań do serwerów NTP (&lt;a href=&#34;https://pl.wikipedia.org/wiki/Network_Time_Protocol&#34;&gt;Network Time Protocol&lt;/a&gt;).
+Niemniej jednak, odpowiedzi z tych serwerów czasu nie są w żaden sposób zabezpieczone i praktycznie
+każdy na drodze tych pakietów może nam zmienić ustawienia czasu w systemie (MITM). W taki sposób
+możemy zostać cofnięci w czasie, co z kolei może oznaczać, że system zaakceptuje certyfikaty SSL/TLS
+czy też &lt;a href=&#34;https://trimstray.github.io/posts/2019-07-21-nginx-optymalizacja_sesji_ssl-tls/#ssl_session_tickets&#34;&gt;klucze/bilety sesji&lt;/a&gt; (używane do wznawiania sesji TLS), które już dawno temu wygasły
+lub/i zostały w jakiś sposób skompromitowane. Pchnięcie nas do przodu w czasie również oznacza
+problemy, bo możemy zaakceptować certyfikat, który jeszcze nie zaczął być ważny. To z kolei otwiera
+drogę do odszyfrowania połączeń z serwisami WWW, a przecie nie po to szyfrujemy ruch, by go ktoś bez
+większego problemu odszyfrował. Dlatego też powinniśmy zadbać o to, by informacje o aktualnym czasie
+otrzymywane z sieci docierały do nas z wiarygodnego źródła i były w jakiś sposób uwierzytelnione.
+Na Debianie standardowo do synchronizacji czasu wykorzystywany jest &lt;code&gt;systemd-timesyncd&lt;/code&gt; ale &lt;a href=&#34;https://github.com/systemd/systemd/issues/9481&#34;&gt;nie
+wspiera on póki co protokołu NTS&lt;/a&gt;. Trzeba będzie zatem się go pozbyć i zastąpić go demonem &lt;code&gt;ntpd&lt;/code&gt;
+z pakietu &lt;code&gt;ntpsec&lt;/code&gt; .&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Jak zalogować błędy podczas zamykania systemu Debian Linux</title>
@@ -368,23 +395,6 @@ być lepszy. Poniżej opiszę wykorzystanie rozszerzenia &lt;code&gt;ipset&lt;/c
 zablokowany szereg klas adresów. Całość raczej nie skupia się na implementacji filtra, to tylko
 przykład do czego &lt;code&gt;ipset&lt;/code&gt; może posłużyć, a że ja nie umiem teoretycznie pisać, to muszę na
 przykładach.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Firewall na linux&#39;owe maszyny klienckie</title>
-      <link>https://morfikov.github.io/post/firewall-na-linuxowe-maszyny-klienckie/</link>
-      <pubDate>Mon, 22 Jun 2015 23:33:58 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/firewall-na-linuxowe-maszyny-klienckie/</guid>
-      <description>&lt;p&gt;Prędzej czy później, każdy z nas będzie musiał zabezpieczyć dostęp do swojego komputera w sieci. Do
-tego zadania na stacjach z linux&#39;em jest oddelegowane narzędzie &lt;code&gt;iptables&lt;/code&gt; wraz z szeregiem
-dodatków, jak np. &lt;code&gt;ipset&lt;/code&gt; . By zbudować solidny firewall nie potrzeba zbytnio się wysilać. Niemniej
-jednak, temat zapory linux&#39;owej jest &lt;a href=&#34;https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html&#34;&gt;bardzo
-rozległy&lt;/a&gt; i nie będziemy tutaj
-opisywać wszystkich możliwych scenariuszy jej zastosowania. Zamiast tego skupimy się jedynie na
-bazowym skrypcie, który można rozbudować bez przeszkód i dostosować go zarówno pod maszyny klienckie
-jak i te serwerowe.&lt;/p&gt;</description>
     </item>
     
   </channel>

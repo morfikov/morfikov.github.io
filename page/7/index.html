@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="pl-PL">
 <head>
-	<meta name="generator" content="Hugo 0.74.3" />
+	<meta name="generator" content="Hugo 0.75.1" />
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +13,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/" />
-<meta property="og:updated_time" content="2020-09-19T14:13:00+02:00" />
+<meta property="og:updated_time" content="2020-09-27T12:29:00+02:00" />
 
 		<meta itemprop="name" content="Morfitronik">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -90,6 +90,31 @@ if (!doNotTrack) {
 	
 	<main class="main">
 			<div class="cards">
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-ustalic-nazwe-procesu-korzystajacego-z-sieci/">Jak ustalić nazwę procesu korzystającego z sieci</a></h1>
+	<div class="entry__content"><p>Konfigurując filtr pakietów <code>iptables</code>/<code>nftables</code> na Debianie zwykle nie przykładamy większej wagi
+do procesów, które chcą nawiązać połączenia wychodzące z naszego linux'owego hosta. Mamy przecież
+&quot;skonfigurowany&quot; firewall w łańcuchach <code>INPUT</code> i <code>FORWARD</code> i wszelkie zagrożenia z sieci nie
+powinny nas dotyczyć. Problem w tym, że jeśli jakiś złowrogi proces zostanie uruchomiony w naszym
+systemie, to jest on w stanie komunikować się ze światem zewnętrznym praktycznie bez żadnych
+ograniczeń za sprawą braku jakichkolwiek reguł w łańcuchu <code>OUTPUT</code> . Można oczywiście temu zaradzić
+budując zaporę sieciową na bazie <code>cgroups</code> , gdzie każda aplikacja będzie miała oznaczone pakiety,
+przez co będzie można je rozróżnić i zablokować albo przepuścić przez filter. W tym wpisie jednak
+nie będziemy się zajmować konstrukcją tego typu FW, tylko spróbujemy sobie odpowiedzieć na pytanie
+jak namierzyć proces, który komunikuje się z siecią (lub też próbuje), posiadając jedynie log
+<code>iptables</code>/<code>nftables</code> .</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-02-08T20:10:41Z">Opublikowano: 08/02/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
 					<div class="card card--2col">
 					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-uruchomic-kilka-uslug-w-kontenerze-dockera/">Jak uruchomić kilka usług w kontenerze Docker&#39;a</a></h1>
@@ -329,36 +354,6 @@ automatycznie przy ich instalacji i aktualizacji.</p></div>
 	</div>
 </article>
 					</div>
-					<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/">Budowanie kernela linux dla konkretnej maszyny z Debianem</a></h1>
-	<div class="entry__content"><p>Każda maszyna działająca pod kontrolą dystrybucji linux ma na swoim pokładzie kernel, czyli jądro
-operacyjne, które zarządza praktycznie każdym aspektem pracy takiego komputera. W dystrybucji
-Debian, kernel jest dostarczany w pakietach mających nazwy zaczynające się od <code>linux-image-*</code>.
-Te pakiety są budowane przez odpowiednie osoby z zespołu Debiana i udostępniane do łatwej
-instalacji użytkownikowi końcowemu. Niemniej jednak, taki kernel ma za zadanie działać na jak
-największej ilości komputerów, a przez to posiada całą masę modułów, które na naszej maszynie nigdy
-nie będą wykorzystane. Ten fakt nie wpływa w jakimś ogromnym stopniu na pracę maszyny, ale gdy
-później zachodzi potrzeba skonfigurowania kernela w nieco inny sposób, np. włączenie jednej czy
-dwóch opcji czy też nałożenie patch'a, który nie został zaaplikowany przez dev'ów Debiana, to
-trzeba taki kernel na nowo skompilować już samodzielnie, a to zajmie nam bardzo dużo czasu. Zamiast
-tego można pokusić się o przygotowanie kernela pod konkretny hardware wyłączając przy tym całą masę
-zbędnych rzeczy i ograniczając przy tym czas jaki jest potrzebny na zbudowanie całego jądra
-operacyjnego. Czy istnieje jakiś prosty sposób, by taki kernel zbudować sobie samemu mając przy tym
-minimalną wiedzę co do opcji kernela, które mogą nas przysporzyć o ból... głowy? Okazuje się, że
-tak i w tym artykule prześledzimy sobie cały ten proces.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2018-12-27T22:14:00Z">Opublikowano: 27/12/2018</time>
-	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-06-09T21:20:00&#43;02:00">Zaktualizowano: 09/06/2020</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-					</div>
 			</div>
 	</main>
 	
@@ -414,5 +409,10 @@ tak i w tym artykule prześledzimy sobie cały ten proces.</p></div>
 
 <script src="https://morfikov.github.io/js/menu.js"></script>
 <script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
 </body>
 </html>
