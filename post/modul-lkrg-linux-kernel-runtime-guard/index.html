@@ -184,8 +184,7 @@ if (!doNotTrack) {
   </ol>
 </nav>
 </details>
-				<div class="entry__content"><p>Jakiś czas temu opisywałem <a href="https://morfikov.github.io
-/post/modul-tpe-trusted-path-execution-dla-kernela-linux/">moduł TPE</a> (Trusted Path Execution) dla kernela linux, który jest w
+				<div class="entry__content"><p>Jakiś czas temu opisywałem <a href="https://morfikov.github.io/post/modul-tpe-trusted-path-execution-dla-kernela-linux/">moduł TPE</a> (Trusted Path Execution) dla kernela linux, który jest w
 stanie dość znacznie poprawić bezpieczeństwo naszego systemu. Ostatnio jednak natknąłem się na
 <a href="https://www.openwall.com/lkrg/">moduł LKRG</a> (Linux Kernel Runtime Guard), którego to zadaniem jest stać na straży samego jądra
 operacyjnego i chronić je w czasie rzeczywistym przed różnego rodzaju zagrożeniami poprzez
@@ -199,12 +198,10 @@ rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS.</p>
 jako patch na kernel. Ten fakt może odstraszyć część użytkowników, którzy kompilują wszystkie
 niezbędne moduły kernela bezpośrednio w jądro, by uniknąć budowania zbędnej i często niebezpiecznej
 funkcjonalności, np. opcji ładowania/wyładowania modułów podczas pracy systemu operacyjnego.
-Dodatkowo, jeśli wykorzystujemy <a href="https://morfikov.github.io
-/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/">mechanizm Secure Boot mając EFI/UEFI</a>, to trzeba będzie
+Dodatkowo, jeśli wykorzystujemy <a href="https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/">mechanizm Secure Boot mając EFI/UEFI</a>, to trzeba będzie
 poczynić drobne przygotowania, by ten dodatkowy moduł podpisać, gdyż w przeciwnym wypadku nie
 zostanie on załadowany przez nasz OS. Na szczęście, jak to zwykle bywa w przypadku zewnętrznych
-modułów, możemy zaprzęgnąć do pracy DKMS, w którym to możemy nieco <a href="https://morfikov.github.io
-/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/">zautomatyzować sam proces
+modułów, możemy zaprzęgnąć do pracy DKMS, w którym to możemy nieco <a href="https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/">zautomatyzować sam proces
 podpisywania modułów</a> przy ich instalacji w systemie. Zatem nie jest tak źle jak mogłoby się
 wydawać, choć oczywiście mogłoby być trochę lepiej.</p>
 <p><a href="https://bitbucket.org/Adam_pi3/lkrg-main/">Źródła modułu LKRG</a> są udostępnione na licencji GPL2 i można je pobrać przy pomocy <code>git</code> w
@@ -234,11 +231,9 @@ CONFIG_STACKTRACE
 </code></pre>
 <h2 id="konfiguracja-dkms-dla-modułu-lkrg">Konfiguracja DKMS dla modułu LKRG</h2>
 <p>Nic nie stoi na przeszkodzie by po pobraniu źródeł zbudować moduł przy pomocy <code>make</code> i zainstalować
-go via <code>make install</code> ale lepszym rozwiązaniem jest <a href="https://morfikov.github.io
-/post/dkms-czyli-automatycznie-budowane-moduly/">mechanizm DKMS</a>, który będzie nam ten moduł
+go via <code>make install</code> ale lepszym rozwiązaniem jest <a href="https://morfikov.github.io/post/dkms-czyli-automatycznie-budowane-moduly/">mechanizm DKMS</a>, który będzie nam ten moduł
 budował automatycznie ilekroć tylko kernel będzie aktualizowany. Możemy również pójść o krok dalej
-i <a href="https://morfikov.github.io
-/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">zrobić sobie paczkę .deb przy pomocy pbuilder</a>.</p>
+i <a href="https://morfikov.github.io/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">zrobić sobie paczkę .deb przy pomocy pbuilder</a>.</p>
 <p>Poniżej znajduje się plik <code>dkms.conf</code> z konfiguracją dla DKMS:</p>
 <pre><code>PACKAGE_NAME=&quot;lkrg&quot;
 PACKAGE_VERSION=&quot;0.7&quot;
@@ -484,8 +479,7 @@ $ sudo pbuilder --build ../lkrg_0.7+git20200604-1.dsc
 <p>Zbudowanie paczki zajmie dosłownie chwilę jako, że nie będzie tutaj żadnego procesu kompilacji
 źródeł. Z chwilą, gdy budowa paczki dobiegnie końca, to w katalogu wynikowym <code>pbuiler</code>'a powinno
 pojawić się kilka plików, z których jeden ma rozszerzenie <code>.deb</code> i to ten plik właśnie musimy
-zainstalować w swoim systemie via <code>dpkg</code> . Oczywiście dobrze jest sobie <a href="https://morfikov.github.io
-/post/tworzenie-repozytorium-przy-pomocy-reprepro/">przygotować też lokalne
+zainstalować w swoim systemie via <code>dpkg</code> . Oczywiście dobrze jest sobie <a href="https://morfikov.github.io/post/tworzenie-repozytorium-przy-pomocy-reprepro/">przygotować też lokalne
 repozytorium dla APT</a> na tego typu pakiety, tak by mieć je wszystkie w jednym miejscu do
 wygodnej instalacji w systemie za sprawą <code>apt-get</code>/<code>aptitude</code> .</p>
 <h2 id="instalacja-modułu-lkrg">Instalacja modułu LKRG</h2>
@@ -758,8 +752,7 @@ predefiniowanych profili i on już zajmie się wszystkimi zależnymi ustawieniam
 <h2 id="podsumowanie">Podsumowanie</h2>
 <p>Jakby nie patrzeć, ten osobny moduł LKRG trochę miesza w systemach, które z modułów nie korzystają.
 Nie chodzi tutaj nawet o zewnętrzne moduły kernela (te Out Of Tree) ale ogólnie o posiadanie
-<a href="https://morfikov.github.io
-/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/">własnego kernela dla konkretnej maszyny linux'owej</a>, gdzie z zasady wszystkie potrzebne moduły
+<a href="https://morfikov.github.io/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/">własnego kernela dla konkretnej maszyny linux'owej</a>, gdzie z zasady wszystkie potrzebne moduły
 są wbudowane bezpośrednio w samo jądro operacyjne właśnie też m.in. ze względów bezpieczeństwa. Do
 tego dochodzi oczywiście potrzeba zastosowana DKMS oraz problemy z podpisami w środowiskach
 EFI/UEFI.</p>

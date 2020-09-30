@@ -193,8 +193,7 @@ z kolei można się doszukać tylko jednego adresu MAC: E8:94:F6:68:79:F0 . Zate
 że switch w routerze TL-WR1043ND ma standardowo ustawiony ten adres MAC, a dla portu WAN jest on
 dobierany przez podbicie numeru o 1. I tu właśnie zaczynają się problemy z trybem failsafe.</p>
 <h2 id="tryb-failsafe-i-adres-mac-na-porcie-wan">Tryb failsafe i adres MAC na porcie WAN</h2>
-<p><a href="https://morfikov.github.io
-/post/tryb-ratunkowy-failsafe-w-openwrt/">Failsafe to tryb ratunkowy wykorzystywany w firmware
+<p><a href="https://morfikov.github.io/post/tryb-ratunkowy-failsafe-w-openwrt/">Failsafe to tryb ratunkowy wykorzystywany w firmware
 OpenWRT</a> w przypadkach błędów natury
 programowej (błędna konfiguracja systemu routera). Gdy router jest uruchamiany lub restartowany,
 zgłasza on możliwość wejścia w tryb failsafe w pewnym określonym momencie. Ta gotowość jest
@@ -207,8 +206,7 @@ przypadku jest to E8:94:F6:68:79:F0, który po konfiguracji zostanie przypisany 
 zostanie wygenerowany nowy MAC. W efekcie ISP najpierw widzi pakiet failsafe z jednym adresem MAC, a
 po skonfigurowaniu switch'a, router przesyła prośbę o konfigurację sieci przez protokół DHCP już
 portem WAN, który ma inny adres MAC. Wygląda to mniej więcej tak:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/09/1.rozny-adres-mac-isp-openwrt-wireshark.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/09/1.rozny-adres-mac-isp-openwrt-wireshark.png#huge" alt=""></p>
 <p>Tutaj mój laptop był wpięty do portu WAN routera, by z perspektywy ISP ustalić jakie pakiety do
 niego trafiają. Widzimy, że pierwszy pakiet jest zgłoszeniem gotowości trybu failsafe. Zwróćmy uwagę
 na kolumnę Src MAC, czyli na źródłowy adres MAC. Ten pierwszy pakiet jest jedynym, który ma inny MAC
@@ -250,8 +248,7 @@ eth1      Link encap:Ethernet  HWaddr E8:94:F6:68:79:F0
 który ustawiliśmy w pliku <code>/etc/config/network</code> w sekcji <code>LAN</code> . Nie wiem czy takie ustawienie w
 czymś przeszkadza ale jeśli teraz podepniemy się do portu WAN routera i ponownie sprawdzimy jak
 wygląda komunikacja routera z ISP, to zobaczymy coś takiego:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/09/2.rozny-adres-mac-isp-openwrt-wireshark.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/09/2.rozny-adres-mac-isp-openwrt-wireshark.png#huge" alt=""></p>
 <p>Jak widzimy, teraz już wszystkie pakiety mają jeden i ten sam adres MAC, co powinno rozwiązać
 kwestię problemów z podwójnym adresem MAC po stronie ISP.</p></div>
 				

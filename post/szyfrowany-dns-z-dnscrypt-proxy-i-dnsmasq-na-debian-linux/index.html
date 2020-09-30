@@ -195,8 +195,7 @@ if (!doNotTrack) {
 </details>
 				<div class="entry__content"><p>Ostatnio na forum dug.net.pl jeden z użytkowników <a href="https://forum.dug.net.pl/viewtopic.php?id=31524">miał dość spory problem</a> z ogarnięciem
 zadania polegającego na zaszyfrowaniu zapytań DNS z wykorzystaniem <a href="https://dnscrypt.info/">dnscrypt-proxy</a> i
-<a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a>. Ładnych parę lat temu opisywałem <a href="https://morfikov.github.io
-/tags/resolver/">jak skonfigurować te dwa narzędzia na Debianie</a>
+<a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a>. Ładnych parę lat temu opisywałem <a href="https://morfikov.github.io/tags/resolver/">jak skonfigurować te dwa narzędzia na Debianie</a>
 (i też na OpenWRT), choć od tamtego czasu w świecie linux'owym trochę rzeczy się pozmieniało. Dla
 przykładu, dnscrypt-proxy przeszedł gruntowną przebudowę, no i też systemd jest w powszechniejszym
 użyciu niż to miało miejsce w tamtych czasach, przez co w sporej części przypadków usługi takie jak
@@ -263,8 +262,7 @@ jedynie na tym zadaniu, to nie byłoby z nim problemu. Niemniej jednak, w gestii
 m.in. obsługa sieci, w tym konfiguracja interfejsów sieciowych oraz rozwiązywanie nazw domen na
 adresy IP.</p>
 <p>W przypadku mojego Debiana, systemd po tylu latach wciąż nie potrafi ogarnąć konfiguracji mojej
-sieci ze względu na fakt <a href="https://morfikov.github.io
-/post/konfiguracja-interfejsow-bond-bonding/">wykorzystywania bonding'u</a> (połączenie interfejsów <code>eth0</code> oraz
+sieci ze względu na fakt <a href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">wykorzystywania bonding'u</a> (połączenie interfejsów <code>eth0</code> oraz
 <code>wlan0</code> ). No może i sam bonding jako tako można skonfigurować ale operowanie na nim przy użyciu
 systemd jest ździebko upierdliwe oraz generuje <a href="https://github.com/systemd/systemd/issues/15257">bardzo dziwne błędy</a>, których nikt nie ma
 pojęcia jak poprawić. Dlatego też ten cały moduł odpowiedzialny za konfigurację sieci w systemd, tj.
@@ -784,8 +782,7 @@ fallback resolver'a, to będzie to ten określony powyżej, a nie ten ustawiony 
   prefix = ''
 </code></pre>
 <p>Poniższa zwrotka odpowiada za skonfigurowanie lokalnego serwera DoH, który można wykorzystać w celu
-<a href="https://morfikov.github.io
-/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/">wdrożenia szyfrowanego SNI (ESNI) w Firefox</a>:</p>
+<a href="https://morfikov.github.io/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/">wdrożenia szyfrowanego SNI (ESNI) w Firefox</a>:</p>
 <pre><code>[local_doh]
 listen_addresses = ['127.0.0.1:3000']
 path = &quot;/dns-query&quot;
@@ -923,8 +920,7 @@ standardowo nie odwiedzamy. Chodzi o to by uniknąć ewentualnego trafienia w ca
 przypadku zapytanie DNS naturalnie nie zostanie rozwiązane, tylko odpowiedź zostanie wzięta z tego
 cache.</p>
 <p>Na poniższym obrazku mamy widoczny podgląd portu 53 protokołu TCP/UDP interfejsu <code>lo</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2020/09/001-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/09/001-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
 <p>Jak widzimy, na interfejsie lokalnym ruch DNS odbywa się w postaci odszyfrowanej. Pierwsze dwa
 pakiety (te ze źródłowym i docelowym adresem <code>127.0.0.1</code> ) to zapytania linux'owego resolver'a do
 dnsmasq o adresy IPv4 (rekord <code>A</code> ) i IPv6 (rekord <code>AAAA</code> ).  Następnie dnsmasq przekazuje te
@@ -934,22 +930,19 @@ dnscrypt-proxy przesyła je do dnsmasq, a na końcu dnsmasq do linux'owego resol
 i dnscrypt-proxy rozmawiają ze sobą i przekazują między sobą zarówno zapytania jak i odpowiedzi. No
 ale co się dzieje z tymi zapytaniami DNS, gdy docierają do interfejsu <code>bond0</code> ? Podejrzyjmy zatem
 port 53 na interfejsie <code>bond0</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2020/09/002-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/09/002-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
 <p>Brak jakiegokolwiek ruchu, zatem na interfejsie wychodzącym z naszej maszyny nie widać żadnych
 zapytań DNS.</p>
 <p>To co się właściwie dzieje z tymi zapytaniami DNS? Są one przesyłane do serwera DNS CloudFlare na
 port 443 (jako, że w opisanej wyżej konfiguracji korzystamy z DoH). Zobaczmy zatem co się dzieje na
 interfejsie <code>bond0</code> na porcie 443:</p>
-<p><img src="https://morfikov.github.io
-/img/2020/09/003-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/09/003-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
 <p>Jak widzimy, nasza maszyna rozmawia z serwerem <code>1.0.0.1</code> przy wykorzystaniu protokołu TLS 1.3.
 Wiemy zatem, że nasze zapytania DNS są przesyłane przez sieć w formie zaszyfrowanej i nikt
 nieuprawniony nie jest w stanie ich podejrzeć.</p>
 <p>Jeśli się przyjrzymy uważnie, to zapytania <code>AAAA</code> (o adres IPv6) są blokowane, a właściwie
 odpowiada na nie dnscrypt-proxy komunikatami <code>CPU: AAAA queries have been locally blocked by dnscrypt-proxy</code> oraz <code>OS: Set block_ipv6 to false to disable this feature</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2020/09/004-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/09/004-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
 <p>Czyli wszystko działa prawidłowo.</p>
 <h2 id="szyfrowany-dns-sam-w-sobie-nie-wystarczy">Szyfrowany DNS sam w sobie nie wystarczy</h2>
 <p>Szyfrowany DNS co do zasady uniemożliwia podejrzenie pakietów i podsłuchanie ruchu DNS na linii
@@ -964,8 +957,7 @@ które odwiedzamy i ocenzurować je nawet jeśli szyfrujemy ruch DNS. Póki co, 
 kluczowej informacji jak nazwa odwiedzanej domeny nie ma ochrony. Niemniej jednak <a href="https://blog.cloudflare.com/encrypt-that-sni-firefox-edition/">Mozilla oraz
 CloudFlare działają</a> na rzecz zmiany tego stanu rzeczy przez wdrażanie ESNI
 (<a href="https://en.wikipedia.org/wiki/Server_Name_Indication#Encrypted_Client_Hello">Encrypted SNI</a>). Ten proces zajmie jeszcze pewnie lata zanim wyciek informacji za sprawą SNI
-zostanie załatany ale już w tej chwili można <a href="https://morfikov.github.io
-/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/">ręcznie w przeglądarce Firefox włączyć szyfrowany
+zostanie załatany ale już w tej chwili można <a href="https://morfikov.github.io/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/">ręcznie w przeglądarce Firefox włączyć szyfrowany
 SNI</a>. Trzeba jednak mieć na uwadze fakt, że to czy nazwa domeny zostanie zaszyfrowana zależy
 głównie od samego serwera WWW, na którym hostowana jest odwiedzana przez nas strona. Jeśli serwer
 nie wspiera ESNI, to w dalszym ciągu nazwa domeny zostanie przesłana przez sieć otwartym tekstem i
@@ -1057,8 +1049,7 @@ wykorzystaniem bezpiecznego protokołu HTTPS. Trzeba sobie jednak zdawać spraw�
 sposobu by ukryć nazwę domeny odwiedzanego przez nas serwisu z winy SNI, przez co ta nazwa jest
 przesyłana przez sieć w postaci niezabezpieczonej. Jeśli wdrażamy szyfrowany DNS głównie po to, by
 uniemożliwić osobom trzecim ustalenie jakie strony WWW odwiedzamy, to lepszym rozwiązaniem będzie
-postawienie i <a href="https://morfikov.github.io
-/tags/vpn/">skonfigurowanie serwera VPN</a>. W takim przypadku jedyną informacją, którą lokalny
+postawienie i <a href="https://morfikov.github.io/tags/vpn/">skonfigurowanie serwera VPN</a>. W takim przypadku jedyną informacją, którą lokalny
 ISP będzie w stanie pozyskać, będzie adres VPN. Wszystkie pozostałe dane (czy to DNS, czy też nazwa
 domeny w SNI) będą przez tę jednostkę przechodzić w formie zaszyfrowanej. Niemniej jednak, takie
 rozwiązanie jest nas w stanie ochronić jedynie przed lokalną cenzurą, bo w dalszym ciągu ten SNI z

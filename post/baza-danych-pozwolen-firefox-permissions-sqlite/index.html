@@ -171,34 +171,29 @@ dość prosty sposób. Niemniej jednak, nie we wszystkich z nich da się to tak 
 <p>Odpalmy sobie zatem czysty profil Firefox'a i wejdźmy w jego opcje. Konkretnie to udajemy się pod
 Add-ons -&gt; Plugins. Mamy tutaj wypisane wszystkie wtyczki, które zostały wykryte przez naszą
 przeglądarkę:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/1.firefox-plugins-wtyczki-konfiguracja-pozwolenia.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/1.firefox-plugins-wtyczki-konfiguracja-pozwolenia.png#huge" alt=""></p>
 <p>Każda strona w internecie może uzyskać do nich dostęp jeśli będzie chciała. Zwróćmy zatem szczególną
 uwagę na przyciski przy każdej z wtyczek i upewnijmy się, że mamy tam <code>Ask to Acticate</code> . W ten
 sposób każdy taki plugin trzeba będzie aktywować ręcznie za każdym razem, gdy strona będzie chciała
 z niego korzystać. Przejdźmy teraz na stronę Adobe, gdzie przetestujemy sobie ten mechanizm
 aktywacji na wtyczce flash. Na samej stronie powinniśmy ujrzeć szereg obrazków podobnych do tego
 poniżej:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/2.firefox-strona-test-aktywacja-wtyczki.png#small" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/2.firefox-strona-test-aktywacja-wtyczki.png#small" alt=""></p>
 <p>Każdy taki obrazek oznacza, że strona chciała skorzystać z danej wtyczki ale Firefox zablokował te
 żądania. Informacje o tym jaka wtyczka jest potrzebna, znajduje się na widocznym wyżej obrazku.
 Jeśli faktycznie chcemy aktywować daną wtyczkę na tej stronie, to klikamy w taki obrazek i po
 chwili pojawia nam się taki oto pop-up:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/3.firefox-pop-up-allow-and-remember.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/3.firefox-pop-up-allow-and-remember.png#huge" alt=""></p>
 <p>Mamy tutaj widoczne dwa przyciski: <code>Allow Now</code> oraz <code>Allow and Remember</code> . W przypadku wybrania
 pierwszej opcji, strona będzie mogła skorzystać z pluginu flash ale tylko tymczasowo. Gdy z kolei
 wybierzemy drugą opcję, to do pliku <code>permissions.sqlite</code> zostanie dodany wyjątek i w późniejszym
 czasie nie będziemy musieli sobie głowy zawracać aktywacją tej konkretnej wtyczki na tej stronie.</p>
 <p>Problem natomiast zaczyna się w chwili odbierania tych uprawnień. O ile znamy adres domeny, to po
 jej załadowaniu możemy wybrać z menu kontekstowego <code>View Page Info</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/4.firefox-uprawnienia-strony-wtyczki.png#small" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/4.firefox-uprawnienia-strony-wtyczki.png#small" alt=""></p>
 <p>W okienku, które nam się pojawi, przechodzimy do <code>Permissions</code> i tutaj już mamy wyszczególnione
 informacje na temat wszystkich zezwoleń dotyczących danego serwisu www:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/5.firefox-uprawnienia-strony-wtyczki.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/5.firefox-uprawnienia-strony-wtyczki.png#big" alt=""></p>
 <p>Wszędzie tam, gdzie status różni się od <code>Use Default</code> są tworzone wyjątki, a informacje o nich
 wędrują do pliku <code>permissions.sqlite</code> .</p>
 <h2 id="czyszczenie-pliku-permissionssqlite">Czyszczenie pliku permissions.sqlite</h2>
@@ -223,15 +218,13 @@ które operują bezpośrednio na nim. Jednym z nich jest <a href="https://addons
 Manager</a>. Przy pomocy tego dodatku
 jesteśmy w stanie uzyskać dostęp do tabeli z uprawnieniami, gdzie mamy ładnie opisane domeny.
 Poniżej przykład:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/6.firefox-sql-manager-add-on.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/6.firefox-sql-manager-add-on.png#huge" alt=""></p>
 <p>W kolumnie <code>permission</code> mamy dwie wartości: <code>1</code> lub <code>2</code> . Wartość <code>1</code> oznacza zezwolenie dostępu,
 zaś <code>2</code> odmowę dostępu. Każde ustawienie, które mogliśmy zmienić przez <code>View Page Info</code> na danej
 stronie, będzie miało w tej tabeli osobny wpis. Jeśli chcemy teraz cofnąć wszystkim domenom prawa do
 korzystania z pluginu flash, to wystarczy kliknąć na odpowiednich pozycjach prawym przyciskiem
 myszki i wybrać <code>Delete</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/7.firefox-sql-manager-add-on.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/7.firefox-sql-manager-add-on.png#huge" alt=""></p>
 <p>Można także wykonać zwykłe zapytanie do bazy danych i przy jego pomocy usunąć konkretne rekordy. Dla
 przykładu przechodzimy na zakładkę <code>Execute SQL</code> i wybieramy Data Manipulation &gt; DELETE . Następnie
 wpisujemy to poniższe zapytanie:</p>
@@ -239,8 +232,7 @@ wpisujemy to poniższe zapytanie:</p>
 </code></pre>
 <p>Zapytanie powinno wykonać się bez błędów, a z tabeli uprawnień powinny zniknąć wszystkie wpisy,
 które miały w kolumnie <code>type</code> wartość <code>plugin:flash</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/8.firefox-sql-manager-add-on.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/8.firefox-sql-manager-add-on.png#huge" alt=""></p>
 <p>Po edycji bazy danych musimy jeszcze uruchomić ponownie przeglądarkę.</p></div>
 				
 				<footer class="entry__footer">

@@ -180,8 +180,7 @@ OpenSSL, który w starszych wersjach ma uwzględnioną właśnie liczbę pierwsz
 Nie koniecznie tak samo musi być i w naszym przypadku. Najlepiej jest przeprowadzić sobie test i
 ustalić długość tej liczby. <a href="https://weakdh.org/sysadmin.html">Sam test liczby pierwszej jest dostępny tutaj</a>. W przypadku tego
 Debiana, co sieci na moim VPS, wynik się prezentuje następująco:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/08/1.dh-liczba-pierwsza-test.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/08/1.dh-liczba-pierwsza-test.png#huge" alt=""></p>
 <p>Zatem tutaj wszystko jest w porządku. Co jednak w przypadku, gdy na powyższej fotce widniałaby
 wartość 1024 albo nawet i mniejsza? W takiej sytuacji trzeba by wygenerować własne parametry dla
 protokołu Diffie-Hellman'a, w których skład weszłaby większa liczba pierwsza. Załóżmy na chwilę, że
@@ -210,16 +209,14 @@ OpenSSL 1.0.1t  3 May 2016
 <h2 id="dołączanie-parametrów-dh-do-certyfikatu">Dołączanie parametrów DH do certyfikatu</h2>
 <p>Starsze wersje serwera Apache2 nie obsługują dyrektywy <code>SSLOpenSSLConfCmd</code> . Możemy jednak dołączyć
 zawartość wyżej wygenerowanego pliku <code>dhparam.pem</code> do pliku certyfikatu, którego ścieżka figuruje w
-dyrektywie <code>SSLCertificateFile</code> w konfiguracji wirtualnego hosta. Jeśli <a href="https://morfikov.github.io
-/post/certyfikat-letsencrypt-dla-bloga-certbot/">konfigurowaliśmy certyfikat
+dyrektywie <code>SSLCertificateFile</code> w konfiguracji wirtualnego hosta. Jeśli <a href="https://morfikov.github.io/post/certyfikat-letsencrypt-dla-bloga-certbot/">konfigurowaliśmy certyfikat
 letsencrypt</a>, to zawartość <code>dhparam.pem</code> dopisujemy do pliku
 <code>/etc/letsencrypt/live/morfitronik.pl/fullchain.pem</code> . Robimy to w poniższy sposób:</p>
 <pre><code># cat /etc/letsencrypt/dh/dhparam.pem &gt;&gt; /etc/letsencrypt/live/morfitronik.pl/fullchain.pem
 </code></pre>
 <p>Teraz już wystarczy zresetować serwer Apache2 i przetestować czy ta liczba pierwsza została
 uwzględniona przeprowadzając jeszcze raz test:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/08/2.dh-liczba-pierwsza-test.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/08/2.dh-liczba-pierwsza-test.png#huge" alt=""></p>
 <p>I jak widzimy, ilość bitów z 2048 wzrosła do 4096.</p></div>
 				
 				<footer class="entry__footer">

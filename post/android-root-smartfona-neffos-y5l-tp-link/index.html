@@ -179,23 +179,18 @@ if (!doNotTrack) {
 ale w zasadzie ten fakt nie przeszkadza nam, by przeprowadzić na Neffos Y5L (TP801A) proces root.
 Ten smartfon ma zbliżony SoC do Neffos Y5, a konkretnie mamy tutaj do czynienia z Snapdragon 210
 (MSM8209) od Qualcomm'a. Ten fakt sprawia, że w przypadku Neffos Y5L cały proces uzyskiwania
-uprawnień administratora systemu przebiega bardzo podobnie do tego <a href="https://morfikov.github.io
-/post/android-root-smartfona-neffos-y5-od-tp-link/">opisywanego wcześniej dla Neffos
+uprawnień administratora systemu przebiega bardzo podobnie do tego <a href="https://morfikov.github.io/post/android-root-smartfona-neffos-y5-od-tp-link/">opisywanego wcześniej dla Neffos
 Y5</a>. Dlatego też poniższy artykuł za bardzo się nie różni i w zasadzie został jedynie lekko
 przerobiony pod kątem zgodności ze smartfonem Neffos Y5L.</p>
 <p>Prostszy sposób na przeprowadzanie procesu root w smartfonach Neffos od TP-LINK z wykorzystaniem
-natywnych obrazów TWRP <a href="https://morfikov.github.io
-/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/">został opisany w nowym wątku</a>.</p>
+natywnych obrazów TWRP <a href="https://morfikov.github.io/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/">został opisany w nowym wątku</a>.</p>
 <h2 id="narzędzia-adb-i-fastboot">Narzędzia ADB i fastboot</h2>
 <p>Przede wszystkim, by zabrać się za proces root'owania smartfona Neffos Y5L, musimy przygotować sobie
 odpowiednie narzędzia. Zapewnią one nam możliwość rozmawiania z telefonem. Będziemy potrzebować
-<code>adb</code> (<a href="https://developer.android.com/studio/command-line/adb.html">Android Debug Bridge</a>) oraz <code>fastboot</code> . <a href="https://morfikov.github.io
-/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/">Proces instalacji tych narzędzi na linux</a>,
+<code>adb</code> (<a href="https://developer.android.com/studio/command-line/adb.html">Android Debug Bridge</a>) oraz <code>fastboot</code> . <a href="https://morfikov.github.io/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/">Proces instalacji tych narzędzi na linux</a>,
 a konkretnie w dystrybucji Debian, został opisany osobno.</p>
 <h2 id="problematyczny-backup-flasha-smartfona-neffos-y5l">Problematyczny backup flash'a smartfona Neffos Y5L</h2>
-<p>W przypadku <a href="https://morfikov.github.io
-/post/android-root-smartfona-neffos-c5-max-od-tp-link/">Neffos C5</a> i <a href="https://morfikov.github.io
-/post/android-root-smartfona-neffos-c5-max-od-tp-link/">Neffos C5 MAX</a>, do zrobienia backup'u całego flash'a można było
+<p>W przypadku <a href="https://morfikov.github.io/post/android-root-smartfona-neffos-c5-max-od-tp-link/">Neffos C5</a> i <a href="https://morfikov.github.io/post/android-root-smartfona-neffos-c5-max-od-tp-link/">Neffos C5 MAX</a>, do zrobienia backup'u całego flash'a można było
 wykorzystać narzędzie SP Flash Tool. Niemniej jednak, to oprogramowanie jest przeznaczone jedynie
 dla smartfonów mających SoC od MediaTek, a jak już zostało wspomniane we wstępie, Neffos Y5L ma SoC
 Snapdragon 210 (MSM8209) od Qualcomm'a. Jak zatem zrobić backup flash'a tego smartfona przed
@@ -214,8 +209,7 @@ posłużyłem się <a href="http://4pda.ru/forum/index.php?showtopic=738058&amp;
 zastosowanego w Neffos Y5L. W zasadzie rozdziałka ekranu i wielkość flash się zgadzają ale układ
 partycji jest nieco inny i trzeba będzie ten obraz trochę przerobić, a do tego celu potrzebny nam
 będzie stock'owy obraz <code>boot.img</code> lub <code>recovery.img</code> .</p>
-<p>Gotowy <a href="https://morfikov.github.io
-/img/manual/recovery-neffos-y5l-tp-link-twrp.img">obraz recovery.img dla smartfona Neffos Y5L</a> znajduje się tutaj i jedyne co, to musimy
+<p>Gotowy <a href="https://morfikov.github.io/img/manual/recovery-neffos-y5l-tp-link-twrp.img">obraz recovery.img dla smartfona Neffos Y5L</a> znajduje się tutaj i jedyne co, to musimy
 go wgrać na telefon. Jeśli jednak ktoś jest ciekaw jak proces przepakowania tego obrazu przebiega,
 to jest on opisany poniżej.</p>
 <h2 id="pozyskanie-stockowego-obrazu-bootrecovery">Pozyskanie stock'owego obrazu boot/recovery</h2>
@@ -229,12 +223,10 @@ firmware Neffos'a Y5L, który na szczęście możemy pobrać ze <a href="http://
 Pamiętajmy by pobrać plik przeznaczony na ten konkretny model telefonu, który posiadamy (w tym
 przypadku TP801A). Poniżej jest pełna specyfikacja wgranego oprogramowania oraz dokładne numery
 mojego smartfona:</p>
-<p><img src="https://morfikov.github.io
-/img/2017/01/001.neffos-y5l-smartfon-tp-link-root-informacje-model.png#small" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2017/01/001.neffos-y5l-smartfon-tp-link-root-informacje-model.png#small" alt=""></p>
 <p>W paczce <code>.zip</code> z firmware, którą pobraliśmy, znajduje się plik <code>boot.img</code> . Musimy go wydobyć w
 celu wyodrębnienia pewnych plików i wgrania ich na portowany obraz <code>recovery.img</code> .</p>
-<p><img src="https://morfikov.github.io
-/img/2017/01/002.neffos-y5l-smartfon-tp-link-root-obraz-boot.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2017/01/002.neffos-y5l-smartfon-tp-link-root-obraz-boot.png#huge" alt=""></p>
 <h2 id="przepakowanie-obrazu-recoveryimg">Przepakowanie obrazu recovery.img</h2>
 <p>By przepakować obraz przeznaczony na inny smartfon, który jest zbliżony parametrami do naszego
 Neffos'a Y5L, musimy pierw pozyskać odpowiednie narzędzia. Na linux'ie możemy skorzystać do tego
@@ -413,12 +405,10 @@ potrafi i by przeprowadzić proces root'owania Androida, musimy pozyskać bardzi
 np. <a href="https://www.clockworkmod.com/">ClockworkMod</a> czy <a href="https://twrp.me/">TWRP</a>, i wgrać go na partycję <code>/recovery/</code> . By to zrobić musimy
 pierw odblokować bootloader.</p>
 <p>Proces odblokowania bootloader'a usuwa wszystkie dane, które wgraliśmy na flash telefonu, tj.
-podczas odblokowywania jest inicjowany <a href="https://morfikov.github.io
-/post/android-reset-ustawien-do-fabrycznych-factory-defaults/">factory reset</a>. Dane na karcie SD pozostają nietknięte.
+podczas odblokowywania jest inicjowany <a href="https://morfikov.github.io/post/android-reset-ustawien-do-fabrycznych-factory-defaults/">factory reset</a>. Dane na karcie SD pozostają nietknięte.
 By ten proces zainicjować zaczynamy od przestawienia jednej opcji w telefonie. W tym celu musimy
 udać się w Ustawienia =&gt; Opcje Programistyczne i tam przełączyć <code>Zdjęcie blokady OEM</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2017/01/003.neffos-y5l-smartfon-tp-link-root-blokada-booloader.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2017/01/003.neffos-y5l-smartfon-tp-link-root-blokada-booloader.png#huge" alt=""></p>
 <p>Następnie w terminalu wpisujemy poniższe polecenia:</p>
 <pre><code># adb reboot bootloader
 # fastboot devices
@@ -487,14 +477,11 @@ backup całej partycji, bo wtedy robimy backup tylko danych i nie wchodzi w to w
 <p>Jak już ustalimy jakie partycje uwzględnimy w backup'ie, to przechodzimy do pozycji Backup i
 wybieramy kartę SD oraz zaznaczamy odpowiednie obszary pamięci flash, tak jak to widać na poniższej
 fotce:</p>
-<p><img src="https://morfikov.github.io
-/img/2017/01/004.neffos-y5l-smartfon-tp-link-root-backup-flash.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2017/01/004.neffos-y5l-smartfon-tp-link-root-backup-flash.png#huge" alt=""></p>
 <p>W przypadku robienia pełnego backup'u, cały proces może zająć dłuższą chwilę. Po jego ukończeniu, na
 karcie SD pojawi się obraz flash'a, który możemy sprawdzić w <code>gdisk</code> lub <code>parted</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2017/01/005.neffos-y5l-smartfon-tp-link-root-flash-gdisk.png#huge" alt=""></p>
-<p><img src="https://morfikov.github.io
-/img/2017/01/006.neffos-y5l-smartfon-tp-link-root-flash-parted.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2017/01/005.neffos-y5l-smartfon-tp-link-root-flash-gdisk.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2017/01/006.neffos-y5l-smartfon-tp-link-root-flash-parted.png#huge" alt=""></p>
 <h2 id="wgranie-obrazu-recovery-z-twrp-na-neffos-y5l">Wgranie obrazu recovery z TWRP na Neffos Y5L</h2>
 <p>Po sprawdzeniu czy obraz się boot'uje poprawnie i dokonaniu backup'u określonych obszarów pamięci
 flash, możemy ten obraz wgrać na telefon lub też możemy zainstalować jedynie samo SuperSU. Ja
@@ -519,23 +506,20 @@ wrzucamy ją w pobranej formie na kartę SD w telefonie. Odpalamy teraz tryb rec
 (VolumeUp + Power) i przechodzimy do Install i wskazujemy paczkę <code>.zip</code> , którą umieściliśmy na
 karcie SD. Tam z kolei zaznaczamy <code>ZIP signature verification</code> i przeciągamy trzy strzałki na prawą
 stronę.</p>
-<p><img src="https://morfikov.github.io
-/img/2017/01/007.neffos-y5l-smartfon-tp-link-root-supersu-instalacja.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2017/01/007.neffos-y5l-smartfon-tp-link-root-supersu-instalacja.png#huge" alt=""></p>
 <p>Teraz możemy uruchomić ponownie Neffos'a Y5L i zainstalować jakąś aplikację, która pokaże nam czy
 nasz smartfon ma root'a.</p>
 <h3 id="sprawdzenie-czy-neffos-y5l-ma-roota">Sprawdzenie czy Neffos Y5L ma root'a</h3>
 <p>Po uruchomieniu się systemu na smartfonie, instalujemy aplikację <a href="https://play.google.com/store/apps/details?id=com.jrummyapps.rootchecker">RootCheck</a>, po czym
 uruchamiamy ją. Powinien się pojawić monit informujący, że ta aplikacja żąda praw administracyjnych,
 na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosowny komunikat:</p>
-<p><img src="https://morfikov.github.io
-/img/2017/01/008.neffos-y5l-smartfon-tp-link-root-checkroot.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2017/01/008.neffos-y5l-smartfon-tp-link-root-checkroot.png#big" alt=""></p>
 <h3 id="instalacja-busybox">Instalacja BusyBOX</h3>
 <p>Kolejnym krokiem jest instalacja <a href="https://play.google.com/store/apps/details?id=stericson.busybox">BusyBOX'a</a>. Po wgraniu tej aplikacji na smartfona, musimy ją
 uruchomić i wcisnąć w niej przycisk <code>install</code> . BusyBOX również nas poprosi o dostęp do praw
 administracyjnych. Po zainstalowaniu, weryfikujemy jeszcze, czy aby wszystko zostało pomyślne
 wgrane. Możemy to zrobić zarówno w samej aplikacji BusyBOX, jak w CheckRoot:</p>
-<p><img src="https://morfikov.github.io
-/img/2017/01/009.neffos-y5l-smartfon-tp-link-root-busybox.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2017/01/009.neffos-y5l-smartfon-tp-link-root-busybox.png#huge" alt=""></p>
 <h3 id="instalacja-terminala">Instalacja terminala</h3>
 <p>Generalnie rzecz biorąc, terminal jako taki nie jest obowiązkowy, bo SuperSU jak i BusyBOX są
 wymagane przez konkretne aplikacje do poprawnego ich działania. Niemniej jednak, jeśli zamierzamy
@@ -547,8 +531,7 @@ systemie. Jako, że ja korzystam na co dzień z Debiana, to instaluję Termux'a.
 <h3 id="aplikacje-i-prawa-administracyjne">Aplikacje i prawa administracyjne</h3>
 <p>Teraz już pozostało nam tylko odpalenie terminala i zalogowanie się na użytkownika root. Do tego
 celu służy polecenie <code>su</code> . Wpiszmy je zatem w okienku Termux'a:</p>
-<p><img src="https://morfikov.github.io
-/img/2017/01/010.neffos-y5l-smartfon-tp-link-root-termux-su.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2017/01/010.neffos-y5l-smartfon-tp-link-root-termux-su.png#huge" alt=""></p>
 <p>I teraz możemy uruchamiać aplikacje z prawami admina, tak jak to zwykliśmy robić w każdym innym
 linux'ie. Pamiętajmy tylko, że standardowo system plików jest zamontowany w trybie tylko do odczytu
 (RO) i by móc zmieniać pliki systemowe z poziomu tego terminala, musimy przemontować system plików w

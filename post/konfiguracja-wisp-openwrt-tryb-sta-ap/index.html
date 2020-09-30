@@ -162,8 +162,7 @@ if (!doNotTrack) {
 miarę dowolnie sobie skonfigurować. Oryginalne oprogramowanie producenta takiego sprzętu zwykle nie
 umożliwia nam przełączenia kart routera w inny tryb niż AP (Access Point). W OpenWRT możemy ustawić
 praktycznie dowolny tryb, o ile pozwala na to sterownik karty WiFi. W ten sposób możemy aktywować,
-np. <a href="https://morfikov.github.io
-/post/karta-wifi-trybie-monitor-openwrt/">tryb MONITOR</a>. W tym wpisie jednak
+np. <a href="https://morfikov.github.io/post/karta-wifi-trybie-monitor-openwrt/">tryb MONITOR</a>. W tym wpisie jednak
 będzie nas interesował tryb STA (STATION), czyli postaramy się przełączyć karty WiFi routera w tryb
 klienta. Jest to bardzo przydatna opcja w przypadku, gdy mamy do czynienia z <a href="https://pl.wikipedia.org/wiki/WISP">Wireless Internet
 Service Provider (WISP)</a>, czyli bezprzewodowymi dostawcami
@@ -223,8 +222,7 @@ zgodnie z instrukcjami otrzymanymi od naszego WISP. Zapisujemy plik i restartuje
 wystartowaniu, router powinien nawiązać połączenie bezprzewodowe z WISP. Możemy się o tym przekonać
 podglądając log systemowy via <code>logread</code> . Interfejsowi sieciowemu (w tym przypadku <code>wlan0</code> ) powinna
 też zostać nadana odpowiednia adresacja. Możemy to sprawdzić przez <code>ifconfig</code> lub też <code>ip</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/06/2.openwrt-wisp-tryb-sta-interfejs-wlan0.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/06/2.openwrt-wisp-tryb-sta-interfejs-wlan0.png#huge" alt=""></p>
 <h2 id="konfiguracja-trybu-sta-równolegle-z-trybem-ap">Konfiguracja trybu STA równolegle z trybem AP</h2>
 <p>Nieco bardziej zaawansowanym mechanizmem jest tryb STA w połączeniu z AP. W tym przypadku, maszyny w
 sieci domowej mogą zostać podłączone do routera zarówno za pomocą przewodu jak i bezprzewodowo.
@@ -277,15 +275,13 @@ config wifi-iface 'sta'
 <p>I to w zasadzie cała robota. Po restarcie routera, połączenie z WISP powinno zostać ustanowione, a
 my możemy podłączać się do routera w wygodny nam sposób. Zarówno tryb STA jak i AP powinny być
 widoczne w <code>iwinfo</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/06/3.openwrt-wisp-tryb-sta-ap-iwinfo.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/06/3.openwrt-wisp-tryb-sta-ap-iwinfo.png#big" alt=""></p>
 <h3 id="konfiguracja-switcha">Konfiguracja switch'a</h3>
 <p>Standardowo switch routera jest podzielony na jeden port WAN i cztery porty LAN. W obecnej sytuacji,
 tj. gdy korzystamy z trybu STA na routerze i zamierzamy się łączyć jedynie bezprzewodowo z naszym
 WISP, to ten jeden port WAN jest nam kompletnie zbędny. W efekcie możemy do routera połączyć
 przewodowo maksymalnie cztery urządzenia. Jeśli potrzebujemy wszystkich pięciu gniazdek, to możemy
-albo <a href="https://morfikov.github.io
-/post/podzial-switcha-na-kilka-vlan-w-openwrt/">podzielić sobie inaczej
+albo <a href="https://morfikov.github.io/post/podzial-switcha-na-kilka-vlan-w-openwrt/">podzielić sobie inaczej
 switch</a> (jeśli jest taka
 możliwość), albo nieco inaczej skonfigurować interfejsy w pliku <code>/etc/config/network</code> . W tym
 przypadku, router ma przypisany interfejs <code>eth0.1</code> jako LAN oraz interfejs <code>eth0.2</code> jako WAN. Zatem
@@ -302,8 +298,7 @@ plik <code>/etc/config/network</code> powinien zostać przepisany do poniższej 
 <p>W taki sposób po restarcie routera, wirtualny interfejs mostka ( <code>br-lan</code> ) powinien uwzględniać dwa
 interfejsy sieciowe <code>eth0.1</code> oraz <code>eth0.2</code> (łącznie 5 gniazdek zamiast standardowych 4). Możemy to
 zweryfikować przy pomocy narzędzia <code>brctl</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/06/4.openwrt-wisp-tryb-sta-mostek.png#huge" alt=""></p></div>
+<p><img src="https://morfikov.github.io/img/2016/06/4.openwrt-wisp-tryb-sta-mostek.png#huge" alt=""></p></div>
 				
 				<footer class="entry__footer">
 					

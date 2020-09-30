@@ -171,12 +171,10 @@ if (!doNotTrack) {
 internetowych. Jeśli chcielibyśmy skorzystać z internetu w takiej sytuacji, to trzeba by się
 zdecydować na jednego z tych dostępnych ISP. Natomiast łącze pozostałych ISP będzie niewykorzystane
 w tym danym momencie, a przecie nie za to im płacimy. Jeśli mamy router z OpenWRT i
-<a href="https://morfikov.github.io
-/post/podzial-switcha-na-kilka-vlan-w-openwrt/">skonfigurowaliśmy przy tym switch tak, by mieć kilka portów
+<a href="https://morfikov.github.io/post/podzial-switcha-na-kilka-vlan-w-openwrt/">skonfigurowaliśmy przy tym switch tak, by mieć kilka portów
 WAN</a>, to możemy korzystać z usług
 wielu ISP w tym samym czasie. Oczywiście, ten mechanizm działa również w przypadku, gdy ISP świadczy
-nam usługi za pomocą technologi LTE. Trzeba tylko odpowiednio <a href="https://morfikov.github.io
-/post/modem-lte-pod-openwrt/">skonfigurować modem USB do pracy na
+nam usługi za pomocą technologi LTE. Trzeba tylko odpowiednio <a href="https://morfikov.github.io/post/modem-lte-pod-openwrt/">skonfigurować modem USB do pracy na
 routerze</a>. W tym artykule zostanie opisane <a href="https://wiki.openwrt.org/doc/howto/mwan3">narzędzie
 mwan3</a>, za pomocą którego zaprojektujemy sobie prosty
 failover (łącze awaryjne) lub load balancing (równoważenie ruchu) mając do wykorzystania dwóch
@@ -273,8 +271,7 @@ Którego? To zależy jak się te interfejsy skonfigurują po starcie routera. Zw
 ostatniego interfejsu WAN przepisze bramę domyślną w tablicy routingu. I to on będzie wykorzystywany
 do połączenia z internetem. W przypadku LTE, to modem zawsze konfiguruje się kilka sekund. Dlatego
 to on na poniższym listingu określił swoją bramę jako domyślną:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/05/2.wwan3-openwrt-tablica-routingu-brama.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/05/2.wwan3-openwrt-tablica-routingu-brama.png#huge" alt=""></p>
 <p>Na powyższej fotce widzimy tablicę routingu dla interfejsów routera. Mamy tam 3 interfejsy: <code>wwan0</code>
 (LTE), <code>eth0</code> (WAN), oraz <code>br-lan</code> (LAN). Mamy zatem na trzech interfejsach skonfigurowane trzy
 różne sieci: 10.136.111.216/30 (brama 10.136.111.218), 82.160.124.0/24 (brama 82.160.124.254) i
@@ -282,8 +279,7 @@ różne sieci: 10.136.111.216/30 (brama 10.136.111.218), 82.160.124.0/24 (brama 
 <code>wwan0</code> . Zatem wszystkie pakiety, które nie są przeznaczone do tych 3 sieci, będą przesyłane przez
 interfejs <code>wwan0</code> na adres 10.136.111.218 .</p>
 <p>Konfiguracja interfejsów WAN routera wygląda zaś następująco:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/05/1.wwan3-openwrt-interfejsy-wan.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/05/1.wwan3-openwrt-interfejsy-wan.png#huge" alt=""></p>
 <h3 id="metryki">Metryki</h3>
 <p>Jeśli chcemy korzystać z obu tych ISP jednocześnie, to musimy nakazać routerowi skonfigurowanie
 bramy domyślnej ( <code>default</code> ) zarówno dla interfejsu <code>eth0</code> jak i <code>wwan0</code> . By móc tego typu zabieg
@@ -307,8 +303,7 @@ kombinować. W każdym razie, ten problem z metrykami dotyczy tylko modemów LTE
 przewodowe konfiguruje się tak jak widać powyżej.</p>
 <p>Mając już przypisane metryki, restartujemy interfejsy. Sprawdzamy tablicę routingu oraz testujemy
 połączenie za pomocą polecenia <code>ping</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/05/4.wwan3-test-lacza.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/05/4.wwan3-test-lacza.png#huge" alt=""></p>
 <p>Jak widzimy, bramy domyślne są dwie. Po jednej dla każdego interfejsu WAN. Również <code>ping</code> przechodzi
 przez oba interfejsy, czyli internet jest osiągalny przez obu ISP. Taka konfiguracja otwiera nam
 drogę do zainstalowania i skonfigurowania pakietu <code>mwan3</code> . To właśnie przy jego pomocy zrobimy
@@ -398,14 +393,11 @@ zdefiniować wszystkie protokoły, to trzeba je opisać jako <code>all</code> .<
 <p>Utworzenie reguł to jedna sprawa. Sprawdzenie czy one w ogóle działają, to osobna kwestia. Na
 szczęście, <code>mwan3</code> jest nam w stanie zwrócić aktualny status łącza. W nim możemy zobaczyć czy
 interfejsy są podniesione, czy też któryś z nich ma awarię:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/05/5.wwan3-status.png#medium" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/05/5.wwan3-status.png#medium" alt=""></p>
 <p>Mamy także rozpisaną politykę:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/05/6.wwan3-status.png#medium" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/05/6.wwan3-status.png#medium" alt=""></p>
 <p>Oraz reguły:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/05/7.wwan3-status.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/05/7.wwan3-status.png#huge" alt=""></p>
 <p>Z powyższych informacji wynika, że mam dwa interfejsy podzielone w proporcji 2/3. Oba interfejsy są
 aktywne i działają. Ruch na port 443/tcp oraz 80/tcp jest kierowany według zdefiniowanych wyżej
 reguł. Natomiast w przypadku pozostałego ruchu mamy zastosowany failover. Czyli w przypadku awarii

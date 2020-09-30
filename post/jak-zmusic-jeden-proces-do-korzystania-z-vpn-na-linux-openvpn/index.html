@@ -210,8 +210,7 @@ do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły k
 standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy <code>iptables</code> / <code>nftables</code> ,
 tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.</p>
 <h2 id="konfiguracja-openvpn">Konfiguracja OpenVPN</h2>
-<p>Nie będę tutaj opisywał jako takiej <a href="https://morfikov.github.io
-/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">konfiguracji OpenVPN</a>, bo to zostało zrobione w osobnym
+<p>Nie będę tutaj opisywał jako takiej <a href="https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">konfiguracji OpenVPN</a>, bo to zostało zrobione w osobnym
 artykule. Dlatego jeśli ktoś potrzebuje informacji na temat jak skonfigurować OpenVPN, to odsyłam
 do podlinkowanego wpisu. Tutaj zakładam, że mamy już działające połączenie VPN i jesteśmy w stanie
 bez większego problemu nawiązać łączność ze światem zewnętrznym przy jego pomocy. W tym przypadku
@@ -252,8 +251,7 @@ default via 192.168.1.1 dev bond0 metric 10
 cały ruch do bramy VPN. W zakres <code>0.0.0.0/1</code> łapią się wszystkie adresy, których pierwszy bit ma
 wartość <code>0</code> , natomiast w zakres <code>128.0.0.0/1</code> łapią się adresy mające pierwszy bit ustawiony na
 wartość <code>1</code> . Dla lepszego zrozumienia, poniżej jest rozpiska:</p>
-<p><img src="https://morfikov.github.io
-/img/2020/09/002-openvpn-vpn-routing-table-routes-default.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/09/002-openvpn-vpn-routing-table-routes-default.png#big" alt=""></p>
 <p>W ten sposób każda z tych dwóch tras jest bardziej specyficzna niż <code>0.0.0.0/0</code> , która również
 łapie wszystkie adresy. Tym prostym zabiegiem nasza domyślna brama nie ma już żadnego wpływu na
 routing pakietów. Każda z tych dwóch tras ma określony <code>via 172.27.100.1</code> oraz  <code>dev tun0</code> , przez
@@ -370,8 +368,7 @@ wydajność. Naturalnie taki mechanizm oznaczania pakietów nie sprawi, że prę
 sieciowego ucierpi ale to rozwiązanie oznaczania pakietów można poprawić przez oznaczanie całego
 połączenia zamiast pojedynczych pakietów. Niemniej jednak, jest to ździebko skomplikowane i nie
 będę tej kwestii tutaj poruszał. Ci, których interesuje to zagadnienie, mogą rzucić okiem na
-artykuł o <a href="https://morfikov.github.io
-/post/target-mark-w-iptables/">oznaczaniu połączeń przy pomocy targetu MARK w iptables</a>.</p>
+artykuł o <a href="https://morfikov.github.io/post/target-mark-w-iptables/">oznaczaniu połączeń przy pomocy targetu MARK w iptables</a>.</p>
 <p>Oznaczenie pakietów i przekierowanie ich pod określony adres mamy z głowy. Problem jednak w tym, że
 te pakiety nie będą chciały opuścić naszej maszyny, bo nie jest jeszcze realizowany NAT. Musimy
 zatem dodać parę reguł w <code>nftables</code> dla tablicy NAT.</p>
@@ -398,8 +395,7 @@ zmianie w zależności czy <code>ping</code> leci przez VPN czy bezpośrednio do
 przykładzie zobrazowanym poniżej, różnica w pingu jest i to dość znaczna. Zawsze można też dla
 potwierdzenia odpytać o nasz adres IP jakiś zewnętrzny serwis, by sprawdzić czy faktycznie te
 adresy IP widziane przez serwery WWW się różnią:</p>
-<p><img src="https://morfikov.github.io
-/img/2020/09/001-openvpn-process-linux-config-vpn-test-ping-different-users.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/09/001-openvpn-process-linux-config-vpn-test-ping-different-users.png#huge" alt=""></p>
 <p>Podczas testowania połączenia można także podejrzeć tablicę conntrack'a i sprawdzić czy przy wpisie
 od nawiązanego połączenia widnieje ustawiony przez nas mark:</p>
 <pre><code># conntrack -L | grep 212.77.98.9

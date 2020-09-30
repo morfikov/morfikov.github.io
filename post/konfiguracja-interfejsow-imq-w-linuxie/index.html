@@ -186,19 +186,16 @@ kernela 4.3, patch wchodzi prawie czysto ale najważniejsze, że bez błędów:<
 </code></pre>
 <p>Wyżej skorzystałem z opcji <code>--dry-run</code> po to, by nie aplikować łaty bezpośrednio na źródła. Chodziło
 generalnie o przetestowanie czy zostanie ona zaaplikowana bez większych problemów. Teraz mogę ten
-patch dodać do listy patch'y zarządzanych przez <code>quilt</code> i w prosty sposób <a href="https://morfikov.github.io
-/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">zbudować pakiet .deb</a>
+patch dodać do listy patch'y zarządzanych przez <code>quilt</code> i w prosty sposób <a href="https://morfikov.github.io/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">zbudować pakiet .deb</a>
 wykorzystując do tego celu natywne narzędzia debiana. Oczywiście nic nie stoi na przeszkodzie, by
 pozbyć się parametru <code>--dry-run</code> , nałożyć łatę, po czym ręcznie skompilować i zainstalować sobie
 kernel.</p>
 <p>W przypadku, gdy będziemy pobierać czyste źródła kernela, <a href="https://www.kernel.org/category/signatures.html">zweryfikujmy sygnaturę GPG</a>.</p>
 <p>Kopiujemy starą konfigurację kernela, odpalamy <code>menuconfig</code> i dostosowujemy konfigurację włączając
 odpowiednie opcje odpowiedzialne za interfejsy IMQ. Interesują nas te poniższe pozycje:</p>
-<p><img src="https://morfikov.github.io
-/img/2015/12/1.konfiguracja-kernel-interfejsy-imq.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/12/1.konfiguracja-kernel-interfejsy-imq.png#huge" alt=""></p>
 <p>oraz:</p>
-<p><img src="https://morfikov.github.io
-/img/2015/12/2.konfiguracja-kernel-interfejsy-imq.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/12/2.konfiguracja-kernel-interfejsy-imq.png#huge" alt=""></p>
 <p>W konfiguracji kernela (plik <code>.config</code> ) powinny znaleźć się te poniższe wpisy:</p>
 <pre><code>CONFIG_NETFILTER_XT_TARGET_IMQ=m
 CONFIG_IMQ=m
@@ -384,8 +381,7 @@ zostanie przekierowany do odpowiedniej kolejki ( <code>classid 1:1000</code> ). 
 odpowiadać tej określonej przez <code>--set-mark</code> w <code>iptables</code> .</p>
 <p>Przy pomocy narzędzia <code>bmon</code> możemy zaobserwować czy pakiety trafiają do odpowiednich kolejek.
 Poniżej przykład:</p>
-<p><img src="https://morfikov.github.io
-/img/2015/12/3.test-interfejsow-imq-bmon.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/12/3.test-interfejsow-imq-bmon.png#huge" alt=""></p>
 <p>Jak można zaobserwować, obciążenie łącza jest w granicach w 8% i 9%, odpowiednio dla upload'u i
 download'u. Jest to prawie full, bo karta sieciowa w moim laptopie ma przepustowość 100 mbit/s.
 Kolejka :1000 jest od sieci domowej i ten ruch leci zupełnie na osobny blok. Dalej mamy 4 kolejki,
@@ -395,8 +391,7 @@ grubo ponad 100%. Dzieje się to za sprawą parametru <code>ceil</code> , który
 pasma od innych kolejek. Po prawej stronie w okienku mamy statystyki pingów i jak widać przy dość
 mocnym obciążeniu sieci, połączenie z internetem działa stabilnie, choć pingi są nieco podwyższone.
 Oczywiście w tle działa również sieć P2P (kolejka :500).</p>
-<p>Wszystkie powyższe regułki możemy bez problemu dodać sobie do <a href="https://morfikov.github.io
-/post/firewall-na-linuxowe-maszyny-klienckie/">skryptu firewall'a</a>, tak, by
+<p>Wszystkie powyższe regułki możemy bez problemu dodać sobie do <a href="https://morfikov.github.io/post/firewall-na-linuxowe-maszyny-klienckie/">skryptu firewall'a</a>, tak, by
 były aplikowane wraz ze startem systemu.</p></div>
 				
 				<footer class="entry__footer">

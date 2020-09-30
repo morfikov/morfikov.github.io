@@ -204,8 +204,7 @@ działania użytkowników naszego bloga.</p>
 przesyłane są przy pomocy ciasteczka dane uwierzytelniające, które są następnie sprawdzane przez
 funkcję <code>wp_validate_auth_cookie()</code> . Poniżej jest wyciągnięte ciasteczko przy pomocy snifera
 wireshark:</p>
-<p><img src="https://morfikov.github.io
-/img/2015/05/1.wordpress-cookie.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/05/1.wordpress-cookie.png#huge" alt=""></p>
 <p>Jeśli komuś udałoby się podrobić te zaznaczoną pozycję, mógłby on uzyskać dostęp do konta na
 stronie. Poniżej sprawdzimy czy wykucie takiego ciasteczka i tym samym obejście zabezpieczeń
 WordPressa jest w ogóle możliwe.</p>
@@ -252,8 +251,7 @@ polecenia:</p>
 </code></pre>
 <p>Tutaj mała uwaga -- nie możemy dodawać do adresu <code>/</code> na jego końcu.</p>
 <h3 id="nazwa-użytkownika">Nazwa użytkownika</h3>
-<p>Nazwa użytkownika zwykle jest znana, przynajmniej <a href="https://morfikov.github.io
-/post/wordpress-administrator-bloga/">jeśli nie
+<p>Nazwa użytkownika zwykle jest znana, przynajmniej <a href="https://morfikov.github.io/post/wordpress-administrator-bloga/">jeśli nie
 zadbamy</a> o nią odpowiednio. Jeśli jednak
 podjęliśmy ku temu stosowne kroki, to może być tutaj pewna rozbieżność.</p>
 <h3 id="czas-ważności-ciasteczka">Czas ważności ciasteczka</h3>
@@ -291,8 +289,7 @@ tj. czy będą do dyspozycji dodatkowe algorytmy. Taki warunek widnieje w pliku 
 <p>Krótko mówiąc, jeśli istnieje jest funkcja <code>hash</code> to zostanie użyty <code>sha256</code> , w przeciwnym wypadku
 <code>sha1</code> . Chodzi o to, że funkcja PHP <code>hash_hmac()</code> nie obsługuje <code>sha256</code> . Jeśli nie wiemy, który
 hash zostanie użyty na konkretnym serwerze, zawsze możemy to sprawdzić via <code>&lt;php phpinfo() ?&gt;</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2015/05/2.php-hash.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/05/2.php-hash.png#huge" alt=""></p>
 <p>Dalej w pliku mamy kod odpowiadający za generowanie samego hasha:</p>
 <pre><code>$hash = hash_hmac( $algo, $user-&gt;user_login . '|' . $expiration . '|' . $token, $key );
 </code></pre>
@@ -348,8 +345,7 @@ generowanie przy pomocy <a href="https://api.wordpress.org/secret-key/1.1/salt/"
 oczywiście sami sobie wygenerować te 64 znakowe ciągi, z tym, że nie wiem czy są jakieś ograniczenia
 co do ich długości. Na stronie WordPressa jest jedynie informacja, że te klucze powinny być długie i
 możliwie losowe, no i oczywiście, każdy z nich inny. Jako, że takie ciasteczko jest proste do
-przechwycenia, powinniśmy <a href="https://morfikov.github.io
-/post/wordpress-szyfrowanie-ssltls/">rozważyć wymuszenie korzystania z protokołu
+przechwycenia, powinniśmy <a href="https://morfikov.github.io/post/wordpress-szyfrowanie-ssltls/">rozważyć wymuszenie korzystania z protokołu
 SSL</a> przynajmniej w przypadku logowania i
 korzystania z panelu administracyjnego.</p>
 <p>Jeśli nie podamy tych kluczy w pliku <code>wp-config.php</code> , zostaną one automatycznie wygenerowane przez
@@ -357,8 +353,7 @@ WordPressa i umieszczone w bazie danych w tabeli <code>wp_options</code> . Trzeb
 to zagrożenie bezpieczeństwa i nie powinniśmy do takiej sytuacji doprowadzać. Choć znowu bez
 przesady w drugą stronę, bo potencjalny atakujący musiałby uzyskać dostęp do bazy danych. Niemniej
 jednak, jeśli klucze i sole trzymamy osobno w pliku, ten ktoś musiałby również uzyskać dostęp do
-systemu plików serwera tak by i ten plik pozyskać. Dlatego trzeba pamiętać, że <a href="https://morfikov.github.io
-/post/wordpress-ograniczone-prawa-dostepu/">prawa dostępu do
+systemu plików serwera tak by i ten plik pozyskać. Dlatego trzeba pamiętać, że <a href="https://morfikov.github.io/post/wordpress-ograniczone-prawa-dostepu/">prawa dostępu do
 pliku</a> <code>wp-config.php</code> powinny być
 bardzo restrykcyjne.</p>
 <p>Nie musimy się tymi kluczami za to zbytnio przejmować w środowisku produkcyjnym, tj. nic się nie

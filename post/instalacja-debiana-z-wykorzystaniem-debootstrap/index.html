@@ -245,8 +245,7 @@ odpowiedni układ partycji. Sam proces partycjonowania nie powinien sprawić wi�
 dlatego też nie będę go opisywał tutaj.</p>
 <h3 id="efiuefi">EFI/UEFI</h3>
 <p>W przypadku, gdy nasz komputer korzysta z firmware EFI/UEFI zamiast z przestarzałego już BIOS'u, to
-trzeba będzie stworzyć dodatkowo partycję ESP i ją wstępnie zainicjować. Informacje o tym <a href="https://morfikov.github.io
-/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/">jak
+trzeba będzie stworzyć dodatkowo partycję ESP i ją wstępnie zainicjować. Informacje o tym <a href="https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/">jak
 poprawnie przygotować partycję ESP pod instalację Debiana z EFI/UEFI</a> można znaleźć tutaj.</p>
 <h3 id="tworzenie-szyfrowanego-kontenera-luks-pod-lvm">Tworzenie szyfrowanego kontenera LUKS pod LVM</h3>
 <p>Pierwszym krokiem jaki musimy poczynić po stworzeniu partycji jest utworzenie zaszyfrowanego
@@ -517,8 +516,7 @@ pakiety znalazły się w naszym systemie. Sama instalacja nie trwała długo ale
 zostało zainstalowane. W każdym razie, bardzo podstawowy system mamy już wgrany. Co prawda jest
 nieskonfigurowany i nie da się go jeszcze uruchomić ale popracujemy nad tym.</p>
 <h2 id="tworzenie-środowiska-pod-chroot">Tworzenie środowiska pod chroot</h2>
-<p>By móc operować na nowym systemie, potrzebujemy odpowiednio <a href="https://morfikov.github.io
-/post/przygotowanie-srodowiska-chroot-do-pracy/">skonfigurować środowisko chroot</a>:</p>
+<p>By móc operować na nowym systemie, potrzebujemy odpowiednio <a href="https://morfikov.github.io/post/przygotowanie-srodowiska-chroot-do-pracy/">skonfigurować środowisko chroot</a>:</p>
 <pre><code># mount -o bind /dev/ /mnt/dev/
 # mount -o bind /dev/pts /mnt/dev/pts
 # mount -o bind /proc /mnt/proc
@@ -550,8 +548,7 @@ APT::AutoRemove::SuggestsImportant &quot;false&quot;;
 </code></pre>
 <p>Dodanie tych powyższych wpisów sprawi, że menadżery pakietów (zarówno <code>apt</code> jak i <code>aptitude</code> ) nie
 będą instalowały automatycznie pakietów rekomendowanych i polecanych. Ma to na celu odchudzenie
-instalacji. Jeśli ktoś jest ciekaw, to może pokusić się o dodanie <a href="https://morfikov.github.io
-/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/">bardziej obszernej konfiguracji
+instalacji. Jeśli ktoś jest ciekaw, to może pokusić się o dodanie <a href="https://morfikov.github.io/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/">bardziej obszernej konfiguracji
 apt do pliku apt.conf</a>.</p>
 <p>Zainstalujmy sobie też pakiet <code>aptitude</code> . Nie jest on wprawdzie wymagany i całą instalację systemu
 możemy przeprowadzić za pomocą <code>apt</code> . Niemniej jednak, ja się przyzwyczaiłem do <code>aptitude</code> .</p>
@@ -610,8 +607,7 @@ LC_ALL=
 </code></pre>
 <p>W przypadku, gdy został określony jedynie <code>LANG</code> , pozostałe zmienne są ustawiane na taką samą
 wartość. By zmienić którąś ze zmiennych wypisanych wyżej, wystarczy dodać ją do tego pliku i
-odpowiednio ustawić. Ja zwykle korzystam też z <code>en_US.UTF-8</code> . Dokładny <a href="https://morfikov.github.io
-/post/jezyk-polski-w-srodowisku-graficznym/">opis konfiguracji
+odpowiednio ustawić. Ja zwykle korzystam też z <code>en_US.UTF-8</code> . Dokładny <a href="https://morfikov.github.io/post/jezyk-polski-w-srodowisku-graficznym/">opis konfiguracji
 lokalizacji systemu</a> został opisany już opisany w osobnym wpisie. Dlatego też jeśli coś z
 powyższej konfiguracji jest niejasne, to zachęcam do zapoznania się z tym podlinkowanym tekstem.</p>
 <h4 id="plik-etcdefaultkeyboard">Plik /etc/default/keyboard</h4>
@@ -632,16 +628,14 @@ XKBVARIANT=&quot;&quot;
 XKBOPTIONS=&quot;kpdl:dot,grp:alt_shift_toggle,lv3:ralt_switch,compose:rctrl,terminate:ctrl_alt_bksp,grp_led:scroll&quot;
 BACKSPACE=&quot;guess&quot;
 </code></pre>
-<p><a href="https://morfikov.github.io
-/post/klawiatura-i-jej-konfiguracja-pod-debianem/">Konfiguracja ustawień klawiatury</a> została już opisana w osobnym wpisie. Jeśli któryś z
+<p><a href="https://morfikov.github.io/post/klawiatura-i-jej-konfiguracja-pod-debianem/">Konfiguracja ustawień klawiatury</a> została już opisana w osobnym wpisie. Jeśli któryś z
 powyższych parametrów jest niejasny, to zachęcam do lektury podlinkowanego artykułu.</p>
 <p>By ustawić odpowiedni układ klawiatury już podczas startu systemu, trzeba zmienić w pliku
 <code>/etc/initramfs-tools/initramfs.conf</code> zmienną <code>KEYMAP=y</code> oraz wygenerować nowy initramfs za pomocą
 <code>update-initramfs -u -k all</code>. Tego na razie nie musimy robić, przyda się dopiero w chwili jak
 zainstalujemy kernela.</p>
 <h4 id="plik-etcdefaultconsole-setup">Plik /etc/default/console-setup</h4>
-<p>Wielu ludzi narzeka na <a href="https://morfikov.github.io
-/post/polskie-znaki-pod-tty/">brak polskich znaków pod TTY</a>. Konfiguracja pakietu <code>console-setup</code>
+<p>Wielu ludzi narzeka na <a href="https://morfikov.github.io/post/polskie-znaki-pod-tty/">brak polskich znaków pod TTY</a>. Konfiguracja pakietu <code>console-setup</code>
 powinna rozwiązać ten problem:</p>
 <pre><code># dpkg-reconfigure console-setup
 </code></pre>
@@ -680,8 +674,7 @@ lrwxrwxrwx 1 root root 35 2015-12-30 18:50:01 /etc/localtime -&gt; ../usr/share/
 <p>Warto zauważyć, że plik <code>localtime</code> jest dowiązaniem do odpowiedniego pliku w katalogu
 <code>/usr/share/zoneinfo/</code> . W standardowej konfiguracji Debiana tak nie jest i przydałoby się ten błąd
 poprawić.</p>
-<p>Dobrze jest także sprawdzić czy <a href="https://morfikov.github.io
-/post/zmienna-tz-w-srodowisku-linuxowym/">w środowisku jest ustawiona zmienna TZ</a>. Choć jest wielce
+<p>Dobrze jest także sprawdzić czy <a href="https://morfikov.github.io/post/zmienna-tz-w-srodowisku-linuxowym/">w środowisku jest ustawiona zmienna TZ</a>. Choć jest wielce
 prawdopodobne, że nie ma i będziemy musieli ją ręcznie wyeksportować przez dopisanie do pliku
 <code>/etc/environment</code> tego poniższego wpisu:</p>
 <pre><code>TZ=&quot;Europe/Warsaw&quot;
@@ -888,20 +881,16 @@ dostosowujemy zapytanie DHCP. Tak wygląda to standardowe:</p>
 Powyższe zapytanie można sobie oczywiście dostosować wedle uznania.</p>
 <h4 id="cache-i-szyfrowanie-zapytań-dns">Cache i szyfrowanie zapytań DNS</h4>
 <p>Istnieje także opcja zaszyfrowania ruchu DNS. Niemniej jednak, ten temat wykracza poza ramy tego
-artykułu. Jeśli kogoś ciekawi ta opcja, to zachęcam do przeczytania wpisu na temat <a href="https://morfikov.github.io
-/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/">szyfrowania
+artykułu. Jeśli kogoś ciekawi ta opcja, to zachęcam do przeczytania wpisu na temat <a href="https://morfikov.github.io/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/">szyfrowania
 zapytań DNS przy użyciu dnscrypt-proxy</a>. Zachęcam także do rzucenia okiem na wpis traktujący o
-<a href="https://morfikov.github.io
-/post/cache-dns-buforowania-zapytan/">cache zapytań DNS</a> jak i również polecam artykuł o <a href="https://morfikov.github.io
-/post/konfiguracja-cache-dns-w-firefoxie/">konfiguracji cache DNS w przeglądarce
+<a href="https://morfikov.github.io/post/cache-dns-buforowania-zapytan/">cache zapytań DNS</a> jak i również polecam artykuł o <a href="https://morfikov.github.io/post/konfiguracja-cache-dns-w-firefoxie/">konfiguracji cache DNS w przeglądarce
 Firefox</a>.</p>
 <h4 id="sieć-bezprzewodowa-wifi">Sieć bezprzewodowa (WiFi)</h4>
 <p>Jeśli interesuje nas łączność bezprzewodowa, to jak najbardziej Debian jest nam ją w stanie
 zapewnić. Jedyne czego potrzebujemy to odpowiedniego firmware dla naszej karty WiFi no i oczywiście
 stosownej konfiguracji interfejsu. Dodatkowo będziemy musieli się w takiej bezprzewodowej sieci
 uwierzytelnić i do tego celu będziemy potrzebować pakiet <code>wpasupplicant</code> . Nie będę tutaj opisywał
-<a href="https://morfikov.github.io
-/post/konfiguracja-polaczenia-wifi-pod-debianem/">jak skonfigurować sobie sieć WiFi na Debianie przy pomocy wpa_supplicant</a>, bo to zostało
+<a href="https://morfikov.github.io/post/konfiguracja-polaczenia-wifi-pod-debianem/">jak skonfigurować sobie sieć WiFi na Debianie przy pomocy wpa_supplicant</a>, bo to zostało
 zrobione w osobnym artykule.</p>
 <h3 id="synchronizacja-czasu">Synchronizacja czasu</h3>
 <p>We wcześniejszych swoich wydaniach, Debian do synchronizacji czasu wykorzystywał demona NTP, który
@@ -931,13 +920,11 @@ conntrack ipset \
 linux-{image,headers}-amd64
 </code></pre>
 <h3 id="bootloader">Bootloader</h3>
-<p>Dokładny <a href="https://morfikov.github.io
-/post/instalacja-i-konfiguracja-bootloadera-extlinux/">opis instalacji bootloader'a extlinux w Debianie</a> został już opisany w osobnym wpisie.
+<p>Dokładny <a href="https://morfikov.github.io/post/instalacja-i-konfiguracja-bootloadera-extlinux/">opis instalacji bootloader'a extlinux w Debianie</a> został już opisany w osobnym wpisie.
 Zachęcam zatem do przeczytania tego artykułu, bo bez bootloader'a ani rusz.</p>
 <h3 id="firewall">Firewall</h3>
 <p>Przydałoby się jeszcze mieć prosty filtr pakietów, który zrzuci wszystkie próby nowych połączeń
-sieciowych pod adresem naszej maszyny. <a href="https://morfikov.github.io
-/post/firewall-na-linuxowe-maszyny-klienckie/">Projekt takiego firewall'a w oparciu o usługę systemd</a>
+sieciowych pod adresem naszej maszyny. <a href="https://morfikov.github.io/post/firewall-na-linuxowe-maszyny-klienckie/">Projekt takiego firewall'a w oparciu o usługę systemd</a>
 został już opisany w osobnym artykule i również zalecam zapoznanie się z nim.</p>
 <p>Jeśli nie korzystamy z systemd albo też nie chcemy pisać plików usług pod zaporę systemową, to
 zawsze można też skorzystać z pakietu <code>iptables-persistent</code> , którego celem jest ładowanie reguł dla
@@ -984,9 +971,7 @@ poniższy sposób:</p>
 <h2 id="kończenie-instalacji">Kończenie instalacji</h2>
 <p>Możemy już wyjść z chroot'a i zresetować maszynę. System, który wgraliśmy powinien się bez problemu
 odpalić. Jest to czysty tryb tekstowy. Czeka nas jeszcze instalacja środowiska graficznego lub też
-<a href="https://morfikov.github.io
-/post/konfiguracja-xservera-na-debianie-xorg/">Xserver'a w połączeniu z prostym menadżerem okien</a>, np. <a href="https://morfikov.github.io
-/post/menadzer-okien-openbox/">openbox</a>.</p></div>
+<a href="https://morfikov.github.io/post/konfiguracja-xservera-na-debianie-xorg/">Xserver'a w połączeniu z prostym menadżerem okien</a>, np. <a href="https://morfikov.github.io/post/menadzer-okien-openbox/">openbox</a>.</p></div>
 				
 				<footer class="entry__footer">
 					

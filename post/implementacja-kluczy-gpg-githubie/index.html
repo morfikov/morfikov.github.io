@@ -166,8 +166,7 @@ if (!doNotTrack) {
 systemie kontroli wersji GIT. Konto w w/w serwisie może być łakomym kąskiem dla przestępców,
 zwłaszcza gdy uczestniczymy w dość rozbudowanych projektach i przyczyniamy się do ich tworzenia w
 dużym stopniu. Z tego powodu github implementuje rozwiązania, które mają na celu poprawić
-bezpieczeństwo naszej pracy. Mamy już uwierzytelnianie dwuetapowe, <a href="https://morfikov.github.io
-/post/github-z-obsluga-kluczy-ssh/">obsługę kluczy
+bezpieczeństwo naszej pracy. Mamy już uwierzytelnianie dwuetapowe, <a href="https://morfikov.github.io/post/github-z-obsluga-kluczy-ssh/">obsługę kluczy
 SSH</a> ale nadal brakowało odpornego systemu,
 który by uwierzytelnił osoby współdziałające z nami. Chodzi o to, że wszelkie zmiany w repozytorium
 GIT muszą być przez kogoś poczynione. Każdy commit ma zatem swojego właściciela ale my nigdy nie
@@ -178,24 +177,19 @@ poświęcony niniejszy wpis.</p>
 <h2 id="git-gpg-i-github">GIT, GPG i github</h2>
 <p>GIT już od dość dawna umożliwia podpisywanie tagów i commit'ów przy pomocy kluczy GPG. By wdrożyć
 takie klucze w serwisie github, musimy naturalnie posiadać same klucze szyfrujące oraz odpowiednio
-skonfigurować sobie lokalne repozytorium. Proces <a href="https://morfikov.github.io
-/post/implementacja-kluczy-gpg-repozytorium-git/">implementacji kluczy GPG w repozytorium
+skonfigurować sobie lokalne repozytorium. Proces <a href="https://morfikov.github.io/post/implementacja-kluczy-gpg-repozytorium-git/">implementacji kluczy GPG w repozytorium
 GIT</a> został opisany w osobnym
-artykule i nie będę go tutaj poruszał na nowo. Podobnie sprawa ma się w przypadku <a href="https://morfikov.github.io
-/post/bezpieczny-klucz-gpg/">tworzenia kluczy
-GPG</a> oraz <a href="https://morfikov.github.io
-/post/konfiguracja-gpg-w-pliku-gpg-conf/">konfiguracji narzędzia gpg w pliku
+artykule i nie będę go tutaj poruszał na nowo. Podobnie sprawa ma się w przypadku <a href="https://morfikov.github.io/post/bezpieczny-klucz-gpg/">tworzenia kluczy
+GPG</a> oraz <a href="https://morfikov.github.io/post/konfiguracja-gpg-w-pliku-gpg-conf/">konfiguracji narzędzia gpg w pliku
 ~/.gnupg/gpg.conf</a>. Jeśli nie mieliśmy do
 tej pory styczności z kluczami GPG, to zapraszam do zapoznania się z w/w artykułami.</p>
 <h2 id="jak-dodać-klucze-gpg-w-githubie">Jak dodać klucze GPG w github'ie</h2>
 <p>Mając już odpowiednie klucze oraz przygotowane repozytorium GIT, możemy przejść do implementacji
 kluczy GPG na github'ie. W tym celu logujemy się w tym serwisie, przechodzimy do opcji swojego
 profilu i z menu po lewej stronie wybieramy <code>SSH and GPG keys</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/1.github-git-klucze-gpg.png#small" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/1.github-git-klucze-gpg.png#small" alt=""></p>
 <p>Po prawej stronie, pod kluczami SSH, powinien znajdować się formularz dodania klucza GPG:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/2.github-git-klucze-gpg.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/2.github-git-klucze-gpg.png#huge" alt=""></p>
 <p>Odpalamy teraz terminal i eksportujemy publiczną część klucza GPG w poniższy sposób:</p>
 <pre><code>$ gpg --armor --export 0xCD046810771B6520
 -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -203,16 +197,13 @@ profilu i z menu po lewej stronie wybieramy <code>SSH and GPG keys</code> :</p>
 -----END PGP PUBLIC KEY BLOCK-----
 </code></pre>
 <p>Teraz całą zwróconą zawartość trzeba przekopiować i wrzucić do formularza na stronie:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/3.github-git-klucze-gpg.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/3.github-git-klucze-gpg.png#huge" alt=""></p>
 <p>Po kliknięciu w przycisk <code>Add GPG key</code> powinniśmy zostać poproszeniu o podanie hasła do konta. Tylko
 po jego poprawnym podaniu klucz zostanie dodany:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/4.github-git-klucze-gpg.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/4.github-git-klucze-gpg.png#huge" alt=""></p>
 <p>Jeśli teraz przejdziemy na stronę naszego projektu w celu przejrzenia ostatnich commit'ów, to
 zobaczymy, że szereg z nich ma ikonkę <code>Verified</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/5.github-git-klucze-gpg.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/5.github-git-klucze-gpg.png#huge" alt=""></p>
 <p>Ta ikonka informuje nas o fakcie zweryfikowania podpisu osoby, która przesłała commit'a i
 identyfikuje się znanym nam kluczem GPG.</p></div>
 				

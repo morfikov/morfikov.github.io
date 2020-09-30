@@ -185,8 +185,7 @@ powyższych uniemożliwia nam dostęp do danych zgromadzonych na dysku.</p>
 później popełnimy błąd i podamy złe parametry w <code>fdisk</code> . Jeśli zmniejszymy za bardzo partycję i
 obetniemy jej trochę systemu plików, to w zależności od posiadanego systemu plików dostaniemy różne
 informacje z błędami. Poniżej jest kilka takich komunikatów.</p>
-<p>W przypadku, gdy <a href="https://morfikov.github.io
-/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/">zmienialiśmy rozmiar systemu plików
+<p>W przypadku, gdy <a href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/">zmienialiśmy rozmiar systemu plików
 NTFS</a> i zrobiliśmy to błędnie,
 <code>ntfsresize</code> zwróci nam poniższy komunikat:</p>
 <pre><code># ntfsresize -i -f /dev/sdb1
@@ -203,8 +202,7 @@ Maybe you selected the wrong partition? Or the whole disk instead of a
 partition (e.g. /dev/hda, not /dev/hda1)? This error might also occur
 if the disk was incorrectly repartitioned (see the ntfsresize FAQ).
 </code></pre>
-<p>Gdy próbowaliśmy zaś <a href="https://morfikov.github.io
-/post/zmiana-rozmiaru-partycji-ext4/">zmienić rozmiar systemu plików
+<p>Gdy próbowaliśmy zaś <a href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ext4/">zmienić rozmiar systemu plików
 EXT4</a> i również coś pochrzaniliśmy, to przy
 sprawdzaniu błędów w <code>fsck</code> , ten zwróci nam poniższe zapytanie:</p>
 <pre><code># fsck.ext4 -fv /dev/sdb1
@@ -214,8 +212,7 @@ The physical size of the device is 786432 blocks
 Either the superblock or the partition table is likely to be corrupt!
 Abort? yes
 </code></pre>
-<p>Natomiast jeśli chodzi o problemy przy <a href="https://morfikov.github.io
-/post/zmiana-rozmiaru-partycji-fat32/">zmianie rozmiaru systemu plików
+<p>Natomiast jeśli chodzi o problemy przy <a href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-fat32/">zmianie rozmiaru systemu plików
 FAT32</a>, to <code>dosfsck</code> będzie miał poniższy
 problem:</p>
 <pre><code># dosfsck -v /dev/sdb1
@@ -224,8 +221,7 @@ dosfsck 3.0.16, 01 Mar 2013, FAT32, LFN
 Checking we can access the last sector of the filesystem
 Seek to 5242879488:Invalid argument
 </code></pre>
-<p>W przypadku, gdy <a href="https://morfikov.github.io
-/post/zmiana-rozmiaru-lvm/">zmienialiśmy rozmiar partycji LVM</a> i
+<p>W przypadku, gdy <a href="https://morfikov.github.io/post/zmiana-rozmiaru-lvm/">zmienialiśmy rozmiar partycji LVM</a> i
 przycięliśmy ją za bardzo w <code>fdisk</code> , to przy skanowaniu voluminów w <code>pvscan</code> dostaniemy taki
 komunikat:</p>
 <pre><code># pvscan
@@ -274,8 +270,7 @@ poprzedniej partycji. Między tymi dyskami logicznymi jest trochę wolnego miejs
 równania do 1 MiB jest tam 2047 sektorów + 1 sektor na EBR. Jeśli byśmy wykonali kopię tej pozycji
 co jest w parametrze &quot;start&quot;, skopiujemy pierwszy sektor systemu plików, a nie EBR, i przywrócenie
 tego sektora nic nam nie da.</p>
-<p><a href="https://morfikov.github.io
-/post/mbr-ebr-i-tablica-partycji-dysku-twardego/">Kopię MBR za to możemy wykonać</a>
+<p><a href="https://morfikov.github.io/post/mbr-ebr-i-tablica-partycji-dysku-twardego/">Kopię MBR za to możemy wykonać</a>
 bardzo łatwo, bo MBR zawsze znajduje się na tej samej pozycji i jest to pierwszy sektor dysku. Kopię
 możemy zrobić przy pomocy narzędzia <code>dd</code> , przykładowo:</p>
 <pre><code># dd if=/dev/sdb of=./mbr bs=512 count=1

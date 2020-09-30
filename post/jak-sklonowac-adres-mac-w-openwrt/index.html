@@ -174,16 +174,14 @@ sobie adres MAC tej maszyny, którą wcześniej widział nasz provider interneto
 nic się nie zmieni, a my będziemy mogli sobie rozdzielić sygnał na tyle komputerów, ile tylko
 chcemy. W tym wpisie zobaczymy jak pod OpenWRT przeprowadzić klonowanie adresu MAC.</p>
 <h2 id="jak-sklonować-adres-mac">Jak sklonować adres MAC</h2>
-<p>Procedura klonowania adresu MAC w routerach jest podobna do <a href="https://morfikov.github.io
-/post/jak-przypisac-losowy-adres-mac-interfejsu/">generowania losowego
+<p>Procedura klonowania adresu MAC w routerach jest podobna do <a href="https://morfikov.github.io/post/jak-przypisac-losowy-adres-mac-interfejsu/">generowania losowego
 adresu</a>. W obu przypadkach musimy
 przepisać adres interfejsowi karty sieciowej. Niemniej jednak, w przypadku ISP, ten posiada adres
 MAC naszej starej maszyny. Dlatego nie możemy użyć dowolnego adresu MAC i musimy sklonować ten
 obecny w bazie danych providera. Zatem jeśli do sieci był podpięty zwykły komputer, to jego adres
 MAC musimy odczytać w opcjach sieciowych. Na linux'ie służą do tego polecenia <code>ifconfig</code> lub <code>ip</code> .
 Poniżej przykład:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/05/1.sklonowac-adres-mac-komputer-openwrt.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/05/1.sklonowac-adres-mac-komputer-openwrt.png#huge" alt=""></p>
 <p>Widoczne wyżej <code>link/ether 3c:4a:92:00:4c:5b</code> , to właśnie adres MAC tej karty sieciowej. To ten
 numer musimy uwzględnić w konfiguracji OpenWRT. Logujemy się zatem na router i przechodzimy do
 edycji pliku <code>/etc/config/network</code> . Tam odszukujemy sekcję <code>wan</code> i dopisujemy tę poniższą linijkę:</p>
@@ -193,8 +191,7 @@ edycji pliku <code>/etc/config/network</code> . Tam odszukujemy sekcję <code>wa
 </code></pre>
 <p>Zapisujemy plik i restartujemy router. Adres MAC powinien zostać sklonowany, co możemy odczytać w
 konfiguracji routera wydając polecenie <code>ifconfig</code> wskazując w argumencie interfejs WAN:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/05/2.sklonowac-adres-mac-komputer-openwrt.png#big" alt=""></p></div>
+<p><img src="https://morfikov.github.io/img/2016/05/2.sklonowac-adres-mac-komputer-openwrt.png#big" alt=""></p></div>
 				
 				<footer class="entry__footer">
 					

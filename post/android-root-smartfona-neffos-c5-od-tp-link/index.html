@@ -184,14 +184,12 @@ artykule zostanie pokazany sposób na root systemu Neffos'a C5 przy zachowaniu w
 bezpieczeństwa, które w sytuacjach podbramkowych pomogą nam odzyskać kontrolę nad telefonem.</p>
 <blockquote>
 <p>Prostszy sposób na przeprowadzanie procesu root w smartfonach Neffos od TP-LINK z wykorzystaniem
-natywnych obrazów TWRP <a href="https://morfikov.github.io
-/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/">został opisany w nowym wątku</a>.</p>
+natywnych obrazów TWRP <a href="https://morfikov.github.io/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/">został opisany w nowym wątku</a>.</p>
 </blockquote>
 <h2 id="narzędzia-adb-i-fastboot">Narzędzia ADB i fastboot</h2>
 <p>Przede wszystkim, by zabrać się za proces root'owania smartfona Neffos C5, musimy przygotować sobie
 odpowiednie narzędzia. Zapewnią one nam możliwość rozmawiania z telefonem. Będziemy potrzebować
-<code>adb</code> (<a href="https://developer.android.com/studio/command-line/adb.html">Android Debug Bridge</a>) oraz <code>fastboot</code> . <a href="https://morfikov.github.io
-/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/">Proces instalacji tych narzędzi na linux</a>,
+<code>adb</code> (<a href="https://developer.android.com/studio/command-line/adb.html">Android Debug Bridge</a>) oraz <code>fastboot</code> . <a href="https://morfikov.github.io/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/">Proces instalacji tych narzędzi na linux</a>,
 a konkretnie w dystrybucji Debian, został opisany osobno.</p>
 <h2 id="narzędzie-sp-flash-tool">Narzędzie SP Flash Tool</h2>
 <p>Kolejnym narzędziem, które będzie nam niezbędne jest <a href="http://spflashtool.com/">SP Flash Tool</a>. Niestety nie jest ono
@@ -243,8 +241,7 @@ biorąc, to te dane potrzebne nam są do zbudowania pliku <code>scatter.txt</cod
 Flash Tool. Ten plik to zwyczajna mapa przestrzeni flash'a telefonu, który podzielony jest na szereg
 widocznych wyżej partycji.</p>
 <h3 id="plik-scattertxt-dla-neffos-c5">Plik scatter.txt dla Neffos C5</h3>
-<p><a href="https://morfikov.github.io
-/img/manual/mt6735-neffos-c5-tp-link-scatter.txt">Tutaj znajduje się plik scatter.txt</a>, który ja wykorzystałem do pracy z Neffos C5. Kluczowa
+<p><a href="https://morfikov.github.io/img/manual/mt6735-neffos-c5-tp-link-scatter.txt">Tutaj znajduje się plik scatter.txt</a>, który ja wykorzystałem do pracy z Neffos C5. Kluczowa
 sprawa, to opisanie każdej partycji. W sumie to musimy odpowiednio dostosować pole <code>partition_ index</code> , które jest zwyczajnie kolejnym numerkiem. Z kolei w <code>partition_name</code> podajemy nazwę
 partycji, którą uzyskaliśmy przez <code>adb</code> . Dalej w <code>linear_start_addr</code> oraz <code>physical_start_addr</code>
 wpisujemy tę wartość, która została wypisana przez <code>adb</code> w kolumnie <code>Start</code> . Na podobnej zasadzie
@@ -258,32 +255,27 @@ wypakowaną zawartością pobranej paczki i uruchamiamy SP Flash Tool wpisując 
 <code>./flash_tool</code> . Powinniśmy zobaczyć okienko, z kilkoma zakładkami. Na jednej z nich widnie napis
 <code>Download</code> . W niej z kolei znajduje się pozycja <code>Scatter-loading file</code> . To tutaj musimy wskazać
 ścieżkę do pliku <code>scatter.txt</code> , który utworzyliśmy wcześniej:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#huge" alt=""></p>
 <p>Teraz przechodzimy na zakładkę <code>Readback</code> i tam dodajemy nową pozycję w tabelce. To tutaj określamy
 przestrzeń flash'a w telefonie, która zostanie skopiowana na dysk komputera. Nas interesuje cały
 flash. Dlatego też początek ustawiamy na <code>0x0</code> , a koniec musimy obliczyć z danych dostarczanych
 przez <code>adb</code> . Interesuje nas ostatnia partycja. Ma ona początek na <code>0x3a3d80000</code> , a jej rozmiar to
 <code>0x80000</code> . Te dwie wartości musimy do siebie dodać, w wyniku czego otrzymujemy <code>0x3a3e00000</code> i to
 tę wartość wpisujemy w SP Flash Tool. Region określamy jako <code>EMC_USER</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/2.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/2.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#big" alt=""></p>
 <p>Dodajemy również drugą pozycję, która zrobi nam backup preloader'a. Z tym, że tutaj wybieramy region
 <code>EMMC_BOOT_1</code> i określamy początek jako <code>0x0</code> , a koniec jako <code>0x40000</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/2.1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/2.1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#big" alt=""></p>
 <p>Teraz wyłączamy telefon i podłączamy go do portu USB komputera. Następnie w SP Flash Tool aktywujemy
 proces backup'u Neffos'a C5 przyciskając <code>Read Back</code> . Włączamy teraz telefon przyciskając i
 trzymając przycisk Volume Up + Power do momentu aż nam zawibruje. Smartfon się nie włączy ale za to
 rozpocznie się kopiowanie danych z telefonu na dysk. Proces backup'u potrwa dłuższą chwilę. W moim
 przypadku trwało prawie dwie godziny (transfer na poziomie 3 MiB/s).</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/3.1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/3.1.neffos-c5-smartfon-android-root-backup-sp-flash-tool.png#huge" alt=""></p>
 <p>Ten backup jest nas w stanie zabezpieczyć na wypadek popełnionych błędów przy flash'owaniu telefonu.
 Podejrzymy jeszcze ten obraz w <code>fdisk</code>/<code>gdisk</code> , by mieć absolutną pewność, że jest w nim faktyczna
 kopia flash'a Neffos'a C5:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/4.neffos-c5-smartfon-android-root-backup-obraz-gdisk.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/4.neffos-c5-smartfon-android-root-backup-obraz-gdisk.png#huge" alt=""></p>
 <h2 id="jak-odblokować-bootloader-w-neffos-c5">Jak odblokować bootloader w Neffos C5</h2>
 <p>Mając zrobiony kompletny backup flash'a, możemy przejść do odblokowania bootloader'a. Chodzi o to,
 że na smartfonach zwykle jest ulokowana partycja <code>/recovery/</code> . Na niej znajduje się oprogramowanie
@@ -293,12 +285,10 @@ przeprowadzić proces root'owania Androida, musimy pozyskać bardziej zaawansowa
 <a href="https://www.clockworkmod.com/">ClockworkMod</a> czy <a href="https://twrp.me/">TWRP</a>, i wgrać go na partycję <code>/recovery/</code> . By to zrobić musimy pierw
 odblokować bootloader.</p>
 <p>Proces odblokowania bootloader'a usuwa wszystkie dane, które wgraliśmy na flash telefonu, tj.
-podczas odblokowywania jest inicjowany <a href="https://morfikov.github.io
-/post/android-reset-ustawien-do-fabrycznych-factory-defaults/">factory reset</a>. Dane na karcie SD pozostają nietknięte.
+podczas odblokowywania jest inicjowany <a href="https://morfikov.github.io/post/android-reset-ustawien-do-fabrycznych-factory-defaults/">factory reset</a>. Dane na karcie SD pozostają nietknięte.
 By ten proces zainicjować zaczynamy od przestawienia jednej opcji w telefonie. W tym celu musimy
 udać się w Ustawienia =&gt; Opcje Programistyczne i tam przełączyć <code>Zdjęcie blokady OEM</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/5.neffos-c5-smartfon-android-root-unlock-bootloader.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/5.neffos-c5-smartfon-android-root-unlock-bootloader.png#huge" alt=""></p>
 <p>Następnie wyłączamy telefon i włączamy go trzymając Volume Up + Power. Z menu wybieramy tryb
 fastboot. Następnie w terminalu wpisujemy poniższe polecenia:</p>
 <pre><code># fastboot devices
@@ -326,8 +316,7 @@ Opcje programistyczne, a w nich tryb debugowania portu USB.</p>
 <p>Mając zrobiony backup flash'a telefonu, możemy z niego wyciągnąć obraz partycji <code>/recovery/</code> .
 Musimy tylko zamontować ten obraz w systemie za pomocą <code>losetup</code> . Pamiętajmy, że ten obraz ma wiele
 partycji. Trzeba zatem nieco dostosować moduł kernela, by wszystkie z tych partycji zostały
-zamontowane za pomocą jednego polecenia. Informacje na temat tego <a href="https://morfikov.github.io
-/post/obsluga-wielu-partycji-w-module-loop/">jak dostosować moduł loop</a>
+zamontowane za pomocą jednego polecenia. Informacje na temat tego <a href="https://morfikov.github.io/post/obsluga-wielu-partycji-w-module-loop/">jak dostosować moduł loop</a>
 znajdują się tutaj. Przechodzimy zatem w miejsce, w którym zapisaliśmy obraz i montujemy go w
 poniższy sposób:</p>
 <pre><code># cd /path/to/image/
@@ -353,8 +342,7 @@ uszkodzimy smartfona. Zamiast tego telefon się zrestartuje i przywróci sobie s
 <p>Moje pierwsze podejście do wgrania obrazu <code>recovery.img</code> na Neffos'a C5 się nie powiodło.
 Prawdopodobnie obraz nie był odpowiednio przygotowany i w efekcie trzeba było wgrać inny obraz. Ja
 skorzystałem z <a href="http://tplink-forum.pl/index.php?/topic/5287-jak-przeprowadzi%C4%87-root-androida-na-neffos-c5/#comment-45313">obrazu podrzuconego przez użytkownika @GWJ</a>. Musiałem go tylko dostosować pod
-Neffos'a C5 (<a href="https://morfikov.github.io
-/img/manual/recovery-neffos-c5-tp-link-twrp.img">link do pobrania</a>).</p>
+Neffos'a C5 (<a href="https://morfikov.github.io/img/manual/recovery-neffos-c5-tp-link-twrp.img">link do pobrania</a>).</p>
 <h2 id="przepakowanie-obrazu-recoveryimg-z-innego-smartfona">Przepakowanie obrazu recovery.img z innego smartfona</h2>
 <p>By przepakować obraz przeznaczony na inny smartfon, który jest zbliżony parametrami do naszego
 Neffos'a C5, musimy pierw pozyskać odpowiednie narzędzia. Na linux'ie możemy skorzystać tego celu z
@@ -433,30 +421,25 @@ będziemy wpisywać wszystkie nasze polecenia.</p>
 root'a, to musimy pobrać <code>TWRP / FlashFire installable ZIP</code> . Tej paczki nie wypakowujemy, tylko
 wrzucamy ją w pobranej formie na kartę SD w telefonie. Odpalamy teraz tryb recovery w smartfonie
 (VolumeUp + Power) i przechodzimy kolejno do Instaluj (TWRP jest również w języku polskim):</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/1.twrp-instalacja-supersu-tryb-recovery.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/1.twrp-instalacja-supersu-tryb-recovery.png#huge" alt=""></p>
 <p>Następnie wskazujemy paczkę <code>.zip</code> , którą umieściliśmy na karcie SD. Tam z kolei zaznaczamy
 <code>Weryfikuj sygnatury pliku zip</code> i przeciągamy trzy strzałki na prawą stronę.</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/2.twrp-instalacja-supersu-tryb-recovery.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/2.twrp-instalacja-supersu-tryb-recovery.png#huge" alt=""></p>
 <p>Teraz możemy uruchomić ponownie Neffos'a C5 i zainstalować jakąś aplikację, która pokaże nam czy
 nasz smartfon ma root'a.</p>
 <h3 id="sprawdzenie-czy-neffos-c5-ma-roota">Sprawdzenie czy Neffos C5 ma root'a</h3>
 <p>Po uruchomieniu się systemu na smartfonie, instalujemy aplikację <a href="https://play.google.com/store/apps/details?id=com.jrummyapps.rootchecker">RootCheck</a>, po czym
 uruchamiamy ją. Powinien się pojawić monit informujący, że ta aplikacja żąda praw administracyjnych,
 na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosowny komunikat:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/6.neffos-c5-smartfon-android-root-success-root-check-1.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/6.neffos-c5-smartfon-android-root-success-root-check-1.png#huge" alt=""></p>
 <h3 id="instalacja-busybox">Instalacja BusyBOX</h3>
 <p>Kolejnym krokiem jest instalacja <a href="https://play.google.com/store/apps/details?id=stericson.busybox">BusyBOX'a</a>. Po wgraniu tej aplikacji na smartfona, musimy ją
 uruchomić i wcisnąć w niej przycisk <code>install</code> . BusyBOX również nas poprosi o dostęp do praw
 administracyjnych:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/7.neffos-c5-smartfon-android-root-busybox.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/7.neffos-c5-smartfon-android-root-busybox.png#huge" alt=""></p>
 <p>Po zainstalowaniu, weryfikujemy jeszcze, czy aby wszystko zostało pomyślne wgrane. Możemy to zrobić
 zarówno w samej aplikacji BusyBOX, jak i w CheckRoot:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/8.neffos-c5-smartfon-android-root-busybox-success-check.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/8.neffos-c5-smartfon-android-root-busybox-success-check.png#huge" alt=""></p>
 <h3 id="instalacja-terminala">Instalacja terminala</h3>
 <p>Z BusyBOX'em zostały dostarczone niskopoziomowe narzędzia, które mogą korzystać z uprawnień
 administratora systemu za sprawą SuperSU. Niemniej jednak, by móc odpalać te programiki, musimy w
@@ -468,13 +451,11 @@ systemie. Tutaj warto jeszcze zaznaczyć, że ten drugi terminal instaluje sobie
 (domyślny shell w Debianie) . Również w jego przypadku możemy łatwo doinstalować sobie aplikacje za
 pomocą <code>apt</code> , podobnie jak w Debianie (do tego celu nie jest wymagany root). Jako, że ja korzystam
 na co dzień z Debiana, to instaluje Termux'a.</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/9.neffos-c5-smartfon-android-root-termux-htop.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/9.neffos-c5-smartfon-android-root-termux-htop.png#huge" alt=""></p>
 <h3 id="aplikacje-i-prawa-administracyjne">Aplikacje i prawa administracyjne</h3>
 <p>Teraz już pozostało nam tylko odpalenie terminala i zalogowanie się na użytkownika root. Do tego
 celu służy polecenie <code>su</code> . Wpiszmy je zatem w okienku Termux'a:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/10.neffos-c5-smartfon-android-root-termux-su.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/10.neffos-c5-smartfon-android-root-termux-su.png#huge" alt=""></p>
 <p>I teraz możemy uruchamiać aplikacje z prawami admina, tak jak to zwykliśmy robić w każdym innym
 linux'ie. Pamiętajmy tylko, że standardowo system plików jest zamontowany w trybie tylko do odczytu
 (RO) i by móc zmieniać pliki systemowe z poziomu tego terminala, musimy przemontować system plików w

@@ -278,8 +278,7 @@ są przepisywane za każdym razem ilekroć wołany jest <code>make bindeb-pkg</c
 nie powinniśmy edytować ręcznie. Skryptu w zasadzie też nie ma po co ruszać.</p>
 <h3 id="zmienne-cflags-cppflags-cxxflags-i-ldflags">Zmienne $CFLAGS, $CPPFLAGS, $CXXFLAGS i $LDFLAGS</h3>
 <p>Technicznie rzecz biorąc, to proces budowania paczki z kernelem jest niemal taki sam jak w
-przypadku <a href="https://morfikov.github.io
-/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">budowania każdej innej paczki .deb</a> dla dystrybucji Debiana. Jedyną różnicą jest fakt,
+przypadku <a href="https://morfikov.github.io/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">budowania każdej innej paczki .deb</a> dla dystrybucji Debiana. Jedyną różnicą jest fakt,
 że kernel nie jest standardową <a href="https://pl.wikipedia.org/wiki/Executable_and_Linkable_Format">binarką ELF</a>.</p>
 <p>Gdy buduje się zwykłe paczki różnych aplikacji, to w pliku <code>debian/rules</code> ustawia się kilka
 zmiennych m.in. zmienną <code>$DEB_BUILD_MAINT_OPTIONS</code> , która to konfiguruje wstępnie zmienne dla
@@ -516,8 +515,7 @@ poniższe polecenie:</p>
 <p>W katalogu roboczym powinien zostać wygenerowany plik <code>.config</code> zawierający konfigurację kernela.
 Być może zostaniemy poproszeni o udzielenie odpowiedzi na szereg pytań dotyczących nowych opcji,
 czyli tych, które nie występowały we wcześniejszej konfiguracji:</p>
-<p><img src="https://morfikov.github.io
-/img/2018/12/002.debian-kernel-localyesconfig.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2018/12/002.debian-kernel-localyesconfig.png#huge" alt=""></p>
 <p>Można bez problemu odpowiedzieć negatywnie na wszystkie pytania wciskając <code>N</code>, chyba, że coś jest
 nam potrzebne.</p>
 <h2 id="make-xconfig">make xconfig</h2>
@@ -526,8 +524,7 @@ nam potrzebne.</p>
 </code></pre>
 <p>Powinno zostać nam wyświetlone okienko, w którym będziemy mogli już dowolnie włączać lub wyłączać
 określone opcje kernela:</p>
-<p><img src="https://morfikov.github.io
-/img/2018/12/003.debian-kernel-xconfig.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2018/12/003.debian-kernel-xconfig.png#huge" alt=""></p>
 <p>Mój laptop posiada procesor Intel ale szereg opcji od procesorów AMD było również pozaznaczanych.
 Dlatego też warto przejrzeć te już zaznaczone opcje i je sobie dostosować.</p>
 <h2 id="budowanie-kernela-linux">Budowanie kernela linux</h2>
@@ -639,8 +636,7 @@ APPEND root=/dev/mapper/wd_black_label-root ... loop.max_part=63 ro
 ...
 </code></pre>
 <p>Drugim sposobem jest określenie stosownej opcji w konfiguracji źródeł kernela:</p>
-<p><img src="https://morfikov.github.io
-/img/2018/12/004.debian-kernel-xconfig.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2018/12/004.debian-kernel-xconfig.png#huge" alt=""></p>
 <p>Oba te sposoby są w zasadzie podobne, bo wynikowa linijka kernela widziana pod <code>/proc/cmdline</code>
 będzie dokładnie taka sama, tj. zawierać te same parametry i te same
 wartości. <a href="https://people.freedesktop.org/~narmstrong/meson_drm_doc/admin-guide/kernel-parameters.html">Sposób określania parametrów</a> w linijce kernela jest następujący. Najpierw określamy
@@ -697,8 +693,7 @@ zwróci błąd. I tę usługę wypadałoby także wyłączyć.</p>
 ewentualnych prób ładowania modułów.</p>
 <p>O ile usługi oraz konfigurację systemową można bez problemu poprawić, to gdy zamierzamy instalować
 paczki mające w nazwie <code>*-dkms</code> , to niestety nie możemy wyłączyć całkowicie obsługi modułów,
-bo <a href="https://morfikov.github.io
-/post/dkms-czyli-automatycznie-budowane-moduly/">mechanizm DKMS</a> w końcu buduje moduły, które będą ładowane, gdy zajdzie taka potrzeba.</p>
+bo <a href="https://morfikov.github.io/post/dkms-czyli-automatycznie-budowane-moduly/">mechanizm DKMS</a> w końcu buduje moduły, które będą ładowane, gdy zajdzie taka potrzeba.</p>
 <h4 id="wyłączenie-możliwości-ładowania-modułów-podczas-pracy-systemu">Wyłączenie możliwości ładowania modułów podczas pracy systemu</h4>
 <p>Jeśli całkowite wyłączenie modułów w kernelu generuje u nas sporo problemów, to zawsze można
 skorzystać z mniej inwazyjnej opcji jaką jest wyłączenie możliwości ładowania modułów podczas pracy
@@ -759,8 +754,7 @@ przypadek nie usuniemy, gdy będziemy usuwać stare źródła.</p>
 <pre><code># quilt import /sciezka/do/pliku
 # quilt push
 </code></pre>
-<p><img src="https://morfikov.github.io
-/img/2018/12/005.debian-kernel-patch.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2018/12/005.debian-kernel-patch.png#huge" alt=""></p>
 <p>Łatkę ściągamy za to tak:</p>
 <pre><code># quilt pop
 </code></pre>
@@ -772,11 +766,9 @@ przypadek nie usuniemy, gdy będziemy usuwać stare źródła.</p>
 nie chce nam się ich szukać (przez tą zbugowaną szukajkę), to możemy zamiast <code>make xconfig</code> dać
 <code>make oldconfig</code> , który wypisze nam wszystkie nowe opcje w stosunku do tych określonych już w
 konfiguracji.</p>
-<p><img src="https://morfikov.github.io
-/img/2018/12/006.debian-kernel-oldconfig.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2018/12/006.debian-kernel-oldconfig.png#huge" alt=""></p>
 <p>Dla pewności możemy jeszcze zajrzeć do <code>xconfig</code>:</p>
-<p><img src="https://morfikov.github.io
-/img/2018/12/007.debian-kernel-xconfig-v.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2018/12/007.debian-kernel-xconfig-v.png#huge" alt=""></p>
 <p>Po nałożeniu łaty, kernel trzeba skompilować jeszcze raz. W zależności od dokonanych zmian w
 konfiguracji, rekompilacja/kompilacja może dotyczyć tylko części kodu kernela. Więc nie trzeba
 kompilować kernela od początku mając już wcześniej skompilowane źródła, no chyba, że wyda się

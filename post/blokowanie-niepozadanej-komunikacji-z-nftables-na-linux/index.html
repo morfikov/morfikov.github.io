@@ -198,8 +198,7 @@ go w przypadku <code>nftables</code> ale to zadanie jest jak najbardziej możliw
 <p>Jako, że będziemy blokować dostęp do naszej maszyny, to najlepiej robić to jak najwcześniej
 (patrząc z perspektywy drogi pakietów przez filtr), by zaoszczędzić trochę zasobów sprzętowych.
 Najlepszym rozwiązaniem jest zatem posłużenie się tablicą <code>netdev</code> . Jeśli ktoś się
-zastanawia <a href="https://morfikov.github.io
-/post/unikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables/">czym jest tablica netdev</a>
+zastanawia <a href="https://morfikov.github.io/post/unikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables/">czym jest tablica netdev</a>
 to tutaj jest artykuł na jej temat.</p>
 <p>Poniżej znajduje się struktura tablicy <code>netdev</code> , którą musimy dodać do konfiguracji <code>nftables</code> :</p>
 <pre><code>#!/usr/sbin/nft -f
@@ -216,8 +215,7 @@ IP:</p>
 </code></pre>
 <p>Przy takiej konfiguracji, set będzie w stanie przechować <code>128000</code> wpisów z adresami <code>IPv4</code>. Przy
 próbie połączenia, rekord z adresem IP hosta zostanie dodany do tego seta z czasem wygaśnięcia
-<code>1h</code> . <a href="https://morfikov.github.io
-/post/brak-wsparcia-dla-ipset-w-nftables/">Więcej informacji o setach w nftables</a>
+<code>1h</code> . <a href="https://morfikov.github.io/post/brak-wsparcia-dla-ipset-w-nftables/">Więcej informacji o setach w nftables</a>
 można znaleźć tutaj.</p>
 <p>Dodajemy także te dwie poniższe reguły:</p>
 <pre><code>add rule netdev traffic-control INGRESS meta iif !=&quot;lo&quot; ip saddr @autoban update @autoban { ip saddr timeout 1d } counter drop

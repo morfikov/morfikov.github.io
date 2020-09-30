@@ -161,14 +161,12 @@ problem tkwi w zasięgu czy też leży po stronie zarządzania energią. Najpro�
 odbieranego sygnału przy pomocy <a href="https://www.cyberciti.biz/tips/linux-find-out-wireless-network-speed-signal-strength.html">jednego z narzędzi
 linuxowych</a>.
 Poniżej fotka z <code>wavemon</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2015/06/1.tryb-oszczedzania-energii-karta-wifi.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/06/1.tryb-oszczedzania-energii-karta-wifi.png#huge" alt=""></p>
 <p>Jeśli zasięg zdaje się być w porządku, to możemy przeprowadzić inny test polegający na sprawdzeniu
 przepustowości łącza internetowego. Jeśli nie mamy wgranego na router alternatywnego firmware
 OpenWRT i akurat w tej chwili dysponujemy jedną maszyną kliencką, to pozostaje nam skorzystać, np. z
 serwisu <a href="http://beta.speedtest.net/">speedtest.net</a> :</p>
-<p><img src="https://morfikov.github.io
-/img/2015/06/2.tryb-oszczedzania-energii-speedtest.png#small" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/06/2.tryb-oszczedzania-energii-speedtest.png#small" alt=""></p>
 <p>Prawdopodobnie, tak jak i w tym przypadku, oba testy nic nie wykażą. Niby wszystko jest w porządku
 ale coś jest nie tak. Ostatni test jaki przychodzi mi do głowy to <code>ping</code> . Odpytajmy zatem jakąś
 domenę:</p>
@@ -214,8 +212,7 @@ Power save: off
 istocie stało, to znaczy, że winny był tryb oszczędzania energii.</p>
 <p>To powyższe rozwiązanie, jak już wspomniałem, ma efekt tylko tymczasowy, a konkretnie albo do
 restartu systemu, albo do wyciągnięcia karty z portu usb. By wyłączyć tryb oszczędzania energii w
-kartach wifi całkowicie i przy tym niezależnie od podłączanej karty, musimy <a href="https://morfikov.github.io
-/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/">napisać regułkę dla
+kartach wifi całkowicie i przy tym niezależnie od podłączanej karty, musimy <a href="https://morfikov.github.io/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/">napisać regułkę dla
 udev'a</a>. Tworzymy zatem plik
 <code>/etc/udev/rules.d/70-wifi-powersave.rules</code> i dodajemy w nim poniższą zawartość:</p>
 <pre><code>ACTION==&quot;add&quot;, SUBSYSTEM==&quot;net&quot;, KERNEL==&quot;wlan*&quot; RUN+=&quot;/sbin/iw dev %k set power_save off&quot;

@@ -169,10 +169,8 @@ stanie operować na tych kodach był <code>modem-manager-gui</code> . Problem w 
 cały modem dla siebie, co w pewnych sytuacjach może nie być pożądane. Zatem jakie alternatywy nam
 pozostają? W jaki sposób operować na tych kodach USSD pod linux'em?</p>
 <h2 id="interfejsy-modemu">Interfejsy modemu</h2>
-<p>Modemy LTE mogą pracować w kilku trybach. Ja póki co spotkałem się z dwoma z nich: <a href="https://morfikov.github.io
-/post/wvdial-ppp-czyli-modem-lte-w-trybie-ras/">RAS (demon PPP i
-wvdial)</a> i <a href="https://morfikov.github.io
-/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/">NDIS
+<p>Modemy LTE mogą pracować w kilku trybach. Ja póki co spotkałem się z dwoma z nich: <a href="https://morfikov.github.io/post/wvdial-ppp-czyli-modem-lte-w-trybie-ras/">RAS (demon PPP i
+wvdial)</a> i <a href="https://morfikov.github.io/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/">NDIS
 (NCM)</a>. Różnic między tymi
 trybami jest kilka ale nas interesuje głównie jedna z nich. Chodzi o operowanie na interfejsach
 <code>/dev/ttyUSB*</code> . W przypadku trybu RAS, jedno z tych urządzeń jest wykorzystywane cały czas.
@@ -180,8 +178,7 @@ Natomiast jeśli chodzi o tryb NDIS (NCM), to jeden interfejs jest wykorzystywan
 nawiązywaniu połączenia, po czym jest zwalniany. W efekcie jeśli mamy do dyspozycji dwa interfejsy,
 to po nawiązaniu połączenia w trybie RAS zostanie nam wolny jeden z nich, a w przypadku NDIS (NCM)
 będą do dyspozycji dwa. Ma to znaczenie, tylko gdy korzystamy z jakichś egzotycznych usług, np.
-<a href="https://morfikov.github.io
-/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/">gammu-smsd do odbierania i wysyłania
+<a href="https://morfikov.github.io/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/">gammu-smsd do odbierania i wysyłania
 SMS'ów</a>. Każda z takich usług
 zajmuje sobie jeden z interfejsów i logiczne jest, że jeśli mamy do dyspozycji tylko dwa urządzenia
 w katalogu <code>/dev/</code> do obsługi modemu LTE, to ilość nasłuchujących demonów usług jest ograniczona do
@@ -195,15 +192,12 @@ interfejsy <code>/dev/ttyUSB0</code> oraz <code>/dev/ttyUSB1</code> .</p>
 <p>Szukając na sieci jakiegoś przyjaznego narzędzia do obsługi kodów USSD, natrafiłem na
 <a href="https://github.com/mhogomchungu/ussd-gui">ussd-gui</a>. Ten programik posiada w miarę prosty interfejs
 QT i wygląda mniej więcej tak:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/04/1.ussd-gui-kod.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/04/1.ussd-gui-kod.png#big" alt=""></p>
 <p>W polu <code>Input</code> wpisujemy kod USSD i wciskamy przycisk <code>Send</code> . Po chwili powinna zostać nam zwrócona
 odpowiedź z sieci, tak jak to widzimy wyżej. <code>ussd-gui</code> potrafi też odbierać wiadomości SMS ale nie
 potrafi ich wysyłać.</p>
-<p><img src="https://morfikov.github.io
-/img/2016/04/3.wysylanie-sms-ussd-gui.png#big" alt=""></p>
-<p>Niemniej jednak, <a href="https://morfikov.github.io
-/post/wysylanie-odbieranie-sms-w-wammu/">wysyłanie i obieranie SMS lepiej zostawić
+<p><img src="https://morfikov.github.io/img/2016/04/3.wysylanie-sms-ussd-gui.png#big" alt=""></p>
+<p>Niemniej jednak, <a href="https://morfikov.github.io/post/wysylanie-odbieranie-sms-w-wammu/">wysyłanie i obieranie SMS lepiej zostawić
 wammu</a>. On chyba najlepiej ma opanowaną tę
 kwestię.</p>
 <p>Warto też wiedzieć, że <code>ussd-gui</code> można sobie lekko skonfigurować w pliku
@@ -236,8 +230,7 @@ efekcie czego nie działają za dobrze z tym backend'em. W <code>device</code> o
 którego ma korzystać <code>ussd-gui</code>. W <code>ussdInfo</code> zaś są przechowywane wszystkie ulubione kody USSD
 wraz z ich opisami. Kody USSD jak i opisy można definiować bezpośrednio w oknie <code>ussd-gui</code> , co
 wygląda mniej więcej tak:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/04/2.hostoria-kodow-ussd-gui.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/04/2.hostoria-kodow-ussd-gui.png#big" alt=""></p>
 <p>Mamy także dwie dość enigmatyczne opcje: <code>initCommand</code> oraz <code>terminatorSequence</code> . Obie z nich są
 wykorzystywane, gdy w grę wchodzi backend <code>source=internal</code> . W <code>initCommand</code> podajemy sekwencję
 poleceń AT, które mają zostać przesłane do modemu przed nawiązaniem z nim połączenia. Chodzi głównie
@@ -258,8 +251,7 @@ działaniu <code>ussd-gui</code> .</p>
 <p>Jako, że <code>ussd-gui</code> wykorzystuje <code>gammu</code> , to możemy spróbować przesłać te kody również z wiersza
 poleceń. Tak dla przykładu, by przesłać kod <code>*111#</code> , wpisujemy <code>gammu getussd '*111#'</code> . Poniżej
 przykład:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/04/4.gammu-kod-ussd.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/04/4.gammu-kod-ussd.png#big" alt=""></p>
 <p>Niestety czas oczekiwania na odpowiedź jest bardzo długi. Nie udało mi się także odpowiedzieć na
 otrzymany komunikat i to pomimo faktu, że wyraźnie widnieje tam <code>Action needed</code> . Być może było to
 za sprawą zbyt długiego oczekiwanie na zwrócenie komunikatu przez aplikację. Nie mam pojęcia jak
@@ -272,14 +264,12 @@ bezpośrednio na interfejsy modemu w katalogu <code>/dev/</code> .</p>
 <p>Czas reakcji na kody w obu przypadkach jest bardzo szybki. Niemniej jednak, trzeba nauczyć się
 poleceń AT i ręcznie je wpisywać za każdym razem do terminala, co jest bardzo niewygodne. Poniżej
 przykład:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/04/5.kod-ussd-cu-terminal.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/04/5.kod-ussd-cu-terminal.png#huge" alt=""></p>
 <p>Sposób z <code>echo</code> jest nieco wygodniejszy, bo wykorzystywana jest historia shell'a. Jeśli mamy <code>zsh</code>
 zamiast domyślnego <code>bash</code> , to operowanie na tych kodach może być naprawdę proste. Wymagane będą też
 dwa okna terminala. W jednym z nich będą wpisywane polecenia, w drugi będą zwracane wyniki. Poniżej
 przykład w oparciu o multiplekser <code>tmux</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/04/6.tmux-kod-ussd-echo-cat.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/04/6.tmux-kod-ussd-echo-cat.png#huge" alt=""></p>
 <p>W górnym okienku przy pomocy <code>echo</code> wpisaliśmy dwa polecenia:</p>
 <pre><code>$ echo -e &quot;AT+CMGF=1;^CURC=0;^USSDMODE=0\r&quot; &gt; /dev/huawei-E3372-0
 $ echo -e &quot;AT+CUSD=1,\&quot;*101#\&quot;,15\r&quot; &gt;/dev/huawei-E3372-0
@@ -289,17 +279,13 @@ jest to <code>*101#</code> . Ważne jest by kod ująć w <code>&quot; &quot;</co
 Odpowiedzi są zwracane w przeciągu 2-3 sekund.</p>
 <p>W ten sposób również jesteśmy w stanie odpowiadać na komunikaty, które się pojawiają w dolnym oknie.
 Dla przykładu, w górnym oknie prześlijmy kod <code>*111#</code> .</p>
-<p><img src="https://morfikov.github.io
-/img/2016/04/7.tmux-kod-ussd-echo-cat.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/04/7.tmux-kod-ussd-echo-cat.png#huge" alt=""></p>
 <p>Widzimy, że pojawiło się kilka opcji do wyboru. Wybierzmy <code>Kontro</code> w odpowiedzi wysyłając <code>1</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/04/8.tmux-kod-ussd-echo-cat.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/04/8.tmux-kod-ussd-echo-cat.png#huge" alt=""></p>
 <p>Teraz sprawdźmy stan konta również przesyłając <code>1</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/04/9.tmux-kod-ussd-echo-cat.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/04/9.tmux-kod-ussd-echo-cat.png#huge" alt=""></p>
 <p>Teraz możemy zakończyć pracę przesyłając <code>0</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/04/10.tmux-kod-ussd-echo-cat.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/04/10.tmux-kod-ussd-echo-cat.png#huge" alt=""></p>
 <p>W ten sposób przy wykorzystaniu historii i możliwości shell'a ZSH oraz poleceń <code>echo</code> i <code>cat</code> możemy
 komunikować się z siecią przesyłając jej kody USSD.</p></div>
 				

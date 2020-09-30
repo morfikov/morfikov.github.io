@@ -173,8 +173,7 @@ stworzony z wykorzystaniem jednego z tych w/w pakietów nie będzie tak elastycz
 konfiguracji od podstaw. Niemniej jednak, w tym artykule postaramy się ogarnąć kształtowanie ruchu
 przy pomocy tych pakietów.</p>
 <h2 id="wshaper-qos-scripts-i-sqm-scripts">Wshaper, qos-scripts i sqm-scripts</h2>
-<p>Przede wszystkim, jeśli ktoś jest zainteresowany ręczną <a href="https://morfikov.github.io
-/post/quality-service-qos-w-openwrt/">konfiguracją mechanizmu QoS w OpenWRT</a>,
+<p>Przede wszystkim, jeśli ktoś jest zainteresowany ręczną <a href="https://morfikov.github.io/post/quality-service-qos-w-openwrt/">konfiguracją mechanizmu QoS w OpenWRT</a>,
 to odsyłam go do tego artykułu. My tutaj skupimy się na wyborze odpowiednich narzędzi tak, by
 możliwie bezproblemowo zaimplementować na routerze kształtowanie ruchu.</p>
 <p>W OpenWRT mamy z grubsza trzy pakiet, które udostępniają nam możliwość implementacji mechanizmu QoS.
@@ -191,8 +190,7 @@ upewnijmy się, że mamy około 400 KiB wolnego miejsca na pamięci flash:</p>
 <p>Konfiguracja dla skryptów dostarczanych w pakiecie <code>qos-scripts</code> znajduje się w pliku
 <code>/etc/config/qos</code> . Sam plik jest dość obszerny ale w zasadzie interesować nas będzie tylko jego
 górna połowa, a konkretnie ta poniższa część:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/1.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/1.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big" alt=""></p>
 <h3 id="interfejsy">Interfejsy</h3>
 <p>Blok <code>config interface wan</code> określa interfejs, na którym ruch pakietów będzie ulegał kształtowaniu.
 Standardowo jest określony tylko jeden interfejs i jest to ten, przez który pakiety lecą do
@@ -211,8 +209,7 @@ która widoczna jest w pliku <code>/etc/config/network</code> .</p>
 <h3 id="klasy">Klasy</h3>
 <p>By zrozumieć opcję <code>classgroup</code> , która została wykorzystana w bloku <code>config interface wan</code> , musimy
 zajrzeć niżej do pliku <code>/etc/config/qos</code> . Mamy tam mniej więcej taki kod:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/2.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/2.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big" alt=""></p>
 <p>Interesuje nas tutaj <code>config classgroup &quot;Default&quot;</code> . Mamy zdefiniowane dwie opcje:</p>
 <ul>
 <li><code>classes</code> -- zawiera nazwy wykorzystywanych klas.</li>
@@ -234,8 +231,7 @@ definiowany wielokrotnie. Trzeba tylko dobrać nazwę i zestaw klas.</p>
 <h3 id="reguły">Reguły</h3>
 <p>Jeśli chcemy nadać wyższy priorytet określonym pakietom, to korzystamy z reguł. Popatrzymy jeszcze
 raz na fotkę, na której są widoczne reguły.</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/1.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/1.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big" alt=""></p>
 <p>Poza blokami <code>config classify</code> mamy tam również inne bloki: <code>config reclassify</code> oraz <code>config default</code> . Co one oznaczają i czym się one różnią od <code>config classify</code> ? Wszystkie te reguły odnoszą
 się do <code>iptables</code> . Generalnie to chodzi o kolejność reguł w filtrze, co warunkuje możliwość
 przepisywania oznaczeń połączeń. Zatem <code>config classify</code> markuje wstępnie wszystkie nowe połączenia.

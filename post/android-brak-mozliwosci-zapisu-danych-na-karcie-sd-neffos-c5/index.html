@@ -198,25 +198,20 @@ oraz grupę i odpowiednie prawa dla zapisu, odczytu czy wykonywania. To nic nowe
 korzystających z alternatywnych systemów operacyjnych.</p>
 <p>Przyglądając się bliżej Androidowi, a konkretnie systemowi plików jego partycji, możemy zauważyć, że
 on również wykorzystuje system plików EXT4. Poniżej fotka:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/001.neffos-c5-karta-sd-system-plikow-ext4-android.png#medium" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/001.neffos-c5-karta-sd-system-plikow-ext4-android.png#medium" alt=""></p>
 <p>Niby nic wielkiego, podłączam zatem kartę SD do mojego Debiana i odpalam <code>gparted</code> . Tam zaś
 formatuję kartę z wykorzystaniem systemu plików EXT4:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/002.neffos-c5-karta-sd-linux-format-ext4-gparted.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/002.neffos-c5-karta-sd-linux-format-ext4-gparted.png#huge" alt=""></p>
 <p>Wsadzam tak sformatowaną kartę do telefonu, uruchamiam system i co widzą moje oczyska?</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/003.neffos-c5-karta-sd-android-blad-uszkodzona-karta.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/003.neffos-c5-karta-sd-android-blad-uszkodzona-karta.png#big" alt=""></p>
 <p>Jak to jest możliwe, że linux jakim jest Android, mający systemowe partycje sformatowane na EXT4, ma
 problemy z czytaniem karty SD, która również ma taki sam system plików? :D Mając root na moim
 Neffos'ie C5, postanowiłem, że sprawdzę, czy da radę ręcznie zamontować tę kartę w systemie. I co
 się okazało?</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/004.neffos-c5-karta-sd-reczne-zamontowanie-karty-mount-root.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/004.neffos-c5-karta-sd-reczne-zamontowanie-karty-mount-root.png#huge" alt=""></p>
 <p>Oczywiście kartę SD można zamontować i jest ona widoczna w systemie ale Androidowe aplikacje tego
 faktu zdają się nie zauważać.</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/005.neffos-c5-karta-sd-problem-wykrycie-karty.png#medium" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/005.neffos-c5-karta-sd-problem-wykrycie-karty.png#medium" alt=""></p>
 <h2 id="partycjonowanie-karty-sd-z-poziomu-androida">Partycjonowanie karty SD z poziomu Android'a</h2>
 <p>Wygląda na to, że nie damy rady zrobić użytku z karty SD w sposób taki jak by tego oczekiwał
 przeciętny linux'iarz. Karta będzie formatowana domyślnie na FAT, który ma całą masę ograniczeń i
@@ -247,13 +242,11 @@ root'a i montujemy partycję <code>/system/</code> w trybie do zapisu:</p>
 </code></pre>
 <p>Następnie przy pomocy <code>vi</code> edytujemy plik <code>/system/etc/permissions/platform.xml</code> . Musimy w nim
 odszukać <code>WRITE_EXTERNAL_STORAGE</code> i dopisać w nim grupę <code>media_rw</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/006.neffos-c5-karta-sd-zmiana-uprawnien-aplikacji.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/006.neffos-c5-karta-sd-zmiana-uprawnien-aplikacji.png#huge" alt=""></p>
 <p>Zapisujemy zmiany i restartujemy smartfona. Odpalamy teraz aplikację, która ma mieć możliwość
 zapisywania karty SD (w tym przypadku jest to oprogramowanie aparatu), zmieńmy ścieżkę zapisu fotek
 na kartę SD i przetestujemy czy wszystko działa w porządku:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/007.neffos-c5-karta-sd-test-zapisu-karty-kamera-aparat.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/007.neffos-c5-karta-sd-test-zapisu-karty-kamera-aparat.png#big" alt=""></p>
 <p>Jak widać fotka została zapisana w folderze na karcie SD.</p>
 <p>Wyłączenie tych zabezpieczeń rozwiązuje też problem przy wgrywaniu plików z komputera bezpośrednio
 na kartę SD w telefonie. Niemniej jednak, szybkość zapisu karty spadła mi z 8,5 MiB/s do około 3
@@ -262,13 +255,11 @@ MiB/s.</p>
 <p>Jeśli chcielibyśmy zautomatyzować cały proces związany z modyfikacją uprawnień, to istnieje
 <a href="https://forum.xda-developers.com/showthread.php?t=2684188">dedykowana aplikacja SDFIX</a>, która
 pomoże nam tę kwestię ogarnąć.</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/008.neffos-c5-karta-sd-sdfix-instalacja.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/008.neffos-c5-karta-sd-sdfix-instalacja.png#huge" alt=""></p>
 <p>Teraz już wystarczy tylko odpalić program. Jego obsługa jest banalna i sprowadza się do zaznaczenia
 jednej opcji, za której sprawą SDFIX poprosi nas o prawa root w celu zmiany piku
 <code>/system/etc/permissions/platform.xml</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/10/009.neffos-c5-karta-sd-sdfix-root-.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/10/009.neffos-c5-karta-sd-sdfix-root-.png#huge" alt=""></p>
 <p>Aplikacja SDFIX tworzy backup pliku <code>/system/etc/permissions/platform.xml</code> przed dokonaniem w nim
 zmian (nazwa backupu to <code>platform.xml.original-pre-sdfix</code> ). Gdy będziemy chcieli powrócić do
 ustawień systemowych, wystarczy odinstalować ten program i przywrócić ww. plik backupu.</p></div>

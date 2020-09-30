@@ -16,8 +16,7 @@
       <guid>https://morfikov.github.io/post/jak-wlaczyc-dzwiek-w-kontenerze-dockera-za-sprawa-pulseaudio/</guid>
       <description>&lt;p&gt;Jakiś czas temu postanowiłem przetestować sposób zamknięcia graficznych aplikacji w kontenerze
 Docker&#39;a. Całe rozwiązanie zostało opisane na
-przykładzie &lt;a href=&#34;https://morfikov.github.io
-/post/uruchamianie-graficznych-aplikacji-w-kontenerach-dockera/&#34;&gt;skonteneryzowania przeglądarki Firefox&lt;/a&gt;.
+przykładzie &lt;a href=&#34;https://morfikov.github.io/post/uruchamianie-graficznych-aplikacji-w-kontenerach-dockera/&#34;&gt;skonteneryzowania przeglądarki Firefox&lt;/a&gt;.
 Ten opisany w podlinkowanym artykule pomysł był nawet całkiem przyzwoity ale nie nadaje się on, gdy
 w grę wchodzą programy odtwarzające dźwięk. No może to za dużo powiedziane, że się nie nadaje, ale
 z pewnością brakuje mu jednego istotnego elementu. Nawet ta przykładowa przeglądarka internetowa
@@ -25,8 +24,7 @@ jest w stanie odtwarzać dźwięki jeśli się odwiedzi stosowną stronę WWW. S
 usłyszymy w głośnikach, gdy odpalimy dajmy na to stronę YouTube i puścimy jakiś materiał video.
 Dlatego też wypadałoby skonfigurować dźwięk i przesłać go do serwera PulseAudio, który będzie
 odpalony na naszym linux&#39;owym hoście. Kiedyś już tego typu rozwiązanie nawet opisywałem na
-przykładzie &lt;a href=&#34;https://morfikov.github.io
-/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/&#34;&gt;zintegrowania PulseAudio z kontenerami LXC&lt;/a&gt;.
+przykładzie &lt;a href=&#34;https://morfikov.github.io/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/&#34;&gt;zintegrowania PulseAudio z kontenerami LXC&lt;/a&gt;.
 Okazuje się, że tamto rozwiązanie znajduje również zastosowanie w przypadku Docker&#39;a. Trzeba tylko
 nieco inaczej skonfigurować kontener i właśnie tej kwestii będzie dotyczył niniejszy wpis.&lt;/p&gt;</description>
     </item>
@@ -58,23 +56,17 @@ większego wyzwania w sytuacjach podbramkowych, gdzie wszelkie inne alternatywy 
       <description>&lt;p&gt;Wielu użytkowników linux&#39;a nie przepada zbytnio za PulseAudio, bo ten z jakiegoś powodu sprawia u
 nich same kłopoty. U mnie ten serwer dźwięku działa przyzwoicie i zwykle nie ma z nim żadnych
 problemów. Obecnie ten projekt jest już na tyle dojrzały, że te większe środowiska graficzne
-zwyczajnie polegają na nim w zależnościach. Jeśli jednak &lt;a href=&#34;https://morfikov.github.io
-/post/instalacja-debiana-z-wykorzystaniem-debootstrap/&#34;&gt;instalowaliśmy debiana za pomocą narzędzia
+zwyczajnie polegają na nim w zależnościach. Jeśli jednak &lt;a href=&#34;https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/&#34;&gt;instalowaliśmy debiana za pomocą narzędzia
 debootstrap&lt;/a&gt; i
-&lt;a href=&#34;https://morfikov.github.io
-/post/konfiguracja-xservera-na-debianie-xorg/&#34;&gt;konfigurowaliśmy osobno graficzną sesję
-Xserver&#39;a&lt;/a&gt;, &lt;a href=&#34;https://morfikov.github.io
-/post/menadzer-logowania-lightdm/&#34;&gt;menadżer logowania
-LightDM&lt;/a&gt; czy też &lt;a href=&#34;https://morfikov.github.io
-/post/menadzer-okien-openbox/&#34;&gt;menadżer okien
+&lt;a href=&#34;https://morfikov.github.io/post/konfiguracja-xservera-na-debianie-xorg/&#34;&gt;konfigurowaliśmy osobno graficzną sesję
+Xserver&#39;a&lt;/a&gt;, &lt;a href=&#34;https://morfikov.github.io/post/menadzer-logowania-lightdm/&#34;&gt;menadżer logowania
+LightDM&lt;/a&gt; czy też &lt;a href=&#34;https://morfikov.github.io/post/menadzer-okien-openbox/&#34;&gt;menadżer okien
 Openbox&lt;/a&gt;, to raczej zależy nam na minimalnym
 środowisku, które może się zwyczajnie obejść bez PulseAudio. Niemniej jednak, PulseAudio ma kilka
 ciekawych bajerów, których ALSA nie posiada. By się nie rozpisywać zbytnio, mogę wspomnieć choćby o
-możliwości&lt;a href=&#34;https://morfikov.github.io
-/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/&#34;&gt;przesyłania dźwięku przez
+możliwości&lt;a href=&#34;https://morfikov.github.io/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/&#34;&gt;przesyłania dźwięku przez
 sieć&lt;/a&gt;, czy też o takim
-ficzerze jak &lt;a href=&#34;https://morfikov.github.io
-/post/normalizacja-glosnosci-w-pulseaudio/&#34;&gt;normalizacja głośności&lt;/a&gt;.
+ficzerze jak &lt;a href=&#34;https://morfikov.github.io/post/normalizacja-glosnosci-w-pulseaudio/&#34;&gt;normalizacja głośności&lt;/a&gt;.
 Są to głównie zabawki dla nieco bardziej zaawansowanych użytkowników i gdy ich nie potrzebujemy, to
 serwer dźwięku nam się raczej do niczego nie przyda. Warto jednak się zaznajomić z tym nieco
 bardziej zaawansowanym kawałkiem oprogramowania i w tym wpisie postaramy się nieco omówić instalację
@@ -89,8 +81,7 @@ i konfigurację tego serwera dźwięku.&lt;/p&gt;</description>
       
       <guid>https://morfikov.github.io/post/szyfrowanie-dzwieku-przesylanego-przez-siec/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.freedesktop.org/wiki/Software/PulseAudio/&#34;&gt;PulseAudio to serwer dźwięku&lt;/a&gt;, który jest w
-stanie otrzymywać zapytania ze zdalnych lokalizacji. Wobec czego, możemy realizować &lt;a href=&#34;https://morfikov.github.io
-/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/&#34;&gt;przesyłanie
+stanie otrzymywać zapytania ze zdalnych lokalizacji. Wobec czego, możemy realizować &lt;a href=&#34;https://morfikov.github.io/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/&#34;&gt;przesyłanie
 dźwięku przez sieć&lt;/a&gt; i usłyszeć
 go tam, gdzie go sobie życzymy. Problem w tym, że taki dźwięk jest przesyłany przez sieć w formie
 niezaszyfrowanej. Dlatego też jesteśmy narażeni na podsłuchanie wszystkiego co mówimy do mikrofonu

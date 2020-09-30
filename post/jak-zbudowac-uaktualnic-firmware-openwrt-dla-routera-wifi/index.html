@@ -228,8 +228,7 @@ wzrośnie: 252 MiB vs. 96 MiB. To w dalszym ciągu nie jest pełny rozmiar źró
 tego projektu wchodzi cała masa innych pakietów, które będą dociągane w późniejszym czasie. W taki
 oto sposób całe źródła OpenWRT mogą ważyć nawet kilkanaście-kilkadziesiąt GiB, w zależności od tego
 co będziemy budować. Poniżej przykład:</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/000-kompilacja-firmware-openwrt-rozmiar-dysk.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/000-kompilacja-firmware-openwrt-rozmiar-dysk.png#big" alt=""></p>
 <p>Dlatego też dobrze jest sobie zawczasu wygospodarować wolne miejsce, by uniknąć problemów później.</p>
 <p>Jeśli chcemy pobrać pełne źródła OpenWRT, to korzystamy z poniższego polecenia:</p>
 <pre><code>$ git clone https://git.openwrt.org/openwrt/openwrt.git
@@ -302,23 +301,19 @@ polecenie:</p>
 <p>Naszym oczom powinno ukazać się okienko z całą masą opcji, w którym musimy określić minimum trzy
 rzeczy.</p>
 <p>Pierwszą z nich jest <code>Target System</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/001-kompilacja-firmware-openwrt-config-target.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/001-kompilacja-firmware-openwrt-config-target.png#huge" alt=""></p>
 <p>Jeśli nie wiemy jaki target wybrać, to dobrze jest poszukać naszego routera WiFi na
 <a href="https://openwrt.org/toh/hwdata/tp-link/tp-link_archer_c7_ac1750_v2.0">wiki OpenWRT</a> lub też na <a href="https://wikidevi.wi-cat.ru/TP-LINK_Archer_C7_v2.x">wikidevi</a>. Tam powinien być podany target:</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/002-kompilacja-firmware-openwrt-config-target.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/002-kompilacja-firmware-openwrt-config-target.png#huge" alt=""></p>
 <p>W tym przypadku jest <code>ar71xx-ath79</code> , co oznacza, że akurat ten router występuje zarówno w targecie
 <code>ar71xx</code> jak i <code>ath79</code> i można określić jeden albo drugi.</p>
 <p>Drugą opcją, którą musimy określić, jest <code>Subtarget</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/003-kompilacja-firmware-openwrt-config-target.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/003-kompilacja-firmware-openwrt-config-target.png#huge" alt=""></p>
 <p>W zasadzie jeśli nasz router nie dysponujemy małym flash lub flash'em opartym o technologię NAND,
 to wybieramy <code>TARGET_ath79_generic</code> .</p>
 <p>Jeśli poprawnie wybraliśmy te dwie poprzednie opcje, to w trzeciej opcji powinien być widoczny
 model naszego routera:</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/004-kompilacja-firmware-openwrt-config-target.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/004-kompilacja-firmware-openwrt-config-target.png#huge" alt=""></p>
 <p>I jak widać jest do wyboru <code>TARGET_ath79_generic_DEVICE_tplink_archer-c7-v2</code> .</p>
 <p>Te trzy opcje są w stanie wybrać cały niezbędny zestaw pakietów, które nasz router potrzebuje do
 poprawnego działania. Niemniej jednak, jak się przyjrzymy tej liście, to jest tam bardzo dużo opcji.
@@ -327,8 +322,7 @@ modułami kernela, to przydałoby się te rzeczy uwzględnić zaznaczając stoso
 <p>Każda z opcji na liście może zostać włączona lub wyłączona. Niektóre pozycje zależą od innych i nie
 da się ich włączyć lub wyłączyć bez uprzedniego rozwiązania problemów z zależnościami. Weźmy dla
 przykładu ten poniższy <code>PACKAGE_luci</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/005-kompilacja-firmware-openwrt-config-zaleznosci.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/005-kompilacja-firmware-openwrt-config-zaleznosci.png#huge" alt=""></p>
 <p>Nie możemy go ani włączyć ani wyłączyć, zatem jest on włączony czy wyłączony? Pozycja <code>Symbol: PACKAGE_luci [=y]</code> wskazuje, że jest włączony. Co zatem aktywuje tę pozycję? Odpowiedź jest w
 ostatniej linijce <code>Selected by: PACKAGE_luci-ssl [=n] || PACKAGE_luci-ssl-openssl [=y] || PACKAGE_luci-app-noddos [=n]</code> . Czyli jesli jedna z tych trzech opcji będzie włączona ( <code>||</code>
 oznacza lub), to <code>PACKAGE_luci</code> zostanie automatycznie włączony. I jak możemy wywnioskować z
@@ -351,8 +345,7 @@ projektów, które wybraliśmy wcześniej. Chodzi generalnie o to, że te źród
 procesu kompilacji. Jeśli chcemy przeprowadzić kompilację w trybie offline, to możemy wszystkie
 niezbędne źródła pobrać przed procesem kompilacji. W tym celu wpisujemy w terminal polecenie
 <code>make download</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/006-kompilacja-firmware-openwrt-make-download.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/006-kompilacja-firmware-openwrt-make-download.png#huge" alt=""></p>
 <h2 id="kompilacja-źródeł-openwrt">Kompilacja źródeł OpenWRT</h2>
 <p>Pozostało nam już w zasadzie uruchomienie procesu kompilacji przy pomocy <code>make</code> . Zgodnie z tym co
 <a href="https://openwrt.org/docs/guide-user/additional-software/beginners-build-guide">jest napisane tutaj</a>, to powinno się uważać przy korzystaniu z przełącznika <code>-j</code> , który
@@ -365,8 +358,7 @@ obrazu z firmware, to dobrze jest określić jeden wątek <code>-j1</code> oraz 
 <code>V=s</code> (<a href="https://oldwiki.archive.openwrt.org/doc/techref/buildroot#warnings_errors_and_tracing">stdout+stderr</a>). W taki sposób zostanie zwrócona masa informacji, które mogą nam pomóc
 w ustaleniu przyczyny problemu. Dobrze jest także <a href="https://oldwiki.archive.openwrt.org/doc/howto/build#troubleshooting">zajrzeć tutaj</a>. Odpalamy zatem już
 kompilację:</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/007-kompilacja-firmware-openwrt-make.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/007-kompilacja-firmware-openwrt-make.png#huge" alt=""></p>
 <p>Proces kompilacji potrwa dłuższą chwilę (parę godzin). Jeśli z jakiegoś powodu nie będziemy mogli
 go ukończyć, np. nie będziemy mieć czasu, to zawsze ten proces można przerwać i później kontynuować
 od miejsca, w którym skończyliśmy bez potrzeby rekompilacji wszystkiego od początku.</p>
@@ -391,12 +383,10 @@ webowego LuCI czy Gargoyle) i to ten obraz nas najbardziej będzie interesować.
 <h3 id="wgrywanie-obrazu-na-router">Wgrywanie obrazu na router</h3>
 <p>Mając gotowy obraz, musimy go jeszcze przesłać na router. W tym przypadku akurat wykorzystywany
 jest panel LuCI ale nic nie stoi na przeszkodzie by skorzystać z <code>sysupgrade</code> .</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/008-kompilacja-firmware-openwrt-flash-image-luci.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/008-kompilacja-firmware-openwrt-flash-image-luci.png#huge" alt=""></p>
 <p>Możemy naturalnie sprawdzić sumę kontrolną via <code>sha256sum</code> ale nie jest to konieczne z racji, że
 obraz był budowany lokalnie.</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/010-kompilacja-firmware-openwrt-flash-image-luci.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/010-kompilacja-firmware-openwrt-flash-image-luci.png#huge" alt=""></p>
 <p>Proces powinien zakończyć się powodzeniem, a router zrestartować.</p>
 <h2 id="importowanie-starej-konfiguracji">Importowanie starej konfiguracji</h2>
 <p>Jeśli w przeszłości przygotowywaliśmy sobie obraz z firmware OpenWRT dla naszego routera WiFi, to
@@ -422,8 +412,7 @@ $ make oldconfig
 <code>make menuconfig</code> czy <code>make xconfig</code> nam tego nie umożliwi. Mamy jednak do dyspozycji jeszcze
 target <code>make kernel_menuconfig</code> (brak odpowiednika z xconfig) i przy pomocy tego targetu jesteśmy
 w stanie zmienić opcje kernela tak jak uważamy za stosowne.</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/014-kompilacja-firmware-openwrt-config-kernel.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/014-kompilacja-firmware-openwrt-config-kernel.png#huge" alt=""></p>
 <p>Po dokonaniu zmian w konfiguracji kernela, trzeba jeszcze raz zbudować cały obraz z firmware
 OpenWRT.</p>
 <h2 id="czyszczenie-środowiska-kompilacji">Czyszczenie środowiska kompilacji</h2>
@@ -473,8 +462,7 @@ musimy pierw dodać to powyższe repozytorium git do pliku <code>feeds.conf</cod
 </code></pre>
 <p>Mając już zaktualizowane feeds'y, powinniśmy być w stanie dostrzec każdy z tych pakietów na liście
 w <code>make menuconfig</code> lub <code>make xconfig</code> , przykładowo:</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/011-kompilacja-firmware-openwrt-add-feeds.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/011-kompilacja-firmware-openwrt-add-feeds.png#huge" alt=""></p>
 <p>Wystarczy teraz je już tylko zaznaczyć tak jak to zwykle czynimy w przypadku każdej innej pozycji
 na liście i przebudować obraz z firmware.</p>
 <h2 id="budowanie-obrazów-dla-kilku-routerów">Budowanie obrazów dla kilku routerów</h2>
@@ -507,8 +495,7 @@ Switched to branch 'archer_c2600'
 <p>Będąc już w konkretnym środowisku kompilacji, konfigurujemy target za pomocą <code>make menuconfig</code> lub
 <code>make xconfig</code> . Wszystkie zmiany, które poczynimy w konfiguracji możemy podejrzeć przez
 <code>./scripts/env diff</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/012-kompilacja-firmware-openwrt-diff.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/012-kompilacja-firmware-openwrt-diff.png#huge" alt=""></p>
 <p>I jeśli uważamy, że wszystko jest w porządku, to zapisujemy konfigurację obrazu za sprawą
 poniższego polecenia:</p>
 <pre><code>$ ./scripts/env save
@@ -525,8 +512,7 @@ posiadanych przez nas urządzeń, to możemy budować obrazy dla tych routerów 
 Wystarczy wybrać <code>Multiple devices</code> (opcja <code>TARGET_MULTI_PROFILE</code> ) na liście <code>Target Profile</code> . W
 taki sposób zostanie mam udostępniona lista wielokrotnego wyboru, w której to będziemy mogli
 zaznaczyć interesujące nas modele routerów:</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/016-kompilacja-firmware-openwrt-image-config-multiple-routers.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/016-kompilacja-firmware-openwrt-image-config-multiple-routers.png#huge" alt=""></p>
 <h2 id="aktualizacja-źródeł-openwrt">Aktualizacja źródeł OpenWRT</h2>
 <p>W późniejszym czasie zapewne zajdzie potrzeba zaktualizowania firmware routera do nowszej wersji.
 Gdy ten moment nastąpi, to trzeba będzie zaktualizować źródła OpenWRT wraz ze źródłami wszystkich
@@ -595,8 +581,7 @@ obrazu.</p>
 <p>Po zaktualizowaniu źródeł, trzeba także zaktualizować konfigurację w pliku <code>.config</code> przy pomocy
 <code>make defconfig</code> lub <code>make oldconfig</code> . W tym przypadku został użyty ten drugi z racji, że ja
 zawsze wolę sprawdzić co uległo zmianie w konfiguracji:</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/013-kompilacja-firmware-openwrt-config-update.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/013-kompilacja-firmware-openwrt-config-update.png#huge" alt=""></p>
 <p>Jak widać wyżej, mamy informację o nowym pakiecie i musimy zdecydować czy chcemy go zbudować czy
 też nie. Domyślna akcja jest oznaczona dużą literą, w tym przypadku <code>N</code> . Gdybyśmy skorzystali z
 <code>make defconfig</code> , to tego powyższego zapytania by nie było i <code>N</code> by zostało ustawione domyślnie.</p>
@@ -685,8 +670,7 @@ się  w katalogu <code>build_dir/target-mips_24kc_musl/root-ath79/</code> . Wart
 katalog <code>root-ath79/</code> , a nie o <code>root.orig-ath79/</code> . Ten <code>root.orig-ath79/</code> zawiera jedynie
 podstawowe pliki OpenWRT, zaś w <code>root-ath79/</code> znajdują się pliki wymagane przez konkretny model
 routera, w tym też pliki z katalogu <code>files/</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2020/04/015-kompilacja-firmware-openwrt-image-files-root-orig.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/04/015-kompilacja-firmware-openwrt-image-files-root-orig.png#huge" alt=""></p>
 <p>Jeśli pliki znajdują się w <code>root-ath79/</code> w odpowiednim miejscu w strukturze drzewa katalogów, to
 możemy być pewni, że w obrazie wynikowym również będą w tym konkretnym miejscu.</p>
 <h2 id="podsumowanie">Podsumowanie</h2>

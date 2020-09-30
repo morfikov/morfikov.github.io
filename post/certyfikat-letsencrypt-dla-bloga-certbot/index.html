@@ -191,13 +191,11 @@ dyrektywę <code>ServerName</code> oraz (opcjonalnie) <code>ServerAlias</code> .
 </code></pre>
 <p>Użyte wyżej <code>morfitronik.pl</code> oraz <code>www.morfitronik.pl</code> to nazwy domen, dla których wyrabiamy
 certyfikat. Oczywiście można skorzystać jedynie z pierwszej opcji ale niektóre sytuacje wymagają od
-nas również uwzględnienia <code>www</code> . Przykładem może być <a href="https://morfikov.github.io
-/post/http-strict-transport-security-hsts-apache2/">dodawanie rekordu do listy
+nas również uwzględnienia <code>www</code> . Przykładem może być <a href="https://morfikov.github.io/post/http-strict-transport-security-hsts-apache2/">dodawanie rekordu do listy
 HSTS</a>. Dlatego też najlepiej
 jest określić te dwa adresy i generować certyfikat dla obu domen. Gdybyśmy tego nie uczynili, to
 klienci przy przeglądaniu naszego serwisu dostaliby poniższy błąd:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/1.letsencrypt-blad-domenta-www.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/1.letsencrypt-blad-domenta-www.png#big" alt=""></p>
 <h2 id="lets-encrypt-certbot-i-debian-backports">Let's Encrypt, certbot i Debian backports</h2>
 <p>Większość VPS'ów oferuje różne dystrybucje linux'a, z tym, że w wersji stabilnej. Dla Debiana
 oznacza to zawsze przedział czasu liczony w latach. Przez taki okres czasu bardzo dużo rzeczy może
@@ -218,15 +216,12 @@ nie warto ufać automatom. Ten sposób sprowadza się do wydania w terminalu teg
 </code></pre>
 <p>Teraz musimy odpowiedzieć na szereg pytań. Pierwsze z nich dotyczy adresu email, który ma być
 powiązany z certyfikatem, np. na wypadek utraty:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/2.letsencrypt-konfiguracja-apache-email.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/2.letsencrypt-konfiguracja-apache-email.png#big" alt=""></p>
 <p>Dalej mamy zapytanie dotyczące wyboru domen w oparciu o skonfigurowane vHosty:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/3.letsencrypt-konfiguracja-apache-vhost.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/3.letsencrypt-konfiguracja-apache-vhost.png#big" alt=""></p>
 <p>W przypadku późniejszego dodawania kolejnych domen czy subdomen będzie trzeba na nowo wybrać
 wszystkie vHosty, co zaowocuje poniższym komunikatem:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/4.letsencrypt-konfiguracja-apache-vhost-dodanie-domeny.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/4.letsencrypt-konfiguracja-apache-vhost-dodanie-domeny.png#big" alt=""></p>
 <p>I w zasadzie to wszystko, przynajmniej w przypadku generowania certyfikatu. Zróbmy sobie także
 backup całego katalogu <code>/etc/letsencrypt/</code> , bo to tam są przechowywane wszystkie dane dotyczące
 certyfikatów.</p>
@@ -269,15 +264,13 @@ SSLCertificateKeyFile       /etc/letsencrypt/live/morfitronik.pl/privkey.pem
 <p>Pozostaje nam już tylko restart serwera Apache2 i przetestowanie szyfrowania. W tym celu odpalamy
 przeglądarkę i udajemy się pod adres jednej z domen, dla których wygenerowaliśmy certyfikat. Obok
 pola adresu powinniśmy ujrzeć zieloną kłódkę:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/5.letsencrypt-test-certyfikat-www.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/5.letsencrypt-test-certyfikat-www.png#huge" alt=""></p>
 <p>Widzimy wyraźnie, że certyfikat został zweryfikowany przez Let's Encrypt.</p>
 <p>Skoro już testujemy certyfikat, to wypadałoby także przetestować cały protokół SSL/TLS, którego
 obsługę mamy zaimplementowaną na serwerze. By taki test przeprowadzić, udajemy się pod <a href="https://www.ssllabs.com/ssltest/index.html">ten
 link</a> i wpisujemy adres domeny, którą zamierzamy poddać
 sprawdzeniu. W przypadku tego serwisu wyszło coś takiego:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/07/6.test-https.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/07/6.test-https.png#huge" alt=""></p>
 <h2 id="cykliczne-odnawianie-certyfikatu-lets-encrypt-via-cron">Cykliczne odnawianie certyfikatu Let's Encrypt via cron</h2>
 <p>Certyfikat Let's Encrypt jest ważny tylko przez trzy miesiące. Nie oznacza to, że nie możemy
 przedłużyć certyfikatu przed datą jego wygaśnięcia. W pakiecie <code>certbot</code> był zawarty plik (

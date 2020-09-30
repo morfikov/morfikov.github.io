@@ -206,8 +206,7 @@ kilka takich pakietów (zwykle 3), musi natychmiast wstrzymać transmisję nast�
 retransmisji zagubionego segmentu. Dopiero po otrzymaniu od klienta potwierdzenia tego pakietu,
 transmisja wraca do normy.</p>
 <p>Poniżej jest przykładowa sytuacja, gdzie nastąpiła szybka retransmisja pakietu:</p>
-<p><img src="https://morfikov.github.io
-/img/2015/07/1.szybka-retransmisja-pakietu-wireshark.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/07/1.szybka-retransmisja-pakietu-wireshark.png#huge" alt=""></p>
 <p>Jak widzimy, pakiet 344 został dostarczony do klienta i potwierdzenie (254041) w pakiecie 345
 zostało wysłane do nadawcy. Następny pakiet się zagubił i do klienta dotarł inny pakiet, który ma
 zły numer sekwencyjny. W pakiecie 347, klient wysyła duplikat potwierdzenia z numerem takim jak był
@@ -222,8 +221,7 @@ pozostałych, które w między czasie do niego doszły. Robi to także w pojedyn
 Jego numer potwierdzenia to 259881 i jak łatwo można policzyć odejmując ten poprzedni numer
 potwierdzenia (254041), daje nam to 5840 bajtów, czyli cztery zaakceptowane segmenty (1460 bajtów
 każdy) -- jeden zagubiony i trzy otrzymane poza kolejnością.</p>
-<p>Cały mechanizm szybkiej retransmisji pakietów zależy od <a href="https://morfikov.github.io
-/post/sack-czyli-selektywne-potwierdzenia-pakietow/">selektywnych potwierdzeń
+<p>Cały mechanizm szybkiej retransmisji pakietów zależy od <a href="https://morfikov.github.io/post/sack-czyli-selektywne-potwierdzenia-pakietow/">selektywnych potwierdzeń
 SACK</a> i jeśli nie mamy
 włączonej ich obsługi, nie aktywujemy funkcji odpowiedzialnej za szybką retransmisję.</p>
 <h2 id="wczesna-retransmisja">Wczesna retransmisja</h2>
@@ -288,16 +286,14 @@ próbował ustanowić nowe połączenie. By zmienić ilość retransmisji pakiet
 zretransmitować pakiet <code>SYN</code> 4 razy i jeśli żadna z tych prób się nie powiedzie, po czasie 15 sekund
 kernel odpuści. Popatrzmy zatem jak takie zachowanie wygląda w
 praktyce:</p>
-<p><img src="https://morfikov.github.io
-/img/2015/07/1.retransmisja-syn-wireshark.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/07/1.retransmisja-syn-wireshark.png#huge" alt=""></p>
 <h3 id="retransmisja-pakietów-syn-ack">Retransmisja pakietów SYN-ACK</h3>
 <p>Gdy serwer otrzymuje zapytanie <code>SYN</code>, natychmiast wysyła odpowiedź w postaci pakietu z ustawionymi
 flagami <code>SYN</code> i <code>ACK</code> umieszczając jednocześnie to połączenie w kolejce (backlog queue) do chwili aż
 nadejdzie od klienta pakiet z ustawioną flagą <code>ACK</code> . Gdy taki pakiet nie nadchodzi, serwer
 retransmituje swój pakiet <code>SYN-ACK</code> kilka razy, dając tym samym szansę klientowi by spróbował
 odesłać pakiet <code>ACK</code> jeszcze raz.</p>
-<p>Połączenia w <a href="https://morfikov.github.io
-/post/flagi-tcp-i-przelaczanie-stanow-polaczen/">stanie SYN RCVD</a>
+<p>Połączenia w <a href="https://morfikov.github.io/post/flagi-tcp-i-przelaczanie-stanow-polaczen/">stanie SYN RCVD</a>
 zajmują cenne zasoby i by odciążyć trochę maszynę można przyśpieszyć proces zamykania tego typu
 połączeń przez zmianę ilości retransmisji pakietów <code>SYN-ACK</code> . Dopisujemy zatem do pliku
 <code>/etc/sysctl.conf</code> poniższy parametr:</p>
@@ -305,8 +301,7 @@ połączeń przez zmianę ilości retransmisji pakietów <code>SYN-ACK</code> . 
 </code></pre>
 <p>Trzeba jednak pamiętać, że obniżenie wartości tego parametru w przypadku słabych łącz może powodować
 problemy. Poniżej fotka z próbą retransmisji dwóch pakietów <code>SYN-ACK</code> :</p>
-<p><img src="https://morfikov.github.io
-/img/2015/07/2.retransmisja-syn-ack-wireshark.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/07/2.retransmisja-syn-ack-wireshark.png#huge" alt=""></p>
 <h2 id="zbędna-retransmisja-spurious-retransmission">Zbędna retransmisja (Spurious retransmission)</h2>
 <p>Warto też wiedzieć, że istnieją także przypadki gdzie protokół TCP może zainicjować retransmisję
 segmentu, który nie został utracony. Oczywistym jest, że tego typu sytuacja nie powinna mieć miejsca

@@ -169,15 +169,13 @@ dd: writing to '/dev/sdc': Input/output error
 <p>Jak widać wyżej, po skopiowaniu jedynie 50MiB, proces został przerwany w wyniku błędu. Dotyczy to
 tylko i wyłącznie wgrywania obrazów bit po bicie. W każdym innym przypadku, nie powinno być
 problemów. Samo tworzenie partycji na tym pendrive nie zwraca żadnych błędów:</p>
-<p><img src="https://morfikov.github.io
-/img/2015/06/1.linux-gparted-pendrive.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/06/1.linux-gparted-pendrive.png#huge" alt=""></p>
 <p>Zatem co się z nim dzieje?</p>
 <h2 id="skanowanie-pendrive-przy-pomocy-f3">Skanowanie pendrive przy pomocy f3</h2>
 <p>By ustalić przyczynę takiego stanu rzeczy, musimy sięgnąć do narzędzi diagnostycznych. W przypadku
 pamięci flash jest to min. <code>f3</code> , dostępny w pakiecie pod tą samą nazwą. Testuje on faktyczną
 pojemność pamięci flash ogółem, nie tylko pendrive ale również i karty sd w celu ustalenia ich
-<a href="https://morfikov.github.io
-/post/rzeczywista-pojemnosc-pendrive-i-kart-sd/">faktycznej pojemności</a>. Ten
+<a href="https://morfikov.github.io/post/rzeczywista-pojemnosc-pendrive-i-kart-sd/">faktycznej pojemności</a>. Ten
 pendrive nie jest
 <a href="http://www.ebay.com/gds/All-About-Fake-Flash-Drives-2013-/10000000177553258/g.html">podróbką</a> ale
 ma już swoje lata i był dość ostro wykorzystywany przez ten czas. Zatem podejrzewam, że już pada ze
@@ -240,8 +238,7 @@ obszar początkowy.</p>
 <p>Innym narzędziem, które nam może pomóc w analizie struktury pendrive, to <a href="http://whdd.org/">whdd</a> .
 Skanuje ono i pokazuje czas dostępu do sektorów na całej powierzchni nośnika. W przypadku mojego
 pendrive jest trochę problemów, poniżej focia z początku skanowania:</p>
-<p><img src="https://morfikov.github.io
-/img/2015/06/3.linux-pendrive-whdd-scan.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/06/3.linux-pendrive-whdd-scan.png#huge" alt=""></p>
 <p>Wyraźnie coś jest nie tak z tym niejednorodnym obszarem. Są, co prawda, tylko 4 błędy ale problemy z
 odczytem/zapisem pozostałych sektorów mogą się również pojawić, dlatego <code>f3</code> zgłosił 168 sektorów.
 Gdybym przeskanował nim jeszcze raz tego pendrive, prawdopodobnie ta liczba by uległa zmianie.</p>
@@ -255,8 +252,7 @@ do użytku jedynie pozostałą przestrzeń.</p>
 przeskanować go przy pomocy <code>fsck</code> z opcją <code>-c</code> , za sprawą to której zostanie zaprzęgnięty program
 <code>badblocks</code> i wszystkie padnięte sektory zostaną oznaczone i dodane do i-węzła bad bloków, co
 zapobiegnie ich alokacji:</p>
-<p><img src="https://morfikov.github.io
-/img/2015/06/2.linux-badblocks-pendrive.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/06/2.linux-badblocks-pendrive.png#huge" alt=""></p>
 <p>U mnie jednak ilość padniętych bloków ciągle zmieniała się z każdym kolejnym skanem i raczej wątpię
 by w ten sposób szło coś ugrać.</p></div>
 				

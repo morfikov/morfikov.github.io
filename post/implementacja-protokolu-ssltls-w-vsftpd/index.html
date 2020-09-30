@@ -162,8 +162,7 @@ if (!doNotTrack) {
   </ol>
 </nav>
 </details>
-				<div class="entry__content"><p>Kwestię <a href="https://morfikov.github.io
-/post/konfiguracja-vsftpd-w-debianie/">konfiguracji serwera FTP na debianie w oparciu o
+				<div class="entry__content"><p>Kwestię <a href="https://morfikov.github.io/post/konfiguracja-vsftpd-w-debianie/">konfiguracji serwera FTP na debianie w oparciu o
 vsftpd</a> już przerabialiśmy. Została nam
 jeszcze do omówienia implementacja protokołu SSL/TLS. FTP nie jest bezpiecznym protokołem i wszelkie
 dane logowania są przesyłane przez sieć otwartym tekstem. W przypadku, gdy stawiamy lokalny serwer
@@ -174,12 +173,9 @@ bezpieczeństwo danych, które będziemy przesyłać za pomocą protokołu FTP, 
 dlatego wdrożyć szyfrowanie.</p>
 <h2 id="certyfikat-i-klucze-szyfrujące">Certyfikat i klucze szyfrujące</h2>
 <p>Implementacje protokołu SSL/TLS w <code>vsftpd</code> rozpoczynamy od wygenerowania certyfikatu i kluczy
-szyfrujących. <a href="https://morfikov.github.io
-/post/generowanie-certyfikatow/">Generowanie certyfikatów</a> możemy
-przeprowadzić ręcznie krok po kroku. Możemy też skorzystać z <a href="https://morfikov.github.io
-/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/">narzędzia
-easy-rsa</a> lub <a href="https://morfikov.github.io
-/post/zaszyfrowane-logi-w-rsyslog-i-syslog-ng/">certtool
+szyfrujących. <a href="https://morfikov.github.io/post/generowanie-certyfikatow/">Generowanie certyfikatów</a> możemy
+przeprowadzić ręcznie krok po kroku. Możemy też skorzystać z <a href="https://morfikov.github.io/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/">narzędzia
+easy-rsa</a> lub <a href="https://morfikov.github.io/post/zaszyfrowane-logi-w-rsyslog-i-syslog-ng/">certtool
 (pokazane na przykładzie
 rsyslog'a)</a>. Poniżej skorzystamy z
 tej metody oferowanej przez narzędzie <code>certtool</code> dostępne w debianie w pakiecie <code>gnutls-bin</code> .</p>
@@ -219,8 +215,7 @@ encryption_key
 # certtool --certificate-info --infile server-vsftpd-morfikownia.lh.crt
 </code></pre>
 <p>Możemy także wykorzystać do tego celu <code>gcr-viewer</code> (pakiet <code>gcr</code> ) :</p>
-<p><img src="https://morfikov.github.io
-/img/2016/02/1.certyfikat-vsftpd-gcr-viewer.png#medium" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/02/1.certyfikat-vsftpd-gcr-viewer.png#medium" alt=""></p>
 <h2 id="konfiguracja-ssltls-w-vsftpd">Konfiguracja SSL/TLS w vsftpd</h2>
 <p>Zatem mamy przygotowane trzy pliki: certyfikat CA oraz klucz i certyfikat serwera FTP. Te pliki
 będziemy musieli uwzględnić w konfiguracji <code>vsftpd</code> . Tworzymy zatem katalog <code>/etc/vsftpd/certs/</code> i
@@ -310,14 +305,12 @@ debug_ssl=NO
 </code></pre>
 <p>Poniżej komunikaty z przykładowego logowania z wykorzystaniem metody <code>Explicit FTP over SSL</code> bez
 certyfikatów klienckich:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/02/2.log-vsftpd-ssl-tls-debug.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/02/2.log-vsftpd-ssl-tls-debug.png#huge" alt=""></p>
 <h2 id="test-połączenia-z-vsftpd">Test połączenia z vsftpd</h2>
 <p>Odpalamy teraz klienta FTP, w tym przypadku będzie to <code>filezilla</code> i próbujemy zalogować się
 wykorzystując jedną z powyższych metod. Chwilę po wysłaniu żądania połączenia, powinien naszym oczom
 pokazać się mniej więcej taki certyfikat:</p>
-<p><img src="https://morfikov.github.io
-/img/2016/02/3.vsftpd-certyfikat-polaczenie-filezilla.png#big" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2016/02/3.vsftpd-certyfikat-polaczenie-filezilla.png#big" alt=""></p>
 <p>Sprawdzamy go pod kątem poprawności i jeśli wszystko jest w porządku, to akceptujemy.</p>
 <p>Cały plik konfiguracyjny <code>vsftpd.conf</code> znajduje się <a href="https://github.com/morfikov/files/blob/master/configs/etc/vsftpd.conf">na moim
 github'ie</a>.</p></div>

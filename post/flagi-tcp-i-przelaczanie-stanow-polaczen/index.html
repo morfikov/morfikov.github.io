@@ -144,8 +144,7 @@ if (!doNotTrack) {
   </ol>
 </nav>
 </details>
-				<div class="entry__content"><p>Jakiś czas temu opisywałem <a href="https://morfikov.github.io
-/post/firewall-na-linuxowe-maszyny-klienckie/">jak zaprojektować swój własny
+				<div class="entry__content"><p>Jakiś czas temu opisywałem <a href="https://morfikov.github.io/post/firewall-na-linuxowe-maszyny-klienckie/">jak zaprojektować swój własny
 firewall</a>, wobec czego postanowiłem
 nieco bardziej pochylić się nad zagadnieniem stanów połączeń i je dokładniej przeanalizować. Ten
 wpis dotyczy głównie protokołu TCP, bo ten UDP jest bezpołączeniowy, więc nie ma tam żadnych stanów.
@@ -155,8 +154,7 @@ samym stan połączenia.</p>
 <p>Zacznijmy zatem od rozrysowania schematu wszystkich możliwych stanów jakie może przyjąć połączenie
 oparte na protokole TCP. Poniżej stosowna fotka
 (<a href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol">źródło</a>):</p>
-<p><img src="https://morfikov.github.io
-/img/2015/06/1.schemat-przelaczania-stanow-flagi-tcp.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/06/1.schemat-przelaczania-stanow-flagi-tcp.png#huge" alt=""></p>
 <p>Poniżej zaś znajduje się krótkie objaśnienie użytych nazw na powyższym schemacie:</p>
 <ul>
 <li><code>LISTEN</code> -- gotowość do przyjęcia połączenia na określonym porcie przez serwer.</li>
@@ -227,8 +225,7 @@ jest widoczna druga flaga, to ruch pakietów odbywa się w obu kierunkach.</p>
 Takie pakiety zwykle nie zawierają żadnych danych i mają ustawione konkretne flagi sterujące
 połączeniem. W nagłówku TCP jest miejsce na 8 flag. Obrazuje je powinna fotka
 (<a href="https://nmap.org/book/tcpip-ref.html">źródło</a>):</p>
-<p><img src="https://morfikov.github.io
-/img/2015/06/2.naglowek-tcp-flagi.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2015/06/2.naglowek-tcp-flagi.png#huge" alt=""></p>
 <p>Flagi <code>CWR</code> , <code>ECE</code> odpowiadają za mechanizm kontroli zatorów.</p>
 <p>Flaga <code>URG</code> odpowiada za oznaczanie przychodzących danych jako pilne. Takie segmenty nie muszą
 czekać aż wszystkie poprzednie zostaną przetworzone na drugim końcu połączenia. Zamiast tego są
@@ -250,8 +247,7 @@ docierają do swojego miejsca przeznaczenia i są kolejkowane w buforze czekają
 Natomiast ciężarówka z czerwoną flagą robi za segment z ustawioną flagą <code>URG</code> .</p>
 <p>Flaga <code>ACK</code> jest używana do potwierdzania pomyślnego odebrania danych w segmentach. Za każdym razem
 gdy pakiet zawierający payload jest transmitowany przez sieć, te dane muszą zostać potwierdzone, co
-odbywa się przez <a href="https://morfikov.github.io
-/post/numery-sekwencyjne-w-strumieniu-tcp/">numery sekwencyjne.</a></p>
+odbywa się przez <a href="https://morfikov.github.io/post/numery-sekwencyjne-w-strumieniu-tcp/">numery sekwencyjne.</a></p>
 <p>Flaga <code>PSH</code> jest bardzo podobna do flagi <code>URG</code> i istnieje w celu zapewnienia, że dane otrzymają
 określony priorytet i zostaną przetworzone na jednym z końców transmisji. Ta flaga w szczególności
 jest używana na początku i końcu transmisji danych -- po three-way handshake i przed pierwszym
@@ -279,8 +275,7 @@ określonym porcie, to w takim przypadku zostanie wysłany pakiet z ustawioną f
 klienckiej odrzucając jej zapytanie. Wydaje się to być oczywiste i logiczne ale tego typu pakiety są
 wykorzystywane w niecnych celach do skanowania otwartych portów.</p>
 <p>Flaga <code>SYN</code> jest jedną z bardziej znanych flag, bo rozpoczyna każde nowe połączenie, na którego to
-starcie są synchronizowane <a href="https://morfikov.github.io
-/post/numery-sekwencyjne-w-strumieniu-tcp/">początkowe numery
+starcie są synchronizowane <a href="https://morfikov.github.io/post/numery-sekwencyjne-w-strumieniu-tcp/">początkowe numery
 sekwencyjne</a>. Ta flaga jest ustawiana w
 pierwszym i drugim pakiecie przywitania three-way handshake pomiędzy dwoma hostami.</p>
 <p>Flaga <code>FIN</code> kończy połączone rozpoczęte przez pakiet z ustawioną flagą <code>SYN</code> . Ten pakiet pojawia
