@@ -391,7 +391,7 @@ USB, przykładowo:
 
 Linijki mające `I` to interfejsy. Może i było ich 5 ale wykorzystywanych w danym czasie są tylko 4.
 Interfejsów w tym modemie LTE
-może [być naturalnie więcej lub mniej]({{< baseurl >}}/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/).
+może [być naturalnie więcej lub mniej](/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/).
 Wszystko zależy od jego konfiguracji (polecenie `AT^SETPORT=` ). Każdy włączony port w modemie
 będzie miał osobny interfejs USB z pasującym numerkiem. Przykładowo, ten modem obsługuje poniższe
 porty:
@@ -585,7 +585,7 @@ W tym przypadku tylko użytkownik `root` i `morfik` oraz członkowie grupy `root
 wysyłać zapytania do demona `usbguard` . Jeśli odpalimy teraz `usbguard-applet-qt` , to w
 przypadku wykrycia nowego sprzętu powiadomi on nas o tym fakcie:
 
-![]({{< baseurl >}}/img/2019/02/001.usbguard-usb-device-linux-debian.png#medium)
+![](/img/2019/02/001.usbguard-usb-device-linux-debian.png#medium)
 
 Nazwa urządzenia, jego numery identyfikacyjne, serial oraz aktualnie udostępniane interfejsy są
 widoczne i można łatwo ustawić czy to urządzenie jest tym, za które się faktycznie podaje. Możemy
@@ -596,7 +596,7 @@ urządzenie nie poczyni nam szkód w systemie, to możemy dodać wyjątek na sta
 Wszystkie aktualnie podłączone do komputera urządzenia USB można podejrzeć w głównym okienku
 `usbguard-applet-qt` :
 
-![]({{< baseurl >}}/img/2019/02/002.usbguard-usb-device-list-linux-debian.png#huge)
+![](/img/2019/02/002.usbguard-usb-device-list-linux-debian.png#huge)
 
 `Target` możemy w dowolnej chwili zmienić, a zaznaczając przy aplikowaniu ustawień opcję
 `Permanently` , `usbguard-applet-qt` będzie w stanie automatycznie uzupełniać plik

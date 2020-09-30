@@ -34,7 +34,7 @@ nam trzeba to kilku informacji, tj. rozdzielczość poziomą, pionową monitora 
 ekranu. Dla przykładu weźmy monitor 21.5 cala o rozdzielczości 1920x1080. Poniżej jest wzór, do
 którego podstawimy te liczby:
 
-![]({{< baseurl >}}/img/2015/07/1.wyliczanie-ppi-wzor.png#small)
+![](/img/2015/07/1.wyliczanie-ppi-wzor.png#small)
 
 `a` to rozdzielczość pozioma w pikselach, `b` to rozdzielczość pionowa, również w pikselach, z kolei
 `x` to długość przekątnej w calach. Zatem mamy 1080^2=1166400 oraz 1920^2=3686400, co po zsumowaniu
@@ -55,11 +55,11 @@ w systemie. Na początek zajmijmy się antyaliasingiem (anti-aliasing) oraz hint
 
 Zwykle gdy widzimy jakiś tekst na ekranie, to nie zastanawiamy się nad tym co tak naprawdę widzimy.
 W przypadku tekstu, może to być kilka pikseli zbitych w coś, co my postrzegamy jako
-![]({{< baseurl >}}/img/2015/07/2.litera-a.gif> . Jest to duża litera `A` zapisana
+![](/img/2015/07/2.litera-a.gif> . Jest to duża litera `A` zapisana
 czcionką Times New Roman. Nie jest ona zbyt wyraźna. Jeśli powiększymy ją sobie parokrotnie, tak by
 zobaczyć układ pikseli, to naszym oczom ukaże się taki obrazek:
 
-![]({{< baseurl >}}/img/2015/07/3.litera-a-piksele.gif#small)
+![](/img/2015/07/3.litera-a-piksele.gif#small)
 
 Większość ludzi raczej nie chciała by oglądać tekstu na swoich monitorach w takiej formie. Dlatego
 też ludzkość stworzyła kilka technik, które miały uporać się z prezentacją czcionek na naszych
@@ -70,23 +70,23 @@ zbytnio poszarpane. Ta technika polega na zaprzęgnięciu do pracy odcieni szaro
 ludzkie, widząc dwa przyległe szare piksele, dostrzeże jedynie ten po środku. Poniżej jest fotka tej
 samej litery `A` , którą widzieliśmy wyżej ale z nałożonym antyaliasingiem:
 
-![]({{< baseurl >}}/img/2015/07/4.litera-a-antyaliasing.gif#small)
+![](/img/2015/07/4.litera-a-antyaliasing.gif#small)
 
 Problem z tego typu rozwiązaniem można zaobserwować w przypadku małych czcionek, gdzie takie
 rozlanie pikseli powoduje, że tekst jest zwyczajnie nieczytelny. I tu w grę wchodzi hinting. Na
 poniższej fotce ([źródło](https://pl.wikipedia.org/wiki/Hinting)), dolne wiersze są z hintingiem i,
 jak możemy zauważyć, są wyraźnie ostrzejsze:
 
-![]({{< baseurl >}}/img/2015/07/5.konfiguracja-czionek-hinting.png#small)
+![](/img/2015/07/5.konfiguracja-czionek-hinting.png#small)
 
 ## Piksele i wygładzanie podpikselowe w monitorach LCD
 
 Obecnie chyba każdy korzysta z monitorów LCD, a w nich to, co my zwykliśmy nazywać pikselem nie do
 końca znajduje zastosowanie. Każdy piksel bowiem składa się z trzech podpikseli (subpixels):
 czerwonego (R), zielonego (G) oraz niebieskiego (B). W taki oto sposób nasze oko widzi piksel, np.
-tak: <{{< baseurl >}}/img/2015/07/6.piksel.gif> , a w rzeczywistości jeśli byśmy
+tak: </img/2015/07/6.piksel.gif> , a w rzeczywistości jeśli byśmy
 go powiększyli, dostrzeżemy coś takiego:
-![]({{< baseurl >}}/img/2015/07/7.piksel-lcd-podpiksele.gif> . W przypadku gdybyśmy
+![](/img/2015/07/7.piksel-lcd-podpiksele.gif> . W przypadku gdybyśmy
 potraktowali te podpiksele osobno, rozdzielczości pozioma w panelu LCD potroi się i będzie mieć 3072
 piksele -- 1024 czerwonych, 1024 zielonych i 1024 niebieskich. Zatem jeśli nasz monitor ma poniżej
 100 PPI, to czcionki przy wygładzaniu podpikselowym będą się łapać akurat na pułap około 300 PPI,
@@ -97,7 +97,7 @@ które mają dość postrzępione krawędzie. Popatrzmy na te poniższe obrazki.
 kawałek jakiejś literki. Grafika z lewej przedstawia zastosowanie całych pikseli, natomiast te dwie
 z prawej obrazują podział piksela na podpiksele:
 
-![]({{< baseurl >}}/img/2015/07/8.krawedz-lcd.gif#medium)
+![](/img/2015/07/8.krawedz-lcd.gif#medium)
 
 Jak widzimy krawędź jest o wiele bardziej wygładzona w przypadku rozbicia piksela na trzy
 podpiksele. I choć te kawałki pikseli tuż przy krawędzi nie są do końca białe (bo nie zawierają
@@ -107,13 +107,13 @@ LCD. Jeśli teraz spojrzymy jeszcze raz na tę literkę `A` , to będzie ona si�
 więcej w poniższy sposób, oczywiście przy założeniu, że nasz monitor korzysta z układu poziomego
 RGB:
 
-![]({{< baseurl >}}/img/2015/07/9.litera-a-podpiksele.gif#small)
+![](/img/2015/07/9.litera-a-podpiksele.gif#small)
 
 Jako, że wygładzanie podpikselowe zależy głównie od fizycznej bliskości przyległych podpikseli,
 algorytm renderujący musi znać ich kolejność, tj. czy mamy do czynienia z RGB, BGR, VRGB czy VBGR.
 Jeśli wskażemy złą sekwencję podpikseli, jakoś obrazu ulegnie znacznemu pogorszeniu:
 
-![]({{< baseurl >}}/img/2015/07/10.litera-a-zly-uklad-podpikseli.gif#small)
+![](/img/2015/07/10.litera-a-zly-uklad-podpikseli.gif#small)
 
 W przypadku, gdy nie wiemy jaki układ podpikseli ma nasz monitor, zawsze możemy [przeprowadzić
 test](http://www.lagom.nl/lcd-test/subpixel.php), który pomoże nam to określić.
@@ -121,7 +121,7 @@ test](http://www.lagom.nl/lcd-test/subpixel.php), który pomoże nam to określi
 Większość ludzi jest zdania, że jakość czcionek ulega znacznej poprawie. Mnie jednak szlag trafia
 gdy muszę patrzeć na tekst, który wygląda mniej więcej tak:
 
-![]({{< baseurl >}}/img/2015/07/11.konfiguracja-czcionek-wygladzanie-podpikselowe.png#small)
+![](/img/2015/07/11.konfiguracja-czcionek-wygladzanie-podpikselowe.png#small)
 
 To jest oczywiście dość duże powiększenie ale ta czcionka mieni się wszystkimi kolorami za wyjątkiem
 czerni i mi się strasznie wzrok męczy od czytania tekstu napisanego czymś takim.
@@ -232,7 +232,7 @@ Dzięki tym aliasom jesteśmy w stanie znacznie ułatwić sobie konfigurację cz
 każdym programie osobno definiować nazw czcionek. Aplikacje domyślnie mają określone te trzy
 powyższe typy, poniżej przykład:
 
-![]({{< baseurl >}}/img/2015/07/12.konfiguracja-czcionek-domyslnych-geany.png#big)
+![](/img/2015/07/12.konfiguracja-czcionek-domyslnych-geany.png#big)
 
 Jeśli w tym przypadku zmienimy domyślne czcionki, ta powyższa aplikacja przy takiej konfiguracji
 automatycznie uwzględni zmiany. Jedyne czego potrzebujemy to odpowiednio ustawić aliasy w

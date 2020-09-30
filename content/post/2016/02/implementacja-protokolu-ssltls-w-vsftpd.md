@@ -16,7 +16,7 @@ title: Implementacja protokołu SSL/TLS w vsftpd
 ---
 
 Kwestię [konfiguracji serwera FTP na debianie w oparciu o
-vsftpd]({{< baseurl >}}/post/konfiguracja-vsftpd-w-debianie/) już przerabialiśmy. Została nam
+vsftpd](/post/konfiguracja-vsftpd-w-debianie/) już przerabialiśmy. Została nam
 jeszcze do omówienia implementacja protokołu SSL/TLS. FTP nie jest bezpiecznym protokołem i wszelkie
 dane logowania są przesyłane przez sieć otwartym tekstem. W przypadku, gdy stawiamy lokalny serwer
 FTP w zaufanej sieci lub też będziemy korzystać jedynie z dostępu anonimowego, to raczej nie
@@ -29,11 +29,11 @@ dlatego wdrożyć szyfrowanie.
 ## Certyfikat i klucze szyfrujące
 
 Implementacje protokołu SSL/TLS w `vsftpd` rozpoczynamy od wygenerowania certyfikatu i kluczy
-szyfrujących. [Generowanie certyfikatów]({{< baseurl >}}/post/generowanie-certyfikatow/) możemy
+szyfrujących. [Generowanie certyfikatów](/post/generowanie-certyfikatow/) możemy
 przeprowadzić ręcznie krok po kroku. Możemy też skorzystać z [narzędzia
-easy-rsa]({{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/) lub [certtool
+easy-rsa](/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/) lub [certtool
 (pokazane na przykładzie
-rsyslog'a)]({{< baseurl >}}/post/zaszyfrowane-logi-w-rsyslog-i-syslog-ng/). Poniżej skorzystamy z
+rsyslog'a)](/post/zaszyfrowane-logi-w-rsyslog-i-syslog-ng/). Poniżej skorzystamy z
 tej metody oferowanej przez narzędzie `certtool` dostępne w debianie w pakiecie `gnutls-bin` .
 
 Nie będę tutaj tworzył od nowa całego [CA](https://pl.wikipedia.org/wiki/Urz%C4%85d_certyfikacji),
@@ -77,7 +77,7 @@ Informacje o kluczu jak i certyfikacie serwera FTP możemy podejrzeć za pomocą
 
 Możemy także wykorzystać do tego celu `gcr-viewer` (pakiet `gcr` ) :
 
-![]({{< baseurl >}}/img/2016/02/1.certyfikat-vsftpd-gcr-viewer.png#medium)
+![](/img/2016/02/1.certyfikat-vsftpd-gcr-viewer.png#medium)
 
 ## Konfiguracja SSL/TLS w vsftpd
 
@@ -185,7 +185,7 @@ połączeniem. By te wiadomości zaczęły nam się pokazywać w logu, musimy do
 Poniżej komunikaty z przykładowego logowania z wykorzystaniem metody `Explicit FTP over SSL` bez
 certyfikatów klienckich:
 
-![]({{< baseurl >}}/img/2016/02/2.log-vsftpd-ssl-tls-debug.png#huge)
+![](/img/2016/02/2.log-vsftpd-ssl-tls-debug.png#huge)
 
 ## Test połączenia z vsftpd
 
@@ -193,7 +193,7 @@ Odpalamy teraz klienta FTP, w tym przypadku będzie to `filezilla` i próbujemy 
 wykorzystując jedną z powyższych metod. Chwilę po wysłaniu żądania połączenia, powinien naszym oczom
 pokazać się mniej więcej taki certyfikat:
 
-![]({{< baseurl >}}/img/2016/02/3.vsftpd-certyfikat-polaczenie-filezilla.png#big)
+![](/img/2016/02/3.vsftpd-certyfikat-polaczenie-filezilla.png#big)
 
 Sprawdzamy go pod kątem poprawności i jeśli wszystko jest w porządku, to akceptujemy.
 

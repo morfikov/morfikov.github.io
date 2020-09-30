@@ -40,14 +40,14 @@ Wszystkie te powyższe informacje będą nieco klarowniejsze, gdy rozpatrzymy so
 Jeśli mamy problemy z ogarnięciem przepływu reguł przez pusty filtr, to dobrze jest się zapoznać z
 tym poniższym diagramem:
 
-![]({{< baseurl >}}/img/2016/05/1.iptables-przeplyw-pakietow-netfilter.png#huge)
+![](/img/2016/05/1.iptables-przeplyw-pakietow-netfilter.png#huge)
 
 Może nie wydaje się on zbyt skomplikowany ale nie uwzględnia on żadnych łańcuchów użytkownika, no i
 nie ma też w nim reguł, które mogą blokować ruch. Tak czy inaczej, jeśli już [zbudowaliśmy swój
-firewall]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/) i przy jego rozbudowie coś
+firewall](/post/firewall-na-linuxowe-maszyny-klienckie/) i przy jego rozbudowie coś
 nam nie gra, to najwyższy czas skorzystać z target `TRACE` . Jakiś czas temu, gdy bawiłem się
 [kontrolą ruchu sieciowego na
-linux'ie]({{< baseurl >}}/post/ksztaltowanie-ruchu-sieciowego-traffic-control/), część z pakietów
+linux'ie](/post/ksztaltowanie-ruchu-sieciowego-traffic-control/), część z pakietów
 podczas testów nie trafiała do tych kolejek, do których powinna. Problemem było przepisywanie się
 znaczników, które były nakładane w kolejnych regułach mających target `MARK` . Minęło wtedy trochę
 czasu zanim ustaliłem przyczynę ale na pewno poszłoby mi o wiele szybciej, gdybym wiedział o target
@@ -69,7 +69,7 @@ jak i te z niej wychodzące. Co się stanie jeśli teraz jakiś użytkownik spr�
 FTP'a? W logu powinniśmy zanotować sporo komunikatów. Wyglądają one mniej więcej tak jak te na tej
 poniższej fotce:
 
-![]({{< baseurl >}}/img/2016/05/2.target-trace-iptables-log-pakiet.png#huge)
+![](/img/2016/05/2.target-trace-iptables-log-pakiet.png#huge)
 
 Powyżej mamy 8 komunikatów. Z nich możemy wyczytać, że pakiet pochodzi z adresu 192.168.10.10 i miał
 dotrzeć do hosta o adresie 192.168.1.150. Był także przeznaczony na port 21/tcp. Pakiet miał
@@ -102,7 +102,7 @@ Mając informację na temat tego, gdzie zakończyła się droga pakietu, możemy
 przecie znamy tablicę, łańcuch oraz numer reguły. Możemy to zrobić przy pomocy polecenia `iptables
 -t filter -nvL tcp --line-numbers` :
 
-![]({{< baseurl >}}/img/2016/05/3.target-trace-iptables-regula.png#huge)
+![](/img/2016/05/3.target-trace-iptables-regula.png#huge)
 
 Wyżej widzimy czarno na białym (właściwie to pomarańczowo na czarnym), że reguła numer 5 wskazuje na
 tę, którą dodaliśmy na początku artykułu. By umożliwić połączenie z FTP, trzeba ją usunąć lub

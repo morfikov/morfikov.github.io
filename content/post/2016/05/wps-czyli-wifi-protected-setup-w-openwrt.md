@@ -55,7 +55,7 @@ urządzenie do sieci. Tego typu rozwiązanie praktycznie niweluje możliwość a
 kodu PIN w mechanizmie WPS. Jak widzimy z powyższego opisu, kod PIN może być bezpieczny, tylko
 trzeba się upewnić, że producent routera zastosował blokadę, poniżej przykład:
 
-![]({{< baseurl >}}/img/2015/06/1.wps-lock-openwrt-test.png#huge)
+![](/img/2015/06/1.wps-lock-openwrt-test.png#huge)
 
 W przypadku OpenWRT ta blokada wykonaniu `hostapd` jest średnia. Z moich ustaleń wynika, że jeden
 nieprawidłowy kod PIN powoduje założenie blokady na jakieś 30 sekund. Czasami mniej czasami więcej.
@@ -83,7 +83,7 @@ odinstalować i doinstalować zamiast niego poniższe pakiety:
 
 WPS jest dostępny tylko w konfiguracji WPA2 Personal (PSK). Jeśli chcemy zaimplementować sobie
 obsługę WPS (PBC/PIN), to musimy mieć odpowiednio [skonfigurowane połączenie
-WiFi]({{< baseurl >}}/post/siec-bezprzewodowa-wifi-w-openwrt-wlan/) na routerze. Wymagane jest, by
+WiFi](/post/siec-bezprzewodowa-wifi-w-openwrt-wlan/) na routerze. Wymagane jest, by
 w pliku `/etc/config/wireless` w sekcji `config wifi-iface` były obecne minimum trzy opcje:
 `encryption` , `ssid` oraz `key` :
 
@@ -130,7 +130,7 @@ v2](http://www.tp-link.com.pl/products/details/Archer-C7.html) mamy do dyspozycj
 Jeden z nich jest od resetowania routera. Drugi zaś to przełącznik WiFi. Pod OpenWRT nie ma
 domyślnie zaimplementowanej obsługi WPS w przyciskach. Nic jednak nie stoi na przeszkodzie, by taką
 opcję sobie dodać. Musimy tylko nieco [zmienić konfigurację przycisków
-routera]({{< baseurl >}}/post/konfiguracja-przyciskow-w-openwrt/). Przechodzimy zatem do katalogu
+routera](/post/konfiguracja-przyciskow-w-openwrt/). Przechodzimy zatem do katalogu
 `/etc/rc.button/` i edytujemy odpowiedni plik. W przypadku tego routera jest to `wps` . Musimy
 przepisać jego zawartość, tak by wyglądała mniej więcej jak ta poniżej:
 
@@ -253,7 +253,7 @@ przepisać jego zawartość, tak by wyglądała mniej więcej jak ta poniżej:
 
 Skrypt obszerny bo i sporo akcji jest przypisanych do tego przycisku `wps` . Mamy tam w sumie
 cztery, z czego dwie (restart i
-[firstboot]({{< baseurl >}}/post/reset-ustawien-w-openwrt-firstboot/)) są standardowe. My
+[firstboot](/post/reset-ustawien-w-openwrt-firstboot/)) są standardowe. My
 dodaliśmy tam te dwa pierwsze bloki. Kluczowe w nich jest ustawienie zmiennej `iface` , która
 odpowiada za interfejs bezprzewodowy. Oczywiście w powyższym przypadku mamy dwa radia: 2,4 GHz oraz
 5 GHz. Sporo routerów nie obsługuje dwóch pasm, zatem jeden z tych dwóch pierwszych bloków można

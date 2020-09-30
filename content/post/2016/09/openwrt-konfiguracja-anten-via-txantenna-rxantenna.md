@@ -68,13 +68,13 @@ Mój router jest w pełni sprawny. Niemniej jednak, to w niczym nie przeszkadza.
 obrazująca parametry połączenia bezprzewodowego w `wavemon` odbieranego na stacji klienckiej z
 linux'em na pokładzie:
 
-![]({{< baseurl >}}/img/2016/09/1.txantenna-rxantenna-anteny-router-openwrt-konfiguracja.png#huge)
+![](/img/2016/09/1.txantenna-rxantenna-anteny-router-openwrt-konfiguracja.png#huge)
 
 Mamy tutaj całkiem przyzwoitą jakość sygnału. Odkręćmy teraz wszystkie anteny, które są doczepione
 do tego routera WiFi. Sprawdźmy co się stało z
 sygnałem:
 
-![]({{< baseurl >}}/img/2016/09/2.txantenna-rxantenna-anteny-router-openwrt-konfiguracja.png#huge)
+![](/img/2016/09/2.txantenna-rxantenna-anteny-router-openwrt-konfiguracja.png#huge)
 
 Widzimy, że jakość sygnału uległa bardzo mocnej degradacji. Teraz musimy ustalić, która antena
 znajduje się jako pierwsza w szeregu binarnym. Robimy to przez dodanie do pliku
@@ -93,7 +93,7 @@ Teraz wystarczy dokręcić jedną antenę we wszystkie gniazda antenowe i zobacz
 poprawie. Będzie to wskazanie, że to jest antena oznaczona 001. W tym przypadku sygnał uległ
 poprawie po podłączeniu anteny do gniazda z lewej strony patrząc od przodu routera:
 
-![]({{< baseurl >}}/img/2016/09/3.txantenna-rxantenna-anteny-router-openwrt-konfiguracja.png#huge)
+![](/img/2016/09/3.txantenna-rxantenna-anteny-router-openwrt-konfiguracja.png#huge)
 
 Jak widzimy sygnał jest nieco gorszej jakości w stosunku do bazowego ale to właśnie dlatego, że
 tylko jedna z trzech anten jest w użyciu.

@@ -53,7 +53,7 @@ zrobić?
 Jak już wspomniałem wyżej, za każdym razem gdy instalujemy WordPressa, mamy możliwość wstępnej
 konfiguracji, co wygląda mniej więcej tak jak na fotce poniżej:
 
-![]({{< baseurl >}}/img/2015/05/1.instalacja-wordpressa.png#huge)
+![](/img/2015/05/1.instalacja-wordpressa.png#huge)
 
 Przepisujemy `Table Prefix` na coś dowolnego. Jeśli interesują nas względy estetyczne, to nie
 zapomnijmy dodać na końcu prefiksu `_` , co oddzieli wprowadzoną frazę od nazwy tabel. Możemy także

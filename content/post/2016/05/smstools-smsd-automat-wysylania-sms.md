@@ -18,7 +18,7 @@ title: SMStools i smsd, czyli automat do wysyłania SMS
 Pod linux'em jest całe mnóstwo oprogramowania, które może realizować zadanie odbierania i wysyłania
 wiadomości SMS. Są również narzędzia, dzięki którym cały proces związany z przetwarzaniem SMS'ów
 można zautomatyzować. Jakiś czas temu opisywałem tego typu funkcjonalność na przykładzie
-[gammu-smsd]({{< baseurl >}}/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/). Nadal uważam, że
+[gammu-smsd](/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/). Nadal uważam, że
 jest to przyzwoite narzędzie ale jakby nie patrzeć wymaga ono wielu zależności. Właśnie przez nie
 `gammu-smsd` nie nadaje się do zastosowań, gdzie ma się do dyspozycji niewiele miejsca. Niemniej
 jednak, w przypadku OpenWRT mamy tam możliwość zainstalowania pakietu `smstool3` , w którym jest
@@ -56,7 +56,7 @@ pliku usługi. Niżej mamy zawartość, którą musimy umieścić w pliku
 
 Widoczny wyżej warunek `ConditionPathExists` można usunąć. Niemniej jednak, przydaje się on w
 momencie, gdy do komputera nie jest podpięty modem. Standardowo ta [nazwa modemu wskazuje na
-/dev/ttyUSB0 ale można ją zmienić]({{< baseurl >}}/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/).
+/dev/ttyUSB0 ale można ją zmienić](/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/).
 Tak czy inaczej, jako, że demon `smsd` będzie operował na skryptach, to musimy wziąć pod uwagę jakie
 operacje w tym skrypcie są wykonywane. Standardowo ten demon pracuje z uprawnieniami użytkownika
 `smsd` i grupy `dialout` . Jeśli jednak nasz skrypt wymaga uprawnień administratora, musimy

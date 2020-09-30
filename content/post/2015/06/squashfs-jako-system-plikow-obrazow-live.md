@@ -18,7 +18,7 @@ czasie rzeczywistym w pamięci operacyjnej RAM. Do implementacji takiego rozwią
 [squashfs](https://pl.wikipedia.org/wiki/SquashFS) i jako, że jest to system plików tylko do
 odczytu, nie można go jako tako edytować. Nie jesteśmy też zupełnie na straconej pozycji, bo możemy
 skorzystać z dwóch rozwiązań:
-[persistence]({{< baseurl >}}/post/persistence-czyli-zachowanie-zmian-w-systemie-live/) lub możemy
+[persistence](/post/persistence-czyli-zachowanie-zmian-w-systemie-live/) lub możemy
 pokusić się o przepakowanie systemu plików.
 
 <!--more-->
@@ -63,7 +63,7 @@ sposób:
 
 W wyniku tej operacji, zostanie utworzony katalog `squashfs-root/` i to własnie jest rozpakowany
 system plików. By wprowadzić zmiany, musimy skorzystać ze [środowiska
-chroot]({{< baseurl >}}/post/przygotowanie-srodowiska-chroot-do-pracy/), a w nim działania
+chroot](/post/przygotowanie-srodowiska-chroot-do-pracy/), a w nim działania
 przeprowadzamy tak samo jak w normalnym systemie, tylko za pomocą trybu tekstowego. Po zakończeniu
 prac, system plików trzeba ponownie spakować:
 
@@ -73,5 +73,5 @@ Ta operacja zajmie chwilę, a gdy dobiegnie końca, to plik `filesystem.squashfs
 przypadku, do katalogu `/media/morfik/good/live/` . Domyślnie jednak ilość wolnego miejsca po
 wgraniu obrazu na pendrive nie zezwala na zbytnie modyfikacje i jeśli dokonujemy większych zmian w
 systemie plików, to potrzebujemy alternatywnego sposobu [przygotowania nośnika pod system
-live]({{< baseurl >}}/post/jak-wgrac-system-live-na-uszkodzony-pendrive/), tak by mieć do
+live](/post/jak-wgrac-system-live-na-uszkodzony-pendrive/), tak by mieć do
 dyspozycji nieco więcej miejsca.

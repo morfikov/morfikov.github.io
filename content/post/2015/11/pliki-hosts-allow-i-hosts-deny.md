@@ -14,7 +14,7 @@ title: Pliki hosts.allow i hosts.deny
 Obecnie najpopularniejszym rozwiązaniem pod kątem ograniczania dostępu do usług systemowych jest
 zapora sieciowa. Reguły iptables są w tym przypadku wręcz niezastąpione. Jednak poleganie na samych
 regułach iptables nie jest zbyt dobrym pomysłem. A to z tego względu, że jeśli [skrypt
-firewall'a]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/) z jakiegoś powodu nie
+firewall'a](/post/firewall-na-linuxowe-maszyny-klienckie/) z jakiegoś powodu nie
 zostanie wywołany przy starcie systemu, to nasza maszyna pozostaje praktycznie bezbronna i będzie
 akceptować wszelkie próby połączeń do wszystkich nasłuchujących w takim systemie usług. Na szczęście
 nie jest znowu aż tak źle jak mogłoby się wydawać. Albowiem linux posiada dwa pliki

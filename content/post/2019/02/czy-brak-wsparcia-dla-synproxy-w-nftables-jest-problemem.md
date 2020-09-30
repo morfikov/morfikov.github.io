@@ -71,7 +71,7 @@ Poniżej jest zamieszczony przykład wyciągnięty z commit'a git:
 
 
 
-[1]: {{< baseurl >}}/post/unikanie-atakow-ddos-z-synproxy/
+[1]: /post/unikanie-atakow-ddos-z-synproxy/
 [2]: https://wiki.nftables.org/wiki-nftables/index.php/Supported_features_compared_to_xtables
 [3]: https://lwn.net/Articles/659199/
 [4]: https://git.netfilter.org/nftables/commit/?id=1188a69604c3df2a63daca9e735fdb535e8f6b63

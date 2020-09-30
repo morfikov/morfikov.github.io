@@ -20,8 +20,8 @@ dostępu do jego plików](https://codex.wordpress.org/Changing_File_Permissions)
 ograniczyć nieco dostęp do samej bazy danych, tak by możliwie najmniejsze uprawnienia zostały
 nadane, co poprawi znacznie bezpieczeństwo naszej witryny. Jeśli opanowaliśmy już operowanie na
 instalacji WordPress'a przy pomocy
-[skryptu]({{< baseurl >}}/post/wordpress-wiersz-polecen-wp-cli/)
-[wp-cli]({{< baseurl >}}/post/wordpress-instalacja-przy-pomocy-wp-cli/) , to możemy bez wahania
+[skryptu](/post/wordpress-wiersz-polecen-wp-cli/)
+[wp-cli](/post/wordpress-instalacja-przy-pomocy-wp-cli/) , to możemy bez wahania
 dokręcić śrubę naszemu serwisowi. Jeśli nie zaznajomiliśmy się jeszcze z powyższym narzędziem, to
 ograniczenie praw może spowodować problemy z aktualizacją rdzennych plików WordPress'a, jak i
 instalacją/konfiguracją jego pluginów czy motywów.
@@ -69,12 +69,12 @@ prawa w zależności od tego co tak naprawdę chcemy osiągnąć. Przede wszystk
 `themes/` i prawa zapisu do niego ma mieć tylko właściciel, z tym, że w takim przypadku stracimy
 możliwość edycji plików motywów przy pomocy edytora w panelu administracyjnym. Choć nie powinniśmy
 się tym przejmować, bo [ze względów bezpieczeństwa i tak powinniśmy mieć
-wyłączony]({{< baseurl >}}/post/wordpress-edycja-i-modyfikacja-plikow-dodatkow/) ten edytor.
+wyłączony](/post/wordpress-edycja-i-modyfikacja-plikow-dodatkow/) ten edytor.
 Jeśli chodzi o katalog `plugins/` , to również i w tym przypadku prawa do zapisu musi posiadać
 jedynie właściciel. Trzeba jednak mieć na uwadze, że nie zainstalujemy/zaktualizujemy już pluginów z
 poziomu panelu admina, przy najmniej nie z taką prostotą jak dotychczas:
 
-![]({{< baseurl >}}/img/2015/06/1.wordpress-problemy-przez-restrykcyjne-prawa.png#medium)
+![](/img/2015/06/1.wordpress-problemy-przez-restrykcyjne-prawa.png#medium)
 
 Po zmianie praw będziemy zmuszeni albo do korzystania z ftp/ftps, tak jak to widać wyżęj, albo z
 `wp-cli` .
@@ -91,7 +91,7 @@ Jeśli posiadamy jakieś dodatkowe katalogi w `wp-content/` , trzeba ustalić ja
 i jakie dodatki je tworzą. Przykładowo, jeśli mamy plugin, co odpowiada za cache stron www, to
 prawdopodobnie stworzy on katalog `wp-content/cache/` i on musi być zapisywalny przez serwer, bo
 inaczej generowane pliki nie będą tam umieszczane. Podobnie trzeba postąpić w przypadku pliku logu
-zapisywanego w [trybie debugowania]({{< baseurl >}}/post/wordpress-tryb-debugowania/).
+zapisywanego w [trybie debugowania](/post/wordpress-tryb-debugowania/).
 
 ## Prawa do bazy danych
 
@@ -102,7 +102,7 @@ problemu potrafi operować na bardziej restrykcyjnych prawach, w których skład
 posty na blogu, dodawać użytkowników, wysyłać załączniki, dodawać komentarze pod wpisami, czy
 instalować motywy/pluginy.
 
-![]({{< baseurl >}}/img/2015/06/2.wordpress-mysql-prawa-uzytkownika.png#big)
+![](/img/2015/06/2.wordpress-mysql-prawa-uzytkownika.png#big)
 
 Jeśli ktoś woli tekstowego klienta, to poniżej są odpowiednie linijki:
 

@@ -41,7 +41,7 @@ odpalić pierwszy z brzega terminal i wpisać w nim:
     # adb shell
 
 Jeśli ktoś nie wie [jak zainstalować narzędzie adb w
-Debianie]({{< baseurl >}}/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/) i innych
+Debianie](/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/) i innych
 podobnych dystrybucjach linux'a, to tutaj znajdują się stosowne informacje.
 
 W tej chwili możemy operować na smartfonie wydając mu polecenia bezpośrednio z komputera. Jest to o
@@ -52,7 +52,7 @@ wiele wygodniejsze rozwiązanie niż działanie na tym wbudowanym w TWRP termina
 Backup dysku/flash'a zwykle przechowywany jest na innym urządzeniu z wiadomych raczej względów. Jest
 niemal pewne, że nie mamy pliku backup'u bezpośrednio w telefonie i trzeba go pierw tam przesłać.
 Możemy to zrobić za pomocą `adb` lub też via [protokół
-MTP]({{< baseurl >}}/post/smartfon-android-linux-mtp-ptp/). Ten ostatni raczej nie powinien
+MTP](/post/smartfon-android-linux-mtp-ptp/). Ten ostatni raczej nie powinien
 sprawić problemów. Niżej zaś jest przykładowe polecenie `adb` :
 
     # adb push /neffos/y5l-orig-system.img /data/media/0/Download/
@@ -82,7 +82,7 @@ binarnie w stosowne miejsce. Zanim jednak wgramy sam obraz, odmontujmy partycję
 to zrobić w menu Zamontuj w
 TWRP:
 
-![]({{< baseurl >}}/img/2017/03/001.twrp-recovery-system.png#big)
+![](/img/2017/03/001.twrp-recovery-system.png#big)
 
 Lub też przy pomocy poniższego polecenia przez `adb` :
 

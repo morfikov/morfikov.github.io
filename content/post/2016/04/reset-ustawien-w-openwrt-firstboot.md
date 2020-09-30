@@ -47,7 +47,7 @@ korzystając z protokołu telnet.
 
 W przypadku, gdy straciliśmy praktycznie całą kontrolę nad routerem i nie możemy się zalogować po
 SSH/telnet, możemy rozważyć wejście w [tryb
-failsafe]({{< baseurl >}}/post/tryb-ratunkowy-failsafe-w-openwrt/) i z tego trybu awaryjnego
+failsafe](/post/tryb-ratunkowy-failsafe-w-openwrt/) i z tego trybu awaryjnego
 spróbować odratować system. Jeśli nie jesteśmy w stanie doprowadzić do porządku plików
 konfiguracyjnych, to zawsze możemy zaaplikować procedurę `firstboot` będąc w trybie failsafe. Po
 zalogowaniu się w trym trybie przez telnet ( `telnet 192.168.1.1` ), wpisujemy te poniższe

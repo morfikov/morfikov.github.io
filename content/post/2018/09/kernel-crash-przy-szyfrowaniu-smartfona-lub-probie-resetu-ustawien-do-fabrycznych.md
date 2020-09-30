@@ -35,11 +35,11 @@ stanie się już uruchomić.
 
 Poniżej znajdują się fotki z objawami problemu:
 
-![]({{< baseurl >}}/img/2018/09/1.lg-g4c-logo-stuck.jpg#huge)
+![](/img/2018/09/1.lg-g4c-logo-stuck.jpg#huge)
 
-![]({{< baseurl >}}/img/2018/09/2.lg-g4c-kernel-crash.jpg#huge)
+![](/img/2018/09/2.lg-g4c-kernel-crash.jpg#huge)
 
-![]({{< baseurl >}}/img/2018/09/3.lg-g4c-subsystem-crash.jpg#huge)
+![](/img/2018/09/3.lg-g4c-subsystem-crash.jpg#huge)
 
 To czy dostaniemy komunikat z Kernel Crash czy Subsystem Crash zależy od tego czy będziemy się
 starać przeczyścić telefon z poziomu TWRP recovery. Jeśli tak, to dostaniemy Subsystem Crash, w

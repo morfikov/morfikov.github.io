@@ -73,7 +73,7 @@ Jak widzimy, mamy całkiem niezłe pole manewru. Możemy ustawić tapetę przy p
 `icon-theme-name` . Mamy także możliwość określenia kroju i wielkości czcionki w `font-name` . Z
 kolei opcje `xft-*` odpowiadają za poprawę jakości czcionek. Jeśli są one niejasne, to w [tym wpisie
 została opisana konfiguracja
-czcionek]({{< baseurl >}}/post/fontconfig-i-konfiguracja-czcionek-w-debianie/) i wyżej użyte
+czcionek](/post/fontconfig-i-konfiguracja-czcionek-w-debianie/) i wyżej użyte
 terminy zostały dokładnie wyjaśnione. Dalej mamy format zegara ( `clock-format` ), który możemy
 sobie dostosować wedle własnego upodobania. Potrzebne zaś parametry można odczytać z `date --help` .
 W tym przypadku zegar ma postać `2016-01-08 16:45:55` . Parametr `position` odpowiada za
@@ -84,7 +84,7 @@ Oczywiście nie musimy ręcznie konfigurować greeter'a. Możemy zdać się na g
 `lightdm-gtk-greeter-settings` , które jest w stanie ustawić praktycznie wszystkie wyszczególnione
 wyżej opcje:
 
-![]({{< baseurl >}}/img/2016/01/1.lightdm-greeter-ustawienia-gui.png#medium)
+![](/img/2016/01/1.lightdm-greeter-ustawienia-gui.png#medium)
 
 Jeśli chodzi zaś o konfigurację samego menadżera logowania, to jest ona bardziej skomplikowana.
 Dlatego też plik `lightdm.conf` jest nieco rozbudowany. Poniżej przykład konfiguracji:
@@ -164,7 +164,7 @@ dla którego chcemy ustawić avatar. Do tego pliku dodajemy poniższą treść:
     SystemAccount=false
 
 Opcje `Language` określamy na podstawie [ustawionych w systemie
-locale]({{< baseurl >}}/post/jezyk-polski-w-srodowisku-graficznym/). W `XSession` definiujemy
+locale](/post/jezyk-polski-w-srodowisku-graficznym/). W `XSession` definiujemy
 sesje graficzną, która ma być odpalana dla tego użytkownika. Jeśli nie wiemy jakie sesje mamy do
 wyboru, to możemy zawsze zajrzeć do katalogu `/usr/share/xsessions/` . Dalej mamy `Icon` , która
 właśnie odpowiada za avatar. Ostatnia pozycja, tj. `SystemAccount` określa dane konto jako
@@ -184,7 +184,7 @@ jakiś dłuższy czas. Może także zostać zainicjowane przy pomocą skrótu kl
 po którym `light-locker` zostanie uruchomiony jest określona przez DPMS, które są konfigurowane
 bezpośrednio w opcjach Xserver'a. Ta kwestia była lekko zarysowana we wpisie na temat [jak
 skonfigurować sobie monitor pod
-linux'em]({{< baseurl >}}/post/monitor-i-jego-konfiguracja-pod-linuxem/). W dużym skrócie, musimy
+linux'em](/post/monitor-i-jego-konfiguracja-pod-linuxem/). W dużym skrócie, musimy
 utworzyć plik `20-monitor.conf` w katalogu `/etc/X11/xorg.conf.d/` i dodać w nim tę poniższą treść:
 
     Section "ServerLayout"
@@ -212,6 +212,6 @@ przeszkodzie, by ten materiał przesłać do playera video i w nim go oglądać,
 takich linux'owych wynalazków jak [mps-youtube](https://github.com/mps-youtube/mps-youtube) .
 
 Pamiętajmy też, by odpowiednio sobie [skonfigurować klawisz
-SysRq]({{< baseurl >}}/post/aktywacja-i-konfiguracja-klawisza-sysrq/), tak by czasem [OOM-Killer
+SysRq](/post/aktywacja-i-konfiguracja-klawisza-sysrq/), tak by czasem [OOM-Killer
 nie zdjął przez przypadek blokady sesji
-Xserver'a]({{< baseurl >}}/post/bezpieczenstwo-xservera-pod-linuxem/).
+Xserver'a](/post/bezpieczenstwo-xservera-pod-linuxem/).

@@ -83,7 +83,7 @@ Możemy to w prosty sposób poprawić linkując ten plik do wskazanej lokalizacj
 
 Problem jest też w samym UDEV'ie, bo ten nie ma dostarczanego skryptu startowego. W efekcie demon
 `udevd` nie jest uruchamiany wraz ze startem routera. Musimy zatem sobie taki [skrypt startowy
-napisać]({{< baseurl >}}/post/skrypty-startowe-init-w-openwrt/). W tym celu tworzymy plik
+napisać](/post/skrypty-startowe-init-w-openwrt/). W tym celu tworzymy plik
 `/etc/init.d/udevd` i wrzucamy do niego poniższy kod:
 
     #!/bin/sh /etc/rc.common
@@ -117,7 +117,7 @@ Poniżej jest przykład rozpoznania przez system routera pendrive (log pochodzi 
 
 Mamy zatem dysk `sda` z trzema partycjami `sda1` , `sda2` oraz `sda3` . W przypadku, gdy chcemy, by
 te poszczególne partycje miały prefiks `king` , musimy [utworzyć stosowne reguły dla
-UDEV'a]({{< baseurl >}}/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/). Nie będę tutaj opisywał
+UDEV'a](/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/). Nie będę tutaj opisywał
 całej procedury tworzenia reguł ale jeśli ktoś jest ciekaw jak ten proces przebiega, to zapraszam
 pod podlinkowany wyżej artykuł. Tutaj ograniczymy się jedynie do stworzenia pliku reguły w
 `/etc/udev/rules.d/90-dysk.rules` . Do tego pliku wrzucamy poniższą zawartość:

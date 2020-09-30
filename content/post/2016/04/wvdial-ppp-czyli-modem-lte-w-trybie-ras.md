@@ -22,11 +22,11 @@ Najpopularniejszym z nich jest tryb RAS wykorzystujący interfejsy udostępniane
 w katalogu `/dev/` , zwykle `ttyUSB0` , `ttyUSB1` , etc. By taki modem mógł nawiązać połączenie z
 siecią, potrzebny jest demon [PPP](https://pl.wikipedia.org/wiki/Point_to_Point_Protocol). O trybie
 RAS wspominałem już parokrotnie, min. we wpisach dotyczących [konfiguracji połączenia LTE w
-RBM/Play]({{< baseurl >}}/post/darmowy-internet-lte-od-rbmplay/) jak i przy omawianiu [problemów
+RBM/Play](/post/darmowy-internet-lte-od-rbmplay/) jak i przy omawianiu [problemów
 z resolver'em DNS w przypadku
-Aero2]({{< baseurl >}}/post/aero2-w-polaczeniu-z-dnsmasq-dnscrypt-proxy/). Generalnie ten tryb
+Aero2](/post/aero2-w-polaczeniu-z-dnsmasq-dnscrypt-proxy/). Generalnie ten tryb
 różni się trochę od [trybu
-NDIS(NCM)]({{< baseurl >}}/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/) głównie tym, że tutaj
+NDIS(NCM)](/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/) głównie tym, że tutaj
 nie uzyskamy większych prędkości niż 20-30 mbit/s. Niemniej jednak, jeśli nie mamy dobrej jakości
 połączenia LTE, lub nasz modem z jakiegoś powodu pod linux'em nie potrafi pracować w trybie NDIS,
 to możemy skonfigurować połączenie w trybie RAS wykorzystując do tego celu `wvdial` oraz demona PPP.
@@ -172,7 +172,7 @@ Po zestawieniu połączenia z internetem, demonowi PPP zostanie przekazana konfi
 sprawą protokołu DHCP. W niej zawarta będzie także informacja o resolverze DNS. Możemy te wpisy
 zignorować i ręcznie wskazać providera DNS, np. google, czy opendns. Bardzo przydatny parametr
 zwłaszcza w przypadku, gdy [szyfrujemy zapytania DNS przy pomocy
-dnscrypt-proxy]({{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/).
+dnscrypt-proxy](/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/).
 
     Auto DNS = 0
 
@@ -353,7 +353,7 @@ pozostałych opcji.
 ### Informacje o portach modemu
 
 We wpisie poświęconym [konfiguracji modemu bez
-usb-modeswitch]({{< baseurl >}}/post/modem-lte-huawei-e3372-bez-usb-modeswitch/) wypracowałem
+usb-modeswitch](/post/modem-lte-huawei-e3372-bez-usb-modeswitch/) wypracowałem
 sobie rozwiązanie, które przestawiło modem w odpowiedni tryb pracy. Zachęcam zatem do zajrzenia i
 przeczytania tego tekstu, który w dużej mierze pomoże nam skonfigurować modem do pracy pod linux'em,
 czy nawet pod OpenWRT na routerze jeśli takowy posiadamy.
@@ -442,7 +442,7 @@ linkiem](https://tplinkforum.pl/t/parametry-sygnalu-lte/7534), to nie jest najgo
 Wyżej w pliku konfiguracyjnym mieliśmy sekcję `[Dialer set-new]` i `[Dialer set-old]` . Przy ich
 pomocy jesteśmy w stanie wymusić, by modem pracował w konkretnym paśmie czy technologii. Bardzo
 przydatna rzecz jeśli zamierzamy korzystać z [darmowego połączenia LTE od
-RBM/Play]({{< baseurl >}}/post/darmowy-internet-lte-od-rbmplay/). Oczywiście to tylko przykład. By
+RBM/Play](/post/darmowy-internet-lte-od-rbmplay/). Oczywiście to tylko przykład. By
 odpowiednio ustawić modem, trzeba zapoznać się ze specyfikacją poleceń
 [AT^SYSCFGEX](http://wiki.bez-kabli.pl/index.php?title=AT%5ESYSCFGEX) oraz
 [AT^SYSCFG](http://wiki.bez-kabli.pl/index.php?title=AT%5ESYSCFG). Warto też podkreślić, że

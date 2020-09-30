@@ -15,7 +15,7 @@ title: Pobieranie pakietów przy pomocy cron-apt
 ---
 
 Jakiś czas temu opisywałem konfigurację dla menadżera pakietów `apt` i `aptitude` [w pliku
-apt.conf]({{< baseurl >}}/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/) . Ten wpis również
+apt.conf](/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/) . Ten wpis również
 tyczy się konfiguracji wspomnianych menadżerów, z tym, że zostanie tutaj opisana pewna
 funkcjonalność, która może nam zaoszczędzić trochę czasu przy aktualizacji systemu. Chodzi o to,
 że pakiety praktycznie zawsze muszą być pobrane na dysk przed ich instalacją. Gdy nie dysponujemy

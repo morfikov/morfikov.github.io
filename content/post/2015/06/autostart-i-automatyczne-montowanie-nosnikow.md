@@ -43,14 +43,14 @@ Niektóre menadżery plików (w tym i spacefm) dają nam możliwość określeni
 mają być automatycznie montowane przy podłączaniu nośnika. Dzięki takiej polityce, możemy dodać
 jedynie jakiś zaufany pendrive (lub jedną z jego partycji), a całą resztę montować ręcznie:
 
-![]({{< baseurl >}}/img/2015/06/1.automatyczne-montowanie-spacefm.png#huge)
+![](/img/2015/06/1.automatyczne-montowanie-spacefm.png#huge)
 
 Ja uważam jednak, że skoro zamontowanie urządzenia sprowadza się do kliknięcia w odpowiednią pozycję
 na liście, to możemy odpuścić sobie definiowanie zaufanych urządzeń. Jakby nie patrzeć, to stwarza
 zagrożenie bezpieczeństwa. Zamiast tego najlepiej wyłączyć to automatyczne montowanie nośników
 całkowicie:
 
-![]({{< baseurl >}}/img/2015/06/2.automatyczne-montowanie-spacefm-opcje.png#huge)
+![](/img/2015/06/2.automatyczne-montowanie-spacefm-opcje.png#huge)
 
 ## Autostart aplikacji
 
@@ -61,4 +61,4 @@ wsadzeniu płytki do napędu, zostanie uruchomiony program i praktycznie nie mam
 Tego typu scenariusz to doskonała droga dla różnej maści wirusów. Dlatego ja zalecam wyłączenie
 również i tej opcji:
 
-![]({{< baseurl >}}/img/2015/06/3.autostart-spacefm.png#huge)
+![](/img/2015/06/3.autostart-spacefm.png#huge)

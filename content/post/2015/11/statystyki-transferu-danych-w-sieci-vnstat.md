@@ -54,15 +54,15 @@ Poniżej przykłady.
 
 Statystyki transferu z ostatnich 24 godzin:
 
-![]({{< baseurl >}}/img/2015/11/1.vnstat-statystyki-transferu-dzien.png#huge)
+![](/img/2015/11/1.vnstat-statystyki-transferu-dzien.png#huge)
 
 Dzienne statystyki transferu (ostatnie 30 dni):
 
-![]({{< baseurl >}}/img/2015/11/2.vnstat-dzienne-statystyki-transferu.png#huge)
+![](/img/2015/11/2.vnstat-dzienne-statystyki-transferu.png#huge)
 
 Miesięczne statystyki transferu (ostatnie 12 miesięcy):
 
-![]({{< baseurl >}}/img/2015/11/3.vnstat-miesieczne-statystyki-transferu.png#huge)
+![](/img/2015/11/3.vnstat-miesieczne-statystyki-transferu.png#huge)
 
 Z tych powyższych danych jasno wynika, że zużywam jakieś 200GiB transferu miesięcznie. Trochę to za
 dużo by się przesiąść na LTE, choć pewnie dałoby radę zaprojektować jakich mechanizm, by te większe

@@ -18,7 +18,7 @@ bardziej świadome jednostki zdają sobie sprawę, że różnego rodzaju automat
 konfigurację systemową bez naszej wiedzy. Weźmy sobie resolver DNS. To bardzo krytyczna usługa, nie
 tylko z punktu widzenia bezpieczeństwa ale też i prywatności. Zakładając, że chcemy korzystać z
 pewnych określonych serwerów DNS lub też mamy [skonfigurowaną usługę
-dnscrypt-proxy]({{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/), trzeba zadbać
+dnscrypt-proxy](/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/), trzeba zadbać
 o to, by adresy w pliku `/etc/resolv.conf` nie zostały z jakiegoś powodu przepisane. Użytkownicy
 zwykle nadają temu plikowi atrybut odporności ( `chattr +i` ) . Niemniej jednak, przy pobieraniu
 konfiguracji sieciowej za sprawą protokołu DHCP, w logu można zaobserwować komunikat: `mv: cannot
@@ -40,7 +40,7 @@ jesteśmy w stanie nadpisać konfigurację serwerów DNS pobieraną z serwera DH
 Niemniej jednak, w tym powyższym przypadku, plik `/etc/resolv.conf` również jest przepisywany.
 Poniżej przykład logu systemowego:
 
-![]({{< baseurl >}}/img/2016/09/1.resolv-conf-dns-resolver-dhclinet.png#huge)
+![](/img/2016/09/1.resolv-conf-dns-resolver-dhclinet.png#huge)
 
 Może i nasze serwery DNS zostaną umieszczone w tym pliku ale nadal nie jest to konfiguracja, która
 by zaspokoiła te bardziej wyrafinowane umysły informatyczne.
@@ -48,7 +48,7 @@ by zaspokoiła te bardziej wyrafinowane umysły informatyczne.
 ## Skrypty dhclient'a
 
 Jakiś czas temu opisywałem [skrypty
-dhclient'a]({{< baseurl >}}/post/skrypt-dhclienta-dhclient-script/). To bardzo ciekawy ficzer tego
+dhclient'a](/post/skrypt-dhclienta-dhclient-script/). To bardzo ciekawy ficzer tego
 narzędzia, bo dzięki niemu możemy niezależnie skonfigurować całą masę opcji protokołu DHCP.
 Potrzebny jest nam tylko odpowiedni skrypt, który wyłączy na określonych interfejsach sieciowych
 konfigurację serwerów DNS. Poniżej znajduje się przykład takiego skryptu:
@@ -89,7 +89,7 @@ Zapisujemy skrypt i sprawdzamy, czy tym razem `dhclinet` zostawi plik `/etc/reso
 czy błąd z przepisaniem pliku zostanie wyeliminowany. Odpalamy zatem terminal i wpisujemy w nim
 `ifup eth0` :
 
-![]({{< baseurl >}}/img/2016/09/2.resolv-conf-dns-resolver-dhclinet.png#huge)
+![](/img/2016/09/2.resolv-conf-dns-resolver-dhclinet.png#huge)
 
 Jak widzimy, nie ma już błędu, bo system nie chce nam już przepisywać pliku `/etc/resolv.conf` ,
 który w dalszym ciągu ma ustawiony atrybut odporności ( `i` widoczne w ostatniej linijce na

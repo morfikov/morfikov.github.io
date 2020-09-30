@@ -63,12 +63,12 @@ windows7 tego nie potrafił i wymagał, by na dysku, na którym się go instaluj
 partycji MS-DOS.
 
 Zmiana typu tablicy partycji niekoniecznie wiąże się z utratą wszelkich danych zawartych na
-nośniku. [Migracja z MS-DOS na GPT]({{< baseurl >}}/post/konwersja-tablicy-partycji-ms-dos-na-gpt/)
+nośniku. [Migracja z MS-DOS na GPT](/post/konwersja-tablicy-partycji-ms-dos-na-gpt/)
 jest w zasadzie bezproblemowa, choć zostawiane są małe wolne obszary jako pozostałość po strukturze
 dysków logicznych, których obsługa w tablicy MS-DOS była zaimplementowana na
 zasadzie [EBR](https://en.wikipedia.org/wiki/Extended_boot_record). Podobnie też i w drugą stronę,
 tj. gdy
-zamierzamy [zmienić rodzaj partycji z GPT na MBR]({{< baseurl >}}/post/konwersja-tablicy-partycji-gpt-na-ms-dos/),
+zamierzamy [zmienić rodzaj partycji z GPT na MBR](/post/konwersja-tablicy-partycji-gpt-na-ms-dos/),
 choć nie zawsze ta operacja będzie możliwa.
 
 ## LVM
@@ -179,7 +179,7 @@ rozmiar 4G.
 ### Przestrzeń SWAP jako plik
 
 Linux umożliwia także
-stworzenie [przestrzeni wymiany SWAP w regularnym pliku]({{< baseurl >}}/post/czy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany/)
+stworzenie [przestrzeni wymiany SWAP w regularnym pliku](/post/czy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany/)
 wewnątrz systemu
 plików. Takie rozwiązanie sprawia, że nie potrzebna nam jest dedykowana partycja. W przypadku, gdy
 SWAP nam nie będzie potrzebny, to plik można zwyczajnie skasować odzyskując natychmiastowo miejsce,
@@ -205,7 +205,7 @@ wrzucenie go na koniec dysku, tak by nie tracić tych cennych z punktu widzenia 
 pierwszych gigabajtów przestrzeni. Poniżej jest fotka przykładowego dysku obrazująca spadek
 wydajności wraz z oddalaniem się od początku dysku.
 
-![]({{< baseurl >}}/img/2019/03/001-hdd-disk-performance-degradation-linux-partition.jpg#big)
+![](/img/2019/03/001-hdd-disk-performance-degradation-linux-partition.jpg#big)
 
 Dlatego też krojąc dysk na partycje na potrzeby linux'a dobrze jest mieć ten stan rzeczy na uwadze
 i umieścić na samym początku dysku partycję `/` lub `/home/` , tak by pliki systemowe/użytkownika,

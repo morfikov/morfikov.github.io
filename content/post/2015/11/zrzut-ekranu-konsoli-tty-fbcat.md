@@ -18,7 +18,7 @@ gdy nawali nam środowisko graficzne i nie będziemy mieli jak zrobić zrzutu? P
 jak `scrot` czy też `shutter` działają w oparciu o Xserver i bez niego nie zrobią fotki naszego
 desktop'a. Zwykle gdy zmuszeni jesteśmy ratować nasz system, robimy to w konsoli TTY. No chyba, że
 sprawa jest poważniejsza, wtedy sięgamy po [system
-live]({{< baseurl >}}/post/wlasny-system-live-i-tworzenie-go-od-podstaw/) . Logi systemowe czy też
+live](/post/wlasny-system-live-i-tworzenie-go-od-podstaw/) . Logi systemowe czy też
 aplikacji mogą okazać się pomocne ale przecie "fotka jest warta więcej niż tysiąc słów". Jak zatem
 zrobić zrzut ekranu mając do dyspozycji jedynie tekstową konsolę TTY? Czy jest to w ogóle możliwe?
 
@@ -42,4 +42,4 @@ polecenia:
 
 I to w sumie cała filozofia. Poniżej fotka, która została zrobiona na potrzeby tego wpisu:
 
-![]({{< baseurl >}}/img/2015/11/1.tty-fbcat-zrzut-ekranu.png#huge)
+![](/img/2015/11/1.tty-fbcat-zrzut-ekranu.png#huge)

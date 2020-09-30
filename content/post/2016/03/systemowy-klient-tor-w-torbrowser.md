@@ -96,15 +96,15 @@ do lokalnej instancji Tor'a. Sprawdźmy zatem czy tak się w istocie dzieje. Odp
 przechodzimy na testową stronę `check.torproject.org` . Powinna nam się pojawić zielona cebula
 sugerująca nie tylko fakt korzystania z sieci Tor ale także wykorzystywanie przeglądarki TorBrowser:
 
-![]({{< baseurl >}}/img/2016/03/1.torbrowser-konfiguracja-test-tor.png#big)
+![](/img/2016/03/1.torbrowser-konfiguracja-test-tor.png#big)
 
 W przypadku, gdy korzystamy z [graficznej nakładki Vidalia][4], to podczas przeglądania stron w
 TorBrowser powinniśmy zarejestrować ruch na jego grafie:
 
-![]({{< baseurl >}}/img/2016/03/2.torbrowser-test-vidalia-graf.png#big)
+![](/img/2016/03/2.torbrowser-test-vidalia-graf.png#big)
 
 
 [1]: https://www.torproject.org/projects/torbrowser.html.en
 [2]: https://www.torproject.org/docs/torbutton/index.html.en
-[3]: {{< baseurl >}}/post/serwer-kluczy-gpg-i-kwestia-prywatnosci/
+[3]: /post/serwer-kluczy-gpg-i-kwestia-prywatnosci/
 [4]: https://pl.wikipedia.org/wiki/Vidalia_%28program%29

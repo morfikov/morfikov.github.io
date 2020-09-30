@@ -14,7 +14,7 @@ title: Szyfrowanie ruchu do Xserver'a przy pomocy SSH
 ---
 
 W przypadku zaufanych sieci lokalnych, czy też [kontenerów
-LXC]({{< baseurl >}}/post/konfiguracja-kontenerow-lxc/), nie musimy zbytnio się troszczyć o
+LXC](/post/konfiguracja-kontenerow-lxc/), nie musimy zbytnio się troszczyć o
 bezpieczeństwo przesyłanych danych. Nikt nam przecież nie założy tutaj podsłuchu. Dlatego też we
 wpisie poświęconym konfiguracji Wine nie szyfrowaliśmy praktycznie żadnego ruchu sieciowego. Gdyby
 jednak zaszła potrzeba przesłania pakietów do zdalnego Xserver'a przez internet, to takie
@@ -37,14 +37,14 @@ Brak Xserver'a na zdalnej maszynie nie stanowi praktycznie żadnego problemu by 
 tam uruchomić. Oczywiście muszą być one zainstalowane na takiej maszynie ale to się rozumie chyba
 samo przez się. Jedyne co musimy zrobić, to tak skonfigurować SSH, by wszelkie zapytania do
 Xserver'a tunelował do zdalnej lokalizacji. Ten mechanizm jest podobny do tego opisywanego przy
-[konfiguracji Xserver'a pod Wine]({{< baseurl >}}/post/wine-w-kontenerze-lxc/), z tą różnicą, że
+[konfiguracji Xserver'a pod Wine](/post/wine-w-kontenerze-lxc/), z tą różnicą, że
 nie musimy praktycznie w ogóle tykać konfiguracji samego Xserver'a. Jedyne pliki jakie będziemy
 poddawać edycji, to te od SSH, zarówno na kliencie jak i na serwerze. Cała pozostała konfiguracja
 zostanie dostosowana automatycznie i my nie będziemy musieli sobie nią głowy zawracać.
 
 Wymagane jest jednak od nas by na serwerze doinstalować pakiet `xauth` . A to z tego względu, że SSH
 przy forward'owaniu zapytań wykorzystuje [mechanizm
-xauth]({{< baseurl >}}/post/xauth-i-xhost-na-strazy-bezpieczenstwa-xservera/), który opiera się o
+xauth](/post/xauth-i-xhost-na-strazy-bezpieczenstwa-xservera/), który opiera się o
 ciasteczka Xserver'a.
 
 ### Klient
@@ -117,7 +117,7 @@ klienckiej, gdzie możemy zablokować ruch przychodzący zostawiając jednocześ
 tj. jeden dla Xserver'a i drugi dla SSH. Jeśli ruch jest szyfrowany, pakiety nie powinny trafiać do
 reguły łapiącej ruch Xserver'a. Poniżej przykład:
 
-![]({{< baseurl >}}/img/2015/10/1.szyfrowanie-xserver-ssh-iptables.png#huge)
+![](/img/2015/10/1.szyfrowanie-xserver-ssh-iptables.png#huge)
 
 ## Uwagi końcowe
 

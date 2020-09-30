@@ -125,7 +125,7 @@ wycięte, to statystyki każdego z portu switch'a. Ten przełącznik jest podzie
 `VLAN 1` (vid 1) oraz `VLAN 2` (vid 2). Poniżej mamy fotkę tego routera, która pokazuje jego panel
 tylni:
 
-![]({{< baseurl >}}/img/2016/05/1.router-switch-vlan-openwrt.jpg#big)
+![](/img/2016/05/1.router-switch-vlan-openwrt.jpg#big)
 
 Port oznaczony na niebiesko to VLAN 2 (WAN). Z kolei porty oznaczone na pomarańczowo, to VLAN 1
 (LAN). [Na wiki OpenWRT][7] można znaleźć trochę pożytecznych informacji na temat samej
@@ -238,7 +238,7 @@ interfejsem, jako, że jest to interfejs WAN. Dopisujemy tam poniższy blok:
 
 Po zresetowaniu routera, w systemie powinny być widoczne dodatkowe interfejsy:
 
-![]({{< baseurl >}}/img/2016/05/2.switch-podzial-vlan-openwrt-wan.png#big)
+![](/img/2016/05/2.switch-podzial-vlan-openwrt-wan.png#big)
 
 Jeśli się przyjrzymy adresom MAC jakie widnieją przy interfejsach `eth1`, `eth1.1` oraz `eth1.3` ,
 to zauważymy, że są one takie same. Niemniej jednak, w takiej konfiguracji switch'a to niczemu nie
@@ -277,4 +277,4 @@ te dwa poniższe bloki kodu:
 [5]: https://wiki.openwrt.org/doc/techref/swconfig
 [6]: http://www.tp-link.com.pl/products/details/Archer-C7.html
 [7]: https://wiki.openwrt.org/toh/tp-link/archer-c5-c7-wdr7500
-[8]: {{< baseurl >}}/post/jak-przypisac-losowy-adres-mac-interfejsu/
+[8]: /post/jak-przypisac-losowy-adres-mac-interfejsu/

@@ -22,7 +22,7 @@ Niemniej jednak, w pewnych przypadkach istnieje potrzeba oddzielenia maszyn, kt�
 połączenie za pomocą sieci WiFi od tych, które łączą się przewodowo. Generalnie chodzi o różne
 adresy, które zostaną przypisane sieciom LAN i WLAN. Rozwiązanie, które zostanie opisane w tym
 artykule jest podobne do tworzenia [bezprzewodowej sieci
-gościnnej]({{< baseurl >}}/post/bezprzewodowa-siec-goscinna-guest-wlan/) (guest WLAN), z tą
+gościnnej](/post/bezprzewodowa-siec-goscinna-guest-wlan/) (guest WLAN), z tą
 różnicą, że w tym przypadku będziemy mieli do czynienia tylko z jedną siecią WiFi (tzw. [Routed
 AP](https://wiki.openwrt.org/doc/recipes/routedap)).
 
@@ -86,7 +86,7 @@ I to w zasadzie cała konfiguracja. Restartujemy router i łączymy się po kabl
 sprawdzenia poprawności konfiguracji. Jak widzimy poniżej, interfejsowi sieciowemu klienta zostały
 przypisane adresy z różnych sieci:
 
-![]({{< baseurl >}}/img/2016/07/1.rozne-adresy-lan-wlan-router-openwrt-routed-ap.png#huge)
+![](/img/2016/07/1.rozne-adresy-lan-wlan-router-openwrt-routed-ap.png#huge)
 
 Zwróćmy też uwagę na fakt, że w tym przypadku nie mamy ustawionych żadnych obostrzeń w stosunku do
 klientów sieci WiFi, tak jak to ma miejsce, np. w sieci gościnnej. Hosty tutaj mogą się łączyć

@@ -51,7 +51,7 @@ dobierany przez podbicie numeru o 1. I tu właśnie zaczynają się problemy z t
 ## Tryb failsafe i adres MAC na porcie WAN
 
 [Failsafe to tryb ratunkowy wykorzystywany w firmware
-OpenWRT]({{< baseurl >}}/post/tryb-ratunkowy-failsafe-w-openwrt/) w przypadkach błędów natury
+OpenWRT](/post/tryb-ratunkowy-failsafe-w-openwrt/) w przypadkach błędów natury
 programowej (błędna konfiguracja systemu routera). Gdy router jest uruchamiany lub restartowany,
 zgłasza on możliwość wejścia w tryb failsafe w pewnym określonym momencie. Ta gotowość jest
 potwierdzana pakietem UDP wysyłanym z adresu routera (192.168.1.1) na adres rozgłoszeniowy sieci
@@ -65,7 +65,7 @@ zostanie wygenerowany nowy MAC. W efekcie ISP najpierw widzi pakiet failsafe z j
 po skonfigurowaniu switch'a, router przesyła prośbę o konfigurację sieci przez protokół DHCP już
 portem WAN, który ma inny adres MAC. Wygląda to mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/09/1.rozny-adres-mac-isp-openwrt-wireshark.png#huge)
+![](/img/2016/09/1.rozny-adres-mac-isp-openwrt-wireshark.png#huge)
 
 Tutaj mój laptop był wpięty do portu WAN routera, by z perspektywy ISP ustalić jakie pakiety do
 niego trafiają. Widzimy, że pierwszy pakiet jest zgłoszeniem gotowości trybu failsafe. Zwróćmy uwagę
@@ -115,7 +115,7 @@ który ustawiliśmy w pliku `/etc/config/network` w sekcji `LAN` . Nie wiem czy 
 czymś przeszkadza ale jeśli teraz podepniemy się do portu WAN routera i ponownie sprawdzimy jak
 wygląda komunikacja routera z ISP, to zobaczymy coś takiego:
 
-![]({{< baseurl >}}/img/2016/09/2.rozny-adres-mac-isp-openwrt-wireshark.png#huge)
+![](/img/2016/09/2.rozny-adres-mac-isp-openwrt-wireshark.png#huge)
 
 Jak widzimy, teraz już wszystkie pakiety mają jeden i ten sam adres MAC, co powinno rozwiązać
 kwestię problemów z podwójnym adresem MAC po stronie ISP.

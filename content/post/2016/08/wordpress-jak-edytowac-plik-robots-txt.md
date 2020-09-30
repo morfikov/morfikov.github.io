@@ -32,7 +32,7 @@ który umożliwia, np. publikowanie postów za pomocą różnych klientów blogo
 protokołu mamy włączoną, to niekoniecznie musimy pisać posty przez panel administracyjny
 WordPress'a. W przypadku, gdy kogoś ta funkcjonalność zbytnio nie interesuje, tak jak mnie tutaj, to
 ze strony wygenerowanej przez skrypt WordPress'a można [usunąć odwołania do plików xmlrpc.php i
-wlwmanifest.xml]({{< baseurl >}}/post/wordpress-wylaczenie-protokolu-xml-rpc/). Niemniej jednak, w
+wlwmanifest.xml](/post/wordpress-wylaczenie-protokolu-xml-rpc/). Niemniej jednak, w
 pewnych specyficznych przypadkach wyszukiwarka Google ciągle będzie próbowała te zasoby odwiedzić. W
 jakich?
 
@@ -41,7 +41,7 @@ która wskazywała na ten blog. Nie były to wprawdzie klikalne linki, tylko uj�
 `code` , ale wyszukiwarka potraktowała taki tekst jako odnośnik i stąd błąd w panelu Google Search
 Console:
 
-![]({{< baseurl >}}/img/2016/08/1.search-console-google-bledy.png#huge)
+![](/img/2016/08/1.search-console-google-bledy.png#huge)
 
 Rozwiązania tego problemu są dwa. Pierwszym z nich jest edycja wszystkich postów i poprawienie
 domeny, by wskazywała na jakąś poza obszarem naszego serwisu. Wtedy Google nie będzie nas winił, że
@@ -55,7 +55,7 @@ Jest kilka dedykowanych narzędzi, które są w stanie poddać edycji plik `robo
 zrobić, np. korzystając z [wtyczki Yoast
 SEO](https://kb.yoast.com/kb/how-to-edit-robots-txt-through-yoast-seo/). Problem w tym, że nie da
 się edytować tego pliku w przypadku, gdy mamy [wyłączoną edycję plików przez panel
-WordPress'a]({{< baseurl >}}/post/wordpress-edycja-i-modyfikacja-plikow-dodatkow/).
+WordPress'a](/post/wordpress-edycja-i-modyfikacja-plikow-dodatkow/).
 
 Możemy jednak nadpisać plik `robots.txt` , który jest generowany przez skrypt WordPress'a. Musimy
 tylko w głównym katalogu strony (określony dyrektywą `DocumentRoot` w Apache2) stworzyć taki plik i
@@ -73,4 +73,4 @@ My dodatkowo musimy do niego dopisać jeszcze te dwa poniższe:
 Teraz można poprosić boty Google za sprawą penelu Search Console, by zaktualizowały sobie ten plik.
 Po chwili te dwa dodatkowe wpisy powinny zostać uwzględnione:
 
-![]({{< baseurl >}}/img/2016/08/2.search-console-google-robots-txt.png#huge)
+![](/img/2016/08/2.search-console-google-robots-txt.png#huge)

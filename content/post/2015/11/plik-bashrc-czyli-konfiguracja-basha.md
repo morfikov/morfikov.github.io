@@ -93,7 +93,7 @@ Trzeba mieć jednak na uwadze, że znak `~` , który symbolizuje katalog domowy 
 zadziała z tą opcją i trzeba precyzować pełne ścieżki, tj. zaczynając od `/home/morfik/` .
 
 
-[1]: {{< baseurl >}}/post/plik-bash_history-czyli-historia-polecen-basha/
+[1]: /post/plik-bash_history-czyli-historia-polecen-basha/
 [2]: https://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell
 [3]: https://superuser.com/questions/410525/explain-why-bash-logout-wont-run-commands
 [4]: http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html

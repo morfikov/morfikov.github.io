@@ -36,7 +36,7 @@ przesyłane są przy pomocy ciasteczka dane uwierzytelniające, które są nast�
 funkcję `wp_validate_auth_cookie()` . Poniżej jest wyciągnięte ciasteczko przy pomocy snifera
 wireshark:
 
-![]({{< baseurl >}}/img/2015/05/1.wordpress-cookie.png#huge)
+![](/img/2015/05/1.wordpress-cookie.png#huge)
 
 Jeśli komuś udałoby się podrobić te zaznaczoną pozycję, mógłby on uzyskać dostęp do konta na
 stronie. Poniżej sprawdzimy czy wykucie takiego ciasteczka i tym samym obejście zabezpieczeń
@@ -95,7 +95,7 @@ Tutaj mała uwaga -- nie możemy dodawać do adresu `/` na jego końcu.
 ### Nazwa użytkownika
 
 Nazwa użytkownika zwykle jest znana, przynajmniej [jeśli nie
-zadbamy]({{< baseurl >}}/post/wordpress-administrator-bloga/) o nią odpowiednio. Jeśli jednak
+zadbamy](/post/wordpress-administrator-bloga/) o nią odpowiednio. Jeśli jednak
 podjęliśmy ku temu stosowne kroki, to może być tutaj pewna rozbieżność.
 
 ### Czas ważności ciasteczka
@@ -141,7 +141,7 @@ Krótko mówiąc, jeśli istnieje jest funkcja `hash` to zostanie użyty `sha256
 `sha1` . Chodzi o to, że funkcja PHP `hash_hmac()` nie obsługuje `sha256` . Jeśli nie wiemy, który
 hash zostanie użyty na konkretnym serwerze, zawsze możemy to sprawdzić via `<php phpinfo() ?>` :
 
-![]({{< baseurl >}}/img/2015/05/2.php-hash.png#huge)
+![](/img/2015/05/2.php-hash.png#huge)
 
 Dalej w pliku mamy kod odpowiadający za generowanie samego hasha:
 
@@ -212,7 +212,7 @@ oczywiście sami sobie wygenerować te 64 znakowe ciągi, z tym, że nie wiem cz
 co do ich długości. Na stronie WordPressa jest jedynie informacja, że te klucze powinny być długie i
 możliwie losowe, no i oczywiście, każdy z nich inny. Jako, że takie ciasteczko jest proste do
 przechwycenia, powinniśmy [rozważyć wymuszenie korzystania z protokołu
-SSL]({{< baseurl >}}/post/wordpress-szyfrowanie-ssltls/) przynajmniej w przypadku logowania i
+SSL](/post/wordpress-szyfrowanie-ssltls/) przynajmniej w przypadku logowania i
 korzystania z panelu administracyjnego.
 
 Jeśli nie podamy tych kluczy w pliku `wp-config.php` , zostaną one automatycznie wygenerowane przez
@@ -221,7 +221,7 @@ to zagrożenie bezpieczeństwa i nie powinniśmy do takiej sytuacji doprowadzać
 przesady w drugą stronę, bo potencjalny atakujący musiałby uzyskać dostęp do bazy danych. Niemniej
 jednak, jeśli klucze i sole trzymamy osobno w pliku, ten ktoś musiałby również uzyskać dostęp do
 systemu plików serwera tak by i ten plik pozyskać. Dlatego trzeba pamiętać, że [prawa dostępu do
-pliku]({{< baseurl >}}/post/wordpress-ograniczone-prawa-dostepu/) `wp-config.php` powinny być
+pliku](/post/wordpress-ograniczone-prawa-dostepu/) `wp-config.php` powinny być
 bardzo restrykcyjne.
 
 Nie musimy się tymi kluczami za to zbytnio przejmować w środowisku produkcyjnym, tj. nic się nie

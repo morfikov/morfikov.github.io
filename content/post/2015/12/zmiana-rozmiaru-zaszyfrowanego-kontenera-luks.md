@@ -29,9 +29,9 @@ dostosowanie partycji i jej systemu plików.
 
 W przypadku zwykłych, niezaszyfrowanych partycji, zmiana rozmiaru nie jest niczym trudnym.
 Praktycznie do każdego typu systemu plików (w tym też do
-[EXT4]({{< baseurl >}}/post/zmiana-rozmiaru-partycji-ext4/),
-[FAT32]({{< baseurl >}}/post/zmiana-rozmiaru-partycji-fat32/),
-[NTFS]({{< baseurl >}}/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/)) posiadamy dedykowane
+[EXT4](/post/zmiana-rozmiaru-partycji-ext4/),
+[FAT32](/post/zmiana-rozmiaru-partycji-fat32/),
+[NTFS](/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/)) posiadamy dedykowane
 narzędzia, które potrafią zmienić ich rozmiar. Wszystkie te narzędzia operują głównie na systemach
 plików. Z kolei do zmiany rozmiaru partycji mamy `fdisk` . Widzimy zatem, że struktura jest
 warstwowa. Najpierw jest partycja, a na niej system plików. W przypadku zaszyfrowanych partycji,

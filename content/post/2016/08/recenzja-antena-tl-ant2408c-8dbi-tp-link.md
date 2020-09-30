@@ -34,15 +34,15 @@ Pudełko jest dość duże, bo i sama antena do najmniejszych nie należy. Jej d
 Poniżej fotki zawartości
 opakowania.
 
-![]({{< baseurl >}}/img/2016/08/1.antena-TL-ANT2408C-opakowanie.jpg#medium)
+![](/img/2016/08/1.antena-TL-ANT2408C-opakowanie.jpg#medium)
 
-![]({{< baseurl >}}/img/2016/08/2.antena-TL-ANT2408C-zawartosc-pudelka.jpg#huge)
+![](/img/2016/08/2.antena-TL-ANT2408C-zawartosc-pudelka.jpg#huge)
 
 Poza samą anteną, w zestawie znajduje się też podstawka, do której można antenę przykręcić:
 
-![]({{< baseurl >}}/img/2016/08/3.antena-TL-ANT2408C-podstawka.jpg#huge)
+![](/img/2016/08/3.antena-TL-ANT2408C-podstawka.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/4.antena-TL-ANT2408C-podstawka-magnes.jpg#medium)
+![](/img/2016/08/4.antena-TL-ANT2408C-podstawka-magnes.jpg#medium)
 
 Ciekawym rozwiązaniem jest zastosowanie w podstawce magnesu, za pomocą którego jesteśmy w stanie
 przyczepić antenę do metalowych przedmiotów, np. do obudowy naszego dekstopa. Sama podstawka nie
@@ -53,7 +53,7 @@ siły włożyć, by tę podstawkę od obudowy oderwać.
 Przewód, który jest widoczny niżej to RG174 o długości około 130 cm i jest zakończony złączem
 RP-SMA:
 
-![]({{< baseurl >}}/img/2016/08/5.antena-TL-ANT2408C-podstawka-przewod-rp-sma.jpg#medium)
+![](/img/2016/08/5.antena-TL-ANT2408C-podstawka-przewod-rp-sma.jpg#medium)
 
 Złącze RP-SMA jest stosowane w większości routerów WiFi i adapterów/kart bezprzewodowych. Zatem bez
 problemu można tę antenę stosować z tymi urządzeniami.
@@ -63,7 +63,7 @@ problemu można tę antenę stosować z tymi urządzeniami.
 Zatem wiemy mniej więcej jak wygląda antena TL-ANT2408C. Poniżej jest zaś fotka mojego adaptera WiFi
 TL-WN722N z podczepioną nową anteną:
 
-![]({{< baseurl >}}/img/2016/08/6.antena-TL-ANT2408C-adapter-wifi-TL-WN722N.jpg#huge)
+![](/img/2016/08/6.antena-TL-ANT2408C-adapter-wifi-TL-WN722N.jpg#huge)
 
 Ten zestaw wygląda naprawdę przyzwoicie. Nic tylko podłączyć teraz adapter do portu USB komputera i
 cieszyć się lepszym zasięgiem. Jest tylko jeden problem. Podobnie jak większość użytkowników, nie do
@@ -110,12 +110,12 @@ wynosi zatem 4 dBi. Sprawdźmy jak wyglądają statystyki sygnału z odległośc
 niezbyt grubą ścianę. Poniższa fotka obrazuje jakość i siłę sygnału, gdy do adaptera WiFi nie ma
 podłączonej żadnej anteny:
 
-![]({{< baseurl >}}/img/2016/08/7.antena-TL-ANT2408C-adapter-wifi-TL-WN722N-test-sygnal.png#big)
+![](/img/2016/08/7.antena-TL-ANT2408C-adapter-wifi-TL-WN722N-test-sygnal.png#big)
 
 Niżej zaś mamy fotkę, która zestawia jakość i siłę sygnału po doczepieniu anteny małej (z lewej) i
 dużej (z prawej):
 
-![]({{< baseurl >}}/img/2016/08/8.antena-TL-ANT2408C-adapter-wifi-TL-WN722N-test-sygnal.png#huge)
+![](/img/2016/08/8.antena-TL-ANT2408C-adapter-wifi-TL-WN722N-test-sygnal.png#huge)
 
 Jak widzimy, nie ma zbytnio żadnej różnicy, a biorąc pod uwagę restrykcje prawne, takiej różnicy być
 nie może. Chodzi generalnie o to, że producent sprzętu by móc go legalnie sprzedawać w Polsce, musi

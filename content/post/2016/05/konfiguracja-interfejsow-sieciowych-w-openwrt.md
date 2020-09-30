@@ -32,7 +32,7 @@ Na sam początek ustalmy to jakimi interfejsami dysponuje nasze urządzenie. Log
 router i w terminalu wpisujemy polecenie `ifconfig` . Jak sama nazwa wskazuje, powinno ono zwrócić
 listę aktywnych interfejsów sieciowych:
 
-![]({{< baseurl >}}/img/2016/05/1.konfiguracja-interfejsow-sieciowych-archer-c7-openwrt.png#big)
+![](/img/2016/05/1.konfiguracja-interfejsow-sieciowych-archer-c7-openwrt.png#big)
 
 Powyżej mamy szereg interfejsów fizycznych, czyli tych, które zostały poprawnie rozpoznane przez
 system operacyjny routera. Do nich zaliczają się `eth0` , `eth1` , `wlan0` oraz `wlan1` . Mamy tam
@@ -117,7 +117,7 @@ miał ustawioną statyczną adresację. Adres IP to 192.168.1.1 z maską 255.255
 192.168.1.0/24 . Opcjonalnie można także zdefiniować `broadcast` , który standardowo jest ustawiany
 na ostatni adres sieci, czyli 192.168.1.255 . Dzięki temu adresowi dany host w sieci może wysłać
 pakiety do wszystkich znajdujących się w niej maszyn, np. w przypadku poszukiwania [serwera
-DHCP]({{< baseurl >}}/post/dhcp-dns-czyli-konfiguracja-sieci-w-openwrt/). Jako, że ustawiliśmy
+DHCP](/post/dhcp-dns-czyli-konfiguracja-sieci-w-openwrt/). Jako, że ustawiliśmy
 statyczny protokół konfiguracji tego interfejsu, musimy także ustawić opcję `force_link` . Odpowiada
 ona za przypisanie do tego interfejsu adresu IP, maski oraz opcjonalnie bramy sieciowej nawet w
 przypadku, gdy połączenie nie jest aktywne. Dalej mamy opcję `ip6assign` określającą długość
@@ -145,7 +145,7 @@ tak jak to miało w przypadku interfejsu `br-lan` . Niemniej jednak, trzeba będ
 dostosowywać sobie konfigurację połączenia z ISP jeśli ulegnie ona zmianie wliczając w to `ipaddr` ,
 `netmask` `gateway` i opcjonalnie `broadcast` . W `ifname` określamy fizyczny interfejs switch'a,
 tym razem po stronie WAN. Jeśli potrzebujemy [sklonować adres
-MAC]({{< baseurl >}}/post/jak-sklonowac-adres-mac-w-openwrt/), to w opcji `macaddr` wpisujemy
+MAC](/post/jak-sklonowac-adres-mac-w-openwrt/), to w opcji `macaddr` wpisujemy
 adres poprzedniej maszyny, która widnieje w bazie ISP. Opcja `hostname` sprawi, że klient `udhcpc`
 wyśle do serwera DHCP nazwę hosta określoną w tym parametrze. Zwykle nie jest wysyłana żadna nazwa.
 Za pomocą opcji `peerdns` oraz `dns` jesteśmy w stanie nadpisać serwery DNS otrzymane w lease od
@@ -176,7 +176,7 @@ wpływa:
         option proto     'dhcpv6'
 
 Niemniej jednak, jeśli jesteśmy w posiadaniu zewnętrznego adresu IPv4, to możemy pokusić się o
-[stworzenie tunelu 6in4]({{< baseurl >}}/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/).
+[stworzenie tunelu 6in4](/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/).
 
 ## Konfiguracja switch'a (VLAN)
 
@@ -202,4 +202,4 @@ chcielibyśmy wydzielić drugi port WAN. Poniżej przykład konfiguracji:
 
 Konfiguracja switch'a wykracza poza ramy tego artykuły i nie będę poruszał tutaj tego tematu.
 Niemniej jednak, jest on bardzo ciekawy i na tyle obszerny, że został opisany w artykule dotyczącym
-[podziału switch'a na VLAN'y]({{< baseurl >}}/post/podzial-switcha-na-kilka-vlan-w-openwrt/).
+[podziału switch'a na VLAN'y](/post/podzial-switcha-na-kilka-vlan-w-openwrt/).

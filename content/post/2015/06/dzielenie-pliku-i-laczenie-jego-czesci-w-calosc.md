@@ -75,7 +75,7 @@ Pliki łączymy zaś w poniższy sposób:
     $ cat film.mkv.0* > film.mkv
 
 Po całym procesie dobrze jest także sprawdzić jak wygląda [suma
-kontrolna]({{< baseurl >}}/post/suma-kontrolna-nagranego-obrazu-iso/) pliku wynikowego, oczywiście
+kontrolna](/post/suma-kontrolna-nagranego-obrazu-iso/) pliku wynikowego, oczywiście
 w przypadku gdybyśmy dysponowali sumą oryginalnego pliku. A to z tego względu, że narzędzie `cat`
 nie weryfikuje wejścia i zwyczajnie kopiuje poszczególne pliki i łączy je ze sobą. Jeśli któryś z
 nich jest uszkodzony albo zwyczajnie go brakuje, wtedy wyjściowy plik również ulegnie uszkodzeniu i

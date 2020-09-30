@@ -69,7 +69,7 @@ blokady jest przechowywany. Nazwa tej partycji może być różna ale można ją
 
 Ta partycja zwrócona w `ro.frp.pst` jest zmieniana za sprawą kilku czynników. Są tutaj przechowywane
 też ustawienia [blokady FPR
-Lock]({{< baseurl >}}/post/factory-reset-protection-frp-w-smartfonach-z-androidem/) (tej od konta
+Lock](/post/factory-reset-protection-frp-w-smartfonach-z-androidem/) (tej od konta
 Google). Nas jednak interesuje ostatni bajt na tej partycji, bo zgodnie z [informacjami jakie
 znalazłem na forum
 XDA](https://forum.xda-developers.com/nexus-6/help/info-nexus-6-nexus-9-enable-oem-unlock-t3113539),
@@ -94,12 +94,12 @@ tym przypadku partycja `frp` zajmuje 1 MiB. Ten obraz trzeba załadować do edyt
 z [wxhexeditor](http://www.wxhexeditor.org/) . Po załadowaniu obrazu w tym programiku powinniśmy
 ujrzeć poniższe okienko:
 
-![]({{< baseurl >}}/img/2017/04/001-oem-lock-frp-smartfon-android-bootloader-hex.png#huge)
+![](/img/2017/04/001-oem-lock-frp-smartfon-android-bootloader-hex.png#huge)
 
 Jak widać wyżej ostatnie dwie cyferki (bajt) mają `00` , zatem blokada jest założona. Trzeba tutaj
 ten bajt przepisać do postaci `01` .
 
-![]({{< baseurl >}}/img/2017/04/002-oem-lock-frp-smartfon-android-bootloader-hex.png#huge)
+![](/img/2017/04/002-oem-lock-frp-smartfon-android-bootloader-hex.png#huge)
 
 Następnie zapisujemy plik i ładujemy go w SP Flash Tool i wgrywamy na partycję `frp`. Po wgraniu,
 pamiętajmy, by smartfon uruchomić w trybie bootloader'a (zwykle VolDown+Power, ewentualnie przez

@@ -147,5 +147,5 @@ Napisy zostaną przekonwertowane do formatu SRT, czyli do tego jedynie słuszneg
 powinien w końcu zapanować nad światem.
 
 
-[1]: {{< baseurl >}}/post/kontener-multimedialny-mkv/
+[1]: /post/kontener-multimedialny-mkv/
 [2]: https://gpac.wp.imt.fr/

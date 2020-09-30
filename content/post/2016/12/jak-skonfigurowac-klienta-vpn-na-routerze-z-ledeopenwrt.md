@@ -16,9 +16,9 @@ title: Jak skonfigurować klienta VPN na routerze z LEDE/OpenWRT
 ---
 
 Ostatnio pisałem trochę o [konfiguracji serwera VPN na
-Debianie]({{< baseurl >}}/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/) oraz podłączaniu
+Debianie](/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/) oraz podłączaniu
 do niego różnych linux'owych klientów, w tym też [smartfonów wyposażonych w system
-Android]({{< baseurl >}}/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/). O ile
+Android](/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/). O ile
 konfiguracja pojedynczego klienta OpenVPN nie jest jakoś szczególnie trudna, to mając w swojej sieci
 domowej kilka urządzeń zdolnych łączyć się z internetem zarówno przewodowo jak i bezprzewodowo, to
 dostosowanie konfiguracji na każdym z tych sprzętów może być ździebko problematyczne. To co łączy te
@@ -40,7 +40,7 @@ Trzeba także brać pod uwagę fakt szyfrowania całego ruchu, co też obciąży
 dwie rzeczy nie stanowią aż takiego problemu w przypadku Archer'a C2600, bo on ma flash 32 MiB i dwa
 rdzenie taktowane 1,2 GHz:
 
-![]({{< baseurl >}}/img/2016/12/001-openvpn-vpn-lede-openwrt-router-tp-link.png#huge)
+![](/img/2016/12/001-openvpn-vpn-lede-openwrt-router-tp-link.png#huge)
 
 Na innych routerach, które mają mniejszy flash i słabszy procesor, OpenVPN może sprawić drobne
 problemy, zwłaszcza przy mocniejszych szyfrach. O ile w przypadku wolnego miejsca na flash możemy
@@ -185,7 +185,7 @@ osobnych plikach.
 Ja jestem zwolennikiem uwierzytelniania użytkowników za pomocą certyfikatów klienckich. Dlatego też
 mam w taki sposób skonfigurowany swój serwer VPN. Bez przedstawienia takiego certyfikatu, żaden
 klient nie będzie w stanie zestawić połączenia. Opis [jak wygenerować takie certyfikaty w oparciu o
-easy-rsa]({{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/) został opisany
+easy-rsa](/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/) został opisany
 osobno. Tutaj warto nadmienić, że w LEDE/OpenWRT mamy dostępny pakiet `openvpn-easy-rsa` , którym
 możemy się posłużyć przy generowaniu certyfikatów. Niemniej jednak, to rozwiązanie nie jest zbytnio
 zalecane ze względu na niewielką moc obliczeniową takiego przeciętnego routera WiFi, przez cały
@@ -224,9 +224,9 @@ Plik `/etc/config/firewall` :
 
 Zapisujemy i resetujemy router. I to w zasadzie cała konfiguracja jeśli chodzi o przesyłanie ruchu
 ze wszystkich urządzeń w sieci domowej WiFi do serwera VPN. Jeśli zaś chodzi o ewentualne [przecieki
-DNS]({{< baseurl >}}/post/przeciek-dns-dns-leak-w-vpn-resolvconf/), to zawsze możemy skonfigurować
+DNS](/post/przeciek-dns-dns-leak-w-vpn-resolvconf/), to zawsze możemy skonfigurować
 sobie [szyfrowany DNS w oparciu o
-dnscrypt-proxy]({{< baseurl >}}/post/konfiguracja-dnscrypt-proxy-w-openwrt/) również na routerze.
+dnscrypt-proxy](/post/konfiguracja-dnscrypt-proxy-w-openwrt/) również na routerze.
 
 ## Test połączenia z serwerem VPN
 

@@ -33,7 +33,7 @@ przypadku.
 
 Istnieje jedna opcja dla Xservera, która potrafi wymusić korzystanie z odpowiedniego separatora. By
 z niej skorzystać musimy mieć już [wstępnie skonfigurowaną
-klawiaturę]({{< baseurl >}}/post/klawiatura-i-jej-konfiguracja-pod-debianem/) w systmie. W
+klawiaturę](/post/klawiatura-i-jej-konfiguracja-pod-debianem/) w systmie. W
 zależności od tego czy korzystamy z natywnych debianowych narzędzi czy też konfiguracja odbywa się
 przez Xserver, poniższy parametr trzeba dopisać do odpowiedniego pliku, tj. `/etc/default/keyboard`
 lub `/etc/X11/xorg.conf.d/10-keyboard.conf` odpowiednio.

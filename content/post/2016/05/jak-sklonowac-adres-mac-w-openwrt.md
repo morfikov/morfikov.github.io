@@ -31,14 +31,14 @@ chcemy. W tym wpisie zobaczymy jak pod OpenWRT przeprowadzić klonowanie adresu 
 ## Jak sklonować adres MAC
 
 Procedura klonowania adresu MAC w routerach jest podobna do [generowania losowego
-adresu]({{< baseurl >}}/post/jak-przypisac-losowy-adres-mac-interfejsu/). W obu przypadkach musimy
+adresu](/post/jak-przypisac-losowy-adres-mac-interfejsu/). W obu przypadkach musimy
 przepisać adres interfejsowi karty sieciowej. Niemniej jednak, w przypadku ISP, ten posiada adres
 MAC naszej starej maszyny. Dlatego nie możemy użyć dowolnego adresu MAC i musimy sklonować ten
 obecny w bazie danych providera. Zatem jeśli do sieci był podpięty zwykły komputer, to jego adres
 MAC musimy odczytać w opcjach sieciowych. Na linux'ie służą do tego polecenia `ifconfig` lub `ip` .
 Poniżej przykład:
 
-![]({{< baseurl >}}/img/2016/05/1.sklonowac-adres-mac-komputer-openwrt.png#huge)
+![](/img/2016/05/1.sklonowac-adres-mac-komputer-openwrt.png#huge)
 
 Widoczne wyżej `link/ether 3c:4a:92:00:4c:5b` , to właśnie adres MAC tej karty sieciowej. To ten
 numer musimy uwzględnić w konfiguracji OpenWRT. Logujemy się zatem na router i przechodzimy do
@@ -51,4 +51,4 @@ edycji pliku `/etc/config/network` . Tam odszukujemy sekcję `wan` i dopisujemy 
 Zapisujemy plik i restartujemy router. Adres MAC powinien zostać sklonowany, co możemy odczytać w
 konfiguracji routera wydając polecenie `ifconfig` wskazując w argumencie interfejs WAN:
 
-![]({{< baseurl >}}/img/2016/05/2.sklonowac-adres-mac-komputer-openwrt.png#big)
+![](/img/2016/05/2.sklonowac-adres-mac-komputer-openwrt.png#big)

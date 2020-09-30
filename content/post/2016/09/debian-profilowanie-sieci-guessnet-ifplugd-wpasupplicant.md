@@ -313,6 +313,6 @@ problem z zapętlaniem demona roamingowego.
 [1]: https://forum.dug.net.pl/viewtopic.php?id=28903
 [2]: http://0pointer.de/lennart/projects/ifplugd/
 [3]: https://w1.fi/wpa_supplicant/
-[4]: {{< baseurl >}}/post/dynamiczna-konfiguracja-sieci-ifplugd/
-[5]: {{< baseurl >}}/post/jak-skonfigurowac-roaming-wifi-wpa_supplicant-linux/
+[4]: /post/dynamiczna-konfiguracja-sieci-ifplugd/
+[5]: /post/jak-skonfigurowac-roaming-wifi-wpa_supplicant-linux/
 [6]: http://manual.aptosid.com/pl/inet-setup-pl.htm

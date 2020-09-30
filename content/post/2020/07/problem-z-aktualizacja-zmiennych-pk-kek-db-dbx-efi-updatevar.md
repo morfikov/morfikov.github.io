@@ -200,5 +200,5 @@ tak by nikt nam zmiennych EFI/UEFI nie przepisał bez naszej świadomej i dobrow
 
 
 [1]: https://packages.ubuntu.com/groovy/secureboot-db
-[2]: {{< baseurl >}}/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/
+[2]: /jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/
 [3]: https://eclypsium.com/2020/07/29/theres-a-hole-in-the-boot/

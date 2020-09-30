@@ -86,7 +86,7 @@ Password](https://play.google.com/store/apps/details?id=org.nick.cryptfs.passwdm
 ([źródła](https://github.com/nelenkov/cryptfs-password-manager)) lub też przy pomocy `adb` . To
 co łączy te dwie metody, to niestety ukorzeniony system (root), a jak wiadomo większość użytkowników
 smartfonów nie posiada root'a. W przypadku tego Neffos'a Y5, [proces root można przeprowadzić bez
-większego problemu]({{< baseurl >}}/post/android-root-smartfona-neffos-y5-od-tp-link/) i
+większego problemu](/post/android-root-smartfona-neffos-y5-od-tp-link/) i
 naturalnie mój model ma już ten proces za sobą.
 
 Jeśli nie zamierzamy instalować dodatkowych aplikacji w telefonie, to naturalnie możemy skorzystać z

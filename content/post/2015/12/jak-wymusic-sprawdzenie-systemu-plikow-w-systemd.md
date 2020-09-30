@@ -13,7 +13,7 @@ title: Jak wymusić sprawdzenie systemu plików w systemd
 ---
 
 Jakiś czas temu opisywałem jak w systemach linux'owych przeprowadzić [sprawdzenie systemu plików pod
-kątem ewentualnych błędów]({{< baseurl >}}/post/sprawdzanie-bledow-systemu-plikow-ext4/). Był tam
+kątem ewentualnych błędów](/post/sprawdzanie-bledow-systemu-plikow-ext4/). Był tam
 poświęcony kawałek na temat ręcznego wymuszenia takiego skanowania. Ten sposób, który został opisany
 w tamtym wpisie działa wyśmienicie w przypadku sysvinit. Natomiast przy systemd mogą pojawić się
 pewne problemy, w efekcie czego nie będziemy w stanie wymusić skanowania pewnych partycji.

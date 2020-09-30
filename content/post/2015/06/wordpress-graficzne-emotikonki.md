@@ -26,12 +26,12 @@ czemu teraz każdy może z nich korzystać. Niektórym osobnikom mogą one nie p
 wypadek gdyby ktoś jednak chciał sobie tę graficzne emotikonki włączyć, to warto wiedzieć, że opcja
 odpowiadająca za ich zamianę widnieje w panelu administracyjnym WordPressa (Settings => Writing):
 
-![]({{< baseurl >}}/img/2015/06/1.wordpress-opcje-emotikonki.png#big)
+![](/img/2015/06/1.wordpress-opcje-emotikonki.png#big)
 
 Nie ma znaczenia przy tym, czy zaznaczymy tę powyższą opcję czy też nie, to i tak w kodzie strony
 będziemy mieć skrypt i style od tych emotikonek:
 
-![]({{< baseurl >}}/img/2015/06/2.wordpress-kod-strony-emotikonki.png#huge)
+![](/img/2015/06/2.wordpress-kod-strony-emotikonki.png#huge)
 
 Na szczęście bez większego trudu możemy posprzątać ten bałagan. Chodzi generalnie o dodanie do pliku
 `functions.php` w swoim motywie tego poniższego kodu:

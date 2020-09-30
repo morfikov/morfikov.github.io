@@ -29,7 +29,7 @@ przyjrzymy się nieco bliżej temu routerowi.
 
 Po wyjęciu z pudełka router wygląda mniej więcej tak jak widać to na obrazku poniżej:
 
-![]({{< baseurl >}}/img/2016/05/1.router-tp-link-tl-wr1043nd-v2-wyglad.jpg#big)
+![](/img/2016/05/1.router-tp-link-tl-wr1043nd-v2-wyglad.jpg#big)
 
 Jak widać mamy tutaj 3 anteny dla WiFi w paśmie 2,4 GHz. Teoretycznie maksymalna przepustowość
 powinna wynosić 300 mbit/s (w trybie Speed Boost nawet 450 mbit/s) ale z tym to różnie bywa i lepiej
@@ -39,15 +39,15 @@ prędkości. W domkach jednorodzinnych naturalnie sprawa może wyglądać inacze
 mniej zakłóceń. Niemniej jednak, w dalszym ciągu trzeba brać poprawkę na grubsze ściany. Poniżej
 jest fotka samych anten:
 
-![]({{< baseurl >}}/img/2016/05/2.router-tp-link-tl-wr1043nd-v2-antena.jpg#big)
+![](/img/2016/05/2.router-tp-link-tl-wr1043nd-v2-antena.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/3.router-tp-link-tl-wr1043nd-v2-antena.jpg#big)
+![](/img/2016/05/3.router-tp-link-tl-wr1043nd-v2-antena.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/4.router-tp-link-tl-wr1043nd-v2-antena.jpg#big)
+![](/img/2016/05/4.router-tp-link-tl-wr1043nd-v2-antena.jpg#big)
 
 Panel tylny routera TL-WR1043ND v2 prezentuje się zaś następująco:
 
-![]({{< baseurl >}}/img/2016/05/5.router-tp-link-tl-wr1043nd-v2-panel-tylny.jpg#big)
+![](/img/2016/05/5.router-tp-link-tl-wr1043nd-v2-panel-tylny.jpg#big)
 
 Widoczne są 3 gniazda antenowe ([RP-SMA](https://pl.wikipedia.org/wiki/RP-SMA)). Mamy także
 gigabitowy switch 5-cio portowy z wydzielonym portem WAN. Dalej mamy jeden port USB w standardzie
@@ -58,45 +58,45 @@ W zestawie jest dołączony także zasilacz (12V/1,5A), którym jest zasilany ro
 urządzenie jest w stanie wyciągnąć maksymalnie 18W. Z reguły pobiera 6-10W w zależności od
 obciążenia. Sam zasilacz zaś jest pokazany poniżej:
 
-![]({{< baseurl >}}/img/2016/05/6.router-tp-link-tl-wr1043nd-v2-zasilacz.jpg#big)
+![](/img/2016/05/6.router-tp-link-tl-wr1043nd-v2-zasilacz.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/7.router-tp-link-tl-wr1043nd-v2-zasilacz.jpg#medium)
+![](/img/2016/05/7.router-tp-link-tl-wr1043nd-v2-zasilacz.jpg#medium)
 
 Mamy także jeden przewód ethernetowy ([skrętka
 KAT5](https://en.wikipedia.org/wiki/Category_5_cable)):
 
-![]({{< baseurl >}}/img/2016/05/8.router-tp-link-tl-wr1043nd-v2-skretka-kabel.jpg#medium)
+![](/img/2016/05/8.router-tp-link-tl-wr1043nd-v2-skretka-kabel.jpg#medium)
 
 Poniżej zaś jest spodnia część obudowy, na której widać otwory wentylacyjne:
 
-![]({{< baseurl >}}/img/2016/05/9.router-tp-link-tl-wr1043nd-v2-wyglad-spod.jpg#big)
+![](/img/2016/05/9.router-tp-link-tl-wr1043nd-v2-wyglad-spod.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/10.router-tp-link-tl-wr1043nd-v2-wyglad-spod-naklejka.jpg#big)
+![](/img/2016/05/10.router-tp-link-tl-wr1043nd-v2-wyglad-spod-naklejka.jpg#big)
 
 ## Podzespoły routera TP-LINK TL-WR1043ND v2
 
 Ściągnijmy zatem górną część obudowy i zajrzyjmy do wnętrza urządzenia. W środku kryje się szereg
 układów firmy Qualcomm:
 
-![]({{< baseurl >}}/img/2016/05/11.router-tp-link-tl-wr1043nd-v2-podzespoly.jpg#big)
+![](/img/2016/05/11.router-tp-link-tl-wr1043nd-v2-podzespoly.jpg#big)
 
 Poniżej są fotki poszczególnych układów. [System on a chip
 (SoC)](https://pl.wikipedia.org/wiki/System-on-a-chip) wraz ze zintegrowanym układem WiFi 2,4 GHz
 (QCA9558 3x3 b/g/n):
 
-![]({{< baseurl >}}/img/2016/05/12.router-tp-link-tl-wr1043nd-v2-podzespoly-procesor-radio-2.4ghz.jpg#big)
+![](/img/2016/05/12.router-tp-link-tl-wr1043nd-v2-podzespoly-procesor-radio-2.4ghz.jpg#big)
 
 Czip gigabitowego switch'a (AR8327N-BL1A):
 
-![]({{< baseurl >}}/img/2016/05/13.router-tp-link-tl-wr1043nd-v2-podzespoly-switch.jpg#big)
+![](/img/2016/05/13.router-tp-link-tl-wr1043nd-v2-podzespoly-switch.jpg#big)
 
 Pamięć operacyjna RAM 64 MiB (Winbond W9751G6KB-25):
 
-![]({{< baseurl >}}/img/2016/05/14.router-tp-link-tl-wr1043nd-v2-podzespoly-pamiec-ram.jpg#big)
+![](/img/2016/05/14.router-tp-link-tl-wr1043nd-v2-podzespoly-pamiec-ram.jpg#big)
 
 Są też porty konsoli szeregowej:
 
-![]({{< baseurl >}}/img/2016/05/15.router-tp-link-tl-wr1043nd-v2-konsola-szeregowa.jpg#big)
+![](/img/2016/05/15.router-tp-link-tl-wr1043nd-v2-konsola-szeregowa.jpg#big)
 
 ## Wsparcie OpenWRT dla TL-WR1043ND v2
 
@@ -310,6 +310,6 @@ mierze tylko nasza wyobraźnia. Ja byłem zmuszony nieco rozbudować ten router,
 swoich upodobań. Poniższe fotki mówią raczej same za
 siebie:
 
-![]({{< baseurl >}}/img/2016/05/16.router-tp-link-tl-wr1043nd-v2-rozbudowa.jpg#big)
+![](/img/2016/05/16.router-tp-link-tl-wr1043nd-v2-rozbudowa.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/17.router-tp-link-tl-wr1043nd-v2-rozbudowa.jpg#big)
+![](/img/2016/05/17.router-tp-link-tl-wr1043nd-v2-rozbudowa.jpg#big)

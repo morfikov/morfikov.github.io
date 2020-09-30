@@ -88,7 +88,7 @@ zrobić aby aplikacja była w stanie poprawnie działać. Poniżej przykład apl
 
 |     |    |
 | --- | ---|
-| ![]({{< baseurl >}}/img/2019/04/001-signal-google-play-services-missing.png#small) | ![]({{< baseurl >}}/img/2019/04/002-signal-google-play-services-missing.png#small) |
+| ![](/img/2019/04/001-signal-google-play-services-missing.png#small) | ![](/img/2019/04/002-signal-google-play-services-missing.png#small) |
 
 ### Brak sklepu Google Play
 
@@ -117,7 +117,7 @@ który umożliwia zbiorcze aktualizacje w tle bez potrzeby przeprowadzania dzia�
 użytkownika. Bez tego dodatku, użytkownik musiałby ręcznie każdą aplikację zaktualizować osobno, a
 to wymagałoby trochę czasu i byłoby przy tym trochę upierdliwe.
 
-![]({{< baseurl >}}/img/2019/04/003-f-droid-google-play.png#small)
+![](/img/2019/04/003-f-droid-google-play.png#small)
 
 #### Yalp Store
 
@@ -131,7 +131,7 @@ sklepie Google Play oraz, że nie został on w żaden sposób zmieniony przez po
 zajdzie potrzeba aktualizacji aplikacji -- nie da się tego zrobić w przypadku gdyby podpisy się
 różniły, czyli dokładnie tak samo jak w przypadku sklepu Google Play.
 
-![]({{< baseurl >}}/img/2019/04/004-yalp-store-google-play.png#small)
+![](/img/2019/04/004-yalp-store-google-play.png#small)
 
 Yalp Store jest dostępny w repozytorium F-Droid i można go bez większego trudu zainstalować na
 każdym urządzeniu. Do pobierania plików `.apk` potrzebne jest jednak konto Google. Możemy albo
@@ -267,13 +267,13 @@ pojawić nowa pozycja `microG settings` . Odpalamy ją i przyznajemy uprawnienia
 
 |     |    |     |
 | --- | ---| --- |
-| ![]({{< baseurl >}}/img/2019/04/005-microg-missing-permissions.png#small) | ![]({{< baseurl >}}/img/2019/04/006-microg-missing-permissions.png#small) | ![]({{< baseurl >}}/img/2019/04/007-microg-missing-permissions.png#small) |![]({{< baseurl >}}/img/2019/04/008-microg-missing-permissions.png#small) |
+| ![](/img/2019/04/005-microg-missing-permissions.png#small) | ![](/img/2019/04/006-microg-missing-permissions.png#small) | ![](/img/2019/04/007-microg-missing-permissions.png#small) |![](/img/2019/04/008-microg-missing-permissions.png#small) |
 
 Następnie przeprowadzamy `Self-Check` :
 
 |     |    |     |
 | --- | ---| --- |
-| ![]({{< baseurl >}}/img/2019/04/009-microg-self-check-fail.png#small) | ![]({{< baseurl >}}/img/2019/04/010-microg-self-check-fail.png#small) | ![]({{< baseurl >}}/img/2019/04/011-microg-self-check-fail.png#small) | ![]({{< baseurl >}}/img/2019/04/012-microg-self-check-fail.png#small) |
+| ![](/img/2019/04/009-microg-self-check-fail.png#small) | ![](/img/2019/04/010-microg-self-check-fail.png#small) | ![](/img/2019/04/011-microg-self-check-fail.png#small) | ![](/img/2019/04/012-microg-self-check-fail.png#small) |
 
 No jak widać test nie wypadł po naszej myśli, bo powinny się zapalić wszystkie kontrolki, a w tym
 przypadku paru rzeczy brakuje. Te wszystkie zaistniałe problemy trzeba poprawić. Jeśli któryś z
@@ -302,13 +302,13 @@ Przesyłamy zatem `MagiskManager-v7.1.1.apk` oraz `Magisk-v18.1.zip` na telefon:
 Paczkę `.zip` instalujemy z poziomu TWRP recovery, a plik `.apk` bezpośrednio w systemie jako
 zwykłą aplikację.
 
-![]({{< baseurl >}}/img/2019/04/013-twrp-magisk-flash-recovery.png#small)
+![](/img/2019/04/013-twrp-magisk-flash-recovery.png#small)
 
 Następnie odpalamy aplikację `MagiskManager` i instalujemy Xposed:
 
 |     |    |     |
 | --- | ---| --- |
-| ![]({{< baseurl >}}/img/2019/04/013-microg-magisk-xposed-installation.png#small) | ![]({{< baseurl >}}/img/2019/04/014-microg-magisk-xposed-installation.png#small) | ![]({{< baseurl >}}/img/2019/04/015-microg-magisk-xposed-installation.png#small) |
+| ![](/img/2019/04/013-microg-magisk-xposed-installation.png#small) | ![](/img/2019/04/014-microg-magisk-xposed-installation.png#small) | ![](/img/2019/04/015-microg-magisk-xposed-installation.png#small) |
 
 I dociągamy
 również [XposedInstaller_3.1.5-Magisk.apk](https://forum.xda-developers.com/xposed/unofficial-systemless-xposed-t3388268)
@@ -319,18 +319,18 @@ i wrzucamy na telefon:
 Naturalnie instalujemy tę paczkę w standardowy sposób i uruchamiamy smartfon ponownie. Od tego
 momentu Xposed powinien nam już działać poprawnie:
 
-![]({{< baseurl >}}/img/2019/04/016-xposed-systemless.png#small)
+![](/img/2019/04/016-xposed-systemless.png#small)
 
 Po skończonym procesie instalacji Xposed, instalujemy moduł `FakeGApps by thermatk` :
 
 |     |    |
 | --- | ---|
-| ![]({{< baseurl >}}/img/2019/04/017-xposed-systemless-microg-fakegapps.png#small) | ![]({{< baseurl >}}/img/2019/04/018-xposed-systemless-microg-fakegapps.png#small) |
+| ![](/img/2019/04/017-xposed-systemless-microg-fakegapps.png#small) | ![](/img/2019/04/018-xposed-systemless-microg-fakegapps.png#small) |
 
 Po raz kolejny uruchamiamy urządzenie ponownie i sprawdzamy w logu Xposed czy są jakieś wzmianki na
 temat zwracania podrobionych sygnatur przez moduł `FakeGApps`:
 
-![]({{< baseurl >}}/img/2019/04/019-xposed-systemless-microg-fakegapps-signature-spoofing.png#small)
+![](/img/2019/04/019-xposed-systemless-microg-fakegapps-signature-spoofing.png#small)
 
 Ich obecność świadczy, że moduł wykonuje swoją robotę poprawnie.
 
@@ -340,7 +340,7 @@ pozycji:
 
 |     |    |     |
 | --- | ---| --- |
-| ![]({{< baseurl >}}/img/2019/04/020-microg-signature-spoofing-check.png#small) | ![]({{< baseurl >}}/img/2019/04/021-microg-signature-spoofing-check.png#small) | ![]({{< baseurl >}}/img/2019/04/022-microg-signature-spoofing-check.png#small) |
+| ![](/img/2019/04/020-microg-signature-spoofing-check.png#small) | ![](/img/2019/04/021-microg-signature-spoofing-check.png#small) | ![](/img/2019/04/022-microg-signature-spoofing-check.png#small) |
 
 No i jak widać, obecnie system mojego smartfona ma zapalone praktycznie wszystkie check'i. Pora
 zająć się tymi dwoma ostatnimi, czyli konfiguracją backend'ów lokalizacji.
@@ -359,31 +359,31 @@ pobrać przez F-Droid.
 
 |     |    |     |
 | --- | ---| --- |
-| ![]({{< baseurl >}}/img/2019/04/023-f-droid-nlp-backend-list.png#small) | ![]({{< baseurl >}}/img/2019/04/024-f-droid-nlp-backend-mozillanlpbackend.png#small) | ![]({{< baseurl >}}/img/2019/04/025-f-droid-nlp-backend-nominatimnlpbackend.png#small) |
+| ![](/img/2019/04/023-f-droid-nlp-backend-list.png#small) | ![](/img/2019/04/024-f-droid-nlp-backend-mozillanlpbackend.png#small) | ![](/img/2019/04/025-f-droid-nlp-backend-nominatimnlpbackend.png#small) |
 
 Teraz konfigurujemy backend'y w ustawieniach microG:
 
 |     |    |
 | --- | ---|
-| ![]({{< baseurl >}}/img/2019/04/026-microg-nlp-backend-configuration.png#small) | ![]({{< baseurl >}}/img/2019/04/027-microg-nlp-backend-configuration.png#small) |
+| ![](/img/2019/04/026-microg-nlp-backend-configuration.png#small) | ![](/img/2019/04/027-microg-nlp-backend-configuration.png#small) |
 
 Poniżej są ustawienia dla backend'u `MozillaNlpBackend` :
 
 |     |    |
 | --- | ---|
-| ![]({{< baseurl >}}/img/2019/04/028-f-microg-nlp-backend-mozillanlpbackend-configuration.png#small) | ![]({{< baseurl >}}/img/2019/04/029-f-microg-nlp-backend-mozillanlpbackend-configuration.png#small) |
+| ![](/img/2019/04/028-f-microg-nlp-backend-mozillanlpbackend-configuration.png#small) | ![](/img/2019/04/029-f-microg-nlp-backend-mozillanlpbackend-configuration.png#small) |
 
 A niżej ustawienia dla backend'u `NominatimNlpBackend`
 
 |     |    |
 | --- | ---|
-| ![]({{< baseurl >}}/img/2019/04/030-f-microg-nlp-backend-nominatimnlpbackend-configuration.png#small) | ![]({{< baseurl >}}/img/2019/04/031-f-microg-nlp-backend-nominatimnlpbackend-configuration.png#small) |
+| ![](/img/2019/04/030-f-microg-nlp-backend-nominatimnlpbackend-configuration.png#small) | ![](/img/2019/04/031-f-microg-nlp-backend-nominatimnlpbackend-configuration.png#small) |
 
 W ustawieniach Androida przestawiamy jeszcze tryb lokalizacji na ten o największej dokładności:
 
 |     |    |     |
 | --- | ---| --- |
-| ![]({{< baseurl >}}/img/2019/04/032-android-localization-mode.png#small) | ![]({{< baseurl >}}/img/2019/04/033-android-localization-mode.png#small) | ![]({{< baseurl >}}/img/2019/04/034-android-localization-mode-microg-fix.png#small) |
+| ![](/img/2019/04/032-android-localization-mode.png#small) | ![](/img/2019/04/033-android-localization-mode.png#small) | ![](/img/2019/04/034-android-localization-mode-microg-fix.png#small) |
 
 Jeśli ostatnie dwie pozycje nie przejdą testu, to trzeba trochę poczekać, aż system ustali nasze
 położenie.
@@ -395,7 +395,7 @@ działa prawidłowo. Można zainstalować mapy OsmAnd+ i poczekać na pojawienie
 
 |     |    |
 | --- | ---|
-| ![]({{< baseurl >}}/img/2019/04/035-microg-gps-test-osmand-maps.png#small) | ![]({{< baseurl >}}/img/2019/04/036-microg-gps-test-osmand-maps.png#small) |
+| ![](/img/2019/04/035-microg-gps-test-osmand-maps.png#small) | ![](/img/2019/04/036-microg-gps-test-osmand-maps.png#small) |
 
 No i jak widać, mapy OsmAnd+ nie miały problemów ze skorzystaniem z GPS. W ustawieniach Androida
 widzimy także, że i inne aplikacje są w stanie bez problemu żądać lokalizacji GPS od microG, zatem
@@ -413,7 +413,7 @@ to musimy zezwolić na proces rejestracji swojego urządzenia. Drugą rzeczą je
 
 |     |    |     |
 | --- | ---| --- |
-| ![]({{< baseurl >}}/img/2019/04/037-microg-google-services-configuration.png#small) | ![]({{< baseurl >}}/img/2019/04/038-microg-google-device-registration.png#small) | ![]({{< baseurl >}}/img/2019/04/039-microg-google-cloud-messaging.png#small) |
+| ![](/img/2019/04/037-microg-google-services-configuration.png#small) | ![](/img/2019/04/038-microg-google-device-registration.png#small) | ![](/img/2019/04/039-microg-google-cloud-messaging.png#small) |
 
 Od tego momentu nasz telefon będzie w stanie otrzymać powiadomienia PUSH przekazywane z serwerów
 Google.
@@ -426,7 +426,7 @@ urządzeniami, Firefox powinien zarejestrować się i otrzymać kilka wiadomośc
 
 |     |    |     |
 | --- | ---| --- |
-| ![]({{< baseurl >}}/img/2019/04/040-microg-push-notification-test-firefox.png#small) | ![]({{< baseurl >}}/img/2019/04/041-microg-push-notification-test-firefox.png#small) | ![]({{< baseurl >}}/img/2019/04/042-microg-push-notification-test-firefox.png#small) |
+| ![](/img/2019/04/040-microg-push-notification-test-firefox.png#small) | ![](/img/2019/04/041-microg-push-notification-test-firefox.png#small) | ![](/img/2019/04/042-microg-push-notification-test-firefox.png#small) |
 
 Widać wyraźnie, że microG jest w stanie nawiązać i utrzymać połączenie z serwerami Google oraz
 odebrać od nich notyfikacje PUSH i przekazać je do konkretnych aplikacji. Zatem również i
@@ -447,7 +447,7 @@ skonfigurowaliśmy.
 Jeśli chodzi akurat o YouTube Vanced, to jest on dostępny w repozytorium Magisk'a. Inne aplikacje
 Google trzeba pobrać za pomocą Yalp Store.
 
-![]({{< baseurl >}}/img/2019/04/043-youtube-vanced-magisk-systemless-install.png#small)
+![](/img/2019/04/043-youtube-vanced-magisk-systemless-install.png#small)
 
 Po zainstalowaniu appki YouTube Vanced możemy bez problemu przeglądać serwis YouTube, choć
 funkcjonalność tej aplikacji zbliżona jest bardziej do tej znanej ze SkyTube albo NewPipe. Jeśli
@@ -457,8 +457,8 @@ konto Google:
 
 |     |    |     |
 | --- | ---| --- |
-| ![]({{< baseurl >}}/img/2019/04/044-microg-youtube-vanced-google-account.png#small) | ![]({{< baseurl >}}/img/2019/04/045-microg-youtube-vanced-google-account.png#small) | ![]({{< baseurl >}}/img/2019/04/046-microg-youtube-vanced-google-account.png#small) |
-|![]({{< baseurl >}}/img/2019/04/047-microg-youtube-vanced-google-account.png#small) | ![]({{< baseurl >}}/img/2019/04/048-microg-youtube-vanced-google-account.png#small) | ![]({{< baseurl >}}/img/2019/04/049-microg-youtube-vanced-google-account.png#small) |
+| ![](/img/2019/04/044-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/045-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/046-microg-youtube-vanced-google-account.png#small) |
+|![](/img/2019/04/047-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/048-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/049-microg-youtube-vanced-google-account.png#small) |
 
 Stworzenie konta Google jak widać jest bezproblemowe i w pełni wspierane przez microG. Po
 zalogowaniu się w YouTube Vanced mamy w pełni działającą aplikację od YouTube. Zarejestrowała się
@@ -466,14 +466,14 @@ ona też w tym całym mechanizmie notyfikacji:
 
 |     |    |
 | --- | ---|
-| ![]({{< baseurl >}}/img/2019/04/050-microg-youtube-vanced-push-nitification.png#small) | ![]({{< baseurl >}}/img/2019/04/051-microg-youtube-vanced-push-nitification.png#small) |
+| ![](/img/2019/04/050-microg-youtube-vanced-push-nitification.png#small) | ![](/img/2019/04/051-microg-youtube-vanced-push-nitification.png#small) |
 
 Co do samego konta Google, to wypadałoby powiedzieć, że nawet po jego dodaniu cała masa rzeczy
 wymagających konta Google nie do końca będzie działać, np. synchronizacji danych:
 
 |     |    |
 | --- | ---|
-| ![]({{< baseurl >}}/img/2019/04/052-google-account-data-sync.png#small) | ![]({{< baseurl >}}/img/2019/04/053-google-account-data-sync.png#small) |
+| ![](/img/2019/04/052-google-account-data-sync.png#small) | ![](/img/2019/04/053-google-account-data-sync.png#small) |
 
 Oczywiście w przypadku innych aplikacji, które wspierają synchronizację, np. widoczny wyżej
 Firefox, ten proces jest jak najbardziej możliwy, bo to już od samej aplikacji zależy czy oferuje
@@ -481,7 +481,7 @@ ona tego typu funkcjonalność:
 
 |     |    |
 | --- | ---|
-| ![]({{< baseurl >}}/img/2019/04/054-firefox-sync-microg.png#small) | ![]({{< baseurl >}}/img/2019/04/055-firefox-sync-microg.png#small) |
+| ![](/img/2019/04/054-firefox-sync-microg.png#small) | ![](/img/2019/04/055-firefox-sync-microg.png#small) |
 
 W przypadku aplikacji od Google do synchronizacji wymagane jest Google Play Services i dlatego ta
 synchronizacja danych w naszym przypadku nie będzie możliwa.

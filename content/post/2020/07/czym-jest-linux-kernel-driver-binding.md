@@ -194,6 +194,6 @@ Trzeba jednak pamiętać, że jeden moduł kernela jest w stanie obsługiwać wi
 konkretne urządzenie może korzystać w danej chwili tylko z jednego modułu.
 
 
-[1]: {{< baseurl >}}/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/
+[1]: /post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/
 [2]: https://www.oreilly.com/library/view/linux-device-drivers/0596005903/ch12.html
 [3]: https://lwn.net/Articles/143397/

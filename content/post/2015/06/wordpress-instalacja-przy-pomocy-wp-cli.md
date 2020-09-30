@@ -11,7 +11,7 @@ tags:
 title: 'WordPress: Instalacja przy pomocy wp-cli'
 ---
 
-[Ostatnio opisywałem skrypt wp-cli]({{< baseurl >}}/post/wordpress-wiersz-polecen-wp-cli/) , który
+[Ostatnio opisywałem skrypt wp-cli](/post/wordpress-wiersz-polecen-wp-cli/) , który
 posiada ciekawe możliwości pod względem zarządzania instalacją i konfiguracją WordPressa. W tym
 artykule postaram się przebrnąć przez ten proces wykorzystując jedynie powyższe narzędzie. Nie mam
 zamiaru korzystać z przeglądarki i nie będę przy tym nawet potrzebował odwiedzać strony WordPressa w
@@ -231,13 +231,13 @@ to by nasz serwis był zawsze aktualny.
 
 Z ważniejszych rzeczy, które potrafi realizować skrypt wp-cli, to oczywiście wysyłanie zapytań do
 bazy danych oraz importowanie i eksportowanie bazy. Jakiś czas temu [opisywałem jak za pomocą min.
-wp-cli]({{< baseurl >}}/post/wordpress-zapomniane-haslo-administratora/) zresetować hasło do konta
+wp-cli](/post/wordpress-zapomniane-haslo-administratora/) zresetować hasło do konta
 administratora i w sumie więcej przykładów nie przychodzi mi do głowy z zastosowaniem tego skryptu,
 bo na dobrą sprawę każde zapytanie SQL, które można wykonać bezpośrednio na bazie, można również
 zrealizować przy pomocy wp-cli. Jeśli chodzi o bazy danych, to ja akurat wolę operować przy pomocy
 narzędzia mysql-workbench i raczej nie prędko się to zmieni, zwłaszcza, że baza danych mojego
 serwera nie jest wystawiona na widok publiczny i by się do niej dostać trzeba logować się pierw do
-systemu [przy pomocy kluczy SSH]({{< baseurl >}}/post/uwierzytelniajace-klucze-ssh/).
+systemu [przy pomocy kluczy SSH](/post/uwierzytelniajace-klucze-ssh/).
 
 Jeśli chodzi natomiast o import/eksport bazy danych, to mamy spore ułatwienie i nie musimy zaprzęgać
 do tego żadnych dodatkowych pluginów i to jeszcze bezpośrednio podczepionych pod instalację

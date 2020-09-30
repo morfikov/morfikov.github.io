@@ -160,6 +160,6 @@ Nie powinno być żadnych błędów. By zakończyć połączenie, w terminalu na
     # ifdown tun9
 
 
-[1]: {{< baseurl >}}/post/jak-ukryc-ruch-openvpn-przy-pomocy-stunnel/
+[1]: /post/jak-ukryc-ruch-openvpn-przy-pomocy-stunnel/
 [2]: https://help.ubuntu.com/community/SSH_VPN
-[3]: {{< baseurl >}}/post/uwierzytelniajace-klucze-ssh/
+[3]: /post/uwierzytelniajace-klucze-ssh/

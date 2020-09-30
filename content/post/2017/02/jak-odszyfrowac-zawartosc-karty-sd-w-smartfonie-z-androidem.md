@@ -16,7 +16,7 @@ title: Jak odszyfrować zawartość karty SD w smartfonie z Androidem
 W Androidzie 6.0 Marshmallow został wprowadzony ciekawy mechanizm zwany [Adoptable
 Storage](https://source.android.com/devices/storage/adoptable), który umożliwia [zamontowanie karty
 SD w smartfonie jako pamięć
-wewnętrzna]({{< baseurl >}}/post/android-formatowanie-karty-sd-jako-pamiec-wewnetrzna/). W ten
+wewnętrzna](/post/android-formatowanie-karty-sd-jako-pamiec-wewnetrzna/). W ten
 sposób pamięć flash w telefonach, które mają jej niewiele, może zostać nieco rozbudowana. Jedyny
 problem z tym całym Adoptable Storage jest taki, że Android szyfruje zawartość karty SD
 automatycznie, przez co nie jesteśmy w stanie odczytać żadnych informacji z takiego nośnika na
@@ -37,7 +37,7 @@ W przypadku tych TP-LINK'owych smartfonów dostępnych na polskim rynku, to tylk
 Y5L mają wgranego Androida w wersji 6.0, dlatego też cały proces zostanie opisany w oparciu o jedno
 z tych urządzeń. W zasadzie mocniejszym sprzętem jest Neffos Y5 i dlatego zdecydowałem się nim
 posłużyć. Informacje na temat [ukorzeniania Androida w Neffos
-Y5]({{< baseurl >}}/post/android-root-smartfona-neffos-y5-od-tp-link/) znajdują się tutaj.
+Y5](/post/android-root-smartfona-neffos-y5-od-tp-link/) znajdują się tutaj.
 Zakładam zatem w tym miejscu, że nasz smartfon przeszedł proces root.
 
 ## Formatowanie karty SD jako pamięć wewnętrzna
@@ -47,12 +47,12 @@ sformatować jako pamięć wewnętrzna. Cały proces jest niemal automatyczny i 
 Ustawienia => Pamięć plików i kliknąć w "Karta SD". Mamy tam pozycję "Sformatuj jako pamięć wewn."
 i to w nią klikamy.
 
-![]({{< baseurl >}}/img/2017/02/001.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#medium)
+![](/img/2017/02/001.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#medium)
 
 Postępujemy zgodnie z informacjami na ekranie i po chwili karta powinna zostać przygotowana do
 pracy, tj. sformatowana, zaszyfrowana i zamontowana w systemie:
 
-![]({{< baseurl >}}/img/2017/02/002.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#huge)
+![](/img/2017/02/002.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#huge)
 
 Możemy też sprawdzić, gdzie Android montuje naszą kartę SD w systemie (przez `adb`) korzystając z
 polecenia `mount` :

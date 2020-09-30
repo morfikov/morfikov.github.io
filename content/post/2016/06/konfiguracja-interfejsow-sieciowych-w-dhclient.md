@@ -29,7 +29,7 @@ W domyślnej konfiguracji debiana, `dhclient` traktuje wszystkie interfejsy tak 
 jeśli podniesiemy interfejs `eth0` , to zostanie mu przypisana adresacja zgodnie z tym o co zapytał
 ten klient DHCP. Podobnie sprawa ma się w przypadku interfejsu `wlan0` . Jak mogliśmy się przekonać
 we wpisie dotyczącym [ukrywania nazwy hosta (hostname) w protokole
-DHCP]({{< baseurl >}}/post/jak-ukryc-hostname-w-protokole-dhcp/), w niektórych sieciach nie zawsze
+DHCP](/post/jak-ukryc-hostname-w-protokole-dhcp/), w niektórych sieciach nie zawsze
 chcemy udostępniać pewne informacje. Mogą przecie one posłużyć do zidentyfikowania nas i oznaczenia
 naszego ruchu w bliżej nieokreślonych celach. Z kolei konfiguracja globalnych opcji wpłynie na
 wszystkie interfejsy dokładnie w taki sam sposób, co nie zawsze jest pożądane.

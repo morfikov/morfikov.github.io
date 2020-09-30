@@ -139,4 +139,4 @@ można odpalić jako zwykły użytkownik, a synchronizacja określonych katalog�
 automatycznie bez naszej ingerencji.
 
 
-[1]: {{< baseurl >}}/post/uwierzytelniajace-klucze-ssh/
+[1]: /post/uwierzytelniajace-klucze-ssh/

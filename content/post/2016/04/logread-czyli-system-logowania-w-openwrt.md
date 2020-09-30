@@ -33,13 +33,13 @@ gdy nie możemy z jakiegoś powodu zdalnie się dostać do urządzenia. Niemniej
 zdarzenia są raczej rzadkie, dlatego też przyjrzyjmy się nieco bliżej narzędziu `logread` . Logujemy
 się zatem na router i w terminalu wpisujemy polecenie `logread` :
 
-![]({{< baseurl >}}/img/2016/04/1.logread-openwrt-komunikaty-log.png#huge)
+![](/img/2016/04/1.logread-openwrt-komunikaty-log.png#huge)
 
 Wyżej mamy szereg komunikatów, które zostały zwrócone przez działające na routerze usługi.
 Oczywiście log uzyskany w taki sposób jest dość obszerny ale bez problemu może go przefiltrować
 przy pomocy polecenia `grep` :
 
-![]({{< baseurl >}}/img/2016/04/2.logread-openwrt-komunikaty-log-filtr.png#huge)
+![](/img/2016/04/2.logread-openwrt-komunikaty-log-filtr.png#huge)
 
 Każdy komunikat zawiera datę zalogowanej wiadomości `Sat Apr 16` , czyli w tym przypadku sobota, 16
 kwietnia. Dalej mamy dokładny czas `08:29:29` . Następnie mamy rok `2016` chyba. Dziwny zapis. W
@@ -57,7 +57,7 @@ nadają, by ciągle zapisywać dane u nich na flash'u. Raz, że mają go niewiel
 szybko nam ten flash padnie przy takim użytkowaniu. Dlatego też, jeśli rozważamy wdrożenie
 logowania, które ma przetrwać proces restartu routera, to najlepiej [zaopatrzyć się w niewielki
 pendrive i wykonać na nim
-extroot'a]({{< baseurl >}}/post/extroot-whole_root-fullroot-pod-openwrt/). Taki mechanizm
+extroot'a](/post/extroot-whole_root-fullroot-pod-openwrt/). Taki mechanizm
 logowania jest do skonfigurowania przez plik `/etc/config/system` . Poniżej znajdują się wpisy,
 które trzeba do tego pliku dodać:
 
@@ -113,7 +113,7 @@ wykomentować te powyżej opisane opcje. Na ich miejsce dodajemy te poniższe:
 Trzeba mieć na uwadze, że te logi przesyłane za pomocą tego mechanizmu są w formie niezaszyfrowanej.
 Standardowa konfiguracja OpenWRT nie daje możliwości zaszyfrowania przesyłanych logów. Niemniej
 jednak, [szyfrowanie logów jest
-możliwe]({{< baseurl >}}/post/szyfrowanie-logow-w-openwrt-syslog-ng/). Wyżej jednak mamy cztery
+możliwe](/post/szyfrowanie-logow-w-openwrt-syslog-ng/). Wyżej jednak mamy cztery
 opcje, którymi musimy się zająć. Serwer, który ma przechowywać logi określamy w `log_ip` .
 Standardowy port dla `rsyslog` to `514` . Dopisujemy go zatem w opcji `log_port` . Wybieramy
 protokół TCP w `log_proto` . Na końcu w opcji `log_prefix` mamy prefiks, który będzie dołączany do
@@ -125,4 +125,4 @@ pochodzą z OpenWRT na routerze. Zapisujemy plik i ponownie restartujemy skrypt 
 Od tego momentu, komunikaty powinny być przesyłane przez sieć. Poniżej jest fotka dowodząca, że tak
 jest w istocie:
 
-![]({{< baseurl >}}/img/2016/04/3.logread-rsyslog-openwrt-komunikaty-log-siec.png#huge)
+![](/img/2016/04/3.logread-rsyslog-openwrt-komunikaty-log-siec.png#huge)

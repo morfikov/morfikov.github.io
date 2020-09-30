@@ -14,7 +14,7 @@ title: Generowanie certyfikatów przy pomocy easy-rsa
 ---
 
 Jakiś czas temu przedstawiłem [manualny sposób na generowanie
-certyfikatów]({{< baseurl >}}/post/generowanie-certyfikatow/), które można z powodzeniem
+certyfikatów](/post/generowanie-certyfikatow/), które można z powodzeniem
 wykorzystać przy ssl, openvpn czy freeradius. Nie było tego znowu aż tak dużo ale jakby nie patrzeć
 trochę parametrów trzeba znać, a najlepiej mieć przygotowane odpowiednie linijki, by sam proces
 generowania certyfikatów przebiegł dość sprawnie. Jednak wychodzi na to, że nie trzeba się znowu aż

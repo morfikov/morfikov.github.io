@@ -370,7 +370,7 @@ W katalogu roboczym powinien zostać wygenerowany plik `.config` zawierający ko
 Być może zostaniemy poproszeni o udzielenie odpowiedzi na szereg pytań dotyczących nowych opcji,
 czyli tych, które nie występowały we wcześniejszej konfiguracji:
 
-![]({{< baseurl >}}/img/2018/12/002.debian-kernel-localyesconfig.png#huge)
+![](/img/2018/12/002.debian-kernel-localyesconfig.png#huge)
 
 Można bez problemu odpowiedzieć negatywnie na wszystkie pytania wciskając `N`, chyba, że coś jest
 nam potrzebne.
@@ -384,7 +384,7 @@ Mając konfigurację w pliku `.config` możemy wpisać w terminal poniższe pole
 Powinno zostać nam wyświetlone okienko, w którym będziemy mogli już dowolnie włączać lub wyłączać
 określone opcje kernela:
 
-![]({{< baseurl >}}/img/2018/12/003.debian-kernel-xconfig.png#huge)
+![](/img/2018/12/003.debian-kernel-xconfig.png#huge)
 
 Mój laptop posiada procesor Intel ale szereg opcji od procesorów AMD było również pozaznaczanych.
 Dlatego też warto przejrzeć te już zaznaczone opcje i je sobie dostosować.
@@ -523,7 +523,7 @@ Pierwszym sposobem jest edycja konfiguracji bootloader'a, gdzie mamy wpis podobn
 
 Drugim sposobem jest określenie stosownej opcji w konfiguracji źródeł kernela:
 
-![]({{< baseurl >}}/img/2018/12/004.debian-kernel-xconfig.png#huge)
+![](/img/2018/12/004.debian-kernel-xconfig.png#huge)
 
 Oba te sposoby są w zasadzie podobne, bo wynikowa linijka kernela widziana pod `/proc/cmdline`
 będzie dokładnie taka sama, tj. zawierać te same parametry i te same
@@ -667,7 +667,7 @@ Mając przygotowanego `quilt`'a, możemy zaimportować łatę i nałożyć ją w
     # quilt import /sciezka/do/pliku
     # quilt push
 
-![]({{< baseurl >}}/img/2018/12/005.debian-kernel-patch.png#huge)
+![](/img/2018/12/005.debian-kernel-patch.png#huge)
 
 Łatkę ściągamy za to tak:
 
@@ -683,11 +683,11 @@ nie chce nam się ich szukać (przez tą zbugowaną szukajkę), to możemy zamia
 `make oldconfig` , który wypisze nam wszystkie nowe opcje w stosunku do tych określonych już w
 konfiguracji.
 
-![]({{< baseurl >}}/img/2018/12/006.debian-kernel-oldconfig.png#huge)
+![](/img/2018/12/006.debian-kernel-oldconfig.png#huge)
 
 Dla pewności możemy jeszcze zajrzeć do `xconfig`:
 
-![]({{< baseurl >}}/img/2018/12/007.debian-kernel-xconfig-v.png#huge)
+![](/img/2018/12/007.debian-kernel-xconfig-v.png#huge)
 
 Po nałożeniu łaty, kernel trzeba skompilować jeszcze raz. W zależności od dokonanych zmian w
 konfiguracji, rekompilacja/kompilacja może dotyczyć tylko części kodu kernela. Więc nie trzeba
@@ -699,7 +699,7 @@ chwilę.
 
 
 [1]: https://www.kernel.org/
-[2]: {{< baseurl >}}/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/
+[2]: /post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/
 [3]: https://pl.wikipedia.org/wiki/Executable_and_Linkable_Format
 [4]: https://manpages.debian.org/unstable/dpkg-dev/dpkg-buildflags.1.en.html
 [5]: http://man7.org/linux/man-pages/man1/gcc.1.html
@@ -715,6 +715,6 @@ chwilę.
 [15]: https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
 [16]: https://en.wikipedia.org/wiki/Xconfig
 [17]: https://people.freedesktop.org/~narmstrong/meson_drm_doc/admin-guide/kernel-parameters.html
-[18]: {{< baseurl >}}/post/dkms-czyli-automatycznie-budowane-moduly/
+[18]: /post/dkms-czyli-automatycznie-budowane-moduly/
 [19]: https://patchwork.kernel.org/patch/9773791/
 [20]: https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html

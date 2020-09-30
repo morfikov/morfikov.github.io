@@ -35,15 +35,15 @@ rzuca w oczy na samym początku, to fakt, że to urządzenie nie jest zbytnio du
 zaliczyć wygląd, a konkretnie kolorystykę, bo ja niezbyt przepadam za urządzeniami w kolorze
 białym.
 
-![]({{< baseurl >}}/img/2016/12/001.tp-pbg6700-tp-link-power-bank-opakowanie.jpg#big)
+![](/img/2016/12/001.tp-pbg6700-tp-link-power-bank-opakowanie.jpg#big)
 
-![]({{< baseurl >}}/img/2016/12/002.tp-pbg6700-tp-link-power-bank-zawartosc-opakowania.jpg#big)
+![](/img/2016/12/002.tp-pbg6700-tp-link-power-bank-zawartosc-opakowania.jpg#big)
 
 Niżej są jeszcze fotki samego power banku TL-PBG6700 pokazujące jego detale:
 
-![]({{< baseurl >}}/img/2016/12/003.tp-pbg6700-tp-link-power-bank-diody-power.jpg#big)
+![](/img/2016/12/003.tp-pbg6700-tp-link-power-bank-diody-power.jpg#big)
 
-![]({{< baseurl >}}/img/2016/12/004.tp-pbg6700-tp-link-power-bank-obudowa.jpg#big)
+![](/img/2016/12/004.tp-pbg6700-tp-link-power-bank-obudowa.jpg#big)
 
 Jak widać wyżej, na obudowie mamy jeden przycisk Power, przy pomocy którego jesteśmy w stanie
 podejrzeć aktualny stan rozładowania akumulatora. Po przyciśnięciu tego przycisku zapalą nam się
@@ -53,7 +53,7 @@ współczynnik naładowania akumulatora procentowo przedstawia się mniej więce
 
 Do zestawu jest także dołączony standardowy przewód mikro USB:
 
-![]({{< baseurl >}}/img/2016/12/005.tp-pbg6700-tp-link-power-bank-przewod-usb.jpg#medium)
+![](/img/2016/12/005.tp-pbg6700-tp-link-power-bank-przewod-usb.jpg#medium)
 
 ### Specyfikacja TL-PBG6700
 
@@ -63,7 +63,7 @@ wyczytać, że ten akumulator ma deklarowaną pojemność 6700 mAh. W zasadzie j
 optymalna w stosunku do zachowanych rozmiarów i wagi, choć zawsze mogłoby być lepiej zarówno pod
 względem pojemności jak i fizycznych gabarytów.
 
-![]({{< baseurl >}}/img/2016/12/006.tp-pbg6700-tp-link-power-bank-info.jpg#medium)
+![](/img/2016/12/006.tp-pbg6700-tp-link-power-bank-info.jpg#medium)
 
 To co najbardziej cieszy w przypadku TL-PBG6700, to fakt zwiększa mu mocy zarówno wejściowej jak i
 wyjściowej (2,4A/5V). Standardowo prąd ładowania power banków wynosi zwykle 1A, a przez jego
@@ -73,7 +73,7 @@ tego urządzenia energią jest znacznie krótszy.
 Prąd ładowania w przypadku TL-PBG6700 wynosi 2,4 A, no i można powiedzieć, że na mojej ładowarce
 3,1A faktyczna wartość oscyluje w granicach 2,40 A - 2,65A, choć częściej 2,40A.
 
-![]({{< baseurl >}}/img/2016/12/007.tp-pbg6700-tp-link-power-bank-ladowanie.jpg#big)
+![](/img/2016/12/007.tp-pbg6700-tp-link-power-bank-ladowanie.jpg#big)
 
 TP-LINK deklaruje zachowanie oryginalnej pojemności TL-PBG6700 przez około 500 cykli ładowania tego
 urządzenia. Niemniej jednak, dokładnie nie wiem jak jest liczony taki cykl, bo zapewne zdajemy sobie
@@ -132,4 +132,4 @@ urządzeniom. Ten mój smartfon Neffos C5 MAX na tej dołączonej do zestawu ła
 4 godzin. A w przypadku tego power banku, do 77% naładował się w około 1,5
 godziny.
 
-![]({{< baseurl >}}/img/2016/12/008.tp-pbg6700-tp-link-power-bank-ladowanie-smartfon.png#big)
+![](/img/2016/12/008.tp-pbg6700-tp-link-power-bank-ladowanie-smartfon.png#big)

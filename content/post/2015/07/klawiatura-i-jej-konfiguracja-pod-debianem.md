@@ -75,28 +75,28 @@ szereg pytań i raczej nie powinno z nimi być żadnych problemów.
 
 Możemy wybrać model klawiatury:
 
-![]({{< baseurl >}}/img/2015/06/1.debian-konfiguracja-klawiatura.png#huge)
+![](/img/2015/06/1.debian-konfiguracja-klawiatura.png#huge)
 
 Jak i również język:
 
-![]({{< baseurl >}}/img/2015/06/2.debian-konfiguracja-klawiatura.png#huge)
+![](/img/2015/06/2.debian-konfiguracja-klawiatura.png#huge)
 
 Oraz układ:
 
-![]({{< baseurl >}}/img/2015/06/3.debian-konfiguracja-klawiatura.png#huge)
+![](/img/2015/06/3.debian-konfiguracja-klawiatura.png#huge)
 
 A także dostosować klawisz `AltGr` , który odpowiada za możliwość wprowadzania polskich znaków:
 
-![]({{< baseurl >}}/img/2015/06/4.debian-konfiguracja-klawiatura.png#huge)
+![](/img/2015/06/4.debian-konfiguracja-klawiatura.png#huge)
 
 Jest też opcja dla klawisza `compose` , to ten co umożliwia wprowadzanie dodatkowych znaków utf-8,
 np. `®` :
 
-![]({{< baseurl >}}/img/2015/06/5.debian-konfiguracja-klawiatura.png#huge)
+![](/img/2015/06/5.debian-konfiguracja-klawiatura.png#huge)
 
 Możemy także zdefiniować kilka opcji dla Xserver'a, choć jedynie tylko te podstawowe:
 
-![]({{< baseurl >}}/img/2015/06/6.debian-konfiguracja-klawiatura.png#huge)
+![](/img/2015/06/6.debian-konfiguracja-klawiatura.png#huge)
 
 Zaowocuje to stworzeniem pliku `/etc/default/keyboard` o poniższej zawartości:
 
@@ -155,5 +155,5 @@ wygenerować nowy initramfs za pomocą:
     # update-initramfs -u -k all
 
 
-[1]: {{< baseurl >}}/post/klawiatura-multimedialna-i-niedzialajace-klawisze/
+[1]: /post/klawiatura-multimedialna-i-niedzialajace-klawisze/
 [2]: https://wiki.archlinux.org/index.php/Keyboard_configuration_in_Xorg#Frequently_used_XKB_options

@@ -500,7 +500,7 @@ Innym miejscem jest repozytorium [AUR dystrybucji Archlinux][14]. Tam zawsze idz
 tylko paczki nie są zbytnio kompatybilne z debianem i trzeba wiedzieć gdzie i czego szukać.
 Przykładowo, załóżmy, że interesuje nas pakiet `monitorix` :
 
-![]({{< baseurl >}}/img/2015/12/1.pakiet-aur-deb.png#big)
+![](/img/2015/12/1.pakiet-aur-deb.png#big)
 
 Jak widzimy pakiet został odnaleziony i mamy tam info o licencji i o zależnościach. Niemniej jednak,
 to nie wszystko co możemy wyciągnąć z AUR. Tam w prawym górnym rogu jest `PKGBUILD` . Jest to plik,
@@ -2362,14 +2362,14 @@ Tak przygotowane źródła można zbudować standardową metodą.
 
 
 [1]: https://www.debian.org/doc/manuals/maint-guide/
-[2]: {{< baseurl >}}/post/tworzenie-repozytorium-przy-pomocy-reprepro/
-[3]: {{< baseurl >}}/post/przygotowanie-srodowiska-chroot-do-pracy/
-[4]: {{< baseurl >}}/post/plik-bashrc-czyli-konfiguracja-basha/
-[5]: {{< baseurl >}}/post/bezpieczny-klucz-gpg/
-[6]: {{< baseurl >}}/post/konfiguracja-gpg-w-pliku-gpg-conf/
-[7]: {{< baseurl >}}/post/serwer-kluczy-gpg-i-kwestia-prywatnosci/
+[2]: /post/tworzenie-repozytorium-przy-pomocy-reprepro/
+[3]: /post/przygotowanie-srodowiska-chroot-do-pracy/
+[4]: /post/plik-bashrc-czyli-konfiguracja-basha/
+[5]: /post/bezpieczny-klucz-gpg/
+[6]: /post/konfiguracja-gpg-w-pliku-gpg-conf/
+[7]: /post/serwer-kluczy-gpg-i-kwestia-prywatnosci/
 [8]: https://lintian.debian.org/manual/index.html
-[9]: {{< baseurl >}}/post/przeszukiwanie-zawartosci-pakietow-apt-file/
+[9]: /post/przeszukiwanie-zawartosci-pakietow-apt-file/
 [10]: http://pbuilder.alioth.debian.org/
 [11]: http://manpages.ubuntu.com/manpages/wily/en/man5/pbuilderrc.5.html
 [12]: https://dug.net.pl/tekst/63/przewodnik_po_sudo/

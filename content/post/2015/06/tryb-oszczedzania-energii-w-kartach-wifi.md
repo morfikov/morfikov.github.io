@@ -31,14 +31,14 @@ odbieranego sygnału przy pomocy [jednego z narzędzi
 linuxowych](https://www.cyberciti.biz/tips/linux-find-out-wireless-network-speed-signal-strength.html).
 Poniżej fotka z `wavemon` :
 
-![]({{< baseurl >}}/img/2015/06/1.tryb-oszczedzania-energii-karta-wifi.png#huge)
+![](/img/2015/06/1.tryb-oszczedzania-energii-karta-wifi.png#huge)
 
 Jeśli zasięg zdaje się być w porządku, to możemy przeprowadzić inny test polegający na sprawdzeniu
 przepustowości łącza internetowego. Jeśli nie mamy wgranego na router alternatywnego firmware
 OpenWRT i akurat w tej chwili dysponujemy jedną maszyną kliencką, to pozostaje nam skorzystać, np. z
 serwisu [speedtest.net](http://beta.speedtest.net/) :
 
-![]({{< baseurl >}}/img/2015/06/2.tryb-oszczedzania-energii-speedtest.png#small)
+![](/img/2015/06/2.tryb-oszczedzania-energii-speedtest.png#small)
 
 Prawdopodobnie, tak jak i w tym przypadku, oba testy nic nie wykażą. Niby wszystko jest w porządku
 ale coś jest nie tak. Ostatni test jaki przychodzi mi do głowy to `ping` . Odpytajmy zatem jakąś
@@ -91,7 +91,7 @@ istocie stało, to znaczy, że winny był tryb oszczędzania energii.
 To powyższe rozwiązanie, jak już wspomniałem, ma efekt tylko tymczasowy, a konkretnie albo do
 restartu systemu, albo do wyciągnięcia karty z portu usb. By wyłączyć tryb oszczędzania energii w
 kartach wifi całkowicie i przy tym niezależnie od podłączanej karty, musimy [napisać regułkę dla
-udev'a]({{< baseurl >}}/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/). Tworzymy zatem plik
+udev'a](/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/). Tworzymy zatem plik
 `/etc/udev/rules.d/70-wifi-powersave.rules` i dodajemy w nim poniższą zawartość:
 
     ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan*" RUN+="/sbin/iw dev %k set power_save off"

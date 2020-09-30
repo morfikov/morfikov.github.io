@@ -20,7 +20,7 @@ skompilować ręcznie. Trochę to dziwne, bo przecie kod sterownika jest na lice
 już szmat czasu na [github'ie](https://github.com/abperiasamy/rtl8812AU_8821AU_linux). W każdym
 razie, jeśli zakupiliśmy w/w kartę i nie jest ona wykrywana po wsadzeniu jej do portu USB, to czeka
 nas proces kompilacji modułu `8812au` i jego automatyzacja przy pomocy [mechanizmu
-DKMS]({{< baseurl >}}/post/dkms-czyli-automatycznie-budowane-moduly/).
+DKMS](/post/dkms-czyli-automatycznie-budowane-moduly/).
 
 <!--more-->
 ## Kompilacja modułu 8812au dla Archer T4U
@@ -57,7 +57,7 @@ wykryta przez system po jej podłączeniu do portu USB:
     systemd-networkd[1188]: wlan1: Renamed to wlan2
 
 Jak widzimy, został również utworzony interfejs `wlan2` . Po [konfiguracji tego interfejsu
-bezprzewodowego]({{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/), karta powinna
+bezprzewodowego](/post/konfiguracja-polaczenia-wifi-pod-debianem/), karta powinna
 nawiązać połączenie z punktem dostępowym WiFi:
 
     systemd[1]: Started WPA supplicant (wlan2).
@@ -91,7 +91,7 @@ zostało skonfigurowane prawidłowo.
 
 Poniżej są informacje na temat samego modułu `8812au` . Wszystkie wylistowane niżej opcje zostały
 opisane we wpisie dotyczącym [parametrów
-kernela]({{< baseurl >}}/post/modul-kernela-i-wartosci-jego-parametrow/) .
+kernela](/post/modul-kernela-i-wartosci-jego-parametrow/) .
 
     # modinfo 8812au
     filename:       /lib/modules/4.5.0-2-amd64/updates/dkms/8812au.ko

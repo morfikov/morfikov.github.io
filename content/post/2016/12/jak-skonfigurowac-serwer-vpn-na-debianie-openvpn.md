@@ -54,7 +54,7 @@ które pochodzą od klientów mających certyfikat podpisany przez CA.
 
 Nie będę tutaj opisywał dokładnego procesu tworzenia CA oraz generowania poszczególnych
 certyfikatów. Proces [generowania certyfikatów z wykorzystaniem narzędzia easy-rsa na
-Debanie]({{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/) został opisany
+Debanie](/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/) został opisany
 osobno. Zatem jeśli nie dysponujemy jeszcze odpowiednimi certyfikatami dla serwera i klienta oraz
 nie posiadamy jeszcze własnego CA, to zapraszam do zapoznania się z wyżej podlinkowanym artykułem.
 Poniżej jest tylko skrót z tego artykułu:
@@ -397,7 +397,7 @@ specyficzne jedynie dla klienta VPN.
   - `script-security` -- umożliwia wykonywanie skryptów. Im wyższy poziom (0-3), tym mniej
     restrykcyjny jest mechanizm obronny. W tym przypadku 2 daje nam możliwość załadowania
     zewnętrznego skryptu użytkownika, który dostosowuje reguły zapory, by [zapobiec min. przeciekom
-    DNS (DNS leak)]({{< baseurl >}}/post/przeciek-dns-dns-leak-w-vpn-resolvconf/).
+    DNS (DNS leak)](/post/przeciek-dns-dns-leak-w-vpn-resolvconf/).
   - `auth-user-pass` oraz `auth-nocache` -- te dwa parametry mają znaczenie przy uwierzytelnianiu
     klienta VPN z wykorzystaniem loginu i hasła, które są odczytywane z pliku. Obecność opcji
     `auth-nocache` sprawia, że demon `openvpn` zapomni dane logowania po ustanowieniu połączenia i

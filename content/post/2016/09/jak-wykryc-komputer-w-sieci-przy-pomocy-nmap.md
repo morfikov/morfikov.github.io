@@ -13,9 +13,9 @@ title: Jak wykryć komputer w sieci przy pomocy nmap
 ---
 
 Opisywane jakiś czas temu przeze mnie [ekstendery
-powerline]({{< baseurl >}}/post/transmitery-sieciowe-tl-wpa4226t-kit-tp-link/), tak bardzo mi
+powerline](/post/transmitery-sieciowe-tl-wpa4226t-kit-tp-link/), tak bardzo mi
 przypadły do gustu, że korzystam z nich praktycznie bez przerwy. Po skonfigurowaniu [roamingu sieci
-WiFi w linux'ie]({{< baseurl >}}/post/jak-skonfigurowac-roaming-wifi-wpa_supplicant-linux/), mój
+WiFi w linux'ie](/post/jak-skonfigurowac-roaming-wifi-wpa_supplicant-linux/), mój
 laptop w nieodczuwalny dla mnie w sposób rekonfiguruje połączenie w obrębie sieci domowej. Sygnał
 jest na prawdę bardzo dobrej jakości w każdym zakątku domu, przez co w ogóle zapomniałem o istnieniu
 tych transmiterów sieciowych. Chciałem przenieść jeden z ekstenderów z kanału 1 (domyślny), na kanał
@@ -59,11 +59,11 @@ ARP. Poniżej są przykłady obu tych skanów.
 W przypadku żądań ARP, w terminalu wpisujemy polecenie `nmap -sn 192.168.1.0/24` . Czas skanowania
 zamknął się w granicach 3 sekund:
 
-![]({{< baseurl >}}/img/2016/09/1.wykrywanie-komputer-host-siec-arp-nmap.png#huge)
+![](/img/2016/09/1.wykrywanie-komputer-host-siec-arp-nmap.png#huge)
 
 Poniżej jest jeszcze fotka z wireshark'a, która obrazuje cały proces:
 
-![]({{< baseurl >}}/img/2016/09/2.wykrywanie-komputer-host-siec-arp-wireshark.png#huge)
+![](/img/2016/09/2.wykrywanie-komputer-host-siec-arp-wireshark.png#huge)
 
 Jak widać, każdy pojedynczy adres IP został przez `nmap` odpytany. Z adresów, które są aktualnie
 wykorzystywane w sieci, zostaje zwrócona odpowiedź, tak jak to widzimy w jednym przypadku wyżej na
@@ -74,12 +74,12 @@ fotce.
 Jeśli chcielibyśmy wykonać pełen skan wszystkich hostów w sieci, to w terminalu wydajemy polecenie
 `nmap -sn --send-ip 192.168.1.0/24` . I tutaj już ten proces trwał ponad 20 sekund:
 
-![]({{< baseurl >}}/img/2016/09/3.wykrywanie-komputer-host-siec-nmap-pelny-skan.png#huge)
+![](/img/2016/09/3.wykrywanie-komputer-host-siec-nmap-pelny-skan.png#huge)
 
 Poniżej jest zaś fotka z wireshark'a, która pokazuje ruch do jednego hosta przy korzystaniu z tego
 typu skanowania:
 
-![]({{< baseurl >}}/img/2016/09/4.wykrywanie-komputer-host-siec-wireshark-pelny-skan-nmap.png#huge)
+![](/img/2016/09/4.wykrywanie-komputer-host-siec-wireshark-pelny-skan-nmap.png#huge)
 
 ## Wykryte hosty w sieci
 
@@ -89,4 +89,4 @@ oraz przypisane im adresy IP. Szukany transmiter sieciowy ma adres 192.168.1.11 
 trzeba było wpisać w przeglądarce, by dostać się do panelu administracyjnego w celu przeniesienia AP
 na inny kanał:
 
-![]({{< baseurl >}}/img/2016/09/5.siec-wifi-skan-smartfon.png#medium)
+![](/img/2016/09/5.siec-wifi-skan-smartfon.png#medium)

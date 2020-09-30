@@ -20,9 +20,9 @@ to i tak zwykle możemy posiadać inne zaszyfrowane partycje, które są odrębn
 osobno przy starcie systemu. W takim przypadku zwykle jesteśmy zmuszeni do podawania hasła do
 każdego z tych dysków z osobna, co zajmuje czas. Ten problem opisałem po części przy okazji
 [implementacji kontenera LUKS na potrzeby
-Dropbox'a]({{< baseurl >}}/post/dropbox-i-kontener-luks/), jak i we wpisie poświęconym [przejściu
+Dropbox'a](/post/dropbox-i-kontener-luks/), jak i we wpisie poświęconym [przejściu
 z kontenerów TrueCrypt'a na te linux'owe, które są wspierane natywnie przez sam
-kernel]({{< baseurl >}}/post/przejscie-z-truecrypt-na-luks/). Niemniej jednak, tamto rozwiązanie
+kernel](/post/przejscie-z-truecrypt-na-luks/). Niemniej jednak, tamto rozwiązanie
 było oparte głównie o starszy init (sysvinit), co wymagało dodatkowej konfiguracji, tak by system
 otworzył się po podaniu tylko jednego hasła. W tym wpisie postaramy się wdrożyć mechanizm, który
 jest oferowany przez systemd.
@@ -34,7 +34,7 @@ Systemd od jakiegoś czasu jest w stanie wykorzystywać [keyring
 kernela](https://www.kernel.org/doc/Documentation/security/keys.txt), co przekłada się na
 przechowywanie w nim pewnych haseł. Takie hasła mogą być wykorzystywane, np. [przy zaszyfrowanym
 systemie plików oferowanym przez
-ecryptfs]({{< baseurl >}}/post/ecryptfs-jako-alternatywa-dla-encfs/). Mogą one także zostać
+ecryptfs](/post/ecryptfs-jako-alternatywa-dla-encfs/). Mogą one także zostać
 wykorzystane we wczesnej fazie startu systemu. Każdy użytkownik ma swój własny keyring i nie może
 podglądać haseł innych użytkowników. Same hasła zaś mogą mieć ustawiony termin ważności. W takiej
 sytuacji, gdy otworzymy systemowy kontener podczas fazy boot, wpisana fraza (hasło) zostanie dodana

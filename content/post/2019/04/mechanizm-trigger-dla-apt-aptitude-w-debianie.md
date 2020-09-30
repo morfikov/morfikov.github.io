@@ -33,7 +33,7 @@ może on nam się w ogóle do czegoś przydać
 
 By stworzyć trigger, który będzie wywoływał podczas instalacji czy aktualizacji pakietów określone
 polecenia,
-musimy [stworzyć paczkę .deb]({{< baseurl >}}/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/).
+musimy [stworzyć paczkę .deb](/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/).
 W tej paczce `.deb` główną rolę będą grać dwa pliki. Jednym z nich będzie skrypt shell'owy z
 pożądanymi przez nas poleceniami, a drugi będzie określał ścieżki, których zmiana będzie pociągała
 wykonanie tego skryptu.

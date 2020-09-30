@@ -146,7 +146,7 @@ jaki kolor przyjmie tło i tekst podczas zaznaczania. W przypadku ustawienia prz
 100%, zaznaczony tekst zwyczajnie zniknie i będzie to wyglądać mniej więcej
 tak:
 
-![]({{< baseurl >}}/img/2015/11/1.konsola-na-pulpicie-przezroczystosc.png#huge)
+![](/img/2015/11/1.konsola-na-pulpicie-przezroczystosc.png#huge)
 
 Z lewej strony jest terminal, który ma czarne tło. Ten z prawej zaś jest przezroczysty. Dlatego
 właśnie nam są potrzebne te dwa parametry. Mając już osadzony i skonfigurowany terminal na
@@ -259,7 +259,7 @@ Od tego momentu, po zalogowaniu się w sesji graficznej, terminal powinien się 
 uruchomić, a openbox powinien go umieścić w odpowiednim miejscu na pulpicie. U mnie prezentuje się
 tak:
 
-![]({{< baseurl >}}/img/2015/11/2.konsola-na-pulpicie-efekt-koncowy.png#huge)
+![](/img/2015/11/2.konsola-na-pulpicie-efekt-koncowy.png#huge)
 
 Jako, że to okienko nie posiada żadnego obramowania, to nie mamy zbytnio możliwości jego
 przesuwania. Jeśli chcielibyśmy jednak zmienić jego pozycję lub rozmiar, to musimy wcisnąć klawisz

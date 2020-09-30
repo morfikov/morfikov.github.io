@@ -111,11 +111,11 @@ HTTP headers][7].
 
 Poniżej przykład `curl` :
 
-![]({{< baseurl >}}/img/2016/07/1.naglowek-hsts-curl.png#big)
+![](/img/2016/07/1.naglowek-hsts-curl.png#big)
 
 Niżej zaś prezentuje się Live HTTP headers:
 
-![]({{< baseurl >}}/img/2016/07/2.naglowek-hsts-firefox-live-http-headers.png#big)
+![](/img/2016/07/2.naglowek-hsts-firefox-live-http-headers.png#big)
 
 ## Dodawanie rekordu do listy HSTS preload
 
@@ -143,20 +143,20 @@ konfiguracji Apache2 definiujemy w poniższy sposób:
 Jeśli zapomnieliśmy o czymś, to przy dodawaniu rekordu zostaniemy o tym powiadomieni. Poniżej jest
 przykład:
 
-![]({{< baseurl >}}/img/2016/07/3.hsts-preload-lista-bledy.png#huge)
+![](/img/2016/07/3.hsts-preload-lista-bledy.png#huge)
 
 Wystarczy poprawić wyżej widoczne błędy i spróbować jeszcze raz. Tym razem już nie powinno być
 problemów:
 
-![]({{< baseurl >}}/img/2016/07/4.hsts-preload-lista-sprawdzanie-domeny.png#big)
+![](/img/2016/07/4.hsts-preload-lista-sprawdzanie-domeny.png#big)
 
 Akceptujemy oba punkty i przesyłamy zgłoszenie:
 
-![]({{< baseurl >}}/img/2016/07/5.hsts-preload-lista-dodawanie-domeny.png#big)
+![](/img/2016/07/5.hsts-preload-lista-dodawanie-domeny.png#big)
 
 Po chwili powinno zostać one wysłane:
 
-![]({{< baseurl >}}/img/2016/07/6.hsts-preload-lista-domena-dodana.png#big)
+![](/img/2016/07/6.hsts-preload-lista-domena-dodana.png#big)
 
 Adres naszego serwisu nie zostanie natychmiast dopisany do listy. Zgodnie z widoczną wyżej
 informacją, może upłynąć nawet kilka tygodni zanim stosowny rekord zostanie do niej dodany.
@@ -167,5 +167,5 @@ informacją, może upłynąć nawet kilka tygodni zanim stosowny rekord zostanie
 [3]: https://moxie.org/software/sslstrip/
 [4]: https://tools.ietf.org/html/rfc6797
 [5]: https://hstspreload.org/
-[6]: {{< baseurl >}}/post/wymuszenie-ssl-tls-przy-pomocy-vhostow-apache2/
+[6]: /post/wymuszenie-ssl-tls-przy-pomocy-vhostow-apache2/
 [7]: https://addons.mozilla.org/pl/firefox/addon/live-http-headers/

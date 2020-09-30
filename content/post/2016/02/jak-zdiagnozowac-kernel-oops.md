@@ -29,7 +29,7 @@ przykładowy OOPS i zobaczymy czy uda nam się ustalić przyczynę zaistniałego
 By zabrać się za diagnostykę komunikatów kernela w celu ustalenia przyczyn problemu, musimy
 odpowiednio skonfigurować sobie system. Na sam początek rzućmy okiem na parametry kernela, które
 możemy ustawić za pomocą narzędzia `sysctl` . [Z parametrami odpowiedzialnymi za kernel panic i
-kernel OOPS]({{< baseurl >}}/post/automatyczny-restart-maszyny-po-kernel-panic/), mieliśmy już
+kernel OOPS](/post/automatyczny-restart-maszyny-po-kernel-panic/), mieliśmy już
 wcześniej do czynienia. Nas najbardziej interesuje parametr `kernel.panic_on_oops` , który musi być
 ustawiony na `0` . Zapobiegnie to powieszeniu się kernela. Nie oszukujmy się jednak, bo w sporej
 części przypadków trzeba będzie ponownie uruchomić system wkrótce po wystąpieniu tego OOPS'a.
@@ -66,7 +66,7 @@ pytani o zgodę przed wysłaniem komunikatów. Będzie nam też potrzebny pakiet
 który nam wyświetli monit, gdzie min. będziemy mogli się zapoznać z treścią wiadomości, którą
 zamierzamy przesłać na serwer kernela. Poniżej przykładowa notyfikacja zgłaszająca kernel OOPS'a:
 
-![]({{< baseurl >}}/img/2016/02/1.kernel-oops-notyfikacja-kerneloops.png#huge)
+![](/img/2016/02/1.kernel-oops-notyfikacja-kerneloops.png#huge)
 
 Inną ważną rzeczą jest ustawienie odpowiedniej ścieżki w `log-file` . Jeśli posiadamy systemd, to
 mamy pewien problem. Systemd ma swój plik kontenera, którego demon `kerneloops` nie przeczyta.

@@ -19,7 +19,7 @@ sobie możliwość bezgranicznego zarządzania posiadanym sprzętem elektroniczn
 zwykłego desktopa czy laptopa ale też o urządzenia z systemami wbudowanymi jak, np. routery WiFi.
 Większość routerów nie obsługuje modemów LTE ale mogłaby, gdyby pozwalało im na to zainstalowane na
 nich oprogramowanie. Na moim blogu jest kilka artykułów dotyczących [instalacji i konfiguracji
-modemów LTE]({{< baseurl >}}/post/tag/modem/) właśnie na takich routerach, z tym, że w oparciu o
+modemów LTE](/post/tag/modem/) właśnie na takich routerach, z tym, że w oparciu o
 firmware OpenWRT/LEDE. Niemniej jednak, w przypadku takiego alternatywnego firmware wymagana jest
 drobna znajomość obsługi komputera, a cała masa użytkowników nie chce poświęcać czasu na zgłębianie
 technik informatycznych. Te osoby chcą zwyczajnie podłączyć dane urządzenie do prądu i móc z niego
@@ -35,9 +35,9 @@ Poniżej są fotki opakowania i jego zawartości. Sorry za pomięte pudło ale n
 routerem rzucał podczas transportu. Niemniej jednak, sam M7310 dotarł sprawny i przeżył podróż w
 tych nieludzkich warunkach zafundowanych za free przez pocztę polską.
 
-![]({{< baseurl >}}/img/2016/09/1.mobilny-router-wifi-lte-hotspot-M7310-pudelko.jpg#huge)
+![](/img/2016/09/1.mobilny-router-wifi-lte-hotspot-M7310-pudelko.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/09/2.mobilny-router-wifi-lte-hotspot-M7310-pudelko-zawartosc.jpg#huge)
+![](/img/2016/09/2.mobilny-router-wifi-lte-hotspot-M7310-pudelko-zawartosc.jpg#huge)
 
 Jak widać, M7310 jest raczej niewielkich rozmiarów: 98 x 60 x 16 mm (dł/sz/wy). Ma on wbudowany
 wyświetlacz TFT 1,44 cala. Ten wyświetlacz jest bardzo niskiej jakości i widać na nim pojedyncze
@@ -45,11 +45,11 @@ piksele, co trochę wali po oczach. Efekt mniej więcej taki jak w przypadku pie
 komórkowych z kolorowym wyświetlaczem. Da radę patrzeć ale nie zbyt długo. Obok wyświetlacza są
 także ulokowane dwa przyciski, przy pomocy których można sterować urządzeniem:
 
-![]({{< baseurl >}}/img/2016/09/3.mobilny-router-wifi-lte-hotspot-M7310-wyglad.jpg#huge)
+![](/img/2016/09/3.mobilny-router-wifi-lte-hotspot-M7310-wyglad.jpg#huge)
 
 Na boku obudowy mamy także ulokowany port mikro USB typ B:
 
-![]({{< baseurl >}}/img/2016/09/4.mobilny-router-wifi-lte-hotspot-M7310-port-usb.jpg#huge)
+![](/img/2016/09/4.mobilny-router-wifi-lte-hotspot-M7310-port-usb.jpg#huge)
 
 Przy jego pomocy jesteśmy w stanie podłączyć router do portu USB komputera w celu ładowania i
 ewentualnej interakcji z kartą SD. Jeśli chodzi zaś o samą kwestię ładowania, to możemy tutaj
@@ -62,7 +62,7 @@ Może i jesteśmy w stanie zasilić M7310 bezpośrednio z sieci elektrycznej ale
 się nam nie uruchomi. Na szczęście do zestawu jest dołączony akumulator litowo-jonowy (model
 TBL-55A2000) o pojemności 2000 mAh.
 
-![]({{< baseurl >}}/img/2016/09/5.mobilny-router-wifi-lte-hotspot-M7310-bateria-akumulator.jpg#huge)
+![](/img/2016/09/5.mobilny-router-wifi-lte-hotspot-M7310-bateria-akumulator.jpg#huge)
 
 Czytając to info na etykiecie baterii, nie wiem dokładnie co ona robi po wrzuceniu w ogień ale
 lepiej tego nie sprawdzać. :D
@@ -71,28 +71,28 @@ Spód routera jest standardowy, tj. śliski i bez jakichkolwiek nóżek, choć p
 w końcu to urządzenie ma należeć do tych wysoce mobilnych. Jeden z rogów M7310 umożliwia łatwe
 otwarcie obudowy urządzenia:
 
-![]({{< baseurl >}}/img/2016/09/6.mobilny-router-wifi-lte-hotspot-M7310-spod.jpg#huge)
+![](/img/2016/09/6.mobilny-router-wifi-lte-hotspot-M7310-spod.jpg#huge)
 
 W środku obudowy znajdziemy zaś jeden slot na kartę Mini SIM oraz drugi slot dla kart mikro SD (max.
 32 GiB). Oba sloty mają metalowe zabezpieczenia przed ewentualnym wysunięciem lub przemieszczeniem
 się kart:
 
-![]({{< baseurl >}}/img/2016/09/7.mobilny-router-wifi-lte-hotspot-M7310-slot-karta-sim-sd.jpg#huge)
+![](/img/2016/09/7.mobilny-router-wifi-lte-hotspot-M7310-slot-karta-sim-sd.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/09/8.mobilny-router-wifi-lte-hotspot-M7310-slot-karta-sim-sd.jpg#huge)
+![](/img/2016/09/8.mobilny-router-wifi-lte-hotspot-M7310-slot-karta-sim-sd.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/09/9.mobilny-router-wifi-lte-hotspot-M7310-slot-karta-sim-sd.jpg#huge)
+![](/img/2016/09/9.mobilny-router-wifi-lte-hotspot-M7310-slot-karta-sim-sd.jpg#huge)
 
 W przypadku, gdy dysponujemy jedynie kartą SIM w rozmiarze mikro, to trzeba będzie skorzystać z
 adaptera mini =\> mikro, który jest dołączony do zestawu. Niestety te zwykłe karty SIM są za duże i
 nie zmieszczą się nam w ogóle do slotu. Poniżej fotka adaptera mini =\> mikro SIM:
 
-![]({{< baseurl >}}/img/2016/09/10.mobilny-router-wifi-lte-hotspot-M7310-adapter-karta-sim.jpg#huge)
+![](/img/2016/09/10.mobilny-router-wifi-lte-hotspot-M7310-adapter-karta-sim.jpg#huge)
 
 Oba te sloty są przysłaniane baterią i nie ma możliwości wyciągnięcia karty SD bez wyciągania
 akumulatora, co skutkuje wyłączeniem urządzenia:
 
-![]({{< baseurl >}}/img/2016/09/11.mobilny-router-wifi-lte-hotspot-M7310-bateria.jpg#huge)
+![](/img/2016/09/11.mobilny-router-wifi-lte-hotspot-M7310-bateria.jpg#huge)
 
 ## Specyfikacja routera M7310
 
@@ -116,49 +116,49 @@ przez około 5 sekund. Po chwili router powinien zalogować się do sieci 3G/4G 
 WiFi, do której będziemy mogli podłączyć do 10 stacji klienckich. Aktualna ilość podłączonych
 urządzeń jest cały czas wyświetlana na tym małym ekraniku na ikonce WiFi:
 
-![]({{< baseurl >}}/img/2016/09/12.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-lte.jpg#huge)
+![](/img/2016/09/12.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-lte.jpg#huge)
 
 Jako, że router M7310 jest w stanie nadawać w paśmie 2,4 GHz jak i 5 GHz, to możemy to pasmo sobie
 dostosować bez większego problemu:
 
-![]({{< baseurl >}}/img/2016/09/13.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-wifi.jpg#huge)
+![](/img/2016/09/13.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-wifi.jpg#huge)
 
 Dane logowania do sieci WiFi (ESSID i hasło) w przypadku tego mobilnego hotspotu można uzyskać na
 dwa sposoby. Jednym z nich jest zdjęcie tylnej klapki i zajrzenie na jej wewnętrzną stronę:
 
-![]({{< baseurl >}}/img/2016/09/14.mobilny-router-wifi-lte-hotspot-M7310-klapa-haslo-wifi-.jpg#huge)
+![](/img/2016/09/14.mobilny-router-wifi-lte-hotspot-M7310-klapa-haslo-wifi-.jpg#huge)
 
 Drugim i do tego bardziej wygodnym i przystępnym sposobem jest odczytanie tych danych z wyświetlacza
 (można je ukryć za pomocą panelu admina):
 
-![]({{< baseurl >}}/img/2016/09/15.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-haslo-wifi.jpg#huge)
+![](/img/2016/09/15.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-haslo-wifi.jpg#huge)
 
 M7310 ma także wbudowaną programową funkcję WPS, dzięki której nie będziemy musieli ręcznie wpisywać
 tych danych przy podłączaniu urządzeń do sieci WiFi:
 
-![]({{< baseurl >}}/img/2016/09/16.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-wps.jpg#huge)
+![](/img/2016/09/16.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-wps.jpg#huge)
 
 Ciekawą funkcją jest także tryb oszczędzania energii. W jego skład wchodzi dostosowanie mocy
 transmisyjnej (mała, średnia, duża) oraz automatyczne wyłączenie WiFi po pewnym czasie od
 wylogowania się ostatniego klienta bezprzewodowego. Przy pomocy przycisków mamy możliwość jedynie
 włączyć lub wyłączyć ten tryb. Jego konfigurację trzeba przeprowadzić przez panel administracyjny:
 
-![]({{< baseurl >}}/img/2016/09/17.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-power-saving.jpg#huge)
+![](/img/2016/09/17.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-power-saving.jpg#huge)
 
 Jako, że ten router ma wbudowany modem LTE, to możemy także wybrać jego tryb pracy. Mamy do wyboru
 wymuszony LTE, wymuszony 3G oraz preferowany LTE nad 3G:
 
-![]({{< baseurl >}}/img/2016/09/18.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-tryb-lte-3g.jpg#huge)
+![](/img/2016/09/18.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-tryb-lte-3g.jpg#huge)
 
 Możliwe jest także włączenie lub wyłączenie roamingu:
 
-![]({{< baseurl >}}/img/2016/09/19.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-roaming.jpg#huge)
+![](/img/2016/09/19.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-roaming.jpg#huge)
 
 I ostatnia rzecz, którą możemy zrobić za pomocą przycisków routera, to wyświetlenie kodu QR w celu
 zeskanowania go i pobrania aplikacji tpMiFi na smartfona, która umożliwi nam zdalne zarządzanie
 urządzeniem:
 
-![]({{< baseurl >}}/img/2016/09/20.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-tpmifi-app-kod-qr.jpg#huge)
+![](/img/2016/09/20.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-tpmifi-app-kod-qr.jpg#huge)
 
 Warto w tym miejscu zaznaczyć, że routerem można także sterować za pomocą każdego dowolnego
 komputera, który jest w stanie się podłączyć do routera M7310. To urządzenie ma standardowy panel
@@ -169,25 +169,25 @@ administracyjny dostępny po HTTP. Znajduje się on pod adresem `http://192.168.
 Podłączamy komputer do sieci WiFi. Następnie odpalamy przeglądarkę i przechodzimy na adres
 `http://192.168.0.1/` . Naszym oczom powinna się pokazać poniższa strona:
 
-![]({{< baseurl >}}/img/2016/09/21.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-logowanie.png#huge)
+![](/img/2016/09/21.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-logowanie.png#huge)
 
 Podajemy hasło logowania `admin` i powinniśmy zostać zalogowani do panelu administracyjnego, gdzie
 możemy przeprowadzać nieco więcej działań niż w przypadku kontroli M7310 przy pomocy przycisków na
 jego obudowie:
 
-![]({{< baseurl >}}/img/2016/09/22.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-status.png#huge)
+![](/img/2016/09/22.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-status.png#huge)
 
 Poza statusem połączenia LTE/3G oraz WiFi i statystykami pobranych/wysłanych danych, mamy także
 możliwość odczytu i tworzenia SMS, co jest bardzo użyteczną rzeczą:
 
-![]({{< baseurl >}}/img/2016/09/23.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-sms.png#huge)
+![](/img/2016/09/23.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-sms.png#huge)
 
 Oczywiście nie musimy logować się co chwilę do panelu admina, by sprawdzić czy ktoś nam nie przysłał
 czasem jakiegoś SMS'a. Na tym malutkim ekranie co jest na routerze, możemy odczytać status SMS. Może
 nie mamy możliwość podejrzeć samej treści komunikatu ale informację o tym, że jakaś wiadomość zalega
 na skrzynce jest jak najbardziej widoczna:
 
-![]({{< baseurl >}}/img/2016/09/24.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-sms.jpg#huge)
+![](/img/2016/09/24.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-sms.jpg#huge)
 
 Niemniej jednak nie mamy żadnego powiadomienia o zdarzeniu, przez co musimy zerkać co chwila na
 ekran. Choć i tak jest to lepsza sytuacja niż logowanie się do panelu administracyjnego i tam
@@ -204,7 +204,7 @@ WiFi. Standardowo te zasoby są dostępne jedynie po podłączeniu urządzenia d
 Jeśli aktywujemy sobie taką funkcję, to dostęp do plików będziemy mogli uzyskać za pomocą protokołu
 FTP ( `ftp://192.168.0.1/` ) oraz SMB ( `smb://192.168.0.1/` ).
 
-![]({{< baseurl >}}/img/2016/09/25.mobilny-router-wifi-lte-hotspot-M7310-karta-sd-www.png#huge)
+![](/img/2016/09/25.mobilny-router-wifi-lte-hotspot-M7310-karta-sd-www.png#huge)
 
 Pozostałe opcje są raczej standardowe dla wszystkich routerów WiFi i nie ma raczej co się nad nimi
 rozwodzić.
@@ -215,7 +215,7 @@ Najważniejszą jednak rzeczą jest konfiguracja połączenia LTE/3G. W panelu a
 oczywiście zakładkę `Quick Setup` , dzięki której takie połączenie jesteśmy w stanie zestawić w
 mniej niż minutę. Wystarczy podać dane APN operatora GSM, z którego usług korzystamy:
 
-![]({{< baseurl >}}/img/2016/09/26.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-apn-gsm.png#huge)
+![](/img/2016/09/26.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-apn-gsm.png#huge)
 
 I to w zasadzie cała robota. Pamiętajmy też o tym, by ewentualnie dostosować sobie także tryb pracy
 modemu LTE tak, by np. wymusić LTE bez możliwości przełączenia w tryb 3G.
@@ -223,13 +223,13 @@ modemu LTE tak, by np. wymusić LTE bez możliwości przełączenia w tryb 3G.
 Jeśli nasza karta SIM jest chroniona kodem PIN, to by uzyskać połączenie musimy ten kod PIN
 uwzględnić w panelu administracyjnym:
 
-![]({{< baseurl >}}/img/2016/09/27.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-pin-sim.png#huge)
+![](/img/2016/09/27.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-pin-sim.png#huge)
 
 Jeśli obawiamy się, że możemy przekroczyć limit danych oraz, że może nas to słono kosztować, to
 zawsze możemy ustawić sobie limit transferu danych oraz ostrzeżenie w przypadku zbliżania się do
 tego limitu. Po jego osiągnięciu zaś, M7310 odetnie nam automatycznie internet:
 
-![]({{< baseurl >}}/img/2016/09/28.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-limit-danych.png#huge)
+![](/img/2016/09/28.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-limit-danych.png#huge)
 
 Jak widzimy, TP-LINK pomyślał też o darmowych godzinach, w których operatorzy GSM zwykle nie
 naliczają transferu danych. Możemy je sobie dowolnie dostosować. I to w zasadzie cała konfiguracja
@@ -241,14 +241,14 @@ Jeśli dysponujemy smartfonem, to możemy pobrać [aplikację
 tpMiFi](https://play.google.com/store/apps/details?id=com.tplink.tpmifi&hl=pl) dla Androida i przy
 jej pomocy skonfigurować sobie pracę routera M7310.
 
-![]({{< baseurl >}}/img/2016/09/29.mobilny-router-wifi-lte-hotspot-M7310-tpmifi.png#medium)
+![](/img/2016/09/29.mobilny-router-wifi-lte-hotspot-M7310-tpmifi.png#medium)
 
 Mając zainstalowaną aplikację możemy sterować hotspotem podobnie jak to można robić z poziomu panelu
 www. Niemniej jednak, ta aplikacja nie może się równać funkcjonalnością z panelem administracyjnym.
 Choć wszystkie te bardziej użyteczne funkcje jak, np. dostosowanie APN operatorów GSM zostały
 zaimplementowane.
 
-![]({{< baseurl >}}/img/2016/09/30.mobilny-router-wifi-lte-hotspot-M7310-tpmifi-status.png#medium)
+![](/img/2016/09/30.mobilny-router-wifi-lte-hotspot-M7310-tpmifi-status.png#medium)
 
 Myślałem jednak, że może chociaż przy pomocy tej aplikacji da radę jakoś powiadomić użytkownika
 telefonu, że router odebrał SMS ale nic z tego, szkoda.
@@ -262,19 +262,19 @@ rady tego zrobić przez przyciski na routerze. Ta opcja jest dostępna tylko w p
 np. przez WiFi. Jeśli byśmy spróbowali się podłączyć z marszu do sieci Aero2, to przywita nas taki
 komunikat na wyświetlaczu M7310:
 
-![]({{< baseurl >}}/img/2016/09/31.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-aero2-blad.jpg#huge)
+![](/img/2016/09/31.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-aero2-blad.jpg#huge)
 
 By zmienić ten stan rzeczy, logujemy się do panelu administracyjnego i przechodzimy na zakładkę
 Wizard. Wybieramy strefę czasową i przechodzimy na `Dial-up Settings` . Tutaj z kolei dodajemy nowy
 APN i uzupełniamy dane w taki sposób, by APN przyjął wartość `darmowy` , a login i hasło
 `aero`/`aero` :
 
-![]({{< baseurl >}}/img/2016/09/32.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-aero2.png#huge)
+![](/img/2016/09/32.mobilny-router-wifi-lte-hotspot-M7310-panel-administracyjny-aero2.png#huge)
 
 Po zapisaniu powinniśmy zostać automatycznie podłączeni do sieci Aero2, co możemy odczytać z
 wyświetlacza routera:
 
-![]({{< baseurl >}}/img/2016/09/33.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-aero2-polaczenie.jpg#huge)
+![](/img/2016/09/33.mobilny-router-wifi-lte-hotspot-M7310-wyswietlacz-aero2-polaczenie.jpg#huge)
 
 Transfer jak widać wyżej jest w granicach 62 KiB/s, co daje około 500 kbit/s, czyli mniej więcej
 tyle ile oferuje usługa darmowy internet od tego operatora. Trzeba jednak też pamiętać o kodzie
@@ -399,7 +399,7 @@ obciążenia BTS ale w moim przypadku BTS jest dość blisko (\< 900 m, widoczno
 był przeprowadzany w godzinach 2-3 w nocy, z tym, że w budynku. Dla porównania, przekładając kartę
 SIM z routera M7310 do smartfona Neffos C5, transfer LTE jest na poziomie 42 mbit/s:
 
-![]({{< baseurl >}}/img/2016/09/34.mobilny-router-wifi-lte-hotspot-M7310-test-predkosc-lte-wifi.png#medium)
+![](/img/2016/09/34.mobilny-router-wifi-lte-hotspot-M7310-test-predkosc-lte-wifi.png#medium)
 
 Trzy pierwsze wyniki dotyczą połączenia przez router M7310, a dwa ostatnie przez Neffos'a C5.
 Różnica jest widoczna gołym okiem. Trochę daleko do tych obiecanych 150/50 mbit/s, a za dnia może

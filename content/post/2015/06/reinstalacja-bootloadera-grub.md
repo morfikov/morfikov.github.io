@@ -25,10 +25,10 @@ zakładając, że problem tkwi w nim.
 ## Środowisko chroot
 
 Jeśli nie możemy się dostać do naszego głównego systemu, musimy posłużyć się jakimś innym. Najlepsze
-do tego są [systemy live]({{< baseurl >}}/post/wlasny-system-live-i-tworzenie-go-od-podstaw/).
+do tego są [systemy live](/post/wlasny-system-live-i-tworzenie-go-od-podstaw/).
 Oczywiście możemy [pobrać gotowe obrazy](https://www.debian.org/CD/live/) i wypalić je na płytce czy
 wrzucić na pendrive, po czym odpalić taki system i zamontować zasoby dysku wykorzystując do tego
-[środowisko chroot]({{< baseurl >}}/post/przygotowanie-srodowiska-chroot-do-pracy/).
+[środowisko chroot](/post/przygotowanie-srodowiska-chroot-do-pracy/).
 
 ## Naprawa bootloadera grub
 

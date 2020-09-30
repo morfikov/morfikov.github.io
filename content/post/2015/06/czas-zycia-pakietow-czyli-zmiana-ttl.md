@@ -32,7 +32,7 @@ obsługiwanej przez ten system maszynie. To pole występuje w nagłówku IP i by
 wyobraźni, poniżej jest fotka obrazująca lokalizację tego pola
 ([źródło](https://nmap.org/book/tcpip-ref.html)):
 
-![]({{< baseurl >}}/img/2015/06/1.ip-header-ttl.png#huge)
+![](/img/2015/06/1.ip-header-ttl.png#huge)
 
 Dla systemów operacyjny z rodziny windows, to pole ma wartość `128` . Z kolei jeśli zaś chodzi o
 chyba wszystkie dystrybucje linuxa, wliczając w to też i OpenWRT, jest to `64`. Tą wartość możemy
@@ -60,7 +60,7 @@ typu sytuacja czasem ma miejsce.
 
 By poradzić sobie z tą niedogodnością, linuxowy iptables jest wyposażony w cel `TTL` . Jako, że
 będziemy zmieniać właściwości pakietów, musimy nieco przerobić [wcześniej utworzony
-firewall]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/) . Konkretnie to musimy
+firewall](/post/firewall-na-linuxowe-maszyny-klienckie/) . Konkretnie to musimy
 wyedytować plik `iptables_mangle.sh`. Ma on mieć mniej więcej poniższą postać:
 
     #!/bin/sh

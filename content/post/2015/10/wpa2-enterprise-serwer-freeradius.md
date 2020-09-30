@@ -1006,11 +1006,11 @@ samego narzędzia można znaleźć [pod tym linkiem][9].
 
 
 [1]: http://wiki.openwrt.org/toh/tp-link/tl-wr1043nd
-[2]: {{< baseurl >}}/post/generowanie-certyfikatow/
-[3]: {{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/
+[2]: /post/generowanie-certyfikatow/
+[3]: /post/generowanie-certyfikatow-przy-pomocy-easy-rsa/
 [4]: https://blogs.msdn.microsoft.com/kaushal/2010/11/04/various-ssltls-certificate-file-typesextensions/
 [5]: https://security.stackexchange.com/questions/94390/whats-the-purpose-of-dh-parameters
-[6]: {{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/
+[6]: /post/konfiguracja-polaczenia-wifi-pod-debianem/
 [7]: http://www.networkworld.com/article/2223672/access-control/which-eap-types-do-you-need-for-which-identity-projects.html
 [8]: http://deployingradius.com/documents/protocols/compatibility.html
 [9]: http://deployingradius.com/scripts/eapol_test/

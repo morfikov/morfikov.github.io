@@ -38,7 +38,7 @@ Jak widać wyżej, po skopiowaniu jedynie 50MiB, proces został przerwany w wyni
 tylko i wyłącznie wgrywania obrazów bit po bicie. W każdym innym przypadku, nie powinno być
 problemów. Samo tworzenie partycji na tym pendrive nie zwraca żadnych błędów:
 
-![]({{< baseurl >}}/img/2015/06/1.linux-gparted-pendrive.png#huge)
+![](/img/2015/06/1.linux-gparted-pendrive.png#huge)
 
 Zatem co się z nim dzieje?
 
@@ -47,7 +47,7 @@ Zatem co się z nim dzieje?
 By ustalić przyczynę takiego stanu rzeczy, musimy sięgnąć do narzędzi diagnostycznych. W przypadku
 pamięci flash jest to min. `f3` , dostępny w pakiecie pod tą samą nazwą. Testuje on faktyczną
 pojemność pamięci flash ogółem, nie tylko pendrive ale również i karty sd w celu ustalenia ich
-[faktycznej pojemności]({{< baseurl >}}/post/rzeczywista-pojemnosc-pendrive-i-kart-sd/). Ten
+[faktycznej pojemności](/post/rzeczywista-pojemnosc-pendrive-i-kart-sd/). Ten
 pendrive nie jest
 [podróbką](http://www.ebay.com/gds/All-About-Fake-Flash-Drives-2013-/10000000177553258/g.html) ale
 ma już swoje lata i był dość ostro wykorzystywany przez ten czas. Zatem podejrzewam, że już pada ze
@@ -116,7 +116,7 @@ Innym narzędziem, które nam może pomóc w analizie struktury pendrive, to [wh
 Skanuje ono i pokazuje czas dostępu do sektorów na całej powierzchni nośnika. W przypadku mojego
 pendrive jest trochę problemów, poniżej focia z początku skanowania:
 
-![]({{< baseurl >}}/img/2015/06/3.linux-pendrive-whdd-scan.png#huge)
+![](/img/2015/06/3.linux-pendrive-whdd-scan.png#huge)
 
 Wyraźnie coś jest nie tak z tym niejednorodnym obszarem. Są, co prawda, tylko 4 błędy ale problemy z
 odczytem/zapisem pozostałych sektorów mogą się również pojawić, dlatego `f3` zgłosił 168 sektorów.
@@ -135,7 +135,7 @@ przeskanować go przy pomocy `fsck` z opcją `-c` , za sprawą to której zostan
 `badblocks` i wszystkie padnięte sektory zostaną oznaczone i dodane do i-węzła bad bloków, co
 zapobiegnie ich alokacji:
 
-![]({{< baseurl >}}/img/2015/06/2.linux-badblocks-pendrive.png#huge)
+![](/img/2015/06/2.linux-badblocks-pendrive.png#huge)
 
 U mnie jednak ilość padniętych bloków ciągle zmieniała się z każdym kolejnym skanem i raczej wątpię
 by w ten sposób szło coś ugrać.

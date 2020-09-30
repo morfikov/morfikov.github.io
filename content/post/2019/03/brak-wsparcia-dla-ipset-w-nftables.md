@@ -34,7 +34,7 @@ nie jest mu w tym do niczego potrzebny.
 Do tej pory miałem szereg list adresów pobieranych z różnych serwisów internetowych, np. z
 [iblocklist.com](https://www.iblocklist.com/lists). Te listy przy pomocy skryptu były przetwarzane
 i dodawane do `ipset` . Kiedyś
-nawet [zaprojektowałem PeerGuardian'a dla torrent'a]({{< baseurl >}}/post/peerguardian-w-oparciu-o-ipset-iptables/)
+nawet [zaprojektowałem PeerGuardian'a dla torrent'a](/post/peerguardian-w-oparciu-o-ipset-iptables/)
 (i nie tylko dla niego), który działał właśnie w oparciu o `iptables` i `ipset` . Po zmigrowaniu
 na `nftables` , tamto rozwiązanie już nie znajduje zastosowania ale też nie jest ono do końca
 bezużyteczne, bo można je nieco przerobić. Dla przykładu weźmy sobie jedną przykładową listę,

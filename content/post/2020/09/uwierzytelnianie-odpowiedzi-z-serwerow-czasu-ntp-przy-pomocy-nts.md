@@ -186,7 +186,7 @@ Jeśli ktoś jest ciekaw jak wygląda proces synchronizacji czasu przy wykorzyst
 i odpalić go na interfejsie, którym pakiety są przesyłane w świat (w tym przypadku jest to interfejs
 `bond0` ):
 
-![]({{< baseurl >}}/img/2020/09/001-debian-linux-time-sync-ntp-sntp-wireshark.png#huge)
+![](/img/2020/09/001-debian-linux-time-sync-ntp-sntp-wireshark.png#huge)
 
 Zostały w zasadzie przesłane tylko dwa pakiety. Pierwszy to zapytanie o czas, a drugi to odpowiedź
 z serwera z aktualnym jego czasem. Gdyby wykorzystywany był tutaj pełny protokół NTP, to wtedy tych
@@ -507,7 +507,7 @@ i nawiązał z nim połączenie. Certyfikat serwera jest ważny, no i otrzymali�
 które powinny zostać użyte w pakietach NTP. Przy pomocy `wireshark` możemy sprawdzić czy w istocie
 tak się dzieje:
 
-![]({{< baseurl >}}/img/2020/09/002-debian-linux-time-sync-ntp-sntp-nts-wireshark.png#huge)
+![](/img/2020/09/002-debian-linux-time-sync-ntp-sntp-nts-wireshark.png#huge)
 
 Jak widać, zamiast dwóch standardowych pakietów NTP mamy teraz tych pakietów nieco więcej (wciąż
 jednak jest to pojedyncze zapytanie). Większość komunikacji jest szyfrowana ale warto zwrócić tutaj
@@ -650,7 +650,7 @@ sam protokół NTS nie jest jeszcze skończony ale już teraz jego obsługę mo�
 i to zadanie do jakoś szczególnie trudnych nie należy.
 
 
-[1]: {{< baseurl >}}/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/
+[1]: /post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/
 [2]: https://pl.wikipedia.org/wiki/Network_Time_Protocol
 [3]: https://trimstray.github.io/posts/2019-07-21-nginx-optymalizacja_sesji_ssl-tls/#ssl_session_tickets
 [4]: https://github.com/systemd/systemd/issues/9481

@@ -36,14 +36,14 @@ ilekroć podłączamy telefon do portu USB. Ta czynność jest mało wygodna, gd
 telefon do komputera i takie ciągłe przestawianie tego trybu może nawet spokojnego człowieka
 wyprowadzić z równowagi:
 
-![]({{< baseurl >}}/img/2017/03/001.usb-charge-only-mtp-tryb-android-marshmallow-domyslne.png#big)
+![](/img/2017/03/001.usb-charge-only-mtp-tryb-android-marshmallow-domyslne.png#big)
 
 ## Konfiguracja trybu USB w opcjach programistycznych
 
 Gdzieniegdzie można się spotkać z opinią, że domyślny tryb USB w Marshmallow można trwale przestawić
 w opcjach programistycznych. No i faktycznie stosowna opcja jest tam obecna:
 
-![]({{< baseurl >}}/img/2017/03/002.usb-charge-only-mtp-tryb-android-marshmallow-opcje-dev.png#huge)
+![](/img/2017/03/002.usb-charge-only-mtp-tryb-android-marshmallow-opcje-dev.png#huge)
 
 Jeśli teraz byśmy podłączyli smartfon do komputera, to naturalnie zostanie ustawiony tryb przesyłu
 plików, a nie ładowania. To czego ludzie zapominają zrobić, to przetestowanie trwałości tej
@@ -67,7 +67,7 @@ XDA](https://forum.xda-developers.com/android/apps-games/app-mtp-enbaler-t326346
 aplikacji raczej nie powinna sprawić żadnych problemów. Po zainstalowaniu tego programiku,
 uruchamiamy go. Tak prezentują się opcje tej aplikacji:
 
-![]({{< baseurl >}}/img/2017/03/003.usb-charge-only-mtp-tryb-android-marshmallow-aplikacja.png#huge)
+![](/img/2017/03/003.usb-charge-only-mtp-tryb-android-marshmallow-aplikacja.png#huge)
 
 Jak widać jest ich dość sporo. Ta najważniejsza opcja wyboru domyślnego trybu jest naturalnie
 dostępna. Wybranie tutaj MTP zamiast Charging zaowocuje przestawieniem trybu domyślnego i ilekroć

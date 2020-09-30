@@ -67,11 +67,11 @@ W przypadku, gdy będziemy pobierać czyste źródła kernela, [zweryfikujmy syg
 Kopiujemy starą konfigurację kernela, odpalamy `menuconfig` i dostosowujemy konfigurację włączając
 odpowiednie opcje odpowiedzialne za interfejsy IMQ. Interesują nas te poniższe pozycje:
 
-![]({{< baseurl >}}/img/2015/12/1.konfiguracja-kernel-interfejsy-imq.png#huge)
+![](/img/2015/12/1.konfiguracja-kernel-interfejsy-imq.png#huge)
 
 oraz:
 
-![]({{< baseurl >}}/img/2015/12/2.konfiguracja-kernel-interfejsy-imq.png#huge)
+![](/img/2015/12/2.konfiguracja-kernel-interfejsy-imq.png#huge)
 
 W konfiguracji kernela (plik `.config` ) powinny znaleźć się te poniższe wpisy:
 
@@ -281,7 +281,7 @@ odpowiadać tej określonej przez `--set-mark` w `iptables` .
 Przy pomocy narzędzia `bmon` możemy zaobserwować czy pakiety trafiają do odpowiednich kolejek.
 Poniżej przykład:
 
-![]({{< baseurl >}}/img/2015/12/3.test-interfejsow-imq-bmon.png#huge)
+![](/img/2015/12/3.test-interfejsow-imq-bmon.png#huge)
 
 Jak można zaobserwować, obciążenie łącza jest w granicach w 8% i 9%, odpowiednio dla upload'u i
 download'u. Jest to prawie full, bo karta sieciowa w moim laptopie ma przepustowość 100 mbit/s.
@@ -301,10 +301,10 @@ były aplikowane wraz ze startem systemu.
 [2]: https://github.com/imq/linuximq/wiki/WhatIs
 [3]: https://github.com/imq/linuximq/tree/master/kernel
 [4]: https://www.kernel.org/
-[5]: {{< baseurl >}}/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/
+[5]: /post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/
 [6]: https://www.kernel.org/category/signatures.html
 [7]: http://www.netfilter.org/
 [8]: https://github.com/imq/linuximq/tree/master/iptables
 [9]: http://luxik.cdi.cz/~devik/qos/htb/
 [10]: https://lukasz.bromirski.net/docs/translations/lartc-pl.html#LARTC.QDISC
-[11]: {{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/
+[11]: /post/firewall-na-linuxowe-maszyny-klienckie/

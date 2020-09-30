@@ -13,7 +13,7 @@ title: Fwknop z obsługą kuczy GPG
 ---
 
 Ostatnio opisywałem jak zaimplementować na swoim serwerze [mechanizm port
-knocking'u]({{< baseurl >}}/post/port-knocking-i-single-packet-authorization/) , który oparty był
+knocking'u](/post/port-knocking-i-single-packet-authorization/) , który oparty był
 o [Single Packet Authorization](http://www.cipherdyne.org/fwknop/docs/fwknop-tutorial.html). Tamten
 wpis dotyczył głównie wykorzystania szyfrów symetrycznych ale istnieje też możliwość skorzystania z
 kluczy GPG. W ten sposób uwierzytelnianie oraz szyfrowanie pakietów odbywałoby się przy ich pomocy.
@@ -24,7 +24,7 @@ przepuszczać jedynie tych klientów, którzy posługują się kluczami GPG.
 ## Klucze GPG
 
 By móc skorzystać z opcji kluczy szyfrujących w przypadku mechanizmu Single Packet Authorization,
-musimy posiadać [klucz GPG]({{< baseurl >}}/post/bezpieczny-klucz-gpg/). Choć na dobrą sprawę
+musimy posiadać [klucz GPG](/post/bezpieczny-klucz-gpg/). Choć na dobrą sprawę
 potrzebujemy dwóch, po jednym dla klienta oraz dla serwera. W przypadku wielu klientów, dla każdego
 z nich można wygenerować osobny klucz. Można również korzystać z tego samego klucza w przypadku
 wszystkich klientów. Jeśli chodzi jeszcze o maszyny klienckie, to można skorzystać z normalnego

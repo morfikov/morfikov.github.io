@@ -69,7 +69,7 @@ pomóc skonfigurować korzystanie z `su` .
 Wypadałoby jeszcze przetestować czy tylko ci użytkownicy w grupie `wheel` mają dostęp do polecenia
 `su` :
 
-![]({{< baseurl >}}/img/2019/04/001-debian-linux-su-sudo-wheel.png#huge)
+![](/img/2019/04/001-debian-linux-su-sudo-wheel.png#huge)
 
 No i jak widać użytkownik `morfik2` jest w stanie co prawda wydać polecenie `su` ale nawet po
 podaniu prawidłowego hasła dostęp do konta root zostaje mu odmówiony z komunikatem o braku

@@ -52,7 +52,7 @@ edytor, z tym, że tym razem nie otwierajmy żadnego pliku. Następnie w menu wy
 Jest tam pozycja `Recently Used` . Po przejściu do niej, powinniśmy być w stanie uzyskać listę
 plików, które ostatnio otwieraliśmy w tym edytorze. U mnie wygląda to tak:
 
-![]({{< baseurl >}}/img/2015/11/1.recently-used.xbel-geany.png#huge)
+![](/img/2015/11/1.recently-used.xbel-geany.png#huge)
 
 Co w przypadku, gdy posiadamy w systemie pliki, które nie powinny być umieszczane na takiej liście?
 Każda aplikacja graficzna posiadająca interfejs GTK2/GTK3 jest w stanie dodawać do pliku

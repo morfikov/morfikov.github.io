@@ -60,7 +60,7 @@ które przeprowadziliśmy mając podpięty pendrive zostaną cofnięte. Dodatkow
 dystrybucją linux'a, lub też posiadamy system live, to partycję pendrive można zamontować w takim
 systemie w celu przebadania zaistniałych problemów. W ten sposób będziemy w stanie edytować
 poszczególne pliki. Coś jak [tryb
-failsafe]({{< baseurl >}}/post/tryb-ratunkowy-failsafe-w-openwrt/), z tym, że podczas tej
+failsafe](/post/tryb-ratunkowy-failsafe-w-openwrt/), z tym, że podczas tej
 operacji, nasz router działa i jest w pełni funkcjonalny. Zatem, jeśli przeprowadzamy jakieś
 eksperymenty z nowym oprogramowaniem, dobrze jest pierw to robić na `extroot`/`whole_root` . Jeśli
 wszystko będzie w porządku, możemy tę funkcjonalność zaimplementować na flash'u routera.
@@ -105,7 +105,7 @@ partycji na routerze. W tym wpisie ograniczymy się jedynie do utworzenia partyc
 systemu live. Pendrive może zostać podzielony w dowolny sposób, np. tak jak to widać na poniższej
 fotce:
 
-![]({{< baseurl >}}/img/2016/04/1.gparted-linux-live-partycja-extroot-whole_root.png#huge)
+![](/img/2016/04/1.gparted-linux-live-partycja-extroot-whole_root.png#huge)
 
 Mając przygotowaną partycję, wsadzamy pendrive do jednego z portów USB w routerze. Urządzenie
 powinno zostać wykryte przez system i stosownie oznaczone:
@@ -204,7 +204,7 @@ Po uruchomieniu routera, logujemy się na urządzenie standardowo za pomocą pro
 chyba, że skopiowaliśmy sobie konfigurację. Tak czy inaczej, naszym oczom powinien się pokazać taki
 oto obrazek:
 
-![]({{< baseurl >}}/img/2016/04/2.openwrt-extroot-whole_root.png#big)
+![](/img/2016/04/2.openwrt-extroot-whole_root.png#big)
 
 Jak widzimy, ilość wolnego miejsca na flash'u to 1,7 GiB.
 

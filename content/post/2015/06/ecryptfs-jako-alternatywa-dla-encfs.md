@@ -174,7 +174,7 @@ dostępu do jego plików, przynajmniej w formie odszyfrowanej.
 Automontowanie zasobu odbywa się za pośrednictwem modułu PAM. Jeśli nie wiemy czy mamy aktywowany
 ten moduł, możemy to sprawdzić wpisując w terminalu `pam-auth-update` jako root:
 
-![]({{< baseurl >}}/img/2015/06/1.ecryptfs-pam-konfiguracja.png#huge)
+![](/img/2015/06/1.ecryptfs-pam-konfiguracja.png#huge)
 
 Po udanej akcji zaszyfrowania katalogu domowego, kasujemy wcześniej utworzony automatycznie katalog
 z backup'em `/home/$USER.vvDPp6xm/` :

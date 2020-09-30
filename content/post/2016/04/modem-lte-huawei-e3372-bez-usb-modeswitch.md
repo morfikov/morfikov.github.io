@@ -168,5 +168,5 @@ Jak widać, nie ma przełączania trybu. Połączenie z siecią nawiązujemy w s
 Może się zdarzyć tak, że w nasze łapki wpadnie modem, który może działać w trybie NDIS (NCM). W
 takim przypadku możemy także zrezygnować z instalacji pakietu `wvdial` i skonfigurować sobie
 interfejs `wwan0` ręcznie. [Opis konfiguracji modemu w trybie
-NDIS]({{< baseurl >}}/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/) został przedstawiony w
+NDIS](/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/) został przedstawiony w
 osobnym artykule.

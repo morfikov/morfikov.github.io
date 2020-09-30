@@ -43,7 +43,7 @@ recovery nie ma wkompilowanego wsparcia dla szyfrowania i nie potrafi poprawnie 
 zaszyfrowanej partycji `/data/` . Problemy pojawiają się także przy czyszczeniu tej partycji, a
 jeśli nie wyczyścimy jej, to nie przeprowadzimy z powodzeniem całego procesu Factory Reset.
 
-![]({{< baseurl >}}/img/2017/02/001.android-szyfrowanie-partycja-data-recovery-twrp-blad-data.png#big)
+![](/img/2017/02/001.android-szyfrowanie-partycja-data-recovery-twrp-blad-data.png#big)
 
 Jako, że narzędzie `fastboot` , które operuje na trybie bootloader'a naszego smartfona, jest również
 w stanie przeprowadzić proces Factory Reset, to postanowiłem skorzystać z tej opcji i wpisałem w
@@ -171,20 +171,20 @@ to w zupełności powinno wystarczyć.
 
 Odpalamy teraz smartfon w trybie recovery (VolumeUP + Power) i przechodzimy do terminala:
 
-![]({{< baseurl >}}/img/2017/02/002.android-szyfrowanie-partycja-data-recovery-twrp-terminal.png#huge)
+![](/img/2017/02/002.android-szyfrowanie-partycja-data-recovery-twrp-terminal.png#huge)
 
 Sprawdzamy czy partycja `/data/` jest zamontowana. Jeśli tak, to trzeba ją odmontować:
 
-![]({{< baseurl >}}/img/2017/02/003.android-szyfrowanie-partycja-data-recovery-twrp-umount-data.png#medium)
+![](/img/2017/02/003.android-szyfrowanie-partycja-data-recovery-twrp-umount-data.png#medium)
 
 Skanujemy teraz system plików partycji `/data/` w poszukiwaniu ewentualnych błędów przy pomocy
 narzędzia `e2fsck` :
 
-![]({{< baseurl >}}/img/2017/02/004.android-szyfrowanie-partycja-data-recovery-twrp-fsck-data.png#medium)
+![](/img/2017/02/004.android-szyfrowanie-partycja-data-recovery-twrp-fsck-data.png#medium)
 
 Teraz zmieniamy rozmiar tej partycji za sprawą `resize2fs` :
 
-![]({{< baseurl >}}/img/2017/02/005.android-szyfrowanie-partycja-data-recovery-twrp-resize-data.png#medium)
+![](/img/2017/02/005.android-szyfrowanie-partycja-data-recovery-twrp-resize-data.png#medium)
 
 Tutaj mamy w zasadzie dwa polecenia. W pierwszym z nich, ta liczba na samym końcu jest duża
 (1111111111), bo właściwie nie wiemy jeszcze jaki jest optymalny rozmiar tej partycji. Duża wartość
@@ -198,7 +198,7 @@ Zabezpieczenia i wybieramy opcję zaszyfrowania telefonu. Jeśli zostawiliśmy n
 `/data/` wystarczającą ilość wolnego miejsca, to Android powinien zrestartować urządzenie i
 przeprowadzić proces jego szyfrowania:
 
-![]({{< baseurl >}}/img/2017/02/006.android-szyfrowanie-partycja-data-proces.jpg#big)
+![](/img/2017/02/006.android-szyfrowanie-partycja-data-proces.jpg#big)
 
 Po zaszyfrowaniu, smartfon zostanie uruchomiony ponownie raz jeszcze i już podczas startu systemu
 będziemy proszeni o podanie hasła do klucza szyfrującego dane na partycji `/data/` (standardowo to

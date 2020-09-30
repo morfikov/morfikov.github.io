@@ -37,7 +37,7 @@ ataku, a w rzeczywistości może to być użytkownik, który próbuje się zalog
 live, bo tam przecie domyślne porty są inne.
 
 Zamiast się bawić z przepisywanie portów, dużo lepszym wyjściem jest odpowiednie skonfigurowanie
-[filtru iptables]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/), gdzie zezwalamy
+[filtru iptables](/post/firewall-na-linuxowe-maszyny-klienckie/), gdzie zezwalamy
 na połączenie jedynie określonym klientom. Problem w przypadku dostępu zdalnego jest taki, że wielu
 użytkowników może się łączyć z danym serwerem i niekoniecznie musi to robić z pewnego określonego
 miejsca na ziemi. Zatem nawet adresy IP mogą ulegać zmianie i stworzenie reguł dla tych użytkowników

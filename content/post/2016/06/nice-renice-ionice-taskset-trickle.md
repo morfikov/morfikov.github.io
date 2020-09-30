@@ -46,7 +46,7 @@ na końcu którego będzie nasza główna aplikacja. Całość działa na zasadz
 procesów. Przykładowo, jeśli proces z `nice -n 19` wywoła inny proces, to ten drugi proces również
 dostanie z automatu `nice -n 19` . Jest to dokładnie zobrazowane w `htop` na poniższym obrazu:
 
-![]({{< baseurl >}}/img/2016/06/1.procesy-nice-htop-linux.png#huge)
+![](/img/2016/06/1.procesy-nice-htop-linux.png#huge)
 
 Wyżej widzimy, że jednemu z paneli `tint2` został przypisany `nice -n -2` . Na tym panelu jest
 szereg aktywatorów aplikacji. Każdy uruchomiony proces z tego panelu będzie procesem potomnym i
@@ -145,4 +145,4 @@ Za pomocą przełącznika `-d` określamy prędkość pobierania danych z intern
 opcji `-u` definiujemy ograniczeniu upload'u. Obie wartości są w KiB/s
 
 
-[1]: {{< baseurl >}}/post/ograniczanie-zasobow-procesom-przez-cgroups/
+[1]: /post/ograniczanie-zasobow-procesom-przez-cgroups/

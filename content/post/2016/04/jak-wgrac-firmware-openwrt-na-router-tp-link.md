@@ -69,7 +69,7 @@ adnotacje, bo nie zawsze dany router jest obsługiwany w pełni przez ten firmwa
 przypadków może się zdarzyć tak, że wersja routera może być nieodpowiednia lub wspierana dopiero od
 określonego wydania OpenWRT. Tutaj sprawa wygląda następująco:
 
-![]({{< baseurl >}}/img/2016/04/1.openwrt-router-wsparcie-firmware.png#huge)
+![](/img/2016/04/1.openwrt-router-wsparcie-firmware.png#huge)
 
 Widzimy, że wersja 1.5 routera WDR3600 jest wspierana od Chaos Calmer 15.05, choć niżej możemy
 wyczytać, że sporadycznie mogą się pojawić jakieś drobne problemy. Generalnie nic, czym powinniśmy
@@ -91,20 +91,20 @@ podepnijmy się do routera za pomocą przewodu. Następnie odpalamy przeglądark
 adresu wpisujemy `http://192.168.0.1` . logujemy się do panelu. Standardowy login to `admin` , hasło
 również `admin` :
 
-![]({{< baseurl >}}/img/2016/04/2.tp-link-panel-admin-router.png#big)
+![](/img/2016/04/2.tp-link-panel-admin-router.png#big)
 
 Z menu po lewej stronie wybieramy kolejno System Tools -> Firmware Upgrade i wskazujemy pobrany
 plik:
 
-![]({{< baseurl >}}/img/2016/04/3.aktualizacja-firmware-openwrt-panel-admin-tp-link.png#huge)
+![](/img/2016/04/3.aktualizacja-firmware-openwrt-panel-admin-tp-link.png#huge)
 
 Klikamy przycisk Upgrade i po chwili rozpocznie się flash'owanie routera nowym firmware:
 
-![]({{< baseurl >}}/img/2016/04/4.aktualizacja-firmware-openwrt-panel-admin-tp-link.png.png#huge)
+![](/img/2016/04/4.aktualizacja-firmware-openwrt-panel-admin-tp-link.png.png#huge)
 
 Po zakończeniu, router powinien się automatycznie zresetować:
 
-![]({{< baseurl >}}/img/2016/04/5.aktualizacja-firmware-openwrt-panel-admin-tp-link.png#huge)
+![](/img/2016/04/5.aktualizacja-firmware-openwrt-panel-admin-tp-link.png#huge)
 
 Wyżej mamy komunikat o odświeżeniu strony w przeglądarce. Jeśli to zrobimy, to nic nam się nie
 załaduje. Nawet w przypadku jeśli wgraliśmy firmware z panelem webowym. Domyślny adres dla OpenWRT
@@ -115,7 +115,7 @@ też, że skoro zmianie uległa adresacja sieci (z 192.168.0/24 na 192.168.1.0/2
 zresetować połączenie sieciowe na komputerze, by uzyskać odpowiedni adres IP i być w stanie
 połączyć się z routerem. Poniżej przykład logowania się do routera via `telnet` :
 
-![]({{< baseurl >}}/img/2016/04/6.openwrt-logowanie-terminal-telnet.png#big)
+![](/img/2016/04/6.openwrt-logowanie-terminal-telnet.png#big)
 
 Do pełni szczęścia musimy jeszcze ustawić hasło dla konta administratora root przez wpisanie w
 terminalu `passwd` . Zaowocuje to wyłączeniem protokołu telnet i włączeniem protokołu SSH. To w

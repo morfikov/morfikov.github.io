@@ -85,7 +85,7 @@ błędem przy weryfikacji integralności danych, które są w niej zwarte. Jeśl
 między v2 i v3 to w przypadku v3 zostały wprowadzone [dodatkowe informacje][20], które są
 umieszczane w bloku podpisu (signing block).
 
-![]({{< baseurl >}}/img/2019/12/001-apk-integrity-protection.png#huge)
+![](/img/2019/12/001-apk-integrity-protection.png#huge)
 
 ### Wsparcie dla wszystkich schematów podpisu
 
@@ -94,7 +94,7 @@ ma być instalowana w starszych i nowszych wersjach Androida, to trzeba ją podp
 każdego ze schematów. Później przy instalacji aplikacji, system podąża według poniższych
 instrukcji, by taki pakiet zweryfikować:
 
-![]({{< baseurl >}}/img/2019/12/002-apk-validation-process.png#huge)
+![](/img/2019/12/002-apk-validation-process.png#huge)
 
 ## Jak zweryfikować plik APK
 
@@ -109,7 +109,7 @@ dodatkowe linki, np. do oficjalnego forum czy kodu źródłowego.
 
 |     |    |     |
 | --- | ---| --- |
-| ![]({{< baseurl >}}/img/2019/12/003-signal-app-google-play.png#small) | ![]({{< baseurl >}}/img/2019/12/004-signal-app-google-play.png#small) |![]({{< baseurl >}}/img/2019/12/005-signal-app-google-play.png#small) |
+| ![](/img/2019/12/003-signal-app-google-play.png#small) | ![](/img/2019/12/004-signal-app-google-play.png#small) |![](/img/2019/12/005-signal-app-google-play.png#small) |
 
 Nie zawsze jednak wszystkie te informacje będą podane tak jak w przypadku tej powyższej aplikacji.
 Ja generalnie zalecam trzymanie się z dala od tych appek, których identyfikacja podmiotu jest
@@ -148,7 +148,7 @@ powiązaną z plikiem `*.SF` o tej samej nazwie. Plik ten jest nieczytelny dla c
 
 Na stronie projektu Signal był podany odcisk palca SHA256 certyfikatu. Wygląda on tak:
 
-![]({{< baseurl >}}/img/2019/12/006-signal-app-manual-download-certificate-hash.png#huge)
+![](/img/2019/12/006-signal-app-manual-download-certificate-hash.png#huge)
 
 Po co nam ten odcisk? Przy jego pomocy jesteśmy w stanie zweryfikować podmiot, który ten certyfikat
 wystawił. Informacje o certyfikacie są dostępne w pliku `META-INF/SIGNAL_S.RSA` i możemy je uzyskać
@@ -266,7 +266,7 @@ pusta linia (znak `CRLF`). Trochę to skomplikowane zatem najlepiej to zobrazowa
 
 Sekcja pliku `FingerprintProtocol.proto` w `META-INF/MANIFEST.MF` ma poniższą postać:
 
-![]({{< baseurl >}}/img/2019/12/007-manifest-section-hash.png#huge)
+![](/img/2019/12/007-manifest-section-hash.png#huge)
 
 Jeśli taki wycinek tekstu podda się procesowi hash'owania, to otrzymamy:
 
@@ -629,7 +629,7 @@ Zanim jednak faktycznie pobierzemy plik, to na stronie mamy informację, że `Ve
 install (read more)` , czyli, że aplikacja została zweryfikowana i jest bezpieczna do
 zainstalowania. Jeśli klikniemy w ten link, to zobaczymy to poniższe okienko:
 
-![]({{< baseurl >}}/img/2019/12/008-signal-app-verify-apkmirror.png#huge)
+![](/img/2019/12/008-signal-app-verify-apkmirror.png#huge)
 
 Mamy tutaj widoczne hash'e, z których jeden zestaw zawiera odciski palca certyfikatu (niby ten sam
 co na stronie projektu Signal). Lepiej jednak nie wierzyć co tam na podejrzanych stronach wypisują,
@@ -683,7 +683,7 @@ telefon plik pobrany z serwisu apkmirror i zobaczyć co się w takim przypadku s
 
 |     |    |     |
 | --- | ---| --- |
-| ![]({{< baseurl >}}/img/2019/12/009-signal-apk-install-apkmirror.png#small) | ![]({{< baseurl >}}/img/2019/12/010-signal-apk-install-apkmirror.png#small) |![]({{< baseurl >}}/img/2019/12/011-signal-apk-install-apkmirror.png#small) |
+| ![](/img/2019/12/009-signal-apk-install-apkmirror.png#small) | ![](/img/2019/12/010-signal-apk-install-apkmirror.png#small) |![](/img/2019/12/011-signal-apk-install-apkmirror.png#small) |
 
 Jak widać po fotkach wyżej, paczka `.apk` bez problemu się zainstalowała w systemie dokładnie w
 taki sam sposób jakbym aktualizował ją via sklep Google Play (tylko w tym przypadku trzeba
@@ -736,7 +736,7 @@ jakieś menadżer plików, np. [Amaze][26], który posiada wbudowany menadżer a
 menadżerze wystarczy wykonać backup aplikacji i stosowny plik `.apk` zostanie zapisany np. na kacie
 SD.
 
-![]({{< baseurl >}}/img/2019/12/012-amaze-file-manager-app-backup.png#small)
+![](/img/2019/12/012-amaze-file-manager-app-backup.png#small)
 
 Tak wykonany backup aplikacji to nic innego jak tylko skopiowanie pliku `.apk` z jednego miejsca w
 drugie. Można ten fakt potwierdzić porównując hash pliku zainstalowanej aplikacji z plikiem backupu:
@@ -773,7 +773,7 @@ faktu zbytnio zadowoleni.
 [4]: https://source.android.com/security/apksigning/v2
 [5]: https://github.com/yeriomin/YalpStore
 [6]: https://gitlab.com/AuroraOSS/AuroraStore
-[7]: {{< baseurl >}}/post/czy-smartfon-z-androidem-bez-google-apps-services-ma-sens/
+[7]: /post/czy-smartfon-z-androidem-bez-google-apps-services-ma-sens/
 [8]: https://f-droid.org/
 [9]: https://microg.org/fdroid.html
 [10]: https://forum.f-droid.org/t/known-repositories/721

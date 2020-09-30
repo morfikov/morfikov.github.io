@@ -68,7 +68,7 @@ Tak więc jeśli mamy przykładową strukturę folderów `/www/htdocs/example` ,
 Dlatego też jeśli zależy nam na wydajności serwera oraz jego bezpieczeństwie i mamy przy tym dostęp
 do konfiguracji swojego wirtualnego hosta, to przydałoby się przenieść całą zawartość pliku
 `.htaccess` właśnie w to miejsce. Przykładowo, jeśli mamy blog WordPressa i stosujemy w nim
-[permalinki]({{< baseurl >}}/post/wordpress-odnosniki-bezposrednie-permalinks/) , to będziemy
+[permalinki](/post/wordpress-odnosniki-bezposrednie-permalinks/) , to będziemy
 potrzebować poniższego kodu, by te linki zaczęły działać:
 
     <IfModule mod_rewrite.c>

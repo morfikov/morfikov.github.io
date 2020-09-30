@@ -48,7 +48,7 @@ określony typ:
 Poniżej jest fotka obrazująca wykorzystywane routery, ich adresację początkową i zainstalowane na
 nich oprogramowanie:
 
-![]({{< baseurl >}}/img/2016/06/1.openwrt-router-tryb-wds-konfiguracja.png#huge)
+![](/img/2016/06/1.openwrt-router-tryb-wds-konfiguracja.png#huge)
 
 Konfiguracja bezprzewodowego mostu sprowadza się do edycji 3 plików konfiguracyjnych na każdym z
 routerów. Są to `/etc/config/network` , `/etc/config/dhcp` oraz `/etc/config/wireless` . To w nich
@@ -192,7 +192,7 @@ Po zresetowaniu obu routerów, przy skanowaniu sieci powinniśmy zobaczyć dwa p
 charakteryzujące się tą samą nazwą sieci oraz jej parametrami. Jedyna różnica tkwi w BSSID. Poniżej
 jest przykład skanowania pasma:
 
-![]({{< baseurl >}}/img/2016/06/2.openwrt-linux-skanowanie-sieci-wds.png#huge)
+![](/img/2016/06/2.openwrt-linux-skanowanie-sieci-wds.png#huge)
 
 Przyszedł czas przetestować czy ten most bezprzewodowy w ogóle działa. Najlepiej jest rozstawić oba
 routery w sporej odległości od siebie, ewentualnie też w różnych pomieszczeniach. Następnie
@@ -204,7 +204,7 @@ uczynimy, stracimy połączenie z siecią ale tylko na chwilę. Po kilku sekunda
 powinien nawiązać połączenie ponownie, tym razem z głównym routerem. Poniżej jest zalogowana właśnie
 ta sytuacja:
 
-![]({{< baseurl >}}/img/2016/06/3.openwrt-linux-przelaczenie-wds.png#huge)
+![](/img/2016/06/3.openwrt-linux-przelaczenie-wds.png#huge)
 
 O godzinie 15:25:40 nastąpiło połączenie z klientem WDS. Mój laptop został uwierzytelniony i
 powiązany z AP. Otrzymał też adresację z głównego routera przez protokół DHCP. Z kolei o 15:25:49

@@ -14,7 +14,7 @@ title: Baza danych użytkowników serwera freeradius
 
 Poprzedni wpis był o sieciach bezprzewodowych, a konkretnie dotyczył on [konfiguracji protokołu WPA
 Enterprise w oparciu o serwer
-freeradius]({{< baseurl >}}/post/wpa2-enterprise-serwer-freeradius/). Ten post będzie w podobnym
+freeradius](/post/wpa2-enterprise-serwer-freeradius/). Ten post będzie w podobnym
 klimacie, z tym, że skupimy się tutaj na nieco innym podejściu to kwestii użytkowników, którzy mogą
 się łączyć do sieci WiFi. Ich konfiguracja nie zostanie praktycznie w żaden sposób ruszona, no może
 za wyjątkiem [przeniesienia jej do bazy danych MySQL](http://wiki.freeradius.org/guide/SQL-HOWTO).

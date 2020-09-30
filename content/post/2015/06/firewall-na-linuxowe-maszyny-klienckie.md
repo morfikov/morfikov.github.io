@@ -32,7 +32,7 @@ Ponadto, każda z tablic ma pewien zestaw łańcuchów, w których skład mogą 
 przechodzące przez dowolną maszynę znajdującą się w sieci, bez względu na to czy to router, serwer,
 czy klient, robią to w ściśle określonej kolejności. Najlepiej to zobrazować poniższą fotką:
 
-![]({{< baseurl >}}/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png#big)
+![](/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png#big)
 
 Pakiety dzielimy na te otrzymane ( `RX` ) oraz te wysłane ( `TX` ). Każdy z nich przechodzi przez
 powyższy schemat, z tym, że nieco inną drogą. Najprostsza sytuacja ma miejsce gdy pakiet jest
@@ -107,7 +107,7 @@ stanach połączeń](https://www.frozentux.net/iptables-tutorial/iptables-tutori
     Stan `INVALID` zawiera wszystkie te niepoprawne kombinacje flag.
 
 Biorąc pod uwagę te stany połączeń, musimy zatroszczyć się także o [czyszczenie wpisów w tablicy
-conntrack'a]({{< baseurl >}}/post/jak-wyczyscic-tablice-conntrack-w-debianie/). Nie jest to
+conntrack'a](/post/jak-wyczyscic-tablice-conntrack-w-debianie/). Nie jest to
 wprawdzie wymagana opcja ale znacznie poprawia bezpieczeństwo systemu.
 
 ## Jak zbudować dobry firewall

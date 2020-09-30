@@ -225,9 +225,9 @@ Podpinamy zatem nasz adapter do portu USB i po chwili w logu powinniśmy ujrzeć
 
 Wyżej widzimy wyraźnie, że pojawił się w systemie nowy interfejs `wlan20` . Teraz możemy bez
 większego problemu skonfigurować sobie [bezprzewodowe połączenie
-sieciowe]({{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/) i wydać `ifup wlan20` :
+sieciowe](/post/konfiguracja-polaczenia-wifi-pod-debianem/) i wydać `ifup wlan20` :
 
-![]({{< baseurl >}}/img/2016/08/1.moduł-8192eu-karta-TL-WN823N-v2.png#huge)
+![](/img/2016/08/1.moduł-8192eu-karta-TL-WN823N-v2.png#huge)
 
 ## Problemy z modułem 8192eu
 

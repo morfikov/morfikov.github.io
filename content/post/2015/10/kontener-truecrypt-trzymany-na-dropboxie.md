@@ -19,7 +19,7 @@ bezpieczeństwem, bo im prostszy jest dla nas dostęp do danych, tym bardziej za
 bezpieczeństwu. W tym przypadku chcielibyśmy mieć możliwość dostępu do plików, np. naszego domowego
 PC, z dowolnego miejsca na ziemi. Czy można w prosty i w miarę bezpieczny sposób coś takiego
 osiągnąć? [Jakiś czas temu opisywałem implementację encfs na
-dropbox'ie]({{< baseurl >}}/post/implementacja-encfs-na-dropboxie/), w tym artykule zostanie zaś
+dropbox'ie](/post/implementacja-encfs-na-dropboxie/), w tym artykule zostanie zaś
 opisane sprzęgnięcie dropbox'a z kontenerem TrueCrypt.
 
 <!--more-->

@@ -43,7 +43,7 @@ poziomu panelu admina nie być w stanie dograć nowych dodatków, których bezpi
 często wiele do życzenia. Pamiętajmy jednak, że to nie wyłącza tej funkcjonalności całkowicie, bo w
 dalszym ciągu będziemy w stanie aktualizować i instalować nowe komponenty, z tym, że manualnie lub
 też półautomatycznie za pośrednictwem odpowiednich narzędzi, np.
-[wp-cli]({{< baseurl >}}/post/wordpress-instalacja-przy-pomocy-wp-cli/). Tak czy inaczej, ja
+[wp-cli](/post/wordpress-instalacja-przy-pomocy-wp-cli/). Tak czy inaczej, ja
 zalecam ustawienie tej opcji i robimy to również przez plik `wp-config.php` :
 
     define( 'DISALLOW_FILE_MODS', true );

@@ -16,7 +16,7 @@ title: SACK, czyli selektywne potwierdzenia pakietów
 Protokół TCP jest tak zbudowany by zapewnić rzetelny transfer danych między dwoma komunikującymi się
 punktami. Z początku jednak, ta cecha tego protokołu powodowała marnowanie dość sporych ilości
 zasobów jeśli chodzi o przepustowość łącza. Stało się to widoczne przy większych prędkościach
-połączeń, gdzie [skalowany był bufor]({{< baseurl >}}/post/bufor-polaczen-w-protokole-tcp/)
+połączeń, gdzie [skalowany był bufor](/post/bufor-polaczen-w-protokole-tcp/)
 (okno) TCP, co umożliwiło przesyłanie szeregu segmentów bez potrzeby czekania na ich potwierdzenie
 przez odbiorcę. To zwiększyło, co prawda, transfer danych ale pojawił się problem z zagubionymi
 pakietami.
@@ -32,7 +32,7 @@ wysłać zduplikowane pakiety `ACK` sygnalizując problem z jednym z wcześniejs
 duplikatów byłoby 98. Ten proces został zobrazowany poniżej
 ([źródło](http://www.tcpipguide.com/free/t_TCPNonContiguousAcknowledgmentHandlingandSelective.htm)):
 
-![]({{< baseurl >}}/img/2015/06/1.retransmisja-pakietow-ack.png#big)
+![](/img/2015/06/1.retransmisja-pakietow-ack.png#big)
 
 Niezła rozrzutność i tu właśnie w grę wchodzi mechanizm `SACK`, czyli selektywny ACK.
 
@@ -42,7 +42,7 @@ Jak zatem wyglądałaby powyżej opisana sytuacja po zaimplementowaniu mechanizm
 kolejną fotkę
 ([źródło](http://www.tcpipguide.com/free/t_TCPNonContiguousAcknowledgmentHandlingandSelective.htm)):
 
-![]({{< baseurl >}}/img/2015/06/2.retransmisja-pakietow-sack.png.png#big)
+![](/img/2015/06/2.retransmisja-pakietow-sack.png.png#big)
 
 Odbiorca otrzymał pakiet 1, 2 oraz 4. Pakiet 3 uległ zagubieniu. Odbiorca potwierdza wszystkie
 pakiety, które otrzymał. W buforze nadawczym, ciągle są dostępne te segmenty, które nie zostały

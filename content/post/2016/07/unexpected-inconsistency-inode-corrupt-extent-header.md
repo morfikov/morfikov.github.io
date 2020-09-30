@@ -102,10 +102,10 @@ czego system się nie będzie chciał nam uruchomić albo będzie działał bard
 log dostarczył nam praktycznie wszystkich informacji potrzebnych do przywrócenia systemu do stanu
 sprzed awarii. Musimy tylko przy pomocy środowiska `chroot` zainstalować pakiet, który za ten plik
 jest odpowiedzialny. [Dokładna procedura tworzenia środowiska chroot jest opisana
-tutaj]({{< baseurl >}}/post/przygotowanie-srodowiska-chroot-do-pracy/).
+tutaj](/post/przygotowanie-srodowiska-chroot-do-pracy/).
 
 By odnaleźć uszkodzony plik, musimy [przeszukać zawartość pakietów przy pomocy
-apt-file]({{< baseurl >}}/post/przeszukiwanie-zawartosci-pakietow-apt-file/). To narzędzie możemy
+apt-file](/post/przeszukiwanie-zawartosci-pakietow-apt-file/). To narzędzie możemy
 zainstalować poza środowiskiem `chroot` . Następnie aktualizujemy bazę danych plików i szukamy pliku
 `/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache` :
 

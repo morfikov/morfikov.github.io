@@ -42,7 +42,7 @@ Upgrade, gdzie wskazujemy plik obrazu z firmware. Nowsze obrazy dla routera TL-W
 [tutaj](ftp://ftp.dd-wrt.com/betas/2016/09-01-2016-r30534/tplink_tl-wdr3600v1/). Interesuje nas plik
 `tl-wdr3600-webflash.bin` jako, że aktualizujemy firmware przez panel web.
 
-![]({{< baseurl >}}/img/2016/09/2.aktualizacja-firmware-dd-wrt-flash.png#huge)
+![](/img/2016/09/2.aktualizacja-firmware-dd-wrt-flash.png#huge)
 
 Ten mechanizm aktualizacji oprogramowania routera daje nam również możliwość zachowania lub resetu
 ustawień po procesie flash'owania. Ten krok jest wymagany, gdy wersja pobranego obrazu różni się
@@ -55,19 +55,19 @@ aktualizacji firmware nie będziemy mieć dostępu do internetu.
 
 Po kliknięciu w przycisk Upgrade rozpocznie się flash'owanie routera:
 
-![]({{< baseurl >}}/img/2016/09/3.aktualizacja-firmware-dd-wrt-proces.png#huge)
+![](/img/2016/09/3.aktualizacja-firmware-dd-wrt-proces.png#huge)
 
 Po pomyślnej aktualizacji firmware, router powinien się zresetować, a my zobaczyć poniższą
 informację:
 
-![]({{< baseurl >}}/img/2016/09/4.aktualizacja-firmware-dd-wrt-proces.png#huge)
+![](/img/2016/09/4.aktualizacja-firmware-dd-wrt-proces.png#huge)
 
 Widzimy wyżej, że ustawienia routera zostały również zresetowane do fabrycznych. Możemy kontynuować
 proces przez kliknięcie w przycisk Continue. Na wiki DD-WRT jest informacja, by odczekać 5 minut
 zanim klikniemy w ten przycisk, tylko nie wiem po co. Ja nie czekałem i nic złego się z tego powodu
 nie stało. Po wciśnięciu przycisku powinien nas przywitać znajomy panel administracyjny:
 
-![]({{< baseurl >}}/img/2016/09/1.aktualizacja-firmware-dd-wrt-panel-admina.png#huge)
+![](/img/2016/09/1.aktualizacja-firmware-dd-wrt-panel-admina.png#huge)
 
 Zmieniamy hasło i logujemy się do panelu administracyjnego. W prawym górnym rogu jest informacja o
 aktualnej wersji używanego oprogramowania na routerze: `Firmware: DD-WRT v3.0-r30534 (09/01/16)` .
@@ -85,7 +85,7 @@ Odpalamy zatem terminal i logujemy się na router wpisując w nim polecenie `tel
 powinniśmy zostać zalogowani do
 systemu:
 
-![]({{< baseurl >}}/img/2016/09/5.dd-wrt-aktualizacja-firmware-terminal-telnet-ssh.png#big)
+![](/img/2016/09/5.dd-wrt-aktualizacja-firmware-terminal-telnet-ssh.png#big)
 
 Plik obrazu możemy przesłać za pomocą `scp` lub też możemy go pobrać bezpośrednio do pamięci routera
 korzystając z `wget` . Ten drugi sposób jest o wiele prostszy, dlatego też to z niego skorzystamy. W

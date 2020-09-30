@@ -72,7 +72,7 @@ wydobyć w poniższy sposób:
     ...
 
 Mając te powyższe informacje, możemy [napisać regułę udev'a dla tego
-urządzenia]({{< baseurl >}}/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/).
+urządzenia](/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/).
 
 ## Tworzenie dowiązania do urządzenia ttyUSB0
 

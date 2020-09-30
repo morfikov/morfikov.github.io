@@ -275,7 +275,7 @@ Zaś narzędzie `networkctl` powinno nam zwrócić poniższą konfigurację:
     4 links listed.
 
 
-[1]: {{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/
+[1]: /post/konfiguracja-polaczenia-wifi-pod-debianem/
 [2]: https://www.kernel.org/pub/linux/kernel/people/marcelo/linux-2.4/Documentation/networking/bonding.txt
 [3]: https://wiki.debian.org/WiFi
 [4]: http://lists.shmoo.com/pipermail/hostap/2009-February/019190.html

@@ -14,7 +14,7 @@ title: Jak ręcznie zweryfikować sygnaturę modułu kernela linux
 
 Bawiąc się ostatnio kernelem linux na dystrybucji Debian i opcjami mającymi poprawić jego
 bezpieczeństwo, włączyłem
-sobie [mechanizm podpisywania modułów]({{< baseurl >}}/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/).
+sobie [mechanizm podpisywania modułów](/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/).
 W ten sposób żaden zewnętrzny moduł nie zostanie załadowany przez jądro operacyjne, no chyba, że
 taki moduł będzie podpisany przez ten sam klucz co i kernel. Zdziwiłem się odrobinę, gdy moim
 oczom pokazał się hash `md4` w wyjściu polecenia `modinfo` . Jak się okazało później, to niezbyt

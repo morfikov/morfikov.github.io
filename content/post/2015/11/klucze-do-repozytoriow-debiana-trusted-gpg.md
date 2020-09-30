@@ -115,9 +115,9 @@ Po dodaniu kluczy do pliku `trusted.gpg` trzeba ponownie zaktualizować listę r
 pomocy `apt-get update` i to w zasadzie cała robota przy oczyszczeniu keyring'a APT.
 
 
-[1]: {{< baseurl >}}/post/dokladna-data-instalacji-systemu-linux/
+[1]: /post/dokladna-data-instalacji-systemu-linux/
 [2]: https://pl.wikipedia.org/wiki/GNU_Privacy_Guard
 [3]: https://wiki.debian.org/SecureApt
-[4]: {{< baseurl >}}/post/serwer-kluczy-gpg-i-kwestia-prywatnosci/
+[4]: /post/serwer-kluczy-gpg-i-kwestia-prywatnosci/
 [5]: https://trac.torproject.org/projects/tor/wiki/doc/TorifyHOWTO/GnuPG
-[6]: {{< baseurl >}}/post/konfiguracja-gpg-w-pliku-gpg-conf/
+[6]: /post/konfiguracja-gpg-w-pliku-gpg-conf/

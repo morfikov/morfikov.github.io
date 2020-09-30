@@ -20,7 +20,7 @@ WiFi. Mogą to być, np. firmowe hotspoty. Nawet jeśli ograniczymy się tylko d
 ten jest nieco większy, to prawdopodobnie jeden bezprzewodowy router nie wystarczy, by pokryć
 zasięgiem całą dostępną przestrzeń użytkową. Będziemy musieli dokupić drugi router, czy jakiś
 wzmacniacz sygnału. Być może też zdecydujemy się na [transmitery sieciowe
-(powerline)]({{< baseurl >}}/post/transmitery-sieciowe-tl-wpa4226t-kit-tp-link/). Jest cała masa
+(powerline)](/post/transmitery-sieciowe-tl-wpa4226t-kit-tp-link/). Jest cała masa
 urządzeń, które mogą nam pomóc rozwiązać problem słabego zasięgu. To co zwykle łączy te urządzenia,
 to fakt, że wszystkie z nich zawierają dodatkowy AP, który trzeba skonfigurować. Pojawia się zatem
 problem przełączania między tymi punktami dostępowymi. Można sobie z tym poradzić konfigurując
@@ -86,7 +86,7 @@ Konfigurację interfejsu sieciowego mamy z głowy. Teraz musimy skonfigurować s
 `wpa_supplicant` . Powinno być ono już zainstalowane nawet w najbardziej okrojonych linux'ach (jak
 coś to trzeba się rozejrzeć za pakietem `wpasupplicant` ). Dokładny opis konfiguracji tego narzędzia
 znajduje się w artykule o [konfiguracji sieci WiFi pod
-Debianem]({{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/). Poniżej zaś znajduje
+Debianem](/post/konfiguracja-polaczenia-wifi-pod-debianem/). Poniżej zaś znajduje
 się jedynie opis potrzebnych nam opcji. Jeśli coś jest niezrozumiałe, to odsyłam do powyższego
 artykułu. Przechodzimy zatem do edycji pliku `/etc/wpa_supplicant/wpa_supplicant.conf` .
 
@@ -135,7 +135,7 @@ Każde skanowanie sieci zwraca listę wszystkich AP w okolicy oraz jakość odbi
 Takie skanowanie możemy sami zainicjować wpisując w terminalu polecenie `wpa_cli scan` i po chwili
 podejrzeć wynik poleceniem `wpa_cli scan_results` , poniżej przykład:
 
-![]({{< baseurl >}}/img/2016/09/1.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
+![](/img/2016/09/1.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
 
 Jak widać wyżej, mamy dwa AP z tą samą nazwą sieci `Ever_Vigilant` . Widzimy też, że poziom sygnału
 docierającego do mojego laptopa to -13 dBm i -52 dBm. Jesteśmy naturalnie podłączeni w tej chwili do
@@ -147,14 +147,14 @@ zapoczątkuje agresywne skanowanie sieci co 10 sekund w celu zaktualizowania tej
 Wtedy okaże się, że w pewnym momencie sygnał będzie się prezentował tak jak na tym poniższym
 obrazku:
 
-![]({{< baseurl >}}/img/2016/09/2.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
+![](/img/2016/09/2.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
 
 Zatem nastąpiła zamiana miejsc i teraz AP2 dostarcza przyzwoity sygnał. W takim przypadku po
 zastosowaniu opcji `bgscan` , system powinien nas automatycznie przełączyć między tymi dwoma AP i to
 bez żadnych powiadomień czy wymagania podjęcia jakichś akcji z naszej strony. Poniżej jest fotka
 zalogowanego zdarzenia:
 
-![]({{< baseurl >}}/img/2016/09/3.roaming-wifi-linux-przelaczanie-sieci-ten-sam-essid.png#huge)
+![](/img/2016/09/3.roaming-wifi-linux-przelaczanie-sieci-ten-sam-essid.png#huge)
 
 Wyżej w logu widzimy komunikat `wlan0: disconnect from AP c4:6e:1f:95:ef:fd for new auth to
 ec:08:6b:8d:32:aa` . Jest to informacja, która oświadcza nam, że demon roamingowy znalazł AP o
@@ -202,13 +202,13 @@ do której sieci zostaniemy podłączeni zależy od samej konfiguracji sieci w p
 
 Tak obecnie wygląda eter w mojej okolicy:
 
-![]({{< baseurl >}}/img/2016/09/4.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
+![](/img/2016/09/4.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
 
 Dwie moje sieci są oznaczone jako `Ever_Vigilant` oraz `TP-LINK` . Obie te sieci zostały określone w
 konfiguracji `wpa_supplicant` i na obu z nich mamy ustawiony roaming. Wystarczy, że sygnał spadnie
 poniżej tych -60 dBm, a system przełączy nas do drugiego AP:
 
-![]({{< baseurl >}}/img/2016/09/5.roaming-wifi-linux-przelaczanie-sieci-rozne-essid.png#huge)
+![](/img/2016/09/5.roaming-wifi-linux-przelaczanie-sieci-rozne-essid.png#huge)
 
 W tym przypadku, jako, że są różne nazwy sieci, w logu pojawiła się informacja na temat tej, do
 której zostaliśmy przyłączeni.
@@ -221,6 +221,6 @@ W takiej sytuacji roaming zostanie włączony na wszystkich zdefiniowanych w pli
 ## Roaming WiFi i bonding
 
 Co ciekawe, roaming działa bez zarzutu z interfejsem `bond0` . Zatem jeśli [mamy na swoim linux'ie
-skonfigurowany bonding]({{< baseurl >}}/post/konfiguracja-interfejsow-bond-bonding/) między
+skonfigurowany bonding](/post/konfiguracja-interfejsow-bond-bonding/) między
 interfejsem przewodowym i bezprzewodowym i chcielibyśmy korzystać z roamingu WiFi, to nie powinniśmy
 napotkać żadnych problemów przy korzystaniu z takiego ustawienia.

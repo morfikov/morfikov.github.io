@@ -23,7 +23,7 @@ GiB, bo to jest raczej rzadkością, ale brak wsparcia uprawnień do plików i k
 plików FAT powoduje, że aplikacje w Androidzie nie chcą zapisywać swoich danych na karcie SD, która
 taki system plików wykorzystuje. W efekcie trzeba kombinować, by [aplikacja kamery/aparatu
 zapisywała zdjęcia czy materiał video na karcie
-SD]({{< baseurl >}}/post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/). Na
+SD](/post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/). Na
 smartfonach TP-LINK'a, które mają zainstalowany Android 6.0 Marshmallow, np.
 [Y5](http://www.neffos.pl/product/details/Y5L) czy [Y5L](http://www.neffos.pl/product/details/Y5L)),
 jesteśmy w stanie sformatować karty SD jako pamięć wewnętrzna za sprawą wprowadzonego w tej wersji
@@ -45,12 +45,12 @@ Po wsadzeniu karty SD do slotu w smartfonie, Android powinien nam wyrzucić info
 wykrycia takiego nośnika i udostępnić nam opcje formatowania karty SD, ewentualnie zawsze możemy
 wejść w Ustawienia => Pamięć plików:
 
-![]({{< baseurl >}}/img/2016/12/001.karta-sd-pamiec-wewnetrzna-android-formatowanie.png#big)
+![](/img/2016/12/001.karta-sd-pamiec-wewnetrzna-android-formatowanie.png#big)
 
 W tym przypadku karta SD jest sformatowana w tradycyjny sposób i automatycznie zamontowana w
 systemie. Jak widzimy wyżej, mamy opcję "Sformatuj jako pamięć wewnętrzna". Klikamy w nią:
 
-![]({{< baseurl >}}/img/2016/12/002.karta-sd-pamiec-wewnetrzna-android-formatowanie.png#big)
+![](/img/2016/12/002.karta-sd-pamiec-wewnetrzna-android-formatowanie.png#big)
 
 Sformatowanie karty SD w taki sposób uniemożliwi nam korzystanie z niej na innych urządzeniach. Ten
 proces kasuje także wszystkie dane zgromadzone na karcie SD. Dlatego też przed przeprowadzeniem go
@@ -61,7 +61,7 @@ kątem oceny jego prędkości. W przypadku, gdy karta nie należy do najszybszyc
 parametrami od flash'a telefonu, to zostanie wyrzucony komunikat o możliwym spowolnieniu działania
 systemu:
 
-![]({{< baseurl >}}/img/2016/12/004.karta-sd-pamiec-wewnetrzna-android-wolna.png#medium)
+![](/img/2016/12/004.karta-sd-pamiec-wewnetrzna-android-wolna.png#medium)
 
 Trzeba sobie zdawać sprawę, że nawet te szybsze karty SD są parokrotnie wolniejsze niż wbudowana w
 smartfon pamięć flash, zatem i tak spowolnienie w działaniu systemu odczujemy. Dlatego też jeśli już
@@ -72,7 +72,7 @@ UHS-1](https://www.sdcard.org/developers/overview/speed_class/).
 Po tym jak proces formatowania karty dobiegnie końca, zostaniemy poproszeni o określenie czy chcemy
 zainstalowane w systemie aplikacje oraz ich prywatne dane przenieść na kartę SD:
 
-![]({{< baseurl >}}/img/2016/12/005.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
+![](/img/2016/12/005.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
 
 ### Przeniesienie aplikacji w późniejszym czasie
 
@@ -82,7 +82,7 @@ formatowania karty SD, to przestrzeń kary nie zostanie dodana do tej, którą m
 telefonu. W menadżerze plików nie zobaczymy też już pozycji karty SD i nie będziemy w stanie wgrać
 na nią własnych plików:
 
-![]({{< baseurl >}}/img/2016/12/006.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
+![](/img/2016/12/006.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
 
 ### Przeniesienie aplikacji w procesie formatowania karty SD
 
@@ -93,7 +93,7 @@ ma zaś 2 G. Po przeniesieniu danych, system będzie widział jedynie 2 G, a nie
 możliwości, by te dwie przestrzenie połączyć ze sobą, no chyba, że sformatujemy kartę SD w
 standardowy sposób z wykorzystaniem systemu plików FAT.
 
-![]({{< baseurl >}}/img/2016/12/008.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
+![](/img/2016/12/008.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
 
 ### Hybrydowa lokalizacja aplikacji
 
@@ -104,7 +104,7 @@ na flash'u telefonu. Tutaj warto też zaznaczyć, że pojedyncze aplikacje może
 kartę SD. Wystarczy, że przejdziemy w Ustawienia => Aplikacje => Informacje o aplikacji => Pamięć
 plików i klikniemy przycisk "Zmień":
 
-![]({{< baseurl >}}/img/2016/12/009.karta-sd-pamiec-wewnetrzna-android-przenoszenie-aplikacji.png#huge)
+![](/img/2016/12/009.karta-sd-pamiec-wewnetrzna-android-przenoszenie-aplikacji.png#huge)
 
 Wszystkie aplikacje, które zostaną w taki sposób przeniesione, są zapamiętywane przez Androida i w
 przypadku odłączenia karty SD, te programiki przestaną nam działać (przestaną być widoczne przez
@@ -113,7 +113,7 @@ system) do momentu, aż ta karta SD zostanie podłączona ponownie.
 W przypadku, gdy nie przenosiliśmy plików podczas procesu formatowania karty SD, aplikacje będą
 zapisywane domyślnie na flash'u telefonu. Ten stan rzeczy może zostać zmieniony za sprawą narzędzia
 `adb` . [Proces instalacji adb na linux został opisany
-tutaj]({{< baseurl >}}/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/). Mając już dostęp
+tutaj](/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/). Mając już dostęp
 do `adb` wydajemy poniższe polecenia (wymagany root):
 
     # adb shell
@@ -136,7 +136,7 @@ odpowiada ale przenieśliśmy już dane na kartę SD, to bez problemu możemy ca
 przenieść dane z karty SD na flash smartfona. Wystarczy przejść w Ustawienia => Pamięć plików =>
 Pamięć wewnętrzna. Tam z kolei w menu po prawej stronie na górze wybieramy "Przenieść dane":
 
-![]({{< baseurl >}}/img/2016/12/010.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#huge)
+![](/img/2016/12/010.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#huge)
 
 Trzeba jednak pamiętać, że ten proces przenoszenia danych z karty SD na pamięć telefonu może w
 pewnych sytuacjach doprowadzić do bootloop, czyli zapętlenia się startu smartfona. Możemy do takiego
@@ -151,7 +151,7 @@ zapewne wiemy, efektywnie zniszczy wszystkie nasze dane.
 Kartę SD sformatowaną jako pamięć wewnętrzna w dalszym ciągu jesteśmy w stanie odłączyć od systemu.
 Niemniej jednak, nie jest to zalecane:
 
-![]({{< baseurl >}}/img/2016/12/011.karta-sd-pamiec-wewnetrzna-android-odlaczanie.png#big)
+![](/img/2016/12/011.karta-sd-pamiec-wewnetrzna-android-odlaczanie.png#big)
 
 Tutaj taka mała uwaga. Po przeprowadzeniu procesu formatowania karty SD zawsze zrestartujmy
 smartfon. Bez tego kroku, Android może się zachowywać wręcz nieobliczalnie, co może być źródłem
@@ -165,7 +165,7 @@ proces został przeprowadzony. Taka karta zostanie sformatowana systemem plików
 zostaną na tej karcie zaszyfrowane. Spójrzmy na tę poniższa fotkę obrazującą kilka partycji
 widzianych przez Androida:
 
-![]({{< baseurl >}}/img/2016/12/012.karta-sd-pamiec-wewnetrzna-android-widok-podzial.png#big)
+![](/img/2016/12/012.karta-sd-pamiec-wewnetrzna-android-widok-podzial.png#big)
 
 Standardowa wielkość pamięci flash w smartfonie Neffos Y5, to 16 G, z czego tylko 12 G jest
 przeznaczone dla partycji `/data/` , czyli danych użytkownika. Karta SD wykorzystywana w tym
@@ -233,7 +233,7 @@ przeznaczony na pamięć przenośną.
 Gdy proces formatowania karty dobiegnie końca, możemy sprawdzić czy Android poprawnie rozpoznał
 podział karty SD w Ustawienia => Pamięć plików:
 
-![]({{< baseurl >}}/img/2016/12/013.karta-sd-pamiec-wewnetrzna-android-hybryda.png#medium)
+![](/img/2016/12/013.karta-sd-pamiec-wewnetrzna-android-hybryda.png#medium)
 
 Karta ma 2 G pamięci, z czego około 25% zostało przeznaczone na pamięć wewnętrzną, a reszta na
 pamięć przenośną, czyli wszystko się zgadza.
@@ -243,12 +243,12 @@ przestrzeni, która jest sformatowana jako pamięć wewnętrzna. By być w stani
 kartę z telefonu, musimy również wejść w opcje pamięci wewnętrznej (czerwona pozycja na powyższej
 fotce) i tam z menu wybrać "Odłącz":
 
-![]({{< baseurl >}}/img/2016/12/014.karta-sd-pamiec-wewnetrzna-android-hybryda-odlaczanie.png#big)
+![](/img/2016/12/014.karta-sd-pamiec-wewnetrzna-android-hybryda-odlaczanie.png#big)
 
 Jeśli ktoś jest ciekaw jak taka karta jest widziana pod linux'em, to poniżej jest fotka z
 `gparted` :
 
-![]({{< baseurl >}}/img/2016/12/015.karta-sd-pamiec-wewnetrzna-android-gparted.png#huge)
+![](/img/2016/12/015.karta-sd-pamiec-wewnetrzna-android-gparted.png#huge)
 
 Jako, że partycja sformatowana systemem plików FAT jest pierwsza w szeregu, to nie powinno być
 problemów z zamontowaniem jej nawet pod windowsem, choć ten nie zawsze może z taką kartą

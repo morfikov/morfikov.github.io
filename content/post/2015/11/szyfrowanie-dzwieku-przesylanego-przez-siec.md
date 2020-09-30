@@ -16,7 +16,7 @@ title: Szyfrowanie dźwięku przesyłanego przez sieć
 
 [PulseAudio to serwer dźwięku](https://www.freedesktop.org/wiki/Software/PulseAudio/), który jest w
 stanie otrzymywać zapytania ze zdalnych lokalizacji. Wobec czego, możemy realizować [przesyłanie
-dźwięku przez sieć]({{< baseurl >}}/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/) i usłyszeć
+dźwięku przez sieć](/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/) i usłyszeć
 go tam, gdzie go sobie życzymy. Problem w tym, że taki dźwięk jest przesyłany przez sieć w formie
 niezaszyfrowanej. Dlatego też jesteśmy narażeni na podsłuchanie wszystkiego co mówimy do mikrofonu
 lub też tego co pojawia się w naszych głośnikach. Możemy jednak zabezpieczyć komunikację między
@@ -94,4 +94,4 @@ komunikację sieciową, tj. jakie porty są w niej wykorzystywane. Najprościej 
 jeden od serwera dźwięku PulseAudio, drugi zaś od SSH. W przypadku gdy ruch jest szyfrowany, tylko
 ta druga reguła powinna łapać pakiety, przykładowo:
 
-![]({{< baseurl >}}/img/2015/11/1.szyfrowanie-dzwieku-pulseaudio-iptables.png#huge)
+![](/img/2015/11/1.szyfrowanie-dzwieku-pulseaudio-iptables.png#huge)

@@ -14,7 +14,7 @@ title: 'Recenzja: Gigabitowy adapter Ethernet na USB UE300 od TP-LINK'
 ---
 
 Jakiś czas temu opisywałem [kartę sieciową na USB
-UE200]({{< baseurl >}}/post/recenzja-karta-sieciowa-ethernet-usb-ue200-tp-link/) od TP-LINK. Taki
+UE200](/post/recenzja-karta-sieciowa-ethernet-usb-ue200-tp-link/) od TP-LINK. Taki
 adapter jest bardzo przydatny w momencie, gdy nie posiadamy z jakiegoś powodu standardowej karty
 sieciowej, tak by za jej sprawą przewodowo połączyć komputer do domowej sieci. Jeden z moich
 komputerów cierpi właśnie na tego typu przypadłość z powodu jakiegoś bliżej nieznanego mi
@@ -31,9 +31,9 @@ a konkretnie na dystrybucji Debian, której używam na co dzień.
 Na początek jak zawsze fotki omawianego urządzenia. W przypadku adaptera UE300 nie ma ich zbyt
 wiele, bo sam adapter jest w miarę prosty i niezbyt skomplikowany.
 
-![]({{< baseurl >}}/img/2016/12/001.ue300-tp-link-ethernet-adapter-usb3-pudelko.jpg#big)
+![](/img/2016/12/001.ue300-tp-link-ethernet-adapter-usb3-pudelko.jpg#big)
 
-![]({{< baseurl >}}/img/2016/12/002.ue300-tp-link-ethernet-adapter-usb3-zawartosc-pudelka.jpg#big)
+![](/img/2016/12/002.ue300-tp-link-ethernet-adapter-usb3-zawartosc-pudelka.jpg#big)
 
 ## Specyfikacja adaptera UE300
 
@@ -41,12 +41,12 @@ Adapter UE300 jakby nie patrzeć to w końcu zwykły kawałek sieciowego czipu w
 wyprowadzonym interfejsem USB 3.0 z jednej strony i gigabitowym portem Ethernet (RJ-45) z drugiej.
 Jeśli ktoś jest ciekaw wymiarów tego adaptera, to oto i one: 71x26x16 mm (dł/sz/wy).
 
-![]({{< baseurl >}}/img/2016/12/004.ue300-tp-link-ethernet-adapter-usb3-interfejs.jpg#big)
+![](/img/2016/12/004.ue300-tp-link-ethernet-adapter-usb3-interfejs.jpg#big)
 
 Na górnej części obudowy, znajduje się także biała dioda sygnalizująca stan połączenia/zasilania
 urządzenia:
 
-![]({{< baseurl >}}/img/2016/12/003.ue300-tp-link-ethernet-adapter-usb3-dioda.jpg#big)
+![](/img/2016/12/003.ue300-tp-link-ethernet-adapter-usb3-dioda.jpg#big)
 
 ### Czip RTL8153
 

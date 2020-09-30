@@ -265,7 +265,7 @@ W razie innych problemów z działaniem demona `stunnel` warto zajrzeć równie�
 projektu][4], jak i do [man stunnel][5].
 
 
-[1]: {{< baseurl >}}/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/
+[1]: /post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/
 [2]: https://en.wikipedia.org/wiki/Deep_packet_inspection
 [3]: https://www.stunnel.org/index.html
 [4]: https://www.stunnel.org/faq.html

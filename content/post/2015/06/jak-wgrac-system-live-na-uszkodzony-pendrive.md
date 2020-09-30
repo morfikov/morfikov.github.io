@@ -35,7 +35,7 @@ bezpośrednio na pendrive. Zamiast tego trzeba będzie cały proces wgrywania ob
 ręcznie. Nie jest on skomplikowany i zwykle nie zajmie nam więcej niż 5 min. Dodatkową korzyścią
 płynąca z tego rozwiązania jest fakt, że możemy taki system live ulokować w dowolnym miejscu na
 pendrive i nie musi być to obszar początkowy, który jest zwykle najbardziej utylizowany, co
-przekłada się na [uszkodzone sektory]({{< baseurl >}}/post/kiedy-zywot-pendrive-dobiega-konca/) i
+przekłada się na [uszkodzone sektory](/post/kiedy-zywot-pendrive-dobiega-konca/) i
 w takim przypadku jeśli nasz pendrive ma choć jeden bad blok gdzieś na początku, to nie damy rady
 wgrać obrazu live przy pomocy `dd`.
 
@@ -46,7 +46,7 @@ czego uszkodzone sektory są rozsiane na pierwszych 5GiB. Zwykle obraz live ma n
 zatem najlepiej odpuścić sobie ten obszar początkowy i utworzyć minimum dwie partycje, z których
 jedna będzie mieć 5GiB, a druga będzie rozciągać się na pozostałe miejsce na pendrive, przykładowo:
 
-![]({{< baseurl >}}/img/2015/06/1.gparted-uszkodzony-pendrive-live.png#big)
+![](/img/2015/06/1.gparted-uszkodzony-pendrive-live.png#big)
 
 Naturalnie, możemy stworzyć więcej partycji i przeznaczyć jedynie 2GiB na system live. W dalszym
 ciągu także możemy korzystać z pierwszej partycji, choć nie jest to zalecane, bo istnieje spore

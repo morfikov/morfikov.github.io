@@ -96,7 +96,7 @@ W przypadku procesorów możemy mieć do czynienia z kilkoma technikami wirtuali
 wirtualizacją, parawirtualizacją oraz wirtualizacją wspomaganą sprzętowo. Poniżej jest prosta
 grafika ([źródło][12]) obrazująca różnice pomiędzy tymi technikami wirtualizacji procesora:
 
-![]({{< baseurl >}}/img/2020/08/001-virtualization-techniques-linux-qemu-kvm-processor.png#huge)
+![](/img/2020/08/001-virtualization-techniques-linux-qemu-kvm-processor.png#huge)
 
 Kolejno od lewej: brak wirtualizacji, pełna wirtualizacja, parawirtualizacja i jako ostatnia
 wirtualizacja wspomagana sprzętowo.
@@ -187,7 +187,7 @@ pamięci wirtualnej bezpośrednio do pamięci maszyny hosta aby uniknąć dwóch
 każdym dostępie. Gdy system gościa zmienia mapowanie pamięci, hiperwizor aktualizuje cieniste
 tablice stron aby umożliwić bezpośrednie wyszukiwanie.
 
-![]({{< baseurl >}}/img/2020/08/001-virtualization-techniques-linux-qemu-kvm-memory.png#big)
+![](/img/2020/08/001-virtualization-techniques-linux-qemu-kvm-memory.png#big)
 
 #### Wirtualizacja urządzeń oraz operacji I/O
 
@@ -347,11 +347,11 @@ interesującej nas flagi, to jest niemal pewne, że wirtualizacja została wył�
 EFI/UEFI lub BIOS (w zależności, które z nich posiadamy). W takim przypadku trzeba wejść w
 ustawienia BIOS/EFI/UEFI i włączyć stosowne opcje. Poniżej jest przykład z mojego ThinkPad'a T430:
 
-![]({{< baseurl >}}/img/2020/08/002-virtualization-processor-bios-efi-uefi-kvm-qemu.jpg#huge)
+![](/img/2020/08/002-virtualization-processor-bios-efi-uefi-kvm-qemu.jpg#huge)
 
-![]({{< baseurl >}}/img/2020/08/003-virtualization-processor-bios-efi-uefi-kvm-qemu.jpg#huge)
+![](/img/2020/08/003-virtualization-processor-bios-efi-uefi-kvm-qemu.jpg#huge)
 
-![]({{< baseurl >}}/img/2020/08/004-virtualization-processor-bios-efi-uefi-kvm-qemu.jpg#huge)
+![](/img/2020/08/004-virtualization-processor-bios-efi-uefi-kvm-qemu.jpg#huge)
 
 Oczywiście nazwy opcji mogą się nieco różnić ale raczej nie powinniśmy mieć problemów z ustaleniem,
 które opcje w BIOS/EFI/UEFI odpowiadają za włączenie wirtualizacji.
@@ -508,7 +508,7 @@ W przypadku, gdy podczas startu maszyny wirtualnej zobaczymy na ekranie komunika
 to graphical console: Error opening Spice console, SpiceClientGtk missing.` , co wygląda mniej
 więcej tak:
 
-![]({{< baseurl >}}/img/2020/08/005-virtualization-kvm-qemu-virt-manager-error-console.jpg#big)
+![](/img/2020/08/005-virtualization-kvm-qemu-virt-manager-error-console.jpg#big)
 
 Oznacza to, że brakuje w systemie pakietu `gir1.2-spiceclientgtk-3.0` .
 
@@ -529,7 +529,7 @@ Jeżeli nie dodamy zwykłego użytkownika do żadnej z wyżej wymienionych grup,
 uruchamianiu `virt-manager` (przy łączeniu się z demonem `libvirtd` ) będziemy ciągle pytani o
 hasło administratora:
 
-![]({{< baseurl >}}/img/2020/08/006-virtualization-kvm-qemu-virt-manager-password.jpg#big)
+![](/img/2020/08/006-virtualization-kvm-qemu-virt-manager-password.jpg#big)
 
 ### Grupa libvirt
 
@@ -690,51 +690,51 @@ utworzony):
 
 |    |     |
 | ---| --- |
-| ![]({{< baseurl >}}/img/2020/08/014-virtualization-kvm-qemu-virt-manager-create-machine.png#medium) | ![]({{< baseurl >}}/img/2020/08/015-virtualization-kvm-qemu-virt-manager-create-machine-connect.png#medium) |
+| ![](/img/2020/08/014-virtualization-kvm-qemu-virt-manager-create-machine.png#medium) | ![](/img/2020/08/015-virtualization-kvm-qemu-virt-manager-create-machine-connect.png#medium) |
 
 Następnie klikając w ikonkę monitora tworzymy maszynę wirtualną:
 
-![]({{< baseurl >}}/img/2020/08/016-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
+![](/img/2020/08/016-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
 
 Wybieramy lokalne medium instalacyjne, tj. ten obraz ISO, który pobraliśmy wcześniej:
 
-![]({{< baseurl >}}/img/2020/08/017-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
+![](/img/2020/08/017-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
 
-![]({{< baseurl >}}/img/2020/08/018-virtualization-kvm-qemu-virt-manager-create-machine.png#big)
+![](/img/2020/08/018-virtualization-kvm-qemu-virt-manager-create-machine.png#big)
 
 Jeśli wskazaliśmy jeden z tych bardziej popularnych obrazów ISO, to `virt-manager` powinien
 rozpoznać z jakim obrazem ma do czynienia:
 
-![]({{< baseurl >}}/img/2020/08/019-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
+![](/img/2020/08/019-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
 
 Wstępnie też konfigurujemy przydział pamięci operacyjnej RAM oraz rdzeni procesora:
 
-![]({{< baseurl >}}/img/2020/08/020-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
+![](/img/2020/08/020-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
 
 Następnie wybieramy format obrazu maszyny wirtualnej oraz ilość przestrzeni dyskowej, którą będzie
 ta maszyna mogła wykorzystać. Jeśli nie chcemy tworzyć obrazów maszyn wirtualnych na partycji
 systemowej w katalogu `/var/lib/libvirt/images/` , to musimy zdefiniować lokalizację ręcznie:
 
-![]({{< baseurl >}}/img/2020/08/021-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
+![](/img/2020/08/021-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
 
-![]({{< baseurl >}}/img/2020/08/022-virtualization-kvm-qemu-virt-manager-create-machine.png#big)
+![](/img/2020/08/022-virtualization-kvm-qemu-virt-manager-create-machine.png#big)
 
 Klikamy teraz w ten zielony plusik obok `Volumes` , dodajemy nowy obraz w formacie `.qcow2` i
 określamy jego rozmiar:
 
-![]({{< baseurl >}}/img/2020/08/023-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
+![](/img/2020/08/023-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
 
 Następnie wybieramy tak utworzony obraz maszyny wirtualnej:
 
-![]({{< baseurl >}}/img/2020/08/024-virtualization-kvm-qemu-virt-manager-create-machine.png#big)
+![](/img/2020/08/024-virtualization-kvm-qemu-virt-manager-create-machine.png#big)
 
-![]({{< baseurl >}}/img/2020/08/025-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
+![](/img/2020/08/025-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
 
 Pozostał nam ostatni krok, tj. nazwanie maszyny wirtualnej i przypisanie jej do konkretnej sieci.
 Standardowe ustawienia sieci powinny wystarczyć chyba, że korzystamy z `nftables` . W takim
 przypadku trzeba będzie nieco przerobić domyślną sieć lub utworzyć nową "otwartą":
 
-![]({{< baseurl >}}/img/2020/08/026-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
+![](/img/2020/08/026-virtualization-kvm-qemu-virt-manager-create-machine.png#medium)
 
 Warto też zaznaczyć opcję `Customize configuration before install` , co pozwoli nam skonfigurować
 wstępnie maszynę wirtualną zanim rozpocznie się proces instalacji systemu operacyjnego.
@@ -746,42 +746,42 @@ systemu operacyjnego, który w tej maszynie będzie działał. Zapisujemy zatem 
 (jeśli jeszcze tego nie zrobiliśmy) i wciskamy przycisk `Begin Installation` . Chwilę po jego
 przyciśnięciu, powinniśmy zobaczyć znajome okienko instalacji Ubuntu:
 
-![]({{< baseurl >}}/img/2020/08/031-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
+![](/img/2020/08/031-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/032-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
+![](/img/2020/08/032-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/033-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
+![](/img/2020/08/033-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
 
 Możemy wybrać minimalną instalację w celu zaoszczędzenia miejsca w obrazie maszyny wirtualnej:
 
-![]({{< baseurl >}}/img/2020/08/034-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
+![](/img/2020/08/034-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
 
 Tworzymy też tablicę partycji oraz jedną partycję EXT4 z punktem montowania `/` :
 
-![]({{< baseurl >}}/img/2020/08/035-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
+![](/img/2020/08/035-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/036-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
+![](/img/2020/08/036-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
 
 Jeśli chcemy poprawić trochę prywatność operacji, które zamierzamy przeprowadzać w maszynie
 wirtualnej, to możemy też wybrać inną strefę czasową:
 
-![]({{< baseurl >}}/img/2020/08/037-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
+![](/img/2020/08/037-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
 
 Ustawiamy dane logowania do systemu oraz włączamy automatyczne logowanie:
 
-![]({{< baseurl >}}/img/2020/08/038-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
+![](/img/2020/08/038-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
 
 No i czekamy, aż system się zainstaluje:
 
-![]({{< baseurl >}}/img/2020/08/039-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
+![](/img/2020/08/039-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
 
 Gdy ten proces dobiegnie końca, restartujemy maszynę wirtualną i odpalamy ją z wirtualnego dysku:
 
-![]({{< baseurl >}}/img/2020/08/040-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
+![](/img/2020/08/040-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
 
 Po chwili powinien nam się załadować zainstalowany system:
 
-![]({{< baseurl >}}/img/2020/08/041-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
+![](/img/2020/08/041-virtualization-kvm-qemu-virt-manager-install-ubuntu-system.png#huge)
 
 ## Konfiguracja maszyn wirtualnych QEMU/KVM
 
@@ -853,9 +853,9 @@ W przypadku problemów z uruchomieniem systemu z medium instalacyjnego, trzeba s
 kolejność nośników rozruchu włączając przy tym wirtualny cd-rom. Ten krok zwykle nie jest potrzebny
 przy pierwszym uruchomieniu maszyny wirtualnej (podczas procesu instalacji systemu operacyjnego).
 
-![]({{< baseurl >}}/img/2020/08/027-virtualization-kvm-qemu-virt-manager-create-machine-boot-order.png#huge)
+![](/img/2020/08/027-virtualization-kvm-qemu-virt-manager-create-machine-boot-order.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/027-virtualization-kvm-qemu-virt-manager-create-machine-boot-order-cd-rom.png#huge)
+![](/img/2020/08/027-virtualization-kvm-qemu-virt-manager-create-machine-boot-order-cd-rom.png#huge)
 
 ### Protokół SPICE/VNC
 
@@ -866,11 +866,11 @@ Network Computing][25]), choć w moim przypadku występują z nim jakieś dziwne
 precyzyjnego ustawienia myszy. Dlatego też będę korzystał z serwera SPICE. Dla poprawy wydajności,
 dobrze jest włączyć wsparcie dla OpenGL:
 
-![]({{< baseurl >}}/img/2020/08/028-virtualization-kvm-qemu-virt-manager-create-machine-monitor-spice.png#huge)
+![](/img/2020/08/028-virtualization-kvm-qemu-virt-manager-create-machine-monitor-spice.png#huge)
 
 oraz zmienić model video z `QXL` na `Virtio` , a także włączyć akcelerację `3D` :
 
-![]({{< baseurl >}}/img/2020/08/028-virtualization-kvm-qemu-virt-manager-create-machine-monitor-virtio-3d.png#huge)
+![](/img/2020/08/028-virtualization-kvm-qemu-virt-manager-create-machine-monitor-virtio-3d.png#huge)
 
 #### Zdalny dostęp do maszyny wirtualnej (remote-viewer)
 
@@ -891,7 +891,7 @@ Jeśli chcielibyśmy zezwolić na dostęp do maszyny wirtualnej spoza naszego ko
 lokalnej, to trzeba zmienić w konfiguracji maszyny wirtualnej `Address` z `Localhost only` na `All
 Interfaces` :
 
-![]({{< baseurl >}}/img/2020/08/072-virtualization-kvm-qemu-spice-network-access.png#huge)
+![](/img/2020/08/072-virtualization-kvm-qemu-spice-network-access.png#huge)
 
 Trzeba się jednak liczyć z faktem, że zdalne połączenia mogą zostać podsłuchane. Dlatego też dobrze
 jest sobie [wdrożyć szyfrowany SPICE][35].
@@ -953,16 +953,16 @@ w nim te dwa poniższe urządzenia (oczywiście jeśli ich jeszcze na liście ur
 
 Controler VirtIO Serial:
 
-![]({{< baseurl >}}/img/2020/08/070-virtualization-kvm-qemu-spice-agent.png#huge)
+![](/img/2020/08/070-virtualization-kvm-qemu-spice-agent.png#huge)
 
 Channel SPICE Agent:
 
-![]({{< baseurl >}}/img/2020/08/069-virtualization-kvm-qemu-spice-agent.png#huge)
+![](/img/2020/08/069-virtualization-kvm-qemu-spice-agent.png#huge)
 
 Co ciekawe, nawet po poprawnym skonfigurowaniu tego Agenta SPICE, `State` widoczny wyżej zawsze
 wskazuje na `disconnected` . Niemniej jednak, sam Agent SPICE działa bez problemu:
 
-![]({{< baseurl >}}/img/2020/08/071-virtualization-kvm-qemu-spice-agent.png#huge)
+![](/img/2020/08/071-virtualization-kvm-qemu-spice-agent.png#huge)
 
 #### Dzielenie schowka hosta z maszyną wirtualną
 
@@ -996,7 +996,7 @@ Ubuntu uruchomiony wewnątrz maszyny wirtualnej ma rozdzielczość ekranu `1024x
 patrzeć jest to trochę mała rozdziałka ale bez problemu możemy ją zwiększyć zmieniając odpowiednio
 ustawienia systemowe, dokładnie w taki sam sposób jakbyśmy to robili w systemie hosta:
 
-![]({{< baseurl >}}/img/2020/08/046-virtualization-kvm-qemu-monitor-display-resolution-change.png#huge)
+![](/img/2020/08/046-virtualization-kvm-qemu-monitor-display-resolution-change.png#huge)
 
 Warto tutaj dodać, że jeśli chcielibyśmy ustawić niestandardową rozdzielczość, to zawsze możemy
 zmienić rozmiar okna i wpisać w terminalu na maszynie wirtualnej to poniższe polecenie:
@@ -1098,12 +1098,12 @@ gościa.
 Standardowa instalacja systemu w maszynach wirtualnych zakłada wykorzystanie czipsetu Q35 z
 konfiguracją BIOS:
 
-![]({{< baseurl >}}/img/2020/08/029-virtualization-kvm-qemu-virt-manager-create-machine-chipset-bios.png#huge)
+![](/img/2020/08/029-virtualization-kvm-qemu-virt-manager-create-machine-chipset-bios.png#huge)
 
 Istnieje jednak możliwość skonfigurowania maszyny wirtualnej w taki sposób, by robiła użytek z
 EFI/UEFI, a nawet można w niej [włączyć Secure Boot][38]:
 
-![]({{< baseurl >}}/img/2020/08/030-virtualization-kvm-qemu-virt-manager-create-machine-chipset-efi-uefi-secure-boot.png#huge)
+![](/img/2020/08/030-virtualization-kvm-qemu-virt-manager-create-machine-chipset-efi-uefi-secure-boot.png#huge)
 
 By te dodatkowe opcje od EFI/UEFI się pojawiły, to [musimy zainstalować][28] w systemie hosta
 pakiet `ovmf` :
@@ -1132,17 +1132,17 @@ sytuacjach może zatem prowadzić do ataków DoS na maszynę hosta.
 Jeśli chcielibyśmy włączyć obsługę QEMU Guest Agent w naszej maszynie wirtualnej, to trzeba dodać
 `Channel Device` w jej konfiguracji:
 
-![]({{< baseurl >}}/img/2020/08/007-virtualization-kvm-qemu-virt-manager-guest-agent-ga.png#huge)
+![](/img/2020/08/007-virtualization-kvm-qemu-virt-manager-guest-agent-ga.png#huge)
 
 Jeśli `State:` w `Channel qemu-ga`  wskazuje na `disconnected` , tak jak w poniższym przykładzie:
 
-![]({{< baseurl >}}/img/2020/08/008-virtualization-kvm-qemu-virt-manager-guest-agent-ga-disconnected.png#huge)
+![](/img/2020/08/008-virtualization-kvm-qemu-virt-manager-guest-agent-ga-disconnected.png#huge)
 
 to trzeba jeszcze doinstalować systemie gościa (na maszynie wirtualnej) pakiet `qemu-guest-agent`
 oraz uruchomić w nim usługę `qemu-guest-agent.service` (via `systemctl start` ). Jak tylko usługa
 zacznie działać, to `State:` powinien ulec zmianie na `connected` :
 
-![]({{< baseurl >}}/img/2020/08/009-virtualization-kvm-qemu-virt-manager-guest-agent-ga-connected.png#huge)
+![](/img/2020/08/009-virtualization-kvm-qemu-virt-manager-guest-agent-ga-connected.png#huge)
 
 Możemy teraz przetestować QEMU Guest Agent wydając w terminalu na maszynie hosta poniższe polecenie:
 
@@ -1174,7 +1174,7 @@ takiej sytuacji możemy odzyskać część pamięci za sprawą sterownika `ballo
 
 Maszynie wirtualnej przydzielone zostały 2G, co widać na na poniższej fotce:
 
-![]({{< baseurl >}}/img/2020/08/010-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge)
+![](/img/2020/08/010-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge)
 
 Jeśli teraz na maszynie hosta wydamy to poniższe polecenie:
 
@@ -1183,19 +1183,19 @@ Jeśli teraz na maszynie hosta wydamy to poniższe polecenie:
 to ilość pamięci RAM w obrębie maszyny wirtualnej zostanie dynamicznie zmniejszona i to podczas jej
 normalnej pracy (nie trzeba jej wyłączać/resetować by zmiany weszły w życie):
 
-![]({{< baseurl >}}/img/2020/08/011-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge)
+![](/img/2020/08/011-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge)
 
 Można też zmniejszyć ilość dostępnej pamięci RAM poniżej tej, która jest aktualnie w użyciu, choć w
 takim przypadku system maszyny wirtualnej zacznie wykorzystywać SWAP:
 
-![]({{< baseurl >}}/img/2020/08/012-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge)
+![](/img/2020/08/012-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge)
 
 Oczywiście ten mechanizm działa również w drugą stronę, tj. możemy przydzielić maszynie wirtualnej
 więcej pamięci niż aktualnie posiada:
 
     # virsh qemu-monitor-command --domain ubuntu20.04 --hmp "balloon 2048"
 
-![]({{< baseurl >}}/img/2020/08/013-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge)
+![](/img/2020/08/013-virtualization-kvm-qemu-virt-manager-dynamic-ram-memory-ubuntu-machine.png#huge)
 
 Jak widać, zmiana ilość przydzielonej pamięci operacyjnej nie jest natychmiastowa ale system
 maszyny wirtualnej dostosowuje się bez najmniejszego problemu. Po zmniejszeniu przydziału pamięci RAM maszynie wirtualnej, ta pamięć operacyjna jest natychmiast odzyskiwana na maszynie hosta:
@@ -1251,28 +1251,28 @@ wykorzystujące I/O.
 Jeśli nie wiemy czy linux, którego zainstalowaliśmy na maszynie wirtualnej, ma potrzebne moduły, to
 zawsze możemy to zweryfikować przy pomocy `lsmod` :
 
-![]({{< baseurl >}}/img/2020/08/064-virtualization-kvm-qemu-virtio-lsmod.png#huge)
+![](/img/2020/08/064-virtualization-kvm-qemu-virtio-lsmod.png#huge)
 
 Mamy tutaj załadowane moduły `virtio_blk` , `virtio_net` , `virtio_gpu` oraz  `virtio_rng` .
 Niekoniecznie muszą być to wszystkie moduły `virtio_*` , z których maszyna robi użytek, bo część z
 nich jest zwykle też wkompilowana na stałe w jądro:
 
-![]({{< baseurl >}}/img/2020/08/065-virtualization-kvm-qemu-virtio-kernel-config.png#huge)
+![](/img/2020/08/065-virtualization-kvm-qemu-virtio-kernel-config.png#huge)
 
 By zrobić użytek ze sterowników VirtIO, wystarczy w konfiguracji konkretnych urządzeń maszyny
 wirtualnej określić odpowiedni sterownik. Poniżej znajduje się kilka przykładów.
 
 VirtIO dla dysku twardego:
 
-![]({{< baseurl >}}/img/2020/08/066-virtualization-kvm-qemu-virtio-config-disk.png#huge)
+![](/img/2020/08/066-virtualization-kvm-qemu-virtio-config-disk.png#huge)
 
 VirtIO dla karty sieciowej:
 
-![]({{< baseurl >}}/img/2020/08/067-virtualization-kvm-qemu-virtio-config-nic-network.png#huge)
+![](/img/2020/08/067-virtualization-kvm-qemu-virtio-config-nic-network.png#huge)
 
 VirtIO dla karty graficznej:
 
-![]({{< baseurl >}}/img/2020/08/068-virtualization-kvm-qemu-virtio-config-monitor-video-graphic.png#huge)
+![](/img/2020/08/068-virtualization-kvm-qemu-virtio-config-monitor-video-graphic.png#huge)
 
 ## QEMU/KVM i nftables
 
@@ -1286,7 +1286,7 @@ skonfigurować firewall pod maszyny wirtualne][26].
 
 Przede wszystkim, musimy coś zrobić z tą domyślą siecią, która ma określony NAT:
 
-![]({{< baseurl >}}/img/2020/08/042-virtualization-kvm-qemu-network-nat-nftables.png#huge)
+![](/img/2020/08/042-virtualization-kvm-qemu-network-nat-nftables.png#huge)
 
 Tego typu sieci powodują [dodanie łańcuchów LIBVIRT-*][27] do filtra `iptables` . Dlatego też jeśli
 korzystamy z `nftables` , to przy próbie podniesienia tej sieci dostaniemy taki komunikat błędu:
@@ -1324,7 +1324,7 @@ wyłącza. Drugi polecenie edytuje tę wyłączoną sieć. Po wydaniu tego drugi
 konfigurację sieci `default` , w której to musimy zmienić `<forward mode='nat'/>` na
 `<forward mode='open'/>` :
 
-![]({{< baseurl >}}/img/2020/08/042-virtualization-kvm-qemu-network-nat-open-nftables.png#huge)
+![](/img/2020/08/042-virtualization-kvm-qemu-network-nat-open-nftables.png#huge)
 
 ### Konfiguracja nftables
 
@@ -1415,16 +1415,16 @@ Nie zapomnijmy też dodać do /etc/sysctl.conf poniższego parametru:
 Przetestujmy czy internet w maszynie wirtualnej działa (ten adres 192.168.1.150, to adres maszyny
 hosta):
 
-![]({{< baseurl >}}/img/2020/08/043-virtualization-kvm-qemu-network-nat-open-nftables-test-ping.png#huge)
+![](/img/2020/08/043-virtualization-kvm-qemu-network-nat-open-nftables-test-ping.png#huge)
 
 Zatem połączenie z internetem na maszynie wirtualnej można uzyskać. Podobnie też host bez problemu
 jest w stanie ping'nąć maszynę wirtualną:
 
-![]({{< baseurl >}}/img/2020/08/044-virtualization-kvm-qemu-network-nat-open-nftables-test-ping.png#huge)
+![](/img/2020/08/044-virtualization-kvm-qemu-network-nat-open-nftables-test-ping.png#huge)
 
 No i na koniec sprawdzenie połączenia między dwiema maszynami wirtualnymi:
 
-![]({{< baseurl >}}/img/2020/08/045-virtualization-kvm-qemu-network-nat-open-nftables-test-ping.png#huge)
+![](/img/2020/08/045-virtualization-kvm-qemu-network-nat-open-nftables-test-ping.png#huge)
 
 Wygląda, że połączenie sieciowe działa tak jak byśmy tego oczekiwali.
 
@@ -1488,7 +1488,7 @@ proste, tj. trzeba stworzyć nowe urządzenie w `virt-manager` typu system plik�
 wskazać w nim ścieżkę do katalogu hosta, którą chcemy udostępnić, mniej więcej tak jak na poniższej
 fotce:
 
-![]({{< baseurl >}}/img/2020/08/073-virtualization-kvm-qemu-share-folder-dir-9p-v9fs.png#huge)
+![](/img/2020/08/073-virtualization-kvm-qemu-share-folder-dir-9p-v9fs.png#huge)
 
 W `Source Path` podajemy ścieżkę do katalogu hosta, zaś `Target Path` jest ździebko mylącą nazwą,
 bo oznacza ona w zasadzie jedynie TAG (zwykłą nazwę, a nie ścieżkę). Tak czy inaczej, to co
@@ -1585,23 +1585,23 @@ Wygląda na to, że nie tylko pojedyncze foldery hosta można podpiąć pod masz
 można w systemie gościa zamontować cały dysk twardy hosta czy też konkretne jego partycje. W tym
 celu trzeba stworzyć nowe urządzenie typu `storage` :
 
-![]({{< baseurl >}}/img/2020/08/077-virtualization-kvm-qemu-share-storage-disk.png#huge)
+![](/img/2020/08/077-virtualization-kvm-qemu-share-storage-disk.png#huge)
 
 W ścieżce musimy podać lokalizację dysku/partycji w katalogu `/dev/` hosta. Najlepiej jest to
 zrobić po ID jako, że numerki typu sda/sdb mogą ulec zmianie z każdym restartem maszyny hosta.
 Linki z ID możemy wyciągnąć z katalogu `/dev/disk/by-id/` :
 
-![]({{< baseurl >}}/img/2020/08/078-virtualization-kvm-qemu-share-storage-disk-id.png#huge)
+![](/img/2020/08/078-virtualization-kvm-qemu-share-storage-disk-id.png#huge)
 
 Wybieramy jedną z tych widocznych wyżej ścieżek, i podajemy ją w `virt-manager` . Po dodaniu nowego
 urządzenia, powinno ono znaleźć się na liście i powinno się prezentować mniej więcej tak:
 
-![]({{< baseurl >}}/img/2020/08/079-virtualization-kvm-qemu-share-storage-disk.png#huge)
+![](/img/2020/08/079-virtualization-kvm-qemu-share-storage-disk.png#huge)
 
 Możemy teraz wystartować maszynę wirtualną by sprawdzić, czy ten dodatkowy zasób jest widoczny w
 systemie gościa:
 
-![]({{< baseurl >}}/img/2020/08/080-virtualization-kvm-qemu-share-storage-disk-ubuntu.png#huge)
+![](/img/2020/08/080-virtualization-kvm-qemu-share-storage-disk-ubuntu.png#huge)
 
 Jak widać, partycja dysku hosta, jest obecna w systemie gościa.
 
@@ -1666,7 +1666,7 @@ Dalej musimy edytować sieć, do której maszyny wirtualne są podłączane:
 Trzeba tutaj dodać `<domain name='libvirt' localOnly='yes'/>` , gdzie parametr `name=` pasuje do
 tego, który ustawiliśmy w pliku `/etc/dnsmasq.conf` :
 
-![]({{< baseurl >}}/img/2020/08/047-virtualization-kvm-qemu-ssh-hostname-dnsmasq.png#huge)
+![](/img/2020/08/047-virtualization-kvm-qemu-ssh-hostname-dnsmasq.png#huge)
 
 Następnie uruchamiamy maszynę wirtualną i ustawiamy jej pożądany hostname przy pomocy
 `hostnamectl` :
@@ -1681,7 +1681,7 @@ hostname:
 
 Jeśli wszystko ustawiliśmy jak należy, to naszym oczom powinien ukazać się prompt systemu gościa:
 
-![]({{< baseurl >}}/img/2020/08/048-virtualization-kvm-qemu-ssh-hostname-dnsmasq.png#huge)
+![](/img/2020/08/048-virtualization-kvm-qemu-ssh-hostname-dnsmasq.png#huge)
 
 Jeśli z jakichś powodów nie działa nam rozwiązywanie nazw maszyn wirtualnych, to trzeba poszukać
 przyczyny i najlepiej zacząć od sprawdzenia, czy `dnsmasq` w ogóle te nazwy rozwiązuje. By ten fakt
@@ -1765,11 +1765,11 @@ Następnie restartujemy demona `libvirtd` :
 
 Ta nowa sieć powinna pojawić się na listingu sieci w `virt-manager` :
 
-![]({{< baseurl >}}/img/2020/08/049-virtualization-kvm-qemu-system-bridge-network.png#huge)
+![](/img/2020/08/049-virtualization-kvm-qemu-system-bridge-network.png#huge)
 
 Teraz przy tworzeniu maszyn wirtualnych wystarczy wybrać tę utworzoną przez nas sieć:
 
-![]({{< baseurl >}}/img/2020/08/050-virtualization-kvm-qemu-system-bridge-network.png#medium)
+![](/img/2020/08/050-virtualization-kvm-qemu-system-bridge-network.png#medium)
 
 I w ten sposób tak stworzone maszyny wirtualne będą przypisane automatycznie do tego statycznego
 interfejsu mostka.
@@ -1777,7 +1777,7 @@ interfejsu mostka.
 Jeśli zaś chodzi o maszyny wirtualne, które już mamy utworzone, to trzeba edytować ich konfigurację
 zmieniając przypisanie do tej nowej, utworzonej przez nas sieci:
 
-![]({{< baseurl >}}/img/2020/08/051-virtualization-kvm-qemu-system-bridge-network.png#huge)
+![](/img/2020/08/051-virtualization-kvm-qemu-system-bridge-network.png#huge)
 
 ### Jedna instancja dnsmasq
 
@@ -1822,7 +1822,7 @@ Rozmiar pliku `.qcow2` , który przechowuje obraz maszyny wirtualnej, można zmi
 rozmiaru obrazu został opisany w osobnym artykule.
 
 
-[1]: {{< baseurl >}}/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/
+[1]: /post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/
 [2]: https://wiki.gentoo.org/wiki/QEMU
 [3]: https://en.wikipedia.org/wiki/X86_virtualization#Intel_virtualization_(VT-x)
 [4]: https://en.wikipedia.org/wiki/X86_virtualization#AMD_virtualization_(AMD-V)
@@ -1848,7 +1848,7 @@ rozmiaru obrazu został opisany w osobnym artykule.
 [26]: https://libvirt.org/firewall.html
 [27]: https://www.redhat.com/archives/libvirt-users/2019-May/msg00022.html
 [28]: https://wiki.debian.org/SecureBoot/VirtualMachine
-[29]: {{< baseurl >}}/post/cache-dns-buforowania-zapytan/
+[29]: /post/cache-dns-buforowania-zapytan/
 [30]: https://libvirt.org/formatnetwork.html#examplesBridge
 [31]: https://www.redhat.com/archives/libvir-list/2010-March/msg00005.html
 [32]: https://wiki.debian.org/KVM#CPU
@@ -1857,6 +1857,6 @@ rozmiaru obrazu został opisany w osobnym artykule.
 [35]: https://www.spice-space.org/spice-user-manual.html#_tls
 [36]: https://www.kernel.org/doc/Documentation/filesystems/9p.txt
 [37]: https://www.linux-kvm.org/page/9p_virtio
-[38]: {{< baseurl >}}/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/
-[39]: {{< baseurl >}}/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/
-[40]: {{< baseurl >}}/post/jak-zmienic-rozmiar-obrazu-maszyny-wirtualnej-qemu-kvm/
+[38]: /post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/
+[39]: /post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/
+[40]: /post/jak-zmienic-rozmiar-obrazu-maszyny-wirtualnej-qemu-kvm/

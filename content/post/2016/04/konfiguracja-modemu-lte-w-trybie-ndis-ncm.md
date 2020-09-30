@@ -30,7 +30,7 @@ w taki sposób, by wykorzystywało ono potencjał trybu NDIS.
 ## Modemy LTE i pakiet usb-modeswitch
 
 [Z pakietu usb-modeswitch można
-zrezygnować]({{< baseurl >}}/post/modem-lte-huawei-e3372-bez-usb-modeswitch/), o ile posiadamy
+zrezygnować](/post/modem-lte-huawei-e3372-bez-usb-modeswitch/), o ile posiadamy
 odpowiedni typ modemu LTE obsługujący polecenia AT.
 
 Jako, że w modemach LTE znajdują się sterowniki dla systemów windows, to taki modem zwykle z

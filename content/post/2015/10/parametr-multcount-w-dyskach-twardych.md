@@ -133,7 +133,7 @@ polecenie:
     E: ID_SERIAL_SHORT=WD-WX41A90E5928
 
 Jeśli za jakichś powodów opcje użyte w regule są niejasne, odsyłam do przeczytania artykułu [na
-temat pisania reguł dla udev'a]({{< baseurl >}}/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/),
+temat pisania reguł dla udev'a](/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/),
 gdzie zostały one wyjaśnione.
 
 By przekonać się czy reguła została poprawnie napisana, przeprowadzamy jej test:

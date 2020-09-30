@@ -27,12 +27,12 @@ Problem jest jednak z jakością samych miniaturek.
 Zacznijmy może od określenia wymiarów miniaturek. Naturalnie możemy to zrobić przez panel
 administracyjny (Settings => Media):
 
-![]({{< baseurl >}}/img/2015/06/1.wordpress-jakosc-miniaturek-ustawienia.png#big)
+![](/img/2015/06/1.wordpress-jakosc-miniaturek-ustawienia.png#big)
 
 Jeśli teraz wgramy jakiś obrazek i spróbujemy umieścić go na blogu, powinniśmy mieć do wyboru kilka
 dodatkowych rozmiarów:
 
-![]({{< baseurl >}}/img/2015/06/2.wordpress-jakosc-miniaturek-rozmiar.png#small)
+![](/img/2015/06/2.wordpress-jakosc-miniaturek-rozmiar.png#small)
 
 Każdy z tych rozmiarów, za wyjątkiem `Full Size` prawdopodobnie będzie w dość strasznej jakości.
 Naturalnie, że skoro obrazki są mniejsze, to i ich jakość nie jest taka sama jak tego
@@ -72,7 +72,7 @@ wygenerowane, będą mieć taką jakość jaką aktualnie posiadają.
 
 By wygenerować miniaturki wszystkich obrazków, które trafiły do katalogu `wp-content/uploads/` ,
 musimy posłużyć się albo jakąś wtyczką, albo zaciągnąć do tego celu narzędzie
-[wp-cli]({{< baseurl >}}/post/wordpress-instalacja-przy-pomocy-wp-cli/) . Ja korzystałem z tego
+[wp-cli](/post/wordpress-instalacja-przy-pomocy-wp-cli/) . Ja korzystałem z tego
 drugiego rozwiązania, bo przy odpowiedniej konfiguracji, wygenerowanie miniaturek sprowadza się do
 wydania tylko tego poniższego polecenia:
 

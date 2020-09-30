@@ -156,4 +156,4 @@ części, tj. 43.80 GiB i 44.53 GiB. Podobnie z pozostałymi dyskami logicznymi.
 
 
 [1]: https://pl.wikipedia.org/wiki/LVM
-[2]: {{< baseurl >}}/post/zmiana-rozmiaru-lvm/
+[2]: /post/zmiana-rozmiaru-lvm/

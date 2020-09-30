@@ -675,14 +675,14 @@ idzie. Jedno jest pewne, gdy mu się w końcu uda, to instalacja tego modułu w 
 sporemu uproszczeniu, co powinno przyczynić się do większego zainteresowania projektem.
 
 
-[1]: {{< baseurl >}}/post/modul-tpe-trusted-path-execution-dla-kernela-linux/
+[1]: /post/modul-tpe-trusted-path-execution-dla-kernela-linux/
 [2]: https://www.openwall.com/lkrg/
-[3]: {{< baseurl >}}/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/
-[4]: {{< baseurl >}}/post/dkms-czyli-automatycznie-budowane-moduly/
-[5]: {{< baseurl >}}/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/
+[3]: /post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/
+[4]: /post/dkms-czyli-automatycznie-budowane-moduly/
+[5]: /post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/
 [6]: https://bitbucket.org/Adam_pi3/lkrg-main/
-[7]: {{< baseurl >}}/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/
-[8]: {{< baseurl >}}/post/tworzenie-repozytorium-przy-pomocy-reprepro/
+[7]: /post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/
+[8]: /post/tworzenie-repozytorium-przy-pomocy-reprepro/
 [10]: https://zaufanatrzeciastrona.pl/post/linux-kernel-runtime-guard-ochrona-przed-jeszcze-nieznanymi-exploitami/
 [11]: https://github.com/milabs/lkrg-bypass
 [12]: https://openwall.info/wiki/p_lkrg/Threat_model
@@ -697,7 +697,7 @@ sporemu uproszczeniu, co powinno przyczynić się do większego zainteresowania 
 [21]: https://bitbucket.org/Adam_pi3/lkrg-main/commits/11da921d4196741b69f5156a9fd01be980141cb4
 [22]: https://en.wikipedia.org/wiki/Code_segment
 [23]: https://openwall.info/wiki/p_lkrg/Main#Caveats1
-[24]: {{< baseurl >}}/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/
+[24]: /post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/
 [25]: https://www.openwall.com/lists/lkrg-users/2020/06/02/1
 [26]: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=944476
 [27]: http://jultika.oulu.fi/files/nbnfioulu-202004201485.pdf

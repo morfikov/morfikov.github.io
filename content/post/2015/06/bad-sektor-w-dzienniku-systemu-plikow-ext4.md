@@ -72,6 +72,6 @@ sektor, trzeba stworzyć dziennik na nowo:
 I to w zasadzie wszystko.
 
 
-[1]: {{< baseurl >}}/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/
+[1]: /post/uszkodzony-sektor-na-dysku-i-jego-realokacja/
 [2]: https://en.wikipedia.org/wiki/Ext3
 [3]: http://manpages.ubuntu.com/manpages/xenial/en/man8/mkfs.ext4.8.html

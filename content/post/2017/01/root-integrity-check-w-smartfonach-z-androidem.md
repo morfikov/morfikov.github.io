@@ -28,10 +28,10 @@ interpretować wynik skanowania?
 ## Jak zainicjować Root Integrity Check
 
 Po moich przygodach z przeprowadzaniem procesu root na Neffos'ach
-[C5]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-od-tp-link/), [C5
-MAX]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-max-od-tp-link/),
-[Y5]({{< baseurl >}}/post/android-root-smartfona-neffos-y5-od-tp-link/) i
-[Y5L]({{< baseurl >}}/post/android-root-smartfona-neffos-y5l-tp-link/), każde z tych urządzeń
+[C5](/post/android-root-smartfona-neffos-c5-od-tp-link/), [C5
+MAX](/post/android-root-smartfona-neffos-c5-max-od-tp-link/),
+[Y5](/post/android-root-smartfona-neffos-y5-od-tp-link/) i
+[Y5L](/post/android-root-smartfona-neffos-y5l-tp-link/), każde z tych urządzeń
 trzeba było powrócić do stanu fabrycznego, tj. cofnąć wszelkie wprowadzone w nich zmiany. W
 przypadku modelu Neffos Y5 miałem pewne problemy, bo coś musiałem zrobić nie tak jak trzeba i nie
 mogłem odinstalować SuperSU. Do tej pory nie wiem co zrobiłem źle ale grunt, że zmiany udało się
@@ -41,13 +41,13 @@ sprawdzić czy przywrócenie oryginalnej partycji zakończyło się powodzeniem.
 na poniższej fotce, opcja Root Integrity Check jest zaraz obok Power Off, którą to chciałem
 zaznaczyć. Wyszło tak, że zaznaczyłem tę niżej -- zwykły missclick.
 
-![]({{< baseurl >}}/img/2017/01/001.root-integrity-check-smartfon-android-inicjacja-procesu.jpg#big)
+![](/img/2017/01/001.root-integrity-check-smartfon-android-inicjacja-procesu.jpg#big)
 
 Po aktywowaniu tej opcji rozpoczął się bliżej nie znany mi proces skanowania. Trwał on dłuższą
 chwilę, a jako, że ja nie lubię przerywać rozpoczętych rzeczy, to poczekałem aż ten proces
 dobiegnie końca.
 
-![]({{< baseurl >}}/img/2017/01/002.root-integrity-check-smartfon-android-skanowanie.jpg#big)
+![](/img/2017/01/002.root-integrity-check-smartfon-android-skanowanie.jpg#big)
 
 Ostatecznie proces zakończył się błędami. Z początku nie miałem pojęcia co jest nie tak. Niby
 smartfona odratowałem i nie wykazywał on żadnych problemów w działaniu ale ten proces Root Integrity
@@ -69,7 +69,7 @@ Pierwszą z nich jest system plików na partycji `/system/` . Jeśli jakiś plik
 usunięty, dodany lub też zmieniony, proces zwróci błąd i wypisze na ekranie problematyczne pliki.
 Poniżej przykład:
 
-![]({{< baseurl >}}/img/2017/01/003.root-integrity-check-smartfon-android-blad-system.jpg#big)
+![](/img/2017/01/003.root-integrity-check-smartfon-android-blad-system.jpg#big)
 
 Tutaj został dodany tylko jeden plik i jak możemy odczytać jest to `/system/etc/resolv.conf` .
 Zwykle odtworzenie stock'owego obrazu partycji `/system/` poprawi ten błąd. Jeśli zaś nie mamy jak
@@ -95,7 +95,7 @@ fabrycznego podczas procesu unroot ale najwyraźniej SuperSU namieszał coś w p
 posprzątał po sobie należycie. W efekcie partycja `/boot/` została zmieniona i Root Integrity Check
 wyrzucał błąd, bo był w stanie wykryć właśnie te zmiany.
 
-![]({{< baseurl >}}/img/2017/01/004.root-integrity-check-smartfon-android-blad-boot.jpg#big)
+![](/img/2017/01/004.root-integrity-check-smartfon-android-blad-boot.jpg#big)
 
 By Root Integrity Check zakończył się powodzeniem, te trzy partycje muszą pochodzić ze stock'owego
 firmware. W zasadzie ten powyższy błąd nie przeszkadza w użytkowaniu telefonu ale należy liczyć się
@@ -103,4 +103,4 @@ z problemami podczas ewentualnych aktualizacji oferowanych przez producenta smar
 przywróceniu wszystkich trzech partycji z backup'u flash'a, Root Integrity Check przeszedł bez
 problemu i zakończył się powodzeniem:
 
-![]({{< baseurl >}}/img/2017/01/005.root-integrity-check-smartfon-android-sukces.jpg#big)
+![](/img/2017/01/005.root-integrity-check-smartfon-android-sukces.jpg#big)

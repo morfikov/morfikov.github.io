@@ -35,10 +35,10 @@ który druga strona połączenia odpowiada pakietem `SYN-ACK` , no i po otrzyman
 pierwsza strona wysyła pakiet `ACK` . Po tym procesie, połączenie zostaje ustanowione i można zacząć
 wymieniać informacje. Jest jednak szereg pakietów, które nie pasują do tych powyższych stanów
 połączeń, np. mają ustawione nieodpowiednie
-[flagi]({{< baseurl >}}/post/flagi-tcp-i-przelaczanie-stanow-polaczen/) i wtedy takie pakiety
+[flagi](/post/flagi-tcp-i-przelaczanie-stanow-polaczen/) i wtedy takie pakiety
 zostają zakwalifikowane do stanu INVALID, który zwykle jest blokowany na zaporze. Dokładny opis
 poszczególnych stanów można znaleźć we [wpisie poświęconym budowie
-firewall'a.]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/) Może ten opisany wyżej
+firewall'a.](/post/firewall-na-linuxowe-maszyny-klienckie/) Może ten opisany wyżej
 mechanizm wydaje się być w porządku ale jego podstawową wadą jest fakt, że wszystkie połączenia,
 nawet te, które nie zostały jeszcze poprawnie nawiązane, są śledzone przez kernel za pomocą modułu
 `conntrack`, a to zjada sporo cennych zasobów i tu właśnie do gry wchodzi SYNproxy.
@@ -65,9 +65,9 @@ udziału w wymianie pakietów między klientem a serwerem.
 
 By skorzystać z mechanizmu SYNproxy musimy posiadać kernel w wersji minimum 3.12 oraz iptables w
 wersji minimum 1.4.21 . Innym wymaganym czynnikiem jest aktywacja [mechanizmu SYN
-cookies]({{< baseurl >}}/post/mechanizm-syn-cookies-w-protokole-tcp/), a że on korzysta ze
+cookies](/post/mechanizm-syn-cookies-w-protokole-tcp/), a że on korzysta ze
 [znaczników czasów (TCP
-timestamp)]({{< baseurl >}}/post/znacznik-czasu-timestamp-w-protokole-tcp/), to również i one
+timestamp)](/post/znacznik-czasu-timestamp-w-protokole-tcp/), to również i one
 muszą zostać aktywowane w ustawieniach kernela. Poniżej są zebrane wszystkie te rzeczy, które
 musimy dopisać do pliku `/etc/sysctl.conf` :
 

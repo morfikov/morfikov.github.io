@@ -111,12 +111,12 @@ Dla tych, którzy nie przepadają za konsolą są i graficzne narzędzia. Mi oso
 gustu [wxHexEditor](http://www.wxhexeditor.org/). Co w nim takiego ciekawego? Potrafi liczyć zarazem
 kilkadziesiąt sum:
 
-![]({{< baseurl >}}/img/2015/06/1.suma-kontrolna-wxhexeditor-lista.png#big)
+![](/img/2015/06/1.suma-kontrolna-wxhexeditor-lista.png#big)
 
 Wystarczy wskazać mu plik, po czym wybrać interesujące nas algorytmy, a ten program nam to wszystko
 ładnie wyliczy:
 
-![]({{< baseurl >}}/img/2015/06/2.wynikowa-suma-kontrolna.png#huge)
+![](/img/2015/06/2.wynikowa-suma-kontrolna.png#huge)
 
 ## Suma kontrolna wypalonego obrazu ISO
 

@@ -45,7 +45,7 @@ zmienia](https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html#MASQ
 można używać także `-j MASQUERADE` ze stałym IP.
 
 Zakładając, że mamy już wstępnie [skonfigurowany
-firewall]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/), tworzymy plik
+firewall](/post/firewall-na-linuxowe-maszyny-klienckie/), tworzymy plik
 `iptables_nat.sh` i wrzucamy do niego ten poniższy kod:
 
     #!/bin/sh

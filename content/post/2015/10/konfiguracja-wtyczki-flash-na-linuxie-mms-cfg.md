@@ -34,11 +34,11 @@ jedynie dla każdej strony www o ile taka korzysta z flash player'a. Te opcje mo
 zrobić, wystarczy kliknąć prawym przyciskiem myszy na okienku z filmem i wybrać pozycję `Settings` ,
 przykładowo:
 
-![]({{< baseurl >}}/img/2015/10/1.www-flash-ustawienia-mms.cfg_.png#big)
+![](/img/2015/10/1.www-flash-ustawienia-mms.cfg_.png#big)
 
 Po jej wybraniu, powinno nam pokazać się okienko z szeregiem opcji:
 
-![]({{< baseurl >}}/img/2015/10/2.flash-mms.cfg-opcje-linux-www.png#huge)
+![](/img/2015/10/2.flash-mms.cfg-opcje-linux-www.png#huge)
 
 Jak widzimy wyżej, mamy możliwość ustawienia różnych rzeczy, wliczając w to dostęp do mikrofonu czy
 też kamery. Każda strona www może te urządzenia wykorzystywać, chyba, że w tych opcjach wyraźnie

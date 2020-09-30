@@ -68,7 +68,7 @@ urządzenia i zainstalowana aplikacja Signal na każdym z nich. Ja dysponuję je
 Neffos z system Android 5.1 (Lollipop) i 6.0 (Marshmallow) i na tych dwóch systemach ta aplikacja
 działa bez większego problemu:
 
-![]({{< baseurl >}}/img/2017/03/001.szyfrowanie-rozmow-sms-smartfon-signal-instalacja-aplikacja.png#huge)
+![](/img/2017/03/001.szyfrowanie-rozmow-sms-smartfon-signal-instalacja-aplikacja.png#huge)
 
 Warto w tym miejscu zaznaczyć, że [aplikacja Signal może zostać zainstalowana spoza sklepu Google
 Play](https://signal.org/android/apk/) i działać nawet, gdy usługi Google w naszym smartfonie są
@@ -84,17 +84,17 @@ do zaszyfrowania pojedynczej wiadomości, którą komuś przesyłamy. Natomiast 
 klucz, który jest przypisany do naszego urządzenia. Jeśli teraz reinstalujemy aplikację Signal, to
 ten klucz jest usuwany i trzeba go wygenerować jeszcze raz.
 
-![]({{< baseurl >}}/img/2017/03/002.szyfrowanie-rozmow-sms-smartfon-signal-rejestrowanie-numer.png#huge)
+![](/img/2017/03/002.szyfrowanie-rozmow-sms-smartfon-signal-rejestrowanie-numer.png#huge)
 
 Po zarejestrowaniu numeru, dobrze jest rzucić jeszcze okiem na opcje w ustawieniach. W szczególności
 zwróćmy uwagę na pozycję dotyczącą domyślnej aplikacji SMS, ochrony ekranu oraz potwierdzeń
 zmienionych kluczy naszych kontaktów.
 
-![]({{< baseurl >}}/img/2017/03/003.szyfrowanie-rozmow-sms-smartfon-signal-opcje.png#medium)
+![](/img/2017/03/003.szyfrowanie-rozmow-sms-smartfon-signal-opcje.png#medium)
 
-![]({{< baseurl >}}/img/2017/03/004.szyfrowanie-rozmow-sms-smartfon-signal-opcje.png#huge)
+![](/img/2017/03/004.szyfrowanie-rozmow-sms-smartfon-signal-opcje.png#huge)
 
-![]({{< baseurl >}}/img/2017/03/005.szyfrowanie-rozmow-sms-smartfon-signal-opcje.png#huge)
+![](/img/2017/03/005.szyfrowanie-rozmow-sms-smartfon-signal-opcje.png#huge)
 
 ## Czy Signal obsługuje smartfony bez numeru
 
@@ -147,9 +147,9 @@ widzimy na ekranie naszego telefonu pasuje do tego, którym dysponuje nasz konta
 zweryfikować ręcznie lub przez zeskanowanie kodu QR, który zostanie wyświetlony na ekranie telefonu
 tej drugiej osoby. Przykładowa weryfikacja numeru bezpieczeństwa wygląda mniej więcej tak:
 
-![]({{< baseurl >}}/img/2017/03/006.szyfrowanie-rozmow-sms-smartfon-signal-odcisk-palca-klucza.png#huge)
+![](/img/2017/03/006.szyfrowanie-rozmow-sms-smartfon-signal-odcisk-palca-klucza.png#huge)
 
-![]({{< baseurl >}}/img/2017/03/007.szyfrowanie-rozmow-sms-smartfon-signal-skanowanie-kod-qr.png#huge)
+![](/img/2017/03/007.szyfrowanie-rozmow-sms-smartfon-signal-skanowanie-kod-qr.png#huge)
 
 By przeprowadzić proces weryfikacji, trzeba te wszystkie wyżej wygenerowane cyferki sprawdzić pod
 kątem poprawności na drugim urządzeniu. Skanowanie kodu QR jest automatyczne i o wiele szybsze i
@@ -162,7 +162,7 @@ wygenerowany podczas ponownej instalacji programu. Tutaj trzeba jednak uważać,
 zmianie klucza może również oznaczać, że ktoś między nami i naszym kontaktem próbuje przechwycić
 rozmowę:
 
-![]({{< baseurl >}}/img/2017/03/008.szyfrowanie-rozmow-sms-smartfon-signal-zmiana-klucza.png#huge)
+![](/img/2017/03/008.szyfrowanie-rozmow-sms-smartfon-signal-zmiana-klucza.png#huge)
 
 W takim przypadku, niezbędna będzie weryfikacja numeru bezpieczeństwa w sposób opisany powyżej. Bez
 weryfikacji nie będziemy w stanie wymieniać wiadomości. Można oczywiście tę weryfikację pominąć ale
@@ -177,7 +177,7 @@ tylko nasz kontakt podłączy się do Internetu, to ta wiadomość zostanie mu p
 Po jej dostarczeniu i odczytaniu przez odbiorce, w logu rozmowy powinien pojawić się nam drugi
 ptaszek.
 
-![]({{< baseurl >}}/img/2017/03/009.szyfrowanie-rozmow-sms-smartfon-signal-potwierdzenie-wiadomosc.png#huge)
+![](/img/2017/03/009.szyfrowanie-rozmow-sms-smartfon-signal-potwierdzenie-wiadomosc.png#huge)
 
 ## Wykonywanie szyfrowanych rozmów głosowych
 
@@ -185,14 +185,14 @@ Osoby, które chciałyby wykonać szyfrowaną rozmowę głosową, mogą ją zain
 Po przejściu do historii wiadomości danego kontaktu, w prawym górnym rogu jest ikonka słuchawki z
 kłódką. Po jej przyciśnięciu rozpocznie się dzwonienie do tej osoby:
 
-![]({{< baseurl >}}/img/2017/03/010.szyfrowanie-rozmow-sms-smartfon-signal-polaczenie-glosowe.png#huge)
+![](/img/2017/03/010.szyfrowanie-rozmow-sms-smartfon-signal-polaczenie-glosowe.png#huge)
 
 Jeśli kontakt będzie offline, to cały czas na ekranie będzie widniał zapis "WYBIERANIE". Po jakiejś
 minucie od rozpoczęcia procesu dzwonienia i nie odebraniu połączenia przez drugą ze stron, proces
 ten zostanie automatycznie przerwany. W przypadku, gdy kontakt będzie online, to "WYBIERANIE"
 przejdzie w stan "DZWONI". A tak wygląda odbieranie rozmowy po drugiej stronie:
 
-![]({{< baseurl >}}/img/2017/03/011.szyfrowanie-rozmow-sms-smartfon-signal-polaczenie-glosowe.png#huge)
+![](/img/2017/03/011.szyfrowanie-rozmow-sms-smartfon-signal-polaczenie-glosowe.png#huge)
 
 Standardowo mamy aktywną tylko funkcję rozmowy głosowej ale nic nie stoi na przeszkodzie by włączyć
 kamerę selfie i zacząć przesyłać obraz i dźwięk jednocześnie.
@@ -213,7 +213,7 @@ Zaszyfrowaniu ulegnie też klucz użytkownika wykorzystywany do deszyfrowania wi
 jednak, część informacji pozostanie niezaszyfrowana, np. lista kontaktów oraz czas przesyłanych
 wiadomości.
 
-![]({{< baseurl >}}/img/2017/03/012.szyfrowanie-rozmow-sms-smartfon-signal-haslo.png#medium)
+![](/img/2017/03/012.szyfrowanie-rozmow-sms-smartfon-signal-haslo.png#medium)
 
 Bezpieczeństwo bazy danych będzie zależeć od stanu skomplikowania hasła, które sobie wybierzemy.
 Dlatego też jeśli decydujemy się na zaszyfrowanie bazy, to podejdźmy do tego zagadnienia należycie i
@@ -243,7 +243,7 @@ może się ona nie wyświetlić przez dni czy tygodnie, jeśli użytkownik był 
 W każdym razie, ten timeout można ustawić wybierając opcję "Znikające wiadomości" z menu kontaktu.
 Po wybraniu okresu czasu, obok numeru pojawi się zegar ze stosowną informacją:
 
-![]({{< baseurl >}}/img/2017/03/013.szyfrowanie-rozmow-sms-smartfon-signal-timeout.png#huge)
+![](/img/2017/03/013.szyfrowanie-rozmow-sms-smartfon-signal-timeout.png#huge)
 
 Wszystkie wiadomości które zostaną napisane przy widocznym zegarze znikną automatycznie po czasie,
 który wskazuje zegar. Po wysyłaniu wiadomości, każda z nich będzie miała ikonkę animowanej
@@ -251,7 +251,7 @@ klepsydry, która jest w stanie wizualnie odliczać pozostały czas.
 
 Ten czas zostanie również ustawiony automatycznie na drugim końcu połączenia.
 
-![]({{< baseurl >}}/img/2017/03/014.szyfrowanie-rozmow-sms-smartfon-signal-timeout.png#medium)
+![](/img/2017/03/014.szyfrowanie-rozmow-sms-smartfon-signal-timeout.png#medium)
 
 ## Konfiguracja diody powiadomień
 
@@ -260,7 +260,7 @@ nieodebranych połączeń nie mamy zwykle możliwości konfiguracji tej diody, a
 sposób (częstotliwość) jej migania. Dodatkowo jeśli nasz smartfon posiada wielokolorową diodę, to
 możemy także wybrać sobie i kolor.
 
-![]({{< baseurl >}}/img/2017/03/015.szyfrowanie-rozmow-sms-smartfon-signal-dioda.png#huge)
+![](/img/2017/03/015.szyfrowanie-rozmow-sms-smartfon-signal-dioda.png#huge)
 
 ## Ochrona ekranu przed robieniem zrzutów
 

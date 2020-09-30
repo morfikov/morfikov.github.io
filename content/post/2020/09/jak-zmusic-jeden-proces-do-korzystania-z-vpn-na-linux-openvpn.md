@@ -87,7 +87,7 @@ cały ruch do bramy VPN. W zakres `0.0.0.0/1` łapią się wszystkie adresy, kt�
 wartość `0` , natomiast w zakres `128.0.0.0/1` łapią się adresy mające pierwszy bit ustawiony na
 wartość `1` . Dla lepszego zrozumienia, poniżej jest rozpiska:
 
-![]({{< baseurl >}}/img/2020/09/002-openvpn-vpn-routing-table-routes-default.png#big)
+![](/img/2020/09/002-openvpn-vpn-routing-table-routes-default.png#big)
 
 W ten sposób każda z tych dwóch tras jest bardziej specyficzna niż `0.0.0.0/0` , która również
 łapie wszystkie adresy. Tym prostym zabiegiem nasza domyślna brama nie ma już żadnego wpływu na
@@ -261,7 +261,7 @@ przykładzie zobrazowanym poniżej, różnica w pingu jest i to dość znaczna. 
 potwierdzenia odpytać o nasz adres IP jakiś zewnętrzny serwis, by sprawdzić czy faktycznie te
 adresy IP widziane przez serwery WWW się różnią:
 
-![]({{< baseurl >}}/img/2020/09/001-openvpn-process-linux-config-vpn-test-ping-different-users.png#huge)
+![](/img/2020/09/001-openvpn-process-linux-config-vpn-test-ping-different-users.png#huge)
 
 Podczas testowania połączenia można także podejrzeć tablicę conntrack'a i sprawdzić czy przy wpisie
 od nawiązanego połączenia widnieje ustawiony przez nas mark:
@@ -358,7 +358,7 @@ a zwykłym połączeniem internetowym.
 
 
 [1]: https://forum.dug.net.pl/viewtopic.php?id=31514
-[2]: {{< baseurl >}}/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/
+[2]: /post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/
 [3]: https://riseup.net/pl/vpn
 [4]: https://community.openvpn.net/openvpn/wiki/IgnoreRedirectGateway
 [5]: https://forum.dug.net.pl/viewtopic.php?id=31514
@@ -366,5 +366,5 @@ a zwykłym połączeniem internetowym.
 [7]: https://linux.die.net/man/8/ip
 [8]: https://wiki.nftables.org/wiki-nftables/index.php/Matching_packet_metainformation
 [9]: https://wiki.nftables.org/wiki-nftables/index.php/Performing_Network_Address_Translation_(NAT)#Source_NAT
-[10]: {{< baseurl >}}/post/target-mark-w-iptables/
+[10]: /post/target-mark-w-iptables/
 [11]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=89aef8921bfbac22f00e04f8450f6e447db13e42

@@ -156,4 +156,4 @@ umieścić w folderze `/etc/dhcp/` i podlinkować go do w/w katalogów.
 
 
 [1]: http://manpages.ubuntu.com/manpages/xenial/en/man8/dhclient-script.8.html
-[2]: {{< baseurl >}}/post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/
+[2]: /post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/

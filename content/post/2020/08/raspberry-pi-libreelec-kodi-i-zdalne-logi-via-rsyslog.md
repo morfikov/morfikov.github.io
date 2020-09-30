@@ -41,7 +41,7 @@ LibreELEC dla Kodi jest stosowny addon o nazwie `Rsyslog`, który (jak nazwa mo�
 dostarcza demona `rsyslogd` . By zainstalować ten dodatek, trzeba przejść kolejno do `Dodatki` =>
 `Zainstaluj z repozytorium` => `LibreELEC Add-ons` => `Usługi` i wybrać pozycję `Rsyslog` :
 
-![]({{< baseurl >}}/img/2020/08/001-raspberry-pi-libreelec-kodi-xbmc-rsyslog-addon-install.png#huge)
+![](/img/2020/08/001-raspberry-pi-libreelec-kodi-xbmc-rsyslog-addon-install.png#huge)
 
 Gdy już zainstalujemy dodatek `Rsyslog` , przechodzimy do jego konfiguracji.
 
@@ -53,7 +53,7 @@ ich sprawą jesteśmy w stanie przesłać logi na zdalny serwer. Jedyne co musim
 maszyny docelowej, jej port oraz protokół. Ja korzystam z protokołu TCP zamiast UDP. Zatem cała
 konfiguracja dodatku `Rsyslog` wygląda u mnie mniej więcej tak:
 
-![]({{< baseurl >}}/img/2020/08/002-raspberry-pi-libreelec-kodi-xbmc-rsyslog-addon-config.png#huge)
+![](/img/2020/08/002-raspberry-pi-libreelec-kodi-xbmc-rsyslog-addon-config.png#huge)
 
 Jako, że ja chciałem przesłać wszystkie logi mojego Raspberry Pi 4B do zdalnego serwera, toteż
 zaznaczyłem opcję `Log journal and kernel` . Bez tej opcji, jedynie logi Kodi by było przesyłane,
@@ -155,8 +155,8 @@ pliku `/var/log/rpi.log` .
 Jeśli dodatkowo stworzyliśmy sobie urządzenie FIFO, to w czasie rzeczywistym możemy podglądać te
 komunikaty na konsoli, tak jak to widać na poniższym zrzucie ekranu:
 
-![]({{< baseurl >}}/img/2020/08/003-raspberry-pi-libreelec-kodi-xbmc-rsyslog-addon-test-console.jpg#huge)
+![](/img/2020/08/003-raspberry-pi-libreelec-kodi-xbmc-rsyslog-addon-test-console.jpg#huge)
 
 
-[1]: {{< baseurl >}}/post/logread-czyli-system-logowania-w-openwrt/
+[1]: /post/logread-czyli-system-logowania-w-openwrt/
 [2]: https://libreelec.tv/

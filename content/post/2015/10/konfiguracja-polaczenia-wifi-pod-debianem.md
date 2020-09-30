@@ -291,4 +291,4 @@ artykuł][6].
 [3]: https://wireless.wiki.kernel.org/
 [4]: https://pl.wikipedia.org/wiki/ASCII
 [5]: https://www.kernel.org/doc/Documentation/networking/bonding.txt
-[6]: {{< baseurl >}}/post/konfiguracja-interfejsow-bond-bonding/
+[6]: /post/konfiguracja-interfejsow-bond-bonding/

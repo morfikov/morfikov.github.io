@@ -71,7 +71,7 @@ zamaskować tę drugą usługę. Robimy to w poniższy sposób:
 
 Sprawdzamy też czy ta pożądana przez nas usługa działa poprawnie:
 
-![]({{< baseurl >}}/img/2016/01/1.backlight-systemd-usluga.png#huge)
+![](/img/2016/01/1.backlight-systemd-usluga.png#huge)
 
 ## Backlight i Xserver
 
@@ -107,7 +107,7 @@ w nim ten poniższy kod:
     EndSection
 
 Większość użytych wyżej opcji została wyjaśniona w artykule poświęconym [konfiguracji
-monitora]({{< baseurl >}}/post/monitor-i-jego-konfiguracja-pod-linuxem/) i nie będę ich tutaj
+monitora](/post/monitor-i-jego-konfiguracja-pod-linuxem/) i nie będę ich tutaj
 ponownie przytaczał. Nas interesuje głównie opcja `Backlight` w sekcji `Device` . Ustawiamy ją w
 oparciu o nazwę linku, który możemy znaleźć w katalogu `/sys/class/backlight` . W tym przypadku
 określamy `acpi_video0` . W tej chwili zarówno systemd jak i Xserver będą korzystać z jednego

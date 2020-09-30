@@ -170,11 +170,11 @@ przejść na dowolny adres wpisując w przeglądarce w pasku adresu jakąś dome
 strona nie będzie nam się chciała załadować. W takim przypadku, musimy przejść na adres `wp.pl` i
 zostaniemy przekierowani na stronę z kodem CAPTCHA:
 
-![]({{< baseurl >}}/img/2016/04/1.aero2-captcha-kod.png#huge)
+![](/img/2016/04/1.aero2-captcha-kod.png#huge)
 
 Wpisujemy kod i po chwili powinien nam zostać przywrócony dostęp do internetu:
 
-![]({{< baseurl >}}/img/2016/04/2.aero2-captcha-kod.png#huge)
+![](/img/2016/04/2.aero2-captcha-kod.png#huge)
 
 Musimy jeszcze zresetować połączenie modemu. Przechodzimy do terminala i wciskamy Ctrl-C . Po chwili
 ponowne wpisujemy poniższe polecenie:
@@ -190,6 +190,6 @@ które odwiedzaliśmy korzystając z darmowego internetu LTE od Aero2.
 [2]: https://pl.wikipedia.org/wiki/CAPTCHA
 [3]: http://www.thekelleys.org.uk/dnsmasq/doc.html
 [4]: https://dnscrypt.org/
-[5]: {{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/
-[6]: {{< baseurl >}}/post/cache-dns-buforowania-zapytan/
+[5]: /post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/
+[6]: /post/cache-dns-buforowania-zapytan/
 [7]: https://en.wikipedia.org/wiki/DNS_rebinding

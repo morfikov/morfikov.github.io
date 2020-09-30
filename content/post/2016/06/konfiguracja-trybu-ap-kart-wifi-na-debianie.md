@@ -14,7 +14,7 @@ title: Konfiguracja trybu AP kart WiFi na Debianie
 ---
 
 Jakiś czas temu dokonałem zakupu adaptera WiFi [TP-Link
-TL-WN722n]({{< baseurl >}}/post/recenzja-karta-wifi-tp-link-tl-wn722n/), a to z tego względu, że
+TL-WN722n](/post/recenzja-karta-wifi-tp-link-tl-wn722n/), a to z tego względu, że
 potrzebowałem zewnętrznej karty sieciowej do mojego laptopa. Chodziło generalnie o to, że ten
 wbudowany w niego broadcom nie był w stanie robić kilku użytecznych rzeczy, min. testów
 penetracyjnych mojej bezprzewodowej sieci domowej. Jak się później okazało, ten zakupiony adapter
@@ -60,7 +60,7 @@ systemowego po podpięciu adaptera do portu USB. Poniżej przykład:
 
 Zatem potrzebny jest nam plik `htc_9271.fw` . Jeśli mamy problemy z odnalezieniem odpowiedniego
 pakietu, to zawsze możemy [przeszukać ich zawartość przy pomocy
-apt-file]({{< baseurl >}}/post/przeszukiwanie-zawartosci-pakietow-apt-file/). Tak czy inaczej, w
+apt-file](/post/przeszukiwanie-zawartosci-pakietow-apt-file/). Tak czy inaczej, w
 tym przypadku trzeba zainstalować pakiet `firmware-atheros` . Po zainstalowaniu firmware podłączamy
 ponownie adapter do portu USB. W tym momencie powinniśmy mieć w systemie nowy interfejs sieciowy,
 `wlan*` .
@@ -71,12 +71,12 @@ kojarzyć te narzędzia. W OpenWRT są one wykorzystywane dokładnie w tym samym
 zamierzamy ich używać na Debianie. Jeśli chcemy połączyć tylko dwie maszyny ze sobą, to
 niekoniecznie potrzebujemy [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) . Odpowiada on
 bowiem za usługi takie jak DNS i DHCP, z których możemy bez problemu zrezygnować na rzecz ręcznej
-[konfiguracji połączenia WiFi]({{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/) na
+[konfiguracji połączenia WiFi](/post/konfiguracja-polaczenia-wifi-pod-debianem/) na
 maszynie klienckiej. Natomiast, jeśli w grę wchodzi więcej maszyn, to praktycznym rozwiązaniem
 byłoby zaprzęgnąć serwer DHCP, który automatycznie będzie konfigurował wszystkie stacje robocze. W
 obu przypadkach możemy korzystać z zewnętrznego serwera DNS albo też skonfigurować sobie [szyfrowany
 DNS przy pomocy
-DNScrypt-proxy]({{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/).
+DNScrypt-proxy](/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/).
 
 ## Konfiguracja interfejsu punktu dostępowego
 
@@ -242,7 +242,7 @@ z niej eter w poszukiwaniu punktu dostępowego, który utworzyliśmy. Można to 
 sposobów. My skorzystamy do tego celu z narzędzia `wpa_cli` , które jest dostarczane z pakietem
 `wpasupplicant` :
 
-![]({{< baseurl >}}/img/2015/11/1.wpa_cli-ap-access-point-punkt-dostepu-skanowanie.png#huge)
+![](/img/2015/11/1.wpa_cli-ap-access-point-punkt-dostepu-skanowanie.png#huge)
 
 Widzimy, że nasz AP jest na liście.
 
@@ -327,7 +327,7 @@ pliku `/etc/sysctl.conf` tych poniższych parametrów:
     net.ipv6.conf.all.forwarding = 1
 
 Musimy także odpowiednio skonfigurować sobie [skrypt
-firewall'a]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/):
+firewall'a](/post/firewall-na-linuxowe-maszyny-klienckie/):
 
     iptables -t nat -A POSTROUTING -o eth0 -s 192.168.20.0/24 -d 0/0 -j MASQUERADE
 

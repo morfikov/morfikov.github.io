@@ -29,7 +29,7 @@ zrobić.
 ## RAMdysk czy extroot/whole_root
 
 OpenWRT dysponuje [mechanizmem zwanym
-extroot/whole_root]({{< baseurl >}}/post/extroot-whole_root-fullroot-pod-openwrt/). Przy jego
+extroot/whole_root](/post/extroot-whole_root-fullroot-pod-openwrt/). Przy jego
 pomocy jesteśmy w stanie rozbudować flash routera do rzędu gigabajtów. Dlaczego zatem mielibyśmy
 korzystać z RAMdysku, który standardowo nie jest większy niż 64-128 MiB? Przede wszystkim,
 `extroot`/`whole_root` wymagają zewnętrznego urządzenia w postaci dysku czy pendrive. By je
@@ -65,7 +65,7 @@ i wtedy dostaniemy komunikat `No space left on device`. W standardowej konfigura
 typu sytuacja nam nie grozi. Jeśli przyjrzymy się tej poniższej fotce, zobaczymy jakie jest mniej
 więcej wykorzystanie pamięci operacyjnej przez ten router:
 
-![]({{< baseurl >}}/img/2016/04/1.openwrt-statystyki-pamiec-ram-tmp.png#big)
+![](/img/2016/04/1.openwrt-statystyki-pamiec-ram-tmp.png#big)
 
 Mamy zatem router [TP-LINK TL-WDR3600 v1](http://www.tp-link.com/en/download/TL-WDR3600.html), który
 ma 123.1MB dostępnej pamięci, z czego 109.1 MiB jest wolnych. W przypadku, gdy potrzebowalibyśmy 100

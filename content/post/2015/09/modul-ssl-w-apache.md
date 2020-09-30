@@ -14,7 +14,7 @@ title: Moduł ssl w Apache2
 ---
 
 Przy okazji uszczelniania serwera Apache2, przypomniał mi się [atak
-logjam]({{< baseurl >}}/post/logjam-czyli-nowa-podatnosc-w-ssltls/) , przez który to było niemałe
+logjam](/post/logjam-czyli-nowa-podatnosc-w-ssltls/) , przez który to było niemałe
 zamieszanie. Pamiętam, że w tamtym czasie próbowałem zabezpieczyć swój serwer testowy, by był na tę
 formę ataku odporny. Niemniej jednak, wersja Apache2, która w tamtym czasie była u mnie
 zainstalowana, nie do końca dawała taką możliwość. Dziś podszedłem do tej kwestii jeszcze raz i w
@@ -67,4 +67,4 @@ Apache2 ( `/var/log/apache2/error.log` ) nie będzie żadnych błędów, znaczy 
 tylko tyle, że nowe ustawienia modułu `ssl` zaczęły właśnie obowiązywać. Dobrze jest także rzucić
 okiem na certyfikat wykorzystywany przez moduł `ssl` i upewnić się, że [nie jest on podpisany przy
 pomocy przestarzałego już algorytmu
-SHA-1]({{< baseurl >}}/post/migracja-certyfikatow-openssl-z-sha-1/).
+SHA-1](/post/migracja-certyfikatow-openssl-z-sha-1/).

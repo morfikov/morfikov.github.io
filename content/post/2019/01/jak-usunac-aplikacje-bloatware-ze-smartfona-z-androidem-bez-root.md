@@ -35,14 +35,14 @@ programów jest już preinstalowana, np. aplikacja galerii czy klient email. Je�
 ustawienia aplikacji Androida, to mamy możliwość wyłączenia szeregu z tych preinstalowanych rzeczy.
 Poniżej fotki:
 
-|![]({{< baseurl >}}/img/2019/01/001-android-disable-apps.png#small) | ![]({{< baseurl >}}/img/2019/01/002-android-disable-apps.png#small)|
+|![](/img/2019/01/001-android-disable-apps.png#small) | ![](/img/2019/01/002-android-disable-apps.png#small)|
 
 Każda wyłączona w ten sposób aplikacja już nam się automatycznie nie uruchomi. Co prawda, w dalszym
 ciągu taka aplikacja jest obecna w systemie ale z racji, że jest ona nieaktywna, to możemy o niej
 zapomnieć. W tych alternatywnych ROM'ach są też i takie programy, których nie damy rady się pozbyć.
 Można tu się posłużyć przykładem aplikacji od SMS'ów:
 
-![]({{< baseurl >}}/img/2019/01/003-android-force-stop-apps.png#small)
+![](/img/2019/01/003-android-force-stop-apps.png#small)
 
 Mamy możliwość siłowego zatrzymania tej aplikacji ale nie ma żadnej pewności co do tego czy nie
 wystartuje nam ona w przyszłości sama z siebie.
@@ -52,7 +52,7 @@ opcji wyłączenia żadnych z tych preinstalowanych aplikacji. Dla przykładu, m
 ROM ma zawarte już dwie aplikacje do oglądania materiałów video. Jedna aplikacja od Google, a druga
 od producenta telefonu:
 
-|![]({{< baseurl >}}/img/2019/01/004-android-force-stop-apps-stock.png#small) | ![]({{< baseurl >}}/img/2019/01/005-android-force-stop-apps-stock.png#small)|
+|![](/img/2019/01/004-android-force-stop-apps-stock.png#small) | ![](/img/2019/01/005-android-force-stop-apps-stock.png#small)|
 
 Zamiast tych aplikacji używam otwartoźródłowego VLC. Niemniej jednak, mimo, że nie korzystam z
 żadnego z tych dwóch preinstalowanych odtwarzaczy video, to i tak nie mam możliwości ich trwałego
@@ -92,7 +92,7 @@ Na
 necie jeszcze [znalazłem dokładną rozpiskę](https://android.stackexchange.com/questions/128949/pm-hide-vs-pm-disable-the-identity-crisis)
 na temat różnic pomiędzy `pm hide` oraz `pm disable` . Wrzucam ją niżej, by nie zginęła:
 
-![]({{< baseurl >}}/img/2019/01/006-difference-pm-hide-disable-android.png#huge)
+![](/img/2019/01/006-difference-pm-hide-disable-android.png#huge)
 
 Tam na tej fotce jest zawarta informacja, że `pm hide` może być używany przez zwykłego użytkownika.
 Nie jest to prawdą, gdyż do czasu Android 6 (2016-08-01) były pewne problemy z uprawnieniami
@@ -188,7 +188,7 @@ Niemniej jednak, każda usunięta aplikacja za sprawą `pm uninstall -k --user 0
 ustawieniach Androida, w menu aplikacji. Zwykle trzeba będzie wybrać filtr wszystkie/systemowe, bo
 bez niego tych usuniętych aplikacji nie zobaczymy:
 
-![]({{< baseurl >}}/img/2019/01/007-android-removed-uninstalled-apps-menu.png#small)
+![](/img/2019/01/007-android-removed-uninstalled-apps-menu.png#small)
 
 Widać wyraźnie, których aplikacji nie ma już w systemie, a raczej, które z nich zostały usunięte
 dla tego konkretnego użytkownika, co oznajmia nam wyraźnie komunikat przy pozycji stosownej

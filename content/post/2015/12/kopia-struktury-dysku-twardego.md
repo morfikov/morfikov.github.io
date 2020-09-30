@@ -34,7 +34,7 @@ obetniemy jej trochę systemu plików, to w zależności od posiadanego systemu 
 informacje z błędami. Poniżej jest kilka takich komunikatów.
 
 W przypadku, gdy [zmienialiśmy rozmiar systemu plików
-NTFS]({{< baseurl >}}/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/) i zrobiliśmy to błędnie,
+NTFS](/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/) i zrobiliśmy to błędnie,
 `ntfsresize` zwróci nam poniższy komunikat:
 
     # ntfsresize -i -f /dev/sdb1
@@ -52,7 +52,7 @@ NTFS]({{< baseurl >}}/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/) i zrobili
     if the disk was incorrectly repartitioned (see the ntfsresize FAQ).
 
 Gdy próbowaliśmy zaś [zmienić rozmiar systemu plików
-EXT4]({{< baseurl >}}/post/zmiana-rozmiaru-partycji-ext4/) i również coś pochrzaniliśmy, to przy
+EXT4](/post/zmiana-rozmiaru-partycji-ext4/) i również coś pochrzaniliśmy, to przy
 sprawdzaniu błędów w `fsck` , ten zwróci nam poniższe zapytanie:
 
     # fsck.ext4 -fv /dev/sdb1
@@ -63,7 +63,7 @@ sprawdzaniu błędów w `fsck` , ten zwróci nam poniższe zapytanie:
     Abort? yes
 
 Natomiast jeśli chodzi o problemy przy [zmianie rozmiaru systemu plików
-FAT32]({{< baseurl >}}/post/zmiana-rozmiaru-partycji-fat32/), to `dosfsck` będzie miał poniższy
+FAT32](/post/zmiana-rozmiaru-partycji-fat32/), to `dosfsck` będzie miał poniższy
 problem:
 
     # dosfsck -v /dev/sdb1
@@ -72,7 +72,7 @@ problem:
     Checking we can access the last sector of the filesystem
     Seek to 5242879488:Invalid argument
 
-W przypadku, gdy [zmienialiśmy rozmiar partycji LVM]({{< baseurl >}}/post/zmiana-rozmiaru-lvm/) i
+W przypadku, gdy [zmienialiśmy rozmiar partycji LVM](/post/zmiana-rozmiaru-lvm/) i
 przycięliśmy ją za bardzo w `fdisk` , to przy skanowaniu voluminów w `pvscan` dostaniemy taki
 komunikat:
 
@@ -129,7 +129,7 @@ równania do 1 MiB jest tam 2047 sektorów + 1 sektor na EBR. Jeśli byśmy wyko
 co jest w parametrze "start", skopiujemy pierwszy sektor systemu plików, a nie EBR, i przywrócenie
 tego sektora nic nam nie da.
 
-[Kopię MBR za to możemy wykonać]({{< baseurl >}}/post/mbr-ebr-i-tablica-partycji-dysku-twardego/)
+[Kopię MBR za to możemy wykonać](/post/mbr-ebr-i-tablica-partycji-dysku-twardego/)
 bardzo łatwo, bo MBR zawsze znajduje się na tej samej pozycji i jest to pierwszy sektor dysku. Kopię
 możemy zrobić przy pomocy narzędzia `dd` , przykładowo:
 

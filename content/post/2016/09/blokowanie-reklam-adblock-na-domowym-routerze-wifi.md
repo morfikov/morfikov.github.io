@@ -151,7 +151,7 @@ wp czy interia. Zanim jednak je odwiedzimy, zalogujmy się na router i wyłączm
 Odwiedźmy teraz jakiś serwis i po chwili włączmy nasz filtr. Poniżej jest fotka pokazująca różnice w
 wyglądzie przykładowej strony:
 
-![]({{< baseurl >}}/img/2016/09/1.adblock-reklamy-wp-router-openwrt.png#huge)
+![](/img/2016/09/1.adblock-reklamy-wp-router-openwrt.png#huge)
 
 Jak widzimy, różnica jest dość spora. Na onecie efekt jest podobny. Z kolei na interii są przecieki.
 Wygląda na to, że filtr nie uwzględnia pewnych domen i przydałoby się je dopisać ręcznie. Po chwili
@@ -165,7 +165,7 @@ udało mi się wyselekcjonować adres `hub.com.pl` . Tę domenę trzeba dopisać
 
 Po zresetowaniu adblock'a, reklamy powinny zniknąć, poniżej porównanie:
 
-![]({{< baseurl >}}/img/2016/09/2-adblock-reklamy-interia-router-openwrt.png#huge)
+![](/img/2016/09/2-adblock-reklamy-interia-router-openwrt.png#huge)
 
 Podobnie trzeba postąpić ze wszystkimi reklamami, które nie są blokowane przez domyślne filtry lub
 też poszukać list, które te domeny uwzględniają. Akurat w tym przypadku, ta problematyczna domena
@@ -181,7 +181,7 @@ Problem pojawia się także w przypadku filtrowania adresów w oparciu o dużą 
 wykonywania dużej ilości zapytań DNS, proces `dnsmasq` może zjadać praktycznie cały procesor.
 Poniżej fotka z mojego routera Archer C2600:
 
-![]({{< baseurl >}}/img/2016/09/3.adblock-openwrt-router-utylizacja-procesor-archer-c2600.png#huge)
+![](/img/2016/09/3.adblock-openwrt-router-utylizacja-procesor-archer-c2600.png#huge)
 
 Im bardziej rozbudowana jest lista adresów, tym w większym stopniu jest utylizowany procesor, a wiec
 i mocniej odczujemy spadek wydajności przesyłu danych przez router.
@@ -211,4 +211,4 @@ usługi mogą działać równolegle.
 [3]: http://www.tp-link.com.pl/products/details/Archer-C2600.html
 [4]: http://www.adblocklist.org/
 [5]: https://github.com/openwrt/packages/tree/master/net/adblock/files
-[6]: {{< baseurl >}}/post/konfiguracja-dnscrypt-proxy-w-openwrt/
+[6]: /post/konfiguracja-dnscrypt-proxy-w-openwrt/

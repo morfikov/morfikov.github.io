@@ -190,12 +190,12 @@ W taki sposób mamy przygotowaną sesję Xserver'a ale to nie jest koniec. Czeka
 PulseAudio][9].
 
 
-[1]: {{< baseurl >}}/post/monitor-i-jego-konfiguracja-pod-linuxem/
-[2]: {{< baseurl >}}/post/klawiatura-i-jej-konfiguracja-pod-debianem/
-[3]: {{< baseurl >}}/post/klawiatura-multimedialna-i-niedzialajace-klawisze/
-[4]: {{< baseurl >}}/post/mysz-i-jej-konfiguracja-na-linuxie/
-[5]: {{< baseurl >}}/post/konfiguracja-touchpada-w-laptopie-pod-linuxem/
+[1]: /post/monitor-i-jego-konfiguracja-pod-linuxem/
+[2]: /post/klawiatura-i-jej-konfiguracja-pod-debianem/
+[3]: /post/klawiatura-multimedialna-i-niedzialajace-klawisze/
+[4]: /post/mysz-i-jej-konfiguracja-na-linuxie/
+[5]: /post/konfiguracja-touchpada-w-laptopie-pod-linuxem/
 [6]: https://wiki.archlinux.org/index.php/X_resources
-[7]: {{< baseurl >}}/post/menadzer-logowania-lightdm/
-[8]: {{< baseurl >}}/post/menadzer-okien-openbox/
-[9]: {{< baseurl >}}/post/konfiguracja-serwera-dzwieku-pulseaudio/
+[7]: /post/menadzer-logowania-lightdm/
+[8]: /post/menadzer-okien-openbox/
+[9]: /post/konfiguracja-serwera-dzwieku-pulseaudio/

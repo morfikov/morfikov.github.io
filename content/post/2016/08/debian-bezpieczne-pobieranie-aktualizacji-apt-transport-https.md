@@ -39,11 +39,11 @@ ale nie będzie on w stanie stwierdzić które z nich. Podobnie w przypadku wers
 Jeśli natomiast interesuje nas także ukrycie tych pozostałych jawnych informacji, możemy pokusić
 się o instalację pakietu `apt-transport-tor`, który daje nam możliwość [przeprowadzania
 aktualizacji systemu za pośrednictwem sieci
-TOR]({{< baseurl >}}/post/debian-anonimowe-pobieranie-aktualizacji-apt-transport-tor/). W
+TOR](/post/debian-anonimowe-pobieranie-aktualizacji-apt-transport-tor/). W
 przypadku, gdy korzystamy ze standardowego transportu przy pobieraniu pakietów trochę informacji
 zdradzamy wszystkim, którzy nasłuchują:
 
-![]({{< baseurl >}}/img/2016/08/1.wireshark-pobieranie-pakietu-http.png#huge)
+![](/img/2016/08/1.wireshark-pobieranie-pakietu-http.png#huge)
 
 ## Pakiet apt-transport-https, a repozytoria
 
@@ -56,7 +56,7 @@ tym pakietem zainteresować.
 
 Oficjalne repozytoria Debiana nie są również jedynymi, które mogą nam dostarczyć pakietów do
 instalacji w systemie. Praktycznie każdy z nas może sobie takie [repozytorium stworzyć za pomocą
-reprepro]({{< baseurl >}}/post/tworzenie-repozytorium-przy-pomocy-reprepro/) i udostępnić w nim
+reprepro](/post/tworzenie-repozytorium-przy-pomocy-reprepro/) i udostępnić w nim
 oprogramowanie jakie tylko chce. Oczywiście pozostaje tylko rozważenie kwestii zaufania do autora
 tego przedsięwzięcia. Niemniej jednak, takie repozytorium można skonfigurować, by serwowało pakiety
 używając bezpiecznego protokołu.
@@ -83,7 +83,7 @@ faktyczne pobieranie pakietu, zostanie zestawiony tunel TLS, który posłuży do
 wszystkich danych. Potencjalny atakujący nie będzie miał w ten sposób już możliwość podejrzeć jakie
 pliki są pobierane:
 
-![]({{< baseurl >}}/img/2016/08/2.wireshark-pobieranie-pakietu-https.png#huge)
+![](/img/2016/08/2.wireshark-pobieranie-pakietu-https.png#huge)
 
 ## Kwestia security.debian.org oraz deb.debian.org/debian-security
 

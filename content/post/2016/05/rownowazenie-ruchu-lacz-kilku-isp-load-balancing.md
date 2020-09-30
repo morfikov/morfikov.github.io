@@ -310,7 +310,7 @@ musimy określić domyślną bramę. Robimy to przy pomocy tych poniższych pole
 W tej chwili tablice routingu powinny wyglądać mniej więcej tak jak na tym poniższym
 obrazku:
 
-![]({{< baseurl >}}/img/2016/05/1.load-balancing-failover-debian-linux-isp-tablica-routingu.png#huge)
+![](/img/2016/05/1.load-balancing-failover-debian-linux-isp-tablica-routingu.png#huge)
 
 By ten cały mechanizm routujący puścić w ruch potrzebne nam są jeszcze reguły routingu. To w oparciu
 o nie, kernel będzie wiedział gdzie ma przesłać dany pakiet.
@@ -355,7 +355,7 @@ Reguły można dodawać na kilka sposobów. Można operować na źródłowych i 
 pakietów ( `from`/`to` ) . Można także posłużyć się interfejsem sieciowym ( `iif`/`oif` ). Istnieje
 także opcja kierowania pakietów w oparciu o nałożone im oznaczenia w `iptables` ( `fwmark` ).
 Analizując sobie mechanizm multiwan, który jest do zaimplementowania [w OpenWRT przy pomocy
-mwan3]({{< baseurl >}}/post/failover-load-balancing-openwrt-mwan3/), byłem w stanie odtworzyć
+mwan3](/post/failover-load-balancing-openwrt-mwan3/), byłem w stanie odtworzyć
 reguły routingu, tak by można je było wprowadzić na debianie i dopasować na ich podstawie ruch.
 Generalnie rzecz biorąc będą nas interesować dwa dopasowania, po jednym dla ruchu wychodzącego i
 przychodzącego. Ruch wychodzący będzie dopasowywany w oparciu o FWMARK. Natomiast ruch przychodzący
@@ -370,7 +370,7 @@ statycznie) między tych dwóch naszych ISP:
 
 Zasada działania przepływu pakietu w oparciu o tablice routingu `main` , `lte` oraz `home` jest
 następująca. Pakiet wychodzący z naszej maszyny wpada do `iptables` . Tam zaś jest oznaczane
-połączenie w oparciu o [target MARK i CONNMARK]({{< baseurl >}}/post/target-mark-w-iptables/).
+połączenie w oparciu o [target MARK i CONNMARK](/post/target-mark-w-iptables/).
 Jeśli pakiet w stanie `NEW` będzie miał mark `0x5/0xff` , to zostanie przesłany do tablicy `home` .
 Podobnie sprawa wygląda w przypadku połączenia oznaczonego markiem `0x2/0xff` , z tym, że to
 połączenie trafi to tablicy `lte` . Jako, że w obu tych tablicach jest określona inna bramka
@@ -434,14 +434,14 @@ No to przyszła pora teraz przetestować, czy aby na pewno pakiety są rozsyłan
 nam powinno rzucić od razu w oczy, to oczywiście poprawa transferu. Można dla sprawdzenia odpalić
 klienta torrent i nim zapuścić kilka obrazów z linux'ami. Poniżej jest przykładowy wykres:
 
-![]({{< baseurl >}}/img/2016/05/2.load-balancing-failover-debian-linux-isp-test.png#huge)
+![](/img/2016/05/2.load-balancing-failover-debian-linux-isp-test.png#huge)
 
 Przepustowość łącza jednego z moich ISP to 15/1 mbit/s. Drugie łącze to LTE i pod względem
 przepustowości, to waha się znacznie w zależności od pory dnia. Widzimy wyżej na wykresie, że ogólny
 transfer przekroczył te 15 mbit/s. Zatem oba łącza są w wykorzystaniu. Jeśli nadal nie wierzymy, że
 pakiety idą przez obu ISP, to wystarczy zobaczyć statystyki interfejsów sieciowych w `bmon` :
 
-![]({{< baseurl >}}/img/2016/05/3.load-balancing-failover-debian-linux-isp-test-bmon.png#huge)
+![](/img/2016/05/3.load-balancing-failover-debian-linux-isp-test-bmon.png#huge)
 
 Tu już widzimy, że tej konkretnej chwili na interfejsie `bond0` mamy transfer 1.29 MiB/s oraz, że na
 interfejsie `wwan0` mamy nieco ponad 720 KiB/s. Interfejs `eth0` jest w tym przypadku bez znaczenia,

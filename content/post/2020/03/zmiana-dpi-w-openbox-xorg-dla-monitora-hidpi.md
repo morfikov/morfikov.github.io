@@ -330,5 +330,5 @@ dla użytkownika root wyeksportować te zmienne, które eksportowaliśmy dla zwy
 [1]: https://wiki.archlinux.org/index.php/Xorg#Display_size_and_DPI
 [2]: https://doc.qt.io/qt-5/highdpi.html
 [3]: https://developer.gnome.org/gtk3/stable/gtk-x11.html
-[4]: {{< baseurl >}}/post/fontconfig-i-konfiguracja-czcionek-w-debianie/
+[4]: /post/fontconfig-i-konfiguracja-czcionek-w-debianie/
 [5]: https://wiki.gnome.org/HowDoI/HiDpi

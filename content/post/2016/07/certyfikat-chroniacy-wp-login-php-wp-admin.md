@@ -22,7 +22,7 @@ użytek z tunelu SSL/TLS w mniejszym lub większym stopniu. Jeśli teraz mamy do
 instalację WordPress'a, to przy pomocy certyfikatów możemy weryfikować użytkowników, którzy chcą
 uzyskać dostęp do tych w/w lokalizacji. Jest to nieco inne podejście w stosunku do tego, które
 zostało opisane w artykule o [ukrywaniu wp-login.php oraz
-wp-admin]({{< baseurl >}}/post/wordpress-ukrycie-wp-login-php-oraz-wp-admin/), gdzie był
+wp-admin](/post/wordpress-ukrycie-wp-login-php-oraz-wp-admin/), gdzie był
 wykorzystywany moduł `mod_rewrite` oraz dyrektywy `Files` i `MatchFiles` . Takie certyfikaty
 klienckie dają nam jednak większe pole manewru, bo identyfikują konkretnego użytkownika chcącego
 uzyskać dostęp do zasobów serwera. Ten wpis ma na celu pokazanie w jaki sposób zaimplementować
@@ -33,7 +33,7 @@ obsługę certyfikatów klienckich w Apache2.
 
 W celu zaimplementowania obsługi certyfikatów klienckich w Apache2, musimy przygotować sobie pierw
 centrum certyfikacji (Certificate Authority). CA możemy utworzyć na kilka sposobów. Najprościej jest
-wgrać sobie pakiet [easy-rsa]({{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/)
+wgrać sobie pakiet [easy-rsa](/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/)
 i wydać w terminalu poniższe polecenie:
 
     # make-cadir /etc/CA/
@@ -100,7 +100,7 @@ Gdybyśmy w tym momencie otworzyli przeglądarkę internetową i spróbowali prz
 admina (katalog `wp-admin/`) lub zalogować się (plik `wp-login.php` ), to naszym oczom powinien
 ukazać się poniższy komunikat:
 
-![]({{< baseurl >}}/img/2016/07/1.wp-admin-wp-login.php-apache2-brak-certyfikat.png#big)
+![](/img/2016/07/1.wp-admin-wp-login.php-apache2-brak-certyfikat.png#big)
 
 Serwis jako taki będzie działać bez problemu po SSL/TLS. Niemniej jednak, na obecną chwilę nie
 uzyskamy dostępu do tych powyższych zasobów. Musimy posiadać certyfikat kliencki, który zostanie
@@ -111,12 +111,12 @@ zakładce Certificates klikamy View Certificates. W okienku, które się pojawi,
 zakładkę Your Certificates i klikamy w przycisk Import, gdzie podajemy ścieżkę do pliku
 `client.p12` :
 
-![]({{< baseurl >}}/img/2016/07/2.firefox-dodawanie-certyfikat.png#big)
+![](/img/2016/07/2.firefox-dodawanie-certyfikat.png#big)
 
 Ponownie odwiedzamy stronę logowania lub panel administracyjny na naszym blogu. Tym razem powinno
 nam wyskoczyć takie oto okienko:
 
-![]({{< baseurl >}}/img/2016/07/3.firefox-potwierdzenie-certyfikat.png#huge)
+![](/img/2016/07/3.firefox-potwierdzenie-certyfikat.png#huge)
 
 Klikamy `OK` i po chwili powinniśmy uzyskać dostęp do chronionych zasobów serwera.
 

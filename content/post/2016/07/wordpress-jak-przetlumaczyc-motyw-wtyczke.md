@@ -17,7 +17,7 @@ WordPress został przetłumaczony na dość sporo języków, w tym też i na ję
 pliki bazowe to nie to samo co pliki różnych dodatków. Dlatego też czasem po zmianie języka na
 polski, nie wszystkie elementy naszego bloga są przetłumaczone. Nie ma przy tym znaczenia czy
 [ustawialiśmy język podczas instalacji
-WordPress'a]({{< baseurl >}}/post/wordpress-domyslny-jezyk-instalacji/), czy też później z poziomu
+WordPress'a](/post/wordpress-domyslny-jezyk-instalacji/), czy też później z poziomu
 panela administracyjnego. Taki stan rzeczy nie wygląda zbyt estetycznie i przydałoby się coś z tym
 zrobić. Jeśli zajrzymy do katalogu wtyczek czy motywów, to zwykle znajdziemy tam pliki `.mo` oraz
 `.po` , które są używane przy tłumaczeniu tekstu z wykorzystaniem
@@ -65,11 +65,11 @@ które nam wyskoczy, przechodzimy do menu, z którego to wybieramy File \> From 
 Wskazujemy lokalizację pliku `.pot` lub `.po` . Po chwili plik powinien zostać załadowany, a my
 poproszeni o wybór języka:
 
-![]({{< baseurl >}}/img/2016/07/1.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png#huge)
+![](/img/2016/07/1.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png#huge)
 
 Teraz wystarczy już uzupełnić odpowiednio prawą kolumnę w oparciu o tekst, który widnieje w lewej:
 
-![]({{< baseurl >}}/img/2016/07/2.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png#huge)
+![](/img/2016/07/2.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png#huge)
 
 Gdy skończymy, zapisujemy. Oba pliki zostaną utworzone, a WordPress automatycznie dobierze sobie
 nazwę pliku binarnego `.mo` w oparciu o ustawienia językowe określone w panelu administracyjnym.

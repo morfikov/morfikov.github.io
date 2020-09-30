@@ -543,5 +543,5 @@ uruchomili binarek, których hash'e w tej bazie są obecne.
 [6]: https://uefi.org/revocationlistfile
 [7]: https://unix.stackexchange.com/questions/601093/
 [8]: https://www.debian.org/security/2020-GRUB-UEFI-SecureBoot/#buster_point_release
-[9]: {{< baseurl >}}/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/
+[9]: /post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/
 [10]: https://bugzilla.redhat.com/show_bug.cgi?id=1861977

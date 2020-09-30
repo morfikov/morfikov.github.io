@@ -12,7 +12,7 @@ title: Jedna reguła udev'a realizująca dwa zadania
 ---
 
 Jakiś czas temu opisywałem jak podejść do [pisania
-reguł]({{< baseurl >}}/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/) dla
+reguł](/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/) dla
 [udev'a](https://pl.wikipedia.org/wiki/Udev) . W tamtym przypadku wykorzystywana reguła składała się
 tak naprawdę z dwóch mniejszych, z których jedna miała ustawioną zmienną `ACTION` na `add` , z kolei
 zaś druga na `remove` i w ten oto sposób pierwsza z nich była aplikowana podczas podłączania

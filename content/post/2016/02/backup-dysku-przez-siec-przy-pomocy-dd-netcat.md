@@ -22,7 +22,7 @@ sprzętu](https://pl.wikipedia.org/wiki/Planowane_starzenie) i zwyczajnie możem
 model, którego wada fabryczna wyjdzie po 2-3 miesiącach użytkowania. Poza tym, producenci dysków
 implementują w nich te energooszczędne rozwiązania, które znacznie skracają żywotność nośników.
 Można o tym przekonać się analizując [193 parametr SMART (Load/Unload Cycle) odpowiadający za
-parkowanie głowicy]({{< baseurl >}}/post/parkowanie-glowicy-w-dyskach-wstern-digital/) w dyskach
+parkowanie głowicy](/post/parkowanie-glowicy-w-dyskach-wstern-digital/) w dyskach
 firmy Western Digital. Także na dobrą sprawę nie możemy być pewni kiedy nam ten dysk zwyczajnie
 odmówi posłuszeństwa. Dlatego też powinniśmy się zabezpieczyć na taką ewentualność robiąc kopię
 bezpieczeństwa (backup) danych zawartych na dysku. W tym wpisie postaramy się zrobić kompletny obraz

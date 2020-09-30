@@ -15,7 +15,7 @@ tags:
 title: Szyfrowanie logów w OpenWRT (syslog-ng)
 ---
 
-[We wpisie dotyczącym logread]({{< baseurl >}}/post/logread-czyli-system-logowania-w-openwrt/)
+[We wpisie dotyczącym logread](/post/logread-czyli-system-logowania-w-openwrt/)
 została podniesiona kwestia przesłania logów przez sieć. OpenWRT jest w stanie tego typu zadanie
 realizować po określeniu kilku dodatkowych opcji w pliku `/etc/config/system` . Trzeba jednak zdawać
 sobie sprawę, że tak przesyłane komunikaty nie będą w żaden sposób zabezpieczone. W sieci domowej
@@ -36,12 +36,12 @@ jak tylko wspomniany pakiet trafi do repozytorium.
 
 Będzie nam potrzebny szereg narzędzi, by wygenerować odpowiednie certyfikaty. Jeśli mamy mało
 miejsca na flash'u routera, [generowanie
-certyfikatów]({{< baseurl >}}/post/generowanie-certyfikatow/) możemy przeprowadzić spod innego
+certyfikatów](/post/generowanie-certyfikatow/) możemy przeprowadzić spod innego
 systemu operacyjnego. Najlepiej jest do tego zaprzęgnąć pierwszą lepszą dystrybucję linux'a. Możemy
 także posłużyć się płytką czy pendrive z wgranym systemem live. Temat [generowania certyfikatów z
 wykorzystaniem narzędzi
-easy-rsa]({{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/) jak i [przy pomocy
-certtool]({{< baseurl >}}/post/zaszyfrowane-logi-w-rsyslog-i-syslog-ng/) był już poruszany i nie
+easy-rsa](/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/) jak i [przy pomocy
+certtool](/post/zaszyfrowane-logi-w-rsyslog-i-syslog-ng/) był już poruszany i nie
 będziemy tutaj opisywać tego procesu. Niemniej jednak, dalsza część tego artykułu zakłada, że
 dysponujemy już odpowiednimi certyfikatami.
 

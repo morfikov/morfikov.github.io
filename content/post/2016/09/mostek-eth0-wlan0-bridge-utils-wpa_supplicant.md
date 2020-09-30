@@ -18,7 +18,7 @@ niesie ze sobą konfiguracja wszystkich posiadanych kart sieciowych. Skonfigurow
 interfejsów przewodowych nie stanowi raczej większego wyzwania. Można je spiąć w jeden za pomocą
 bonding'u czy też konfigurując wirtualny interfejs mostka (bridge). A co w przypadku bezprzewodowych
 interfejsów? Tu również możemy [skonfigurować interfejs
-bond0]({{< baseurl >}}/post/konfiguracja-interfejsow-bond-bonding/) lub też podpiąć interfejs
+bond0](/post/konfiguracja-interfejsow-bond-bonding/) lub też podpiąć interfejs
 `wlan0` pod mostek. Jako, że bonding już opisywałem, to w tym artykule zajmiemy się mostkowaniem
 interfejsu przewodowego i bezprzewodowego, które zwykle dostępne są w naszych laptopach. Ten proces
 zostanie opisany w oparciu o dystrybucję linux'a Debian i skontrastujemy go sobie z w/w bonding'iem.
@@ -175,21 +175,21 @@ jest w pliku `/etc/wpa_supplicant/wpa_supplicant.conf` nie ma żadnej mocy i w e
 przełącza się.
 
 Jeśli chodzi zaś o [roaming w tej samej sieci
-WiFi]({{< baseurl >}}/post/jak-skonfigurowac-roaming-wifi-wpa_supplicant-linux/), to działa on bez
+WiFi](/post/jak-skonfigurowac-roaming-wifi-wpa_supplicant-linux/), to działa on bez
 zarzutu, bo tutaj nie trzeba zmieniać adresacji IP.
 
 ## Testy mostka
 
 Poniżej jest test konfiguracji mostka.
 
-![]({{< baseurl >}}/img/2016/09/1.mostek-bridge-linux-debian-test.png#huge)
+![](/img/2016/09/1.mostek-bridge-linux-debian-test.png#huge)
 
 Jak widzimy, mamy tutaj aktywny zarówno interfejs `wlan0` jak i `eth0` . Interfejs `wlan0` został
 przełączony w stan blokady i wykorzystywany jest interfejs `eth0` , przez który została otrzymana
 konfiguracja dla `br-lan` . Sprawdźmy zatem co się stanie po odłączeniu i podłączeniu przewodu do
 portu ethernet:
 
-![]({{< baseurl >}}/img/2016/09/2.mostek-bridge-linux-debian-test.png#huge)
+![](/img/2016/09/2.mostek-bridge-linux-debian-test.png#huge)
 
 Po odłączeniu przewodu mamy tylko jeden interfejs aktywny i to przez niego zostają przepuszczone
 pakiety. W przypadku podpięciu przewodu do portu ethernet, pojawia się drugi interfejs aktywny i

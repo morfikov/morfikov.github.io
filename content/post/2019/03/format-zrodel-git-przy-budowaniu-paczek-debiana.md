@@ -12,7 +12,7 @@ title: Format źródeł 3.0 (git) przy budowaniu paczek Debiana
 ---
 
 Pisząc jakiś czas
-temu [poradnik na temat budowania paczek .deb]({{< baseurl >}}/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/)
+temu [poradnik na temat budowania paczek .deb](/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/)
 dla dystrybucji linux'a Debian, poruszyłem w nim kwestię związaną z aktualizacją paczki, która
 zawierała projekt utrzymywany w systemie kontroli wersji (CVS), np. git. Rozchodzi się tutaj o
 format źródeł. Do niedawna myślałem, że są w zasadzie dwa formaty (tych, z których się zwykle
@@ -202,7 +202,7 @@ zaznaczyć, że jeśli upstream nie podbije wersji z `1.4-6-git20190103` , to pa
 zawierała wszystkie zmiany wprowadzone w nowych commit'ach ale zastąpi nam te wcześniej zbudowaną.
 Ma to spore znaczenie, gdy w grę wchodzi wrzucanie takiego pakietu do repozytorium pakietów, np.
 gdy
-mamy [lokalnie wdrożone reprepro]({{< baseurl >}}/post/tworzenie-repozytorium-przy-pomocy-reprepro/).
+mamy [lokalnie wdrożone reprepro](/post/tworzenie-repozytorium-przy-pomocy-reprepro/).
 
 ## Podsumowanie
 

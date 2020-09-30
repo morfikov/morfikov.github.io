@@ -91,7 +91,7 @@ nasze repozytorium. W powyższym config'u jest także określony klucz GPG (para
 którym to będzie podpisywany plik `InRelease` zawierający min. sumy kontrolne plików z listami
 pakietów. Ten plik jest generowany za każdym razem, gdy będziemy dodawać/usuwać pakiety.
 Podpisywanie pakietów jest opcjonalne ale ze względów bezpieczeństwa dobrze jest [utworzyć sobie
-klucz GPG]({{< baseurl >}}/post/bezpieczny-klucz-gpg/).
+klucz GPG](/post/bezpieczny-klucz-gpg/).
 
 Dodatkowo, w katalogu `conf/` możemy stworzyć plik `options` , który to będzie zawierał opcje dla
 programu `reprepro`, te które zwykle się dopisuje przy jego wywoływaniu. Wtedy zamiast pisać rządek

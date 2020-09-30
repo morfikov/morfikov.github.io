@@ -18,7 +18,7 @@ kodowania, które jest wykorzystywane na każdym innym systemie, tj. UTF-8. Wobe
 pliki mają w swoich nazwach znaczek `�` w miejscu polskich liter. Jako, że tych plików jest dość
 dużo, to odpada ręczna edycja nazw i trzeba pomyśleć nad jakimś innym rozwiązaniem. Zmiana
 kodowania nazw plików, to nie jest to samo co [zmiana kodowania zawartości tych
-plików]({{< baseurl >}}/post/zmiana-kodowania-znakow-w-plikach-na-utf-8/). Na szczęście w
+plików](/post/zmiana-kodowania-znakow-w-plikach-na-utf-8/). Na szczęście w
 linux'ie mamy do dyspozycji narzędzie `convmv` , które jest w stanie, jak sama nazwa mówi, przepisać
 nazwy plików ustawiając przy tym odpowiednie kodowanie.
 
@@ -44,7 +44,7 @@ w pakiecie o tej samej nazwie, zatem nie powinno być problemów z jego instalac
 na ten wypakowany katalog, który zawiera nieprawidłowe kodowanie nazw plików. Wygląda on mniej
 więcej tak:
 
-![]({{< baseurl >}}/img/2015/11/1.convmv-zmiana-kodowania-nazw-plikow-przed.png#big)
+![](/img/2015/11/1.convmv-zmiana-kodowania-nazw-plikow-przed.png#big)
 
 Odpalamy teraz terminal i przechodzimy do tego katalogu. Narzędzie `convmv` wymaga podania dwóch
 parametrów. Chodzi oczywiście o kodowanie wejściowe ( `-f` ) i kodowanie wyjściowe ( `-t` ).
@@ -67,4 +67,4 @@ Widzimy wyraźnie, że nazwy wynikowe nie zawierają krzaków. Zatem jest to odp
 możemy teraz dodać do polecenia parametr `--notest` i masowo zmienić nazwy plików w tym katalogu.
 Efekt jest mniej więcej taki jak na fotce poniżej:
 
-![]({{< baseurl >}}/img/2015/11/2.convmv-zmiana-kodowania-nazy-plikow-po.png#big)
+![](/img/2015/11/2.convmv-zmiana-kodowania-nazy-plikow-po.png#big)

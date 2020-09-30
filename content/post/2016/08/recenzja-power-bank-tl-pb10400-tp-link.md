@@ -37,11 +37,11 @@ Faktyczne wymiary power banku to około 88.8 x 44.3 x 44.3 mm. Jest też on doś
 definitywnie by zakończyła żywot tego urządzenia. Odkładając na bok aspekty wymiarowo-wagowe,
 zobaczmy jak się prezentuje to urządzenie.
 
-![]({{< baseurl >}}/img/2016/08/1.tp-link-power-bank-energii-TL-PB10400.jpg#big)
+![](/img/2016/08/1.tp-link-power-bank-energii-TL-PB10400.jpg#big)
 
-![]({{< baseurl >}}/img/2016/08/2.tp-link-power-bank-energii-TL-PB10400.jpg#big)
+![](/img/2016/08/2.tp-link-power-bank-energii-TL-PB10400.jpg#big)
 
-![]({{< baseurl >}}/img/2016/08/3.tp-link-power-bank-energii-TL-PB10400.jpg#big)
+![](/img/2016/08/3.tp-link-power-bank-energii-TL-PB10400.jpg#big)
 
 To duże biało-niebieskie urządzenie, to właśnie jest nasz power bank. Do niego jest też dołączony
 przewód mikro USB typ B. Jest też stos makulatury, choć zabrakło instrukcji w języku polskim. Mamy
@@ -56,7 +56,7 @@ podłączamy go do jednego lub drugiego portu. Może się jednak zdarzyć tak, �
 podładować dwa urządzenia, które wymagać będą 1A. Nic nie stoi na przeszkodzie, by jedno z nich
 podpiąć do portu 2 A.
 
-![]({{< baseurl >}}/img/2016/08/4.tp-link-power-bank-energii-TL-PB10400.jpg#big)
+![](/img/2016/08/4.tp-link-power-bank-energii-TL-PB10400.jpg#big)
 
 Obok portów USB mamy również 4 małe diody LED, jedną większą diodę i niewielkich rozmiarów przycisk.
 Cztery diody mają sygnalizować stan naładowania baterii power banku. Ten stan możemy sprawdzić w
@@ -92,7 +92,7 @@ czytamy tam coś w stylu: "Zalecane jest ładowanie tego urządzenia z użyciem 
 zasilacza". Nie wiem jaki to jest "rekomendowany zasilacz". Poza tym, w zestawie nie było żadnego.
 Ten widoczny na poniższej fotce, to mój własny.
 
-![]({{< baseurl >}}/img/2016/08/5.tp-link-power-bank-energii-TL-PB10400.jpg#big)
+![](/img/2016/08/5.tp-link-power-bank-energii-TL-PB10400.jpg#big)
 
 Nie wiem, czy podpada on pod "rekomendowany" ale innego nie miałem. Grunt, że power bank się
 naładował i nie wybuchł. Trzeba jednak mieć na uwadze fakt, że zalecane natężenie prądu ładowania

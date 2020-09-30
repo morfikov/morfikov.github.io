@@ -39,7 +39,7 @@ przerobić konfigurację tego alternatywnego oprogramowania znajdującego się w
 ## Dostosowanie konfiguracji LEDE/OpenWRT na potrzeby LTE
 
 Przede wszystkim, by móc [operować na modemie LTE z poziomu routera
-WiFi]({{< baseurl >}}/post/modem-lte-pod-openwrt/) z wgranym firmware LEDE/OpenWRT, musimy pierw
+WiFi](/post/modem-lte-pod-openwrt/) z wgranym firmware LEDE/OpenWRT, musimy pierw
 zainstalować stosowne oprogramowanie. Nie będę tutaj opisywał tego zagadnienia, bo to zostało
 zrobione już w osobnym wątku. Zakładam też, że nasz modem LTE działa bez większego problemu na
 routerze i nie mamy problemów ze zmuszeniem go do pracy.
@@ -98,7 +98,7 @@ serwisie speedtest. Ja dla wygody testy robiłem z poziomu aplikacji na smartfon
 dla 2100 MHz, 1800 MHz, 2600 MHz i 800 MHz. Niestety na 900 MHz modem nie był w stanie zrealizować
 połączenia.
 
-![]({{< baseurl >}}/img/2017/01/001-czestotliwosc-pasmo-lte-test-openwrt-lede.png#huge)
+![](/img/2017/01/001-czestotliwosc-pasmo-lte-test-openwrt-lede.png#huge)
 
 Widać zatem, że największą prędkość udało się uzyskać w paśmie 2600 MHz i w zasadzie można tę
 częstotliwość wymusić. Niemniej jednak, jeśli zmieniamy dość często miejsce pobytu, to lepiej jest

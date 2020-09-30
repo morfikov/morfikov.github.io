@@ -61,7 +61,7 @@ listy są tworzone i zarządzane przez `ipset` . Jeśli mamy już listę i na ni
 Wiemy zatem jak ma działać nasz filtr. Musimy teraz skonfigurować poszczególne jego elementy.
 Zaczniemy od konfiguracji list adresowych. Możemy to zrobić przez plik `/etc/config/firewall` .
 [Mechanizm firewall'a w
-OpenWRT]({{< baseurl >}}/post/filtr-pakietow-sieciowych-w-openwrt-firewall/) jest w stanie
+OpenWRT](/post/filtr-pakietow-sieciowych-w-openwrt-firewall/) jest w stanie
 stworzyć [odpowiednie sety z adresami
 IP](https://lists.openwrt.org/pipermail/openwrt-devel/2013-May/019937.html). Wszystko czego nam
 trzeba, aby skonfigurować listy `ipset` , to dodanie w tym pliku tego poniższego bloku:
@@ -108,7 +108,7 @@ oparciu o adresy znajdujące się na tej liście. Musimy dodać kolejny blok do 
 Ta reguła ma za zadanie dopasować ruch w oparciu o set `socjal` . Zostanie ona dodana do łańcucha
 `zone_lan_forward` , tak jak to jest zobrazowane na poniższej fotce:
 
-![]({{< baseurl >}}/img/2016/05/1.iptables-blokowanie-facebook-youtube-twitter-openwrt-regula.png#huge)
+![](/img/2016/05/1.iptables-blokowanie-facebook-youtube-twitter-openwrt-regula.png#huge)
 
 ## Konfiguracja dnsmasq
 
@@ -139,7 +139,7 @@ Przechodzimy na komputer i w pasku adresu przeglądarki wpisujemy adres jednej z
 domen. Niech to będzie `facebook.com` . Strona nie powinna się nam załadować. Natomiast na liście
 adresów powinno pojawić się kilka wpisów. Sprawdzamy to poleceniem `ipset list socjal` :
 
-![]({{< baseurl >}}/img/2016/05/2.ipset-lista-blokowanie-facebook-youtube-twitter-openwrt.png#big)
+![](/img/2016/05/2.ipset-lista-blokowanie-facebook-youtube-twitter-openwrt.png#big)
 
 Powyżej widzimy, że trochę tych adresów się uzbierało. Mamy też statystyki dotyczące wykorzystania
 pamięci operacyjnej przez ten set. Przy każdym wpisie zaś widnieje `timeout` wraz z pewną wartością.

@@ -32,22 +32,22 @@ Czy taki telefon jest nam w stanie w ogóle coś zaoferować?
 W pudełku Neffos'a Y5L, poza smartfonem znajdziemy w zasadzie jedynie podstawowe
 wyposażenie.
 
-![]({{< baseurl >}}/img/2016/12/001.neffos-y5l-smartfon-tp-link-opakowanie.jpg#big)
+![](/img/2016/12/001.neffos-y5l-smartfon-tp-link-opakowanie.jpg#big)
 
-![]({{< baseurl >}}/img/2016/12/002.neffos-y5l-smartfon-tp-link-opakowanie-zawartosc.jpg#big)
+![](/img/2016/12/002.neffos-y5l-smartfon-tp-link-opakowanie-zawartosc.jpg#big)
 
 W zestawie znalazła się oczywiście standardowa ładowarka 5V/1A:
 
-![]({{< baseurl >}}/img/2016/12/003.neffos-y5l-smartfon-tp-link-ladowarka.jpg#big)
+![](/img/2016/12/003.neffos-y5l-smartfon-tp-link-ladowarka.jpg#big)
 
 Mamy również przewód USB, przy pomocy którego możemy podłączyć smartfon do ładowarki lub portu USB
 komputera:
 
-![]({{< baseurl >}}/img/2016/12/004.neffos-y5l-smartfon-tp-link-przewod-usb.jpg#big)
+![](/img/2016/12/004.neffos-y5l-smartfon-tp-link-przewod-usb.jpg#big)
 
 No i jest też bateria 2020 mAh, model NBL-46A2020:
 
-![]({{< baseurl >}}/img/2016/12/005.neffos-y5l-smartfon-tp-link-bateria.jpg#big)
+![](/img/2016/12/005.neffos-y5l-smartfon-tp-link-bateria.jpg#big)
 
 Szkoda, że w przypadku tego Neffos'a Y5L zabrakło słuchawek.
 
@@ -66,48 +66,48 @@ Jeśli zaś chodzi o prawą krawędź, to tutaj mamy standardowo przycisk regula
 (VolumeUp/VolumeDown) oraz przycisk zasilania
 (Power):
 
-![]({{< baseurl >}}/img/2016/12/006.neffos-y5l-smartfon-tp-link-obudowa-przyciski.jpg#big)
+![](/img/2016/12/006.neffos-y5l-smartfon-tp-link-obudowa-przyciski.jpg#big)
 
 Na górnej krawędzi mamy jedynie wyjście dla słuchawek w standardzie minijack 3,5mm:
 
-![]({{< baseurl >}}/img/2016/12/007.neffos-y5l-smartfon-tp-link-obudowa.jpg#huge)
+![](/img/2016/12/007.neffos-y5l-smartfon-tp-link-obudowa.jpg#huge)
 
 Dolna krawędź ma w zasadzie port mikro USB oraz mikrofon do rozmów telefonicznych:
 
-![]({{< baseurl >}}/img/2016/12/008.neffos-y5l-smartfon-tp-link-obudowa.jpg#huge)
+![](/img/2016/12/008.neffos-y5l-smartfon-tp-link-obudowa.jpg#huge)
 
 Nad ekranem mamy czerwoną diodę powiadomień, głośnik, czujnik światła oraz aparat selfie 2 mpix
 (fotki 1600x1200 px, video 1280x720 px, 5 FPS).
 
-![]({{< baseurl >}}/img/2016/12/009.neffos-y5l-smartfon-tp-link-oudowa-przod.jpg#huge)
+![](/img/2016/12/009.neffos-y5l-smartfon-tp-link-oudowa-przod.jpg#huge)
 
 Pod ekranem zaś mamy trzy podświetlane przyciski oraz logo TP-LINK:
 
-![]({{< baseurl >}}/img/2016/12/010.neffos-y5l-smartfon-tp-link-obudowa-przod.jpg#huge)
+![](/img/2016/12/010.neffos-y5l-smartfon-tp-link-obudowa-przod.jpg#huge)
 
 Tył obudowy Neffos'a Y5L może pochwalić się aparatem 5 mpix z autofokusem (fotki 2592x1944 px, video
 1280x720 px 20 FPS), mikrofonem z redukcją szumów, no i oczywiście jedną diodą robiącą za lampę
 błyskową i latarkę:
 
-![]({{< baseurl >}}/img/2016/12/011.neffos-y5l-smartfon-tp-link-obudowa-tyl-aparat.jpg#big)
+![](/img/2016/12/011.neffos-y5l-smartfon-tp-link-obudowa-tyl-aparat.jpg#big)
 
 Niżej zaś mamy głośnik multimedialny:
 
-![]({{< baseurl >}}/img/2016/12/012.neffos-y5l-smartfon-tp-link-obudowa-tyl-glosnik.jpg#big)
+![](/img/2016/12/012.neffos-y5l-smartfon-tp-link-obudowa-tyl-glosnik.jpg#big)
 
 Po zdjęciu tylnej klapki, wnętrze Neffos'a Y5L prezentuje się w następujący sposób:
 
-![]({{< baseurl >}}/img/2016/12/013.neffos-y5l-smartfon-tp-link-obudowa-wnetrze.jpg#huge)
+![](/img/2016/12/013.neffos-y5l-smartfon-tp-link-obudowa-wnetrze.jpg#huge)
 
 Jak widzimy, Neffos Y5L ma dwa sloty na kartę SIM oraz jeden slot na kartę mikro SD (max. 32G). Jest
 też spore gniazdo na baterię:
 
-![]({{< baseurl >}}/img/2016/12/014.neffos-y5l-smartfon-tp-link-sim-karta-sd.jpg#big)
+![](/img/2016/12/014.neffos-y5l-smartfon-tp-link-sim-karta-sd.jpg#big)
 
 Dobrze, że Neffos Y5L umożliwia bezproblemowe wyciągnięcie karty mikro SD i to bez potrzeby
 wyjmowania baterii i wyłączania telefonu:
 
-![]({{< baseurl >}}/img/2016/12/015.neffos-y5l-smartfon-tp-link-sim-karta-sd.jpg#huge)
+![](/img/2016/12/015.neffos-y5l-smartfon-tp-link-sim-karta-sd.jpg#huge)
 
 ### Wyświetlacz 4,5"
 
@@ -135,7 +135,7 @@ męczył nam oczu od samego patrzenia na niego.
 To co może zmartwić jeszcze potencjalnego użytkownika tego smartfona, to fakt, że powierzchnia tego
 wyświetlacza rozpoznaje jedynie dwa punkty stuku. Z reguły tych punków jest 5:
 
-![]({{< baseurl >}}/img/2016/12/015.neffos-y5l-smartfon-tp-link-wyswietlacz-styk.png#medium)
+![](/img/2016/12/015.neffos-y5l-smartfon-tp-link-wyswietlacz-styk.png#medium)
 
 ### Pasywny dual SIM
 
@@ -145,7 +145,7 @@ bezprzewodowego internetu w technologi LTE na tym smartfonie ale jakby nie patrz
 jest do końca bezużyteczny. W dalszym ciągu możemy załadować tutaj SIM od Aero2 i mieć darmowy
 internet w technologi 3G.
 
-![]({{< baseurl >}}/img/2016/12/016.neffos-y5l-smartfon-tp-link-dual-sim.png#medium)
+![](/img/2016/12/016.neffos-y5l-smartfon-tp-link-dual-sim.png#medium)
 
 Neffos Y5L wspiera co prawda tethering ale w przypadku braku LTE, ta funkcja nie jest raczej zbyt
 użyteczna.
@@ -158,7 +158,7 @@ Został tutaj także wbudowany układ graficzny Adreno 304 taktowany częstotliw
 graficzny posiada także wsparcie dla API takich standardów jak OpenGL ES 1.1/2.0/3.0, OpenCL
 1.0/1.1, OpenGL 3.1 oraz DirectX 11.1. Technologia wykonania tego SoC'a to 28nm.
 
-![]({{< baseurl >}}/img/2016/12/017.neffos-y5l-smartfon-tp-link-cpuz.png#huge)
+![](/img/2016/12/017.neffos-y5l-smartfon-tp-link-cpuz.png#huge)
 
 ### Pamięć RAM i flash
 
@@ -166,7 +166,7 @@ Patrząc dalej na specyfikację Neffos'a Y5L, można zauważyć, że mamy tutaj 
 operacyjnej RAM. Jest to stanowczo za mało, by płynnie obsługiwać system, który w tym telefonie
 został zainstalowany (Android 6.0).
 
-![]({{< baseurl >}}/img/2016/12/018.neffos-y5l-smartfon-tp-link-pamiec-ram.png#big)
+![](/img/2016/12/018.neffos-y5l-smartfon-tp-link-pamiec-ram.png#big)
 
 Generalnie rzecz biorąc, sam system po uruchomieniu telefonu już zaczyna upychać dane w wirtualnym
 urządzeniu ZRAM, które robi za przestrzeń wymiany. To urządzenie ZRAM jest skompresowanym wycinkiem
@@ -183,7 +183,7 @@ powiedzieć o ewentualnej instalacji naszych ulubionych aplikacji?
 Pamięć flash również nie należy do tych pojemniejszych, bo mamy tutaj 8 GiB, z czego dla użytkownika
 pozostaje poniżej 5 GiB.
 
-![]({{< baseurl >}}/img/2016/12/019.neffos-y5l-smartfon-tp-link-flash.png#big)
+![](/img/2016/12/019.neffos-y5l-smartfon-tp-link-flash.png#big)
 
 Na powyższej fotce mamy również statystyki pamięci operacyjnej RAM. Z lewej strony mamy sytuację
 zaraz po starcie smartfona, z prawej zaś przy standardowym użytkowaniu telefonu. Widzimy, że
@@ -197,7 +197,7 @@ Neffos Y5L jest wyposażony w wyjmowalną baterię litowo-jonową (Li-ion) o poj
 akumulator można naładować od 0% do 100% w jakieś 2 godziny i 40 minut dołączoną do zestawu
 ładowarką. Poniżej są wykresy z procesu ładowania:
 
-![]({{< baseurl >}}/img/2016/12/020.neffos-y5l-smartfon-tp-link-bateria-proces-ladowania.png#big)
+![](/img/2016/12/020.neffos-y5l-smartfon-tp-link-bateria-proces-ladowania.png#big)
 
 Jeśli zaś chodzi o rozładowanie baterii, to jest ono nieco szybsze niż powinno być. Działanie
 zbędnych aplikacji w tle za sprawą braku konfiguracji uruchomionych programów (autostartu) oraz
@@ -205,9 +205,9 @@ niewystarczająca ilość pamięci operacyjnej RAM odbija się negatywnie na cza
 baterii. Podczas bezczynności jest on w stanie przetrzymać prawie miesiąc. W przypadku pracy na
 smartfonie, rozładuje się on nam w jakieś 7 godzin i 50 minut, przynajmniej jeśli brać pod uwagę
 szacunki, które zwrócił [test wydajności Neffos'a
-Y5L]({{< baseurl >}}/post/test-wydajnosci-smartfona-neffos-y5l-od-tp-link/).
+Y5L](/post/test-wydajnosci-smartfona-neffos-y5l-od-tp-link/).
 
-![]({{< baseurl >}}/img/2016/12/021.neffos-y5l-smartfon-tp-link-bateria-proces-rozladowania.png#big)
+![](/img/2016/12/021.neffos-y5l-smartfon-tp-link-bateria-proces-rozladowania.png#big)
 
 ### Wbudowany głośnik
 
@@ -222,7 +222,7 @@ Zestaw czujników w przypadku Neffos'a Y5L jest nieco uboższy w stosunku do poz
 telefonów TP-LINK'a. Mamy naturalnie czujnik światła, akcelerometr oraz czujnik zbliżeniowy ale
 zabrakło magnetometru i nie damy rady przerobić tego smartfona na kompas, a szkoda.
 
-![]({{< baseurl >}}/img/2016/12/022.neffos-y5l-smartfon-tp-link-czujniki.png#medium)
+![](/img/2016/12/022.neffos-y5l-smartfon-tp-link-czujniki.png#medium)
 
 ### Łączność 2G/3G oraz WiFi 2,4 GHz
 
@@ -233,14 +233,14 @@ DC-HSPA+/HSPA/UMTS: B1/B8(2100/900 MHz) oraz EDGE/GPRS/GSM: B2/B3/B5/B8 (1900/18
 Może i nie mamy LTE w smartfonie Neffos Y5L ale przynajmniej nie zabrakło tutaj WiFi 2,4 GHz w
 standardzie N. Transfer jaki idzie osiągnąć przez tę sieć oscyluje w granicach 50 mbit/s.
 
-![]({{< baseurl >}}/img/2016/12/023.neffos-y5l-smartfon-tp-link-wifi.png#medium)
+![](/img/2016/12/023.neffos-y5l-smartfon-tp-link-wifi.png#medium)
 
 Jeśli zaś chodzi o zasięg WiFi, to jest on raczej przeciętny. Poniżej jest fotka moich trzech AP
 rozmieszczonych po domu w różnych pomieszczeniach. Kanał 11 obrazuje siłę sygnału docierającą do
 smartfona z AP zlokalizowanego w tym samym pokoju. Na kanale 6 jest AP w odległości około 4 metrów +
 ściana. Na kanale 1 jest AP w odległości 6 metrów + trzy ściany:
 
-![]({{< baseurl >}}/img/2016/12/024.neffos-y5l-smartfon-tp-link-wifi.png#big)
+![](/img/2016/12/024.neffos-y5l-smartfon-tp-link-wifi.png#big)
 
 ### Bluetooth v4.1 (LE)
 
@@ -273,12 +273,12 @@ chociaż, że partycja `/system/` zajmuje 2 GiB, przez co mamy o 2 GiB więcej n
 Poniżej znajduje się rozpiska temperatur podczas zwykłej pracy telefonu oraz przy 100% obciążeniu
 procesora:
 
-![]({{< baseurl >}}/img/2016/12/025.neffos-y5l-smartfon-tp-link-temperatura.png#big)
+![](/img/2016/12/025.neffos-y5l-smartfon-tp-link-temperatura.png#big)
 
 ## Czy da radę przeprowadzić root na Neffos Y5L
 
 [Ukorzenienie Androida na Neffos
-Y5L]({{< baseurl >}}/post/android-root-smartfona-neffos-y5l-tp-link/) jest możliwe do
+Y5L](/post/android-root-smartfona-neffos-y5l-tp-link/) jest możliwe do
 przeprowadzenia.
 
 ## Jak Neffos Y5L sprawuje się pod linux

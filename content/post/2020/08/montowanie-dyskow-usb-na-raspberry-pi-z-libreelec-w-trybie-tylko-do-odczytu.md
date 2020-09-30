@@ -280,7 +280,7 @@ się podglądając wyjście polecenia `mount` :
 
 [1]: https://libreelec.tv/
 [2]: https://en.wikipedia.org/wiki/SquashFS
-[3]: {{< baseurl >}}/post/udevil-i-montowanie-zasobow-bez-uprawnien-root/
+[3]: /post/udevil-i-montowanie-zasobow-bez-uprawnien-root/
 [4]: https://ignorantguru.github.io/udevil/
 [5]: https://github.com/IgnorantGuru/udevil
 [6]: https://www.freedesktop.org/software/systemd/man/bootup.html

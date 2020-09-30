@@ -91,11 +91,11 @@ parametr umożliwiający włączenie zarządzania pamięcią w cgroups:
 
 By sprawdzić poprawność konfiguracji cgroups, posłużymy się narzędziem `lxc-checkconfig` dostępnym w
 pakiecie `lxc` . Po weryfikacji, pakiet `lxc` możemy zwyczajnie usunąć, chyba, że interesują nas
-[kontenery LXC]({{< baseurl >}}/post/konfiguracja-kontenerow-lxc/). Sprawdzamy zatem, czy wszystko
+[kontenery LXC](/post/konfiguracja-kontenerow-lxc/). Sprawdzamy zatem, czy wszystko
 jest w porządku. Generalnie rzecz biorąc, to wszystkie pozycje powinny nam się zapalić na zielono,
 tak jak to widać na fotce poniżej:
 
-![]({{< baseurl >}}/img/2015/12/1.cgroups-konfiguracja-linux-debian.png#big)
+![](/img/2015/12/1.cgroups-konfiguracja-linux-debian.png#big)
 
 Operowanie na cgroups odbywa się przez identyfikację procesu i aplikowanie reguł, co do tego ile
 zasobów ten proces może wykorzystać. Tylko RAM można ustawić na sztywno. Pozostałe parametry nie

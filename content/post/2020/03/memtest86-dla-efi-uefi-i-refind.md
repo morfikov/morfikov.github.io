@@ -153,15 +153,15 @@ przygotowany plik trzeba teraz umieścić w katalogu `EFI/tools/` na partycji ES
 Jeśli wszystko zrobiliśmy prawidłowo, to rEFInd podczas startu powinien zaprezentować nam opcję
 wejścia w memtest86 (to ta kostka RAM'u pod menu wyboru systemu).
 
-![]({{< baseurl >}}/img/2020/03/001-memtest86-refind-selection-menu.jpg#huge)
+![](/img/2020/03/001-memtest86-refind-selection-menu.jpg#huge)
 
 Po uruchomieniu powinien nas przywitać poniższy ekran:
 
-![]({{< baseurl >}}/img/2020/03/002-memtest86-config-menu.jpg#huge)
+![](/img/2020/03/002-memtest86-config-menu.jpg#huge)
 
 Naturalnie wybieramy ikonkę `config` :
 
-![]({{< baseurl >}}/img/2020/03/003-memtest86-config-menu.jpg#huge)
+![](/img/2020/03/003-memtest86-config-menu.jpg#huge)
 
 I w zasadzie tyle roboty. Teraz już wystarczy tylko postępować według instrukcji na ekranie by
 sobie przetestować pamięć operacyjną RAM.
@@ -241,4 +241,4 @@ uniknąć problemów przy weryfikacji podpisu przez firmware EFI/UEFI.
 [6]: https://www.rodsbooks.com/refind/
 [7]: https://www.rodsbooks.com/refind/installing.html
 [8]: https://en.wikipedia.org/wiki/EFI_system_partition
-[9]: {{< baseurl >}}/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/
+[9]: /post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/

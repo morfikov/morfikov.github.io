@@ -78,7 +78,7 @@ przełącznikiem `-strip` :
 Trzeba brać pod uwagę, że `-strip` usunie także wszystkie profile zdjęć. Jeśli nie jest to z
 jakiegoś powodu pożądane lub też nie chcemy usuwać wszystkich danych EXIF, a jedynie dane z GPS, to
 zawsze możemy skorzystać z [narzędzia
-exiftool]({{< baseurl >}}/post/metadane-plikow-graficznych-exif/).
+exiftool](/post/metadane-plikow-graficznych-exif/).
 
 ## Horyzontalne i wertykalne łączenie plików
 

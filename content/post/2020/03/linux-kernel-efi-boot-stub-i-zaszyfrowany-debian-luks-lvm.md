@@ -180,7 +180,7 @@ nie powie. Z okna wyboru systemu podczas startu za bardzo nic się nie dowiemy, 
 jedynie, tylko krótka nazwa i podejrzeć parametrów nie sposób. W zasadzie to widać tylko tyle co na
 poniższym obrazku:
 
-![]({{< baseurl >}}/img/2020/03/001-kernel-linux-efi-boot-stub-efistub-menu.jpg#huge)
+![](/img/2020/03/001-kernel-linux-efi-boot-stub-efistub-menu.jpg#huge)
 
 Ale nie o tym chciałem pisać, bo przecie istnieje narzędzie `efibootmgr` , które jest nam w stanie
 zwrócić ładnie przeformatowaną listę opcji rozruchu, tak jak to było widać na początku, prawda? No
@@ -212,4 +212,4 @@ menadżerem rozruchu czy bootloader'em.
 [1]: https://www.kernel.org/doc/Documentation/efi-stub.txt
 [2]: https://en.wikipedia.org/wiki/Portable_Executable
 [3]: https://en.wikipedia.org/wiki/COFF
-[4]: {{< baseurl >}}/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/
+[4]: /post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/

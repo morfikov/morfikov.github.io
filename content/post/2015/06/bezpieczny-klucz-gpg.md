@@ -14,7 +14,7 @@ title: Bezpieczny klucz GPG
 ---
 
 W poprzednim wpisie przygotowywaliśmy sobie [plik
-gpg.conf]({{< baseurl >}}/post/konfiguracja-gpg-w-pliku-gpg-conf/). Opcje w nim ustawione są
+gpg.conf](/post/konfiguracja-gpg-w-pliku-gpg-conf/). Opcje w nim ustawione są
 niezbędne do wygenerowania dobrego pod względem bezpieczeństwa klucza GPG. Taki klucz GPG nie
 powinien być krótszy niż 4096 bitów. Dodatkowo, nie powinno się ustawiać daty ważności dłuższej niż
 2 lata, a to z tego powodu, że zawszę tę datę można zmienić i to nawet w przypadku gdy klucz straci

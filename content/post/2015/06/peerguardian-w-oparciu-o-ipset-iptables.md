@@ -324,6 +324,6 @@ skompilowania i instalacji. W każdym razie posiada GUI i zjada więcej RAMu ni�
 
 
 [1]: https://www.iblocklist.com/lists.php
-[2]: {{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/
+[2]: /post/firewall-na-linuxowe-maszyny-klienckie/
 [3]: http://manpages.ubuntu.com/manpages/xenial/en/man1/ipcalc.1.html
 [4]: https://sourceforge.net/projects/peerguardian/

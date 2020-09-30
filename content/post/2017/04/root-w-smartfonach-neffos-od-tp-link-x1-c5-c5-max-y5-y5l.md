@@ -59,7 +59,7 @@ dostaniemy informację o byciu programistą. W tej chwili w Ustawieniach pojawi 
 "Opcje programistyczne". Tam z kolei zaznaczamy opcję "Zdjęcie blokady
 OEM".
 
-![]({{< baseurl >}}/img/2017/03/001.neffos-smartfon-tp-link-root-unlock-bootloader.png#huge)
+![](/img/2017/03/001.neffos-smartfon-tp-link-root-unlock-bootloader.png#huge)
 
 Zdjęcie blokady OEM umożliwi odblokowanie bootloader'a. Pamiętajmy jednak, że proces odblokowania
 bootloader'a usuwa wszystkie dane użytkownika, tj. podczas odblokowywania jest inicjowany Factory
@@ -144,10 +144,10 @@ Zwykle podczas procesu root są zmieniane jedynie partycje `/boot/` , `/recovery
 w zasadzie backup tylko tych obszarów flash'a telefonu należy przeprowadzić. Osoby, które są
 zainteresowane dokonaniem ręcznej kopi zapasowej flash'a czy też kilku partycji urządzenia, odsyłam
 do starych wątków opisujących proces root: [Neffos
-C5]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-od-tp-link/), [Neffos C5
-MAX]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-max-od-tp-link/),[Neffos
-Y5]({{< baseurl >}}/post/android-root-smartfona-neffos-y5-od-tp-link/) i [Neffos
-Y5L]({{< baseurl >}}/post/android-root-smartfona-neffos-y5l-tp-link/).
+C5](/post/android-root-smartfona-neffos-c5-od-tp-link/), [Neffos C5
+MAX](/post/android-root-smartfona-neffos-c5-max-od-tp-link/),[Neffos
+Y5](/post/android-root-smartfona-neffos-y5-od-tp-link/) i [Neffos
+Y5L](/post/android-root-smartfona-neffos-y5l-tp-link/).
 
 ## Obrazy TWRP recovery dla Neffos C5, C5 MAX, Y5, Y5L i X1
 
@@ -191,7 +191,7 @@ jeszcze raz ponowić proces flash'owania obrazem TWRP.
 Po wejściu w tryb recovery, naszym oczom powinien pokazać się poniższy
 obrazek:
 
-![]({{< baseurl >}}/img/2017/03/002-neffos-smartfon-tp-link-root-twrp-zmiany.png#small)
+![](/img/2017/03/002-neffos-smartfon-tp-link-root-twrp-zmiany.png#small)
 
 Mamy tutaj zapytanie odnośnie wprowadzania zmian przez TWRP na partycji `/system/` . Zmiana jest w
 zasadzie tylko jedna i polega ona na przepisaniu nazwy pliku `/system/recovery-from-boot.p` na
@@ -228,20 +228,20 @@ TWRP wyrzuci informację, że to urządzenie nie ma jeszcze root'a i zapyta nas 
 SuperSU (w przypadku Neffos X1 niestety trzeba instalować manualnie za pomocą [paczki dostępnej
 tutaj](https://forum.xda-developers.com/apps/supersu/stable-2016-09-01supersu-v2-78-release-t3452703)):
 
-![]({{< baseurl >}}/img/2017/03/003.neffos-smartfon-tp-link-root-twrp-instalacja-supersu.png#big)
+![](/img/2017/03/003.neffos-smartfon-tp-link-root-twrp-instalacja-supersu.png#big)
 
 TWRP zainstalował również swoją aplikację, która ma na celu umożliwić łatwą aktualizację obrazów
 TWRP, gdy zostanie wypuszczona nowa wersją tego trybu recovery (można ją też pobrać z Google
 Play).
 
-![]({{< baseurl >}}/img/2017/03/004.neffos-smartfon-tp-link-root-instalacja-supersu.png#small)
+![](/img/2017/03/004.neffos-smartfon-tp-link-root-instalacja-supersu.png#small)
 
 Na tych dodatkowych ikonkach widocznych wyżej trzeba kliknąć i postępować zgodnie z instrukcjami
 aktualizacji:
 
-![]({{< baseurl >}}/img/2017/03/005.neffos-smartfon-tp-link-root-instalacja-supersu.png#huge)
+![](/img/2017/03/005.neffos-smartfon-tp-link-root-instalacja-supersu.png#huge)
 
-![]({{< baseurl >}}/img/2017/03/006.neffos-smartfon-tp-link-instalacja-twrp.png#huge)
+![](/img/2017/03/006.neffos-smartfon-tp-link-instalacja-twrp.png#huge)
 
 Po zainstalowaniu, restartujemy smartfon.
 
@@ -253,9 +253,9 @@ aplikacji](https://play.google.com/store/apps/details?id=com.jrummyapps.rootchec
 sam rzeczy oznajmi. Poniżej są fotki obrazujące root smartfonów Neffos C5, C5 MAX, Y5, Y5L i
 X1:
 
-![]({{< baseurl >}}/img/2017/03/007.neffos-smartfon-tp-link-sprawdzenie-root.png#huge)
+![](/img/2017/03/007.neffos-smartfon-tp-link-sprawdzenie-root.png#huge)
 
-![]({{< baseurl >}}/img/2017/05/008-neffos-x1-root-check.png#small)
+![](/img/2017/05/008-neffos-x1-root-check.png#small)
 
 ## Unroot
 
@@ -298,7 +298,7 @@ czyszcząc tym samym wszystkie dane użytkownika:
 Smartfony Neffos są wyposażone w mechanizm, który jest w stanie zweryfikować integralność danych w
 systemie. W przypadku powracania ze zrootowanego Androida do stock'owego firmware TP-LINK'a, dobrze
 jest przeprowadzić [proces Root Integrity
-Check]({{< baseurl >}}/post/root-integrity-check-w-smartfonach-z-androidem/) z poziomu trybu
+Check](/post/root-integrity-check-w-smartfonach-z-androidem/) z poziomu trybu
 recovery tak, by upewnić się, że faktycznie powróciliśmy do oryginalnego oprogramowania oraz, że nie
 będzie problemów z ewentualnymi aktualizacjami systemu telefonu w późniejszym czasie.
 
@@ -326,7 +326,7 @@ stworzenie ich od podstaw. To zadanie jednak wykracza poza ramy tego artykułu. 
 planuję tego typu zabieg przeprowadzić i dokładnie go opisać. (link FIXME).
 
 Informacje na temat [zmiany układu partycji na flash'u w smartfonach Neffos C5 i C5 MAX można
-znaleźć tutaj]({{< baseurl >}}/post/repartycjonowanie-flash-w-neffos-c5-i-c5-max-od-tp-link/).
+znaleźć tutaj](/post/repartycjonowanie-flash-w-neffos-c5-i-c5-max-od-tp-link/).
 
 ## Problemy i niebezpieczeństwa związane z procesem root
 
@@ -363,14 +363,14 @@ wtedy mamy bardzo poważny problem.
 
 Przede wszystkim, mając odblokowany bootloader, który jest wymagany do ukorzenienia Neffos'ów,
 dajemy złodziejowi narzędzie zresetowania smartfona i obejścia tym samym [blokady Factory Reset
-Protection Lock]({{< baseurl >}}/post/factory-reset-protection-frp-w-smartfonach-z-androidem/)
+Protection Lock](/post/factory-reset-protection-frp-w-smartfonach-z-androidem/)
 (FRP Lock). Gdy złodziej obejdzie tę blokadę jest w stanie przywrócić system urządzenia do ustawień
 fabrycznych, np. w celu odsprzedania telefonu komuś trzeciemu. W takim przypadku nasz smartfon nie
 będzie już dłużej powiązany z konkretnym kontem Google i zlokalizowanie go przez ww. usługę będzie
 zwyczajnie niemożliwe.
 
 [Więcej informacji na temat lokalizacji zagubionych/skradzionych smartfonów można znaleźć w osobnym
-wątku.]({{< baseurl >}}/post/jak-zlokalizowac-skradziony-zagubiony-smartfon-z-androidem/)
+wątku.](/post/jak-zlokalizowac-skradziony-zagubiony-smartfon-z-androidem/)
 
 ### Możliwość obejścia blokady ekranu
 
@@ -383,7 +383,7 @@ chcieliśmy sobie ukorzenić system, to dostęp do tych kluczy i ustawień pozos
 można zresetować blokadę ekranu przez tryb recovery.
 
 [Więcej informacji na temat resetowania ustawień blokady ekranu można znaleźć w osobnym
-wątku]({{< baseurl >}}/post/backup-partycji-data-w-smartfonach-przez-recovery-twrp/) (ostatni
+wątku](/post/backup-partycji-data-w-smartfonach-przez-recovery-twrp/) (ostatni
 nagłówek).
 
 ### Odszyfrowanie zawartości karty SD sformatowanej jako pamięć wewnętrzna
@@ -404,7 +404,7 @@ jest tylko złudzeniem bezpieczeństwa i niepotrzebnie obciąża procesor telefo
 
 [Więcej informacji na temat odszyfrowania zawartości karty SD sformatowanej jako pamięć można
 znaleźć w osobnym
-wątku.]({{< baseurl >}}/post/jak-odszyfrowac-zawartosc-karty-sd-w-smartfonie-z-androidem/)
+wątku.](/post/jak-odszyfrowac-zawartosc-karty-sd-w-smartfonie-z-androidem/)
 
 ### Inne problemy
 

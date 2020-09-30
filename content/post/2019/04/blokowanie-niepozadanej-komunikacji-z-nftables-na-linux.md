@@ -35,7 +35,7 @@ go w przypadku `nftables` ale to zadanie jest jak najbardziej możliwe.
 Jako, że będziemy blokować dostęp do naszej maszyny, to najlepiej robić to jak najwcześniej
 (patrząc z perspektywy drogi pakietów przez filtr), by zaoszczędzić trochę zasobów sprzętowych.
 Najlepszym rozwiązaniem jest zatem posłużenie się tablicą `netdev` . Jeśli ktoś się
-zastanawia [czym jest tablica netdev]({{< baseurl >}}/post/unikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables/)
+zastanawia [czym jest tablica netdev](/post/unikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables/)
 to tutaj jest artykuł na jej temat.
 
 Poniżej znajduje się struktura tablicy `netdev` , którą musimy dodać do konfiguracji `nftables` :
@@ -57,7 +57,7 @@ IP:
 
 Przy takiej konfiguracji, set będzie w stanie przechować `128000` wpisów z adresami `IPv4`. Przy
 próbie połączenia, rekord z adresem IP hosta zostanie dodany do tego seta z czasem wygaśnięcia
-`1h` . [Więcej informacji o setach w nftables]({{< baseurl >}}/post/brak-wsparcia-dla-ipset-w-nftables/)
+`1h` . [Więcej informacji o setach w nftables](/post/brak-wsparcia-dla-ipset-w-nftables/)
 można znaleźć tutaj.
 
 Dodajemy także te dwie poniższe reguły:

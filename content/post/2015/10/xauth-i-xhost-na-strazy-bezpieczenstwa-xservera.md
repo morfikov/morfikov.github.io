@@ -53,7 +53,7 @@ zezwolić im wszystkim na dostęp albo też im go odmówić. Generalnie rzecz bi
 powinien być wykorzystywany w internecie.
 
 Nic jednak nie stoi na przeszkodzie by korzystać z niego w przypadku bezpiecznych sieci lokalnych
-lub też [kontenerów LXC]({{< baseurl >}}/post/konfiguracja-kontenerow-lxc/) lub innych sposobów
+lub też [kontenerów LXC](/post/konfiguracja-kontenerow-lxc/) lub innych sposobów
 wirtualizacji. W każdym z tych powyższych przypadków musimy nauczyć Xserver, które połączenia ma
 akceptować. Najprościej jest posłużyć się znakami `+` i `-` , przykładowo:
 

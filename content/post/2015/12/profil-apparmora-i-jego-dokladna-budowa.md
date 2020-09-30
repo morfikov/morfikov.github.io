@@ -12,7 +12,7 @@ tags:
 title: Profil AppArmor'a i jego dokładna budowa
 ---
 
-[Budowanie samych profili dla AppArmor'a]({{< baseurl >}}/post/apparmor-profilowanie-aplikacji/)
+[Budowanie samych profili dla AppArmor'a](/post/apparmor-profilowanie-aplikacji/)
 nie jest jakoś szczególnie trudne, zwłaszcza, gdy do tego celu wykorzystujemy narzędzia dostępne w
 pakiecie `apparmor-utils` . Dobrze jest jednak prześledzić sobie
 [manual](http://manpages.ubuntu.com/manpages/xenial/en/man5/apparmor.d.5.html)

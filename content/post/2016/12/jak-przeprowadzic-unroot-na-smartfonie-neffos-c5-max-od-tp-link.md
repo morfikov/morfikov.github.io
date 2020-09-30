@@ -34,7 +34,7 @@ UID/GID (użytkownika i grupę). Żadna aplikacja nie jest w stanie odczytać da
 które zainstalowaliśmy w systemie. Zaprzęgając mechanizm root dajemy możliwość pewnym aplikacjom na
 dostęp do danych każdego innego programu.
 
-![]({{< baseurl >}}/img/2016/12/001.neffos-c5-max-unroot-smartfon-tp-link-prawa-pliki.png#huge)
+![](/img/2016/12/001.neffos-c5-max-unroot-smartfon-tp-link-prawa-pliki.png#huge)
 
 Jeśli teraz wgramy podejrzaną aplikację, to może ona wykorzystać fakt ukorzenienia Androida i
 uzyskać dostęp do poufnych danych czy nawet przejąc całkowitą kontrolę nad systemem operacyjnym
@@ -83,7 +83,7 @@ trzeba rozważyć pod kątem wprowadzanych zmian po dokonaniu procesu root. Jeś
 zaawansowane, np. instalowaliśmy jedynie kilka aplikacji wymagających praw administracyjnych w celu
 odczytu plików systemowych, to możemy skorzystać z opcji dostępnej w SuperSU, tj. `Pełny unroot` :
 
-![]({{< baseurl >}}/img/2016/12/002.neffos-c5-max-unroot-smartfon-tp-link-supersu.png#huge)
+![](/img/2016/12/002.neffos-c5-max-unroot-smartfon-tp-link-supersu.png#huge)
 
 Pamiętajmy tylko, by usunąć wszelkie aplikacje wymagające root przed usunięciem SuperSU.
 
@@ -96,7 +96,7 @@ uruchomić smartfon ponownie.
 Spróbujmy się teraz zalogować na użytkownika root z poziomu jakiegoś terminala. Powinniśmy zobaczyć
 poniższy komunikat:
 
-![]({{< baseurl >}}/img/2016/12/003.neffos-c5-max-unroot-smartfon-tp-link-test-su.png#huge)
+![](/img/2016/12/003.neffos-c5-max-unroot-smartfon-tp-link-test-su.png#huge)
 
 Nie musimy się obawiać o dane zgromadzone na partycji `/data/` , bo nie zostaną one ruszone w żaden
 sposób. Podobnie sprawa ma się w przypadku karty SD. No i nie zostaną cofnięte żadne zmiany na
@@ -125,7 +125,7 @@ Volume UP trzymane podczas startu telefonu). Jeśli jednak chcemy wyczyścić ws
 partycji `/data/` przed flash'owaniem telefonu, to możemy to zrobić z poziomu działającego systemu
 przechodząc do Ustawienia => Kopia i kasowanie danych => Ustawienia fabryczne:
 
-![]({{< baseurl >}}/img/2016/12/004.neffos-c5-max-unroot-smartfon-tp-link-factory-reset.png#huge)
+![](/img/2016/12/004.neffos-c5-max-unroot-smartfon-tp-link-factory-reset.png#huge)
 
 ## Przywrócenie partycji /system/ na Neffos C5 MAX
 
@@ -168,7 +168,7 @@ mt6735-neffos-c5-max-tp-link-scatter.txt][4]. Jest tam również pozycja dotycz�
 `/system/` . Odpalamy zatem SP Flash Tool i przechodzimy na zakładkę Download, gdzie wskazujemy
 nasz plik `scatter.txt` :
 
-![]({{< baseurl >}}/img/2016/12/005.neffos-c5-max-unroot-smartfon-tp-link-przywracanie-system.png#huge)
+![](/img/2016/12/005.neffos-c5-max-unroot-smartfon-tp-link-przywracanie-system.png#huge)
 
 Mamy tutaj wyszczególnione obszary pamięci flash w Neffos C5 MAX, które możemy zapisać. Nas
 interesuje w tej chwili tylko pozycja `system` . Zaznaczamy ją i upewniamy się, że nad tabelką
@@ -180,7 +180,7 @@ przycisk Download i wyłączamy telefon. Następnie próbujemy go uruchomić w t
 przyciskając przycisk Power + Volume UP jednocześnie. Smartfon się nie uruchomi ale rozpocznie się
 proces flash'owania. Sam proces powinien zakończyć się powodzeniem.
 
-![]({{< baseurl >}}/img/2016/12/006.neffos-c5-max-unroot-smartfon-tp-link-przywracanie-system.png#huge)
+![](/img/2016/12/006.neffos-c5-max-unroot-smartfon-tp-link-przywracanie-system.png#huge)
 
 Teraz można wyciągnąć smartfona z portu USB i uruchomić.
 
@@ -198,7 +198,7 @@ cofnięte. Factory reset powinien nam wyczyścić wszystkie dane na partycji `/d
 także stock'ową partycję `/system/` oraz `recovery` . Z kolei root możemy sprawdzić za pomocą Root
 Check:
 
-![]({{< baseurl >}}/img/2016/12/007.neffos-c5-max-unroot-smartfon-tp-link-test-root.png#big)
+![](/img/2016/12/007.neffos-c5-max-unroot-smartfon-tp-link-test-root.png#big)
 
 ## Zablokowanie bootloader'a
 
@@ -235,10 +235,10 @@ przeniesieni do menu wyboru. Restartujemy telefon wpisując w terminalu poniższ
 Smartfon zrestartuje się parokrotnie podczas procesu blokowania bootloader'a ale ostatecznie system
 powinien się bez większego problemu załadować na domyślnych ustawieniach.
 
-![]({{< baseurl >}}/img/2016/12/008.neffos-c5-max-unroot-smartfon-tp-link-box.png#medium)
+![](/img/2016/12/008.neffos-c5-max-unroot-smartfon-tp-link-box.png#medium)
 
 
-[1]: {{< baseurl >}}/post/android-root-smartfona-neffos-c5-max-od-tp-link/
-[2]: {{< baseurl >}}/post/android-reset-ustawien-do-fabrycznych-factory-defaults/
-[3]: {{< baseurl >}}/post/obsluga-wielu-partycji-w-module-loop/
-[4]: {{< baseurl >}}/img/manual/mt6753-neffos-c5-max-tp-link-scatter.txt
+[1]: /post/android-root-smartfona-neffos-c5-max-od-tp-link/
+[2]: /post/android-reset-ustawien-do-fabrycznych-factory-defaults/
+[3]: /post/obsluga-wielu-partycji-w-module-loop/
+[4]: /img/manual/mt6753-neffos-c5-max-tp-link-scatter.txt

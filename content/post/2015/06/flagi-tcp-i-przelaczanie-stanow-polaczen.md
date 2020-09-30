@@ -13,7 +13,7 @@ title: Flagi TCP i przełączanie stanów połączeń
 ---
 
 Jakiś czas temu opisywałem [jak zaprojektować swój własny
-firewall]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/), wobec czego postanowiłem
+firewall](/post/firewall-na-linuxowe-maszyny-klienckie/), wobec czego postanowiłem
 nieco bardziej pochylić się nad zagadnieniem stanów połączeń i je dokładniej przeanalizować. Ten
 wpis dotyczy głównie protokołu TCP, bo ten UDP jest bezpołączeniowy, więc nie ma tam żadnych stanów.
 Dodatkowo opiszę tutaj poszczególne flagi, które mogą zostać ustawione w pakietach zmieniając tym
@@ -26,7 +26,7 @@ Zacznijmy zatem od rozrysowania schematu wszystkich możliwych stanów jakie mo�
 oparte na protokole TCP. Poniżej stosowna fotka
 ([źródło](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)):
 
-![]({{< baseurl >}}/img/2015/06/1.schemat-przelaczania-stanow-flagi-tcp.png#huge)
+![](/img/2015/06/1.schemat-przelaczania-stanow-flagi-tcp.png#huge)
 
 Poniżej zaś znajduje się krótkie objaśnienie użytych nazw na powyższym schemacie:
 
@@ -104,7 +104,7 @@ Takie pakiety zwykle nie zawierają żadnych danych i mają ustawione konkretne 
 połączeniem. W nagłówku TCP jest miejsce na 8 flag. Obrazuje je powinna fotka
 ([źródło](https://nmap.org/book/tcpip-ref.html)):
 
-![]({{< baseurl >}}/img/2015/06/2.naglowek-tcp-flagi.png#huge)
+![](/img/2015/06/2.naglowek-tcp-flagi.png#huge)
 
 Flagi `CWR` , `ECE` odpowiadają za mechanizm kontroli zatorów.
 
@@ -131,7 +131,7 @@ Natomiast ciężarówka z czerwoną flagą robi za segment z ustawioną flagą `
 
 Flaga `ACK` jest używana do potwierdzania pomyślnego odebrania danych w segmentach. Za każdym razem
 gdy pakiet zawierający payload jest transmitowany przez sieć, te dane muszą zostać potwierdzone, co
-odbywa się przez [numery sekwencyjne.]({{< baseurl >}}/post/numery-sekwencyjne-w-strumieniu-tcp/)
+odbywa się przez [numery sekwencyjne.](/post/numery-sekwencyjne-w-strumieniu-tcp/)
 
 Flaga `PSH` jest bardzo podobna do flagi `URG` i istnieje w celu zapewnienia, że dane otrzymają
 określony priorytet i zostaną przetworzone na jednym z końców transmisji. Ta flaga w szczególności
@@ -166,7 +166,7 @@ wykorzystywane w niecnych celach do skanowania otwartych portów.
 
 Flaga `SYN` jest jedną z bardziej znanych flag, bo rozpoczyna każde nowe połączenie, na którego to
 starcie są synchronizowane [początkowe numery
-sekwencyjne]({{< baseurl >}}/post/numery-sekwencyjne-w-strumieniu-tcp/). Ta flaga jest ustawiana w
+sekwencyjne](/post/numery-sekwencyjne-w-strumieniu-tcp/). Ta flaga jest ustawiana w
 pierwszym i drugim pakiecie przywitania three-way handshake pomiędzy dwoma hostami.
 
 Flaga `FIN` kończy połączone rozpoczęte przez pakiet z ustawioną flagą `SYN` . Ten pakiet pojawia

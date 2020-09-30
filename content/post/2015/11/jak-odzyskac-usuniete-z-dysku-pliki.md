@@ -14,8 +14,8 @@ tags:
 title: Jak odzyskać usunięte z dysku pliki
 ---
 
-[Całkowite usuwanie plików (shred)]({{< baseurl >}}/post/usuwanie-plikow-przy-pomocy-shred/) jak i
-[zerowanie całych nośników]({{< baseurl >}}/post/programowe-sprzetowe-zerowanie-dysku/) ma na celu
+[Całkowite usuwanie plików (shred)](/post/usuwanie-plikow-przy-pomocy-shred/) jak i
+[zerowanie całych nośników](/post/programowe-sprzetowe-zerowanie-dysku/) ma na celu
 nieodwracalne zniszczenie danych. W tych podlinkowanych artykułach próbowaliśmy zatrzeć ślady po
 skasowanych plikach. W tym wpisie zaś prześledzimy sobie co tak naprawdę się dzieje po utworzeniu i
 skasowaniu pliku, a także spróbujemy odzyskać te z nich, które już nie istnieją w naszym systemie.
@@ -107,7 +107,7 @@ Każdy i-węzeł rozpoczyna się od `A4 81` . Wiemy także, że rozmiar takiego 
 zatem ładujemy plik i oszukujemy tę wspomnianą wartość. Pamiętajmy, że interesuje nas drugi i-węzeł,
 a nie pierwszy. Zaznaczony niżej fragment odpowiada rozmiarowi pliku:
 
-![]({{< baseurl >}}/img/2015/11/1.i-wezel-edytor-hex-ext4-1.png#huge)
+![](/img/2015/11/1.i-wezel-edytor-hex-ext4-1.png#huge)
 
 W tym przypadku jest to `1A` co oznacza liczbę 26 i jeśli wrócimy wyżej do logu `ls` , to faktycznie
 nasz plik tekstowy ma 26 bajtów.
@@ -116,7 +116,7 @@ Jako, że system plików `ext4` używa [extent'ów](https://pl.wikipedia.org/wik
 pozycji od 40-99 włącznie (licząc w stosunku do konkretnego i-węzła) przechowuje informacje o
 zakresach bloków:
 
-![]({{< baseurl >}}/img/2015/11/2.i-wezel-edytor-hex-ext4-2.png#huge)
+![](/img/2015/11/2.i-wezel-edytor-hex-ext4-2.png#huge)
 
 W sumie jest to pięć wpisów, każdy po 12 bajtów. Z tym, że pierwsze 12 bajtów to nagłówek, pozostałe
 bajty są w stanie opisać maksymalnie 4 zakresy bloków. Rzućmy zatem okiem na sam nagłówek. Mamy tam
@@ -393,7 +393,7 @@ Jako, że i-węzeł miał numer 167, to odszukujemy 7 (7/16) i-węzeł w edytorz
 numerowane od zera, zatem jest to 1536 bajt. Dla pewności można też sprawdzić rozmiar pliku (offset
 od 4-7 bajta włącznie, przykładowo:
 
-![]({{< baseurl >}}/img/2015/11/3.jak-odzyskac-pliki.png#huge)
+![](/img/2015/11/3.jak-odzyskac-pliki.png#huge)
 
 Powyższy zapis `0x001A260D` odpowiada za `1713677` bajtów i faktycznie tyle miał ten plik `.mp3` .
 Zatem udało się odnaleźć odpowiedni blok. Teraz musimy jeszcze ten plik odzyskać.

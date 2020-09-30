@@ -31,11 +31,11 @@ do tego specjalna aplikacja: tpCamera. Zobaczmy zatem do czego może ona nam si�
 ze sklepu Google Play. Jest ona dostarczana bezpośrednio przez TP-LINK, no i nie zawiera reklam.
 Szkoda tylko, że nie jest OpenSource. Tak czy inaczej, poniżej są fotki z procesu instalacyjnego:
 
-![]({{< baseurl >}}/img/2016/11/001.tpcamera-aplikacja-android-tp-link-kamera-ip-instalacja.png#huge)
+![](/img/2016/11/001.tpcamera-aplikacja-android-tp-link-kamera-ip-instalacja.png#huge)
 
 Jak widać, tpCamera trochę waży bo 23 MiB. Po uruchomieniu aplikacji przywita nas poniższe okienko:
 
-![]({{< baseurl >}}/img/2016/11/002.tpcamera-aplikacja-android-tp-link-kamera-ip-logowanie.png#medium)
+![](/img/2016/11/002.tpcamera-aplikacja-android-tp-link-kamera-ip-logowanie.png#medium)
 
 Kamerami TP-LINK możemy zarządzać przez tpCamera na dwa sposoby: zdalnie (przez internet) i lokalnie
 (przez sieć LAN). Zdalne podłączenie wymaga utworzenia konta w [serwisie
@@ -51,11 +51,11 @@ podgląd.
 Po uruchomieniu aplikacji przy podłączonej kamerze do sieci, nasz smartfon powinien ją bez problemu
 rozpoznać:
 
-![]({{< baseurl >}}/img/2016/11/003.tpcamera-aplikacja-android-tp-link-kamera-ip-lokalne-zarzadzanie.png#big)
+![](/img/2016/11/003.tpcamera-aplikacja-android-tp-link-kamera-ip-lokalne-zarzadzanie.png#big)
 
 Wystarczy teraz tapnąć w miniaturkę i zostanie nam zaserwowany podgląd live z kamery:
 
-![]({{< baseurl >}}/img/2016/11/004.tpcamera-aplikacja-android-tp-link-kamera-ip-lokalny-podglad.png#medium)
+![](/img/2016/11/004.tpcamera-aplikacja-android-tp-link-kamera-ip-lokalny-podglad.png#medium)
 
 Nie ma tutaj zbyt wielu opcji ale są te najważniejsze. Przede wszystkim, możemy wyciszyć dźwięk z
 kamery jeśli nam hałas z jakiegoś powodu przeszkadza. Gdy orientacja kamery nie została optymalnie
@@ -63,7 +63,7 @@ ustawiona podczas jej montażu, to możemy odwrócić obraz o 180 stopni. Jest t
 trybu dziennego i nocnego, o ile kamera jest wyposażona w diody z podczerwienią. Wyżej mamy może i
 niewielki obraz ale nic nie stoi, by go zmaksymalizować:
 
-![]({{< baseurl >}}/img/2016/11/005.tpcamera-aplikacja-android-tp-link-kamera-ip-lokalny-podglad-full.png#big)
+![](/img/2016/11/005.tpcamera-aplikacja-android-tp-link-kamera-ip-lokalny-podglad-full.png#big)
 
 W lewym dolnym rogu jest także informacja o prędkości transferu. W przypadku tego
 [NC250](http://www.tp-link.com.pl/products/details/cat-19_NC250.html), transfer waha się w granicach
@@ -91,33 +91,33 @@ Mając konto w serwisie tplinkcloud, możemy uzupełnić formularz logowania. Po
 dodać kamerę. Klikamy zatem na znak plusa w prawym górnym rogu ekranu smartfona i wybieramy model
 kamery:
 
-![]({{< baseurl >}}/img/2016/11/006.tpcamera-aplikacja-android-tp-link-kamera-ip-zdalne-dodawanie.png#big)
+![](/img/2016/11/006.tpcamera-aplikacja-android-tp-link-kamera-ip-zdalne-dodawanie.png#big)
 
 Następnie zostaniemy zapytani czy nasza kamera jest podłączona do prądu i czy jest ona również
 podłączona do sieci lokalnej. Kamerę do routera możemy podłączyć w tym miejscu przewodowo lub
 bezprzewodowo:
 
-![]({{< baseurl >}}/img/2016/11/007.tpcamera-aplikacja-android-tp-link-kamera-ip-wyszukiwanie.png#big)
+![](/img/2016/11/007.tpcamera-aplikacja-android-tp-link-kamera-ip-wyszukiwanie.png#big)
 
 Jeśli jednak nie konfigurowaliśmy sieci WiFi na kamerze do tej pory, to przy opcji przewodowej
 zostaniemy poproszeni o podanie konfiguracji AP:
 
-![]({{< baseurl >}}/img/2016/11/008.tpcamera-aplikacja-android-tp-link-kamera-ip-wifi.png#huge)
+![](/img/2016/11/008.tpcamera-aplikacja-android-tp-link-kamera-ip-wifi.png#huge)
 
 Po chwili kamera zostanie odnaleziona i dodana do listy:
 
-![]({{< baseurl >}}/img/2016/11/009.tpcamera-aplikacja-android-tp-link-kamera-ip-wykrywanie.png#medium)
+![](/img/2016/11/009.tpcamera-aplikacja-android-tp-link-kamera-ip-wykrywanie.png#medium)
 
 Nadajemy jej jeszcze jakąś przyjazną nazwę i klikamy "Korzystaj":
 
-![]({{< baseurl >}}/img/2016/11/010.tpcamera-aplikacja-android-tp-link-kamera-ip-zdalny-podglad.png#big)
+![](/img/2016/11/010.tpcamera-aplikacja-android-tp-link-kamera-ip-zdalny-podglad.png#big)
 
 Status w prawym górnym rogu ekranu wskazuje, że kamera działa i sygnał może być odbierany na
 smartfonie przez internet. Panel kamery jest dokładnie taki sam jak w przypadku lokalnego
 podłączenia. Niemniej jednak, w tym przypadku na miniaturce w prawym dolnym rogu mamy małe kółko
 zębate. Po jego przyciśnięciu naszym oczom ukaże się nieco więcej informacji na temat samej kamery:
 
-![]({{< baseurl >}}/img/2016/11/011.tpcamera-aplikacja-android-tp-link-kamera-ip-opcje.png#medium)
+![](/img/2016/11/011.tpcamera-aplikacja-android-tp-link-kamera-ip-opcje.png#medium)
 
 Jak widać, możemy tutaj wyłączyć zdalnie diodę na kamerze, jak i dostosować poziom rejestrowanego
 dźwięku przez kamerę.
@@ -129,14 +129,14 @@ może wykorzystać głośnik i mikrofon naszego smartfona do obustronnej komunik
 mikrofonu w telefonie, nasz głos będzie słychać na głośniku kamery i podobnie w drugą stronę, gdzie
 ktoś będzie mówił do kamery, to my go usłyszymy na głośniku w smartfonie.
 
-![]({{< baseurl >}}/img/2017/02/001.tpcamera-aplikacja-android-tp-link-kamera-ip-mikrofon.png#big)
+![](/img/2017/02/001.tpcamera-aplikacja-android-tp-link-kamera-ip-mikrofon.png#big)
 
 ## Ustawienia czujnika ruchu i dźwięku
 
 Z reguły kamery IP są w stanie wykryć ruch (ewentualnie dźwięk) i zainicjować nagrywanie obrazu czy
 tez robienie zdjęć. W aplikacji tpCamera możemy sobie dostosować opcje czujnika ruchu i dźwięku:
 
-![]({{< baseurl >}}/img/2017/02/002.tpcamera-aplikacja-android-tp-link-kamera-ip-ruch-dzwiek.png#huge)
+![](/img/2017/02/002.tpcamera-aplikacja-android-tp-link-kamera-ip-ruch-dzwiek.png#huge)
 
 Jak widać wyżej, jesteśmy też w stanie ustawić harmonogram i określić w jakich godzinach wykrywanie
 ruchu i dźwięku ma mieć miejsce, co może nas uchronić przed masą niepożądanych powiadomień.
@@ -148,7 +148,7 @@ wykryciu ruchu lub dźwięku, TP-LINK'owe kamery są w stanie wysłać powiadomi
 tpCamera. W takiej sytuacji praktycznie od razu będziemy w stanie zareagować na to co się dzieje w
 monitorowanych obiektach. Poniżej jest przykład takiego powiadomienia:
 
-![]({{< baseurl >}}/img/2017/02/003.tpcamera-aplikacja-android-tp-link-kamera-ip-notyfikacje.png#big)
+![](/img/2017/02/003.tpcamera-aplikacja-android-tp-link-kamera-ip-notyfikacje.png#big)
 
 Warto tutaj zaznaczyć, że ilość notyfikacji przez email jest ograniczona do 60 na miesiąc. Nie wiem
 czy ten limit można zmienić ale w wiadomości dostałem taką informację: "NC450 1.0" has 58 remaining
@@ -160,7 +160,7 @@ W przypadku, gdy kamera jest w stanie rejestrować obraz i dźwięk na wbudowany
 SD, to naturalnie możemy bez większego problemu uzyskać dostęp do tak nagranych materiałów z poziomu
 smartfona.
 
-![]({{< baseurl >}}/img/2017/02/004.tpcamera-aplikacja-android-tp-link-kamera-ip-nagrania-video.png#big)
+![](/img/2017/02/004.tpcamera-aplikacja-android-tp-link-kamera-ip-nagrania-video.png#big)
 
 ## Aktualizacja firmware kamery
 
@@ -172,11 +172,11 @@ właśnie procesu aktualizacji do nowszej wersji.
 Za każdym razem, gdy pojawi się nowsza wersja firmware dla naszej kamery, to aplikacja tpCamera nas
 o tym powiadomi:
 
-![]({{< baseurl >}}/img/2017/02/005.tpcamera-aplikacja-android-tp-link-kamera-ip-aktualizacje.png#big)
+![](/img/2017/02/005.tpcamera-aplikacja-android-tp-link-kamera-ip-aktualizacje.png#big)
 
 W zasadzie wystarczy kliknąć w przycisk "Aktualizuj" i proces zostanie rozpoczęty:
 
-![]({{< baseurl >}}/img/2017/02/006.tpcamera-aplikacja-android-tp-link-kamera-ip-aktualizacje.png#huge)
+![](/img/2017/02/006.tpcamera-aplikacja-android-tp-link-kamera-ip-aktualizacje.png#huge)
 
 Jak możemy wyczytać na powyższym ostrzeżeniu, tego procesu nie da rady przerwać i będzie on trwał
 stosunkowo długo, bo około 5 minut. Nie powinno być przy tym żadnych problemów.
@@ -186,7 +186,7 @@ stosunkowo długo, bo około 5 minut. Nie powinno być przy tym żadnych problem
 Jeśli z jakiegoś powodu mamy problem z połączeniem się z kamerą przez internet, sprawdźmy pierw czy
 w panelu administracyjnym kamery widnieje odpowiedni status pod Cloud Settings:
 
-![]({{< baseurl >}}/img/2016/11/012.tpcamera-aplikacja-android-tp-link-kamera-ip-could-settings.png#huge)
+![](/img/2016/11/012.tpcamera-aplikacja-android-tp-link-kamera-ip-could-settings.png#huge)
 
 Nawet jeśli wszystkie ustawienia kamery zdają się być w porządku, to i tak z jakiegoś powodu
 pojawiają się dziwne problemy z połączeniem. W sklepie Google Play jest cała masa negatywnych opinii

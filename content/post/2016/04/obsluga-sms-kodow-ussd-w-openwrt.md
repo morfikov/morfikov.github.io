@@ -17,7 +17,7 @@ tags:
 title: Obsługa SMS i kodów USSD w OpenWRT
 ---
 
-[W artykule poświęconym 3ginfo]({{< baseurl >}}/post/monitor-polaczenia-3glte-w-openwrt-3ginfo/)
+[W artykule poświęconym 3ginfo](/post/monitor-polaczenia-3glte-w-openwrt-3ginfo/)
 omawialiśmy monitorowanie połączenia 3G/LTE pod OpenWRT. Zabrakło tam jednak pewnej funkcjonalności,
 która ucieszyłaby chyba każdego użytkownika tego firmware. Chodzi oczywiście o wysyłanie i
 odbieranie SMS oraz przesyłanie kodów USSD. Okazuje się, że `3ginfo` potrafi nam tę funkcjonalność
@@ -68,7 +68,7 @@ Odpalamy przeglądarkę i przechodzimy na adres `http://192.168.1.1:81/` . Tutaj
 `uhttpd` , który obsługuje skrypt `3ginfo` . Po wgraniu powyższych pakietów, na stronie powinny
 pojawić się nam dwa dodatkowe przyciski. Wygląda to mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/04/1.3ginfo-sms-ussd.png#big)
+![](/img/2016/04/1.3ginfo-sms-ussd.png#big)
 
 ### Wysyłanie SMS
 
@@ -76,7 +76,7 @@ Poziomu tego powyższego panelu www możemy jedynie wysyłać wiadomości. Nie m
 SMS. Niemniej jednak, wysyłanie ich działa przyzwoicie. Wystarczy podać numer i wpisać treść
 wiadomości. Unikajmy tylko stosowania polskich znaków:
 
-![]({{< baseurl >}}/img/2016/04/2.3ginfo-gnokii-wysylanie-sms.png#medium)
+![](/img/2016/04/2.3ginfo-gnokii-wysylanie-sms.png#medium)
 
 Jeśli nie chce nam się instalować pakietu `3ginfo` , to nic nie stoi na przeszkodzie, aby korzystać
 z `gnokii` z poziomu terminala. Jeśli życzylibyśmy sobie wysłać wiadomość SMS w taki sposób, to po
@@ -140,11 +140,11 @@ nieokreślone czynniki. Problem w tym, że może i mamy możliwość wysłania k
 nie udało mi się za pomocą tego formularza uzyskać odpowiedzi zwrotnej. Poniżej próba wysłania kodu
 USSD `*101#` :
 
-![]({{< baseurl >}}/img/2016/04/3.3ginfo-wysylanie-ussd.png#medium)
+![](/img/2016/04/3.3ginfo-wysylanie-ussd.png#medium)
 
 Niżej zaś brak odpowiedzi na wysłane żądanie:
 
-![]({{< baseurl >}}/img/2016/04/4.3ginfo-odpowiedz-ussd.png#medium)
+![](/img/2016/04/4.3ginfo-odpowiedz-ussd.png#medium)
 
 Trzeba zatem poszukać innej opcji, która umożliwi nam operowanie na kodach USSD.
 
@@ -156,7 +156,7 @@ modemem i wprowadzania poleceń AT. Możemy także pójść na skróty i odpali�
 zalogować się po SSH i rozmawiać z modemem bez problemów. W jednym oknie będą rejestrowane zwracane
 komunikaty, w drugim zaś będziemy wysyłać polecenia AT. Wygląda to mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/04/5.openwrt-ussd-terminal.png#huge)
+![](/img/2016/04/5.openwrt-ussd-terminal.png#huge)
 
 Po lewej stronie są odpowiedzi zwracane przez `cat /dev/ttyUSB0` na zapytania wysłane po prawej
 stronie . Mamy tam szereg przesłanych poleceń AT. Są to te poniższe:

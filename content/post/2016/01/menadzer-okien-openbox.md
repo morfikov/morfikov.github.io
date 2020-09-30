@@ -22,9 +22,9 @@ alternatywy. Jednak w przypadku, gdy korzystamy z takich rozbudowanych środowis
 koniecznie da się usunąć szereg tych zasobożernych komponentów. Pozostaje nam zwykle jedna opcja,
 którą jest usunięcie całego środowiska graficznego i zainstalowanie potrzebnych nam komponentów
 osobno. Jako, że mamy już opisany[proces instalacji debiana przy pomocy
-debootstrap]({{< baseurl >}}/post/instalacja-debiana-z-wykorzystaniem-debootstrap/), [instalację i
-konfigurację Xserver'a]({{< baseurl >}}/post/konfiguracja-xservera-na-debianie-xorg/), jak i
-również [menadżera okien LightDM]({{< baseurl >}}/post/menadzer-logowania-lightdm/), to przyszedł
+debootstrap](/post/instalacja-debiana-z-wykorzystaniem-debootstrap/), [instalację i
+konfigurację Xserver'a](/post/konfiguracja-xservera-na-debianie-xorg/), jak i
+również [menadżera okien LightDM](/post/menadzer-logowania-lightdm/), to przyszedł
 czas na omówienie niezbędnego w sesji graficznej [menadżera
 okien](https://pl.wikipedia.org/wiki/Mened%C5%BCer_okien). W tym wpisie skupimy się głównie na
 instalacji i konfiguracji Openbox'a.
@@ -85,7 +85,7 @@ zobaczymy jedynie szary pulpit i to właśnie jest Openbox. Nie zrażajmy się j
 pozory, a jak wiadomo mogą one mylić. Poniżej jest fotka obrazująca jak można dostosować sobie
 wygląd tego ogołoconego środowiska.
 
-![]({{< baseurl >}}/img/2016/01/1.srodowisko-graficzne-openbox.png#huge)
+![](/img/2016/01/1.srodowisko-graficzne-openbox.png#huge)
 
 Także jak widać, ogranicza nas jedynie nasza wyobraźnia i potrzeby. Tak czy inaczej, by przekuć tego
 standardowego szaraka w nieco bardziej wyrafinowany pod względem wyglądu desktop, musimy zając się
@@ -180,7 +180,7 @@ możemy sobie zrobić ręcznie lub też zaprzęgnąć do roboty jakiś automat. 
 generator spowolni trochę działanie samego menu, no i oczywiście doda w nim sporo śmieci. Dlatego
 też plik `menu.xml` najlepiej sobie dostosować ręcznie albo też korzystając z narzędzia `obmenu` :
 
-![]({{< baseurl >}}/img/2016/01/2.openbox-obmenu.png#big)
+![](/img/2016/01/2.openbox-obmenu.png#big)
 
 Po każdej edycji menu trzeba przeładować konfigurację Openbox'a przy pomocy tego poniższego
 polecenia:
@@ -192,7 +192,7 @@ polecenia:
 Wygląd Openbox'a, co prawda, nie powala na pierwszy rzut oka ale można go bez problemu zmienić.
 Trzeba tylko ustawić odpowiedni motyw, np. używając do tego celu narzędzia `obconf` :
 
-![]({{< baseurl >}}/img/2016/01/3.openbox-obconf.png#big)
+![](/img/2016/01/3.openbox-obconf.png#big)
 
 Jak widzimy wyżej, mamy dość sporo rzeczy, które możemy sobie dostosować w tym okienku. Wszelkie
 wprowadzone zmiany są zapisywane w pliku `~/.config/openbox/rc.xml` i na dobrą sprawę, korzystanie z
@@ -204,14 +204,14 @@ okna. Cała zawartość, która znajduje się w takim okienku jest już rysowana
 lub QT, w zależności od tego z jaką aplikacją mamy do czynienia. Motyw dla GTK możemy wybrać w
 `lxappearance` . Możemy w nim także dostosować ikonki, style myszki czy też wygląd czcionek:
 
-![]({{< baseurl >}}/img/2016/01/4.openbox-konfiguracja-lxappearance.png#big)
+![](/img/2016/01/4.openbox-konfiguracja-lxappearance.png#big)
 
 Po zapisaniu ustawień, zostaną wygenerowane pliki `~/.gtk2rc-2.0` oraz
 `~/.config/gtk-3.0/settings.ini` zawierające wskazane wyżej ustawienia.
 
 Motyw QT jest konfigurowany za pomocą narzędzia `qtconfig` :
 
-![]({{< baseurl >}}/img/2016/01/5.openbox-qtconfig.png#big)
+![](/img/2016/01/5.openbox-qtconfig.png#big)
 
 To narzędzie z kolei wygeneruje plik `~/.config/Trolltech.conf` .
 
@@ -249,7 +249,7 @@ wpis dla skrótu wygląda mniej więcej tak:
 Ręczna edycja tego pliku jest mało wygodna ale można skorzystać z graficznego narzędzia `obkey` ,
 które znacznie ułatwia definiowanie skrótów:
 
-![]({{< baseurl >}}/img/2016/01/6.openbox-obkey.png#big)
+![](/img/2016/01/6.openbox-obkey.png#big)
 
 ### Rozmieszczanie okien
 
@@ -296,7 +296,7 @@ poniższe:
 
 Kompletny przykład użycia Openbox'a do zarządzania oknami został pokazany na przykładzie [osadzenia
 konsoli urxvt na
-pulpicie]({{< baseurl >}}/post/osadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa/). Zachęcam zatem
+pulpicie](/post/osadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa/). Zachęcam zatem
 do zajrzenia i obadania możliwości jakie daje Openbox w starciu z pojawiającymi się na ekranie
 monitora okienkami.
 

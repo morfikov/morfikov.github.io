@@ -37,7 +37,7 @@ sprawą demona `p910nd` . Niemniej jednak, proces postępowania w przypadku konf
 jest dokładnie taki sam, tylko trzeba odpowiednio dobrać lokalizację urządzenia. Drukarką będziemy
 zarządzać przez przeglądarkę internetową, za pomocą panelu webowego. Po zainstalowaniu tych
 powyższych rzeczy, demon `cupsd` powinien zostać aktywowany, a my mieć możliwość dostania się do
-panela administracyjnego wpisują w polu adresu przeglądarki `{{< baseurl >}}:631` . Można tutaj
+panela administracyjnego wpisują w polu adresu przeglądarki `:631` . Można tutaj
 przeprowadzić dosłownie wszystkie prace administracyjne, począwszy od dodania drukarki, skończywszy
 na szczegółowej jej konfiguracji.
 
@@ -50,48 +50,48 @@ demona, powinniśmy zainteresować się plikami `/etc/cups/cupsd.conf` oraz
 działa ona OOTB. Prawdopodobnie większość drukarek z CUPS działa w ten sposób. Także przechodzimy
 na podany wyżej adres. Naszym oczom powinien ukazać się poniższy panel:
 
-![]({{< baseurl >}}/img/2016/05/1.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
+![](/img/2016/05/1.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
 
 Klikamy na zakładkę `Administration` i dodajemy nową drukarkę klikając w `Add Printer` :
 
-![]({{< baseurl >}}/img/2016/05/2.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
+![](/img/2016/05/2.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
 
 Jeśli konfigurujemy drukarkę sieciową, to z dostępnych opcji wybieramy `AppSocket/HP JetDirect` . W
 przypadku lokalnych drukarek, powinny one być widoczne automatycznie:
 
-![]({{< baseurl >}}/img/2016/05/3.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
+![](/img/2016/05/3.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
 
 W polu `Connection` określamy adres drukarki sieciowej. W tym przypadku
 `socket://192.168.1.1:9100` , jako, że na routerze nasłuchuje na porcie 9100 demon `p910nd` :
 
-![]({{< baseurl >}}/img/2016/05/4.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
+![](/img/2016/05/4.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
 
 Teraz opisujemy drukarkę. Podajemy jej nazwę, krótki opis oraz lokalizację:
 
-![]({{< baseurl >}}/img/2016/05/5.cups-drukarka-linux-debian-serwer-wydruku.png#big)
+![](/img/2016/05/5.cups-drukarka-linux-debian-serwer-wydruku.png#big)
 
 Następnie wybieramy producenta drukarki:
 
-![]({{< baseurl >}}/img/2016/05/6.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
+![](/img/2016/05/6.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
 
 Oraz jej model:
 
-![]({{< baseurl >}}/img/2016/05/7.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
+![](/img/2016/05/7.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
 
 Dostosowujemy także domyślne ustawienia wydruku (można je zmienić w dowolnym czasie):
 
-![]({{< baseurl >}}/img/2016/05/8.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
+![](/img/2016/05/8.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
 
 Po chwili drukarka powinna zostać dodana:
 
-![]({{< baseurl >}}/img/2016/05/9.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
+![](/img/2016/05/9.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
 
 Na samym dole mamy informacje, że póki co, drukarka jest w stanie bezczynnym, bo nie przetwarza
 żadnych prac. Przetestujmy ją zatem, by sprawdzić czy nam coś wydrukuje. Dla przykładu odpalmy
 pierwszy z brzega edytor tekstu i z jego menu wybierzmy `Print` . Powinno nam się pojawić to
 poniższe okienko:
 
-![]({{< baseurl >}}/img/2016/05/10.cups-drukarka-linux-debian-serwer-wydruku.png#big)
+![](/img/2016/05/10.cups-drukarka-linux-debian-serwer-wydruku.png#big)
 
 Widzimy, że drukarka została rozpoznana. Po ikonce z lewej strony możemy stwierdzić, że jest to
 drukarka sieciowa. Mamy również informacje na temat jej nazwy oraz lokalizacji. Gdy klikniemy na
@@ -99,9 +99,9 @@ drukarkę, rozpocznie się próba połączenia z demonem, który ją obsługuje 
 fotce widzimy też, że trwa pobieranie informacji o drukarce. Jeśli połączenie zostanie ustanowione,
 informacje zostaną pobrane i będziemy mogli wydrukować sobie stronę testową:
 
-![]({{< baseurl >}}/img/2016/05/11.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
+![](/img/2016/05/11.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
 
 Powyżej widzimy, że plik został zakolejkowany i jest aktualnie przetwarzany przez drukarkę. Po
 chwili zadanie zostanie ukończone i drukarka wypluje zadrukowaną kartkę:
 
-![]({{< baseurl >}}/img/2016/05/12.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
+![](/img/2016/05/12.cups-drukarka-linux-debian-serwer-wydruku.png#huge)

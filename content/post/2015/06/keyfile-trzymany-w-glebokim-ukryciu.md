@@ -14,7 +14,7 @@ title: Keyfile trzymany w głębokim ukryciu
 ---
 
 Pisząc ostatni [artykuł na temat
-udeva]({{< baseurl >}}/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/) i montowania przy jego
+udeva](/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/) i montowania przy jego
 pomocy zaszyfrowanego kontenera, wpadł mi do głowy ciekawy pomysł na trzymanie pliku klucza
 (keyfile) w czymś co się potocznie nazywa "głębokim ukryciem". Z reguły ludzie nie chcą używać haseł
 do odblokowywania swoich systemów czy partycji i zamiast nich wolą stosować keyfile, czyli małe
@@ -33,7 +33,7 @@ mógł go użyć do odszyfrowania zabezpieczonego urządzenia? Jeśli weźmiemy 
 pendrive, czy dysk twardy, to możemy zobaczyć poniższy schemat partycji (fotka za
 wikipedią):
 
-![]({{< baseurl >}}/img/2015/06/1.linux-mbr-keyfile.png#huge)
+![](/img/2015/06/1.linux-mbr-keyfile.png#huge)
 
 Mamy tutaj dwie różne tablice partycji: MS-DOS oraz GPT. Nas głównie interesuje
 [MS-DOS](https://pl.wikipedia.org/wiki/Master_Boot_Record), bo na nim mamy większe pole manewru. W

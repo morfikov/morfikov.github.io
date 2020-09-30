@@ -32,7 +32,7 @@ przypadku TTY, to żaden problem. W środowiskach graficznych musimy za to skorz
 przez nie pseudo terminali. To z jakiego terminala będziemy korzystać zależy głównie od naszych
 upodobań. Jako, że ja staram się zwykle w swojej konfiguracji dbać o jak najmniejsze wykorzystanie
 zasobów systemowych przez wykorzystywane aplikacje, to zalecam do tego celu wykorzystanie [terminala
-urxvt]({{< baseurl >}}/post/konfiguracja-terminala-urxvt/), którego konfiguracja została opisana w
+urxvt](/post/konfiguracja-terminala-urxvt/), którego konfiguracja została opisana w
 osobnym wpisie i nie będę jej tutaj ponownie opisywał.
 
 Po zdecydowaniu się na określony terminal, musimy doinstalować w systemie kilka pakietów. Przede
@@ -130,7 +130,7 @@ przy pomocy skrótu `Ctrl-a-\` . Również tutaj przyda się zastosowanie opcji 
 Listę aktywnych sesji tmux'a możemy uzyskać posługując się skrótem `Ctrl-a-"` . Wygląda to mniej
 więcej tak:
 
-![]({{< baseurl >}}/img/2016/01/1.tmux-sesje.png#huge)
+![](/img/2016/01/1.tmux-sesje.png#huge)
 
 Między tymi sesjami możemy się przełączać przy pomocy strzałek i klawisza `Enter` . Zawartość
 innych sesji nie jest tracona i zawsze możemy do nich powrócić:

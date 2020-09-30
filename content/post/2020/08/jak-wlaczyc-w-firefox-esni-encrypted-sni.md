@@ -48,14 +48,14 @@ sniffer `wireshark` i przy jego pomocy podejrzeć jakie pakiety są przesyłane 
 mamy standardowe zapytanie o domenę `www.cloudflare.com` , naturalnie odwiedzając w przeglądarce
 adres `https://www.cloudflare.com` :
 
-![]({{< baseurl >}}/img/2020/08/007-sni-esni-encryypted--debian-linux-privacy-firefox-wireshark.png#huge)
+![](/img/2020/08/007-sni-esni-encryypted--debian-linux-privacy-firefox-wireshark.png#huge)
 
 Jak widać, mamy do czynienia z komunikacją szyfrowaną TLS v1.3, a mimo to bez problemu udało nam
 się ustalić jaką domenę człowiek próbuje odwiedzić.
 
 Sprawdźmy co się stanie, gdy zaszyfrujemy SNI:
 
-![]({{< baseurl >}}/img/2020/08/008-sni-esni-encryypted--debian-linux-privacy-firefox-wireshark.png#huge)
+![](/img/2020/08/008-sni-esni-encryypted--debian-linux-privacy-firefox-wireshark.png#huge)
 
 I tu już w miejscu `server_name` mamy `encrypted_server-name` , którego wartości nie jesteśmy w
 stanie odszyfrować. Tego typu zabieg sprawia zatem, że mając też zaszyfrowane zapytania DNS, nikt
@@ -100,13 +100,13 @@ resolver'em Firefox'a był wykorzystywany systemowy resolver naszego linux'a (wa
 Włączenie TRR spowoduje aktywowanie opcji szyfrowania ruchu DNS i przesłanie go domyślnie do
 serwerów CloudFlare:
 
-![]({{< baseurl >}}/img/2020/08/001-sni-esni-encryypted--debian-linux-privacy-firefox-dns.png#huge)
+![](/img/2020/08/001-sni-esni-encryypted--debian-linux-privacy-firefox-dns.png#huge)
 
 Możemy jednak wybrać innego DNS provider'a, choć CloudFlare zdaje się być dobrym rozwiązaniem.
 Możemy teraz przejść na [stronę testową][5] i sprawdzić czy udało nam się z powodzeniem włączyć
 ESNI:
 
-![]({{< baseurl >}}/img/2020/08/002-sni-esni-encryypted--debian-linux-privacy-firefox.png#huge)
+![](/img/2020/08/002-sni-esni-encryypted--debian-linux-privacy-firefox.png#huge)
 
 Jak widać, wszystkie cztery pozycje zapaliły się na zielono, zatem ESNI zostało włączone prawidłowo.
 
@@ -120,7 +120,7 @@ oprogramowania do szyfrowania zapytań DNS][6], tj. będziemy szyfrować zapytan
 przeglądarką Firefox. Przynajmniej standardowo nam to nie zadziała i po odwiedzeniu strony
 [cloudflare.com/ssl/encrypted-sni/][5] uzyskamy poniższy wynik:
 
-![]({{< baseurl >}}/img/2020/08/003-sni-esni-encryypted--debian-linux-privacy-firefox.png#huge)
+![](/img/2020/08/003-sni-esni-encryypted--debian-linux-privacy-firefox.png#huge)
 
 Można jednak skonfigurować Firefox'a w taki sposób, by wskazać w jego konfiguracji własny serwer DoH.
 
@@ -216,13 +216,13 @@ W logu systemowym powinny pojawić się poniższe komunikaty:
 Kluczowa w tym logu jest linijka `Now listening to https://127.0.0.1:3000/dns-query [DoH]` . Ten
 adres musimy podać w konfiguracji Firefox'a w ustawieniach sieci:
 
-![]({{< baseurl >}}/img/2020/08/004-sni-esni-encryypted--debian-linux-privacy-firefox-dnscrypt-proxy.png#huge)
+![](/img/2020/08/004-sni-esni-encryypted--debian-linux-privacy-firefox-dnscrypt-proxy.png#huge)
 
 Testujemy połączenie z naszym lokalnym serwerem DoH przez wpisanie w pasku adresu przeglądarki
 `https://127.0.0.1:3000/dns-query` . Powinno nam wyskoczyć ostrzeżenie o certyfikacie typu
 self-signed, co wygląda mniej więcej tak:
 
-![]({{< baseurl >}}/img/2020/08/005-sni-esni-encryypted--debian-linux-privacy-firefox-cert.png#huge)
+![](/img/2020/08/005-sni-esni-encryypted--debian-linux-privacy-firefox-cert.png#huge)
 
 Akceptujemy ostrzeżenie, po czym naszym oczom powinna pokazać się biała strona z napisem
 `dnscrypt-proxy local DoH server` .
@@ -235,7 +235,7 @@ komunikatów:
 
 Po dodaniu certyfikatu do przeglądarki, przechodzimy ponownie do testu na ESNI:
 
-![]({{< baseurl >}}/img/2020/08/006-sni-esni-encryypted--debian-linux-privacy-firefox.png#huge)
+![](/img/2020/08/006-sni-esni-encryypted--debian-linux-privacy-firefox.png#huge)
 
 I jak widać, udało nam się znów zapalić wszystkie cztery kontrolki, z tą różnicą, że obecnie
 korzystamy z `dnscrypt-proxy` , a nie z wbudowanego w Firefox resolver'a.

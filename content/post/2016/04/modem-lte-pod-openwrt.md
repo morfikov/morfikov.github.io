@@ -177,7 +177,7 @@ przepisujemy ją do poniższej postaci:
 
 To jakie wartości umieścimy wyżej zależy głównie od operatora, z którego zamierzamy korzystać. W tym
 przypadku połączenie zapewnia Play, a jako, że oferuje on [darmowy internet
-LTE]({{< baseurl >}}/post/darmowy-internet-lte-od-rbmplay/), to trzeba tutaj wymusić tryb
+LTE](/post/darmowy-internet-lte-od-rbmplay/), to trzeba tutaj wymusić tryb
 połączenia LTE przy pomocy opcji `mode` . Jeśli korzystamy z innych operatorów i nie koniecznie
 łączymy się po LTE, to w pliku `/etc/gcom/ncm.json` są wyszczególnione tryby pracy modemu, z
 których możemy skorzystać. Mamy do dyspozycji `preferlte` , `preferumts` , `lte` , `umts` , `gsm`

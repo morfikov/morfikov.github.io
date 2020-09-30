@@ -211,7 +211,7 @@ w systemie, choć będzie ona dostępna tylko do odczytu.
 
 A tu jest jeszcze widok w `gparted` :
 
-![]({{< baseurl >}}/img/2020/03/001-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-gparted.png#huge)
+![](/img/2020/03/001-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-gparted.png#huge)
 
 Ta niewykorzystana część nośnika może zostać przeznaczona na dodatkowe partycje pod obrazy ISO/IMG
 lub też można tam stworzyć zwykłą partycję na dane. Można tam nawet upchnąć zwykły system i rEFInd
@@ -325,37 +325,37 @@ wyżej utworzyliśmy. Menadżer rozruchu komputera powinien wykryć bez problemu
 znajduje się dodatkowa opcja rozruchu, co widoczne jest jako pierwsza ikonka na liście systemów
 mająca w swoim prawym dolnym rogu małą ikonkę pendrive:
 
-![]({{< baseurl >}}/img/2020/03/002-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-disk.jpg#huge)
+![](/img/2020/03/002-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-disk.jpg#huge)
 
 Gdy wejdziemy w tę pozycję, to rEFInd z pendrive zostanie załadowany i zwróci nam listę obrazów
 ISO/IMG, które mamy wgrane na poszczególne partycje:
 
-![]({{< baseurl >}}/img/2020/03/003-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-pendrive.jpg#huge)
+![](/img/2020/03/003-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-pendrive.jpg#huge)
 
 Uruchommy przykładowo Ubuntu LTS. Powinien się załadować Grub2 obrazu ISO/IMG, w którym wybieramy
 pierwszą pozycję, by uruchomić Ubuntu live:
 
-![]({{< baseurl >}}/img/2020/03/004-efi-uefi-firmware-secure-boot-linux-live-system-iso-boot-ubuntu.jpg#huge)
+![](/img/2020/03/004-efi-uefi-firmware-secure-boot-linux-live-system-iso-boot-ubuntu.jpg#huge)
 
-![]({{< baseurl >}}/img/2020/03/005-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted.jpg#huge)
+![](/img/2020/03/005-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted.jpg#huge)
 
 Podobnie sprawa wygląda w przypadku Ubuntu Latest:
 
-![]({{< baseurl >}}/img/2020/03/006-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-boot.jpg#huge)
+![](/img/2020/03/006-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-boot.jpg#huge)
 
-![]({{< baseurl >}}/img/2020/03/007-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted.jpg#huge)
+![](/img/2020/03/007-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted.jpg#huge)
 
 W przypadku Linux Mint jest podobnie:
 
-![]({{< baseurl >}}/img/2020/03/008-efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-boot.jpg#huge)
+![](/img/2020/03/008-efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-boot.jpg#huge)
 
-![]({{< baseurl >}}/img/2020/03/009-efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-booted.jpg#huge)
+![](/img/2020/03/009-efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-booted.jpg#huge)
 
 No i jeszcze na koniec Debian:
 
-![]({{< baseurl >}}/img/2020/03/010-efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-boot.jpg#huge)
+![](/img/2020/03/010-efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-boot.jpg#huge)
 
-![]({{< baseurl >}}/img/2020/03/011-efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-booted.jpg#huge)
+![](/img/2020/03/011-efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-booted.jpg#huge)
 
 Co ciekawe, mając wgrany sterownik `iso9660_x64.efi` na partycji ESP dysku twardego komputera,
 możemy w zasadzie obyć się bez zewnętrznych nośników USB by system live odpalić. Wystarczy utworzyć
@@ -459,12 +459,12 @@ By poradzić sobie jakoś z portowalnością pendrive multiboot, dobrze jest trz
 certyfikaty na partycji ESP, by w razie potrzeby je łatwo zaimportować na docelowej maszynie.
 
 
-[1]: {{< baseurl >}}/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/
+[1]: /post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/
 [2]: https://github.com/thias/glim
 [3]: https://www.rodsbooks.com/refind/
 [4]: https://ubuntu.com/download/desktop
 [5]: https://www.linuxmint.com/download.php
 [6]: https://www.debian.org/CD/live/
-[7]: {{< baseurl >}}/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/#dodawanie-kluczy-dystrybucji-do-bazy-mok
+[7]: /post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/#dodawanie-kluczy-dystrybucji-do-bazy-mok
 [8]: https://www.rodsbooks.com/refind/getting.html
 [9]: https://www.rodsbooks.com/refind/configfile.html

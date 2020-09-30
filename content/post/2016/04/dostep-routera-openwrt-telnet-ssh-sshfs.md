@@ -39,10 +39,10 @@ odpowiedzialna za nasłuch na porcie 22 nie jest w stanie nas wpuścić. Zwykle 
 będziemy korzystać w dwóch sytuacjach. Pierwsza z nich dotyczy wstępnego skonfigurowania routera.
 Zwykle ta czynność jest przeprowadzana po flash'owaniu routera nową wersją firmware. Druga sytuacja
 występuje w momencie, gdy router nam odmawia posłuszeństwa
-i [musimy się ratować trybem failsafe]({{< baseurl >}}/post/tryb-ratunkowy-failsafe-w-openwrt/).
+i [musimy się ratować trybem failsafe](/post/tryb-ratunkowy-failsafe-w-openwrt/).
 Poniżej jest fotka obrazująca dostęp do routera za pośrednictwem protokołu telnet:
 
-![]({{< baseurl >}}/img/2016/04/1.openwrt-dostep-telnet-router.png#big)
+![](/img/2016/04/1.openwrt-dostep-telnet-router.png#big)
 
 Widzimy, że router dostępny jest pod adresem 192.168.1.1, a komenda, która zainicjowała połączenie
 to:
@@ -52,7 +52,7 @@ to:
 Z chwilą, gdy zalogujemy się na router po raz pierwszy, będziemy mieli możliwość zmiany hasła
 użytkownika root. Robimy to przez wpisanie w terminalu polecenia `passwd` :
 
-![]({{< baseurl >}}/img/2016/04/2.openwrt-telnet-zmiana-hasla-router.png#big)
+![](/img/2016/04/2.openwrt-telnet-zmiana-hasla-router.png#big)
 
 Po tej operacji telnet zostanie automatycznie dezaktywowany i od tej pory będziemy w stanie logować
 się za pomocą protokołu SSH.
@@ -64,7 +64,7 @@ on na porcie 22 i akceptuje jedynie połączenia od strony LAN. By zalogować si
 terminalu wpisujemy `ssh 192.168.1.1` . Po wpisaniu tej komendy, zostanie nam wyrzucony poniższy
 komunikat:
 
-![]({{< baseurl >}}/img/2016/04/3.openwrt-dostep-ssh-hash-weryfikacja.png#big)
+![](/img/2016/04/3.openwrt-dostep-ssh-hash-weryfikacja.png#big)
 
 Mamy tutaj informację na temat odciska palca (fingerprint) klucza SSH. Zwykle ten hash jest
 unikatowy i jego weryfikacja zabezpiecza komunikację przed podsłuchem. W tym przypadku nie ma to
@@ -74,7 +74,7 @@ flash'owaniu routera. Dlatego też akceptujemy ten klucz i po chwili powinien si
 proszący o podanie hasła do konta administratora root. Po jego podaniu zostaniemy zalogowani na
 router:
 
-![]({{< baseurl >}}/img/2016/04/4.openwrt-dostep-ssh-router.png#big)
+![](/img/2016/04/4.openwrt-dostep-ssh-router.png#big)
 
 ### Konfiguracja dopbear'a
 
@@ -154,4 +154,4 @@ dostęp do każdego folderu na routerze i możemy używać graficznych edytorów
 Możemy też przy pomocy menadżera plików przesyłać pliki między tymi dwiema maszynami bez większego
 problemu, co ułatwi nam znacznie konfigurację routera. Poniżej fotka:
 
-![]({{< baseurl >}}/img/2016/04/5.openwrt-dostep-sshfs-gui.png#huge)
+![](/img/2016/04/5.openwrt-dostep-sshfs-gui.png#huge)

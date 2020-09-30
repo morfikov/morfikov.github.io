@@ -38,11 +38,11 @@ komputer wymaga do poprawnej pracy.
 
 Cały proces związany z budową pakietów `.deb` dla Debiana jest dość szerokim zagadnieniem i nie
 będę go omawiał w tym artykule szczegółowo. Kiedyś napisałem spory kawałek tekstu poświęcony
-właśnie [zagadnieniu budowy paczek dla tej dystrybucji]({{< baseurl >}}/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/).
+właśnie [zagadnieniu budowy paczek dla tej dystrybucji](/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/).
 Cała wiedza zawarta w tym podlinkowanym artykule nie jest jednak niezbędna do zbudowania prostej
 paczki `.deb` . Można pójść nawet na skróty i skorzystać z `dpkg-buildpackage -b -us -uc` . Jeśli
 jednak mamy już przygotowane środowisko pod `pbuilder` (w tym przypadku jest) i do tego jeszcze
-własne [lokalne repozytorium na bazie reprepro]({{< baseurl >}}/post/tworzenie-repozytorium-przy-pomocy-reprepro/)
+własne [lokalne repozytorium na bazie reprepro](/post/tworzenie-repozytorium-przy-pomocy-reprepro/)
 (i to również jest), to ogarnięcie `pbuilder`'a i budowanie paczek `.deb` za jego sprawą bardzo
 ułatwia życie. Zatem nie trzeba studiować tamtego poradnika by zrobić sobie pakiet z modułem DKMS.
 Niemniej jednak, jeśli podczas procesu budowy wystąpią jakieś błędy, to możemy nie być w stanie ich
@@ -321,7 +321,7 @@ Odświeżamy listę pakietów w repozytorium i instalujemy paczkę `tpe-dkms` :
 
 Po chwili powinien rozpocząć się automatyczny proces budowania modułu kernela za sprawą mechanizmu
 DKMS. W zasadzie to wszystkie kroki, które w tym procesie mają miejsce są dokładnie takie same jak
-przy [ręcznej budowie modułu kernela via DKMS]({{< baseurl >}}/post/dkms-czyli-automatycznie-budowane-moduly/),
+przy [ręcznej budowie modułu kernela via DKMS](/post/dkms-czyli-automatycznie-budowane-moduly/),
 z tym, że to system bez naszej ingerencji przeprowadzi cały ten proces:
 
     ...
@@ -404,4 +404,4 @@ systemu tworząc stosowną konfigurację w katalogach `/etc/modules-load.d/` ora
 
 Jeśli nasz kernel wykorzystuje podpisy cyfrowe i nie zezwala na załadowanie modułów, które nie
 zostaną podpisane tym samym kluczem co kernel, to trzeba również zadbać
-o [podpisanie modułów tworzonych za sprawą mechanizmu DKMS]({{< baseurl >}}/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/).
+o [podpisanie modułów tworzonych za sprawą mechanizmu DKMS](/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/).

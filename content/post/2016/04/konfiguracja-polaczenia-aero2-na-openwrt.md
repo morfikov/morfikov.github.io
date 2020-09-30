@@ -37,7 +37,7 @@ Przed przystąpieniem do konfiguracji routera, dobrze jest zaktualizować firmwa
 najnowszej dostępnej wersji. W ten sposób unikniemy wszelkich problemów z zależnościami wynikającymi
 z rozbieżności wersji oprogramowania, które będziemy musieli doinstalować. [Proces aktualizacji
 firmware OpenWRT został opisany w osobnym
-wątku]({{< baseurl >}}/post/sysupgrade-czyli-aktualizacja-firmware-openwrt/).
+wątku](/post/sysupgrade-czyli-aktualizacja-firmware-openwrt/).
 
 Standardowo OpenWRT nie ma zaimplementowanej obsługi modemów LTE i musimy ręcznie doinstalować
 szereg rzeczy. To jakie pakiety będziemy musieli wgrać zależy w dużej mierze od tego jaki model
@@ -197,15 +197,15 @@ Zapisujemy i restartujemy `dnsmasq` :
 
 Teraz już powinniśmy zostać przekierowani bez większego problemu na odpowiednią stronę:
 
-![]({{< baseurl >}}/img/2016/04/1.aero2-dostep-do-internetu-www.png#big)
+![](/img/2016/04/1.aero2-dostep-do-internetu-www.png#big)
 
 I możemy wpisać kod CAPTCHA:
 
-![]({{< baseurl >}}/img/2016/04/2.aero2-wpisanie-captcha.png#big)
+![](/img/2016/04/2.aero2-wpisanie-captcha.png#big)
 
 Po chwili dostęp do sieci powinien zostać przyznany:
 
-![]({{< baseurl >}}/img/2016/04/3.aero2-przywrocenie-dostepu-internet.png#huge)
+![](/img/2016/04/3.aero2-przywrocenie-dostepu-internet.png#huge)
 
 Nie trzeba również resetować połączenia, tak jak to [miało miejsce w
 przeszłości](http://jdtech.pl/2015/04/aero2-rezygnuje-z-koniecznosci-rozlaczania-po-wpisaniu-kodu.html).

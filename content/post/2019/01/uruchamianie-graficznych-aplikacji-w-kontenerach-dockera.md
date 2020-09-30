@@ -13,7 +13,7 @@ tags:
 title: Uruchamianie graficznych aplikacji w kontenerach Docker'a
 ---
 
-[Bawiąc się ostatnio na Debianie przestrzeniami nazw sieciowych]({{< baseurl >}}/post/jak-uruchomic-firefoxa-w-osobnej-przestrzeni-nazw-sieciowych/),
+[Bawiąc się ostatnio na Debianie przestrzeniami nazw sieciowych](/post/jak-uruchomic-firefoxa-w-osobnej-przestrzeni-nazw-sieciowych/),
 wpadł mi do głowy pomysł na nieco bardziej zautomatyzowaną formę separacji procesów użytkownika od
 pozostałej części systemu. Co by nie mówić, opisany w podlinkowanym artykule sposób uruchomienia
 Firefox'a niezbyt mi przypadł do gustu. Nowy sposób separacji zakłada za to wykorzystanie
@@ -323,7 +323,7 @@ Ten kontener można bez problemu odpalić przy pomocy poniższego polecenia:
 Powinien nam on bez większego problemu wystartować, a naszym oczom powinno ukazać się okno
 przeglądarki Firefox:
 
-![]({{< baseurl >}}/img/2019/01/001-firefox-docker-container-debian-linux.png#huge)
+![](/img/2019/01/001-firefox-docker-container-debian-linux.png#huge)
 
 ### Aktualizacja kontenera Docker'a z Firefox'em
 

@@ -18,7 +18,7 @@ Ten wpis również będzie poświęcony tematyce
 [kontroli](http://linux-ip.net/articles/Traffic-Control-HOWTO/index.html) i
 [kształtowania](https://lukasz.bromirski.net/docs/translations/lartc-pl.html) ruchu sieciowego w
 linux'ie, z tym, że ograniczymy się tutaj do konfiguracji interfejsów IFB. Działają one na podobnej
-zasadzie co [interfejsy IMQ]({{< baseurl >}}/post/konfiguracja-interfejsow-imq-w-linuxie/).
+zasadzie co [interfejsy IMQ](/post/konfiguracja-interfejsow-imq-w-linuxie/).
 Niewątpliwą zaletą interfejsów IFB jest fakt, że są one natywnie wspierane przez kernel linux'a,
 przez co ich obsługa jest dziecinnie prosta. Wadą jest z kolei to, że nie do końca damy radę
 kształtować ruch przychodzący do naszej maszyny. Tak czy inaczej, postaramy się skonfigurować te
@@ -80,7 +80,7 @@ Mając rozdzielony ruch, możemy teraz założyć kolejki. Najpierw zajmijmy si�
                       tc class add dev ifb0 parent 1:20 classid 1:1000 htb rate 99mbit ceil 999mbit prio 1 quantum 60000
 
 Pakietami wyjściowymi możemy sterować przez `iptables` z celami `-j MARK` i `-j CLASSIFY` oraz przy
-pomocy [cgroups]({{< baseurl >}}/post/ograniczanie-zasobow-procesom-przez-cgroups/). My tutaj
+pomocy [cgroups](/post/ograniczanie-zasobow-procesom-przez-cgroups/). My tutaj
 będziemy dla przykładu markować pakiety w `iptables` . Do tego celu musimy utworzyć kilka regułek w
 tablicy `mangle` , przykładowo:
 
@@ -174,7 +174,7 @@ numerki](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 Teraz odpalmy jakąś przeglądarkę internetową, np. Firefox'a, w celach testowych. Pakiety powinny
 wędrować do kolejek 1:200 oraz 2:300. Poniżej przykład:
 
-![]({{< baseurl >}}/img/2015/12/1.ksztaltowanie-ruchu-interfejsy-ifb-tc.png#huge)
+![](/img/2015/12/1.ksztaltowanie-ruchu-interfejsy-ifb-tc.png#huge)
 
 ## Statystyki ruchu
 

@@ -112,7 +112,7 @@ należy w tym pliku umieścić, jest poniżej:
           Option "EmulateWheelButton" "3"
 
 Pozostałe opcje użyte w powyższym pliku zostały opisane we wpisie poświęconym [konfiguracji samej
-myszy]({{< baseurl >}}/post/mysz-i-jej-konfiguracja-na-linuxie/) . Zatem jeśli mamy problem z
+myszy](/post/mysz-i-jej-konfiguracja-na-linuxie/) . Zatem jeśli mamy problem z
 dopasowaniem urządzenia lub też nie do końca rozumiemy za co odpowiadają poszczególne parametry, to
 zachęcam do zapoznania się z podlinkowanym artykułem. Warto też zajrzeć do [man
 evdev](http://manpages.ubuntu.com/manpages/wily/en/man4/evdev.4.html).

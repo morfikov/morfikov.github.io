@@ -32,7 +32,7 @@ Na sam początek przydałoby się odpowiednio dostosować adres bloga, bo ten st
 **http** . Nie jest to nic trudnego i można to zrobić z poziomu panelu WordPress'a (Settings =>
 General):
 
-![]({{< baseurl >}}/img/2015/05/1.przepisanie-adresu-bloga-na-https.png#big)
+![](/img/2015/05/1.przepisanie-adresu-bloga-na-https.png#big)
 
 ## Formularz logowania/rejestracji
 
@@ -63,7 +63,7 @@ odpuścić sobie ten krok.
 
 Nie znalazłem wprawdzie WordPress'owego sposobu, który by umożliwiał wymuszenie szyfrowania całego
 bloga ale za to natknąłem się na przepisywanie adresów via plik `.htaccess` . Jeśli korzystamy z
-[permalinków]({{< baseurl >}}/post/wordpress-odnosniki-bezposrednie-permalinks/) (a powinniśmy),
+[permalinków](/post/wordpress-odnosniki-bezposrednie-permalinks/) (a powinniśmy),
 to zwrotka dla WordPress'a w tym pliku powinna teraz wyglądać mniej więcej tak:
 
     # Force SSL, see also apache virtual hosts
@@ -94,7 +94,7 @@ Jeśli już zdecydowaliśmy się na szyfrowanie bloga (niekoniecznie w pełni), 
 spotkamy się z komunikatem na pasku adresu w przeglądarce, który będzie nas informował, że część
 elementów strony została zablokowana:
 
-![]({{< baseurl >}}/img/2015/05/2.blokowanie-kontentu-http.png#big)
+![](/img/2015/05/2.blokowanie-kontentu-http.png#big)
 
 Zwykle jest to wina niezabezpieczonych adresów URL i pod terminem "niezabezpieczone" rozumiem
 zawartość na stronie pochodzącą z linków zaczynających się od **http** . [Na jednym z blogów

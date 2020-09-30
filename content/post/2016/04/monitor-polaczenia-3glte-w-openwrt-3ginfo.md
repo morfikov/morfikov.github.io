@@ -22,8 +22,8 @@ W pewnych sytuacjach lub też ze zwykłej ciekawości możemy chcieć sprawdzić
 połączenie LTE, którego obsługę zaimplementowaliśmy na naszym routerze mającym na pokładzie
 firmware OpenWRT. Nie będę tutaj opisywał samej konfiguracji takiego połączenia, bo to zostało
 zrobione we wpisie poświęconym [konfiguracji modemu Huawei E3372 pod
-OpenWRT]({{< baseurl >}}/post/modem-lte-pod-openwrt/), jak i przy okazji [konfiguracji połączenia
-Aero2]({{< baseurl >}}/post/konfiguracja-polaczenia-aero2-na-openwrt/). W tym wpisie zaś skupimy
+OpenWRT](/post/modem-lte-pod-openwrt/), jak i przy okazji [konfiguracji połączenia
+Aero2](/post/konfiguracja-polaczenia-aero2-na-openwrt/). W tym wpisie zaś skupimy
 się na monitorowaniu za pomocą `3ginfo` już działającego połączenia, które jest realizowane za
 pomocą modemu LTE podłączonego do portu USB routera.
 
@@ -77,7 +77,7 @@ dość obszerny. W tym przypadku wersja tekstowa ma około 1,5 MiB. spakowana 14
 
 Poniżej przykład formularza:
 
-![]({{< baseurl >}}/img/2016/04/1.formularz-bts-3ginfo.png#big)
+![](/img/2016/04/1.formularz-bts-3ginfo.png#big)
 
 ## Monitorowanie połączenia
 
@@ -113,15 +113,15 @@ Zostanie także utworzony nowy proces:
 Czyli wiemy, że demon `uhttpd` nasłuchuje, a interfejs webowy aplikacji `3ginfo` oczekuje na nas pod
 adresem `http://192.168.1.1:81` . Przejdźmy tam i sprawdźmy co tam zastaniemy:
 
-![]({{< baseurl >}}/img/2016/04/2.3ginfo-rozlaczony.png#big)
+![](/img/2016/04/2.3ginfo-rozlaczony.png#big)
 
 By się połączyć, wciskamy Connect:
 
-![]({{< baseurl >}}/img/2016/04/3.3ginfo-polaczony.png#big)
+![](/img/2016/04/3.3ginfo-polaczony.png#big)
 
 Możemy także podejrzeć szczegóły połączenia rozwijając Show details:
 
-![]({{< baseurl >}}/img/2016/04/4.3ginfo-dodatkowe-informacje.png#big)
+![](/img/2016/04/4.3ginfo-dodatkowe-informacje.png#big)
 
 W oparciu o wygenerowaną listę BTS, `3ginfo` podał nam informacje na temat lokalizacji BTS'a, do
 którego zostaliśmy podłączeni. Nie zawsze jednak te informacje będą dostępne, nawet po

@@ -103,4 +103,4 @@ zawsze zamiast `-1` może zdefiniować wartość `5` , `10` czy coś podobnego.
 
 
 [1]: https://www.kernel.org/doc/Documentation/usb/power-management.txt
-[2]: {{< baseurl >}}/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/
+[2]: /post/udev-czyli-jak-pisac-reguly-dla-urzadzen/

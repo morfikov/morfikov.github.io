@@ -18,7 +18,7 @@ Routery wyposażone w firmware OpenWRT mają tę zaletę, że ich bezprzewodowe 
 miarę dowolnie sobie skonfigurować. Oryginalne oprogramowanie producenta takiego sprzętu zwykle nie
 umożliwia nam przełączenia kart routera w inny tryb niż AP (Access Point). W OpenWRT możemy ustawić
 praktycznie dowolny tryb, o ile pozwala na to sterownik karty WiFi. W ten sposób możemy aktywować,
-np. [tryb MONITOR]({{< baseurl >}}/post/karta-wifi-trybie-monitor-openwrt/). W tym wpisie jednak
+np. [tryb MONITOR](/post/karta-wifi-trybie-monitor-openwrt/). W tym wpisie jednak
 będzie nas interesował tryb STA (STATION), czyli postaramy się przełączyć karty WiFi routera w tryb
 klienta. Jest to bardzo przydatna opcja w przypadku, gdy mamy do czynienia z [Wireless Internet
 Service Provider (WISP)](https://pl.wikipedia.org/wiki/WISP), czyli bezprzewodowymi dostawcami
@@ -87,7 +87,7 @@ wystartowaniu, router powinien nawiązać połączenie bezprzewodowe z WISP. Mo�
 podglądając log systemowy via `logread` . Interfejsowi sieciowemu (w tym przypadku `wlan0` ) powinna
 też zostać nadana odpowiednia adresacja. Możemy to sprawdzić przez `ifconfig` lub też `ip` :
 
-![]({{< baseurl >}}/img/2016/06/2.openwrt-wisp-tryb-sta-interfejs-wlan0.png#huge)
+![](/img/2016/06/2.openwrt-wisp-tryb-sta-interfejs-wlan0.png#huge)
 
 ## Konfiguracja trybu STA równolegle z trybem AP
 
@@ -145,7 +145,7 @@ I to w zasadzie cała robota. Po restarcie routera, połączenie z WISP powinno 
 my możemy podłączać się do routera w wygodny nam sposób. Zarówno tryb STA jak i AP powinny być
 widoczne w `iwinfo` :
 
-![]({{< baseurl >}}/img/2016/06/3.openwrt-wisp-tryb-sta-ap-iwinfo.png#big)
+![](/img/2016/06/3.openwrt-wisp-tryb-sta-ap-iwinfo.png#big)
 
 ### Konfiguracja switch'a
 
@@ -154,7 +154,7 @@ tj. gdy korzystamy z trybu STA na routerze i zamierzamy się łączyć jedynie b
 WISP, to ten jeden port WAN jest nam kompletnie zbędny. W efekcie możemy do routera połączyć
 przewodowo maksymalnie cztery urządzenia. Jeśli potrzebujemy wszystkich pięciu gniazdek, to możemy
 albo [podzielić sobie inaczej
-switch]({{< baseurl >}}/post/podzial-switcha-na-kilka-vlan-w-openwrt/) (jeśli jest taka
+switch](/post/podzial-switcha-na-kilka-vlan-w-openwrt/) (jeśli jest taka
 możliwość), albo nieco inaczej skonfigurować interfejsy w pliku `/etc/config/network` . W tym
 przypadku, router ma przypisany interfejs `eth0.1` jako LAN oraz interfejs `eth0.2` jako WAN. Zatem
 plik `/etc/config/network` powinien zostać przepisany do poniższej postaci:
@@ -172,4 +172,4 @@ W taki sposób po restarcie routera, wirtualny interfejs mostka ( `br-lan` ) pow
 interfejsy sieciowe `eth0.1` oraz `eth0.2` (łącznie 5 gniazdek zamiast standardowych 4). Możemy to
 zweryfikować przy pomocy narzędzia `brctl` :
 
-![]({{< baseurl >}}/img/2016/06/4.openwrt-wisp-tryb-sta-mostek.png#huge)
+![](/img/2016/06/4.openwrt-wisp-tryb-sta-mostek.png#huge)

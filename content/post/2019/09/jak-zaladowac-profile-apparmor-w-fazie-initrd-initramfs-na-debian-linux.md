@@ -148,12 +148,12 @@ praktycznie bezużyteczna i możemy ją sobie spokojnie wyłączyć:
 Teraz wystarczy już jedynie restartować komputer. Zaraz na samym początku powinniśmy zauważyć
 informację o ładowaniu profili AA:
 
-![]({{< baseurl >}}/img/2019/09/001-debian-linux-boot-apparmor-initrd-initramfs.jpg#huge)
+![](/img/2019/09/001-debian-linux-boot-apparmor-initrd-initramfs.jpg#huge)
 
 Po tym jak system się uruchomi, wpisujemy w terminal `aa-status` by sprawdzić czy profile zostały
 załadowane oraz czy interesujące nas usługi systemowe są chronione:
 
-![]({{< baseurl >}}/img/2019/09/002-debian-linux-apparmor-verify-profiles-load-initrd-initramfs.png#big)
+![](/img/2019/09/002-debian-linux-apparmor-verify-profiles-load-initrd-initramfs.png#big)
 
 Jak widać, zostało załadowanych nieco ponad 550 profili. Spośród wszystkich procesów aktualnie
 działających w systemie, 51 jest ograniczonych przez politykę AA (49 enforce i 2 complain). Warto

@@ -34,7 +34,7 @@ oprogramowania nie są w stanie się zmieścić na tak małej przestrzeni, wobec
 pendrive i tam lokują min. nowo instalowane pakiety.
 
 Jeśli korzystamy z [alternatywnego przygotowania
-nośnika]({{< baseurl >}}/post/jak-wgrac-system-live-na-uszkodzony-pendrive/) pod system live,
+nośnika](/post/jak-wgrac-system-live-na-uszkodzony-pendrive/) pod system live,
 możemy bez wahania utworzyć kolejną partycję. W przypadku gdy wypalamy obraz przy pomocy `dd` , za
 każdym razem gdy to robimy, będziemy tracić również i dane zgromadzone na tej drugiej partycji w
 wyniku nadpisania MBR. Ja się posłużę tym samym pendrive, który wykorzystywałem w przytoczonym
@@ -44,7 +44,7 @@ Nie będę opisywał tutaj jak stworzyć nową partycję przy pomocy `gparted`, 
 powinien umieć zrobić, nawet jeśli wymaga to skurczenia którejś z istniejących. Poniżej mamy już
 przygotowany odpowiedni układ partycji:
 
-![]({{< baseurl >}}/img/2015/06/1.gparted-persistence-live.png#big)
+![](/img/2015/06/1.gparted-persistence-live.png#big)
 
 W tym przypadku system live rezyduje na partycji drugiej. Na trzeciej zaś będzie persistence.
 Montujemy zatem tę trzecią partycję i tworzymy na niej plik `persistence.conf` :

@@ -76,12 +76,12 @@ Pamiętajmy by pobrać plik przeznaczony na ten konkretny model telefonu, który
 przypadku TP801A). Poniżej jest pełna specyfikacja wgranego oprogramowania oraz dokładne numery
 mojego smartfona:
 
-![]({{< baseurl >}}/img/2017/01/001.neffos-y5l-smartfon-tp-link-root-informacje-model.png#small)
+![](/img/2017/01/001.neffos-y5l-smartfon-tp-link-root-informacje-model.png#small)
 
 W paczce `.zip` z firmware, którą pobraliśmy, znajduje się plik `boot.img` . Musimy go wydobyć w
 celu wyodrębnienia pewnych plików i wgrania ich na portowany obraz `recovery.img` .
 
-![]({{< baseurl >}}/img/2017/01/002.neffos-y5l-smartfon-tp-link-root-obraz-boot.png#huge)
+![](/img/2017/01/002.neffos-y5l-smartfon-tp-link-root-obraz-boot.png#huge)
 
 ## Przepakowanie obrazu recovery.img
 
@@ -282,7 +282,7 @@ podczas odblokowywania jest inicjowany [factory reset][17]. Dane na karcie SD po
 By ten proces zainicjować zaczynamy od przestawienia jednej opcji w telefonie. W tym celu musimy
 udać się w Ustawienia => Opcje Programistyczne i tam przełączyć `Zdjęcie blokady OEM` :
 
-![]({{< baseurl >}}/img/2017/01/003.neffos-y5l-smartfon-tp-link-root-blokada-booloader.png#huge)
+![](/img/2017/01/003.neffos-y5l-smartfon-tp-link-root-blokada-booloader.png#huge)
 
 Następnie w terminalu wpisujemy poniższe polecenia:
 
@@ -367,14 +367,14 @@ Jak już ustalimy jakie partycje uwzględnimy w backup'ie, to przechodzimy do po
 wybieramy kartę SD oraz zaznaczamy odpowiednie obszary pamięci flash, tak jak to widać na poniższej
 fotce:
 
-![]({{< baseurl >}}/img/2017/01/004.neffos-y5l-smartfon-tp-link-root-backup-flash.png#huge)
+![](/img/2017/01/004.neffos-y5l-smartfon-tp-link-root-backup-flash.png#huge)
 
 W przypadku robienia pełnego backup'u, cały proces może zająć dłuższą chwilę. Po jego ukończeniu, na
 karcie SD pojawi się obraz flash'a, który możemy sprawdzić w `gdisk` lub `parted` :
 
-![]({{< baseurl >}}/img/2017/01/005.neffos-y5l-smartfon-tp-link-root-flash-gdisk.png#huge)
+![](/img/2017/01/005.neffos-y5l-smartfon-tp-link-root-flash-gdisk.png#huge)
 
-![]({{< baseurl >}}/img/2017/01/006.neffos-y5l-smartfon-tp-link-root-flash-parted.png#huge)
+![](/img/2017/01/006.neffos-y5l-smartfon-tp-link-root-flash-parted.png#huge)
 
 ## Wgranie obrazu recovery z TWRP na Neffos Y5L
 
@@ -406,7 +406,7 @@ wrzucamy ją w pobranej formie na kartę SD w telefonie. Odpalamy teraz tryb rec
 karcie SD. Tam z kolei zaznaczamy `ZIP signature verification` i przeciągamy trzy strzałki na prawą
 stronę.
 
-![]({{< baseurl >}}/img/2017/01/007.neffos-y5l-smartfon-tp-link-root-supersu-instalacja.png#huge)
+![](/img/2017/01/007.neffos-y5l-smartfon-tp-link-root-supersu-instalacja.png#huge)
 
 Teraz możemy uruchomić ponownie Neffos'a Y5L i zainstalować jakąś aplikację, która pokaże nam czy
 nasz smartfon ma root'a.
@@ -417,7 +417,7 @@ Po uruchomieniu się systemu na smartfonie, instalujemy aplikację [RootCheck][1
 uruchamiamy ją. Powinien się pojawić monit informujący, że ta aplikacja żąda praw administracyjnych,
 na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosowny komunikat:
 
-![]({{< baseurl >}}/img/2017/01/008.neffos-y5l-smartfon-tp-link-root-checkroot.png#big)
+![](/img/2017/01/008.neffos-y5l-smartfon-tp-link-root-checkroot.png#big)
 
 ### Instalacja BusyBOX
 
@@ -426,7 +426,7 @@ uruchomić i wcisnąć w niej przycisk `install` . BusyBOX również nas poprosi
 administracyjnych. Po zainstalowaniu, weryfikujemy jeszcze, czy aby wszystko zostało pomyślne
 wgrane. Możemy to zrobić zarówno w samej aplikacji BusyBOX, jak w CheckRoot:
 
-![]({{< baseurl >}}/img/2017/01/009.neffos-y5l-smartfon-tp-link-root-busybox.png#huge)
+![](/img/2017/01/009.neffos-y5l-smartfon-tp-link-root-busybox.png#huge)
 
 ### Instalacja terminala
 
@@ -444,7 +444,7 @@ systemie. Jako, że ja korzystam na co dzień z Debiana, to instaluję Termux'a.
 Teraz już pozostało nam tylko odpalenie terminala i zalogowanie się na użytkownika root. Do tego
 celu służy polecenie `su` . Wpiszmy je zatem w okienku Termux'a:
 
-![]({{< baseurl >}}/img/2017/01/010.neffos-y5l-smartfon-tp-link-root-termux-su.png#huge)
+![](/img/2017/01/010.neffos-y5l-smartfon-tp-link-root-termux-su.png#huge)
 
 I teraz możemy uruchamiać aplikacje z prawami admina, tak jak to zwykliśmy robić w każdym innym
 linux'ie. Pamiętajmy tylko, że standardowo system plików jest zamontowany w trybie tylko do odczytu
@@ -459,15 +459,15 @@ Gdy skończymy się bawić, to montujemy ten system plików ponownie w tryb RO:
     # mount -o remount,ro /system
 
 
-[1]: {{< baseurl >}}/post/android-root-smartfona-neffos-y5-od-tp-link/
-[2]: {{< baseurl >}}/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/
+[1]: /post/android-root-smartfona-neffos-y5-od-tp-link/
+[2]: /post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/
 [3]: https://developer.android.com/studio/command-line/adb.html
-[4]: {{< baseurl >}}/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/
-[5]: {{< baseurl >}}/post/android-root-smartfona-neffos-c5-max-od-tp-link/
-[6]: {{< baseurl >}}/post/android-root-smartfona-neffos-c5-max-od-tp-link/
+[4]: /post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/
+[5]: /post/android-root-smartfona-neffos-c5-max-od-tp-link/
+[6]: /post/android-root-smartfona-neffos-c5-max-od-tp-link/
 [7]: https://twrp.me/Devices/
 [8]: http://4pda.ru/forum/index.php?showtopic=738058&st=80#entry52106796
-[9]: {{< baseurl >}}/img/manual/recovery-neffos-y5l-tp-link-twrp.img
+[9]: /img/manual/recovery-neffos-y5l-tp-link-twrp.img
 [10]: http://www.neffos.com/en/support/download/Y5L
 [11]: https://github.com/codeworkx/abootimg
 [12]: https://github.com/ndrancs/AIK-Linux-x32-x64/
@@ -475,7 +475,7 @@ Gdy skończymy się bawić, to montujemy ten system plików ponownie w tryb RO:
 [14]: https://forum.xda-developers.com/showthread.php?t=1943625
 [15]: https://www.clockworkmod.com/
 [16]: https://twrp.me/
-[17]: {{< baseurl >}}/post/android-reset-ustawien-do-fabrycznych-factory-defaults/
+[17]: /post/android-reset-ustawien-do-fabrycznych-factory-defaults/
 [18]: https://forum.xda-developers.com/apps/supersu/stable-2016-09-01supersu-v2-78-release-t3452703
 [19]: https://play.google.com/store/apps/details?id=com.jrummyapps.rootchecker
 [20]: https://play.google.com/store/apps/details?id=stericson.busybox

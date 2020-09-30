@@ -16,7 +16,7 @@ title: Etykieta systemu plików i jej dostosowanie
 ---
 
 W poprzednim wpisie dostosowywaliśmy [zarezerwowane
-miejsce]({{< baseurl >}}/post/zarezerwowane-miejsce-w-systemie-plikow-ext4/) na określonych
+miejsce](/post/zarezerwowane-miejsce-w-systemie-plikow-ext4/) na określonych
 partycjach dla systemowych procesów. Okazuje się także, że zmiana etykiety systemu plików może
 przysporzyć wiele problemów początkującym użytkownikom linuxa. Choć jeśli chodzi akurat o nadawanie
 czy zmianę etykiet, to tutaj już mamy możliwość przeprowadzenia tej operacji z poziomu narzędzi GUI,
@@ -37,12 +37,12 @@ Na początek spróbujemy zmienić etykietę przy pomocy `gparted` . Odpalamy zat
 wybieramy pożądany dysk. Następnie klikamy prawym przyciskiem myszy na danej partycji i powinno nam
 się ukazać poniższe menu:
 
-![]({{< baseurl >}}/img/2015/06/1.etykieta-zmiana-gparted.png#big)
+![](/img/2015/06/1.etykieta-zmiana-gparted.png#big)
 
 Wybieramy `Label` (etykieta) i podajemy nazwę. Przy dokonywaniu zmian, zostanie nam wyrzucony ten
 poniższy komunikat:
 
-![]({{< baseurl >}}/img/2015/06/2.etykieta-zmiana-blad.png#big)
+![](/img/2015/06/2.etykieta-zmiana-blad.png#big)
 
 Informuje on nas, że dokonywanie zmian w partycjach zwykle kończy się utratą danych. Nie wiem czemu
 ten komunikat jest wyświetlany w przypadku operacji, które do niej nie prowadzą, a taką przecie jest

@@ -74,4 +74,4 @@ się na router i z poziomu konsoli wydajemy to poniższe polecenie:
 
 Jeśli maszyna została wyłączona za pomocą systemu operacyjnego, a nie przez odcięcie jej zasilania,
 to powinna zostać wybudzona. Jeśli się tak nie dzieje, to być może [karta sieciowa ma wyłączoną
-obsługę WOL]({{< baseurl >}}/post/wylaczenie-wol-w-karcie-sieciowej/).
+obsługę WOL](/post/wylaczenie-wol-w-karcie-sieciowej/).

@@ -14,7 +14,7 @@ title: Zaszyfrowana przestrzeń wymiany SWAP
 ---
 
 Opisując mechanizm szyfrowania katalogu domowego przy pomocy [narzędzia
-encfs]({{< baseurl >}}/post/szyfrowanie-katalogu-home-przy-pomocy-encfs/) , wspomniałem o
+encfs](/post/szyfrowanie-katalogu-home-przy-pomocy-encfs/) , wspomniałem o
 problemie jaki powstaje przy jednoczesnym braku szyfrowania przestrzeni wymiany SWAP. Oczywiście,
 jeśli posiadamy w systemie dużą ilość pamięci RAM, to raczej nie potrzebna nam jest przestrzeń
 wymiany. Podobnie sprawa ma się w przypadku, gdy nie korzystamy z hibernacji. Natomiast, jeśli jedna

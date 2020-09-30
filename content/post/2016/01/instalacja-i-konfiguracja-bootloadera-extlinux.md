@@ -49,9 +49,9 @@ potrzebujemy jeszcze odpowiednich narzędzi i w debianie są one w tych poniższ
 
 Na wypadek gdyby coś poszło nie tak przy wgrywaniu kodu bootloader'a, dobrze jest sobie zrobić kopię
 całego MBR, a najlepiej to przeczytać sobie wpis dotyczący [MBR, EBR i tablicy
-partycji]({{< baseurl >}}/post/mbr-ebr-i-tablica-partycji-dysku-twardego/) oraz artykuł opisujący
+partycji](/post/mbr-ebr-i-tablica-partycji-dysku-twardego/) oraz artykuł opisujący
 [jak powinna wyglądać kopia struktury dysku
-twardego]({{< baseurl >}}/post/kopia-struktury-dysku-twardego/), tak by w przyszłości uniknąć
+twardego](/post/kopia-struktury-dysku-twardego/), tak by w przyszłości uniknąć
 wszelkich problemów wynikających z jej uszkodzenia. W ogromnym skrócie, sprowadza się to do wydania
 tego poniższego polecenia:
 

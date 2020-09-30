@@ -31,7 +31,7 @@ Firefox'ie mamy możliwość dostosowania szeregu opcji, w tym też tych wszystk
 i nie powinno to sprawić większego problemu, bo wystarczy wejść w Preferences -> Privacy i rzucić
 okiem na te poniższe opcje:
 
-![]({{< baseurl >}}/img/2015/10/1.opcje-firefox-profil.png#huge)
+![](/img/2015/10/1.opcje-firefox-profil.png#huge)
 
 Mamy możliwość skonfigurowania przeglądarki tak by nie akceptowała ciasteczek, czy też nie
 zapisywała historii i całej masy innych rzeczy ale to powoduje, że w większości przypadków tego
@@ -43,14 +43,14 @@ problemu sobie dostosować i tak w jednym profilu możemy włączyć historię o
 drugim ją wyłączyć.
 
 Poza opcjami prywatności wymienionymi powyżej, możemy także niezależnie konfigurować wtyczki, np.
-[flash]({{< baseurl >}}/post/konfiguracja-wtyczki-flash-na-linuxie-mms-cfg/), czy też wszelkie
+[flash](/post/konfiguracja-wtyczki-flash-na-linuxie-mms-cfg/), czy też wszelkie
 inne ustawienia udostępniane przez
-[about:config]({{< baseurl >}}/post/usuwanie-wpisow-z-aboutconfig-w-firefoxie/) . Wobec czego
+[about:config](/post/usuwanie-wpisow-z-aboutconfig-w-firefoxie/) . Wobec czego
 możemy posiadać w pełni funkcjonalny profil pod sieć TOR z uwzględnieniem konfiguracji PROXY i
 wyłączeniem wszystkich wtyczek, a jednocześnie możemy mieć osobny profil na różne konta email,
 serwisy społecznościowe czy też porno. Gdy do tego dorzucimy jeszcze [profil
-apparmor'a]({{< baseurl >}}/post/apparmor-profilowanie-aplikacji/) lub/i [kontener TrueCrypt czy
-też LUKS]({{< baseurl >}}/post/przejscie-z-truecrypt-na-luks/), możemy kompletnie odseparować od
+apparmor'a](/post/apparmor-profilowanie-aplikacji/) lub/i [kontener TrueCrypt czy
+też LUKS](/post/przejscie-z-truecrypt-na-luks/), możemy kompletnie odseparować od
 siebie pewne aspekty naszego życia internetowego. W ten sposób możemy uchronić się przed ciągłym
 zmienianiem i dostosowywaniem opcji, które mogą przyczynić się do przecieków informacyjnych.
 
@@ -60,7 +60,7 @@ Pliki profili Firefox'a na linux'ie są zlokalizowane w katalogu `~/.mozilla/fir
 od tego ile mamy profili, tyle będzie katalogów -- jeden na każdy profil. Wygląda to mniej więcej
 tak:
 
-![]({{< baseurl >}}/img/2015/10/2.katalog-profil-firefox.png#small)
+![](/img/2015/10/2.katalog-profil-firefox.png#small)
 
 Poza katalogami o dziwacznych nazwach, widzimy także plik `profiles.ini` . To w nim są zawarte
 [informacje identyfikujące konkretny profil](http://kb.mozillazine.org/Profiles.ini_file). Poniżej
@@ -96,16 +96,16 @@ Niżej zaś są wyjaśnione wykorzystane w nim opcje.:
 Tworzenie profili jest bardzo proste i sprowadza się do odpalenia w terminalu Firefox'a z parametrem
 `--ProfileManager` . Spowoduje to pojawienie się tego poniższego okienka:
 
-![]({{< baseurl >}}/img/2015/10/3.tworzenie-profil-firefox.png#medium)
+![](/img/2015/10/3.tworzenie-profil-firefox.png#medium)
 
 Klikamy na przycisk `Create Profile` i dodajemy tyle profili ile potrzebujemy. W każdym z nich
 możemy określić nazwę oraz katalog:
 
-![]({{< baseurl >}}/img/2015/10/5.wybor-profil-firefox.png#medium)
+![](/img/2015/10/5.wybor-profil-firefox.png#medium)
 
 Po skończonej robocie, powinniśmy mieć na liście kilka profili:
 
-![]({{< baseurl >}}/img/2015/10/4.zmiana-nazwy-profil-firefox.png#big)
+![](/img/2015/10/4.zmiana-nazwy-profil-firefox.png#big)
 
 Pamiętajmy też by odznaczyć pozycję `Use the selected profile without asking at startup` . W
 przeciwnym wypadku, ostatnio użyty profil będzie wykorzystywany jako domyślny.

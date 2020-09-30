@@ -25,7 +25,7 @@ a dla innych za długi. Postaramy się więc go dostosować.
 Przede wszystkim, każda strona, post czy załączniki mają opcję przeniesienia do kosza, co wygląda
 mniej więcej tak:
 
-![]({{< baseurl >}}/img/2015/06/1.wordpress-kosz.png#small)
+![](/img/2015/06/1.wordpress-kosz.png#small)
 
 Po tej czynności, wszystkie posty, które usuniemy, trafią do koszta. To jest swojego rodzaju
 zabezpieczenie mające ochraniać nas przed przypadkowym skasowaniem sobie ważnego kontentu. W każdym

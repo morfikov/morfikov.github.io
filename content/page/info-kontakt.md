@@ -102,7 +102,7 @@ sposób, praktycznie każda zmiana podczas tworzenia wpisu jest rejestrowana. Ca
 więcej tak jak na tej fotce
 poniżej:
 
-![]({{< baseurl >}}/img/2015/05/1.diff-art.png#huge)
+![](/img/2015/05/1.diff-art.png#huge)
 
 Tylko w taki sposób jestem w stanie udowodnić, że dany artykuł wyszedł spod mojej klawiatury, czyli,
 że to ja go napisałem.

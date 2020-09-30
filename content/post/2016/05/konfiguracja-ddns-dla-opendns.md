@@ -21,7 +21,7 @@ zaczęli korzystać z IPv6. Niemniej jednak, by te wszystkie nasze maszyny podł
 potrzebne nam są prywatne adresy IP + NAT lub też dynamicznie zmieniające się adresy publiczne.
 Bywają też przypadki, że mamy przydzielane dynamicznie adresy z puli prywatnej, np. w wyniku dbania
 o prywatność w sieciach WiFi przez [generowanie sobie przy każdym połączeniu losowego adresu
-MAC]({{< baseurl >}}/post/jak-przypisac-losowy-adres-mac-interfejsu/). Zwykle w takiej sytuacji
+MAC](/post/jak-przypisac-losowy-adres-mac-interfejsu/). Zwykle w takiej sytuacji
 zmienia nam się adres zewnętrzny (publiczny), który wskazuje na jeden z adresów naszego ISP. Taki
 zmieniający się adres powoduje problemy przy konfiguracji poszczególnych usług sieciowych, np. gdy w
 grę wchodzi konfiguracja filtra DNS, który jest zapewniany przez OpenDNS. By tego typu niedogodności
@@ -37,11 +37,11 @@ Przed czytaniem dalszej części tego wpisu, przydałoby się posiadać już kon
 sprawić problemów, zatem nie będziemy tutaj tego procesu opisywać. To co nas interesuje, to aktualny
 adres IP, który zostanie nam zwrócony tuż po zalogowaniu się. W tym przypadku mamy:
 
-![]({{< baseurl >}}/img/2016/05/1.ddns-opendns.png#huge)
+![](/img/2016/05/1.ddns-opendns.png#huge)
 
 Niemniej jednak, jeśli przejdziemy na zakładkę SETTINGS, to figuruje tam poniższa sieć:
 
-![]({{< baseurl >}}/img/2016/05/2.ddns-opendns.png#huge)
+![](/img/2016/05/2.ddns-opendns.png#huge)
 
 Widzimy na powyższym obrazku dwa adresy IP. Ten na górze jest aktualnie przydzielony w konfiguracji,
 zaś ten na dole został automatycznie wykryty prze OpenDNS. Nie pasują one do siebie i w tym cały
@@ -120,7 +120,7 @@ Wracamy teraz do panelu dostępnego na stronie OpenDNS. Wybieramy kolejno zakła
 sieć oraz z menu po lewej stronie "Advanced Settings". Zaznaczamy tutaj opcję: `Enable dynamic IP
 update ` :
 
-![]({{< baseurl >}}/img/2016/05/3.ddns-opendns.png#huge)
+![](/img/2016/05/3.ddns-opendns.png#huge)
 
 Sprawdzamy teraz całą konfigurację poniższym poleceniem:
 
@@ -128,13 +128,13 @@ Sprawdzamy teraz całą konfigurację poniższym poleceniem:
 
 W terminalu powinien się pojawić dość obszerny komunikat, a w logu ta oto poniższa wiadomość:
 
-![]({{< baseurl >}}/img/2016/05/5.ddns-opendns.png#huge)
+![](/img/2016/05/5.ddns-opendns.png#huge)
 
 Jeśli adres IP uległ zmianie, tak jak to możemy zaobserwować na powyższym obrazku, oznacza, to, że
 wszystko działa jak należy. Możemy także przejść na stronę OpenDNS i sprawdzić czy tam w
 konfiguracji jest uwzględniony nowy adres IP:
 
-![]({{< baseurl >}}/img/2016/05/4.ddns-opendns.png#big)
+![](/img/2016/05/4.ddns-opendns.png#big)
 
 ## DNS-O-Matic od OpenDNS
 
@@ -143,15 +143,15 @@ zaprzęgnąć do pracy z [DNS-O-Matic](http://www.dnsomatic.com/) od OpenDNS. Wy
 DDNS, tego samego co wyżej sobie skonfigurowaliśmy, z tą różnicą, że upraszcza nieco zarządzanie
 usługami. Operowanie na DNS-O-Matic sprowadza się do dodania odpowiedniej usługi:
 
-![]({{< baseurl >}}/img/2016/05/6.ddns-ddclient-dns-o-matic.png#big)
+![](/img/2016/05/6.ddns-ddclient-dns-o-matic.png#big)
 
 Następnie konfigurujemy sobie tą usługę. W tym przypadku dodałem OpenDNS:
 
-![]({{< baseurl >}}/img/2016/05/7.ddns-ddclient-dns-o-matic.png#big)
+![](/img/2016/05/7.ddns-ddclient-dns-o-matic.png#big)
 
 Po skonfigurowaniu, usługa powinna oczekiwać na pierwszy update:
 
-![]({{< baseurl >}}/img/2016/05/8.ddns-ddclient-dns-o-matic.png#big)
+![](/img/2016/05/8.ddns-ddclient-dns-o-matic.png#big)
 
 W tej chwili musimy nieco zmienić konfigurację klienta `ddclient` w pliku `/etc/ddclient.conf`.
 Przepisujemy ją do poniższej postaci:
@@ -178,4 +178,4 @@ I ponownie testujemy czy aby ustawienia są poprawne przy pomocy poniższego pol
 
 Jeśli połączenie zakończy się sukcesem, to na stronie powinniśmy ujrzeć poniższy komunikat:
 
-![]({{< baseurl >}}/img/2016/05/9.ddns-ddclient-dns-o-matic.png#big)
+![](/img/2016/05/9.ddns-ddclient-dns-o-matic.png#big)

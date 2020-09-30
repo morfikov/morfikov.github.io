@@ -39,7 +39,7 @@ Jeśli chodzi o nieco bardziej zaawansowane uzupełnianie poleceń, to po wpisan
 przyciśnięciu klawisza `Tab` , zostanie nam zwrócony szereg opcji, jakie możemy dopisać w argumencie
 dla tego polecenia. Wygląda to mniej więcej tak:
 
-![]({{< baseurl >}}/img/2015/11/1.bash-completion-uzupelnianie-nazw-polecen.png#huge)
+![](/img/2015/11/1.bash-completion-uzupelnianie-nazw-polecen.png#huge)
 
 Mało tego, po określeniu parametru, możemy znów przycisnąć klawisz `Tab` dwa razy i w ten sposób
 będziemy wiedzieć jakiego formatu danych oczekuje konkretna opcja tego polecenia. W powyższym

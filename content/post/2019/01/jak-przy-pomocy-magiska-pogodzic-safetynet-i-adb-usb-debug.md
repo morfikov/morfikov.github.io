@@ -199,4 +199,4 @@ usunięty. Dlatego też dobrze jest mieć aktualną jego wersję na flash'u smar
 Teraz już w zasadzie pozostaje nam do sprawdzenia czy nasz smartfon przechodzi testy SafetyNet. I
 jak można zobaczyć na poniższej fotce, mój telefon radzi sobie z tym zadaniem całkiem nieźle.
 
-![]({{< baseurl >}}/img/2019/01/001-magisk-safetynet-check-adb-usb-debug.png#medium).
+![](/img/2019/01/001-magisk-safetynet-check-adb-usb-debug.png#medium).

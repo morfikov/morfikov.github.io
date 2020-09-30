@@ -16,7 +16,7 @@ title: Losowy adres MAC dla WAN w OpenWRT
 
 Na dużych dystrybucjach linux'a adres MAC można zmienić bez problemu. Podobnie sprawa ma się w
 przypadku [automatycznego generowania takiego adresu
-MAC]({{< baseurl >}}/post/jak-przypisac-losowy-adres-mac-interfejsu/) za każdym razem, gdy chcemy
+MAC](/post/jak-przypisac-losowy-adres-mac-interfejsu/) za każdym razem, gdy chcemy
 nawiązać połączenie z internetem. W OpenWRT rozwiązanie tego zadania nie jest tak oczywiste jak, np.
 na debianie, ale też znowu nie jest niemożliwe. W repozytorium OpenWRT mamy dostępny pakiet
 `macchanger` . Niemniej jednak, w przypadku routerów o małych pamięciach flash, instalowanie
@@ -28,7 +28,7 @@ zadanie postaramy się zrealizować w tym artykule.
 ## Skrypt startowy generujący losowy adres MAC
 
 Przede wszystkim, potrzebny nam jest [skrypt startowy
-init]({{< baseurl >}}/post/skrypty-startowe-init-w-openwrt/). Ten skrypt będzie zawierał dwie
+init](/post/skrypty-startowe-init-w-openwrt/). Ten skrypt będzie zawierał dwie
 sekcje: `boot() {}` oraz `start() {}` . W pierwszej z nich będą zawarte instrukcje wywoływane na
 starcie routera. W drugiej zaś akcje, które będzie można wywołać w dowolnym innym czasie. Tworzymy
 zatem plik `/etc/init.d/mac-random` i wrzucamy do niego tę poniższą zawartość:

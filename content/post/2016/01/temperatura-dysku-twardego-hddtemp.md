@@ -114,7 +114,7 @@ odpowiednie opcje od temperatury dysku. Wymagana jest jednak poprawna konfigurac
 jego pliku konfiguracyjnego dopisać `${hddtemp /dev/sda}˚C` . Temperatura dysku w conky prezentuje
 się mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/01/1.conky-hddtemp-temperatura-dysku.png#small)
+![](/img/2016/01/1.conky-hddtemp-temperatura-dysku.png#small)
 
 ### Monitorowanie temperatury w monitorix
 
@@ -137,10 +137,10 @@ sekcji grafów ( `graph_enable` ) i włączamy `hddtemp` , przykładowo:
           ...
 
 Zapisujemy zmiany i restartujemy usługę. Monitor systemu jest dostępny z poziomu przeglądarki
-internetowej pod adresem `{{< baseurl >}}:8080/monitorix/` . Wykres temperatury wygląda mniej
+internetowej pod adresem `:8080/monitorix/` . Wykres temperatury wygląda mniej
 więcej tak:
 
-![]({{< baseurl >}}/img/2016/01/2.hddtemp-temperatura-monitoring-monitorix.png#huge)
+![](/img/2016/01/2.hddtemp-temperatura-monitoring-monitorix.png#huge)
 
 Obserwując go możemy w bardzo prosty sposób wywnioskować czy dyski w naszych komputerach mogą ulec
 przegrzaniu w wyniki zbyt wysokiej temperatury i czy już najwyższy czas, by rozkręcić laptopa i go
@@ -152,4 +152,4 @@ nieco przeczyścić.
 [3]: https://manpages.ubuntu.com/manpages/wily/en/man8/hddtemp.8.html
 [4]: https://github.com/brndnmtthws/conky
 [5]: http://www.monitorix.org/
-[6]: {{< baseurl >}}/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/
+[6]: /post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/

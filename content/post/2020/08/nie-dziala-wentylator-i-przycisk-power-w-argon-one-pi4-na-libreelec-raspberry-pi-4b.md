@@ -64,28 +64,28 @@ możemy wgrać przechodząc kolejno do `Dodatki` (Addons) > `Zainstaluj z repozy
 Repository) > `LibreELEC Add-ons` > `Programy` (Program Addons), tak jak to zostało zobrazowane na
 poniższych fotkach:
 
-![]({{< baseurl >}}/img/2020/08/001-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
+![](/img/2020/08/001-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/002-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
+![](/img/2020/08/002-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/003-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
+![](/img/2020/08/003-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/004-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
+![](/img/2020/08/004-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/005-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
+![](/img/2020/08/005-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/006-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
+![](/img/2020/08/006-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/007-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
+![](/img/2020/08/007-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/008-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
+![](/img/2020/08/008-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png#huge)
 
 Następnie musimy pobrać nieco [zmieniony skrypt producenta obudowy][5]. W tym przypadku należy
 wpisać w terminalu na Raspberry Pi 4B to poniższe polecenie:
 
     LibreELEC:~ # curl https://download.argon40.com/argonone-setup-libreelec.sh | bash
 
-![]({{< baseurl >}}/img/2020/08/009-argon-one-pi4-raspberry-pi-libreelec-script-exec-config.png#huge)
+![](/img/2020/08/009-argon-one-pi4-raspberry-pi-libreelec-script-exec-config.png#huge)
 
 Uruchomienie skryptu `argonone-setup-libreelec.sh` powoduje utworzenie szeregu plików w katalogu
 `/storage/` . W ten sposób w tym folderze pojawi się skrypt `argonone-config` , przy pomocy którego
@@ -234,7 +234,7 @@ By otrzymać wynik w °C, trzeba tę powyższą wartość podzielić przez 1000.
 
 Temperaturę CPU naszej maliny możemy także sprawdzić w Kodi:
 
-![]({{< baseurl >}}/img/2020/08/010-argon-one-pi4-raspberry-pi-libreelec-kodi-status-temp.png#huge)
+![](/img/2020/08/010-argon-one-pi4-raspberry-pi-libreelec-kodi-status-temp.png#huge)
 
 ## Podsumowanie
 

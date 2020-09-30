@@ -22,14 +22,14 @@ są usuwane blokując tym samym wszelkie nowe próby połączenia ale nie odcina
 ustanowionych już połączeń. Ten wpis ma jedynie na celu zaprezentowanie narzędzia `knockd` .
 Niemniej jednak, jest ono już przestarzałe i powinno się od niego odchodzić na rzecz [Single Packet
 Authorization, czyli alternatywnego port
-knocking'u]({{< baseurl >}}/post/port-knocking-i-single-packet-authorization/).
+knocking'u](/post/port-knocking-i-single-packet-authorization/).
 
 <!--more-->
 ## Konfiguracja demona knockd
 
 Załóżmy, że mamy zdalny dostęp do serwera za pomocą shell'a. Port, który zostałby tradycyjnie
 odblokowany na zaporze to 22. Musimy ten wyjątek usunąć ze [skryptu
-firewall'a]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/). Następnie, by móc
+firewall'a](/post/firewall-na-linuxowe-maszyny-klienckie/). Następnie, by móc
 korzystać z dobrodziejstw jakie oferuje port knocking, na serwerze instalujemy pakiet `knockd` .
 Mając już ten pakiet w systemie, przechodzimy do edycji pliku `/etc/knockd.conf` . Definiujemy w
 nim te poniższe bloki:
@@ -99,7 +99,7 @@ Korzystanie z port knocking'u w wykonaniu `knockd` ma jedną ale za to ogromną 
 można podsłuchać sekwencję portów. A jeśli ktoś będzie ją znał, to jego adres IP zostanie dopisany
 jako zaufany do filtra iptables. Możemy się na tę okoliczność zabezpieczyć wykorzystując mechanizm
 ochrony jaki oferują [pliki hosts.allow i
-hosts.deny]({{< baseurl >}}/post/pliki-hosts-allow-i-hosts-deny/) . W takim przypadku, jeśli
+hosts.deny](/post/pliki-hosts-allow-i-hosts-deny/) . W takim przypadku, jeśli
 osobie próbującej uzyskać dostęp do serwera udałoby się obejść firewall i złamać hasło do konta
 shell'owego, to podczas łączenia do demona SSH zobaczy jedynie ten poniższy komunikat:
 

@@ -122,7 +122,7 @@ polecenie:
 Po zresetowaniu systemu czy też samego środowiska graficznego, nasz ekran powinien przybrać nieco
 cieplejsze barwy. Trochę to wygląda jakbyśmy używali komputera na Marsie (fotka ze strony projektu):
 
-![]({{< baseurl >}}/img/2017/01/001.redshift-wyswietlacz-laptop-komputer-efekt.png#huge)
+![](/img/2017/01/001.redshift-wyswietlacz-laptop-komputer-efekt.png#huge)
 
 ## Notyfikacje
 

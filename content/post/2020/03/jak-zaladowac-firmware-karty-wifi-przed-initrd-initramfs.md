@@ -159,4 +159,4 @@ podebrać automatycznie i załadować. W przypadku gdyby się tak nie stało to 
 wkompilowanie firmware bezpośrednio w kernel.
 
 
-[1]: {{< baseurl >}}/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/
+[1]: /post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/

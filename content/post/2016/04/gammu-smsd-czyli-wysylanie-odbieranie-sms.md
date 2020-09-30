@@ -51,7 +51,7 @@ interfejsów, które są obecne w katalogu `/dev/` , np. `ttyUSB0` , `ttyUSB1` ,
 w przypadku podpięcia do komputera większej liczby urządzeń, takich jak modemy czy telefony
 komórkowe, te nazwy mogą ulec zmianie. Nie możemy do takiej sytuacji dopuścić i musimy zatroszczyć
 się o stałość tych nazw. [Możemy to osiągnąć, np. za pomocą reguł
-udev'a]({{< baseurl >}}/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/). W taki sposób można
+udev'a](/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/). W taki sposób można
 stworzyć link do interfejsu modemu i to go wykorzystywać w konfiguracji. Po szczegóły odsyłam do
 podlinkowanego wpisu. Tak czy inaczej, po edycji pliku usługi dla systemd, musimy przeładować
 konfigurację w poniższy sposób:
@@ -157,7 +157,7 @@ SIM, która jest aktualnie w modemie. Jeśli wszystko pójdzie zgodnie z planem,
 powinien zalogować odpowiedni komunikat, jak i odebraną wiadomość posłać pod wskazany numer. Wyszło
 to mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/04/1.gammu-smsd-modem-sms-linux.png#huge)
+![](/img/2016/04/1.gammu-smsd-modem-sms-linux.png#huge)
 
 Jak widać, wiadomość została odebrana. Po chwili skrypt został wykonany i komunikat został posłany
 na telefon.

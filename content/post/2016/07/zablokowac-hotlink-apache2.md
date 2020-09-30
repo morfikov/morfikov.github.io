@@ -33,7 +33,7 @@ obrębie jego plików. Tak czy inaczej, musimy dodać tę poniższą zwrotkę:
     ...
         <IfModule mod_rewrite.c>
             RewriteEngine On
-            RewriteCond %{HTTP_REFERER} !^{{< baseurl >}}/post/ [NC]
+            RewriteCond %{HTTP_REFERER} !^/post/ [NC]
             RewriteCond %{HTTP_REFERER} !^$
             RewriteRule .*\.(jpg|jpeg|png|gif|ico|css|js)$ http://www.domena.pl/obrazek.jpg [L]
         </IfModule>

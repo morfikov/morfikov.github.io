@@ -63,7 +63,7 @@ interfejsach sieciowych, do których będą napływać pakiety. To nim również
 gwarantowane limity łącza, oraz jak dużo pasma może zapożyczyć sobie dana kolejka. Jednak samo
 stworzenie kolejek nic nam nie da, pakiety trzeba jakoś do nich przekierować i tu możemy skorzystać
 z filtra oferowanego przez `tc` , oznaczać pakiety za pomocą
-[firewall'a]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/) lub też zaciągnąć do
+[firewall'a](/post/firewall-na-linuxowe-maszyny-klienckie/) lub też zaciągnąć do
 tego celu cgroups. Należy pamiętać przy tym, że cgroups może oznaczać tylko (chyba) pakiety
 wychodzące i nie da rady go użyć na ruchu skierowanym do naszej maszyny.
 
@@ -115,13 +115,13 @@ Mając kolejki, możemy przejść do przekierowania pakietów przy pomocy odpowi
 To co zasługuje na uwagę, to `--set-class` . Wartość tego parametru musi pasować do wartości
 `classid` w `tc` , który ustawiliśmy wyżej. Poniżej przykład działania:
 
-![]({{< baseurl >}}/img/2015/12/1.ksztaltowanie-ruchu-sieciowego-classify-iptables.png#huge)
+![](/img/2015/12/1.ksztaltowanie-ruchu-sieciowego-classify-iptables.png#huge)
 
 ### Cgroups
 
 Systemd robi przyzwoity użytek z cgroups. Cgroups również możemy wykorzystać do kierowania ruchu do
 odpowiednich kolejek. [O samej konfiguracji cgroups pisałem nieco w tym
-wpisie]({{< baseurl >}}/post/ograniczanie-zasobow-procesom-przez-cgroups/) i sporo informacji tam
+wpisie](/post/ograniczanie-zasobow-procesom-przez-cgroups/) i sporo informacji tam
 zawartych przyda się nam tutaj.
 
 #### Kształtowanie ruchu w systemd
@@ -212,12 +212,12 @@ Nie potrzebujemy żadnych wpisów w `iptables` , bo wszystko jest zarządzane pr
 połączeniu z `tc` . Warto nadmienić, że wartość w `handle 200 cgroup` ma odpowiadać tej określonej
 w pliku `/etc/cgconfig.conf` (0x0001**0200**). Poniżej zaś test:
 
-![]({{< baseurl >}}/img/2015/12/2.ksztaltowanie-ruchu-sieciowego-cgroups.png#huge)
+![](/img/2015/12/2.ksztaltowanie-ruchu-sieciowego-cgroups.png#huge)
 
 ## Interfejsy IMQ
 
 Dokładny opis na temat tego [jak aktywować interfejsy IMQ oraz jak przy ich pomocy ograniczyć i
-kształtować ruch]({{< baseurl >}}/post/konfiguracja-interfejsow-imq-w-linuxie/) zostały opisane w
+kształtować ruch](/post/konfiguracja-interfejsow-imq-w-linuxie/) zostały opisane w
 osobnym artykule. Ten mechanizm nie jest już wspierany przez kernel i iptables i bez rekompilacji
 tych pakietów niestety się nie obejdzie. Niemniej jednak, niewątpliwą zaletą interfejsów IMQ jest
 możliwość bezproblemowego kształtowania ruchu w obu kierunkach.
@@ -226,7 +226,7 @@ możliwość bezproblemowego kształtowania ruchu w obu kierunkach.
 
 Jeśli nie odpowiada nam za bardzo zabawa z kompilacją kernela i iptables, a przy tym chcemy
 kontrolować pakiety w obu kierunkach, to możemy skorzystać z natywnego rozwiązania oferowanego przez
-kernel, czyli [interfejsów IFB]({{< baseurl >}}/post/konfiguracja-interfejsow-ifb-w-linuxie/).
+kernel, czyli [interfejsów IFB](/post/konfiguracja-interfejsow-ifb-w-linuxie/).
 
 ## Quantum oraz r2q
 

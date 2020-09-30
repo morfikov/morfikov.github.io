@@ -73,9 +73,9 @@ dobrze jest w tym momencie uruchomić router ponownie.
 
 ## Skrypt startowy
 
-Musimy także utworzyć [skrypt startowy]({{< baseurl >}}/post/skrypty-startowe-init-w-openwrt/).
+Musimy także utworzyć [skrypt startowy](/post/skrypty-startowe-init-w-openwrt/).
 Taki skrypt będzie miał za zadanie tworzyć odpowiednie kolejki i [oznaczać stosownie pakiety przy
-pomocy target MARK]({{< baseurl >}}/post/target-mark-w-iptables/). Na podstawie nałożonych
+pomocy target MARK](/post/target-mark-w-iptables/). Na podstawie nałożonych
 markerów, pakiety będą kierowane do swoich kolejek. W tym przypadku szkielet skryptu init będzie
 wyglądał następująco:
 
@@ -329,14 +329,14 @@ Przydałoby się jeszcze na własne oczy zobaczyć czy QoS działa. Odpaliłem z
 do pobierania kilka obrazów z linux'ami. Po chwili transfer osiągnął szczyt możliwości mojego łącza
 i powstałe w ten sposób opóźnienia zostały zobrazowane na fotce poniżej:
 
-![]({{< baseurl >}}/img/2016/05/1.kontrola-ruchu-openwrt-router-tc-iptables-qos.png#huge)
+![](/img/2016/05/1.kontrola-ruchu-openwrt-router-tc-iptables-qos.png#huge)
 
 Pierwsze okienko pokazuje aktualne wykorzystanie łącza. Na drugim zaś widać statystyki pingu. W
 ostatnim, po SSH zaaplikowaliśmy wyżej stworzony skrypt. Pingi wyraźnie spadły. Wynik mówi raczej
 sam za siebie. Odpalmy teraz jakiś filmik na YouTube i sprawdźmy jak wyglądają kolejki na
 interfejsach:
 
-![]({{< baseurl >}}/img/2016/05/2.kontrola-ruchu-openwrt-router-tc-iptables-qos.png#huge)
+![](/img/2016/05/2.kontrola-ruchu-openwrt-router-tc-iptables-qos.png#huge)
 
 Ruch z sieci P2P idzie na domyślną kolejkę na obu interfejsach (:600). Natomiast ruch www idzie na
 kolejkę :200. Każda z tych kolejek wykorzystuje ponad 100% swojego przydziału. Jest to dozwolone i w

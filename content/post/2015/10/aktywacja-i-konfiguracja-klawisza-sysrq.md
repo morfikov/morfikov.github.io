@@ -32,7 +32,7 @@ L-Alt . Mając wciśnięte te dwa klawisze jednocześnie, można w końcu przyci
 kombinacja nakaże kernelowi by wykonał jakąś określoną operację.
 
 Przy pomocy L-Alt-SysRq-S możemy zażądać wykonania polecenia `sync` , który zapisze wszystkie [dirty
-pages]({{< baseurl >}}/post/ram-cache-i-dirty-pages/), które rezydują w pamięci operacyjnej RAM,
+pages](/post/ram-cache-i-dirty-pages/), które rezydują w pamięci operacyjnej RAM,
 na dysk. Przy pomocy L-Alt-SysRq-U możemy przemontować wszystkie partycje w tryb tylko do odczytu.
 Te dwa polecenia dbają o zabezpieczenie systemu plików. Inna użyteczna kombinacja to L-Alt-SysRq-B ,
 który resetuje system. W taki oto sposób możemy bezpiecznie zrestartować komputer. Oczywiście takich

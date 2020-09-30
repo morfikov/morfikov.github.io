@@ -56,12 +56,12 @@ Na smartfonie musimy włączyć z kolei `Debugowanie USB` . Możemy to uczynić 
 gdzie na samym dole mamy pozycję `Informacje o telefonie` . Tam z kolei (również na dole) mamy
 informację dotyczącą numeru kompilacji:
 
-![]({{< baseurl >}}/img/2016/10/1.adb-informacje-telefon-smartfon-linux.png#medium)
+![](/img/2016/10/1.adb-informacje-telefon-smartfon-linux.png#medium)
 
 Musimy stuknąć w ten numerek siedem razy. Dopiero wtedy w ustawieniach telefonu pojawi się pozycja
 `Opcje programistyczne` , w których to będziemy mogli zaznaczyć szukany tryb debugowania USB:
 
-![]({{< baseurl >}}/img/2016/10/2.adb-telefon-smartfon-debug-usb-linux.png#huge)
+![](/img/2016/10/2.adb-telefon-smartfon-debug-usb-linux.png#huge)
 
 Teraz możemy podłączyć telefon do komputera i sprawdzić czy zostanie on rozpoznany przez naszego
 linux'a. Mój Neffos C5 z początku nie został rozpoznany:
@@ -93,7 +93,7 @@ pomocą przewodu, te dwa urządzenia będą parowane automatycznie. Oczywiście 
 telefonie musimy dodać informację o kluczu publicznym, którym identyfikuje się komputer. Klucz jest
 zaś w katalogu `~/.android/` :
 
-![]({{< baseurl >}}/img/2016/10/3.adb-telefon-smartfon-parowanie-linux.png#medium)
+![](/img/2016/10/3.adb-telefon-smartfon-parowanie-linux.png#medium)
 
 Po zweryfikowaniu klucza publicznego komputera, możemy ponownie wpisać w terminalu polecenie `adb
 devices` i tym razem już powinniśmy ujrzeć na liście nasz smartfon:

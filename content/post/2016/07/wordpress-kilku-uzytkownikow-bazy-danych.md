@@ -44,7 +44,7 @@ administratorom. Jak zatem rozgraniczyć żądania przesyłane do bazy przez pos
 użytkowników?
 
 Jednym z rozwiązań może być [ochrona katalogu wp-config i pliku wp-login.php przy pomocy
-certyfikatów klienckich]({{< baseurl >}}/post/certyfikat-chroniacy-wp-login-php-wp-admin/). W ten
+certyfikatów klienckich](/post/certyfikat-chroniacy-wp-login-php-wp-admin/). W ten
 sposób możemy rozgraniczyć zapytania poszczególnych użytkowników, bo identyfikują się oni
 konkretnymi certyfikatami. Następnie w pliku `wp-config.php` możemy dorobić poszczególne warunki,
 które będą się odnosić do informacji zawartych w certyfikatach przedstawianych przez klientów.

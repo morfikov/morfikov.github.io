@@ -51,7 +51,7 @@ odpowiednim momencie, router wysyła pakiet na adres 192.168.1.255 (broadcast si
 4919/UDP. Można ustawić odpowiednią regułkę na firewall'u i zalogować to zdarzenie. Na linux'ach w
 logu wtedy wygląda to mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/04/1.tryb-failsafe-iptables-log-router.png#huge)
+![](/img/2016/04/1.tryb-failsafe-iptables-log-router.png#huge)
 
 Po pojawieniu się powyższego komunikatu, trzeba wcisnąć przycisk na routerze i to automatycznie
 zainicjuje tryb `failsafe` . Jeśli nie mamy możliwości obserwowania logów, to pozostaje nam
@@ -62,7 +62,7 @@ bardzo szybko.
 Pozostaje nam już tylko zalogować się na ruter za pomocą protokołu telnet. Po pomyślny dostaniu się
 do systemu, powinien nas przywitać komunikat podobny do tego poniżej:
 
-![]({{< baseurl >}}/img/2016/04/2.tryb-failsafe-logowanie-telnet-openwrt.png#big)
+![](/img/2016/04/2.tryb-failsafe-logowanie-telnet-openwrt.png#big)
 
 Proces naprawczy rozpoczynamy zawsze od zamontowania partycji, która przechowuje wprowadzane przez
 nas zmiany. Robimy to przez wpisanie w terminalu poniższego polecenia:
@@ -103,5 +103,5 @@ czynność jaka nam teraz pozostała, to zresetowanie routera przy pomocy tego p
     # reboot -f
 
 Jeśli nie mamy pojęcia co się popsuło, to możemy [zresetować router do ustawień fabrycznych, tzw.
-firstboot]({{< baseurl >}}/post/reset-ustawien-w-openwrt-firstboot/), przez wpisanie w terminalu
+firstboot](/post/reset-ustawien-w-openwrt-firstboot/), przez wpisanie w terminalu
 `firstboot` i zresetowanie routera.

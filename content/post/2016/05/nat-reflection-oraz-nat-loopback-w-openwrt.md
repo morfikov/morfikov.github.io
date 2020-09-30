@@ -71,12 +71,12 @@ zapomnielibyśmy określić ostatnią regułę, to klient z sieci lokalnej będz
 podłączyć. Pakiety nie zostaną zatrzymane na firewall'u ale hosty będą spodziewać się innych
 adresów. Poniżej jest przykład ustanawiania połączenia w przypadku braku tej ostatniej reguły:
 
-![]({{< baseurl >}}/img/2016/05/1.nat-reflection-nat-loopback-iptables-openwrt.png#huge)
+![](/img/2016/05/1.nat-reflection-nat-loopback-iptables-openwrt.png#huge)
 
 Dla porównania, gdy mamy obie reguły określone, ten sam proces ustanawiania nowego połączenia z
 serwerem www wyglądałby tak jak na tej poniższej fotce:
 
-![]({{< baseurl >}}/img/2016/05/2.nat-reflection-nat-loopback-iptables-openwrt.png#huge)
+![](/img/2016/05/2.nat-reflection-nat-loopback-iptables-openwrt.png#huge)
 
 Widzimy, że uległ zmianie adres źródłowy, z którego został przesłany pakiet `SYN-ACK` . W tym
 pierwszym przypadku, pakiet `SYN-ACK` nie został zaakceptowany właśnie ze względu na inny adres

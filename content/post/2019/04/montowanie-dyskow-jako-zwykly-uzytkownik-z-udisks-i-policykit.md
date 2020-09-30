@@ -314,12 +314,12 @@ autoryzacji.
 Jeśli byśmy w takiej sytuacji spróbowali zamontować system plików jakiegoś pendrive czy dysku
 twardego, który podłączyliśmy do portu USB, to przywita nas taki oto komunikat:
 
-![]({{< baseurl >}}/img/2019/04/001-udisks-udisks2-polkit-policykit-linux-debian-hdd-pendrive-deny-mount.png#small)
+![](/img/2019/04/001-udisks-udisks2-polkit-policykit-linux-debian-hdd-pendrive-deny-mount.png#small)
 
 Z kolei gdybyśmy skorzystali z `return polkit.Result.AUTH_ADMIN;` , to byśmy zobaczyli poniższe
 okienko, w którym trzeba by podać hasło:
 
-![]({{< baseurl >}}/img/2019/04/002-udisks-udisks2-polkit-policykit-linux-debian-hdd-pendrive-auth-mount.png#medium)
+![](/img/2019/04/002-udisks-udisks2-polkit-policykit-linux-debian-hdd-pendrive-auth-mount.png#medium)
 
 Jeśli zawartość pliku `/etc/polkit-1/rules.d/40-debian-sudo.rules` zostanie wykomentaowana, to
 wtedy będziemy proszeni o hasło użytkownika root. W przeciwnym wypadku członkowie grupy `sudo`
@@ -487,4 +487,4 @@ przed chyba wszystkimi atakami z udziałem pamięci masowej podłączanej do por
 [4]: https://wiki.debian.org/AptPreferences
 [5]: http://storaged.org/doc/udisks2-api/latest/udisks-polkit-actions.html
 [6]: http://storaged.org/doc/udisks2-api/latest/udisks-polkit-actions.html
-[7]: {{< baseurl >}}/post/jak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami/
+[7]: /post/jak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami/

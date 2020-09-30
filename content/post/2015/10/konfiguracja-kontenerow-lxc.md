@@ -16,7 +16,7 @@ title: Konfiguracja kontenerów LXC
 pozostałej części systemu. LXC jest podobny nieco do maszyn wirtualnych, np. tych tworzonych przez
 VirtualBox. Niemniej jednak, oba mechanizmy różnią się trochę. Zasadnicza różnica między nimi polega
 na tym, że LXC wykorzystuje [środowisko
-chroot]({{< baseurl >}}/post/przygotowanie-srodowiska-chroot-do-pracy/) , w którym współdzielone
+chroot](/post/przygotowanie-srodowiska-chroot-do-pracy/) , w którym współdzielone
 jest jądro operacyjne. Nie trzeba także z góry określać zasobów pod działanie takiego kontenera, tak
 jak to ma w przypadku maszyn wirtualnych. Rzućmy zatem okiem jak wygląda konfiguracja takich
 kontenerów na linux'ie.
@@ -182,7 +182,7 @@ Restartujemy teraz połączenie sieciowe (ewentualnie uruchamiamy komputer ponow
 #### Forwarding pakietów i reguły dla iptables
 
 Musimy dodać jeszcze kilka reguł do naszego [skryptu
-firewall'a]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/):
+firewall'a](/post/firewall-na-linuxowe-maszyny-klienckie/):
 
     iptables -t nat -A POSTROUTING -o bond0 -s 192.168.10.0/24 -j MASQUERADE
 

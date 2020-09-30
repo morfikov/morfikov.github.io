@@ -40,7 +40,7 @@ oprogramowaniem.
 Jako, że w tym przypadku dysponuję routerem
 [TL-WDR3600](http://www.tp-link.com/en/products/details/TL-WDR3600.html), to szukamy właśnie za nim:
 
-![]({{< baseurl >}}/img/2016/09/1.dd-wrt-tl-wdr3600-tp-link-firmware-szukanie.png#huge)
+![](/img/2016/09/1.dd-wrt-tl-wdr3600-tp-link-firmware-szukanie.png#huge)
 
 Jak widzimy, router jest w pełni wspierany przez DD-WRT (koniecznie zwróćmy uwagę na wersję
 sprzętu). W przypadku wszystkich wspieranych routerów TP-LINK, firmware DD-WRT można wykorzystywać
@@ -48,7 +48,7 @@ bez licencji i nie potrzebujemy kupować żadnego klucza. Klikamy zatem na powy�
 chwili powinna nam się załadować strona, z której możemy pobrać stosowny plik w celu wgrania go na
 router:
 
-![]({{< baseurl >}}/img/2016/09/2.dd-wrt-tl-wdr3600-tp-link-firmware-pobieranie.png#huge)
+![](/img/2016/09/2.dd-wrt-tl-wdr3600-tp-link-firmware-pobieranie.png#huge)
 
 Wgranie alternatywnego firmware na router jest stosunkowo proste ale jeśli zrobimy to niepoprawnie,
 np. wgramy nie ten plik co trzeba, to router może nam już się nie odpalić. Jako, że flash'ujemy
@@ -79,20 +79,20 @@ podzespoły Qualcomm Atheros'a.
 Mając już plik obrazu na dysku, łączymy się do routera za pomocą przewodu i logujemy się do panelu
 webowego podając login `admin` oraz hasło również `admin` :
 
-![]({{< baseurl >}}/img/2016/09/3.dd-wrt-tl-wdr3600-tp-link-firmware-logowanie.png#huge)
+![](/img/2016/09/3.dd-wrt-tl-wdr3600-tp-link-firmware-logowanie.png#huge)
 
 W panelu przechodzimy do System Tools => Firmware Upgrade i wskazujemy plik, który wcześniej
 pobraliśmy:
 
-![]({{< baseurl >}}/img/2016/09/4.dd-wrt-tl-wdr3600-tp-link-firmware-flash.png#huge)
+![](/img/2016/09/4.dd-wrt-tl-wdr3600-tp-link-firmware-flash.png#huge)
 
 Po kliknięciu przycisku `Upgrade` powinien rozpocząć się proces flash'owania routera:
 
-![]({{< baseurl >}}/img/2016/09/5.dd-wrt-tl-wdr3600-tp-link-firmware-flash.png#huge)
+![](/img/2016/09/5.dd-wrt-tl-wdr3600-tp-link-firmware-flash.png#huge)
 
 Po chwili proces powinien się zakończyć powodzeniem, a router powinien się uruchomić ponownie:
 
-![]({{< baseurl >}}/img/2016/09/6.dd-wrt-tl-wdr3600-tp-link-firmware-flash.png#huge)
+![](/img/2016/09/6.dd-wrt-tl-wdr3600-tp-link-firmware-flash.png#huge)
 
 ## Panel administracyjny DD-WRT
 
@@ -100,9 +100,9 @@ Dostęp do routera możemy uzyskać z poziomu graficznego panelu webowego, któr
 pod adresem `http://192.168.1.1/` . Po odwiedzeniu tego adresu będziemy musieli ustawić nazwę
 użytkownika i hasło do konta:
 
-![]({{< baseurl >}}/img/2016/09/7.dd-wrt-tl-wdr3600-tp-link-firmware-logowanie.png#huge)
+![](/img/2016/09/7.dd-wrt-tl-wdr3600-tp-link-firmware-logowanie.png#huge)
 
 Po zmianie danych logowania, będziemy w stanie zalogować się do panelu administracyjnego skąd
 będziemy mogli zarządzać routerem:
 
-![]({{< baseurl >}}/img/2016/09/8.dd-wrt-tl-wdr3600-tp-link-firmware-panel-admina.png#huge)
+![](/img/2016/09/8.dd-wrt-tl-wdr3600-tp-link-firmware-panel-admina.png#huge)

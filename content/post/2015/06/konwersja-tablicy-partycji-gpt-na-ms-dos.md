@@ -16,7 +16,7 @@ title: Konwersja tablicy partycji GPT na MS-DOS
 ---
 
 W poprzednim wpisie poruszyłem temat [konwersji tablicy partycji MS-DOS (MBR) na
-GPT]({{< baseurl >}}/post/konwersja-tablicy-partycji-ms-dos-na-gpt/). Jak można było zauważyć, ten
+GPT](/post/konwersja-tablicy-partycji-ms-dos-na-gpt/). Jak można było zauważyć, ten
 proces nie był skomplikowany i niemalże automatyczny. Nie towarzyszyło mu także zjawisko utraty
 jakichkolwiek danych, jedynie w przypadku posiadania systemu operacyjnego, trzeba było
 przeinstalować bootloader. Nasuwa się zatem pytanie, czy również w tak prosty sposób można
@@ -30,12 +30,12 @@ Konwertowanie partycji z GPT na MBR jest trochę trudniejsze. Oczywiście zależ
 dysku, tj. ile partycji mamy do dyspozycji. Jeśli jest ich mniej niż 4, to praktycznie nie ma
 żadnego problemu z procesem konwersji. Natomiast jeśli jest ich więcej, to w grę wchodzi już
 partycja rozszerzona i jej [sektory
-EBR]({{< baseurl >}}/post/mbr-ebr-i-tablica-partycji-dysku-twardego/) , a te mają przecie 512
+EBR](/post/mbr-ebr-i-tablica-partycji-dysku-twardego/) , a te mają przecie 512
 bajtów. Dodatkowo by wyrównać partycje do 1MiB trzeba również dodać 2047 sektorów wolnego miejsca.
 
 Pamiętacie te dziury w strukturze partycji po przejściu na tablicę GPT? Niżej przypomnienie:
 
-![]({{< baseurl >}}/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png#huge)
+![](/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png#huge)
 
 Jeśli ich nie mamy na dysku, prawdopodobnie nie da rady przenieść niektórych partycji z GPT na
 MS-DOS. Natomiast, zawsze można je stworzyć kurcząc odpowiednie partycje. Te dziury między
@@ -95,5 +95,5 @@ przez bootloader grub. Cała reszta jest dokładnie bez zmian, no może zamiast 
 mamy wszystkie podstawowe.
 
 W przypadku gdy posiadamy na tym dysku jakiś system operacyjny, trzeba pomocy [systemu
-live]({{< baseurl >}}/post/wlasny-system-live-i-tworzenie-go-od-podstaw/) przeinstalować
+live](/post/wlasny-system-live-i-tworzenie-go-od-podstaw/) przeinstalować
 bootloader grub (lub extlinux).

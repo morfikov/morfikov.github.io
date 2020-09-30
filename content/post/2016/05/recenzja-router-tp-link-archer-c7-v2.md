@@ -33,36 +33,36 @@ mający 128 MiB pamięci RAM, 16 MiB flash, gigabitowy switch 5-cio portowy i dw
 W pudełku mamy oczywiście router, który wygląda jak większość routerów produkowanych przez TP-LINK.
 Na pierwszy rzut oka, patrząc po samej obudowie, ciężko by określić jaki to jest właściwie model:
 
-![]({{< baseurl >}}/img/2016/05/1.tp-link-archer-c7-v2-wyglad.jpg#big)
+![](/img/2016/05/1.tp-link-archer-c7-v2-wyglad.jpg#big)
 
 Router działa w dwóch różnych pasmach WiFi 2,4 GHz oraz 5 GHz i ma w sumie 6 anten: 3 wewnętrzne
 (2,4 GHz) oraz 3 zewnętrzne (5 GHz) widoczne na powyższej fotce. Poniżej jest kilka fotek tych anten
 zewnętrznych:
 
-![]({{< baseurl >}}/img/2016/05/2.tp-link-archer-c7-v2-antena.jpg#big)
+![](/img/2016/05/2.tp-link-archer-c7-v2-antena.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/3.tp-link-archer-c7-v2-antena.jpg#big)
+![](/img/2016/05/3.tp-link-archer-c7-v2-antena.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/4.tp-link-archer-c7-v2-antena.jpg#big)
+![](/img/2016/05/4.tp-link-archer-c7-v2-antena.jpg#big)
 
 Do zestawu jest dołączony także zasilacz 12V/2,5A. Zatem router Archer C7 v2 jest w stanie pobrać
 nawet 30W, choć w rzeczywistości pobiera znacznie mniej:
 
-![]({{< baseurl >}}/img/2016/05/5.tp-link-archer-c7-v2-zasilacz.jpg#big)
+![](/img/2016/05/5.tp-link-archer-c7-v2-zasilacz.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/6.tp-link-archer-c7-v2-zasilacz-parametry.jpg#big)
+![](/img/2016/05/6.tp-link-archer-c7-v2-zasilacz-parametry.jpg#big)
 
 Do zestawu jest także dołączona [skrętka KAT5](https://en.wikipedia.org/wiki/Category_5_cable),
 długość około 1,2 metra:
 
-![]({{< baseurl >}}/img/2016/05/7.tp-link-archer-c7-v2-skretka-przewod.jpg#big)
+![](/img/2016/05/7.tp-link-archer-c7-v2-skretka-przewod.jpg#big)
 
 Poniżej jest jeszcze fotka obrazująca panel tylny routera. Mamy tutaj 3 gniazda na anteny, wyjście
 zasilacza, dwa porty USB 2.0 (po jednej diodzie na każdy z tych portów). Dalej mamy gigabitowy
 switch z wydzielonym portem WAN. Przyciski standardowe, tj. wyłącznik zasilania, wł/wył WiFi, i
 reset razem z WPS:
 
-![]({{< baseurl >}}/img/2016/05/8.tp-link-archer-c7-v2-wyglad-panel-tylny.jpg#big)
+![](/img/2016/05/8.tp-link-archer-c7-v2-wyglad-panel-tylny.jpg#big)
 
 ## Co router TP-LINK Archer C7 v2 ma pod maską
 
@@ -70,47 +70,47 @@ Przydałoby się jeszcze zajrzeć routerowi Archer C7 pod maskę i zobaczyć jak
 skład całego urządzenia. Na sam początek spód obudowy, w którym jest szereg otworów wentylacyjnych
 ułatwiających odprowadzanie ciepła:
 
-![]({{< baseurl >}}/img/2016/05/9.tp-link-archer-c7-v2-wyglad-spod.jpg#big)
+![](/img/2016/05/9.tp-link-archer-c7-v2-wyglad-spod.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/10.tp-link-archer-c7-v2-wyglad-spod-naklejka.jpg#big)
+![](/img/2016/05/10.tp-link-archer-c7-v2-wyglad-spod-naklejka.jpg#big)
 
 Poniżej są zaś fotki obrazujące poszczególne podzespoły. Widok ogólny:
 
-![]({{< baseurl >}}/img/2016/05/11.tp-link-archer-c7-v2-podzespoly.jpg#big)
+![](/img/2016/05/11.tp-link-archer-c7-v2-podzespoly.jpg#big)
 
 Anteny wewnętrzne:
 
-![]({{< baseurl >}}/img/2016/05/12.tp-link-archer-c7-v2-podzespoly-antena-wewnetrza.jpg#big)
+![](/img/2016/05/12.tp-link-archer-c7-v2-podzespoly-antena-wewnetrza.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/13.tp-link-archer-c7-v2-podzespoly-antena-wewnetrza.jpg#big)
+![](/img/2016/05/13.tp-link-archer-c7-v2-podzespoly-antena-wewnetrza.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/14.tp-link-archer-c7-v2-podzespoly-antena-wewnetrza.jpg#big)
+![](/img/2016/05/14.tp-link-archer-c7-v2-podzespoly-antena-wewnetrza.jpg#big)
 
 Szereg układów pochodzi od Qualcomm Atheros. Mamy tutaj czip WiFi 5 GHz na MiniPCIe (QCA9880-BR4A
 (v2) 3x3 a/n/ac):
 
-![]({{< baseurl >}}/img/2016/05/15.tp-link-archer-c7-v2-podzespoly-wifi-5ghz.jpg#big)
+![](/img/2016/05/15.tp-link-archer-c7-v2-podzespoly-wifi-5ghz.jpg#big)
 
-![]({{< baseurl >}}/img/2016/05/16.tp-link-archer-c7-v2-podzespoly-wifi-5ghz.jpg#big)
+![](/img/2016/05/16.tp-link-archer-c7-v2-podzespoly-wifi-5ghz.jpg#big)
 
 [System on a chip (SoC)](https://pl.wikipedia.org/wiki/System-on-a-chip) wraz ze zintegrowanym
 układem WiFi 2,4 GHz (QCA9558 3x3 b/g/n):
 
-![]({{< baseurl >}}/img/2016/05/17.tp-link-archer-c7-v2-podzespoly-wifi-2ghz.jpg#big)
+![](/img/2016/05/17.tp-link-archer-c7-v2-podzespoly-wifi-2ghz.jpg#big)
 
 Czip gigabitowego switch'a (AR8327N-BL1A):
 
-![]({{< baseurl >}}/img/2016/05/18.tp-link-archer-c7-v2-podzespoly-gigabitowy-switch.jpg#big)
+![](/img/2016/05/18.tp-link-archer-c7-v2-podzespoly-gigabitowy-switch.jpg#big)
 
 Pamięć operacyjna RAM 2 x 64 MiB. Ciekawa sprawa, bo na wiki OpenWRT można znaleźć informacje, że
 ten model powinien zawierać kości od producenta Winbond. Niemniej jednak, na fotce widać wyraźnie,
 że układy są od firmy Zentel:
 
-![]({{< baseurl >}}/img/2016/05/19.tp-link-archer-c7-v2-podzespoly-pamiec-ram.jpg#big)
+![](/img/2016/05/19.tp-link-archer-c7-v2-podzespoly-pamiec-ram.jpg#big)
 
 Porty od konsoli szeregowej:
 
-![]({{< baseurl >}}/img/2016/05/20.tp-link-archer-c7-v2-konsola-szeregowa.jpg#big)
+![](/img/2016/05/20.tp-link-archer-c7-v2-konsola-szeregowa.jpg#big)
 
 ## Wsparcie dla routera TP-LINK Archer C7 v2 w OpenWRT
 

@@ -26,7 +26,7 @@ PEAP (v0) .
 ## Instalacja pakietów na potrzeby RADIUS'a
 
 Jakiś czas temu opisywałem wdrożenie [WPA2 Enterprise w oparciu o oprogramowanie
-freeradius]({{< baseurl >}}/post/wpa2-enterprise-serwer-freeradius/), z tym, że na debianie.
+freeradius](/post/wpa2-enterprise-serwer-freeradius/), z tym, że na debianie.
 Tamten mechanizm był podobny do tego, który zamierzam przedstawić w tym artykule. W podlinkowanym
 wyżej wpisie był robiony użytek z dwóch maszyn. Jedna z nich robiła za serwer RADIUS'a, druga zaś
 za klienta. W tym przypadku zarówno klientem jak i serwerem RADIUS'a będzie nasz router. Logujemy
@@ -67,10 +67,10 @@ tego względu, że zostało to zrobione w osobnych artykułach. Odradzam tworzen
 bezpośrednio na routerze, bo to jest proces bardzo zasobożerny i dużo lepiej do tego celu jest
 wykorzystać jakąś standardową dystrybucję linux'a. Niemniej jednak, jeśli nie mamy jeszcze
 wymaganych certyfikatów, to możemy je sobie stworzyć przy pomocy takich narzędzi jak, np.
-[easy-rsa]({{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/). Oczywiście to
+[easy-rsa](/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/). Oczywiście to
 tylko jeden ze sposobów generowania certyfikatów. Jeśli nie chce nam się korzystać z narzędzi
 specjalnie przeznaczonych do tego typu celów, to zawsze możemy takie [certyfikaty wygenerować sobie
-ręcznie]({{< baseurl >}}/post/generowanie-certyfikatow/).
+ręcznie](/post/generowanie-certyfikatow/).
 
 Zakładam, że mamy już potrzebne pliki. Musimy je wgrać na router. Potrzebny nam będzie klucz
 serwera, certyfikat serwera oraz certyfikat CA. Dodatkowo, będziemy potrzebować plik `dh` (parametry
@@ -134,7 +134,7 @@ Musimy także odpowiednio przepisać plik `/etc/config/wireless` , gdzie ustawia
 
 Jeśli ktoś jest ciekaw użyty wyżej opcji, to zapraszam do zapoznania się z artykułem, który został
 poświęcony [konfiguracji sieci WiFi na routerze z
-OpenWRT]({{< baseurl >}}/post/siec-bezprzewodowa-wifi-w-openwrt-wlan/). To na co musimy zwrócić
+OpenWRT](/post/siec-bezprzewodowa-wifi-w-openwrt-wlan/). To na co musimy zwrócić
 uwagę, to opcja `key` , której wartość wskazuje na sekret określony wyżej w pliku
 `/etc/freeradius2/clients.conf` . Te dwie wartości muszą do siebie pasować. Uzupełniamy też opcje
 `server` oraz `port` . Dodatkowo, jeśli korzystaliśmy wcześniej z sieci opartej o protokół WPA2-PSK,

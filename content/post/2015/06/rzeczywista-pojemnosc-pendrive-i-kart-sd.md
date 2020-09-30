@@ -55,7 +55,7 @@ model o takich gabarytach w ogóle jest przez niego produkowany.
 
 Poniżej jest fotka tej trefnej karty SD:
 
-![]({{< baseurl >}}/img/2015/06/1.trefna-karta-sd.png#small)
+![](/img/2015/06/1.trefna-karta-sd.png#small)
 
 Jak widać, nadruk jest sprzeczny sam ze sobą. Karta `SDHC` i do tego 128 GB, czyli już na pierwszy
 rzut oka wiadomo, że coś jest nie tak.
@@ -257,4 +257,4 @@ Nie ma błędów, zatem testujemy zapis/odczyt danych:
 I jak widać, partycja nadaje się do odczytu/zapisu danych, z tym, że zamiast 125 GiB jest nieco
 ponad 7 GiB. Narzędzie `gparted` też bez problemu wykrywa tę partycję:
 
-![]({{< baseurl >}}/img/2015/06/2.okrojona-karta-sd.png#huge)
+![](/img/2015/06/2.okrojona-karta-sd.png#huge)

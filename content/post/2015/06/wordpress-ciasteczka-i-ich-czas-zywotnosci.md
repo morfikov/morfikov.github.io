@@ -27,7 +27,7 @@ odpowiadała naszym upodobaniom.
 WordPress przesyła szereg ciasteczek w zależności od tego jakie akcje przeprowadzamy na blogu.
 Możemy zawsze je podejrzeć w każdej przeglądarce, poniżej fotka z firefoxa:
 
-![]({{< baseurl >}}/img/2015/06/1.wordpress-zywotnosc-ciasteczka.png#big)
+![](/img/2015/06/1.wordpress-zywotnosc-ciasteczka.png#big)
 
 Na samym dole tego okienka mamy informację na temat ważności ciasteczka (Expires). W tym przypadku
 jest to `Sun 21 Jun 2015 04:53:55 AM CEST` , czyli 14 dni licząc od daty publikacji tego postu. Po
@@ -53,10 +53,10 @@ weszły w życie musimy się ponownie zalogować na blogu.
 
 Warto jeszcze wspomnieć o tym, że przestawienie daty ważności ciasteczek, może w jakiś sposób
 zagrozić bezpieczeństwu kont na blogu ale to tylko w przypadku gdy nie wdrożyliśmy
-[pełnego]({{< baseurl >}}/post/wordpress-szyfrowanie-ssltls/)
-[szyfrowania]({{< baseurl >}}/post/wymuszenie-ssl-tls-przy-pomocy-vhostow-apache2/) witryny i nie
+[pełnego](/post/wordpress-szyfrowanie-ssltls/)
+[szyfrowania](/post/wymuszenie-ssl-tls-przy-pomocy-vhostow-apache2/) witryny i nie
 korzystamy z [unikalnych kluczy/soli
-uwierzytelniających]({{< baseurl >}}/post/uwierzytelniajace-klucze-ssh/). Z kolei jeśli
+uwierzytelniających](/post/uwierzytelniajace-klucze-ssh/). Z kolei jeśli
 prowadzimy blog w pojedynkę i mamy zaimplementowany zewnętrzny system komentarzy (np. disqus), to po
 ustawieniu czasu wygaśnięcia ciasteczka przykładowo na rok, chyba nie potrzebowalibyśmy w dalszym
 ciągu pliku `wp-login.php` , prawda? Oczywiście przy założeniu, że publikujemy wpisy tylko z jednej

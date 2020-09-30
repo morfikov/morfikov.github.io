@@ -65,7 +65,7 @@ Na Neffos C5 trzeba wyłączyć telefon i włączyć go trzymając jednocześnie
 trybie recovery, przechodzimy do Instaluj i wskazujemy lokalizację paczki `.zip` . W procesie
 instalacji odznaczamy weryfikację sygnatury pliku.
 
-![]({{< baseurl >}}/img/2016/10/001.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-instalacja-twrp.png#huge)
+![](/img/2016/10/001.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-instalacja-twrp.png#huge)
 
 ## Wsparcie dla skryptów init
 
@@ -79,17 +79,17 @@ skryptów init, który będzie je nam inicjował na starcie systemu.
 Ten Neffos C5 nie ma wsparcia dla skryptów init, zatem trzeba zainstalować [Universal Init.d][8].
 Ta aplikacja będzie wymagać dostępu root ale [jest ona OpenSource][9], także bez obaw:
 
-![]({{< baseurl >}}/img/2016/10/002.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-instalacja-universal-init-d.png#huge)
+![](/img/2016/10/002.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-instalacja-universal-init-d.png#huge)
 
 Po instalacji, uruchamiamy aplikację. Powinno nam się pojawić poniższe okienko:
 
-![]({{< baseurl >}}/img/2016/10/003.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-kernel-init.png#medium)
+![](/img/2016/10/003.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-kernel-init.png#medium)
 
 Jak widzimy wyżej, skrypt init `99dnscnrypt` został wykryty. Jest też opcja przetestowania kernela
 pod kątem wsparcia dla skryptów init. Na wypadek gdybyśmy nie byli pewni klikamy w przycisk Test.
 Przy teście będzie wymagany restart urządzenia:
 
-![]({{< baseurl >}}/img/2016/10/004.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-kernel-test.png#huge)
+![](/img/2016/10/004.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-kernel-test.png#huge)
 
 Podczas testu został stworzony tymczasowy skrypt, który miał na celu wgranie na kartę SD małego
 pliku. Po restarcie systemu, obecność tego pliku jest weryfikowana. Jeśli nie został stworzony, to
@@ -105,18 +105,18 @@ OFF na ON. W przypadku, gdyby nasz kernel obsługiwał skrypty init natywnie, to
 ruszamy. Po przestawieniu pozycji przełącznika i wykonaniu testu, powinien nam zostać zwrócony
 komunikat, że nasz kernel posiada już wsparcie dla skryptów init:
 
-![]({{< baseurl >}}/img/2016/10/005.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-kernel-init.png#medium)
+![](/img/2016/10/005.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-kernel-init.png#medium)
 
 Ostatnia rzeczą jest przetestowanie startu skryptu `99dnscnrypt` . Zaznaczamy go zatem i przy górnej
 krawędzi ekranu powinno nam się pojawić menu. Klikamy na strzałkę w kółku po prawej stronie:
 
-![]({{< baseurl >}}/img/2016/10/006.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-skrypt-init-test.png#medium)
+![](/img/2016/10/006.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-skrypt-init-test.png#medium)
 
 Teraz możemy odpalić terminal, np.
 [termux](https://play.google.com/store/apps/details?id=com.termux) i sprawdzić, czy proces
 `dnscrypt-proxy` został uruchomiony:
 
-![]({{< baseurl >}}/img/2016/10/007.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-skrypt-init-test.png#huge)
+![](/img/2016/10/007.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-skrypt-init-test.png#huge)
 
 Jak widzimy, działa on sobie tak jak powinien. Możemy naturalnie uruchomić ponownie smartfona, by
 się przekonać czy autostart działa należycie.
@@ -134,7 +134,7 @@ aplikacje Androida nie są o tym fakcie powiadomione. W efekcie wartości dostę
 wskazują na adresy DNS uzyskane z lease DHCP sieci, do której zostaliśmy podłączeni, czy też w
 przypadku ich braku na adresy DNS Google. Poniżej przykład:
 
-![]({{< baseurl >}}/img/2016/10/008.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-problemy.png#medium)
+![](/img/2016/10/008.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-problemy.png#medium)
 
 Za sprawą takiego stanu rzeczy, niektóre aplikacje mogą zwracać mylące adresy, choć wszystkie nazwy
 DNS są wrzucane w szyfrowany kanał i przesyłane do serwerów DNS, które sobie wybraliśmy w
@@ -146,18 +146,18 @@ W przypadku, gdy `dnscrypt-proxy` przesyła zapytania do serwerów DNS od OpenDN
 konfiguracji ), to bardzo prosto możemy sprawdzić czy zapytania są naprawdę szyfrowane i czy na
 pewno są przesyłane do tego providera DNS:
 
-![]({{< baseurl >}}/img/2016/10/009.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-test-resolver.png#huge)
+![](/img/2016/10/009.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-test-resolver.png#huge)
 
 Widzimy wyraźnie, że zapytanie jest szyfrowane. Możemy również przetestować stronę w przeglądarce.
 Odpalmy zatem, np. Firefox'a i odwiedźmy adres `https://www.opendns.com/welcome/` :
 
-![]({{< baseurl >}}/img/2016/10/010.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-firefox-opendns-test.png#huge)
+![](/img/2016/10/010.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-firefox-opendns-test.png#huge)
 
 
 [1]: https://dnscrypt.org/#dnscrypt-android
-[2]: {{< baseurl >}}/post/recenzja-smartfon-neffos-c5-od-tp-link/
-[3]: {{< baseurl >}}/post/android-root-smartfona-neffos-c5-od-tp-link/
-[4]: {{< baseurl >}}/post/android-repozytorium-aplikacji-opensource-f-droid/
+[2]: /post/recenzja-smartfon-neffos-c5-od-tp-link/
+[3]: /post/android-root-smartfona-neffos-c5-od-tp-link/
+[4]: /post/android-repozytorium-aplikacji-opensource-f-droid/
 [5]: https://download.dnscrypt.org/dnscrypt-proxy/
 [6]: https://twrp.me/
 [7]: https://www.clockworkmod.com/

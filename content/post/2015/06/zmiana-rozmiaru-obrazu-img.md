@@ -15,7 +15,7 @@ title: Zmiana rozmiaru obrazu .img
 
 Struktura pliku `.img` czy `.iso` niczym nie odbiega od struktury przeciętnego dysku twardego. W obu
 przypadkach mamy dokładnie taki sam schemat budowy, tj. mamy obecny
-[MBR]({{< baseurl >}}/post/mbr-ebr-i-tablica-partycji-dysku-twardego/) i partycje, z których
+[MBR](/post/mbr-ebr-i-tablica-partycji-dysku-twardego/) i partycje, z których
 pierwsza zwykle jest wyrównana do 1MiB, zostawiając tym samym 2047 sektorów wolnego miejsca z
 początku pliku, tuż za MBR, tzw. MBR-GAP. Obraz `.img` można poddać edycji, np. utworzyć wewnątrz
 niego inne partycje, zmienić rozmiar ich systemu plików, a nawet można manipulować rozmiarem samego
@@ -36,7 +36,7 @@ polecenie:
 Mamy zatem plik o rozmiarze 400MiB. Jako, że on zawiera same zera, to nie ma także jeszcze
 utworzonej struktury dysku twardego. Zobaczmy zatem jak widzi go `fdisk` :
 
-![]({{< baseurl >}}/img/2015/06/1.podglad-obrazu-img.png#big)
+![](/img/2015/06/1.podglad-obrazu-img.png#big)
 
 Jak widać wyżej, z automatu została utworzona tablica partycji ms-dos, bo bez niej nie dalibyśmy
 rady utworzyć żadnej partycji. Stwórzmy zatem dwie partycje. Całość powinna wyglądać mniej więcej
@@ -57,7 +57,7 @@ tak:
 Partycje może i zostały utworzone, natomiast nie posiadają one jeszcze systemu plików. Tworzenie
 systemu plików w takim obrazie z wieloma partycjami jest trochę uporczywe, niemniej jednak przy
 pomocy [odpowiedniej konfiguracji urządzeń
-loop]({{< baseurl >}}/post/obsluga-wielu-partycji-w-module-loop/) możemy sobie bardzo uprościć
+loop](/post/obsluga-wielu-partycji-w-module-loop/) możemy sobie bardzo uprościć
 życie. W każdym razie zakładam, że stworzyliśmy system plików na tych partycjach oraz, że montują
 się one w systemie bez problemów.
 

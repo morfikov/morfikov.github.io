@@ -27,7 +27,7 @@ stanie zablokować wszystkie te powyżej wymienione formy ataków.
 ## Bazowy skrypt iptables
 
 By ułatwić sobie nieco pracę, musimy napisać prosty [skrypt
-firewall'a]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/). Ten, który został
+firewall'a](/post/firewall-na-linuxowe-maszyny-klienckie/). Ten, który został
 przedstawiony w przytoczonym linku nadaje się idealnie, bo zawiera rozdział pakietów na protokoły
 TCP i UDP oraz domyślnie blokuje połączenia przychodzące.
 
@@ -106,11 +106,11 @@ by nie dostał bana.
 
 Administratorzy sieciowi rzadko kiedy dozbrajają otwarty port pod kątem ilości możliwych zapytań w
 pewnym skończonym interwale czasu. Jeśli korzystamy z [port
-knocking'u]({{< baseurl >}}/post/port-knocking-i-single-packet-authorization/) , to nie mamy
+knocking'u](/post/port-knocking-i-single-packet-authorization/) , to nie mamy
 zbytnio się czym martwić. Większość osób jednak tego nie robi i co by się stało w przypadku, gdy
 ktoś namierzy port, na którym nasłuchuje demon SSH? Jeśli nie jest on chroniony w jakiś dodatkowy
 sposób, np. za pomocą [plików hosts.allow i
-hosts.deny]({{< baseurl >}}/post/pliki-hosts-allow-i-hosts-deny/), to nasz serwer stoi otworem
+hosts.deny](/post/pliki-hosts-allow-i-hosts-deny/), to nasz serwer stoi otworem
 przed atakującym i tylko kwestią czasu jest, kiedy nasz serwer padnie ofiarą ataku. Oczywiście,
 osoba próbująca dostać się do serwera niekoniecznie musi być kimś kogo w ogóle nie znamy. Może się
 zdarzyć tak, że nasz były dobry znajomy chce się odgryźć za coś, cośmy mu uczynili kiedyś tam w

@@ -30,7 +30,7 @@ zasobu pod inny adres (tzw. Permanent Redirect). Czasami też może zostać zwr�
 informuję klienta o odnalezieniu zasobu. W obu tych przypadkach zostanie zwrócony nowy adres zasobu,
 pod który przeglądarka powinna się udać. Poniżej przykład:
 
-![]({{< baseurl >}}/img/2016/08/1.wp-login-php-wordpress-ukrycie.png#huge)
+![](/img/2016/08/1.wp-login-php-wordpress-ukrycie.png#huge)
 
 Wyżej w nagłówku widzimy pole `Location` , a w nim `wp-login.php` . Zatem niby wpisujemy w
 przeglądarce `login` , a i tak lądujemy docelowo na `wp-login.php` i dopiero wtedy zwracany jest
@@ -49,9 +49,9 @@ wykorzystywanego motywu. W tym pliku dodajemy tę oto poniższą linijkę:
 
 Jeśli teraz spróbujemy odwiedzić `login` , to powinien zostać zwrócony kod 404:
 
-![]({{< baseurl >}}/img/2016/08/2.wp-login-php-wordpress-ukrycie.png#huge)
+![](/img/2016/08/2.wp-login-php-wordpress-ukrycie.png#huge)
 
 Usunięcie tej powyższej akcji ma także wpływ na aliasy `admin` oraz `dashboard` .
 
-[1]: {{< baseurl >}}/post/certyfikat-chroniacy-wp-login-php-wp-admin/
+[1]: /post/certyfikat-chroniacy-wp-login-php-wp-admin/
 [2]: https://developer.wordpress.org/reference/functions/wp_redirect_admin_locations/

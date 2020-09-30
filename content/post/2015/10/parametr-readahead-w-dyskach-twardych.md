@@ -107,7 +107,7 @@ tutaj raczej `256` . Więcej i tak przecie nie ma sensu.
 Ustawienia dokonywane za pomocą `hdparm` mają efekt jedynie tymczasowy, a konkretnie do ponownego
 uruchomienia danej maszyny. Jeśli chcemy by były one aplikowane na starcie komputera, to musimy
 pokusić się o [napisanie reguły dla
-udev'a]({{< baseurl >}}/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/).
+udev'a](/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/).
 
 Trzeba pamiętać, że określanie dysków po nazwach typu `sda` czy `sdb` może zakończyć się tragicznie
 gdy mamy kilka dysków w systemie i z jakiegoś powodu zamienią się one tymi ostatnimi literkami.

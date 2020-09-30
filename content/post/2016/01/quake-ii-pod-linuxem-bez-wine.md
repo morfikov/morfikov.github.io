@@ -125,7 +125,7 @@ Prawdopodobnie będziemy musieli dostosować sobie nieco ustawień. W moim przyp
 nieco dziwnego efektu wizualnego, który objawiał się zamazaniem ekranu. Ta sytuacja została pokazana
 dokładnie na poniższej fotce:
 
-![]({{< baseurl >}}/img/2016/01/1.quake-ii-bug-wizualny.png#huge)
+![](/img/2016/01/1.quake-ii-bug-wizualny.png#huge)
 
 By wyeliminować ten bug, musimy nieco zmienić konfigurację Quake II, która przechowywana w katalogu
 `~/.yq2/` . Edytujemy zatem plik `~/.yq2/baseq2/config.cfg` i ustawiamy tam poniższy parametr:
@@ -165,7 +165,7 @@ roboczego z grą i pobieramy stosowne pliki:
 Włączenie tych tekstur odbywa się automatycznie i znacząco poprawia jakość grafiki w Quake II.
 Poniżej porównanie:
 
-![]({{< baseurl >}}/img/2016/01/2.quake-ii-tekstury.png#huge)
+![](/img/2016/01/2.quake-ii-tekstury.png#huge)
 
 Można także dociągnąć sobie tekstury modeli, które są dostępne
 [tutaj](http://deponie.yamagi.org/quake2/texturepack/), choć zgodnie z tym co ludzie piszą, to nie

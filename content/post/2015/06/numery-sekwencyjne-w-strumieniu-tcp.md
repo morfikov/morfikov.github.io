@@ -41,11 +41,11 @@ Odpalmy zatem jakiś sniffer sieciowy i zobaczmy na własne oczy jak wyglądają
 można je znaleźć. Na poniższej fotce jest zaprezentowany względny numer sekwencyjny 0 w pakiecie
 rozpoczynającym nowe połączenie:
 
-![]({{< baseurl >}}/img/2015/06/1.wireshark-flagi-tcp.png#huge)
+![](/img/2015/06/1.wireshark-flagi-tcp.png#huge)
 
 Prawdziwa wartość tego numeru jest zapisana w postaci hexalnej:
 
-![]({{< baseurl >}}/img/2015/06/2.wireshark-numery-sekwencyjne-hex.png#huge)
+![](/img/2015/06/2.wireshark-numery-sekwencyjne-hex.png#huge)
 
 Jak widzimy jest to `b0241fe1` , czyli po ludzku 2,955,157,473 i raczej trudno jest operować na
 takich wartościach.
@@ -59,7 +59,7 @@ Poniżej jest przykład tego co się dzieje w sytuacji gdy odwiedzamy stronę ww
 zawartość. W tym przypadku jest to proces pobierania jakiegoś obrazka. Rzućmy zatem okiem na
 pierwsze pakiety w oknie wiresharka:
 
-![]({{< baseurl >}}/img/2015/06/4.wireshark-numery-sekwencyjne-1.png#huge)
+![](/img/2015/06/4.wireshark-numery-sekwencyjne-1.png#huge)
 
 Pakiet `126` ma ustawioną flagę `SYN` i został przesłany do serwera w celu nawiązania połączenia
 (etap [three-way
@@ -87,7 +87,7 @@ wszystkich sesji TCP.
 
 Po zestawieniu połączenia, następuje faktyczna wymiana danych między klientem a serwerem:
 
-![]({{< baseurl >}}/img/2015/06/4.wireshark-numery-sekwencyjne-2.png#huge)
+![](/img/2015/06/4.wireshark-numery-sekwencyjne-2.png#huge)
 
 Klient wysyła pakiet `129` i jest on pierwszym, który zawiera payload. Konkretnie jest to żądanie
 HTTP. Numer sekwencyjny zostaje tak jak był, a to ze względu na fakt, że żadne dane nie zostały
@@ -102,7 +102,7 @@ otrzymanego przez serwer pakietu. Numer sekwencyjny serwera zostaje bez zmian, b
 
 Następne pakiety są już odpowiedzią serwera HTTP:
 
-![]({{< baseurl >}}/img/2015/06/4.wireshark-numery-sekwencyjne-3.png#huge)
+![](/img/2015/06/4.wireshark-numery-sekwencyjne-3.png#huge)
 
 Pakiet `133` określa początek odpowiedzi. Jego numer sekwencyjny jest cały czas taki sam, bo żaden z
 poprzednich pakietów pochodzących z serwera nie zawierał payloadu. Z kolei ten pakiet zawiera dane
@@ -117,7 +117,7 @@ Dla większości sytuacji, ten cykl będzie się powtarzał, tj. numer potwierdz
 będzie numerem sekwencyjnym drugiej ale zwiększonym o ilość bajtów w payloadzie przesyłanego
 pakietu. Mogliśmy to zaobserwować w polu `Next sequence numer:` :
 
-![]({{< baseurl >}}/img/2015/06/4.wireshark-numery-sekwencyjne-5.png#small)
+![](/img/2015/06/4.wireshark-numery-sekwencyjne-5.png#small)
 
 Zatem 1,348,640,148 + 1460 = 1,348,641,608 .
 
@@ -129,7 +129,7 @@ odpowiedzi żądania HTTP.
 Ten proces trwa aż do momentu przesłania wszystkich potrzebnych pakietów, które zawierają dane
 pobieranego obrazka z serwera HTTP:
 
-![]({{< baseurl >}}/img/2015/06/4.wireshark-numery-sekwencyjne-6.png#huge)
+![](/img/2015/06/4.wireshark-numery-sekwencyjne-6.png#huge)
 
 Pakiet `178` jest potwierdzeniem ostatniego segmentu, który klient otrzymał od serwera.
 
@@ -149,7 +149,7 @@ W opcjach wiresharka mamy miłe narzędzie, które nam ładnie rozrysuje informa
 numerów. Znajduje się ono w Statistics => Flow Graph . W przypadku połączeń TCP, powinniśmy
 otrzymać poniższy obrazek:
 
-![]({{< baseurl >}}/img/2015/06/5.wireshark-graf-flow.png#big)
+![](/img/2015/06/5.wireshark-graf-flow.png#big)
 
 Każda linijka to osobny pakiet TCP. Z lewej strony mamy rozrysowane kierunki przesyłu pakietu,
 porty, długość segmentu i oczywiście ustawione flagi. Po prawej zaś stronie mamy numery sekwencyjny

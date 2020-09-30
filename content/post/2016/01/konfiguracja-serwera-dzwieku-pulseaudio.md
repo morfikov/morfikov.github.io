@@ -17,16 +17,16 @@ Wielu użytkowników linux'a nie przepada zbytnio za PulseAudio, bo ten z jakieg
 nich same kłopoty. U mnie ten serwer dźwięku działa przyzwoicie i zwykle nie ma z nim żadnych
 problemów. Obecnie ten projekt jest już na tyle dojrzały, że te większe środowiska graficzne
 zwyczajnie polegają na nim w zależnościach. Jeśli jednak [instalowaliśmy debiana za pomocą narzędzia
-debootstrap]({{< baseurl >}}/post/instalacja-debiana-z-wykorzystaniem-debootstrap/) i
+debootstrap](/post/instalacja-debiana-z-wykorzystaniem-debootstrap/) i
 [konfigurowaliśmy osobno graficzną sesję
-Xserver'a]({{< baseurl >}}/post/konfiguracja-xservera-na-debianie-xorg/), [menadżer logowania
-LightDM]({{< baseurl >}}/post/menadzer-logowania-lightdm/) czy też [menadżer okien
-Openbox]({{< baseurl >}}/post/menadzer-okien-openbox/), to raczej zależy nam na minimalnym
+Xserver'a](/post/konfiguracja-xservera-na-debianie-xorg/), [menadżer logowania
+LightDM](/post/menadzer-logowania-lightdm/) czy też [menadżer okien
+Openbox](/post/menadzer-okien-openbox/), to raczej zależy nam na minimalnym
 środowisku, które może się zwyczajnie obejść bez PulseAudio. Niemniej jednak, PulseAudio ma kilka
 ciekawych bajerów, których ALSA nie posiada. By się nie rozpisywać zbytnio, mogę wspomnieć choćby o
 możliwości[przesyłania dźwięku przez
-sieć]({{< baseurl >}}/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/), czy też o takim
-ficzerze jak [normalizacja głośności]({{< baseurl >}}/post/normalizacja-glosnosci-w-pulseaudio/).
+sieć](/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/), czy też o takim
+ficzerze jak [normalizacja głośności](/post/normalizacja-glosnosci-w-pulseaudio/).
 Są to głównie zabawki dla nieco bardziej zaawansowanych użytkowników i gdy ich nie potrzebujemy, to
 serwer dźwięku nam się raczej do niczego nie przyda. Warto jednak się zaznajomić z tym nieco
 bardziej zaawansowanym kawałkiem oprogramowania i w tym wpisie postaramy się nieco omówić instalację
@@ -51,7 +51,7 @@ w naszym systemie. Tak więc, potrzebujemy te poniższe pakiety:
 W pakiecie `pavucontrol` mamy graficzny mikser, z poziomu którego będziemy w stanie zarządzać
 poziomem głośności każdej aplikacji, która się podłączy do PulseAudio. Wygląda to mniej więcej tak:
 
-![]({{< baseurl >}}/img/2016/01/1.pulseaudio-volume-control-pavucontrol.png#big)
+![](/img/2016/01/1.pulseaudio-volume-control-pavucontrol.png#big)
 
 Z kolei pakiet `rtkit` zajmie się ustawieniem priorytetu dla demona dźwięku, tak by te bardziej
 żarłoczne aplikacje nie zdusiły nam czasem dźwięku. Pakiety, które mają w nazwie
@@ -125,7 +125,7 @@ Dlatego też szereg dystrybucji nie korzysta z tego trybu. Demon PulseAudio jest
 automatycznie wraz ze startem środowiska graficznego, tuż po zalogowaniu się konkretnego
 użytkownika. Taki proces działa na prawach danego użytkownika, a nie jako root. Może to w pewnych
 sytuacjach powodować [brak
-dźwięku]({{< baseurl >}}/post/brak-dzwieku-przy-nieaktywnej-sesji-logowania/), zwłaszcza, gdy
+dźwięku](/post/brak-dzwieku-przy-nieaktywnej-sesji-logowania/), zwłaszcza, gdy
 nie jesteśmy członkami grupy `audio` i posiadamy systemd. Nie jest to jednak jakiś poważny problem i
 można go bardzo łatwo rozwiązać (tak jako to zostało zrobione w podlinkowanym wpisie).
 
@@ -199,7 +199,7 @@ możliwość ustawienia wyjścia dźwięku. Z reguły to wyjście jest wykrywane
 musimy manualnie przestawiać go na `pulse` czy `pulseaudio` . Niemniej jednak, jeśli chcemy
 przestawić sobie wyjście dźwięku, to nic nie stoi na przeszkodzie, by to zrobić. Poniżej przykład:
 
-![]({{< baseurl >}}/img/2016/01/2.pulseaudio-smplayer-config.png#big)
+![](/img/2016/01/2.pulseaudio-smplayer-config.png#big)
 
 Trzeba jednak wziąć pod uwagę, że nie wszystkie aplikacje mają zaimplementowaną natywną obsługę
 PulseAudio i w takim przypadku mogą się pojawić problemy z dźwiękiem. Część z aplikacji może mieć
@@ -237,12 +237,12 @@ Warto też nie zapominać o ALSA. Do dyspozycji mamy `alsamixer`, w którym to m
 poszczególne potencjometry, a to może być przyczyną braku dźwięku. Nawet jeżeli po odpaleniu tego
 miksera, do naszej dyspozycji jest tylko coś na wzór tego poniższego obrazka:
 
-![]({{< baseurl >}}/img/2016/01/3.alsamixer-pulseaudio.png#huge)
+![](/img/2016/01/3.alsamixer-pulseaudio.png#huge)
 
 To możemy wcisnąć klawisz F6 i wybrać z menu odpowiednią kartę. W ten sposób uzyskamy dostęp do jej
 przełączników:
 
-![]({{< baseurl >}}/img/2016/01/4.alsamixer-sound-card.png#huge)
+![](/img/2016/01/4.alsamixer-sound-card.png#huge)
 
 Pomocne w rozwiązywaniu problemów może okazać się również usunięcie katalogu `~/.config/pulse/` przy
 wyłączonym środowisku graficznym, a następnie zresetowanie maszyny.
@@ -257,11 +257,11 @@ też jakaś aplikacja, która będzie je w stanie generować. W tym przypadku zd
 pakiet `volumeicon-alsa` . Nie jest to jakieś zaawansowane cudo ale grunt, że realizuje ono to czego
 od niego oczekujemy. Tak wygląda konfiguracja tego narzędzia:
 
-![]({{< baseurl >}}/img/2016/01/5.volumeicon-alsa-pulseaudio.png#medium)
+![](/img/2016/01/5.volumeicon-alsa-pulseaudio.png#medium)
 
 Jak widzimy, możemy skonfigurować kanał, który będziemy regulować. Mamy także opcje wywołania
 miksera PulseAudio. A w dolnej części mamy zaznaczone trzy klawisze, które będą odpowiedzialne za
 regulację dźwięku, po których przyciśnięciu system otrzyma stosowne notyfikacje. By te klawisze
 działały, potrzebna jest nam [odpowiednio skonfigurowana klawiatura
-multimedialna]({{< baseurl >}}/post/klawiatura-multimedialna-i-niedzialajace-klawisze/), bo te
+multimedialna](/post/klawiatura-multimedialna-i-niedzialajace-klawisze/), bo te
 klawisze nie zawsze są rozpoznawane przez Xserver.

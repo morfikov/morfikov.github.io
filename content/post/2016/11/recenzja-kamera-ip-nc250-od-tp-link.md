@@ -32,50 +32,50 @@ linux'em.
 Zacznijmy może od pudełka i jego zawartości. Wewnątrz opakowania mamy oczywiście samą kamerę NC250.
 Jest też kilka dodatkowych rzeczy.
 
-![]({{< baseurl >}}/img/2016/11/001.nc250-kamera-tp-link-opakowanie.jpg#big)
+![](/img/2016/11/001.nc250-kamera-tp-link-opakowanie.jpg#big)
 
-![]({{< baseurl >}}/img/2016/11/002.nc250-kamera-tp-link-opakowanie-zawartosc.jpg#big)
+![](/img/2016/11/002.nc250-kamera-tp-link-opakowanie-zawartosc.jpg#big)
 
-![]({{< baseurl >}}/img/2016/11/003.nc250-kamera-tp-link-opakowanie-zawartosc.jpg#big)
+![](/img/2016/11/003.nc250-kamera-tp-link-opakowanie-zawartosc.jpg#big)
 
 Do zestawu jest dołączony przewód ethernet RJ-45 kategorii 5 (CAT5) o długości 1,2 m:
 
-![]({{< baseurl >}}/img/2016/11/004.nc250-kamera-tp-link-rj-45.jpg#big)
+![](/img/2016/11/004.nc250-kamera-tp-link-rj-45.jpg#big)
 
 Oraz zasilacz 9V/0,6A:
 
-![]({{< baseurl >}}/img/2016/11/005.nc250-kamera-tp-link-zasilacz.jpg#big)
+![](/img/2016/11/005.nc250-kamera-tp-link-zasilacz.jpg#big)
 
-![]({{< baseurl >}}/img/2016/11/006.nc250-kamera-tp-link-zasilacz.jpg#big)
+![](/img/2016/11/006.nc250-kamera-tp-link-zasilacz.jpg#big)
 
 Przewód na zasilaczu ma około 1,5 m. Dla tych użytkowników, którzy uważają, że może być to ździebko
 za mało, to w zestawie jest także dołączony przedłużacz, który ma około 2,5 m:
 
-![]({{< baseurl >}}/img/2016/11/007.nc250-kamera-tp-link-przedluzacz.jpg#big)
+![](/img/2016/11/007.nc250-kamera-tp-link-przedluzacz.jpg#big)
 
 Kamera generalnie składa się z dwóch części, tej właściwej oraz podstawki:
 
-![]({{< baseurl >}}/img/2016/11/008.nc250-kamera-tp-link.jpg#big)
+![](/img/2016/11/008.nc250-kamera-tp-link.jpg#big)
 
-![]({{< baseurl >}}/img/2016/11/009.nc250-kamera-tp-link-podstawka.jpg#big)
+![](/img/2016/11/009.nc250-kamera-tp-link-podstawka.jpg#big)
 
 Podstawkę trzeba dokręcić do kamery, z tym, że w miejscu łączenia podstawki z kamerą mamy także
 regulator kulowy:
 
-![]({{< baseurl >}}/img/2016/11/010.nc250-kamera-tp-link-regulator.jpg#big)
+![](/img/2016/11/010.nc250-kamera-tp-link-regulator.jpg#big)
 
-![]({{< baseurl >}}/img/2016/11/011.nc250-kamera-tp-link-regulator.jpg#big)
+![](/img/2016/11/011.nc250-kamera-tp-link-regulator.jpg#big)
 
 Niezbyt mi takie rozwiązanie przypadło do gustu. Praktycznie każda regulacja położenia kamery
 sprawia, że podstawka się odkręca. Mocniejsze dokręcenie podstawki uniemożliwia z kolei regulację.
 Także moim zdaniem niezbyt udane rozwiązanie. Z tym, że jeśli ktoś ustawi jedno położenie kamery, to
 raczej nie będzie mu ten fakt przeszkadzał.
 
-![]({{< baseurl >}}/img/2016/11/012.nc250-kamera-tp-link-regulator.jpg#big)
+![](/img/2016/11/012.nc250-kamera-tp-link-regulator.jpg#big)
 
-![]({{< baseurl >}}/img/2016/11/013.nc250-kamera-tp-link-regulator.jpg#big)
+![](/img/2016/11/013.nc250-kamera-tp-link-regulator.jpg#big)
 
-![]({{< baseurl >}}/img/2016/11/014.nc250-kamera-tp-link-z-podstawka.jpg#big)
+![](/img/2016/11/014.nc250-kamera-tp-link-z-podstawka.jpg#big)
 
 Kamerę można postawić na biurku/szafce i od razu można z niej zacząć korzystać. Podstawka nie ma
 jednak żadnych gumowych nóżek przez co może nam jeździć dość mocno po blacie. Jeśli chcielibyśmy
@@ -83,7 +83,7 @@ kamerę umiejscowić w pewnym określonym punkcie, to zawsze możemy ją przykle
 taśmą. W przypadku ścian i innych tego typu miejsc, lepszym rozwiązaniem będzie stałe mocowanie przy
 pomocy śrubek. W podstawce są już nawiercone odpowiednie otwory, choć w zestawie brak śrubek.
 
-![]({{< baseurl >}}/img/2016/11/015.nc250-kamera-tp-link-montaz.jpg#big)
+![](/img/2016/11/015.nc250-kamera-tp-link-montaz.jpg#big)
 
 Za to jak zwykle nie mogło zabraknąć całej sterty papierzysk. Dobrze, że jest tutaj również skrócona
 instrukcja obsługi w języku polskim, choć moim zdaniem nie powinno być problemów z obsługą tej
@@ -95,26 +95,26 @@ No to wiemy mniej więcej jak kamera NC250 wygląda. Sprawdźmy teraz jej parame
 tylnym panelu kamery NC250 poza gniazdem zasilania znajduje się także port RJ-45 o przepustowości
 100 mbit/s.
 
-![]({{< baseurl >}}/img/2016/11/016.nc250-kamera-tp-link-gniazda.jpg#big)
+![](/img/2016/11/016.nc250-kamera-tp-link-gniazda.jpg#big)
 
 Niżej zaś ulokowany jest przycisk RESET/WPS, dzięki któremu możemy łatwo zresetować kamerę do
 ustawień fabrycznych oraz możemy także nawiązać połączenie z siecią WiFi.
 
-![]({{< baseurl >}}/img/2016/11/017.nc250-kamera-tp-link-wps.jpg#big)
+![](/img/2016/11/017.nc250-kamera-tp-link-wps.jpg#big)
 
 Kamera NC250 jest w stanie łączyć się bezprzewodowo w standardzie 802.11n do 300 mbit/s w paśmie 2,4
 GHz. Warto też odnotować, że sama kamera jest w stanie także robić za ekstender sieciowy, przez co
 może poszerzyć zasięg naszej domowej sieci WiFi. Klienta sieci bezprzewodowej jak i sam ekstender
 można naturalnie wyłączyć w panelu administracyjnym.
 
-![]({{< baseurl >}}/img/2016/11/018.nc250-kamera-tp-link-wifi.png#huge)
+![](/img/2016/11/018.nc250-kamera-tp-link-wifi.png#huge)
 
-![]({{< baseurl >}}/img/2016/11/019.nc250-kamera-tp-link-ekstender-wifi.png#huge)
+![](/img/2016/11/019.nc250-kamera-tp-link-ekstender-wifi.png#huge)
 
 To co jest niewątpliwą zaletą tej kamery, to obsługa trybu nocnego. NC250 posiada bowiem 6 diod
 podczerwieni zdolnych oświetlić dość przyzwoicie obszar do 5 metrów w absolutnej ciemności:
 
-![]({{< baseurl >}}/img/2016/11/020.nc250-kamera-tp-link-diody-podczerwien.jpg#medium)
+![](/img/2016/11/020.nc250-kamera-tp-link-diody-podczerwien.jpg#medium)
 
 Kamera rejestruje obraz w formacie h.264 w rozdzielczości 1280x720 (1 mpix) przy 10, 15, 20, 25 i 30
 FPS. Oprogramowanie kamery pozwala także na zoom cyfrowy 2x, 3x i 4x. Pole widzenia (FOV) kamery
@@ -145,7 +145,7 @@ dostępny panel administracyjny. To co się rzuca w oczy niemal natychmiast, to 
 podejrzenia obrazu z kamery pod linux'em z poziomu przeglądarki. Wygląda na to, że potrzebny jest
 jakiś niestandardowy plugin, który nie ma wersji na linux'a.
 
-![]({{< baseurl >}}/img/2016/11/021.nc250-kamera-tp-link-plugin-web.png#huge)
+![](/img/2016/11/021.nc250-kamera-tp-link-plugin-web.png#huge)
 
 Niemniej jednak, część z widocznych wyżej przycisków działa, tylko co nam po nich, skoro nie mamy
 podglądu? Licząc od lewej strony, to nie działa nam przycisk od robienia fotek i nagrywania obrazu.
@@ -193,13 +193,13 @@ Jako, że kamera NC250 ma wbudowany mikrofon, to rejestruje dźwięk. Potrafi ta
 tego dźwięku w danej chwili. Można zatem zaprogramować system tej kamery tak, by po przekroczeniu
 pewnego ustalonego poziomu dźwięku wysłał nam powiadomienie o aktywności.
 
-![]({{< baseurl >}}/img/2016/11/022.nc250-kamera-tp-link-dzwiek-detekcja.png#huge)
+![](/img/2016/11/022.nc250-kamera-tp-link-dzwiek-detekcja.png#huge)
 
 Takie powiadomienie może się odbyć drogą mailową jak i za pośrednictwem protokołu FTP. W obu
 przypadkach po przekroczeniu dopuszczalnego poziomu dźwięku zostaną wysłane cztery fotografie. W
 przypadku wybrania opcji powiadamiania przez email, wysyłane jest także poniższe info:
 
-![]({{< baseurl >}}/img/2016/11/023.nc250-kamera-tp-link-mail.png#huge)
+![](/img/2016/11/023.nc250-kamera-tp-link-mail.png#huge)
 
 Mając podgląd na fotkach w wiadomości email, łatwo możemy ustalić co się dzieje w monitorowanym
 pomieszczeniu. Jeśli nawet na fotkach nic nie zostało uchwycone, to taka notyfikacja zawsze może dać
@@ -215,7 +215,7 @@ sceny. Niekoniecznie musi to być cały obszar, który jest obserwowany przez ka
 dowolny wycinek obrazu, w zależności od naszych upodobań. Problem w tym, że pod linux'em nie działa
 nam plugin w przeglądarce i nie mamy możliwości skonfigurowania czujnika ruchu:
 
-![]({{< baseurl >}}/img/2016/11/024.nc250-kamera-tp-link-detekcja-ruchu-web.png#huge)
+![](/img/2016/11/024.nc250-kamera-tp-link-detekcja-ruchu-web.png#huge)
 
 W dalszym ciągu możemy jednak korzystać z tego czujnika ruchu ale będzie brany pod uwagę cały
 monitorowany obszar. Powiadomienia są wysyłane dokładnie w taki sam sposób, co przy czujniku
@@ -229,4 +229,4 @@ programik umożliwi nam podgląd obrazu z kamery i to nie tylko będąc podłąc
 domowej WiFi ale też zdalnie za pomocą [serwisu tplinkcloud](https://www.tplinkcloud.com/). Nie będę
 tutaj opisywał samej aplikacji ale jeśli ktoś jest ciekaw co ma ona nam do zaoferowania to zapraszam
 do zapoznania się z [osobnym wpisem, który jest poświęcony aplikacji
-tpCamera]({{< baseurl >}}/post/aplikacja-tpcamera-do-obslugi-kamer-tp-link-z-poziomu-smartfona/).
+tpCamera](/post/aplikacja-tpcamera-do-obslugi-kamer-tp-link-z-poziomu-smartfona/).

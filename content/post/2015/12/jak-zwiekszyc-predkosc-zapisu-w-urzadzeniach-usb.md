@@ -79,7 +79,7 @@ różnica, bo prawie 2M/s, a to piechotą nie chodzi.
 
 Powyższe ustawienia są jedynie tymczasowe i znikną po tym jak odłączymy pendrive od portu USB. By
 parametr `max_sectors` domyślnie przybrał wartość 2048, musimy pokusić się o napisanie [reguły dla
-udev'a]({{< baseurl >}}/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/). Tworzymy wobec tego plik
+udev'a](/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/). Tworzymy wobec tego plik
 `90-pendrive-max-sectors.rules` w katalogu `/etc/udev/rules.d/` i dodajemy w nim tę poniższą treść:
 
     KERNEL=="sd?", SUBSYSTEMS=="usb", DRIVERS=="usb-storage" \

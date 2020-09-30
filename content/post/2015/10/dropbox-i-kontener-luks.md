@@ -292,6 +292,6 @@ slotów w nagłówku kontenera LUKS. Służy do tego `cryptsetup luksKillSlot`:
     Enter any remaining passphrase:
 
 
-[1]: {{< baseurl >}}/post/implementacja-encfs-na-dropboxie/
-[2]: {{< baseurl >}}/post/kontener-truecrypt-trzymany-na-dropboxie/
+[1]: /post/implementacja-encfs-na-dropboxie/
+[2]: /post/kontener-truecrypt-trzymany-na-dropboxie/
 [3]: https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup

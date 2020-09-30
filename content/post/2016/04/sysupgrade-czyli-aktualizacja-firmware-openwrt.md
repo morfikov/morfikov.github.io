@@ -138,9 +138,9 @@ nas backup nadaje się do wgrania na router. W przypadku, gdy nowsza wersja firm
 jakieś zmiany w konfiguracji, to wszystkie te zmiany można zwyczajnie przenieść. Wygląda to mniej
 więcej tak:
 
-![]({{< baseurl >}}/img/2016/04/1.sysupgrade-meld-diff-openwrt-firmware-aktualizacja.png#huge)
+![](/img/2016/04/1.sysupgrade-meld-diff-openwrt-firmware-aktualizacja.png#huge)
 
-![]({{< baseurl >}}/img/2016/04/2.sysupgrade-meld-diff-openwrt-firmware-aktualizacja.png#huge)
+![](/img/2016/04/2.sysupgrade-meld-diff-openwrt-firmware-aktualizacja.png#huge)
 
 Po zakończeniu tego procesu, pakujemy pliki:
 

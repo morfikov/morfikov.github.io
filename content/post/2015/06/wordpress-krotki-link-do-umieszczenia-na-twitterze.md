@@ -29,15 +29,15 @@ które umożliwiają skracanie linków. WordPress ma swój własny mechanizm gen
 krótkich odnośników typu `http://wp.me/8cz78asd` będzie nam zapewniona i do każdego opublikowanego
 przez nas postu będziemy w stanie wyciągnąć taki linki za pomocą formularza edycji:
 
-![]({{< baseurl >}}/img/2015/06/1.wordpress-krotki-link.png#big)
+![](/img/2015/06/1.wordpress-krotki-link.png#big)
 
 Natomiast jeśli nasz blog jest hostowany poza stroną WordPress'a, to nie będziemy mogli skorzystać z
 tych krótkich odnośników. Nie wszystko jednak stracone, bowiem jeśli spróbujemy wygenerować krótki
 link dla jakiegoś postu, zostanie nam on podany w formie `http://domena.com/?p=10` , czyli jest to
 standardowy link do treści w WordPress'ie przed przepisaniem go do postaci
-[permalinku]({{< baseurl >}}/post/wordpress-odnosniki-bezposrednie-permalinks/):
+[permalinku](/post/wordpress-odnosniki-bezposrednie-permalinks/):
 
-![]({{< baseurl >}}/img/2015/06/2.wordpress-krotki-link-permalink.png#small)
+![](/img/2015/06/2.wordpress-krotki-link-permalink.png#small)
 
 Tak czy inaczej, oba linki będą działać bez żadnych dodatkowych kroków z naszej strony, bo jeśli
 korzystamy z permalinków, to te krótsze ich wersje zostaną przekierowane automatycznie przy pomocy

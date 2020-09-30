@@ -33,15 +33,15 @@ W pudełku poza samym adapterem TL-WN823N mamy również trochę makulatury, w t
 obsługi, oraz płytkę ze sterownikami. Instrukcja jest w kilku językach, min. również i po polsku.
 Poniżej znajdują się fotki opakowania oraz jego zawartości:
 
-![]({{< baseurl >}}/img/2016/08/1.karta-adapter-TL-WN823N-tp-link.jpg#huge)
+![](/img/2016/08/1.karta-adapter-TL-WN823N-tp-link.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/2.karta-adapter-TL-WN823N-tp-link.jpg#huge)
+![](/img/2016/08/2.karta-adapter-TL-WN823N-tp-link.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/3.karta-adapter-TL-WN823N-tp-link.jp#hugeg)
+![](/img/2016/08/3.karta-adapter-TL-WN823N-tp-link.jp#hugeg)
 
-![]({{< baseurl >}}/img/2016/08/4.karta-adapter-TL-WN823N-tp-link.jpg#huge)
+![](/img/2016/08/4.karta-adapter-TL-WN823N-tp-link.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/5.karta-adapter-TL-WN823N-tp-link.jpg#huge)
+![](/img/2016/08/5.karta-adapter-TL-WN823N-tp-link.jpg#huge)
 
 Jak widzimy, karta ma interfejs USB 2.0 oraz posiada przycisk WPS. Na dobrą sprawę w przypadku
 mojego laptopa, ta karta jest zwrócona tym przyciskiem w dół. W efekcie zostaje mi może 1,5 cm
@@ -50,7 +50,7 @@ też i portu USB w laptopie. Sam przycisk bardzo ciężko się wciska, zwłaszcz
 porcie USB. Oczywiście można korzystać z przedłużki ale takowej do zestawu nie dołączono, w końcu to
 mini adapter. Poniżej jest fotka adaptera TL-WN823N w porcie USB mojego laptopa:
 
-![]({{< baseurl >}}/img/2016/08/6.TP-LINK-TL-WN823N-laptop.jpg#huge)
+![](/img/2016/08/6.TP-LINK-TL-WN823N-laptop.jpg#huge)
 
 Nie przypadła mi do gustu również ta skuwka, z którą karta może i dobrze się prezentuje ale trzeba
 ten zbędny dodatek zdejmować i ciągle pilnować, by go nie zgubić. To mniej więcej tyle z pierwszego
@@ -94,7 +94,7 @@ rozwiązanie. Z tego co można było wyczytać na wikidev, adapter w wersji V1 b
 system i działał w oparciu o moduł `rtl8192cu` . W przypadku V2 potrzebny nam jest [moduł 8192eu
 (rtl8192eu)](https://github.com/Mange/rtl8192eu-linux-driver/), a takim kernel linux'a póki co nie
 dysponuje. Niemniej jednak, sami [możemy skompilować sobie
-moduł 8192eu]({{< baseurl >}}/post/sterowniki-tp-link-tl-wn823n-8192eu/) i podczepić go pod
+moduł 8192eu](/post/sterowniki-tp-link-tl-wn823n-8192eu/) i podczepić go pod
 mechanizm DKMS. Trzeba tylko wyraźnie zaznaczyć, że moduł jest bardzo ale to bardzo niestabilny i
 może powodować całą masę problemów. Niemniej jednak, karta TL-WN823N potrafi działać na nim dość
 dobrze.
@@ -247,19 +247,19 @@ się zachowywał w takim przypadku.
 Poniższa fotka odnosi się do sytuacji, w której laptop znajduje się w tym samym pomieszczeniu co
 router WiFi TP-LINK Archer C2600. Odległość nie przekracza 2 metrów:
 
-![]({{< baseurl >}}/img/2016/08/6.karta-adapter-TL-WN823N-tp-link-test-iperf-linux.png#huge)
+![](/img/2016/08/6.karta-adapter-TL-WN823N-tp-link-test-iperf-linux.png#huge)
 
 Około 170 mbit/s. Całkiem przyzwoicie jak na taki mały adapter. Na opakowaniu może i widnieje i 300
 mbit/s ale wszyscy wiemy, że te liczby lekko odbiegają od stanu faktycznego. Sprawdźmy jak będzie
 wyglądał transfer po zmianie położenia laptopa i dołożeniu przeszkody w postaci niezbyt grubej
 ściany. Odległość około 3-4 metry:
 
-![]({{< baseurl >}}/img/2016/08/7.karta-adapter-TL-WN823N-tp-link-test-iperf-linux.png#huge)
+![](/img/2016/08/7.karta-adapter-TL-WN823N-tp-link-test-iperf-linux.png#huge)
 
 Dość spory spadek transfery o około 30 mbit/s. Dorzućmy jeszcze jedną ścianę i zobaczmy jak adapter
 sobie poradzi w takiej sytuacji. Odległość 5-6 metrów:
 
-![]({{< baseurl >}}/img/2016/08/8.karta-adapter-TL-WN823N-tp-link-test-iperf-linux.png#huge)
+![](/img/2016/08/8.karta-adapter-TL-WN823N-tp-link-test-iperf-linux.png#huge)
 
 Poniżej 100 mbit/s ale generalnie nie jest źle, choć mogłoby być trochę lepiej.
 

@@ -116,7 +116,7 @@ Będąc w katalogu głównym Firefox'a, uruchamiamy aktualizację tym poniższym
 Firefox powinien zostać po chwili zaktualizowany. Jeśli mieliśmy odpaloną przeglądarkę w trakcie
 procesu aktualizacji, to musimy ją zrestartować, by aktualizacja zaczęła obowiązywać:
 
-![]({{< baseurl >}}/img/2016/02/1.aktualizacja-mozilla-firefox-about.png#big)
+![](/img/2016/02/1.aktualizacja-mozilla-firefox-about.png#big)
 
 ## Problemy z plikiem libmozsqlite3.so
 
@@ -137,4 +137,4 @@ znajduje się jak zawsze [na moim
 github'ie](https://github.com/morfikov/files/blob/master/scripts/ff-tb-updater.sh). Poniżej zaś jest
 przykładowa aktualizacja Firefox'a i Thunderbird'a za pomocą tego skryptu:
 
-![]({{< baseurl >}}/img/2016/02/2skrypt-aktualizacja-mozilla-firefox-thunderbird.png#huge)
+![](/img/2016/02/2skrypt-aktualizacja-mozilla-firefox-thunderbird.png#huge)

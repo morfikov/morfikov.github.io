@@ -112,7 +112,7 @@ Oczywiście samo szyfrowanie komunikacji na nic się nie zda jeśli korzystamy z
 Riseup zapewnia własny szyfrowany DNS (172.27.0.1) i, jak podają, żadne zapytania DNS nie są
 logowane. W każdym razie można albo się zdecydować na resolver riseup, albo skorzystać z innej
 alternatywy, np.
-[dnscrypt-proxy]({{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/) . W każdym
+[dnscrypt-proxy](/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/) . W każdym
 razie trzeba pamiętać by zaszyfrować również ruch DNS.
 
 Jeśli chcemy skorzystać z DNS riseup, możemy również doinstalować w tym celu `resolvconf` , który to
@@ -127,7 +127,7 @@ By przekonać się i sprawdzić czy faktycznie ruch przepuszczany jest za pośre
 wchodzimy na pierwszą z brzegu stronę sprawdzającą adres IP. Ja korzystałem z
 <http://whatismyipaddress.com/> . Poniżej wynik:
 
-![]({{< baseurl >}}/img/2015/06/1.riseup-vpn-adres-ip-test.png#medium)
+![](/img/2015/06/1.riseup-vpn-adres-ip-test.png#medium)
 
 Właśnie przeprowadziłem się do US. Ale jest mały problem. Połączenia VPN, zwłaszcza te darmowe jak
 riseup, czasem nie są zbyt szybkie. W prawdzie nie ma co porównywać do TORa ale pingi mówią same za

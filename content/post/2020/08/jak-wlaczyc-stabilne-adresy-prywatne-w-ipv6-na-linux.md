@@ -337,7 +337,7 @@ części identyfikującej hosta w adresie IPv6 i tym samym utrudnić dość mocn
 
 [1]: https://tools.ietf.org/html/rfc7707#section-4.1.1.1
 [2]: https://en.wikipedia.org/wiki/Organizationally_unique_identifier
-[3]: {{< baseurl >}}/post/jak-wlaczyc-ipv6-privacy-extensions-w-debianie-slaac/
+[3]: /post/jak-wlaczyc-ipv6-privacy-extensions-w-debianie-slaac/
 [4]: https://www.google.com/intl/en/ipv6/statistics.html
 [5]: https://tools.ietf.org/html/rfc7217
 [6]: https://en.wikipedia.org/wiki/IPv6_address#Local_addresses

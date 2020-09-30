@@ -15,7 +15,7 @@ title: Nagłówek kontenera LUKS trzymany na pendrive
 ---
 
 Jeśli kiedyś rozważaliśmy [umieszczenie pliku klucza (keyfile) do zaszyfrowanego kontenera LUKS na
-pendrive]({{< baseurl >}}/post/keyfile-trzymany-w-glebokim-ukryciu/), to ciekawszą alternatywą
+pendrive](/post/keyfile-trzymany-w-glebokim-ukryciu/), to ciekawszą alternatywą
 może okazać się umieszczenie całego nagłówka takiego kontenera na zewnętrznym nośniku. Ma to tę
 przewagę nad keyfile, że wszystkie informacje zapewniające dostęp do kontenera, wliczając w to klucz
 główny, są oddzielone od zaszyfrowanych danych. W ten sposób nawet jeśli kontener wpadnie w
@@ -201,7 +201,7 @@ Musimy także przereinstalować bootloader. W tym przypadku jest to `grub2` :
 W momencie, gdy zostaniemy poproszeni o podanie dysku, na którym ma zostać umieszczony kod
 bootloader'a, wybieramy pendrive:
 
-![]({{< baseurl >}}/img/2016/01/1.grub-instalacja-pendrive-luks-naglowek.png#medium)
+![](/img/2016/01/1.grub-instalacja-pendrive-luks-naglowek.png#medium)
 
 Następnie regenerujemy initramfs:
 
@@ -248,7 +248,7 @@ wystartować tę usługę lub też uruchomić komputer ponownie. Niemniej jednak
 zostaniemy poproszeni o hasło. Jeśli nie chce nam się dodatkowo wpisywać hasła podczas startu, to
 zawsze możemy korzystać z keyfile, który również można umieścić na pendrive. Choć nie zalecałbym
 tego rozwiązania. Można także skorzystać z [keyring'u kernela, który jest w stanie przechowywać
-hasła LUKS]({{< baseurl >}}/post/odszyfrowanie-kontenerow-luks-w-systemd/), o ile ma się
+hasła LUKS](/post/odszyfrowanie-kontenerow-luks-w-systemd/), o ile ma się
 zaszyfrowaną jakąś partycję, najlepiej tę systemową. W ten sposób unikniemy wprowadzania wielu haseł
 do zaszyfrowanych zasobów. Po odszyfrowaniu systemu, partycję `/boot/` można zwyczajnie odmontować,
 a pendrive wyciągnąć. Pamiętajmy jednak, by nie aktualizować bootloader'a czy kernela, gdy partycja

@@ -21,7 +21,7 @@ przewodowo jak i bezprzewodowo. Problem jednak pojawia się w momencie, gdy chce
 te interfejsy, z tym, że dysponujemy jedynie niezbyt zaawansowanym menadżerem okien Openbox. Takie
 środowiska zwykle nie mają na pokładzie automatów pokroju Network Manager, przez co bardziej
 zaawansowana konfiguracja sieci może być dość skomplikowana. Do tej pory wykorzystywałem [interfejs
-bond0]({{< baseurl >}}/post/konfiguracja-interfejsow-bond-bonding/), by mieć możliwość łatwego
+bond0](/post/konfiguracja-interfejsow-bond-bonding/), by mieć możliwość łatwego
 przełączania się miedzy sieciami. Istnieje inny sposób konfiguracji interfejsów `eth0` i `wlan0` w
 pliku `/etc/network/interfaces` tak, by działały one nam równolegle i nie powodowały problemów z
 połączeniem, a wszystko za sprawą opcji `metric` .
@@ -48,7 +48,7 @@ Oczywiście w przypadku tego interfejsu WiFi, wszystkie parametry potrzebne do p
 sieci bezprzewodowej są określane w pliku `/etc/wpa_supplicant/wpa_supplicant.conf` i to
 `wpasupplicant` zajmuje się tą częścią połączenia. Więcej informacji na ten temat znajduje się w
 [artykule o konfiguracji sieci WiFi pod
-Debianem]({{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/).
+Debianem](/post/konfiguracja-polaczenia-wifi-pod-debianem/).
 
 ## Problem trasy domyślnej (default gateway)
 
@@ -75,7 +75,7 @@ domyślną i na jej miejsce dodać nową trasę, która będzie wskazywać na in
 tylko nie chce nam się tego robić ręcznie, a poza tym, możemy posłużyć się metryką (parametr
 `metric` ), która skonfiguruje nam trasy domyślne mniej więcej na takiej samej zasadzie co w
 przypadku [konfiguracji łącz różnych
-ISP]({{< baseurl >}}/post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/).
+ISP](/post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/).
 
 ## Określanie metryki dla interfejsów (metric)
 

@@ -91,57 +91,57 @@ konfiguracji starszych wersji OpenWRT na naszym routerze WiFi.
 
 
 [1]: https://tplinkforum.pl/t/openwrt-w-pigulce-konfiguracja-w-oparciu-o-tl-wr1043nd-oraz-archer-c7/6960/
-[2]: {{< baseurl >}}/post/jak-wgrac-firmware-openwrt-na-router-tp-link/
-[3]: {{< baseurl >}}/post/dostep-routera-openwrt-telnet-ssh-sshfs/
-[4]: {{< baseurl >}}/post/klucze-szyfrujace-rsa-w-openwrt-ssh/
-[5]: {{< baseurl >}}/post/tryb-ratunkowy-failsafe-w-openwrt/
-[6]: {{< baseurl >}}/post/reset-ustawien-w-openwrt-firstboot/
-[7]: {{< baseurl >}}/post/konsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link/
-[8]: {{< baseurl >}}/post/jak-przy-pomocy-trybu-recovery-odzyskac-router-tp-link/
-[9]: {{< baseurl >}}/post/opkg-czyli-menadzer-pakietow-w-openwrt/
-[10]: {{< baseurl >}}/post/sysupgrade-czyli-aktualizacja-firmware-openwrt/
-[11]: {{< baseurl >}}/post/jak-powrocic-z-firmware-openwrt-tp-linka/
-[12]: {{< baseurl >}}/post/skrypty-startowe-init-w-openwrt/
-[13]: {{< baseurl >}}/post/hostname-czyli-nazwa-hosta-w-openwrt/
-[14]: {{< baseurl >}}/post/strefa-czasowa-timezone-w-openwrt/
-[15]: {{< baseurl >}}/post/logread-czyli-system-logowania-w-openwrt/
-[16]: {{< baseurl >}}/post/konfiguracja-diod-w-routerze-pod-openwrt-led/
-[17]: {{< baseurl >}}/post/konfiguracja-przyciskow-w-openwrt/
-[18]: {{< baseurl >}}/post/konfiguracja-interfejsow-sieciowych-w-openwrt/
-[19]: {{< baseurl >}}/post/jak-sklonowac-adres-mac-w-openwrt/
-[20]: {{< baseurl >}}/post/openwrt-dwa-rozne-adresy-mac-na-porcie-wan/
-[21]: {{< baseurl >}}/post/podzial-switcha-na-kilka-vlan-w-openwrt/
-[22]: {{< baseurl >}}/post/konfiguracja-dmz-openwrt/
-[23]: {{< baseurl >}}/post/dhcp-dns-czyli-konfiguracja-sieci-w-openwrt/
-[24]: {{< baseurl >}}/post/siec-bezprzewodowa-wifi-w-openwrt-wlan/
-[25]: {{< baseurl >}}/post/openwrt-konfiguracja-anten-via-txantenna-rxantenna/
-[26]: {{< baseurl >}}/post/wps-czyli-wifi-protected-setup-w-openwrt/
-[27]: {{< baseurl >}}/post/konfiguracja-wisp-openwrt-tryb-sta-ap/
-[28]: {{< baseurl >}}/post/most-bezprzewodowy-openwrt-tryb-wds/
-[29]: {{< baseurl >}}/post/karta-wifi-trybie-monitor-openwrt/
-[30]: {{< baseurl >}}/post/bezprzewodowa-siec-goscinna-guest-wlan/
-[31]: {{< baseurl >}}/post/rozne-adresy-lan-wlan-openwrt-routed-ap/
-[32]: {{< baseurl >}}/post/dysk-pendrive-inne-nosniki-pod-openwrt/
-[33]: {{< baseurl >}}/post/extroot-whole_root-fullroot-pod-openwrt/
-[34]: {{< baseurl >}}/post/zmiana-rozmiaru-katalogu-tmp-pod-openwrt/
-[35]: {{< baseurl >}}/post/filtr-pakietow-sieciowych-w-openwrt-firewall/
-[36]: {{< baseurl >}}/post/modem-lte-pod-openwrt/
-[37]: {{< baseurl >}}/post/stale-nazwy-urzadzen-openwrt-hotplug-udev/
-[38]: {{< baseurl >}}/post/monitor-polaczenia-3glte-w-openwrt-3ginfo/
-[39]: {{< baseurl >}}/post/obsluga-sms-kodow-ussd-w-openwrt/
-[40]: {{< baseurl >}}/post/konfiguracja-polaczenia-aero2-na-openwrt/
-[41]: {{< baseurl >}}/post/automatyczna-blokada-internetu-lte-w-openwrt/
-[42]: {{< baseurl >}}/post/konfiguracja-dnscrypt-proxy-w-openwrt/
-[43]: {{< baseurl >}}/post/wake-lan-z-etherwake-pod-openwrt/
-[44]: {{< baseurl >}}/post/drukarka-sieciowa-w-openwrt-serwer-wydruku/
-[45]: {{< baseurl >}}/post/sieciowy-system-plikow-openwrt-nfs/
-[46]: {{< baseurl >}}/post/serwer-ftp-routerze-openwrt-vsftpd/
-[47]: {{< baseurl >}}/post/statystyki-openwrt-collectd-rrdtool/
-[48]: {{< baseurl >}}/post/jak-zablokowac-facebook-youtube-openwrt/
-[49]: {{< baseurl >}}/post/router-openwrt-jako-serwer-klient-radius/
-[50]: {{< baseurl >}}/post/ksztaltowanie-ruchu-qos-scripts-openwrt/
-[51]: {{< baseurl >}}/post/quality-service-qos-w-openwrt/
-[52]: {{< baseurl >}}/post/failover-load-balancing-openwrt-mwan3/
-[53]: {{< baseurl >}}/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/
-[54]: {{< baseurl >}}/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/
-[55]: {{< baseurl >}}/post/udostepnianie-lte-3g-ze-smartfona-przez-router-openwrt-tethering/
+[2]: /post/jak-wgrac-firmware-openwrt-na-router-tp-link/
+[3]: /post/dostep-routera-openwrt-telnet-ssh-sshfs/
+[4]: /post/klucze-szyfrujace-rsa-w-openwrt-ssh/
+[5]: /post/tryb-ratunkowy-failsafe-w-openwrt/
+[6]: /post/reset-ustawien-w-openwrt-firstboot/
+[7]: /post/konsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link/
+[8]: /post/jak-przy-pomocy-trybu-recovery-odzyskac-router-tp-link/
+[9]: /post/opkg-czyli-menadzer-pakietow-w-openwrt/
+[10]: /post/sysupgrade-czyli-aktualizacja-firmware-openwrt/
+[11]: /post/jak-powrocic-z-firmware-openwrt-tp-linka/
+[12]: /post/skrypty-startowe-init-w-openwrt/
+[13]: /post/hostname-czyli-nazwa-hosta-w-openwrt/
+[14]: /post/strefa-czasowa-timezone-w-openwrt/
+[15]: /post/logread-czyli-system-logowania-w-openwrt/
+[16]: /post/konfiguracja-diod-w-routerze-pod-openwrt-led/
+[17]: /post/konfiguracja-przyciskow-w-openwrt/
+[18]: /post/konfiguracja-interfejsow-sieciowych-w-openwrt/
+[19]: /post/jak-sklonowac-adres-mac-w-openwrt/
+[20]: /post/openwrt-dwa-rozne-adresy-mac-na-porcie-wan/
+[21]: /post/podzial-switcha-na-kilka-vlan-w-openwrt/
+[22]: /post/konfiguracja-dmz-openwrt/
+[23]: /post/dhcp-dns-czyli-konfiguracja-sieci-w-openwrt/
+[24]: /post/siec-bezprzewodowa-wifi-w-openwrt-wlan/
+[25]: /post/openwrt-konfiguracja-anten-via-txantenna-rxantenna/
+[26]: /post/wps-czyli-wifi-protected-setup-w-openwrt/
+[27]: /post/konfiguracja-wisp-openwrt-tryb-sta-ap/
+[28]: /post/most-bezprzewodowy-openwrt-tryb-wds/
+[29]: /post/karta-wifi-trybie-monitor-openwrt/
+[30]: /post/bezprzewodowa-siec-goscinna-guest-wlan/
+[31]: /post/rozne-adresy-lan-wlan-openwrt-routed-ap/
+[32]: /post/dysk-pendrive-inne-nosniki-pod-openwrt/
+[33]: /post/extroot-whole_root-fullroot-pod-openwrt/
+[34]: /post/zmiana-rozmiaru-katalogu-tmp-pod-openwrt/
+[35]: /post/filtr-pakietow-sieciowych-w-openwrt-firewall/
+[36]: /post/modem-lte-pod-openwrt/
+[37]: /post/stale-nazwy-urzadzen-openwrt-hotplug-udev/
+[38]: /post/monitor-polaczenia-3glte-w-openwrt-3ginfo/
+[39]: /post/obsluga-sms-kodow-ussd-w-openwrt/
+[40]: /post/konfiguracja-polaczenia-aero2-na-openwrt/
+[41]: /post/automatyczna-blokada-internetu-lte-w-openwrt/
+[42]: /post/konfiguracja-dnscrypt-proxy-w-openwrt/
+[43]: /post/wake-lan-z-etherwake-pod-openwrt/
+[44]: /post/drukarka-sieciowa-w-openwrt-serwer-wydruku/
+[45]: /post/sieciowy-system-plikow-openwrt-nfs/
+[46]: /post/serwer-ftp-routerze-openwrt-vsftpd/
+[47]: /post/statystyki-openwrt-collectd-rrdtool/
+[48]: /post/jak-zablokowac-facebook-youtube-openwrt/
+[49]: /post/router-openwrt-jako-serwer-klient-radius/
+[50]: /post/ksztaltowanie-ruchu-qos-scripts-openwrt/
+[51]: /post/quality-service-qos-w-openwrt/
+[52]: /post/failover-load-balancing-openwrt-mwan3/
+[53]: /post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/
+[54]: /post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/
+[55]: /post/udostepnianie-lte-3g-ze-smartfona-przez-router-openwrt-tethering/

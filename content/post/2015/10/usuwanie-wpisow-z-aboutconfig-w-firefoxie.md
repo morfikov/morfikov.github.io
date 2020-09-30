@@ -27,7 +27,7 @@ Wszystkie wpisy w `about:config` , które zostały dodane lub zmienione w wyniku
 ingerencji, są pogrubione. Z kolei wszystkie wpisy od dodatków zaczynają się od `extensions` . Po
 `.` jest nazwa dodatku, przykładowo:
 
-![]({{< baseurl >}}/img/2015/10/1.about-config-firefox.png#big)
+![](/img/2015/10/1.about-config-firefox.png#big)
 
 Wpisy po dodatkach z `about:config` możemy usunąć ręcznie. Polega to na klikaniu w każdą opcję z
 osobna i resetowaniu ich wartości. Po tym jak dodatek będzie miał zresetowaną wartość jakiejś opcji

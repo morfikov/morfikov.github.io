@@ -194,7 +194,7 @@ wymiany znalazła się w miarę blisko początku dysku. Niekoniecznie musi być 
 ale z racji lepszych czasów dostępu w tym obszarze nośnika, umieszczenie przestrzeni wymiany w nim
 przełoży się na poprawę wydajności systemu. Spójrzmy na tę poniższą fotkę:
 
-![]({{< baseurl >}}/img/2019/03/001-hdd-disk-performance-degradation-linux-partition.jpg#big)
+![](/img/2019/03/001-hdd-disk-performance-degradation-linux-partition.jpg#big)
 
 Widać na niej, że początkowy obszar dysku ma zarówno większy transfer jak i niższe czasy dostępu do
 danych. Gdybyśmy tworzyli partycję wymiany, to można by ją utworzyć w konkretnym miejscu. Z plikiem
@@ -229,7 +229,7 @@ wskazać. Wszystko dlatego, że system plików, na którym znajduje się plik SW
 zamontować. Kłopot jedynie w tym, że systemu plików zawierającego dziennik (np. ext3, czy ext4) nie
 można zamontować podczas wybudzania maszyny ze stanu hibernacji. Hibernacja w przypadku pliku SWAP
 jest naturalnie możliwa ale trzeba
-się [trochę wysilić przy konfiguracji]({{< baseurl >}}/post/problemy-z-plikiem-wymiany-swap-przy-hibernacji-linuxa/),
+się [trochę wysilić przy konfiguracji](/post/problemy-z-plikiem-wymiany-swap-przy-hibernacji-linuxa/),
 by wszystko działało jak należy.
 
 ## Plik SWAP vs. partycja wymiany

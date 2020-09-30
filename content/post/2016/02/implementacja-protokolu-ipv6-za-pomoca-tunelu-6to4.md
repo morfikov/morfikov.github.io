@@ -55,7 +55,7 @@ włączą nam obsługi protokołu IPv6. Możemy się o tym przekonać [testując
 połączenie](http://test-ipv6.com/). Jeśli nasz wynik jest podobny do tego poniżej, to nic nie
 szkodzi:
 
-![]({{< baseurl >}}/img/2016/02/1.brak-polaczenia-ipv6-test.png#huge)
+![](/img/2016/02/1.brak-polaczenia-ipv6-test.png#huge)
 
 ## Tunel 6to4
 
@@ -116,12 +116,12 @@ i IPv6. Nie jest on przypadkowy i został wyraźnie określony w
 Na dobrą sprawę, to jest cała konfiguracja tunelu 6to4 w debianie. Sprawdźmy zatem czy tunel
 realizuje swoje zadanie:
 
-![]({{< baseurl >}}/img/2016/02/2.test-polaczenia-ipv6-tunel-6to4.png#huge)
+![](/img/2016/02/2.test-polaczenia-ipv6-tunel-6to4.png#huge)
 
 Wygląda, że działa. W prawdzie ocena połączenia jest 7/10 ale lepsze to niż 0/10. Możemy także
 sprawdzić dodatkowe informacje dotyczące czasów:
 
-![]({{< baseurl >}}/img/2016/02/3.wydajnosc-polaczenia-ipv6-tunel-6to4.png#big)
+![](/img/2016/02/3.wydajnosc-polaczenia-ipv6-tunel-6to4.png#big)
 
 ## Oprogramowanie, a protokół IPv6
 

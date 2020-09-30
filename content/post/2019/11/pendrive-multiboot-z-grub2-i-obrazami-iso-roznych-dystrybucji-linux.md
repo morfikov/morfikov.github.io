@@ -102,7 +102,7 @@ przeciwnym razie szukana partycja nie zostanie odnaleziona przez skrypt.
 Wszystkie te wyżej wymienione rzeczy bez problemu można sobie wyklikać w `gparted` , zatem nie ma
 co tutaj opisywać tego procesu. Poniżej znajduje się fotka odpowiednio przygotowanego nośnika:
 
-![]({{< baseurl >}}/img/2019/11/001.pendrive-karta-sd-multiboot-iso-linux-gparted.png#huge)
+![](/img/2019/11/001.pendrive-karta-sd-multiboot-iso-linux-gparted.png#huge)
 
 ### Instalacja GRUB'a
 
@@ -166,7 +166,7 @@ konfigurację dostarczoną przez projekt GLIM. Każda dystrybucja, której katal
 jeden obraz, to będzie go można wybrać w submenu. Poniżej jest poglądowa fotka zaczerpnięta z git'a
 projektu GLIM prezentująca menu:
 
-![]({{< baseurl >}}/img/2019/11/002.pendrive-karta-sd-multiboot-iso-linux-grub-menu.png#huge)
+![](/img/2019/11/002.pendrive-karta-sd-multiboot-iso-linux-grub-menu.png#huge)
 
 Oczywiście w zależności od tego co sobie wgramy na pendrive/kartę SD, to inne pozycje w menu
 zobaczymy ale najważniejszy jest fakt, że wystarczy nam już tylko jedno urządzenie, by w wygodny

@@ -189,7 +189,7 @@ Firefox'a w poniższy sposób:
 Teraz możemy przejść na [testową stronę](https://browserleaks.com/webrtc), by sprawdzić jaki adres
 IP zostanie wykryty za sprawą protokołu WebRTC:
 
-![]({{< baseurl >}}/img/2019/01/001-webrtc-firefox-ip-addrs-leak-linux-network-namespace.png#huge).
+![](/img/2019/01/001-webrtc-firefox-ip-addrs-leak-linux-network-namespace.png#huge).
 
 Wyżej mamy otwarte dwie przeglądarki. Firefox (po lewej) jest uruchomiony w skonfigurowanej
 uprzednio przestrzeni nazw sieciowych, podczas gdy Opera (po prawej) korzysta z domyślnego netwrok

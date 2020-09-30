@@ -81,7 +81,7 @@ grę wchodzi kontener LUKS, a na nim nie operuje `tune2fs` . Zatem gdzie jest pr
 identyfikator i jak go zmienić? UUID kontenerów LUKS znajduje się w nagłówku kontenera, czyli w tych
 pierwszych 2 MiB zaraz na początku partycji. W skrócie jest to sześć bajtów począwszy od pozycji
 168. W osobnym wpisie jest nieco więcej informacji na temat tego [jak zbudowany jest nagłówek
-LUKS]({{< baseurl >}}/post/naglowek-kontenera-luks-trzymany-na-pendrive/). Ten UUID możemy
+LUKS](/post/naglowek-kontenera-luks-trzymany-na-pendrive/). Ten UUID możemy
 naturalnie wydobyć wykorzystując narzędzie `cryptsetup` :
 
     # cryptsetup luksUUID /dev/sdb5

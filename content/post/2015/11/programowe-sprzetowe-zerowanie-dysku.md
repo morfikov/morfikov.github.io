@@ -150,7 +150,7 @@ By wyłączyć ten mechanizm ręcznie, wpisujemy w terminal te dwa poniższe pol
     # hdparm --user-master u --security-disable p /dev/sda
 
 
-[1]: {{< baseurl >}}/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/
+[1]: /post/uszkodzony-sektor-na-dysku-i-jego-realokacja/
 [2]: https://ata.wiki.kernel.org/index.php/ATA_Secure_Erase
 [3]: https://en.wikipedia.org/wiki/Host_protected_area
 [4]: https://en.wikipedia.org/wiki/Device_configuration_overlay

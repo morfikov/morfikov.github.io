@@ -77,7 +77,7 @@ transmisja wraca do normy.
 
 Poniżej jest przykładowa sytuacja, gdzie nastąpiła szybka retransmisja pakietu:
 
-![]({{< baseurl >}}/img/2015/07/1.szybka-retransmisja-pakietu-wireshark.png#huge)
+![](/img/2015/07/1.szybka-retransmisja-pakietu-wireshark.png#huge)
 
 Jak widzimy, pakiet 344 został dostarczony do klienta i potwierdzenie (254041) w pakiecie 345
 zostało wysłane do nadawcy. Następny pakiet się zagubił i do klienta dotarł inny pakiet, który ma
@@ -95,7 +95,7 @@ potwierdzenia (254041), daje nam to 5840 bajtów, czyli cztery zaakceptowane seg
 każdy) -- jeden zagubiony i trzy otrzymane poza kolejnością.
 
 Cały mechanizm szybkiej retransmisji pakietów zależy od [selektywnych potwierdzeń
-SACK]({{< baseurl >}}/post/sack-czyli-selektywne-potwierdzenia-pakietow/) i jeśli nie mamy
+SACK](/post/sack-czyli-selektywne-potwierdzenia-pakietow/) i jeśli nie mamy
 włączonej ich obsługi, nie aktywujemy funkcji odpowiedzialnej za szybką retransmisję.
 
 ## Wczesna retransmisja
@@ -174,7 +174,7 @@ zretransmitować pakiet `SYN` 4 razy i jeśli żadna z tych prób się nie powie
 kernel odpuści. Popatrzmy zatem jak takie zachowanie wygląda w
 praktyce:
 
-![]({{< baseurl >}}/img/2015/07/1.retransmisja-syn-wireshark.png#huge)
+![](/img/2015/07/1.retransmisja-syn-wireshark.png#huge)
 
 ### Retransmisja pakietów SYN-ACK
 
@@ -184,7 +184,7 @@ nadejdzie od klienta pakiet z ustawioną flagą `ACK` . Gdy taki pakiet nie nadc
 retransmituje swój pakiet `SYN-ACK` kilka razy, dając tym samym szansę klientowi by spróbował
 odesłać pakiet `ACK` jeszcze raz.
 
-Połączenia w [stanie SYN RCVD]({{< baseurl >}}/post/flagi-tcp-i-przelaczanie-stanow-polaczen/)
+Połączenia w [stanie SYN RCVD](/post/flagi-tcp-i-przelaczanie-stanow-polaczen/)
 zajmują cenne zasoby i by odciążyć trochę maszynę można przyśpieszyć proces zamykania tego typu
 połączeń przez zmianę ilości retransmisji pakietów `SYN-ACK` . Dopisujemy zatem do pliku
 `/etc/sysctl.conf` poniższy parametr:
@@ -194,7 +194,7 @@ połączeń przez zmianę ilości retransmisji pakietów `SYN-ACK` . Dopisujemy 
 Trzeba jednak pamiętać, że obniżenie wartości tego parametru w przypadku słabych łącz może powodować
 problemy. Poniżej fotka z próbą retransmisji dwóch pakietów `SYN-ACK` :
 
-![]({{< baseurl >}}/img/2015/07/2.retransmisja-syn-ack-wireshark.png#huge)
+![](/img/2015/07/2.retransmisja-syn-ack-wireshark.png#huge)
 
 ## Zbędna retransmisja (Spurious retransmission)
 

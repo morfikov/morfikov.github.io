@@ -39,7 +39,7 @@ Po otrzymaniu dokumentu, przeglądarka zapisuje sobie jego kopię w swoim lokaln
 postępuje w przypadku wysłanego żądanie do serwera oraz otrzymanej odpowiedzi. Poniżej jest przykład
 zapytania i odpowiedzi:
 
-![]({{< baseurl >}}/img/2016/08/1.etag-last-modified-header-naglowek-przegladarka.png#huge)
+![](/img/2016/08/1.etag-last-modified-header-naglowek-przegladarka.png#huge)
 
 `Request Headers` , to są nagłówki zapytania, które przesłała przeglądarka serwerowi. Po otrzymaniu
 ich, serwer wysłał odpowiedź z szeregiem nagłówków, które są widoczne w `Response Headers` . Nas na
@@ -52,7 +52,7 @@ standardowe nagłówki HTTP, które dotyczą konfiguracji cache. Są to `ETag` o
 Gdybyśmy teraz w przeglądarce załadowali następną stronę w obrębie tej witryny, to praktycznie
 wszystkie jej elementy (za wyjątkiem głównego pliku `text/html` ) zostaną wczytane z cache:
 
-![]({{< baseurl >}}/img/2016/08/2.przegladarka-cache-zasobow.png#huge)
+![](/img/2016/08/2.przegladarka-cache-zasobow.png#huge)
 
 Nagłówki `Last-Modified` oraz `ETag` to walidatory (validators), które mają za zadanie zweryfikować
 aktualność zasobu, czyli nakazać przeglądarce wysłanie do serwera zapytania warunkowego (conditional
@@ -107,7 +107,7 @@ zostanie załadowany z cache przeglądarki. Natomiast w drugim przypadku, przegl
 wysłać zapytanie GET i pobrać raz jeszcze cały zasób, który stracił ważność. Poniżej jest
 zobrazowana ta sytuacja:
 
-![]({{< baseurl >}}/img/2016/08/3.etag-last-modified-304-walidacja.png#huge)
+![](/img/2016/08/3.etag-last-modified-304-walidacja.png#huge)
 
 Widzimy tutaj dwie dyrektywy: `If-Modified-Since:Mon, 01 Aug 2016 09:53:38 GMT` oraz
 `If-None-Match:"717-538ff93078200"` . To są warunki zapytania warunkowego. Jeśli, któryś z nich nie
@@ -161,7 +161,7 @@ zasobu. Z kolei, gdy ustawimy `M` , to wszyscy klienci będą mięć ustawiony t
 cache, który tym razem będzie się odnosił do czasu modyfikacji pliku na serwerze. Poniżej jest fotka
 obrazująca nagłówek `Expires` :
 
-![]({{< baseurl >}}/img/2016/08/4.expires-cache-control-header-naglowek-przegladarka.png#huge)
+![](/img/2016/08/4.expires-cache-control-header-naglowek-przegladarka.png#huge)
 
 Widzimy, że nagłówek `Expires` wskazuje konkretną datę w przyszłości: `Mon, 08 Aug 2016 14:56:15
 GMT` . Jeśli przeliczyć sekundy, to okaże się, że są one równe tej wartości, która figuruje w
@@ -236,12 +236,12 @@ Chyba najlepszą opcją są własne eksperymenty. Jeśli potrzebujemy jakiegoś 
 zweryfikuje ustawienia nagłówków konkretnych zasobów w serwisie, to zawsze możemy [skorzystać z
 redbot][13], który nam wyrzuci przyjazne podsumowanie:
 
-![]({{< baseurl >}}/img/2016/08/5.cache-control-expires-last-modified-etag-redbot-test.png#huge)
+![](/img/2016/08/5.cache-control-expires-last-modified-etag-redbot-test.png#huge)
 
 [Pod tymlinkiem][14] z kolei jest ciekawa rozpiska na temat wykorzystania nagłówków HTTP
 odpowiedzialnych za instrukcje dla cache przeglądarek. Jest tam min. ta poniższa fotka:
 
-![]({{< baseurl >}}/img/2016/08/http-cache-decision-tree.png#huge)
+![](/img/2016/08/http-cache-decision-tree.png#huge)
 
 Widzimy zatem, że są wykorzystane jedynie dwa nagłówki: `Cache-Control` i `ETag` . Z tym, że ten
 drugi jest używany jedynie w przypadku, gdy odpowiedź z serwera ma podlegać buforowaniu. Wszystkie

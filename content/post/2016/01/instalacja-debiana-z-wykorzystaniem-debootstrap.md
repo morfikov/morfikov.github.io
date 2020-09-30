@@ -921,20 +921,20 @@ odpalić. Jest to czysty tryb tekstowy. Czeka nas jeszcze instalacja środowiska
 [1]: https://www.debian.org/CD/live/index.pl.html
 [2]: https://www.ubuntu.com/download/desktop/try-ubuntu-before-you-install
 [3]: https://pl.wikipedia.org/wiki/Sudo
-[4]: {{< baseurl >}}/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/
-[5]: {{< baseurl >}}/post/przygotowanie-srodowiska-chroot-do-pracy/
+[4]: /post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/
+[5]: /post/przygotowanie-srodowiska-chroot-do-pracy/
 [6]: https://github.com/morfikov/files/tree/master/configs/etc/apt
-[7]: {{< baseurl >}}/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/
-[8]: {{< baseurl >}}/post/jezyk-polski-w-srodowisku-graficznym/
-[9]: {{< baseurl >}}/post/klawiatura-i-jej-konfiguracja-pod-debianem/
-[10]: {{< baseurl >}}/post/polskie-znaki-pod-tty/
-[11]: {{< baseurl >}}/post/zmienna-tz-w-srodowisku-linuxowym/
-[12]: {{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/
-[13]: {{< baseurl >}}/post/cache-dns-buforowania-zapytan/
-[14]: {{< baseurl >}}/post/konfiguracja-cache-dns-w-firefoxie/
-[15]: {{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/
-[16]: {{< baseurl >}}/post/instalacja-i-konfiguracja-bootloadera-extlinux/
-[17]: {{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/
-[18]: {{< baseurl >}}/post/konfiguracja-xservera-na-debianie-xorg/
-[19]: {{< baseurl >}}/post/menadzer-okien-openbox/
+[7]: /post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/
+[8]: /post/jezyk-polski-w-srodowisku-graficznym/
+[9]: /post/klawiatura-i-jej-konfiguracja-pod-debianem/
+[10]: /post/polskie-znaki-pod-tty/
+[11]: /post/zmienna-tz-w-srodowisku-linuxowym/
+[12]: /post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/
+[13]: /post/cache-dns-buforowania-zapytan/
+[14]: /post/konfiguracja-cache-dns-w-firefoxie/
+[15]: /post/konfiguracja-polaczenia-wifi-pod-debianem/
+[16]: /post/instalacja-i-konfiguracja-bootloadera-extlinux/
+[17]: /post/firewall-na-linuxowe-maszyny-klienckie/
+[18]: /post/konfiguracja-xservera-na-debianie-xorg/
+[19]: /post/menadzer-okien-openbox/
 [20]: https://en.wikipedia.org/wiki/Argon2

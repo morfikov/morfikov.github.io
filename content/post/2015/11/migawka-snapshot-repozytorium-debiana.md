@@ -31,7 +31,7 @@ nieistniejące pakiety z takich snapshot'ów.
 W linku, który podałem we wstępnie, znajdują się snapshot'y repozytorium debiana z dość długiego
 okresu czasu. Mamy tam wyraźny podział na lata, miesiące, dni i godziny. Jeśli nie pamiętamy [kiedy
 dokładnie była przeprowadzana aktualizacja
-systemu]({{< baseurl >}}/post/aktualizacja-systemu-logowanie-komunikatow/), to wystarczy w logu
+systemu](/post/aktualizacja-systemu-logowanie-komunikatow/), to wystarczy w logu
 apt czy aptitude odszukać datę i godzinę. Mając ustalony czas (np. 2015-11-01, godzina 08:12)
 odszukujemy [odpowiednią pozycję](http://snapshot.debian.org/archive/debian/20151101T042306Z/).
 
@@ -97,4 +97,4 @@ aktualizująca te przestarzałe listy repozytoriów wyglądałaby tak jak poniż
 
 W przypadku gdy często bawimy się z różnymi wersjami pakietów, parametr `Acquire::Check-Valid-Until`
 możemy dodać do [pliku
-apt.conf]({{< baseurl >}}/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/) .
+apt.conf](/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/) .

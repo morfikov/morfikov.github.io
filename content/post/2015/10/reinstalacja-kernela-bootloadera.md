@@ -84,7 +84,7 @@ wyczyścić tę partycję:
 ## Wykorzystanie chroot
 
 Musimy teraz przywrócić [kopię
-MBR]({{< baseurl >}}/post/mbr-ebr-i-tablica-partycji-dysku-twardego/) i stworzyć nową partycję
+MBR](/post/mbr-ebr-i-tablica-partycji-dysku-twardego/) i stworzyć nową partycję
 `/boot/` , np. przy użyciu `gparted`. Jeśli nie posiadamy kopi MBR, to jako, że potrzebny nam jest
 tylko kod bootloader'a, będziemy musieli go przeinstalować ale po kolei. Na sam początek otwieramy
 szyfrowany system:
@@ -98,7 +98,7 @@ Pamiętajmy by [odpowiednio zmodyfikować](https://forum.dug.net.pl/viewtopic.ph
 `sda4_crypt` i by ta nazwa zgadzała się z tą zdefiniowaną w pliku `/etc/crypttab` . Po wydaniu
 ostatniego polecenia powinniśmy uzyskać listę aktywnych dysków LVM. Musimy teraz zamontować
 wszystkie niezbędne partycje i przy pomocy
-[chroot]({{< baseurl >}}/post/przygotowanie-srodowiska-chroot-do-pracy/) uzyskać dostęp do tego
+[chroot](/post/przygotowanie-srodowiska-chroot-do-pracy/) uzyskać dostęp do tego
 systemu. Pamiętajmy też by podmontować partycję `/boot/` w odpowiednim miejscu.
 
     # mount /dev/mapper/sda4_crypt-root /mnt

@@ -149,12 +149,12 @@ zarządzać demonem TOR'a, próbuje go uruchomić. By rozwiązać ten problem mo
 uruchamiania demona `tor` jako usługę systemową, albo też można skorzystać z gniazda kontrolnego
 (Control Socket), który jest do skonfigurowania w opcjach `vidalia` :
 
-![]({{< baseurl >}}/img/2015/10/1.serwer-kluczy-gpg-tor.png#big)
+![](/img/2015/10/1.serwer-kluczy-gpg-tor.png#big)
 
 Po ponownym uruchomieniu programu, ten już bez problemu powinien nas podłączyć do aktualnie
 uruchomionego demona `tor` :
 
-![]({{< baseurl >}}/img/2015/10/2.serwer-kluczy-gpg-vidalia-tor-polaczenie.png#big)
+![](/img/2015/10/2.serwer-kluczy-gpg-vidalia-tor-polaczenie.png#big)
 
 ## Konfiguracja GnuPG/GPG/PGP
 
@@ -173,7 +173,7 @@ nieco dostosować, to dodajemy także poniższa opcję:
 
 Jako, że ten artykuł jest o poprawie bezpieczeństwa i poufności danych w kontekście kluczy GPG, to
 przydałoby się także przyłożyć większą uwagę do tego [jakie parametry w pliku
-gpg.conf]({{< baseurl >}}/post/konfiguracja-gpg-w-pliku-gpg-conf/) można umieścić.
+gpg.conf](/post/konfiguracja-gpg-w-pliku-gpg-conf/) można umieścić.
 
 ## Testowe zapytanie wysłane pod serwer kluczy GPG
 
@@ -207,12 +207,12 @@ forwardowane do sieci TOR, możemy to sprawdzić na dwa sposoby. Prostszy z nich
 narzędzia `vidalia` i popatrzeniu na graf tuż po wydaniu polecenia `gpg --refresh-keys` . Jeśli
 kluczy mamy dużo, powinniśmy zaobserwować ruch na wykresie:
 
-![]({{< baseurl >}}/img/2015/10/3.server-kluczy-gpg-vidalia-graf.png#big)
+![](/img/2015/10/3.server-kluczy-gpg-vidalia-graf.png#big)
 
 Powyższy wykres nie pokazuje, co prawda, połączeń jako takich ale jeśli chcemy się przekonać czy
 faktycznie łączymy się z serwerem kluczy, to jego adres możemy odczytać w zakładce `Network Map` :
 
-![]({{< baseurl >}}/img/2015/10/4.serwer-kluczy-gpg-vidalia-network-map.png#huge)
+![](/img/2015/10/4.serwer-kluczy-gpg-vidalia-network-map.png#huge)
 
 Dla pewności, możemy także wyłączyć demona `tor` i spróbować wysłać zapytanie pod serwer kluczy GPG:
 

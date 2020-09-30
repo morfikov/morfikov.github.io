@@ -15,7 +15,7 @@ title: Bezpieczeństwo Xserver'a pod linux'em
 
 Prawdopodobnie każdy z nas korzysta, lub też i korzystał, ze skrótu klawiszy Ctrl-Alt-Backspace do
 resetowania środowiska graficznego na linux'ie. Może i to jest wygodny sposób na szybki restart
-[sesji graficznej Xserver'a]({{< baseurl >}}/post/konfiguracja-xservera-na-debianie-xorg/) ale
+[sesji graficznej Xserver'a](/post/konfiguracja-xservera-na-debianie-xorg/) ale
 [nie do końca jest on bezpieczny](https://www.jwz.org/xscreensaver/faq.html#no-ctl-alt-bs). Nie
 mówię tutaj o samej utracie danych towarzyszącej takiej akcji ale o możliwości obejścia ekranu
 logowania o ile ta kombinacja klawiszy nie jest wyłączona. Jest też kilka innych rzeczy, które mogą
@@ -87,4 +87,4 @@ Jeśli taki proces by się pojawił, zostanie zabity, by system mógł działać
 jednak zabijany jest ten proces, który my byśmy wybrali z naszej ludzkiej perspektywy i w przypadku
 maszyn, te mogą zabić nie ten proces co trzeba, co może, np. zdjąć blokadę ekranu. By się
 zabezpieczyć i na tę ewentualność, musimy określić, które akcje mogą być przeprowadzane za sprawą
-[klawisza SysRq]({{< baseurl >}}/post/aktywacja-i-konfiguracja-klawisza-sysrq/).
+[klawisza SysRq](/post/aktywacja-i-konfiguracja-klawisza-sysrq/).

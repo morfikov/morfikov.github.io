@@ -38,7 +38,7 @@ jest lista pakietów, które musimy doinstalować na routerze:
 Podłączamy teraz drukarkę do portu USB routera i podajemy jej zasilanie. Powinna być ona po chwili
 rozpoznana przez system:
 
-![]({{< baseurl >}}/img/2016/05/1.p910nd-drukarka-sieciowa-serwer-wydruku-openwrt.png#huge)
+![](/img/2016/05/1.p910nd-drukarka-sieciowa-serwer-wydruku-openwrt.png#huge)
 
 Wyżej widzimy frazę `usblp0` . Odpowiada ona za urządzenie `/dev/usb/lp0` . To urządzenie musi
 istnieć byśmy mogli korzystać z drukarki.
@@ -70,5 +70,5 @@ skonfigurowaniu demona, aktywujemy usługę poniższym poleceniem:
 
 Demon powinien działać w tle. My zaś możemy przejść do konfiguracji maszyn klienckich. W zależności
 od systemu operacyjnego na takim komputerze, ten proces będzie inny. [Konfiguracji drukarki na
-linux'ie w oparciu o CUPS]({{< baseurl >}}/post/cups-konfiguracja-drukarki-pod-linuxem/) została
+linux'ie w oparciu o CUPS](/post/cups-konfiguracja-drukarki-pod-linuxem/) została
 opisana w osobnym artykule.

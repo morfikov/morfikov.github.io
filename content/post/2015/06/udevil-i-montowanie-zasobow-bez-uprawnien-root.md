@@ -31,7 +31,7 @@ zagrażając tym samym prywatności wszystkich użytkowników.
 ## Montowanie z uprawnieniami czy bez uprawnień
 
 [Automatyczne montowanie
-zasobów]({{< baseurl >}}/post/autostart-i-automatyczne-montowanie-nosnikow/) zostało już
+zasobów](/post/autostart-i-automatyczne-montowanie-nosnikow/) zostało już
 poruszone wcześniej. Tutaj zajmiemy się tylko i wyłącznie możliwością montowania urządzeń jako
 zwykły użytkownik, a to czy one będą montowane automatycznie, zależy już od każdego z nas.
 

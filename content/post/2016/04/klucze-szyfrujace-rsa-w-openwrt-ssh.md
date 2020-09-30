@@ -58,7 +58,7 @@ kluczy RSA.
 
 Poniżej zaś jest fotka obrazująca cały proces generowania klucza RSA:
 
-![]({{< baseurl >}}/img/2016/04/1.generowanie-klucza-rsa-openwrt-ssh-router.png#huge)
+![](/img/2016/04/1.generowanie-klucza-rsa-openwrt-ssh-router.png#huge)
 
 Jako, że klucze RSA zawierają wrażliwe informacje, można je zaszyfrować, tak by każdorazowe ich
 wykorzystanie wymagało podania hasła. Jednak wtedy przy logowaniu się do routera trzeba podać hasło
@@ -114,7 +114,7 @@ pomocy hasła. W przypadku, gdy ktoś trzeci będzie się chciał podłączyć d
 tym posiadał klucza prywatnego, to w dalszym ciągu będzie mógł próbować odgadnąć hasło do konta
 root. Trzeba jednak pamiętać, że w przypadku utraty klucza, dostęp do routera stanie się niemożliwy
 i trzeba będzie sięgać do [trybu
-failsafe]({{< baseurl >}}/post/tryb-ratunkowy-failsafe-w-openwrt/). Jeśli jednak chcemy
+failsafe](/post/tryb-ratunkowy-failsafe-w-openwrt/). Jeśli jednak chcemy
 zrezygnować z uwierzytelniania opartego o hasło, edytujemy na routerze plik `/etc/config/dropbear`
 i przepisujemy go do poniższej postaci:
 

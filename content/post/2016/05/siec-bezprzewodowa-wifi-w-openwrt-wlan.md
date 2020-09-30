@@ -32,7 +32,7 @@ Musimy pierw odpowiednio ją skonfigurować i ustawić wszystkie niezbędne do p
 parametry. Aktualny stan sieci WiFi możemy sprawdzić z poziomu routera wydając w terminalu polecenie
 `wifi status` . Zwróci ono szereg informacji dotyczących każdego radia.
 
-![]({{< baseurl >}}/img/2016/05/1.konfiguracja-radia-wifi-openwrt.png#huge)
+![](/img/2016/05/1.konfiguracja-radia-wifi-openwrt.png#huge)
 
 W powyższym przypadku mamy do czynienia z siecią 5 GHz ( `"hwmode": "11a",` ). Jest ona podniesiona
 `"up": true,` . Mamy tam także informacje dotyczącą konfiguracji samego radia (aktualny kanał i jego
@@ -51,7 +51,7 @@ router, to zróbmy to czym prędzej. Następnie przy pomocy `vi` edytujemy plik
 obsługuje, w tym pliku możemy mieć kilka sekcji `config wifi-device` oraz `config wifi-iface` .
 Poniżej znajdują się przykładowe sekcje:
 
-![]({{< baseurl >}}/img/2016/05/2.konfiguracja-wifi-radio-interfejs-openwrt.png#huge)
+![](/img/2016/05/2.konfiguracja-wifi-radio-interfejs-openwrt.png#huge)
 
 Każda taka para konfiguruje jedną sieć WiFi. W `config wifi-device` określamy konfigurację dla
 urządzenia (karta WiFi). Natomiast w `config wifi-iface` konfigurujemy interfejs. Takich sekcji
@@ -62,7 +62,7 @@ włączona możemy określić przez odpowiednie ustawienie opcji `disabled` . Je
 który interfejs jest przypisany do jakiej karty, to zawsze możemy to ustalić za pomocą polecenia
 `iwinfo` :
 
-![]({{< baseurl >}}/img/2016/05/3.iwinfo-openwrt-interfejs-wifi.png#big)
+![](/img/2016/05/3.iwinfo-openwrt-interfejs-wifi.png#big)
 
 W `config wifi-device` zostały użyte następujące opcje:
 
@@ -163,7 +163,7 @@ pierwszy ma częstotliwość 2412 MHz. Następne mają zwiększane o te 5 MHz, c
 tak dalej aż do kanału 13 o częstotliwości 2472 MHz. Wygląda to mniej więcej tak
 ([źródło](https://en.wikipedia.org/wiki/List_of_WLAN_channels)):
 
-![]({{< baseurl >}}/img/2016/05/4.kanaly-wifi-2.4ghz.png#huge)
+![](/img/2016/05/4.kanaly-wifi-2.4ghz.png#huge)
 
 Większe prędkości transmisji można uzyskać przez zwiększenie zakresu częstotliwości, na której
 router operuje. Jest to tzw. szerokość kanału i pod OpenWRT wynosi ona standardowo 20 MHz. Widzimy,
@@ -211,7 +211,7 @@ zakresów nie jest używanych. W ten sposób kolejny kanał na numer o 4 większ
 obrazująca kanały w paśmie 5 GHz
 ([źródło](https://networkengineering.stackexchange.com/questions/12720/cannot-use-5ghz-band-wi-fi-from-channels-100-140)):
 
-![]({{< baseurl >}}/img/2016/05/5.kanaly-wifi-5ghz-.png#huge)
+![](/img/2016/05/5.kanaly-wifi-5ghz-.png#huge)
 
 W konfiguracji OpenWRT mamy zatem do wyboru nieco inne wartości. Są to `VHT20` , `VHT40` , `VHT80`
 oraz `VHT160` , odpowiednio dla 20 MHz, 40 MHz, 80 MHz i 160 MHz. Te dwa ostatnie są dla standardu
@@ -267,12 +267,12 @@ jeśli ktoś potrzebuje, to może dodać sobie do pliku `/etc/config/wireless` p
 
 Innym pseudo zabezpieczeniem jest filtr adresów MAC. Teoretycznie każde urządzenie sieciowe ma mieć
 inny adres MAC. Co z tego, skoro taki MAC można bez problemu
-[zespoofować]({{< baseurl >}}/post/jak-sklonowac-adres-mac-w-openwrt/) czy [w dowolny sposób
-wygenerować]({{< baseurl >}}/post/jak-przypisac-losowy-adres-mac-interfejsu/) i przypisać
+[zespoofować](/post/jak-sklonowac-adres-mac-w-openwrt/) czy [w dowolny sposób
+wygenerować](/post/jak-przypisac-losowy-adres-mac-interfejsu/) i przypisać
 interfejsowi karty sieciowej? Poza tym, węsząc po eterze za za pomocą sniffer'a `wireshark` możemy
 bez problemu ustalić adresy MAC każdej stacji, która się łączy do określonego AP:
 
-![]({{< baseurl >}}/img/2016/05/1.ukrywanie-sieci-wifi-openwrt-wireshark.png#huge)
+![](/img/2016/05/1.ukrywanie-sieci-wifi-openwrt-wireshark.png#huge)
 
 W każdym razie OpenWRT daje też możliwość zdefiniowania adresów MAC, które należy
 blokować/przepuszczać przy podłączaniu do sieci bezprzewodowej. Jeśli chcemy korzystać z tego

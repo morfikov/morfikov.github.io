@@ -290,4 +290,4 @@ Nie dają jednak żadnej gwarancji nienaruszalności plików systemowych, o czym
 
 [1]: https://defuse.ca/audits/encfs.htm
 [2]: https://github.com/vgough/encfs
-[3]: {{< baseurl >}}/post/zaszyfrowana-przestrzen-wymiany-swap/
+[3]: /post/zaszyfrowana-przestrzen-wymiany-swap/

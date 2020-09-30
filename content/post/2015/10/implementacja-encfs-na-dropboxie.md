@@ -15,7 +15,7 @@ title: Implementacja encfs na dropbox'ie
 ---
 
 Jako, że ostatnio [zaszyfrowaliśmy katalog domowy przy pomocy
-encfs]({{< baseurl >}}/post/szyfrowanie-katalogu-home-przy-pomocy-encfs/) , to nie sposób sobie
+encfs](/post/szyfrowanie-katalogu-home-przy-pomocy-encfs/) , to nie sposób sobie
 nie zadać pytania czy tego typu mechanizm może działać w oparciu o serwisy online takie jak, np.
 [dropbox](https://www.dropbox.com/). Chodzi o to, że dropbox umożliwia synchronizację plików w
 czasie rzeczywistym, co może być problematyczne, gdy w grę wchodzi szyfrowanie danych. Wszelkie inne

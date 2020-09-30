@@ -65,7 +65,7 @@ różniły, to postanowiłem nie mieszać wszystkich czterech urządzeń i zrobi
 Poniżej jest fotka obrazująca układ flash'a dla smartfona Neffos
 C5.
 
-![]({{< baseurl >}}/img/2017/04/001.tp-link-neffos-c5-max-flash-repartycjonowanie-fabryczny-uklad.png#huge)
+![](/img/2017/04/001.tp-link-neffos-c5-max-flash-repartycjonowanie-fabryczny-uklad.png#huge)
 
 ## Tworzenie nowego układu partycji na flash'u smartfona
 
@@ -156,7 +156,7 @@ Ustawiamy typy nowo utworzonych partycji na `0700` :
 Po utworzeniu nowych partycji i określeniu ich rozmiaru, nazw oraz typów sprawdzamy czy wszystko się
 zgadza:
 
-![]({{< baseurl >}}/img/2017/04/002.tp-link-neffos-c5-max-flash-repartycjonowanie-zmiana-ukladu.png#huge)
+![](/img/2017/04/002.tp-link-neffos-c5-max-flash-repartycjonowanie-zmiana-ukladu.png#huge)
 
 Jak widać, w tej chwili nasz smartfon ma około 11,5 GiB na partycji `/data/` w stosunku do starych
 10 GiB, czyli zysk na poziomie 15%.
@@ -186,7 +186,7 @@ powodzeniem.
 Nasz smartfon w tej chwili nie ma jeszcze wgranego żadnego systemu operacyjnego. Musimy zatem jakoś
 ten system zainstalować. Opcji jest kilka. Najprostszym rozwiązaniem wydawałoby się postaranie się o
 [plik update.zip i wgranie go via ADB Sideload z poziomu TWRP
-recovery]({{< baseurl >}}/post/android-wgrywanie-update-zip-przez-adb-sideload-via-twrp-recovery/).
+recovery](/post/android-wgrywanie-update-zip-przez-adb-sideload-via-twrp-recovery/).
 Plik z firmware można pobrać z oficjalnej strony TP-LINK/Neffos. Problem w tym, że tak łatwo nie
 będzie i wgranie systemu z pliku `update.zip` zakończy się niepowodzeniem.
 
@@ -442,7 +442,7 @@ wyłącznie z poziomu TWRP. Chodzi o to, że firmware wypuszczany przez TP-LINK/
 w przeciwieństwie do naszej
 paczki:
 
-![]({{< baseurl >}}/img/2017/04/003.tp-link-neffos-c5-max-flash-repartycjonowanie-update.png#huge)
+![](/img/2017/04/003.tp-link-neffos-c5-max-flash-repartycjonowanie-update.png#huge)
 
 My nie możemy wykorzystać klucza, którym takie archiwum zostało podpisane i nasza paczka nie będzie
 honorowana przez mechanizm aktualizacji. Na szczęście w ustawieniach TWRP można pominąć weryfikację
@@ -508,7 +508,7 @@ Z logu TWRP możemy wyczytać, że ta operacja zakończyła się powodzeniem:
 Czyścimy cache i robimy Factory Reset, by potwierdzić, że z pozostałymi partycjami nie ma żadnych
 problemów:
 
-![]({{< baseurl >}}/img/2017/04/004.tp-link-neffos-c5-max-flash-repartycjonowanie-factory-reset-twrp.png#small)
+![](/img/2017/04/004.tp-link-neffos-c5-max-flash-repartycjonowanie-factory-reset-twrp.png#small)
 
 Cały proces ze zmianą układu flash'a w smartfonach Neffos C5 i C5 MAX nie był jakoś szczególnie
 skomplikowany ale takie przepakowywanie pliku `update.zip` nie należy do przyjemnych. Na dobrą
@@ -530,7 +530,7 @@ trzeba przyciąć do 2,5 GiB i wgrać na smartfon.
 
 Wyciągnijmy sobie najpierw obraz `system.img` z backup'u flash'a. Montujemy obraz przy pomocy
 poniższego polecenia (być może trzeba będzie [dostosować moduł
-loop]({{< baseurl >}}/post/obsluga-wielu-partycji-w-module-loop/)):
+loop](/post/obsluga-wielu-partycji-w-module-loop/)):
 
     # losetup /dev/loop0 tp-link-neffos-c5-orig.img
 
@@ -627,7 +627,7 @@ Zapisujemy plik `scatter.txt` i ładujemy go w SP Flash Tool. Wskazujemy także 
 partycji `/system/` no i oczywiście wciskamy przycisk
 "Download":
 
-![]({{< baseurl >}}/img/2017/04/005.tp-link-neffos-c5-max-flash-repartycjonowanie-sp-flash-tool.png#huge)
+![](/img/2017/04/005.tp-link-neffos-c5-max-flash-repartycjonowanie-sp-flash-tool.png#huge)
 
 ### Wgrywanie przyciętego obrazu przez TWRP recovery
 
@@ -656,7 +656,7 @@ formalności czy system widzi poprawną ilość miejsca na partycji `/system/` ,
 np. w [aplikacji
 Diskinfo](https://play.google.com/store/apps/details?id=me.kuder.diskinfo):
 
-![]({{< baseurl >}}/img/2017/04/006.tp-link-neffos-c5-max-flash-repartycjonowanie-diskinfo.png#huge)
+![](/img/2017/04/006.tp-link-neffos-c5-max-flash-repartycjonowanie-diskinfo.png#huge)
 
 Jak widać repartycjonowanie flash'a w smartfonach Neffos C5 i C5 MAX wyposażonych w system Android w
 wersji 5.1 (Lollipop) nie obyło się bez komplikacji. Grunt jednak, że smartfon nie ma problemów już

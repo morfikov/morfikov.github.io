@@ -15,12 +15,12 @@ title: Zmiana rozmiaru partycji EXT4
 ---
 
 Jeśli jeszcze nie dokonaliśmy [migracji systemu plików z EXT2/3 na
-EXT4]({{< baseurl >}}/post/migracja-systemu-plikow-ext2-i-ext3-na-ext4/), to powinniśmy rozważyć
+EXT4](/post/migracja-systemu-plikow-ext2-i-ext3-na-ext4/), to powinniśmy rozważyć
 tę kwestię z przyczyn czysto praktycznych. W tym wpisie nie będziemy sobie głowy zawracać migracją
 między poszczególnymi wersjami systemu plików z rodziny EXT, a raczej skupimy się na tym jak zmienić
 rozmiar partycji, której systemem plików jest właśnie EXT4. Bawienie się rozmiarem partycji w tym
 przypadku niczym zbytnio się nie różni w stosunku do omawianego wcześniej [systemu plików
-NTFS]({{< baseurl >}}/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/). Będziemy wykorzystywać
+NTFS](/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/). Będziemy wykorzystywać
 tylko nieco inne narzędzia.
 
 <!--more-->

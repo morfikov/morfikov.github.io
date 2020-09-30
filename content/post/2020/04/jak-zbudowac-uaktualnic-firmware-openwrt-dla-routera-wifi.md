@@ -56,7 +56,7 @@ tego projektu wchodzi cała masa innych pakietów, które będą dociągane w p�
 oto sposób całe źródła OpenWRT mogą ważyć nawet kilkanaście-kilkadziesiąt GiB, w zależności od tego
 co będziemy budować. Poniżej przykład:
 
-![]({{< baseurl >}}/img/2020/04/000-kompilacja-firmware-openwrt-rozmiar-dysk.png#big)
+![](/img/2020/04/000-kompilacja-firmware-openwrt-rozmiar-dysk.png#big)
 
 Dlatego też dobrze jest sobie zawczasu wygospodarować wolne miejsce, by uniknąć problemów później.
 
@@ -144,19 +144,19 @@ rzeczy.
 
 Pierwszą z nich jest `Target System` :
 
-![]({{< baseurl >}}/img/2020/04/001-kompilacja-firmware-openwrt-config-target.png#huge)
+![](/img/2020/04/001-kompilacja-firmware-openwrt-config-target.png#huge)
 
 Jeśli nie wiemy jaki target wybrać, to dobrze jest poszukać naszego routera WiFi na
 [wiki OpenWRT][6] lub też na [wikidevi][7]. Tam powinien być podany target:
 
-![]({{< baseurl >}}/img/2020/04/002-kompilacja-firmware-openwrt-config-target.png#huge)
+![](/img/2020/04/002-kompilacja-firmware-openwrt-config-target.png#huge)
 
 W tym przypadku jest `ar71xx-ath79` , co oznacza, że akurat ten router występuje zarówno w targecie
 `ar71xx` jak i `ath79` i można określić jeden albo drugi.
 
 Drugą opcją, którą musimy określić, jest `Subtarget` :
 
-![]({{< baseurl >}}/img/2020/04/003-kompilacja-firmware-openwrt-config-target.png#huge)
+![](/img/2020/04/003-kompilacja-firmware-openwrt-config-target.png#huge)
 
 W zasadzie jeśli nasz router nie dysponujemy małym flash lub flash'em opartym o technologię NAND,
 to wybieramy `TARGET_ath79_generic` .
@@ -164,7 +164,7 @@ to wybieramy `TARGET_ath79_generic` .
 Jeśli poprawnie wybraliśmy te dwie poprzednie opcje, to w trzeciej opcji powinien być widoczny
 model naszego routera:
 
-![]({{< baseurl >}}/img/2020/04/004-kompilacja-firmware-openwrt-config-target.png#huge)
+![](/img/2020/04/004-kompilacja-firmware-openwrt-config-target.png#huge)
 
 I jak widać jest do wyboru `TARGET_ath79_generic_DEVICE_tplink_archer-c7-v2` .
 
@@ -177,7 +177,7 @@ Każda z opcji na liście może zostać włączona lub wyłączona. Niektóre po
 da się ich włączyć lub wyłączyć bez uprzedniego rozwiązania problemów z zależnościami. Weźmy dla
 przykładu ten poniższy `PACKAGE_luci` :
 
-![]({{< baseurl >}}/img/2020/04/005-kompilacja-firmware-openwrt-config-zaleznosci.png#huge)
+![](/img/2020/04/005-kompilacja-firmware-openwrt-config-zaleznosci.png#huge)
 
 Nie możemy go ani włączyć ani wyłączyć, zatem jest on włączony czy wyłączony? Pozycja `Symbol:
 PACKAGE_luci [=y]` wskazuje, że jest włączony. Co zatem aktywuje tę pozycję? Odpowiedź jest w
@@ -207,7 +207,7 @@ procesu kompilacji. Jeśli chcemy przeprowadzić kompilację w trybie offline, t
 niezbędne źródła pobrać przed procesem kompilacji. W tym celu wpisujemy w terminal polecenie
 `make download` :
 
-![]({{< baseurl >}}/img/2020/04/006-kompilacja-firmware-openwrt-make-download.png#huge)
+![](/img/2020/04/006-kompilacja-firmware-openwrt-make-download.png#huge)
 
 ## Kompilacja źródeł OpenWRT
 
@@ -223,7 +223,7 @@ obrazu z firmware, to dobrze jest określić jeden wątek `-j1` oraz włączyć 
 w ustaleniu przyczyny problemu. Dobrze jest także [zajrzeć tutaj][14]. Odpalamy zatem już
 kompilację:
 
-![]({{< baseurl >}}/img/2020/04/007-kompilacja-firmware-openwrt-make.png#huge)
+![](/img/2020/04/007-kompilacja-firmware-openwrt-make.png#huge)
 
 Proces kompilacji potrwa dłuższą chwilę (parę godzin). Jeśli z jakiegoś powodu nie będziemy mogli
 go ukończyć, np. nie będziemy mieć czasu, to zawsze ten proces można przerwać i później kontynuować
@@ -254,12 +254,12 @@ webowego LuCI czy Gargoyle) i to ten obraz nas najbardziej będzie interesować.
 Mając gotowy obraz, musimy go jeszcze przesłać na router. W tym przypadku akurat wykorzystywany
 jest panel LuCI ale nic nie stoi na przeszkodzie by skorzystać z `sysupgrade` .
 
-![]({{< baseurl >}}/img/2020/04/008-kompilacja-firmware-openwrt-flash-image-luci.png#huge)
+![](/img/2020/04/008-kompilacja-firmware-openwrt-flash-image-luci.png#huge)
 
 Możemy naturalnie sprawdzić sumę kontrolną via `sha256sum` ale nie jest to konieczne z racji, że
 obraz był budowany lokalnie.
 
-![]({{< baseurl >}}/img/2020/04/010-kompilacja-firmware-openwrt-flash-image-luci.png#huge)
+![](/img/2020/04/010-kompilacja-firmware-openwrt-flash-image-luci.png#huge)
 
 Proces powinien zakończyć się powodzeniem, a router zrestartować.
 
@@ -293,7 +293,7 @@ W przypadku gdybyśmy chcieli nieco inaczej skonfigurować sam kernel, to standa
 target `make kernel_menuconfig` (brak odpowiednika z xconfig) i przy pomocy tego targetu jesteśmy
 w stanie zmienić opcje kernela tak jak uważamy za stosowne.
 
-![]({{< baseurl >}}/img/2020/04/014-kompilacja-firmware-openwrt-config-kernel.png#huge)
+![](/img/2020/04/014-kompilacja-firmware-openwrt-config-kernel.png#huge)
 
 Po dokonaniu zmian w konfiguracji kernela, trzeba jeszcze raz zbudować cały obraz z firmware
 OpenWRT.
@@ -364,7 +364,7 @@ Następnie aktualizujemy feeds'y:
 Mając już zaktualizowane feeds'y, powinniśmy być w stanie dostrzec każdy z tych pakietów na liście
 w `make menuconfig` lub `make xconfig` , przykładowo:
 
-![]({{< baseurl >}}/img/2020/04/011-kompilacja-firmware-openwrt-add-feeds.png#huge)
+![](/img/2020/04/011-kompilacja-firmware-openwrt-add-feeds.png#huge)
 
 Wystarczy teraz je już tylko zaznaczyć tak jak to zwykle czynimy w przypadku każdej innej pozycji
 na liście i przebudować obraz z firmware.
@@ -404,7 +404,7 @@ Będąc już w konkretnym środowisku kompilacji, konfigurujemy target za pomoc�
 `make xconfig` . Wszystkie zmiany, które poczynimy w konfiguracji możemy podejrzeć przez
 `./scripts/env diff` :
 
-![]({{< baseurl >}}/img/2020/04/012-kompilacja-firmware-openwrt-diff.png#huge)
+![](/img/2020/04/012-kompilacja-firmware-openwrt-diff.png#huge)
 
 I jeśli uważamy, że wszystko jest w porządku, to zapisujemy konfigurację obrazu za sprawą
 poniższego polecenia:
@@ -426,7 +426,7 @@ Wystarczy wybrać `Multiple devices` (opcja `TARGET_MULTI_PROFILE` ) na liście 
 taki sposób zostanie mam udostępniona lista wielokrotnego wyboru, w której to będziemy mogli
 zaznaczyć interesujące nas modele routerów:
 
-![]({{< baseurl >}}/img/2020/04/016-kompilacja-firmware-openwrt-image-config-multiple-routers.png#huge)
+![](/img/2020/04/016-kompilacja-firmware-openwrt-image-config-multiple-routers.png#huge)
 
 ## Aktualizacja źródeł OpenWRT
 
@@ -504,7 +504,7 @@ Po zaktualizowaniu źródeł, trzeba także zaktualizować konfigurację w pliku
 `make defconfig` lub `make oldconfig` . W tym przypadku został użyty ten drugi z racji, że ja
 zawsze wolę sprawdzić co uległo zmianie w konfiguracji:
 
-![]({{< baseurl >}}/img/2020/04/013-kompilacja-firmware-openwrt-config-update.png#huge)
+![](/img/2020/04/013-kompilacja-firmware-openwrt-config-update.png#huge)
 
 Jak widać wyżej, mamy informację o nowym pakiecie i musimy zdecydować czy chcemy go zbudować czy
 też nie. Domyślna akcja jest oznaczona dużą literą, w tym przypadku `N` . Gdybyśmy skorzystali z
@@ -608,7 +608,7 @@ katalog `root-ath79/` , a nie o `root.orig-ath79/` . Ten `root.orig-ath79/` zawi
 podstawowe pliki OpenWRT, zaś w `root-ath79/` znajdują się pliki wymagane przez konkretny model
 routera, w tym też pliki z katalogu `files/` :
 
-![]({{< baseurl >}}/img/2020/04/015-kompilacja-firmware-openwrt-image-files-root-orig.png#huge)
+![](/img/2020/04/015-kompilacja-firmware-openwrt-image-files-root-orig.png#huge)
 
 Jeśli pliki znajdują się w `root-ath79/` w odpowiednim miejscu w strukturze drzewa katalogów, to
 możemy być pewni, że w obrazie wynikowym również będą w tym konkretnym miejscu.

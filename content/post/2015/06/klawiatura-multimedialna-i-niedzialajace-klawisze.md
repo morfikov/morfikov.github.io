@@ -17,7 +17,7 @@ Bardzo ciężko spotkać wypasioną klawiaturę, po której podłączeniu wszyst
 funkcjonować jak należy, a to z tego względu, że nie do końca są one wykrywane przez nasz system.
 Zwykle są to klawisze multimedialne lub inne niestandardowe przyciski, które nie pasują do układu
 104 klawiszy. W większości przypadków [odpowiednie skonfigurowanie modelu
-klawiatury]({{< baseurl >}}/post/klawiatura-i-jej-konfiguracja-pod-debianem/) powinno rozwiązać
+klawiatury](/post/klawiatura-i-jej-konfiguracja-pod-debianem/) powinno rozwiązać
 nasze problemy. Nie zawsze jednak posiadany przez nas model jest do wyboru. Czasami nawet i jego
 wskazanie nie pomaga i najzwyczajniej w świecie niektóre klawisze po prostu nie zostaną wykryte
 przez system.

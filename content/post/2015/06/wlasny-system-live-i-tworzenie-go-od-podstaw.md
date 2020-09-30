@@ -146,7 +146,7 @@ Parametry startowe systemu:
   - `noeject` sprawia, że przy restarcie czy zamykaniu systemu nie będą wysuwane żadne nośniki
   - `swap` włącza wykorzystanie wykrytych partycji SWAP
   - `persistence` daje możliwość zachowywania zmian
-    ([persistence]({{< baseurl >}}/post/persistence-czyli-zachowanie-zmian-w-systemie-live/))
+    ([persistence](/post/persistence-czyli-zachowanie-zmian-w-systemie-live/))
     wprowadzonych w systemie live
   - `persistence-*` definiuje opcje dla persistence
   - `live-config.hostname` ustawia nazwę hosta systemu

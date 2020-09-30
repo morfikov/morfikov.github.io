@@ -168,9 +168,9 @@ serwerów DNS.
 
 
 [1]: http://www.thekelleys.org.uk/dnsmasq/doc.html
-[2]: {{< baseurl >}}/post/konfiguracja-trybu-ap-kart-wifi-na-debianie/
+[2]: /post/konfiguracja-trybu-ap-kart-wifi-na-debianie/
 [3]: https://en.wikipedia.org/wiki/Time_to_live#DNS_records
-[4]: {{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/
+[4]: /post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/
 [5]: https://dnscrypt.org/
 [6]: https://flux242.blogspot.fr/2012/06/dnsmasq-cache-size-tuning.html
 [7]: http://lists.thekelleys.org.uk/pipermail/dnsmasq-discuss/2013q2/007331.html

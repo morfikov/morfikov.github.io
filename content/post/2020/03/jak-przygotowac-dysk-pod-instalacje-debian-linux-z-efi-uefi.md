@@ -127,9 +127,9 @@ będzie decydujący w kwestii czy ten mechanizm będzie włączony czy też nie.
 której zamierzamy używać nie posiada wsparcia dla Secure Boot, to musimy ten [mechanizm
 wyłączyć][9] w konfiguracji firmware EFI/UEFI.
 
-![]({{< baseurl >}}/img/2020/03/001-secure-boot-efi-uefi-config-firmware.jpg#huge)
+![](/img/2020/03/001-secure-boot-efi-uefi-config-firmware.jpg#huge)
 
-![]({{< baseurl >}}/img/2020/03/002-secure-boot-efi-uefi-config-firmware.jpg#huge)
+![](/img/2020/03/002-secure-boot-efi-uefi-config-firmware.jpg#huge)
 
 Warto tutaj zaznaczyć fakt, że czasami interfejs EFI/UEFI może bardzo przypominać wygląd
 tradycyjnego BIOS'u ale to tylko pozory. W zasadzie to od producenta sprzętu zależy jak to menu
@@ -173,7 +173,7 @@ systemów. Trzeba jednak pamiętać, że ten cały moduł CSM czyni proces start
 bardziej skomplikowanym i podatnym na błędy, przez co nasz komputer może zacząć zachowywać się w
 sposób bardzo nieprzewidywalny. Dlatego też zaleca się wyłączenie CSM w konfiguracji EFI/UEFI:
 
-![]({{< baseurl >}}/img/2020/03/003-csm-module-efi-uefi-config-firmware.jpg#huge)
+![](/img/2020/03/003-csm-module-efi-uefi-config-firmware.jpg#huge)
 
 Niemniej jednak, jeśli ktoś już bardzo nalega na tryb BIOS, to naturalnie może ten moduł CSM sobie
 włączyć.
@@ -535,7 +535,7 @@ doinstalować.
 
 Przy instalacji pakietu zostanie wyrzucony monit dotyczący wgrania rEFInd'a na partycję ESP:
 
-![]({{< baseurl >}}/img/2020/03/004-refind-config-debian-ubuntu-live-install-efi-uefi.png#huge)
+![](/img/2020/03/004-refind-config-debian-ubuntu-live-install-efi-uefi.png#huge)
 
 Odpowiadamy tutaj przecząco, bo instalacją rEFInd'a zajmiemy się później sami.
 
@@ -674,31 +674,31 @@ prosta -- zadziała.
 
 
 [1]: https://en.wikipedia.org/wiki/GUID_Partition_Table
-[2]: {{< baseurl >}}/post/konwersja-tablicy-partycji-ms-dos-na-gpt/
+[2]: /post/konwersja-tablicy-partycji-ms-dos-na-gpt/
 [3]: https://www.rodsbooks.com/refind/
 [4]: https://www.rodsbooks.com/refind/configfile.html
 [5]: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-uefigpt-based-hard-drive-partitions
 [6]: https://www.memtest86.com/
-[7]: {{< baseurl >}}/post/memtest86-dla-efi-uefi-i-refind/
-[8]: {{< baseurl >}}/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/
+[7]: /post/memtest86-dla-efi-uefi-i-refind/
+[8]: /post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/
 [9]: https://www.rodsbooks.com/efi-bootloaders/secureboot.html#disable
 [10]: https://en.wikipedia.org/wiki/Master_boot_record
 [11]: https://en.wikipedia.org/wiki/GUID_Partition_Table
 [12]: https://en.wikipedia.org/wiki/EFI_system_partition
 [13]: https://uefi.org/sites/default/files/resources/UEFI_Spec_2_8_final.pdf#G17.1019485
 [14]: https://www.kernel.org/doc/Documentation/efi-stub.txt
-[15]: {{< baseurl >}}/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/
-[16]: {{< baseurl >}}/post/instalacja-debiana-z-wykorzystaniem-debootstrap/
+[15]: /post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/
+[16]: /post/instalacja-debiana-z-wykorzystaniem-debootstrap/
 [17]: https://github.com/rhboot/shim
 [18]: https://blog.hansenpartnership.com/uefi-secure-boot/
 [19]: https://www.rodsbooks.com/refind/bootmode.html
 [20]: https://www.rodsbooks.com/efi-bootloaders/fallback.html
 [21]: https://www.rodsbooks.com/refind/installing.html
 [22]: https://www.rodsbooks.com/refind/drivers.html
-[23]: {{< baseurl >}}/post/memtest86-dla-efi-uefi-i-refind/
+[23]: /post/memtest86-dla-efi-uefi-i-refind/
 [24]: https://en.wikipedia.org/wiki/Portable_Executable
 [25]: https://en.wikipedia.org/wiki/COFF
-[26]: {{< baseurl >}}/post/jak-optymalnie-podzielic-dysk-hdd-ssd-na-partycje-pod-linux/
+[26]: /post/jak-optymalnie-podzielic-dysk-hdd-ssd-na-partycje-pod-linux/
 [27]: https://www.rodsbooks.com/efi-bootloaders/csm-good-bad-ugly.html
 [28]: https://gist.github.com/leodutra/8779d468e9062058a3e90008295d3ca6
 [29]: https://www.rodsbooks.com/refind/installing.html#addons

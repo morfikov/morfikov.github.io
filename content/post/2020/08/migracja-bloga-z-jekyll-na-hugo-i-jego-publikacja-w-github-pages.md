@@ -489,18 +489,18 @@ Ostatnim krokiem jest wskazanie GitHub Pages gałęzi do budowania projektu. Teo
 Pages powinien automatycznie podebrać gałąź `gh-pages` i z niej budować stronę WWW. Jeśli jednak
 tak się nie dzieje, to wchodzimy w ustawienia zdalnego repozytorium:
 
-![]({{< baseurl >}}/img/2020/08/001-github-pages-jekyll-hugo-settings.png#huge)
+![](/img/2020/08/001-github-pages-jekyll-hugo-settings.png#huge)
 
 I przechodzimy do sekcji `GitHub Pages` :
 
-![]({{< baseurl >}}/img/2020/08/002-github-pages-jekyll-hugo-settings-branch.png#huge)
+![](/img/2020/08/002-github-pages-jekyll-hugo-settings-branch.png#huge)
 
 Wybieramy gałąź `gh-pages` i zapisujemy ustawienia. Po paru minutach strona powinna zostać
 wygenerowana. Proces generowania możemy śledzić przechodząc do gałęzi `gh-pages` :
 
-![]({{< baseurl >}}/img/2020/08/003-github-pages-jekyll-hugo-build-check.png#huge)
+![](/img/2020/08/003-github-pages-jekyll-hugo-build-check.png#huge)
 
-![]({{< baseurl >}}/img/2020/08/004-github-pages-jekyll-hugo-build-check.png#huge)
+![](/img/2020/08/004-github-pages-jekyll-hugo-build-check.png#huge)
 
 I jak widać z powyższych fotek, blog zbudował się bez problemów. Co ciekawe, w porównaniu do 11-12
 minut potrzebnych na zbudowanie projektu Jekyll, ten sam projekt Hugo buduje się na GitHub Pages w

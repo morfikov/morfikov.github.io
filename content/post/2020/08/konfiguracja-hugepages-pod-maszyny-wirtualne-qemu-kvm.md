@@ -311,5 +311,5 @@ wydajności, to trzeba skonfigurować sobie zwykłe HugePages.
 
 [1]: https://en.wikipedia.org/wiki/Translation_lookaside_buffer
 [2]: https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt
-[3]: {{< baseurl >}}/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/
-[4]: {{< baseurl >}}/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/#sterownik-balloon
+[3]: /post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/
+[4]: /post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/#sterownik-balloon

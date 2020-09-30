@@ -828,7 +828,7 @@ cache.
 
 Na poniższym obrazku mamy widoczny podgląd portu 53 protokołu TCP/UDP interfejsu `lo` :
 
-![]({{< baseurl >}}/img/2020/09/001-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
+![](/img/2020/09/001-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
 
 Jak widzimy, na interfejsie lokalnym ruch DNS odbywa się w postaci odszyfrowanej. Pierwsze dwa
 pakiety (te ze źródłowym i docelowym adresem `127.0.0.1` ) to zapytania linux'owego resolver'a do
@@ -840,7 +840,7 @@ i dnscrypt-proxy rozmawiają ze sobą i przekazują między sobą zarówno zapyt
 ale co się dzieje z tymi zapytaniami DNS, gdy docierają do interfejsu `bond0` ? Podejrzyjmy zatem
 port 53 na interfejsie `bond0` :
 
-![]({{< baseurl >}}/img/2020/09/002-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
+![](/img/2020/09/002-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
 
 Brak jakiegokolwiek ruchu, zatem na interfejsie wychodzącym z naszej maszyny nie widać żadnych
 zapytań DNS.
@@ -849,7 +849,7 @@ To co się właściwie dzieje z tymi zapytaniami DNS? Są one przesyłane do ser
 port 443 (jako, że w opisanej wyżej konfiguracji korzystamy z DoH). Zobaczmy zatem co się dzieje na
 interfejsie `bond0` na porcie 443:
 
-![]({{< baseurl >}}/img/2020/09/003-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
+![](/img/2020/09/003-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
 
 Jak widzimy, nasza maszyna rozmawia z serwerem `1.0.0.1` przy wykorzystaniu protokołu TLS 1.3.
 Wiemy zatem, że nasze zapytania DNS są przesyłane przez sieć w formie zaszyfrowanej i nikt
@@ -859,7 +859,7 @@ Jeśli się przyjrzymy uważnie, to zapytania `AAAA` (o adres IPv6) są blokowan
 odpowiada na nie dnscrypt-proxy komunikatami `CPU: AAAA queries have been locally blocked by
 dnscrypt-proxy` oraz `OS: Set block_ipv6 to false to disable this feature` :
 
-![]({{< baseurl >}}/img/2020/09/004-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
+![](/img/2020/09/004-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
 
 Czyli wszystko działa prawidłowo.
 
@@ -993,15 +993,15 @@ naszą prywatność) będzie miało nieco więcej sensu.
 [1]: https://forum.dug.net.pl/viewtopic.php?id=31524
 [2]: https://dnscrypt.info/
 [3]: http://www.thekelleys.org.uk/dnsmasq/doc.html
-[4]: {{< baseurl >}}/tags/resolver/
-[5]: {{< baseurl >}}/post/konfiguracja-interfejsow-bond-bonding/
+[4]: /tags/resolver/
+[5]: /post/konfiguracja-interfejsow-bond-bonding/
 [6]: https://github.com/systemd/systemd/issues/15257
 [7]: https://www.freedesktop.org/software/systemd/man/systemd-networkd.service.html
 [8]: https://www.freedesktop.org/software/systemd/man/systemd-resolved.service.html
 [9]: https://en.wikipedia.org/wiki/Server_Name_Indication
 [10]: https://blog.cloudflare.com/encrypt-that-sni-firefox-edition/
 [11]: https://en.wikipedia.org/wiki/Server_Name_Indication#Encrypted_Client_Hello
-[12]: {{< baseurl >}}/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/
+[12]: /post/jak-wlaczyc-w-firefox-esni-encrypted-sni/
 [13]: https://man7.org/linux/man-pages/man1/chattr.1.html
 [14]: https://ext4.wiki.kernel.org/index.php/Ext4_Design#Ext4_Extents
 [15]: https://en.wikipedia.org/wiki/DNS_over_HTTPS
@@ -1015,7 +1015,7 @@ naszą prywatność) będzie miało nieco więcej sensu.
 [23]: https://github.com/DNSCrypt/dnscrypt-proxy/wiki/DNS-server-sources
 [24]: https://tools.ietf.org/html/rfc5077
 [25]: https://golang.org/src/crypto/tls/cipher_suites.go
-[26]: {{< baseurl >}}/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/
+[26]: /post/jak-wlaczyc-w-firefox-esni-encrypted-sni/
 [27]: https://dnscrypt.info/public-servers/
 [28]: https://en.wikipedia.org/wiki/Reverse_DNS_lookup
 [29]: https://en.wikipedia.org/wiki/Name_Service_Switch
@@ -1023,4 +1023,4 @@ naszą prywatność) będzie miało nieco więcej sensu.
 [31]: https://www.freedesktop.org/wiki/Software/systemd/NetworkTarget/
 [32]: https://developers.cloudflare.com/1.1.1.1/setting-up-1.1.1.1
 [33]: https://www.cloudflare.com/ssl/encrypted-sni/
-[34]: {{< baseurl >}}/tags/vpn/
+[34]: /tags/vpn/

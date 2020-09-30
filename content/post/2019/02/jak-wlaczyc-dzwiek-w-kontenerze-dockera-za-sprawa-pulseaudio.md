@@ -14,7 +14,7 @@ title: Jak włączyć dźwięk w kontenerze Docker'a za sprawą PulseAudio
 
 Jakiś czas temu postanowiłem przetestować sposób zamknięcia graficznych aplikacji w kontenerze
 Docker'a. Całe rozwiązanie zostało opisane na
-przykładzie [skonteneryzowania przeglądarki Firefox]({{< baseurl >}}/post/uruchamianie-graficznych-aplikacji-w-kontenerach-dockera/).
+przykładzie [skonteneryzowania przeglądarki Firefox](/post/uruchamianie-graficznych-aplikacji-w-kontenerach-dockera/).
 Ten opisany w podlinkowanym artykule pomysł był nawet całkiem przyzwoity ale nie nadaje się on, gdy
 w grę wchodzą programy odtwarzające dźwięk. No może to za dużo powiedziane, że się nie nadaje, ale
 z pewnością brakuje mu jednego istotnego elementu. Nawet ta przykładowa przeglądarka internetowa
@@ -22,7 +22,7 @@ jest w stanie odtwarzać dźwięki jeśli się odwiedzi stosowną stronę WWW. S
 usłyszymy w głośnikach, gdy odpalimy dajmy na to stronę YouTube i puścimy jakiś materiał video.
 Dlatego też wypadałoby skonfigurować dźwięk i przesłać go do serwera PulseAudio, który będzie
 odpalony na naszym linux'owym hoście. Kiedyś już tego typu rozwiązanie nawet opisywałem na
-przykładzie [zintegrowania PulseAudio z kontenerami LXC]({{< baseurl >}}/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/).
+przykładzie [zintegrowania PulseAudio z kontenerami LXC](/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/).
 Okazuje się, że tamto rozwiązanie znajduje również zastosowanie w przypadku Docker'a. Trzeba tylko
 nieco inaczej skonfigurować kontener i właśnie tej kwestii będzie dotyczył niniejszy wpis.
 
@@ -81,7 +81,7 @@ Restartujemy na koniec jeszcze serwer dźwięku:
 I odpalamy kontener. Jeśli wszystko dobrze skonfigurowaliśmy, to odpalając przykładowy film na YT,
 powinniśmy usłyszeć dźwięk. Poniżej fotka obrazująca całe przedsięwzięcie:
 
-![]({{< baseurl >}}/img/2019/02/001-docker-debian-linux-pulseaudio-audio-network.png#huge)
+![](/img/2019/02/001-docker-debian-linux-pulseaudio-audio-network.png#huge)
 
 Po prawej stronie widać systemowy mikser dźwięku, w którym widoczna jest pozycja `AudioIPC server`
 i to ona właśnie odpowiada za obieranie dźwięku z kontenera Firefox'a. Jeśli jednak z jakiegoś

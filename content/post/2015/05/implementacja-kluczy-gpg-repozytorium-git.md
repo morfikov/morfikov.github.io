@@ -17,8 +17,8 @@ przeprowadzanych działań w repozytorium GIT. Będziemy w ten sposób w stanie 
 czy tagi, by było wiadomo, że zmiany, które zostały poczynione pochodzą naprawdę od konkretnego
 użytkownika. Oczywiście to może się wydać przesadą dla wielu ludzi ale skoro mamy udostępnioną
 możliwość wykorzystania kluczy GPG, to czemu z tej opcji nie skorzystać? Potrzebne będą nam tylko
-[klucze GPG]({{< baseurl >}}/post/bezpieczny-klucz-gpg/). Sposób ich tworzenia jak i [konfiguracja
-zdefiniowana w pliku gpg.conf]({{< baseurl >}}/post/konfiguracja-gpg-w-pliku-gpg-conf/) nie
+[klucze GPG](/post/bezpieczny-klucz-gpg/). Sposób ich tworzenia jak i [konfiguracja
+zdefiniowana w pliku gpg.conf](/post/konfiguracja-gpg-w-pliku-gpg-conf/) nie
 zostaną tutaj opisane. Zamiast tego skupimy się jedynie na implementacji samych kluczy GPG.
 
 <!--more-->

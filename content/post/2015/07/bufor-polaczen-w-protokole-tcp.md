@@ -47,7 +47,7 @@ przesyłane na tyle szybko, że odbiorca jest je w stanie przetworzyć.
 
 Rozważmy dla przykładu sytuację zobrazowaną na poniżej fotce ([źródło](http://www.tcpipguide.com/)).
 
-![]({{< baseurl >}}/img/2015/06/1.bufor-polaczen-tcp.png#big)
+![](/img/2015/06/1.bufor-polaczen-tcp.png#big)
 
 Klient wysłał żądanie o jakiś plik. Zarówno klient jak i serwer mają rozmiar okna TCP ustawiony na
 560 bajtów. Serwer wysyła pierwsze pakiety. W powyższym przypadku, trzeci pakiet się zgubił. Do
@@ -66,7 +66,7 @@ Serwer otrzymuje potwierdzenia odbioru tych dwóch pakietów, wobec czego, może
 bufora rozszerzając okno do 560 bajtów. I tak ten proces przebiega do wyczerpania danych, które
 jedna z stron chce przesłać drugiej. Co ciekawe, tylko trzeci pakiet wymagał retransmisji, a nie
 trzeci i czwarty. To za sprawą
-[SACK]({{< baseurl >}}/post/sack-czyli-selektywne-potwierdzenia-pakietow/), czyli selektywnych
+[SACK](/post/sack-czyli-selektywne-potwierdzenia-pakietow/), czyli selektywnych
 potwierdzeń segmentów.
 
 Rozmiar okna jest kluczowy jeśli chodzi o możliwość przesyłania dużej ilości danych ale to nie jest
@@ -95,7 +95,7 @@ oczywiście o [skalowaniu okien oraz znacznikach czasu](https://tools.ietf.org/h
 Skalowanie okna może rozciągnąć jego rozmiar nawet do 1,073,725,440 bajtów, czyniąc tym samym
 większy próg dla danych, które mogą być przesyłane przez sieć bez konieczności czekania na pakiet
 potwierdzający. Jako, że większa prędkość pociąga za sobą więcej danych, to i [numery
-sekwencyjne]({{< baseurl >}}/post/numery-sekwencyjne-w-strumieniu-tcp/) skaczą jak szalone. Z
+sekwencyjne](/post/numery-sekwencyjne-w-strumieniu-tcp/) skaczą jak szalone. Z
 kolei ich pole w nagłówku TCP ma 32 bity, co daję liczbę 4,294,967,296 unikalnych numerów. Może i to
 się wydaje dużo ale przy prędkościach rzędu 1 gbit/s, te numery sekwencyjne mogą się wyczerpać, w
 zależności od uzyskanej prędkości, po czasie 17-34 sekund. Jeśli jakiś pakiet się w tym czasie

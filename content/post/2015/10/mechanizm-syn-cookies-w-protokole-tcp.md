@@ -94,7 +94,7 @@ systemu. Z kolei SYN cookies powinien do niego nie dopuścić. Ten mechanizm zad
 momencie gdy próg określony w `tcp_max_syn_backlog` zostanie przekroczony.
 
 Trzeba też sobie zdać sprawę, że SYN cookies wykorzystuje opcję nagłówka TCP odpowiedzialną za
-[znaczniki czasu (TCP timestamp)]({{< baseurl >}}/post/znacznik-czasu-timestamp-w-protokole-tcp/).
+[znaczniki czasu (TCP timestamp)](/post/znacznik-czasu-timestamp-w-protokole-tcp/).
 Dlatego też, by móc skorzystać z tego mechanizmu ochrony, trzeba również włączyć w kernelu opcję
 `tcp_timestamps` . Reasumując, w pliku `/etc/sysctl.conf` powinny się znaleźć dodatkowo te poniższe
 opcje:

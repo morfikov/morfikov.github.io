@@ -32,25 +32,25 @@ Pudełko jest trochę duże ale adapter Archer T4U również do najmniejszych ni
 znajduje się kilka fotek przedstawiających samo opakowanie jak i wszystkie jego elementy
 składowe.
 
-![]({{< baseurl >}}/img/2016/08/1.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
+![](/img/2016/08/1.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/2.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
+![](/img/2016/08/2.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/3.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
+![](/img/2016/08/3.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/4.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
+![](/img/2016/08/4.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/5.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
+![](/img/2016/08/5.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/6.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
+![](/img/2016/08/6.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/7.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
+![](/img/2016/08/7.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/8.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
+![](/img/2016/08/8.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/9.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
+![](/img/2016/08/9.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/08/10.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
+![](/img/2016/08/10.karta-adapter-TP-LINK-Archer-T4U-linux.jpg#huge)
 
 Jak widzimy, port USB tej karty jest niebieski, czyli jest to standard USB 3.0 . Karta ma wbudowany
 przycisk WPS, a zielona dioda sygnalizuje stan urządzenia (włączone, transfer danych). Do zestawu
@@ -62,7 +62,7 @@ zewnętrznej anteny.
 W kernelu linux'a 4.5 nie ma póki co odpowiedniego modułu, który by zapewniał wsparcie dla adaptera
 Archer T4U. Trzeba zatem ręcznie skompilować sobie moduł, by móc z tej karty korzystać po linux'em.
 [Proces kompilacji modułu 8812au dla Archer
-T4U]({{< baseurl >}}/post/sterowniki-karty-tp-link-archer-t4u-8812au/) został opisany w osobnym
+T4U](/post/sterowniki-karty-tp-link-archer-t4u-8812au/) został opisany w osobnym
 artykule.
 
 ## Parametry adaptera Archer T4U
@@ -333,7 +333,7 @@ Poniżej jest trochę informacji na temat samego adaptera:
 
 Wsparcie dla modułu `8812au` , który obsługuję tę kartę, jest średnie ale ten Archer T4U działa
 raczej bez większych problemów. Jedyny mankament to [tryb oszczędzania
-energii]({{< baseurl >}}/post/tryb-oszczedzania-energii-w-kartach-wifi/), który jest
+energii](/post/tryb-oszczedzania-energii-w-kartach-wifi/), który jest
 implementowany masowo w kartach WiFi. Jeśli obserwujemy wysoki `ping` w stanie spoczynku karty,
 oznacza to, że ten tryb powinien zostać wyłączony.
 
@@ -342,7 +342,7 @@ oznacza to, że ten tryb powinien zostać wyłączony.
 Generalnie rzecz biorąc, jeśli udało nam się skompilować moduł, to karta powinna działać po podaniu
 jej odpowiednich parametrów sieci WiFi. W różnych dystrybucjach linux'a używa się innych narzędzi do
 konfiguracji połączenia bezprzewodowego. [Proces konfiguracji połączenia WiFi pod
-debianem]({{< baseurl >}}/post/konfiguracja-polaczenia-wifi-pod-debianem/) został opisany w
+debianem](/post/konfiguracja-polaczenia-wifi-pod-debianem/) został opisany w
 osobnym artykule. W tym podlinkowanym wpisie zostało to pokazane na przykładzie narzędzi zawartych w
 pakietach `wpasupplicant` oraz `ifupdown` .
 
@@ -354,11 +354,11 @@ modułu, z tym, żę obsługa tego adaptera nie jest bezproblemowa. Weźmy przyk
 poszukiwaniu innych sieci, które są w naszym zasięgu. Pod debianem mamy do tego celu kilka narzędzi,
 np. `wpa_cli` , `wavemon` i `linssid` . Poniżej są wyniki zwracane przez te aplikacje:
 
-![]({{< baseurl >}}/img/2016/06/3.tp-link-archer-t4u-adapter-wifi-wavemon.png#huge)
+![](/img/2016/06/3.tp-link-archer-t4u-adapter-wifi-wavemon.png#huge)
 
-![]({{< baseurl >}}/img/2016/06/4.tp-link-archer-t4u-adapter-wifi-linssid.png#huge)
+![](/img/2016/06/4.tp-link-archer-t4u-adapter-wifi-linssid.png#huge)
 
-![]({{< baseurl >}}/img/2016/06/5.tp-link-archer-t4u-adapter-wifi-wpa-cli.png#huge)
+![](/img/2016/06/5.tp-link-archer-t4u-adapter-wifi-wpa-cli.png#huge)
 
 Widzimy wyraźnie, że nie ma co się opierać na tych wynikach. System zwyczajnie nie jest w stanie
 oszacować jakości sygnału. Ta z kolei jest stała i nie ulega zmianie. Jak dla mnie, to za wcześnie

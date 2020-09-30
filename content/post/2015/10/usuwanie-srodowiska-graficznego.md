@@ -131,7 +131,7 @@ wynikiem nieodpowiedniej konfiguracji `apt`/`aptitude` , a konkretnie chodzi o p
 sugerowane, których system nie wywala, gdy usuwane są metapakiety.
 
 Możemy temu oczywiście zaradzić przez dodanie odpowiednich wpisów do [pliku
-apt.conf]({{< baseurl >}}/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/) , który znajduje się
+apt.conf](/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/) , który znajduje się
 w katalogu `/etc/apt/` . Domyślnie on nie istnieje i trzeba go sobie stworzyć. Wpisy, które nas
 interesują, są poniżej:
 

@@ -49,13 +49,13 @@ takie właśnie napięcie, ewentualnie będzie wyposażony w konwerter napięć.
 urządzenia w sklepie możemy czasem na nich zobaczyć informacje o dwóch rodzajach napięć 3,3 V i 5
 V. Popatrzmy na te poniższe adaptery USB-UART na układach CP2102:
 
-![]({{< baseurl >}}/img/2016/10/002.usb-uart-adapter-konsola-szeregowa-serial.jpg#huge)
+![](/img/2016/10/002.usb-uart-adapter-konsola-szeregowa-serial.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/10/001.usb-uart-adapter-konsola-szeregowa-serial.jpg#small)
+![](/img/2016/10/001.usb-uart-adapter-konsola-szeregowa-serial.jpg#small)
 
-![]({{< baseurl >}}/img/2016/10/003.usb-uart-adapter-konsola-szeregowa-serial.jpg#huge)
+![](/img/2016/10/003.usb-uart-adapter-konsola-szeregowa-serial.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/10/004.usb-uart-adapter-konsola-szeregowa-serial.jpg#small)
+![](/img/2016/10/004.usb-uart-adapter-konsola-szeregowa-serial.jpg#small)
 
 Na pierwszym adapterze konwerter napięć jest w postaci trzech padów i zespolenie dwóch z nich
 steruje napięciem. Na tym drugim zaś mamy nieco bardziej cywilizowane rozwiązanie, bo napięciem
@@ -71,7 +71,7 @@ Jeśli nie jesteśmy pewni czy zakupiliśmy odpowiedni adapter USB-UART i nie ch
 adaptera faktycznie jest. Do tego celu posłuży nam multimetr. Napięcie mierzymy między GND i RX lub
 TX. Powinniśmy uzyskać wskazanie na poziomie około 3,3 V, tak jak to widać na poniższej fotce:
 
-![]({{< baseurl >}}/img/2016/11/005.usb-uart-adapter-konsola-szeregowa-test.jpg#huge)
+![](/img/2016/11/005.usb-uart-adapter-konsola-szeregowa-test.jpg#huge)
 
 Jak widać z portu USB dostarczanych jest 5 V, a a między pinem GND i TX adaptera mamy już ~3,3 V.
 Możemy zatem bez obaw wykorzystać to urządzenie i wpiąć się do portu szeregowego routera. W tym
@@ -83,9 +83,9 @@ Warto też zaznaczyć, że oferty adapterów USB-UART znacznie się różnią po
 dostajemy razem z adapterem. Zwykle kupujemy gołe urządzenie ale czasem też dorzucane są kolorowe
 kabelki albo też i goldpiny. Mi do jednego zestawu dorzucili kabelki, a drugiego trochę goldpinów:
 
-![]({{< baseurl >}}/img/2016/10/007.usb-uart-adapter-goldpin.jpg#huge)
+![](/img/2016/10/007.usb-uart-adapter-goldpin.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/10/008.usb-uart-adapter-przewody.jpg#huge)
+![](/img/2016/10/008.usb-uart-adapter-przewody.jpg#huge)
 
 Jeśli jednak nabyliśmy taki adapter bez kabelków i goldpinów, to albo musimy dokupić je osobno, albo
 też zrobić je samemu.
@@ -111,15 +111,15 @@ Po zdjęciu obudowy, mamy dostęp do płyty głównej. Port szeregowy, a właśc
 wyprowadzenia są ulokowane w lewej górnej części płyty, to te cztery dziurki widoczne na poniższej
 fotce:
 
-![]({{< baseurl >}}/img/2016/10/009.usb-uart-tp-link-router-serial-konsola-szeregowa.jpg#huge)
+![](/img/2016/10/009.usb-uart-tp-link-router-serial-konsola-szeregowa.jpg#huge)
 
 Trzeba tam przylutować jakaś wtyczkę albo chociaż gołe goldpiny. Niemniej jednak, by to zrobić,
 musimy wyciągnąć ten PCB z routera. Trzeba pierw odkręcić gniazda anten. Niektóre z nich mogą mieć
 problemy z przeciśnięciem się przez otwór. Trzeba nimi trochę pokręcić i poruszać na boki:
 
-![]({{< baseurl >}}/img/2016/10/010.usb-uart-tp-link-router-anteny.jpg#huge)
+![](/img/2016/10/010.usb-uart-tp-link-router-anteny.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/10/011.usb-uart-tp-link-router-anteny.jpg#huge)
+![](/img/2016/10/011.usb-uart-tp-link-router-anteny.jpg#huge)
 
 ## Konstrukcja wtyczki dla portu szeregowego routera
 
@@ -127,19 +127,19 @@ Po wyciągnięciu płyty z routera, możemy zabrać się za przylutowanie goldpi
 skonstruowałem wtyczkę z elementów odzyskanych ze starej płyty głównej. Odlutowałem z niej 4
 goldpiny i ściągnąłem kawałek plastiku, który był do nich przymocowany:
 
-![]({{< baseurl >}}/img/2016/10/012.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg#huge)
+![](/img/2016/10/012.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/10/013.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg#huge)
+![](/img/2016/10/013.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/10/014.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg#huge)
+![](/img/2016/10/014.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg#huge)
 
 Później takie ustrojstwo wsadziłem na płytę routera i przylutowałem. Całość się trzyma w miarę
 pewnie, choć ciężko było to przylutować (brak profesjonalnych narzędzi i wprawy). Tak czy inaczej,
 całość działa.
 
-![]({{< baseurl >}}/img/2016/10/015.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg#huge)
+![](/img/2016/10/015.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/10/016.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg#huge)
+![](/img/2016/10/016.usb-uart-tp-link-router-serial-konsola-szeregowa-wtyczka.jpg#huge)
 
 Warto przed podłączeniem zasilania routera sprawdzić multimetrem czy nie ma tam czasem jakiegoś
 zwarcia. Jeśli miernik nie zabrzęczy, tzn. że jest wszytko w porządku.
@@ -205,21 +205,21 @@ sondę do znanego nam punktu masy na PCB routera. Jak ustalić gdzie znajduje si
 PCB routera? Najprościej skorzystać z zasilacza, a konkretnie z gniazda zasilania w routerze. Na
 zasilaczu mamy oznaczenia + i - . Wygląda to mniej więcej tak jak na force poniżej:
 
-![]({{< baseurl >}}/img/2016/10/017.usb-uart-tp-link-router-serial-konsola-szeregowa-zasilacz.jpg#medium)
+![](/img/2016/10/017.usb-uart-tp-link-router-serial-konsola-szeregowa-zasilacz.jpg#medium)
 
 W tym przypadku wiemy, że masa jest na zewnątrz. Gdybyśmy nie mieli oznaczeń na zasilaczu, to trzeba
 by sprawdzić ten stan rzeczy multimetrem. W tym celu podłączamy sam zasilacz do gniazdka i wtykamy
 jedną sondę we wtyczkę, a drugą sondą dotykamy zewnętrznej jej części, tak jak pokazane na poniższej
 fotce:
 
-![]({{< baseurl >}}/img/2016/10/018.usb-uart-tp-link-router-serial-konsola-szeregowa-masa.jpg#huge)
+![](/img/2016/10/018.usb-uart-tp-link-router-serial-konsola-szeregowa-masa.jpg#huge)
 
 Wskazanie multimetru przy takim podłączeniu przewodów zarówno do miernika jak i wtyczki zasilacza
 jest dodatnie, zatem wiemy, że masa jest tam, gdzie mamy podpięty czarny przewód, tj. na zewnątrz,
 co potwierdza oznaczenie na zasilaczu. Mając tę wiedzę, możemy przyjrzeć się bliżej routerowi. Ma on
 gniazdo zasilania:
 
-![]({{< baseurl >}}/img/2016/10/019.usb-uart-tp-link-router-serial-konsola-szeregowa-gniazdo-zasilania.jpg#huge)
+![](/img/2016/10/019.usb-uart-tp-link-router-serial-konsola-szeregowa-gniazdo-zasilania.jpg#huge)
 
 Widać tam bolec w środku i blaszkę na spodzie. Nasz znany punkt masy to właśnie ta blaszka, bo to
 ona styka się z zewnętrzną częścią wtyczki zasilacza. To do niej musimy podłączyć naszą czarną
@@ -227,11 +227,11 @@ sondę, a czerwoną do każdego kolejnego pinu konsoli szeregowej. Przy jednym z
 zacznie nam brzęczeń, bo wskaże nam prawie zerową rezystancję. Oznacza to, że znaleźliśmy pin GND
 konsoli szeregowej:
 
-![]({{< baseurl >}}/img/2016/10/020.usb-uart-tp-link-router-serial-konsola-szeregowa-pin-gnd.jpg#huge)
+![](/img/2016/10/020.usb-uart-tp-link-router-serial-konsola-szeregowa-pin-gnd.jpg#huge)
 
 W przypadku pozostałych pinów, rezystancja będzie sporo wyższa:
 
-![]({{< baseurl >}}/img/2016/10/021.usb-uart-tp-link-router-serial-konsola-szeregowa-pin-nie-gnd.jpg#huge)
+![](/img/2016/10/021.usb-uart-tp-link-router-serial-konsola-szeregowa-pin-nie-gnd.jpg#huge)
 
 ### Pin VCC
 
@@ -260,7 +260,7 @@ z routerem przez konsolę szeregową. Podpinamy zatem przewody do adaptera USB-U
 konsoli szeregowej na płycie routera. Pamiętajmy, interesują nas jedynie piny GND, RX i TX. Adapter
 umieszczamy w porcie USB komputera.
 
-![]({{< baseurl >}}/img/2016/10/022.usb-uart-tp-link-router-serial-konsola-szeregowa-podlaczenie.jpg#huge)
+![](/img/2016/10/022.usb-uart-tp-link-router-serial-konsola-szeregowa-podlaczenie.jpg#huge)
 
 Odpalamy terminal i wpisujemy w nim to poniższe polecenie:
 
@@ -286,12 +286,12 @@ Odpalamy terminal i wpisujemy w nim to poniższe polecenie:
 
 Teraz włączamy przycisk power na routerze. Urządzenie powinno się nam włączyć (zapalą się diody):
 
-![]({{< baseurl >}}/img/2016/10/023.usb-uart-tp-link-router-serial-konsola-szeregowa-podlaczenie.jpg#huge)
+![](/img/2016/10/023.usb-uart-tp-link-router-serial-konsola-szeregowa-podlaczenie.jpg#huge)
 
 Jednocześnie obserwujemy co się będzie działo na konsoli. Przy prawidłowej konfiguracji powinniśmy
 zobaczyć na niej jakieś komunikaty.
 
-![]({{< baseurl >}}/img/2016/10/024.usb-uart-tp-link-router-serial-konsola-szeregowa-log-bootloader.png#huge)
+![](/img/2016/10/024.usb-uart-tp-link-router-serial-konsola-szeregowa-log-bootloader.png#huge)
 
 Jak widać, pierwsza część logu to sekwencja bootloader'a. Na samym dole zaś mamy zainicjowany start
 kernela. Ta powyższa sytuacja dotyczy sprawnego routera. Co jednak w przypadku, gdy naszemu
@@ -300,7 +300,7 @@ routerowi coś dolega? Jeśli jesteśmy w stanie dojść do momentu, gdzie widoc
 ekranie, to musimy wpisać `tpl` . Nie jest to łatwe zadanie i pewnie będziemy musieli powtórzyć tę
 czynność parokrotnie. Gdy wpiszemy tę fazę w wyznaczonym czasie, pojawi się prompt:
 
-![]({{< baseurl >}}/img/2016/10/025.usb-uart-tp-link-router-serial-konsola-szeregowa-bootloader.png#huge)
+![](/img/2016/10/025.usb-uart-tp-link-router-serial-konsola-szeregowa-bootloader.png#huge)
 
 ## Mapa obszaru flash'a routera
 
@@ -518,7 +518,7 @@ jednak zareaguje nasz router po podaniu mu pełnego obrazu `factory` ? W sumie z
 sprawdzić ale jakoś nigdy nie było okazji. Kopiujemy zatem firmware do pamięci routera via `scp` ,
 logujemy się na router i wgrywamy firmware via `sysupgrade` :
 
-![]({{< baseurl >}}/img/2016/10/026.usb-uart-tp-link-router-serial-konsola-szeregowa-factory.png#huge)
+![](/img/2016/10/026.usb-uart-tp-link-router-serial-konsola-szeregowa-factory.png#huge)
 
 Jak widzimy wyżej, router działa bez problemu. Zatem wiemy, że obrazy OpenWRT/LEDE mające w nazwie
 `factory` nie ubiją nam routera. Niemniej jednak, w porównaniu do tych mających w nazwie
@@ -536,7 +536,7 @@ Ja dysponuję routerem TL-WR1043ND w wersji V2, a on się zmienił dość znaczn
 V1. Możemy zatem przypuszczać, że wgranie firmware dla wersji V1 ubije router. Sprawdźmy zatem co
 faktycznie się stanie (bez znaczenia czy użyjemy `sysupgrade` czy `factory` ).
 
-![]({{< baseurl >}}/img/2016/10/027.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-model-wersja.png#huge)
+![](/img/2016/10/027.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-model-wersja.png#huge)
 
 Nie mamy możliwości wgrania firmware przeznaczonego na inną wersję sprzętową routera. Podobnie
 sprawa będzie wyglądać w przypadku zupełnie innego modelu routera. Jak widać w powyższym
@@ -572,7 +572,7 @@ Sprawdźmy zatem co się stanie po puszczeniu procesu aktualizacji firmware via 
 odłączeniu zasilania routera tak po trzech sekundach. Oczywiście flash'ujemy router z poziomu
 `sysupgrade` na firmware OpenWRT/LEDE:
 
-![]({{< baseurl >}}/img/2016/10/028.usb-uart-tp-link-router-serial-konsola-szeregowa-zanik-zasilania.png#huge)
+![](/img/2016/10/028.usb-uart-tp-link-router-serial-konsola-szeregowa-zanik-zasilania.png#huge)
 
 W momencie uwiecznionym powyżej nastąpił symulowany zanik zasilania. System routera po włączeniu nie
 startuje. Zapalają się wszystkie diody, po czym część z nich gaśnie. Dioda Power, System i WPS
@@ -600,13 +600,13 @@ Podobnie jak w przypadku firmware OpenWRT/LEDE, oficjalny firmware TP-LINK'a ró
 obrazy przed wgraniem ich przez panel administracyjny. Nie musimy się zatem obawiać, że przez
 przypadek wgramy obraz nieprzeznaczony dla naszego modelu/wersji routera.
 
-![]({{< baseurl >}}/img/2016/10/029.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-router.png#huge)
+![](/img/2016/10/029.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-router.png#huge)
 
-![]({{< baseurl >}}/img/2016/10/030.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-router.png#huge)
+![](/img/2016/10/030.usb-uart-tp-link-router-serial-konsola-szeregowa-inny-router.png#huge)
 
-![]({{< baseurl >}}/img/2016/10/031.usb-uart-tp-link-router-serial-konsola-szeregowa-inna-wesja.png#huge)
+![](/img/2016/10/031.usb-uart-tp-link-router-serial-konsola-szeregowa-inna-wesja.png#huge)
 
-![]({{< baseurl >}}/img/2016/10/032.usb-uart-tp-link-router-serial-konsola-szeregowa-inna-wersja.png#huge)
+![](/img/2016/10/032.usb-uart-tp-link-router-serial-konsola-szeregowa-inna-wersja.png#huge)
 
 ### Czy wgranie oficjalnego firmware z "boot" w nazwie via sysupgrade uszkodzi router z OpenWRT/LEDE
 
@@ -639,9 +639,9 @@ wersja obrazu co w przypadku firmware OpenWRT/LEDE, który ma w nazwie `factory`
 oficjalnego obrazu bez `boot` z poziomu panelu administracyjnego TP-LINK'a nie uszkodzi naszego
 routera.
 
-![]({{< baseurl >}}/img/2016/10/033.usb-uart-tp-link-router-serial-konsola-szeregowa-bez-boot.png#huge)
+![](/img/2016/10/033.usb-uart-tp-link-router-serial-konsola-szeregowa-bez-boot.png#huge)
 
-![]({{< baseurl >}}/img/2016/10/034.usb-uart-tp-link-router-serial-konsola-szeregowa-bez-boot.png#huge)
+![](/img/2016/10/034.usb-uart-tp-link-router-serial-konsola-szeregowa-bez-boot.png#huge)
 
 Wgrywanie oficjalnych obrazów bez `boot` w nazwie jest nawet bezpieczniejsze, bo w tym przypadku nie
 jest przepisywany obszar u-boot. Dlatego też nawet w przypadku utraty zasilania podczas procesu
@@ -653,7 +653,7 @@ Przy przechodzeniu z oficjalnego firmware na OpenWRT/LEDE stosuje się obrazy ma
 `factory` . Z kolei zaś obrazy mające w nazwie `sysupgrade` są przeznaczone dla aktualizacji
 firmware routera. Czy wgrywając obraz `sysupgrade` można uszkodzić router? Sprawdźmy:
 
-![]({{< baseurl >}}/img/2016/10/035.usb-uart-tp-link-router-serial-konsola-szeregowa-sysupgrade.png#huge)
+![](/img/2016/10/035.usb-uart-tp-link-router-serial-konsola-szeregowa-sysupgrade.png#huge)
 
 Wygląda na to, że oficjalne oprogramowanie nie przyjmuje takiego obrazu zupełnie. Obraz `factory` i
 `sysupgrade` praktycznie niczym się nie różnią pod kątem zawartości. W przypadku `factory` na

@@ -135,15 +135,15 @@ routerze z OpenWRT. By przetestować te ustawienia, musimy zresetować router i 
 zalogować na niego podając dwa różne ESSID: jeden od zwykłej sieci WiFi, drugi od sieci gościnnej.
 W przypadku naszego zwykłego AP, powinniśmy zostać zalogowani na router:
 
-![]({{< baseurl >}}/img/2016/07/1.openwr-guest-network-wlan-siec-goscinna.png#big)
+![](/img/2016/07/1.openwr-guest-network-wlan-siec-goscinna.png#big)
 
 Jeśli teraz spróbujemy podłączyć się do routera z sieci gościnnej, to ten krok nie uda nam się.
 Niemniej jednak, wciąż mamy połączenie z internetem:
 
-![]({{< baseurl >}}/img/2016/07/2.openwr-guest-network-wlan-siec-goscinna.png#big)
+![](/img/2016/07/2.openwr-guest-network-wlan-siec-goscinna.png#big)
 
 Warto wspomnieć, że sieć gościnna może dość znacznie obciążać nam łącze, jako, że sporo osób może z
 niej korzystać. By się uporać z tego typu problemem, trzeba będzie pomyśleć o zaimplementowaniu
-jakiegoś [mechanizmu QoS]({{< baseurl >}}/post/quality-service-qos-w-openwrt/). Niekoniecznie
+jakiegoś [mechanizmu QoS](/post/quality-service-qos-w-openwrt/). Niekoniecznie
 trzeba ręcznie wyrzeźbić sobie cały setup. Możemy zaprzęgnąć do pracy [skrypty z pakietu
-qos-scripts]({{< baseurl >}}/post/ksztaltowanie-ruchu-qos-scripts-openwrt/).
+qos-scripts](/post/ksztaltowanie-ruchu-qos-scripts-openwrt/).

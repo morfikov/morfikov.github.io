@@ -39,80 +39,80 @@ alternatywne oprogramowanie.
 No to jedziemy z tym routerem LTE. Na początek jak zawsze fotki opakowania i tego co znajduje się w
 środku:
 
-![]({{< baseurl >}}/img/2016/12/001.archer-mr200-tp-link-router-lte-pudelko.jpg#huge)
+![](/img/2016/12/001.archer-mr200-tp-link-router-lte-pudelko.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/12/002.archer-mr200-tp-link-router-lte-pudelko-zawartosc.jpg#huge)
+![](/img/2016/12/002.archer-mr200-tp-link-router-lte-pudelko-zawartosc.jpg#huge)
 
 Archer MR200 nie jest jakoś specjalnie duży. W sumie to jest on nawet mniejszy od TL-WR1043NDv2 i
 jego dokładne wymiary to 202x141x34 mm. W zasadzie na górnej części obudowy tego urządzenia nie
 widać nic specjalnego na pierwszy rzut oka. Obudowa czarna, połyskująca no i łatwo też się
 rysująca.
 
-![]({{< baseurl >}}/img/2016/12/003.archer-mr200-tp-link-router-lte-wyglad.jpg#huge)
+![](/img/2016/12/003.archer-mr200-tp-link-router-lte-wyglad.jpg#huge)
 
 Na spodzie obudowy mamy zaś kartkę
 wentylacyjną:
 
-![]({{< baseurl >}}/img/2016/12/004.archer-mr200-tp-link-router-lte-spod.jpg#huge)
+![](/img/2016/12/004.archer-mr200-tp-link-router-lte-spod.jpg#huge)
 
 W górnej części widzimy naklejkę z informacjami dotyczącymi numeru seryjnego urządzenia, jego wersji
 sprzętowej oraz danymi logowania do sieci WiFi. Może i mamy także informację o adresie URL panelu
 administracyjnego ale zabrakło adresu IP (w tym przypadku to 192.168.1.1) oraz nie ma danych
 logowania do tego panelu (hasło się ustawia przy pierwszej próbie dostępu do panelu).
 
-![]({{< baseurl >}}/img/2016/12/005.archer-mr200-tp-link-router-lte-info.jpg#huge)
+![](/img/2016/12/005.archer-mr200-tp-link-router-lte-info.jpg#huge)
 
 Otwory wentylacyjne znajdują się również po bokach routera, tuż pod pokrywą:
 
-![]({{< baseurl >}}/img/2016/12/006.archer-mr200-tp-link-router-lte-bok.jpg#huge)
+![](/img/2016/12/006.archer-mr200-tp-link-router-lte-bok.jpg#huge)
 
 Panel tyny wygląda raczej zwyczajnie, choć są pewne różnice. Przede wszystkim switch ma cztery porty
 Ethernet (RJ-45), które mogą działać w konfiguracji 4LAN lub 3LAN+1WAN. Próżno też szukać portu USB,
 bo takiego zwyczajnie nie zaimplementowano. No i oczywiście mamy również slot na kartę SIM.
 Przyciski nie odbiegają od przyjętych standardów, tj. Power, WPS/RESET oraz WiFi ON/OFF:
 
-![]({{< baseurl >}}/img/2016/12/007.archer-mr200-tp-link-router-lte-tyl-panel.jpg#huge)
+![](/img/2016/12/007.archer-mr200-tp-link-router-lte-tyl-panel.jpg#huge)
 
 Archer MR200 ma w zasadzie 5 anten: 2 wewnętrzne dla sieci WiFi 2,4 GHz, 1 wewnętrzna dla sieci WiFi
 5 GHz oraz 2 zewnętrzne (widoczne poniżej) dla sieci LTE:
 
-![]({{< baseurl >}}/img/2016/12/008.archer-mr200-tp-link-router-lte-anteny.jpg#huge)
+![](/img/2016/12/008.archer-mr200-tp-link-router-lte-anteny.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/12/009.archer-mr200-tp-link-router-lte-antena.jpg#medium)
+![](/img/2016/12/009.archer-mr200-tp-link-router-lte-antena.jpg#medium)
 
 W zestawie mamy również jeden nieekranowany przewód Ethernet CAT5 od długości około 120 cm.
 
-![]({{< baseurl >}}/img/2016/12/010.archer-mr200-tp-link-router-lte-ethernet.jpg#medium)
+![](/img/2016/12/010.archer-mr200-tp-link-router-lte-ethernet.jpg#medium)
 
 Archer MR200 wymaga do zasilania energii elektrycznej i nie mogło w zestawie zabraknąć odpowiedniego
 zasilacza 1A/12V:
 
-![]({{< baseurl >}}/img/2016/12/011.archer-mr200-tp-link-router-lte-zasilacz.jpg#medium)
+![](/img/2016/12/011.archer-mr200-tp-link-router-lte-zasilacz.jpg#medium)
 
-![]({{< baseurl >}}/img/2016/12/012.archer-mr200-tp-link-router-lte-zasilacz-info.jpg#medium)
+![](/img/2016/12/012.archer-mr200-tp-link-router-lte-zasilacz-info.jpg#medium)
 
 Jako, że mamy do czynienia z routerem LTE, to do realizowania połączenia w tej technologii potrzebna
 jest karta SIM, a ta z kolei może mieć różne wymiary w zależności od standardu tej karty (zwykła,
 mini, mikro). Dobrze, że TP-LINK pomyślał o dołączeniu do zestawu dwóch adapterów (mikro/mini) i bez
 problemu możemy do routera wsadzić kartę SIM w dowolnym formacie.
 
-![]({{< baseurl >}}/img/2016/12/013.archer-mr200-tp-link-router-lte-sim-adaptery.jpg#medium)
+![](/img/2016/12/013.archer-mr200-tp-link-router-lte-sim-adaptery.jpg#medium)
 
 Poniżej są jeszcze fotki tylnego panelu routera z włożoną kartą SIM:
 
-![]({{< baseurl >}}/img/2016/12/014.archer-mr200-tp-link-router-lte-sim-slot.jpg#huge)
+![](/img/2016/12/014.archer-mr200-tp-link-router-lte-sim-slot.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/12/015.archer-mr200-tp-link-router-lte-sim-slot.jpg#huge)
+![](/img/2016/12/015.archer-mr200-tp-link-router-lte-sim-slot.jpg#huge)
 
 Na koniec jeszcze fotka Archer'a MR200 z przykręconymi antenami:
 
-![]({{< baseurl >}}/img/2016/12/016.archer-mr200-tp-link-router-lte-z-antenami.jpg#huge)
+![](/img/2016/12/016.archer-mr200-tp-link-router-lte-z-antenami.jpg#huge)
 
 Mało co i bym zapomniał o diodach, które naturalnie i ten router posiada. Oprócz standardowych
 lampek, tj. sygnalizujących stan zasilania, połączenia z internetem, połączenia 4G, WiFi oraz portów
 switch'a, mamy również informacje na temat poziomu sygnału LTE.
 
-![]({{< baseurl >}}/img/2016/12/017.archer-mr200-tp-link-router-lte-led.jpg#huge)
+![](/img/2016/12/017.archer-mr200-tp-link-router-lte-led.jpg#huge)
 
 ## Specyfikacja routera Archer MR200
 
@@ -120,15 +120,15 @@ Jak widzieliśmy wyżej, ten router LTE w sumie za wiele się nie różni pod wz
 tradycyjnego routera WiFi. Niemniej jednak, te różnice są i to dość znaczne. Poniżej znajdują się
 fotki z wnętrza obudowy routera Archer MR200:
 
-![]({{< baseurl >}}/img/2016/12/018.archer-mr200-tp-link-router-lte-obudowa-wnetrze.jpg#huge)
+![](/img/2016/12/018.archer-mr200-tp-link-router-lte-obudowa-wnetrze.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/12/019.archer-mr200-tp-link-router-lte-pcb.jpg#huge)
+![](/img/2016/12/019.archer-mr200-tp-link-router-lte-pcb.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/12/020.archer-mr200-tp-link-router-lte-pcb.jpg#huge)
+![](/img/2016/12/020.archer-mr200-tp-link-router-lte-pcb.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/12/021.archer-mr200-tp-link-router-lte-pcb.jpg#huge)
+![](/img/2016/12/021.archer-mr200-tp-link-router-lte-pcb.jpg#huge)
 
-![]({{< baseurl >}}/img/2016/12/022.archer-mr200-tp-link-router-lte-pcb.jpg#huge)
+![](/img/2016/12/022.archer-mr200-tp-link-router-lte-pcb.jpg#huge)
 
 ### Modem LTE
 
@@ -153,42 +153,42 @@ Tak ten modem wygląda z obu stron:
 
 |   |   |
 |---|---|
-| ![]({{< baseurl >}}/img/2016/12/024.archer-mr200-tp-link-router-lte-modem.jpg#medium) | ![]({{< baseurl >}}/img/2016/12/025.archer-mr200-tp-link-router-lte-modem.jpg#medium) |
-| ![]({{< baseurl >}}/img/2016/12/026.archer-mr200-tp-link-router-lte-modem.jpg#medium) | ![]({{< baseurl >}}/img/2016/12/027.archer-mr200-tp-link-router-lte-modem.jpg#medium) |
+| ![](/img/2016/12/024.archer-mr200-tp-link-router-lte-modem.jpg#medium) | ![](/img/2016/12/025.archer-mr200-tp-link-router-lte-modem.jpg#medium) |
+| ![](/img/2016/12/026.archer-mr200-tp-link-router-lte-modem.jpg#medium) | ![](/img/2016/12/027.archer-mr200-tp-link-router-lte-modem.jpg#medium) |
 
 Na PCB modemu znajduje się czip LTE [Qualcomm
 MDM9225](https://www.qualcomm.com/news/releases/2013/02/25/qualcomm-first-demonstrate-lte-advanced-carrier-aggregation-enables)
 (procek):
 
-![]({{< baseurl >}}/img/2016/12/028.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
+![](/img/2016/12/028.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
 
 Modem ma 256 MiB NAND flash i 128 DDRII SDRAM pamięci operacyjnej, układ [ESMT
 FM6BD2G1GA](http://www.esmt.com.tw/english/products_de.asp?CLASS_L1=13&CLASS_L2=231&CLASS_L3=0&CLASS_L4=0):
 
-![]({{< baseurl >}}/img/2016/12/029.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
+![](/img/2016/12/029.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
 
 Znajdziemy też tam wzmacniacz sygnału LTE, moduł [SKYWORKS
 SKY77814](http://www.skyworksinc.com/Product/1801/SKY77814-11) (FDD: B7 oraz TDD: B38, B40), oraz
 przełącznik antenowy
 [SKYWORKS 13492](http://www.skyworksinc.com/Product/1755/SKY13492-21).
 
-![]({{< baseurl >}}/img/2016/12/030.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
+![](/img/2016/12/030.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
 
 Na modemie można także znaleźć jeszcze czip Qualcomm PM8019, który zarządza zasilaniem podpiętych do
 niego układów:
 
-![]({{< baseurl >}}/img/2016/12/031.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
+![](/img/2016/12/031.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
 
 Jest też drugi czip LTE [Qualcomm
 WTR1605L](http://www.anandtech.com/show/6541/the-state-of-qualcomms-modems-wtr1605-and-mdm9x25)
 (część RF):
 
-![]({{< baseurl >}}/img/2016/12/032.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
+![](/img/2016/12/032.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
 
 I kolejny wzmacniacz sygnału LTE i GSM, moduł [SKYWORKS
 SKY77629](http://www.skyworksinc.com/Product/1623/SKY77629) (FDD: B1, B3, B8, GSM: B2, B3 ,B5, B8):
 
-![]({{< baseurl >}}/img/2016/12/033.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
+![](/img/2016/12/033.archer-mr200-tp-link-router-lte-modem-podzespoly.jpg#big)
 
 ### WiSoC MT7620A (MediaTek)
 
@@ -197,13 +197,13 @@ Archer MR200 został wyposażony w SoC MT7620A
 MIPS 24KEc taktowanym zegarem 580 MHz. Ten SoC ma wbudowany czip WiFi 2,4 GHz (MediaTek RT5390) oraz
 układ switch'a (MediaTek MT7530).
 
-![]({{< baseurl >}}/img/2016/12/034.archer-mr200-tp-link-router-lte-podzespoly-wisoc.jpg#big)
+![](/img/2016/12/034.archer-mr200-tp-link-router-lte-podzespoly-wisoc.jpg#big)
 
 WiFi 2,4 GHz jest w standardzie N do 300 mbit/s (dwa strumienie przestrzenne). Dla tego pasma sieci
 bezprzewodowej mamy dwie anteny wewnętrzne rozlokowane po bokach PCB (wlutowane na stałe). Poniżej
 jest fotka jednej z tych anten:
 
-![]({{< baseurl >}}/img/2016/12/035.archer-mr200-tp-link-router-lte-antena-wifi-2-4-ghz.jpg#huge)
+![](/img/2016/12/035.archer-mr200-tp-link-router-lte-antena-wifi-2-4-ghz.jpg#huge)
 
 ### WiFi 5GHz
 
@@ -211,12 +211,12 @@ Router Archer MR200 jest także wyposażony w osobny układ dla WiFi w paśmie 5
 ze wzmacniaczem
 [SKYWORKS 85703](http://www.skyworksinc.com/Product/1706/SKY85703-11):
 
-![]({{< baseurl >}}/img/2016/12/036.archer-mr200-tp-link-router-lte-podzespoly-wifi-5-ghz.jpg#big)
+![](/img/2016/12/036.archer-mr200-tp-link-router-lte-podzespoly-wifi-5-ghz.jpg#big)
 
 W tym przypadku mamy do czynienia ze standardem AC do 433 mbit/s, czyli jeden strumień przestrzenny,
 no i jedną antenę wewnętrzną:
 
-![]({{< baseurl >}}/img/2016/12/037.archer-mr200-tp-link-router-lte-antena-wifi-5-ghz.jpg#big)
+![](/img/2016/12/037.archer-mr200-tp-link-router-lte-antena-wifi-5-ghz.jpg#big)
 
 ### Switch 100 mbit/s
 
@@ -225,7 +225,7 @@ standardowych 5, choć zwykle więcej i tak nie trzeba. Natomiast maksymalna prz
 to niestety tylko 100 mbit/s. Transformatory Ethernet pochodzą od GROUP-TEK,
 model[HST-2027DAR](http://www.datasheetspdf.com/datasheet/download.php?id=805315)).
 
-![]({{< baseurl >}}/img/2016/12/038.archer-mr200-tp-link-router-lte-switch.jpg#big)
+![](/img/2016/12/038.archer-mr200-tp-link-router-lte-switch.jpg#big)
 
 ### 64 MiB pamięci RAM
 
@@ -233,14 +233,14 @@ Jeśli zaś chodzi o kwestię pamięci operacyjnej RAM, to Archer MR200 ma jej r
 MiB. Układ pamięci to [Winbond
 W9751G6KB-25](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwjsnNL_5pbRAhXKiywKHVTGAAYQFggpMAA&url=https%3A%2F%2Fwww.winbond.com%2Fresource-files%2Fda00-w9751g6kbg1.pdf&usg=AFQjCNG_zAe0_qOGJC8OxwHLOAXlonmtYg&sig2=xqVJIHEirnRxZZwYiyLiiQ):
 
-![]({{< baseurl >}}/img/2016/12/039.archer-mr200-tp-link-router-lte-ram.jpg#big)
+![](/img/2016/12/039.archer-mr200-tp-link-router-lte-ram.jpg#big)
 
 ### 8 MiB pamięć flash
 
 Podobnie jak i pamięci RAM, pamięć flash również nie jest zbyt duża, bo jedyne 8 MiB. Flash pochodzi
 od Macronix i jest to model 25L6433FM2I-08G
 
-![]({{< baseurl >}}/img/2016/12/040.archer-mr200-tp-link-router-lte-flash.jpg#big)
+![](/img/2016/12/040.archer-mr200-tp-link-router-lte-flash.jpg#big)
 
 ## Konfiguracja routera Archer MR200
 
@@ -265,31 +265,31 @@ porty switch'a są w konfiguracji LAN. Jeśli wybierzemy tryb zwykły (WiFi), to
 wyłączony, a jeden z portów switch'a zostanie skonfigurowany jako WAN i będziemy mogli podpiąć się
 pod przewodowego ISP.
 
-![]({{< baseurl >}}/img/2016/12/041.archer-mr200-tp-link-router-lte-panel-admina-tryby.png#huge)
+![](/img/2016/12/041.archer-mr200-tp-link-router-lte-panel-admina-tryby.png#huge)
 
 ### Tryby pracy modemu LTE
 
 Modem LTE może pracować w trzech trybach: auto, LTE lub 3G. Niestety nie mamy możliwości określenia
 częstotliwości pracy:
 
-![]({{< baseurl >}}/img/2016/12/042.archer-mr200-tp-link-router-lte-panel-admina-wan.png#huge)
+![](/img/2016/12/042.archer-mr200-tp-link-router-lte-panel-admina-wan.png#huge)
 
 Nie zabrakło także obsługi kodu PIN dla karty SIM z automatycznym odblokowaniem karty przy starcie
 routera:
 
-![]({{< baseurl >}}/img/2016/12/043.archer-mr200-tp-link-router-lte-panel-admina-sim-pin.png#huge)
+![](/img/2016/12/043.archer-mr200-tp-link-router-lte-panel-admina-sim-pin.png#huge)
 
 Jak i również mamy możliwość ustawienia limitu transferu z opcją odłączenia od sieci po jego
 przekroczeniu. Zabrakło jedynie ficzera, który by nie naliczał transferu w określonych godzinach:
 
-![]({{< baseurl >}}/img/2016/12/044.archer-mr200-tp-link-router-lte-panel-admina-transfer.png#huge)
+![](/img/2016/12/044.archer-mr200-tp-link-router-lte-panel-admina-transfer.png#huge)
 
 ### WPS
 
 Jeśli zaś chodzi o WiFi, to mamy możliwość szybkiej konfiguracji parametrów połączenia za pomocą
 funkcji WPS. Obsługiwane są zarówno PIN jak i PBC (przyciski):
 
-![]({{< baseurl >}}/img/2016/12/045.archer-mr200-tp-link-router-lte-wifi-wps.png#huge)
+![](/img/2016/12/045.archer-mr200-tp-link-router-lte-wifi-wps.png#huge)
 
 ### Sieć gościnna
 
@@ -299,7 +299,7 @@ zezwalamy im na ewentualny dostęp do sieci lokalnej. Sieć gościnną możemy w
 2,4 GHz i 5 GHz i skonfigurować je niezależnie. Innym użytecznym dodatkiem jest także kontrola pasma
 jakie jest przeznaczone dla sieci gości:
 
-![]({{< baseurl >}}/img/2016/12/046.archer-mr200-tp-link-router-lte-panel-admina-siec-goscinna.png#huge)
+![](/img/2016/12/046.archer-mr200-tp-link-router-lte-panel-admina-siec-goscinna.png#huge)
 
 ### Harmonogram pracy WiFi
 
@@ -307,14 +307,14 @@ Dostępny jest również harmonogram pracy sieci WiFi i to osobny dla pasma 2,4 
 jego pomocy możemy sobie ustawić automatyczne włączanie i wyłączanie sieci WiFi w zależności od pory
 dnia:
 
-![]({{< baseurl >}}/img/2016/12/047.archer-mr200-tp-link-router-lte-panel-admina-harmonogram-wifi.png#huge)
+![](/img/2016/12/047.archer-mr200-tp-link-router-lte-panel-admina-harmonogram-wifi.png#huge)
 
 ### Pisanie i odbieranie SMS'ów
 
 Routery LTE mają to do siebie, że odbierają one również sygnał sieci GSM, czyli jesteśmy w stanie
 odbierać i wysyłać wiadomości SMS.
 
-![]({{< baseurl >}}/img/2016/12/0471.archer-mr200-tp-link-router-lte-panel-admina-sms.png#huge)
+![](/img/2016/12/0471.archer-mr200-tp-link-router-lte-panel-admina-sms.png#huge)
 
 ## Darmowy internet od Aero2
 
@@ -323,7 +323,7 @@ internet od tego operatora. Niemniej jednak, konfiguracja w tym przypadku nie je
 tego co można zauważyć w panelu administracyjnym, to błędnie jest konfigurowany APN. Dlatego też
 trzeba stworzyć nowy profil i odpowiednio go uzupełnić:
 
-![]({{< baseurl >}}/img/2016/12/0472.archer-mr200-tp-link-router-lte-panel-admina-aero2-apn.png#huge)
+![](/img/2016/12/0472.archer-mr200-tp-link-router-lte-panel-admina-aero2-apn.png#huge)
 
 Użytkownik i hasło może być albo puste, albo można też wpisać `aero` .
 
@@ -345,7 +345,7 @@ Transfer jaki udało mi się uzyskać w sieci WiFi w paśmie 2,4 GHz między dwo
 klientami, to około 80 mbit/s, czy ogólny transfer jest na poziomie 160 mbit/s. Jeśli na drodze
 staną dwie niezbyt grube ściany (dystans 5 metrów), wtedy ten transfer spada do około 30 mbit/s.
 
-![]({{< baseurl >}}/img/2016/12/048.archer-mr200-tp-link-router-lte-transfer-wifi-2-4-ghz.png#huge)
+![](/img/2016/12/048.archer-mr200-tp-link-router-lte-transfer-wifi-2-4-ghz.png#huge)
 
 Jeśli zaś chodzi o transfer w paśmie 5 GHz, to udało się osiągnąć nieco ponad 120 mbit/s wewnątrz
 sieci WiFi, czyli transfer na poziomie około 250 mbit/s. Generalnie ta niezbyt wypasiona antena
@@ -356,7 +356,7 @@ spada poniżej 10 mbit/s. Dwóch ścian już sygnał nie jest w stanie pokonać.
 tego routera pod kątem korzystania z sieci 5 GHz i planujemy z niej korzystać w miarę komfortowo, to
 upewnijmy się, że nic nie będzie stać na drodze sygnału.
 
-![]({{< baseurl >}}/img/2016/12/049.archer-mr200-tp-link-router-lte-trasnfer-wifi-5-ghz.png#huge)
+![](/img/2016/12/049.archer-mr200-tp-link-router-lte-trasnfer-wifi-5-ghz.png#huge)
 
 Wiemy zatem, że obie sieci WiFi są nam w stanie zapewnić prędkość, która jest porównywalna z
 prędkością modemu LTE (100 mbit/s, w agregacji tego samego pasma 150 mbit/s). Przeprowadziłem w
@@ -364,7 +364,7 @@ sumie dwie serie testów posługując się moim smartfonem. Pierwsza seria testo
 w routerze Archer MR200. Druga seria zaś badała mój modem Huawei E3372s-153, który jest podłączony
 pod router Archer C2600. Poniżej jest zestawienie wyników:
 
-![]({{< baseurl >}}/img/2016/12/050.archer-mr200-tp-link-router-lte-trasnfer-lte.png#huge)
+![](/img/2016/12/050.archer-mr200-tp-link-router-lte-trasnfer-lte.png#huge)
 
 O ile generalnie prędkość pobierania jest w miarę porównywalna, choć się bardzo waha (w końcu LTE),
 to w przypadku transferu danych do BTS już widać różnicę. Transfer jest dwa razy większy, więc

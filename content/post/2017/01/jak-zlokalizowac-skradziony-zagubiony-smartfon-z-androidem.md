@@ -45,7 +45,7 @@ na mapie.
 Idąc dalej, jako, że ta usługa działa w oparciu o przypisanie konta Google do urządzenia z
 Androidem, to zresetowanie ustawień do fabrycznych w taki sposób by [obejść blokadę Factory Reset
 Protection Lock (FRP
-Lock)]({{< baseurl >}}/post/factory-reset-protection-frp-w-smartfonach-z-androidem/), skutecznie
+Lock)](/post/factory-reset-protection-frp-w-smartfonach-z-androidem/), skutecznie
 uniemożliwia nam przeprowadzenie jakichkolwiek działań ratunkowych. Warto o tym fakcie pamiętać w
 przypadku, gdy many z jakiegoś powodu odblokowany bootloader lub też posiadamy niezbyt przyzwoicie
 zabezpieczony smartfon, który umożliwia przepisanie partycji `frp` w celu obejścia ww. blokady.
@@ -59,7 +59,7 @@ zarówno w wersji 5.1 (Lollipop) jak i 6.0 (Marshmallow) stosowna konfiguracja z
 Ustawienia =\> Zabezpieczenia =\> Administratorzy
 urządzenia:
 
-![]({{< baseurl >}}/img/2017/01/001.lokalizacja-smartfon-telefon-android-kradziez-menadzer-urzadzen.png#huge)
+![](/img/2017/01/001.lokalizacja-smartfon-telefon-android-kradziez-menadzer-urzadzen.png#huge)
 
 Jak widać na powyższej fotce, w tym przypadku mamy kilka aplikacji, które są w stanie w jakimś
 stopniu zarządzać naszym telefonem. Jeśli któreś z nich nie powinno tego robić, to naturalnie ze
@@ -71,7 +71,7 @@ Każda z tych pozycji po kliknięciu wyświetli nam informacje na temat operacji
 będzie w stanie przeprowadzić. Poniżej jest rozpisany Menadżer urządzeń
 Android:
 
-![]({{< baseurl >}}/img/2017/01/002.lokalizacja-smartfon-telefon-android-kradziez-administrator-urzadzenia.png#medium)
+![](/img/2017/01/002.lokalizacja-smartfon-telefon-android-kradziez-administrator-urzadzenia.png#medium)
 
 No i widzimy, że Menadżer urządzeń Android umożliwia nam na zdalne przeprowadzenie procesu
 resetowania ustawień smartfona do fabrycznych, tj. Factory Reset. Oferuje on także zablokowanie
@@ -87,13 +87,13 @@ w wyszukiwarce wpisać frazę "gdzie jest mój telefon" i zostaniemy przez Googl
 adres
 usługi:
 
-![]({{< baseurl >}}/img/2017/01/003.lokalizacja-smartfon-telefon-android-kradziez-znajdz-google.png#huge)
+![](/img/2017/01/003.lokalizacja-smartfon-telefon-android-kradziez-znajdz-google.png#huge)
 
 Po wejściu w usługę "Znajdź telefon/smartfon", pojawią nam się urządzenia, które są powiązane z tym
 kontem Google, i na których była notowana ostatnio jakaś
 aktywność:
 
-![]({{< baseurl >}}/img/2017/01/004.lokalizacja-smartfon-telefon-android-kradziez-aktywnosc-google.png#big)
+![](/img/2017/01/004.lokalizacja-smartfon-telefon-android-kradziez-aktywnosc-google.png#big)
 
 Załóżmy, że zawieruszył się ten pierwszy TP-LINK'owy Neffos Y5. Trzeba kliknąć w tą pozycję i podać
 naturalnie hasło do konta Google. Pamiętajmy, by przy tego typu uwierzytelnianiu sprawdzić czy aby
@@ -101,12 +101,12 @@ faktycznie jesteśmy na stronach Google i czy strona jest zabezpieczona przez za
 (info w zielonej kłódce obok
 URL).
 
-![]({{< baseurl >}}/img/2017/01/005.lokalizacja-smartfon-telefon-android-kradziez-logowanie-google.png#medium)
+![](/img/2017/01/005.lokalizacja-smartfon-telefon-android-kradziez-logowanie-google.png#medium)
 
 Po podaniu hasła zostaniemy przeniesieni do listy opcji, które pomogą nam odzyskać
 telefon:
 
-![]({{< baseurl >}}/img/2017/01/006.lokalizacja-smartfon-telefon-android-kradziez-opcje-odzyskiwania.png#big)
+![](/img/2017/01/006.lokalizacja-smartfon-telefon-android-kradziez-opcje-odzyskiwania.png#big)
 
 Jak widać, trochę tych opcji mamy. Przyjrzyjmy się im nieco bliżej.
 
@@ -124,13 +124,13 @@ smartfona praktycznie natychmiast. Zostanie nam również zwrócona mapka z dok�
 zgubionego
 urządzenia:
 
-![]({{< baseurl >}}/img/2017/01/007.lokalizacja-smartfon-telefon-android-kradziez-gps.png#big)
+![](/img/2017/01/007.lokalizacja-smartfon-telefon-android-kradziez-gps.png#big)
 
 Problem w tym, że chwilę po zlokalizowaniu urządzenia, na ekranie smartfona zostanie wyświetlony
 monit o tym, że urządzenie zostało
 namierzone.
 
-![]({{< baseurl >}}/img/2017/01/008.lokalizacja-smartfon-telefon-android-kradziez-powiadomienie.png#medium)
+![](/img/2017/01/008.lokalizacja-smartfon-telefon-android-kradziez-powiadomienie.png#medium)
 
 Nie wiem kto projektował to zabezpieczenie ale dawać informację potencjalnemu złodziejowi, że
 "Urządzenie Zlokalizowane" raczej nie ułatwi w odnalezieniu ani smartfona, ani tego kto go sobie
@@ -148,7 +148,7 @@ przechodząc w Ustawienia =\> Menadżer powiadomień. Tam z kolei na liście apl
 "Usługi Google Play" i wyłączamy w nich
 powiadomienia:
 
-![]({{< baseurl >}}/img/2017/01/009.lokalizacja-smartfon-telefon-android-kradziez-wylaczenie-notyfikacji.png#huge)
+![](/img/2017/01/009.lokalizacja-smartfon-telefon-android-kradziez-wylaczenie-notyfikacji.png#huge)
 
 W przypadku, gdy smartfon ma wyłączony moduł GPS, to naturalnie nie da rady go zdalnie włączyć przez
 usługę "Znajdź telefon/smartfon" i trzeba ewentualnie czekać na błąd złodzieja, np. będzie on
@@ -156,7 +156,7 @@ próbował skorzystać z mapy czy innej tego typu aplikacji wymagającej do praw
 modułu
 GPS.
 
-![]({{< baseurl >}}/img/2017/01/010.lokalizacja-smartfon-telefon-android-kradziez-brak-gps.png#huge)
+![](/img/2017/01/010.lokalizacja-smartfon-telefon-android-kradziez-brak-gps.png#huge)
 
 ### Zablokowanie telefonu
 
@@ -168,7 +168,7 @@ jeszcze sprawcy mogą podjąć kroki, by ten śledzący dodatek dezaktywować. W
 mamy ustawionej blokady ekranu w telefonie, to najlepiej jest zdalnie zablokować system
 telefonu.
 
-![]({{< baseurl >}}/img/2017/01/011.lokalizacja-smartfon-telefon-android-kradziez-zablokuj-ekran.png#huge)
+![](/img/2017/01/011.lokalizacja-smartfon-telefon-android-kradziez-zablokuj-ekran.png#huge)
 
 W zasadzie zablokowaniu ulegnie sam ekran. My zaś możemy dodatkowo dostosować informację, która na
 tym ekranie zostanie wyświetlona. Nie mamy jednak możliwości zmiany kodu PIN jeśli blokada ekranu
@@ -187,7 +187,7 @@ i nie ma ale możemy krótką informację na ekranie wyświetlić i jeszcze poda
 znalazca zostanie połączony po kliknięciu ikonki
 słuchawki:
 
-![]({{< baseurl >}}/img/2017/01/012.lokalizacja-smartfon-telefon-android-kradziez-blokada-aktywana.jpg#huge)
+![](/img/2017/01/012.lokalizacja-smartfon-telefon-android-kradziez-blokada-aktywana.jpg#huge)
 
 ### Wylogowanie z telefonu
 
@@ -195,13 +195,13 @@ Kolejną opcją, która nieco podnosi poziom naszej prywatności i bezpieczeńst
 zdalne wylogowanie się z Androida na skradzionym
 urządzeniu.
 
-![]({{< baseurl >}}/img/2017/01/014.lokalizacja-smartfon-telefon-android-kradziez-wylogowanie.png#huge)
+![](/img/2017/01/014.lokalizacja-smartfon-telefon-android-kradziez-wylogowanie.png#huge)
 
 Oczywiście w dalszym ciągu system będzie traktował nasze konto jako powiązane z tym konkretnym
 urządzeniem i uniemożliwi zalogowanie się na inne
 konto.
 
-![]({{< baseurl >}}/img/2017/01/013.lokalizacja-smartfon-telefon-android-kradziez-wylogowanie-blokada.png#huge)
+![](/img/2017/01/013.lokalizacja-smartfon-telefon-android-kradziez-wylogowanie-blokada.png#huge)
 
 Niemniej jednak, pozostała funkcjonalność telefonu będzie do dyspozycji złodzieja, w tym również
 możliwość dzwonienia czy włączenia GPS. Taka osoba nie będzie mogła korzystać tylko z tej części
@@ -229,7 +229,7 @@ jeśli w smartfonie podczas tego procesu czyszczenia będzie obecna karta SD, to
 nośniku również zostaną
 wykasowane.
 
-![]({{< baseurl >}}/img/2017/01/015.lokalizacja-smartfon-telefon-android-kradziez-kasowanie-danych.png#huge)
+![](/img/2017/01/015.lokalizacja-smartfon-telefon-android-kradziez-kasowanie-danych.png#huge)
 
 Problem w tym, że inicjując takie zdalne czyszczenie pozbawiamy się jednocześnie możliwości
 zlokalizowania telefonu przez usługi Google. Mamy przynajmniej pewność, że nikt nie uzyska dostępu
@@ -250,10 +250,10 @@ Po za logowaniu się w aplikacji Android Device Manager, zostanie nam zwrócona 
 są powiązane z kontem Google, do którego dane wprowadziliśmy w formularzu
 logowania:
 
-![]({{< baseurl >}}/img/2017/01/016.lokalizacja-smartfon-telefon-android-kradziez-aplikacja.png#huge)
+![](/img/2017/01/016.lokalizacja-smartfon-telefon-android-kradziez-aplikacja.png#huge)
 
 Wybieramy tutaj urządzenie, które nam zaginęło i przy pomocy kilku tapnięć w ekran smartfona możemy
 w bardzo prosty sposób wywołać każdą z ww.
 akcji:
 
-![]({{< baseurl >}}/img/2017/01/017.lokalizacja-smartfon-telefon-android-kradziez-opcje-aplikacji.png#huge)
+![](/img/2017/01/017.lokalizacja-smartfon-telefon-android-kradziez-opcje-aplikacji.png#huge)

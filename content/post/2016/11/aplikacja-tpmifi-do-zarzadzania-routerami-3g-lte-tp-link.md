@@ -16,7 +16,7 @@ title: Aplikacja tpMiFi do zarządzania routerami 3G/LTE od TP-LINK
 
 Jakiś czas temu opisywałem jeden z mobilnych routerów WiFi, który był w stanie realizować połączenie
 LTE i udostępniać je w obrębie swojej sieci. Konkretnie był to [hotspot
-M7310]({{< baseurl >}}/post/recenzja-przenosny-router-lte3g-mifi-m7310-od-tp-link/). W recenzji
+M7310](/post/recenzja-przenosny-router-lte3g-mifi-m7310-od-tp-link/). W recenzji
 tego urządzenia wspomniałem o tym, że dysponując smartfonem jesteśmy w stanie przy jego pomocy
 zarządzać tym routerem. Oczywiście potrzebna jest do tego celu specjalna aplikacja tpMiFi
 wypuszczona również przez TP-LINK, którą można pobrać bez większego problemu z Google Play. Jako, że
@@ -31,7 +31,7 @@ tpMiFi](https://play.google.com/store/apps/details?id=com.tplink.tpmifi) można 
 Google Play. Nie waży ona za dużo, bo nieco ponad 2 MiB, no i też nie wymaga zbyt wielu
 uprawnień.
 
-![]({{< baseurl >}}/img/2016/11/001.tpmifi-tp-link-android-smartfon-instalacja-aplikacji.png#huge)
+![](/img/2016/11/001.tpmifi-tp-link-android-smartfon-instalacja-aplikacji.png#huge)
 
 Ta aplikacja jest przeznaczona jedynie do współpracy z urządzeniami TP-LINK i wspiera praktycznie
 dowolne urządzenie MiFi tego producenta. Nie powinniśmy zatem napotkać problemów przy jej
@@ -39,7 +39,7 @@ użytkowaniu. Niemniej jednak, z aplikacji można korzystać jedynie w przypadku
 urządzeń MiFi. W przeciwnym wypadku wszystkie opcje dostępne w tpMiFi są nieaktywne i każda próba
 wejścia w interakcje z nimi powoduje pojawienie się poniższego monitu:
 
-![]({{< baseurl >}}/img/2016/11/002.tpmifi-tp-link-android-smartfon-brak-polaczenia.png#medium)
+![](/img/2016/11/002.tpmifi-tp-link-android-smartfon-brak-polaczenia.png#medium)
 
 ## Podłączanie się do routera
 
@@ -47,14 +47,14 @@ By zarządzać routerem z poziomu smartfona musimy podłączyć się do jego sie
 takie urządzenie ma na obudowie informacje, które mogą nam zapewnić dostęp do jego sieci WiFi.
 Odczytujemy ESSID oraz hasło i konfigurujemy taką sieć w smartfonie pod Ustawienia => WLAN:
 
-![]({{< baseurl >}}/img/2016/11/003.tpmifi-tp-link-android-smartfon-podlaczanie-hotspot.png#big)
+![](/img/2016/11/003.tpmifi-tp-link-android-smartfon-podlaczanie-hotspot.png#big)
 
 Routery WiFi zwykle mają dostępną opcję WPS. Smartfony również takim wynalazkiem dysponują, przez co
 możemy przycisnąć wirtualne przyciski na obu tych urządzeniach, tak by konfiguracja połączenia
 bezprzewodowego dokonała się bez naszej ingerencji. W tym celu z menu WLAN wybieramy pozycję
 "Zaawanasowane" i "Przycisk WPS":
 
-![]({{< baseurl >}}/img/2016/11/004.tpmifi-tp-link-android-smartfon-parowanie-wps.png#huge)
+![](/img/2016/11/004.tpmifi-tp-link-android-smartfon-parowanie-wps.png#huge)
 
 ## Sterownie routerem przy pomocy tpMiFi
 
@@ -65,7 +65,7 @@ użytkowników oraz ilość nieprzeczytanych wiadomości SMS.
 W górnej części ekranu znajdziemy menu (to te trzy poziome kreseczki), nazwę modelu urządzenia, oraz
 pozycję Login umożliwiającą zalogowanie się na router.
 
-![]({{< baseurl >}}/img/2016/11/005.tpmifi-tp-link-android-smartfon-menu-aplikacji.png#huge)
+![](/img/2016/11/005.tpmifi-tp-link-android-smartfon-menu-aplikacji.png#huge)
 
 Praktycznie wszystkie opcje widoczne na ekranie powyżej wymagają zalogowania się. Hasło logowania
 jest tym, które wykorzystywane jest przy dostępie do urządzenia z poziomu panelu webowego.
@@ -78,7 +78,7 @@ tego routera, zalega jedna wiadomość. By ją odczytać wystarczy tapnąć w ek
 Otworzy się nam lista wiadomości, które możemy sobie przeglądać, a nawet odpowiadać na nie
 bezpośrednio z aplikacji tpMiFi. Wiadomości można też naturalnie usuwać.
 
-![]({{< baseurl >}}/img/2016/11/006.tpmifi-tp-link-android-smartfon-sms.png#huge)
+![](/img/2016/11/006.tpmifi-tp-link-android-smartfon-sms.png#huge)
 
 Jedyny problem jaki tutaj dostrzegam, to brak powiadamiania dźwiękowego o nadchodzących SMS. Widać
 co prawda żółtą kropkę ale skąd mam wiedzieć, że jakaś wiadomość dotarła na router, skoro nie mam
@@ -90,7 +90,7 @@ Przez aplikację tpMiFi jesteśmy też w stanie sprawdzić status baterii. Są r
 trybu oszczędzania energii. Możemy dostosować sobie moc nadajnika naszego routera, jak i czas
 bezczynności WiFi, po którym radio ma zostać wyłączone.
 
-![]({{< baseurl >}}/img/2016/11/007.tpmifi-tp-link-android-smartfon-bateria.png#medium)
+![](/img/2016/11/007.tpmifi-tp-link-android-smartfon-bateria.png#medium)
 
 ### Zalogowani użytkownicy sieci WiFi
 
@@ -98,18 +98,18 @@ Jest też co prawda możliwość podejrzenia aktualnie zalogowanych użytkownik�
 jest ich nazwa jak i adres MAC. Nie mamy jednak opcji zablokowania konkretnego użytkownika, czy
 ograniczenia mu dostępnego pasma sieciowego:
 
-![]({{< baseurl >}}/img/2016/11/008.tpmifi-tp-link-android-smartfon-klienci-wifi.png#medium)
+![](/img/2016/11/008.tpmifi-tp-link-android-smartfon-klienci-wifi.png#medium)
 
 ### Udostępnianie zawartości karty SD
 
 Jeśli nasz router dysponuje slotem na kartę SD, to pewnie chcielibyśmy udostępnić jej zawartość w
 sieci. Aplikacja tpMiFi daje nam możliwość przełączenia trybu udostępniania karty SD z USB na WiFi:
 
-![]({{< baseurl >}}/img/2016/11/009.tpmifi-tp-link-android-smartfon-karta-sd.png#big)
+![](/img/2016/11/009.tpmifi-tp-link-android-smartfon-karta-sd.png#big)
 
 W trybie WiFi jesteśmy w stanie wgrać nawet pliki przez aplikację tpMiFi na tą kartę SD:
 
-![]({{< baseurl >}}/img/2016/11/010.tpmifi-tp-link-android-smartfon-karta-sd-pliki.png#big)
+![](/img/2016/11/010.tpmifi-tp-link-android-smartfon-karta-sd-pliki.png#big)
 
 ### Statystyki i limity transferu danych
 
@@ -118,7 +118,7 @@ rzeczywistym. Nie tylko aktualna prędkość pobierania i wysyłana jest uwzglę
 ilość przetransferowanych danych. Poza samymi statystykami, tpMiFi umożliwia nam nałożenie
 ograniczeń transferu:
 
-![]({{< baseurl >}}/img/2016/11/011.tpmifi-tp-link-android-smartfon-transfer-statystyki.png#big)
+![](/img/2016/11/011.tpmifi-tp-link-android-smartfon-transfer-statystyki.png#big)
 
 Zabrakło jednak opcji, które umożliwiłyby dostosowanie godzin, w których transfer nie jest
 naliczany. Taka pozycja widnieje w standardowym panelu admina.
@@ -131,40 +131,40 @@ LTE, to mamy oczywiście możliwość wymuszenia 3G lub LTE oraz stan preferowan
 opcji wyboru/wymuszenia częstotliwości/kanału na jakim pracuje modem, a to przecie bardzo użyteczna
 funkcja.
 
-![]({{< baseurl >}}/img/2016/11/012.tpmifi-tp-link-android-smartfon-siec-wifi-lte-3g.png#big)
+![](/img/2016/11/012.tpmifi-tp-link-android-smartfon-siec-wifi-lte-3g.png#big)
 
 Jak widać wyżej, tpMiFi oferuje także możliwość konfiguracji kodu PIN, na wypadek, gdyby karta SIM
 była zabezpieczona. Możemy również sobie skonfigurować niestandardowy APN przy połączeniu 3G/LTE.
 
-![]({{< baseurl >}}/img/2016/11/013.tpmifi-tp-link-android-smartfon-pin-apn.png#big)
+![](/img/2016/11/013.tpmifi-tp-link-android-smartfon-pin-apn.png#big)
 
 ### Pozostałe ustawienia
 
 Przez tpMiFi jesteśmy także w stanie zmienić hasło wykorzystywane do logowania zarówno w panelu
 administracyjnym jak i samej aplikacji na smartfonie.
 
-![]({{< baseurl >}}/img/2016/11/014.tpmifi-tp-link-android-smartfon-haslo.png#big)
+![](/img/2016/11/014.tpmifi-tp-link-android-smartfon-haslo.png#big)
 
 Ta aplikacja potrafi także zwrócić informacje o urządzeniu, do którego jesteśmy aktualnie
 zalogowani:
 
-![]({{< baseurl >}}/img/2016/11/015.tpmifi-tp-link-android-smartfon-informacje-router.png#medium)
+![](/img/2016/11/015.tpmifi-tp-link-android-smartfon-informacje-router.png#medium)
 
 No i na koniec standardowo są też opcje umożliwiające restart oaz wyłączenie hotspotu/routera, jak i
 przywrócenie jego ustawień do fabrycznych:
 
-![]({{< baseurl >}}/img/2016/11/016.tpmifi-tp-link-android-smartfon-reboot-poweroff.png#medium)
+![](/img/2016/11/016.tpmifi-tp-link-android-smartfon-reboot-poweroff.png#medium)
 
 ## Problemy z tpMiFi i mobilna wersja panelu administracyjnego
 
 Warto też wiedzieć, że te nowsze urządzenia mają wersję mobilną panelu administracyjnego, który
 możemy załadować sobie w dowolnej przeglądarce na smartfonie przechodząc na adres IP routera.
 
-![]({{< baseurl >}}/img/2016/11/017.tpmifi-tp-link-android-smartfon-panel-admina-mobilny.png#huge)
+![](/img/2016/11/017.tpmifi-tp-link-android-smartfon-panel-admina-mobilny.png#huge)
 
 To o tyle ważna rzecz, że przy pewnych niestandardowych konfiguracjach telefonu, np. [szyfrowany DNS
 za sprawą
-dnscrypt-proxy]({{< baseurl >}}/post/jak-zaszyfrowac-zapytania-dns-na-smartfonie-dnscrypt-proxy/)
+dnscrypt-proxy](/post/jak-zaszyfrowac-zapytania-dns-na-smartfonie-dnscrypt-proxy/)
 czy VPN, aplikacja tpMiFi może się bardzo dziwnie zachowywać [uniemożliwiając zalogowanie na
 konkretny
 sprzęt](http://tplink-forum.pl/index.php?/topic/5485-popsu%C5%82em-aplikacj%C4%99-tpmifi/#comment-46863).

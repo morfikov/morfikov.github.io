@@ -40,7 +40,7 @@ użytku.
 ## Konfiguracja urxvt w ~/.Xresources
 
 Gdy nie korzystamy z pełnych środowisk graficznych i nasz system [opieramy jedynie na menadżerze
-okien, np. Openbox]({{< baseurl >}}/post/menadzer-okien-openbox/), to jest wielce prawdopodobne,
+okien, np. Openbox](/post/menadzer-okien-openbox/), to jest wielce prawdopodobne,
 że spotkaliśmy się już z plikiem `~/.Xresources` . Na dobrą sprawę, to w tym pliku mogą zostać
 zdefiniowane ustawienia wyglądu praktycznie każdej aplikacji, którą odpalamy za pośrednictwem
 Xserver'a. Zwykle jednak nie korzystamy z tego pliku, bo przecie od zarządzania okienkami mamy
@@ -81,7 +81,7 @@ Krój i rozmiar czcionek definiujemy zaś w poniższy sposób:
     URxvt*boldItalicFont: xft:monospace:bold:italic:size=9
 
 Trzeba jednak pamiętać, że ostateczny wygląd czcionek zależy od [globalnej konfiguracji czcionek w
-systemie (fontconfig)]({{< baseurl >}}/post/fontconfig-i-konfiguracja-czcionek-w-debianie/). Zatem
+systemie (fontconfig)](/post/fontconfig-i-konfiguracja-czcionek-w-debianie/). Zatem
 jeśli efekt jest inny od oczekiwanego, to musimy zajrzeć do katalogu `/etc/fonts/` , czy też innych
 miejsc zdefiniowanych w [specyfikacji
 fontconfig'a](https://www.freedesktop.org/software/fontconfig/fontconfig-user.html).
@@ -251,12 +251,12 @@ zadowalają nas te podstawowe kolory, do dopiszmy sobie do pliku `~/.Xresources`
 Są to jedynie podstawowe kolory i nie należy ich mylić z tymi, które są do dyspozycji w terminalach
 256-kolorowych. Poniżej przykład:
 
-![]({{< baseurl >}}/img/2016/01/1.terminal-urxvt-16-kolorow.png#medium)
+![](/img/2016/01/1.terminal-urxvt-16-kolorow.png#medium)
 
 Natomiast w przypadku terminali 256-kolorowych będziemy mieli jeszcze do dyspozycji kilka
 dodatkowych opcji.
 
-![]({{< baseurl >}}/img/2016/01/2.terminal-urxvt-256-kolorow.png#huge)
+![](/img/2016/01/2.terminal-urxvt-256-kolorow.png#huge)
 
 W obu tych przypadkach te pierwsze 16 kolorów (0-15) będzie takich samych. Poza tym, widzimy na
 powyższym obrazku, że kolory rozpoczynają się od numerka 16, a nie od 0.

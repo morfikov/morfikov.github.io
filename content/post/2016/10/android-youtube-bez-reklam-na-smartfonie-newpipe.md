@@ -43,12 +43,12 @@ pozostawiając nam do obejrzenia czysty film.
 
 Aplikacji NewPipe nie można pobrać ze sklepu GooglePlay. Trzeba się posiłkować [alternatywnym
 repozytorium aplikacji jakim jest
-F-Droid]({{< baseurl >}}/post/android-repozytorium-aplikacji-opensource-f-droid/). Po instrukcję
+F-Droid](/post/android-repozytorium-aplikacji-opensource-f-droid/). Po instrukcję
 do F-Droid'a odsyłam do wyżej podlinkowanego artykułu. Z kolei, by zainstalować NewPipe, musimy
 wyszukać tę aplikację w repozytorium i wcisnąć przycisk
 "Zainstaluj":
 
-![]({{< baseurl >}}/img/2016/10/1.newpipe-instalacja-f-droid.png#huge)
+![](/img/2016/10/1.newpipe-instalacja-f-droid.png#huge)
 
 ## Konfiguracja NewPipe
 
@@ -56,7 +56,7 @@ Po uruchomieniu aplikacji przywita nas niezbyt wyrafinowany interfejs. Jest on b
 wiele nie pozwala. Natomiast wszystkie bardziej użyteczne rzeczy są jak najbardziej
 zaimplementowane. Poniżej fotka głównego interfejsu oraz listy opcji, które możemy skonfigurować:
 
-![]({{< baseurl >}}/img/2016/10/2.newpipe-interfejs-opcje.png#huge)
+![](/img/2016/10/2.newpipe-interfejs-opcje.png#huge)
 
 Możemy tutaj ustawić domyślną rozdzielczość oglądanego materiału video. Mamy do wyboru 144p, 240p,
 360p i 720p. Nie ma opcji na 1080p ale chyba nikt w takiej jakości nie ogląda YT na smartfonie.
@@ -69,7 +69,7 @@ Materiały w serwisie YouTube możemy oglądać bezpośrednio za pomocą NewPipe
 do tego celu zewnętrzny odtwarzać, oczywiście w przypadku, gdy z takiego korzystamy. Ja mam u siebie
 zainstalowanego VLC, który raczej powinien być wszystkim dobrze znany.
 
-![]({{< baseurl >}}/img/2016/10/3.newpipe-zewnetrzny-odtwarzacz-video.png#medium)
+![](/img/2016/10/3.newpipe-zewnetrzny-odtwarzacz-video.png#medium)
 
 Jeśli nie chce nam się wybierać odtwarzacza za każdym razem, to zawsze możemy ustawić jeden z nich
 jako domyślny i wtedy proces przesyłania filmu, np. do VLC, będzie transparentny dla nas.
@@ -91,15 +91,15 @@ zezwolić na przeglądanie takich filmów. Bardzo przydatna funkcja.
 
 Innym bardzo ciekawym ficzerem jest możliwość zapisu ścieżek audio i video bezpośrednio na pamięć
 telefonu, ew. kartę SD (wymagany [root
-smartfona]({{< baseurl >}}/post/android-root-smartfona-neffos-c5-od-tp-link/) oraz [zdjęcie
+smartfona](/post/android-root-smartfona-neffos-c5-od-tp-link/) oraz [zdjęcie
 pewnych
-zabezpieczeń]({{< baseurl >}}/post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/)).
+zabezpieczeń](/post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/)).
 Jeśli chcemy pobrać jakiś materiał by go obejrzeć w trybie offline, np. mamy dostęp do WiFi w domu
 ale za moment musimy wyjść, to bez większego problemu możemy zapisać sobie taki film na flash
 telefonu. Jeśli interesuje nas tylko ścieżka audio, to również i ta opcja nie stanowi większego
 wyzwania, przez co możemy pobrać sam dźwięk oszczędzając tym samym miejsce w pamięci smartfona:
 
-![]({{< baseurl >}}/img/2016/10/4.newpipe-pobieranie-audio-video.png#big)
+![](/img/2016/10/4.newpipe-pobieranie-audio-video.png#big)
 
 Wątki widoczne wyżej to nic innego jak tylko podział pliku na części w celu szybszego jego pobrania.
 
@@ -122,12 +122,12 @@ YouTube w naszym smartfonie. Idąc dalej, nie mamy możliwości komentowania czy
 komentarzy. Mamy natomiast dostęp do informacji o filmie. By wyszukać kanał/film, wystarczy wpisać
 interesującą nas frazę w szukajce u góry:
 
-![]({{< baseurl >}}/img/2016/10/5.newpipe-funkcjonalnosc-youtube.png#big)
+![](/img/2016/10/5.newpipe-funkcjonalnosc-youtube.png#big)
 
 Jeśli natomiast chcemy mieć dostęp do ostatniej aktywności kanału, to trzeba kliknąć w nazwę kanału,
 która pokaże nam się po wybraniu jednej z pozycji dostępnych na liście filmów:
 
-![]({{< baseurl >}}/img/2016/10/6.newpipe-funkcjonalnosc-youtube.png#medium)
+![](/img/2016/10/6.newpipe-funkcjonalnosc-youtube.png#medium)
 
 W przypadku, gdy nie możemy żyć bez komentarzy i całej funkcjonalności, jaką dostarcza nam serwis
 YouTube, to możemy korzystać z przeglądarki, czy to tej domyślnej, czy zwykłej przeglądarki www, np.
@@ -135,10 +135,10 @@ Firefox. Trzeba tylko sobie odpowiednio skonfigurować domyślne aplikacje. Wted
 serwisu będziemy mieli dostępną w Firefox'ie, a oglądane filmy będziemy przesyłać bezpośrednio do
 NewPipe za pomocą tapnięcia w robocika, który figuruje w pasu adresu przeglądarki www:
 
-![]({{< baseurl >}}/img/2016/10/7.newpipe-youtube-firefox.png#medium)
+![](/img/2016/10/7.newpipe-youtube-firefox.png#medium)
 
 Jeśli chcemy, aby film po przesłaniu do NewPipe automatycznie się zaczął odtwarzać, to możemy
 zaznaczyć stosowną opcję w ustawieniach tejże aplikacji. Miłego oglądania YouTube bez reklam na
 smartfonach.
 
-![]({{< baseurl >}}/img/2016/10/8.newpipe-youtube-bez-reklam.png#big)
+![](/img/2016/10/8.newpipe-youtube-bez-reklam.png#big)

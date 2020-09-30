@@ -13,7 +13,7 @@ title: Konfiguracja cache DNS w Firefox'ie
 ---
 
 We wpisie poświęconym [systemowemu cache DNS w
-linux'ie]({{< baseurl >}}/post/cache-dns-buforowania-zapytan/) mieliśmy okazję zobaczyć jak
+linux'ie](/post/cache-dns-buforowania-zapytan/) mieliśmy okazję zobaczyć jak
 wzrasta wydajność po zaimplementowaniu tego mechanizmu. W skrócie, to ponad drugie tyle zapytań było
 rozwiązywanych lokalnie bez potrzeby odwoływania się do zdalnego serwera DNS, co zajmuje sporo czasu
 (20-40ms). Przeglądarki internetowe, np. Firefox, mają swoje wynalazki, które potrafią wyeliminować
@@ -30,7 +30,7 @@ Dostęp do wszystkich interesujących nas opcji możemy uzyskać wpisując w pol
 `about:config` . Tam z kolei wyszukujemy frazę `network.dns` . Powinno to wyglądać mniej więcej tak
 jak na tym obrazku poniżej:
 
-![]({{< baseurl >}}/img/2015/11/1.cache-dns-firefox-about-config.png#huge)
+![](/img/2015/11/1.cache-dns-firefox-about-config.png#huge)
 
 ### network.dns.disablePrefetch
 
@@ -64,7 +64,7 @@ nieaktualne wpisy w cache, przez co nie będziemy w stanie nawiązać połączen
 domenami. Gdy ten parametr zostanie ustawiony na `0` , cache DNS zostanie wyłączony, a Firefox
 będzie korzystał z tego udostępnianego przez system operacyjny. Zaletą ustawienia tutaj `0` jest
 fakt, że możemy [posiadać więcej niż jeden profil w
-Firefox'ie]({{< baseurl >}}/post/wiecej-niz-jeden-profil-w-firefoxie/), a każdy z nich będzie
+Firefox'ie](/post/wiecej-niz-jeden-profil-w-firefoxie/), a każdy z nich będzie
 korzystał z tego samego cache DNS oferowanego przez system operacyjny.
 
 ### network.dns.get-ttl
@@ -102,7 +102,7 @@ wskazuje, że działa ona poprawnie, to prawdopodobnie jest jakiś problem z wpi
 Zawartość tego cache możemy wyciągnąć wpisując w polu adresu Firefox'a `about:networking` , poniżej
 przykład:
 
-![]({{< baseurl >}}/img/2015/11/2.statystyki-cache-dns-firefox.png#huge)
+![](/img/2015/11/2.statystyki-cache-dns-firefox.png#huge)
 
 W kolumnie `Expires` jest określony czas ważności wpisu. W przypadku gdy znajdują się w niej duże
 wartości, np. 3600 (godzina), to przydałoby się ten cache opróżnić. Możemy to zrobić przez

@@ -33,7 +33,7 @@ Poniżej znajduje się fotka
 ([źródło](https://upload.wikimedia.org/wikipedia/commons/d/d3/Netfilter-packet-flow-pl.svg))
 obrazująca przepływ pakietów sieciowych przechodzących przez linux'owy firewall:
 
-![]({{< baseurl >}}/img/2019/04/001-nftables-packet-flow-linux-firewall-netdev.png#huge)
+![](/img/2019/04/001-nftables-packet-flow-linux-firewall-netdev.png#huge)
 
 Nie dopatrzymy się tam jednak tej tablicy `netdev` . Zgodnie z tym co jest napisane
 w [tej prezentacji](https://www.netdevconf.org/1.1/proceedings/slides/pablo-neira-nft-ingress.pdf),
@@ -55,7 +55,7 @@ Poniżej znajdują się reguły, które mają na celu dodanie stosownej struktur
 To, co trzeba uwzględnić przy tworzeniu tej tablicy, a konkretnie jej łańcucha, to nazwa interfejsu
 sieciowego (określona w `device` ). W powyższym przykładzie tablica `netdev` została stworzona dla
 interfejsu `bond0` , bo akurat w tym przypadku mamy do czynienia
-z [bonding'iem interfejsów sieciowych]({{< baseurl >}}/post/konfiguracja-interfejsow-bond-bonding/),
+z [bonding'iem interfejsów sieciowych](/post/konfiguracja-interfejsow-bond-bonding/),
 a konkretnie `wlan0` + `eth0` + `usb0` , przez co zamiast operować na każdym interfejsie z osobna,
 można mieć jeden wirtualny interfejs i to na nim filtrować ruch, co ułatwia nieco zdanie.
 

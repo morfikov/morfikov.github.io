@@ -103,6 +103,6 @@ monitor, czy też i smartfon.
 
 [1]: https://pl.wikipedia.org/wiki/Ppi
 [2]: https://pl.wikipedia.org/wiki/Dpi
-[3]: {{< baseurl >}}/post/monitor-i-jego-konfiguracja-pod-linuxem/
+[3]: /post/monitor-i-jego-konfiguracja-pod-linuxem/
 [4]: https://wiki.archlinux.org/index.php/xorg#Setting_DPI_manually
 [5]: http://dpi.lv/

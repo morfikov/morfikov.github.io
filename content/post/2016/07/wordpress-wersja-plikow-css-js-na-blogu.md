@@ -21,7 +21,7 @@ szybsze załadowanie się strony przez minimalizowanie ruchu sieciowego. Niemnie
 pliki siedzą w cache, to muszą mieć ustawiony pewien czas ważności. Może on być różny, a my możemy
 go sobie dostosować dla poszczególnych elementów ustawiając im [nagłówek Cache-Control, Expires,
 Last-Modified, czy
-ETag]({{< baseurl >}}/post/cache-control-last-modified-etag-i-expires-w-apache2/). Gdy w takim
+ETag](/post/cache-control-last-modified-etag-i-expires-w-apache2/). Gdy w takim
 nagłówku określimy wysoką wartość `max-age` , przeglądarka klienta może przez bardzo długi czas nie
 być świadoma faktu, że któreś elementy strony uległy zmianie. W efekcie może i pojawiła się nowa
 wersja pliku `.css` ale klienci odwiedzający nasz serwis i tak nie zaobserwują żadnej różnicy do
@@ -54,7 +54,7 @@ obsługują parametr `$ver` , który standardowo jest ustawiony na `false` . Pow
 adresu URL odnoszącego się do zasobów, w tym przypadku `style.css` , końcówki `?ver=4.5.3'` . Czemu
 4.5.3? Jest to wersja wykorzystywanego WordPress'a. Wszystkie dołączane pliki `.css` i `.js` mają tę
 wersję uwzględnioną. Jeśli sobie życzymy, to ta [wersja WordPress'a widoczna wyżej może zostać
-usunięta]({{< baseurl >}}/post/wordpress-wersja-obecna-w-kodzie-zrodlowym/). Niemniej jednak,
+usunięta](/post/wordpress-wersja-obecna-w-kodzie-zrodlowym/). Niemniej jednak,
 jest to stała wersja i zmiana zawartości pliku nie wymusi zmiany tego numerka. Dlatego też musimy
 ten powyższy kod wykomentaować, a na jego miejsce dodać ten poniższy:
 

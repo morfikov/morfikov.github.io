@@ -32,7 +32,7 @@ komunikować się z siecią, mogą próbować wysyłać zapytania o rekordy AAAA
 Jako, że te zapytania są zupełnie zbędne przy takiej konfiguracji sieci, to tylko spowalniają
 połączenie. Poniżej jest przykładowa sytuacja:
 
-![]({{< baseurl >}}/img/2016/08/1.wireshark-domena-rekord-aaaa-dns.png#huge)
+![](/img/2016/08/1.wireshark-domena-rekord-aaaa-dns.png#huge)
 
 Jak widać, do serwera DNS zostały wysłane dwa zapytania o adres IP serwisu YT. Serwer DNS zwrócił
 dwie odpowiedzi zawierające dwa adresy, po jednym dla protokołu IPv4 i IPv6.
@@ -62,7 +62,7 @@ Plugin powinien zostać załadowany. Możemy także przetestować, czy zapytania
 obsługiwane
 lokalnie:
 
-![]({{< baseurl >}}/img/2016/08/2.wireshark-domena-rekord-aaaa-dns-dnscrypt-proxy.png#huge)
+![](/img/2016/08/2.wireshark-domena-rekord-aaaa-dns-dnscrypt-proxy.png#huge)
 
 Jak widzimy wyżej, ponownie aplikacja wysłała dwa zapytania o IP serwisu YT ale rekord AAAA nie
 zawiera adresu IPv6. Jeśli dodatkowo popatrzymy na znacznik czasu, to dostrzeżemy, że czas między
@@ -156,11 +156,11 @@ Domeny mogą zawierać `*` w celu dopasowaniu szeregu adresów.
 Spróbujmy teraz odwiedzić serwis YT w przeglądarce. Powinien nas przywitać ten poniższy
 błąd:
 
-![]({{< baseurl >}}/img/2016/08/3.dnscrypt-proxy-blokowanie-domen-facebook-youtube.png#huge)
+![](/img/2016/08/3.dnscrypt-proxy-blokowanie-domen-facebook-youtube.png#huge)
 
 Wszystkie inne domeny powinny działać bez zarzutu.
 
 
 [1]: https://dnscrypt.org/
 [2]: https://github.com/jedisct1/dnscrypt-proxy/releases
-[3]: {{< baseurl >}}/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/
+[3]: /post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/

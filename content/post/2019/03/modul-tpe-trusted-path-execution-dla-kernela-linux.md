@@ -79,10 +79,10 @@ oczywiście tylko wierzchołek góry możliwości modułu TPE.
 
 Tak czy inaczej, Jeśli chcemy mieć jedynie TPE bez tych dodatkowych mechanizmów zbrojących, to
 wystarczy nam w zasadzie sama łata na kernel linux'a. Niemniej jednak, aplikowanie łaty wymusza na
-nas [posiadanie własnego kernela]({{< baseurl >}}/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/),
+nas [posiadanie własnego kernela](/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/),
 który trzeba będzie sobie zbudować. Jeśli to zadanie nas przerasta, to opcją alternatywną jest
 skorzystanie z
-modułu, [choć go również trzeba zbudować]({{< baseurl >}}/post/jak-na-debianie-zrobic-pakiet-deb-zawierajacy-modul-kernela-linux-dkms/),
+modułu, [choć go również trzeba zbudować](/post/jak-na-debianie-zrobic-pakiet-deb-zawierajacy-modul-kernela-linux-dkms/),
 z tym, że za pomocą [mechanizmu DKMS](https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support).
 Oczywiście można pójść na skróty i pobrać repozytorium git na dysk i dać `make` i `make install` .
 Sposób instalacji modułu nie jest istotny, za to liczy się efekt posiadania go w systemie.

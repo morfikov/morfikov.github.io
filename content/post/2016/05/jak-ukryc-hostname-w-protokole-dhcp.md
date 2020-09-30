@@ -18,7 +18,7 @@ title: Jak ukryć hostname w protokole DHCP
 Darmowe hotspoty sieci WiFi są dostępne w każdym mieście. Dzięki nim możemy uzyskać połączenie z
 internetem praktycznie za free. Niemniej jednak, takie połączenie nie jest do końca bezpieczne i
 może zagrażać naszej prywatności. Wiele osób stara się temu przeciwdziałać [generując losowy adres
-MAC]({{< baseurl >}}/post/jak-przypisac-losowy-adres-mac-interfejsu/). No i to jest jakieś
+MAC](/post/jak-przypisac-losowy-adres-mac-interfejsu/). No i to jest jakieś
 wyjście, o ile ten adres jest generowany z głową. Niemniej jednak, w takich sieciach WiFi, host ma
 przydzielaną adresację za pomocą [protokołu
 DHCP](https://pl.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol). Ci, którzy wiedza, jak
@@ -38,13 +38,13 @@ być problemów z jego zainstalowaniem. Po procesie instalacyjnym, odpalamy tę 
 przechodzimy co "Capture Options" (4 ikonka na lewo w menu). Wybieramy interfejs sieciowy i
 ustawiamy mu filtr tak, by łapał jedynie pakiety z protokołu DHCP: `port 67 or port 68` :
 
-![]({{< baseurl >}}/img/2016/05/1.wireshark-filtr-dhcp.png#huge)
+![](/img/2016/05/1.wireshark-filtr-dhcp.png#huge)
 
 Po zapuszczeniu sniffer'a, podnosimy interfejs sieciowy, np. za pomocą `ifup bond0` . Powinny zostać
 odnotowane cztery pakiety. Klikamy pierwszy z nich i rozwijamy opcje protokołu. Tam z kolei widzimy,
 że klient DHCP przesłał do serwera DHCP hostname naszego komputera:
 
-![]({{< baseurl >}}/img/2016/05/2.wireshark-dhcp-hostname.png#huge)
+![](/img/2016/05/2.wireshark-dhcp-hostname.png#huge)
 
 W ten sposób sami się identyfikujemy w darmowych sieciach i to nie tylko muszą być sieci WiFi.
 
@@ -79,7 +79,7 @@ linijkę:
 Zapiszmy konfigurację i jeszcze raz zapuśćmy
 wiresharka:
 
-![]({{< baseurl >}}/img/2016/05/3.wireshark-dhcp-ukrycie-hostname.png#huge)
+![](/img/2016/05/3.wireshark-dhcp-ukrycie-hostname.png#huge)
 
 Jak widzimy na powyższym obrazku, `dhclient` nie przesłał tym razem naszego hostname do serwera
 DHCP.

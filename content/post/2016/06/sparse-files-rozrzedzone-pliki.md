@@ -37,7 +37,7 @@ większe niż rozmiar całej partycji. Problem zaczyna się w momencie, gdy taki
 wypełniać faktycznymi danymi. Spójrzmy sobie na ten obrazek poniżej
 ([źródło](https://en.wikipedia.org/wiki/Sparse_file)):
 
-![]({{< baseurl >}}/img/2016/06/1.rozrzedone-pliki-sparse-files.png#big)
+![](/img/2016/06/1.rozrzedone-pliki-sparse-files.png#big)
 
 Zielonym kolorem oznaczono faktyczne dane w pliku. Szarym kolorem zaś zaznaczono puste bloki, które
 nie są zapisane na dysku. Gdy teraz do takiego pliku będziemy chcieli dodać kolejną porcję danych, w
@@ -161,7 +161,7 @@ właśnie przez fragmentację, której moim zdaniem się nie da uniknąć w przy
 Dlatego też zastanówmy się, czy aby na pewno potrzebujemy tych plików.
 
 Tak czy inaczej, stworzony w ten sposób system plików możemy zamontować przy pomocy [urządzeń
-loop]({{< baseurl >}}/post/montowanie-obrazow-iso-urzadzenia-loop/) i użytkować jak każdą inną
+loop](/post/montowanie-obrazow-iso-urzadzenia-loop/) i użytkować jak każdą inną
 partycję dysku twardego:
 
     # mount -o loop sparse-file /mnt/

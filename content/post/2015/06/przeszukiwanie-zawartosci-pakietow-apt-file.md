@@ -76,7 +76,7 @@ Jeśli poszukujemy nazwy w pakiecie, który nie jest zainstalowany, np. chcielib
 pakiet w oparciu o szukaną frazę, to `dpkg` nam w tym nie pomoże i musimy skorzystać z innego
 rozwiązania, tj. z narzędzia `apt-file` , które jest dostępne w pakiecie pod tą samą nazwą.
 `apt-file` jest często używany przy budowaniu pakietów, gdzie korzystając z minimalnego [środowiska
-chroot]({{< baseurl >}}/post/przygotowanie-srodowiska-chroot-do-pracy/) nie mamy w systemie
+chroot](/post/przygotowanie-srodowiska-chroot-do-pracy/) nie mamy w systemie
 praktycznie żadnych pakietów i w przypadku wystąpienia problemów z zależnościami, jedyne informacje
 jakie mamy, to właśnie nazwy brakujących plików lub ścieżek do nich.
 

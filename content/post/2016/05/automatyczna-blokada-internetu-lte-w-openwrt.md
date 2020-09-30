@@ -16,12 +16,12 @@ title: Automatyczna blokada internetu LTE w OpenWRT
 ---
 
 Jakiś czas temu opisywałem [darmowy internet LTE w
-RBM/PLAY]({{< baseurl >}}/post/darmowy-internet-lte-od-rbmplay/). Jego niewątpliwą zaletą jest
+RBM/PLAY](/post/darmowy-internet-lte-od-rbmplay/). Jego niewątpliwą zaletą jest
 fakt, że jest za free, o ile posiadamy odpowiedni modem. Niemniej jednak, ta usługa jest na 30 dni,
 po upływie których trzeba ją aktywować na nowo. Jeśli z jakichś przyczyn się tego nie zrobi, to
 wtedy korzystanie z internetu może nas słono kosztować. Niby można zaprzęgnąć do pomocy [gammu-smsd,
 który będzie nas powiadamiał
-SMS'em]({{< baseurl >}}/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/), że usługa została
+SMS'em](/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/), że usługa została
 wyłączona lub włączona. Niemniej jednak, w dalszym ciągu pozostaje do ogarnięcia kwestia czasu,
 przez który czekamy na włączenie usługi. Najlepszym wyjściem jest całkowita blokada internetu na
 routerze, tak by przez ten moment nie nawiązać żadnego połączenia. Jeśli nie nawiążemy połączenia,
@@ -39,7 +39,7 @@ połączenia internetowego w oparciu o wiadomości SMS pochodzące z sieci opera
 leżą w obrębie naszego zainteresowania to `gammu` oraz `smstools3` . W tym przypadku nie korzystamy
 z `gammu` z dwóch powodów. Po pierwsze jest on bardzo ciężki jeśli chodzi o zależności. Na dobrą
 sprawę, by z niego korzystać pod OpenWRT, potrzebny będzie nam [mechanizm
-extroot/whole\_root]({{< baseurl >}}/post/extroot-whole_root-fullroot-pod-openwrt/). Nawet mój
+extroot/whole\_root](/post/extroot-whole_root-fullroot-pod-openwrt/). Nawet mój
 router [TP-LINK Archer C7 v2](http://www.tp-link.com.pl/products/details/Archer-C7.html) wyposażony
 w 16 MiB flash'a nie był w stanie pomieścić wszystkich potrzebnych zależności. Dlatego też `gammu`
 niezbyt się nadaje do stosowania w przypadku domowych routerów. Drugi powód, dla którego nie
@@ -97,7 +97,7 @@ na [moim github'ie](https://github.com/morfikov/files/blob/master/configs/etc/sm
     incoming = yes
 
 Wszystkie wykorzystane wyżej opcje zostały opisane przy okazji bawienia się [demonem smsd pod
-debianem]({{< baseurl >}}/post/smstools-smsd-automat-wysylania-sms/). Jeśli ktoś jest ciekaw
+debianem](/post/smstools-smsd-automat-wysylania-sms/). Jeśli ktoś jest ciekaw
 znaczenia powyższych parametrów, to odsyłam do podlinkowanego artykułu.
 
 ## Skrypt blokujący połączenie LTE

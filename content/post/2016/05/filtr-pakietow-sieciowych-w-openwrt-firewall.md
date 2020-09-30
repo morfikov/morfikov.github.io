@@ -19,7 +19,7 @@ LAN do WAN, czyli z sieci lokalnej do sieci naszego ISP. W ten sposób komputery
 naszej sieci mają dostęp do internetu i mogą z niego korzystać bez przeszkód. Niemniej jednak, ten
 mechanizm nie działa tak samo w drugą stronę, czyli z WAN do LAN. Tutaj są już blokowane wszystkie
 próby nawiązania nowych połączeń ([za wyjątkiem żądań
-ping]({{< baseurl >}}/post/kompromitacja-firewalla-openwrt-za-sprawa-ping/)) ale nic nie stoi na
+ping](/post/kompromitacja-firewalla-openwrt-za-sprawa-ping/)) ale nic nie stoi na
 przeszkodzie, by zastosować przekierowanie portów. Dzięki takiemu rozwiązaniu możemy przekierować
 ruch, który jest kierowany na dany port w routerze, do określonego hosta w sieci lokalnej. Wszystkie
 te zadania realizowane są przez `iptables` i w tym wpisie postaramy się ogarnąć to narzędzie.
@@ -35,7 +35,7 @@ mechanizmie oferowanym przez OpenWRT. W tym artykule tak właśnie zrobimy. Jeś
 się zagłębić w [tematykę iptables, to może zacząć od tego
 linku](https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html). Na tym blogu poruszałem
 też już zagadnienie dotyczące [budowy firewall'a dla klientów działających pod
-linux'em]({{< baseurl >}}/post/firewall-na-linuxowe-maszyny-klienckie/). Jako, że wszystkie
+linux'em](/post/firewall-na-linuxowe-maszyny-klienckie/). Jako, że wszystkie
 zawarte w tamtym wpisie informacje można zastosować w tym przypadku, to zachęcam też do zajrzenia i
 zapoznania się z tamtym artykułem.
 
@@ -71,11 +71,11 @@ tablic `raw` , `mangle` , `nat` oraz `filter` . W każdej z tablicy mamy szereg 
 routera, z routera i przez router. Wszystkie te rzeczy są dokładnie zobrazowane na poniższych
 fotkach ([źródło](https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg)):
 
-![]({{< baseurl >}}/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png#medium)
+![](/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png#medium)
 
 oraz:
 
-![]({{< baseurl >}}/img/2016/05/1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall.png#huge)
+![](/img/2016/05/1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall.png#huge)
 
 Te schematy zostały jednak nieco rozbudowane przez OpenWRT. Chodzi generalnie o to, że w każdej z
 tych czterech tablic można definiować własne łańcuchy i kierować do nich ruch. OpenWRT dostarcza
@@ -134,9 +134,9 @@ kolei `synflood_protect` chroni przed nawiązywaniem przez router zbyt dużej il
 danej chwili. Limit zaś jest określony w opach `synflood_rate` oraz `synflood_burst` , czyli z
 grubsza 25 nowych połączeń na sekundę. Wszystkie połączenia ponad ten limit zostaną zrzucone. Mamy
 również [mechanizm ciasteczek (SYN
-cookies)]({{< baseurl >}}/post/mechanizm-syn-cookies-w-protokole-tcp/) włączony za sprawą opcji
+cookies)](/post/mechanizm-syn-cookies-w-protokole-tcp/) włączony za sprawą opcji
 `tcp_syncookies` . Z kolei opcja `tcp_window_scaling` włącza [skalowanie okna TCP (bufor dla
-połączeń)]({{< baseurl >}}/post/bufor-polaczen-w-protokole-tcp/). Dalej mamy opcje
+połączeń)](/post/bufor-polaczen-w-protokole-tcp/). Dalej mamy opcje
 `accept_redirects` oraz `accept_source_route` , które chronią przed zmianami tablic routingu, co
 często wykorzystywane jest w różnego rodzaju atakach. Kolejne trzy opcje, tj. `input` , `output`
 oraz `forward` odpowiadają za ustawienie domyślnej polityki dla zdefiniowanych stref (o tym za
@@ -316,7 +316,7 @@ dotycząca tych opcji:
     ruch kierowany na podany port.
 
 Dodatkowo, po określeniu opcji `src_dport` ustawiany jest także [NAT Loopback/NAT
-Reflection]({{< baseurl >}}/post/nat-reflection-oraz-nat-loopback-w-openwrt/).
+Reflection](/post/nat-reflection-oraz-nat-loopback-w-openwrt/).
 
 ## Sprawdzanie reguł firewall'a
 

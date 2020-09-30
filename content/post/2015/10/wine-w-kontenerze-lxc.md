@@ -47,7 +47,7 @@ maszynie rezyduje. W przypadku kontenerów LXC nie musimy się o te wszystkie rz
 
 Dalsza cześć tego wpisu zakłada, że mamy w systemie zainstalowane odpowiednie pakiety oraz, że
 [utworzyliśmy już i wstępne skonfigurowaliśmy kontener
-LXC]({{< baseurl >}}/post/konfiguracja-kontenerow-lxc/).
+LXC](/post/konfiguracja-kontenerow-lxc/).
 
 Mając przygotowany kontener, możemy przejść do jego konfiguracji. Edytujemy zatem plik
 konfiguracyjny kontenera. W moim przypadku jest to `/media/Kabi/lxc_machines/wine/config` . Musimy w
@@ -196,7 +196,7 @@ Innym rozwiązaniem, o wiele bezpieczniejszym są ciasteczka Xserver'a, trzymane
 użytkownika w pliku `~/.Xauthority` . Nie będę tutaj opisywał tego mechanizmu, bo w tym przypadku
 jest on nam do niczego nie potrzebny. Jeśli ktoś jest zainteresowany tym tematem, to może rzucić
 okiem na osobny [wpis poświęcony
-xauth]({{< baseurl >}}/post/xauth-i-xhost-na-strazy-bezpieczenstwa-xservera/). W każdym razie,
+xauth](/post/xauth-i-xhost-na-strazy-bezpieczenstwa-xservera/). W każdym razie,
 `xhost` nam w zupełności wystarczy.
 
 ### Zmienna $DISPLAY
@@ -248,4 +248,4 @@ Wine oraz sterowniki do grafiki w kontenerze:
 Jeśli wszystkie kroki przeprowadziliśmy prawidłowo, po wydaniu polecenia `winecfg` w kontenerze,
 powinniśmy zobaczyć okno z opcjami konfiguracyjnymi Wine:
 
-![]({{< baseurl >}}/img/2015/10/1.kontenerl-lxc-wine.png#huge)
+![](/img/2015/10/1.kontenerl-lxc-wine.png#huge)

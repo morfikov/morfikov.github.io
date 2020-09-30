@@ -64,8 +64,8 @@ odpowiedzią timestamp można zablokować niczym zwykły ping przy poniższych r
 I już żaden skaner nie wyciągnie od nas informacji o uptime naszego serwera.
 
 
-[1]: {{< baseurl >}}/post/bufor-polaczen-w-protokole-tcp/
-[2]: {{< baseurl >}}/post/numery-sekwencyjne-w-strumieniu-tcp/
+[1]: /post/bufor-polaczen-w-protokole-tcp/
+[2]: /post/numery-sekwencyjne-w-strumieniu-tcp/
 [3]: https://nfsec.pl/security/2306
 [4]: https://forum.dug.net.pl/viewtopic.php?pid=265657
 [5]: https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xml

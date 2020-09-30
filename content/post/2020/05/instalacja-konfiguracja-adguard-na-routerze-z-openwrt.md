@@ -97,7 +97,7 @@ z wypisanych adresów URL. Mamy co prawda trzy adresy ale nas interesuje ten, kt
 zatem przeglądarkę internetową i w pasku adresu wpisujemy adres `http://192.168.1.1:3000` . Naszym
 oczom powinna pokazać się strona podobna do tej poniżej:
 
-![]({{< baseurl >}}/img/2020/05/001-adguard-home-openwrt-router-config.png#huge)
+![](/img/2020/05/001-adguard-home-openwrt-router-config.png#huge)
 
 Klikamy oczywiście w ten zielony przycisk i przechodzimy do wstępnej konfiguracji AdGuard. Na sam
 początek musimy określić interfejs/adres IP oraz port, na którym będzie nasłuchiwał panel
@@ -108,29 +108,29 @@ również wskazujemy interfejs `br-lan` ale z racji, że na domyślnym porcie `5
 `dnsmasq` , to musimy określić inny port, powiedzmy `5353` . Cała konfiguracja powinna zatem
 wyglądać mniej więcej tak jak na poniższym obrazku:
 
-![]({{< baseurl >}}/img/2020/05/002-adguard-home-openwrt-router-config-ip-ports.png#huge)
+![](/img/2020/05/002-adguard-home-openwrt-router-config-ip-ports.png#huge)
 
 Następnie określamy login i hasło, którego będziemy używać przy logowaniu się do panela AdGuard:
 
-![]({{< baseurl >}}/img/2020/05/003-adguard-home-openwrt-router-config-user.png#huge)
+![](/img/2020/05/003-adguard-home-openwrt-router-config-user.png#huge)
 
 Dalej mamy szereg informacji dotyczących konfiguracji poszczególnych urządzeń, tak by
 współpracowały one bez problemu z AdGuard:
 
-![]({{< baseurl >}}/img/2020/05/004-adguard-home-openwrt-router-config-device.png#huge)
+![](/img/2020/05/004-adguard-home-openwrt-router-config-device.png#huge)
 
 I to w zasadzie wszystko. Możemy teraz przejść do panelu konfiguracyjnego:
 
-![]({{< baseurl >}}/img/2020/05/005-adguard-home-openwrt-router-config-done.png#huge)
+![](/img/2020/05/005-adguard-home-openwrt-router-config-done.png#huge)
 
 Podajemy login i hasło, które ustawiliśmy wcześniej:
 
-![]({{< baseurl >}}/img/2020/05/006-adguard-home-openwrt-router-login.png#medium)
+![](/img/2020/05/006-adguard-home-openwrt-router-login.png#medium)
 
 Po podaniu poprawnych danych logowania powinniśmy zobaczyć miły dla oka panel administracyjny
 AdGuard:
 
-![]({{< baseurl >}}/img/2020/05/007-adguard-home-openwrt-router-panel.png#huge)
+![](/img/2020/05/007-adguard-home-openwrt-router-panel.png#huge)
 
 ## Konfiguracja routera na potrzeby AdGuard
 
@@ -177,7 +177,7 @@ Opcja `noresolv` sprawia, że zapytania DNS będą przesyłane jedynie na adres 
 Po zresetowaniu połączenia sieciowego, AdGuard powinien zacząć łapać zapytania DNS, co możemy
 potwierdzić zaglądając do panelu admina:
 
-![]({{< baseurl >}}/img/2020/05/008-adguard-home-openwrt-router-panel-stats.png#huge)
+![](/img/2020/05/008-adguard-home-openwrt-router-panel-stats.png#huge)
 
 ### Autostart
 
@@ -206,7 +206,7 @@ Domain Names filter. Nic jednak nie stoi na przeszkodzie by dodać sobie inne li
 którymi mieliśmy do czynienia w przypadku AdBlock. By dodać listy domen, wystarczy przejść pod
 Filters => DNS blocklists i tam dodać to co komu się podoba:
 
-![]({{< baseurl >}}/img/2020/05/009-adguard-home-openwrt-router-adblock-lists.png#huge)
+![](/img/2020/05/009-adguard-home-openwrt-router-adblock-lists.png#huge)
 
 Listy z AdBlock'a są w pełni kompatybilne z AdGuard i można ich bez problemu używać. Ja zwykle
 korzystam z tych poniższych:
@@ -225,7 +225,7 @@ internetem możemy zawsze zajrzeć w taki log domen i sprawdzić, które zapytan
 lub przepuszczone. Można przy pomocy tego logu poprawić jakość samego AdBlock'a. Poniżej znajduje
 się przykład logu:
 
-![]({{< baseurl >}}/img/2020/05/010-adguard-home-openwrt-router-domain-log-block.png#huge)
+![](/img/2020/05/010-adguard-home-openwrt-router-domain-log-block.png#huge)
 
 Jak widać wyżej, mamy również informację na temat listy, która zablokowała konkretne zapytanie o
 domenę, co jest bardzo użyteczne w przypadku, gdy tych list mamy całkiem sporo.
@@ -233,7 +233,7 @@ domenę, co jest bardzo użyteczne w przypadku, gdy tych list mamy całkiem spor
 Wszystkie zablokowane przez nas adresy są dodawane na listę, która znajduje się pod Filters =>
 Custom filtering rules:
 
-![]({{< baseurl >}}/img/2020/05/011-adguard-home-openwrt-router-custom-log-rules.png#huge)
+![](/img/2020/05/011-adguard-home-openwrt-router-custom-log-rules.png#huge)
 
 Wpisy mające na początku `@@` oznaczają odblokowaną domenę.
 
@@ -249,7 +249,7 @@ konfigurację. Dla przykładu weźmy sobie upstream'owe serwery DNS, do których
 będą forwardowane. Możliwe jest stworzenie konfiguracji takiej, że dla pewnych maszyn w sieci
 będzie wykorzystywany jeden serwer DNS, a dla pozostałych komputerów inny serwer.
 
-![]({{< baseurl >}}/img/2020/05/012-adguard-home-openwrt-router-clients.png#huge)
+![](/img/2020/05/012-adguard-home-openwrt-router-clients.png#huge)
 
 W ten sposób możemy swoim pracownikom w firmie założyć blokadę na porno bez pozbawiania siebie
 dostępu do tego typu serwisów. To oczywiście tylko jeden z przykładów, a tych naturalnie może być
@@ -273,7 +273,7 @@ postawić sobie [lokalny cache DNS w oparciu o dnsmasq][7] i w konfiguracji `dns
 określić adres IP upstream'owego serwera DNS na 192.168.1.1 oraz port 5353. W takim przypadku bez
 większego problemu nasz router domowy rozróżni ruch DNS od poszczególnych klientów:
 
-![]({{< baseurl >}}/img/2020/05/013-adguard-home-openwrt-router-clients.png#huge)
+![](/img/2020/05/013-adguard-home-openwrt-router-clients.png#huge)
 
 Oczywiście konfigurowanie wielu stacji w ten sposób mija się z celem i lepszym rozwiązaniem będzie
 jednak zastąpienie `dnsmasq` na routerze przez AdGuard, przynajmniej jeśli chodzi o kwestię DNS, bo
@@ -292,14 +292,14 @@ Pytanie jakie wypadałoby tutaj zadać dotyczy serwera DNS, do którego te zapyt
 Domyślnie jest to [Quad9][16] ale nic nie stoi na przeszkodzie, by ten serwer zmienić i ustawić
 sobie jakiś inny, który wspiera szyfrowane zapytania DNS, poniżej przykład:
 
-![]({{< baseurl >}}/img/2020/05/014-adguard-home-openwrt-router-upstream-dns-servers-doh-dot.png#huge)
+![](/img/2020/05/014-adguard-home-openwrt-router-upstream-dns-servers-doh-dot.png#huge)
 
 Powyżej został ustawiony serwer CloudFlare, zarówno dla protokołu DoH (ten z `https://` ), jak i
 DoT (ten z `tls://`). By sprawdzić czy rozwiązywanie nazw DNS przez AdGuard faktycznie leci do
 serwerów CloudFlare i odbywa się przy pomocy jednego z tych protokołów, wystarczy
 [odwiedzić ten adres][17] i zrobić prosty test:
 
-![]({{< baseurl >}}/img/2020/05/015-adguard-home-openwrt-router-doh-dot-test.png#big)
+![](/img/2020/05/015-adguard-home-openwrt-router-doh-dot-test.png#big)
 
 Wynik, jak widać, mówi raczej sam za siebie.
 
@@ -325,7 +325,7 @@ DNS, to każde zapytanie o zwykłe domeny stron WWW będzie już realizowane za 
 By skorzystać z CloudFlare i ustawić jego serwer DNS jako Bootstrap DNS, wystarczy wpisać `1.1.1.1`
 w Bootstrap DNS servers (pod Settings =› DNS Settings):
 
-![]({{< baseurl >}}/img/2020/05/016-adguard-home-openwrt-router-bootsrap-dns.png#huge)
+![](/img/2020/05/016-adguard-home-openwrt-router-bootsrap-dns.png#huge)
 
 Gdy już skończymy się bawić ustawieniami upstream'owych serwerów DNS, warto jest przetestować ich
 konfigurację klikając w przycisk `Test upstreams` widoczny powyżej. Jeśli konfiguracja jest
@@ -382,7 +382,7 @@ serwisów społecznościowych, to AdGuard ma również i taką funkcję. Poniże
 którym są przedstawione wszystkie serwisy, które za pomocą stosownego przełącznika możemy
 zablokować:
 
-![]({{< baseurl >}}/img/2020/05/017-adguard-home-openwrt-router-social-filter.png#huge)
+![](/img/2020/05/017-adguard-home-openwrt-router-social-filter.png#huge)
 
 Jak widać, tych serwisów jest dość sporo, a by je zablokować wystarczy kliknąć przy stosownej
 pozycji i zapisać zmiany. Od tego momentu, żaden użytkownik naszej sieci nie będzie w stanie się
@@ -434,7 +434,7 @@ sprawdzić podglądając wyjście `iptables` po wydaniu paru poleceń `ping` do 
 
 lub też w panelu AdGuard:
 
-![]({{< baseurl >}}/img/2020/05/018-adguard-home-openwrt-router-dns-leak-test.png#huge)
+![](/img/2020/05/018-adguard-home-openwrt-router-dns-leak-test.png#huge)
 
 Zatem, nawet jeśli klient sobie ustawi w swoim systemie serwer DNS od Google, to i tak mu to nic
 nie da, bo zapytania zostaną przekierowane na router i przejdą przez AdGuard.
@@ -459,7 +459,7 @@ Trzeba jednak zdawać sobie sprawę, że obecnie protokoły DoH i DoT coraz pows
 są bezpośrednio w aplikacjach. Przykładem może być przeglądarka Firefox, która udostępnia opcję
 [szyfrowania zapytań z wykorzystaniem DoH][20] w swoich opcjach:
 
-![]({{< baseurl >}}/img/2020/05/019-adguard-home-openwrt-router-firefox-doh.png#huge)
+![](/img/2020/05/019-adguard-home-openwrt-router-firefox-doh.png#huge)
 
 Po aktywowaniu tej opcji (jeśli nie jest jeszcze ona domyślnie włączona), Firefox będzie szyfrował
 i przesyłał wszystkie swoje zapytania DNS do CloudFlare niezależnie od tego co zostało
@@ -496,7 +496,7 @@ certyfikat. Zawartość tych plików trzeba wpisać w panelu AdGuard w Settings 
 Musimy także określić `Server Name` na `redviper.mhouse` (czy co tam podaliśmy przy generowaniu
 certyfikatu) oraz dobrać porty pod panel WWW i serwer DoT:
 
-![]({{< baseurl >}}/img/2020/05/020-adguard-home-openwrt-router-panel-https.png#huge)
+![](/img/2020/05/020-adguard-home-openwrt-router-panel-https.png#huge)
 
 Mamy tam co prawda błąd `Certificate chain is invalid` ale on w niczym nie przeszkadza w tego typu
 instalacji.
@@ -815,14 +815,14 @@ routerów będzie AdBlock w połączeniu z dnscrypt-proxy, który w zasadzie jes
 samą funkcjonalność ale niższym kosztem.
 
 
-[1]: {{< baseurl >}}/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/
-[2]: {{< baseurl >}}/post/konfiguracja-dnscrypt-proxy-w-openwrt/
+[1]: /post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/
+[2]: /post/konfiguracja-dnscrypt-proxy-w-openwrt/
 [3]: https://github.com/AdguardTeam/AdGuardHome#comparison
 [4]: https://github.com/AdguardTeam/AdGuardHome/releases
 [5]: https://github.com/AdguardTeam/AdguardSDNSFilter
 [6]: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=549190
-[7]: {{< baseurl >}}/post/cache-dns-buforowania-zapytan/
-[8]: {{< baseurl >}}/post/jak-zbudowac-uaktualnic-firmware-openwrt-dla-routera-wifi/
+[7]: /post/cache-dns-buforowania-zapytan/
+[8]: /post/jak-zbudowac-uaktualnic-firmware-openwrt-dla-routera-wifi/
 [9]: https://en.wikipedia.org/wiki/DNS_over_HTTPS
 [10]: https://en.wikipedia.org/wiki/DNS_over_TLS
 [11]: https://dnscrypt.info/
@@ -840,4 +840,4 @@ samą funkcjonalność ale niższym kosztem.
 [23]: https://github.com/gorhill/uMatrix
 [24]: https://github.com/reek/anti-adblock-killer
 [25]: https://letsencrypt.org/docs/certificates-for-localhost/
-[26]: {{< baseurl >}}/post/extroot-whole_root-fullroot-pod-openwrt/
+[26]: /post/extroot-whole_root-fullroot-pod-openwrt/

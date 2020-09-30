@@ -105,7 +105,7 @@ Dla pewności, że plik nie zostanie przepisany przez jakieś automaty systemowe
 By sprawdzić czy zapytania DNS są szyfrowane za sprawą `dnscrypt-proxy` , możemy odwiedzić [stronę
 testową OpenDNS][5], gdzie powinniśmy zobaczyć ten poniższy komunikat:
 
-![]({{< baseurl >}}/img/2015/06/1.test-konfiguracji-dnscrypt-proxy.png#medium)
+![](/img/2015/06/1.test-konfiguracji-dnscrypt-proxy.png#medium)
 
 Nie mamy tam żadnych informacji dotyczących szyfrowania ruchu ale skoro przekierowaliśmy ruch na
 lokalny resolver i jesteśmy w stanie odwiedzić stronę OpenDNS, to znaczy, że ruch musi być przesłany
@@ -131,4 +131,4 @@ adres resolver'a, który wskazuje na nasz adres lokalny `127.0.2.1#53` .
 [3]: https://www.freedesktop.org/software/systemd/man/systemd.network.html
 [4]: https://www.opendns.com/
 [5]: https://www.opendns.com/welcome/
-[6]: {{< baseurl >}}/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/
+[6]: /post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/

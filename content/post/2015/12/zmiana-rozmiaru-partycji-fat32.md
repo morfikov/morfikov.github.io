@@ -149,6 +149,6 @@ Jeśli system nie widzi nowych partycji, być może pomocne okaże się wydanie 
 
 
 [1]: http://gparted.org/
-[2]: {{< baseurl >}}/post/konwersja-tablicy-partycji-ms-dos-na-gpt/
-[3]: {{< baseurl >}}/post/zmiana-rozmiaru-partycji-ext4/
-[4]: {{< baseurl >}}/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/
+[2]: /post/konwersja-tablicy-partycji-ms-dos-na-gpt/
+[3]: /post/zmiana-rozmiaru-partycji-ext4/
+[4]: /post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/

@@ -117,5 +117,5 @@ poniższe polecenie:
 [2]: https://en.wikipedia.org/wiki/PHY_%28chip%29
 [3]: https://pl.wikipedia.org/wiki/Magic_Packet
 [4]: https://wiki.archlinux.org/index.php/Wake-on-LAN
-[5]: {{< baseurl >}}/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/
+[5]: /post/udev-czyli-jak-pisac-reguly-dla-urzadzen/
 [6]: https://www.freedesktop.org/software/systemd/man/systemd.link.html

@@ -32,12 +32,12 @@ Ustawienia => Więcej => VPN. By być w stanie skonfigurować takie bezpieczne p
 również aktywować mechanizm blokady
 ekranu.
 
-![]({{< baseurl >}}/img/2016/12/001.vpn-openvpn-smartfon-android-standardowy-klient.png#huge)
+![](/img/2016/12/001.vpn-openvpn-smartfon-android-standardowy-klient.png#huge)
 
 Niemniej jednak, ku mojemu zdziwieniu, to domyślne oprogramowanie nie wspiera OpenVPN (albo ja nie
 potrafię skonfigurować tego połączenia):
 
-![]({{< baseurl >}}/img/2016/12/002.vpn-openvpn-smartfon-android-standardowy-klient.png#huge)
+![](/img/2016/12/002.vpn-openvpn-smartfon-android-standardowy-klient.png#huge)
 
 Potrzebne jest zatem alternatywne oprogramowanie. Z tego co znalazłem w sklepie Google Play i w
 [repozytorium F-Droid][3], to w zasadzie są dwie aplikacje, które się nadają do wykorzystania przy
@@ -79,13 +79,13 @@ niezalecane.
 Zakładam tutaj, że mamy już postawiony działający serwer VPN oraz, że wygenerowaliśmy sobie stosowne
 certyfikaty. Możemy teraz przejść na smartfon i zainstalować tam aplikację OpenVPN for Android:
 
-![]({{< baseurl >}}/img/2016/12/003.vpn-openvpn-smartfon-android-aplikacja.png#huge)
+![](/img/2016/12/003.vpn-openvpn-smartfon-android-aplikacja.png#huge)
 
 Po uruchomieniu aplikacji przywita nas informacja o braku połączeń VPN. Musimy zatem sobie stworzyć
 jakąś konfigurację ale nie musimy tego robić ręcznie. Jeśli dysponujemy plikiem konfiguracyjnym
 OpenVPN dla standardowego linux'a, to możemy go zaimportować:
 
-![]({{< baseurl >}}/img/2016/12/004.vpn-openvpn-smartfon-android-import-konfiguracja.png#huge)
+![](/img/2016/12/004.vpn-openvpn-smartfon-android-import-konfiguracja.png#huge)
 
 Pamiętajmy jednak, by certyfikaty/klucze zawrzeć w konfiguracji OpenVPN (znaczniki `ca` , `cert` ,
 `key` oraz `tls-auth` ) zamiast dłączać je w osobnych plikach. Poniżej jest przykładowa konfiguracja
@@ -134,12 +134,12 @@ zostało zignorowanych ale nie ma to większego wpływu na połączenie. Konfigu
 zapisana w katalogu aplikacji OpenVPN for Android, a sam plik, który przenieśliśmy na pamięć/kartę
 SD telefonu możemy usunąć.
 
-![]({{< baseurl >}}/img/2016/12/005.vpn-openvpn-smartfon-android-import-konfiguracja.png#huge)
+![](/img/2016/12/005.vpn-openvpn-smartfon-android-import-konfiguracja.png#huge)
 
 By się teraz połączyć z serwerem VPN i przesłać cały ruch ze smartfona szyfrowanym kanałem,
 wystarczy tapnąć w widoczną wyżej pozycję na liście:
 
-![]({{< baseurl >}}/img/2016/12/006.vpn-openvpn-smartfon-android-polaczenie-server.png#huge)
+![](/img/2016/12/006.vpn-openvpn-smartfon-android-polaczenie-server.png#huge)
 
 To w zasadzie cała istota podłączenia do VPN naszego smartfona. Rzućmy sobie jeszcze okiem na samą
 konfigurację połączenia.
@@ -154,46 +154,46 @@ opcje, które zmieniły się.
 W zasadzie jesteśmy w stanie wskazać pliki certyfikatów/kluczy jeśli te nie są dodane bezpośrednio w
 pliku konfiguracyjnym.
 
-![]({{< baseurl >}}/img/2016/12/007.vpn-openvpn-smartfon-android-opcje-polaczenia.png#huge)
+![](/img/2016/12/007.vpn-openvpn-smartfon-android-opcje-polaczenia.png#huge)
 
 Możemy także określić adres IP, port i protokół serwera VPN, jak i również dodać kilka serwerów:
 
-![]({{< baseurl >}}/img/2016/12/008.vpn-openvpn-smartfon-android-opcje-polaczenia.png#medium)
+![](/img/2016/12/008.vpn-openvpn-smartfon-android-opcje-polaczenia.png#medium)
 
 Są tez opcje przepisania konfiguracji DNS:
 
-![]({{< baseurl >}}/img/2016/12/009.vpn-openvpn-smartfon-android-opcje-polaczenia.png#huge)
+![](/img/2016/12/009.vpn-openvpn-smartfon-android-opcje-polaczenia.png#huge)
 
 Oraz parametry konfigurujące tablicę routingu:
 
-![]({{< baseurl >}}/img/2016/12/010.vpn-openvpn-smartfon-android-opcje-polaczenia.png#huge)
+![](/img/2016/12/010.vpn-openvpn-smartfon-android-opcje-polaczenia.png#huge)
 
 Konfiguracja szyfrów wykorzystywanych w kanale kontrolnym i kanale danych też może zostać
 dostosowana:
 
-![]({{< baseurl >}}/img/2016/12/011.vpn-openvpn-smartfon-android-opcje-polaczenia.png#huge)
+![](/img/2016/12/011.vpn-openvpn-smartfon-android-opcje-polaczenia.png#huge)
 
 W opcjach zaawansowanych możemy nieco dostosować sobie zachowanie klienta VPN oraz dodać
 niestandardowe parametry:
 
-![]({{< baseurl >}}/img/2016/12/012.vpn-openvpn-smartfon-android-opcje-polaczenia.png#huge)
+![](/img/2016/12/012.vpn-openvpn-smartfon-android-opcje-polaczenia.png#huge)
 
 Cały ruch ze smartfona będzie przesyłany do serwera VPN. Jeśli chcemy jakieś aplikacje wyłączyć spod
 działania tego mechanizmu, to możemy to jak najbardziej uczynić:
 
-![]({{< baseurl >}}/img/2016/12/013.vpn-openvpn-smartfon-android-opcje-polaczenia.png#medium)
+![](/img/2016/12/013.vpn-openvpn-smartfon-android-opcje-polaczenia.png#medium)
 
 Wszelkie zmiany jakie wprowadzimy w konfiguracji połączenia VPN zostaną zapisane, co wygeneruje nowy
 plik konfiguracyjny. Ten plik możemy wyeksportować w celu zaimportowania go na innym urządzeniu.
 Możemy także powielić go i użyć w celu skonfigurowania kolejnego serwera VPN zmieniając tylko
 określone parametry:
 
-![]({{< baseurl >}}/img/2016/12/014.vpn-openvpn-smartfon-android-eksport-ustawienia.png#huge)
+![](/img/2016/12/014.vpn-openvpn-smartfon-android-eksport-ustawienia.png#huge)
 
 Po podłączeniu się do serwera VPN, na belce systemowej powinniśmy zauważyć notyfikację z informacją
 o ilości przesłanych danych i aktualnej prędkości transferu:
 
-![]({{< baseurl >}}/img/2016/12/015.vpn-openvpn-smartfon-android-test-polaczenia.png#medium)
+![](/img/2016/12/015.vpn-openvpn-smartfon-android-test-polaczenia.png#medium)
 
 ## Połączenie VPN i oszczędzanie baterii
 
@@ -203,7 +203,7 @@ wymaga aktywnego WiFi czy LTE, a wiemy, że te moduły dają się mocno we znaki
 tak skonfigurować aplikację OpenVPN for Android, by przy niewielkim obciążeniu łącza i zablokowanym
 ekranie rozłączała nam połączenie VPN.
 
-![]({{< baseurl >}}/img/2016/12/016.vpn-openvpn-smartfon-android-opcje-bateria.png#huge)
+![](/img/2016/12/016.vpn-openvpn-smartfon-android-opcje-bateria.png#huge)
 
 Jak widzimy wyżej, nie tylko możemy rozłączyć połączenie VPN, gdy smartfon jest nieużywany ale tez
 możemy automatycznie zestawiać takie połączenie po uruchomieniu/odblokowaniu urządzenia.
@@ -214,17 +214,17 @@ wyjątkiem ręcznego dezaktywowania WiFi przed wyłączeniem telefonu. Po starci
 dalszym ciągu wyłączone i wystarczy poczekać, aż klient VPN zostanie uruchomiony. Może i nie będzie
 połączenia jako takiego ale aplikacja OpenVPN for Android będzie oczekiwać na sieć:
 
-![]({{< baseurl >}}/img/2016/12/017.vpn-openvpn-smartfon-android-brak-sieci.png#medium)
+![](/img/2016/12/017.vpn-openvpn-smartfon-android-brak-sieci.png#medium)
 
 W takim wypadku już wszystko jest przygotowane do połączenia i wystarczy włączyć WiFi.
 
 
-[1]: {{< baseurl >}}/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/
+[1]: /post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/
 [2]: http://www.neffos.pl/product/details/C5
-[3]: {{< baseurl >}}/post/android-repozytorium-aplikacji-opensource-f-droid/
+[3]: /post/android-repozytorium-aplikacji-opensource-f-droid/
 [4]: https://play.google.com/store/apps/details?id=net.openvpn.openvpn
 [5]: https://play.google.com/store/apps/details?id=de.blinkt.openvpn
 [6]: http://ics-openvpn.blinkt.de/FAQ.html
 [7]: https://play.google.com/store/apps/details?id=de.schaeuffelhut.android.openvpn
 [8]: https://play.google.com/store/apps/details?id=de.schaeuffelhut.android.openvpn.installer
-[9]: {{< baseurl >}}/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/
+[9]: /post/generowanie-certyfikatow-przy-pomocy-easy-rsa/

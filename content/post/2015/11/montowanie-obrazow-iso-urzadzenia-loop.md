@@ -70,7 +70,7 @@ odmontowania obrazu wygląda zatem mniej więcej tak:
 
 Wykorzystywanie konta administratora do tak prostej czynności jak montowanie obrazów ISO mija się z
 celem. Użytkownik powinien być w stanie sam [zamontować dowolny obraz ISO bez uprawnień
-administratora systemu]({{< baseurl >}}/post/udevil-i-montowanie-zasobow-bez-uprawnien-root/).
+administratora systemu](/post/udevil-i-montowanie-zasobow-bez-uprawnien-root/).
 [Udevil](https://ignorantguru.github.io/udevil/) to proste konsolowe narzędzie, które odpowiednio
 skonfigurowane potrafi umożliwić poszczególnym użytkownikom montowanie określonych zasobów. Znajduje
 się ono w pakiecie `udevil` i nie powinno być problemów z jego instalacją w dystrybucji Debian.
