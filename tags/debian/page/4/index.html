@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/tags/debian/" />
-<meta property="og:updated_time" content="2020-09-27T12:29:00+02:00" />
+<meta property="og:updated_time" content="2020-10-08T19:05:00+02:00" />
 
 		<meta itemprop="name" content="debian">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -106,6 +106,34 @@ if (!doNotTrack) {
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wybudzanie-linuxa-ze-stanu-uspienia-za-sprawa-myszy/">Wybudzanie linux&#39;a ze stanu uśpienia za sprawą myszy</a></h1>
+	<div class="entry__content"><p>Parę dni temu na jednych z forów, które czasem odwiedzam, <a href="https://forum.linuxmint.pl/showthread.php?tid=323">pojawił się wątek</a> dotyczący problemu
+jaki może nieść ze sobą budzenie linux'a ze stanu uśpienia/wstrzymania (Suspend to RAM, STR) za
+sprawą myszy. O ile w przypadku klawiatury sprawa wybudzania komputera zdaje się być dość oczywista,
+to w przypadku tego małego gryzonia już niekoniecznie, bo wystarczy lekko mysz przemieścić po
+blacie stołu czy innego biurka i system się nam wybudzi. Część komputerów ma stosowne opcje w
+BIOS/UEFI i można za ich sprawą skonfigurować to jakie urządzenia będą mieć możliwość wybudzania
+systemu. Niekiedy jednak, opcje w BIOS są tak ubogie, że nie mamy możliwości skonfigurowania tego
+aspektu pracy naszej maszyny. Trzeba zatem w nieco inny sposób podejść do tego zagadnienia. Na
+necie można się spotkać z radami odnośnie zapisu pliku <code>/proc/acpi/wakeup</code> przez przesłanie do
+niego czteroznakowych kodów, np. <code>EHC1</code> czy <code>USB1</code> . Takie rozwiązanie może nieść ze sobą negatywne
+konsekwencje i powinno się go unikać. Lepszym rozwiązaniem jest napisanie reguły dla UDEV'a dla
+konkretnego urządzenia, gdzie będziemy mogli łatwo sterować (przez plik <code>power/wakeup</code> ) tym czy
+dane urządzenie ma mieć możliwość wybudzania systemu czy też nie.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-06-06T16:10:15Z">Opublikowano: 06/06/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -352,41 +380,6 @@ najwyraźniej ma coś wspólnego ze sprawdzaniem systemu plików voluminów logi
 najważniejsze chyba pytanie -- czemu to nie działa jak należy?</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-03-17T19:10:30Z">Opublikowano: 17/03/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-na-debianie-zrobic-pakiet-deb-zawierajacy-modul-kernela-linux-dkms/">Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)</a></h1>
-	<div class="entry__content"><p>Kernel linux'a jest dość złożonym organizmem, który może zostać rozbudowany przy pomocy dodatkowego
-kodu ładowanego w postaci zewnętrznych modułów. Czasem ze względu na wczesny etap prac nad nową
-funkcjonalnością jądra, taki moduł może zachowywać się dość nieprzewidywalnie, co przekreśla jego
-szanse na pojawienie się w stabilnych wydaniach kernela. Czasem też z jakiegoś niezrozumiałego
-powodu pewne rzeczy nie są celowo dodawane do jądra operacyjnego. Jedną z nich
-jest <a href="https://github.com/cormander/tpe-lkm">moduł Trusted Path Execution</a> (TPE), który jest w
-stanie znacznie poprawić bezpieczeństwo systemu uniemożliwiając przeprowadzenie w nim szeregu
-podejrzanych działań. W Debianie tego typu niedogodności związane z brakiem pewnych modułów można
-obejść przez
-zastosowanie <a href="https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support">mechanizmu DKMS</a>, który
-przy instalacji modułu spoza głównego drzewa kernela linux'a jest nam go w stanie automatycznie
-zbudować. W repozytorium dystrybucji Debiana znajduje się już szereg pakietów z modułami (mają
-końcówki <code>-dkms</code> ) i w prosty sposób można je sobie doinstalować. Co jednak w przypadku, gdy mamy
-moduł, którego nikt jeszcze nie przygotował i nie wrzucił do repozytorium? Co, gdy takich modułów
-mamy kilka, a przy tym korzystamy z najnowszego stabilnego kernela, który jest aktualizowany
-średnio co kilka dni? Ręczna budowa wszystkich zewnętrznych modułów za każdym razem jak tylko
-wyjdzie nowsza wersja kernela, to nie najlepsze wyjście, zwłaszcza jak dojdzie nam do tego
-aktualizacja samych modułów. Można za to zrobić sobie paczkę <code>.deb</code> tak, by przy instalacji nowego
-jądra operacyjnego, system nam automatycznie zbudował wszystkie dodatkowe moduły, których nasz
-komputer wymaga do poprawnej pracy.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-03-17T09:37:28Z">Opublikowano: 17/03/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

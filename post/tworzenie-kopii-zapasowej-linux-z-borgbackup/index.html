@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Tworzenie kopii zapasowej linux&#39;a z BorgBackup | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Tworzenie kopii zapasowej linux&#39;a z BorgBackup" />
+<meta property="og:description" content="Gdy chodzi o bezpieczeństwo danych przechowywanych na nośnikach pamięci masowych, takich jak dyski
+twarde, to użytkownicy linux&#39;a często piszą sobie skrypty shell&#39;owe mające na celu przeprowadzić
+backup całego nośnika lub też jego konkretnych plików/katalogów. Zwykle zaprzęgany jest do pracy
+rsync , który bez problemu jest w stanie  zsynchronizować zawartość dwóch folderów (źródłowego i
+docelowego) i po tym procesie wołany jest także tar mający na celu skompresować pliki backup&#39;u,
+tak by zajmowały mniej miejsca. Nie mam nic do tego rozwiązania, bo sam też przez lata z niego
+korzystałem ale ma ono całą masę wad. Przede wszystkim, ten mechanizm nie bierze pod uwagę zmian w
+samych plikach, czyli tworzy kopię tego co mu się poda i w taki sposób mamy wiele paczek .tar.gz ,
+które zajmują sporo miejsca. Kolejną sprawą jest brak zabezpieczenia przed nieuprawnionym dostępem
+do plików kopii zapasowej, np. przy pomocy szyfrowania. W ten sposób trzeba posiłkować się
+zewnętrznymi rozwiązaniami, np. pełne szyfrowanie dysku za sprawą LUKS/dm-crypt, co nie zawsze jest
+możliwe i też bardzo komplikuje cały proces tworzenia kopii zapasowej, zwłaszcza na zewnętrznych
+nośnikach czy zdalnych hostach w sieci. Ostatnio jednak trafiłem na narzędzie BorgBackup, które
+to dość znacznie upraszcza cały proces tworzenia backup&#39;u plików na linux, a takie cechy jak
+szyfrowanie, kompresja i deduplikacja danych są w borg zaimplementowane standardowo. Postanowiłem
+zatem zmigrować z mojego skryptowego systemu tworzenia kopii zapasowych na rzecz borg&#39;a i spisać
+przy okazji te użyteczniejsze informacje dotyczące posługiwania się tym narzędziem" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/tworzenie-kopii-zapasowej-linux-z-borgbackup/" />
+<meta property="article:published_time" content="2020-10-08T19:05:00+02:00" />
+<meta property="article:modified_time" content="2020-10-08T19:05:00+02:00" />
+
+		<meta itemprop="name" content="Tworzenie kopii zapasowej linux&#39;a z BorgBackup">
+<meta itemprop="description" content="Gdy chodzi o bezpieczeństwo danych przechowywanych na nośnikach pamięci masowych, takich jak dyski
+twarde, to użytkownicy linux&#39;a często piszą sobie skrypty shell&#39;owe mające na celu przeprowadzić
+backup całego nośnika lub też jego konkretnych plików/katalogów. Zwykle zaprzęgany jest do pracy
+rsync , który bez problemu jest w stanie  zsynchronizować zawartość dwóch folderów (źródłowego i
+docelowego) i po tym procesie wołany jest także tar mający na celu skompresować pliki backup&#39;u,
+tak by zajmowały mniej miejsca. Nie mam nic do tego rozwiązania, bo sam też przez lata z niego
+korzystałem ale ma ono całą masę wad. Przede wszystkim, ten mechanizm nie bierze pod uwagę zmian w
+samych plikach, czyli tworzy kopię tego co mu się poda i w taki sposób mamy wiele paczek .tar.gz ,
+które zajmują sporo miejsca. Kolejną sprawą jest brak zabezpieczenia przed nieuprawnionym dostępem
+do plików kopii zapasowej, np. przy pomocy szyfrowania. W ten sposób trzeba posiłkować się
+zewnętrznymi rozwiązaniami, np. pełne szyfrowanie dysku za sprawą LUKS/dm-crypt, co nie zawsze jest
+możliwe i też bardzo komplikuje cały proces tworzenia kopii zapasowej, zwłaszcza na zewnętrznych
+nośnikach czy zdalnych hostach w sieci. Ostatnio jednak trafiłem na narzędzie BorgBackup, które
+to dość znacznie upraszcza cały proces tworzenia backup&#39;u plików na linux, a takie cechy jak
+szyfrowanie, kompresja i deduplikacja danych są w borg zaimplementowane standardowo. Postanowiłem
+zatem zmigrować z mojego skryptowego systemu tworzenia kopii zapasowych na rzecz borg&#39;a i spisać
+przy okazji te użyteczniejsze informacje dotyczące posługiwania się tym narzędziem">
+<meta itemprop="datePublished" content="2020-10-08T19:05:00+02:00" />
+<meta itemprop="dateModified" content="2020-10-08T19:05:00+02:00" />
+<meta itemprop="wordCount" content="3981">
+
+
+
+<meta itemprop="keywords" content="debian,backup,szyfrowanie,kompresja,deduplikacja," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Tworzenie kopii zapasowej linux&#39;a z BorgBackup"/>
+<meta name="twitter:description" content="Gdy chodzi o bezpieczeństwo danych przechowywanych na nośnikach pamięci masowych, takich jak dyski
+twarde, to użytkownicy linux&#39;a często piszą sobie skrypty shell&#39;owe mające na celu przeprowadzić
+backup całego nośnika lub też jego konkretnych plików/katalogów. Zwykle zaprzęgany jest do pracy
+rsync , który bez problemu jest w stanie  zsynchronizować zawartość dwóch folderów (źródłowego i
+docelowego) i po tym procesie wołany jest także tar mający na celu skompresować pliki backup&#39;u,
+tak by zajmowały mniej miejsca. Nie mam nic do tego rozwiązania, bo sam też przez lata z niego
+korzystałem ale ma ono całą masę wad. Przede wszystkim, ten mechanizm nie bierze pod uwagę zmian w
+samych plikach, czyli tworzy kopię tego co mu się poda i w taki sposób mamy wiele paczek .tar.gz ,
+które zajmują sporo miejsca. Kolejną sprawą jest brak zabezpieczenia przed nieuprawnionym dostępem
+do plików kopii zapasowej, np. przy pomocy szyfrowania. W ten sposób trzeba posiłkować się
+zewnętrznymi rozwiązaniami, np. pełne szyfrowanie dysku za sprawą LUKS/dm-crypt, co nie zawsze jest
+możliwe i też bardzo komplikuje cały proces tworzenia kopii zapasowej, zwłaszcza na zewnętrznych
+nośnikach czy zdalnych hostach w sieci. Ostatnio jednak trafiłem na narzędzie BorgBackup, które
+to dość znacznie upraszcza cały proces tworzenia backup&#39;u plików na linux, a takie cechy jak
+szyfrowanie, kompresja i deduplikacja danych są w borg zaimplementowane standardowo. Postanowiłem
+zatem zmigrować z mojego skryptowego systemu tworzenia kopii zapasowych na rzecz borg&#39;a i spisać
+przy okazji te użyteczniejsze informacje dotyczące posługiwania się tym narzędziem"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Tworzenie kopii zapasowej linux&#39;a z BorgBackup</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2020-10-08T19:05:00&#43;02:00">Opublikowano: 08/10/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Tworzenie kopii zapasowej linux&#39;a z BorgBackup</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#szyfrowanie-kompresja-i-deduplikacja-danych">Szyfrowanie, kompresja i deduplikacja danych</a></li>
+    <li><a href="#borgbackup-z-opcją-szyfrowania-czy-bez">BorgBackup z opcją szyfrowania czy bez</a>
+      <ol>
+        <li><a href="#przygotowanie-repozytorium-backupu">Przygotowanie repozytorium backup'u</a></li>
+      </ol>
+    </li>
+    <li><a href="#tworzenie-kopii-zapasowej-pojedynczego-katalogu">Tworzenie kopii zapasowej pojedynczego katalogu</a>
+      <ol>
+        <li><a href="#tworzenie-kopii-zapasowej-wielu-katalogów">Tworzenie kopii zapasowej wielu katalogów</a></li>
+      </ol>
+    </li>
+    <li><a href="#cykliczny-backup-przy-wykorzystaniu-crona">Cykliczny backup przy wykorzystaniu cron'a</a>
+      <ol>
+        <li><a href="#maksymalna-ilość-plików-backupu">Maksymalna ilość plików backup'u</a>
+          <ol>
+            <li><a href="#usuwanie-kopii-zapasowych-starszych-niż-30-dni">Usuwanie kopii zapasowych starszych niż 30 dni</a></li>
+            <li><a href="#ustawienie-limitu-jednej-kopii-na-dzień">Ustawienie limitu jednej kopii na dzień</a></li>
+            <li><a href="#usuwanie-kopii-zapasowych-po-przekroczeniu-określonej-ich-liczby">Usuwanie kopii zapasowych po przekroczeniu określonej ich liczby</a></li>
+            <li><a href="#ustawienia-mieszane">Ustawienia mieszane</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#zdalny-backup-via-ssh">Zdalny backup via SSH</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Gdy chodzi o bezpieczeństwo danych przechowywanych na nośnikach pamięci masowych, takich jak dyski
+twarde, to użytkownicy linux'a często piszą sobie skrypty shell'owe mające na celu przeprowadzić
+backup całego nośnika lub też jego konkretnych plików/katalogów. Zwykle zaprzęgany jest do pracy
+<code>rsync</code> , który bez problemu jest w stanie  zsynchronizować zawartość dwóch folderów (źródłowego i
+docelowego) i po tym procesie wołany jest także <code>tar</code> mający na celu skompresować pliki backup'u,
+tak by zajmowały mniej miejsca. Nie mam nic do tego rozwiązania, bo sam też przez lata z niego
+korzystałem ale ma ono całą masę wad. Przede wszystkim, ten mechanizm nie bierze pod uwagę zmian w
+samych plikach, czyli tworzy kopię tego co mu się poda i w taki sposób mamy wiele paczek <code>.tar.gz</code> ,
+które zajmują sporo miejsca. Kolejną sprawą jest brak zabezpieczenia przed nieuprawnionym dostępem
+do plików kopii zapasowej, np. przy pomocy szyfrowania. W ten sposób trzeba posiłkować się
+zewnętrznymi rozwiązaniami, np. pełne szyfrowanie dysku za sprawą LUKS/dm-crypt, co nie zawsze jest
+możliwe i też bardzo komplikuje cały proces tworzenia kopii zapasowej, zwłaszcza na zewnętrznych
+nośnikach czy zdalnych hostach w sieci. Ostatnio jednak trafiłem na <a href="https://borgbackup.readthedocs.io/">narzędzie BorgBackup</a>, które
+to dość znacznie upraszcza cały proces tworzenia backup'u plików na linux, a takie cechy jak
+szyfrowanie, kompresja i deduplikacja danych są w borg zaimplementowane standardowo. Postanowiłem
+zatem zmigrować z mojego skryptowego systemu tworzenia kopii zapasowych na rzecz borg'a i spisać
+przy okazji te użyteczniejsze informacje dotyczące posługiwania się tym narzędziem</p>
+<h2 id="szyfrowanie-kompresja-i-deduplikacja-danych">Szyfrowanie, kompresja i deduplikacja danych</h2>
+<p>Każdy z nas prędzej czy później będzie musiał się zmierzyć z zadaniem tworzenia kopii zapasowych na
+swoim linux'ie. Gdy już ten czas nadejdzie, to dobrze jest podejść do kwestii backup'u danych w
+sposób przemyślany. Chodzi generalnie o to, by dane, które będą trafiać do kopii zapasowej,
+należycie zabezpieczyć oraz by nie zajmowały one nam niepotrzebnie zbyt dużo miejsca.</p>
+<p>W przypadku lokalnych kopii zapasowych, tj. tworzonych na nośnikach, które podpinamy do swojego
+komputera (lub też są one w nim zamontowane na stałe), szyfrowanie danych można albo pozostawić
+oprogramowaniu od backup'u, albo też można zaszyfrować cały nośnik/partycję dysku. Jeśli nie
+wykorzystujemy pełnego szyfrowania dysku via LUKS/dm-crypt, to oprogramowanie tworzące kopię
+zapasową powinno szyfrowanie danych oferować. W przypadku, gdy szyfrujemy dysk twardy komputera, to
+możemy obejść się bez dodatkowego szyfrowania plików kopii zapasowych (brak korzyści przy narzucie
+związanym z obsługą dodatkowej warstwy szyfrowania). Oczywiście jeśli backup mamy zamiar
+przechowywać/tworzyć zdalnie i nie mamy całkowitej kontroli nad tą zdalną maszyną, to wtedy również
+potrzebna nam jest aplikacja, która ten szyfrowany backup potrafi zaoferować. Jeśli nasza appka nie
+oferuje szyfrowania danych kopii zapasowej, to trzeba ją wymienić na taką, która ten ficzer posiada.</p>
+<p>Jeśli zaś chodzi o ograniczenie miejsca, które te kopie zapasowe będą zużywać, to standardowo
+kompresja danych może nam w tym zadaniu pomóc. Problem z kompresją jest jednak taki, że potrzebna
+jest spora moc obliczeniowa procesora, by te dane kompresować w procesie tworzenia backup'u, no i
+też trzeba będzie te pliki backup'u dekompresować, gdy tylko będziemy chcieli uzyskać dostęp do
+danych przechowywanych w kopii zapasowej. Może i wynikowy plik będzie zajmował 2 GiB zamiast 5 GiB
+ale często narzut związany z obsługą kompresji może nie być warty świeczki i tu do gry wchodzi
+deduplikacja danych.</p>
+<p><a href="https://en.wikipedia.org/wiki/Data_deduplication">Deduplikacja danych</a> to taki bardzo efektywny mechanizm mający za zadanie wyeliminować
+powtarzające się dane. Jeśli teraz rozpatrzymy kwestię plików backup'u, to z pewnością dostrzeżemy,
+że każda taka kopia zapasowa w mniejszym lub większym stopniu zawiera całą masę plików, które nie
+zmieniły się w żaden sposób od momentu przeprowadzania ostatniego (czy też któregoś z poprzednich)
+procesu backupu. W ten sposób cały proces tworzenia kopii zapasowej się znacznie wydłuża, no i do
+tego jeszcze bardzo dużo miejsca jest marnowane na zapis tych samych informacji. Dlatego też
+oprogramowanie, które ma nam służyć do tworzenia kopii zapasowych, powinno być w stanie
+wykorzystywać mechanizm deduplikacji, by dość efektywnie ograniczyć miejsce zajmowane przez pliki
+backup'u.</p>
+<p>Reasumując, potrzebne jest nam oprogramowanie, które działa bez problemu pod linux (i jest
+OpenSource), wspiera opcjonalne szyfrowanie z wykorzystaniem otwartych standardów (AES), posiada
+wsparcie dla kompresji danych (w tym ZSTD), oferuje mechanizm deduplikacji oraz zezwala na
+tworzenie zdalnych kopii zapasowych (via SSH). Te wszystkie cechy ma BorgBackup i dlatego właśnie
+postanowiłem napisać o nim ten krótki artykuł.</p>
+<h2 id="borgbackup-z-opcją-szyfrowania-czy-bez">BorgBackup z opcją szyfrowania czy bez</h2>
+<p>Aplikacja BorgBackup jest standardowo dostępna w repozytorium Debiana w pakiecie <code>borgbackup</code> .
+Nie powinno być zatem problemu z instalacją tego narzędzia, przynajmniej na tej dystrybucji linux'a.
+Po ukończonym procesie instalacji musimy przygotować sobie jakiś katalog, w którym będą
+przechowywane pliki backup'u -- takie repozytorium. Trzeba jednak zastanowić się czy potrzebne jest
+nam szyfrowanie, czy możemy się bez niego obejść. Chodzi generalnie o to, że jak zdecydujemy się na
+szyfrowanie zawartości kopi zapasowych, to w późniejszym czasie nie będziemy mogli tej opcji
+zmienić i podobnie w drugą stronę, czyli jeśli nie wdrożymy szyfrowania przy inicjacji repozytorium,
+to nie będziemy mogli go włączyć w późniejszym czasie.</p>
+<p>W przypadku, gdy zdecydujemy się na opcję z szyfrowaniem, to <a href="https://borgbackup.readthedocs.io/en/stable/usage/init.html">podczas tworzenia repozytorium</a>
+pod kopie zapasowe trzeba będzie określić parametr <code>--encryption</code> . Jest kilka trybów szyfrowania,
+z których możemy skorzystać. W zasadzie to ogromne znaczenie przy wyborze trybu szyfrowania ma
+obecny w naszym komputerze procesor, a właściwie jego sprzętowe wsparcie dla określonych algorytmów
+wykorzystywanych w procesie szyfrowania/uwierzytelniania danych. Dlatego trzeba zerknąć do
+dokumentacji technicznej CPU i w oparciu o nią wybrać odpowiedni tryb szyfrowania. Do wyboru mamy
+te poniższe:</p>
+<ul>
+<li><code>none</code> -- ten tryb nie zapewnia ani szyfrowania, ani uwierzytelniania danych. Korzystanie z niego
+nie jest też zalecane. W przypadku, gdy nie chcemy szyfrować danych backup'u, to lepiej jest
+wybrać opcję z samym tylko uwierzytelnieniem.</li>
+<li><code>authenticated</code> -- ten tryb nie zapewnia szyfrowania ale oferuje za to uwierzytelnianie danych
+przy wykorzystaniu algorytmu HMAC-SHA256.</li>
+<li><code>repokey</code> oraz <code>keyfile</code> -- te dwa tryby zapewniają zarówno szyfrowanie, jak i uwierzytelnianie
+danych. Do szyfrowania będzie wykorzystywany algorytm AES-CTR-256, zaś do poświadczania
+autentyczności danych będzie użyty HMAC-SHA256 (<a href="https://en.wikipedia.org/wiki/Authenticated_encryption#Encrypt-then-MAC_(EtM)">konstrukcja EtM</a>). Tryb <code>keyfile</code> korzysta z
+pliku klucza, zaś <code>repokey</code> z hasła przy szyfrowaniu klucza głównego wykorzystywanego do
+szyfrowania danych w backup'ie.</li>
+<li><code>authenticated-blake2</code> -- ten tryb jest dokładnie taki sam, co w przypadku <code>authenticated</code> . Różni
+się on jedynie zastosowaniem innego algorytmu do uwierzytelniania danych, tj. BLAKE2b-256.</li>
+<li><code>repokey-blake2</code> oraz <code>keyfile-blake2</code> -- te same tryby, co w przypadku <code>repokey</code> i <code>keyfile</code> ale
+wykorzystują one algorytm BLAKE2b-256 zamiast HMAC-SHA256 do ochrony integralności i
+autentyczności danych.</li>
+</ul>
+<p>Wszystkie tryby szyfrowania wykorzystują algorytm AES do szyfrowania danych. Dlatego też dobrze
+jest posiadać procesor, który zapewnia sprzętowe wsparcie dla tych instrukcji. Algorytm BLAKE2b
+jest szybszy w stosunku do SHA256, no chyba, że procesor naszego komputera posiada wsparcie dla
+rozszerzeń SHA (często spotykane w nowszych maszynach).</p>
+<h3 id="przygotowanie-repozytorium-backupu">Przygotowanie repozytorium backup'u</h3>
+<p>Jeśli nie chcemy szyfrować plików kopii zapasowych, np. nasz procesor nie ma odpowiednich rozszerzeń
+lub korzystamy z pełnego szyfrowania dysku, to repozytorium backup'u możemy zainicjować w poniższy
+sposób:</p>
+<pre><code>$ borg init --encryption=authenticated /media/Arti/backup-home
+Enter new passphrase:
+</code></pre>
+<p>Jeśli zaś chcemy szyfrować zawartość backup'u, to korzystamy z poniższego polecenia:</p>
+<pre><code>$ borg init --encryption=repokey /media/Arti/backup-home
+Enter new passphrase:
+</code></pre>
+<p>Przy inicjacji repozytorium backup'u zostaniemy poproszeni o ustawienie hasła (chyba, że podaliśmy
+<code>--encryption=none</code> ). Hasło możemy określić jako puste, tj. nie zostanie zaszyfrowany materiał
+klucza wykorzystywany m.in. do szyfrowania i uwierzytelniania danych backup'u. Ten materiał klucza
+jest standardowo przechowywany w katalogu repozytorium w pliku <code>config</code> :</p>
+<pre><code>[repository]
+version = 1
+segments_per_dir = 1000
+max_segment_size = 524288000
+append_only = 0
+storage_quota = 0
+additional_free_space = 0
+id = 96e20079d61d1604859bbd45fd6b67125a5c4a4c360f2a38b2cfb3f13e1d779c
+key = hqlhbGdvcml0aG2mc2hhMjU2pGRhdGHaAN5sYZPUIOGRLTW0PUJa9AG0JgHt4+lFd7etY9
+    pM3jedOqQmst2BVb5U3zC1ubKIaJgRv0axgH1PJy55C58CMhCt9UR8rOwpJbnOscKtxd/7
+    B5G8/Ej2AiJ28mMqYfFCh9d/SQNsGCf+GDGlJIN2NI/1sDEJKs6vz7EuxQFwYV78fjcQKz
+    lHWjaXP9jyhJsFVmA4dPscxE6aoMIMddmNgStNzKFkvM+FpnK7wG/TANEUqQOAEINfBM+e
+    QRA1creMptiqyGpDb9UGijj45T5AD6InVCWaEHg6zb+Hj+Uhc1SkaGFzaNoAIKHcDx5l8h
+    kmjncVHDVfUeDmszVJvDP9uJ4WDpYa/IHHqml0ZXJhdGlvbnPOAAGGoKRzYWx02gAgRdVq
+    XgvHEiG1h5oKEnwfKd5asDsi5WsyMMnFBhIGPlWndmVyc2lvbgE=
+</code></pre>
+<p>Ten widoczny wyżej klucz można również wyeksportować do pliku przy pomocy <code>borg key export</code> w
+formie takiej jak widać powyżej lub w formie bardziej czytelnej dla człowieka podając parametr
+<code>--paper</code></p>
+<pre><code># borg key export /media/Arti/backup-home --paper
+To restore key use borg key import --paper /path/to/repo
+
+BORG PAPER KEY v1
+id: 20 / 96e200 79d61d 160485 / 20ba3c 42513a - 2a
+ 1: 86a961 6c676f 726974 686da6 736861 323536 - 14
+ 2: a46461 7461da 00de6c 6193d4 20e191 2d35b4 - ff
+ 3: 3d425a f401b4 2601ed e3e945 77b7ad 63da4c - 2f
+ 4: de379d 3aa426 b2dd81 55be54 df30b5 b9b288 - fa
+ 5: 689811 bf46b1 807d4f 272e79 0b9f02 3210ad - 7f
+ 6: f5447c acec29 25b9ce b1c2ad c5dffb 0791bc - 98
+ 7: fc48f6 022276 f2632a 61f142 87d77f 49036c - 94
+ 8: 1827fe 1831a5 248376 348ff5 b03109 2aceaf - b6
+ 9: cfb12e c50170 615efc 7e3710 2b3947 5a3697 - ed
+10: 3fd8f2 849b05 566038 74fb1c c44e9a a0c20c - a9
+11: 75d98d 812b4d cca164 bccf85 a672bb c06fd3 - 15
+12: 00d114 a90380 10835f 04cf9e 411035 72b78c - 4b
+13: a6d8aa c86a43 6fd506 8a38f8 e53e40 0fa227 - 36
+14: 54259a 10783a cdbf87 8fe521 7354a4 686173 - 25
+15: 68da00 20a1dc 0f1e65 f21926 8e7715 1c355f - f8
+16: 51e0e6 b33549 bc33fd b89e16 0e961a fc81c7 - 35
+17: aa6974 657261 74696f 6e73ce 000186 a0a473 - 15
+18: 616c74 da0020 45d56a 5e0bc7 1221b5 879a0a - 02
+19: 127c1f 29de5a b03b22 e56b32 30c9c5 061206 - 9e
+20: 3e55a7 766572 73696f 6e01 - e5
+</code></pre>
+<p>Zarówno materiał klucza i hasło, które określimy przy tworzeniu repozytorium backup'u, będą
+wymagane ilekroć będziemy chcieli wejść w interakcję z plikami backup'u (np. stworzyć nową kopię
+zapasową czy podejrzeć pliki, które już w niej figurują). Ta wyeksportowana wyżej reprezentacja
+klucza jest w formie zaszyfrowanej. Niemniej jednak, w pliku <code>config</code> figuruje odszyfrowana wersja
+klucza. Jeśli ktoś by przechwycił plik <code>config</code> , to może i wejdzie on w posiadanie klucza ale w
+dalszym ciągu będzie ten ktoś potrzebował hasła, by być w stanie zdeszyfrować dane backup'u. <a href="https://borgbackup.readthedocs.io/en/stable/usage/key.html">Hasło
+zaś możemy zmienić w dowolnej chwili</a>. Wystarczy skorzystać z poniższego polecenia:</p>
+<pre><code>$ borg key change-passphrase /media/Arti/backup-home
+Enter passphrase for key /media/Arti/backup-home:
+Enter new passphrase:
+Enter same passphrase again:
+</code></pre>
+<p>W przypadku utraty materiału klucza lub gdy zapomnimy hasło, to nie będziemy w stanie odszyfrować
+danych backup'u. Jeśli nie chcemy trzymać materiału klucza w pliku konfiguracyjnym repozytorium
+borg'a, to możemy skorzystać z <code>--encryption keyfile</code> zamiast <code>--encryption repokey</code> . W takim
+przypadku plik klucza zostanie zapisany w katalogu <code>~/.config/borg/keys/</code> .</p>
+<h2 id="tworzenie-kopii-zapasowej-pojedynczego-katalogu">Tworzenie kopii zapasowej pojedynczego katalogu</h2>
+<p>Mając przygotowane repozytorium kopii zapasowych, możemy przejść do utworzenia pierwszego pełnego
+backup'u danych. Ten proces można przeprowadzić na kilka sposobów ale najprościej jest po prostu
+skorzystać z listy zawierającej wzory dopasowań. Dlatego też na początku stwórzmy sobie taki plik
+listy. W tym przykładzie będziemy chcieli utworzyć backup katalogu <code>/home/</code> regularnego użytkownika
+w systemie. Zatem tworzymy plik <code>backup-home-file-list</code> i dodajemy do niego poniższą treść:</p>
+<pre><code>R /home/morfik/
+- /home/morfik/**/*Cache*/**
+- /home/morfik/**/*cache*/**
+- /home/morfik/Desktop/
+- /home/morfik/Downloads/
++ /home/morfik/**
+</code></pre>
+<p>Linijka z <code>R</code> ma na celu ustawić punkt startowy backup'u, tj. ścieżkę która ma być brana pod uwagę
+przy robieniu kopii zapasowej. Takich wpisów z <code>R</code> może być więcej ale, że my chcemy dokonać
+backup'u katalogu <code>/home/morfik/</code> , to określiliśmy właśnie tę ścieżkę. Następnie mamy szereg
+wpisów poprzedzonych znakiem <code>-</code> . Mają one za zadanie wyłączyć z pliku backup'u zbędne z naszej
+perspektywy pliki. Zapis <code>/**/</code> oznacza co najmniej jeden katalog, zaś <code>/**</code> odpowiada za wszystkie
+pliki w głębi struktury drzewa katalogów od tego konkretnego miejsca. Zatem te powyższe wpisy są w
+stanie efektywnie pominąć ścieżki mające w nazwach <code>Cache</code> oraz <code>cache</code> , co dość znacznie
+może zmniejszyć wagę wynikowego pliku backup'u. Dodatkowo, zarówno katalog <code>Desktop/</code> jak i
+<code>Downloads/</code> (wraz z podkatalogami) nie będą brane pod uwagę przy tworzeniu kopii, bo zwykle
+zawierają one niepotrzebne śmieci. Ostatnia linijka jest poprzedzona znakiem <code>+</code> , co oznacza, że
+wszystkie pozostałe pliki znajdujące się w katalogu <code>/home/morfik/</code> trzeba dodać do pliku backup'u.</p>
+<p>Ten mechanizm działa na zasadzie pierwszego dopasowania, tj. gdybyśmy tę ostatnią regułę dali jako
+pierwszą (zaraz po zapisie z <code>R</code> ), to wszystkie pliki z katalogu <code>/home/morfik/</code> by zostały
+uwzględnione w pliku backup'u, przez co pozostałe reguły byłyby bezużyteczne.</p>
+<p>Gdy proces backup'u będziemy przeprowadzać po raz pierwszy, to będzie on dość wolny. Poniżej
+przykład tworzenia kopii zapasowej katalogu <code>/home/morfik/</code> , w którym to jest zgromadzonych około
+11 GiB danych. Spora część danych to cache różnych aplikacji, zatem wynikowy plik backup'u powinien
+być sporo mniejszy. Do stworzenia pliku backup'u korzystamy z <code>borg create</code> :</p>
+<pre><code># borg create \
+       --compression zstd,15 \
+       --one-file-system \
+       --stats \
+       /media/Arti/backup-home::{now} \
+       --patterns-from /media/Arti/backup-home-file-list \
+       --progress
+
+------------------------------------------------------------------------------
+Archive name: 2020-10-06T18:02:46
+Archive fingerprint: b075d2b4cc08b6e5946ac6b30b662a7045980f9bf9be5f0761a3e8f520681d10
+Time (start): Tue, 2020-10-06 18:02:46
+Time (end):   Tue, 2020-10-06 18:11:18
+Duration: 8 minutes 31.85 seconds
+Number of files: 46144
+Utilization of max. archive size: 0%
+------------------------------------------------------------------------------
+                       Original size      Compressed size    Deduplicated size
+This archive:                4.47 GB              2.71 GB              2.66 GB
+All archives:                4.47 GB              2.71 GB              2.66 GB
+
+                       Unique chunks         Total chunks
+Chunk index:                   45087                46838
+------------------------------------------------------------------------------
+</code></pre>
+<p>Zanim przejdziemy do samych statystyk, dobrze jest powiedzieć parę słów na temat samego polecenia
+użytego do stworzenia kopii zapasowej. Parametr <code>--compression</code> ma za zadanie ustawić rodzaj
+kompresji. W tym przypadku korzystamy z <a href="https://github.com/facebook/zstd">ZSTD</a>, którego stopień kompresji waha się od -5 do +20.
+Im wyższa wartość, tym naturalnie bardziej te pliki będą skompresowane ale też bardziej będzie
+obciążony procesor, przez co sam proces tworzenia kopii zapasowej będzie trwał sporo dłużej.
+Wartość <code>15</code> wydaje się być w miarę rozsądna. By mieć pewność, że będziemy tworzyć kopię zapasową
+jedynie katalogu <code>/home/morfik/</code> , a nie innych podmontowanych w nim zasobów, to podajemy także
+parametr <code>--one-file-system</code> .  Określiliśmy też parametr <code>--stats</code> , by system nam wydrukował
+statystyki po zakończeniu procesu (te widoczne wyżej). Następnie wskazaliśmy lokalizację
+repozytorium kopii zapasowych (tego cośmy go utworzyli wcześniej), a po <code>::</code> podana jest zaś nazwa
+pliku backup'u. Ta nazwa może być dowolna ale jeśli nie chce nam się jej ciągle wpisywać to możemy
+ustawić <code>{now}</code> i ta nazwa zostanie automatycznie dobrana na podstawie aktualnego czasu. Dalej mamy
+parametr <code>--patterns-from</code> , który wskazuje na listę plików zawierającą wzory dopasowań. Jeśli
+interesuje nas postęp prac, to możemy także podać <code>--progress</code> .</p>
+<p>Jeśli zaś chodzi o statystyki, to jak mogliśmy zauważyć, cały proces trwał blisko 8,5 minuty.
+Całkowita objętość plików, które zostały wzięte pod uwagę przy tworzeniu backup'u wyniosła 4.47 GB,
+zaś po skompresowaniu 2.71 GB. Wartość w kolumnie <code>Deduplicated size</code> nas w zasadzie nie interesuje
+w tej chwili, bo póki co mamy tylko jeden plik backup, więc zajmuje on w zasadzie tyle miejsca co
+wszystkie pliki, które wchodzą w skład kopii zapasowej, choć jak widać wyżej, wartość w tej kolumnie
+jest nieco mniejsza w stosunku do tej skompresowanej. Taka sytuacja może się zdarzyć, bo wyliczone
+hash'e cząstkowe nawet tego samego pliku mogą mieć dokładnie tę samą wartość. Jeśli taka sytuacja
+wystąpi, to wtedy borg taki kawałek pliku również podda deduplikacji i dlatego mamy 2.66 GB zamiast
+2.71 GB.</p>
+<p>Przeprowadzając w późniejszym czasie proces backup'u ponownie, otrzymamy nieco inne statystyki:</p>
+<pre><code># borg create \
+       --compression zstd,15 \
+       --one-file-system \
+       --stats \
+       /media/Arti/backup-home::{now} \
+       --patterns-from /media/Arti/backup-home-file-list \
+       --progress
+
+------------------------------------------------------------------------------
+Archive name: 2020-10-06T18:25:46
+Archive fingerprint: 8994dd6c9bf37f4361463f825cde5026adf4559277f3a729bfb04d074592acf8
+Time (start): Tue, 2020-10-06 18:25:46
+Time (end):   Tue, 2020-10-06 18:26:12
+Duration: 26.39 seconds
+Number of files: 46144
+Utilization of max. archive size: 0%
+------------------------------------------------------------------------------
+                       Original size      Compressed size    Deduplicated size
+This archive:                4.47 GB              2.71 GB             22.33 MB
+All archives:                8.94 GB              5.41 GB              2.69 GB
+
+                       Unique chunks         Total chunks
+Chunk index:                   45195                93676
+------------------------------------------------------------------------------
+</code></pre>
+<p>Jak widzimy, czas utworzenia kopii zapasowej znacząco się obniżył do 26 sekund w stosunku do prawie
+9 minut przy tworzeniu backup'u po raz pierwszy. Zatem już w tej chwili możemy odczuć jak działa
+deduplikacja danych -- bez niej znów musielibyśmy czekać prawie 9 minut na zakończenie się procesu
+tworzenia kopii zapasowej. Jeśli rzucimy okiem na rozmiar pliku tego backup'u, to ponownie mamy
+4.47 GB, czyli objętość backup'owanych danych nie zmieniła się (łącznie oba archiwa mają 8.94 GB).
+Podobnie sprawa wygląda w przypadku wartości skompresowanych. Natomiast rozmiar po deduplikacji
+wynosi jedynie 22.33 MB. Zatem poprzedni plik backup'u zajmuje na dysku 2.66 GB, a ten nowy plik
+backupu tylko 22.33 MB. Łącznie daje to wartość 2.69 GB i dokładnie tyle danych jest zajmowanych na
+dysku, co jest dość sporą optymalizacją w stosunku zarówno do wartości bazowej (8.94 GB), czy
+nawet tej skompresowanej (5.41 GB). Te wartości będą jeszcze lepiej wyglądać, gdy tych kopii
+zapasowych będziemy mieć więcej.</p>
+<p>Za każdym razem jak tylko będziemy tworzyć nową kopię zapasową katalogu <code>/home/morfik/</code> , to tylko
+te zmienione dane będą uwzględniane w pliku backup'u. Aktualną listę archiwów można podejrzeć przy
+pomocy <code>borg list</code> :</p>
+<pre><code># borg list /media/Arti/backup-home/
+2020-10-06T18:02:46    Tue, 2020-10-06 18:02:46 [b075d2b4cc08b6e5946ac6b30b662a7045980f9bf9be5f0761a3e8f520681d10]
+2020-10-06T18:25:46    Tue, 2020-10-06 18:25:46 [8994dd6c9bf37f4361463f825cde5026adf4559277f3a729bfb04d074592acf8]
+</code></pre>
+<p>Różnice między tymi wersjami można podejrzeć korzystając z <code>borg diff</code> :</p>
+<pre><code># borg diff /media/Arti/backup-home::2020-10-06T18:02:46 2020-10-06T18:25:46
+
+ +11.7 kB  -11.7 kB home/morfik/.config/QuiteRss/QuiteRss.ini
+ +55.4 kB  -55.4 kB home/morfik/.config/psi+/profiles/default/options.xml
+...
+</code></pre>
+<p>To powyższe wyjście nie zwraca jednak informacji na temat różnicy w samych plikach, tj. nie damy
+rady zobaczyć co dokładnie zostało zmienione. W przypadku plików binarnych i tak byśmy zbytnio nic
+nie zrozumieli ale w katalogu domowym spora część plików to pliki tekstowe, które dla człowieka są
+czytelne. Jeśli chcielibyśmy podejrzeć te zmiany, to możemy każdy z tych plików backup'u zamontować
+jak zwykły nośnik (np. pendrive) przy pomocy <code>borg mount</code> :</p>
+<pre><code># borg mount /media/Arti/backup-home::2020-10-06T18:02:46 /media/borg-old
+# borg mount /media/Arti/backup-home::2020-10-06T18:25:46 /media/borg-new
+
+# mount | grep  -i borg
+borgfs on /media/borg-old type fuse (ro,nosuid,nodev,relatime,user_id=0,group_id=0,default_permissions)
+borgfs on /media/borg-new type fuse (ro,nosuid,nodev,relatime,user_id=0,group_id=0,default_permissions)
+</code></pre>
+<p>Po zamontowaniu plików backup'u, katalogi <code>/media/borg-*</code> można bez problemu przeglądać, choć nie
+da rady w nich nic zapisywać (są zamontowane w trybie tylko do odczytu). Mając dwa katalogi możemy
+np. przy pomocy <code>meld</code> podejrzeć różnice między nimi. Z racji, że katalog <code>/home/</code> może być dość
+rozbudowany, to zawsze możemy zawęzić diff do konkretnego podkatalogu czy pliku:</p>
+<pre><code># meld /media/borg-*/home/morfik/.config/
+</code></pre>
+<p>I w ten sposób już powinniśmy bez problemu dociec co dokładnie zostało zmienione między tymi dwoma
+diff'owanymi backup'ami:</p>
+<p><img src="https://morfikov.github.io/img/2020/10/001-borgbackup-borg-backup-mount-file-linux-debian.png#huge" alt=""></p>
+<p><img src="https://morfikov.github.io/img/2020/10/002-borgbackup-borg-backup-mount-file-linux-debian.png#huge" alt=""></p>
+<p>Jak skończymy sprawdzać zmiany, to nie zapomnijmy odmontować tych plików backup'u. Jeśli któryś z
+tych plików będzie zamontowany, to <code>borg</code> odmówi przeprowadzania kolejnych kopii zapasowych i zwróci
+poniższy błąd:</p>
+<pre><code># borg create \
+  --compression zstd,15 \
+  --one-file-system \
+  --stats /media/Arti/backup-home::{now} \
+  --patterns-from /media/Kabi/backup-home-file-list \
+  --progress
+
+Failed to create/acquire the lock /media/Arti/backup-home/lock (timeout).
+</code></pre>
+<p>By ten komunikat się nie pojawił, to w terminalu wpisujemy:</p>
+<pre><code># borg umount /media/borg-*
+</code></pre>
+<h3 id="tworzenie-kopii-zapasowej-wielu-katalogów">Tworzenie kopii zapasowej wielu katalogów</h3>
+<p>Ten powyżej opisany przykład jest bardzo prosty, bo dotyczy w zasadzie jednego katalogu. Co jednak
+w przypadku, gdy chcemy tych katalogów w pojedynczym pliku backup'u uwzględnić więcej. Przykładowo
+mamy listę pojedynczych plików z katalogów <code>/etc/</code> oraz <code>/home/</code> . W takiej sytuacji postępujemy
+bardzo podobnie do opisanego wcześniej przykładu, tj. tworzymy plik listy z wzorami dopasowań o
+poniższej zawartości:</p>
+<pre><code>R /etc/
+- /etc/**/*Cache*/**
+- /etc/**/*cache*/**
++ /etc/apparmor.d/
++ /etc/apt/listchanges.conf
+- /etc/**
+
+R /home/morfik/
+- /home/morfik/**/*Cache*/**
+- /home/morfik/**/*cache*/**
++ /home/morfik/.bash_history
++ /home/morfik/.bashrc
++ /home/morfik/.config/autostart/
++ /home/morfik/.config/compton.conf
+- /home/morfik/**
+</code></pre>
+<p>Przy pomocy <code>R</code> wskazujemy tym razem dwie ścieżki zamiast jednej. Pliki i katalogi, które
+zamierzamy dołączyć do kopii zapasowej poprzedzamy znakiem <code>+</code> , zaś te które chcemy pominąć
+znakiem <code>-</code> . Reguły ze znakiem <code>-</code> dajemy na początek. Wyjątkiem jest ostatnia reguła w każdej z
+tych dwóch zwrotek. Jej zadaniem jest pominięcie pozostałych plików w tych katalogach. Zatem tylko
+te pliki, które mają znak <code>+</code> będą figurować w pliku backup'u.</p>
+<h2 id="cykliczny-backup-przy-wykorzystaniu-crona">Cykliczny backup przy wykorzystaniu cron'a</h2>
+<p>Z racji, że przestrzeń pod kopie zapasowe tworzone przez borg'a nie kurczy się w tak szybkim tempie
+jak by to miało miejsce w przypadku <code>rsync</code>/<code>tar</code> , to możemy tych kopii tworzyć więcej. Oczywiście
+takie manualne tworzenie backup'u można zautomatyzować przy pomocy <code>cron</code> . W tym celu wystarczy
+dodać tę poniższą linijkę do tablicy cron'a (via <code>crontab -e</code> ):</p>
+<pre><code>30  17  *   *   6   borg create --compression zstd,15 --one-file-system --stats /media/Arti/backup-home::{now} --patterns-from /media/Arti/backup-home-file-list
+</code></pre>
+<p>W ten sposób <a href="https://crontab.guru/#30_17_*_*_6">w soboty o 17:30</a> ten backup będzie przeprowadzany automatycznie. Możemy także
+nadać najniższy priorytet temu zadaniu przy pomocy <code>nice -n 19</code> i <code>ionice -c 3</code> , tak by zbytnio
+nie odczuwać spowolnienia pracy systemu podczas procesu tworzenia kopii zapasowych.</p>
+<h3 id="maksymalna-ilość-plików-backupu">Maksymalna ilość plików backup'u</h3>
+<p>W przypadku automatyzacji procesu tworzenia kopii zapasowych trzeba liczyć się z faktem, że ani się
+nie obejrzymy, a będziemy mieli tych kopii bardzo dużo. Przydałoby się usuwać stare backup'y
+automatycznie i do tego celu służy <a href="https://borgbackup.readthedocs.io/en/stable/usage/prune.html">polecenie borg prune</a>. Pamiętajmy jednak, że korzystanie z
+tego polecenia może nieść ze sobą poważne konsekwencje, bo pliki kopii zapasowych mogą zostać
+trwale usunięte. Dlatego też do poniższych przykładów dobrze jest dodać parametry <code>--list</code> oraz
+<code>--dry-run</code> , by podejrzeć ewentualne zmiany i mieć pewność, że zostaną usunięte tylko te pliki
+backup'u, które faktycznie chcemy usunąć.</p>
+<h4 id="usuwanie-kopii-zapasowych-starszych-niż-30-dni">Usuwanie kopii zapasowych starszych niż 30 dni</h4>
+<p>Możemy np. ustawić limit czasu, tak by starsze kopie zapasowe były usuwane, gdy tylko ten czas
+zostanie przekroczony. Dla przykładu, jeśli podamy w parametrze <code>--keep-within</code> wartość <code>30d</code> , to
+tylko te backup'y utworzone w okresie ostatnich 30 dni nie zostaną usunięte. Jeśli backup'y będą
+starsze niż ten okres czasu, to wtedy system się ich pozbędzie. Zatem potrzebne nam będzie to
+poniższe polecenie:</p>
+<pre><code># borg prune --list --stats --keep-within 30d /media/Arti/backup-home
+</code></pre>
+<h4 id="ustawienie-limitu-jednej-kopii-na-dzień">Ustawienie limitu jednej kopii na dzień</h4>
+<p>Czasami kopie zapasowe mogą być tworzone w liczbie kilku-kilkunastu na dzień. W ten sposób to
+powyższe rozwiązanie niekoniecznie może okazać się optymalnym. Tych kopii zapasowych przez jeden
+miesiąc mogłoby nam się uzbierać bardzo dużo, co z kolei przełożyłoby się na sporą ilość
+zajmowanego przez pliki backup'u miejsca. Możemy za to oczyścić kopie zapasowe w oparciu o ostatni
+backup danego dnia, przykładowo:</p>
+<pre><code># borg prune --list --stats --keep-daily 30 /media/Arti/backup-home
+</code></pre>
+<p>Widoczny wyżej <code>--keep-daily</code> sprawia, że maksymalnie 30 backup'ów będzie mogło zostać zachowanych
+(po jednym na każdy dzień). Jeśli tych kopii zapasowych w konkretnym dniu zrobimy więcej, to te
+starsze pliki z danego dnia zostaną usunięte. Możemy także skorzystać z <code>--keep-minutely</code> ,
+<code>--keep-hourly</code> , <code>--keep-weekly</code> , <code>--keep-monthly</code> czy <code>--keep-yearly</code> , by nieco lepiej sobie
+stuningować, które pliki powinny zostać zachowane, a które usunięte.</p>
+<h4 id="usuwanie-kopii-zapasowych-po-przekroczeniu-określonej-ich-liczby">Usuwanie kopii zapasowych po przekroczeniu określonej ich liczby</h4>
+<p>W przypadku, gdy rzadko przeprowadzamy proces tworzenia kopii zapasowych, lepszym rozwiązaniem przy
+czyszczeniu repozytorium może okazać się określenie konkretnej liczby plików backup'u, które
+powinny zostać zachowane, np. 20 ostatnich. Możemy taki stan rzeczy osiągnąć korzystając z
+<code>--keep-last</code> , przykładowo:</p>
+<pre><code># borg prune --list --stats --keep-last 20 /media/Arti/backup-home
+</code></pre>
+<h4 id="ustawienia-mieszane">Ustawienia mieszane</h4>
+<p>Sporą część parametrów konfigurujących czyszczenia plików backup'u można łączyć. W ten sposób
+możemy dość dokładnie wyprofilować proces czyszczenia kopii zapasowych, przykładowo:</p>
+<pre><code># borg prune --list --stats --keep-daily 7 --keep-weekly=4 /media/Arti/backup-home
+</code></pre>
+<p>To powyższe polecenie wyczyści pliki backup'u zostawiając w zasadzie 11 kopii zapasowych, czyli
+<code>--keep-daily 7</code> zostawi po jednej kopii z ostatnich 7 dni, a <code>--keep-weekly=4</code> zostawi po jednej
+kopii z ostatnich 4 tygodni. W rezultacie będziemy mieć 11 kopii zapasowych. Warto tutaj jeszcze
+zaznaczyć, że jeśli w danym dniu brakuje backup'u, to zostanie zachowany w jego miejscu starszy
+backup, tak by liczba plików kopii zapasowych się zgadzała. Dodatkowo kolejność reguł ma znaczenie.
+Jeśli backup z danego dnia zostanie dopasowany do pierwszej reguły, to automatycznie ten plik
+backup'u wypada z drugiej reguły (i kolejnych jeśli są określone). Dlatego tych plików jest 11, a
+nie 10.</p>
+<h2 id="zdalny-backup-via-ssh">Zdalny backup via SSH</h2>
+<p>W tym artykule skupiliśmy się głównie na tworzeniu lokalnych kopii zapasowych ale borg jest w
+stanie również działać w konfiguracji klient-server. Niestety nie mam jak obecnie przetestować tej
+konfiguracji, bo na zdalnej maszynie trzeba również by zainstalować borg'a i odpowiednio
+skonfigurować połączenie SSH. Być może w późniejszym czasie uda mi się to zadanie zrealizować. Tak
+czy inaczej dobrze wiedzieć, że borg taką opcję tworzenia zdalnych kopii zapasowych via SSH oferuje.</p>
+<p>Warto też tutaj wspomnieć, że szyfrowanie zawsze przeprowadzane jest lokalnie, tj. wszystkie pliki
+backup'u przechowywane zdalnie są chronione przed ewentualną kompromitacją serwera. Oczywiście w
+dalszym ciągu ktoś te pliki z serwera będzie w stanie skasować ale grunt, że nigdy nie pozna nich
+zawartości.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>BorgBuckup jest bardzo prostym narzędziem do tworzenia kopii zapasowych w środowisku linux'owym.
+Pewnie spora część użytkowników tego systemu będzie obstawać przy zdaniu, że <code>rsync</code> i <code>tar</code>
+powinny w zupełności wystarczyć ale jak można było zobaczyć na żywym przykładzie, deduplikacja
+danych znacząco redukuje ilość potrzebnej przestrzeni dyskowej na pliki backup'u. Bez szyfrowania
+można się obejść, zwłaszcza w przypadku lokalnych kopii zapasowych, przy założeniu, że
+wykorzystujemy pełne szyfrowanie dysku. Proces tworzenia kopii zapasowych możemy w pełni
+zautomatyzować przy pomocy <code>cron</code> , a biorąc pod uwagę korzyści płynące z deduplikacji danych, te
+backup'y możemy robić częściej minimalizując przy tym ryzyko utraty danych, jednocześnie
+upraszczając znacznie zarządzanie plikami backup'u. Niewątpliwą zaletą jest możliwość montowania
+pliku backup'u niczym zwykły nośnik cd/dvd/pendrive, przez co nie musimy takiej paczki pierw
+wypakowywać, co nam zaoszczędza czas, no i też miejsce na dysku. Gdyby jednak ktoś się upierał przy
+formacie <code>.tar.gz</code> , to warto w tym miejscu jeszcze dodać, że taki pojedynczy plik backup'u można
+wyeksportować z repozytorium borg'a do paczki <code>.tar.gz</code> , także gdy zajdzie taka potrzeba, to
+naturalnie paczki <code>tar.gz</code> również można sobie będzie bez problemu zrobić.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/backup/">backup</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">szyfrowanie</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kompresja/">kompresja</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/deduplikacja/">deduplikacja</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-kopii-zapasowej-linux-z-borgbackup%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-kopii-zapasowej-linux-z-borgbackup%2f&amp;text=Tworzenie%20kopii%20zapasowej%20linux%27a%20z%20BorgBackup" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-kopii-zapasowej-linux-z-borgbackup%2f&amp;title=Tworzenie%20kopii%20zapasowej%20linux%27a%20z%20BorgBackup" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-kopii-zapasowej-linux-z-borgbackup%2f&amp;title=Tworzenie%20kopii%20zapasowej%20linux%27a%20z%20BorgBackup" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-kopii-zapasowej-linux-z-borgbackup%2f&title=Tworzenie%20kopii%20zapasowej%20linux%27a%20z%20BorgBackup" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-kopii-zapasowej-linux-z-borgbackup%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-kopii-zapasowej-linux-z-borgbackup%2f&amp;title=Tworzenie%20kopii%20zapasowej%20linux%27a%20z%20BorgBackup" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-kopii-zapasowej-linux-z-borgbackup%2f&description=Tworzenie%20kopii%20zapasowej%20linux%27a%20z%20BorgBackup" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/systemowy-gpg-gnupg-w-thunderbird-78-na-linux/">Systemowy GPG/GnuPG w Thunderbird 78&#43; na linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-odszyfrowac-linux-przy-pomocy-telefonu-z-androidem/">Jak odszyfrować linux&#39;a przy pomocy telefonu z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/">Jak włączyć w Firefox ESNI (Encrypted SNI)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/riseup-vpn-na-strazy-prywatnosci/">Riseup VPN na straży prywatności</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts/">Uwierzytelnianie odpowiedzi z serwerów czasu NTP przy pomocy NTS</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+</body>
+</html>
