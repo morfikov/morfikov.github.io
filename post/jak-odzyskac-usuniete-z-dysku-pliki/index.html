@@ -231,13 +231,13 @@ bajty 256-512.</p>
 Każdy i-węzeł rozpoczyna się od <code>A4 81</code> . Wiemy także, że rozmiar takiego i-węzła to 256 bajtów,
 zatem ładujemy plik i oszukujemy tę wspomnianą wartość. Pamiętajmy, że interesuje nas drugi i-węzeł,
 a nie pierwszy. Zaznaczony niżej fragment odpowiada rozmiarowi pliku:</p>
-<p><img src="https://morfikov.github.io/img/2015/11/1.i-wezel-edytor-hex-ext4-1.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/11/1.i-wezel-edytor-hex-ext4-1.png" alt=""    class="huge"></p>
 <p>W tym przypadku jest to <code>1A</code> co oznacza liczbę 26 i jeśli wrócimy wyżej do logu <code>ls</code> , to faktycznie
 nasz plik tekstowy ma 26 bajtów.</p>
 <p>Jako, że system plików <code>ext4</code> używa <a href="https://pl.wikipedia.org/wiki/Ext4">extent'ów</a>, to 60 bajtów na
 pozycji od 40-99 włącznie (licząc w stosunku do konkretnego i-węzła) przechowuje informacje o
 zakresach bloków:</p>
-<p><img src="https://morfikov.github.io/img/2015/11/2.i-wezel-edytor-hex-ext4-2.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/11/2.i-wezel-edytor-hex-ext4-2.png" alt=""    class="huge"></p>
 <p>W sumie jest to pięć wpisów, każdy po 12 bajtów. Z tym, że pierwsze 12 bajtów to nagłówek, pozostałe
 bajty są w stanie opisać maksymalnie 4 zakresy bloków. Rzućmy zatem okiem na sam nagłówek. Mamy tam
 następujące bajty:</p>
@@ -486,7 +486,7 @@ Journal Inode: 8
 <p>Jako, że i-węzeł miał numer 167, to odszukujemy 7 (7/16) i-węzeł w edytorze. Pamiętajmy, że są one
 numerowane od zera, zatem jest to 1536 bajt. Dla pewności można też sprawdzić rozmiar pliku (offset
 od 4-7 bajta włącznie, przykładowo:</p>
-<p><img src="https://morfikov.github.io/img/2015/11/3.jak-odzyskac-pliki.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/11/3.jak-odzyskac-pliki.png" alt=""    class="huge"></p>
 <p>Powyższy zapis <code>0x001A260D</code> odpowiada za <code>1713677</code> bajtów i faktycznie tyle miał ten plik <code>.mp3</code> .
 Zatem udało się odnaleźć odpowiedni blok. Teraz musimy jeszcze ten plik odzyskać.</p>
 <p>Na początek patrzymy w adresy bloków. W tym przypadku mamy poniższy zapis:</p>

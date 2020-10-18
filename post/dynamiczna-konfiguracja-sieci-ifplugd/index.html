@@ -192,7 +192,7 @@ tylko raz podczas fazy boot i skonfigurowana w tym konkretnym momencie. Jeśli z
 podłączyć się do innej sieci, już po zalogowaniu się do systemu, to nasz linux będzie korzystał ze
 starych ustawień sieci, czego efektem będzie brak połączenia. Poniżej jest zobrazowany moment
 konfiguracji połączenia i przepięcia do drugiej sieci:</p>
-<p><img src="https://morfikov.github.io/img/2016/08/1.konfiguracja-sieci-ifplugd-eth0-log.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/1.konfiguracja-sieci-ifplugd-eth0-log.png" alt=""    class="huge"></p>
 <p>Ostatnie dwa komunikaty, tj. <code>eth0: link down</code> oraz <code>eth0: link up</code> informują nas, że połączenie
 zostało zerwane w tym momencie. Może i zostało ono ponownie ustanowione, tylko co z tego, jak nie
 została pobrana nowa konfiguracja sieci? By to połączenie znów nam działało, musimy ręcznie położyć
@@ -217,12 +217,12 @@ polecenie:</p>
 <p>Naszym oczom pokaże się szereg okienek, które pomogą nam skonfigurować demona <code>ifplugd</code> .</p>
 <p>Poniżej określamy wszystkie interfejsy przewodowe, które mają być ogarniane przez <code>ifplugd</code> (te bez
 hotplug'u) :</p>
-<p><img src="https://morfikov.github.io/img/2016/08/2.konfiguracja-sieci-ifplugd-eth0.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/2.konfiguracja-sieci-ifplugd-eth0.png" alt=""    class="huge"></p>
 <p>W następnym okienku określamy interfejsy z hotplug'iem:</p>
-<p><img src="https://morfikov.github.io/img/2016/08/3.konfiguracja-sieci-ifplugd-eth0.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/3.konfiguracja-sieci-ifplugd-eth0.png" alt=""    class="huge"></p>
 <p>Dalej mamy instrukcję dotyczącą opcji demona (można przewijać strzałkami). Domyślnie są
 wykorzystywane te poniższe flagi:</p>
-<p><img src="https://morfikov.github.io/img/2016/08/4.konfiguracja-sieci-ifplugd-eth0.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/4.konfiguracja-sieci-ifplugd-eth0.png" alt=""    class="huge"></p>
 <p>Z tych powyższych dostosowujemy jedynie <code>-u</code> i <code>-d</code> odpowiadające za czas rekonfiguracji interfejsu
 sieciowego. W tym przypadku ustawiliśmy czas 2 sekundy. Po odłączeniu przewodu, interfejs zostanie
 położony po około dwóch sekundach. Podobnie sprawa wygląda po podłączeniu przewodu do karty
@@ -232,20 +232,20 @@ system w taki stan. Dobrze jest tutaj ustawić <code>stop</code> , bo to zresetu
 przydaje się przy korzystaniu z narzędzi takich jak <code>guessnet</code> lub <code>whereami</code> , które są w stanie
 wykryć zmiany w środowisku sieciowym, np. podczas hibernacji laptop z roboty przynieśliśmy do domu i
 tutaj go podłączamy do sieci.</p>
-<p><img src="https://morfikov.github.io/img/2016/08/5.konfiguracja-sieci-ifplugd-eth0.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/5.konfiguracja-sieci-ifplugd-eth0.png" alt=""    class="huge"></p>
 <p>Wszystkie te powyżej określone ustawienia są zapisywane w pliku <code>/etc/default/ifplugd</code> (dawniej w
 <code>/etc/ifplugd/ifplugd.conf</code> ). Demona możemy naturalnie konfigurować bezpośrednio przez ten plik,
 tylko pamiętajmy, by zresetować demona po dokonaniu zmian.</p>
 <h2 id="test-połączenia">Test połączenia</h2>
 <p>Demon powinien już nasłuchiwać i przydałoby się przetestować jak działa nasze połączenie sieciowe.
 Podłączamy zatem przewód do karty sieciowej i patrzymy w log:</p>
-<p><img src="https://morfikov.github.io/img/2016/08/6.konfiguracja-sieci-ifplugd-eth0-log.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/6.konfiguracja-sieci-ifplugd-eth0-log.png" alt=""    class="huge"></p>
 <p>Jak widzimy, demon <code>ifplugd</code> podniósł interfejs sieciowy <code>eth0</code> i uzyskaliśmy adresację sieci. No to
 teraz wyciągnijmy wtykę z portu i zobaczmy co się stanie:</p>
-<p><img src="https://morfikov.github.io/img/2016/08/7.konfiguracja-sieci-ifplugd-eth0-log.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/7.konfiguracja-sieci-ifplugd-eth0-log.png" alt=""    class="huge"></p>
 <p>Interfejs został położony zgodnie z planem. No to jeszcze sprawdźmy czy przy podłączeniu do drugiej
 sieci, adresacja zostanie zmieniona również bez większego problemu:</p>
-<p><img src="https://morfikov.github.io/img/2016/08/8.konfiguracja-sieci-ifplugd-eth0-log.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/8.konfiguracja-sieci-ifplugd-eth0-log.png" alt=""    class="huge"></p>
 <p>I o takie zachowanie nam chodziło.</p></div>
 				
 				<footer class="entry__footer">

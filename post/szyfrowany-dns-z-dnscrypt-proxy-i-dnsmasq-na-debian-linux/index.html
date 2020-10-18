@@ -920,7 +920,7 @@ standardowo nie odwiedzamy. Chodzi o to by uniknąć ewentualnego trafienia w ca
 przypadku zapytanie DNS naturalnie nie zostanie rozwiązane, tylko odpowiedź zostanie wzięta z tego
 cache.</p>
 <p>Na poniższym obrazku mamy widoczny podgląd portu 53 protokołu TCP/UDP interfejsu <code>lo</code> :</p>
-<p><img src="https://morfikov.github.io/img/2020/09/001-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/001-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png" alt=""    class="huge"></p>
 <p>Jak widzimy, na interfejsie lokalnym ruch DNS odbywa się w postaci odszyfrowanej. Pierwsze dwa
 pakiety (te ze źródłowym i docelowym adresem <code>127.0.0.1</code> ) to zapytania linux'owego resolver'a do
 dnsmasq o adresy IPv4 (rekord <code>A</code> ) i IPv6 (rekord <code>AAAA</code> ).  Następnie dnsmasq przekazuje te
@@ -930,19 +930,19 @@ dnscrypt-proxy przesyła je do dnsmasq, a na końcu dnsmasq do linux'owego resol
 i dnscrypt-proxy rozmawiają ze sobą i przekazują między sobą zarówno zapytania jak i odpowiedzi. No
 ale co się dzieje z tymi zapytaniami DNS, gdy docierają do interfejsu <code>bond0</code> ? Podejrzyjmy zatem
 port 53 na interfejsie <code>bond0</code> :</p>
-<p><img src="https://morfikov.github.io/img/2020/09/002-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/002-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png" alt=""    class="huge"></p>
 <p>Brak jakiegokolwiek ruchu, zatem na interfejsie wychodzącym z naszej maszyny nie widać żadnych
 zapytań DNS.</p>
 <p>To co się właściwie dzieje z tymi zapytaniami DNS? Są one przesyłane do serwera DNS CloudFlare na
 port 443 (jako, że w opisanej wyżej konfiguracji korzystamy z DoH). Zobaczmy zatem co się dzieje na
 interfejsie <code>bond0</code> na porcie 443:</p>
-<p><img src="https://morfikov.github.io/img/2020/09/003-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/003-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png" alt=""    class="huge"></p>
 <p>Jak widzimy, nasza maszyna rozmawia z serwerem <code>1.0.0.1</code> przy wykorzystaniu protokołu TLS 1.3.
 Wiemy zatem, że nasze zapytania DNS są przesyłane przez sieć w formie zaszyfrowanej i nikt
 nieuprawniony nie jest w stanie ich podejrzeć.</p>
 <p>Jeśli się przyjrzymy uważnie, to zapytania <code>AAAA</code> (o adres IPv6) są blokowane, a właściwie
 odpowiada na nie dnscrypt-proxy komunikatami <code>CPU: AAAA queries have been locally blocked by dnscrypt-proxy</code> oraz <code>OS: Set block_ipv6 to false to disable this feature</code> :</p>
-<p><img src="https://morfikov.github.io/img/2020/09/004-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/004-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png" alt=""    class="huge"></p>
 <p>Czyli wszystko działa prawidłowo.</p>
 <h2 id="szyfrowany-dns-sam-w-sobie-nie-wystarczy">Szyfrowany DNS sam w sobie nie wystarczy</h2>
 <p>Szyfrowany DNS co do zasady uniemożliwia podejrzenie pakietów i podsłuchanie ruchu DNS na linii

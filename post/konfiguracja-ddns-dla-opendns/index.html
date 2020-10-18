@@ -189,9 +189,9 @@ artykule przyjrzymy się nieco bliżej temu mechanizmowi.</p>
 <a href="https://www.opendns.com/">OpenDNS</a>. Utworzenie konta i dostosowanie ustawień raczej nie powinno
 sprawić problemów, zatem nie będziemy tutaj tego procesu opisywać. To co nas interesuje, to aktualny
 adres IP, który zostanie nam zwrócony tuż po zalogowaniu się. W tym przypadku mamy:</p>
-<p><img src="https://morfikov.github.io/img/2016/05/1.ddns-opendns.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/1.ddns-opendns.png" alt=""    class="huge"></p>
 <p>Niemniej jednak, jeśli przejdziemy na zakładkę SETTINGS, to figuruje tam poniższa sieć:</p>
-<p><img src="https://morfikov.github.io/img/2016/05/2.ddns-opendns.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/2.ddns-opendns.png" alt=""    class="huge"></p>
 <p>Widzimy na powyższym obrazku dwa adresy IP. Ten na górze jest aktualnie przydzielony w konfiguracji,
 zaś ten na dole został automatycznie wykryty prze OpenDNS. Nie pasują one do siebie i w tym cały
 problem. W takim przypadku, usługa DNS jest skonfigurowana nie na ten adres, który potrzeba. W
@@ -260,26 +260,26 @@ odpowiednie uprawnienia:</p>
 </code></pre>
 <p>Wracamy teraz do panelu dostępnego na stronie OpenDNS. Wybieramy kolejno zakładkę SETTINGS, naszą
 sieć oraz z menu po lewej stronie &quot;Advanced Settings&quot;. Zaznaczamy tutaj opcję: <code>Enable dynamic IP update </code> :</p>
-<p><img src="https://morfikov.github.io/img/2016/05/3.ddns-opendns.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/3.ddns-opendns.png" alt=""    class="huge"></p>
 <p>Sprawdzamy teraz całą konfigurację poniższym poleceniem:</p>
 <pre><code># ddclient -daemon=0 -debug -verbose -noquiet
 </code></pre>
 <p>W terminalu powinien się pojawić dość obszerny komunikat, a w logu ta oto poniższa wiadomość:</p>
-<p><img src="https://morfikov.github.io/img/2016/05/5.ddns-opendns.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/5.ddns-opendns.png" alt=""    class="huge"></p>
 <p>Jeśli adres IP uległ zmianie, tak jak to możemy zaobserwować na powyższym obrazku, oznacza, to, że
 wszystko działa jak należy. Możemy także przejść na stronę OpenDNS i sprawdzić czy tam w
 konfiguracji jest uwzględniony nowy adres IP:</p>
-<p><img src="https://morfikov.github.io/img/2016/05/4.ddns-opendns.png#big" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/4.ddns-opendns.png" alt=""    class="big"></p>
 <h2 id="dns-o-matic-od-opendns">DNS-O-Matic od OpenDNS</h2>
 <p>W przypadku, gdy mamy do czynienia z szeregiem usług, które wymagają aktualizacji adresu IP, możemy
 zaprzęgnąć do pracy z <a href="http://www.dnsomatic.com/">DNS-O-Matic</a> od OpenDNS. Wykorzystuje ono klienta
 DDNS, tego samego co wyżej sobie skonfigurowaliśmy, z tą różnicą, że upraszcza nieco zarządzanie
 usługami. Operowanie na DNS-O-Matic sprowadza się do dodania odpowiedniej usługi:</p>
-<p><img src="https://morfikov.github.io/img/2016/05/6.ddns-ddclient-dns-o-matic.png#big" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/6.ddns-ddclient-dns-o-matic.png" alt=""    class="big"></p>
 <p>Następnie konfigurujemy sobie tą usługę. W tym przypadku dodałem OpenDNS:</p>
-<p><img src="https://morfikov.github.io/img/2016/05/7.ddns-ddclient-dns-o-matic.png#big" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/7.ddns-ddclient-dns-o-matic.png" alt=""    class="big"></p>
 <p>Po skonfigurowaniu, usługa powinna oczekiwać na pierwszy update:</p>
-<p><img src="https://morfikov.github.io/img/2016/05/8.ddns-ddclient-dns-o-matic.png#big" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/8.ddns-ddclient-dns-o-matic.png" alt=""    class="big"></p>
 <p>W tej chwili musimy nieco zmienić konfigurację klienta <code>ddclient</code> w pliku <code>/etc/ddclient.conf</code>.
 Przepisujemy ją do poniższej postaci:</p>
 <pre><code>syslog=yes
@@ -302,7 +302,7 @@ all.dnsomatic.com
 <pre><code># ddclient -daemon=0 -verbose -noquiet
 </code></pre>
 <p>Jeśli połączenie zakończy się sukcesem, to na stronie powinniśmy ujrzeć poniższy komunikat:</p>
-<p><img src="https://morfikov.github.io/img/2016/05/9.ddns-ddclient-dns-o-matic.png#big" alt=""></p></div>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/9.ddns-ddclient-dns-o-matic.png" alt=""    class="big"></p></div>
 				
 				<footer class="entry__footer">
 					

@@ -591,11 +591,11 @@ powinien bez większego problemu podłączyć się do serwera SDP.</p>
 <code>bluetoothctl</code> . Zakładając, że odpowiednie usługi już działają nam w tle, to możemy przejść do
 konfiguracji bluetooth na smartfonie i na Debianie. Na smartfonie nie powinno być większych
 problemów. Przechodzimy do Ustawienia =&gt; Bluetooth i aktywujemy nadajnik:</p>
-<p><img src="https://morfikov.github.io/img/2016/11/001.linux-debian-bluetooth-smartfon-aktywacja-telefon.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/001.linux-debian-bluetooth-smartfon-aktywacja-telefon.png" alt=""    class="huge"></p>
 <p>Smartfon powinien zacząć wyszukiwać dostępne urządzenia ale nie znajdzie jeszcze naszego komputera.
 Musimy pierw uczynić go możliwym do odnalezienia. Odpalamy zatem terminal i jako zwykły użytkownik
 wpisujemy <code>bluetoothctl</code> (działa autouzupełnianie za pomocą klawisza Tab):</p>
-<p><img src="https://morfikov.github.io/img/2016/11/002.linux-debian-bluetooth-smartfon-informacje-usb-adapter.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/002.linux-debian-bluetooth-smartfon-informacje-usb-adapter.png" alt=""    class="huge"></p>
 <p>Mamy tutaj informacje na temat aktualnie podpiętego adaptera bluetooth do portu USB komputera. Nazwa
 widoczna przy skanowaniu to wykorzystywany hostname. Klasa z kolei określa usługi jakie dana maszyna
 jest w stanie świadczyć. <a href="http://bluetooth-pentest.narod.ru/software/bluetooth_class_of_device-service_generator.html">Dokładna lista jest uwzględniona
@@ -608,7 +608,7 @@ kolejno poniższe polecenia:</p>
 [bluetooth]# discoverable on
 [bluetooth]# pairable on
 </code></pre>
-<p><img src="https://morfikov.github.io/img/2016/11/003.linux-debian-bluetooth-smartfon-aktywacja-komputer.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/003.linux-debian-bluetooth-smartfon-aktywacja-komputer.png" alt=""    class="huge"></p>
 <p>Teraz możemy sprawować urządzenia. Ten proces może zostać zainicjowany ze smartfona lub z komputera.
 W przypadku smartfona raczej nie powinno być problemów, to sparujmy te urządzenia inicjując cały
 proces na komputerze.</p>
@@ -619,36 +619,36 @@ dysponują klawiaturami, dlatego też możemy wybrać sobie agenta <code>Keyboar
 <pre><code>[bluetooth]# agent KeyboardOnly
 [bluetooth]# default-agent
 </code></pre>
-<p><img src="https://morfikov.github.io/img/2016/11/004.linux-debian-bluetooth-smartfon-agent.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/004.linux-debian-bluetooth-smartfon-agent.png" alt=""    class="huge"></p>
 <p>Teraz wysyłamy prośbę parowania:</p>
 <pre><code>[bluetooth]# scan on
 [bluetooth]# pair 40:3F:8C:02:41:AD
 </code></pre>
-<p><img src="https://morfikov.github.io/img/2016/11/005.linux-debian-bluetooth-smartfon-parowanie-urzadzen.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/005.linux-debian-bluetooth-smartfon-parowanie-urzadzen.png" alt=""    class="huge"></p>
 <p>Wyżej widzimy, że agent poprosił nas o wpisanie kodu PIN, oraz że wpisany kod to 1234. Teraz
 przechodzimy na telefon. Powinno nam się pojawić to poniższe okienko, w którym wpisujemy PIN:</p>
-<p><img src="https://morfikov.github.io/img/2016/11/006.linux-debian-bluetooth-smartfon-parowanie-urzadzen.png#medium" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/006.linux-debian-bluetooth-smartfon-parowanie-urzadzen.png" alt=""    class="medium"></p>
 <p>Urządzenia mamy sparowane. Dla pewności możemy sprawdzić czy faktycznie system zarówno komputera jak
 i telefonu honoruje te ustawienia.</p>
 <p>Komputer:</p>
-<p><img src="https://morfikov.github.io/img/2016/11/007.linux-debian-bluetooth-smartfon-sparowane-urzadzenia.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/007.linux-debian-bluetooth-smartfon-sparowane-urzadzenia.png" alt=""    class="huge"></p>
 <p>Telefon:</p>
-<p><img src="https://morfikov.github.io/img/2016/11/008.linux-debian-bluetooth-smartfon-sparowane-urzadzenia.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/008.linux-debian-bluetooth-smartfon-sparowane-urzadzenia.png" alt=""    class="huge"></p>
 <p>Wygląda dobrze. Podłączmy zatem ze sobą te dwa sprzęty:</p>
 <pre><code>[bluetooth]# connect 40:3F:8C:02:41:AD
 </code></pre>
-<p><img src="https://morfikov.github.io/img/2016/11/009.linux-debian-bluetooth-smartfon-laczenie-urzadzen.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/009.linux-debian-bluetooth-smartfon-laczenie-urzadzen.png" alt=""    class="huge"></p>
 <p>Na telefonie zaś powinien wyskoczyć status połączony:</p>
-<p><img src="https://morfikov.github.io/img/2016/11/010.linux-debian-bluetooth-smartfon-polaczone-urzadzenia.png#medium" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/010.linux-debian-bluetooth-smartfon-polaczone-urzadzenia.png" alt=""    class="medium"></p>
 <p>Warto zauważyć, że prompt zmienił nazwę z <code>bluetooth</code> na nazwę urządzenia, w tym przypadku
 <code>NeffosC5</code> . Połączenie zostało ustanowione i przydałoby się oznaczyć nasz smartfon jako zaufany:</p>
 <pre><code>[NeffosC5]# trust 40:3F:8C:02:41:AD
 </code></pre>
-<p><img src="https://morfikov.github.io/img/2016/11/011.linux-debian-bluetooth-smartfon-zaufane-urzadzenia.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/011.linux-debian-bluetooth-smartfon-zaufane-urzadzenia.png" alt=""    class="huge"></p>
 <p>Na koniec sprawdzamy jeszcze status smartfona:</p>
 <pre><code>[NeffosC5]# info 40:3F:8C:02:41:AD
 </code></pre>
-<p><img src="https://morfikov.github.io/img/2016/11/012.linux-debian-bluetooth-smartfon-informacje-o-urzadzeniu.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/012.linux-debian-bluetooth-smartfon-informacje-o-urzadzeniu.png" alt=""    class="huge"></p>
 <p>Wygląda dobrze. Możemy zatem przejść do skonfigurowania przesyłania plików jak i streaming'u
 dźwięku.</p>
 <h2 id="problemy-przy-połączeniu-ze-smartfonem-przez-bluetooth">Problemy przy połączeniu ze smartfonem przez bluetooth</h2>
@@ -694,14 +694,14 @@ kernel: input: 40:3F:8C:02:41:AD as /devices/virtual/input/input34
 <h2 id="jak-strumieniować-dźwięk-ze-smartfona-przez-bluetooth">Jak strumieniować dźwięk ze smartfona przez bluetooth</h2>
 <p>W opcjach urządzenia bluetooth na smartfonie mogliśmy zobaczyć, że była tam zaznaczona pozycja
 &quot;Dźwięk multimediów&quot;. Poniżej jest jeszcze raz ta fotka:</p>
-<p><img src="https://morfikov.github.io/img/2016/11/013.linux-debian-bluetooth-smartfon-streaming-dzwieku.png#medium" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/013.linux-debian-bluetooth-smartfon-streaming-dzwieku.png" alt=""    class="medium"></p>
 <p>Jeśli jest ona zaznaczona, to dźwięk powinien być przesłany po bluetooth do komputera praktycznie
 OOTB. Tam powinien go odebrać PulseAudio. Możemy to w bardzo prosty sposób sprawdzić. Uruchommy
 zatem na smartfonie jakąś aplikację, która jest w stanie odtwarzać dźwięk. Ja korzystałem z VLC. Jak
 tylko plik <code>.mp3</code> zaczął być odtwarzany, głośniki mojego komputera zaczęły grać muzykę. Podglądając
 w takim momencie co się dzieje na na serwerze dźwięku (przez <code>pavucontrol</code> ) można zobaczyć coś
 takiego:</p>
-<p><img src="https://morfikov.github.io/img/2016/11/014.linux-debian-bluetooth-smartfon-streaming-dzwiek-pulseaudio.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/014.linux-debian-bluetooth-smartfon-streaming-dzwiek-pulseaudio.png" alt=""    class="huge"></p>
 <p>Ta pozycja <code>loopback from NeffosC5</code> to jest właśnie strumień naszego smartfona, którym można
 dowolnie zarządzać, tak jakby to lokalnie była odtwarzana jakaś aplikacja dźwiękowa. Operowanie
 głośnością na smartfonie również ma efekt na komputerze. Oczywiście przykład z komputerem nie jest
@@ -709,7 +709,7 @@ najlepszy, bo przecie można bez problemu taka muzykę zgrać na dysk z telefonu
 systemu live czy mając zwykłe głośniki bluetooth, to już taki setup nabiera większego sensu.</p>
 <p>Warto też wspomnieć, że smartfony mogą nadawać lepszej jakości dźwięk przez bluetooth. Trzeba tylko
 tę opcję włączyć w Ustawienia =&gt; Dźwięki i Powiadomienia =&gt; Funkcje poprawy dźwięku:</p>
-<p><img src="https://morfikov.github.io/img/2016/11/015.linux-debian-bluetooth-smartfon-poprawa-jakosci-dzwieku.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/015.linux-debian-bluetooth-smartfon-poprawa-jakosci-dzwieku.png" alt=""    class="huge"></p>
 <p>Problem ze smartfonami jest taki, że standardowe ROM'y nie umożliwiają przesłania dźwięku z PC na
 smartfona. Póki co jeszcze nie wiem jak tego typu przedsięwzięcie zorganizować. Jak natknę się na
 jakieś ciekawe info odnośnie tej kwestii, to dorzucę je tutaj. (FIXME)</p>
@@ -915,9 +915,9 @@ zwróconych przez <code>sdptool browse</code> mieliśmy co prawda dwie pozycje o
 zawierała frazy FTP. Z pobieżnego rozeznania wyśledziłem aplikację <a href="https://play.google.com/store/apps/details?id=it.medieval.blueftp">Bluetooth File
 Transfer</a>. Jej zainstalowanie w
 Androidzie uaktywni usługę OBEX FTP:</p>
-<p><img src="https://morfikov.github.io/img/2016/11/016.linux-debian-bluetooth-smartfon-file-transfer.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/016.linux-debian-bluetooth-smartfon-file-transfer.png" alt=""    class="huge"></p>
 <p>Po uruchomieniu tej aplikacji, na dole powinna pojawić się poniższa informacja:</p>
-<p><img src="https://morfikov.github.io/img/2016/11/017.linux-debian-bluetooth-smartfon-file-transfer.png#medium" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/017.linux-debian-bluetooth-smartfon-file-transfer.png" alt=""    class="medium"></p>
 <p>Zatem OBEX FTP został uruchomiony. Sprawdźmy czy faktycznie tak jest przez odpytanie serwera SDP na
 smartfonie:</p>
 <pre><code>$ sdptool browse 40:3F:8C:02:41:AD
@@ -1089,7 +1089,7 @@ sobie tę wartość i łączymy się z telefonem w poniższy sposób:</p>
 <pre><code>$ obexfs -b 40:3F:8C:02:41:AD -B 25 ~/bluetooth/
 </code></pre>
 <p>Udostępniany katalog na smartfonie powinien nam się zamontować we wskazanym wyżej miejscu:</p>
-<p><img src="https://morfikov.github.io/img/2016/11/018.linux-debian-bluetooth-smartfon-obex.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/11/018.linux-debian-bluetooth-smartfon-obex.png" alt=""    class="huge"></p>
 <p>Ten katalog można oczywiście sobie dostosować w opcjach aplikacji na smartfonie. Można również
 autoryzować każde podłączenie. Generalnie, to polecam zajrzenie w opcje aplikacji Bluetooth File
 Transfer.</p>

@@ -222,10 +222,10 @@ potrzebny nam jest firmware Neffos'a Y5, który na szczęście możemy pobrać z
 smartfona</a>. Pamiętajmy by pobrać plik przeznaczony na ten konkretny model telefonu, który
 posiadamy (w tym przypadku TP802A). Poniżej jest pełna specyfikacja wgranego oprogramowania oraz
 dokładne numery mojego smartfona:</p>
-<p><img src="https://morfikov.github.io/img/2017/01/001.neffos-y5-smartfon-tp-link-root-info-model.png#small" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/001.neffos-y5-smartfon-tp-link-root-info-model.png" alt=""    class="small"></p>
 <p>W paczce <code>.zip</code> z firmware, którą pobraliśmy, znajduje się plik <code>boot.img</code> . Musimy go wydobyć w
 celu wyodrębnienia pewnych plików i wgrania ich na portowany obraz <code>recovery.img</code> .</p>
-<p><img src="https://morfikov.github.io/img/2017/01/009.neffos-y5-smartfon-tp-link-root-boot-firmware.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/009.neffos-y5-smartfon-tp-link-root-boot-firmware.png" alt=""    class="huge"></p>
 <h2 id="przepakowanie-obrazu-recoveryimg">Przepakowanie obrazu recovery.img</h2>
 <p>By przepakować obraz przeznaczony na inny smartfon, który jest zbliżony parametrami do naszego
 Neffos'a Y5, musimy pierw pozyskać odpowiednie narzędzia. Na linux'ie możemy skorzystać tego celu z
@@ -410,7 +410,7 @@ pierw odblokować bootloader.</p>
 podczas odblokowywania jest inicjowany <a href="https://morfikov.github.io/post/android-reset-ustawien-do-fabrycznych-factory-defaults/">factory reset</a>. Dane na karcie SD pozostają nietknięte.
 By ten proces zainicjować zaczynamy od przestawienia jednej opcji w telefonie. W tym celu musimy
 udać się w Ustawienia =&gt; Opcje Programistyczne i tam przełączyć <code>Zdjęcie blokady OEM</code> :</p>
-<p><img src="https://morfikov.github.io/img/2017/01/002.neffos-y5-smartfon-tp-link-root-unlock-bootloader.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/002.neffos-y5-smartfon-tp-link-root-unlock-bootloader.png" alt=""    class="huge"></p>
 <p>Następnie w terminalu wpisujemy poniższe polecenia:</p>
 <pre><code># adb reboot bootloader
 # fastboot devices
@@ -479,11 +479,11 @@ backup całej partycji, bo wtedy robimy backup tylko danych i nie wchodzi w to w
 <p>Jak już ustalimy jakie partycje uwzględnimy w backup'ie, to przechodzimy do pozycji Kopia i
 wybieramy kartę SD oraz zaznaczamy odpowiednie obszary pamięci flash, tak jak to widać na poniższej
 fotce:</p>
-<p><img src="https://morfikov.github.io/img/2017/01/003.neffos-y5-smartfon-tp-link-root-backup-flash.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/003.neffos-y5-smartfon-tp-link-root-backup-flash.png" alt=""    class="huge"></p>
 <p>W przypadku robienia pełnego backup'u, cały proces może zająć dłuższą chwilę. Po jego ukończeniu, na
 karcie SD pojawi się obraz flash'a, który możemy sprawdzić w <code>gdisk</code> lub <code>parted</code> :</p>
-<p><img src="https://morfikov.github.io/img/2017/01/0041.neffos-y5-smartfon-tp-link-root-gdisk-flash.png#huge" alt=""></p>
-<p><img src="https://morfikov.github.io/img/2017/01/0042.neffos-y5-smartfon-tp-link-root-parted-flash.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/0041.neffos-y5-smartfon-tp-link-root-gdisk-flash.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/0042.neffos-y5-smartfon-tp-link-root-parted-flash.png" alt=""    class="huge"></p>
 <h2 id="wgranie-obrazu-recovery-z-twrp-na-neffos-y5">Wgranie obrazu recovery z TWRP na Neffos Y5</h2>
 <p>Po sprawdzeniu czy obraz się boot'uje poprawnie i dokonaniu backup'u określonych obszarów pamięci
 flash, możemy ten obraz wgrać na telefon lub też możemy zainstalować jedynie samo SuperSU. Ja
@@ -508,20 +508,20 @@ wrzucamy ją w pobranej formie na kartę SD w telefonie. Odpalamy teraz tryb rec
 (VolumeUp + Power) i przechodzimy do Instaluj i wskazujemy paczkę <code>.zip</code> , którą umieściliśmy na
 karcie SD. Tam z kolei zaznaczamy <code>Weryfikuj sygnatury pliku ZIP</code> i przeciągamy trzy strzałki na
 prawą stronę.</p>
-<p><img src="https://morfikov.github.io/img/2017/01/005.neffos-y5-smartfon-tp-link-root-instalacja-supersu.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/005.neffos-y5-smartfon-tp-link-root-instalacja-supersu.png" alt=""    class="huge"></p>
 <p>Teraz możemy uruchomić ponownie Neffos'a Y5 i zainstalować jakąś aplikację, która pokaże nam czy
 nasz smartfon ma root'a.</p>
 <h3 id="sprawdzenie-czy-neffos-y5-ma-roota">Sprawdzenie czy Neffos Y5 ma root'a</h3>
 <p>Po uruchomieniu się systemu na smartfonie, instalujemy aplikację <a href="https://play.google.com/store/apps/details?id=com.jrummyapps.rootchecker">RootCheck</a>, po czym
 uruchamiamy ją. Powinien się pojawić monit informujący, że ta aplikacja żąda praw administracyjnych,
 na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosowny komunikat:</p>
-<p><img src="https://morfikov.github.io/img/2017/01/006.neffos-y5-smartfon-tp-link-root-check.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/006.neffos-y5-smartfon-tp-link-root-check.png" alt=""    class="huge"></p>
 <h3 id="instalacja-busybox">Instalacja BusyBOX</h3>
 <p>Kolejnym krokiem jest instalacja <a href="https://play.google.com/store/apps/details?id=stericson.busybox">BusyBOX'a</a>. Po wgraniu tej aplikacji na smartfona, musimy ją
 uruchomić i wcisnąć w niej przycisk <code>install</code> . BusyBOX również nas poprosi o dostęp do praw
 administracyjnych. Po zainstalowaniu, weryfikujemy jeszcze, czy aby wszystko zostało pomyślne
 wgrane. Możemy to zrobić zarówno w samej aplikacji BusyBOX, jak w CheckRoot:</p>
-<p><img src="https://morfikov.github.io/img/2017/01/007.neffos-y5-smartfon-tp-link-root-busybox.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/007.neffos-y5-smartfon-tp-link-root-busybox.png" alt=""    class="huge"></p>
 <h3 id="instalacja-terminala">Instalacja terminala</h3>
 <p>Generalnie rzecz biorąc, terminal jako taki nie jest obowiązkowy, bo SuperSU jak i BusyBOX są
 wymagane przez konkretne aplikacje do poprawnego ich działania. Niemniej jednak, jeśli zamierzamy
@@ -533,7 +533,7 @@ systemie. Jako, że ja korzystam na co dzień z Debiana, to instaluję Termux'a.
 <h3 id="aplikacje-i-prawa-administracyjne">Aplikacje i prawa administracyjne</h3>
 <p>Teraz już pozostało nam tylko odpalenie terminala i zalogowanie się na użytkownika root. Do tego
 celu służy polecenie <code>su</code> . Wpiszmy je zatem w okienku Termux'a:</p>
-<p><img src="https://morfikov.github.io/img/2017/01/008.neffos-y5-smartfon-tp-link-root-termux-check.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/008.neffos-y5-smartfon-tp-link-root-termux-check.png" alt=""    class="huge"></p>
 <p>I teraz możemy uruchamiać aplikacje z prawami admina, tak jak to zwykliśmy robić w każdym innym
 linux'ie. Pamiętajmy tylko, że standardowo system plików jest zamontowany w trybie tylko do odczytu
 (RO) i by móc zmieniać pliki systemowe z poziomu tego terminala, musimy przemontować system plików w

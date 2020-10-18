@@ -194,7 +194,7 @@ mechanizm oznaczania pakietów i połączeń. Na sam początek stwórzmy sobie w
 <p>W zależności od przeznaczenia oznaczeń (kontrola ruchu, routing) trzeba dobrać odpowiednie łańcuchy.
 Chodzi generalnie o to, że pakiety w <code>iptables</code> przechodzą przez ten filtr w pewien określony
 sposób. Jest on przedstawiony na poniższej fotce (<a href="https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg">źródło</a>):</p>
-<p><img src="https://morfikov.github.io/img/2016/05/1.iptables-przeplyw-pakietow-netfilter.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/1.iptables-przeplyw-pakietow-netfilter.png" alt=""    class="huge"></p>
 <p>Teraz w łańcuchach <code>base-1</code> oraz <code>base-2</code> umieszczamy po bazie oznaczającej całe połączenia:</p>
 <p>Pierwsza baza markująca:</p>
 <pre><code># iptables -t mangle -A base-1 -j CONNMARK --restore-mark --nfmask 0x0000ff00 --ctmask 0x0000ff00
@@ -252,10 +252,10 @@ miejsca przeznaczenia ping'u, pakiety zostaną tutaj oznaczone 0x1 lub 0x2. Jako
 innej maski, to te wartości zostaną dodane do tej poprzedniej. Czyli pakiet po przejściu przez drugą
 bazę markującą będzie miał oznaczenie 0x101 lub 0x102 , czyli 257 lub 258. Poniżej prezentuje się
 listing tablicy <code>mangle</code> :</p>
-<p><img src="https://morfikov.github.io/img/2016/05/1.tablica-mangle-iptables-mark-oznaczanie-pakietow.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/1.tablica-mangle-iptables-mark-oznaczanie-pakietow.png" alt=""    class="huge"></p>
 <p>Sprawdźmy czy ten mechanizm działa jak należy. Odpalamy zatem terminal i wysyłamy żądania <code>ping</code> do
 kilku serwisów:</p>
-<p><img src="https://morfikov.github.io/img/2016/05/2.ping-iptables-mark-oznaczanie-pakietow-conntrack.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/2.ping-iptables-mark-oznaczanie-pakietow-conntrack.png" alt=""    class="huge"></p>
 <p>W górnym okienku mamy podgląd tablicy conntrack'a. W pozostałych czterech oknach mamy ping'i.
 Widzimy, że tablica conntrack'a jest filtrowana i zwracane są wyniki ze znacznikiem innym niż 0.
 Wszystkie żądania <code>ping</code> zostały oznaczone znacznikiem minimum 0x100, czyli minim 256. Dwa z wpisów
@@ -263,7 +263,7 @@ conntrack'a mają przypisany mark 0x101 oraz 0x102, czyli 257 i 268 w zapisie dz
 połączenia, które zostały dopasowane w obu bazach markujących. Pozostałe zaś zostały dopasowane
 tylko w pierwszej bazie i dlatego ich oznaczenie wskazuje na 0x100, czyli 256. Jeśli podejrzymy
 jeszcze raz reguły w tablicy <code>mangle</code> , powinniśmy zobaczyć szereg dopasowań:</p>
-<p><img src="https://morfikov.github.io/img/2016/05/3.tablica-mangle-iptables-mark-oznaczanie-pakietow.png#huge" alt=""></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/3.tablica-mangle-iptables-mark-oznaczanie-pakietow.png" alt=""    class="huge"></p>
 <p>Mamy cztery sesje <code>ping</code> . W łańcuchu <code>marking-1</code> mamy cztery dopasowania, zaś w łańcuchu
 <code>marking-2</code> mamy dwa dopasowania. W łańcuchach <code>base-1</code> oraz <code>base-2</code> w regule drugiej (ta z
 <code>RETURN</code>) również mamy kilka dopasowań, co wskazuje, że oznaczenie części pakietów różni się od 0x0
