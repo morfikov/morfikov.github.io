@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/tags/debian/" />
-<meta property="og:updated_time" content="2020-10-08T19:05:00+02:00" />
+<meta property="og:updated_time" content="2020-10-18T10:45:00+02:00" />
 
 		<meta itemprop="name" content="debian">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -106,6 +106,38 @@ if (!doNotTrack) {
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/migracja-bloga-z-jekyll-na-hugo-i-jego-publikacja-w-github-pages/">Migracja bloga z Jekyll na Hugo i jego publikacja w GitHub Pages</a></h1>
+	<div class="entry__content"><p>Prawdopodobnie zauważyliście drobne zmiany w wyglądzie tego bloga oraz pewnie też cześć osób miała
+w ostatnim czasie problemy z uzyskaniem do niego dostępu. Odpowiedzialne za zaistniałą sytuację są
+<a href="https://docs.github.com/en/github/working-with-github-pages/about-github-pages#usage-limits">limity narzucone przez GitHub Pages</a>. Zakładają one maksymalny rozmiar repozytorium pod stronę
+WWW w granicach 1 GiB oraz czas budowania takiego serwisu krótszy niż 10 minut. Limit miejsca na
+pliki przekroczony został w zasadzie w chwili przeniesienia bloga WordPress na GitHub Pages.
+Natomiast parę dni temu został przekroczony limit czasu budowania tego projektu. Do momentu
+transformacji, niniejszy blog działał w oparciu o <a href="https://jekyllrb.com/">Jekyll</a>, który generował w zasadzie statyczny
+kod HTML ze zwykłych plików tekstowych (np. artykuły pisane w <a href="https://www.markdownguide.org/">MarkDown</a>). <a href="https://pages.github.com/">GitHub Pages
+posiada wsparcie dla Jekyll</a>, przez co taką stronę WWW można bardzo prosto wdrożyć. Niemniej
+jednak, cały ten mechanizm generowania projektu w obrębie infrastruktury GitHub'a zajmuje bardzo
+dużo czasu. Po rozmowie z supportem okazało się, że gdyby chodziło o miejsce na pliki, to mogli by
+nagiąć reguły i nie było by problemu ale nie dadzą rady tego zrobić w przypadku przekroczenia czasu
+generowania projektu. Dlatego też trzeba było zrezygnować z Jekyll'a i poszukać dla niego jakiejś
+alternatywy. Padło na <a href="https://gohugo.io/">Hugo</a>, który w odróżnieniu od Jekyll'a nie jest jako tako wspierany przez
+GitHub i by <a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/">stronę wygenerowaną przez Hugo podpiąć pod GitHub Pages</a> trzeba się trochę wysilić,
+bo ten proces nie jest automatyczny i właśnie o tym jak dokonać migracji z Jekyll na Hugo w
+kontekście GitHub Pages będzie ten poniższy artykuł.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-08-13T23:50:00&#43;02:00">Opublikowano: 13/08/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -354,35 +386,6 @@ tylko nieco inaczej przygotować nośnik, by móc na nowo cieszyć się korzyśc
 pendrive multiboot.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-03-23T21:50:00Z">Opublikowano: 23/03/2020</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/">Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux</a></h1>
-	<div class="entry__content"><p>W środowiskach linux'owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako
-źródło wszelkiego zła na świecie. Sporo użytkowników linux'a dopatruje się w Secure Boot zamachu na
-wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak,
-odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu
-użytkowników linux'a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak <a href="https://github.com/rhboot/shim">shim</a>
-(no i jest też <a href="https://blog.hansenpartnership.com/linux-foundation-secure-boot-system-released/">PreLoader</a>), który umożliwia dystrybucjom linux'a (jak i ich końcowym
-użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie
-się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich
-miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod
-podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w
-trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma
-na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy
-wykorzystaniu dystrybucji Debiana.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-03-16T19:15:00Z">Opublikowano: 16/03/2020</time>
-	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-07-30T20:45:00&#43;01:00">Zaktualizowano: 30/07/2020</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
