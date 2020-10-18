@@ -23,8 +23,7 @@ umożliwiające naszym komputerom bezprzewodowe połączenie sieciowe. Jest cał
 moglibyśmy podłączyć do naszych laptopów ale nie wszystkie z nich mają na tyle małe wymiary, by ich
 zastosowanie było dla nas iście komfortowe. TP-LINK dysponuje w swojej ofercie kilkoma
 bezprzewodowymi kartami sieciowymi w standardzie micro/mini. W tym wpisie zobaczymy jak na linux'ie
-będzie sprawował się [mini adapter
-TL-WN823N](http://www.tp-link.com.pl/products/details/TL-WN823N.html).
+będzie sprawował się [mini adapter TL-WN823N][1].
 
 <!--more-->
 ## Zawartość pudełka
@@ -37,7 +36,7 @@ Poniżej znajdują się fotki opakowania oraz jego zawartości:
 
 ![](/img/2016/08/2.karta-adapter-TL-WN823N-tp-link.jpg#huge)
 
-![](/img/2016/08/3.karta-adapter-TL-WN823N-tp-link.jp#hugeg)
+![](/img/2016/08/3.karta-adapter-TL-WN823N-tp-link.jpg#huge)
 
 ![](/img/2016/08/4.karta-adapter-TL-WN823N-tp-link.jpg#huge)
 
@@ -59,10 +58,10 @@ wrażenia po wyjęciu adaptera z pudełka. Zobaczmy, czy zadziała on nam bezpro
 ## Adapter TL-WN823N i jego dwie wersje
 
 Zgodnie z tym, co można wyczytać na stronie TP-LINK'a, adapter TL-WN823N ma dwie różne wersje:
-[V1](https://wikidevi.com/wiki/TP-LINK_TL-WN823N_v1) i V2 . W tym przypadku trafiła mi się wersja
-V2. Niestety to urządzenie w tej wersji nie jest w ogóle rozpoznawane przez mojego Debiana z
-kernelem 4.6 i chyba jest to regułą w przypadku wszystkich pozostałych linux'ów. Po podłączeniu
-urządzenia do portu USB, w logu systemowym pojawiają się tylko te poniższe komunikaty:
+[V1][2] i V2 . W tym przypadku trafiła mi się wersja V2. Niestety to urządzenie w tej wersji nie
+jest w ogóle rozpoznawane przez mojego Debiana z kernelem 4.6 i chyba jest to regułą w przypadku
+wszystkich pozostałych linux'ów. Po podłączeniu urządzenia do portu USB, w logu systemowym pojawiają
+się tylko te poniższe komunikaty:
 
     kernel: usb 2-1.3: new high-speed USB device number 10 using ehci-pci
     kernel: usb 2-1.3: New USB device found, idVendor=2357, idProduct=0109
@@ -80,32 +79,29 @@ do portu USB naszego laptopa czy komputera.
 
 ## Sterowniki dla TL-WN823N od TP-LINK
 
-[Na stronie TP-LINK'a są niby sterowniki](http://www.tp-link.com/en/download/TL-WN823N.html) do
-karty TL-WN823N V2. Niemniej jednak, przy ich kompilacji na kernelu 4.6 jest zwracany bliżej nie
-znany mi błąd. W efekcie kompilacja nie może być kontynuowana i nici ze sterownika. Oczywiście na
-stronie mamy wzmiankę, że sterownik jest przeznaczony dla kernela w wersji 2.6.18 - 3.10.10 ale
-przydałoby się go od czasu do czasu zaktualizować. Nawet stabilny Debian ma kernela w wersji 3.16 ,
-a wszyscy wiemy, że nikt z niego nie korzysta, bo za stary.
+[Na stronie TP-LINK'a są niby sterowniki][3] do karty TL-WN823N V2. Niemniej jednak, przy ich
+kompilacji na kernelu 4.6 jest zwracany bliżej nie znany mi błąd. W efekcie kompilacja nie może być
+kontynuowana i nici ze sterownika. Oczywiście na stronie mamy wzmiankę, że sterownik jest
+przeznaczony dla kernela w wersji 2.6.18 - 3.10.10 ale przydałoby się go od czasu do czasu
+zaktualizować. Nawet stabilny Debian ma kernela w wersji 3.16, a wszyscy wiemy, że nikt z niego nie
+korzysta, bo za stary.
 
 ## Moduł 8192eu (rtl8192eu)
 
 No nic, zostawmy te nieszczęsne sterowniki od TP-LINK'a i spróbujmy znaleźć jakieś alternatywne
 rozwiązanie. Z tego co można było wyczytać na wikidev, adapter w wersji V1 był rozpoznawany przez
 system i działał w oparciu o moduł `rtl8192cu` . W przypadku V2 potrzebny nam jest [moduł 8192eu
-(rtl8192eu)](https://github.com/Mange/rtl8192eu-linux-driver/), a takim kernel linux'a póki co nie
-dysponuje. Niemniej jednak, sami [możemy skompilować sobie
-moduł 8192eu](/post/sterowniki-tp-link-tl-wn823n-8192eu/) i podczepić go pod
-mechanizm DKMS. Trzeba tylko wyraźnie zaznaczyć, że moduł jest bardzo ale to bardzo niestabilny i
-może powodować całą masę problemów. Niemniej jednak, karta TL-WN823N potrafi działać na nim dość
-dobrze.
+(rtl8192eu)][4], a takim kernel linux'a póki co nie dysponuje. Niemniej jednak, sami [możemy
+skompilować sobie moduł 8192eu][5] i podczepić go pod mechanizm DKMS. Trzeba tylko wyraźnie
+zaznaczyć, że moduł jest bardzo ale to bardzo niestabilny i może powodować całą masę problemów.
+Niemniej jednak, karta TL-WN823N potrafi działać na nim dość dobrze.
 
 ## Specyfikacja karty TL-WN823N
 
 Karta TL-WN823N działa w paśmie 2,4 GHz (standard N) i teoretycznie może osiągnąć 300 mbit/s.
 Niestety nie dam rady zamieścić wyjścia polecenia `iw list` z powodu braku wsparcia sterownika karty
-dla [interfejsu nl80211](https://wireless.wiki.kernel.org/en/developers/documentation/nl80211). Inne
-narzędzia operujące na tym interfejsie, np. `crda` , `hostapd` czy też `wpa_supplicant` również będą
-mieć problemy z obsługą tej karty.
+dla [interfejsu nl80211][6]. Inne narzędzia operujące na tym interfejsie, np. `crda` , `hostapd`
+czy też `wpa_supplicant` również będą mieć problemy z obsługą tej karty.
 
 Poniżej jest zaś jedynie wyjście polecenia `lsusb` :
 
@@ -276,3 +272,11 @@ dać `wpa-driver wext` , przykładowo:
           wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
 
 Parametry sieci umieszczamy standardowo w pliku określonym przez parametr `wpa-conf` .
+
+
+[1]: http://www.tp-link.com.pl/products/details/TL-WN823N.html
+[2]: https://wikidevi.com/wiki/TP-LINK_TL-WN823N_v1
+[3]: http://www.tp-link.com/en/download/TL-WN823N.html
+[4]: https://github.com/Mange/rtl8192eu-linux-driver/
+[5]: /post/sterowniki-tp-link-tl-wn823n-8192eu/
+[6]: https://wireless.wiki.kernel.org/en/developers/documentation/nl80211

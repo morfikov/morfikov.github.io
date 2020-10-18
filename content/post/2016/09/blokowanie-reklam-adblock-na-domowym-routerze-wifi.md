@@ -178,13 +178,9 @@ granicę 130 MiB. I jeśli faktycznie chcemy mieć sporą ilość wpisów w filt
 nam router z minimum 128 MiB pamięci RAM.
 
 Problem pojawia się także w przypadku filtrowania adresów w oparciu o dużą listę domen. W przypadku
-wykonywania dużej ilości zapytań DNS, proces `dnsmasq` może zjadać praktycznie cały procesor.
-Poniżej fotka z mojego routera Archer C2600:
-
-![](/img/2016/09/3.adblock-openwrt-router-utylizacja-procesor-archer-c2600.png#huge)
-
-Im bardziej rozbudowana jest lista adresów, tym w większym stopniu jest utylizowany procesor, a wiec
-i mocniej odczujemy spadek wydajności przesyłu danych przez router.
+wykonywania dużej ilości zapytań DNS, proces `dnsmasq` może zjadać praktycznie cały procesor. Im
+bardziej rozbudowana jest lista adresów, tym w większym stopniu jest utylizowany procesor, a wiec i
+mocniej odczujemy spadek wydajności przesyłu danych przez router.
 
 ## Regularna aktualizacja list adblock'a
 

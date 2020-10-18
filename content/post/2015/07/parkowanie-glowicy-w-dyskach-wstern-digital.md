@@ -17,10 +17,10 @@ Dyski zużywają się z różnych powodów. Jednak najczęstszą przyczyną są 
 producent w nich implementuje, bo te niezbyt dobrze działają w określonych warunkach, czy też pod
 kontrolą pewnych systemów operacyjnych. Tak właśnie jest w przypadku nowszych dysków firmy Western
 Digital (WD). Maja one wprowadzony ficzer parkowania głowicy w przypadku, gdy dysk [jest
-nieużywany](http://wdc.custhelp.com/app/answers/detail/a_id/5357). Ma to na celu zmniejszyć pobór
-prądu i, co za tym idzie, temperaturę urządzenia. Jako, że parkowanie głowicy w dyskach WD nie
-działa poprawnie pod moim linux'em (dystrybucja Debian), to nasuwa się pytanie: jak wyłączyć
-parkowanie głowicy by wydłużyć żywotność dysku twardego?
+nieużywany][1]. Ma to na celu zmniejszyć pobór prądu i, co za tym idzie, temperaturę urządzenia.
+Jako, że parkowanie głowicy w dyskach WD nie działa poprawnie pod moim linux'em (dystrybucja
+Debian), to nasuwa się pytanie: jak wyłączyć parkowanie głowicy by wydłużyć żywotność dysku
+twardego?
 
 <!--more-->
 ## Parkowanie głowicy zabija dyski pod linux'em
@@ -42,10 +42,10 @@ minuty.
 ## Wartość parametru Load/Unload Cycle
 
 Aktualną wartość parametru odpowiadającego za ilość parkowań głowicy ( `Load/Unload Cycle` ) możemy
-odczytać z raportu [S.M.A.R.T](https://pl.wikipedia.org/wiki/S.M.A.R.T._%28informatyka%29) . Poniżej
-fotka tabeli parametrów zwróconych przez aplikację `gsmartcontrol` :
+odczytać z raportu [S.M.A.R.T][2]. Poniżej fotka tabeli parametrów zwróconych przez aplikację
+`gsmartcontrol` :
 
-![](/img/2015/07/1.parkowanie-głowicy-smart.png#huge)
+![](/img/2015/07/1.parkowanie-glowicy-smart.png#huge)
 
 Możemy także skorzystać z tekstowego odpowiednika `smartctl` :
 
@@ -54,12 +54,12 @@ Możemy także skorzystać z tekstowego odpowiednika `smartctl` :
 
 ## Narzędzie idle3ctl
 
-Za pomocą inżynierii wstecznej [powstał program idle3ctl](http://idle3-tools.sourceforge.net/), za
-pomocą którego jesteśmy w stanie nawet całkowicie wyłączyć parkowanie głowicy. Twórca tego narzędzia
-jednak wyraźnie podkreśla, że nie zaleca zupełnego wyłączania parkowania. Poza tym, zawsze trzeba
-liczyć się z ryzykiem uszkodzenia sprzętu, bo jakby nie patrzeć, to dokonuje się zmian w firmware
-dysku. Ten program jest dostępny w repozytorium dystrybucji Debian w pakiecie `idle3-tools` , z tym,
-że należy pamiętać, że to oprogramowanie operuje jedynie na dyskach z rodziny WD.
+Za pomocą inżynierii wstecznej [powstał program idle3ctl][3], za pomocą którego jesteśmy w stanie
+nawet całkowicie wyłączyć parkowanie głowicy. Twórca tego narzędzia jednak wyraźnie podkreśla, że
+nie zaleca zupełnego wyłączania parkowania. Poza tym, zawsze trzeba liczyć się z ryzykiem
+uszkodzenia sprzętu, bo jakby nie patrzeć, to dokonuje się zmian w firmware dysku. Ten program jest
+dostępny w repozytorium dystrybucji Debian w pakiecie `idle3-tools` , z tym, że należy pamiętać, że
+to oprogramowanie operuje jedynie na dyskach z rodziny WD.
 
 ## Jak wyłączyć parkowanie głowicy
 
@@ -81,3 +81,8 @@ Możemy to zrobić przez wydanie poniższego polecenie:
 Zmiany nie wejdą w życie od razu. Trzeba pamiętać, że w końcu dokonywaliśmy zmian w firmwarze
 urządzenia i po zapisaniu ustawień trzeba ten dysk odłączyć od zasilania całkowicie. W przeciwnym
 wypadku, zmiany nie zostaną zastosowane.
+
+
+[1]: http://wdc.custhelp.com/app/answers/detail/a_id/5357
+[2]: https://pl.wikipedia.org/wiki/S.M.A.R.T._%28informatyka%29
+[3]: http://idle3-tools.sourceforge.net/
