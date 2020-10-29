@@ -18,13 +18,12 @@ aplikacje (głównie producenta telefonu, czy też operatora GSM albo te od Goog
 standardowo nie da się wyłączyć z poziomu działającego Androida. Nawet jeśli wymusimy zatrzymanie
 stosownych usług, to za chwilę (lub po restarcie urządzenia) one i tak nam automatycznie wystartują.
 Im więcej zbędnych aplikacji działa w tle, tym częstsze wybudzanie telefonu, a więc i szybsze
-wyczerpywanie się baterii. Dlatego też jeśli nie korzystamy z wbudowanego w
-ROM [bloatware](https://en.wikipedia.org/wiki/Software_bloat), to przydałoby się go usunąć lub
-chociaż trwale wyłączyć. Co ciekawe, tego typu proces nie musi odbywać się za sprawą administratora
-systemu (root), bo w zasadzie każda aplikacja w Androidzie może zostać zainstalowana/odinstalowana
-dla konkretnego użytkownika w systemie. Nie potrzebujemy mieć zatem nawet ukorzenionego Androida,
-by pozbyć się tego całego syfu z systemu, który naszemu urządzeniu spędza sen z powiek i nie daje
-mu się przy tym porządnie wyspać.
+wyczerpywanie się baterii. Dlatego też jeśli nie korzystamy z wbudowanego w ROM [bloatware][1], to
+przydałoby się go usunąć lub chociaż trwale wyłączyć. Co ciekawe, tego typu proces nie musi odbywać
+się za sprawą administratora systemu (root), bo w zasadzie każda aplikacja w Androidzie może zostać
+zainstalowana/odinstalowana dla konkretnego użytkownika w systemie. Nie potrzebujemy mieć zatem
+nawet ukorzenionego Androida, by pozbyć się tego całego syfu z systemu, który naszemu urządzeniu
+spędza sen z powiek i nie daje mu się przy tym porządnie wyspać.
 
 <!--more-->
 ## Wyłączenie aplikacji z poziomu ustawień Androida
@@ -35,6 +34,8 @@ programów jest już preinstalowana, np. aplikacja galerii czy klient email. Je�
 ustawienia aplikacji Androida, to mamy możliwość wyłączenia szeregu z tych preinstalowanych rzeczy.
 Poniżej fotki:
 
+|     |    |
+| --- | ---|
 |![](/img/2019/01/001-android-disable-apps.png#small) | ![](/img/2019/01/002-android-disable-apps.png#small)|
 
 Każda wyłączona w ten sposób aplikacja już nam się automatycznie nie uruchomi. Co prawda, w dalszym
@@ -52,6 +53,8 @@ opcji wyłączenia żadnych z tych preinstalowanych aplikacji. Dla przykładu, m
 ROM ma zawarte już dwie aplikacje do oglądania materiałów video. Jedna aplikacja od Google, a druga
 od producenta telefonu:
 
+|     |    |     |
+| --- | ---| --- |
 |![](/img/2019/01/004-android-force-stop-apps-stock.png#small) | ![](/img/2019/01/005-android-force-stop-apps-stock.png#small)|
 
 Zamiast tych aplikacji używam otwartoźródłowego VLC. Niemniej jednak, mimo, że nie korzystam z
@@ -89,16 +92,15 @@ tymczasowego `pm uninstall` . Warto tutaj zaznaczyć, że `pm uninstall` można 
 użytkownik, o czym będzie za moment.
 
 Na
-necie jeszcze [znalazłem dokładną rozpiskę](https://android.stackexchange.com/questions/128949/pm-hide-vs-pm-disable-the-identity-crisis)
-na temat różnic pomiędzy `pm hide` oraz `pm disable` . Wrzucam ją niżej, by nie zginęła:
+necie jeszcze [znalazłem dokładną rozpiskę][2] na temat różnic pomiędzy `pm hide` oraz
+`pm disable` . Wrzucam ją niżej, by nie zginęła:
 
 ![](/img/2019/01/006-difference-pm-hide-disable-android.png#huge)
 
 Tam na tej fotce jest zawarta informacja, że `pm hide` może być używany przez zwykłego użytkownika.
 Nie jest to prawdą, gdyż do czasu Android 6 (2016-08-01) były pewne problemy z uprawnieniami
-MANAGE_USERS i CREATE_USERS, co umożliwiało obejście restrykcji
-dostępu ([CVE-2016-3833](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-3833)). Dlatego
-też w kolejnych wersjach Androida zwykły user już nie może korzystać z `pm hide` .
+MANAGE_USERS i CREATE_USERS, co umożliwiało obejście restrykcji dostępu ([CVE-2016-3833][3]).
+Dlatego też w kolejnych wersjach Androida zwykły user już nie może korzystać z `pm hide` .
 
 ### Jak używać pm uninstall bez root
 
@@ -243,22 +245,20 @@ się fraza, którą trzeba wpisać w sklepie Google Play, by tę konkretną apli
     com.tplink.tpdemo                   #
 
 Niżej są jeszcze opcjonalne pozycje i generalnie, to usuwanie tych poniższych pakietów nie powinno
-mieć miejsca, no chyba,
-że [mamy zainstalowanego szpiega](https://zaufanatrzeciastrona.pl/post/popularne-chinskie-telefony-przylapane-na-wysylaniu-smsow-i-kontaktow-do-chin/)
-w aplikacji OTA, który zbiera o nas całą masę informacji i wysyła je w świat. Mój smartfon raczej
-tego szpiega nie posiada ale z racji, że lubi sam sobie instalować aktualizacje nawet, gdy mu się
-wyraźnie mówi by tego nie robił, to można odinstalować cały ten mechanizm OTA. Oczywiście w ten
-sposób nie zainstalujemy już żadnej aktualizacji do momentu przywrócenia tych pakietów, ani nawet
-nie będziemy świadomi faktu, że producent telefonu/operator GSM wypuścił jakiś nowy update, choć o
-to akurat bym się nie martwił...
+mieć miejsca, no chyba, że [mamy zainstalowanego szpiega][4] w aplikacji OTA, który zbiera o nas
+całą masę informacji i wysyła je w świat. Mój smartfon raczej tego szpiega nie posiada ale z racji,
+że lubi sam sobie instalować aktualizacje nawet, gdy mu się wyraźnie mówi by tego nie robił, to
+można odinstalować cały ten mechanizm OTA. Oczywiście w ten sposób nie zainstalujemy już żadnej
+aktualizacji do momentu przywrócenia tych pakietów, ani nawet nie będziemy świadomi faktu, że
+producent telefonu/operator GSM wypuścił jakiś nowy update, choć o to akurat bym się nie martwił...
 
     com.tplink.fota
     com.tplink.fotaui
     com.tplink.update
 
 Jeśli nie korzystamy z bluetooth, to można usunąć także te poniższe pakiety, zwłaszcza w sytuacji,
-gdy mamy dziurawe BT, bo producent telefonu czy też i operator GSM nie
-załatał [podatności BlueBorne](https://armis.com/blueborne/).
+gdy mamy dziurawe BT, bo producent telefonu czy też i operator GSM nie załatał [podatności
+BlueBorne][5].
 
     com.android.bluetooth
     com.android.bluetoothmidiservice
@@ -270,3 +270,10 @@ nie usuwać.
 
     com.tplink.filemanager
     com.android.chrome
+
+
+[1]: https://en.wikipedia.org/wiki/Software_bloat
+[2]: https://android.stackexchange.com/questions/128949/pm-hide-vs-pm-disable-the-identity-crisis
+[3]: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-3833
+[4]: https://zaufanatrzeciastrona.pl/post/popularne-chinskie-telefony-przylapane-na-wysylaniu-smsow-i-kontaktow-do-chin/
+[5]: https://armis.com/blueborne/

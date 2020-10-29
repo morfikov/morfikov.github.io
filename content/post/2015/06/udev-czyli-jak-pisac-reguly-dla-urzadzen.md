@@ -12,15 +12,14 @@ title: UDEV, czyli jak pisać reguły dla urządzeń
 ---
 
 Zapuszczając się w coraz to i głębsze warstwy systemu podczas dążenia do zbadania jak on tak
-naprawdę działa, zacząłem się stykać z regułami [udeva](https://wiki.archlinux.org/index.php/Udev)
-(tymi umieszczanymi w katalogu /etc/udev/rules.d/ ). Jako, że nazbierało mi się już ich kilka,
-zaistniała potrzeba przebadania tego co ten katalog tak naprawdę zawiera. Na dobrą sprawę nigdy się
-nad tym nie zastanawiałem, jedynie kopiowałem rozwiązania z internetu i wklejałem je do
-odpowiedniego pliku i jeśli ono działało, to odznaczałem problem jako rozwiązany. Zwykle takich
-reguł się nie potrzebuje, temu praktycznie niewielu ludzi w ogóle się orientuje jak ogarnąć tego
-całego udeva. Są przypadki kiedy przepisanie nazw urządzeń czy wykonanie określonych akcji po
-podłączeniu jakiegoś sprzętu do komputera jest wielce niezbędne i nie ma innej opcji jak tylko
-zrozumieć co udev tak naprawdę robi.
+naprawdę działa, zacząłem się stykać z regułami [udev'a][1] (tymi umieszczanymi w katalogu
+`/etc/udev/rules.d/` ). Jako, że nazbierało mi się już ich kilka, zaistniała potrzeba przebadania
+tego co ten katalog tak naprawdę zawiera. Na dobrą sprawę nigdy się nad tym nie zastanawiałem,
+jedynie kopiowałem rozwiązania z internetu i wklejałem je do odpowiedniego pliku i jeśli ono
+działało, to odznaczałem problem jako rozwiązany. Zwykle takich reguł się nie potrzebuje, temu
+praktycznie niewielu ludzi w ogóle się orientuje jak ogarnąć tego całego udeva. Są przypadki kiedy
+przepisanie nazw urządzeń czy wykonanie określonych akcji po podłączeniu jakiegoś sprzętu do
+komputera jest wielce niezbędne i nie ma innej opcji jak tylko zrozumieć co udev tak naprawdę robi.
 
 <!--more-->
 ## Udev i jego pliki reguł
@@ -81,29 +80,29 @@ taki sposób: `[a-z]` . Można również wyłączyć określone znaki za pomocą
 
 Możemy również skorzystać z krótkich nazw oferowanych przez udev przy podłączaniu urządzenia:
 
-|Skrót         | Nazwa           | Opis                             |
-|:------------:|:---------------:|:--------------------------------:|
-|%r           |$root             |katalog urządzeń, domyślnie /dev  |
-|%p           |$devpath          |wartość DEVPATH                   |
-|%k           |$kernel           |wartość KERNEL                    |
-|%n           |$number           |numer urządzenia, dla sda3 to 3   |
-|%N           |$tempnode         |tymczasowa nazwa pliku urządzenia |
-|%M           |$major            |większy numer urządzenia          |
-|%m            |$minor           |mniejszy numer urządzenia         |
-|%s{attribute} |$attr{attribute} |wartość atrybutu sysfs            |
-|%E{variable}  |$attr{variable}  |wartość zmiennej środowiskowej    |
-|%c            |$result          |wartość PROGRAM                   |
-|%%            |znak %           |                                  |
-|$$            |znak $           |                                  |
+    |Skrót         | Nazwa           | Opis                             |
+    |:------------:|:---------------:|:--------------------------------:|
+    |%r           |$root             |katalog urządzeń, domyślnie /dev  |
+    |%p           |$devpath          |wartość DEVPATH                   |
+    |%k           |$kernel           |wartość KERNEL                    |
+    |%n           |$number           |numer urządzenia, dla sda3 to 3   |
+    |%N           |$tempnode         |tymczasowa nazwa pliku urządzenia |
+    |%M           |$major            |większy numer urządzenia          |
+    |%m            |$minor           |mniejszy numer urządzenia         |
+    |%s{attribute} |$attr{attribute} |wartość atrybutu sysfs            |
+    |%E{variable}  |$attr{variable}  |wartość zmiennej środowiskowej    |
+    |%c            |$result          |wartość PROGRAM                   |
+    |%%            |znak %           |                                  |
+    |$$            |znak $           |                                  |
 
 ## Omówienie reguł na przykładzie
 
 Załóżmy, że chcemy aby partycje naszego pendrive były montowane po jego podłączeniu do komputera, z
 tym, że jedna z nich jest zaszyfrowania i nie da się jej od tak automatycznie zamontować, bo pierw
-trzeba ją odszyfrować. Inny problem to nazwy urządzenia (te widoczne w katalogu /dev/ ), które mogą
-ulec zmianie. Jasne, że istnieją inne drogi by osiągnąć to co chcemy, np. można użyć UUID ale my
-tutaj skupimy się na rozwiązaniu tej kwestii przez udev, co ma też i swoje zalety, bo UUID może ulec
-zmianie, a numer seryjny urządzenia raczej jest nieco trwalszy.
+trzeba ją odszyfrować. Inny problem to nazwy urządzenia (te widoczne w katalogu `/dev/` ), które
+mogą ulec zmianie. Jasne, że istnieją inne drogi by osiągnąć to co chcemy, np. można użyć UUID ale
+my tutaj skupimy się na rozwiązaniu tej kwestii przez udev, co ma też i swoje zalety, bo UUID może
+ulec zmianie, a numer seryjny urządzenia raczej jest nieco trwalszy.
 
 Tworzymy zatem plik `/etc/udev/rules.d/99-local.rules` i dopisujemy tam regułki:
 
@@ -185,3 +184,6 @@ mieć wgląd do zdarzeń udeva przez podanie parametru `--udev` . Jeśli chcemy 
 wpisujemy w konsoli:
 
     # udevadm monitor
+
+
+[1]: https://wiki.archlinux.org/index.php/Udev
