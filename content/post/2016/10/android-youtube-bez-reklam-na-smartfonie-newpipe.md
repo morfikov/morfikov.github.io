@@ -9,6 +9,8 @@ status: publish
 tags:
 - smartfon
 - lollipop
+- marshmallow
+- nougat
 - aplikacje
 - youtube
 - reklamy
@@ -19,16 +21,14 @@ Ja generalnie zaliczam się do grona osób bardzo spokojnych ale tylko do czasu 
 Jedną taką bardziej wyprowadzającą mnie z równowagi kwestią są reklamy w serwisie YouTube. Problem
 jest o wiele bardziej dotkliwy, gdy w grę wchodzą urządzenia mobilne, np. smartfony. Na komputerze
 nie mam większego problemu, bo wszystkie reklamy mogę zablokować stosując adblock/ublock w
-przeglądarce lub też korzystać z aplikacji
-[mpsyt](https://github.com/mps-youtube/mps-youtube)/[minitube](http://flavio.tordini.org/minitube).
-Gdy chcę wesprzeć kogoś, to odpalam kilka kanałów z reklamami, wyciszam dźwięk i mój linux ogląda za
-mnie ten cały syf reklamowy, a ja go ani nie słyszę, ani nie widzę i wszyscy są happy. W przypadku
-smartfonów oglądanie serwisu YT jest nieco problematyczne. Nie dość, że nie ma jak obejść tych
-reklam, to jeszcze zwykle są one głośniejsze niż ścieżka dźwiękowa materiału video, co bardzo
-wnerwia w godzinach nocnych. Przy szukaniu rozwiązania tego problemu natknąłem się na
-[NewPipe](https://github.com/TeamNewPipe/NewPipe). Jest to przeglądarkę YT z otwartym kodem
-źródłowym (OpenSource), która działa podobnie do mpsyt/minitube i to ten programik zostanie
-opisany w niniejszym artykule.
+przeglądarce lub też korzystać z aplikacji [mpsyt][1]/[minitube][2]. Gdy chcę wesprzeć kogoś, to
+odpalam kilka kanałów z reklamami, wyciszam dźwięk i mój linux ogląda za mnie ten cały syf
+reklamowy, a ja go ani nie słyszę, ani nie widzę i wszyscy są happy. W przypadku smartfonów
+oglądanie serwisu YT jest nieco problematyczne. Nie dość, że nie ma jak obejść tych reklam, to
+jeszcze zwykle są one głośniejsze niż ścieżka dźwiękowa materiału video, co bardzo wnerwia w
+godzinach nocnych. Przy szukaniu rozwiązania tego problemu natknąłem się na [NewPipe][3]. Jest to
+przeglądarkę YT z otwartym kodem źródłowym (OpenSource), która działa podobnie do mpsyt/minitube i
+to ten programik zostanie opisany w niniejszym artykule.
 
 <!--more-->
 ## Instalacja NewPipe
@@ -42,11 +42,9 @@ dodatków, które są dołączane przez Google i spółkę, przez co zostanie ob
 pozostawiając nam do obejrzenia czysty film.
 
 Aplikacji NewPipe nie można pobrać ze sklepu GooglePlay. Trzeba się posiłkować [alternatywnym
-repozytorium aplikacji jakim jest
-F-Droid](/post/android-repozytorium-aplikacji-opensource-f-droid/). Po instrukcję
-do F-Droid'a odsyłam do wyżej podlinkowanego artykułu. Z kolei, by zainstalować NewPipe, musimy
-wyszukać tę aplikację w repozytorium i wcisnąć przycisk
-"Zainstaluj":
+repozytorium aplikacji jakim jest F-Droid][4]. Po instrukcję do F-Droid'a odsyłam do wyżej
+podlinkowanego artykułu. Z kolei, by zainstalować NewPipe, musimy wyszukać tę aplikację w
+repozytorium i wcisnąć przycisk "Zainstaluj":
 
 ![](/img/2016/10/1.newpipe-instalacja-f-droid.png#huge)
 
@@ -76,10 +74,10 @@ jako domyślny i wtedy proces przesyłania filmu, np. do VLC, będzie transparen
 
 ### Odtwarzaj w Kodi
 
-[Kodi](https://kodi.tv/) to bardzo zaawansowany odtwarzacz audio/video, którego zadaniem jest
-ogarnięcie całej kolekcji multimediów jaką mamy w swoim... domu. Raczej średnio się nadaje ta
-aplikacja na smartfona ale jakby nie patrzeć klient na Androida jest. NewPipe potrafi zrobić użytek
-z Kodi jeśli zamierzamy uczynić go naszym domyślnym odtwarzaczem.
+[Kodi][5] to bardzo zaawansowany odtwarzacz audio/video, którego zadaniem jest ogarnięcie całej
+kolekcji multimediów jaką mamy w swoim... domu. Raczej średnio się nadaje ta aplikacja na smartfona
+ale jakby nie patrzeć klient na Androida jest. NewPipe potrafi zrobić użytek z Kodi jeśli zamierzamy
+uczynić go naszym domyślnym odtwarzaczem.
 
 ### Treści tylko dla dorosłych
 
@@ -90,10 +88,7 @@ zezwolić na przeglądanie takich filmów. Bardzo przydatna funkcja.
 ### Możliwość zapisu ścieżki audio/video
 
 Innym bardzo ciekawym ficzerem jest możliwość zapisu ścieżek audio i video bezpośrednio na pamięć
-telefonu, ew. kartę SD (wymagany [root
-smartfona](/post/android-root-smartfona-neffos-c5-od-tp-link/) oraz [zdjęcie
-pewnych
-zabezpieczeń](/post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/)).
+telefonu, ew. kartę SD (wymagany [root smartfona][6] oraz [zdjęcie pewnych zabezpieczeń][7]).
 Jeśli chcemy pobrać jakiś materiał by go obejrzeć w trybie offline, np. mamy dostęp do WiFi w domu
 ale za moment musimy wyjść, to bez większego problemu możemy zapisać sobie taki film na flash
 telefonu. Jeśli interesuje nas tylko ścieżka audio, to również i ta opcja nie stanowi większego
@@ -142,3 +137,12 @@ zaznaczyć stosowną opcję w ustawieniach tejże aplikacji. Miłego oglądania 
 smartfonach.
 
 ![](/img/2016/10/8.newpipe-youtube-bez-reklam.png#big)
+
+
+[1]: https://github.com/mps-youtube/mps-youtube
+[2]: http://flavio.tordini.org/minitube
+[3]: https://github.com/TeamNewPipe/NewPipe
+[4]: /post/android-repozytorium-aplikacji-opensource-f-droid/
+[5]: https://kodi.tv/
+[6]: /post/android-root-smartfona-neffos-c5-od-tp-link/
+[7]: /post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/

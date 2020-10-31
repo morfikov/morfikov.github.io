@@ -11,6 +11,7 @@ tags:
 - lollipop
 - xposed
 - marshmallow
+- youtube
 title: 'Android: Framework Xposed i moduły do YouTube'
 ---
 
@@ -18,26 +19,19 @@ Stock'owe Androidy w smartfonach mają ten problem, że zawierają całą masę 
 od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy
 wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się
 ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w
-Firefox'ie i jeśli mamy [zainstalowanego w telefonie adblock'a, np.
-AdAway](/post/android-blokowanie-reklam-z-adaway-na-smartfonie/), czy też [wdrożony
-podobny filtr na domowym routerze WiFi z
-LEDE/OpenWRT](/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/), to te
-reklamy mogą zostać z powodzeniem odfiltrowane, przynajmniej w Firefox'ie. Jestem też świadom
-istnienia [aplikacji
-NewPipe](/post/android-youtube-bez-reklam-na-smartfonie-newpipe/) , która jest
-zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową wadę.
-Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być powiadamiania w
-przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał video. Taką opcję
-ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że włączy nam się jakaś
-wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć. Innym problemem w
-przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle czy też przy
-zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej aplikacji
-YouTube i wyeliminować te drażniące mnie problemy [instalując w smartfonie framework
-Xposed](http://repo.xposed.info/module/de.robv.android.xposed.installer) wraz z odpowiednimi
-modułami: [YouTube Background
-Playback](http://repo.xposed.info/module/com.pyler.youtubebackgroundplayback) oraz [YouTube
-AdAway](http://repo.xposed.info/module/ma.wanam.youtubeadaway). Jako, że nie jest to proces łatwy,
-to postanowiłem go opisać krok po kroku.
+Firefox'ie i jeśli mamy [zainstalowanego w telefonie adblock'a, np. AdAway][1], czy też [wdrożony
+podobny filtr na domowym routerze WiFi z LEDE/OpenWRT][2], to te reklamy mogą zostać z powodzeniem
+odfiltrowane, przynajmniej w Firefox'ie. Jestem też świadom istnienia [aplikacji NewPipe][3], która
+jest zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową
+wadę. Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być
+powiadamiania w przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał
+video. Taką opcję ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że
+włączy nam się jakaś wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć.
+Innym problemem w przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle
+czy też przy zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej
+aplikacji YouTube i wyeliminować te drażniące mnie problemy [instalując w smartfonie framework
+Xposed][4] wraz z odpowiednimi modułami: [YouTube Background Playback][5] oraz [YouTube AdAway][6].
+Jako, że nie jest to proces łatwy, to postanowiłem go opisać krok po kroku.
 
 <!--more-->
 ## Ukorzeniony Android (root) oraz backup flash'a smartfona
@@ -52,10 +46,7 @@ dysponują one różnymi platformami sprzętowymi (Mediatek i Qualcomm) oraz ró
 (Lollipop oraz Marshmallow). Jeśli dysponujemy smartfonami Neffos C5 lub Y5L, to naturalnie poniżej
 opisane kroki można zastosować również i do tych modeli. Niemniej jednak, by cokolwiek zacząć robić
 potrzebny jest ukorzeniony system. Stosowne howto można znaleźć w osobnych wątkach: [Neffos C5
-MAX](/post/android-root-smartfona-neffos-c5-max-od-tp-link/), [Neffos
-C5](/post/android-root-smartfona-neffos-c5-od-tp-link/), [Neffos
-Y5L](/post/android-root-smartfona-neffos-y5l-tp-link/) i [Neffos
-Y5](/post/android-root-smartfona-neffos-y5-od-tp-link/).
+MAX][7], [Neffos C5][8], [Neffos Y5L][9] i [Neffos Y5][10].
 
 Druga sprawa, to backup danych zgromadzonych w telefonie. Niby nic naszemu smartfonowi nie powinno
 się stać z racji instalowania w nim framework'a Xposed ale lepiej dmuchać na zimne i zrobić sobie
@@ -70,8 +61,7 @@ wiemy jak cofnąć w nim wprowadzone zmiany.
 ## Instalacja instalatora Xposed
 
 W zasadzie to musimy zainstalować w systemie dwie rzeczy: Instalator Xposed do zarządzania modułami
-oraz właściwy framework Xposed. Oba te pliki są dostępne [w oficjalnym wątku na
-XDA](https://forum.xda-developers.com/showthread.php?t=3034811).
+oraz właściwy framework Xposed. Oba te pliki są dostępne [w oficjalnym wątku na XDA][11].
 
 Sam instalator instalujemy z poziomu działającego Androida. Jeśli mamy dodatkowo zainstalowany
 F-Droid lub XDA Labs, to z ich repozytoriów również możemy ten instalator sobie wgrać na smartfona.
@@ -117,7 +107,7 @@ niż w przypadku Neffos'ów Y5 i Y5L. Prawdopodobnie winna jest tutaj starsza we
 nie jest zbytnio kompatybilna z samym framework'iem. Niemniej jednak, w dalszym ciągu Xposed może
 zostać zainstalowany i uruchomiony z powodzeniem o ile zastosujemy się do poniższych wskazówek.
 
-Przede wszystkim, nie możemy zainstalować najnowszej wersji frameworka (obecnie jest to v87). Ta
+Przede wszystkim, nie możemy zainstalować najnowszej wersji framework'a (obecnie jest to v87). Ta
 wersja powoduje jakieś bliżej nieznane problemy objawiające się następującym komunikatem w oknie
 instalatora: Wersja 87 Xposed framework jest zainstalowana ale nie jest aktywna. Proszę sprawdzić
 logi, aby poznać szczegóły.
@@ -162,8 +152,8 @@ Po zajrzeniu w logi, mamy taką informację:
     : -----------------
 
 Wersja, która zdaje się działać, to v85 i to ją musimy sobie wgrać na smartfona. Wystarczy, że w
-oknie instalatora Xposed, z prawego górnego rogu rozwiniemy menu i wybierzemy "Show outdated
-versions", a pojawi nam się lista wersji, które będziemy w stanie zainstalować. Jest tam też min.
+oknie instalatora Xposed, z prawego górnego rogu rozwiniemy menu i wybierzemy `Show outdated
+versions` , a pojawi nam się lista wersji, które będziemy w stanie zainstalować. Jest tam też min.
 v85. Wybieramy i instalujemy ją:
 
 ![](/img/2017/03/006.xposed-android-lollipop-marshmalow-tp-link-smartfon-neffos-c5-max-instalacja.png#big)
@@ -183,8 +173,7 @@ będą w stanie działać.
 ## Instalacja modułów Xposed
 
 Moduły do Xposed możemy instalować bezpośrednio z instalatora. Możemy też do tego celu zaprzęgnąć
-[aplikację XDA Labs](/post/xda-labs-repozytorium-aplikacji-modulow-xposed/), która
-również ma wbudowane repozytorium modułów Xposed.
+[aplikację XDA Labs][12], która również ma wbudowane repozytorium modułów Xposed.
 
 ![](/img/2017/03/008.xposed-android-lollipop-marshmalow-tp-link-smartfon-xda-labs-repo.png#medium)
 
@@ -217,3 +206,17 @@ deinstalacji framework'a. Każdy moduł trzeba ręcznie usunąć, np. przez XDA 
 Xposed. Po usunięciu modułów, instalator można usunąć w XDA Labs lub F-Droid.
 
 ![](/img/2017/03/012.xposed-android-lollipop-marshmalow-tp-link-smartfon-usuwanie-instalator-moduly.png#big)
+
+
+[1]: /post/android-blokowanie-reklam-z-adaway-na-smartfonie/
+[2]: /post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/
+[3]: /post/android-youtube-bez-reklam-na-smartfonie-newpipe/
+[4]: http://repo.xposed.info/module/de.robv.android.xposed.installer
+[5]: http://repo.xposed.info/module/com.pyler.youtubebackgroundplayback
+[6]: http://repo.xposed.info/module/ma.wanam.youtubeadaway
+[7]: /post/android-root-smartfona-neffos-c5-max-od-tp-link/
+[8]: /post/android-root-smartfona-neffos-c5-od-tp-link/
+[9]: /post/android-root-smartfona-neffos-y5l-tp-link/
+[10]: /post/android-root-smartfona-neffos-y5-od-tp-link/
+[11]: https://forum.xda-developers.com/showthread.php?t=3034811
+[12]: /post/xda-labs-repozytorium-aplikacji-modulow-xposed/
