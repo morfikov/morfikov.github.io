@@ -9,82 +9,76 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:title" content="Czy smartfon z Androidem bez Google Apps/Services ma sens" />
-<meta property="og:description" content="Jakiś czas
-temu natknąłem się na artykuł
-chwalący Google Play Services i sugerujący zarazem, że nasz smartfon bez tych usług (i appek
-zależnych od nich) na niewiele się zda człowiekowi. Nie jest to jednak do końca prawdą i
-postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na telefonie z Androidem
-pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W rolach głównych wystąpi
-mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać LineageOS (lub też inny
-ROM na bazie AOSP). Po wgraniu ROM&#39;u, w telefonie znajduje się jedynie garstka podstawowych
-aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po drugie można je bez
-problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można dzwonić, przeglądać net
-(WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju multimediów. W zasadzie czego
-oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć możliwość używania, np. nawigacji.
-No i tu już zaczynają się schody, bo na takim w pełni otwartoźródłowym Androidzie, GPS nie zadziała
-OOTB i potrzebna nam jest jakaś alternatywa w postaci pośrednika między aplikacjami a GPS.
-Standardowo w Andkach tym zadaniem zajmują się właśnie te usługi Google. Jak więc zatem zmusić GPS
-do poprawnej pracy nie chcąc przy tym wgrywać sobie tego rozbudowanego w uprawnieniach szpiega od
-Google? Problemów naturalnie może być więcej, a to czy doświadczymy któregokolwiek z nich zależy
-głównie od odpowiedniej konfiguracji systemu. Niniejszy artykuł postara się zebrać wszystkie te
-niezbędne informacje mające na celu zaimplementowanie w naszym smartfonie otwartoźródłowej
-alternatywy dla Google Play Services w postaci microG." />
+<meta property="og:description" content="Jakiś czas temu natknąłem się na artykuł chwalący Google Play Services i sugerujący zarazem,
+że nasz smartfon bez tych usług (i appek zależnych od nich) na niewiele się zda człowiekowi. Nie
+jest to jednak do końca prawdą i postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na
+telefonie z Androidem pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W
+rolach głównych wystąpi mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać
+LineageOS (lub też inny ROM na bazie AOSP). Po wgraniu ROM&#39;u, w telefonie znajduje się jedynie
+garstka podstawowych aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po
+drugie można je bez problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można
+dzwonić, przeglądać net (WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju
+multimediów. W zasadzie czego oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć
+możliwość używania, np. nawigacji. No i tu już zaczynają się schody, bo na takim w pełni
+otwartoźródłowym Androidzie, GPS nie zadziała OOTB i potrzebna nam jest jakaś alternatywa w postaci
+pośrednika między aplikacjami a GPS. Standardowo w Andkach tym zadaniem zajmują się właśnie te
+usługi Google. Jak więc zatem zmusić GPS do poprawnej pracy nie chcąc przy tym wgrywać sobie tego
+rozbudowanego w uprawnieniach szpiega od Google? Problemów naturalnie może być więcej, a to czy
+doświadczymy któregokolwiek z nich zależy głównie od odpowiedniej konfiguracji systemu. Niniejszy
+artykuł postara się zebrać wszystkie te niezbędne informacje mające na celu zaimplementowanie w
+naszym smartfonie otwartoźródłowej alternatywy dla Google Play Services w postaci microG." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/czy-smartfon-z-androidem-bez-google-apps-services-ma-sens/" />
 <meta property="article:published_time" content="2019-04-16T21:00:15+00:00" />
 <meta property="article:modified_time" content="2019-04-16T21:00:15+00:00" />
 
 		<meta itemprop="name" content="Czy smartfon z Androidem bez Google Apps/Services ma sens">
-<meta itemprop="description" content="Jakiś czas
-temu natknąłem się na artykuł
-chwalący Google Play Services i sugerujący zarazem, że nasz smartfon bez tych usług (i appek
-zależnych od nich) na niewiele się zda człowiekowi. Nie jest to jednak do końca prawdą i
-postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na telefonie z Androidem
-pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W rolach głównych wystąpi
-mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać LineageOS (lub też inny
-ROM na bazie AOSP). Po wgraniu ROM&#39;u, w telefonie znajduje się jedynie garstka podstawowych
-aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po drugie można je bez
-problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można dzwonić, przeglądać net
-(WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju multimediów. W zasadzie czego
-oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć możliwość używania, np. nawigacji.
-No i tu już zaczynają się schody, bo na takim w pełni otwartoźródłowym Androidzie, GPS nie zadziała
-OOTB i potrzebna nam jest jakaś alternatywa w postaci pośrednika między aplikacjami a GPS.
-Standardowo w Andkach tym zadaniem zajmują się właśnie te usługi Google. Jak więc zatem zmusić GPS
-do poprawnej pracy nie chcąc przy tym wgrywać sobie tego rozbudowanego w uprawnieniach szpiega od
-Google? Problemów naturalnie może być więcej, a to czy doświadczymy któregokolwiek z nich zależy
-głównie od odpowiedniej konfiguracji systemu. Niniejszy artykuł postara się zebrać wszystkie te
-niezbędne informacje mające na celu zaimplementowanie w naszym smartfonie otwartoźródłowej
-alternatywy dla Google Play Services w postaci microG.">
+<meta itemprop="description" content="Jakiś czas temu natknąłem się na artykuł chwalący Google Play Services i sugerujący zarazem,
+że nasz smartfon bez tych usług (i appek zależnych od nich) na niewiele się zda człowiekowi. Nie
+jest to jednak do końca prawdą i postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na
+telefonie z Androidem pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W
+rolach głównych wystąpi mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać
+LineageOS (lub też inny ROM na bazie AOSP). Po wgraniu ROM&#39;u, w telefonie znajduje się jedynie
+garstka podstawowych aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po
+drugie można je bez problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można
+dzwonić, przeglądać net (WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju
+multimediów. W zasadzie czego oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć
+możliwość używania, np. nawigacji. No i tu już zaczynają się schody, bo na takim w pełni
+otwartoźródłowym Androidzie, GPS nie zadziała OOTB i potrzebna nam jest jakaś alternatywa w postaci
+pośrednika między aplikacjami a GPS. Standardowo w Andkach tym zadaniem zajmują się właśnie te
+usługi Google. Jak więc zatem zmusić GPS do poprawnej pracy nie chcąc przy tym wgrywać sobie tego
+rozbudowanego w uprawnieniach szpiega od Google? Problemów naturalnie może być więcej, a to czy
+doświadczymy któregokolwiek z nich zależy głównie od odpowiedniej konfiguracji systemu. Niniejszy
+artykuł postara się zebrać wszystkie te niezbędne informacje mające na celu zaimplementowanie w
+naszym smartfonie otwartoźródłowej alternatywy dla Google Play Services w postaci microG.">
 <meta itemprop="datePublished" content="2019-04-16T21:00:15+00:00" />
 <meta itemprop="dateModified" content="2019-04-16T21:00:15+00:00" />
 <meta itemprop="wordCount" content="3779">
 
 
 
-<meta itemprop="keywords" content="aosp,microg,safetynet,push," />
+<meta itemprop="keywords" content="aosp,microg,safetynet,push,youtube,gps," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Czy smartfon z Androidem bez Google Apps/Services ma sens"/>
-<meta name="twitter:description" content="Jakiś czas
-temu natknąłem się na artykuł
-chwalący Google Play Services i sugerujący zarazem, że nasz smartfon bez tych usług (i appek
-zależnych od nich) na niewiele się zda człowiekowi. Nie jest to jednak do końca prawdą i
-postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na telefonie z Androidem
-pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W rolach głównych wystąpi
-mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać LineageOS (lub też inny
-ROM na bazie AOSP). Po wgraniu ROM&#39;u, w telefonie znajduje się jedynie garstka podstawowych
-aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po drugie można je bez
-problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można dzwonić, przeglądać net
-(WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju multimediów. W zasadzie czego
-oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć możliwość używania, np. nawigacji.
-No i tu już zaczynają się schody, bo na takim w pełni otwartoźródłowym Androidzie, GPS nie zadziała
-OOTB i potrzebna nam jest jakaś alternatywa w postaci pośrednika między aplikacjami a GPS.
-Standardowo w Andkach tym zadaniem zajmują się właśnie te usługi Google. Jak więc zatem zmusić GPS
-do poprawnej pracy nie chcąc przy tym wgrywać sobie tego rozbudowanego w uprawnieniach szpiega od
-Google? Problemów naturalnie może być więcej, a to czy doświadczymy któregokolwiek z nich zależy
-głównie od odpowiedniej konfiguracji systemu. Niniejszy artykuł postara się zebrać wszystkie te
-niezbędne informacje mające na celu zaimplementowanie w naszym smartfonie otwartoźródłowej
-alternatywy dla Google Play Services w postaci microG."/>
+<meta name="twitter:description" content="Jakiś czas temu natknąłem się na artykuł chwalący Google Play Services i sugerujący zarazem,
+że nasz smartfon bez tych usług (i appek zależnych od nich) na niewiele się zda człowiekowi. Nie
+jest to jednak do końca prawdą i postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na
+telefonie z Androidem pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W
+rolach głównych wystąpi mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać
+LineageOS (lub też inny ROM na bazie AOSP). Po wgraniu ROM&#39;u, w telefonie znajduje się jedynie
+garstka podstawowych aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po
+drugie można je bez problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można
+dzwonić, przeglądać net (WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju
+multimediów. W zasadzie czego oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć
+możliwość używania, np. nawigacji. No i tu już zaczynają się schody, bo na takim w pełni
+otwartoźródłowym Androidzie, GPS nie zadziała OOTB i potrzebna nam jest jakaś alternatywa w postaci
+pośrednika między aplikacjami a GPS. Standardowo w Andkach tym zadaniem zajmują się właśnie te
+usługi Google. Jak więc zatem zmusić GPS do poprawnej pracy nie chcąc przy tym wgrywać sobie tego
+rozbudowanego w uprawnieniach szpiega od Google? Problemów naturalnie może być więcej, a to czy
+doświadczymy któregokolwiek z nich zależy głównie od odpowiedniej konfiguracji systemu. Niniejszy
+artykuł postara się zebrać wszystkie te niezbędne informacje mające na celu zaimplementowanie w
+naszym smartfonie otwartoźródłowej alternatywy dla Google Play Services w postaci microG."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -224,26 +218,24 @@ if (!doNotTrack) {
   </ol>
 </nav>
 </details>
-				<div class="entry__content"><p>Jakiś czas
-temu <a href="https://android.com.pl/programowanie/188397-po-co-nam-uslugi-google-play/">natknąłem się na artykuł</a>
-chwalący Google Play Services i sugerujący zarazem, że nasz smartfon bez tych usług (i appek
-zależnych od nich) na niewiele się zda człowiekowi. Nie jest to jednak do końca prawdą i
-postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na telefonie z Androidem
-pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W rolach głównych wystąpi
-mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać LineageOS (lub też inny
-ROM na bazie AOSP). Po wgraniu ROM'u, w telefonie znajduje się jedynie garstka podstawowych
-aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po drugie można je bez
-problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można dzwonić, przeglądać net
-(WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju multimediów. W zasadzie czego
-oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć możliwość używania, np. nawigacji.
-No i tu już zaczynają się schody, bo na takim w pełni otwartoźródłowym Androidzie, GPS nie zadziała
-OOTB i potrzebna nam jest jakaś alternatywa w postaci pośrednika między aplikacjami a GPS.
-Standardowo w Andkach tym zadaniem zajmują się właśnie te usługi Google. Jak więc zatem zmusić GPS
-do poprawnej pracy nie chcąc przy tym wgrywać sobie tego rozbudowanego w uprawnieniach szpiega od
-Google? Problemów naturalnie może być więcej, a to czy doświadczymy któregokolwiek z nich zależy
-głównie od odpowiedniej konfiguracji systemu. Niniejszy artykuł postara się zebrać wszystkie te
-niezbędne informacje mające na celu zaimplementowanie w naszym smartfonie otwartoźródłowej
-alternatywy dla Google Play Services w postaci microG.</p>
+				<div class="entry__content"><p>Jakiś czas temu <a href="https://android.com.pl/programowanie/188397-po-co-nam-uslugi-google-play/">natknąłem się na artykuł</a> chwalący Google Play Services i sugerujący zarazem,
+że nasz smartfon bez tych usług (i appek zależnych od nich) na niewiele się zda człowiekowi. Nie
+jest to jednak do końca prawdą i postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na
+telefonie z Androidem pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W
+rolach głównych wystąpi mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać
+LineageOS (lub też inny ROM na bazie AOSP). Po wgraniu ROM'u, w telefonie znajduje się jedynie
+garstka podstawowych aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po
+drugie można je bez problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można
+dzwonić, przeglądać net (WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju
+multimediów. W zasadzie czego oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć
+możliwość używania, np. nawigacji. No i tu już zaczynają się schody, bo na takim w pełni
+otwartoźródłowym Androidzie, GPS nie zadziała OOTB i potrzebna nam jest jakaś alternatywa w postaci
+pośrednika między aplikacjami a GPS. Standardowo w Andkach tym zadaniem zajmują się właśnie te
+usługi Google. Jak więc zatem zmusić GPS do poprawnej pracy nie chcąc przy tym wgrywać sobie tego
+rozbudowanego w uprawnieniach szpiega od Google? Problemów naturalnie może być więcej, a to czy
+doświadczymy któregokolwiek z nich zależy głównie od odpowiedniej konfiguracji systemu. Niniejszy
+artykuł postara się zebrać wszystkie te niezbędne informacje mające na celu zaimplementowanie w
+naszym smartfonie otwartoźródłowej alternatywy dla Google Play Services w postaci microG.</p>
 <h2 id="problemy-związane-z-brakiem-google-play-services">Problemy związane z brakiem Google Play Services</h2>
 <p>W zasadzie każdy Android jest pozbawiony tego całego wynalazku zwanego Google Play Services, jako,
 że jest to produkt własnościowy od Google, a licencja Androida jednoznacznie takie elementy
@@ -251,12 +243,11 @@ wyklucza. Google Play Services jest kompletnie niezależnym elementem, który mo
 niekoniecznie trzeba) doinstalować po wgraniu nowego ROM'u. Te stock'owe ROM'y producentów
 telefonów (czy też operatorów GSM) zawierają już szereg aplikacji od Google, w tym też ten cały
 Google Play Services.</p>
-<p>W tym przypadku został wgrany <a href="https://www.resurrectionremix.com/">Resurrection Remix OS</a>. Jest to
-w zasadzie czysty Android 7.1.2 z szeregiem modyfikacji (dorzuconych przez zespół tworzący ten ROM)
-umożliwiających nieco bardziej zaawansowaną konfigurację systemu. W tym ROM'ie nie znajdziemy
-żadnych własnościowych aplikacji od Google. Można naturalnie wgrać
-osobno <a href="https://opengapps.org/">pakiet GAPPS</a> ale my tego robić nie będziemy, przez co trzeba
-będzie uporać się z szeregiem problemów.</p>
+<p>W tym przypadku został wgrany <a href="https://www.resurrectionremix.com/">Resurrection Remix OS</a>. Jest to w zasadzie czysty Android 7.1.2 z
+szeregiem modyfikacji (dorzuconych przez zespół tworzący ten ROM) umożliwiających nieco bardziej
+zaawansowaną konfigurację systemu. W tym ROM'ie nie znajdziemy żadnych własnościowych aplikacji od
+Google. Można naturalnie wgrać osobno <a href="https://opengapps.org/">pakiet GAPPS</a> ale my tego robić nie będziemy, przez co
+trzeba będzie uporać się z szeregiem problemów.</p>
 <h3 id="konto-google">Konto Google</h3>
 <p>Zanim jednak przejdziemy bezpośrednio do samych problemów, wypadałoby by powiedzieć kilka słów o
 koncie Google. Przez cały ten czas byliśmy przyzwyczajani, że w Androidzie trzeba mieć dodane i
@@ -305,33 +296,31 @@ możemy zapomnieć. Nawet jeśli byśmy go zainstalowali ręcznie (pobierając s
 nie ruszy on nam bez usług Google. Jak zatem instalować aplikacje na Androida bez posiadania sklepu
 Google Play?</p>
 <p>Warto tutaj zaznaczyć, że przy odpowiedniej konfiguracji microG można zaimplementować sobie
-funkcjonalność sklepu Google Play. Trzeba tylko skorzystać
-z <a href="https://forum.xda-developers.com/showthread.php?t=1715375">BlankStore</a> lub też Yalp Store. Obie
-te appki są otwartoźródłowymi alternatywami dla aplikacji Google Play. Każda z nich wymaga od nas
-posiadania konta Google. Na potrzeby tego artykułu będziemy korzystać z tego drugiego rozwiązania.
-Trzeba sobie jednak też zdawać sprawę, że używanie z tego typu alternatywnych klientów sklepu
-Google Play może doprowadzić do zablokowania naszego konta Google. Jeśli się tego obawiamy, to
-możemy stworzyć osobne konto Google i to je podpiąć pod te aplikacje. Można również skorzystać z
+funkcjonalność sklepu Google Play. Trzeba tylko skorzystać z <a href="https://forum.xda-developers.com/showthread.php?t=1715375">BlankStore</a> lub też Yalp Store.
+Obie te appki są otwartoźródłowymi alternatywami dla aplikacji Google Play. Każda z nich wymaga od
+nas posiadania konta Google. Na potrzeby tego artykułu będziemy korzystać z tego drugiego
+rozwiązania. Trzeba sobie jednak też zdawać sprawę, że używanie z tego typu alternatywnych klientów
+sklepu Google Play może doprowadzić do zablokowania naszego konta Google. Jeśli się tego obawiamy,
+to możemy stworzyć osobne konto Google i to je podpiąć pod te aplikacje. Można również skorzystać z
 F-Droid.</p>
 <h4 id="f-droid">F-Droid</h4>
 <p>W zasadzie to wszystkie aplikacje opensource (albo też znaczna ich większość) dostępnych na
 Androida nie wymaga do poprawnego działania Google Play Services. Te otwartoźródłowe appki bez
-problemu można ogarnąć przy pomocy <a href="https://f-droid.org/">F-Droid</a> i
-jego <a href="https://f-droid.org/en/packages/org.fdroid.fdroid.privileged/">uprzywilejowanego dodatku</a>,
-który umożliwia zbiorcze aktualizacje w tle bez potrzeby przeprowadzania działań ze strony
-użytkownika. Bez tego dodatku, użytkownik musiałby ręcznie każdą aplikację zaktualizować osobno, a
-to wymagałoby trochę czasu i byłoby przy tym trochę upierdliwe.</p>
+problemu można ogarnąć przy pomocy <a href="https://f-droid.org/">F-Droid</a> i jego <a href="https://f-droid.org/en/packages/org.fdroid.fdroid.privileged/">uprzywilejowanego dodatku</a>, który
+umożliwia zbiorcze aktualizacje w tle bez potrzeby przeprowadzania działań ze strony użytkownika.
+Bez tego dodatku, użytkownik musiałby ręcznie każdą aplikację zaktualizować osobno, a to wymagałoby
+trochę czasu i byłoby przy tym trochę upierdliwe.</p>
 <p><img loading="lazy" src="https://morfikov.github.io/img/2019/04/003-f-droid-google-play.png" alt=""    class="small"></p>
 <h4 id="yalp-store">Yalp Store</h4>
 <p>Jeśli zaś chodzi o aplikacje, które figurują w sklepie Google Play, to możemy je dociągnąć za
-pomocą <a href="https://github.com/yeriomin/YalpStore">Yalp Store</a>. Jest to aplikacja, która pobiera pliki
-<code>.apk</code> z tego sklepu i umożliwia ich ręczną (choć w pełni zautomatyzowaną) instalację/aktualizację
-w systemie. Takie plik <code>.apk</code> mają stosowne sygnatury (takie same jak te w Google Play), co
-zapewnia integralność danych konkretnej aplikacji. Mamy zatem pewność, że jest to ten sam plik co w
-sklepie Google Play oraz, że nie został on w żaden sposób zmieniony przez podmioty trzecie
-(oczywiście jeśli zweryfikowaliśmy jego podpis i mu ufamy). Podobnie w późniejszym czasie, gdy
-zajdzie potrzeba aktualizacji aplikacji -- nie da się tego zrobić w przypadku gdyby podpisy się
-różniły, czyli dokładnie tak samo jak w przypadku sklepu Google Play.</p>
+pomocą <a href="https://github.com/yeriomin/YalpStore">Yalp Store</a>. Jest to aplikacja, która pobiera pliki <code>.apk</code> z tego sklepu i umożliwia ich
+ręczną (choć w pełni zautomatyzowaną) instalację/aktualizację w systemie. Takie plik <code>.apk</code> mają
+stosowne sygnatury (takie same jak te w Google Play), co zapewnia integralność danych konkretnej
+aplikacji. Mamy zatem pewność, że jest to ten sam plik co w sklepie Google Play oraz, że nie został
+on w żaden sposób zmieniony przez podmioty trzecie (oczywiście jeśli zweryfikowaliśmy jego podpis i
+mu ufamy). Podobnie w późniejszym czasie, gdy zajdzie potrzeba aktualizacji aplikacji -- nie da się
+tego zrobić w przypadku gdyby podpisy się różniły, czyli dokładnie tak samo jak w przypadku sklepu
+Google Play.</p>
 <p><img loading="lazy" src="https://morfikov.github.io/img/2019/04/004-yalp-store-google-play.png" alt=""    class="small"></p>
 <p>Yalp Store jest dostępny w repozytorium F-Droid i można go bez większego trudu zainstalować na
 każdym urządzeniu. Do pobierania plików <code>.apk</code> potrzebne jest jednak konto Google. Możemy albo
@@ -367,9 +356,9 @@ telefonu trwa kilka minut, zatem może ona być wykonana praktycznie w dowolnym 
 liczyć się z chwilowym wyłączeniem telefonu.</p>
 <h3 id="znajdź-moje-urządzenie">Znajdź moje urządzenie</h3>
 <p>Google jest w stanie pomóc nam odszukać nasz telefon w przypadku, gdy nam się on gdzieś zawieruszy
-albo nam zwyczajnie ktoś go ukradnie. Wszystko za sprawą
-usługi <a href="https://www.google.com/android/find">&quot;znajdź moje urządzenie&quot;</a>. Gdy pozbawimy się Google
-Play Services, to możemy pożegnać się z opcją odzyskania urządzenia za pomocą wspomnianego serwisu.</p>
+albo nam zwyczajnie ktoś go ukradnie. Wszystko za sprawą usługi <a href="https://www.google.com/android/find">&quot;znajdź moje urządzenie&quot;</a>. Gdy
+pozbawimy się Google Play Services, to możemy pożegnać się z opcją odzyskania urządzenia za pomocą
+wspomnianego serwisu.</p>
 <p>Wypadałoby jednak zadać sobie pytanie: ile razy z tej usługi szukania telefonu korzystaliśmy? Ja na
 przestrzeni kilku lat w zasadzie ani razu. No może poza testowaniem jak ta usługa działa. Zwykle
 też, gdy zajdzie potrzeba zlokalizować to zaginione urządzenie, to będzie to raczej niemożliwe.
@@ -386,9 +375,7 @@ faktycznie ten telefon rozpłynie się w powietrzu. W zasadzie w zamian za komf
 wywodzący się z fałszywego poczucia bezpieczeństwa, które oferuje nam Google, dajemy mu praktycznie
 nieograniczony wgląd w nasze życie, bo ta usługa oprócz połączenia internetowego wymaga również
 włączonego GPS. Google jest zatem w stanie monitorować nasze położenie praktycznie non stop, a
-kwestii czy to robi (lub będzie
-robił) <a href="https://niebezpiecznik.pl/post/google-wie-gdzie-jestes-i-gdzie-byles-i-dzieli-sie-tym-z-policja/">bez naszej świadomej zgody</a>
-lepiej nie poruszać.</p>
+kwestii czy to robi (lub będzie robił) <a href="https://niebezpiecznik.pl/post/google-wie-gdzie-jestes-i-gdzie-byles-i-dzieli-sie-tym-z-policja/">bez naszej świadomej zgody</a> lepiej nie poruszać.</p>
 <h3 id="powiadomienia-push">Powiadomienia PUSH</h3>
 <p>Obecnie sporo aplikacji wykorzystuje powiadomienia PUSH. Co to takiego? Jest to komunikat ze strony
 serwera, który ma zwykle na celu wywołać u nas jakąś interakcję, np. sprawdzenie nowej poczty, czy
@@ -399,8 +386,7 @@ ktoś nam wysłał wiadomość email, to do aplikacji trafi stosowne powiadomien
 nadejściu tego mail'a. Dzięki takiemu rozwiązaniu oszczędzamy pakiet danych oraz wydłuża się czas
 pracy na baterii, bo aplikacja nie utrzymuje żadnego połączenia z serwerem i nie wybudza przy tym
 co chwilę telefonu, by przesłać jakieś dane przez sieć.</p>
-<p>Problem w tym, że te wszystkie powiadomienia
-PUSH <a href="https://android.com.pl/programowanie/159193-powiadomienia-push/">przechodzą dodatkowo przez serwery Google</a>.
+<p>Problem w tym, że te wszystkie powiadomienia PUSH <a href="https://android.com.pl/programowanie/159193-powiadomienia-push/">przechodzą dodatkowo przez serwery Google</a>.
 Ten cały mechanizm może działać tylko dlatego, że aplikacja sklepu Google Play otwiera połączenie z
 serwerem Google i przełącza je w tryb nasłuchu. Dlatego też ta aplikacja musi być zainstalowana w
 telefonie, by te powiadomienia PUSH działały prawidłowo, co z kolei pociąga zależności w postaci
@@ -419,12 +405,10 @@ Google Play Services, np. aplikacja YouTube. Oczywiście jeśli chcemy korzysta�
 to zwykle potrzebne będzie dodanie konta Google.</p>
 <h2 id="integracja-microg-z-aosp">Integracja microG z AOSP</h2>
 <p>Wykorzystując microG możemy mieć zatem w pełni funkcjonalny smartfon, z tym, że pierw musimy sobie
-zintegrować microG z jego systemem. Na stronie microG w
-dziale <a href="https://microg.org/download.html">Download</a> mamy zestaw plików, które musimy pobrać i
-zainstalować w telefonie. Jest także
-dostępne <a href="https://microg.org/fdroid/repo">oficjalne repozytorium microG dla F-Droid</a>, dzięki czemu
-nie będzie potrzeby ręcznej aktualizacji microG w późniejszym czasie. Włączamy także opcje
-deweloperskie w ustawieniach Androida, by mieć dostęp do ADB .</p>
+zintegrować microG z jego systemem. Na stronie microG w dziale <a href="https://microg.org/download.html">Download</a> mamy zestaw plików,
+które musimy pobrać i zainstalować w telefonie. Jest także dostępne <a href="https://microg.org/fdroid/repo">oficjalne repozytorium microG
+dla F-Droid</a>, dzięki czemu nie będzie potrzeby ręcznej aktualizacji microG w późniejszym czasie.
+Włączamy także opcje deweloperskie w ustawieniach Androida, by mieć dostęp do ADB .</p>
 <p>W przypadku Androida w wersji 7 i wyższych trzeba nieco inaczej podejść do instalacji microG w
 systemie. Mianowicie, trzeba ręcznie pobrać pliki microG i umieścić je przy pomocy <code>adb push</code>w
 katalogu <code>/system/priv-app</code> :</p>
@@ -479,8 +463,7 @@ pojawić nowa pozycja <code>microG settings</code> . Odpalamy ją i przyznajemy 
 przypadku paru rzeczy brakuje. Te wszystkie zaistniałe problemy trzeba poprawić. Jeśli któryś z
 nich nie zostanie wyeliminowany, to nasz telefon nie będzie działał jak należy.</p>
 <h3 id="signature-spoofing">Signature spoofing</h3>
-<p>Jak było widać wyżej, system w moim smartfonie nie posiada wsparcia
-dla <a href="https://github.com/microg/android_packages_apps_GmsCore/wiki/Signature-Spoofing">signature spoofing</a>.
+<p>Jak było widać wyżej, system w moim smartfonie nie posiada wsparcia dla <a href="https://github.com/microg/android_packages_apps_GmsCore/wiki/Signature-Spoofing">signature spoofing</a>.
 Dzięki <code>signature spoofing</code>, GmsCore będzie w stanie udawać, że w telefonie jest obecna oficjalna
 wersja Google Play Services w momencie, gdy aplikacje będą się odwoływały do API Google. Trzeba
 tutaj zaznaczyć, że nie wszystkie ROM'y wspierają <code>signature spoofing</code> , a bez tego microG nie
@@ -489,10 +472,9 @@ będzie działał poprawnie.</p>
 <p>W tym przypadku mamy do czynienia z Resurrection Remix OS, który najwyraźniej nie wspiera tego
 całego <code>signature spoofing</code> . Część ROM'ów ma już wszystko na swoim miejscu i poniższe kroki nie są
 potrzebne. Niemniej jednak, jeśli odnajdziemy się w takiej sytuacji jak ta, to pozostaje nam w
-zasadzie zainstalować <a href="https://forum.xda-developers.com/showthread.php?t=3034811">Xposed</a> i
-dociągnąć stosowny moduł. Najlepiej jest instalować Xposed przy
-pomocy <a href="https://forum.xda-developers.com/apps/magisk/official-magisk-v7-universal-systemless-t3473445">Magisk'a</a>.
-Przesyłamy zatem <code>MagiskManager-v7.1.1.apk</code> oraz <code>Magisk-v18.1.zip</code> na telefon:</p>
+zasadzie zainstalować <a href="https://forum.xda-developers.com/showthread.php?t=3034811">Xposed</a> i dociągnąć stosowny moduł. Najlepiej jest instalować Xposed przy
+pomocy <a href="https://forum.xda-developers.com/apps/magisk/official-magisk-v7-universal-systemless-t3473445">Magisk'a</a>. Przesyłamy zatem <code>MagiskManager-v7.1.1.apk</code> oraz <code>Magisk-v18.1.zip</code> na
+telefon:</p>
 <pre><code>$ adb push MagiskManager-v7.1.1.apk Magisk-v18.1.zip /sdcard
 </code></pre>
 <p>Paczkę <code>.zip</code> instalujemy z poziomu TWRP recovery, a plik <code>.apk</code> bezpośrednio w systemie jako
@@ -515,9 +497,7 @@ zwykłą aplikację.</p>
 </tr>
 </tbody>
 </table>
-<p>I dociągamy
-również <a href="https://forum.xda-developers.com/xposed/unofficial-systemless-xposed-t3388268">XposedInstaller_3.1.5-Magisk.apk</a>
-i wrzucamy na telefon:</p>
+<p>I dociągamy również <a href="https://forum.xda-developers.com/xposed/unofficial-systemless-xposed-t3388268">XposedInstaller_3.1.5-Magisk.apk</a> i wrzucamy na telefon:</p>
 <pre><code>$ adb push XposedInstaller_3.1.5-Magisk.apk /sdcard
 </code></pre>
 <p>Naturalnie instalujemy tę paczkę w standardowy sposób i uruchamiamy smartfon ponownie. Od tego
@@ -564,14 +544,11 @@ pozycji:</p>
 zająć się tymi dwoma ostatnimi, czyli konfiguracją backend'ów lokalizacji.</p>
 <h3 id="backendy-unified-nlp-i-gps">Backend'y Unified NLP i GPS</h3>
 <p>Kolejną rzeczą, którą musimy zrobić by zintegrować microG z systemem telefonu to skonfigurowanie
-co najmniej jednego backend'u lokalizacji dla
-Unified NLP (<a href="https://github.com/microg/android_packages_apps_UnifiedNlp">Unified Network Location Provider</a>).
+co najmniej jednego backend'u lokalizacji dla Unified NLP (<a href="https://github.com/microg/android_packages_apps_UnifiedNlp">Unified Network Location Provider</a>).
 Ten cały Unified NLP jest zawarty w paczce z microG, którą pobraliśmy wcześniej i nie trzeba nic
 dodatkowo już pobierać, by ten Unified NLP działał poprawnie. Potrzebny nam jest jednak co najmniej
-jeden
-backend. <a href="https://f-droid.org/en/packages/com.google.android.gms/">Tych backend'ów NLP jest kilka</a>.
-Na nasze potrzeby wystarczą: <code>NominatimNlpBackend</code> oraz <code>MozillaNlpBackend</code> -- obie te rzeczy można
-pobrać przez F-Droid.</p>
+jeden backend. <a href="https://f-droid.org/en/packages/com.google.android.gms/">Tych backend'ów NLP jest kilka</a>. Na nasze potrzeby wystarczą:
+<code>NominatimNlpBackend</code> oraz <code>MozillaNlpBackend</code> -- obie te rzeczy można pobrać przez F-Droid.</p>
 <table>
 <thead>
 <tr>
@@ -722,10 +699,9 @@ urządzeniami, Firefox powinien zarejestrować się i otrzymać kilka wiadomośc
 odebrać od nich notyfikacje PUSH i przekazać je do konkretnych aplikacji. Zatem również i
 powiadomienia PUSH mamy z głowy.</p>
 <h3 id="a-co-z-aplikacjami-google">A co z aplikacjami Google</h3>
-<p>Jeśli ktoś chciałby używać pojedynczych aplikacji Google,
-np. <a href="https://forum.xda-developers.com/android/apps-games/app-youtube-vanced-edition-t3758757">YouTube Vanced</a>
-(taka bardziej podrasowana wersja przeglądarki YouTube), to wystarczy, że doinstaluje stosowną
-aplikację i opcjonalnie stworzy konto Google. </p>
+<p>Jeśli ktoś chciałby używać pojedynczych aplikacji Google, np. <a href="https://forum.xda-developers.com/android/apps-games/app-youtube-vanced-edition-t3758757">YouTube Vanced</a> (taka bardziej
+podrasowana wersja przeglądarki YouTube), to wystarczy, że doinstaluje stosowną aplikację i
+opcjonalnie stworzy konto Google. </p>
 <p>Poniższy przykład odnosi się do YouTube Vanced ale można go zaaplikować chyba do dowolnej aplikacji
 Google, bo póki co wszystkie appki od Google, z których czasem korzystam (YT, Translate i Street
 View), bez problemu działają bez Google Play Services w takim ustawieniu microG jak sobie wyżej
@@ -862,6 +838,8 @@ telefonu bezpiecznie korzystać, a inni powinni się tego po prostu nauczyć.</p
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/microg/">microg</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/safetynet/">safetynet</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/push/">push</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/youtube/">youtube</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/gps/">gps</a>
 </div>
 					
 <div class="entry__share share">
@@ -918,6 +896,12 @@ telefonu bezpiecznie korzystać, a inni powinni się tego po prostu nauczyć.</p
 	<ul class="related__list">
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przy-pomocy-magiska-pogodzic-safetynet-i-adb-usb-debug/">Jak przy pomocy Magisk&#39;a pogodzić SafetyNet i ADB/USB debug</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-framework-xposed-i-moduly-do-youtube/">Android: Framework Xposed i moduły do YouTube</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-youtube-bez-reklam-na-smartfonie-newpipe/">Android: YouTube bez reklam na smartfonie (NewPipe)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/metadane-plikow-graficznych-exif/">Metadane plików graficznych (EXIF)</a></li>
 		
 	</ul>
 </div>

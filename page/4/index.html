@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="pl-PL">
 <head>
-	<meta name="generator" content="Hugo 0.76.5" />
+	<meta name="generator" content="Hugo 0.77.0" />
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +13,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/" />
-<meta property="og:updated_time" content="2020-10-18T10:45:00+02:00" />
+<meta property="og:updated_time" content="2020-11-01T09:01:00+01:00" />
 
 		<meta itemprop="name" content="Morfitronik">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -90,6 +90,31 @@ if (!doNotTrack) {
 	
 	<main class="main">
 			<div class="cards">
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zaladowac-firmware-karty-wifi-przed-initrd-initramfs/">Jak załadować firmware karty WiFi przed initrd/initramfs</a></h1>
+	<div class="entry__content"><p>Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową
+sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: <code>Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2</code> . W tym przypadku sprawa dotyczyła karty <code>Intel Corporation Centrino Advanced-N 6205 [Taylor Peak]</code> działającej w oparciu o moduł kernela
+<code>iwlwifi</code> . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po
+kłopocie. No i faktycznie w Debianie jest dostępny pakiet <code>firmware-iwlwifi</code> , który zawiera ten
+potrzebny plik <code>iwlwifi-6000g2a-6.ucode</code> . Problem jednak w tym, że instalacja paczki z firmware
+niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware
+muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W
+takim przypadku zainstalowanie paczki z firmware w naszym linux'ie nic nam nie da, bo pliki
+rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej
+sytuacji?</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-03-06T02:45:00Z">Opublikowano: 06/03/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-03-12T16:30:00&#43;01:00">Zaktualizowano: 12/03/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
 					<div class="card card--2col">
 					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/memtest86-dla-efi-uefi-i-refind/">Memtest86 dla EFI/UEFI i rEFInd</a></h1>
@@ -309,33 +334,6 @@ usunąć linijkę zawierającą <code>capability dac_override,</code> zostawiaj�
 aplikacji, a może kernela linux'a?</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-09-16T18:20:15Z">Opublikowano: 16/09/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-					</div>
-					<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wybudzanie-linuxa-ze-stanu-uspienia-za-sprawa-myszy/">Wybudzanie linux&#39;a ze stanu uśpienia za sprawą myszy</a></h1>
-	<div class="entry__content"><p>Parę dni temu na jednych z forów, które czasem odwiedzam, <a href="https://forum.linuxmint.pl/showthread.php?tid=323">pojawił się wątek</a> dotyczący problemu
-jaki może nieść ze sobą budzenie linux'a ze stanu uśpienia/wstrzymania (Suspend to RAM, STR) za
-sprawą myszy. O ile w przypadku klawiatury sprawa wybudzania komputera zdaje się być dość oczywista,
-to w przypadku tego małego gryzonia już niekoniecznie, bo wystarczy lekko mysz przemieścić po
-blacie stołu czy innego biurka i system się nam wybudzi. Część komputerów ma stosowne opcje w
-BIOS/UEFI i można za ich sprawą skonfigurować to jakie urządzenia będą mieć możliwość wybudzania
-systemu. Niekiedy jednak, opcje w BIOS są tak ubogie, że nie mamy możliwości skonfigurowania tego
-aspektu pracy naszej maszyny. Trzeba zatem w nieco inny sposób podejść do tego zagadnienia. Na
-necie można się spotkać z radami odnośnie zapisu pliku <code>/proc/acpi/wakeup</code> przez przesłanie do
-niego czteroznakowych kodów, np. <code>EHC1</code> czy <code>USB1</code> . Takie rozwiązanie może nieść ze sobą negatywne
-konsekwencje i powinno się go unikać. Lepszym rozwiązaniem jest napisanie reguły dla UDEV'a dla
-konkretnego urządzenia, gdzie będziemy mogli łatwo sterować (przez plik <code>power/wakeup</code> ) tym czy
-dane urządzenie ma mieć możliwość wybudzania systemu czy też nie.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-06-06T16:10:15Z">Opublikowano: 06/06/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

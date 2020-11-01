@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/post/" />
-<meta property="og:updated_time" content="2020-10-18T10:45:00+02:00" />
+<meta property="og:updated_time" content="2020-11-01T09:01:00+01:00" />
 
 		<meta itemprop="name" content="Posts">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -106,6 +106,34 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wybudzanie-linuxa-ze-stanu-uspienia-za-sprawa-myszy/">Wybudzanie linux&#39;a ze stanu uśpienia za sprawą myszy</a></h1>
+	<div class="entry__content"><p>Parę dni temu na jednych z forów, które czasem odwiedzam, <a href="https://forum.linuxmint.pl/showthread.php?tid=323">pojawił się wątek</a> dotyczący problemu
+jaki może nieść ze sobą budzenie linux'a ze stanu uśpienia/wstrzymania (Suspend to RAM, STR) za
+sprawą myszy. O ile w przypadku klawiatury sprawa wybudzania komputera zdaje się być dość oczywista,
+to w przypadku tego małego gryzonia już niekoniecznie, bo wystarczy lekko mysz przemieścić po
+blacie stołu czy innego biurka i system się nam wybudzi. Część komputerów ma stosowne opcje w
+BIOS/UEFI i można za ich sprawą skonfigurować to jakie urządzenia będą mieć możliwość wybudzania
+systemu. Niekiedy jednak, opcje w BIOS są tak ubogie, że nie mamy możliwości skonfigurowania tego
+aspektu pracy naszej maszyny. Trzeba zatem w nieco inny sposób podejść do tego zagadnienia. Na
+necie można się spotkać z radami odnośnie zapisu pliku <code>/proc/acpi/wakeup</code> przez przesłanie do
+niego czteroznakowych kodów, np. <code>EHC1</code> czy <code>USB1</code> . Takie rozwiązanie może nieść ze sobą negatywne
+konsekwencje i powinno się go unikać. Lepszym rozwiązaniem jest napisanie reguły dla UDEV'a dla
+konkretnego urządzenia, gdzie będziemy mogli łatwo sterować (przez plik <code>power/wakeup</code> ) tym czy
+dane urządzenie ma mieć możliwość wybudzania systemu czy też nie.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-06-06T16:10:15Z">Opublikowano: 06/06/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/montowanie-dyskow-jako-zwykly-uzytkownik-z-udisks-i-policykit/">Montowanie dysków jako zwykły użytkownik z UDisks i PolicyKit</a></h1>
 	<div class="entry__content"><p>Jeszcze nie tak dawno temu przeciętnej klasy desktop był wyposażony w pojedynczy i do tego
 niewielkiej pojemności dysk twardy, który był w stanie pomieścić wszystkie pliki swojego
@@ -138,26 +166,24 @@ systemu i ocenić jego stopień przydatności.</p></div>
 				<div class="card card--2col">
 					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/czy-smartfon-z-androidem-bez-google-apps-services-ma-sens/">Czy smartfon z Androidem bez Google Apps/Services ma sens</a></h1>
-	<div class="entry__content"><p>Jakiś czas
-temu <a href="https://android.com.pl/programowanie/188397-po-co-nam-uslugi-google-play/">natknąłem się na artykuł</a>
-chwalący Google Play Services i sugerujący zarazem, że nasz smartfon bez tych usług (i appek
-zależnych od nich) na niewiele się zda człowiekowi. Nie jest to jednak do końca prawdą i
-postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na telefonie z Androidem
-pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W rolach głównych wystąpi
-mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać LineageOS (lub też inny
-ROM na bazie AOSP). Po wgraniu ROM'u, w telefonie znajduje się jedynie garstka podstawowych
-aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po drugie można je bez
-problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można dzwonić, przeglądać net
-(WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju multimediów. W zasadzie czego
-oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć możliwość używania, np. nawigacji.
-No i tu już zaczynają się schody, bo na takim w pełni otwartoźródłowym Androidzie, GPS nie zadziała
-OOTB i potrzebna nam jest jakaś alternatywa w postaci pośrednika między aplikacjami a GPS.
-Standardowo w Andkach tym zadaniem zajmują się właśnie te usługi Google. Jak więc zatem zmusić GPS
-do poprawnej pracy nie chcąc przy tym wgrywać sobie tego rozbudowanego w uprawnieniach szpiega od
-Google? Problemów naturalnie może być więcej, a to czy doświadczymy któregokolwiek z nich zależy
-głównie od odpowiedniej konfiguracji systemu. Niniejszy artykuł postara się zebrać wszystkie te
-niezbędne informacje mające na celu zaimplementowanie w naszym smartfonie otwartoźródłowej
-alternatywy dla Google Play Services w postaci microG.</p></div>
+	<div class="entry__content"><p>Jakiś czas temu <a href="https://android.com.pl/programowanie/188397-po-co-nam-uslugi-google-play/">natknąłem się na artykuł</a> chwalący Google Play Services i sugerujący zarazem,
+że nasz smartfon bez tych usług (i appek zależnych od nich) na niewiele się zda człowiekowi. Nie
+jest to jednak do końca prawdą i postanowiłem pokazać na żywym przykładzie jak wygląda operowanie na
+telefonie z Androidem pozbawionym jakichkolwiek usług czy aplikacji własnościowych od Google. W
+rolach głównych wystąpi mój smartfon LG G4C, który jest już dość leciwy ale można na niego wgrać
+LineageOS (lub też inny ROM na bazie AOSP). Po wgraniu ROM'u, w telefonie znajduje się jedynie
+garstka podstawowych aplikacji (przeglądarka, galeria, itp), które po pierwsze są opensource, a po
+drugie można je bez problemu wyłączyć jeśli nie zamierzamy z nich korzystać. Z telefonu można
+dzwonić, przeglądać net (WiFi/LTE), robić zdjęcia i używać tego urządzenia do różnego rodzaju
+multimediów. W zasadzie czego oczekiwać więcej od telefonu? Niektórzy jednak chcieli by mieć
+możliwość używania, np. nawigacji. No i tu już zaczynają się schody, bo na takim w pełni
+otwartoźródłowym Androidzie, GPS nie zadziała OOTB i potrzebna nam jest jakaś alternatywa w postaci
+pośrednika między aplikacjami a GPS. Standardowo w Andkach tym zadaniem zajmują się właśnie te
+usługi Google. Jak więc zatem zmusić GPS do poprawnej pracy nie chcąc przy tym wgrywać sobie tego
+rozbudowanego w uprawnieniach szpiega od Google? Problemów naturalnie może być więcej, a to czy
+doświadczymy któregokolwiek z nich zależy głównie od odpowiedniej konfiguracji systemu. Niniejszy
+artykuł postara się zebrać wszystkie te niezbędne informacje mające na celu zaimplementowanie w
+naszym smartfonie otwartoźródłowej alternatywy dla Google Play Services w postaci microG.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-04-16T21:00:15Z">Opublikowano: 16/04/2019</time>
 
@@ -350,43 +376,6 @@ przestrzeni wymiany w postaci pliku. W tym artykule rzucimy sobie okiem na ten n
 skomplikowany proces.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-03-23T19:30:22Z">Opublikowano: 23/03/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/modul-tpe-trusted-path-execution-dla-kernela-linux/">Moduł TPE (Trusted Path Execution) dla kernela linux</a></h1>
-	<div class="entry__content"><p>Użytkownicy linux'a są zwykle chronieni przez mechanizmy bezpieczeństwa, które ten system jest w
-stanie zaoferować. Oczywiście deweloperzy różnych dystrybucji, np. Debiana, dokładają wszelkich
-możliwych starań, by system jako całość był wstępnie skonfigurowany tak, by końcowy użytkownik nie
-musiał za wiele majstrować przy zabezpieczeniach i mógł się czuć i być (przynajmniej względnie)
-bezpieczny. No i faktycznie złowrogie oprogramowanie ma czasem spore problemy dostać się do maszyny,
-którą operuje linux. Niemniej jednak, gdy już taki syf się do systemu dostanie, to zwykle niewiele
-dzieli go od przejęcia kontroli nad komputerem. Może i część zabezpieczeń linux'a zadziała i sprawi,
-że taki wirus/trojan czy nawet zwykły skrypt będzie miał ograniczone pole manewru, to i tak będzie
-on mógł przeprowadzić te akcje, które zwyczajny użytkownik systemu (nie root) jest zwykle w stanie
-poczynić, np. odebrać dźwięk i video ze stosownych urządzeń i przesłać te dane przez sieć. My z
-kolei możemy nawet tego faktu nie być świadomi. Jasne, że powinno się zwracać uwagę na to jakie
-pliki się pobiera z internetu i nie uruchamiać wszystkiego lekkomyślnie ale też trzeba mieć na
-uwadze fakt, że często jedna maszyna jest współdzielona, np. z członkami rodziny i oni już
-niekoniecznie muszą władać zaawansowaną wiedza z zakresu IT, by przewidzieć wszystkie możliwe
-zagrożenia czyhające na nich w sieci. Można za to postarać się, by uczynić naszą maszynę nieco
-bardziej odporną na niezbyt przemyślane zachowania użytkowników jej systemu operacyjnego. Jednym z
-kroków, które możemy podjąć, jest wdrożenie mechanizmu Trusted Path Execution (TPE), który póki co
-jest dostępny jedynie w <a href="https://patchwork.kernel.org/patch/9773791/">formie patch'a</a> na kernel
-linux'a lub też jako jego <a href="https://github.com/cormander/tpe-lkm">osobny moduł</a> oferujący sporo
-więcej możliwości w stosunku do wspomnianej wcześniej łaty. W niniejszym artykule rzucimy sobie
-okiem na ten cały mechanizm TPE i zobaczymy jak jest on w stanie uchronić nasz OS przed niezbyt
-zaawansowaną ludzką inteligencją.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-03-22T20:10:11Z">Opublikowano: 22/03/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

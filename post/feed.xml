@@ -6,7 +6,33 @@
     <description>Recent content in Posts on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Sun, 18 Oct 2020 10:45:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/post/feed.xml" rel="self" type="application/rss" />
+    <lastBuildDate>Sun, 01 Nov 2020 09:01:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/post/feed.xml" rel="self" type="application/rss" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Blokowanie reklam w YouTube na smartfonie z Androidem bez root</title>
+      <link>https://morfikov.github.io/post/blokowanie-reklam-w-youtube-na-smartfonie-z-androidem-bez-root/</link>
+      <pubDate>Sun, 01 Nov 2020 09:01:00 +0100</pubDate>
+      
+      <guid>https://morfikov.github.io/post/blokowanie-reklam-w-youtube-na-smartfonie-z-androidem-bez-root/</guid>
+      <description>&lt;p&gt;Użytkownicy Androida do przeglądania serwisu YouTube używają z reguły tej dedykowanej aplikacji od
+Google. Problem z tą appką jest taki, że serwuje ona całą masę reklam, których to nie można wykroić
+stosując popularne rozwiązania na bazie &lt;a href=&#34;https://blokada.org/&#34;&gt;Blokada&lt;/a&gt; czy &lt;a href=&#34;https://adaway.org/&#34;&gt;AdAway&lt;/a&gt;. Niektórzy starają się
+korzystać z innych aplikacji pokroju &lt;a href=&#34;https://newpipe.schabi.org/&#34;&gt;NewPipe&lt;/a&gt; czy &lt;a href=&#34;https://skytube-app.com/&#34;&gt;SkyTube&lt;/a&gt; ale one mają swoje ograniczenia,
+np. nie można pisać komentarzy czy też nie działają powiadomienia push. Kiedyś by rozwiązać ten
+problem reklam w appce YouTube &lt;a href=&#34;https://forum.xda-developers.com/apps/magisk/official-magisk-v7-universal-systemless-t3473445&#34;&gt;korzystałem z Magisk&#39;a&lt;/a&gt; i jego modułu YouTube Vanced ale to
+rozwiązanie od jakiegoś czasu nie jest już wspierane, choć w dalszym ciągu można z niego korzystać.
+Jako, że od paru miechów nie zaglądałem na &lt;a href=&#34;https://vancedapp.com/&#34;&gt;stronę YouTube Vanced&lt;/a&gt;, to postanowiłem sprawdzić
+czy coś w tej kwestii się zmieniło. Wygląda na to, że jednak coś drgnęło, bo teraz dostępny jest
+Vanced Manager, który to jest w stanie tak skonfigurować nasz telefon, by aplikacja YT Vanced
+działała bez problemu nawet na nieukorzenionym Androidzie (nie trzeba mieć root&#39;a). Możemy zatem
+zachować całą funkcjonalność serwisu YouTube pozbywając się przy tym reklam oraz segmentów
+sponsorowanych, no i też nie musimy nic kombinować z telefonem, tj. odblokowywać bootloader&#39;a czy
+wgrywać TWRP. Problematyczne może być jednak zainstalowanie YouTube Vanced, bo czasami powiadomienia
+(notyfikacje push) mogą nam nie działać poprawnie. Właśnie dlatego postanowiłem napisać parę słów
+na temat instalacji tej aplikacji z wykorzystaniem Vanced Manager w Androidach bez root, by uniknąć
+tego jak i innych problemów.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Zastosowanie KSM w maszynach wirtualnych QEMU/KVM</title>
@@ -441,33 +467,6 @@ bezpośrednio z poziomu firmware EFI/UEFI, co było trochę upierdliwe. Szukają
 ten temat, jedyne co znalazłem, to fakt, że sporo osób ma podobny problem i najwyraźniej firmware
 mojego laptopa jest ździebko niedorobiony, przez co &lt;code&gt;efi-updatevar&lt;/code&gt; nie mógł realizować swojego
 zdania. Rzeczywistość okazała się nieco inna, a rozwiązanie samego problemu było wręcz banalne.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Czym jest linux kernel driver binding</title>
-      <link>https://morfikov.github.io/post/czym-jest-linux-kernel-driver-binding/</link>
-      <pubDate>Tue, 28 Jul 2020 19:39:00 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/czym-jest-linux-kernel-driver-binding/</guid>
-      <description>&lt;p&gt;Bawiąc się ostatnio QEMU/KVM na swoim laptopie z zainstalowanym Debianem natrafiłem na ciekawe
-zagadnienie związane z wirtualizacją, tj. z PCI passthrough. Nie chodzi mi tutaj o samą technikę
-PCI passthrough ale o dobór sterowników do urządzeń działających pod kontrolą linux. Każdy sprzęt,
-który ma działać w systemie, musi mieć załadowany w pamięci RAM stosowny moduł kernela. Te moduły
-zwykle są ładowane automatycznie podczas pracy systemu, np. gdy podłączamy nowy sprzęt do komputera
-(można też te moduły ładować i ręcznie via &lt;code&gt;modprobe&lt;/code&gt; ). Gdy nasz linux z jakiegoś powodu dobierze
-niewłaściwy (z naszego punktu widzenia) moduł dla jakiegoś urządzenia, to możemy to urządzenie
-odłączyć od komputera, a moduł bez problemu wyładować, po czym dokonać stosownych poprawek w
-systemie. Problem zaczyna się w sytuacji, gdy mamy do czynienia ze sprzętem, którego nie da się od
-komputera fizycznie odłączyć, np. wbudowana w płytę główną karta dźwiękowa, czy też wbudowana
-grafika bezpośrednio w CPU. Podobnie sprawa wygląda w przypadku wkompilowania modułów na stałe w
-kernel -- jak wyładować moduł, którego się nie da wyładować? By w takich sytuacjach zmienić
-przypisany urządzeniu sterownik trzeba dodać parę plików w katalogach &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; /
-&lt;code&gt;/etc/modprobe.d/&lt;/code&gt; oraz zrestartować maszynę, tak by podczas fazy boot kernel dobrał sprzętowi
-pożądane przez nas moduły i ich konfigurację. Niemniej jednak, istnieje prostszy sposób na zmianę
-sterownika działającego w systemie sprzętu i to bez potrzeby fizycznego restartowania maszyny.
-Chodzi o mechanizm ręcznego przypisywania urządzeń do konkretnych sterowników (&lt;a href=&#34;https://lwn.net/Articles/143397/&#34;&gt;manual driver
-binding and unbinding&lt;/a&gt;).&lt;/p&gt;</description>
     </item>
     
   </channel>
