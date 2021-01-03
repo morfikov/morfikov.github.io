@@ -39,7 +39,7 @@ do serwera i podmienić pliki. Czy możemy zatem mieć pewność, że dany plik 
 takiej jak powinien?">
 <meta itemprop="datePublished" content="2015-06-15T15:20:52+00:00" />
 <meta itemprop="dateModified" content="2015-06-15T15:20:52+00:00" />
-<meta itemprop="wordCount" content="1122">
+<meta itemprop="wordCount" content="1123">
 
 
 
@@ -184,11 +184,10 @@ dokładnie taki jak oczekujemy? Trzeba sprawdzić jak wygląda jego suma kontrol
 tutaj miejsce, z którego plik został pobrany. Jeśli suma kontrolna będzie zgodna z tą dostarczoną
 przez, w tym wypadku, deweloperów debiana, możemy spać spokojnie.</p>
 <h2 id="wiarygodna-suma-kontrolna">Wiarygodna suma kontrolna</h2>
-<p>Będąc w posiadaniu obrazu <code>.iso</code> , przechodzimy na <a href="https://www.debian.org/CD/http-ftp/">serwer
-debiana</a> i szukamy płytki, którą rzekomo mamy na dysku. Zwykle
-obok obrazów mamy podane pliki o nazwach: <code>MD5SUMS</code> , <code>SHA1SUMS</code> , <code>SHA256SUMS</code> , <code>SHA512SUMS</code> . Co
-oznaczają nazwy plików i jaka jest ich zawartość? Nazwy plików zawierają algorytm za pomocą którego
-zostały wygenerowane sumy kontrolne obrazów.</p>
+<p>Będąc w posiadaniu obrazu <code>.iso</code> , przechodzimy na <a href="https://www.debian.org/CD/http-ftp/">serwer debiana</a> i szukamy płytki, którą
+rzekomo mamy na dysku. Zwykle obok obrazów mamy podane pliki o nazwach: <code>MD5SUMS</code> , <code>SHA1SUMS</code> ,
+<code>SHA256SUMS</code> , <code>SHA512SUMS</code> . Co oznaczają nazwy plików i jaka jest ich zawartość? Nazwy plików
+zawierają algorytm za pomocą którego zostały wygenerowane sumy kontrolne obrazów.</p>
 <p>Tak wygląda przykładowy plik <code>SHA1SUMS</code> :</p>
 <pre><code>018ac2307ca33f021ee33ac9e26f05c7a47eb0e2  debian-8.1.0-amd64-DVD-1.iso
 fd96c9f95d5a5c610981d157bc163442f82a158f  debian-8.1.0-amd64-DVD-10.iso
@@ -237,11 +236,9 @@ sha1sum: WARNING: 1 computed checksum did NOT match
 </code></pre>
 <p>Gdy w pliku <code>SHA1SUMS</code> jest zdefiniowanych więcej niż jedna suma kontrolna, dostaniemy sporo błędów.
 Dlatego też ze względów estetycznych najlepiej posiadać w pliku wpis od określonego obrazu lub
-obrazów. Istnieje również <a href="https://people.debian.org/~danchev/debian-iso/check_debian_iso">skrypt</a>,
-którym można się posłużyć.</p>
+obrazów. Istnieje również <a href="https://people.debian.org/~danchev/debian-iso/check_debian_iso">skrypt</a>, którym można się posłużyć.</p>
 <p>Dla tych, którzy nie przepadają za konsolą są i graficzne narzędzia. Mi osobiście bardzo przypadł do
-gustu <a href="http://www.wxhexeditor.org/">wxHexEditor</a>. Co w nim takiego ciekawego? Potrafi liczyć zarazem
-kilkadziesiąt sum:</p>
+gustu <a href="http://www.wxhexeditor.org/">wxHexEditor</a>. Co w nim takiego ciekawego? Potrafi liczyć zarazem kilkadziesiąt sum:</p>
 <p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/1.suma-kontrolna-wxhexeditor-lista.png" alt=""    class="big"></p>
 <p>Wystarczy wskazać mu plik, po czym wybrać interesujące nas algorytmy, a ten program nam to wszystko
 ładnie wyliczy:</p>
@@ -263,7 +260,7 @@ kontrola całego nośnika, czyli wypalonego obrazu <code>.iso</code> z danymi or
 obrazu). W wyniku czego uzyskalibyśmy inną sumę kontrolną. Musimy zatem wskazać miejsce, w którym ma
 się skończyć liczenie sumy kontrolnej nośnika. Jak to zrobić? Sprawdźmy przy pomocy <code>ls -al</code> jaki
 rozmiar w bajtach ma pobrany obraz <code> :iso</code> :</p>
-<pre><code>s -al debian-live-8.1.0-amd64-cinnamon-desktop.iso
+<pre><code>$ ls -al debian-live-8.1.0-amd64-cinnamon-desktop.iso
 -rw-r--r-- 1 morfik morfik 1159495680 2015-06-15 14:49:18 debian-live-8.1.0-amd64-cinnamon-desktop.iso
 </code></pre>
 <p>Mamy zatem rozmiar: <code>1159495680</code> . Co dalej? Musimy nakarmić <code>sha1sum</code> danymi z <code>/dev/sr0</code> o takiej
@@ -396,7 +393,7 @@ została naruszona integralność danych na nośniku i trzeba płytkę wypalać 
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
 		</a>
 </div>
-	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">
 		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.

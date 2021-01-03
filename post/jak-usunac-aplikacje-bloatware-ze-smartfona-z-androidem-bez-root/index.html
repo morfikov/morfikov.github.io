@@ -24,8 +24,8 @@ nawet ukorzenionego Androida, by pozbyć się tego całego syfu z systemu, któr
 spędza sen z powiek i nie daje mu się przy tym porządnie wyspać." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/jak-usunac-aplikacje-bloatware-ze-smartfona-z-androidem-bez-root/" />
-<meta property="article:published_time" content="2019-01-27T06:01:02+00:00" />
-<meta property="article:modified_time" content="2019-01-27T06:01:02+00:00" />
+<meta property="article:published_time" content="2019-01-27T06:01:02+01:00" />
+<meta property="article:modified_time" content="2020-12-01T16:30:00+01:00" />
 
 		<meta itemprop="name" content="Jak usunąć aplikacje bloatware ze smartfona z Androidem bez root">
 <meta itemprop="description" content="Jeśli mamy smartfon z Androidem na pokładzie, to zapewne każdy za nas zadawał sobie pytanie, czy da
@@ -41,13 +41,13 @@ się za sprawą administratora systemu (root), bo w zasadzie każda aplikacja w 
 zainstalowana/odinstalowana dla konkretnego użytkownika w systemie. Nie potrzebujemy mieć zatem
 nawet ukorzenionego Androida, by pozbyć się tego całego syfu z systemu, który naszemu urządzeniu
 spędza sen z powiek i nie daje mu się przy tym porządnie wyspać.">
-<meta itemprop="datePublished" content="2019-01-27T06:01:02+00:00" />
-<meta itemprop="dateModified" content="2019-01-27T06:01:02+00:00" />
-<meta itemprop="wordCount" content="1867">
+<meta itemprop="datePublished" content="2019-01-27T06:01:02+01:00" />
+<meta itemprop="dateModified" content="2020-12-01T16:30:00+01:00" />
+<meta itemprop="wordCount" content="2018">
 
 
 
-<meta itemprop="keywords" content="smartfon,aplikacje," />
+<meta itemprop="keywords" content="smartfon,aplikacje,bloatware," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Jak usunąć aplikacje bloatware ze smartfona z Androidem bez root"/>
@@ -147,7 +147,8 @@ if (!doNotTrack) {
 		<div class="single block">
 			<article class="entry">
 	<div class="entry__meta meta mb">
-	<time class="entry__meta-published meta-published" datetime="2019-01-27T06:01:02Z">Opublikowano: 27/01/2019</time>
+	<time class="entry__meta-published meta-published" datetime="2019-01-27T06:01:02&#43;01:00">Opublikowano: 27/01/2019</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-12-01T16:30:00&#43;01:00">Zaktualizowano: 01/12/2020</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -169,6 +170,7 @@ if (!doNotTrack) {
     <li><a href="#usunięte-aplikacje-i-aktualizacje-ota">Usunięte aplikacje i aktualizacje OTA</a></li>
     <li><a href="#jak-przywrócić-usunięte-aplikacje">Jak przywrócić usunięte aplikacje</a>
       <ol>
+        <li><a href="#polecenie-cmd">Polecenie cmd</a></li>
         <li><a href="#plik-datasystemusers0package-restrictionsxml">Plik /data/system/users/0/package-restrictions.xml</a></li>
       </ol>
     </li>
@@ -312,15 +314,30 @@ nam też po przeprowadzeniu procesu aktualizacji OTA.</p>
 <h2 id="jak-przywrócić-usunięte-aplikacje">Jak przywrócić usunięte aplikacje</h2>
 <p>W zasadzie, to przy usuwaniu aplikacji przez <code>pm uninstall -k --user 0</code> nie dokonujemy żadnych
 zmian na partycji <code>/system/</code> . Dlatego też aktualizacje OTA będą działać bez problemu. Jeśli
-jednak przez przypadek usunęliśmy sobie nie tę aplikacje, którą chcieliśmy, to już jej tak łatwo
-nie przywrócimy. Może i fizycznie pliki programu są dostępne w ROM na partycji <code>/system/</code> ale
-ustawienia, które każą Androidowi ten fakt zignorować może zmienić jedynie administrator systemu.
-Jeśli nie mamy ukorzenionego Androida, to pozostaje nam jedynie opcja Factory Reset.</p>
+jednak przez przypadek usunęliśmy sobie nie tą aplikację, którą chcieliśmy, to w pewnych przypadkach
+możemy mieć spore problemy z jej przywróceniem. Może i fizycznie pliki programu są dostępne w ROM
+na partycji <code>/system/</code> ale ustawienia, które każą Androidowi ten fakt zignorować, w części
+smartfonów może zmienić jedynie administrator systemu. Do końca nie wiem czy to zależy od samego
+Androida (jego wersji), czy też od producenta urządzenia ale trzeba ten fakt mieć na uwadze. W
+przypadku ewentualnej pomyłki może okazać się, że trzeba będzie ratować się przywróceniem stanu
+urządzenia do ustawień fabrycznych (factory reset), by ta aplikacja na nowo się w systemie pojawiła.</p>
+<h3 id="polecenie-cmd">Polecenie cmd</h3>
+<p>W przypadku jednego z moich urządzeń z Androidem 10 jest możliwość skorzystania z polecenia <code>cmd</code> .
+Przy jego pomocy możemy przywrócić wcześniej odinstalowane aplikacje i nie trzeba do tego celu
+pozyskiwać praw administratora systemu. Trzeba tutaj jednak wyraźnie zaznaczyć, że nie we wszystkich
+Androidach ten <code>cmd</code> jest obecny. W zasadzie, to tylko w jednym z moich telefonów spotkałem się z
+możliwością skorzystania z tego polecenia. Jeśli Android w naszym smartfonie oferuje polecenie
+<code>cmd</code> , to wpisując to poniższe polecenie możemy przywrócić odinstalowane appki:</p>
+<pre><code>$ adb shell
+galahad:/ $ cmd package install-existing com.miui.calculator
+Package com.miui.calculator installed for user: 0
+</code></pre>
 <h3 id="plik-datasystemusers0package-restrictionsxml">Plik /data/system/users/0/package-restrictions.xml</h3>
-<p>Jeśli jednak mamy dostęp root, nawet niekoniecznie w działającym systemie, np. przez TWRP recovery,
-to możemy wszystkie wprowadzone przez nas zmiany podczas usuwania aplikacji cofnąć. Musimy tylko
-odnaleźć plik <code>/data/system/users/0/package-restrictions.xml</code> , bo to w nim są przechowywane
-informacje na temat restrykcji dostępu do tych faktycznie zainstalowanych w systemie programów.</p>
+<p>W przypadku gdy mamy zapewniony dostęp root, nawet niekoniecznie w działającym systemie, np. przez
+TWRP recovery, to możemy wszystkie wprowadzone przez nas zmiany podczas usuwania aplikacji cofnąć
+ręcznie. Musimy tylko odnaleźć plik <code>/data/system/users/0/package-restrictions.xml</code> , bo to w nim są
+przechowywane informacje na temat restrykcji dostępu do tych faktycznie zainstalowanych w systemie
+programów.</p>
 <p>Sam plik składa się z wpisów określających nazwę aplikacji oraz paru dodatkowych atrybutów
 mówiących m.in. czy dany program jest zainstalowany dla tego konkretnego użytkownika w systemie. W
 przypadku, gdy usuwamy program, to plik <code>package-restrictions.xml</code> jest uzupełniany o odpowiednie
@@ -425,6 +442,7 @@ com.android.chrome
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aplikacje/">aplikacje</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bloatware/">bloatware</a>
 </div>
 					
 <div class="entry__share share">
@@ -540,7 +558,7 @@ com.android.chrome
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
 		</a>
 </div>
-	<div class="footer__copyright">© 2020 Mikhail Morfikov.
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">
 		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
