@@ -2,12 +2,14 @@
 author: Morfik
 categories:
 - Android
-date: "2019-01-27T06:01:02Z"
+date:    2019-01-27 06:01:02 +0100
+lastmod: 2020-12-01 16:30:00 +0100
 published: true
 status: publish
 tags:
 - smartfon
 - aplikacje
+- bloatware
 title: Jak usunąć aplikacje bloatware ze smartfona z Androidem bez root
 ---
 
@@ -148,17 +150,34 @@ nam też po przeprowadzeniu procesu aktualizacji OTA.
 
 W zasadzie, to przy usuwaniu aplikacji przez `pm uninstall -k --user 0` nie dokonujemy żadnych
 zmian na partycji `/system/` . Dlatego też aktualizacje OTA będą działać bez problemu. Jeśli
-jednak przez przypadek usunęliśmy sobie nie tę aplikacje, którą chcieliśmy, to już jej tak łatwo
-nie przywrócimy. Może i fizycznie pliki programu są dostępne w ROM na partycji `/system/` ale
-ustawienia, które każą Androidowi ten fakt zignorować może zmienić jedynie administrator systemu.
-Jeśli nie mamy ukorzenionego Androida, to pozostaje nam jedynie opcja Factory Reset.
+jednak przez przypadek usunęliśmy sobie nie tą aplikację, którą chcieliśmy, to w pewnych przypadkach
+możemy mieć spore problemy z jej przywróceniem. Może i fizycznie pliki programu są dostępne w ROM
+na partycji `/system/` ale ustawienia, które każą Androidowi ten fakt zignorować, w części
+smartfonów może zmienić jedynie administrator systemu. Do końca nie wiem czy to zależy od samego
+Androida (jego wersji), czy też od producenta urządzenia ale trzeba ten fakt mieć na uwadze. W
+przypadku ewentualnej pomyłki może okazać się, że trzeba będzie ratować się przywróceniem stanu
+urządzenia do ustawień fabrycznych (factory reset), by ta aplikacja na nowo się w systemie pojawiła.
+
+### Polecenie cmd
+
+W przypadku jednego z moich urządzeń z Androidem 10 jest możliwość skorzystania z polecenia `cmd` .
+Przy jego pomocy możemy przywrócić wcześniej odinstalowane aplikacje i nie trzeba do tego celu
+pozyskiwać praw administratora systemu. Trzeba tutaj jednak wyraźnie zaznaczyć, że nie we wszystkich
+Androidach ten `cmd` jest obecny. W zasadzie, to tylko w jednym z moich telefonów spotkałem się z
+możliwością skorzystania z tego polecenia. Jeśli Android w naszym smartfonie oferuje polecenie
+`cmd` , to wpisując to poniższe polecenie możemy przywrócić odinstalowane appki:
+
+    $ adb shell
+    galahad:/ $ cmd package install-existing com.miui.calculator
+    Package com.miui.calculator installed for user: 0
 
 ### Plik /data/system/users/0/package-restrictions.xml
 
-Jeśli jednak mamy dostęp root, nawet niekoniecznie w działającym systemie, np. przez TWRP recovery,
-to możemy wszystkie wprowadzone przez nas zmiany podczas usuwania aplikacji cofnąć. Musimy tylko
-odnaleźć plik `/data/system/users/0/package-restrictions.xml` , bo to w nim są przechowywane
-informacje na temat restrykcji dostępu do tych faktycznie zainstalowanych w systemie programów.
+W przypadku gdy mamy zapewniony dostęp root, nawet niekoniecznie w działającym systemie, np. przez
+TWRP recovery, to możemy wszystkie wprowadzone przez nas zmiany podczas usuwania aplikacji cofnąć
+ręcznie. Musimy tylko odnaleźć plik `/data/system/users/0/package-restrictions.xml` , bo to w nim są
+przechowywane informacje na temat restrykcji dostępu do tych faktycznie zainstalowanych w systemie
+programów.
 
 Sam plik składa się z wpisów określających nazwę aplikacji oraz paru dodatkowych atrybutów
 mówiących m.in. czy dany program jest zainstalowany dla tego konkretnego użytkownika w systemie. W
