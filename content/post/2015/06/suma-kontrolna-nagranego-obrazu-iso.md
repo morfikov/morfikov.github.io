@@ -44,11 +44,10 @@ przez, w tym wypadku, deweloperów debiana, możemy spać spokojnie.
 
 ## Wiarygodna suma kontrolna
 
-Będąc w posiadaniu obrazu `.iso` , przechodzimy na [serwer
-debiana](https://www.debian.org/CD/http-ftp/) i szukamy płytki, którą rzekomo mamy na dysku. Zwykle
-obok obrazów mamy podane pliki o nazwach: `MD5SUMS` , `SHA1SUMS` , `SHA256SUMS` , `SHA512SUMS` . Co
-oznaczają nazwy plików i jaka jest ich zawartość? Nazwy plików zawierają algorytm za pomocą którego
-zostały wygenerowane sumy kontrolne obrazów.
+Będąc w posiadaniu obrazu `.iso` , przechodzimy na [serwer debiana][1] i szukamy płytki, którą
+rzekomo mamy na dysku. Zwykle obok obrazów mamy podane pliki o nazwach: `MD5SUMS` , `SHA1SUMS` ,
+`SHA256SUMS` , `SHA512SUMS` . Co oznaczają nazwy plików i jaka jest ich zawartość? Nazwy plików
+zawierają algorytm za pomocą którego zostały wygenerowane sumy kontrolne obrazów.
 
 Tak wygląda przykładowy plik `SHA1SUMS` :
 
@@ -104,12 +103,10 @@ W przypadku gdyby suma się nie zgadzała, zostanie wyrzucony stosowny komunikat
 
 Gdy w pliku `SHA1SUMS` jest zdefiniowanych więcej niż jedna suma kontrolna, dostaniemy sporo błędów.
 Dlatego też ze względów estetycznych najlepiej posiadać w pliku wpis od określonego obrazu lub
-obrazów. Istnieje również [skrypt](https://people.debian.org/~danchev/debian-iso/check_debian_iso),
-którym można się posłużyć.
+obrazów. Istnieje również [skrypt][2], którym można się posłużyć.
 
 Dla tych, którzy nie przepadają za konsolą są i graficzne narzędzia. Mi osobiście bardzo przypadł do
-gustu [wxHexEditor](http://www.wxhexeditor.org/). Co w nim takiego ciekawego? Potrafi liczyć zarazem
-kilkadziesiąt sum:
+gustu [wxHexEditor][3]. Co w nim takiego ciekawego? Potrafi liczyć zarazem kilkadziesiąt sum:
 
 ![](/img/2015/06/1.suma-kontrolna-wxhexeditor-lista.png#big)
 
@@ -139,7 +136,7 @@ obrazu). W wyniku czego uzyskalibyśmy inną sumę kontrolną. Musimy zatem wska
 się skończyć liczenie sumy kontrolnej nośnika. Jak to zrobić? Sprawdźmy przy pomocy `ls -al` jaki
 rozmiar w bajtach ma pobrany obraz ` :iso` :
 
-    s -al debian-live-8.1.0-amd64-cinnamon-desktop.iso
+    $ ls -al debian-live-8.1.0-amd64-cinnamon-desktop.iso
     -rw-r--r-- 1 morfik morfik 1159495680 2015-06-15 14:49:18 debian-live-8.1.0-amd64-cinnamon-desktop.iso
 
 Mamy zatem rozmiar: `1159495680` . Co dalej? Musimy nakarmić `sha1sum` danymi z `/dev/sr0` o takiej
@@ -154,3 +151,8 @@ tym przypadku będzie to 1159495680/2048=566160 . Odpalamy `dd` z parametrami `b
 `count=141312` . Po chwili suma kontrolna zostanie wygenerowana. Porównujemy ją z sumą kontrolną
 obrazu, jeżeli się zgadzają, to wszystko jest w porządku. W przypadku gdyby sumy się nie zgadzały,
 została naruszona integralność danych na nośniku i trzeba płytkę wypalać jeszcze raz.
+
+
+[1]: https://www.debian.org/CD/http-ftp/
+[2]: https://people.debian.org/~danchev/debian-iso/check_debian_iso
+[3]: http://www.wxhexeditor.org/
