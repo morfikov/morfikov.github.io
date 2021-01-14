@@ -11,6 +11,7 @@ tags:
 - img
 - pendrive
 - multiboot
+- live
 title: Pendrive multiboot z GRUB2 i obrazami ISO różnych dystrybucji Linux
 ---
 

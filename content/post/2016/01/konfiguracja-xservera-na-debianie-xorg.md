@@ -186,7 +186,7 @@ Możemy to zrobić przez plik `/etc/rc.local` dopisując w nim tę poniższą li
     chvt 4
 
 W taki sposób mamy przygotowaną sesję Xserver'a ale to nie jest koniec. Czeka nas jeszcze
-[konfiguracja menadżera logowania LightDM]([7]), [menadżera okien Openbox][8] i [serwera dźwięku
+[konfiguracja menadżera logowania LightDM][7], [menadżera okien Openbox][8] i [serwera dźwięku
 PulseAudio][9].
 
 

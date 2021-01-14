@@ -14,6 +14,7 @@ tags:
 - secure-boot
 - refind
 - iso
+- live
 title: Pendrive multiboot dla EFI/UEFI z Secure Boot
 ---
 

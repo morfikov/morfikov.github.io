@@ -1406,7 +1406,7 @@ Ta powyższa konfiguracja filtra `nftables` pozwala na ograniczoną komunikację
 maszyną hosta. Dodatkowo zezwala na komunikację między maszynami wirtualnymi. Przy pomocy
 translacji adresów (NAT) mamy możliwość dostępu do internetu na maszynach wirtualnych.
 
-Nie zapomnijmy też dodać do /etc/sysctl.conf poniższego parametru:
+Nie zapomnijmy też dodać do `/etc/sysctl.conf` poniższego parametru:
 
     net.ipv4.ip_forward = 1
 
