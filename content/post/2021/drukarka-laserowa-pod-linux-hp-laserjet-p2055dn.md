@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Hardware
-date:    2021-01-27 18:03:00 +0200
-lastmod: 2021-01-27 18:03:00 +0200
+date:    2021-01-27 18:03:00 +0100
+lastmod: 2021-01-27 18:03:00 +0100
 published: true
 status: publish
 tags:
