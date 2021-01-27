@@ -11,12 +11,12 @@ tags:
 - drukarka
 - recenzja
 - tp-link
+- cups
 title: 'Recenzja: Serwer druku MFP TL-PS310U od TP-LINK'
 ---
 
 Przeglądając ofertę na stronie TP-LINK, zaciekawiło mnie pewne urządzenie. Chodzi o [serwer druku
-MFP i pamięci masowej
-TL-PS310U](http://www.tp-link.com.pl/products/details/cat-5688_TL-PS310U.html). Niby słyszałem
+MFP i pamięci masowej TL-PS310U][1]. Niby słyszałem
 kiedyś w przeszłości frazę "Print Server" ale nigdy zbytnio się nie zastanawiałem nad tym do czego
 takie coś ma w istocie służyć. Po nazwie można jedynie przypuszczać, że chodzi o coś związanego z
 sieciowymi urządzeniami drukującymi. Niemniej jednak, ten serwer wydruku, który dotarł do mnie nie
@@ -78,17 +78,15 @@ naruszenie oznacza utratę gwarancji. W środku obudowy znajduje się mały PCB:
 
 ![](/img/2016/09/9.TL-PS310U-print-server-serwer-druku-tp-link-pcb.jpg#huge)
 
-TL-PS310U ma wbudowany SoC [EST
-E2868M4-B](https://www.google.pl/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwiI-sGYsrXPAhUKFCwKHc_XA3UQFggeMAA&url=http%3A%2F%2Fjhongtech.com%2FDOWN%2FDs-28xx-12-E.pdf&usg=AFQjCNF_mRUarGHtTlTHmmoY7ajXIJMbgQ&sig2=37tFHz_6NhdhLwxnAxCnlQ),
-który jest w stanie obsługiwać do 4 urządzeń USB. Problem tylko w tym, że jak widzieliśmy wyżej na
-fotkach, TL-PS310U ma tylko jeden port USB. By mieć możliwość podłączenia więcej niż jednego
-urządzenia do tego serwera druku, potrzebny nam będzie HUB USB, a takiego w zestawie zabrakło. Ten
-czip wspiera także drukowanie z wykorzystaniem protokołu LPD/LPR przez co mamy dużą szansę obsługi
-tego urządzenia na stacjach linux'owych.
+TL-PS310U ma wbudowany SoC EST E2868M4-B, który jest w stanie obsługiwać do 4 urządzeń USB. Problem
+tylko w tym, że jak widzieliśmy wyżej na fotkach, TL-PS310U ma tylko jeden port USB. By mieć
+możliwość podłączenia więcej niż jednego urządzenia do tego serwera druku, potrzebny nam będzie HUB
+USB, a takiego w zestawie zabrakło. Ten czip wspiera także drukowanie z wykorzystaniem protokołu
+LPD/LPR przez co mamy dużą szansę obsługi tego urządzenia na stacjach linux'owych.
 
 Zgodnie z informacjami, jakie znajdują się w tym datasheet, E2868M4-B jest nie tylko w stanie
 obsługiwać drukarki ale także skanery, HUB'y USB, pamięć masową (USB storage) i czytniki kard SD.
-Na opakowaniu zaś widnieje jeszcze informacja, że damy radę do tego Print Server'a podłączyć
+Na opakowaniu zaś widnieje jeszcze informacja, że damy radę do tego Print Serwera podłączyć
 głośniki i kamery oczywiście te na USB.
 
 Próbowałem przeskanować TL-PS310U w poszukiwaniu otwartych portów. Znalazłem jedynie te poniższe:
@@ -104,12 +102,11 @@ Próbowałem przeskanować TL-PS310U w poszukiwaniu otwartych portów. Znalazłe
 
 O ile dwa pierwsze są w miarę logiczne, o tyle ten ostatni kompletnie nic mi nie mówi.
 
-Doszukałem się również [informacji o kolejkowaniu
-użytkowników](http://www.tp-link.com.pl/faq-222.html) podczas korzystania z oprogramowania
-dostarczonego na płytce dołączonej do zestawu. Wygląda na to, że jeśli korzystamy w danej chwili z
-tego softu, to żaden inny użytkownik w sieci przez ten czas nie może korzystać z TL-PS310U.
-Oczywiście dla linux'a zabrakło wersji i nas ten problem nie dotyczy, bo będziemy korzystać z
-protokołu LPD/LPR.
+Doszukałem się również [informacji o kolejkowaniu użytkowników][2] podczas korzystania z
+oprogramowania dostarczonego na płytce dołączonej do zestawu. Wygląda na to, że jeśli korzystamy w
+danej chwili z tego softu, to żaden inny użytkownik w sieci przez ten czas nie może korzystać z
+TL-PS310U. Oczywiście dla linux'a zabrakło wersji i nas ten problem nie dotyczy, bo będziemy
+korzystać z protokołu LPD/LPR.
 
 ## Zarządzenie TL-PS310U
 
@@ -141,16 +138,14 @@ pozostałych urządzeniach, które ten serwer druku jest w stanie obsłużyć.
 
 Do konfiguracji drukarki udostępnianej w sieci za pomocą TL-PS310U będziemy wykorzystywać narzędzie
 CUPS. Ten proces jest podobny do opisywanej już przeze mnie metody [konfiguracji drukarki pod linux
-udostępnianej przez router z
-OpenWRT](/post/cups-konfiguracja-drukarki-pod-linuxem/). Różnica sprowadza się
-jedynie do zdefiniowania innego protokołu i odpowiedniej jego konfiguracji.
+udostępnianej przez router z OpenWRT][3]. Różnica sprowadza się jedynie do zdefiniowania innego
+protokołu i odpowiedniej jego konfiguracji.
 
 Na stronie TP-LINK'a jest informacja [jak skonfigurować przykładową drukarkę na przykładzie
-Ubuntu](http://www.tp-link.com/en/faq-352.html). Co prawda nie używam Ubuntu ale opis graficznych
-aplikacji wykorzystanych w tamtym HOWTO może się przydać także użytkownikom dystrybucji Debian.
-Poniższy opis sprowadzać się będzie do bezpośredniej konfiguracji CUPS. Ubuntu dodaje tylko
-dodatkową warstwę (GUI) i przez nią CUPS jest zarządzany. My tego nie potrzebujemy i zrobimy użytek
-z przeglądarki internetowej.
+Ubuntu][4]. Co prawda nie używam Ubuntu ale opis graficznych aplikacji wykorzystanych w tamtym
+HOWTO może się przydać także użytkownikom dystrybucji Debian. Poniższy opis sprowadzać się będzie
+do bezpośredniej konfiguracji CUPS. Ubuntu dodaje tylko dodatkową warstwę (GUI) i przez nią CUPS
+jest zarządzany. My tego nie potrzebujemy i zrobimy użytek z przeglądarki internetowej.
 
 By mieć możliwość wejścia w interakcję z drukarkami musimy w systemie posiadać odpowiednie
 oprogramowanie. Potrzebny nam będzie pakiet `cups` oraz `printer-driver-gutenprint` zawierający bazę
@@ -188,7 +183,7 @@ powinniśmy być w stanie bez problemu drukować dokumenty:
 
 ## Czy taki serwer druku jest potrzebny linux'iarzom
 
-Czy linux'iarz powinien sobie zawracać głowę takim Print Server'em? Jeśli ma on tylko nam
+Czy linux'iarz powinien sobie zawracać głowę takim Print Serwerem? Jeśli ma on tylko nam
 udostępniać drukarkę w sieci bez potrzeby zaprzęgania do tego dedykowanego komputera, to raczej
 można sobie darować ten TL-PS310U. Powodów jest kilka. Praktycznie każdy router WiFi dysponuje
 jednym lub dwoma portami USB, które są w stanie udostępnić drukarkę w sieci. Nawet jeśli nasz router
@@ -200,6 +195,12 @@ Jeśli jednak posiadamy już router ale bez portów USB, to inwestowanie w taki 
 raczej pozbawione sensu, oczywiście w przypadku sieci zrzeszającej hosty linux'owe. Chodzi
 generalnie o cenę, która jest na poziomie ceny routerów WiFi wspieranych przez OpenWRT/LEDE. Zamiast
 TL-PS310U można nabyć taki właśnie router i wgrać na niego alternatywne oprogramowanie. Przy tym nie
-ma problemów z [przerobieniem takiego routera na serwer
-druku](/post/drukarka-sieciowa-w-openwrt-serwer-wydruku/), który będzie w o wiele
-lepszym stopniu nadawał się do sieci linux'owych.
+ma problemów z [przerobieniem takiego routera na serwer druku][5], który będzie w o wiele lepszym
+stopniu nadawał się do sieci linux'owych.
+
+
+[1]: http://www.tp-link.com.pl/products/details/cat-5688_TL-PS310U.html
+[2]: http://www.tp-link.com.pl/faq-222.html
+[3]: /post/cups-konfiguracja-drukarki-pod-linuxem/
+[4]: http://www.tp-link.com/en/faq-352.html
+[5]: /post/drukarka-sieciowa-w-openwrt-serwer-wydruku/
