@@ -8,19 +8,19 @@ published: true
 status: publish
 tags:
 - drukarka
-- epson
+- cups
+- debian
 title: CUPS, czyli konfiguracja drukarki pod linux'em
 ---
 
 Ja jestem tym szczęśliwcem, który posiada takie fajne urządzenie zwane drukarką. Bardzo umila ono
 życie pod warunkiem, że działa jak należy, a z tym różnie bywa, zwłaszcza pod linux'em. W debianie
-do obsługi drukarek używa się [CUPS (Common Unix Printing
-System)](https://en.wikipedia.org/wiki/CUPS) i można powiedzieć, że radzi on sobie z tym zadaniem
-całkiem nieźle, przynajmniej w przypadku mojej drukarki. Drukarka, o której mowa, to dość stary
-model, konkretnie jest to EPSON Stylus Color 760. Potrzebne są jej odpowiednie sterowniki, które są
-dostępne w repozytorium debiana. Jedyne czego potrzeba do szczęścia, to skonfigurowanie demona
-`cupsd` , który będzie zarządzał tą drukarką. W tym artykule postaramy się skonfigurować to powyższe
-urządzenie.
+do obsługi drukarek używa się [CUPS (Common Unix Printing System)][1] i można powiedzieć, że radzi
+on sobie z tym zadaniem całkiem nieźle, przynajmniej w przypadku mojej drukarki. Drukarka, o której
+mowa, to dość stary model, konkretnie jest to EPSON Stylus Color 760. Potrzebne są jej odpowiednie
+sterowniki, które są dostępne w repozytorium debiana. Jedyne czego potrzeba do szczęścia, to
+skonfigurowanie demona `cupsd` , który będzie zarządzał tą drukarką. W tym artykule postaramy się
+skonfigurować to powyższe urządzenie.
 
 <!--more-->
 ## Oprogramowanie do obsługi CUPS
@@ -105,3 +105,6 @@ Powyżej widzimy, że plik został zakolejkowany i jest aktualnie przetwarzany p
 chwili zadanie zostanie ukończone i drukarka wypluje zadrukowaną kartkę:
 
 ![](/img/2016/05/12.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
+
+
+[1]: https://en.wikipedia.org/wiki/CUPS
