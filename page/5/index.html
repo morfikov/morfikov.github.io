@@ -13,7 +13,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/" />
-<meta property="og:updated_time" content="2021-01-27T18:03:00+01:00" />
+<meta property="og:updated_time" content="2021-01-27T19:10:00+01:00" />
 
 		<meta itemprop="name" content="Morfitronik">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -90,6 +90,35 @@ if (!doNotTrack) {
 	
 	<main class="main">
 			<div class="cards">
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zaladowac-profile-apparmor-w-fazie-initrd-initramfs-na-debian-linux/">Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux</a></h1>
+	<div class="entry__content"><p>Zapewne wielu użytkowników Debiana zdążyło już zauważyć, że od wydania 10 (Buster), AppArmor jest
+włączony domyślnie. Nie powinien on raczej sprawiać żadnych problemów po doinstalowaniu pakietów
+<code>apparmor-profiles</code> oraz <code>apparmor-profiles-extra</code> , które zawierają szereg profili pod różne
+aplikacje użytkowe. Niemniej jednak, pewnych procesów nie da się ograniczyć przez AppArmor,
+przynajmniej nie w standardowy sposób. Chodzi o to, że jeśli mamy już odpalony jakiś proces, to nie
+ma możliwości zamknąć go w profilu AA do momentu aż zakończy on swoje działanie i zostanie
+uruchomiony ponownie. Profile AppArmor'a są ładowane podczas startu systemu w pewnym określonym
+momencie ale szereg procesów systemowych startuje sporo wcześniej w stosunku do usługi AppArmor'a.
+W taki sposób nawet jeśli w późniejszym czasie profile zostaną załadowane, to i tak część procesów
+nie będzie ograniczona bez względu na to czy zdefiniowaliśmy im zestaw reguł. Oczywiście można
+próbować restartować usługi lub szeregować je po <code>apparmor.service</code> ale nie zawsze tak się da
+zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppArmor'a w fazie
+initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu
+z PID z numerkiem <code>1</code> .</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-09-23T19:05:21&#43;02:00">Opublikowano: 23/09/2019</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-09-02T17:50:00&#43;02:00">Zaktualizowano: 02/09/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
 					<div class="card card--2col">
 					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/capability-dac_read_search-dac_override-w-profilu-apparmor/">Capability dac_read_search i dac_override w profilu AppArmor&#39;a</a></h1>
@@ -330,31 +359,6 @@ przykładzie jak realokować badsector dysku, gdy do czynienia mamy z zaszyfrowa
 zainstalowanym na voluminach LVM.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-03-31T12:23:42Z">Opublikowano: 31/03/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-					</div>
-					<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/format-zrodel-git-przy-budowaniu-paczek-debiana/">Format źródeł 3.0 (git) przy budowaniu paczek Debiana</a></h1>
-	<div class="entry__content"><p>Pisząc jakiś czas
-temu <a href="https://morfikov.github.io/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">poradnik na temat budowania paczek .deb</a>
-dla dystrybucji linux'a Debian, poruszyłem w nim kwestię związaną z aktualizacją paczki, która
-zawierała projekt utrzymywany w systemie kontroli wersji (CVS), np. git. Rozchodzi się tutaj o
-format źródeł. Do niedawna myślałem, że są w zasadzie dwa formaty (tych, z których się zwykle
-korzysta): <code>3.0 (native)</code> oraz <code>3.0 (quilt)</code> . Wszystkie moje pakiety budowane do tej pory miały
-ten drugi format. Podglądając ostatnio kilka paczek <code>.deb</code> , natrafiłem w jednej z nich na format
-źródeł <code>3.0 (git)</code> . Okazuje się, że ten format jest w stanie bardzo łatwo ogarnąć projekty
-hostowane w takich serwisach jak GitHub, czy GitLab i można za jego sprawą nieco ułatwić sobie
-życie. Wypadałoby zatem rzucić na niego okiem i ocenić go pod kątem przydatności przy budowaniu
-pakietów dla Debiana.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-03-27T05:23:42Z">Opublikowano: 27/03/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

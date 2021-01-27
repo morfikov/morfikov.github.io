@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Aktualizacja firmware drukarki HP LaserJet P2055dn pod linux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Aktualizacja firmware drukarki HP LaserJet P2055dn pod linux" />
+<meta property="og:description" content="Bawiąc się ostatnio drukarką laserową Hewlett Packard (HP) LaserJet P2055dn, zauważyłem, że ma ona
+wgrany dość stary firmware. Naturalnie sama drukarka do najmłodszych nie należy, bo została
+wyprodukowana w 2011 roku ale skoro na stronie producenta jest dostępna nowsza wersja
+oprogramowania dla tego urządzenia, to przydałoby się je do tej drukarki wgrać. Problem jednak
+pojawia się w przypadku takich osób jak ja, tj. tych, które korzystają w swoim środowisku pracy z
+maszyn mających na pokładzie system operacyjny z rodziny jakieś dystrybucji linux&#39;a, np. Debian czy
+Ubuntu. Producent drukarki udostępnia stosowne narzędzia do aktualizacji firmware ale tylko i
+wyłącznie dla OS z gatunku Windows. Co mają zrobić osoby, które z Windows&#39;a nie korzystają, a
+chciałyby przy tym mieć aktualny firmware w drukarkach HP? Możemy spróbować postawić maszynę
+wirtualną na bazie QEMU/KVM, tam zainstalować Windows&#39;a i udostępnić w obrębie tej maszyny
+wirtualnej drukarkę, której firmware mamy zamiar aktualizować." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/aktualizacja-firmware-drukarki-hp-laserjet-p2055dn-pod-linux/" />
+<meta property="article:published_time" content="2021-01-27T19:10:00+01:00" />
+<meta property="article:modified_time" content="2021-01-27T19:10:00+01:00" />
+
+		<meta itemprop="name" content="Aktualizacja firmware drukarki HP LaserJet P2055dn pod linux">
+<meta itemprop="description" content="Bawiąc się ostatnio drukarką laserową Hewlett Packard (HP) LaserJet P2055dn, zauważyłem, że ma ona
+wgrany dość stary firmware. Naturalnie sama drukarka do najmłodszych nie należy, bo została
+wyprodukowana w 2011 roku ale skoro na stronie producenta jest dostępna nowsza wersja
+oprogramowania dla tego urządzenia, to przydałoby się je do tej drukarki wgrać. Problem jednak
+pojawia się w przypadku takich osób jak ja, tj. tych, które korzystają w swoim środowisku pracy z
+maszyn mających na pokładzie system operacyjny z rodziny jakieś dystrybucji linux&#39;a, np. Debian czy
+Ubuntu. Producent drukarki udostępnia stosowne narzędzia do aktualizacji firmware ale tylko i
+wyłącznie dla OS z gatunku Windows. Co mają zrobić osoby, które z Windows&#39;a nie korzystają, a
+chciałyby przy tym mieć aktualny firmware w drukarkach HP? Możemy spróbować postawić maszynę
+wirtualną na bazie QEMU/KVM, tam zainstalować Windows&#39;a i udostępnić w obrębie tej maszyny
+wirtualnej drukarkę, której firmware mamy zamiar aktualizować.">
+<meta itemprop="datePublished" content="2021-01-27T19:10:00+01:00" />
+<meta itemprop="dateModified" content="2021-01-27T19:10:00+01:00" />
+<meta itemprop="wordCount" content="1052">
+
+
+
+<meta itemprop="keywords" content="drukarka,debian,hewlett-packard,laserjet,p2055dn,firmware,kvm,qemu,wirtualizacja,libvirt," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Aktualizacja firmware drukarki HP LaserJet P2055dn pod linux"/>
+<meta name="twitter:description" content="Bawiąc się ostatnio drukarką laserową Hewlett Packard (HP) LaserJet P2055dn, zauważyłem, że ma ona
+wgrany dość stary firmware. Naturalnie sama drukarka do najmłodszych nie należy, bo została
+wyprodukowana w 2011 roku ale skoro na stronie producenta jest dostępna nowsza wersja
+oprogramowania dla tego urządzenia, to przydałoby się je do tej drukarki wgrać. Problem jednak
+pojawia się w przypadku takich osób jak ja, tj. tych, które korzystają w swoim środowisku pracy z
+maszyn mających na pokładzie system operacyjny z rodziny jakieś dystrybucji linux&#39;a, np. Debian czy
+Ubuntu. Producent drukarki udostępnia stosowne narzędzia do aktualizacji firmware ale tylko i
+wyłącznie dla OS z gatunku Windows. Co mają zrobić osoby, które z Windows&#39;a nie korzystają, a
+chciałyby przy tym mieć aktualny firmware w drukarkach HP? Możemy spróbować postawić maszynę
+wirtualną na bazie QEMU/KVM, tam zainstalować Windows&#39;a i udostępnić w obrębie tej maszyny
+wirtualnej drukarkę, której firmware mamy zamiar aktualizować."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
+					
+					<span class="main-nav__text">Wsparcie</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Aktualizacja firmware drukarki HP LaserJet P2055dn pod linux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2021-01-27T19:10:00&#43;01:00">Opublikowano: 27/01/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>, 
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/hardware/" rel="category">Hardware</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Aktualizacja firmware drukarki HP LaserJet P2055dn pod linux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#narzędzia-do-aktualizacji-firmware-tylko-dla-windows-2000-xp-vista-i-win7">Narzędzia do aktualizacji firmware tylko dla Windows 2000, XP, Vista i Win7</a></li>
+    <li><a href="#instalacja-i-konfiguracja-maszyny-wirtualnej-qemukvm">Instalacja i konfiguracja maszyny wirtualnej QEMU/KVM</a>
+      <ol>
+        <li><a href="#aktualizacja-firmware-po-usb">Aktualizacja firmware po USB</a></li>
+        <li><a href="#aktualizacja-firmware-po-sieci">Aktualizacja firmware po sieci</a></li>
+      </ol>
+    </li>
+    <li><a href="#sprawdzenie-wersji-nowego-firmware-drukarki">Sprawdzenie wersji nowego firmware drukarki</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Bawiąc się ostatnio drukarką laserową Hewlett Packard (HP) LaserJet P2055dn, zauważyłem, że ma ona
+wgrany dość stary firmware. Naturalnie sama drukarka do najmłodszych nie należy, bo została
+wyprodukowana w 2011 roku ale skoro na stronie producenta jest dostępna nowsza wersja
+oprogramowania dla tego urządzenia, to przydałoby się je do tej drukarki wgrać. Problem jednak
+pojawia się w przypadku takich osób jak ja, tj. tych, które korzystają w swoim środowisku pracy z
+maszyn mających na pokładzie system operacyjny z rodziny jakieś dystrybucji linux'a, np. Debian czy
+Ubuntu. Producent drukarki udostępnia stosowne narzędzia do aktualizacji firmware ale tylko i
+wyłącznie dla OS z gatunku Windows. Co mają zrobić osoby, które z Windows'a nie korzystają, a
+chciałyby przy tym mieć aktualny firmware w drukarkach HP? Możemy spróbować postawić maszynę
+wirtualną na bazie QEMU/KVM, tam zainstalować Windows'a i udostępnić w obrębie tej maszyny
+wirtualnej drukarkę, której firmware mamy zamiar aktualizować.</p>
+<h2 id="narzędzia-do-aktualizacji-firmware-tylko-dla-windows-2000-xp-vista-i-win7">Narzędzia do aktualizacji firmware tylko dla Windows 2000, XP, Vista i Win7</h2>
+<p>Lista plików, które można pobrać <a href="https://support.hp.com/us-en/drivers/selfservice/HP-LaserJet-P2055-Printer-series/3662052/model/3662058">ze strony producenta drukarki</a>, różni się w zależności od
+wybranego systemu operacyjnego. Narzędzia do aktualizacji firmware znajdują się w zasadzie tylko na
+zakładce z Windows 2000, XP, Vista oraz Win7 i każda z tych wersji straciła już chyba oficjalne
+wsparcie MS. W tym przypadku będzie wykorzystywany Windows 7, dlatego też trzeba będzie się na tę
+zakładkę przełączyć, by pobrać stosowny plik. Interesuje nas <a href="https://support.hp.com/us-en/drivers/selfservice/swdetails/HP-LaserJet-P2055-Printer-series/3662052/model/3662058/swItemId/lj-66014-12">HP LaserJet Firmware Update
+Utility</a>, który jest nam w stanie zaserwować najnowszy firmware z dnia 2014-12-01 (wypuszczony
+dnia 2015-01-22). Niestety w panelu webowym drukarki nie ma informacji, z którego dnia jest
+aktualnie zainstalowany w niej firmware (tam gdzie powinna być data jest tylko XX). Jest za to
+podana wersja oprogramowania, która wskazuje na <code>V.37.12.IR6498</code> .</p>
+<p>Niestety nie mam u siebie żadnej maszyny, która by posiadała zainstalowany jeden z tych wspieranych
+przez HP systemów operacyjnych i muszę posiłkować się maszynami wirtualnymi na bazie QEMU/KVM.</p>
+<h2 id="instalacja-i-konfiguracja-maszyny-wirtualnej-qemukvm">Instalacja i konfiguracja maszyny wirtualnej QEMU/KVM</h2>
+<p>Kilka miesięcy temu opisywałem w miarę dokładnie <a href="https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/">jak skonfigurować Debiana do pracy z maszynami
+wirtualnymi QEMU/KVM</a> i nie będę tutaj poruszał całego tego zagadnienia, tylko te ważniejsze
+rzeczy umożliwiające w miarę natychmiastowe i w pełni automatyczne postawienie interesującej nas
+maszyny wirtualnej przy minimalnej konfiguracji ze strony użytkownika. Jeśli kogoś interesuje temat
+samych maszyn wirtualnych, to zapraszam pod wskazany wyżej artykuł. Niżej zakładam zaś, że całe
+oprogramowanie potrzebne do uruchomienia maszyn wirtualnych mamy już zainstalowane oraz
+skonfigurowane do pracy.</p>
+<p>Po przygotowaniu naszego linux'a do pracy z maszynami wirtualnymi QEMU/KVM, musimy pozyskać
+stosowny obraz instalacyjny z Windows 7. Technicznie rzecz biorąc, można taki obraz <a href="https://www.microsoft.com/pl-pl/software-download/windows7">pobrać
+legalnie nawet ze strony Microsoft</a>. Wystarczy jedynie podać numer seryjny produktu. Jako, że
+praktycznie każdy laptop ma na obudowie taki klucz, to bez większego problemu powinniśmy być w
+stanie nośnik instalacyjny z Windows'em pozyskać. W moim przypadku najwyraźniej się tego zrobić nie
+da, bo po wpisaniu klucza dostaję taki oto poniższy komunikat:</p>
+<blockquote>
+<p>Błąd</p>
+<p>Wprowadzony przez Ciebie klucz produktu dotyczy prawdopodobnie oprogramowania preinstalowanego
+przez producenta urządzenia. Skontaktuj się z producentem urządzenia, aby poznać opcje
+odzyskiwania oprogramowania.</p>
+</blockquote>
+<p>Czyli, niby zapłaciłem za Windows 7 (a raczej zrobił to ten, od kogo tego laptopa kupiłem) ale
+obrazu instalacyjnego nie mogę pobrać, bo najwyraźniej jeszcze mógłbym na tym komputerze tego
+windows'a zainstalować.</p>
+<p>Oczywiście, nie jest to jakiś problem nie do przejścia i postanowiłem poszukać obrazów z Windows 7,
+które mógłbym wykorzystać do stworzenia maszyny wirtualnej. Stosowny obraz znalazłem w <a href="https://winclub.pl/topic/19862-win-7-x64-pro-2k19/">serwisie
+winclub.pl</a>, tj. plik <code>Win7-BN-x64-7fd8fc64.zip</code> ważący 3,5GiB (po wypakowaniu 3,6 GiB). Ten
+wypakowany obraz ISO trzeba wskazać jako nośnik instalacyjny przy tworzeniu maszyny wirtualnej, np.
+w <code>virt-manager</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/01/001-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu.png" alt=""    class="big"></p>
+<p>Najwyraźniej nie działa autodetekcja systemu operacyjnego obecnego na nośniku i trzeba ręcznie
+określić, że ma to być Windows 7:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/01/002-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu.png" alt=""    class="medium"></p>
+<p>Przydzielamy domyślne wartości dla pamięci RAM, procesora i dysku twardego oraz określamy przydział
+sieci dla systemu gościa. Następnie rozpoczynamy proces instalacyjny systemu Windows 7 wewnątrz
+maszyny wirtualnej:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/01/003-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu-instalacja-windows.png" alt=""    class="huge"></p>
+<p>Czekamy naturalnie aż proces się zakończy, po czym uruchamiamy ponownie maszynę wirtualną.</p>
+<h3 id="aktualizacja-firmware-po-usb">Aktualizacja firmware po USB</h3>
+<p>Teoretycznie nie ma to większego znaczenia czy firmware będziemy aktualizować po uprzednim
+podpięciu drukarki pod port USB komputera, czy też gdy z drukarką będziemy komunikować się za
+pomocą sieci lokalnej. W przypadku wyboru opcji pierwszej, tj. via port USB, trzeba będzie stosowne
+urządzenie USB udostępnić maszynie wirtualnej:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/01/004-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu-usb.png" alt=""    class="huge"></p>
+<p>Drukarka naturalnie powinna zostać wykryta przez system Windows'a. Czasami trzeba ponownie
+uruchomić maszynę wirtualną by wszystko zadziałało. Tak czy inaczej, pozycja od naszej drukarki HP
+powinna figurować na liście drukarek i faksów:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/01/005-drukarka-hp-laserjet-p2055dn-linux-windows-instalacja-drukarki.png" alt=""    class="huge"></p>
+<p>Co ciekawe, numerek tej drukarki ździebko się różni od faktycznego ale chyba to na nic nie wpływa.
+Dla pewności, że wszystko działa jak należy, możemy jeszcze wydrukować stronę testową:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/01/006-drukarka-hp-laserjet-p2055dn-linux-windows-instalacja-drukarki.png" alt=""    class="huge"></p>
+<p>Teoretycznie aktualizacja firmware via port USB powinna przebiec bez większych problemów. W moim
+przypadku tak się nie stało. Nie wiem czy jest tutaj winna sama maszyna wirtualna, czy jakieś inne
+czynniki odgrywają jeszcze rolę ale przy próbie tak podłączonej drukarki proces aktualizacji
+firmware nie startuje.</p>
+<h3 id="aktualizacja-firmware-po-sieci">Aktualizacja firmware po sieci</h3>
+<p>Jako, że nie szło zaktualizować firmware drukarki HP LaserJet P2055dn przy podłączeniu jej via port
+USB, to postanowiłem sprawdzić jak sprawa będzie wyglądać, gdy spróbuję skonfigurować na Windows
+drukarkę sieciową. Oczywiście w tym przypadku nie trzeba dodatkowo konfigurować żądnych urządzeń na
+maszynie wirtualnej. Wystarczy, że będzie tam poprawnie funkcjonować sieć. Windows powinien bez
+większego trudu wykryć drukarkę sieciową i poprawnie ją zainstalować w systemie.</p>
+<p>Gdy mamy już dodaną drukarkę do systemu, pobieramy na maszynę wirtualną plik <a href="https://support.hp.com/us-en/drivers/selfservice/swdetails/HP-LaserJet-P2055-Printer-series/3662052/model/3662058/swItemId/lj-66014-12">HP LaserJet Firmware
+Update Utility</a> (jeśli jeszcze tego nie uczyniliśmy):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/01/007-drukarka-hp-laserjet-p2055dn-linux-windows-oprogramowanie.png" alt=""    class="huge">
+<img loading="lazy" src="https://morfikov.github.io/img/2021/01/008-drukarka-hp-laserjet-p2055dn-linux-windows-oprogramowanie.png" alt=""    class="huge"></p>
+<p>Po pobraniu pliku, uruchamiamy go. Powinno nam się pokazać poniższe okienko:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/01/009-drukarka-hp-laserjet-p2055dn-linux-aktualizacja-firmware.png" alt=""    class="medium"></p>
+<p>Upewniamy się, że w górnej części okna figuruje nasza drukarka i klikamy <code>Send Firmware</code> . Po
+chwili firmware drukarki powinien zostać zaktualizowany:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/01/010-drukarka-hp-laserjet-p2055dn-linux-aktualizacja-firmware.png" alt=""    class="huge"></p>
+<p>Jeśli w trakcie tego procesu pasek postępu się zawiesi na dłużej, to trzeba trochę poczekać. U mnie
+po około 1-2 minutach proces został wznowiony i ostatecznie zakończył się powodzeniem.</p>
+<h2 id="sprawdzenie-wersji-nowego-firmware-drukarki">Sprawdzenie wersji nowego firmware drukarki</h2>
+<p>Po pomyślnej aktualizacji firmware drukarki, uruchamiamy ją ponownie i wchodzimy w jej webowy panel
+administracyjny. Przechodzimy na stronę podsumowania konfiguracji. Powinniśmy tam mieć m.in.
+poniższą zwrotkę:</p>
+<pre><code>---------- Informacje ogólne -----------
+Stan:                   Karta I/O gotowa
+
+Numer modelu:                     J8017E
+Adres sprzętowy:            984BE13B567C
+Wersja oprogr firm.:          V.37.18.SD
+Konfiguracja portu:           1000T FULL
+Negocjacja automatyczna:        Włączone
+Nr wyrobu:                ********01****
+Build Date:          11/13/2014 11:18:10
+</code></pre>
+<p>Wcześniej mieliśmy wersję <code>V.37.12.IR6498</code> , a obecnie mamy <code>V.37.18.SD</code> . Co ciekawe, po wgraniu
+tego firmware, mamy również określoną datę jego budowy, która nieco różni się od tej deklarowanej
+przez producenta drukarki ale grunt, że coś nowszego zostało wgrane do tej drukarki.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/drukarka/">drukarka</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hewlett-packard/">hewlett-packard</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/laserjet/">laserjet</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/p2055dn/">p2055dn</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/firmware/">firmware</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kvm/">kvm</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/qemu/">qemu</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wirtualizacja/">wirtualizacja</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/libvirt/">libvirt</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2faktualizacja-firmware-drukarki-hp-laserjet-p2055dn-pod-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2faktualizacja-firmware-drukarki-hp-laserjet-p2055dn-pod-linux%2f&amp;text=Aktualizacja%20firmware%20drukarki%20HP%20LaserJet%20P2055dn%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2faktualizacja-firmware-drukarki-hp-laserjet-p2055dn-pod-linux%2f&amp;title=Aktualizacja%20firmware%20drukarki%20HP%20LaserJet%20P2055dn%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2faktualizacja-firmware-drukarki-hp-laserjet-p2055dn-pod-linux%2f&amp;title=Aktualizacja%20firmware%20drukarki%20HP%20LaserJet%20P2055dn%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2faktualizacja-firmware-drukarki-hp-laserjet-p2055dn-pod-linux%2f&title=Aktualizacja%20firmware%20drukarki%20HP%20LaserJet%20P2055dn%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2faktualizacja-firmware-drukarki-hp-laserjet-p2055dn-pod-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2faktualizacja-firmware-drukarki-hp-laserjet-p2055dn-pod-linux%2f&amp;title=Aktualizacja%20firmware%20drukarki%20HP%20LaserJet%20P2055dn%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2faktualizacja-firmware-drukarki-hp-laserjet-p2055dn-pod-linux%2f&description=Aktualizacja%20firmware%20drukarki%20HP%20LaserJet%20P2055dn%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/drukarka-laserowa-pod-linux-hp-laserjet-p2055dn/">Drukarka laserowa pod linux (HP LaserJet P2055dn)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zastosowanie-ksm-w-maszynach-wirtualnych-qemu-kvm/">Zastosowanie KSM w maszynach wirtualnych QEMU/KVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zmienic-rozmiar-obrazu-maszyny-wirtualnej-qemu-kvm/">Jak zmienić rozmiar obrazu maszyny wirtualnej QEMU/KVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/">Konfiguracja HugePages pod maszyny wirtualne QEMU/KVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/">Wirtualizacja QEMU/KVM (libvirt) na Debian Linux</a></li>
+		
+	</ul>
+</div>
+
+	
+<section class="comments block">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+</body>
+</html>
