@@ -10,7 +10,7 @@ tags:
 - chaos-calmer
 - drukarka
 - router
-- epson
+- cups
 title: Drukarka sieciowa w OpenWRT (serwer wydruku)
 ---
 
