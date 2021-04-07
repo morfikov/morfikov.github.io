@@ -10,6 +10,10 @@ tags:
 - logi
 - iptables
 - nftables
+- auditd
+- debugfs
+- kprobes
+- ftrace
 title: Jak ustalić nazwę procesu korzystającego z sieci
 ---
 
@@ -108,7 +112,13 @@ więcej reguł. Aktualnie załadowane reguły można podejrzeć w poniższy spos
 
 Wszystkie komunikaty audytu są logowane do pliku `/var/log/audit/audit.log` .
 
-## Logi w czytelnej dla człowieka formie (ausearch)
+Czasami może się zdarzyć tak, że jakiś proces będzie próbował nawiązywać połączenia ale w logu
+audytu żadnych informacji na jego temat nie znajdziemy. Być może trzeba będzie dodać również
+wywołania `socket` i `bind` do tej powyższej reguły:
+
+    auditctl -a exit,always -F arch=b64 -S socket,connect,bind -k MYCONNECT
+
+### Logi w czytelnej dla człowieka formie (ausearch)
 
 Gdy zajrzy się w plik `/var/log/audit/audit.log` , to informacje, które tam się znajdują nie są
 zbyt zrozumiałe czy też czytelne dla człowieka. Można oczywiście ręcznie zdekodować te logi ale
@@ -147,3 +157,24 @@ W podobny sposób można namierzyć praktycznie każdy inny proces, który z jak
 komunikować ze światem zewnętrznym, a mając informacje o procesie, w tym też i ścieżkę do pliku
 binarnego, to możemy już sobie ten proces zablokować lub przepuścić na zaporze bez większego
 problemu.
+
+## Ustalenie nazwy procesu i numeru PID via FTrace (kprobes)
+
+Inną metodą, która jest w stanie nam pomóc w ustaleniu jaki proces chce komunikować się z siecią
+jest [FTrace][1] ([kprobes][2]), który korzysta z systemu plików `tracefs` montowanego w
+`/sys/kernel/tracing/` (we wersjach kernela do 4.1, był wykorzystywany system plików `debugfs`
+montowany w `/sys/kernel/debug/tracing/` ) . Możemy nakazać kernelowi by logował każde nowe
+połączenie, które dowolny program będzie otwierał, przykładowo:
+
+    # echo 'p:m security_socket_connect' >> /sys/kernel/tracing/kprobe_events
+    # echo 1 > /sys/kernel/tracing/events/kprobes/m/enable
+    # cat /sys/kernel/tracing/trace_pipe
+
+By ten mechanizm wyłączyć, wpisujemy w terminal poniższe polecenia:
+
+    # echo 0 > /sys/kernel/tracing/events/kprobes/m/enable
+    # echo '-:kprobes/m' >>  /sys/kernel/tracing/kprobe_events
+
+
+[1]: https://www.kernel.org/doc/html/latest/trace/ftrace.html
+[2]: https://www.kernel.org/doc/html/latest/trace/kprobetrace.html
