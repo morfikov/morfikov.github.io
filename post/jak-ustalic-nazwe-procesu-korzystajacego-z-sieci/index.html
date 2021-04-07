@@ -39,11 +39,11 @@ jak namierzyć proces, który komunikuje się z siecią (lub też próbuje), pos
 iptables/nftables .">
 <meta itemprop="datePublished" content="2019-02-08T20:10:41+00:00" />
 <meta itemprop="dateModified" content="2019-02-08T20:10:41+00:00" />
-<meta itemprop="wordCount" content="1150">
+<meta itemprop="wordCount" content="1296">
 
 
 
-<meta itemprop="keywords" content="debian,logi,iptables,nftables," />
+<meta itemprop="keywords" content="debian,logi,iptables,nftables,auditd,debugfs,kprobes,ftrace," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Jak ustalić nazwę procesu korzystającego z sieci"/>
@@ -156,8 +156,12 @@ if (!doNotTrack) {
   <ol>
     <li><a href="#narzędzia-netstat-i-ss">Narzędzia netstat i ss</a></li>
     <li><a href="#logi-iptablesnftables">Logi iptables/nftables</a></li>
-    <li><a href="#narzędzie-auditd">Narzędzie auditd</a></li>
-    <li><a href="#logi-w-czytelnej-dla-człowieka-formie-ausearch">Logi w czytelnej dla człowieka formie (ausearch)</a></li>
+    <li><a href="#narzędzie-auditd">Narzędzie auditd</a>
+      <ol>
+        <li><a href="#logi-w-czytelnej-dla-człowieka-formie-ausearch">Logi w czytelnej dla człowieka formie (ausearch)</a></li>
+      </ol>
+    </li>
+    <li><a href="#ustalenie-nazwy-procesu-i-numeru-pid-via-ftrace-kprobes">Ustalenie nazwy procesu i numeru PID via FTrace (kprobes)</a></li>
   </ol>
 </nav>
 </details>
@@ -239,7 +243,12 @@ więcej reguł. Aktualnie załadowane reguły można podejrzeć w poniższy spos
 -a always,exit -F arch=b64 -S connect -F key=MYCONNECT
 </code></pre>
 <p>Wszystkie komunikaty audytu są logowane do pliku <code>/var/log/audit/audit.log</code> .</p>
-<h2 id="logi-w-czytelnej-dla-człowieka-formie-ausearch">Logi w czytelnej dla człowieka formie (ausearch)</h2>
+<p>Czasami może się zdarzyć tak, że jakiś proces będzie próbował nawiązywać połączenia ale w logu
+audytu żadnych informacji na jego temat nie znajdziemy. Być może trzeba będzie dodać również
+wywołania <code>socket</code> i <code>bind</code> do tej powyższej reguły:</p>
+<pre><code>auditctl -a exit,always -F arch=b64 -S socket,connect,bind -k MYCONNECT
+</code></pre>
+<h3 id="logi-w-czytelnej-dla-człowieka-formie-ausearch">Logi w czytelnej dla człowieka formie (ausearch)</h3>
 <p>Gdy zajrzy się w plik <code>/var/log/audit/audit.log</code> , to informacje, które tam się znajdują nie są
 zbyt zrozumiałe czy też czytelne dla człowieka. Można oczywiście ręcznie zdekodować te logi ale
 zamiast się trudzić, to lepiej skorzystać z narzędzia <code>ausearch</code> . Jeśli mamy do czynienia z całą
@@ -275,7 +284,21 @@ została przepuszczona wcześniej na zaporze sieciowej ale brakło stosownej reg
 W podobny sposób można namierzyć praktycznie każdy inny proces, który z jakiegoś powodu próbuje się
 komunikować ze światem zewnętrznym, a mając informacje o procesie, w tym też i ścieżkę do pliku
 binarnego, to możemy już sobie ten proces zablokować lub przepuścić na zaporze bez większego
-problemu.</p></div>
+problemu.</p>
+<h2 id="ustalenie-nazwy-procesu-i-numeru-pid-via-ftrace-kprobes">Ustalenie nazwy procesu i numeru PID via FTrace (kprobes)</h2>
+<p>Inną metodą, która jest w stanie nam pomóc w ustaleniu jaki proces chce komunikować się z siecią
+jest <a href="https://www.kernel.org/doc/html/latest/trace/ftrace.html">FTrace</a> (<a href="https://www.kernel.org/doc/html/latest/trace/kprobetrace.html">kprobes</a>), który korzysta z systemu plików <code>tracefs</code> montowanego w
+<code>/sys/kernel/tracing/</code> (we wersjach kernela do 4.1, był wykorzystywany system plików <code>debugfs</code>
+montowany w <code>/sys/kernel/debug/tracing/</code> ) . Możemy nakazać kernelowi by logował każde nowe
+połączenie, które dowolny program będzie otwierał, przykładowo:</p>
+<pre><code># echo 'p:m security_socket_connect' &gt;&gt; /sys/kernel/tracing/kprobe_events
+# echo 1 &gt; /sys/kernel/tracing/events/kprobes/m/enable
+# cat /sys/kernel/tracing/trace_pipe
+</code></pre>
+<p>By ten mechanizm wyłączyć, wpisujemy w terminal poniższe polecenia:</p>
+<pre><code># echo 0 &gt; /sys/kernel/tracing/events/kprobes/m/enable
+# echo '-:kprobes/m' &gt;&gt;  /sys/kernel/tracing/kprobe_events
+</code></pre></div>
 				
 				<footer class="entry__footer">
 					
@@ -284,6 +307,10 @@ problemu.</p></div>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/logi/">logi</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/iptables/">iptables</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/nftables/">nftables</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/auditd/">auditd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debugfs/">debugfs</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kprobes/">kprobes</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ftrace/">ftrace</a>
 </div>
 					
 <div class="entry__share share">
@@ -353,29 +380,6 @@ problemu.</p></div>
 </div>
 
 	
-<section class="comments block">
-	<div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</section>
-
 
 	</div>
 	<footer class="footer">

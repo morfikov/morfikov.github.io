@@ -396,7 +396,7 @@ RUN=&quot;yes&quot;
 
 if [ &quot;$RUN&quot; = &quot;yes&quot; ]; then
 
-    if [ &quot;$IFACE&quot; = &quot;wwan0&quot; ] ||
+	if [ &quot;$IFACE&quot; = &quot;wwan0&quot; ] ||
        [ &quot;$IFACE&quot; = &quot;bond0&quot; ] ||
        [ &quot;$IFACE&quot; = &quot;usb0&quot; ]  ||
        [ &quot;$IFACE&quot; = &quot;eth0&quot; ]  ||
@@ -407,7 +407,7 @@ if [ &quot;$RUN&quot; = &quot;yes&quot; ]; then
                      fold -w4 | \
                      paste -sd':')
             sysctl -q -w net.ipv6.conf.$IFACE.stable_secret=$secret
-    fi
+	fi
 fi
 </code></pre>
 <p>W przypadku, gdy zajdzie potrzeba wyłączenia tego skryptu, to zawsze możemy przestawić <code>RUN=&quot;yes&quot;</code>
@@ -426,12 +426,12 @@ jednocześnie konfigurujemy wiele z nich, np. za sprawą <code>systemctl restart
 <p>Sprawdźmy jak wygląda teraz zachowanie naszego linux'a przy restarcie połączenia sieciowego:</p>
 <pre><code># ip addr show bond0
 2: bond0: &lt;BROADCAST,MULTICAST,MASTER,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default qlen 1000
-    link/ether 00:21:cc:c3:05:b0 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.1.150/24 brd 192.168.1.255 scope global dynamic bond0
+	link/ether 00:21:cc:c3:05:b0 brd ff:ff:ff:ff:ff:ff
+	inet 192.168.1.150/24 brd 192.168.1.255 scope global dynamic bond0
        valid_lft 43191sec preferred_lft 43191sec
-    inet6 fd9d:40f3:50f5:0:9715:f78e:a22a:d5dd/64 scope global dynamic mngtmpaddr stable-privacy
+	inet6 fd9d:40f3:50f5:0:9715:f78e:a22a:d5dd/64 scope global dynamic mngtmpaddr stable-privacy
        valid_lft forever preferred_lft forever
-    inet6 fe80::35a7:1164:74c1:87ca/64 scope link stable-privacy
+	inet6 fe80::35a7:1164:74c1:87ca/64 scope link stable-privacy
        valid_lft forever preferred_lft forever
 
 # ifdown bond0
@@ -439,12 +439,12 @@ jednocześnie konfigurujemy wiele z nich, np. za sprawą <code>systemctl restart
 
 # ip addr show bond0
 2: bond0: &lt;BROADCAST,MULTICAST,MASTER,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default qlen 1000
-    link/ether 00:21:cc:c3:05:b0 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.1.150/24 brd 192.168.1.255 scope global dynamic bond0
+	link/ether 00:21:cc:c3:05:b0 brd ff:ff:ff:ff:ff:ff
+	inet 192.168.1.150/24 brd 192.168.1.255 scope global dynamic bond0
        valid_lft 43198sec preferred_lft 43198sec
-    inet6 fd9d:40f3:50f5:0:a9e8:9496:ba2e:e035/64 scope global tentative dynamic mngtmpaddr stable-privacy
+	inet6 fd9d:40f3:50f5:0:a9e8:9496:ba2e:e035/64 scope global tentative dynamic mngtmpaddr stable-privacy
        valid_lft forever preferred_lft forever
-    inet6 fe80::de92:3cfd:25b8:c944/64 scope link stable-privacy
+	inet6 fe80::de92:3cfd:25b8:c944/64 scope link stable-privacy
        valid_lft forever preferred_lft forever
 </code></pre>
 <p>Jak widać, adresy IPv6 uległy zmianie po restarcie połączenia sieciowego i widać na żywym
@@ -529,29 +529,6 @@ części identyfikującej hosta w adresie IPv6 i tym samym utrudnić dość mocn
 </div>
 
 	
-<section class="comments block">
-	<div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "morfitronik" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</section>
-
 
 	</div>
 	<footer class="footer">
