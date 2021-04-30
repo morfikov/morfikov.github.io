@@ -6,7 +6,24 @@
     <description>Recent content in Posts on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Fri, 09 Apr 2021 20:00:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/post/feed.xml" rel="self" type="application/rss" />
+    <lastBuildDate>Fri, 30 Apr 2021 22:10:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/post/feed.xml" rel="self" type="application/rss" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Energy Performance Bias (EPB) i jego wpływ na wydajność CPU Intela pod linux</title>
+      <link>https://morfikov.github.io/post/energy-performance-bias-epb-i-jego-wplyw-na-wydajnosc-cpu-intela-pod-linux/</link>
+      <pubDate>Fri, 30 Apr 2021 22:10:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/energy-performance-bias-epb-i-jego-wplyw-na-wydajnosc-cpu-intela-pod-linux/</guid>
+      <description>&lt;p&gt;Przeglądając ostatnio log systemowy, zauważyłem, że pojawia się w nim komunikat &lt;code&gt;kernel: ENERGY_PERF_BIAS: Set to &#39;normal&#39;, was &#39;performance&#39;&lt;/code&gt; . Co prawda korzystam z laptopa i cokolwiek
+związane z energią ustawione w trybie wydajności nie zawsze zdaje się być optymalnym rozwiązaniem
+ale też moja maszyna zwykle jest podpięta do źródła zasilania i przydałoby się, by była ona
+skonfigurowana właśnie bardziej w stronę profilu wydajności niż oszczędności energii. Ten powyższy
+komunikat informuje nas zaś, że system zmienił ustawienia z &lt;code&gt;performance&lt;/code&gt; (tryb wydajności) na
+&lt;code&gt;normal&lt;/code&gt; (jakiś bliżej nieokreślony tryb normalny). Chodzi naturalnie o ustawienia trybu pracy
+procesora Intel. Postanowiłem zatem poszukać informacji na temat tego czym jest ten cały Energy
+Performance Bias (EPB) i jak go skonfigurować w odpowiedni sposób pod linux.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Disqus wprowadza reklamy, Disqus musi odejść</title>
@@ -442,28 +459,6 @@ potrzeba jego powiększenia? Czy w takiej sytuacji musimy na nowo tworzyć maszy
 odpowiednio zwiększając lub zmniejszając jej przestrzeń na pliki? A może istnieje jakiś sposób na
 zmianę rozmiaru tych istniejących już obrazów maszyn wirtualnych? Postaramy się ten fakt
 zweryfikować, a cały proces zostanie opisany przy wykorzystaniu systemu Debian Linux.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Konfiguracja HugePages pod maszyny wirtualne QEMU/KVM</title>
-      <link>https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/</link>
-      <pubDate>Sun, 09 Aug 2020 11:11:00 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/</guid>
-      <description>&lt;p&gt;W linux rozmiar stron pamięci operacyjnej RAM ma domyślnie 4096 bajtów (4 KiB). Maszyny wirtualne
-QEMU/KVM mają to do siebie, że wykorzystują dość spore zasoby pamięci (wile GiB), przez co mały
-rozmiar strony może niekorzystnie wpływać na wydajność systemów gościa. Chodzi generalnie o to, że
-rozrostowi ulega tablica stron, której przeszukiwanie jest czasochłonną operacją. By temu zaradzić,
-wymyślono TLB (&lt;a href=&#34;https://en.wikipedia.org/wiki/Translation_lookaside_buffer&#34;&gt;Translation Lookaside Buffer&lt;/a&gt;), który ulokowany jest albo w CPU albo gdzieś
-pomiędzy CPU i główną pamięcią operacyjną. TLB to mały ale za to bardzo szybki cache. W przypadku
-systemów z duża ilością pamięci RAM, niewielki rozmiar TLB sprawia, że odpowiedzi na zapytania nie
-są brane z cache, tylko system wraca do przeszukiwania normalnej tablicy stron zlokalizowanej w
-pamięci RAM (TLB miss). Taka sytuacja jest bardzo kosztowna, spowalnia cały system i dlatego trzeba
-jej unikać. Na szczęście jest &lt;a href=&#34;https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt&#34;&gt;mechanizm HugePages&lt;/a&gt;, który pozwala na zwiększenie rozmiaru
-strony pamięci z domyślnych 4 KiB do 2 MiB lub nawet do 1 GiB w zależności od właściwości głównego
-procesora. W tym artykule postaramy się skonfigurować HugePages na potrzeby maszyn wirtualnych dla
-systemu Debian Linux.&lt;/p&gt;</description>
     </item>
     
   </channel>

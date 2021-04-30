@@ -27,7 +27,7 @@ tak i w tym artykule prześledzimy sobie cały ten proces." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/" />
 <meta property="article:published_time" content="2018-12-27T22:14:00+00:00" />
-<meta property="article:modified_time" content="2020-06-09T21:20:00+02:00" />
+<meta property="article:modified_time" content="2021-04-30T06:00:00+02:00" />
 
 		<meta itemprop="name" content="Budowanie kernela linux dla konkretnej maszyny z Debianem">
 <meta itemprop="description" content="Każda maszyna działająca pod kontrolą dystrybucji linux ma na swoim pokładzie kernel, czyli jądro
@@ -46,8 +46,8 @@ operacyjnego. Czy istnieje jakiś prosty sposób, by taki kernel zbudować sobie
 minimalną wiedzę co do opcji kernela, które mogą nas przysporzyć o ból... głowy? Okazuje się, że
 tak i w tym artykule prześledzimy sobie cały ten proces.">
 <meta itemprop="datePublished" content="2018-12-27T22:14:00+00:00" />
-<meta itemprop="dateModified" content="2020-06-09T21:20:00+02:00" />
-<meta itemprop="wordCount" content="4517">
+<meta itemprop="dateModified" content="2021-04-30T06:00:00+02:00" />
+<meta itemprop="wordCount" content="4807">
 
 
 
@@ -154,7 +154,7 @@ if (!doNotTrack) {
 			<article class="entry">
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2018-12-27T22:14:00Z">Opublikowano: 27/12/2018</time>
-	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-06-09T21:20:00&#43;02:00">Zaktualizowano: 09/06/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2021-04-30T06:00:00&#43;02:00">Zaktualizowano: 30/04/2021</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -184,7 +184,12 @@ if (!doNotTrack) {
         </li>
         <li><a href="#problemy-z-xconfig">Problemy z xconfig</a></li>
         <li><a href="#ccache">ccache</a></li>
-        <li><a href="#wersja-gccgcpp">Wersja gcc/g++/cpp</a></li>
+        <li><a href="#wersja-gccgcpp">Wersja gcc/g++/cpp</a>
+          <ol>
+            <li><a href="#clang">Clang</a></li>
+          </ol>
+        </li>
+        <li><a href="#wersja-ld">Wersja ld</a></li>
       </ol>
     </li>
     <li><a href="#pozyskiwanie-informacji-o-sprzęcie">Pozyskiwanie informacji o sprzęcie</a></li>
@@ -464,13 +469,15 @@ max cache size                      10.0 GB
 wersją jest wersja 9. Niemniej jednak, w systemie można zainstalować także wersję 10 i to raczej
 nie powinno stanowić problemu. Natomiast problemem może być wybór, którą wersję tych narzędzi
 chcemy wykorzystywać przy budowaniu kernela czy też innych projektów. W takich sytuacjach z pomocą
-przychodzi system alternatyw, za pomocą którego to musimy określić preferowaną wersję gcc/g++/cpp ,
-a linki do odpowiednich binarek zostaną już automatycznie utworzone za nas. Mając już zainstalowane
-stosowne pakiety, odpalamy terminal i wpisujemy w nim te poniższe polecenia.</p>
+przychodzi system alternatyw, za pomocą którego to musimy określić <a href="https://azrael.digipen.edu/~mmead/www/mg/update-compilers/index.html">preferowaną wersję
+gcc/g++/cpp</a>, a linki do odpowiednich binarek zostaną już automatycznie utworzone za nas. Mając
+już zainstalowane stosowne pakiety, odpalamy terminal i wpisujemy w nim te poniższe polecenia.</p>
 <p>Usuwamy stare alternatywy dla gcc/g++/cpp:</p>
-<pre><code># update-alternatives --remove-all gcc
+<pre><code># update-alternatives --remove-all cc
+# update-alternatives --remove-all c++
+# update-alternatives --remove-all gcc
 # update-alternatives --remove-all g++
-# update-alternatives --remove-all cpp
+# update-alternatives --remove-all cpp-bin
 </code></pre>
 <p>Dodajemy teraz nowe alternatywy:</p>
 <pre><code># update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
@@ -484,17 +491,72 @@ stosowne pakiety, odpalamy terminal i wpisujemy w nim te poniższe polecenia.</p
 </code></pre>
 <p>Ustawiamy również by linki cc/c++ wskazywały na gcc/g++ :</p>
 <pre><code># update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
-# update-alternatives --set cc /usr/bin/gcc
-
 # update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
-# update-alternatives --set c++ /usr/bin/g++
-
-# update-alternatives --set cpp-bin /usr/bin/cpp-10
 </code></pre>
 <p>I na koniec konfigurujemy sobie preferowaną wersję gcc/g++/cpp:</p>
 <pre><code># update-alternatives --config gcc
 # update-alternatives --config g++
-# update-alternatives --config cpp
+# update-alternatives --config cpp-bin
+</code></pre>
+<h4 id="clang">Clang</h4>
+<p>Jeśli planujemy budować kernel z wykorzystaniem <a href="https://clang.llvm.org/">clang/LLVM</a>, to również przydadzą nam się te
+poniższe alternatywy:</p>
+<pre><code># update-alternatives --remove-all clang
+# update-alternatives --remove-all clang++
+
+# update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 10
+# update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 10
+# update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/clang-cpp-11 10
+
+# update-alternatives --install /usr/bin/cc cc /usr/bin/clang 10
+# update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 10
+
+# update-alternatives --config cc
+# update-alternatives --config c++
+# update-alternatives --config cpp-bin
+</code></pre>
+<p>Na necie spotkałem się także z dodaniem tych poniższych alternatyw:</p>
+<pre><code># update-alternatives --install /usr/bin/gcc gcc /usr/bin/clang 10
+# update-alternatives --install /usr/bin/g++ g++ /usr/bin/clang++ 10
+
+# update-alternatives --config gcc
+# update-alternatives --config g++
+</code></pre>
+<p>Mają one za zadanie wymusić korzystania z <code>clang</code> wszędzie tam, gdzie wykorzystywany by był <code>gcc</code> ,
+m.in. podczas budowania kernela. Nie wiem jednak czy jest to aby dobre rozwiązanie. Jeśli chcemy
+zbudować kernel przy pomocy kompilatora <code>clang</code> , to lepszym wyjściem zdaje się ustawienie
+zmiennej <code>CC=</code> , tak by wskazywała na <code>clang</code> zamiast <code>gcc</code> , przykładowo:</p>
+<pre><code>make CC=clang ...
+</code></pre>
+<h3 id="wersja-ld">Wersja ld</h3>
+<p>Podobnie jak w przypadku alternatyw dla kompilatorów, możemy także stworzyć alternatywy dla
+konsolidatora (linkera). Aktualnie w Debianie są dostępne dwa linkery <code>bfd</code> oraz <code>gold</code> , choć ten
+ostatni przeznaczony jest jedynie do pracy z plikami ELF (Executable and Linkable Format):</p>
+<pre><code># update-alternatives --remove-all ld
+
+# update-alternatives --install /usr/bin/ld ld /usr/bin/ld.bfd 10
+# update-alternatives --install /usr/bin/ld ld /usr/bin/ld.gold 20
+
+# update-alternatives --config ld
+</code></pre>
+<p>Kernel linux'a póki co nie wspiera linkera <code>gold</code> . Gdybyśmy ten linker ustawili w systemie jako
+domyślny, to podczas kompilacji kernela dostalibyśmy poniższy błąd:</p>
+<pre><code>$ make oldconfig &amp;&amp; make prepare
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/kconfig/conf.o
+  HOSTCC  scripts/kconfig/confdata.o
+  HOSTCC  scripts/kconfig/expr.o
+  LEX     scripts/kconfig/lexer.lex.c
+  YACC    scripts/kconfig/parser.tab.[ch]
+  HOSTCC  scripts/kconfig/lexer.lex.o
+  HOSTCC  scripts/kconfig/parser.tab.o
+  HOSTCC  scripts/kconfig/preprocess.o
+  HOSTCC  scripts/kconfig/symbol.o
+  HOSTCC  scripts/kconfig/util.o
+  HOSTLD  scripts/kconfig/conf
+scripts/Kconfig.include:43:  gold linker 'ld' not supported
+make[1]: *** [scripts/kconfig/Makefile:71: oldconfig] Error 1
+make: *** [Makefile:601: oldconfig] Error 2
 </code></pre>
 <h2 id="pozyskiwanie-informacji-o-sprzęcie">Pozyskiwanie informacji o sprzęcie</h2>
 <p>To co jest niezbędne do zbudowania kernela, który będzie w stanie obsłużyć nasz sprzęt w pełni, to
