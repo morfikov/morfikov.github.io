@@ -9,6 +9,7 @@ status: publish
 tags:
 - debian
 - kernel
+- kompilacja
 title: Budowanie kernela linux dla konkretnej maszyny z Debianem
 ---
 
@@ -306,7 +307,7 @@ Wielkością cache sterujemy w poniższy sposób:
 ### Wersja gcc/g++/cpp
 
 W Debianie dostępnych jest kilka wersji kompilatorów gcc/g++ i preprocesora C. Aktualnie domyślną
-wersją jest wersja 9. Niemniej jednak, w systemie można zainstalować także wersję 10 i to raczej
+wersją jest wersja 10. Niemniej jednak, w systemie można zainstalować także wersję 11 i to raczej
 nie powinno stanowić problemu. Natomiast problemem może być wybór, którą wersję tych narzędzi
 chcemy wykorzystywać przy budowaniu kernela czy też innych projektów. W takich sytuacjach z pomocą
 przychodzi system alternatyw, za pomocą którego to musimy określić [preferowaną wersję
@@ -323,92 +324,30 @@ Usuwamy stare alternatywy dla gcc/g++/cpp:
 
 Dodajemy teraz nowe alternatywy:
 
-    # update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
-    # update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 100
+    # update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 50  \
+                          --slave /usr/bin/g++ g++ /usr/bin/g++-10
 
-    # update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
-    # update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 100
+    # update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-10
 
-    # update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-10 10
-    # update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-9 100
+    # update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100 \
+                          --slave /usr/bin/g++ g++ /usr/bin/g++-11
+
+    # update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-10 50
+    # update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-11 100
+
+Warto tutaj wspomnieć, że alternatywy dla `g++` zostały dodane za sprawą przełącznika `--slave` .
+Uzależniamy w ten sposób alternatywy dla `g++` od `gcc` . W ten sposób wystarczy skonfigurować
+alternatywę dla `gcc` , a alternatywy dla `g++` zostaną automatycznie dostosowane.
 
 Ustawiamy również by linki cc/c++ wskazywały na gcc/g++ :
 
-    # update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
-    # update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+    # update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
+                          --slave /usr/bin/c++ c++ /usr/bin/g++
 
 I na koniec konfigurujemy sobie preferowaną wersję gcc/g++/cpp:
 
     # update-alternatives --config gcc
-    # update-alternatives --config g++
     # update-alternatives --config cpp-bin
-
-#### Clang
-
-Jeśli planujemy budować kernel z wykorzystaniem [clang/LLVM][21], to również przydadzą nam się te
-poniższe alternatywy:
-
-    # update-alternatives --remove-all clang
-    # update-alternatives --remove-all clang++
-
-    # update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 10
-    # update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 10
-    # update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/clang-cpp-11 10
-
-    # update-alternatives --install /usr/bin/cc cc /usr/bin/clang 10
-    # update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 10
-
-    # update-alternatives --config cc
-    # update-alternatives --config c++
-    # update-alternatives --config cpp-bin
-
-Na necie spotkałem się także z dodaniem tych poniższych alternatyw:
-
-    # update-alternatives --install /usr/bin/gcc gcc /usr/bin/clang 10
-    # update-alternatives --install /usr/bin/g++ g++ /usr/bin/clang++ 10
-
-    # update-alternatives --config gcc
-    # update-alternatives --config g++
-
-Mają one za zadanie wymusić korzystania z `clang` wszędzie tam, gdzie wykorzystywany by był `gcc` ,
-m.in. podczas budowania kernela. Nie wiem jednak czy jest to aby dobre rozwiązanie. Jeśli chcemy
-zbudować kernel przy pomocy kompilatora `clang` , to lepszym wyjściem zdaje się ustawienie
-zmiennej `CC=` , tak by wskazywała na `clang` zamiast `gcc` , przykładowo:
-
-    make CC=clang ...
-
-### Wersja ld
-
-Podobnie jak w przypadku alternatyw dla kompilatorów, możemy także stworzyć alternatywy dla
-konsolidatora (linkera). Aktualnie w Debianie są dostępne dwa linkery `bfd` oraz `gold` , choć ten
-ostatni przeznaczony jest jedynie do pracy z plikami ELF (Executable and Linkable Format):
-
-    # update-alternatives --remove-all ld
-
-    # update-alternatives --install /usr/bin/ld ld /usr/bin/ld.bfd 10
-    # update-alternatives --install /usr/bin/ld ld /usr/bin/ld.gold 20
-
-    # update-alternatives --config ld
-
-Kernel linux'a póki co nie wspiera linkera `gold` . Gdybyśmy ten linker ustawili w systemie jako
-domyślny, to podczas kompilacji kernela dostalibyśmy poniższy błąd:
-
-    $ make oldconfig && make prepare
-      HOSTCC  scripts/basic/fixdep
-      HOSTCC  scripts/kconfig/conf.o
-      HOSTCC  scripts/kconfig/confdata.o
-      HOSTCC  scripts/kconfig/expr.o
-      LEX     scripts/kconfig/lexer.lex.c
-      YACC    scripts/kconfig/parser.tab.[ch]
-      HOSTCC  scripts/kconfig/lexer.lex.o
-      HOSTCC  scripts/kconfig/parser.tab.o
-      HOSTCC  scripts/kconfig/preprocess.o
-      HOSTCC  scripts/kconfig/symbol.o
-      HOSTCC  scripts/kconfig/util.o
-      HOSTLD  scripts/kconfig/conf
-    scripts/Kconfig.include:43:  gold linker 'ld' not supported
-    make[1]: *** [scripts/kconfig/Makefile:71: oldconfig] Error 1
-    make: *** [Makefile:601: oldconfig] Error 2
 
 ## Pozyskiwanie informacji o sprzęcie
 
@@ -782,5 +721,4 @@ chwilę.
 [18]: /post/dkms-czyli-automatycznie-budowane-moduly/
 [19]: https://patchwork.kernel.org/patch/9773791/
 [20]: https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
-[21]: https://clang.llvm.org/
 [22]: https://azrael.digipen.edu/~mmead/www/mg/update-compilers/index.html
