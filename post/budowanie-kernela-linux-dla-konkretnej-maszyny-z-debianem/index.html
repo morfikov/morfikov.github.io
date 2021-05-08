@@ -47,11 +47,11 @@ minimalną wiedzę co do opcji kernela, które mogą nas przysporzyć o ból... 
 tak i w tym artykule prześledzimy sobie cały ten proces.">
 <meta itemprop="datePublished" content="2018-12-27T22:14:00+00:00" />
 <meta itemprop="dateModified" content="2021-04-30T06:00:00+02:00" />
-<meta itemprop="wordCount" content="4807">
+<meta itemprop="wordCount" content="4545">
 
 
 
-<meta itemprop="keywords" content="debian,kernel," />
+<meta itemprop="keywords" content="debian,kernel,kompilacja," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Budowanie kernela linux dla konkretnej maszyny z Debianem"/>
@@ -124,13 +124,6 @@ if (!doNotTrack) {
 					
 				</a>
 			</li>
-			<li class="main-nav__item">
-				<a class="main-nav__link" href="https://morfikov.github.io/page/wsparcie/">
-					
-					<span class="main-nav__text">Wsparcie</span>
-					
-				</a>
-			</li>
 	</ul>
 </nav>
 </header>
@@ -184,12 +177,7 @@ if (!doNotTrack) {
         </li>
         <li><a href="#problemy-z-xconfig">Problemy z xconfig</a></li>
         <li><a href="#ccache">ccache</a></li>
-        <li><a href="#wersja-gccgcpp">Wersja gcc/g++/cpp</a>
-          <ol>
-            <li><a href="#clang">Clang</a></li>
-          </ol>
-        </li>
-        <li><a href="#wersja-ld">Wersja ld</a></li>
+        <li><a href="#wersja-gccgcpp">Wersja gcc/g++/cpp</a></li>
       </ol>
     </li>
     <li><a href="#pozyskiwanie-informacji-o-sprzęcie">Pozyskiwanie informacji o sprzęcie</a></li>
@@ -466,7 +454,7 @@ max cache size                      10.0 GB
 </code></pre>
 <h3 id="wersja-gccgcpp">Wersja gcc/g++/cpp</h3>
 <p>W Debianie dostępnych jest kilka wersji kompilatorów gcc/g++ i preprocesora C. Aktualnie domyślną
-wersją jest wersja 9. Niemniej jednak, w systemie można zainstalować także wersję 10 i to raczej
+wersją jest wersja 10. Niemniej jednak, w systemie można zainstalować także wersję 11 i to raczej
 nie powinno stanowić problemu. Natomiast problemem może być wybór, którą wersję tych narzędzi
 chcemy wykorzystywać przy budowaniu kernela czy też innych projektów. W takich sytuacjach z pomocą
 przychodzi system alternatyw, za pomocą którego to musimy określić <a href="https://azrael.digipen.edu/~mmead/www/mg/update-compilers/index.html">preferowaną wersję
@@ -480,83 +468,27 @@ już zainstalowane stosowne pakiety, odpalamy terminal i wpisujemy w nim te poni
 # update-alternatives --remove-all cpp-bin
 </code></pre>
 <p>Dodajemy teraz nowe alternatywy:</p>
-<pre><code># update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
-# update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 100
+<pre><code># update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 50  \
+                      --slave /usr/bin/g++ g++ /usr/bin/g++-10
 
-# update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
-# update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 100
+# update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-10
 
-# update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-10 10
-# update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-9 100
+# update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100 \
+                      --slave /usr/bin/g++ g++ /usr/bin/g++-11
+
+# update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-10 50
+# update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-11 100
 </code></pre>
+<p>Warto tutaj wspomnieć, że alternatywy dla <code>g++</code> zostały dodane za sprawą przełącznika <code>--slave</code> .
+Uzależniamy w ten sposób alternatywy dla <code>g++</code> od <code>gcc</code> . W ten sposób wystarczy skonfigurować
+alternatywę dla <code>gcc</code> , a alternatywy dla <code>g++</code> zostaną automatycznie dostosowane.</p>
 <p>Ustawiamy również by linki cc/c++ wskazywały na gcc/g++ :</p>
-<pre><code># update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
-# update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+<pre><code># update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
+                      --slave /usr/bin/c++ c++ /usr/bin/g++
 </code></pre>
 <p>I na koniec konfigurujemy sobie preferowaną wersję gcc/g++/cpp:</p>
 <pre><code># update-alternatives --config gcc
-# update-alternatives --config g++
 # update-alternatives --config cpp-bin
-</code></pre>
-<h4 id="clang">Clang</h4>
-<p>Jeśli planujemy budować kernel z wykorzystaniem <a href="https://clang.llvm.org/">clang/LLVM</a>, to również przydadzą nam się te
-poniższe alternatywy:</p>
-<pre><code># update-alternatives --remove-all clang
-# update-alternatives --remove-all clang++
-
-# update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 10
-# update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 10
-# update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/clang-cpp-11 10
-
-# update-alternatives --install /usr/bin/cc cc /usr/bin/clang 10
-# update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 10
-
-# update-alternatives --config cc
-# update-alternatives --config c++
-# update-alternatives --config cpp-bin
-</code></pre>
-<p>Na necie spotkałem się także z dodaniem tych poniższych alternatyw:</p>
-<pre><code># update-alternatives --install /usr/bin/gcc gcc /usr/bin/clang 10
-# update-alternatives --install /usr/bin/g++ g++ /usr/bin/clang++ 10
-
-# update-alternatives --config gcc
-# update-alternatives --config g++
-</code></pre>
-<p>Mają one za zadanie wymusić korzystania z <code>clang</code> wszędzie tam, gdzie wykorzystywany by był <code>gcc</code> ,
-m.in. podczas budowania kernela. Nie wiem jednak czy jest to aby dobre rozwiązanie. Jeśli chcemy
-zbudować kernel przy pomocy kompilatora <code>clang</code> , to lepszym wyjściem zdaje się ustawienie
-zmiennej <code>CC=</code> , tak by wskazywała na <code>clang</code> zamiast <code>gcc</code> , przykładowo:</p>
-<pre><code>make CC=clang ...
-</code></pre>
-<h3 id="wersja-ld">Wersja ld</h3>
-<p>Podobnie jak w przypadku alternatyw dla kompilatorów, możemy także stworzyć alternatywy dla
-konsolidatora (linkera). Aktualnie w Debianie są dostępne dwa linkery <code>bfd</code> oraz <code>gold</code> , choć ten
-ostatni przeznaczony jest jedynie do pracy z plikami ELF (Executable and Linkable Format):</p>
-<pre><code># update-alternatives --remove-all ld
-
-# update-alternatives --install /usr/bin/ld ld /usr/bin/ld.bfd 10
-# update-alternatives --install /usr/bin/ld ld /usr/bin/ld.gold 20
-
-# update-alternatives --config ld
-</code></pre>
-<p>Kernel linux'a póki co nie wspiera linkera <code>gold</code> . Gdybyśmy ten linker ustawili w systemie jako
-domyślny, to podczas kompilacji kernela dostalibyśmy poniższy błąd:</p>
-<pre><code>$ make oldconfig &amp;&amp; make prepare
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/kconfig/conf.o
-  HOSTCC  scripts/kconfig/confdata.o
-  HOSTCC  scripts/kconfig/expr.o
-  LEX     scripts/kconfig/lexer.lex.c
-  YACC    scripts/kconfig/parser.tab.[ch]
-  HOSTCC  scripts/kconfig/lexer.lex.o
-  HOSTCC  scripts/kconfig/parser.tab.o
-  HOSTCC  scripts/kconfig/preprocess.o
-  HOSTCC  scripts/kconfig/symbol.o
-  HOSTCC  scripts/kconfig/util.o
-  HOSTLD  scripts/kconfig/conf
-scripts/Kconfig.include:43:  gold linker 'ld' not supported
-make[1]: *** [scripts/kconfig/Makefile:71: oldconfig] Error 1
-make: *** [Makefile:601: oldconfig] Error 2
 </code></pre>
 <h2 id="pozyskiwanie-informacji-o-sprzęcie">Pozyskiwanie informacji o sprzęcie</h2>
 <p>To co jest niezbędne do zbudowania kernela, który będzie w stanie obsłużyć nasz sprzęt w pełni, to
@@ -844,6 +776,7 @@ chwilę.</p></div>
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kernel/">kernel</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kompilacja/">kompilacja</a>
 </div>
 					
 <div class="entry__share share">
