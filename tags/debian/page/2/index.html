@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/tags/debian/" />
-<meta property="og:updated_time" content="2021-04-30T06:00:00+02:00" />
+<meta property="og:updated_time" content="2021-07-25T18:40:00+02:00" />
 
 		<meta itemprop="name" content="debian">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -88,6 +88,31 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/raspberry-pi-libreelec-kodi-i-zdalne-logi-via-rsyslog/">Raspberry Pi, LibreELEC, Kodi i zdalne logi via rsyslog</a></h1>
+	<div class="entry__content"><p>Parę lat temu, gdy pojawił się u mnie w domu bezprzewodowy router WiFi, postanowiłem wgrać na niego
+linux'a w postaci OpenWRT. Pierwszym kluczowym elementem konfiguracyjnym tego urządzenia było
+<a href="https://morfikov.github.io/post/logread-czyli-system-logowania-w-openwrt/">przesłanie jego logów systemowych przez sieć</a> do mojego laptopa, tak by wszystkie
+zarejestrowane komunikaty zostały wyświetlone na konsoli mojego komputera z zainstalowanym Debianem.
+W ten sposób nie musiałem się co chwila logować na router po SSH (czy też przez panel webowy), by
+sprawdzić czy aby na pewno z tym urządzeniem jest wszystko w porządku. Teraz, po nabyciu Raspberry
+Pi 4B i wgraniu na niego <a href="https://libreelec.tv/">LibreELEC</a> z preinstalowanym Kodi, mam dokładnie to samo zadanie do
+zrealizowania. Trzeba zatem znaleźć sposób na przesłanie wszystkich logów generowanych przez system
+LibreELEC do demona <code>rsyslogd</code> , który jest uruchomiony na zdalnej maszynie.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-08-25T19:21:00&#43;02:00">Opublikowano: 25/08/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/raspberrypi/" rel="category">RaspberryPi</a>, 
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -351,39 +376,6 @@ zdania. Rzeczywistość okazała się nieco inna, a rozwiązanie samego problemu
 </article>
 				</div>
 			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/czym-jest-linux-kernel-driver-binding/">Czym jest linux kernel driver binding</a></h1>
-	<div class="entry__content"><p>Bawiąc się ostatnio QEMU/KVM na swoim laptopie z zainstalowanym Debianem natrafiłem na ciekawe
-zagadnienie związane z wirtualizacją, tj. z PCI passthrough. Nie chodzi mi tutaj o samą technikę
-PCI passthrough ale o dobór sterowników do urządzeń działających pod kontrolą linux. Każdy sprzęt,
-który ma działać w systemie, musi mieć załadowany w pamięci RAM stosowny moduł kernela. Te moduły
-zwykle są ładowane automatycznie podczas pracy systemu, np. gdy podłączamy nowy sprzęt do komputera
-(można też te moduły ładować i ręcznie via <code>modprobe</code> ). Gdy nasz linux z jakiegoś powodu dobierze
-niewłaściwy (z naszego punktu widzenia) moduł dla jakiegoś urządzenia, to możemy to urządzenie
-odłączyć od komputera, a moduł bez problemu wyładować, po czym dokonać stosownych poprawek w
-systemie. Problem zaczyna się w sytuacji, gdy mamy do czynienia ze sprzętem, którego nie da się od
-komputera fizycznie odłączyć, np. wbudowana w płytę główną karta dźwiękowa, czy też wbudowana
-grafika bezpośrednio w CPU. Podobnie sprawa wygląda w przypadku wkompilowania modułów na stałe w
-kernel -- jak wyładować moduł, którego się nie da wyładować? By w takich sytuacjach zmienić
-przypisany urządzeniu sterownik trzeba dodać parę plików w katalogach <code>/etc/modules-load.d/</code> /
-<code>/etc/modprobe.d/</code> oraz zrestartować maszynę, tak by podczas fazy boot kernel dobrał sprzętowi
-pożądane przez nas moduły i ich konfigurację. Niemniej jednak, istnieje prostszy sposób na zmianę
-sterownika działającego w systemie sprzętu i to bez potrzeby fizycznego restartowania maszyny.
-Chodzi o mechanizm ręcznego przypisywania urządzeń do konkretnych sterowników (<a href="https://lwn.net/Articles/143397/">manual driver
-binding and unbinding</a>).</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-07-28T19:39:00Z">Opublikowano: 28/07/2020</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
 		</div>
 	</main>
 	
@@ -391,14 +383,14 @@ binding and unbinding</a>).</p></div>
 	<a href="https://morfikov.github.io/tags/debian/" class="pagination__item pagination__item--desktop" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
     <a href="https://morfikov.github.io/tags/debian/" class="pagination__item pagination__item--desktop" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
 				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/debian/">1</a>
-				<span class="pagination__item pagination__item--active" data-total="12">2</span>
+				<span class="pagination__item pagination__item--active" data-total="13">2</span>
 				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/debian/page/3/">3</a>
 				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/debian/page/4/">4</a>
 				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/debian/page/5/">5</a>
 			<span class="pagination__item pagination__item--gap">&hellip;</span>
-				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/debian/page/12/">12</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/debian/page/13/">13</a>
 	<a href="https://morfikov.github.io/tags/debian/page/3/" class="pagination__item pagination__item--desktop" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-      <a href="https://morfikov.github.io/tags/debian/page/12/" class="pagination__item pagination__item--desktop" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      <a href="https://morfikov.github.io/tags/debian/page/13/" class="pagination__item pagination__item--desktop" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
 </div>
 
 

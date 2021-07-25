@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux" />
+<meta property="og:description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików
+EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez
+strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy
+nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na
+jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC,
+to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania
+podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie
+duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można
+popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy
+wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy
+dysku twardego" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/analiza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux/" />
+<meta property="article:published_time" content="2021-07-25T18:40:00+02:00" />
+<meta property="article:modified_time" content="2021-07-25T18:40:00+02:00" />
+
+		<meta itemprop="name" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux">
+<meta itemprop="description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików
+EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez
+strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy
+nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na
+jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC,
+to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania
+podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie
+duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można
+popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy
+wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy
+dysku twardego">
+<meta itemprop="datePublished" content="2021-07-25T18:40:00+02:00" />
+<meta itemprop="dateModified" content="2021-07-25T18:40:00+02:00" />
+<meta itemprop="wordCount" content="8054">
+
+
+
+<meta itemprop="keywords" content="debian,hdd,ssd,ext4,udev," />
+
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux"/>
+<meta name="twitter:description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików
+EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez
+strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy
+nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na
+jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC,
+to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania
+podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie
+duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można
+popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy
+wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy
+dysku twardego"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2021-07-25T18:40:00&#43;02:00">Opublikowano: 25/07/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#nie-tylko-pliki-zajmują-miejsce-na-dysku">Nie tylko pliki zajmują miejsce na dysku</a></li>
+    <li><a href="#rzut-oka-na-superblok-systemu-plików-ext4">Rzut oka na superblok systemu plików EXT4</a>
+      <ol>
+        <li><a href="#grupa-bloków">Grupa bloków</a>
+          <ol>
+            <li><a href="#zarezerwowane-bloki-gdt">Zarezerwowane bloki GDT</a></li>
+            <li><a href="#tablica-i-węzłów">Tablica i-węzłów</a></li>
+            <li><a href="#opcje-sparse_super-i-sparse_super2">Opcje sparse_super i sparse_super2</a></li>
+            <li><a href="#bitmapa-bloków-i-i-węzłów">Bitmapa bloków i i-węzłów</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#optymalizacja-systemu-plików-pod-kątem-przechowywania-dużych-plików">Optymalizacja systemu plików pod kątem przechowywania dużych plików</a>
+      <ol>
+        <li><a href="#flaga-bigalloc">Flaga bigalloc</a>
+          <ol>
+            <li><a href="#problemy-związane-z-bigalloc">Problemy związane z bigalloc</a></li>
+          </ol>
+        </li>
+        <li><a href="#rozmiar-oraz-ilość-i-węzłów">Rozmiar oraz ilość i-węzłów</a></li>
+        <li><a href="#pełne-inicjowanie-systemu-plików-przy-jego-tworzeniu">Pełne inicjowanie systemu plików przy jego tworzeniu</a></li>
+        <li><a href="#rozmiar-dziennika-journal">Rozmiar dziennika (journal)</a></li>
+        <li><a href="#ilość-zarezerwowanego-miejsca-na-potrzeby-root">Ilość zarezerwowanego miejsca na potrzeby root</a></li>
+      </ol>
+    </li>
+    <li><a href="#tablica-partycji-ms-dosgpt">Tablica partycji MS-DOS/GPT</a></li>
+    <li><a href="#advanced-format-sektory-fizyczne-4096-bajtów">Advanced Format (sektory fizyczne 4096 bajtów)</a>
+      <ol>
+        <li><a href="#różnica-między-advanced-format-512e-i-advanced-format-4kn">Różnica między Advanced Format 512e i Advanced Format 4kn</a></li>
+      </ol>
+    </li>
+    <li><a href="#ręczne-tworzenie-partycji">Ręczne tworzenie partycji</a>
+      <ol>
+        <li><a href="#formatowanie-dysku-hddssd-pod-duże-pliki">Formatowanie dysku HDD/SSD pod duże pliki</a>
+          <ol>
+            <li><a href="#różnica-w-strukturze-metadanych-systemu-plików">Różnica w strukturze metadanych systemu plików</a></li>
+          </ol>
+        </li>
+        <li><a href="#domyślne-opcje-przy-tworzeniu-systemu-plików">Domyślne opcje przy tworzeniu systemu plików</a></li>
+        <li><a href="#montowanie-systemu-plików">Montowanie systemu plików</a></li>
+      </ol>
+    </li>
+    <li><a href="#parę-słów-o-technologi-intellipowerintellipark">Parę słów o technologi IntelliPower/IntelliPark</a>
+      <ol>
+        <li><a href="#honorowanie-ustawień-po-restarcie-systemu">Honorowanie ustawień po restarcie systemu</a></li>
+        <li><a href="#problem-z-ustawieniem-apm-via-hdparm">Problem z ustawieniem APM via hdparm</a></li>
+      </ol>
+    </li>
+    <li><a href="#parę-słów-o-technologi-cmr-vs-smr">Parę słów o technologi CMR vs. SMR</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Zapewne każdy użytkownik linux'a tworzył na dysku HDD/SSD partycje sformatowane systemem plików
+EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez
+strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy
+nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na
+jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC,
+to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania
+podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie
+duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można
+popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy
+wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy
+dysku twardego</p>
+<h2 id="nie-tylko-pliki-zajmują-miejsce-na-dysku">Nie tylko pliki zajmują miejsce na dysku</h2>
+<p>Może to być ździebko nieintuicyjne ale nie tylko pliki czy katalogi (które też są plikami tylko
+nieco innego rodzaju) zajmują nam miejsce na dysku twardym. By dane zgromadzone na dysku mogły być
+plikami, potrzebna jest jakaś forma struktury opisowej, zwanej systemem plików. Ta struktura
+również zawiera dane, z tym, że niezbyt czytelne dla człowieka. Natomiast maszyny są w stanie w
+oparciu o tę strukturę pogrupować bity interesujących na informacji, tak by zostały one
+użytkownikom komputera przedstawione w formie czytelnej w plikach graficznych, tekstowych, audio,
+video czy też i innych formatach, które aplikacje użytkowe będą w stanie zrozumieć.</p>
+<p>Jak można się domyśleć, te metadane opisujące pliki zajmują miejsce i potrafią go zajmować dość
+sporo, w zależności od tego co zamierzamy na tym HDD czy SSD trzymać. Jedno jest jednak pewne, cała
+struktura opisowa systemu plików EXT4 jest tworzona podczas inicjacji systemu plików (przy
+wydawaniu polecenia <code>mkfs.ext4 ...</code> ). Dlatego też po utworzeniu systemu plików, część danych jest
+już zajęta przez metadane systemu plików i zwykle jest to wiele ładnych GiB zwłaszcza w przypadku
+większych systemów plików. Do tego dochodzi jeszcze kilka innych rzeczy, takie jak, np.
+zarezerwowane miejsce dla użytkownika root, czy też rozmiar dziennika systemu plików, które też
+potrafią nieźle utylizować wolną na dysku przestrzeń.</p>
+<p>Gdy się pozbiera wszystkie te rzeczy do kupy, to nasz 2TB dysk może z powodzeniem stracić na
+starcie nawet i 200GiB i nie mówię tutaj wcale o różnicy między GB (podstawa potęgi 10) oraz GiB
+(podstawa potęgi 2) w wykonaniu producentów dysku, tylko o faktycznej utracie pojemności na
+poziomie 200GiB. Kupując dysk 2TB, w systemie będziemy widzieć nośnik około 1820GiB. Z tego
+wszystkiego może nam wyparować tak około 10%, czyli 182GiB, przez co na pliki zostanie nam jedynie
+1638GiB. A miało być 2TB... Na szczęście jest kilka zabiegów, które mogą nam pomóc odzyskać lwią
+część przestrzeni, która w przypadku trzymania na dysku samych dużych plików poszłaby na
+zmarnowanie.</p>
+<h2 id="rzut-oka-na-superblok-systemu-plików-ext4">Rzut oka na superblok systemu plików EXT4</h2>
+<p>Każdy system plików EXT4 na samym początku swojej struktury zawiera superblok. To taki blok,
+którego celem jest połączenie pozostałej struktury systemu plików w całość. Jeśli superblok ulegnie
+uszkodzeniu, to ulega też uszkodzeniu cały system plików. By jakoś działać przeciwko uszkodzeniu
+całego systemu plików za sprawą tylko pojedynczego bloku, kopie superbloka są utrzymywane też w
+innych obszarach systemu plików. W takim przypadku, gdy dochodzi do uszkodzenia superbloka, zawsze
+można ratować się tymi zapasowymi blokami i zwykle odzyskać część albo nawet całość danych
+przechowywanych w obrębie uszkodzonego systemu plików.</p>
+<p>Rzućmy okiem zatem na przykładowy system plików przy pomocy <code>dumpe2fs</code> . To narzędzie ma na celu
+zwrócić szereg informacji opisujących strukturę systemu plików, w tym również informacje zawarte w
+superbloku:</p>
+<pre><code># dumpe2fs /dev/sda1
+dumpe2fs 1.46.2 (28-Feb-2021)
+Filesystem volume name:   boot
+Last mounted on:          /boot
+Filesystem UUID:          d6c1ab6c-1645-4b87-bdc7-7ae9c1708e1c
+Filesystem magic number:  0xEF53
+Filesystem revision #:    1 (dynamic)
+Filesystem features:      has_journal ext_attr resize_inode dir_index filetype needs_recovery extent 64bit flex_bg sparse_super large_file huge_file dir_nlink extra_isize metadata_csum
+Filesystem flags:         signed_directory_hash
+Default mount options:    user_xattr acl
+Filesystem state:         clean
+Errors behavior:          Continue
+Filesystem OS type:       Linux
+Inode count:              131072
+Block count:              524032
+Reserved block count:     0
+Free blocks:              398550
+Free inodes:              130950
+First block:              0
+Block size:               4096
+Fragment size:            4096
+Group descriptor size:    64
+Reserved GDT blocks:      255
+Blocks per group:         32768
+Fragments per group:      32768
+Inodes per group:         8192
+Inode blocks per group:   512
+Flex block group size:    16
+Filesystem created:       Tue Mar  3 17:11:45 2020
+Last mount time:          Wed Jul 21 11:54:47 2021
+Last write time:          Wed Jul 21 12:17:40 2021
+Mount count:              50
+Maximum mount count:      50
+Last checked:             Tue Mar 24 11:36:22 2020
+Check interval:           0 (&lt;none&gt;)
+Lifetime writes:          38 GB
+Reserved blocks uid:      0 (user root)
+Reserved blocks gid:      0 (group root)
+First inode:              11
+Inode size:               256
+Required extra isize:     32
+Desired extra isize:      32
+Journal inode:            8
+Default directory hash:   half_md4
+Directory Hash Seed:      848800c8-9fb0-4a76-b5ec-6c8e4a8f403f
+Journal backup:           inode blocks
+Checksum type:            crc32c
+Checksum:                 0xcc2eee2e
+Journal features:         journal_incompat_revoke journal_64bit journal_checksum_v3
+Total journal size:       32M
+Total journal blocks:     8192
+Max transaction length:   8192
+Fast commit length:       0
+Journal sequence:         0x0000258e
+Journal start:            0
+Journal checksum type:    crc32c
+Journal checksum:         0xceb54c66
+
+
+Group 0: (Blocks 0-32767) csum 0x9959 [ITABLE_ZEROED]
+  Primary superblock at 0, Group descriptors at 1-1
+  Reserved GDT blocks at 2-256
+  Block bitmap at 257 (+257), csum 0x29bf2073
+  Inode bitmap at 273 (+273), csum 0xbd985a57
+  Inode table at 289-800 (+289)
+  7861 free blocks, 8071 free inodes, 2 directories, 8059 unused inodes
+  Free blocks: 7970-8480, 15143-16383, 26659-32767
+  Free inodes: 28, 121-124, 127-8192
+Group 1: (Blocks 32768-65535) csum 0x9dff [ITABLE_ZEROED]
+  Backup superblock at 32768, Group descriptors at 32769-32769
+  Reserved GDT blocks at 32770-33024
+  Block bitmap at 258 (bg #0 + 258), csum 0x647e6f93
+  Inode bitmap at 274 (bg #0 + 274), csum 0x2cb0a6e4
+  Inode table at 801-1312 (bg #0 + 801)
+  7788 free blocks, 8191 free inodes, 1 directories, 8191 unused inodes
+  Free blocks: 33026-33027, 33088-33125, 33769-33791, 33796-33855, 33897-34303, 42496-42751, 42793-42845, 42934-43007, 43784-44031, 45153-46079, 53248-54015, 54118-54153, 54245, 54248-54271, 54375-55869, 55872-56319, 56423-57343, 58399-59391, 64512-65407, 65412-65417, 65424-65535
+  Free inodes: 8194-16384
+Group 2: (Blocks 65536-98303) csum 0x53c2 [INODE_UNINIT, ITABLE_ZEROED]
+  Block bitmap at 259 (bg #0 + 259), csum 0x7311aaa4
+  Inode bitmap at 275 (bg #0 + 275), csum 0x00000000
+  Inode table at 1313-1824 (bg #0 + 1313)
+  2991 free blocks, 8192 free inodes, 0 directories, 8192 unused inodes
+  Free blocks: 68569-68607, 69743-69759, 69801-70655, 74799-74815, 74857-75775, 77798-77823, 82919-82943, 83055-83967, 93004-93183
+  Free inodes: 16385-24576
+Group 3: (Blocks 98304-131071) csum 0xac8d [INODE_UNINIT, ITABLE_ZEROED]
+  Backup superblock at 98304, Group descriptors at 98305-98305
+  Reserved GDT blocks at 98306-98560
+  Block bitmap at 260 (bg #0 + 260), csum 0x4c57e333
+  Inode bitmap at 276 (bg #0 + 276), csum 0x00000000
+  Inode table at 1825-2336 (bg #0 + 1825)
+  22258 free blocks, 8192 free inodes, 0 directories, 8192 unused inodes
+  Free blocks: 98561-98623, 98665-99327, 99453-100351, 103244-105291, 106261-107199, 107241-108543, 110592-114687, 116736-118783, 119752-119807, 120832-129023, 129121-131071
+  Free inodes: 24577-32768
+...
+Group 15: (Blocks 491520-524031) csum 0x443b [INODE_UNINIT, ITABLE_ZEROED]
+  Block bitmap at 288 (bg #0 + 288), csum 0x8abeaabd
+  Inode bitmap at 7969 (bg #0 + 7969), csum 0x00000000
+  Inode table at 8487-8998 (bg #0 + 8487)
+  32512 free blocks, 8192 free inodes, 0 directories, 8192 unused inodes
+  Free blocks: 491520-524031
+  Free inodes: 122881-131072
+</code></pre>
+<p>Mamy tutaj do czynienia z bardzo małym systemem plików, bo ma on rozmiar zaledwie 2GiB ale idealnie
+nada się do analizy tego, co w strukturze EXT4 się znajduje.</p>
+<p>W pierwszej części tego powyższego listingu mamy informacje zawarte w superbloku. W drugiej części
+zaś znajdują się informacje dotyczące deskryptorów grup bloków (block group descriptors). Sam
+superblok zajmuje tyle ile blok systemu plików (zwany też klastrem). W tym przypadku rozmiar bloku
+to 4KiB, tj. <code>Block size: 4096</code> . Z kolei te 4096 bajtów to 8 fizycznych sektorów 512-bajtowych
+dysku).</p>
+<p>Taki klaster to najmniejsza jednostka alokacji plików, tj. nawet jeśli na takim systemie plików
+umieścimy mniejszy plik, powiedzmy 500 bajtów, to i tak będzie on zajmował 4KiB. W obecnych czasach
+pliki zwykle mają nieco większe rozmiary, grubo przekraczając te 4KiB, i gdyby rozmiar bloku był
+równy rozmiarze pojedynczego sektora dysku, to takie rozwiązanie byłoby wysoce nieefektywne. W
+niektórych przypadkach, np. gdy trzymamy same duże pliki na dysku, których rozmiar idzie w GiB,
+taki 4KiB rozmiar klastra jest w dalszym ciągu bardzo nieefektywnym rozwiązaniem ale o tym później.</p>
+<h3 id="grupa-bloków">Grupa bloków</h3>
+<p>Na powyższym listingu mamy 16 grup bloków oznaczonymi numerkami od 0 do 15. Każda taka grupa bloków
+jest w stanie opisać (standardowo) do 128MiB danych, które będziemy umieszczać na dysku twardym i
+nie więcej. Czemu tylko tyle? W superbloku widnieje informacja ile bloków przypada na jedną grupę
+bloków: <code>Blocks per group: 32768</code> , czyli 32768*4096=134.217.728 bajtów, zatem 128MiB.</p>
+<p>Weźmy zatem przykładową grupę bloków i przyjrzyjmy się jej nieco bliżej:</p>
+<pre><code>Group 3: (Blocks 98304-131071) csum 0xac8d [INODE_UNINIT, ITABLE_ZEROED]
+  Backup superblock at 98304, Group descriptors at 98305-98305
+  Reserved GDT blocks at 98306-98560
+  Block bitmap at 260 (bg #0 + 260), csum 0x4c57e333
+  Inode bitmap at 276 (bg #0 + 276), csum 0x00000000
+  Inode table at 1825-2336 (bg #0 + 1825)
+  22258 free blocks, 8192 free inodes, 0 directories, 8192 unused inodes
+  Free blocks: 98561-98623, 98665-99327, 99453-100351, 103244-105291, 106261-107199, 107241-108543, 110592-114687, 116736-118783, 119752-119807, 120832-129023, 129121-131071
+  Free inodes: 24577-32768
+</code></pre>
+<p>Mamy tutaj informację, że w tej grupie bloków, zapasowy superblok znajduje się na pozycji 98304,
+zaś zapasowe deskryptory grup bloków na 98305. Ten dodatkowy blok na superblok ma rozmiar 4096
+bajtów, podobnie blok z informacjami o deskryptorach grup bloków również ma rozmiar 4096 bajtów.</p>
+<h4 id="zarezerwowane-bloki-gdt">Zarezerwowane bloki GDT</h4>
+<p>Dalej mamy informację o zarezerwowanych blokach GDT (Group Descriptor Table) w liczbie 254. Te
+zarezerwowane bloki GDT znajdują jedynie zastosowanie podczas poszerzania systemu plików i taki
+jest ich jedyny cel, tj. umożliwić powiększenie systemu plików. Warto tutaj zaznaczyć, że raz
+utworzonego systemu plików EXT4 nie da się powiększyć w nieskończoność, tylko o rząd wielkości 1024
+razy (domyślnie). Więc jeśli stworzyliśmy system plików o rozmiarze 1GiB, to maksymalny rozmiar do
+jakiego taki system plików można rozciągnąć, np. po zmianie rozmiaru partycji, to 1024 GiB. Niby
+ten limit 1024 razy wydaje się spory i raczej nikt z nas nigdy w niego nie uderzył przy
+powiększaniu systemu plików ale warto mieć go na uwadze przy znacznym powiększaniu bardzo małych
+systemów plików.</p>
+<p>W przypadku rozciągnięcia systemu plików, zarezerwowane bloki GDT ulegną skurczeniu ale
+jednocześnie ulegnie zwiększeniu obszar zajmowany przez deskryptory grup bloków, które standardowo
+mają do dyspozycji jeden blok 4096-bajtowy. Dlatego wyżej w zapisie mamy zakres <code>98305-98305</code>
+zamiast pojedynczej liczby (tak jak to ma miejsce w przypadku superbloku), co oznacza dokładnie
+jeden blok, co z kolei informuje nas, że system plików nie był poszerzany w żaden sposób.</p>
+<p>Kopia superbloka, kopia deskryptorów grup bloków oraz zarezerwowane bloki GDT łącznie przy
+standardowych opcjach przy tworzeniu systemu plików EXT4 dają 256 bloków 4096-bajtowych, czyli
+1MiB.</p>
+<h4 id="tablica-i-węzłów">Tablica i-węzłów</h4>
+<p>Dalej mamy informację o tablicy i-węzłów (Inode table), która ma rozmiar 512 bloków 4096-bajtowych,
+czyli 2MiB. Czemu akurat tyle? Każdy i-węzeł posiada swój rozmiar i obecnie domyślnym rozmiarem
+i-węzłów w systemach plików EXT4 jest 256 bajtów. Każda grupa bloków ma określoną liczbę i-węzłów.
+Standardowo jest to 8192, o czym możemy się przekonać rzucając okiem na linijkę z <code>Inodes per group: 8192</code> . Jeśli pomnożymy ilość i-węzłów przez ich rozmiar, to otrzymamy 8192*256=2097152
+bajtów, czyli 2MiB.</p>
+<h4 id="opcje-sparse_super-i-sparse_super2">Opcje sparse_super i sparse_super2</h4>
+<p>Biorąc pod uwagę te powyższe informacje, w takiej pojedynczej grupie bloków, która standardowo
+opisuje 128 MiB danych, 3 MiB trzeba odliczyć na strukturę samego systemu plików EXT4, czyli około
+2,34%. No jest to dość sporo jakby nie patrzeć, co niekoniecznie może aż tak rzucać się w oczy w
+przypadku mniejszych systemów plików (które też mogą mieć 128-bajtowe i-węzły). Niemniej jednak, by
+zoptymalizować miejsce potrzebne na metadane systemu plików, w większości linux'ów (albo i we
+wszystkich), system plików EXT4 jest tworzony z flagą <code>sparse_super</code> .</p>
+<p>Gdyby utworzyć system plików bez tej flagi, kopie superbloku oraz deskryptorów grup bloków
+zostałyby umieszczone w każdej grupie bloków. Jako, że w tym przypadku flaga <code>sparse_super</code> jest
+obecna (widoczna na powyższym listingu pod <code>Filesystem features:</code> ), to te kopie są umieszczone
+tylko w tych grupach, których numer wskazuje na 0 oraz jest potęgą liczby 3, 5 lub 7. Taki zabieg
+ma na celu ograniczyć ilość tworzonych kopi zapasowych tych kluczowych elementów struktury do
+minimum, przy jednoczesnym zachowaniu możliwości odzyskania danych w sytuacji, gdy system plików
+ulegnie z jakiegoś powodu uszkodzeniu.</p>
+<p>Oczywiście, gdyby system plików nie miał flagi <code>sparse_super</code> , to wtedy każda grupa bloków miałaby
+ten dodatkowy narzut 1MiB związany z obsługą systemu plików EXT4. Jako, że my tę flagę
+<code>sparse_super</code> mamy ustawioną, to niewiele grup posiada ten zarezerwowany dodatkowy 1 MiB
+przeznaczony na kopię superbloku i kopię deskryptorów grup bloków. Zatem to zarezerwowane miejsce
+jest marginalne w przypadku dużych dysków ale wciąż każda grupa musi mieć tablicę i-węzłów, przez
+co na każde 128MiB, 2MiB jest właśnie na nią przeznaczone, co zajmuje około 1,6% wolnego miejsca na
+dysku, które trzeba będzie na tę strukturę systemu plików przeznaczyć.</p>
+<p>Niemniej jednak, w przypadku pojemniejszych dysków twardych, flaga <code>sparse_super</code> może nie do końca
+znaleźć zastosowanie, bo jakby nie patrzeć te dodatkowe kopie superbloku i kopie deskryptorów grup
+bloków fragmentują wolną przestrzeń, co nie jest czasem pożądanym zjawiskiem. Dlatego też
+opracowano flagę <code>sparse_super2</code> , której celem jest utworzenie tylko dwóch dodatkowych kopi
+zapasowych superbloka i kopi deskryptorów grup bloków. Po zastosowaniu tej flagi, grupa <code>0</code> będzie
+przechowywać podstawowy superblok i podstawowe deskryptory grup bloków, natomiast ich kopie będą
+się znajdować w <code>pierwszej</code> i <code>ostatniej</code> grupie. W takim przypadku, gdy główny superblok
+ulegnie awarii, to bez problemu będzie można odzyskać system plików posługując się kopią superbloka
+zlokalizowaną na początku lub na końcu dysku. Cała przestrzeń między tymi grupami będzie ciągła, co
+widać na poniższym listingu:</p>
+<pre><code># e2freefrag /dev/sdb1
+Device: /dev/sdb1
+Blocksize: 4096 bytes
+Total blocks: 366284032
+Free blocks: 366202942 (100.0%)
+
+Min. free extent: 8512 KB
+Max. free extent: 2096896 KB
+Avg. free extent: 2086624 KB
+Num. free extent: 702
+
+HISTOGRAM OF FREE EXTENT SIZES:
+Extent Size Range :  Free extents   Free Blocks  Percent
+    8M...   16M-  :             1          2128    0.00%
+   64M...  128M-  :             2         64202    0.02%
+    1G...    2G-  :           699     366136612   99.98%
+</code></pre>
+<p>A tak by wyglądała wolna przestrzeń po standardowym formatowaniu:</p>
+<pre><code># e2freefrag /dev/sdb1
+Device: /dev/sdb1
+Blocksize: 4096 bytes
+Total blocks: 366284032
+Free blocks: 366183742 (100.0%)
+
+Min. free extent: 125992 KB
+Max. free extent: 2096896 KB
+Avg. free extent: 2040020 KB
+Num. free extent: 718
+
+HISTOGRAM OF FREE EXTENT SIZES:
+Extent Size Range :  Free extents   Free Blocks  Percent
+   64M...  128M-  :             7        227722    0.06%
+  128M...  256M-  :             5        321680    0.09%
+  256M...  512M-  :             2        195344    0.05%
+  512M... 1024M-  :             6       1174720    0.32%
+    1G...    2G-  :           698     364264276   99.48%
+</code></pre>
+<p>Może te kilkanaście dodatkowych kawałków wolnej przestrzeni wydaje się nie dużo ale gdy w grę
+wchodzą duże pliki, to ta wolna przestrzeń będzie się łatwiej fragmentować niż w tym pierwszym
+przypadku, zwłaszcza, gdy w późniejszym czasie tych plików będzie nam przybywać.</p>
+<h4 id="bitmapa-bloków-i-i-węzłów">Bitmapa bloków i i-węzłów</h4>
+<p>Każda grupa bloków zawiera także bitmapę bloków i i-węzłów. Te bitmapy zawierają informację na
+temat bloków i i-węzłów, które są w użyciu. Każda z tych bitmap zajmuje po jednym bloku
+4096-bajtowym, czyli łącznie 8KiB, które można pominąć w wyliczeniach, bo nie stanową one jakiejś
+większej wartości przy 128MiB.</p>
+<h2 id="optymalizacja-systemu-plików-pod-kątem-przechowywania-dużych-plików">Optymalizacja systemu plików pod kątem przechowywania dużych plików</h2>
+<p>Mając już jakieś pojęcie na temat struktury systemu plików EXT4, możemy nieco zoptymalizować pewne
+parametry, by niepotrzebnie nie tracić wolnego miejsca na dysku pod zbędną strukturę systemu plików,
+z której i tak nie będziemy nigdy korzystać. Pierwsza optymalizacja jest w zasadzie domyślnie
+włączona i była mowa o niej wyżej, tj. o flagach <code>sparse_super</code>/<code>sparse_super2</code> . Są one w stanie
+mam zaoszczędzić około 1MiB na każde 128 MiB. Niemniej jednak, nie jest to jedyna opcja, którą
+powinniśmy w przypadku dużych dysków przechowujących bardzo duże pliki włączyć czy zmienić.</p>
+<h3 id="flaga-bigalloc">Flaga bigalloc</h3>
+<p>Jeśli dany system plików EXT4 ma zawierać głównie duże pliki (np. na moim 2TB dysku najmniejszy
+plik miał rozmiar trochę ponad 1GiB), to jednostka alokacji (klaster) w postaci bloku o rozmiarze
+4KiB nie jest optymalnym rozwiązaniem dla trzymania tak dużych plików. Przydałby się zatem nieco
+większy klaster, np. 1MiB albo może i nawet 4MiB. W taki sposób, bitmapa alokacji bloków będzie
+śledzić przykładowo klastry 4MiB zamiast pojedynczych bloków 4KiB.</p>
+<p>Taki zabieg sprawi, że pojedyncza grupa bloków będzie w stanie opisać 128GiB (w stosunku do
+poprzednich 128MiB), a to z racji, że każdy bit w bitmapie alokacji bloków (block allocation
+bitmap) będzie adresował 1024 bloki o rozmiarze 4KiB (łącznie 4MiB). Taki zabieg sprawia, że
+skurczeniu ulega rozmiar bitmapy alokacji bloków, dla przykładu dla 2TiB systemu plików mamy
+redukcję z 64MiB do 64KiB (bo bitmapa bloków zajmuje 4KiB i jednocześnie ulega zmniejszeniu liczba
+grup do 16, w stosunku do wcześniejszych 16384), co z kolei dość znacznie redukuje narzut związany
+z obsługą metadanych samego systemu plików EXT4.</p>
+<p>Idąc dalej, przy rozmiarze klastra 4MiB, plik 1GiB będzie o wile łatwiej umieścić w jednym kawałku
+na dysku, niż gdy mamy do czynienia z klastrami 4KiB (256 kawałków vs. 262144). Zatem fragmentacja
+systemu plików będzie sporo mniejsza przy stosowaniu klastrów o większym rozmiarze w stosunku do
+standardowych klastrów 4KiB.</p>
+<h4 id="problemy-związane-z-bigalloc">Problemy związane z bigalloc</h4>
+<p>Flaga <code>bigalloc</code> ma jedną bardzo poważną wadę. Jeśli zwiększeniu ulegnie klaster przykładowo z 4KiB
+do 4MiB, to bardzo kosztowne będzie dla nas trzymanie w takim systemie plików bardzo małych plików,
+np. 5-10KiB, bo będą one zajmować sporo miejsca, przykładowo 800-bajtowy plik tekstowy, będzie
+ważył 4MiB. Podobnie sprawa będzie wyglądać z katalogami, czyli jeśli mamy ich sporo, to ich
+struktura może sama z siebie bardzo dużo zajmować w takim systemie plików z ustawioną flagą
+<code>bigalloc</code> . Jeśli jesteśmy pewni, że nie zamierzamy trzymać w takim systemie plików bardzo małych
+plików albo też nie mamy rozbudowanej struktury drzewa katalogów, to bez problemu tę flagę
+powinniśmy sobie ustawić.</p>
+<p>Poważniejszy problem z flagą <code>bigalloc</code> zdaje się być taki, że najwyraźniej nie jest ten ficzer
+jeszcze do końca sprawdzony i <a href="https://ext4.wiki.kernel.org/index.php/Bigalloc">może powodować problemy</a> w pewnych sytuacjach, przynajmniej tak
+można wyczytać w <code>man ext4</code> i pod powyższym linkiem. Dokładny status <code>bigalloc</code> obecnie jest jednak
+raczej nie do końca znany, bo ostatnia wzmianka o problemach z nim związanymi jest datowana na rok
+2013. Zatem, czy się bawić w <code>bigalloc</code> ? Przyznam, że z racji braku informacji na temat zagrożeń,
+które on stwarzał lata temu i czy udało się ostatecznie je przezwyciężyć, postanowiłem na swoim
+dysku tego ficzera nie aktywować.</p>
+<p>Niestety jeśli utworzy się system plików z <code>bigalloc</code> (lub bez niego), to nie ma możliwości zmiany
+tego ustawienia bez późniejszego usuwania danych zgromadzonych w obrębie takiego systemu plików.
+Dlatego trzeba się mocno zastanowić czy tę flagę ustawić.</p>
+<h3 id="rozmiar-oraz-ilość-i-węzłów">Rozmiar oraz ilość i-węzłów</h3>
+<p>Przy formatowaniu partycji systemem plików EXT4, tworzona jest określona ilość i-węzłów (i-node).
+Ich ilość jest proporcjonalna do wielkości naszego dysku twardego. Im ten dysk (czy partycja) jest
+większy, tym więcej i-węzłów będziemy mieli w jego obrębie do dyspozycji.</p>
+<p>Ilość i-węzłów przekłada się jeden w jeden na liczbę plików, które będziemy mogli na dysku utworzyć.
+Trzeba jednak pamiętać, że i-węzeł swoje waży, tj. <a href="https://www.kernel.org/doc/html/latest/filesystems/ext4/dynamic.html#inode-size">w systemie plików EXT4 ma on standardowo
+rozmiar 256 bajtów</a>. Zatem określenie zarówno zbyt małej (jak i zbyt dużej) liczby i-węzłów nie
+jest dobrym rozwiązaniem. Z jednej strony może zabraknąć nam i-węzłów, przez co nie będziemy mogli
+stworzyć nowych plików, mając jednocześnie sporo wolnego miejsca na dysku. Z drugiej strony, zbyt
+wiele wolnych i-węzłów będzie nam marnować dużo wolnej przestrzeni.</p>
+<p>Przy standardowym formatowaniu partycji systemem plików EXT4, na każde 16KiB wolnego miejsca na
+dysku będzie przypadał jeden i-węzeł. Zatem teoretycznie możliwa jest sytuacja, w której tworząc
+bardzo małe pliki, skończą nam się i-węzły i dalsze tworzenie nowych plików nie będzie możliwe mimo,
+że np. 3/4 powierzchni dysku będzie leżeć odłogiem. Biorąc jednak po uwagę realia, bardzo rzadko
+ktoś trzyma na dysku bardzo wiele plików o rozmiarze &lt;16KiB. Dlatego takie uśrednienie (jeden
+i-węzeł na każde 16KiB) jest w miarę do zaakceptowania, przynajmniej w standardowych warunkach.</p>
+<p>Mając jednak do czynienia z 1820GiB dyskiem, gdybyśmy chcieli na nim utworzyć i-węzły w standardowy
+sposób, to ich liczba by wyniosła około 120.000.000. Jeśli teraz przemnożymy tę wartość przez 256
+bajtów, to otrzymamy 30.720.000.000 bajtów, czyli około 28.5GiB. Tyle trzeba by przeznaczyć miejsca
+na dysku na same i-węzły -- tak, prawie 30GiB, czyli te wcześniej wyliczone 1,6% całkowitej
+powierzchni użytkowej dysku.</p>
+<p>Wiedząc jednak, że na dysku zamierzamy trzymać w zasadzie tylko i wyłączenie duże pliki, możemy
+ograniczyć ilość i-węzłów, które zostaną stworzone w systemie plików. Możemy naturalnie wskazać tę
+liczbę ręcznie podczas tworzenia systemu plików ale lepszym rozwiązaniem jest korzystanie z
+opcji <code>-T largefile</code> lub <code>-T largefile4</code> , które trzeba podać w <code>mkfs.ext4</code> . Obie z tych opcji
+mają za zadanie zmienić domyślny współczynnik jeden i-węzeł/16KiB na jeden i-węzeł/1MiB lub jeden
+i-węzeł/4MiB. Nie należy jednak tych opcji mylić z <code>bigalloc</code> . Tutaj tylko określamy ilość
+i-węzłów i jeśli określimy sobie jeden i-węzeł/4MiB i zamiast dużych plików będziemy trzymać małe
+pliki, to raz dwa nam tych i-węzłów zabraknie. Niemniej jednak, wciąż setki tysięcy plików będziemy
+mogli w obrębie takiego systemu plików stworzyć, więc kilka mniejszych plików nam zbytniej różnicy
+nie zrobi.</p>
+<p>W przypadku opcji <code>-T largefile</code> lub <code>-T largefile4</code> również trzeba mieć na uwadze fakt, że raz
+określona ilość i-węzłów w systemie plików nie podlega późniejszej negocjacji. Jeśli w późniejszym
+czasie dojdziemy do wniosku, że źle obraliśmy ilość i-węzłów, to trzeba będzie na nowo tworzyć
+system plików, co będzie wiązało się z utratą wszelkich danych na nim zgromadzonych.</p>
+<p>Warto też wspomnieć, że im mniej i-węzłów będzie w strukturze systemu plików, tym szybciej będzie
+przebiegał proces sprawdzania systemu plików pod kątem ewentualnych błędów via <code>fsck</code> .</p>
+<h3 id="pełne-inicjowanie-systemu-plików-przy-jego-tworzeniu">Pełne inicjowanie systemu plików przy jego tworzeniu</h3>
+<p>Raz na forum dug.net.pl był <a href="https://forum.dug.net.pl/viewtopic.php?pid=330424">wątek o ciągłej aktywności dysku tuż po utworzeniu na nim systemu
+plików EXT4</a>. Zgodnie z tym, co autor wątku napisał, system plików EXT4 był tworzony z
+domyślnymi opcjami. Ostatecznie po góglaniu za takimi dziwnymi objawami, <a href="https://www.thomas-krenn.com/en/wiki/Ext4_Filesystem">doszukałem się
+informacji, które wskazywały na nie w pełni zainicjowany systemu plików podczas jego tworzenia</a>,
+o czym można również przeczytać w <code>man mkfs.ext4</code> <code>i man ext4</code> :</p>
+<blockquote>
+<p>lazy_itable_init[= &lt;0 to disable, 1 to enable&gt;]</p>
+<p>If  enabled and the uninit_bg feature is enabled, the inode table will not be fully
+initialized by mke2fs. This speeds up filesystem initialization noticeably, but it
+requires the kernel to finish initializing the  filesystem in the background when the
+filesystem is first mounted. If the option value is omitted, it defaults to 1 to enable
+lazy inode table zeroing.</p>
+<p>lazy_journal_init[= &lt;0 to disable, 1 to enable&gt;]</p>
+<p>If enabled, the journal inode will not be fully zeroed out by mke2fs. This speeds up
+filesystem initialization  noticeably, but carries some small risk if the system crashes
+before the journal has been overwritten entirely one time. If the option value is
+omitted, it defaults to 1 to enable lazy journal inode zeroing.</p>
+<p>uninit_bg</p>
+<p>This ext4 file system feature indicates that the block group descriptors will be
+protected using checksums, making it safe for mke2fs(8) to create a file system without
+initializing all of the block groups. The kernel will keep a high watermark of unused
+inodes, and initialize inode tables and blocks lazily. This feature speeds up the time
+to check the file system using e2fsck(8), and it also speeds up the time required for
+mke2fs(8) to create  the file system.</p>
+</blockquote>
+<p>Zgodnie z tymi powyższymi informacjami, można utworzyć system plików nie w pełni zainicjowany, co
+przyśpiesza dość znacznie czas całego procesu tworzenia systemu plików. Jeśli jednak nie
+zainicjujemy w pełni systemu plików podczas jego tworzenia, to system w późniejszym czasie (przy
+jego montowaniu) dokończy ten pominięty przez nas proces, co będzie objawiać się aktywnością
+nośnika w czasie spoczynku.</p>
+<p>Jeśli zatem tworzymy system plików EXT4 z domyślnymi opcjami, to zarówno opcja <code>lazy_itable_init</code>
+jak i <code>lazy_journal_init</code> są ustawione na <code>1</code> i później proces pełnej inicjacji systemu plików
+będzie musiał zostać dokończony w tle, co można poznać po aktywności procesów <code>jbd2</code> oraz
+<code>ext4lazyinit</code> . Dlatego też można zatroszczyć się by te dwie opcje ustawić na <code>0</code> oraz by pozbyć
+się opcji <code>uninit_bg</code> i tym samym zainicjować system plików EXT4 w pełni przy jego tworzeniu.</p>
+<h3 id="rozmiar-dziennika-journal">Rozmiar dziennika (journal)</h3>
+<p>System plików EXT4 standardowo wyposażony jest w dziennik (journal). Ten dziennik ma za zadanie
+rejestrować operacje na plikach, tak by podczas awarii zasilania było wiadomo, które operacje
+zapisu nie dokonały się w pełni i które pliki system powinien odzyskać. W zasadzie są trzy tryby
+pracy dziennika: <code>writeback</code> , <code>ordered</code> i <code>journal</code> . Standardowo wykorzystywany jest <code>ordered</code>
+jako ten, który jest połączeniem <code>writeback</code> i <code>journal</code> , z tym, że nie zapewnia ani zalet
+<code>journal</code> ale za to ma wady <code>writeback</code> . W skrócie, dla wydajności zrezygnowano w tym trybie z
+zapisu danych plików do dziennika. Zapisywane są jedynie metadane i to w sporej części przypadków
+wystarcza by podnieść się po ewentualnym zawale systemu, np. nagłym odcięciu zasilania.</p>
+<p>W przypadku, gdy na dysku mamy sporo plików, to naturalnie rozmiar dziennika powinien być nieco
+większy aby wpisy w dzienniku nam się nie przekręciły. Jeśli jednak na dysku będziemy mieć kilka
+tysięcy dużych plików i głównie je będziemy odczytywać, to zbędny nam jest rozbudowany dziennik
+systemu plików.</p>
+<p>Podczas zwykłego formatowania partycji, system tworzy dziennik o rozmiarze zależnym od rozmiaru
+nowego systemu plików (zwykle około 1GiB). Zatem mniejsze systemy plików mają mniejsze dzienniki,
+a większe systemy plików mają większe. Na szczęście jest również ograniczony maksymalny rozmiar
+jaki journal może mieć i jest około 40GiB. Na moim 2TB dysku, został stworzony dziennik o rozmiarze,
+jeśli dobrze pamiętam, 2GiB. Wiedząc, że te 2GiB by poszło na zmarnowanie, stworzyłem dziennik o
+rozmiarze 128MiB przy pomocy opcji <code>-J size=128</code> , gdzie liczba określa rozmiar dziennika systemu
+plików w megabajtach.</p>
+<h3 id="ilość-zarezerwowanego-miejsca-na-potrzeby-root">Ilość zarezerwowanego miejsca na potrzeby root</h3>
+<p>Jeśli chodzi o partycje niesystemowe, a z taką tutaj mamy do czynienia, to trzeba wiedzieć, że w
+ich przypadku nie ma większego sensu rezerwować miejsca pod aktywność użytkownika root. Domyślnie
+jednak przy tworzeniu systemu plików EXT4, taka rezerwacja ma miejsce i jest to wycinek partycji o
+wartości 5% jej maksymalnej pojemności. Zatem jeśli mamy 1820GiB dysk, to zostałoby zarezerwowane
+około 91GiB, z których żaden użytkownik (poza root) nie mógłby skorzystać.</p>
+<p>Dobrze zatem jest wyłączyć tę rezerwację, bo przyda nam się te dodatkowe 91GiB pod pliki
+użytkownika. Dlatego też nie zapomnijmy dodać flagi <code>-m 0</code> do polecenia <code>mkfs.ext4</code> , gdzie <code>0</code>
+określa procent zarezerwowanego miejsca.</p>
+<h2 id="tablica-partycji-ms-dosgpt">Tablica partycji MS-DOS/GPT</h2>
+<p>Gdy w grę wchodzi taki duży dysk jak 2TB (i większe), to w zasadzie powinniśmy utworzyć na takim
+dysku tablicę partycji GPT. Chodzi tutaj o graniczne możliwości tablicy partycji MS-DOS(MBR), która
+obsługuje maksymalnie dyski do 2TiB (2^32*512 bajtów). Przy większych dyskach nie ma już opcji i
+trzeba korzystać z tablicy partycji GPT. Co jednak w przypadku, gdy mamy dysk o tej granicznej
+pojemności? Generalnie uważam, że tablica MS-DOS powinna już odejść na wysłużony odpoczynek i dla
+mnie w zasadzie od lat istnieje jedynie tablica partycji GPT i każdy nośnik pamięci masowej ma
+utworzony właśnie ten rodzaj tablicy. Poza tym, GPT dysponuje backup'em tablicy partycji, zatem w
+przypadku ewentualnych problemów z nią będziemy mieć większe szanse na odzyskanie danych.</p>
+<p>Tablicę partycji możemy utworzyć czy to w graficznym <code>gparted</code> , czy też bezpośrednio w konsolowym
+<code>gdisk</code> w poniższy sposób:</p>
+<pre><code># gdisk /dev/sdb
+...
+
+Command (? for help): o
+This option deletes all partitions and creates a new protective MBR.
+Proceed? (Y/N): y
+
+Command (? for help): w
+
+Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+PARTITIONS!!
+
+Do you want to proceed? (Y/N): y
+OK; writing new GUID partition table (GPT) to /dev/sdb.
+The operation has completed successfully.
+</code></pre>
+<p>Proces tworzenia nowej tablicy partycji jest iście destruktywny dla danych zgromadzonych na dysku,
+dlatego też upewnijmy się, że <code>gdisk</code> w swoim argumencie ma odpowiednią ścieżkę do dysku.</p>
+<h2 id="advanced-format-sektory-fizyczne-4096-bajtów">Advanced Format (sektory fizyczne 4096 bajtów)</h2>
+<p>Znakomita większość dysków HDD obecnie (od 2011 roku) jest produkowania w <a href="https://en.wikipedia.org/wiki/Advanced_Format">technologi Advanced
+Format</a>, przez co fizyczne sektory na dysku nie są już 512-bajtowe, a 4096-bajtowe, czyli 4KiB,
+co z kolei odpowiada klastrowi systemu plików, który standardowo również ma 4KiB. Niemniej jednak,
+podczas wchodzenia tej technologi na rynek, pojawiły się obawy związane z narzędziami, które mogły
+nie działać prawidłowo albo z nowymi dyskami mającymi 4096-bajtowe sektory, albo ze starymi dyskami,
+które miały 512-bajtowe sektory. Dlatego wymyślono <a href="https://web.archive.org/web/20210724121358/https://www.seagate.com/pl/pl/tech-insights/advanced-format-4k-sector-hard-drives-master-ti/">mechanizm mapowania fizycznych sektorów
+4096-bajtowych na logiczne sektory 512-bajtowe</a>, tak by czasem nie popsuć starszego sprzętu i
+zachować przy tym pełną kompatybilność wsteczną.</p>
+<p>Niemniej jednak, pojawił się <a href="https://web.archive.org/web/20210724125752/https%3A%2F%2Fwww.thomas-krenn.com%2Fen%2Fwiki%2FPartition_Alignment_detailed_explanation">problem związany z czytaniem/zapisem nie do końca tych sektorów, o
+które system prosił</a>. Było to związane z nieprawidłowym wyrównaniem partycji i nieodpowiednim
+jej rozmiarem (nie dzielił się przez 8), co mogło skutkować utratą wydajności głównie przy zapisie
+danych. Chodzi generalnie o to, że przy złym wyrównaniu partycji, system odczytuje/zapisuje nie
+jeden sektor o wielkości 4KiB, a dwa, bo pojedynczy blok systemu plików o wielkości 4KiB leży na
+dwóch fizycznych sektorach dysku, z których każdy również ma 4 KiB. Poniżej jest fotka dla lepszego
+zrozumienia (zaczerpnięta z tego podlinkowanego wyżej artykułu):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/07/001-partition-alignment-advanced-format.png" alt=""    class="huge"></p>
+<p>Takie nieodpowiednie wyrównanie partycji może być bardzo kosztowne i niesamowicie degradować
+wydajność dysku twardego. Dlatego też za wszelką cenę trzeba takich sytuacji unikać odpowiednio
+wyrównując partycję.</p>
+<p>Obecnie jednak praktycznie wszystkie narzędzia dyskowe z automatu są w stanie wyrównać partycję do
+1MiB, oraz określić rozmiar podzielny przez 8, tak by dysk z fizycznymi sektorami 4096-bajtowymi
+działał optymalnie. Niemniej jednak, warto zweryfikować jakie nasz dysk posiada sektory fizyczne
+oraz logiczne, co możemy zrobić odczytując te dwa poniższe pliki.</p>
+<pre><code># cat /sys/block/sdb/queue/physical_block_size
+4096
+
+# cat /sys/block/sdb/queue/logical_block_size
+512
+</code></pre>
+<p>No i jak widać, w przypadku tego mojego dysku, mamy do czynienia z 4096-bajtowymi sektorami
+fizycznymi i są one mapowane na 512-bajtowe sektory logiczne. Zatem trzeba odpowiednio utworzyć
+partycję na tym dysku.</p>
+<p>Niby firmware dysku powinien zwracać informację o ewentualnym offsecie, który narzędzia
+partycjonujące powinny uwzględnić podczas tworzenia nowych partycji ale u mnie albo firmware dysku
+nic nie zwraca, albo nie trzeba nic dodatkowo robić:</p>
+<pre><code># cat /sys/block/sdb/alignment_offset
+0
+</code></pre>
+<p>Czasami też mogą nam się trafić dyski, które błędnie/mylnie zwracają rozmiar sektora fizycznego.
+Sam mam dysk, który ma fizyczne sektory w rozmiarze 4096 bajtów ale zwraca 512 bajtów. W niczym to
+nie przeszkadza o ile odpowiednio się te partycje z danymi wyrówna.</p>
+<p>Technicznie rzecz biorąc, ja zawsze każdemu radzę, by zarówno tablicę partycji jak i same partycje
+tworzył w <code>gparted</code> . To narzędzie nigdy mnie nie zawiodło i zawsze partycje nim tworzone były
+takie jakie powinny zostać utworzone. W przypadku innych narzędzi, np. <code>parted</code> , <code>fdisk</code>/<code>gdisk</code> ,
+to różnie bywało.</p>
+<h3 id="różnica-między-advanced-format-512e-i-advanced-format-4kn">Różnica między Advanced Format 512e i Advanced Format 4kn</h3>
+<p>Warto w tym miejscu wspomnieć, że w przypadku tego powyższego dysku mamy do czynienia z technologią
+Advanced Format 512e, jako, że fizyczne sektory 4KiB muszą być tłumaczone na sektory logiczne
+512-bajtowe. Niemniej jednak, od dłuższego czasu na rynku są dostępne dyski, które mają wsparcie
+dla natywnych sektorów 4096 bajtów (tzw. Advanced Format 4kn). W przypadku takich dysków, system
+odczytuje i zapisuje nośnik cząstkami danych właśnie o rozmiarze 4KiB i żadne tłumaczenie na
+sektory 512-bajtowe nie ma już miejsca. Efektem jest naturalnie poprawa wydajności. Linux'y
+wspierają technologię Advanced Format 4kn od już dłuższego czasu i nie sprawia ona na tych
+systemach żadnego problemu.</p>
+<h2 id="ręczne-tworzenie-partycji">Ręczne tworzenie partycji</h2>
+<p>Jeśli nie jesteśmy w stanie skorzystać z graficznego narzędzia <code>gparted</code> przy tworzeniu partycji,
+to poniżej znajduje się przykład tworzenia partycji dla 1,5TB dysku wraz z krótkim komentarzem.</p>
+<p>Standardowo odpalamy <code>gdisk</code> i drukujemy aktualną tablicę partycji:</p>
+<pre><code># gdisk /dev/sdb
+GPT fdisk (gdisk) version 1.0.7
+
+Partition table scan:
+  MBR: protective
+  BSD: not present
+  APM: not present
+  GPT: present
+
+Found valid GPT with protective MBR; using GPT.
+
+Command (? for help): p
+Disk /dev/sdb: 2930275055 sectors, 1.4 TiB
+Model: 2115
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): 446AE50C-FDC7-4320-8935-D46E7A29EEA2
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 2930275021
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 2930274988 sectors (1.4 TiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+</code></pre>
+<p>Jak widać, na dysku nie ma póki co żadnej partycji. Mamy za to informację że partycje zostaną
+wyrównane do 1MiB (2048 sektorów 512 bajtowych) oraz, że pierwszy sektor z którego możemy
+skorzystać, to 34, a ostatni to 2930275021.</p>
+<p>Przy tworzeniu nowej partycji, na kilka pierwszych pytań można odpowiedzieć domyślnie:</p>
+<pre><code>Command (? for help): n
+Partition number (1-128, default 1): 1
+First sector (34-2930275021, default = 2048) or {+-}size{KMGTP}: 2048
+</code></pre>
+<p>Niemniej jednak, dalej mamy zapytanie o ostatni sektor partycji i tutaj już tak łatwo nie będzie,
+bo domyślnie zwracana jest wartość 2930275021.</p>
+<pre><code>Last sector (2048-2930275021, default = 2930275021) or {+-}size{KMGTP}:
+</code></pre>
+<p>Trzeba zweryfikować czy aby ta wartość utworzy nam partycję, której rozmiar jest podzielny przez 8.
+Możemy to zrobić korzystając z tego wzoru: 2930275021-2048+1=2930272974 . No i jak można
+wywnioskować, 2930272974 nie jest podzielne przez 8. Musimy zatem określić inną wartość, poniżej
+przykład obliczeń:</p>
+<pre><code>2930275021/8 = 366284377.625
+366284377×8 = 2930275016
+</code></pre>
+<p>Ta powyżej uzyskana wartość, to jest ostatni sektor, który będzie podzielny przez 8. Biorąc pod
+uwagę fakt, że partycja rozpoczyna się na granicy 1MiB i wartość 2048 jest podzielna przez 8, to
+jeśli ostatni sektor będzie także podzielny przez 8, to rozmiar partycji również będzie podzielny
+przez 8. Musimy tylko od tej powyższej wartości odjąć <code>1</code> z racji numerowania sektorów od 0. Zatem:
+2930275016-1=2930275015 i to tę wartość musimy podać w zapytaniu o ostatni sektor:</p>
+<pre><code>Last sector (2048-2930275021, default = 2930275021) or {+-}size{KMGTP}: 2930275015
+</code></pre>
+<p>I dalej już standardowo:</p>
+<pre><code>Current type is 8300 (Linux filesystem)
+Hex code or GUID (L to show codes, Enter = 8300):
+Changed type of partition to 'Linux filesystem'
+</code></pre>
+<p>Następnie listujemy jeszcze tablicę partycji, by upewnić się co do wpisanych wartości:</p>
+<pre><code>Disk /dev/sdb: 2930275055 sectors, 1.4 TiB
+Model: 2115
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): 446AE50C-FDC7-4320-8935-D46E7A29EEA2
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 2930275021
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 2020 sectors (1010.0 KiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048      2930275015   1.4 TiB     8300  Linux filesystem
+</code></pre>
+<p>Warto zwrócić uwagę na kolumnę <code>Start (sector)</code> i <code>End (sector)</code> . W kolumnie <code>Start (sector)</code>
+powinniśmy mieć zawsze wartość 2048, natomiast w <code>End (sector)</code> wartość powinna być nieparzysta. W
+tym przypadku mamy 2930275015-2048+1, co daje rozmiar 2930272968 sektorów 512 bajtowych, a sama
+liczba 2930272968 jest podzielna przez 8, zatem wyrównanie partycji mamy za sobą.</p>
+<p>Zapisujemy jeszcze nowy układ partycji:</p>
+<pre><code>Command (? for help): w
+
+Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+PARTITIONS!!
+
+Do you want to proceed? (Y/N): y
+OK; writing new GUID partition table (GPT) to /dev/sdb.
+The operation has completed successfully.
+</code></pre>
+<p>Tak przygotowaną partycję można już sformatować przy pomocy systemu plików EXT4 via <code>mkfs.ext4</code> .</p>
+<h3 id="formatowanie-dysku-hddssd-pod-duże-pliki">Formatowanie dysku HDD/SSD pod duże pliki</h3>
+<p>Biorąc pod uwagę informacje zawarte w niniejszym artykule, poniżej znajdują się dwa polecenia,
+których celem jest utworzenie odpowiednio zainicjowanego systemu plików EXT4 na sporych rozmiarów
+dysku HDD/SSD:</p>
+<pre><code># mkfs.ext4 \
+    -m 0 \
+    -L big_data \
+    -T largefile4 \
+    -J size=128 \
+    -O 64bit,has_journal,extents,huge_file,flex_bg,metadata_csum,dir_nlink,extra_isize,sparse_super2,^uninit_bg \
+    -E lazy_itable_init=0,lazy_journal_init=0 \
+    /dev/sdb1
+</code></pre>
+<p>Niżej zaś znajduje się wersja z włączoną opcją <code>bigalloc</code> , gdzie rozmiar klastra został ustawiony
+na 4MiB:</p>
+<pre><code># mkfs.ext4 \
+    -m 0 \
+    -L big_data \
+    -T largefile4 \
+    -J size=128 \
+    -O 64bit,has_journal,extents,huge_file,flex_bg,metadata_csum,dir_nlink,extra_isize,sparse_super2,bigalloc,^uninit_bg \
+    -C 4M \
+    -E lazy_itable_init=0,lazy_journal_init=0 \
+    /dev/sdb1
+</code></pre>
+<h4 id="różnica-w-strukturze-metadanych-systemu-plików">Różnica w strukturze metadanych systemu plików</h4>
+<p>Gdybyśmy formatowali dysk z wykorzystaniem standardowych opcji systemu plików dla przykładowego
+1,5TB dysku, to mielibyśmy 11178 grup bloków, z 8192 i-węzłami, z których każdy opisuje 16 KiB
+danych umieszczonych na nośniku. Łącznie to daje:
+(((16×1024)×8192)×11178)/1024/1024/1024=1397.25GiB. Jeśli byśmy zmienili nieco ustawienia, by
+pojedynczy i-węzeł opisywał 4MiB danych, wtedy będziemy mieli dokładnie tyle samo grup, czyli 11178
+ale w każdej z nich będziemy mieli tylko 32 i-węzły do dyspozycji, co jest sporą redukcją z 8192.
+Za to jeśli dodatkowo skorzystamy z opcji <code>bigalloc</code> , to będziemy mieli tylko 11 grup (z
+poprzednich 11178) z 32528 i-węzłami, z których każdy opisuje 4MiB danych. Zatem pojedyncza grupa
+opisuje w pierwszym przypadku 128MiB danych, zaś w tym drugi nieco ponad 127GiB. Liczba i-węzłów
+zmalała z 91.570.176 do 357.808, zaś ich rozmiar zmniejszył się z 21,83GiB  do 87,35MiB, zatem mamy
+niesamowitą redukcję w strukturze metadanych systemu plików, co powinno upłynnić operacje
+wykonywane na plikach przechowywanych w obrębie tego systemu plików.</p>
+<h3 id="domyślne-opcje-przy-tworzeniu-systemu-plików">Domyślne opcje przy tworzeniu systemu plików</h3>
+<p>Jeśli nie chce nam się tych powyższych opcji (albo części z nich) wpisywać za każdym razem, gdy
+tylko będziemy chcieli utworzyć nowy system plików EXT4, to warto wiedzieć, że istnieje plik
+<code>/etc/mke2fs.conf</code> , w którym to możemy określić domyślne opcje dla nowo tworzonych systemów plików.
+Poniżej znajduje się standardowa zawartość tego pliku:</p>
+<pre><code>$ cat /etc/mke2fs.conf
+[defaults]
+        base_features = sparse_super,large_file,filetype,resize_inode,dir_index,ext_attr
+        default_mntopts = acl,user_xattr
+        enable_periodic_fsck = 0
+        blocksize = 4096
+        inode_size = 256
+        inode_ratio = 16384
+
+[fs_types]
+        ext3 = {
+                features = has_journal
+        }
+        ext4 = {
+                features = has_journal,extent,huge_file,flex_bg,metadata_csum,64bit,dir_nlink,extra_isize
+                inode_size = 256
+        }
+        small = {
+                blocksize = 1024
+                inode_size = 128
+                inode_ratio = 4096
+        }
+        floppy = {
+                blocksize = 1024
+                inode_size = 128
+                inode_ratio = 8192
+        }
+        big = {
+                inode_ratio = 32768
+        }
+        huge = {
+                inode_ratio = 65536
+        }
+        news = {
+                inode_ratio = 4096
+        }
+        largefile = {
+                inode_ratio = 1048576
+                blocksize = -1
+        }
+        largefile4 = {
+                inode_ratio = 4194304
+                blocksize = -1
+        }
+        hurd = {
+             blocksize = 4096
+             inode_size = 128
+        }
+</code></pre>
+<p>Można naturalnie przerobić zwrotkę z <code>ext4</code> i dodać tam stosowne opcje ale też można utworzyć
+całkowicie nową zwrotkę i to w niej określić wszystkie interesujące nas opcje, przykładowo:</p>
+<pre><code>bigdata = {
+    errors = remount-ro
+    features = has_journal,extent,huge_file,flex_bg,metadata_csum,64bit,dir_nlink,extra_isize,bigalloc,^uninit_bg
+    inode_size = 256
+    inode_ratio = 4194304
+    cluster_size = 4M
+    reserved_ratio = 0
+    lazy_itable_init = 0
+    lazy_journal_init = 0
+}
+</code></pre>
+<p>By teraz utworzyć nowy system plików z wykorzystaniem tych opcji, trzeba podać <code>mkfs</code> nazwę zwrotki,
+przykładowo <code>mkfs -t bigdata ...</code> . W ten sposób wszystkie te powyższe opcje zostaną uwzględnione
+przy tworzeniu nowego systemu plików, przykładowo:</p>
+<pre><code># mkfs -t bigdata -L bigdata /dev/sdb1
+</code></pre>
+<p>To powyższe rozwiązanie ma jednak najwyraźniej sporo błędów i problemów. Dla przykładu, nie udało
+mi się wskazać rozmiaru dla dziennika systemu plików, czy innych opcji dotyczących samego dziennika
+(tych, które się określa via <code>-J</code> ). Zatem wygląda na to, że jeśli chcemy określić, np. inny
+rozmiar dziennika, to trzeba i tak będzie podawać ten parametr <code>-J</code> w <code>mkfs</code> . Idąc dalej, niby w
+<code>/etc/mke2fs.conf</code> jest określony <code>cluster_size = 4M</code> ale system ustawia go na 64K, co jest
+domyślnym rozmiarem klastra, gdy opcja <code>bigalloc</code> jest w użyciu. Wygląda zatem na to, że opcja
+<code>cluster_size</code> jest ignorowana i trzeba podać manualnie parametr <code>-C</code> i to przy jego pomocy
+określić rozmiar klastra przy tworzeniu systemu plików. Prawdę mówiąc, to już wolę ręcznie
+wszystkie opcje określić manualnie i być przy tym pewny, że żadnej nie zapomniałem oraz, że one
+wszystkie będą brane pod uwagę.</p>
+<h3 id="montowanie-systemu-plików">Montowanie systemu plików</h3>
+<p>Ostatnia sprawa tyczy się montowania systemu plików w systemie. Nie ma tutaj zbytnio jakiejś
+filozofii i w zasadzie wszystko czego nam potrzeba to jeden wpis w pliku <code>/etc/fstab</code> :</p>
+<pre><code>UUID=59493a0a-ecb7-11eb-b7a5-0021ccc305b0 /media/bigdata ext4    defaults,nodev,nosuid,noexec,lazytime,errors=remount-ro 0 2
+</code></pre>
+<p>Dysk naturalnie dopasowujemy po UUID i montujemy go w wybranym katalogu, tutaj jest to folder
+<code>/media/bigdata/</code> . Co do samych opcji, to <code>defaults</code> <a href="https://wiki.debian.org/fstab#Field_definitions">odpowiada za ustawienie tych poniższych
+opcji</a>:</p>
+<ul>
+<li><code>rw</code>     -- montuje system plików w trybie do zapisu.</li>
+<li><code>suid</code>   -- zezwala na operacje bitów <code>suid</code> i <code>sgid</code> .</li>
+<li><code>dev</code>    -- interpretuje urządzenia znakowe/blokowe obecne na tym systemie plików.</li>
+<li><code>exec</code>   -- zezwala na wykonywanie binarek.</li>
+<li><code>auto</code>   -- odpowiada za montowanie systemu plików podczas startu systemu lub gdy się wyda
+polecenie <code>mount -a</code> .</li>
+<li><code>nouser</code> -- tylko root może zamontować ten system plików.</li>
+<li><code>async</code>  -- operacje I/O powinny być wykonywane asynchronicznie.</li>
+</ul>
+<p>O ile w przypadku partycji systemowej, te powyższe opcje są iście użyteczne, to w przypadku
+partycji typu storage, część z tych flag przydałoby się usunąć. Dlatego też dodaliśmy w <code>/etc/fstab</code>
+te poniższe opcje:</p>
+<ul>
+<li><code>nodev</code>  -- traktuje urządzenia znakowe/blokowe jako zwykłe pliki.</li>
+<li><code>nosuid</code> -- nie zezwala na operacje bitów <code>suid</code> i <code>sgid</code> .</li>
+<li><code>noexec</code> -- nie zezwala na wykonywanie binarek.</li>
+</ul>
+<p>Dodatkowo została określona flaga <code>lazytime</code> , której zadaniem jest aktualizacja czasów (<code>atime</code> ,
+<code>mtime</code> oraz <code>ctime</code> ) tylko na obecnej w pamięci RAM wersji i-węzła danego pliku. Montowanie
+systemu plików z tą opcją drastycznie redukuje zapisy do tablicy i-węzłów. Oczywiście, każdemu
+raczej zależy, by te wyżej wymienione czasy były aktualizowane również i na dysku twardym i jak
+najbardziej będą ale tylko w tych określonych niżej przypadkach:</p>
+<ul>
+<li>i-węzeł musi zostać zaktualizowany z jakiegoś innego powodu niepowiązanego ze znacznikami czasu.</li>
+<li>aplikacja wywoła <code>fsync</code> , <code>syncfs</code> albo <code>sync</code> .</li>
+<li>i-węzeł zostanie usunięty z pamięci RAM.</li>
+<li>upłynie więcej czasu niż 24 godziny od ostatniego zapisania i-węzła na dysk.</li>
+</ul>
+<p>Jeśli dysponujemy zasilaczem awaryjnym UPS, lub mamy zamiar podłączyć dysk pod komputer wyposażony
+w jakiś rodzaj baterii, np. laptop, to te powyższe warunki nam jak najbardziej powinny wystarczyć.
+Jeśli jednak zamierzamy restartować komputer przyciskiem, to lepiej opcji <code>lazytime</code> nie ustawiać.</p>
+<h2 id="parę-słów-o-technologi-intellipowerintellipark">Parę słów o technologi IntelliPower/IntelliPark</h2>
+<p>Technologia IntelliPower (zwana też IntelliPark) została wprowadzona do dysków twardych z wielu
+powodów i występuje tylko w przypadku talerzowych nośników HDD. Jej celem jest zaparkowanie głowicy
+magnetycznej w sytuacji, gdy firmware dysku uzna, że system operacyjny nie ma zamiaru korzystać z
+dysku. Gdy głowica jest zaparkowana, maleje zużycie energii przez dysk, przez co ten nośnik
+wydziela mniej ciepła (o kilka stopni, zwykle 4-5°C). Gdy głowica jest zaparkowana, to również nie
+może uderzyć ona w talerz, np. gdy kopniemy przez przypadek (albo i celowo) w komputer, przez co
+sam dysk jest mniej podatny na uszkodzenia mechaniczne. Same plusy. Jest tylko jeden bardzo poważny
+minus technologi IntelliPower/IntelliPark, albowiem każdy cykl parkowania głowicy wykańcza
+mechanizm odpowiedzialny za takie parkowanie.</p>
+<p>Zwykle producenci w notach katalogowych dysków twardych podają żywotność nośnika w liczbie parkowań
+głowicy i jest to wartość od 300.000 do 1.000.000, w zależności od modelu dysku. Gdy ta liczba
+zostanie osiągnięta, to oczekiwana jest awaria sprzętu i dysk zwykle jest do wyrzucenia. Aktualną
+wartość parkowań głowicy można uzyskać z raportu SMART odczytując parametr <code>Load_Cycle_Count</code> :</p>
+<pre><code># smartctl -x /dev/sdb
+...
+  4 Start_Stop_Count        -O--CK   098   098   000    -    2800
+...
+  9 Power_On_Hours          -O--CK   076   076   000    -    17857
+...
+193 Load_Cycle_Count        -O--CK   200   200   000    -    2629
+...
+</code></pre>
+<p>Powyżej została też uwzględniona liczba uruchomień dysku wraz z długością jego pracy. W tym
+przypadku parametr <code>Start_Stop_Count</code> oraz <code>Load_Cycle_Count</code> mają bardzo zbliżone wartości. Jest
+to zasługą <a href="https://morfikov.github.io/post/parkowanie-glowicy-w-dyskach-wstern-digital/">wyłączenia parkowania głowicy całkowicie w firmware dysku twardego</a> przy pomocy
+narzędzia <a href="http://idle3-tools.sourceforge.net/">idle3-tools</a>. Niemniej jednak, to narzędzie obsługuje jedynie dyski Western Digital i
+to też nie wszystkie. W przypadku niektórych modeli o większej pojemności, użytkownicy zdają się
+raportować, że to narzędzie już nie spełnia swojego zadania. Poza tym, jeśli nie mamy dysku WD, to
+też ten cały <code>idle3-tools</code> nam się do niczego nie przyda.</p>
+<p>Tylko po co za sprawą <code>idle3-tools</code> wyłączyć parkowanie głowicy? Chodzi tutaj o to, że producenci
+dysków nie dają użytkownikom praktycznie żadnej opcji kontroli mechanizmu parkowania głowicy dysku,
+a czas bezczynności, po którym firmware dysku ma zaparkować głowicę, jest ustawiony na 30 sekund
+(<a href="https://wiki.archlinux.org/title/hdparm#Power_management_for_Western_Digital_Green_drives">albo też nawet i na 8 sekund</a>). Krótko mówiąc, jeśli przez 8 sekund do dysku nie powędrowało
+żadne zapytanie o zapis/odczyt sektorów, to firmware zaparkuje głowicę. Na linux'ach to parkowanie
+głowicy zdaje się mieć miejsce bardzo często -- setki, a nawet tysiące razy w przeciągu
+pojedynczego dnia, co po roku takiego zachowania sprawi, że dysk nam się nieuchronnie
+rozleci -- akurat jak minie gwarancja.</p>
+<p>Do tej pory kupowałem dyski wyłączenie firmy Western Digital, bo w zasadzie przez ostatnią dekadę
+nigdy mnie nie zawiodły. W obawie jednak, że w tych pojemniejszych modelach nie będę w stanie
+wyłączyć parkowania głowicy, przez co ich żywotność będzie stała pod znakiem zapytania,
+postanowiłem odejść od marki WD na rzecz Thosiba. Z testów wychodzi, że dyski Thosiba, przynajmniej
+ten model, który mi się trafił, a jest to L200 2TB 2,5&quot;, reagują na zarządzanie energią via
+<code>hdparm</code> . Polecenie, które jest w stanie wysłać do dysku odpowiednie instrukcje co do wydajności
+pracy nośnika jest uwzględnione poniżej:</p>
+<pre><code># hdparm -B 254 /dev/sdb
+</code></pre>
+<p>Wartość <code>254</code> działa w przypadku tego dysku. W innych modelach być może trzeba będzie <a href="https://ata.wiki.kernel.org/index.php/Known_issues#Drives_which_perform_frequent_head_unloads_under_Linux">skorzystać z
+innych wartości</a>. Warto też <a href="https://wiki.ubuntu.com/DanielHahler/Bug59695#Workaround">rzucić okiem tutaj</a>.</p>
+<h3 id="honorowanie-ustawień-po-restarcie-systemu">Honorowanie ustawień po restarcie systemu</h3>
+<p>To powyższe ustawienie jest honorowane tylko do wykonania cyklu zasilania dysku. Po restarcie
+maszyny lub odłączeniu dysku, trzeba by jeszcze raz korzystać z <code>hdparm</code> , by wyłączyć APM
+(Advanced Power Management). Niemniej jednak, w każdym linux'ie (również na Raspberry Pi z Kodim)
+można napisać regułkę dla UDEV'a, która każdy podłączony dysk potraktuje tym powyższym poleceniem
+i jeśli dysk wspiera konfigurację APM, to z powodzeniem będzie można przestawić APM na 254, czyli
+w tryb najwyższej wydajności. Wystarczy utworzyć plik <code>/etc/udev/rules.d/90-hdparm.rules</code> i dodać
+do niego tę poniższą zwrotkę:</p>
+<pre><code>ACTION==&quot;add&quot;, SUBSYSTEM==&quot;block&quot;, KERNEL==&quot;[sh]d[a-z]&quot;, ATTRS{queue/rotational}==&quot;1&quot;, \
+        ENV{ID_SERIAL}==&quot;TOSHIBA_HDWL120_0000AB123862-0:0&quot;, \
+        RUN+=&quot;/sbin/hdparm -B 254 /dev/%k&quot;
+</code></pre>
+<p>Ta powyższa reguła jest bardzo precyzyjna, za sprawą frazy
+<code>ENV{ID_SERIAL}==&quot;TOSHIBA_HDWL120_0000AB123862-0:0&quot;</code> , która to określa dopasowanie dysku po jego
+numerze seryjnym. Jeśli chcielibyśmy dopasować każdy dysk twardy, to naturalnie tę linijkę trzeba
+by z tej powyższej reguły skasować. Ta reguła dotyczy też tylko i wyłącznie dysków talerzowych
+( <code>ATTRS{queue/rotational}==&quot;1&quot;</code> ), bo dyski SSD nie posiadają głowicy i nie parkują jej.</p>
+<p>Jak tylko w systemie zostanie wykryty nowy nośnik spełniający te powyższe kryteria, to system wyda
+polecenie <code>/sbin/hdparm -B 254 /dev/%k&quot;</code> , gdzie <code>%k</code> oznacza numerek dysku, np. <code>sdb</code> , co
+przestawi APM na 254.</p>
+<p>Na koniec trzeba jeszcze przeładować politykę UDEV'a (albo zrestartować system), by zmiany zaczęły
+obowiązywać:</p>
+<pre><code># udevadm control --reload
+</code></pre>
+<p>I możemy podłączyć ponownie dysk do komputera by sprawdzić, czy system nie zwróci nam żadnego błędu
+i ustawi parametry dysku zgodnie z naszymi oczekiwaniami. By mieć pewność że tryb oszczędności
+energii został wyłączony, możemy podejrzeć raport SMART:</p>
+<pre><code># smartctl -x /dev/sdb | grep APM
+APM level is:     254 (maximum performance)
+</code></pre>
+<p>Trzeba jednak się liczyć z faktem, że czasem ten powyższy komunikat może być zwracany błędnie i
+dysk pomimo ustawienia poprawnej wartości zwyczajnie ją zignoruje i dalej będzie ustawiony w trybie
+oszczędzania energii.</p>
+<h3 id="problem-z-ustawieniem-apm-via-hdparm">Problem z ustawieniem APM via hdparm</h3>
+<p>Czasami jednak, <code>hdparm</code> przy ustawianiu APM zwróci taki oto błąd:</p>
+<pre><code># /sbin/hdparm -B 254 /dev/sdb
+
+/dev/sdb:
+ setting Advanced Power Management level to 0xfe (254)
+ HDIO_DRIVE_CMD failed: Input/output error
+ setting standby to 0 (off)
+ APM_level      = not supported
+</code></pre>
+<p>Oznacza to, że nie damy rady skonfigurować dyskowi APM i jeśli parametr <code>Load_Cycle_Count</code> w
+raporcie SMART nam rośnie w zastraszającym tempie, to trzeba będzie liczyć się z uszkodzeniem dysku
+w niedalekiej przyszłości.</p>
+<p>Co ciekawe <a href="https://web.archive.org/web/20190129000226/http://wdc.custhelp.com/app/answers/detail/a_id/5357">Western Digital wydało oświadczenie</a>, że np. dyski z serii GREEN, są
+niekompatybilne z linux'em i jeśli korzystamy z tego systemu, to lepiej dyski WD GREEN omijać
+szerokim łukiem. Nie wiem jak sprawa wygląda w przypadku innych dysków tego producenta ale ja u
+siebie wszystkie dyski WD traktowałem przy pomocy <code>idle3-tools</code> i wyłączałem w nich parkowanie
+głowicy zaraz po wyjęcia nośnika z pudełka. Dlatego też lepiej przed zakupem poszukać opinii na
+temat modelu dysku, który zamierzamy nabyć, i upewnić się, że nie będzie z nim większych problemów
+pod linux.</p>
+<h2 id="parę-słów-o-technologi-cmr-vs-smr">Parę słów o technologi CMR vs. SMR</h2>
+<p>Wielu użytkowników spotkało się z technologiami CMR (<a href="https://en.wikipedia.org/wiki/Perpendicular_recording">Conventional Magnetic Recording</a>), czyli
+konwencjonalnym ułożeniem ścieżek, oraz SMR (<a href="https://en.wikipedia.org/wiki/Shingled_magnetic_recording">Shingled Magnetic Recording</a>), czyli dachówkowym
+ułożeniem ścieżek w kontekście budowy talerzowych dysków twardych. Technologia SMR jest stosowana w
+przypadku dużych dysków (2TB+) zwłaszcza, gdy mamy do czynienia z dyskami laptopowymi 2,5&quot;. W takim
+przypadku dysk 2TB zawsze będzie ze ścieżkami SMR, bo póki co nie da się zapakować do tak małej
+obudowy tylu sektorów gwarantujących tak dużą pojemność. Możemy naturalnie zdecydować się na
+mniejszy dysk CMR ale czy naprawdę SMR jest taki straszny?</p>
+<p>Generalnie to użytkownicy mają z tą technologią problemy po aferze, w którą się uwikłała marka
+Western Digital. Chodziło o to, że <a href="https://www.benchmark.pl/aktualnosci/western-digital-publikuje-liste-slabszych-dyskow-hdd-z-zapisem-sm.html">nie informowali oni swoich klientów o stosowaniu w dyskach
+technologi SMR</a>, czego efektem były poważne problemy z wydajnością przy zapisie takich nośników
+spinanych w RAID ale czy przeciętny użytkownik komputera ma jakieś powody do obaw z racji
+stosowania dysków SMR?</p>
+<p>Wypadłoby w tym miejscu zadać sobie pytanie do czego taki dysk nam będzie potrzebny? Jeśli
+planujemy przeznaczyć taki dysk HDD pod typowy magazyn danych (w tym przypadku pod storage dla
+filmów serwowanych z Raspberry Pi via Kodi), to nie ma dla nas większego znaczenia czy dysk będzie
+w technologi CMR czy SMR, z tą różnicą, że praktycznie za tę samą cenę będziemy mieli większej
+pojemności nośnik, a na tym chyba najbardziej nam zależy?</p>
+<p>Po wielu testach przy wgrywaniu danych na mój nowo zakupiony dysk SMR, tylko parę razy transfer
+danych spadł mi w okolice 20-30MiB/s, z tym, że nie do końca jestem pewien dlaczego. Być może był
+też winny dysk systemowy, z którego dane były kopiowane, bo jakby nie patrzeć, ten dysk (również
+talerzowy) jest wykorzystywany przez setki procesów systemowych i mogą one znacznie spowolnić
+transfer danych. Poza tymi nielicznymi sytuacjami, transfer przy kopiowaniu ponad 1,5TiB danych na
+ten nowy dysk wahał się w graniach 80-120MiB/s, także jakichś większych problemów z tym dyskiem
+póki co nie miałem. Naturalnie przy odczycie rzędu kilku MiB/s na potrzeby oglądania filmów raczej
+problemów z wydajnością nie uświadczę i myślę, że akurat w moim zastosowaniu, taki dysk SMR będzie
+działał jak każdy inny dysk CMR.</p>
+<p>Jeśi jednak planujemy bawić się w RAID albo bardzo dużo danych zapisywać na dysku, to naturalnie
+powinniśmy wybrać dwa mniejsze dyski CMR. Po tej całej aferze, <a href="https://blog.westerndigital.com/wd-red-nas-drives/">producenci dysków stosownie
+oznaczają modele SMR</a> i obecnie nie powinno być problemów z wybraniem dysku o odpowiedniej dla
+nas technologi ułożenia ścieżek.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/">hdd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssd/">ssd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ext4/">ext4</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/udev/">udev</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fanaliza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fanaliza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux%2f&amp;text=Analiza%20systemu%20plik%c3%b3w%20EXT4%20pod%20k%c4%85tem%20formatowania%20wi%c4%99kszych%20dysk%c3%b3w%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fanaliza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux%2f&amp;title=Analiza%20systemu%20plik%c3%b3w%20EXT4%20pod%20k%c4%85tem%20formatowania%20wi%c4%99kszych%20dysk%c3%b3w%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fanaliza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux%2f&amp;title=Analiza%20systemu%20plik%c3%b3w%20EXT4%20pod%20k%c4%85tem%20formatowania%20wi%c4%99kszych%20dysk%c3%b3w%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fanaliza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux%2f&title=Analiza%20systemu%20plik%c3%b3w%20EXT4%20pod%20k%c4%85tem%20formatowania%20wi%c4%99kszych%20dysk%c3%b3w%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fanaliza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fanaliza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux%2f&amp;title=Analiza%20systemu%20plik%c3%b3w%20EXT4%20pod%20k%c4%85tem%20formatowania%20wi%c4%99kszych%20dysk%c3%b3w%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fanaliza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux%2f&description=Analiza%20systemu%20plik%c3%b3w%20EXT4%20pod%20k%c4%85tem%20formatowania%20wi%c4%99kszych%20dysk%c3%b3w%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/">Jak przygotować dysk pod instalację Debian linux z EFI/UEFI</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/montowanie-dyskow-jako-zwykly-uzytkownik-z-udisks-i-policykit/">Montowanie dysków jako zwykły użytkownik z UDisks i PolicyKit</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-identyfikatora-uuid/">Zmiana identyfikatora UUID</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ext4/">Zmiana rozmiaru partycji EXT4</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/parametr-readahead-w-dyskach-twardych/">Parametr readahead w dyskach twardych</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
