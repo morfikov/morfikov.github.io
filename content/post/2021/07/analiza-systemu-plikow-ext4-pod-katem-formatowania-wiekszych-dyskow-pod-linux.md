@@ -12,6 +12,7 @@ tags:
 - ssd
 - ext4
 - udev
+- system-plików
 title: Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux
 ---
 
