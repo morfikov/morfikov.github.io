@@ -11,19 +11,18 @@ tags:
 - hdd
 - ssd
 - ext4
-title: Zmiana identyfikatora UUID
+- luks
+title: Zmiana identyfikatora UUID systemu plików EXT4 i kontenera LUKS
 ---
 
-[Na forum DUG'a po raz kolejny pojawił się post](https://forum.dug.net.pl/viewtopic.php?id=28210)
-dotyczący unikalnych identyfikatorów, które są nadawane partycjom dysków twardych. Nie wiem jak
-sprawa ma się w przypadku windowsów ale linux na podstawie tych numerów
-[UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)
-([GUID](https://pl.wikipedia.org/wiki/Globally_Unique_Identifier)) jest w stanie identyfikować
-konkretne urządzenia. Czasem się zdarza tak, że dwa dyski czy partycje mają taki sam identyfikator,
-co prowadzi zwykle do problemów. Kolizja numerów identyfikacyjnych może być wynikiem pozostałości po
-procesie produkcyjnym ale może także powstać za sprawą klonowania nośnika za pomocą narzędzia `dd` .
-Tak czy inaczej, przydałoby się wiedzieć jak ustalić, poprawnie wygenerować czy też zmienić UUID
-wszędzie tam, gdzie jest on wykorzystywany i o tym będzie ten wpis.
+[Na forum DUG'a po raz kolejny pojawił się post][1] dotyczący unikalnych identyfikatorów, które są
+nadawane partycjom dysków twardych. Nie wiem jak sprawa ma się w przypadku windowsów ale linux na
+podstawie tych numerów [UUID][2] i ([GUID][3]) jest w stanie identyfikować konkretne urządzenia.
+Czasem się zdarza tak, że dwa dyski czy partycje mają taki sam identyfikator, co prowadzi zwykle do
+problemów. Kolizja numerów identyfikacyjnych może być wynikiem pozostałości po procesie
+produkcyjnym ale może także powstać za sprawą klonowania nośnika za pomocą narzędzia `dd` . Tak czy
+inaczej, przydałoby się wiedzieć jak ustalić, poprawnie wygenerować czy też zmienić UUID wszędzie
+tam, gdzie jest on wykorzystywany i o tym będzie ten wpis.
 
 <!--more-->
 ## Ustalanie identyfikatora UUID
@@ -71,8 +70,7 @@ Identyfikator UUID zawsze możemy też podać ręcznie, przykładowo:
     # tune2fs -U "b47e6dcd-924e-40fa-a8b1-7593419f86d7" /dev/mapper/sdb5
 
 Trzeba jednak pamiętać, że ten identyfikator nie jest losowym ciągiem HEX. Posiada on swój format
-zdefiniowany w [rfc4122](http://www.ietf.org/rfc/rfc4122.txt) i nigdy nie należy go dostosowywać
-ręcznie.
+zdefiniowany w [rfc4122][4] i nigdy nie należy go dostosowywać ręcznie.
 
 ## Zmiana UUID kontenera LUKS
 
@@ -81,8 +79,7 @@ grę wchodzi kontener LUKS, a na nim nie operuje `tune2fs` . Zatem gdzie jest pr
 identyfikator i jak go zmienić? UUID kontenerów LUKS znajduje się w nagłówku kontenera, czyli w tych
 pierwszych 2 MiB zaraz na początku partycji. W skrócie jest to sześć bajtów począwszy od pozycji
 168. W osobnym wpisie jest nieco więcej informacji na temat tego [jak zbudowany jest nagłówek
-LUKS](/post/naglowek-kontenera-luks-trzymany-na-pendrive/). Ten UUID możemy
-naturalnie wydobyć wykorzystując narzędzie `cryptsetup` :
+LUKS][5]. Ten UUID możemy naturalnie wydobyć wykorzystując narzędzie `cryptsetup` :
 
     # cryptsetup luksUUID /dev/sdb5
     f3c10054-0583-4e10-937b-dcdc9a05a25c
@@ -106,3 +103,10 @@ Proces zmiany unikalnego identyfikatora UUID pod linux'em nie niesie ze sobą ż
 danych. Ważne jest tylko to, by nie dokonywać tego zabiegu przy zamontowanych zasobach. Pamiętajmy
 też, by po każdej zmianie numerów identyfikacyjnych dostosować odpowiednio pliki `/etc/fstab` i
 `/etc/crypttab` .
+
+
+[1]: https://forum.dug.net.pl/viewtopic.php?id=28210
+[2]: https://en.wikipedia.org/wiki/Universally_unique_identifier
+[3]: https://pl.wikipedia.org/wiki/Globally_Unique_Identifier
+[4]: http://www.ietf.org/rfc/rfc4122.txt
+[5]: /post/naglowek-kontenera-luks-trzymany-na-pendrive/
