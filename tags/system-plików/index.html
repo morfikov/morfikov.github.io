@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/tags/system-plik%C3%B3w/" />
-<meta property="og:updated_time" content="2019-03-22T16:23:42+00:00" />
+<meta property="og:updated_time" content="2021-07-25T18:40:00+02:00" />
 
 		<meta itemprop="name" content="system-plików">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -88,6 +88,32 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/analiza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux/">Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux</a></h1>
+	<div class="entry__content"><p>Zapewne każdy użytkownik linux'a tworzył na dysku HDD/SSD partycje sformatowane systemem plików
+EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez
+strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy
+nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na
+jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC,
+to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania
+podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie
+duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można
+popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy
+wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy
+dysku twardego</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2021-07-25T18:40:00&#43;02:00">Opublikowano: 25/07/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -241,17 +267,15 @@ zrobić.</p></div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zmiana-identyfikatora-uuid/">Zmiana identyfikatora UUID</a></h1>
-	<div class="entry__content"><p><a href="https://forum.dug.net.pl/viewtopic.php?id=28210">Na forum DUG'a po raz kolejny pojawił się post</a>
-dotyczący unikalnych identyfikatorów, które są nadawane partycjom dysków twardych. Nie wiem jak
-sprawa ma się w przypadku windowsów ale linux na podstawie tych numerów
-<a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</a>
-(<a href="https://pl.wikipedia.org/wiki/Globally_Unique_Identifier">GUID</a>) jest w stanie identyfikować
-konkretne urządzenia. Czasem się zdarza tak, że dwa dyski czy partycje mają taki sam identyfikator,
-co prowadzi zwykle do problemów. Kolizja numerów identyfikacyjnych może być wynikiem pozostałości po
-procesie produkcyjnym ale może także powstać za sprawą klonowania nośnika za pomocą narzędzia <code>dd</code> .
-Tak czy inaczej, przydałoby się wiedzieć jak ustalić, poprawnie wygenerować czy też zmienić UUID
-wszędzie tam, gdzie jest on wykorzystywany i o tym będzie ten wpis.</p></div>
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zmiana-identyfikatora-uuid/">Zmiana identyfikatora UUID systemu plików EXT4 i kontenera LUKS</a></h1>
+	<div class="entry__content"><p><a href="https://forum.dug.net.pl/viewtopic.php?id=28210">Na forum DUG'a po raz kolejny pojawił się post</a> dotyczący unikalnych identyfikatorów, które są
+nadawane partycjom dysków twardych. Nie wiem jak sprawa ma się w przypadku windowsów ale linux na
+podstawie tych numerów <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</a> i (<a href="https://pl.wikipedia.org/wiki/Globally_Unique_Identifier">GUID</a>) jest w stanie identyfikować konkretne urządzenia.
+Czasem się zdarza tak, że dwa dyski czy partycje mają taki sam identyfikator, co prowadzi zwykle do
+problemów. Kolizja numerów identyfikacyjnych może być wynikiem pozostałości po procesie
+produkcyjnym ale może także powstać za sprawą klonowania nośnika za pomocą narzędzia <code>dd</code> . Tak czy
+inaczej, przydałoby się wiedzieć jak ustalić, poprawnie wygenerować czy też zmienić UUID wszędzie
+tam, gdzie jest on wykorzystywany i o tym będzie ten wpis.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-01-30T16:52:05Z">Opublikowano: 30/01/2016</time>
 
@@ -302,29 +326,6 @@ przejść przez proces zmiany rozmiaru partycji mającej system plików FAT32 i 
 poradzi sobie z tym zdaniem bez większego problemu.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2015-12-17T16:05:23Z">Opublikowano: 17/12/2015</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ext4/">Zmiana rozmiaru partycji EXT4</a></h1>
-	<div class="entry__content"><p>Jeśli jeszcze nie dokonaliśmy <a href="https://morfikov.github.io/post/migracja-systemu-plikow-ext2-i-ext3-na-ext4/">migracji systemu plików z EXT2/3 na
-EXT4</a>, to powinniśmy rozważyć
-tę kwestię z przyczyn czysto praktycznych. W tym wpisie nie będziemy sobie głowy zawracać migracją
-między poszczególnymi wersjami systemu plików z rodziny EXT, a raczej skupimy się na tym jak zmienić
-rozmiar partycji, której systemem plików jest właśnie EXT4. Bawienie się rozmiarem partycji w tym
-przypadku niczym zbytnio się nie różni w stosunku do omawianego wcześniej <a href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/">systemu plików
-NTFS</a>. Będziemy wykorzystywać
-tylko nieco inne narzędzia.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2015-12-16T19:06:57Z">Opublikowano: 16/12/2015</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
