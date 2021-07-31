@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Linux
 date:    2021-07-25 18:40:00 +0200
-lastmod: 2021-07-25 18:40:00 +0200
+lastmod: 2021-07-31 21:05:00 +0200
 published: true
 status: publish
 tags:
@@ -42,7 +42,7 @@ video czy też i innych formatach, które aplikacje użytkowe będą w stanie zr
 Jak można się domyśleć, te metadane opisujące pliki zajmują miejsce i potrafią go zajmować dość
 sporo, w zależności od tego co zamierzamy na tym HDD czy SSD trzymać. Jedno jest jednak pewne, cała
 struktura opisowa systemu plików EXT4 jest tworzona podczas inicjacji systemu plików (przy
-wydawaniu polecenia `mkfs.ext4 ...` ). Dlatego też po utworzeniu systemu plików, część danych jest
+wydawaniu polecenia `mke2fs ...` ). Dlatego też po utworzeniu systemu plików, część danych jest
 już zajęta przez metadane systemu plików i zwykle jest to wiele ładnych GiB zwłaszcza w przypadku
 większych systemów plików. Do tego dochodzi jeszcze kilka innych rzeczy, takie jak, np.
 zarezerwowane miejsce dla użytkownika root, czy też rozmiar dziennika systemu plików, które też
@@ -212,7 +212,7 @@ Mamy tutaj informację, że w tej grupie bloków, zapasowy superblok znajduje si
 zaś zapasowe deskryptory grup bloków na 98305. Ten dodatkowy blok na superblok ma rozmiar 4096
 bajtów, podobnie blok z informacjami o deskryptorach grup bloków również ma rozmiar 4096 bajtów.
 
-#### Zarezerwowane bloki GDT
+#### Zarezerwowane bloki GDT i flaga resize_inode
 
 Dalej mamy informację o zarezerwowanych blokach GDT (Group Descriptor Table) w liczbie 254. Te
 zarezerwowane bloki GDT znajdują jedynie zastosowanie podczas poszerzania systemu plików i taki
@@ -233,6 +233,11 @@ jeden blok, co z kolei informuje nas, że system plików nie był poszerzany w �
 Kopia superbloka, kopia deskryptorów grup bloków oraz zarezerwowane bloki GDT łącznie przy
 standardowych opcjach przy tworzeniu systemu plików EXT4 dają 256 bloków 4096-bajtowych, czyli
 1MiB.
+
+Co ciekawe, jeśli nie planujemy w przyszłości powiększać systemu plików EXT4, np. tworzymy system
+plików na partycji rozciągającej się na całym HDD/SSD, to te zarezerwowane bloki GDT będą nam
+zupełnie zbędne i niepotrzebnie będą zajmować miejsce. Możemy zatem się ich pozbyć usuwając
+domyślnie ustawioną flagę `resize_inode` przy tworzeniu systemu plików.
 
 #### Tablica i-węzłów
 
@@ -321,6 +326,12 @@ Może te kilkanaście dodatkowych kawałków wolnej przestrzeni wydaje się nie 
 wchodzą duże pliki, to ta wolna przestrzeń będzie się łatwiej fragmentować niż w tym pierwszym
 przypadku, zwłaszcza, gdy w późniejszym czasie tych plików będzie nam przybywać.
 
+Można też pójść o krok dalej i mając ustawioną flagę `sparse_super2` , ustawić flagę
+`num_backup_sb` na wartość `0` i w ten sposób wyłączyć tworzenie zapasowych kopi superbloka. Trzeba
+jednak zdawać sobie sprawę, że gdy główny superblok ulegnie z jakiegoś powodu uszkodzeniu, to wtedy
+odzyskanie danych może już nie być możliwe, albo to zadanie będzie o wiele trudniejsze niż w
+przypadku, gdyby choć jedna kopia superbloku na dysku była obecna.
+
 #### Bitmapa bloków i i-węzłów
 
 Każda grupa bloków zawiera także bitmapę bloków i i-węzłów. Te bitmapy zawierają informację na
@@ -369,17 +380,34 @@ struktura może sama z siebie bardzo dużo zajmować w takim systemie plików z 
 plików albo też nie mamy rozbudowanej struktury drzewa katalogów, to bez problemu tę flagę
 powinniśmy sobie ustawić.
 
-Poważniejszy problem z flagą `bigalloc` zdaje się być taki, że najwyraźniej nie jest ten ficzer
-jeszcze do końca sprawdzony i [może powodować problemy][11] w pewnych sytuacjach, przynajmniej tak
-można wyczytać w `man ext4` i pod powyższym linkiem. Dokładny status `bigalloc` obecnie jest jednak
-raczej nie do końca znany, bo ostatnia wzmianka o problemach z nim związanymi jest datowana na rok
-2013. Zatem, czy się bawić w `bigalloc` ? Przyznam, że z racji braku informacji na temat zagrożeń,
-które on stwarzał lata temu i czy udało się ostatecznie je przezwyciężyć, postanowiłem na swoim
-dysku tego ficzera nie aktywować.
-
 Niestety jeśli utworzy się system plików z `bigalloc` (lub bez niego), to nie ma możliwości zmiany
 tego ustawienia bez późniejszego usuwania danych zgromadzonych w obrębie takiego systemu plików.
 Dlatego trzeba się mocno zastanowić czy tę flagę ustawić.
+
+Poważniejszy problem z flagą `bigalloc` zdaje się być taki, że najwyraźniej nie jest ten ficzer
+jeszcze do końca sprawdzony i [może powodować problemy][11] w pewnych sytuacjach, przynajmniej tak
+można wyczytać w `man ext4` i pod powyższym linkiem.
+
+Jako, że ta flaga `bigalloc` nie dawała mi spokoju, to postanowiłem [zapytać na mailing list
+kernel-ext4][19] czy można z niej korzystać i czy wiąże się to z jakimiś przykrymi konsekwencjami.
+Wygląda jednak na to, że nic nie stoi na przeszkodzie, by flagi `bigalloc` używać, przynajmniej
+jeśli mamy w miarę nowy kernel, choć z tego co Theodore Ts'o napisał, to ta flaga nie została
+jeszcze dobrze przetestowana jeśli chodzi o wsparcie dla `FALLOC_FL_COLLAPSE_RANGE` ,
+`FALLOC_FL_INSERT_RANGE` oraz `FALLOC_FL_PUNCH_HOLE` . Mi to zbytnio nic nie mówi ale z tonu
+wypowiedzi mogę wnioskować, że generalnie jest zielone światło dla flagi `bigalloc` i można z niej
+korzystać.
+
+#### EXT4-fs Online defrag not supported with bigalloc
+
+Przy próbie defragmentacji systemu plików EXT4 z ustawioną flagą `bigalloc` , przywitał mnie
+komunikat `kernel: EXT4-fs (sdb1): Online defrag not supported with bigalloc` . Muszę przyznać, że
+trochę się zdziwiłem ale najwyraźniej wygląda na to, że nie ma opcji by dokonać defragmentacji
+systemu plików EXT4, gdy ten ma ustawiony klaster o rozmiarze innym niż domyślna wielkość bloku,
+tj. 4096 bajtów. Zatem trzeba się zdecydować, czy wolimy mniejsze kawałki plików z możliwością
+defragmentacji, czy większe bez. Po chwili wgrywania danych na taki nośnik z ustawionym klastrem
+4MiB, doszedłem jednak do wniosku, że ten cały `bigalloc` się nadaje jedynie do pozostawienia go w
+spokoju, a może za parę lat ktoś go dopracuje na tyle, by można było z niego w jakiś racjonalny
+sposób korzystać.
 
 ### Rozmiar oraz ilość i-węzłów
 
@@ -410,7 +438,7 @@ powierzchni użytkowej dysku.
 Wiedząc jednak, że na dysku zamierzamy trzymać w zasadzie tylko i wyłączenie duże pliki, możemy
 ograniczyć ilość i-węzłów, które zostaną stworzone w systemie plików. Możemy naturalnie wskazać tę
 liczbę ręcznie podczas tworzenia systemu plików ale lepszym rozwiązaniem jest korzystanie z
-opcji `-T largefile` lub `-T largefile4` , które trzeba podać w `mkfs.ext4` . Obie z tych opcji
+opcji `-T largefile` lub `-T largefile4` , które trzeba podać w `mke2fs` . Obie z tych opcji
 mają za zadanie zmienić domyślny współczynnik jeden i-węzeł/16KiB na jeden i-węzeł/1MiB lub jeden
 i-węzeł/4MiB. Nie należy jednak tych opcji mylić z `bigalloc` . Tutaj tylko określamy ilość
 i-węzłów i jeśli określimy sobie jeden i-węzeł/4MiB i zamiast dużych plików będziemy trzymać małe
@@ -432,7 +460,7 @@ Raz na forum dug.net.pl był [wątek o ciągłej aktywności dysku tuż po utwor
 plików EXT4][3]. Zgodnie z tym, co autor wątku napisał, system plików EXT4 był tworzony z
 domyślnymi opcjami. Ostatecznie po góglaniu za takimi dziwnymi objawami, [doszukałem się
 informacji, które wskazywały na nie w pełni zainicjowany systemu plików podczas jego tworzenia][4],
-o czym można również przeczytać w `man mkfs.ext4` `i man ext4` :
+o czym można również przeczytać w `man mke2fs` `i man ext4` :
 
 > lazy_itable_init[= <0 to disable, 1 to enable>]
 >
@@ -470,6 +498,41 @@ będzie musiał zostać dokończony w tle, co można poznać po aktywności proc
 `ext4lazyinit` . Dlatego też można zatroszczyć się by te dwie opcje ustawić na `0` oraz by pozbyć
 się opcji `uninit_bg` i tym samym zainicjować system plików EXT4 w pełni przy jego tworzeniu.
 
+### Flagi packed_meta_blocks, flex_bg i flex_bg_size
+
+Standardowo przy tworzeniu systemu plików EXT4 mamy włączoną flagę `flex_bg` , która odpowiada za
+tworzenie elastycznych grup bloków (Flexible Block Groups). W takiej elastycznej grupie, kilka
+zwykłych grup bloków jest wiązanych razem w jedną logiczną grupę bloków. W ten sposób miejsce
+przeznaczone na bitmapy alokacji bloków/i-węzłów oraz na tablicę i-węzłów jest powiększane, tak by
+uwzględnić w nim bitmapy i tablice i-węzłów pozostałych grup bloków, które wchodzą w skład tej
+elastycznej grupy.
+
+Standardowo rozmiar elastycznej grupy to `16` (do odczytania w superbloku, `Flex block group size:
+16` ) . Grupa 0 będzie zawierać (w kolejności) superblok, deskryptory grupy, bitmapy bloków z
+danymi dla grup 0-15, bitmapy i-węzłów dla grup 0-15, tablice i-węzłów dla grup 0-15, a pozostałe
+wolne miejsce w grupie 0 będzie przeznaczone na dane plików. W taki sposób można pogrupować i
+umieścić obok siebie metadane bloków, co przełoży się na szybsze ich wczytywanie. Ten zabieg ma też
+na celu umożliwienie zapisania większych plików w formie ciągłej na dysku.
+
+Biorąc pod uwagę te powyższe informacje, dla naszego przykładowego dysku 2T, na którym mamy zamiar
+przechowywać same duże pliki, powinniśmy zwiększyć rozmiar elastycznych grup do górnej granicy,
+jaką uda się nam ustawić. Zwykle można spotkać się z wartością `262144` , czyli w skład jednej
+elastycznej grupy wejdzie kilkaset tysięcy zwykłych grup, z których każda standardowo opisuje
+128MiB danych. Jeśli to przemnożymy przez siebie, to ta wartość pozwoli nam efektywnie uwzględnić
+32TiB danych w jednej elastycznej grupie, zatem wszystkie metadane na dysku 2T powinny być w jednym
+miejscu, tuż na początku systemu plików.
+
+Teoretycznie ustawienie flagi `flex_bg_size` na `262144` powinno wystarczyć ale w [man mke2fs][21]
+można także doszukać się opcji `packed_meta_blocks` , której ustawienie z kolei powoduje, że
+bitmapy alokacji bloków/i-węzłów oraz tablice i-węzłów zostaną umieszczone na początku systemu
+plików, czyli w zasadzie dokładnie to samo co zwiększenie wartości w parametrze `flex_bg_size` .
+Dodatkowo, ustawienie flagi `packed_meta_blocks` sprawi, że dziennik systemu plików (journal)
+zostanie umieszczony na początku systemu plików, a nie gdzieś w środku, tak jak to ma miejsce przy
+domyślnej konfiguracji systemu plików przy jego tworzeniu.
+
+Te trzy opcje są bardzo nieocenione gdy chcemy przechowywać na dysku duże pliki i ograniczyć stopień
+ich fragmentacji do minimum.
+
 ### Rozmiar dziennika (journal)
 
 System plików EXT4 standardowo wyposażony jest w dziennik (journal). Ten dziennik ma za zadanie
@@ -503,7 +566,7 @@ wartości 5% jej maksymalnej pojemności. Zatem jeśli mamy 1820GiB dysk, to zos
 około 91GiB, z których żaden użytkownik (poza root) nie mógłby skorzystać.
 
 Dobrze zatem jest wyłączyć tę rezerwację, bo przyda nam się te dodatkowe 91GiB pod pliki
-użytkownika. Dlatego też nie zapomnijmy dodać flagi `-m 0` do polecenia `mkfs.ext4` , gdzie `0`
+użytkownika. Dlatego też nie zapomnijmy dodać flagi `-m 0` do polecenia `mke2fs` , gdzie `0`
 określa procent zarezerwowanego miejsca.
 
 ## Tablica partycji MS-DOS/GPT
@@ -705,7 +768,7 @@ Zapisujemy jeszcze nowy układ partycji:
 	OK; writing new GUID partition table (GPT) to /dev/sdb.
 	The operation has completed successfully.
 
-Tak przygotowaną partycję można już sformatować przy pomocy systemu plików EXT4 via `mkfs.ext4` .
+Tak przygotowaną partycję można już sformatować przy pomocy systemu plików EXT4 via `mke2fs` .
 
 ### Formatowanie dysku HDD/SSD pod duże pliki
 
@@ -713,26 +776,30 @@ Biorąc pod uwagę informacje zawarte w niniejszym artykule, poniżej znajdują 
 których celem jest utworzenie odpowiednio zainicjowanego systemu plików EXT4 na sporych rozmiarów
 dysku HDD/SSD:
 
-    # mkfs.ext4 \
+    # mke2fs \
+        -t ext4 \
         -m 0 \
-        -L big_data \
+        -L bigdata \
         -T largefile4 \
         -J size=128 \
-        -O 64bit,has_journal,extents,huge_file,flex_bg,metadata_csum,dir_nlink,extra_isize,sparse_super2,^uninit_bg \
-        -E lazy_itable_init=0,lazy_journal_init=0 \
+        -O 64bit,has_journal,extents,huge_file,flex_bg,metadata_csum,dir_nlink,extra_isize,sparse_super2,^resize_inode,^uninit_bg \
+        -G 262144 \
+        -E lazy_itable_init=0,lazy_journal_init=0,num_backup_sb=2,packed_meta_blocks=1 \
         /dev/sdb1
 
 Niżej zaś znajduje się wersja z włączoną opcją `bigalloc` , gdzie rozmiar klastra został ustawiony
 na 4MiB:
 
-    # mkfs.ext4 \
+    # mke2fs \
+        -t ext4 \
         -m 0 \
-        -L big_data \
+        -L bigdata \
         -T largefile4 \
         -J size=128 \
-        -O 64bit,has_journal,extents,huge_file,flex_bg,metadata_csum,dir_nlink,extra_isize,sparse_super2,bigalloc,^uninit_bg \
+        -O 64bit,has_journal,extents,huge_file,flex_bg,metadata_csum,dir_nlink,extra_isize,sparse_super2,bigalloc,^resize_inode,^uninit_bg \
         -C 4M \
-        -E lazy_itable_init=0,lazy_journal_init=0 \
+        -G 262144 \
+        -E lazy_itable_init=0,lazy_journal_init=0,num_backup_sb=2,packed_meta_blocks=1 \
         /dev/sdb1
 
 #### Różnica w strukturze metadanych systemu plików
@@ -811,31 +878,95 @@ całkowicie nową zwrotkę i to w niej określić wszystkie interesujące nas op
 
     bigdata = {
         errors = remount-ro
-        features = has_journal,extent,huge_file,flex_bg,metadata_csum,64bit,dir_nlink,extra_isize,bigalloc,^uninit_bg
+        features = has_journal,extent,huge_file,flex_bg,metadata_csum,64bit,dir_nlink,extra_isize,sparse_super2,^uninit_bg,^resize_inode,
         inode_size = 256
         inode_ratio = 4194304
-        cluster_size = 4M
-        reserved_ratio = 0
+        hash_alg = half_md4
+        reserved_ratio = 0.0
+        num_backup_sb = 2
+        packed_meta_blocks = 1
         lazy_itable_init = 0
         lazy_journal_init = 0
+        flex_bg_size = 262144
     }
 
-By teraz utworzyć nowy system plików z wykorzystaniem tych opcji, trzeba podać `mkfs` nazwę zwrotki,
- przykładowo `mkfs -t bigdata ...` . W ten sposób wszystkie te powyższe opcje zostaną uwzględnione
- przy tworzeniu nowego systemu plików, przykładowo:
+Lub też z opcją `bigalloc` :
 
-    # mkfs -t bigdata -L bigdata /dev/sdb1
+    bigdata = {
+        errors = remount-ro
+        features = has_journal,extent,huge_file,flex_bg,metadata_csum,64bit,dir_nlink,extra_isize,bigalloc,^uninit_bg,^resize_inode,sparse_super2
+        inode_size = 256
+        inode_ratio = 4194304
+        cluster_size = 4194304
+        hash_alg = half_md4
+        reserved_ratio = 0.0
+        num_backup_sb = 2
+        packed_meta_blocks = 1
+        lazy_itable_init = 0
+        lazy_journal_init = 0
+        flex_bg_size = 262144
+    }
 
-To powyższe rozwiązanie ma jednak najwyraźniej sporo błędów i problemów. Dla przykładu, nie udało
-mi się wskazać rozmiaru dla dziennika systemu plików, czy innych opcji dotyczących samego dziennika
-(tych, które się określa via `-J` ). Zatem wygląda na to, że jeśli chcemy określić, np. inny
-rozmiar dziennika, to trzeba i tak będzie podawać ten parametr `-J` w `mkfs` . Idąc dalej, niby w
-`/etc/mke2fs.conf` jest określony `cluster_size = 4M` ale system ustawia go na 64K, co jest
-domyślnym rozmiarem klastra, gdy opcja `bigalloc` jest w użyciu. Wygląda zatem na to, że opcja
-`cluster_size` jest ignorowana i trzeba podać manualnie parametr `-C` i to przy jego pomocy
-określić rozmiar klastra przy tworzeniu systemu plików. Prawdę mówiąc, to już wolę ręcznie
-wszystkie opcje określić manualnie i być przy tym pewny, że żadnej nie zapomniałem oraz, że one
-wszystkie będą brane pod uwagę.
+By teraz utworzyć nowy system plików z wykorzystaniem tych opcji, trzeba podać `mke2fs` nazwę
+zwrotki (przy pomocy `-T bigdata` ). W ten sposób wszystkie te powyższe opcje zostaną uwzględnione
+przy tworzeniu nowego systemu plików, przykładowo:
+
+    # mke2fs -t ext4 -T bigdata -L bigdata /dev/sdb1
+
+Jedyny problem jaki jest z tym powyższym rozwiązaniem, to taki, że nie udało mi się wskazać
+rozmiaru dla dziennika systemu plików, czy innych opcji dotyczących samego dziennika (tych, które
+się określa via `-J` ). Zatem wygląda na to, że jeśli chcemy określić, np. inny rozmiar dziennika,
+to trzeba i tak będzie podawać ten parametr `-J` w `mke2fs` .
+
+#### Przykładowe zwrotki dla systemu plików z bigalloc
+
+Po rozmowach na mailing list kernel-ext4, Theodore Ts'o podesłał mi [dwie konfiguracje systemu
+plików][20]. Różnią się one od tej mojej powyższej ale z informacji zawartych w tym podlinkowanym
+poście wynika, że te konfiguracje są najlepiej przetestowane pod kątem formatowania nośnika pod
+duże pliki. Postanowiłem je zatem uwzględnić te zwrotki poniżej, tak by się nigdzie nie
+zawieruszyły, gdyby ktoś kiedyś potrzebował w późniejszym czasie taki system plików dla dużych
+plików utworzyć.
+
+Tu jest pierwsza konfiguracja:
+
+    hugefiles = {
+        features = extent,huge_file,flex_bg,uninit_bg,dir_nlink,extra_isize,^resize_inode,sparse_super2
+        hash_alg = half_md4
+        reserved_ratio = 0.0
+        num_backup_sb = 0
+        packed_meta_blocks = 1
+        make_hugefiles = 1
+        inode_ratio = 4194304
+        hugefiles_dir = /storage
+        hugefiles_name = chunk-
+        hugefiles_digits = 5
+        hugefiles_size = 4G
+        hugefiles_align = 256M
+        hugefiles_align_disk = true
+        zero_hugefiles = false
+        flex_bg_size = 262144
+    }
+
+A tu druga:
+
+    hugefile = {
+        features = extent,huge_file,bigalloc,flex_bg,uninit_bg,dir_nlink,extra_isize,^resize_inode,sparse_super2
+        cluster_size = 32768
+        hash_alg = half_md4
+        reserved_ratio = 0.0
+        num_backup_sb = 0
+        packed_meta_blocks = 1
+        make_hugefiles = 1
+        inode_ratio = 4194304
+        hugefiles_dir = /storage
+        hugefiles_name = huge-file
+        hugefiles_digits = 0
+        hugefiles_size = 0
+        hugefiles_align = 256M
+        hugefiles_align_disk = true
+        num_hugefiles = 1
+        zero_hugefiles = false
+    }
 
 ### Montowanie systemu plików
 
@@ -1056,3 +1187,6 @@ nas technologi ułożenia ścieżek.
 [16]: https://en.wikipedia.org/wiki/Shingled_magnetic_recording
 [17]: https://www.benchmark.pl/aktualnosci/western-digital-publikuje-liste-slabszych-dyskow-hdd-z-zapisem-sm.html
 [18]: https://blog.westerndigital.com/wd-red-nas-drives/
+[19]: https://www.spinics.net/lists/linux-ext4/msg78659.html
+[20]: https://www.spinics.net/lists/linux-ext4/msg78709.html
+[21]: https://man7.org/linux/man-pages/man8/mke2fs.8.html
