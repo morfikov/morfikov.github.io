@@ -8,7 +8,6 @@ status: publish
 tags:
 - debian
 - apt
-- aptitude
 - apparmor
 title: Mechanizm trigger'ów dla apt/aptitude w Debianie
 ---
@@ -20,23 +19,19 @@ Te dowiązania mają taki problem, że jak usunie się plik, na który wskazywa�
 aktualizacji paczki, to utworzenie pliku w tym samym miejscu przez menadżer pakietów
 `apt`/`aptitude` nie sprawi, że te dowiązania zaczną ponownie funkcjonować poprawnie (tak jak to
 jest w przypadku dowiązań symbolicznych). Z początku usuwałem te stare dowiązania i tworzyłem nowe
-ale postanowiłem w końcu [poszukać rozwiązania](https://forum.dug.net.pl/viewtopic.php?id=30382),
-które by zautomatyzowało cały ten proces i uczyniło go transparentnym dla użytkownika końcowego.
-Tak natrafiłem na mechanizm Debianowych
-trigger'ów ([deb-trigger](https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html)),
-które aktywują się za każdym razem ilekroć pliki w konkretnych ścieżkach są ruszane w jakiś sposób
-przez menadżer pakietów. W tym artykule spróbujemy sobie zaprojektować taki trigger i obadać czy
-może on nam się w ogóle do czegoś przydać
+ale postanowiłem w końcu [poszukać rozwiązania][1], które by zautomatyzowało cały ten proces i
+uczyniło go transparentnym dla użytkownika końcowego. Tak natrafiłem na mechanizm Debianowych
+trigger'ów ([deb-trigger][2]), które aktywują się za każdym razem ilekroć pliki w konkretnych
+ścieżkach są ruszane w jakiś sposób przez menadżer pakietów. W tym artykule spróbujemy sobie
+zaprojektować taki trigger i obadać czy może on nam się w ogóle do czegoś przydać
 
 <!--more-->
 ## Jak stworzyć paczkę zawierającą trigger
 
 By stworzyć trigger, który będzie wywoływał podczas instalacji czy aktualizacji pakietów określone
-polecenia,
-musimy [stworzyć paczkę .deb](/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/).
-W tej paczce `.deb` główną rolę będą grać dwa pliki. Jednym z nich będzie skrypt shell'owy z
-pożądanymi przez nas poleceniami, a drugi będzie określał ścieżki, których zmiana będzie pociągała
-wykonanie tego skryptu.
+polecenia, musimy [stworzyć paczkę .deb][3]. W tej paczce `.deb` główną rolę będą grać dwa pliki.
+Jednym z nich będzie skrypt shell'owy z pożądanymi przez nas poleceniami, a drugi będzie określał
+ścieżki, których zmiana będzie pociągała wykonanie tego skryptu.
 
 Stwórzmy sobie zatem katalog roboczy i przejdźmy do niego:
 
@@ -278,3 +273,8 @@ instalacji/aktualizacji pakietów. Oczywiście w tym przypadku dorobiliśmy jedy
 dowiązania do binarki Firefox'a ale możliwości jakie daje posiadanie swoich własnych trigger'ów są
 w zasadzie ograniczone jedynie naszą wyobraźnią. Tak czy inaczej, umiejętność korzystania z
 trigger'ów jest wielce nieoceniona przy automatyzacji zadań.
+
+
+[1]: https://forum.dug.net.pl/viewtopic.php?id=30382
+[2]: https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html
+[3]: /post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/

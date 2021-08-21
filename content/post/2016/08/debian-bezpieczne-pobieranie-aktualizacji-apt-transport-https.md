@@ -9,7 +9,8 @@ status: publish
 tags:
 - debian
 - apt
-- aptitude
+- prywatność
+- repozytorium
 title: 'Debian: Bezpieczne pobieranie aktualizacji (apt-transport-https)'
 ---
 
@@ -38,10 +39,8 @@ będzie w stanie ustalić, że jakieś pakiety pobieramy z repozytorium (w końc
 ale nie będzie on w stanie stwierdzić które z nich. Podobnie w przypadku wersji danego pakietu.
 Jeśli natomiast interesuje nas także ukrycie tych pozostałych jawnych informacji, możemy pokusić
 się o instalację pakietu `apt-transport-tor`, który daje nam możliwość [przeprowadzania
-aktualizacji systemu za pośrednictwem sieci
-TOR](/post/debian-anonimowe-pobieranie-aktualizacji-apt-transport-tor/). W
-przypadku, gdy korzystamy ze standardowego transportu przy pobieraniu pakietów trochę informacji
-zdradzamy wszystkim, którzy nasłuchują:
+aktualizacji systemu za pośrednictwem sieci TOR][1]. W przypadku, gdy korzystamy ze standardowego
+transportu przy pobieraniu pakietów trochę informacji zdradzamy wszystkim, którzy nasłuchują:
 
 ![](/img/2016/08/1.wireshark-pobieranie-pakietu-http.png#huge)
 
@@ -56,15 +55,13 @@ tym pakietem zainteresować.
 
 Oficjalne repozytoria Debiana nie są również jedynymi, które mogą nam dostarczyć pakietów do
 instalacji w systemie. Praktycznie każdy z nas może sobie takie [repozytorium stworzyć za pomocą
-reprepro](/post/tworzenie-repozytorium-przy-pomocy-reprepro/) i udostępnić w nim
-oprogramowanie jakie tylko chce. Oczywiście pozostaje tylko rozważenie kwestii zaufania do autora
-tego przedsięwzięcia. Niemniej jednak, takie repozytorium można skonfigurować, by serwowało pakiety
-używając bezpiecznego protokołu.
+reprepro][2] i udostępnić w nim oprogramowanie jakie tylko chce. Oczywiście pozostaje tylko
+rozważenie kwestii zaufania do autora tego przedsięwzięcia. Niemniej jednak, takie repozytorium
+można skonfigurować, by serwowało pakiety używając bezpiecznego protokołu.
 
 Szereg repozytoriów w internecie ten transport HTTPS już wykorzystuje. Przykładem może być
-[Opera](https://deb.opera.com/manual.html), czy
-[MEGA](https://mega.co.nz/linux/MEGAsync/Debian_9.0/). Jeśli chcielibyśmy z nich korzystać, to
-musimy doinstalować pakiet `apt-transport-https` .
+[Opera][3], czy [MEGA][4]. Jeśli chcielibyśmy z nich korzystać, to musimy doinstalować pakiet
+`apt-transport-https` .
 
 ## Jak konfigurować repozytoria w pliku sources.list
 
@@ -95,3 +92,9 @@ wspiera transport HTTPS. Poniżej znajdują się przykładowe wpisy dla stabilne
 
     deb https://deb.debian.org/debian-security stable/updates main
     deb-src https://deb.debian.org/debian-security stable/updates main
+
+
+[1]: /post/debian-anonimowe-pobieranie-aktualizacji-apt-transport-tor/
+[2]: /post/tworzenie-repozytorium-przy-pomocy-reprepro/
+[3]: https://deb.opera.com/manual.html
+[4]: https://mega.co.nz/linux/MEGAsync/Debian_9.0/

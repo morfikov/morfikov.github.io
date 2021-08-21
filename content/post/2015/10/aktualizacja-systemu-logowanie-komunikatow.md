@@ -9,7 +9,6 @@ status: publish
 tags:
 - debian
 - apt
-- aptitude
 - logi
 title: Aktualizacja systemu i logowanie komunikatów
 ---

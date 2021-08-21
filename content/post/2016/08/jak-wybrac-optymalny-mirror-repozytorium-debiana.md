@@ -9,7 +9,7 @@ status: publish
 tags:
 - debian
 - apt
-- aptitude
+- repozytorium
 title: Jak wybrać optymalny mirror repozytorium Debiana
 ---
 
@@ -27,21 +27,21 @@ zmienić adres repozytorium przez dostosowanie w nim części odpowiedzialnej za
 automatycznie, a my już nie będziemy musieli sobie głowy zawracać edycją wspomnianego wyżej pliku.
 
 Projekt, o którym traktuje poniższy wpis, nie jest już rozwijany przez Debiana. Więcej info
-[tutaj](https://wiki.debian.org/DebianGeoMirror).
+[tutaj][1].
 
 <!--more-->
 ## Projekt Debian HTTP-Redirector
 
-[Projekt Debian HTTP-Redirector](http://httpredir.debian.org/) jest nam w stanie zaoferować
-automatyczny wybór najlepszego repozytorium w oparciu o kilka czynników. Brana jest pod uwagę
-geograficzna lokalizacja sieci użytkownika oraz mirror'u, do którego taki user miałby najbliżej.
-Duże znaczenie ma też klasa adresów IP użytkownika i mirror'u oraz dostępność i świeżość
-(aktualność pakietów) samych serwerów lustrzanych. W oparciu o te informacje oraz też o kilka
-pomniejszych rzeczy, Debian HTTP-Redirector wybierze nam najlepszy z dostępnych serwerów.
+[Projekt Debian HTTP-Redirector][2] jest nam w stanie zaoferować automatyczny wybór najlepszego
+repozytorium w oparciu o kilka czynników. Brana jest pod uwagę geograficzna lokalizacja sieci
+użytkownika oraz mirror'u, do którego taki user miałby najbliżej. Duże znaczenie ma też klasa
+adresów IP użytkownika i mirror'u oraz dostępność i świeżość (aktualność pakietów) samych serwerów
+lustrzanych. W oparciu o te informacje oraz też o kilka pomniejszych rzeczy, Debian HTTP-Redirector
+wybierze nam najlepszy z dostępnych serwerów.
 
-[Pod tym linkiem](http://httpredir.debian.org/demo.html) znajduje się demonstracja całego mechanizmu
-wyboru mirror'u. Wystarczy wejść pod wskazany adres i po chwili powinniśmy zobaczyć kilka informacji
-wraz z sugerowanym serwerem. Wygląda to mniej więcej tak jak na tej fotce poniżej:
+[Pod tym linkiem][3] znajduje się demonstracja całego mechanizmu wyboru mirror'u. Wystarczy wejść
+pod wskazany adres i po chwili powinniśmy zobaczyć kilka informacji wraz z sugerowanym serwerem.
+Wygląda to mniej więcej tak jak na tej fotce poniżej:
 
 ![](/img/2016/08/1.debian-http-redirector-mirror-aktualizacja-systemu.png#medium)
 
@@ -91,3 +91,8 @@ W przypadku repozytorium z poprawkami bezpieczeństwa ( `http://security.debian.
 powinny być pobierane bezpośrednio z głównego serwera, a nie z mirror'ów. Dlatego też jeśli
 korzystamy z wydania stabilnego lub testowego i chcemy używać Debian HTTP-Redirector'a, to zadbajmy
 o to, by to powyższe repozytorium zostało wyłączone spod działania tego mechanizmu.
+
+
+[1]: https://wiki.debian.org/DebianGeoMirror
+[2]: http://httpredir.debian.org/
+[3]: http://httpredir.debian.org/demo.html

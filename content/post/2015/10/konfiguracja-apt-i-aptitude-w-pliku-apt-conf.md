@@ -9,7 +9,6 @@ status: publish
 tags:
 - debian
 - apt
-- aptitude
 title: Konfiguracja apt i aptitude w pliku apt.conf
 ---
 
@@ -24,8 +23,7 @@ wpisywać w terminalu ilekroć tylko korzystamy któregoś menadżera pakietów.
 ## Plik /etc/apt/apt.conf
 
 Opcji, które mogą zostać określone w pliku `apt.conf` , jest naprawdę sporo. Wszystkie z nich można
-znaleźć w [man apt.conf(5)](http://manpages.ubuntu.com/manpages/wily/en/man5/apt.conf.5.html) lub
-też w [dokumentacji aptitude](https://www.debian.org/doc/manuals/aptitude/). Tutaj zaś zostaną
+znaleźć w [man apt.conf(5)][1] lub też w [dokumentacji aptitude][2]. Tutaj zaś zostaną
 przedstawione tylko te opcje, które są używane przeze mnie.
 
 Plik `/etc/apt/apt.conf` domyślnie nie występuje w systemie i trzeba go sobie utworzyć samemu.
@@ -208,5 +206,9 @@ zwrotkę, która przy wywoływaniu `apt` czy `aptitude` zajmie się przemontowan
 
 ## Plik apt.conf
 
-Aktualny plik konfiguracyjny dla `apt` znajduje się zawsze [na moim
-gicie](https://github.com/morfikov/files/tree/master/configs/etc/apt).
+Aktualny plik konfiguracyjny dla `apt` znajduje się zawsze [na moim gicie][3].
+
+
+[1]: http://manpages.ubuntu.com/manpages/wily/en/man5/apt.conf.5.html
+[2]: https://www.debian.org/doc/manuals/aptitude/
+[3]: https://github.com/morfikov/files/tree/master/configs/etc/apt

@@ -10,7 +10,6 @@ tags:
 - gpg
 - debian
 - apt
-- aptitude
 title: Manualna weryfikacja pakietu deb w debianie
 ---
 
@@ -18,12 +17,12 @@ W dobie całego tego świata informatycznego zwykliśmy polegać na osobach, kt�
 oczy nie wiedzieliśmy, nie wspominając o jakimkolwiek kontakcie fizycznym. Zaufanie to obecnie chyba
 najbardziej krytyczna luka bezpieczeństwa jeśli chodzi o oprogramowanie, z którego korzystamy na co
 dzień. My, którzy używamy debiana w swojej pracy, polegamy na mechanizmach jakie oferuje nam `apt`
-czy `aptitude` przy [weryfikacji pakietów przed ich instalacją](https://wiki.debian.org/SecureApt) w
-systemie. Co się jednak by stało gdyby w tych menadżerach pojawił się błąd, który by uniemożliwiał
-poprawną weryfikację pakietów? Skąd wiemy czy te mechanizmy zabezpieczające w ogóle działają? Może
-one nam dają jedynie fałszywe poczucie bezpieczeństwa, a tak naprawdę przez niczym nas nie chronią?
-W tym wpisie postaramy się odpowiedzieć na te powyższe pytania i sprawdzimy czy manualna weryfikacja
-pakietu jest w ogóle możliwa
+czy `aptitude` przy [weryfikacji pakietów przed ich instalacją][1] w systemie. Co się jednak by
+stało gdyby w tych menadżerach pojawił się błąd, który by uniemożliwiał poprawną weryfikację
+pakietów? Skąd wiemy czy te mechanizmy zabezpieczające w ogóle działają? Może one nam dają jedynie
+fałszywe poczucie bezpieczeństwa, a tak naprawdę przez niczym nas nie chronią? W tym wpisie
+postaramy się odpowiedzieć na te powyższe pytania i sprawdzimy czy manualna weryfikacja pakietu
+jest w ogóle możliwa
 
 <!--more-->
 ## Dlaczego weryfikacja pakietu jest możliwa
@@ -89,3 +88,6 @@ Musimy teraz jeszcze uzyskać sumę kontrolną paczki, która trafiła do cache 
 Sumy się zgadzają zatem możemy mieć pewność, że ten plik trafił do nas w takiej formie w jakiej
 został wgrany do repozytorium debiana. Mając na uwadze powyższe informacje, weryfikacja pakietu
 zakończyła się sukcesem.
+
+
+[1]: https://wiki.debian.org/SecureApt

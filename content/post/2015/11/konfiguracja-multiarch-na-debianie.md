@@ -9,7 +9,8 @@ status: publish
 tags:
 - debian
 - apt
-- aptitude
+- multiarch
+- repozytorium
 title: Konfiguracja multiarch w dystrybucji Debian
 ---
 
@@ -18,11 +19,10 @@ przypadku windowsów uruchamianie aplikacji 32 czy 64 bitowych nie stanowi więk
 debianie sprawa wygląda nieco inaczej. Gdy mamy wgranego 64 bitowego debiana, aplikacje 32 bitowe
 nie będą chciały się nam odpalić. Wszystkiemu winne są biblioteki 32 bitowe, które są wykorzystywane
 przez dany program, a bez nich on zwyczajnie nie może działać. Jednym z rozwiązań tego problemu może
-być [kontener LXC](/post/konfiguracja-kontenerow-lxc/), gdzie jesteśmy w stanie
-zainstalować 32 bitowy system wewnątrz środowiska 64 bitowego i to z tego systemu możemy uruchamiać
-32 bitowe aplikacje. Skonfigurowanie takiego kontenera może być nieco skomplikowane, dlatego też
-dużo lepszym rozwiązaniem jest przerobienie naszego 64 bitowego systemu na
-[muliarch](https://wiki.debian.org/Multiarch), czyli taki, który jest w stanie obsługiwać wiele
+być [kontener LXC][1], gdzie jesteśmy w stanie zainstalować 32 bitowy system wewnątrz środowiska 64
+bitowego i to z tego systemu możemy uruchamiać 32 bitowe aplikacje. Skonfigurowanie takiego
+kontenera może być nieco skomplikowane, dlatego też dużo lepszym rozwiązaniem jest przerobienie
+naszego 64 bitowego systemu na [muliarch][2], czyli taki, który jest w stanie obsługiwać wiele
 architektur (multiarch).
 
 <!--more-->
@@ -118,3 +118,7 @@ przykładowo:
 Część pakietów może mieć przy tym niespełnione zależności ale wszystkie z nich odnosić się będą w
 jakiś sposób do usuwanej z systemu architektury i `apt-get` powinien sobie z tym zadaniem bez
 najmniejszego problemu poradzić.
+
+
+[1]: /post/konfiguracja-kontenerow-lxc/
+[2]: https://wiki.debian.org/Multiarch

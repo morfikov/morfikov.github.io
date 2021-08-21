@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Linux
 date:    2021-07-25 18:40:00 +0200
-lastmod: 2021-07-31 21:05:00 +0200
+lastmod: 2021-07-31 21:25:00 +0200
 published: true
 status: publish
 tags:
@@ -13,6 +13,7 @@ tags:
 - ext4
 - udev
 - system-plików
+- apm
 title: Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux
 ---
 

@@ -9,7 +9,8 @@ status: publish
 tags:
 - debian
 - apt
-- aptitude
+- snapshot
+- repozytorium
 title: Migawka (snapshot) repozytorium debiana
 ---
 
@@ -19,9 +20,8 @@ cofnięcia wersji kilku pakietów. Jest jednak wielce prawdopodobne, że akurat 
 której potrzebujemy, nie znajdziemy z repozytorium debiana. Pobieranie pojedynczych pakietów z
 internetu przez klikanie w pierwszy lepszy link, który zostanie nam zwrócony przez wyszukiwarkę, nie
 jest dobrym pomysłem. Na szczęście w przypadku debiana nie musimy się aż tak narażać. A to z tego
-względu, że [debian robi migawki (shapshots) swoich
-repozytoriów](http://snapshot.debian.org/archive/debian/) 4 razy dziennie (co 6 godzin). W ten
-sposób mamy dostęp do różnych stanów repozytoriów, w tym też tych, które zawierają pakiety
+względu, że [debian robi migawki (shapshots) swoich repozytoriów][1] 4 razy dziennie (co 6 godzin).
+W ten sposób mamy dostęp do różnych stanów repozytoriów, w tym też tych, które zawierają pakiety
 aktualnie niedostępne w repozytoriach. W tym wpisie postaramy się pobrać i zainstalować
 nieistniejące pakiety z takich snapshot'ów.
 
@@ -30,10 +30,9 @@ nieistniejące pakiety z takich snapshot'ów.
 
 W linku, który podałem we wstępnie, znajdują się snapshot'y repozytorium debiana z dość długiego
 okresu czasu. Mamy tam wyraźny podział na lata, miesiące, dni i godziny. Jeśli nie pamiętamy [kiedy
-dokładnie była przeprowadzana aktualizacja
-systemu](/post/aktualizacja-systemu-logowanie-komunikatow/), to wystarczy w logu
-apt czy aptitude odszukać datę i godzinę. Mając ustalony czas (np. 2015-11-01, godzina 08:12)
-odszukujemy [odpowiednią pozycję](http://snapshot.debian.org/archive/debian/20151101T042306Z/).
+dokładnie była przeprowadzana aktualizacja systemu][2], to wystarczy w logu apt czy aptitude
+odszukać datę i godzinę. Mając ustalony czas (np. 2015-11-01, godzina 08:12) odszukujemy
+[odpowiednią pozycję][3].
 
 Po przejściu do tego konkretnego statu repozytorium, naszym oczom ukazało się drzewo katalogów. W
 przypadku gdy potrzebujemy tylko jednego pakietu, to możemy go pobrać bezpośrednio z tej strony.
@@ -45,13 +44,13 @@ pakietów, to o wiele prostszym rozwiązaniem będzie dodanie tego snapshot'a do
 
 Dodawanie adresu snapshot'a do listy repozytoriów sprowadza się do wrzucenia odpowiedniego linku do
 pliku `sources.list` . Generalnie rzecz biorąc, kopiujemy adres strony snapshot'a, tj.
-`http://snapshot.debian.org/archive/debian/20151101T042306Z/` dodając do niego odpowiednie sekcje,
+`https://snapshot.debian.org/archive/debian/20151101T042306Z/` dodając do niego odpowiednie sekcje,
 przykładowo:
 
-    deb http://snapshot.debian.org/archive/debian/20151101T042306Z/ testing main contrib non-free
+    deb https://snapshot.debian.org/archive/debian/20151101T042306Z/ testing main contrib non-free
 
 Zapisujemy plik i aktualizujemy listę repozytoriów via `apt-get update` . W logu powinniśmy ujrzeć
-wpisy odnoszące się do `http://snapshot.debian.org` . Jeśli tak jest w istocie, to jesteśmy teraz w
+wpisy odnoszące się do `https://snapshot.debian.org` . Jeśli tak jest w istocie, to jesteśmy teraz w
 stanie zainstalować starsze wersje pakietów. Załóżmy, że chcemy cofnąć wersję pakietu `vlc` . W tym
 celu przy pomocy `apt-cache` patrzymy jakie wersje są dostępne:
 
@@ -96,5 +95,16 @@ aktualizująca te przestarzałe listy repozytoriów wyglądałaby tak jak poniż
     # apt-get -o Acquire::Check-Valid-Until=0 update
 
 W przypadku gdy często bawimy się z różnymi wersjami pakietów, parametr `Acquire::Check-Valid-Until`
-możemy dodać do [pliku
-apt.conf](/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/) .
+możemy dodać do [pliku apt.conf][4].
+
+Warto w tym miejscu dodać, że opcję sprawdzania ważności repozytorium można także dodać dla
+pojedynczego repozytorium w pliku `/etc/apt/sources.list` stosując `[check-valid-until=no]` ,
+przykładowo:
+
+   deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20151101T042306Z/ testing main contrib non-free
+
+
+[1]: https://snapshot.debian.org/archive/debian/
+[2]: /post/aktualizacja-systemu-logowanie-komunikatow/
+[3]: https://snapshot.debian.org/archive/debian/20151101T042306Z/
+[4]: /post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/

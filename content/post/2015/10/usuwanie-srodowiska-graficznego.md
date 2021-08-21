@@ -9,16 +9,16 @@ status: publish
 tags:
 - debian
 - apt
-- aptitude
+- tasksel
 - środowisko-graficzne
 title: Usuwanie środowiska graficznego
 ---
 
-[Na forum DUG'a](https://forum.dug.net.pl/viewtopic.php?id=27813) znów został poruszony ciekawy
-wątek, tym razem odnośnie usunięcia całego środowiska graficznego z systemu. Pozornie niby nic
-nadzwyczajnego, przecie każdy z nas potrafi odinstalować szereg pakietów via `apt` czy `aptitude` .
-Problematyczne za to mogą się okazać zależne pakiety, które nie zostaną automatycznie usunięte wraz
-z konkretnym metapakietem od środowiska graficznego. Jak zatem usunąć te pozostałości?
+[Na forum DUG'a][1] znów został poruszony ciekawy wątek, tym razem odnośnie usunięcia całego
+środowiska graficznego z systemu. Pozornie niby nic nadzwyczajnego, przecie każdy z nas potrafi
+odinstalować szereg pakietów via `apt` czy `aptitude` . Problematyczne za to mogą się okazać
+zależne pakiety, które nie zostaną automatycznie usunięte wraz z konkretnym metapakietem od
+środowiska graficznego. Jak zatem usunąć te pozostałości?
 
 <!--more-->
 ## Zbędne środowisko graficzne
@@ -130,10 +130,9 @@ pakietów w systemie zmniejszyła się o 9. Podczas gdy zostało ich zainstalowa
 wynikiem nieodpowiedniej konfiguracji `apt`/`aptitude` , a konkretnie chodzi o pakiety zalecane i
 sugerowane, których system nie wywala, gdy usuwane są metapakiety.
 
-Możemy temu oczywiście zaradzić przez dodanie odpowiednich wpisów do [pliku
-apt.conf](/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/) , który znajduje się
-w katalogu `/etc/apt/` . Domyślnie on nie istnieje i trzeba go sobie stworzyć. Wpisy, które nas
-interesują, są poniżej:
+Możemy temu oczywiście zaradzić przez dodanie odpowiednich wpisów do [pliku apt.conf][2] , który
+znajduje się w katalogu `/etc/apt/` . Domyślnie on nie istnieje i trzeba go sobie stworzyć. Wpisy,
+które nas interesują, są poniżej:
 
     APT::Install-Recommends "false";
     APT::Install-Suggests "false";
@@ -161,3 +160,7 @@ instalujemy/usuwamy pakiety, to mogą one namieszać nieco w zależnościach i n
 rzeczy zostaną usunięte, tak jak to by miało miejsce tuż po zainstalowaniu czystego środowiska
 graficznego. W takim przypadku dobrze jest rozważyć usunięcie określonych metapakietów lub też
 pojedynczych pakietów w oparciu o wypisane przez `apt`/`aptitude` zależności.
+
+
+[1]: https://forum.dug.net.pl/viewtopic.php?id=27813
+[2]: /post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/

@@ -10,8 +10,8 @@ tags:
 - gpg
 - debian
 - apt
-- aptitude
-title: Klucze do repozytoriów debiana (trusted.gpg)
+- repozytorium
+title: Klucze do repozytoriów Debiana (trusted.gpg)
 ---
 
 Obecnie systemy operacyjne stają się nieco bardziej stabilne i czasy, w których reinstalacja

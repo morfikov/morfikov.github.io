@@ -9,19 +9,17 @@ status: publish
 tags:
 - debian
 - apt
-- aptitude
 - cron
 title: Pobieranie pakietów przy pomocy cron-apt
 ---
 
 Jakiś czas temu opisywałem konfigurację dla menadżera pakietów `apt` i `aptitude` [w pliku
-apt.conf](/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/) . Ten wpis również
-tyczy się konfiguracji wspomnianych menadżerów, z tym, że zostanie tutaj opisana pewna
-funkcjonalność, która może nam zaoszczędzić trochę czasu przy aktualizacji systemu. Chodzi o to,
-że pakiety praktycznie zawsze muszą być pobrane na dysk przed ich instalacją. Gdy nie dysponujemy
-dobrym pod względem przepustowości łączem, proces pobierania pakietów jest zwykle dłuższy niż sama
-ich instalacja. Przydałoby się zatem zaprogramować pobieranie plików w tle, tak by nie musieć ich
-pobierać tuż przez przed procesem instalacyjnym.
+apt.conf][1]. Ten wpis również tyczy się konfiguracji wspomnianych menadżerów, z tym, że zostanie
+tutaj opisana pewna funkcjonalność, która może nam zaoszczędzić trochę czasu przy aktualizacji
+systemu. Chodzi o to, że pakiety praktycznie zawsze muszą być pobrane na dysk przed ich instalacją.
+Gdy nie dysponujemy dobrym pod względem przepustowości łączem, proces pobierania pakietów jest
+zwykle dłuższy niż sama ich instalacja. Przydałoby się zatem zaprogramować pobieranie plików w tle,
+tak by nie musieć ich pobierać tuż przez przed procesem instalacyjnym.
 
 <!--more-->
 ## Wady i zalety pobierania pakietów w tle
@@ -47,10 +45,9 @@ by pobierały aktualizacje w tych określonych godzinach.
 
 ## Cron-apt
 
-By nauczyć system automatycznego pobierania pakietów, musimy doinstalować [pakiet
-cron-apt](https://packages.debian.org/pl/sid/cron-apt). Po jego instalacji, zostanie utworzony
-szereg plików konfiguracyjnych i jeden z nich zostanie ulokowany w `/etc/cron.d/cron-apt` . Zawiera
-on kilka przykładów ale najważniejsza jest ta poniższa linijka:
+By nauczyć system automatycznego pobierania pakietów, musimy doinstalować [pakiet cron-apt][2]. Po
+jego instalacji, zostanie utworzony szereg plików konfiguracyjnych i jeden z nich zostanie ulokowany
+w `/etc/cron.d/cron-apt` . Zawiera on kilka przykładów ale najważniejsza jest ta poniższa linijka:
 
     0 4    * * *   root    test -x /usr/sbin/cron-apt && /usr/sbin/cron-apt
 
@@ -79,3 +76,7 @@ Pliki składają się z parametrów, które są przekazane bezpośrednio do mena
 Numerki w nazwach plików odpowiadają za kolejność przekazywania tych plików do skryptu `cron-apt`.
 Zatem najpierw zostanie zaktualizowana lista pakietów, a dopiero po tym zdarzeniu zostaną pobrane
 pakiety i dokładnie o taki schemat działania tego mechanizmu nam chodzi.
+
+
+[1]: /post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/
+[2]: https://packages.debian.org/pl/sid/cron-apt

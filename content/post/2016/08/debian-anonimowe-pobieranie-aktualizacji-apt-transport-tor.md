@@ -9,9 +9,9 @@ status: publish
 tags:
 - debian
 - apt
-- aptitude
 - anonimowość
 - tor
+- repozytorium
 title: 'Debian: Anonimowe pobieranie aktualizacji (apt-transport-tor)'
 ---
 
@@ -21,10 +21,9 @@ oprogramowania. Jakby nie patrzeć, aplikacje mają pełno dziur i nie wszystkie
 łatane natychmiast po opublikowaniu podatności. Z chwilą dokonywania aktualizacji systemu,
 potencjalny atakujący może dowiedzieć się zatem z jakich programów korzystamy, wliczając w to ich
 wersje. Znając te dane, można ocenić czy system posiada jakieś błędy. By zaimplementować w
-menadżerze pakietów `apt`/`aptitude` możliwość korzystania z [sieci
-TOR](https://www.torproject.org/), musimy posiadać w systemie skonfigurowanego klienta TOR oraz
-zainstalować pakiet `apt-transport-tor` . W tym artykule postaramy się skonfigurować ten cały
-mechanizm TOR'owych aktualizacji.
+menadżerze pakietów `apt`/`aptitude` możliwość korzystania z [sieci TOR][1], musimy posiadać w
+systemie skonfigurowanego klienta TOR oraz zainstalować pakiet `apt-transport-tor` . W tym artykule
+postaramy się skonfigurować ten cały mechanizm TOR'owych aktualizacji.
 
 <!--more-->
 ## Jak ustalić z jakiego oprogramowania korzysta system
@@ -57,19 +56,17 @@ Upewnijmy się jeszcze, że usługa `tor` działa w tle i możemy przejść do i
 ## Pakiet apt-transport-tor
 
 Menadżer pakietów `apt`/`aptitude` posiada kilka transportów, które może wykorzystać podczas
-pobierania pakietów z repozytorium Debiana. Jednym z nich jest
-[apt-transport-tor](https://github.com/diocles/apt-transport-tor) implementujący obsługę sieci TOR.
-Po pomyślnym skonfigurowaniu klienta TOR, wystarczy ten pakiet zainstalować i `apt`/`aptitude` jest
-już gotowy do pracy. Potrzebne nam są tylko źródła repozytoriów, które musimy dodać do pliku
-`/etc/apt/sources.list` .
+pobierania pakietów z repozytorium Debiana. Jednym z nich jest [apt-transport-tor][2] implementujący
+obsługę sieci TOR. Po pomyślnym skonfigurowaniu klienta TOR, wystarczy ten pakiet zainstalować i
+`apt`/`aptitude` jest już gotowy do pracy. Potrzebne nam są tylko źródła repozytoriów, które musimy
+dodać do pliku `/etc/apt/sources.list` .
 
 Źródła repozytoriów możemy dodać na dwa sposoby. Ten poniższy sposób automatycznie dostosuje
 lokalizację mirroru repozytorium w zależności od exit node TOR'a:
 
     deb tor+http://http.debian.net/debian sid main
 
-Alternatywnie możemy określić URL w taki sposób, by wskazywał na [zasób Debiana w sieć
-TOR](https://onion.debian.org/):
+Alternatywnie możemy określić URL w taki sposób, by wskazywał na [zasób Debiana w sieć TOR][3]:
 
     deb tor+http://vwakviie2ienjx6t.onion/debian sid main
 
@@ -82,3 +79,8 @@ Wyżej określiliśmy wpisy z `tor+http://` . Zatem ruch wewnątrz sieci TOR do 
 będzie szyfrowany. Wszystkie mechanizmy walidacji pakietów w `apt`/`aptitude` obowiązują tak jak w
 przypadku korzystania ze zwykłego mirroru i nie musimy się obawiać, że ktoś nam zmieni pakiety.
 Jeśli spróbuje, to menadżer pakietów wyrzuci stosowną informację.
+
+
+[1]: https://www.torproject.org/
+[2]: https://github.com/diocles/apt-transport-tor
+[3]: https://onion.debian.org/
