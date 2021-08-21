@@ -16,13 +16,11 @@ Te dowiązania mają taki problem, że jak usunie się plik, na który wskazywa�
 aktualizacji paczki, to utworzenie pliku w tym samym miejscu przez menadżer pakietów
 apt/aptitude nie sprawi, że te dowiązania zaczną ponownie funkcjonować poprawnie (tak jak to
 jest w przypadku dowiązań symbolicznych). Z początku usuwałem te stare dowiązania i tworzyłem nowe
-ale postanowiłem w końcu poszukać rozwiązania,
-które by zautomatyzowało cały ten proces i uczyniło go transparentnym dla użytkownika końcowego.
-Tak natrafiłem na mechanizm Debianowych
-trigger&#39;ów (deb-trigger),
-które aktywują się za każdym razem ilekroć pliki w konkretnych ścieżkach są ruszane w jakiś sposób
-przez menadżer pakietów. W tym artykule spróbujemy sobie zaprojektować taki trigger i obadać czy
-może on nam się w ogóle do czegoś przydać" />
+ale postanowiłem w końcu poszukać rozwiązania, które by zautomatyzowało cały ten proces i
+uczyniło go transparentnym dla użytkownika końcowego. Tak natrafiłem na mechanizm Debianowych
+trigger&#39;ów (deb-trigger), które aktywują się za każdym razem ilekroć pliki w konkretnych
+ścieżkach są ruszane w jakiś sposób przez menadżer pakietów. W tym artykule spróbujemy sobie
+zaprojektować taki trigger i obadać czy może on nam się w ogóle do czegoś przydać" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/mechanizm-trigger-dla-apt-aptitude-w-debianie/" />
 <meta property="article:published_time" content="2019-04-14T00:10:11+00:00" />
@@ -36,20 +34,18 @@ Te dowiązania mają taki problem, że jak usunie się plik, na który wskazywa�
 aktualizacji paczki, to utworzenie pliku w tym samym miejscu przez menadżer pakietów
 apt/aptitude nie sprawi, że te dowiązania zaczną ponownie funkcjonować poprawnie (tak jak to
 jest w przypadku dowiązań symbolicznych). Z początku usuwałem te stare dowiązania i tworzyłem nowe
-ale postanowiłem w końcu poszukać rozwiązania,
-które by zautomatyzowało cały ten proces i uczyniło go transparentnym dla użytkownika końcowego.
-Tak natrafiłem na mechanizm Debianowych
-trigger&#39;ów (deb-trigger),
-które aktywują się za każdym razem ilekroć pliki w konkretnych ścieżkach są ruszane w jakiś sposób
-przez menadżer pakietów. W tym artykule spróbujemy sobie zaprojektować taki trigger i obadać czy
-może on nam się w ogóle do czegoś przydać">
+ale postanowiłem w końcu poszukać rozwiązania, które by zautomatyzowało cały ten proces i
+uczyniło go transparentnym dla użytkownika końcowego. Tak natrafiłem na mechanizm Debianowych
+trigger&#39;ów (deb-trigger), które aktywują się za każdym razem ilekroć pliki w konkretnych
+ścieżkach są ruszane w jakiś sposób przez menadżer pakietów. W tym artykule spróbujemy sobie
+zaprojektować taki trigger i obadać czy może on nam się w ogóle do czegoś przydać">
 <meta itemprop="datePublished" content="2019-04-14T00:10:11+00:00" />
 <meta itemprop="dateModified" content="2019-04-14T00:10:11+00:00" />
 <meta itemprop="wordCount" content="1159">
 
 
 
-<meta itemprop="keywords" content="debian,apt,aptitude,apparmor," />
+<meta itemprop="keywords" content="debian,apt,apparmor," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Mechanizm trigger&#39;ów dla apt/aptitude w Debianie"/>
@@ -60,13 +56,11 @@ Te dowiązania mają taki problem, że jak usunie się plik, na który wskazywa�
 aktualizacji paczki, to utworzenie pliku w tym samym miejscu przez menadżer pakietów
 apt/aptitude nie sprawi, że te dowiązania zaczną ponownie funkcjonować poprawnie (tak jak to
 jest w przypadku dowiązań symbolicznych). Z początku usuwałem te stare dowiązania i tworzyłem nowe
-ale postanowiłem w końcu poszukać rozwiązania,
-które by zautomatyzowało cały ten proces i uczyniło go transparentnym dla użytkownika końcowego.
-Tak natrafiłem na mechanizm Debianowych
-trigger&#39;ów (deb-trigger),
-które aktywują się za każdym razem ilekroć pliki w konkretnych ścieżkach są ruszane w jakiś sposób
-przez menadżer pakietów. W tym artykule spróbujemy sobie zaprojektować taki trigger i obadać czy
-może on nam się w ogóle do czegoś przydać"/>
+ale postanowiłem w końcu poszukać rozwiązania, które by zautomatyzowało cały ten proces i
+uczyniło go transparentnym dla użytkownika końcowego. Tak natrafiłem na mechanizm Debianowych
+trigger&#39;ów (deb-trigger), które aktywują się za każdym razem ilekroć pliki w konkretnych
+ścieżkach są ruszane w jakiś sposób przez menadżer pakietów. W tym artykule spróbujemy sobie
+zaprojektować taki trigger i obadać czy może on nam się w ogóle do czegoś przydać"/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -170,20 +164,16 @@ Te dowiązania mają taki problem, że jak usunie się plik, na który wskazywa�
 aktualizacji paczki, to utworzenie pliku w tym samym miejscu przez menadżer pakietów
 <code>apt</code>/<code>aptitude</code> nie sprawi, że te dowiązania zaczną ponownie funkcjonować poprawnie (tak jak to
 jest w przypadku dowiązań symbolicznych). Z początku usuwałem te stare dowiązania i tworzyłem nowe
-ale postanowiłem w końcu <a href="https://forum.dug.net.pl/viewtopic.php?id=30382">poszukać rozwiązania</a>,
-które by zautomatyzowało cały ten proces i uczyniło go transparentnym dla użytkownika końcowego.
-Tak natrafiłem na mechanizm Debianowych
-trigger'ów (<a href="https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html">deb-trigger</a>),
-które aktywują się za każdym razem ilekroć pliki w konkretnych ścieżkach są ruszane w jakiś sposób
-przez menadżer pakietów. W tym artykule spróbujemy sobie zaprojektować taki trigger i obadać czy
-może on nam się w ogóle do czegoś przydać</p>
+ale postanowiłem w końcu <a href="https://forum.dug.net.pl/viewtopic.php?id=30382">poszukać rozwiązania</a>, które by zautomatyzowało cały ten proces i
+uczyniło go transparentnym dla użytkownika końcowego. Tak natrafiłem na mechanizm Debianowych
+trigger'ów (<a href="https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html">deb-trigger</a>), które aktywują się za każdym razem ilekroć pliki w konkretnych
+ścieżkach są ruszane w jakiś sposób przez menadżer pakietów. W tym artykule spróbujemy sobie
+zaprojektować taki trigger i obadać czy może on nam się w ogóle do czegoś przydać</p>
 <h2 id="jak-stworzyć-paczkę-zawierającą-trigger">Jak stworzyć paczkę zawierającą trigger</h2>
 <p>By stworzyć trigger, który będzie wywoływał podczas instalacji czy aktualizacji pakietów określone
-polecenia,
-musimy <a href="https://morfikov.github.io/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">stworzyć paczkę .deb</a>.
-W tej paczce <code>.deb</code> główną rolę będą grać dwa pliki. Jednym z nich będzie skrypt shell'owy z
-pożądanymi przez nas poleceniami, a drugi będzie określał ścieżki, których zmiana będzie pociągała
-wykonanie tego skryptu.</p>
+polecenia, musimy <a href="https://morfikov.github.io/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">stworzyć paczkę .deb</a>. W tej paczce <code>.deb</code> główną rolę będą grać dwa pliki.
+Jednym z nich będzie skrypt shell'owy z pożądanymi przez nas poleceniami, a drugi będzie określał
+ścieżki, których zmiana będzie pociągała wykonanie tego skryptu.</p>
 <p>Stwórzmy sobie zatem katalog roboczy i przejdźmy do niego:</p>
 <pre><code>$ mkdir firefox-trigger-1.0/
 $ cd firefox-trigger-1.0/
@@ -402,7 +392,6 @@ trigger'ów jest wielce nieoceniona przy automatyzacji zadań.</p></div>
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apt/">apt</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aptitude/">aptitude</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apparmor/">apparmor</a>
 </div>
 					

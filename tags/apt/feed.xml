@@ -6,7 +6,27 @@
     <description>Recent content in apt on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Sun, 14 Apr 2019 00:10:11 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/apt/feed.xml" rel="self" type="application/rss" />
+    <lastBuildDate>Sat, 21 Aug 2021 14:35:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/apt/feed.xml" rel="self" type="application/rss" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Migracja z apt-key w Debian linux</title>
+      <link>https://morfikov.github.io/post/migracja-z-apt-key-w-debian-linux/</link>
+      <pubDate>Sat, 21 Aug 2021 14:35:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/migracja-z-apt-key-w-debian-linux/</guid>
+      <description>&lt;p&gt;Z okazji wypuszczenia parę dni temu nowego Debiana, przeglądałem sobie &lt;a href=&#34;https://www.debian.org/releases/bullseye/amd64/release-notes/ch-information.en.html&#34;&gt;notki dla wydania
+stabilnego&lt;/a&gt; pod kątem aktualizacji z buster (10) -&amp;gt; bullseye (11). Niby ja i tak korzystam cały
+czas z unstable/experimental i zwykle jestem na bieżąco ze zmianami wprowadzanymi w tej dystrybucji
+linux&#39;a ale też zawsze coś może umknąć uwadze z perspektywy wielu miesięcy czy nawet kilku lat
+(a dokładnie 25 miesięcy). Sporo z tych rzeczy, które w tych podlinkowanych notatkach wyczytałem,
+miałem już załatwione wcześniej ale zapomniałem rozprawić się z repozytoriami APT. Konkretnie
+chodzi tutaj o odejście od &lt;code&gt;apt-key&lt;/code&gt; , czyli narzędzia, które w Debianie używane jest do dodawania
+kluczy GPG do systemowego keyring&#39;a APT. Te klucze zwykle wykorzystywane są do weryfikacji sygnatur
+złożonych pod zewnętrznymi repozytoriami, a że ja mam ich sporo, to musiałem się nieco zagłębić w
+temat i ustalić w jaki sposób od następnego wydania Debiana (bookworm/12) będzie się te klucze GPG
+od takich repozytoriów ogarniać. No i właśnie o tym będzie ten poniższy kawałek artykułu.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Mechanizm trigger&#39;ów dla apt/aptitude w Debianie</title>
@@ -21,13 +41,11 @@ Te dowiązania mają taki problem, że jak usunie się plik, na który wskazywa�
 aktualizacji paczki, to utworzenie pliku w tym samym miejscu przez menadżer pakietów
 &lt;code&gt;apt&lt;/code&gt;/&lt;code&gt;aptitude&lt;/code&gt; nie sprawi, że te dowiązania zaczną ponownie funkcjonować poprawnie (tak jak to
 jest w przypadku dowiązań symbolicznych). Z początku usuwałem te stare dowiązania i tworzyłem nowe
-ale postanowiłem w końcu &lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=30382&#34;&gt;poszukać rozwiązania&lt;/a&gt;,
-które by zautomatyzowało cały ten proces i uczyniło go transparentnym dla użytkownika końcowego.
-Tak natrafiłem na mechanizm Debianowych
-trigger&#39;ów (&lt;a href=&#34;https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html&#34;&gt;deb-trigger&lt;/a&gt;),
-które aktywują się za każdym razem ilekroć pliki w konkretnych ścieżkach są ruszane w jakiś sposób
-przez menadżer pakietów. W tym artykule spróbujemy sobie zaprojektować taki trigger i obadać czy
-może on nam się w ogóle do czegoś przydać&lt;/p&gt;</description>
+ale postanowiłem w końcu &lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=30382&#34;&gt;poszukać rozwiązania&lt;/a&gt;, które by zautomatyzowało cały ten proces i
+uczyniło go transparentnym dla użytkownika końcowego. Tak natrafiłem na mechanizm Debianowych
+trigger&#39;ów (&lt;a href=&#34;https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html&#34;&gt;deb-trigger&lt;/a&gt;), które aktywują się za każdym razem ilekroć pliki w konkretnych
+ścieżkach są ruszane w jakiś sposób przez menadżer pakietów. W tym artykule spróbujemy sobie
+zaprojektować taki trigger i obadać czy może on nam się w ogóle do czegoś przydać&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -84,10 +102,9 @@ oprogramowania. Jakby nie patrzeć, aplikacje mają pełno dziur i nie wszystkie
 łatane natychmiast po opublikowaniu podatności. Z chwilą dokonywania aktualizacji systemu,
 potencjalny atakujący może dowiedzieć się zatem z jakich programów korzystamy, wliczając w to ich
 wersje. Znając te dane, można ocenić czy system posiada jakieś błędy. By zaimplementować w
-menadżerze pakietów &lt;code&gt;apt&lt;/code&gt;/&lt;code&gt;aptitude&lt;/code&gt; możliwość korzystania z &lt;a href=&#34;https://www.torproject.org/&#34;&gt;sieci
-TOR&lt;/a&gt;, musimy posiadać w systemie skonfigurowanego klienta TOR oraz
-zainstalować pakiet &lt;code&gt;apt-transport-tor&lt;/code&gt; . W tym artykule postaramy się skonfigurować ten cały
-mechanizm TOR&#39;owych aktualizacji.&lt;/p&gt;</description>
+menadżerze pakietów &lt;code&gt;apt&lt;/code&gt;/&lt;code&gt;aptitude&lt;/code&gt; możliwość korzystania z &lt;a href=&#34;https://www.torproject.org/&#34;&gt;sieci TOR&lt;/a&gt;, musimy posiadać w
+systemie skonfigurowanego klienta TOR oraz zainstalować pakiet &lt;code&gt;apt-transport-tor&lt;/code&gt; . W tym artykule
+postaramy się skonfigurować ten cały mechanizm TOR&#39;owych aktualizacji.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -103,9 +120,8 @@ cofnięcia wersji kilku pakietów. Jest jednak wielce prawdopodobne, że akurat 
 której potrzebujemy, nie znajdziemy z repozytorium debiana. Pobieranie pojedynczych pakietów z
 internetu przez klikanie w pierwszy lepszy link, który zostanie nam zwrócony przez wyszukiwarkę, nie
 jest dobrym pomysłem. Na szczęście w przypadku debiana nie musimy się aż tak narażać. A to z tego
-względu, że &lt;a href=&#34;http://snapshot.debian.org/archive/debian/&#34;&gt;debian robi migawki (shapshots) swoich
-repozytoriów&lt;/a&gt; 4 razy dziennie (co 6 godzin). W ten
-sposób mamy dostęp do różnych stanów repozytoriów, w tym też tych, które zawierają pakiety
+względu, że &lt;a href=&#34;https://snapshot.debian.org/archive/debian/&#34;&gt;debian robi migawki (shapshots) swoich repozytoriów&lt;/a&gt; 4 razy dziennie (co 6 godzin).
+W ten sposób mamy dostęp do różnych stanów repozytoriów, w tym też tych, które zawierają pakiety
 aktualnie niedostępne w repozytoriach. W tym wpisie postaramy się pobrać i zainstalować
 nieistniejące pakiety z takich snapshot&#39;ów.&lt;/p&gt;</description>
     </item>
@@ -122,11 +138,10 @@ przypadku windowsów uruchamianie aplikacji 32 czy 64 bitowych nie stanowi więk
 debianie sprawa wygląda nieco inaczej. Gdy mamy wgranego 64 bitowego debiana, aplikacje 32 bitowe
 nie będą chciały się nam odpalić. Wszystkiemu winne są biblioteki 32 bitowe, które są wykorzystywane
 przez dany program, a bez nich on zwyczajnie nie może działać. Jednym z rozwiązań tego problemu może
-być &lt;a href=&#34;https://morfikov.github.io/post/konfiguracja-kontenerow-lxc/&#34;&gt;kontener LXC&lt;/a&gt;, gdzie jesteśmy w stanie
-zainstalować 32 bitowy system wewnątrz środowiska 64 bitowego i to z tego systemu możemy uruchamiać
-32 bitowe aplikacje. Skonfigurowanie takiego kontenera może być nieco skomplikowane, dlatego też
-dużo lepszym rozwiązaniem jest przerobienie naszego 64 bitowego systemu na
-&lt;a href=&#34;https://wiki.debian.org/Multiarch&#34;&gt;muliarch&lt;/a&gt;, czyli taki, który jest w stanie obsługiwać wiele
+być &lt;a href=&#34;https://morfikov.github.io/post/konfiguracja-kontenerow-lxc/&#34;&gt;kontener LXC&lt;/a&gt;, gdzie jesteśmy w stanie zainstalować 32 bitowy system wewnątrz środowiska 64
+bitowego i to z tego systemu możemy uruchamiać 32 bitowe aplikacje. Skonfigurowanie takiego
+kontenera może być nieco skomplikowane, dlatego też dużo lepszym rozwiązaniem jest przerobienie
+naszego 64 bitowego systemu na &lt;a href=&#34;https://wiki.debian.org/Multiarch&#34;&gt;muliarch&lt;/a&gt;, czyli taki, który jest w stanie obsługiwać wiele
 architektur (multiarch).&lt;/p&gt;</description>
     </item>
     
@@ -141,17 +156,17 @@ architektur (multiarch).&lt;/p&gt;</description>
 oczy nie wiedzieliśmy, nie wspominając o jakimkolwiek kontakcie fizycznym. Zaufanie to obecnie chyba
 najbardziej krytyczna luka bezpieczeństwa jeśli chodzi o oprogramowanie, z którego korzystamy na co
 dzień. My, którzy używamy debiana w swojej pracy, polegamy na mechanizmach jakie oferuje nam &lt;code&gt;apt&lt;/code&gt;
-czy &lt;code&gt;aptitude&lt;/code&gt; przy &lt;a href=&#34;https://wiki.debian.org/SecureApt&#34;&gt;weryfikacji pakietów przed ich instalacją&lt;/a&gt; w
-systemie. Co się jednak by stało gdyby w tych menadżerach pojawił się błąd, który by uniemożliwiał
-poprawną weryfikację pakietów? Skąd wiemy czy te mechanizmy zabezpieczające w ogóle działają? Może
-one nam dają jedynie fałszywe poczucie bezpieczeństwa, a tak naprawdę przez niczym nas nie chronią?
-W tym wpisie postaramy się odpowiedzieć na te powyższe pytania i sprawdzimy czy manualna weryfikacja
-pakietu jest w ogóle możliwa&lt;/p&gt;</description>
+czy &lt;code&gt;aptitude&lt;/code&gt; przy &lt;a href=&#34;https://wiki.debian.org/SecureApt&#34;&gt;weryfikacji pakietów przed ich instalacją&lt;/a&gt; w systemie. Co się jednak by
+stało gdyby w tych menadżerach pojawił się błąd, który by uniemożliwiał poprawną weryfikację
+pakietów? Skąd wiemy czy te mechanizmy zabezpieczające w ogóle działają? Może one nam dają jedynie
+fałszywe poczucie bezpieczeństwa, a tak naprawdę przez niczym nas nie chronią? W tym wpisie
+postaramy się odpowiedzieć na te powyższe pytania i sprawdzimy czy manualna weryfikacja pakietu
+jest w ogóle możliwa&lt;/p&gt;</description>
     </item>
     
     <item>
 	  <author>Mikhail Morfikov</author>
-      <title>Klucze do repozytoriów debiana (trusted.gpg)</title>
+      <title>Klucze do repozytoriów Debiana (trusted.gpg)</title>
       <link>https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/</link>
       <pubDate>Sun, 01 Nov 2015 19:14:55 +0000</pubDate>
       
@@ -176,13 +191,12 @@ jakiś czas przydałoby się oczyścić keyring ze śmieci, które są już nam 
       
       <guid>https://morfikov.github.io/post/pobieranie-pakietow-przy-pomocy-cron-apt/</guid>
       <description>&lt;p&gt;Jakiś czas temu opisywałem konfigurację dla menadżera pakietów &lt;code&gt;apt&lt;/code&gt; i &lt;code&gt;aptitude&lt;/code&gt; &lt;a href=&#34;https://morfikov.github.io/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/&#34;&gt;w pliku
-apt.conf&lt;/a&gt; . Ten wpis również
-tyczy się konfiguracji wspomnianych menadżerów, z tym, że zostanie tutaj opisana pewna
-funkcjonalność, która może nam zaoszczędzić trochę czasu przy aktualizacji systemu. Chodzi o to,
-że pakiety praktycznie zawsze muszą być pobrane na dysk przed ich instalacją. Gdy nie dysponujemy
-dobrym pod względem przepustowości łączem, proces pobierania pakietów jest zwykle dłuższy niż sama
-ich instalacja. Przydałoby się zatem zaprogramować pobieranie plików w tle, tak by nie musieć ich
-pobierać tuż przez przed procesem instalacyjnym.&lt;/p&gt;</description>
+apt.conf&lt;/a&gt;. Ten wpis również tyczy się konfiguracji wspomnianych menadżerów, z tym, że zostanie
+tutaj opisana pewna funkcjonalność, która może nam zaoszczędzić trochę czasu przy aktualizacji
+systemu. Chodzi o to, że pakiety praktycznie zawsze muszą być pobrane na dysk przed ich instalacją.
+Gdy nie dysponujemy dobrym pod względem przepustowości łączem, proces pobierania pakietów jest
+zwykle dłuższy niż sama ich instalacja. Przydałoby się zatem zaprogramować pobieranie plików w tle,
+tak by nie musieć ich pobierać tuż przez przed procesem instalacyjnym.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -207,11 +221,11 @@ wpisywać w terminalu ilekroć tylko korzystamy któregoś menadżera pakietów.
       <pubDate>Sun, 18 Oct 2015 17:52:42 +0000</pubDate>
       
       <guid>https://morfikov.github.io/post/usuwanie-srodowiska-graficznego/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=27813&#34;&gt;Na forum DUG&#39;a&lt;/a&gt; znów został poruszony ciekawy
-wątek, tym razem odnośnie usunięcia całego środowiska graficznego z systemu. Pozornie niby nic
-nadzwyczajnego, przecie każdy z nas potrafi odinstalować szereg pakietów via &lt;code&gt;apt&lt;/code&gt; czy &lt;code&gt;aptitude&lt;/code&gt; .
-Problematyczne za to mogą się okazać zależne pakiety, które nie zostaną automatycznie usunięte wraz
-z konkretnym metapakietem od środowiska graficznego. Jak zatem usunąć te pozostałości?&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=27813&#34;&gt;Na forum DUG&#39;a&lt;/a&gt; znów został poruszony ciekawy wątek, tym razem odnośnie usunięcia całego
+środowiska graficznego z systemu. Pozornie niby nic nadzwyczajnego, przecie każdy z nas potrafi
+odinstalować szereg pakietów via &lt;code&gt;apt&lt;/code&gt; czy &lt;code&gt;aptitude&lt;/code&gt; . Problematyczne za to mogą się okazać
+zależne pakiety, które nie zostaną automatycznie usunięte wraz z konkretnym metapakietem od
+środowiska graficznego. Jak zatem usunąć te pozostałości?&lt;/p&gt;</description>
     </item>
     
     <item>

@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/categories/linux/" />
-<meta property="og:updated_time" content="2021-07-31T21:25:00+02:00" />
+<meta property="og:updated_time" content="2021-08-21T14:35:00+02:00" />
 
 		<meta itemprop="name" content="Linux">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -88,6 +88,34 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/memtest86-dla-efi-uefi-i-refind/">Memtest86 dla EFI/UEFI i rEFInd</a></h1>
+	<div class="entry__content"><p>Zapewne każdy z nas słyszał o narzędziu do testowania pamięci operacyjnej RAM zwanym memtest86. W
+Debianie są dostępne dwa pakiety <a href="https://tracker.debian.org/pkg/memtest86">memtest86</a> (<a href="https://www.memtest86.com/">strona projektu</a>) oraz <a href="https://tracker.debian.org/pkg/memtest86+">memtest86+</a>
+(<a href="http://www.memtest.org/">strona projektu</a>) , które można sobie zainstalować w systemie. Niemniej jednak, jak się
+popatrzy na daty ostatnich wersji obu tych aplikacji (rok 2014), to mamy do czynienia z dość starym
+oprogramowaniem. Tak czy inaczej, jeśli dany soft działa, to bez znaczenia powinno być jak stary on
+jest. Problem w przypadku memtest86 dostarczanego w tych dwóch pakietach jest taki, że działa on w
+zasadzie jedynie w konfiguracji BIOS, a nie EFI/UEFI. Dodatkowo, oryginalny memtest86 został
+sprzedany PassMark'owi, który <a href="https://en.wikipedia.org/wiki/Memtest86">od wersji 5.0 uczynił go własnościowym softem</a>. To dlatego w
+Debianie nie będzie już nowszej wersji memtest86. W dalszym ciągu memtest86 może działać w
+konfiguracji EFI/UEFI ale potrzebna nam jest wersja, która to EFI/UEFI wspiera. Memtest86 zaczął
+wspierać EFI/UEFI od wersji 5.0. Jeśli nam nie przeszkadza licencja własnościowa, to możemy sobie
+przygotować memtest86, tak by można go było bez problemu odpalić z menadżera rozruchu <a href="https://www.rodsbooks.com/refind/">rEFInd</a>.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-03-03T04:05:00Z">Opublikowano: 03/03/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-06-13T14:52:00&#43;02:00">Zaktualizowano: 13/06/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -311,47 +339,13 @@ Te dowiązania mają taki problem, że jak usunie się plik, na który wskazywa�
 aktualizacji paczki, to utworzenie pliku w tym samym miejscu przez menadżer pakietów
 <code>apt</code>/<code>aptitude</code> nie sprawi, że te dowiązania zaczną ponownie funkcjonować poprawnie (tak jak to
 jest w przypadku dowiązań symbolicznych). Z początku usuwałem te stare dowiązania i tworzyłem nowe
-ale postanowiłem w końcu <a href="https://forum.dug.net.pl/viewtopic.php?id=30382">poszukać rozwiązania</a>,
-które by zautomatyzowało cały ten proces i uczyniło go transparentnym dla użytkownika końcowego.
-Tak natrafiłem na mechanizm Debianowych
-trigger'ów (<a href="https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html">deb-trigger</a>),
-które aktywują się za każdym razem ilekroć pliki w konkretnych ścieżkach są ruszane w jakiś sposób
-przez menadżer pakietów. W tym artykule spróbujemy sobie zaprojektować taki trigger i obadać czy
-może on nam się w ogóle do czegoś przydać</p></div>
+ale postanowiłem w końcu <a href="https://forum.dug.net.pl/viewtopic.php?id=30382">poszukać rozwiązania</a>, które by zautomatyzowało cały ten proces i
+uczyniło go transparentnym dla użytkownika końcowego. Tak natrafiłem na mechanizm Debianowych
+trigger'ów (<a href="https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html">deb-trigger</a>), które aktywują się za każdym razem ilekroć pliki w konkretnych
+ścieżkach są ruszane w jakiś sposób przez menadżer pakietów. W tym artykule spróbujemy sobie
+zaprojektować taki trigger i obadać czy może on nam się w ogóle do czegoś przydać</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-04-14T00:10:11Z">Opublikowano: 14/04/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/blokowanie-niepozadanej-komunikacji-z-nftables-na-linux/">Blokowanie niepożądanej komunikacji z nftables na linux</a></h1>
-	<div class="entry__content"><p>Minęło już trochę czasu od momentu, w którym postanowiłem się przerzucić z <code>iptables</code> na <code>nftables</code>
-w swoim Debianie i w zasadzie większość mechanizmów obronnych mojego laptopowego firewall'a została
-już z powodzeniem przeportowana na ten nowy filtr pakietów. Poza tymi starymi regułami próbuję
-czasem ogarniać nieco bardziej wyrafinowane sposoby na unikanie zagrożeń sieciowych, choć
-implementacja niektórych rzeczy nie zawsze jest taka oczywista, z tym, że niekoniecznie niemożliwa
-do zrealizowana. Tak było w przypadku mechanizmu automatycznego blokowania hostów próbujących się
-łączyć z daną maszyną, która sobie najwyraźniej tego nie życzy. Dla przykładu, jest serwer
-udostępniający usługę SSH na porcie <code>11111</code> i tylko ten port jest wystawiony na świat. Wszelkiego
-rodzaju boty próbujące dostać się do maszyn linux'owych próbkują z kolei głównie standardowe porty,
-w tym przypadku <code>22</code> . Ci użytkownicy, którzy powinni mieć dostęp do usługi SSH, wiedzą na jakim
-porcie ona nasłuchuje. Można zatem założyć, że wszystkie połączenia na port <code>22</code> będą dokonywane
-przez boty albo przez użytkowników, którzy mają niecne zamiary. Wszystkie te połączenia można by
-zatem zablokować tworząc mechanizm automatycznego banowania hostów w oparciu o czas ostatniej próby
-połączenia, tak jak to zostało opisane mniej
-więcej <a href="https://forum.dug.net.pl/viewtopic.php?pid=269383">w tym wątku na forum</a>. Problem w tym, że
-tamto rozwiązanie dotyczy jedynie <code>iptables</code> w połączeniu z <code>ipset</code> , co nieco komplikuje wdrożenie
-go w przypadku <code>nftables</code> ale to zadanie jest jak najbardziej możliwe.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-04-12T20:53:40Z">Opublikowano: 12/04/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

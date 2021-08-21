@@ -15,10 +15,9 @@ oprogramowania. Jakby nie patrzeć, aplikacje mają pełno dziur i nie wszystkie
 łatane natychmiast po opublikowaniu podatności. Z chwilą dokonywania aktualizacji systemu,
 potencjalny atakujący może dowiedzieć się zatem z jakich programów korzystamy, wliczając w to ich
 wersje. Znając te dane, można ocenić czy system posiada jakieś błędy. By zaimplementować w
-menadżerze pakietów apt/aptitude możliwość korzystania z sieci
-TOR, musimy posiadać w systemie skonfigurowanego klienta TOR oraz
-zainstalować pakiet apt-transport-tor . W tym artykule postaramy się skonfigurować ten cały
-mechanizm TOR&#39;owych aktualizacji." />
+menadżerze pakietów apt/aptitude możliwość korzystania z sieci TOR, musimy posiadać w
+systemie skonfigurowanego klienta TOR oraz zainstalować pakiet apt-transport-tor . W tym artykule
+postaramy się skonfigurować ten cały mechanizm TOR&#39;owych aktualizacji." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/debian-anonimowe-pobieranie-aktualizacji-apt-transport-tor/" />
 <meta property="article:published_time" content="2016-08-07T13:06:03+00:00" />
@@ -31,17 +30,16 @@ oprogramowania. Jakby nie patrzeć, aplikacje mają pełno dziur i nie wszystkie
 łatane natychmiast po opublikowaniu podatności. Z chwilą dokonywania aktualizacji systemu,
 potencjalny atakujący może dowiedzieć się zatem z jakich programów korzystamy, wliczając w to ich
 wersje. Znając te dane, można ocenić czy system posiada jakieś błędy. By zaimplementować w
-menadżerze pakietów apt/aptitude możliwość korzystania z sieci
-TOR, musimy posiadać w systemie skonfigurowanego klienta TOR oraz
-zainstalować pakiet apt-transport-tor . W tym artykule postaramy się skonfigurować ten cały
-mechanizm TOR&#39;owych aktualizacji.">
+menadżerze pakietów apt/aptitude możliwość korzystania z sieci TOR, musimy posiadać w
+systemie skonfigurowanego klienta TOR oraz zainstalować pakiet apt-transport-tor . W tym artykule
+postaramy się skonfigurować ten cały mechanizm TOR&#39;owych aktualizacji.">
 <meta itemprop="datePublished" content="2016-08-07T13:06:03+00:00" />
 <meta itemprop="dateModified" content="2016-08-07T13:06:03+00:00" />
 <meta itemprop="wordCount" content="465">
 
 
 
-<meta itemprop="keywords" content="debian,apt,aptitude,anonimowość,tor," />
+<meta itemprop="keywords" content="debian,apt,anonimowość,tor,repozytorium," />
 
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Debian: Anonimowe pobieranie aktualizacji (apt-transport-tor)"/>
@@ -51,10 +49,9 @@ oprogramowania. Jakby nie patrzeć, aplikacje mają pełno dziur i nie wszystkie
 łatane natychmiast po opublikowaniu podatności. Z chwilą dokonywania aktualizacji systemu,
 potencjalny atakujący może dowiedzieć się zatem z jakich programów korzystamy, wliczając w to ich
 wersje. Znając te dane, można ocenić czy system posiada jakieś błędy. By zaimplementować w
-menadżerze pakietów apt/aptitude możliwość korzystania z sieci
-TOR, musimy posiadać w systemie skonfigurowanego klienta TOR oraz
-zainstalować pakiet apt-transport-tor . W tym artykule postaramy się skonfigurować ten cały
-mechanizm TOR&#39;owych aktualizacji."/>
+menadżerze pakietów apt/aptitude możliwość korzystania z sieci TOR, musimy posiadać w
+systemie skonfigurowanego klienta TOR oraz zainstalować pakiet apt-transport-tor . W tym artykule
+postaramy się skonfigurować ten cały mechanizm TOR&#39;owych aktualizacji."/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -145,10 +142,9 @@ oprogramowania. Jakby nie patrzeć, aplikacje mają pełno dziur i nie wszystkie
 łatane natychmiast po opublikowaniu podatności. Z chwilą dokonywania aktualizacji systemu,
 potencjalny atakujący może dowiedzieć się zatem z jakich programów korzystamy, wliczając w to ich
 wersje. Znając te dane, można ocenić czy system posiada jakieś błędy. By zaimplementować w
-menadżerze pakietów <code>apt</code>/<code>aptitude</code> możliwość korzystania z <a href="https://www.torproject.org/">sieci
-TOR</a>, musimy posiadać w systemie skonfigurowanego klienta TOR oraz
-zainstalować pakiet <code>apt-transport-tor</code> . W tym artykule postaramy się skonfigurować ten cały
-mechanizm TOR'owych aktualizacji.</p>
+menadżerze pakietów <code>apt</code>/<code>aptitude</code> możliwość korzystania z <a href="https://www.torproject.org/">sieci TOR</a>, musimy posiadać w
+systemie skonfigurowanego klienta TOR oraz zainstalować pakiet <code>apt-transport-tor</code> . W tym artykule
+postaramy się skonfigurować ten cały mechanizm TOR'owych aktualizacji.</p>
 <h2 id="jak-ustalić-z-jakiego-oprogramowania-korzysta-system">Jak ustalić z jakiego oprogramowania korzysta system</h2>
 <p>Zakładając, że jesteśmy podłączeni do sieci, w której ktoś może węszyć, przydałoby się ocenić jakie
 informacje zdradzamy takiej osobie w procesie aktualizacji naszego linux'a. Najprościej jest to
@@ -171,17 +167,15 @@ ten poniższy parametr:</p>
 <code>apt-transport-tor</code> .</p>
 <h2 id="pakiet-apt-transport-tor">Pakiet apt-transport-tor</h2>
 <p>Menadżer pakietów <code>apt</code>/<code>aptitude</code> posiada kilka transportów, które może wykorzystać podczas
-pobierania pakietów z repozytorium Debiana. Jednym z nich jest
-<a href="https://github.com/diocles/apt-transport-tor">apt-transport-tor</a> implementujący obsługę sieci TOR.
-Po pomyślnym skonfigurowaniu klienta TOR, wystarczy ten pakiet zainstalować i <code>apt</code>/<code>aptitude</code> jest
-już gotowy do pracy. Potrzebne nam są tylko źródła repozytoriów, które musimy dodać do pliku
-<code>/etc/apt/sources.list</code> .</p>
+pobierania pakietów z repozytorium Debiana. Jednym z nich jest <a href="https://github.com/diocles/apt-transport-tor">apt-transport-tor</a> implementujący
+obsługę sieci TOR. Po pomyślnym skonfigurowaniu klienta TOR, wystarczy ten pakiet zainstalować i
+<code>apt</code>/<code>aptitude</code> jest już gotowy do pracy. Potrzebne nam są tylko źródła repozytoriów, które musimy
+dodać do pliku <code>/etc/apt/sources.list</code> .</p>
 <p>Źródła repozytoriów możemy dodać na dwa sposoby. Ten poniższy sposób automatycznie dostosuje
 lokalizację mirroru repozytorium w zależności od exit node TOR'a:</p>
 <pre><code>deb tor+http://http.debian.net/debian sid main
 </code></pre>
-<p>Alternatywnie możemy określić URL w taki sposób, by wskazywał na <a href="https://onion.debian.org/">zasób Debiana w sieć
-TOR</a>:</p>
+<p>Alternatywnie możemy określić URL w taki sposób, by wskazywał na <a href="https://onion.debian.org/">zasób Debiana w sieć TOR</a>:</p>
 <pre><code>deb tor+http://vwakviie2ienjx6t.onion/debian sid main
 </code></pre>
 <p>Teraz już wystarczy wydać w terminalu polecenie <code>apt-get update</code> , a listy repozytoriów powinny
@@ -197,9 +191,9 @@ Jeśli spróbuje, to menadżer pakietów wyrzuci stosowną informację.</p></div
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apt/">apt</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aptitude/">aptitude</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/anonimowo%C5%9B%C4%87/">anonimowość</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/tor/">tor</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/repozytorium/">repozytorium</a>
 </div>
 					
 <div class="entry__share share">
@@ -259,9 +253,9 @@ Jeśli spróbuje, to menadżer pakietów wyrzuci stosowną informację.</p></div
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-multiarch-na-debianie/">Konfiguracja multiarch w dystrybucji Debian</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/manualna-weryfikacja-pakietu-deb-w-debianie/">Manualna weryfikacja pakietu deb w debianie</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/">Klucze do repozytoriów Debiana (trusted.gpg)</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/">Klucze do repozytoriów debiana (trusted.gpg)</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/manualna-weryfikacja-pakietu-deb-w-debianie/">Manualna weryfikacja pakietu deb w debianie</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/pobieranie-pakietow-przy-pomocy-cron-apt/">Pobieranie pakietów przy pomocy cron-apt</a></li>
 		

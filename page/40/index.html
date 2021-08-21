@@ -13,7 +13,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/" />
-<meta property="og:updated_time" content="2021-07-31T21:25:00+02:00" />
+<meta property="og:updated_time" content="2021-08-21T14:35:00+02:00" />
 
 		<meta itemprop="name" content="Morfitronik">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -72,6 +72,30 @@
 	
 	<main class="main">
 			<div class="cards">
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/modul-xt_recent-i-limitowanie-polaczen-w-iptables/">Moduł xt_recent i limitowanie połączeń w iptables</a></h1>
+	<div class="entry__content"><p>Kluczową rolę w filtrze iptables pełnią stany połączeń. Zwykle mamy do czynienia z trzema z nich:
+NEW, RELATED i ESTABLISHED. Wszystko co nie pasuje do tych stanów, jest traktowane jako INVALID i
+tak dla przykładu trafiają tam pakiety mające niemożliwe kombinacje flag, przynajmniej jeśli chodzi
+o punkt widzenia poprawnej komunikacji sieciowej (ustawione flagi <code>SYN</code> i <code>FIN</code> jednocześnie).
+Jednak istnieje szereg pakietów, które mogą potencjalnie zagrażać bezpieczeństwu maszyny i nie są
+one uwzględnione w stanie INVALID. Takie pakiety są używane do skanowania portów w celu wykrycia
+usług znajdujących się na serwerze. Krótko mówiąc, stan INVALID nie złapie skanów <code>UDP</code>, <code>ACK</code> oraz
+<code>SYN</code> . Czy jesteśmy faktycznie bezbronni i nic nie możemy zrobić? Na szczęście iptables ma do
+dyspozycji <a href="http://ipset.netfilter.org/iptables-extensions.man.html">moduł xt_recent</a>, który jest w
+stanie zablokować wszystkie te powyżej wymienione formy ataków.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2015-11-05T17:17:16Z">Opublikowano: 05/11/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
 					<div class="card card--2col">
 					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/port-knocking-na-przykladzie-knockd-i-iptables/">Port knocking na przykładzie knockd i iptables</a></h1>
@@ -151,9 +175,8 @@ cofnięcia wersji kilku pakietów. Jest jednak wielce prawdopodobne, że akurat 
 której potrzebujemy, nie znajdziemy z repozytorium debiana. Pobieranie pojedynczych pakietów z
 internetu przez klikanie w pierwszy lepszy link, który zostanie nam zwrócony przez wyszukiwarkę, nie
 jest dobrym pomysłem. Na szczęście w przypadku debiana nie musimy się aż tak narażać. A to z tego
-względu, że <a href="http://snapshot.debian.org/archive/debian/">debian robi migawki (shapshots) swoich
-repozytoriów</a> 4 razy dziennie (co 6 godzin). W ten
-sposób mamy dostęp do różnych stanów repozytoriów, w tym też tych, które zawierają pakiety
+względu, że <a href="https://snapshot.debian.org/archive/debian/">debian robi migawki (shapshots) swoich repozytoriów</a> 4 razy dziennie (co 6 godzin).
+W ten sposób mamy dostęp do różnych stanów repozytoriów, w tym też tych, które zawierają pakiety
 aktualnie niedostępne w repozytoriach. W tym wpisie postaramy się pobrać i zainstalować
 nieistniejące pakiety z takich snapshot'ów.</p></div>
 	<div class="entry__meta meta mt tar">
@@ -220,11 +243,10 @@ przypadku windowsów uruchamianie aplikacji 32 czy 64 bitowych nie stanowi więk
 debianie sprawa wygląda nieco inaczej. Gdy mamy wgranego 64 bitowego debiana, aplikacje 32 bitowe
 nie będą chciały się nam odpalić. Wszystkiemu winne są biblioteki 32 bitowe, które są wykorzystywane
 przez dany program, a bez nich on zwyczajnie nie może działać. Jednym z rozwiązań tego problemu może
-być <a href="https://morfikov.github.io/post/konfiguracja-kontenerow-lxc/">kontener LXC</a>, gdzie jesteśmy w stanie
-zainstalować 32 bitowy system wewnątrz środowiska 64 bitowego i to z tego systemu możemy uruchamiać
-32 bitowe aplikacje. Skonfigurowanie takiego kontenera może być nieco skomplikowane, dlatego też
-dużo lepszym rozwiązaniem jest przerobienie naszego 64 bitowego systemu na
-<a href="https://wiki.debian.org/Multiarch">muliarch</a>, czyli taki, który jest w stanie obsługiwać wiele
+być <a href="https://morfikov.github.io/post/konfiguracja-kontenerow-lxc/">kontener LXC</a>, gdzie jesteśmy w stanie zainstalować 32 bitowy system wewnątrz środowiska 64
+bitowego i to z tego systemu możemy uruchamiać 32 bitowe aplikacje. Skonfigurowanie takiego
+kontenera może być nieco skomplikowane, dlatego też dużo lepszym rozwiązaniem jest przerobienie
+naszego 64 bitowego systemu na <a href="https://wiki.debian.org/Multiarch">muliarch</a>, czyli taki, który jest w stanie obsługiwać wiele
 architektur (multiarch).</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2015-11-02T20:20:09Z">Opublikowano: 02/11/2015</time>
@@ -244,12 +266,12 @@ architektur (multiarch).</p></div>
 oczy nie wiedzieliśmy, nie wspominając o jakimkolwiek kontakcie fizycznym. Zaufanie to obecnie chyba
 najbardziej krytyczna luka bezpieczeństwa jeśli chodzi o oprogramowanie, z którego korzystamy na co
 dzień. My, którzy używamy debiana w swojej pracy, polegamy na mechanizmach jakie oferuje nam <code>apt</code>
-czy <code>aptitude</code> przy <a href="https://wiki.debian.org/SecureApt">weryfikacji pakietów przed ich instalacją</a> w
-systemie. Co się jednak by stało gdyby w tych menadżerach pojawił się błąd, który by uniemożliwiał
-poprawną weryfikację pakietów? Skąd wiemy czy te mechanizmy zabezpieczające w ogóle działają? Może
-one nam dają jedynie fałszywe poczucie bezpieczeństwa, a tak naprawdę przez niczym nas nie chronią?
-W tym wpisie postaramy się odpowiedzieć na te powyższe pytania i sprawdzimy czy manualna weryfikacja
-pakietu jest w ogóle możliwa</p></div>
+czy <code>aptitude</code> przy <a href="https://wiki.debian.org/SecureApt">weryfikacji pakietów przed ich instalacją</a> w systemie. Co się jednak by
+stało gdyby w tych menadżerach pojawił się błąd, który by uniemożliwiał poprawną weryfikację
+pakietów? Skąd wiemy czy te mechanizmy zabezpieczające w ogóle działają? Może one nam dają jedynie
+fałszywe poczucie bezpieczeństwa, a tak naprawdę przez niczym nas nie chronią? W tym wpisie
+postaramy się odpowiedzieć na te powyższe pytania i sprawdzimy czy manualna weryfikacja pakietu
+jest w ogóle możliwa</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2015-11-02T00:16:03Z">Opublikowano: 02/11/2015</time>
 
@@ -263,7 +285,7 @@ pakietu jest w ogóle możliwa</p></div>
 					</div>
 					<div class="card card--2col">
 					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/">Klucze do repozytoriów debiana (trusted.gpg)</a></h1>
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/">Klucze do repozytoriów Debiana (trusted.gpg)</a></h1>
 	<div class="entry__content"><p>Obecnie systemy operacyjne stają się nieco bardziej stabilne i czasy, w których reinstalacja
 takiego systemu, czy też nawet format dysku, odchodzą powoli w niebyt. <a href="https://morfikov.github.io/post/dokladna-data-instalacji-systemu-linux/">Data instalacji mojego
 linux'a</a> wskazuje na prawie 2 lata wstecz. Jakby nie patrzeć jest to szmat czasu, w czasie
@@ -276,30 +298,6 @@ zawierać będzie szereg zbędnych pozycji. Może wielu ludziom nie przeszkadza 
 jakiś czas przydałoby się oczyścić keyring ze śmieci, które są już nam do niczego niepotrzebne.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2015-11-01T19:14:55Z">Opublikowano: 01/11/2015</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-					</div>
-					<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/szyfrowanie-dzwieku-przesylanego-przez-siec/">Szyfrowanie dźwięku przesyłanego przez sieć</a></h1>
-	<div class="entry__content"><p><a href="https://www.freedesktop.org/wiki/Software/PulseAudio/">PulseAudio to serwer dźwięku</a>, który jest w
-stanie otrzymywać zapytania ze zdalnych lokalizacji. Wobec czego, możemy realizować <a href="https://morfikov.github.io/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/">przesyłanie
-dźwięku przez sieć</a> i usłyszeć
-go tam, gdzie go sobie życzymy. Problem w tym, że taki dźwięk jest przesyłany przez sieć w formie
-niezaszyfrowanej. Dlatego też jesteśmy narażeni na podsłuchanie wszystkiego co mówimy do mikrofonu
-lub też tego co pojawia się w naszych głośnikach. Możemy jednak zabezpieczyć komunikację między
-klientem i serwerem dźwięku wykorzystując do tego połączenie SSH. W ten sposób cały sygnał
-dźwiękowy, jaki jest generowany przez danego hosta w sieci, zostanie wrzucony w szyfrowany kanał
-TLS i nikt nie będzie w stanie go zinterpretować. Ten wpis ma na celu przedstawienie sposobu na
-zaszyfrowanie dźwięku, bez którego większość z nas nie wyobraża sobie pacy przy komputerze.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2015-11-01T00:31:48Z">Opublikowano: 01/11/2015</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

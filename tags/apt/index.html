@@ -12,7 +12,7 @@
 <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/tags/apt/" />
-<meta property="og:updated_time" content="2019-04-14T00:10:11+00:00" />
+<meta property="og:updated_time" content="2021-08-21T14:35:00+02:00" />
 
 		<meta itemprop="name" content="apt">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
@@ -91,6 +91,32 @@
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/migracja-z-apt-key-w-debian-linux/">Migracja z apt-key w Debian linux</a></h1>
+	<div class="entry__content"><p>Z okazji wypuszczenia parę dni temu nowego Debiana, przeglądałem sobie <a href="https://www.debian.org/releases/bullseye/amd64/release-notes/ch-information.en.html">notki dla wydania
+stabilnego</a> pod kątem aktualizacji z buster (10) -&gt; bullseye (11). Niby ja i tak korzystam cały
+czas z unstable/experimental i zwykle jestem na bieżąco ze zmianami wprowadzanymi w tej dystrybucji
+linux'a ale też zawsze coś może umknąć uwadze z perspektywy wielu miesięcy czy nawet kilku lat
+(a dokładnie 25 miesięcy). Sporo z tych rzeczy, które w tych podlinkowanych notatkach wyczytałem,
+miałem już załatwione wcześniej ale zapomniałem rozprawić się z repozytoriami APT. Konkretnie
+chodzi tutaj o odejście od <code>apt-key</code> , czyli narzędzia, które w Debianie używane jest do dodawania
+kluczy GPG do systemowego keyring'a APT. Te klucze zwykle wykorzystywane są do weryfikacji sygnatur
+złożonych pod zewnętrznymi repozytoriami, a że ja mam ich sporo, to musiałem się nieco zagłębić w
+temat i ustalić w jaki sposób od następnego wydania Debiana (bookworm/12) będzie się te klucze GPG
+od takich repozytoriów ogarniać. No i właśnie o tym będzie ten poniższy kawałek artykułu.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2021-08-21T14:35:00&#43;02:00">Opublikowano: 21/08/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/mechanizm-trigger-dla-apt-aptitude-w-debianie/">Mechanizm trigger&#39;ów dla apt/aptitude w Debianie</a></h1>
 	<div class="entry__content"><p>Czasami pewna niestandardowa konfiguracja naszego linux'a może sprawiać pewne problemy podczas
 aktualizacji zainstalowanych w nim pakietów. Dla przykładu, wykorzystując mechanizm AppArmor do
@@ -99,13 +125,11 @@ Te dowiązania mają taki problem, że jak usunie się plik, na który wskazywa�
 aktualizacji paczki, to utworzenie pliku w tym samym miejscu przez menadżer pakietów
 <code>apt</code>/<code>aptitude</code> nie sprawi, że te dowiązania zaczną ponownie funkcjonować poprawnie (tak jak to
 jest w przypadku dowiązań symbolicznych). Z początku usuwałem te stare dowiązania i tworzyłem nowe
-ale postanowiłem w końcu <a href="https://forum.dug.net.pl/viewtopic.php?id=30382">poszukać rozwiązania</a>,
-które by zautomatyzowało cały ten proces i uczyniło go transparentnym dla użytkownika końcowego.
-Tak natrafiłem na mechanizm Debianowych
-trigger'ów (<a href="https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html">deb-trigger</a>),
-które aktywują się za każdym razem ilekroć pliki w konkretnych ścieżkach są ruszane w jakiś sposób
-przez menadżer pakietów. W tym artykule spróbujemy sobie zaprojektować taki trigger i obadać czy
-może on nam się w ogóle do czegoś przydać</p></div>
+ale postanowiłem w końcu <a href="https://forum.dug.net.pl/viewtopic.php?id=30382">poszukać rozwiązania</a>, które by zautomatyzowało cały ten proces i
+uczyniło go transparentnym dla użytkownika końcowego. Tak natrafiłem na mechanizm Debianowych
+trigger'ów (<a href="https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html">deb-trigger</a>), które aktywują się za każdym razem ilekroć pliki w konkretnych
+ścieżkach są ruszane w jakiś sposób przez menadżer pakietów. W tym artykule spróbujemy sobie
+zaprojektować taki trigger i obadać czy może on nam się w ogóle do czegoś przydać</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-04-14T00:10:11Z">Opublikowano: 14/04/2019</time>
 
@@ -180,10 +204,9 @@ oprogramowania. Jakby nie patrzeć, aplikacje mają pełno dziur i nie wszystkie
 łatane natychmiast po opublikowaniu podatności. Z chwilą dokonywania aktualizacji systemu,
 potencjalny atakujący może dowiedzieć się zatem z jakich programów korzystamy, wliczając w to ich
 wersje. Znając te dane, można ocenić czy system posiada jakieś błędy. By zaimplementować w
-menadżerze pakietów <code>apt</code>/<code>aptitude</code> możliwość korzystania z <a href="https://www.torproject.org/">sieci
-TOR</a>, musimy posiadać w systemie skonfigurowanego klienta TOR oraz
-zainstalować pakiet <code>apt-transport-tor</code> . W tym artykule postaramy się skonfigurować ten cały
-mechanizm TOR'owych aktualizacji.</p></div>
+menadżerze pakietów <code>apt</code>/<code>aptitude</code> możliwość korzystania z <a href="https://www.torproject.org/">sieci TOR</a>, musimy posiadać w
+systemie skonfigurowanego klienta TOR oraz zainstalować pakiet <code>apt-transport-tor</code> . W tym artykule
+postaramy się skonfigurować ten cały mechanizm TOR'owych aktualizacji.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-08-07T13:06:03Z">Opublikowano: 07/08/2016</time>
 
@@ -205,9 +228,8 @@ cofnięcia wersji kilku pakietów. Jest jednak wielce prawdopodobne, że akurat 
 której potrzebujemy, nie znajdziemy z repozytorium debiana. Pobieranie pojedynczych pakietów z
 internetu przez klikanie w pierwszy lepszy link, który zostanie nam zwrócony przez wyszukiwarkę, nie
 jest dobrym pomysłem. Na szczęście w przypadku debiana nie musimy się aż tak narażać. A to z tego
-względu, że <a href="http://snapshot.debian.org/archive/debian/">debian robi migawki (shapshots) swoich
-repozytoriów</a> 4 razy dziennie (co 6 godzin). W ten
-sposób mamy dostęp do różnych stanów repozytoriów, w tym też tych, które zawierają pakiety
+względu, że <a href="https://snapshot.debian.org/archive/debian/">debian robi migawki (shapshots) swoich repozytoriów</a> 4 razy dziennie (co 6 godzin).
+W ten sposób mamy dostęp do różnych stanów repozytoriów, w tym też tych, które zawierają pakiety
 aktualnie niedostępne w repozytoriach. W tym wpisie postaramy się pobrać i zainstalować
 nieistniejące pakiety z takich snapshot'ów.</p></div>
 	<div class="entry__meta meta mt tar">
@@ -230,11 +252,10 @@ przypadku windowsów uruchamianie aplikacji 32 czy 64 bitowych nie stanowi więk
 debianie sprawa wygląda nieco inaczej. Gdy mamy wgranego 64 bitowego debiana, aplikacje 32 bitowe
 nie będą chciały się nam odpalić. Wszystkiemu winne są biblioteki 32 bitowe, które są wykorzystywane
 przez dany program, a bez nich on zwyczajnie nie może działać. Jednym z rozwiązań tego problemu może
-być <a href="https://morfikov.github.io/post/konfiguracja-kontenerow-lxc/">kontener LXC</a>, gdzie jesteśmy w stanie
-zainstalować 32 bitowy system wewnątrz środowiska 64 bitowego i to z tego systemu możemy uruchamiać
-32 bitowe aplikacje. Skonfigurowanie takiego kontenera może być nieco skomplikowane, dlatego też
-dużo lepszym rozwiązaniem jest przerobienie naszego 64 bitowego systemu na
-<a href="https://wiki.debian.org/Multiarch">muliarch</a>, czyli taki, który jest w stanie obsługiwać wiele
+być <a href="https://morfikov.github.io/post/konfiguracja-kontenerow-lxc/">kontener LXC</a>, gdzie jesteśmy w stanie zainstalować 32 bitowy system wewnątrz środowiska 64
+bitowego i to z tego systemu możemy uruchamiać 32 bitowe aplikacje. Skonfigurowanie takiego
+kontenera może być nieco skomplikowane, dlatego też dużo lepszym rozwiązaniem jest przerobienie
+naszego 64 bitowego systemu na <a href="https://wiki.debian.org/Multiarch">muliarch</a>, czyli taki, który jest w stanie obsługiwać wiele
 architektur (multiarch).</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2015-11-02T20:20:09Z">Opublikowano: 02/11/2015</time>
@@ -255,12 +276,12 @@ architektur (multiarch).</p></div>
 oczy nie wiedzieliśmy, nie wspominając o jakimkolwiek kontakcie fizycznym. Zaufanie to obecnie chyba
 najbardziej krytyczna luka bezpieczeństwa jeśli chodzi o oprogramowanie, z którego korzystamy na co
 dzień. My, którzy używamy debiana w swojej pracy, polegamy na mechanizmach jakie oferuje nam <code>apt</code>
-czy <code>aptitude</code> przy <a href="https://wiki.debian.org/SecureApt">weryfikacji pakietów przed ich instalacją</a> w
-systemie. Co się jednak by stało gdyby w tych menadżerach pojawił się błąd, który by uniemożliwiał
-poprawną weryfikację pakietów? Skąd wiemy czy te mechanizmy zabezpieczające w ogóle działają? Może
-one nam dają jedynie fałszywe poczucie bezpieczeństwa, a tak naprawdę przez niczym nas nie chronią?
-W tym wpisie postaramy się odpowiedzieć na te powyższe pytania i sprawdzimy czy manualna weryfikacja
-pakietu jest w ogóle możliwa</p></div>
+czy <code>aptitude</code> przy <a href="https://wiki.debian.org/SecureApt">weryfikacji pakietów przed ich instalacją</a> w systemie. Co się jednak by
+stało gdyby w tych menadżerach pojawił się błąd, który by uniemożliwiał poprawną weryfikację
+pakietów? Skąd wiemy czy te mechanizmy zabezpieczające w ogóle działają? Może one nam dają jedynie
+fałszywe poczucie bezpieczeństwa, a tak naprawdę przez niczym nas nie chronią? W tym wpisie
+postaramy się odpowiedzieć na te powyższe pytania i sprawdzimy czy manualna weryfikacja pakietu
+jest w ogóle możliwa</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2015-11-02T00:16:03Z">Opublikowano: 02/11/2015</time>
 
@@ -275,7 +296,7 @@ pakietu jest w ogóle możliwa</p></div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/">Klucze do repozytoriów debiana (trusted.gpg)</a></h1>
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/">Klucze do repozytoriów Debiana (trusted.gpg)</a></h1>
 	<div class="entry__content"><p>Obecnie systemy operacyjne stają się nieco bardziej stabilne i czasy, w których reinstalacja
 takiego systemu, czy też nawet format dysku, odchodzą powoli w niebyt. <a href="https://morfikov.github.io/post/dokladna-data-instalacji-systemu-linux/">Data instalacji mojego
 linux'a</a> wskazuje na prawie 2 lata wstecz. Jakby nie patrzeć jest to szmat czasu, w czasie
@@ -302,36 +323,14 @@ jakiś czas przydałoby się oczyścić keyring ze śmieci, które są już nam 
 					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/pobieranie-pakietow-przy-pomocy-cron-apt/">Pobieranie pakietów przy pomocy cron-apt</a></h1>
 	<div class="entry__content"><p>Jakiś czas temu opisywałem konfigurację dla menadżera pakietów <code>apt</code> i <code>aptitude</code> <a href="https://morfikov.github.io/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/">w pliku
-apt.conf</a> . Ten wpis również
-tyczy się konfiguracji wspomnianych menadżerów, z tym, że zostanie tutaj opisana pewna
-funkcjonalność, która może nam zaoszczędzić trochę czasu przy aktualizacji systemu. Chodzi o to,
-że pakiety praktycznie zawsze muszą być pobrane na dysk przed ich instalacją. Gdy nie dysponujemy
-dobrym pod względem przepustowości łączem, proces pobierania pakietów jest zwykle dłuższy niż sama
-ich instalacja. Przydałoby się zatem zaprogramować pobieranie plików w tle, tak by nie musieć ich
-pobierać tuż przez przed procesem instalacyjnym.</p></div>
+apt.conf</a>. Ten wpis również tyczy się konfiguracji wspomnianych menadżerów, z tym, że zostanie
+tutaj opisana pewna funkcjonalność, która może nam zaoszczędzić trochę czasu przy aktualizacji
+systemu. Chodzi o to, że pakiety praktycznie zawsze muszą być pobrane na dysk przed ich instalacją.
+Gdy nie dysponujemy dobrym pod względem przepustowości łączem, proces pobierania pakietów jest
+zwykle dłuższy niż sama ich instalacja. Przydałoby się zatem zaprogramować pobieranie plików w tle,
+tak by nie musieć ich pobierać tuż przez przed procesem instalacyjnym.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2015-10-23T14:42:17Z">Opublikowano: 23/10/2015</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/">Konfiguracja apt i aptitude w pliku apt.conf</a></h1>
-	<div class="entry__content"><p>Praktycznie każdy z nas korzysta z menadżera pakietów <code>apt</code> lub też jego nakładki <code>aptitude</code> .
-Operowanie na debianie bez tych narzędzi raczej by nam nieco utrudniło życie. Sporo osób ogranicza
-się jedynie do podstawowych poleceń, typu <code>update</code> , <code>upgrade</code> czy <code>dist-upgrade</code> , pomijając przy
-tym całą konfigurację w/w narzędzi. W tym wpisie zostanie zaprezentowanych szereg opcji, które można
-zdefiniować na stałe w pliku konfiguracyjnym <code>/etc/apt/apt.conf</code> , tak by nie trzeba było ich ciągle
-wpisywać w terminalu ilekroć tylko korzystamy któregoś menadżera pakietów.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2015-10-18T20:04:30Z">Opublikowano: 18/10/2015</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
