@@ -2,11 +2,12 @@
 author: Morfik
 categories:
 - Linux
-date: "2015-06-14T23:19:51Z"
-date_gmt: 2015-06-14 21:19:51 +0200
+date:    2015-06-14 23:19:51 +0200
+lastmod: 2021-08-21 14:30:00 +0200
 published: true
 status: publish
 tags:
+- debian
 - bezpieczeństwo
 - gpg
 title: Konfiguracja GPG w pliku gpg.conf
@@ -17,12 +18,15 @@ Narzędzie `gpg` posiada swój własny plik konfiguracyjnych, który zwykle jest
 terminalu przy wywoływaniu polecenia `gpg` . Po zdefiniowaniu odpowiednich wpisów w pliku
 konfiguracyjnym, nie będziemy musieli już wyraźnie podawać tych parametrów ilekroć będziemy chcieli
 skorzystać z `gpg` . Przy okazji szukania info o kluczach GPG, natknąłem się na dość ciekawy
-[artykuł na temat GnuPG](https://riseup.net/security/message-security/openpgp/best-practices). Jest
-tam sporo informacji, które są wielce użyteczne w procesie konfiguracji tego narzędzia poprawiając
-tym samym dość znacznie bezpieczeństwo komunikacji.
+[artykuł na temat GnuPG][1]. Jest tam sporo informacji, które są wielce użyteczne w procesie
+konfiguracji tego narzędzia poprawiając tym samym dość znacznie bezpieczeństwo komunikacji.
 
 <!--more-->
 ## Serwery kluczy GPG
+
+< Ważna uwaga tutaj. [Serwery kluczy GPG od SKS już od jakiegoś czasu są martwe][6] i nie powinno
+< się z nich korzystać (obecnie nie da się tego zrobić). Wszystkie informacje zawarte w tym artykule
+< dalej są w mocy, za wyjątkiem oczywiście odwołań do serwerów SKS.
 
 Standardowo pakiet `gnupg` jest zainstalowany w debianie i wszystkie potrzebne nam narzędzia są już
 dostarczone i gotowe do użycia. Jest szereg rzeczy, które musimy wziąć pod uwagę przy konfigurowaniu
@@ -36,14 +40,13 @@ swoją maszynę by ta pobierała aktualizacje kluczy regularnie.
 Wiele klientów OpenPGP posiada zwykle jeden skonfigurowany keyserver. To nie jest idealne
 rozwiązanie, ponieważ jeśli ten serwer padnie albo, co gorsza, zdaje się działać prawidłowo, a tak
 naprawdę są z nim jakieś problemy, możemy nie otrzymać krytycznych aktualizacji kluczy. Dlatego też
-zalecane jest używanie [puli serwerów sks](https://sks-keyservers.net/overview-of-pools.php).
-Maszyny w puli są regularnie sprawdzane czy aby działają prawidłowo i jeśli któryś ma jakieś
-problemy, to zostanie usunięty z puli.
+zalecane jest używanie [puli serwerów sks][2]. Maszyny w puli są regularnie sprawdzane czy aby
+działają prawidłowo i jeśli któryś ma jakieś problemy, to zostanie usunięty z puli.
 
 Co może człowieka zdziwić, to fakt, że zapytania o klucze GPG do sporej ilości serwerów nie wędrują
 zaszyfrowanym kanałem używającym protokołu `hkps` . By z niego korzystać, trzeba doinstalować pakiet
-`gnupg-curl` , po czym pobrać certyfikat serwera i
-[zweryfikować](https://sks-keyservers.net/verify_tls.php) odcisk palca (fingerprint) certyfikatu.
+`gnupg-curl` , po czym pobrać certyfikat serwera i [zweryfikować][3] odcisk palca (fingerprint)
+certyfikatu.
 
 ### Weryfikacja tożsamości puli serwerów
 
@@ -68,10 +71,10 @@ Na samym dole widnieje odcisk SHA1 i jak widzimy, jest on zgodny z tym podanym n
 tożsamość serwera www została potwierdzona.
 
 Musimy także przeprowadzić weryfikację puli serwerów. Wszystkie serwery w niej są podpisane przez
-[CA sks-keyservers.net](https://sks-keyservers.net/sks-keyservers.netCA.pem). Deklarowany odcisk
-palca tego certyfikatu to `79:1B:27:A3:8E:66:7F:80:27:81:4D:4E:68:E7:C4:78:A4:5D:5A:17` , a X509v3
-Subject Key Identifier to `E4 C3 2A 09 14 67 D8 4D 52 12 4E 93 3C 13 E8 A0 8D DA B6 F3` . Pobieramy
-zatem certyfikat i weryfikujemy go:
+[CA sks-keyservers.net][4]. Deklarowany odcisk palca tego certyfikatu to
+`79:1B:27:A3:8E:66:7F:80:27:81:4D:4E:68:E7:C4:78:A4:5D:5A:17` , a X509v3 Subject Key Identifier to
+`E4 C3 2A 09 14 67 D8 4D 52 12 4E 93 3C 13 E8 A0 8D DA B6 F3` . Pobieramy zatem certyfikat i
+weryfikujemy go:
 
     $ mkdir ~/gpg_ca
     $ cd ~/gpg_ca
@@ -183,5 +186,12 @@ poniższe wpisy:
 
 ### Plik gpg.conf
 
-Aktualny plik konfiguracyjny dla GPG znajduje się [na moim
-gicie](https://github.com/morfikov/files/tree/master/configs/home/morfik/.gnupg).
+Aktualny plik konfiguracyjny dla GPG znajduje się [na moim gicie][5].
+
+
+[1]: https://riseup.net/security/message-security/openpgp/best-practices
+[2]: https://sks-keyservers.net/overview-of-pools.php
+[3]: https://sks-keyservers.net/verify_tls.php
+[4]: https://sks-keyservers.net/sks-keyservers.netCA.pem
+[5]: https://github.com/morfikov/files/tree/master/configs/home/morfik/.gnupg
+[6]: https://code.firstlook.media/the-death-of-sks-pgp-keyservers-and-how-first-look-media-is-handling-it
