@@ -6,7 +6,33 @@
     <description>Recent content in smartfon on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Sun, 01 Nov 2020 09:01:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/smartfon/feed.xml" rel="self" type="application/rss" />
+    <lastBuildDate>Fri, 27 Aug 2021 22:26:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/smartfon/feed.xml" rel="self" type="application/rss" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)</title>
+      <link>https://morfikov.github.io/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/</link>
+      <pubDate>Fri, 27 Aug 2021 22:26:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/</guid>
+      <description>&lt;p&gt;Jakiś czas temu wpadł w moje łapki smartfon Xiaomi Redmi 9 (galahad albo lancelot, bo w różnych
+częściach systemu jest to inaczej określone), który miał preinstalowanego Androida 10 oraz MIUI 11.
+Przez parę miesięcy używania telefonu, dostał on dwa albo trzy większe update całego ROM&#39;u,
+wliczając w to aktualizację MIUI do 12.0.1 ze stanem zabezpieczeń na dzień 2021-01-05. Zatem
+ostatnia aktualizacja zabezpieczeń tego telefonu miała miejsce zaraz na początku Stycznia. Od tego
+czasu cisza. Niby w przypadku tego modelu telefonu aktualizacje miały być wydawane &lt;a href=&#34;https://www.mi.com/global/service/support/security-update-1.html&#34;&gt;co trzy
+miesiące do roku 2023&lt;/a&gt; ale najwyraźniej coś jest nie tak i urządzenie od ponad pół roku nie
+dostało żadnych aktualizacji. Niby pod tym linkiem można wyczytać informację, że planowana jest
+aktualizacja do Androida 11 ale prawdę mówiąc jestem nieco zawiedziony opieszałością Xiaomi. Tak
+się złożyło, że przez przypadek trafiłem w &lt;a href=&#34;https://forum.xda-developers.com/f/redmi-9-poco-m2-roms-kernels-recoveries-dev.11175/&#34;&gt;to miejsce na forum XDA&lt;/a&gt;, gdzie z kolei znalazłem
+m.in. &lt;a href=&#34;https://forum.xda-developers.com/t/rom-unofficial-11-0-pixel-plus-ui-for-redmi-9-lancelot-galahad.4243813/&#34;&gt;ten wątek&lt;/a&gt;. Zatem alternatywne ROM&#39;y na mój smartfon istnieją i tego faktu nie byłem
+świadomy, bo w zeszłym roku jeszcze nic nie szło znaleźć. Postanowiłem zatem odblokować bootloader
+w swoim Xiaomi Redmi 9 i spróbować wgrać na niego TWRP i jeden (a może nawet kilka) przykładowy ROM
+na bazie AOSP/LineageOS. Proces odblokowania bootloader&#39;a w urządzeniach Xiaomi nie wymaga zbytnio
+wysiłku i da się go przeprowadzić w całości pod linux korzystając czy to z XiaoMiTool, czy też przy
+pomocy &lt;a href=&#34;https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/&#34;&gt;maszyn wirtualnych na bazie QEMU/KVM&lt;/a&gt;. Ten proces nie do końca jest dla każdego taki
+oczywisty, dlatego postanowiłem go dokładnie opisać.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Blokowanie reklam w YouTube na smartfonie z Androidem bez root</title>
@@ -399,32 +425,6 @@ zabezpieczenie mija się z celem. Na pewno w części smartfonów tak ale niekon
 modelach. Tak się składa, że akurat leży u mnie nieużywany Neffos Y5 od TP-LINK, to postanowiłem
 przyjrzeć się nieco bliżej tej kwestii haseł i sprawdzić czy jest się czego obawiać stosując krótkie
 hasła w zaszyfrowanych Androidach.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Budowanie obrazu TWRP recovery ze źródeł OMNI ROM</title>
-      <link>https://morfikov.github.io/post/budowanie-obrazu-twrp-recovery-ze-zrodel-omni-rom/</link>
-      <pubDate>Sun, 19 Feb 2017 21:06:04 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/budowanie-obrazu-twrp-recovery-ze-zrodel-omni-rom/</guid>
-      <description>&lt;p&gt;Gdy zamierzamy zbudować sobie własny ROM na smartfon z Androidem, np.
-&lt;a href=&#34;https://lineageos.org/&#34;&gt;LineageOS&lt;/a&gt; (CyanogenMod nie jest już rozwijany) czy nawet jedynie obraz
-recovery (&lt;a href=&#34;https://twrp.me/&#34;&gt;TWRP&lt;/a&gt; albo &lt;a href=&#34;https://www.clockworkmod.com/&#34;&gt;CWM&lt;/a&gt;), to potrzebne nam jest
-stosowne urządzenie oraz odpowiedni kod źródłowy. Skoro chcemy budować te ww. rzeczy, to
-prawdopodobnie nasz telefon nie jest przez to oprogramowanie jeszcze wspierany lub też sam soft nie
-jest regularnie aktualizowany przez dewelopera. W zasadzie zarówno pełne ROM&#39;y jak i obrazy recovery
-są budowane ze źródeł Androida. Niemniej jednak, oficjalny kod dostarczany przez Google budzi czasem
-wiele kontrowersji i ci nieco bardziej zaawansowani użytkownicy zmieniają go, np. czyniąc go w pełni
-OpenSource czy też implementując w nim pewną niestandardową funkcjonalność. Tak powstają Custom
-ROM&#39;y, które w późniejszym czasie z racji swojej popularności przestają być &amp;quot;Custom&amp;quot; i zaczynają żyć
-swoim własnym życiem obok tego Góglowskiego Androida. W przypadku budowania obrazu recovery nie są
-nam potrzebne całe źródła konkretnego ROM&#39;u. Jakby nie patrzeć, potrafią one zajmować trochę
-miejsca, a poza tym proces ich budowania jest stosunkowo czasochłonny. Tak czy inaczej, jakieś
-źródła trzeba pozyskać i przygotować je do dalszej pracy. W tym artykule nie będziemy sobie
-jeszcze budować całego ROM&#39;u i skupimy się na zbudowaniu od podstaw jedynie obrazu TWRP recovery ze
-źródeł &lt;a href=&#34;https://omnirom.org/&#34;&gt;OMNI ROM&lt;/a&gt;. Ten proces zostanie pokazany na przykładzie smartfona
-Neffos Y5 od TP-LINK przy wykorzystaniu systemu linux, a konkretnie dystrybucji Debian.&lt;/p&gt;</description>
     </item>
     
   </channel>
