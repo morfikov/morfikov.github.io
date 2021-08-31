@@ -33,6 +33,9 @@
 	{{- with .OutputFormats.Get "rss" }}
 	{{ printf `<link rel="%s" type="%s" href="%s" title="%s">` .Rel .MediaType.Type .RelPermalink $.Site.Title | safeHTML }}
 	{{- end }}
+	{{- with .OutputFormats.Get "atom" }}
+	{{ printf `<link rel="%s" type="%s" href="%s" title="%s">` .Rel .MediaType.Type .RelPermalink $.Site.Title | safeHTML }}
+	{{- end }}
 	{{- with ((.Site.GetPage "home").OutputFormats.Get "manifest") }}
 	<link rel="manifest" href="{{ "manifest.json" | relURL }}">
 	{{- end }}
