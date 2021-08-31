@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hugepages on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/hugepages/</link>
+    <description>Recent content in hugepages on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Sun, 09 Aug 2020 11:11:00 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/hugepages/feed.atom" rel="self" type="application/atom+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konfiguracja HugePages pod maszyny wirtualne QEMU/KVM</title>
+      <link>https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/</link>
+      <pubDate>Sun, 09 Aug 2020 11:11:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/</guid>
+      <description>&lt;p&gt;W linux rozmiar stron pamięci operacyjnej RAM ma domyślnie 4096 bajtów (4 KiB). Maszyny wirtualne
+QEMU/KVM mają to do siebie, że wykorzystują dość spore zasoby pamięci (wile GiB), przez co mały
+rozmiar strony może niekorzystnie wpływać na wydajność systemów gościa. Chodzi generalnie o to, że
+rozrostowi ulega tablica stron, której przeszukiwanie jest czasochłonną operacją. By temu zaradzić,
+wymyślono TLB (&lt;a href=&#34;https://en.wikipedia.org/wiki/Translation_lookaside_buffer&#34;&gt;Translation Lookaside Buffer&lt;/a&gt;), który ulokowany jest albo w CPU albo gdzieś
+pomiędzy CPU i główną pamięcią operacyjną. TLB to mały ale za to bardzo szybki cache. W przypadku
+systemów z duża ilością pamięci RAM, niewielki rozmiar TLB sprawia, że odpowiedzi na zapytania nie
+są brane z cache, tylko system wraca do przeszukiwania normalnej tablicy stron zlokalizowanej w
+pamięci RAM (TLB miss). Taka sytuacja jest bardzo kosztowna, spowalnia cały system i dlatego trzeba
+jej unikać. Na szczęście jest &lt;a href=&#34;https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt&#34;&gt;mechanizm HugePages&lt;/a&gt;, który pozwala na zwiększenie rozmiaru
+strony pamięci z domyślnych 4 KiB do 2 MiB lub nawet do 1 GiB w zależności od właściwości głównego
+procesora. W tym artykule postaramy się skonfigurować HugePages na potrzeby maszyn wirtualnych dla
+systemu Debian Linux.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

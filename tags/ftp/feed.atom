@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ftp on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/ftp/</link>
+    <description>Recent content in ftp on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Sat, 16 Jul 2016 18:59:19 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/ftp/feed.atom" rel="self" type="application/atom+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>nf_conntrack: automatic helper assignment is deprecated</title>
+      <link>https://morfikov.github.io/post/nf_conntrack-automatic-helper-assignment-deprecated/</link>
+      <pubDate>Sat, 16 Jul 2016 18:59:19 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/nf_conntrack-automatic-helper-assignment-deprecated/</guid>
+      <description>&lt;p&gt;Jeśli ktoś uważnie śledzi logi systemowe, to od czasu do czasu można w nich znaleźć komunikat,
+którzy brzmi mniej więcej tak: &lt;code&gt;nf_conntrack: automatic helper assignment is deprecated and it will be removed soon. Use the iptables CT target to attach helpers instead&lt;/code&gt; . Ta wiadomość odnosi się do
+jednego z modułów linux&#39;owego filtra pakietów &lt;code&gt;iptables&lt;/code&gt; . Moduł, o którym mowa to &lt;code&gt;nf_conntrack&lt;/code&gt; ,
+który odpowiada za śledzenie połączeń nawiązywanych przez system. Sam komunikat zaś dotyczy
+mechanizmów pomocniczych, których sposób aktywacji jest już nieco przestarzały i zostanie wkrótce
+usunięty. Co to oznacza dla przeciętnego użytkownika linux&#39;a i czym są w istocie te mechanizmy
+pomocnicze, które znajdują zastosowane na zaporze sieciowej?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Serwer FTP na routerze z OpenWRT (vsftpd)</title>
+      <link>https://morfikov.github.io/post/serwer-ftp-routerze-openwrt-vsftpd/</link>
+      <pubDate>Thu, 23 Jun 2016 14:30:39 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/serwer-ftp-routerze-openwrt-vsftpd/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pl.wikipedia.org/wiki/File_Transfer_Protocol&#34;&gt;Usługa FTP&lt;/a&gt; jest w miarę wygodnym
+rozwiązaniem w przypadku, gdy chcemy korzystać z zasobów udostępnianych przez router zarówno na
+linux&#39;ach jak i na windowsach. Jedyne czego potrzebujemy to kawałek przeglądarki albo jakiegoś
+klienta FTP. W tym protokole nie ma też znaczenia system plików, w którym znajdują się udostępniane
+pliki. Jedyne co nas interesuje, to postawienie serwera na routerze i podanie klientom namiarów na
+niego. W OpenWRT możemy do tego celu zaprzęgnąć &lt;code&gt;vsftpd&lt;/code&gt; . W tym wpisie pokażę jedynie jak tego typu
+usługę uruchomić na domowym routerze WiFi i jak ją wstępnie skonfigurować. Wszelkie kwestie
+techniczne związane z działaniem samego serwera FTP jak i jego wszystkich parametrów już opisywałem
+przy okazji &lt;a href=&#34;/post/konfiguracja-vsftpd-w-debianie/&#34;&gt;wdrażania vsftpd w dystrybucji
+debian&lt;/a&gt;. Zachęcam zatem do zapoznania się
+również z tym podlinkowanym wpisem.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Implementacja protokołu SSL/TLS w vsftpd</title>
+      <link>https://morfikov.github.io/post/implementacja-protokolu-ssltls-w-vsftpd/</link>
+      <pubDate>Sat, 13 Feb 2016 22:30:54 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/implementacja-protokolu-ssltls-w-vsftpd/</guid>
+      <description>&lt;p&gt;Kwestię &lt;a href=&#34;/post/konfiguracja-vsftpd-w-debianie/&#34;&gt;konfiguracji serwera FTP na debianie w oparciu o
+vsftpd&lt;/a&gt; już przerabialiśmy. Została nam
+jeszcze do omówienia implementacja protokołu SSL/TLS. FTP nie jest bezpiecznym protokołem i wszelkie
+dane logowania są przesyłane przez sieć otwartym tekstem. W przypadku, gdy stawiamy lokalny serwer
+FTP w zaufanej sieci lub też będziemy korzystać jedynie z dostępu anonimowego, to raczej nie
+potrzebujemy szyfrować danych. Trzeba pamiętać, że każde szyfrowanie dość mocno obciąża procesor,
+który może stanowić wąskie gardło przy przesyle danych. W tym wpisie założenie jest takie, że
+bezpieczeństwo danych, które będziemy przesyłać za pomocą protokołu FTP, jest rzeczą najważniejszą i
+dlatego wdrożyć szyfrowanie.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konfiguracja vsftpd w Debianie</title>
+      <link>https://morfikov.github.io/post/konfiguracja-vsftpd-w-debianie/</link>
+      <pubDate>Fri, 12 Feb 2016 02:39:29 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-vsftpd-w-debianie/</guid>
+      <description>&lt;p&gt;Serwery FTP umożliwiają przesyłanie plików przez sieć za pomocą protokołu TCP. Raczej wszyscy
+mieliśmy z nimi już do czynienia. Może niekoniecznie zarządzaliśmy takimi serwerami ale na pewno
+zdarzyło nam się pobierać pliki za ich pomocą. W tym wpisie jednak postaramy się skonfigurować taki
+serwer FTP w oparciu o oprogramowanie &lt;a href=&#34;https://security.appspot.com/vsftpd.html&#34;&gt;vsftpd&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

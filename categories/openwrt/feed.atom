@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OpenWRT on Morfitronik</title>
+    <link>https://morfikov.github.io/categories/openwrt/</link>
+    <description>Recent content in OpenWRT on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Tue, 12 May 2020 21:03:00 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/categories/openwrt/feed.atom" rel="self" type="application/atom+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Instalacja i konfiguracja AdGuard na routerze z OpenWRT</title>
+      <link>https://morfikov.github.io/post/instalacja-konfiguracja-adguard-na-routerze-z-openwrt/</link>
+      <pubDate>Tue, 12 May 2020 21:03:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/instalacja-konfiguracja-adguard-na-routerze-z-openwrt/</guid>
+      <description>&lt;p&gt;Jakiś już czas temu opisywałem w jaki sposób &lt;a href=&#34;/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/&#34;&gt;skonfigurować AdBlock&#39;a na routerze WiFi z wgranym
+firmware OpenWRT&lt;/a&gt; oraz jak wdrożyć &lt;a href=&#34;/post/konfiguracja-dnscrypt-proxy-w-openwrt/&#34;&gt;szyfrowanie zapytań DNS w oparciu o dnscrypt-proxy dla
+wszystkich klientów naszej sieci domowej&lt;/a&gt;. Zarówno AdBlock jak i dnscrypt-proxy można w dalszym
+ciągu wykorzystywać, zwłaszcza na routerach wyposażonych w niewielkich rozmiarów flash i mało
+pamięci RAM. Niemniej jednak, nie każdy lubi konfigurować swój bezprzewodowy router za
+pośrednictwem terminala. Dla takich osób powstał właśnie &lt;a href=&#34;https://github.com/AdguardTeam/AdGuardHome#comparison&#34;&gt;AdGuard Home&lt;/a&gt;, który ma na celu
+możliwie uprościć konfigurację routera, przynajmniej jeśli chodzi o rzeczy związane z protokołem
+DNS. W tym artykule przyjrzymy się nieco bliżej AdGuard&#39;owi i zobaczymy czy można z niego zrobić
+jakiś większy użytek.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak zbudować/uaktualnić firmware OpenWRT dla routera WiFi</title>
+      <link>https://morfikov.github.io/post/jak-zbudowac-uaktualnic-firmware-openwrt-dla-routera-wifi/</link>
+      <pubDate>Mon, 13 Apr 2020 21:03:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zbudowac-uaktualnic-firmware-openwrt-dla-routera-wifi/</guid>
+      <description>&lt;p&gt;Od dłuższego już czasu na swoich routerach WiFi wykorzystuję firmware OpenWRT. W przypadku mojego
+domowego routera TP-Link Archer C7 v2 zarządzanie jego oprogramowaniem sprowadza się w zasadzie do
+przeprowadzania aktualizacji raz na kilka tygodni czy miesięcy. Z reguły nie jest to jakoś
+czasochłonne zadanie, bo wystarczy pobrać stosowny obraz z &lt;a href=&#34;http://dl.eko.one.pl/openwrt-19.07/targets/ath79/generic/&#34;&gt;serwera eko.one.pl&lt;/a&gt; i wrzucić go na
+router czy to przez interfejs LuCI, czy też przez &lt;code&gt;sysupgrade&lt;/code&gt; . No tak tylko, że po wgraniu
+OpenWRT na flash routera trzeba zwykle też dograć szereg pakietów, których nie ma w standardzie,
+przynajmniej jeśli chodzi akurat o ten mój router bezprzewodowy. Podobnie sprawa ma się z
+odtwarzaniem konfiguracji, której pewne elementy pozostają niezmienne nawet po aktualizacji ze
+starszego wydania OpenWRT do nowszego. Postanowiłem zatem zgłębić nieco proces kompilacji źródeł i
+budowy obrazu z firmware OpenWRT, tak by nieco zautomatyzować sobie (czy też wręcz wyeliminować)
+chociaż część z kroków, które zwykle przeprowadzam chwilę po wgraniu obrazu na router. Cały ten
+proces budowy obrazu zostanie opisany przy wykorzystaniu dystrybucji Debian linux.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak ustalić IP i nazwę pliku trybu recovery w routerach TP-Link</title>
+      <link>https://morfikov.github.io/post/jak-ustalic-ip-i-nazwe-pliku-trybu-recovery-w-routerach-tp-link/</link>
+      <pubDate>Thu, 17 Aug 2017 21:22:08 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-ustalic-ip-i-nazwe-pliku-trybu-recovery-w-routerach-tp-link/</guid>
+      <description>&lt;p&gt;Jeden z moich routerów, a konkretnie był
+to &lt;a href=&#34;http://www.tp-link.com/us/download/Archer-C7.html&#34;&gt;Archer C7&lt;/a&gt; v2 wymagał, by powrócić jego
+firmware z LEDE/OpenWRT do tego, który widnieje na oficjalnej stronie TP-Link. Niby ta czynność nie
+jest zbyt skomplikowana ale jak zwykle coś poszło nie tak. Konkretnie to odłączyłem zasilanie nie w
+tej listwie co trzeba i w efekcie podczas flash&#39;owania routera nowym firmware, to urządzenie się
+zwyczajnie wyłączyło. Zawału oczywiście nie dostałem, bo przecież obraz, który był wgrywany na
+router nie zawierał uboot&#39;a, czyli części z bootloader&#39;em, więc wiedziałem, że wystarczy przez tryb
+recovery wgrać obraz jeszcze raz i po sprawie. Problem w tylko w tym, że nie znałem w zasadzie ani
+nazwy pliku obrazu, ani też adresu IP, który jest wymagany dla połączenia w przypadku routera
+Archer C7 v2. Te dane można naturalnie znaleźć w sieci ale co w przypadku, gdy ubijemy sobie w taki
+sposób nasz jedyny router, przez co pozbawimy się jednocześnie dostępu do internetu? Czy istnieje
+jakiś sposób na ustalenie tych danych, inny niż przez konsolę szeregową?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak wymusić pasmo/częstotliwość LTE pod LEDE/OpenWRT</title>
+      <link>https://morfikov.github.io/post/jak-wymusic-pasmo-czestotliwosc-lte-pod-lede-openwrt/</link>
+      <pubDate>Fri, 13 Jan 2017 18:43:37 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-wymusic-pasmo-czestotliwosc-lte-pod-lede-openwrt/</guid>
+      <description>&lt;p&gt;Zainspirowany &lt;a href=&#34;http://forum.jdtech.pl/Watek-wybor-czestotliwosci-lte-na-przykladzie-huawei-e3372&#34;&gt;wątkiem na forum
+JDtech&lt;/a&gt; na temat
+testów transferów w konkretnych pasmach/częstotliwościach LTE, postanowiłem sprawdzić jak ta sprawa
+wygląda w mojej okolicy. Generalnie ja obecnie u siebie mam modem Huawei E3372s-153 w wersji
+NON-HiLink podpięty do &lt;a href=&#34;http://www.tp-link.com.pl/products/details/Archer-C2600.html&#34;&gt;routera TP-LINK Archer
+C2600&lt;/a&gt;. Oczywiście na tym routerze
+jest wgrany alternatywny firmware LEDE/OpenWRT, bo inaczej nie miałbym możliwości skorzystać z tego
+modemu. Standardowa konfiguracja LTE w LEDE/OpenWRT daje nam jedynie możliwość wyboru między
+ustawieniami &lt;code&gt;auto&lt;/code&gt; , &lt;code&gt;gsm&lt;/code&gt; , &lt;code&gt;umts&lt;/code&gt; , &lt;code&gt;lte&lt;/code&gt; , &lt;code&gt;preferumts&lt;/code&gt; oraz &lt;code&gt;preferlte&lt;/code&gt; . W przypadku internetu
+LTE, zwykle wybieramy tutaj tryb &lt;code&gt;auto&lt;/code&gt; , ewentualnie też &lt;code&gt;lte&lt;/code&gt; , by wymusić konkretny tryb pracy
+modemu, co może mieć kolosalne znaczenie przy darmowym internecie od RBM/Play. Niemniej jednak,
+nawet w przypadku wyboru &lt;code&gt;lte&lt;/code&gt; , częstotliwość na jakiej będzie pracował modem w dalszym ciągu jest
+dobierana automatycznie w oparciu o parametry sygnału docierającego z dostępnych w okolicy BTS&#39;ów. W
+przypadku modemu E3372 można jednak wymusić, by połączenie LTE było realizowane na konkretnej
+częstotliwości, np. 2100/1800/2600/900/800 MHz i by taki stan rzeczy osiągnąć, trzeba nieco
+przerobić konfigurację tego alternatywnego oprogramowania znajdującego się w naszym routerze WiFi.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Udostępnianie LTE/3G ze smartfona przez router OpenWRT (tethering)</title>
+      <link>https://morfikov.github.io/post/udostepnianie-lte-3g-ze-smartfona-przez-router-openwrt-tethering/</link>
+      <pubDate>Tue, 01 Nov 2016 18:14:53 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/udostepnianie-lte-3g-ze-smartfona-przez-router-openwrt-tethering/</guid>
+      <description>&lt;p&gt;Przeglądając &lt;a href=&#34;http://eko.one.pl/forum/viewtopic.php?pid=175547&#34;&gt;forum eko.one.pl natrafiłem ciekawy
+problem&lt;/a&gt;, nad którym też się zastanawiałem jakiś
+czas temu. Chodzi o udostępnienie internetu komórkowego (LTE/3G) komputerom w domowej sieci za
+pomocą smartfona (tzw. &lt;a href=&#34;https://pl.wikipedia.org/wiki/Tethering&#34;&gt;tethering&lt;/a&gt;). W takiej sytuacji, w
+przypadku problemów z lokalnym dostawcą internetu moglibyśmy przepiąć wszystkie komputery na
+internet świadczony przez operatora GSM, z którego korzystamy. Z reguły standardowy firmware
+routerów WiFi nie pozwala na tego typu rozwiązania. Niemniej jednak, mając do dyspozycji router z
+OpenWRT można spróbować połączyć go z naszym smartfonem udostępniając sieci lokalnej internet
+LTE/3G. W tym artykule zostanie przedstawione tego typu rozwiązanie przy wykorzystaniu &lt;a href=&#34;http://www.tp-link.com.pl/en/products/details/cat-9_Archer-C7.html&#34;&gt;routera
+Archer C7&lt;/a&gt; v2 od TP-LINK oraz
+&lt;a href=&#34;http://www.neffos.com/en/product/details/C5&#34;&gt;smartfona Neffos C5&lt;/a&gt;, również od TP-LINK. Na routerze
+zaś jest wgrana najnowsza stabilna wersja OpenWRT (Chaos Calmer). Sprawdzimy sobie jak takie
+rozwiązanie wygląda oraz sprawuje się w praktyce i czy jest ono w ogóle godne jakiegoś większego
+zainteresowania.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak przy pomocy trybu recovery odzyskać router TP-LINK</title>
+      <link>https://morfikov.github.io/post/jak-przy-pomocy-trybu-recovery-odzyskac-router-tp-link/</link>
+      <pubDate>Sat, 22 Oct 2016 21:22:08 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-przy-pomocy-trybu-recovery-odzyskac-router-tp-link/</guid>
+      <description>&lt;p&gt;Przy okazji zabawy z &lt;a href=&#34;/post/konsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link/&#34;&gt;konsolą szeregową przy ratowaniu jednego z moich routerów
+TP-LINK&lt;/a&gt;
+(&lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WR1043ND.html&#34;&gt;TL-WR1043ND&lt;/a&gt; V2), parokrotnie
+przewinęła mi się informacja na temat trybu recovery, który ma być dostępny w części routerów. W
+czym nam taki tryb może pomóc i czy nasz router go obsługuje? Jeśli tak, to jak za jego pomocą
+naprawić urządzenie, które nie chce wystartować, np. po przerwanym procesie wgrywania firmware
+TP-LINK czy też OpenWRT/LEDE? W trym artykule postaramy się odpowiedzieć na te pytania.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konsola szeregowa, adapter USB-UART i uszkodzony router TP-LINK</title>
+      <link>https://morfikov.github.io/post/konsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link/</link>
+      <pubDate>Sun, 16 Oct 2016 20:36:17 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link/</guid>
+      <description>&lt;p&gt;Każdy z nas słyszał o alternatywnym firmware na bezprzewodowe routery WiFi. Mam tutaj na myśli
+oczywiście &lt;a href=&#34;https://openwrt.org/&#34;&gt;OpenWRT&lt;/a&gt;/&lt;a href=&#34;https://lede-project.org/&#34;&gt;LEDE&lt;/a&gt; oraz jego GUI &lt;a href=&#34;https://www.gargoyle-router.com/&#34;&gt;Gargoyle&lt;/a&gt; i &lt;a href=&#34;http://eko.one.pl/?p=openwrt-luci&#34;&gt;LUCI&lt;/a&gt;. Przy zabawach z takim
+oprogramowaniem bardzo łatwo jest uszkodzić router w sytuacji, gdy tak na dobrą sprawę nie wiemy co
+robimy. Mi się jeszcze nie zdarzyło ubić żadnej z moich maszyn, a mam ich kilka. Problem w tym, że
+tak naprawdę nie wiem jak wygląda proces odzyskiwania routera w przypadku zaistnienia takiego złego
+scenariusza. Dlatego też postanowiłem zainicjować zdarzenie, które doprowadziło do ubicia systemu w
+moim &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WR1043ND.html&#34;&gt;TL-WR1043ND&lt;/a&gt; V2 od TP-LINK. Co zrobić w takim przypadku, gdy system routera nie chce
+wystartować, a na obudowie diody sygnalizują nieprawidłową pracę urządzenia? W takiej sytuacji
+będziemy musieli rozebrać sprzęt i podłączyć się do portu szeregowego na PCB za pomocą adaptera
+USB-UART, najlepiej na układzie CP2102, który bez problemu działa pod linux. Ten artykuł nie
+powstałby (tak szybko), &lt;a href=&#34;http://tplink-forum.pl/index.php?/topic/5322-jak-ustali%C4%87-oznaczenia-port%C3%B3w-konsoli-szeregowej-na-pcb/&#34;&gt;gdyby nie pomoc ze strony @Heinz&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Instalacja i konfiguracja firmware OpenWRT (Chaos Calmer)</title>
+      <link>https://morfikov.github.io/post/instalacja-konfiguracja-firmware-openwrt-chaos-calmer/</link>
+      <pubDate>Fri, 23 Sep 2016 18:27:02 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/instalacja-konfiguracja-firmware-openwrt-chaos-calmer/</guid>
+      <description>&lt;p&gt;Ten post ma na celu zebranie wszystkich wpisów dotyczących instalacji i konfiguracji alternatywnego
+firmware OpenWRT, które znajdują się na tym blogu i umieszczenie ich w jednym wpisie. Chodzi
+generalnie o to, by wszystkie te artykuły były dostępne na jednej stronie w formie spisu treści
+odwołującego się do poszczególnych tekstów. &lt;a href=&#34;https://tplinkforum.pl/t/openwrt-w-pigulce-konfiguracja-w-oparciu-o-tl-wr1043nd-oraz-archer-c7/6960/&#34;&gt;Na tplinkforum.pl znajduje się post &amp;quot;OpenWRT w
+pigułce&amp;quot;&lt;/a&gt;, z tym, że tamten artykuł dotyczy wydania Barrier Breaker. Artykuły, do których linki
+znajdują się poniżej, odwołują się do wydania Chaos Calmer i rozwiązania opisane w nich powinny na
+tej wersji firmware działać bez problemu. Mogą natomiast pojawić się problemy w przypadku
+konfiguracji starszych wersji OpenWRT na naszym routerze WiFi.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Blokowanie reklam z adblock na domowym routerze WiFi</title>
+      <link>https://morfikov.github.io/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/</link>
+      <pubDate>Mon, 19 Sep 2016 22:22:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/</guid>
+      <description>&lt;p&gt;Na sporej części stron internetowych są nam prezentowane reklamy w miej lub bardziej nachalny
+sposób. Takie banery są w stanie w dużej mierze przesłonić faktyczną treść serwisu albo też wręcz
+uniemożliwić nam spokojne czytanie tekstu, który się w takiej witrynie znajduje. By walczyć z tego
+typu praktykami, powstała cała masa dodatków do przeglądarek, np. &lt;a href=&#34;https://adblockplus.org/&#34;&gt;adblock&lt;/a&gt; czy &lt;a href=&#34;https://www.ublock.org/&#34;&gt;ublock&lt;/a&gt;,
+które są w stanie odfiltrować praktycznie wszystkie reklamy. Możemy pokusić się o zaimplementowanie
+takiego adblock&#39;a bezpośrednio na naszym routerze WiFi, z tym, że by taki filtr reklam wdrożyć w
+naszej sieci domowej, na routerze musimy zainstalować alternatywny firmware OpenWRT/LEDE.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>OpenWRT: Dwa różne adresy MAC na porcie WAN</title>
+      <link>https://morfikov.github.io/post/openwrt-dwa-rozne-adresy-mac-na-porcie-wan/</link>
+      <pubDate>Sun, 11 Sep 2016 18:42:58 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/openwrt-dwa-rozne-adresy-mac-na-porcie-wan/</guid>
+      <description>&lt;p&gt;Na forum eko.one.pl pojawił się ciekawy temat dotyczący &lt;a href=&#34;http://eko.one.pl/forum/viewtopic.php?id=14224&#34;&gt;problemów z adresami MAC w
+OpenWRT.&lt;/a&gt; Chodzi o to, że by uzyskać połączenie u
+pewnych ISP, trzeba im podać adres MAC tego urządzenia, które będzie wpięte bezpośrednio w strukturę
+sieci ISP. Niby normalna sprawa ale w pewnych przypadkach, ISP potrafi uwalić połączenie, gdy inne
+urządzenie zostanie podpięte do sieci w miejscu starego. Zwykle wystarczy telefon do ISP z prośbą o
+aktualizację adresu MAC ale w przypadku firmware OpenWRT może to być ździebko problematyczna
+kwestia. Wychodzi na to, że OpenWRT identyfikuje się dwoma adresami MAC na porcie WAN. Jeden z nich
+to ten standardowy MAC, który powinien być wykorzystywany i podany ISP. Drugim zaś jest MAC, który
+pojawia się przy rozgłaszaniu trybu failsafe podczas fazy startu routera WiFi. Ja nigdy nie
+zaobserwowałem problemów z tego powodu. Niemniej jednak, postanowiłem sprawdzić, jak ta sytuacja
+dokładnie wygląda i jak sobie z nią poradzić już teraz, na wypadek, gdyby w przyszłości trafił mi
+się jeden z takich dziwnych ISP.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>OpenWRT: Konfiguracja anten via txantenna/rxantenna</title>
+      <link>https://morfikov.github.io/post/openwrt-konfiguracja-anten-via-txantenna-rxantenna/</link>
+      <pubDate>Fri, 09 Sep 2016 17:59:24 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/openwrt-konfiguracja-anten-via-txantenna-rxantenna/</guid>
+      <description>&lt;p&gt;Przeglądając forum eko.one.pl wpadł mi w oko &lt;a href=&#34;http://eko.one.pl/forum/viewtopic.php?pid=171898#p171898&#34;&gt;taki oto
+temat&lt;/a&gt;. Problem, który został w nim
+poruszony dotyczył wykorzystywania pewnej określonej anteny routera. Zakładając, że przeciętny
+router ma trzy anteny, powiedzmy, że chcemy wykorzystywać tylko jedną z nich. Dlaczego mielibyśmy
+rozważać w ogóle taką sytuację? Przy trzech antenach, teoretyczny transfer w paśmie 2,4 GHz to, w
+zależności od routera, 450-600 mbit/s. Przy jednej antenie będziemy mieli max 150-200 mbit/s. Z tego
+co czytałem wcześniej w różnych źródłach, uszkodzenie w jakiś sposób toru antenowego może
+drastycznie pogorszyć lub wręcz uniemożliwić routerowi transmisję sygnału. Opisana w podlinkowanym
+wyżej wątku sytuacja dotyczyła właśnie tego typu zdarzenia, gdzie jedno z gniazd antenowych routera
+zostało uszkodzone. Firmware OpenWRT/LEDE jest nam w stanie umożliwić wybór określonych anten przy
+pomocy parametrów &lt;code&gt;diversity&lt;/code&gt; , &lt;code&gt;txantenna&lt;/code&gt; oraz &lt;code&gt;rxantenna&lt;/code&gt; . W tym wpisie zobaczymy jak
+skonfigurować sobie anteny na przykładzie &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WR1043ND.html&#34;&gt;routera TL-WR1043ND
+V2&lt;/a&gt; od TP-LINK.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Kształtowanie ruchu z qos-scripts w OpenWRT</title>
+      <link>https://morfikov.github.io/post/ksztaltowanie-ruchu-qos-scripts-openwrt/</link>
+      <pubDate>Fri, 08 Jul 2016 18:00:54 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/ksztaltowanie-ruchu-qos-scripts-openwrt/</guid>
+      <description>&lt;p&gt;Każdy bardziej zaawansowany administrator sieci prędzej czy później będzie chciał wdrożyć na swoim
+routerze wyposażonym w firmware OpenWRT pewien mechanizm QoS umożliwiający kształtowanie ruchu
+sieciowego. Ci, którzy się za ten temat zabierali, wiedzą, że nie jest on prosty w realizacji.
+Zwłaszcza, gdy chce się cały ten system zarządzania pakietami skonfigurować od podstaw przy pomocy
+narzędzi takich jak &lt;code&gt;iptables&lt;/code&gt; , &lt;code&gt;tc&lt;/code&gt; oraz &lt;code&gt;ip&lt;/code&gt; . Z tego też względu OpenWRT umożliwia nam nieco
+prostszą w konfiguracji alternatywę polegającą na zainstalowaniu narzędzi zawartych w pakietach
+&lt;code&gt;wshaper&lt;/code&gt; , &lt;code&gt;qos-scripts&lt;/code&gt; lub &lt;code&gt;sqm-scripts&lt;/code&gt; . Trzeba przy tym pamiętać, że mechanizm, który zostanie
+stworzony z wykorzystaniem jednego z tych w/w pakietów nie będzie tak elastyczny jak przy ręcznej
+konfiguracji od podstaw. Niemniej jednak, w tym artykule postaramy się ogarnąć kształtowanie ruchu
+przy pomocy tych pakietów.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Różne adresy LAN i WLAN w OpenWRT (Routed AP)</title>
+      <link>https://morfikov.github.io/post/rozne-adresy-lan-wlan-openwrt-routed-ap/</link>
+      <pubDate>Thu, 07 Jul 2016 16:20:17 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/rozne-adresy-lan-wlan-openwrt-routed-ap/</guid>
+      <description>&lt;p&gt;W standardowej konfiguracji OpenWRT, hosty łączące się za pomocą sieci bezprzewodowej jak i tej
+przewodowej są spięte razem za pomocą mostka (bridge) i tworzą jedną sieć lokalną. Nie ma w tym nic
+dziwnego, bo przecie chcemy, aby komunikacja między wszystkimi hostami w sieci LAN odbywała się bez
+większych przeszkód. Przynajmniej takie jest standardowe podejście przy konfiguracji sieci domowej.
+Niemniej jednak, w pewnych przypadkach istnieje potrzeba oddzielenia maszyn, które nawiązują
+połączenie za pomocą sieci WiFi od tych, które łączą się przewodowo. Generalnie chodzi o różne
+adresy, które zostaną przypisane sieciom LAN i WLAN. Rozwiązanie, które zostanie opisane w tym
+artykule jest podobne do tworzenia &lt;a href=&#34;/post/bezprzewodowa-siec-goscinna-guest-wlan/&#34;&gt;bezprzewodowej sieci
+gościnnej&lt;/a&gt; (guest WLAN), z tą
+różnicą, że w tym przypadku będziemy mieli do czynienia tylko z jedną siecią WiFi (tzw. &lt;a href=&#34;https://wiki.openwrt.org/doc/recipes/routedap&#34;&gt;Routed
+AP&lt;/a&gt;).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Bezprzewodowa sieć gościnna (guest WLAN)</title>
+      <link>https://morfikov.github.io/post/bezprzewodowa-siec-goscinna-guest-wlan/</link>
+      <pubDate>Wed, 06 Jul 2016 21:00:34 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/bezprzewodowa-siec-goscinna-guest-wlan/</guid>
+      <description>&lt;p&gt;Routery WiFi zwykle oferują jedną sieć bezprzewodową, do której użytkownicy mogą się łączyć po
+podaniu nazwy ESSID oraz hasła. W przypadku znanych nam osób chcących korzystać z udostępnianego
+przez nas AP, taka sieć powinna nam w pełni wystarczyć. Problem jednak zaczyna się w przypadku tych
+użytkowników, którym chcemy zezwolić na dostęp do naszej sieci WiFi ale nie darzymy ich zbytnio
+wysokim kredytem zaufania. By ten problem rozwiązać, w OpenWRT możemy skonfigurować &lt;a href=&#34;https://wiki.openwrt.org/doc/recipes/guest-wlan&#34;&gt;mechanizm zwany
+&amp;quot;guest WLAN&amp;quot;&lt;/a&gt;, czyli bezprzewodowa sieć gościnna. W
+tym artykule zobaczymy jak odseparować od siebie hosty w sieci LAN od tych w sieci gościnnej.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konfiguracja DMZ w OpenWRT</title>
+      <link>https://morfikov.github.io/post/konfiguracja-dmz-openwrt/</link>
+      <pubDate>Tue, 05 Jul 2016 18:05:31 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-dmz-openwrt/</guid>
+      <description>&lt;p&gt;Strefa zdemilitaryzowana (&lt;a href=&#34;https://pl.wikipedia.org/wiki/Strefa_zdemilitaryzowana_(informatyka)&#34;&gt;DMZ, demilitarized
+zone&lt;/a&gt;) to taki mechanizm,
+który ma na celu poprawę bezpieczeństwa usług w sieci lokalnej. Generalnie chodzi o podział sieci
+na kilka mniejszych podsieci i oddzielenie ich od siebie fizycznie lub logicznie. &lt;a href=&#34;https://wiki.openwrt.org/doc/howto/dmz&#34;&gt;W OpenWRT możemy
+wydzielić taką strefę DMZ przy pomocy VLAN&#39;ów&lt;/a&gt;. Z kolei
+odpowiednio skonfigurowany firewall odseparuje nam tę strefę od pozostałych maszyn pracujących w
+sieci LAN. W taki sposób nawet w przypadku włamania mającego miejsce w strefie DMZ, maszyny w
+pozostałych segmentach sieci będą bezpieczne. W tym wpisie postaramy się skonfigurować strefę
+zdemilitaryzowaną na routerze wyposażonym w firmware OpenWRT.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Sieciowy system plików w OpenWRT (NFS)</title>
+      <link>https://morfikov.github.io/post/sieciowy-system-plikow-openwrt-nfs/</link>
+      <pubDate>Sun, 26 Jun 2016 19:15:01 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/sieciowy-system-plikow-openwrt-nfs/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pl.wikipedia.org/wiki/Network_File_System_(protok%C3%B3%C5%82)&#34;&gt;Network File System&lt;/a&gt;) to sieciowy system plików, za pomocą którego maszyny mające na pokładzie
+system operacyjny linux, w tym tez OpenWRT, są w stanie udostępniać pliki w sieci. Zatem NFS to
+głównie domena linux&#39;ów. W przypadku windowsów można korzystać z protokołu SMB (&lt;a href=&#34;https://pl.wikipedia.org/wiki/Samba_(program)&#34;&gt;samba&lt;/a&gt;). Sposób
+udostępniania zasobów przy pomocy tego sieciowego systemu plików jest bardzo podobny do tego, który
+jest realizowany w przypadku protokołu SSHFS. Zasadniczą różnicą między NFS i SSHFS jest brak
+szyfrowania komunikacji. W warunkach domowej sieci, ta cecha raczej nie stanowi większego problemu.
+Poza tym, trzeba też brać pod uwagę fakt, że szyfrowanie znacznie obciążyłoby router, co
+przełożyłoby się na spadek prędkości transferu. W tym wpisie zobaczymy jak na routerze z OpenWRT
+zaimplementować protokół NFS i udostępnić za jego pomocą zasoby w sieci lokalnej.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Serwer FTP na routerze z OpenWRT (vsftpd)</title>
+      <link>https://morfikov.github.io/post/serwer-ftp-routerze-openwrt-vsftpd/</link>
+      <pubDate>Thu, 23 Jun 2016 14:30:39 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/serwer-ftp-routerze-openwrt-vsftpd/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pl.wikipedia.org/wiki/File_Transfer_Protocol&#34;&gt;Usługa FTP&lt;/a&gt; jest w miarę wygodnym
+rozwiązaniem w przypadku, gdy chcemy korzystać z zasobów udostępnianych przez router zarówno na
+linux&#39;ach jak i na windowsach. Jedyne czego potrzebujemy to kawałek przeglądarki albo jakiegoś
+klienta FTP. W tym protokole nie ma też znaczenia system plików, w którym znajdują się udostępniane
+pliki. Jedyne co nas interesuje, to postawienie serwera na routerze i podanie klientom namiarów na
+niego. W OpenWRT możemy do tego celu zaprzęgnąć &lt;code&gt;vsftpd&lt;/code&gt; . W tym wpisie pokażę jedynie jak tego typu
+usługę uruchomić na domowym routerze WiFi i jak ją wstępnie skonfigurować. Wszelkie kwestie
+techniczne związane z działaniem samego serwera FTP jak i jego wszystkich parametrów już opisywałem
+przy okazji &lt;a href=&#34;/post/konfiguracja-vsftpd-w-debianie/&#34;&gt;wdrażania vsftpd w dystrybucji
+debian&lt;/a&gt;. Zachęcam zatem do zapoznania się
+również z tym podlinkowanym wpisem.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Stałe nazwy urządzeń w OpenWRT (hotplug, udev)</title>
+      <link>https://morfikov.github.io/post/stale-nazwy-urzadzen-openwrt-hotplug-udev/</link>
+      <pubDate>Mon, 20 Jun 2016 16:46:48 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/stale-nazwy-urzadzen-openwrt-hotplug-udev/</guid>
+      <description>&lt;p&gt;Bezprzewodowy router WiFi to w miarę proste urządzenie, które w zasadzie realizuje kilka
+podstawowych aspektów pracy sieci domowej. Wielu użytkownikom jednak jest nieustannie potrzebna
+jakaś nowa funkcjonalność, której oryginalny firmware producenta nie oferuje. Dlatego też mamy do
+dyspozycji OpenWRT będący minimalistyczną formą bardziej rozbudowanej dystrybucji linux&#39;a. Może i
+OpenWRT daje nam możliwość zaawansowanej konfiguracji naszej sieci ale tego typu opcja powoduje też
+szereg problemów. Chodzi o to, że kernel dynamicznie tworzy nazwy dla wszystkich podłączanych
+urządzeń do routera. W dużych dystrybucjach linux&#39;a do ogarnięcia tych nazw wykorzystywany jest
+UDEV. W przypadku OpenWRT też możemy skorzystać tego mechanizmu. Jeśli jednak mamy niewiele miejsca
+na pamięci flash routera, to możemy też skorzystać ze zdarzeń hotplug. W tym wpisie postaramy się
+przepisać nazwy pendrive/dysków twardych oraz modemów USB (LTE), tak by ich kolejność podłączania do
+routera nie stwarzała problemów w konfiguracji.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Most bezprzewodowy w OpenWRT (tryb WDS)</title>
+      <link>https://morfikov.github.io/post/most-bezprzewodowy-openwrt-tryb-wds/</link>
+      <pubDate>Sun, 19 Jun 2016 16:32:10 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/most-bezprzewodowy-openwrt-tryb-wds/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pl.wikipedia.org/wiki/Wireless_Distribution_System&#34;&gt;Tryb WDS (Wireless Distribution
+System)&lt;/a&gt; umożliwia stworzenie mostu
+bezprzewodowego, w którym to nadrzędny AP (Access Point) przekazuje pakiety do klientów WDS. Ci z
+kolei przesyłają te pakiety dalej do podrzędnych AP. Z reguły routery posiadają funkcję WDS i po jej
+aktywowaniu, ten drugi AP będzie wzmacniał i rozsyłał otrzymany sygnał dalej w granicach swojego
+zasięgu. Tryb WDS nie jest jednak standardem i producenci firmware oraz sterowników implementują go
+inaczej, co przekłada się na problemy z kompatybilnością. Jeśli chcemy korzystać z opcji WDS w
+OpenWRT, to najlepiej posiadać kilka takich samych urządzeń i dobrze jest mieć na nich wgrane to
+samo oprogramowanie. W tym wpisie zaprojektujemy sobie taki most bezprzewodowy w oparciu o dwa
+routery firmy TP-LINK: &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WDR3600.html&#34;&gt;TL-WDR3600 v1&lt;/a&gt;
+oraz &lt;a href=&#34;http://www.tp-link.com.pl/products/details/Archer-C7.html&#34;&gt;Archer C7 v2&lt;/a&gt;, na których jest
+wgrany firmware OpenWRT Chaos Calmer 15.05.1 .&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konfiguracja WISP w OpenWRT (tryb STA &#43; AP)</title>
+      <link>https://morfikov.github.io/post/konfiguracja-wisp-openwrt-tryb-sta-ap/</link>
+      <pubDate>Sat, 18 Jun 2016 22:13:09 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-wisp-openwrt-tryb-sta-ap/</guid>
+      <description>&lt;p&gt;Routery wyposażone w firmware OpenWRT mają tę zaletę, że ich bezprzewodowe karty sieciowe można w
+miarę dowolnie sobie skonfigurować. Oryginalne oprogramowanie producenta takiego sprzętu zwykle nie
+umożliwia nam przełączenia kart routera w inny tryb niż AP (Access Point). W OpenWRT możemy ustawić
+praktycznie dowolny tryb, o ile pozwala na to sterownik karty WiFi. W ten sposób możemy aktywować,
+np. &lt;a href=&#34;/post/karta-wifi-trybie-monitor-openwrt/&#34;&gt;tryb MONITOR&lt;/a&gt;. W tym wpisie jednak
+będzie nas interesował tryb STA (STATION), czyli postaramy się przełączyć karty WiFi routera w tryb
+klienta. Jest to bardzo przydatna opcja w przypadku, gdy mamy do czynienia z &lt;a href=&#34;https://pl.wikipedia.org/wiki/WISP&#34;&gt;Wireless Internet
+Service Provider (WISP)&lt;/a&gt;, czyli bezprzewodowymi dostawcami
+internetu.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

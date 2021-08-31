@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>repozytorium on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/repozytorium/</link>
+    <description>Recent content in repozytorium on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Sat, 21 Aug 2021 14:35:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/repozytorium/feed.atom" rel="self" type="application/atom+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Migracja z apt-key w Debian linux</title>
+      <link>https://morfikov.github.io/post/migracja-z-apt-key-w-debian-linux/</link>
+      <pubDate>Sat, 21 Aug 2021 14:35:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/migracja-z-apt-key-w-debian-linux/</guid>
+      <description>&lt;p&gt;Z okazji wypuszczenia parę dni temu nowego Debiana, przeglądałem sobie &lt;a href=&#34;https://www.debian.org/releases/bullseye/amd64/release-notes/ch-information.en.html&#34;&gt;notki dla wydania
+stabilnego&lt;/a&gt; pod kątem aktualizacji z buster (10) -&amp;gt; bullseye (11). Niby ja i tak korzystam cały
+czas z unstable/experimental i zwykle jestem na bieżąco ze zmianami wprowadzanymi w tej dystrybucji
+linux&#39;a ale też zawsze coś może umknąć uwadze z perspektywy wielu miesięcy czy nawet kilku lat
+(a dokładnie 25 miesięcy). Sporo z tych rzeczy, które w tych podlinkowanych notatkach wyczytałem,
+miałem już załatwione wcześniej ale zapomniałem rozprawić się z repozytoriami APT. Konkretnie
+chodzi tutaj o odejście od &lt;code&gt;apt-key&lt;/code&gt; , czyli narzędzia, które w Debianie używane jest do dodawania
+kluczy GPG do systemowego keyring&#39;a APT. Te klucze zwykle wykorzystywane są do weryfikacji sygnatur
+złożonych pod zewnętrznymi repozytoriami, a że ja mam ich sporo, to musiałem się nieco zagłębić w
+temat i ustalić w jaki sposób od następnego wydania Debiana (bookworm/12) będzie się te klucze GPG
+od takich repozytoriów ogarniać. No i właśnie o tym będzie ten poniższy kawałek artykułu.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Debian: Bezpieczne pobieranie aktualizacji (apt-transport-https)</title>
+      <link>https://morfikov.github.io/post/debian-bezpieczne-pobieranie-aktualizacji-apt-transport-https/</link>
+      <pubDate>Tue, 09 Aug 2016 16:04:54 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/debian-bezpieczne-pobieranie-aktualizacji-apt-transport-https/</guid>
+      <description>&lt;p&gt;Posiadanie aktualnego systemu za sprawą regularnych aktualizacji może znacząco przyczynić się do
+poprawy bezpieczeństwa naszego linux&#39;a. Niemniej jednak, niezabezpieczony proces aktualizacji może
+zdradzić pewne informacje, które mogą się okazać przydatne dla potencjalnego atakującego. Dlatego
+też menadżer pakietów &lt;code&gt;apt&lt;/code&gt;/&lt;code&gt;aptitude&lt;/code&gt; w Debianie wyposażony jest w dodatkowe transporty
+umożliwiające komunikację z serwerem repozytorium w oparciu o różne protokoły. Standardowy
+protokół, którym posługują się maszyny mające na pokładzie dystrybucję Debian, to HTTP
+(ewentualnie FTP). Oba z nich ślą wszelkie informacje w postaci czystego tekstu, który nadaje się do
+analizy przez człowieka. Możemy jednak skorzystać z protokołu SSL/TLS i zaszyfrować proces
+pobierania aktualizacji za sprawą pakietu &lt;code&gt;apt-transport-https&lt;/code&gt; .&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak wybrać optymalny mirror repozytorium Debiana</title>
+      <link>https://morfikov.github.io/post/jak-wybrac-optymalny-mirror-repozytorium-debiana/</link>
+      <pubDate>Sun, 07 Aug 2016 15:15:20 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-wybrac-optymalny-mirror-repozytorium-debiana/</guid>
+      <description>&lt;p&gt;Debian to dość stara i rozbudowana dystrybucja linux&#39;a, którą można spotkać praktycznie w każdym
+zakątku naszego globu. Dziesiątki tysięcy pakietów dostępne w oficjalnych repozytoriach tylko
+czekają aż je pobierzemy i zainstalujemy w swoim systemie. Problem zaczyna się jednak w momencie,
+gdy wielu użytkowników w tym samym czasie zaczyna pobierać pakiety i to z tego samego serwera. Wtedy
+aktualizacja Debiana może trwać dłużej niż zazwyczaj. By zaadresować ten problem, developerzy tej
+dystrybucji stawiają serwery lustrzane (mirror) w różnych częściach świata i rozładowują w ten
+sposób ruch, który by powędrował do głównego serwera. Spora część krajów ma kilka własnych
+mirror&#39;ów ale ich jakość może czasami zostawić wiele do życzenia. Co w przypadku, gdy taki mirror,
+z którego my korzystamy, ulegnie awarii? Trzeba będzie poddać edycji plik &lt;code&gt;/etc/apt/sources.list&lt;/code&gt; i
+zmienić adres repozytorium przez dostosowanie w nim części odpowiedzialnej za lokalizację, np.
+&lt;code&gt;ftp.pl&lt;/code&gt; czy &lt;code&gt;ftp.us&lt;/code&gt; . Istnieje jednak sposób, który dostosuje lokalizację serwera lustrzanego
+automatycznie, a my już nie będziemy musieli sobie głowy zawracać edycją wspomnianego wyżej pliku.&lt;/p&gt;
+&lt;p&gt;Projekt, o którym traktuje poniższy wpis, nie jest już rozwijany przez Debiana. Więcej info
+&lt;a href=&#34;https://wiki.debian.org/DebianGeoMirror&#34;&gt;tutaj&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Debian: Anonimowe pobieranie aktualizacji (apt-transport-tor)</title>
+      <link>https://morfikov.github.io/post/debian-anonimowe-pobieranie-aktualizacji-apt-transport-tor/</link>
+      <pubDate>Sun, 07 Aug 2016 13:06:03 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/debian-anonimowe-pobieranie-aktualizacji-apt-transport-tor/</guid>
+      <description>&lt;p&gt;Dystrybucja linux&#39;a Debian oferuje możliwość pobierania pakietów &lt;code&gt;.deb&lt;/code&gt; za pomocą sieci TOR. W ten
+sposób jesteśmy w stanie ukryć nieco informacji na temat zainstalowanego w naszym systemie
+oprogramowania. Jakby nie patrzeć, aplikacje mają pełno dziur i nie wszystkie z tych programików są
+łatane natychmiast po opublikowaniu podatności. Z chwilą dokonywania aktualizacji systemu,
+potencjalny atakujący może dowiedzieć się zatem z jakich programów korzystamy, wliczając w to ich
+wersje. Znając te dane, można ocenić czy system posiada jakieś błędy. By zaimplementować w
+menadżerze pakietów &lt;code&gt;apt&lt;/code&gt;/&lt;code&gt;aptitude&lt;/code&gt; możliwość korzystania z &lt;a href=&#34;https://www.torproject.org/&#34;&gt;sieci TOR&lt;/a&gt;, musimy posiadać w
+systemie skonfigurowanego klienta TOR oraz zainstalować pakiet &lt;code&gt;apt-transport-tor&lt;/code&gt; . W tym artykule
+postaramy się skonfigurować ten cały mechanizm TOR&#39;owych aktualizacji.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Migawka (snapshot) repozytorium debiana</title>
+      <link>https://morfikov.github.io/post/migawka-snapshot-repozytorium-debiana/</link>
+      <pubDate>Wed, 04 Nov 2015 18:23:36 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/migawka-snapshot-repozytorium-debiana/</guid>
+      <description>&lt;p&gt;Aktualizacje systemu niosą ze sobą nowsze wersje pakietów. Czasami mają one błędy, które wychodzą na
+jaw po jakimś czasie korzystania z danej aplikacji. W takiej sytuacji zwykle zachodzi potrzeba
+cofnięcia wersji kilku pakietów. Jest jednak wielce prawdopodobne, że akurat tej wersji pakietu,
+której potrzebujemy, nie znajdziemy z repozytorium debiana. Pobieranie pojedynczych pakietów z
+internetu przez klikanie w pierwszy lepszy link, który zostanie nam zwrócony przez wyszukiwarkę, nie
+jest dobrym pomysłem. Na szczęście w przypadku debiana nie musimy się aż tak narażać. A to z tego
+względu, że &lt;a href=&#34;https://snapshot.debian.org/archive/debian/&#34;&gt;debian robi migawki (shapshots) swoich repozytoriów&lt;/a&gt; 4 razy dziennie (co 6 godzin).
+W ten sposób mamy dostęp do różnych stanów repozytoriów, w tym też tych, które zawierają pakiety
+aktualnie niedostępne w repozytoriach. W tym wpisie postaramy się pobrać i zainstalować
+nieistniejące pakiety z takich snapshot&#39;ów.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konfiguracja multiarch w dystrybucji Debian</title>
+      <link>https://morfikov.github.io/post/konfiguracja-multiarch-na-debianie/</link>
+      <pubDate>Mon, 02 Nov 2015 20:20:09 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-multiarch-na-debianie/</guid>
+      <description>&lt;p&gt;Posiadając nowszej klasy procesor, jesteśmy w stanie korzystać z 64 bitowego systemu operacyjnego. W
+przypadku windowsów uruchamianie aplikacji 32 czy 64 bitowych nie stanowi większego problemu. W na
+debianie sprawa wygląda nieco inaczej. Gdy mamy wgranego 64 bitowego debiana, aplikacje 32 bitowe
+nie będą chciały się nam odpalić. Wszystkiemu winne są biblioteki 32 bitowe, które są wykorzystywane
+przez dany program, a bez nich on zwyczajnie nie może działać. Jednym z rozwiązań tego problemu może
+być &lt;a href=&#34;/post/konfiguracja-kontenerow-lxc/&#34;&gt;kontener LXC&lt;/a&gt;, gdzie jesteśmy w stanie zainstalować 32 bitowy system wewnątrz środowiska 64
+bitowego i to z tego systemu możemy uruchamiać 32 bitowe aplikacje. Skonfigurowanie takiego
+kontenera może być nieco skomplikowane, dlatego też dużo lepszym rozwiązaniem jest przerobienie
+naszego 64 bitowego systemu na &lt;a href=&#34;https://wiki.debian.org/Multiarch&#34;&gt;muliarch&lt;/a&gt;, czyli taki, który jest w stanie obsługiwać wiele
+architektur (multiarch).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Klucze do repozytoriów Debiana (trusted.gpg)</title>
+      <link>https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/</link>
+      <pubDate>Sun, 01 Nov 2015 19:14:55 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/</guid>
+      <description>&lt;p&gt;Obecnie systemy operacyjne stają się nieco bardziej stabilne i czasy, w których reinstalacja
+takiego systemu, czy też nawet format dysku, odchodzą powoli w niebyt. &lt;a href=&#34;/post/dokladna-data-instalacji-systemu-linux/&#34;&gt;Data instalacji mojego
+linux&#39;a&lt;/a&gt; wskazuje na prawie 2 lata wstecz. Jakby nie patrzeć jest to szmat czasu, w czasie
+którego przez mojego Debiana przetoczyła się ogromna ilość oprogramowania. Nie zawsze były to
+pakiety, które pochodziły z głównych repozytoriów tej dystrybucji. Niemniej jednak, każde
+repozytorium z pakietami jest podpisane i by móc z nich bezpiecznie korzystać, trzeba pozyskać
+&lt;a href=&#34;https://pl.wikipedia.org/wiki/GNU_Privacy_Guard&#34;&gt;klucz GPG&lt;/a&gt; i dokonać jego weryfikacji. Prędzej czy później przyjdzie czas, gdy takie klucze GPG
+przestaną być ważne lub też zmianie ulegną źródła pakietów. W ten sposób baza danych kluczy
+zawierać będzie szereg zbędnych pozycji. Może wielu ludziom nie przeszkadza ten fakt ale raz na
+jakiś czas przydałoby się oczyścić keyring ze śmieci, które są już nam do niczego niepotrzebne.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
