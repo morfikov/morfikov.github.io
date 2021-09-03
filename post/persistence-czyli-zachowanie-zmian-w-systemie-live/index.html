@@ -34,7 +34,7 @@ chodzi o pendrive, bo tutaj możemy utworzyć osobną partycję, gdzie będą pr
 zmiany jakich dokonamy."><meta itemprop="datePublished" content="2015-06-11T19:12:27&#43;00:00" />
 <meta itemprop="dateModified" content="2015-06-11T19:12:27&#43;00:00" />
 <meta itemprop="wordCount" content="753">
-<meta itemprop="keywords" content="pendrive,live," />
+<meta itemprop="keywords" content="debian,pendrive,live,luks,szyfrowanie," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Persistence, czyli zachowanie zmian w systemie live"/>
 <meta name="twitter:description" content="Systemy live mają jedną ale za to dość dającą się odczuć wadę, mianowicie chodzi o to, że po
@@ -137,20 +137,17 @@ przypadku cd/dvd nie mamy praktycznie żadnego pola manewru. Inaczej jednak ma s
 chodzi o pendrive, bo tutaj możemy utworzyć osobną partycję, gdzie będą przechowywane wszystkie
 zmiany jakich dokonamy.</p>
 <h2 id="nakładka-na-system-live">Nakładka na system live</h2>
-<p>Mowa oczywiście o mechanizmie zwanym
-<a href="https://debian-live.alioth.debian.org/live-manual/stable/manual/html/live-manual.en.html#556">persistence</a>
-i jak wspomniałem na wstępie, polega on na utworzeniu osobnej partycji, która po starcie systemu
-zostanie zamontowana jako nakładka na system plików obrazu live, tzw. overlay. Mamy tu do czynienia
-z rozwiązaniem znanym choćby z routerów i ich alternatywnego oprogramowania OpenWRT, z tym, że tam
-jest ono stosowane z powodu zbyt małego flasha routera, który jest rzędu paru MiB i miłośnicy
-oprogramowania nie są w stanie się zmieścić na tak małej przestrzeni, wobec czego zaciągają do pracy
-pendrive i tam lokują min. nowo instalowane pakiety.</p>
-<p>Jeśli korzystamy z <a href="https://morfikov.github.io/post/jak-wgrac-system-live-na-uszkodzony-pendrive/">alternatywnego przygotowania
-nośnika</a> pod system live,
-możemy bez wahania utworzyć kolejną partycję. W przypadku gdy wypalamy obraz przy pomocy <code>dd</code> , za
-każdym razem gdy to robimy, będziemy tracić również i dane zgromadzone na tej drugiej partycji w
-wyniku nadpisania MBR. Ja się posłużę tym samym pendrive, który wykorzystywałem w przytoczonym
-linku.</p>
+<p>Mowa oczywiście o mechanizmie zwanym <a href="https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-run-time-behaviours.en.html#547">persistence</a> i jak wspomniałem na wstępie, polega on na
+utworzeniu osobnej partycji, która po starcie systemu zostanie zamontowana jako nakładka na system
+plików obrazu live, tzw. overlay. Mamy tu do czynienia z rozwiązaniem znanym choćby z routerów i
+ich alternatywnego oprogramowania OpenWRT, z tym, że tam jest ono stosowane z powodu zbyt małego
+flash'a routera, który jest rzędu paru MiB i miłośnicy oprogramowania nie są w stanie się zmieścić
+na tak małej przestrzeni, wobec czego zaciągają do pracy pendrive i tam lokują m.in. nowo
+instalowane pakiety.</p>
+<p>Jeśli korzystamy z <a href="https://morfikov.github.io/post/jak-wgrac-system-live-na-uszkodzony-pendrive/">alternatywnego przygotowania nośnika</a> pod system live, możemy bez wahania
+utworzyć kolejną partycję. W przypadku gdy wypalamy obraz przy pomocy <code>dd</code> , za każdym razem gdy to
+robimy, będziemy tracić również i dane zgromadzone na tej drugiej partycji w wyniku nadpisania MBR.
+Ja się posłużę tym samym pendrive, który wykorzystywałem w przytoczonym linku.</p>
 <p>Nie będę opisywał tutaj jak stworzyć nową partycję przy pomocy <code>gparted</code>, bo to raczej każdy z nas
 powinien umieć zrobić, nawet jeśli wymaga to skurczenia którejś z istniejących. Poniżej mamy już
 przygotowany odpowiedni układ partycji:</p>
@@ -173,7 +170,7 @@ relatywnie bezpieczna, podobnie jak i katalog <code>/etc/</code>. Oczywiście to
 zmian do całego systemu plików jest złe. Zawsze można przecież wyczyścić tę partycję.</p>
 <p>Zapisujemy plik i przechodzimy do konfiguracji systemu live. Interesują nas pliki zlokalizowane w
 katalogu <code>/media/morfik/good/extlinux/</code> (nazwa tego katalogu może się różnić w zależności od
-wgranego bootloadera), a konkretnie <code>live.cfg</code> . To tam dopisujemy parametry dla kernela. Tworzymy
+wgranego bootloader'a), a konkretnie <code>live.cfg</code> . To tam dopisujemy parametry dla kernela. Tworzymy
 zatem dodatkowy wpis uwzględniając opcję <code>persistence</code> , przykładowo:</p>
 <pre><code>label live-amd64-persistence
       menu label ^Live-persistence (amd64)
@@ -191,8 +188,7 @@ system live by uwzględnił ją przy przeszukiwaniu partycji. W konfiguracji pow
 <h2 id="szyfrowany-persistence">Szyfrowany persistence</h2>
 <p>Na partycji persistence, jako, że zawiera system plików w trybie do zapisu, mogą znajdować się
 poufne dane konfiguracyjne, np. hasła do aplikacji czy kont online. Z tego powodu istnieje też
-możliwość jej zaszyfrowania. W tym celu będzie nam potrzebny kontener
-<a href="https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a>.</p>
+możliwość jej zaszyfrowania. W tym celu będzie nam potrzebny kontener <a href="https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup">LUKS</a>.</p>
 <p>Nie będę tutaj opisywał tworzenia takiego kontenera na dane, bo to zagadnienie na osobny artykuł.
 Poniższe kroki zostaną przeprowadzone przy założeniu, że już taki zaszyfrowany volumin posiadamy i
 wiemy jak z niego korzystać.</p>
@@ -202,7 +198,7 @@ wiemy jak z niego korzystać.</p>
 </code></pre>
 <p>Oczywiście dalszy schemat z tworzeniem i edycją pliku <code>persistence.conf</code> jest taki sam, co w
 przypadku zwykłego persistence. Jedyna różnica, jaką da się zauważyć, to dodatkowy parametr
-<code>persistence-encryption=luks</code>, który musimy dopisać do linijki kernela w konfiguracji bootloadera.
+<code>persistence-encryption=luks</code>, który musimy dopisać do linijki kernela w konfiguracji bootloader'a.
 Dla przypomnienia, u mnie to jest plik <code>/media/morfik/good/extlinux/live.cfg</code> :</p>
 <pre><code>label live-amd64-persistence
       menu label ^Live-persistence (amd64)
@@ -217,8 +213,11 @@ hasła w celu odblokowania kontenera.</p></div>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pendrive/">pendrive</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/live/">live</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/luks/">luks</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">szyfrowanie</a>
 </div>
 					
 <div class="entry__share share">
@@ -279,6 +278,10 @@ hasła w celu odblokowania kontenera.</p></div>
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/squashfs-jako-system-plikow-obrazow-live/">Squashfs jako system plików obrazów live</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kiedy-zywot-pendrive-dobiega-konca/">Kiedy żywot pendrive dobiega końca...</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uwierzytelniajace-klucze-ssh/">Uwierzytelniające klucze SSH</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/dkms-czyli-automatycznie-budowane-moduly/">DKMS, czyli automatycznie budowane moduły</a></li>
 		
 	</ul>
 </div>

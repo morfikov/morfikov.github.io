@@ -6,7 +6,31 @@
     <description>Recent content in smartfon on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Tue, 31 Aug 2021 19:45:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/smartfon/feed.atom" rel="self" type="application/atom+xml" />
+    <lastBuildDate>Fri, 03 Sep 2021 20:53:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/smartfon/feed.atom" rel="self" type="application/atom+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Optymalizacja procesu ładowania baterii via ACC w smartfonie z Androidem</title>
+      <link>https://morfikov.github.io/post/optymalizacja-procesu-ladowania-baterii-via-acc-w-smartfonie-z-androidem/</link>
+      <pubDate>Fri, 03 Sep 2021 20:53:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/optymalizacja-procesu-ladowania-baterii-via-acc-w-smartfonie-z-androidem/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;/post/jak-wgrac-twrp-recovery-i-magisk-w-xiaomi-redmi-9-galahad-lancelot/&#34;&gt;Odblokowanie bootloader&#39;a&lt;/a&gt; w smartfonie Xiaomi Redmi 9 (Galahad/Lancelot) mamy już z głowy.
+Podobnie sprawa wygląda z &lt;a href=&#34;/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/&#34;&gt;wgrywaniem na partycję recovery obrazu TWRP&lt;/a&gt; i uzyskiwaniem praw
+administratora systemu root za sprawą Magisk&#39;a. Te dwa kluczowe procesy otworzyły nam drogę do
+nieco bardziej zaawansowanych prac jeśli chodzi o konfigurację samego urządzenia. W tym artykule
+nie będziemy się jeszcze bawić we wgrywanie alternatywnych ROM&#39;ów na bazie AOSP/LineageOS ale za to
+zainteresujemy się nieco bardziej procesem ładowania samej baterii w takim telefonie. Chodzi
+generalnie o fakt przedłużenia żywotności baterii smartfona za sprawą limitowania maksymalnej
+wartości, do jakiej można taką baterię podładować podłączając telefon czy to do portu USB
+komputera, czy też do pełnowymiarowej ładowarki. Taki stopień konfiguracji można osiągnąć
+zaprzęgając do pracy zaawansowany kontroler ładowania (&lt;a href=&#34;https://github.com/VR-25/acc&#34;&gt;Advanced Charging Controller&lt;/a&gt;, ACC),
+który manipuluje niskopoziomowymi ustawieniami kernela linux. W standardowym Androidzie tego typu
+funkcjonalności nie uświadczymy, przez co bateria zużywa się parokrotnie szybciej niż powinna, co
+przekłada się na wymianę urządzenia na nowe po niecałym roku czy dwóch jego użytkowania. Jeśli nie
+uśmiecha nam się wydawać hajsu co roku na nowy telefon tylko dlatego, że nie można w nim wymienić
+baterii, to powinniśmy rozważyć rozwiązanie jakie nam daje ACC.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Jak wgrać TWRP recovery i Magisk w Xiaomi Redmi 9 (galahad/lancelot)</title>
@@ -396,32 +420,6 @@ konsumuje energii, przez co ładowanie ma przebiegać szybciej. Ile w tym prawdy
 za bardzo nie widzę żadnych wymiernych korzyści z przestawienia tego trybu na Charge-Only. Natomiast
 widzę bardzo wyraźnie utrudnienia przy interakcji telefonu z komputerem za sprawą tej zmiany.
 Poszukałem trochę informacji na ten temat i znalazłem rozwiązanie w postaci aplikacji MTP enabler.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Android: Framework Xposed i moduły do YouTube</title>
-      <link>https://morfikov.github.io/post/android-framework-xposed-i-moduly-do-youtube/</link>
-      <pubDate>Sat, 04 Mar 2017 21:56:54 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/android-framework-xposed-i-moduly-do-youtube/</guid>
-      <description>&lt;p&gt;Stock&#39;owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji
-od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy
-wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się
-ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w
-Firefox&#39;ie i jeśli mamy &lt;a href=&#34;/post/android-blokowanie-reklam-z-adaway-na-smartfonie/&#34;&gt;zainstalowanego w telefonie adblock&#39;a, np. AdAway&lt;/a&gt;, czy też &lt;a href=&#34;/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/&#34;&gt;wdrożony
-podobny filtr na domowym routerze WiFi z LEDE/OpenWRT&lt;/a&gt;, to te reklamy mogą zostać z powodzeniem
-odfiltrowane, przynajmniej w Firefox&#39;ie. Jestem też świadom istnienia &lt;a href=&#34;/post/android-youtube-bez-reklam-na-smartfonie-newpipe/&#34;&gt;aplikacji NewPipe&lt;/a&gt;, która
-jest zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową
-wadę. Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być
-powiadamiania w przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał
-video. Taką opcję ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że
-włączy nam się jakaś wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć.
-Innym problemem w przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle
-czy też przy zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej
-aplikacji YouTube i wyeliminować te drażniące mnie problemy &lt;a href=&#34;http://repo.xposed.info/module/de.robv.android.xposed.installer&#34;&gt;instalując w smartfonie framework
-Xposed&lt;/a&gt; wraz z odpowiednimi modułami: &lt;a href=&#34;http://repo.xposed.info/module/com.pyler.youtubebackgroundplayback&#34;&gt;YouTube Background Playback&lt;/a&gt; oraz &lt;a href=&#34;http://repo.xposed.info/module/ma.wanam.youtubeadaway&#34;&gt;YouTube AdAway&lt;/a&gt;.
-Jako, że nie jest to proces łatwy, to postanowiłem go opisać krok po kroku.&lt;/p&gt;</description>
     </item>
     
   </channel>
