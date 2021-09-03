@@ -7,8 +7,11 @@ date_gmt: 2015-06-11 17:12:27 +0200
 published: true
 status: publish
 tags:
+- debian
 - pendrive
 - live
+- luks
+- szyfrowanie
 title: Persistence, czyli zachowanie zmian w systemie live
 ---
 
@@ -24,21 +27,18 @@ zmiany jakich dokonamy.
 <!--more-->
 ## Nakładka na system live
 
-Mowa oczywiście o mechanizmie zwanym
-[persistence](https://debian-live.alioth.debian.org/live-manual/stable/manual/html/live-manual.en.html#556)
-i jak wspomniałem na wstępie, polega on na utworzeniu osobnej partycji, która po starcie systemu
-zostanie zamontowana jako nakładka na system plików obrazu live, tzw. overlay. Mamy tu do czynienia
-z rozwiązaniem znanym choćby z routerów i ich alternatywnego oprogramowania OpenWRT, z tym, że tam
-jest ono stosowane z powodu zbyt małego flasha routera, który jest rzędu paru MiB i miłośnicy
-oprogramowania nie są w stanie się zmieścić na tak małej przestrzeni, wobec czego zaciągają do pracy
-pendrive i tam lokują min. nowo instalowane pakiety.
+Mowa oczywiście o mechanizmie zwanym [persistence][1] i jak wspomniałem na wstępie, polega on na
+utworzeniu osobnej partycji, która po starcie systemu zostanie zamontowana jako nakładka na system
+plików obrazu live, tzw. overlay. Mamy tu do czynienia z rozwiązaniem znanym choćby z routerów i
+ich alternatywnego oprogramowania OpenWRT, z tym, że tam jest ono stosowane z powodu zbyt małego
+flash'a routera, który jest rzędu paru MiB i miłośnicy oprogramowania nie są w stanie się zmieścić
+na tak małej przestrzeni, wobec czego zaciągają do pracy pendrive i tam lokują m.in. nowo
+instalowane pakiety.
 
-Jeśli korzystamy z [alternatywnego przygotowania
-nośnika](/post/jak-wgrac-system-live-na-uszkodzony-pendrive/) pod system live,
-możemy bez wahania utworzyć kolejną partycję. W przypadku gdy wypalamy obraz przy pomocy `dd` , za
-każdym razem gdy to robimy, będziemy tracić również i dane zgromadzone na tej drugiej partycji w
-wyniku nadpisania MBR. Ja się posłużę tym samym pendrive, który wykorzystywałem w przytoczonym
-linku.
+Jeśli korzystamy z [alternatywnego przygotowania nośnika][2] pod system live, możemy bez wahania
+utworzyć kolejną partycję. W przypadku gdy wypalamy obraz przy pomocy `dd` , za każdym razem gdy to
+robimy, będziemy tracić również i dane zgromadzone na tej drugiej partycji w wyniku nadpisania MBR.
+Ja się posłużę tym samym pendrive, który wykorzystywałem w przytoczonym linku.
 
 Nie będę opisywał tutaj jak stworzyć nową partycję przy pomocy `gparted`, bo to raczej każdy z nas
 powinien umieć zrobić, nawet jeśli wymaga to skurczenia którejś z istniejących. Poniżej mamy już
@@ -67,7 +67,7 @@ zmian do całego systemu plików jest złe. Zawsze można przecież wyczyścić 
 
 Zapisujemy plik i przechodzimy do konfiguracji systemu live. Interesują nas pliki zlokalizowane w
 katalogu `/media/morfik/good/extlinux/` (nazwa tego katalogu może się różnić w zależności od
-wgranego bootloadera), a konkretnie `live.cfg` . To tam dopisujemy parametry dla kernela. Tworzymy
+wgranego bootloader'a), a konkretnie `live.cfg` . To tam dopisujemy parametry dla kernela. Tworzymy
 zatem dodatkowy wpis uwzględniając opcję `persistence` , przykładowo:
 
     label live-amd64-persistence
@@ -89,8 +89,7 @@ system live by uwzględnił ją przy przeszukiwaniu partycji. W konfiguracji pow
 
 Na partycji persistence, jako, że zawiera system plików w trybie do zapisu, mogą znajdować się
 poufne dane konfiguracyjne, np. hasła do aplikacji czy kont online. Z tego powodu istnieje też
-możliwość jej zaszyfrowania. W tym celu będzie nam potrzebny kontener
-[LUKS](https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup).
+możliwość jej zaszyfrowania. W tym celu będzie nam potrzebny kontener [LUKS][3].
 
 Nie będę tutaj opisywał tworzenia takiego kontenera na dane, bo to zagadnienie na osobny artykuł.
 Poniższe kroki zostaną przeprowadzone przy założeniu, że już taki zaszyfrowany volumin posiadamy i
@@ -103,7 +102,7 @@ Po otwarciu kontenera, nadajemy etykietę voluminowi przy pomocy narzędzia `tun
 
 Oczywiście dalszy schemat z tworzeniem i edycją pliku `persistence.conf` jest taki sam, co w
 przypadku zwykłego persistence. Jedyna różnica, jaką da się zauważyć, to dodatkowy parametr
-`persistence-encryption=luks`, który musimy dopisać do linijki kernela w konfiguracji bootloadera.
+`persistence-encryption=luks`, który musimy dopisać do linijki kernela w konfiguracji bootloader'a.
 Dla przypomnienia, u mnie to jest plik `/media/morfik/good/extlinux/live.cfg` :
 
     label live-amd64-persistence
@@ -115,3 +114,8 @@ Dla przypomnienia, u mnie to jest plik `/media/morfik/good/extlinux/live.cfg` :
 
 Po tym zabiegu jeśli spróbujemy odpalić system live z tej pozycji, zostaniemy poproszeni o wpisanie
 hasła w celu odblokowania kontenera.
+
+
+[1]: https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-run-time-behaviours.en.html#547
+[2]: /post/jak-wgrac-system-live-na-uszkodzony-pendrive/
+[3]: https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup
