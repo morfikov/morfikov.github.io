@@ -91,6 +91,32 @@
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zaladowac-firmware-karty-wifi-przed-initrd-initramfs/">Jak załadować firmware karty WiFi przed initrd/initramfs</a></h1>
+	<div class="entry__content"><p>Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową
+sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: <code>Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2</code> . W tym przypadku sprawa dotyczyła karty <code>Intel Corporation Centrino Advanced-N 6205 [Taylor Peak]</code> działającej w oparciu o moduł kernela
+<code>iwlwifi</code> . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po
+kłopocie. No i faktycznie w Debianie jest dostępny pakiet <code>firmware-iwlwifi</code> , który zawiera ten
+potrzebny plik <code>iwlwifi-6000g2a-6.ucode</code> . Problem jednak w tym, że instalacja paczki z firmware
+niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware
+muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W
+takim przypadku zainstalowanie paczki z firmware w naszym linux'ie nic nam nie da, bo pliki
+rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej
+sytuacji?</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-03-06T02:45:00Z">Opublikowano: 06/03/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-03-12T16:30:00&#43;01:00">Zaktualizowano: 12/03/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/memtest86-dla-efi-uefi-i-refind/">Memtest86 dla EFI/UEFI i rEFInd</a></h1>
 	<div class="entry__content"><p>Zapewne każdy z nas słyszał o narzędziu do testowania pamięci operacyjnej RAM zwanym memtest86. W
 Debianie są dostępne dwa pakiety <a href="https://tracker.debian.org/pkg/memtest86">memtest86</a> (<a href="https://www.memtest86.com/">strona projektu</a>) oraz <a href="https://tracker.debian.org/pkg/memtest86+">memtest86+</a>
@@ -319,33 +345,6 @@ Postanowiłem zatem zobaczyć jak ten duet sobie radzi na moim Debianie przy tra
 systemu i ocenić jego stopień przydatności.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-04-26T21:10:15Z">Opublikowano: 26/04/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/mechanizm-trigger-dla-apt-aptitude-w-debianie/">Mechanizm trigger&#39;ów dla apt/aptitude w Debianie</a></h1>
-	<div class="entry__content"><p>Czasami pewna niestandardowa konfiguracja naszego linux'a może sprawiać pewne problemy podczas
-aktualizacji zainstalowanych w nim pakietów. Dla przykładu, wykorzystując mechanizm AppArmor do
-okrojenia profilów Firefox'a, muszę tworzyć osobne twarde dowiązania do binarki tej przeglądarki.
-Te dowiązania mają taki problem, że jak usunie się plik, na który wskazywały, np. podczas
-aktualizacji paczki, to utworzenie pliku w tym samym miejscu przez menadżer pakietów
-<code>apt</code>/<code>aptitude</code> nie sprawi, że te dowiązania zaczną ponownie funkcjonować poprawnie (tak jak to
-jest w przypadku dowiązań symbolicznych). Z początku usuwałem te stare dowiązania i tworzyłem nowe
-ale postanowiłem w końcu <a href="https://forum.dug.net.pl/viewtopic.php?id=30382">poszukać rozwiązania</a>, które by zautomatyzowało cały ten proces i
-uczyniło go transparentnym dla użytkownika końcowego. Tak natrafiłem na mechanizm Debianowych
-trigger'ów (<a href="https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html">deb-trigger</a>), które aktywują się za każdym razem ilekroć pliki w konkretnych
-ścieżkach są ruszane w jakiś sposób przez menadżer pakietów. W tym artykule spróbujemy sobie
-zaprojektować taki trigger i obadać czy może on nam się w ogóle do czegoś przydać</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-04-14T00:10:11Z">Opublikowano: 14/04/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
