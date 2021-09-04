@@ -26,7 +26,7 @@ istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/nie-dziala-wentylator-i-przycisk-power-w-argon-one-pi4-na-libreelec-raspberry-pi-4b/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2020-08-22T14:35:00&#43;02:00" />
-<meta property="article:modified_time" content="2020-08-22T14:35:00&#43;02:00" />
+<meta property="article:modified_time" content="2021-09-04T16:00:00&#43;02:00" />
 
 
 		<meta itemprop="name" content="Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)">
@@ -44,8 +44,8 @@ wbudowanym Kodi uruchamiającym się automatycznie bez zbędnej dodatkowej konfi
 tym LibreELEC jest natomiast taki, że standardowo nie da rady ani zaprogramować przycisku Power w
 obudowie Argon One Pi4, ani ustawić progów temperatury dla jej wentylatora. Niemniej jednak,
 istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony niniejszy wpis."><meta itemprop="datePublished" content="2020-08-22T14:35:00&#43;02:00" />
-<meta itemprop="dateModified" content="2020-08-22T14:35:00&#43;02:00" />
-<meta itemprop="wordCount" content="1710">
+<meta itemprop="dateModified" content="2021-09-04T16:00:00&#43;02:00" />
+<meta itemprop="wordCount" content="1811">
 <meta itemprop="keywords" content="raspberry-pi-4b,argon-one-pi4,kodi,xbmc,libreelec," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)"/>
@@ -129,6 +129,7 @@ istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony
 			<article class="entry">
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2020-08-22T14:35:00&#43;02:00">Opublikowano: 22/08/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2021-09-04T16:00:00&#43;02:00">Zaktualizowano: 04/09/2021</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -145,6 +146,7 @@ istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony
     <li><a href="#jak-pogodzić-argon-one-pi4-z-libreelec">Jak pogodzić Argon One Pi4 z LibreELEC</a>
       <ol>
         <li><a href="#parametry-dtparami2con-oraz-enable_uart1-w-flashconfigtxt">Parametry dtparam=i2c=on oraz enable_uart=1 w /flash/config.txt</a></li>
+        <li><a href="#problemy-z-uruchamianiem-usługi-na-libreelec-10">Problemy z uruchamianiem usługi na LibreELEC 10</a></li>
       </ol>
     </li>
     <li><a href="#konfiguracja-pracy-wentylatora-argon-one-pi4">Konfiguracja pracy wentylatora Argon One Pi4</a></li>
@@ -287,6 +289,28 @@ trybie do zapisu:</p>
 </code></pre>
 <p>Wszelkie zmiany dokonane w obrębie partycji <code>/flash/</code> będą aplikowane dopiero po ponownym
 uruchomieniu systemu.</p>
+<h3 id="problemy-z-uruchamianiem-usługi-na-libreelec-10">Problemy z uruchamianiem usługi na LibreELEC 10</h3>
+<p>Parę dni temu została wypuszczona <a href="https://libreelec.tv/2021/08/26/libreelec-matrix-10-0/">nowa stabilna wersja LibreELEC</a>, tj. v10 Matrix. Szereg
+rzeczy w tej nowszej wersji zostało zmienionych, przez co skrypt do obsługi obudowy Argon One Pi4
+przestał działać. Można ten problem poprawić w bardzo <a href="https://forum.libreelec.tv/thread/23933-argon40-case-python-script-for-fan-control-problem-with-le-10-beta/?postID=155141#post155141">prosty sposób</a>. Najpierw edytujemy plik
+<code>/flash/config.txt</code> i dostosowujemy jego zawartość, tak by uwzględniała te dwie poniższe linijki:</p>
+<pre><code>dtparam=i2c_vc=on
+dtparam=i2c_arm=on
+</code></pre>
+<p>Następnie edytujemy plik usługi systemd, tj. <code>/storage/.config/system.d/argononed.service</code> i
+zmieniamy w nim linijkę z <code>StartExec</code> :</p>
+<pre><code>[Unit]
+Description=Argon One Fan and Button Service
+After=multi-user.target
+[Service]
+Type=simple
+Restart=always
+RemainAfterExit=true
+#ExecStart=/usr/bin/python /storage/.config/argononed.py
+ExecStart=/bin/sh -c &quot;. /etc/profile; exec /usr/bin/python /storage/.config/argononed.py&quot;
+[Install]
+WantedBy=multi-user.target
+</code></pre>
 <h2 id="konfiguracja-pracy-wentylatora-argon-one-pi4">Konfiguracja pracy wentylatora Argon One Pi4</h2>
 <p>Po zrestartowaniu Raspberry Pi 4B, przycisk Power powinien zacząć działać w sposób opisany w
 instrukcji obsługi obudowy. Zatem, gdy Raspberry Pi 4B jest wyłączony, to krótkie przyciśnięcie
