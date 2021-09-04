@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - RaspberryPi
 date:    2020-08-22 14:35:00 +0200
-lastmod: 2020-08-22 14:35:00 +0200
+lastmod: 2021-09-04 16:00:00 +0200
 published: true
 status: publish
 tags:
@@ -180,6 +180,31 @@ Po skończonej edycji, montujemy tę partycję ponownie w tryb do odczytu:
 Wszelkie zmiany dokonane w obrębie partycji `/flash/` będą aplikowane dopiero po ponownym
 uruchomieniu systemu.
 
+### Problemy z uruchamianiem usługi na LibreELEC 10
+
+Parę dni temu została wypuszczona [nowa stabilna wersja LibreELEC][13], tj. v10 Matrix. Szereg
+rzeczy w tej nowszej wersji zostało zmienionych, przez co skrypt do obsługi obudowy Argon One Pi4
+przestał działać. Można ten problem poprawić w bardzo [prosty sposób][14]. Najpierw edytujemy plik
+`/flash/config.txt` i dostosowujemy jego zawartość, tak by uwzględniała te dwie poniższe linijki:
+
+    dtparam=i2c_vc=on
+    dtparam=i2c_arm=on
+
+Następnie edytujemy plik usługi systemd, tj. `/storage/.config/system.d/argononed.service` i
+zmieniamy w nim linijkę z `StartExec` :
+
+	[Unit]
+	Description=Argon One Fan and Button Service
+	After=multi-user.target
+	[Service]
+	Type=simple
+	Restart=always
+	RemainAfterExit=true
+	#ExecStart=/usr/bin/python /storage/.config/argononed.py
+	ExecStart=/bin/sh -c ". /etc/profile; exec /usr/bin/python /storage/.config/argononed.py"
+	[Install]
+	WantedBy=multi-user.target
+
 ## Konfiguracja pracy wentylatora Argon One Pi4
 
 Po zrestartowaniu Raspberry Pi 4B, przycisk Power powinien zacząć działać w sposób opisany w
@@ -261,3 +286,5 @@ hajsu przeznaczyć na więcej pamięci operacyjnej RAM w Raspberry Pi 4B.
 [10]: https://www.raspberrypi.org/documentation/configuration/config-txt/
 [11]: https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter
 [12]: https://en.wikipedia.org/wiki/I%C2%B2C
+[13]: https://libreelec.tv/2021/08/26/libreelec-matrix-10-0/
+[14]: https://forum.libreelec.tv/thread/23933-argon40-case-python-script-for-fan-control-problem-with-le-10-beta/?postID=155141#post155141
