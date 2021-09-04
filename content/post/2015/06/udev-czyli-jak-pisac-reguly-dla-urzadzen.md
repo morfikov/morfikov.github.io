@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - udev
+- debian
 title: UDEV, czyli jak pisać reguły dla urządzeń
 ---
 
