@@ -2,10 +2,12 @@
 author: Morfik
 categories:
 - Android
-date: "2019-02-02T06:33:44Z"
+date:    2019-02-02 06:33:44 +0100
+lastmod: 2019-02-02 06:33:44 +0100
 published: true
 status: publish
 tags:
+- smartfon
 - twrp
 - recovery
 title: Większy stopień kompresii pliku recovery.img (TWRP)
@@ -16,13 +18,12 @@ buduje te obrazy ze źródeł OMNI ROM, a tam jest dostępnych szereg gałęzi, 
 które naturalnie pasują do odpowiadających im wersji Androida. Do tej pory budowałem w oparciu o
 gałąź 7.1 ale po wydaniu polecenia `repo sync` , szereg aktualizacji w stosunku do repozytorium
 `bootable/recovery` zostało pobranych, w tym też i jedna trefna, która uwalała proces kompilacji.
-Ostatecznie [udało się problem namierzyć i zlikwidować](https://gerrit.omnirom.org/#/c/android_bootable_recovery/+/33485/)
-ale w międzyczasie próbowałem zbudować obraz TWRP recovery z gałęzi 8.1. Wygląda na to, że im
-nowszy Android, tym obrazy recovery rosną w objętość i 16M, które u mnie jest limitem, zostało
-przekroczone o jakieś 500K i to przy najbardziej okrojonej funkcjonalności trybu recovery. Czy
-istnieje jakieś rozwiązanie, które by umożliwiło zmniejszenie rozmiaru obrazu
-`ramdisk-recovery.img` , co przełożyłoby się również na wagę pliku `recovery.img` ? Tak, trzeba
-tylko zmienić rodzaj kompresji z domyślnego `gzip` na `lzma`.
+Ostatecznie [udało się problem namierzyć i zlikwidować][1] ale w międzyczasie próbowałem zbudować
+obraz TWRP recovery z gałęzi 8.1. Wygląda na to, że im nowszy Android, tym obrazy recovery rosną w
+objętość i 16M, które u mnie jest limitem, zostało przekroczone o jakieś 500K i to przy najbardziej
+okrojonej funkcjonalności trybu recovery. Czy istnieje jakieś rozwiązanie, które by umożliwiło
+zmniejszenie rozmiaru obrazu `ramdisk-recovery.img` , co przełożyłoby się również na wagę pliku
+`recovery.img` ? Tak, trzeba tylko zmienić rodzaj kompresji z domyślnego `gzip` na `lzma`.
 
 <!--more-->
 ## Wsparcie kernela dla lzma
@@ -94,3 +95,6 @@ gdy kernel nie obsługuje kompresji `lzma` , to telefon nam się w trybie recove
 Oczywiście nie uwalimy sobie urządzenia w ten sposób, ale przy próbie odpalenia trybu recovery,
 smartfon będzie się resetował i jeśli dodatkowo nie działa na system urządzenia, to możemy się
 wpakować w problemy.
+
+
+[1]: https://gerrit.omnirom.org/#/c/android_bootable_recovery/+/33485/

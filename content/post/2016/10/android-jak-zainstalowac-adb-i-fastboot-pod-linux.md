@@ -2,25 +2,25 @@
 author: Morfik
 categories:
 - Android
-date: "2016-10-08T20:34:36Z"
-date_gmt: 2016-10-08 18:34:36 +0200
+- Linux
+date:    2016-10-08 20:34:36 +0200
+lastmod: 2016-10-08 20:34:36 +0200
 published: true
 status: publish
 tags:
 - smartfon
-- lollipop
 - adb
 - fastboot
-title: 'Android: Jak zainstalować ADB i fastboot pod linux'
+- debian
+title: Android: Jak zainstalować ADB i fastboot pod linux
 ---
 
-Bawiąc się [smartfonem Neffos C5](http://www.neffos.pl/product/details/C5) od TP-LINK chciałem
-sprawdzić czy da radę zainstalowanemu na nim Androidowi 5.1 (Lollipop) zrobić root'a. Chodzi o
-uzyskanie dostępu administracyjnego do systemu plików na flash'u telefonu. Proces się powiódł, z
-tym, że by do niego przystąpić, potrzebne są narzędzia takie jak `adb` i `fastboot` , bo przy ich
-pomocy możemy sterować telefonem, np. z poziomu jakiegoś linux'a. Niemniej jednak, system komputera
-jak i smartfona trzeba pierw przygotować odpowiednio, by taka komunikacja była możliwa i ten proces
-zostanie właśnie opisany poniżej.
+Bawiąc się [smartfonem Neffos C5][1] od TP-LINK chciałem sprawdzić czy da radę zainstalowanemu na
+nim Androidowi 5.1 (Lollipop) zrobić root'a. Chodzi o uzyskanie dostępu administracyjnego do systemu
+plików na flash'u telefonu. Proces się powiódł, z tym, że by do niego przystąpić, potrzebne są
+narzędzia takie jak `adb` i `fastboot` , bo przy ich pomocy możemy sterować telefonem, np. z poziomu
+jakiegoś linux'a. Niemniej jednak, system komputera jak i smartfona trzeba pierw przygotować
+odpowiednio, by taka komunikacja była możliwa i ten proces zostanie właśnie opisany poniżej.
 
 <!--more-->
 ## Androidowe narzędzia pod linux
@@ -28,8 +28,7 @@ zostanie właśnie opisany poniżej.
 Na linux'ie nie musimy instalować całego zestawu narzędzi developerskich dla Androida (Software
 Development Kit). Bardziej zaawansowani programiści potrzebują pełnego pakietu, bo to oprogramowanie
 jest raczej im niezbędne do pracy z systemem Android. Nas interesują głównie dwa narzędzia: [Android
-Debug Bridge (adb)](https://developer.android.com/studio/command-line/adb.html) oraz
-[fastboot](https://wiki.cyanogenmod.org/w/Doc:_fastboot_intro).
+Debug Bridge (adb)][2] oraz [fastboot][3].
 
 Fastboot jest protokółem diagnostycznym, który jest wykorzystywany zwykle do wprowadzania zmian w
 firmware telefonu (ROM), np. aktualizacje. Podczas przełączania Androida w tryb recovery, mamy na
@@ -72,11 +71,11 @@ linux'a. Mój Neffos C5 z początku nie został rozpoznany:
     * daemon started successfully *
     List of devices attached
 
-Okazuje się, że [różne rzeczy mogą mieć wpływ na to, czy telefon zostanie
-wykryty](https://wiki.cyanogenmod.org/w/Doc:_adb_intro). Przede wszystkim, upewnijmy się, że ekran
-telefonu nie jest zablokowany. Być może przełączenie trybu USB w telefonie pomoże. Chodzi o
-przełączenie między protokołem MTP/PTP. Warto też odłączyć i ponownie podłączyć telefon do portu
-USB komputera, jak i ubić demona `adb` przez wydanie w terminalu poniższego polecenia :
+Okazuje się, że [różne rzeczy mogą mieć wpływ na to, czy telefon zostanie wykryty][4]. Przede
+wszystkim, upewnijmy się, że ekran telefonu nie jest zablokowany. Być może przełączenie trybu USB w
+telefonie pomoże. Chodzi o przełączenie między protokołem MTP/PTP. Warto też odłączyć i ponownie
+podłączyć telefon do portu USB komputera, jak i ubić demona `adb` przez wydanie w terminalu
+poniższego polecenia :
 
     # adb kill-server
 
@@ -117,3 +116,9 @@ polecenie:
 
     # fastboot devices
     TSL7DA69OBSO49PJ        fastboot
+
+
+[1]: http://www.neffos.pl/product/details/C5
+[2]: https://developer.android.com/studio/command-line/adb.html
+[3]: https://wiki.cyanogenmod.org/w/Doc:_fastboot_intro
+[4]: https://wiki.cyanogenmod.org/w/Doc:_adb_intro

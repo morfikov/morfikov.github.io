@@ -2,13 +2,14 @@
 author: Morfik
 categories:
 - Android
-date: "2019-12-13T19:26:14Z"
+date:    2019-12-13 19:26:14 +0100
+lastmod: 2019-12-13 19:26:14 +0100
 published: true
 status: publish
 tags:
+- aplikacje
 - apk
 - bezpieczeństwo
-- prywatność
 title: Jak zweryfikować plik APK aplikacji na Androida
 ---
 

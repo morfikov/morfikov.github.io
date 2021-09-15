@@ -2,16 +2,19 @@
 author: Morfik
 categories:
 - Android
-date: "2016-12-14T19:08:01Z"
-date_gmt: 2016-12-14 18:08:01 +0100
+date:    2016-12-14 19:08:01 +0100
+lastmod: 2016-12-14 19:08:01 +0100
 published: true
 status: publish
 tags:
 - tp-link
 - smartfon
-- lollipop
-- root
 - neffos
+- neffos-c5-max
+- root
+- spflashtool
+- fastboot
+- adb
 title: Jak przeprowadzić unroot na smartfonie Neffos C5 MAX od TP-LINK
 ---
 
@@ -27,7 +30,7 @@ przywrócić Androida do stanu pierwotnego. Krótka odpowiedź brzmi: "oczywiśc
 procesowi przyjrzymy się w niniejszym artykule.
 
 <!--more-->
-## Czy potrzebny mi jest root Android'a
+## Czy potrzebny mi jest root Androida
 
 Standardowo w Androidzie każda aplikacja zainstalowana w telefonie ma przypisane indywidualne
 UID/GID (użytkownika i grupę). Żadna aplikacja nie jest w stanie odczytać danych innych programów,
@@ -131,8 +134,8 @@ przechodząc do Ustawienia => Kopia i kasowanie danych => Ustawienia fabryczne:
 
 Jak już zostało wspomniane wyżej, na partycji `/system/` znajduje się ROM TP-LINK z Androidem 5.1
 (Lollipop). By powrócić do niego, musimy przywrócić całą partycję. Możemy to zrobić z poziomu
-[aplikacji SP Flash Tool](http://spflashtool.com/), oczywiście zakładając, że pierw utworzyliśmy
-backup flash. Zamontujmy ten backup w systemie przy pomocy poniższego polecenia:
+[aplikacji SP Flash Tool][5], oczywiście zakładając, że pierw utworzyliśmy backup flash. Zamontujmy
+ten backup w systemie przy pomocy poniższego polecenia:
 
     # losetup /dev/loop0 /media/Kabi/neffos/backup_phone/NeffosC5MAX-orig.img
 
@@ -213,8 +216,7 @@ poniższe polecenie:
     OKAY [4.132s]
     finished. total time: 4.132s
 
-Po wydaniu tej komendy, na ekranie smartfona pojawi się poniższa
-    informacja:
+Po wydaniu tej komendy, na ekranie smartfona pojawi się poniższa informacja:
 
     If you lock the bootloader you will need to install official operating system software on this phone.
 
@@ -242,3 +244,4 @@ powinien się bez większego problemu załadować na domyślnych ustawieniach.
 [2]: /post/android-reset-ustawien-do-fabrycznych-factory-defaults/
 [3]: /post/obsluga-wielu-partycji-w-module-loop/
 [4]: /img/manual/mt6753-neffos-c5-max-tp-link-scatter.txt
+[5]: http://spflashtool.com/

@@ -2,13 +2,13 @@
 author: Morfik
 categories:
 - Android
-date: "2016-11-03T19:33:54Z"
-date_gmt: 2016-11-03 18:33:54 +0100
+date:     2016-11-03 19:33:54 +0100
+lastmod:  2016-11-03 19:33:54 +0100
 published: true
 status: publish
 tags:
 - wifi
-- tp-link
+- roaming
 - smartfon
 - aplikacje
 title: Wifi Roaming Fix i SWIFI, czyli roaming w smartfonie
@@ -19,18 +19,15 @@ połączenie bezprzewodowe. Router WiFi ma już chyba znaczna większość z nas
 urządzenia, które są w stanie świadczyć bezprzewodowe usługi sieciowe. Im większy dystans dzieli
 odbiornik od nadajnika lub też im więcej przeszkód stoi na bezpośredniej drodze komunikacji, tym
 sygnał ulega większej degradacji. Zwykle w takiej sytuacji dokupujemy drugi router WiFi, ewentualnie
-[prosty AP](http://www.tp-link.com.pl/products/list-12.html), [wzmacniacz sygnału
-WiFi](http://www.tp-link.com.pl/products/list-10.html) czy też [ekstendery
-powerline](http://www.tp-link.com.pl/products/list-18.html) (PLC). Wszystko po to, by jakoś
-przyzwoicie pokryć sygnałem całą przestrzeń użytkową naszego domu czy też miejsc, w których spędzamy
-wolny czas. Każde takie urządzenie realizuje połączenie WiFi mniej więcej w ten sam sposób, tj.
-zestawia punkt dostępu, do którego podłączamy komputer albo smartfona. O ile w przypadku desktopów
-czy laptopów przełączanie się między tymi AP w zależności od siły sygnału nie stanowi większego
-problemu, o tyle w przypadku smartfonów z Androidem nie jest już tak różowo, bo przełączenie
-następuje jedynie przy całkowitej utracie sygnału z AP. Takiej sytuacji można zaradzić ale trzeba
-posiłkować się dodatkowymi aplikacjami. W poniższym artykule zostaną opisane dwa takie programiki:
-[SWIFI](https://play.google.com/store/apps/details?id=com.seah0rse.swififree) i [Wifi Roaming
-Fix](https://play.google.com/store/apps/details?id=com.heleron.wifiroamingfix).
+[prosty AP][1], [wzmacniacz sygnału WiFi][2] czy też [ekstendery powerline][3] (PLC). Wszystko po
+to, by jakoś przyzwoicie pokryć sygnałem całą przestrzeń użytkową naszego domu czy też miejsc, w
+których spędzamy wolny czas. Każde takie urządzenie realizuje połączenie WiFi mniej więcej w ten
+sam sposób, tj. zestawia punkt dostępu, do którego podłączamy komputer albo smartfona. O ile w
+przypadku desktopów czy laptopów przełączanie się między tymi AP w zależności od siły sygnału nie
+stanowi większego problemu, o tyle w przypadku smartfonów z Androidem nie jest już tak różowo, bo
+przełączenie następuje jedynie przy całkowitej utracie sygnału z AP. Takiej sytuacji można zaradzić
+ale trzeba posiłkować się dodatkowymi aplikacjami. W poniższym artykule zostaną opisane dwa takie
+programiki: [SWIFI][4] i [Wifi Roaming Fix][5].
 
 <!--more-->
 ## Roaming w przypadku różnych i tych samych ESSID
@@ -105,7 +102,7 @@ panujących warunków.
 
 SWIFI ma też opcję, która pozwala na przełączanie się między sieciami 2,4 GHz i 5 GHz. Przydatna
 rzecz jeśli nasz smartfon dysponuje dwoma zakresami WiFi. Warto tutaj zaznaczyć, że możemy nadać
-priorytet sieci 5 GHz i SWIFi przełączy nas na to pasmo nawet jeśli sygnał z AP na 2,4 GHz będzie
+priorytet sieci 5 GHz i SWIFI przełączy nas na to pasmo nawet jeśli sygnał z AP na 2,4 GHz będzie
 nieco mocniejszy. Nie znam wartości różnicy w sile sygnału, a nie mam zbytnio jak sprawdzić na moim
 Neffos C5, bo on obsługuje jedynie pasmo 2,4 GHz. Jeśli ktoś orientuje się jaka jest to wartość, to
 niech da mi znać.
@@ -141,3 +138,10 @@ przeszedł w pobliże któregoś z dwóch pozostałych AP, to nastąpi automatyc
 podłączenie do tego punktu, z którego jest najmocniejszy sygnał.
 
 ![](/img/2016/11/6.wifi-roaming-fix-smartfon-tp-link-przelaczanie-sieci.png#medium)
+
+
+[1]: http://www.tp-link.com.pl/products/list-12.html
+[2]: http://www.tp-link.com.pl/products/list-10.html
+[3]: http://www.tp-link.com.pl/products/list-18.html
+[4]: https://play.google.com/store/apps/details?id=com.seah0rse.swififree
+[5]: https://play.google.com/store/apps/details?id=com.heleron.wifiroamingfix

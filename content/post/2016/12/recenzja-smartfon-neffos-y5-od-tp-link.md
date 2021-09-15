@@ -2,8 +2,9 @@
 author: Morfik
 categories:
 - Hardware
-date: "2016-12-17T19:10:11Z"
-date_gmt: 2016-12-17 18:10:11 +0100
+- Android
+date:    2016-12-17 19:10:11 +0100
+lastmod: 2016-12-17 19:10:11 +0100
 published: true
 status: publish
 tags:
@@ -11,16 +12,16 @@ tags:
 - tp-link
 - smartfon
 - neffos
-title: 'Recenzja: Smartfon Neffos Y5 od TP-LINK'
+- neffos-y5
+title: Recenzja: Smartfon Neffos Y5 od TP-LINK
 ---
 
 Oferta TP-LINK'a ciągle powiększa się o nowe urządzenia. Nie chodzi mi tutaj o routery WiFi, z
 których ten producent jest znany nam wszystkim ale raczej o nowe modele smartfonów
-niskobudżetowych. Jakiś czas temu TP-LINK wprowadził do obiegu smartfony [Neffos
-Y5](http://www.neffos.pl/product/details/Y5) oraz [Neffos
-Y5L](http://www.neffos.pl/product/details/Y5L). Ten artykuł będzie dotyczył jedynie tego pierwszego
-urządzenia ale w niedługim czasie pojawi się również recenzja drugiego z wyżej wymienionych
-telefonów. Czy w przypadku Neffos'a Y5 (TP802A), TP-LINK jest nas w stanie czymś zaskoczyć?
+niskobudżetowych. Jakiś czas temu TP-LINK wprowadził do obiegu smartfony [Neffos Y5][1] oraz [Neffos
+Y5L][2]. Ten artykuł będzie dotyczył jedynie tego pierwszego urządzenia ale w niedługim czasie
+pojawi się również recenzja drugiego z wyżej wymienionych telefonów. Czy w przypadku Neffos'a Y5
+(TP802A), TP-LINK jest nas w stanie czymś zaskoczyć?
 
 <!--more-->
 ## Zawartość opakowania Neffos Y5
@@ -176,9 +177,8 @@ Zatem TP-LINK poczynił krok w dobrą stronę:
 
 Bateria Neffos'a Y5 ma pojemność 2130 mAh. Nie jest to jakoś szczególnie dużo ale samo urządzenie
 potrafi nawet zaskoczyć czasem pracy na tym akumulatorze. Generalnie rzecz ujmując, to [testy
-wydajnościowe Neffos'a Y5](/post/test-wydajnosci-smartfona-neffos-y5-od-tp-link/)
-szacunkowo wykazały, że jest on w stanie pracować pod obciążeniem non stop przez nieco ponad 8
-godzin. Poniżej zaś znajdują się fotki obrazujące proces ładowania baterii.
+wydajnościowe Neffos'a Y5][3] szacunkowo wykazały, że jest on w stanie pracować pod obciążeniem non
+stop przez nieco ponad 8 godzin. Poniżej zaś znajdują się fotki obrazujące proces ładowania baterii.
 
 |   |   |
 |---|---|
@@ -310,8 +310,7 @@ poniżej są stosowne wyniki:
 
 ## Czy da radę przeprowadzić root na Neffos Y5
 
-[Proces ukorzeniania Androida (root) na Neffos Y5 jest
-możliwy](/post/android-root-smartfona-neffos-y5-od-tp-link/), choć nie należy do
+[Proces ukorzeniania Androida (root) na Neffos Y5 jest możliwy][4], choć nie należy do
 najprostszych.
 
 ## Jak Neffos Y5 sprawuje się pod linux
@@ -326,10 +325,17 @@ dane z Androidem po USB. Transfer plików jest na poziomie 6-8 MiB/s.
 
 Neffos Y5 jest dość przyzwoitym smartfonem i pod wieloma względami przypomina Neffos C5 (4 rdzenie,
 2 GiB RAM, 16 GiB flash, 8 mpix aparat główny, te same wymiary, ten sam wyświetlacz). Niemniej
-jednak, jak wykazały benchmarki
-([Y5](/post/test-wydajnosci-smartfona-neffos-y5-od-tp-link/)/[C5](https://morfitronik.pl/test-wydajnosci-smartfona-neffos-c5-od-tp-link/)),
-Neffos Y5 zostaje nieco w tyle za Neffos C5. Ceny tych dwóch modeli są obecnie mniej więcej podobne,
-choć wybór konkretnego modelu nie jest zbytnio oczywisty. Neffos Y5 ma nowszego Androida (6.0) oraz
-o 2 GiB więcej na pamięci flash (dla partycji `/data/` ). Ten smartfon radzi sobie także lepiej
-jeśli chodzi o czas pracy na baterii w stanie spoczynku no i wspiera również nowszy standard
-bluetooth. Brak OTG mogę jakoś przeżyć ale WiFi 5 GHz by się przydało.
+jednak, jak wykazały benchmarki ([Y5][5]/[C5][6]), Neffos Y5 zostaje nieco w tyle za Neffos C5. Ceny
+tych dwóch modeli są obecnie mniej więcej podobne, choć wybór konkretnego modelu nie jest zbytnio
+oczywisty. Neffos Y5 ma nowszego Androida (6.0) oraz o 2 GiB więcej na pamięci flash (dla partycji
+`/data/` ). Ten smartfon radzi sobie także lepiej jeśli chodzi o czas pracy na baterii w stanie
+spoczynku no i wspiera również nowszy standard bluetooth. Brak OTG mogę jakoś przeżyć ale WiFi 5 GHz
+by się przydało.
+
+
+[1]: http://www.neffos.pl/product/details/Y5
+[2]: http://www.neffos.pl/product/details/Y5L
+[3]: /post/test-wydajnosci-smartfona-neffos-y5-od-tp-link/
+[4]: /post/android-root-smartfona-neffos-y5-od-tp-link/
+[5]: /post/test-wydajnosci-smartfona-neffos-y5-od-tp-link/
+[6]: /post/test-wydajnosci-smartfona-neffos-c5-od-tp-link/

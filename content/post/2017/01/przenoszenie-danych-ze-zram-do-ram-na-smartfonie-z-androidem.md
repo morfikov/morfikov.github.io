@@ -2,14 +2,14 @@
 author: Morfik
 categories:
 - Android
-date: "2017-01-02T17:19:47Z"
-date_gmt: 2017-01-02 16:19:47 +0100
+date:    2017-01-02 17:19:47 +0100
+lastmod: 2017-01-02 17:19:47 +0100
 published: true
 status: publish
 tags:
 - smartfon
-- lollipop
 - zram
+- swap
 title: Przenoszenie danych ze ZRAM do RAM na smartfonie z Androidem
 ---
 
@@ -22,17 +22,17 @@ stanie zachowywać się bardzo dziwnie i restart smartfona zwykle poprawia zaist
 generalnie o utylizowanie baterii w większym stopniu, czy o ogólne uczucie spowolnienia pracy
 systemu. Przyczyn takiego stanu rzeczy może być cała masa ale w tym konkretnym przypadku znaczenie
 zdaje się mieć zbyt duże wykorzystanie pamięci RAM. W efekcie Android robi użytek z [urządzenia
-ZRAM,](https://www.kernel.org/doc/Documentation/blockdev/zram.txt) które jest niczym innym jak tylko
-skompresowanym wycinkiem pamięci operacyjnej, gdzie system stara się upchnąć dane w przypadku
-kończenia się zasobów pamięci, a kompresja to przecież bardzo zasobożerny proces. Możemy taki
-telefon wyłączać co jakiś czas ale istnieje prostsza metoda wyeliminowania problemu.
+ZRAM][1], które jest niczym innym jak tylko skompresowanym wycinkiem pamięci operacyjnej, gdzie
+system stara się upchnąć dane w przypadku kończenia się zasobów pamięci, a kompresja to przecież
+bardzo zasobożerny proces. Możemy taki telefon wyłączać co jakiś czas ale istnieje prostsza metoda
+wyeliminowania problemu.
 
 <!--more-->
 ## Urządzenie ZRAM w smartfonach
 
 Mając zainstalowaną dowolną aplikację, która jest nam w stanie pokazać dostępne partycje naszego
 smartfona, na liście powinniśmy być w stanie odszukać urządzenie ZRAM. Poniżej przykład z [aplikacji
-DiskInfo](https://play.google.com/store/apps/details?id=me.kuder.diskinfo&hl=pl):
+DiskInfo][2]:
 
 ![](/img/2017/01/001.zram-swap-smartfon-urzadzenie-disk-info.png#medium)
 
@@ -98,3 +98,7 @@ aktywować ponownie:
 
 I to w zasadzie wszystko. Nic więcej nie trzeba robić, no może za wyjątkiem monitorowania ilości
 danych w tym urządzeniu, tak by co jakiś czas je opróżniać.
+
+
+[1]: https://www.kernel.org/doc/Documentation/blockdev/zram.txt
+[2]: https://play.google.com/store/apps/details?id=me.kuder.diskinfo&hl=pl

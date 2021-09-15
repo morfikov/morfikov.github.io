@@ -2,15 +2,15 @@
 author: Morfik
 categories:
 - Android
-date: "2017-01-20T18:37:11Z"
-date_gmt: 2017-01-20 17:37:11 +0100
+date:    2017-01-20 18:37:11 +0100
+lastmod: 2017-01-20 18:37:11 +0100
 published: true
 status: publish
 tags:
-- bezpieczeństwo
 - smartfon
-- lollipop
-- marshmallow
+- prywatność
+- factory-reset
+- spflashtool
 title: Factory Reset Protection (FRP) w smartfonach z Androidem
 ---
 

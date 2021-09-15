@@ -2,15 +2,15 @@
 author: Morfik
 categories:
 - Android
-date: "2017-03-05T18:25:13Z"
-date_gmt: 2017-03-05 17:25:13 +0100
+date:    2017-03-05 18:25:13 +0100
+lastmod: 2017-03-05 18:25:13 +0100
 published: true
 status: publish
 tags:
 - smartfon
 - mtp
-- marshmallow
-title: 'Android: Zmiana trybu USB z Charge-Only na MTP w Marshmallow'
+- usb
+title: Android: Zmiana trybu USB z Charge-Only na MTP w Marshmallow
 ---
 
 System Android w większej lub mniejszej części zmienia się z wydania na wydanie. Te nowsze wersje
@@ -30,11 +30,9 @@ Poszukałem trochę informacji na ten temat i znalazłem rozwiązanie w postaci 
 
 W Androidzie 5.1 Lollipop nie było żadnego problemu. Podłączało się smartfon do komputera i można
 było wymieniać dane na linii tych dwóch urządzeń. Natomiast w Androidzie 6.0 Marshmallow trzeba
-dodatkowo [ręcznie przestawić tryb
-USB](https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html#behavior-usb)
-ilekroć podłączamy telefon do portu USB. Ta czynność jest mało wygodna, gdy się często podłącza
-telefon do komputera i takie ciągłe przestawianie tego trybu może nawet spokojnego człowieka
-wyprowadzić z równowagi:
+dodatkowo [ręcznie przestawić tryb USB][1] ilekroć podłączamy telefon do portu USB. Ta czynność
+jest mało wygodna, gdy się często podłącza telefon do komputera i takie ciągłe przestawianie tego
+trybu może nawet spokojnego człowieka wyprowadzić z równowagi:
 
 ![](/img/2017/03/001.usb-charge-only-mtp-tryb-android-marshmallow-domyslne.png#big)
 
@@ -62,10 +60,8 @@ zdefiniowanie sobie takiego trybu USB, który najlepiej nam odpowiada.
 Stosowna aplikacja, która umożliwi nam swobodne operowanie na porcie USB w naszym telefonie,
 niestety wymaga praw administratora root, czyli musimy posiadać ukorzenionego Androida. Innej opcji
 o zgrozo nie ma. Aplikacja, o której mowa, nazywa się [MTP enabler, a link do jej darmowej wersji
-widnieje na forum
-XDA](https://forum.xda-developers.com/android/apps-games/app-mtp-enbaler-t3263467). Instalacja tej
-aplikacji raczej nie powinna sprawić żadnych problemów. Po zainstalowaniu tego programiku,
-uruchamiamy go. Tak prezentują się opcje tej aplikacji:
+widnieje na forum XDA][2]. Instalacja tej aplikacji raczej nie powinna sprawić żadnych problemów.
+Po zainstalowaniu tego programiku, uruchamiamy go. Tak prezentują się opcje tej aplikacji:
 
 ![](/img/2017/03/003.usb-charge-only-mtp-tryb-android-marshmallow-aplikacja.png#huge)
 
@@ -90,3 +86,7 @@ tak przecież hasło blokady ekranu uniemożliwia zamontowanie zasobów smartfon
 komputera, przez co mając domyślny tryb MTP i tak trzeba wpisać hasło, by móc cokolwiek ze
 smartfonem robić. Może ktoś dysponuje argumentami, które przemawiają za przestawieniem trybu USB na
 Charge-Only? Bardzo chętnie bym się z nimi zapoznał.
+
+
+[1]: https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html#behavior-usb
+[2]: https://forum.xda-developers.com/android/apps-games/app-mtp-enbaler-t3263467

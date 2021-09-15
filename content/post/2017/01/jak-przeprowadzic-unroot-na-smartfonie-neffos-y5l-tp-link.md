@@ -2,16 +2,19 @@
 author: Morfik
 categories:
 - Android
-date: "2017-01-12T20:07:33Z"
-date_gmt: 2017-01-12 19:07:33 +0100
+date:    2017-01-12 20:07:33 +0100
+lastmod: 2017-01-12 20:07:33 +0100
 published: true
 status: publish
 tags:
 - tp-link
 - smartfon
 - root
-- marshmallow
 - neffos
+- neffos-y5l
+- adb
+- fastboot
+- twrp
 title: Jak przeprowadzić unroot na smartfonie Neffos Y5L od TP-LINK
 ---
 

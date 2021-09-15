@@ -2,33 +2,33 @@
 author: Morfik
 categories:
 - Android
-date: "2016-10-11T20:47:13Z"
-date_gmt: 2016-10-11 18:47:13 +0200
+date:    2016-10-11 20:47:13 +0200
+lastmod: 2016-10-11 20:47:13 +0200
 published: true
 status: publish
 tags:
-- tor
 - smartfon
-- lollipop
-- f-droid
 - aplikacje
-title: 'Android: Repozytorium aplikacji OpenSource (F-Droid)'
+- f-droid
+- tor
+- repozytorium
+title: Android: Repozytorium aplikacji OpenSource (F-Droid)
 ---
 
 Przeszukując sklep Google Play za nowymi aplikacjami, które mógłbym wgrać na swojego [Neffos'a
-C5](/post/recenzja-smartfon-neffos-c5-od-tp-link/), zawsze staram się zwracać uwagę
-co tak naprawdę zamierzam zainstalować. Nie chodzi tutaj tylko o poleconą mi przez kogoś aplikację,
-a konkretnie jej nazwę, bo te mogą być przecież bardzo podobne i łatwo zainstalować nie tego app'ka,
-którego powinniśmy. Android jest prawie jak windows, no może z tą różnicą, że jest udostępniany na
-wolnych licencjach. Z racji swojej popularności musi być bardzo prosty w obsłudze, by nie generować
-żadnych błędów i problemów wśród korzystających z niego użytkowników. Z doświadczenia wiem, że
-prostota obsługi nie zawsze idzie w parze z bezpieczeństwem, a gdy mamy przed sobą tak popularny
-system operacyjny jak Android, to już tylko krok dzieli nas od kompromitacji systemu przez wgranie
-jakiejś trefnej aplikacji ze sklepu Google. Nie znam tych wszystkich programików, które są w nim
-dostępne ale można zrobić lekki przesiew instalując jedynie aplikacje OpenSource. Przeszukiwanie
-Google Play pod tym kątem nie jest zbyt wygodne, dlatego też ktoś postanowił uruchomić [projekt
-F-Droid](https://f-droid.org/) zrzeszający wolne aplikacje, które możemy wgrać na swój telefon bez
-większego problemu. Ten wpis będzie poświęcony właśnie aplikacji F-Droid.
+C5][1], zawsze staram się zwracać uwagę co tak naprawdę zamierzam zainstalować. Nie chodzi tutaj
+tylko o poleconą mi przez kogoś aplikację, a konkretnie jej nazwę, bo te mogą być przecież bardzo
+podobne i łatwo zainstalować nie tego app'ka, którego powinniśmy. Android jest prawie jak windows,
+no może z tą różnicą, że jest udostępniany na wolnych licencjach. Z racji swojej popularności musi
+być bardzo prosty w obsłudze, by nie generować żadnych błędów i problemów wśród korzystających z
+niego użytkowników. Z doświadczenia wiem, że prostota obsługi nie zawsze idzie w parze z
+bezpieczeństwem, a gdy mamy przed sobą tak popularny system operacyjny jak Android, to już tylko
+krok dzieli nas od kompromitacji systemu przez wgranie jakiejś trefnej aplikacji ze sklepu Google.
+Nie znam tych wszystkich programików, które są w nim dostępne ale można zrobić lekki przesiew
+instalując jedynie aplikacje OpenSource. Przeszukiwanie Google Play pod tym kątem nie jest zbyt
+wygodne, dlatego też ktoś postanowił uruchomić [projekt F-Droid](https://f-droid.org/) zrzeszający
+wolne aplikacje, które możemy wgrać na swój telefon bez większego problemu. Ten wpis będzie
+poświęcony właśnie aplikacji F-Droid.
 
 <!--more-->
 ## Czym jest F-Droid
@@ -42,10 +42,9 @@ sprawia, że rozwój aplikacji zwykle nie jest motywowany nadmierną chęcią zy
 W sklepie Google jest cała masa aplikacji, które mają dopisek "zawiera reklamy". Może i taki
 programik jest nam udostępniany za free ale za to jesteśmy zmuszani do ciągłego oglądania reklam,
 czy też taka aplikacja śledzi nasze poczynania i przesyła gdzieś w ten sposób zebrane dane. Reklamy
-można co prawda [odfiltrować za sprawą
-adblock'a](/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/) ale tylko pod
-warunkiem, że mamy router z wgranym firmware OpenWRT. Niemniej jednak, w przypadku sporej części
-aplikacji w tym sklepie nie wiemy praktycznie nic na temat kodu źródłowego.
+można co prawda [odfiltrować za sprawą adblock'a][2] ale tylko pod warunkiem, że mamy router z
+wgranym firmware OpenWRT. Niemniej jednak, w przypadku sporej części aplikacji w tym sklepie nie
+wiemy praktycznie nic na temat kodu źródłowego.
 
 Nie to bym w każdej aplikacji na Androidzie widział złowrogie oprogramowanie ale jeśli taki program
 ma 100-500 milionów użytkowników i do tego nic nie wiadomo na temat mechaniki jego działania, to co
@@ -72,11 +71,9 @@ miejsce w Google Play, czy każdym linux'ie.
 ## Instalacja F-Droid (brak w Google Play)
 
 Prawdopodobnie już wiecie, że aplikacji F-Droid nie ma w sklepie Google Play, a to z tego względu,
-że narusza ona [umowę z
-Google](https://play.google.com/about/developer-distribution-agreement.html). Chodzi o to, że
-F-Droid umożliwia instalację w Androidzie aplikacji z pominięciem Google Play. Dlatego też, by móc
-zainstalować na swoim smartfonie F-Droid, musimy odwiedzić [oficjalną stronę projektu i pobrać z
-niej plik .apk](https://f-droid.org/).
+że narusza ona [umowę z Google][3]. Chodzi o to, że F-Droid umożliwia instalację w Androidzie
+aplikacji z pominięciem Google Play. Dlatego też, by móc zainstalować na swoim smartfonie F-Droid,
+musimy odwiedzić [oficjalną stronę projektu i pobrać z niej plik .apk][4].
 
 F-Droid pochodzi za zewnętrznego źródła w stosunku do Google Play. Nie damy rady standardowo
 zainstalować takiej aplikacji. Przed procesem instalacyjnym musimy włączyć w Androidzie możliwość
@@ -96,8 +93,7 @@ instalujemy update przeznaczony dla F-Droid.
 
 Po chwili okno F-Droid'a zostanie zamknięte. Czekamy moment i odpalamy tę aplikację skrótem na
 pulpicie. Wchodzimy w menu (trzy kropki w prawym górnym rogu) i wybieramy Repozytoria. Tam z kolei
-zaznaczamy również [repozytorium The Guardian
-Project](https://en.wikipedia.org/wiki/The_Guardian_Project_(software)):
+zaznaczamy również [repozytorium The Guardian Project][5]:
 
 ![](/img/2016/10/6.f-droid-smartfon-android-repozytoria.png#big)
 
@@ -134,12 +130,11 @@ potrzeba dania downgrade do starszej wersji, wystarczy ją wskazać:
 
 ### Aplikacje wymagające root
 
-[W przypadku, gdy nasz Android ma
-root'a,](/post/android-root-smartfona-neffos-c5-od-tp-link/) możemy odhaczyć w menu
-opcję ukrywającą na liście aplikacji te pozycje, które wymagają do działania praw administracyjnych.
-Generalnie nie zalecam instalacji tego typu aplikacji ale jako, że w tym przypadku mamy spełniony
-jeden z warunków bezpieczeństwa (aplikacja musi być OpenSource), to nie widzę przeszkód by możliwość
-instalacji takich programów w systemie włączyć.
+[W przypadku, gdy nasz Android ma root'a,][6] możemy odhaczyć w menu opcję ukrywającą na liście
+aplikacji te pozycje, które wymagają do działania praw administracyjnych. Generalnie nie zalecam
+instalacji tego typu aplikacji ale jako, że w tym przypadku mamy spełniony jeden z warunków
+bezpieczeństwa (aplikacja musi być OpenSource), to nie widzę przeszkód by możliwość instalacji
+takich programów w systemie włączyć.
 
 ![](/img/2016/10/11.f-droid-smartfon-android-aplikacje-wymagajace-root.png#medium)
 
@@ -154,8 +149,7 @@ jednak, przy części z nich widnieje dość rzucające się w oczy ostrzeżenie
 ![](/img/2016/10/12.f-droid-smartfon-android-ostrzezenie-aplikacja.png#medium)
 
 Ta aplikacja jest jak najbardziej Free & OpenSource ale opiera się na usłudze YouTube. [Wszystkie
-tego typu usługi są flagowane przez F-Droid](https://f-droid.org/wiki/page/Antifeatures) i oznaczane
-mniej więcej na podobnej zasadzie.
+tego typu usługi są flagowane przez F-Droid][7] i oznaczane mniej więcej na podobnej zasadzie.
 
 ### Automatyczne aktualizacje
 
@@ -175,8 +169,17 @@ wersji aplikacji jest do skonfigurowania.
 
 Ciekawą rzeczą jest również możliwość przepuszczenia ruchu generowanego za sprawą F-Droid przez sieć
 TOR. Jedyna rzecz, która nam jest potrzebna, to stosowny klient TOR, a ten z kolei można pobrać
-przez Google Play lub też z repozytorium F-Droid. Mowa oczywiście o
-[ORBOT](https://www.torproject.org/docs/android.html.en). Mając skonfigurowanego ORBOT'a, możemy
-zaznaczyć poniższą opcję w F-Droid:
+przez Google Play lub też z repozytorium F-Droid. Mowa oczywiście o [ORBOT][8]. Mając
+skonfigurowanego ORBOT'a, możemy zaznaczyć poniższą opcję w F-Droid:
 
 ![](/img/2016/10/14.f-droid-smartfon-android-orbot-tor.png#big)
+
+
+[1]: /post/recenzja-smartfon-neffos-c5-od-tp-link/
+[2]: /post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/
+[3]: https://play.google.com/about/developer-distribution-agreement.html
+[4]: https://f-droid.org/
+[5]: https://en.wikipedia.org/wiki/The_Guardian_Project_(software)
+[6]: /post/android-root-smartfona-neffos-c5-od-tp-link/
+[7]: https://f-droid.org/wiki/page/Antifeatures
+[8]: https://www.torproject.org/docs/android.html.en

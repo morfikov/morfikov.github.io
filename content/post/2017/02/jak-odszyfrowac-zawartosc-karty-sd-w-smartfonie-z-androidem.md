@@ -2,28 +2,29 @@
 author: Morfik
 categories:
 - Android
-date: "2017-02-09T18:01:56Z"
-date_gmt: 2017-02-09 17:01:56 +0100
+date:    2017-02-09 18:01:56 +0100
+lastmod: 2017-02-09 18:01:56 +0100
 published: true
 status: publish
 tags:
 - karta-sd
 - smartfon
-- marshmallow
+- szyfrowanie
+- adoptable-storage
+- root
+- adb
+- dmcrypt
 title: Jak odszyfrować zawartość karty SD w smartfonie z Androidem
 ---
 
-W Androidzie 6.0 Marshmallow został wprowadzony ciekawy mechanizm zwany [Adoptable
-Storage](https://source.android.com/devices/storage/adoptable), który umożliwia [zamontowanie karty
-SD w smartfonie jako pamięć
-wewnętrzna](/post/android-formatowanie-karty-sd-jako-pamiec-wewnetrzna/). W ten
+W Androidzie 6.0 Marshmallow został wprowadzony ciekawy mechanizm zwany [Adoptable Storage][1],
+który umożliwia [zamontowanie karty SD w smartfonie jako pamięć wewnętrzna][2]. W ten
 sposób pamięć flash w telefonach, które mają jej niewiele, może zostać nieco rozbudowana. Jedyny
 problem z tym całym Adoptable Storage jest taki, że Android szyfruje zawartość karty SD
 automatycznie, przez co nie jesteśmy w stanie odczytać żadnych informacji z takiego nośnika na
 innych urządzeniach. Istnieje jednak sposób, by rozszyfrować i tym samym uzyskać dostęp do danych
 zgromadzonych na karcie SD z poziomu linux'a, np. dystrybucji Debian. W tym artykule prześledzimy
-sobie właśnie ten proces na przykładzie [smartfona Neffos
-Y5](http://www.neffos.pl/product/details/Y5) od TP-LINK.
+sobie właśnie ten proces na przykładzie [smartfona Neffos Y5][3] od TP-LINK.
 
 <!--more-->
 ## Ukorzeniony Android Marshmallow (root)
@@ -36,9 +37,8 @@ smartfonie, tj. przeprowadzić na nim proces root.
 W przypadku tych TP-LINK'owych smartfonów dostępnych na polskim rynku, to tylko Neffos Y5 i Neffos
 Y5L mają wgranego Androida w wersji 6.0, dlatego też cały proces zostanie opisany w oparciu o jedno
 z tych urządzeń. W zasadzie mocniejszym sprzętem jest Neffos Y5 i dlatego zdecydowałem się nim
-posłużyć. Informacje na temat [ukorzeniania Androida w Neffos
-Y5](/post/android-root-smartfona-neffos-y5-od-tp-link/) znajdują się tutaj.
-Zakładam zatem w tym miejscu, że nasz smartfon przeszedł proces root.
+posłużyć. Informacje na temat [ukorzeniania Androida w Neffos Y5][4] znajdują się tutaj. Zakładam
+zatem w tym miejscu, że nasz smartfon przeszedł proces root.
 
 ## Formatowanie karty SD jako pamięć wewnętrzna
 
@@ -128,15 +128,13 @@ Ten widoczny wyżej ciąg 16 bajtów (128 bitów) tj. `6c33be5ddf7ba0d0ca41fed7a
 szyfrujący dane na karcie SD, który teraz trzeba wskazać w `dmsetup` na linux. Dodatkowo,
 potrzebnych jest nam jeszcze kilka parametrów. Musimy min. wiedzieć jaki rodzaj szyfru jest
 wykorzystywany w procesie szyfrowania i deszyfrowania informacji na karcie SD oraz musimy znać
-szereg offsetów. Zgodnie z [informacjami jakie znalazłem
-tutaj](https://source.android.com/devices/storage/adoptable#security), Android korzysta z
+szereg offsetów. Zgodnie z [informacjami jakie znalazłem tutaj][5], Android korzysta z
 `aes-cbc-essiv:sha256` . Offsety mogą być różne ale za punkt wyjścia można obrać `0` . Zatem linijka
 z `dmsetup` przybierze poniższą postać:
 
     # dmsetup create sdcard --table "0 `blockdev --getsize /dev/sdb2` crypt aes-cbc-essiv:sha256 6c33be5ddf7ba0d0ca41fed7a78f75db 0 /dev/sdb2 0"
 
-Dokładne [wyjaśnienie wszystkich opcji](https://gitlab.com/cryptsetup/cryptsetup/wikis/DMCrypt)
-użytych powyżej znajduje się tutaj.
+Dokładne [wyjaśnienie wszystkich opcji][6] użytych powyżej znajduje się tutaj.
 
 Jeśli to powyższe polecenie nie zwróci żadnego błędu, to możemy spróbować zamontować ten zasób w
 systemie. System plików, który został utworzony przez Androida w tym zaszyfrowanym kontenerze znamy
@@ -167,3 +165,11 @@ SD będziemy w stanie odczytać. Trzeba jednak również pamiętać o tym, że z
 wyciągnąć bez problemu o ile mamy w nim odblokowany bootloader (na potrzeby root, czy custom
 recovery), a że nie jest on w żaden sposób zabezpieczony (PIN, hasło, itp), to każdy kto zna się
 trochę na telefonach będzie w stanie uzyskać dostęp do danych zgromadzonych na tej karcie SD.
+
+
+[1]: https://source.android.com/devices/storage/adoptable
+[2]: /post/android-formatowanie-karty-sd-jako-pamiec-wewnetrzna/
+[3]: http://www.neffos.pl/product/details/Y5
+[4]: /post/android-root-smartfona-neffos-y5-od-tp-link/
+[5]: https://source.android.com/devices/storage/adoptable#security
+[6]: https://gitlab.com/cryptsetup/cryptsetup/wikis/DMCrypt

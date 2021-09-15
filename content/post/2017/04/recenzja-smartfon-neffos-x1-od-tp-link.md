@@ -2,8 +2,9 @@
 author: Morfik
 categories:
 - Hardware
-date: "2017-04-22T18:51:37Z"
-date_gmt: 2017-04-22 16:51:37 +0200
+- Android
+date:     2017-04-22 18:51:37 +0200
+date_gmt: 2017-04-22 18:51:37 +0200
 published: true
 status: publish
 tags:
@@ -11,7 +12,8 @@ tags:
 - tp-link
 - smartfon
 - neffos
-title: 'Recenzja: Smartfon Neffos X1 od TP-LINK'
+- neffos-x1
+title: Recenzja: Smartfon Neffos X1 od TP-LINK
 ---
 
 Stosunkowo niedawno do polskiej oferty TP-LINK trafił [smartfon Neffos X1][1]. To urządzenie było

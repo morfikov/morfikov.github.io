@@ -2,34 +2,35 @@
 author: Morfik
 categories:
 - Android
-date: "2016-10-20T22:58:57Z"
-date_gmt: 2016-10-20 20:58:57 +0200
+date:    2016-10-20 22:58:57 +0200
+lastmod: 2016-10-20 22:58:57 +0200
 published: true
 status: publish
 tags:
 - tp-link
 - smartfon
-- lollipop
-- root
 - neffos
+- neffos-c5
+- root
+- spflashtool
+- fastboot
+- adb
 title: Jak przeprowadzić unroot na smartfonie Neffos C5 od TP-LINK
 ---
 
-[Proces root na smartfonie Neffos
-C5](/post/android-root-smartfona-neffos-c5-od-tp-link/) od TP-LINK można
-przeprowadzić w miarę bez większych problemów, choć nie jest to rozwiązanie działające OOTB.
-Niemniej jednak, taki root telefonu czyni go bardziej podatnym na zagrożenia ze strony wrogich
-aplikacji. Ponadto, kasując czy też zmieniając pliki systemowe, możemy sprawić, że nasze urządzenie
-zwyczajnie przestanie nam działać, tj. już się nie uruchomi. Niektórzy użytkownicy smartfonów nie
-zdają sobie z tego sprawy i ukorzeniają Androida bez głębszego zastanowienia się. Mi jako
-linux'iarzowi, root jest niezbędny do pracy ale czy aby na pewno każdy musi go mieć? Ci z was,
-którzy taki root systemu przeprowadzili i nie korzystają z niego praktycznie wcale, zastanawiają
-się pewnie czy istnieje sposób, by cofnąć wprowadzone zmiany i przywrócić Androida do stanu
-pierwotnego. Krótka odpowiedź brzmi: "oczywiście, że tak" i temu procesowi przyjrzymy się w
-niniejszym artykule.
+[Proces root na smartfonie Neffos C5][1] od TP-LINK można przeprowadzić w miarę bez większych
+problemów, choć nie jest to rozwiązanie działające OOTB. Niemniej jednak, taki root telefonu czyni
+go bardziej podatnym na zagrożenia ze strony wrogich aplikacji. Ponadto, kasując czy też zmieniając
+pliki systemowe, możemy sprawić, że nasze urządzenie zwyczajnie przestanie nam działać, tj. już się
+nie uruchomi. Niektórzy użytkownicy smartfonów nie zdają sobie z tego sprawy i ukorzeniają Androida
+bez głębszego zastanowienia się. Mi jako linux'iarzowi, root jest niezbędny do pracy ale czy aby na
+pewno każdy musi go mieć? Ci z was, którzy taki root systemu przeprowadzili i nie korzystają z niego
+praktycznie wcale, zastanawiają się pewnie czy istnieje sposób, by cofnąć wprowadzone zmiany i
+przywrócić Androida do stanu pierwotnego. Krótka odpowiedź brzmi: "oczywiście, że tak" i temu
+procesowi przyjrzymy się w niniejszym artykule.
 
 <!--more-->
-## Czy potrzebny mi jest root Android'a
+## Czy potrzebny mi jest root Androida
 
 Standardowo w Androidzie każda aplikacja zainstalowana w telefonie ma przypisane indywidualne
 UID/GID (użytkownika i grupę). Żadna aplikacja nie jest w stanie odczytać danych innych programów,
@@ -71,8 +72,7 @@ część, na której znajduje się partycja `/system/` oraz `/data/` .
 O ile przywrócenie partycji `/system/` jest wielce niezbędne, o tyle przywrócenie partycji `/data/`
 może trwać sporo czasu. Biorąc pod uwagę, że są tam jedynie dane użytkownika, których nie ma za
 wiele tuż po wyjęciu smartfona z pudełka, to przydałoby się wyczyścić również i tę przestrzeń przed
-odkorzenieniem Androida. Ten proces możemy przeprowadzić korzystając z [Factory
-Reset](/post/android-reset-ustawien-do-fabrycznych-factory-defaults/) z poziomu
+odkorzenieniem Androida. Ten proces możemy przeprowadzić korzystając z [Factory Reset][2] z poziomu
 systemu. Powinien nam on efektywnie te dane bardzo szybko usunąć.
 
 Trzeba także pamiętać, że zmiany wprowadzone w procesie ukorzeniania telefonu nie ograniczają się
@@ -132,15 +132,14 @@ przechodząc do Ustawienia => Kopia i kasowanie danych => Ustawienia fabryczne:
 
 Jak już zostało wspomniane wyżej, na partycji `/system/` znajduje się ROM TP-LINK z Androidem 5.1.
 By powrócić do niego musimy przywrócić całą partycję. Możemy to zrobić z poziomu [aplikacji SP Flash
-Tool](http://spflashtool.com/), oczywiście zakładając, że pierw utworzyliśmy backup flash.
-Zamontujmy ten backup w systemie przy pomocy poniższego polecenia:
+Tool][3], oczywiście zakładając, że pierw utworzyliśmy backup flash. Zamontujmy ten backup w
+systemie przy pomocy poniższego polecenia:
 
     # losetup /dev/loop0 /media/Kabi/neffos/backup_phone/NeffosC5-orig.img
 
 W systemie powinniśmy mieć dostęp do szeregu partycji tego obrazu. Jeśli się tak nie stało to musimy
-odpowiednio [skonfigurować moduł
-loop](/post/obsluga-wielu-partycji-w-module-loop/). Podejrzymy także w `gdisk` jak
-prezentuje się tablica partycji samego obrazu. Interesuje nas generalnie pozycja `system` :
+odpowiednio [skonfigurować moduł loop][4]. Podejrzymy także w `gdisk` jak prezentuje się tablica
+partycji samego obrazu. Interesuje nas generalnie pozycja `system` :
 
     # gdisk -l /media/Kabi/neffos/backup_phone/NeffosC5-orig.img
 
@@ -166,9 +165,9 @@ urządzenia loop do pliku przy pomocy `dd` :
 
 Mając wyodrębnioną partycję `/system/` możemy ją wgrać na smartfon przy pomocy SP Flash Tool.
 Potrzebna nam jest tylko mapa przestrzeni flash, a ta siedzi w [pliku
-mt6735-neffos-c5-tp-link-scatter.txt](/img/manual/mt6735-neffos-c5-tp-link-scatter.txt).
-Jest tam również pozycja dotycząca partycji `/system/` . Odpalamy zatem SP Flash Tool i przechodzimy
-na zakładkę Download, gdzie wskazujemy nasz plik `scatter.txt` :
+mt6735-neffos-c5-tp-link-scatter.txt][5]. Jest tam również pozycja dotycząca partycji `/system/` .
+Odpalamy zatem SP Flash Tool i przechodzimy na zakładkę Download, gdzie wskazujemy nasz plik
+`scatter.txt` :
 
 ![](/img/2016/10/005.neffos-c5-unroot-tp-link-sp-flash-tool-scatter.png#huge)
 
@@ -238,3 +237,10 @@ powinien się bez większego problemu załadować na domyślnych
 ustawieniach.
 
 ![](/img/2016/12/008.neffos-c5-unroot-smartfon-tp-link-box.png#medium)
+
+
+[1]: /post/android-root-smartfona-neffos-c5-od-tp-link/
+[2]: /post/android-reset-ustawien-do-fabrycznych-factory-defaults/
+[3]: http://spflashtool.com/
+[4]: /post/obsluga-wielu-partycji-w-module-loop/
+[5]: /img/manual/mt6735-neffos-c5-tp-link-scatter.txt

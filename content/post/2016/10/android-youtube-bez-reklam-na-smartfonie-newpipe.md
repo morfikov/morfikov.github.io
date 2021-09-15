@@ -2,19 +2,17 @@
 author: Morfik
 categories:
 - Android
-date: "2016-10-20T19:41:01Z"
-date_gmt: 2016-10-20 17:41:01 +0200
+date:    2016-10-20 19:41:01 +0200
+lastmod: 2016-10-20 19:41:01 +0200
 published: true
 status: publish
 tags:
 - smartfon
-- lollipop
-- marshmallow
-- nougat
 - aplikacje
 - youtube
 - reklamy
-title: 'Android: YouTube bez reklam na smartfonie (NewPipe)'
+- spam
+title: Android: YouTube bez reklam na smartfonie (NewPipe)
 ---
 
 Ja generalnie zaliczam się do grona osób bardzo spokojnych ale tylko do czasu aż się zdenerwuję.

@@ -2,14 +2,14 @@
 author: Morfik
 categories:
 - Android
-date: "2016-10-04T20:39:20Z"
-date_gmt: 2016-10-04 18:39:20 +0200
+date:    2016-10-04 20:39:20 +0200
+lastmod: 2016-10-04 20:39:20 +0200
 published: true
 status: publish
 tags:
 - smartfon
-- lollipop
-title: 'Android: Reset ustawień do fabrycznych (factory defaults)'
+- factory-reset
+title: Android: Reset ustawień do fabrycznych (factory defaults)
 ---
 
 Android zadomowił się w większości smartfonów. Jest to mniej więcej taki sam system operacyjny, co w
@@ -22,8 +22,8 @@ czy też pendrive live. Ten proces z reguły jest szybki i w miarę bezproblemow
 trochę czasu poświęcić, by ten świeży system skonfigurować. A jak sprawa wygląda w przypadku
 smartfona z Androidem? Nie mamy jak za bardzo wgrać świeżego systemu, no i na dobrą sprawę nie
 musimy. Zamiast tego, możemy przywrócić ustawienia do fabrycznych (factory reset). W tym artykule
-postaramy się obadać proces resetu ustawień telefonu na przykładzie [smartfona Neffos
-C5](http://www.neffos.pl/product/details/C5) od TP-LINK z Androidem 5.1 (Lollipop).
+postaramy się obadać proces resetu ustawień telefonu na przykładzie [smartfona Neffos C5][1] od
+TP-LINK z Androidem 5.1 (Lollipop).
 
 <!--more-->
 ## Co zostanie wyczyszczone podczas resetu
@@ -94,10 +94,9 @@ się nam ekran z wyborem języka, czyli dokładnie ten sam co tuż po wyjęciu t
 
 Android posiada także tryb recovery, który może się nam przydać w momencie utraty kontroli nad
 systemem. Krótko mówiąc, gdy nie możemy uruchomić z jakiegoś powodu systemu. W trybie recovery mamy
-kilka użytecznych opcji, min. [resetowanie Androida do ustawień
-fabrycznych](https://support.google.com/android-one/answer/6088915?hl=en). Przez ten tryb recovery
-nie damy rady zaszyfrować telefonu ale w przypadku braku możliwości jego uruchomienia, to raczej by
-było nasze najmniejsze zmartwienie.
+kilka użytecznych opcji, min. [resetowanie Androida do ustawień fabrycznych][2]. Przez ten tryb
+recovery nie damy rady zaszyfrować telefonu ale w przypadku braku możliwości jego uruchomienia, to
+raczej by było nasze najmniejsze zmartwienie.
 
 W tryb revocery na Androidzie wchodzimy w następujący sposób. Musimy pierw wyłączyć telefon.
 Następnie wciskamy i przytrzymujemy przycisk Volume Up oraz Power do momentu aż telefon się włączy.
@@ -110,3 +109,7 @@ Naszym oczom powinien ukazać się przewrócony zielony robot z czerwonym znakie
 Volume Up i puszczamy. I tak weszliśmy w tryb recovery. Tutaj z kolei przy pomocy Volume Down
 zaznaczy pozycję `wipe data/factory reset` i potwierdzamy przyciskiem Power. Po tym kroku zacznie
 się czyszczenie danych, po którym prawdopodobnie odzyskamy kontrolę nad Androidem.
+
+
+[1]: http://www.neffos.pl/product/details/C5
+[2]: https://support.google.com/android-one/answer/6088915?hl=en

@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Android
-date: "2017-04-02T19:27:56Z"
-date_gmt: 2017-04-02 17:27:56 +0200
+date:    2017-04-02 19:27:56 +0200
+lastmod: 2017-04-02 19:27:56 +0200
 published: true
 status: publish
 tags:
@@ -12,39 +12,39 @@ tags:
 - root
 - twrp
 - neffos
+- neffos-x1
+- neffos-c5
+- neffos-c5-max
+- neffos-y5
+- neffos-y5-l
+- adb
+- fastboot
 title: Root w smartfonach Neffos od TP-LINK (X1, C5, C5 MAX, Y5, Y5L)
 ---
 
-Jakiś czas temu opisywałem proces ukorzeniania (root) smartfonów Neffos, a konkretnie były to modele
-[C5](http://www.neffos.pl/product/details/C5), [C5
-MAX](http://www.neffos.pl/product/details/C5-Max), [Y5](http://www.neffos.pl/product/details/Y5) i
-[Y5L](http://www.neffos.pl/product/details/Y5L). Od tamtego czasu zdążyłem się nieco bardziej
-zagłębić w struktury Androida i udało mi się ze źródeł [OMNI ROM](https://omnirom.org/) zbudować
-natwyne obrazy TWRP dla każdego z tych ww. telefonów. Oczywiście TP-LINK ma w swojej ofercie jeszcze
-modele [C5L](http://www.neffos.pl/product/details/C5L),
-[Y50](http://www.neffos.com/en/product/details/Y50),
-[X1](http://www.neffos.com/en/product/details/X1) oraz [X1
-MAX](http://www.neffos.com/en/product/details/X1Max) ale póki co nie będę w stanie przygotować
-obrazu TWRP i opisu jak ukorzenić Androidy w trzech z tych czterech smartfonów. Chodzi o to, że C5L
-został wycofany z produkcji i raczej nie wpadnie on w moje łapki. Natomiast modele Y50 oraz X1 MAX
-nie są jeszcze dostępne w polskiej ofercie TP-LINK'a, przez co minie trochę czasu zanim uda mi się
-do nich dobrać. Postanowiłem napisać świeży artykuł dotyczący procesu root w smartfonach Neffos C5,
-C5 MAX, Y5, Y5L oraz X1. Po co pisać kolejny artykuł o ukorzenianiu Androida w Neffos'ach?
-Generalnie rzecz biorąc, w tych poprzednich wpisach było bardzo dużo informacji zbędnych z punktu
-widzenia przeciętnego użytkownika, który chce zrootować system w swoim telefonie. Teraz, gdy
-dysponuję natywnymi obrazami TWRP własnej roboty i zdobyłem nieco wiedzy z zakresu operowania na
-Androidzie, to proces root jest o wiele prostszy i właśnie dlatego przydałoby się to wszystko opisać
-na nowo.
+Jakiś czas temu opisywałem proces ukorzeniania (root) smartfonów Neffos, a konkretnie były to
+modele [C5][1], [C5 MAX][2], [Y5][3] i [Y5L][4]. Od tamtego czasu zdążyłem się nieco bardziej
+zagłębić w struktury Androida i udało mi się ze źródeł [OMNI ROM][5] zbudować natwyne obrazy TWRP
+dla każdego z tych ww. telefonów. Oczywiście TP-LINK ma w swojej ofercie jeszcze modele [C5L][6],
+[Y50][7], [X1][8] oraz [X1 MAX][9] ale póki co nie będę w stanie przygotować obrazu TWRP i opisu
+jak ukorzenić Androidy w trzech z tych czterech smartfonów. Chodzi o to, że C5L został wycofany z
+produkcji i raczej nie wpadnie on w moje łapki. Natomiast modele Y50 oraz X1 MAX nie są jeszcze
+dostępne w polskiej ofercie TP-LINK'a, przez co minie trochę czasu zanim uda mi się do nich dobrać.
+Postanowiłem napisać świeży artykuł dotyczący procesu root w smartfonach Neffos C5, C5 MAX, Y5, Y5L
+oraz X1. Po co pisać kolejny artykuł o ukorzenianiu Androida w Neffos'ach? Generalnie rzecz biorąc,
+w tych poprzednich wpisach było bardzo dużo informacji zbędnych z punktu widzenia przeciętnego
+użytkownika, który chce zrootować system w swoim telefonie. Teraz, gdy dysponuję natywnymi obrazami
+TWRP własnej roboty i zdobyłem nieco wiedzy z zakresu operowania na Androidzie, to proces root jest
+o wiele prostszy i właśnie dlatego przydałoby się to wszystko opisać na nowo.
 
 <!--more-->
 ## Narzędzia ADB, fastboot (linux)
 
 Przede wszystkim, by zabrać się za proces root'owania smartfonów Neffos C5, C5 MAX, Y5, Y5L i X1,
 musimy przygotować sobie odpowiednie narzędzia. Zapewnią one nam możliwość rozmawiania z telefonem.
-Będziemy potrzebować `adb` ([Android Debug
-Bridge](https://developer.android.com/studio/command-line/adb.html)) oraz `fastboot` . Za obsługę
-`adb` w Debianie odpowiada pakiet `android-tools-adb` . Z kolei jeśli chodzi zaś o `fastboot` , to
-musimy doinstalować w systemie pakiet `android-tools-fastboot` :
+Będziemy potrzebować `adb` ([Android Debug Bridge][10]) oraz `fastboot` . Za obsługę `adb` w
+Debianie odpowiada pakiet `android-tools-adb` . Z kolei jeśli chodzi zaś o `fastboot` , to musimy
+doinstalować w systemie pakiet `android-tools-fastboot` :
 
     # apt-get install \
         android-tools-adb \
@@ -143,30 +143,27 @@ bardzo rzadko będzie nam potrzebny cały backup, tj. wszystkie jego partycje.
 Zwykle podczas procesu root są zmieniane jedynie partycje `/boot/` , `/recovery/` oraz `/system/` i
 w zasadzie backup tylko tych obszarów flash'a telefonu należy przeprowadzić. Osoby, które są
 zainteresowane dokonaniem ręcznej kopi zapasowej flash'a czy też kilku partycji urządzenia, odsyłam
-do starych wątków opisujących proces root: [Neffos
-C5](/post/android-root-smartfona-neffos-c5-od-tp-link/), [Neffos C5
-MAX](/post/android-root-smartfona-neffos-c5-max-od-tp-link/),[Neffos
-Y5](/post/android-root-smartfona-neffos-y5-od-tp-link/) i [Neffos
-Y5L](/post/android-root-smartfona-neffos-y5l-tp-link/).
+do starych wątków opisujących proces root: [Neffos C5][11], [Neffos C5 MAX][12],[Neffos Y5][13] i
+[Neffos Y5L][14].
 
 ## Obrazy TWRP recovery dla Neffos C5, C5 MAX, Y5, Y5L i X1
 
 Smartfony Neffos C5, C5 MAX, Y5, Y5L i X1 nie są jeszcze oficjalnie wspierane przez TWRP recovery.
 Niemniej jednak, na moim GitHub'ie znajduje się konfiguracja, która umożliwia zbudowanie obrazów
 TWRP recovery ze źródeł Androida, a konkretnie ze źródeł OMNI ROM. [Pod tym linkiem są zamieszczone
-gotowe obrazy TWRP recovery](https://app.box.com/v/tp-link-neffos-twrp-recovery) dla poszczególnych
+gotowe obrazy TWRP recovery][15] dla poszczególnych
 modeli smartfonów Neffos, które można pobrać i z powodzeniem wgrać na telefon via `fastboot` czy też
 SP Flash Tool. Niżej zaś są także linki do repozytoriów z konfiguracją obrazów.
 
-[Repo z konfiguracją dla Neffos Y5](https://github.com/morfikov/android_device_tp-link_tp802a)
+[Repo z konfiguracją dla Neffos Y5][16]
 
-[Repo z konfiguracją dla Neffos Y5L](https://github.com/morfikov/android_device_tp-link_tp801a)
+[Repo z konfiguracją dla Neffos Y5L][17]
 
-[Repo z konfiguracją dla Neffos C5](https://github.com/morfikov/android_device_tp-link_tp701a)
+[Repo z konfiguracją dla Neffos C5][18]
 
-[Repo z konfiguracją dla Neffos C5 MAX](https://github.com/morfikov/android_device_tp-link_tp702a)
+[Repo z konfiguracją dla Neffos C5 MAX][19]
 
-[Repo z konfiguracją dla Neffos X1](https://github.com/morfikov/android_device_tp-link_tp902a)
+[Repo z konfiguracją dla Neffos X1][20]
 
 ## Wgrywanie obrazu TWRP na smartfon Neffos
 
@@ -188,8 +185,7 @@ startu systemu i w efekcie wygeneruje on sobie nowy obraz i wgra go na partycję
 przywracając stock'owy tryb recovery w naszym smartfonie. Jeśli do tego dojdzie, to trzeba będzie
 jeszcze raz ponowić proces flash'owania obrazem TWRP.
 
-Po wejściu w tryb recovery, naszym oczom powinien pokazać się poniższy
-obrazek:
+Po wejściu w tryb recovery, naszym oczom powinien pokazać się poniższy obrazek:
 
 ![](/img/2017/03/002-neffos-smartfon-tp-link-root-twrp-zmiany.png#small)
 
@@ -221,12 +217,10 @@ prawdopodobnie nie będzie trzeba jeszcze raz wgrywać obrazu TWRP na partycję 
 Ostatnią rzeczą na drodze do ukorzenienia Androida na smartfonach Neffos jest wgranie aplikacji
 umożliwiającej korzystanie różnym programom z praw administratora systemu w telefonie. W obrazach
 TWRP recovery znajduje się odpowiedni moduł w pełni automatyzujący proces root w smartfonie. Nie
-trzeba zatem manualnie pobierać paczki z
-[SuperSU](https://forum.xda-developers.com/apps/supersu/stable-2016-09-01supersu-v2-78-release-t3452703).
-Jedyne co musimy zrobić to z menu TWRP wybrać Reboot =\> System. Przed zresetowaniem urządzenia,
-TWRP wyrzuci informację, że to urządzenie nie ma jeszcze root'a i zapyta nas czy chcemy zainstalować
-SuperSU (w przypadku Neffos X1 niestety trzeba instalować manualnie za pomocą [paczki dostępnej
-tutaj](https://forum.xda-developers.com/apps/supersu/stable-2016-09-01supersu-v2-78-release-t3452703)):
+trzeba zatem manualnie pobierać paczki z [SuperSU][21]. Jedyne co musimy zrobić to z menu TWRP
+wybrać Reboot =\> System. Przed zresetowaniem urządzenia, TWRP wyrzuci informację, że to urządzenie
+nie ma jeszcze root'a i zapyta nas czy chcemy zainstalować SuperSU (w przypadku Neffos X1 niestety
+trzeba instalować manualnie za pomocą [paczki dostępnej tutaj][21]):
 
 ![](/img/2017/03/003.neffos-smartfon-tp-link-root-twrp-instalacja-supersu.png#big)
 
@@ -248,10 +242,8 @@ Po zainstalowaniu, restartujemy smartfon.
 ## Test root na smartfonach Neffos
 
 Po zresetowaniu urządzenia możemy sprawdzić czy Android w naszym Neffos'ie został już ukorzeniony,
-np. doinstalowując sobie [jedną z
-aplikacji](https://play.google.com/store/apps/details?id=com.jrummyapps.rootchecker), która nam ten
-sam rzeczy oznajmi. Poniżej są fotki obrazujące root smartfonów Neffos C5, C5 MAX, Y5, Y5L i
-X1:
+np. doinstalowując sobie [jedną z aplikacji][22], która nam ten sam rzeczy oznajmi. Poniżej są fotki
+obrazujące root smartfonów Neffos C5, C5 MAX, Y5, Y5L i X1:
 
 ![](/img/2017/03/007.neffos-smartfon-tp-link-sprawdzenie-root.png#huge)
 
@@ -297,10 +289,9 @@ czyszcząc tym samym wszystkie dane użytkownika:
 
 Smartfony Neffos są wyposażone w mechanizm, który jest w stanie zweryfikować integralność danych w
 systemie. W przypadku powracania ze zrootowanego Androida do stock'owego firmware TP-LINK'a, dobrze
-jest przeprowadzić [proces Root Integrity
-Check](/post/root-integrity-check-w-smartfonach-z-androidem/) z poziomu trybu
-recovery tak, by upewnić się, że faktycznie powróciliśmy do oryginalnego oprogramowania oraz, że nie
-będzie problemów z ewentualnymi aktualizacjami systemu telefonu w późniejszym czasie.
+jest przeprowadzić [proces Root Integrity Check][23] z poziomu trybu recovery tak, by upewnić się,
+że faktycznie powróciliśmy do oryginalnego oprogramowania oraz, że nie będzie problemów z
+ewentualnymi aktualizacjami systemu telefonu w późniejszym czasie.
 
 ## Brak wolnego miejsca i zmiana układu partycji flash'a
 
@@ -326,7 +317,7 @@ stworzenie ich od podstaw. To zadanie jednak wykracza poza ramy tego artykułu. 
 planuję tego typu zabieg przeprowadzić i dokładnie go opisać. (link FIXME).
 
 Informacje na temat [zmiany układu partycji na flash'u w smartfonach Neffos C5 i C5 MAX można
-znaleźć tutaj](/post/repartycjonowanie-flash-w-neffos-c5-i-c5-max-od-tp-link/).
+znaleźć tutaj][24].
 
 ## Problemy i niebezpieczeństwa związane z procesem root
 
@@ -363,14 +354,13 @@ wtedy mamy bardzo poważny problem.
 
 Przede wszystkim, mając odblokowany bootloader, który jest wymagany do ukorzenienia Neffos'ów,
 dajemy złodziejowi narzędzie zresetowania smartfona i obejścia tym samym [blokady Factory Reset
-Protection Lock](/post/factory-reset-protection-frp-w-smartfonach-z-androidem/)
-(FRP Lock). Gdy złodziej obejdzie tę blokadę jest w stanie przywrócić system urządzenia do ustawień
-fabrycznych, np. w celu odsprzedania telefonu komuś trzeciemu. W takim przypadku nasz smartfon nie
-będzie już dłużej powiązany z konkretnym kontem Google i zlokalizowanie go przez ww. usługę będzie
-zwyczajnie niemożliwe.
+Protection Lock][25] (FRP Lock). Gdy złodziej obejdzie tę blokadę jest w stanie przywrócić system
+urządzenia do ustawień fabrycznych, np. w celu odsprzedania telefonu komuś trzeciemu. W takim
+przypadku nasz smartfon nie będzie już dłużej powiązany z konkretnym kontem Google i zlokalizowanie
+go przez ww. usługę będzie zwyczajnie niemożliwe.
 
 [Więcej informacji na temat lokalizacji zagubionych/skradzionych smartfonów można znaleźć w osobnym
-wątku.](/post/jak-zlokalizowac-skradziony-zagubiony-smartfon-z-androidem/)
+wątku.][26]
 
 ### Możliwość obejścia blokady ekranu
 
@@ -382,19 +372,17 @@ przechowywane w plikach na flash'u smartfona. Jeśli teraz mamy zdjętą blokad�
 chcieliśmy sobie ukorzenić system, to dostęp do tych kluczy i ustawień pozostaje niechroniony i
 można zresetować blokadę ekranu przez tryb recovery.
 
-[Więcej informacji na temat resetowania ustawień blokady ekranu można znaleźć w osobnym
-wątku](/post/backup-partycji-data-w-smartfonach-przez-recovery-twrp/) (ostatni
-nagłówek).
+[Więcej informacji na temat resetowania ustawień blokady ekranu można znaleźć w osobnym wątku][27]
+(ostatni nagłówek).
 
 ### Odszyfrowanie zawartości karty SD sformatowanej jako pamięć wewnętrzna
 
 Nowsze wersje Androidów (6.0+) są w stanie rozbudować pamięć flash w smartfonach przy wykorzystaniu
-[Adoptable Storage](https://source.android.com/devices/storage/adoptable). Ten mechanizm zakłada
-sformatowanie karty SD systemem plików, który daje możliwość wykorzystania uprawnień do plików w
-celu poprawienia bezpieczeństwa systemu i poufności danych przechowywanych na samej karcie SD.
-Domyślnie dane na tej karcie SD są szyfrowane i nie da rady do tych informacji uzyskać dostępu z
-poziomu innego urządzenia. Możemy w zasadzie korzystać z tej karty na smartfonie, gdzie została ona
-sformatowana jako pamięć wewnętrzna i nic poza tym.
+[Adoptable Storage][28]. Ten mechanizm zakłada sformatowanie karty SD systemem plików, który daje
+możliwość wykorzystania uprawnień do plików w celu poprawienia bezpieczeństwa systemu i poufności
+danych przechowywanych na samej karcie SD. Domyślnie dane na tej karcie SD są szyfrowane i nie da
+rady do tych informacji uzyskać dostępu z poziomu innego urządzenia. Możemy w zasadzie korzystać z
+tej karty na smartfonie, gdzie została ona sformatowana jako pamięć wewnętrzna i nic poza tym.
 
 Do szyfrowania zawartości karty jest wykorzystywany losowy klucz szyfrujący, który jest tworzony w
 procesie formatowania karty SD. Ten klucz nie jest zabezpieczony żadnym hasłem (np. tym od blokady
@@ -403,8 +391,7 @@ klucz jest dostępny praktycznie dla każdego, przez co jakiekolwiek szyfrowanie
 jest tylko złudzeniem bezpieczeństwa i niepotrzebnie obciąża procesor telefonu.
 
 [Więcej informacji na temat odszyfrowania zawartości karty SD sformatowanej jako pamięć można
-znaleźć w osobnym
-wątku.](/post/jak-odszyfrowac-zawartosc-karty-sd-w-smartfonie-z-androidem/)
+znaleźć w osobnym wątku.][29]
 
 ### Inne problemy
 
@@ -414,3 +401,34 @@ rzeczy udało mi się wyłapać. Niemniej jednak, jak tylko coś ciekawego znajd
 dodam tutaj stosowny nagłówek, tak by ta lista była możliwie rozbudowana, co może przyczyni się do
 większej świadomości osób korzystających z Androida i zaowocuje zastanowieniem się nad tym, czy
 faktycznie dany użytkownik potrzebuje ukorzenionego Androida w swoim smartfonie.
+
+
+[1]: http://www.neffos.pl/product/details/C5
+[2]: http://www.neffos.pl/product/details/C5-Max
+[3]: http://www.neffos.pl/product/details/Y5
+[4]: http://www.neffos.pl/product/details/Y5L
+[5]: https://omnirom.org/
+[6]: http://www.neffos.pl/product/details/C5L
+[7]: http://www.neffos.com/en/product/details/Y50
+[8]: http://www.neffos.com/en/product/details/X1
+[9]: http://www.neffos.com/en/product/details/X1Max
+[10]: https://developer.android.com/studio/command-line/adb.html
+[11]: /post/android-root-smartfona-neffos-c5-od-tp-link/
+[12]: /post/android-root-smartfona-neffos-c5-max-od-tp-link/
+[13]: /post/android-root-smartfona-neffos-y5-od-tp-link/
+[14]: /post/android-root-smartfona-neffos-y5l-tp-link/
+[15]: https://app.box.com/v/tp-link-neffos-twrp-recovery
+[16]: https://github.com/morfikov/android_device_tp-link_tp802a
+[17]: https://github.com/morfikov/android_device_tp-link_tp801a
+[18]: https://github.com/morfikov/android_device_tp-link_tp701a
+[19]: https://github.com/morfikov/android_device_tp-link_tp702a
+[20]: https://github.com/morfikov/android_device_tp-link_tp902a
+[21]:https://forum.xda-developers.com/apps/supersu/stable-2016-09-01supersu-v2-78-release-t3452703
+[22]: https://play.google.com/store/apps/details?id=com.jrummyapps.rootchecker
+[23]: /post/root-integrity-check-w-smartfonach-z-androidem/
+[24]: /post/repartycjonowanie-flash-w-neffos-c5-i-c5-max-od-tp-link/
+[25]: /post/factory-reset-protection-frp-w-smartfonach-z-androidem/
+[26]: /post/jak-zlokalizowac-skradziony-zagubiony-smartfon-z-androidem/
+[27]: /post/backup-partycji-data-w-smartfonach-przez-recovery-twrp/
+[28]: https://source.android.com/devices/storage/adoptable
+[29]: /post/jak-odszyfrowac-zawartosc-karty-sd-w-smartfonie-z-androidem/

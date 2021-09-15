@@ -2,14 +2,15 @@
 author: Morfik
 categories:
 - Android
-date: "2017-03-03T17:58:36Z"
-date_gmt: 2017-03-03 16:58:36 +0100
+date:    2017-03-03 17:58:36 +0100
+lastmod: 2017-03-03 17:58:36 +0100
 published: true
 status: publish
 tags:
 - szyfrowanie
 - smartfon
-- marshmallow
+- root
+- adb
 title: Jak zmienić hasło do zaszyfrowanego smartfona z Androidem
 ---
 
@@ -64,9 +65,8 @@ chyba, że zmienimy również hasło blokady ekranu. Problem w tym, że raczej n
 wpisywał długiego hasła za każdym razem, gdy chce skorzystać z telefonu.
 
 Część smartfonów z nowszą wersją Androida (5.0+) wspiera sprzętowe szyfrowanie i tak samo jest w
-przypadku Neffos'a Y5. Tutaj główną rolę odgrywa TEE ([Trusted Execution
-Environment](https://source.android.com/security/trusty/)). W starszych wersjach Androida, klucz
-główny jest szyfrowany kluczem wygenerowanym przez [scrypt](https://en.wikipedia.org/wiki/Scrypt)
+przypadku Neffos'a Y5. Tutaj główną rolę odgrywa TEE ([Trusted Execution Environment][1]). W
+starszych wersjach Androida, klucz główny jest szyfrowany kluczem wygenerowanym przez [scrypt][2]
 na podstawie hasła użytkownika i przechowywanej soli. W przypadku nowszych smartfonów, takie
 urządzenia mają zaszyty w SoC dodatkowy unikalny klucz szyfrujący, którego nie da rady w żaden
 sposób wydobyć. To właśnie ten dodatkowy klucz sprawia, że odszyfrowanie danych w trybie off-line
@@ -82,11 +82,9 @@ darować zmianę hasła. Niemniej jednak, dla tych osób, które chcą jeszcze b
 bezpieczeństwo danych przechowywanych na smartfonie, istnieje możliwość rozdzielenia haseł, tak by
 z jednej strony telefon miał krótkie hasło blokady ekranu, a zarazem długie hasło wykorzystywane
 przy szyfrowaniu danych. Możemy to zrobić w zasadzie na dwa sposoby: przy pomocy [aplikacji Cryptfs
-Password](https://play.google.com/store/apps/details?id=org.nick.cryptfs.passwdmanager)
-([źródła](https://github.com/nelenkov/cryptfs-password-manager)) lub też przy pomocy `adb` . To
-co łączy te dwie metody, to niestety ukorzeniony system (root), a jak wiadomo większość użytkowników
-smartfonów nie posiada root'a. W przypadku tego Neffos'a Y5, [proces root można przeprowadzić bez
-większego problemu](/post/android-root-smartfona-neffos-y5-od-tp-link/) i
+Password][3] ([źródła][4]) lub też przy pomocy `adb` . To co łączy te dwie metody, to niestety
+ukorzeniony system (root), a jak wiadomo większość użytkowników smartfonów nie posiada root'a. W
+przypadku tego Neffos'a Y5, [proces root można przeprowadzić bez większego problemu][5] i
 naturalnie mój model ma już ten proces za sobą.
 
 Jeśli nie zamierzamy instalować dodatkowych aplikacji w telefonie, to naturalnie możemy skorzystać z
@@ -132,22 +130,18 @@ To hasło można zweryfikować poniższym poleceniem:
 Problem jednak w tym, że jak widać wyżej po cyferkach, mamy błąd, a to oznacza, że przy pomocy tego
 hasła nie da rady odszyfrować telefonu. Do końca nie wiem w czym tkwi problem ale samo hasło działa
 jak najbardziej i można przy jego pomocy odszyfrować telefon. Być może są jakieś błędy w kodzie
-Androida, który jest wgrany na ten smartfon, np. [podobne do tych opisanych
-tutaj](https://github.com/nelenkov/cryptfs-password-manager/issues/14). Niemniej jednak, to o czym
-warto pamiętać, to jeśli zmienimy to hasło i podczas startu smartfona nie będziemy w stanie go
-odszyfrować, to czeka nas przywracanie ustawień urządzenia do domyślnych, czyli utracimy
-bezpowrotnie wszelkie dane z partycji `/data/` . Dlatego też lepiej na firmowym smartfonie nie
-przeprowadzać procesu zmiany hasła bez absolutnej pewności co do późniejszego odszyfrowania
-zawartości telefonu.
+Androida, który jest wgrany na ten smartfon, np. [podobne do tych opisanych tutaj][6]. Niemniej
+jednak, to o czym warto pamiętać, to jeśli zmienimy to hasło i podczas startu smartfona nie
+będziemy w stanie go odszyfrować, to czeka nas przywracanie ustawień urządzenia do domyślnych,
+czyli utracimy bezpowrotnie wszelkie dane z partycji `/data/` . Dlatego też lepiej na firmowym
+smartfonie nie przeprowadzać procesu zmiany hasła bez absolutnej pewności co do późniejszego
+odszyfrowania zawartości telefonu.
 
 Po zmianie hasła resetujemy telefon i podczas startu podajemy już nowe hasło. W taki oto prosty
 sposób mamy dwa różne hasła (jedno do blokady ekranu, a drugie do szyfrowania partycji `/data/` ).
 
 Jeśli kogoś interesuje zagadnienie szyfrowania danych w Androidzie, to naturalnie może sobie
-poczytać o szczegółach [tutaj](https://source.android.com/security/encryption/full-disk),
-[tutaj](https://source.android.com/security/trusty/),
-[tutaj](https://nelenkov.blogspot.com/2014/10/revisiting-android-disk-encryption.html) oraz
-[tutaj](https://nelenkov.blogspot.com/2012/08/changing-androids-disk-encryption.html).
+poczytać o szczegółach [tutaj][7], [tutaj][8], [tutaj][9] oraz [tutaj][10].
 
 ## Czy zmiana hasła blokady ekranu wpływa na hasło klucza szyfrującego
 
@@ -156,3 +150,15 @@ również hasło od klucza szyfrującego. Nie wiem jak jest w przypadku innych t
 Androida ale w przypadku Neffos'a Y5, tego typu problem nie występuje. Hasło do blokady można
 zmienić bez większego problemu w ustawieniach ale hasło od klucza pozostaje takie jak zostało
 ustawione przez `adb` .
+
+
+[1]: https://source.android.com/security/trusty/
+[2]: https://en.wikipedia.org/wiki/Scrypt
+[3]: https://play.google.com/store/apps/details?id=org.nick.cryptfs.passwdmanager
+[4]: https://github.com/nelenkov/cryptfs-password-manager
+[5]: /post/android-root-smartfona-neffos-y5-od-tp-link/
+[6]: https://github.com/nelenkov/cryptfs-password-manager/issues/14
+[7]: https://source.android.com/security/encryption/full-disk
+[8]: https://source.android.com/security/trusty/
+[9]: https://nelenkov.blogspot.com/2014/10/revisiting-android-disk-encryption.html
+[10]: https://nelenkov.blogspot.com/2012/08/changing-androids-disk-encryption.html

@@ -2,17 +2,16 @@
 author: Morfik
 categories:
 - Android
-date: "2017-03-04T21:56:54Z"
-date_gmt: 2017-03-04 20:56:54 +0100
+date:    2017-03-04 21:56:54 +0100
+lastmod: 2017-03-04 21:56:54 +0100
 published: true
 status: publish
 tags:
 - smartfon
-- lollipop
 - xposed
-- marshmallow
 - youtube
-title: 'Android: Framework Xposed i moduły do YouTube'
+- root
+title: Android: Framework Xposed i moduły do YouTube
 ---
 
 Stock'owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji

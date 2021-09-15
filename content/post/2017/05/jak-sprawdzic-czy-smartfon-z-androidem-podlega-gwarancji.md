@@ -2,13 +2,15 @@
 author: Morfik
 categories:
 - Android
-date: "2017-05-02T17:19:22Z"
-date_gmt: 2017-05-02 15:19:22 +0200
+date:     2017-05-02 17:19:22 +0200
+lastmod: 2017-05-02 17:19:22 +0200
 published: true
 status: publish
 tags:
 - smartfon
 - mediatek
+- fastboot
+- spflashtool
 title: Jak sprawdzić czy smartfon z Androidem podlega gwarancji
 ---
 
@@ -77,7 +79,7 @@ naprawy widząc któryś z powyższych wyników.
 Ja eksperymentuję dość często (i co raz bardziej odważnie) ze swoimi smartfonami Neffos, które mi
 podesłał TP-LINK. Czasami na dłużej lub krócej taki telefon uszkodzę (jedynie programowo) ale w
 ostateczności wszystko wraca do normy. Podczas takich testów ciekawe rzeczy wychodzą na jaw,
-zwłaszcza, gdy ma się pod ręką [SP Flash Tool](http://spflashtool.com/).
+zwłaszcza, gdy ma się pod ręką [SP Flash Tool][1].
 
 Po ostatnim uszkodzeniu Neffos'a X1 byłem zmuszony do przywrócenia praktycznie całego stock'owego
 ROM'u. Może i nie poprawiło to problemu, którego doświadczałem wtedy, ale po wywołaniu jeszcze raz
@@ -148,3 +150,6 @@ czy też z poziomu TWRP recovery na stosowne urządzenie blokowe. Po tym jak sma
 ponownie, Android odtworzy partycję `seccfg` i przywróci jej ustawienia domyślne, a w logu
 `fastboot` będziemy mieć już informacje, że gwarancja na smartfon obowiązuje. Tego typu zabieg
 zakłada także automatycznie blokadę na bootloader.
+
+
+[1]: http://spflashtool.com/

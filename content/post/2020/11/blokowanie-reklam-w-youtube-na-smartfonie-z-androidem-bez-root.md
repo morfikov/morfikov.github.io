@@ -8,14 +8,13 @@ published: true
 status: publish
 tags:
 - smartfon
-- lollipop
-- marshmallow
-- nougat
 - youtube
 - microg
 - push
 - reklamy
 - aplikacje
+- spam
+- adb
 title: Blokowanie reklam w YouTube na smartfonie z Androidem bez root
 ---
 

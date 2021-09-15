@@ -2,28 +2,25 @@
 author: Morfik
 categories:
 - Android
-date: "2016-10-12T19:18:31Z"
-date_gmt: 2016-10-12 17:18:31 +0200
+date:    2016-10-12 19:18:31 +0200
+lastmod: 2016-10-12 19:18:31 +0200
 published: true
 status: publish
 tags:
-- tp-link
 - smartfon
 - aplikacje
-- neffos
-title: 'Android: Nova Launcher w Neffos C5'
+title: Android: Nova Launcher w Neffos C5
 ---
 
-Jedną z rzeczy, która wychodzi przy użytkowaniu [smartfona Neffos
-C5](http://www.neffos.pl/product/details/C5) od TP-LINK jest ździebko problematyczny interfejs.
-Chodzi o launcher aplikacji, do których odnośniki mamy na pulpicie. Standardowo jest tutaj podziałka
-4x4, czyli na jednym pulpicie możemy mieć maksymalnie tylko 16 ikonek. Gdy do tego jeszcze dojdą nam
-widżety, to korzystanie z pewnych aplikacji może być dość uciążliwe. Ja korzystam z bardzo wielu
-programów i standardowo w Neffos'ie C5 muszę mieć co najmniej 5 pulpitów, a jeszcze nie skończyłem
-się bawić aplikacjami. Nie byłoby pewnie żadnego problemu, gdyby nie fakt, że nie można zmienić
-ilości wyświetlanych ikonek, przynajmniej ja nie znalazłem takiej opcji. Dlatego też byłem zmuszony
-rozejrzeć się za innym launcher'em i znalazłem [Nova
-Launcher](https://play.google.com/store/apps/details?id=com.teslacoilsw.launcher).
+Jedną z rzeczy, która wychodzi przy użytkowaniu [smartfona Neffos C5][1] od TP-LINK jest ździebko
+problematyczny interfejs. Chodzi o launcher aplikacji, do których odnośniki mamy na pulpicie.
+Standardowo jest tutaj podziałka 4x4, czyli na jednym pulpicie możemy mieć maksymalnie tylko 16
+ikonek. Gdy do tego jeszcze dojdą nam widżety, to korzystanie z pewnych aplikacji może być dość
+uciążliwe. Ja korzystam z bardzo wielu programów i standardowo w Neffos'ie C5 muszę mieć co najmniej
+5 pulpitów, a jeszcze nie skończyłem się bawić aplikacjami. Nie byłoby pewnie żadnego problemu,
+gdyby nie fakt, że nie można zmienić ilości wyświetlanych ikonek, przynajmniej ja nie znalazłem
+takiej opcji. Dlatego też byłem zmuszony rozejrzeć się za innym launcher'em i znalazłem [Nova
+Launcher][2].
 
 <!--more-->
 ## Standardowy launcher w Neffos C5 vs Nova Launcher
@@ -255,7 +252,7 @@ Styl:
 
 Mamy tutaj możliwość wyboru zestawu ikon. Póki co dostępne są dwie opcje: ikonki systemowe oraz
 ikonki z Androida 6.0 (Marshmallow). Możemy także wyrównać nieco rozmiar ikonek, tak by były zgodne
-z zasadami [Material Design](https://material.io/guidelines/). Generalnie część większych ikonek
+z zasadami [Material Design][3]. Generalnie część większych ikonek
 będzie nieco mniejsza co uczyni sam pulpit bardziej czytelnym. Nie wiem czemu nie wszystkie duże
 ikonki są pomniejszane (Google Chrome vs Firefox):
 
@@ -338,3 +335,8 @@ I to w sumie już wszystko co tyczy się wymiany launcher'a w Neffos C5. Myślę
 trochę popracować nad tą jakże kluczową aplikacją, bez której raczej żaden użytkownik smartfona nie
 potrafi się obejść. Moim zdaniem jest szereg elementów, które przydałoby się przenieść z Nova
 Launcher i zaimplementować w domyślnej nakładce Neffos'a C5.
+
+
+[1]: http://www.neffos.pl/product/details/C5
+[2]: https://play.google.com/store/apps/details?id=com.teslacoilsw.launcher
+[3]: https://material.io/guidelines/

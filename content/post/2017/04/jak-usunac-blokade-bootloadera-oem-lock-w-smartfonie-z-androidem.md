@@ -2,31 +2,32 @@
 author: Morfik
 categories:
 - Android
-date: "2017-04-30T19:17:15Z"
-date_gmt: 2017-04-30 17:17:15 +0200
+date:    2017-04-30 19:17:15 +0200
+lastmod: 2017-04-30 19:17:15 +0200
 published: true
 status: publish
 tags:
 - smartfon
 - mediatek
 - bootloader
+- spflashtool
+- twrp
 title: Jak usunąć blokadę bootloader'a (OEM lock) w smartfonie z Androidem
 ---
 
 Eksperymentując ostatnimi czasy ze smartfonami mającymi na pokładzie system Android nie zdarzyło mi
 się jeszcze, by jakoś poważniej taki telefon uszkodzić. Oczywiście wiele razy złapałem soft brick'a
 (bootloop i inne takie) ale w zasadzie bez większego problemu szło z takiej sytuacji wybrnąć. Dziś
-jednak sprawa była nieco bardziej poważna, bo mój [Neffos
-X1](http://www.neffos.com/en/product/details/X1) nie chciał się po prostu uruchomić, a konkretnie to
-pojawiało się logo TP-LINK i Android i telefon na tym ekranie startowym się zwyczajnie zawieszał.
-Pikanterii dodaje jeszcze fakt, że przed sprawdzeniem czy telefon działa poprawnie, zablokowałem
-bootloader przez `fastboot oem lock` . Naturalnie bootloader można odblokować też przy użyciu
-`fastboot` ale po zresetowaniu urządzenia, ta opcja, którą się przełącza w ustawieniach
-deweloperskich automatycznie wraca do pozycji zablokowanej. W taki sposób, by odblokować bootloader
-ponownie, trzeba wejść w te opcje jeszcze raz i tam ściągnąć pierw blokadę OEM, a dopiero później
-można mówić o bawieniu się `fastboot` . A jak niby mamy wejść w te ustawienia jeśli system nie chce
-wystartować, a my mamy stock'owy firmware producenta smartfona? Czy taki stan rzeczy oznacza trwałe
-uszkodzenie telefonu?
+jednak sprawa była nieco bardziej poważna, bo mój [Neffos X1][1] nie chciał się po prostu uruchomić,
+a konkretnie to pojawiało się logo TP-LINK i Android i telefon na tym ekranie startowym się
+zwyczajnie zawieszał. Pikanterii dodaje jeszcze fakt, że przed sprawdzeniem czy telefon działa
+poprawnie, zablokowałem bootloader przez `fastboot oem lock` . Naturalnie bootloader można
+odblokować też przy użyciu `fastboot` ale po zresetowaniu urządzenia, ta opcja, którą się przełącza
+w ustawieniach deweloperskich automatycznie wraca do pozycji zablokowanej. W taki sposób, by
+odblokować bootloader ponownie, trzeba wejść w te opcje jeszcze raz i tam ściągnąć pierw blokadę
+OEM, a dopiero później można mówić o bawieniu się `fastboot` . A jak niby mamy wejść w te
+ustawienia jeśli system nie chce wystartować, a my mamy stock'owy firmware producenta smartfona?
+Czy taki stan rzeczy oznacza trwałe uszkodzenie telefonu?
 
 <!--more-->
 ## Tryb recovery, reset ustawień do fabrycznych i SP Flash Tool
@@ -68,13 +69,10 @@ blokady jest przechowywany. Nazwa tej partycji może być różna ale można ją
     ro.frp.pst=/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/frp
 
 Ta partycja zwrócona w `ro.frp.pst` jest zmieniana za sprawą kilku czynników. Są tutaj przechowywane
-też ustawienia [blokady FPR
-Lock](/post/factory-reset-protection-frp-w-smartfonach-z-androidem/) (tej od konta
-Google). Nas jednak interesuje ostatni bajt na tej partycji, bo zgodnie z [informacjami jakie
-znalazłem na forum
-XDA](https://forum.xda-developers.com/nexus-6/help/info-nexus-6-nexus-9-enable-oem-unlock-t3113539),
-ten ostatni bajt jest przepisywany w zależności od położenia przełącznika opcji "Zdjęcie blokady
-OEM" w ustawieniach deweloperskich.
+też ustawienia [blokady FPR Lock][2] (tej od konta Google). Nas jednak interesuje ostatni bajt na
+tej partycji, bo zgodnie z [informacjami jakie znalazłem na forum XDA][3], ten ostatni bajt jest
+przepisywany w zależności od położenia przełącznika opcji "Zdjęcie blokady OEM" w ustawieniach
+deweloperskich.
 
 W zasadzie są dwa ustawienia: 0 (blokada aktywna) oraz 1 (blokada zdjęta). Przestawiając przełącznik
 tak by zdjąć blokadę, system przepisuje ten ostatni bajt ale tylko na czas jednego restartu
@@ -91,8 +89,7 @@ tego typu operację możemy przeprowadzić?
 Potrzebny nam będzie obraz partycji `frp` , ewentualnie można przy pomocy `dd` stworzyć obraz
 wypełniony zerami o odpowiedniej długości. Jak sobie wykroiłem tę partycję z backup'u flash'a. W
 tym przypadku partycja `frp` zajmuje 1 MiB. Ten obraz trzeba załadować do edytora HEX. Jak korzystam
-z [wxhexeditor](http://www.wxhexeditor.org/) . Po załadowaniu obrazu w tym programiku powinniśmy
-ujrzeć poniższe okienko:
+z [wxhexeditor][4] . Po załadowaniu obrazu w tym programiku powinniśmy ujrzeć poniższe okienko:
 
 ![](/img/2017/04/001-oem-lock-frp-smartfon-android-bootloader-hex.png#huge)
 
@@ -104,3 +101,9 @@ ten bajt przepisać do postaci `01` .
 Następnie zapisujemy plik i ładujemy go w SP Flash Tool i wgrywamy na partycję `frp`. Po wgraniu,
 pamiętajmy, by smartfon uruchomić w trybie bootloader'a (zwykle VolDown+Power, ewentualnie przez
 tryb recovery).
+
+
+[1]: http://www.neffos.com/en/product/details/X1
+[2]: /post/factory-reset-protection-frp-w-smartfonach-z-androidem/
+[3]: https://forum.xda-developers.com/nexus-6/help/info-nexus-6-nexus-9-enable-oem-unlock-t3113539
+[4]: http://www.wxhexeditor.org/

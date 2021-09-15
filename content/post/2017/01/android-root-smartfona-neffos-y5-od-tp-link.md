@@ -2,17 +2,20 @@
 author: Morfik
 categories:
 - Android
-date: "2017-01-06T18:16:17Z"
-date_gmt: 2017-01-06 17:16:17 +0100
+date:    2017-01-06 18:16:17 +0100
+lastmod: 2017-01-06 18:16:17 +0100
 published: true
 status: publish
 tags:
 - tp-link
 - smartfon
 - root
-- marshmallow
 - neffos
-title: 'Android: Root smartfona Neffos Y5 od TP-LINK'
+- neffos-y5
+- twrp
+- fastboot
+- adb
+title: Android: Root smartfona Neffos Y5 od TP-LINK
 ---
 
 Nie we wszystkich smartfonach Neffos da radę przeprowadzić proces root tak łatwo jak to miało

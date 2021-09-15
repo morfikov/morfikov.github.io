@@ -2,8 +2,9 @@
 author: Morfik
 categories:
 - Hardware
-date: "2016-12-03T16:56:38Z"
-date_gmt: 2016-12-03 15:56:38 +0100
+- Android
+date:    2016-12-03 16:56:38 +0100
+lastmod: 2016-12-03 16:56:38 +0100
 published: true
 status: publish
 tags:
@@ -11,6 +12,7 @@ tags:
 - smartfon
 - benchmark
 - neffos
+- neffos-y5l
 title: Test wydajności smartfona Neffos Y5L od TP-LINK
 ---
 

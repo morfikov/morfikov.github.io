@@ -2,18 +2,21 @@
 author: Morfik
 categories:
 - Android
-date: "2016-10-09T18:08:36Z"
-date_gmt: 2016-10-09 16:08:36 +0200
+date:    2016-10-09 18:08:36 +0200
+lastmod: 2016-10-09 12:08:36 +0200
 published: true
 status: publish
 tags:
 - tp-link
 - smartfon
-- lollipop
 - root
 - twrp
 - neffos
-title: 'Android: Root smartfona Neffos C5 od TP-LINK'
+- neffos-c5
+- spflashtool
+- fastboot
+- adb
+title: Android: Root smartfona Neffos C5 od TP-LINK
 ---
 
 Smartfony mają to do siebie, że ogromna większość z nich pracuje pod kontrolą systemu linux, a

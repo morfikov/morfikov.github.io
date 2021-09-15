@@ -2,12 +2,11 @@
 author: Morfik
 categories:
 - Android
-date: "2016-11-24T21:02:26Z"
-date_gmt: 2016-11-24 20:02:26 +0100
+date:    2016-11-24 21:02:26 +0100
+lastmod: 2016-11-24 21:02:26 +0100
 published: true
 status: publish
 tags:
-- router
 - tp-link
 - smartfon
 - aplikacje
@@ -57,27 +56,21 @@ Poniżej jest taka lista:
 
 Posiadanie jednego z tych powyższych urządzeń nie zagwarantuje nam możliwości korzystania z
 aplikacji Tether. Musimy bowiem posiadać w miarę aktualny firmware, który ma dodaną stosowną
-poprawkę. Ja dysponuję [routerem Archer C9
-v2](http://www.tp-link.com.pl/products/details/cat-9_Archer-C9.html) i najnowszy firmware do tego
-jak i innych routerów zawsze można pobrać z [oficjalnej strony
-TP-LINK](http://www.tp-link.com/en/support/download).
+poprawkę. Ja dysponuję [routerem Archer C9 v2][1] i najnowszy firmware do tego jak i innych
+routerów zawsze można pobrać z [oficjalnej strony TP-LINK][2].
 
 ## Instalacja Tether na smartfonie z Androidem
 
 Mając najnowszy firmware na routerze, który chcielibyśmy podpiąć pod aplikację TP-LINK Tether, pora
 przejść do instalacji samego oprogramowania na smartfonie. Ja akurat mam na wyposażeniu [smartfon
-Neffos C5](http://www.neffos.pl/product/details/C5) z Androidem 5.1 (Lollipop) i na nim ta aplikacja
-powinna działać bez zarzutu. [Tether można pobrać z Google
-Play](https://play.google.com/store/apps/details?id=com.tplink.tether).
+Neffos C5][3] z Androidem 5.1 (Lollipop) i na nim ta aplikacja powinna działać bez zarzutu.
+[Tether można pobrać z Google Play][4].
 
 ![](/img/2016/11/001.tether-tp-link-smartfon-instalacja.png#huge)
 
-Co ciekawe, w stosunku do innych aplikacji TP-LINK, np.
-[tpMiFi](https://play.google.com/store/apps/details?id=com.tplink.tpmifi),
-[tpCamera](https://play.google.com/store/apps/details?id=com.tplink.skylight) czy
-[KASA](https://play.google.com/store/apps/details?id=com.tplink.kasa_android), Tether cieszy się
-dość sporą popularnością. Aplikacja jest darmowa i nie zawiera reklam. Sprawdźmy zatem co ta
-aplikacja jest nam w stanie zaoferować.
+Co ciekawe, w stosunku do innych aplikacji TP-LINK, np. [tpMiFi][5], [tpCamera][6] czy [KASA][7],
+Tether cieszy się dość sporą popularnością. Aplikacja jest darmowa i nie zawiera reklam. Sprawdźmy
+zatem co ta aplikacja jest nam w stanie zaoferować.
 
 ## Konfiguracja routera przez aplikację Tether
 
@@ -166,3 +159,12 @@ Tether i mobilną wersją standardowego panelu administracyjnego, to jednak wol�
 poziomu Firefox'a:
 
 ![](/img/2016/11/015.tether-tp-link-smartfon-panel-wersja-mobilna.png#big)
+
+
+[1]: http://www.tp-link.com.pl/products/details/cat-9_Archer-C9.html
+[2]: http://www.tp-link.com/en/support/download
+[3]: http://www.neffos.pl/product/details/C5
+[4]: https://play.google.com/store/apps/details?id=com.tplink.tether
+[5]: https://play.google.com/store/apps/details?id=com.tplink.tpmifi
+[6]: https://play.google.com/store/apps/details?id=com.tplink.skylight
+[7]: https://play.google.com/store/apps/details?id=com.tplink.kasa_android

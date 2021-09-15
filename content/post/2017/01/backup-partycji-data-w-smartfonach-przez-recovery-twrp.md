@@ -2,28 +2,27 @@
 author: Morfik
 categories:
 - Android
-date: "2017-01-15T18:20:11Z"
-date_gmt: 2017-01-15 17:20:11 +0100
+date:    2017-01-15 18:20:11 +0100
+lastmod: 2017-01-15 18:20:11 +0100
 published: true
 status: publish
 tags:
 - smartfon
 - twrp
-- marshmallow
+- recovery
+- backup
 title: Backup partycji /data/ w smartfonach przez recovery TWRP
 ---
 
-W artykułach dotyczących przeprowadzania procesu root na smartfonach Neffos
-[Y5](/post/android-root-smartfona-neffos-y5-od-tp-link/) oraz
-[Y5L](/post/android-root-smartfona-neffos-y5l-tp-link/) był pokazany sposób na
-dokonanie backup'u całego flash'a tych urządzeń. Jeśli Android w naszym telefonie jest ukorzeniony
-albo chociaż mamy wgrany obraz TWRP na partycję `/recovery/` , to jesteśmy w stanie przeprowadzać
-regularny backup wszystkich danych użytkownika z poziomu trybu recovery. Proces takiego backup'u
-będzie się nieco różnił w stosunku do tego opisywanego w wyżej podlinkowanych artykułach. W tym
-przypadku nie będziemy robić kopii binarnej, a jedynie zgramy sobie wszystkie pliki znajdujące się
-na partycji `/data/` . W tym artykule zostanie pokazany sposób na przeprowadzanie procesu kopii
-zapasowej w smartfonie Neffos Y5. Niemniej jednak, taki regularny backup można przeprowadzać
-praktycznie w każdym smartfonie posiadającym recovery z TWRP.
+W artykułach dotyczących przeprowadzania procesu root na smartfonach Neffos [Y5][1] oraz [Y5L][2]
+był pokazany sposób na dokonanie backup'u całego flash'a tych urządzeń. Jeśli Android w naszym
+telefonie jest ukorzeniony albo chociaż mamy wgrany obraz TWRP na partycję `/recovery/` , to
+jesteśmy w stanie przeprowadzać regularny backup wszystkich danych użytkownika z poziomu trybu
+recovery. Proces takiego backup'u będzie się nieco różnił w stosunku do tego opisywanego w wyżej
+podlinkowanych artykułach. W tym przypadku nie będziemy robić kopii binarnej, a jedynie zgramy
+sobie wszystkie pliki znajdujące się na partycji `/data/` . W tym artykule zostanie pokazany sposób
+na przeprowadzanie procesu kopii zapasowej w smartfonie Neffos Y5. Niemniej jednak, taki regularny
+backup można przeprowadzać praktycznie w każdym smartfonie posiadającym recovery z TWRP.
 
 <!--more-->
 ## Kopia binarna czy kopia plików
@@ -82,10 +81,9 @@ Wejdźmy zatem w tryb recovery naszego telefonu. W przypadku, gdy obraz TWRP jes
 smartfona, to wyłączamy urządzenie i przyciskamy jednocześnie przyciski VolumeUp + Power. Jeśli zaś
 chcemy uruchomić TWRP w pamięci RAM telefonu, to musimy uruchomić to urządzenie w trybie
 bootloader'a i zaaplikować obraz z partycją `/recovery/` za pomocą narzędzia `fastboot` .
-[Instalacja i konfiguracja fastboot pod
-linux](/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/) jest opisana w
-osobnym wątku. Niezależnie od wybranego sposobu, naszym oczom powinno ukazać się menu TWRP podobne
-do tego poniżej (w opcjach można wybrać język polski):
+[Instalacja i konfiguracja fastboot pod linux][3] jest opisana w osobnym wątku. Niezależnie od
+wybranego sposobu, naszym oczom powinno ukazać się menu TWRP podobne do tego poniżej (w opcjach
+można wybrać język polski):
 
 ![](/img/2017/01/001.backup-kopia-zapasowa-smartfon-data-android-twrp-kopia.png#medium)
 
@@ -211,3 +209,8 @@ telefonach z Androidem. Warto mieć zatem świadomość, że blokada ekranu w ta
 chroni nas zupełnie przed niczym. Oczywiście można nieco minimalizować zagrożenie przez wgrywanie
 TWRP tylko do pamięci telefonu, a na partycji `/recovery/` trzymać stock'owy soft, choć i tak lepiej
 jest nie zostawić telefonu bez nadzoru na dłuższy czas.
+
+
+[1]: /post/android-root-smartfona-neffos-y5-od-tp-link/
+[2]: /post/android-root-smartfona-neffos-y5l-tp-link/
+[3]: /post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/

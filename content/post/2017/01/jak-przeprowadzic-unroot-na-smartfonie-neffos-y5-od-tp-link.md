@@ -2,20 +2,21 @@
 author: Morfik
 categories:
 - Android
-date: "2017-01-07T18:56:00Z"
-date_gmt: 2017-01-07 17:56:00 +0100
+date:    2017-01-07 18:56:00 +0100
+lastmod: 2017-01-07 18:56:00 +0100
 published: true
 status: publish
 tags:
 - tp-link
 - smartfon
 - root
-- marshmallow
 - neffos
+- neffos-y5
+- fastboot
 title: Jak przeprowadzić unroot na smartfonie Neffos Y5 od TP-LINK
 ---
 
-[Przeprowadzenie procesu root na smartfonie Neffos Y5] od TP-LINK nie było tak łatwe jak w
+[Przeprowadzenie procesu root na smartfonie Neffos Y5][1] od TP-LINK nie było tak łatwe jak w
 przypadku innych modeli telefonów tego producenta. Niemniej jednak, trzeba zdawać sobie sprawę, że
 ukorzenianie Androida niesie za sobą pewne zagrożenia. Nie chodzi tutaj tylko o niezaufane
 aplikacje ale też trzeba brać pod uwagę możliwość przypadkowego (przypadki nie istnieją) skasowania

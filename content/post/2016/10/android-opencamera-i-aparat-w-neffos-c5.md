@@ -2,32 +2,29 @@
 author: Morfik
 categories:
 - Android
-date: "2016-10-18T22:53:19Z"
-date_gmt: 2016-10-18 20:53:19 +0200
+date:    2016-10-18 22:53:19 +0200
+lastmod: 2016-10-18 22:53:19 +0200
 published: true
 status: publish
 tags:
-- tp-link
 - smartfon
 - aplikacje
+- f-droid
 - kamera
 - aparat
-- neffos
-title: 'Android: OpenCamera i aparat w Neffos C5'
+title: Android: OpenCamera i aparat w Neffos C5
 ---
 
-Ci z was, którzy czytali moją [recenzję na temat smartfona Neffos
-C5](/post/recenzja-smartfon-neffos-c5-od-tp-link/) od TP-LINK, widzą, że niezbyt
-spodobał mi się aparat/kamera zaimplementowany w tym telefonie. Niby jest tutaj 8 mpix na aparacie
-głównym (i 5 mpix na selfie) ale przy niezbyt dobrym oświetleniu jakość zdjęć siada dość znacznie.
-Abstrahując od samej jakości aparatu, chciałbym się nieco bardziej skupić na oprogramowaniu do jego
-obsługi, które Neffos C5 oferuje. Jest ono dość ubogie pod względem funkcjonalności i mi generalnie
-przydałoby się nieco więcej opcji, z których mógłbym zrobić jakiś użytek. Jest wiele aplikacji na
-Androida, które oferują poszerzenie możliwości aparatu czy kamery w telefonie. Większość z nich
-zawiera jednak reklamy, które niezbyt pasują na smartfonie wyrafinowanego linux'iarza. Postanowiłem
-zatem poszukać nieco głębiej i w [repozytorium
-F-Droid'a](/post/android-repozytorium-aplikacji-opensource-f-droid/) znalazłem
-[OpenCamera](http://opencamera.org.uk/). Programik bardzo przyzwoity, bez reklam, no i najważniejsze
+Ci z was, którzy czytali moją [recenzję na temat smartfona Neffos C5][1] od TP-LINK, widzą, że
+niezbyt spodobał mi się aparat/kamera zaimplementowany w tym telefonie. Niby jest tutaj 8 mpix na
+aparacie głównym (i 5 mpix na selfie) ale przy niezbyt dobrym oświetleniu jakość zdjęć siada dość
+znacznie. Abstrahując od samej jakości aparatu, chciałbym się nieco bardziej skupić na
+oprogramowaniu do jego obsługi, które Neffos C5 oferuje. Jest ono dość ubogie pod względem
+funkcjonalności i mi generalnie przydałoby się nieco więcej opcji, z których mógłbym zrobić jakiś
+użytek. Jest wiele aplikacji na Androida, które oferują poszerzenie możliwości aparatu czy kamery w
+telefonie. Większość z nich zawiera jednak reklamy, które niezbyt pasują na smartfonie
+wyrafinowanego linux'iarza. Postanowiłem zatem poszukać nieco głębiej i w [repozytorium
+F-Droid'a][2] znalazłem [OpenCamera][3]. Programik bardzo przyzwoity, bez reklam, no i najważniejsze
 jest on OpenSource. W tym artykule rzucimy sobie okiem na ten kawałek oprogramowania i zobaczymy
 jaką funkcjonalność ono oferuje.
 
@@ -125,9 +122,7 @@ zaoferować alternatywne oprogramowanie w postaci OpenCamera.
 
 W wstępie nadmieniłem, że aplikacja OpenCamera jest dostępna w alternatywnym repozytorium aplikacji
 jakim jest F-Droid. Oczywiście nie musimy instalować sobie od razu F-Droid'a, bo [OpenCamera jest
-także dostępny w sklepie Google
-Play](https://play.google.com/store/apps/details?id=net.sourceforge.opencamera). Poniżej jest
-ofotkowany proces instalacji:
+także dostępny w sklepie Google Play][4]. Poniżej jest ofotkowany proces instalacji:
 
 ![](/img/2016/10/007.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-instalacja.png#huge)
 
@@ -212,10 +207,7 @@ To co mi się także bardzo podoba w OpenCamera, to możliwość wyboru ścieżk
 video. Nie tylko możemy stworzyć sobie drzewo katalogów i zapisywać fotki z pewnych sytuacji w
 konkretnych folderach ale także możemy przenieść tworzony materiał na kartę SD. Problem w tym, że
 Android od wersji 4.4 nie zezwoli OpenCamera na zapis fotek na karcie. Można jednak to obejść [przez
-uchylenie pewnych
-obostrzeń](/post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/)
-ale do tego jest znowu potrzebny [root
-smartfona.](/post/android-root-smartfona-neffos-c5-od-tp-link/)
+uchylenie pewnych obostrzeń][5] ale do tego jest znowu potrzebny [root smartfona][6].
 
 Kolejna sprawa, to nazwy zapisywanych plików. Przede wszystkim, jesteśmy w stanie zmienić prefiks
 nazwy pliku. Dla zdjęć jest osobny prefiks, a dla materiałów video osobny. Nazwa pliku zawsze
@@ -396,8 +388,8 @@ sposób można wybrać sobie filtry jak i rozdziałkę kamery/aparatu.
 Co ciekawe lampa błyskowa może być włączona cały czas, nawet przed zrobieniem zdjęcia. Szkoda tylko,
 że miga ona tuż przed zrobieniem fotki. Jeśli chodzi zaś opcje dotyczące ostrości obrazu, to mamy
 możliwość nie tylko włączenia/wyłączenia autofokusa ale także możemy ustawić go na pewien określony
-punkt i zablokować to ustawienie. Jest także [Focus
-Infinity](https://en.wikipedia.org/wiki/Infinity_focus) oraz możliwość dostosowania wartości ISO.
+punkt i zablokować to ustawienie. Jest także [Focus Infinity][7] oraz możliwość dostosowania
+wartości ISO.
 
 ### Informacje o aparacie/kamerze
 
@@ -619,3 +611,12 @@ C5 od TP-LINK są one następujące:
     zoom-supported=true;
     zsd-mode=off;
     zsd-mode-values=off,on
+
+
+[1]: /post/recenzja-smartfon-neffos-c5-od-tp-link/
+[2]: /post/android-repozytorium-aplikacji-opensource-f-droid/
+[3]: http://opencamera.org.uk/
+[4]: https://play.google.com/store/apps/details?id=net.sourceforge.opencamera
+[5]: /post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/
+[6]: /post/android-root-smartfona-neffos-c5-od-tp-link/
+[7]: https://en.wikipedia.org/wiki/Infinity_focus

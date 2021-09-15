@@ -2,19 +2,19 @@
 author: Morfik
 categories:
 - Hardware
-date: "2017-04-09T20:09:24Z"
-date_gmt: 2017-04-09 18:09:24 +0200
+date:    2017-04-09 18:09:24 +0200
+lastmod: 2017-04-09 18:09:24 +0200
 published: true
 status: publish
 tags:
 - tp-link
 - smartfon
 - neffos
+- neffos-c5
 title: Podzespoły w smartfonie Neffos C5 od TP-LINK
 ---
 
-Jak można było wywnioskować z [recenzji Neffos C5 od
-TP-LINK](/post/recenzja-smartfon-neffos-c5-od-tp-link/), ten smartfon to w zasadzie
+Jak można było wywnioskować z [recenzji Neffos C5 od TP-LINK][1], ten smartfon to w zasadzie
 niedrogie i dość przyzwoite urządzenie. Korzystając z okazji postanowiłem zrobić kilka dodatkowych
 zdjęć tego telefonu, z tym, że tym razem fotki obrazują to, co było wewnątrz obudowy. Jeśli
 posiadacie Neffos'a C5 i jesteście ciekawi co to urządzenie skrywa pod maską, to w tym wpisie
@@ -105,14 +105,21 @@ No to teraz już w zasadzie wiadomo z czego składa się Neffos C5 i może w nie
 jakiś alternatywny ROM pokroju LineageOS na ten telefon. Poniżej jeszcze znajduje się dokumentacja
 techniczna, którą udało mi się znaleźć w Google:
 
-[SKY77910-11 (GSM/LTE)](http://www.skyworksinc.com/Product/3063/SKY77910-11)
+[SKY77910-11 (GSM/LTE)][2]
 
-[MT6328 (GSM/LTE)](http://www.datasheetbay.com/PDF_/download.php?id=1067077)
+[MT6328 (GSM/LTE)][3]
 
-[MT6735 (WiSoC)](http://www.datasheetbay.com/PDF_/download.php?id=925384)
+[MT6735 (WiSoC)][4]
 
-[MT6625LN (WiFi, FM, GPS)](http://www.datasheet4u.com/download_new.php?id=960584)
+[MT6625LN (WiFi, FM, GPS)][5]
 
 Ten ostatni plik `.pdf` dotyczy MT6625L i ten czip ma WiFI 5G. Innego układu nie mogłem znaleźć i
 nie wiem czy są jeszcze jakieś różnice między tymi dwoma czipami. W każdym razie zostawiam, bo nazwa
 w zasadzie bardzo podobna.
+
+
+[1]: /post/recenzja-smartfon-neffos-c5-od-tp-link/
+[2]: http://www.skyworksinc.com/Product/3063/SKY77910-11
+[3]: http://www.datasheetbay.com/PDF_/download.php?id=1067077
+[4]: http://www.datasheetbay.com/PDF_/download.php?id=925384
+[5]: http://www.datasheet4u.com/download_new.php?id=960584

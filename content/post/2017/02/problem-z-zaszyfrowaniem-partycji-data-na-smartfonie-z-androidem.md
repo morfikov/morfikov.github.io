@@ -2,14 +2,17 @@
 author: Morfik
 categories:
 - Android
-date: "2017-02-11T18:59:25Z"
-date_gmt: 2017-02-11 17:59:25 +0100
+date:    2017-02-11 18:59:25 +0100
+lastmod: 2017-02-11 18:59:25 +0100
 published: true
 status: publish
 tags:
 - szyfrowanie
 - smartfon
-- marshmallow
+- fastboot
+- adb
+- eryptfs
+- twrp
 title: Problem z zaszyfrowaniem partycji /data/ na smartfonie z Androidem
 ---
 
@@ -17,15 +20,14 @@ Bawiąc się ostatnio trochę mechanizmami szyfrującymi w moich smartfonach Nef
 TP-LINK, po raz kolejny coś nieopatrznie uszkodziłem. Tym razem sprawa wygląda nieco bardziej
 poważnie, bo uwalony został cały moduł szyfrujący urządzenie. Chodzi generalnie o to, że w
 Androidzie w wersji 4.4/5.0 została wprowadzona [możliwość zaszyfrowania wszystkich danych
-użytkownika](https://source.android.com/security/encryption/full-disk), tj. informacji
-przechowywanych na partycji `/data/` . Do odszyfrowania tej partycji potrzebny jest klucz
-szyfrujący. Problem w tym, że Android musi gdzieś ten klucz trzymać i to w taki sposób, by proces
-Factory Reset był w stanie ten klucz usunąć, choćby na wypadek zapomnienia hasła i próby odzyskania
-w takiej sytuacji władzy nad smartfonem. Pech chciał, że akurat na moim Neffos Y5 mam wgrane TWRP
-recovery i z jakiegoś powodu nie mogłem zresetować ustawień telefonu do fabrycznych przez ten tryb i
-posłużyłem się narzędziem `fastboot` . Ono najwyraźniej nieco inaczej formatuje partycję `/data/` i
-w ten sposób uwala cały mechanizm szyfrowania oferowany przez Androida. Czy da radę jakoś poprawić
-ten problem, a jeśli tak to w jaki sposób?
+użytkownika][1], tj. informacji przechowywanych na partycji `/data/` . Do odszyfrowania tej partycji
+potrzebny jest klucz szyfrujący. Problem w tym, że Android musi gdzieś ten klucz trzymać i to w taki
+sposób, by proces Factory Reset był w stanie ten klucz usunąć, choćby na wypadek zapomnienia hasła i
+próby odzyskania w takiej sytuacji władzy nad smartfonem. Pech chciał, że akurat na moim Neffos Y5
+mam wgrane TWRP recovery i z jakiegoś powodu nie mogłem zresetować ustawień telefonu do fabrycznych
+przez ten tryb i posłużyłem się narzędziem `fastboot` . Ono najwyraźniej nieco inaczej formatuje
+partycję `/data/` i w ten sposób uwala cały mechanizm szyfrowania oferowany przez Androida. Czy da
+radę jakoś poprawić ten problem, a jeśli tak to w jaki sposób?
 
 <!--more-->
 ## Factory Reset przez tryb recovery, TWRP i fastboot
@@ -203,3 +205,6 @@ przeprowadzić proces jego szyfrowania:
 Po zaszyfrowaniu, smartfon zostanie uruchomiony ponownie raz jeszcze i już podczas startu systemu
 będziemy proszeni o podanie hasła do klucza szyfrującego dane na partycji `/data/` (standardowo to
 hasło jest takie samo jak to od blokady ekranu).
+
+
+[1]: https://source.android.com/security/encryption/full-disk

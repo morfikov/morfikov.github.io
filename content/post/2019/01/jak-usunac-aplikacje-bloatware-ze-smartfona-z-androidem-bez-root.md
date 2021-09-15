@@ -10,6 +10,9 @@ tags:
 - smartfon
 - aplikacje
 - bloatware
+- spam
+- reklamy
+- adb
 title: Jak usunąć aplikacje bloatware ze smartfona z Androidem bez root
 ---
 

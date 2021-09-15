@@ -2,34 +2,32 @@
 author: Morfik
 categories:
 - Android
-date: "2016-12-04T19:18:40Z"
-date_gmt: 2016-12-04 18:18:40 +0100
+date:    2016-12-04 19:18:40 +0100
+lastmod: 2016-12-04 19:18:40 +0100
 published: true
 status: publish
 tags:
 - karta-sd
 - smartfon
-- marshmallow
-title: 'Android: Formatowanie karty SD jako pamięć wewnętrzna'
+- adb
+- root
+- adoptable-storage
+title: Android: Formatowanie karty SD jako pamięć wewnętrzna
 ---
 
-Jakiś czas temu bawiąc się jednym z TP-LINK'owch smartfonów, konkretnie to był [model Neffos
-C5](http://www.neffos.pl/product/details/C5), nie byłem zbytnio zadowolony z faktu, że karta SD w
-takim telefonie może być sformatowana jedynie systemem plików z rodziny FAT. Takie rozwiązanie
-niesie ze sobą pewne niedogodności, bo [system plików FAT ma dość spore
-ograniczenia](https://pl.wikipedia.org/wiki/FAT32) jeśli chodzi o przechowywanie informacji.
-Niekoniecznie wszyscy musimy wgrywać na smartfona bardzo duże pliki czy też trzymać ich tam setki
-GiB, bo to jest raczej rzadkością, ale brak wsparcia uprawnień do plików i katalogów w systemie
-plików FAT powoduje, że aplikacje w Androidzie nie chcą zapisywać swoich danych na karcie SD, która
-taki system plików wykorzystuje. W efekcie trzeba kombinować, by [aplikacja kamery/aparatu
-zapisywała zdjęcia czy materiał video na karcie
-SD](/post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/). Na
-smartfonach TP-LINK'a, które mają zainstalowany Android 6.0 Marshmallow, np.
-[Y5](http://www.neffos.pl/product/details/Y5L) czy [Y5L](http://www.neffos.pl/product/details/Y5L)),
-jesteśmy w stanie sformatować karty SD jako pamięć wewnętrzna za sprawą wprowadzonego w tej wersji
-Androida [mechanizmu Adoptable Storage](https://source.android.com/devices/storage/adoptable).
-Postanowiłem zatem sprawdzić jak taki proces formatowania karty SD przebiega i co dokładnie może nam
-przynieść jego przeprowadzenie.
+Jakiś czas temu bawiąc się jednym z TP-LINK'owch smartfonów, konkretnie to był [model Neffos C5][1],
+nie byłem zbytnio zadowolony z faktu, że karta SD w takim telefonie może być sformatowana jedynie
+systemem plików z rodziny FAT. Takie rozwiązanie niesie ze sobą pewne niedogodności, bo [system
+plików FAT ma dość spore ograniczenia][2] jeśli chodzi o przechowywanie informacji. Niekoniecznie
+wszyscy musimy wgrywać na smartfona bardzo duże pliki czy też trzymać ich tam setki GiB, bo to jest
+raczej rzadkością, ale brak wsparcia uprawnień do plików i katalogów w systemie plików FAT powoduje,
+że aplikacje w Androidzie nie chcą zapisywać swoich danych na karcie SD, która taki system plików
+wykorzystuje. W efekcie trzeba kombinować, by [aplikacja kamery/aparatu zapisywała zdjęcia czy
+materiał video na karcie SD][3]. Na smartfonach TP-LINK'a, które mają zainstalowany Android 6.0
+Marshmallow, np. [Y5][4] czy [Y5L][5]), jesteśmy w stanie sformatować karty SD jako pamięć
+wewnętrzna za sprawą wprowadzonego w tej wersji Androida [mechanizmu Adoptable Storage][6].
+Postanowiłem zatem sprawdzić jak taki proces formatowania karty SD przebiega i co dokładnie może
+nam przynieść jego przeprowadzenie.
 
 <!--more-->
 ## Jak sformatować kartę SD jako pamięć wewnętrzna
@@ -66,8 +64,7 @@ systemu:
 Trzeba sobie zdawać sprawę, że nawet te szybsze karty SD są parokrotnie wolniejsze niż wbudowana w
 smartfon pamięć flash, zatem i tak spowolnienie w działaniu systemu odczujemy. Dlatego też jeśli już
 zamierzmy bawić się w formatowanie karty SD jako pamięć wewnętrzna, to dokupmy możliwie jak
-najszybszą kartę SD, [min. klasa 10 lub
-UHS-1](https://www.sdcard.org/developers/overview/speed_class/).
+najszybszą kartę SD, [min. klasa 10 lub UHS-1][7].
 
 Po tym jak proces formatowania karty dobiegnie końca, zostaniemy poproszeni o określenie czy chcemy
 zainstalowane w systemie aplikacje oraz ich prywatne dane przenieść na kartę SD:
@@ -112,9 +109,8 @@ system) do momentu, aż ta karta SD zostanie podłączona ponownie.
 
 W przypadku, gdy nie przenosiliśmy plików podczas procesu formatowania karty SD, aplikacje będą
 zapisywane domyślnie na flash'u telefonu. Ten stan rzeczy może zostać zmieniony za sprawą narzędzia
-`adb` . [Proces instalacji adb na linux został opisany
-tutaj](/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/). Mając już dostęp
-do `adb` wydajemy poniższe polecenia (wymagany root):
+`adb` . [Proces instalacji adb na linux został opisany tutaj][8]. Mając już dostęp do `adb` wydajemy
+poniższe polecenia (wymagany root):
 
     # adb shell
     shell@Y5:/ # pm get-install-location
@@ -192,13 +188,9 @@ klucz szyfrujący.
 Klucz do takiego zaszyfrowanego kontenera jest generowany losowo podczas procesu formatowania karty
 SD. Ten klucz jest także przechowywany gdzieś na flash'u smartfona. Gdzie dokładnie jest on
 ulokowany i czy można go wydobyć bez ukorzeniania systemu (root), tego jeszcze nie wiem. Niemniej
-jednak, wszystko wskazuje, że [root będzie
-niezbędny](https://nelenkov.blogspot.fr/2015/06/decrypting-android-m-adopted-storage.html), by
-dostęp do tego klucza uzyskać. Z kolei [tutaj ludzie
-piszą](https://www.reddit.com/r/Android/comments/3o6u80/psa_i_formatted_my_sd_card_as_internal_storage/),
-że nie we wszystkich smartfonach szyfrowanie jest włączone domyślnie. [W tym
-wątku](https://www.reddit.com/r/Android/comments/3oz7eu/guidelines_for_marshmallow_users_formatting/)
-są zaś zebrane te bardziej użyteczne informacje dotyczące Adoptable Storage.
+jednak, wszystko wskazuje, że [root będzie niezbędny][9], by dostęp do tego klucza uzyskać. Z kolei
+[tutaj ludzie piszą][10], że nie we wszystkich smartfonach szyfrowanie jest włączone domyślnie. [W
+tym wątku][11] są zaś zebrane te bardziej użyteczne informacje dotyczące Adoptable Storage.
 
 Warto w tym miejscu zaznaczyć, że jeśli flash telefonu nie jest zaszyfrowany, to ten klucz można
 odzyskać i zdeszyfrować zawartość karty SD. Dlatego też jeśli zamierzamy korzystać z Adoptable
@@ -251,7 +243,7 @@ Jeśli ktoś jest ciekaw jak taka karta jest widziana pod linux'em, to poniżej 
 ![](/img/2016/12/015.karta-sd-pamiec-wewnetrzna-android-gparted.png#huge)
 
 Jako, że partycja sformatowana systemem plików FAT jest pierwsza w szeregu, to nie powinno być
-problemów z zamontowaniem jej nawet pod windowsem, choć ten nie zawsze może z taką kartą
+problemów z zamontowaniem jej nawet pod windows, choć ten nie zawsze może z taką kartą
 współpracować. W przypadku dowolnego linux'a nie będzie z nią problemów, bo tutaj nawet kolejność
 partycji nie ma większego znaczenia.
 
@@ -284,3 +276,16 @@ wyżej pozycji, tj. `private:179,67` lub `public:179,65` i wydajemy poniższe po
 Jeśli nie zostaną zwrócone żadne błędy w procesie formatowania i montowania zasobu, to znaczy, że
 proces ponownego formatowania części nośnika zakończył się powodzeniem. Dla uniknięcia ewentualnych
 problemów, dobrze jest zrestartować smartfon tak, by jego system uruchomił się ponownie.
+
+
+[1]: http://www.neffos.pl/product/details/C5
+[2]: https://pl.wikipedia.org/wiki/FAT32
+[3]: /post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/
+[4]: http://www.neffos.pl/product/details/Y5
+[5]: http://www.neffos.pl/product/details/Y5L
+[6]: https://source.android.com/devices/storage/adoptable
+[7]: https://www.sdcard.org/developers/overview/speed_class/
+[8]: /post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/
+[9]: https://nelenkov.blogspot.fr/2015/06/decrypting-android-m-adopted-storage.html
+[10]: https://www.reddit.com/r/Android/comments/3o6u80/psa_i_formatted_my_sd_card_as_internal_storage/
+[11]: https://www.reddit.com/r/Android/comments/3oz7eu/guidelines_for_marshmallow_users_formatting/

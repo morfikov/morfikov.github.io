@@ -2,7 +2,8 @@
 author: Morfik
 categories:
 - Android
-date: "2020-01-29T19:00:00Z"
+date:    2020-01-29 19:00:00 +0100
+lastmod: 2020-01-29 19:00:00 +0100
 published: true
 status: publish
 tags:
@@ -10,6 +11,7 @@ tags:
 - sieć
 - wifi
 - hostname
+- smartfon
 title: Jak zmienić hostname w telefonie z Androidem
 ---
 

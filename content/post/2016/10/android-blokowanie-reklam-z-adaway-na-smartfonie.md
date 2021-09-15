@@ -2,31 +2,33 @@
 author: Morfik
 categories:
 - Android
-date: "2016-10-30T16:21:42Z"
-date_gmt: 2016-10-30 15:21:42 +0100
+date:    2016-10-30 16:21:42 +0100
+lastmod: 2016-10-30 16:21:42 +0100
 published: true
 status: publish
 tags:
 - smartfon
 - adblock
 - aplikacje
-title: 'Android: Blokowanie reklam z AdAway na smartfonie'
+- dns
+- root
+- reklamy
+- spam
+title: Android: Blokowanie reklam z AdAway na smartfonie
 ---
 
-Dzięki [dnscrypt-proxy](https://dnscrypt.org/) jesteśmy w stanie [zaszyfrować zapytania
-DNS](/post/jak-zaszyfrowac-zapytania-dns-na-smartfonie-dnscrypt-proxy/)
-bezpośrednio na naszych smartfonach. Niemniej jednak, w przypadku mojego Neffos'a C5 od TP-LINK, w
-wielu aplikacjach pojawiły się reklamy po wdrożeniu mechanizmu szyfrującego. Wcześniej oczywiście
-wykorzystywałem [adblock'a bezpośrednio na routerze z wgranym firmware
-OpenWRT/LEDE](/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/), gdzie
-zapytania DNS do adserwerów były filtrowane i blokowane bezpośrednio na tym urządzeniu. Po
-zaszyfrowaniu ruchu DNS w telefonie, straciłem dostęp do mojego filtra reklam na routerze.
-Przydałoby się zatem zaimplementować podobny mechanizm blokujący bezpośrednio na Androidzie, tak by
-ponownie wszystkie te reklamy zniknęły przy jednoczesnym zachowaniu całej funkcjonalności płynącej
-za sprawą szyfrowanego ruchu DNS. Jednym z rozwiązań jest wykorzystanie [narzędzia
-AdAway](https://adaway.org/), które przy pomocy pliku `/etc/hosts` i lokalnego serwera www jest w
-stanie zablokować sporą większość reklam, na które możemy natknąć się w internecie. Opis instalacji
-i konfiguracji AdAway zostanie przedstawiony w niniejszym wpisie.
+Dzięki [dnscrypt-proxy][1] jesteśmy w stanie [zaszyfrować zapytania DNS][2] bezpośrednio na naszych
+smartfonach. Niemniej jednak, w przypadku mojego Neffos'a C5 od TP-LINK, w wielu aplikacjach
+pojawiły się reklamy po wdrożeniu mechanizmu szyfrującego. Wcześniej oczywiście wykorzystywałem
+[adblock'a bezpośrednio na routerze z wgranym firmware OpenWRT/LEDE][3], gdzie zapytania DNS do
+adserwerów były filtrowane i blokowane bezpośrednio na tym urządzeniu. Po zaszyfrowaniu ruchu DNS w
+telefonie, straciłem dostęp do mojego filtra reklam na routerze. Przydałoby się zatem
+zaimplementować podobny mechanizm blokujący bezpośrednio na Androidzie, tak by ponownie wszystkie
+te reklamy zniknęły przy jednoczesnym zachowaniu całej funkcjonalności płynącej za sprawą
+szyfrowanego ruchu DNS. Jednym z rozwiązań jest wykorzystanie [narzędzia AdAway][4], które przy
+pomocy pliku `/etc/hosts` i lokalnego serwera www jest w stanie zablokować sporą większość reklam,
+na które możemy natknąć się w internecie. Opis instalacji i konfiguracji AdAway zostanie
+przedstawiony w niniejszym wpisie.
 
 <!--more-->
 ## Root Androida na potrzeby AdAway
@@ -35,26 +37,22 @@ AdAway niestety wymaga ukorzenionego Androida (dostęp root). Chodzi o to, że t
 pliku `/system/etc/hosts` oraz musi być też w stanie uruchomić serwer www, który ma nasłuchiwać na
 porcie 80. Do tych celów są wymagane prawa administratora systemu. Jeśli nie wiemy jak je zdobyć w
 przypadku naszego telefonu, to AdAway nie jest dla nas. Dla tych którzy posiadają ten sam model
-smartfona co i ja, tj. [Neffos C5](/post/recenzja-smartfon-neffos-c5-od-tp-link/)
-od TP-LINK, mogą przejść przez [proces root'owania systemu na tym
-telefonie](/post/android-root-smartfona-neffos-c5-od-tp-link/).
+smartfona co i ja, tj. [Neffos C5][5] od TP-LINK, mogą przejść przez [proces root'owania systemu na
+tym telefonie][6].
 
 ## Brak AdAway w Google play oraz instalacja z F-Droid
 
 W sklepie Google Play można się natknąć na wiele narzędzi, które mają realizować zadanie blokowania
 reklam. Nie znajdziemy tam jednak AdAway. Zgodnie z tym co możemy wyczytać na stronie projektu,
-[AdAway został ze sklepu Google Play usunięty przez naruszenie
-umowy](https://play.google.com/about/developer-distribution-agreement.html) (punkt 4.4). Wygląda na
+[AdAway został ze sklepu Google Play usunięty przez naruszenie umowy][7] (punkt 4.4). Wygląda na
 to, że Google wywala z tego sklepu wszystkie niewygodne aplikacje. Oczywiście AdAway w dalszym ciągu
-możemy pobrać, z tym, że trzeba skorzystać z [alternatywnego repozytorium jakim jest
-F-Droid](/post/android-repozytorium-aplikacji-opensource-f-droid/).
+możemy pobrać, z tym, że trzeba skorzystać z [alternatywnego repozytorium jakim jest F-Droid][8].
 
 ![](/img/2016/10/001.adaway-blokowanie-reklam-smartfon-android-instalacja-f-droid.png#huge)
 
 ## Źródła plików hosts
 
-Przede wszystkim, interesują nas [źródła pliku
-hosts](https://github.com/AdAway/AdAway/wiki/HostsSources). Warto tutaj zaznaczyć, że możemy
+Przede wszystkim, interesują nas [źródła pliku hosts][9]. Warto tutaj zaznaczyć, że możemy
 korzystać z kilku źródeł jednocześnie. W takim przypadku, kilka plików `hosts` zostanie ze sobą
 połączonych, a zduplikowane wpisy zostaną usunięte. Jesteśmy w stanie również korzystać z własnych
 plików `hosts` , czy dodawać niestandardowe źródła bezpośrednio w opcjach aplikacji.
@@ -124,3 +122,14 @@ Wystarczy teraz odwiedzić jedną z domen, które są na liście, np. w przeglą
 zostanie nam zwrócona biała strona, oznacza to, że mechanizm blokowania reklam działa należycie.
 Większość albo i wszystkie reklamy, które są wyświetlane w aplikacjach dostępnych w Google Play,
 również powinny zniknąć.
+
+
+[1]: https://dnscrypt.org/
+[2]: /post/jak-zaszyfrowac-zapytania-dns-na-smartfonie-dnscrypt-proxy/
+[3]: /post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/
+[4]: https://adaway.org/
+[5]: /post/recenzja-smartfon-neffos-c5-od-tp-link/
+[6]: /post/android-root-smartfona-neffos-c5-od-tp-link/
+[7]: https://play.google.com/about/developer-distribution-agreement.html
+[8]: /post/android-repozytorium-aplikacji-opensource-f-droid/
+[9]: https://github.com/AdAway/AdAway/wiki/HostsSources

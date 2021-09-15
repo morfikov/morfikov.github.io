@@ -10,9 +10,11 @@ tags:
 - dns
 - resolver
 - smartfon
-- lollipop
 - aplikacje
 - dnscrypt
+- root
+- twrp
+- szyfrowanie
 title: Jak zaszyfrować zapytania DNS na smartfonie (dnscrypt-proxy)
 ---
 
@@ -112,9 +114,8 @@ krawędzi ekranu powinno nam się pojawić menu. Klikamy na strzałkę w kółku
 
 ![](/img/2016/10/006.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-skrypt-init-test.png#medium)
 
-Teraz możemy odpalić terminal, np.
-[termux](https://play.google.com/store/apps/details?id=com.termux) i sprawdzić, czy proces
-`dnscrypt-proxy` został uruchomiony:
+Teraz możemy odpalić terminal, np. [termux][10] i sprawdzić, czy proces `dnscrypt-proxy` został
+uruchomiony:
 
 ![](/img/2016/10/007.dnscrypt-proxy-android-smartfon-szyfrowanie-dns-skrypt-init-test.png#huge)
 
@@ -163,3 +164,4 @@ Odpalmy zatem, np. Firefox'a i odwiedźmy adres `https://www.opendns.com/welcome
 [7]: https://www.clockworkmod.com/
 [8]: https://play.google.com/store/apps/details?id=com.androguide.universal.init.d
 [9]: https://github.com/Androguide/Universal-init.d
+[10]: https://play.google.com/store/apps/details?id=com.termux

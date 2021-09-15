@@ -2,8 +2,9 @@
 author: Morfik
 categories:
 - Hardware
-date: "2017-04-22T17:49:35Z"
-date_gmt: 2017-04-22 15:49:35 +0200
+- Android
+date:     2017-04-22 17:49:35 +0200
+date_gmt: 2017-04-22 17:49:35 +0200
 published: true
 status: publish
 tags:
@@ -11,6 +12,7 @@ tags:
 - smartfon
 - benchmark
 - neffos
+- neffos-x1
 title: Test wydajności smartfona Neffos X1 od TP-LINK
 ---
 

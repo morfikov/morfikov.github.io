@@ -2,12 +2,14 @@
 author: Morfik
 categories:
 - Android
-date: "2016-09-24T00:53:01Z"
-date_gmt: 2016-09-23 22:53:01 +0200
+- Linux
+date:    2016-09-24 22:53:01 +0200
+lastmod: 2016-09-23 22:53:01 +0200
 published: true
 status: publish
 tags:
 - smartfon
+- debian
 - kontakty
 title: Jak przenieść kontakty ze starego telefonu do smartfona
 ---
@@ -20,7 +22,7 @@ mamy zapisanych ze 100-200 pozycji albo nawet i więcej? Nie będziemy raczej pr
 kontaktu ręcznie, bo trochę się nam z tym zejdzie. Możemy za to nieco inaczej podejść do procesu
 przenoszenia kontaktów. Najprościej to wykonać backup listy kontaktów starego telefonu do pliku i
 zapisać go na komputerze. Oczywiście zwykle jest do tego celu potrzebny przewód USB, bluetooth czy
-IrDA. Na linux'ach będzie nam także niezbędne [narzędzie Wammu](), które umożliwi nam zrobienie
+IrDA. Na linux'ach będzie nam także niezbędne [narzędzie Wammu][1], które umożliwi nam zrobienie
 takiego backupu.
 
 <!--more-->
@@ -36,11 +38,9 @@ poniżej:
     cdc_acm 2-1.3:1.3: ttyACM1: USB ACM device
     ...
 
-Wyżej mamy dwa [interfejsy
-ACM](https://rfc1149.net/blog/2013/03/05/what-is-the-difference-between-devttyusbx-and-devttyacmx/).
-To przy ich pomocy `wammu` będzie w stanie nawiązać komunikację z telefonem. [Konfiguracja wammu
-jest opisana w osobnym artykule](/post/wysylanie-odbieranie-sms-w-wammu/). My tutaj
-jedynie połączymy się z telefonem wykorzystując interfejs `/dev/ttyACM0` :
+Wyżej mamy dwa [interfejsy ACM][2]. To przy ich pomocy `wammu` będzie w stanie nawiązać komunikację
+z telefonem. [Konfiguracja wammu jest opisana w osobnym artykule][3]. My tutaj jedynie połączymy
+się z telefonem wykorzystując interfejs `/dev/ttyACM0` :
 
 ![](/img/2016/09/1.wammu-podlaczenie-stary-telefon-linux.png#big)
 
@@ -69,8 +69,8 @@ zapisujemy ją do pliku na dysku komputera:
 
 Teraz już możemy odłączyć telefon od naszego PC, bo nie będzie on nam już do niczego potrzebny.
 Backup listy kontaktów mamy, z tym, że nie zaimportujemy tego pliku w smartfonie. Musimy
-przekonwertować [format listy do vCard](https://pl.wikipedia.org/wiki/VCard). Możemy to zrobić przy
-pomocy `gammu` . Instalujemy ten pakiet i w terminalu wydajemy to poniższe polecenie:
+przekonwertować [format listy do vCard][4]. Możemy to zrobić przy pomocy `gammu` . Instalujemy ten
+pakiet i w terminalu wydajemy to poniższe polecenie:
 
     $ gammu convertbackup phone.backup kontakty-stary-fon.vcf
 
@@ -113,3 +113,9 @@ przypadku realnych kontaktów numery komórkowe i domowe możemy upchnąć na je
 potrzebujemy do tego celu kilku osobnych. Generalnie, samo scalenie kontaktów jest bardzo szybkie, a
 jeśli chcemy sobie nieco taki kontakt dopracować, to zajmie nam to oczywiście odpowiednio więcej
 czasu.
+
+
+[1]: https://wammu.eu/
+[2]: https://rfc1149.net/blog/2013/03/05/what-is-the-difference-between-devttyusbx-and-devttyacmx/
+[3]: /post/wysylanie-odbieranie-sms-w-wammu/
+[4]: https://pl.wikipedia.org/wiki/VCard

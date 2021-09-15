@@ -2,24 +2,26 @@
 author: Morfik
 categories:
 - Android
-date: "2018-09-22T11:13:00Z"
+date:    2018-09-22 11:13:00 +0200
+lastmod: 2018-09-22 11:13:00 +0200
 published: true
 status: publish
 tags:
-- lg
 - smartfon
+- lg
+- g4c
 - szyfrowanie
 - factory-reset
 title: Kernel crash przy szyfrowaniu smartfona lub próbie resetu ustawień do fabrycznych
 ---
 
-Parę dni temu dowiedziałem się o [projekcie /e/](https://e.foundation/). Z racji, że ten ROM jest
-dostępny na mój smartfon LG G4C (jeszcze nieoficjalnie), to postanowiłem go sobie wgrać i zobaczyć
-jak się będzie sprawował. Podczas testów nowego oprogramowania spróbowałem zaszyfrować partycję
-`/data/` . Problem w tym, że po automatycznym zresetowaniu się systemu, urządzenie już nie chciało
-się uruchomić. Przez dłuższy czas widniało logo LG, a po chwili pojawił się czarny ekran z
-informacją "Kernel Crash" lub niebieski ekran z informacją "Subsystem Crash". Czy telefon w takiej
-sytuacji nadaje się jedynie do wyrzucenia?
+Parę dni temu dowiedziałem się o [projekcie /e/][1]. Z racji, że ten ROM jest dostępny na mój
+smartfon LG G4C (jeszcze nieoficjalnie), to postanowiłem go sobie wgrać i zobaczyć jak się będzie
+sprawował. Podczas testów nowego oprogramowania spróbowałem zaszyfrować partycję `/data/` . Problem
+w tym, że po automatycznym zresetowaniu się systemu, urządzenie już nie chciało się uruchomić. Przez
+dłuższy czas widniało logo LG, a po chwili pojawił się czarny ekran z informacją "Kernel Crash" lub
+niebieski ekran z informacją "Subsystem Crash". Czy telefon w takiej sytuacji nadaje się jedynie do
+wyrzucenia?
 
 <!--more-->
 ## Kernel Crash, Subsystem Crash i TWRP recovery
@@ -69,9 +71,8 @@ przypadku), natrafiłem na to poniższe polecenie:
 
     # dd if=/dev/zero of=/dev/block/bootdevice/by-name/misc count=1 bs=32
 
-Poszukałem zatem informacji na temat tego polecenia.
-[Znalazłem taki oto artykuł](https://source.android.com/devices/bootloader/flashing-updating).
-Możemy w nim wyczytać, że:
+Poszukałem zatem informacji na temat tego polecenia. [Znalazłem taki oto artykuł][2]. Możemy w nim
+wyczytać, że:
 
 > If the standard AOSP recovery image is being used, during boot the bootloader should read the
 > first 32 bytes on the misc partition and boot into the recovery image if the data there matches:
@@ -96,3 +97,7 @@ telefonu w trybie TWRP recovery, sformatowanie partycji `/data/` nowym systemem 
 (Wipe -> Format Data) i restart urządzenia. Kluczowe jest tutaj wybranie opcji formatowania
 partycji, a nie tak jak zwykle się korzysta z "Advanced Wipe" czy też zwyczajnie przeciąga suwak
 "Swipe to Factory Reset".
+
+
+[1]: https://e.foundation/
+[2]: https://source.android.com/devices/bootloader/flashing-updating

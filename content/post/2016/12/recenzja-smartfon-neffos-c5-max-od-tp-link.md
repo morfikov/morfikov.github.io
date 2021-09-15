@@ -2,8 +2,9 @@
 author: Morfik
 categories:
 - Hardware
-date: "2016-12-12T20:37:43Z"
-date_gmt: 2016-12-12 19:37:43 +0100
+- Android
+date:    2016-12-12 20:37:43 +0100
+lastmod: 2016-12-12 20:37:43 +0100
 published: true
 status: publish
 tags:
@@ -11,6 +12,7 @@ tags:
 - tp-link
 - smartfon
 - neffos
+- neffos-c5-max
 title: 'Recenzja: Smartfon Neffos C5 MAX od TP-LINK'
 ---
 
@@ -25,12 +27,10 @@ praktycznie non stop? Na to pytanie raczej każdy z nas musi sobie sam udzielić
 technologia niekoniecznie zmieniła otaczającą nas rzeczywistość w stopniu jednakowym dla nas
 wszystkich. Niemniej jednak, rozwój technologiczny ciągle postępuje i obecnie mamy na rynku
 smartfony 4 czy nawet 8 rdzeniowe wyposażone w 2-4 GiB RAM. Jakiś czas temu byłem w stanie
-przetestować [smartfon Neffos C5 od](/post/recenzja-smartfon-neffos-c5-od-tp-link/)
-TP-LINK, który miał właśnie 4 rdzenie i 2 GiB pamięci operacyjnej. Niemniej jednak, ten producent ma
-również w ofercie i inne modele telefonów, min. [Neffos C5
-MAX](http://www.neffos.pl/product/details/C5-Max) (TP702A), który również trafił w moje łapki.
-Postanowiłem zatem go poddać testom i sprawdzić czy jest on w stanie zadowolić takiego wybrednego
-linux'iarza jak ja.
+przetestować [smartfon Neffos C5 od][1] TP-LINK, który miał właśnie 4 rdzenie i 2 GiB pamięci
+operacyjnej. Niemniej jednak, ten producent ma również w ofercie i inne modele telefonów, min.
+[Neffos C5 MAX][2] (TP702A), który również trafił w moje łapki. Postanowiłem zatem go poddać testom
+i sprawdzić czy jest on w stanie zadowolić takiego wybrednego linux'iarza jak ja.
 
 <!--more-->
 ## Zawartość opakowania
@@ -154,8 +154,7 @@ operatorów GSM jest wielce praktyczne i znacząco obniża koszty rozmów.
 
 Smartfon Neffos C5 MAX jest póki co najmocniejszym smartfonem TP-LINK'a dostępnym na polskim runku.
 To co najbardziej wyróżnia ten telefon od pozostałych modeli tego producenta, to fakt zastosowania w
-nim 64-bitowego procesora MediaTek MTK MT6753
-([datasheet](http://www.datasheet-pdf.com/PDF/MT6753-Datasheet-MediaTek-953806)), który włada 8
+nim 64-bitowego procesora MediaTek MTK MT6753 ([datasheet][3]), który włada 8
 rdzeniami opartymi na architekturze ARM Cortex-A53 taktowanymi dynamicznie zegarem od 300 MHz do 1,3
 GHz. Układ graficzny, który został zastosowany w tym smartfonie to ARM Mali-T720 MP3 taktowany
 zegarem 450 MHz będący w stanie obsłużyć wyświetlacz w rozdzielczości 1280 x 1920 pikseli (FHD) oraz
@@ -217,8 +216,7 @@ Androida, w pełni naładowany Neffos C5 MAX będący w spoczynku rozładowuje s
 
 Jeśli zaś chodzi o rozładowanie baterii podczas używania telefonu, to ten czas ulega dość znacznemu
 skróceniu i wynosi około 8 godzin 20 i minut. Przynajmniej tyle zwrócił [test wydajności
-przeprowadzany w PCMark dla Neffos C5
-MAX](/post/test-wydajnosci-smartfona-neffos-c5-max-od-tp-link/).
+przeprowadzany w PCMark dla Neffos C5 MAX][4].
 
 ### Głośnik i słuchawki
 
@@ -354,9 +352,7 @@ modelem, który wspiera OTG, choć w zestawie nie było dołączonego odpowiedni
 taki przewód OTG nie jest drogi ale są dwie wersje. Ta bardziej ficzerzasta umożliwia dostarczenie
 zewnętrznego zasilania do podłączanych do smartfona urządzeń. Jeśli dysponujemy jedynie zwykłym
 adapterem, to taka klawiatura czy mysz jest zasilana przez smartfon. Ja akurat posiadam tylko zwykł
-kawałek przewodu ale mam też [aktywny HUB USB 3.0
-UH720](/post/recenzja-aktywny-hub-usb-3-0-uh720-tp-link/), który może robić w roli
-zasilacza.
+kawałek przewodu ale mam też [aktywny HUB USB 3.0 UH720][5], który może robić w roli zasilacza.
 
 ![](/img/2016/12/028-neffos-c5-max-tp-link-smartfon-otg.jpg#huge)
 
@@ -389,8 +385,7 @@ wypuści stosowny update. Niemniej jednak, ten system, który jest zainstalowany
 mam mu praktycznie nic do zarzucenia. Komfort pracy na telefonie jest zadowalający. Smartfon się
 praktycznie nie grzeje i działa przyzwoicie. Jedyny minus to brak nowszej wersji systemu, no i może
 również fakt wykorzystywania oprogramowania FOTA od Adups, którego [analiza wykazała, że przesyła
-ono prywatne informacje użytkowników gdzieś w
-świat](http://www.kryptowire.com/adups_security_analysis.html).
+ono prywatne informacje użytkowników gdzieś w świat][6].
 
 Poniżej jest zestawienie temperatur podczas standardowej pracy telefonu (po lewej) i przy 100%
 obciążeniu procesora (po prawej):
@@ -400,8 +395,7 @@ obciążeniu procesora (po prawej):
 ## Czy da radę przeprowadzić root na Neffos C5 MAX
 
 Proces ukorzeniania Androida na Neffos C5 MAX jest możliwy i jest on w miarę bezproblemowy. Opis jak
-[przeprowadzić proces root smartfona Neffos C5 MAX jest dostępny
-tutaj](/post/android-root-smartfona-neffos-c5-max-od-tp-link/).
+[przeprowadzić proces root smartfona Neffos C5 MAX jest dostępny tutaj][7].
 
 ## Jak Neffos C5 MAX sprawuje się pod linux
 
@@ -421,3 +415,12 @@ lepszej jakości. Podoba mi się funkcja Turbo Pobierania jak i OTG. Skoda tylko
 dysków czy pendrive. Najbardziej jednak mi się we znaki daje nie za dobra jakość dźwięku z głośnika
 no i brak WiFi 5 GHz. Gdyby te powyższe rzeczy poprawić, to w może w końcu trafię na niedrogi
 smartfon spełniający wszystkie moje oczekiwania.
+
+
+[1]: /post/recenzja-smartfon-neffos-c5-od-tp-link/
+[2]: http://www.neffos.pl/product/details/C5-Max
+[3]: http://www.datasheet-pdf.com/PDF/MT6753-Datasheet-MediaTek-953806
+[4]: /post/test-wydajnosci-smartfona-neffos-c5-max-od-tp-link/
+[5]: /post/recenzja-aktywny-hub-usb-3-0-uh720-tp-link/
+[6]: http://www.kryptowire.com/adups_security_analysis.html
+[7]: /post/android-root-smartfona-neffos-c5-max-od-tp-link/

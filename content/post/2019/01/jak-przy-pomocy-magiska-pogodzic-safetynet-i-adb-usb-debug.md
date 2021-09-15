@@ -2,10 +2,12 @@
 author: Morfik
 categories:
 - Android
-date: "2019-01-19T21:12:11Z"
+date:    2019-01-19 21:12:11 +0100
+lastmod: 2019-01-19 21:13:11 +0100
 published: true
 status: publish
 tags:
+- smartfon
 - adb
 - magisk
 - safetynet
@@ -13,10 +15,9 @@ tags:
 title: Jak przy pomocy Magisk'a pogodzić SafetyNet i ADB/USB debug
 ---
 
-Do tej pory zbytnio nie interesowałem się zagadnieniami dotyczącymi
-mechanizmu [SafetyNet](https://lineageos.org/Safetynet/), który ma na celu
-utrudnić nieco życie użytkownikom smartfonów z Androidem lubiącym posiadać pełny dostęp do
-systemu swoich urządzeń za sprawą uzyskania praw administratora (root). To co się zmieniło na
+Do tej pory zbytnio nie interesowałem się zagadnieniami dotyczącymi mechanizmu [SafetyNet][1], który
+ma na celu utrudnić nieco życie użytkownikom smartfonów z Androidem lubiącym posiadać pełny dostęp
+do systemu swoich urządzeń za sprawą uzyskania praw administratora (root). To co się zmieniło na
 przestrzeni ostatnich paru miesięcy, to fakt, że coraz więcej aplikacji polega na tym całym
 SafetyNet, a przynajmniej ja zaczynam coraz częściej korzystać z tego typu oprogramowania. Jeśli
 jednak nasze urządzenie nie przejdzie testów SafetyNet, to funkcjonalność aplikacji polegających na
@@ -31,16 +32,15 @@ pogodzić te dwie rzeczy.
 <!--more-->
 ## ADB debug, a poziom logowania komunikatów
 
-Próbując obejść SafetyNet, [trafiłem na informację](https://www.didgeridoohan.com/magisk/MagiskHideBasics),
-która obwieszcza, że Magisk nie jest w stanie sobie poradzić z ukryciem faktu włączenia narzędzi
-deweloperskich, do których dostęp uzyskuje się klikając parę razy na numer kompilacji
-oprogramowania zainstalowanego w telefonie. Dodatkowo, Magisk ma problemy z ukryciem informacji o
-wykorzystywaniu debugowania ADB/USB. Pozornie zatem może się wydawać, że nic nie da się zrobić i
-jeśli zdecydujemy się korzystać z ADB/USB debug, to możemy zapomnieć o SafetyNet i vice versa. Mi
-jednak nie pasowała zbytnio żadna z tych opcji, bo ja wykorzystuję `adb` do przesyłania plików na
-telefon, co działa o wiele lepiej niż protokół MTP. Dlatego też postanowiłem poszukać nieco głębiej
-i ustalić dlaczego włączenie narzędzi deweloperskich (względnie też tego ADB/USB debug) psuje
-SafetyNet.
+Próbując obejść SafetyNet, [trafiłem na informację][2], która obwieszcza, że Magisk nie jest w
+stanie sobie poradzić z ukryciem faktu włączenia narzędzi deweloperskich, do których dostęp uzyskuje
+się klikając parę razy na numer kompilacji oprogramowania zainstalowanego w telefonie. Dodatkowo,
+Magisk ma problemy z ukryciem informacji o wykorzystywaniu debugowania ADB/USB. Pozornie zatem może
+się wydawać, że nic nie da się zrobić i jeśli zdecydujemy się korzystać z ADB/USB debug, to możemy
+zapomnieć o SafetyNet i vice versa. Mi jednak nie pasowała zbytnio żadna z tych opcji, bo ja
+wykorzystuję `adb` do przesyłania plików na telefon, co działa o wiele lepiej niż protokół MTP.
+Dlatego też postanowiłem poszukać nieco głębiej i ustalić dlaczego włączenie narzędzi deweloperskich
+(względnie też tego ADB/USB debug) psuje SafetyNet.
 
 Okazało się, że problemem nie są same opcje deweloperskie, ani tym bardziej debugowanie ADB/USB.
 Kluczową rolę odgrywa tutaj logowanie komunikatów, a te z kolei mogą zawierać pewne newralgiczne
@@ -56,16 +56,14 @@ niego klucz `log.tag=` . Domyślnie wartość tego klucza wskazuje na `M` lub `D
 nie ma, przez co domyślnie będą logowane komunikaty na najniższym poziomie. Trzeba zatem w tym
 kluczu ustawić `I` (od info). Można również ustawić `W` albo `E` jeśli chcemy mieć domyślnie tylko
 ostrzeżenia lub błędy. Nie będziemy oczywiście ręcznie edytować tego pliku, bo mamy do tego celu
-bardzo przydatny moduł Magisk'a
-zwany [MagiskHide Props Config](https://forum.xda-developers.com/apps/magisk/module-magiskhide-props-config-t3789228).
+bardzo przydatny moduł Magisk'a zwany [MagiskHide Props Config][3].
 
 ### Moduł MagiskHide Props Config
 
 Zadaniem modułu MagiskHide Props Config jest, jak nazwa wskazuje, konfiguracja kluczy, które można
 ustawić przez plik `build.prop` . Moduł znajduje się w repozytorium Magisk'a i raczej nie powinno
 być problemów z jego instalacją. Natomiast jeśli chodzi o konfigurację, to musimy pobrać sobie
-[plik konfiguracyjny](https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf/blob/master/common/propsconf_conf)
-i odpowiednio go przerobić.
+[plik konfiguracyjny][4] i odpowiednio go przerobić.
 
 Poniżej znajduje się mój plik:
 
@@ -200,3 +198,9 @@ Teraz już w zasadzie pozostaje nam do sprawdzenia czy nasz smartfon przechodzi 
 jak można zobaczyć na poniższej fotce, mój telefon radzi sobie z tym zadaniem całkiem nieźle.
 
 ![](/img/2019/01/001-magisk-safetynet-check-adb-usb-debug.png#medium).
+
+
+[1]: https://lineageos.org/Safetynet/
+[2]: https://www.didgeridoohan.com/magisk/MagiskHideBasics
+[3]: https://forum.xda-developers.com/apps/magisk/module-magiskhide-props-config-t3789228
+[4]: https://github.com/Magisk-Modules-Repo/MagiskHidePropsConf/blob/master/common/propsconf_conf

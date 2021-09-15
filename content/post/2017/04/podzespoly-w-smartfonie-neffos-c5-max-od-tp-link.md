@@ -2,19 +2,19 @@
 author: Morfik
 categories:
 - Hardware
-date: "2017-04-07T20:44:35Z"
-date_gmt: 2017-04-07 18:44:35 +0200
+date:    2017-04-07 20:44:35 +0200
+lastmod: 2017-04-07 20:44:35 +0200
 published: true
 status: publish
 tags:
 - tp-link
 - smartfon
 - neffos
+- neffos-c5-max
 title: Podzespoły w smartfonie Neffos C5 MAX od TP-LINK
 ---
 
-Jakiś czas temu [recenzowałem smartfon Neffos C5 MAX od
-TP-LINK](/post/recenzja-smartfon-neffos-c5-max-od-tp-link/). W tamtym wpisie
+Jakiś czas temu [recenzowałem smartfon Neffos C5 MAX od TP-LINK][1]. W tamtym wpisie
 praktycznie wszystko już zostało powiedziane na temat tego telefonu ale jednej rzeczy nie mogłem w
 czasie pisania tamtego artykułu zamieścić. Chodzi o fotki podzespołów tego urządzenia. Na dobrą
 sprawę producent podaje jedynie model SoC i nie wiadomo praktycznie nic w przypadku pozostałych
@@ -122,16 +122,21 @@ pomyliłem. Grunt, że wiadomo z czego Neffos C5 MAX się składa, a to już pow
 budowę alternatywnych ROM'ów dla tego modelu smartfona. Poniżej zaś znajdują się dokumenty opisujące
 układy, które znalazły zastosowanie w Neffos C5 MAX (nie wszystko udało mi się odszukać).
 
-[H9TQ17ABJTMC UR-KUM (16 GiB eNAND i 2 GiB
-LPDDR3)](http://www.datasheet4u.com/download_new.php?id=1055141)
+[H9TQ17ABJTMC UR-KUM (16 GiB eNAND i 2 GiB LPDDR3)][2]
 
-[MT6753 (SoC)](http://www.datasheetbay.com/PDF_/download.php?id=953806)
+[MT6753 (SoC)][4]
 
-[Trochę info o
-MT6169V](https://www.chipworks.com/TOC/MediaTek_MT6169V_RF_Transceiver_CAR-1510-202_TOC.pdf)
+[Trochę info o MT6169V][3]
 
-[MT6625LN (WiFi, FM, GPS)](http://www.datasheet4u.com/download_new.php?id=960584)
+[MT6625LN (WiFi, FM, GPS)][5]
 
 Ten ostatni plik `.pdf` dotyczy MT6625L i ten czip ma WiFI 5G. Innego układu nie mogłem znaleźć i
 nie wiem czy są jeszcze jakieś różnice między tymi dwoma czipami. W każdym razie zostawiam, bo nazwa
 w zasadzie bardzo podobna.
+
+
+[1]: /post/recenzja-smartfon-neffos-c5-max-od-tp-link/
+[2]: http://www.datasheet4u.com/download_new.php?id=1055141
+[3]: https://www.chipworks.com/TOC/MediaTek_MT6169V_RF_Transceiver_CAR-1510-202_TOC.pdf
+[4]: http://www.datasheetbay.com/PDF_/download.php?id=953806
+[5]: http://www.datasheet4u.com/download_new.php?id=960584

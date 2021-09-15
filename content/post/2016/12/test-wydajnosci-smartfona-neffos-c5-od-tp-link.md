@@ -2,8 +2,9 @@
 author: Morfik
 categories:
 - Hardware
-date: "2016-12-03T16:57:57Z"
-date_gmt: 2016-12-03 15:57:57 +0100
+- Android
+date:    2016-12-03 16:57:57 +0100
+lastmod: 2016-12-03 16:57:57 +0100
 published: true
 status: publish
 tags:
@@ -11,6 +12,7 @@ tags:
 - smartfon
 - benchmark
 - neffos
+- neffos-c5
 title: Test wydajności smartfona Neffos C5 od TP-LINK
 ---
 
@@ -45,8 +47,7 @@ aplikacje.
 
 ## Neffos C5 vs. GFXBench
 
-GFXBench ma w swojej ofercie kilka testów, których rozpiska jest zamieszczona
-poniżej:
+GFXBench ma w swojej ofercie kilka testów, których rozpiska jest zamieszczona poniżej:
 
 ![](/img/2016/12/003.neffos-c5-benchmark-gfxbench-tests1.png#huge)
 
@@ -59,8 +60,7 @@ poniżej:
 GFXBench jest w stanie rysować ciekawe wykresy podczas przeprowadzania konkretnych testów. Są tam
 min. wykresy temperatury i aktualnej częstotliwości pracy procesowa. Niemniej jednak, z nieznanych
 mi przyczyn te dwa wykresy nie były rysowane na żadnym z testowanych przeze mnie Neffos'ów. Dlatego
-też załączam jedynie podsumowanie oraz te wykresy, które zostały narysowane
-poprawnie:.
+też załączam jedynie podsumowanie oraz te wykresy, które zostały narysowane poprawnie:
 
 ![](/img/2016/12/007.neffos-c5-benchmark-gfxbench-test.png#huge)
 
@@ -80,8 +80,7 @@ poprawnie:.
 
 ## Neffos C5 vs. PCMark
 
-PCMark również oferuje szereg
-testów:
+PCMark również oferuje szereg testów:
 
 ![](/img/2016/12/008.neffos-c5-benchmark-pcmark-tests.png#huge)
 
@@ -117,8 +116,7 @@ testów:
 
 ## Neffos C5 vs. 3DMark
 
-3DMark również jest w stanie przeprowadzić kilka
-testów:
+3DMark również jest w stanie przeprowadzić kilka testów:
 
 ![](/img/2016/12/013.neffos-c5-benchmark-3dmark-tests1.png#huge)
 

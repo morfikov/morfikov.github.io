@@ -2,8 +2,9 @@
 author: Morfik
 categories:
 - Hardware
-date: "2016-10-08T13:20:42Z"
-date_gmt: 2016-10-08 11:20:42 +0200
+- Android
+date:    2016-10-08 13:20:42 +0200
+lastmod: 2016-10-08 13:20:42 +0200
 published: true
 status: publish
 tags:
@@ -11,6 +12,7 @@ tags:
 - tp-link
 - smartfon
 - neffos
+- neffos-c5
 title: 'Recenzja: Smartfon Neffos C5 od TP-LINK'
 ---
 
@@ -28,7 +30,7 @@ rzeczywistości. TP-LINK był chyba tego samego zdania i od jakiegoś już czasu
 smartfony. Czym ten producent może się pochwalić jeśli chodzi o te urządzenia? Na pewno
 niewygórowaną ceną. A jak sprawa wygląda w przypadku parametrów technicznych oferowanych nam
 telefonów? To trzeba by sprawdzić i tak się składa, że mam właśnie na wyposażeniu taki smartfon, a
-konkretnie jest to [model Neffos C5](http://www.neffos.pl/product/details/C5) (TP701A).
+konkretnie jest to [model Neffos C5][1] (TP701A).
 
 <!--more-->
 ## Zawartość opakowania
@@ -134,14 +136,13 @@ wyłączania telefonu:
 
 ### Procesor MediaTek MT6735
 
-Smartfon Neffos C5 został wyposażony w 64-bitowy procesor MediaTek MT6735
-([datasheet](http://mediatek-club.ru/_ld/0/68_datasheet_mt673.rar)) dysponujący 4 rdzeniami opartymi
-na architekturze ARM Cortex-A53 taktowanymi zegarem od 300 MHz do 1,3 GHz (dynamicznie). Mamy też
-tutaj układ graficzny ARM Mali-T720 MP2 taktowany zegarem 450 MHz będący w stanie obsłużyć
-wyświetlacz w rozdzielczości 720 x 1280 pikseli (HD) oraz nagrywać i odtwarzać materiały wideo w
-rozdzielczości maksymalnej 1080p przy 30 FPS'ach. Procesor graficzny posiada także wsparcie dla API
-takich standardów jak OpenGL ES 1.1/2.0/3.0, OpenCL 1.0/1.1/1.2 oraz DirectX9. Proces technologiczny
-tego SoC'a to 28 nm.
+Smartfon Neffos C5 został wyposażony w 64-bitowy procesor MediaTek MT6735 ([datasheet][2])
+dysponujący 4 rdzeniami opartymi na architekturze ARM Cortex-A53 taktowanymi zegarem od 300 MHz do
+1,3 GHz (dynamicznie). Mamy też tutaj układ graficzny ARM Mali-T720 MP2 taktowany zegarem 450 MHz
+będący w stanie obsłużyć wyświetlacz w rozdzielczości 720 x 1280 pikseli (HD) oraz nagrywać i
+odtwarzać materiały wideo w rozdzielczości maksymalnej 1080p przy 30 FPS'ach. Procesor graficzny
+posiada także wsparcie dla API takich standardów jak OpenGL ES 1.1/2.0/3.0, OpenCL 1.0/1.1/1.2 oraz
+DirectX9. Proces technologiczny tego SoC'a to 28 nm.
 
 ![](/img/2016/10/017.1-smartfon-neffos-c5-tp-link-cpuz-system.png#huge)
 
@@ -323,8 +324,7 @@ w tym samym pomieszczeniu co główny router):
 ![](/img/2016/10/032-smartfon-neffos-c5-tp-link-wifi-predkosc.png#medium)
 
 Standardowo też nie mamy wsparcia dla roamingu WiFi i trzeba ratować się zewnętrzną [aplikacją
-SWIFI](https://play.google.com/store/apps/details?id=com.seah0rse.swififree), która i tak ma defekt
-w postaci realizowania jedynie roamingu w przypadku różnych ESSID.
+SWIFI][3], która i tak ma defekt w postaci realizowania jedynie roamingu w przypadku różnych ESSID.
 
 ### Udostępnianie połączenia 3G/LTE
 
@@ -337,8 +337,7 @@ funkcjonalność jest jak najbardziej wpierana przez ten smartfon.
 ![](/img/2016/10/033-smartfon-neffos-c5-tp-link-wifi-hotspot.png#big)
 
 Neffos C5 jest także w stanie świadczyć połączenie przez Bluetooth czy nawet za pośrednictwem
-przewodu USB, tzw.
-[Tethering](https://pl.wikipedia.org/wiki/Tethering).
+przewodu USB, tzw. [Tethering][4].
 
 ![](/img/2016/10/034-smartfon-neffos-c5-tp-link-usb-tethering.png#medium)
 
@@ -371,13 +370,12 @@ wspiera Bluetooth.
 ### GPS
 
 Następna sprawa to GPS, czyli system nawigacji satelitarnej. Neffos C5 wspiera dwa ciekawe
-mechanizmy: [A-GPS](https://pl.wikipedia.org/wiki/AGPS) (Assisted GPS) oraz
-[GLONASS](https://pl.wikipedia.org/wiki/GLONASS) (Globalnaja Nawigacionnaja Sputnikowaja Sistiema).
-A-GPS to system znacznie skracający czas potrzebny na pierwsze ustalenie położenia w systemie GPS
-(połączenie z satelitami). System ten wykorzystuje do działania serwery operatorów sieci GSM, przez
-co operator sieci komórkowej musi wspierać taką usługę. W przeciwnym razie będziemy mieli do
-dyspozycji jedynie zwykły GPS. GLONASS, z kolei to radziecki/rosyjski system nawigacyjny. To taka
-alternatywa dla amerykańskiego systemu GPS. Połączenie GPS i GLONASS daje możliwość bardzo
+mechanizmy: [A-GPS][5] (Assisted GPS) oraz [GLONASS][6] (Globalnaja Nawigacionnaja Sputnikowaja
+Sistiema). A-GPS to system znacznie skracający czas potrzebny na pierwsze ustalenie położenia w
+systemie GPS (połączenie z satelitami). System ten wykorzystuje do działania serwery operatorów
+sieci GSM, przez co operator sieci komórkowej musi wspierać taką usługę. W przeciwnym razie będziemy
+mieli do dyspozycji jedynie zwykły GPS. GLONASS, z kolei to radziecki/rosyjski system nawigacyjny.
+To taka alternatywa dla amerykańskiego systemu GPS. Połączenie GPS i GLONASS daje możliwość bardzo
 akuratnych pomiarów, co przekłada się na szybsze i dokładniejsze ustalenie pozycji odbiornika.
 
 Tu jeszcze tylko taka informacja, że Neffos C5 ma wspólną antenę dla 2.4 GHz WiFi, 2.4 GHz Bluetooth
@@ -478,3 +476,11 @@ lepiej inne rzeczy.
 Nie wiem czemu te dwa powyższe elementy są topowe pod względem wymienianych wad pod adresem tego
 smartfona. Dla mnie liczy się niezawodność sprzętu, jego funkcjonalność oraz zdolność realizowania
 powierzonych mu zadań, a pod tym względem nie mam Neffos'owi C5 prawie nic do zarzucenia.
+
+
+[1]: http://www.neffos.pl/product/details/C5
+[2]: http://mediatek-club.ru/_ld/0/68_datasheet_mt673.rar
+[3]: https://play.google.com/store/apps/details?id=com.seah0rse.swififree
+[4]: https://pl.wikipedia.org/wiki/Tethering
+[5]: https://pl.wikipedia.org/wiki/AGPS
+[6]: https://pl.wikipedia.org/wiki/GLONASS

@@ -2,16 +2,19 @@
 author: Morfik
 categories:
 - Android
-date: "2017-01-11T19:30:26Z"
-date_gmt: 2017-01-11 18:30:26 +0100
+date:    2017-01-11 19:30:26 +0100
+lastmod: 2017-01-11 19:30:26 +0100
 published: true
 status: publish
 tags:
 - tp-link
 - smartfon
 - root
-- marshmallow
 - neffos
+- neffos-y5l
+- adb
+- fastboot
+- twrp
 title: 'Android: Root smartfona Neffos Y5L od TP-LINK'
 ---
 

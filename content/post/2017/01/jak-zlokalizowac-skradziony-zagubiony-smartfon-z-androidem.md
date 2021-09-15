@@ -2,14 +2,14 @@
 author: Morfik
 categories:
 - Android
-date: "2017-01-27T18:52:06Z"
-date_gmt: 2017-01-27 17:52:06 +0100
+date:    2017-01-27 18:52:06 +0100
+lastmod: 2017-01-27 18:52:06 +0100
 published: true
 status: publish
 tags:
 - smartfon
-- lollipop
-- marshmallow
+- gps
+- prywatność
 title: Jak zlokalizować skradziony/zagubiony smartfon z Androidem
 ---
 
@@ -44,19 +44,18 @@ na mapie.
 
 Idąc dalej, jako, że ta usługa działa w oparciu o przypisanie konta Google do urządzenia z
 Androidem, to zresetowanie ustawień do fabrycznych w taki sposób by [obejść blokadę Factory Reset
-Protection Lock (FRP
-Lock)](/post/factory-reset-protection-frp-w-smartfonach-z-androidem/), skutecznie
-uniemożliwia nam przeprowadzenie jakichkolwiek działań ratunkowych. Warto o tym fakcie pamiętać w
-przypadku, gdy many z jakiegoś powodu odblokowany bootloader lub też posiadamy niezbyt przyzwoicie
-zabezpieczony smartfon, który umożliwia przepisanie partycji `frp` w celu obejścia ww. blokady.
-Jeśli któraś z tych powyższych sytuacji ma miejsce, to biorąc pod uwagę kwestię prywatności, dobrze
-jest wyłączyć usługę "Znajdź telefon/smartfon".
+Protection Lock (FRP Lock)][1], skutecznie uniemożliwia nam przeprowadzenie jakichkolwiek działań
+ratunkowych. Warto o tym fakcie pamiętać w przypadku, gdy many z jakiegoś powodu odblokowany
+bootloader lub też posiadamy niezbyt przyzwoicie zabezpieczony smartfon, który umożliwia
+przepisanie partycji `frp` w celu obejścia ww. blokady. Jeśli któraś z tych powyższych sytuacji ma
+miejsce, to biorąc pod uwagę kwestię prywatności, dobrze jest wyłączyć usługę "Znajdź
+telefon/smartfon".
 
 ## Jak włączyć/wyłączyć usługę "Znajdź telefon/smartfon"
 
 Usługę "Znajdź telefon/smartfon" można wyłączyć z poziomu ustawień systemu smartfona. W zasadzie
 zarówno w wersji 5.1 (Lollipop) jak i 6.0 (Marshmallow) stosowna konfiguracja znajduje się w
-Ustawienia =\> Zabezpieczenia =\> Administratorzy
+Ustawienia => Zabezpieczenia => Administratorzy
 urządzenia:
 
 ![](/img/2017/01/001.lokalizacja-smartfon-telefon-android-kradziez-menadzer-urzadzen.png#huge)
@@ -84,27 +83,23 @@ Załóżmy w tym momencie, że nie znamy położenia naszego telefonu oraz, że 
 zrobić? Musimy jak najszybciej uzyskać dostęp do zaufanego komputera i zalogować się na konto
 Google, które jest powiązane z uprowadzonym smartfonem. W zasadzie dla przyśpieszenia procesu, można
 w wyszukiwarce wpisać frazę "gdzie jest mój telefon" i zostaniemy przez Google odesłani pod właściwy
-adres
-usługi:
+adres usługi:
 
 ![](/img/2017/01/003.lokalizacja-smartfon-telefon-android-kradziez-znajdz-google.png#huge)
 
 Po wejściu w usługę "Znajdź telefon/smartfon", pojawią nam się urządzenia, które są powiązane z tym
-kontem Google, i na których była notowana ostatnio jakaś
-aktywność:
+kontem Google, i na których była notowana ostatnio jakaś aktywność:
 
 ![](/img/2017/01/004.lokalizacja-smartfon-telefon-android-kradziez-aktywnosc-google.png#big)
 
 Załóżmy, że zawieruszył się ten pierwszy TP-LINK'owy Neffos Y5. Trzeba kliknąć w tą pozycję i podać
 naturalnie hasło do konta Google. Pamiętajmy, by przy tego typu uwierzytelnianiu sprawdzić czy aby
 faktycznie jesteśmy na stronach Google i czy strona jest zabezpieczona przez zaufany certyfikat
-(info w zielonej kłódce obok
-URL).
+(info w zielonej kłódce obok URL).
 
 ![](/img/2017/01/005.lokalizacja-smartfon-telefon-android-kradziez-logowanie-google.png#medium)
 
-Po podaniu hasła zostaniemy przeniesieni do listy opcji, które pomogą nam odzyskać
-telefon:
+Po podaniu hasła zostaniemy przeniesieni do listy opcji, które pomogą nam odzyskać telefon:
 
 ![](/img/2017/01/006.lokalizacja-smartfon-telefon-android-kradziez-opcje-odzyskiwania.png#big)
 
@@ -121,14 +116,12 @@ wypadek kradzieży ale też w momencie, gdy nie wiemy gdzie dokładnie położyl
 
 Zakładając, że nasz telefon ma włączony moduł GPS, Google jest w stanie ustalić położenie naszego
 smartfona praktycznie natychmiast. Zostanie nam również zwrócona mapka z dokładną lokalizacją
-zgubionego
-urządzenia:
+zgubionego urządzenia:
 
 ![](/img/2017/01/007.lokalizacja-smartfon-telefon-android-kradziez-gps.png#big)
 
 Problem w tym, że chwilę po zlokalizowaniu urządzenia, na ekranie smartfona zostanie wyświetlony
-monit o tym, że urządzenie zostało
-namierzone.
+monit o tym, że urządzenie zostało namierzone.
 
 ![](/img/2017/01/008.lokalizacja-smartfon-telefon-android-kradziez-powiadomienie.png#medium)
 
@@ -144,17 +137,15 @@ dopracowania.
 
 Tak czy inaczej jeśli chcemy się pozbyć tych notyfikacji, to w różnych wersjach Androida potrzebne
 nam opcje siedzą w nieco innych miejscach. W przypadku Androida 6.0 (Marshmallow) można je znaleźć
-przechodząc w Ustawienia =\> Menadżer powiadomień. Tam z kolei na liście aplikacji odszukujemy
-"Usługi Google Play" i wyłączamy w nich
-powiadomienia:
+przechodząc w Ustawienia => Menadżer powiadomień. Tam z kolei na liście aplikacji odszukujemy
+"Usługi Google Play" i wyłączamy w nich powiadomienia:
 
 ![](/img/2017/01/009.lokalizacja-smartfon-telefon-android-kradziez-wylaczenie-notyfikacji.png#huge)
 
 W przypadku, gdy smartfon ma wyłączony moduł GPS, to naturalnie nie da rady go zdalnie włączyć przez
 usługę "Znajdź telefon/smartfon" i trzeba ewentualnie czekać na błąd złodzieja, np. będzie on
 próbował skorzystać z mapy czy innej tego typu aplikacji wymagającej do prawidłowego działania
-modułu
-GPS.
+modułu GPS.
 
 ![](/img/2017/01/010.lokalizacja-smartfon-telefon-android-kradziez-brak-gps.png#huge)
 
@@ -165,8 +156,7 @@ faktu, że właściciel telefonu może próbować ich namierzyć przez mechanizm
 w to urządzenie. Dlatego też mogą oni świadomie unikać włączenia modułu GPS, a my przez to w ogóle
 możemy nie uzyskać lokalizacji smartfona. Jeśli zaś moduł GPS mieliśmy aktywny, to ci nieznani
 jeszcze sprawcy mogą podjąć kroki, by ten śledzący dodatek dezaktywować. W takim przypadku jeśli nie
-mamy ustawionej blokady ekranu w telefonie, to najlepiej jest zdalnie zablokować system
-telefonu.
+mamy ustawionej blokady ekranu w telefonie, to najlepiej jest zdalnie zablokować system telefonu.
 
 ![](/img/2017/01/011.lokalizacja-smartfon-telefon-android-kradziez-zablokuj-ekran.png#huge)
 
@@ -184,22 +174,19 @@ Oczywiście nie musimy z góry zakładać, że telefon wpadł w ręce złodzieja
 przyzwoity człowiek znalazł nasz smartfon i nie wie on za bardzo co w takiej sytuacji ma zrobić.
 Jakby nie patrzeć na urządzeniu nie ma żadnej kartki z informacją czyj jest to smartfon. Kartki może
 i nie ma ale możemy krótką informację na ekranie wyświetlić i jeszcze podać numer telefonu, z którym
-znalazca zostanie połączony po kliknięciu ikonki
-słuchawki:
+znalazca zostanie połączony po kliknięciu ikonki słuchawki:
 
 ![](/img/2017/01/012.lokalizacja-smartfon-telefon-android-kradziez-blokada-aktywana.jpg#huge)
 
 ### Wylogowanie z telefonu
 
 Kolejną opcją, która nieco podnosi poziom naszej prywatności i bezpieczeństwa konta Google, to
-zdalne wylogowanie się z Androida na skradzionym
-urządzeniu.
+zdalne wylogowanie się z Androida na skradzionym urządzeniu.
 
 ![](/img/2017/01/014.lokalizacja-smartfon-telefon-android-kradziez-wylogowanie.png#huge)
 
 Oczywiście w dalszym ciągu system będzie traktował nasze konto jako powiązane z tym konkretnym
-urządzeniem i uniemożliwi zalogowanie się na inne
-konto.
+urządzeniem i uniemożliwi zalogowanie się na inne konto.
 
 ![](/img/2017/01/013.lokalizacja-smartfon-telefon-android-kradziez-wylogowanie-blokada.png#huge)
 
@@ -226,8 +213,7 @@ zdalne przeprowadzenie procesu Factory Reset, co przy okazji założy blokadę F
 Lock (FRP Lock). W ten sposób złodziej nie uzyska dostępu do danych zgromadzonych na flash'u
 urządzenia i w zasadzie nie będzie w stanie w ogóle korzystać z telefonu. Warto tutaj zaznaczyć, że
 jeśli w smartfonie podczas tego procesu czyszczenia będzie obecna karta SD, to dane zawarte na tym
-nośniku również zostaną
-wykasowane.
+nośniku również zostaną wykasowane.
 
 ![](/img/2017/01/015.lokalizacja-smartfon-telefon-android-kradziez-kasowanie-danych.png#huge)
 
@@ -247,13 +233,14 @@ dane GPS, zdalnie zablokować telefon, włączyć dzwonek i przeprowadzić proce
 mniej więcej te same kroki, które były dostępne w serwisie Google.
 
 Po za logowaniu się w aplikacji Android Device Manager, zostanie nam zwrócona lista urządzeń, które
-są powiązane z kontem Google, do którego dane wprowadziliśmy w formularzu
-logowania:
+są powiązane z kontem Google, do którego dane wprowadziliśmy w formularzu logowania:
 
 ![](/img/2017/01/016.lokalizacja-smartfon-telefon-android-kradziez-aplikacja.png#huge)
 
 Wybieramy tutaj urządzenie, które nam zaginęło i przy pomocy kilku tapnięć w ekran smartfona możemy
-w bardzo prosty sposób wywołać każdą z ww.
-akcji:
+w bardzo prosty sposób wywołać każdą z ww. akcji:
 
 ![](/img/2017/01/017.lokalizacja-smartfon-telefon-android-kradziez-opcje-aplikacji.png#huge)
+
+
+[1]: /post/factory-reset-protection-frp-w-smartfonach-z-androidem/

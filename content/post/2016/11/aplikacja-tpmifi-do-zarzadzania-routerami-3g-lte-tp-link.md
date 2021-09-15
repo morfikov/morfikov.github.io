@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Android
-date: "2016-11-25T20:57:39Z"
-date_gmt: 2016-11-25 19:57:39 +0100
+date:    2016-11-25 20:57:39 +0100
+lastmod: 2016-11-25 20:57:39 +0100
 published: true
 status: publish
 tags:
@@ -11,12 +11,13 @@ tags:
 - tp-link
 - smartfon
 - aplikacje
+- 3g
+- lte
 title: Aplikacja tpMiFi do zarządzania routerami 3G/LTE od TP-LINK
 ---
 
 Jakiś czas temu opisywałem jeden z mobilnych routerów WiFi, który był w stanie realizować połączenie
-LTE i udostępniać je w obrębie swojej sieci. Konkretnie był to [hotspot
-M7310](/post/recenzja-przenosny-router-lte3g-mifi-m7310-od-tp-link/). W recenzji
+LTE i udostępniać je w obrębie swojej sieci. Konkretnie był to [hotspot M7310][1]. W recenzji
 tego urządzenia wspomniałem o tym, że dysponując smartfonem jesteśmy w stanie przy jego pomocy
 zarządzać tym routerem. Oczywiście potrzebna jest do tego celu specjalna aplikacja tpMiFi
 wypuszczona również przez TP-LINK, którą można pobrać bez większego problemu z Google Play. Jako, że
@@ -26,10 +27,8 @@ bardziej się jej przyjrzeć i dokładnie opisać jej właściwości.
 <!--more-->
 ## Instalacja aplikacji tpMiFi w smartfonie
 
-Jak już nadmieniłem we wstępie, [aplikację
-tpMiFi](https://play.google.com/store/apps/details?id=com.tplink.tpmifi) można pobrać ze sklepu
-Google Play. Nie waży ona za dużo, bo nieco ponad 2 MiB, no i też nie wymaga zbyt wielu
-uprawnień.
+Jak już nadmieniłem we wstępie, [aplikację tpMiFi][2] można pobrać ze sklepu Google Play. Nie waży
+ona za dużo, bo nieco ponad 2 MiB, no i też nie wymaga zbyt wielu uprawnień.
 
 ![](/img/2016/11/001.tpmifi-tp-link-android-smartfon-instalacja-aplikacji.png#huge)
 
@@ -52,7 +51,7 @@ Odczytujemy ESSID oraz hasło i konfigurujemy taką sieć w smartfonie pod Ustaw
 Routery WiFi zwykle mają dostępną opcję WPS. Smartfony również takim wynalazkiem dysponują, przez co
 możemy przycisnąć wirtualne przyciski na obu tych urządzeniach, tak by konfiguracja połączenia
 bezprzewodowego dokonała się bez naszej ingerencji. W tym celu z menu WLAN wybieramy pozycję
-"Zaawanasowane" i "Przycisk WPS":
+"Zaawansowane" i "Przycisk WPS":
 
 ![](/img/2016/11/004.tpmifi-tp-link-android-smartfon-parowanie-wps.png#huge)
 
@@ -163,12 +162,15 @@ możemy załadować sobie w dowolnej przeglądarce na smartfonie przechodząc na
 ![](/img/2016/11/017.tpmifi-tp-link-android-smartfon-panel-admina-mobilny.png#huge)
 
 To o tyle ważna rzecz, że przy pewnych niestandardowych konfiguracjach telefonu, np. [szyfrowany DNS
-za sprawą
-dnscrypt-proxy](/post/jak-zaszyfrowac-zapytania-dns-na-smartfonie-dnscrypt-proxy/)
-czy VPN, aplikacja tpMiFi może się bardzo dziwnie zachowywać [uniemożliwiając zalogowanie na
-konkretny
-sprzęt](http://tplink-forum.pl/index.php?/topic/5485-popsu%C5%82em-aplikacj%C4%99-tpmifi/#comment-46863).
-Bierze się to z faktu rozwiązywania przez aplikację domeny `tplinkmifi.net` , która ma wskazywać na
-adres prywatny (np. 192.168.0.1), a takiego rozwiązania nie otrzymamy z OpenDNS czy innego serwera
-DNS. Zatem jeśli w jakiś sposób dokonujemy przekierowania ruchu DNS, to raczej postawmy na mobilną
-wersję panelu administracyjnego zamiast na aplikację tpMiFi, bo zaoszczędzi nam to wielu problemów.
+za sprawą dnscrypt-proxy][3] czy VPN, aplikacja tpMiFi może się bardzo dziwnie
+zachowywać [uniemożliwiając zalogowanie na konkretny sprzęt][4]. Bierze się to z faktu rozwiązywania
+przez aplikację domeny `tplinkmifi.net` , która ma wskazywać na adres prywatny (np. 192.168.0.1), a
+takiego rozwiązania nie otrzymamy z OpenDNS czy innego serwera DNS. Zatem jeśli w jakiś sposób
+dokonujemy przekierowania ruchu DNS, to raczej postawmy na mobilną wersję panelu administracyjnego
+zamiast na aplikację tpMiFi, bo zaoszczędzi nam to wielu problemów.
+
+
+[1]: /post/recenzja-przenosny-router-lte3g-mifi-m7310-od-tp-link/
+[2]: https://play.google.com/store/apps/details?id=com.tplink.tpmifi
+[3]: /post/jak-zaszyfrowac-zapytania-dns-na-smartfonie-dnscrypt-proxy/
+[4]: http://tplink-forum.pl/index.php?/topic/5485-popsu%C5%82em-aplikacj%C4%99-tpmifi/#comment-46863

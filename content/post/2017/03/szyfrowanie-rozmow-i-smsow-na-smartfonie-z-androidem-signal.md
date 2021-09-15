@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Android
-date: "2017-03-26T18:35:14Z"
-date_gmt: 2017-03-26 16:35:14 +0200
+date:    2017-03-26 18:35:14 +0200
+lastmod: 2017-03-26 18:35:14 +0200
 published: true
 status: publish
 tags:
@@ -31,14 +31,11 @@ jest darmowa i otwartoźródłowa aplikacja Signal, której się przyjrzymy niec
 ## Czym jest aplikacja Signal
 
 Aplikacją Signal zainteresowałem się głównie dlatego, że, [jak można wyczytać na stronie
-producenta](https://whispersystems.org/), ma ona poprawiać w znacznym stopniu prywatność naszej
-korespondencji, którą prowadzimy za pośrednictwem telefonu dzięki zastosowaniu [Signal
-Protocol](https://en.wikipedia.org/wiki/Signal_Protocol).
+producenta][1], ma ona poprawiać w znacznym stopniu prywatność naszej korespondencji, którą
+prowadzimy za pośrednictwem telefonu dzięki zastosowaniu [Signal Protocol][2].
 
 Jeśli zamierzamy korzystać z aplikacji Signal, to musimy ją zainstalować na swoim smartfonie z
-[Android](https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms)/[iOS](https://itunes.apple.com/us/app/signal-private-messenger/id874139669).
-Tej aplikacji jesteśmy też w stanie używać [na zwykłym
-desktopie](https://chrome.google.com/webstore/detail/signal-private-messenger/bikioccmkafdpakkkcpdbppfkghcmihk),
+[Android][3]/[iOS][4]. Tej aplikacji jesteśmy też w stanie używać [na zwykłym desktopie][5],
 z tym, że tutaj musimy mieć zainstalowaną przeglądarkę Google Chrome. Każdy kontakt, z którym
 zamierzamy się w jakiś sposób komunikować, również musi zainstalować Signal. W przeciwnym razie nie
 damy rady zestawić zaszyfrowanego połączenia.
@@ -56,8 +53,7 @@ Jako, że Signal bazuje na połączeniu z globalną siecią Internet, to nie tyl
 jesteśmy w stanie przesyłać za jego pomocą. Za pośrednictwem tego komunikatora jesteśmy w stanie
 przesłać każdą informację, którą można zapisać w postaci binarnej. Innymi słowy, możemy nawiązywać
 połączenia głosowe, video i przesyłać pliki dowolnego formatu. W zasadzie Signal jest to taki Skype
-ale bardziej ficzerzasty i, co najważniejsze, [wolny i
-otwartoźródłowy](https://github.com/WhisperSystems/Signal-Android/). Signal również eliminuje
+ale bardziej ficzerzasty i, co najważniejsze, [wolny i otwartoźródłowy][6]. Signal również eliminuje
 bariery dystansowe, przez co nie musimy się martwić o koszty roamingu i bez problemu możemy
 rozmawiać z osobami na całym świecie, o ile one i my mamy dostęp do Internetu.
 
@@ -71,8 +67,8 @@ działa bez większego problemu:
 ![](/img/2017/03/001.szyfrowanie-rozmow-sms-smartfon-signal-instalacja-aplikacja.png#huge)
 
 Warto w tym miejscu zaznaczyć, że [aplikacja Signal może zostać zainstalowana spoza sklepu Google
-Play](https://signal.org/android/apk/) i działać nawet, gdy usługi Google w naszym smartfonie są
-wyłączone lub w ogóle nie są zainstalowane. Można zatem używać Signal bez Google, co bardzo cieszy.
+Play][7] i działać nawet, gdy usługi Google w naszym smartfonie są wyłączone lub w ogóle nie są
+zainstalowane. Można zatem używać Signal bez Google, co bardzo cieszy.
 
 Po zainstalowaniu aplikacji Signal musimy z nią powiązać nasz numer telefonu, tj. zarejestrować go
 ale ta rejestracja nie jest rejestracją rozumianą w znaczeniu potocznym. Po prostu numer telefonu
@@ -113,7 +109,7 @@ Takie rozdzielenie ról może poprawić naszą prywatność, bo operator GSM w p
 może nie być w stanie ustalić położenia telefonu. Trzeba tylko pamiętać by wyłączyć moduł GSM, bo
 ten nawet w przypadku braku karty SIM w telefonie i tak umożliwia dzwonienie na numery alarmowe. Z
 kolei by móc je wykonywać, to z jakimś operatorem GSM jesteśmy zawsze połączeni. Moduł GSM można
-wyłączyć aktywując [Tryb Samolotowy](https://pl.wikipedia.org/wiki/Tryb_samolotowy).
+wyłączyć aktywując [Tryb Samolotowy][8].
 
 ## Aplikacja Signal i Aero2
 
@@ -293,3 +289,13 @@ korzystać z 3G w postaci darmowego połączenia od Aero2 (gdyby tylko zlikwidow
 CAPTCHA) i koszt telefonu (rozmowy głosowe, SMS i MMS) zostaje zredukowany praktycznie do 0 i to
 przy jednoczesnym wzroście prywatności użytkowników. Jeśli zależy nam na prywatności, to już dziś
 powinniśmy sobie tę aplikację Signal zainstalować i zacząć namawiać do tego swoich znajomych.
+
+
+[1]: https://whispersystems.org/
+[2]: https://en.wikipedia.org/wiki/Signal_Protocol
+[3]: https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms
+[4]: https://itunes.apple.com/us/app/signal-private-messenger/id874139669
+[5]: https://chrome.google.com/webstore/detail/signal-private-messenger/bikioccmkafdpakkkcpdbppfkghcmihk
+[6]: https://github.com/WhisperSystems/Signal-Android/
+[7]: https://signal.org/android/apk/
+[8]: https://pl.wikipedia.org/wiki/Tryb_samolotowy

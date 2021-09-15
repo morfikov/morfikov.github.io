@@ -2,16 +2,21 @@
 author: Morfik
 categories:
 - Android
-date: "2019-04-16T21:00:15Z"
+date:    2019-04-16 21:00:15 +0200
+lastmod: 2019-04-16 21:00:15 +0200
 published: true
 status: publish
 tags:
+- smartfon
 - aosp
 - microg
 - safetynet
 - push
 - youtube
 - gps
+- f-droid
+- magisk
+- xposed
 title: Czy smartfon z Androidem bez Google Apps/Services ma sens
 ---
 

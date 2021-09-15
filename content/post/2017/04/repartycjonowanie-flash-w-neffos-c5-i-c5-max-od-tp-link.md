@@ -2,16 +2,19 @@
 author: Morfik
 categories:
 - Android
-date: "2017-04-03T19:51:32Z"
-date_gmt: 2017-04-03 17:51:32 +0200
+date:    2017-04-03 19:51:32 +0200
+lastmod: 2017-04-03 19:51:32 +0200
 published: true
 status: publish
 tags:
 - flash
 - tp-link
 - smartfon
-- lollipop
 - neffos
+- neffos-c5
+- neffos-c5-max
+- twrp
+- adb
 title: Repartycjonowanie flash'a w Neffos C5 i C5 MAX od TP-LINK
 ---
 
@@ -72,11 +75,9 @@ C5.
 Wiemy zatem, że mamy usunąć trzy partycje: `/system/` , `/cache/` oraz `/data/` . Problem w tym, że
 by usunąć partycję z flash'a smartfona, potrzebne nam są prawa administratora root. Nie koniecznie
 musimy przeprowadzać proces ukorzeniania Androida. [Wystarczy wgrać na telefon obraz TWRP
-recovery](http://tplink-forum.pl/index.php?/topic/5854-jak-przeprowadzi%C4%87-root-na-smartfonach-neffos-od-tp-link/#comment-49408),
-czy to przy pomocy `fastboot` , czy też via [SP Flash Tool](http://spflashtool.com/). Mając wgrany
-TWRP, odpalamy telefon w trybie recovery (przyciski VolUp+Power). Będąc w trybie recovery,
-podłączamy smartfon do portu USB komputera, na którym to uruchamiamy terminal i wpisujemy poniższe
-polecenie:
+recovery][1], czy to przy pomocy `fastboot` , czy też via [SP Flash Tool][2]. Mając wgrany TWRP,
+odpalamy telefon w trybie recovery (przyciski VolUp+Power). Będąc w trybie recovery, podłączamy
+smartfon do portu USB komputera, na którym to uruchamiamy terminal i wpisujemy poniższe polecenie:
 
     # adb shell
     ~ #
@@ -185,10 +186,9 @@ powodzeniem.
 
 Nasz smartfon w tej chwili nie ma jeszcze wgranego żadnego systemu operacyjnego. Musimy zatem jakoś
 ten system zainstalować. Opcji jest kilka. Najprostszym rozwiązaniem wydawałoby się postaranie się o
-[plik update.zip i wgranie go via ADB Sideload z poziomu TWRP
-recovery](/post/android-wgrywanie-update-zip-przez-adb-sideload-via-twrp-recovery/).
-Plik z firmware można pobrać z oficjalnej strony TP-LINK/Neffos. Problem w tym, że tak łatwo nie
-będzie i wgranie systemu z pliku `update.zip` zakończy się niepowodzeniem.
+[plik update.zip i wgranie go via ADB Sideload z poziomu TWRP recovery][3]. Plik z firmware można
+pobrać z oficjalnej strony TP-LINK/Neffos. Problem w tym, że tak łatwo nie będzie i wgranie systemu
+z pliku `update.zip` zakończy się niepowodzeniem.
 
 Z początku nie wiedziałem w czym rzecz. No bo przecież TP-LINK'owy ROM do Neffos C5 i C5 MAX ma
 około 2 GiB, a przy wgrywaniu go za pomocą ADB Sideload przez TWRP recovery, system wyrzuca
@@ -232,32 +232,26 @@ informację o braku miejsca:
     sideload_host finished
 
 Postanowiłem poszukać informacji na ten temat i [użytkownicy @maxprzemo oraz @piskorfa z
-forum.android.com.pl nakierowali mnie na właściwy
-trop](http://forum.android.com.pl/topic/313401-na-jakiej-zasadzie-dzia%C5%82a-adb-sideload/).
-Okazuje się bowiem, że trzeba będzie się trochę napracować, by wgrać system ze stock'owego pliku
-`update.zip` .
+forum.android.com.pl nakierowali mnie na właściwy trop][4]. Okazuje się bowiem, że trzeba będzie
+się trochę napracować, by wgrać system ze stock'owego pliku `update.zip` .
 
 Rozchodzi się o to, że aktualizacja czy też instalacja systemu z pliku `update.zip` w Androidach
-począwszy od wersji 5.0 (Lollipop) [wykorzystuje zapis
-blokowy](https://source.android.com/devices/tech/ota/block). Ten mechanizm zatem będzie próbował
-wgrać na partycję `/system/` obraz o pewnym określonym rozmiarze (w tym przypadku 4 GiB). Nie można
-więc skrócić tej partycji do 2,5 GiB, tak jak to zrobiliśmy wyżej, tzn. można ale by zainstalować
-system z pliku `update.zip` , trzeba go pierw przepakować i zmienić w nim informację dotyczącą
-rozmiaru obrazu z tych 4 GiB na 2,5 GiB.
+począwszy od wersji 5.0 (Lollipop) [wykorzystuje zapis blokowy][5]. Ten mechanizm zatem będzie
+próbował wgrać na partycję `/system/` obraz o pewnym określonym rozmiarze (w tym przypadku 4 GiB).
+Nie można więc skrócić tej partycji do 2,5 GiB, tak jak to zrobiliśmy wyżej, tzn. można ale by
+zainstalować system z pliku `update.zip` , trzeba go pierw przepakować i zmienić w nim informację
+dotyczącą rozmiaru obrazu z tych 4 GiB na 2,5 GiB.
 
 ## Przepakowanie stock'owego obrazu system.img z pliku update.zip
 
 Wiemy co mamy czynić, zatem do roboty. Przede wszystkim, musimy się zaopatrzyć w odpowiednie
 narzędzia. W repozytorium dystrybucji Debian znajduje się pakiet `android-tools-fsutils` . W nim
 zaś mamy narzędzia takie jakie `make_ext4fs` , `img2simg` oraz `simg2img` . Brakuje jednak dwóch
-narzędzi, których będziemy również potrzebować, tj.
-[sdat2img](https://github.com/xpirt/sdat2img/blob/master/sdat2img.py) oraz
-[img2sdat](https://github.com/xpirt/img2sdat/blob/master/img2sdat.py). Trzeba te dwa skrypty
-dociągnąć z GitHub'a.
+narzędzi, których będziemy również potrzebować, tj. [sdat2img][6] oraz [img2sdat][7]. Trzeba te dwa
+skrypty dociągnąć z GitHub'a.
 
-Dokładna [instrukcja przepakowania
-obrazu](https://forum.xda-developers.com/android/software-hacking/how-to-conver-lollipop-dat-files-to-t2978952)
-znajduje się na forum XDA. Poniżej zaś znajduje się skrócony zapis poszczególnych kroków.
+Dokładna [instrukcja przepakowania obrazu][8] znajduje się na forum XDA. Poniżej zaś znajduje się
+skrócony zapis poszczególnych kroków.
 
 ### Wypakowanie zawartości pliku update.zip
 
@@ -450,7 +444,7 @@ pliku ZIP i wgrać system bez względu na to czy firmware jest podpisany czy te�
 
 ## Wgrywanie świeżego systemu na partycję /system/
 
-Wracamy na smartfon i włączamy tryb ADB Sideload z menu TWRP (Advanced =\> ADB Sideload). W
+Wracamy na smartfon i włączamy tryb ADB Sideload z menu TWRP (Advanced => ADB Sideload). W
 terminalu na komputerze zaś wydajemy poniższe polecenie:
 
     # adb sideload update.zip
@@ -529,8 +523,7 @@ trzeba przyciąć do 2,5 GiB i wgrać na smartfon.
 ### Jak przyciąć stock'owy obraz system.img
 
 Wyciągnijmy sobie najpierw obraz `system.img` z backup'u flash'a. Montujemy obraz przy pomocy
-poniższego polecenia (być może trzeba będzie [dostosować moduł
-loop](/post/obsluga-wielu-partycji-w-module-loop/)):
+poniższego polecenia (być może trzeba będzie [dostosować moduł loop][9]):
 
     # losetup /dev/loop0 tp-link-neffos-c5-orig.img
 
@@ -570,11 +563,11 @@ telefonu. Którą opcję wybierzemy, to już zależy w zasadzie tylko od nas.
 ### Wgrywanie przyciętego obrazu przez SP Flash Tool
 
 Narzędzie SP Flash Tool operuje na pliku `scatter.txt` . Jeśli wykonaliśmy backup flash'a przy
-pomocy tego oprogramowania, to [powinniśmy mieć ten plik](http://tplink-forum.pl/pub/neffos/).
-Niestety nie możemy go wykorzystać w momencie, gdy zmieniamy układ partycji na flash. W zasadzie, to
-musimy w tym pliku przepisać pozycje odpowiadające za opis partycji `/system/` , `/cache/` oraz
-`/data/` , bo to one uległy zmianie. Przepisujemy te pozycje do poniższej postaci (zawsze możemy
-pomagać sobie plikiem `/proc/partinfo` ):
+pomocy tego oprogramowania, to [powinniśmy mieć ten plik][10]. Niestety nie możemy go wykorzystać w
+momencie, gdy zmieniamy układ partycji na flash. W zasadzie, to musimy w tym pliku przepisać pozycje
+odpowiadające za opis partycji `/system/` , `/cache/` oraz `/data/` , bo to one uległy zmianie.
+Przepisujemy te pozycje do poniższej postaci (zawsze możemy pomagać sobie plikiem
+`/proc/partinfo` ):
 
     ...
     - partition_index: SYS21
@@ -653,8 +646,7 @@ Po wgraniu systemu na smartfon dowolną metodą, restartujemy urządzenie. Telef
 uruchamiał dłuższą chwilę ale ostatecznie powinniśmy zobaczyć ekran wyboru języka. Przechodzimy
 naturalnie przez proces wstępnej konfiguracji telefonu. Następnie sprawdzamy już tylko w ramach
 formalności czy system widzi poprawną ilość miejsca na partycji `/system/` , `/cache/` i `/data/` ,
-np. w [aplikacji
-Diskinfo](https://play.google.com/store/apps/details?id=me.kuder.diskinfo):
+np. w [aplikacji Diskinfo][11]:
 
 ![](/img/2017/04/006.tp-link-neffos-c5-max-flash-repartycjonowanie-diskinfo.png#huge)
 
@@ -662,3 +654,16 @@ Jak widać repartycjonowanie flash'a w smartfonach Neffos C5 i C5 MAX wyposażon
 wersji 5.1 (Lollipop) nie obyło się bez komplikacji. Grunt jednak, że smartfon nie ma problemów już
 z nowym układem flash'a, a my odzyskaliśmy 1,5 GiB, które możemy sobie dodatkowo przeznaczyć na dane
 użytkownika.
+
+
+[1]: http://tplink-forum.pl/index.php?/topic/5854-jak-przeprowadzi%C4%87-root-na-smartfonach-neffos-od-tp-link/#comment-49408
+[2]: http://spflashtool.com/
+[3]: /post/android-wgrywanie-update-zip-przez-adb-sideload-via-twrp-recovery/
+[4]: http://forum.android.com.pl/topic/313401-na-jakiej-zasadzie-dzia%C5%82a-adb-sideload/
+[5]: https://source.android.com/devices/tech/ota/block
+[6]: https://github.com/xpirt/sdat2img/blob/master/sdat2img.py
+[7]: https://github.com/xpirt/img2sdat/blob/master/img2sdat.py
+[8]: https://forum.xda-developers.com/android/software-hacking/how-to-conver-lollipop-dat-files-to-t2978952
+[9]: /post/obsluga-wielu-partycji-w-module-loop/
+[10]: http://tplink-forum.pl/pub/neffos/
+[11]: https://play.google.com/store/apps/details?id=me.kuder.diskinfo

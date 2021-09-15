@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Android
-date: "2016-11-10T22:59:13Z"
-date_gmt: 2016-11-10 21:59:13 +0100
+date:    2016-11-10 21:59:13 +0100
+lastmod: 2016-11-10 21:59:13 +0100
 published: true
 status: publish
 tags:
@@ -27,9 +27,9 @@ do tego specjalna aplikacja: tpCamera. Zobaczmy zatem do czego może ona nam si�
 <!--more-->
 ## Instalacja tpCamera z Google Play
 
-[Aplikację tpCamera](https://play.google.com/store/apps/details?id=com.tplink.skylight) można pobrać
-ze sklepu Google Play. Jest ona dostarczana bezpośrednio przez TP-LINK, no i nie zawiera reklam.
-Szkoda tylko, że nie jest OpenSource. Tak czy inaczej, poniżej są fotki z procesu instalacyjnego:
+[Aplikację tpCamera][1] można pobrać ze sklepu Google Play. Jest ona dostarczana bezpośrednio przez
+TP-LINK, no i nie zawiera reklam. Szkoda tylko, że nie jest OpenSource. Tak czy inaczej, poniżej są
+fotki z procesu instalacyjnego:
 
 ![](/img/2016/11/001.tpcamera-aplikacja-android-tp-link-kamera-ip-instalacja.png#huge)
 
@@ -38,8 +38,7 @@ Jak widać, tpCamera trochę waży bo 23 MiB. Po uruchomieniu aplikacji przywita
 ![](/img/2016/11/002.tpcamera-aplikacja-android-tp-link-kamera-ip-logowanie.png#medium)
 
 Kamerami TP-LINK możemy zarządzać przez tpCamera na dwa sposoby: zdalnie (przez internet) i lokalnie
-(przez sieć LAN). Zdalne podłączenie wymaga utworzenia konta w [serwisie
-tplinkcloud](https://www.tplinkcloud.com/).
+(przez sieć LAN). Zdalne podłączenie wymaga utworzenia konta w [serwisie tplinkcloud][2].
 
 ## Lokalne zarządzenie kamerą
 
@@ -65,11 +64,10 @@ niewielki obraz ale nic nie stoi, by go zmaksymalizować:
 
 ![](/img/2016/11/005.tpcamera-aplikacja-android-tp-link-kamera-ip-lokalny-podglad-full.png#big)
 
-W lewym dolnym rogu jest także informacja o prędkości transferu. W przypadku tego
-[NC250](http://www.tp-link.com.pl/products/details/cat-19_NC250.html), transfer waha się w granicach
-5-20 KiB/s, gdy na monitorowanym obszarze nic się nie dzieje. Ta wartość potrafi wzrosnąć do 200-300
-KiB/s, gdy scena się zmienia, a im szybciej te zmiany zachodzą, tym więcej łącza będzie utylizował
-obraz z kamery.
+W lewym dolnym rogu jest także informacja o prędkości transferu. W przypadku tego [NC250][3],
+transfer waha się w granicach 5-20 KiB/s, gdy na monitorowanym obszarze nic się nie dzieje. Ta
+wartość potrafi wzrosnąć do 200-300 KiB/s, gdy scena się zmienia, a im szybciej te zmiany zachodzą,
+tym więcej łącza będzie utylizował obraz z kamery.
 
 Wszystko co pojawia nam się na ekranie smartfona możemy również zapisać na flash'u tego urządzenia.
 Mamy opcję nagrania obrazu video (z dźwiękiem lub bez) i robienia pojedynczych fotek.
@@ -193,3 +191,8 @@ pojawiają się dziwne problemy z połączeniem. W sklepie Google Play jest cał
 w stosunku do aplikacji tpCamera. Ludzie narzekają na czarny ekran i ogólnie na brak podglądu z
 kamery. W moim przypadku lokalne zarządzanie kamerą NC250 jest w porządku ale są podobne problemy
 przy korzystaniu z serwisu tplinkcloud.
+
+
+[1]: https://play.google.com/store/apps/details?id=com.tplink.skylight
+[2]: https://www.tplinkcloud.com/
+[3]: http://www.tp-link.com.pl/products/details/cat-19_NC250.html

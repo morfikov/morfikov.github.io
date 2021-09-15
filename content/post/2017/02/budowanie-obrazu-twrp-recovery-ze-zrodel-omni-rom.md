@@ -2,22 +2,26 @@
 author: Morfik
 categories:
 - Android
-date: "2017-02-19T21:06:04Z"
-date_gmt: 2017-02-19 20:06:04 +0100
+- Linux
+date:    2017-02-19 21:06:04 +0100
+lastmod: 2017-02-19 21:06:04 +0100
 published: true
 status: publish
 tags:
+- debian
 - smartfon
 - twrp
-- marshmallow
 - omni-rom
+- sdk
+- android-studio
+- adb
+- fastboot
 title: Budowanie obrazu TWRP recovery ze źródeł OMNI ROM
 ---
 
-Gdy zamierzamy zbudować sobie własny ROM na smartfon z Androidem, np.
-[LineageOS](https://lineageos.org/) (CyanogenMod nie jest już rozwijany) czy nawet jedynie obraz
-recovery ([TWRP](https://twrp.me/) albo [CWM](https://www.clockworkmod.com/)), to potrzebne nam jest
-stosowne urządzenie oraz odpowiedni kod źródłowy. Skoro chcemy budować te ww. rzeczy, to
+Gdy zamierzamy zbudować sobie własny ROM na smartfon z Androidem, np. [LineageOS][1] (CyanogenMod
+nie jest już rozwijany) czy nawet jedynie obraz recovery ([TWRP][2] albo [CWM][3]), to potrzebne nam
+jest stosowne urządzenie oraz odpowiedni kod źródłowy. Skoro chcemy budować te ww. rzeczy, to
 prawdopodobnie nasz telefon nie jest przez to oprogramowanie jeszcze wspierany lub też sam soft nie
 jest regularnie aktualizowany przez dewelopera. W zasadzie zarówno pełne ROM'y jak i obrazy recovery
 są budowane ze źródeł Androida. Niemniej jednak, oficjalny kod dostarczany przez Google budzi czasem
@@ -29,16 +33,15 @@ nam potrzebne całe źródła konkretnego ROM'u. Jakby nie patrzeć, potrafią o
 miejsca, a poza tym proces ich budowania jest stosunkowo czasochłonny. Tak czy inaczej, jakieś
 źródła trzeba pozyskać i przygotować je do dalszej pracy. W tym artykule nie będziemy sobie
 jeszcze budować całego ROM'u i skupimy się na zbudowaniu od podstaw jedynie obrazu TWRP recovery ze
-źródeł [OMNI ROM](https://omnirom.org/). Ten proces zostanie pokazany na przykładzie smartfona
-Neffos Y5 od TP-LINK przy wykorzystaniu systemu linux, a konkretnie dystrybucji Debian.
+źródeł [OMNI ROM][4]. Ten proces zostanie pokazany na przykładzie smartfona Neffos Y5 od TP-LINK
+przy wykorzystaniu systemu linux, a konkretnie dystrybucji Debian.
 
 <!--more-->
 ## Środowisko 64-bit
 
-Zgodnie z [informacjami jakie można znaleźć tutaj](https://source.android.com/source/requirements),
-budowanie kodu Androida począwszy od wersji 2.3.x (Gingerbread) wymaga 64 bitowego systemu. Warto o
-tym pamiętać, by uniknąć problemów przy przygotowywaniu środowiska pod kompilację. Dobrze jest też
-posiadać maszynę z 8 GiB pamięci RAM.
+Zgodnie z [informacjami jakie można znaleźć tutaj][5], budowanie kodu Androida począwszy od wersji
+2.3.x (Gingerbread) wymaga 64 bitowego systemu. Warto otym pamiętać, by uniknąć problemów przy
+przygotowywaniu środowiska pod kompilację. Dobrze jest też posiadać maszynę z 8 GiB pamięci RAM.
 
 ## Android SDK
 
@@ -48,21 +51,18 @@ których będziemy w stanie przeprowadzić szereg akcji na smartfonie. Te narzę
 w systemie na kilka sposobów.
 
 Standardowo `fastboot` i `adb` są dostępne w repozytoriach Debiana w pakietach `android-tools-adb`
-oraz `android-tools-fastboot` . [Proces instalacji i konfiguracji tych narzędzi na
-Debianie](/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/) został opisany
-w osobnym wątku. Niemniej jednak, nie są to wszystkie narzędzia, które Android SDK dostarcza, a
-biorąc pod uwagę fakt, że obecnie w Debianie panuje spory nieporządek w pakietach, to lepiej
-[zainstalować Android SDK lub Android
-Studio](/post/android-studio-i-android-sdk-pod-linux/) bezpośrednio ze strony
-Google.
+oraz `android-tools-fastboot` . [Proces instalacji i konfiguracji tych narzędzi na Debianie][6]
+został opisany w osobnym wątku. Niemniej jednak, nie są to wszystkie narzędzia, które Android SDK
+dostarcza, a biorąc pod uwagę fakt, że obecnie w Debianie panuje spory nieporządek w pakietach, to
+lepiej [zainstalować Android SDK lub Android Studio][7] bezpośrednio ze strony Google.
 
 ## Narzędzia repo i git
 
 Do pobrania źródeł Androida jest wykorzystywane dedykowane narzędzie `repo` . W dystrybucji Debiana
 mamy taki pakiet i możemy go bez większego problemu zainstalować. Problem w tym, że wersja tego
 narzędzia może być nieaktualna. Obecnie jest to 1.23 . [Najnowsza wersja repo jest dostępna zawsze
-pod tym linkiem](https://storage.googleapis.com/git-repo-downloads/repo). By ją zainstalować ręcznie
-w systemie, w terminalu wpisujemy poniższe polecenia:
+pod tym linkiem][8]. By ją zainstalować ręcznie w systemie, w terminalu wpisujemy poniższe
+polecenia:
 
     # curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
     # chmod a+x /usr/local/bin/repo
@@ -70,7 +70,7 @@ w systemie, w terminalu wpisujemy poniższe polecenia:
 
 Narzędzie `repo` operuje na `git` i ten pakiet również musimy w systemie sobie zainstalować.
 Podstawy operowania na repozytorium GIT musimy znać. Warto zatem rzucić okiem na [dokumentację
-git'a](https://git-scm.com/) i ją sobie chociaż powierzchownie przejrzeć.
+git'a][9] i ją sobie chociaż powierzchownie przejrzeć.
 
 ## Przygotowanie katalogu roboczego pod źródła
 
@@ -92,19 +92,16 @@ recovery możemy korzystać z najnowszych źródeł, bo w zasadzie nie będziemy
 bezpośrednio na partycję `/system/` , która zawiera stock'owy ROM.
 
 Musimy zatem określić stosowną gałąź repozytorium GIT, którą zamierzamy sobie sklonować na dysk.
-[Lista wszystkich gałęzi jest dostępna
-tutaj](https://source.android.com/source/build-numbers#source-code-tags-and-builds) i z reguły
-Custom ROM'y przestrzegają tego nazewnictwa. Warto też określić parametr `--depth=1` , który uchroni
-nas przed pobraniem wszystkich rewizji. Zamiast tego, zostanie pobrany jedynie ostatni snapshot
-wskazanej przez nas gałęzi, a to z kolei znacznie zmniejszy ilość danych, które trzeba będzie
-przetransferować przez sieć. Bez tej opcji zostałoby pobranych jakieś 30-40 GiB, a może nawet i
-więcej).
+[Lista wszystkich gałęzi jest dostępna tutaj][10] i z reguły Custom ROM'y przestrzegają tego
+nazewnictwa. Warto też określić parametr `--depth=1` , który uchroni nas przed pobraniem wszystkich
+rewizji. Zamiast tego, zostanie pobrany jedynie ostatni snapshot wskazanej przez nas gałęzi, a to z
+kolei znacznie zmniejszy ilość danych, które trzeba będzie przetransferować przez sieć. Bez tej
+opcji zostałoby pobranych jakieś 30-40 GiB, a może nawet i więcej).
 
-[Źródła TWRP recovery znajdują się tutaj](https://github.com/omnirom/android_bootable_recovery).
-Niektóre ROM'y nie mają zawartego w sobie tego repozytorium i trzeba je ręcznie określić w pliku
-`.repo/manifest.xml` w katalogu ze źródłami Androida. My jednak będziemy korzystać ze [źródeł OMNI
-ROM](https://github.com/omnirom/android), które już to repozytorium zawiera. Zatem żadnych
-dodatkowych kroków nie będziemy musieli przeprowadzać.
+[Źródła TWRP recovery znajdują się tutaj][11]. Niektóre ROM'y nie mają zawartego w sobie tego
+repozytorium i trzeba je ręcznie określić w pliku `.repo/manifest.xml` w katalogu ze źródłami
+Androida. My jednak będziemy korzystać ze [źródeł OMNI ROM][12], które już to repozytorium zawiera.
+Zatem żadnych dodatkowych kroków nie będziemy musieli przeprowadzać.
 
 Lokalne repozytorium inicjujemy w poniższy sposób:
 
@@ -117,8 +114,7 @@ się, że w `default revision` widnieje numerek wskazanej wyżej wersji Androida
 Warto wspomnieć, że większość repozytoriów zdefiniowanych w pliku `manifest.xml` jest zbędna przy
 budowaniu samego obrazu TWRP recovery. Jeśli komuś nie zależy na oszczędzaniu transferu danych oraz
 ma dostatecznie dużo miejsca na dysku, to może pobrać całe źródła OMNI ROM. Dla tych, którzy skąpią
-miejsca na dysku i transferu jest [okrojona wersja](https://github.com/minimal-manifest-twrp), którą
-można z powodzeniem wykorzystać.
+miejsca na dysku i transferu jest [okrojona wersja][13], którą można z powodzeniem wykorzystać.
 
 Poniżej jest polecenie inicjujące lokalne repozytorium z wykorzystaniem okrojonego pliku
 `manifest.xml` .
@@ -130,8 +126,8 @@ Poniżej jest polecenie inicjujące lokalne repozytorium z wykorzystaniem okrojo
 W tym przypadku, lokalne repozytorium zostało zainicjowane w oparciu o ten okrojony plik
 `manifest.xml` . Trzeba tutaj jednak wyraźnie zaznaczyć, że niektóre konfiguracje sprzętowe (czy też
 opcje trybu recovery) będą wymagać dodatkowych repozytoriów, które trzeba będzie ręcznie dodać do
-pliku `.repo/local_manifests/local_manifest.xml` . Warto zatem [poznać budowę tego
-pliku](https://forum.xda-developers.com/showthread.php?t=2329228) i nauczyć się na nim operować.
+pliku `.repo/local_manifests/local_manifest.xml` . Warto zatem [poznać budowę tego pliku][14] i
+nauczyć się na nim operować.
 
 Gdy już uporządkujemy sprawy związane z repozytoriami, to przy pomocy `repo sync` synchronizujemy
 źródła każdego repozytorium, które mamy zdefiniowane w pliku `manifests.xml` . Naturalnie im
@@ -147,15 +143,14 @@ jednoczesnych połączeń przy pomocy `--jobs` (domyślnie 4):
 
 Pobranie źródeł to jedna sprawa, a ich zbudowanie to całkiem inna kwestia. By uniknąć ewentualnych
 problemów będziemy musieli zainstalować w systemie kilka dodatkowych zależności. Poniżej jest [lista
-potrzebnych rzeczy](https://source.android.com/source/initializing):
+potrzebnych rzeczy][15]:
 
     # aptitude install git-core gnupg flex bison gperf build-essential \
       zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 \
       lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache \
       libgl1-mesa-dev libxml2-utils xsltproc unzip openjdk-7-jdk
 
-Bez tych pakietów, proces budowy obrazu będzie napotkał błędy podobne do tego [opisanego
-tutaj](https://stackoverflow.com/questions/30430251/failed-to-build-android-kernel).
+Bez tych pakietów, proces budowy obrazu będzie napotkał błędy podobne do tego [opisanego tutaj][16].
 
 ## Przyśpieszenie procesu kompilacji z ccache
 
@@ -206,8 +201,7 @@ katalogów na zasadzie `manufacturer/name` . Wszystkie nazwy mają być pisane z
     $ mkdir device/tp-link/tp802a/
 
 W tak powstałym katalogu tworzymy konfigurację dla naszego smartfona, [w tym przypadku Neffos
-Y5](https://github.com/morfikov/android_device_tp-link_tp802a). Poniżej znajduje się krótkie
-objaśnienie co do struktury plików.
+Y5][17]. Poniżej znajduje się krótkie objaśnienie co do struktury plików.
 
 ### Plik device.mk
 
@@ -251,9 +245,8 @@ popełnił błędów w konfiguracji tamtego urządzenia.
 #### Sekcja Kernel
 
 Bawiąc się w ukorzenianie swoich Neffos'ów, jednym z wymaganych etapów było rozmontowanie obrazu
-`boot.img` za pomocą [tych skryptów](https://github.com/ndrancs/AIK-Linux-x32-x64/). Podczas tego
-procesu, w terminalu można było zanotować poniższe
-wyjście:
+`boot.img` za pomocą [tych skryptów][18]. Podczas tego procesu, w terminalu można było zanotować
+poniższe wyjście:
 
 ![](/img/2017/02/003.twrp-recovery-budowanie-zrodla-omni-smartfon-informacje-kernel.png#huge)
 
@@ -315,10 +308,8 @@ wpisami w `/proc/partitions` lub `/proc/emmc` oraz aplikacjami na smartfona typu
 #### Sekcja TWRP
 
 W sekcji `TWRP` ustawia się opcje charakterystyczne dla TWRP recovery. Wszystkich opcji jest dość
-sporo i są one wyszczególnione [pod tym
-linkiem](https://forum.xda-developers.com/showthread.php?t=1943625). W zasadzie to musimy poprawnie
-ustawić zmienną `TW_THEME` , która odpowiada za rozdzielczość wyświetlacza smartfona. Do wyboru
-mamy:
+sporo i są one wyszczególnione [pod tym linkiem][19]. W zasadzie to musimy poprawnie ustawić zmienną
+`TW_THEME` , która odpowiada za rozdzielczość wyświetlacza smartfona. Do wyboru mamy:
 
     # portrait_mdpi  = 320x480 480x800 480x854 540x960
     # portrait_hdpi  = 720x1280 800x1280 1080x1920 1200x1920 1440x2560 1600x2560
@@ -389,8 +380,7 @@ recovery, a do tego celu służy poniższe polecenie:
 
     $ make clean && make -j2 recoveryimage
 
-Po kilku czy kilkunastu minutach, obraz recovery powinien nam się
-zbudować:
+Po kilku czy kilkunastu minutach, obraz recovery powinien nam się zbudować:
 
 ![](/img/2017/02/007.twrp-recovery-budowanie-zrodla-omni-smartfon-finish-test.png#huge)
 
@@ -437,6 +427,27 @@ Teraz już wystarczy przesłać zmiany do zdalnego repozytorium na GitHub'ie:
     $ git push origin twrp-6.0
 
 I to w zasadzie cała robota. Wszelkie zmiany w repozytorium od tej pory będą rejestrowane przez
-system kontroli wersji. [Możemy także przesłać całą
-konfigurację](https://twrp.me/faq/OfficialMaintainer.html), tak by TWRP oficjalnie wspierało
-naszego smartfona.
+system kontroli wersji. [Możemy także przesłać całą konfigurację][20], tak by TWRP oficjalnie
+wspierało naszego smartfona.
+
+
+[1]: https://lineageos.org/
+[2]: https://twrp.me/
+[3]: https://www.clockworkmod.com/
+[4]: https://omnirom.org/
+[5]: https://source.android.com/source/requirements
+[6]: /post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/
+[7]: /post/android-studio-i-android-sdk-pod-linux/
+[8]: https://storage.googleapis.com/git-repo-downloads/repo
+[9]: https://git-scm.com/
+[10]: https://source.android.com/source/build-numbers#source-code-tags-and-builds
+[11]: https://github.com/omnirom/android_bootable_recovery
+[12]: https://github.com/omnirom/android
+[13]: https://github.com/minimal-manifest-twrp
+[14]: https://forum.xda-developers.com/showthread.php?t=2329228
+[15]: https://source.android.com/source/initializing
+[16]: https://stackoverflow.com/questions/30430251/failed-to-build-android-kernel
+[17]: https://github.com/morfikov/android_device_tp-link_tp802a
+[18]: https://github.com/ndrancs/AIK-Linux-x32-x64/
+[19]: https://forum.xda-developers.com/showthread.php?t=1943625
+[20]: https://twrp.me/faq/OfficialMaintainer.html

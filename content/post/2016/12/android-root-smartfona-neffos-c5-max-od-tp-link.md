@@ -2,18 +2,21 @@
 author: Morfik
 categories:
 - Android
-date: "2016-12-13T17:27:37Z"
-date_gmt: 2016-12-13 16:27:37 +0100
+date:    2016-12-13 17:27:37 +0100
+lastmod: 2016-12-13 17:27:37 +0100
 published: true
 status: publish
 tags:
 - tp-link
 - smartfon
-- lollipop
 - root
 - twrp
 - neffos
-title: 'Android: Root smartfona Neffos C5 MAX od TP-LINK'
+- neffos-c5-max
+- spflashtool
+- fastboot
+- adb
+title: Android: Root smartfona Neffos C5 MAX od TP-LINK
 ---
 
 Bawiąc się ostatnio [smartfonem Neffos C5 MAX][1] od TP-LINK, obiecałem sobie, że jak tylko będę

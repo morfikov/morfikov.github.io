@@ -2,15 +2,16 @@
 author: Morfik
 categories:
 - Android
-date: "2016-12-07T18:54:37Z"
-date_gmt: 2016-12-07 17:54:37 +0100
+date:    2016-12-07 18:54:37 +0100
+lastmod: 2016-12-07 18:54:37 +0100
 published: true
 status: publish
 tags:
 - vpn
 - smartfon
-- lollipop
 - aplikacje
+- openvpn
+- prywatność
 title: Jak skonfigurować połączenie VPN na smartfonie z Androidem
 ---
 
@@ -29,8 +30,7 @@ Neffos C5][2] od TP-LINK mający na pokładzie Androida w wersji 5.1 (Lollipop).
 
 Generalnie rzecz biorąc, Android ma wbudowany mechanizm VPN. Można go skonfigurować przechodząc pod
 Ustawienia => Więcej => VPN. By być w stanie skonfigurować takie bezpieczne połączenie, musimy
-również aktywować mechanizm blokady
-ekranu.
+również aktywować mechanizm blokady ekranu.
 
 ![](/img/2016/12/001.vpn-openvpn-smartfon-android-standardowy-klient.png#huge)
 

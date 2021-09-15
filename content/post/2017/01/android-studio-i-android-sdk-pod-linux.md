@@ -2,15 +2,16 @@
 author: Morfik
 categories:
 - Android
-date: "2017-01-29T18:29:36Z"
-date_gmt: 2017-01-29 17:29:36 +0100
+- Linux
+date:    2017-01-29 18:29:36 +0100
+lastmod: 2017-01-29 18:29:36 +0100
 published: true
 status: publish
 tags:
-- debian
 - smartfon
-- lollipop
-- marshmallow
+- debian
+- sdk
+- android-studio
 title: Android Studio i Android SDK pod linux
 ---
 
@@ -33,34 +34,33 @@ Przed przystąpieniem do jakichkolwiek prac i budowania czegokolwiek, upewnijmy 
 zainstalowany kompilator `javac` . Trzeba też doinstalować OpenJDK Runtime Environment, z tym, że w
 odpowiedniej wersji i nie zawsze jest to wersja najnowsza. Wszystko zależy od wersji Androida. Dla
 przykładu Android 5.1 (Lollipop) oraz 6.0 (Marshmallow) wymagają OpenJDK w wersji 1.7 . W przypadku,
-gdy mamy nowszą wersję OpenJDK, to zostanie nam zwrócony poniższy
-    komunikat:
+gdy mamy nowszą wersję OpenJDK, to zostanie nam zwrócony poniższy komunikat:
 
-    Your version is: openjdk version "1.8.0_111" OpenJDK Runtime Environment (build 1.8.0_111-8u111-b14-3-b14) OpenJDK 64-Bit Server VM (build 25.111-b14, mixed mode).
-    The required version is: "1.7.x"
+> Your version is: openjdk version "1.8.0_111" OpenJDK Runtime Environment (build
+> 1.8.0_111-8u111-b14-3-b14) OpenJDK 64-Bit Server VM (build 25.111-b14, mixed mode).
+> The required version is: "1.7.x"
 
 Trzeba zatem postarać się o wersję 1.7 , która w Debianie siedzi w pakiecie `openjdk-7-jdk` i to ten
 pakiet musimy zainstalować u siebie w systemie.
 
 ## Narzędzia deweloperskie dla Androida
 
-[W Debianie panuje straszny
-nieporządek](https://wiki.debian.org/AndroidTools#Android.27s_upstream_version_names) w pakietach
-mających dostarczyć Androidowe narzędzia i w zasadzie nie udało mi się wypracować działającego
-rozwiązania korzystając z tych pakietów. Na wypadek, gdyby w niedalekiej przyszłości Debian ogarnął
-swoje pakiety, to warto zaznaczyć, że te narzędzia z repozytorium są instalowane do katalogu
-`/usr/lib/android-sdk/` . Ścieżka do narzędzi zarówno w przypadku manualnej instalacji, jak i przez
-pakiety z repozytorium Debiana, będzie miała znaczenie w późniejszej części artykułu.
+[W Debianie panuje straszny nieporządek][1] w pakietach mających dostarczyć Androidowe narzędzia i w
+zasadzie nie udało mi się wypracować działającego rozwiązania korzystając z tych pakietów. Na
+wypadek, gdyby w niedalekiej przyszłości Debian ogarnął swoje pakiety, to warto zaznaczyć, że te
+narzędzia z repozytorium są instalowane do katalogu `/usr/lib/android-sdk/` . Ścieżka do narzędzi
+zarówno w przypadku manualnej instalacji, jak i przez pakiety z repozytorium Debiana, będzie miała
+znaczenie w późniejszej części artykułu.
 
 Warto też dodać, że w przypadku instalacji pakietów z repozytorium Debiana, trzeba będzie także
 doinstalować trochę zależności. Jeśli nie chcemy zaśmiecać sobie systemu, to zawsze możemy [stworzyć
-i skonfigurować kontener LXC](/post/konfiguracja-kontenerow-lxc/), który będziemy
-wykorzystywać jedynie w celu budowania modułów czy całego Androida.
+i skonfigurować kontener LXC][2], który będziemy wykorzystywać jedynie w celu budowania modułów czy
+całego Androida.
 
 Mając na uwadze powyższe informacje, nie będziemy tutaj instalować Androidowych narzędzi z
 repozytorium Debiana. Dlatego też postanowiłem wybrać inną drogę na pozyskanie wymaganych rzeczy.
 Potrzebne narzędzia pobierzemy sobie bezpośrednio ze strony Androida. Mamy tam do wyboru Android
-Studio lub Android SDK ([do pobrania stąd](https://developer.android.com/studio/index.html)).
+Studio lub Android SDK ([do pobrania stąd][3]).
 
 ### Android SDK
 
@@ -137,8 +137,7 @@ głównego katalogu z repozytorium GIT i wydajemy w terminalu poniższe poleceni
 Przy budowaniu SDK ze starszych źródeł Androida na nowszych systemach linux może pojawić się błąd
 uniemożliwiający ukończenie procesu. Objawia się on komunikatami `unsupported reloc 43` . By
 poprawić ten problem trzeba zmodyfikować plik `build/core/clang/HOST_x86_common.mk` i [zaaplikować
-poniższego
-patch'a](https://oopsmonk.github.io/blog/2016/06/07/android-build-error-on-ubuntu-16-04-lts):
+poniższego patch'a][4]:
 
     diff --git a/core/clang/HOST_x86_common.mk b/core/clang/HOST_x86_common.mk
     index 0241cb6..77547b7 100644
@@ -178,3 +177,9 @@ jeszcze źródła Androida, na których będziemy pracować. Problem w tym, że 
 zagadnieniem ździebko skompilowanym. Nie chodzi tutaj tylko o źródła tego Androida od Google ale
 również o wszelkie Custom ROM'y czy też obrazy recovery. Na pewno w następnych artykułach te tematy
 zostaną poruszone.
+
+
+[1]: https://wiki.debian.org/AndroidTools#Android.27s_upstream_version_names
+[2]: /post/konfiguracja-kontenerow-lxc/
+[3]: https://developer.android.com/studio/index.html
+[4]: https://oopsmonk.github.io/blog/2016/06/07/android-build-error-on-ubuntu-16-04-lts

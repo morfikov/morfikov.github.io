@@ -2,7 +2,8 @@
 author: Morfik
 categories:
 - Android
-date: "2018-05-16T17:17:30Z"
+date:     2018-05-16 19:33:54 +0200
+lastmod:  2018-05-16 19:33:54 +0200
 published: true
 status: publish
 tags:
@@ -10,6 +11,8 @@ tags:
 - smartfon
 - szyfrowanie
 - neffos
+- neffos-x1
+- neffos-x1-max
 title: Zmiana domyślnego hasła szyfrującego klucz główny w Neffos X1 i X1 Max
 ---
 
@@ -25,16 +28,13 @@ ekranu), no i dane są zaszyfrowane, no chyba, że ktoś wpisze ten nieszczęsny
 <!--more-->
 ## Mechanizm szyfrujący dane na partycji /data/ w Android
 
-Czytając sobie o ewolucji szyfrowania w Androidzie natrafiłem na
-[taki artykuł](https://yourtechexplained.com/2016/12/08/explained-android-nougat-file-based-encryption/).
-Technicznie Neffos X1 Max (i X1) mają Androida 6.0 ale z możliwością upgrade do 7.0. Niemniej
-jednak od 7.0 Android wprowadził
-[mechanizm direct-boot](https://developer.android.com/training/articles/direct-boot.html). Po
-pewnych cechach charakterystycznych można ustalić, że ten direct-boot nie jest wspierany w
-Neffos'ach. Zatem obowiązuje ciągle stary mechanizm, czyli ten znany z Androida 6.0. Szukając dalej
-informacji na temat szyfrowania stosowanego w Android 6.0, a konkretnie jak na nim można by
-operować, np. w celu wymuszenia zmiany hasła, które powinno być możliwe, natrafiłem na
-[taki artykuł](https://www.xda-developers.com/how-to-manually-change-your-android-encryption-password/).
+Czytając sobie o ewolucji szyfrowania w Androidzie natrafiłem na [taki artykuł][1]. Technicznie
+Neffos X1 Max (i X1) mają Androida 6.0 ale z możliwością upgrade do 7.0. Niemniej jednak od 7.0
+Android wprowadził [mechanizm direct-boot][2]. Po pewnych cechach charakterystycznych można ustalić,
+że ten direct-boot nie jest wspierany w Neffos'ach. Zatem obowiązuje ciągle stary mechanizm, czyli
+ten znany z Androida 6.0. Szukając dalej informacji na temat szyfrowania stosowanego w Android 6.0,
+a konkretnie jak na nim można by operować, np. w celu wymuszenia zmiany hasła, które powinno być
+możliwe, natrafiłem na [taki artykuł][3].
 
 Są tam wymienione w zasadzie dwa polecenia:
 
@@ -81,3 +81,8 @@ root...
 No i oczywiście, gdy zmienia się hasło do blokady ekranu, to również trzeba jeszcze raz osobno
 ustawić hasło do klucza głównego szyfrującego dane na partycji `/data/` . Jeśli tego się nie zrobi,
 to zostanie przywrócone `default_password` .
+
+
+[1]: https://yourtechexplained.com/2016/12/08/explained-android-nougat-file-based-encryption/
+[2]: https://developer.android.com/training/articles/direct-boot.html
+[3]: https://www.xda-developers.com/how-to-manually-change-your-android-encryption-password/

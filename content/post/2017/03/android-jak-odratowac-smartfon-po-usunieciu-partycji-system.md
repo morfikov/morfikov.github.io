@@ -2,13 +2,16 @@
 author: Morfik
 categories:
 - Android
-date: "2017-03-09T14:24:44Z"
-date_gmt: 2017-03-09 13:24:44 +0100
+- Linux
+date:    2017-03-09 14:24:44 +0100
+lastmod: 2017-03-09 14:24:44 +0100
 published: true
 status: publish
 tags:
 - smartfon
 - twrp
+- adb
+- debian
 title: 'Android: Jak odratować smartfon po usunięciu partycji /system/'
 ---
 
@@ -18,13 +21,12 @@ z tego typu problemami i zapytaniem "jak odratować w takiej sytuacji telefon". 
 się prosta: wystarczy wgrać uprzednio zrobiony backup wyczyszczonej partycji via `fastboot` .
 Problem w tym, że po usunięciu danych z partycji `/system/` , `fastboot` nie działa. A skąd to wiem?
 Ano "przez przypadek" usunąłem sobie dane na tej partycji. W sumie to tylko testowałem [ficzer w
-TWRP zwany ADB Sideload](https://twrp.me/faq/ADBSideload.html), który niby ma za zadanie wgrać ROM z
-paczki `.zip` . Coś poszło nie tak i w zasadzie zostałem z pustą partycją `/system/` . Przy
-odpalaniu telefonu w takim stanie, ten w zasadzie jedynie się resetuje co kilka chwil. Może i
-`fastboot` nie działa ale można wbić do trybu recovery. Jeśli tylko mamy wgrany TWRP, to jest spora
-szansa na odratowanie smartfona. W tym artykule w rolach głównych wystąpi [Neffos
-Y5L](http://www.neffos.pl/product/details/Y5L), który ma SoC od Qualcomm'a, zatem nie damy rady się
-pobawić SP Flash Tool i całą robotę trzeba będzie odwalić ręcznie.
+TWRP zwany ADB Sideload][1], który niby ma za zadanie wgrać ROM z paczki `.zip` . Coś poszło nie
+tak i w zasadzie zostałem z pustą partycją `/system/` . Przy odpalaniu telefonu w takim stanie, ten
+w zasadzie jedynie się resetuje co kilka chwil. Może i `fastboot` nie działa ale można wbić do
+trybu recovery. Jeśli tylko mamy wgrany TWRP, to jest spora szansa na odratowanie smartfona. W tym
+artykule w rolach głównych wystąpi [Neffos Y5L][2], który ma SoC od Qualcomm'a, zatem nie damy rady
+się pobawić SP Flash Tool i całą robotę trzeba będzie odwalić ręcznie.
 
 <!--more-->
 ## Wyczyszczona partycja /system/ i tryb recovery
@@ -40,9 +42,8 @@ odpalić pierwszy z brzega terminal i wpisać w nim:
 
     # adb shell
 
-Jeśli ktoś nie wie [jak zainstalować narzędzie adb w
-Debianie](/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/) i innych
-podobnych dystrybucjach linux'a, to tutaj znajdują się stosowne informacje.
+Jeśli ktoś nie wie [jak zainstalować narzędzie adb w Debianie][3] i innych podobnych dystrybucjach
+linux'a, to tutaj znajdują się stosowne informacje.
 
 W tej chwili możemy operować na smartfonie wydając mu polecenia bezpośrednio z komputera. Jest to o
 wiele wygodniejsze rozwiązanie niż działanie na tym wbudowanym w TWRP terminalu.
@@ -51,8 +52,7 @@ wiele wygodniejsze rozwiązanie niż działanie na tym wbudowanym w TWRP termina
 
 Backup dysku/flash'a zwykle przechowywany jest na innym urządzeniu z wiadomych raczej względów. Jest
 niemal pewne, że nie mamy pliku backup'u bezpośrednio w telefonie i trzeba go pierw tam przesłać.
-Możemy to zrobić za pomocą `adb` lub też via [protokół
-MTP](/post/smartfon-android-linux-mtp-ptp/). Ten ostatni raczej nie powinien
+Możemy to zrobić za pomocą `adb` lub też via [protokół MTP][4]. Ten ostatni raczej nie powinien
 sprawić problemów. Niżej zaś jest przykładowe polecenie `adb` :
 
     # adb push /neffos/y5l-orig-system.img /data/media/0/Download/
@@ -104,3 +104,9 @@ I to w zasadzie cała robota. Można w tej chwili uruchomić smartfon ponownie, 
 standardowo załadować Androida. Nie powinniśmy też na nowo konfigurować urządzenia, bo jeśli
 skasowaliśmy sobie tylko dane na partycji `/system/` , to wszelkie zmiany wprowadzane w konfiguracji
 urządzenia zostają nietknięte.
+
+
+[1]: https://twrp.me/faq/ADBSideload.html
+[2]: http://www.neffos.pl/product/details/Y5L
+[3]: /post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/
+[4]: /post/smartfon-android-linux-mtp-ptp/

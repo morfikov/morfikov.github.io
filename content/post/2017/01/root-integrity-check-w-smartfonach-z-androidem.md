@@ -2,15 +2,13 @@
 author: Morfik
 categories:
 - Android
-date: "2017-01-10T18:24:47Z"
-date_gmt: 2017-01-10 17:24:47 +0100
+date:    2017-01-10 18:24:47 +0100
+lastmod: 2017-01-10 18:24:47 +0100
 published: true
 status: publish
 tags:
 - smartfon
-- lollipop
 - root
-- marshmallow
 title: Root Integrity Check w smartfonach z Androidem
 ---
 
@@ -27,19 +25,15 @@ interpretować wynik skanowania?
 <!--more-->
 ## Jak zainicjować Root Integrity Check
 
-Po moich przygodach z przeprowadzaniem procesu root na Neffos'ach
-[C5](/post/android-root-smartfona-neffos-c5-od-tp-link/), [C5
-MAX](/post/android-root-smartfona-neffos-c5-max-od-tp-link/),
-[Y5](/post/android-root-smartfona-neffos-y5-od-tp-link/) i
-[Y5L](/post/android-root-smartfona-neffos-y5l-tp-link/), każde z tych urządzeń
-trzeba było powrócić do stanu fabrycznego, tj. cofnąć wszelkie wprowadzone w nich zmiany. W
-przypadku modelu Neffos Y5 miałem pewne problemy, bo coś musiałem zrobić nie tak jak trzeba i nie
-mogłem odinstalować SuperSU. Do tej pory nie wiem co zrobiłem źle ale grunt, że zmiany udało się
-ostatecznie cofnąć. W zasadzie, to tylko przypadek sprawił, że się zainteresowałem opcją Root
-Integrity Check w menu recovery. Jedyne co chciałem zrobić pod kątem partycji `/recovery/` , to
-sprawdzić czy przywrócenie oryginalnej partycji zakończyło się powodzeniem. No i jak można zobaczyć
-na poniższej fotce, opcja Root Integrity Check jest zaraz obok Power Off, którą to chciałem
-zaznaczyć. Wyszło tak, że zaznaczyłem tę niżej -- zwykły missclick.
+Po moich przygodach z przeprowadzaniem procesu root na Neffos'ach [C5][1], [C5 MAX][2], [Y5][3] i
+[Y5L][4], każde z tych urządzeń trzeba było powrócić do stanu fabrycznego, tj. cofnąć wszelkie
+wprowadzone w nich zmiany. W przypadku modelu Neffos Y5 miałem pewne problemy, bo coś musiałem
+zrobić nie tak jak trzeba i nie mogłem odinstalować SuperSU. Do tej pory nie wiem co zrobiłem źle
+ale grunt, że zmiany udało się ostatecznie cofnąć. W zasadzie, to tylko przypadek sprawił, że się
+zainteresowałem opcją Root Integrity Check w menu recovery. Jedyne co chciałem zrobić pod kątem
+partycji `/recovery/` , to sprawdzić czy przywrócenie oryginalnej partycji zakończyło się
+powodzeniem. No i jak można zobaczyć na poniższej fotce, opcja Root Integrity Check jest zaraz obok
+Power Off, którą to chciałem zaznaczyć. Wyszło tak, że zaznaczyłem tę niżej -- zwykły missclick.
 
 ![](/img/2017/01/001.root-integrity-check-smartfon-android-inicjacja-procesu.jpg#big)
 
@@ -81,14 +75,14 @@ właśnie ja zawsze staram się przeprowadzić backup całego flash'a telefonu, 
 problemami przyjdzie mi się mierzyć w przyszłości.
 
 Drugim elementem składowym jest suma kontrolna/ID partycji `/recovery/` . Tę partycję zwykle
-zmieniamy wgrywając obraz TWRP podczas procesu rootowania Androida. Oczywiście niekoniecznie musimy
+zmieniamy wgrywając obraz TWRP podczas procesu root'owania Androida. Oczywiście niekoniecznie musimy
 ukorzeniać swój system, możemy jedynie chcieć mieć nieco bardziej zaawansowany tryb recovery, który
 oferuje TWRP, np. na potrzeby backup'u. Niemniej jednak, posiadanie takiej niestandardowej partycji
 `/recovery/` może uniemożliwić nam dokonanie aktualizacji firmware z poziomu działającego systemu.
 
 Trzecią składową jest suma kontrolna/ID partycji `/boot/` . Ta partycja jest zmieniana zwykle przy
 wgrywaniu SuperSU. Różnie to wygląda w przypadku innych modeli smartfonów. Dla przykładu, SuperSU
-przy rootowaniu Neffos'a C5 i C5 MAX nie tykał tej partycji zupełnie i nie trzeba było jej odtwarzać
+przy root'owaniu Neffos'a C5 i C5 MAX nie tykał tej partycji zupełnie i nie trzeba było jej odtwarzać
 przy cofaniu zmian. Natomiast w przypadku modeli Y5 i Y5L, SuperSU już jakieś czary na partycji
 `/boot/` odprawiał. Okazało się, że może i przywróciłem partycję `/system/` i `/recovery/` do stanu
 fabrycznego podczas procesu unroot ale najwyraźniej SuperSU namieszał coś w partycji `/boot/` i nie
@@ -104,3 +98,9 @@ przywróceniu wszystkich trzech partycji z backup'u flash'a, Root Integrity Chec
 problemu i zakończył się powodzeniem:
 
 ![](/img/2017/01/005.root-integrity-check-smartfon-android-sukces.jpg#big)
+
+
+[1]: /post/android-root-smartfona-neffos-c5-od-tp-link/
+[2]: /post/android-root-smartfona-neffos-c5-max-od-tp-link/
+[3]: /post/android-root-smartfona-neffos-y5-od-tp-link/
+[4]: /post/android-root-smartfona-neffos-y5l-tp-link/
