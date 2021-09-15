@@ -9,7 +9,7 @@ status: publish
 tags:
 - smartfon
 - aplikacje
-title: Android: Nova Launcher w Neffos C5
+title: 'Android: Nova Launcher w Neffos C5'
 ---
 
 Jedną z rzeczy, która wychodzi przy użytkowaniu [smartfona Neffos C5][1] od TP-LINK jest ździebko

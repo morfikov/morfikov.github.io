@@ -12,7 +12,7 @@ tags:
 - f-droid
 - kamera
 - aparat
-title: Android: OpenCamera i aparat w Neffos C5
+title: 'Android: OpenCamera i aparat w Neffos C5'
 ---
 
 Ci z was, którzy czytali moją [recenzję na temat smartfona Neffos C5][1] od TP-LINK, widzą, że

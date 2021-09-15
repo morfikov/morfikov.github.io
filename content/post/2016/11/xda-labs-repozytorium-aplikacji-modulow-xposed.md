@@ -12,7 +12,7 @@ tags:
 - xposed
 - root
 - xda
-title: XDA Labs: Repozytorium aplikacji i modułów Xposed
+title: 'XDA Labs: Repozytorium aplikacji i modułów Xposed'
 ---
 
 Przeglądając sobie forum XDA w poszukiwaniu pewnych informacji natrafiłem na [XDA Labs][1]. Niby

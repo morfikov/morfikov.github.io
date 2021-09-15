@@ -12,7 +12,7 @@ tags:
 - adb
 - root
 - adoptable-storage
-title: Android: Formatowanie karty SD jako pamięć wewnętrzna
+title: 'Android: Formatowanie karty SD jako pamięć wewnętrzna'
 ---
 
 Jakiś czas temu bawiąc się jednym z TP-LINK'owch smartfonów, konkretnie to był [model Neffos C5][1],

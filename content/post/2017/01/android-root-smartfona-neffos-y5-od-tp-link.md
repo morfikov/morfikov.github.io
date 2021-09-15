@@ -15,7 +15,7 @@ tags:
 - twrp
 - fastboot
 - adb
-title: Android: Root smartfona Neffos Y5 od TP-LINK
+title: 'Android: Root smartfona Neffos Y5 od TP-LINK'
 ---
 
 Nie we wszystkich smartfonach Neffos da radę przeprowadzić proces root tak łatwo jak to miało

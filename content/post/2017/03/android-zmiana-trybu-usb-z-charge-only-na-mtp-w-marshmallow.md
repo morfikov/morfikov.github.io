@@ -10,7 +10,7 @@ tags:
 - smartfon
 - mtp
 - usb
-title: Android: Zmiana trybu USB z Charge-Only na MTP w Marshmallow
+title: 'Android: Zmiana trybu USB z Charge-Only na MTP w Marshmallow'
 ---
 
 System Android w większej lub mniejszej części zmienia się z wydania na wydanie. Te nowsze wersje

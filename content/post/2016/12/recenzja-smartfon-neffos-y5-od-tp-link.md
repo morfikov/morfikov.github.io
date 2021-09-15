@@ -13,7 +13,7 @@ tags:
 - smartfon
 - neffos
 - neffos-y5
-title: Recenzja: Smartfon Neffos Y5 od TP-LINK
+title: 'Recenzja: Smartfon Neffos Y5 od TP-LINK'
 ---
 
 Oferta TP-LINK'a ciągle powiększa się o nowe urządzenia. Nie chodzi mi tutaj o routery WiFi, z

@@ -11,7 +11,7 @@ tags:
 - xposed
 - youtube
 - root
-title: Android: Framework Xposed i moduły do YouTube
+title: 'Android: Framework Xposed i moduły do YouTube'
 ---
 
 Stock'owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji

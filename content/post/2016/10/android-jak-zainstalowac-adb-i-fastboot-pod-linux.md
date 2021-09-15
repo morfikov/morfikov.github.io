@@ -12,7 +12,7 @@ tags:
 - adb
 - fastboot
 - debian
-title: Android: Jak zainstalować ADB i fastboot pod linux
+title: 'Android: Jak zainstalować ADB i fastboot pod linux'
 ---
 
 Bawiąc się [smartfonem Neffos C5][1] od TP-LINK chciałem sprawdzić czy da radę zainstalowanemu na

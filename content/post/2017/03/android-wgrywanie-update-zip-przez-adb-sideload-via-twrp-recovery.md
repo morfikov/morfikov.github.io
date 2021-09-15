@@ -10,7 +10,7 @@ tags:
 - smartfon
 - twrp
 - adb
-title: Android: Wgrywanie update.zip przez ADB sideload via TWRP recovery
+title: 'Android: Wgrywanie update.zip przez ADB sideload via TWRP recovery'
 ---
 
 Po uszkodzeniu jednego z moich smartfonów TP-LINK i skasowaniu na nim wszystkich danych na partycji

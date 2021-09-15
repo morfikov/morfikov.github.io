@@ -12,7 +12,7 @@ tags:
 - youtube
 - reklamy
 - spam
-title: Android: YouTube bez reklam na smartfonie (NewPipe)
+title: 'Android: YouTube bez reklam na smartfonie (NewPipe)'
 ---
 
 Ja generalnie zaliczam się do grona osób bardzo spokojnych ale tylko do czasu aż się zdenerwuję.

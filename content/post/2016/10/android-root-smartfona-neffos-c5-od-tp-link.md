@@ -16,7 +16,7 @@ tags:
 - spflashtool
 - fastboot
 - adb
-title: Android: Root smartfona Neffos C5 od TP-LINK
+title: 'Android: Root smartfona Neffos C5 od TP-LINK'
 ---
 
 Smartfony mają to do siebie, że ogromna większość z nich pracuje pod kontrolą systemu linux, a

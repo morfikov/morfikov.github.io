@@ -14,7 +14,7 @@ tags:
 - root
 - reklamy
 - spam
-title: Android: Blokowanie reklam z AdAway na smartfonie
+title: 'Android: Blokowanie reklam z AdAway na smartfonie'
 ---
 
 Dzięki [dnscrypt-proxy][1] jesteśmy w stanie [zaszyfrować zapytania DNS][2] bezpośrednio na naszych

@@ -9,7 +9,7 @@ status: publish
 tags:
 - smartfon
 - factory-reset
-title: Android: Reset ustawień do fabrycznych (factory defaults)
+title: 'Android: Reset ustawień do fabrycznych (factory defaults)'
 ---
 
 Android zadomowił się w większości smartfonów. Jest to mniej więcej taki sam system operacyjny, co w

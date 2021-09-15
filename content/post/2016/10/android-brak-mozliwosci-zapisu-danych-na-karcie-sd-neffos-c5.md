@@ -10,7 +10,7 @@ tags:
 - karta-sd
 - smartfon
 - root
-title: Android: Brak możliwości zapisu danych na karcie SD w Neffos C5
+title: 'Android: Brak możliwości zapisu danych na karcie SD w Neffos C5'
 ---
 
 Może i obecne smartfony dają nam w standardzie sporo wolnego miejsca na swoim flash'u ale dla

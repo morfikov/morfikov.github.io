@@ -13,7 +13,7 @@ tags:
 - smartfon
 - neffos
 - neffos-x1
-title: Recenzja: Smartfon Neffos X1 od TP-LINK
+title: 'Recenzja: Smartfon Neffos X1 od TP-LINK'
 ---
 
 Stosunkowo niedawno do polskiej oferty TP-LINK trafił [smartfon Neffos X1][1]. To urządzenie było

@@ -12,7 +12,7 @@ tags:
 - f-droid
 - tor
 - repozytorium
-title: Android: Repozytorium aplikacji OpenSource (F-Droid)
+title: 'Android: Repozytorium aplikacji OpenSource (F-Droid)'
 ---
 
 Przeszukując sklep Google Play za nowymi aplikacjami, które mógłbym wgrać na swojego [Neffos'a
