@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Menadżer okien Openbox | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Menadżer okien Openbox" />
+<meta property="og:description" content="Spora większość środowisk graficznych rozrosła się obecnie nieco i ich instalacja na maszynach
+wyposażonych w niewiele pamięci RAM może nie wchodzić w grę. Nie jesteśmy też skazani na życie w
+konsoli, ani na kupno nowego sprzętu. Możemy nieco odchudzić instalację pozbywając się zbędnych
+usług, których tak naprawdę nie potrzebujemy. Poza tym, praktycznie każde z graficznych narzędzi,
+przy pomocy których chcemy konfigurować linux&#39;a, ma tekstowe zamienniki, lub też o wiele lżejsze
+alternatywy. Jednak w przypadku, gdy korzystamy z takich rozbudowanych środowisk jak GNOME, to nie
+koniecznie da się usunąć szereg tych zasobożernych komponentów. Pozostaje nam zwykle jedna opcja,
+którą jest usunięcie całego środowiska graficznego i zainstalowanie potrzebnych nam komponentów
+osobno. Jako, że mamy już opisanyproces instalacji debiana przy pomocy
+debootstrap, instalację i
+konfigurację Xserver&#39;a, jak i
+również menadżera okien LightDM, to przyszedł
+czas na omówienie niezbędnego w sesji graficznej menadżera
+okien. W tym wpisie skupimy się głównie na
+instalacji i konfiguracji Openbox&#39;a." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/menadzer-okien-openbox/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-01-10T21:31:47&#43;00:00" />
+<meta property="article:modified_time" content="2016-01-10T21:31:47&#43;00:00" />
+
+
+		<meta itemprop="name" content="Menadżer okien Openbox">
+<meta itemprop="description" content="Spora większość środowisk graficznych rozrosła się obecnie nieco i ich instalacja na maszynach
+wyposażonych w niewiele pamięci RAM może nie wchodzić w grę. Nie jesteśmy też skazani na życie w
+konsoli, ani na kupno nowego sprzętu. Możemy nieco odchudzić instalację pozbywając się zbędnych
+usług, których tak naprawdę nie potrzebujemy. Poza tym, praktycznie każde z graficznych narzędzi,
+przy pomocy których chcemy konfigurować linux&#39;a, ma tekstowe zamienniki, lub też o wiele lżejsze
+alternatywy. Jednak w przypadku, gdy korzystamy z takich rozbudowanych środowisk jak GNOME, to nie
+koniecznie da się usunąć szereg tych zasobożernych komponentów. Pozostaje nam zwykle jedna opcja,
+którą jest usunięcie całego środowiska graficznego i zainstalowanie potrzebnych nam komponentów
+osobno. Jako, że mamy już opisanyproces instalacji debiana przy pomocy
+debootstrap, instalację i
+konfigurację Xserver&#39;a, jak i
+również menadżera okien LightDM, to przyszedł
+czas na omówienie niezbędnego w sesji graficznej menadżera
+okien. W tym wpisie skupimy się głównie na
+instalacji i konfiguracji Openbox&#39;a."><meta itemprop="datePublished" content="2016-01-10T21:31:47&#43;00:00" />
+<meta itemprop="dateModified" content="2016-01-10T21:31:47&#43;00:00" />
+<meta itemprop="wordCount" content="2234">
+<meta itemprop="keywords" content="xserver,debian,openbox," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Menadżer okien Openbox"/>
+<meta name="twitter:description" content="Spora większość środowisk graficznych rozrosła się obecnie nieco i ich instalacja na maszynach
+wyposażonych w niewiele pamięci RAM może nie wchodzić w grę. Nie jesteśmy też skazani na życie w
+konsoli, ani na kupno nowego sprzętu. Możemy nieco odchudzić instalację pozbywając się zbędnych
+usług, których tak naprawdę nie potrzebujemy. Poza tym, praktycznie każde z graficznych narzędzi,
+przy pomocy których chcemy konfigurować linux&#39;a, ma tekstowe zamienniki, lub też o wiele lżejsze
+alternatywy. Jednak w przypadku, gdy korzystamy z takich rozbudowanych środowisk jak GNOME, to nie
+koniecznie da się usunąć szereg tych zasobożernych komponentów. Pozostaje nam zwykle jedna opcja,
+którą jest usunięcie całego środowiska graficznego i zainstalowanie potrzebnych nam komponentów
+osobno. Jako, że mamy już opisanyproces instalacji debiana przy pomocy
+debootstrap, instalację i
+konfigurację Xserver&#39;a, jak i
+również menadżera okien LightDM, to przyszedł
+czas na omówienie niezbędnego w sesji graficznej menadżera
+okien. W tym wpisie skupimy się głównie na
+instalacji i konfiguracji Openbox&#39;a."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Menadżer okien Openbox</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-01-10T21:31:47Z">Opublikowano: 10/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Menadżer okien Openbox</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#instalacja-openboxa-w-debianie">Instalacja Openbox'a w debianie</a></li>
+    <li><a href="#konfiguracja-openboxa">Konfiguracja Openbox'a</a>
+      <ol>
+        <li><a href="#autostart-aplikacji-autostart">Autostart aplikacji (autostart)</a></li>
+        <li><a href="#zmienne-środowiskowe-environment">Zmienne środowiskowe (environment)</a></li>
+        <li><a href="#menu-kontekstowe-menuxml">Menu kontekstowe (menu.xml)</a></li>
+        <li><a href="#konfiguracja-motywu">Konfiguracja motywu</a></li>
+        <li><a href="#skróty-klawiszowe">Skróty klawiszowe</a></li>
+        <li><a href="#rozmieszczanie-okien">Rozmieszczanie okien</a></li>
+      </ol>
+    </li>
+    <li><a href="#tapeta-pulpitu">Tapeta pulpitu</a></li>
+    <li><a href="#menadżer-kompozycji-compton">Menadżer kompozycji compton</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Spora większość środowisk graficznych rozrosła się obecnie nieco i ich instalacja na maszynach
+wyposażonych w niewiele pamięci RAM może nie wchodzić w grę. Nie jesteśmy też skazani na życie w
+konsoli, ani na kupno nowego sprzętu. Możemy nieco odchudzić instalację pozbywając się zbędnych
+usług, których tak naprawdę nie potrzebujemy. Poza tym, praktycznie każde z graficznych narzędzi,
+przy pomocy których chcemy konfigurować linux'a, ma tekstowe zamienniki, lub też o wiele lżejsze
+alternatywy. Jednak w przypadku, gdy korzystamy z takich rozbudowanych środowisk jak GNOME, to nie
+koniecznie da się usunąć szereg tych zasobożernych komponentów. Pozostaje nam zwykle jedna opcja,
+którą jest usunięcie całego środowiska graficznego i zainstalowanie potrzebnych nam komponentów
+osobno. Jako, że mamy już opisany<a href="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">proces instalacji debiana przy pomocy
+debootstrap</a>, <a href="https://morfikov.github.io/post/konfiguracja-xservera-na-debianie-xorg/">instalację i
+konfigurację Xserver'a</a>, jak i
+również <a href="https://morfikov.github.io/post/menadzer-logowania-lightdm/">menadżera okien LightDM</a>, to przyszedł
+czas na omówienie niezbędnego w sesji graficznej <a href="https://pl.wikipedia.org/wiki/Mened%C5%BCer_okien">menadżera
+okien</a>. W tym wpisie skupimy się głównie na
+instalacji i konfiguracji Openbox'a.</p>
+<h2 id="instalacja-openboxa-w-debianie">Instalacja Openbox'a w debianie</h2>
+<p>Na instalację Openbox'a nie składa się wiele pakietów ale, by nas on nie odstraszał swoim wyglądem,
+musimy doinstalować szereg dodatkowych pakietów, np. style GTK czy menadżer kompozycji. Poniżej
+znajduje się lista pakietów, które zwykle przydają się, gdy chcemy korzystać ze środowiska
+graficznego opartego jedynie o sam menadżer okien:</p>
+<pre><code># aptitude install openbox obconf obmenu obkey lxappearance \
+xdg-utils python-xdg python3-xdg \
+upower \
+dmz-cursor-theme \
+compton conky-all \
+rxvt-unicode-256color tmux gksu \
+tint2 \
+spacefm udevil \
+geany geany-plugin-spellcheck \
+qt4-qtconfig \
+gtk2-engines gtk2-engines-murrine gtk2-engines-pixbuf murrine-themes libgtk2.0-bin \
+gtk3-engines-unico \
+gnome-icon-theme gnome-icon-theme-symbolic gnome-themes-standard at-spi2-core \
+mate-icon-theme-faenza mate-themes \
+dconf-editor dconf-cli
+</code></pre>
+<p>Ten powyższy zestaw zainstaluje nie tylko sam menadżer okien Openbox ale również zostaną
+doinstalowane podstawowe komponenty środowiska graficznego, tak by to wszystko miało ręce i nogi.
+Pakiety mające w nazwie <code>xdg</code> odpowiadają za <a href="https://standards.freedesktop.org/autostart-spec/autostart-spec-latest.html">implementację autostartu
+aplikacji</a>, czy też
+inne aspekty związane ze specyfikacją samego środowiska graficznego. Z kolei <a href="https://upower.freedesktop.org/">upower odpowiada za
+zarządzanie energią</a> i przełączanie systemu w stan uśpienia czy
+hibernacji w zależności od poziomu rozładowania akumulatora. Mamy tam też zaawansowany w swojej
+prostocie <a href="https://github.com/chjj/compton">menadżer kompozycji compton</a>, który nada Openbox'owi
+przyzwoite efekty bez zbytniego obciążania sprzętu. Przyda się nam także <a href="https://github.com/brndnmtthws/conky">monitor systemu
+conky</a>, dzięki któremu będziemy w stanie monitorować procesy
+naszego systemu na bieżąco. W środowisku graficznym nie może zabraknąć wirtualnego terminala, choć
+nie wszystkim może się podobać <a href="http://software.schmorp.de/pkg/rxvt-unicode.html">rvxt-unicode</a>. Za
+to wyśmienicie integruje się z <a href="https://tmux.github.io/">multiplekserem tmux</a> dając nam możliwość
+dzielenia jednego okna terminala na szereg mniejszych. Przydatne też jest posiadanie <a href="https://gitlab.com/o9000/tint2/">panelu
+tint2</a>. No i też nie może zabraknąć <a href="https://ignorantguru.github.io/spacefm/">menadżera plików
+SpaceFM</a>. A jak zamierzamy korzystać ze SpaceFM, to
+koniecznie potrzebujemy <a href="https://ignorantguru.github.io/udevil/">narzędzia udevil</a>, które umożliwi
+nam montowanie zasobów bez potrzeby zaciągania do tego użytkownika root. No i mamy tam także bardzo
+<a href="http://www.geany.org/">zaawansowany edytor tekstu geany</a>, choć na dobrą sprawę jest to uszczuplone
+IDE. Pozostałe pakiety mają zaś zapewnić odpowiednią konfigurację wyglądu okienek aplikacji GTK i QT
+oraz dodać nieco urozmaicenia w postaci ikonek, kursorów myszki czy też samego motywu.</p>
+<p>Sporo rzeczy z tej listy jest opcjonalnych i nie koniecznie wszystkie z powyższych pakietów musimy
+wgrywać sobie do systemu. Niemniej jednak, ten powyższy zestaw jest naprawdę bardzo podstawowy.</p>
+<h2 id="konfiguracja-openboxa">Konfiguracja Openbox'a</h2>
+<p>Przejdźmy zatem do konfiguracji menadżera okien. Standardowo po zalogowaniu się w graficznej sesji
+zobaczymy jedynie szary pulpit i to właśnie jest Openbox. Nie zrażajmy się jednak, bo są to jedynie
+pozory, a jak wiadomo mogą one mylić. Poniżej jest fotka obrazująca jak można dostosować sobie
+wygląd tego ogołoconego środowiska.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/01/1.srodowisko-graficzne-openbox.png" alt=""    class="huge"></p>
+<p>Także jak widać, ogranicza nas jedynie nasza wyobraźnia i potrzeby. Tak czy inaczej, by przekuć tego
+standardowego szaraka w nieco bardziej wyrafinowany pod względem wyglądu desktop, musimy zając się
+konfiguracją Openbox'a.</p>
+<p>Na konfigurację tego menadżera okien składają się z grubsza cztery pliki ulokowane w katalogu
+<code>~/.config/openbox/</code> . Standardowo nie ma tam jeszcze żadnych plików i musimy całą konfigurację
+stworzyć sobie od zera. No prawie od zera, bo mamy do dyspozycji pliki szkieletowe, które możemy
+przekopiować z katalogu <code>/etc/xdg/openbox/</code> i tylko je sobie dostosować. Przekopiujmy je zatem:</p>
+<pre><code>$ mkdir -p ~/.config/openbox/
+$ cp /etc/xdg/openbox/{rc.xml,menu.xml,autostart,environment} ~/.config/openbox/
+</code></pre>
+<p>W debianie nie musimy korzystać z plików <code>~/.xinitrc</code> czy <code>~/.xprofile</code> w celu odpalenia Openbox'a.
+Domyślna sesja w plikach systemowych jest już tak skonfigurowana, że Openbox startuje bez
+jakiejkolwiek ingerencji z naszej strony. Domyślnego menadżera okien, jak i sesję Xserver'a, możemy
+określić za pomocą <code>update-alternatives</code> w poniższy sposób:</p>
+<pre><code># update-alternatives --config x-session-manager
+# update-alternatives --config x-window-manager
+</code></pre>
+<p>Zmienne środowiskowe, które mają być ustawione przed startem Openbox'a ustawia się w
+<code>/etc/xdg/openbox/environment</code> albo <code>~/.config/openbox/environment</code> . Za to całe zamieszanie jest
+odpowiedzialny skrypt w <code>/usr/bin/openbox-session</code> , z którego wynika, że plik <code>environment</code> jest
+czytany przed startem sesji Openbox'a. Oczywiście trzeba mieć na uwadze, że zmienne eksportowane
+przy pomocy tego pliku są widoczne tylko i wyłącznie w sesji Openbox'a. W przypadku zalogowania się
+na TTY albo korzystania z innego środowiska graficznego, te zmienne nie zostaną ustawione.</p>
+<h3 id="autostart-aplikacji-autostart">Autostart aplikacji (autostart)</h3>
+<p>Autostart Openbox'a jest zarządzany przez plik <code>~/.config/openbox/autostart</code> . To w nim umieszczamy
+listę aplikacji, które mają być odpalane automatycznie. Możemy także umieszczać tutaj polecenia, te
+same, które zwykliśmy wpisywać w terminalu. Zatem jeśli nasz ekran wymaga dostosowania pod kątem
+jasności, to nic nie stoi na przeszkodzie, by odpowiednią komendę tutaj wywołać. Pamiętajmy tylko,
+że ten plik jest przetwarzany tak jak zwykły skrypt i wszystkie polecenia trzeba odpalać w tle, tak
+by nie zablokować procedury autostartu. Poniżej przykładowy wpis:</p>
+<pre><code>(sleep 0.5s &amp;&amp; LC_TIME=en_DK.utf8 /opt/thunderbird/thunderbird) &amp;
+</code></pre>
+<p>Ponad to, w katalogu <code>/etc/xdg/autostart/</code> znajdują się pliki <code>.desktop</code> tworzone automatycznie
+przez szereg aplikacji, które chcą startować wraz z podnoszeniem się sesji graficznej. Mogą one być
+również brane pod uwagę przez Openbox'a. Jest to bardzo użyteczna właściwość, dlatego wyżej
+zainstalowaliśmy pakiet <code>python-xdg</code> . Oczywiście każdy użytkownik ma swój własny autostart
+zlokalizowany w <code>~/.config/autostart/</code> i w przypadku, gdy nie podobają nam się włączone domyślnie
+usługi, to możemy je wyłączyć poprzez umieszczenie kopi pliku <code>.desktop</code> w katalogu
+<code>~/.config/autostart/</code> odpowiednio ją przy tym modyfikując. Przykładowy plik <code>.desktop</code> wygląda tak:</p>
+<pre><code>[Desktop Entry]
+Name=Dropbox
+GenericName=File Synchronizer
+Comment=Sync your files across computers and to the web
+Exec=dropbox start -i
+Terminal=false
+Type=Application
+Icon=dropbox
+Categories=Network;FileTransfer;
+StartupNotify=false
+OnlyShowIn=GNOME;XFCE;
+</code></pre>
+<p>Opcja <code>OnlySHowIn</code> odpowiada za ukrywanie pliku w środowiskach, które nie są tam sprecyzowane. W
+przypadku braku tego pola, usługa zostanie odpalona na każdym z nich. Gdy chcemy wyłączyć jakąś
+usługę, dopisujemy tam <code>none</code> . Powyższy przykład ma tylko kilka pól, które można wykorzystać przy
+konfiguracji. Pełna ich lista znajduje się
+<a href="https://standards.freedesktop.org/desktop-entry-spec/latest/ar01s05.html">tutaj</a>.</p>
+<p>Jeśli chcemy sprawdzić, które aplikacje są automatycznie uruchamiane przez mechanizm XDG w naszym
+środowisku graficznym, wydajemy to poniższe polecenie:</p>
+<pre><code>$ /usr/lib/x86_64-linux-gnu/openbox-xdg-autostart --list OPENBOX
+</code></pre>
+<h3 id="zmienne-środowiskowe-environment">Zmienne środowiskowe (environment)</h3>
+<p>W pliku <code>~/.config/openbox/environment</code> definiujemy zmienne środowiskowe, które można podejrzeć, np.
+wpisując w terminalu polecenie <code>printenv</code>/<code>env</code> . Zmienne dopisane do tego pliku będą ustawione
+globalnie dla całej sesji graficznej i wywoływanych w niej terminalach. Poniżej znajduje się
+przykładowy wpis:</p>
+<pre><code>export BROWSER=&quot;/opt/firefox/firefox&quot;
+</code></pre>
+<p>Jeśli chcemy się pozbyć jakichś zmiennych, które zostały ustawione w sesji graficznej, to możemy to
+zrobić za pomocą <code>unset</code> , przykładowo:</p>
+<pre><code>unset BROWSER
+</code></pre>
+<p>Trzeba także pamiętać, że <code>unset BROWSER</code> nie oznacza tego samego co <code>export BROWSER=&quot;&quot;</code> .</p>
+<h3 id="menu-kontekstowe-menuxml">Menu kontekstowe (menu.xml)</h3>
+<p>W pliku <code>~/.config/openbox/menu.xml</code> definiujemy wpisy dla menu kontekstowego, dostępnego pod prawym
+klawiszem myszki. Można również stworzyć menu dla lewego jak i środkowego przycisku. Takie menu
+możemy sobie zrobić ręcznie lub też zaprzęgnąć do roboty jakiś automat. Niemniej jednak, taki
+generator spowolni trochę działanie samego menu, no i oczywiście doda w nim sporo śmieci. Dlatego
+też plik <code>menu.xml</code> najlepiej sobie dostosować ręcznie albo też korzystając z narzędzia <code>obmenu</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/01/2.openbox-obmenu.png" alt=""    class="big"></p>
+<p>Po każdej edycji menu trzeba przeładować konfigurację Openbox'a przy pomocy tego poniższego
+polecenia:</p>
+<pre><code>$ openbox --reconfigure
+</code></pre>
+<h3 id="konfiguracja-motywu">Konfiguracja motywu</h3>
+<p>Wygląd Openbox'a, co prawda, nie powala na pierwszy rzut oka ale można go bez problemu zmienić.
+Trzeba tylko ustawić odpowiedni motyw, np. używając do tego celu narzędzia <code>obconf</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/01/3.openbox-obconf.png" alt=""    class="big"></p>
+<p>Jak widzimy wyżej, mamy dość sporo rzeczy, które możemy sobie dostosować w tym okienku. Wszelkie
+wprowadzone zmiany są zapisywane w pliku <code>~/.config/openbox/rc.xml</code> i na dobrą sprawę, korzystanie z
+tego powyższego narzędzia nie jest wymagane, by dokonać zmian w ustawieniach. Zalecane jest ono
+jednak, by wyeliminować możliwość popełnienia błędów.</p>
+<p>Motyw ustawiony za pomocą <code>obconf</code> dotyczy jedynie samej belki tytułowej i po części też obramowania
+okna. Cała zawartość, która znajduje się w takim okienku jest już rysowana w oparciu o motywy GTK
+lub QT, w zależności od tego z jaką aplikacją mamy do czynienia. Motyw dla GTK możemy wybrać w
+<code>lxappearance</code> . Możemy w nim także dostosować ikonki, style myszki czy też wygląd czcionek:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/01/4.openbox-konfiguracja-lxappearance.png" alt=""    class="big"></p>
+<p>Po zapisaniu ustawień, zostaną wygenerowane pliki <code>~/.gtk2rc-2.0</code> oraz
+<code>~/.config/gtk-3.0/settings.ini</code> zawierające wskazane wyżej ustawienia.</p>
+<p>Motyw QT jest konfigurowany za pomocą narzędzia <code>qtconfig</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/01/5.openbox-qtconfig.png" alt=""    class="big"></p>
+<p>To narzędzie z kolei wygeneruje plik <code>~/.config/Trolltech.conf</code> .</p>
+<p>By aplikacje QT i GTK wyglądały z grubsza tak samo, trzeba ustawić <code>style=GTK+</code> . Jednak to nie
+zadziała jeśli nie posiadamy w środowisku zmiennej <code>GTK2_RC_FILES=&quot;$HOME/.gtkrc-2.0&quot;</code> . Inną
+uciążliwością może być niezgodność ikon. W aplikacjach GTK mogą być ikony znane nam z GNOME, a w
+aplikacjach QT są ikonki, które zwykliśmy kojarzyć z KDE. Można to ujednolicić przez ustawienie
+zmiennej <code>GNOME_DESKTOP_SESSION_ID=1</code> . To jednak pociąga za sobą pewne komplikacje, gdyż ta zmienna
+wysyła do programów błędne sygnały o obecności środowiska GNOME na pokładzie, a my go przecież nie
+posiadamy. Mamy jedynie menadżer okien Openbox. Prawdopodobnie trzeba będzie doinstalować pewne
+komponenty środowiska GNOME, by zachować kompatybilność. Być może część aplikacji, których będziemy
+używać już zawiera odpowiednie pakiety w zależnościach. Jeśli jednak nam różne ikonki nie
+przeszkadzają, to możemy darować sobie ustawianie tej zmiennej. Tak czy inaczej, potrzebne nam
+zmienne dopisujemy do pliku <code>~/.config/openbox/environment</code> :</p>
+<pre><code>export GTK2_RC_FILES=&quot;$HOME/.gtkrc-2.0&quot;
+export GNOME_DESKTOP_SESSION_ID=1
+</code></pre>
+<p>Jeśli cierpimy na zbyt mały wybór motywów, możemy doinstalować pakiet <code>murrine-themes</code> , który
+zawiera ich dość sporo. Openbox jest w stanie także przeszukiwać katalog użytkownika <code>~/.themes/</code>
+pod kątem odnalezienia w nim jakichś motywów. Także możemy bez problemu wgrać sobie również taki
+motyw, którego nie ma w repozytorium debiana. Gdy interfejs graficznych aplikacji odpalanych jako
+root nie wygląda tak samo jak ten w przypadku zwykłego użytkownika, to te powyższe pliki trzeba
+będzie również skopiować w odpowiednie miejsca w katalogu <code>/root/</code> .</p>
+<h3 id="skróty-klawiszowe">Skróty klawiszowe</h3>
+<p>W pliku <code>~/.config/openbox/rc.xml</code> jest także trzymana konfiguracja skrótów klawiszowych. Domyślny
+wpis dla skrótu wygląda mniej więcej tak:</p>
+<pre><code>&lt;keybind key=&quot;W-Left&quot;&gt;
+      &lt;action name=&quot;DesktopLeft&quot;/&gt;
+&lt;/keybind&gt;
+</code></pre>
+<p>Ręczna edycja tego pliku jest mało wygodna ale można skorzystać z graficznego narzędzia <code>obkey</code> ,
+które znacznie ułatwia definiowanie skrótów:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/01/6.openbox-obkey.png" alt=""    class="big"></p>
+<h3 id="rozmieszczanie-okien">Rozmieszczanie okien</h3>
+<p>W pliku <code>~/.config/openbox/rc.xml</code> można również określać konfigurację dotyczącą rozmieszczania
+okien w momencie, gdy zostają one wyświetlone na ekranie, czyli tuż po starcie aplikacji. Spotkałem
+się na necie z <a href="http://sourceforge.net/projects/obapps/">narzędziem obapps</a> ale nie jest ono póki co
+dostępne w debianie i trzeba ten plik dostosować sobie manualnie. By to zrobić, musimy określić
+szereg wartości identyfikujących okno. Potrzebne nam informacje mogą zostać wydobyte poprzez takie
+narzędzia jak <code>obxprop</code> czy też <code>xprop</code> . Ten pierwszy jest dostarczany bezpośrednio w pakiecie z
+Openbox'em, ten drugi w pakietach z Xserver'em. Oba te narzędzia zwracają praktycznie te same
+informacje, więc nie ma zbytnio znaczenia, z którego będziemy korzystać. By uzyskać zaś informacje o
+przykładowym oknie, wpisujemy jedno z tych poleceń w terminalu, po czym klikamy myszką w jakieś
+okno, poniżej przykład:</p>
+<pre><code>$ obxprop | grep OB_APP
+_OB_APP_TYPE(UTF8_STRING) = &quot;normal&quot;
+_OB_APP_TITLE(UTF8_STRING) = &quot;Mozilla Firefox&quot;
+_OB_APP_GROUP_CLASS(UTF8_STRING) = &quot;Firefox&quot;
+_OB_APP_GROUP_NAME(UTF8_STRING) = &quot;firefox&quot;
+_OB_APP_CLASS(UTF8_STRING) = &quot;Firefox&quot;
+_OB_APP_NAME(UTF8_STRING) = &quot;Navigator&quot;
+_OB_APP_ROLE(UTF8_STRING) = &quot;browser&quot;
+</code></pre>
+<p>Te powyższe parametry jednoznacznie identyfikują okno danej aplikacji. W tym przypadku mamy do
+czynienia z oknem przeglądarki Firefox. W oparciu o te powyższe informacje, jesteśmy w stanie
+skonfigurować sobie wygląd tego okna w pliku <code>~/.config/openbox/rc.xml</code> za pomocą tej poniższej
+zwrotki:</p>
+<pre><code>&lt;application class=&quot;Firefox&quot; name=&quot;Navigator&quot; type=&quot;normal&quot;&gt;
+...
+&lt;/application&gt;
+</code></pre>
+<p>Opcji dotyczących położenia i wyglądu okna jest sporo i z tych ważniejszych możemy wymienić te
+poniższe:</p>
+<ul>
+<li><code>focus</code> sprawi, że okno po tym jak się pojawi nie przechwyci automatycznie myszy i klawiatury.</li>
+<li><code>decor</code> odpowiada za obramowanie okna.</li>
+<li><code>shade</code> ustawia cienie okna.</li>
+<li><code>layer</code> precyzuje gdzie umieścić dane okno.</li>
+<li><code>skip_pager</code> odpowiada za konfigurację pager'a dla danego okna.</li>
+<li><code>skip_taskbar</code> odpowiada za konfigurację paska zadań dla danego okna.</li>
+<li><code>size</code> definiuje rozmiar okna za pomocą parametrów <code>width</code> i <code>height</code> .</li>
+<li><code>position</code> określa pozycję okna przy pomocy parametrów <code>x</code> i <code>y</code> .</li>
+</ul>
+<p>Kompletny przykład użycia Openbox'a do zarządzania oknami został pokazany na przykładzie <a href="https://morfikov.github.io/post/osadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa/">osadzenia
+konsoli urxvt na
+pulpicie</a>. Zachęcam zatem
+do zajrzenia i obadania możliwości jakie daje Openbox w starciu z pojawiającymi się na ekranie
+monitora okienkami.</p>
+<h2 id="tapeta-pulpitu">Tapeta pulpitu</h2>
+<p>Tapetę można ustawić albo korzystając z pakietu <code>nitrogen</code> , albo posługując się narzędziem <code>feh</code> .
+My tutaj skorzystamy z tego drugiego sposobu. Poniżej mamy potrzebne pakiety:</p>
+<pre><code># aptitude install feh libjpeg-turbo-progs
+</code></pre>
+<p>Tworzymy teraz katalogu <code>~/wallpapers/</code> i wrzucamy do niego jakieś obrazki. Następnie wydajemy to
+poniższe polecenie:</p>
+<pre><code>$ feh --bg-scale '/home/morfik/wallpapers/tapeta.png'
+</code></pre>
+<p>Jeśli po wydaniu powyższego polecenia, tło pulpitu uległo zmianie, to możemy je dodać do autostartu
+Openbox'a.</p>
+<h2 id="menadżer-kompozycji-compton">Menadżer kompozycji compton</h2>
+<p>Prostota środowiska graficznego opartego jedynie o Openbox'a sprawia, że nawet po dostosowaniu
+motywów pojawiających się na monitorze okienek czujemy pewien swojego rodzaju niedosyt związany z
+efektami wizualnymi. Nie chodzi o coś co w znacznym stopniu obciąży nam procesor graficzny i przy
+tym spowolni pracę całego systemu ale o te podstawowe funkcje jak, np. cienie okien czy lekkie
+opóźnienie w ich pojawianiu się.</p>
+<p>Istnieje szereg menadżerów kompozycji, które są bardzo zasobożerne i zwykle potrafią zjeść tyle
+pamięci RAM, co całe środowisko z Openbox'em na pokładzie. Compton jest inny i znakomicie pasuje do
+Openbox'em dodając mu nieco polotu i finezji.</p>
+<p>Nie będę się tutaj rozpisywał na temat konfiguracji compton'a, a jedynie pokażę jak go uruchomić.
+Wszystko czego nam potrzeba, to dopisanie do pliku autostartu Openbox'a tej poniższej linijki:</p>
+<pre><code>compton --config /home/morfik/.config/compton.conf -b
+</code></pre>
+<p>Powyżej mamy oczywiście określony plik konfiguracyjny. Niemniej jednak, nie jest on wymagany i w
+takim przypadku compton zaaplikuje ustawienia domyślne. Jeśli ktoś chciałby sobie ten plik utworzyć,
+to <a href="https://github.com/morfikov/files/blob/master/configs/home/morfik/.config/compton.conf">na moim gicie jest konfiguracja dla
+compton'a</a>,
+z której ja obecnie korzystam. Posiadanie menadżera kompozycji eliminuje też problem z gotowaniem
+się wręcz procesora podczas przeciągania okien po ekranie.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xserver/">xserver</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/openbox/">openbox</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-okien-openbox%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-okien-openbox%2f&amp;text=Menad%c5%bcer%20okien%20Openbox" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-okien-openbox%2f&amp;title=Menad%c5%bcer%20okien%20Openbox" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-okien-openbox%2f&amp;title=Menad%c5%bcer%20okien%20Openbox" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-okien-openbox%2f&title=Menad%c5%bcer%20okien%20Openbox" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-okien-openbox%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-okien-openbox%2f&amp;title=Menad%c5%bcer%20okien%20Openbox" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmenadzer-okien-openbox%2f&description=Menad%c5%bcer%20okien%20Openbox" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/mysz-i-jej-konfiguracja-na-linuxie/">Mysz i jej konfiguracja na linux&#39;ie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/monitor-i-jego-konfiguracja-pod-linuxem/">Monitor i jego konfiguracja pod linux&#39;em</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/menadzer-logowania-lightdm/">Menadżer logowania LightDM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-xservera-na-debianie-xorg/">Konfiguracja Xserver&#39;a na debianie (Xorg)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-jasnosci-ekranu-w-laptopie-backlight/">Konfiguracja jasności ekranu w laptopie (backlight)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-touchpada-w-laptopie-pod-linuxem/">Konfiguracja touchpad&#39;a w laptopie pod linux&#39;em</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

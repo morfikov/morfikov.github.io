@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux" />
+<meta property="og:description" content="W środowiskach linux&#39;owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako
+źródło wszelkiego zła na świecie. Sporo użytkowników linux&#39;a dopatruje się w Secure Boot zamachu na
+wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak,
+odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu
+użytkowników linux&#39;a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak shim
+(no i jest też PreLoader), który umożliwia dystrybucjom linux&#39;a (jak i ich końcowym
+użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie
+się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich
+miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod
+podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w
+trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma
+na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy
+wykorzystaniu dystrybucji Debiana." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-03-16T19:15:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-07-30T20:45:00&#43;01:00" />
+
+
+		<meta itemprop="name" content="Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux">
+<meta itemprop="description" content="W środowiskach linux&#39;owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako
+źródło wszelkiego zła na świecie. Sporo użytkowników linux&#39;a dopatruje się w Secure Boot zamachu na
+wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak,
+odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu
+użytkowników linux&#39;a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak shim
+(no i jest też PreLoader), który umożliwia dystrybucjom linux&#39;a (jak i ich końcowym
+użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie
+się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich
+miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod
+podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w
+trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma
+na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy
+wykorzystaniu dystrybucji Debiana."><meta itemprop="datePublished" content="2020-03-16T19:15:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-07-30T20:45:00&#43;01:00" />
+<meta itemprop="wordCount" content="9097">
+<meta itemprop="keywords" content="debian,efi,uefi,secure-boot,shim,refind,lenovo,thinkpad,t430," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux"/>
+<meta name="twitter:description" content="W środowiskach linux&#39;owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako
+źródło wszelkiego zła na świecie. Sporo użytkowników linux&#39;a dopatruje się w Secure Boot zamachu na
+wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak,
+odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu
+użytkowników linux&#39;a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak shim
+(no i jest też PreLoader), który umożliwia dystrybucjom linux&#39;a (jak i ich końcowym
+użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie
+się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich
+miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod
+podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w
+trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma
+na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy
+wykorzystaniu dystrybucji Debiana."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2020-03-16T19:15:00Z">Opublikowano: 16/03/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-07-30T20:45:00&#43;01:00">Zaktualizowano: 30/07/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#opis-działania-secure-boot-w-linux-na-przykładzie-shim">Opis działania Secure Boot w linux na przykładzie shim</a></li>
+    <li><a href="#klucze-wbudowane-w-firmware-efiuefi">Klucze wbudowane w firmware EFI/UEFI</a>
+      <ol>
+        <li><a href="#zmienne-pk-kek-db-dbx-i-moklist">Zmienne PK, KEK, db, dbx i MokList</a></li>
+      </ol>
+    </li>
+    <li><a href="#usuwanie-wbudowanych-kluczy-i-dodanie-własnych">Usuwanie wbudowanych kluczy i dodanie własnych</a>
+      <ol>
+        <li><a href="#backup-stockowych-kluczy-firmware-efiuefi">Backup stock'owych kluczy firmware EFI/UEFI</a></li>
+        <li><a href="#tworzenie-nowych-kluczy">Tworzenie nowych kluczy</a>
+          <ol>
+            <li><a href="#wsparcie-dla-windows">Wsparcie dla windows</a></li>
+            <li><a href="#brak-wsparcia-dla-windows">Brak wsparcia dla windows</a></li>
+          </ol>
+        </li>
+        <li><a href="#tryb-ustawień-setup-mode">Tryb ustawień (setup mode)</a>
+          <ol>
+            <li><a href="#aktualizacja-kluczy-przez-efi-updatevar">Aktualizacja kluczy przez efi-updatevar</a></li>
+            <li><a href="#wgrywanie-kluczy-z-poziomu-firmware-efiuefi">Wgrywanie kluczy z poziomu firmware EFI/UEFI</a></li>
+            <li><a href="#wgrywanie-kluczy-przez-keytool">Wgrywanie kluczy przez KeyTool</a></li>
+          </ol>
+        </li>
+        <li><a href="#sprawdzenie-zmiennych">Sprawdzenie zmiennych</a></li>
+      </ol>
+    </li>
+    <li><a href="#testowanie-secure-boot-z-własnymi-kluczami">Testowanie Secure Boot z własnymi kluczami</a>
+      <ol>
+        <li><a href="#podpisywanie-kernela">Podpisywanie kernela</a></li>
+        <li><a href="#podpisywanie-modułów-kernela">Podpisywanie modułów kernela</a>
+          <ol>
+            <li><a href="#podpisywanie-modułów-dkms">Podpisywanie modułów DKMS</a></li>
+          </ol>
+        </li>
+        <li><a href="#firmware-do-wifibt-a-secure-boot">Firmware do WiFi/BT, a Secure Boot</a></li>
+        <li><a href="#dodanie-wpisu-w-firmware-efiuefi-via-efibootmgr">Dodanie wpisu w firmware EFI/UEFI via efibootmgr</a></li>
+        <li><a href="#włączenie-secure-boot-w-konfiguracji-efiuefi">Włączenie Secure Boot w konfiguracji EFI/UEFI</a>
+          <ol>
+            <li><a href="#mechanizm-kernel-lockdown">Mechanizm kernel lockdown</a></li>
+          </ol>
+        </li>
+        <li><a href="#podpisanie-boodloadera">Podpisanie boodloader'a</a></li>
+        <li><a href="#shim-i-mokmanager">Shim i MokManager</a></li>
+        <li><a href="#narzędzia-w-efitools">Narzędzia w EFI/tools/</a></li>
+        <li><a href="#sufiks-signed">Sufiks .signed</a></li>
+        <li><a href="#warning-data-remaining-gaps-between-pecoff-sections">warning: data remaining[]: gaps between PE/COFF sections?</a></li>
+      </ol>
+    </li>
+    <li><a href="#problemy-z-system-live-przy-secure-boot">Problemy z system live przy Secure Boot</a>
+      <ol>
+        <li><a href="#brak-kluczy-do-weryfikacji-systemów-live-linuxa">Brak kluczy do weryfikacji systemów live linux'a</a>
+          <ol>
+            <li><a href="#problem-z-keyctl">Problem z keyctl</a></li>
+          </ol>
+        </li>
+        <li><a href="#dodawanie-kluczy-dystrybucji-do-bazy-mok">Dodawanie kluczy dystrybucji do bazy MOK</a></li>
+        <li><a href="#test-ubuntu-live-z-włączonym-secure-boot">Test Ubuntu live z włączonym Secure Boot</a></li>
+      </ol>
+    </li>
+    <li><a href="#wsparcie-secure-boot-dla-windows">Wsparcie Secure Boot dla windows</a></li>
+    <li><a href="#wyłączenie-secure-boot-na-poziomie-shim">Wyłączenie Secure Boot na poziomie shim</a></li>
+    <li><a href="#hasło-na-efiuefi">Hasło na EFI/UEFI</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>W środowiskach linux'owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako
+źródło wszelkiego zła na świecie. Sporo użytkowników linux'a dopatruje się w Secure Boot zamachu na
+wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak,
+odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu
+użytkowników linux'a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak <a href="https://github.com/rhboot/shim">shim</a>
+(no i jest też <a href="https://blog.hansenpartnership.com/linux-foundation-secure-boot-system-released/">PreLoader</a>), który umożliwia dystrybucjom linux'a (jak i ich końcowym
+użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie
+się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich
+miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod
+podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w
+trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma
+na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy
+wykorzystaniu dystrybucji Debiana.</p>
+<h2 id="opis-działania-secure-boot-w-linux-na-przykładzie-shim">Opis działania Secure Boot w linux na przykładzie shim</h2>
+<p>By zrozumieć w jaki sposób Secure Boot jest w stanie poprawić bezpieczeństwo systemu, trzeba
+najpierw zaznajomić się z procedurą startu komputera w trybie EFI/UEFI. Można spotkać się z różnymi
+rozwiązaniami ale chyba najbardziej uniwersalnym i popularnym zarazem jest shim. W zasadzie te
+główniejsze dystrybucje linux'a, jak Ubuntu i Debian, korzystają właśnie z shim'a. Postanowiłem
+zatem przyjrzeć się nieco bliżej jak wygląda <a href="https://wiki.ubuntu.com/UEFI/SecureBoot">start linux'a w trybie EFI/UEFI z wykorzystaniem
+shim</a>, tak by go dokładnie zrozumieć i w miarę przyzwoicie opisać.</p>
+<p>Shim to bardzo proste oprogramowanie zaprojektowane przez deweloperów różnych dystrybucji linux'a,
+by działało ono jako bootloader pierwszego poziomu na systemach EFI/UEFI. Kod shim jest
+otwartoźródłowy, prosty i przy tym dobrze zrozumiały. Został on też poddany audytom bezpieczeństwa
+i kompleksowo przebadany. Można mu zatem zaufać, że będzie działał w taki sposób jak się od niego
+oczekuje. Dlatego też Microsoft może taki kawałek oprogramowania podpisać swoim kluczem prywatnym.
+Dlaczego właśnie MS, a nie inny podmiot? Wszystko przez popularność windows'a na desktopach i
+laptopach. Z racji, że ten system jest w dość powszechnym wykorzystaniu na domowych komputerach, to
+producenci sprzętu zaszywają domyślnie certyfikat Microsoft'u bezpośrednio w firmware EFI/UEFI
+maszyny. Ten certyfikat jest w stanie zweryfikować podpis złożony prywatnym kluczem MS. W taki
+sposób, Microsoft może skupić się jedynie na podpisaniu shim'a i nie musi przy tym martwić o tę
+całą masę oprogramowania, z którego my, jako docelowi użytkownicy komputera, zamierzamy korzystać.
+Wykorzystanie shim'a mogłoby być opcjonalne, gdyby tylko producenci sprzętu podeszli należycie do
+zakodowania kluczy różnych dystrybucji linux'a w firmware EFI/UEFI, a z tym różnie bywa i zwykle
+stosownych certyfikatów w firmware brakuje i dlatego są takie problemy z mechanizmem Secure Boot w
+przypadku linux'a. Dlatego też właśnie powstał shim, który z racji podpisania kluczem Microsoft'u
+rozwiązuje cały zaistniały problem z Secure Boot na linux.</p>
+<p>Shim używany jest głównie do dostarczenia klucza publicznego CA danej dystrybucji linux'a, który to
+z kolei jest używany do podpisywania innych programów, np. kernela czy bootloader'a takiego jak
+Grub2. Pełna lista <a href="https://wiki.debian.org/SecureBoot#Supported_architectures_and_packages">programów podpisywanych przez Debiana</a> znajduje się tutaj. W taki sposób
+ciężar i obowiązek podpisania stosownych binarek spoczywa na dystrybucji linux'a jeśli ma ona
+zamiar wspierać mechanizm Secure Boot. Dodatkowo, w ramach poprawy bezpieczeństwa, <a href="https://wiki.debian.org/ReproducibleBuilds">binarki shim
+dostępne w repozytorium Debiana są w pełni reprodukowalne</a>.</p>
+<p>Klucz CA dystrybucji jest zaszyty w shim na stałe i nie możemy go ruszyć. Istnieje też druga baza
+danych kluczy, która może być zarządzana przez użytkownika, zwana Machine Owner Key (MOK). Klucze w
+tej bazie mogą być dodawane i usuwane przez użytkownika z poziomu działającego linux'a za pomocą
+narzędzia <code>mokutil</code> . Niemniej jednak, każdy klucz trzeba będzie potwierdzić w konsoli na wczesnym
+etapie startu systemu, co zapobiega dodaniu podstawionych kluczy przez malware przestrzeni
+użytkownika, który potencjalnie byłby w stanie obejść mechanizm Secure Boot. Zarządzanie tymi
+kluczami jest niezależnie od głównego klucza CA dystrybucji linux'a.</p>
+<p>Gdy maszyna z linux się uruchamia, to zaraz na początku fazy boot, firmware EFI/UEFI ładuje do
+pamięci RAM binarkę shim, która została określona w zmiennej BootEntry w tym firmware (np. za
+sprawą <code>efibootmgr</code> ). Podczas tradycyjnej instalacji linux'a, stosowny wpis powinien być
+automatycznie dodany i aktualizowany ilekroć tylko będziemy instalować aktualizacje dla
+bootloader'a (Grub2). Gdy przychodzi moment weryfikacji przez firmware podpisu złożonego pod shim,
+to ta binarka jest zatwierdzana z racji pomyślnego zweryfikowania podpisu (jest podpisana kluczem
+MS). Jako, że shim posiada również zaszyty certyfikat jakiejś dystrybucji (w tym przypadku Debiana),
+jak i bazę danych MOK, to kolejne binarki mogą zostać zweryfikowane tymi dodatkowymi certyfikatami.
+Następnie shim ładuje obraz drugiego poziomu (second-stage image), którym może być bootloader
+(zwykle Grub2) lub MokManager jeśli zarządzanie kluczami jest z jakiegoś powodu wymagane.</p>
+<p>W przypadku normalnego rozruchu, binarka bootloader'a ( <code>grub*.efi</code> ) jest ładowana do pamięci
+operacyjnej i weryfikowana względem zaufanych certyfikatów. Jako, że Grub2 jest podpisany przez
+klucz dystrybucji, to powinien zostać z powodzeniem zweryfikowany i załadowany, a proces startu
+powinien być kontynuowany.</p>
+<p>W przypadku, gdy zostanie zainicjowany proces zarządzania kluczami, to binarka MokManager
+( <code>mm*.efi</code> ) zostanie załadowana do pamięci RAM. Ta binarka jest zaufana przez shim za sprawą
+klucza efemerycznego (tymczasowego), który istnieje jedynie w czasie procesu kompilacji shim'a.
+Oznacza to, że dana binarka MokManager'a może zostać zweryfikowana jedynie przez odpowiadający jej
+shim i żaden inny shim nie będzie w stanie tej binarki zweryfikować, co zapobiega całej masie
+problemów natury bezpieczeństwa.</p>
+<p>MokManager pozwala każdemu użytkownikowi komputera mającemu dostęp do konsoli systemowej na
+przeprowadzenie poniższych akcji:</p>
+<ul>
+<li>dodanie nowych kluczy do bazy</li>
+<li>usunięcie zaufanych kluczy z bazy</li>
+<li>dodanie binarnych hash'y</li>
+<li>przełączenie weryfikacji Secure Boot na poziomie shim</li>
+</ul>
+<p>Te powyższe czynności z reguły będą dostępne jedynie po wprowadzeniu uprzednio ustawionego hasła (w
+działającym systemie operacyjnym), tak by zweryfikować tożsamość osoby, która wydaje polecenia.
+Takie hasła są tworzone na czas pojedynczego uruchomienia shim'a lub MokManager'a i są czyszczone
+jak tylko proces dobiegnie końca lub zostanie anulowany. Gdy proces zarządzania kluczami zakończy
+się, komputer restartuje i kontynuuje fazę startu systemu operacyjnego.</p>
+<p>Gdy Grub2 zostanie uruchomiony, ładuje on sobie całą potrzebną konfigurację (zwykle z partycji ESP),
+która wskazuje na kolejny plik konfiguracyjny zlokalizowany tym razem na na partycji BOOT (lub też
+w obrębie głównego systemu plików). Z kolei ten plik konfiguracyjny wskazuje położenie kernela i
+obrazu initrd, który trzeba będzie załadować do pamięci RAM w celu kontynuowania procesu boot.</p>
+<p>Obraz kernela, który zostanie załadowany, również musi zostać zweryfikowany, a wcześniej też i
+podpisany zaufanym kluczem, który przechowywany jest w bazie danych MOK. Oficjalne kernele Debiana
+są podpisane kluczem dystrybucji i bez problemu powinny zostać zweryfikowane. Jak tylko ten proces
+zakończy się powodzeniem, to kontrola nad dalszym startem maszyny jest przekazywana kernelowi. Co
+ciekawe obraz initrd/initramfs nie jest weryfikowany w żaden sposób.</p>
+<p>Gdy Secure Boot jest włączony, to każdy błąd przy weryfikacji ładowanych binarek do tego momentu
+będzie skutkował przerwaniem procesu startu maszyny. W przypadku, gdy błędów nie będzie, załadowany
+w pamięci operacyjnej kernel wyłączy usługi startu (Boot Services) w firmware EFI/UEFI zrzucając w
+ten sposób uprawnienia i efektywnie przełączy się w tryb użytkownika (user mode), gdzie dostęp do
+zaufanych zmiennych firmware EFI/UEFI jest ograniczony jedynie do odczytu.</p>
+<p>Jako, że moduły kernela mogą posiadać rozbudowane uprawnienia, to każdy taki moduł niewbudowany
+bezpośrednio w kernel musi zostać podpisany osobno zaufanym kluczem, w przeciwnym razie system nie
+pozwoli go załadować. Wszystkie moduły, które są dostarczane z dystrybucyjnym kernelem Debiana są
+podpisane i zaufane. Pozostałe moduły, np. budowane za sprawą mechanizmu DKMS, muszą być podpisane
+przez użytkownika osobno. Próba załadowania niepodpisanego modułu zawsze zakończy się błędem, który
+zostanie odnotowany w logu systemowym.</p>
+<h2 id="klucze-wbudowane-w-firmware-efiuefi">Klucze wbudowane w firmware EFI/UEFI</h2>
+<p><a href="https://wiki.gentoo.org/wiki/Sakaki%27s_EFI_Install_Guide/Configuring_Secure_Boot">Na wiki Gentoo</a> dostępny jest przyzwoicie opisany tutorial, którego części postanowiłem
+przetłumaczyć w drodze konfigurowania swojego laptopa i umieścić w niniejszym artykule. Wszystkie
+rzeczy, które wymagały wyjaśnienia lub dopowiedzenia, zostały wyjaśnione i dopowiedziane, a
+brakujące informacje zostały dodane i wkomponowane między wersy, tak by poniższy artykuł był nieco
+pełniejszy niż ten podlinkowany tutek i zawierał wszystkie niezbędne rzeczy, których człowiek może
+potrzebować przy zaoraniu swojego firmware EFI/UEFI na potrzeby bezpiecznej instalacji Debian linux.</p>
+<p>Mając rozeznanie jak mniej więcej działa Secure Boot, można zauważyć, że pewne zagrożenie może
+płynąć z racji zaszycia określonych certyfikatów bezpośrednio w firmware EFI/UEFI. W efekcie każde
+oprogramowanie podpisane przez klucze prywatne, np. Microsoft'u czy Lenovo, może zostać uruchomione
+na naszej maszynie i potencjalnie skompromitować zabezpieczenia jakie daje mechanizm Secure Boot. W
+przypadku mojego ThinkPad'a T430 wkodowane na stałe były te poniższe certyfikaty.</p>
+<p>Zmienna <code>PK</code> :</p>
+<pre><code># efi-readvar -v PK
+Variable PK, length 983
+PK: List 0, type X509
+    Signature 0, size 955, owner 3cc24e96-22c7-41d8-8863-8e39dcdcc2cf
+        Subject:
+            C=JP, ST=Kanagawa, L=Yokohama, O=Lenovo Ltd., CN=Lenovo Ltd. PK CA 2012
+        Issuer:
+            C=JP, ST=Kanagawa, L=Yokohama, O=Lenovo Ltd., CN=Lenovo Ltd. PK CA 2012
+</code></pre>
+<p>Zmienna <code>KEK</code> :</p>
+<pre><code># efi-readvar -v KEK
+Variable KEK, length 2545
+KEK: List 0, type X509
+    Signature 0, size 957, owner 7facc7b6-127f-4e9c-9c5d-080f98994345
+        Subject:
+            C=JP, ST=Kanagawa, L=Yokohama, O=Lenovo Ltd., CN=Lenovo Ltd. KEK CA 2012
+        Issuer:
+            C=JP, ST=Kanagawa, L=Yokohama, O=Lenovo Ltd., CN=Lenovo Ltd. KEK CA 2012
+KEK: List 1, type X509
+    Signature 0, size 1532, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Subject:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Corporation KEK CA 2011
+        Issuer:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Corporation Third Party Marketplace Root
+</code></pre>
+<p>Zmienna <code>db</code> :</p>
+<pre><code># efi-readvar -v db
+Variable db, length 4209
+db: List 0, type SHA256
+    Signature 0, size 48, owner 7facc7b6-127f-4e9c-9c5d-080f98994345
+        Hash:14e62a4905e19189e70828983165939afc0a331d0b415f3332b0e818a827f436
+db: List 1, type X509
+    Signature 0, size 1515, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Subject:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Windows Production PCA 2011
+        Issuer:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Root Certificate Authority 2010
+db: List 2, type X509
+    Signature 0, size 1572, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Subject:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Corporation UEFI CA 2011
+        Issuer:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Corporation Third Party Marketplace Root
+db: List 3, type X509
+    Signature 0, size 962, owner 7facc7b6-127f-4e9c-9c5d-080f98994345
+        Subject:
+            C=JP, ST=Kanagawa, L=Yokohama, O=Lenovo Ltd., CN=ThinkPad Product CA 2012
+        Issuer:
+            C=JP, ST=Kanagawa, L=Yokohama, O=Lenovo Ltd., CN=Lenovo Ltd. Root CA 2012
+</code></pre>
+<p>Zmienna <code>dbx</code> :</p>
+<pre><code># efi-readvar -v dbx
+Variable dbx, length 3800
+dbx: List 0, type SHA256
+    Signature 0, size 48, owner 7facc7b6-127f-4e9c-9c5d-080f98994345
+        Hash:14e62a4905e19189e70828983165939afc0a331d0b415f3332b0e818a827f436
+dbx: List 1, type SHA256
+    Signature 0, size 48, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Hash:80b4d96931bf0d02fd91a61e19d14f1da452e66db2408ca8604d411f92659f0a
+    ...
+    Signature 76, size 48, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Hash:45c7c8ae750acfbb48fc37527d6412dd644daed8913ccd8a24c94d856967df8e
+</code></pre>
+<p>Zmienna <code>MokList</code> :</p>
+<pre><code># efi-readvar -v MokList
+Variable MokList has no entries
+</code></pre>
+<h3 id="zmienne-pk-kek-db-dbx-i-moklist">Zmienne PK, KEK, db, dbx i MokList</h3>
+<p>Specyfikacja EFI/UEFI definiuje 4 bezpieczne nieulotne zmienne (secure, non-volatile variables),
+które są wykorzystywane do kontrolowania podsystemu Secure Boot. Są to <code>PK</code> (Platform Key) , <code>KEK</code>
+(Key Exchange Key) , <code>db</code> (Signature Database) i <code>dbx</code> (Forbidden Signatures Database). Określenie
+tych zmiennych mianem bezpiecznych bierze się z faktu, że zmiany w nich mogą zostać przeprowadzone
+jedynie przez osobę władającą prywatną częścią klucza, który został użyty do utworzenia tych
+zmiennych.</p>
+<p>W zmiennej <code>PK</code> jest przechowywany główny klucz platformy i jego zadaniem jest kontrola dostępu do
+tej zmiennej jak i również do zmiennej <code>KEK</code> . W większości implementacji firmware EFI/UEFI w
+zmiennej <code>PK</code> może być przechowywany tylko jeden taki klucz (zwykle <a href="https://en.wikipedia.org/wiki/X.509">X.509 używający schematu RSA
+2048-bit</a>). Gdy zmienna <code>PK</code> jest czyszczona (czynność do przeprowadzenia w konfiguracji
+firmware EFI/UEFI), system przechodzi w tryb ustawień (setup mode) i jednocześnie Secure Mode
+zostaje wyłączony. W trybie ustawień, zmienne <code>PK</code> , <code>KEK</code> , <code>db</code> oraz <code>dbx</code> mogą zostać
+zaktualizowane bez jakiegokolwiek uwierzytelnienia całego procesu. Niemniej jednak, natychmiast
+po zapisaniu zmiennej <code>PK</code> , system przechodzi w tryb użytkownika (user mode). Dlatego też zmienna
+PK powinna być aktualizowana zawsze jako ostatnia. Klucz <code>PK</code> nie może być użyty do podpisania
+plików wykonywalnych.</p>
+<p>W zmiennej <code>KEK</code> przechowywane są klucze (X509 lub RSA2048) wykorzystywane do nadzorowania procesu
+aktualizacji bazy danych sygnatur przechowywanej w zmiennej <code>db</code> . Klucze <code>KEK</code> mogą także zostać
+użyte do podpisywania plików wykonywalnych, choć jest to rzadkie ze względu na fakt, że do tego
+celu wykorzystywane są klucze, których certyfikaty figurują w zmiennej <code>db</code> .</p>
+<p>Baza danych sygnatur przechowywana w zmiennej <code>db</code> jest wykorzystywana do weryfikacji podpisanych
+plików wykonywalnych w środowisku firmware EFI/UEFI przy włączonym Secure Boot. Może ona zawierać
+dowolny miks kluczy publicznych, sygnatur i hash'y. Ta zmienna funkcjonuje w zasadzie jako biała
+lista plików wykonywalnych podczas początkowej fazy startu maszyny. Z kolei baza zabronionych
+sygnatur przechowywana jest w zmiennej <code>dbx</code> i jest wykorzystywana do uniemożliwienia załadowania
+binarek, które z jakiegoś powodu zostały określone jako niezaufane. Zmienna <code>dbx</code> robi w ten sposób
+za czarną listę.</p>
+<p>Poza tymi czterema głównymi zmiennymi można było jeszcze zauważyć zmienną <code>MokList</code> . Jest ona
+bardzo podobna do zmiennej <code>db</code> i zwykle jest pusta ale przy pomocy narzędzia <code>KeyTool</code> można do
+niej dodawać/usuwać dowolne klucze, zwłaszcza klucze różnych dystrybucji linux'a, tak by mogły one
+współpracować z Secure Boot, prawdopodobnie bez potrzeby zaciągania do tego shim'a. Póki co jednak,
+nie udało mi się nic do tej zmiennej dodać, więc dokładnie nie wiem jakie jest jej przeznaczenie.</p>
+<p>Gdy system jest uruchomiony w trybie użytkownika oraz Secure Boot jest włączony, to <a href="https://blog.hansenpartnership.com/the-meaning-of-all-the-uefi-keys/">firmware
+EFI/UEFI będzie w stanie uruchomić</a> jedynie tylko te pliki wykonywalne, które:</p>
+<ul>
+<li>nie są podpisane ale mają hash w <code>db</code> i równocześnie nie mają go w <code>dbx</code></li>
+<li>są podpisane i ich sygnatura występuje w <code>db</code> i nie ma jej przy tym w <code>dbx</code></li>
+<li>są podpisane i ich sygnatura jest weryfikowalna za sprawą klucza publicznego obecnego w <code>db</code> lub
+klucza publicznego przechowywanego w <code>KEK</code> i zarazem ani klucz ani sygnatura nie występują w
+<code>dbx</code> .</li>
+</ul>
+<p>Po nabyciu nowego komputera mającego windows'a na pokładzie, te cztery zmienne będą skonfigurowane
+zwykle w poniższy sposób:</p>
+<ul>
+<li>Zmienna <code>PK</code> będzie miała załadowany klucz publiczny wystawiony przez producenta sprzętu, np.
+Lenovo.</li>
+<li>Zmienna <code>KEK</code> będzie miała załadowany klucz publiczny wystawiony przez Microsoft.</li>
+<li>Zmienna <code>db</code> będzie miała załadowany zestaw kluczy publicznych wystawionych przez szereg
+producentów autoryzowanych przez Microsoft.</li>
+<li>Zmienna <code>dbx</code> będzie zwykle zawierać cofnięte sygnatury lub hash'e (może też być pusta).</li>
+</ul>
+<h2 id="usuwanie-wbudowanych-kluczy-i-dodanie-własnych">Usuwanie wbudowanych kluczy i dodanie własnych</h2>
+<p>W przypadku takich osób jak ja, które nie zamierzają instalować na swoim laptopie windows'a, te
+wbudowane klucze są niezbyt mile widziane patrząc z punktu widzenia bezpieczeństwa. Dodatkowo, mogą
+one  powodować problemy z Secure Boot w przypadku instalacji linux'a. Część implementacji EFI/UEFI
+umożliwia użytkownikowi komputera usunięcie wszystkich domyślnych kluczy. W ten sposób zostaje
+otwarta droga do wdrożenia Secure Boot, nad którym to my będziemy mieć pełnię władzy z racji, że
+będziemy decydować jakie oprogramowanie będzie się w stanie uruchomić na naszej maszynie.
+Odbierzemy jednocześnie tę możliwość decydowania podmiotom takim jak Microsoft czy Lenovo.</p>
+<p>Teoretycznie przy zaprzęgnięciu shim'a, Secure Boot powinien działać OOTB. Niemniej jednak, w
+przypadku mojego laptopa tak się nie stało. Być może jest on za stary i dlatego ma problem z
+odpaleniem Debiana w trybie Secure Boot na domyślnym zestawie kluczy wgranych w firmware EFI/UEFI.
+Tak czy inaczej, postanowiłem zaorać wszystkie te klucze i wgrać tam swoje własne, tak by sprawdzić
+czy to coś pomoże.</p>
+<h3 id="backup-stockowych-kluczy-firmware-efiuefi">Backup stock'owych kluczy firmware EFI/UEFI</h3>
+<p>Jako, że zamierzamy wyczyścić stock'owe klucze w firmware EFI/UEFI, to wypadałoby zacząć od
+zrobienia ich backup'u. Technicznie rzecz biorąc, to w konfiguracji tego firmware powinny być
+stosowne opcje do odtworzenia tych kluczy (i w przypadku mojego laptopa są) ale lepiej jest mieć
+własny backup, tak na wszelki wypadek. Musimy zatem zrobić zrzut zawartości zmiennych <code>PK</code> ,
+<code>KEK</code> , <code>db</code> i <code>dbx</code> . Kopię zapasową robimy przy pomocy narzędzia <code>efi-readvar</code> dostępnego w
+pakiecie <code>efitools</code> :</p>
+<pre><code># mkdir -p /etc/kernel_key/efikeys.orig/
+# chmod 700 /etc/kernel_key/efikeys.orig/
+# cd /etc/kernel_key/efikeys.orig/
+
+# efi-readvar -v PK -o old_PK.esl
+Variable PK, length 983
+
+# efi-readvar -v KEK -o old_KEK.esl
+Variable KEK, length 2545
+
+# efi-readvar -v db -o old_db.esl
+Variable db, length 4209
+
+# efi-readvar -v dbx -o old_dbx.esl
+Variable dbx, length 3800
+</code></pre>
+<p>Warto tutaj zaznaczyć, że backup musi mieć format listy sygnatur czytelny dla maszyn i dlatego
+określony został przełącznik <code>-o</code> . Bez niego byśmy dostali tylko tekstową reprezentację, której
+nie bylibyśmy w stanie przywrócić w późniejszym czasie, gdyby zaszła taka potrzeba.</p>
+<h3 id="tworzenie-nowych-kluczy">Tworzenie nowych kluczy</h3>
+<p>Mając zrobiony backup kluczy firmware EFI/UEFI, tworzymy nowe klucze. W późniejszym czasie wgramy
+te nasze klucze w miejsce tych, które zostaną usunięte. Rozmiar klucza można podać naturalnie 4096
+ale niektóre implementacje EFI/UEFI nie akceptują większych kluczy niż 2048 bitów. Dlatego lepiej
+pozostać przy standardowym rozmiarze. Klucze generujemy zaś przy pomocy <code>openssl</code> w poniższy sposób:</p>
+<pre><code># cd /etc/kernel_key/
+
+# openssl req -new -x509 -newkey rsa:2048 -subj &quot;/CN=morfikov's platform key/&quot; -keyout PK.key -out PK.crt -days 3650 -nodes -sha256
+# openssl req -new -x509 -newkey rsa:2048 -subj &quot;/CN=morfikov's key-exchange-key/&quot; -keyout KEK.key -out KEK.crt -days 3650 -nodes -sha256
+# openssl req -new -x509 -newkey rsa:2048 -subj &quot;/CN=morfikov's kernel-signing key/&quot; -keyout db.key -out db.crt -days 3650 -nodes -sha256
+
+# chmod -v 400 *.key
+mode of 'KEK.key' changed from 0600 (rw-------) to 0400 (r--------)
+mode of 'PK.key' changed from 0600 (rw-------) to 0400 (r--------)
+mode of 'db.key' changed from 0600 (rw-------) to 0400 (r--------)
+</code></pre>
+<p>Firmware EFI/UEFI różnych producentów sprzętu może mieć nieco inne wymagania co do formatów plików,
+którymi będziemy chcieli się posłużyć w celu zaktualizowania zawartości zmiennych. Dlatego też
+przydałoby się wygenerować kilka dodatkowych plików, tak na wszelki wypadek, gdyby w naszym
+przypadku to one jednak znalazły zastosowanie.</p>
+<p>Na początek tworzymy wersję formatu <code>.auth</code> (signed signature list) zmiennej <code>PK</code> jako, że
+<code>efi-updatevar</code> (jak i sporo graficznych interfejsów firmware EFI/UEFI) akceptuje tylko ten format.
+Pierwsze z poniższych poleceń tworzy listę sygnatur, która wymaga unikalnego ID, choć nie jest on
+dla nas tak istotny. W drugim poleceniu zaś używamy naszego prywatnego klucza <code>PK</code> (platform key),
+by tę listę sygnatur podpisać (zarówno <code>cert-to-efi-sig-list</code> jak i <code>sign-efi-sig-list</code> są dostępne
+w pakiecie <code>efitools</code> ):</p>
+<pre><code># cert-to-efi-sig-list -g &quot;$(uuidgen)&quot; PK.crt PK.esl
+# sign-efi-sig-list -k PK.key -c PK.crt PK PK.esl PK.auth
+Timestamp is 2020-3-15 15:05:52
+Authentication Payload size 893
+Signature of size 1211
+Signature at: 40
+</code></pre>
+<p>Podobnie postępujemy w przypadku klucza <code>KEK</code> i tutaj do podpisywania również trzeba wykorzystać
+prywatny klucz <code>PK</code> . Przełącznik <code>-a</code> z kolei wskazuje, że dane będą dołączane do zmiennej zamiast
+zastępować je:</p>
+<pre><code># cert-to-efi-sig-list -g &quot;$(uuidgen)&quot; KEK.crt KEK.esl
+# sign-efi-sig-list -a -k PK.key -c PK.crt KEK KEK.esl KEK.auth
+Timestamp is 0-0-0 00:00:00
+Authentication Payload size 903
+Signature of size 1211
+Signature at: 40
+</code></pre>
+<p>Podobnie postępujemy w przypadku <code>db</code> ale tutaj wykorzystujemy do podpisu prywatny klucz <code>KEK</code> .
+Parametr <code>-a</code> również trzeba określić:</p>
+<pre><code># cert-to-efi-sig-list -g &quot;$(uuidgen)&quot; db.crt db.esl
+# sign-efi-sig-list -a -k KEK.key -c KEK.crt db db.esl db.auth
+Timestamp is 0-0-0 00:00:00
+Authentication Payload size 905
+Signature of size 1223
+Signature at: 40
+</code></pre>
+<p>Podobnie postępujemy dla <code>dbx</code> ale tutaj skorzystamy z pliku backupu, który utworzyliśmy wcześniej.
+W tym przypadku do podpisu również jest wykorzystywany klucz <code>KEK</code> :</p>
+<pre><code># cp efikeys.orig/old_dbx.esl ./
+# sign-efi-sig-list -k KEK.key -c KEK.crt dbx old_dbx.esl old_dbx.auth
+Timestamp is 2020-3-15 15:34:41
+Authentication Payload size 3842
+Signature of size 1223
+Signature at: 40
+</code></pre>
+<p>Tworzymy teraz wersję DER dla każdego z trzech naszych kluczy publicznych:</p>
+<pre><code># openssl x509 -outform DER -in PK.crt -out PK.cer
+# openssl x509 -outform DER -in KEK.crt -out KEK.cer
+# openssl x509 -outform DER -in db.crt -out db.cer
+</code></pre>
+<h4 id="wsparcie-dla-windows">Wsparcie dla windows</h4>
+<p>Stwórzmy jeszcze zespolony plik <code>.esl</code> dla <code>KEK</code> i <code>db</code> (pliki <code>.esl</code> można zwyczajnie połączyć). W
+tym kroku chodzi o zachowanie wsparcia dla windows'a przez połączenie starych bazy danych (tych z
+backup'u) z nowymi. W przypadku tak utworzonych plików również będziemy potrzebować odpowiedników
+<code>.auth</code> :</p>
+<pre><code># cp efikeys.orig/old_KEK.esl ./
+# cp efikeys.orig/old_db.esl ./
+# cat old_KEK.esl KEK.esl &gt; compound_KEK.esl
+# cat old_db.esl db.esl &gt; compound_db.esl
+
+# sign-efi-sig-list -k PK.key -c PK.crt KEK compound_KEK.esl compound_KEK.auth
+Timestamp is 2020-3-15 15:40:50
+Authentication Payload size 3448
+Signature of size 1211
+Signature at: 40
+
+# sign-efi-sig-list -k KEK.key -c KEK.crt db compound_db.esl compound_db.auth
+Timestamp is 2020-3-15 15:40:54
+Authentication Payload size 5114
+Signature of size 1223
+Signature at: 40
+</code></pre>
+<h4 id="brak-wsparcia-dla-windows">Brak wsparcia dla windows</h4>
+<p>W przypadku, gdy nie chcemy zachowywać wsparcia dla windows, to można pozbyć się kluczy Microsoft'u
+(i innych podmiotów), które znajdowały się w zmiennych <code>KEK</code> i <code>db</code> ). Usunięcie tych kluczy sprawi,
+że żaden windows zainstalowany na naszej maszynie nie będzie w stanie się uruchomić z włączonym
+Secure Boot. Niemniej jednak, wsparcie dla windows będzie można zaimplementować w późniejszym
+czasie dodając klucze Microsoft'u do bazy.</p>
+<p>By usunąć klucze Microsoft'u, musimy stworzyć pliki zespolone dla <code>KEK</code> i <code>db</code> (zarówno <code>.esl</code> jak
+i <code>.auth</code> ) z pominięciem komponentów Microsoft'u (bez dodawania zawartości z backup'u):</p>
+<pre><code># cp KEK.esl compound_KEK.esl
+# cp db.esl compound_db.esl
+
+# sign-efi-sig-list -k PK.key -c PK.crt KEK compound_KEK.esl compound_KEK.auth
+Timestamp is 2020-3-15 15:53:01
+Authentication Payload size 903
+Signature of size 1211
+Signature at: 40
+
+# sign-efi-sig-list -k KEK.key -c KEK.crt db compound_db.esl compound_db.auth
+Timestamp is 2020-3-15 15:53:05
+Authentication Payload size 905
+Signature of size 1223
+Signature at: 40
+</code></pre>
+<h3 id="tryb-ustawień-setup-mode">Tryb ustawień (setup mode)</h3>
+<p>Mając przygotowane własne pliki z kluczami, możemy przejść do wyczyszczenia starych kluczy z
+poziomu interfejsu firmware EFI/UEFI naszego laptopa. Wyczyszczenie kluczy przełączy nas
+automatycznie w tryb ustawień (setup mode), w którym to będziemy mogli wgrać te wyżej utworzone
+klucze bez żadnej weryfikacji całego procesu.</p>
+<p>W pewnych implementacjach EFI/UEFI wymagane jest ustawienie hasła nadzorczego (supervisor password),
+by opcja do wyczyszczenia kluczy Secure Boot stała się dostępna. W przypadku mojego laptopa Lenovo
+ThinkPad T430, czyszczenie wbudowanych kluczy w firmware EFI/UEFI odbywa się w poniższy sposób.</p>
+<p>Wchodzimy w ustawienia firmware EFI/UEFI i szukamy opcji od Secure Boot:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/001-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/002-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot.jpg" alt=""    class="huge"></p>
+<p>Jak widać wyżej, mamy pozycję od resetowania kluczy ( <code>Reset to Setup Mode</code> ) oraz od przywrócenia
+kluczy fabrycznych ( <code>Restore Factory Keys</code> ). Nas interesuje ta pierwsza opcja:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/003-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/004-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg" alt=""    class="huge"></p>
+<p>Po zaakceptowaniu, pozycja <code>Platform Mode</code> powinna się zmienić z <code>User Mode</code> na <code>Setup Mode</code>, a <code>Secure Boot Mode</code>
+z <code>Standard Mode</code> na <code>Custom Mode</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/005-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg" alt=""    class="huge"></p>
+<p>Zapisujemy ustawienia firmware EFI/UEFI i restartujemy komputer (tryb Secure Boot powinien być
+automatycznie wyłączony):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/006-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-save.jpg" alt=""    class="huge"></p>
+<p>Po zalogowaniu się w systemie sprawdzamy czy zmienne <code>PK</code> , <code>KEK</code> , <code>db</code> oraz <code>dbx</code> zostały
+wyczyszczone. Odpalamy zatem terminal i wpisujemy w nim polecenie <code>efi-readvar</code> :</p>
+<pre><code># efi-readvar
+Variable PK has no entries
+Variable KEK, length 2545
+KEK: List 0, type X509
+    Signature 0, size 957, owner 7facc7b6-127f-4e9c-9c5d-080f98994345
+        Subject:
+            C=JP, ST=Kanagawa, L=Yokohama, O=Lenovo Ltd., CN=Lenovo Ltd. KEK CA 2012
+        Issuer:
+            C=JP, ST=Kanagawa, L=Yokohama, O=Lenovo Ltd., CN=Lenovo Ltd. KEK CA 2012
+KEK: List 1, type X509
+    Signature 0, size 1532, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Subject:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Corporation KEK CA 2011
+        Issuer:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Corporation Third Party Marketplace Root
+Variable db, length 4209
+db: List 0, type SHA256
+    Signature 0, size 48, owner 7facc7b6-127f-4e9c-9c5d-080f98994345
+        Hash:14e62a4905e19189e70828983165939afc0a331d0b415f3332b0e818a827f436
+db: List 1, type X509
+    Signature 0, size 1515, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Subject:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Windows Production PCA 2011
+        Issuer:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Root Certificate Authority 2010
+db: List 2, type X509
+    Signature 0, size 1572, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Subject:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Corporation UEFI CA 2011
+        Issuer:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Corporation Third Party Marketplace Root
+db: List 3, type X509
+    Signature 0, size 962, owner 7facc7b6-127f-4e9c-9c5d-080f98994345
+        Subject:
+            C=JP, ST=Kanagawa, L=Yokohama, O=Lenovo Ltd., CN=ThinkPad Product CA 2012
+        Issuer:
+            C=JP, ST=Kanagawa, L=Yokohama, O=Lenovo Ltd., CN=Lenovo Ltd. Root CA 2012
+Variable dbx, length 76
+dbx: List 0, type SHA256
+    Signature 0, size 48, owner 7facc7b6-127f-4e9c-9c5d-080f98994345
+        Hash:14e62a4905e19189e70828983165939afc0a331d0b415f3332b0e818a827f436
+Variable MokList has no entries
+</code></pre>
+<p>Z powyższych informacji wynika, że w zasadzie to tylko zmienna <code>PK</code> została wyczyszczona. Zmienne
+<code>KEK</code> i <code>db</code> nie zostały ruszone w żaden sposób, zaś zmienna <code>dbx</code> została dość mocno odchudzona.
+Tak czy inaczej, widać, że klucze Lenovo i Microsoft'u są obecne w dalszym ciągu w zmiennych <code>KEK</code>
+i <code>db</code> . W niczym to nie przeszkadza, bo za moment zawartość tych zmiennych zostanie zastąpiona
+plikami, które wyżej przygotowaliśmy.</p>
+<h4 id="aktualizacja-kluczy-przez-efi-updatevar">Aktualizacja kluczy przez efi-updatevar</h4>
+<p>Najprostszym sposobem na wgranie wygenerowanych przez nas kluczy jest posłużenie się narzędziem
+<code>efi-updatevar</code> dostępnym w pakiecie <code>efitools</code> . Będąc cały czas na działającym linux'ie odpalamy
+terminal i wpisujemy te poniższe polecenia:</p>
+<pre><code># efi-updatevar -e -f old_dbx.esl dbx
+# efi-updatevar -e -f compound_db.esl db
+# efi-updatevar -e -f compound_KEK.esl KEK
+# efi-updatevar -f PK.auth PK
+</code></pre>
+<p>Niestety w przypadku mojego ThinkPad'a przy próbie zapisu tych zmiennych zostają zwrócone
+poniższe błędy:</p>
+<pre><code># efi-updatevar -e -f old_dbx.esl dbx
+Failed to update dbx: Operation not permitted
+
+# efi-updatevar -e -f compound_db.esl db
+Failed to update db: Operation not permitted
+
+# efi-updatevar -e -f compound_KEK.esl KEK
+Failed to update KEK: Operation not permitted
+</code></pre>
+<p>Teoretycznie te trzy polecenia powinny zadziałać w większości przypadków ale wygląda na to, że mój
+przypadek się do takowych nie zalicza i posłużenie się <code>efi-updatevar</code> w takiej sytuacji zwyczajnie
+odpada i trzeba posiłkować się innymi sposobami.</p>
+<p>Jeśli napotkaliśmy ten powyższy problem, to prawdopodobnie pliki w katalogu
+<code>/sys/firmware/efi/efivars/</code> <a href="https://morfikov.github.io/post/problem-z-aktualizacja-zmiennych-pk-kek-db-dbx-efi-updatevar/">mają ustawiony bit odporności i trzeba im go usunąć</a>.</p>
+<h4 id="wgrywanie-kluczy-z-poziomu-firmware-efiuefi">Wgrywanie kluczy z poziomu firmware EFI/UEFI</h4>
+<p>Firmware EFI/UEFI niektórych komputerów z wyższej półki umożliwiają manipulowanie kluczami z
+poziomu swojego interfejsu graficznego. W przypadku firmware tego laptopa próżno jednak szukać
+stosownych opcji w konfiguracji, zatem nie da rady przepisać zmiennych <code>PK</code> , <code>KEK</code> , <code>db</code> i <code>dbx</code>
+tym sposobem również.</p>
+<h4 id="wgrywanie-kluczy-przez-keytool">Wgrywanie kluczy przez KeyTool</h4>
+<p>W pakiecie <code>efitools</code> znajduje się plik <code>KeyTool.efi</code> , którego przeznaczeniem jest umożliwienie
+operowania na zmiennych firmware EFI/UEFI. Ten plik trzeba będzie uruchomić bezpośrednio w
+środowisku firmware, tj. zanim zostanie załadowany system operacyjny czy nawet bootloader. Jako, że
+<a href="https://morfikov.github.io/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/">ja korzystam z menadżera rozruchu rEFInd</a>, to mogę przekopiować plik <code>KeyTool.efi</code> na partycję
+ESP do katalogu <code>EFI/tools/</code> :</p>
+<pre><code># cp /usr/lib/efitools/x86_64-linux-gnu/KeyTool.efi /efi/EFI/tools/
+</code></pre>
+<p>Na partycję ESP dobrze jest też przekopiować potrzebne pliki z kluczami (nie kopiujmy tylko kluczy
+prywatnych):</p>
+<pre><code># cp /etc/kernel_key/*.{auth,cer,crt,esl} /efi/EFI/secure_boot_keys/
+</code></pre>
+<p>Po zresetowaniu maszyny stosowna ikonka powinna pojawić się w menu wyboru (to ten żółty klucz) na
+fotce niżej:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/007-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-mok-keytool.jpg" alt=""    class="huge"></p>
+<p>Naturalnie wybieramy tę pozycję, odpalamy KeyTool i z menu, które zostanie nam zaprezentowane,
+wybieramy <code>Edit Keys</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/008-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit.jpg" alt=""    class="huge"></p>
+<p>Teraz kolejno edytujemy zmienne zastępując ich zawartość przygotowanymi wcześniej plikami.</p>
+<p>Zmienna <code>dbx</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/009-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/010-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/011-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg" alt=""    class="huge"></p>
+<p>Zmienna <code>db</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/012-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/013-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/014-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg" alt=""    class="huge"></p>
+<p>Zmienna <code>KEK</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/015-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/016-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/017-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg" alt=""    class="huge"></p>
+<p>Zmienna <code>PK</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/018-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/019-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/020-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg" alt=""    class="huge"></p>
+<p>Po wgraniu klucza do zmiennej <code>PK</code> , wracamy do menu głównego, w którym to powinniśmy zobaczyć, że
+tryb w jakim operował firmware zmienił się z <code>Setup Mode</code> na <code>User Mode</code> (w górnej części ekranu):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/021-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-exit.jpg" alt=""    class="huge"></p>
+<p>Wychodzimy i uruchamiamy system bez włączonego póki co jeszcze Secure Boot:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/022-debian-linux-efi-uefi-firmware-bios-boot-system.jpg" alt=""    class="huge"></p>
+<h3 id="sprawdzenie-zmiennych">Sprawdzenie zmiennych</h3>
+<p>Po wgraniu zawartości plików do określonych zmiennych i uruchomieniu systemu sprawdzamy, czy udało
+się nam przepisać wartości zmiennych <code>PK</code> , <code>KEK</code> , <code>db</code> oraz <code>dbx</code> :</p>
+<pre><code># efi-readvar
+
+Variable PK, length 853
+PK: List 0, type X509
+	Signature 0, size 825, owner 90a7d962-e601-4363-a326-524f9f76132b
+        Subject:
+            CN=morfikov's platform key
+        Issuer:
+            CN=morfikov's platform key
+Variable KEK, length 861
+
+KEK: List 0, type X509
+	Signature 0, size 833, owner 95b65092-8342-4a45-9dc2-d80233aba2b3
+        Subject:
+            CN=morfikov's key-exchange-key
+        Issuer:
+            CN=morfikov's key-exchange-key
+Variable db, length 865
+
+db: List 0, type X509
+	Signature 0, size 837, owner 1091ff9c-7b84-4df6-8163-ed1b8aa05096
+        Subject:
+            CN=morfikov's kernel-signing key
+        Issuer:
+            CN=morfikov's kernel-signing key
+Variable dbx, length 3800
+
+dbx: List 0, type SHA256
+	Signature 0, size 48, owner 7facc7b6-127f-4e9c-9c5d-080f98994345
+        Hash:14e62a4905e19189e70828983165939afc0a331d0b415f3332b0e818a827f436
+dbx: List 1, type SHA256
+	Signature 0, size 48, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Hash:80b4d96931bf0d02fd91a61e19d14f1da452e66db2408ca8604d411f92659f0a
+	...
+	Signature 76, size 48, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Hash:45c7c8ae750acfbb48fc37527d6412dd644daed8913ccd8a24c94d856967df8e
+Variable MokList has no entries
+</code></pre>
+<p>Jak widać, wbudowane w firmware EFI/UEFI klucze zostały zastąpione tymi wygenerowanymi przez nas i
+w tej chwili tylko to oprogramowanie, które podpiszemy, może być załadowane w trybie Secure Boot na
+naszym laptopie. W zmiennej <code>dbx</code> są dokładnie takie same wpisy co poprzednio, bo została ona
+odtworzona jako, że jest to w zasadzie jedynie czarna lista hash'y, których raczej nie powinniśmy
+ignorować.</p>
+<h2 id="testowanie-secure-boot-z-własnymi-kluczami">Testowanie Secure Boot z własnymi kluczami</h2>
+<p>Do wstępnego przetestowania mechanizmu Secure Boot z własnoręcznie wygenerowanymi kluczami
+potrzebny jest nam jedynie podpisany przez nas kernel oraz zarejestrowany wpis w firmware EFI/UEFI,
+który można dodać za pomocą <code>efibootmgr</code> .</p>
+<h3 id="podpisywanie-kernela">Podpisywanie kernela</h3>
+<p>O ile kernel dystrybucyjny i jego moduły są podpisane kluczem Debiana, o tyle <a href="https://morfikov.github.io/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/">ten nasz
+własnoręcznie zbudowany</a> nie jest. Po skończonym procesie kompilacji, wynikowy plik <code>vmlinuz</code>
+nie jest w żaden sposób podpisany i trzeba go podpisać ręcznie przy pomocy prywatnego klucza <code>db</code> .
+Do tego celu służy narzędzie <code>sbsign</code> dostępne w pakiecie <code>sbsigntool</code> . Proces podpisywania
+binarki kernela wygląda zaś następująco:</p>
+<pre><code># cd /etc/kernel_key
+# sbsign --cert db.crt --key db.key /boot/vmlinuz-5.5.9-amd64
+Signing Unsigned original image
+</code></pre>
+<p>Zarówno certyfikat jak i klucz prywatny są niezbędne w procesie podpisywania i trzeba ścieżki do
+nich określić w opcjach <code>--cert</code> i <code>--key</code> . Ostatni argument to ścieżka do pliku, który zamierzamy
+podpisać. Plik, który podpisujemy nie jest zmieniany w żaden sposób, tylko jest on kopiowany z
+nazwą mająca sufiks <code>.signed</code> i to ta kopia jest podpisywana. By zweryfikować czy plik został
+pomyślnie podpisany, wydajemy poniższe polecenia:</p>
+<pre><code># sbverify --list '/boot/vmlinuz-5.5.9-amd64.signed'
+signature 1
+image signature issuers:
+ - /CN=morfikov's kernel-signing key
+image signature certificates:
+ - subject: /CN=morfikov's kernel-signing key
+   issuer:  /CN=morfikov's kernel-signing key
+</code></pre>
+<p>Jak widać plik zawiera sygnaturę naszego klucza <code>db</code> . Sprawdźmy czy da radę ją zweryfikować:</p>
+<pre><code># sbverify --cert db.crt /boot/vmlinuz-5.5.9-amd64.signed
+Signature verification OK
+</code></pre>
+<p>Informacja <code>Signature verification OK</code> świadczy o pomyślnym zakończeniu procesu weryfikacji.</p>
+<h3 id="podpisywanie-modułów-kernela">Podpisywanie modułów kernela</h3>
+<p>Zwykle podpisanie binarki kernela nam wystarczy ale w przypadku, gdy budowaliśmy jakieś moduły
+zamiast wszystko wkompilować na stałe w kernel, to trzeba zadbać również o podpisanie tych modułów.
+W konfiguracji kernela (do wglądu przez <code>make xconfig</code> ), można doszukać się opcji
+<code>CONFIG_MODULE_SIG_KEY</code> , która wygląda mniej więcej tak:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/023-debian-linux-secure-boot-kernel-config-sign-modules-key.jpg" alt=""    class="huge"></p>
+<p>Ta opcja (jak i jej podobne) odpowiada w zasadzie za podpisanie tylko i wyłączenie modułów, które
+nie zostaną wkompilowane na stałe w kernel. Tak czy inaczej w polu widocznym wyżej musimy określić
+ścieżkę do pliku klucza prywatnego <code>db</code> i jego certyfikatu. Niemniej jednak, certyfikat jest w
+osobny pliku <code>.crt</code> , a klucz prywatny w osobnym pliku <code>.key</code> . Trzeba te dwa pliki pierw połączyć:</p>
+<pre><code># cat db.key db.crt &gt; kernel-key.pem
+</code></pre>
+<p>Ścieżkę do tak otrzymanego pliku trzeba podać w zmiennej <code>CONFIG_MODULE_SIG_KEY</code> w konfiguracji
+kernela.</p>
+<h4 id="podpisywanie-modułów-dkms">Podpisywanie modułów DKMS</h4>
+<p>Jeśli budujemy jakieś moduły zewnętrzne przy pomocy mechanizmu DKMS, to również musimy zatroszczyć
+się o ich podpisanie. Oczywiście ręczne podpisywanie byłoby dość mozolne i na szczęście możemy ten
+<a href="https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/">proces podpisywania modułów DKSM zautomatyzować</a>. Ten podlinkowany artykuł idealnie rozprawia
+się z tą kwestią, trzeba tylko wskazać odpowiednią ścieżkę do certyfikatu i klucza prywatnego <code>db</code>
+w skrypcie <code>/etc/kernel_key/sign-kernel.sh</code> .</p>
+<h3 id="firmware-do-wifibt-a-secure-boot">Firmware do WiFi/BT, a Secure Boot</h3>
+<p>Część sprzętu, który będziemy chcieli używać pod linux, np. karty WiFi czy adaptery bluetooth,
+wymaga dodatkowego firmware pod linux, by prawidłowo funkcjonować. Włączenie Secure Boot nie wpływa
+w żadnym stopniu na fakt czy firmware, którego potrzebuje nasza karta, zostanie załadowany przez
+kernel czy też nie. Z racji, że pliki firmware sprzętu znajdujące się w katalogu <code>/lib/firmware/</code>
+nie są ładowane przez firmware EFI/UEFI tylko przez kernel linux'a, to nie ma potrzeby podpisywania
+tych plików. Poniżej znajduje się potwierdzenie tych słów na przykładzie karty WiFi mojego laptopa
+wykorzystującej moduł <code>iwlwifi</code> , który potrzebny plik firmware <code>iwlwifi-6000g2a-6.ucode</code> ładuje
+sobie z obrazu initrd/initramfs:</p>
+<pre><code>...
+kernel: secureboot: Secure boot enabled
+...
+kernel: iwlwifi 0000:03:00.0: can't disable ASPM; OS doesn't have ASPM control
+kernel: iwlwifi 0000:03:00.0: firmware: direct-loading firmware iwlwifi-6000g2a-6.ucode
+kernel: iwlwifi 0000:03:00.0: loaded firmware version 18.168.6.1 op_mode iwldvm
+kernel: iwlwifi 0000:03:00.0: CONFIG_IWLWIFI_DEBUG enabled
+kernel: iwlwifi 0000:03:00.0: CONFIG_IWLWIFI_DEBUGFS disabled
+kernel: iwlwifi 0000:03:00.0: CONFIG_IWLWIFI_DEVICE_TRACING enabled
+kernel: iwlwifi 0000:03:00.0: Detected Intel(R) Centrino(R) Advanced-N 6205 AGN, REV=0xB0
+kernel: iwlwifi 0000:03:00.0: Radio type=0x1-0x2-0x0
+kernel: iwlwifi 0000:03:00.0: Radio type=0x1-0x2-0x0
+</code></pre>
+<p>Jak widać, brak podpisanego firmware nie przeszkadza w załadowaniu go do pamięci przez kernel.</p>
+<h3 id="dodanie-wpisu-w-firmware-efiuefi-via-efibootmgr">Dodanie wpisu w firmware EFI/UEFI via efibootmgr</h3>
+<p>Podpisany kernel kopiujemy wraz z ewentualnym obrazem initrd/initramfs na partycję ESP i przy
+pomocy narzędzia <code>efibootmgr</code> dostarczanego w pakiecie o tej samej nazwie dodajemy stosowny wpis
+w konfiguracji firmware EFI/UEFI:</p>
+<pre><code># cp /boot/vmlinuz-5.5.9-amd64.signed /efi/EFI/refind/vmlinuz-morfik.signed
+# cp /boot/initrd.img-5.5.9-amd64 /efi/EFI/refind/initrd.img-morfik-amd64
+
+# efibootmgr --create --disk /dev/sda --part 3 --label &quot;Debian EFISTUB&quot; \
+             --loader '\EFI\refind\vmlinuz-morfik-amd64.signed' --unicode \
+             'root=/dev/mapper/wd_blue_label-root ro \
+             initrd=\EFI\refind\initrd.img-morfik-amd64' --verbose
+</code></pre>
+<h3 id="włączenie-secure-boot-w-konfiguracji-efiuefi">Włączenie Secure Boot w konfiguracji EFI/UEFI</h3>
+<p>Pozostało nam już w zasadzie włączyć w konfiguracji firmware EFI/UEFI opcję Secure Boot:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/024-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg" alt=""    class="huge"></p>
+<p>Jak tylko przełączymy tę opcję z <code>Disabled</code> na <code>Enabled</code> , to nie będziemy w stanie zmienić
+ustawień co do trybu w jakim będzie uruchamiał się system (EFI/UEFI vs. BIOS):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/025-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg" alt=""    class="huge"></p>
+<p>Zapisujemy ustawienia firmware EFI/UEFI i uruchamiamy maszynę ponownie:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/026-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg" alt=""    class="huge"></p>
+<p>Podczas początkowej fazy startu komputera, w lewym górnym rogu ekranu powinna być informacja o tym,
+że system operacyjny uruchamiany jest w trybie Secure Boot ( <code>EFI stub: UEFI Secure Boot is enabled</code> ):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/027-debian-linux-secure-boot-system-boot-message.jpg" alt=""    class="huge"></p>
+<p>Jeśli przegapimy tę informację, to zawsze też można sprawdzić log systemowy, by upewnić się ze nasz
+linux wystartował w trybie Secure Boot:</p>
+<pre><code># journalctl -b | grep -i secureboot
+kernel: secureboot: Secure boot enabled
+</code></pre>
+<h4 id="mechanizm-kernel-lockdown">Mechanizm kernel lockdown</h4>
+<p>Włączenie Secure Boot w firmware EFI/UEFI aktywuje w kernelu linux'a <a href="https://kernelnewbies.org/Linux_5.4#Kernel_lockdown_mode">mechanizm kernel lockdown</a>.
+Po jego włączeniu nie będziemy mogli ładować modułów, które nie są podpisane zaufanym kluczem (np.
+te <a href="https://morfikov.github.io/post/dkms-czyli-automatycznie-budowane-moduly/">budowane za sprawą DKMS</a>). Nie będzie nam działał też <a href="https://en.wikipedia.org/wiki/Kexec">kexec</a> na niepodpisanych obrazach
+kernela. Podobnie przestanie działać hibernacja systemu (przełączenie maszyny w tryb
+uśpienia/wstrzymania w dalszym ciągu będzie możliwe). Dostęp do fizycznej pamięci i portów I/O
+zostanie zabroniony z przestrzeni użytkownika. Nie będzie można też używać parametrów modułów,
+które pozwalają na ustawianie adresów pamięci i portów I/O. Dodatkowo zapis do <a href="https://en.wikipedia.org/wiki/Model-specific_register">rejestrów procesora
+MSR</a> przez <code>/dev/cpu/*/msr</code> nie będzie już możliwy. Podobnie nie będzie można używać
+niestandardowych <a href="https://www.kernel.org/doc/Documentation/acpi/method-customizing.txt">metod i tablic</a> ACPI. Nie będzie też można używać <a href="https://www.kernel.org/doc/Documentation/acpi/apei/einj.txt">APEI error injection</a>.</p>
+<p>Obecność włączonego w systemie kernel lockdown można poznać po poniższych komunikatach w logu
+systemowym:</p>
+<pre><code># journalctl -b | grep Lockdown
+kernel: Lockdown: swapper: use of tracefs is restricted; see https://wiki.debian.org/SecureBoot
+kernel: Lockdown: swapper/0: use of tracefs is restricted; see https://wiki.debian.org/SecureBoot
+kernel: Lockdown: swapper/0: hibernation is restricted; see https://wiki.debian.org/SecureBoot
+kernel: Lockdown: resume: hibernation is restricted; see https://wiki.debian.org/SecureBoot
+kernel: Lockdown: systemd: /dev/mem,kmem,port is restricted; see https://wiki.debian.org/SecureBoot
+kernel: Lockdown: systemd-logind: hibernation is restricted; see https://wiki.debian.org/SecureBoot
+</code></pre>
+<p>Jak widać, kernel lockdown to dość inwazyjny mechanizm i włączenie go może coś popsuć w naszym
+systemie. Naturalnie Secure Boot może działać bez kernel lockdown i jeśli potrzebujemy którejś z
+tych wyżej wymienionych rzeczy, to zawsze możemy skompilować kernel z wyłączoną opcją
+<code>CONFIG_LOCK_DOWN_IN_EFI_SECURE_BOOT</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/028-debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown.jpg" alt=""    class="huge"></p>
+<p>Można też całkowicie pozbyć się modułu lockdown odznaczając opcję <code>CONFIG_SECURITY_LOCKDOWN_LSM</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/029-debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown.jpg" alt=""    class="huge"></p>
+<p>W moim przypadku, mechanizm lockdown upośledza hibernację, z której korzystam dość często i nie
+zamierzam rezygnować, bo daje ona możliwość zapisania stanu środowiska pracy i nie trzeba po
+starcie maszyny wszystkiego na nowo uruchamiać, co znacznie przyśpiesza gotowość systemu. Dlaczego
+zatem tak użyteczny mechanizm wypadł z łask lockdown? Okazuje się, że weryfikacja obrazu pamięci
+RAM zrobionego przy hibernowaniu maszyny jest dość trudna i póki co <a href="https://lwn.net/Articles/750730/">nie istnieje rozwiązanie</a>,
+które by taką weryfikację oferowało. Ja mam to szczęście, że korzystam z w pełni zaszyfrowanego
+systemu, zatem obraz pamięci operacyjnej mam zawsze zaszyfrowany, przez co jest on niepodatny na
+nieautoryzowane zmiany. Dlatego też postanowiłem całkowicie wyłączyć lockdown dla swojego systemu w
+konfiguracji kernela i pewne rzeczy skonfigurować, tak by upodobnić swój system do zachowania
+znanego z lockdown. <a href="https://elixir.bootlin.com/linux/latest/source/include/linux/security.h#L104">Patrząc na to co lockdown próbuje robić</a> (podpierając się również <a href="https://kernelnewbies.org/Linux_5.4#Security">tym
+linkiem</a>), odznaczyłem te poniższe opcje w kernelu:</p>
+<pre><code>CONFIG_DEVMEM:
+CONFIG_DEVKMEM:
+CONFIG_DEVPORT:
+CONFIG_ACPI_APEI_EINJ:
+CONFIG_X86_MSR:
+CONFIG_KEXEC:
+CONFIG_KEXEC_FILE:
+CONFIG_ACPI_CUSTOM_METHOD:
+CONFIG_PROC_KCORE:
+CONFIG_KPROBES:
+CONFIG_EFI_TEST:
+CONFIG_MMIOTRACE:
+CONFIG_DEBUG_KERNEL:
+</code></pre>
+<p>Nie jest to może pełny lockdown ale lepsze to niż nic i póki co system zdaje się działać stabilnie.</p>
+<h3 id="podpisanie-boodloadera">Podpisanie boodloader'a</h3>
+<p>W przypadku instalacji mojego Debiana zrezygnowałem z tradycyjnego bootloader'a Grub2 i używam
+jedynie menadżera rozruchu rEFInd. Niemniej jednak, po włączeniu Secure Boot, firmware EFI/UEFI nie
+będzie chciał załadować binarek rEFInd'a. Pod pojęciem &quot;binarek&quot; mam na myśli nie tylko sam plik
+<code>EFI/refind/refind_x64.efi</code> ale również wszystkie jego narzędzia dostępne w katalogu <code>EFI/tools/</code>
+czy też sterowniki od systemu plików, które siedzą w <code>EFI/refind/drivers_x64/</code> . Te wszystkie pliki
+mające sufiks <code>.efi</code> trzeba osobno podpisać jeśli chcemy by firmware EFI/UEFI umożliwił nam
+korzystanie z nich.</p>
+<p>Podpisanie binarki rEFInd'a (plik <code>EFI/refind/refind_x64.efi</code> ):</p>
+<pre><code># sbsign --cert db.crt --key db.key '/efi/EFI/refind/refind_x64.efi'
+Signing Unsigned original image
+
+# sbverify --cert db.crt '/efi/EFI/refind/refind_x64.efi.signed'
+Signature verification OK
+</code></pre>
+<p>Podpisanie sterownika ext4 dla rEFInd'a (plik <code>EFI/refind/drivers_x64/ext4_x64.efi</code> ):</p>
+<pre><code># sbsign --cert db.crt --key db.key '/efi/EFI/refind/drivers_x64/ext4_x64.efi'
+Signing Unsigned original image
+
+# sbverify --cert db.crt '/efi/EFI/refind/drivers_x64/ext4_x64.efi.signed'
+Signature verification OK
+</code></pre>
+<h3 id="shim-i-mokmanager">Shim i MokManager</h3>
+<p>Mając skonfigurowane własne klucze odpada nam potrzeba korzystania z shim. Jeśli jednak
+chcielibyśmy go zainstalować, to potrzebna nam będzie wersja niepodpisana, którą sami sobie
+podpiszemy. Musimy zatem przekopiować pliki <code>shimx64.efi</code> oraz <code>mmx64.efi</code> na partycję ESP.
+Dodatkowo, trzeba zainstalować rEFInd'a zmieniając mu nazwę z <code>refind_x64.efi</code> na <code>grubx64.efi</code> ,
+by został podebrany przez shim:</p>
+<pre><code># cp /usr/lib/shim/shimx64.efi  /efi/EFI/refind/shimx64.efi
+# cp /usr/lib/shim/mmx64.efi /efi/EFI/refind/mmx64.efi
+# cp /usr/share/refind/refind/refind_x64.efi /efi/EFI/refind/grubx64.efi
+</code></pre>
+<p>Podpisanie shim'a (pliki <code>EFI/refind/shimx64.efi</code> ):</p>
+<pre><code># sbsign --cert db.crt --key db.key '/efi/EFI/refind/shimx64.efi'
+Signing Unsigned original image
+
+# sbverify --cert db.crt '/efi/EFI/refind/shimx64.efi.signed'
+Signature verification OK
+</code></pre>
+<p>Podpisanie rEFInd'a (zainstalowanego w pliku <code>EFI/refind/grubx64.efi</code> ):</p>
+<pre><code># sbsign --cert db.crt  --key db.key  '/efi/EFI/refind/grubx64.efi'
+Signing Unsigned original image
+
+# sbverify --cert db.crt  '/efi/EFI/refind/grubx64.efi.signed'
+Signature verification OK
+</code></pre>
+<p>Jeśli zaś chodzi o MokManager, to lepiej jest go nie podpisywać (szczegóły niżej).</p>
+<h3 id="narzędzia-w-efitools">Narzędzia w EFI/tools/</h3>
+<p>Jeśli zaś chodzi o narzędzia, które znajdują się w katalogu <code>EFI/tools/</code> na partycji ESP, to w ich
+przypadku trzeba nieco uważać z pospisywaniem. Dla przykładu weźmy EFIshell. Ta aplikacja robi w
+zasadzie za terminal, przy pomocy którego możemy między innymi:</p>
+<ul>
+<li>uruchamiać aplikacje w środowisku firmware EFI/UEFI, np. bootloader'y</li>
+<li>uruchamiać programy partycjonujące dysk twardy (diskpart)</li>
+<li>modyfikować zmienne menadżera rozruchu (bcfg)</li>
+<li>ładować sterowniki EFI/UEFI</li>
+<li>edytować pliki tekstowe (edit)</li>
+<li>uzyskać informacje o systemie lub samym firmware EFI/UEFI</li>
+<li>uzyskać informacje o mapie pamięci (memmap)</li>
+<li>korzystać z hexedit</li>
+</ul>
+<p>Jak widać, podpisanie takiego EFIshell wiązałoby się ze sporymi problemami jeśli chodzi o
+bezpieczeństwo naszego komputera, bo każda osoba mająca fizyczny dostęp do naszej maszyny mogła by
+tę binarkę załadować bez problemu i Secure Boot by jej w tym nie przeszkodził.</p>
+<p>Jako, że jest cała masa narzędzi, które można wgrać na partycję ESP, to musimy sobie zadać pytanie,
+czy te narzędzia, z których zamierzamy korzystać mogą w jakiś sposób zagrozić bezpieczeństwu naszej
+maszyny. Jeśli tak, to wyjściem z tej sytuacji jest niepodpisywanie tych binarek. Oczywiście w
+takim przypadku po aktywowaniu Secure Boot nie będziemy w stanie z tych aplikacji korzystać.
+Dlatego też trzeba będzie ten mechanizm pierw zdezaktywować. Naturalnie każdy z fizycznym dostępem
+do komputera mógłby w takim przypadku wejść w ustawienia firmware EFI/UEFI i przełączyć stosowną
+opcję, dlatego też wymagane będzie założenie hasła nadzorczego (supervisor password) na firmware
+EFI/UEFI, które uniemożliwi wyłączenie trybu Secure Boot.</p>
+<h3 id="sufiks-signed">Sufiks .signed</h3>
+<p>W procesie podpisywania plików stworzone zostały podpisane odpowiedniki mające sufiks <code>.signed</code> .
+Trzeba te nazwy zmienić, tak by nie miały tej końcówki:</p>
+<pre><code># mv '/efi/EFI/refind/refind_x64.efi.signed' '/efi/EFI/refind/refind_x64.efi'
+# mv '/efi/EFI/refind/drivers_x64/ext4_x64.efi.signed' '/efi/EFI/refind/drivers_x64/ext4_x64.efi'
+# mv '/efi/EFI/refind/grubx64.efi.signed' '/efi/EFI/refind/grubx64.efi'
+# mv '/efi/EFI/refind/shimx64.efi.signed' '/efi/EFI/refind/shimx64.efi'
+</code></pre>
+<p>W przypadku bootloader'a czy boot menadżera (i jego narzędzi), ta powyższa czynność będzie
+przeprowadzana w zasadzie tylko raz. Jeśli zaś chodzi o kernel'a, to przy każdej jego aktualizacji
+trzeba będzie pamiętać o dostosowaniu nazwy pliku <code>vmlinuz</code> lub też uwzględnić nazwę z końcówką
+<code>.signed</code> w konfiguracji rEFInd'a.</p>
+<h3 id="warning-data-remaining-gaps-between-pecoff-sections">warning: data remaining[]: gaps between PE/COFF sections?</h3>
+<p>Podczas podpisywania plików można zaobserwować ciągłe pojawianie się ostrzeżeń, których treść brzmi
+mniej więcej tak: <code>warning: data remaining[]: gaps between PE/COFF sections?</code> . <a href="https://www.rodsbooks.com/efi-bootloaders/controlling-sb.html">Zgodnie z tym co
+można wyczytać tutaj</a>, to dokładnie nie jest znana przyczyna występowania tych komunikatów.
+Niemniej jednak, zdają się one nie wpływać na proces podpisu/weryfikacji binarki i można je z
+powodzeniem zignorować.</p>
+<h2 id="problemy-z-system-live-przy-secure-boot">Problemy z system live przy Secure Boot</h2>
+<p>Problem możemy za to mieć z różnego różnego rodzaju systemami live dostarczanymi na płytce czy
+pendrive, które są wypuszczane przez konkretną dystrybucje linux'a. Te systemy live nie będą nam
+działać i przy próbie uruchomienia systemu z zawierających je nośników dostaniemy błąd: <code>Secure Boot validation failure loading bootx64.efi</code> (lub podobny):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/030-debian-linux-secure-boot-validation-failure-live-ubuntu.jpg" alt=""    class="huge"></p>
+<p>Z informacji, które widać na ekranie wynika, że mamy w zasadzie te poniższe opcje rozwiązania
+zaistniałego problemu:</p>
+<ul>
+<li>możemy zrezygnować z używania systemów live (raczej odpada)</li>
+<li>możemy wyłączyć Secure Boot w ustawieniach firmware EFI/UEFI na czas korzystania z systemu live w
+przypadku, gdy system live nie jest w żaden sposób podpisany</li>
+<li>możemy podpisać bootloader, kernel (i inne potrzebne elementy systemu live) naszym kluczem
+prywatnym <code>db</code></li>
+<li>można przerobić nośnik live i zbudować go z wykorzystaniem <code>grub-mkstandalone</code> , wynikowy obraz
+Grub2 trzeba będzie oczywiście podpisać</li>
+<li>możemy skorzystać z niepodpisanego shim'a, podpisać go własnym kluczem <code>db</code> i dodać do MOK klucz
+dystrybucji oferującej system live</li>
+<li>możemy do zmiennej <code>db</code> dodać klucz Microsoft'u, którym jest podpisana wersja shim'a mająca w
+nazwie <code>.signed</code> , choć tutaj też trzeba będzie dodać do bazy MOK klucz dystrybucji oferującej
+system live</li>
+</ul>
+<p>Po chwili namysłu raczej dwie ostatnie opcje są godne rozważenia. Jeśli nie mamy zamiaru uruchamiać
+windows'a na naszym laptopie, czy też w ogóle mieć do czynienia z Microsoft, to zostaje nam w
+zasadzie tylko jedna możliwość.</p>
+<h3 id="brak-kluczy-do-weryfikacji-systemów-live-linuxa">Brak kluczy do weryfikacji systemów live linux'a</h3>
+<p>Po pomyślnym skonfigurowaniu Secure Boot powinniśmy mieć mniej więcej te poniższe klucze w
+<a href="http://man7.org/linux/man-pages/man7/keyrings.7.html">keyring'u kernela</a> pod <code>/proc/keys</code> :</p>
+<pre><code># cat /proc/keys | grep -i asym
+109d1ebc I------     1 perm 1f010000     0     0 asymmetri morfikov's kernel-signing key: 8d9ac6d38bbf26e45a55454c54c448059f530633: X509.rsa 9f530633 []
+16b541ff I------     1 perm 1f030000     0     0 asymmetri benh@debian.org: 577e021cb980e0e820821ba7b54b4961b8b4fadf: X509.rsa []
+24968f3b I------     1 perm 1f030000     0     0 asymmetri sforshee: 00b28ddf47aef9cea7: X509.rsa []
+2e344477 I------     1 perm 1f030000     0     0 asymmetri morfikov's kernel-signing key: 8d9ac6d38bbf26e45a55454c54c448059f530633: X509.rsa 9f530633 []
+</code></pre>
+<p>Widać tutaj dwa klucze mające w nazwie <code>morfikov's kernel-signing key</code> i to są klucze, które
+dodaliśmy w procesie konfigurowania Secure Boot opisanym powyżej. Czemu dwa? Jeden klucz wziął się
+z wbudowania go w kernel w czasie jego kompilacji, bo potrzebowaliśmy go do podpisania modułów.
+Drugi klucz z kolei pochodzi ze zmiennej <code>db</code> Secure Boot -- tu również dodaliśmy swój klucz. W
+zasadzie użyliśmy jednego klucza w obu tych miejscach dlatego też mamy dwie podobne (różniące się
+uprawnieniami) pozycje w keyring'u kernela.</p>
+<pre><code># keyctl list %:.secondary_trusted_keys
+1 key in keyring:
+891874024: ---lswrv     0     0 keyring: .builtin_trusted_keys
+
+# keyctl list %:.builtin_trusted_keys
+1 key in keyring:
+775177335: ---lswrv     0     0 asymmetric: morfikov's kernel-signing key: 8d9ac6d38bbf26e45a55454c54c448059f530633
+</code></pre>
+<p>Jeśli zaś chodzi o te dwa dodatkowe klucze ( <code>benh@debian.org</code> oraz <code>sforshee</code> ), to nie mają one
+nic wspólnego z Secure Boot. <a href="https://wireless.wiki.kernel.org/en/developers/regulatory/wireless-regdb">Zostały one dodane za sprawą wireless-regdb</a>.</p>
+<p>Każdy klucz, który jest dodawany do keyring'u kernela jest odnotowywany w logu systemowym:</p>
+<pre><code>...
+kernel: Loading compiled-in X.509 certificates
+kernel: Loaded X.509 cert 'morfikov's kernel-signing key: 8d9ac6d38bbf26e45a55454c54c448059f530633'
+kernel: integrity: Loading X.509 certificate: UEFI:db
+kernel: integrity: Loaded X.509 cert 'morfikov's kernel-signing key: 8d9ac6d38bbf26e45a55454c54c448059f530633'
+...
+kernel: cfg80211: Loading compiled-in X.509 certificates for regulatory database
+kernel: cfg80211: Loaded X.509 cert 'benh@debian.org: 577e021cb980e0e820821ba7b54b4961b8b4fadf'
+kernel: cfg80211: Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+...
+</code></pre>
+<p>Oczywiście ten powyższy listing nie jest pełny, bo w keyring'u kernela znajduje się także zawartość
+zmiennej <code>dbx</code> (czarnej listy):</p>
+<pre><code># cat /proc/keys | grep -i &quot;blacklist\ &quot; | wc -l
+78
+</code></pre>
+<p>Pozostałe wpisy w keyring'u dotyczą już uruchomionej sesji i zalogowanych użytkowników. Wszystko co
+w tym keyring'u kernela się znajduje można także wyciągnąć z <code>efi-readvar</code> .</p>
+<p>Jak można było zauważyć, nie mamy żadnego klucza dystrybucji, które dostarczają systemy live, np.
+Debian czy Ubuntu. Jeśli chcemy mieć możliwość uruchamiania tych systemów live, to musimy pozyskać
+stosowne certyfikaty i dodać je do bazy MOK.</p>
+<h4 id="problem-z-keyctl">Problem z keyctl</h4>
+<p>Czasami budując własny kernel można zapomnieć o włączeniu kilku opcji, których brak może powodować
+problemy, np. <code>Can't find 'keyring:.secondary_trusted_keys'</code> . Poniżej znajduje się lista opcji,
+które powinny się znaleźć w kernelu, by tych problemów uniknąć:</p>
+<pre><code>CONFIG_INTEGRITY=y
+CONFIG_INTEGRITY_SIGNATURE=y
+CONFIG_INTEGRITY_ASYMMETRIC_KEYS=y
+CONFIG_INTEGRITY_TRUSTED_KEYRING=y
+CONFIG_INTEGRITY_PLATFORM_KEYRING=y
+CONFIG_LOAD_UEFI_KEYS=y
+CONFIG_INTEGRITY_AUDIT=y
+CONFIG_SIGNATURE=y
+CONFIG_SECONDARY_TRUSTED_KEYRING=y
+CONFIG_SYSTEM_BLACKLIST_KEYRING=y
+</code></pre>
+<h3 id="dodawanie-kluczy-dystrybucji-do-bazy-mok">Dodawanie kluczy dystrybucji do bazy MOK</h3>
+<p>Na samym początku w MOK nie powinno być póki co żadnych kluczy, bo przecie jeszcze nic tam nie
+dodawaliśmy. Dla pewności sprawdźmy to przy pomocy <code>mokutil</code> :</p>
+<pre><code># mokutil --list-enrolled
+MokListRT is empty
+</code></pre>
+<p>Certyfikaty niektórych dystrybucji zostały <a href="https://sourceforge.net/p/refind/code/ci/master/tree/keys/">zebrane przez rEFInd i są dostępne tutaj</a>. O ile
+certyfikat Canonical tam znajdziemy, to nie ma tam z jakiegoś powodu certyfikatu Debiana, a o te
+dwa nam głównie chodzi w tej chwili. Na szczęście <a href="https://dsa.debian.org/secure-boot-ca">certyfikat Debiana można znaleźć tutaj</a>. Oba
+te certyfikaty są zakodowane w DER, czyli dokładnie w takim formacie jaki nam jest potrzebny.
+Pobieramy zatem te certy:</p>
+<pre><code># wget https://dsa.debian.org/secure-boot-ca -O debian-uefi-ca.cer
+# wget https://sourceforge.net/p/refind/code/ci/master/tree/keys/canonical-uefi-ca.cer?format=raw -O  canonical-uefi-ca.cer
+</code></pre>
+<p>Dodajemy teraz te certyfikaty do bazy MOK za pomocą <code>mokutil</code> (hasło ustawiamy krótkie, np. 1234):</p>
+<pre><code># mokutil --import debian-uefi-ca.cer canonical-uefi-ca.cer
+input password:
+input password again:
+</code></pre>
+<p>Te klucze czekają teraz by je dodać z poziomu MokManager'a i musimy w tym celu uruchomić komputer
+ponownie. Jeśli nie wiemy czy to powyższe polecenie dodało jakiekolwiek klucze do kolejki, to
+zawsze możemy zweryfikować kolejkę nowych kluczy przy pomocy <code>mokutil --list-new</code> .</p>
+<p>Dodawanie certyfikatów w MokManager jest stosunkowo proste:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/031-debian-linux-secure-boot-shim-configuration-mok.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/032-debian-linux-secure-boot-shim-configuration-mok.jpg" alt=""    class="huge"></p>
+<p>Sprawdzamy dane certyfikatu Debiana:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/033-debian-linux-secure-boot-shim-configuration-mok.jpg" alt=""    class="huge"></p>
+<p>Podobnie weryfikujemy dane certyfikatu Canonical:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/034-debian-linux-secure-boot-shim-configuration-mok.jpg" alt=""    class="huge"></p>
+<p>Jeśli dane się zgadzają, to przechodzimy dalej:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/035-debian-linux-secure-boot-shim-configuration-mok.jpg" alt=""    class="huge"></p>
+<p>Potwierdzamy dodanie kluczy i wpisujemy hasło, które ustawiliśmy wcześniej:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/037-debian-linux-secure-boot-shim-configuration-mok-password.jpg" alt=""    class="huge"></p>
+<p>Jeśli proces zakończył się bez żadnych błędów, to restartujemy maszynę:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/038-debian-linux-secure-boot-shim-configuration-mok-reboot.jpg" alt=""    class="huge"></p>
+<p>Po ponownym uruchomieniu komputera, klucze powinny zostać z powodzeniem dodane, co możemy podejrzeć
+w <code>mokutil</code> :</p>
+<pre><code># mokutil --list-enrolled
+[key 1]
+SHA1 Fingerprint: 53:61:0c:f8:1f:bd:7e:0c:eb:67:91:3c:9e:f3:e7:94:a9:63:3e:cb
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            ed:54:a1:d5:af:87:48:94:8d:9f:89:32:ee:9c:7c:34
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN=Debian Secure Boot CA
+        Validity
+            Not Before: Aug 16 18:09:18 2016 GMT
+            Not After : Aug  9 18:09:18 2046 GMT
+        Subject: CN=Debian Secure Boot CA
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                RSA Public-Key: (2048 bit)
+                Modulus:
+                    00:9d:95:d4:8b:9b:da:10:ac:2e:ca:82:37:c1:a4:
+                    cb:4a:c3:1b:42:93:c2:7a:29:d3:6e:dd:64:af:80:
+                    af:ea:66:a2:1b:61:9c:83:0c:c5:6b:b9:35:25:ff:
+                    c5:fb:e8:29:43:de:ce:4b:3d:c6:12:4d:b1:ef:26:
+                    43:95:68:cd:04:11:fe:c2:24:9b:de:14:d8:86:51:
+                    e8:38:43:bd:b1:9a:15:e5:08:6b:f8:54:50:8b:b3:
+                    4b:5f:fc:14:e4:35:50:7c:0b:b1:e2:03:84:a8:36:
+                    48:e4:80:e8:ea:9f:fa:bf:c5:18:7b:5e:ce:1c:be:
+                    2c:80:78:49:35:15:c0:21:cf:ef:66:d5:8a:96:08:
+                    2b:66:2f:48:17:b1:e7:ec:82:8f:07:e6:ca:e0:5f:
+                    71:24:39:50:0a:8e:d1:72:28:50:a5:9d:21:f4:e3:
+                    61:ba:09:03:66:c8:df:4e:26:36:0b:15:0f:63:1f:
+                    2b:af:ab:c4:28:a2:56:64:85:8d:a6:55:41:ae:3c:
+                    88:95:dd:d0:6d:d9:29:db:d8:c4:68:b5:fc:f4:57:
+                    89:6b:14:db:e0:ef:ee:40:0d:62:1f:ea:58:d4:a3:
+                    d8:ba:03:a6:97:2e:c5:6b:13:a4:91:77:a6:b5:ad:
+                    23:a7:eb:0a:49:14:46:7c:76:e9:9e:32:b4:89:af:
+                    57:79
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            Authority Information Access:
+                CA Issuers - URI:https://dsa.debian.org/secure-boot-ca
+
+            X509v3 Authority Key Identifier:
+                keyid:6C:CE:CE:7E:4C:6C:0D:1F:61:49:F3:DD:27:DF:CC:5C:BB:41:9E:A1
+
+            Netscape Cert Type: critical
+                SSL Client, SSL Server, S/MIME, Object Signing, SSL CA, S/MIME CA, Object Signing CA
+            X509v3 Extended Key Usage:
+                Code Signing
+            X509v3 Key Usage: critical
+                Digital Signature, Certificate Sign, CRL Sign
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Subject Key Identifier:
+                6C:CE:CE:7E:4C:6C:0D:1F:61:49:F3:DD:27:DF:CC:5C:BB:41:9E:A1
+    Signature Algorithm: sha256WithRSAEncryption
+         77:96:3e:47:c9:ce:09:cf:8b:89:ce:59:ed:26:0e:26:0b:b9:
+         ad:a9:2b:bd:a1:eb:88:79:02:ff:31:de:fe:f5:6a:07:ef:61:
+         13:11:70:1e:bf:9c:4e:66:6c:e1:62:12:97:01:57:65:47:dd:
+         4a:c6:f7:f4:de:a8:f1:13:62:cc:83:57:ac:3c:a6:91:15:af:
+         55:26:72:69:2e:14:cd:dd:4d:b3:d1:60:24:2d:32:4f:19:6c:
+         11:5e:f2:a3:f2:a1:5f:62:0f:30:ae:ad:f1:48:66:64:7d:36:
+         44:0d:06:34:3d:2e:af:8e:9d:c3:ad:c2:91:d8:37:e0:ee:7a:
+         5f:82:3b:67:8e:00:8a:c4:a4:df:35:16:c2:72:2b:4c:51:d7:
+         93:93:9e:ba:08:0d:59:97:f2:e2:29:a0:44:4d:ea:ee:f8:3e:
+         02:60:ca:15:cf:4e:9a:25:91:84:3f:b7:5a:c7:ee:bc:6b:80:
+         a3:d9:fd:b2:6d:7a:1e:63:14:eb:ef:f1:b0:40:25:d5:e8:0e:
+         81:eb:6b:f7:cb:ff:e5:21:00:22:2c:2e:9a:35:60:12:4b:5b:
+         5f:38:46:84:0c:06:9c:cf:72:93:62:18:ee:5c:98:d6:b3:7d:
+         06:25:39:95:df:4e:60:76:b0:06:7b:08:b0:6e:e3:64:9f:21:
+         56:ad:39:0f
+
+[key 2]
+SHA1 Fingerprint: 76:a0:92:06:58:00:bf:37:69:01:c3:72:cd:55:a9:0e:1f:de:d2:e0
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            b9:41:24:a0:18:2c:92:67
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=GB, ST=Isle of Man, L=Douglas, O=Canonical Ltd., CN=Canonical Ltd. Master Certificate Authority
+        Validity
+            Not Before: Apr 12 11:12:51 2012 GMT
+            Not After : Apr 11 11:12:51 2042 GMT
+        Subject: C=GB, ST=Isle of Man, L=Douglas, O=Canonical Ltd., CN=Canonical Ltd. Master Certificate Authority
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                RSA Public-Key: (2048 bit)
+                Modulus:
+                    00:bf:5b:3a:16:74:ee:21:5d:ae:61:ed:9d:56:ac:
+                    bd:de:de:72:f3:dd:7e:2d:4c:62:0f:ac:c0:6d:48:
+                    08:11:cf:8d:8b:fb:61:1f:27:cc:11:6e:d9:55:3d:
+                    39:54:eb:40:3b:b1:bb:e2:85:34:79:ca:f7:7b:bf:
+                    ba:7a:c8:10:2d:19:7d:ad:59:cf:a6:d4:e9:4e:0f:
+                    da:ae:52:ea:4c:9e:90:ce:c6:99:0d:4e:67:65:78:
+                    5d:f9:d1:d5:38:4a:4a:7a:8f:93:9c:7f:1a:a3:85:
+                    db:ce:fa:8b:f7:c2:a2:21:2d:9b:54:41:35:10:57:
+                    13:8d:6c:bc:29:06:50:4a:7e:ea:99:a9:68:a7:3b:
+                    c7:07:1b:32:9e:a0:19:87:0e:79:bb:68:99:2d:7e:
+                    93:52:e5:f6:eb:c9:9b:f9:2b:ed:b8:68:49:bc:d9:
+                    95:50:40:5b:c5:b2:71:aa:eb:5c:57:de:71:f9:40:
+                    0a:dd:5b:ac:1e:84:2d:50:1a:52:d6:e1:f3:6b:6e:
+                    90:64:4f:5b:b4:eb:20:e4:61:10:da:5a:f0:ea:e4:
+                    42:d7:01:c4:fe:21:1f:d9:b9:c0:54:95:42:81:52:
+                    72:1f:49:64:7a:c8:6c:24:f1:08:70:0b:4d:a5:a0:
+                    32:d1:a0:1c:57:a8:4d:e3:af:a5:8e:05:05:3e:10:
+                    43:a1
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Key Identifier:
+                AD:91:99:0B:C2:2A:B1:F5:17:04:8C:23:B6:65:5A:26:8E:34:5A:63
+            X509v3 Authority Key Identifier:
+                keyid:AD:91:99:0B:C2:2A:B1:F5:17:04:8C:23:B6:65:5A:26:8E:34:5A:63
+
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Key Usage:
+                Digital Signature, Certificate Sign, CRL Sign
+            X509v3 CRL Distribution Points:
+
+                Full Name:
+                  URI:http://www.canonical.com/secure-boot-master-ca.crl
+
+    Signature Algorithm: sha256WithRSAEncryption
+         3f:7d:f6:76:a5:b3:83:b4:2b:7a:d0:6d:52:1a:03:83:c4:12:
+         a7:50:9c:47:92:cc:c0:94:77:82:d2:ae:57:b3:99:04:f5:32:
+         3a:c6:55:1d:07:db:12:a9:56:fa:d8:d4:76:20:eb:e4:c3:51:
+         db:9a:5c:9c:92:3f:18:73:da:94:6a:a1:99:38:8c:a4:88:6d:
+         c1:fc:39:71:d0:74:76:16:03:3e:56:23:35:d5:55:47:5b:1a:
+         1d:41:c2:d3:12:4c:dc:ff:ae:0a:92:9c:62:0a:17:01:9c:73:
+         e0:5e:b1:fd:bc:d6:b5:19:11:7a:7e:cd:3e:03:7e:66:db:5b:
+         a8:c9:39:48:51:ff:53:e1:9c:31:53:91:1b:3b:10:75:03:17:
+         ba:e6:81:02:80:94:70:4c:46:b7:94:b0:3d:15:cd:1f:8e:02:
+         e0:68:02:8f:fb:f9:47:1d:7d:a2:01:c6:07:51:c4:9a:cc:ed:
+         dd:cf:a3:5d:ed:92:bb:be:d1:fd:e6:ec:1f:33:51:73:04:be:
+         3c:72:b0:7d:08:f8:01:ff:98:7d:cb:9c:e0:69:39:77:25:47:
+         71:88:b1:8d:27:a5:2e:a8:f7:3f:5f:80:69:97:3e:a9:f4:99:
+         14:db:ce:03:0e:0b:66:c4:1c:6d:bd:b8:27:77:c1:42:94:bd:
+         fc:6a:0a:bc
+</code></pre>
+<p>Co ciekawe, na tej powyższej liście były trzy klucze, w tym jeden zdublowany. Prawdopodobnie ten
+dodatkowy wpis wziął się z zaszytego w shim certyfikatu dystrybucji Debiana. Wychodzi na to, że nie
+trzeba go ręcznie dodawać (wystarczyłoby dodać certyfikat Canonical'a, a certyfikat Debiana by
+wskoczył automatycznie).</p>
+<p>Jeśli teraz podejrzymy keyring kernela, to zobaczymy tam dwa dodatkowe klucze, z racji, że w tym
+keyring'u mogą się znajdować klucze wbudowane w shim oraz klucze, które są przechowywane w MOK:</p>
+<pre><code># cat /proc/keys | grep -i asym
+...
+15c78670 I------     1 perm 1f010000     0     0 asymmetri Canonical Ltd. Master Certificate Authority: ad91990bc22ab1f517048c23b6655a268e345a63: X509.rsa 8e345a63 []
+...
+3eee887b I------     1 perm 1f010000     0     0 asymmetri Debian Secure Boot CA: 6ccece7e4c6c0d1f6149f3dd27dfcc5cbb419ea1: X509.rsa bb419ea1 []
+</code></pre>
+<p>Te klucze dostarczane przez shim i MOK będą jedynie dostępne, gdy shim będzie pośredniczył w
+procesie startu systemu. W moim przypadku przed implementacją Secure Boot był wykorzystywany
+menadżer rozruchu rEFInd. Jeśli odpalę system bezpośrednio z menu wyboru rEFInd'a, to te powyższe
+klucze nie zostaną dodane. Dlatego też jeśli zamierzamy z nich korzystać, to trzeba zainstalować
+rEFInd ze wsparciem dla shim (była o tym mowa wcześniej) i zarejestrować wpis z shim w firmware
+EFI/UEFI przez <code>efibootmgr</code> , przykładowo:</p>
+<pre><code># efibootmgr --create --disk /dev/sda --part 3 --label &quot;SHIM&quot; --loader '\EFI\refind\shimx64.efi' --verbose
+
+# efibootmgr -v
+BootCurrent: 0019
+Timeout: 0 seconds
+BootOrder: 0019,0000,0001,0002,0003,001A,0018,001B,0007,0008,0009,000A,000D,000B,000C,000E,000F,0010,0011,0012
+...
+Boot0018* rEFInd Boot Manager   HD(3,GPT,c180ec1b-183f-43e0-853f-3c76950c3c52,0x745fc000,0x100000)/File(\EFI\refind\refind_x64.efi)
+Boot0019* SHIM  HD(3,GPT,c180ec1b-183f-43e0-853f-3c76950c3c52,0x745fc000,0x100000)/File(\EFI\refind\shimx64.efi)
+...
+</code></pre>
+<p>Wpis z rEFInd może zostać ale trzeba będzie zmienić kolejność wpisów czytanych przy starcie systemu,
+tak by uruchamiany był shim.</p>
+<p>Tak czy inaczej, płytki live mające podpisany bootloader/kernel z wykorzystaniem kluczy prywatnych
+od tych dodanych przez nas certyfikatów bez większego problemu będą u nas się uruchamiać. Podobnie,
+gdybyśmy chcieli zainstalować sobie na stałe Debiana lub Ubuntu, to one też z powodzeniem będą się
+uruchamiać w trybie Secure Boot.</p>
+<p>Warto tutaj zwrócić uwagę, że może i dodaliśmy klucze do bazy MOK ale zmienna <code>MokList</code> w dalszym
+ciągu nie ma żadnych wpisów:</p>
+<pre><code># efi-readvar -v MokList
+Variable MokList has no entries
+</code></pre>
+<h3 id="test-ubuntu-live-z-włączonym-secure-boot">Test Ubuntu live z włączonym Secure Boot</h3>
+<p>Zrestartujmy zatem jeszcze raz komputer i podłączmy do portu USB pendrive z wgranym Ubuntu live, by
+przetestować czy aby na pewno ten system się nam uruchomi.</p>
+<p>W menu rEFInd powiły się dwa dodatkowe wpisy (pierwsze dwa z lewej):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/039-debian-linux-secure-boot-shim-configuration-mok-live-ubuntu.jpg" alt=""    class="huge"></p>
+<p>Czemu dwa? Bo na pendrive znajdują się dwa bootloader'y: <code>grubx64.efi</code> (podpisany przez Canonical) i
+<code>BOOTx64.EFI</code> (podpisany przez Microsoft) . Możemy to zweryfikować montując obraz Ubuntu live i
+listując sygnatury złożone na tych dwóch plikach przy pomocy <code>sbverify</code> :</p>
+<pre><code># sbverify --list  '/mnt/EFI/BOOT/grubx64.efi'
+signature 1
+image signature issuers:
+ - /C=GB/ST=Isle of Man/L=Douglas/O=Canonical Ltd./CN=Canonical Ltd. Master Certificate Authority
+image signature certificates:
+ - subject: /C=GB/ST=Isle of Man/O=Canonical Ltd./OU=Secure Boot/CN=Canonical Ltd. Secure Boot Signing
+   issuer:  /C=GB/ST=Isle of Man/L=Douglas/O=Canonical Ltd./CN=Canonical Ltd. Master Certificate Authority
+
+# sbverify --list  '/mnt/EFI/BOOT/BOOTx64.EFI'
+warning: data remaining[1171248 vs 1334816]: gaps between PE/COFF sections?
+signature 1
+image signature issuers:
+ - /C=US/ST=Washington/L=Redmond/O=Microsoft Corporation/CN=Microsoft Corporation UEFI CA 2011
+image signature certificates:
+ - subject: /C=US/ST=Washington/L=Redmond/O=Microsoft Corporation/CN=Microsoft Windows UEFI Driver Publisher
+   issuer:  /C=US/ST=Washington/L=Redmond/O=Microsoft Corporation/CN=Microsoft Corporation UEFI CA 2011
+ - subject: /C=US/ST=Washington/L=Redmond/O=Microsoft Corporation/CN=Microsoft Corporation UEFI CA 2011
+   issuer:  /C=US/ST=Washington/L=Redmond/O=Microsoft Corporation/CN=Microsoft Corporation Third Party Marketplace Root
+</code></pre>
+<p>Z racji, że nie mamy kluczy Microsoft'u, to uruchomienie systemu live z tego drugiego wpisu się nie
+powiedzie. Natomiast dysponując certyfikatem od Canonical bez problemu możemy odpalić Ubuntu z
+pierwszego wpisu w menu rEFInd:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/040-debian-linux-secure-boot-live-ubuntu-grub.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/041-debian-linux-secure-boot-live-ubuntu.jpg" alt=""    class="huge"></p>
+<p>I jeszcze dowód, że system live działa w trybie Secure Boot:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/042-debian-linux-secure-boot-live-ubuntu-test.jpg" alt=""    class="huge"></p>
+<h2 id="wsparcie-secure-boot-dla-windows">Wsparcie Secure Boot dla windows</h2>
+<p>Tworząc własne klucze i podmieniając nimi te wbudowane w firmware EFI/UEFI nie uwzględniliśmy
+kluczy Microsoft'u, bo w zasadzie jak widać do tej pory wszystko działa bez większego zarzutu i
+dodawanie tych kluczy jest niepotrzebne. Jeśli jednak zamierzamy kiedyś w przyszłości zainstalować
+sobie windows'a, to przydałoby się dodać klucze MS bezpośrednio do firmware EFI/UEFI. Można
+oczywiście na etapie zastępowania kluczy wybrać opcję z uwzględnieniem kluczy Microsoft'u ale
+<a href="https://wiki.archlinux.org/index.php/Secure_Boot#Microsoft_Windows">istnieje sposób na dodanie tych kluczy manualnie</a> bez potrzeby przełączania systemu w tryb
+Setup Mode i dlatego postanowiłem go tutaj opisać.</p>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-secure-boot-key-creation-and-management-guidance">Microsoft dysponuje dwoma kluczami</a>. Pierwszy z nich służy do podpisywania windows'a, a drugi
+do podpisywania shim'a (i innych aplikacji trzecich). Najlepiej jest dodać oba, choć oczywiście
+możemy sobie wybrać ten, który nam jest potrzebny. W tym przypadku pobieramy oba certyfikaty i
+poddajemy je temu samemu procesowi, który przeprowadzaliśmy w przypadku naszych własnych kluczy.</p>
+<pre><code># cd /etc/kernel_key/
+</code></pre>
+<p>Konwertujemy certyfikaty zakodowane w DER na format PEM:</p>
+<pre><code># openssl x509 -inform DER -outform PEM -in MicWinProPCA2011_2011-10-19.crt -out MicWinProPCA2011_2011-10-19.crt.pem
+# openssl x509 -inform DER -outform PEM -in MicCorUEFCA2011_2011-06-27.crt -out MicCorUEFCA2011_2011-06-27.crt.pem
+</code></pre>
+<p>Tworzymy listy sygnatur EFI/UEFI z ID Microsoft'u (77fa9abd-0359-4d32-bd60-28f4e78f784b):</p>
+<pre><code># cert-to-efi-sig-list -g 77fa9abd-0359-4d32-bd60-28f4e78f784b MicWinProPCA2011_2011-10-19.crt.pem MS_Win_db.esl
+# cert-to-efi-sig-list -g 77fa9abd-0359-4d32-bd60-28f4e78f784b MicCorUEFCA2011_2011-06-27.crt.pem MS_UEFI_db.esl
+</code></pre>
+<p>Dla uproszczenia sobie całego procesu łączymy te dwa pliki <code>.esl</code> w jeden:</p>
+<pre><code># cat MS_Win_db.esl MS_UEFI_db.esl &gt; MS_db.esl
+</code></pre>
+<p>I na koniec podpisujemy naszym kluczem <code>KEK</code> aktualizację dla zmiennej <code>db</code> :</p>
+<pre><code># sign-efi-sig-list -a -g 77fa9abd-0359-4d32-bd60-28f4e78f784b -k KEK.key -c KEK.crt db MS_db.esl add_MS_db.auth
+</code></pre>
+<p>Restartujemy maszynę i przy pomocy KeyTool dodajemy zawartość pliku <code>add_MS_db.auth</code> do zmiennej
+<code>db</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/043-debian-linux-secure-boot-edit-db-ms-microsoft.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/044-debian-linux-secure-boot-edit-db-ms-microsoft.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/045-debian-linux-secure-boot-edit-db-ms-microsoft.jpg" alt=""    class="huge"></p>
+<p>W keyring'u kernela powinny pojawić się dwie nowe pozycje:</p>
+<pre><code># cat /proc/keys | grep -i asym | grep Mic
+11ffee25 I------     1 perm 1f010000     0     0 asymmetri Microsoft Windows Production PCA 2011: a92902398e16c49778cd90f99e4f9ae17c55af53: X509.rsa 7c55af53 []
+35ef3b88 I------     1 perm 1f010000     0     0 asymmetri Microsoft Corporation UEFI CA 2011: 13adbf4309bd82709c8cd54f316ed522988a1bd4: X509.rsa 988a1bd4 []
+</code></pre>
+<p>Tak samo dwie nowe pozycje powinny zostać dodane do zmiennej <code>db</code> :</p>
+<pre><code># efi-readvar -v db
+Variable db, length 4008
+db: List 0, type X509
+    Signature 0, size 837, owner 1091ff9c-7b84-4df6-8163-ed1b8aa05096
+        Subject:
+            CN=morfikov's kernel-signing key
+        Issuer:
+            CN=morfikov's kernel-signing key
+db: List 1, type X509
+    Signature 0, size 1515, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Subject:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Windows Production PCA 2011
+        Issuer:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Root Certificate Authority 2010
+db: List 2, type X509
+    Signature 0, size 1572, owner 77fa9abd-0359-4d32-bd60-28f4e78f784b
+        Subject:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Corporation UEFI CA 2011
+        Issuer:
+            C=US, ST=Washington, L=Redmond, O=Microsoft Corporation, CN=Microsoft Corporation Third Party Marketplace Root
+</code></pre>
+<p>Gdy zamierzamy korzystać z kluczy MS, to przydałoby się wgrać na partycję ESP shim w wersji
+podpisanej przez Microsoft (w Debianie jest to pakiet <code>shim-signed</code> ). Jeśli mamy wątpliwości czy
+shim, który mamy na tej partycji jest podpisany kluczem MS, to zawsze możemy posłużyć się
+poniższym poleceniem:</p>
+<pre><code># sbverify --list /efi/EFI/refind/shimx64.efi.signed
+warning: data remaining[1159744 vs 1322936]: gaps between PE/COFF sections?
+signature 1
+image signature issuers:
+ - /C=US/ST=Washington/L=Redmond/O=Microsoft Corporation/CN=Microsoft Corporation UEFI CA 2011
+image signature certificates:
+ - subject: /C=US/ST=Washington/L=Redmond/O=Microsoft Corporation/CN=Microsoft Windows UEFI Driver Publisher
+   issuer:  /C=US/ST=Washington/L=Redmond/O=Microsoft Corporation/CN=Microsoft Corporation UEFI CA 2011
+ - subject: /C=US/ST=Washington/L=Redmond/O=Microsoft Corporation/CN=Microsoft Corporation UEFI CA 2011
+   issuer:  /C=US/ST=Washington/L=Redmond/O=Microsoft Corporation/CN=Microsoft Corporation Third Party Marketplace Root
+</code></pre>
+<p>By przetestować czy te klucze działają, możemy posłużyć się obrazem Ubuntu live i wybrać tryb
+fallback. Jeśli się uruchomi, to znaczy, że klucze spełniają swoją rolę.</p>
+<h2 id="wyłączenie-secure-boot-na-poziomie-shim">Wyłączenie Secure Boot na poziomie shim</h2>
+<p>Jeśli Secure Boot jest z jakiegoś powodu wymagany i nasz komputer nie chce się uruchomić bez tej
+opcji włączonej, to zawsze możemy spróbować włączyć Secure Boot w ustawieniach firmware EFI/UEFI i
+wyłączyć go na poziomie shim. Ten zabieg jest bardzo prosty i w zasadzie sprowadza się do wydania
+w terminalu jednego polecenia:</p>
+<pre><code># mokutil --disable-validation
+password length: 8~16
+input password:
+input password again:
+</code></pre>
+<p>Teraz wystarczy zrestartować system i dokończyć proces w MokManager:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/046-debian-linux-secure-boot-shim-disable.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/047-debian-linux-secure-boot-shim-disable-password.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/048-debian-linux-secure-boot-shim-disable-reboot.jpg" alt=""    class="huge"></p>
+<p>Po wyłączeniu Secure Boot w taki sposób, przy starcie systemu w lewym górnym rogu będziemy mieć
+teraz informację: <code>Booting in insecure mode</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/049-debian-linux-secure-boot-shim-disable-insecure-mode.jpg" alt=""    class="huge"></p>
+<p>W logu systemowym będzie informacja, że <code>secureboot: Secure boot disabled</code> . Różne narzędzia takie
+jak np. <code>bootctl</code> czy <code>mokutil</code> będą w dalszym ciągu zwracać, że Secure Boot jest włączony:</p>
+<pre><code># bootctl status | grep -i secure
+...
+  Secure Boot: enabled
+...
+
+# mokutil --sb-state
+SecureBoot enabled
+</code></pre>
+<p>Jak interpretować te powyższe sprzeczne wydawać by się było ze sobą informacje? Secure Boot jest
+włączony w konfiguracji EFI/UEFI i technicznie rzecz biorąc restrykcje jakie on nakłada będą w mocy
+pod warunkiem, że system nie zostanie uruchomiony za pośrednictwem shim'a. Jeżeli shim będzie
+pośredniczył w procesie startu systemu, to wtedy efekt jest podobny do wyłączenia Secure Boot w
+konfiguracji firmware EFI/UEFI. Niemniej jednak, jeśli nie zamierzamy korzystać z Secure Boot i
+opcje w firmware umożliwiają wyłączenie tego mechanizmu, to powinniśmy Secure Boot wyłączyć w
+konfiguracji firmware EFI/UEFI.</p>
+<h2 id="hasło-na-efiuefi">Hasło na EFI/UEFI</h2>
+<p>Zmiany w ustawieniach firmware EFI/UEFI, których dokonywaliśmy, może przeprowadzić praktycznie
+każdy, kto ma dostęp fizyczny do komputera. Dlatego też przydałoby się ustawić hasło, by czasem
+ktoś z marszu nie podmienił czy wgrał nam nowych kluczy, które mogą całkowicie skompromitować
+bezpieczeństwo jakie oferuje Secure Boot.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/050-debian-linux-efi-uefi-firmware-bios-configuration-supervisor-password.jpg" alt=""    class="huge"></p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>I tak oto dobrnęliśmy do końca. Jak można było zauważyć, mechanizm Secure Boot jest w pełni
+konfigurowalny, wliczając w to zastąpienie wbudowanych w firmware EFI/UEFI certyfikatów Microsoft i
+Lenovo naszymi własnymi. Oczywiście trochę wysiłku trzeba było włożyć w ten proces, by wypracować
+jakieś przyzwoite rozwiązanie, przynajmniej z mojego punktu widzenia, ale też nie wszystkie rzeczy
+trzeba było robić w taki sposób jak zostały przedstawione w tym artykule. Przeciętny użytkownik
+linux'a zadowoli się rozwiązaniem jakie oferuje shim podpisany kluczem Microsoft'u i będzie on w
+stanie uruchomić praktycznie wszystkie dystrybucje linux'a, nawet te, które nie wspierają Secure
+Boot.</p>
+<p>Obawy co do możliwości uruchamiania linux'a na komputerach z firmware EFI/UEFI raczej nie znikną i
+moim zdaniem nie powinny. Prawie dekadę temu <a href="https://mjg59.dreamwidth.org/5850.html">Microsoft zmienił swoje podejście w kwestii
+wymagań</a> jakie się stawia certyfikowanym maszynom, które mają preinstalowany windows 8.
+Niemniej jednak, w przypadku komputerów z windows 10 takich obostrzeń, by użytkownik był w stanie
+Secure Boot wyłączyć, już nie ma. Jest za to jedynie zalecenie, by producenci sprzętu
+elektronicznego taką możliwość końcowemu użytkownikowi zostawili. <a href="https://www.rodsbooks.com/efi-bootloaders/secureboot.html#whatis">Póki co nie słychać</a>, aby
+producenci komputerów rozważali uniemożliwienie użytkownikom wyłączenia Secure Boot. Należy też
+pamiętać o shim i PreLoader.</p>
+<p>Także moim zdaniem linux bez problemu da sobie radę i nie ma co winić samego mechanizmu Secure Boot
+za dominującą pozycję Microsoft'u i ewentualny brak wsparcia alternatywnych systemów u producentów
+sprzętu. Ja oczywiście zamierzam włączyć sobie Secure Boot na moim lapku ze względu na fakt, że ten
+mechanizm potrafi być bardzo użyteczny i poprawia znacząco ochronę systemu operacyjnego we wczesnym
+stadium uruchamiania komputera.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/efi/">efi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/uefi/">uefi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/secure-boot/">secure-boot</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/shim/">shim</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/refind/">refind</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lenovo/">lenovo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/thinkpad/">thinkpad</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/t430/">t430</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux%2f&amp;text=Jak%20doda%c4%87%20w%c5%82asne%20klucze%20dla%20Secure%20Boot%20do%20firmware%20EFI%2fUEFI%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux%2f&amp;title=Jak%20doda%c4%87%20w%c5%82asne%20klucze%20dla%20Secure%20Boot%20do%20firmware%20EFI%2fUEFI%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux%2f&amp;title=Jak%20doda%c4%87%20w%c5%82asne%20klucze%20dla%20Secure%20Boot%20do%20firmware%20EFI%2fUEFI%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux%2f&title=Jak%20doda%c4%87%20w%c5%82asne%20klucze%20dla%20Secure%20Boot%20do%20firmware%20EFI%2fUEFI%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux%2f&amp;title=Jak%20doda%c4%87%20w%c5%82asne%20klucze%20dla%20Secure%20Boot%20do%20firmware%20EFI%2fUEFI%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux%2f&description=Jak%20doda%c4%87%20w%c5%82asne%20klucze%20dla%20Secure%20Boot%20do%20firmware%20EFI%2fUEFI%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-ograniczyc-ladowanie-baterii-w-laptopie-thinkpad-t430/">Jak ograniczyć ładowanie baterii w laptopie ThinkPad T430</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/brak-bluetooth-w-thinkpad-t430/">Brak bluetooth w ThinkPad T430 (BCM20702A1)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/">Jak przygotować dysk pod instalację Debian linux z EFI/UEFI</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/memtest86-dla-efi-uefi-i-refind/">Memtest86 dla EFI/UEFI i rEFInd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/regulacja-obrotow-wentylatora-w-zaleznosci-od-zmian-temperatury-w-thinkpad-t430/">Regulacja obrotów wentylatora w zależności od zmian temperatury w ThinkPad T430</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/">Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

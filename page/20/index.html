@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta name="generator" content="Hugo 0.82.1" />
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
+		<meta property="og:title" content="Morfitronik" />
+<meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://morfikov.github.io/" />
+
+
+		<meta itemprop="name" content="Morfitronik">
+<meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Morfitronik"/>
+<meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="alternate" type="application/rss+xml" href="https://morfikov.github.io/feed.xml" title="Morfitronik">
+	<link rel="alternate" type="application/atom+xml" href="https://morfikov.github.io/feed.atom" title="Morfitronik">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+			<div class="cards">
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/request-body-exceeds-maximum-size-131072-for-ssl-buffer/">Request body exceeds maximum size (131072) for SSL buffer</a></h1>
+	<div class="entry__content"><p>Dziś chciałem zaktualizować jeden z moich bardziej obszerniejszych wpisów na tym blogu ale
+oczywiście nie mogło odbyć się bez problemów. Gdy już wszystkie poprawki zostały naniesione i cały
+artykuł trafił do formularza WordPress'a, przeglądarka zwróciła mi błąd <code>Request Entity Too Large</code> .
+Z początku nie wiedziałem o co chodzi ale, że ten aktualizowany artykuł był naprawdę długi, to
+domyśliłem się, że chodzi o ilość bajtów, które chciałem przesłać w zapytaniu. Przeglądając logi
+serwera Apache2, znalazłem tam jeszcze dodatkowo komunikaty <code>[ssl:error] request body exceeds maximum size (131072) for SSL buffer</code> oraz <code>[ssl:error] could not buffer message body to allow SSL renegotiation to proceed</code> . Może ta cała sytuacja brzmi groźnie ale wybrnięcie z niej jest wręcz
+banalne. Wystarczy dostosować wartość dyrektywy <code>SSLRenegBufferSize</code> w konfiguracji serwera Apache2.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-24T22:52:29Z">Opublikowano: 24/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/chroot-apache2-vs-dyrektywa-open_basedir-w-php/">Chroot Apache2 vs dyrektywa open_basedir w PHP</a></h1>
+	<div class="entry__content"><p>Kilka dni temu wpadł mi w oko artykuł na temat wykonania <a href="https://nfsec.pl/root/5874">chroot serwera
+Apache2</a>. Problem z tamtym tekstem jest taki, że nie uwzględnia on
+serwera bazy danych MySQL. W efekcie, taki chroot'owany Apache2 będzie miał problemy z połączeniem
+się do bazy, a nasz serwis bez niej raczej nie będzie działał prawidłowo. Przydałoby się zatem
+dopracować nieco ten artykuł i wypracować takie rozwiązanie, które nie popsuje przy okazji naszego
+serwisu www. Dlatego też w tym wpisie wykonamy sobie chroot zarówno serwera Apache2 z obsługą PHP i
+bazy danych MySQL za sprawą modułu <code>unixd</code> .</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-22T22:03:02Z">Opublikowano: 22/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zrobic-screenshot-strony-www-firefox/">Jak zrobić screenshot całej strony www w Firefox</a></h1>
+	<div class="entry__content"><p>Każdy z nas potrafi raczej zrobić prostego &quot;skrina&quot; tego co wyświetla się w danej chwili na ekranie
+naszego komputera. Nie jest to jakaś zaawansowana wiedza i wystarczy przycisnąć przycisk PrintScreen
+na klawiaturze i zrzut ekranu powinien zostać przechwycony przez system i zwykle gdzieś zapisany.
+Niemniej jednak, strony www w przeglądarce internetowej bardzo rzadko są nam pokazywane w całej
+swojej okazałości. Zwykle mamy po prawej stronie pasek przewijania (scrollbar), za pomocą którego
+możemy przewinąć stronę w górę lub w dół. Pojawia się zatem pytanie: jak w takiej sytuacji zrobić
+screenshot całej strony www? Można, co prawda, przewinąć stronę kilka razy, zrobić zrzut każdego
+kawałka i scalić obraz w jakimś programie graficznym ale raczej za dużo z tym zachodu. Można także
+zaprzęgnąć jakiś plugin do przeglądarki, np. Firefox ma na wyposażeniu <a href="https://addons.mozilla.org/en-us/firefox/addon/screenshot-capture-annotate/">Awesome
+Screenshot</a>. Istnieje
+jednak prostsza alternatywa i do tego natywnie zaimplementowana w Firefox'ie. Mowa o <a href="https://developer.mozilla.org/en/docs/Tools/GCLI">wierszu
+poleceń Firefox'a</a>. W tym krótkim wpisie
+zobaczymy jak przy pomocy tego narzędzia w bardzo prosty sposób zrobić fotkę całej witryny www.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-22T08:38:58Z">Opublikowano: 22/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/transmiter-sieciowy-panel-admina-linux/">Transmiter sieciowy i jego panel admina pod linux&#39;em</a></h1>
+	<div class="entry__content"><p>Bawię się ostatnio trochę transmiterem sieciowym (powerline ekstender). Konkretnie jest to zestaw
+<a href="http://www.tp-link.com.pl/products/details/TL-WPA4226T-KIT.html">TL-WPA4226T KIT (AV500)</a> od TP-LINK. Same urządzenia działają przyzwoicie i realizują powierzane
+im funkcje w sposób bardzo zadowalający ale był jeden problem, który mi nie dawał spokoju. Do tych
+ekstenderów jest dołączona płytka. Na płytce są aplikacje, które umożliwiają konfigurację tych
+transmiterów sieciowych. Te programiki nie mają wersji dla linux'a. Nasunęło mi się zatem pytanie:
+to jak mam niby te transmitery skonfigurować pod tym systemem operacyjny? Niby one działają OOTB ale
+w przypadku bezprzewodowego routera WiFi z alternatywnym firmware OpenWRT/LEDE na pokładzie
+występuje kolizja adresów IP. Zarówno ekstendery jak i router roszczą sobie prawo do adresu
+192.168.1.1 . Panel admina takich transmiterów umożliwia zmianę tego adresu, tylko nie mamy jak się
+do niego dobrać z poziomu linux'a. W tym artykule postaramy się rozwiązać problem kolizji adresów IP
+i skonfigurujemy nasz transmiter tak, by miał inny adres.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-20T21:54:57Z">Opublikowano: 20/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-archer-t1u/">Recenzja: Karta WiFi TP-LINK Archer T1U</a></h1>
+	<div class="entry__content"><p>Ostatnio recenzowałem dwie bezprzewodowe karty WiFi w standardzie mini/mikro, które podesłał mi
+TP-LINK. W zestawie był jeszcze jeden adapter, a konkretnie chodzi o <a href="http://www.tp-link.com.pl/products/details/Archer-T1U.html">kartę Archer
+T1U</a>. Jest ona bardzo podobna do
+<a href="https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-tl-wn725n/">TL-WN725N</a>, przynajmniej pod
+względem wizualnym. To co odróżnia od siebie te dwa adaptery, to pasmo, w którym mogą pracować oraz
+oczywiście prędkość transferu. Archer T1U działa w 5 GHz (standard AC) i teoretycznie może pochwalić
+się prędkością do 433 mbit/s. Zobaczmy zatem jak on spisze się w przypadku linux'ów.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-19T19:10:44Z">Opublikowano: 19/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/hardware/" rel="category">Hardware</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/sterowniki-karta-wifi-archer-t1u-mt7610u_sta/">Sterowniki dla karty WiFi Archer T1U (mt7610u_sta)</a></h1>
+	<div class="entry__content"><p>Dziś postanowiłem się wziąć za ostatnią kartę WiFi, którą podesłał mi TP-LINK. Jest to nano adapter
+Archer T1U V1 na <a href="https://wikidevi.com/wiki/TP-LINK_TL-WDN5200">czipie MediaTek MT7610U</a>
+identyfikowany w systemie jako <code>idVendor=2357</code> , <code>idProduct=0105</code> . Na opakowaniu pisało, że ta
+karta działa na linux'ach ale oczywiście w przypadku mojego Debiana, ten adapter nie został w ogóle
+wykryty. Winą są zbyt stare sterowniki, które nie zostały zaktualizowane przez MediaTek od 2013
+roku. TP-Link może i ma u siebie na stronie <a href="http://www.tp-link.com/en/download/Archer-T1U.html#Driver">nieco nowszą wersję
+sterowników</a>, bo z 2015 roku ale nie
+udało mi się za ich sprawą zbudować poprawnie modułu <code>mt7610u_sta</code> na kernelu 4.6 . Na szczęście
+mamy jedną alternatywę, która pomoże nam jako tako wybrnąć z tej sytuacji.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-18T14:35:52Z">Opublikowano: 18/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/recenzja-karta-wifi-tp-link-tl-wn823n/">Recenzja: Karta WiFi TP-LINK TL-WN823N</a></h1>
+	<div class="entry__content"><p>Jako mobilny osobnik wiem jak ważne są niewielkie rozmiary sprzętu, na którym przyjdzie mi operować
+gdzieś poza miejscem mojego zamieszkania. Wielkość urządzeń ma zatem dla mnie ogromne znaczenie.
+Nikogo raczej nie trzeba przekonywać, że wraz z miniaturyzacją sprzętu, maleje również jego
+funkcjonalność. Idealne urządzenie to takie, które ma na tyle małe wymiary, by za ich sprawą nie
+ucierpiały wszystkie te niezbędne nam dobrodziejstwa oferowane przez nowe technologie. Bez internetu
+w obecnych czasach ani rusz, zatem potrzebne nam są różnego rodzaju adaptery i karty WiFi
+umożliwiające naszym komputerom bezprzewodowe połączenie sieciowe. Jest cała masa urządzeń, które
+moglibyśmy podłączyć do naszych laptopów ale nie wszystkie z nich mają na tyle małe wymiary, by ich
+zastosowanie było dla nas iście komfortowe. TP-LINK dysponuje w swojej ofercie kilkoma
+bezprzewodowymi kartami sieciowymi w standardzie micro/mini. W tym wpisie zobaczymy jak na linux'ie
+będzie sprawował się <a href="http://www.tp-link.com.pl/products/details/TL-WN823N.html">mini adapter TL-WN823N</a>.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-17T19:16:51Z">Opublikowano: 17/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/hardware/" rel="category">Hardware</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/reset-hasla-bazy-danych-mysql/">Jak zresetować hasło root do bazy danych MySQL</a></h1>
+	<div class="entry__content"><p>Dziś podczas przenoszenia jednej z baz danych przytrafiła mi się bardzo dziwna sytuacja. Niby
+wszystkie kroki zostały przeprowadzone poprawnie i nic bazie nie dolega ale jest jeden problem.
+Okazuje się, że po wszystkim nie sposób do tej bazy uzyskać dostęp. Tak to się już czasem zdarza, że
+człowiek ustawi hasło administratora bazy i po chwili je zapomni. Generalnie rzecz biorąc, to
+komputery za mnie mają pamiętać hasła do różnych aplikacji, w tym też i do baz danych. Ja tylko
+ograniczam się zawsze do kilku fraz, które odblokowują keyring. Niemniej jednak, jakimś dziwnym
+trafem, w tym keyring'u zabrakło hasła do tej nieszczęsnej bazy danych. Jak zatem odzyskać to
+zagubione hasło do bazy MySQL? Odpowiedź jest nawet bardzo prosta, o ile się posiada dostęp do
+użytkownika root na serwerze i na szczęście takowy posiadałem, więc w sumie nikt nic nie zauważył.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-16T18:36:20Z">Opublikowano: 16/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wordpress-jak-zwiekszyc-ilosc-elementow-w-chmurze-tagow/">WordPress: Jak zwiększyć ilość elementów w chmurze tagów</a></h1>
+	<div class="entry__content"><p>Po drobnym dostosowaniu tego bloga, zmieniła się też nieco jego stopka. Problem w tym, że z początku
+widżety ulokowane na samym dole strony niezbyt współgrały ze sobą wizualnie. Generalnie rzecz
+biorąc, w stopce mam trzy widżety: ostatnie recenzje, archiwum i chmurę tagów. Można co prawda
+zmieniać ich kolejność ale z racji że są tylko trzy widżety, to nie idzie ich dobrać tak, by były
+przyzwoicie wyrównane. Winne są tutaj same tagi, które WordPress domyślnie wyświetla w liczbie 45.
+By te widżety wyglądały przyzwoicie, trzeba by tych tagów dodać kilka, np. tak ze 20 sztuk ale jak
+to zrobić? Możemy skorzystać z funkcji <code>wp_tag_cloud()</code> .</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-16T09:21:00Z">Opublikowano: 16/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/wordpress/" rel="category">WordPress</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wordpress-jak-usunac-alias-wp-login-php/">WordPress: Jak usunąć alias &#34;login&#34; dla wp-login.php</a></h1>
+	<div class="entry__content"><p>Przeglądając sobie ostatnio logi mojego serwera Apache2, zauważyłem tam dziwną aktywność. Jakieś
+boty czy też inne ustrojstwa próbują od czasu do czasu uzyskać dostęp do formularza logowania tego
+bloga. Jako, że tutaj mamy do czynienia z WordPress'em oraz <a href="https://morfikov.github.io/post/certyfikat-chroniacy-wp-login-php-wp-admin/">ochroną pliku wp-login.php oraz
+katalogu wp-admin/ za pomocą certyfikatów</a>, to taki bot nigdy nie uzyska dostępu do tych zasobów.
+Niemniej jednak, te automaty generują zapytania do serwera o zasób <code>login</code> , który z kolei
+przekierowuje je pod <code>wp-login.php</code> za pomocą kodu 301 lub 302. Moglibyśmy uniknąć tego typu
+przekierowań zwracając im kod 404 i przy tym odciążając nieco serwer www. W tym krótkim artykule
+zobaczymy jak tego typu zabieg przeprowadzić.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-14T20:05:10Z">Opublikowano: 14/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/wordpress/" rel="category">WordPress</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
+			</div>
+	</main>
+	
+<div class="pagination block">
+	<a href="https://morfikov.github.io/" class="pagination__item pagination__item--desktop" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    <a href="https://morfikov.github.io/page/19/" class="pagination__item pagination__item--desktop" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/">1</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/page/2/">2</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/page/3/">3</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/page/4/">4</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/page/5/">5</a>
+			<span class="pagination__item pagination__item--gap">&hellip;</span>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/page/18/">18</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/page/19/">19</a>
+				<span class="pagination__item pagination__item--active" data-total="56">20</span>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/page/21/">21</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/page/22/">22</a>
+			<span class="pagination__item pagination__item--gap">&hellip;</span>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/page/56/">56</a>
+	<a href="https://morfikov.github.io/page/21/" class="pagination__item pagination__item--desktop" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+      <a href="https://morfikov.github.io/page/56/" class="pagination__item pagination__item--desktop" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+</div>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

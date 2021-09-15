@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dhcp on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/dhcp/</link>
+    <description>Recent content in dhcp on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Sat, 19 Sep 2020 14:13:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/dhcp/feed.atom" rel="self" type="application/atom+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux</title>
+      <link>https://morfikov.github.io/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/</link>
+      <pubDate>Sat, 19 Sep 2020 14:13:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/</guid>
+      <description>&lt;p&gt;Ostatnio na forum dug.net.pl jeden z użytkowników &lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=31524&#34;&gt;miał dość spory problem&lt;/a&gt; z ogarnięciem
+zadania polegającego na zaszyfrowaniu zapytań DNS z wykorzystaniem &lt;a href=&#34;https://dnscrypt.info/&#34;&gt;dnscrypt-proxy&lt;/a&gt; i
+&lt;a href=&#34;http://www.thekelleys.org.uk/dnsmasq/doc.html&#34;&gt;dnsmasq&lt;/a&gt;. Ładnych parę lat temu opisywałem &lt;a href=&#34;/tags/resolver/&#34;&gt;jak skonfigurować te dwa narzędzia na Debianie&lt;/a&gt;
+(i też na OpenWRT), choć od tamtego czasu w świecie linux&#39;owym trochę rzeczy się pozmieniało. Dla
+przykładu, dnscrypt-proxy przeszedł gruntowną przebudowę, no i też systemd jest w powszechniejszym
+użyciu niż to miało miejsce w tamtych czasach, przez co w sporej części przypadków usługi takie jak
+&lt;code&gt;systemd-networkd.service&lt;/code&gt; czy &lt;code&gt;systemd-resolved.service&lt;/code&gt; są już włączone domyślnie. Zatem sporo
+informacji zawartych w tych napisanych przeze mnie artykułach już niekoniecznie może znaleźć
+obecnie zastosowanie. Dlatego też pomyślałem, że nadszedł już czas, by ździebko zaktualizować tamte
+wpisy. Ostatecznie stanęło jednak na tym, by w oparciu o te artykuły napisać kompletnie nowy tekst
+na temat szyfrowania zapytań DNS na linux przy wykorzystaniu oprogramowania &lt;code&gt;dnscrypt-proxy&lt;/code&gt; oraz
+&lt;code&gt;dnsmasq&lt;/code&gt; i zawrzeć w nim te wszystkie ciekawsze informacje, które udało mi się pozyskać przez te
+ostatnie lata w kwestii poprawy bezpieczeństwa i prywatności przy przeglądaniu stron WWW.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Cannot move /etc/resolv.conf.dhclient-new to /etc/resolv.conf: Operation not permitted</title>
+      <link>https://morfikov.github.io/post/cannot-move-etcresolv-conf-dhclient-new-to-etcresolv-conf-operation-not-permitted/</link>
+      <pubDate>Sat, 10 Sep 2016 20:54:57 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/cannot-move-etcresolv-conf-dhclient-new-to-etcresolv-conf-operation-not-permitted/</guid>
+      <description>&lt;p&gt;Użytkownicy linux&#39;a przykładają nieco większą wagę do konfiguracji swojego systemu. Te nieco
+bardziej świadome jednostki zdają sobie sprawę, że różnego rodzaju automaty są w stanie przepisywać
+konfigurację systemową bez naszej wiedzy. Weźmy sobie resolver DNS. To bardzo krytyczna usługa, nie
+tylko z punktu widzenia bezpieczeństwa ale też i prywatności. Zakładając, że chcemy korzystać z
+pewnych określonych serwerów DNS lub też mamy &lt;a href=&#34;/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/&#34;&gt;skonfigurowaną usługę
+dnscrypt-proxy&lt;/a&gt;, trzeba zadbać
+o to, by adresy w pliku &lt;code&gt;/etc/resolv.conf&lt;/code&gt; nie zostały z jakiegoś powodu przepisane. Użytkownicy
+zwykle nadają temu plikowi atrybut odporności ( &lt;code&gt;chattr +i&lt;/code&gt; ) . Niemniej jednak, przy pobieraniu
+konfiguracji sieciowej za sprawą protokołu DHCP, w logu można zaobserwować komunikat: &lt;code&gt;mv: cannot move &#39;/etc/resolv.conf.dhclient-new&#39; to &#39;/etc/resolv.conf&#39;: Operation not permitted&lt;/code&gt; . Niby w niczym
+on nie przeszkadza ale możemy tak skonfigurować demona &lt;code&gt;dhclient&lt;/code&gt; , by tę wiadomość wyeliminować.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Skrypt dhclient&#39;a (dhclient script)</title>
+      <link>https://morfikov.github.io/post/skrypt-dhclienta-dhclient-script/</link>
+      <pubDate>Tue, 14 Jun 2016 16:26:15 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/skrypt-dhclienta-dhclient-script/</guid>
+      <description>&lt;p&gt;Jak wiele osób zapewne wie, szereg dystrybucji linux&#39;a wykorzystuje &lt;code&gt;dhclient&lt;/code&gt; w celu pobrania
+sieciowej konfiguracji hosta za sprawą protokółu DHCP. W zasadzie cała konfiguracja tego narzędzia
+sprowadza się do określenia szeregu opcji w pliku &lt;code&gt;/etc/dhcp/dhclient.conf&lt;/code&gt; . W debianie nawet nie
+musimy dotykać tego pliku, by wszystko działało nam jak trzeba. Niemniej jednak, czasem konfiguracja
+interfejsów sieciowych może wymagać od nas dodatkowych zabiegów. W celu ułatwienia życia adminom
+dodano obsługę skryptów shell&#39;owych (&lt;a href=&#34;http://manpages.ubuntu.com/manpages/xenial/en/man8/dhclient-script.8.html&#34;&gt;dhclient-script&lt;/a&gt;). Taki skrypt jesteśmy w stanie wywołać w
+zależności od zaistniałych zdarzeń protokołu DHCP. W tym wpisie zostanie pokazane w jaki sposób te
+skrypty możemy utworzyć i wykorzystać.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konfiguracja interfejsów sieciowych w dhclient</title>
+      <link>https://morfikov.github.io/post/konfiguracja-interfejsow-sieciowych-w-dhclient/</link>
+      <pubDate>Thu, 09 Jun 2016 18:05:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-interfejsow-sieciowych-w-dhclient/</guid>
+      <description>&lt;p&gt;Konfiguracja maszyn w sieci za sprawą protokołu DHCP znacznie ułatwia życie administratorom. Cały
+ten proces jest nie tylko szybszy ale też eliminuje szereg błędów, które mogą pojawić się za sprawą
+czynnika ludzkiego. W przypadku, gdy nasza maszyna dysponuje kilkoma interfejsami sieciowymi, to
+każdy z nich możemy skonfigurować nieco inaczej. Oczywiście, nie chodzi o samą konfigurację
+adresacji ale o szereg parametrów, które klient przesyła do serwera DHCP. To dzięki nim host min.
+wie jak ustawić adresację na interfejsie i pod jaki adres słać zapytania DNS. Każdy interfejs może w
+ten sposób posiadać własne opcje, które klient DHCP będzie przesyłał do serwera. W tym artykule
+postaramy się konfigurować niezależnie dwa interfejsy sieciowe przy pomocy &lt;code&gt;dhclient&lt;/code&gt; , czyli
+domyślnego klienta DHCP w linux&#39;ie.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak ukryć hostname w protokole DHCP</title>
+      <link>https://morfikov.github.io/post/jak-ukryc-hostname-w-protokole-dhcp/</link>
+      <pubDate>Tue, 24 May 2016 20:07:14 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-ukryc-hostname-w-protokole-dhcp/</guid>
+      <description>&lt;p&gt;Darmowe hotspoty sieci WiFi są dostępne w każdym mieście. Dzięki nim możemy uzyskać połączenie z
+internetem praktycznie za free. Niemniej jednak, takie połączenie nie jest do końca bezpieczne i
+może zagrażać naszej prywatności. Wiele osób stara się temu przeciwdziałać &lt;a href=&#34;/post/jak-przypisac-losowy-adres-mac-interfejsu/&#34;&gt;generując losowy adres
+MAC&lt;/a&gt;. No i to jest jakieś
+wyjście, o ile ten adres jest generowany z głową. Niemniej jednak, w takich sieciach WiFi, host ma
+przydzielaną adresację za pomocą &lt;a href=&#34;https://pl.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol&#34;&gt;protokołu
+DHCP&lt;/a&gt;. Ci, którzy wiedza, jak
+odbywa się konfiguracja za pomocą tego protokołu, wiedzą też, że nasz komputer przesyła pewne dane
+do serwera DHCP. Jakie dane? To zwykle zależy od konfiguracji klienta DHCP. Na linux&#39;ach domyślnym
+klientem DHCP jest &lt;code&gt;dhclinet&lt;/code&gt; i on standardowo przesyła nazwę hosta (hostname) w zapytaniu o
+adresację. Co nam zatem po losowym adresie MAC, gdy można nas zidentyfikować po nazwie hosta? W tym
+artykule postaramy się ukryć lub też losowo wygenerować hostname danej maszyny w sieci.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>DHCP i DNS, czyli konfiguracja sieci w OpenWRT</title>
+      <link>https://morfikov.github.io/post/dhcp-dns-czyli-konfiguracja-sieci-w-openwrt/</link>
+      <pubDate>Mon, 02 May 2016 16:21:20 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/dhcp-dns-czyli-konfiguracja-sieci-w-openwrt/</guid>
+      <description>&lt;p&gt;Rutery WiFi są w stanie zorganizować przewodową i/lub bezprzewodową sieć w naszych domach. By taka
+sieć działała bez zarzutu, potrzebna jest odpowiednia adresacja wszystkich komputerów wewnątrz niej.
+W obecnych czasach już praktycznie nie stosuje się statycznej konfiguracji, bo to zadanie zostało
+zrzucone na barki serwera DHCP. W OpenWRT do tego celu oddelegowane jest &lt;a href=&#34;http://www.thekelleys.org.uk/dnsmasq/doc.html&#34;&gt;oprogramowanie
+dnsmasq&lt;/a&gt;. Zapewnia ono nie tylko wspomniany wyżej serwer DHCP ale także serwer cache&#39;ujący
+zapytania DNS. Ten drugi z kolei jest niezastąpiony w przypadku przekazywania zapytań o nazwy domen
+do upstream&#39;owego serwera DNS, który zajmuje się rozwiązywaniem tych nazw na odpowiadające im adresy
+IP. Bez &lt;code&gt;dnsmasq&lt;/code&gt; ogarnięcie naszej sieci przerodziłoby się w istne piekło. Dlatego też w tym
+artykule przybliżymy sobie nieco konfigurację tego narzędzia.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Smartfon z Androidem pod linux&#39;em (MTP/PTP) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Smartfon z Androidem pod linux&#39;em (MTP/PTP)" />
+<meta property="og:description" content="Wpadł mi w łapki smartfon Neffos C5 od TP-LINK, który ma
+na pokładzie Androida. Chciałem nim zrobić parę fotek, tylko pojawił się problem uzyskania dostępu
+do zasobów tego telefonu. Samo urządzenie pod linux&#39;em identyfikowane jest jako idVendor=2357 oraz
+idProduct=0314 ale po jego podłączeniu do portu USB komputera nie pojawiły się żadne nowe dyski,
+które można by przejrzeć w celu zgania ich zawartości. Problem tkwił w konfiguracji mojego Debiana,
+w którym to brakowało obsługi protokołu MTP. Po chwili rozgryzłem tę zagadkę instalując w systemie
+pakiet jmtpfs , co umożliwiło interakcję z systemem plików telefonu i zgranie zrobionych zdjęć." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/smartfon-android-linux-mtp-ptp/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-09-22T21:54:23&#43;00:00" />
+<meta property="article:modified_time" content="2016-09-22T21:54:23&#43;00:00" />
+
+
+		<meta itemprop="name" content="Smartfon z Androidem pod linux&#39;em (MTP/PTP)">
+<meta itemprop="description" content="Wpadł mi w łapki smartfon Neffos C5 od TP-LINK, który ma
+na pokładzie Androida. Chciałem nim zrobić parę fotek, tylko pojawił się problem uzyskania dostępu
+do zasobów tego telefonu. Samo urządzenie pod linux&#39;em identyfikowane jest jako idVendor=2357 oraz
+idProduct=0314 ale po jego podłączeniu do portu USB komputera nie pojawiły się żadne nowe dyski,
+które można by przejrzeć w celu zgania ich zawartości. Problem tkwił w konfiguracji mojego Debiana,
+w którym to brakowało obsługi protokołu MTP. Po chwili rozgryzłem tę zagadkę instalując w systemie
+pakiet jmtpfs , co umożliwiło interakcję z systemem plików telefonu i zgranie zrobionych zdjęć."><meta itemprop="datePublished" content="2016-09-22T21:54:23&#43;00:00" />
+<meta itemprop="dateModified" content="2016-09-22T21:54:23&#43;00:00" />
+<meta itemprop="wordCount" content="5797">
+<meta itemprop="keywords" content="debian,smartfon,mtp," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Smartfon z Androidem pod linux&#39;em (MTP/PTP)"/>
+<meta name="twitter:description" content="Wpadł mi w łapki smartfon Neffos C5 od TP-LINK, który ma
+na pokładzie Androida. Chciałem nim zrobić parę fotek, tylko pojawił się problem uzyskania dostępu
+do zasobów tego telefonu. Samo urządzenie pod linux&#39;em identyfikowane jest jako idVendor=2357 oraz
+idProduct=0314 ale po jego podłączeniu do portu USB komputera nie pojawiły się żadne nowe dyski,
+które można by przejrzeć w celu zgania ich zawartości. Problem tkwił w konfiguracji mojego Debiana,
+w którym to brakowało obsługi protokołu MTP. Po chwili rozgryzłem tę zagadkę instalując w systemie
+pakiet jmtpfs , co umożliwiło interakcję z systemem plików telefonu i zgranie zrobionych zdjęć."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Smartfon z Androidem pod linux&#39;em (MTP/PTP)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-09-22T21:54:23Z">Opublikowano: 22/09/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Smartfon z Androidem pod linux&#39;em (MTP/PTP)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#usb-mass-storage-i-protokół-mtpptp">USB Mass Storage i protokół MTP/PTP</a></li>
+    <li><a href="#brak-zasobów-smartfona-pod-linuxem">Brak zasobów smartfona pod linux'em</a></li>
+    <li><a href="#wsparcie-debiana-dla-protokołu-mtp-libmtp9-i-mtp-tools">Wsparcie Debiana dla protokołu MTP (libmtp9 i mtp-tools)</a></li>
+    <li><a href="#pakiety-mtpfs-oraz-jmtpfs">Pakiety mtpfs oraz jmtpfs</a></li>
+    <li><a href="#montowanie-zasobów-smartfona">Montowanie zasobów smartfona</a></li>
+    <li><a href="#przeglądanie-zasobów-za-sprawą-protokołu-mtp">Przeglądanie zasobów za sprawą protokołu mtp://</a></li>
+    <li><a href="#problemy-z-przeglądaniem-zasobów-smartfona">Problemy z przeglądaniem zasobów smartfona</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Wpadł mi w łapki <a href="http://www.neffos.pl/product/details/C5">smartfon Neffos C5</a> od TP-LINK, który ma
+na pokładzie Androida. Chciałem nim zrobić parę fotek, tylko pojawił się problem uzyskania dostępu
+do zasobów tego telefonu. Samo urządzenie pod linux'em identyfikowane jest jako <code>idVendor=2357</code> oraz
+<code>idProduct=0314</code> ale po jego podłączeniu do portu USB komputera nie pojawiły się żadne nowe dyski,
+które można by przejrzeć w celu zgania ich zawartości. Problem tkwił w konfiguracji mojego Debiana,
+w którym to brakowało obsługi protokołu MTP. Po chwili rozgryzłem tę zagadkę instalując w systemie
+pakiet <code>jmtpfs</code> , co umożliwiło interakcję z systemem plików telefonu i zgranie zrobionych zdjęć.</p>
+<h2 id="usb-mass-storage-i-protokół-mtpptp">USB Mass Storage i protokół MTP/PTP</h2>
+<p>W przypadku starszych telefonów i smartfonów była wykorzystywana pamięć masowa USB (USB Mass
+Storage) w celu przesyłania plików z i do komputera. Problem z tym rozwiązaniem był taki, że tylko
+jedno urządzenie mogło z tej pamięci korzystać w danym czasie. W efekcie, gdy podłączaliśmy telefon
+do komputera, to linux operował na zasobach urządzenia i nie mogliśmy z nimi wejść w interakcję z
+poziomu telefonu. Obecnie smartfony korzystają z protokółu MTP (<a href="https://en.wikipedia.org/wiki/Media_Transfer_Protocol">Media Transfer
+Protocol</a>) lub PTP (<a href="https://en.wikipedia.org/wiki/Picture_Transfer_Protocol">Picture Transfer
+Protocol</a>).</p>
+<p>Jako, że MTP operuje na poziomie plików, to nie ma potrzeby wyłączności w dostępie do zasobów.
+System operacyjny komputera zwyczajnie wysyła żądania do smartfona z prośbą o konkretny plik. Po
+zaakceptowaniu takiej prośby, plik jest przesyłany i zapisywany na dysku naszego komputera. Podobnie
+w drugą stronę, gdzie to nasz linux chce przesłać plik na telefon, z tym, że wtedy to system
+telefonu (w tym przypadku Android) decyduje, czy odebrać taki plik i gdzie go zapisać. Jeśli zaś
+chcemy skasować plik z telefonu, to wysyłamy jedynie prosty sygnał, który Android interpretuje jako
+&quot;skasuj plik xyz&quot; i plik ulega skasowaniu.</p>
+<p>By wiedzieć, jakimi plikami dysponuje smartfon, po podłączeniu go do komputera jest przesyłana lista
+wszystkich udostępniony przez telefon plików i katalogów. Trzeba jednak pamiętać, że część
+plików/katalogów może być przed nami ukryta i w efekcie ich nie zobaczymy na liście. Podobnie może
+być z prawami do modyfikacji konkretnych plików i tak dla przykładu nie wszystkie z nich będziemy w
+stanie skasować czy poddać edycji.</p>
+<p>Niewątpliwą zaletą protokołu MTP jest wyeliminowanie potrzeby wspierania systemu plików przez
+systemy operacyjne. Chodzi o to, że pamięć masowa USB wymaga od naszego linux'a, by ten wpierał
+system plików, który na takim urządzeniu się znajduje. W przypadku, gdy nasz OS nie wspiera takiego
+systemu plików, to nie może wejść z nim w interakcję. Dlatego z reguły na pendrive czy innych
+pamięciach flash wykorzystuje się dość ograniczony system plików FAT, bo jest on wspierany przez
+wszystkie systemy operacyjne.</p>
+<p>W przypadku smartfonów, gdzie rozmiary kart SD i pamięci telefonu mogą iść już w setki GiB, trzeba
+korzystać z innego systemu plików, np. EXT4, czy NTFS. Z tym, że znowu wybór każdego z tych systemów
+plików będzie powodował problemy czy to pod windowsem, czy też pod linux'em. Protokół MTP uwalnia
+nas od potrzeby wspierania systemu plików smartfona, z którym zamierzamy wymieniać dane, mniej
+więcej na takiej samej zasadzie jak odbywa się nasza komunikacja z serwerami HTTP czy FTP.</p>
+<h2 id="brak-zasobów-smartfona-pod-linuxem">Brak zasobów smartfona pod linux'em</h2>
+<p>W opcjach Androida możemy sobie wybrać czy zamierzamy korzystać z protokołu MTP czy też i PTP. W tym
+celu wystarczy podłączyć smartfon do portu USB komputera. Na ekranie smartfona powinna nam się
+pojawić poniższa wiadomość:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/09/1smartfon-linux-protokol-mtp-ptp-podlaczanie-usb.png" alt=""    class="medium"></p>
+<p>Jak widzimy wyżej, jeśli nasz komputer nie wspiera protokołu MTP, to wybieramy PTP. Linux'y na
+szczęście nie mają problemów z protokołem MTP i dlatego to on został wyżej zaznaczony.</p>
+<p>Po podłączeniu smartfona do portu USB, za wiele w logu systemowym nie zobaczymy. Mi pojawiły się
+jedynie te poniższe komunikaty:</p>
+<pre><code>kernel: usb 2-1.3: new high-speed USB device number 69 using ehci-pci
+kernel: usb 2-1.3: New USB device found, idVendor=2357, idProduct=0314
+kernel: usb 2-1.3: New USB device strings: Mfr=2, Product=3, SerialNumber=4
+kernel: usb 2-1.3: Product: Neffos
+kernel: usb 2-1.3: Manufacturer: TP-LINK
+kernel: usb 2-1.3: SerialNumber: TSL7DA69OBSO49PJ
+</code></pre>
+<p>Niemniej jednak, gdy rzucimy okiem bezpośrednio na to urządzenie przez <code>lsusb</code> , to już mamy tam
+informację o jakimś interfejsie MTP:</p>
+<pre><code># lsusb -vvv -d 2357:0314
+
+Bus 002 Device 069: ID 2357:0314
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass            0 (Defined at Interface level)
+  bDeviceSubClass         0
+  bDeviceProtocol         0
+  bMaxPacketSize0        64
+  idVendor           0x2357
+  idProduct          0x0314
+  bcdDevice           ff.ff
+  iManufacturer           2 TP-LINK
+  iProduct                3 Neffos
+  iSerial                 4 TSL7DA69OBSO49PJ
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength           39
+    bNumInterfaces          1
+    bConfigurationValue     1
+    iConfiguration          0
+    bmAttributes         0xc0
+      Self Powered
+    MaxPower              500mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass    255 Vendor Specific Subclass
+      bInterfaceProtocol      0
+      iInterface             17 MTP
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x01  EP 1 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x001c  1x 28 bytes
+        bInterval               6
+Device Qualifier (for other device speed):
+  bLength                10
+  bDescriptorType         6
+  bcdUSB               2.00
+  bDeviceClass            0 (Defined at Interface level)
+  bDeviceSubClass         0
+  bDeviceProtocol         0
+  bMaxPacketSize0        64
+  bNumConfigurations      1
+Device Status:     0x0001
+  Self Powered
+</code></pre>
+<p>Zatem smartfon chce komunikować się z naszym linux'em za pomocą protokołu MTP, z tym, że ten system
+jeszcze nie ma zaimplementowanej obsługi tego protokołu (brak odpowiednich pakietów).</p>
+<h2 id="wsparcie-debiana-dla-protokołu-mtp-libmtp9-i-mtp-tools">Wsparcie Debiana dla protokołu MTP (libmtp9 i mtp-tools)</h2>
+<p><a href="https://wiki.debian.org/mtp">Jest sporo narzędzi</a>, które umożliwiają linux'om operowanie na
+protokole MTP. Jeśli nie korzystamy z żadnych środowisk graficznych, to jest niemal pewne, że nie
+mamy w systemie wymaganych pakietów. W Debianie, wsparcie dla tego protokołu jest dostarczane z
+pakietem <code>libmtp9</code> . Do tego są również narzędzia zawarte w pakiecie <code>mtp-tools</code> . W zasadzie to te
+pakiety wystarczą, by możliwa była interakcja z telefonem.</p>
+<p>Po instalacji ww. pakietów, w systemie będziemy mieli dostęp do szeregu poleceń <code>mtp-*</code> . Teraz
+wystarcz podpiąć telefon do portu USB i wpisać w terminalu <code>mtp-detect</code> :</p>
+<pre><code>$ mtp-detect
+libmtp version: 1.1.12
+
+Listing raw device(s)
+Device 0 (VID=2357 and PID=0314) is UNKNOWN in libmtp v1.1.12.
+Please report this VID/PID and the device model to the libmtp development team
+   Found 1 device(s):
+   2357:0314 @ bus 2, dev 69
+Attempting to connect device(s)
+Android device detected, assigning default bug flags
+USB low-level info:
+   bcdUSB: 512
+   bDeviceClass: 0
+   bDeviceSubClass: 0
+   bDeviceProtocol: 0
+   idVendor: 2357
+   idProduct: 0314
+   IN endpoint maxpacket: 512 bytes
+   OUT endpoint maxpacket: 512 bytes
+   Raw device info:
+      Bus location: 2
+      Device number: 69
+      Device entry info:
+         Vendor: (null)
+         Vendor id: 0x2357
+         Product: (null)
+         Vendor id: 0x0314
+         Device flags: 0x18008106
+Configuration 0, interface 0, altsetting 0:
+   Interface description contains the string &quot;MTP&quot;
+   Device recognized as MTP, no further probing.
+Device info:
+   Manufacturer: TP-LINK
+   Model: Neffos C5
+   Device version: 1.0
+   Serial number: TSL7DA69OBSO49PJ
+   Vendor extension ID: 0x00000006
+   Vendor extension description: microsoft.com: 1.0; android.com: 1.0;
+   Detected object size: 64 bits
+   Extensions:
+        microsoft.com: 1.0
+        android.com: 1.0
+Supported operations:
+   1001: Unknown(1001)
+   1002: Unknown(1002)
+   1003: Unknown(1003)
+   1004: Unknown(1004)
+   1005: Unknown(1005)
+   1006: Unknown(1006)
+   1007: Unknown(1007)
+   1008: Unknown(1008)
+   1009: Unknown(1009)
+   100a: Unknown(100a)
+   100b: Unknown(100b)
+   100c: Unknown(100c)
+   100d: Unknown(100d)
+   1014: Unknown(1014)
+   1015: Unknown(1015)
+   1016: Unknown(1016)
+   1017: Unknown(1017)
+   101b: Unknown(101b)
+   9801: Unknown(9801)
+   9802: Unknown(9802)
+   9803: Unknown(9803)
+   9804: Unknown(9804)
+   9805: Unknown(9805)
+   9810: Unknown(9810)
+   9811: Unknown(9811)
+   95c1: Unknown(95c1)
+   95c2: Unknown(95c2)
+   95c3: Unknown(95c3)
+   95c4: Unknown(95c4)
+   95c5: Unknown(95c5)
+Events supported:
+   0x4002
+   0x4003
+   0x4004
+   0x4005
+   0x4006
+   0x4007
+   0x400c
+Device Properties Supported:
+   0xd401: Synchronization Partner
+   0xd402: Friendly Device Name
+   0x5003: Image Size
+   0x5001: Battery Level
+Playable File (Object) Types and Object Properties Supported:
+   3000: Undefined Type
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   3001: Association/Directory
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   3004: Text
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   3005: HTML
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   3008: MS Wave
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+      dc46: Artist STRING data type READ ONLY
+      dc9a: Album Name STRING data type READ ONLY
+      dc9b: Album Artist STRING data type READ ONLY
+      dc8b: Track UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc99: Original Release Date STRING data type DATETIME FORM READ ONLY
+      dc89: Duration UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc8c: Genre STRING data type READ ONLY
+      dc96: Composer STRING data type READ ONLY
+      de99: Audio WAVE Codec UINT32 data type ANY 32BIT VALUE form READ ONLY
+      de92: Bit Rate Type UINT16 data type enumeration: 1, 2,  READ ONLY
+      de9a: Audio Bit Rate UINT32 data type range: MIN 1, MAX 1536000, STEP 1 READ ONLY
+      de94: Number Of Channels UINT16 data type enumeration: 1, 2, 3, 4, 5, 6, 7, 8, 9,  READ ONLY
+      de93: Sample Rate UINT32 data type range: MIN 8000, MAX 48000, STEP 1 READ ONLY
+   3009: MP3
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+      dc46: Artist STRING data type READ ONLY
+      dc9a: Album Name STRING data type READ ONLY
+      dc9b: Album Artist STRING data type READ ONLY
+      dc8b: Track UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc99: Original Release Date STRING data type DATETIME FORM READ ONLY
+      dc89: Duration UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc8c: Genre STRING data type READ ONLY
+      dc96: Composer STRING data type READ ONLY
+      de99: Audio WAVE Codec UINT32 data type ANY 32BIT VALUE form READ ONLY
+      de92: Bit Rate Type UINT16 data type enumeration: 1, 2,  READ ONLY
+      de9a: Audio Bit Rate UINT32 data type range: MIN 1, MAX 1536000, STEP 1 READ ONLY
+      de94: Number Of Channels UINT16 data type enumeration: 1, 2, 3, 4, 5, 6, 7, 8, 9,  READ ONLY
+      de93: Sample Rate UINT32 data type range: MIN 8000, MAX 48000, STEP 1 READ ONLY
+   300b: MPEG
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+      dc46: Artist STRING data type READ ONLY
+      dc9a: Album Name STRING data type READ ONLY
+      dc89: Duration UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc48: Description STRING data type READ ONLY
+   3801: JPEG
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+      dc48: Description STRING data type READ ONLY
+   3802: TIFF EP
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   3804: BMP
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+      dc48: Description STRING data type READ ONLY
+   3807: GIF
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+      dc48: Description STRING data type READ ONLY
+   3808: JFIF
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   380b: PNG
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+      dc48: Description STRING data type READ ONLY
+   380d: TIFF
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   b901: WMA
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+      dc46: Artist STRING data type READ ONLY
+      dc9a: Album Name STRING data type READ ONLY
+      dc9b: Album Artist STRING data type READ ONLY
+      dc8b: Track UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc99: Original Release Date STRING data type DATETIME FORM READ ONLY
+      dc89: Duration UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc8c: Genre STRING data type READ ONLY
+      dc96: Composer STRING data type READ ONLY
+      de99: Audio WAVE Codec UINT32 data type ANY 32BIT VALUE form READ ONLY
+      de92: Bit Rate Type UINT16 data type enumeration: 1, 2,  READ ONLY
+      de9a: Audio Bit Rate UINT32 data type range: MIN 1, MAX 1536000, STEP 1 READ ONLY
+      de94: Number Of Channels UINT16 data type enumeration: 1, 2, 3, 4, 5, 6, 7, 8, 9,  READ ONLY
+      de93: Sample Rate UINT32 data type range: MIN 8000, MAX 48000, STEP 1 READ ONLY
+   b902: OGG
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+      dc46: Artist STRING data type READ ONLY
+      dc9a: Album Name STRING data type READ ONLY
+      dc9b: Album Artist STRING data type READ ONLY
+      dc8b: Track UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc99: Original Release Date STRING data type DATETIME FORM READ ONLY
+      dc89: Duration UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc8c: Genre STRING data type READ ONLY
+      dc96: Composer STRING data type READ ONLY
+      de99: Audio WAVE Codec UINT32 data type ANY 32BIT VALUE form READ ONLY
+      de92: Bit Rate Type UINT16 data type enumeration: 1, 2,  READ ONLY
+      de9a: Audio Bit Rate UINT32 data type range: MIN 1, MAX 1536000, STEP 1 READ ONLY
+      de94: Number Of Channels UINT16 data type enumeration: 1, 2, 3, 4, 5, 6, 7, 8, 9,  READ ONLY
+      de93: Sample Rate UINT32 data type range: MIN 8000, MAX 48000, STEP 1 READ ONLY
+   b903: AAC
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+      dc46: Artist STRING data type READ ONLY
+      dc9a: Album Name STRING data type READ ONLY
+      dc9b: Album Artist STRING data type READ ONLY
+      dc8b: Track UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc99: Original Release Date STRING data type DATETIME FORM READ ONLY
+      dc89: Duration UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc8c: Genre STRING data type READ ONLY
+      dc96: Composer STRING data type READ ONLY
+      de99: Audio WAVE Codec UINT32 data type ANY 32BIT VALUE form READ ONLY
+      de92: Bit Rate Type UINT16 data type enumeration: 1, 2,  READ ONLY
+      de9a: Audio Bit Rate UINT32 data type range: MIN 1, MAX 1536000, STEP 1 READ ONLY
+      de94: Number Of Channels UINT16 data type enumeration: 1, 2, 3, 4, 5, 6, 7, 8, 9,  READ ONLY
+      de93: Sample Rate UINT32 data type range: MIN 8000, MAX 48000, STEP 1 READ ONLY
+   b982: MP4
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   b983: MP2
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   b984: 3GP
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+      dc46: Artist STRING data type READ ONLY
+      dc9a: Album Name STRING data type READ ONLY
+      dc89: Duration UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc48: Description STRING data type READ ONLY
+   ba05: Abstract Audio Video Playlist
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   ba10: WPL Playlist
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   ba11: M3U Playlist
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   ba14: PLS Playlist
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   ba82: XMLDocument
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+   b906: FLAC
+      dc01: Storage ID UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc02: Object Format UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc03: Protection Status UINT16 data type ANY 16BIT VALUE form READ ONLY
+      dc04: Object Size UINT64 data type READ ONLY
+      dc07: Object File Name STRING data type GET/SET
+      dc09: Date Modified STRING data type DATETIME FORM READ ONLY
+      dc0b: Parent Object UINT32 data type ANY 32BIT VALUE form READ ONLY
+      dc41: Persistant Unique Object Identifier UINT128 data type READ ONLY
+      dc44: Name STRING data type READ ONLY
+      dce0: Display Name STRING data type READ ONLY
+      dc4e: Date Added STRING data type DATETIME FORM READ ONLY
+Storage Devices:
+   StorageID: 0x00010001
+      StorageType: 0x0003 fixed RAM storage
+      FilesystemType: 0x0002 generic hierarchical
+      AccessCapability: 0x0000 read/write
+      MaxCapacity: 10362871808
+      FreeSpaceInBytes: 8785158144
+      FreeSpaceInObjects: 1073741824
+      StorageDescription: Pamięć telefonu
+      VolumeIdentifier: (null)
+   StorageID: 0x00020001
+      StorageType: 0x0004 removable RAM storage
+      FilesystemType: 0x0002 generic hierarchical
+      AccessCapability: 0x0000 read/write
+      MaxCapacity: 1968508928
+      FreeSpaceInBytes: 62480384
+      FreeSpaceInObjects: 1073741824
+      StorageDescription: Karta SD
+      VolumeIdentifier: (null)
+Special directories:
+   Default music folder: 0xffffffff
+   Default playlist folder: 0xffffffff
+   Default picture folder: 0xffffffff
+   Default video folder: 0xffffffff
+   Default organizer folder: 0xffffffff
+   Default zencast folder: 0xffffffff
+   Default album folder: 0xffffffff
+   Default text folder: 0xffffffff
+MTP-specific device properties:
+   Friendly name: Neffos C5
+   Synchronization partner: Neffos C5
+   Battery level 41 of 100 (40%)
+libmtp supported (playable) filetypes:
+   Folder
+   Text file
+   HTML file
+   RIFF WAVE file
+   ISO MPEG-1 Audio Layer 3
+   MPEG video stream
+   JPEG file
+   BMP bitmap file
+   GIF bitmap file
+   JFIF file
+   Portable Network Graphics
+   TIFF bitmap file
+   Microsoft Windows Media Audio
+   Ogg container format
+   Advanced Audio Coding (AAC)/MPEG-2 Part 7/MPEG-4 Part 3
+   MPEG-4 Part 14 Container Format (Audio+Video Emphasis)
+   ISO MPEG-1 Audio Layer 2
+   Abstract Playlist file
+   XML file
+   Free Lossless Audio Codec (FLAC)
+</code></pre>
+<p>Powyżej został wykryty smartfon. Niemniej jednak, mamy tam informację, że <code>libmtp</code> nie zna tego
+urządzenia ( <code>UNKNOWN</code> ). Jeśli mamy podobny problem, to wypadałoby zgłosić numery urządzenia
+(VID=2357 i PID=0314) <a href="https://sourceforge.net/p/libmtp/feature-requests/">do developerów</a>. Te
+powyższe zostały właśnie zgłoszone. W międzyczasie możemy napisać regułę dla UDEV'a wzorując się na
+pliku <code>/lib/udev/rules.d/69-libmtp.rules</code> . Pamiętajmy tylko, by nową regułę umieścić w pliku
+<code>/etc/udev/rules.d/69-libmtp.rules</code> . W przeciwnym razie, przy aktualizacji UDEV'a, zmiany w pliku
+<code>/lib/udev/rules.d/69-libmtp.rules</code> zostaną nadpisane. Poniżej reguła dla Neffos'a C5:</p>
+<pre><code># TP-LINK NEFFOS C5
+ATTR{idVendor}==&quot;2357&quot;, ATTR{idProduct}==&quot;0314&quot;, SYMLINK+=&quot;libmtp-%k&quot;, MODE=&quot;660&quot;, GROUP=&quot;audio&quot;, ENV{ID_MTP_DEVICE}=&quot;1&quot;, ENV{ID_MEDIA_PLAYER}=&quot;1&quot;
+</code></pre>
+<p>Jako, że pakiet <code>mtp-tools</code> zawiera całą masę poleceń <code>mtp-*</code> , to można się trochę pogubić w
+operowaniu na nich. Na szczęście nie musimy się nimi bawić, by wejść w interakcję z naszym
+smartfonem.</p>
+<h2 id="pakiety-mtpfs-oraz-jmtpfs">Pakiety mtpfs oraz jmtpfs</h2>
+<p>Jeśli operowanie na tych wszystkich narzędziach zawartych w pakiecie <code>mtp-tools</code> jest dla nas trochę
+przytłaczające, to zawsze możemy skorzystać z automatu na bazie
+<a href="https://pl.wikipedia.org/wiki/FUSE">FUSE</a>. Mamy z grubsza dwa pakiety <code>mtpfs</code> oraz <code>jmtpfs</code> . Są
+one w gruncie rzeczy podobne do siebie ale <code>mtpfs</code> został osierocony na początku 2014 roku. Biorąc
+pod uwagę, że <a href="https://www.adebenham.com/mtpfs/">ostatnia wersja mtpfs</a> jest datowana na rok 2010,
+to raczej nie ma sobie co tym pakietem głowy zawracać. Z kolei jeśli chodzi o <code>jmtpfs</code> , to jest on
+nieco nowszy ale i tak <a href="https://github.com/JasonFerrara/jmtpfs">ostatni commit pojawił się trzy lata
+temu</a>. Grunt, że ciągle ktoś się tym projektem interesuje
+oraz, że on działa. Dlatego też jeśli już chcemy instalować któryś z powyższych pakietów, to
+zdecydujmy się na <code>jmtpfs</code> .</p>
+<p>Musimy jeszcze sobie nieco dostosować konfigurację FUSE w pliku <code>/etc/fuse.conf</code> . Otwieramy go
+zatem i dopisujemy poniższą linijkę, która zezwala użytkownikom innym niż root na korzystanie z
+opcji <code>allow_other</code> przy montowaniu zasobów:</p>
+<pre><code>user_allow_other
+</code></pre>
+<h2 id="montowanie-zasobów-smartfona">Montowanie zasobów smartfona</h2>
+<p>W przypadku, gdy mamy podpięty do komputera tylko jeden smartfon, to korzystanie z narzędzia
+<code>jmtpfs</code> znacznie się upraszcza. Nie musimy określać urządzenia za pomocą opcji <code>-device</code> . Po
+prostu wybrane zostanie pierwsze urządzenie na liście, którą z kolei możemy podejrzeć podając
+parametr <code>-l</code> . Poniżej jest lista urządzeń, które są w stanie komunikować się z moim systemem za
+pomocą protokołu MTP:</p>
+<pre><code>$ jmtpfs -l
+Device 0 (VID=2357 and PID=0314) is UNKNOWN in libmtp v1.1.12.
+Available devices (busLocation, devNum, productId, vendorId, product, vendor):
+2, 71, 0x0314, 0x2357, UNKNOWN, UNKNOWN
+</code></pre>
+<p>Jako, że mamy tylko jedno urządzenie, to możemy zamontować jego zasoby wpisując w terminalu to
+poniższe polecenie:</p>
+<pre><code>$ jmtpfs /home/morfik/Desktop/android
+Device 0 (VID=2357 and PID=0314) is UNKNOWN in libmtp v1.1.12.
+Android device detected, assigning default bug flags
+</code></pre>
+<p>W przypadku, gdy tych urządzeń byłoby więcej i chcielibyśmy skorzystać z drugiego z tych, które
+widnieją na liście, to powyższe polecenie przybierze poniższą formę:</p>
+<pre><code>$ jmtpfs -device=2,71 /home/morfik/Desktop/android/
+</code></pre>
+<p>W tej chwili powinniśmy uzyskać dostęp do systemu plików urządzenia, zarówno do karty SD jak i do
+pamięci telefonu:</p>
+<pre><code>$ mount
+...
+fusectl on /sys/fs/fuse/connections type fusectl (rw,relatime)
+jmtpfs on /home/morfik/Desktop/android type fuse.jmtpfs (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)
+</code></pre>
+<p>Gdy skończymy zgrywać/wgrywać dane ze/na smartfona, system plików możemy odmontować w poniższy
+sposób:</p>
+<pre><code>$ fusermount -u /home/morfik/Desktop/android/
+</code></pre>
+<h2 id="przeglądanie-zasobów-za-sprawą-protokołu-mtp">Przeglądanie zasobów za sprawą protokołu mtp://</h2>
+<p>Możemy również pominąć etap montowania systemu plików i zwyczajnie przeglądać zasoby bezpośrednio na
+urządzeniu korzystając z adresu <code>mtp://[USB:001,002]/</code> w menadżerze plików. Oczywiście menadżer
+plików musi wspierać protokół MTP, inaczej nic z tego nie będzie. Numerki widoczne wyżej można
+odczytać z wyjścia polecenia <code>lsusb</code> lub też są one uwzględnione w informacji zwracanej przez
+polecenie <code>jmtpfs -l</code> :</p>
+<pre><code>$ jmtpfs -l
+...
+2, 71, 0x0314, 0x2357, UNKNOWN, UNKNOWN
+</code></pre>
+<p>W tym przypadku zostały zwrócone numerki <code>2</code> oraz <code>71</code> , zatem adres, który musimy wpisać w
+menadżerze plików to <code>mtp://[usb:002,071]/</code> . Niestety mój menadżer plików nie obsługuje tego typu
+adresów. Można natomiast posłużyć się <a href="https://gmtp.sourceforge.io/">narzędziem gmtp</a>:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/09/2.smartfon-linux-protokol-mtp-ptp-gmtp.png" alt=""    class="huge"></p>
+<p>I jeszcze info o urządzeniu zwracane przez <code>gmtp</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/09/3.smartfon-linux-protokol-mtp-ptp-gmtp.png" alt=""    class="huge"></p>
+<h2 id="problemy-z-przeglądaniem-zasobów-smartfona">Problemy z przeglądaniem zasobów smartfona</h2>
+<p>Może się zdarzyć też tak, że zasoby smartfona zostaną podmontowane bez większego problemu ale, gdy
+tylko będziemy chcieli przejść do punktu montowania, to zostanie nam zwrócony taki oto błąd:</p>
+<pre><code>$ ls -al /home/morfik/Desktop/android/
+ls: cannot access '/home/morfik/Desktop/android/': Input/output error
+</code></pre>
+<p>W niektórych smartfonach ekran musi być odblokowany. Dlatego też zanim podepniemy telefon do
+komputera, upewnijmy się, że blokada ekranu została dezaktywowana.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/mtp/">mtp</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fsmartfon-android-linux-mtp-ptp%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsmartfon-android-linux-mtp-ptp%2f&amp;text=Smartfon%20z%20Androidem%20pod%20linux%27em%20%28MTP%2fPTP%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsmartfon-android-linux-mtp-ptp%2f&amp;title=Smartfon%20z%20Androidem%20pod%20linux%27em%20%28MTP%2fPTP%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsmartfon-android-linux-mtp-ptp%2f&amp;title=Smartfon%20z%20Androidem%20pod%20linux%27em%20%28MTP%2fPTP%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsmartfon-android-linux-mtp-ptp%2f&title=Smartfon%20z%20Androidem%20pod%20linux%27em%20%28MTP%2fPTP%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsmartfon-android-linux-mtp-ptp%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsmartfon-android-linux-mtp-ptp%2f&amp;title=Smartfon%20z%20Androidem%20pod%20linux%27em%20%28MTP%2fPTP%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsmartfon-android-linux-mtp-ptp%2f&description=Smartfon%20z%20Androidem%20pod%20linux%27em%20%28MTP%2fPTP%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/debian-profilowanie-sieci-guessnet-ifplugd-wpasupplicant/">Debian: Profilowanie sieci z guessnet, ifplugd i wpasupplicant</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/metryki-tras-interfejsow-eth0-wlan0-laptop-metric/">Metryki tras interfejsów eth0 i wlan0 w laptopie (metric)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/dynamiczna-konfiguracja-sieci-ifplugd/">Dynamiczna konfiguracja sieci w oparciu o ifplugd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/blokowanie-zapytan-dns-dnscrypt-proxy-linux/">Blokowanie zapytań DNS z dnscrypt-proxy na linux&#39;ie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/chroot-apache2-vs-dyrektywa-open_basedir-w-php/">Chroot Apache2 vs dyrektywa open_basedir w PHP</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/debian-bezpieczne-pobieranie-aktualizacji-apt-transport-https/">Debian: Bezpieczne pobieranie aktualizacji (apt-transport-https)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wybrac-optymalny-mirror-repozytorium-debiana/">Jak wybrać optymalny mirror repozytorium Debiana</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

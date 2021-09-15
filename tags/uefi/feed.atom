@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>uefi on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/uefi/</link>
+    <description>Recent content in uefi on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Fri, 31 Jul 2020 21:07:00 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/uefi/feed.atom" rel="self" type="application/atom+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>BootHole nie taki straszny, o ile ma się własne klucze EFI/UEFI</title>
+      <link>https://morfikov.github.io/post/boothole-nie-taki-straszny-o-ile-ma-sie-wlasne-klucze-efi-uefi/</link>
+      <pubDate>Fri, 31 Jul 2020 21:07:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/boothole-nie-taki-straszny-o-ile-ma-sie-wlasne-klucze-efi-uefi/</guid>
+      <description>&lt;p&gt;Dnia 29-07-2020 do publicznej wiadomości zostały podane informacje na temat podatności BootHole,
+która to za sprawą bootloader&#39;a GRUB2 w różnych dystrybucjach linux&#39;a jest w stanie obejść
+mechanizm bezpieczeństwa EFI/UEFI, tj. Secure Boot. &lt;a href=&#34;https://www.debian.org/security/2020-GRUB-UEFI-SecureBoot/&#34;&gt;Z informacji&lt;/a&gt;, które opublikował Debian,
+sprawa nie wygląda miło jako, że poza aktualizacją GRUB2, shim, jądra linux, Fwupdate oraz Fwupd,
+unieważnieniu podlegają również klucze dystrybucji Debian/Ubuntu, przez co praktycznie cały soft
+podpisany tymi kluczami (w tym systemy live) przestaną działać w trybie Secure Boot. Czy jest się
+czego obawiać i co użytkownik korzystający z mechanizmu SB powinien w takiej sytuacji zrobić?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Problem z aktualizacją zmiennych PK, KEK, db i dbx via efi-updatevar</title>
+      <link>https://morfikov.github.io/post/problem-z-aktualizacja-zmiennych-pk-kek-db-dbx-efi-updatevar/</link>
+      <pubDate>Thu, 30 Jul 2020 20:30:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/problem-z-aktualizacja-zmiennych-pk-kek-db-dbx-efi-updatevar/</guid>
+      <description>&lt;p&gt;Jakiś czas temu opisywałem &lt;a href=&#34;/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/&#34;&gt;konfigurację własnych kluczy EFI/UEFI&lt;/a&gt;, którymi można zastąpić te
+wbudowane standardowo w firmware naszego komputera. W tamtym artykule napotkałem jednak dość dziwny
+problem, za sprawą którego nie można było zaktualizować zmiennych &lt;code&gt;PK&lt;/code&gt; , &lt;code&gt;KEK&lt;/code&gt; , &lt;code&gt;db&lt;/code&gt; i &lt;code&gt;dbx&lt;/code&gt; przy
+pomocy &lt;code&gt;efi-updatevar&lt;/code&gt; z poziomu działającego linux&#39;a. Gdy próbowało się te zmienne przepisać,
+dostawało się błąd typu &lt;code&gt;Operation not permitted&lt;/code&gt; . Niby system został uruchomiony w trybie &lt;code&gt;Setup Mode&lt;/code&gt; ale z jakiegoś powodu odmawiał on współpracy i trzeba było te zmienne aktualizować
+bezpośrednio z poziomu firmware EFI/UEFI, co było trochę upierdliwe. Szukając wtedy informacji na
+ten temat, jedyne co znalazłem, to fakt, że sporo osób ma podobny problem i najwyraźniej firmware
+mojego laptopa jest ździebko niedorobiony, przez co &lt;code&gt;efi-updatevar&lt;/code&gt; nie mógł realizować swojego
+zdania. Rzeczywistość okazała się nieco inna, a rozwiązanie samego problemu było wręcz banalne.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Pendrive multiboot dla EFI/UEFI z Secure Boot</title>
+      <link>https://morfikov.github.io/post/pendrive-multiboot-dla-efi-uefi-z-secure-boot/</link>
+      <pubDate>Mon, 23 Mar 2020 21:50:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/pendrive-multiboot-dla-efi-uefi-z-secure-boot/</guid>
+      <description>&lt;p&gt;Przeniesienie mojego Debiana z laptopa mającego konfigurację BIOS i tablicę partycji MBR/MS-DOS do
+maszyny wyposażonej w firmware EFI/UEFI nie było jakoś stosunkowo trudnym zadaniem. Nawet &lt;a href=&#34;/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/&#34;&gt;kwestia
+włączenia Secure Boot&lt;/a&gt; okazała się o wiele mniej skomplikowana niż w rzeczywistości mogłoby się
+człowiekowi wydawać. Problem jednak pojawił się w przypadku płytek czy pendrive z systemami live.
+Nie chodzi przy tym o uruchamianie nośników z dopiero co wypalonymi obrazami ISO/IMG, bo te również
+nie sprawiają kłopotów. Chodzi bardziej o rozwiązanie multiboot, które oferuje wgranie wielu
+obrazów live na jedno urządzenie i odpalanie tego systemu, który sobie użytkownik w danym momencie
+zażyczy. Do tej pory korzystałem z &lt;a href=&#34;https://github.com/thias/glim&#34;&gt;projektu GLIM&lt;/a&gt; i może on posiada wsparcie dla EFI/UEFI ale
+już wsparcia dla Secure Boot mu zabrakło. W efekcie w konfiguracji EFI/UEFI + Secure Boot, GLIM stał
+się bezużyteczny i trzeba było rozejrzeć się za nieco innym rozwiązaniem. Okazało się, że nie
+trzeba daleko szukać, bo &lt;a href=&#34;https://www.rodsbooks.com/refind/&#34;&gt;rEFInd&lt;/a&gt; jest w stanie natywnie uruchomić system z obrazu ISO
+praktycznie każdej dystrybucji linux&#39;a (Ubuntu/Debian/Mint/GParted/CloneZilla) i w zasadzie trzeba
+tylko nieco inaczej przygotować nośnik, by móc na nowo cieszyć się korzyściami jakie oferuje
+pendrive multiboot.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux</title>
+      <link>https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/</link>
+      <pubDate>Mon, 16 Mar 2020 19:15:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/</guid>
+      <description>&lt;p&gt;W środowiskach linux&#39;owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako
+źródło wszelkiego zła na świecie. Sporo użytkowników linux&#39;a dopatruje się w Secure Boot zamachu na
+wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak,
+odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu
+użytkowników linux&#39;a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak &lt;a href=&#34;https://github.com/rhboot/shim&#34;&gt;shim&lt;/a&gt;
+(no i jest też &lt;a href=&#34;https://blog.hansenpartnership.com/linux-foundation-secure-boot-system-released/&#34;&gt;PreLoader&lt;/a&gt;), który umożliwia dystrybucjom linux&#39;a (jak i ich końcowym
+użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie
+się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich
+miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod
+podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w
+trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma
+na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy
+wykorzystaniu dystrybucji Debiana.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak przygotować dysk pod instalację Debian linux z EFI/UEFI</title>
+      <link>https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/</link>
+      <pubDate>Tue, 10 Mar 2020 03:28:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/</guid>
+      <description>&lt;p&gt;Instalacja linux&#39;a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana
+często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu &lt;code&gt;debootstrap&lt;/code&gt; Jeśli kupujemy
+nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows&#39;a i
+tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie
+EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji
+trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub
+też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie.
+Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my
+nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to
+stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną
+dystrybucję linux&#39;a w trybie EFI/UEFI.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Memtest86 dla EFI/UEFI i rEFInd</title>
+      <link>https://morfikov.github.io/post/memtest86-dla-efi-uefi-i-refind/</link>
+      <pubDate>Tue, 03 Mar 2020 04:05:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/memtest86-dla-efi-uefi-i-refind/</guid>
+      <description>&lt;p&gt;Zapewne każdy z nas słyszał o narzędziu do testowania pamięci operacyjnej RAM zwanym memtest86. W
+Debianie są dostępne dwa pakiety &lt;a href=&#34;https://tracker.debian.org/pkg/memtest86&#34;&gt;memtest86&lt;/a&gt; (&lt;a href=&#34;https://www.memtest86.com/&#34;&gt;strona projektu&lt;/a&gt;) oraz &lt;a href=&#34;https://tracker.debian.org/pkg/memtest86+&#34;&gt;memtest86+&lt;/a&gt;
+(&lt;a href=&#34;http://www.memtest.org/&#34;&gt;strona projektu&lt;/a&gt;) , które można sobie zainstalować w systemie. Niemniej jednak, jak się
+popatrzy na daty ostatnich wersji obu tych aplikacji (rok 2014), to mamy do czynienia z dość starym
+oprogramowaniem. Tak czy inaczej, jeśli dany soft działa, to bez znaczenia powinno być jak stary on
+jest. Problem w przypadku memtest86 dostarczanego w tych dwóch pakietach jest taki, że działa on w
+zasadzie jedynie w konfiguracji BIOS, a nie EFI/UEFI. Dodatkowo, oryginalny memtest86 został
+sprzedany PassMark&#39;owi, który &lt;a href=&#34;https://en.wikipedia.org/wiki/Memtest86&#34;&gt;od wersji 5.0 uczynił go własnościowym softem&lt;/a&gt;. To dlatego w
+Debianie nie będzie już nowszej wersji memtest86. W dalszym ciągu memtest86 może działać w
+konfiguracji EFI/UEFI ale potrzebna nam jest wersja, która to EFI/UEFI wspiera. Memtest86 zaczął
+wspierać EFI/UEFI od wersji 5.0. Jeśli nam nie przeszkadza licencja własnościowa, to możemy sobie
+przygotować memtest86, tak by można go było bez problemu odpalić z menadżera rozruchu &lt;a href=&#34;https://www.rodsbooks.com/refind/&#34;&gt;rEFInd&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)</title>
+      <link>https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/</link>
+      <pubDate>Mon, 02 Mar 2020 03:08:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/</guid>
+      <description>&lt;p&gt;Szukając informacji na temat uruchamiania mojego zaszyfrowanego Debiana (LUKSv2+LVM) na laptopie z
+EFI/UEFI, natrafiłem na dość ciekawy mechanizm zwany &lt;a href=&#34;https://www.kernel.org/doc/Documentation/efi-stub.txt&#34;&gt;kernel EFI boot stub&lt;/a&gt;, czasem też zwany
+kernel EFISTUB. Zadaniem tego mechanizmu jest uruchomienie linux&#39;a bezpośrednio z poziomu firmware
+EFI z pominięciem czy też bez potrzeby stosowania dodatkowych menadżerów rozruchu (rEFInd) czy
+bootloader&#39;ów (grub/grub2/syslinux/extlinux). Jakby nie patrzeć bardzo ciekawa alternatywa, która
+wymaga, by się z nią zapoznać i ocenić jej przydatność pod kątem użyteczności.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</title>
+      <link>https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/</link>
+      <pubDate>Sun, 01 Mar 2020 20:30:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/</guid>
+      <description>&lt;p&gt;Mając możliwość skonfigurowania EFI/UEFI na moim laptopie, postanowiłem jak najbardziej się za to
+przedsięwzięcie zabrać. Okazało się jednak, że w przypadku takiej dystrybucji linux&#39;a jak Debian,
+to zadanie może być nieco problematyczne, zwłaszcza gdy chce się korzystać jedynie z menadżera
+rozruchu jakim jest &lt;a href=&#34;https://www.rodsbooks.com/refind/&#34;&gt;rEFInd&lt;/a&gt;, czyli bez dodatkowego bootloader&#39;a (grub/grub2/syslinux/extlinux)
+instalowanego bezpośrednio na dysku twardym i jednocześnie posiadając w pełni zaszyfrowany system
+(LUKSv2 + LVM). Rzecz w tym, że w takiej sytuacji w konfiguracji rEFInd trzeba podawać ścieżki
+bezpośrednio do plików &lt;code&gt;initrd.img&lt;/code&gt; oraz &lt;code&gt;vmlinuz&lt;/code&gt; (obecnych na partycji &lt;code&gt;/boot/&lt;/code&gt; ). W Debianie
+nazwy tych plików mają format &lt;code&gt;initrd.img-x.x.x-x-amd64&lt;/code&gt; i &lt;code&gt;vmlinuz-x.x.x-x-amd64&lt;/code&gt; . Za każdym
+razem, gdy wypuszczany jest nowy kernel, to ten numerek ( &lt;code&gt;x.x.x-x&lt;/code&gt; ) ulega zmianie, co pociąga za
+sobą potrzebę ręcznego dostosowania konfiguracji rEFInd. Może i aktualizacje kernela w Debianie nie
+są jakoś stosunkowo częste ale może istnieje sposób, by ten problem z dostosowaniem konfiguracji
+rozwiązać?&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

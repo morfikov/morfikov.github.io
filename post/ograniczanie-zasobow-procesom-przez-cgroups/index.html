@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Ograniczanie zasobów procesom przez cgroups | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Ograniczanie zasobów procesom przez cgroups" />
+<meta property="og:description" content="Nasze komputery obecnie mają dość pokaźne zasoby obliczeniowe. Jeszcze nie tak dawno temu
+wyposażenie maszyny w 32 GiB pamięci RAM, czy też 8 rdzeni było czystą abstrakcją. Wydawałoby się,
+że te powyższe parametry zaspokoją każdego. Niemniej jednak, nie ważne jak szybki i rozbudowany
+będzie nasz PC, to nam zawsze będzie mało. Mamy dwa rdzenie, to chcemy cztery. Mamy cztery, to
+chcemy osiem, itd. Poza tym, szereg aplikacji realizuje co raz więcej zadań i staje się bardziej
+wymagająca z każdym mijającym rokiem. Jeśli nie przeprowadzamy modernizacji sprzętu, to może się
+okazać, że w niedługim czasie zabraknie nam pamięci albo pewne operacje będą wykonywane bardzo
+wolno. W sporej części przypadków nie obędzie się bez wymiany podzespołów ale nawet w przypadku, gdy
+mamy spory zapas zasobów systemowych, to poszczególne procesy rywalizują o nie ze sobą. Często bywa
+tak, że chcielibyśmy, aby konkretny proces wykonał się szybciej, a to pociąga za sobą, np. zmianę
+priorytetów w dostępie do rdzeni procesora. W linux&#39;ie jest mechanizm zwany
+cgroups, który potrafi ograniczyć zasoby całym aplikacjom
+bez względu na to ile ona by miała procesów. W tym wpisie postaramy się przebrnąć przez proces
+konfiguracji tego mechanizmu i spróbujemy wyprofilować sobie nasz system." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/ograniczanie-zasobow-procesom-przez-cgroups/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-12-08T21:21:53&#43;00:00" />
+<meta property="article:modified_time" content="2015-12-08T21:21:53&#43;00:00" />
+
+
+		<meta itemprop="name" content="Ograniczanie zasobów procesom przez cgroups">
+<meta itemprop="description" content="Nasze komputery obecnie mają dość pokaźne zasoby obliczeniowe. Jeszcze nie tak dawno temu
+wyposażenie maszyny w 32 GiB pamięci RAM, czy też 8 rdzeni było czystą abstrakcją. Wydawałoby się,
+że te powyższe parametry zaspokoją każdego. Niemniej jednak, nie ważne jak szybki i rozbudowany
+będzie nasz PC, to nam zawsze będzie mało. Mamy dwa rdzenie, to chcemy cztery. Mamy cztery, to
+chcemy osiem, itd. Poza tym, szereg aplikacji realizuje co raz więcej zadań i staje się bardziej
+wymagająca z każdym mijającym rokiem. Jeśli nie przeprowadzamy modernizacji sprzętu, to może się
+okazać, że w niedługim czasie zabraknie nam pamięci albo pewne operacje będą wykonywane bardzo
+wolno. W sporej części przypadków nie obędzie się bez wymiany podzespołów ale nawet w przypadku, gdy
+mamy spory zapas zasobów systemowych, to poszczególne procesy rywalizują o nie ze sobą. Często bywa
+tak, że chcielibyśmy, aby konkretny proces wykonał się szybciej, a to pociąga za sobą, np. zmianę
+priorytetów w dostępie do rdzeni procesora. W linux&#39;ie jest mechanizm zwany
+cgroups, który potrafi ograniczyć zasoby całym aplikacjom
+bez względu na to ile ona by miała procesów. W tym wpisie postaramy się przebrnąć przez proces
+konfiguracji tego mechanizmu i spróbujemy wyprofilować sobie nasz system."><meta itemprop="datePublished" content="2015-12-08T21:21:53&#43;00:00" />
+<meta itemprop="dateModified" content="2015-12-08T21:21:53&#43;00:00" />
+<meta itemprop="wordCount" content="2488">
+<meta itemprop="keywords" content="systemd,cgroups," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ograniczanie zasobów procesom przez cgroups"/>
+<meta name="twitter:description" content="Nasze komputery obecnie mają dość pokaźne zasoby obliczeniowe. Jeszcze nie tak dawno temu
+wyposażenie maszyny w 32 GiB pamięci RAM, czy też 8 rdzeni było czystą abstrakcją. Wydawałoby się,
+że te powyższe parametry zaspokoją każdego. Niemniej jednak, nie ważne jak szybki i rozbudowany
+będzie nasz PC, to nam zawsze będzie mało. Mamy dwa rdzenie, to chcemy cztery. Mamy cztery, to
+chcemy osiem, itd. Poza tym, szereg aplikacji realizuje co raz więcej zadań i staje się bardziej
+wymagająca z każdym mijającym rokiem. Jeśli nie przeprowadzamy modernizacji sprzętu, to może się
+okazać, że w niedługim czasie zabraknie nam pamięci albo pewne operacje będą wykonywane bardzo
+wolno. W sporej części przypadków nie obędzie się bez wymiany podzespołów ale nawet w przypadku, gdy
+mamy spory zapas zasobów systemowych, to poszczególne procesy rywalizują o nie ze sobą. Często bywa
+tak, że chcielibyśmy, aby konkretny proces wykonał się szybciej, a to pociąga za sobą, np. zmianę
+priorytetów w dostępie do rdzeni procesora. W linux&#39;ie jest mechanizm zwany
+cgroups, który potrafi ograniczyć zasoby całym aplikacjom
+bez względu na to ile ona by miała procesów. W tym wpisie postaramy się przebrnąć przez proces
+konfiguracji tego mechanizmu i spróbujemy wyprofilować sobie nasz system."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Ograniczanie zasobów procesom przez cgroups</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-12-08T21:21:53Z">Opublikowano: 08/12/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Ograniczanie zasobów procesom przez cgroups</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#czym-jest-cgroups">Czym jest cgroups</a></li>
+    <li><a href="#konfiguracja-cgroups-w-systemd">Konfiguracja cgroups w systemd</a></li>
+    <li><a href="#procesy-użytkownika-w-cgroups">Procesy użytkownika w cgroups</a></li>
+    <li><a href="#konfiguracja-cgroups-z-wykorzystaniem-cgrulesengd-i-cgconfig">Konfiguracja cgroups z wykorzystaniem cgrulesengd i cgconfig</a>
+      <ol>
+        <li><a href="#uprawnienia-do-plików-w-sysfscgroup">Uprawnienia do plików w /sys/fs/cgroup/</a></li>
+        <li><a href="#limitowanie-czasu-procesora">Limitowanie czasu procesora</a></li>
+        <li><a href="#limitowanie-zasobów-pamięci-ram">Limitowanie zasobów pamięci RAM</a></li>
+        <li><a href="#oznaczanie-pakietów-sieciowych">Oznaczanie pakietów sieciowych</a></li>
+      </ol>
+    </li>
+    <li><a href="#błędy">Błędy</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Nasze komputery obecnie mają dość pokaźne zasoby obliczeniowe. Jeszcze nie tak dawno temu
+wyposażenie maszyny w 32 GiB pamięci RAM, czy też 8 rdzeni było czystą abstrakcją. Wydawałoby się,
+że te powyższe parametry zaspokoją każdego. Niemniej jednak, nie ważne jak szybki i rozbudowany
+będzie nasz PC, to nam zawsze będzie mało. Mamy dwa rdzenie, to chcemy cztery. Mamy cztery, to
+chcemy osiem, itd. Poza tym, szereg aplikacji realizuje co raz więcej zadań i staje się bardziej
+wymagająca z każdym mijającym rokiem. Jeśli nie przeprowadzamy modernizacji sprzętu, to może się
+okazać, że w niedługim czasie zabraknie nam pamięci albo pewne operacje będą wykonywane bardzo
+wolno. W sporej części przypadków nie obędzie się bez wymiany podzespołów ale nawet w przypadku, gdy
+mamy spory zapas zasobów systemowych, to poszczególne procesy rywalizują o nie ze sobą. Często bywa
+tak, że chcielibyśmy, aby konkretny proces wykonał się szybciej, a to pociąga za sobą, np. zmianę
+priorytetów w dostępie do rdzeni procesora. W linux'ie jest mechanizm zwany
+<a href="https://en.wikipedia.org/wiki/Cgroups">cgroups</a>, który potrafi ograniczyć zasoby całym aplikacjom
+bez względu na to ile ona by miała procesów. W tym wpisie postaramy się przebrnąć przez proces
+konfiguracji tego mechanizmu i spróbujemy wyprofilować sobie nasz system.</p>
+<h2 id="czym-jest-cgroups">Czym jest cgroups</h2>
+<p><a href="https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt">Cgroups</a> ma postać wirtualnego
+systemu plików, w którego skład wchodzą:
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/ch-Subsystems_and_Tunable_Parameters.html#sec-blkio">blkio</a>,
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-cpu.html">cpu</a>,
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-cpuacct.html">cpuacct</a>,
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-cpuset.html">cpusets</a>,
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-devices.html">devices</a>,
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-freezer.html">freezer</a>,
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-memory.html">memory</a>,
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-net_cls.html">net_cls</a>,
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/net_prio.html">net_prio</a>
+oraz
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Resource_Management_Guide/sec-perf_event.html">perf_event</a>.
+Linki są do strony RedHat'a, bo tam jest dużo przyjemniejszy opis niż na stronie kernela.</p>
+<p>Z grubsza moduły odpowiadają kolejno kontrolę I/O dysków, za przydział procesora, za statystyki CPU,
+za przydział konkretnego rdzenia i nodów pamięci, za dostęp do urządzeń, za zatrzymywanie i
+wznawianie procesów, za przydział pamięci i statystyki pamięci, za przypisywanie pakietom sieciowym
+odpowiednich klas dla <a href="https://pl.wikipedia.org/wiki/Tc_%28Linux%29">kontroli ruchu (traffic
+control)</a>, za ustawianie priorytetu pakietom sieciowym
+generowanym przez określone aplikacje w oparciu o soket SO_PRIORITY i ostatnia pozycja za
+monitorowanie grup przy pomocy narzędzia <code>pref</code> .</p>
+<p>W przeszłości debian miał pewne problemy z obsługą cgroups. <a href="https://www.freedesktop.org/wiki/Software/systemd/ControlGroupInterface/">Obecnie cgroups jest wykorzystywany
+przez systemd</a> i nie
+musimy dodatkowo przeprowadzać żadnych czynności pod kątem jego konfiguracji, by podsystem cgroups
+został automatycznie zamontowany w katalogu <code>/sys/fs/cgroup/</code> . Trzeba jednak pamiętać, że wymagane
+są odpowiednie moduły, które muszą być włączone w kernelu:</p>
+<pre><code>$ grep -i cgroup /boot/config-4.2.0-1-amd64
+CONFIG_CGROUPS=y
+# CONFIG_CGROUP_DEBUG is not set
+CONFIG_CGROUP_FREEZER=y
+CONFIG_CGROUP_DEVICE=y
+CONFIG_CGROUP_CPUACCT=y
+# CONFIG_CGROUP_HUGETLB is not set
+CONFIG_CGROUP_PERF=y
+CONFIG_CGROUP_SCHED=y
+CONFIG_BLK_CGROUP=y
+# CONFIG_DEBUG_BLK_CGROUP is not set
+CONFIG_CGROUP_WRITEBACK=y
+CONFIG_NETFILTER_XT_MATCH_CGROUP=m
+CONFIG_NET_CLS_CGROUP=m
+CONFIG_CGROUP_NET_PRIO=y
+CONFIG_CGROUP_NET_CLASSID=y
+</code></pre>
+<p>W tym przypadku, by móc skorzystać w pełni z możliwości oferowanych przez cgroups, trzeba będzie
+załadować dodatkowo dwa moduły: <code>xt_cgroup</code> oraz <code>cls_cgroup</code> , oczywiście jeśli ich potrzebujemy.
+Najlepiej ładować je wraz ze startem systemu, dlatego też do pliku <code>/etc/modules</code> dopisujemy te
+poniższe wpisy:</p>
+<pre><code>xt_cgroup
+cls_cgroup
+</code></pre>
+<p>W debianie musimy także dodatkowo dopisać do linijki kernela (w <code>extlinux</code> lub <code>grub</code> ) poniższy
+parametr umożliwiający włączenie zarządzania pamięcią w cgroups:</p>
+<pre><code>cgroup_enable=memory
+</code></pre>
+<p>By sprawdzić poprawność konfiguracji cgroups, posłużymy się narzędziem <code>lxc-checkconfig</code> dostępnym w
+pakiecie <code>lxc</code> . Po weryfikacji, pakiet <code>lxc</code> możemy zwyczajnie usunąć, chyba, że interesują nas
+<a href="https://morfikov.github.io/post/konfiguracja-kontenerow-lxc/">kontenery LXC</a>. Sprawdzamy zatem, czy wszystko
+jest w porządku. Generalnie rzecz biorąc, to wszystkie pozycje powinny nam się zapalić na zielono,
+tak jak to widać na fotce poniżej:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/12/1.cgroups-konfiguracja-linux-debian.png" alt=""    class="big"></p>
+<p>Operowanie na cgroups odbywa się przez identyfikację procesu i aplikowanie reguł, co do tego ile
+zasobów ten proces może wykorzystać. Tylko RAM można ustawić na sztywno. Pozostałe parametry nie
+będą limitować zasobów w taki sposób jak człowiek może przypuszczać. Jeśli ustawimy max 50%
+procesora pod jakiś proces, to ten proces będzie zjadał dostępne zasoby jak gdyby nigdy nic ale w
+przypadku obciążenia maszyny, gdy ten proces chciałby zjadać więcej niż 50%, to mu zostanie to
+zabronione. Dzięki temu inny proces będzie mógł wykorzystać swój przydział i nie zostanie zduszony
+przez żarłoczną aplikację.</p>
+<h2 id="konfiguracja-cgroups-w-systemd">Konfiguracja cgroups w systemd</h2>
+<p>W stosunku do praktycznie wszystkich demonów i usług systemowych, systemd jest w stanie dość
+przyzwoicie skonfigurować przydział zasobów dla tych procesów. Mamy do dyspozycji szereg opcji,
+które możemy umieścić w pliku <code>.service</code> . Wszystkie z nich można znaleźć <a href="https://www.freedesktop.org/software/systemd/man/systemd.resource-control.html">w
+manualu</a>. Poniżej
+zaś przykład:</p>
+<pre><code>[Service]
+...
+CPUShares=256
+StartupCPUShares=256
+MemoryLimit=50M
+BlockIOWeight=128
+...
+</code></pre>
+<p>Nie wszystkie kontrolery cgroups są jeszcze zaimplementowane. Niemniej jednak, te które są, w dużej
+mierze działają przyzwoicie. Więcej przykładów konfiguracji cgroups w usługach systemd można znaleźć
+<a href="http://0pointer.de/blog/projects/resources.html">tutaj</a>. Generalnie rzecz biorąc, konfiguracja
+cgroups w systemd jest dość banalna. Problemy jednak zaczynają się gdy w grę wchodzą procesy
+użytkownika. Nasuwa się zatem pytanie, jak ograniczyć zasoby przeglądarkom internetowym, np.
+Firefox'owi?</p>
+<h2 id="procesy-użytkownika-w-cgroups">Procesy użytkownika w cgroups</h2>
+<p>Póki co <a href="https://lists.freedesktop.org/archives/systemd-devel/2015-April/031191.html">nie ma przyzwoitego
+rozwiązania</a> w
+przypadku ograniczenia zasobów poszczególnym procesom użytkowników w systemie. Być może kiedyś taka
+opcja zostanie dodana. Na razie zostaje nam startowanie usług ze zdefiniowanym użytkownikiem w pliku
+<code>.service</code> , przykładowo:</p>
+<pre><code>[Service]
+...
+User=morfik
+Group=p2p
+...
+</code></pre>
+<p>Istnieje jeszcze inna opcja ale do jej zaimplementowania potrzebować będziemy dwóch rzeczy. Pliku
+konfiguracyjnego z regułami, na których to podstawie będą ograniczane zasoby, oraz demona, który
+będzie identyfikował procesy jak tylko te zostaną zainicjowane. W ten sposób taki demon uzupełni
+plik <code>tasks</code> o odpowiednie pid'y. By móc zastosować to rozwiązanie, potrzebujemy narzędzi z pakietu
+<code>cgroup-tools</code> . Po zainstalowaniu tego pakietu tworzymy dwie usługi dla systemd.</p>
+<p>Plik <code>/etc/systemd/system/cgrulesengd.service</code> :</p>
+<pre><code>[Unit]
+Description=CGroup Rules Engine
+Documentation=man:cgrulesengd
+ConditionPathIsReadWrite=/etc/cgrules.conf
+DefaultDependencies=no
+Requires=cgconfig.service
+Before=basic.target shutdown.target
+After=local-fs.target cgconfig.service
+Conflicts=shutdown.target
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/cgrulesengd -n -Q
+
+[Install]
+#WantedBy=multi-user.target
+WantedBy=sysinit.target
+</code></pre>
+<p>Plik <code>/etc/systemd/system/cgconfig.service</code> :</p>
+<pre><code>[Unit]
+Description=Control Group configuration service
+Documentation=man:cgconfigparser man:cgclear
+ConditionDirectoryNotEmpty=/sys/fs/cgroup/
+ConditionPathIsReadWrite=/etc/cgconfig.conf
+DefaultDependencies=no
+Before=basic.target shutdown.target
+After=local-fs.target
+Conflicts=shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/cgconfigparser -l /etc/cgconfig.conf
+ExecStop=/usr/sbin/cgclear -l /etc/cgconfig.conf
+
+[Install]
+#WantedBy=multi-user.target
+WantedBy=sysinit.target
+</code></pre>
+<p>Potrzebna jest także konfiguracja dla tych usług. Tworzymy zatem dwa dodatkowe pliki:
+<code>/etc/cgconfig.conf</code> oraz <code>/etc/cgrules.conf</code> .</p>
+<p>Plik <code>/etc/cgconfig.conf</code> ma zawierać bloki podobne do tego poniżej:</p>
+<pre><code>group users/firefox {
+    perm {
+        task {
+            uid = root;
+            gid = root;
+            dperm = 775;
+            fperm = 664;
+        }
+        admin {
+            uid = root;
+            gid = root;
+            dperm = 775;
+            fperm = 664;
+        }
+    }
+    cpu {
+        cpu.shares = &quot;512&quot;;
+    }
+    memory {
+        memory.limit_in_bytes = 512M;
+        memory.soft_limit_in_bytes = 128M;
+    }
+    net_cls {
+        net_cls.classid = 0x00010003;
+    }
+}
+</code></pre>
+<p>W pliku <code>/etc/cgrules.conf</code> definiujemy zaś takie oto wpisy:</p>
+<pre><code>*:firefox            cpu,memory,net_cls    users/firefox/
+*:firefox*           cpu,memory,net_cls    users/firefox/
+</code></pre>
+<p>Przeładowujemy konfigurację i odpalamy usługi:</p>
+<pre><code># systemctl daemon-reload
+# systemctl start cgrulesengd.service
+</code></pre>
+<p>Odpalmy teraz Firefox'a i sprawdźmy czy określone wyżej kontrolery cgroups ograniczają mu jakieś
+zasoby:</p>
+<pre><code># cat /sys/fs/cgroup/memory/users/firefox/tasks | wc -l
+43
+
+# cat /sys/fs/cgroup/memory/users/firefox/memory.usage_in_bytes
+364240896
+
+# cat /sys/fs/cgroup/memory/users/firefox/memory.limit_in_bytes
+419430400
+</code></pre>
+<p>Oraz:</p>
+<pre><code># lscgroup | grep -i firefox
+cpu,cpuacct:/users/firefox
+net_cls,net_prio:/users/firefox
+memory:/users/firefox
+
+# cat  /proc/`pidof firefox`/cgroup
+9:memory:/users/firefox
+8:perf_event:/
+7:net_cls,net_prio:/
+6:cpuset:/
+5:freezer:/
+4:blkio:/user.slice/user-1000.slice/session-1.scope
+3:cpu,cpuacct:/users/firefox
+2:devices:/user.slice
+1:name=systemd:/user.slice/user-1000.slice/session-1.scope
+</code></pre>
+<p>Zatem wszystko działa w porządku.</p>
+<h2 id="konfiguracja-cgroups-z-wykorzystaniem-cgrulesengd-i-cgconfig">Konfiguracja cgroups z wykorzystaniem cgrulesengd i cgconfig</h2>
+<p>W zależności od konfiguracji określonej w pliku <code>/etc/cgconfig.conf</code> , w różnych podsystemach będą
+tworzone grupy i podgrupy, którym będą nadawane okreslone ograniczenia dotyczące wykorzystania
+zasobów systemowych. W tym przypadku zostanie utworzona grupa główna <code>users</code> i jej podgrupa
+<code>firefox</code> w podsystemie <code>cpu</code> , <code>memory</code> oraz <code>net_cls</code> .</p>
+<p>Ważne jest by w pliku <code>/etc/cgconfig.conf</code> nie umieszczać bloku <code>mount { }</code> , który odpowiada za
+montowanie określonych zasobów cgroups. Tym ma się zając systemd, a on robi to automatycznie bez
+naszej ingerencji.</p>
+<p>Cały czas będzie nasłuchiwał demon <code>cgrulesengd</code> , który zidentyfikuje konkretne procesy w oparciu o
+konfigurację w pliku <code>/etc/cgrules.conf</code> . Dla przypomnienia, przykładowa linijka w nim wygląda
+następująco:</p>
+<pre><code>*:firefox            cpu,memory,net_cls    users/firefox/
+</code></pre>
+<p>Pierwsza kolumna może się składać z użytkownika, w tym przypadku <code>*</code> odnosi się do wszystkich
+użytkowników w systemie. Może być także określona grupa za pomocą <code>@</code> , przykładowo <code>@users</code> .
+Proces nie jest wymagany ale można go sprecyzować po <code>:</code> w formie pełnej ścieżki do programu albo
+nazwy procesu widocznego, np. w <code>ps</code> . Następna kolumna odpowiada za moduły cgroups, do których
+proces będzie przypisywany. Jeśli proces ma być przypisany do wszystkich podsystemów cgroups, można
+posłużyć się <code>*</code> . Ostatnia kolumna odnosi się do grupy, czyli tam gdzie plik <code>tasks</code> się powinien
+znajdować. To ten plik będzie uzupełniany przez <code>cgrulesengd</code> .</p>
+<h3 id="uprawnienia-do-plików-w-sysfscgroup">Uprawnienia do plików w /sys/fs/cgroup/</h3>
+<p>Możemy nadawać uprawnienia do plików, które będą tworzone w katalogu <code>/sys/fs/cgroup/</code> . Możemy
+ustawić nie tylko prawa zapisu i odczytu ale także zmienić grupę i właściciela. Poniżej dla
+przypomnienia stosowny kod:</p>
+<pre><code>perm {
+      task {
+            uid = root;
+            gid = root;
+            dperm = 775;
+            fperm = 664;
+      }
+      admin {
+            uid = root;
+            gid = root;
+            dperm = 775;
+            fperm = 664;
+      }
+}
+</code></pre>
+<p>Blok <code>tasks</code> tyczy się plików <code>tasks</code> w konkretnej podgrupie. Czasami może się zdarzyć tak, że
+chcemy, by konkretny użytkownik (czy też grupa) był w stanie ten plik zapisywać. Z kolei blok
+<code>admin</code> odpowiada za użytkownika, który będzie administrował tą grupą. Prawa do katalogów i plików w
+takiej grupie określamy zaś przez <code>dperm</code> i <code>fperm</code> . Można także wywołać <code>cgconfigparser</code> z opcją
+<code>-s 1664</code> w usłudze systemd. Te uprawnienia nie przechodzą na podgrupy.</p>
+<p>Dalej w pliku <code>/etc/cgrules.conf</code> są już definiowane bloki dotyczące konkretnych podsystemów
+cgroups, które zawierają parametry i przypisane im wartości. Parametry noszą nazwę konkretnego
+pliku, które można podejrzeć zaglądając do katalogu <code>/sys/fs/cgroup/</code> .</p>
+<h3 id="limitowanie-czasu-procesora">Limitowanie czasu procesora</h3>
+<p>W przypadku pliku <code>cpu.shares</code> , wartość 512 oznacza 512/1024, czyli około 1/2 czasu procesora.
+Domyślną wartością dla wszystkich procesów jest 1024 i tą wartością można się dowolnie bawić. Jeśli
+ustawimy więcej niż 1024, np. 2048, proces dostałby 2/3 czasu procesora w przypadku wysokiego
+obciążenia maszyny, bo 2048+1024=3072 i 2048/3072=2/3 . Oczywiście to wszystko przy założeniu, że
+tylko dwa procesy by wykorzystywały procesor w 100% ale życie jest trochę bardziej skompilowane.</p>
+<p>Trzeba uważać trochę w przypadku podgrup. Grupa główna, podobnie jak i podgrupy, może mieć własny
+przydział procesora. W takim przypadku jego czas będzie liczony trochę inaczej. Dla uproszczenia,
+załóżmy, że mamy 2 grupy główne: <code>A</code> oraz <code>B</code> , które mają <code>cpu.shares</code> odpowiednio 1024 i 2048.
+Grupa <code>A</code> ma dwie podgrupy <code>A1</code> i <code>A2</code> , a grupa <code>B</code> ma tylko jedną podgrupę <code>B1</code> . Te podgrupy zaś
+mają następujące wartości w <code>cpu.shares</code> : 512, 1024 i 2048 . Jak się rozłoży czas procesora przy
+maksymalnym obciążeniu? Najpierw analizujemy grupy główne, czas procesora na te grupy rozłoży się w
+stosunku 1/3 i 2/3, odpowiednio dla grup <code>A</code> i <code>B</code> (1024+2048=3072, 1024/3072 oraz 2048/3072).</p>
+<p>Teraz podgrupy. Jeśli w grupie <code>A</code> nie będzie żadnych procesów (mogą być ale załóżmy, że nie ma), to
+procesor przypadnie w 1/3 na grupę <code>A1</code> i w 2/3 na grupę <code>A2</code> (512/(512+1024) oraz 1024/(512+1024)
+Jeśliby były jakieś procesy w grupie <code>A</code>, to rozkład mocy procesora przybrałby następującą postać:
+dla grupy <code>A</code> 2/5 , dla <code>A1</code> 1/5 i dla <code>A2</code> 2/5 . Czemu tak? trzeba wziąć pod uwagę przydziały
+wszystkich trzech grup (grupy głównej i dwóch podgrup), co daje nam 1024 ( <code>A</code> ) + 512 ( <code>A1</code> ) +
+1024 ( <code>A2</code> ) = 2560 i odpowiednio 1024/2560 , 512/2560 , 1024/2560, co daje 2/5, 1/5 i 2/5 . To
+tyle jeśli chodzi o grupę <code>A</code> , została jeszcze grupa <code>B</code> .</p>
+<p>W grupie <code>B</code> jest tylko jedna podgrupa <code>B1</code> i w przypadku, gdy procesy będą tylko w podgrupie <code>B1</code> ,
+cały przydział procesora jej przypadnie. Gdyby procesy także były w grupie <code>B</code> , podział procka
+rozłoży się 1/2 dla <code>B</code> i 1/2 dla <code>B1</code> , bo obie mają takie same wartości <code>cpu.shares</code> (2048).</p>
+<p>I chyba najbardziej złożony model, który można by rozpisać, biorąc pod uwagę powyższy przykład,
+czyli gdy procesy trafiają do grup <code>A</code> , <code>A1</code> , <code>A2</code> , <code>B</code> oraz <code>B1</code> . Jak w takim przypadku rozłoży
+się czas procesora? Jak już wiemy, grupy <code>A</code> i <code>B</code> podzielą procesor w stosunku 1/3 i 2/3. Rozkład w
+grupie <code>A</code> wynosi 2/5, 1/5 i 2/5. Mnożymy to przez ratio wyższej grupy (1/3) i dostajemy wartości
+2/15, 1/15 i 2/15. Łącznie daje nam to 5/15, czyli 1/3. Podobnie postępujemy z grupami <code>B</code> i <code>B1</code> ,
+które mają współczynniki przydziału 1/2 i 1/2, mnożymy przez ratio 2/3, co daje 2/6 i 2/6, razem
+4/6=2/3 . Jako, że 1/3+2/3=1, to wszystko się zgadza. Jeszcze dajemy to na wspólny mianownik 90
+(6*15) i mamy współczynniki 12/90, 6/90, 12/90, 30/90 i 30/90, odpowiednio dla <code>A</code> , <code>A1</code> , <code>A2</code> ,
+<code>B</code> i <code>B1</code> . Łącznie również 1. Przykład zaczerpnięty z <a href="https://oakbytes.wordpress.com/2012/09/02/cgroup-cpu-allocation-cpu-shares-examples/">tej
+strony</a> ale
+odrobinę został zmieniony.</p>
+<p>Trzeba jeszcze tylko pamiętać, że <code>cpu.shares</code> odnosi się do całego procesora, czyli wszystkich
+rdzeni. Jeśli będzie ustawimy przydział, powiedzmy 512, to na dwurdzeniowym procesorze, proces
+mógłby zjeść jeden rdzeń w pełni.</p>
+<h3 id="limitowanie-zasobów-pamięci-ram">Limitowanie zasobów pamięci RAM</h3>
+<p>Następny użyty kontroler to <code>memory.limit_in_bytes</code>. Ustawia on limit pamięci dla grupy i w tym
+przypadku jest to 300 MiB. Po przekroczeniu tej wartości, dane będą zrzucane do SWAP. Dalej mamy
+<code>memory.soft_limit_in_bytes</code> . Ten parametr jest podobny do tego powyżej i ma znaczenie głównie przy
+zbyt dużym wykorzystaniu pamięci RAM, czyli, gdy brakuje zasobów. W takim przypadku trzeba będzie
+zwolnić zasoby pamięci. To, które zostaną zwolnione, zależy od tego parametru właśnie. W tym
+przypadku, na pierwszy ogień pójdzie 128 MiB tego procesu. Przez zwolnienie, ma się rozumieć, że
+dane trafią do SWAP, a nie, że wylecą permanentnie z pamięci.</p>
+<p>Jeśli ktoś jest ciekaw jak prezentują się statystyki pamięci, może je podejrzeć w dwóch poniższych
+plikach:</p>
+<pre><code># cat /proc/`pidof firefox`/status
+# cat /sys/fs/cgroup/memory/users/firefox/memory.stat
+</code></pre>
+<p>W tych plikach są również zawarte informacje na temat tego ile dany proces zajmuje miejsca w
+SWAP'ie.</p>
+<h3 id="oznaczanie-pakietów-sieciowych">Oznaczanie pakietów sieciowych</h3>
+<p>Ostatnim użytym kontrolerem cgroups jest <code>net_cls.classid</code>. Moduł <code>net_cls</code> odpowiada za nadawanie
+pakietom sieciowym odpowiednich klas, które są używane przy kontroli ruchu sieciowego (traffic
+control). Jeśli chodzi o Firefox'a, ta aplikacja korzysta z internetu i przydałoby się odrobinę
+kontrolować jej ruch. W tym celu nadawany jest ID grupy pakietom tworzonym przez procesy Firefox'a.
+Oznaczenie <code>0x00010003</code> jest zapisem hexalnym i w jego skład wchodzą dwie liczby: 0001 oraz 0003. Po
+przeliczeniu tego na system decymalny otrzymujemy 1 i 3, które narzędzie <code>tc</code> traktuje jako grupę
+1:3 i tam właśnie wysyła pakiety, którym można nadać wyższy priorytet, określić przepustowość i tego
+podobne rzeczy. Jeśli nie mamy pojęcia czym jest kształtowanie ruchu sieciowego, to raczej nie
+potrzebujemy tego parametru.</p>
+<h2 id="błędy">Błędy</h2>
+<p>I to w zasadzie tyle jeśli chodzi o implementację cgroups w debianie. W przypadku, gdyby coś nie
+działało, to można użyć poniższych poleceń w celu sprawdzenia czy cgroups jest poprawnie montowany,
+w których miejscach i czy procesy są przypisane do odpowiednich grup. I tak, np. sprawdźmy czy jest
+coś w ogóle łapane przez cgroups:</p>
+<pre><code># lscgroup | grep -i firefox
+cpu,cpuacct:/users/firefox
+net_cls,net_prio:/users/firefox
+memory:/users/firefox
+</code></pre>
+<p>Jak widać powyżej, grupy są utworzone prawidłowo i cgroups je widzi w strukturze katalogów. Jeśli
+jednak byśmy mieli więcej aplikacji kontrolowanych przez cgroups, możemy ograniczyć się do
+wyszukania konkretnego procesu i sprawdzenia czy z nim jest wszystko w porządku. W tym celu trzeba
+odszukać pid w katalogu <code>/proc/</code> :</p>
+<pre><code># cat /proc/`pidof firefox`/cgroup
+9:memory:/users/firefox
+8:perf_event:/
+7:net_cls,net_prio:/users/firefox
+6:cpuset:/
+5:freezer:/
+4:blkio:/user.slice/user-1000.slice/session-1.scope
+3:cpu,cpuacct:/users/firefox
+2:devices:/user.slice
+1:name=systemd:/user.slice/user-1000.slice/session-1.scope
+</code></pre>
+<p>Jeśli nie wiemy czy wirtualny system plików cgroups jest w ogóle montowany, możemy to sprawdzić
+przez:</p>
+<pre><code># lssubsys -am
+cpuset /sys/fs/cgroup/cpuset
+cpu,cpuacct /sys/fs/cgroup/cpu,cpuacct
+blkio /sys/fs/cgroup/blkio
+memory /sys/fs/cgroup/memory
+devices /sys/fs/cgroup/devices
+freezer /sys/fs/cgroup/freezer
+net_cls,net_prio /sys/fs/cgroup/net_cls,net_prio
+perf_event /sys/fs/cgroup/perf_event
+</code></pre>
+<p>Jeśli chcemy mieć trochę więcej info, możemy odpytać <code>/proc/mounts</code> . Zaś informacje na temat
+dostępnych podsystemów cgroups i ich hierarchii można odnaleźć pod <code>/proc/cgroups</code> .</p>
+<p>Jeśli problem leży gdzieś indziej i powyższe polecenia zwracają pożądane wartości, być może problem
+tkwi w demonie <code>cgrulesengd</code> . Najlepszym wyjściem jest sprawdzenie czy, aby na pewno pid'y procesów
+trafiają do plików <code>tasks</code> . W przypadku ich braku, oznacza to, że demon albo nie działa, albo jest
+źle skonfigurowany. W takiej sytuacji najlepiej jest uruchomić tego demona ręcznie z opcjami <code>-v -d -f /var/log/cgrulesengd</code> .</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/cgroups/">cgroups</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fograniczanie-zasobow-procesom-przez-cgroups%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fograniczanie-zasobow-procesom-przez-cgroups%2f&amp;text=Ograniczanie%20zasob%c3%b3w%20procesom%20przez%20cgroups" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fograniczanie-zasobow-procesom-przez-cgroups%2f&amp;title=Ograniczanie%20zasob%c3%b3w%20procesom%20przez%20cgroups" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fograniczanie-zasobow-procesom-przez-cgroups%2f&amp;title=Ograniczanie%20zasob%c3%b3w%20procesom%20przez%20cgroups" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fograniczanie-zasobow-procesom-przez-cgroups%2f&title=Ograniczanie%20zasob%c3%b3w%20procesom%20przez%20cgroups" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fograniczanie-zasobow-procesom-przez-cgroups%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fograniczanie-zasobow-procesom-przez-cgroups%2f&amp;title=Ograniczanie%20zasob%c3%b3w%20procesom%20przez%20cgroups" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fograniczanie-zasobow-procesom-przez-cgroups%2f&description=Ograniczanie%20zasob%c3%b3w%20procesom%20przez%20cgroups" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wymusic-sprawdzenie-systemu-plikow-w-systemd/">Jak wymusić sprawdzenie systemu plików w systemd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/przewidywalne-nazwy-interfejsow-sieciowych/">Przewidywalne nazwy interfejsów sieciowych</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/cache-dns-buforowania-zapytan/">Cache DNS, czyli włączenie buforowania zapytań</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czyszczenie-konsoli-tty-w-systemd/">Czyszczenie konsoli TTY w systemd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/skrot-ctrl-alt-del-w-systemd/">Skrót Ctrl-Alt-Del w systemd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/brak-dzwieku-przy-nieaktywnej-sesji-logowania/">Brak dźwięku przy nieaktywnej sesji logowania</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wylaczenie-wol-w-karcie-sieciowej/">Wyłączenie WoL w karcie sieciowej</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

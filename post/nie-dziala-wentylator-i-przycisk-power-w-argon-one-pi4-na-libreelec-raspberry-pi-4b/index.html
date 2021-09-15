@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)" />
+<meta property="og:description" content="Ostatnio wpadł mi w łapki minikomputer Raspberry Pi 4B (wersja z 2G RAM). Chciałem wykorzystać
+go w roli serwera multimediów na bazie Kodi/XBMC i podpiąć go pod TV. Jako, że procesory tych
+malinek czasem potrafią się mocniej rozgrzewać, to do całego zestawu wziąłem również aluminiową
+obudowę z wentylatorem Argon One Pi4. Po pobraniu najnowszego Raspberry Pi OS,
+zainstalowaniu go oraz dociągnięciu skryptu producenta obudowy, przyszła pora na poddanie tego RPI
+stres testowi, w którym temperatura CPU nie wzrosła w zasadzie powyżej 52°C. Niemniej jednak,
+ten Raspberry Pi ma realizować dwa zadania, tj. serwować filmy z domowej wideoteki oraz umożliwić
+oglądanie VoD/strimingu video, w tym też materiały na YouTube. Dlatego właśnie potrzebny jest
+Kodi/XBMC, który nie wymagałby większych nakładów pracy przy konfiguracji tej zabawki. Tak właśnie
+natrafiłem na projekt LibreELEC, który to dostarcza system operacyjny na bazie linux&#39;a wraz z
+wbudowanym Kodi uruchamiającym się automatycznie bez zbędnej dodatkowej konfiguracji. Problem z
+tym LibreELEC jest natomiast taki, że standardowo nie da rady ani zaprogramować przycisku Power w
+obudowie Argon One Pi4, ani ustawić progów temperatury dla jej wentylatora. Niemniej jednak,
+istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony niniejszy wpis." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/nie-dziala-wentylator-i-przycisk-power-w-argon-one-pi4-na-libreelec-raspberry-pi-4b/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-08-22T14:35:00&#43;02:00" />
+<meta property="article:modified_time" content="2021-09-04T16:00:00&#43;02:00" />
+
+
+		<meta itemprop="name" content="Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)">
+<meta itemprop="description" content="Ostatnio wpadł mi w łapki minikomputer Raspberry Pi 4B (wersja z 2G RAM). Chciałem wykorzystać
+go w roli serwera multimediów na bazie Kodi/XBMC i podpiąć go pod TV. Jako, że procesory tych
+malinek czasem potrafią się mocniej rozgrzewać, to do całego zestawu wziąłem również aluminiową
+obudowę z wentylatorem Argon One Pi4. Po pobraniu najnowszego Raspberry Pi OS,
+zainstalowaniu go oraz dociągnięciu skryptu producenta obudowy, przyszła pora na poddanie tego RPI
+stres testowi, w którym temperatura CPU nie wzrosła w zasadzie powyżej 52°C. Niemniej jednak,
+ten Raspberry Pi ma realizować dwa zadania, tj. serwować filmy z domowej wideoteki oraz umożliwić
+oglądanie VoD/strimingu video, w tym też materiały na YouTube. Dlatego właśnie potrzebny jest
+Kodi/XBMC, który nie wymagałby większych nakładów pracy przy konfiguracji tej zabawki. Tak właśnie
+natrafiłem na projekt LibreELEC, który to dostarcza system operacyjny na bazie linux&#39;a wraz z
+wbudowanym Kodi uruchamiającym się automatycznie bez zbędnej dodatkowej konfiguracji. Problem z
+tym LibreELEC jest natomiast taki, że standardowo nie da rady ani zaprogramować przycisku Power w
+obudowie Argon One Pi4, ani ustawić progów temperatury dla jej wentylatora. Niemniej jednak,
+istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony niniejszy wpis."><meta itemprop="datePublished" content="2020-08-22T14:35:00&#43;02:00" />
+<meta itemprop="dateModified" content="2021-09-04T16:00:00&#43;02:00" />
+<meta itemprop="wordCount" content="1811">
+<meta itemprop="keywords" content="raspberry-pi-4b,argon-one-pi4,kodi,xbmc,libreelec," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)"/>
+<meta name="twitter:description" content="Ostatnio wpadł mi w łapki minikomputer Raspberry Pi 4B (wersja z 2G RAM). Chciałem wykorzystać
+go w roli serwera multimediów na bazie Kodi/XBMC i podpiąć go pod TV. Jako, że procesory tych
+malinek czasem potrafią się mocniej rozgrzewać, to do całego zestawu wziąłem również aluminiową
+obudowę z wentylatorem Argon One Pi4. Po pobraniu najnowszego Raspberry Pi OS,
+zainstalowaniu go oraz dociągnięciu skryptu producenta obudowy, przyszła pora na poddanie tego RPI
+stres testowi, w którym temperatura CPU nie wzrosła w zasadzie powyżej 52°C. Niemniej jednak,
+ten Raspberry Pi ma realizować dwa zadania, tj. serwować filmy z domowej wideoteki oraz umożliwić
+oglądanie VoD/strimingu video, w tym też materiały na YouTube. Dlatego właśnie potrzebny jest
+Kodi/XBMC, który nie wymagałby większych nakładów pracy przy konfiguracji tej zabawki. Tak właśnie
+natrafiłem na projekt LibreELEC, który to dostarcza system operacyjny na bazie linux&#39;a wraz z
+wbudowanym Kodi uruchamiającym się automatycznie bez zbędnej dodatkowej konfiguracji. Problem z
+tym LibreELEC jest natomiast taki, że standardowo nie da rady ani zaprogramować przycisku Power w
+obudowie Argon One Pi4, ani ustawić progów temperatury dla jej wentylatora. Niemniej jednak,
+istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony niniejszy wpis."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2020-08-22T14:35:00&#43;02:00">Opublikowano: 22/08/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2021-09-04T16:00:00&#43;02:00">Zaktualizowano: 04/09/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/raspberrypi/" rel="category">RaspberryPi</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#oprogramowanie-dla-obudowy-argon-one-pi4">Oprogramowanie dla obudowy Argon One Pi4</a></li>
+    <li><a href="#jak-pogodzić-argon-one-pi4-z-libreelec">Jak pogodzić Argon One Pi4 z LibreELEC</a>
+      <ol>
+        <li><a href="#parametry-dtparami2con-oraz-enable_uart1-w-flashconfigtxt">Parametry dtparam=i2c=on oraz enable_uart=1 w /flash/config.txt</a></li>
+        <li><a href="#problemy-z-uruchamianiem-usługi-na-libreelec-10">Problemy z uruchamianiem usługi na LibreELEC 10</a></li>
+      </ol>
+    </li>
+    <li><a href="#konfiguracja-pracy-wentylatora-argon-one-pi4">Konfiguracja pracy wentylatora Argon One Pi4</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Ostatnio wpadł mi w łapki <a href="https://botland.com.pl/pl/moduly-i-zestawy-raspberry-pi-4b/14646-raspberry-pi-4-model-b-wifi-dualband-bluetooth-2gb-ram-15ghz-765756931175.html">minikomputer Raspberry Pi 4B</a> (wersja z 2G RAM). Chciałem wykorzystać
+go w roli serwera multimediów na bazie Kodi/XBMC i podpiąć go pod TV. Jako, że procesory tych
+malinek czasem potrafią się mocniej rozgrzewać, to do całego zestawu wziąłem również <a href="https://botland.com.pl/pl/obudowy-do-raspberry-pi-4b/15391-obudowa-do-raspberry-pi-4b-aluminiowa-z-wentylatorem-argon-one-szara.html">aluminiową
+obudowę z wentylatorem Argon One Pi4</a>. Po pobraniu <a href="https://www.raspberrypi.org/downloads/raspberry-pi-os/">najnowszego Raspberry Pi OS</a>,
+zainstalowaniu go oraz dociągnięciu skryptu producenta obudowy, przyszła pora na poddanie tego RPI
+stres testowi, w którym temperatura CPU nie wzrosła w zasadzie powyżej 52°C. Niemniej jednak,
+ten Raspberry Pi ma realizować dwa zadania, tj. serwować filmy z domowej wideoteki oraz umożliwić
+oglądanie VoD/strimingu video, w tym też materiały na YouTube. Dlatego właśnie potrzebny jest
+Kodi/XBMC, który nie wymagałby większych nakładów pracy przy konfiguracji tej zabawki. Tak właśnie
+natrafiłem na <a href="https://libreelec.tv/">projekt LibreELEC</a>, który to dostarcza system operacyjny na bazie linux'a wraz z
+wbudowanym Kodi uruchamiającym się automatycznie bez zbędnej dodatkowej konfiguracji. Problem z
+tym LibreELEC jest natomiast taki, że standardowo nie da rady ani zaprogramować przycisku Power w
+obudowie Argon One Pi4, ani ustawić progów temperatury dla jej wentylatora. Niemniej jednak,
+istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony niniejszy wpis.</p>
+<h2 id="oprogramowanie-dla-obudowy-argon-one-pi4">Oprogramowanie dla obudowy Argon One Pi4</h2>
+<p>W pudełku, w którym była obudowa Argon One Pi4, znajdowała się także niezbyt obszerna instrukcja z
+informacją na temat konfiguracji przycisku Power oraz wentylatora. Producent obudowy podaje także
+krótkie polecenie, które trzeba uruchomić w terminalu na Raspberry Pi 4B:</p>
+<pre><code>$ curl https://download.argon40.com/argon1.sh | bash
+</code></pre>
+<p>To rozwiązanie jak najbardziej zadziała na standardowym systemie maliny, tj. Raspberry Pi OS
+(kiedyś znany jako Raspbian). Niemniej jednak, w przypadku LibreELEC, jego obrazy są tak
+skonfigurowane, by domyślnie nie można było w systemie jako takim wprowadzać żadnych zmian (główny
+system plików jest <a href="https://en.wikipedia.org/wiki/SquashFS">na bazie SquashFS</a>, tj. ten sam, który stosowany jest np. w systemach live z
+linux'ami). Takie podejście naturalnie poprawia bezpieczeństwo naszego domowego centrum multimediów
+ale niestety z racji, że system plików SquashFS jest tylko do odczytu, to powoduje on problemy z
+obudową Argon One Pi4.</p>
+<p>W przypadku uruchomienia tego powyższego skryptu, zostaną nam zwrócone takie oto błędy:</p>
+<pre><code>LibreELEC:~ # curl https://download.argon40.com/argon1.sh | bash
+
+bash: syntax error: unexpected &quot;(&quot;
+
+curl: (23) Failed writing body (538 != 1291)
+</code></pre>
+<h2 id="jak-pogodzić-argon-one-pi4-z-libreelec">Jak pogodzić Argon One Pi4 z LibreELEC</h2>
+<p>Szukając informacji na temat przerobienia obrazu LibreELEC, znalazłem przez przypadek rozwiązanie,
+które jest w stanie zaradzić zaistniałemu problemowi z obudową Argon One Pi4. Chodzi generalnie o
+zainstalowanie <code>Raspberry Pi Tools</code> oraz <code>System Tools</code> z poziomu Kodi. Te dwa zestawy narzędzi
+możemy wgrać przechodząc kolejno do <code>Dodatki</code> (Addons) &gt; <code>Zainstaluj z repozytorium</code> (Install from
+Repository) &gt; <code>LibreELEC Add-ons</code> &gt; <code>Programy</code> (Program Addons), tak jak to zostało zobrazowane na
+poniższych fotkach:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/001-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/002-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/003-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/004-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/005-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/006-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/007-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/008-argon-one-pi4-raspberry-pi-libreelec-kodi-addons-config.png" alt=""    class="huge"></p>
+<p>Następnie musimy pobrać nieco <a href="https://download.argon40.com/argonone-setup-libreelec.sh">zmieniony skrypt producenta obudowy</a>. W tym przypadku należy
+wpisać w terminalu na Raspberry Pi 4B to poniższe polecenie:</p>
+<pre><code>LibreELEC:~ # curl https://download.argon40.com/argonone-setup-libreelec.sh | bash
+</code></pre>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/009-argon-one-pi4-raspberry-pi-libreelec-script-exec-config.png" alt=""    class="huge"></p>
+<p>Uruchomienie skryptu <code>argonone-setup-libreelec.sh</code> powoduje utworzenie szeregu plików w katalogu
+<code>/storage/</code> . W ten sposób w tym folderze pojawi się skrypt <code>argonone-config</code> , przy pomocy którego
+możemy skonfigurować zachowanie wentylatora obudowy Argon One Pi4. W <code>/storage/</code> zostanie także
+umieszczony inny skrypt, tj. <code>argonone-uninstall</code> , dzięki któremu to możemy odinstalować wszystkie
+wgrane pliki i prawie przywrócić stan systemu LibreELEC do tego sprzed wprowadzania w nim zmian (by
+to zrobić w pełni, potrzebna będzie manualna interwencja). Dalej, do katalogu <code>/storage/.config/</code>
+powędrują dwa skrypty python'a, tj. <code>argononed-poweroff.py</code> odpowiedzialny za poprawne zamknięcie
+systemu oraz <code>argononed.py</code> , którego zadaniem będzie monitorowanie przycisku Power oraz ogarnianie
+pracy wentylatora. By te dwa ostatnie zadania mogły być realizowane, do katalogu
+<code>/storage/.config/system.d/</code> zostanie wgrana usługa dla systemd w postaci pliku
+<code>argononed.service</code> . Domyślnie też zostanie utworzone dowiązanie w
+<code>/storage/.config/system.d/multi-user.target.wants/argononed.service</code> , przez co ta usługa będzie
+podnoszona na starcie naszego Raspberry Pi 4B. Do katalogu <code>/storage/.config/</code> zostanie także
+wgrany skrypt <code>shutdown.sh</code> , który będzie wywoływany przy zamykaniu/restartowaniu systemu. Jego
+zadaniem jest właściwie przekierowanie obsługi tego procesu do skryptu <code>argononed-poweroff.py</code> . Z
+kolei by wentylator działał tak jak tego od niego oczekujemy, tj. zmieniał prędkość swoich obrotów
+wraz ze zmianą temperatury CPU, potrzebny nam jest jeszcze plik konfiguracyjny <code>argononed.conf</code> ,
+który siedzi w katalogu <code>/storage/</code> .</p>
+<p>Reasumując, pobrany skrypt producenta obudowy Argon One Pi4 <code>argonone-setup-libreelec.sh</code>
+wygeneruje na Raspberry Pi 4B te poniższe pliki:</p>
+<pre><code>/storage/argonone-config
+/storage/argonone-uninstall
+/storage/argononed.conf
+/storage/.config/argononed-poweroff.py
+/storage/.config/argononed.py
+/storage/.config/system.d/argononed.service
+/storage/.config/system.d/multi-user.target.wants/argononed.service
+/storage/.config/shutdown.sh
+</code></pre>
+<h3 id="parametry-dtparami2con-oraz-enable_uart1-w-flashconfigtxt">Parametry dtparam=i2c=on oraz enable_uart=1 w /flash/config.txt</h3>
+<p>Poza tymi plikami, skrypt <code>argonone-setup-libreelec.sh</code> wprowadza zmiany na partycji <code>/flash/</code> ,
+która jest zamontowana standardowo w trybie tylko do odczytu. Zmiany te dotyczą <a href="https://www.raspberrypi.org/documentation/configuration/config-txt/">pliku
+config.txt</a>, który to w zasadzie robi za BIOS w komputerach Raspberry Pi.</p>
+<p>Te dwie poniższe linijki będą dodane na końcu pliku <code>config.txt</code> :</p>
+<pre><code>[all]
+...
+dtparam=i2c=on
+enable_uart=1
+</code></pre>
+<p>Linijka z <code>dtparam=</code> ma za zadanie zmienić nieco konfigurację Raspberry Pi 4B i włączyć w nim
+obsługę <a href="https://en.wikipedia.org/wiki/I%C2%B2C">szyny I2C</a>, tak by nasza malina była w stanie komunikować się z obudową Argon One Pi4:</p>
+<pre><code>LibreELEC:~ # i2cdetect -l
+i2c-1   i2c             bcm2835 I2C adapter                     I2C adapter
+
+LibreELEC:~ # i2cdetect -y 1
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+10: -- -- -- -- -- -- -- -- -- -- 1a -- -- -- -- --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+70: -- -- -- -- -- -- -- --
+</code></pre>
+<p>Bez <code>i2c=on</code> , polecenie <code>i2cdetect -l</code> nic nie zwróci, a skrypt <code>/storage/.config/argononed.py</code>
+się wykrzaczy i zakończy poniższym błędem:</p>
+<pre><code>LibreELEC:~ # /storage/.config/argononed.py
+Traceback (most recent call last):
+  File &quot;/storage/.config/argononed.py&quot;, line 12, in &lt;module&gt;
+    bus = smbus.SMBus(1)
+IOError: [Errno 2] No such file or directory
+</code></pre>
+<p>Zatem bez <code>i2c=on</code> nie zadziała nam ani wentylator, ani przycisk Power w obudowie Argon One Pi4.</p>
+<p>Parametr <code>enable_uart</code> zdaje się być zbędny jeśli chodzi o samą konfigurację wentylatora i
+przycisku Power w obudowie Argon One Pi4. Niemniej jednak <code>enable_uart=1</code> aktywuje konsolę
+szeregową UART (<a href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter">Universal Asynchronous Receiver-Transmitter</a>). Powinno się zatem pojawić
+urządzenie <code>/dev/ttyS0</code> albo <code>/dev/ttyAMA0</code> w zależności od tego, którą wersję Raspberry Pi
+posiadamy. Przynajmniej tak piszą w dokumentacji. W przypadku mojego Raspberry Pi 4B, pojawiły się
+oba te urządzenia.</p>
+<p>Te dwie linijki z pliku <code>/flash/config.txt</code> przy ewentualnym odinstalowaniu oprogramowania
+dostarczonego za sprawą skryptu <code>argonone-setup-libreelec.sh</code> nie są usuwane. Jeśli chcielibyśmy je
+usunąć, to ręcznie musimy edytować plik <code>/flash/config.txt</code> uprzednio montując partycję <code>/flash/</code> w
+trybie do zapisu:</p>
+<pre><code>LibreELEC:~ # mount -o remount,rw /flash
+</code></pre>
+<p>Po skończonej edycji, montujemy tę partycję ponownie w tryb do odczytu:</p>
+<pre><code>LibreELEC:~ # mount -o remount,ro /flash
+</code></pre>
+<p>Wszelkie zmiany dokonane w obrębie partycji <code>/flash/</code> będą aplikowane dopiero po ponownym
+uruchomieniu systemu.</p>
+<h3 id="problemy-z-uruchamianiem-usługi-na-libreelec-10">Problemy z uruchamianiem usługi na LibreELEC 10</h3>
+<p>Parę dni temu została wypuszczona <a href="https://libreelec.tv/2021/08/26/libreelec-matrix-10-0/">nowa stabilna wersja LibreELEC</a>, tj. v10 Matrix. Szereg
+rzeczy w tej nowszej wersji zostało zmienionych, przez co skrypt do obsługi obudowy Argon One Pi4
+przestał działać. Można ten problem poprawić w bardzo <a href="https://forum.libreelec.tv/thread/23933-argon40-case-python-script-for-fan-control-problem-with-le-10-beta/?postID=155141#post155141">prosty sposób</a>. Najpierw edytujemy plik
+<code>/flash/config.txt</code> i dostosowujemy jego zawartość, tak by uwzględniała te dwie poniższe linijki:</p>
+<pre><code>dtparam=i2c_vc=on
+dtparam=i2c_arm=on
+</code></pre>
+<p>Następnie edytujemy plik usługi systemd, tj. <code>/storage/.config/system.d/argononed.service</code> i
+zmieniamy w nim linijkę z <code>StartExec</code> :</p>
+<pre><code>[Unit]
+Description=Argon One Fan and Button Service
+After=multi-user.target
+[Service]
+Type=simple
+Restart=always
+RemainAfterExit=true
+#ExecStart=/usr/bin/python /storage/.config/argononed.py
+ExecStart=/bin/sh -c &quot;. /etc/profile; exec /usr/bin/python /storage/.config/argononed.py&quot;
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<h2 id="konfiguracja-pracy-wentylatora-argon-one-pi4">Konfiguracja pracy wentylatora Argon One Pi4</h2>
+<p>Po zrestartowaniu Raspberry Pi 4B, przycisk Power powinien zacząć działać w sposób opisany w
+instrukcji obsługi obudowy. Zatem, gdy Raspberry Pi 4B jest wyłączony, to krótkie przyciśnięcie
+przycisku Power włączy to urządzenie. Podczas pracy maliny, można ją zresetować przyciskając
+przycisk Power dwa razy w krótkim odstępie czasu. Jeśli zaś przycisk Power zostanie wciśnięty i
+przytrzymany od 3-5 sekund, to zostanie zainicjowana procedura wyłączenia systemu LibreELEC oraz
+odcięcia zasilania od Raspberry Pi 4B. A jak ten przycisk przytrzymamy powyżej 5 sekund, to ten
+nasz mały komputer zostanie siłowo wyłączony, co może uszkodzić systemy plików wszystkich
+dysków/partycji, które mają je zamontowane w trybie do zapisu. Także lepiej nie trzymać tego
+przycisku zbyt długo.</p>
+<p>Jeśli zaś chodzi o pracę wentylatora obudowy Argon One Pi4, to przy domyślnej konfiguracji
+dostarczonej przez skrypt <code>argonone-setup-libreelec.sh</code> , ten wiatrak będzie w zasadzie wyłączony
+do momentu, aż temperatura procesora przekroczy 55°C. W takim przypadku, system ustawi moc
+wentylatora na 10%. Jeśli temperatura CPU sięgnie 60°C, to ta moc zostanie zwiększona do 55%.
+Gdyby zdarzyło się tak, że temperatura procesora przekroczy 65°C, to wentylator będzie działał
+na pełnych obrotach i będzie przy tym dość głośny.</p>
+<p>W przypadku, gdy te domyślne progi przełączania wentylatora nam nie odpowiadają i uważamy, że
+temperatura CPU 55+°C to za dużo, to zawsze możemy zmienić konfigurację pracy wiatraka w
+obudowie Argon One Pi4. Trzeba jednak mieć na uwadze, że może i zbyt wysoka temperatura jest w
+stanie uszkodzić CPU ale wbudowane w Raspberry Pi 4B zabezpieczenia przed przegrzaniem się
+procesora (CPU/GPU throttling) zaczynają się aktywować dopiero po przekroczeniu 80°C. W ten sposób,
+CPU będzie działał ze 100% mocy do momentu osiągnięcia tych 80°C. Po ich przekroczeniu
+zostanie załączony CPU throttling, który <a href="https://www.raspberrypi.org/blog/thermal-testing-raspberry-pi-4/">obniży taktowanie procesora z 1,5 GHz do 1 GHz</a>. Jeśli
+temperatura w dalszym ciągu będzie rosła, to po przekroczeniu 85°C aktywowany zostanie GPU
+throttling. Zatem 55°C wydaje się być w miarę optymalnym rozwiązaniem, by ten wentylator
+powoli zaczął się rozkręcać. Tak czy inaczej, progi pracy wiatraka można zmienić przez dostosowanie
+wartości w pliku <code>/storage/argononed.conf</code> , przykładowo:</p>
+<pre><code>55=10
+60=55
+65=100
+</code></pre>
+<p>Przed znakiem równości mamy temperatury CPU (w °C), przy których praca wentylatora będzie ulegać
+zmianie, zaś po znaku równości jest wartość mocy wentylatora wyrażona w procentach. Wentylator
+można regulować z dokładnością do 1%. Tych linijek, co są wyżej, może być więcej niż 3, co zezwala
+na bardziej dokładne sprofilowanie wiatraka obudowy.</p>
+<p>Aktualną temperaturę procesora Raspberry Pi 4B można podejrzeć w pliku
+<code>/sys/class/thermal/thermal_zone0/temp</code> :</p>
+<pre><code># cat /sys/class/thermal/thermal_zone0/temp
+38459
+</code></pre>
+<p>By otrzymać wynik w °C, trzeba tę powyższą wartość podzielić przez 1000. W ten sposób otrzymujemy
+~38,5°C . Zawsze też możemy <a href="https://www.raspberrypi.org/documentation/raspbian/applications/vcgencmd.md">skorzystać z vcgencmd</a>:</p>
+<pre><code>LibreELEC:~ # vcgencmd measure_temp
+temp=38.0'C
+</code></pre>
+<p>Temperaturę CPU naszej maliny możemy także sprawdzić w Kodi:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/010-argon-one-pi4-raspberry-pi-libreelec-kodi-status-temp.png" alt=""    class="huge"></p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Raspberry Pi 4B potrafi się bardzo szybko rozgrzać do tych granicznych temperatur przy mocniejszym
+obciążeniu CPU/GPU w przypadku, gdy nie stosujemy żadnego chłodzenia, nawet tego pasywnego w
+postaci doczepionych do układów radiatorów. Może i ta obudowa Argon One Pi4 dla Raspberry Pi 4B do
+najtańszych nie należy ale dość przyzwoicie jest w stanie schłodzić rozgrzaną malinę i nie dopuścić
+by CPU/GPU throttling zdławił jej procesor, czego efektem była by dość spora utrata mocy (ok ~30%).
+Niemniej jednak, przeciętne materiały video z domowej kolekcji filmów puszczanych za sprawą
+LibreELEC/Kodi raczej nie powinny aż tak mocno utylizować zasobów tej maszyny. Dlatego też jeśli
+nie mamy zamiaru się bawić w OC, to lepszym wyjściem będzie poszukanie tańszej obudowy, a nadwyżkę
+hajsu przeznaczyć na więcej pamięci operacyjnej RAM w Raspberry Pi 4B.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/raspberry-pi-4b/">raspberry-pi-4b</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/argon-one-pi4/">argon-one-pi4</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kodi/">kodi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xbmc/">xbmc</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/libreelec/">libreelec</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fnie-dziala-wentylator-i-przycisk-power-w-argon-one-pi4-na-libreelec-raspberry-pi-4b%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fnie-dziala-wentylator-i-przycisk-power-w-argon-one-pi4-na-libreelec-raspberry-pi-4b%2f&amp;text=Nie%20dzia%c5%82a%20wentylator%20i%20przycisk%20Power%20w%20Argon%20One%20Pi4%20na%20LibreELEC%20%28Raspberry%20Pi%204B%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fnie-dziala-wentylator-i-przycisk-power-w-argon-one-pi4-na-libreelec-raspberry-pi-4b%2f&amp;title=Nie%20dzia%c5%82a%20wentylator%20i%20przycisk%20Power%20w%20Argon%20One%20Pi4%20na%20LibreELEC%20%28Raspberry%20Pi%204B%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fnie-dziala-wentylator-i-przycisk-power-w-argon-one-pi4-na-libreelec-raspberry-pi-4b%2f&amp;title=Nie%20dzia%c5%82a%20wentylator%20i%20przycisk%20Power%20w%20Argon%20One%20Pi4%20na%20LibreELEC%20%28Raspberry%20Pi%204B%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fnie-dziala-wentylator-i-przycisk-power-w-argon-one-pi4-na-libreelec-raspberry-pi-4b%2f&title=Nie%20dzia%c5%82a%20wentylator%20i%20przycisk%20Power%20w%20Argon%20One%20Pi4%20na%20LibreELEC%20%28Raspberry%20Pi%204B%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fnie-dziala-wentylator-i-przycisk-power-w-argon-one-pi4-na-libreelec-raspberry-pi-4b%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fnie-dziala-wentylator-i-przycisk-power-w-argon-one-pi4-na-libreelec-raspberry-pi-4b%2f&amp;title=Nie%20dzia%c5%82a%20wentylator%20i%20przycisk%20Power%20w%20Argon%20One%20Pi4%20na%20LibreELEC%20%28Raspberry%20Pi%204B%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fnie-dziala-wentylator-i-przycisk-power-w-argon-one-pi4-na-libreelec-raspberry-pi-4b%2f&description=Nie%20dzia%c5%82a%20wentylator%20i%20przycisk%20Power%20w%20Argon%20One%20Pi4%20na%20LibreELEC%20%28Raspberry%20Pi%204B%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

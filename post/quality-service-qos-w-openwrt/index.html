@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Quality of Service (QoS) w OpenWRT | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Quality of Service (QoS) w OpenWRT" />
+<meta property="og:description" content="Wszyscy spotkaliśmy się z sytuacją, w której z bliżej nieokreślonego powodu nie mogliśmy przeglądać
+stron w internecie. Niby połączenie jest, mamy też dobrej klasy ISP ale net nam muli. W olbrzymiej
+części przypadków winą można obarczyć sieć Peer to Peer
+(P2P). Przy nieodpowiedniej konfiguracji klientów tej
+sieci może dojść do nawiązywania całej masy połączeń w ułamku chwili. W ten sposób nawet jeśli nic
+aktualnie nie wysyłamy lub nie pobieramy, to i tak te połączenia same w sobie zapychają łącze, no bo
+przecież nawet puste pakiety w protokołach TCP/UDP zawierają nagłówki, a te już swoje ważą. Gdy sami
+korzystamy z łącza, to taka sytuacja nie stanowi większego problemu, bo wystarczy odpalić klienta
+torrent&#39;a w wolnym czasie. Natomiast w przypadku, gdy zachodzi potrzeba wejścia na jakiś serwis www,
+to możemy zwyczajnie tego klienta wyłączyć. Nie jest to jednak wygodne. Jak zatem wyeliminować
+problemy związane z siecią P2P? Jeśli na routerze mamy wgrany firmware OpenWRT, to możemy
+zaimplementować na nim mechanizm QoS (Qality of
+Service). W ten sposób możemy nadać usługom
+priorytety. W niniejszym wpisie postaramy się wdrożyć takie rozwiązanie w oparciu o narzędzia
+iptables oraz tc ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/quality-service-qos-w-openwrt/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-05-19T15:07:54&#43;00:00" />
+<meta property="article:modified_time" content="2016-05-19T15:07:54&#43;00:00" />
+
+
+		<meta itemprop="name" content="Quality of Service (QoS) w OpenWRT">
+<meta itemprop="description" content="Wszyscy spotkaliśmy się z sytuacją, w której z bliżej nieokreślonego powodu nie mogliśmy przeglądać
+stron w internecie. Niby połączenie jest, mamy też dobrej klasy ISP ale net nam muli. W olbrzymiej
+części przypadków winą można obarczyć sieć Peer to Peer
+(P2P). Przy nieodpowiedniej konfiguracji klientów tej
+sieci może dojść do nawiązywania całej masy połączeń w ułamku chwili. W ten sposób nawet jeśli nic
+aktualnie nie wysyłamy lub nie pobieramy, to i tak te połączenia same w sobie zapychają łącze, no bo
+przecież nawet puste pakiety w protokołach TCP/UDP zawierają nagłówki, a te już swoje ważą. Gdy sami
+korzystamy z łącza, to taka sytuacja nie stanowi większego problemu, bo wystarczy odpalić klienta
+torrent&#39;a w wolnym czasie. Natomiast w przypadku, gdy zachodzi potrzeba wejścia na jakiś serwis www,
+to możemy zwyczajnie tego klienta wyłączyć. Nie jest to jednak wygodne. Jak zatem wyeliminować
+problemy związane z siecią P2P? Jeśli na routerze mamy wgrany firmware OpenWRT, to możemy
+zaimplementować na nim mechanizm QoS (Qality of
+Service). W ten sposób możemy nadać usługom
+priorytety. W niniejszym wpisie postaramy się wdrożyć takie rozwiązanie w oparciu o narzędzia
+iptables oraz tc ."><meta itemprop="datePublished" content="2016-05-19T15:07:54&#43;00:00" />
+<meta itemprop="dateModified" content="2016-05-19T15:07:54&#43;00:00" />
+<meta itemprop="wordCount" content="2710">
+<meta itemprop="keywords" content="iptables,chaos-calmer,router,qos," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Quality of Service (QoS) w OpenWRT"/>
+<meta name="twitter:description" content="Wszyscy spotkaliśmy się z sytuacją, w której z bliżej nieokreślonego powodu nie mogliśmy przeglądać
+stron w internecie. Niby połączenie jest, mamy też dobrej klasy ISP ale net nam muli. W olbrzymiej
+części przypadków winą można obarczyć sieć Peer to Peer
+(P2P). Przy nieodpowiedniej konfiguracji klientów tej
+sieci może dojść do nawiązywania całej masy połączeń w ułamku chwili. W ten sposób nawet jeśli nic
+aktualnie nie wysyłamy lub nie pobieramy, to i tak te połączenia same w sobie zapychają łącze, no bo
+przecież nawet puste pakiety w protokołach TCP/UDP zawierają nagłówki, a te już swoje ważą. Gdy sami
+korzystamy z łącza, to taka sytuacja nie stanowi większego problemu, bo wystarczy odpalić klienta
+torrent&#39;a w wolnym czasie. Natomiast w przypadku, gdy zachodzi potrzeba wejścia na jakiś serwis www,
+to możemy zwyczajnie tego klienta wyłączyć. Nie jest to jednak wygodne. Jak zatem wyeliminować
+problemy związane z siecią P2P? Jeśli na routerze mamy wgrany firmware OpenWRT, to możemy
+zaimplementować na nim mechanizm QoS (Qality of
+Service). W ten sposób możemy nadać usługom
+priorytety. W niniejszym wpisie postaramy się wdrożyć takie rozwiązanie w oparciu o narzędzia
+iptables oraz tc ."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Quality of Service (QoS) w OpenWRT</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-05-19T15:07:54Z">Opublikowano: 19/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Quality of Service (QoS) w OpenWRT</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#interfejsy-imq-oraz-ifb">Interfejsy IMQ oraz IFB</a></li>
+    <li><a href="#instalacja-potrzebnego-oprogramowania">Instalacja potrzebnego oprogramowania</a></li>
+    <li><a href="#skrypt-startowy">Skrypt startowy</a></li>
+    <li><a href="#zasada-działania-qos-w-openwrt">Zasada działania QoS w OpenWRT</a></li>
+    <li><a href="#testy-qos">Testy QoS</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Wszyscy spotkaliśmy się z sytuacją, w której z bliżej nieokreślonego powodu nie mogliśmy przeglądać
+stron w internecie. Niby połączenie jest, mamy też dobrej klasy ISP ale net nam muli. W olbrzymiej
+części przypadków winą można obarczyć sieć <a href="https://pl.wikipedia.org/wiki/Peer-to-peer">Peer to Peer
+(P2P)</a>. Przy nieodpowiedniej konfiguracji klientów tej
+sieci może dojść do nawiązywania całej masy połączeń w ułamku chwili. W ten sposób nawet jeśli nic
+aktualnie nie wysyłamy lub nie pobieramy, to i tak te połączenia same w sobie zapychają łącze, no bo
+przecież nawet puste pakiety w protokołach TCP/UDP zawierają nagłówki, a te już swoje ważą. Gdy sami
+korzystamy z łącza, to taka sytuacja nie stanowi większego problemu, bo wystarczy odpalić klienta
+torrent'a w wolnym czasie. Natomiast w przypadku, gdy zachodzi potrzeba wejścia na jakiś serwis www,
+to możemy zwyczajnie tego klienta wyłączyć. Nie jest to jednak wygodne. Jak zatem wyeliminować
+problemy związane z siecią P2P? Jeśli na routerze mamy wgrany firmware OpenWRT, to możemy
+zaimplementować na nim <a href="https://pl.wikipedia.org/wiki/Quality_of_service">mechanizm QoS (Qality of
+Service)</a>. W ten sposób możemy nadać usługom
+priorytety. W niniejszym wpisie postaramy się wdrożyć takie rozwiązanie w oparciu o narzędzia
+<code>iptables</code> oraz <code>tc</code> .</p>
+<h2 id="interfejsy-imq-oraz-ifb">Interfejsy IMQ oraz IFB</h2>
+<p>W OpenWRT nie ma prostego sposobu na wdrożenie QoS'a. Wcześniej były do dyspozycji <a href="https://github.com/imq/linuximq/">interfejsy IMQ
+(Intermediate Queueing Device)</a> ale te zostały zastąpione przez
+interfejsy IFB (Intermediate Functional Block). Różnica między nimi sprowadza się do lepszego
+kształtowania ruchu docierającego do routera w przypadku interfejsów IMQ. Natomiast jeśli chodzi o
+interfejsy IFB, to praktycznie wcale nie mamy możliwości kontrolować ruchu przychodzącego. Możemy w
+prawdzie ograniczyć ilość pakietów, który router będzie w stanie przetworzyć w danej jednostce czasu
+ale nie mamy kontroli nad tym, który z pakietów znajdujących się w kolejce dotrze jako pierwszy. W
+ten sposób mogą powstać znaczne opóźnienia, które czasami mogą poważnie wpłynąć na jakość usługi. Z
+tym, że ta sytuacja dotyczy tylko ruchu przychodzącego na interfejs IFB.</p>
+<p>W routerach zwykle mamy kilka interfejsów fizycznych. Ograniczmy się w tym momencie do dwóch. Jeden
+WAN i jeden LAN. Na każdym z tych interfejsów jesteśmy w stanie kształtować ruch wychodzący bez
+zaprzęgania do tego interfejsów IMQ czy IFB. Chodzi generalnie o to, że ruch pakietów jest
+przesyłany między interfejsami WAN i LAN. Kolejki pakietów są zamienione w przypadku tych
+interfejsów. Czyli to co jest na wyjściu LAN jest jednocześnie na wejściu WAN i odwrotnie. W ten
+sposób możemy ograniczyć zarówno download i upload stacji roboczych w sieci domowej.</p>
+<h2 id="instalacja-potrzebnego-oprogramowania">Instalacja potrzebnego oprogramowania</h2>
+<p>Nie obejdzie się bez instalacji dodatkowych pakietów. Trzeba jednak zaznaczyć, że w tym przypadku
+nie będziemy korzystać ani z interfejsów IMQ, ani z interfejsów IFB. Dlatego też zestaw pakietów
+będzie nieco inny w porównaniu do tutoriali, które traktują o kontroli ruchu w OpenWRT. Musimy
+doinstalować pakiety <code>ip</code> oraz <code>tc</code> . Dodatkowo, potrzebne będą nam pewne moduły dla kernela oraz
+<code>iptables</code> . Wszystkie te rzeczy są wypisane poniżej:</p>
+<pre><code># opkg update
+# opkg install ip \
+tc \
+iptables-mod-ipopt \
+iptables-mod-conntrack-extra \
+iptables-mod-extra \
+kmod-sched-connmark \
+kmod-sched \
+kmod-ipt-u32 \
+</code></pre>
+<p>Być może nie wszystkie moduły zostaną załadowane po instalacji powyższych pakietów. Dla pewności,
+dobrze jest w tym momencie uruchomić router ponownie.</p>
+<h2 id="skrypt-startowy">Skrypt startowy</h2>
+<p>Musimy także utworzyć <a href="https://morfikov.github.io/post/skrypty-startowe-init-w-openwrt/">skrypt startowy</a>.
+Taki skrypt będzie miał za zadanie tworzyć odpowiednie kolejki i <a href="https://morfikov.github.io/post/target-mark-w-iptables/">oznaczać stosownie pakiety przy
+pomocy target MARK</a>. Na podstawie nałożonych
+markerów, pakiety będą kierowane do swoich kolejek. W tym przypadku szkielet skryptu init będzie
+wyglądał następująco:</p>
+<pre><code>#!/bin/sh /etc/rc.common
+
+START=61
+EXTRA_COMMANDS=&quot;status&quot;
+
+
+. /lib/functions/network.sh
+network_get_physdev if_wan wan
+network_get_physdev if_lan lan
+
+nic_link=&quot;1000mbit&quot;
+isp_uplink=&quot;980kbit&quot;
+isp_downlink=&quot;13500kbit&quot;
+home_uplink=&quot;999mbit&quot;
+home_downlink=&quot;986mbit&quot;
+
+status() {
+}
+
+start() {
+}
+
+stop() {
+}
+</code></pre>
+<p>Jako, że OpenWRT dysponuje własnym skryptem startowym konfigurującym filtr pakietów <code>iptables</code> , to
+ten nasz skrypt init musi się uruchomić po nim. Dlatego w <code>START</code> ostawiliśmy odpowiednią sekwencję
+startu. W pliku <code>/lib/functions/network.sh</code> są ciekawe funkcje, które pomogą nam w ustaleniu nazw
+interfejsów WAN i LAN. Te nazwy zostaną zapisane w zmiennych <code>if_wan</code> oraz <code>if_lan</code> . Mamy także
+określone parametry łącza. Zmienna <code>nic_link</code> odpowiada za przepustowość portów. W przypadku routera
+<a href="http://www.tp-link.com.pl/products/details/TL-WDR3600.html">TP-Link TL-WDR3600 v1</a> mamy gigabitowy
+switch, zatem ustawiamy <code>1000mbit</code> . W zmiennych <code>isp_*</code> określamy parametry łącza od naszego ISP.
+Muszą one być trochę niższe w stosunku do deklarowanej przez providera prędkości. Chodzi o to, że
+kolejki na interfejsach tworzą się tam, gdzie jest najwęższe ogniwo przy przesyle informacji. Jeśli
+określimy zbyt dużą wartość, to kolejki będą się tworzyć na interfejsach ISP i to on będzie
+kształtował ruch. Te dwa parametry trzeba dostosować sobie indywidualnie w drodze eksperymentów.
+Jeśli chodzi zaś o zmienne <code>home_*</code> , to muszą one przybrać wartość, która dopełni wartość
+określoną w zmiennej <code>nic_link</code> , czyli:</p>
+<pre><code>isp_uplink + home_uplink =~ nic_link
+isp_downlink + home_downlink =~ nic_link
+</code></pre>
+<p>Teraz musimy odpowiednio uzupełnić pozostałą część skryptu.</p>
+<p>W bloku <code>status() {}</code> znajdują się jedynie polecenia zwracające statystyki:</p>
+<pre><code>status() {
+    echo &quot;# qdiscs $if_wan #&quot;
+    tc -s -d qdisc show dev $if_wan
+
+    echo &quot;# qdiscs $if_lan #&quot;
+    tc -s -d qdisc show dev $if_lan
+
+    echo &quot;# class $if_wan #&quot;
+    tc -s -d class show dev $if_wan
+
+    echo &quot;# class $if_lan #&quot;
+    tc -s -d class show dev $if_lan
+
+    echo &quot;# filter $if_wan #&quot;
+    tc -s -d filter show dev $if_wan parent 2:0
+
+    echo &quot;# filter $if_lan #&quot;
+    tc -s -d filter show dev $if_lan parent 1:0
+}
+</code></pre>
+<p>W bloku <code>start() {}</code> na samym początku umieszczamy reguły oznaczające ruch:</p>
+<pre><code>start() {
+    iptables -t mangle -N qos_traffic
+    iptables -t mangle -N qos_lan
+    iptables -t mangle -N qos_wan
+
+    iptables -t mangle -I PREROUTING -j qos_traffic
+    iptables -t mangle -I POSTROUTING -j qos_traffic
+
+    iptables -t mangle -A qos_traffic -j CONNMARK --restore-mark --nfmask 0x00ff --ctmask 0x00ff
+    iptables -t mangle -A qos_traffic -m mark ! --mark 0x0/0x00ff -j RETURN
+    iptables -t mangle -A qos_traffic -o $if_wan -m mark --mark 0x0/0x00ff -j qos_wan
+    iptables -t mangle -A qos_traffic -o $if_lan -m mark --mark 0x0/0x00ff -j qos_lan
+    iptables -t mangle -A qos_traffic -j CONNMARK --save-mark --nfmask 0x00ff --ctmask 0x00ff
+
+    iptables -t mangle -A qos_lan -s 192.168.1.0/24 -d 192.168.1.0/24 -j MARK --set-xmark 0x000a/0x00ff -m comment --comment &quot;lan&quot;
+    iptables -t mangle -A qos_lan -p icmp -j MARK --set-xmark 0x0001/0x00ff -m comment --comment &quot;ICMP&quot;
+    iptables -t mangle -A qos_lan -p udp -m multiport --sports 53 -j MARK --set-xmark 0x0001/0x00ff -m comment --comment &quot;DNS&quot;
+    iptables -t mangle -A qos_lan -p tcp -m multiport --sports 80,443,20,21 -j MARK --set-xmark 0x0002/0x00ff -m comment --comment &quot;http,ftp&quot;
+
+    iptables -t mangle -A qos_wan -p tcp -m multiport --dports 80,443,20,21 -j MARK --set-xmark 0x0002/0x00ff  -m comment --comment &quot;http,ftp&quot;
+    iptables -t mangle -A qos_wan -p icmp -j MARK --set-xmark 0x0001/0x00ff -m comment --comment &quot;ICMP&quot;
+    iptables -t mangle -A qos_wan -p tcp -m multiport --dports 993,995,465,143,110,25 -j MARK --set-xmark 0x0003/0x00ff  -m comment --comment &quot;mail&quot;
+    iptables -t mangle -A qos_wan -p udp -m multiport --dports 53 -j MARK --set-xmark 0x0001/0x00ff -m comment --comment &quot;DNS&quot;
+    iptables -t mangle -A qos_wan -p udp -m multiport --dports 37,123 -j MARK --set-xmark 0x0001/0x00ff -m comment --comment &quot;time&quot;
+    iptables -t mangle -A qos_wan -p tcp -m multiport --dports 37,123 -j MARK --set-xmark 0x0001/0x00ff -m comment --comment &quot;time&quot;
+    iptables -t mangle -A qos_wan -p tcp -m multiport --dports 5222,5223 -j MARK --set-xmark 0x0002/0x00ff -m comment --comment &quot;jabber&quot;
+...
+</code></pre>
+<p>Dalej w bloku <code>start() {}</code> tworzymy kolejki dla tych wyżej oznaczonych pakietów i kierujemy do nich
+ruch:</p>
+<pre><code>...
+    tc qdisc add dev $if_lan parent root handle 2:0 htb default 600 r2q 100
+        tc class add dev $if_lan parent 2:0 classid 2:1 htb rate $nic_link ceil $nic_link quantum 15140
+            tc class add dev $if_lan parent 2:1 classid 2:10 htb rate $isp_downlink ceil $isp_downlink
+                tc class add dev $if_lan parent 2:10 classid 2:100 htb rate 1500kbit ceil $isp_downlink prio 10
+                tc class add dev $if_lan parent 2:10 classid 2:200 htb rate 3000kbit ceil $isp_downlink prio 30
+                tc class add dev $if_lan parent 2:10 classid 2:300 htb rate 3000kbit ceil $isp_downlink prio 50
+                tc class add dev $if_lan parent 2:10 classid 2:400 htb rate 750kbit ceil $isp_downlink prio 55 quantum 1514
+                tc class add dev $if_lan parent 2:10 classid 2:500 htb rate 3000kbit ceil $isp_downlink prio 20
+                tc class add dev $if_lan parent 2:10 classid 2:600 htb rate 3750kbit ceil $isp_downlink prio 60
+            tc class add dev $if_lan parent 2:1 classid 2:20 htb rate $home_downlink ceil $nic_link quantum 15140
+                tc class add dev $if_lan parent 2:20 classid 2:1000 htb rate 99mbit ceil $home_uplink prio 10 quantum 15140
+
+    tc qdisc add dev $if_lan parent 2:100 handle 100: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_lan parent 2:200 handle 200: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_lan parent 2:300 handle 300: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_lan parent 2:400 handle 400: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_lan parent 2:500 handle 500: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_lan parent 2:600 handle 600: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_lan parent 2:1000 handle 1000: fq_codel quantum 1514 limit 1024 noecn
+
+    tc qdisc add dev $if_wan parent root handle 1:0 htb default 600 r2q 10
+        tc class add dev $if_wan parent 1:0 classid 1:1 htb rate $nic_link ceil $nic_link quantum 15140
+            tc class add dev $if_wan parent 1:1 classid 1:10 htb rate $isp_uplink ceil $isp_uplink
+                tc class add dev $if_wan parent 1:10 classid 1:100 htb rate 100kbit ceil $isp_uplink prio 10
+                tc class add dev $if_wan parent 1:10 classid 1:200 htb rate 200kbit ceil $isp_uplink prio 30
+                tc class add dev $if_wan parent 1:10 classid 1:300 htb rate 200kbit ceil $isp_uplink prio 50
+                tc class add dev $if_wan parent 1:10 classid 1:400 htb rate 50kbit ceil $isp_uplink prio 55 quantum 1514
+                tc class add dev $if_wan parent 1:10 classid 1:500 htb rate 200kbit ceil $isp_uplink prio 20
+                tc class add dev $if_wan parent 1:10 classid 1:600 htb rate 250kbit ceil $isp_uplink prio 60
+            tc class add dev $if_wan parent 1:1 classid 1:20 htb rate $home_uplink ceil $nic_link quantum 15140
+                tc class add dev $if_wan parent 1:20 classid 1:1000 htb rate 85mbit ceil $home_uplink prio 10 quantum 15140
+
+    tc qdisc add dev $if_wan parent 1:100 handle 100: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_wan parent 1:200 handle 200: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_wan parent 1:300 handle 300: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_wan parent 1:400 handle 400: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_wan parent 1:500 handle 500: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_wan parent 1:600 handle 600: fq_codel quantum 1514 limit 1024 noecn
+    tc qdisc add dev $if_wan parent 1:1000 handle 1000: fq_codel quantum 1514 limit 1024 noecn
+
+    # ICMP, DNS, TIME
+    tc filter add dev $if_wan parent 1:0 prio 1 protocol ip handle 1 fw classid 1:100
+    tc filter add dev $if_lan parent 2:0 prio 1 protocol ip handle 1 fw classid 2:100
+
+    # HTTP, HTTPS, FTP
+    tc filter add dev $if_wan parent 1:0 prio 20 protocol ip handle 2 fw classid 1:200
+    tc filter add dev $if_lan parent 2:0 prio 20 protocol ip handle 2 fw classid 2:200
+
+    # MAIL
+    tc filter add dev $if_wan parent 1:0 prio 40 protocol ip handle 3 fw classid 1:300
+    tc filter add dev $if_lan parent 2:0 prio 40 protocol ip handle 3 fw classid 2:300
+
+    # Jabber
+    tc filter add dev $if_wan parent 1:0 prio 5 protocol ip handle 4 fw classid 1:400
+    tc filter add dev $if_lan parent 2:0 prio 5 protocol ip handle 4 fw classid 2:400
+
+    # Home Network
+    tc filter add dev $if_lan parent 2:0 prio 100 protocol ip handle 10 fw classid 2:1000
+}
+</code></pre>
+<p>W bloku <code>stop() {}</code> zaś będą reguły czyszczące:</p>
+<pre><code>stop() {
+    tc qdisc del dev $if_wan root
+    tc qdisc del dev $if_lan root
+
+    iptables -t mangle -D PREROUTING -j qos_traffic
+    iptables -t mangle -D POSTROUTING -j qos_traffic
+
+    iptables -t mangle -F qos_lan
+    iptables -t mangle -F qos_wan
+    iptables -t mangle -F qos_traffic
+
+    iptables -t mangle -X qos_wan
+    iptables -t mangle -X qos_lan
+    iptables -t mangle -X qos_traffic
+}
+</code></pre>
+<h2 id="zasada-działania-qos-w-openwrt">Zasada działania QoS w OpenWRT</h2>
+<p>Niżej zostaną opisane linijki wykorzystane w bloku <code>start() {}</code> . Oczywiście kształt tego bloku może
+się różnić w zależności od gabarytów łącza oraz od tego jakie jego proporcje chcemy przeznaczyć pod
+określone usługi. Trzeba także będzie określić politykę QoS. Przykładowo, możemy chcieć, by każdy z
+użytkowników naszej sieci miał do dyspozycji określony limit łącza, poza który nie może wyjść.
+Możemy też skupić się na nadaniu priorytetów określonym usługom. My korzystamy z tego drugiego
+modelu QoS, bo w każdym innym przypadku część łącza będzie marnowana.</p>
+<p>Na początku musimy przygotować interfejs przez założenie <code>qdisc</code> (Queueing Discipline) i określenie
+parametrów dla kolejki głównej:</p>
+<pre><code>tc qdisc add dev $if_lan parent root handle 2:0 htb default 600 r2q 100
+tc class add dev $if_lan parent 2:0 classid 2:1 htb rate $nic_link ceil $nic_link quantum 15140
+</code></pre>
+<p>W tym przypadku korzystamy z <a href="http://luxik.cdi.cz/~devik/qos/htb/manual/userg.htm">htb</a> i ten
+<code>qdisc</code> dotyczy interfejsu określonego przez zmienną <code>$if_lan</code> . Opcje <code>parent root</code> oraz
+<code>handle 2:0</code> mówią nam, że ten <code>qdisc</code> jest nałożony bezpośrednio na interfejs sieciowy i jego
+kolejki będą oznaczane <code>2:</code> . Dalej mamy <code>default</code> i ten parametr odpowiada za ustawienie domyślnej
+kolejki dla ruchu, który nie zostanie dopasowany (2:600). W drugiej linijce zaś podpinamy kolejkę o
+numerze <code>classid</code> pod ten <code>qdisc</code> i przy pomocy <code>rate</code> (gwarantowany) oraz <code>ceil</code> (maksymalny)
+określamy przepustowość kolejki. Standardowo <code>quantum</code> jest wyliczane przez <code>rate</code>/<code>r2q</code> . Z kolei
+<code>r2q</code> domyślnie wynosi <code>10</code> . Natomiast wartość parametru <code>quantum</code> powinna być większa niż MTU i
+mniejsza niż 60000. Więcej informacji można znaleźć <a href="http://www.docum.org/faq/cache/31.html">tutaj</a>.</p>
+<p>Mamy oznaczone pasmo, wewnątrz którego tworzymy dwie kolejki. Łącze od ISP różni się gabarytami od
+przepustowości domowego łącza, które zwykle ma 1 gbit/s. Dlatego też musimy podzielić to łącze na
+dwie kolejki o odpowiednich proporcjach. W przeciwnym razie wewnątrz sieci domowej będziemy
+ograniczeni przepustowością ISP:</p>
+<pre><code>tc class add dev $if_lan parent 2:1 classid 2:10 htb rate $isp_downlink ceil $isp_downlink
+tc class add dev $if_lan parent 2:1 classid 2:20 htb rate $home_downlink ceil $nic_link quantum 15140
+</code></pre>
+<p>Każda z tych kolejek może korzystać z pasma drugiej jeśli ta go nie wykorzystuje. Numerki tych
+kolejek są określone przez <code>classid</code> i są przypisane do głównej kolejki określonej w <code>parent</code> .</p>
+<p>Po rozdzieleniu dostępnego pasma, możemy w końcu stworzyć właściwe kolejki, które zajmą się łapaniem
+pakietów:</p>
+<pre><code>tc class add dev $if_lan parent 2:10 classid 2:100 htb rate 1500kbit ceil $isp_downlink prio 10
+</code></pre>
+<p>Dla każdej z kolejek mamy określony limit gwarantowany oraz maksymalny, z którego mogą skorzystać,
+jeśli łącze jest nieobciążone. Mamy również ustawione priorytety w opcjach <code>prio</code> . Im niższa
+wartość tym wyższy priorytet i kolejka może więcej zapożyczyć od innych podczas wysokiego
+obciążenia łącza.</p>
+<p>Na każdą kolejkę nakładamy także bezklasowy <code>qdisc</code> w celach optymalizacyjnych. Obecnie zaleca się
+korzystanie z <code>fq_codel</code> :</p>
+<pre><code>tc qdisc add dev $if_lan parent 2:100 handle 100: fq_codel quantum 1514 limit 1024 noecn
+</code></pre>
+<p>Tutaj mamy określony <code>limit</code> , który odpowiada za ilość pakietów w kolejce. Jeśli ten limit zostanie
+osiągnięty, to pakiety będą zrzucane. Na końcu możemy podać parametr <code>ecn</code>/<code>noecn</code> . Jeśli zostanie
+określony <code>ecn</code> , to pakiety zamiast zrzucane będą oznaczane.</p>
+<p>Na samym końcu <code>start() {}</code> mamy reguły kierowania ruchu do odpowiednich kolejek. Jako, że do
+oznaczania ruchu wykorzystujemy target <code>MARK</code> w <code>iptables</code> , to w oparciu o te markery kierujemy
+ruch używając reguł podobnych do tej poniższej:</p>
+<pre><code>tc filter add dev $if_lan parent 2:0 prio 1 protocol ip handle 1 fw classid 2:100
+</code></pre>
+<p>Nas w tych regułach interesuje głównie <code>handle 1 fw</code> oraz <code>classid 2:100</code> . Pierwszy z tych
+parametrów mówi, że dopasowanie dotyczy FWMARK, którym w tym przypadku jest 1. Jeśli taki pakiet
+zostanie dostrzeżony, to ma zostać przesłany do kolejki w drugim z w/w parametrów, czyli do 2:100. I
+to w zasadzie cała filozofia kształtowania ruchu.</p>
+<h2 id="testy-qos">Testy QoS</h2>
+<p>Przydałoby się jeszcze na własne oczy zobaczyć czy QoS działa. Odpaliłem zatem torrenta i wrzuciłem
+do pobierania kilka obrazów z linux'ami. Po chwili transfer osiągnął szczyt możliwości mojego łącza
+i powstałe w ten sposób opóźnienia zostały zobrazowane na fotce poniżej:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/1.kontrola-ruchu-openwrt-router-tc-iptables-qos.png" alt=""    class="huge"></p>
+<p>Pierwsze okienko pokazuje aktualne wykorzystanie łącza. Na drugim zaś widać statystyki pingu. W
+ostatnim, po SSH zaaplikowaliśmy wyżej stworzony skrypt. Pingi wyraźnie spadły. Wynik mówi raczej
+sam za siebie. Odpalmy teraz jakiś filmik na YouTube i sprawdźmy jak wyglądają kolejki na
+interfejsach:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/2.kontrola-ruchu-openwrt-router-tc-iptables-qos.png" alt=""    class="huge"></p>
+<p>Ruch z sieci P2P idzie na domyślną kolejkę na obu interfejsach (:600). Natomiast ruch www idzie na
+kolejkę :200. Każda z tych kolejek wykorzystuje ponad 100% swojego przydziału. Jest to dozwolone i w
+takim przypadku te kolejki pożyczają pasmo od tych, które go nie wykorzystują. Przy kolejkach 1:10
+oraz 2:10 widzimy, że łącze nie jest w pełni wykorzystane.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/iptables/">iptables</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chaos-calmer/">chaos-calmer</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">router</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/qos/">qos</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fquality-service-qos-w-openwrt%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fquality-service-qos-w-openwrt%2f&amp;text=Quality%20of%20Service%20%28QoS%29%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fquality-service-qos-w-openwrt%2f&amp;title=Quality%20of%20Service%20%28QoS%29%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fquality-service-qos-w-openwrt%2f&amp;title=Quality%20of%20Service%20%28QoS%29%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fquality-service-qos-w-openwrt%2f&title=Quality%20of%20Service%20%28QoS%29%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fquality-service-qos-w-openwrt%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fquality-service-qos-w-openwrt%2f&amp;title=Quality%20of%20Service%20%28QoS%29%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fquality-service-qos-w-openwrt%2f&description=Quality%20of%20Service%20%28QoS%29%20w%20OpenWRT" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zablokowac-facebook-youtube-openwrt/">Jak zablokować Facebook i YouTube w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/filtr-pakietow-sieciowych-w-openwrt-firewall/">Filtr pakietów sieciowych w OpenWRT (firewall)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/nat-reflection-oraz-nat-loopback-w-openwrt/">NAT Reflection oraz NAT Loopback w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kompromitacja-firewalla-openwrt-za-sprawa-ping/">Kompromitacja firewall&#39;a OpenWRT za sprawą ping</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-diod-w-routerze-pod-openwrt-led/">Konfiguracja diod w routerze pod OpenWRT (LED)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/failover-load-balancing-openwrt-mwan3/">Failover i load balancing w OpenWRT (mwan3)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wake-lan-z-etherwake-pod-openwrt/">Wake On LAN z etherwake pod OpenWRT</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

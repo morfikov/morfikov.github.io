@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Konfiguracja kontenerów LXC | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Konfiguracja kontenerów LXC" />
+<meta property="og:description" content="Kontenery LXC mają za zadanie odizolować poszczególne usługi od
+pozostałej części systemu. LXC jest podobny nieco do maszyn wirtualnych, np. tych tworzonych przez
+VirtualBox. Niemniej jednak, oba mechanizmy różnią się trochę. Zasadnicza różnica między nimi polega
+na tym, że LXC wykorzystuje środowisko
+chroot , w którym współdzielone
+jest jądro operacyjne. Nie trzeba także z góry określać zasobów pod działanie takiego kontenera, tak
+jak to ma w przypadku maszyn wirtualnych. Rzućmy zatem okiem jak wygląda konfiguracja takich
+kontenerów na linux&#39;ie." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-kontenerow-lxc/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-10-29T23:27:24&#43;00:00" />
+<meta property="article:modified_time" content="2015-10-29T23:27:24&#43;00:00" />
+
+
+		<meta itemprop="name" content="Konfiguracja kontenerów LXC">
+<meta itemprop="description" content="Kontenery LXC mają za zadanie odizolować poszczególne usługi od
+pozostałej części systemu. LXC jest podobny nieco do maszyn wirtualnych, np. tych tworzonych przez
+VirtualBox. Niemniej jednak, oba mechanizmy różnią się trochę. Zasadnicza różnica między nimi polega
+na tym, że LXC wykorzystuje środowisko
+chroot , w którym współdzielone
+jest jądro operacyjne. Nie trzeba także z góry określać zasobów pod działanie takiego kontenera, tak
+jak to ma w przypadku maszyn wirtualnych. Rzućmy zatem okiem jak wygląda konfiguracja takich
+kontenerów na linux&#39;ie."><meta itemprop="datePublished" content="2015-10-29T23:27:24&#43;00:00" />
+<meta itemprop="dateModified" content="2015-10-29T23:27:24&#43;00:00" />
+<meta itemprop="wordCount" content="1519">
+<meta itemprop="keywords" content="bezpieczeństwo,lxc," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Konfiguracja kontenerów LXC"/>
+<meta name="twitter:description" content="Kontenery LXC mają za zadanie odizolować poszczególne usługi od
+pozostałej części systemu. LXC jest podobny nieco do maszyn wirtualnych, np. tych tworzonych przez
+VirtualBox. Niemniej jednak, oba mechanizmy różnią się trochę. Zasadnicza różnica między nimi polega
+na tym, że LXC wykorzystuje środowisko
+chroot , w którym współdzielone
+jest jądro operacyjne. Nie trzeba także z góry określać zasobów pod działanie takiego kontenera, tak
+jak to ma w przypadku maszyn wirtualnych. Rzućmy zatem okiem jak wygląda konfiguracja takich
+kontenerów na linux&#39;ie."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Konfiguracja kontenerów LXC</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-10-29T23:27:24Z">Opublikowano: 29/10/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Konfiguracja kontenerów LXC</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#konfiguracja-systemu-pod-lxc">Konfiguracja systemu pod LXC</a></li>
+    <li><a href="#przygotowanie-kontenera-lxc">Przygotowanie kontenera LXC</a>
+      <ol>
+        <li><a href="#urządzenia">Urządzenia</a>
+          <ol>
+            <li><a href="#problemy-z-udevem">Problemy z udev'em</a></li>
+          </ol>
+        </li>
+        <li><a href="#punkty-montowania">Punkty montowania</a></li>
+        <li><a href="#sieć">Sieć</a>
+          <ol>
+            <li><a href="#mostek-bridge">Mostek (bridge)</a></li>
+            <li><a href="#forwarding-pakietów-i-reguły-dla-iptables">Forwarding pakietów i reguły dla iptables</a></li>
+            <li><a href="#resolver">Resolver</a></li>
+            <li><a href="#plik-hosts">Plik hosts</a></li>
+            <li><a href="#plik-sourceslist">Plik sources.list</a></li>
+          </ol>
+        </li>
+        <li><a href="#chroot">Chroot</a></li>
+        <li><a href="#podgląd-konfiguracji">Podgląd konfiguracji</a></li>
+      </ol>
+    </li>
+    <li><a href="#operowanie-kontenerem-lxc">Operowanie kontenerem LXC</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p><a href="https://wiki.debian.org/LXC">Kontenery LXC</a> mają za zadanie odizolować poszczególne usługi od
+pozostałej części systemu. LXC jest podobny nieco do maszyn wirtualnych, np. tych tworzonych przez
+VirtualBox. Niemniej jednak, oba mechanizmy różnią się trochę. Zasadnicza różnica między nimi polega
+na tym, że LXC wykorzystuje <a href="https://morfikov.github.io/post/przygotowanie-srodowiska-chroot-do-pracy/">środowisko
+chroot</a> , w którym współdzielone
+jest jądro operacyjne. Nie trzeba także z góry określać zasobów pod działanie takiego kontenera, tak
+jak to ma w przypadku maszyn wirtualnych. Rzućmy zatem okiem jak wygląda konfiguracja takich
+kontenerów na linux'ie.</p>
+<h2 id="konfiguracja-systemu-pod-lxc">Konfiguracja systemu pod LXC</h2>
+<p>Kontener LXC działa na zasadzie zwykłego środowiska <code>chroot</code> ale posiada kilka znaczących różnic. W
+środowisku <code>chroot</code> nie ma możliwości określenia z jakich urządzeń będziemy korzystać, wobec czego
+dostępny jest cały katalog <code>/dev/</code> . W przypadku LXC możemy określić, którym urządzeniom zezwalamy
+na działanie. Kontener LXC niekoniecznie musi korzystać z ustawień sieci hosta. Można na nim ustawić
+NAT i za pomocą <code>iptables</code> przepuszczać lub blokować połączenia. Jest też spora różnica w procesach,
+bo w środowisku <code>chroot</code> , po zamontowaniu katalogu <code>/proc/</code> , mamy wgląd we wszystkie procesy
+dostępne w całym systemie. LXC z kolei pozwala zobaczyć jedynie tylko te procesy, które działają w
+jego obrębie. Naturalnie, host dalej ma możliwość wglądu w procesy wewnątrz kontenera LXC i może
+dowolnie nimi zarządzać. Dodatkowo <a href="https://en.wikipedia.org/wiki/Cgroups">LXC jest kontrolowany przez
+cgroups</a> i można w ten sposób przydzielać zasoby pod
+kontenery. Można nawet zawiesić (zamrozić) taki kontener, by nie pobierał żadnych zasobów, aż do
+czasu odmrożenia.</p>
+<p>By korzystać z kontenerów LXC, musimy doinstalować w systemie odpowiednie oprogramowanie, tj. pakiet
+<code>lxc</code> . We wcześniejszych wersjach debiana była cała masa problemów z kontenerami LXC oraz
+mechanizmem cgroups. Po tym jak systemd stał się domyślnym init'em, to praktycznie wszystkie
+problemy znikły i nie trzeba przeprowadzać żadnych dodatkowych akcji konfiguracyjnych, by wszystko
+działało jak należy. W każdym razie, jeśli mamy poprawnie skonfigurowany system pod kontener LXC, to
+po wpisaniu w terminalu <code>lxc-checkconfig</code> wszystkie kontrolki powinny być zapalone na zielono.</p>
+<h2 id="przygotowanie-kontenera-lxc">Przygotowanie kontenera LXC</h2>
+<p>Przy pomocy <code>lxc-create</code> budujemy kontener, w którym to zostanie zainstalowany minimalny system
+operacyjny. Możemy określić czy będzie to debian oraz ewentualnie jego wydanie, np. jessie. Odpalamy
+zatem terminal i wpisujemy w nim to poniższe polecenie:</p>
+<pre><code># lxc-create -n kontener -t debian -P /media/Kabi/lxc_machines/ -- -r jessie -a amd64
+</code></pre>
+<p>Parametry w powyższej linijce oznaczają:</p>
+<ul>
+<li><code>-n</code> -- nazwa kontenera</li>
+<li><code>-t</code> -- szablon użyty do zbudowania systemu</li>
+<li><code>-P</code> -- ścieżka do zapisu plików kontenera</li>
+<li><code>-r</code> -- release tego co zostało użyte w opcji <code>-t</code></li>
+<li><code>-a</code> -- architektura budowanego systemu</li>
+</ul>
+<p>Gdy budujemy kontener po raz pierwszy, zostanie zainicjowany <code>debootstrap</code> , który pobierze,
+zainstaluje i skonfiguruje minimalny system. W przypadku budowania kolejnego kontenera (ta sama
+architektura, ta sama gałąź), nie będzie trzeba pobierać minimalnego systemu przez sieć jeszcze raz.</p>
+<p>Przechodzimy teraz do edycji pliku konfiguracyjnego kontenera. Znajduje się on w
+<code>/media/Kabi/lxc_machines/kontener/config</code> . To w nim określamy urządzenia, punkty montowania oraz
+konfigurację sieci dla kontenera.</p>
+<h3 id="urządzenia">Urządzenia</h3>
+<p>W zależności od przeznaczenia kontenera LXC, będziemy musieli zdecydować, do których urządzeń taki
+kontener ma mieć dostęp. Praktycznie każde urządzenie z katalogu <code>/dev/</code> możemy udostępnić z osobna
+w pliku konfiguracyjnym przez dopisanie w nim pozycji <code>lxc.cgroup.devices.allow</code> , przykładowo:</p>
+<pre><code>lxc.cgroup.devices.allow = c 195:0 rwm
+</code></pre>
+<p>Wyżej został użyty dziwny zapis: <code>c 195:0 rwm</code> . Co on oznacza? <a href="https://www.kernel.org/doc/Documentation/cgroup-v1/devices.txt">Dostęp do urządzeń w kontenerach
+LXC</a> jest przyznawany za pomocą
+mechanizmu cgroups. Pierwszy znak ( <code>c</code> ) to urządzenie znakowe (char), jest także do wyboru <code>b</code>
+odpowiadające za urządzenie blokowe. Dalej mamy dwa numerki <code>195:0</code> i są to liczby zwracane przy
+listowaniu urządzeń w katalogu <code>/dev/</code> . Ostatnia pozycja odpowiada za uprawnienia jakie zostaną
+przyznane kontenerowi w przypadku tego urządzenia: <code>r</code> , to odczyt, <code>w</code>, to zapis, a <code>m</code> odpowiada
+za tworzenie plików urządzeń przy pomocy <code>mknod</code> .</p>
+<h4 id="problemy-z-udevem">Problemy z udev'em</h4>
+<p>Udev nie działa z kontenerami LXC i wszystkie pliki urządzeń musimy sobie stworzyć ręcznie. Nie ma
+się co jednak przejmować, bo stworzenie takich urządzeń nie jest specjalnie trudne. Przede
+wszystkim, musimy określić jakie urządzenia z katalogu <code>/dev/</code> nas interesują. Załóżmy, że chcemy by
+kontener miał dostęp do urządzenia <code>/dev/nvidia0</code> , czyli do karty graficznej. Zaglądamy zatem do
+katalogu <code>/dev/</code> i dla przykładu, to urządzenie <code>nvidia0</code> wygląda tak:</p>
+<pre><code>$ ls -al /dev/nvidia0
+crw-rw-rw-+ 1 root root 195, 0 Mar 26 12:01 /dev/nvidia0
+</code></pre>
+<p>Kluczowa sprawa, to te dwie liczby: <code>195</code> oraz <code>0</code> . Urządzenia tworzymy przy pomocy <code>mknod</code> i by
+stworzyć to urządzenie w kontenerze, wpisujemy w nim tę poniższą linijkę:</p>
+<pre><code>root@kontener:/dev# mknod -m 666 /dev/nvidia0 c 195 0
+</code></pre>
+<p>Podobnie postępujemy dla wszystkich urządzeń, do których kontener ma mieć dostęp.</p>
+<h3 id="punkty-montowania">Punkty montowania</h3>
+<p>W pliku konfiguracyjnym kontenera LXC możemy także określać punkty montowania zasobów, które mogą
+być udostępniane wewnątrz kontenera. Służy do tego parametr <code>lxc.mount.entry</code>
+:</p>
+<pre><code>lxc.mount.entry=/media/lxc-test/ /media/Kabi/lxc_machines/kontener/rootfs/lxc-test/ none bind 0 0
+</code></pre>
+<p>Pierwsza ścieżka odpowiada za zasób w systemie hosta. Druga za to gdzie go zamontować w kontenerze.
+Dalej już mamy opcje co programu <code>mount</code> . Katalog docelowy musi istnieć wewnątrz kontenera, w
+przeciwnym razie kontener się nam nie odpali i zostanie zwrócony poniższy
+błąd:</p>
+<pre><code>lxc-start: No such file or directory - failed to mount '/media/lxc-test/' on '/media/Kabi/lxc_machines/kontener/rootfs/lxc-test/'
+lxc-start: failed to setup the mount entries for 'kontener'
+lxc-start: failed to setup the container
+lxc-start: invalid sequence number 1. expected 2
+lxc-start: failed to spawn 'kontener'
+</code></pre>
+<h3 id="sieć">Sieć</h3>
+<p>W pliku konfiguracyjnym umieszczamy też opcje dotyczące połączenia sieciowego kontenera LXC. W
+poniższym przykładzie został skonfigurowany NAT, który wykorzystuje wirtualny interfejs mostka
+<code>br-lxc</code> :</p>
+<pre><code>#lxc.network.type = empty
+lxc.network.type = veth
+lxc.network.name = veth0
+lxc.network.flags = up
+lxc.network.link = br-lxc
+lxc.network.veth.pair = veth0-testing
+lxc.network.ipv4 = 192.168.10.10/24
+lxc.network.ipv4.gateway = 192.168.10.100
+</code></pre>
+<h4 id="mostek-bridge">Mostek (bridge)</h4>
+<p>W tym przypadku wymagane jest także skonfigurować mostka. W przeciwnym razie kontener nie będzie
+miał dostępu do internetu. By móc stworzyć wirtualny interfejs mostka, potrzebne nam są narzędzia,
+a te są dostarczane przez pakiet <code>bridge-utils</code> . Instalujemy go i tworzymy trzy pliki w katalogu
+<code>/etc/systemd/network/</code> :</p>
+<p>Plik <code>20-br-lxc.netdev</code> :</p>
+<pre><code>[NetDev]
+Description=Bridge for LXC containers
+Name=br-lxc
+Kind=bridge
+</code></pre>
+<p>Plik <code>30-br-lxc-static.network</code> :</p>
+<pre><code>[Match]
+Name=br-lxc
+
+[Network]
+Description=LXC bridge configuration
+DHCP=no
+LinkLocalAddressing=no
+Address=192.168.10.100/24
+DNS=
+IPForward=true
+</code></pre>
+<p>Plik <code>35-veth.network</code> :</p>
+<pre><code>[Match]
+Driver=veth
+Name=veth0
+
+[Network]
+Description=Virtual interfaces Configuration
+Bridge=br-lxc
+</code></pre>
+<p>Restartujemy teraz połączenie sieciowe (ewentualnie uruchamiamy komputer ponownie), by mieć pewność,
+że wszystko zostało skonfigurowane jak należy:</p>
+<pre><code># systemctl daemon-reload
+# systemctl restart systemd-networkd
+</code></pre>
+<h4 id="forwarding-pakietów-i-reguły-dla-iptables">Forwarding pakietów i reguły dla iptables</h4>
+<p>Musimy dodać jeszcze kilka reguł do naszego <a href="https://morfikov.github.io/post/firewall-na-linuxowe-maszyny-klienckie/">skryptu
+firewall'a</a>:</p>
+<pre><code>iptables -t nat -A POSTROUTING -o bond0 -s 192.168.10.0/24 -j MASQUERADE
+
+iptables -t filter -A icmp_in -p icmp -i br-lxc -s 192.168.10.0/24 -j ACCEPT
+iptables -t filter -A udp -p udp -i br-lxc -s 192.168.10.0/24 -j ACCEPT
+iptables -t filter -A tcp -p tcp -i br-lxc -s 192.168.10.0/24 -j ACCEPT
+
+iptables -t filter -A fw-interfaces -i br-lxc -o br-lxc -s 192.168.10.0/24 -d 192.168.10.0/24 -j ACCEPT
+iptables -t filter -A fw-interfaces -i br-lxc -o bond0 -s 192.168.10.0/24 -j ACCEPT
+</code></pre>
+<p>Włączamy także forwarding dla pakietów sieciowych w kernelu przez dopisanie do pliku
+<code>/etc/sysctl.conf</code> poniższych linijek:</p>
+<pre><code>net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+</code></pre>
+<h4 id="resolver">Resolver</h4>
+<p>Połączenie kontenera ze światem jak i maszyną hosta powinno już zostać ustanowione. Mogą jednak nie
+działać domeny. W takim przypadku dobrze jest dopisać te poniższe linijki do pliku
+<code>/etc/resolv.conf</code> w kontenerze:</p>
+<pre><code>nameserver 208.67.222.222
+nameserver 208.67.220.220
+</code></pre>
+<h4 id="plik-hosts">Plik hosts</h4>
+<p>Dobrze jest także skonfigurować sobie plik <code>/etc/hosts</code> zarówno na hoście jak i w kontenerze,
+zwłaszcza jeśli chcemy używać jakichś usług, np. <code>apache2</code> .</p>
+<p>Plik <code>/etc/hosts</code> :</p>
+<pre><code>192.168.10.10 lxc.mhouse lxc
+</code></pre>
+<p>Plik <code>/media/Kabi/lxc_machines/kontener/rootfs/etc/hosts</code> :</p>
+<pre><code>192.168.1.150 morfikownia.mhouse morfikownia
+</code></pre>
+<h4 id="plik-sourceslist">Plik sources.list</h4>
+<p>Jeśli zamierzamy instalować sporo rzeczy, powinniśmy rozważyć edycję pliku <code>sources.list</code> w
+kontenerze. Domyślne wpisy wskazują na mirror, który jest dość wolny. Zmieńmy je zatem:</p>
+<pre><code>deb     http://ftp.pl.debian.org/debian/ sid main non-free contrib
+#     deb-src http://ftp.pl.debian.org/debian/ sid main non-free contrib
+</code></pre>
+<h3 id="chroot">Chroot</h3>
+<p>W przypadku napotakania większych problemów z konfiguracją kontenera LXC, pamiętajmy, że zawsze
+możemy skorzystać ze zwykłego środowiska chroot, w którym to możemy doinstalować pakiet
+<code>iputils-ping</code> zawierający min. narzędzie <code>ping</code> .</p>
+<h3 id="podgląd-konfiguracji">Podgląd konfiguracji</h3>
+<p>Jeśli teraz podejrzymy interfejsy sieciowe (przez <code>ifconfig</code> albo <code>ip addr show</code> ), powinniśmy
+ujrzeć <code>br-lxc</code> :</p>
+<pre><code>br-lxc: flags=4163  mtu 1500
+        inet 192.168.10.100  netmask 255.255.255.0  broadcast 192.168.10.255
+        ether 5e:c5:78:f0:4a:b0  txqueuelen 0  (Ethernet)
+        RX packets 9789  bytes 16299493 (15.5 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 10513  bytes 4859846 (4.6 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</code></pre>
+<p>Przy włączonym kontenerze, powinien być widoczny także jego interfejs sieciowy:</p>
+<pre><code>veth0-testing: flags=4163  mtu 1500
+        inet6 fe80::fcbd:d0ff:fe6b:219  prefixlen 64  scopeid 0x20
+        ether fe:bd:d0:6b:02:19  txqueuelen 1000  (Ethernet)
+        RX packets 7  bytes 578 (578.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 17  bytes 1372 (1.3 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</code></pre>
+<p>Powinna być także widoczna dodatkowa trasa w tablicy routingu:</p>
+<pre><code># ip route show
+...
+192.168.10.0/24 dev br-lxc  proto kernel  scope link  src 192.168.10.100
+</code></pre>
+<p>Jeśli zaś chodzi o samą konfigurację mostka, to wygląda ona tak:</p>
+<pre><code># brctl show
+bridge name     bridge id               STP enabled     interfaces
+br-lxc          8000.5ec578f04ab0       no              veth0-testing
+</code></pre>
+<h2 id="operowanie-kontenerem-lxc">Operowanie kontenerem LXC</h2>
+<p>By wystartować kontener, wklepujemy do terminala taką oto linijkę:</p>
+<pre><code># lxc-start -n kontener -P /media/Kabi/lxc_machines/
+</code></pre>
+<p>Logujemy się za pomocą użytkownika <code>root</code> oraz hasła, które zostało zwrócone po zakończeniu procesu
+instalacyjnego i sprawdzamy czy działa sieć przy pomocy <code>apt-get update</code> . Jeśli lista repozytoriów
+zostanie pobrana, znaczy, żę wszystko działa jak należy.</p>
+<p>Zatrzymać kontener możemy albo przez zalogowanie się do niego i wydanie zwykłego polecenia
+zamykającego system, np. <code>shutdown</code> z odpowiednimi opcjami, czy też <code>poweroff</code> . Możemy także
+wyłączyć kontener z maszyny hosta przy pomocy:</p>
+<pre><code># lxc-stop -n kontener -P /media/Kabi/lxc_machines/
+</code></pre></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bezpiecze%C5%84stwo/">bezpieczeństwo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lxc/">lxc</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-kontenerow-lxc%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-kontenerow-lxc%2f&amp;text=Konfiguracja%20kontener%c3%b3w%20LXC" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-kontenerow-lxc%2f&amp;title=Konfiguracja%20kontener%c3%b3w%20LXC" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-kontenerow-lxc%2f&amp;title=Konfiguracja%20kontener%c3%b3w%20LXC" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-kontenerow-lxc%2f&title=Konfiguracja%20kontener%c3%b3w%20LXC" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-kontenerow-lxc%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-kontenerow-lxc%2f&amp;title=Konfiguracja%20kontener%c3%b3w%20LXC" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-kontenerow-lxc%2f&description=Konfiguracja%20kontener%c3%b3w%20LXC" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wiecej-niz-jeden-profil-w-firefoxie/">Więcej niż jeden profil w Firefox&#39;ie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-wtyczki-flash-na-linuxie-mms-cfg/">Konfiguracja wtyczki flash na linux&#39;ie (mms.cfg)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/montowanie-katalogu-tmp-jako-tmpfs/">Montowanie katalogu /tmp/ jako tmpfs</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/dropbox-i-kontener-luks/">Dropbox i kontener LUKS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kontener-truecrypt-trzymany-na-dropboxie/">Kontener TrueCrypt trzymany na dropbox&#39;ie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/przejscie-z-truecrypt-na-luks/">Przejście z Truecrypt na LUKS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/implementacja-encfs-na-dropboxie/">Implementacja encfs na dropbox&#39;ie</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

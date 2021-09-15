@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>router on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/router/</link>
+    <description>Recent content in router on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Tue, 12 May 2020 21:03:00 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/router/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Instalacja i konfiguracja AdGuard na routerze z OpenWRT</title>
+      <link>https://morfikov.github.io/post/instalacja-konfiguracja-adguard-na-routerze-z-openwrt/</link>
+      <pubDate>Tue, 12 May 2020 21:03:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/instalacja-konfiguracja-adguard-na-routerze-z-openwrt/</guid>
+      <description>&lt;p&gt;Jakiś już czas temu opisywałem w jaki sposób &lt;a href=&#34;https://morfikov.github.io/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/&#34;&gt;skonfigurować AdBlock&#39;a na routerze WiFi z wgranym
+firmware OpenWRT&lt;/a&gt; oraz jak wdrożyć &lt;a href=&#34;https://morfikov.github.io/post/konfiguracja-dnscrypt-proxy-w-openwrt/&#34;&gt;szyfrowanie zapytań DNS w oparciu o dnscrypt-proxy dla
+wszystkich klientów naszej sieci domowej&lt;/a&gt;. Zarówno AdBlock jak i dnscrypt-proxy można w dalszym
+ciągu wykorzystywać, zwłaszcza na routerach wyposażonych w niewielkich rozmiarów flash i mało
+pamięci RAM. Niemniej jednak, nie każdy lubi konfigurować swój bezprzewodowy router za
+pośrednictwem terminala. Dla takich osób powstał właśnie &lt;a href=&#34;https://github.com/AdguardTeam/AdGuardHome#comparison&#34;&gt;AdGuard Home&lt;/a&gt;, który ma na celu
+możliwie uprościć konfigurację routera, przynajmniej jeśli chodzi o rzeczy związane z protokołem
+DNS. W tym artykule przyjrzymy się nieco bliżej AdGuard&#39;owi i zobaczymy czy można z niego zrobić
+jakiś większy użytek.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak zbudować/uaktualnić firmware OpenWRT dla routera WiFi</title>
+      <link>https://morfikov.github.io/post/jak-zbudowac-uaktualnic-firmware-openwrt-dla-routera-wifi/</link>
+      <pubDate>Mon, 13 Apr 2020 21:03:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zbudowac-uaktualnic-firmware-openwrt-dla-routera-wifi/</guid>
+      <description>&lt;p&gt;Od dłuższego już czasu na swoich routerach WiFi wykorzystuję firmware OpenWRT. W przypadku mojego
+domowego routera TP-Link Archer C7 v2 zarządzanie jego oprogramowaniem sprowadza się w zasadzie do
+przeprowadzania aktualizacji raz na kilka tygodni czy miesięcy. Z reguły nie jest to jakoś
+czasochłonne zadanie, bo wystarczy pobrać stosowny obraz z &lt;a href=&#34;http://dl.eko.one.pl/openwrt-19.07/targets/ath79/generic/&#34;&gt;serwera eko.one.pl&lt;/a&gt; i wrzucić go na
+router czy to przez interfejs LuCI, czy też przez &lt;code&gt;sysupgrade&lt;/code&gt; . No tak tylko, że po wgraniu
+OpenWRT na flash routera trzeba zwykle też dograć szereg pakietów, których nie ma w standardzie,
+przynajmniej jeśli chodzi akurat o ten mój router bezprzewodowy. Podobnie sprawa ma się z
+odtwarzaniem konfiguracji, której pewne elementy pozostają niezmienne nawet po aktualizacji ze
+starszego wydania OpenWRT do nowszego. Postanowiłem zatem zgłębić nieco proces kompilacji źródeł i
+budowy obrazu z firmware OpenWRT, tak by nieco zautomatyzować sobie (czy też wręcz wyeliminować)
+chociaż część z kroków, które zwykle przeprowadzam chwilę po wgraniu obrazu na router. Cały ten
+proces budowy obrazu zostanie opisany przy wykorzystaniu dystrybucji Debian linux.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak ustalić IP i nazwę pliku trybu recovery w routerach TP-Link</title>
+      <link>https://morfikov.github.io/post/jak-ustalic-ip-i-nazwe-pliku-trybu-recovery-w-routerach-tp-link/</link>
+      <pubDate>Thu, 17 Aug 2017 21:22:08 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-ustalic-ip-i-nazwe-pliku-trybu-recovery-w-routerach-tp-link/</guid>
+      <description>&lt;p&gt;Jeden z moich routerów, a konkretnie był
+to &lt;a href=&#34;http://www.tp-link.com/us/download/Archer-C7.html&#34;&gt;Archer C7&lt;/a&gt; v2 wymagał, by powrócić jego
+firmware z LEDE/OpenWRT do tego, który widnieje na oficjalnej stronie TP-Link. Niby ta czynność nie
+jest zbyt skomplikowana ale jak zwykle coś poszło nie tak. Konkretnie to odłączyłem zasilanie nie w
+tej listwie co trzeba i w efekcie podczas flash&#39;owania routera nowym firmware, to urządzenie się
+zwyczajnie wyłączyło. Zawału oczywiście nie dostałem, bo przecież obraz, który był wgrywany na
+router nie zawierał uboot&#39;a, czyli części z bootloader&#39;em, więc wiedziałem, że wystarczy przez tryb
+recovery wgrać obraz jeszcze raz i po sprawie. Problem w tylko w tym, że nie znałem w zasadzie ani
+nazwy pliku obrazu, ani też adresu IP, który jest wymagany dla połączenia w przypadku routera
+Archer C7 v2. Te dane można naturalnie znaleźć w sieci ale co w przypadku, gdy ubijemy sobie w taki
+sposób nasz jedyny router, przez co pozbawimy się jednocześnie dostępu do internetu? Czy istnieje
+jakiś sposób na ustalenie tych danych, inny niż przez konsolę szeregową?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak wymusić pasmo/częstotliwość LTE pod LEDE/OpenWRT</title>
+      <link>https://morfikov.github.io/post/jak-wymusic-pasmo-czestotliwosc-lte-pod-lede-openwrt/</link>
+      <pubDate>Fri, 13 Jan 2017 18:43:37 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-wymusic-pasmo-czestotliwosc-lte-pod-lede-openwrt/</guid>
+      <description>&lt;p&gt;Zainspirowany &lt;a href=&#34;http://forum.jdtech.pl/Watek-wybor-czestotliwosci-lte-na-przykladzie-huawei-e3372&#34;&gt;wątkiem na forum
+JDtech&lt;/a&gt; na temat
+testów transferów w konkretnych pasmach/częstotliwościach LTE, postanowiłem sprawdzić jak ta sprawa
+wygląda w mojej okolicy. Generalnie ja obecnie u siebie mam modem Huawei E3372s-153 w wersji
+NON-HiLink podpięty do &lt;a href=&#34;http://www.tp-link.com.pl/products/details/Archer-C2600.html&#34;&gt;routera TP-LINK Archer
+C2600&lt;/a&gt;. Oczywiście na tym routerze
+jest wgrany alternatywny firmware LEDE/OpenWRT, bo inaczej nie miałbym możliwości skorzystać z tego
+modemu. Standardowa konfiguracja LTE w LEDE/OpenWRT daje nam jedynie możliwość wyboru między
+ustawieniami &lt;code&gt;auto&lt;/code&gt; , &lt;code&gt;gsm&lt;/code&gt; , &lt;code&gt;umts&lt;/code&gt; , &lt;code&gt;lte&lt;/code&gt; , &lt;code&gt;preferumts&lt;/code&gt; oraz &lt;code&gt;preferlte&lt;/code&gt; . W przypadku internetu
+LTE, zwykle wybieramy tutaj tryb &lt;code&gt;auto&lt;/code&gt; , ewentualnie też &lt;code&gt;lte&lt;/code&gt; , by wymusić konkretny tryb pracy
+modemu, co może mieć kolosalne znaczenie przy darmowym internecie od RBM/Play. Niemniej jednak,
+nawet w przypadku wyboru &lt;code&gt;lte&lt;/code&gt; , częstotliwość na jakiej będzie pracował modem w dalszym ciągu jest
+dobierana automatycznie w oparciu o parametry sygnału docierającego z dostępnych w okolicy BTS&#39;ów. W
+przypadku modemu E3372 można jednak wymusić, by połączenie LTE było realizowane na konkretnej
+częstotliwości, np. 2100/1800/2600/900/800 MHz i by taki stan rzeczy osiągnąć, trzeba nieco
+przerobić konfigurację tego alternatywnego oprogramowania znajdującego się w naszym routerze WiFi.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Recenzja: Router LTE Archer MR200 od TP-LINK</title>
+      <link>https://morfikov.github.io/post/recenzja-router-lte-archer-mr200-tp-link/</link>
+      <pubDate>Thu, 29 Dec 2016 18:53:07 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-router-lte-archer-mr200-tp-link/</guid>
+      <description>&lt;p&gt;Do momentu upowszechnienia się technologii LTE, ludzkość była zdana na przewodowe łącza internetowe
+oferowane przez lokalnych ISP. Jeśli chodzi o tych lokalnych providerów, to zwykle nie mają oni
+praktycznie żadnej konkurencji w danej części miasta/wsi. Czy taki stan rzeczy jest wynikiem
+dostarczania najlepszych jakościowo usług za najniższą cenę? W moim przypadku nie były to ani
+najlepsze usługi, ani też najniższa cena, tylko tak dobrane przepisy prawne, by zewnętrznemu ISP nie
+opłacało się świadczyć usług w mojej okolicy, bo za ten fakt dostawał on z miejsca szereg opłat/kar.
+Teraz, gdy już praktycznie każdy z nas jest w zasięgu LTE, możemy porzucić tych lokalnych ISP i
+obserwować ich nieuchronny upadek, no chyba, że w końcu zaczną dbać o swoich klientów. Niemniej
+jednak, w dalszym ciągu, by korzystać z technologi LTE potrzebny nam jest odpowiedni sprzęt, zwykle
+jest to jakiś modem, np. Huawei E3372s-153. Problem z modemem jest taki, że standardowo można go
+podłączyć tylko do jednego komputera w danej chwili, no chyba, że mamy router WiFi z wgranym
+alternatywnym oprogramowaniem pokroju OpenWRT/LEDE. Niemniej jednak, w dalszym ciągu trzeba nieco
+wprawy, by ten modem ogarnąć i udostępnić połączenie internetowe hostom w lokalnej sieci. Dlatego
+też od jakiegoś czasu na rynku zaczęły pojawiać się routery WiFi, które mają wbudowany modemem LTE.
+Jedno z takich urządzeń dotarło do mnie kilka dni temu, a konkretnie jest &lt;a href=&#34;http://www.tp-link.com.pl/products/details/cat-4691_Archer-MR200.html&#34;&gt;model Archer
+MR200&lt;/a&gt; od TP-LINK.
+Postanowiłem zatem zobaczyć co oferuje ten sprzęt w standardzie, oraz czy jest dla niego jakieś
+alternatywne oprogramowanie.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak skonfigurować klienta VPN na routerze z LEDE/OpenWRT</title>
+      <link>https://morfikov.github.io/post/jak-skonfigurowac-klienta-vpn-na-routerze-z-ledeopenwrt/</link>
+      <pubDate>Thu, 08 Dec 2016 18:13:41 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-skonfigurowac-klienta-vpn-na-routerze-z-ledeopenwrt/</guid>
+      <description>&lt;p&gt;Ostatnio pisałem trochę o &lt;a href=&#34;https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/&#34;&gt;konfiguracji serwera VPN na
+Debianie&lt;/a&gt; oraz podłączaniu
+do niego różnych linux&#39;owych klientów, w tym też &lt;a href=&#34;https://morfikov.github.io/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/&#34;&gt;smartfonów wyposażonych w system
+Android&lt;/a&gt;. O ile
+konfiguracja pojedynczego klienta OpenVPN nie jest jakoś szczególnie trudna, to mając w swojej sieci
+domowej kilka urządzeń zdolnych łączyć się z internetem zarówno przewodowo jak i bezprzewodowo, to
+dostosowanie konfiguracji na każdym z tych sprzętów może być ździebko problematyczne. To co łączy te
+wszystkie urządzenia w naszym domu, to router WiFi. Zwykle każdy komputer, nawet ten najmniejszy,
+łączy się z takim routerem w celu nawiązania połączenia ze światem. Dlatego też zamiast
+konfigurować osobno wszystkie te urządzenia elektroniczne, możemy skonfigurować sobie router w taki
+sposób, by cały zebrany ruch z sieci lokalnej przesłał do serwera VPN. Standardowej klasy routery
+nie wspierają połączeń VPN i by taki mechanizm zaimplementować potrzebne nam będzie alternatywne
+firmware pokroju LEDE/OpenWRT. W tym artykule postaramy się skonfigurować połączenie VPN dla sieci
+domowej w oparciu o &lt;a href=&#34;http://www.tp-link.com.pl/products/details/Archer-C2600.html&#34;&gt;router Archer
+C2600&lt;/a&gt; od TP-LINK, który ma wgrany
+najnowszy snapshot LEDE Chaos Calmer (r2392).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Aplikacja tpMiFi do zarządzania routerami 3G/LTE od TP-LINK</title>
+      <link>https://morfikov.github.io/post/aplikacja-tpmifi-do-zarzadzania-routerami-3g-lte-tp-link/</link>
+      <pubDate>Fri, 25 Nov 2016 20:57:39 +0100</pubDate>
+      
+      <guid>https://morfikov.github.io/post/aplikacja-tpmifi-do-zarzadzania-routerami-3g-lte-tp-link/</guid>
+      <description>&lt;p&gt;Jakiś czas temu opisywałem jeden z mobilnych routerów WiFi, który był w stanie realizować połączenie
+LTE i udostępniać je w obrębie swojej sieci. Konkretnie był to &lt;a href=&#34;https://morfikov.github.io/post/recenzja-przenosny-router-lte3g-mifi-m7310-od-tp-link/&#34;&gt;hotspot M7310&lt;/a&gt;. W recenzji
+tego urządzenia wspomniałem o tym, że dysponując smartfonem jesteśmy w stanie przy jego pomocy
+zarządzać tym routerem. Oczywiście potrzebna jest do tego celu specjalna aplikacja tpMiFi
+wypuszczona również przez TP-LINK, którą można pobrać bez większego problemu z Google Play. Jako, że
+w tamtym wpisie potraktowałem temat tej aplikacji jedynie powierzchownie, to postanowiłem nieco
+bardziej się jej przyjrzeć i dokładnie opisać jej właściwości.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Udostępnianie LTE/3G ze smartfona przez router OpenWRT (tethering)</title>
+      <link>https://morfikov.github.io/post/udostepnianie-lte-3g-ze-smartfona-przez-router-openwrt-tethering/</link>
+      <pubDate>Tue, 01 Nov 2016 18:14:53 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/udostepnianie-lte-3g-ze-smartfona-przez-router-openwrt-tethering/</guid>
+      <description>&lt;p&gt;Przeglądając &lt;a href=&#34;http://eko.one.pl/forum/viewtopic.php?pid=175547&#34;&gt;forum eko.one.pl natrafiłem ciekawy
+problem&lt;/a&gt;, nad którym też się zastanawiałem jakiś
+czas temu. Chodzi o udostępnienie internetu komórkowego (LTE/3G) komputerom w domowej sieci za
+pomocą smartfona (tzw. &lt;a href=&#34;https://pl.wikipedia.org/wiki/Tethering&#34;&gt;tethering&lt;/a&gt;). W takiej sytuacji, w
+przypadku problemów z lokalnym dostawcą internetu moglibyśmy przepiąć wszystkie komputery na
+internet świadczony przez operatora GSM, z którego korzystamy. Z reguły standardowy firmware
+routerów WiFi nie pozwala na tego typu rozwiązania. Niemniej jednak, mając do dyspozycji router z
+OpenWRT można spróbować połączyć go z naszym smartfonem udostępniając sieci lokalnej internet
+LTE/3G. W tym artykule zostanie przedstawione tego typu rozwiązanie przy wykorzystaniu &lt;a href=&#34;http://www.tp-link.com.pl/en/products/details/cat-9_Archer-C7.html&#34;&gt;routera
+Archer C7&lt;/a&gt; v2 od TP-LINK oraz
+&lt;a href=&#34;http://www.neffos.com/en/product/details/C5&#34;&gt;smartfona Neffos C5&lt;/a&gt;, również od TP-LINK. Na routerze
+zaś jest wgrana najnowsza stabilna wersja OpenWRT (Chaos Calmer). Sprawdzimy sobie jak takie
+rozwiązanie wygląda oraz sprawuje się w praktyce i czy jest ono w ogóle godne jakiegoś większego
+zainteresowania.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak przy pomocy trybu recovery odzyskać router TP-LINK</title>
+      <link>https://morfikov.github.io/post/jak-przy-pomocy-trybu-recovery-odzyskac-router-tp-link/</link>
+      <pubDate>Sat, 22 Oct 2016 21:22:08 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-przy-pomocy-trybu-recovery-odzyskac-router-tp-link/</guid>
+      <description>&lt;p&gt;Przy okazji zabawy z &lt;a href=&#34;https://morfikov.github.io/post/konsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link/&#34;&gt;konsolą szeregową przy ratowaniu jednego z moich routerów
+TP-LINK&lt;/a&gt;
+(&lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WR1043ND.html&#34;&gt;TL-WR1043ND&lt;/a&gt; V2), parokrotnie
+przewinęła mi się informacja na temat trybu recovery, który ma być dostępny w części routerów. W
+czym nam taki tryb może pomóc i czy nasz router go obsługuje? Jeśli tak, to jak za jego pomocą
+naprawić urządzenie, które nie chce wystartować, np. po przerwanym procesie wgrywania firmware
+TP-LINK czy też OpenWRT/LEDE? W trym artykule postaramy się odpowiedzieć na te pytania.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konsola szeregowa, adapter USB-UART i uszkodzony router TP-LINK</title>
+      <link>https://morfikov.github.io/post/konsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link/</link>
+      <pubDate>Sun, 16 Oct 2016 20:36:17 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link/</guid>
+      <description>&lt;p&gt;Każdy z nas słyszał o alternatywnym firmware na bezprzewodowe routery WiFi. Mam tutaj na myśli
+oczywiście &lt;a href=&#34;https://openwrt.org/&#34;&gt;OpenWRT&lt;/a&gt;/&lt;a href=&#34;https://lede-project.org/&#34;&gt;LEDE&lt;/a&gt; oraz jego GUI &lt;a href=&#34;https://www.gargoyle-router.com/&#34;&gt;Gargoyle&lt;/a&gt; i &lt;a href=&#34;http://eko.one.pl/?p=openwrt-luci&#34;&gt;LUCI&lt;/a&gt;. Przy zabawach z takim
+oprogramowaniem bardzo łatwo jest uszkodzić router w sytuacji, gdy tak na dobrą sprawę nie wiemy co
+robimy. Mi się jeszcze nie zdarzyło ubić żadnej z moich maszyn, a mam ich kilka. Problem w tym, że
+tak naprawdę nie wiem jak wygląda proces odzyskiwania routera w przypadku zaistnienia takiego złego
+scenariusza. Dlatego też postanowiłem zainicjować zdarzenie, które doprowadziło do ubicia systemu w
+moim &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WR1043ND.html&#34;&gt;TL-WR1043ND&lt;/a&gt; V2 od TP-LINK. Co zrobić w takim przypadku, gdy system routera nie chce
+wystartować, a na obudowie diody sygnalizują nieprawidłową pracę urządzenia? W takiej sytuacji
+będziemy musieli rozebrać sprzęt i podłączyć się do portu szeregowego na PCB za pomocą adaptera
+USB-UART, najlepiej na układzie CP2102, który bez problemu działa pod linux. Ten artykuł nie
+powstałby (tak szybko), &lt;a href=&#34;http://tplink-forum.pl/index.php?/topic/5322-jak-ustali%C4%87-oznaczenia-port%C3%B3w-konsoli-szeregowej-na-pcb/&#34;&gt;gdyby nie pomoc ze strony @Heinz&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Recenzja: Przenośny router LTE/3G (MiFi) M7310 od TP-LINK</title>
+      <link>https://morfikov.github.io/post/recenzja-przenosny-router-lte3g-mifi-m7310-od-tp-link/</link>
+      <pubDate>Sun, 25 Sep 2016 22:06:06 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-przenosny-router-lte3g-mifi-m7310-od-tp-link/</guid>
+      <description>&lt;p&gt;Wielu zaawansowanych użytkowników komputera, zwłaszcza tych korzystających z linux&#39;a, bardzo ceni
+sobie możliwość bezgranicznego zarządzania posiadanym sprzętem elektronicznym. Nie chodzi tylko o
+zwykłego desktopa czy laptopa ale też o urządzenia z systemami wbudowanymi jak, np. routery WiFi.
+Większość routerów nie obsługuje modemów LTE ale mogłaby, gdyby pozwalało im na to zainstalowane na
+nich oprogramowanie. Na moim blogu jest kilka artykułów dotyczących &lt;a href=&#34;https://morfikov.github.io/post/tag/modem/&#34;&gt;instalacji i konfiguracji
+modemów LTE&lt;/a&gt; właśnie na takich routerach, z tym, że w oparciu o
+firmware OpenWRT/LEDE. Niemniej jednak, w przypadku takiego alternatywnego firmware wymagana jest
+drobna znajomość obsługi komputera, a cała masa użytkowników nie chce poświęcać czasu na zgłębianie
+technik informatycznych. Te osoby chcą zwyczajnie podłączyć dane urządzenie do prądu i móc z niego
+korzystać tuż po wyjęciu go z pudełka. Mam właśnie jedno takie urządzenie, które byłoby w stanie
+zaspokoić większość osób z tego grona. Nie jest to co prawda pełnowymiarowy router WiFi z modemem
+LTE na pokładzie ale w przeciwieństwie do swoich kolegów jest o wiele bardziej mobilny. Mowa o
+&lt;a href=&#34;http://www.tp-link.com.pl/products/details/M7310.html&#34;&gt;przenośnym hotspocie LTE M7310&lt;/a&gt; od TP-LINK.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Instalacja i konfiguracja firmware OpenWRT (Chaos Calmer)</title>
+      <link>https://morfikov.github.io/post/instalacja-konfiguracja-firmware-openwrt-chaos-calmer/</link>
+      <pubDate>Fri, 23 Sep 2016 18:27:02 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/instalacja-konfiguracja-firmware-openwrt-chaos-calmer/</guid>
+      <description>&lt;p&gt;Ten post ma na celu zebranie wszystkich wpisów dotyczących instalacji i konfiguracji alternatywnego
+firmware OpenWRT, które znajdują się na tym blogu i umieszczenie ich w jednym wpisie. Chodzi
+generalnie o to, by wszystkie te artykuły były dostępne na jednej stronie w formie spisu treści
+odwołującego się do poszczególnych tekstów. &lt;a href=&#34;https://tplinkforum.pl/t/openwrt-w-pigulce-konfiguracja-w-oparciu-o-tl-wr1043nd-oraz-archer-c7/6960/&#34;&gt;Na tplinkforum.pl znajduje się post &amp;quot;OpenWRT w
+pigułce&amp;quot;&lt;/a&gt;, z tym, że tamten artykuł dotyczy wydania Barrier Breaker. Artykuły, do których linki
+znajdują się poniżej, odwołują się do wydania Chaos Calmer i rozwiązania opisane w nich powinny na
+tej wersji firmware działać bez problemu. Mogą natomiast pojawić się problemy w przypadku
+konfiguracji starszych wersji OpenWRT na naszym routerze WiFi.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Blokowanie reklam z adblock na domowym routerze WiFi</title>
+      <link>https://morfikov.github.io/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/</link>
+      <pubDate>Mon, 19 Sep 2016 22:22:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/blokowanie-reklam-adblock-na-domowym-routerze-wifi/</guid>
+      <description>&lt;p&gt;Na sporej części stron internetowych są nam prezentowane reklamy w miej lub bardziej nachalny
+sposób. Takie banery są w stanie w dużej mierze przesłonić faktyczną treść serwisu albo też wręcz
+uniemożliwić nam spokojne czytanie tekstu, który się w takiej witrynie znajduje. By walczyć z tego
+typu praktykami, powstała cała masa dodatków do przeglądarek, np. &lt;a href=&#34;https://adblockplus.org/&#34;&gt;adblock&lt;/a&gt; czy &lt;a href=&#34;https://www.ublock.org/&#34;&gt;ublock&lt;/a&gt;,
+które są w stanie odfiltrować praktycznie wszystkie reklamy. Możemy pokusić się o zaimplementowanie
+takiego adblock&#39;a bezpośrednio na naszym routerze WiFi, z tym, że by taki filtr reklam wdrożyć w
+naszej sieci domowej, na routerze musimy zainstalować alternatywny firmware OpenWRT/LEDE.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>DD-WRT: Jak powrócić do firmware TP-LINK&#39;a</title>
+      <link>https://morfikov.github.io/post/dd-wrt-jak-powrocic-do-firmware-tp-linka/</link>
+      <pubDate>Fri, 16 Sep 2016 19:10:41 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/dd-wrt-jak-powrocic-do-firmware-tp-linka/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.dd-wrt.com/site/&#34;&gt;DD-WRT&lt;/a&gt; nie każdemu może przypaść do gustu. Może się zdarzyć też tak,
+że pewne rzeczy na routerze za sprawą tego firmware przestaną nam zwyczajnie działać, bo nie każde
+urządzenie jest w pełni wspierane przez to oprogramowanie. W takim przypadku jedyną opcją będzie
+powrót do oryginalnego firmware, który oferuje producent routera. Ja dysponuję &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WDR3600.html&#34;&gt;routerem model
+TL-WDR3600&lt;/a&gt; od TP-LINK. On akurat jest w
+pełni wspierany przez DD-WRT. Niemniej jednak, na jego przykładzie zostanie pokazane jak powrócić do
+oryginalnego oprogramowania posługując się panelem webowym dostępnym DD-WRT.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Recenzja: Router Archer C2600 od TP-LINK</title>
+      <link>https://morfikov.github.io/post/recenzja-router-archer-c2600-od-tp-link/</link>
+      <pubDate>Wed, 14 Sep 2016 18:20:30 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/recenzja-router-archer-c2600-od-tp-link/</guid>
+      <description>&lt;p&gt;Któż z nas nie ma gdzieś koło swojego domowego ogniska takiego małego urządzenia z antenami, które
+nic tylko sobie leży gdzieś na półce i od czasu do czasu tylko mignie do nas swoimi diodami? Mowa
+oczywiście o routerach WiFi, które można powoli chyba zacząć traktować jak nowych członków naszej
+rodziny. Te elektroniczne stworzenia są tak bardzo użyteczne, że wielu z nas już sobie życia bez
+nich nie wyobraża. Technologia bezprzewodowej łączności rozwija się bardzo prężnie i, gdy niecałe
+dwa lata temu sprawiłem sobie mój pierwszy router WiFi (model
+&lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WR1043ND.html&#34;&gt;TL-WR1043ND&lt;/a&gt; v2), to myślałem, że
+wystarczy mi on na jakiś dłuższy czas. Wtedy 450 mbit/s w paśmie 2,4 GHz to były naprawdę przyzwoite
+osiągi, przynajmniej teoretycznie rzecz ujmując. Od tamtego czasu bardzo dużo się zmieniło w kwestii
+WiFi, nie tylko pod względem przepustowości ale także technologii, które znajdują zastosowanie w tym
+bezprzewodowym wymiarze otaczającej nas rzeczywistości. Tak się składa, że mam jedno z tych bardziej
+zaawansowanych urządzeń i postanowiłem sobie je dokładnie obadać. Jest to &lt;a href=&#34;http://www.tp-link.com.pl/products/details/Archer-C2600.html&#34;&gt;router Archer
+C2600&lt;/a&gt; od TP-LINK, który ma być zdolny
+przesłać sygnał po WiFi z prędkością 800 mbit/s w paśmie 2,4 GHz i 1733 mbit/s w paśmie 5 GHz, także
+zobaczmy co to jest za maszyna.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>DD-WRT: Reset ustawień (Hard Reset i factory defaults)</title>
+      <link>https://morfikov.github.io/post/dd-wrt-reset-ustawien-hard-reset-factory-defaults/</link>
+      <pubDate>Tue, 13 Sep 2016 19:06:25 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/dd-wrt-reset-ustawien-hard-reset-factory-defaults/</guid>
+      <description>&lt;p&gt;Prawdopodobnie zdarzy się nam taka sytuacja, że nie będziemy w stanie zalogować się do panelu
+administracyjnego naszego routera wyposażonego w firmware DD-WRT. Przyczyny mogą być różne, choć
+zwykle leżą one gdzieś w konfiguracji urządzenia. Jeśli dodatkowo wystąpią problemy z dostępem do
+sieci/internetu, to wybrnięcie z tej sytuacji może być dość kłopotliwe. DD-WRT posiada mechanizm
+resetu, tzw. factory defaults, który jest w stanie zresetować router do ustawień fabrycznych i
+przywrócić nam nad nim kontrolę. W tym wpisie zobaczymy jak przeprowadzić taki reset ustawień na
+przykładzie mojego &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WDR3600.html&#34;&gt;routera TL-WDR3600&lt;/a&gt; od TP-LINK.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>DD-WRT: SSH port forwarding i panel aministracyjny</title>
+      <link>https://morfikov.github.io/post/dd-wrt-ssh-port-forwarding-panel-aministracyjny/</link>
+      <pubDate>Mon, 12 Sep 2016 17:29:22 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/dd-wrt-ssh-port-forwarding-panel-aministracyjny/</guid>
+      <description>&lt;p&gt;Firmware DD-WRT oferuje kilka sposobów na uzyskanie dostępu do naszego domowego routera. Poza
+graficznym panelem webowym, gdzie wszystko możemy sobie wyklikać, mamy jeszcze tekstowy telnet i
+SSH. DD-WRT jest nam w stanie także zaoferować SSH port forwarding. Ten mechanizm z kolei bardzo
+przydaje się w momencie, gdy chcemy uzyskać dostęp do routera przez panel administracyjny ale nie
+uśmiecha nam się wystawianie go na widok publiczny po niezabezpieczonym protokole HTTP. Z kolei
+serwer www posiadający zaimplementowany protokół SSL/TLS jest dość zasobożerny i jego zastosowanie
+średnio nadaje się w przypadku małych routerów. Za pomocą przekierowania portów SSH możemy uzyskać
+dostęp do lokalnej instancji panelu webowego omijając obydwa te powyższe problemy. Panel admina
+pozostaje schowany w sieci lokalnej, a my logujemy się do niego wykorzystując połączenie SSH.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>OpenWRT: Dwa różne adresy MAC na porcie WAN</title>
+      <link>https://morfikov.github.io/post/openwrt-dwa-rozne-adresy-mac-na-porcie-wan/</link>
+      <pubDate>Sun, 11 Sep 2016 18:42:58 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/openwrt-dwa-rozne-adresy-mac-na-porcie-wan/</guid>
+      <description>&lt;p&gt;Na forum eko.one.pl pojawił się ciekawy temat dotyczący &lt;a href=&#34;http://eko.one.pl/forum/viewtopic.php?id=14224&#34;&gt;problemów z adresami MAC w
+OpenWRT.&lt;/a&gt; Chodzi o to, że by uzyskać połączenie u
+pewnych ISP, trzeba im podać adres MAC tego urządzenia, które będzie wpięte bezpośrednio w strukturę
+sieci ISP. Niby normalna sprawa ale w pewnych przypadkach, ISP potrafi uwalić połączenie, gdy inne
+urządzenie zostanie podpięte do sieci w miejscu starego. Zwykle wystarczy telefon do ISP z prośbą o
+aktualizację adresu MAC ale w przypadku firmware OpenWRT może to być ździebko problematyczna
+kwestia. Wychodzi na to, że OpenWRT identyfikuje się dwoma adresami MAC na porcie WAN. Jeden z nich
+to ten standardowy MAC, który powinien być wykorzystywany i podany ISP. Drugim zaś jest MAC, który
+pojawia się przy rozgłaszaniu trybu failsafe podczas fazy startu routera WiFi. Ja nigdy nie
+zaobserwowałem problemów z tego powodu. Niemniej jednak, postanowiłem sprawdzić, jak ta sytuacja
+dokładnie wygląda i jak sobie z nią poradzić już teraz, na wypadek, gdyby w przyszłości trafił mi
+się jeden z takich dziwnych ISP.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>DD-WRT: Dostęp do routera (telnet, ssh, panel web)</title>
+      <link>https://morfikov.github.io/post/dd-wrt-dostep-do-routera-telnet-ssh-panel-web/</link>
+      <pubDate>Sun, 11 Sep 2016 12:42:30 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/dd-wrt-dostep-do-routera-telnet-ssh-panel-web/</guid>
+      <description>&lt;p&gt;Do routera posiadającego na pokładzie firmware DD-WRT możemy uzyskać dostęp na kilka sposobów. Ten
+najbardziej popularny, to oczywiście panel administracyjny dostępny z poziomu www, na który możemy
+się dostać wpisując w pasku adresu przeglądarki &lt;code&gt;http://192.168.1.1/&lt;/code&gt; . Niemniej jednak, to nie jest
+jedyna droga do zarządzania routerem. Standardowo również mamy aktywną usługę telnet. Dodatkowo
+możemy aktywować SSL/TLS w panelu admina oraz dorobić usługę SSH. W tym artykule omówimy sobie
+wszystkie te formy dostępu do routera.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>OpenWRT: Konfiguracja anten via txantenna/rxantenna</title>
+      <link>https://morfikov.github.io/post/openwrt-konfiguracja-anten-via-txantenna-rxantenna/</link>
+      <pubDate>Fri, 09 Sep 2016 17:59:24 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/openwrt-konfiguracja-anten-via-txantenna-rxantenna/</guid>
+      <description>&lt;p&gt;Przeglądając forum eko.one.pl wpadł mi w oko &lt;a href=&#34;http://eko.one.pl/forum/viewtopic.php?pid=171898#p171898&#34;&gt;taki oto
+temat&lt;/a&gt;. Problem, który został w nim
+poruszony dotyczył wykorzystywania pewnej określonej anteny routera. Zakładając, że przeciętny
+router ma trzy anteny, powiedzmy, że chcemy wykorzystywać tylko jedną z nich. Dlaczego mielibyśmy
+rozważać w ogóle taką sytuację? Przy trzech antenach, teoretyczny transfer w paśmie 2,4 GHz to, w
+zależności od routera, 450-600 mbit/s. Przy jednej antenie będziemy mieli max 150-200 mbit/s. Z tego
+co czytałem wcześniej w różnych źródłach, uszkodzenie w jakiś sposób toru antenowego może
+drastycznie pogorszyć lub wręcz uniemożliwić routerowi transmisję sygnału. Opisana w podlinkowanym
+wyżej wątku sytuacja dotyczyła właśnie tego typu zdarzenia, gdzie jedno z gniazd antenowych routera
+zostało uszkodzone. Firmware OpenWRT/LEDE jest nam w stanie umożliwić wybór określonych anten przy
+pomocy parametrów &lt;code&gt;diversity&lt;/code&gt; , &lt;code&gt;txantenna&lt;/code&gt; oraz &lt;code&gt;rxantenna&lt;/code&gt; . W tym wpisie zobaczymy jak
+skonfigurować sobie anteny na przykładzie &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WR1043ND.html&#34;&gt;routera TL-WR1043ND
+V2&lt;/a&gt; od TP-LINK.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

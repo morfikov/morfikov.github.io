@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Android: Root smartfona Neffos Y5L od TP-LINK | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Android: Root smartfona Neffos Y5L od TP-LINK" />
+<meta property="og:description" content="Może i ten najtańszy smartfon w ofercie TP-LINK nie może popisać się najmocniejszymi podzespołami
+ale w zasadzie ten fakt nie przeszkadza nam, by przeprowadzić na Neffos Y5L (TP801A) proces root.
+Ten smartfon ma zbliżony SoC do Neffos Y5, a konkretnie mamy tutaj do czynienia z Snapdragon 210
+(MSM8209) od Qualcomm&#39;a. Ten fakt sprawia, że w przypadku Neffos Y5L cały proces uzyskiwania
+uprawnień administratora systemu przebiega bardzo podobnie do tego opisywanego wcześniej dla Neffos
+Y5. Dlatego też poniższy artykuł za bardzo się nie różni i w zasadzie został jedynie lekko
+przerobiony pod kątem zgodności ze smartfonem Neffos Y5L.
+Prostszy sposób na przeprowadzanie procesu root w smartfonach Neffos od TP-LINK z wykorzystaniem
+natywnych obrazów TWRP został opisany w nowym wątku." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/android-root-smartfona-neffos-y5l-tp-link/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-01-11T19:30:26&#43;01:00" />
+<meta property="article:modified_time" content="2017-01-11T19:30:26&#43;01:00" />
+
+
+		<meta itemprop="name" content="Android: Root smartfona Neffos Y5L od TP-LINK">
+<meta itemprop="description" content="Może i ten najtańszy smartfon w ofercie TP-LINK nie może popisać się najmocniejszymi podzespołami
+ale w zasadzie ten fakt nie przeszkadza nam, by przeprowadzić na Neffos Y5L (TP801A) proces root.
+Ten smartfon ma zbliżony SoC do Neffos Y5, a konkretnie mamy tutaj do czynienia z Snapdragon 210
+(MSM8209) od Qualcomm&#39;a. Ten fakt sprawia, że w przypadku Neffos Y5L cały proces uzyskiwania
+uprawnień administratora systemu przebiega bardzo podobnie do tego opisywanego wcześniej dla Neffos
+Y5. Dlatego też poniższy artykuł za bardzo się nie różni i w zasadzie został jedynie lekko
+przerobiony pod kątem zgodności ze smartfonem Neffos Y5L.
+Prostszy sposób na przeprowadzanie procesu root w smartfonach Neffos od TP-LINK z wykorzystaniem
+natywnych obrazów TWRP został opisany w nowym wątku."><meta itemprop="datePublished" content="2017-01-11T19:30:26&#43;01:00" />
+<meta itemprop="dateModified" content="2017-01-11T19:30:26&#43;01:00" />
+<meta itemprop="wordCount" content="2924">
+<meta itemprop="keywords" content="tp-link,smartfon,root,neffos,neffos-y5l,adb,fastboot,twrp," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Android: Root smartfona Neffos Y5L od TP-LINK"/>
+<meta name="twitter:description" content="Może i ten najtańszy smartfon w ofercie TP-LINK nie może popisać się najmocniejszymi podzespołami
+ale w zasadzie ten fakt nie przeszkadza nam, by przeprowadzić na Neffos Y5L (TP801A) proces root.
+Ten smartfon ma zbliżony SoC do Neffos Y5, a konkretnie mamy tutaj do czynienia z Snapdragon 210
+(MSM8209) od Qualcomm&#39;a. Ten fakt sprawia, że w przypadku Neffos Y5L cały proces uzyskiwania
+uprawnień administratora systemu przebiega bardzo podobnie do tego opisywanego wcześniej dla Neffos
+Y5. Dlatego też poniższy artykuł za bardzo się nie różni i w zasadzie został jedynie lekko
+przerobiony pod kątem zgodności ze smartfonem Neffos Y5L.
+Prostszy sposób na przeprowadzanie procesu root w smartfonach Neffos od TP-LINK z wykorzystaniem
+natywnych obrazów TWRP został opisany w nowym wątku."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Android: Root smartfona Neffos Y5L od TP-LINK</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2017-01-11T19:30:26&#43;01:00">Opublikowano: 11/01/2017</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Android: Root smartfona Neffos Y5L od TP-LINK</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#narzędzia-adb-i-fastboot">Narzędzia ADB i fastboot</a></li>
+    <li><a href="#problematyczny-backup-flasha-smartfona-neffos-y5l">Problematyczny backup flash'a smartfona Neffos Y5L</a></li>
+    <li><a href="#pozyskanie-obrazu-recoveryimg-z-twrp">Pozyskanie obrazu recovery.img z TWRP</a></li>
+    <li><a href="#pozyskanie-stockowego-obrazu-bootrecovery">Pozyskanie stock'owego obrazu boot/recovery</a></li>
+    <li><a href="#przepakowanie-obrazu-recoveryimg">Przepakowanie obrazu recovery.img</a>
+      <ol>
+        <li><a href="#kernel">Kernel</a></li>
+        <li><a href="#fstab">Fstab</a></li>
+      </ol>
+    </li>
+    <li><a href="#tworzenie-obrazu-recovery-z-twrp-dla-neffos-y5l">Tworzenie obrazu recovery z TWRP dla Neffos Y5L</a></li>
+    <li><a href="#jak-odblokować-bootloader-w-neffos-y5l">Jak odblokować bootloader w Neffos Y5L</a></li>
+    <li><a href="#testowanie-przepakowanego-obrazu-recoveryimg">Testowanie przepakowanego obrazu recovery.img</a></li>
+    <li><a href="#jak-przeprowadzić-backup-flasha-neffos-y5l">Jak przeprowadzić backup flash'a Neffos Y5L</a></li>
+    <li><a href="#wgranie-obrazu-recovery-z-twrp-na-neffos-y5l">Wgranie obrazu recovery z TWRP na Neffos Y5L</a></li>
+    <li><a href="#supersu-busybox-rootcheck-i-emulator-terminala">SuperSU, BusyBOX, RootCheck i emulator terminala</a>
+      <ol>
+        <li><a href="#instalacja-supersu">Instalacja SuperSU</a></li>
+        <li><a href="#sprawdzenie-czy-neffos-y5l-ma-roota">Sprawdzenie czy Neffos Y5L ma root'a</a></li>
+        <li><a href="#instalacja-busybox">Instalacja BusyBOX</a></li>
+        <li><a href="#instalacja-terminala">Instalacja terminala</a></li>
+        <li><a href="#aplikacje-i-prawa-administracyjne">Aplikacje i prawa administracyjne</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Może i ten najtańszy smartfon w ofercie TP-LINK nie może popisać się najmocniejszymi podzespołami
+ale w zasadzie ten fakt nie przeszkadza nam, by przeprowadzić na Neffos Y5L (TP801A) proces root.
+Ten smartfon ma zbliżony SoC do Neffos Y5, a konkretnie mamy tutaj do czynienia z Snapdragon 210
+(MSM8209) od Qualcomm'a. Ten fakt sprawia, że w przypadku Neffos Y5L cały proces uzyskiwania
+uprawnień administratora systemu przebiega bardzo podobnie do tego <a href="https://morfikov.github.io/post/android-root-smartfona-neffos-y5-od-tp-link/">opisywanego wcześniej dla Neffos
+Y5</a>. Dlatego też poniższy artykuł za bardzo się nie różni i w zasadzie został jedynie lekko
+przerobiony pod kątem zgodności ze smartfonem Neffos Y5L.</p>
+<p>Prostszy sposób na przeprowadzanie procesu root w smartfonach Neffos od TP-LINK z wykorzystaniem
+natywnych obrazów TWRP <a href="https://morfikov.github.io/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/">został opisany w nowym wątku</a>.</p>
+<h2 id="narzędzia-adb-i-fastboot">Narzędzia ADB i fastboot</h2>
+<p>Przede wszystkim, by zabrać się za proces root'owania smartfona Neffos Y5L, musimy przygotować sobie
+odpowiednie narzędzia. Zapewnią one nam możliwość rozmawiania z telefonem. Będziemy potrzebować
+<code>adb</code> (<a href="https://developer.android.com/studio/command-line/adb.html">Android Debug Bridge</a>) oraz <code>fastboot</code> . <a href="https://morfikov.github.io/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/">Proces instalacji tych narzędzi na linux</a>,
+a konkretnie w dystrybucji Debian, został opisany osobno.</p>
+<h2 id="problematyczny-backup-flasha-smartfona-neffos-y5l">Problematyczny backup flash'a smartfona Neffos Y5L</h2>
+<p>W przypadku <a href="https://morfikov.github.io/post/android-root-smartfona-neffos-c5-max-od-tp-link/">Neffos C5</a> i <a href="https://morfikov.github.io/post/android-root-smartfona-neffos-c5-max-od-tp-link/">Neffos C5 MAX</a>, do zrobienia backup'u całego flash'a można było
+wykorzystać narzędzie SP Flash Tool. Niemniej jednak, to oprogramowanie jest przeznaczone jedynie
+dla smartfonów mających SoC od MediaTek, a jak już zostało wspomniane we wstępie, Neffos Y5L ma SoC
+Snapdragon 210 (MSM8209) od Qualcomm'a. Jak zatem zrobić backup flash'a tego smartfona przed
+wprowadzaniem w nim jakichkolwiek zmian?</p>
+<p>Generalnie trzeba się zmierzyć z problemem jajka i kury, czyli by dokonać backup'u flash'a trzeba
+skorzystać z niestandardowego obrazu partycji <code>/recovery/</code> , np. TWRP, a nie możemy go przecież
+wgrać na telefon, bo wprowadzimy w ten sposób zmiany. Możemy jednak wgrać taki obraz bezpośrednio
+do pamięci RAM telefonu i z niej go uruchomić. W takim przypadku będziemy w stanie zrobić backup
+flash'a telefonu bez wprowadzania żadnych zmian. Niemniej jednak, w dalszym ciągu obraz partycji
+<code>/recovery/</code> musimy jakoś pozyskać.</p>
+<h2 id="pozyskanie-obrazu-recoveryimg-z-twrp">Pozyskanie obrazu recovery.img z TWRP</h2>
+<p>Niestety, póki co <a href="https://twrp.me/Devices/">nie ma obrazów dla Neffos'a Y5L</a>. Dlatego też musimy sobie taki obraz
+<code>recovery.img</code> stworzyć sami przerabiając inny obraz, który jest przeznaczony na telefon zbliżony
+parametrami do naszego urządzenia (ten sam SoC, wielkość flash i rozdzielczość ekranu). Ja
+posłużyłem się <a href="http://4pda.ru/forum/index.php?showtopic=738058&amp;st=80#entry52106796">obrazem dla Neffos'a C5L</a>, którego SoC (MSM8909) jest bardzo podobny do tego
+zastosowanego w Neffos Y5L. W zasadzie rozdziałka ekranu i wielkość flash się zgadzają ale układ
+partycji jest nieco inny i trzeba będzie ten obraz trochę przerobić, a do tego celu potrzebny nam
+będzie stock'owy obraz <code>boot.img</code> lub <code>recovery.img</code> .</p>
+<p>Gotowy <a href="https://morfikov.github.io/img/manual/recovery-neffos-y5l-tp-link-twrp.img">obraz recovery.img dla smartfona Neffos Y5L</a> znajduje się tutaj i jedyne co, to musimy
+go wgrać na telefon. Jeśli jednak ktoś jest ciekaw jak proces przepakowania tego obrazu przebiega,
+to jest on opisany poniżej.</p>
+<h2 id="pozyskanie-stockowego-obrazu-bootrecovery">Pozyskanie stock'owego obrazu boot/recovery</h2>
+<p>Proces dostosowania obrazu <code>recovery.img</code> z TWRP nieco się różni w przypadku Neffos Y5L w stosunku
+do poprzednio opisywanych przez mnie modeli Neffos C5 i Neffos C5 MAX ale jest mniej więcej taki sam
+co w przypadku Neffos Y5. Chodzi o to, że w zasadzie nie mamy jak wydobyć obrazu partycji
+<code>/recovery/</code> z telefonu, no bo przecież nie możemy skorzystać z SP Flash Tool, a póki co nie jestem
+świadom alternatywnego oprogramowania, które by nam z tym zadaniem pomogło w podobny sposób.
+Niemniej jednak, obraz <code>recovery.img</code> w dalszym ciągu możemy zbudować ale potrzebny nam jest
+firmware Neffos'a Y5L, który na szczęście możemy pobrać ze <a href="http://www.neffos.com/en/support/download/Y5L">strony producenta tego smartfona</a>.
+Pamiętajmy by pobrać plik przeznaczony na ten konkretny model telefonu, który posiadamy (w tym
+przypadku TP801A). Poniżej jest pełna specyfikacja wgranego oprogramowania oraz dokładne numery
+mojego smartfona:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/001.neffos-y5l-smartfon-tp-link-root-informacje-model.png" alt=""    class="small"></p>
+<p>W paczce <code>.zip</code> z firmware, którą pobraliśmy, znajduje się plik <code>boot.img</code> . Musimy go wydobyć w
+celu wyodrębnienia pewnych plików i wgrania ich na portowany obraz <code>recovery.img</code> .</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/002.neffos-y5l-smartfon-tp-link-root-obraz-boot.png" alt=""    class="huge"></p>
+<h2 id="przepakowanie-obrazu-recoveryimg">Przepakowanie obrazu recovery.img</h2>
+<p>By przepakować obraz przeznaczony na inny smartfon, który jest zbliżony parametrami do naszego
+Neffos'a Y5L, musimy pierw pozyskać odpowiednie narzędzia. Na linux'ie możemy skorzystać do tego
+celu z <a href="https://github.com/codeworkx/abootimg">abootimg</a> lub też ze <a href="https://github.com/ndrancs/AIK-Linux-x32-x64/">skryptów Android Image Kitchen</a>. Ja będę korzystał z tego
+drugiego rozwiązania.</p>
+<p>Tworzymy sobie jakiś katalog roboczy i kopiujemy do niego zarówno oryginalny obraz <code>boot.img</code> , jak
+i obraz <code>recovery.img</code> z innego smartfona. Następnie znajdując się w tym katalogu roboczym,
+pobieramy skrypty z github'a (wymagane zainstalowane narzędzie <code>git</code> w systemie) i przechodzimy do
+utworzonego w ten sposób katalogu. W nim zaś tworzymy dwa podkatalogi <code>stock/</code> oraz <code>port/</code> :</p>
+<pre><code>$ git clone https://github.com/ndrancs/AIK-Linux-x32-x64/
+$ chmod +x ./AIK-Linux-x32-x64/*
+$ chmod +x ./AIK-Linux-x32-x64/bin/*
+$ cd ./AIK-Linux-x32-x64/
+$ mkdir stock/ port/
+</code></pre>
+<p>Kopiujemy oryginalny obraz <code>boot.img</code> z katalogu nadrzędnego i wypakowujemy go za pomocą skryptu
+<code>unpackimg.sh</code> . Następnie przenosimy tak wyodrębnioną zawartość do katalogu <code>stock/</code> :</p>
+<pre><code>$ cp ../orig_boot.img ./recovery.img
+$ ./unpackimg.sh recovery.img
+$ mv split_img/ ramdisk/ stock/
+$ rm recovery.img
+</code></pre>
+<p>Kopiujemy teraz obraz partycji <code>/recovery/</code> mający TWRP i wypakowujemy go. Przenosimy jego zawartość
+do katalogu <code>port/</code> :</p>
+<pre><code>$ cp ../recovery_twrp.img ./recovery.img
+$ ./unpackimg.sh recovery.img
+$ mv split_img/ ramdisk/ port/
+$ rm recovery.img
+</code></pre>
+<h3 id="kernel">Kernel</h3>
+<p>W zasadzie to musimy tylko przekopiować plik <code>recovery.img-zImage</code> z oryginalnego obrazu naszego
+Neffos'a Y5L do obrazu TWRP:</p>
+<pre><code>$ cp ./stock/split_img/recovery.img-zImage ./port/split_img/
+</code></pre>
+<h3 id="fstab">Fstab</h3>
+<p>Musimy także dostosować nieco plik <code>port/ramdisk/etc/recovery.fstab</code> , bo flash telefonu, z którego
+wzięliśmy obraz <code>recovery.img</code> z TWRP ma inny nieco inny układ partycji.</p>
+<p>W oparciu o informacje uzyskane z <a href="https://play.google.com/store/apps/details?id=me.kuder.diskinfo&amp;hl=pl">aplikacji DiskInfo</a> oraz z pliku <code>/proc/partitions</code> w
+telefonie, układ flash'a w przypadku Neffos Y5L prezentuje się następująco (kolumna najbardziej na
+prawo została dodana przeze mnie):</p>
+<pre><code># adb shell
+shell@Y5L:/ $ cat /proc/partitions
+major minor  #blocks  name
+
+ 253        0     524288 zram0
+ 179        0    7634944 mmcblk0
+ 179        1      65536 mmcblk0p1      modem (/firmware/ , vfat)
+ 179        2        512 mmcblk0p2      sbl1
+ 179        3        512 mmcblk0p3      sbl1bak
+ 179        4       1024 mmcblk0p4      aboot
+ 179        5       1024 mmcblk0p5      abootbak
+ 179        6        512 mmcblk0p6      rpm
+ 179        7        512 mmcblk0p7      rpmbak
+ 179        8        768 mmcblk0p8      tz
+ 179        9        768 mmcblk0p9      tzbak
+ 179       10       1024 mmcblk0p10     pad
+ 179       11       1536 mmcblk0p11     modemst1
+ 179       12       1536 mmcblk0p12     modemst2
+ 179       13       1024 mmcblk0p13     misc
+ 179       14          1 mmcblk0p14     fsc
+ 179       15          8 mmcblk0p15     ssd
+ 179       16      10240 mmcblk0p16     splash
+ 179       17         32 mmcblk0p17     DDR
+ 179       18       1536 mmcblk0p18     fsg
+ 179       19         16 mmcblk0p19     sec
+ 179       20      32768 mmcblk0p20     boot
+ 179       21    1913652 mmcblk0p21     System (/system/ , ext4)
+ 179       22      32768 mmcblk0p22     persist (/persist/ , ext4)
+ 179       23     262144 mmcblk0p23     Cache (/cache/ , ext4)
+ 179       24      32768 mmcblk0p24     recovery
+ 179       25       1024 mmcblk0p25     devinfo
+ 179       26        512 mmcblk0p26     keystore
+ 179       27      65536 mmcblk0p27     oem
+ 179       28        512 mmcblk0p28     config
+ 179       29    5077999 mmcblk0p29     Data (/data/ , ext4)
+ 179       32        512 mmcblk0rpmb    mmcblk0rpmb
+</code></pre>
+<p>Rozmiary poszczególnych partycji są w blokach, a każdy z nich ma 1024 bajty. Partycja <code>mmcblk0</code>
+odpowiada za cały obszar flash'a. Będziemy zatem w stanie zrobić backup całego flash'a albo też
+poszczególnych jego partycji. Tak czy inaczej potrzebne nam są odpowiednie wpisy w pliku
+<code>port/ramdisk/etc/recovery.fstab</code> . Poniżej jest zawartość mojego pliku:</p>
+<pre><code># mmcblk0p1 (modem)
+/firmware       vfat      /dev/block/bootdevice/by-name/modem                flags=display=&quot;Firmware&quot;;backup=1;mounttodecrypt
+# mmcblk0p2 (sbl1)
+/sbl1           emmc      /dev/block/bootdevice/by-name/sbl1                 flags=display=&quot;sbl1&quot;;backup=1
+# mmcblk0p3 (sbl1bak)
+/sbl1bak        emmc      /dev/block/bootdevice/by-name/sbl1bak              flags=display=&quot;sbl1bak&quot;;backup=1
+# mmcblk0p4 (aboot)
+/aboot          emmc      /dev/block/bootdevice/by-name/aboot                flags=display=&quot;aboot&quot;;backup=1
+# mmcblk0p5 (abootbak)
+/abootbak       emmc      /dev/block/bootdevice/by-name/abootbak             flags=display=&quot;abootbak&quot;;backup=1
+# mmcblk0p6 (rpm)
+/rpm            emmc      /dev/block/bootdevice/by-name/rpm                  flags=display=&quot;rpm&quot;;backup=1
+# mmcblk0p7 (rpmbak)
+/rpmbak         emmc      /dev/block/bootdevice/by-name/rpmbak               flags=display=&quot;rpmbak&quot;;backup=1
+# mmcblk0p8 (tz)
+/tz             emmc      /dev/block/bootdevice/by-name/tz                   flags=display=&quot;tz&quot;;backup=1
+# mmcblk0p9 (tzbak)
+/tzbak          emmc      /dev/block/bootdevice/by-name/tzbak                flags=display=&quot;tzbak&quot;;backup=1
+# mmcblk0p10 (tzbak)
+/pad            emmc      /dev/block/bootdevice/by-name/pad                  flags=display=&quot;pad&quot;;backup=1
+# mmcblk0p11 (modemst1)
+/efs1           emmc      /dev/block/bootdevice/by-name/modemst1             flags=display=&quot;Modemst1&quot;;backup=1
+# mmcblk0p12 (modemst2)
+/efs2           emmc      /dev/block/bootdevice/by-name/modemst2             flags=display=&quot;Modemst2&quot;;backup=1
+# mmcblk0p13 (misc)
+/misc           emmc      /dev/block/bootdevice/by-name/misc                 flags=display=&quot;Misc&quot;;backup=1
+# mmcblk0p14 (fsc)
+/fsc            emmc      /dev/block/bootdevice/by-name/fsc                  flags=display=&quot;fsc&quot;;backup=1
+# mmcblk0p15 (ssd)
+/ssd            emmc      /dev/block/bootdevice/by-name/ssd                  flags=display=&quot;ssd&quot;;backup=1
+# mmcblk0p16 (splash)
+/splash         emmc      /dev/block/bootdevice/by-name/splash               flags=display=&quot;splash&quot;;backup=1
+# mmcblk0p17 (DDR)
+/ddr            emmc      /dev/block/bootdevice/by-name/DDR                  flags=display=&quot;DDR&quot;;backup=1
+# mmcblk0p18 (fsg)
+/fsg            emmc      /dev/block/bootdevice/by-name/fsg                  flags=display=&quot;fsg&quot;;backup=1
+# mmcblk0p19 (sec)
+/sec            emmc      /dev/block/bootdevice/by-name/sec                  flags=display=&quot;sec&quot;;backup=1
+# mmcblk0p20 (boot)
+/boot           emmc      /dev/block/bootdevice/by-name/boot                 flags=display=&quot;Boot&quot;;backup=1
+# mmcblk0p21 (System)
+/system         ext4      /dev/block/bootdevice/by-name/system               flags=display=&quot;System&quot;;backup=1;wipeingui;mounttodecrypt
+# mmcblk0p22 (persist)
+/persist        ext4      /dev/block/bootdevice/by-name/persist              flags=display=&quot;Persist&quot;;backup=1
+# mmcblk0p23 (Cache)
+/cache          ext4      /dev/block/bootdevice/by-name/cache                flags=display=&quot;Cache&quot;;backup=1;wipeingui;wipeduringfactoryreset
+# mmcblk0p24 (recovery)
+/recovery       emmc      /dev/block/bootdevice/by-name/recovery             flags=display=&quot;Recovery&quot;;backup=1
+# mmcblk0p25 (devinfo)
+/devinfo       emmc       /dev/block/bootdevice/by-name/devinfo              flags=display=&quot;devinfo&quot;;backup=1
+# mmcblk0p26 (keystore)
+/keystore       emmc      /dev/block/bootdevice/by-name/keystore             flags=display=&quot;keystore&quot;;backup=1
+# mmcblk0p27 (oem)
+/oem            emmc      /dev/block/bootdevice/by-name/oem                  flags=display=&quot;oem&quot;;backup=1
+# mmcblk0p28 (config)
+/config         emmc      /dev/block/bootdevice/by-name/config               flags=display=&quot;config&quot;;backup=1
+# mmcblk0p29 (Data)
+/data           ext4      /dev/block/bootdevice/by-name/userdata             flags=display=&quot;Data&quot;;backup=1;wipeingui;wipeduringfactoryreset;encryptable=footer;length=-16384
+
+#
+#/mmcblk0rpmb    emmc      /dev/block/bootdevice/mmcblk0rpmb                 flags=display=&quot;mmcblk0rpmb&quot;;backup=1
+
+# External
+/sdcard1        auto      /dev/block/mmcblk1p1                               flags=display=&quot;MicroSD&quot;;storage;wipeingui;removable
+#/usb-otg        auto      /dev/block/sda1                                   flags=display=&quot;USBOTG&quot;;storage;wipeingui;removable
+
+# Full partition images
+/firmware_image emmc      /dev/block/bootdevice/by-name/modem                flags=display=&quot;Firmware-Image&quot;;backup=1
+/system_image   emmc      /dev/block/bootdevice/by-name/system               flags=display=&quot;System-Image&quot;;backup=1
+/persist_image  emmc      /dev/block/bootdevice/by-name/persist              flags=display=&quot;Persist-Image&quot;;backup=1
+/cache_image    emmc      /dev/block/bootdevice/by-name/cache                flags=display=&quot;Cache-Image&quot;;backup=1
+/data_image     emmc      /dev/block/bootdevice/by-name/userdata             flags=display=&quot;Data-Image&quot;;backup=1
+/full_flash     emmc      /dev/block/mmcblk0                                 flags=display=&quot;Full-Flash-Image&quot;;backup=1
+</code></pre>
+<p>Jeśli ktoś jest ciekaw użytych tutaj opcji, to są one wyjaśnione <a href="https://forum.xda-developers.com/showthread.php?t=1943625">w tym wątku na forum XDA</a>.</p>
+<h2 id="tworzenie-obrazu-recovery-z-twrp-dla-neffos-y5l">Tworzenie obrazu recovery z TWRP dla Neffos Y5L</h2>
+<p>Z tak przygotowanych plików w katalogu <code>stock/</code> trzeba zrobić nowy obraz <code>recovery.img</code> przy pomocy
+skryptu <code>repackimg_x64.sh</code> :</p>
+<pre><code>$ rm -R stock/
+$ mv port/ramdisk ./
+$ mv port/split_img ./
+$ rmdir port/
+$ ./repackimg_x64.sh
+</code></pre>
+<p>W katalogu roboczym powinien zostać utworzony nowy plik o nazwie <code>image-new.img</code> . To jest właśnie
+nasz nowy obraz partycji <code>/recovery/</code> , który musimy wgrać na telefon w trybie bootloader'a przez
+fastboot. Niemniej jednak, zanim będziemy w stanie to zrobić, musimy odblokować bootloader.</p>
+<h2 id="jak-odblokować-bootloader-w-neffos-y5l">Jak odblokować bootloader w Neffos Y5L</h2>
+<p>Może nie mamy możliwości zrobić backup'u całego flash'a telefonu przed podjęciem jakichkolwiek prac
+ale też raczej nie powinniśmy znowu nic namieszać. Jedyna rzecz jaką musimy zrobić, to odblokować
+bootloader. Chodzi o to, że na smartfonach zwykle jest ulokowana partycja <code>/recovery/</code> . Na niej
+znajduje się oprogramowanie umożliwiające przeprowadzanie niskopoziomowych operacji, np. backup lub
+też flash'owanie ROM'u. Problem w tym, że to oprogramowanie w standardzie zwykle za wiele nie
+potrafi i by przeprowadzić proces root'owania Androida, musimy pozyskać bardziej zaawansowany soft,
+np. <a href="https://www.clockworkmod.com/">ClockworkMod</a> czy <a href="https://twrp.me/">TWRP</a>, i wgrać go na partycję <code>/recovery/</code> . By to zrobić musimy
+pierw odblokować bootloader.</p>
+<p>Proces odblokowania bootloader'a usuwa wszystkie dane, które wgraliśmy na flash telefonu, tj.
+podczas odblokowywania jest inicjowany <a href="https://morfikov.github.io/post/android-reset-ustawien-do-fabrycznych-factory-defaults/">factory reset</a>. Dane na karcie SD pozostają nietknięte.
+By ten proces zainicjować zaczynamy od przestawienia jednej opcji w telefonie. W tym celu musimy
+udać się w Ustawienia =&gt; Opcje Programistyczne i tam przełączyć <code>Zdjęcie blokady OEM</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/003.neffos-y5l-smartfon-tp-link-root-blokada-booloader.png" alt=""    class="huge"></p>
+<p>Następnie w terminalu wpisujemy poniższe polecenia:</p>
+<pre><code># adb reboot bootloader
+# fastboot devices
+8a8f289 fastboot
+
+# fastboot oem unlock-go
+</code></pre>
+<p>Na ekranie smartfona powinien nam się pokazać zielony robocik informujący o przeprowadzaniu Factory
+Reset. Po chwili ten proces powinien dobiec końca, a smartfon uruchomi się ponownie na ustawieniach
+domyślnych. Wyłączamy urządzenie i włączamy je via przyciski VolumeDown + Power i sprawdzamy status
+blokady bootloader'a:</p>
+<pre><code># fastboot oem device-info
+...
+(bootloader)    Device tampered: false
+(bootloader)    Device unlocked: true
+(bootloader)    Charger screen enabled: true
+(bootloader)    Display panel:
+OKAY [  0.004s]
+finished. total time: 0.004s
+</code></pre>
+<p>Jeśli przy <code>Device unlocked:</code> widnieje wartość <code>true</code> , to blokada bootloader'a została pomyślnie
+zdjęta. Jako, że proces odblokowania bootloader'a usunął wszelkie ustawienia, to jeszcze raz musimy
+włączyć Opcje programistyczne, a w nich tryb debugowania portu USB.</p>
+<h2 id="testowanie-przepakowanego-obrazu-recoveryimg">Testowanie przepakowanego obrazu recovery.img</h2>
+<p>Zanim jednak wgramy nowo stworzony obraz <code>recovery.img</code> , przydałoby się sprawdzić pierw, czy aby na
+pewno ten obraz działa jak należy. Podpinamy telefon do portu USB komputera i przy pomocy narzędzia
+<code>fasboot</code> przetestujmy wyżej wygenerowany obraz próbując uruchomić go z pamięci telefonu:</p>
+<pre><code># fastboot boot image-new.img
+</code></pre>
+<p>W przypadku, gdyby pojawiła nam się informacja <code>FAILED (remote: unlock device to use this command)</code> , to prawdopodobnie zapomnieliśmy odblokować bootloader. Jeśli blokada została zdjęta, to
+wydanie tego powyższego polecenia powinno załadować do pamięci RAM telefonu zmieniony obraz partycji
+<code>/recovery/</code> , oczywiście o ile obraz jest poprawny. Jeśli zamiast tego smartfon uruchomi się
+ponownie, to coś z takim obrazem jest nie tak i lepiej nie wgrywać go na telefon.</p>
+<h2 id="jak-przeprowadzić-backup-flasha-neffos-y5l">Jak przeprowadzić backup flash'a Neffos Y5L</h2>
+<p>Mając załadowany obraz <code>recovery.img</code> z TWRP do pamięci smartfona, możemy przejść do zrobienia
+backup'u całego flash'a telefonu. Opcje wyboru partycji, które będziemy mieć do uwzględnienia w
+backup'ie, zależą od pliku <code>recovery.fstab</code> , który edytowaliśmy sobie wcześniej. W tym przypadku
+mamy możliwość zrobienia backup'u całego flash'a, jak i jego poszczególnych partycji. Nie musimy
+jednak robić backup'u wszystkich partycji i możemy zdecydować się jedynie na niektóre z nich.</p>
+<p>Przede wszystkim, potrzebny nam będzie backup partycji <code>/system/</code> , <code>/boot/</code> i <code>/recovery/</code> , bo to
+je zwykle będziemy poddawać edycji i wprowadzać w nich zmiany. Ja jednak wolę zrobić backup
+pozostałej części flash'a, tak na wszelki wypadek. No i skoro mam do zrobienia praktycznie backup
+całej pamięci flash, to można przecież upchnąć go w jednym pliku zrzucając zawartość urządzenia
+<code>/dev/block/mmcblk0</code> . Można oczywiście zapisać sobie każdą partycję do osobnego pliku ale przecie z
+obrazu całego flash'a również można te poszczególne partycje wydobyć.</p>
+<p>W zasadzie cały backup zajmie około 2 GiB, chyba, że zrobiliśmy sobie pełną kopię. W przypadku tego
+drugiego rozwiązania potrzeba nam będzie karta SD o pojemności większej lub równej pojemności
+flash'a w telefonie. Dodatkowo, jako, że z reguły flash w smartfonach ma pojemność większą niż 4 GiB
+(zwykle 16-32 GiB), to w takim przypadku karta musi zostać sformatowana innym systemem plików niż
+FAT, bo ten ma ograniczenia wielkości pliku do 4 GiB, a obraz będzie przecie zajmował tyle ile
+zajmuje pamięć flash. TWRP obsługuje bez większego problemu karty SD sformatowane jako EXT4 i z tego
+systemu plików możemy skorzystać. Pamiętajmy jednak, że takiej karty Android nam nie będzie czytał
+standardowo.</p>
+<p>Niepełny backup z kolei można przeprowadzić zapisując go na flash'u smartfona, choć nie zaleca się
+tego robić, a to z tego względu, że kopia pamięci danego urządzenia powinna być zapisywana na
+zewnętrznym nośniku. Dlatego lepiej zakupić sobie kartę SD rozmiarem przypominającą flash telefonu.</p>
+<p>Różnica między robieniem obrazów partycji EXT4 i EMMC polega na tym, że w przypadku standardowych
+partycji EMMC, ich obraz można zamontować przez <code>mount</code> na dowolnym linux'ie. Natomiast obrazy EXT4,
+są w zasadzie zwykłymi archiwami plików, które można wypakować jak zwykłego ZIP'a. Druga różnica
+jest taka, że te spakowane paczki są dzielone na kawałki o rozmiarze 1,5 GiB, przez co można je bez
+problemu zapisywać na karcie SD, która ma system plików FAT.</p>
+<p>Warto w tym miejscu jeszcze dodać, że można pominąć backup partycji <code>/cache/</code> i <code>/data/</code> , bo one są
+i tak czyszczone podczas procesu Factory Reset. Jeśli zaś chcemy dokonać backup'u danych
+użytkownika, tj. partycji <code>/data/</code> , to w jej przypadku lepiej jest spakować pliki zamiast robić
+backup całej partycji, bo wtedy robimy backup tylko danych i nie wchodzi w to wolne miejsce.</p>
+<p>Jak już ustalimy jakie partycje uwzględnimy w backup'ie, to przechodzimy do pozycji Backup i
+wybieramy kartę SD oraz zaznaczamy odpowiednie obszary pamięci flash, tak jak to widać na poniższej
+fotce:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/004.neffos-y5l-smartfon-tp-link-root-backup-flash.png" alt=""    class="huge"></p>
+<p>W przypadku robienia pełnego backup'u, cały proces może zająć dłuższą chwilę. Po jego ukończeniu, na
+karcie SD pojawi się obraz flash'a, który możemy sprawdzić w <code>gdisk</code> lub <code>parted</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/005.neffos-y5l-smartfon-tp-link-root-flash-gdisk.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/006.neffos-y5l-smartfon-tp-link-root-flash-parted.png" alt=""    class="huge"></p>
+<h2 id="wgranie-obrazu-recovery-z-twrp-na-neffos-y5l">Wgranie obrazu recovery z TWRP na Neffos Y5L</h2>
+<p>Po sprawdzeniu czy obraz się boot'uje poprawnie i dokonaniu backup'u określonych obszarów pamięci
+flash, możemy ten obraz wgrać na telefon lub też możemy zainstalować jedynie samo SuperSU. Ja
+postanowiłem wgrać TWRP recovery na mojego Neffos'a Y5L. W sumie ta procedura się za wiele nie różni
+od testowania samego obrazu w pamięci telefonu. Jedyne co trzeba zrobić to zrestartować telefon do
+trybu bootloader'a i wgrać obraz recovery przy pomocy <code>fastboot</code> w poniższy sposób:</p>
+<pre><code># adb reboot bootloader
+# fastboot flash recovery image-new.img
+# fastboot reboot
+</code></pre>
+<h2 id="supersu-busybox-rootcheck-i-emulator-terminala">SuperSU, BusyBOX, RootCheck i emulator terminala</h2>
+<p>Ostatnią rzeczą na drodze do zrobienia root na Neffos Y5L jest wgranie aplikacji umożliwiającej
+korzystanie różnym programom z praw administratora systemu w telefonie. My skorzystamy z SuperSU.
+Dodatkowo, musimy wgrać sobie BusyBOX, który zawiera minimalistyczne odpowiedniki linux'owych
+narzędzi, co pozwoli nam swobodnie operować w Androidzie, tak jakbyśmy to robili pod
+pełnowymiarowym pingwinem. Potrzebny nam także będzie jakiś emulator terminala, w którym to
+będziemy wpisywać wszystkie nasze polecenia.</p>
+<h3 id="instalacja-supersu">Instalacja SuperSU</h3>
+<p>Zacznijmy od pobrania stosownej paczki z <a href="https://forum.xda-developers.com/apps/supersu/stable-2016-09-01supersu-v2-78-release-t3452703">SuperSU</a>. Jako, że my nie mamy jeszcze zrobionego
+root'a, to musimy pobrać <code>TWRP / FlashFire installable ZIP</code> . Tej paczki nie wypakowujemy, tylko
+wrzucamy ją w pobranej formie na kartę SD w telefonie. Odpalamy teraz tryb recovery w smartfonie
+(VolumeUp + Power) i przechodzimy do Install i wskazujemy paczkę <code>.zip</code> , którą umieściliśmy na
+karcie SD. Tam z kolei zaznaczamy <code>ZIP signature verification</code> i przeciągamy trzy strzałki na prawą
+stronę.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/007.neffos-y5l-smartfon-tp-link-root-supersu-instalacja.png" alt=""    class="huge"></p>
+<p>Teraz możemy uruchomić ponownie Neffos'a Y5L i zainstalować jakąś aplikację, która pokaże nam czy
+nasz smartfon ma root'a.</p>
+<h3 id="sprawdzenie-czy-neffos-y5l-ma-roota">Sprawdzenie czy Neffos Y5L ma root'a</h3>
+<p>Po uruchomieniu się systemu na smartfonie, instalujemy aplikację <a href="https://play.google.com/store/apps/details?id=com.jrummyapps.rootchecker">RootCheck</a>, po czym
+uruchamiamy ją. Powinien się pojawić monit informujący, że ta aplikacja żąda praw administracyjnych,
+na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosowny komunikat:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/008.neffos-y5l-smartfon-tp-link-root-checkroot.png" alt=""    class="big"></p>
+<h3 id="instalacja-busybox">Instalacja BusyBOX</h3>
+<p>Kolejnym krokiem jest instalacja <a href="https://play.google.com/store/apps/details?id=stericson.busybox">BusyBOX'a</a>. Po wgraniu tej aplikacji na smartfona, musimy ją
+uruchomić i wcisnąć w niej przycisk <code>install</code> . BusyBOX również nas poprosi o dostęp do praw
+administracyjnych. Po zainstalowaniu, weryfikujemy jeszcze, czy aby wszystko zostało pomyślne
+wgrane. Możemy to zrobić zarówno w samej aplikacji BusyBOX, jak w CheckRoot:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/009.neffos-y5l-smartfon-tp-link-root-busybox.png" alt=""    class="huge"></p>
+<h3 id="instalacja-terminala">Instalacja terminala</h3>
+<p>Generalnie rzecz biorąc, terminal jako taki nie jest obowiązkowy, bo SuperSU jak i BusyBOX są
+wymagane przez konkretne aplikacje do poprawnego ich działania. Niemniej jednak, jeśli zamierzamy
+korzystać z tych niskopoziomowych narzędzi dostarczonych przez BusyBOX, czy też innych narzędzi
+obecnych standardowo w Androidzie na uprawnieniach root, to terminal jak najbardziej się nam przyda.</p>
+<p>Znalazłem dwa terminale, które są OpenSource i bez reklam/opłat. Są to
+<a href="https://play.google.com/store/apps/details?id=jackpal.androidterm">Android-Terminal-Emulator</a> oraz <a href="https://play.google.com/store/apps/details?id=com.termux">Termux</a>. Wybieramy sobie jeden z nich i instalujemy w
+systemie. Jako, że ja korzystam na co dzień z Debiana, to instaluję Termux'a.</p>
+<h3 id="aplikacje-i-prawa-administracyjne">Aplikacje i prawa administracyjne</h3>
+<p>Teraz już pozostało nam tylko odpalenie terminala i zalogowanie się na użytkownika root. Do tego
+celu służy polecenie <code>su</code> . Wpiszmy je zatem w okienku Termux'a:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2017/01/010.neffos-y5l-smartfon-tp-link-root-termux-su.png" alt=""    class="huge"></p>
+<p>I teraz możemy uruchamiać aplikacje z prawami admina, tak jak to zwykliśmy robić w każdym innym
+linux'ie. Pamiętajmy tylko, że standardowo system plików jest zamontowany w trybie tylko do odczytu
+(RO) i by móc zmieniać pliki systemowe z poziomu tego terminala, musimy przemontować system plików w
+tryb do zapisu (RW). Robimy to w poniższy sposób:</p>
+<pre><code>$ su
+# mount -o remount,rw /system
+</code></pre>
+<p>Gdy skończymy się bawić, to montujemy ten system plików ponownie w tryb RO:</p>
+<pre><code># mount -o remount,ro /system
+</code></pre></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/tp-link/">tp-link</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">root</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/neffos/">neffos</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/neffos-y5l/">neffos-y5l</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/adb/">adb</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/fastboot/">fastboot</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/twrp/">twrp</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-root-smartfona-neffos-y5l-tp-link%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-root-smartfona-neffos-y5l-tp-link%2f&amp;text=Android%3a%20Root%20smartfona%20Neffos%20Y5L%20od%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-root-smartfona-neffos-y5l-tp-link%2f&amp;title=Android%3a%20Root%20smartfona%20Neffos%20Y5L%20od%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-root-smartfona-neffos-y5l-tp-link%2f&amp;title=Android%3a%20Root%20smartfona%20Neffos%20Y5L%20od%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-root-smartfona-neffos-y5l-tp-link%2f&title=Android%3a%20Root%20smartfona%20Neffos%20Y5L%20od%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-root-smartfona-neffos-y5l-tp-link%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-root-smartfona-neffos-y5l-tp-link%2f&amp;title=Android%3a%20Root%20smartfona%20Neffos%20Y5L%20od%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-root-smartfona-neffos-y5l-tp-link%2f&description=Android%3a%20Root%20smartfona%20Neffos%20Y5L%20od%20TP-LINK" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-root-smartfona-neffos-y5-od-tp-link/">Android: Root smartfona Neffos Y5 od TP-LINK</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-root-smartfona-neffos-c5-max-od-tp-link/">Android: Root smartfona Neffos C5 MAX od TP-LINK</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-root-smartfona-neffos-c5-od-tp-link/">Android: Root smartfona Neffos C5 od TP-LINK</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przeprowadzic-unroot-na-smartfonie-neffos-c5-max-od-tp-link/">Jak przeprowadzić unroot na smartfonie Neffos C5 MAX od TP-LINK</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przeprowadzic-unroot-na-smartfonie-neffos-c5-od-tp-link/">Jak przeprowadzić unroot na smartfonie Neffos C5 od TP-LINK</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przeprowadzic-unroot-na-smartfonie-neffos-y5-od-tp-link/">Jak przeprowadzić unroot na smartfonie Neffos Y5 od TP-LINK</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/recenzja-smartfon-neffos-y5l-od-tp-link/">Recenzja: Smartfon Neffos Y5L od TP-LINK</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

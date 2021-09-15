@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Instalacja i konfiguracja bootloader&#39;a extlinux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Instalacja i konfiguracja bootloader&#39;a extlinux" />
+<meta property="og:description" content="W debianie mamy do dyspozycji kilka
+bootloader&#39;ów. Z tych częściej używanych to
+będą syslinux, extlinux oraz grub2. Jeśli potrzebujemy automatyzacji oraz szeregu zaawansowanych
+ficzerów, to dobrym wyjściem jest grub2. Jeśli natomiast korzystamy ze standardowej konfiguracji,
+którą można by określić mianem BIOS-MBR i do tego chcemy mieć pełną kontrolę na bootloader&#39;em, to
+najlepiej wybrać extlinux&#39;a lub syslinux&#39;a. Syslinux jest wykorzystywany głównie w przypadku
+partycji FAT, która znajduje zastosowanie w różnego rodzaju systemach live. Natomiast jeśli w grę
+wchodzi system plików EXT4, który jest domyślny na sporej części linux&#39;ów, to pozostaje nam do
+wyboru jedynie extlinux. W tym wpisie postaramy się przebrnąć przez proces instalacji i konfiguracji
+tego bootloader&#39;a. Nie będziemy przy tym korzystać z żadnych automatów i wszystko postaramy się
+dostosować ręcznie." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/instalacja-i-konfiguracja-bootloadera-extlinux/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-01-02T01:47:30&#43;00:00" />
+<meta property="article:modified_time" content="2016-01-02T01:47:30&#43;00:00" />
+
+
+		<meta itemprop="name" content="Instalacja i konfiguracja bootloader&#39;a extlinux">
+<meta itemprop="description" content="W debianie mamy do dyspozycji kilka
+bootloader&#39;ów. Z tych częściej używanych to
+będą syslinux, extlinux oraz grub2. Jeśli potrzebujemy automatyzacji oraz szeregu zaawansowanych
+ficzerów, to dobrym wyjściem jest grub2. Jeśli natomiast korzystamy ze standardowej konfiguracji,
+którą można by określić mianem BIOS-MBR i do tego chcemy mieć pełną kontrolę na bootloader&#39;em, to
+najlepiej wybrać extlinux&#39;a lub syslinux&#39;a. Syslinux jest wykorzystywany głównie w przypadku
+partycji FAT, która znajduje zastosowanie w różnego rodzaju systemach live. Natomiast jeśli w grę
+wchodzi system plików EXT4, który jest domyślny na sporej części linux&#39;ów, to pozostaje nam do
+wyboru jedynie extlinux. W tym wpisie postaramy się przebrnąć przez proces instalacji i konfiguracji
+tego bootloader&#39;a. Nie będziemy przy tym korzystać z żadnych automatów i wszystko postaramy się
+dostosować ręcznie."><meta itemprop="datePublished" content="2016-01-02T01:47:30&#43;00:00" />
+<meta itemprop="dateModified" content="2016-01-02T01:47:30&#43;00:00" />
+<meta itemprop="wordCount" content="1356">
+<meta itemprop="keywords" content="mbr,bootloader," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Instalacja i konfiguracja bootloader&#39;a extlinux"/>
+<meta name="twitter:description" content="W debianie mamy do dyspozycji kilka
+bootloader&#39;ów. Z tych częściej używanych to
+będą syslinux, extlinux oraz grub2. Jeśli potrzebujemy automatyzacji oraz szeregu zaawansowanych
+ficzerów, to dobrym wyjściem jest grub2. Jeśli natomiast korzystamy ze standardowej konfiguracji,
+którą można by określić mianem BIOS-MBR i do tego chcemy mieć pełną kontrolę na bootloader&#39;em, to
+najlepiej wybrać extlinux&#39;a lub syslinux&#39;a. Syslinux jest wykorzystywany głównie w przypadku
+partycji FAT, która znajduje zastosowanie w różnego rodzaju systemach live. Natomiast jeśli w grę
+wchodzi system plików EXT4, który jest domyślny na sporej części linux&#39;ów, to pozostaje nam do
+wyboru jedynie extlinux. W tym wpisie postaramy się przebrnąć przez proces instalacji i konfiguracji
+tego bootloader&#39;a. Nie będziemy przy tym korzystać z żadnych automatów i wszystko postaramy się
+dostosować ręcznie."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Instalacja i konfiguracja bootloader&#39;a extlinux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-01-02T01:47:30Z">Opublikowano: 02/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Instalacja i konfiguracja bootloader&#39;a extlinux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#extlinux-i-partycja-boot">Extlinux i partycja /boot/</a></li>
+    <li><a href="#instalacja-potrzebnych-pakietów">Instalacja potrzebnych pakietów</a></li>
+    <li><a href="#kopia-mbr">Kopia MBR</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>W debianie mamy do dyspozycji kilka
+<a href="https://pl.wikipedia.org/wiki/Program_rozruchowy">bootloader'ów</a>. Z tych częściej używanych to
+będą syslinux, extlinux oraz grub2. Jeśli potrzebujemy automatyzacji oraz szeregu zaawansowanych
+ficzerów, to dobrym wyjściem jest grub2. Jeśli natomiast korzystamy ze standardowej konfiguracji,
+którą można by określić mianem BIOS-MBR i do tego chcemy mieć pełną kontrolę na bootloader'em, to
+najlepiej wybrać extlinux'a lub syslinux'a. Syslinux jest wykorzystywany głównie w przypadku
+partycji FAT, która znajduje zastosowanie w różnego rodzaju systemach live. Natomiast jeśli w grę
+wchodzi system plików EXT4, który jest domyślny na sporej części linux'ów, to pozostaje nam do
+wyboru jedynie extlinux. W tym wpisie postaramy się przebrnąć przez proces instalacji i konfiguracji
+tego bootloader'a. Nie będziemy przy tym korzystać z żadnych automatów i wszystko postaramy się
+dostosować ręcznie.</p>
+<h2 id="extlinux-i-partycja-boot">Extlinux i partycja /boot/</h2>
+<p>Plik każdego bootloader'a, w tym też i extlinux'a, znajdują się w katalogu <code>/boot/</code> . Obecnie w
+większości przypadków nie ma sensu stosowania oddzielnej partycji <code>/boot/</code> , no chyba, że korzysta
+się z zaszyfrowanych kontenerów LUKS. Jeśli posiadamy nowszej klasy komputer, który wykorzystuje
+<a href="https://pl.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">EFI</a>, to nawet nie potrzebny
+jest nam bootloader, by uruchomić nasz system operacyjny. Jest jednak wiele kontrowersji wokół tego
+następcy BIOS'u i raczej nie prędko ludzie mu zaufają. Zwłaszcza po tych doniesieniach, że na EFI co
+raz częściej linux'y nie chcą się odpalać. Tak czy inaczej, zawsze pozostaje nam to starsze
+rozwiązanie, które robi użytek z bootloader'a.</p>
+<h2 id="instalacja-potrzebnych-pakietów">Instalacja potrzebnych pakietów</h2>
+<p>Na potrzeby tego artykułu, wydzieliłem na dysku osobną partycję, która nie jest jakichś wielkich
+rozmiarów, bo ma 1 GiB. Jest to dość sporo jeśli rozważyć fakt, że na tej partycji mają być
+przechowywane jedynie obrazy z modułami kernela i kilka plików bootloader'a. Niemniej jednak,
+potrzebujemy jeszcze odpowiednich narzędzi i w debianie są one w tych poniższych pakietach:</p>
+<pre><code># aptitude install extlinux syslinux syslinux-common memtest86+
+</code></pre>
+<h2 id="kopia-mbr">Kopia MBR</h2>
+<p>Na wypadek gdyby coś poszło nie tak przy wgrywaniu kodu bootloader'a, dobrze jest sobie zrobić kopię
+całego MBR, a najlepiej to przeczytać sobie wpis dotyczący <a href="https://morfikov.github.io/post/mbr-ebr-i-tablica-partycji-dysku-twardego/">MBR, EBR i tablicy
+partycji</a> oraz artykuł opisujący
+<a href="https://morfikov.github.io/post/kopia-struktury-dysku-twardego/">jak powinna wyglądać kopia struktury dysku
+twardego</a>, tak by w przyszłości uniknąć
+wszelkich problemów wynikających z jej uszkodzenia. W ogromnym skrócie, sprowadza się to do wydania
+tego poniższego polecenia:</p>
+<pre><code># dd if=/dev/sda of=/path/to/backup/sda_mbr_backup bs=512 count=1
+</code></pre>
+<p>Zawsze też możemy skorzystać z <a href="https://github.com/IgnorantGuru/mbrback">mbrback</a>.</p>
+<p>Instalacja extlinux'a w MBR</p>
+<p>Po instalacji pakietów i zrobieniu kopi MBR, wgrywamy program ładujący do MBR. Potrzebne nam pliki
+znajdują się w katalogu <code>/usr/lib/EXTLINUX/</code> . Mamy tam z grubsza trzy pliki. W zależności od
+wykorzystywanej tablicy partycji, wybieramy <code>gptmbr.bin</code> lub <code>mbr.bin</code> . Plik <code>altmbr.bin</code> jest
+wykorzystywany w przypadku tablicy partycji MS-DOS, z tym, że umożliwia ustawienie na sztywno
+partycji, z której ma wystartować system. W tym przypadku korzystamy z <code>mbr.bin</code> . Możemy go wgrać
+na 2 sposoby:</p>
+<pre><code># dd if=/usr/lib/syslinux/mbr/mbr.bin of=/dev/sda bs=440 count=1
+# cat /usr/lib/syslinux/mbr/mbr.bin &gt; /dev/sda
+</code></pre>
+<p>Katalog /boot/extlinux/</p>
+<p>W katalogu <code>/boot/extlinux/</code> będzie trzymana konfiguracja extlinux'a. Musimy ją przekopiować sobie z
+katalogu <code>/usr/lib/syslinux/modules/</code> . Mamy tam do dyspozycji trzy inne podkatalogi: <code>bios/</code> ,
+<code>efi32/</code> oraz <code>efi64/</code> . W tym przypadku interesują nas pliki w katalogu <code>bios/</code> . Kopiujemy zatem
+jego zawartość do <code>/boot/extlinux/</code> :</p>
+<pre><code># cp /usr/lib/syslinux/modules/bios/* /boot/extlinux/
+</code></pre>
+<p>Ja dodatkowo zrobiłem sobie tapetę pod mojego extlinux'a i stworzyłem pusty plik konfiguracyjny
+<code>extlinux.conf</code> .</p>
+<p>Z reguły, obrazki muszą być w takiej samej rozdzielczości co okno bootloader'a. Jednak niektóre
+ekrany nie zmienią rozdzielczości na taką, którą wpiszemy do pliku konfiguracyjnego. W takim
+przypadku trzeba użyć obrazków w rozdzielczości 640x480, inaczej wystąpią dziwne efekty wizualne.
+Problem w tym, że, np. laptopy, zwykle nie mają matryc w proporcjach 4:3 i wskazanie extlinux'owi
+obrazka o takich proporcjach nieco go rozciągnie.</p>
+<p>By obejść ten problem, trzeba odpowiednio przeskalować daną grafikę. Trzeba stworzyć pierw obrazek w
+natywnej rozdzielczości monitora, przykładowo 1366x768, potem ładujemy go do gimp'a i skalujemy go
+proporcjonalnie do rozdzielczości 854x480. Ostatnim krokiem jest zmiana bez proporcji pierwszego
+parametru z 854 do 640 pixeli. To może i zniekształci nieco obrazek ale podczas ładowania go przez
+extlinux, zostanie on rozciągnięty do prawidłowych proporcji.</p>
+<p>Plik /boot/extlinux/ldlinux.sys</p>
+<p>Część pliku <code>ldlinux.sys</code> musi zostać wgrana w pierwszy sektor partycji <code>/boot/</code>, zwany
+<a href="https://en.wikipedia.org/wiki/Volume_boot_record">VBR</a>. Trzeba o tym pamiętać przy ewentualnym
+dotykaniu tego pliku, gdyż może to zmienić jego położenie i w efekcie uniemożliwi to programowi
+ładującemu, który siedzi w MBR zlokalizowanie tego pliku. Poniższe polecenie powinno utworzyć dwa
+pliki <code>/boot/extlinux/ldlinux.c32</code> oraz <code>/boot/extlinux/ldlinux.sys</code> :</p>
+<pre><code># mkdir -p /boot/extlinux/
+# extlinux --install /boot/extlinux
+/boot/extlinux is device /dev/sda2
+</code></pre>
+<p>Plik /boot/extlinux/extlinux.conf</p>
+<p>Bootloader jest już na swoim miejscu. Potrzebujemy jeszcze pliku <code>/boot/extlinux/extlinux.conf</code> ,
+który nam ustawi szereg opcji i umożliwi wczytanie określonych plików z modułami kernela. Poniżej
+jest przykład konfiguracji:</p>
+<pre><code>DEFAULT debian-debian-normal
+PROMPT 0
+TIMEOUT 200
+
+UI vesamenu.c32
+
+#MENU RESOLUSION 1366 768
+
+MENU MARGIN 10
+MENU WIDTH 80
+MENU ROWS 10
+MENU HELPMSGROW 25
+MENU CMDLINEROW 25
+MENU TABMSGROW 25
+MENU HSHIFT 0
+MENU VSHIFT 0
+MENU TITLE Everybody lies xD
+MENU BACKGROUND background_640x480.png
+MENU COLOR border       30;44   #40ffffff #a0000000 std
+MENU COLOR title        1;36;44 #9033ccff #a0000000 std
+MENU COLOR sel          7;37;40 #e0ffffff #20ffffff all
+MENU COLOR unsel        37;44   #50ffffff #a0000000 std
+MENU COLOR help         37;40   #c0ffffff #a0000000 std
+MENU COLOR timeout_msg  37;40   #80ffffff #00000000 std
+MENU COLOR timeout      1;37;40 #c0ffffff #00000000 std
+MENU COLOR msg07        37;40   #90ffffff #a0000000 std
+MENU COLOR tabmsg       31;40   #30ffffff #00000000 std
+
+ALLOWOPTIONS 1
+#MENU MASTER PASSWD
+
+LABEL debian-debian-normal
+#   MENU PASSWD
+    MENU LABEL Debian 4.3.0-1-amd64 (powersave)
+    KERNEL ../vmlinuz-4.3.0-1-amd64
+    APPEND root=/dev/mapper/debian_laptop-root cgroup_enable=memory acpi_osi=&quot;!Windows 2012&quot; acpi=force acpi_enforce_resources=lax net.ifnames=1 apparmor=1 security=apparmor udev.children-max=64 plymouth.enable=1 quiet splash ro
+    INITRD ../initrd.img-4.3.0-1-amd64
+    TEXT HELP
+    Zaszyfrowany debian (/dev/sda1).
+    ENDTEXT
+
+LABEL Windows
+      MENU LABEL Windows
+      COM32 chain.c32
+      APPEND hd0 4
+      TEXT HELP
+      Windows 10 (/dev/sda4).
+      ENDTEXT
+
+LABEL memtest
+      MENU LABEL Memtest
+      LINUX ../memtest86+.bin
+
+LABEL hdt
+      MENU LABEL HDT (Hardware Detection Tool)
+      COM32 hdt.c32
+
+LABEL reboot
+      MENU LABEL Reboot
+      COM32 reboot.c32
+
+LABEL poweroff
+      MENU LABEL Power Off
+      COM32 poweroff.c32
+
+MENU CLEAR
+</code></pre>
+<p>Wyjaśnienie użytych opcji:</p>
+<ul>
+<li><code>MENU</code> odpowiada za wygląd extlinux'a.</li>
+<li><code>DEFAULT</code> określa, która pozycja na liście bootloader'a ma być domyślna. Trzeba pamiętać, że
+nazwa musi pasować do linijki z <code>LABEL</code> .</li>
+<li><code>TIMEOUT</code> czas, po upłynięciu którego bootloader załaduje domyślny wpis. Wartość <code>200</code> odpowiada
+za 20s.</li>
+<li><code>PROMPT</code> jeśli ustawiony na <code>1</code> wyświetli wiersz poleceń (boot:).</li>
+<li><code>UI</code> odpowiada za rodzaj wykorzystywanego interfejsu bootloader'a i zależy od załadowanego
+modułu.</li>
+<li><code>ALLOWOPTIONS</code> daje możliwość precyzowania dodatkowych parametrów z pozycji bootloader'a przez
+edycję wpisu (klawisz Tab ).</li>
+<li><code>MASTER PASSWD</code> zakłada hasło na wszystkie wpisy w extlinux'ie. Hasło jest zahashowane, a do
+wygenerowania hasha można wykorzystać <code>md5pass</code> lub <code>sha1pass</code> (dostępne w pakiecie
+<code>syslinux-utils</code> ).</li>
+<li><code>MENU CLEAR</code> czyści ekran po wybraniu pozycji.</li>
+</ul>
+<p>Pozostała część pliki to pozycje na liście bootloader'a. Przyjrzyjmy się bliżej wpisowi od linux'a:</p>
+<pre><code>LABEL debian-debian-normal
+#   MENU PASSWD
+    MENU LABEL Debian 4.3.0-1-amd64 (powersave)
+    KERNEL ../vmlinuz-4.3.0-1-amd64
+    APPEND root=/dev/mapper/debian_laptop-root cgroup_enable=memory acpi_osi=&quot;!Windows 2012&quot; acpi=force acpi_enforce_resources=lax net.ifnames=1 apparmor=1 security=apparmor udev.children-max=64 plymouth.enable=1 quiet splash ro
+    INITRD ../initrd.img-4.3.0-1-amd64
+    TEXT HELP
+    Zaszyfrowany debian (/dev/sda1).
+    ENDTEXT
+</code></pre>
+<p>Wyjaśnienie opcji:</p>
+<ul>
+<li><code>LABEL</code> definiuje kolejną pozycję wyboru na liście bootloader'a.</li>
+<li><code>MENU PASSWD</code> zakłada hasło na edycję parametrów tego wpisu (klawisz Tab w oknie bootloader'a).
+Hasło może być określone w przypadku tylko jednego wpisu, lub też globalnie dla wszystkich (
+<code>MENU MASTER PASSWD</code> ).</li>
+<li><code>MENU LABEL</code> to nazwa pod jaką wpis się pojawi w okienku bootloader'a.</li>
+<li><code>KERNEL</code> próbuje wykryć typ pliku, który ma zostać wczytany.</li>
+<li><code>LINUX</code> zawsze spodziewa się kernela linux'a.</li>
+<li><code>APPEND</code> określa parametry, które są przekazywane kernelowi.</li>
+<li><code>INITRD</code> odpowiada za lokalizację obrazu z modułami.</li>
+<li><code>TEXT HELP</code> i <code>ENDTEXT</code> precyzują tekst, który pojawi się po zaznaczeniu wpisu w menu
+extlinux'a.</li>
+</ul>
+<p>Przy instalacji kenrela, w katalogu <code>/boot/</code> jest tworzonych kilka plików. W przypadku debiana są
+to: <code>config-*</code> , <code>initrd.img-*</code> , <code>System.map-*</code> oraz <code>vmlinuz-*</code> . By skonfigurować wpis w
+extlinux, interesują nas dwa z nich, tj. <code>vmlinuz-*</code> oraz <code>initrd.img-*</code> . Ścieżki do plików podaje
+się względem pliku konfiguracyjnego, stąd <code>../</code> wskazujący na folder wyżej.</p>
+<p>Mamy tam jeszcze wpis od windowsa:</p>
+<pre><code>LABEL Windows
+      MENU LABEL Windows
+      COM32 chain.c32
+      APPEND hd0 4
+      TEXT HELP
+      Windows 10 (/dev/sda4).
+      ENDTEXT
+</code></pre>
+<p>Wyjaśnienie opcji:</p>
+<ul>
+<li><code>COM32</code> odpowiada za moduł, który odpali windowsa.</li>
+<li><code>APPEND</code> określa partycję, na której siedzi windows. Numerowanie jest trochę dziwne, bo dyski
+mają numery od 0, a partycje od 1.</li>
+</ul>
+<p>Zamiast kopiować pliki extlinux'a, można potworzyć dowiązania symboliczne. Problem jest w sytuacji,
+gdy szyfrujemy partycje. W takim przypadku partycja z plikami w katalogu <code>/usr/</code> podczas
+wyświetlania okna wyboru systemu jest jeszcze zaszyfrowana i system nie ma dostępu do tych plików,
+dlatego trzeba je przekopiować na partycję <code>/boot/</code> . Pamiętajmy, by te pliki regularnie
+aktualizować.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/mbr/">mbr</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bootloader/">bootloader</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-i-konfiguracja-bootloadera-extlinux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-i-konfiguracja-bootloadera-extlinux%2f&amp;text=Instalacja%20i%20konfiguracja%20bootloader%27a%20extlinux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-i-konfiguracja-bootloadera-extlinux%2f&amp;title=Instalacja%20i%20konfiguracja%20bootloader%27a%20extlinux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-i-konfiguracja-bootloadera-extlinux%2f&amp;title=Instalacja%20i%20konfiguracja%20bootloader%27a%20extlinux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-i-konfiguracja-bootloadera-extlinux%2f&title=Instalacja%20i%20konfiguracja%20bootloader%27a%20extlinux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-i-konfiguracja-bootloadera-extlinux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-i-konfiguracja-bootloadera-extlinux%2f&amp;title=Instalacja%20i%20konfiguracja%20bootloader%27a%20extlinux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2finstalacja-i-konfiguracja-bootloadera-extlinux%2f&description=Instalacja%20i%20konfiguracja%20bootloader%27a%20extlinux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/reinstalacja-kernela-bootloadera/">Reinstalacja kernela i bootloader&#39;a</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/bledy-bootloadera-grub/">Błędy bootloader&#39;a GRUB/GRUB2</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/reinstalacja-bootloadera-grub/">Reinstalacja bootloadera grub</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konwersja-tablicy-partycji-gpt-na-ms-dos/">Konwersja tablicy partycji GPT na MS-DOS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konwersja-tablicy-partycji-ms-dos-na-gpt/">Konwersja tablicy partycji MS-DOS na GPT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/mbr-ebr-i-tablica-partycji-dysku-twardego/">MBR, EBR i tablica partycji dysku twardego</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

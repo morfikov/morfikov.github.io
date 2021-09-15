@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Cache DNS, czyli włączenie buforowania zapytań | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Cache DNS, czyli włączenie buforowania zapytań" />
+<meta property="og:description" content="Większość z nas wie, że standardowe instalacje systemu linux nie buforują żadnych zapytań do
+serwerów DNS. Dzieje się tak dlatego, że te systemy domyślnie nie mają zainstalowanego żadnego
+oprogramowania, które by im to umożliwiało. Niesie to ze sobą zwiększenie opóźnień transakcji
+krótkoterminowych, np. tych w protokole http czy https. Za każdym razem gdy odwiedzamy jakiś serwis
+www, musimy wykonać szereg zapytań DNS, by rozwiązać nazwy domen na adresy IP. W przypadku gdybyśmy
+mieli cache DNS, to te nazwy nie musiałyby być za każdym każdym razem rozwiązywane na nowo,
+przynajmniej nie przez odpytywanie zdalnego serwera DNS, do którego RTT wynosi jakieś 20-40ms.
+Przydałoby się zatem nieco poprawić wydajność stron www i w tym wpisie postaramy się zaimplementować
+prosty cache DNS z wykorzystaniem narzędzia dnsmasq." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/cache-dns-buforowania-zapytan/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-11-16T20:13:06&#43;02:00" />
+<meta property="article:modified_time" content="2015-11-16T20:13:06&#43;02:00" />
+
+
+		<meta itemprop="name" content="Cache DNS, czyli włączenie buforowania zapytań">
+<meta itemprop="description" content="Większość z nas wie, że standardowe instalacje systemu linux nie buforują żadnych zapytań do
+serwerów DNS. Dzieje się tak dlatego, że te systemy domyślnie nie mają zainstalowanego żadnego
+oprogramowania, które by im to umożliwiało. Niesie to ze sobą zwiększenie opóźnień transakcji
+krótkoterminowych, np. tych w protokole http czy https. Za każdym razem gdy odwiedzamy jakiś serwis
+www, musimy wykonać szereg zapytań DNS, by rozwiązać nazwy domen na adresy IP. W przypadku gdybyśmy
+mieli cache DNS, to te nazwy nie musiałyby być za każdym każdym razem rozwiązywane na nowo,
+przynajmniej nie przez odpytywanie zdalnego serwera DNS, do którego RTT wynosi jakieś 20-40ms.
+Przydałoby się zatem nieco poprawić wydajność stron www i w tym wpisie postaramy się zaimplementować
+prosty cache DNS z wykorzystaniem narzędzia dnsmasq."><meta itemprop="datePublished" content="2015-11-16T20:13:06&#43;02:00" />
+<meta itemprop="dateModified" content="2015-11-16T20:13:06&#43;02:00" />
+<meta itemprop="wordCount" content="1253">
+<meta itemprop="keywords" content="dns,cache,dnsmasq,systemd,resolver," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Cache DNS, czyli włączenie buforowania zapytań"/>
+<meta name="twitter:description" content="Większość z nas wie, że standardowe instalacje systemu linux nie buforują żadnych zapytań do
+serwerów DNS. Dzieje się tak dlatego, że te systemy domyślnie nie mają zainstalowanego żadnego
+oprogramowania, które by im to umożliwiało. Niesie to ze sobą zwiększenie opóźnień transakcji
+krótkoterminowych, np. tych w protokole http czy https. Za każdym razem gdy odwiedzamy jakiś serwis
+www, musimy wykonać szereg zapytań DNS, by rozwiązać nazwy domen na adresy IP. W przypadku gdybyśmy
+mieli cache DNS, to te nazwy nie musiałyby być za każdym każdym razem rozwiązywane na nowo,
+przynajmniej nie przez odpytywanie zdalnego serwera DNS, do którego RTT wynosi jakieś 20-40ms.
+Przydałoby się zatem nieco poprawić wydajność stron www i w tym wpisie postaramy się zaimplementować
+prosty cache DNS z wykorzystaniem narzędzia dnsmasq."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Cache DNS, czyli włączenie buforowania zapytań</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-11-16T20:13:06&#43;02:00">Opublikowano: 16/11/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Cache DNS, czyli włączenie buforowania zapytań</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#konfiguracja-dnsmasq">Konfiguracja dnsmasq</a></li>
+    <li><a href="#przesyłanie-zapytań-do-lokalnego-serwera-dns">Przesyłanie zapytań do lokalnego serwera DNS</a></li>
+    <li><a href="#rozmiar-i-ważność-cache-serwera-dns">Rozmiar i ważność cache serwera DNS</a></li>
+    <li><a href="#statystyki-cache">Statystyki cache</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Większość z nas wie, że standardowe instalacje systemu linux nie buforują żadnych zapytań do
+serwerów DNS. Dzieje się tak dlatego, że te systemy domyślnie nie mają zainstalowanego żadnego
+oprogramowania, które by im to umożliwiało. Niesie to ze sobą zwiększenie opóźnień transakcji
+krótkoterminowych, np. tych w protokole http czy https. Za każdym razem gdy odwiedzamy jakiś serwis
+www, musimy wykonać szereg zapytań DNS, by rozwiązać nazwy domen na adresy IP. W przypadku gdybyśmy
+mieli cache DNS, to te nazwy nie musiałyby być za każdym każdym razem rozwiązywane na nowo,
+przynajmniej nie przez odpytywanie zdalnego serwera DNS, do którego RTT wynosi jakieś 20-40ms.
+Przydałoby się zatem nieco poprawić wydajność stron www i w tym wpisie postaramy się zaimplementować
+prosty cache DNS z wykorzystaniem <a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">narzędzia dnsmasq</a>.</p>
+<h2 id="konfiguracja-dnsmasq">Konfiguracja dnsmasq</h2>
+<p>Z <code>dnsmasq</code> spotkaliśmy się już przy okazji <a href="https://morfikov.github.io/post/konfiguracja-trybu-ap-kart-wifi-na-debianie/">konfiguracji AP WiFi (Access Point) pod debianem</a>.
+Poniższy wpis nie będzie miał jednak nic wspólnego z sieciami bezprzewodowymi. Dlatego też dla tych,
+który nie są zaznajomieni z tym narzędziem, warto nadmienić, że <code>dnsmasq</code> realizuje zdania serwera
+DHCP, oraz ma także możliwość obsługi zapytań DNS i potrafi także te zapytania buforować. Obie te
+funkcjonalności (DHCP i DNS) są niezależne i w tym przypadku serwer DHCP nie będzie nam do niczego
+potrzebny. Tak czy inaczej, instalujemy pakiet <code>dnsmasq</code> i przechodzimy od razu do konfiguracji
+pliku <code>/etc/dnsmasq.conf</code> . Umieszczamy w nim te poniższe wpisy:</p>
+<pre><code>domain-needed
+bogus-priv
+no-resolv
+server=127.0.2.1#5353
+server=/pool.ntp.org/208.67.222.222
+interface=bond0
+listen-address=127.0.0.1
+bind-interfaces
+no-dhcp-interface=bond0
+no-hosts
+cache-size=10000
+min-cache-ttl=600
+max-cache-ttl=3600
+dns-forward-max=500
+no-negcache
+</code></pre>
+<p>Opcje <code>domain-needed</code> oraz <code>bogus-priv</code> odfiltrowują zapytania, na które nie potrafią odpowiedzieć
+publiczne serwery DNS. Pierwsza z nich nie forwarduje nazw bez kropek (bez części domeny), zaś druga
+nie zezwala na przekazywanie adresów z prywatnej przestrzeni adresowej. Jeśli zaś chodzi o
+<code>no-resolv</code> , to za jego sprawą nie będzie czytany plik <code>/etc/resolv.conf</code> w poszukiwaniu
+upstream'owych serwerów DNS (o tym za moment). Dalej mamy dwa wywołania <code>server</code> , z których
+pierwszy określa adres upstream'owego serwera DNS, natomiast drugi przesyła zapytania do serwera
+czasu (domeny <code>*pool.ntp.org</code> ) do osobnego serwera DNS. Kolejne trzy opcje, tj. <code>interface</code> ,
+<code>listen-address</code> oraz <code>bind-interfaces</code> , mają na celu określenie interfejsu i adresu, na którym
+będzie nasłuchiwał serwer DNS. Jako, że jest to dość wrażliwa usługa i nie mamy zamiaru jej
+upubliczniać, to dobrze jest ją odseparować od reszty świata przenosząc ją na interfejs pętli
+zwrotnej. Nie chcemy także by działał serwer DHCP, dlatego też precyzujemy opcję
+<code>no-dhcp-interface</code> . Dalej w pliku mamy <code>no-hosts</code> , który zabroni czytania pliku <code>/etc/hosts</code> .
+Kolejne trzy opcje dotyczą cache serwera DNS i mamy tam <code>cache-size</code> odpowiadający za ilość wpisów
+w cache (o tym też za moment), oraz <code>min-cache-ttl</code> i <code>max-cache-ttl</code> , które ustalają <a href="https://en.wikipedia.org/wiki/Time_to_live#DNS_records">czas
+ważności rekordu DNS</a>, po upłynięciu którego trzeba będzie ponownie odpytać upstream'owy serwer
+DNS. Opcja <code>dns-forward-max</code> odpowiada za ilość jednoczesnych zapytań, które mogą być obsługiwane
+przez serwer DNS. Z kolei ostatnia opcja, tj. <code>no-negcache</code> sprawi, że do cache nie będą dodawane
+wpisy, których nie udało się rozwiązać.</p>
+<h2 id="przesyłanie-zapytań-do-lokalnego-serwera-dns">Przesyłanie zapytań do lokalnego serwera DNS</h2>
+<p>Ta powyższa konfiguracja dotyczy jedynie serwera DNS i po zresetowaniu demona <code>dnsmasq</code>, ten
+powinien już zacząć realizować swoją funkcję. Jest tylko jeden problem. Mianowicie, trzeba przesłać
+wszystkie zapytania o domeny do <code>dnsmasq</code> , a za to odpowiada plik <code>/etc/resolv.conf</code> . Możemy
+oczywiście bezpośrednio go edytować ale nie jest to zalecane, zwłaszcza w przypadku systemd. Jeśli
+korzystamy z tego init'u, to dobrze jest rzucić okiem na plik <code>/etc/systemd/resolved.conf</code> i to w
+nim ustawić odpowiedni adres resolver'a, którym w tym przypadku jest <code>127.0.0.1</code> :</p>
+<pre><code>[Resolve]
+DNS=127.0.0.1
+</code></pre>
+<p>Możemy to także robić w plikach konfiguracyjnych interfejsów w <code>/etc/systemd/network/</code> dodając
+odpowiedni parametr, przykładowo:</p>
+<pre><code>[Network]
+...
+DNS=127.0.0.1
+</code></pre>
+<p>Trzeba także pamiętać, że jeśli korzystamy dodatkowych wynalazków jeśli chodzi o zapytania DNS, np.
+ich <a href="https://morfikov.github.io/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/">szyfrowanie przy pomocy dnscrypt-proxy</a>, to musimy odpowiednio przekierować ruch.
+Generalnie rzecz biorąc, wszystkie zapytania o domeny mają lecieć na adres 127.0.0.1, port 53/udp,
+na którym nasłuchuje <code>dnsmasq</code> . Po tym jak te zapytania dotrą na ten adres, zostaną przekierowane
+na adres, który został określony w konfiguracji <code>dnsmasq</code> (parametr <code>server</code> ), tj. <code>127.0.2.1</code> ,
+port 5353/udp. Na nim z kolei nasłuchuje <a href="https://dnscrypt.org/">dnscrypt-proxy</a>, który przesyła otrzymane od <code>dnsmasq</code>
+zapytania do upstream'owego serwera DNS określonego w konfiguracji <code>dnscrypt-proxy</code> .</p>
+<h2 id="rozmiar-i-ważność-cache-serwera-dns">Rozmiar i ważność cache serwera DNS</h2>
+<p>W pliku <code>dnsmasq.conf</code> określiliśmy parametr <code>cache-size</code> odpowiadający za ilość wpisów, które mogą
+trafić do cache <code>dnsmasq</code> . W tym przypadku jest to 10.000. Czy to mało, czy to dużo? Generalnie
+rzecz biorąc, to zależy od sprzętu jakim dysponujemy. W dużej mierze decyduje tylko ilość pamięci
+RAM. Jak możemy wyczytać <a href="https://flux242.blogspot.fr/2012/06/dnsmasq-cache-size-tuning.html">tutaj</a>, nie powinniśmy z rozmiarem cache przeginać zanadto. Na
+maszynach 32 bitowych, każdy wpis w cache ma 82 lub 74 bajty w zależności od protokołu, tj. IPv6 lub
+IPv4. W przypadku maszyn 64 bitowych, rozmiar wpisów wynosi odpowiednio 94 oraz 86 bajtów. Zatem
+10.000 wpisów to około 1MiB pamięci. Na desktopach to praktycznie nie ma większego znaczenia.</p>
+<p>Każdy taki wpis w cache ma określony termin ważności. Zwykle jest to dyktowane przez główny serwer
+DNS. Ten czas możemy zweryfikować sobie w każdej chwili za pomocą narzędzia <code>dig</code> , przykładowo:</p>
+<pre><code>$ dig wp.pl
+...
+;; ANSWER SECTION:
+wp.pl.                  590     IN      A       212.77.100.101
+wp.pl.                  590     IN      A       212.77.98.9
+...
+</code></pre>
+<p>Widoczna wyżej liczba <code>590</code> w tym przypadku oznacza ilość sekund, które muszą upłynąć, aby zapytanie
+o domenę <code>wp.pl</code> zostało wysłane do upstream'owego serwera DNS. Zatem przez następne 10 minut,
+zapytania o domenę <code>wp.pl</code> będą rozwiązywane przez lokalny serwer DNS. Problem w tym, że w przypadku
+zmiany tych rekordów, będzie musiało upłynąć prawie 10 minut, zanim zostaną one zaktualizowane.
+Jeśli w między czasie spróbujemy odwiedzić tę domenę, to możemy nie uzyskać połączenia. Dlatego też
+dobrze jest sobie dostosować ten czas podając w konfiguracji <code>dnsmasq</code> parametry <code>min-cache-ttl</code> i
+<code>max-cache-ttl</code> . Nie należy ustawić zbyt niskich wartości, bo wtedy większość zapytań będziemy
+otrzymywać z upstream'owego serwera DNS. Nie ma też co przesadzać ze zbyt wielkimi wartościami.</p>
+<h2 id="statystyki-cache">Statystyki cache</h2>
+<p>Mając skonfigurowany lokalny cacher DNS, możemy sprawdzić czy działa tak jak powinien. Odpalamy
+zatem terminal i przy pomocy <code>dig</code> sprawdzamy czas realizacji zapytania:</p>
+<pre><code>$ dig onet.pl | grep &quot;Query time&quot;
+;; Query time: 30 msec
+
+$ dig onet.pl | grep &quot;Query time&quot;
+;; Query time: 0 msec
+</code></pre>
+<p>Jak widzimy wyżej, za pierwszym razem, zapytanie trwało 30 ms. Z kolei za drugim sporo mniej.
+Wskazuje to na fakt, że zapytanie o domenę zostało przechwycone przez <code>dnsmasq</code> . W tym momencie w
+cache pojawił się stosowny wpis i przy drugiej próbie odpytania tej domeny, rekord DNS został
+zaserwowany bezpośrednio z cache. Zatem w sporej części przypadków te zapytania będą realizowane
+lokalnie i oszczędzą nam sporo czasu przy ładowaniu stron www.</p>
+<p>Statystyki całego cache możemy wyciągnąć z logu systemowego, tylko pierw trzeba wysłać odpowiedni
+sygnał do demona <code>dnsmasq</code> :</p>
+<pre><code># kill -s USR1 108091
+</code></pre>
+<p>Po wydaniu tego powyższego polecenia, w logu powinniśmy zarejestrować poniższy komunikat:</p>
+<pre><code>dnsmasq[1880]: cache size 10000, 0/13310 cache insertions re-used unexpired cache entries.
+dnsmasq[1880]: queries forwarded 8973, queries answered locally 10057
+dnsmasq[1880]: queries for authoritative zones 0
+dnsmasq[1880]: server 208.67.222.222#53: queries sent 2, retried or failed 0
+dnsmasq[1880]: server 127.0.2.1#5353: queries sent 8971, retried or failed 109
+</code></pre>
+<p>Jak czytać te powyższe statystyki? Zgodnie z tym co wyczytałem na <a href="http://lists.thekelleys.org.uk/pipermail/dnsmasq-discuss/2013q2/007331.html">liście mailingowej
+dnsmasq</a>, mając w pierwszej linijce <code>0/2431</code> , <code>0</code> oznacza brak usuniętych wpisów z cache zanim
+utraciły one ważność, natomiast <code>2431</code> oznacza ilość wpisów w cache ogółem. Te dwie wartości mówią
+nam czy ustawienia rozmiaru cache, czy też czasu ważności wpisów w nim należy dostosować.
+W przypadku gdy pierwsza wartość zacznie się zwiększać, trzeba pomyśleć nad zmianą parametrów cache.
+Dalej w logu nie ma już nic niezwykłego. Są zapytania, które zostały przesłane do upstream'owego
+serwera DNS ( <code>1502</code> ) i ilość rozwiązanych lokalnie ( <code>660</code> ). Są także statystyki dla konkretnych
+serwerów DNS.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dns/">dns</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/cache/">cache</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dnsmasq/">dnsmasq</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/resolver/">resolver</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fcache-dns-buforowania-zapytan%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fcache-dns-buforowania-zapytan%2f&amp;text=Cache%20DNS%2c%20czyli%20w%c5%82%c4%85czenie%20buforowania%20zapyta%c5%84" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fcache-dns-buforowania-zapytan%2f&amp;title=Cache%20DNS%2c%20czyli%20w%c5%82%c4%85czenie%20buforowania%20zapyta%c5%84" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fcache-dns-buforowania-zapytan%2f&amp;title=Cache%20DNS%2c%20czyli%20w%c5%82%c4%85czenie%20buforowania%20zapyta%c5%84" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fcache-dns-buforowania-zapytan%2f&title=Cache%20DNS%2c%20czyli%20w%c5%82%c4%85czenie%20buforowania%20zapyta%c5%84" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fcache-dns-buforowania-zapytan%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fcache-dns-buforowania-zapytan%2f&amp;title=Cache%20DNS%2c%20czyli%20w%c5%82%c4%85czenie%20buforowania%20zapyta%c5%84" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fcache-dns-buforowania-zapytan%2f&description=Cache%20DNS%2c%20czyli%20w%c5%82%c4%85czenie%20buforowania%20zapyta%c5%84" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/">DNScrypt-proxy, czyli szyfrowanie zapytań DNS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czyszczenie-konsoli-tty-w-systemd/">Czyszczenie konsoli TTY w systemd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/skrot-ctrl-alt-del-w-systemd/">Skrót Ctrl-Alt-Del w systemd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/brak-dzwieku-przy-nieaktywnej-sesji-logowania/">Brak dźwięku przy nieaktywnej sesji logowania</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wylaczenie-wol-w-karcie-sieciowej/">Wyłączenie WoL w karcie sieciowej</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/aplikowanie-zmiennych-sysctl-przy-pomocy-udeva/">Aplikowanie zmiennych sysctl przy pomocy udev&#39;a</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/fragmentacja-pakietu-i-zmiana-wartosci-mtu/">Fragmentacja pakietu i zmiana wartości MTU</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

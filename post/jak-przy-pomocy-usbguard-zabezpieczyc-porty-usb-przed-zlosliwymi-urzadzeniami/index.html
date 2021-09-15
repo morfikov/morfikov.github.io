@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak przy pomocy USBguard zabezpieczyć porty USB przed złośliwymi urządzeniami | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak przy pomocy USBguard zabezpieczyć porty USB przed złośliwymi urządzeniami" />
+<meta property="og:description" content="Ostatnio na
+Niebezpieczniku pojawił się artykuł
+na temat niezbyt przyjaznych urządzeń podłączanych do komputera za sprawą portów USB (opisanych na
+przykładzie niepozornego przewodu) i tego jaką szkodę tego typu hardware może nam wyrządzić w
+systemie. Ataki z wykorzystaniem podstawionych urządzeń zadziałają nawet na linux, choć pewnie cała
+masa użytkowników wyznaje jeszcze mit, że ich komputer jest bezpieczny, bo przecie używają
+alternatywnego systemu operacyjnego, który jest OpenSource i za priorytet obrał sobie szeroko
+rozumiane bezpieczeństwo. Niestety nie jest tak różowo jakby mogło się co niektórym wydawać ale
+można ten stan rzeczy naturalnie zmienić i nie trzeba przy tym rekompilować kernela z zamiarem
+wyłączenia obsługi modułu USB, co ten opisany w podlinkowanym artykule atak oczywiście by również
+powstrzymało. Zamiast tego możemy zainstalować sobie narzędzie usbguard i przy jego pomocy
+skonfigurować politykę podłączanych do portów USB urządzeń." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-02-24T12:00:33&#43;00:00" />
+<meta property="article:modified_time" content="2019-02-24T12:00:33&#43;00:00" />
+
+
+		<meta itemprop="name" content="Jak przy pomocy USBguard zabezpieczyć porty USB przed złośliwymi urządzeniami">
+<meta itemprop="description" content="Ostatnio na
+Niebezpieczniku pojawił się artykuł
+na temat niezbyt przyjaznych urządzeń podłączanych do komputera za sprawą portów USB (opisanych na
+przykładzie niepozornego przewodu) i tego jaką szkodę tego typu hardware może nam wyrządzić w
+systemie. Ataki z wykorzystaniem podstawionych urządzeń zadziałają nawet na linux, choć pewnie cała
+masa użytkowników wyznaje jeszcze mit, że ich komputer jest bezpieczny, bo przecie używają
+alternatywnego systemu operacyjnego, który jest OpenSource i za priorytet obrał sobie szeroko
+rozumiane bezpieczeństwo. Niestety nie jest tak różowo jakby mogło się co niektórym wydawać ale
+można ten stan rzeczy naturalnie zmienić i nie trzeba przy tym rekompilować kernela z zamiarem
+wyłączenia obsługi modułu USB, co ten opisany w podlinkowanym artykule atak oczywiście by również
+powstrzymało. Zamiast tego możemy zainstalować sobie narzędzie usbguard i przy jego pomocy
+skonfigurować politykę podłączanych do portów USB urządzeń."><meta itemprop="datePublished" content="2019-02-24T12:00:33&#43;00:00" />
+<meta itemprop="dateModified" content="2019-02-24T12:00:33&#43;00:00" />
+<meta itemprop="wordCount" content="4065">
+<meta itemprop="keywords" content="debian,usb,modem,huawei,e3372," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak przy pomocy USBguard zabezpieczyć porty USB przed złośliwymi urządzeniami"/>
+<meta name="twitter:description" content="Ostatnio na
+Niebezpieczniku pojawił się artykuł
+na temat niezbyt przyjaznych urządzeń podłączanych do komputera za sprawą portów USB (opisanych na
+przykładzie niepozornego przewodu) i tego jaką szkodę tego typu hardware może nam wyrządzić w
+systemie. Ataki z wykorzystaniem podstawionych urządzeń zadziałają nawet na linux, choć pewnie cała
+masa użytkowników wyznaje jeszcze mit, że ich komputer jest bezpieczny, bo przecie używają
+alternatywnego systemu operacyjnego, który jest OpenSource i za priorytet obrał sobie szeroko
+rozumiane bezpieczeństwo. Niestety nie jest tak różowo jakby mogło się co niektórym wydawać ale
+można ten stan rzeczy naturalnie zmienić i nie trzeba przy tym rekompilować kernela z zamiarem
+wyłączenia obsługi modułu USB, co ten opisany w podlinkowanym artykule atak oczywiście by również
+powstrzymało. Zamiast tego możemy zainstalować sobie narzędzie usbguard i przy jego pomocy
+skonfigurować politykę podłączanych do portów USB urządzeń."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak przy pomocy USBguard zabezpieczyć porty USB przed złośliwymi urządzeniami</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2019-02-24T12:00:33Z">Opublikowano: 24/02/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak przy pomocy USBguard zabezpieczyć porty USB przed złośliwymi urządzeniami</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#dlaczego-urządzenia-usb-mogą-być-takie-groźne">Dlaczego urządzenia USB mogą być takie groźne</a>
+      <ol>
+        <li><a href="#moduły-kernela-wykorzystywane-przez-interfejsy-usb">Moduły kernela wykorzystywane przez interfejsy USB</a></li>
+      </ol>
+    </li>
+    <li><a href="#usbguard">USBguard</a></li>
+    <li><a href="#konfiguracja-demona-usbguard">Konfiguracja demona usbguard</a></li>
+    <li><a href="#generowanie-polityki-dla-usbguard">Generowanie polityki dla USBguard</a>
+      <ol>
+        <li><a href="#graficzna-nakładka-usbguard-applet-qt">Graficzna nakładka usbguard-applet-qt</a></li>
+      </ol>
+    </li>
+    <li><a href="#czy-porty-usb-są-już-bezpieczne">Czy porty USB są już bezpieczne</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Ostatnio na
+Niebezpieczniku <a href="https://niebezpiecznik.pl/post/zlosliwy-kabel-usb-ktory-zmienia-sie-w-klawiature-i-infekuje-twoj-komputer/">pojawił się artykuł</a>
+na temat niezbyt przyjaznych urządzeń podłączanych do komputera za sprawą portów USB (opisanych na
+przykładzie niepozornego przewodu) i tego jaką szkodę tego typu hardware może nam wyrządzić w
+systemie. Ataki z wykorzystaniem podstawionych urządzeń zadziałają nawet na linux, choć pewnie cała
+masa użytkowników wyznaje jeszcze mit, że ich komputer jest bezpieczny, bo przecie używają
+alternatywnego systemu operacyjnego, który jest OpenSource i za priorytet obrał sobie szeroko
+rozumiane bezpieczeństwo. Niestety nie jest tak różowo jakby mogło się co niektórym wydawać ale
+można ten stan rzeczy naturalnie zmienić i nie trzeba przy tym rekompilować kernela z zamiarem
+wyłączenia obsługi modułu USB, co ten opisany w podlinkowanym artykule atak oczywiście by również
+powstrzymało. Zamiast tego możemy zainstalować sobie narzędzie <code>usbguard</code> i przy jego pomocy
+skonfigurować politykę podłączanych do portów USB urządzeń.</p>
+<h2 id="dlaczego-urządzenia-usb-mogą-być-takie-groźne">Dlaczego urządzenia USB mogą być takie groźne</h2>
+<p>Generalnie rzecz biorąc, to przy podłączaniu jakiegokolwiek urządzenia do portu USB, nasz system
+komunikuje się z tym urządzeniem w celu ustalenia pewnych informacji umożliwiających wstępną
+identyfikację sprzętu by dobrać dla niego odpowiedni sterownik. Gdy ten proces się zakończy,
+odpowiedni moduł kernela jest ładowany (zwykle automatycznie, o ile jest dostępny) i po krótkiej
+chwili urządzenie jest gotowe do pracy
+(taki <a href="https://pl.wikipedia.org/wiki/Plug_and_play">PlugAndPlay</a>). Wszystko fajnie, gdy w grę
+wchodzą urządzenia, które nie mają złowrogich zamiarów. Niemniej jednak, podłączając jakiś trefny
+hardware, to on również zostanie skonfigurowany i będzie w stanie się komunikować z naszym systemem.</p>
+<p>Do tej automatycznej konfiguracji sprzętu dochodzi jeszcze jedna rzecz. Obecnie proces
+miniaturyzacji jest na tyle zaawansowany, że zaszycie w takim niepozornym urządzeniu dodatkowych
+modułów sprzętowych nie stanowi większego wyzwania. Z naszej perspektywy jest to tylko zwykły
+przewód czy pendrive ale pod maską taki kawałek hardware może być nafaszerowany elektroniką i do
+póki tego urządzenia nie rozbierzemy na czynniki pierwsze, to też możemy nawet tego faktu nigdy nie
+być do końca świadomi. Weźmy np. modemy LTE. Niby mają modem GSM ale też można do nich podłączyć
+kartę SD, która bez problemu zostanie w systemie wykryta jako osobne urządzenie blokowe (obok
+modemu). Niby podłączyliśmy jedno urządzenie, a w systemie zostanie ich wykrytych kilka i każde z
+nich zostanie skonfigurowane osobno i będzie wykorzystywać inny moduł kernela. Wszystkie te
+informacje są zawarte w konfiguracji zwracanej przez urządzenie USB, po tym jak system operacyjny
+zażąda od urządzenia identyfikacji. Poniżej przykład wyjścia polecenia <code>lsusb</code> :</p>
+<pre><code>#  lsusb -vvv -d 12d1:15b6
+Bus 002 Device 012: ID 12d1:15b6 Huawei Technologies Co., Ltd.
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.10
+  bDeviceClass            0
+  bDeviceSubClass         0
+  bDeviceProtocol         0
+  bMaxPacketSize0        64
+  idVendor           0x12d1 Huawei Technologies Co., Ltd.
+  idProduct          0x15b6
+  bcdDevice            1.02
+  iManufacturer           1 HUAWEI_MOBILE
+  iProduct                2 HUAWEI_MOBILE
+  iSerial                 3 0123456789ABCDEF
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x00c6
+    bNumInterfaces          4
+    bConfigurationValue     1
+    iConfiguration          0
+    bmAttributes         0xc0
+      Self Powered
+    MaxPower                2mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           2
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      3
+      bInterfaceProtocol     18
+      iInterface              0
+      ** UNRECOGNIZED:  05 24 00 10 01
+      ** UNRECOGNIZED:  04 24 02 02
+      ** UNRECOGNIZED:  05 24 01 00 00
+      ** UNRECOGNIZED:  05 24 06 00 00
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x01  EP 1 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       0
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      3
+      bInterfaceProtocol     16
+      iInterface              0
+      ** UNRECOGNIZED:  05 24 00 10 01
+      ** UNRECOGNIZED:  04 24 02 02
+      ** UNRECOGNIZED:  05 24 01 00 01
+      ** UNRECOGNIZED:  05 24 06 00 00
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x83  EP 3 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x000a  1x 10 bytes
+        bInterval               9
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x02  EP 2 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        2
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      3
+      bInterfaceProtocol     22
+      iInterface              7 NCM Network Control Model
+      ** UNRECOGNIZED:  05 24 00 10 01
+      ** UNRECOGNIZED:  06 24 1a 00 01 1f
+      ** UNRECOGNIZED:  0d 24 0f 09 0f 00 00 00 ea 05 03 00 01
+      ** UNRECOGNIZED:  05 24 06 02 02
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x85  EP 5 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               5
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        2
+      bAlternateSetting       1
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      3
+      bInterfaceProtocol     22
+      iInterface              8 CDC Network Data
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x85  EP 5 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               5
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x03  EP 3 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        3
+      bAlternateSetting       0
+      bNumEndpoints           2
+      bInterfaceClass         8 Mass Storage
+      bInterfaceSubClass      6 SCSI
+      bInterfaceProtocol     80 Bulk-Only
+      iInterface             11 Mass Storage
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x86  EP 6 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x04  EP 4 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               1
+Binary Object Store Descriptor:
+  bLength                 5
+  bDescriptorType        15
+  wTotalLength       0x0016
+  bNumDeviceCaps          2
+  USB 2.0 Extension Device Capability:
+    bLength                 7
+    bDescriptorType        16
+    bDevCapabilityType      2
+    bmAttributes   0x00000002
+      HIRD Link Power Management (LPM) Supported
+  SuperSpeed USB Device Capability:
+    bLength                10
+    bDescriptorType        16
+    bDevCapabilityType      3
+    bmAttributes         0x00
+    wSpeedsSupported   0x000f
+      Device can operate at Low Speed (1Mbps)
+      Device can operate at Full Speed (12Mbps)
+      Device can operate at High Speed (480Mbps)
+      Device can operate at SuperSpeed (5Gbps)
+    bFunctionalitySupport   1
+      Lowest fully-functional device speed is Full Speed (12Mbps)
+    bU1DevExitLat           1 micro seconds
+    bU2DevExitLat         500 micro seconds
+can't get debug descriptor: Resource temporarily unavailable
+Device Status:     0x0001
+  Self Powered
+</code></pre>
+<p>Kernel linux'a te wszystkie informacje zwrócone wyżej jest w stanie uzyskać zanim dobierze moduł
+dla tego urządzenia. Dokładna rozpiska co każda z tych opcji oznacza
+jest <a href="https://www.beyondlogic.org/usbnutshell/usb5.shtml">dostępna tutaj</a>. Te najważniejsze rzeczy,
+które nas powinny zainteresować, to przede wszystkim <code>bNumConfigurations</code> określająca ilość
+możliwych konfiguracji, które ten sprzęt wspiera. Zwykle będzie tutaj wartość <code>1</code> , bo przy
+większej liczbie konfiguracji rośnie skomplikowalność modułu i co za tym idzie problematyczne staje
+się wsparcie dla tego urządzenia w danym systemie operacyjnym. Dalej interesuje nas
+<code>bNumInterfaces</code> , którego wartość określa liczbę interfejsów urządzenia (taki interfejs to w
+zasadzie osobny ficzer, np. karta SD). W tym przypadku jest 5 interfejsów (numerowane od <code>0</code> ).
+Każdy z interfejsów posiada identyfikator w postaci trzech składowych: <code>bInterfaceClass</code> ,
+<code>bInterfaceSubClass</code> oraz <code>bInterfaceProtocol</code> . Wartości tych trzech parametrów są w stanie
+zidentyfikować konkretny moduł, np. czy mamy na pokładzie urządzenia moduł klawiatury, co
+mogłoby wzbudzać już podejrzenia w przypadku pendrive, który powinien mieć w zasadzie tylko jeden
+interfejs wskazujący na &quot;USB mass storage&quot;. Analizując w ten sposób interfejsy urządzenia USB,
+możemy wyłapać pewne nieścisłości i określić z dużym prawdopodobieństwem czy takie urządzenie może
+działać na nasza szkodę. W przytoczonym wyżej przykładzie mamy poniższe interfejsy:</p>
+<pre><code>Interface Descriptor:
+        ...
+        Interface Descriptor:
+          bInterfaceNumber        0
+          bAlternateSetting       0
+          ...
+          bInterfaceClass       255 Vendor Specific Class
+          bInterfaceSubClass      3
+          bInterfaceProtocol     18
+          iInterface              0
+        ...
+        Interface Descriptor:
+        ...
+          bInterfaceNumber        1
+          bAlternateSetting       0
+          ...
+          bInterfaceClass       255 Vendor Specific Class
+          bInterfaceSubClass      3
+          bInterfaceProtocol     16
+          iInterface              0
+        ...
+        Interface Descriptor:
+        ...
+          bInterfaceNumber        2
+          bAlternateSetting       0
+          ...
+          bInterfaceClass       255 Vendor Specific Class
+          bInterfaceSubClass      3
+          bInterfaceProtocol     22
+          iInterface              7 NCM Network Control Model
+        ...
+        Interface Descriptor:
+        ...
+          bInterfaceNumber        2
+          bAlternateSetting       1
+          ...
+          bInterfaceClass       255 Vendor Specific Class
+          bInterfaceSubClass      3
+          bInterfaceProtocol     22
+          iInterface              8 CDC Network Data
+        ...
+        Interface Descriptor:
+        ...
+          bInterfaceNumber        3
+          bAlternateSetting       0
+          ...
+          bInterfaceClass         8 Mass Storage
+          bInterfaceSubClass      6 SCSI
+          bInterfaceProtocol     80 Bulk-Only
+          iInterface             11 Mass Storage
+        ...
+</code></pre>
+<p>Jeśli się uważnie przyjrzymy, to mamy dwa interfejsy z numerkiem <code>2</code> . W przypadku tych interfejsów
+w grę wchodzi jeszcze atrybut <code>bAlternateSetting</code> , który w przypadku pierwszego z nich ma wartość
+<code>0</code> , a w przypadku drugiego wartość <code>1</code> . Oznacza, to, że te dwa interfejsy mogą się przełączać w
+locie.</p>
+<p>Wartości, które widać wyżej, są w zapisie dziesiętnym. Niemniej jednak, pewne narzędzia (np.
+<code>usbguard</code> ) używają zapisu HEX. Dla przykładu identyfikator interfejsów tego urządzenia wyglądałby
+następująco: <code>ff:03:12 ff:03:10 ff:03:16 ff:03:16 08:06:50</code> . Interfejsy zaczynające się od <code>255</code>
+( <code>FF</code> ) są specyficzne dla producenta sprzętu (Vendor Specific). Ostatni interfejs zaś obsługuje
+kartę SD, którą można wsadzić do dedykowanego gniazda w tym modemie LTE.</p>
+<p>Gdy mamy jakieś zaufane urządzenie to interfejsy w nim powinno się dać łatwo zidentyfikować. Będą
+one także takie same za każdym razem przy podłączaniu tego urządzenia do portów USB komputera.
+Każda zmiana tych interfejsów, np. pojawienie się nowego, może oznaczać podmianę urządzenia i z
+wierzchu może ono nawet łudząco przypominać nasz ulubiony pendrive ale w środku może się on już
+znacznie różnić. Niemniej jednak, standardowo linux skonfiguruje każde urządzenie, które się do
+niego podłączy, oczywiście jeśli będzie miał odpowiedni sterownik i wypadałoby oduczyć nasz system
+tego zachowania.</p>
+<h3 id="moduły-kernela-wykorzystywane-przez-interfejsy-usb">Moduły kernela wykorzystywane przez interfejsy USB</h3>
+<p>Jeśli mamy zastrzeżenia co do interfejsów naszego urządzenia USB, to zawsze możemy sprawdzić jakie
+moduły dobierze mu kernel. Oczywiście lepiej jest to robić z poziomu jakiegoś live cd/dvd/pendrive,
+a nie z głównego systemu. Na systemie live powinno być dostępne polecenie <code>usb-devices</code> (w pakiecie
+<code>usbutils</code> ). Zwróci nam ono szereg informacji na temat urządzeń USB podpiętych aktualnie do portów
+USB, przykładowo:</p>
+<pre><code># usb-devices
+...
+T:  Bus=02 Lev=02 Prnt=02 Port=02 Cnt=03 Dev#= 28 Spd=480 MxCh= 0
+D:  Ver= 2.10 Cls=00(&gt;ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+P:  Vendor=12d1 ProdID=15b6 Rev=01.02
+S:  Manufacturer=HUAWEI_MOBILE
+S:  Product=HUAWEI_MOBILE
+S:  SerialNumber=0123456789ABCDEF
+C:  #Ifs= 4 Cfg#= 1 Atr=c0 MxPwr=2mA
+I:  If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=03 Prot=12 Driver=option
+I:  If#=0x1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=03 Prot=10 Driver=option
+I:  If#=0x2 Alt= 1 #EPs= 3 Cls=ff(vend.) Sub=03 Prot=16 Driver=huawei_cdc_ncm
+I:  If#=0x3 Alt= 0 #EPs= 2 Cls=08(stor.) Sub=06 Prot=50 Driver=usb-storage
+</code></pre>
+<p>Linijki mające <code>I</code> to interfejsy. Może i było ich 5 ale wykorzystywanych w danym czasie są tylko 4.
+Interfejsów w tym modemie LTE
+może <a href="https://morfikov.github.io/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/">być naturalnie więcej lub mniej</a>.
+Wszystko zależy od jego konfiguracji (polecenie <code>AT^SETPORT=</code> ). Każdy włączony port w modemie
+będzie miał osobny interfejs USB z pasującym numerkiem. Przykładowo, ten modem obsługuje poniższe
+porty:</p>
+<pre><code>^SETPORT:3: 3G DIAG
+^SETPORT:10: 4G MODEM
+^SETPORT:1: 3G MODEM
+^SETPORT:12: 4G PCUI
+^SETPORT:13: 4G DIAG
+^SETPORT:5: 3G GPS
+^SETPORT:14: 4G GPS
+^SETPORT:A: BLUE TOOTH
+^SETPORT:16: NCM
+^SETPORT:A1: CDROM
+^SETPORT:A2: SD
+</code></pre>
+<p>Numerki, które tutaj widać, pasują do <code>Prot=</code> zwróconym w wyjściu polecenia <code>usb-devices</code> (za
+wyjątkiem tych mających <code>A</code> ) . Widać zatem, że porty <code>4G MODEM</code> oraz <code>4G PCUI</code> są obsługiwane
+przez moduł kernela <code>option</code> , natomiast port <code>NCM</code> jest obsługiwany przez moduł <code>huawei_cdc_ncm</code> ,
+a port <code>SD</code> przez moduł <code>usb-storage</code> .</p>
+<p>Zagadkowy może się wydawać moduł <code>option</code> i mi w zasadzie  to on nic ze swojej nazwy nie powiedział.
+Trochę informacji o tym module można wyciągnąć z <code>modinfo option</code>
+ale <a href="https://superuser.com/questions/691271/what-does-modprobe-option-do">ostatecznie okazało</a> się,
+że ten moduł <code>option</code> istnieje, bo standardowy sterownik szeregowy dostępny w linux nie działa za
+dobrze z modemami GSM i powoduje parę problemów (opisanych w pliku
+<code>kernel-git/linux-kernel/drivers/usb/serial/option.c</code> ).</p>
+<h2 id="usbguard">USBguard</h2>
+<p>Jako, że podłączane do portu USB urządzenie musi pierw się zidentyfikować, to jesteśmy w
+stanie <a href="https://www.kernel.org/doc/Documentation/usb/authorization.txt">powstrzymać kernel linux'a od konfiguracji sprzętu</a>
+niewiadomego pochodzenia, przez co nie będzie on miał nawet okazji poczynić jakiejkolwiek szkody w
+systemie. By zatrzymać proces automatycznej konfiguracji sprzętu USB, musimy zaprzęgnąć do pracy
+jakiegoś demona, który będzie monitorował podłączane urządzenia USB i weryfikował je pod względem
+zaufania. Takim demonem jest <a href="https://usbguard.github.io/">USBuard</a>, który w Debianie jest zawarty
+w pakiecie noszącym tę samą nazwę. Dodatkowo, by ułatwić nieco konfigurację polityki urządzeń,
+dobrze jest zainstalować sobie również pakiet <code>usbguard-applet-qt</code> .</p>
+<p>Zasada mechanizmu opartego o <code>usbguard</code> jest prosta. Domyślnie wszystkie urządzenia USB będą
+traktowane jako niezaufane (lepiej zawczasu zrobić stosowne reguły dla klawiatury i myszy, by
+czasem nie odciąć sobie dostępu do systemu). Po włączeniu mechanizmu bezpieczeństwa, <code>usbguard</code>
+przepisze wartość plików  <code>/sys/bus/usb/devices/*/authorized _default</code> na <code>0</code> . Taki stan rzeczy
+sprawi, że nowe urządzenia USB z automatu nie będą mogły zostać skonfigurowane. Po podłączeniu
+nowego sprzętu, w logu zostanie zarejestrowany jedynie poniższy komunikat:</p>
+<pre><code>kernel: usb 2-1.3: new high-speed USB device number 13 using ehci-pci
+kernel: usb 2-1.3: New USB device found, idVendor=12d1, idProduct=15b6, bcdDevice= 1.02
+kernel: usb 2-1.3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+kernel: usb 2-1.3: Product: HUAWEI_MOBILE
+kernel: usb 2-1.3: Manufacturer: HUAWEI_MOBILE
+kernel: usb 2-1.3: SerialNumber: 0123456789ABCDEF
+kernel: usb 2-1.3: Device is not authorized for usage
+</code></pre>
+<p>Ostatnia linijka świadczy dobitnie, że to urządzenie nie zostało dopuszczone do użytku. Natomiast
+mamy wyżej trochę informacji, które możemy podać w <code>lsusb</code> i przejrzeć konfigurację urządzenia,
+które właśnie podłączyliśmy do portu USB.</p>
+<p>Dodatkowo, demon <code>usbguard</code> zwróci nam coś na wzór poniższego logu:</p>
+<pre><code>usbguard-daemon[77129]: uid=0 pid=77127 device.rule='block id 12d1:15b6 serial &quot;0123456789ABCDEF&quot;
+  name &quot;HUAWEI_MOBILE&quot; hash &quot;at8BIODSI/yrJm+T+kx7pJCwnBO0+bLymnA0okqGYJk=&quot;
+  parent-hash &quot;oDU77vx1EsfYlDoXkU7iWjsvmBNCDNTcCHp/V0hIFXc=&quot; via-port &quot;2-1.3&quot;
+  with-interface { ff:03:12 ff:03:10 ff:03:16 ff:03:16 08:06:50 }' type='Device.Insert'
+  result='SUCCESS' device.system_name='/devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.3'
+
+usbguard-daemon[77129]: uid=0 pid=77127 result='SUCCESS'
+  device.system_name='/devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.3' target.new='block'
+  type='Policy.Device.Update' device.rule='block id 12d1:15b6 serial &quot;0123456789ABCDEF&quot;
+  name &quot;HUAWEI_MOBILE&quot; hash &quot;at8BIODSI/yrJm+T+kx7pJCwnBO0+bLymnA0okqGYJk=&quot;
+  parent-hash &quot;oDU77vx1EsfYlDoXkU7iWjsvmBNCDNTcCHp/V0hIFXc=&quot; via-port &quot;2-1.3&quot;
+  with-interface { ff:03:12 ff:03:10 ff:03:16 ff:03:16 08:06:50 }' target.old='block'
+
+usbguard-daemon[77129]: Ignoring unknown UEvent action:
+  sysfs_devpath=/devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.3 action=bind
+</code></pre>
+<p>Wartości atrybutów z tego logu są w stanie zidentyfikować konkretne urządzenie USB podłączane do
+systemu. Jak widać wyżej, urządzenie USB można dopasować na wiele sposobów. Można używać
+indywidualnych pól, np. <code>id</code> czy <code>serial</code> , można też je łączyć zacieśniając dość mocno politykę
+bezpieczeństwa.</p>
+<p>Większość z atrybutów, które się pojawiły w logu, raczej powinna być zrozumiała ale wypadałoby
+poruszyć kwestię hash'ów. W logu mamy <code>hash</code> i <code>parent-hash</code> . Te hash'e są wyliczane z wartości
+atrybutów urządzenia oraz danych deskryptora USB. Jeśli zachodzi potrzeba, by dane urządzenie było
+podłączone tylko i wyłącznie do konkretnego portu USB, to <code>parent-hash</code> jest nam w stanie to
+zadanie umożliwić. Jeśli chodzi zaś o interfejsy, to <code>usbguard</code> traktuje każdy zestaw interfejsów
+jako indywidualne urządzenie. Jeśli szereg wartości identyfikujących urządzenie nie zmieniłby się
+ale zamiast tych pięciu interfejsów było by ich cztery, to wtedy trzeba by dodać jeszcze jedną
+regułę zawierającą tylko te cztery interfejsy.</p>
+<p>Za każdym razem jak tylko demon <code>usbguard</code> uzna (w oparciu o politykę narzuconą przez reguły), że
+dane urządzenie jest mu znane i powinno być dopuszczone do użytku, to wpisze <code>1</code> w pliku
+<code>/sys/bus/usb/devices/*/authorized</code> .</p>
+<h2 id="konfiguracja-demona-usbguard">Konfiguracja demona usbguard</h2>
+<p>Politykę bezpieczeństwa portów USB w systemie możemy skonfigurować na kilka różnych sposobów. Całe
+to zadanie sprowadza się w zasadzie do edycji pliku <code>/etc/usbguard/usbguard-daemon.conf</code> . Nie jest
+on jakoś szczególnie rozbudowany, dlatego też wrzucę go tutaj w całości, a niżej opiszę
+poszczególne parametry:</p>
+<pre><code>RuleFile=/etc/usbguard/rules.conf
+ImplicitPolicyTarget=block
+PresentDevicePolicy=apply-policy
+PresentControllerPolicy=apply-policy
+InsertedDevicePolicy=apply-policy
+RestoreControllerDeviceState=false
+DeviceManagerBackend=uevent
+IPCAllowedUsers=root morfik
+IPCAllowedGroups=root
+IPCAccessControlFiles=/etc/usbguard/IPCAccessControl.d/
+DeviceRulesWithPort=false
+AuditBackend=FileAudit
+AuditFilePath=/var/log/usbguard/usbguard-audit.log
+</code></pre>
+<ul>
+<li><code>RuleFile=</code> -- definiuje ścieżkę do pliku, w którym będą przechowywane reguły dla urządzeń USB.</li>
+<li><code>ImplicitPolicyTarget=</code> -- określa domyślną politykę dla nowych urządzeń (tych niemających
+reguły w pliku określonym przez <code>RuleFile=</code> ) -- do wyboru <code>allow</code> , <code>block</code> lub <code>reject</code> . W
+przypadku wybrania <code>reject</code> urządzenie nie tylko zostanie zablokowane ale również usunięte z
+systemu (kernel linux'a przestanie je widzieć), tak samo jakbyśmy je zwyczajnie odłączyli od portu
+USB, mimo, że fizycznie ono dalej tam będzie. By z takim urządzeniem wejść ponownie w interakcję
+trzeba będzie je odłączyć i ponownie podłączyć do portu USB.</li>
+<li><code>PresentDevicePolicy=</code> oraz <code>PresentControllerPolicy=</code> -- określają jak traktować urządzenia i
+kontrolery USB, które są aktualnie podłączone do systemu w momencie, gdy demon <code>usbguard</code> jest
+uruchamiany. Przykładem może być faza startu systemu, gdzie pierw są wykrywane urządzenia, a
+dopiero później są startowane usługi (w tym <code>usbguard</code> ). W takim przypadku trzeba podjąć decyzję
+co zrobić z tymi urządzeniami USB, które sobie już działają w systemie. Do wyboru mamy <code>allow</code> ,
+<code>block</code> , <code>reject</code> oraz jeszcze są <code>keep</code> i <code>apply-policy</code> . W przypadku wybrania tej ostatniej
+wartości, urządzenia zostaną sprawdzone pod kątem pliku reguł i jeśli któreś nie będzie miało
+stosownej reguły, to zostanie podjęta akcja określona w <code>ImplicitPolicyTarget=</code> .</li>
+<li><code>InsertedDevicePolicy=</code> -- określa co robić z urządzeniami USB, które zostaną odłączone i
+ponownie podłączone (lub też podłączone w późniejszym czasie) do systemu (po uruchomieniu demona
+<code>usbguard</code>). Do wyboru są <code>block</code> , <code>reject</code> oraz <code>apply-policy </code> . Gdy ustawimy tutaj <code>block</code> lub
+<code>reject</code> , to każde wykryte urządzenie (bez znaczenia czy ma ono regułę w pliku określonym przez
+<code>RuleFile=</code> ) nie będzie już mogło zostać na nowo skonfigurowane w systemie. Jeśli zatem odłączymy
+klawiaturę, to już jej ponownie nie będziemy w stanie podłączyć. Dobrze jest tutaj ustawić
+<code>apply-policy</code> . Inne wartości mogą mieć zastosowanie,
+np. <a href="https://usbguard.github.io/blog/2017/Screen-Locking">przy zablokowaniu ekranu</a>, gdzie raczej
+nie spodziewamy się podłączania nowego sprzętu.</li>
+<li><code>RestoreControllerDeviceState=</code> -- określa czy <code>usbguard</code> ma próbować odtworzyć wartości
+atrybutów kontrolerów urządzeń, np. domyślny stan autoryzacji dla nowych instancji urządzeń
+potomnych, przed zamknięciem systemu. Nie zaleca się ustawienie tutaj wartości <code>true</code> , bo może to
+prowadzić do obejścia zdefiniowanych reguł polityki bezpieczeństwa.</li>
+<li><code>DeviceManagerBackend=</code> -- definiuje backend menadżera urządzeń. Do wyboru <code>uevent</code> oraz
+<code>umockdev</code> . Domyślnie jest ustawiony ten pierwszy.</li>
+<li><code>IPCAllowedUsers=</code> , <code>IPCAllowedGroups=</code> oraz <code>IPCAccessControlFiles=</code> -- konfigurują połączenia
+IPC (międzyprocesowe). Powinno się określić choć jednego użytkownika (lub grupę), który takie
+połączenia z demonem <code>usbguard</code> może nawiązywać. Jeśli się nie określi ani użytkownika ani grupy,
+to wtedy połączenia IPC z demonem będzie w stanie nawiązywać każdy użytkownik w systemie, co
+zagraża polityce bezpieczeństwa.</li>
+<li><code>DeviceRulesWithPort=</code> -- określa czy generowane reguły powinny zawierać atrybut <code>via-port</code> . Nie
+zaleca się ustawiania tutaj wartości <code>true</code> , bo numerowanie portów w linux nie jest zbyt stabilne
+i po ponownym uruchomieniu systemu numeracja portów może ulec zmianie, co zablokuje dostęp do
+urządzeń.</li>
+<li><code>AuditBackend=</code> oraz <code>AuditFilePath=</code> -- konfigurują backend audytu. W <code>AuditBackend=</code> można
+określić <code>FileAudit</code> lub <code>LinuxAudit</code> . Jeśli zostanie wybrany ten pierwszy, to logi powędrują do
+pliku wskazanego w <code>AuditFilePath=</code> . Jeśli zaś wybierze się <code>LinuxAudit</code> , to logi będą
+rejestrowane przy pomocy podsystemu Linux Audit.</li>
+</ul>
+<h2 id="generowanie-polityki-dla-usbguard">Generowanie polityki dla USBguard</h2>
+<p>Mając skonfigurowanego demona <code>usbguard</code> oraz wiedząc gdzie szukać informacji o urządzeniu USB,
+możemy przejść do pisania reguł polityki bezpieczeństwa. Na początek dobrze jest zacząć od
+wygenerowania tych reguł, które pasują do podłączonego już do komputera sprzętu USB. W tym celu
+wystarczy wpisać w terminal to poniższe polecenie:</p>
+<pre><code># usbguard generate-policy
+</code></pre>
+<p>Wyjście, które uzyskamy, zapisujemy w pliku <code>/etc/usbguard/rules.conf</code> . Te reguły są maksymalnie
+dopasowane do konkretnych urządzeń podłączonych do określonych portów USB w komputerze. Jeśli
+chcemy nieco poluzować politykę bezpieczeństwa, to trzeba będzie poddać ręcznej edycji ten plik i
+pousuwać/pozmieniać konkretne rzeczy. Dla przykładu, reguła od tego modemu LTE wygląda tak (reguła
+zawinięta dla lepszej czytelności):</p>
+<pre><code>allow id 12d1:15b6 serial &quot;0123456789ABCDEF&quot; name &quot;HUAWEI_MOBILE&quot;
+  hash &quot;at8BIODSI/yrJm+T+kx7pJCwnBO0+bLymnA0okqGYJk=&quot;
+  parent-hash &quot;oDU77vx1EsfYlDoXkU7iWjsvmBNCDNTcCHp/V0hIFXc=&quot;
+  with-interface { ff:03:12 ff:03:10 ff:03:16 ff:03:16 08:06:50 }
+</code></pre>
+<p>Ten <code>parent-hash</code> można usunąć jeśli nie zależy nam na tym, by ten modem był podłączany tylko do
+tego konkretnego portu USB.</p>
+<h3 id="graficzna-nakładka-usbguard-applet-qt">Graficzna nakładka usbguard-applet-qt</h3>
+<p>Reguły można pisać ręcznie poddając edycji plik <code>/etc/usbguard/rules.conf</code> lub też można posłużyć
+się graficzną nakładką <code>usbguard-applet-qt</code> . Ta nakładka jednak wymaga, by skonfigurować
+użytkowników lub grupę dla IPC, umożliwiając tym samym komunikację interfejsowi GUI z demonem
+<code>usbguard</code> uruchomionym z prawami konkretnego użytkownika w systemie.</p>
+<p>W tym przypadku tylko użytkownik <code>root</code> i <code>morfik</code> oraz członkowie grupy <code>root</code> będą w stanie
+wysyłać zapytania do demona <code>usbguard</code> . Jeśli odpalimy teraz <code>usbguard-applet-qt</code> , to w
+przypadku wykrycia nowego sprzętu powiadomi on nas o tym fakcie:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/02/001.usbguard-usb-device-linux-debian.png" alt=""    class="medium"></p>
+<p>Nazwa urządzenia, jego numery identyfikacyjne, serial oraz aktualnie udostępniane interfejsy są
+widoczne i można łatwo ustawić czy to urządzenie jest tym, za które się faktycznie podaje. Możemy
+zezwolić systemowi na skonfigurowanie tego urządzenia lub też zablokować ten proces. Przy braku
+akcji z naszej strony, urządzenie zostanie zablokowane automatycznie. Jeśli mamy pewność, że dane
+urządzenie nie poczyni nam szkód w systemie, to możemy dodać wyjątek na stałe.</p>
+<p>Wszystkie aktualnie podłączone do komputera urządzenia USB można podejrzeć w głównym okienku
+<code>usbguard-applet-qt</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/02/002.usbguard-usb-device-list-linux-debian.png" alt=""    class="huge"></p>
+<p><code>Target</code> możemy w dowolnej chwili zmienić, a zaznaczając przy aplikowaniu ustawień opcję
+<code>Permanently</code> , <code>usbguard-applet-qt</code> będzie w stanie automatycznie uzupełniać plik
+<code>/etc/usbguard/rules.conf</code> odpowiednimi wartościami atrybutów. Naturalnie w dalszym ciągu
+przydałoby się po każdej takiej zmianie przejrzeć ten plik i pousuwać z niego zbędne atrybuty.</p>
+<h2 id="czy-porty-usb-są-już-bezpieczne">Czy porty USB są już bezpieczne</h2>
+<p>Mając odpowiednio skonfigurowanego demona <code>usbguard</code> i dodane reguły dla każdego znanego nam
+urządzenia USB możemy czuć się jedynie względnie bezpieczni. O ile każde nowe urządzenie będzie
+wymagać od nas podjęcia akcji czy zezwolić mu na dostęp do systemu czy też nie, to w dalszym ciągu
+trzeba będzie za każdym razem weryfikować interfejsy urządzenia w wyjściu polecenia <code>lsusb</code> . Jeśli
+nie będziemy tego robić, to prędzej czy później możemy trafić na podstawione urządzenie, a gdy
+dodamy mu jeszcze stosowną regułę, to całą politykę bezpieczeństwa szlag trafi.</p>
+<p>Trzeba także pamiętać o fazie startu systemu, gdzie na początku są wykrywane wszystkie urządzenia,
+w tym też te USB, a dopiero po chwili startuje demon <code>usbguard</code> . Przez ten krótki moment nasz
+system nie jest chroniony przez politykę bezpieczeństwa, którą sobie skonfigurowaliśmy wyżej.
+Dlatego też trzeba zwracać uwagę na to co siedzi w portach USB zanim uruchomimy komputer. Warto też
+w tym miejscu wspomnieć o konieczności wykorzystania pełnego szyfrowania dysku (FDE), bo bez niego
+to takie zabezpieczenie jak <code>usbguard</code> jest raczej pozbawione sensu.</p>
+<p>Ewidentnym plusem <code>usbguard</code> jest fakt, że nikt bez naszej wiedzy nie podłączy już do działającego
+systemu jakiegoś trefnego urządzenia. Dodatkowo, również złowroga pokojówka nie podepnie do tak
+chronionego kompa pendrive i nie zgra na niego naszych prywatnych danych w celu późniejszego
+szantażowania nas. No i oczywiście nikt nic nie wgra nam do systemu z takiego dysku USB, bo żadna
+dodatkowa pamięć masowa nie zostanie skonfigurowana. Wiem, że każdy z nas blokuje ekran jak tylko
+odchodzi od kompa ale czasem można o tym albo zapomnieć, albo też zlekceważyć zagrożenie, bo
+przecież &quot;poszedłem tylko do WC na parę sekund&quot;. W dalszym jednak ciągu można te dane wyprowadzić
+przez łącze internetowe (no chyba, że ktoś zaimplementował sobie linux'owy firewall aplikacyjny na
+bazie <code>cgroups</code> ). I podobnie w drugą stronę -- można człowiekowi jakiś syf zassać z sieci i go
+uruchomić lokalnie (no chyba, że ktoś używa <a href="https://github.com/cormander/tpe-lkm">TPE</a>). Niemniej
+jednak, nasza pokojówka może zwyczajnie nie być przygotowana na taki scenariusz wykorzystania
+<code>usbguard</code> i jej niecne działania w tym konkretnym podejściu mogą nie przynieść żadnego efektu. My
+natomiast będziemy mieć informację w logu, która wskaże nam, że ktoś konkretnego dnia i o
+określonej godzinie próbował podłączyć jakieś urządzenie do naszego komputera i to powinno w nas
+wzbudzić już jakieś podejrzenia i zarazem zawęzić krąg podejrzanych osób.</p>
+<p>Trzeba też pamiętać o tym, że szereg urządzeń, np. smartfony, może posiadać kilka trybów pracy, np.
+tryb ładowania czy też tryb przesyłania danych przez protokół MTP. Przełączenie takiego smartfona
+między poszczególnymi trybami sprawia, że dla naszego systemu będzie on widziany jako zupełnie inne
+urządzenia (inne zestaw interfejsów). Dlatego też warto jest posprawdzać poszczególne tryby pracy
+konkretnych urządzeń i dodać reguły dla każdego z obsługiwanych trybów, oczywiście jeśli zamierzy z
+nich korzystać.</p>
+<p>Może i wspomniany modem LTE miał dwa podejrzane interfejsy, które z początku było ciężko
+zidentyfikować ale jak widać niekoniecznie taki stan rzeczy oznacza od razu fakt wpakowania w
+urządzenie USB jakichś modułów szpiegowskich czy też takich, które zagrażają bezpieczeństwu systemu.
+Takie moduły zwykle też muszą być możliwie proste w budowie, by do ich obsługi nie były potrzebne
+dodatkowe sterowniki, których instalacja w systemie byłaby wymagana -- bez nich dany interfejs
+zwyczajnie by nie mógł realizować swojego zadania. Na linux'ie bardzo łatwo można ustalić z jakich
+modułów korzysta sprzęt i co najważniejsze moduły w kernelu mają otwarte źródła, przez co można
+również być pewnym, że nikt tam syfu świadomie nie wpakował. Dlatego też jest spore
+prawdopodobieństwo, że te dodatkowe moduły szpiegowskie będą obsługiwane przez jakieś proste/ogólne
+sterowniki, które są już dostępne w systemie, tak jak to się odbywa w przypadku klawiatur, myszy
+czy pamięci masowych USB -- możemy mieć, np. kilka klawiatur USB i każda z nich będzie działać pod
+linux bez instalacji w systemie dodatkowego oprogramowania (zwykle też na tym samym module kernela),
+choć czasem pewne rzeczy mogą nie do końca być sprawne, np. cześć klawiszy multimedialnych. Mając
+na uwadze powyższe informacje, identyfikator klasy urządzenia (atrybuty <code>bInterfaceClass</code> ,
+<code>bInterfaceSubClass</code> oraz
+<code>bInterfaceProtocol</code>) <a href="https://www.usb.org/defined-class-codes">musi być znany</a>, bo inaczej
+system będzie miał problem z załadowaniem odpowiedniego driver'a, a wtedy atak może się nie powieść,
+a nawet jeśli będzie można go przeprowadzić, to jedynie na wąskim gronie użytkowników, co
+jednocześnie czyni ten atak niezbyt praktycznym w zastosowaniu.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/usb/">usb</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/modem/">modem</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/huawei/">huawei</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/e3372/">e3372</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami%2f&amp;text=Jak%20przy%20pomocy%20USBguard%20zabezpieczy%c4%87%20porty%20USB%20przed%20z%c5%82o%c5%9bliwymi%20urz%c4%85dzeniami" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami%2f&amp;title=Jak%20przy%20pomocy%20USBguard%20zabezpieczy%c4%87%20porty%20USB%20przed%20z%c5%82o%c5%9bliwymi%20urz%c4%85dzeniami" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami%2f&amp;title=Jak%20przy%20pomocy%20USBguard%20zabezpieczy%c4%87%20porty%20USB%20przed%20z%c5%82o%c5%9bliwymi%20urz%c4%85dzeniami" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami%2f&title=Jak%20przy%20pomocy%20USBguard%20zabezpieczy%c4%87%20porty%20USB%20przed%20z%c5%82o%c5%9bliwymi%20urz%c4%85dzeniami" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami%2f&amp;title=Jak%20przy%20pomocy%20USBguard%20zabezpieczy%c4%87%20porty%20USB%20przed%20z%c5%82o%c5%9bliwymi%20urz%c4%85dzeniami" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami%2f&description=Jak%20przy%20pomocy%20USBguard%20zabezpieczy%c4%87%20porty%20USB%20przed%20z%c5%82o%c5%9bliwymi%20urz%c4%85dzeniami" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/smstools-smsd-automat-wysylania-sms/">SMStools i smsd, czyli automat do wysyłania SMS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przypisac-losowy-adres-mac-interfejsu/">Jak przypisać losowy adres MAC do interfejsu</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/obsluga-kodow-ussd-w-modemach-lte/">Obsługa kodów USSD w modemach LTE</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wvdial-ppp-czyli-modem-lte-w-trybie-ras/">Wvdial i PPP, czyli modem LTE w trybie RAS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wysylanie-odbieranie-sms-w-wammu/">Wysyłanie i odbieranie SMS w wammu</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/">Gammu-smsd, czyli wysyłanie i odbieranie SMS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/">Zmiana nazwy interfejsu modemu ttyUSB0</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

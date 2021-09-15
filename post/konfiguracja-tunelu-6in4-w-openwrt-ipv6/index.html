@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Konfiguracja tunelu 6in4 w OpenWRT (IPv6) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Konfiguracja tunelu 6in4 w OpenWRT (IPv6)" />
+<meta property="og:description" content="Ludzie z IETF prawie 20 lat temu opracowali protokół IPv6. Niemniej jednak, w dalszym ciągu ogromna
+część providerów internetowych nie ma zamiaru zaimplementować u siebie jego obsługi. Ilość
+użytkowników, którzy mają natywne wsparcie dla protokołu
+IPv6 oscyluje w granicach 10% . Jeśli jednak
+mamy do dyspozycji router z firmware OpenWRT na pokładzie, to możemy pokusić się o skonfigurowanie
+tunelu 6in4. Jedynym warunkiem jest posiadanie zewnętrznego adresu IP. Tunel 6in4 jest bardzo
+podobny do tego 6to4, który był opisywany na przykładzie
+debiana. Tutaj jednak
+ten tunel zostanie ustawiony na routerze i w ten sposób cała wewnętrzna sieć będzie miała
+przydzieloną określoną przestrzeń adresową z puli IPv6." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-03-01T15:28:22&#43;00:00" />
+<meta property="article:modified_time" content="2016-03-01T15:28:22&#43;00:00" />
+
+
+		<meta itemprop="name" content="Konfiguracja tunelu 6in4 w OpenWRT (IPv6)">
+<meta itemprop="description" content="Ludzie z IETF prawie 20 lat temu opracowali protokół IPv6. Niemniej jednak, w dalszym ciągu ogromna
+część providerów internetowych nie ma zamiaru zaimplementować u siebie jego obsługi. Ilość
+użytkowników, którzy mają natywne wsparcie dla protokołu
+IPv6 oscyluje w granicach 10% . Jeśli jednak
+mamy do dyspozycji router z firmware OpenWRT na pokładzie, to możemy pokusić się o skonfigurowanie
+tunelu 6in4. Jedynym warunkiem jest posiadanie zewnętrznego adresu IP. Tunel 6in4 jest bardzo
+podobny do tego 6to4, który był opisywany na przykładzie
+debiana. Tutaj jednak
+ten tunel zostanie ustawiony na routerze i w ten sposób cała wewnętrzna sieć będzie miała
+przydzieloną określoną przestrzeń adresową z puli IPv6."><meta itemprop="datePublished" content="2016-03-01T15:28:22&#43;00:00" />
+<meta itemprop="dateModified" content="2016-03-01T15:28:22&#43;00:00" />
+<meta itemprop="wordCount" content="976">
+<meta itemprop="keywords" content="chaos-calmer,sieć,ipv6,router,6in4," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Konfiguracja tunelu 6in4 w OpenWRT (IPv6)"/>
+<meta name="twitter:description" content="Ludzie z IETF prawie 20 lat temu opracowali protokół IPv6. Niemniej jednak, w dalszym ciągu ogromna
+część providerów internetowych nie ma zamiaru zaimplementować u siebie jego obsługi. Ilość
+użytkowników, którzy mają natywne wsparcie dla protokołu
+IPv6 oscyluje w granicach 10% . Jeśli jednak
+mamy do dyspozycji router z firmware OpenWRT na pokładzie, to możemy pokusić się o skonfigurowanie
+tunelu 6in4. Jedynym warunkiem jest posiadanie zewnętrznego adresu IP. Tunel 6in4 jest bardzo
+podobny do tego 6to4, który był opisywany na przykładzie
+debiana. Tutaj jednak
+ten tunel zostanie ustawiony na routerze i w ten sposób cała wewnętrzna sieć będzie miała
+przydzieloną określoną przestrzeń adresową z puli IPv6."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Konfiguracja tunelu 6in4 w OpenWRT (IPv6)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-03-01T15:28:22Z">Opublikowano: 01/03/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Konfiguracja tunelu 6in4 w OpenWRT (IPv6)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#openwrt-chaos-calmer-i-potrzebne-oprogramowanie">OpenWRT Chaos Calmer i potrzebne oprogramowanie</a></li>
+    <li><a href="#jak-zarejestrować-tunel-6in4">Jak zarejestrować tunel 6in4</a></li>
+    <li><a href="#konfiguracja-tunelu-6in4-w-openwrt">Konfiguracja tunelu 6in4 w OpenWRT</a></li>
+    <li><a href="#test-połączenia-ipv6-przez-tunel-6in4-na-routerze">Test połączenia IPv6 przez tunel 6in4 na routerze</a></li>
+    <li><a href="#konfiguracja-ipv6-na-hoście-lokalnym">Konfiguracja IPv6 na hoście lokalnym</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Ludzie z IETF prawie 20 lat temu opracowali protokół IPv6. Niemniej jednak, w dalszym ciągu ogromna
+część providerów internetowych nie ma zamiaru zaimplementować u siebie jego obsługi. <a href="http://www.google.com/intl/pl/ipv6/statistics.html">Ilość
+użytkowników, którzy mają natywne wsparcie dla protokołu
+IPv6</a> oscyluje w granicach 10% . Jeśli jednak
+mamy do dyspozycji router z firmware OpenWRT na pokładzie, to możemy pokusić się o skonfigurowanie
+tunelu 6in4. Jedynym warunkiem jest posiadanie zewnętrznego adresu IP. Tunel 6in4 jest bardzo
+podobny do tego <a href="https://morfikov.github.io/post/implementacja-protokolu-ipv6-za-pomoca-tunelu-6to4/">6to4, który był opisywany na przykładzie
+debiana</a>. Tutaj jednak
+ten tunel zostanie ustawiony na routerze i w ten sposób cała wewnętrzna sieć będzie miała
+przydzieloną określoną przestrzeń adresową z puli IPv6.</p>
+<h2 id="openwrt-chaos-calmer-i-potrzebne-oprogramowanie">OpenWRT Chaos Calmer i potrzebne oprogramowanie</h2>
+<p>Wszystkie poniższe kroki będą przeprowadzane na routerze <a href="http://www.tp-link.com.pl/products/details/cat-9_Archer-C7.html">TP-LINK Archer C7
+v2</a>, gdzie wgrany jest <a href="http://eko.one.pl/">firmware
+OpenWRT Chaos Calmer (15.05)</a>. Z tego co zdążyłem ustalić, we wcześniejszych
+wersjach (BB, AA) cześć rzeczy nie jest wspieranych lub też szereg rozwiązań jest już
+przestarzałych. Dlatego też jest niemal pewne, że niżej opisane rzeczy nie będą się stosować do
+tych starszych wersji OpenWRT i by wdrożyć u siebie tunel 6in4, to będziemy musieli zaktualizować
+firmware routera.</p>
+<p>Logujemy się zatem na router i instalujemy potrzebne oprogramowanie. Modułów kernela, serwera DHCPv6
+jak i samego filtra pakietów nie musimy instalować w OpenWRT Chaos Calmer, bo te pakiety są już
+domyślnie wgrane. Interesuje nas głownie pakiet <code>6in4</code> oraz <code>iputils-ping6</code> , który umożliwi nam
+przeprowadzenie testu połączenia:</p>
+<pre><code># opkg update
+# opkg install kmod-ipv6 kmod-ip6tables ip6tables odhcpd 6in4 iputils-ping6
+</code></pre>
+<h2 id="jak-zarejestrować-tunel-6in4">Jak zarejestrować tunel 6in4</h2>
+<p>Mając zainstalowane potrzebne oprogramowanie na routerze, odpalamy przeglądarkę i przechodzimy na
+stronę <a href="https://tunnelbroker.net/">tunnelbroker.net</a>. To tutaj zarejestrujemy za free tunel, którego
+konfigurację będziemy mogli wdrożyć na routerze. By móc korzystać z usług tego serwisu, musimy się
+pierw zarejestrować. Po zarejestrowaniu, tworzymy tunel wybierając z menu po lewej stronie <code>Create Regular Tunnel</code> .</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/03/1.rejestracja-tunelu-6in4-hurricane-electric.png" alt=""    class="small"></p>
+<p>Przy tworzeniu tunelu 6in4, trzeba określić jeden z jego z końców. Po to nam jest właśnie potrzebny
+zewnętrzny adres IP w protokole IPv4. Nasz aktualny adres powinien zostać automatycznie wykryty i
+wystarczy go przekopiować w pole <code>IPv4 Endpoint</code> . Ważne jest by podczas tego kroku router był w
+stanie odpowiadać na zapytania <code>ping</code> od strony WAN. W przeciwnym razie dostaniemy taki oto
+komunikat i nie będziemy mogli kontynuować:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/03/2.problem-sprawdzanie-tunel-6in4.png" alt=""    class="big"></p>
+<p>Jeśli nasz router odpowiada na żądanie <code>ping</code> z tego serwisu, to powinniśmy zobaczyć wiadomość o
+tym, że dany adres może być potencjalną końcówką dla tunelu 6in4:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/03/3.pomyslna-weryfikacja-tunel-6in4.png" alt=""    class="big"></p>
+<p>Standardowo możemy zarejestrować 5 tunelów ale tylko jeden tunel może być przypisany do konkretnego
+zewnętrznego adresu IP w protokole IPv4. Wybieramy także serwer, do którego mamy najbliżej. W tym
+przypadku jest to Europa &gt; Warszawa. Po chwili zostanie nam zwrócona strona z informacjami o nowo
+utworzonym tunelu.</p>
+<h2 id="konfiguracja-tunelu-6in4-w-openwrt">Konfiguracja tunelu 6in4 w OpenWRT</h2>
+<p>Mając tunel, musimy uzyskać jego konfigurację, którą później wpiszemy w OpenWRT. Przechodzimy zatem
+na zakładkę <code>Example Configurations</code> i wybieramy z listy OpenWRT. Nie ma, co prawda, Chaos Calmer
+ale ta konfiguracja podana dla Barrier Breaker również działa prawidłowo.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/03/4.konfiguracja-tunelu-6in4-openwrt.png" alt=""    class="big"></p>
+<p>W tej konfiguracji jest wykorzystywane narzędzie <code>uci</code> ale nic nie stoi na przeszkodzie, by
+wszystkie wpisy ręcznie sobie dodać przez edycję pliku <code>/etc/config/network</code> . Logujemy się zatem na
+router i we wspomnianym pliku odszukujemy sekcję <code>wan6</code> . Przerabiamy ją do poniższej postaci:</p>
+<pre><code>config interface 'wan6'
+      option ifname    'eth0'
+      option proto     '6in4'
+      option peeraddr  '216.66.80.162'
+      option ip6addr   '2001:470:11:22::2/64'
+      option ip6prefix '2001:470:11:22::/64'
+      option tunnelid  '12345'
+      option username  'login'
+      option password  'pass'
+</code></pre>
+<p>Wyżej w pliku <code>/etc/config/network</code> mamy opcję <code>ula_prefix</code> . Może ona powodować problemy z
+przydzielaniem adresów IPv6 w sieci lokalnej. W taki sposób zamiast adresów oferowanych przez
+Hurricane Electric, OpenWRT będzie przydzielał adresy <a href="https://en.wikipedia.org/wiki/Unique_local_address">ULA (Unique Local
+Address)</a> i hosty lokalne nie będą miały dostępu
+do tunelu 6in4. Dobrze jest zatem wykomentować ten poniższy blok:</p>
+<pre><code>#config globals 'globals'
+#       option ula_prefix 'fd42:156b:900b::/48'
+</code></pre>
+<p>Zapisujemy konfigurację i resetujemy router. Po podniesieniu się routera, w statystykach interfejsów
+powinien się pojawić interfejs <code>6in4-wan6</code> posiadający adres IPv6: <code>2001:...::2/64</code> . Dodatkowo, na
+interfejsie <code>br-lan</code> również powinien się pojawić adres IPv6: <code>2001:...::1/64</code> . Można to sprawdzić
+przy pomocy narzędzi takich jak <code>ifconfig</code> lub <code>ip</code> .</p>
+<h2 id="test-połączenia-ipv6-przez-tunel-6in4-na-routerze">Test połączenia IPv6 przez tunel 6in4 na routerze</h2>
+<p>Pozostało nam jeszcze przetestowanie konfiguracji samego tunelu. Będąc na routerze, ping'ujemy adres
+<code>ipv6.google.com</code> :</p>
+<pre><code># ping -6 ipv6.google.com
+PING ipv6.google.com (2a00:1450:4008:800::200e): 56 data bytes
+64 bytes from 2a00:1450:4008:800::200e: seq=0 ttl=54 time=36.147 ms
+64 bytes from 2a00:1450:4008:800::200e: seq=1 ttl=54 time=32.065 ms
+64 bytes from 2a00:1450:4008:800::200e: seq=2 ttl=54 time=33.969 ms
+^C
+--- ipv6.google.com ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 32.065/34.060/36.147 ms
+</code></pre>
+<p>Pakiety docierają do celu i wracają do nas bez większego problemu. Zatem tunel działa i realizuje
+połączenie. Niemniej jednak, póki co tylko router ma dostęp do sieci IPv6. Musimy jeszcze
+skonfigurować hosty w sieci lokalnej, tak by im też został przypisany odpowiedni adres IPv6.</p>
+<h2 id="konfiguracja-ipv6-na-hoście-lokalnym">Konfiguracja IPv6 na hoście lokalnym</h2>
+<p>Konfiguracja adresacji w protokole IPv6 odbywa się automatycznie. W zależności od posiadanego
+systemu operacyjnego, może być wymagane dodatkowe dostosowanie pewnych parametrów. Niemniej jednak,
+zarówno windows jak i linux, bez problemu powinny podłapać konfigurację przesyłaną przez router w
+<a href="http://www.tcpipguide.com/free/t_ICMPv6RouterAdvertisementandRouterSolicitationMess.htm">wiadomościach Router
+Advertisements</a>
+i automatycznie się skonfigurować bez naszej ingerencji. Restartujemy zatem połączenie sieciowe na
+swoim laptopie i sprawdzamy, czy interfejsowi sieciowemu został przydzielony adres IPv6 z puli,
+którą otrzymał router za sprawą tunelu 6in4.</p>
+<p>Na dobrą sprawę powinniśmy mieć jeden adres zaczynający się od <code>fe80:</code> (<a href="https://en.wikipedia.org/wiki/Link-local_address">link-local
+address</a>) i, w zależności od konfiguracji, jeden
+lub dwa adresy zaczynające się od <code>2001:</code> . Czemu jeden albo dwa? Standardowo, konfiguracja
+adresacji w protokole IPv6 jest dokonywana via mechanizm <a href="https://en.wikipedia.org/wiki/IPv6#Stateless_address_autoconfiguration_.28SLAAC.29">stateless address autoconfiguration
+(SLAAC).</a>
+Dodatkowo, jeśli posiadamy w sieci serwer DHCPv6, a posiadamy, to za jego sprawą może zostać
+przypisany drugi adres IPv6, z tym, że jego końcówka będzie taka sama jak tego adresu z puli IPv4.</p>
+<p>Tak czy inaczej, musimy sprawdzić czy połączenie na lokalnych hostach działa. Odpalamy przeglądarkę
+i przechodzimy na adres <code>http://ipv6test.google.com/</code> . Jeśli wszystko działa jak należy, powinniśmy
+zobaczyć ten poniższy komunikat:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/03/5.test-tunel-6in4-google-ivp6.png" alt=""    class="medium"></p>
+<p>Możemy także sprawdzić jakość tego połączenia przechodząc pod adres <code>http://test-ipv6.com/</code> . W tym
+przypadku wygląda to tak:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/03/6.test-tunel-6in4-jakosc-ipv6.png" alt=""    class="big"></p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chaos-calmer/">chaos-calmer</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sie%C4%87/">sieć</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ipv6/">ipv6</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">router</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/6in4/">6in4</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-tunelu-6in4-w-openwrt-ipv6%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-tunelu-6in4-w-openwrt-ipv6%2f&amp;text=Konfiguracja%20tunelu%206in4%20w%20OpenWRT%20%28IPv6%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-tunelu-6in4-w-openwrt-ipv6%2f&amp;title=Konfiguracja%20tunelu%206in4%20w%20OpenWRT%20%28IPv6%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-tunelu-6in4-w-openwrt-ipv6%2f&amp;title=Konfiguracja%20tunelu%206in4%20w%20OpenWRT%20%28IPv6%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-tunelu-6in4-w-openwrt-ipv6%2f&title=Konfiguracja%20tunelu%206in4%20w%20OpenWRT%20%28IPv6%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-tunelu-6in4-w-openwrt-ipv6%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-tunelu-6in4-w-openwrt-ipv6%2f&amp;title=Konfiguracja%20tunelu%206in4%20w%20OpenWRT%20%28IPv6%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-tunelu-6in4-w-openwrt-ipv6%2f&description=Konfiguracja%20tunelu%206in4%20w%20OpenWRT%20%28IPv6%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/implementacja-protokolu-ipv6-za-pomoca-tunelu-6to4/">Implementacja protokołu IPv6 za pomocą tunelu 6to4</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/interwal-pakietow-beacon-w-sieciach-wifi/">Interwał pakietów Beacon w sieciach WiFi</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/implementacja-protokolu-ssltls-w-vsftpd/">Implementacja protokołu SSL/TLS w vsftpd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-vsftpd-w-debianie/">Konfiguracja vsftpd w Debianie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/backup-dysku-przez-siec-przy-pomocy-dd-netcat/">Backup dysku przez sieć przy pomocy dd i netcat</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/streaming-obrazu-za-sprawa-ffmpeg-netcat/">Streaming obrazu za sprawą ffmpeg i netcat</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

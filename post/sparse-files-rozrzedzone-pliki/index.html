@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Sparse files (rozrzedzone pliki) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Sparse files (rozrzedzone pliki)" />
+<meta property="og:description" content="Każdy system plików opiera się na blokach danych. Standardowo taki blok w systemie plików EXT4 ma 4
+KiB (8 x 512 bajtów). Za każdym razem, gdy tworzymy jakiś plik na dysku, alokowana jest pewna część
+bloków, na których ten plik ma zostać zapisany. Te większe pliki rezerwują więcej bloków, choć nie
+zawsze są to bloki ciągłe. W taki sposób, plik o rozmiarze 10 GiB okupowałby dokładnie tyle miejsca
+na dysku ile sam waży. Niemniej jednak są pewne pliki, które może i ważą te 10 GiB ale system plików
+postrzega je tak jakby miały 100 MiB czy 200 MiB, w zależności od tego ile &quot;faktycznie&quot; taki plik
+zajmuje miejsca. Jak to możliwe? Pliki, o których mowa, to tzw. &quot;rozrzedzone pliki&quot; (Sparse
+files). Taki plik składa się z szeregu bloków pustych
+(mających same zera), których nie trzeba zapisywać na dysk. Zamiast tego, można jedynie zapisać
+metadane w strykturze systemu plików, które będą opisywać te puste bloki. Poniższy artykuł ma na
+celu pokazać do czego takie pliki sparse mogą nam się przydać i jak z nich korzystać." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/sparse-files-rozrzedzone-pliki/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-06-02T16:42:26&#43;00:00" />
+<meta property="article:modified_time" content="2016-06-02T16:42:26&#43;00:00" />
+
+
+		<meta itemprop="name" content="Sparse files (rozrzedzone pliki)">
+<meta itemprop="description" content="Każdy system plików opiera się na blokach danych. Standardowo taki blok w systemie plików EXT4 ma 4
+KiB (8 x 512 bajtów). Za każdym razem, gdy tworzymy jakiś plik na dysku, alokowana jest pewna część
+bloków, na których ten plik ma zostać zapisany. Te większe pliki rezerwują więcej bloków, choć nie
+zawsze są to bloki ciągłe. W taki sposób, plik o rozmiarze 10 GiB okupowałby dokładnie tyle miejsca
+na dysku ile sam waży. Niemniej jednak są pewne pliki, które może i ważą te 10 GiB ale system plików
+postrzega je tak jakby miały 100 MiB czy 200 MiB, w zależności od tego ile &quot;faktycznie&quot; taki plik
+zajmuje miejsca. Jak to możliwe? Pliki, o których mowa, to tzw. &quot;rozrzedzone pliki&quot; (Sparse
+files). Taki plik składa się z szeregu bloków pustych
+(mających same zera), których nie trzeba zapisywać na dysk. Zamiast tego, można jedynie zapisać
+metadane w strykturze systemu plików, które będą opisywać te puste bloki. Poniższy artykuł ma na
+celu pokazać do czego takie pliki sparse mogą nam się przydać i jak z nich korzystać."><meta itemprop="datePublished" content="2016-06-02T16:42:26&#43;00:00" />
+<meta itemprop="dateModified" content="2016-06-02T16:42:26&#43;00:00" />
+<meta itemprop="wordCount" content="1713">
+<meta itemprop="keywords" content="system-plików,pliki,foldery," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Sparse files (rozrzedzone pliki)"/>
+<meta name="twitter:description" content="Każdy system plików opiera się na blokach danych. Standardowo taki blok w systemie plików EXT4 ma 4
+KiB (8 x 512 bajtów). Za każdym razem, gdy tworzymy jakiś plik na dysku, alokowana jest pewna część
+bloków, na których ten plik ma zostać zapisany. Te większe pliki rezerwują więcej bloków, choć nie
+zawsze są to bloki ciągłe. W taki sposób, plik o rozmiarze 10 GiB okupowałby dokładnie tyle miejsca
+na dysku ile sam waży. Niemniej jednak są pewne pliki, które może i ważą te 10 GiB ale system plików
+postrzega je tak jakby miały 100 MiB czy 200 MiB, w zależności od tego ile &quot;faktycznie&quot; taki plik
+zajmuje miejsca. Jak to możliwe? Pliki, o których mowa, to tzw. &quot;rozrzedzone pliki&quot; (Sparse
+files). Taki plik składa się z szeregu bloków pustych
+(mających same zera), których nie trzeba zapisywać na dysk. Zamiast tego, można jedynie zapisać
+metadane w strykturze systemu plików, które będą opisywać te puste bloki. Poniższy artykuł ma na
+celu pokazać do czego takie pliki sparse mogą nam się przydać i jak z nich korzystać."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Sparse files (rozrzedzone pliki)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-06-02T16:42:26Z">Opublikowano: 02/06/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Sparse files (rozrzedzone pliki)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#wady-i-zalety-plików-sparse">Wady i zalety plików sparse</a></li>
+    <li><a href="#jak-na-linuxie-stworzyć-plik-sparse">Jak na linux'ie stworzyć plik sparse</a></li>
+    <li><a href="#jak-odróżnić-pliki-sparse-od-zwykłych-plików">Jak odróżnić pliki sparse od zwykłych plików</a></li>
+    <li><a href="#tworzenie-systemu-plików-dla-plików-sparse">Tworzenie systemu plików dla plików sparse</a></li>
+    <li><a href="#obsługa-plików-sparse-przez-aplikacje">Obsługa plików sparse przez aplikacje</a></li>
+    <li><a href="#przerabianie-zwykłych-plików-na-sparse">Przerabianie zwykłych plików na sparse</a></li>
+    <li><a href="#tworzenie-rozrzedzonego-backupu-dysku">Tworzenie rozrzedzonego backupu dysku</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Każdy system plików opiera się na blokach danych. Standardowo taki blok w systemie plików EXT4 ma 4
+KiB (8 x 512 bajtów). Za każdym razem, gdy tworzymy jakiś plik na dysku, alokowana jest pewna część
+bloków, na których ten plik ma zostać zapisany. Te większe pliki rezerwują więcej bloków, choć nie
+zawsze są to bloki ciągłe. W taki sposób, plik o rozmiarze 10 GiB okupowałby dokładnie tyle miejsca
+na dysku ile sam waży. Niemniej jednak są pewne pliki, które może i ważą te 10 GiB ale system plików
+postrzega je tak jakby miały 100 MiB czy 200 MiB, w zależności od tego ile &quot;faktycznie&quot; taki plik
+zajmuje miejsca. Jak to możliwe? Pliki, o których mowa, to tzw. &quot;rozrzedzone pliki&quot; (<a href="https://en.wikipedia.org/wiki/Sparse_file">Sparse
+files</a>). Taki plik składa się z szeregu bloków pustych
+(mających same zera), których nie trzeba zapisywać na dysk. Zamiast tego, można jedynie zapisać
+metadane w strykturze systemu plików, które będą opisywać te puste bloki. Poniższy artykuł ma na
+celu pokazać do czego takie pliki sparse mogą nam się przydać i jak z nich korzystać.</p>
+<h2 id="wady-i-zalety-plików-sparse">Wady i zalety plików sparse</h2>
+<p>Pliki sparse dają nam możliwość bardzo szybkiego tworzenia plików o sporych rozmiarach. Stworzenie
+10 GiB czy 100 GiB pliku odbywa się w ułamku sekundy. Dla porównania, korzystając z <code>dd</code> i zapisując
+plik samymi zerami, utworzenie go zajęłoby kilka czy kilkanaście minut. Do tego doszłaby także 100%
+utylizacja procesora na czas tworzenia tego pliku. W przypadku rozrzedzonych plików zapisujemy
+jedynie kilka bajtów w strukturze systemu plików. W ten sposób możemy tworzyć pliki, które są
+większe niż rozmiar całej partycji. Problem zaczyna się w momencie, gdy taki plik zaczniemy
+wypełniać faktycznymi danymi. Spójrzmy sobie na ten obrazek poniżej
+(<a href="https://en.wikipedia.org/wiki/Sparse_file">źródło</a>):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/06/1.rozrzedone-pliki-sparse-files.png" alt=""    class="big"></p>
+<p>Zielonym kolorem oznaczono faktyczne dane w pliku. Szarym kolorem zaś zaznaczono puste bloki, które
+nie są zapisane na dysku. Gdy teraz do takiego pliku będziemy chcieli dodać kolejną porcję danych, w
+strukturze systemu plików zostaną opisane któreś z tych pozostałych pustych bloków widocznych
+powyżej. Niemniej jednak, oznacza to alokację tych bloków i jest ogromne prawdopodobieństwo, że
+bloki w tym pliki stracą ciągłość. W efekcie może dojść do poważnej fragmentacji takiego pliku z
+biegiem czasu. Oczywiście, jeśli korzystamy z dysków SSD, to fragmentacja, nawet dość znaczna, nie
+stanowi dla nas problemu. Trzeba jednak liczyć się z nią w przypadku talerzowych dysków twardych.
+Zawsze też można co jakiś czas przeprowadzić defragmentację plików przy pomocy <code>e4defrag</code> .</p>
+<h2 id="jak-na-linuxie-stworzyć-plik-sparse">Jak na linux'ie stworzyć plik sparse</h2>
+<p>Są co najmniej dwie metody, które umożliwiają tworzenie plików rozrzedzonych. Pierwszym z nich jest
+skorzystanie z <code>dd</code> . W tym przypadku nie podajemy parametru <code>if=/dev/zero</code> oraz inaczej określamy
+wartości w opcjach <code>bs</code> i <code>count</code> . Dodajemy także parametr <code>seek</code> i to w oparciu o niego w
+połączeniu z <code>bs</code> będzie wyliczana wielkość wynikowego pliku. Poniżej jest przykładowe polecenie
+tworzące plik sparse o rozmiarze 10 GiB:</p>
+<pre><code># dd of=sparse-file bs=10M seek=1024 count=0
+</code></pre>
+<p>Drugą opcją na stworzenie pliku sparse jest skorzystanie z narzędzia <code>truncate</code> dostarczanego w
+pakiecie <code>coreutils</code> . W tym przypadku składnia polecenia jest nieco inna i sporo prostsza:</p>
+<pre><code># truncate -s 10G sparse-file
+</code></pre>
+<p>W obu tych powyższych przypadkach powinniśmy w mgnieniu oka uzyskać plik o rozmiarze 10 GiB. Poniżej
+zostało to ukazane w <code>ls</code> oraz <code>du</code> :</p>
+<pre><code># ls -al sparse-file
+-rw-r--r-- 1 root root 10G 2016-06-02 14:05:25 sparse-file
+
+# du -h --apparent-size sparse-file
+10G     sparse-file
+</code></pre>
+<h2 id="jak-odróżnić-pliki-sparse-od-zwykłych-plików">Jak odróżnić pliki sparse od zwykłych plików</h2>
+<p>Jeśli popatrzymy na statystyki wolnego miejsca systemu plików, w którym ten rozrzedzony plik został
+utworzony, to nie zanotujemy żadnej różnicy. Nasuwa się zatem pytanie, jak odróżnić pliki typu
+sparse od normalnych plików? Jakby nie patrzeć, wszystkie menadżery plików jak i narzędzia będące w
+stanie odczytać rozmiar plików zwrócą nam wyniki podobne do tego jaki otrzymaliśmy wyżej w przypadku
+poleceń <code>ls</code> i <code>du</code> .</p>
+<p>Część narzędzi potrafiących rozpoznawać pliki rozrzedzone ma dodatkowy przełącznik, który można
+wykorzystać do wykrycia takich plików. Dla przykładu weźmy sobie ten <code>ls</code> . On dysponuje opcją
+<code>-s</code> , która jest nam w stanie wskazać faktyczny rozmiar utworzonego powyżej pliku:</p>
+<pre><code># ls -als sparse-file
+0 -rw-r--r-- 1 root root 10G 2016-06-02 14:05:25 sparse-file
+</code></pre>
+<p>W <code>du</code> również jesteśmy w stanie podejrzeć faktyczny rozmiar tego pliku:</p>
+<pre><code># du -h sparse-file
+0       sparse-file
+</code></pre>
+<p>Widzimy zatem, że ten plik składa się z pustych bloków póki co, których nie trzeba zapisywać na
+dysk.</p>
+<h2 id="tworzenie-systemu-plików-dla-plików-sparse">Tworzenie systemu plików dla plików sparse</h2>
+<p>Jednym z zastosowań, do których możemy wykorzystać taki plik rozrzedzony jest stworzenie na nim
+systemu plików. W ten sposób uzyskamy zwykły kontener na pliki, który będzie w stanie się rozrastać.
+Taki kontener może zostać wykorzystany do dowolnego celu. System plików tworzymy w poniższy sposób:</p>
+<pre><code># mkfs.ext4 -m 0 -L obraz ./sparse-file
+...
+Superblock backups stored on blocks:
+        32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632
+...
+</code></pre>
+<p>Opcja <code>-m</code> ustawia procent zarezerwowanego miejsca dla użytkownika root. Natomiast <code>-L</code> to etykieta
+systemu plików. Jako, że struktura systemu plików sama w sobie trochę waży, to zobaczmy ile w
+obecnej chwili zajmuje nasz rozrzedzony plik:</p>
+<pre><code># ls -als sparse-file
+4.2M -rw-r--r-- 1 root root 10G 2016-06-02 14:05:25 sparse-file
+</code></pre>
+<p>Wcześniej było 0 bajtów, teraz już mamy nieco ponad 4 MiB. Podglądając strukturę tego pliku, to
+możemy zauważyć, że plik został pofragmentowany:</p>
+<pre><code># filefrag -v /media/Grafi/sparse-file
+Filesystem type is: ef53
+File size of /media/Grafi/sparse-file is 10737418240 (2621440 blocks of 4096 bytes)
+ ext:     logical_offset:        physical_offset: length:   expected: flags:
+   0:        0..    1027:    1507328..   1508355:   1028:
+   1:     1043..    1043:    1508371..   1508371:      1:
+   2:     1059..    1059:    1508387..   1508387:      1:
+   3:     9251..    9256:    1510435..   1510440:      6:    1516579:
+   4:    32768..   32770:    1511424..   1511426:      3:    1533952:
+   5:    98304..   98306:    1513472..   1513474:      3:    1576960:
+   6:   163840..  163842:    1515520..   1515522:      3:    1579008:
+   7:   229376..  229378:    1517568..   1517570:      3:    1581056:
+   8:   294912..  294914:    1519616..   1519618:      3:    1583104:
+   9:   524288..  524288:    1521664..   1521664:      1:    1748992:
+  10:   819200..  819202:    1523712..   1523714:      3:    1816576:
+  11:   884736..  884738:    1525760..   1525762:      3:    1589248:
+  12:  1048576.. 1048577:    1527808..   1527809:      2:    1689600:
+  13:  1081344.. 1081344:    1529856..   1529856:      1:    1560576:
+  14:  1572864.. 1572864:    1531904..   1531904:      1:    2021376:
+  15:  1605632.. 1605634:    1533952..   1533954:      3:    1564672:
+  16:  2097152.. 2097152:    1536000..   1536000:      1:    2025472:
+  17:  2097167.. 2097167:    1536015..   1536015:      1:             last
+/media/Grafi/sparse-file: 15 extents found
+</code></pre>
+<p>Zatem mamy niby plik o faktycznym rozmiarze 4,2 MiB ale ma on 15 części. Plik został pokrojony za
+sprawą metadanych systemu plików. Jeśli się przyjrzymy uważnie, to w kolumnie <code>logical_offset</code>
+możemy dostrzec numery zapasowych sektorów głównego bloku systemu plików
+(te wpisane w <code>mkfs.ext4</code> ). Im większy jest system plików, tym więcej jest kopi superbloka i
+więcej metadanych potrzebnych do opisu jego zawartości.</p>
+<p>Gdybyśmy mieli zamiast tego pliku sparse zwykły plik wypełniony zerami i chcieli utworzyć na nim
+system plików, to on również by został tak pofragmentowany. Na dobrą sprawę będzie wyglądał tak samo
+jak ten wyżej. Przynajmniej w standardowej konfiguracji tworzenia systemu plików, tj. gdy tworzy się
+system plików bez opcji <code>-E nodiscard</code> . Jeśli się ją zastosuje, to wszystkie zera takiego pliku
+będą widoczne po stworzeniu systemu plików i taki kontener nie będzie ulegał fragmentacji, gdy
+będziemy go wypełniać jakąś zawartością. Natomiast problem z tymi plikami sparse jest taki, że
+tutaj nie mamy do dyspozycji zer. Dlatego te pliki będą się tak fragmenteować i praktycznie każdy
+nowy plik wgrany do kontenera sparse doda kolejny nieciągły zakres, czyli pofragmentuje kontener. W
+przypadku zwykłego systemu plików na partycji, to nie stanowi problemu ale, gdy w grę wchodzi jeden
+system plików opisany w innym systemie plików, to już tego typu mechanizm jest iście niewydolny
+właśnie przez fragmentację, której moim zdaniem się nie da uniknąć w przypadku plików sparse.
+Dlatego też zastanówmy się, czy aby na pewno potrzebujemy tych plików.</p>
+<p>Tak czy inaczej, stworzony w ten sposób system plików możemy zamontować przy pomocy <a href="https://morfikov.github.io/post/montowanie-obrazow-iso-urzadzenia-loop/">urządzeń
+loop</a> i użytkować jak każdą inną
+partycję dysku twardego:</p>
+<pre><code># mount -o loop sparse-file /mnt/
+</code></pre>
+<p>Zapiszmy teraz trochę danych w tym rozrzedzonym pliku (w katalogu <code>/mnt/</code> ) i sprawdźmy co się
+stanie:</p>
+<pre><code># ls -als sparse-file
+2.1G -rw-r--r-- 1 root root 10G 2016-06-02 14:21:38 sparse-file
+
+# filefrag /media/Grafi/sparse-file
+/media/Grafi/sparse-file: 108 extents found
+</code></pre>
+<p>Można było się tego spodziewać. Zapisaliśmy 2,1 GiB danych i plik ma ponad 100 nieciągłych zakresów.
+Powyższy plik został umieszczony na partycji, która była praktycznie pusta. Pomimo tego faktu, plik
+uległ sporej fragmentacji.</p>
+<h2 id="obsługa-plików-sparse-przez-aplikacje">Obsługa plików sparse przez aplikacje</h2>
+<p>Rozrzedzone pliki wymagają specjalnego traktowania. Cześć aplikacji nie potrafi rozpoznać tego typu
+plików i przy ich kopiowaniu czy pakowaniu przerabia te rozrzedzone pliki na zwykłe pliki. Niemniej
+jednak, spora część programów w linux'ie posiada wsparcie dla plików sparse i dysponuje odpowiednimi
+opcjami, które można podać przy wywoływaniu polecenia. Przykładem może być tworzenie paczki za
+pomocą <code>tar</code> czy kopiowanie plików z użyciem <code>cp</code> . Nawet <code>rsync</code> posiada stosowny parametr.
+Poniżej przykładowe polecenia:</p>
+<pre><code># tar czpvfS file file.tar.gz
+# rsync --sparse file another-file
+# cp --sparse=always file another-file
+</code></pre>
+<h2 id="przerabianie-zwykłych-plików-na-sparse">Przerabianie zwykłych plików na sparse</h2>
+<p>W przypadku, gdy mamy do czynienia z plikami, które zawierają szereg pustych bloków, to nic nie stoi
+na przeszkodzie, by przerobić te pliki na pliki sparse. Przykładem mogą być obrazy partycji dysku,
+które robimy w formie cotygodniowego backupu. Trzeba tylko pamiętać, że wolne miejsce na takiej
+partycji nie oznacza automatycznie, że tam znajdują się same zera. Zawsze możemy zapisać wolną
+przestrzeń zerami przy pomocy <code>dd</code> . Jeśli mamy już utworzony obraz i chcielibyśmy go nieco
+odchudzić, to możemy wykopać w nim kilka dziur przy pomocy <code>fallocate</code> z pakietu <code>util-linux</code> .
+Poniżej jest plik 10 GiB, którego struktura zawiera całą masę bloków pustych. Statystyki w <code>ls</code> tego
+pliku wyglądają następująco:</p>
+<pre><code># ls -als file.img
+9.7G -rw-r--r-- 1 root root 10G 2016-06-02 14:59:07 file.img
+</code></pre>
+<p>Widzimy, że ten plik faktycznie zajmuje 9,7 GiB. Sporą część tego miejsca możemy odzyskać wpisując w
+terminalu to poniższe polecenie:</p>
+<pre><code># fallocate -v -d file.img
+file.img: 3.2 GiB (3415543808 bytes) converted to sparse holes.
+
+# ls -als file.img
+6.5G -rw-r--r-- 1 root root 10G 2016-06-02 15:04:40 file.img
+</code></pre>
+<p>W taki oto sposób odzyskaliśmy 3,2 GiB przestrzeni na dysku. Oczywiście, nie zalecałbym tego typu
+operacji na wszystkich plikach zgromadzonych na dysku. Niemniej jednak, w przypadku obrazów
+partycji, które leżą odłogiem, możemy im taki zabieg fundnąć bez wahania.</p>
+<h2 id="tworzenie-rozrzedzonego-backupu-dysku">Tworzenie rozrzedzonego backupu dysku</h2>
+<p>Jeśli dopiero zamierzamy tworzyć backup dysku czy partycji, to istnieje nieco prostsza metoda
+oszczędzenia miejsca. Zamiast tworzyć backup przy pomocy <code>dd</code> i później kopać w nim dziury przez
+<code>fallocate</code> , można od razu zrobić obraz rozrzedzony. Do tego celu jednak będzie nam potrzebne
+narzędzie <code>ddrescue</code> dostępne w pakiecie <code>gddrescue</code> . Kopię partycji zaś wykonujemy w poniższy
+sposób:</p>
+<pre><code># ddrescue -S -b 8Mi /dev/sda2 /mnt/2016-06-02-sda2
+
+# ls -als 2016-06-02-sda2
+241M -rw-r--r-- 1 root root 1.0G 2016-06-02 15:40:13 2016-06-02-sda2
+</code></pre></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/system-plik%C3%B3w/">system-plików</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pliki/">pliki</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/foldery/">foldery</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fsparse-files-rozrzedzone-pliki%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsparse-files-rozrzedzone-pliki%2f&amp;text=Sparse%20files%20%28rozrzedzone%20pliki%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsparse-files-rozrzedzone-pliki%2f&amp;title=Sparse%20files%20%28rozrzedzone%20pliki%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsparse-files-rozrzedzone-pliki%2f&amp;title=Sparse%20files%20%28rozrzedzone%20pliki%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsparse-files-rozrzedzone-pliki%2f&title=Sparse%20files%20%28rozrzedzone%20pliki%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsparse-files-rozrzedzone-pliki%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsparse-files-rozrzedzone-pliki%2f&amp;title=Sparse%20files%20%28rozrzedzone%20pliki%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsparse-files-rozrzedzone-pliki%2f&description=Sparse%20files%20%28rozrzedzone%20pliki%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-odzyskac-usuniete-z-dysku-pliki/">Jak odzyskać usunięte z dysku pliki</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/usuwanie-plikow-przy-pomocy-shred/">Całkowite usuwanie plików przy pomocy shred</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/ukrywanie-informacji-w-plikach-steganografia/">Ukrywanie informacji w plikach (steganografia)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/metadane-plikow-graficznych-exif/">Metadane plików graficznych (EXIF)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/domyslne-aplikacje-w-oparciu-o-typy-plikow-mime/">Domyślne aplikacje w oparciu o typy plików (MIME)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kodowanie-nazw-plikow-i-jego-zmiana/">Kodowanie nazw plików i jego zmiana</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uprawnienia-do-plikow-systemowych-w-linuxie/">Uprawnienia do plików systemowych w linux&#39;ie</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

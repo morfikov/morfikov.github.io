@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dkms on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/dkms/</link>
+    <description>Recent content in dkms on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Tue, 09 Jun 2020 20:56:00 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/dkms/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Moduł LKRG (Linux Kernel Runtime Guard)</title>
+      <link>https://morfikov.github.io/post/modul-lkrg-linux-kernel-runtime-guard/</link>
+      <pubDate>Tue, 09 Jun 2020 20:56:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/modul-lkrg-linux-kernel-runtime-guard/</guid>
+      <description>&lt;p&gt;Jakiś czas temu opisywałem &lt;a href=&#34;https://morfikov.github.io/post/modul-tpe-trusted-path-execution-dla-kernela-linux/&#34;&gt;moduł TPE&lt;/a&gt; (Trusted Path Execution) dla kernela linux, który jest w
+stanie dość znacznie poprawić bezpieczeństwo naszego systemu. Ostatnio jednak natknąłem się na
+&lt;a href=&#34;https://www.openwall.com/lkrg/&#34;&gt;moduł LKRG&lt;/a&gt; (Linux Kernel Runtime Guard), którego to zadaniem jest stać na straży samego jądra
+operacyjnego i chronić je w czasie rzeczywistym przed różnego rodzaju zagrożeniami poprzez
+wykrywanie eksploitów wykorzystujących luki w jego mechanizmach bezpieczeństwa. Jako, że ja
+bardzo lubię zbroić swojego Debiana, to postanowiłem się przyjrzeć nieco bliżej temu całemu LKRG i
+sprawdzić jego użyteczność. Trzeba jednak wiedzieć, że LKRG jest dostarczany w formie osobnego
+modułu zamiast łaty na kernel, przez co trzeba będzie także postarać się o automatyzację pewnych
+rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)</title>
+      <link>https://morfikov.github.io/post/jak-na-debianie-zrobic-pakiet-deb-zawierajacy-modul-kernela-linux-dkms/</link>
+      <pubDate>Sun, 17 Mar 2019 09:37:28 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-na-debianie-zrobic-pakiet-deb-zawierajacy-modul-kernela-linux-dkms/</guid>
+      <description>&lt;p&gt;Kernel linux&#39;a jest dość złożonym organizmem, który może zostać rozbudowany przy pomocy dodatkowego
+kodu ładowanego w postaci zewnętrznych modułów. Czasem ze względu na wczesny etap prac nad nową
+funkcjonalnością jądra, taki moduł może zachowywać się dość nieprzewidywalnie, co przekreśla jego
+szanse na pojawienie się w stabilnych wydaniach kernela. Czasem też z jakiegoś niezrozumiałego
+powodu pewne rzeczy nie są celowo dodawane do jądra operacyjnego. Jedną z nich
+jest &lt;a href=&#34;https://github.com/cormander/tpe-lkm&#34;&gt;moduł Trusted Path Execution&lt;/a&gt; (TPE), który jest w
+stanie znacznie poprawić bezpieczeństwo systemu uniemożliwiając przeprowadzenie w nim szeregu
+podejrzanych działań. W Debianie tego typu niedogodności związane z brakiem pewnych modułów można
+obejść przez
+zastosowanie &lt;a href=&#34;https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support&#34;&gt;mechanizmu DKMS&lt;/a&gt;, który
+przy instalacji modułu spoza głównego drzewa kernela linux&#39;a jest nam go w stanie automatycznie
+zbudować. W repozytorium dystrybucji Debiana znajduje się już szereg pakietów z modułami (mają
+końcówki &lt;code&gt;-dkms&lt;/code&gt; ) i w prosty sposób można je sobie doinstalować. Co jednak w przypadku, gdy mamy
+moduł, którego nikt jeszcze nie przygotował i nie wrzucił do repozytorium? Co, gdy takich modułów
+mamy kilka, a przy tym korzystamy z najnowszego stabilnego kernela, który jest aktualizowany
+średnio co kilka dni? Ręczna budowa wszystkich zewnętrznych modułów za każdym razem jak tylko
+wyjdzie nowsza wersja kernela, to nie najlepsze wyjście, zwłaszcza jak dojdzie nam do tego
+aktualizacja samych modułów. Można za to zrobić sobie paczkę &lt;code&gt;.deb&lt;/code&gt; tak, by przy instalacji nowego
+jądra operacyjnego, system nam automatycznie zbudował wszystkie dodatkowe moduły, których nasz
+komputer wymaga do poprawnej pracy.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Automatyczne podpisywanie modułów kernela przez DKMS</title>
+      <link>https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/</link>
+      <pubDate>Sat, 05 Jan 2019 04:10:10 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/</guid>
+      <description>&lt;p&gt;Budując kernel linux&#39;a trzeba zastanowić się nad kwestią modułów, które nie są wbudowane
+bezpośrednio w samo jądro operacyjne. Nie chodzi tutaj bezpośrednio o funkcjonalność kernela,
+którą można zbudować jako moduł w procesie jego kompilacji ale raczej o wszystkie zewnętrzne
+moduły, które przez zespół kernela są traktowane jako &lt;code&gt;out-of-tree&lt;/code&gt; . By poprawić nieco
+bezpieczeństwo związane z takimi modułami, można wdrożyć podpisy cyfrowe, które takie moduły
+muszą okazać podczas próby załadowania ich w systemie. Gdy moduł nie został podpisany, to kernel
+go nie załaduje zwracając przy tym błąd &lt;code&gt;modprobe: ERROR: could not insert &#39;module&#39;: Required key not available&lt;/code&gt; . W ten sposób można ochronić się przed częścią ataków, w których moduły pochodzenia
+trzeciego mogą zostać załadowane i poczynić nam ogromne spustoszenie w systemie. Problem w tym, że
+w dystrybucji Debian wykorzystywany jest mechanizm DKMS (Dynamic Kernel Module Support). Może i
+mamy dzięki niemu możliwość instalacji w systemie całej masy dodatkowych modułów ale ich również
+nie będzie można załadować, bo nie zostały podpisane kluczem, którego certyfikat został zaszyty
+w kernelu. Można jednak zmusić mechanizm DKMS, by wskazane przez nas moduły podpisywał
+automatycznie przy ich instalacji i aktualizacji.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Sterowniki dla karty WiFi Archer T1U (mt7610u_sta)</title>
+      <link>https://morfikov.github.io/post/sterowniki-karta-wifi-archer-t1u-mt7610u_sta/</link>
+      <pubDate>Thu, 18 Aug 2016 14:35:52 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/sterowniki-karta-wifi-archer-t1u-mt7610u_sta/</guid>
+      <description>&lt;p&gt;Dziś postanowiłem się wziąć za ostatnią kartę WiFi, którą podesłał mi TP-LINK. Jest to nano adapter
+Archer T1U V1 na &lt;a href=&#34;https://wikidevi.com/wiki/TP-LINK_TL-WDN5200&#34;&gt;czipie MediaTek MT7610U&lt;/a&gt;
+identyfikowany w systemie jako &lt;code&gt;idVendor=2357&lt;/code&gt; , &lt;code&gt;idProduct=0105&lt;/code&gt; . Na opakowaniu pisało, że ta
+karta działa na linux&#39;ach ale oczywiście w przypadku mojego Debiana, ten adapter nie został w ogóle
+wykryty. Winą są zbyt stare sterowniki, które nie zostały zaktualizowane przez MediaTek od 2013
+roku. TP-Link może i ma u siebie na stronie &lt;a href=&#34;http://www.tp-link.com/en/download/Archer-T1U.html#Driver&#34;&gt;nieco nowszą wersję
+sterowników&lt;/a&gt;, bo z 2015 roku ale nie
+udało mi się za ich sprawą zbudować poprawnie modułu &lt;code&gt;mt7610u_sta&lt;/code&gt; na kernelu 4.6 . Na szczęście
+mamy jedną alternatywę, która pomoże nam jako tako wybrnąć z tej sytuacji.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Sterowniki do karty TP-LINK TL-WN823N (8192eu)</title>
+      <link>https://morfikov.github.io/post/sterowniki-tp-link-tl-wn823n-8192eu/</link>
+      <pubDate>Fri, 12 Aug 2016 20:50:39 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/sterowniki-tp-link-tl-wn823n-8192eu/</guid>
+      <description>&lt;p&gt;Systemy operacyjne nie są w stanie wejść w interakcję ze sprzętem, do którego nie posiadają
+sterowników. Linux już od dość dawna żyje sobie wśród nas i coraz bardziej pcha się na desktopy.
+Niemniej jednak producenci tych wszystkich urządzeń niechętnie wypuszczają sterowniki dla
+alternatywnych systemów. Ostatnio próbowałem uruchomić &lt;a href=&#34;http://www.tp-link.com.pl/products/details/TL-WN823N.html&#34;&gt;adapter TL-WN823N
+V2&lt;/a&gt; od firmy TP-LINK. Na opakowaniu
+widnieje napis sugerujący, że ta karta działa pod linux&#39;em. Rzeczywistość jednak okazała się
+zupełnie inna. Mianowicie, mój Debian w ogóle nie rozpoznał tej karty. Jedyne informacje jakie mi
+zwrócił to nazwę producenta czipu, którym okazał się być &lt;code&gt;Realtek&lt;/code&gt; , oraz &lt;code&gt;idVendor=2357&lt;/code&gt; i
+&lt;code&gt;idProduct=0109&lt;/code&gt; . &lt;a href=&#34;http://www.tp-link.com/en/download/TL-WN823N.html#Driver&#34;&gt;Sterowników dostępnych na stronie
+TP-LINK&#39;a&lt;/a&gt; nie szło zbudować na obecnym
+kernelu 4.6 . Trzeba było zatem poszukać innej alternatywy. Na szczęście udało się znaleźć moduł
+8192eu (rtl8192eu), który się skompilował i zainstalował bez problemu. Karta TL-WN823N V2 została
+wykryta i działa. W tym wpisie zostanie pokazany proces kompilacji tego modułu.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Sterowniki do karty TP-LINK Archer T4U (8812au)</title>
+      <link>https://morfikov.github.io/post/sterowniki-karty-tp-link-archer-t4u-8812au/</link>
+      <pubDate>Tue, 23 Jun 2015 11:45:07 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/sterowniki-karty-tp-link-archer-t4u-8812au/</guid>
+      <description>&lt;p&gt;Póki co, w kernelu linux&#39;a (4.5) nie ma odpowiednich sterowników do &lt;a href=&#34;http://www.tp-link.com.pl/products/details/cat-11_Archer-T4U.html&#34;&gt;adaptera WiFi Archer
+T4U&lt;/a&gt; i trzeba je sobie
+skompilować ręcznie. Trochę to dziwne, bo przecie kod sterownika jest na licencji GPLv2 i dostępny
+już szmat czasu na &lt;a href=&#34;https://github.com/abperiasamy/rtl8812AU_8821AU_linux&#34;&gt;github&#39;ie&lt;/a&gt;. W każdym
+razie, jeśli zakupiliśmy w/w kartę i nie jest ona wykrywana po wsadzeniu jej do portu USB, to czeka
+nas proces kompilacji modułu &lt;code&gt;8812au&lt;/code&gt; i jego automatyzacja przy pomocy &lt;a href=&#34;https://morfikov.github.io/post/dkms-czyli-automatycznie-budowane-moduly/&#34;&gt;mechanizmu
+DKMS&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>DKMS, czyli automatycznie budowane moduły</title>
+      <link>https://morfikov.github.io/post/dkms-czyli-automatycznie-budowane-moduly/</link>
+      <pubDate>Sat, 30 May 2015 21:05:27 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/dkms-czyli-automatycznie-budowane-moduly/</guid>
+      <description>&lt;p&gt;Jeśli zamierzamy kupić sprzęt, który dopiero co trafił na półki w sklepach, to prawdopodobnie zaraz
+po podłączeniu go do naszego komputera okaże się, że to urządzenie nie jest nawet wykrywane przez
+system operacyjny. W przypadku gdy jego producent zapewnia w miarę przyzwoity support, to być może
+problemy, których doświadczamy, zostaną rozwiązane wraz z instalacją najnowszego kernela. Co jednak
+w przypadku gdy nawet po aktualizacji kernela nie jesteśmy w stanie odpalić, np. nowo zakupionej
+karty WiFi? Jako, że te wszystkie sprzęty działają w oparciu określone moduły, wystarczy taki moduł
+pozyskać, skompilować i załadować w systemie. Problem w tym, że z każdą nową wersją jądra
+operacyjnego, która trafi do repo debiana, będziemy musieli ręcznie budować moduł na nowo i właśnie
+w tym artykule opiszę jak nauczyć system, by sam przeprowadzał tę mozolną czynność bez naszego
+udziału.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

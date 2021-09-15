@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Uszkodzony sektor na dysku i jego realokacja | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Uszkodzony sektor na dysku i jego realokacja" />
+<meta property="og:description" content="Uszkodzone sektory w przypadku dysków HDD, to jak sama nazwa wskazuje, sektory, które z jakichś
+przyczyn nie działają tak jak powinny. Doprowadza to z reguły do niestabilności systemu operacyjnego
+objawiającej się jego zawieszaniem w momencie próby odczytu danych z takiego padniętego sektora.
+Przyczyny mogą być różne. Zwykle jest to jednak fizyczne uszkodzenie powierzchni nośnika, np w
+wyniku wstrząsu, czy też zwyczajne zmęczenie materiału. Jest wielce prawdopodobne, że nie jesteśmy w
+stanie nic poradzić w tego typu sytuacji, a ci bardziej zaawansowani użytkownicy zalecają jak
+najszybszą wymianę dysku, bo pierwszy bad sektor oznacza, że niedługo będzie ich więcej. Czasem
+jednak błędy odczytu mogą być programowe, tj. fizycznie każdy sektor jest w porządku ale z jakiegoś
+powodu system nie potrafi odczytać z nich danych. Przy odrobinie szczęścia jesteśmy w stanie
+odblokować taki sektor." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-06-15T19:18:01&#43;00:00" />
+<meta property="article:modified_time" content="2015-06-15T19:18:01&#43;00:00" />
+
+
+		<meta itemprop="name" content="Uszkodzony sektor na dysku i jego realokacja">
+<meta itemprop="description" content="Uszkodzone sektory w przypadku dysków HDD, to jak sama nazwa wskazuje, sektory, które z jakichś
+przyczyn nie działają tak jak powinny. Doprowadza to z reguły do niestabilności systemu operacyjnego
+objawiającej się jego zawieszaniem w momencie próby odczytu danych z takiego padniętego sektora.
+Przyczyny mogą być różne. Zwykle jest to jednak fizyczne uszkodzenie powierzchni nośnika, np w
+wyniku wstrząsu, czy też zwyczajne zmęczenie materiału. Jest wielce prawdopodobne, że nie jesteśmy w
+stanie nic poradzić w tego typu sytuacji, a ci bardziej zaawansowani użytkownicy zalecają jak
+najszybszą wymianę dysku, bo pierwszy bad sektor oznacza, że niedługo będzie ich więcej. Czasem
+jednak błędy odczytu mogą być programowe, tj. fizycznie każdy sektor jest w porządku ale z jakiegoś
+powodu system nie potrafi odczytać z nich danych. Przy odrobinie szczęścia jesteśmy w stanie
+odblokować taki sektor."><meta itemprop="datePublished" content="2015-06-15T19:18:01&#43;00:00" />
+<meta itemprop="dateModified" content="2015-06-15T19:18:01&#43;00:00" />
+<meta itemprop="wordCount" content="2380">
+<meta itemprop="keywords" content="smart,hdd,ssd," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Uszkodzony sektor na dysku i jego realokacja"/>
+<meta name="twitter:description" content="Uszkodzone sektory w przypadku dysków HDD, to jak sama nazwa wskazuje, sektory, które z jakichś
+przyczyn nie działają tak jak powinny. Doprowadza to z reguły do niestabilności systemu operacyjnego
+objawiającej się jego zawieszaniem w momencie próby odczytu danych z takiego padniętego sektora.
+Przyczyny mogą być różne. Zwykle jest to jednak fizyczne uszkodzenie powierzchni nośnika, np w
+wyniku wstrząsu, czy też zwyczajne zmęczenie materiału. Jest wielce prawdopodobne, że nie jesteśmy w
+stanie nic poradzić w tego typu sytuacji, a ci bardziej zaawansowani użytkownicy zalecają jak
+najszybszą wymianę dysku, bo pierwszy bad sektor oznacza, że niedługo będzie ich więcej. Czasem
+jednak błędy odczytu mogą być programowe, tj. fizycznie każdy sektor jest w porządku ale z jakiegoś
+powodu system nie potrafi odczytać z nich danych. Przy odrobinie szczęścia jesteśmy w stanie
+odblokować taki sektor."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Uszkodzony sektor na dysku i jego realokacja</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-06-15T19:18:01Z">Opublikowano: 15/06/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Uszkodzony sektor na dysku i jego realokacja</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#pierwszy-uszkodzony-sektor">Pierwszy uszkodzony sektor</a></li>
+    <li><a href="#plik-rezydujący-na-uszkodzonym-sektorze">Plik rezydujący na uszkodzonym sektorze</a></li>
+    <li><a href="#problemy-z-realokowaniem-bad-sektora">Problemy z realokowaniem bad sektora</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Uszkodzone sektory w przypadku dysków HDD, to jak sama nazwa wskazuje, sektory, które z jakichś
+przyczyn nie działają tak jak powinny. Doprowadza to z reguły do niestabilności systemu operacyjnego
+objawiającej się jego zawieszaniem w momencie próby odczytu danych z takiego padniętego sektora.
+Przyczyny mogą być różne. Zwykle jest to jednak fizyczne uszkodzenie powierzchni nośnika, np w
+wyniku wstrząsu, czy też zwyczajne zmęczenie materiału. Jest wielce prawdopodobne, że nie jesteśmy w
+stanie nic poradzić w tego typu sytuacji, a ci bardziej zaawansowani użytkownicy zalecają jak
+najszybszą wymianę dysku, bo pierwszy bad sektor oznacza, że niedługo będzie ich więcej. Czasem
+jednak błędy odczytu mogą być programowe, tj. fizycznie każdy sektor jest w porządku ale z jakiegoś
+powodu system nie potrafi odczytać z nich danych. Przy odrobinie szczęścia jesteśmy w stanie
+odblokować taki sektor.</p>
+<h2 id="pierwszy-uszkodzony-sektor">Pierwszy uszkodzony sektor</h2>
+<p>Po 18.798 godzinach pracy, mój główny dysk złapał prawdopodobnie bad sektor. W logu <a href="https://pl.wikipedia.org/wiki/S.M.A.R.T._%28informatyka%29">S.M.A.R.T</a>
+można przeczytać info o takim błędzie:</p>
+<pre><code>Error 25 occurred at disk power-on lifetime: 18798 hours (783 days + 6 hours)
+  When the command that caused the error occurred, the device was active or idle.
+
+  After command completion occurred, registers were:
+  ER ST SC SN CL CH DH
+  -- -- -- -- -- -- --
+  40 51 08 00 40 37 e6  Error: UNC 8 sectors at LBA = 0x06374000 = 104284160
+
+  Commands leading to the command that caused the error were:
+  CR FR SC SN CL CH DH DC   Powered_Up_Time  Command/Feature_Name
+  -- -- -- -- -- -- -- --  ----------------  --------------------
+  c8 00 08 00 40 37 e6 08      08:54:35.771  READ DMA
+  ec 00 00 00 00 00 a0 08      08:54:35.763  IDENTIFY DEVICE
+  ef 03 46 00 00 00 a0 08      08:54:35.763  SET FEATURES [Set transfer mode]
+</code></pre>
+<p>Problemy z sektorami można zauważyć również w <code>/var/log/messages</code> . Poniżej linijka, która pokaże,
+czy są jakieś wzmianki o nich:</p>
+<pre><code># grep LBA /var/log/messages* | awk '{print $9}' | sort | uniq
+156299375
+2930275055
+976817134
+</code></pre>
+<p>No tak 3 kolejne i żaden z nich nie odpowiada temu, co siedzi w raporcie S.M.A.R.T . To
+niekoniecznie muszą być bad sektory ale każdy wymieniony sektor trzeba sprawdzić pod kątem odczytu,
+być może były tam jakieś problemy wcześniej i temu system to zanotował ale niekoniecznie oznacza to,
+że problemy dalej występują. Najlepiej po prostu odpytać te sektory i jeśli dadzą się czytać,
+wszystko jest w porządku i można o nich zapomnieć. No to do dzieła:</p>
+<pre><code># hdparm --read-sector 156299375 /dev/sda
+
+/dev/sda:
+reading sector 156299375: succeeded
+
+# hdparm --read-sector 2930275055 /dev/sda
+
+/dev/sda:
+reading sector 2930275055: succeeded
+
+# hdparm --read-sector 976817134 /dev/sda
+
+/dev/sda:
+reading sector 976817134: succeeded
+</code></pre>
+<p>Oczywiście, tych sektorów w logu może być więcej, ja mam w miarę świeży system i logów jako takich
+za dużo w nim jeszcze się nie zdążyło nazbierać. W każdym razie, wszystkie sektory z logu zostały
+odczytane pomyślnie.</p>
+<p>Jeśli pojawiają się błędy w liczbie sektorów <code>8</code> (tak jak w tym przypadku), oznacza to
+prawdopodobnie, że dysk używa technologii <a href="https://www.ibm.com/developerworks/linux/library/l-4kb-sector-disks/index.html">advanced</a> <a href="https://en.wikipedia.org/wiki/Advanced_Format">format</a>, czyli ma sektory nie 512
+bajtów, a 8*512=4096 bajtów. Czasami dysk może zwracać wartość 512 bajtów w każdym możliwym miejscu,
+pomimo faktu, że ma sektory 4096 bajtowe.</p>
+<p>W syslog'u, przy próbie odczytu uszkodzonego sektora, można zobaczyć taki komunikat:</p>
+<pre><code>Nov 21 12:57:29 morfikownia kernel: [ 5503.342060] ata1.01: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x0
+Nov 21 12:57:29 morfikownia kernel: [ 5503.342069] ata1.01: failed command: READ SECTOR(S)
+Nov 21 12:57:29 morfikownia kernel: [ 5503.342077] ata1.01: cmd 20/00:01:00:40:37/00:00:00:00:00/f6 tag 0 pio 512 in
+Nov 21 12:57:29 morfikownia kernel: [ 5503.342077]          res 51/40:01:00:40:37/40:00:06:00:00/f6 Emask 0x9 (media error)
+Nov 21 12:57:29 morfikownia kernel: [ 5503.342082] ata1.01: status: { DRDY ERR }
+Nov 21 12:57:29 morfikownia kernel: [ 5503.342085] ata1.01: error: { UNC }
+Nov 21 12:57:29 morfikownia kernel: [ 5503.379301] ata1.01: configured for UDMA/133
+Nov 21 12:57:29 morfikownia kernel: [ 5503.379331] ata1: EH complete
+</code></pre>
+<p>Mi on nic nie mówi, no może poza tym, że jest błąd odczytu sektora. Co ciekawe dysk sam nie
+realokował go. W tabelce S.M.A.R.T widnieje ciągle jako uszkodzony:</p>
+<pre><code>ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_FAILED RAW_VALUE
+  5 Reallocated_Sector_Ct   0x0033   200   200   140    Pre-fail  Always       -       0
+196 Reallocated_Event_Count 0x0032   200   200   000    Old_age   Always       -       0
+197 Current_Pending_Sector  0x0032   200   200   000    Old_age   Always       -       1
+198 Offline_Uncorrectable   0x0030   200   200   000    Old_age   Offline      -       2
+</code></pre>
+<p>Uszkodzony sektor nie jest oznaczany jako nie do użytku automatycznie dlatego, że w tym sektorze
+rezyduje jakiś plik, lub część jakiegoś pliku. Sektor może być realokowany tylko przy zapisie danych
+na dysk, a nie przy ich odczycie. Przy odczycie dostaje się tylko błęda. W tym wypadku zapis
+wadliwego sektora nie może się odbyć, bo miejsce jest zajęte przez plik, dlatego też raport
+S.M.A.R.T pokazuje błąd odczytu bez przenoszenia sektora, co wskazuje na uszkodzony plik, który
+trzeba zlokalizować. Ok, może nie trzeba, wystarczy pewnie nadpisać ponownie ten sektor siłowo i ma
+się spokój, przynajmniej do czasu gdy zajdzie potrzeba skorzystania z tego pliku. Ja postaram się
+doszukać nieco więcej informacji na temat tego zdarzenia. Tylko jak ustalić jaki to plik i gdzie te
+sektory dokładnie się znajdują i co oznacza <code>LBA=104284160</code> w raporcie S.M.A.R.T?</p>
+<h2 id="plik-rezydujący-na-uszkodzonym-sektorze">Plik rezydujący na uszkodzonym sektorze</h2>
+<p>Zgodnie z tym co piszą na wiki: &quot;LBA (ang. Logical Block Addressing) - metoda obsługi dysku twardego
+przez system operacyjny. I aby go wyliczyć, trzeba skorzystać z poniższego wzoru&quot;:</p>
+<pre><code>LBA = ( numer_cylindra * liczba_glowic_na_cylinder + numer_glowicy ) * liczba_sektorow_na_sciezke + numer_sektora -1
+</code></pre>
+<p>Hmmm, taa, a nie da się jakoś po ludzku? Da się. Przede wszystkim musimy ustalić, na której partycji
+występuje bad sektor. To jest akurat stosunkowo proste. Można skorzystać z narzędzia <code>fdisk</code> i
+popatrzyć po początkach i końcach partycji i jeśli bad sektor się zawiera w którymś z przedziałów,
+oznacza to, że partycja zawierająca uszkodzony sektor została zlokalizowana. Tak wygląda struktura
+mojego dysku:</p>
+<pre><code>root:~# fdisk -lu /dev/sda
+
+Disk /dev/sda: 1500.3 GB, 1500301910016 bytes
+255 heads, 63 sectors/track, 182401 cylinders, total 2930277168 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000a8aae
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048     1953791      975872   83  Linux
+/dev/sda2         1953792    99610623    48828416   83  Linux
+/dev/sda3        99610624  1466798079   683593728   83  Linux
+/dev/sda4      1466800126  2930276351   731738113    5  Extended
+/dev/sda5      1857425408  2482423807   312499200   83  Linux
+/dev/sda6      2482425856  2930276351   223925248   83  Linux
+/dev/sda7      1466802176  1646376959    89787392   83  Linux
+/dev/sda8      1646379008  1857423359   105522176   83  Linux
+
+Partition table entries are not in disk order
+</code></pre>
+<p>Liczba <code>104284160</code> (ta z błędu S.M.A.R.T) zawiera się w przedziale <code>99610624-1466798079</code> , także bad
+sektor znajduje się na 3 partycji. W przypadku posiadania kilku padniętych sektorów, poniższe kroki
+trzeba zastosować do każdego z nich. W każdym razie, mając już trefną partycję, nasuwa się pytanie o
+dokładne miejsce, którego system nie jest w stanie odczytać. Interesuje nas początek partycji i
+lokalizacja sektora. Są to dwie zmienne, które będą nam potrzebne do późniejszego równania, oznaczmy
+je sobie <code>L=104284160</code> oraz <code>S=99610624</code> . Musimy pozyskać jeszcze jedną zmienną -- rozmiar bloku, a
+ten z kolei możemy wyciągnąć przez <code>tune2fs</code> :</p>
+<pre><code># tune2fs -l /dev/mapper/crypt_filmy | grep Block
+Block count:              170897920
+Block size:               4096
+Blocks per group:         32768
+</code></pre>
+<p>Oczywiście ja używam zaszyfrowanych partycji temu odwołuję się do urządzeń w <code>/dev/mapper/</code> .
+Standardowo jednak są to partycje typu <code>/dev/sda2</code> , etc. Czyli rozmiar bloku systemu plików to
+<code>4096</code>. Jest to nasza zmienna <code>B</code> . Teraz podstawiamy to wszystko do wzoru:</p>
+<pre><code>b = (int)((L-S)*512/B)
+b = (int)((104284160-99610624)*512/4096
+b = 584192
+</code></pre>
+<p><code>(int)</code> bierze z wyniku liczbę całkowitą. W ten sposób uzyskaliśmy numer wadliwego bloku widzianego
+przez system plików na danej partycji. Musimy zbadać ten blok przy pomocy <code>debugfs</code> :</p>
+<pre><code># debugfs
+debugfs 1.42.8 (20-Jun-2013)
+debugfs:  open /dev/mapper/crypt_filmy
+debugfs:  testb 584192
+Block 584192 marked in use
+debugfs:  icheck 584192
+Block Inode number
+584192      37486656
+debugfs:  ncheck 37486656
+Inode Pathname
+37486656    /gry/World of Warcraft 3.3.5a (no install)/Data/patch.MPQ
+</code></pre>
+<p>Polecenie <code>open</code> przechodzi do analizy systemu plików na wskazanej partycji. Następnie przy pomocy
+<code>testb</code> sprawdzamy czy dany blok jest w użyciu czy też nie. Jeśli jest, znaczy, że znajduje się tam
+plik. Sprawdzamy zatem przy pomocy <code>icheck</code>, który i-node używa tego bloku, a następnie przy pomocy
+<code>ncheck</code> sprawdzamy jaka ścieżka pliku na dysku jest mu przypisana. Po nitce do kłębka i tak
+znaleźliśmy plik, którego dane znajdują się na uszkodzonym sektorze. No taa, też nie miało gdzie
+tego sektora wywalić...</p>
+<p>Co oznacza, że plik znajduje się w obszarze bad sektora? Najlepiej odpowiedzieć na to pytanie
+poprzez próbę skopiowania tego pliku:</p>
+<pre><code># ls -al  &quot;/media/Filmy/gry/World of Warcraft 3.3.5a (no install)/Data/patch.MPQ&quot;*
+-rwxrwx--- 1 morfik morfik 3.8G Jul  8  2012 /media/Filmy/gry/World of Warcraft 3.3.5a (no install)/Data/patch.MPQ*
+-rwxrwx--- 1 morfik morfik 1.2G Jul  8  2012 /media/Filmy/gry/World of Warcraft 3.3.5a (no install)/Data/patch.MPQ_back*
+</code></pre>
+<p>Jak widać skopiowało się tylko 1.2GiB danych z faktycznych 3.8GiB . Zaglądając w tym czasie do logu
+S.M.A.R.T, można odnotować kilka kolejnych błędów. Jeśli tak się stało, znaczy, że znaleźliśmy
+winowajcę. Oczywiście nie da się już tego pliku skopiować, dysk przywiesza system przy próbie
+odczytu wadliwego sektora, jedyne co można zrobić to usunąć plik z systemu, a właściwie zwolnić
+i-node oraz ręcznie realokować ten sektor przy pomocy <code>dd</code> lub <code>hdparm</code> . Ja skorzystałem z <code>dd</code> :</p>
+<pre><code># dd if=/dev/zero of=/dev/mapper/crypt_filmy bs=4096 count=1 seek=584192
+# sync
+</code></pre>
+<p>Teoretycznie w ten sposób wyzerowany (nadpisany) sektor zostanie realokowany i już nigdy więcej dane
+do wadliwego bloku nie trafią.</p>
+<p>Przy zapisie danych bezpośrednio na partycję, ogromne znaczenie ma parametr <code>bs</code>, a on z kolei
+zależy od tego czy dysk ma 512 czy 4096 bajtowe sektory. W przypadku takim jak mój, gdzie ciężko
+było to oszacować, można spróbować techniki na jeża, czyli ustawić <code>bs=512</code> . Jeśli sektor nie
+zostanie realokowany, prawdopodobnie mamy do czynienia z sektorami 4096 bajtowymi, bo by sektor
+został przeniesiony, trzeba zapisać pozostałe 7 sektorów, co wypełni 4096 bajtów. Można to albo
+ustawić przez <code>bs=512 count=8</code> albo <code>bs=4096 count=1</code> . Należy pamiętać, że w obu przypadkach
+zostanie nadpisanych 4096 bajtów i jeśli mamy 512 bajtowy sektor, to możemy mieć problemy. Ponadto,
+parametr <code>seek</code> powinien też być wielokrotnością <code>8</code> przy 4096 bajtowych sektorach.</p>
+<p>S.M.A.R.T powinien automatycznie zaktualizować odpowiednie atrybuty. Niektóre dyski jednak wymagają
+by dokonać tego ręcznie przez wykonanie testu <code>offline</code>:</p>
+<pre><code># smartctl -t offline /dev/sda
+</code></pre>
+<p>Będzie on trwał ładnych parę godzin ale można używać PC jak gdyby nigdy nic, z tym, że im bardziej
+będzie dysk obciążony, tym wolniej zostanie przeskanowany.</p>
+<h2 id="problemy-z-realokowaniem-bad-sektora">Problemy z realokowaniem bad sektora</h2>
+<p>U mnie ten powyższy schemat nie zdał egzaminu, być może dlatego, że próbowałem przez
+<code>/dev/mapper/</code> . W każdym razie, próba nadpisania tego sektora wyrzucała błąd zapisu. Za bardzo nie
+wiedziałem w czym tkwi problem z realokowaniem tego bad bloka, dlatego też posłużyłem się <code>hdparm</code> .
+Chciałem sprawdzić czy jemu się uda realokować padnięty sektor. Tutaj uwaga na numerki -- podajemy
+liczbę wyrzuconą przez raport S.M.A.R.T:</p>
+<pre><code># hdparm --yes-i-know-what-i-am-doing --write-sector 104284160 /dev/sda
+
+/dev/sda:
+re-writing sector 104284160: succeeded
+</code></pre>
+<p>W końcu jakiś postęp. Sprawdźmy zatem co S.M.A.R.T nam powie:</p>
+<pre><code># smartctl -A /dev/sda | egrep &quot;Reallocated|Pending|Uncorrectable&quot;
+  5 Reallocated_Sector_Ct   0x0033   200   200   140    Pre-fail  Always       -       0
+196 Reallocated_Event_Count 0x0032   200   200   000    Old_age   Always       -       0
+197 Current_Pending_Sector  0x0032   200   200   000    Old_age   Always       -       0
+198 Offline_Uncorrectable   0x0030   200   200   000    Old_age   Offline      -       2
+</code></pre>
+<p>A to dopiero dziwne, wartość atrybutu <code>197</code> została wyzerowana. Poprzednio była tam wartość <code>1</code> .
+Atrybut <code>5</code> tez ma zero. Szukając info na ten temat, okazało się, że nawet takie problemy z sektorem
+jak ja miałem, niekoniecznie oznaczają, że sektor będzie skazany na zapomnienie i odesłany w nicość.
+Gdy tego typu sytuacja się przytrafia, oznacza to nic innego jak przywrócenie sektora do życia,
+czyli udało się go odblokować.</p>
+<p>W przypadku gdyby się nie udało, raport smart by wyglądał jak poniżej:</p>
+<pre><code>  5 Reallocated_Sector_Ct   0x0033   200   200   140    Pre-fail  Always       -       1
+196 Reallocated_Event_Count 0x0032   200   200   000    Old_age   Always       -       1
+197 Current_Pending_Sector  0x0032   200   200   000    Old_age   Always       -       0
+198 Offline_Uncorrectable   0x0030   200   200   000    Old_age   Offline      -       2
+</code></pre>
+<p>Zostanie wyzerowany atrybut <code>197</code>, a do atrybutów <code>5</code> i <code>196</code> zostanie dopisane <code>+1</code>. Natomiast
+atrybut <code>198</code> nie zostanie zmieniony.</p>
+<p>Po zakończeniu prac, przeprowadzić musimy jeszcze test skanowania całej powierzchni dysku:</p>
+<pre><code># smartctl -t offline /dev/sda
+</code></pre>
+<p>Powinno to wyzerować atrybut <code>198</code> . U mnie, po przejściu testu, ten atrybut nadal ma wartość <code>2</code> i
+nie mam zielonego pojęcia jak się go pozbyć. Przejście testu powinno też zapalić zieloną lampkę i
+oznaczyć urządzenie jako sprawne.</p>
+<p>Poniżej info o testach mojego dysku:</p>
+<pre><code># smartctl -l selftest /dev/sda
+smartctl 6.2 2013-07-26 r3841 [x86_64-linux-3.12-0.slh.3-aptosid-amd64] (local build)
+Copyright (C) 2002-13, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF READ SMART DATA SECTION ===
+SMART Self-test log structure revision number 1
+Num  Test_Description    Status                  Remaining  LifeTime(hours)  LBA_of_first_error
+# 1  Short offline       Completed without error       00%     18858         -
+# 2  Extended offline    Completed without error       00%     18858         -
+# 3  Conveyance offline  Completed without error       00%     18854         -
+# 4  Short offline       Completed without error       00%     18853         -
+# 5  Short offline       Completed: read failure       90%     18852         104284160
+# 6  Short offline       Completed: read failure       90%     18845         104284160
+# 7  Short offline       Completed: read failure       90%     18839         104284160
+# 8  Short offline       Completed: read failure       90%     18837         104284160
+# 9  Short offline       Completed: read failure       90%     18836         104284160
+#10  Short offline       Completed: read failure       90%     18836         104284160
+#11  Short offline       Completed: read failure       90%     18836         104284160
+#12  Short offline       Completed without error       00%     18673         -
+#13  Short offline       Completed without error       00%     18498         -
+#14  Short offline       Completed without error       00%        85         -
+7 of 7 failed self-tests are outdated by newer successful extended offline self-test # 2
+</code></pre>
+<p>Oraz log chwilę po ukończeniu
+skanowania:</p>
+<pre><code>Nov 22 01:05:51 morfikownia smartd[3463]: Device: /dev/sda [SAT], 2 Offline uncorrectable sectors
+Nov 22 01:05:51 morfikownia smartd[3463]: Device: /dev/sda [SAT], previous self-test completed without error
+Nov 22 01:05:51 morfikownia smartd[3463]: Device: /dev/sda [SAT], Self-Test Log error count decreased from 7 to 0
+Nov 22 01:05:51 morfikownia smartd[3463]: Device: /dev/sda [SAT], Self-Test Log does no longer report errors, warning condition reset after 1 email
+</code></pre>
+<p>Co prawda u mnie udało się wyleczyć dysk z bad sektora ale pierwszy padnięty sektor nie oznacza, że
+trzeba od razu lecieć do sklepu z zamiarem kupna nowego urządzenia. Trzeba tylko monitorować czy aby
+liczba uszkodzonych sektorów się czasem nie zwiększa. Oczywiście każdy bad sektor oznacza utratę
+danych, w tym przypadku dość kosztowną, bo prawie 4GiB. Choć w sumie jakby to był film, to pewnie
+dałoby radę wyciąć kawałek od początku filmu do sektora i od sektora do końca filmu, a potem oba
+kawałki złączyć i może nawet by nie było zauważalnej różnicy.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smart/">smart</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/">hdd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssd/">ssd</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fuszkodzony-sektor-na-dysku-i-jego-realokacja%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuszkodzony-sektor-na-dysku-i-jego-realokacja%2f&amp;text=Uszkodzony%20sektor%20na%20dysku%20i%20jego%20realokacja" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuszkodzony-sektor-na-dysku-i-jego-realokacja%2f&amp;title=Uszkodzony%20sektor%20na%20dysku%20i%20jego%20realokacja" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuszkodzony-sektor-na-dysku-i-jego-realokacja%2f&amp;title=Uszkodzony%20sektor%20na%20dysku%20i%20jego%20realokacja" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuszkodzony-sektor-na-dysku-i-jego-realokacja%2f&title=Uszkodzony%20sektor%20na%20dysku%20i%20jego%20realokacja" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuszkodzony-sektor-na-dysku-i-jego-realokacja%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuszkodzony-sektor-na-dysku-i-jego-realokacja%2f&amp;title=Uszkodzony%20sektor%20na%20dysku%20i%20jego%20realokacja" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuszkodzony-sektor-na-dysku-i-jego-realokacja%2f&description=Uszkodzony%20sektor%20na%20dysku%20i%20jego%20realokacja" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/problematyczny-parametr-offline-uncorrectable/">Problematyczny parametr &#34;Offline Uncorrectable&#34;</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/mbr-ebr-i-tablica-partycji-dysku-twardego/">MBR, EBR i tablica partycji dysku twardego</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

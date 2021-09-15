@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Czy w linux plik SWAP jest lepszy niż partycja wymiany | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Czy w linux plik SWAP jest lepszy niż partycja wymiany" />
+<meta property="og:description" content="Ostatnimi czasy, z racji rozwoju technologicznego, mamy do dyspozycji coraz to szybsze komputery,
+co przekłada się w znacznym stopniu na prędkość wykonywania operacji przez ich systemy operacyjne.
+Obecnie przeciętnej klasy desktop czy laptop jest już wyposażony w 16G czy nawet 32G pamięci
+operacyjnej (w niedługim czasie
+nawet smartfony będą posiadać 12G RAM).
+Spada zatem zapotrzebowanie wykorzystania dysku twardego jako pamięci RAM. W linux używanie
+dysku twardego jako rozszerzenie pamięci operacyjnej było i jest w dalszym ciągu realizowane za
+sprawą przestrzeni wymiany SWAP. Ta przestrzeń wymiany może być zaimplementowana w postaci osobnej
+partycji dysku twardego albo też jako plik umieszczony w obrębie systemu plików, np. ext4. Część
+dystrybucji linux&#39;a decyduję się na porzucenie partycji wymiany na rzecz pliku SWAP. Czy taki krok
+jest uzasadniony i czy korzystając aktualnie z partycji wymiany powinniśmy zmigrować na plik SWAP?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/czy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-03-22T16:23:42&#43;00:00" />
+<meta property="article:modified_time" content="2019-03-22T16:23:42&#43;00:00" />
+
+
+		<meta itemprop="name" content="Czy w linux plik SWAP jest lepszy niż partycja wymiany">
+<meta itemprop="description" content="Ostatnimi czasy, z racji rozwoju technologicznego, mamy do dyspozycji coraz to szybsze komputery,
+co przekłada się w znacznym stopniu na prędkość wykonywania operacji przez ich systemy operacyjne.
+Obecnie przeciętnej klasy desktop czy laptop jest już wyposażony w 16G czy nawet 32G pamięci
+operacyjnej (w niedługim czasie
+nawet smartfony będą posiadać 12G RAM).
+Spada zatem zapotrzebowanie wykorzystania dysku twardego jako pamięci RAM. W linux używanie
+dysku twardego jako rozszerzenie pamięci operacyjnej było i jest w dalszym ciągu realizowane za
+sprawą przestrzeni wymiany SWAP. Ta przestrzeń wymiany może być zaimplementowana w postaci osobnej
+partycji dysku twardego albo też jako plik umieszczony w obrębie systemu plików, np. ext4. Część
+dystrybucji linux&#39;a decyduję się na porzucenie partycji wymiany na rzecz pliku SWAP. Czy taki krok
+jest uzasadniony i czy korzystając aktualnie z partycji wymiany powinniśmy zmigrować na plik SWAP?"><meta itemprop="datePublished" content="2019-03-22T16:23:42&#43;00:00" />
+<meta itemprop="dateModified" content="2019-03-22T16:23:42&#43;00:00" />
+<meta itemprop="wordCount" content="2076">
+<meta itemprop="keywords" content="ext4,system-plików,swap," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Czy w linux plik SWAP jest lepszy niż partycja wymiany"/>
+<meta name="twitter:description" content="Ostatnimi czasy, z racji rozwoju technologicznego, mamy do dyspozycji coraz to szybsze komputery,
+co przekłada się w znacznym stopniu na prędkość wykonywania operacji przez ich systemy operacyjne.
+Obecnie przeciętnej klasy desktop czy laptop jest już wyposażony w 16G czy nawet 32G pamięci
+operacyjnej (w niedługim czasie
+nawet smartfony będą posiadać 12G RAM).
+Spada zatem zapotrzebowanie wykorzystania dysku twardego jako pamięci RAM. W linux używanie
+dysku twardego jako rozszerzenie pamięci operacyjnej było i jest w dalszym ciągu realizowane za
+sprawą przestrzeni wymiany SWAP. Ta przestrzeń wymiany może być zaimplementowana w postaci osobnej
+partycji dysku twardego albo też jako plik umieszczony w obrębie systemu plików, np. ext4. Część
+dystrybucji linux&#39;a decyduję się na porzucenie partycji wymiany na rzecz pliku SWAP. Czy taki krok
+jest uzasadniony i czy korzystając aktualnie z partycji wymiany powinniśmy zmigrować na plik SWAP?"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Czy w linux plik SWAP jest lepszy niż partycja wymiany</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2019-03-22T16:23:42Z">Opublikowano: 22/03/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Czy w linux plik SWAP jest lepszy niż partycja wymiany</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#osobna-partycja-a-plik-w-systemie-plików">Osobna partycja, a plik w systemie plików</a></li>
+    <li><a href="#fragmentacja-pliku-swap">Fragmentacja pliku SWAP</a>
+      <ol>
+        <li><a href="#czy-fragmentacja-pliku-swap-ma-znaczenie">Czy fragmentacja pliku SWAP ma znaczenie</a></li>
+        <li><a href="#defragmentacja-pliku-swap">Defragmentacja pliku SWAP</a></li>
+      </ol>
+    </li>
+    <li><a href="#miejsce-dla-przestrzeni-wymiany">Miejsce dla przestrzeni wymiany</a>
+      <ol>
+        <li><a href="#zmiana-rozmiaru-pliku-swap">Zmiana rozmiaru pliku SWAP</a></li>
+      </ol>
+    </li>
+    <li><a href="#problemy-z-hibernacją-za-sprawą-pliku-swap">Problemy z hibernacją za sprawą pliku SWAP</a></li>
+    <li><a href="#plik-swap-vs-partycja-wymiany">Plik SWAP vs. partycja wymiany</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Ostatnimi czasy, z racji rozwoju technologicznego, mamy do dyspozycji coraz to szybsze komputery,
+co przekłada się w znacznym stopniu na prędkość wykonywania operacji przez ich systemy operacyjne.
+Obecnie przeciętnej klasy desktop czy laptop jest już wyposażony w 16G czy nawet 32G pamięci
+operacyjnej (w niedługim czasie
+nawet <a href="https://android.com.pl/news/200097-samsung-12-gb-ram-lpddr4x/">smartfony będą posiadać 12G RAM</a>).
+Spada zatem zapotrzebowanie wykorzystania dysku twardego jako pamięci RAM. W linux używanie
+dysku twardego jako rozszerzenie pamięci operacyjnej było i jest w dalszym ciągu realizowane za
+sprawą przestrzeni wymiany SWAP. Ta przestrzeń wymiany może być zaimplementowana w postaci osobnej
+partycji dysku twardego albo też jako plik umieszczony w obrębie systemu plików, np. ext4. Część
+dystrybucji linux'a decyduję się na porzucenie partycji wymiany na rzecz pliku SWAP. Czy taki krok
+jest uzasadniony i czy korzystając aktualnie z partycji wymiany powinniśmy zmigrować na plik SWAP?</p>
+<h2 id="osobna-partycja-a-plik-w-systemie-plików">Osobna partycja, a plik w systemie plików</h2>
+<p>Wydawać by się mogło, że osobna partycja wymiany będzie miała jakiś dodatkowy bonus w stosunku do
+pliku SWAP z racji zastosowania w tym drugim przypadku dodatkowej warstwy logicznej w postaci
+systemu plików (w tym przypadku ext4). Obecnie jednak oba rozwiązania, tj. SWAP w pliku i SWAP jako
+partycja, <a href="https://lkml.org/lkml/2006/5/29/3">mają bardzo zbliżoną wydajność</a> i przestrzeń wymiany
+nie cierpi z powodu umieszczenia jej wewnątrz systemu plików.</p>
+<p>Dodatkowo, trzymanie przestrzeni wymiany w pliku sprawia też, że nie potrzebna nam jest dedykowana
+partycja. W przypadku, gdy SWAP nam nie będzie już do niczego potrzebny, to plik można zwyczajnie
+skasować odzyskując natychmiastowo miejsce, które zajmował. W przypadku fizycznych partycji, ten
+zabieg ze zwolnieniem miejsca może być bardziej skomplikowany. Podobnie też i w drugą stronę, gdy
+zajdzie potrzeba utworzenia przestrzeni wymiany lub jej powiększenia.</p>
+<p>Zatem gdybyśmy rozpatrywali tylko tę jedną kwestię, to plik SWAP byłby faworytem i można by na tym
+stwierdzeniu skończyć artykuł. Niemniej jednak, jest jeszcze kilka rzeczy, które wypadałoby
+poruszyć, i dopiero po przeanalizowaniu ich wszystkich dokonać oceny, które z tych dwóch rozwiązań
+wdrożenia przestrzeni wymiany na linux jest tym lepszym.</p>
+<h2 id="fragmentacja-pliku-swap">Fragmentacja pliku SWAP</h2>
+<p>Może i utworzenie przestrzeni wymiany SWAP w postaci regularnego pliku nie wpływa na jej wydajność
+ale co z fragmentacją danych? Przecież w dalszym ciągu plik w systemie plików może ulec
+fragmentacji. Większe pliki zwykle oznaczają fragmentację danych, a do takich dużych plików się
+będzie zaliczał plik SWAP. Zatem można założyć, że im bardziej będzie pofragmentowana przestrzeń
+wymiany, tym bardziej niekorzystnie może się to odbić na wydajności systemu.</p>
+<p>Spójrzmy na przykład poniżej, gdzie mamy do czynienia z plikiem SWAP o rozmiarze 1,5 GiB. Został on
+umieszczony na partycji <code>/</code> , gdzie zwykle plik SWAP będzie się znajdował. Jego stopień
+fragmentacji prezentuje się następująco:</p>
+<pre><code># filefrag -ve /swapfile
+Filesystem type is: ef53
+File size of /swapfile is 1610612736 (393216 blocks of 4096 bytes)
+ext:     logical_offset:        physical_offset: length:   expected: flags:
+  0:        0..     512:     361983..    362495:    513:
+  1:      513..    1023:     362747..    363257:    511:     362496:
+...
+111:   387072..  389119:    2899968..   2902015:   2048:    2873344:
+112:   389120..  393215:    2922496..   2926591:   4096:    2902016: last,eof
+/swapfile: 113 extents found
+</code></pre>
+<p>Zatem plik 1,5 GiB ma 113 zakresów bloków. Optymalna wartość dla tego pliku to 12 (1536MiB/128MiB).
+Naturalnie z ludzkiej perspektywy 12 zakresów ciągłych bloków następujących jeden po drugim, gdy
+plik ma rozmiar 1,5 GiB, jest równoznaczne z posiadaniem ciągłego pliku.</p>
+<p>Oczywiście to, czy nasz plik SWAP ulegnie fragmentacji zależy od momentu, w którym go będziemy
+chcieli stworzyć. Gdy proces tworzenia pliku SWAP przeprowadzimy przed instalacją systemu (nie wiem
+jak do tego zadania podchodzą instalatory dystrybucji linux'a), gdzie na dysku nie ma jeszcze
+żadnych plików, to naturalnie jest spora szansa na to, że plik SWAP będzie w miarę ciągły. Jeśli
+jednak chcemy stworzyć plik SWAP po instalacji systemu lub też po dłuższym czasie używania systemu,
+to wtedy jest niemal pewne, że plik SWAP będzie miał sporo części z racji dość dużej fragmentacji
+wolnej przestrzeni. Dla przykładu, partycja <code>/</code> w moim systemie ma wielkość 30 GiB, z czego ponad
+połowa jest pusta. A jak na tej partycji prezentuje się wolna przestrzeń? Zobaczmy:</p>
+<pre><code># e2freefrag /dev/mapper/wd_black_label-root
+Device: /dev/mapper/wd_black_label-root
+Blocksize: 4096 bytes
+Total blocks: 7864320
+Free blocks: 4175483 (53.1%)
+
+Min. free extent: 4 KB
+Max. free extent: 85632 KB
+Avg. free extent: 596 KB
+Num. free extent: 27934
+
+HISTOGRAM OF FREE EXTENT SIZES:
+Extent Size Range :  Free extents   Free Blocks  Percent
+   4K...    8K-  :          5767          5767    0.14%
+   8K...   16K-  :          3749          8890    0.21%
+  16K...   32K-  :          2560         13146    0.31%
+  32K...   64K-  :          4138         49365    1.18%
+  64K...  128K-  :          3109         73707    1.77%
+ 128K...  256K-  :          1435         66024    1.58%
+ 256K...  512K-  :          1446        131012    3.14%
+ 512K... 1024K-  :          1492        269814    6.46%
+   1M...    2M-  :          1934        703334   16.84%
+   2M...    4M-  :          1409        968281   23.19%
+   4M...    8M-  :           617        843599   20.20%
+   8M...   16M-  :           200        524080   12.55%
+  16M...   32M-  :            61        321823    7.71%
+  32M...   64M-  :            15        158138    3.79%
+  64M...  128M-  :             2         38503    0.92%
+</code></pre>
+<p>Niby mamy do dyspozycji ponad 50% wolnego miejsca, a największy ciągły kawałek pustej przestrzeni
+ma jedynie około 80 MiB (85632 KiB), a średnio wychodzi to 0,5 MiB. Ja bym jednak wzbraniał się
+umieścić plik SWAP w obrębie takiego systemu plików.</p>
+<h3 id="czy-fragmentacja-pliku-swap-ma-znaczenie">Czy fragmentacja pliku SWAP ma znaczenie</h3>
+<p><a href="https://www.spinics.net/lists/linux-ext4/msg64788.html">Po rozmowie</a> z deweloperami systemu plików
+ext4, okazało się jednak, że z tą fragmentacją danych też nie jest do końca tak jakby mogłoby się z
+początku wydawać. O ile faktycznie fragmentacja dużego pliku jest całkiem prawdopodobna, toteż
+spadek wydajności, jaki może za sobą ten proceder nieść, niekoniecznie musi wpłynąć negatywnie na
+pracę systemu operacyjnego, o ile w ogóle będzie można tę różnice w jakiś sposób zmierzyć.</p>
+<p>Plik w systemie plików jest zakodowany jako osobne kawałki (maksymalnie 128 MiB na pojedynczy
+zakres bloków w ext4). Jeśli kilka zakresów bloków znajduje się obok siebie, to mamy ciągły obszar
+danych na dysku. Z perspektywy maszyny są to osobne kawałki ale dla człowieka takie fragmenty jeden
+za drugim mogą być traktowane jako jedna większa całość. Niemniej jednak, nawet ciągły obszar
+bloków może być czytany przez system w kawałkach, z racji budowy komputera i ogólnie systemu
+operacyjnego, bo wiele procesów próbuje zapisywać/odczytywać dysk w tym samym czasie, a tylko jeden
+z nich w danym konkretnym momencie może to zrobić, przez co trzeba kolejkować operacje I/O dysku,
+co przekłada się na ciągłość transferu danych (albo raczej na jej brak). Nawet jeśli plik ma wiele
+ciągłych bloków danych na dysku, to zwykle w systemie zachodzą zdarzenia, które uniemożliwią
+czytanie takiego ciągłego pliku w pojedynczej operacji I/O. Zatem jeśli plik będzie składał się z
+jednego ciągłego kawałka i zostałby przy tym odczytany na raty w 20 operacjach, to z perspektywy
+tej konkretnej operacji odczytu, plik można traktować tak jakby miał 20 części, a to w ilu
+częściach figuruje on na dysku nie ma w tym konkretnym przypadku większego znaczenia. Oczywiście im
+bardziej pofragmentowany jest plik, tym więcej operacji I/O trzeba przeprowadzić, by go odczytać
+ale te parę dodatkowych zapytań większej różnicy w ogólnej wydajności systemu już raczej nie zrobi.</p>
+<p>To co jest ciekawe w przypadku systemu plików ext4, to możliwość buforowania w pamięci RAM
+wszystkich zakresów bloków pliku, który zamierzamy odczytać (przed dokonywaniem faktycznych
+operacji I/O). Zatem lokalizacja wszystkich bloków danych jest znana przed rozpoczęciem transferu
+danych i nie trzeba wykonywać dodatkowych zapytań do dysku, by poznać lokalizację następnych bloków.
+Teoretycznie możliwe jest nawet odczytanie całego pliku, np. 10G, w jednym podejściu (jedna
+operacja I/O) mniej więcej tak samo jak przy odczycie surowym np. przez <code>dd if=/dev/sda</code> , bo
+głowica dysku może przejść płynie do następnego zakresu bloków bez ponownego pozycjonowania, co
+wiązałoby się z dodatkowymi opóźnieniami. Czyli sam system plików jako taki nie wywołuje
+dodatkowych opóźnień w stosunku do surowego odczytu danych z nośnika, oczywiście jeśli mamy do
+odczytu kolejne ciągłe bloki danych.</p>
+<p>Generalnie w tej całej zabawie chodzi o szybkość transferu danych pojedynczej operacji, która nie
+jest jakoś specjalnie duża. Może i prędkość surowego transferu przeciętnego dysku HDD jest w
+graniach 120 MiB/s ale w pojedynczej sekundzie system może chcieć przeprowadzić całą masę operacji
+I/O, np. zapis logów systemowych czy odczyt plików z katalogu <code>/usr/</code> czy <code>/home/</code> przy
+uruchamianiu aplikacji. Te wszystkie operacje wymagają osobnych zapytań, przez co trzeba je
+kolejkować, co generuje opóźnienia. Dlatego też mając ciągły plik, może on zostać odczytany na raty.</p>
+<p>I teraz wypadłoby zestawić te powyższe informacje z ilością zapytań pod kątem przestrzeni wymiany.
+No jakby nie patrzeć, przy dość sporym wykorzystaniu pliku SWAP, tych operacji będzie bardzo dużo.
+Niemniej jednak, zwykle jedynie małe porcje danych będą odczytywane lub zapisywane. Nie będzie przy
+tym sytuacji, w których system będzie próbował odczytać lub zapisać naraz 1 GiB danych w pliku SWAP.
+Dlatego też w przypadku przestrzeni wymiany, wpływ fragmentacji pliku SWAP nie degraduje zbytnio
+w większym stopniu wydajności systemu w stosunku do partycji SWAP.</p>
+<h3 id="defragmentacja-pliku-swap">Defragmentacja pliku SWAP</h3>
+<p>Jeśli już mowa o tych fragmentach pliku SWAP, które są fizycznie porozrzucane w obrębie danego
+systemu plików, to zawsze można spróbować taki plik zdefragmentować przy pomocy <code>e4defrag</code> .
+Niemniej jednak, trzeba się liczyć z faktem, że niekoniecznie w tej kwestii da się coś więcej
+zrobić, przykładowo:</p>
+<pre><code># e4defrag -v /swapfile
+e4defrag 1.45.0 (6-Mar-2019)
+ext4 defragmentation for /swapfile
+[1/1]/swapfile: 100%  extents: 113 -&gt; 113       [ OK ]
+Success:                       [1/1]
+</code></pre>
+<p>No w tym przypadku <code>e4defrag</code> nic nie zdziałał ze względu na dość mocną fragmentację wolnej
+przestrzeni.</p>
+<h2 id="miejsce-dla-przestrzeni-wymiany">Miejsce dla przestrzeni wymiany</h2>
+<p>No jak widać fragmentacja plików też nie jest jakoś specjalnie na niekorzyść dla pliku SWAP w
+stosunku do partycji wymiany, no może poza pewnymi specyficznymi przypadkami, w których
+fragmentacja plików jest bardzo ale to bardzo duża. Wypadałoby jednak się jeszcze zastanowić nad
+kwestią miejsca, w którym plik SWAP powinien się znaleźć.</p>
+<p>Jeśli mamy do dyspozycji drugi (niesystemowy) dysk, to przestrzeń wymiany (bez znaczenia czy plik
+SWAP czy partycja) wypadałoby umieścić na tym właśnie nośniku. Taki zabieg rozłoży operacje I/O na
+dwa urządzenia przez co poprawi ogólną wydajność systemu.</p>
+<p>W przypadku, gdy dysponujemy tylko jednym dyskiem, to wypadałoby się postarać, by przestrzeń
+wymiany znalazła się w miarę blisko początku dysku. Niekoniecznie musi być ona na samym początku
+ale z racji lepszych czasów dostępu w tym obszarze nośnika, umieszczenie przestrzeni wymiany w nim
+przełoży się na poprawę wydajności systemu. Spójrzmy na tę poniższą fotkę:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/03/001-hdd-disk-performance-degradation-linux-partition.jpg" alt=""    class="big"></p>
+<p>Widać na niej, że początkowy obszar dysku ma zarówno większy transfer jak i niższe czasy dostępu do
+danych. Gdybyśmy tworzyli partycję wymiany, to można by ją utworzyć w konkretnym miejscu. Z plikiem
+już tak dobrze nie jest, bo może on powędrować w dowolne miejsce limitowane obszarem systemu
+plików. Możemy za to zrobić pewien trik, który umieści plik wymiany w konkretnym wycinku dysku. Nie
+możemy zatem tworzyć jednej dużej partycji dla naszego linux'a. Jeśli mamy do dyspozycji dysk 320G,
+to spokojnie można utworzyć partycję <code>/</code> mającą 30 GiB zaraz na początku dysku i w niej utworzyć
+już sobie plik SWAP. Taki zabieg sprawi, że zarówno system jak i przestrzeń wymiany będą
+umieszczone w pierwszych 10-15% dysku, a to już im powinno zapewnić w miarę dobrą wydajność.</p>
+<h3 id="zmiana-rozmiaru-pliku-swap">Zmiana rozmiaru pliku SWAP</h3>
+<p>Czasami przez zbytnie niedoszacowanie, plik SWAP podczas instalacji systemu, czy też przed tym
+procesem, może zostać stworzony za mały lub za duży. Zmiana rozmiaru pliku przestrzeni wymiany może
+czasami nieść ze sobą utratę wydajności. Jeśli korzystamy z systemu już dłuższy czas, to można
+założyć, że fragmentacja wolnej przestrzeni na partycji <code>/</code> poszła w najlepsze (tak jak to było
+widać wyżej w moim przypadku).</p>
+<p>Tworzenie nowego pliku SWAP lub rozszerzenie tego istniejącego sprawi, że część przestrzeni wymiany
+ulegnie pofragmentowaniu. Wypadałoby zatem rozeznać się wcześniej jak wygląda struktura wolnej
+przestrzeni na dysku, bo może się okazać, że przeznaczenie kolejnej części nośnika w tym konkretnym
+systemie plików może nie być zbytnio wskazane, zwłaszcza, gdy na danej partycji mamy już bardzo
+niewiele wolnego miejsca.</p>
+<h2 id="problemy-z-hibernacją-za-sprawą-pliku-swap">Problemy z hibernacją za sprawą pliku SWAP</h2>
+<p>Wygląda na to, że są pewne problemy w przypadku hibernacji systemu, gdy w roli przestrzeni wymiany
+występuje plik
+SWAP. <a href="https://www.kernel.org/doc/Documentation/power/swsusp-and-swap-files.txt">Problem tkwi w nagłówku przestrzeni wymiany</a>,
+którego lokalizacja w przypadku partycji jest znana, a w przypadku pliku trzeba ją systemowi
+wskazać. Wszystko dlatego, że system plików, na którym znajduje się plik SWAP, trzeba by pierw
+zamontować. Kłopot jedynie w tym, że systemu plików zawierającego dziennik (np. ext3, czy ext4) nie
+można zamontować podczas wybudzania maszyny ze stanu hibernacji. Hibernacja w przypadku pliku SWAP
+jest naturalnie możliwa ale trzeba
+się <a href="https://morfikov.github.io/post/problemy-z-plikiem-wymiany-swap-przy-hibernacji-linuxa/">trochę wysilić przy konfiguracji</a>,
+by wszystko działało jak należy.</p>
+<h2 id="plik-swap-vs-partycja-wymiany">Plik SWAP vs. partycja wymiany</h2>
+<p>Po przeanalizowaniu wszystkich za i przeciw, przynajmniej tych, które przyszły mi do głowy,
+wychodzi na to, ze plik SWAP (przy odpowiednim podejściu) jest nieco lepszym rozwiązaniem w
+stosunku do partycji wymiany. Może i pewne rzeczy związane z hibernacją wymagają dodatkowego
+wysiłku ale poza tym, to nie widziałbym przeszkód, by zmienić nieco konfigurację swojego systemu,
+tak by zamiast partycji wymiany korzystać z pliku SWAP. Oczywiście w obecnej sytuacji pozostaje mi
+jedynie używanie przestrzeni wymiany w postaci partycji.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ext4/">ext4</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/system-plik%C3%B3w/">system-plików</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/swap/">swap</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany%2f&amp;text=Czy%20w%20linux%20plik%20SWAP%20jest%20lepszy%20ni%c5%bc%20partycja%20wymiany" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany%2f&amp;title=Czy%20w%20linux%20plik%20SWAP%20jest%20lepszy%20ni%c5%bc%20partycja%20wymiany" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany%2f&amp;title=Czy%20w%20linux%20plik%20SWAP%20jest%20lepszy%20ni%c5%bc%20partycja%20wymiany" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany%2f&title=Czy%20w%20linux%20plik%20SWAP%20jest%20lepszy%20ni%c5%bc%20partycja%20wymiany" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany%2f&amp;title=Czy%20w%20linux%20plik%20SWAP%20jest%20lepszy%20ni%c5%bc%20partycja%20wymiany" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fczy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany%2f&description=Czy%20w%20linux%20plik%20SWAP%20jest%20lepszy%20ni%c5%bc%20partycja%20wymiany" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czym-jest-online-ext4-metadata-check-w-linuxowym-lvm/">Czym jest Online ext4 Metadata Check w linux&#39;owym LVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/unexpected-inconsistency-inode-corrupt-extent-header/">Unexpected Inconsistency: Inode has corrupt extent header</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/data-czas-utworzenia-pliku-w-linuxie-crtime/">Data i czas utworzenia pliku w linux&#39;ie (crtime)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-identyfikatora-uuid/">Zmiana identyfikatora UUID systemu plików EXT4 i kontenera LUKS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ext4/">Zmiana rozmiaru partycji EXT4</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-odzyskac-usuniete-z-dysku-pliki/">Jak odzyskać usunięte z dysku pliki</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/migracja-systemu-plikow-ext2-i-ext3-na-ext4/">Migracja systemu plików ext2 i ext3 na ext4</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

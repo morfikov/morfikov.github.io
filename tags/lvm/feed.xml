@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lvm on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/lvm/</link>
+    <description>Recent content in lvm on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Mon, 02 Mar 2020 03:08:00 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/lvm/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)</title>
+      <link>https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/</link>
+      <pubDate>Mon, 02 Mar 2020 03:08:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/</guid>
+      <description>&lt;p&gt;Szukając informacji na temat uruchamiania mojego zaszyfrowanego Debiana (LUKSv2+LVM) na laptopie z
+EFI/UEFI, natrafiłem na dość ciekawy mechanizm zwany &lt;a href=&#34;https://www.kernel.org/doc/Documentation/efi-stub.txt&#34;&gt;kernel EFI boot stub&lt;/a&gt;, czasem też zwany
+kernel EFISTUB. Zadaniem tego mechanizmu jest uruchomienie linux&#39;a bezpośrednio z poziomu firmware
+EFI z pominięciem czy też bez potrzeby stosowania dodatkowych menadżerów rozruchu (rEFInd) czy
+bootloader&#39;ów (grub/grub2/syslinux/extlinux). Jakby nie patrzeć bardzo ciekawa alternatywa, która
+wymaga, by się z nią zapoznać i ocenić jej przydatność pod kątem użyteczności.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</title>
+      <link>https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/</link>
+      <pubDate>Sun, 01 Mar 2020 20:30:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/</guid>
+      <description>&lt;p&gt;Mając możliwość skonfigurowania EFI/UEFI na moim laptopie, postanowiłem jak najbardziej się za to
+przedsięwzięcie zabrać. Okazało się jednak, że w przypadku takiej dystrybucji linux&#39;a jak Debian,
+to zadanie może być nieco problematyczne, zwłaszcza gdy chce się korzystać jedynie z menadżera
+rozruchu jakim jest &lt;a href=&#34;https://www.rodsbooks.com/refind/&#34;&gt;rEFInd&lt;/a&gt;, czyli bez dodatkowego bootloader&#39;a (grub/grub2/syslinux/extlinux)
+instalowanego bezpośrednio na dysku twardym i jednocześnie posiadając w pełni zaszyfrowany system
+(LUKSv2 + LVM). Rzecz w tym, że w takiej sytuacji w konfiguracji rEFInd trzeba podawać ścieżki
+bezpośrednio do plików &lt;code&gt;initrd.img&lt;/code&gt; oraz &lt;code&gt;vmlinuz&lt;/code&gt; (obecnych na partycji &lt;code&gt;/boot/&lt;/code&gt; ). W Debianie
+nazwy tych plików mają format &lt;code&gt;initrd.img-x.x.x-x-amd64&lt;/code&gt; i &lt;code&gt;vmlinuz-x.x.x-x-amd64&lt;/code&gt; . Za każdym
+razem, gdy wypuszczany jest nowy kernel, to ten numerek ( &lt;code&gt;x.x.x-x&lt;/code&gt; ) ulega zmianie, co pociąga za
+sobą potrzebę ręcznego dostosowania konfiguracji rEFInd. Może i aktualizacje kernela w Debianie nie
+są jakoś stosunkowo częste ale może istnieje sposób, by ten problem z dostosowaniem konfiguracji
+rozwiązać?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Badsector dysku HDD w kontenerze LUKS zawierającym LVM</title>
+      <link>https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/</link>
+      <pubDate>Sun, 31 Mar 2019 12:23:42 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/</guid>
+      <description>&lt;p&gt;Podczas rutynowego skanu powierzchni dysków HDD w moim laptopie, S.M.A.R.T wykrył w jednym z nich
+podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
+powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
+czytaniu padniętego sektora też był nieco dziwny: &lt;code&gt;bad/missing sense data, sb[]&lt;/code&gt; . Jakiś czas temu
+już opisywałem jak &lt;a href=&#34;https://morfikov.github.io/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/&#34;&gt;realokować uszkodzony sektor dysku HDD&lt;/a&gt; i w zasadzie wszystkie informacje
+zawarte w tamtym artykule można by wykorzystać do próby poprawienia zaistniałego problemu, gdyby
+tylko nie fakt, że w tym przypadku badblock znalazł się w obszarze voluminu logicznego LVM na
+partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki schemat układu partycji sprawia, że do
+realokowania błędnego bloku trzeba podejść nieco inaczej uwzględniając w tym procesie kilka
+offset&#39;ów, bez których w zasadzie nic nie da się zrobić. Postanowiłem zatem napisać na konkretnym
+przykładzie jak realokować badsector dysku, gdy do czynienia mamy z zaszyfrowanym linux&#39;em
+zainstalowanym na voluminach LVM.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Czym jest Online ext4 Metadata Check w linux&#39;owym LVM</title>
+      <link>https://morfikov.github.io/post/czym-jest-online-ext4-metadata-check-w-linuxowym-lvm/</link>
+      <pubDate>Sun, 17 Mar 2019 19:10:30 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/czym-jest-online-ext4-metadata-check-w-linuxowym-lvm/</guid>
+      <description>&lt;p&gt;Przeglądając dzisiaj rano logi systemowe wpadł mi w oczy komunikat, którego treść brzmiała mniej
+więcej tak: &lt;code&gt;e2scrub Volume group &amp;quot;wd_blue_label&amp;quot; has insufficient free space (0 extents): 64 required&lt;/code&gt; , po którym z kolei można zanotować &lt;code&gt;e2scrub snapshot FAILED, will not check!&lt;/code&gt; oraz
+&lt;code&gt;Failed to start Online ext4 Metadata Check for /media/Debian&lt;/code&gt; . Oczywiście ten punkt montowania to
+nazwa partycji odnosząca się do jednego z dysków logicznych struktury LVM. Skąd się te błędy
+wzięły? Przecież jeszcze do niedawna (przez ostatnich parę lat) wszystko z moim linux&#39;em
+rezydującym na dysku (LUKS+LVM) było w porządku, a teraz nagle takie bardzo niepokojące błędy.
+Czym jest w ogóle ten &lt;code&gt;e2scrub&lt;/code&gt; i czym jest ten cały &lt;code&gt;Online ext4 Metadata Check&lt;/code&gt; , który
+najwyraźniej ma coś wspólnego ze sprawdzaniem systemu plików voluminów logicznych w locie? No i
+najważniejsze chyba pytanie -- czemu to nie działa jak należy?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak dodać nowy dysk do LVM</title>
+      <link>https://morfikov.github.io/post/jak-dodac-nowy-dysk-lvm/</link>
+      <pubDate>Tue, 02 Feb 2016 16:21:08 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-dodac-nowy-dysk-lvm/</guid>
+      <description>&lt;p&gt;Rozmiary obecnych dysków twardych zwykliśmy już liczyć w TiB. Jest to dość sporo ale ciągle zdarzają
+się sytuacje, gdzie zaczyna nam brakować miejsca na pliki. W takich przypadkach myślimy raczej o
+zmianie rozmiaru istniejących już partycji czy też dokupieniu nowego dysku. Pierwsza z powyższych
+opcji nie zawsze może wchodzić w grę, no chyba, że zaimplementowaliśmy sobie &lt;a href=&#34;https://pl.wikipedia.org/wiki/LVM&#34;&gt;LVM&lt;/a&gt;. Jeśli tak,
+to możemy bez większego problemu &lt;a href=&#34;https://morfikov.github.io/post/zmiana-rozmiaru-lvm/&#34;&gt;zmieniać rozmiar każdego z tych voluminów LVM&lt;/a&gt;. Niemniej
+jednak, nawet jeśli już dostosujemy sobie te wirtualne dyski, to miejsce wciąż może nam się
+skończyć i raczej można przyjąć za pewne, że tak się stanie w bliżej nieokreślonej przyszłości. Gdy
+to nastąpi, czeka nas druga opcja wymieniona wyżej, tj. zaopatrzenie się w dodatkowy nośnik danych.
+Przy pomocy LVM jesteśmy w stanie ten nowy dysk dodać do istniejącej grupy voluminów i zwiększyć tym
+wirtualnym partycjom rozmiar bez potrzeby przerywania pracy systemu, czy też wykonywania dodatkowych
+czynności związanych z formatowaniem i instalowaniem systemu na nowo. W tym wpisie postaramy się
+przebrnąć przez ten proces.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Backup systemu przy pomocy LVM snapshot</title>
+      <link>https://morfikov.github.io/post/backup-przy-pomocy-lvm-snapshot/</link>
+      <pubDate>Fri, 15 Jan 2016 14:09:15 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/backup-przy-pomocy-lvm-snapshot/</guid>
+      <description>&lt;p&gt;W dzisiejszych czasach systemy operacyjne są bardziej odporne na błędy niż to miało miejsce kilka
+czy kilkanaście lat temu. Bardzo ciężko jest się zatem odnaleźć w sytuacji, gdzie nasz linux odmawia
+współpracy i nie chce się w ogóle uruchomić. Niemniej jednak, jeśli chodzi o samą kwestię
+naprawiania szkód po ewentualnej awarii systemu, to, jakby nie patrzeć, zajmuje ona nasz cenny czas.
+Oczywiście takie błędy sprawiają, że mamy szansę nieco zgłębić strukturę używanego systemu
+operacyjnego ale też pojawiają się one w najmniej oczekiwanym momencie. W takiej sytuacji nie ma
+mowy byśmy siedzieli paręnaście minut i zastanawiali się nad tym dlaczego coś nie działa jak należy.
+Jest kilka mechanizmów bezpieczeństwa, które mogą nam nieco czasu zaoszczędzić. W tym wpisie omówimy
+sobie zagadnienia związane z &lt;a href=&#34;http://www.tldp.org/HOWTO/html_single/LVM-HOWTO/#snapshotintro&#34;&gt;LVM snapshot&lt;/a&gt;, czyli migawką systemu, którą możemy wykonać
+praktycznie natychmiast i w razie problemów przywrócić system do stanu sprzed wprowadzenia w nim
+zmian.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Instalacja debiana z wykorzystaniem debootstrap</title>
+      <link>https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/</link>
+      <pubDate>Sat, 02 Jan 2016 03:52:49 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/</guid>
+      <description>&lt;p&gt;Instalowanie debiana z wykorzystaniem &lt;code&gt;debootstrap&lt;/code&gt; trochę się różni od instalacji z wykorzystaniem
+instalatora. Chodzi generalnie o to, że wszystkie kroki instalacyjne trzeba przeprowadzać ręcznie.
+Poza tym, cała konfiguracja będzie wymagać manualnego dostosowania. Plus tego rozwiązania jest
+oczywisty, albowiem mamy całkowitą władzę nad tym co się w systemie znajdzie oraz jak będzie on
+skonfigurowany. By mieć możliwość przeprowadzenia tego typu instalacji potrzebny będzie nam
+działający system. Może to być płytka lub pendrive live z &lt;a href=&#34;https://www.debian.org/CD/live/index.pl.html&#34;&gt;Debianem&lt;/a&gt; czy &lt;a href=&#34;https://www.ubuntu.com/download/desktop/try-ubuntu-before-you-install&#34;&gt;Ubuntu&lt;/a&gt;. Można też
+wykorzystać już zainstalowany system operacyjny. Ważne jest tylko to, aby była możliwość
+zainstalowania w takim systemie pakietu &lt;code&gt;debootstrap&lt;/code&gt; , no i oczywiście wymagany jest dostęp do
+internetu. W przeciwieństwie do instalatora debiana, mamy dostęp do graficznego środowiska, a w nim
+do przeglądarki i w przypadku utknięcia gdzieś po drodze podczas instalacji, możemy sobie wygooglać
+napotkane problemy nie przerywając przy tym prac instalacyjnych.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Kopia struktury dysku twardego</title>
+      <link>https://morfikov.github.io/post/kopia-struktury-dysku-twardego/</link>
+      <pubDate>Fri, 18 Dec 2015 17:01:12 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/kopia-struktury-dysku-twardego/</guid>
+      <description>&lt;p&gt;Wszyscy wiedzą, że zabawa z dyskiem zwykle kończy się tragicznie dla zawartych na nim danych. W tym
+wpisie spróbujemy się przyjrzeć sytuacjom, które nie jednego użytkownika linux&#39;a potrafią przyprawić
+o zawał serca. Chodzi generalnie o uszkodzenie struktury dysku, oczywiście tylko tej programowej. Na
+błędy fizyczne nie możemy zbytnio nic poradzić. Natomiast jeśli chodzi o sferę logiczną, to mamy
+tutaj dość duże pole do popisu i jesteśmy w stanie się zabezpieczyć przed wieloma krytycznymi
+sytuacjami. Postaramy się tutaj omówić to jak wykonać kopię dysku. Taka kopia będzie miała tylko
+kilka (ew. kilkanaście) MiB, w skład której wchodzić będzie superblok systemu plików, nagłówki
+zaszyfrowanych partycji LUKS, struktura LVM i tablica partycji. Uszkodzenie każdego z tych
+powyższych uniemożliwia nam dostęp do danych zgromadzonych na dysku.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Zmiana rozmiaru dysków w strukturze LVM</title>
+      <link>https://morfikov.github.io/post/zmiana-rozmiaru-lvm/</link>
+      <pubDate>Thu, 17 Dec 2015 20:15:26 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zmiana-rozmiaru-lvm/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pl.wikipedia.org/wiki/LVM&#34;&gt;Logical Volume Manager (LVM)&lt;/a&gt;, czyli menadżer voluminów
+logicznych w systemach linux, to mechanizm, który jest w stanie podzielić jedną partycję fizyczną na
+szereg dysków logicznych. Każdy z tych dysków może być programowo dostosowany bez potrzeby edycji
+czy zmiany tablicy partycji fizycznego dysku. Dzięki LVM jesteśmy w stanie obejść kilka ograniczeń
+płynących z wykorzystywania tablicy partycji MS-DOS. Głównie chodzi tutaj o 4 partycje podstawowe,
+które mieszczą się w &lt;a href=&#34;https://pl.wikipedia.org/wiki/Master_Boot_Record&#34;&gt;MBR&lt;/a&gt;. Jeśli zdecydowaliśmy
+się na wykorzystywanie LVM, to w pewnym momencie może okazać się, że niektóre voluminy mają zbyt
+duże lub też zbyt małe rozmiary. Trzeba będzie je zatem dostosować i w tym wpisie postaramy się ten
+proces zasymulować.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

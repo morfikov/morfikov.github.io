@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Tworzenie repozytorium git na GitHub | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Tworzenie repozytorium git na GitHub" />
+<meta property="og:description" content="Po eksperymentah z repozytorium git na github&#39;ie postanowiłem zrobić drobną ściągawkę na temat
+obsługi tego mechanizmu z poziomu linii poleceń. Oczywiście, tutaj będą przedstawione jedynie
+podstawy, tj. jak zacząć tworzyć takie repozytorium. Bardziej zaawansowane rzeczy, np.
+implementacja kluczy SSH na github&#39;ie, czy
+też podpisywanie swojej pracy przy pomocy kluczy
+GPG zostały opisane w osobnych
+wpisach, bo lekko wykraczają poza tematykę tego artykułu. Oczywiście te dwie rzeczy nie są wymagane
+do pracy z git&#39;em ale trzeba rozważyć ich wdrożenie jeśli faktycznie zamierzamy zacząć korzystać z
+tego VCS&#39;a. W każdym razie, tutaj zajmę się podstawowymi operacjami, które człowiek zwykle
+przeprowadza, gdy przychodzi mu korzystać z git&#39;a. Zdaję sobie sprawę, że są różne nakładki
+graficzne na narzędzie git ale, jak się okaże po przeczytaniu tego wpisu, operowanie na tekstowym
+git nie jest takie straszne, choć sama dokumentacja może przerazić, bo jest tego dość sporo i
+raczej wszystkiego od razu nie ogarniemy." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/tworzenie-repozytorium-git-na-githubie/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-04-19T17:08:26&#43;00:00" />
+<meta property="article:modified_time" content="2016-04-19T17:08:26&#43;00:00" />
+
+
+		<meta itemprop="name" content="Tworzenie repozytorium git na GitHub">
+<meta itemprop="description" content="Po eksperymentah z repozytorium git na github&#39;ie postanowiłem zrobić drobną ściągawkę na temat
+obsługi tego mechanizmu z poziomu linii poleceń. Oczywiście, tutaj będą przedstawione jedynie
+podstawy, tj. jak zacząć tworzyć takie repozytorium. Bardziej zaawansowane rzeczy, np.
+implementacja kluczy SSH na github&#39;ie, czy
+też podpisywanie swojej pracy przy pomocy kluczy
+GPG zostały opisane w osobnych
+wpisach, bo lekko wykraczają poza tematykę tego artykułu. Oczywiście te dwie rzeczy nie są wymagane
+do pracy z git&#39;em ale trzeba rozważyć ich wdrożenie jeśli faktycznie zamierzamy zacząć korzystać z
+tego VCS&#39;a. W każdym razie, tutaj zajmę się podstawowymi operacjami, które człowiek zwykle
+przeprowadza, gdy przychodzi mu korzystać z git&#39;a. Zdaję sobie sprawę, że są różne nakładki
+graficzne na narzędzie git ale, jak się okaże po przeczytaniu tego wpisu, operowanie na tekstowym
+git nie jest takie straszne, choć sama dokumentacja może przerazić, bo jest tego dość sporo i
+raczej wszystkiego od razu nie ogarniemy."><meta itemprop="datePublished" content="2016-04-19T17:08:26&#43;00:00" />
+<meta itemprop="dateModified" content="2016-04-19T17:08:26&#43;00:00" />
+<meta itemprop="wordCount" content="3087">
+<meta itemprop="keywords" content="git," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Tworzenie repozytorium git na GitHub"/>
+<meta name="twitter:description" content="Po eksperymentah z repozytorium git na github&#39;ie postanowiłem zrobić drobną ściągawkę na temat
+obsługi tego mechanizmu z poziomu linii poleceń. Oczywiście, tutaj będą przedstawione jedynie
+podstawy, tj. jak zacząć tworzyć takie repozytorium. Bardziej zaawansowane rzeczy, np.
+implementacja kluczy SSH na github&#39;ie, czy
+też podpisywanie swojej pracy przy pomocy kluczy
+GPG zostały opisane w osobnych
+wpisach, bo lekko wykraczają poza tematykę tego artykułu. Oczywiście te dwie rzeczy nie są wymagane
+do pracy z git&#39;em ale trzeba rozważyć ich wdrożenie jeśli faktycznie zamierzamy zacząć korzystać z
+tego VCS&#39;a. W każdym razie, tutaj zajmę się podstawowymi operacjami, które człowiek zwykle
+przeprowadza, gdy przychodzi mu korzystać z git&#39;a. Zdaję sobie sprawę, że są różne nakładki
+graficzne na narzędzie git ale, jak się okaże po przeczytaniu tego wpisu, operowanie na tekstowym
+git nie jest takie straszne, choć sama dokumentacja może przerazić, bo jest tego dość sporo i
+raczej wszystkiego od razu nie ogarniemy."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Tworzenie repozytorium git na GitHub</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-04-19T17:08:26Z">Opublikowano: 19/04/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Tworzenie repozytorium git na GitHub</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#instalacja-i-wstępna-konfiguracja-gita">Instalacja i wstępna konfiguracja git'a</a></li>
+    <li><a href="#tworzenie-repozytorium">Tworzenie repozytorium</a></li>
+    <li><a href="#plik-licencji-i-readme">Plik licencji i README</a></li>
+    <li><a href="#wprowadzanie-zmian-w-repozytorium">Wprowadzanie zmian w repozytorium</a></li>
+    <li><a href="#log">Log</a></li>
+    <li><a href="#zdalna-kopia-repozytorium-na-githubie">Zdalna kopia repozytorium na github'ie</a></li>
+    <li><a href="#cofanie-zmian-w-repozytorium-git">Cofanie zmian w repozytorium git</a></li>
+    <li><a href="#przywrócenie-stanu">Przywrócenie stanu</a></li>
+    <li><a href="#odpowiednie-narzędzia">Odpowiednie narzędzia</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Po eksperymentah z repozytorium git na github'ie postanowiłem zrobić drobną ściągawkę na temat
+obsługi tego mechanizmu z poziomu linii poleceń. Oczywiście, tutaj będą przedstawione jedynie
+podstawy, tj. jak zacząć tworzyć takie repozytorium. Bardziej zaawansowane rzeczy, np.
+<a href="https://morfikov.github.io/post/github-z-obsluga-kluczy-ssh/">implementacja kluczy SSH na github'ie</a>, czy
+też <a href="https://morfikov.github.io/post/implementacja-kluczy-gpg-repozytorium-git/">podpisywanie swojej pracy przy pomocy kluczy
+GPG</a> zostały opisane w osobnych
+wpisach, bo lekko wykraczają poza tematykę tego artykułu. Oczywiście te dwie rzeczy nie są wymagane
+do pracy z git'em ale trzeba rozważyć ich wdrożenie jeśli faktycznie zamierzamy zacząć korzystać z
+tego VCS'a. W każdym razie, tutaj zajmę się podstawowymi operacjami, które człowiek zwykle
+przeprowadza, gdy przychodzi mu korzystać z git'a. Zdaję sobie sprawę, że są różne nakładki
+graficzne na narzędzie <code>git</code> ale, jak się okaże po przeczytaniu tego wpisu, operowanie na tekstowym
+<code>git</code> nie jest takie straszne, choć sama dokumentacja może przerazić, bo jest tego dość sporo i
+raczej wszystkiego od razu nie ogarniemy.</p>
+<h2 id="instalacja-i-wstępna-konfiguracja-gita">Instalacja i wstępna konfiguracja git'a</h2>
+<p>Na sam początek instalujemy potrzebne narzędzia. W repozytoriach debiana mamy pakiet <code>git</code> i to w
+nim znajdziemy wszystko co jest nam niezbędne do pracy, by tworzyć repozytoria i dokonywać w nich
+zmian. Proces instalacji powinien być raczej bezproblemowy, zatem przejdźmy od razu do konfiguracji
+git'a.</p>
+<p>Konfiguracji można dokonywać na dwa sposoby. Pierwszy z nich zakłada wykorzystanie do tego celu
+polecenia <code>git config</code> . Natomiast druga opcja polega na ręcznym uzupełnianiu plików
+konfiguracyjnych. Pliki są czytane z określonych lokalizacji i w określonej kolejności. Pierwszym z
+nich jest plik systemowy (dodanie <code>--system</code> do <code>git config</code>) i ten jest zlokalizowany w
+<code>/etc/gitconfig</code> . Zwykle nie jest on obecny w systemie. Drugi w kolejności jest plik użytkownika
+(dodane <code>--global</code> do <code>git config</code>) i jest to plik <code>~/.gitconfig</code> (lub <code>~/.config/git/config</code> ,
+jeśli istnieje). To zwykle na nim będziemy operować dodając nowe opcje lub zmieniając stare.
+Ostatnie miejsce gdzie <code>git</code> zagląda w poszukiwaniu konfiguracji, to lokalizacja repozytorium. Po
+wydaniu <code>git clone</code> lub <code>git init</code> , plik konfiguracyjny będzie dostępny w <code>repo/.git/config</code> . To
+jest lokalna konfiguracja, z której będzie korzystało określone repozytorium i jeśli mamy jakieś
+niestandardowe opcje, które chcemy zaaplikować tylko do tego danego repozytorium, to właśnie w tym
+pliku musimy je umieścić. Można także określić swój własny plik przy pomocy opcji <code>-f</code> dopisanej do
+<code>git config</code> . Nam jednak wystarczy plik użytkownika. Parametry w tych plikach mogą się dublować. W
+takim przypadku konfiguracja repozytorium ma pierwszeństwo nad konfiguracją lokalną użytkownika, a
+ta z kolei ma pierwszeństwo nad konfiguracją systemową. Dlatego też, by wstępnie skonfigurować sobie
+git'a, trzeba dopisać do <code>git config</code> opcję <code>--global</code> . <a href="https://www.kernel.org/pub/software/scm/git/docs/git-config.html">Tutaj jest obszerny
+opis</a> poszczególnych opcji, które
+mogą zostać wykorzystane w procesie konfiguracji. Dodatkowe informacje można znaleźć również
+<a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration">tutaj</a>.</p>
+<p>Na początek skonfigurujmy sobie kilka podstawowych parametrów:</p>
+<pre><code>$ git config --global user.name &quot;Mikhail Morfikov&quot;
+$ git config --global user.email morfik@nsa.com
+$ git config --global gpg.program gpg
+$ git config --global user.signingkey 0x72F3A416B820057A
+$ git config --global push.default simple
+$ git config --global color.ui always
+$ git config --global core.whitespace blank-at-eol,blank-at-eof,space-before-tab,tabwidth=4
+$ git config --global merge.tool meld
+$ git config --global diff.tool meld
+$ git config --global core.editor vim
+$ git config --global core.pager less
+$ git config --global core.excludesfile ~/.config/git/.gitignore_global
+$ git config --global core.ignorecase false
+$ git config --global core.eol lf
+$ git config --global core.autocrlf input
+$ git config --global web.browser firefox
+$ git config --global browser.firefox.path /opt/firefox/firefox
+$ git config --global browser.firefox.cmd 'firefox -P default'
+$ git config --global log.date iso8601
+$ git config --global log.decorate full
+</code></pre>
+<p>Większość opcji jest raczej zrozumiała. Jeśli nie korzystamy z kluczy GPG, to omińmy parametry
+<code>gpg.program</code> oraz <code>user.signingkey</code> . Te powyższe polecenia dodadzą stosowne wpisy do pliku
+<code>~/.config/git/config</code> .</p>
+<h2 id="tworzenie-repozytorium">Tworzenie repozytorium</h2>
+<p>Mamy z głowy zatem wstępną konfigurację git'a. Przydałoby się teraz poćwiczyć umiejętność operowania
+na repozytorium. Pierw musimy jakieś sobie stworzyć. Na lokalnym dysku wybieramy pusty katalog i
+przechodzimy do niego. Następnie za pomocą <code>git init</code> tworzymy puste repozytorium git.</p>
+<pre><code>$ mkdir repozytoria/practice-makes-perfect/
+$ cd repozytoria/practice-makes-perfect/
+
+$ git init
+</code></pre>
+<p>Po wydaniu ostatniego polecenia, w katalogu roboczym zostanie utworzony katalog <code>.git/</code> . To w nim
+znajdują się wszystkie informacje na temat przeprowadzanych zmian w repozytorium. Struktura tego
+katalogu wygląda mniej więcej tak:</p>
+<pre><code>$ tree .git/
+.git/
+├── HEAD
+├── branches
+├── config
+├── description
+├── hooks
+│   ├── applypatch-msg.sample
+│   ├── commit-msg.sample
+│   ├── post-update.sample
+│   ├── pre-applypatch.sample
+│   ├── pre-commit.sample
+│   ├── pre-push.sample
+│   ├── pre-rebase.sample
+│   ├── prepare-commit-msg.sample
+│   └── update.sample
+├── info
+│   └── exclude
+├── objects
+│   ├── info
+│   └── pack
+└── refs
+├── heads
+└── tags
+
+9 directories, 13 files
+</code></pre>
+<p>Jak widać, mamy tam kilka przykładowych skryptów (pliki <code>.sample</code> ) oraz to co nas bardziej
+interesuje, czyli pliki <code>HEAD</code> , <code>description</code> i <code>config</code> . W pliku <code>description</code> trzymany jest opis
+repozytorium. Dobrze jest edytować ten plik i dodać krótki opis. Plik <code>config</code> już po części
+omówiliśmy. By połapać się jak wygląda konfiguracja dla jakiegoś określonego repozytorium,
+przechodzimy do jego głównego katalogu i wydajemy poniższe polecenie:</p>
+<pre><code>$ git config -l
+</code></pre>
+<p>W pliku <code>HEAD</code> są przechowywane informacje na temat gałęzi, w której aktualnie się znajdujemy.
+Więcej o tym pliku będzie w dalszej części artykułu. Plik <code>HEAD</code> standardowo wygląda tak:</p>
+<pre><code>$ cat .git/HEAD
+ref: refs/heads/master
+</code></pre>
+<h2 id="plik-licencji-i-readme">Plik licencji i README</h2>
+<p>Pliki w repozytorium <a href="https://help.github.com/articles/open-source-licensing/">powinny być objęte
+licencją</a>. Jeśli nie zdefiniujemy
+licencji, wtedy wszystkie udostępniane pliki będą na domyślnej licencji ustalonej prawnie, czyli
+brak kopiowania/zmieniania plików. W debianie pliki z licencjami są zlokalizowane w katalogu
+<code>/usr/share/common-licenses/</code> . Mamy tam do wyboru min. różne wersje GPL, Apache i BSD. Pliki w tym
+repo będą na licencji GPL-2. Kopiujemy zatem odpowiedni plik z folderu powyżej do głównego katalogu
+repozytorium:</p>
+<pre><code>$ cp /usr/share/common-licenses/GPL-2 ./LICENSE
+</code></pre>
+<p>Przydałoby się także stworzyć plik <code>README.md</code> , który to będzie wyświetlany na głównej stronie
+repozytorium na github'ie.</p>
+<pre><code>$ touch README.md
+$ echo &quot;This is a testing repository for learning purposes&quot; &gt; README.md
+</code></pre>
+<h2 id="wprowadzanie-zmian-w-repozytorium">Wprowadzanie zmian w repozytorium</h2>
+<p>Repozytorium mamy przygotowane. Musimy jeszcze uwzględnić te zmiany, tak by <code>git</code> je zapamiętał.
+Najpierw sprawdzamy co tak naprawdę <code>git</code> zarejestrował:</p>
+<pre><code>$ git status
+On branch master
+
+Initial commit
+
+Untracked files:
+(use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+
+LICENSE
+README.md
+
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
+</code></pre>
+<p>Oba pliki zostały wykryte ale jeszcze ich stan nie podlega monitorowaniu. Dodajmy zatem wszystkie
+utworzone przez nas pliki:</p>
+<pre><code>$ git add \*
+
+$ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+(use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)
+
+new file:   LICENSE
+new file:   README.md
+</code></pre>
+<p>Teraz już tylko wystarczy zaaplikować zmiany:</p>
+<pre><code>$ git commit -a -S -m 'Repository setup'
+
+You need a passphrase to unlock the secret key for
+user: &quot;Mikhail Morfikov &lt;morfik@nsa.com&gt;&quot;
+4096-bit RSA key, ID 0x72F3A416B820057A, created 2013-11-13
+
+[master (root-commit) 4de0d7f] Repository setup
+2 files changed, 340 insertions(+)
+create mode 100644 LICENSE
+create mode 100644 README.md
+</code></pre>
+<p>Wyżej zostało wypisane to jakie pliki zostały zmienione wraz z usuniętymi i dodanymi linijkami. W
+tym przypadku tworzyliśmy pliki, zatem zostały dodane nowe linijki (+).</p>
+<p>Jeśli nie korzystamy z kluczy GPG, to nie podajemy opcji <code>-S</code> . Z kolei parametr <code>-a</code> odpowiada za
+uwzględnienie wszystkich plików, które zostały zmodyfikowane lub usunięte, za wyjątkiem tych nowych,
+których póki co nie chcemy włączać do repozytorium. Opcja <code>-m</code> odpowiada za treść wiadomości, która
+zostanie uwzględniona w logu.</p>
+<p>Zmienił się także nieco wygląd drzewa katalogów repozytorium:</p>
+<pre><code>$ tree -a
+.
+├── .git
+│   ├── COMMIT_EDITMSG
+│   ├── HEAD
+│   ├── branches
+│   ├── config
+│   ├── description
+│   ├── hooks
+│   │   ├── applypatch-msg.sample
+│   │   ├── commit-msg.sample
+│   │   ├── post-update.sample
+│   │   ├── pre-applypatch.sample
+│   │   ├── pre-commit.sample
+│   │   ├── pre-push.sample
+│   │   ├── pre-rebase.sample
+│   │   ├── prepare-commit-msg.sample
+│   │   └── update.sample
+│   ├── index
+│   ├── info
+│   │   └── exclude
+│   ├── logs
+│   │   ├── HEAD
+│   │   └── refs
+│   │       └── heads
+│   │           └── master
+│   ├── objects
+│   │   ├── 22
+│   │   │   └── fb3a8ab3ec2e800d1e22255204ec8d735d3d43
+│   │   ├── 4d
+│   │   │   └── e0d7f07def79578ed908669c9bc0da4383a3b7
+│   │   ├── d1
+│   │   │   └── 59169d1050894d3ea3b98e1c965c4058208fe1
+│   │   ├── e4
+│   │   │   └── 67acb33a14fd0f651500057a6364403c1ebd38
+│   │   ├── info
+│   │   └── pack
+│   └── refs
+│       ├── heads
+│       │   └── master
+│       └── tags
+├── LICENSE
+└── README.md
+
+17 directories, 24 files
+</code></pre>
+<p>Zostało dodanych kilka obiektów, oraz został utworzony log.</p>
+<h2 id="log">Log</h2>
+<p>Sam log można przeglądać przy pomocy polecenia <code>git log</code> , przykładowo:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/1.git-log.png" alt=""    class="huge"></p>
+<p>Log dokumentuje wszystkie operacje, które zostały przeprowadzone na repozytorium. W przypadku, gdy
+wprowadzamy wiele zmian, powyższe polecenie może nam zwrócić sporo informacji. Oczywiście, możemy
+podać <a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html">całe mnóstwo opcji</a>, które
+odpowiednio sformatują wyjście logów. Te częściej używane są przystępnie opisane
+<a href="https://git-scm.com/book/it/v2/Git-Basics-Viewing-the-Commit-History">tutaj</a>. Poniżej znajduje się
+kilka przykładów.</p>
+<p>Uwzględnianie zmian dokonanych w poszczególnych w commit'ach ( <code>git log -p</code> ):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/2.git-log-diff.png" alt=""    class="huge"></p>
+<p>Zwracanie kilka ostatnich pozycji w logu ( <code>git log -2</code> ):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/3.git-log-ostatnie-zmiany.png" alt=""    class="huge"></p>
+<p>Zwracanie wybranego commit'a ( <code>git log 4de0d7f</code> ). Poniżej został zwrócony commit w oparciu o kilka
+pierwszych znaków hasha. Przydatne jeśli chcemy wyświetlić informacje, a dysponujemy jedynie tym
+ciągiem.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/4.git-log-commit.png" alt=""    class="huge"></p>
+<p>Zwracanie commit'ów z określonego przedziału czasowego ( <code>git log --since=14.months --until=now</code> ) .
+Można także używać dat w postaci <code>git log --until=&quot;2015-02-18 12:22:00&quot;</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/5.git-log-time.png" alt=""    class="huge"></p>
+<p>Wyświetlanie commit'ów określonego autora <code>git log --author=morfik</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/6.git-log-autor.png" alt=""    class="huge"></p>
+<p>Co ciekawe, <code>morfik</code> zwraca szereg wpisów, mimo, że nie ma tam takiego autora. W manie z kolei można
+wyczytać, że w <code>--author=</code> podaje się jedynie wzór wyszukiwania autora, a nie jego dokładną nazwę.
+Zatem wszystkie commit'y zawierające w polu <code>Author</code> frazę <code>morfik</code> zostaną zwrócone.</p>
+<p>Statystyki commit'ów ( <code>git log --stat</code> ):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/7.git-log-statystyki.png" alt=""    class="huge"></p>
+<p>Dostosowywanie wyglądu loga ( <code>git log --graph --decorate --oneline</code> ) :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/8.git-log-pretty-format.png" alt=""    class="huge"></p>
+<p>Powyższe opcje możemy łączyć. Dostaniemy w ten sposób bardziej przefiltrowany log.</p>
+<h2 id="zdalna-kopia-repozytorium-na-githubie">Zdalna kopia repozytorium na github'ie</h2>
+<p>Pora przesłać kopię repozytorium na github'a. Pierw jednak musimy odwiedzić <a href="https://github.com">stronę
+github'a</a> i utworzyć tam repozytorium. Nie da rady inaczej stworzyć repo na
+github'ie, zwłaszcza jeśli ma się włączone uwierzytelnianie dwuskładnikowe.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/10.tworzenie-repozytorium-git-github.png" alt=""    class="huge"></p>
+<p>Jako, że wcześniej stworzyliśmy plik <code>README.md</code> i <code>LICENCE</code> , to nie musimy ich tutaj definiować,
+bo zostaną przesłane przy synchronizacji. Po pomyślnym utworzeniu repozytorium, powinno zostać
+wyświetlone podsumowanie:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/11.tworzenie-repozytorium-git-github.png" alt=""    class="huge"></p>
+<p>Jak widać, mamy tam między innymi linki potrzebne do synchronizacji. Jest tam zarówno https jak i
+ssh. Dodatkowo, jest też instrukcja jak stworzyć lokalne repozytorium (to już zrobiliśmy) i jak
+dokonać synchronizacji.</p>
+<p>Wracamy zatem do terminala i <a href="https://help.github.com/articles/adding-a-remote/">dodajemy zdalne
+ścieżki</a>:</p>
+<pre><code>$ git remote add origin git@github.com:morfikov/practice-makes-perfect.git
+
+$ git remote -v
+origin  git@github.com:morfikov/practice-makes-perfect.git (fetch)
+origin  git@github.com:morfikov/practice-makes-perfect.git (push)
+</code></pre>
+<p>Jeśli w tej chwili spróbowalibyśmy dać <code>push</code> , dostaniemy poniższy komunikat:</p>
+<pre><code>$ git push
+fatal: The current branch master has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+git push --set-upstream origin master
+</code></pre>
+<p>Zgodnie z instrukcją wydajemy poniższe polecenie:</p>
+<pre><code>$ git push --set-upstream origin master
+Counting objects: 4, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 7.57 KiB | 0 bytes/s, done.
+Total 4 (delta 0), reused 0 (delta 0)
+To git@github.com:morfikov/practice-makes-perfect.git
+* [new branch]      master -&gt; master
+Branch master set up to track remote branch master from origin.
+</code></pre>
+<p>W tej chwili odwiedzając repozytorium na github'ie powinniśmy ujrzeć już nasze pliki:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/12.tworzenie-repozytorium-git-github.png" alt=""    class="huge"></p>
+<h2 id="cofanie-zmian-w-repozytorium-git">Cofanie zmian w repozytorium git</h2>
+<p>Musimy także wiedzieć jak cofać/odrzucać zmiany wprowadzane do repozytorium. Mamy z grubsza dwie
+kategorie zmian. Pierwsza z nich to zmiany przed dokonaniem commit'a, druga zaś po dokonaniu.</p>
+<p>Stwórzmy zatem nowy plik w repozytorium:</p>
+<pre><code>$ touch test_file
+$ echo &quot;some random text&quot; &gt; test_file
+
+$ git add .
+
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+(use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+
+new file:   test_file
+</code></pre>
+<p>Nie możemy teraz sobie od tak tego pliku usunąć, tj. przy pomocy <code>rm</code> lub wciskając klawisz Delete
+na klawiaturze. Będzie to traktowane jako kolejna zmiana:</p>
+<pre><code>$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+(use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+
+new file:   test_file
+
+Changes not staged for commit:
+(use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
+(use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+
+deleted:    test_file
+</code></pre>
+<p>Zgodnie z wypisanymi instrukcjami, by cofnąć zmiany, wpisujemy:</p>
+<pre><code>$ git reset HEAD test_file
+</code></pre>
+<p>Jeśli teraz sprawdzimy status git'a, zobaczymy, że plik aktualnie nie jest śledzony:</p>
+<pre><code>$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Untracked files:
+(use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+
+test_file
+
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
+</code></pre>
+<p>Teraz już można spokojnie usunąć plik z repozytorium git'a:</p>
+<pre><code>$ rm test_file
+
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working directory clean
+</code></pre>
+<p>A jak sprawa wygląda w przypadku, gdy dokonamy commit'a? Stwórzmy zatem jeszcze jeden plik testowy:</p>
+<pre><code>$ touch test_file
+$ echo &quot;some random text&quot; &gt; test_file
+
+$ git add .
+
+$ git commit -S -a -m &quot;mistake&quot;
+
+You need a passphrase to unlock the secret key for
+user: &quot;Mikhail Morfikov &lt;morfik@nsa.com&gt;&quot;
+4096-bit RSA key, ID 0x72F3A416B820057A, created 2013-11-13
+
+[master e175de8] mistake
+1 file changed, 1 insertion(+)
+create mode 100644 test_file
+</code></pre>
+<p>Możemy pójść nawet o krok dalej i przesłać zmiany na github'a:</p>
+<pre><code>$ git push
+Counting objects: 3, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 964 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@github.com:morfikov/practice-makes-perfect.git
+4de0d7f..e175de8  master -&gt; master
+</code></pre>
+<p>Sprawdzając log możemy dostrzec nowy commit:</p>
+<pre><code>$ git log
+commit e175de8b05df16c5f2b7d2c2c23a932a1c9efeaa (HEAD, refs/remotes/origin/master, refs/heads/master)
+Author: Mikhail Morfikov &lt;morfik@nsa.com&gt;
+Date:   2015-02-17 16:59:49 +0100
+
+mistake
+
+commit 4de0d7f07def79578ed908669c9bc0da4383a3b7
+Author: Mikhail Morfikov &lt;morfik@nsa.com&gt;
+Date:   2015-02-17 12:21:27 +0100
+
+Repository setup
+</code></pre>
+<p>Spróbujmy się tego jakoś pozbyć. Najpierw musimy ustalić gdzie jest HEAD. Zwykle będzie to ostatnie
+commit ale zakładając, że nie wiemy gdzie dokładnie jest HEAD, to musimy to ustalić:</p>
+<pre><code>$ cat .git/HEAD
+ref: refs/heads/master
+
+$ cat .git/refs/heads/master
+e175de8b05df16c5f2b7d2c2c23a932a1c9efeaa
+
+$ git show e175de8b05df16c5f2b7d2c2c23a932a1c9efeaa
+commit e175de8b05df16c5f2b7d2c2c23a932a1c9efeaa (HEAD, refs/remotes/origin/master, refs/heads/master)
+Author: Mikhail Morfikov &lt;morfik@nsa.com&gt;
+Date:   2015-02-17 16:59:49 +0100
+
+mistake
+
+diff --git a/test_file b/test_file
+new file mode 100644
+index 0000000..4ab08b3
+--- /dev/null
++++ b/test_file
+@@ -0,0 +1 @@
++some random text
+</code></pre>
+<p>Czyli tak jak podejrzewaliśmy, HEAD wskazuje na ostatni commit. Jeśli chcemy cofnąć zmiany tylko z
+tego ostatniego commit'a, to musimy zmienić położenie HEAD na przedostatni commit:</p>
+<pre><code>$ git log
+commit e175de8b05df16c5f2b7d2c2c23a932a1c9efeaa (HEAD, refs/remotes/origin/master, refs/heads/master)
+Author: Mikhail Morfikov &lt;morfik@nsa.com&gt;
+Date:   2015-02-17 16:59:49 +0100
+
+mistake
+
+commit 4de0d7f07def79578ed908669c9bc0da4383a3b7
+Author: Mikhail Morfikov &lt;morfik@nsa.com&gt;
+Date:   2015-02-17 12:21:27 +0100
+
+Repository setup
+
+$ git reset HEAD~1
+
+morfik:~/repozytoria/practice-makes-perfect$ git log
+commit 4de0d7f07def79578ed908669c9bc0da4383a3b7 (HEAD, refs/heads/master)
+Author: Mikhail Morfikov &lt;morfik@nsa.com&gt;
+Date:   2015-02-17 12:21:27 +0100
+
+Repository setup
+</code></pre>
+<p>Jeśli zmian byłoby więcej i nie chciałoby nam się liczyć ile commit'ów trzeba wrócić, aby
+doprowadzić repozytorium do stanu używalności, to możemy skorzystać z hashów i zresetować repo w
+oparciu o nie, przykładowo:</p>
+<pre><code>$ git log --format=oneline
+e175de8b05df16c5f2b7d2c2c23a932a1c9efeaa (HEAD, refs/remotes/origin/master, refs/heads/master) mistake
+4de0d7f07def79578ed908669c9bc0da4383a3b7 Repository setup
+
+$ git reset 4de0d7f07def79578ed908669c9bc0da4383a3b7
+
+$ git log --format=oneline
+4de0d7f07def79578ed908669c9bc0da4383a3b7 (HEAD, refs/heads/master) Repository setup
+</code></pre>
+<p>Zatem lokalnie cofnęliśmy zmiany ostatniego commit'a:</p>
+<pre><code>$ git status
+On branch master
+Your branch is behind 'origin/master' by 1 commit, and can be fast-forwarded.
+(use &quot;git pull&quot; to update your local branch)
+Changes to be committed:
+(use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+
+new file:   test_file
+</code></pre>
+<p>Jak widzimy wyżej, git uważa, że nasze lokalne repozytorium jest ździebko nieaktualne i według niego
+musimy zrobić <code>git pull</code> by dokonać aktualizacji. Problem w tym, że właśnie chcemy czegoś
+odwrotnego, czyli cofnąć zmiany wprowadzone z zdalnym repo github'a.</p>
+<p>Co się stanie jeśli damy <code>git push</code> w tym momencie? Sprawdźmy:</p>
+<pre><code>$ git push
+To git@github.com:morfikov/practice-makes-perfect.git
+! [rejected]        master -&gt; master (non-fast-forward)
+error: failed to push some refs to 'git@github.com:morfikov/practice-makes-perfect.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+</code></pre>
+<p>Można się było tego spodziewać. <code>git</code> odrzucił proponowane zmiany, bo nasze repo jest &quot;nieaktualne&quot;.
+Musimy skorzystać z opcji <code>-f</code> (force):</p>
+<pre><code>$ git push -f
+Total 0 (delta 0), reused 0 (delta 0)
+To git@github.com:morfikov/practice-makes-perfect.git
++ e175de8...4de0d7f master -&gt; master (forced update)
+</code></pre>
+<h2 id="przywrócenie-stanu">Przywrócenie stanu</h2>
+<p>To powyższe działanie wymazuje kompletnie informacje na temat wprowadzonych zmian, co nie zawsze
+jest pożądane. Musimy jeszcze wymyślić jak zapisać w logu taką informację.</p>
+<p>Tworzymy zatem kolejny plik testowy, robimy commit'a i przesyłamy zmiany na github'a:</p>
+<pre><code>$ touch test_file
+$ echo &quot;some random text&quot; &gt; test_file
+
+$ git add .
+
+$ git commit -S -a -m &quot;mistake&quot;
+You need a passphrase to unlock the secret key for
+user: &quot;Mikhail Morfikov &lt;morfik@nsa.com&gt;&quot;
+4096-bit RSA key, ID 0x72F3A416B820057A, created 2013-11-13
+
+[master 49f8b65] mistake
+1 file changed, 1 insertion(+)
+create mode 100644 test_file
+
+$ git push
+Counting objects: 3, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 964 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@github.com:morfikov/practice-makes-perfect.git
+4de0d7f..49f8b65  master -&gt; master
+
+$ git log --format=oneline
+49f8b65ed0d2ae0c7f17fd0003af832f61c7885a (HEAD, refs/remotes/origin/master, refs/heads/master) mistake
+4de0d7f07def79578ed908669c9bc0da4383a3b7 Repository setup
+</code></pre>
+<p>By cofnąć zmiany i zachować informacje o tej o tej czynności, wydajemy poniższe polecenie:</p>
+<pre><code>$ git revert 49f8b65ed0d2ae0c7f17fd0003af832f61c7885a
+[master 172d0fd] Revert &quot;mistake&quot;
+1 file changed, 1 deletion(-)
+delete mode 100644 test_file
+</code></pre>
+<p>Sprawdźmy log:</p>
+<pre><code>$ git log --format=oneline
+172d0fd7634ff0dd1140ca50f0f37a9211223251 (HEAD, refs/heads/master) Revert &quot;mistake&quot;
+49f8b65ed0d2ae0c7f17fd0003af832f61c7885a (refs/remotes/origin/master) mistake
+4de0d7f07def79578ed908669c9bc0da4383a3b7 Repository setup
+</code></pre>
+<p>Został utworzony nowy commit, który cofnął zmiany tego wskazanego przy pomocy hasha. Teraz tylko
+wystarczy zsynchronizować repozytorium na github'ie przy pomocy <code>git push</code> . Sprawdźmy co
+zarejestrował github:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/13.repozytorium-git-github-revert-commit.png" alt=""    class="huge"></p>
+<h2 id="odpowiednie-narzędzia">Odpowiednie narzędzia</h2>
+<p>W pliku konfiguracyjnym <code>~/.config/git/config</code> zdefiniowaliśmy trzy opcje, które pomogą nam w
+pracach z git'em. Mowa o zewnętrznych narzędziach: <code>merge.tool meld</code> , <code>diff.tool meld</code> oraz
+<code>core.editor vim</code> . To z jakich narzędzi możemy korzystać w przypadku <code>merge.tool</code> i <code>diff.tool</code>
+można ustalić wydając to poniższe polecenie:</p>
+<pre><code>$ git difftool --tool-help
+'git difftool --tool=&lt;tool&gt;' may be set to one of the following:
+      araxis
+      meld
+      vimdiff
+      vimdiff2
+      vimdiff3
+
+The following tools are valid, but not currently available:
+      bc3
+      codecompare
+      deltawalker
+      diffmerge
+      diffuse
+      ecmerge
+      emerge
+      gvimdiff
+      gvimdiff2
+      gvimdiff3
+      kdiff3
+      kompare
+      opendiff
+      p4merge
+      tkdiff
+      xxdiff
+
+Some of the tools listed above only work in a windowed
+environment. If run in a terminal-only session, they will fail.
+</code></pre>
+<p>Jeśli chodzi o edytor tekstu, czy w ogóle o tekstowe narzędzia, to w ich przypadku, będziemy mieli
+do dyspozycji kolorowanie wyjścia. Tak wygląda <code>vim</code> podczas robienia commit'a (via <code>git commit</code> ):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/14.git-commit-vim-color.png" alt=""    class="huge"></p>
+<p>A tu przykład diff'a ( <code>git diff</code> ):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/15.git-diff-color.png" alt=""    class="huge"></p>
+<p>Jeśli chodzi o narzędzia do przeglądania zmian, to ja jednak wolę GUI. W tym przypadku mamy do
+dyspozycji, np. <code>meld</code> ( <code>git difftool</code>) :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/16.git-gui-diff-meld.png" alt=""    class="huge"></p>
+<p>Jest jeszcze <code>git merge</code> i <code>git mergetool</code>, odpowiednio tekstowy i GUI ale póki co jeszcze nie było
+dane mi z nich skorzystać, także nic na temat tej funkcjonalności nie napiszę, może kiedyś.</p>
+<p>No i to w sumie by było na tyle. Pozostaje nam tworzyć nowe pliki, aktualizować/usuwać stare, robić
+commit'y i push'ować wszystko na github'a. Więcej informacji zawsze można znaleźć w <a href="https://help.github.com/">helpie
+github'a</a>, lokalnie w manach lub też na <a href="https://www.kernel.org/pub/software/scm/git/docs/">stronie
+kernela</a>.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/git/">git</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-repozytorium-git-na-githubie%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-repozytorium-git-na-githubie%2f&amp;text=Tworzenie%20repozytorium%20git%20na%20GitHub" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-repozytorium-git-na-githubie%2f&amp;title=Tworzenie%20repozytorium%20git%20na%20GitHub" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-repozytorium-git-na-githubie%2f&amp;title=Tworzenie%20repozytorium%20git%20na%20GitHub" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-repozytorium-git-na-githubie%2f&title=Tworzenie%20repozytorium%20git%20na%20GitHub" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-repozytorium-git-na-githubie%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-repozytorium-git-na-githubie%2f&amp;title=Tworzenie%20repozytorium%20git%20na%20GitHub" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftworzenie-repozytorium-git-na-githubie%2f&description=Tworzenie%20repozytorium%20git%20na%20GitHub" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/implementacja-kluczy-gpg-repozytorium-git/">Implementacja kluczy GPG w repozytorium GIT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/github-z-obsluga-kluczy-ssh/">GitHub z obsługą kluczy SSH</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

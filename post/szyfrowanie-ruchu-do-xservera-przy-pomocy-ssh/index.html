@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Szyfrowanie ruchu do Xserver&#39;a przy pomocy SSH | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Szyfrowanie ruchu do Xserver&#39;a przy pomocy SSH" />
+<meta property="og:description" content="W przypadku zaufanych sieci lokalnych, czy też kontenerów
+LXC, nie musimy zbytnio się troszczyć o
+bezpieczeństwo przesyłanych danych. Nikt nam przecież nie założy tutaj podsłuchu. Dlatego też we
+wpisie poświęconym konfiguracji Wine nie szyfrowaliśmy praktycznie żadnego ruchu sieciowego. Gdyby
+jednak zaszła potrzeba przesłania pakietów do zdalnego Xserver&#39;a przez internet, to takie
+rozwiązanie naraziłoby nas na przechwycenie wszystkich danych. By zabezpieczyć się przed tego typu
+scenariuszem możemy zaszyfrować ruch do Xserver&#39;a forward&#39;ując wszystkie zapytania przy pomocy
+szyfrowanego tunelu TLS. Możemy to
+zrobić przy pomocy SSH i w tym wpisie postaramy się skonfigurować ten mechanizm." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/szyfrowanie-ruchu-do-xservera-przy-pomocy-ssh/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-10-31T16:47:10&#43;00:00" />
+<meta property="article:modified_time" content="2015-10-31T16:47:10&#43;00:00" />
+
+
+		<meta itemprop="name" content="Szyfrowanie ruchu do Xserver&#39;a przy pomocy SSH">
+<meta itemprop="description" content="W przypadku zaufanych sieci lokalnych, czy też kontenerów
+LXC, nie musimy zbytnio się troszczyć o
+bezpieczeństwo przesyłanych danych. Nikt nam przecież nie założy tutaj podsłuchu. Dlatego też we
+wpisie poświęconym konfiguracji Wine nie szyfrowaliśmy praktycznie żadnego ruchu sieciowego. Gdyby
+jednak zaszła potrzeba przesłania pakietów do zdalnego Xserver&#39;a przez internet, to takie
+rozwiązanie naraziłoby nas na przechwycenie wszystkich danych. By zabezpieczyć się przed tego typu
+scenariuszem możemy zaszyfrować ruch do Xserver&#39;a forward&#39;ując wszystkie zapytania przy pomocy
+szyfrowanego tunelu TLS. Możemy to
+zrobić przy pomocy SSH i w tym wpisie postaramy się skonfigurować ten mechanizm."><meta itemprop="datePublished" content="2015-10-31T16:47:10&#43;00:00" />
+<meta itemprop="dateModified" content="2015-10-31T16:47:10&#43;00:00" />
+<meta itemprop="wordCount" content="790">
+<meta itemprop="keywords" content="ssh,xserver,szyfrowanie," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Szyfrowanie ruchu do Xserver&#39;a przy pomocy SSH"/>
+<meta name="twitter:description" content="W przypadku zaufanych sieci lokalnych, czy też kontenerów
+LXC, nie musimy zbytnio się troszczyć o
+bezpieczeństwo przesyłanych danych. Nikt nam przecież nie założy tutaj podsłuchu. Dlatego też we
+wpisie poświęconym konfiguracji Wine nie szyfrowaliśmy praktycznie żadnego ruchu sieciowego. Gdyby
+jednak zaszła potrzeba przesłania pakietów do zdalnego Xserver&#39;a przez internet, to takie
+rozwiązanie naraziłoby nas na przechwycenie wszystkich danych. By zabezpieczyć się przed tego typu
+scenariuszem możemy zaszyfrować ruch do Xserver&#39;a forward&#39;ując wszystkie zapytania przy pomocy
+szyfrowanego tunelu TLS. Możemy to
+zrobić przy pomocy SSH i w tym wpisie postaramy się skonfigurować ten mechanizm."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Szyfrowanie ruchu do Xserver&#39;a przy pomocy SSH</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-10-31T16:47:10Z">Opublikowano: 31/10/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Szyfrowanie ruchu do Xserver&#39;a przy pomocy SSH</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#konfiguracja-ssh">Konfiguracja SSH</a>
+      <ol>
+        <li><a href="#klient">Klient</a></li>
+        <li><a href="#server">Server</a></li>
+      </ol>
+    </li>
+    <li><a href="#zmienna-display">Zmienna $DISPLAY</a></li>
+    <li><a href="#test-szyfrowania">Test szyfrowania</a></li>
+    <li><a href="#uwagi-końcowe">Uwagi końcowe</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>W przypadku zaufanych sieci lokalnych, czy też <a href="https://morfikov.github.io/post/konfiguracja-kontenerow-lxc/">kontenerów
+LXC</a>, nie musimy zbytnio się troszczyć o
+bezpieczeństwo przesyłanych danych. Nikt nam przecież nie założy tutaj podsłuchu. Dlatego też we
+wpisie poświęconym konfiguracji Wine nie szyfrowaliśmy praktycznie żadnego ruchu sieciowego. Gdyby
+jednak zaszła potrzeba przesłania pakietów do zdalnego Xserver'a przez internet, to takie
+rozwiązanie naraziłoby nas na przechwycenie wszystkich danych. By zabezpieczyć się przed tego typu
+scenariuszem możemy zaszyfrować ruch do Xserver'a <a href="https://help.ubuntu.com/community/SSH/OpenSSH/PortForwarding">forward'ując wszystkie zapytania przy pomocy
+szyfrowanego tunelu TLS</a>. Możemy to
+zrobić przy pomocy SSH i w tym wpisie postaramy się skonfigurować ten mechanizm.</p>
+<h2 id="konfiguracja-ssh">Konfiguracja SSH</h2>
+<p>Spróbujmy na chwilę przyjąć, że gdzieś tam w internecie posiadamy jakiś serwer, do którego to
+łączymy się zdalnie przy pomocy SSH. W takim przypadku jest to środowisko tekstowe, którym możemy
+operować przy pomocy wiersza poleceń. Wielu z nas przywykło jednak do edycji plików tekstowych w
+swoich ulubionych graficznych edytorach. Problem w tym, że na takim zdalnym serwerze prawdopodobnie
+nie mamy zainstalowanego nawet Xserver'a, a przez to nie możemy tam uruchamiać sesji graficznej, no
+i nie możemy korzystać z żadnego GUI.</p>
+<p>Brak Xserver'a na zdalnej maszynie nie stanowi praktycznie żadnego problemu by graficzne aplikacje
+tam uruchomić. Oczywiście muszą być one zainstalowane na takiej maszynie ale to się rozumie chyba
+samo przez się. Jedyne co musimy zrobić, to tak skonfigurować SSH, by wszelkie zapytania do
+Xserver'a tunelował do zdalnej lokalizacji. Ten mechanizm jest podobny do tego opisywanego przy
+<a href="https://morfikov.github.io/post/wine-w-kontenerze-lxc/">konfiguracji Xserver'a pod Wine</a>, z tą różnicą, że
+nie musimy praktycznie w ogóle tykać konfiguracji samego Xserver'a. Jedyne pliki jakie będziemy
+poddawać edycji, to te od SSH, zarówno na kliencie jak i na serwerze. Cała pozostała konfiguracja
+zostanie dostosowana automatycznie i my nie będziemy musieli sobie nią głowy zawracać.</p>
+<p>Wymagane jest jednak od nas by na serwerze doinstalować pakiet <code>xauth</code> . A to z tego względu, że SSH
+przy forward'owaniu zapytań wykorzystuje <a href="https://morfikov.github.io/post/xauth-i-xhost-na-strazy-bezpieczenstwa-xservera/">mechanizm
+xauth</a>, który opiera się o
+ciasteczka Xserver'a.</p>
+<h3 id="klient">Klient</h3>
+<p>Klienta możemy konfigurować albo globalnie w pliku <code>/etc/ssh/ssh_config</code> , albo lokalnie w pliku
+<code>~/.ssh/config</code> . Połączenia można konfigurować niezależnie, tj. jeśli będziemy korzystać z
+Xserver'a tylko w jednym przypadku, to możemy to wyraźnie określić w pliku konfiguracyjnym SSH w
+poniższy sposób.:</p>
+<pre><code>Host 192.168.10.20
+      ForwardX11 yes
+      Compression yes
+#     Ciphers
+</code></pre>
+<p>Te powyższe opcje możemy także sprecyzować bezpośrednio w wierszu poleceń przy wpisywaniu do
+terminala <code>ssh</code> , gdzie <code>-X</code> odpowiada za ForwardX11, a <code>-C</code> za Compression . Dobrze jest także
+zmienić szyfr przy pomocy opcji <code>-c</code> , która w powyższym pliku określana jest przez Ciphers.</p>
+<h3 id="server">Server</h3>
+<p>Konfiguracja SSH na serwerze sprowadza się do edycji pliku <code>/etc/ssh/sshd_config</code> , gdzie musimy
+dostosować te dwa poniższe parametry:</p>
+<pre><code>X11Forwarding yes
+X11DisplayOffset 10
+</code></pre>
+<h2 id="zmienna-display">Zmienna $DISPLAY</h2>
+<p>By Xserver mógł bez problemu działać, musi wiedzieć na jaki ekran (display) ma przesłać dane.
+Odpowiada za to zmienna <code>$DISPLAY</code> , którą trzeba ustawić w środowisku na stacji klienckiej. W
+przypadku SSH nie musimy tego robić ręcznie, bo SSH automatycznie robi to za nas za każdym razem gdy
+podłączamy się do serwera. Poniżej jest skrócony log z połączenia, z którego możemy wywnioskować, że
+połączenie z Xserverem leci po SSH:</p>
+<pre><code>$ ssh -vvv 192.168.10.20
+OpenSSH_6.9p1 Debian-2, OpenSSL 1.0.2d 9 Jul 2015
+debug1: Reading configuration data /home/morfik/.ssh/config
+debug1: /home/morfik/.ssh/config line 10: Applying options for 192.168.10.20
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: Applying options for *
+...
+morfik@192.168.10.20's password:
+...
+debug1: Enabling compression at level 6.
+...
+debug2: x11_get_proto: /usr/bin/xauth  list :0.0 2&gt;/dev/null
+debug1: Requesting X11 forwarding with authentication spoofing.
+debug2: channel 0: request x11-req confirm 1
+...
+morfik@viper:~$
+</code></pre>
+<p>Zmienna <code>$DISPLAY</code> powinna zostać automatycznie weksportowana w środowisku zdalnym. Dodatkowo, plik
+<code>~/.Xauthority</code> powinien zostać odpowiednio zaktualizowany. Sprawdźmy czy tak jest w istocie:</p>
+<pre><code>morfik@viper:~$ echo $DISPLAY
+localhost:10.0
+
+morfik@viper:~$ xauth list
+viper/unix:10  MIT-MAGIC-COOKIE-1  be81cf83e8124a805212e6161c1ecdf3
+</code></pre>
+<p>Jako, że zarówno zmienna <code>$DISPLAY</code> jak i plik <code>~/.Xauthority</code> są ustawiane automatycznie przez SSH,
+to bez problemu możemy teraz odpalić jakąś graficzną aplikacje na serwerze, a okienka zostaną
+przesłane do naszego lokalnego Xserver'a.</p>
+<h2 id="test-szyfrowania">Test szyfrowania</h2>
+<p>Przydałoby się sprawdzić czy aby na pewno ruch z Xserver'em jest szyfrowany. Możemy to zrobić albo
+za pomocą jakiegoś sniffer'a sieciowego albo też możemy posłużyć się iptables na maszynie
+klienckiej, gdzie możemy zablokować ruch przychodzący zostawiając jednocześnie otwarte dwa porty,
+tj. jeden dla Xserver'a i drugi dla SSH. Jeśli ruch jest szyfrowany, pakiety nie powinny trafiać do
+reguły łapiącej ruch Xserver'a. Poniżej przykład:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/10/1.szyfrowanie-xserver-ssh-iptables.png" alt=""    class="huge"></p>
+<h2 id="uwagi-końcowe">Uwagi końcowe</h2>
+<p>Z tego co wyczytałem na sieci, to połączenie szyfrowane przy pomocy algorytmu AES bez kompresji jest
+bardzo wolne i nie nadaje się zbytnio do szyfrowania połączeń z Xserver'em. Oczywiście można jechać
+na standardowych ustawieniach SSH ale wtedy te okienka nie będą się płynnie ładować. Dlatego też
+dobre jest skonfigurować ten aspekt SSH. Pamiętajmy jednak o tym, że by połączenie mogło zostać
+ustanowione, obie strony muszą wspierać wybrany szyfr, a te możemy ustalić wydając w terminalu
+poniższe polecenia:</p>
+<pre><code>$ ssh -Q cipher
+$ ssh -Q mac
+$ ssh -Q kex
+</code></pre></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssh/">ssh</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xserver/">xserver</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">szyfrowanie</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fszyfrowanie-ruchu-do-xservera-przy-pomocy-ssh%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fszyfrowanie-ruchu-do-xservera-przy-pomocy-ssh%2f&amp;text=Szyfrowanie%20ruchu%20do%20Xserver%27a%20przy%20pomocy%20SSH" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fszyfrowanie-ruchu-do-xservera-przy-pomocy-ssh%2f&amp;title=Szyfrowanie%20ruchu%20do%20Xserver%27a%20przy%20pomocy%20SSH" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fszyfrowanie-ruchu-do-xservera-przy-pomocy-ssh%2f&amp;title=Szyfrowanie%20ruchu%20do%20Xserver%27a%20przy%20pomocy%20SSH" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fszyfrowanie-ruchu-do-xservera-przy-pomocy-ssh%2f&title=Szyfrowanie%20ruchu%20do%20Xserver%27a%20przy%20pomocy%20SSH" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fszyfrowanie-ruchu-do-xservera-przy-pomocy-ssh%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fszyfrowanie-ruchu-do-xservera-przy-pomocy-ssh%2f&amp;title=Szyfrowanie%20ruchu%20do%20Xserver%27a%20przy%20pomocy%20SSH" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fszyfrowanie-ruchu-do-xservera-przy-pomocy-ssh%2f&description=Szyfrowanie%20ruchu%20do%20Xserver%27a%20przy%20pomocy%20SSH" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uwierzytelniajace-klucze-ssh/">Uwierzytelniające klucze SSH</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/xauth-i-xhost-na-strazy-bezpieczenstwa-xservera/">Xauth i xhost na straży bezpieczeństwa Xserver&#39;a</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wine-w-kontenerze-lxc/">Wine w kontenerze LXC</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/reinstalacja-kernela-bootloadera/">Reinstalacja kernela i bootloader&#39;a</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/dropbox-i-kontener-luks/">Dropbox i kontener LUKS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kontener-truecrypt-trzymany-na-dropboxie/">Kontener TrueCrypt trzymany na dropbox&#39;ie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/przejscie-z-truecrypt-na-luks/">Przejście z Truecrypt na LUKS</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Android: OpenCamera i aparat w Neffos C5 | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Android: OpenCamera i aparat w Neffos C5" />
+<meta property="og:description" content="Ci z was, którzy czytali moją recenzję na temat smartfona Neffos C5 od TP-LINK, widzą, że
+niezbyt spodobał mi się aparat/kamera zaimplementowany w tym telefonie. Niby jest tutaj 8 mpix na
+aparacie głównym (i 5 mpix na selfie) ale przy niezbyt dobrym oświetleniu jakość zdjęć siada dość
+znacznie. Abstrahując od samej jakości aparatu, chciałbym się nieco bardziej skupić na
+oprogramowaniu do jego obsługi, które Neffos C5 oferuje. Jest ono dość ubogie pod względem
+funkcjonalności i mi generalnie przydałoby się nieco więcej opcji, z których mógłbym zrobić jakiś
+użytek. Jest wiele aplikacji na Androida, które oferują poszerzenie możliwości aparatu czy kamery w
+telefonie. Większość z nich zawiera jednak reklamy, które niezbyt pasują na smartfonie
+wyrafinowanego linux&#39;iarza. Postanowiłem zatem poszukać nieco głębiej i w repozytorium
+F-Droid&#39;a znalazłem OpenCamera. Programik bardzo przyzwoity, bez reklam, no i najważniejsze
+jest on OpenSource. W tym artykule rzucimy sobie okiem na ten kawałek oprogramowania i zobaczymy
+jaką funkcjonalność ono oferuje." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/android-opencamera-i-aparat-w-neffos-c5/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-10-18T22:53:19&#43;02:00" />
+<meta property="article:modified_time" content="2016-10-18T22:53:19&#43;02:00" />
+
+
+		<meta itemprop="name" content="Android: OpenCamera i aparat w Neffos C5">
+<meta itemprop="description" content="Ci z was, którzy czytali moją recenzję na temat smartfona Neffos C5 od TP-LINK, widzą, że
+niezbyt spodobał mi się aparat/kamera zaimplementowany w tym telefonie. Niby jest tutaj 8 mpix na
+aparacie głównym (i 5 mpix na selfie) ale przy niezbyt dobrym oświetleniu jakość zdjęć siada dość
+znacznie. Abstrahując od samej jakości aparatu, chciałbym się nieco bardziej skupić na
+oprogramowaniu do jego obsługi, które Neffos C5 oferuje. Jest ono dość ubogie pod względem
+funkcjonalności i mi generalnie przydałoby się nieco więcej opcji, z których mógłbym zrobić jakiś
+użytek. Jest wiele aplikacji na Androida, które oferują poszerzenie możliwości aparatu czy kamery w
+telefonie. Większość z nich zawiera jednak reklamy, które niezbyt pasują na smartfonie
+wyrafinowanego linux&#39;iarza. Postanowiłem zatem poszukać nieco głębiej i w repozytorium
+F-Droid&#39;a znalazłem OpenCamera. Programik bardzo przyzwoity, bez reklam, no i najważniejsze
+jest on OpenSource. W tym artykule rzucimy sobie okiem na ten kawałek oprogramowania i zobaczymy
+jaką funkcjonalność ono oferuje."><meta itemprop="datePublished" content="2016-10-18T22:53:19&#43;02:00" />
+<meta itemprop="dateModified" content="2016-10-18T22:53:19&#43;02:00" />
+<meta itemprop="wordCount" content="3018">
+<meta itemprop="keywords" content="smartfon,aplikacje,f-droid,kamera,aparat," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Android: OpenCamera i aparat w Neffos C5"/>
+<meta name="twitter:description" content="Ci z was, którzy czytali moją recenzję na temat smartfona Neffos C5 od TP-LINK, widzą, że
+niezbyt spodobał mi się aparat/kamera zaimplementowany w tym telefonie. Niby jest tutaj 8 mpix na
+aparacie głównym (i 5 mpix na selfie) ale przy niezbyt dobrym oświetleniu jakość zdjęć siada dość
+znacznie. Abstrahując od samej jakości aparatu, chciałbym się nieco bardziej skupić na
+oprogramowaniu do jego obsługi, które Neffos C5 oferuje. Jest ono dość ubogie pod względem
+funkcjonalności i mi generalnie przydałoby się nieco więcej opcji, z których mógłbym zrobić jakiś
+użytek. Jest wiele aplikacji na Androida, które oferują poszerzenie możliwości aparatu czy kamery w
+telefonie. Większość z nich zawiera jednak reklamy, które niezbyt pasują na smartfonie
+wyrafinowanego linux&#39;iarza. Postanowiłem zatem poszukać nieco głębiej i w repozytorium
+F-Droid&#39;a znalazłem OpenCamera. Programik bardzo przyzwoity, bez reklam, no i najważniejsze
+jest on OpenSource. W tym artykule rzucimy sobie okiem na ten kawałek oprogramowania i zobaczymy
+jaką funkcjonalność ono oferuje."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Android: OpenCamera i aparat w Neffos C5</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-10-18T22:53:19&#43;02:00">Opublikowano: 18/10/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Android: OpenCamera i aparat w Neffos C5</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#standardowe-oprogramowanie-aparatukamery-w-neffos-c5">Standardowe oprogramowanie aparatu/kamery w Neffos C5</a>
+      <ol>
+        <li><a href="#aparat-główny">Aparat główny</a></li>
+        <li><a href="#kamera-główna">Kamera główna</a></li>
+        <li><a href="#aparat-selfie">Aparat selfie</a></li>
+        <li><a href="#kamera-selfie">Kamera selfie</a></li>
+      </ol>
+    </li>
+    <li><a href="#instalacja-oprogramowania-opencamera">Instalacja oprogramowania OpenCamera</a></li>
+    <li><a href="#konfiguracja-aparatukamery-z-opencamera">Konfiguracja aparatu/kamery z OpenCamera</a>
+      <ol>
+        <li><a href="#dostosowanie-czasu-wyzwalacza">Dostosowanie czasu wyzwalacza</a></li>
+        <li><a href="#robienie-kilku-zdjęć-pod-rząd">Robienie kilku zdjęć pod rząd</a></li>
+        <li><a href="#głosowa-aktywacja-aparatukamery">Głosowa aktywacja aparatu/kamery</a></li>
+        <li><a href="#przypisywanie-akcji-pod-klawisze-volume-updown">Przypisywanie akcji pod klawisze Volume Up/Down</a></li>
+        <li><a href="#ścieżki-do-zapisu-i-nazwy-plików">Ścieżki do zapisu i nazwy plików</a></li>
+        <li><a href="#opcje-specyficzne-dla-aparatu-zdjęcia">Opcje specyficzne dla aparatu (zdjęcia)</a>
+          <ol>
+            <li><a href="#rozdzielczość-robionych-zdjęć">Rozdzielczość robionych zdjęć</a></li>
+            <li><a href="#stopień-kompresji-zdjęć">Stopień kompresji zdjęć</a></li>
+            <li><a href="#znakowanie-zdjęć">Znakowanie zdjęć</a></li>
+            <li><a href="#pauzowanie-po-zrobionym-zdjęciu">Pauzowanie po zrobionym zdjęciu</a></li>
+          </ol>
+        </li>
+        <li><a href="#opcje-specyficzne-dla-kamery-obraz">Opcje specyficzne dla kamery (obraz)</a>
+          <ol>
+            <li><a href="#rozdzielczość-bitrate-i-fps-video">Rozdzielczość, bitrate i FPS video</a></li>
+            <li><a href="#maksymalna-długośćrozmiar-video-i-automatyczny-restart-nagrywania">Maksymalna długość/rozmiar video i automatyczny restart nagrywania</a></li>
+            <li><a href="#określenie-źródła-nagrywanego-dźwięku">Określenie źródła nagrywanego dźwięku</a></li>
+            <li><a href="#blokada-ekranu-przed-przypadkowym-wyłączeniem-nagrywania">Blokada ekranu przed przypadkowym wyłączeniem nagrywania</a></li>
+            <li><a href="#zatrzymanie-nagrywania-gdy-stan-baterii-jest-krytycznie-niski">Zatrzymanie nagrywania, gdy stan baterii jest krytycznie niski</a></li>
+            <li><a href="#dioda-sygnalizująca-proces-nagrywania">Dioda sygnalizująca proces nagrywania</a></li>
+          </ol>
+        </li>
+        <li><a href="#opcje-lokalizacji-gps">Opcje lokalizacji (GPS)</a></li>
+        <li><a href="#dostosowanie-interfejsu-opencamera">Dostosowanie interfejsu OpenCamera</a></li>
+        <li><a href="#informacje-o-aparaciekamerze">Informacje o aparacie/kamerze</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Ci z was, którzy czytali moją <a href="https://morfikov.github.io/post/recenzja-smartfon-neffos-c5-od-tp-link/">recenzję na temat smartfona Neffos C5</a> od TP-LINK, widzą, że
+niezbyt spodobał mi się aparat/kamera zaimplementowany w tym telefonie. Niby jest tutaj 8 mpix na
+aparacie głównym (i 5 mpix na selfie) ale przy niezbyt dobrym oświetleniu jakość zdjęć siada dość
+znacznie. Abstrahując od samej jakości aparatu, chciałbym się nieco bardziej skupić na
+oprogramowaniu do jego obsługi, które Neffos C5 oferuje. Jest ono dość ubogie pod względem
+funkcjonalności i mi generalnie przydałoby się nieco więcej opcji, z których mógłbym zrobić jakiś
+użytek. Jest wiele aplikacji na Androida, które oferują poszerzenie możliwości aparatu czy kamery w
+telefonie. Większość z nich zawiera jednak reklamy, które niezbyt pasują na smartfonie
+wyrafinowanego linux'iarza. Postanowiłem zatem poszukać nieco głębiej i w <a href="https://morfikov.github.io/post/android-repozytorium-aplikacji-opensource-f-droid/">repozytorium
+F-Droid'a</a> znalazłem <a href="http://opencamera.org.uk/">OpenCamera</a>. Programik bardzo przyzwoity, bez reklam, no i najważniejsze
+jest on OpenSource. W tym artykule rzucimy sobie okiem na ten kawałek oprogramowania i zobaczymy
+jaką funkcjonalność ono oferuje.</p>
+<h2 id="standardowe-oprogramowanie-aparatukamery-w-neffos-c5">Standardowe oprogramowanie aparatu/kamery w Neffos C5</h2>
+<p>Przeanalizujmy sobie pierw standardowe oprogramowanie kamery/aparatu, które jest zainstalowane
+domyślnie w Neffos C5. Po wejściu w aplikację &quot;Aparat&quot; przywita nas bardzo prosty interfejs z
+możliwością łatwego przełączania się miedzy trybem aparatu i kamery. Z głównego okna interfejsu
+mamy też możliwość wyboru aparatu głównego lub selfie:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/001.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-interfejs-standard.png" alt=""    class="medium"></p>
+<h3 id="aparat-główny">Aparat główny</h3>
+<p>Sprawdźmy zatem jakie opcje zostały nam oddane do dyspozycji jeśli chodzi o aparat główny. Przede
+wszystkim, mamy możliwość dostosowania lampy błyskowej. Możemy ją wyłączyć, włączyć na stałe, lub
+też zostawić tę kwestię smartfonowi, który na podstawie danych z czujnika światła oceni czy lampa
+ma zostać włączona podczas robienia zdjęcia. Możemy także wybrać sobie filtr w celu lepszego efektu
+wizualnego robionych fotek:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/002.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-filtry.png" alt=""    class="huge"></p>
+<p>Z lewej krawędzi ekranu możemy także wyciągnąć menu, w którym to mamy możliwość ustawienia kilku
+przydanych opcji. Możemy tutaj włączyć stempel czasu, za sprawą którego na fotce zostanie
+uwzględniona data i godzina (w prawym dolnym rogu). Możemy również ustawić samowyzwalacz 5/10
+sekund, który sygnalizuje odliczany czas napisami na ekranie oraz też dźwiękiem na chwilę przed
+cyknięciem fotki.</p>
+<p>Mamy także możliwość dostosowania trybu robienia zdjęć. Teoretycznie to oprogramowanie umożliwia
+robienie zdjęć po tapnięciu w ekran, jak przy wykryciu ruchu czy uśmiechu. Te dwa ostatnie u mnie
+nie działają lub też nie mam pojęcia jak je zmusić do działania. :D No i oczywiście fotki można
+robić przez wciśnięcie niebieskiego przycisku widocznego na ekranie jak i za pomocą przycisków
+Volume Up/Down na obudowie smartfona.</p>
+<p>Z poziomu opcji aparatu możemy także wyłączyć dźwięk migawki co daje nam możliwość robienia zdjęć z
+ukrycia. Bardzo przydatna rzecz.</p>
+<p>Aparat główny ma 8 mpix ale to nie znaczy, że musimy robić fotki w takiej rozdzielczości. Im większa
+rozdziałka, tym większy rozmiar zdjęcia, a przecie nie wszystkie fotki wymagają takiej
+szczegółowości. W domyślnym oprogramowaniu Neffos'a C5 mamy możliwość przełączania się między 8
+mpix (3264x2448 px, 4:3), 5 mpix (2560x1920 px, 4:3), 4 mpix (2560x1440 px, 16:9), 3 mpix (2048x1536
+px, 4:3) i 2 mpix (1600x1200 px, 4:3).</p>
+<p>Wybrane ustawienia zawsze można przywrócić do domyślnych za pomocą jednego prostego tapnięcia w
+ekran. Natomiast nie mamy możliwości dostosowania zachowania autofokusa. Przy repozycjonowaniu
+aparatu, pojawia nam się białe kółko, które po wyostrzeniu obrazu przybiera kolor zielony, po czym
+znika. Można naturalnie wybrać obszar na którym aparat ma się skupić przed zrobieniem fotki stukając
+w interesującą nas część ekranu.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/003.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-interfejs.png" alt=""    class="huge"></p>
+<h3 id="kamera-główna">Kamera główna</h3>
+<p>Aparat możemy także przełączyć w tryb kamery, w efekcie czego będziemy mieli możliwość nagrywania
+filmów. Jeśli chodzi zaś o dostępne opcje w trybie kamery, to jest ich niewiele. Mamy możliwość
+włączenia i wyłączenia mikrofonu, przez co na nagraniu może pojawić się ścieżka dźwiękowa. Jeśli
+zaś chodzi o jakoś nagrywanego materiału video, to mamy do dyspozycji trzy opcje: wysoka (1920x1080
+px, 30 FPS, 128 kbit/s audio), średnia (1280x720 px, 30 FPS, 128 kbit/s audio) i niska (640x480 px,
+30 FPS, 128 kbit/s audio). W ustawieniach aparatu nie mamy informacji na temat rozdzielczości i
+bitrate, choć ten można wyciągnąć z informacji o pliku a/v. Jest też możliwość włączenia lampy
+błyskowej na stałe podczas kręcenia filmu, choć nie ma możliwości wyłączenia jej w trakcie
+nagrywania.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/004.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video.png" alt=""    class="medium"></p>
+<h3 id="aparat-selfie">Aparat selfie</h3>
+<p>Neffos C5 dysponuje także aparatem selfie 5 mpix. Nie posiada on jednak autofokusa w stosunku do
+głównego aparatu i ma trochę mniej opcji. Niemniej jednak, opcja stempla czasu, samowyzwalacza,
+trybu robienia zdjęć jak i dźwięku migawki jest dokładnie taka sama co w przypadku głównego aparatu.
+Jedynymi widocznymi różnicami ą uszczuplony wybór filtrów, jak i rozdzielczość robionych fotek. W
+tym przypadku mamy do wyboru 5 mpix (2560x1920 px, 4:3), 4 (2560x1440 px, 16:9) mpix, 3 (2048x1536
+px, 4:3) mpix, 2 (1600x1200 px, 4:3) mpix, 1,3 mpix (1280x960 px, 4:3).</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/005.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-selfie.png" alt=""    class="huge"></p>
+<h3 id="kamera-selfie">Kamera selfie</h3>
+<p>Po przełączeniu aparatu selfie w tryb kamery, praktycznie nie mamy dostępu do żadnych opcji za
+wyjątkiem zmiany rozdzielczości materiału video, która może być wysoka (640x480 px, 30 FPS, 128
+kbit/s audio) albo niska (176x144 px, 30 FPS, 64 kbit/s audio) oraz też włączenia i wyłączenia
+mikrofonu.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/006.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video.png" alt=""    class="medium"></p>
+<p>Jak widać, to oprogramowanie, które jest domyślnie zainstalowane w Neffos C5 daje nam jedynie
+podstawową funkcjonalność aparatu i kamery. Te wyżej wymienione opcje raczej powinny zadowolić
+przeciętnych użytkowników smartfonów. Ja jednak potrzebuję czegoś więcej. Dla przykładu weźmy
+geotagowanie zdjęć na podstawie aktualnego położenia z GPS. Idąc dalej, chciałbym mieć także
+możliwość dostosowania stopnia kompresji fotek jak i bitrate video. Sprawdźmy zatem co może nam
+zaoferować alternatywne oprogramowanie w postaci OpenCamera.</p>
+<h2 id="instalacja-oprogramowania-opencamera">Instalacja oprogramowania OpenCamera</h2>
+<p>W wstępie nadmieniłem, że aplikacja OpenCamera jest dostępna w alternatywnym repozytorium aplikacji
+jakim jest F-Droid. Oczywiście nie musimy instalować sobie od razu F-Droid'a, bo <a href="https://play.google.com/store/apps/details?id=net.sourceforge.opencamera">OpenCamera jest
+także dostępny w sklepie Google Play</a>. Poniżej jest ofotkowany proces instalacji:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/007.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-instalacja.png" alt=""    class="huge"></p>
+<p>A tak z kolei wygląda interfejs OpenCamera:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/008.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-intefejs.png" alt=""    class="medium"></p>
+<p>Informacja na temat aktualnie ustawionej rozdzielczości fotki/video zawsze jest pokazywana po
+uruchomieniu aplikacji. Praktycznie wszystkie wyżej widoczne elementy interfejsu można sobie
+dowolnie dostosować, wliczając w to całkowite ich ukrycie.</p>
+<h2 id="konfiguracja-aparatukamery-z-opencamera">Konfiguracja aparatu/kamery z OpenCamera</h2>
+<p>Przejdźmy zatem do tej kwestii, którą linux'iarze lubią najbardziej, tj. do opcji konfiguracyjnych,
+które oferuje OpenCamera. W porównaniu do opcji dostępnych w standardowej aplikacji będącej na
+wyposażeniu Neffos'a C5, przeciętny użytkownik telefonu może czuć się nieco przytłoczony, bo jakby
+nie patrzeć opcji jest naprawdę sporo:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/009.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/010.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje.png" alt=""    class="huge"></p>
+<p>To co odróżnia OpenCamera od standardowego oprogramowania zawartego w Neffos C5, to przede wszystkim
+możliwość dostosowania sobie praktycznie każdego aspektu pracy aparatu czy kamery. Mamy po prostu
+większą dowolność i swobodę przy dostosowaniu poszczególnych parametrów.</p>
+<p>Praktycznie cała funkcjonalność domyślnej aplikacji aparatu została w OpenCamera zaimplementowana.
+Takie opcje jak wykrywanie twarzy, robienie zdjęć poprzez dotyk ekranu, powiadamianie dźwiękowe przy
+robieniu zdjęcia, czy reset ustawień do domyślnych są naturalnie dostępne w OpenCamera. Są też
+opcje, których w standardowym oprogramowaniu nie znajdziemy. Poniżej jest krótka ich lista.</p>
+<h3 id="dostosowanie-czasu-wyzwalacza">Dostosowanie czasu wyzwalacza</h3>
+<p>Czas wyzwalacza w domyślnym sofcie można było również dostosować. Z tym, że mieliśmy do wyboru
+między 5 i 10 sekund. W przypadku OpenCamera również możemy ustawić 5 i 10 sekund ale mamy także do
+dyspozycji 1, 2, 3, 15, 20, 30 sekund oraz 1, 3 i 5 minut.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/011.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-timer.png" alt=""    class="huge"></p>
+<p>Przy robieniu zdjęć z opóźnieniem mamy także opcję beeper'a, który nam będzie sygnalizował dźwiękiem
+upływający czas (co sekundę). Jest też możliwość aktywowania odliczania głosowego i wtedy system
+ludzkim głosem nam to odliczanie przeprowadzi (&lt;60 sekund). Te dwie funkcje mogą być włączone
+równocześnie ale też można z nich zrezygnować zupełnie, przez co odliczanie będzie przeprowadzane
+po cichu. Wciąż jednak będziemy widzieli na ekranie upływający czas.</p>
+<h3 id="robienie-kilku-zdjęć-pod-rząd">Robienie kilku zdjęć pod rząd</h3>
+<p>Inną ciekawą opcją jest robienie szeregu zdjęć jedno po drugim, tzw. burst. Co ciekawe, mamy
+możliwość określenia co ile sekund ma być robione kolejne zdjęcie oraz ile fotek życzymy sobie
+pstryknąć naraz. Nie ma minimalnego interwału, natomiast maksymalny to 2 godziny. Jeśli zaś chodzi o
+ilość robionych zdjęć, to mogą być to dwie, trzy, cztery, pięć, dziesięć lub bez ograniczeń. Trzeba
+tylko pamiętać o autofokusie, który między fotkami może wymagać czasu na wyostrzenie zdjęcia, przez
+co może się pojawić dodatkowe opóźnienie.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/016.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-burst.png" alt=""    class="huge"></p>
+<h3 id="głosowa-aktywacja-aparatukamery">Głosowa aktywacja aparatu/kamery</h3>
+<p>Mizianie ekranu, czy wciskanie przycisków by zrobić zdjęcie czy rozpocząć rejestrowanie obrazu
+wymaga od nas fizycznego kontaktu z urządzeniem. Możemy jednak sterować aparatem/kamerą przy pomocy
+dźwięku. Generalnie są dwie opcje, z których możemy skorzystać: słówko &quot;cheese&quot; lub głośny hałas. By
+być szczerym &quot;cheese&quot; średnio działa, natomiast nie udało mi się aktywować ani aparatu, ani kamery
+głośnymi dźwiękami. Nie wiem czy to problem z samą aplikacją czy moim Neffos'em C5.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/012.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-kontrola-dzwiekiem.png" alt=""    class="huge"></p>
+<h3 id="przypisywanie-akcji-pod-klawisze-volume-updown">Przypisywanie akcji pod klawisze Volume Up/Down</h3>
+<p>Standardowo do klawiszy Volume Up/Down jest przypisana akcja robienia zdjęcia i w domyślnym
+oprogramowaniu nie możemy jej zmienić. Jeśli zaś chodzi o OpenCamera, to tutaj te przyciski możemy
+całkowicie wyłączyć. Możemy też przy ich pomocy robić fotki czy zainicjować/zatrzymywać nagrywanie
+materiału video. Możemy także zmienić poziom ekspozycji jak i zwiększyć/zmniejszyć zoom. Jest też
+opcja włączenia i wyłączenia stabilizacji obrazu oraz zmiany głośności urządzenia. Możemy także
+aktywować fokus, z tym, że zawsze będzie on skupiał się na środkowej części obszaru robionego
+zdjęcia.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/013.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-przyciski.png" alt=""    class="medium"></p>
+<h3 id="ścieżki-do-zapisu-i-nazwy-plików">Ścieżki do zapisu i nazwy plików</h3>
+<p>To co mi się także bardzo podoba w OpenCamera, to możliwość wyboru ścieżki zapisu zdjęć czy nagrań
+video. Nie tylko możemy stworzyć sobie drzewo katalogów i zapisywać fotki z pewnych sytuacji w
+konkretnych folderach ale także możemy przenieść tworzony materiał na kartę SD. Problem w tym, że
+Android od wersji 4.4 nie zezwoli OpenCamera na zapis fotek na karcie. Można jednak to obejść <a href="https://morfikov.github.io/post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/">przez
+uchylenie pewnych obostrzeń</a> ale do tego jest znowu potrzebny <a href="https://morfikov.github.io/post/android-root-smartfona-neffos-c5-od-tp-link/">root smartfona</a>.</p>
+<p>Kolejna sprawa, to nazwy zapisywanych plików. Przede wszystkim, jesteśmy w stanie zmienić prefiks
+nazwy pliku. Dla zdjęć jest osobny prefiks, a dla materiałów video osobny. Nazwa pliku zawsze
+przybierze format daty i czasu. My natomiast możemy ten czas dostosować w oparciu o czas lokalny lub
+też o czas UTC. Dla Polski różnica będzie wynosić jedną lub dwie godziny (czas zimowy/letni).</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/015.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-nazwy-plikow.png" alt=""    class="huge"></p>
+<p>Te powyższe opcje dają nam możliwość grupowania fotek/filmów bezpośrednio na telefonie w czasie
+rzeczywistym, co z pewnością przekłada się na lepszą organizację plików w telefonie, przez co
+łatwiej możemy odszukać interesujące nas materiały.</p>
+<h3 id="opcje-specyficzne-dla-aparatu-zdjęcia">Opcje specyficzne dla aparatu (zdjęcia)</h3>
+<p>Przejdźmy zatem do opcji specyficznych dla aparatu. które możemy ustawić. Jest ich również dość
+sporo:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/017.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-aparatu.png" alt=""    class="huge"></p>
+<h4 id="rozdzielczość-robionych-zdjęć">Rozdzielczość robionych zdjęć</h4>
+<p>W przypadku domyślnego oprogramowania mieliśmy do dyspozycji tylko kilka rozdzielczości aparatu
+określanych w mpix (megapikselach). W przypadku OpenCamera jest nieco inaczej. Tak samo mamy
+informację o mpix ale dodatkowo mamy też określoną rozdzielczość fotki oraz proporcje ekranu. Te
+informacje naprawdę ułatwiają rozeznanie co do tego jaką fotkę spodziewamy się zrobić:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/018.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-rozdzielczosc-zdjec.png" alt=""    class="huge"></p>
+<h4 id="stopień-kompresji-zdjęć">Stopień kompresji zdjęć</h4>
+<p>OpenCamera udostępnia nam możliwość kontroli kompresji plików <code>.jpg</code> , przez co możemy wpływać na
+jakość robionych zdjęć. Jesteśmy w stanie ustawić tutaj zarówno jakość zdjęcia na 100% (brak
+kompresji) jak i na 1% (duży stopień kompresji). Możemy również wybrać pośredni stopień kompresji.
+Domyślnym jest 90%:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/019.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-jakosc-zdjec.png" alt=""    class="huge"></p>
+<h4 id="znakowanie-zdjęć">Znakowanie zdjęć</h4>
+<p>Sprawa oznaczeń zdjęć też wygląda o wiele lepiej w stosunku do standardowego oprogramowania. Możemy
+sobie wybrać format daty (np. rrrr/mm/dd) jak i format czasu (12/24/brak). Gdy robimy zdjęcia przy
+włączonym GPS, możemy także na fotce zawrzeć informacje o
+lokalizacji.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/020.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-znakowanie-zdjec.png" alt=""    class="huge"></p>
+<p>Jakby tego było mało to możemy umieścić własny tekst na zdjęciu oraz dostosować styl czcionki jej
+kolor i wielkość:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/021.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-format-znakowania.png" alt=""    class="huge"></p>
+<p>Po ustawieniu wszystkich tych opcji otrzymamy mniej więcej taki podpis:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/023.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-oznaczenie.png" alt=""    class="medium"></p>
+<h4 id="pauzowanie-po-zrobionym-zdjęciu">Pauzowanie po zrobionym zdjęciu</h4>
+<p>Gdy robimy zdjęcia, to są one automatycznie zapisywane na flash (ew. kartę SD) telefonu. Jeśli
+znajdujemy się w sytuacji takiej, że po cyknięciu fotki chcemy coś z nią zrobić, to możemy
+zaoszczędzić trochę czasu zaznaczając opcję pauzowania. W takim przypadku po cyknięciu fotki ekran
+zostanie zamrożony, a my będziemy mieli podgląd zdjęcia, które właśnie zostało wykonane. Ponadto
+będziemy mieli także opcję skasowania pliku czy podzielenia się nim w sieci.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/022.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-pauza.png" alt=""    class="medium"></p>
+<h3 id="opcje-specyficzne-dla-kamery-obraz">Opcje specyficzne dla kamery (obraz)</h3>
+<p>Opcje zdjęć mamy z grubsza z głowy. Pora zając się opcjami video. Na dobrą sprawę mamy ich jeszcze
+więcej niż w przypadku fotek.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/024.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-opcje-video.png" alt=""    class="huge"></p>
+<h4 id="rozdzielczość-bitrate-i-fps-video">Rozdzielczość, bitrate i FPS video</h4>
+<p>W standardowym oprogramowaniu kamery mieliśmy możliwość wyboru kilku trybów video. Wszystkie z nich
+były określone w mpix. W przypadku OpenCamera mamy również informację o danej rozdzielczości użytej
+przy nagrywaniu materiału video. Możemy także określić jakość takiego materiału definiując ręcznie
+bitrate obrazu. Jest też opcja od ustawienia niestandardowej ilości FPS (klatek na sekundę):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/025.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-rozdzielczosc-jakosc-fps.png" alt=""    class="huge"></p>
+<p>Może i mamy bardzo dużą swobodę w dostosowaniu tych trzech powyższych parametrów ale trzeba sobie
+zdawać sprawę, że nasz smartfon niekoniecznie musi obsługiwać dany tryb pracy kamery. Generalnie to
+jesteśmy tutaj ograniczeni przez możliwości sprzętowe.</p>
+<h4 id="maksymalna-długośćrozmiar-video-i-automatyczny-restart-nagrywania">Maksymalna długość/rozmiar video i automatyczny restart nagrywania</h4>
+<p>Ciekawą funkcją tez jest ustawienie maksymalnej długości czy rozmiaru nagrywanego materiału video.
+Możemy także określić czy po osiągnięciu ustawionego progu ma nastąpić restart nagrywania,
+oczywiście materiał będzie zapisywany w osobnym pliku.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/026.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-czas-trwania.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/027.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-restart.png" alt=""    class="huge"></p>
+<h4 id="określenie-źródła-nagrywanego-dźwięku">Określenie źródła nagrywanego dźwięku</h4>
+<p>W przypadku, gdy zamierzamy nagrywać jedynie obraz video, możemy bez większego problemy wyłączyć
+nagrywanie dźwięku. Jeśli jednak chcemy, by w nagraniu się pojawił dźwięk, to mamy możliwość
+określenia źródła dźwięku:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/028.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-zrodlo-audio.png" alt=""    class="huge"></p>
+<h4 id="blokada-ekranu-przed-przypadkowym-wyłączeniem-nagrywania">Blokada ekranu przed przypadkowym wyłączeniem nagrywania</h4>
+<p>Kolejną ciekawą funkcją jest blokada ekranu tuż po wciśnięciu przycisku nagrywania filmu. W ten
+sposób nie będziemy mieli możliwości wyłączenia nagrywania, no chyba, że wcześniej odblokujemy
+ekran.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/029.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-zabezpieczenie.png" alt=""    class="medium"></p>
+<p>Szkoda tylko, że przyciski w dalszym ciągu są w stanie wyłączyć nagrywanie.</p>
+<h4 id="zatrzymanie-nagrywania-gdy-stan-baterii-jest-krytycznie-niski">Zatrzymanie nagrywania, gdy stan baterii jest krytycznie niski</h4>
+<p>Gdy nagrywamy jakiś materiał video, to najgorszą rzeczą jaka może nam się przytrafić jest
+wyczerpanie się baterii. W takiej sytuacji jest niemal pewne, że film zostanie uszkodzony i stracimy
+cały nagrany materiał albo jakąś jego cześć. Można się przed tym zabezpieczyć przerywając nagrywanie
+przed wyczerpaniem się baterii (~3%). OpenCamera oferuje nam tego typu funkcjonalność.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/030.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-bateria.png" alt=""    class="medium"></p>
+<h4 id="dioda-sygnalizująca-proces-nagrywania">Dioda sygnalizująca proces nagrywania</h4>
+<p>Jeśli zamierzamy zostawić naszego smartfona gdzieś w oddali w celu uwiecznienia zdarzeń na filmie,
+możemy włączyć opcję sygnalizowania procesu nagrywania przy pomocy lampy błyskowej. Wtedy nawet
+siedząc kilkanaście metrów od telefonu wystarczy spojrzeć na niego by być pewnym, że nic nie
+przerwało nagrywania.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/031.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-flash.png" alt=""    class="medium"></p>
+<h3 id="opcje-lokalizacji-gps">Opcje lokalizacji (GPS)</h3>
+<p>Kolejną grupą ustawień są te dotyczące lokalizacji. Standardowo geotagowanie zdjęć/filmów jest
+wyłączone. Możemy je nie tylko włączyć ale również je wymusić, przez co nie będziemy w stanie
+zrobić zdjęcia, gdy funkcja GPS będzie wyłączona. W zdjęciach możemy zaszyć także informacje ze
+wskazania kompasu.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/032.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-gps-geotagging.png" alt=""    class="huge"></p>
+<p>Poniżej się prezentują dane EXIF, które można wyciągnąć po włączeniu GPS i otagowaniu obrazka przez
+aplikację OpenCamera:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/033.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-dane-gps.png" alt=""    class="huge"></p>
+<h3 id="dostosowanie-interfejsu-opencamera">Dostosowanie interfejsu OpenCamera</h3>
+<p>Ostatnią grupą opcji są te dotyczące wyglądu interfejsu graficznego aparatu/kamery. Możemy usunąć
+czarne obramowanie, tak by podgląd obrazu wypełnił całą dostępną przestrzeń ekranu. Z kolei jeśli
+zaś chcemy zmienić pozycję menu interfejsu, to możemy przenieść je z prawej strony na lewą. Możemy
+także schować cały interfejs jeśli nam on przeszkadza. Oczywiście będziemy w stanie wywołać
+interfejs w każdej chwil po tapnięciu w ekran. Jest także możliwość pokazania/ukrycia tylko pewnych
+części interfejsu, np. przycisków/paska zoom, informacji o ilości wolnego miejsca na pamięci flash,
+aktualnego czasu czy stanu baterii. Jest tez opcja zapobiegania wyłączeniu ekranu, gdy włączony jest
+podgląd z kamery/aparatu. Jeśli natomiast drażni nas nieco maksymalna jasność ekranu w trybie
+robienia zdjęć/video to też możemy tę funkcję łatwo tutaj wyłączyć.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/034.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd-opcje.png" alt=""    class="huge"></p>
+<p>Te powyższe opcje dotyczą jedynie samego wyglądu interfejsu aparatu/kamery. Niemniej jednak,
+istnieją jeszcze opcje, do których możemy uzyskać dostęp z poziomu tego interfejsu:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/035.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd.png" alt=""    class="huge"></p>
+<p>Z lewej lub prawej strony mamy kilka ikonek. Licząc od góry, odpowiadają one za przełączenie aparatu
+głównego/selfie, przełączenie trybu aparatu/kamery, dostosowanie i zablokowanie poziomu ekspozycji,
+dostęp do bardziej rozbudowanego menu interfejsu oraz menu opcji. Jeśli zaś chodzi o rozbudowane
+menu interfejsu jakim dysponuje aparat/kamera, to wygląda on mniej więcej tak:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/036.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/10/037.opencamera-kamera-aparat-smartfon-neffos-c5-tp-link-osd.png" alt=""    class="huge"></p>
+<p>Trochę tego jest i to przewijane menu jest moim zdaniem trochę zbyt długie. Przydałby się je pociąć
+i ulokować pod osobnymi ikonkami na pasku interfejsu. Niemniej jednak, widzimy, że w bardzo łatwy
+sposób można wybrać sobie filtry jak i rozdziałkę kamery/aparatu.</p>
+<p>Co ciekawe lampa błyskowa może być włączona cały czas, nawet przed zrobieniem zdjęcia. Szkoda tylko,
+że miga ona tuż przed zrobieniem fotki. Jeśli chodzi zaś opcje dotyczące ostrości obrazu, to mamy
+możliwość nie tylko włączenia/wyłączenia autofokusa ale także możemy ustawić go na pewien określony
+punkt i zablokować to ustawienie. Jest także <a href="https://en.wikipedia.org/wiki/Infinity_focus">Focus Infinity</a> oraz możliwość dostosowania
+wartości ISO.</p>
+<h3 id="informacje-o-aparaciekamerze">Informacje o aparacie/kamerze</h3>
+<p>Jako, że nie wszystkie wyżej opisane funkcje są dostępne w każdym smartfonie, to warto zaznajomić
+się z informacjami, które widnieją pod pozycją &quot;About&quot; w menu opcji OpenCamera. Dla modelu Neffos
+C5 od TP-LINK są one następujące:</p>
+<pre><code>Open Camera v1.34
+Code: 41
+(c) 2013-2016 Mark Harman
+Released under the GPL v3 or later
+Package: net.sourceforge.opencamera
+Android API version: 22
+Device manufacturer: TP-LINK
+Device model: Neffos C5
+Device code-name: mt6735
+Device variant: C5
+Language: pl
+Standard max heap?: 128
+Large max heap?: 256
+Display size: 720x1184
+Current camera ID: 0
+Camera API: Camera
+Preview resolutions: 176x144, 320x240, 352x288, 480x320, 480x368, 640x480, 720x480, 800x480, 800x600, 864x480, 960x540, 1280x720, 1440x1080, 1920x1080, 1920x1088, 1680x1248
+Preview resolution: 1280x720
+Photo resolutions: 320x240, 640x480, 1024x768, 1280x720, 1280x768, 1280x960, 1600x1200, 1920x1088, 2048x1536, 2560x1440, 2560x1920, 3264x2448
+Photo resolution: 3264x2448
+Video qualities: 1, 5_r1920x1080, 5_r1280x736, 5, 4_r864x480, 4, 3_r640x480, 3_r480x320, 3, 7, 2
+Video resolutions: 1920x1088, 1920x1080, 1280x736, 1280x720, 864x480, 720x480, 640x480, 480x320, 352x288, 320x240, 176x144
+Video quality: 5_r1920x1080
+Video frame width: 1920
+Video frame height: 1080
+Video bit rate: 9000000
+Video frame rate: 30
+Auto-stabilise?: Available
+Auto-stabilise enabled?: false
+Face detection?: Available
+RAW?: Not available
+Video stabilization?: Not available
+Flash modes: flash_off, flash_auto, flash_on, flash_torch, flash_red_eye
+Focus modes: focus_mode_auto, focus_mode_infinity, focus_mode_macro, focus_mode_locked, focus_mode_continuous_picture, focus_mode_continuous_video
+Color effects: none, mono, negative, sepia, aqua, whiteboard, blackboard, posterize, nashville, hefe, valencia, xproll, lofi, sierra, walden
+Scene modes: auto, portrait, landscape, night, night-portrait, theatre, beach, snow, sunset, steadyphoto, fireworks, sports, party, candlelight, hdr
+White balances: auto, incandescent, fluorescent, warm-fluorescent, daylight, cloudy-daylight, twilight, shade
+ISOs: auto, 100, 200, 400, 800, 1600
+ISO key: iso-speed
+Using SAF?: false
+Save Location: OpenCamera
+Save Location SAF:
+Parameters: 3dnr-mode=on;
+3dnr-mode-values=on,off;
+afeng-max-focus-step=1023;
+afeng-min-focus-step=0;
+aflamp-mode=off;
+aflamp-mode-values=off,on,auto;
+antibanding=off;
+antibanding-values=off,50hz,60hz,auto;
+auto-exposure-lock-supported=true;
+auto-whitebalance-lock-supported=true;
+brightness=middle;
+brightness-values=low,middle,high;
+brightness_value=0;
+burst-num=1;
+cap-mode=normal;
+cap-mode-values=normal,face_beauty,continuousshot,smileshot,bestshot,autorama,mav,asd,motiontrack;
+capfname=/sdcard/DCIM/cap00;
+chutter-value=0;
+contrast=middle;
+contrast-values=low,middle,high;
+cshot-indicator=true;
+cshot-indicator-supported=true;
+dynamic-frame-rate=true;
+dynamic-frame-rate-supported=true;
+edge=middle;
+edge-values=low,middle,high;
+effect=none;
+effect-values=none,mono,negative,sepia,aqua,whiteboard,blackboard,posterize,nashville,hefe,valencia,xproll,lofi,sierra,walden;
+eng-mfll-e=false;
+eng-mfll-s=true;
+eng-s-shad-t=0;
+eng-shad-t=0;
+exposure-compensation=0;
+exposure-compensation-step=1.0;
+face-beauty=false;
+face-beauty-supported=true;
+fb-enlarge-eye=0;
+fb-enlarge-eye-max=4;
+fb-enlarge-eye-min=-4;
+fb-extreme-beauty=true;
+fb-extreme-beauty-supported=false;
+fb-face-pos=-2000:-2000;
+fb-sharp=0;
+fb-sharp-max=12;
+fb-sharp-max-values=12;
+fb-sharp-min=-12;
+fb-sharp-min-values=-12;
+fb-skin-color=0;
+fb-skin-color-max=12;
+fb-skin-color-max-values=12;
+fb-skin-color-min=-12;
+fb-skin-color-min-values=-12;
+fb-slim-face=0;
+fb-slim-face-max=12;
+fb-slim-face-max-values=12;
+fb-slim-face-min=-12;
+fb-slim-face-min-values=-12;
+fb-smooth-level=0;
+fb-smooth-level-max=12;
+fb-smooth-level-max-values=12;
+fb-smooth-level-min=-12;
+fb-smooth-level-min-values=-12;
+fb-touch-pos=-2000:-2000;
+feature-max-fps=24@VFB+EIS;
+flash-duty-max=1;
+flash-duty-min=0;
+flash-duty-value=-1;
+flash-mode=off;
+flash-mode-values=off,on,auto,red-eye,torch;
+flash-step-max=0;
+flash-step-min=0;
+focal-length=3.5;
+focus-areas=(0,0,0,0,0);
+focus-distances=0.95,1.9,Infinity;
+focus-fs-fi=0;
+focus-fs-fi-max=65535;
+focus-fs-fi-min=0;
+focus-mode=continuous-video;
+focus-mode-values=auto,macro,infinity,continuous-picture,continuous-video,manual,fullscan;
+gesture-shot=false;
+gesture-shot-supported=true;
+horizontal-view-angle=62;
+hsvr-size-fps=640x480x120;
+hsvr-size-fps-values=640x480x120;
+hue=middle;
+hue-values=low,middle,high;
+iso-speed=auto;
+iso-speed-values=auto,100,200,400,800,1600;
+jpeg-quality=90;
+jpeg-thumbnail-height=128;
+jpeg-thumbnail-quality=100;
+jpeg-thumbnail-size-values=0x0,160x128,256x192;
+jpeg-thumbnail-width=160;
+m-sr-g=0;
+m-ss=0;
+max-exposure-compensation=3;
+max-num-detected-faces-hw=15;
+max-num-detected-faces-sw=0;
+max-num-focus-areas=1;
+max-num-metering-areas=9;
+max-num-ot=1;
+max-zoom=10;
+metering-areas=(0,0,0,0,0);
+mfb=off;
+mfb-values=off,mfll,ais;
+min-exposure-compensation=-3;
+mnr-e=0;
+mnr-s=true;
+mtk-123-shad-s=true;
+mtk-awb-s=true;
+mtk-cam-mode=0;
+mtk-shad-s=true;
+native-pip=false;
+native-pip-supported=false;
+picture-format=jpeg;
+picture-format-values=jpeg;
+picture-size=2560x1440;
+picture-size-values=320x240,640x480,1024x768,1280x720,1280x768,1280x960,1600x1200,1920x1088,2048x1536,2560x1440,2560x1920,3264x2448;
+pip-fps-zsd-off=30;
+pip-fps-zsd-on=30;
+preferred-preview-size-for-video=1920x1088;
+preview-format=yuv420sp;
+preview-format-values=yuv420sp,yuv420p,yuv420i-yyuvyy-3plane;
+preview-fps-range=5000,60000;
+preview-fps-range-values=(5000,60000);
+preview-frame-rate=30;
+preview-frame-rate-values=10,20,15,24,30,60,120;
+preview-size=1280x720;
+preview-size-values=176x144,320x240,352x288,480x320,480x368,640x480,720x480,800x480,800x600,864x480,960x540,1280x720,1440x1080,1920x1080,1920x1088,1680x1248;
+rotation=0;
+saturation=middle;
+saturation-values=low,middle,high;
+scene-mode=auto;
+scene-mode-values=auto,portrait,landscape,night,night-portrait,theatre,beach,snow,sunset,steadyphoto,fireworks,sports,party,candlelight,hdr;
+sen-mode-s=0;
+sensor-type=252;
+smooth-zoom-supported=true;
+sr-awb-s=true;
+sr-shad-s=true;
+stereo-capture-frame-rate=15;
+stereo-preview-frame-rate=15;
+sv1-s=3;
+sv2-s=3;
+vdr-cc2m-s=true;
+vdr-r=0;
+vdr-r2m-s=true;
+vdr-r4k2k-s=true;
+vertical-view-angle=37;
+vfb-supported=true;
+vfb-supported-values=true;
+video-frame-format=yuv420p;
+video-hdr=off;
+video-hdr-values=off;
+video-size=640x480;
+video-size-values=176x144,320x240,352x288,480x320,640x480,864x480,1280x720,1920x1080,720x480,1280x736,1920x1088;
+video-snapshot-supported=true;
+video-stabilization=false;
+video-stabilization-supported=false;
+vr-buf-count=10;
+vrd-mfr-e=true;
+vrd-mfr-high=30;
+vrd-mfr-low=15;
+vrd-mfr-max=30;
+vrd-mfr-min=15;
+vrd-mfr-s=true;
+whitebalance=auto;
+whitebalance-values=auto,incandescent,fluorescent,warm-fluorescent,daylight,cloudy-daylight,twilight,shade;
+zoom=0;
+zoom-ratios=100,114,132,151,174,200,229,263,303,348,400;
+zoom-supported=true;
+zsd-mode=off;
+zsd-mode-values=off,on
+</code></pre></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aplikacje/">aplikacje</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/f-droid/">f-droid</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kamera/">kamera</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aparat/">aparat</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-opencamera-i-aparat-w-neffos-c5%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-opencamera-i-aparat-w-neffos-c5%2f&amp;text=Android%3a%20OpenCamera%20i%20aparat%20w%20Neffos%20C5" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-opencamera-i-aparat-w-neffos-c5%2f&amp;title=Android%3a%20OpenCamera%20i%20aparat%20w%20Neffos%20C5" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-opencamera-i-aparat-w-neffos-c5%2f&amp;title=Android%3a%20OpenCamera%20i%20aparat%20w%20Neffos%20C5" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-opencamera-i-aparat-w-neffos-c5%2f&title=Android%3a%20OpenCamera%20i%20aparat%20w%20Neffos%20C5" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-opencamera-i-aparat-w-neffos-c5%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-opencamera-i-aparat-w-neffos-c5%2f&amp;title=Android%3a%20OpenCamera%20i%20aparat%20w%20Neffos%20C5" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fandroid-opencamera-i-aparat-w-neffos-c5%2f&description=Android%3a%20OpenCamera%20i%20aparat%20w%20Neffos%20C5" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-repozytorium-aplikacji-opensource-f-droid/">Android: Repozytorium aplikacji OpenSource (F-Droid)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-nova-launcher-neffos-c5/">Android: Nova Launcher w Neffos C5</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-brak-mozliwosci-zapisu-danych-na-karcie-sd-neffos-c5/">Android: Brak możliwości zapisu danych na karcie SD w Neffos C5</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-root-smartfona-neffos-c5-od-tp-link/">Android: Root smartfona Neffos C5 od TP-LINK</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-jak-zainstalowac-adb-i-fastboot-pod-linux/">Android: Jak zainstalować ADB i fastboot pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/recenzja-smartfon-neffos-c5-od-tp-link/">Recenzja: Smartfon Neffos C5 od TP-LINK</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-reset-ustawien-do-fabrycznych-factory-defaults/">Android: Reset ustawień do fabrycznych (factory defaults)</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Konfiguracja jasności ekranu w laptopie (backlight) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Konfiguracja jasności ekranu w laptopie (backlight)" />
+<meta property="og:description" content="Linux nigdy nie był popularnym systemem operacyjnym na stacjach klienckich. Może i cieszy się sporym
+wzięciem wśród środowisk serwerowych ale jego niezbyt prosta obsługa nie przemawia do przeciętnego
+użytkownika komputera. Wraz z rozwojem technologi, zmienił się też rodzaj urządzeń na jakich
+obecnie pracujemy. W dzisiejszych czasach liczy się przede wszystkim mobilność i praktycznie każdy z
+nas miał już prawdopodobnie do czynienia z laptopami. Producenci tych urządzeń lubią nam wciskać
+windowsa z dopiskiem, że ten laptop bez niego nie będzie w ogóle nam działał. Już od dość dawna
+szereg laptopów jest w stanie pracować pod linux&#39;em ale, jakby nie patrzeć, sporo rzeczy w nich nie
+działa OOTB i trzeba poświęcić trochę czasu, by tę maszynę doprowadzić do porządku. W tym wpisie
+zajmiemy się zagadnieniem podświetlania matrycy (backlight), tak by system był w stanie bez problemu
+zapisać ustawienia jasności ekranu przy wyłączaniu komputera oraz, by potrafił je także wczytać
+podczas fazy rozruchu." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-jasnosci-ekranu-w-laptopie-backlight/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-01-05T21:52:41&#43;00:00" />
+<meta property="article:modified_time" content="2016-01-05T21:52:41&#43;00:00" />
+
+
+		<meta itemprop="name" content="Konfiguracja jasności ekranu w laptopie (backlight)">
+<meta itemprop="description" content="Linux nigdy nie był popularnym systemem operacyjnym na stacjach klienckich. Może i cieszy się sporym
+wzięciem wśród środowisk serwerowych ale jego niezbyt prosta obsługa nie przemawia do przeciętnego
+użytkownika komputera. Wraz z rozwojem technologi, zmienił się też rodzaj urządzeń na jakich
+obecnie pracujemy. W dzisiejszych czasach liczy się przede wszystkim mobilność i praktycznie każdy z
+nas miał już prawdopodobnie do czynienia z laptopami. Producenci tych urządzeń lubią nam wciskać
+windowsa z dopiskiem, że ten laptop bez niego nie będzie w ogóle nam działał. Już od dość dawna
+szereg laptopów jest w stanie pracować pod linux&#39;em ale, jakby nie patrzeć, sporo rzeczy w nich nie
+działa OOTB i trzeba poświęcić trochę czasu, by tę maszynę doprowadzić do porządku. W tym wpisie
+zajmiemy się zagadnieniem podświetlania matrycy (backlight), tak by system był w stanie bez problemu
+zapisać ustawienia jasności ekranu przy wyłączaniu komputera oraz, by potrafił je także wczytać
+podczas fazy rozruchu."><meta itemprop="datePublished" content="2016-01-05T21:52:41&#43;00:00" />
+<meta itemprop="dateModified" content="2016-01-05T21:52:41&#43;00:00" />
+<meta itemprop="wordCount" content="946">
+<meta itemprop="keywords" content="xserver,systemd,monitor,backlight,laptop," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Konfiguracja jasności ekranu w laptopie (backlight)"/>
+<meta name="twitter:description" content="Linux nigdy nie był popularnym systemem operacyjnym na stacjach klienckich. Może i cieszy się sporym
+wzięciem wśród środowisk serwerowych ale jego niezbyt prosta obsługa nie przemawia do przeciętnego
+użytkownika komputera. Wraz z rozwojem technologi, zmienił się też rodzaj urządzeń na jakich
+obecnie pracujemy. W dzisiejszych czasach liczy się przede wszystkim mobilność i praktycznie każdy z
+nas miał już prawdopodobnie do czynienia z laptopami. Producenci tych urządzeń lubią nam wciskać
+windowsa z dopiskiem, że ten laptop bez niego nie będzie w ogóle nam działał. Już od dość dawna
+szereg laptopów jest w stanie pracować pod linux&#39;em ale, jakby nie patrzeć, sporo rzeczy w nich nie
+działa OOTB i trzeba poświęcić trochę czasu, by tę maszynę doprowadzić do porządku. W tym wpisie
+zajmiemy się zagadnieniem podświetlania matrycy (backlight), tak by system był w stanie bez problemu
+zapisać ustawienia jasności ekranu przy wyłączaniu komputera oraz, by potrafił je także wczytać
+podczas fazy rozruchu."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Konfiguracja jasności ekranu w laptopie (backlight)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-01-05T21:52:41Z">Opublikowano: 05/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Konfiguracja jasności ekranu w laptopie (backlight)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#sterowanie-backlightem">Sterowanie backlight'em</a></li>
+    <li><a href="#usługa-systemd-backlightservice">Usługa systemd-backlight@.service</a></li>
+    <li><a href="#backlight-i-xserver">Backlight i Xserver</a></li>
+    <li><a href="#niedziałające-klawisze">Niedziałające klawisze</a></li>
+    <li><a href="#wyłączenie-acpi_video0">Wyłączenie acpi_video0</a></li>
+    <li><a href="#maksymalna-i-minimalna-wartość-podświetlenia">Maksymalna i minimalna wartość podświetlenia</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Linux nigdy nie był popularnym systemem operacyjnym na stacjach klienckich. Może i cieszy się sporym
+wzięciem wśród środowisk serwerowych ale jego niezbyt prosta obsługa nie przemawia do przeciętnego
+użytkownika komputera. Wraz z rozwojem technologi, zmienił się też rodzaj urządzeń na jakich
+obecnie pracujemy. W dzisiejszych czasach liczy się przede wszystkim mobilność i praktycznie każdy z
+nas miał już prawdopodobnie do czynienia z laptopami. Producenci tych urządzeń lubią nam wciskać
+windowsa z dopiskiem, że ten laptop bez niego nie będzie w ogóle nam działał. Już od dość dawna
+szereg laptopów jest w stanie pracować pod linux'em ale, jakby nie patrzeć, sporo rzeczy w nich nie
+działa OOTB i trzeba poświęcić trochę czasu, by tę maszynę doprowadzić do porządku. W tym wpisie
+zajmiemy się zagadnieniem podświetlania matrycy (backlight), tak by system był w stanie bez problemu
+zapisać ustawienia jasności ekranu przy wyłączaniu komputera oraz, by potrafił je także wczytać
+podczas fazy rozruchu.</p>
+<h2 id="sterowanie-backlightem">Sterowanie backlight'em</h2>
+<p>Jeśli już odważyliśmy się na zainstalowanie linux'a na laptopie, lub też jedynie korzystamy z
+systemu live, to przydałoby się nieco zapoznać z informacjami jakie system jest nam w stanie podać
+jeśli chodzi w kwestii backlight. Przede wszystkim, w systemd do zapisywania jasności ekranu jest
+wyznaczona odpowiednia usługa,
+<a href="https://www.freedesktop.org/software/systemd/man/systemd-backlight@.service.html">systemd-backlight@.service</a>.
+Musimy się zatem upewnić, że ta usługa jest włączona oraz, że działa poprawnie. Jako, że w nazwie
+usługi mamy <code>@</code> , oznacza to, że faktyczna nazwa usługi wygląda nieco inaczej. By ją ustalić musimy
+zajrzeć do katalogu <code>/sys/class/backlight/</code> , przykładowo:</p>
+<pre><code>$ ls /sys/class/backlight/
+./  ../  acpi_video0@  intel_backlight@
+</code></pre>
+<p>Generalnie rzecz biorąc, sterowanie jasnością matrycy może leżeć w kwestii sterowników do grafiki
+lub też może odbywać się za sprawą zdarzeń <a href="https://pl.wikipedia.org/wiki/ACPI">ACPI</a>. W powyższym
+przypadku wykorzystywane są obie te metody i to zwykle powoduje problemy. Może się okazać, że
+jasność jest zarządzana nie przez ten moduł, który próbujemy skonfigurować lub też następuje
+przepisanie ustawień w zależności od tego, który z powyższych zainicjuje się jako ostatni. By
+wyeliminować większość problemów z backlight'em, musimy zdecydować się na tylko jedną opcję i
+trzymać się jej cały czas.</p>
+<p>Wartości aktualnego podświetlenia są przez systemd przechowywane w katalogu
+<code>/var/lib/systemd/backlight/</code> . Są tam osobne pliki dla każdego z modułów, przykładowo:</p>
+<pre><code>$ cat /var/lib/systemd/backlight/pci-0000:00:02.0:backlight:acpi_video0
+4
+</code></pre>
+<p>Te pliki są przepisywane za każdym razem, gdy tylko przyciśniemy na klawiaturze przycisk od zmiany
+jasności ekranu. Przy starcie systemu, ta wartość jest podawana sterownikowi i ten ustawia
+odpowiedni poziom podświetlenia. Dlatego właśnie nie możemy korzystać z obu modułów jednocześnie.</p>
+<h2 id="usługa-systemd-backlightservice">Usługa systemd-backlight@.service</h2>
+<p>Standardowo systemd będzie próbował uruchamiać usługę <code>systemd-backlight@.service</code> dla każdego linku
+wykrytego w <code>/sys/class/backlight/</code> . Musimy go zatem tego oduczyć. W przypadku tego laptopa,
+<code>intel_backlight</code> nie działa za dobrze, zatem będziemy korzystać z <code>acpi_video0</code> . Musimy więc
+zamaskować tę drugą usługę. Robimy to w poniższy sposób:</p>
+<pre><code># systemctl mask systemd-backlight@backlight\:intel_backlight
+</code></pre>
+<p>Sprawdzamy też czy ta pożądana przez nas usługa działa poprawnie:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/01/1.backlight-systemd-usluga.png" alt=""    class="huge"></p>
+<h2 id="backlight-i-xserver">Backlight i Xserver</h2>
+<p>Jeśli podczas fazy boot jesteśmy w stanie zaobserwować zmianę jasności ekranu, oznacza to, że
+systemd robi swoje. Niemniej jednak, po zalogowaniu się w sesji graficznej, może nastąpić kolejna
+zmiana jasności ekranu. Dzieje się tak dlatego, że Xserver prawdopodobnie korzysta z tego drugiego
+sterownika, a że tamten ma ustawione inne wartości, to doświadczamy rozjaśnienie tudzież
+przyciemnienia ekranu. By wybrnąć z tej sytuacji, musimy wskazać Xserver'owi, z którego modułu ma
+korzystać.</p>
+<p>Środowiska graficzne z reguły będą przepisywać ustawienia Xserver'a, dlatego też ta sekcja dotyczy
+jedynie minimalistycznych środowisk opartych jedynie o menadżery okien, np. openbox.</p>
+<p>Tworzymy zatem plik konfiguracyjny dla Xserver'a, <code>/etc/X11/xorg.conf.d/20-monitor.conf</code> i dodajemy
+w nim ten poniższy kod:</p>
+<pre><code>Section &quot;Monitor&quot;
+      Identifier   &quot;LVDS1&quot;
+EndSection
+
+Section &quot;Device&quot;
+      Identifier  &quot;Device0&quot;
+      Driver      &quot;intel&quot;
+      Option      &quot;Backlight&quot; &quot;acpi_video0&quot;
+      BusID &quot;PCI:0:2:0&quot;
+EndSection
+
+Section &quot;Screen&quot;
+      Identifier     &quot;Screen0&quot;
+      Device         &quot;Device0&quot;
+      Monitor        &quot;LVDS1&quot;
+      DefaultDepth    24
+EndSection
+</code></pre>
+<p>Większość użytych wyżej opcji została wyjaśniona w artykule poświęconym <a href="https://morfikov.github.io/post/monitor-i-jego-konfiguracja-pod-linuxem/">konfiguracji
+monitora</a> i nie będę ich tutaj
+ponownie przytaczał. Nas interesuje głównie opcja <code>Backlight</code> w sekcji <code>Device</code> . Ustawiamy ją w
+oparciu o nazwę linku, który możemy znaleźć w katalogu <code>/sys/class/backlight</code> . W tym przypadku
+określamy <code>acpi_video0</code> . W tej chwili zarówno systemd jak i Xserver będą korzystać z jednego
+modułu do zmiany jasności matrycy w naszym laptopie.</p>
+<h2 id="niedziałające-klawisze">Niedziałające klawisze</h2>
+<p>Jeśli znajdujemy się w tak niefortunnej sytuacji, że klawisze sterujące podświetlaniem ekranu
+zwyczajnie nie działają, to zawsze możemy skorzystać z odpowiednich narzędzi, by poziom jasności
+sobie dostosować programowo. W debianie mamy dostępny min. pakiet <code>xbacklight</code> , który wyśmienicie
+się nadaje do tego celu. Instalujemy go i wpisujemy w terminal poniższe polecenie:</p>
+<pre><code>$ xbacklight -set 40%
+</code></pre>
+<h2 id="wyłączenie-acpi_video0">Wyłączenie acpi_video0</h2>
+<p>Możemy także pokusić się o całkowite wyłączenie modułu ACPI odpowiedzialnego za backlight, a
+sterowanie podświetleniem matrycy zostawić sterownikowi karty graficznej. By wyłączyć ten moduł,
+musimy dopisać do linijki kernela opcję <code>acpi_backlight=vendor</code> . Poniżej przykład dla bootloader'a
+extlinux:</p>
+<pre><code>APPEND root=... acpi_backlight=vendor ...
+</code></pre>
+<p>Po ponownym uruchomieniu komputera, w katalogu <code>/sys/class/backlight/</code> powinien znajdować się
+jedynie link <code>intel_backlight</code> . Jeśli zamierzamy korzystać z tego rozwiązania, to pamiętajmy też o
+włączeniu odpowiedniej usługi systemd.</p>
+<p>Jeśli chodzi jeszcze o wartości backlight'ów sterowników graficznych, to możemy tutaj zaobserwować,
+np. 2431 (w stosunku do 5 w ACPI). W przypadku ACPI, mamy 10 punktów jasności, między którymi możemy
+się przełączać. Natomiast jeśli chodzi o <code>intel_backlight</code> , to mamy możliwość nieco bardziej
+płynnego przejścia. Choć moim zdaniem 10 poziomów jasności w zupełności wystarcza.</p>
+<h2 id="maksymalna-i-minimalna-wartość-podświetlenia">Maksymalna i minimalna wartość podświetlenia</h2>
+<p>Starajmy się unikać granicznych wartości podświetlenia ekranu jakie możemy ustawić. Chodzi o to, że
+może wystąpić dość dziwny błąd, który powoduje rozjechanie się ustawień. Nawet jeśli zmiana jasności
+działa prawidłowo, to po osiągnięciu, np. maksymalnej jasności ekranu, ta wartość nie będzie już
+podlegać dalszym zmianom. W efekcie czego, przy zamykaniu systemu zostanie zapisana maksymalna
+wartość podświetlenia, mimo, że ekran był rozjaśniony, np. w 40%. Później wartość odpowiadająca za
+100% zostanie wczytana przy starcie systemu.</p>
+<p>Jeśli tego typu sytuacja nam się przytrafi, to pamiętajmy, że zawsze możemy deaktywować usługę
+systemd i ręcznie zmienić wartość w plikach w katalogu <code>/var/lib/systemd/backlight/</code> .</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xserver/">xserver</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/monitor/">monitor</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/backlight/">backlight</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/laptop/">laptop</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-jasnosci-ekranu-w-laptopie-backlight%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-jasnosci-ekranu-w-laptopie-backlight%2f&amp;text=Konfiguracja%20jasno%c5%9bci%20ekranu%20w%20laptopie%20%28backlight%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-jasnosci-ekranu-w-laptopie-backlight%2f&amp;title=Konfiguracja%20jasno%c5%9bci%20ekranu%20w%20laptopie%20%28backlight%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-jasnosci-ekranu-w-laptopie-backlight%2f&amp;title=Konfiguracja%20jasno%c5%9bci%20ekranu%20w%20laptopie%20%28backlight%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-jasnosci-ekranu-w-laptopie-backlight%2f&title=Konfiguracja%20jasno%c5%9bci%20ekranu%20w%20laptopie%20%28backlight%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-jasnosci-ekranu-w-laptopie-backlight%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-jasnosci-ekranu-w-laptopie-backlight%2f&amp;title=Konfiguracja%20jasno%c5%9bci%20ekranu%20w%20laptopie%20%28backlight%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-jasnosci-ekranu-w-laptopie-backlight%2f&description=Konfiguracja%20jasno%c5%9bci%20ekranu%20w%20laptopie%20%28backlight%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/monitor-i-jego-konfiguracja-pod-linuxem/">Monitor i jego konfiguracja pod linux&#39;em</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wylaczyc-monitor-z-linii-polecen/">Jak wyłączyć monitor z linii poleceń</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-touchpada-w-laptopie-pod-linuxem/">Konfiguracja touchpad&#39;a w laptopie pod linux&#39;em</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/temperatura-dysku-twardego-hddtemp/">Temperatura dysku twardego (hddtemp)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/odszyfrowanie-kontenerow-luks-w-systemd/">Odszyfrowanie kontenerów LUKS w systemd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/ksztaltowanie-ruchu-sieciowego-traffic-control/">Kształtowanie ruchu sieciowego (Traffic Control)</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

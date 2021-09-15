@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Statystyki routera w OpenWRT (collectd, rrdtool) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Statystyki routera w OpenWRT (collectd, rrdtool)" />
+<meta property="og:description" content="Domowe routery WiFi chodzą zwykle 24 godziny na dobę. Ich moc obliczeniowa, choć zwykle niewielka,
+czasem się marnuje. Mając router z OpenWRT, możemy przerobić go tak, by zbierał różnego rodzaju dane
+dla statystyki. Te dane mogą pochodzić z różnych źródeł i nie koniecznie muszą one dotyczyć samego
+routera. Tego typu funkcjonalność mogą zapewnić nam narzędzia collectd oraz rrdtool . W tym
+artykule spróbujemy zaprogramować router, by zbierał pewne dane dotyczące połączenia sieciowego. Na
+podstawie tych informacji będą rysowane wykresy, które następnie będą udostępniane przez serwer
+uhttpd ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/statystyki-openwrt-collectd-rrdtool/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-05-19T21:38:00&#43;00:00" />
+<meta property="article:modified_time" content="2016-05-19T21:38:00&#43;00:00" />
+
+
+		<meta itemprop="name" content="Statystyki routera w OpenWRT (collectd, rrdtool)">
+<meta itemprop="description" content="Domowe routery WiFi chodzą zwykle 24 godziny na dobę. Ich moc obliczeniowa, choć zwykle niewielka,
+czasem się marnuje. Mając router z OpenWRT, możemy przerobić go tak, by zbierał różnego rodzaju dane
+dla statystyki. Te dane mogą pochodzić z różnych źródeł i nie koniecznie muszą one dotyczyć samego
+routera. Tego typu funkcjonalność mogą zapewnić nam narzędzia collectd oraz rrdtool . W tym
+artykule spróbujemy zaprogramować router, by zbierał pewne dane dotyczące połączenia sieciowego. Na
+podstawie tych informacji będą rysowane wykresy, które następnie będą udostępniane przez serwer
+uhttpd ."><meta itemprop="datePublished" content="2016-05-19T21:38:00&#43;00:00" />
+<meta itemprop="dateModified" content="2016-05-19T21:38:00&#43;00:00" />
+<meta itemprop="wordCount" content="2181">
+<meta itemprop="keywords" content="chaos-calmer,statystyki,router,rrdtool," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Statystyki routera w OpenWRT (collectd, rrdtool)"/>
+<meta name="twitter:description" content="Domowe routery WiFi chodzą zwykle 24 godziny na dobę. Ich moc obliczeniowa, choć zwykle niewielka,
+czasem się marnuje. Mając router z OpenWRT, możemy przerobić go tak, by zbierał różnego rodzaju dane
+dla statystyki. Te dane mogą pochodzić z różnych źródeł i nie koniecznie muszą one dotyczyć samego
+routera. Tego typu funkcjonalność mogą zapewnić nam narzędzia collectd oraz rrdtool . W tym
+artykule spróbujemy zaprogramować router, by zbierał pewne dane dotyczące połączenia sieciowego. Na
+podstawie tych informacji będą rysowane wykresy, które następnie będą udostępniane przez serwer
+uhttpd ."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Statystyki routera w OpenWRT (collectd, rrdtool)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-05-19T21:38:00Z">Opublikowano: 19/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Statystyki routera w OpenWRT (collectd, rrdtool)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#instalacja-potrzebnego-oprogramowania">Instalacja potrzebnego oprogramowania</a></li>
+    <li><a href="#konfiguracja-uhttpd">Konfiguracja uhttpd</a></li>
+    <li><a href="#konfiguracja-collectd">Konfiguracja collectd</a></li>
+    <li><a href="#generowanie-statystyk">Generowanie statystyk</a></li>
+    <li><a href="#odczytywanie-statystyk">Odczytywanie statystyk</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Domowe routery WiFi chodzą zwykle 24 godziny na dobę. Ich moc obliczeniowa, choć zwykle niewielka,
+czasem się marnuje. Mając router z OpenWRT, możemy przerobić go tak, by zbierał różnego rodzaju dane
+dla statystyki. Te dane mogą pochodzić z różnych źródeł i nie koniecznie muszą one dotyczyć samego
+routera. Tego typu funkcjonalność mogą zapewnić nam narzędzia <code>collectd</code> oraz <code>rrdtool</code> . W tym
+artykule spróbujemy zaprogramować router, by zbierał pewne dane dotyczące połączenia sieciowego. Na
+podstawie tych informacji będą rysowane wykresy, które następnie będą udostępniane przez serwer
+<code>uhttpd</code> .</p>
+<h2 id="instalacja-potrzebnego-oprogramowania">Instalacja potrzebnego oprogramowania</h2>
+<p>Jest wiele różnych narzędzi realizujących to przedsięwzięcie, za które się zabieramy. Jak
+wspomnieliśmy we wstępie, tutaj skupimy się głównie na <code>collecd</code> . To przy jego pomocy będziemy
+tworzyć bazy danych zawierające określone wartości. Drugim potrzebnym nam programem będzie
+<code>rrdtool</code> . Przy jego pomocy zaś będziemy wydobywać informacje z bazy i na ich podstawie generować
+zrozumiałe dla człowieka wykresy. Dodatkowo, by mieć łatwy dostęp do tak stworzonych obrazków,
+musimy postawić serwer www. Do tego celu znakomicie się nadaje <code>uhttpd</code> . Te fotki mogą być do
+wglądu nawet i spoza sieci domowej, niemniej jednak, my się ograniczymy tylko do sieci lokalnej.
+Instalujemy zatem potrzebne pakiety:</p>
+<pre><code># opkg update
+# opkg install \
+    collectd \
+    collectd-mod-rrdtool \
+    rrdtool1 \
+    uhttpd
+</code></pre>
+<p>Poza powyższymi pakietami, potrzebne nam są również dodatkowe moduły dla <code>collectd</code>. Jest ich dość
+sporo, a dokładną listę możemy uzyskać wpisując w terminalu polecenie <code>opkg list | grep collectd-mod</code> . Wybieramy te moduły, które według nas będą nam potrzebne i instalujemy. W tym
+przypadku są to te poniższe pakiety:</p>
+<pre><code># opkg install \
+    collectd-mod-conntrack \
+    collectd-mod-cpu \
+    collectd-mod-load \
+    collectd-mod-memory \
+    collectd-mod-ping
+</code></pre>
+<h2 id="konfiguracja-uhttpd">Konfiguracja uhttpd</h2>
+<p>Zacznijmy może od konfiguracji serwera www. Plik konfiguracyjny dla <code>uhttpd</code> znajduje się w
+<code>/etc/config/uhttpd</code> . Nie jest on zbytnio złożony. Interesują nas te poniższe pozycje:</p>
+<pre><code>#   list listen_http        0.0.0.0:80
+#   list listen_http        [::]:80
+    list listen_http        192.168.1.1:80
+
+#   list listen_https       0.0.0.0:443
+#   list listen_https       192.168.1.1:443
+#   list listen_https       [::]:443
+
+    option home             /tmp/router/www
+</code></pre>
+<p>Wszystkie widoczne wyżej linijki, które zaczynają się od znaku <code>#</code> oznaczają, że wpis został
+wykomentowany i nie będzie brany pod uwagę przez <code>uhttpd</code> . Chodzi generalnie o to, że nie
+potrzebujemy, by demon nasłuchiwał na wszystkich możliwych interfejsach. No i również zbędne nam
+jest połączenie SSL/TLS. W opcji <code>listen_http</code> ustawiliśmy za to adres interfejsu <code>br-lan</code> .
+Zmieniliśmy także katalog główny, w którym są przechowywane pliki stron www przy pomocy opcji
+<code>home</code> . Zapisujemy plik, tworzymy ręcznie w/w katalog i restartujemy demona poniższym poleceniem:</p>
+<pre><code># mkdir -p /tmp/router/www/
+# /etc/init.d/uhttpd restart
+</code></pre>
+<h2 id="konfiguracja-collectd">Konfiguracja collectd</h2>
+<p>Serwer www powinien nam już działać w tle. Teraz przechodzimy do <code>collectd</code> . Plik konfiguracyjny
+tego narzędzia znajduje się w <code>/etc/collectd.conf</code> . W zależności od zainstalowanych modułów, różne
+sekcje się w tym pliku będzie umieszczać. Niemniej jednak, na początku tego pliku definiujemy
+zachowanie samego demona <code>collectd</code> :</p>
+<pre><code>Hostname        &quot;the-mountain&quot;
+#FQDNLookup     true
+BaseDir         &quot;/var/run/collectd&quot;
+#Include        &quot;/etc/collectd/conf.d&quot;
+PIDFile         &quot;/var/run/collectd.pid&quot;
+PluginDir       &quot;/usr/lib/collectd&quot;
+TypesDB         &quot;/usr/share/collectd/types.db&quot;
+Interval        10
+ReadThreads     2
+</code></pre>
+<p>Chodzi głównie o dostosowanie interwału w parametrze <code>Interval</code> . Będzie on nam potrzeby w
+późniejszej fazie konfiguracji. W tym przypadku ustawiliśmy go na 10 sekund. Dostosujmy sobie
+także parametr <code>Hostname</code> , bo to ta nazwa będzie widoczna min. na wykresach.</p>
+<p>Kolejne linijki w pliku <code>/etc/collectd.conf</code> dotyczą ładowania modułów. Wszystkie z tych modułów,
+które zainstalowaliśmy i chcemy aktywować, muszą zostać tutaj określone w opcji <code>LoadPlugin</code>
+Poniżej został włączony moduł <code>ping</code> :</p>
+<pre><code>LoadPlugin ping
+</code></pre>
+<p>Każdy z modułów ma specyficzne dla siebie opcje. Są one ujmowane w sekcje <code>&lt;Plugin nazwa&gt;</code> , gdzie
+nazwa określa załadowany moduł. Niestety nie da rady opisać ich tutaj wszystkich możliwych modułów.
+Niemniej jednak, na potrzeby tego artykułu muszą zostać opisane <code>conntrack</code> , <code>cpu</code> , <code>load</code> ,
+<code>memory</code> , <code>ping</code> oraz <code>rddtool</code> .</p>
+<p>Poniżej jest konfiguracja modułu <code>ping</code> . Ma on za zadanie odpytywać co pewien okres czasu hosty o
+adresach określonych w parametrach <code>Host</code> . Czas jest zdefiniowany w opcji <code>Interval</code> . Musi się on
+pokrywać z tym interwałem, który ustawiliśmy wcześniej. Częściej nie ma potrzeby odpytywać serwerów,
+bo i tak tylko jeden ping na 10 sekund zostanie zanotowany. Ping'owany host ma też skończony czas na
+przesłanie odpowiedzi, którą określa parametr <code>Timeout</code> . Jeśli w tym czasie nie zostanie udzielona
+odpowiedź, to próba zostanie oznaczona jako nieudana. Ważne jest też, by podać przy pomocy opcji
+<code>Device</code> interfejs, przez który będzie wychodził <code>ping</code> . W tym przypadku jest to interfejs WAN.</p>
+<pre><code>&lt;Plugin ping&gt;
+    Host &quot;8.8.8.8&quot;
+    Host &quot;208.67.220.220&quot;
+    Host &quot;212.77.100.101&quot;
+    Interval 10.0
+    Timeout 2.0
+    TTL 64
+    Device &quot;eth0.2&quot;
+    MaxMissed -1
+&lt;/Plugin&gt;
+</code></pre>
+<p>W celu generowania statystyk z wykorzystaniem <code>rddtool</code> , musimy załadować ten modów przy pomocy
+<code>LoadPlugin</code> i dodać poniższą zwrotkę do pliku <code>/etc/collectd.conf</code> :</p>
+<pre><code>LoadPlugin rrdtool
+
+&lt;Plugin rrdtool&gt;
+    DataDir &quot;/tmp/router/stats&quot;
+    RRARows 720
+    RRASingle false
+    RRATimespan 1800
+    RRATimespan 3600
+    RRATimespan 43200
+    RRATimespan 86400
+    RRATimespan 172800
+    RRATimespan 604800
+&lt;/Plugin&gt;
+</code></pre>
+<p>Opcja <code>DataDir</code> określa gdzie zapisywać zbierane dane. Kluczowe jest wyliczenie ile PDP (Primary
+Data Point) przypada na jeden CDP (Consolidated Data Point) i robi się to ze wzoru: liczba PDP =
+timespan/(stepsize * rrarows). W oparciu o powyższą konfigurację otrzymujemy: liczba CDP =
+1800/(10*720), czyli 0.25. Podobnie z pozostałymi przedziałami czasu określonymi w opcjach
+<code>RRATimespan</code> : 0.5 , 6 , 12 oraz 84 . Chodzi o to by wyszły w miarę okrągłe liczby. Co one nam
+dają? Tam gdzie CDP jest mniejsze lub równe 1, to nie ma większego problemu z określeniem tego co
+zostanie pokazane na wykresie. Natomiast jeśli wartość ta jest większa od 1, np. dla przedziału
+czasu 2 dni, CDP przyjmuje wartość 12, wtedy rzecz jasna nie można umieścić wszystkich 12 wartości
+na wykresie. Zostanie wybrana tylko jedna z nich i możemy określić ją na podstawie parametrów
+<code>MAX</code> , <code>MIN</code>, <code>AVERAGE</code> albo też <code>LAST</code> . Jeśli określimy <code>MAX</code> , wtedy najwyższa z tych 12
+wartości zostanie uwzględniona na grafie. Jeśli <code>MIN</code>, to najmniejsza, itd. O tym będzie nieco
+później. Jeśli chcemy korzystać z innych wartości niż uśrednione, to przestawiamy <code>RRASingle</code> na
+<code>false</code> .</p>
+<p>Pozostałe moduły nie wymagają precyzowania konfiguracji. Wystarczy zatem załadować je w poniższy
+sposób:</p>
+<pre><code>LoadPlugin cpu
+LoadPlugin load
+LoadPlugin memory
+LoadPlugin conntrack
+</code></pre>
+<p>Więcej informacji na temat wszystkich modułów oraz możliwych parametrów jakie idzie ustawić w pliku
+<code>/etc/collectd.conf</code> , można znaleźć <a href="https://collectd.org/documentation/manpages/collectd.conf.5.shtml">pod tym linkiem</a>. Zapisujemy plik i restartujemy demona
+<code>collectd</code> :</p>
+<pre><code># /etc/init.d/collectd restart
+</code></pre>
+<h2 id="generowanie-statystyk">Generowanie statystyk</h2>
+<p>Potrzebny nam będzie również skrypt, który wygeneruje odpowiednie wykresy. Poniżej nagłówek mojego
+skryptu:</p>
+<pre><code>#!/bin/sh
+
+HOST=&quot;the-mountain&quot;
+DATADIR=&quot;/tmp/router/stats/&quot;
+IMAGEDIR=&quot;/tmp/router/www/stats/$HOST/&quot;
+PERIOD=&quot;1hour 12hours 24hours 48hours 1week&quot;
+PLUGINS=&quot;cpu-0 load memory ping conntrack&quot;
+
+for PLUGIN in $PLUGINS
+do
+    mkdir -p $IMAGEDIR/$PLUGIN
+done
+...
+</code></pre>
+<p>Powyżej mamy zdefiniowanych kilka zmiennych. Pliki statystyk ( <code>DATADIR</code> ) oraz obrazki z grafiami (
+<code>IMAGEDIR</code> ) będą przechowywane w pamięci operacyjnej routera. Można oczywiście określić ścieżki do
+plików na routerze albo nawet na zewnętrznym nośniku. Z tym, że niesie to za sobą komplikacje. Po
+pierwsze, statystyki są zbierane w czasie rzeczywistym, zatem nośnik jest ciągle w fazie zapisu i
+przypadkowe odłączenie go zwykle doprowadza do utraty całej bazy danych. Nierzadko też potrafi się
+popsuć system plików. Druga kwestia dotyczy wydajności. Statystyki są generowane w pamięci RAM o
+wiele szybciej i obciążenie routera (loadavg) jest przy tym 2-3 razy mniejsze niż przy zapisie tych
+plików bezpośrednio na dysk. Jeśli dysponujemy routerem o pojemności pamięci RAM większej niż 64
+MiB, to bez większego problemu możemy te obrazki zapisywać w pamięci operacyjnej. Trzeba tylko
+pilnować się z modułami i nie włączać wszystkich możliwych naraz.</p>
+<p>W powyższym wycinku mamy także zmienną <code>PERIOD</code> . Określa ona przedziały czasu jakie będą
+uwzględniane przy generowaniu obrazków. W tym przypadku jest to 1 godzina, 12 godzin, 24 godziny,
+48 godzin i 1 tydzień pracy urządzenia. Pliki ze statystykami nie rozrastają się i zajmują zawsze
+tyle samo miejsca. Niemniej jednak, im dłuższy przedział czasu, tym oczywiście baza zajmuje więcej
+miejsca. U mnie wszystkie potrzebne statystyki i wykresy zajmują łącznie 5-10 MiB. Także nie jest to
+znowu tak mało. Zmienna <code>PLUGINS</code> definiuje włączone moduły, na podstawie których są tworzone
+odpowiednie katalogi. Jakby nie patrzeć, statystyki będą przechowane w RAM i po zresetowaniu
+routera, szlag je trafi. Dlatego też za każdym razem jak router będzie się budził do życia, trzeba
+będzie tworzyć te katalogi na nowo.</p>
+<p>W zależności od wybranych modułów, musimy umieścić w skrypcie sekcje podobne do tej poniżej. Dla
+przykładu określiłem tylko jedną sekcję ale cały skrypt jest na <a href="https://github.com/morfikov/files/blob/master/configs/openwrt/mkgraph.sh">moim github'ie</a>.</p>
+<pre><code>...
+##############################
+#        load section        #
+##############################
+load_load(){
+    for TIME in $PERIOD
+    do
+        rrdtool graph $IMAGEDIR/load/load-$TIME.png --title &quot;$HOST/load/load $TIME&quot; --imgformat PNG --width 600 --height 100 --start now-$TIME --end now --interlaced \
+        DEF:longterm_min=$DATADIR/$HOST/load/load.rrd:longterm:MIN \
+        DEF:longterm_avg=$DATADIR/$HOST/load/load.rrd:longterm:AVERAGE \
+        DEF:longterm_max=$DATADIR/$HOST/load/load.rrd:longterm:MAX \
+        DEF:midterm_min=$DATADIR/$HOST/load/load.rrd:midterm:MIN \
+        DEF:midterm_avg=$DATADIR/$HOST/load/load.rrd:midterm:AVERAGE \
+        DEF:midterm_max=$DATADIR/$HOST/load/load.rrd:midterm:MAX \
+        DEF:shortterm_min=$DATADIR/$HOST/load/load.rrd:shortterm:MIN \
+        DEF:shortterm_avg=$DATADIR/$HOST/load/load.rrd:shortterm:AVERAGE \
+        DEF:shortterm_max=$DATADIR/$HOST/load/load.rrd:shortterm:MAX \
+        AREA:longterm_max#ffe8e8 \
+        AREA:midterm_max#e8e8ff \
+        AREA:shortterm_max#e2ffe2 \
+        LINE2:shortterm_max#55ff55:1min \
+        GPRINT:shortterm_avg:MIN:&quot; Minimum\:%8.2lf %s&quot; \
+        GPRINT:shortterm_avg:AVERAGE:&quot;Average\:%8.2lf %s&quot; \
+        GPRINT:shortterm_max:MAX:&quot;Maximum\:%8.2lf %s\n&quot; \
+        LINE2:midterm_max#7777ff:5min \
+        GPRINT:midterm_avg:MIN:&quot; Minimum\:%8.2lf %s&quot; \
+        GPRINT:midterm_avg:AVERAGE:&quot;Average\:%8.2lf %s&quot; \
+        GPRINT:midterm_max:MAX:&quot;Maximum\:%8.2lf %s\n&quot; \
+        LINE2:longterm_max#ff7777:15min \
+        GPRINT:longterm_avg:MIN:&quot;Minimum\:%8.2lf %s&quot; \
+        GPRINT:longterm_avg:AVERAGE:&quot;Average\:%8.2lf %s&quot; \
+        GPRINT:longterm_max:MAX:&quot;Maximum\:%8.2lf %s\n&quot; \
+        &gt;/dev/null 2&gt;&amp;1
+    done
+}
+##############################
+...
+</code></pre>
+<p>Generalnie rzecz biorąc, to co widzimy powyżej zawiera się w jednej linijce ale dla większej
+czytelności skorzystałem ze znaku łamania lini ( <code>\</code> ). W ten sposób mogłem przenieść kolejne
+parametry <code>rrdtool</code> do osobnych linijek. Powyższy blok jest ujęty w funkcję określoną przez
+<code>load_load(){}</code> . W niej mamy pętle <code>for</code> , która to z kolei wygeneruje obrazki w oparciu o
+zdefiniowane wcześniej okresy czasu.</p>
+<p>Pierwsza linijka (ta z <code>rrdtool</code> ) określa gdzie zapisać obrazek ( <code>graph</code> ) po wygenerowaniu grafu,
+tytuł grafu ( <code>--title</code> ), format w jakim obrazek zostanie zapisany ( <code>--imgformat</code> ), jego wymiary
+( <code>--width</code> oraz <code>--height</code> ), czas uwzględniony na obrazku ( <code>--start</code> i <code>--end now</code> ), z tym, że
+<code>now-$TIME</code> oznacza czas cofnięcia się wstecz. Przykładowo, jeśli określimy <code>now-1hour</code> oznaczać to
+będzie jedną godzinę wcześniej w stosunku do godziny aktualnej. Opcja <code>--interlaced</code> ma zapewnić
+szybsze ładowanie się obrazków w przeglądarkach. Możemy także dopisać parametr <code>--vertical-label=&quot;&quot;</code>
+w celu opisania pionowej osi wykresu.</p>
+<p>Dalej mamy linijki z <code>DEF</code> . Przypisują one zmienne <code>longterm_avg</code> , <code>longterm_max</code> , etc. do danych
+zebranych przez <code>collecd</code> w odpowiednich plikach. By sprawdzić jakie dane możemy wyciągnąć z pliku,
+trzeba je odczytać przy pomocy poniższego polecenia:</p>
+<pre><code># rrdtool info /tmp/router/stats/the-mountain/load/load.rrd
+...
+ds[shortterm]
+...
+ds[midterm]
+...
+ds[longterm]
+...
+</code></pre>
+<p>Dane na wykresach są określane przez CF (Consolidation Function) i ten parametr również możemy
+odczytać z powyższego pliku:</p>
+<pre><code>...
+rra[0].cf = &quot;AVERAGE&quot;
+...
+rra[1].cf = &quot;MIN&quot;
+...
+rra[2].cf = &quot;MAX&quot;
+...
+</code></pre>
+<p>Kolejne linijki w powyższym bloku naszego skryptu to te zaczynające się od <code>AREA</code> . Rysują one
+słupki i oznaczają je odpowiednimi kolorami, tj. <code>#ffe8e8</code> , <code>#e8e8ff</code> oraz <code>#e2ffe2</code> (RGB, zapis
+hexalny). Wartości, w oparciu o które zostaną narysowane te wykresy, są brane ze zdefiniowanych
+przez nas zmiennych.</p>
+<p>Z kolei wpisy zaczynające się od <code>LINE</code>, rysują wykres liniowy i odnoszą się także do legendy pod
+wykresem. Cyfra <code>2</code> zaraz po <code>LINE</code> oznacza grubość kreski, którą rysowany jest wykres. Dalej mamy
+określone zmienne, które mają być brane pod uwagę. Mamy także zdefiniowane kolory, odpowiednio
+<code>#55ff55</code> , <code>#7777ff</code> i <code>#ff7777</code> . Ostatnia wartość to opis, ten który pojawi się pod grafem.</p>
+<p>Linijki zawierające <code>GPRINT</code> określają wartość maksymalną ( <code>MAX</code> ) , średnią ( <code>AVERAGE</code> ) i
+minimalną ( <code>MIN</code> ) dla danego wykresu. Te informacje również są umieszczane w legendzie.</p>
+<p>Każdy moduł ma mniej więcej taki sam zapis. Różni się tylko ilością zdefiniowanych parametrów i po
+części też ich nazwami. Po skonfigurowaniu wszystkich modułów, na końcu skryptu wywołujemy
+odpowiednie funkcje. W tym przypadku jest póki co tylko jedna:</p>
+<pre><code>...
+load_load
+</code></pre>
+<p>Tak stworzony skrypt zapisujemy sobie na routerze, np. w katalogu <code>/etc/skrypty/mkgraph.sh</code> .</p>
+<p>Statystyki może i są zbierane w czasie rzeczywistym i to przez cały czas pracy routera ale obrazki z
+wykresami trzeba wygenerować ręcznie. Proces zbierania danych nie jest zbytnio zasobożerny.
+Natomiast generowanie wykresów już tak. Naturalnie, nie będziemy ciągle wbijać na router, by
+wygenerować sobie kilka grafów. No chyba, że będziemy potrzebować aktualnych danych. Zamiast tego,
+wykorzystamy narzędzie <code>cron</code> , by cyklicznie te wykresy generował za nas. Dobrze jest ustawić sobie
+interwał na 30 minut tak, by nie zarżnąć routera ciągłym generowaniem obrazków. Mając gotowy
+powyższy skrypt, musimy dodać wywołanie w tablicy <code>cron</code> . Wpisujemy zatem w terminalu <code>crontab -e</code>
+i dodajemy tam poniższy wpis:</p>
+<pre><code># min   hour    day     mon     dow     command
+*/30    *       *       *       *       /etc/skrypty/mkgraph.sh
+</code></pre>
+<h2 id="odczytywanie-statystyk">Odczytywanie statystyk</h2>
+<p>Serwer www mamy już postawiony ale, by obejrzeć statystyki, musimy jeszcze stworzyć prostą stronę
+www. Możemy umieszczać wszystkie moduły w jednym pliku albo każdy moduł w osobnym. Możemy też wybrać
+odpowiednie obrazki i stworzyć sobie jedną stronę tak, by wszystkie potrzebne nam wykresy były w
+jednym miejscu. Szkielet stron zapisujemy w katalogu <code>/etc/collectd_www/</code> . Poniżej jest przykładowy
+plik <code>load.html</code> :</p>
+<pre><code>&lt;html&gt;
+    &lt;body&gt;
+        &lt;img src=&quot;/stats/the-mountain/load/load-1hour.png&quot;&gt;
+        &lt;img src=&quot;/stats/the-mountain/load/load-12hours.png&quot;&gt;
+        &lt;img src=&quot;/stats/the-mountain/load/load-24hours.png&quot;&gt;
+        &lt;img src=&quot;/stats/the-mountain/load/load-48hours.png&quot;&gt;
+        &lt;img src=&quot;/stats/the-mountain/load/load-1week.png&quot;&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>By to wszystko teraz puścić w ruch, potrzebny nam jest jeszcze mały skrypt startowy, który
+przekopiuje odpowiednie pliki w odpowiednie miejsce podczas fazy boot routera. Tworzymy zatem plik
+<code>/etc/init.d/statistics</code> o poniższej zawartości:</p>
+<pre><code>#!/bin/sh /etc/rc.common
+
+START=81
+
+start() {
+    if [ ! -d /tmp/router/www ]
+    then
+        mkdir -p /tmp/router/www
+    fi
+
+    cp -a /etc/collectd_www/* /tmp/router/www/
+    /etc/skrypty/mkgraph.sh
+}
+</code></pre>
+<p>Dodajemy go do autostartu i odpalamy skrypt:</p>
+<pre><code># /etc/init.d/statistics enable
+# /etc/init.d/statistics start
+</code></pre>
+<p>Trzeba jednak pamiętać, że generowanie statystyk zajmuje czas i trochę spowolni start routera.
+Dlatego też zawsze możemy wykomentować odpalanie skryptu <code>mkgraph.sh</code> . Odpalamy teraz przeglądarkę
+internetową i przechodzimy na adres <code>http://192.168.2.1/load.html</code> . Jeśli wszystkie kroki
+przeprowadziliśmy zgodnie z powyższym opisem, to naszym oczom powinny się ukazać wykresy podobne do
+tych poniżej:</p>
+<p>Moduł ping:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/1.statystyki-ruch-openwrt-router-collectd-rrdtool.png" alt=""    class="huge"></p>
+<p>Moduł load:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/2.statystyki-ruch-openwrt-router-collectd-rrdtool.png" alt=""    class="huge"></p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chaos-calmer/">chaos-calmer</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/statystyki/">statystyki</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">router</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/rrdtool/">rrdtool</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fstatystyki-openwrt-collectd-rrdtool%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fstatystyki-openwrt-collectd-rrdtool%2f&amp;text=Statystyki%20routera%20w%20OpenWRT%20%28collectd%2c%20rrdtool%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fstatystyki-openwrt-collectd-rrdtool%2f&amp;title=Statystyki%20routera%20w%20OpenWRT%20%28collectd%2c%20rrdtool%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fstatystyki-openwrt-collectd-rrdtool%2f&amp;title=Statystyki%20routera%20w%20OpenWRT%20%28collectd%2c%20rrdtool%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fstatystyki-openwrt-collectd-rrdtool%2f&title=Statystyki%20routera%20w%20OpenWRT%20%28collectd%2c%20rrdtool%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fstatystyki-openwrt-collectd-rrdtool%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fstatystyki-openwrt-collectd-rrdtool%2f&amp;title=Statystyki%20routera%20w%20OpenWRT%20%28collectd%2c%20rrdtool%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fstatystyki-openwrt-collectd-rrdtool%2f&description=Statystyki%20routera%20w%20OpenWRT%20%28collectd%2c%20rrdtool%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/quality-service-qos-w-openwrt/">Quality of Service (QoS) w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/failover-load-balancing-openwrt-mwan3/">Failover i load balancing w OpenWRT (mwan3)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wake-lan-z-etherwake-pod-openwrt/">Wake On LAN z etherwake pod OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/drukarka-sieciowa-w-openwrt-serwer-wydruku/">Drukarka sieciowa w OpenWRT (serwer wydruku)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zablokowac-facebook-youtube-openwrt/">Jak zablokować Facebook i YouTube w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/filtr-pakietow-sieciowych-w-openwrt-firewall/">Filtr pakietów sieciowych w OpenWRT (firewall)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/nat-reflection-oraz-nat-loopback-w-openwrt/">NAT Reflection oraz NAT Loopback w OpenWRT</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

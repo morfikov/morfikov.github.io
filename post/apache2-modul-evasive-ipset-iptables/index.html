@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Apache2: Moduł evasive, ipset i iptables (anty DOS/DDOS) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Apache2: Moduł evasive, ipset i iptables (anty DOS/DDOS)" />
+<meta property="og:description" content="Apache2 ma kilka ciekawych modułów, które mogą uchronić nasz serwer www przed atakami DOS i DDOS.
+Jednym z nich jest moduł evasive . Nie jest on jednak oficjalnym modułem i brak o nim
+jakiejkolwiek wzmianki w oficjalnej dokumentacji na stronie Apache2. Niemniej jednak, jest to bardzo
+prosty moduł składający się dosłownie z kilku dyrektyw, które są w stanie zablokować zapytania o
+zasoby serwera w przypadku, gdy zostanie przekroczony pewien ustalony przez nas limit. Dodatkowo,
+ten moduł może współgrać z filtrem iptables oraz ipset , dając nam możliwość wygodnego
+blokowania uporczywych klientów na poziomie pakietów sieciowych." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/apache2-modul-evasive-ipset-iptables/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-08-06T09:13:20&#43;00:00" />
+<meta property="article:modified_time" content="2016-08-06T09:13:20&#43;00:00" />
+
+
+		<meta itemprop="name" content="Apache2: Moduł evasive, ipset i iptables (anty DOS/DDOS)">
+<meta itemprop="description" content="Apache2 ma kilka ciekawych modułów, które mogą uchronić nasz serwer www przed atakami DOS i DDOS.
+Jednym z nich jest moduł evasive . Nie jest on jednak oficjalnym modułem i brak o nim
+jakiejkolwiek wzmianki w oficjalnej dokumentacji na stronie Apache2. Niemniej jednak, jest to bardzo
+prosty moduł składający się dosłownie z kilku dyrektyw, które są w stanie zablokować zapytania o
+zasoby serwera w przypadku, gdy zostanie przekroczony pewien ustalony przez nas limit. Dodatkowo,
+ten moduł może współgrać z filtrem iptables oraz ipset , dając nam możliwość wygodnego
+blokowania uporczywych klientów na poziomie pakietów sieciowych."><meta itemprop="datePublished" content="2016-08-06T09:13:20&#43;00:00" />
+<meta itemprop="dateModified" content="2016-08-06T09:13:20&#43;00:00" />
+<meta itemprop="wordCount" content="1207">
+<meta itemprop="keywords" content="apache2,iptables,ipset,dos,ddos," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache2: Moduł evasive, ipset i iptables (anty DOS/DDOS)"/>
+<meta name="twitter:description" content="Apache2 ma kilka ciekawych modułów, które mogą uchronić nasz serwer www przed atakami DOS i DDOS.
+Jednym z nich jest moduł evasive . Nie jest on jednak oficjalnym modułem i brak o nim
+jakiejkolwiek wzmianki w oficjalnej dokumentacji na stronie Apache2. Niemniej jednak, jest to bardzo
+prosty moduł składający się dosłownie z kilku dyrektyw, które są w stanie zablokować zapytania o
+zasoby serwera w przypadku, gdy zostanie przekroczony pewien ustalony przez nas limit. Dodatkowo,
+ten moduł może współgrać z filtrem iptables oraz ipset , dając nam możliwość wygodnego
+blokowania uporczywych klientów na poziomie pakietów sieciowych."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Apache2: Moduł evasive, ipset i iptables (anty DOS/DDOS)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-08-06T09:13:20Z">Opublikowano: 06/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Apache2: Moduł evasive, ipset i iptables (anty DOS/DDOS)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#pozyskanie-modułu-evasive">Pozyskanie modułu evasive</a></li>
+    <li><a href="#zasada-działania-mechanizmu-blokującego">Zasada działania mechanizmu blokującego</a></li>
+    <li><a href="#dyrektywy-modułu-evasive">Dyrektywy modułu evasive</a></li>
+    <li><a href="#połączenie-modułu-evasive-z-iptables-i-ipset">Połączenie modułu evasive z iptables i ipset</a></li>
+    <li><a href="#test-ataku-dosddos">Test ataku DOS/DDOS</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Apache2 ma kilka ciekawych modułów, które mogą uchronić nasz serwer www przed atakami DOS i DDOS.
+Jednym z nich jest moduł <code>evasive</code> . Nie jest on jednak oficjalnym modułem i brak o nim
+jakiejkolwiek wzmianki w oficjalnej dokumentacji na stronie Apache2. Niemniej jednak, jest to bardzo
+prosty moduł składający się dosłownie z kilku dyrektyw, które są w stanie zablokować zapytania o
+zasoby serwera w przypadku, gdy zostanie przekroczony pewien ustalony przez nas limit. Dodatkowo,
+ten moduł może współgrać z filtrem <code>iptables</code> oraz <code>ipset</code> , dając nam możliwość wygodnego
+blokowania uporczywych klientów na poziomie pakietów sieciowych.</p>
+<h2 id="pozyskanie-modułu-evasive">Pozyskanie modułu evasive</h2>
+<p>Jako, że moduł <code>evasive</code> nie jest częścią projektu Apache2, to trzeba go pozyskać z zewnętrznego
+źródła. Debian dysponuje nawet odpowiednim pakietem, który wystarczy doinstalować. Chodzi o
+<code>libapache2-mod-evasive</code> . Po instalacji, moduł trzeba aktywować w poniższy sposób:</p>
+<pre><code># a2enmod evasive
+# systemctl restart apache2
+</code></pre>
+<p>Dokumentacja modułu znajduje się na <a href="https://www.zdziarski.com/blog/?page_id=442">blogu autora</a>. Warto także zajrzeć do pliku
+<code>/usr/share/doc/libapache2-mod-evasive/README.gz</code> .</p>
+<h2 id="zasada-działania-mechanizmu-blokującego">Zasada działania mechanizmu blokującego</h2>
+<p>W chwili nadejścia zapytania do serwera www, jest ono przetwarzane przez moduł <code>evasive</code> . Na
+początku jest sprawdzany adres IP klienta, który wysłał zapytanie. Ten adres jest porównywany z
+tymi, które trafiły na tymczasową czarną listę. W przypadku, gdy adres nie zostanie odnaleziony na
+liście, moduł utworzy klucz w tablicy hashów, którym będzie powiązanie adresu IP z żądanym adresem
+URI. Następnie ta tablica jest przeszukiwana w celu ustalenia czy jakiś host odpytał dany zasób (lub
+szereg obiektów) kilka razy w ciągu określonego interwału (domyślnie 1s). Gdy tak się zdarzy w
+istocie, adres IP tego klienta trafi na czarną listę przez pewien okres czasu. Wszystkie następne
+zapytania od tego klienta będą kwitowane kodem błędu 403 (Forbidden). W przypadku, gdy klient nie
+zaprzestanie próby podłączenia, czas bana ulegnie odświeżeniu. Te komunikaty 403 zjadają zasoby
+procesora i łącza. Dlatego też powinniśmy zaprzęgnąć <code>iptables</code> do pracy.</p>
+<p>Każde zdarzenie zablokowania adresu IP, zostawia ślad w logu systemowym, który wygląda mniej więcej
+tak jak ten komunikat poniżej:</p>
+<pre><code>mod_evasive[31034]: Blacklisting address 66.102.9.105: possible DoS attack.
+</code></pre>
+<h2 id="dyrektywy-modułu-evasive">Dyrektywy modułu evasive</h2>
+<p>Cała konfiguracja dla modułu <code>evasive</code> jest umieszczona w pliku
+<code>/etc/apache2/mods-enabled/evasive.conf</code> . Przejdźmy zatem do edycji tego pliku, by zobaczyć co tam
+się znajduje:</p>
+<pre><code>&lt;IfModule mod_evasive20.c&gt;
+    DOSHashTableSize    3079
+    DOSPageCount        2
+    DOSSiteCount        50
+    DOSPageInterval     1
+    DOSSiteInterval     1
+    DOSBlockingPeriod   10
+
+    #DOSEmailNotify      you@yourdomain.com
+    #DOSSystemCommand    &quot;su - someuser -c '/sbin/... %s ...'&quot;
+    #DOSLogDir           &quot;/var/log/mod_evasive&quot;
+&lt;/IfModule&gt;
+</code></pre>
+<p>Im większy rozmiar tablicy hashów określimy w dyrektywie <code>DOSHashTableSize</code> , tym więcej pamięci ona
+będzie utylizować ale też lepiej będzie działał cały mechanizm, bo nie trzeba usuwać rekordów z tej
+tablicy przed dodaniem nowych. Każdy proces serwera Apache2 (domyślnie 5-100), ma osobną tablicę
+hashów. Nie zaleca się zwiększania tego parametru, no chyba, że nasz serwer jest sporych rozmiarów i
+realizuje naprawdę wiele zapytań. Jeśli wartość, którą określimy nie będzie liczbą pierwszą, to
+zostanie ona automatycznie wybrana w oparciu o tę poniższą listę:</p>
+<pre><code>53         97         193       389       769
+1543       3079       6151      12289     24593
+49157      98317      196613    393241    786433
+1572869    3145739    6291469   12582917  25165843
+50331653   100663319  201326611 402653189 805306457
+1610612741 3221225473 4294967291
+</code></pre>
+<p>Dyrektywy <code>DOSPageInterval</code> i <code>DOSPageCount</code> ustanawiają limit żądań w stosunku do konkretnego
+zasobu na serwerze (URI). W tym przypadku, każdy adres IP może wykonać maksymalnie dwa żądania w
+ciągu 1 sekundy. Z kolei zaś dyrektywy <code>DOSSiteInterval</code> oraz <code>DOSSiteCount</code> precyzują limit dla
+całego serwisu. Zatem każdy adres IP może wysłać maksymalnie 50 zapytań pod różne zasoby serwera.
+Po przekroczeniu tych limitów, zapytania z tego adresu IP zostaną zablokowane na okres zdefiniowany
+w <code>DOSBlockingPeriod</code> , czyli 10 sekund.</p>
+<p>Dyrektywa <code>DOSEmailNotify</code> jest w stanie nas powiadomić drogą mailową, za każdym razem, gdy jakiś
+adres IP zostanie zablokowany. Z kolei <code>DOSLogDir</code> określa tymczasowy katalog wykorzystywany przez
+mechanizm blokujący. Standardowo jest folder <code>/tmp/</code> , a pliki tworzone w nim mają takie uprawnienia
+na jakich operuje serwer Apache2. Domyślnie są to <code>www-data:www-data</code> . Za każdym razem, gdy jakiś
+adres IP wyjdzie poza ustanowione limity, to zostanie w tym katalogu utworzony plik o nazwie
+<code>dos-1.2.3.4</code> , gdzie <code>1.2.3.4</code> , to zablokowany adres IP. Te pliki nie są usuwane, czego efektem
+jest blokada mechanizmu obronnego w stosunku do uprzednio zablokowanego adresu IP. By znów
+zablokować dany adres, ten plik musi być pierw usunięty (o tym będzie dalej).</p>
+<h2 id="połączenie-modułu-evasive-z-iptables-i-ipset">Połączenie modułu evasive z iptables i ipset</h2>
+<p>Pozostała nam do omówienia ostatnia z dyrektyw, które widnieją w pliku
+<code>/etc/apache2/mods-enabled/evasive.conf</code> . Jest to <code>DOSSystemCommand</code> , czyli polecenie, które
+zostanie uruchomione w przypadku, gdy jakiś klient przekroczy limit zapytań. Najprostszym i zarazem
+najefektywniejszym rozwiązaniem jest stworzenie <a href="http://ipset.netfilter.org/">listy dla ipset'a</a> i dynamiczne dodawanie do
+niej adresów IP. Wymagane jest jednak dodatkowe oprogramowanie w postaci pakietu <code>ipset</code> , które
+musimy zainstalować na debianie. Będzie nam też potrzebne <code>sudo</code> , bo inaczej nie dodamy adresów do
+listy, gdyż serwer Apache2 nie działa domyślnie z prawami administratora systemu.</p>
+<p>Następnie musimy stworzyć listę, na którą będą trafiać pakiety:</p>
+<pre><code># ipset create evasive hash:net family inet maxelem 5000 --timeout 60
+</code></pre>
+<p>Teraz podpinamy listę pod filtr <code>iptables</code> :</p>
+<pre><code># iptables -t raw -N evasive-in
+# iptables -t raw -N evasive-out
+
+# iptables -t raw -A PREROUTING -j evasive-in
+# iptables -t raw -A OUTPUT -j evasive-out
+
+# iptables -t raw -A evasive-in -m set --match-set evasive src -j DROP
+# iptables -t raw -A evasive-out -m set --match-set evasive dst -j DROP
+</code></pre>
+<p>Set podpięty pod firewall. Wszystko czego nam teraz potrzeba, to polecenie, które doda adresy. To
+polecenie musimy również uwzględnić w <code>sudo</code> . Edytujemy zatem konfigurację <code>sudo</code> za pomocą
+<code>visudo</code> i dodajemy tam poniższe wpisy:</p>
+<pre><code>Defaults!/sbin/ipset !requiretty
+Host_Alias HOSTY = localhost,domena.com
+www-data    HOSTY = (root) NOPASSWD: /sbin/ipset add evasive * -exist timeout 60
+</code></pre>
+<p>Teraz to samo polecenie, wpisujemy do pliku <code>/etc/apache2/mods-enabled/evasive.conf</code> w dyrektywie
+<code>DOSSystemCommand</code> , z tym, że korzystamy z <code>sudo</code> :</p>
+<pre><code>DOSSystemCommand &quot;sudo ipset add evasive %s -exist timeout 60 &amp;&amp; sleep 1 &amp;&amp; rm /tmp/dos-%s&quot;
+</code></pre>
+<p>Wyżej pojawił się znaczek <code>%s</code> . Odpowiada on za adres IP, który moduł <code>evasive</code> zwróci po
+przekroczeniu limitu zapytań. Po znaku <code>&amp;&amp;</code> mamy drugie polecenie, które spowolni wykonanie
+trzeciego polecenia. Chodzi o to, że klient może wysłać kilka zapytań i one wszystkie zostaną
+przetworzone przez moduł. W efekcie pojawi się bardzo ekstensywny log, którego nie chcemy. Dlatego
+właśnie czekamy 1s, aż mechanizm zapory zablokuje pakiety. Wtedy blokadę można zdjąć (usunąć plik),
+bo już żadne pakiety od tego klienta nie będą do nas docierać. Od tej chwili blokować będzie go
+<code>iptables</code> . Wartość 60, to 60 sekund, przez taki okres czasu adres IP będzie widniał na liście
+ipset'a. Jeśli klient nie dokona żadnych akcji w tym czasie, to adres z tej listy zostanie usunięty.
+Jeśli jednak, będzie próbował nawiązać połączenie, to czas ulegnie odświeżeniu.</p>
+<h2 id="test-ataku-dosddos">Test ataku DOS/DDOS</h2>
+<p>Przydałoby się teraz przetestować jak ten mechanizm anty DOS/DDOS działa. Możemy to zrobić na dwa
+sposoby. Pierwszy z nich, to wykorzystanie skryptu dostarczanego z pakietem
+<code>libapache2-mod-evasive</code> . Znajduje się on pod
+<code>/usr/share/doc/libapache2-mod-evasive/examples/test.pl</code> . Wystarczy go przekopiować na maszynę
+kliencką i nieco dostosować. Generalnie chodzi o zmianę adresu:</p>
+<pre><code>...
+PeerAddr=&gt; &quot;1.2.3.4:80&quot;);
+...
+</code></pre>
+<p>Teraz ten skrypt można uruchomić kilka razy i po chwili nasz adres IP powinien trafić na listę
+ipset'a. Do wglądu przez <code>ipset list</code> .</p>
+<p>Drugą opcją jest obniżenie wartości dyrektyw <code>DOSPageCount</code> i <code>DOSSiteCount</code> do 1 oraz podbicie
+wartości w dyrektywach <code>DOSPageInterval</code> i <code>DOSSiteInterval</code> do 5. Wtedy dość energiczne odwiedzanie
+strony via <code>curl</code> wyzwoli mechanizm blokujący.</p>
+<p>Jeśli adres IP nie jest dodawany do listy ipset'a, to prawdopodobnie mamy pozostałości po
+wcześniejszych atakach DOS/DDOS, tj. pliki <code>dos-*</code> w katalogu <code>/tmp/</code> . Musimy je usunąć usunąć.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apache2/">apache2</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/iptables/">iptables</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ipset/">ipset</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dos/">dos</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ddos/">ddos</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fapache2-modul-evasive-ipset-iptables%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fapache2-modul-evasive-ipset-iptables%2f&amp;text=Apache2%3a%20Modu%c5%82%20evasive%2c%20ipset%20i%20iptables%20%28anty%20DOS%2fDDOS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fapache2-modul-evasive-ipset-iptables%2f&amp;title=Apache2%3a%20Modu%c5%82%20evasive%2c%20ipset%20i%20iptables%20%28anty%20DOS%2fDDOS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fapache2-modul-evasive-ipset-iptables%2f&amp;title=Apache2%3a%20Modu%c5%82%20evasive%2c%20ipset%20i%20iptables%20%28anty%20DOS%2fDDOS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fapache2-modul-evasive-ipset-iptables%2f&title=Apache2%3a%20Modu%c5%82%20evasive%2c%20ipset%20i%20iptables%20%28anty%20DOS%2fDDOS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fapache2-modul-evasive-ipset-iptables%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fapache2-modul-evasive-ipset-iptables%2f&amp;title=Apache2%3a%20Modu%c5%82%20evasive%2c%20ipset%20i%20iptables%20%28anty%20DOS%2fDDOS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fapache2-modul-evasive-ipset-iptables%2f&description=Apache2%3a%20Modu%c5%82%20evasive%2c%20ipset%20i%20iptables%20%28anty%20DOS%2fDDOS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/unikanie-atakow-ddos-z-synproxy/">Unikanie ataków DDoS z SYNproxy</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zablokowac-facebook-youtube-openwrt/">Jak zablokować Facebook i YouTube w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/peerguardian-w-oparciu-o-ipset-iptables/">PeerGuardian w oparciu o ipset i iptables</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/problemy-z-dyrektywa-sslopensslconfcmd-w-apache2/">Problemy z dyrektywą SSLOpenSSLConfCmd w Apache2</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/apache2-jak-odchudzic-nieco-plik-access-log/">Apache2: Jak odchudzić nieco plik access.log</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/cache-control-last-modified-etag-i-expires-w-apache2/">Cache-Control, Last-Modified, ETag i Expires w Apache2</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/internal-dummy-connection-apache2-mpm_prefork/">&#34;Internal dummy connection&#34; w logu Apache2 (mpm_prefork)</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

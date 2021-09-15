@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Fragmentacja pakietu i zmiana wartości MTU | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Fragmentacja pakietu i zmiana wartości MTU" />
+<meta property="og:description" content="MTU (Maximum Transmission Unit) to maksymalna długość pakietu jaki może zostać przesłany przez sieć.
+Może ona wynosić do 64KiB ale większość punktów sieciowych, takich jak routery, wymusza o wiele
+mniejsze rozmiary pakietów. Domyślna wartość MTU dla protokołu Ethernet to 1500 bajtów, oczywiście
+bez nagłówka warstwy fizycznej, który ma dodatkowe 14 bajtów. Czasami te standardowe ustawienia mogą
+powodować problemy w przypadku pewnych konfiguracji sieci i gdy ich doświadczamy, przydałoby się
+zmienić rozmiar MTU przesyłanych pakietów." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/fragmentacja-pakietu-i-zmiana-wartosci-mtu/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-06-29T21:35:12&#43;00:00" />
+<meta property="article:modified_time" content="2015-06-29T21:35:12&#43;00:00" />
+
+
+		<meta itemprop="name" content="Fragmentacja pakietu i zmiana wartości MTU">
+<meta itemprop="description" content="MTU (Maximum Transmission Unit) to maksymalna długość pakietu jaki może zostać przesłany przez sieć.
+Może ona wynosić do 64KiB ale większość punktów sieciowych, takich jak routery, wymusza o wiele
+mniejsze rozmiary pakietów. Domyślna wartość MTU dla protokołu Ethernet to 1500 bajtów, oczywiście
+bez nagłówka warstwy fizycznej, który ma dodatkowe 14 bajtów. Czasami te standardowe ustawienia mogą
+powodować problemy w przypadku pewnych konfiguracji sieci i gdy ich doświadczamy, przydałoby się
+zmienić rozmiar MTU przesyłanych pakietów."><meta itemprop="datePublished" content="2015-06-29T21:35:12&#43;00:00" />
+<meta itemprop="dateModified" content="2015-06-29T21:35:12&#43;00:00" />
+<meta itemprop="wordCount" content="1075">
+<meta itemprop="keywords" content="tcp,sysctl,ip,systemd,sieć," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Fragmentacja pakietu i zmiana wartości MTU"/>
+<meta name="twitter:description" content="MTU (Maximum Transmission Unit) to maksymalna długość pakietu jaki może zostać przesłany przez sieć.
+Może ona wynosić do 64KiB ale większość punktów sieciowych, takich jak routery, wymusza o wiele
+mniejsze rozmiary pakietów. Domyślna wartość MTU dla protokołu Ethernet to 1500 bajtów, oczywiście
+bez nagłówka warstwy fizycznej, który ma dodatkowe 14 bajtów. Czasami te standardowe ustawienia mogą
+powodować problemy w przypadku pewnych konfiguracji sieci i gdy ich doświadczamy, przydałoby się
+zmienić rozmiar MTU przesyłanych pakietów."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Fragmentacja pakietu i zmiana wartości MTU</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-06-29T21:35:12Z">Opublikowano: 29/06/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Fragmentacja pakietu i zmiana wartości MTU</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#fragmentacja-pakietów">Fragmentacja pakietów</a></li>
+    <li><a href="#wyłączenie-fragmentacji">Wyłączenie fragmentacji</a></li>
+    <li><a href="#zmiana-wartości-mtu">Zmiana wartości MTU</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>MTU (Maximum Transmission Unit) to maksymalna długość pakietu jaki może zostać przesłany przez sieć.
+Może ona wynosić do 64KiB ale większość punktów sieciowych, takich jak routery, wymusza o wiele
+mniejsze rozmiary pakietów. Domyślna wartość MTU dla protokołu Ethernet to 1500 bajtów, oczywiście
+bez nagłówka warstwy fizycznej, który ma dodatkowe 14 bajtów. Czasami te standardowe ustawienia mogą
+powodować problemy w przypadku pewnych konfiguracji sieci i gdy ich doświadczamy, przydałoby się
+zmienić rozmiar MTU przesyłanych pakietów.</p>
+<h2 id="fragmentacja-pakietów">Fragmentacja pakietów</h2>
+<p>Maksymalny rozmiar segmentu TCP (MSS) określa jak dużo danych określony host jest w stanie
+zaakceptować w pojedynczym datagramie IP. Generalnie rzecz biorąc, host A porównuje wartość MTU (-40
+bajtów na nagłówki) swojego interfejsu wyjściowego z rozmiarem bufora odbiorczego i wybiera te
+wartość, która jest niższa. Następnie tak określony MSS jest transmitowany w pakiecie <code>SYN</code> podczas
+fazy three-way handshake. Host B porównuje otrzymany MSS z wartością jaką ma w MTU na swoim
+interfejsie wyjściowym (-40 bajtów na nagłówki) i wybiera niższą wartość oraz ustawia ją jako MSS
+dla pakietów przesyłanych do hosta A. I podobnie w drugą stronę, czyli host B porównuje MTU na swoim
+interfejsie wyjściowym (-40 bajtów na nagłówki) z rozmiarem bufora odbiorczego i wybiera najniższą
+wartość, po czym transmituje ją w pakiecie <code>SYN-ACK</code> na drugą stronę. Host A odbiera ją i porównuje
+z wartością MTU swojego interfejsu wyjściowego (-40 bajtów na nagłówki). Wybiera niższą z nich i
+ustawia jako MSS dla pakietów przesyłanych do hosta B.</p>
+<p>Teoretycznie cały proces wygląda w porządku ale tylko w przypadku połączenia tych dwóch maszyn
+bezpośrednio. Jeśli na drodze znajdzie się jakiś router, wtedy może wystąpić fragmentacja pakietu
+IP, bo router nie jest świadom tej powyższej negocjacji i ustalonych wartości. Jeśli obie ze stron
+wynegocjują sobie wartość MTU, która jest większa niż ta ustawiona na pośredniczącym routerze, mamy
+pofragmentowane pakiety. A to z tego powodu, że router nie jest w stanie przetworzyć danych o
+segmencie większym niż ma to zdefiniowane w swoich opcjach. Dlatego też taki pakiet musi zostać
+podzielony na kilka mniejszych. Po dotarciu do odbiorcy, te fragmenty są składane w całość w oparciu
+o numer identyfikacyjny pakietu, flagę <code>More fragments</code> oraz <code>offset</code> danych przed przesłaniem go do
+wyższej warstwy. Wszystkie te informacje są podane w nagłówku IP:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/1.mtu-fragmentacja-pakietow.png" alt=""    class="huge"></p>
+<p>Fragmentacja pakietów pociąga za sobą kilka nieprzyjemnych następstw. Przede wszystkim, zwiększone
+zapotrzebowanie na procesor i pamięć operacyjną, bo przecie trzeba te pakiety podzielić przed
+wysłaniem, a potem je jeszcze złożyć na drugim końcu połączenia. Nie jest to znowu jakiś wielki
+koszt. Głównym problemem jest forwardowanie pakietów, np. przez routery, które powinny przez ten
+proces przechodzić jak najszybciej, a nie dodatkowo zawracać sobie głowę fragmentacją. Kolejny
+problem widoczny jest przy retransmisji. Jeśli taki pofragmentowany kawałek ulegnie zgubieniu,
+trzeba będzie przesłać wszystkie części jeszcze raz. Weźmy na przykład zasoby NFS. Jeśli ten system
+plików w naszym przypadku ma rozmiar bloku 8192 bajtów, to po uwzględnieniu wszystkich nagłówków
+(NFS, UDP, IP), taki datagram będzie ważył jakieś 8500 bajtów. Zatem trzeba będzie ten pakiet
+podzielić na 6 kawałków (5x1500+1100). Jeśli któryś z nich zginie, np. z powodu zbyt dużego tłoku na
+kablach, całe 8500 bajtów będzie trzeba zretransmitować, przy czym znów je będzie trzeba podzielić
+przed wysłaniem. Do tego dochodzi jeszcze problem z bezpieczeństwem, gdzie przy pomocy <a href="https://en.wikipedia.org/wiki/IP_fragmentation_attack">fragmentacji
+można przepisywać pola nagłówka IP</a>.</p>
+<h2 id="wyłączenie-fragmentacji">Wyłączenie fragmentacji</h2>
+<p>Mając na uwadze wszystko powyższe, zaleca się ustawienie bitu <code>Don't fragment</code> w nagłówku IP, który
+nie pozwoli na fragmentację pakietów. Możemy to zrobić za pomocą pliku <code>/etc/sysctl.conf</code> przez
+dopisanie do niego tej poniższej linijki:</p>
+<pre><code>net.ipv4.ip_no_pmtu_disc = 0
+</code></pre>
+<p>Path MTU Discovery decyduje o tym, czy połączenie TCP ma korzystać ze stałej, maksymalnej wartości
+MTU, czy też ma próbować ją sobie samodzielnie ustalić. W tym celu stos IP ustawia w każdym
+wychodzącym pakiecie bit <code>Don't fragment</code> . Gdy nadejdzie odpowiedni komunikat statusu ICMP,
+wartość MTU jest zmieniana zgodnie z wiadomością.</p>
+<p>Działanie tego mechanizmu może zaobserwować posługując się narzędziem <code>tracepath</code> :</p>
+<pre><code># tracepath -n wp.pl
+ 1?: [LOCALHOST]                                         pmtu 1500
+ 1:  192.168.1.1                                           1.669ms
+ 1:  192.168.1.1                                           1.600ms
+ 2:  192.168.22.51                                        20.157ms asymm  3
+ 3:  192.168.22.51                                        10.155ms
+ 4:  213.199.236.17                                       31.509ms
+ 5:  88.199.219.118                                       16.038ms asymm  8
+ 6:  153.19.0.154                                         24.546ms asymm  8
+ 7:  153.19.102.6                                         20.238ms asymm  8
+ 8:  212.77.96.69                                         22.116ms
+ 9:  212.77.100.101                                       18.338ms reached
+     Resume: pmtu 1500 hops 9 back 9
+</code></pre>
+<p>Badanie MTU może się nie sprawdzać w przypadku źle skonfigurowanych firewalli, które odrzucają
+wszelkie pakiety ICMP lub też w przypadku źle skonfigurowanych interfejsów, np. gdy oba końce
+połączenia point-to-point nie zgadzają się na MTU.</p>
+<h2 id="zmiana-wartości-mtu">Zmiana wartości MTU</h2>
+<p>Aktualną wartość MTU możemy odczytać w statystykach każdego interfejsu sieciowego. W poniższym
+przykładzie została ona odczytana za pomocą narzędzia <code>ip</code> dostępnego w pakiecie <code>iproute2</code> ale
+można także posłużyć się narzędziem <code>ifconfig</code> :</p>
+<pre><code># ip link show dev bond0
+7: bond0:  mtu 1500 qdisc noqueue state UP mode DEFAULT group default
+    link/ether 3c:4a:92:00:4c:5b brd ff:ff:ff:ff:ff:ff
+</code></pre>
+<p>Jeśli mamy problem z nawiązaniem połączenia z internetem, musimy pokombinować z wartością MTU, która
+jest widoczna wyżej. Choć zwykle domyślna wartość powinna działać bez zarzutu. Odpalmy zatem jakiś
+sniffer sieciowy (np. wireshark) i wydajmy w terminalu to poniższe polecenie:</p>
+<pre><code># ping -c 1 -s 1472 onet.pl
+PING onet.pl (213.180.141.140) 1472(1500) bytes of data.
+1480 bytes from sg1.any.onet.pl (213.180.141.140): icmp_seq=1 ttl=57 time=21.7 ms
+
+--- onet.pl ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 21.729/21.729/21.729/0.000 ms
+</code></pre>
+<p>Jeśli w snifferze widzimy, że pakiety ulegają fragmentacji, tak jak to widoczne jest na poniższym
+obrazku:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/2.mtu-fragmentacja-pakietow-wireshark.png" alt=""    class="huge"></p>
+<p>Oznacza to, że MTU o wartości 1500 jest nieodpowiedni. Co prawda, wydaliśmy polecenie z parametrem
+<code>-s 1472</code> ale do tego dochodzi jeszcze nagłówek UDP ( <code>8</code> bajtów), no i oczywiście nagłówki IP
+(kolejne <code>20</code> bajtów) i nagłówek ethernetowy ( <code>14</code> bajtów). Łącznie daje nam to 1514 bajtów, z tym,
+że w MTU nie wliczany jest nagłówek warstwy fizycznej, dlatego MTU wynosi 1500 bajtów.</p>
+<p>W przypadku gdy już dobraliśmy optymalną wartość MTU, trzeba ją jakoś ustawić w systemie. W
+przypadku korzystania z initu systemd, trzeba stworzyć plik <code>/etc/systemd/network/05-bond0.link</code> ,
+np. o poniższej treści:</p>
+<pre><code>[Match]
+Driver=bonding
+
+[Link]
+Description=MTU for bond interface
+MTUBytes=1440
+BitsPerSecond=100M
+</code></pre>
+<p>Oczywiście dopasowań może być wiele, ja wykorzystuje do tego sterowniki kart sieciowych/wirtualnych
+interfejsów. W przypadku gdy chcemy ustalić jaki sterownik jest od naszej karty, wtedy korzystamy z
+<code>ethtool</code> :</p>
+<pre><code># ethtool -i eth1
+driver: r8169
+...
+</code></pre>
+<p>I to ten sterownik trzeba podać w pliku <code>.link</code> . Po zresetowaniu maszyny, MTU powinno zostać
+prawidłowo ustawione.</p>
+<pre><code># ip link show bond0
+7: bond0:  mtu 1440 qdisc noqueue state UP mode DEFAULT group default
+    link/ether 3c:4a:92:00:4c:5b brd ff:ff:ff:ff:ff:ff
+</code></pre>
+<p>W przypadku korzystania z pliku <code>/etc/network/interfaces</code> , wystarczy dodać poniższą linijkę do
+bloku konfiguracyjnego interfejsu:</p>
+<pre><code>auto bond0
+iface bond0 inet dhcp
+    ...
+    mtu 1440
+    ...
+</code></pre></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/tcp/">tcp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sysctl/">sysctl</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ip/">ip</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sie%C4%87/">sieć</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2ffragmentacja-pakietu-i-zmiana-wartosci-mtu%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ffragmentacja-pakietu-i-zmiana-wartosci-mtu%2f&amp;text=Fragmentacja%20pakietu%20i%20zmiana%20warto%c5%9bci%20MTU" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ffragmentacja-pakietu-i-zmiana-wartosci-mtu%2f&amp;title=Fragmentacja%20pakietu%20i%20zmiana%20warto%c5%9bci%20MTU" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ffragmentacja-pakietu-i-zmiana-wartosci-mtu%2f&amp;title=Fragmentacja%20pakietu%20i%20zmiana%20warto%c5%9bci%20MTU" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2ffragmentacja-pakietu-i-zmiana-wartosci-mtu%2f&title=Fragmentacja%20pakietu%20i%20zmiana%20warto%c5%9bci%20MTU" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ffragmentacja-pakietu-i-zmiana-wartosci-mtu%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ffragmentacja-pakietu-i-zmiana-wartosci-mtu%2f&amp;title=Fragmentacja%20pakietu%20i%20zmiana%20warto%c5%9bci%20MTU" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ffragmentacja-pakietu-i-zmiana-wartosci-mtu%2f&description=Fragmentacja%20pakietu%20i%20zmiana%20warto%c5%9bci%20MTU" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/numery-sekwencyjne-w-strumieniu-tcp/">Numery sekwencyjne w strumieniu TCP</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czas-zycia-pakietow-czyli-zmiana-ttl/">Czas życia pakietów, czyli zmiana TTL</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/znacznik-czasu-timestamp-w-protokole-tcp/">Znacznik czasu (timestamp) w protokole TCP</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/flagi-tcp-i-przelaczanie-stanow-polaczen/">Flagi TCP i przełączanie stanów połączeń</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/udostepnianie-polaczenia-internetowego/">Udostępnianie połączenia internetowego</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/peerguardian-w-oparciu-o-ipset-iptables/">PeerGuardian w oparciu o ipset i iptables</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/firewall-na-linuxowe-maszyny-klienckie/">Firewall na linux&#39;owe maszyny klienckie</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

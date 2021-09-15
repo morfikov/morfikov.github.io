@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>moduły-kernela | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="moduły-kernela" />
+<meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://morfikov.github.io/tags/modu%C5%82y-kernela/" />
+
+
+		<meta itemprop="name" content="moduły-kernela">
+<meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="moduły-kernela"/>
+<meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="alternate" type="application/rss+xml" href="https://morfikov.github.io/tags/modu%C5%82y-kernela/feed.xml" title="Morfitronik">
+	<link rel="alternate" type="application/atom+xml" href="https://morfikov.github.io/tags/modu%C5%82y-kernela/feed.atom" title="Morfitronik">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/tags/">Tags</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">moduły-kernela</li>
+	</ol>
+</nav>
+		<div class="page block">
+			<h1 class="page__title">moduły-kernela</h1>
+			
+		</div>
+		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/czym-jest-linux-kernel-driver-binding/">Czym jest linux kernel driver binding</a></h1>
+	<div class="entry__content"><p>Bawiąc się ostatnio QEMU/KVM na swoim laptopie z zainstalowanym Debianem natrafiłem na ciekawe
+zagadnienie związane z wirtualizacją, tj. z PCI passthrough. Nie chodzi mi tutaj o samą technikę
+PCI passthrough ale o dobór sterowników do urządzeń działających pod kontrolą linux. Każdy sprzęt,
+który ma działać w systemie, musi mieć załadowany w pamięci RAM stosowny moduł kernela. Te moduły
+zwykle są ładowane automatycznie podczas pracy systemu, np. gdy podłączamy nowy sprzęt do komputera
+(można też te moduły ładować i ręcznie via <code>modprobe</code> ). Gdy nasz linux z jakiegoś powodu dobierze
+niewłaściwy (z naszego punktu widzenia) moduł dla jakiegoś urządzenia, to możemy to urządzenie
+odłączyć od komputera, a moduł bez problemu wyładować, po czym dokonać stosownych poprawek w
+systemie. Problem zaczyna się w sytuacji, gdy mamy do czynienia ze sprzętem, którego nie da się od
+komputera fizycznie odłączyć, np. wbudowana w płytę główną karta dźwiękowa, czy też wbudowana
+grafika bezpośrednio w CPU. Podobnie sprawa wygląda w przypadku wkompilowania modułów na stałe w
+kernel -- jak wyładować moduł, którego się nie da wyładować? By w takich sytuacjach zmienić
+przypisany urządzeniu sterownik trzeba dodać parę plików w katalogach <code>/etc/modules-load.d/</code> /
+<code>/etc/modprobe.d/</code> oraz zrestartować maszynę, tak by podczas fazy boot kernel dobrał sprzętowi
+pożądane przez nas moduły i ich konfigurację. Niemniej jednak, istnieje prostszy sposób na zmianę
+sterownika działającego w systemie sprzętu i to bez potrzeby fizycznego restartowania maszyny.
+Chodzi o mechanizm ręcznego przypisywania urządzeń do konkretnych sterowników (<a href="https://lwn.net/Articles/143397/">manual driver
+binding and unbinding</a>).</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-07-28T19:39:00Z">Opublikowano: 28/07/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/modul-lkrg-linux-kernel-runtime-guard/">Moduł LKRG (Linux Kernel Runtime Guard)</a></h1>
+	<div class="entry__content"><p>Jakiś czas temu opisywałem <a href="https://morfikov.github.io/post/modul-tpe-trusted-path-execution-dla-kernela-linux/">moduł TPE</a> (Trusted Path Execution) dla kernela linux, który jest w
+stanie dość znacznie poprawić bezpieczeństwo naszego systemu. Ostatnio jednak natknąłem się na
+<a href="https://www.openwall.com/lkrg/">moduł LKRG</a> (Linux Kernel Runtime Guard), którego to zadaniem jest stać na straży samego jądra
+operacyjnego i chronić je w czasie rzeczywistym przed różnego rodzaju zagrożeniami poprzez
+wykrywanie eksploitów wykorzystujących luki w jego mechanizmach bezpieczeństwa. Jako, że ja
+bardzo lubię zbroić swojego Debiana, to postanowiłem się przyjrzeć nieco bliżej temu całemu LKRG i
+sprawdzić jego użyteczność. Trzeba jednak wiedzieć, że LKRG jest dostarczany w formie osobnego
+modułu zamiast łaty na kernel, przez co trzeba będzie także postarać się o automatyzację pewnych
+rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-06-09T20:56:00Z">Opublikowano: 09/06/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-06-26T20:56:00&#43;02:00">Zaktualizowano: 26/06/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/modul-tpe-trusted-path-execution-dla-kernela-linux/">Moduł TPE (Trusted Path Execution) dla kernela linux</a></h1>
+	<div class="entry__content"><p>Użytkownicy linux'a są zwykle chronieni przez mechanizmy bezpieczeństwa, które ten system jest w
+stanie zaoferować. Oczywiście deweloperzy różnych dystrybucji, np. Debiana, dokładają wszelkich
+możliwych starań, by system jako całość był wstępnie skonfigurowany tak, by końcowy użytkownik nie
+musiał za wiele majstrować przy zabezpieczeniach i mógł się czuć i być (przynajmniej względnie)
+bezpieczny. No i faktycznie złowrogie oprogramowanie ma czasem spore problemy dostać się do maszyny,
+którą operuje linux. Niemniej jednak, gdy już taki syf się do systemu dostanie, to zwykle niewiele
+dzieli go od przejęcia kontroli nad komputerem. Może i część zabezpieczeń linux'a zadziała i sprawi,
+że taki wirus/trojan czy nawet zwykły skrypt będzie miał ograniczone pole manewru, to i tak będzie
+on mógł przeprowadzić te akcje, które zwyczajny użytkownik systemu (nie root) jest zwykle w stanie
+poczynić, np. odebrać dźwięk i video ze stosownych urządzeń i przesłać te dane przez sieć. My z
+kolei możemy nawet tego faktu nie być świadomi. Jasne, że powinno się zwracać uwagę na to jakie
+pliki się pobiera z internetu i nie uruchamiać wszystkiego lekkomyślnie ale też trzeba mieć na
+uwadze fakt, że często jedna maszyna jest współdzielona, np. z członkami rodziny i oni już
+niekoniecznie muszą władać zaawansowaną wiedza z zakresu IT, by przewidzieć wszystkie możliwe
+zagrożenia czyhające na nich w sieci. Można za to postarać się, by uczynić naszą maszynę nieco
+bardziej odporną na niezbyt przemyślane zachowania użytkowników jej systemu operacyjnego. Jednym z
+kroków, które możemy podjąć, jest wdrożenie mechanizmu Trusted Path Execution (TPE), który póki co
+jest dostępny jedynie w <a href="https://patchwork.kernel.org/patch/9773791/">formie patch'a</a> na kernel
+linux'a lub też jako jego <a href="https://github.com/cormander/tpe-lkm">osobny moduł</a> oferujący sporo
+więcej możliwości w stosunku do wspomnianej wcześniej łaty. W niniejszym artykule rzucimy sobie
+okiem na ten cały mechanizm TPE i zobaczymy jak jest on w stanie uchronić nasz OS przed niezbyt
+zaawansowaną ludzką inteligencją.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-03-22T20:10:11Z">Opublikowano: 22/03/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-recznie-zweryfikowac-sygnature-modulu-kernela-linux/">Jak ręcznie zweryfikować sygnaturę modułu kernela linux</a></h1>
+	<div class="entry__content"><p>Bawiąc się ostatnio kernelem linux na dystrybucji Debian i opcjami mającymi poprawić jego
+bezpieczeństwo, włączyłem
+sobie <a href="https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/">mechanizm podpisywania modułów</a>.
+W ten sposób żaden zewnętrzny moduł nie zostanie załadowany przez jądro operacyjne, no chyba, że
+taki moduł będzie podpisany przez ten sam klucz co i kernel. Zdziwiłem się odrobinę, gdy moim
+oczom pokazał się hash <code>md4</code> w wyjściu polecenia <code>modinfo</code> . Jak się okazało później, to niezbyt
+dokładne zinterpretowanie wiadomości PKCS#7 przez <code>kmod</code> było (i nadal jest) wynikiem <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1320921">błędu
+obecnego w tym pakiecie od już paru lat</a>. W
+efekcie <code>modinfo</code> nie jest w stanie zweryfikować tej sygnatury, a w moim umyśle zaistniało pytanie:
+czy istnieje w ogóle możliwość manualnego sprawdzenia czy ta sygnatura jest w porządku? Kernel co
+prawda ten cały zabieg przeprowadza automatycznie ale przydałoby się ręcznie zweryfikować
+poprawność sygnatury modułu i przy okazji obadać sobie co tak naprawdę się dzieje podczas tego
+procesu.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-01-26T10:10:12Z">Opublikowano: 26/01/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/">Automatyczne podpisywanie modułów kernela przez DKMS</a></h1>
+	<div class="entry__content"><p>Budując kernel linux'a trzeba zastanowić się nad kwestią modułów, które nie są wbudowane
+bezpośrednio w samo jądro operacyjne. Nie chodzi tutaj bezpośrednio o funkcjonalność kernela,
+którą można zbudować jako moduł w procesie jego kompilacji ale raczej o wszystkie zewnętrzne
+moduły, które przez zespół kernela są traktowane jako <code>out-of-tree</code> . By poprawić nieco
+bezpieczeństwo związane z takimi modułami, można wdrożyć podpisy cyfrowe, które takie moduły
+muszą okazać podczas próby załadowania ich w systemie. Gdy moduł nie został podpisany, to kernel
+go nie załaduje zwracając przy tym błąd <code>modprobe: ERROR: could not insert 'module': Required key not available</code> . W ten sposób można ochronić się przed częścią ataków, w których moduły pochodzenia
+trzeciego mogą zostać załadowane i poczynić nam ogromne spustoszenie w systemie. Problem w tym, że
+w dystrybucji Debian wykorzystywany jest mechanizm DKMS (Dynamic Kernel Module Support). Może i
+mamy dzięki niemu możliwość instalacji w systemie całej masy dodatkowych modułów ale ich również
+nie będzie można załadować, bo nie zostały podpisane kluczem, którego certyfikat został zaszyty
+w kernelu. Można jednak zmusić mechanizm DKMS, by wskazane przez nas moduły podpisywał
+automatycznie przy ich instalacji i aktualizacji.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-01-05T04:10:10Z">Opublikowano: 05/01/2019</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-03-15T23:37:00&#43;01:00">Zaktualizowano: 15/03/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/sterowniki-karta-wifi-archer-t1u-mt7610u_sta/">Sterowniki dla karty WiFi Archer T1U (mt7610u_sta)</a></h1>
+	<div class="entry__content"><p>Dziś postanowiłem się wziąć za ostatnią kartę WiFi, którą podesłał mi TP-LINK. Jest to nano adapter
+Archer T1U V1 na <a href="https://wikidevi.com/wiki/TP-LINK_TL-WDN5200">czipie MediaTek MT7610U</a>
+identyfikowany w systemie jako <code>idVendor=2357</code> , <code>idProduct=0105</code> . Na opakowaniu pisało, że ta
+karta działa na linux'ach ale oczywiście w przypadku mojego Debiana, ten adapter nie został w ogóle
+wykryty. Winą są zbyt stare sterowniki, które nie zostały zaktualizowane przez MediaTek od 2013
+roku. TP-Link może i ma u siebie na stronie <a href="http://www.tp-link.com/en/download/Archer-T1U.html#Driver">nieco nowszą wersję
+sterowników</a>, bo z 2015 roku ale nie
+udało mi się za ich sprawą zbudować poprawnie modułu <code>mt7610u_sta</code> na kernelu 4.6 . Na szczęście
+mamy jedną alternatywę, która pomoże nam jako tako wybrnąć z tej sytuacji.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-18T14:35:52Z">Opublikowano: 18/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/sterowniki-tp-link-tl-wn823n-8192eu/">Sterowniki do karty TP-LINK TL-WN823N (8192eu)</a></h1>
+	<div class="entry__content"><p>Systemy operacyjne nie są w stanie wejść w interakcję ze sprzętem, do którego nie posiadają
+sterowników. Linux już od dość dawna żyje sobie wśród nas i coraz bardziej pcha się na desktopy.
+Niemniej jednak producenci tych wszystkich urządzeń niechętnie wypuszczają sterowniki dla
+alternatywnych systemów. Ostatnio próbowałem uruchomić <a href="http://www.tp-link.com.pl/products/details/TL-WN823N.html">adapter TL-WN823N
+V2</a> od firmy TP-LINK. Na opakowaniu
+widnieje napis sugerujący, że ta karta działa pod linux'em. Rzeczywistość jednak okazała się
+zupełnie inna. Mianowicie, mój Debian w ogóle nie rozpoznał tej karty. Jedyne informacje jakie mi
+zwrócił to nazwę producenta czipu, którym okazał się być <code>Realtek</code> , oraz <code>idVendor=2357</code> i
+<code>idProduct=0109</code> . <a href="http://www.tp-link.com/en/download/TL-WN823N.html#Driver">Sterowników dostępnych na stronie
+TP-LINK'a</a> nie szło zbudować na obecnym
+kernelu 4.6 . Trzeba było zatem poszukać innej alternatywy. Na szczęście udało się znaleźć moduł
+8192eu (rtl8192eu), który się skompilował i zainstalował bez problemu. Karta TL-WN823N V2 została
+wykryta i działa. W tym wpisie zostanie pokazany proces kompilacji tego modułu.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-08-12T20:50:39Z">Opublikowano: 12/08/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wylaczyc-glosnik-sprzetowy-w-komputerze/">Jak wyłączyć systemowy &#34;beep&#34;</a></h1>
+	<div class="entry__content"><p>Zgodnie z tym co można wyczytać na <a href="https://wiki.archlinux.org/index.php/Disable_PC_speaker_beep">wiki
+Archlinux'a</a>, mamy kilka źródeł
+generowania dźwięków, które trafiają do wbudowanego głośnika naszego komputera (case speaker). Te
+dźwięki określane mianem &quot;beep&quot; mogą powstać za sprawą BIOS'u płyty głównej, systemu operacyjnego,
+środowiska graficznego lub też różnych programów użytkowych. Najbardziej uporczywe są dźwięki
+generowane przez BIOS. Na dobrą sprawę, jeśli w BIOS'ie nie ma żadnych opcji dotyczących
+konfiguracji tego głośnika, to raczej niewiele jesteśmy w stanie zrobić w tej kwestii. Możemy zawsze
+ten głośnik odłączyć fizycznie. Choć nie jest to zalecane, bo na podstawie wydawanych przez niego
+dźwięków, jesteśmy w stanie określić czy z naszym komputerem jest wszystko w porządku. Niemniej
+jednak, w tych pozostałych trzech w/w punkach mamy większe pole manewru, gdzie możemy dostosować
+sobie szereg parametrów i o tym właśnie będzie ten wpis.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-01-25T21:56:20Z">Opublikowano: 25/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</a></h1>
+	<div class="entry__content"><p>W artykule poświęconym <a href="https://morfikov.github.io/post/konfiguracja-polaczenia-wifi-pod-debianem/">konfiguracji sieci WiFi na Debianie z wykorzystaniem narzędzia
+wpa_supplicant</a> wspomniałem parę słów na temat <a href="https://www.kernel.org/pub/linux/kernel/people/marcelo/linux-2.4/Documentation/networking/bonding.txt">interfejsu bond</a>. Bonding na linux
+wykorzystywany jest w zasadzie do spięcia kilku interfejsów sieciowych, w tym przewodowych
+( <code>eth0</code> ) i bezprzewodowych ( <code>wlan0</code> ) w jeden (zwykle <code>bond0</code> ). Takie rozwiązanie sprawia, że
+w przypadku awarii któregoś z podpiętych interfejsów, my nie tracimy połączenia z siecią i nie
+musimy nic nigdzie przełączać, by to połączenie przywrócić. To rozwiązanie jest o tyle użyteczne,
+że w przypadku, gdy podepniemy przewód do gniazda RJ-45 w naszym laptopie, to komunikacja będzie
+odbywać się po kablu. Natomiast jeśli przewód zostanie odłączony, to system automatycznie przejdzie
+na komunikację bezprzewodową. W tym wpisie spróbujemy zaprojektować sobie właśnie tego typu
+mechanizm zarówno za sprawą pakietu <code>ifupdown</code> , gdzie konfiguracja interfejsów sieciowych jest
+zarządzana przez plik <code>/etc/network/interfaces</code> , jak i przy pomocy natywnego rozwiązania jakie
+oferuje systemd/networkd.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-01-02T15:07:13Z">Opublikowano: 02/01/2016</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-03-29T16:20:00&#43;01:00">Zaktualizowano: 29/03/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-ifb-w-linuxie/">Konfiguracja interfejsów IFB w linux&#39;ie</a></h1>
+	<div class="entry__content"><p>Ten wpis również będzie poświęcony tematyce
+<a href="http://linux-ip.net/articles/Traffic-Control-HOWTO/index.html">kontroli</a> i
+<a href="https://lukasz.bromirski.net/docs/translations/lartc-pl.html">kształtowania</a> ruchu sieciowego w
+linux'ie, z tym, że ograniczymy się tutaj do konfiguracji interfejsów IFB. Działają one na podobnej
+zasadzie co <a href="https://morfikov.github.io/post/konfiguracja-interfejsow-imq-w-linuxie/">interfejsy IMQ</a>.
+Niewątpliwą zaletą interfejsów IFB jest fakt, że są one natywnie wspierane przez kernel linux'a,
+przez co ich obsługa jest dziecinnie prosta. Wadą jest z kolei to, że nie do końca damy radę
+kształtować ruch przychodzący do naszej maszyny. Tak czy inaczej, postaramy się skonfigurować te
+interfejsy i zobaczymy co z nich idzie wycisnąć.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2015-12-16T14:46:50Z">Opublikowano: 16/12/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+		</div>
+	</main>
+	
+<div class="pagination block">
+	<a href="https://morfikov.github.io/tags/modu%C5%82y-kernela/" class="pagination__item pagination__item--desktop" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    <a  class="pagination__item pagination__item--desktop" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+				<span class="pagination__item pagination__item--active" data-total="2">1</span>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/modu%C5%82y-kernela/page/2/">2</a>
+	<a href="https://morfikov.github.io/tags/modu%C5%82y-kernela/page/2/" class="pagination__item pagination__item--desktop" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+      <a href="https://morfikov.github.io/tags/modu%C5%82y-kernela/page/2/" class="pagination__item pagination__item--desktop" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+</div>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

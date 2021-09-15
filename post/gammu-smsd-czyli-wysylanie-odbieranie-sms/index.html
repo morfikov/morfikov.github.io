@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Gammu-smsd, czyli wysyłanie i odbieranie SMS | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Gammu-smsd, czyli wysyłanie i odbieranie SMS" />
+<meta property="og:description" content="Eksperymentując ostatnio z modemem Huawei E3372s-153 w wersji NON-HiLink, pomyślałem, że przydałoby
+się zaprojektować jakiś prosty system do odbioru i wysyłania SMS. Nie chodzi tutaj o zaprzęgnięcie
+do pracy oprogramowania takiego jak modem-manager-gui czy też
+wammu ale bardziej o przekazywanie tych wiadomości SMS, które trafiają na
+modem, na inny numer telefonu komórkowego. Czyli stworzenie takiego telefonicznego proxy, które te
+SMS będzie przekazywał dalej. Tego typu funkcjonalność można zaimplementować praktycznie w każdym
+linux&#39;ie, tylko wymagane jest posiadanie odpowiednich narzędzi. W tym przypadku rozchodzi się o
+gammu-smsd i to o nim będzie ten wpis." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-04-09T18:53:58&#43;00:00" />
+<meta property="article:modified_time" content="2016-04-09T18:53:58&#43;00:00" />
+
+
+		<meta itemprop="name" content="Gammu-smsd, czyli wysyłanie i odbieranie SMS">
+<meta itemprop="description" content="Eksperymentując ostatnio z modemem Huawei E3372s-153 w wersji NON-HiLink, pomyślałem, że przydałoby
+się zaprojektować jakiś prosty system do odbioru i wysyłania SMS. Nie chodzi tutaj o zaprzęgnięcie
+do pracy oprogramowania takiego jak modem-manager-gui czy też
+wammu ale bardziej o przekazywanie tych wiadomości SMS, które trafiają na
+modem, na inny numer telefonu komórkowego. Czyli stworzenie takiego telefonicznego proxy, które te
+SMS będzie przekazywał dalej. Tego typu funkcjonalność można zaimplementować praktycznie w każdym
+linux&#39;ie, tylko wymagane jest posiadanie odpowiednich narzędzi. W tym przypadku rozchodzi się o
+gammu-smsd i to o nim będzie ten wpis."><meta itemprop="datePublished" content="2016-04-09T18:53:58&#43;00:00" />
+<meta itemprop="dateModified" content="2016-04-09T18:53:58&#43;00:00" />
+<meta itemprop="wordCount" content="864">
+<meta itemprop="keywords" content="debian,sms,modem,huawei,e3372," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Gammu-smsd, czyli wysyłanie i odbieranie SMS"/>
+<meta name="twitter:description" content="Eksperymentując ostatnio z modemem Huawei E3372s-153 w wersji NON-HiLink, pomyślałem, że przydałoby
+się zaprojektować jakiś prosty system do odbioru i wysyłania SMS. Nie chodzi tutaj o zaprzęgnięcie
+do pracy oprogramowania takiego jak modem-manager-gui czy też
+wammu ale bardziej o przekazywanie tych wiadomości SMS, które trafiają na
+modem, na inny numer telefonu komórkowego. Czyli stworzenie takiego telefonicznego proxy, które te
+SMS będzie przekazywał dalej. Tego typu funkcjonalność można zaimplementować praktycznie w każdym
+linux&#39;ie, tylko wymagane jest posiadanie odpowiednich narzędzi. W tym przypadku rozchodzi się o
+gammu-smsd i to o nim będzie ten wpis."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Gammu-smsd, czyli wysyłanie i odbieranie SMS</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-04-09T18:53:58Z">Opublikowano: 09/04/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Gammu-smsd, czyli wysyłanie i odbieranie SMS</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#parę-słów-o-gammu-smsd">Parę słów o gammu-smsd</a></li>
+    <li><a href="#reguła-udeva-aktywująca-i-dezaktywacja-demona-gammu-smsd">Reguła udev'a aktywująca i dezaktywacja demona gammu-smsd</a></li>
+    <li><a href="#konfiguracja-gammu-smsd">Konfiguracja gammu-smsd</a></li>
+    <li><a href="#testy-demona-gammu-smsd">Testy demona gammu-smsd</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Eksperymentując ostatnio z modemem Huawei E3372s-153 w wersji NON-HiLink, pomyślałem, że przydałoby
+się zaprojektować jakiś prosty system do odbioru i wysyłania SMS. Nie chodzi tutaj o zaprzęgnięcie
+do pracy oprogramowania takiego jak <a href="https://linuxonly.ru/cms/page.php?7">modem-manager-gui</a> czy też
+<a href="https://wammu.eu/wammu/">wammu</a> ale bardziej o przekazywanie tych wiadomości SMS, które trafiają na
+modem, na inny numer telefonu komórkowego. Czyli stworzenie takiego telefonicznego proxy, które te
+SMS będzie przekazywał dalej. Tego typu funkcjonalność można zaimplementować praktycznie w każdym
+linux'ie, tylko wymagane jest posiadanie odpowiednich narzędzi. W tym przypadku rozchodzi się o
+<code>gammu-smsd</code> i to o nim będzie ten wpis.</p>
+<h2 id="parę-słów-o-gammu-smsd">Parę słów o gammu-smsd</h2>
+<p><a href="https://wammu.eu/smsd/">Gammu-smsd</a> to demon, który co jakiś czas skanuje modem i patrzy czy
+dotarły do niego jakieś wiadomości SMS. Jeśli takowe wiadomości zostaną zarejestrowane, podejmowana
+jest określona akcja zależna od widzimisię administratora systemu. Pakiet <code>gammu-smsd</code> jest
+standardowo dostępny w debianie i nie powinno być problemów z jego instalacją. Niemniej jednak,
+trzeba wziąć pod uwagę, że w tym pakiecie dostarczana jest usługa dla systemd. Ta usługa ma jedną
+wadę. Chodzi o to, że by demon <code>gammu-smsd</code> mógł nasłuchiwać, musi być podpięty modem lub inne
+urządzenie zdolne odbierać i wysyłać wiadomości SMS. W przypadku, gdy taki modem nie jest
+podłączony lub też odłączymy go w trakcie pracy demona, w logu zostanie zarejestrowana cała masa
+błędów. Przydałoby się coś w tej sprawie zrobić. Dlatego też przerobimy sobie nieco tę standardową
+usługę. Konkretnie chodzi o dodanie warunku, by usługa odpaliła się jedynie w przypadku, gdy w
+systemie został wykryty modem. Możemy to zrobić w następujący sposób. W terminalu wpisujemy to
+poniższe polecenie:</p>
+<pre><code># systemctl edit --full gammu-smsd.service
+</code></pre>
+<p>I dopisujemy do pliku usługi poniższą linijkę:</p>
+<pre><code>ConditionPathExists=/dev/huawei-E3372-1
+</code></pre>
+<p>Ścieżkę do urządzenia trzeba będzie prawdopodobnie sobie dostosować. Zwykle taki modem USB ma kilka
+interfejsów, które są obecne w katalogu <code>/dev/</code> , np. <code>ttyUSB0</code> , <code>ttyUSB1</code> , etc. Niemniej jednak,
+w przypadku podpięcia do komputera większej liczby urządzeń, takich jak modemy czy telefony
+komórkowe, te nazwy mogą ulec zmianie. Nie możemy do takiej sytuacji dopuścić i musimy zatroszczyć
+się o stałość tych nazw. <a href="https://morfikov.github.io/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/">Możemy to osiągnąć, np. za pomocą reguł
+udev'a</a>. W taki sposób można
+stworzyć link do interfejsu modemu i to go wykorzystywać w konfiguracji. Po szczegóły odsyłam do
+podlinkowanego wpisu. Tak czy inaczej, po edycji pliku usługi dla systemd, musimy przeładować
+konfigurację w poniższy sposób:</p>
+<pre><code># systemctl daemon-reload
+</code></pre>
+<p>Usługa, którą przed chwilą zmieniliśmy, startuje przy uruchamianiu linux'a. W przypadku, gdy modem
+nie będzie podpięty, to ona się nam nie uruchomi. Musimy jeszcze sobie zaprojektować mechanizm,
+który będzie aktywował i dezaktywował demona <code>gammu-smsd</code> w zależności od tego czy ten modem
+zostanie wpięty/wypięty z portu USB. Do tego celu musimy napisać regułę dla udev'a.</p>
+<h2 id="reguła-udeva-aktywująca-i-dezaktywacja-demona-gammu-smsd">Reguła udev'a aktywująca i dezaktywacja demona gammu-smsd</h2>
+<p>Oczywiście nic nie stoi na przeszkodzie, by ten krok pominąć. W tym przypadku modem jest jedynie
+podłączany sporadycznie i usługa jaką oferuje demon <code>gammu-smsd</code> nie może działać non stop. Jeśli
+potrzebujemy wyciągać modem z portu USB co jakiś czas, to stwórzmy sobie plik <code>80-modem.rules</code> w
+katalogu <code>/etc/udev/rules.d/</code> i dodajmy do niego tę poniższą treść:</p>
+<pre><code>ACTION==&quot;add&quot;, KERNEL==&quot;ttyUSB?&quot;, SUBSYSTEM==&quot;tty&quot;, \
+      ENV{ID_VENDOR_ID}==&quot;12d1&quot;, \
+      ENV{ID_MODEL_ID}==&quot;15b6&quot;, \
+      ENV{ID_USB_INTERFACE_NUM}==&quot;00&quot;, \
+      SYMLINK+=&quot;huawei-E3372-0&quot;, \
+      ENV{REMOVE_CMD}=&quot;/bin/systemctl stop gammu-smsd.service&quot; , \
+      RUN+=&quot;/bin/systemctl start gammu-smsd.service&quot;
+
+ACTION==&quot;add&quot;, KERNEL==&quot;ttyUSB?&quot;, SUBSYSTEM==&quot;tty&quot;, \
+      ENV{ID_VENDOR_ID}==&quot;12d1&quot;, \
+      ENV{ID_MODEL_ID}==&quot;15b6&quot;, \
+      ENV{ID_USB_INTERFACE_NUM}==&quot;01&quot;, \
+      SYMLINK+=&quot;huawei-E3372-1&quot;
+
+ACTION==&quot;add&quot;, KERNEL==&quot;ttyUSB?&quot;, SUBSYSTEM==&quot;tty&quot;, \
+      ENV{ID_VENDOR_ID}==&quot;12d1&quot;, \
+      ENV{ID_MODEL_ID}==&quot;15b6&quot;, \
+      ENV{ID_USB_INTERFACE_NUM}==&quot;02&quot;, \
+      SYMLINK+=&quot;huawei-E3372-2&quot;
+</code></pre>
+<h2 id="konfiguracja-gammu-smsd">Konfiguracja gammu-smsd</h2>
+<p>Mając odpowiednio dostosowaną usługę, możemy teraz przejść do konfiguracji <code>gammu-smsd</code> . Interesuje
+nas głównie plik <code>/etc/gammu-smsdrc</code> , gdzie musimy zdefiniować szereg parametrów. Poniżej przykład
+konfiguracji:</p>
+<pre><code>[gammu]
+port = /dev/huawei-E3372-1
+connection = at115200
+name=Huawei E3372
+model=at
+
+[smsd]
+service = files
+logfile = syslog
+debuglevel = 0
+pin = &quot;&quot;
+CheckSecurity = 0
+CheckBattery = 0
+#SendTimeout = 30
+#CommTimeout = 15
+ReceiveFrequency = 5
+
+inboxpath = /var/spool/gammu/inbox/
+outboxpath = /var/spool/gammu/outbox/
+sentsmspath = /var/spool/gammu/sent/
+errorsmspath = /var/spool/gammu/error/
+
+#RunOnFailure =
+#RunOnSent =
+RunOnReceive = /opt/skrypty/sms-rec-sh
+</code></pre>
+<p>Musimy odpowiednio dostosować sobie sekcję <code>[gammu]</code>. Wszystkie wykorzystane wyżej parametry nie
+powinny sprawić problemu i są raczej zrozumiałe. Jeśli ktoś chce nieco więcej poczytać o tych
+powyższych opcjach, jak i o szeregu innych, które można wykorzystać w tym pliku konfiguracyjnym, to
+<a href="https://wammu.eu/docs/manual/smsd/config.html">zapraszam zapoznać się z tym linkiem</a>.</p>
+<p>To co nas będzie w tym pliku interesować najbardziej, to ostatnia linijka, tj. <code>RunOnReceive</code> .
+Odpowiada ona za wykonanie skryptu, do którego ścieżka została tam określona. Jako, że <code>gammu-smsd</code>
+ma działać na zasadzie przekaźnika SMS, to niezbędny będzie nam poniższy kod, który zapisujemy w
+ww. pliku:</p>
+<pre><code>#!/bin/sh
+
+SMS_MESSAGES=1
+
+PROGRAM=&quot;/bin/echo -e&quot;
+
+for i in `seq $SMS_MESSAGES`
+do
+      eval &quot;$PROGRAM \&quot;Number: \${SMS_${i}_NUMBER} | Message: \${SMS_${i}_TEXT}\&quot;&quot;
+      eval &quot;$PROGRAM \&quot;Numer: \${SMS_${i}_NUMBER}\nWiadomosc: \${SMS_${i}_TEXT}\&quot;&quot; | gammu-smsd-inject TEXT +48600123456
+done
+</code></pre>
+<p>W skrypcie są przeprowadzane dwie akcje. Pierwsza z nich wyświetla numer i treść wiadomości SMS w
+logu systemowym. Druga akcja wydobywa zarówno numer nadawcy jak i sam komunikat i przesyła całość we
+wskazanej formie na zdefiniowany numer telefonu przy pomocy <code>gammu-smsd-inject</code> . Wszystkie odebrane
+i wysłane wiadomości są katalogowane w plikach pod <code>/var/spool/gammu/</code> . <a href="https://wammu.eu/docs/manual/smsd/inject.html">Więcej informacji na temat
+gammu-smsd-inject można znaleźć tutaj</a>.</p>
+<h2 id="testy-demona-gammu-smsd">Testy demona gammu-smsd</h2>
+<p>Przydałoby się jeszcze ten cały mechanizm przetestować. Zatem wyślijmy wiadomość SMS na numer karty
+SIM, która jest aktualnie w modemie. Jeśli wszystko pójdzie zgodnie z planem, to zarówno system
+powinien zalogować odpowiedni komunikat, jak i odebraną wiadomość posłać pod wskazany numer. Wyszło
+to mniej więcej tak:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/1.gammu-smsd-modem-sms-linux.png" alt=""    class="huge"></p>
+<p>Jak widać, wiadomość została odebrana. Po chwili skrypt został wykonany i komunikat został posłany
+na telefon.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sms/">sms</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/modem/">modem</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/huawei/">huawei</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/e3372/">e3372</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fgammu-smsd-czyli-wysylanie-odbieranie-sms%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fgammu-smsd-czyli-wysylanie-odbieranie-sms%2f&amp;text=Gammu-smsd%2c%20czyli%20wysy%c5%82anie%20i%20odbieranie%20SMS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fgammu-smsd-czyli-wysylanie-odbieranie-sms%2f&amp;title=Gammu-smsd%2c%20czyli%20wysy%c5%82anie%20i%20odbieranie%20SMS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fgammu-smsd-czyli-wysylanie-odbieranie-sms%2f&amp;title=Gammu-smsd%2c%20czyli%20wysy%c5%82anie%20i%20odbieranie%20SMS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fgammu-smsd-czyli-wysylanie-odbieranie-sms%2f&title=Gammu-smsd%2c%20czyli%20wysy%c5%82anie%20i%20odbieranie%20SMS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fgammu-smsd-czyli-wysylanie-odbieranie-sms%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fgammu-smsd-czyli-wysylanie-odbieranie-sms%2f&amp;title=Gammu-smsd%2c%20czyli%20wysy%c5%82anie%20i%20odbieranie%20SMS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fgammu-smsd-czyli-wysylanie-odbieranie-sms%2f&description=Gammu-smsd%2c%20czyli%20wysy%c5%82anie%20i%20odbieranie%20SMS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/">Zmiana nazwy interfejsu modemu ttyUSB0</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/modem-lte-huawei-e3372-bez-usb-modeswitch/">Modem LTE HUAWEI E3372 bez usb-modeswitch</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/">Konfiguracja modemu LTE w trybie NDIS (NCM)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/darmowy-internet-lte-od-rbmplay/">Darmowy internet LTE od RBM (Play)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/modem-lte-pod-openwrt/">Modem LTE pod OpenWRT (Huawei E3372s-153)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/aero2-w-polaczeniu-z-dnsmasq-dnscrypt-proxy/">Aero2 w połączeniu z dnsmasq i dnscrypt-proxy</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/rkhunter-jako-ochrona-przed-rootkitami/">Rkhunter jako ochrona przed rootkit&#39;ami</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

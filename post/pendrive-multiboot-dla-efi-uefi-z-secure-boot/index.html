@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Pendrive multiboot dla EFI/UEFI z Secure Boot | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Pendrive multiboot dla EFI/UEFI z Secure Boot" />
+<meta property="og:description" content="Przeniesienie mojego Debiana z laptopa mającego konfigurację BIOS i tablicę partycji MBR/MS-DOS do
+maszyny wyposażonej w firmware EFI/UEFI nie było jakoś stosunkowo trudnym zadaniem. Nawet kwestia
+włączenia Secure Boot okazała się o wiele mniej skomplikowana niż w rzeczywistości mogłoby się
+człowiekowi wydawać. Problem jednak pojawił się w przypadku płytek czy pendrive z systemami live.
+Nie chodzi przy tym o uruchamianie nośników z dopiero co wypalonymi obrazami ISO/IMG, bo te również
+nie sprawiają kłopotów. Chodzi bardziej o rozwiązanie multiboot, które oferuje wgranie wielu
+obrazów live na jedno urządzenie i odpalanie tego systemu, który sobie użytkownik w danym momencie
+zażyczy. Do tej pory korzystałem z projektu GLIM i może on posiada wsparcie dla EFI/UEFI ale
+już wsparcia dla Secure Boot mu zabrakło. W efekcie w konfiguracji EFI/UEFI &#43; Secure Boot, GLIM stał
+się bezużyteczny i trzeba było rozejrzeć się za nieco innym rozwiązaniem. Okazało się, że nie
+trzeba daleko szukać, bo rEFInd jest w stanie natywnie uruchomić system z obrazu ISO
+praktycznie każdej dystrybucji linux&#39;a (Ubuntu/Debian/Mint/GParted/CloneZilla) i w zasadzie trzeba
+tylko nieco inaczej przygotować nośnik, by móc na nowo cieszyć się korzyściami jakie oferuje
+pendrive multiboot." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/pendrive-multiboot-dla-efi-uefi-z-secure-boot/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-03-23T21:50:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-03-23T21:50:00&#43;00:00" />
+
+
+		<meta itemprop="name" content="Pendrive multiboot dla EFI/UEFI z Secure Boot">
+<meta itemprop="description" content="Przeniesienie mojego Debiana z laptopa mającego konfigurację BIOS i tablicę partycji MBR/MS-DOS do
+maszyny wyposażonej w firmware EFI/UEFI nie było jakoś stosunkowo trudnym zadaniem. Nawet kwestia
+włączenia Secure Boot okazała się o wiele mniej skomplikowana niż w rzeczywistości mogłoby się
+człowiekowi wydawać. Problem jednak pojawił się w przypadku płytek czy pendrive z systemami live.
+Nie chodzi przy tym o uruchamianie nośników z dopiero co wypalonymi obrazami ISO/IMG, bo te również
+nie sprawiają kłopotów. Chodzi bardziej o rozwiązanie multiboot, które oferuje wgranie wielu
+obrazów live na jedno urządzenie i odpalanie tego systemu, który sobie użytkownik w danym momencie
+zażyczy. Do tej pory korzystałem z projektu GLIM i może on posiada wsparcie dla EFI/UEFI ale
+już wsparcia dla Secure Boot mu zabrakło. W efekcie w konfiguracji EFI/UEFI &#43; Secure Boot, GLIM stał
+się bezużyteczny i trzeba było rozejrzeć się za nieco innym rozwiązaniem. Okazało się, że nie
+trzeba daleko szukać, bo rEFInd jest w stanie natywnie uruchomić system z obrazu ISO
+praktycznie każdej dystrybucji linux&#39;a (Ubuntu/Debian/Mint/GParted/CloneZilla) i w zasadzie trzeba
+tylko nieco inaczej przygotować nośnik, by móc na nowo cieszyć się korzyściami jakie oferuje
+pendrive multiboot."><meta itemprop="datePublished" content="2020-03-23T21:50:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-03-23T21:50:00&#43;00:00" />
+<meta itemprop="wordCount" content="3003">
+<meta itemprop="keywords" content="debian,efi,uefi,multiboot,pendrive,secure-boot,refind,iso,live," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Pendrive multiboot dla EFI/UEFI z Secure Boot"/>
+<meta name="twitter:description" content="Przeniesienie mojego Debiana z laptopa mającego konfigurację BIOS i tablicę partycji MBR/MS-DOS do
+maszyny wyposażonej w firmware EFI/UEFI nie było jakoś stosunkowo trudnym zadaniem. Nawet kwestia
+włączenia Secure Boot okazała się o wiele mniej skomplikowana niż w rzeczywistości mogłoby się
+człowiekowi wydawać. Problem jednak pojawił się w przypadku płytek czy pendrive z systemami live.
+Nie chodzi przy tym o uruchamianie nośników z dopiero co wypalonymi obrazami ISO/IMG, bo te również
+nie sprawiają kłopotów. Chodzi bardziej o rozwiązanie multiboot, które oferuje wgranie wielu
+obrazów live na jedno urządzenie i odpalanie tego systemu, który sobie użytkownik w danym momencie
+zażyczy. Do tej pory korzystałem z projektu GLIM i może on posiada wsparcie dla EFI/UEFI ale
+już wsparcia dla Secure Boot mu zabrakło. W efekcie w konfiguracji EFI/UEFI &#43; Secure Boot, GLIM stał
+się bezużyteczny i trzeba było rozejrzeć się za nieco innym rozwiązaniem. Okazało się, że nie
+trzeba daleko szukać, bo rEFInd jest w stanie natywnie uruchomić system z obrazu ISO
+praktycznie każdej dystrybucji linux&#39;a (Ubuntu/Debian/Mint/GParted/CloneZilla) i w zasadzie trzeba
+tylko nieco inaczej przygotować nośnik, by móc na nowo cieszyć się korzyściami jakie oferuje
+pendrive multiboot."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Pendrive multiboot dla EFI/UEFI z Secure Boot</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2020-03-23T21:50:00Z">Opublikowano: 23/03/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Pendrive multiboot dla EFI/UEFI z Secure Boot</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#tablica-partycji-gpt">Tablica partycji GPT</a>
+      <ol>
+        <li><a href="#partycja-esp">Partycja ESP</a></li>
+      </ol>
+    </li>
+    <li><a href="#partycje-pod-obrazy-isoimg">Partycje pod obrazy ISO/IMG</a></li>
+    <li><a href="#wgrywanie-obrazów-live-na-pendrive">Wgrywanie obrazów live na pendrive</a></li>
+    <li><a href="#instalacja-refind-na-partycji-esp">Instalacja rEFInd na partycji ESP</a>
+      <ol>
+        <li><a href="#sterownik-iso9660_x64efi">Sterownik iso9660_x64.efi</a></li>
+        <li><a href="#podpisanie-refinda-i-jego-sterowników">Podpisanie rEFInd'a i jego sterowników</a></li>
+      </ol>
+    </li>
+    <li><a href="#certyfikaty-dystrybucji-systemów-live">Certyfikaty dystrybucji systemów live</a></li>
+    <li><a href="#test-multiboot-z-włączonym-secure-boot">Test multiboot z włączonym Secure Boot</a></li>
+    <li><a href="#czy-mój-pendrive-multiboot-zadziała-na-innych-komputerach">Czy mój pendrive multiboot zadziała na innych komputerach</a></li>
+    <li><a href="#jak-aktualizować-obrazy-isoimg">Jak aktualizować obrazy ISO/IMG</a></li>
+    <li><a href="#jak-poprawić-wygląd-ekranu-rozruchowego">Jak poprawić wygląd ekranu rozruchowego</a></li>
+    <li><a href="#jak-dostosować-pozycje-w-menu">Jak dostosować pozycje w menu</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Przeniesienie mojego Debiana z laptopa mającego konfigurację BIOS i tablicę partycji MBR/MS-DOS do
+maszyny wyposażonej w firmware EFI/UEFI nie było jakoś stosunkowo trudnym zadaniem. Nawet <a href="https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/">kwestia
+włączenia Secure Boot</a> okazała się o wiele mniej skomplikowana niż w rzeczywistości mogłoby się
+człowiekowi wydawać. Problem jednak pojawił się w przypadku płytek czy pendrive z systemami live.
+Nie chodzi przy tym o uruchamianie nośników z dopiero co wypalonymi obrazami ISO/IMG, bo te również
+nie sprawiają kłopotów. Chodzi bardziej o rozwiązanie multiboot, które oferuje wgranie wielu
+obrazów live na jedno urządzenie i odpalanie tego systemu, który sobie użytkownik w danym momencie
+zażyczy. Do tej pory korzystałem z <a href="https://github.com/thias/glim">projektu GLIM</a> i może on posiada wsparcie dla EFI/UEFI ale
+już wsparcia dla Secure Boot mu zabrakło. W efekcie w konfiguracji EFI/UEFI + Secure Boot, GLIM stał
+się bezużyteczny i trzeba było rozejrzeć się za nieco innym rozwiązaniem. Okazało się, że nie
+trzeba daleko szukać, bo <a href="https://www.rodsbooks.com/refind/">rEFInd</a> jest w stanie natywnie uruchomić system z obrazu ISO
+praktycznie każdej dystrybucji linux'a (Ubuntu/Debian/Mint/GParted/CloneZilla) i w zasadzie trzeba
+tylko nieco inaczej przygotować nośnik, by móc na nowo cieszyć się korzyściami jakie oferuje
+pendrive multiboot.</p>
+<h2 id="tablica-partycji-gpt">Tablica partycji GPT</h2>
+<p>By stworzyć pendrive multiboot, który ruszy nam na komputerze z firmware EFI/UEFI z włączonym
+Secure Boot, potrzebny nam będzie kawałek nośnika, który podzielimy na kilka partycji. Przede
+wszystkim potrzebujemy utworzyć na takim nośniku tablicę partycji GPT. Możemy do tego celu
+wykorzystać standardowo <code>gdisk</code> lub <code>gparted</code> . W tym przypadku będzie wykorzystany <code>gdisk</code> .
+Podłączamy zatem pendrive do portu USB komputera i wydajemy w terminalu te poniższe polecenia:</p>
+<pre><code># gdisk /dev/mmcblk0
+GPT fdisk (gdisk) version 1.0.5
+
+Partition table scan:
+  MBR: not present
+  BSD: not present
+  APM: not present
+  GPT: not present
+
+Creating new GPT entries in memory.
+
+Command (? for help): o
+This option deletes all partitions and creates a new protective MBR.
+Proceed? (Y/N): y
+
+Command (? for help): p
+Disk /dev/mmcblk0: 60506112 sectors, 28.9 GiB
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): F6E3888A-F13D-444F-88DC-2ECD91E61B05
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 60506078
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 60506045 sectors (28.9 GiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+</code></pre>
+<h3 id="partycja-esp">Partycja ESP</h3>
+<p>Technicznie rzecz biorąc, to nie ma potrzeby tworzyć osobnej partycji ESP na pendrive w przypadku,
+gdy mamy zainstalowanego rEFInd'a na dysku komputera. Niemniej jednak, biorąc pod uwagę, że
+dystrybucje zwykle instalują Grub2 jako bootloader, to dobrze jest stworzyć małą partycję ESP na
+pendrive i w niej zainstalować rEFInd'a. Tworzymy zatem niewielką partycję ESP, której rozmiar może
+nie przekraczać 100M. Określamy jej typ jako <code>EF00</code> :</p>
+<pre><code>Command (? for help): n
+Partition number (1-128, default 1):
+First sector (34-60506078, default = 2048) or {+-}size{KMGTP}:
+Last sector (2048-60506078, default = 60506078) or {+-}size{KMGTP}: +100M
+Current type is 8300 (Linux filesystem)
+Hex code or GUID (L to show codes, Enter = 8300): ef00
+Changed type of partition to 'EFI system partition'
+
+Command (? for help): p
+Disk /dev/mmcblk0: 60506112 sectors, 28.9 GiB
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): F6E3888A-F13D-444F-88DC-2ECD91E61B05
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 60506078
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 60301245 sectors (28.8 GiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048          206847   100.0 MiB   EF00  EFI system partition
+</code></pre>
+<p>Zapisujemy tablicę partycji na nośniku:</p>
+<pre><code>Command (? for help): w
+
+Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+PARTITIONS!!
+
+Do you want to proceed? (Y/N): y
+OK; writing new GUID partition table (GPT) to /dev/mmcblk0.
+The operation has completed successfully.
+</code></pre>
+<p>Formatujemy teraz partycję ESP z wykorzystaniem systemu plików FAT32:</p>
+<pre><code># mkfs.vfat -v -n SD_ESP /dev/mmcblk0p1
+</code></pre>
+<p>W przypadku tworzenia partycji ESP w <code>gparted</code> , pamiętajmy o ustawieniu jej flagi <code>esp</code> .</p>
+<h2 id="partycje-pod-obrazy-isoimg">Partycje pod obrazy ISO/IMG</h2>
+<p>Teraz musimy sobie zadać kilka pytań. Pierwsze z nich dotyczy kwestii ilości obrazów ISO/IMG, które
+nasz pendrive multiboot ma obsługiwać. Drugie pytanie tyczy się zaś rozmiarów samych obrazów. Od
+tych dwóch rzeczy zależeć będzie sposób w jaki zostanie podzielona pozostała przestrzeń pendrive'a.
+Z reguły systemy live głównych dystrybucji takich jak Debian czy Ubuntu, nie przekraczają rozmiarowo
+3G. Zatem można utworzyć kilka partycji o rozmiarach 3G każda. Jeśli potrzebujemy wgrać na pendrive
+4 obrazy live, to trzeba będzie utworzyć 4 takie partycje -- po jednej na każdy obraz ISO/IMG. W
+tym przypadku będą potrzebne 4 partycje, na które zostaną wgrane obrazy live Ubuntu LTS, Ubuntu
+Latest, Linux Mint oraz Debian ze środowiskiem Gnome. Tworzymy zatem przy pomocy <code>gdisk</code> te cztery
+dodatkowe partycje:</p>
+<pre><code>Command (? for help): n
+Partition number (2-128, default 2):
+First sector (34-60506078, default = 206848) or {+-}size{KMGTP}:
+Last sector (206848-60506078, default = 60506078) or {+-}size{KMGTP}: +3000M
+Current type is 8300 (Linux filesystem)
+Hex code or GUID (L to show codes, Enter = 8300):
+Changed type of partition to 'Linux filesystem'
+</code></pre>
+<p>Nazwijmy sobie jeszcze w miarę po ludzku poszczególne partycje:</p>
+<pre><code>Command (? for help): c
+Partition number (1-5): 2
+Enter name: Ubuntu LTS
+
+Command (? for help): c
+Partition number (1-5): 3
+Enter name: Ubuntu Latest
+
+Command (? for help): c
+Partition number (1-5): 4
+Enter name: Linux Mint
+
+Command (? for help): c
+Partition number (1-5): 5
+Enter name: Debian Gnome
+</code></pre>
+<p>Powinniśmy mieć mniej więcej poniższy układ partycji:</p>
+<pre><code>Command (? for help): p
+Disk /dev/mmcblk0: 60506112 sectors, 28.9 GiB
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): B36B76F8-412C-4150-A476-312A656F71AB
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 60506078
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 35725245 sectors (17.0 GiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048          206847   100.0 MiB   EF00  sd_esp
+   2          206848         6350847   2.9 GiB     8300  Ubuntu LTS
+   3         6350848        12494847   2.9 GiB     8300  Ubuntu Latest
+   4        12494848        18638847   2.9 GiB     8300  Linux Mint
+   5        18638848        24782847   2.9 GiB     8300  Debian Gnome
+</code></pre>
+<p>Zapisujemy tablicę partycji:</p>
+<pre><code>Command (? for help): w
+
+Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+PARTITIONS!!
+
+Do you want to proceed? (Y/N): Y
+OK; writing new GUID partition table (GPT) to /dev/mmcblk0.
+The operation has completed successfully.
+</code></pre>
+<h2 id="wgrywanie-obrazów-live-na-pendrive">Wgrywanie obrazów live na pendrive</h2>
+<p>Pobieramy naturalnie stosowne obrazy live udostępniane prze dystrybucje <a href="https://ubuntu.com/download/desktop">Ubuntu</a>,
+<a href="https://www.linuxmint.com/download.php">Linux Mint</a> i <a href="https://www.debian.org/CD/live/">Debiana</a>. Następnie przy pomocy narzędzia <code>dd</code> wgrywamy kolejno każdy obraz
+na osobne urządzenie blokowe. Ważne tutaj jest by podać ścieżkę do partycji, a nie do nośnika jako
+takiego. W tym przypadku nośnik jest pod <code>/dev/mmcblk0</code> , a partycje pod <code>/dev/mmcblk0p1</code>
+<code>/dev/mmcblk0p2</code> , etc.</p>
+<pre><code># dd if=/media/morfik/GLIM/boot/iso/ubuntu/ubuntu-18.04.4-desktop-amd64.iso of=/dev/mmcblk0p2 status=progress bs=1M
+# dd if=/media/morfik/GLIM/boot/iso/ubuntu/ubuntu-19.10-desktop-amd64.iso of=/dev/mmcblk0p3 status=progress bs=1M
+# dd if=/media/morfik/GLIM/boot/iso/linuxmint/linuxmint-19.3-mate-64bit.iso' of=/dev/mmcblk0p4 status=progress bs=1M
+# dd if=/media/morfik/GLIM/boot/iso/debian/debian-live-10.3.0-amd64-gnome.iso of=/dev/mmcblk0p5 status=progress bs=1M
+</code></pre>
+<p>Po wgraniu obrazów, tak się prezentować powinien nasz pendrive w <code>lsblk</code> :</p>
+<pre><code># lsblk /dev/mmcblk0
+NAME         SIZE FSTYPE  TYPE LABEL                       MOUNTPOINT UUID
+mmcblk0     28.9G         disk
+├─mmcblk0p1  100M vfat    part SD_ESP                                 AD3E-8645
+├─mmcblk0p2    3G iso9660 part Ubuntu 18.04.4 LTS amd64               2020-02-03-18-40-13-00
+├─mmcblk0p3    3G iso9660 part Ubuntu 19.10 amd64                     2019-10-17-12-53-34-00
+├─mmcblk0p4    3G iso9660 part Linux Mint 19.3 MATE 64-bit            2019-12-16-14-03-06-00
+└─mmcblk0p5    3G iso9660 part d-live 10.3.0 gn amd64                 2020-02-08-12-48-50-00
+</code></pre>
+<p>Jak widać każda partycja ma etykietę obrazu ISO/IMG i każdą partycję można zwyczajnie zamontować
+w systemie, choć będzie ona dostępna tylko do odczytu.</p>
+<p>A tu jest jeszcze widok w <code>gparted</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/001-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-gparted.png" alt=""    class="huge"></p>
+<p>Ta niewykorzystana część nośnika może zostać przeznaczona na dodatkowe partycje pod obrazy ISO/IMG
+lub też można tam stworzyć zwykłą partycję na dane. Można tam nawet upchnąć zwykły system i rEFInd
+również będzie w stanie go uruchomić bez większego problemu. Zatem jest tutaj pełna dowolność
+jeśli chodzi o konfigurację.</p>
+<h2 id="instalacja-refind-na-partycji-esp">Instalacja rEFInd na partycji ESP</h2>
+<p>Kolejnym krokiem jest wgranie menadżera rozruchu rEFInd na partycję ESP pendrive'a. Warto tutaj
+wspomnieć, że jeśli mamy na dysku komputera zainstalowanego rEFInd'a, to on bez większego problemu
+będzie w stanie ustalić co za systemy znajdują się na pendrive i zwróci nam listę wszystkich
+obrazów ISO/IMG, które na ten nośnik zostały wgrane. Potrzebny nam będzie jedynie sterownik
+<code>iso9660_x64.efi</code> .</p>
+<p>Niemniej jednak, jeśli chcemy by nasz pendrive był niezależny od oprogramowania komputera, do
+którego będziemy podłączać ten nośnik, to lepiej jest zainstalować rEFInd'a na na partycji ESP
+pendrive'a. Ten proces instalacji nie różni się zbytnio od instalacji rEFInd'a na dysku twardym i
+sprowadza się do wydania poniższego polecenia:</p>
+<pre><code># refind-install --usedefault /dev/mmcblk0p1
+ShimSource is none
+Installing rEFInd on Linux....
+Note: IA32 (x86) binary not installed!
+Installing driver for ext4 (ext4_x64.efi)
+Copied rEFInd binary files
+
+Copying sample configuration file as refind.conf; edit this file to configure
+rEFInd.
+</code></pre>
+<p>Przy instalowaniu rEFInd'a bez uprzednio zamontowanej partycji ESP, na potrzeby procesu
+instalacyjnego zostanie ona automatycznie zamontowana w katalogu <code>/tmp/refind_install/</code> .</p>
+<p>Warto tutaj dodać, że można także skorzystać z opcji <code>--localkeys</code> , tak by podczas instalacji
+rEFInd'a jego binarki (w tym sterowniki) zostały automatycznie podpisane (o czym za chwile).</p>
+<h3 id="sterownik-iso9660_x64efi">Sterownik iso9660_x64.efi</h3>
+<p>Jak można było zauważyć wyżej, domyślnie został wgrany sterownik <code>ext4_x64.efi</code> . Obrazy ISO/IMG
+potrzebują zaś sterownika <code>iso9660_x64.efi</code> , który znajduje się w katalogu
+<code>/usr/share/refind/refind/drivers_x64/</code> . Kopiujemy ten sterownik na partycję ESP (można także
+usunąć sterownik <code>ext4_x64.efi</code> z pendrive'a, bo nie będzie on nam do niczego potrzebny):</p>
+<pre><code># cp /usr/share/refind/refind/drivers_x64/iso9660_x64.efi /tmp/refind_install/EFI/BOOT/drivers_x64/
+# rm /tmp/refind_install/EFI/BOOT/drivers_x64/ext4_x64.efi
+</code></pre>
+<p>W przypadku gdybyśmy mieli rEFInd'a wgranego na partycję ESP dysku komputera, to wystarczyłoby
+skopiować sterownik <code>iso9660_x64.efi</code> na partycję ESP komputera i kłopot z głowy.</p>
+<h3 id="podpisanie-refinda-i-jego-sterowników">Podpisanie rEFInd'a i jego sterowników</h3>
+<p>Standardowo w trybie Secure Boot żadna niepodpisana binarka nie zostanie uruchomiona przez firmware
+EFI/UEFI komputera. W przypadku rEFInd i jego sterowników trzeba będzie zadbać o to by taki podpis
+pod tymi plikami się pojawił. Mamy w zasadzie trzy opcje do wyboru.</p>
+<p>Pierwszą z nich jest skorzystanie z <a href="https://www.rodsbooks.com/refind/getting.html">podpisanych plików przez dewelopera rEFInd'a</a>. W takim
+przypadku trzeba będzie dodać certyfikat rEFInd'a do bazy danych MOK i po problemie. To rozwiązanie
+jest także najbardziej uniwersalne jeśli chodzi o podłączanie pendrive na różnych maszynach, bo
+wystarczy na każdej takiej maszynie dodać ten konkretny certyfikat (jeśli nie będzie go w
+standardzie) i już można rEFInd'a uruchomić z takiego nośnika. Niemniej jednak, w Debianie póki co
+pliki rEFInd'a nie są w żaden sposób podpisane, więc trzeba będzie zainstalować rEFInd'a pobierając
+odpowiednie pliki z podlinkowanego wyżej artykułu, co niekoniecznie może być wygodne, przynajmniej
+na razie.</p>
+<p>W przypadku, gdy <a href="https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/">wymieniliśmy certyfikaty firmware EFI/UEFI</a>, to w zasadzie wystarczy podpisać
+swoim kluczem prywatnym <code>db</code> binarkę rEFInd'a oraz jego sterowniki i po sprawie, przynajmniej jeśli
+chodzi o uruchamianie rEFInd'a z pendrive na naszym komputerze. Jeśli chodzi zaś o inne maszyny, to
+trzeba będzie nasz certyfikat dodać do bazy danych MOK firmware EFI/UEFI każdego komputera, na
+którym zamierzamy korzystać z naszego pendrive'a.</p>
+<p>Z kolei ostania opcja sprowadza się do zainstalowania rEFInd'a z flagą <code>--localkeys</code> . W taki
+sposób podczas instalacji rEFInd'a na partycji ESP pendrive'a automatycznie zostaną stworzone
+stosowne klucze i umieszczone w katalogu <code>/etc/refind.d/keys/</code> . Następnie instalowane binarki
+przed skopiowaniem i umieszczeniem na partycji ESP zostaną podpisane. W takim przypadku trzeba
+będzie zaimportować do bazy MOK certyfikat, który siedzi w katalogu <code>/etc/refind.d/keys/</code> na każdej
+maszynie, na której mamy zamiar używać naszego pendrive'a.</p>
+<p>Jako, że ja wymieniłem u siebie klucze w firmware EFI/UEFI na swoje własne, to mi wygodniej jest
+podpisać binarkę rEFInd'a i sterowniki swoim kluczem prywatnym:</p>
+<pre><code># cd /etc/kernel_key/
+
+# sbsign --cert db.crt --key db.key /tmp/refind_install/EFI/BOOT/bootx64.efi
+Signing Unsigned original image
+
+# mv /tmp/refind_install/EFI/BOOT/bootx64.efi.signed /tmp/refind_install/EFI/BOOT/bootx64.efi
+
+# sbsign --cert db.crt --key db.key /tmp/refind_install/EFI/BOOT/drivers_x64/iso9660_x64.efi
+Signing Unsigned original image
+
+# mv /tmp/refind_install/EFI/BOOT/drivers_x64/iso9660_x64.efi.signed /tmp/refind_install/EFI/BOOT/drivers_x64/iso9660_x64.efi
+</code></pre>
+<h2 id="certyfikaty-dystrybucji-systemów-live">Certyfikaty dystrybucji systemów live</h2>
+<p>Jest bardzo dużo dystrybucji linux'a, z którymi możemy się zetknąć, i część z nich oferować będzie
+obrazy z systemami live. To czy obraz konkretnej dystrybucji nam ruszy zależy już od wsparcia
+takiej dystrybucji dla Secure Boot. Jeśli dystrybucja nie wspiera Secure Boot to nam się jej system
+live nie uruchomi. Debian i pochodne, takie jak Ubuntu czy Linux Mint, wspierają Secure Boot i
+wystarczy wgrać certyfikaty tych dystrybucji do bazy danych MOK, by te obrazy live działały bez
+większego problemu, tak jak to zostało zobrazowane niżej. <a href="https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/#dodawanie-kluczy-dystrybucji-do-bazy-mok">Opis dodawania certyfikatów Debiana i
+Ubuntu do bazy MOK</a> znajduje się tutaj.</p>
+<p>Wygląda też na to, że spora część mniejszych dystrybucji, takich jak GParted albo CloneZilla,
+korzysta z binarek Grub'a i shim'a podpisanych odpowiednio przez Debian/Canonical i Microsoft. W
+takiej sytuacji mając certyfikaty tych trzech podmiotów zaszyte w firmware EFI/UEFI komputera nie
+powinno być problemu z uruchomieniem większości systemów live.</p>
+<h2 id="test-multiboot-z-włączonym-secure-boot">Test multiboot z włączonym Secure Boot</h2>
+<p>Przyszła pora by uruchomić ponownie komputer z podłączonym do portu USB pendrive'm, który sobie
+wyżej utworzyliśmy. Menadżer rozruchu komputera powinien wykryć bez problemu, że na pendrive
+znajduje się dodatkowa opcja rozruchu, co widoczne jest jako pierwsza ikonka na liście systemów
+mająca w swoim prawym dolnym rogu małą ikonkę pendrive:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/002-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-disk.jpg" alt=""    class="huge"></p>
+<p>Gdy wejdziemy w tę pozycję, to rEFInd z pendrive zostanie załadowany i zwróci nam listę obrazów
+ISO/IMG, które mamy wgrane na poszczególne partycje:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/003-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-pendrive.jpg" alt=""    class="huge"></p>
+<p>Uruchommy przykładowo Ubuntu LTS. Powinien się załadować Grub2 obrazu ISO/IMG, w którym wybieramy
+pierwszą pozycję, by uruchomić Ubuntu live:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/004-efi-uefi-firmware-secure-boot-linux-live-system-iso-boot-ubuntu.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/005-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted.jpg" alt=""    class="huge"></p>
+<p>Podobnie sprawa wygląda w przypadku Ubuntu Latest:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/006-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-boot.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/007-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted.jpg" alt=""    class="huge"></p>
+<p>W przypadku Linux Mint jest podobnie:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/008-efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-boot.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/009-efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-booted.jpg" alt=""    class="huge"></p>
+<p>No i jeszcze na koniec Debian:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/010-efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-boot.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/011-efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-booted.jpg" alt=""    class="huge"></p>
+<p>Co ciekawe, mając wgrany sterownik <code>iso9660_x64.efi</code> na partycji ESP dysku twardego komputera,
+możemy w zasadzie obyć się bez zewnętrznych nośników USB by system live odpalić. Wystarczy utworzyć
+niewielką partycję na dysku i tam wgrać obraz live. W przypadku awarii głównego systemu będzie
+można uruchomić system live i dokonać prac naprawczych -- taki dość zaawansowany tryb recovery.</p>
+<h2 id="czy-mój-pendrive-multiboot-zadziała-na-innych-komputerach">Czy mój pendrive multiboot zadziała na innych komputerach</h2>
+<p>Ten pendrive, co go przygotowaliśmy, będzie w stanie bez problemu działać w zasadzie na każdym
+komputerze mającym firmware EFI/UEFI. Na komputerach z BIOS taki pendrive będzie miał problem się
+uruchomić, bo rEFInd działa tylko z firmware EFI/UEFI. Choć pewnie w niedługim czasie Grub2 będzie
+w stanie czytać obrazy ISO/IMG wgrane na partycje i bezpośrednio z nich uruchamiać system dokładnie
+w taki sam sposób jak to robi rEFInd, jeśli oczywiście Grub2 jeszcze tego nie potrafi.</p>
+<p>Jeśli zaś chodzi o maszyny z firmware EFI/UEFI i mające do tego włączony tryb Secure Boot, to
+niestety nasz pendrive nie zadziała na takich maszynach bez uprzedniego zaimportowania stosownych
+certyfikatów do bazy danych MOK.</p>
+<p>Na pewno będzie potrzebny certyfikat klucza, którym podpisana jest binarka rEFInd'a i sterownik.
+Dodatkowo, będą potrzebne certyfikaty każdej dystrybucji, którą mamy zamiar uruchamiać z naszego
+pendrive multiboot.</p>
+<p>Jeśli już jakaś maszyna działa w trybie Secure Boot pod kontrolą linux'a, to ma zaszyty certyfikat
+swojej dystrybucji i ta pozycja live na pendrive będzie działać. Gdyby binarka rEFInd'a i jego
+sterowniki były podpisane kluczem dystrybucji mniej więcej w taki sam sposób jak podpisany jest
+Grub2, to odpadłoby ręczne dodawanie certyfikatów do bazy danych MOK. Póki ta binarka jest
+niepodpisana, to trzeba niestety kombinować.</p>
+<h2 id="jak-aktualizować-obrazy-isoimg">Jak aktualizować obrazy ISO/IMG</h2>
+<p>Pewnie kiedyś w przyszłości dana dystrybucja linux'a wypuści nowszą płytkę z systemem live. Czy w
+takim przypadku trzeba będzie przechodzić przez cały proces opisany wyżej (lub jego większą część)?
+Odpowiedź brzmi -- nie. Z chwilą, gdy wpadnie nam w łapki nowy obraz ISO/IMG, to wgrywamy go przy
+pomocy <code>dd</code> na konkretną partycję i koniec zabawy. Nie trzeba przy tym bawić się partycjami czy
+zmieniać konfiguracji w którymś miejscu, bo sama tablica partycji wraz z numerami UUID pozostaje
+taka sama. Jedynie co to zawartość partycji ulega zmianie, a przecie o to chodzi przy aktualizacji
+obrazu ISO/IMG. Jak widać cały proces aktualizacji obrazu ISO/IMG jest maksymalnie uproszczony i
+sprowadza się do wydania w zasadzie jednego polecenia w terminalu.</p>
+<h2 id="jak-poprawić-wygląd-ekranu-rozruchowego">Jak poprawić wygląd ekranu rozruchowego</h2>
+<p>Domyślny wygląd rEFInd'a nie zachwyca zbytnio i jeśli komuś on przeszkadza, to zawsze może go sobie
+dostosować (tak jak ja to zrobiłem wyżej) z racji, że konfiguracja rEFInd'a jest przechowywana na
+partycji ESP. Możemy sobie tam wgrać tapetę, ikonki, czcionki i skonfigurować to wszystko za sprawą
+pliku <code>EFI/BOOT/refind.conf</code> .</p>
+<h2 id="jak-dostosować-pozycje-w-menu">Jak dostosować pozycje w menu</h2>
+<p>Domyślnie rEFInd za sprawą swoich sterowników skanuje w poszukiwaniu systemów, które jest w stanie
+uruchomić. Mając w zasadzie jeden sterownik ( <code>iso9660_x64.efi</code> ), to w menu rozruchowym zostaną
+nam wylistowane wszystkie systemy, które ten sterownik wykryje. Czasami to automatyczne wykrywanie
+nie działa za dobrze lub jest niepożądane i chcielibyśmy ręcznie skonfigurować to jakie systemy
+pojawią się na liście w menu rozruchowym. Mamy naturalnie taką możliwość przez dostosowanie pliku
+<code>EFI/BOOT/refind.conf</code> . Trzeba w nim na samym początku określić:</p>
+<pre><code>scanfor manual
+</code></pre>
+<p>Następnie tworzymy zwrotki <code>menuentry</code> podobne do tej poniżej:</p>
+<pre><code>menuentry &quot;Ubuntu LTS&quot; {
+    icon EFI/BOOT/icons/os_ubuntu.png
+    volume 67F11057-F4C1-4504-82EC-B6EE2A558B9F
+    loader   /EFI/BOOT/grubx64.efi
+#    disabled
+}
+</code></pre>
+<p><a href="https://www.rodsbooks.com/refind/configfile.html">Opcji naturalnie jest więcej</a> ale chyba tylko te określone wyżej będą nas interesować
+najbardziej. Pozycja <code>icon</code> przyjmuje ścieżkę względem zamontowanej partycji ESP. Numerek UUID
+widoczny w <code>volume</code> odnosi się do UUID partycji, który można wyciągnąć z <code>sgdisk</code> :</p>
+<pre><code># sgdisk -i 2 /dev/mmcblk0
+...
+Partition unique GUID: 67F11057-F4C1-4504-82EC-B6EE2A558B9F
+...
+Partition name: 'Ubuntu LTS'
+</code></pre>
+<p>Jeśli zaś chodzi o <code>loader</code> to tutaj ścieżka jest określana względem tego co znajduje się w obrazie.
+Ścieżka <code>/EFI/BOOT/grubx64.efi</code> znajdzie zastosowanie w sporej części przypadków ale nie we
+wszystkich. Jeśli z jakiegoś powodu obraz ISO/IMG nie będzie się chciał uruchomić, to trzeba
+zamontować partycję z obrazem ISO/IMG i znaleźć ścieżkę do bootloader'a Grub2. Opcja <code>disabled</code> ,
+jeśli określona, sprawi, że w menu nie pokaże się ten wpis.</p>
+<p>W taki oto sposób mamy całkowitą kontrolę nad tym jakie obrazy live się pojawią w menu. Jest to
+bardzo użyteczna funkcja zwłaszcza w przypadku, gdy mamy do czynienia z większych rozmiarów
+pendrive'm i tych partycji mamy na nim paręnaście czy kilkadziesiąt.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Jakby nie patrzeć, Secure Boot trochę miesza przy korzystaniu z systemów live dystrybucji linux'a.
+Niemniej jednak, jeśli chodzi o firmware EFI/UEFI bez włączonego Secure Boot, to proces utworzenia
+pendrive multiboot jest wręcz banalny, tak samo jak i jego późniejsza obsługa i utrzymanie.</p>
+<p>Największym problemem dla pendrive multiboot nie jest jako taki Secure Boot ale certyfikaty,
+których zwykle brakuje w firmware EFI/UEFI. Bez uprzedniego stworzenia/dodania odpowiednich
+certyfikatów, użytek z takiego nośnika live jest praktycznie żaden. Na szczęście jeśli nasz linux
+działa już z włączonym Secure Boot, to obrazy live tej dystrybucji również będą nam śmigać bez
+problemu, choć pewnie trzeba będzie podpisać samemu binarki rEFInd'a czy też dodać jego certyfikat
+do bazy MOK ale to zadanie również do trudnych nie należy.</p>
+<p>By poradzić sobie jakoś z portowalnością pendrive multiboot, dobrze jest trzymać stosowne
+certyfikaty na partycji ESP, by w razie potrzeby je łatwo zaimportować na docelowej maszynie.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/efi/">efi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/uefi/">uefi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/multiboot/">multiboot</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pendrive/">pendrive</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/secure-boot/">secure-boot</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/refind/">refind</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/iso/">iso</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/live/">live</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fpendrive-multiboot-dla-efi-uefi-z-secure-boot%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpendrive-multiboot-dla-efi-uefi-z-secure-boot%2f&amp;text=Pendrive%20multiboot%20dla%20EFI%2fUEFI%20z%20Secure%20Boot" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpendrive-multiboot-dla-efi-uefi-z-secure-boot%2f&amp;title=Pendrive%20multiboot%20dla%20EFI%2fUEFI%20z%20Secure%20Boot" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpendrive-multiboot-dla-efi-uefi-z-secure-boot%2f&amp;title=Pendrive%20multiboot%20dla%20EFI%2fUEFI%20z%20Secure%20Boot" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpendrive-multiboot-dla-efi-uefi-z-secure-boot%2f&title=Pendrive%20multiboot%20dla%20EFI%2fUEFI%20z%20Secure%20Boot" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpendrive-multiboot-dla-efi-uefi-z-secure-boot%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpendrive-multiboot-dla-efi-uefi-z-secure-boot%2f&amp;title=Pendrive%20multiboot%20dla%20EFI%2fUEFI%20z%20Secure%20Boot" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpendrive-multiboot-dla-efi-uefi-z-secure-boot%2f&description=Pendrive%20multiboot%20dla%20EFI%2fUEFI%20z%20Secure%20Boot" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/">Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/">Jak przygotować dysk pod instalację Debian linux z EFI/UEFI</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/memtest86-dla-efi-uefi-i-refind/">Memtest86 dla EFI/UEFI i rEFInd</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/pendrive-multiboot-z-grub2-i-obrazami-iso-roznych-dystrybucji-linux/">Pendrive multiboot z GRUB2 i obrazami ISO różnych dystrybucji Linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/">Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/persistence-czyli-zachowanie-zmian-w-systemie-live/">Persistence, czyli zachowanie zmian w systemie live</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

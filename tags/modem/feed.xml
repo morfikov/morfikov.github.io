@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>modem on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/modem/</link>
+    <description>Recent content in modem on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Sun, 24 Feb 2019 12:00:33 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/modem/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak przy pomocy USBguard zabezpieczyć porty USB przed złośliwymi urządzeniami</title>
+      <link>https://morfikov.github.io/post/jak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami/</link>
+      <pubDate>Sun, 24 Feb 2019 12:00:33 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami/</guid>
+      <description>&lt;p&gt;Ostatnio na
+Niebezpieczniku &lt;a href=&#34;https://niebezpiecznik.pl/post/zlosliwy-kabel-usb-ktory-zmienia-sie-w-klawiature-i-infekuje-twoj-komputer/&#34;&gt;pojawił się artykuł&lt;/a&gt;
+na temat niezbyt przyjaznych urządzeń podłączanych do komputera za sprawą portów USB (opisanych na
+przykładzie niepozornego przewodu) i tego jaką szkodę tego typu hardware może nam wyrządzić w
+systemie. Ataki z wykorzystaniem podstawionych urządzeń zadziałają nawet na linux, choć pewnie cała
+masa użytkowników wyznaje jeszcze mit, że ich komputer jest bezpieczny, bo przecie używają
+alternatywnego systemu operacyjnego, który jest OpenSource i za priorytet obrał sobie szeroko
+rozumiane bezpieczeństwo. Niestety nie jest tak różowo jakby mogło się co niektórym wydawać ale
+można ten stan rzeczy naturalnie zmienić i nie trzeba przy tym rekompilować kernela z zamiarem
+wyłączenia obsługi modułu USB, co ten opisany w podlinkowanym artykule atak oczywiście by również
+powstrzymało. Zamiast tego możemy zainstalować sobie narzędzie &lt;code&gt;usbguard&lt;/code&gt; i przy jego pomocy
+skonfigurować politykę podłączanych do portów USB urządzeń.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak wymusić pasmo/częstotliwość LTE pod LEDE/OpenWRT</title>
+      <link>https://morfikov.github.io/post/jak-wymusic-pasmo-czestotliwosc-lte-pod-lede-openwrt/</link>
+      <pubDate>Fri, 13 Jan 2017 18:43:37 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-wymusic-pasmo-czestotliwosc-lte-pod-lede-openwrt/</guid>
+      <description>&lt;p&gt;Zainspirowany &lt;a href=&#34;http://forum.jdtech.pl/Watek-wybor-czestotliwosci-lte-na-przykladzie-huawei-e3372&#34;&gt;wątkiem na forum
+JDtech&lt;/a&gt; na temat
+testów transferów w konkretnych pasmach/częstotliwościach LTE, postanowiłem sprawdzić jak ta sprawa
+wygląda w mojej okolicy. Generalnie ja obecnie u siebie mam modem Huawei E3372s-153 w wersji
+NON-HiLink podpięty do &lt;a href=&#34;http://www.tp-link.com.pl/products/details/Archer-C2600.html&#34;&gt;routera TP-LINK Archer
+C2600&lt;/a&gt;. Oczywiście na tym routerze
+jest wgrany alternatywny firmware LEDE/OpenWRT, bo inaczej nie miałbym możliwości skorzystać z tego
+modemu. Standardowa konfiguracja LTE w LEDE/OpenWRT daje nam jedynie możliwość wyboru między
+ustawieniami &lt;code&gt;auto&lt;/code&gt; , &lt;code&gt;gsm&lt;/code&gt; , &lt;code&gt;umts&lt;/code&gt; , &lt;code&gt;lte&lt;/code&gt; , &lt;code&gt;preferumts&lt;/code&gt; oraz &lt;code&gt;preferlte&lt;/code&gt; . W przypadku internetu
+LTE, zwykle wybieramy tutaj tryb &lt;code&gt;auto&lt;/code&gt; , ewentualnie też &lt;code&gt;lte&lt;/code&gt; , by wymusić konkretny tryb pracy
+modemu, co może mieć kolosalne znaczenie przy darmowym internecie od RBM/Play. Niemniej jednak,
+nawet w przypadku wyboru &lt;code&gt;lte&lt;/code&gt; , częstotliwość na jakiej będzie pracował modem w dalszym ciągu jest
+dobierana automatycznie w oparciu o parametry sygnału docierającego z dostępnych w okolicy BTS&#39;ów. W
+przypadku modemu E3372 można jednak wymusić, by połączenie LTE było realizowane na konkretnej
+częstotliwości, np. 2100/1800/2600/900/800 MHz i by taki stan rzeczy osiągnąć, trzeba nieco
+przerobić konfigurację tego alternatywnego oprogramowania znajdującego się w naszym routerze WiFi.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Stałe nazwy urządzeń w OpenWRT (hotplug, udev)</title>
+      <link>https://morfikov.github.io/post/stale-nazwy-urzadzen-openwrt-hotplug-udev/</link>
+      <pubDate>Mon, 20 Jun 2016 16:46:48 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/stale-nazwy-urzadzen-openwrt-hotplug-udev/</guid>
+      <description>&lt;p&gt;Bezprzewodowy router WiFi to w miarę proste urządzenie, które w zasadzie realizuje kilka
+podstawowych aspektów pracy sieci domowej. Wielu użytkownikom jednak jest nieustannie potrzebna
+jakaś nowa funkcjonalność, której oryginalny firmware producenta nie oferuje. Dlatego też mamy do
+dyspozycji OpenWRT będący minimalistyczną formą bardziej rozbudowanej dystrybucji linux&#39;a. Może i
+OpenWRT daje nam możliwość zaawansowanej konfiguracji naszej sieci ale tego typu opcja powoduje też
+szereg problemów. Chodzi o to, że kernel dynamicznie tworzy nazwy dla wszystkich podłączanych
+urządzeń do routera. W dużych dystrybucjach linux&#39;a do ogarnięcia tych nazw wykorzystywany jest
+UDEV. W przypadku OpenWRT też możemy skorzystać tego mechanizmu. Jeśli jednak mamy niewiele miejsca
+na pamięci flash routera, to możemy też skorzystać ze zdarzeń hotplug. W tym wpisie postaramy się
+przepisać nazwy pendrive/dysków twardych oraz modemów USB (LTE), tak by ich kolejność podłączania do
+routera nie stwarzała problemów w konfiguracji.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>SMStools i smsd, czyli automat do wysyłania SMS</title>
+      <link>https://morfikov.github.io/post/smstools-smsd-automat-wysylania-sms/</link>
+      <pubDate>Fri, 06 May 2016 20:33:30 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/smstools-smsd-automat-wysylania-sms/</guid>
+      <description>&lt;p&gt;Pod linux&#39;em jest całe mnóstwo oprogramowania, które może realizować zadanie odbierania i wysyłania
+wiadomości SMS. Są również narzędzia, dzięki którym cały proces związany z przetwarzaniem SMS&#39;ów
+można zautomatyzować. Jakiś czas temu opisywałem tego typu funkcjonalność na przykładzie
+&lt;a href=&#34;https://morfikov.github.io/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/&#34;&gt;gammu-smsd&lt;/a&gt;. Nadal uważam, że
+jest to przyzwoite narzędzie ale jakby nie patrzeć wymaga ono wielu zależności. Właśnie przez nie
+&lt;code&gt;gammu-smsd&lt;/code&gt; nie nadaje się do zastosowań, gdzie ma się do dyspozycji niewiele miejsca. Niemniej
+jednak, w przypadku OpenWRT mamy tam możliwość zainstalowania pakietu &lt;code&gt;smstool3&lt;/code&gt; , w którym jest
+dostępny demon &lt;code&gt;smsd&lt;/code&gt; . Tak się też składa, że debian również ma swoich repozytoriach to narzędzie
+posiada, z tym, że w pakiecie &lt;a href=&#34;http://smstools3.kekekasvi.com/index.php?p=blacklist&#34;&gt;smstools&lt;/a&gt;. W
+tym wpisie skonfigurujemy sobie działającą bramkę SMS, która będzie automatycznie odbierać
+wiadomości SMS i podejmować stosowne działanie w zależności od numeru czy treści otrzymanego
+komunikatu.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak przypisać losowy adres MAC do interfejsu</title>
+      <link>https://morfikov.github.io/post/jak-przypisac-losowy-adres-mac-interfejsu/</link>
+      <pubDate>Fri, 29 Apr 2016 16:42:55 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-przypisac-losowy-adres-mac-interfejsu/</guid>
+      <description>&lt;p&gt;Interfejsy kart sieciowych, które są instalowane w komputerach, posiadają adres MAC (&lt;a href=&#34;https://en.wikipedia.org/wiki/MAC_address&#34;&gt;Media Access
+Control&lt;/a&gt;). Jest to unikalny identyfikator, który wyróżnia
+nasz komputer spośród tłumu. Na podstawie tego adresu można nie tylko określić markę sprzętu, którą
+się posługujemy ale także można sklasyfikować cały nasz ruch sieciowy. W ten sposób bardzo prosto
+możemy zostać zidentyfikowani wymieniając dane przez darmowe hotspoty sieci bezprzewodowych WiFi.
+Niemniej jednak, jesteśmy się w stanie obronić przed tego typu inwigilacją zmieniając adres MAC
+naszego komputera. Nie jest to zbytnio trudne ale trzeba uważać, by znowu nie przesadzić w drugą
+stronę i czasem nie zostać zidentyfikowanym przez naszą &amp;quot;odmienność&amp;quot;. W tym wpisie postaramy się
+wypracować taki mechanizm, który zmieni nam adres MAC przy każdym podłączeniu do sieci i przy
+zachowaniu zdroworozsądkowych zasad.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Obsługa SMS i kodów USSD w OpenWRT</title>
+      <link>https://morfikov.github.io/post/obsluga-sms-kodow-ussd-w-openwrt/</link>
+      <pubDate>Sat, 23 Apr 2016 15:16:00 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/obsluga-sms-kodow-ussd-w-openwrt/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://morfikov.github.io/post/monitor-polaczenia-3glte-w-openwrt-3ginfo/&#34;&gt;W artykule poświęconym 3ginfo&lt;/a&gt;
+omawialiśmy monitorowanie połączenia 3G/LTE pod OpenWRT. Zabrakło tam jednak pewnej funkcjonalności,
+która ucieszyłaby chyba każdego użytkownika tego firmware. Chodzi oczywiście o wysyłanie i
+odbieranie SMS oraz przesyłanie kodów USSD. Okazuje się, że &lt;code&gt;3ginfo&lt;/code&gt; potrafi nam tę funkcjonalność
+zapewnić, tylko wymagane jest doinstalowanie kilku pakietów i odpowiednie skonfigurowanie systemu. W
+tym wpisie spróbujemy sobie ten mechanizm wysyłania SMS i kodów USSD skonfigurować.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Monitor połączenia 3G/LTE W OpenWRT (3ginfo)</title>
+      <link>https://morfikov.github.io/post/monitor-polaczenia-3glte-w-openwrt-3ginfo/</link>
+      <pubDate>Fri, 22 Apr 2016 19:53:08 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/monitor-polaczenia-3glte-w-openwrt-3ginfo/</guid>
+      <description>&lt;p&gt;W pewnych sytuacjach lub też ze zwykłej ciekawości możemy chcieć sprawdzić jak sprawuje się
+połączenie LTE, którego obsługę zaimplementowaliśmy na naszym routerze mającym na pokładzie
+firmware OpenWRT. Nie będę tutaj opisywał samej konfiguracji takiego połączenia, bo to zostało
+zrobione we wpisie poświęconym &lt;a href=&#34;https://morfikov.github.io/post/modem-lte-pod-openwrt/&#34;&gt;konfiguracji modemu Huawei E3372 pod
+OpenWRT&lt;/a&gt;, jak i przy okazji &lt;a href=&#34;https://morfikov.github.io/post/konfiguracja-polaczenia-aero2-na-openwrt/&#34;&gt;konfiguracji połączenia
+Aero2&lt;/a&gt;. W tym wpisie zaś skupimy
+się na monitorowaniu za pomocą &lt;code&gt;3ginfo&lt;/code&gt; już działającego połączenia, które jest realizowane za
+pomocą modemu LTE podłączonego do portu USB routera.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konfiguracja połączenia Aero2 na OpenWRT</title>
+      <link>https://morfikov.github.io/post/konfiguracja-polaczenia-aero2-na-openwrt/</link>
+      <pubDate>Fri, 22 Apr 2016 16:19:41 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-polaczenia-aero2-na-openwrt/</guid>
+      <description>&lt;p&gt;Darmowy internet oferowany przez Aero2 nie grzeszy zbytnio osiągami, bo mamy do dyspozycji jedynie
+512 kbit/s. Niemniej jednak, taka prędkość w zupełności wystarcza do przeglądania stron
+internetowych. Gorzej z oglądaniem materiałów video w serwisach takich jak YouTube. To jednak nie ma
+raczej większego znaczenia, bo przecie usługa jest za free, a poza tym, możemy dokupić szereg
+pakietów aktywujących pełną prędkość w technologi LTE. Problem w tym, że od Aero2 możemy otrzymać
+tylko jedną kartę SIM na użytkownika. Może i mamy możliwość dostania kilku kart na jeden adres
+zamieszkania ale i tak trzeba by dla każdego SIM załatwić osobny modem LTE. Zwykle takie rozwiązanie
+nie wchodzi w grę, zwłaszcza, gdy z internetu korzystamy raczej sporadycznie. Mając jednak router z
+alternatywnym firmware OpenWRT, możemy do jednego z jego portów USB doczepić taki modem i udostępnić
+połączenie internetowe wszystkim urządzeniom w naszej sieci domowej. W tym artykule postaramy się to
+zadanie zrealizować.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Obsługa kodów USSD w modemach LTE</title>
+      <link>https://morfikov.github.io/post/obsluga-kodow-ussd-w-modemach-lte/</link>
+      <pubDate>Wed, 20 Apr 2016 15:31:46 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/obsluga-kodow-ussd-w-modemach-lte/</guid>
+      <description>&lt;p&gt;Każdy, kto ma lub miał prepaid&#39;a, prędzej czy później musiał nauczyć się obsługi &lt;a href=&#34;https://pl.wikipedia.org/wiki/Unstructured_Supplementary_Service_Data&#34;&gt;kodów
+USSD&lt;/a&gt;. To za ich pomocą
+jesteśmy w stanie sprawdzić stan konta czy też aktywować poszczególne usługi. Co się jednak stanie,
+gdy taki prepaid zostanie umieszczony w modemie LTE? Teoretycznie modem powinien nam zapewnić
+połączenie LTE ale to jest nieco inna technologia niż GSM czy UMTS, a to za ich pomocą mogą być
+przesyłane zarówno kody USSD i SMS. Niby modemy LTE potrafią operować również na UMTS i GSM ale pod
+linux&#39;em przesyłanie kodów USSD może być nieco problematyczne. Jedynym oprogramowaniem będącym w
+stanie operować na tych kodach był &lt;code&gt;modem-manager-gui&lt;/code&gt; . Problem w tym, że zajmuje on praktycznie
+cały modem dla siebie, co w pewnych sytuacjach może nie być pożądane. Zatem jakie alternatywy nam
+pozostają? W jaki sposób operować na tych kodach USSD pod linux&#39;em?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Wvdial i PPP, czyli modem LTE w trybie RAS</title>
+      <link>https://morfikov.github.io/post/wvdial-ppp-czyli-modem-lte-w-trybie-ras/</link>
+      <pubDate>Thu, 14 Apr 2016 19:01:46 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wvdial-ppp-czyli-modem-lte-w-trybie-ras/</guid>
+      <description>&lt;p&gt;Jak wielu użytkowników linux&#39;a zapewne wie, modem GSM/UMTS/LTE może pracować w kilku trybach.
+Najpopularniejszym z nich jest tryb RAS wykorzystujący interfejsy udostępniane przez to urządzenie
+w katalogu &lt;code&gt;/dev/&lt;/code&gt; , zwykle &lt;code&gt;ttyUSB0&lt;/code&gt; , &lt;code&gt;ttyUSB1&lt;/code&gt; , etc. By taki modem mógł nawiązać połączenie z
+siecią, potrzebny jest demon &lt;a href=&#34;https://pl.wikipedia.org/wiki/Point_to_Point_Protocol&#34;&gt;PPP&lt;/a&gt;. O trybie
+RAS wspominałem już parokrotnie, min. we wpisach dotyczących &lt;a href=&#34;https://morfikov.github.io/post/darmowy-internet-lte-od-rbmplay/&#34;&gt;konfiguracji połączenia LTE w
+RBM/Play&lt;/a&gt; jak i przy omawianiu &lt;a href=&#34;https://morfikov.github.io/post/aero2-w-polaczeniu-z-dnsmasq-dnscrypt-proxy/&#34;&gt;problemów
+z resolver&#39;em DNS w przypadku
+Aero2&lt;/a&gt;. Generalnie ten tryb
+różni się trochę od &lt;a href=&#34;https://morfikov.github.io/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/&#34;&gt;trybu
+NDIS(NCM)&lt;/a&gt; głównie tym, że tutaj
+nie uzyskamy większych prędkości niż 20-30 mbit/s. Niemniej jednak, jeśli nie mamy dobrej jakości
+połączenia LTE, lub nasz modem z jakiegoś powodu pod linux&#39;em nie potrafi pracować w trybie NDIS,
+to możemy skonfigurować połączenie w trybie RAS wykorzystując do tego celu &lt;code&gt;wvdial&lt;/code&gt; oraz demona PPP.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Wysyłanie i odbieranie SMS w wammu</title>
+      <link>https://morfikov.github.io/post/wysylanie-odbieranie-sms-w-wammu/</link>
+      <pubDate>Mon, 11 Apr 2016 20:19:26 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wysylanie-odbieranie-sms-w-wammu/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://wammu.eu/&#34;&gt;Wammu&lt;/a&gt; to aplikacja, przy pomocy której jesteśmy w stanie zarządzać swoim
+telefonem komórkowym. Można ją także wykorzystać do zarządzania modemami USB, tymi samymi, które są
+w stanie nam dostarczyć połączenie LTE. Przy pomocy &lt;code&gt;wammu&lt;/code&gt; nie damy rady jednak nawiązać połączenia
+internetowego ale jest kilka rzeczy, do których ten soft może nam się przydać. Karta SIM obecna w
+takim modemie może mieć zapisane kontakty, które możemy edytować, usuwać i ewentualnie dodawać nowe.
+Ważniejszym ficzerem, który oferuje &lt;code&gt;wammu&lt;/code&gt; , jest możliwość wysyłania i odbierania wiadomości SMS.
+Wcześniej opisywałem &lt;a href=&#34;https://morfikov.github.io/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/&#34;&gt;wysyłanie i odbieranie SMS za pomocą
+gammu-smsd&lt;/a&gt;, niemniej jednak, w
+przypadku &lt;code&gt;wammu&lt;/code&gt; nie będziemy uruchamiać żadnej usługi systemowej. Same wiadomości SMS odbiera i
+wysyła się na podobnej zasadzie co w telefonie komórkowym. Przyjrzymy się zatem bliżej temu
+kawałkowi oprogramowania.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Gammu-smsd, czyli wysyłanie i odbieranie SMS</title>
+      <link>https://morfikov.github.io/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/</link>
+      <pubDate>Sat, 09 Apr 2016 18:53:58 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/</guid>
+      <description>&lt;p&gt;Eksperymentując ostatnio z modemem Huawei E3372s-153 w wersji NON-HiLink, pomyślałem, że przydałoby
+się zaprojektować jakiś prosty system do odbioru i wysyłania SMS. Nie chodzi tutaj o zaprzęgnięcie
+do pracy oprogramowania takiego jak &lt;a href=&#34;https://linuxonly.ru/cms/page.php?7&#34;&gt;modem-manager-gui&lt;/a&gt; czy też
+&lt;a href=&#34;https://wammu.eu/wammu/&#34;&gt;wammu&lt;/a&gt; ale bardziej o przekazywanie tych wiadomości SMS, które trafiają na
+modem, na inny numer telefonu komórkowego. Czyli stworzenie takiego telefonicznego proxy, które te
+SMS będzie przekazywał dalej. Tego typu funkcjonalność można zaimplementować praktycznie w każdym
+linux&#39;ie, tylko wymagane jest posiadanie odpowiednich narzędzi. W tym przypadku rozchodzi się o
+&lt;code&gt;gammu-smsd&lt;/code&gt; i to o nim będzie ten wpis.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Zmiana nazwy interfejsu modemu ttyUSB0</title>
+      <link>https://morfikov.github.io/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/</link>
+      <pubDate>Sat, 09 Apr 2016 18:50:19 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/</guid>
+      <description>&lt;p&gt;Spora część osób posiada różnego rodzaju urządzenia do komunikacji GSM/UMTS/LTE. Mogą to być
+smartfony, czy też modemy USB. Zwykle po podpięciu takiego urządzenia do portu USB, system wykrywa
+je i oddaje nam do dyspozycji kilka interfejsów w katalogu &lt;code&gt;/dev/&lt;/code&gt; . W przypadku modemu Huawei
+E3372s-153 w wersji NON-HiLink, standardowo są dwa interfejsy: &lt;code&gt;ttyUSB0&lt;/code&gt; oraz &lt;code&gt;ttyUSB1&lt;/code&gt; . Gdy
+podłączamy tylko jedno urządzenie, to nie mamy problemy z tymi nazwami. Co się jednak stanie w
+przypadku, gdzie tych urządzeń będzie więcej i podepniemy je w losowej kolejności? Nawet jeśli
+będziemy wiedzieć które interfejsy są od jakich urządzeń, to i tak trzeba będzie przepisywać pliki
+konfiguracyjne różnych aplikacji pod kątem dostosowania tych nazw. Możemy jednak stworzyć unikalne
+nazwy interfejsów w oparciu o &lt;a href=&#34;https://en.wikipedia.org/wiki/Udev&#34;&gt;reguły udev&#39;a&lt;/a&gt; i tym zajmiemy się
+w niniejszym wpisie.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Modem LTE HUAWEI E3372 bez usb-modeswitch</title>
+      <link>https://morfikov.github.io/post/modem-lte-huawei-e3372-bez-usb-modeswitch/</link>
+      <pubDate>Wed, 06 Apr 2016 18:51:58 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/modem-lte-huawei-e3372-bez-usb-modeswitch/</guid>
+      <description>&lt;p&gt;Ten artykuł, podobnie jak kilka poprzednich, powstał w oparciu o moje badania przeprowadzane nad
+modemem LTE HUAWEI E3372s-153 w wersji NON-HiLink. Niby rozwiązań dotyczących konfiguracji modemów
+pod linux&#39;em jest pełno w sieci ale zasadniczą różnicą niżej opisanego sposobu jest kompletne
+pozbycie się pakietu &lt;code&gt;usb-modeswitch&lt;/code&gt; . Dla przypomnienia, ten pakiet odpowiada za przełączanie
+trybu modemu. Zwykle są dostępne dwa tryby. Pierwszy z nich jest w stanie dostarczyć sterowniki (pod
+windows), po instalacji których modem przechodzi w drugi tryb, już ten właściwy. Na linux&#39;ach to
+przełączanie jest realizowane via &lt;code&gt;usb-modeswitch&lt;/code&gt; . I tu się nasuwa pytanie, czy ten modem
+faktycznie trzeba przełączać? A może istnieje sposób, który by automatycznie ustawił modem na taki
+tryb, który linux&#39;y lubią najbardziej? Okazało się, że istnieje i w tym wpisie zostanie on
+przestawiony.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konfiguracja modemu LTE w trybie NDIS (NCM)</title>
+      <link>https://morfikov.github.io/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/</link>
+      <pubDate>Tue, 05 Apr 2016 15:45:10 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/</guid>
+      <description>&lt;p&gt;Sporo modemów LTE potrafi pracować w kilku trybach. Weźmy na przykład modem Huawei E3372s-153 w
+wersji NON-HiLink. Standardowo obsługuje on tryb RAS (&lt;a href=&#34;https://en.wikipedia.org/wiki/Remote_Access_Service&#34;&gt;Remote Access
+Services&lt;/a&gt;) jak i NDIS (&lt;a href=&#34;https://en.wikipedia.org/wiki/Network_Driver_Interface_Specification&#34;&gt;Network Driver
+Interface Specification&lt;/a&gt;).
+Domyślnie też włączony jest NDIS ale, by móc z tego trybu korzystać na debianie, musimy nieco
+inaczej skonfigurować sobie połączenie sieciowe. Gdy w grę wchodzą modemy LTE, to użytkownicy zwykli
+korzystać z narzędzia &lt;code&gt;wvdial&lt;/code&gt; , który zaprzęga do pracy demona PPP i w ten sposób modem zaczyna
+pracować w trybie RAS, a nie NDIS. W tym wpisie skonfigurujemy sobie połączenie sieciowe na debianie
+w taki sposób, by wykorzystywało ono potencjał trybu NDIS.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Modem LTE pod OpenWRT (Huawei E3372s-153)</title>
+      <link>https://morfikov.github.io/post/modem-lte-pod-openwrt/</link>
+      <pubDate>Mon, 04 Apr 2016 19:44:30 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/modem-lte-pod-openwrt/</guid>
+      <description>&lt;p&gt;Modem LTE jest zwykle przeznaczony dla jednej stacji roboczej. Podpina się go do portu USB i zwykle
+po chwili można zestawić połączenie z siecią. W przypadku, gdy mamy kilka komputerów i na każdym z
+nich chcemy mieć internet, to mamy z grubsza trzy wyjścia. Pierwszym z nich jest dokupienie
+kolejnych modemów LTE, co zwykle nie wchodzi w grę. Drugą opcją jest zakup routera LTE. Różni się on
+od zwykłego routera WiFi tym, że ma już wbudowany modem LTE. Jeśli jednak dysponujemy własnym
+routerem WiFi, to niekoniecznie musimy się go pozbywać, zwłaszcza w przypadku, gdy już zakupiliśmy
+osobno modem LTE. Jeśli na tym routerze WiFi jesteśmy w stanie zainstalować firmware OpenWRT, to
+istnieje duża szansa na to, że damy radę ten router przerobić na router LTE. W tym wpisie postaramy
+się ten zabieg przeprowadzić z wykorzystaniem routera &lt;a href=&#34;http://www.tp-link.com.pl/products/details/cat-9_Archer-C7.html&#34;&gt;TP-LINK Archer C7
+v2&lt;/a&gt; oraz modemu LTE Huawei
+E3372s-153 w wersji NON-HiLink.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Darmowy internet LTE od RBM (Play)</title>
+      <link>https://morfikov.github.io/post/darmowy-internet-lte-od-rbmplay/</link>
+      <pubDate>Sun, 03 Apr 2016 14:57:40 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/darmowy-internet-lte-od-rbmplay/</guid>
+      <description>&lt;p&gt;We wpisie dotyczącym &lt;a href=&#34;https://morfikov.github.io/post/aero2-w-polaczeniu-z-dnsmasq-dnscrypt-proxy/&#34;&gt;konfiguracji serwerów DNS na potrzeby
+Aero2&lt;/a&gt; wspomniałem, że ten
+operator daje możliwość korzystania z internetu LTE praktycznie za darmo. Trzeba tam, co prawda,
+złożyć wniosek i zapłacić jakieś grosze za przysłanie karty SIM ale opłat jako takich za
+połączenie internetowe nie ma żadnych. Uporczywy może być jedynie kod CAPTCHA, który trzeba
+wpisywać co 60 minut. Szukając na necie informacji na temat darmowego internetu LTE &lt;a href=&#34;http://jdtech.pl/2015/09/darmowy-internet-lte-w-redbullmobile-porady-2015.html&#34;&gt;doszukałem się
+tego oto wpisu&lt;/a&gt;.
+Jest tam przedstawiony sposób na włączenie bezpłatnej usługi internetu LTE u operatora RBM (Play). Z
+początku wydawało mi się to niezbyt wiarygodne, by tego typu oferta była w ogóle dostępna ale
+okazało się jednak, że nie ma tutaj żadnego haczyka i ten internet LTE faktycznie można włączyć i
+korzystać z niego za free. W tym wpisie postaramy się skonfigurować Debiana właśnie na potrzeby tej
+usługi.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Aero2 w połączeniu z dnsmasq i dnscrypt-proxy</title>
+      <link>https://morfikov.github.io/post/aero2-w-polaczeniu-z-dnsmasq-dnscrypt-proxy/</link>
+      <pubDate>Sat, 02 Apr 2016 18:47:47 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/aero2-w-polaczeniu-z-dnsmasq-dnscrypt-proxy/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://aero2.pl/&#34;&gt;Aero2&lt;/a&gt; już od dość dawna oferuje darmowy dostęp do internetu w technologi LTE ale jakoś
+wcześniej nie byłem tym tematem zainteresowany. Parę dni temu złożyłem jednak wniosek o kartę SIM,
+tak by posiadać zapasowe łącze na wypadek, gdyby mój obecny ISP z jakiegoś powodu padł. Aero2
+oferuje wersję komercyjną jak i tę za free i każda z nich ma swoje wady i zalety. Jako, że to łącze
+ma robić jedynie za zapas, to korzystam z wersji FREE, a jest ono dość poważne ograniczenie, tj.
+występuje tutaj &lt;a href=&#34;https://pl.wikipedia.org/wiki/CAPTCHA&#34;&gt;kod CAPTCHA&lt;/a&gt;, który trzeba wpisywać tak co godzinę, po czym należy resetować
+modem. Ten kod może zostać zaserwowany jedynie w przypadku korzystania z DNS Aero2 i pozornie
+odpada możliwość używania własnego systemu DNS opartego o &lt;a href=&#34;http://www.thekelleys.org.uk/dnsmasq/doc.html&#34;&gt;dnsmasq&lt;/a&gt; i &lt;a href=&#34;https://dnscrypt.org/&#34;&gt;dnscrypt-proxy&lt;/a&gt;. Po
+kilku dniach eksperymentów udało mi się wypracować przyzwoitą konfigurację, która potrafi obejść to
+ograniczenie, poprawiając tym samym prywatność i bezpieczeństwo w internecie korzystając z
+darmowego LTE za sprawą Aero2. W tym wpisie postaramy się zaimplementować ten mechanizm na debianie.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Unikanie SYN/ICMP/UDP/PING flood w linux z nftables | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Unikanie SYN/ICMP/UDP/PING flood w linux z nftables" />
+<meta property="og:description" content="Obecnie nftables cierpi dość mocno z powodu pewnych problemów związanych z wydajnością przy
+aplikowaniu reguł zapory sieciowej. Niemniej jednak, w stosunku do iptables , nftables posiada
+tablicę netdev , która jest w stanie nieco zyskać w oczach tych nieco bardziej wybrednych
+użytkowników linux&#39;a. Chodzi generalnie o fakt, że ta tablica jest umieszczona zaraz na początku
+drogi pakietów, tuż po odebraniu ich z NIC (interfejsu karty sieciowej), a biorąc pod uwagę fakt,
+że ruch sieciowy, który nigdy ma nie trafić do naszej maszyny, powinien być zrzucany jak
+najwcześniej (by nie marnować zasobów procesora i pamięci), to ta tablica wydaje się być idealnym
+miejscem by zablokować cały niepożądany ruch przychodzący. Przy wykorzystaniu iptables , takie
+pakiety zrzuca się w tablicy raw . Jeśli zaś chodzi o nftables , to zrzucanie pakietów w
+tablicy netdev jest ponad dwu lub nawet trzykrotnie bardziej wydajne (szybsze i mniej
+zasobożerne). Można zatem dość dobrze poradzić sobie z wszelkiego rodzaju atakami DOS/DDOS, np.
+ICMP/PING flood czy SYN flood. Zastanawiające może być natomiast ogarnięcie ataku UDP flood ale
+przed tym rodzajem ataku linux również jest w stanie się bez problemu ochronić." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/unikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-04-12T20:12:42&#43;00:00" />
+<meta property="article:modified_time" content="2019-04-12T20:12:42&#43;00:00" />
+
+
+		<meta itemprop="name" content="Unikanie SYN/ICMP/UDP/PING flood w linux z nftables">
+<meta itemprop="description" content="Obecnie nftables cierpi dość mocno z powodu pewnych problemów związanych z wydajnością przy
+aplikowaniu reguł zapory sieciowej. Niemniej jednak, w stosunku do iptables , nftables posiada
+tablicę netdev , która jest w stanie nieco zyskać w oczach tych nieco bardziej wybrednych
+użytkowników linux&#39;a. Chodzi generalnie o fakt, że ta tablica jest umieszczona zaraz na początku
+drogi pakietów, tuż po odebraniu ich z NIC (interfejsu karty sieciowej), a biorąc pod uwagę fakt,
+że ruch sieciowy, który nigdy ma nie trafić do naszej maszyny, powinien być zrzucany jak
+najwcześniej (by nie marnować zasobów procesora i pamięci), to ta tablica wydaje się być idealnym
+miejscem by zablokować cały niepożądany ruch przychodzący. Przy wykorzystaniu iptables , takie
+pakiety zrzuca się w tablicy raw . Jeśli zaś chodzi o nftables , to zrzucanie pakietów w
+tablicy netdev jest ponad dwu lub nawet trzykrotnie bardziej wydajne (szybsze i mniej
+zasobożerne). Można zatem dość dobrze poradzić sobie z wszelkiego rodzaju atakami DOS/DDOS, np.
+ICMP/PING flood czy SYN flood. Zastanawiające może być natomiast ogarnięcie ataku UDP flood ale
+przed tym rodzajem ataku linux również jest w stanie się bez problemu ochronić."><meta itemprop="datePublished" content="2019-04-12T20:12:42&#43;00:00" />
+<meta itemprop="dateModified" content="2019-04-12T20:12:42&#43;00:00" />
+<meta itemprop="wordCount" content="2057">
+<meta itemprop="keywords" content="debian,nftables,sysctl," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Unikanie SYN/ICMP/UDP/PING flood w linux z nftables"/>
+<meta name="twitter:description" content="Obecnie nftables cierpi dość mocno z powodu pewnych problemów związanych z wydajnością przy
+aplikowaniu reguł zapory sieciowej. Niemniej jednak, w stosunku do iptables , nftables posiada
+tablicę netdev , która jest w stanie nieco zyskać w oczach tych nieco bardziej wybrednych
+użytkowników linux&#39;a. Chodzi generalnie o fakt, że ta tablica jest umieszczona zaraz na początku
+drogi pakietów, tuż po odebraniu ich z NIC (interfejsu karty sieciowej), a biorąc pod uwagę fakt,
+że ruch sieciowy, który nigdy ma nie trafić do naszej maszyny, powinien być zrzucany jak
+najwcześniej (by nie marnować zasobów procesora i pamięci), to ta tablica wydaje się być idealnym
+miejscem by zablokować cały niepożądany ruch przychodzący. Przy wykorzystaniu iptables , takie
+pakiety zrzuca się w tablicy raw . Jeśli zaś chodzi o nftables , to zrzucanie pakietów w
+tablicy netdev jest ponad dwu lub nawet trzykrotnie bardziej wydajne (szybsze i mniej
+zasobożerne). Można zatem dość dobrze poradzić sobie z wszelkiego rodzaju atakami DOS/DDOS, np.
+ICMP/PING flood czy SYN flood. Zastanawiające może być natomiast ogarnięcie ataku UDP flood ale
+przed tym rodzajem ataku linux również jest w stanie się bez problemu ochronić."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Unikanie SYN/ICMP/UDP/PING flood w linux z nftables</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2019-04-12T20:12:42Z">Opublikowano: 12/04/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Unikanie SYN/ICMP/UDP/PING flood w linux z nftables</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#gdzie-dokładnie-znajduje-się-tablica-netdev">Gdzie dokładnie znajduje się tablica netdev</a></li>
+    <li><a href="#struktura-tablicy-netdev-w-nftables">Struktura tablicy netdev w nftables</a></li>
+    <li><a href="#unikanie-ataku-syn-flood-z-nftables">Unikanie ataku SYN flood z nftables</a>
+      <ol>
+        <li><a href="#limitowanie-pakietów-syn-na-konkretnych-portach">Limitowanie pakietów SYN na konkretnych portach</a></li>
+      </ol>
+    </li>
+    <li><a href="#a-co-z-atakiem-udp-flood">A co z atakiem UDP flood?</a></li>
+    <li><a href="#unikanie-ataku-icmpping-flood-z-nftables">Unikanie ataku ICMP/PING flood z nftables</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Obecnie <code>nftables</code> cierpi dość mocno z powodu pewnych problemów związanych z wydajnością przy
+aplikowaniu reguł zapory sieciowej. Niemniej jednak, w stosunku do <code>iptables</code> , <code>nftables</code> posiada
+tablicę <code>netdev</code> , która jest w stanie nieco zyskać w oczach tych nieco bardziej wybrednych
+użytkowników linux'a. Chodzi generalnie o fakt, że ta tablica jest umieszczona zaraz na początku
+drogi pakietów, tuż po odebraniu ich z NIC (interfejsu karty sieciowej), a biorąc pod uwagę fakt,
+że ruch sieciowy, który nigdy ma nie trafić do naszej maszyny, powinien być zrzucany jak
+najwcześniej (by nie marnować zasobów procesora i pamięci), to ta tablica wydaje się być idealnym
+miejscem by zablokować cały niepożądany ruch przychodzący. Przy wykorzystaniu <code>iptables</code> , takie
+pakiety zrzuca się w tablicy <code>raw</code> . Jeśli zaś chodzi o <code>nftables</code> , to zrzucanie pakietów w
+tablicy <code>netdev</code> jest ponad dwu lub nawet trzykrotnie bardziej wydajne (szybsze i mniej
+zasobożerne). Można zatem dość dobrze poradzić sobie z wszelkiego rodzaju atakami DOS/DDOS, np.
+ICMP/PING flood czy SYN flood. Zastanawiające może być natomiast ogarnięcie ataku UDP flood ale
+przed tym rodzajem ataku linux również jest w stanie się bez problemu ochronić.</p>
+<h2 id="gdzie-dokładnie-znajduje-się-tablica-netdev">Gdzie dokładnie znajduje się tablica netdev</h2>
+<p>Poniżej znajduje się fotka
+(<a href="https://upload.wikimedia.org/wikipedia/commons/d/d3/Netfilter-packet-flow-pl.svg">źródło</a>)
+obrazująca przepływ pakietów sieciowych przechodzących przez linux'owy firewall:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/04/001-nftables-packet-flow-linux-firewall-netdev.png" alt=""    class="huge"></p>
+<p>Nie dopatrzymy się tam jednak tej tablicy <code>netdev</code> . Zgodnie z tym co jest napisane
+w <a href="https://www.netdevconf.org/1.1/proceedings/slides/pablo-neira-nft-ingress.pdf">tej prezentacji</a>,
+tablica <code>netdev</code> jest zlokalizowana zaraz za <code>ingress</code> (tym od TC), który wyżej jest opisany jako
+<code>ingress (qdisc)</code> . Widać zatem, że jest to praktycznie na początku drogi pakietu.</p>
+<h2 id="struktura-tablicy-netdev-w-nftables">Struktura tablicy netdev w nftables</h2>
+<p>Tablica <code>netdev</code> składa się w zasadzie z jednego łańcucha podstawowego, który ma zaczep (hook)
+<code>ingress</code> . Przez ten łańcuch przechodzić będzie cały ruch sieciowy skierowany do naszej maszyny.
+Poniżej znajdują się reguły, które mają na celu dodanie stosownej struktury do filtra <code>nftables</code> :</p>
+<pre><code>#!/usr/sbin/nft -f
+
+create table netdev traffic-control
+
+create chain netdev traffic-control INGRESS { type filter hook ingress device bond0 priority 0; policy accept; }
+</code></pre>
+<p>To, co trzeba uwzględnić przy tworzeniu tej tablicy, a konkretnie jej łańcucha, to nazwa interfejsu
+sieciowego (określona w <code>device</code> ). W powyższym przykładzie tablica <code>netdev</code> została stworzona dla
+interfejsu <code>bond0</code> , bo akurat w tym przypadku mamy do czynienia
+z <a href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">bonding'iem interfejsów sieciowych</a>,
+a konkretnie <code>wlan0</code> + <code>eth0</code> + <code>usb0</code> , przez co zamiast operować na każdym interfejsie z osobna,
+można mieć jeden wirtualny interfejs i to na nim filtrować ruch, co ułatwia nieco zdanie.</p>
+<p>Podobnie sprawa wygląda w przypadku interfejsów zmostkowanych (bridge), z tym, że tutaj tworzenie
+tablicy <code>netdev</code> dla interfejsu mostka nie zawsze może być pożądane. Rozpatrzmy sobie przykładowo
+sytuację, w której tylko jeden z interfejsów mostka wymaga dodatkowego filtrowania w postaci tej
+tablicy. Jeśli stworzymy tablicę <code>netdev</code> dla zbiorczego interfejsu mostka, to ruch na wszystkich
+interfejsach podpiętych do niego będzie przechodził przez tę tablicę, co wiązałoby się z dodatkowym
+przetwarzaniem pakietów w przypadku tych interfejsów, gdzie to filtrowanie jest zupełnie zbędne.</p>
+<p>Dobrze jest też rozdzielić ruch ICMP i TCP (o UDP będzie nieco później) i przekierować pakiety do
+osobnych łańcuchów. Tworzymy zatem dwa nowe łańcuchy i przekierowujemy do nich ruch:</p>
+<pre><code>create chain netdev traffic-control chain-tcp
+create chain netdev traffic-control chain-icmp
+
+add rule netdev traffic-control INGRESS iif !=&quot;lo&quot; ip protocol vmap { tcp:jump chain-tcp, icmp:jump chain-icmp }
+</code></pre>
+<h2 id="unikanie-ataku-syn-flood-z-nftables">Unikanie ataku SYN flood z nftables</h2>
+<p>Technicznie rzecz biorąc, to obecnie <a href="https://en.wikipedia.org/wiki/SYN_flood">ataki SYN flood</a> nie
+powinny wyrządzić szkody naszemu linux'owi, bo kernel od jakiegoś już czasu, a konkretnie od
+końcówki 2015 roku zyskał nowy mechanizm ochronny
+zwany <a href="https://lwn.net/Articles/659199/">tcp/dccp lockless listener</a>, który to dość znacznie
+łagodzi niedogodności związane z tego typu atakami DOS/DDOS. Niemniej jednak, jeśli chcielibyśmy
+nieco dozbroić naszą maszynę, to możemy do tablicy <code>netdev</code> dodać kilka dodatkowych reguł.</p>
+<p>Tworzymy najpierw set, w którym będą przechowywane źródłowe adresy IP hostów chcących nawiązać
+połączenie z naszym linux'em:</p>
+<pre><code>add set netdev traffic-control meter-tcp { type ipv4_addr; flags dynamic; timeout 60s; size 128000; }
+</code></pre>
+<p>W <code>timeout</code> określamy przez jaki czas wpis w tym secie będzie figurował, a w <code>size</code> maksymalną 
+ilość wpisów w secie. Gdy zostanie stworzony wpis w secie i przez następne 60 sekund nie zostanie
+odnotowany żaden pakiet SYN z danego adresu IP, to wpis zostanie z seta sunięty, a informacja o nim
+przestanie marnować miejsce w pamięci RAM. Warto o tym fakcie pamiętać i nie ustawiać w <code>timeout</code>
+sporych wartości, by niepotrzebnie nie marnować pamięci operacyjnej.</p>
+<p>Mając set, możemy w oparciu o niego filtrować ruch. Dodajmy zatem jeszcze te poniższe regułki:</p>
+<pre><code>add rule netdev traffic-control chain-tcp meta l4proto tcp tcp flags &amp; (fin|syn|rst|ack) == syn add @meter-tcp { ip saddr timeout 60s limit rate over 10/second } counter drop
+add rule netdev traffic-control chain-tcp meta l4proto tcp tcp flags &amp; (fin|syn|rst|ack) == syn counter accept
+</code></pre>
+<p>Te reguły dopasowują pakiety w oparciu o ustawione flagi TCP, a konkretnie jest sprawdzana flaga
+SYN, której obecność w pakiecie inicjuje nowe połączenie w tym protokole. Pierwsza reguła doda do
+seta źródłowy adres IP na czas 60 sekund oraz ograniczy ilość tych pakietów do 10 na sekundę.
+Jeśli tych pakietów w ciągu pojedynczej sekundy z danego adresu IP byłoby więcej, to zostaną one
+zablokowane przez właśnie tę regułę. Druga reguła ma na celu zaakceptowanie pakietów mających
+ustawioną flagę SYN, co otwiera im drogę do dalszego procesowania przez linux'owy firewall.</p>
+<p>Warto tutaj zaznaczyć, że to iż pakiet w tablicy <code>netdev</code> zostanie zaakceptowany nie oznacza, że
+kończy się jego przetwarzanie przez zaporę sieciową. Jeśli mamy w filtrze dodatkowe tablice, np.
+<code>raw</code> czy <code>filter</code> , to pakiet jak najbardziej przez nie będzie musiał przejść.</p>
+<h3 id="limitowanie-pakietów-syn-na-konkretnych-portach">Limitowanie pakietów SYN na konkretnych portach</h3>
+<p>W nftables istnieje możliwość tworzenia setów połączonych. Taki set może przechowywać kilka
+wartości, np. źródłowy adres IP, docelowy adres IP, źródłowy port, docelowy port, itd. Każda
+kombinacja tych elementów jest możliwa przez zastosowanie <code>.</code> . Przykładowo, można by stworzyć set,
+który by zawierał adres źródłowy hosta próbującego nawiązać połączenie oraz port docelowy, na który
+próbuje się on połączyć:</p>
+<pre><code>add set netdev traffic-control meter-tcp { type ipv4_addr . inet_service; flags dynamic; timeout 60s; size 128000; }
+
+add rule netdev traffic-control chain-tcp meta l4proto tcp tcp flags &amp; (fin|syn|rst|ack) == syn add @meter-tcp { ip saddr . tcp dport timeout 60s limit rate over 10/second } counter drop
+add rule netdev traffic-control chain-tcp meta l4proto tcp tcp flags &amp; (fin|syn|rst|ack) == syn counter accept
+</code></pre>
+<p>Niemniej jednak, w takim przypadku dany adres IP będzie figurował w secie kilka razy w zależności
+od portów, na które wysłał on pakiety SYN, przykładowo:</p>
+<pre><code># nft list meter netdev traffic-control meter-tcp
+table netdev traffic-control {
+        set meter-tcp {
+                type ipv4_addr . inet_service
+                size 128000
+                flags dynamic,timeout
+                timeout 1m
+                elements = { 192.168.1.150 . 22 expires 45s803ms limit rate over 10/second,
+                             192.168.1.150 . 222 expires 53s650ms limit rate over 10/second,
+                             192.168.1.150 . 2222 expires 58s530ms limit rate over 10/second }
+        }
+}
+</code></pre>
+<p>I tu już widać niebezpieczeństwo związane z niezbyt przemyślanym wdrożeniem tego mechanizm ochronny
+przed SYN flood -- będzie on działał jedynie na naszą niekorzyść, bo dany adres IP będzie w stanie
+wysłać do naszego linux'a całą masę pakietów SYN na dowolne porty, a to z kolei rozbuduje set, co
+zje nam tylko niepotrzebnie pamięć operacyjną, bo te pakiety i tak będą przecież przetwarzane przez
+kolejne tablice i łańcuchy firewall'a, aż w końcu gdzieś zostaną zablokowane lub przepuszczone.</p>
+<h2 id="a-co-z-atakiem-udp-flood">A co z atakiem UDP flood?</h2>
+<p>Z racji, że protokół UDP jest bezpołączeniowy (nie jest utrzymywana żadna sesja), to nie mamy do
+czynienia z flagami, tak jak w przypadku protokołu TCP, i nie możemy zbytnio uchronić się
+przed <a href="https://en.wikipedia.org/wiki/UDP_flood_attack">atakiem UDP flood</a> wykorzystując do tego
+celu tablicę <code>netdev</code> . Ten atak w zasadzie polega na wysyłaniu całej masy pakietów UDP na losowe
+porty serwera. Takie zachowanie może skutkować odsyłaniem sporej ilości pakietów ICMP Destination
+Unreachable przez atakowanego hosta, co może doprowadzić do wyczerpania się jego zasobów procesora
+i pamięci.</p>
+<p>Przed UDP flood można się ochronić zaprzęgając mechanizm śledzenia połączeń (conntrack) ale ten
+zaczyna widzieć pakiety dopiero po przejściu ich przez tablicę <code>raw</code> i najwcześniej jest to łańcuch
+<code>PREROUTING</code> tablicy <code>mangle</code> (wyżej na obrazku).</p>
+<p>Oczywiście linux standardowo jest w stanie się ochronić przed UDP flood limitując ilość odsyłanych
+pakietów ICMP Destination Unreachable. W zasadzie to trzeba sobie dostosować jedynie te poniższe
+parametry w pliku <code>/etc/sysctl.conf</code> :</p>
+<pre><code>net.ipv4.icmp_msgs_per_sec = 1000
+net.ipv4.icmp_ratelimit = 2000
+net.ipv4.icmp_ratemask = 6168
+</code></pre>
+<p>Parametr <code>icmp_msgs_per_sec</code> określa limit ilości pakietów ICMP, które linux będzie w stanie wysłać
+w ciągu jednej sekundy. To ustawienie aplikuje się jedynie do komunikatów określonych przez
+parametr <code>icmp_ratemask</code> . Z kolei <code>icmp_ratelimit</code> spowalnia odpowiedzi na pakiety ICMP,
+określone również w <code>icmp_ratemask</code>. Jeśli zaś chodzi o maskę zdefiniowaną w <code>icmp_ratemask</code> , to
+sprawa wygląda nieco skomplikowanie. Poniżej znajduje się rozpiska bitów komunikatów ICMP:</p>
+<pre><code>  Bity:  IHGFEDCBA9876543210
+  Maska: 0000001100000011000 (6168)
+    0 Echo Reply
+    3 Destination Unreachable *
+    4 Source Quench *
+    5 Redirect
+    8 Echo Request
+    B Time Exceeded *
+    C Parameter Problem *
+    D Timestamp Request
+    E Timestamp Reply
+    F Info Request
+    G Info Reply
+    H Address Mask Request
+    I Address Mask Reply
+</code></pre>
+<p>Pozycje mające <code>*</code> są domyślnie włączone i te limity w <code>icmp_msgs_per_sec</code> oraz <code>icmp_ratelimit</code>
+aplikują się tylko i wyłącznie do tych pozycji. Jeśli chcemy by limity chroniły również inne typy
+komunikatów ICMP, to naturalnie trzeba sobie tę maskę dostosować.</p>
+<p>Jeśli jednak ktoś chciałby jeszcze dodatkowo jakieś reguły do zapory dodać, to można by ograniczyć
+ilość jednoczesnych połączeń UDP przypadających na jeden adres IP:</p>
+<pre><code>create chain ip mangle flood-udp
+
+add set  ip mangle meter-udp { type ipv4_addr; flags dynamic; size 128000; }
+
+add rule ip mangle PREROUTING iif !=&quot;lo&quot; meta l4proto udp ct state new jump flood-udp
+
+add rule ip mangle flood-udp add @meter-udp { ip saddr ct count over 100 } counter drop
+add rule ip mangle flood-udp counter return
+</code></pre>
+<p>Warto zwrócić uwagę, że ten limit połączeń został dodany do tablicy <code>mangle</code> , a nie <code>netdev</code> .</p>
+<p>Kluczową rolę w tym mechanizmie limitowania połączeń UDP gra <code>{ ip saddr ct count over 100 }</code> w
+przedostatniej regule. Monitoruje ona ilość wpisów w tablicy conntrack'a dla tego konkretnego
+adresu IP. Gdy liczba wpisów przekroczy 100, kolejne połączenia z tego adresu IP będą blokowane.</p>
+<p>Warto tu też zaznaczyć, że ilość wpisów w tablicy conntrack'a nie oznacza ilości realnych połączeń.
+W przypadku protokołu UDP w tablicy conntrack'a możemy zanotować <code>[UNREPLIED]</code> lub <code>[ASSURED]</code> w
+zależności od tego czy druga strona odpowiedziała na pakiet UDP. Każdy z wpisów oznaczony przez
+jeden lub drugi tag ma inny czas życia w tablicy conntrack'a (domyślnie 30s i 180s odpowiednio dla
+<code>[UNREPLIED]</code> i <code>[ASSURED]</code> ). Wartości tych czasów można dostosować w pliku <code>/etc/sysctl.conf</code> za
+pomocą poniższych parametrów:</p>
+<pre><code>net.netfilter.nf_conntrack_udp_timeout = 30
+net.netfilter.nf_conntrack_udp_timeout_stream = 120
+</code></pre>
+<p>Zatem jeśli połączenie UDP zostało potwierdzone i zakończone, to nasz system będzie je jeszcze
+widział przez następne 180s. Gdyby host nawiązujący połączenie z naszą maszyną uderzył w limit 100
+jednoczesnych połączeń (wpisów w tablicy conntrack'a), to nawet po zakończeniu ich wszystkich
+musiałby czekać 3 minuty aż wpisy z tablicy conntrack'a zostałyby usunięte. Dopiero wtedy linux'owy
+firewall pozwoli temu hostowi na stworzenie nowych połączeń.</p>
+<h2 id="unikanie-ataku-icmpping-flood-z-nftables">Unikanie ataku ICMP/PING flood z nftables</h2>
+<p>Jeśli się przyjrzymy tej umieszczonej wyżej rozpisce bitów komunikatów ICMP, to zauważymy, że
+standardowo pakiety ICMP Echo Reply nie są limitowane w żaden sposób, co z kolei otwiera drogę
+do <a href="https://en.wikipedia.org/wiki/Ping_flood">ataku ICMP/PING flood</a>. Możliwa jest zatem sytuacja,
+gdzie nasz linux będzie próbował odpowiadać na każdy pakiet <code>ping</code> , który otrzyma, co może
+wyczerpać jego zasoby procesora, pamięci operacyjnej i zjeść sporą część przepustowości łącza
+sieciowego.</p>
+<p>Można naturalnie podciągnąć odpowiedzi na <code>ping</code> pod limity w <code>icmp_msgs_per_sec</code> oraz
+<code>icmp_ratelimit</code> ale taki limit w przypadku odpowiedzi na ping może prowadzić do błędnych wniosków
+przy próbie ustalenia problemów z działaniem sieci. Dlatego też te komunikaty nie są limitowane
+domyślnie i jeśli chcemy je w jakiś sposób ograniczać to lepiej jest to zrobić na zaporze sieciowej.</p>
+<p>Podobnie jak w przypadku SYN flood, atak ICMP/PING flood można ograniczyć za pomocą tablicy
+<code>netdev</code> . Tworzymy zatem w w niej set dla adresów źródłowych wysyłających pakiety ICMP:</p>
+<pre><code>add set netdev traffic-control meter-icmp { type ipv4_addr; flags dynamic; timeout 60s; size 128000; }
+</code></pre>
+<p>I dorabiamy do tego dwa ograniczenia:</p>
+<pre><code>add rule netdev traffic-control chain-icmp add @meter-icmp { ip saddr limit rate over 10/second } counter drop
+add rule netdev traffic-control chain-icmp limit rate over 1 mbytes/second counter drop
+add rule netdev traffic-control chain-icmp counter accept
+</code></pre>
+<p>Pierwsza reguła nakłada limit 10 pakietów ICMP (wszystkie typy) na sekundę na pojedynczy źródłowy
+adres IP. Druga reguła ogranicza maksymalną przepustowość łącza, która może zostać przeznaczona na
+pakiety ICMP, w tym przypadku 1 MiB/s. Jeśli któryś z tych warunków zostanie spełniony, to te
+nadmiarowe pakiety ICMP (wychodzące poza limity) zostaną zrzucone i nasz linux nie będzie na nie
+odpowiadał. Trzecia reguła akceptuje pakiety ICMP.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/nftables/">nftables</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sysctl/">sysctl</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2funikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2funikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables%2f&amp;text=Unikanie%20SYN%2fICMP%2fUDP%2fPING%20flood%20w%20linux%20z%20nftables" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2funikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables%2f&amp;title=Unikanie%20SYN%2fICMP%2fUDP%2fPING%20flood%20w%20linux%20z%20nftables" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2funikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables%2f&amp;title=Unikanie%20SYN%2fICMP%2fUDP%2fPING%20flood%20w%20linux%20z%20nftables" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2funikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables%2f&title=Unikanie%20SYN%2fICMP%2fUDP%2fPING%20flood%20w%20linux%20z%20nftables" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2funikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2funikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables%2f&amp;title=Unikanie%20SYN%2fICMP%2fUDP%2fPING%20flood%20w%20linux%20z%20nftables" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2funikanie-syn-icmp-udp-ping-flood-w-linux-z-nftables%2f&description=Unikanie%20SYN%2fICMP%2fUDP%2fPING%20flood%20w%20linux%20z%20nftables" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czy-linuxowy-firewall-powinien-blokowac-pakiety-not-syn-w-stanie-new/">Czy linux&#39;owy firewall powinien blokować pakiety not-syn w stanie NEW</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/brak-wsparcia-dla-ipset-w-nftables/">Brak wsparcia dla ipset w nftables</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/migracja-z-iptables-na-nftables-w-debianie/">Migracja z iptables na nftables w Debianie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wlaczyc-ipv6-privacy-extensions-w-debianie-slaac/">Jak włączyć IPv6 Privacy Extensions w Debianie (SLAAC)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-ustalic-nazwe-procesu-korzystajacego-z-sieci/">Jak ustalić nazwę procesu korzystającego z sieci</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/">Równoważenie ruchu łącz kilku ISP (load balancing)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/ograniczanie-su-do-jednego-uzytkownika-w-debianie/">Ograniczenie su do jednego użytkownika w Debianie</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

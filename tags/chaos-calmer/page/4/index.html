@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>chaos-calmer | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="chaos-calmer" />
+<meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://morfikov.github.io/tags/chaos-calmer/" />
+
+
+		<meta itemprop="name" content="chaos-calmer">
+<meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="chaos-calmer"/>
+<meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="alternate" type="application/rss+xml" href="https://morfikov.github.io/tags/chaos-calmer/feed.xml" title="Morfitronik">
+	<link rel="alternate" type="application/atom+xml" href="https://morfikov.github.io/tags/chaos-calmer/feed.atom" title="Morfitronik">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/tags/">Tags</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">chaos-calmer</li>
+	</ol>
+</nav>
+		<div class="page block">
+			<h1 class="page__title">chaos-calmer</h1>
+			
+		</div>
+		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/kompromitacja-firewalla-openwrt-za-sprawa-ping/">Kompromitacja firewall&#39;a OpenWRT za sprawą ping</a></h1>
+	<div class="entry__content"><p>Ten standardowy firewall, który oferuje OpenWRT, ma w zamiarze blokować wszystkie nowe próby
+połączeń od strony WAN. Faktycznie tak jest w istocie. Niemniej jednak, mamy tam jedną regułę,
+która zezwala na wysyłanie żądań <code>ping</code> . Niby te żądania wydają się być niepozorne ale przy takiej
+konfiguracji <code>iptables</code> jaką oferuje OpenWRT istnieje ryzyko, że ktoś z zewnątrz może utworzyć sporo
+sesji bez jakiegokolwiek nadzoru. Każda z tych sesji musi być śledzona przez kernel w tablicy
+conntrack'a. Nie mając kontroli nad tym ile takich sesji może zostać utworzonych, łatwo może dojść
+do zapełnienia tej tablicy. Jeśli do tego dojdzie, to router przestanie nawiązywać nowe połączenia.
+Przydałoby się zatem jakoś ten cały <code>ping</code> ogarnąć i to niekoniecznie blokując go po stronie WAN. W
+tym wpisie zaimplementujemy sobie mechanizm ochrony przez tego typu zagrożeniem.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-05-09T15:40:47Z">Opublikowano: 09/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wps-czyli-wifi-protected-setup-w-openwrt/">WPS, czyli WiFi Protected Setup w OpenWRT</a></h1>
+	<div class="entry__content"><p><a href="https://en.wikipedia.org/wiki/Wi-Fi_Protected_Setup">Wi-Fi Protected Setup (WPS)</a> powstał w celu
+ułatwienia konfiguracji urządzeń w sieci WiFi. Przy WPS nie musimy ustawiać wszystkich parametrów
+połączenia ręcznie. Nie musimy także pamiętać nazwy sieci czy samego hasła, które może mieć nawet 64
+znaki. Zamiast tego, cała konfiguracja sprowadza się to wciśnięcia dwóch przycisków: jednego na
+karcie WiFi, drugiego na obudowie routera. Niemniej jednak, wszędzie gdzie nie spojrzeć, ludzie
+rozpisują się na temat tego jakim to niebezpieczeństwem jest włączenie w routerach WiFi opcji WPS. O
+tych zagrożeniach, jeśli kogoś interesują, można poczytać, np.
+<a href="https://dankaminsky.com/2012/01/26/wps2/">tutaj</a>. W tym wpisie rozprawimy się raz na zawsze z
+mitami dotyczącymi WPS, który jest implementowany w routerach WiFi. Postaramy się skonfigurować ten
+mechanizm pod OpenWRT i zobaczymy czy cokolwiek z tego co ludzie piszą na necie ma zastosowanie w
+praktyce.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-05-05T18:04:55Z">Opublikowano: 05/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/automatyczna-blokada-internetu-lte-w-openwrt/">Automatyczna blokada internetu LTE w OpenWRT</a></h1>
+	<div class="entry__content"><p>Jakiś czas temu opisywałem <a href="https://morfikov.github.io/post/darmowy-internet-lte-od-rbmplay/">darmowy internet LTE w
+RBM/PLAY</a>. Jego niewątpliwą zaletą jest
+fakt, że jest za free, o ile posiadamy odpowiedni modem. Niemniej jednak, ta usługa jest na 30 dni,
+po upływie których trzeba ją aktywować na nowo. Jeśli z jakichś przyczyn się tego nie zrobi, to
+wtedy korzystanie z internetu może nas słono kosztować. Niby można zaprzęgnąć do pomocy <a href="https://morfikov.github.io/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/">gammu-smsd,
+który będzie nas powiadamiał
+SMS'em</a>, że usługa została
+wyłączona lub włączona. Niemniej jednak, w dalszym ciągu pozostaje do ogarnięcia kwestia czasu,
+przez który czekamy na włączenie usługi. Najlepszym wyjściem jest całkowita blokada internetu na
+routerze, tak by przez ten moment nie nawiązać żadnego połączenia. Jeśli nie nawiążemy połączenia,
+to dane z pakietu danych nie będą nam uciekać. W momencie, gdy usługa zostanie aktywowana, to
+blokada będzie zdejmowana. Tego typu rozwiązanie można zaimplementować w OpenWRT za sprawą
+<a href="http://smstools3.kekekasvi.com/">oprogramowania smstools</a> dostępnego w pakiecie <code>smstools3</code> . W tym
+wpisie postaramy się zaprojektować swojego rodzaju automatyczne blokowanie internet w zależności od
+otrzymywanych komunikatów od operatora GSM.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-05-05T15:20:14Z">Opublikowano: 05/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/siec-bezprzewodowa-wifi-w-openwrt-wlan/">Sieć bezprzewodowa WiFi w OpenWRT (WLAN)</a></h1>
+	<div class="entry__content"><p>Sieć bezprzewodowa w dzisiejszych czasach to podstawa. Z reguły routery posiadają jedno radio
+operujące na częstotliwości 2,4 GHz. Te nieco nowsze (i droższe) modele mają do dyspozycji dwa
+radia: 2,4 GHz oraz 5 GHz. OpenWRT zapewnia wsparcie zarówno dla sieci pracującej w paśmie 2.4 GHz
+jak i tej nadającej w 5 GHz. Konfiguracja tych pasm w OpenWRT różni się nieco. Weźmy dla przykładu
+obsługę kanału 12 i 13, którą dotyczy tylko sieci pasma 2.4 GHz. Podobnie sprawa ma się z
+szerokością kanałów, która jest inna w przypadku obu tych pasm. Niemniej jednak, większość opcji
+pozostaje taka sama i w tym artykule rzucimy okiem na zagadnienie konfiguracji sieci WiFi w OpenWRT.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-05-04T20:26:35Z">Opublikowano: 04/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/podzial-switcha-na-kilka-vlan-w-openwrt/">Podział switch&#39;a na kilka VLAN&#39;ów w OpenWRT</a></h1>
+	<div class="entry__content"><p>Każdy router ma w swoim wyposażeniu <a href="https://pl.wikipedia.org/wiki/Prze%C5%82%C4%85cznik_sieciowy">switch</a>, czyli przełącznik umożliwiający rozdzielenie
+sygnału na kilka portów. W ten sposób przy pomocy przewodu możemy podłączyć więcej komputerów niż
+by to miało miejsce w przypadku posiadania tylko jednego gniazda <a href="https://pl.wikipedia.org/wiki/RJ-45">RJ-45</a>. Na oryginalnym firmware
+zwykle nie mamy możliwości dodatkowej konfiguracji switch'a. Z kolei ta co jest, oferuje nam jedynie
+jeden port WAN i kilka portów dla podłączenia komputerów w sieci lokalnej. Jeśli jednak
+pokusilibyśmy się o wgranie OpenWRT na nasz router, to będziemy mieli możliwość zarządzania
+konfiguracją switch'a. W ten sposób będziemy mogli tworzyć dowolne konfiguracje portów (VLAN),
+wliczając w to utworzenie, np. kilku portów WAN. Tego typu rozwiązanie może się przydać do bardziej
+zaawansowanych konfiguracji sieciowych, np. <a href="https://en.wikipedia.org/wiki/Failover">failover łącza</a> czy <a href="https://pl.wikipedia.org/wiki/R%C3%B3wnowa%C5%BCenie_obci%C4%85%C5%BCenia">load balancing</a> w przypadku,
+gdy posiadamy kilku ISP i chcemy wykorzystać w pełni łącze oferowane przez te podmioty.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-05-03T20:49:50Z">Opublikowano: 03/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-sieciowych-w-openwrt/">Konfiguracja interfejsów sieciowych w OpenWRT</a></h1>
+	<div class="entry__content"><p>Routery, które posiadamy w naszych domach, znane są z tego, że mają szereg interfejsów sieciowych.
+Taki przeciętny router jest wyposażony w
+<a href="https://pl.wikipedia.org/wiki/Prze%C5%82%C4%85cznik_sieciowy">switch</a> z 5 portami
+<a href="https://pl.wikipedia.org/wiki/RJ-45">RJ-45</a>. Zwykle jest on też <a href="https://pl.wikipedia.org/wiki/Wirtualna_sie%C4%87_lokalna">wirtualnie podzielony
+(VLAN)</a> na kilka interfejsów, standardowo
+LAN i WAN. Do tego z reguły dochodzą jeszcze interfejsy bezprzewodowe WLAN na pasmo 2.5GHz i 5GHz.
+Jakby tego było mało, to mamy jeszcze wirtualny interfejs mostka, który spina ze sobą lokalne
+interfejsy switch'a z interfejsami bezprzewodowymi tworząc w ten sposób jeden interfejs, przez który
+pakiety wydostają się z naszej sieci i lecą dalej w świat przez interfejs WAN. Jest to trochę
+skomplikowane, dlatego też w tym wpisie przyjrzymy się całej tej konfiguracji interfejsów sieciowych
+w OpenWRT.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-05-03T02:08:31Z">Opublikowano: 03/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-sklonowac-adres-mac-w-openwrt/">Jak sklonować adres MAC w OpenWRT</a></h1>
+	<div class="entry__content"><p>Każde urządzenie sieciowe ma inny <a href="https://pl.wikipedia.org/wiki/Adres_MAC">adres MAC</a>. Jest to
+numer, który identyfikuje je w strukturze sieci. Gdy zachodzi potrzeba rozbudowania sieci domowej,
+możemy napotkać problemy z naszym obecnym ISP. Załóżmy, że posiadaliśmy do tej pory jeden komputer,
+który był wpięty bezpośrednio do łącza ISP. Jeśli dokupiliśmy router i podłączymy go w miejsce
+komputera, to urządzenie, które widzi nasz provider, ulega zmianie. Konkretnie, to nie ma znaczenia
+samo urządzenie. Liczy się jedynie adres MAC. Providerzy internetowi mają powiązane adresy MAC z
+adresami IP i nowo wpięty router nie otrzyma adresu IP, bo ma nieautoryzowany MAC. W takiej sytuacji
+zwykle wystarczy telefon do ISP z prośbą przepisanie adresu. Niemniej jednak, czasami ISP każą sobie
+dodatkowo płacić za tę czynność. Jeśli jesteśmy postawieni w takiej sytuacji, to możemy sklonować
+sobie adres MAC tej maszyny, którą wcześniej widział nasz provider internetowy. Z jego perspektywy
+nic się nie zmieni, a my będziemy mogli sobie rozdzielić sygnał na tyle komputerów, ile tylko
+chcemy. W tym wpisie zobaczymy jak pod OpenWRT przeprowadzić klonowanie adresu MAC.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-05-02T17:25:31Z">Opublikowano: 02/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/dhcp-dns-czyli-konfiguracja-sieci-w-openwrt/">DHCP i DNS, czyli konfiguracja sieci w OpenWRT</a></h1>
+	<div class="entry__content"><p>Rutery WiFi są w stanie zorganizować przewodową i/lub bezprzewodową sieć w naszych domach. By taka
+sieć działała bez zarzutu, potrzebna jest odpowiednia adresacja wszystkich komputerów wewnątrz niej.
+W obecnych czasach już praktycznie nie stosuje się statycznej konfiguracji, bo to zadanie zostało
+zrzucone na barki serwera DHCP. W OpenWRT do tego celu oddelegowane jest <a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">oprogramowanie
+dnsmasq</a>. Zapewnia ono nie tylko wspomniany wyżej serwer DHCP ale także serwer cache'ujący
+zapytania DNS. Ten drugi z kolei jest niezastąpiony w przypadku przekazywania zapytań o nazwy domen
+do upstream'owego serwera DNS, który zajmuje się rozwiązywaniem tych nazw na odpowiadające im adresy
+IP. Bez <code>dnsmasq</code> ogarnięcie naszej sieci przerodziłoby się w istne piekło. Dlatego też w tym
+artykule przybliżymy sobie nieco konfigurację tego narzędzia.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-05-02T16:21:20&#43;02:00">Opublikowano: 02/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-przyciskow-w-openwrt/">Konfiguracja przycisków w OpenWRT</a></h1>
+	<div class="entry__content"><p>Każdy router w standardzie ma na swojej obudowie kilka przycisków. Zwykle są to przyciski zasilania,
+restartu i przełącznik sieci bezprzewodowej. Różnie są one oznaczane i można się spotkać z QSS, WPS,
+reset czy WiFi. O ile z przyciskiem zasilania nic więcej się nie da zrobić, bo po naciśnięciu go
+router jest odcinany od źródła zasilania ale w przypadku pozostałych przycisków mamy zwykle pełną
+swobodę w ich konfiguracji i można je sobie odpowiednio zaprogramować. Oczywiście trzeba widzieć jak
+tego dokonać i dlatego właśnie powstał ten artykuł.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-04-30T20:00:19Z">Opublikowano: 30/04/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-diod-w-routerze-pod-openwrt-led/">Konfiguracja diod w routerze pod OpenWRT (LED)</a></h1>
+	<div class="entry__content"><p>Praktycznie każdy router posiada szereg diod LED, które wizualizują stan pracy takiego urządzenia. W
+taki sposób jesteśmy w stanie stwierdzić czy sieć WiFi jest aktualnie włączona albo czy odbywa się
+wymiana danych za jej pomocą. Podobnie możemy ocenić aktywność mechanizmu WPS oraz czy połączenie
+przewodowe zostało ustanowione. Routery TP-LINK'a mają także w standardzie diodę <code>system</code> , która
+informuje nas czy router działa prawidłowo i nie uległ powieszeniu. W OpenWRT wszystkie te wyżej
+opisane właściwości można skonfigurować, tak by dioda LED reagowała w określony sposób na pewne
+zaistniałe zdarzenie. W tym wpisie przyjrzymy się bliżej konfiguracji diod routera.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-04-30T17:11:47Z">Opublikowano: 30/04/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+		</div>
+	</main>
+	
+<div class="pagination block">
+	<a href="https://morfikov.github.io/tags/chaos-calmer/" class="pagination__item pagination__item--desktop" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    <a href="https://morfikov.github.io/tags/chaos-calmer/page/3/" class="pagination__item pagination__item--desktop" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/chaos-calmer/">1</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/chaos-calmer/page/2/">2</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/chaos-calmer/page/3/">3</a>
+				<span class="pagination__item pagination__item--active" data-total="7">4</span>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/chaos-calmer/page/5/">5</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/chaos-calmer/page/6/">6</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/chaos-calmer/page/7/">7</a>
+	<a href="https://morfikov.github.io/tags/chaos-calmer/page/5/" class="pagination__item pagination__item--desktop" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+      <a href="https://morfikov.github.io/tags/chaos-calmer/page/7/" class="pagination__item pagination__item--desktop" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+</div>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

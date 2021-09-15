@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak zweryfikować plik APK aplikacji na Androida | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak zweryfikować plik APK aplikacji na Androida" />
+<meta property="og:description" content="Część użytkowników smartfonów z Androidem na pokładzie żyje w głębokim przekonaniu, że instalowanie
+aplikacji spoza sklepu Google Play nie jest zbyt rozważnym posunięciem. Nie chodzi tutaj tylko o
+szeroko rozumiane alternatywne źródła aplikacji, np. serwis apkmirror ale również o Yalp/Aurora
+Store czy też repozytoria F-Droid. Zdaniem tych osób pobieranie aplikacji z zewnętrznych źródeł
+może skompromitować bezpieczeństwo systemu oraz zagrozić naszej prywatności. No jakby nie patrzeć
+wgrywanie czegokolwiek bez zastanowienia się co tak naprawdę instalujemy w systemie nie jest zbyt
+mądre. Dlaczego zatem nie weryfikujemy aplikacji obecnych w oficjalnym sklepie Google? Co chwila
+przecież można usłyszeć w mediach o syfie, który udało się co prawda z tego sklepu usunąć ale też
+jakaś większa liczba użytkowników taką aplikację zdążyła już zainstalować i używała jej przez
+dłuższy lub krótszy okres czasu. Rozumowanie na zasadzie, że aplikacje ze sklepu Google Play są
+bezpieczne, bo są obecne w sklepie Google Play, daje nam jedynie fałszywe poczucie bezpieczeństwa,
+które jest gorsze od całkowitego braku bezpieczeństwa, bo w tym drugim przypadku człowiek
+przynajmniej jest świadom czyhających na niego niebezpieczeństw i włącza myślenie. Jak zatem
+odróżnić aplikacje, które są w stanie nam wyrządzić krzywdę od tych, które tego nie mają na celu i
+czy faktycznie pobieranie aplikacji na Androida z innego źródła niż oficjalny sklep Google Play
+jest takie niebezpieczne?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-zweryfikowac-plik-apk-aplikacji-na-androida/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-12-13T19:26:14&#43;01:00" />
+<meta property="article:modified_time" content="2019-12-13T19:26:14&#43;01:00" />
+
+
+		<meta itemprop="name" content="Jak zweryfikować plik APK aplikacji na Androida">
+<meta itemprop="description" content="Część użytkowników smartfonów z Androidem na pokładzie żyje w głębokim przekonaniu, że instalowanie
+aplikacji spoza sklepu Google Play nie jest zbyt rozważnym posunięciem. Nie chodzi tutaj tylko o
+szeroko rozumiane alternatywne źródła aplikacji, np. serwis apkmirror ale również o Yalp/Aurora
+Store czy też repozytoria F-Droid. Zdaniem tych osób pobieranie aplikacji z zewnętrznych źródeł
+może skompromitować bezpieczeństwo systemu oraz zagrozić naszej prywatności. No jakby nie patrzeć
+wgrywanie czegokolwiek bez zastanowienia się co tak naprawdę instalujemy w systemie nie jest zbyt
+mądre. Dlaczego zatem nie weryfikujemy aplikacji obecnych w oficjalnym sklepie Google? Co chwila
+przecież można usłyszeć w mediach o syfie, który udało się co prawda z tego sklepu usunąć ale też
+jakaś większa liczba użytkowników taką aplikację zdążyła już zainstalować i używała jej przez
+dłuższy lub krótszy okres czasu. Rozumowanie na zasadzie, że aplikacje ze sklepu Google Play są
+bezpieczne, bo są obecne w sklepie Google Play, daje nam jedynie fałszywe poczucie bezpieczeństwa,
+które jest gorsze od całkowitego braku bezpieczeństwa, bo w tym drugim przypadku człowiek
+przynajmniej jest świadom czyhających na niego niebezpieczeństw i włącza myślenie. Jak zatem
+odróżnić aplikacje, które są w stanie nam wyrządzić krzywdę od tych, które tego nie mają na celu i
+czy faktycznie pobieranie aplikacji na Androida z innego źródła niż oficjalny sklep Google Play
+jest takie niebezpieczne?"><meta itemprop="datePublished" content="2019-12-13T19:26:14&#43;01:00" />
+<meta itemprop="dateModified" content="2019-12-13T19:26:14&#43;01:00" />
+<meta itemprop="wordCount" content="5817">
+<meta itemprop="keywords" content="aplikacje,apk,bezpieczeństwo," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak zweryfikować plik APK aplikacji na Androida"/>
+<meta name="twitter:description" content="Część użytkowników smartfonów z Androidem na pokładzie żyje w głębokim przekonaniu, że instalowanie
+aplikacji spoza sklepu Google Play nie jest zbyt rozważnym posunięciem. Nie chodzi tutaj tylko o
+szeroko rozumiane alternatywne źródła aplikacji, np. serwis apkmirror ale również o Yalp/Aurora
+Store czy też repozytoria F-Droid. Zdaniem tych osób pobieranie aplikacji z zewnętrznych źródeł
+może skompromitować bezpieczeństwo systemu oraz zagrozić naszej prywatności. No jakby nie patrzeć
+wgrywanie czegokolwiek bez zastanowienia się co tak naprawdę instalujemy w systemie nie jest zbyt
+mądre. Dlaczego zatem nie weryfikujemy aplikacji obecnych w oficjalnym sklepie Google? Co chwila
+przecież można usłyszeć w mediach o syfie, który udało się co prawda z tego sklepu usunąć ale też
+jakaś większa liczba użytkowników taką aplikację zdążyła już zainstalować i używała jej przez
+dłuższy lub krótszy okres czasu. Rozumowanie na zasadzie, że aplikacje ze sklepu Google Play są
+bezpieczne, bo są obecne w sklepie Google Play, daje nam jedynie fałszywe poczucie bezpieczeństwa,
+które jest gorsze od całkowitego braku bezpieczeństwa, bo w tym drugim przypadku człowiek
+przynajmniej jest świadom czyhających na niego niebezpieczeństw i włącza myślenie. Jak zatem
+odróżnić aplikacje, które są w stanie nam wyrządzić krzywdę od tych, które tego nie mają na celu i
+czy faktycznie pobieranie aplikacji na Androida z innego źródła niż oficjalny sklep Google Play
+jest takie niebezpieczne?"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak zweryfikować plik APK aplikacji na Androida</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2019-12-13T19:26:14&#43;01:00">Opublikowano: 13/12/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak zweryfikować plik APK aplikacji na Androida</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#sklep-google-play-a-alternatywne-źródła-aplikacji">Sklep Google Play, a alternatywne źródła aplikacji</a></li>
+    <li><a href="#schematy-podpisywania-plików-apk">Schematy podpisywania plików APK</a>
+      <ol>
+        <li><a href="#problematyczny-jar-signed-apk">Problematyczny JAR-signed APK</a></li>
+        <li><a href="#apk-signature-scheme-v2v3">APK Signature Scheme v2/v3</a></li>
+        <li><a href="#wsparcie-dla-wszystkich-schematów-podpisu">Wsparcie dla wszystkich schematów podpisu</a></li>
+      </ol>
+    </li>
+    <li><a href="#jak-zweryfikować-plik-apk">Jak zweryfikować plik APK</a>
+      <ol>
+        <li><a href="#weryfikacja-schematu-jar-signed-apk">Weryfikacja schematu JAR-signed APK</a>
+          <ol>
+            <li><a href="#weryfikacja-certyfikatu">Weryfikacja certyfikatu</a></li>
+            <li><a href="#weryfikacja-danych-pliku-apk">Weryfikacja danych pliku APK</a></li>
+            <li><a href="#jarsigner">Jarsigner</a></li>
+          </ol>
+        </li>
+        <li><a href="#weryfikacja-apk-signature-scheme-v2v3">Weryfikacja APK Signature Scheme v2/v3</a>
+          <ol>
+            <li><a href="#apksigner">Apksigner</a></li>
+          </ol>
+        </li>
+        <li><a href="#jar-signed-apk-i-starsze-wersje-androida">JAR-signed APK i starsze wersje Androida</a></li>
+        <li><a href="#certyfikaty-typu-self-signed">Certyfikaty typu self-signed</a></li>
+      </ol>
+    </li>
+    <li><a href="#czy-pobieranie-aplikacji-z-yalpaurora-store-jest-bezpieczne">Czy pobieranie aplikacji z Yalp/Aurora Store jest bezpieczne</a></li>
+    <li><a href="#czy-pobieranie-aplikacji-z-f-droid-jest-bezpieczne">Czy pobieranie aplikacji z F-Droid jest bezpieczne</a></li>
+    <li><a href="#czy-pobieranie-aplikacji-z-apkmirrorcom-jest-bezpieczne">Czy pobieranie aplikacji z apkmirror.com jest bezpieczne</a></li>
+    <li><a href="#aktualizacja-aplikacji-z-niezaufanego-źródła">Aktualizacja aplikacji z niezaufanego źródła</a></li>
+    <li><a href="#instalacja-aplikacji-z-niezaufanego-źródła">Instalacja aplikacji z niezaufanego źródła</a>
+      <ol>
+        <li><a href="#a-jeśli-aplikacja-nie-publikuje-odcisku-palca-certyfikatu">A jeśli aplikacja nie publikuje odcisku palca certyfikatu</a></li>
+      </ol>
+    </li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Część użytkowników smartfonów z Androidem na pokładzie żyje w głębokim przekonaniu, że instalowanie
+aplikacji spoza sklepu Google Play nie jest zbyt rozważnym posunięciem. Nie chodzi tutaj tylko o
+szeroko rozumiane alternatywne źródła aplikacji, np. serwis apkmirror ale również o Yalp/Aurora
+Store czy też repozytoria F-Droid. Zdaniem tych osób pobieranie aplikacji z zewnętrznych źródeł
+może skompromitować bezpieczeństwo systemu oraz zagrozić naszej prywatności. No jakby nie patrzeć
+wgrywanie czegokolwiek bez zastanowienia się co tak naprawdę instalujemy w systemie nie jest zbyt
+mądre. Dlaczego zatem nie weryfikujemy aplikacji obecnych w oficjalnym sklepie Google? Co chwila
+przecież można usłyszeć w mediach o syfie, który udało się co prawda z tego sklepu usunąć ale też
+jakaś większa liczba użytkowników taką aplikację zdążyła już zainstalować i używała jej przez
+dłuższy lub krótszy okres czasu. Rozumowanie na zasadzie, że aplikacje ze sklepu Google Play są
+bezpieczne, bo są obecne w sklepie Google Play, daje nam jedynie fałszywe poczucie bezpieczeństwa,
+które jest gorsze od całkowitego braku bezpieczeństwa, bo w tym drugim przypadku człowiek
+przynajmniej jest świadom czyhających na niego niebezpieczeństw i włącza myślenie. Jak zatem
+odróżnić aplikacje, które są w stanie nam wyrządzić krzywdę od tych, które tego nie mają na celu i
+czy faktycznie pobieranie aplikacji na Androida z innego źródła niż oficjalny sklep Google Play
+jest takie niebezpieczne?</p>
+<h2 id="sklep-google-play-a-alternatywne-źródła-aplikacji">Sklep Google Play, a alternatywne źródła aplikacji</h2>
+<p>Trzeba sobie zdać sprawę, że w sklepie Google Play znajduje się cała masa aplikacji, które nie
+należą do marki Google. Niby oczywista oczywistość ale już sam fakt, że w grę wchodzą podmioty
+zewnętrzne powinien nam dać do myślenia, wszak wraz ze wzrostem ilości aplikacji maleje zdolność
+weryfikacji tego co tak naprawdę do sklepu Google Play trafia. Człowiek zwyczajnie nie jest w
+stanie zweryfikować tych miliardów linijek kodu, a to otwiera drogę do implementowania w
+aplikacjach różnych niepożądanych funkcji, które mogą działać na naszą szkodę.</p>
+<p>Sklep Google Play to jedynie medium dystrybucyjne umożliwiające zebranie w jednym miejscu
+rezultatów pracy całej masy różnych deweloperów aplikacji. Dzięki takiemu rozwiązaniu nie trzeba
+biegać po setkach stron w celu skompletowania zestawu appek, które chcemy mieć w systemie i później
+martwić się jeszcze o proces aktualizacji tak pozyskanego oprogramowania. Niemniej jednak, ta
+zaleta sklepu Google Play jest też i jego wadą zarazem, bo taki centralny punkt dystrybucyjny może
+stać się celem ataków. Dlatego nie powinno się ufać środkom dystrybucji i to bez znaczenia czy mamy
+do czynienia z oficjalnym sklepem Google Play czy innymi alternatywnymi źródłami aplikacji, np
+F-Droid czy serwis apkmirror. Jeśli cenimy sobie bezpieczeństwo i prywatność, to powinniśmy raczej
+starać się ufać konkretnym deweloperom, którzy wyrobili sobie reputację działając dla dobra jakiejś
+społeczności.</p>
+<h2 id="schematy-podpisywania-plików-apk">Schematy podpisywania plików APK</h2>
+<p>Aplikacje dostępne na Androida (w tym też te obecne w sklepie Google Play) są podpisane kluczami
+deweloperów konkretnych projektów na etapie budowania pakietu <code>.apk</code> . Dane zawarte w tym pliku są
+podpisane przy wykorzystaniu <a href="https://source.android.com/security/apksigning/">jednego z trzech schematów</a>: JAR-signed APK (dla Androida &lt;7) i
+APK Signature Scheme v2 (oraz v3 dla Androida 9 i późniejszych). Po pobraniu aplikacji ale przed
+jej instalacją w systemie, Android będzie próbował zweryfikować sygnaturę zanim zezwoli na
+kontynuację procesu instalacyjnego.</p>
+<h3 id="problematyczny-jar-signed-apk">Problematyczny JAR-signed APK</h3>
+<p>W przypadku JAR-signed APK mamy do czynienia z <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Signed_JAR_File">podpisaniem zwykłego pliku JAR</a>, gdzie sumy
+kontrolne są generowane osobno dla każdego z plików aplikacji. W przypadku tego schematu występują
+jednak problemy z bezpieczeństwem, jako, że archiwum ZIP (którym jest plik <code>.apk</code> ) może zawierać
+dodatkowe bajty na początku, jak i również przed i między kolejnymi wpisami ZIP. Podpis, który jest
+generowany pod takim archiwum (i później weryfikowany) bierze pod uwagę jedynie same wpisy w ZIP i
+ignoruje zarazem wszystkie dodatkowe bity. Taki stan rzeczy umożliwia wstrzyknięcie pliku <code>.dex</code> w
+plik <code>.apk</code> bez wpływu na złożoną sygnaturę (pozostanie ona taka sama i, co gorsza, będzie
+poprawna). Podczas instalacji takiego zmienionego pakietu, Android zweryfikuje sygnaturę nie
+wykrywając przy tym zmian w ZIP ale Dalvik (maszyna wirtualna Androida) zinterpretuje ten plik
+<code>.apk</code> jako plik <code>.dex</code> i wykona jego kod (<a href="https://www.xda-developers.com/janus-vulnerability-android-apps/">podatność Janus (CVE-2017-13156)</a>).</p>
+<p>Całą taką paczkę <code>.apk</code> trzeba też wypakować w celu weryfikacji jej zawartości, a to z kolei
+spowalnia cały proces instalacji i zwiększa wykorzystanie zasobów sprzętowych telefonu (pamięć RAM
+i procesor) i cierpi na tym też bateria.</p>
+<h3 id="apk-signature-scheme-v2v3">APK Signature Scheme v2/v3</h3>
+<p>Z racji, że JAR-signed APK był dość nieefektywny i miał parę podatności, to by sobie z nimi
+poradzić opracowano APK Signature Scheme v2 i później też v3, w których to <a href="https://source.android.com/security/apksigning/v2">podpisywany jest cały
+plik .apk</a> wraz z metadanymi ZIP i zmiana nawet jednego bitu w takiej paczce będzie skutkować
+błędem przy weryfikacji integralności danych, które są w niej zwarte. Jeśli chodzi zaś o różnice
+między v2 i v3 to w przypadku v3 zostały wprowadzone <a href="https://www.xda-developers.com/apk-signature-scheme-v3-key-rotation/">dodatkowe informacje</a>, które są
+umieszczane w bloku podpisu (signing block).</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/001-apk-integrity-protection.png" alt=""    class="huge"></p>
+<h3 id="wsparcie-dla-wszystkich-schematów-podpisu">Wsparcie dla wszystkich schematów podpisu</h3>
+<p>Wszystkie te trzy schematy podpisywania nie są kompatybilne wstecznie ze sobą. Jeśli dana aplikacja
+ma być instalowana w starszych i nowszych wersjach Androida, to trzeba ją podpisać przy pomocy
+każdego ze schematów. Później przy instalacji aplikacji, system podąża według poniższych
+instrukcji, by taki pakiet zweryfikować:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/002-apk-validation-process.png" alt=""    class="huge"></p>
+<h2 id="jak-zweryfikować-plik-apk">Jak zweryfikować plik APK</h2>
+<p>Dysponując wiedzą, że pliki <code>.apk</code> są podpisane, to drugorzędne znaczenie ma dla nas źródło, z
+którego je pobieramy. Niemniej jednak, wypadałoby zweryfikować kto się pod taką aplikacją podpisał
+oraz czy paczka (albo jej pliki) została w jakiś sposób zmieniona.</p>
+<p>Jeśli pobieramy aplikacje ze sklepu Google Play, to tam zwykle jest wyszczególniony podmiot, od
+którego ta appka pochodzi. Niekiedy przy kontakcie z deweloperem jest nieco więcej informacji, np.
+strona projektu, czy adres. Warto też rzucić okiem na informacje o aplikacji, bo tam mogą być
+dodatkowe linki, np. do oficjalnego forum czy kodu źródłowego.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/003-signal-app-google-play.png" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/004-signal-app-google-play.png" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/005-signal-app-google-play.png" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>Nie zawsze jednak wszystkie te informacje będą podane tak jak w przypadku tej powyższej aplikacji.
+Ja generalnie zalecam trzymanie się z dala od tych appek, których identyfikacja podmiotu jest
+problematyczna. Jeśli uda nam się zweryfikować podmiot, który stoi za aplikacją w sklepie Google
+Play, i mu ufamy, to możemy taką aplikację pobrać, zainstalować i tyle z naszej strony. Android w
+naszym telefonie przeprowadzi już sobie wszystkie niezbędne kroki pod kątem weryfikacji pliku <code>.apk</code>
+i albo zainstaluje aplikację jeśli weryfikacja przebiegnie z powodzeniem, albo nie pozwoli na jej
+instalację.</p>
+<p>Jeśli zaś chcemy pobierać aplikacje z innych źródeł albo jedynie ciekawi nas jak taka weryfikacja
+aplikacji przebiega i jak ją przeprowadzić by zweryfikować integralność danych, to poniżej jest
+zamieszczona krótka instrukcja. Jako, że są w zasadzie dwa różne schematy podpisów, to trzeba zająć
+się nimi z osobna, bo taki plik <code>.apk</code> można instalować na starszych i nowszych Androidach i tylko
+ten fakt będzie wpływał na to, który schemat podpisu zostanie użyty podczas weryfikacji.</p>
+<p>Za przykładową aplikację posłuży nam Signal. Plik tej appki można pobrać ze sklepu Google Play, z
+<a href="https://signal.org/android/apk/">oficjalnej strony projektu</a>, lub z każdego dowolnego miejsca, które nam wpadnie w łapki.</p>
+<h3 id="weryfikacja-schematu-jar-signed-apk">Weryfikacja schematu JAR-signed APK</h3>
+<p>Gdybyśmy się jedynie ograniczyli do pobrania pliku <code>.apk</code> z dowolnego źródła, do którego odesłałaby
+nas wyszukiwarka, to faktycznie moglibyśmy się obawiać instalacji tego pliku na urządzeniu z
+Androidem. Niemniej jednak, pobranie pliku to jedna sprawa, a jego weryfikacja, to osobna bajka.</p>
+<p>W każdej paczce <code>.apk</code> znajduje się katalog <code>META-INF/</code> , w nim zaś znajduje się kilka użytecznych
+dla nas plików:</p>
+<ul>
+<li><code>META-INF/MANIFEST.MF</code> - plik manifestu, który jest wykorzystywany do zdefiniowania rozszerzenia
+i danych powiązanych z pakietem.</li>
+<li><code>META-INF/*.SF</code> - plik z sygnaturami dla pliku JAR (w miejsce gwiazdki podstawia się konkretną
+nazwę).</li>
+<li><code>META-INF/*.RSA</code> - blokowy plik zawierający metadane certyfikatu, klucz publiczny oraz sygnaturę
+powiązaną z plikiem <code>*.SF</code> o tej samej nazwie. Plik ten jest nieczytelny dla człowieka.</li>
+</ul>
+<h4 id="weryfikacja-certyfikatu">Weryfikacja certyfikatu</h4>
+<p>Na stronie projektu Signal był podany odcisk palca SHA256 certyfikatu. Wygląda on tak:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/006-signal-app-manual-download-certificate-hash.png" alt=""    class="huge"></p>
+<p>Po co nam ten odcisk? Przy jego pomocy jesteśmy w stanie zweryfikować podmiot, który ten certyfikat
+wystawił. Informacje o certyfikacie są dostępne w pliku <code>META-INF/SIGNAL_S.RSA</code> i możemy je uzyskać
+za sprawą narzędzia <code>keytool</code> :</p>
+<pre><code>$ unzip -p Signal-website-universal-release-*.apk META-INF/SIGNAL_S.RSA | keytool -printcert
+Owner: CN=Whisper Systems, OU=Research and Development, O=Whisper Systems, L=Pittsburgh, ST=PA, C=US
+Issuer: CN=Whisper Systems, OU=Research and Development, O=Whisper Systems, L=Pittsburgh, ST=PA, C=US
+Serial number: 4bfbebba
+Valid from: Tue May 25 17:24:42 CEST 2010 until: Tue May 16 17:24:42 CEST 2045
+Certificate fingerprints:
+         MD5:  D9:0D:B3:64:E3:2F:A3:A7:BD:A4:C2:90:FB:65:E3:10
+         SHA1: 45:98:9D:C9:AD:87:28:C2:AA:9A:82:FA:55:50:3E:34:A8:87:93:74
+         SHA256: 29:F3:4E:5F:27:F2:11:B4:24:BC:5B:F9:D6:71:62:C0:EA:FB:A2:DA:35:AF:35:C1:64:16:FC:44:62:76:BA:26
+Signature algorithm name: SHA1withRSA
+Subject Public Key Algorithm: 1024-bit RSA key
+Version: 3
+</code></pre>
+<p>Mamy tutaj informacje na temat tego kto ten certyfikat wystawił, datę jego ważności oraz, to co nas
+interesuje najbardziej, czyli odcisk palca SHA256, który pasuje do tego ze strony projektu Signal.
+Wiemy zatem, że certyfikat należy do Whisper Systems (twórcy aplikacji Signal), no i tym samym
+udało nam się zweryfikować podmiot, który się pod tym plikiem <code>.apk</code> podpisał.</p>
+<p>Przy weryfikacji certyfikatu można także posłużyć się poniższym poleceniem:</p>
+<pre><code>$ openssl pkcs7 -inform DER -in SIGNAL_S.RSA -noout -print_certs -text
+</code></pre>
+<h4 id="weryfikacja-danych-pliku-apk">Weryfikacja danych pliku APK</h4>
+<p>Teraz wypadałoby zweryfikować czy integralność danych w pliku <code>.apk</code> nie została naruszona w żaden
+sposób. By ręcznie zweryfikować paczkę <code>.apk</code> , trzeba posłużyć się plikiem <code>META-INF/MANIFEST.MF</code> .
+Poniżej znajduje się jego skrócona wersja:</p>
+<pre><code>Manifest-Version: 1.0
+Built-By: Generated-by-ADT
+Created-By: Android Gradle 3.5.1
+
+Name: AndroidManifest.xml
+SHA-256-Digest: S9ggdRXHREOfZVUyR3gVkkj7heljgNS3N2jG6j5AgwU=
+
+Name: FingerprintProtocol.proto
+SHA-256-Digest: WQ9R/MGV5m9Dye4Jtl3MiLRmX2RPoEPeinb3me7wnAU=
+
+...
+
+Name: res/xml/syncadapter.xml
+SHA-256-Digest: Bh02ycHvc/OhwewyU6h1WDtEt+v7tNgKrauGEHs8azs=
+
+Name: resources.arsc
+SHA-256-Digest: DJGwbk9S1VPH6Cqkqa5A/8Sb3vYVPmbCZP/7G7EYkjs=
+</code></pre>
+<p>Poza nagłówkiem (trzema pierwszymi linijkami) mamy wpisy w postaci par <code>Name</code>/<code>SHA-256-Digest</code> .
+Jest ich dość sporo bo aż 3456. Plików w tej paczce zaś jest 3459, co daje różnice 3 plików. Zatem
+każdy plik za wyjątkiem tych powiązanych z podpisami ( <code>MANIFEST.MF</code> , <code>SIGNAL_S.SF</code> oraz
+<code>SIGNAL_S.RSA</code> ) ma wygenerowaną sumę kontrolą zakodowaną w base64 (SHA-256-Digest).</p>
+<p>Dla przykładu weźmy sobie plik <code>FingerprintProtocol.proto</code> . By wyliczyć jego sumę kontrolną można
+posłużyć się poniższym poleceniem:</p>
+<pre><code>$ unzip -p Signal-website-universal-release-*.apk FingerprintProtocol.proto | \
+    sha256sum | \
+    xxd -r -p | \
+    base64
+
+WQ9R/MGV5m9Dye4Jtl3MiLRmX2RPoEPeinb3me7wnAU=
+</code></pre>
+<p>Wynikowy ciąg znaków pasuje do tego w pliku manifestu, zatem jego suma kontrolna się zgadza i plik
+nie został w żaden sposób zmieniony.</p>
+<p>Podobnie Android weryfikuje każdy z plików przed instalacją aplikacji w systemie (przynajmniej
+jeśli chodzi o Andki &lt;7). Gdyby zmienić któryś z tych plików, to jego suma kontrola byłaby inna i
+proces instalacji by się nie powiódł.</p>
+<p>Oczywiście, gdyby polegać tylko na pliku <code>META-INF/MANIFEST.MF</code> , to naturalnie można by
+wygenerować nową sumę kontrolną i wstawić ją w stosowne miejsce, co czyniłoby całe zabezpieczenie
+bez sensu. Dlatego też z pomocą przychodzi nam plik <code>META-INF/SIGNAL_S.SF</code> , którego zawartość jest
+podobna do pliku <code>META-INF/MANIFEST.MF</code> . Poniżej jest skrócona zawartość <code>META-INF/SIGNAL_S.SF</code> :</p>
+<pre><code>Signature-Version: 1.0
+Created-By: 1.0 (Android)
+SHA-256-Digest-Manifest: 5GtdBgQlYLeNtJczTVbfG/rrh6YdoNxEZ2iq+BiRNA8=
+X-Android-APK-Signed: 2, 3
+
+Name: AndroidManifest.xml
+SHA-256-Digest: PxbxNfqXevr9OY8iXnzwOdJf4POisDv7D/KBJ7p9yaE=
+
+Name: FingerprintProtocol.proto
+SHA-256-Digest: fWL5eppUj0x6UVdPqHusFkpDbXpq7P0sqchfublqEnA=
+
+...
+
+Name: res/xml/syncadapter.xml
+SHA-256-Digest: or/WIJ91gQYMoGN/XzSmsSXP4oA8Y1Z8mI7HVyO/NgY=
+
+Name: resources.arsc
+SHA-256-Digest: 2oWTAFfBatMDkEJCDUocCNL5r0CTK5pl+8UFmIxLYvI=
+</code></pre>
+<p>Dwie rzeczy się rzucają w oczy od razu. Pierwszą z nich jest pole <code>SHA-256-Digest-Manifest</code> w
+nagłówku, którego wartość jest zakodowaną w base64 sumą kontrolną pliku <code>META-INF/MANIFEST.MF</code> :</p>
+<pre><code>$ unzip -p Signal-website-universal-release-*.apk META-INF/MANIFEST.MF | \
+    sha256sum | \
+    xxd -r -p | \
+    base64
+
+5GtdBgQlYLeNtJczTVbfG/rrh6YdoNxEZ2iq+BiRNA8=
+</code></pre>
+<p>Zatem plik manifestu nie został zmieniony w żaden sposób, bo jego suma kontrolna się zgadza.</p>
+<p>Drugą rzeczą którą można zauważyć jest fakt, że wartości w <code>SHA-256-Digest</code> różnią się od tych
+obecnych w <code>META-INF/MANIFEST.MF</code> . Dzieje się tak ze względu na fakt, że w przypadku
+<code>META-INF/SIGNAL_S.SF</code> nie są hash'owane same pliki, a <a href="https://docs.oracle.com/javase/tutorial/deployment/jar/intro.html">jedynie konkretne sekcje z pliku
+META-INF/MANIFEST.MF</a>. Na sekcję zaś składa się linijka z <code>Name:</code> , <code>SHA-256-Digest:</code> oraz
+pusta linia (znak <code>CRLF</code>). Trochę to skomplikowane zatem najlepiej to zobrazować na przykładzie.</p>
+<p>Sekcja pliku <code>FingerprintProtocol.proto</code> w <code>META-INF/MANIFEST.MF</code> ma poniższą postać:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/007-manifest-section-hash.png" alt=""    class="huge"></p>
+<p>Jeśli taki wycinek tekstu podda się procesowi hash'owania, to otrzymamy:</p>
+<pre><code>$ cat data.txt | sha256sum | xxd -r -p | base64
+fWL5eppUj0x6UVdPqHusFkpDbXpq7P0sqchfublqEnA=
+</code></pre>
+<p>I ten hash już pasuje do tego obecnego w pliku <code>META-INF/SIGNAL_S.SF</code> przy pozycji
+<code>FingerprintProtocol.proto</code> .</p>
+<p>Oczywiście plik <code>META-INF/SIGNAL_S.SF</code> również można by poddać edycji i właśnie po to jest plik
+<code>SIGNAL_S.RSA</code> , który oprócz danych certyfikatu i klucza publicznego zawiera także sygnaturę
+złożoną pod plikiem <code>META-INF/SIGNAL_S.SF</code> w chwili tworzenia paczki <code>.apk</code> przez dewelopera. By
+taką sygnaturę złożyć potrzebny jest klucz prywatny, do którego zwykle ma dostęp dość ograniczone
+grono osób, przez co bardzo ciężko jest ten podpis podrobić.</p>
+<p>Jeśli nie wiemy czy plik <code>META-INF/SIGNAL_S.RSA</code> zawiera jakąś sygnaturę, to zawsze możemy ten fakt
+sprawdzić przy pomocy poniższego polecenia:</p>
+<pre><code>$ openssl asn1parse -i -inform DER -in META-INF/SIGNAL_S.RSA
+    0:d=0  hl=4 l=1023 cons: SEQUENCE
+    4:d=1  hl=2 l=   9 prim:  OBJECT            :pkcs7-signedData
+   15:d=1  hl=4 l=1008 cons:  cont [ 0 ]
+   19:d=2  hl=4 l=1004 cons:   SEQUENCE
+   23:d=3  hl=2 l=   1 prim:    INTEGER           :01
+   26:d=3  hl=2 l=  15 cons:    SET
+   28:d=4  hl=2 l=  13 cons:     SEQUENCE
+   30:d=5  hl=2 l=   9 prim:      OBJECT            :sha256
+   41:d=5  hl=2 l=   0 prim:      NULL
+   43:d=3  hl=2 l=  11 cons:    SEQUENCE
+   45:d=4  hl=2 l=   9 prim:     OBJECT            :pkcs7-data
+   56:d=3  hl=4 l= 649 cons:    cont [ 0 ]
+   60:d=4  hl=4 l= 645 cons:     SEQUENCE
+   64:d=5  hl=4 l= 494 cons:      SEQUENCE
+   68:d=6  hl=2 l=   3 cons:       cont [ 0 ]
+   70:d=7  hl=2 l=   1 prim:        INTEGER           :02
+   73:d=6  hl=2 l=   4 prim:       INTEGER           :4BFBEBBA
+   79:d=6  hl=2 l=  13 cons:       SEQUENCE
+   81:d=7  hl=2 l=   9 prim:        OBJECT            :sha1WithRSAEncryption
+   92:d=7  hl=2 l=   0 prim:        NULL
+   94:d=6  hl=3 l= 134 cons:       SEQUENCE
+   97:d=7  hl=2 l=  11 cons:        SET
+   99:d=8  hl=2 l=   9 cons:         SEQUENCE
+  101:d=9  hl=2 l=   3 prim:          OBJECT            :countryName
+  106:d=9  hl=2 l=   2 prim:          PRINTABLESTRING   :US
+  110:d=7  hl=2 l=  11 cons:        SET
+  112:d=8  hl=2 l=   9 cons:         SEQUENCE
+  114:d=9  hl=2 l=   3 prim:          OBJECT            :stateOrProvinceName
+  119:d=9  hl=2 l=   2 prim:          PRINTABLESTRING   :PA
+  123:d=7  hl=2 l=  19 cons:        SET
+  125:d=8  hl=2 l=  17 cons:         SEQUENCE
+  127:d=9  hl=2 l=   3 prim:          OBJECT            :localityName
+  132:d=9  hl=2 l=  10 prim:          PRINTABLESTRING   :Pittsburgh
+  144:d=7  hl=2 l=  24 cons:        SET
+  146:d=8  hl=2 l=  22 cons:         SEQUENCE
+  148:d=9  hl=2 l=   3 prim:          OBJECT            :organizationName
+  153:d=9  hl=2 l=  15 prim:          PRINTABLESTRING   :Whisper Systems
+  170:d=7  hl=2 l=  33 cons:        SET
+  172:d=8  hl=2 l=  31 cons:         SEQUENCE
+  174:d=9  hl=2 l=   3 prim:          OBJECT            :organizationalUnitName
+  179:d=9  hl=2 l=  24 prim:          PRINTABLESTRING   :Research and Development
+  205:d=7  hl=2 l=  24 cons:        SET
+  207:d=8  hl=2 l=  22 cons:         SEQUENCE
+  209:d=9  hl=2 l=   3 prim:          OBJECT            :commonName
+  214:d=9  hl=2 l=  15 prim:          PRINTABLESTRING   :Whisper Systems
+  231:d=6  hl=2 l=  30 cons:       SEQUENCE
+  233:d=7  hl=2 l=  13 prim:        UTCTIME           :100525152442Z
+  248:d=7  hl=2 l=  13 prim:        UTCTIME           :450516152442Z
+  263:d=6  hl=3 l= 134 cons:       SEQUENCE
+  266:d=7  hl=2 l=  11 cons:        SET
+  268:d=8  hl=2 l=   9 cons:         SEQUENCE
+  270:d=9  hl=2 l=   3 prim:          OBJECT            :countryName
+  275:d=9  hl=2 l=   2 prim:          PRINTABLESTRING   :US
+  279:d=7  hl=2 l=  11 cons:        SET
+  281:d=8  hl=2 l=   9 cons:         SEQUENCE
+  283:d=9  hl=2 l=   3 prim:          OBJECT            :stateOrProvinceName
+  288:d=9  hl=2 l=   2 prim:          PRINTABLESTRING   :PA
+  292:d=7  hl=2 l=  19 cons:        SET
+  294:d=8  hl=2 l=  17 cons:         SEQUENCE
+  296:d=9  hl=2 l=   3 prim:          OBJECT            :localityName
+  301:d=9  hl=2 l=  10 prim:          PRINTABLESTRING   :Pittsburgh
+  313:d=7  hl=2 l=  24 cons:        SET
+  315:d=8  hl=2 l=  22 cons:         SEQUENCE
+  317:d=9  hl=2 l=   3 prim:          OBJECT            :organizationName
+  322:d=9  hl=2 l=  15 prim:          PRINTABLESTRING   :Whisper Systems
+  339:d=7  hl=2 l=  33 cons:        SET
+  341:d=8  hl=2 l=  31 cons:         SEQUENCE
+  343:d=9  hl=2 l=   3 prim:          OBJECT            :organizationalUnitName
+  348:d=9  hl=2 l=  24 prim:          PRINTABLESTRING   :Research and Development
+  374:d=7  hl=2 l=  24 cons:        SET
+  376:d=8  hl=2 l=  22 cons:         SEQUENCE
+  378:d=9  hl=2 l=   3 prim:          OBJECT            :commonName
+  383:d=9  hl=2 l=  15 prim:          PRINTABLESTRING   :Whisper Systems
+  400:d=6  hl=3 l= 159 cons:       SEQUENCE
+  403:d=7  hl=2 l=  13 cons:        SEQUENCE
+  405:d=8  hl=2 l=   9 prim:         OBJECT            :rsaEncryption
+  416:d=8  hl=2 l=   0 prim:         NULL
+  418:d=7  hl=3 l= 141 prim:        BIT STRING
+  562:d=5  hl=2 l=  13 cons:      SEQUENCE
+  564:d=6  hl=2 l=   9 prim:       OBJECT            :sha1WithRSAEncryption
+  575:d=6  hl=2 l=   0 prim:       NULL
+  577:d=5  hl=3 l= 129 prim:      BIT STRING
+  709:d=3  hl=4 l= 314 cons:    SET
+  713:d=4  hl=4 l= 310 cons:     SEQUENCE
+  717:d=5  hl=2 l=   1 prim:      INTEGER           :01
+  720:d=5  hl=3 l= 143 cons:      SEQUENCE
+  723:d=6  hl=3 l= 134 cons:       SEQUENCE
+  726:d=7  hl=2 l=  11 cons:        SET
+  728:d=8  hl=2 l=   9 cons:         SEQUENCE
+  730:d=9  hl=2 l=   3 prim:          OBJECT            :countryName
+  735:d=9  hl=2 l=   2 prim:          PRINTABLESTRING   :US
+  739:d=7  hl=2 l=  11 cons:        SET
+  741:d=8  hl=2 l=   9 cons:         SEQUENCE
+  743:d=9  hl=2 l=   3 prim:          OBJECT            :stateOrProvinceName
+  748:d=9  hl=2 l=   2 prim:          PRINTABLESTRING   :PA
+  752:d=7  hl=2 l=  19 cons:        SET
+  754:d=8  hl=2 l=  17 cons:         SEQUENCE
+  756:d=9  hl=2 l=   3 prim:          OBJECT            :localityName
+  761:d=9  hl=2 l=  10 prim:          PRINTABLESTRING   :Pittsburgh
+  773:d=7  hl=2 l=  24 cons:        SET
+  775:d=8  hl=2 l=  22 cons:         SEQUENCE
+  777:d=9  hl=2 l=   3 prim:          OBJECT            :organizationName
+  782:d=9  hl=2 l=  15 prim:          PRINTABLESTRING   :Whisper Systems
+  799:d=7  hl=2 l=  33 cons:        SET
+  801:d=8  hl=2 l=  31 cons:         SEQUENCE
+  803:d=9  hl=2 l=   3 prim:          OBJECT            :organizationalUnitName
+  808:d=9  hl=2 l=  24 prim:          PRINTABLESTRING   :Research and Development
+  834:d=7  hl=2 l=  24 cons:        SET
+  836:d=8  hl=2 l=  22 cons:         SEQUENCE
+  838:d=9  hl=2 l=   3 prim:          OBJECT            :commonName
+  843:d=9  hl=2 l=  15 prim:          PRINTABLESTRING   :Whisper Systems
+  860:d=6  hl=2 l=   4 prim:       INTEGER           :4BFBEBBA
+  866:d=5  hl=2 l=  13 cons:      SEQUENCE
+  868:d=6  hl=2 l=   9 prim:       OBJECT            :sha256
+  879:d=6  hl=2 l=   0 prim:       NULL
+  881:d=5  hl=2 l=  13 cons:      SEQUENCE
+  883:d=6  hl=2 l=   9 prim:       OBJECT            :rsaEncryption
+  894:d=6  hl=2 l=   0 prim:       NULL
+  896:d=5  hl=3 l= 128 prim:      OCTET STRING      [HEX DUMP]:
+  AF5E96B4E77526640145A948CDE65B12945A0A036A52D27B630DBB6019422
+  097231B6CA78EAB90DA6E3440C63C798D2E679742594E380768B63BA84D9F
+  2021F50FBE63974FFE543C09A110319D144402D2C4A917604E6933C2DAB77
+  2CFFB7E880A2995633A21F0E64810FF34DCA684BFDBC5D1DFEC1A75018150
+  AF59404DD6B9
+</code></pre>
+<p>Ten długi ciąg na końcu to <a href="https://securitypad.blogspot.com/2014/12/jar-signature-block-file-format.html">256 bajtowa sygnatura</a> złożona pod plikiem <code>META-INF/SIGNAL_S.SF</code> .</p>
+<p>By teraz zweryfikować tę sygnaturę, możemy posłużyć się poniższy poleceniem:</p>
+<pre><code>$ openssl cms -verify -noverify -content META-INF/SIGNAL_S.SF -in META-INF/SIGNAL_S.RSA -inform der
+...
+Verification successful
+</code></pre>
+<p>Jak widać, weryfikacja została przeprowadzona z powodzeniem, a ufając jednocześnie certyfikatowi,
+można by zaufać zawartości paczki <code>.apk</code> (oczywiście, gdyby nie problemy natury bezpieczeństwa
+związane z tym schematem podpisu).</p>
+<h4 id="jarsigner">Jarsigner</h4>
+<p>Ręczna weryfikacja paczki <code>.apk</code> jest dość upierdliwa ale cały ten proces można zautomatyzować przy
+pomocy <code>jarsigner</code> . Wystarczy wpisać to poniższe polecenie w terminal:</p>
+<pre><code>$ jarsigner -verbose -verify Signal-website-universal-release-*.apk
+
+sm     60312 Fri Nov 30 00:00:00 CET 1979 AndroidManifest.xml
+sm       455 Thu Jan 01 01:00:00 CET 1970 FingerprintProtocol.proto
+sm      3203 Thu Jan 01 01:00:00 CET 1970 LocalStorageProtocol.proto
+...
+sm    5616312 Fri Nov 30 00:00:00 CET 1979 resources.arsc
+      409456 Fri Nov 30 00:00:00 CET 1979 META-INF/SIGNAL_S.SF
+        1027 Fri Nov 30 00:00:00 CET 1979 META-INF/SIGNAL_S.RSA
+s     409391 Fri Nov 30 00:00:00 CET 1979 META-INF/MANIFEST.MF
+
+  s = signature was verified
+  m = entry is listed in manifest
+  k = at least one certificate was found in keystore
+  i = at least one certificate was found in identity scope
+
+- Signed by &quot;CN=Whisper Systems, OU=Research and Development, O=Whisper Systems, L=Pittsburgh, ST=PA, C=US&quot;
+    Digest algorithm: SHA-256
+    Signature algorithm: SHA256withRSA, 1024-bit key
+
+jar verified.
+
+Warning:
+This jar contains entries whose certificate chain is invalid. Reason: PKIX path building failed:
+sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification
+path to requested target
+This jar contains entries whose signer certificate is self-signed.
+This jar contains signatures that do not include a timestamp. Without a timestamp, users may not
+be able to validate this jar after any of the signer certificates expire (as early as 2045-05-16).
+
+Re-run with the -verbose and -certs options for more details.
+
+The signer certificate will expire on 2045-05-16.
+</code></pre>
+<p>W wyjściu, które otrzymaliśmy, widoczne są wpisy poprzedzone <code>sm</code> . Każdy plik, który zostanie
+zweryfikowany poprawnie (jego suma kontrolna się zgadza) będzie miał znaczek <code>s</code> . Jeśli dodatkowo
+plik jest uwzględniony w <code>META-INF/MANIFEST.MF</code> , to będzie miał znaczek <code>m</code> . Wszystkie pliki w
+tej paczce za wyjątkiem trzech ostatnich są uwzględnione w pliku manifestu. Sumy kontrolne plików
+również się zgadzają, w tym też suma kontrolna samego pliku manifestu. Mamy również informację, że
+<code>jar verified</code> , czyli archiwum ZIP zostało zweryfikowane pomyślnie. W podsumowaniu mamy również
+informację, że certyfikat jest typu <code>self-signed</code> co może budzić pewne obawy ale tylko w przypadku
+gdybyśmy nie władali odciskiem palca tego certyfikatu (ten który został udostępniony na stronie
+Signal).</p>
+<h3 id="weryfikacja-apk-signature-scheme-v2v3">Weryfikacja APK Signature Scheme v2/v3</h3>
+<p>Z racji, że schemat JAR-signed APK jest obecnie odradzany, to wypadałoby zainteresować się nieco
+bardziej schematem APK Signature Scheme v2/v3 i zweryfikować przy jego pomocy aplikację. Nie
+znalazłem nigdzie ręcznej próby weryfikacji poszczególnych informacji, tak jak to było w przypadku
+JAR-signed APK, dlatego też ograniczymy się tutaj jedynie do automatu w postaci <a href="https://developer.android.com/studio/command-line/apksigner">narzędzia
+apksigner</a>.</p>
+<h4 id="apksigner">Apksigner</h4>
+<p>Paczkę <code>.apk</code> można także zweryfikować przy pomocy <code>apksigner</code> . Niby w Debianie jest stosowny
+pakiet z tym narzędziem ale nie działa on za dobrze (zwraca błąd <code>zsh: exec format error: apksigner</code> ). Drugi problem wiąże się z posiadaniem starszej wersji <code>apksigner</code> , bo one
+najwyraźniej <a href="https://stackoverflow.com/questions/54782328/apksigner-does-not-verify-signature">mają problemy z interpretacją nowszych schematów podpisów</a> i nie są w stanie
+zweryfikować pliku <code>.apk</code> nawet jeśli ten jest podpisany prawidłowo. Dlatego upewnijmy się, że mamy
+najnowszą wersję tego narzędzia, np. za sprawą Android SDK Build Tools, które możemy dociągnąć przy
+pomocy <a href="https://developer.android.com/studio">Android Studio</a>.</p>
+<p>Zaletą <code>apksigner</code> jest niewątpliwie fakt, że jest on w stanie zweryfikować wszystkie schematy
+podpisów używane przy podpisywaniu aplikacji na Androida. W zasadzie, by zweryfikować plik <code>.apk</code>
+wystarczy wpisać w terminal to poniższe polecenie.</p>
+<pre><code>$ /media/Android/SDK/build-tools/29.0.2/apksigner verify --verbose --print-certs Signal-website-universal-release-*.apk
+Verifies
+Verified using v1 scheme (JAR signing): true
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Number of signers: 1
+Signer #1 certificate DN: CN=Whisper Systems, OU=Research and Development, O=Whisper Systems, L=Pittsburgh, ST=PA, C=US
+Signer #1 certificate SHA-256 digest: 29f34e5f27f211b424bc5bf9d67162c0eafba2da35af35c16416fc446276ba26
+Signer #1 certificate SHA-1 digest: 45989dc9ad8728c2aa9a82fa55503e34a8879374
+Signer #1 certificate MD5 digest: d90db364e32fa3a7bda4c290fb65e310
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 1024
+Signer #1 public key SHA-256 digest: 75336a3cc9edb64202cd77cd4caa6396a9b5fc3c78c58660313c7098ea248a55
+Signer #1 public key SHA-1 digest: b46cbed18d6fbbe42045fdb93f5032c943d80266
+Signer #1 public key MD5 digest: 0f9c33bbd45db0218c86ac378067538d
+WARNING: META-INF/android.support.design_material.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.
+WARNING: META-INF/androidx.activity_activity.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.
+...
+</code></pre>
+<p>Z powyższych informacji widać, że pakiet został zweryfikowany ( <code>Verifies</code> ), zawiera wszystkie
+trzy schematy podpisu (każdy z nich z osobna również przechodzi weryfikacje poprawnie). Są też
+widoczne dane certyfikatu i klucza publicznego, w tym też jest hash SHA-256 certyfikatu, który
+pasuje do tego na stronie Signal. Jest też parę ostrzeżeń dotyczących plików w katalogu
+<code>META-INF/</code> , które nie są chronione przez sygnatury ale te ostrzeżenia odnoszą się jedynie do
+schematu podpisu JAR-signed APK.</p>
+<h3 id="jar-signed-apk-i-starsze-wersje-androida">JAR-signed APK i starsze wersje Androida</h3>
+<p>Czy problemy ze schematem JAR-signed APK wpływają negatywnie na instalowanie aplikacji na starszych
+wersjach Androida? Jakby nie patrzeć to starsze Andki są w stanie zweryfikować plik <code>.apk</code>
+posługując się tylko schematem podpisu JAR-signed APK ale w dalszym ciągu aplikacje mogą być (i
+zwykle są) podpisane przy użyciu pozostałych schematów, tak jak widać to było na przykładzie
+aplikacji Signal.</p>
+<p>Z racji, że w schemacie APK Signature Scheme v2/v3 jest weryfikowany cały plik <code>.apk</code> bit po bicie,
+to ta pierwsza sygnatura jest weryfikowana przez tą drugą (i trzecią), która gwarantuje
+integralność danych całej aplikacji. Jeśli korzystamy ze starszej wersji systemu, to wystarczy przy
+pomocy narzędzia <code>apksigner</code> ręcznie zweryfikować certyfikat i sygnaturę pliku <code>.apk</code> , który
+zamierzamy zainstalować w systemie. Oczywiście ten krok nie jest potrzebny w przypadku instalowania
+aplikacji z Google Play, bo ten sklep jest w stanie przeprowadzić za nas proces weryfikacji już na
+etapie przesyłania do niego aplikacji przez dewelopera.</p>
+<h3 id="certyfikaty-typu-self-signed">Certyfikaty typu self-signed</h3>
+<p>Jeśli kogoś przeraża fakt, że certyfikat w aplikacji Signal był typu self-signed, czyli został
+podpisany przez ten sam podmiot, który wystawił certyfikat, to może odetchnąć z ulgą, bo taki jest
+świat Androida. Wszystkie aplikacje dostępne w sklepie Google Play mają tego typu podpisany przez
+siebie certyfikat i nie jest to niczym nagannym, czy niewłaściwym. Wszystko sprowadza się do
+zabezpieczenia klucza prywatnego, do którego dostęp ma zwykle jedna osoba i na tym kluczu opiera
+się cały łańcuch bezpieczeństwa. Jeśli klucz prywatny nie wpadnie w niepowołane łapki, to możemy
+być pewni co do aplikacji, która nim została podpisana.</p>
+<p>Jeśli ktoś jest ciekaw jakie aplikacje w sklepie Google Play identyfikują się jakimś określonym
+certyfikatem, to można ten fakt również ustalić odwiedzając <a href="https://androidobservatory.org/cert/45989DC9AD8728C2AA9A82FA55503E34A8879374">ten serwis i podając w nim hash SHA-1
+certyfikatu</a>.</p>
+<h2 id="czy-pobieranie-aplikacji-z-yalpaurora-store-jest-bezpieczne">Czy pobieranie aplikacji z Yalp/Aurora Store jest bezpieczne</h2>
+<p>By zainstalować appkę ze sklepu Google Play potrzebny nam jest stosowny klient, tj. aplikacja,
+która pobierze na flash smartfona plik <code>.apk</code> . Z reguły Android ma już na pokładzie aplikację
+sklepu Google Play i nie trzeba nic dodatkowo instalować, by móc pobierać za jej pomocą inne appki.
+Trzeba jednak wyraźnie zaznaczy tutaj, że aplikacja Google Play to jedynie klient sklepu, coś na
+wzór przeglądarki www. Istnieją inne klienty sklepu Google Play, np. otwartoźródłowe alternatywy
+takie jak <a href="https://github.com/yeriomin/YalpStore">Yalp store</a> czy <a href="https://gitlab.com/AuroraOSS/AuroraStore">Aurora Store</a>, które można wykorzystać do pobrania aplikacji z
+tego oficjalnego sklepu Google.</p>
+<p>Zarówno Yalp Store jak i Aurora Store umożliwiają instalację tych samych aplikacji, które są
+dostępne w sklepie Google Play. Przez pojęcie &quot;ta sama aplikacja&quot; ma się oczywiście rozumieć ten
+sam plik <code>.apk</code> , który jest dostępny w sklepie Google Play (ten sam podpis cyfrowy i te same sumy
+kontrolne). Jeśli ufamy sklepowi Google Play i instalujemy z niego appki tylko dlatego, że w nim
+są, to taki sam poziom bezpieczeństwa nam daje Yalp/Aurora Store.</p>
+<p>Plusem korzystania z któregoś z tych dwóch alternatywnych klientów sklepu Google Play jest fakt
+możliwości zrezygnowania zarówno z oficjalnego klienta sklepu Google, jak i <a href="https://morfikov.github.io/post/czy-smartfon-z-androidem-bez-google-apps-services-ma-sens/">pozbycie się całego
+Google Play Services</a>, co może nam nieco poprawić prywatność przy korzystaniu ze smartfona z
+Androidem na pokładzie.</p>
+<p>W każdym z tych trzech przypadków, pobierany jest plik <code>.apk</code> ilekroć tylko chcemy instalować czy
+aktualizować jakąś aplikację, którą mamy (bądź chcemy mieć) w systemie. Po pobraniu aplikacji,
+Android weryfikuje zarówno jej podpis jak i sumy kontrolne i jeśli wykryje problemy, to nie dopuści
+do instalacji czy też aktualizacji takiego pakietu.</p>
+<p>Możemy zatem bez problemu instalować aplikacje za sprawą Yalp/Aurora Store i nie powinniśmy się
+obawiać, że te klienty wgrają nam same z siebie jakiś syf. A nawet jeśli już komuś takie pomysły
+chodzą po głowie, to na obronę Yalp/Aurora Store można rzucić argument, że ich kod jest otwarty, w
+przeciwieństwie do kodu aplikacji sklepu Google Play.</p>
+<h2 id="czy-pobieranie-aplikacji-z-f-droid-jest-bezpieczne">Czy pobieranie aplikacji z F-Droid jest bezpieczne</h2>
+<p>W przypadku <a href="https://f-droid.org/">F-Droid</a> mamy do czynienia z repozytoriami (coś na wzór tych linux'owych), z
+których można pobierać aplikacje. Generalnie to repozytoria można podzielić na te oficjalne,
+którymi zarządza F-Droid, na oficjalne innych projektów (np. <a href="https://microg.org/fdroid.html">microg</a>) i nieoficjalne, do
+których powinno się podchodzić z rozwagą. <a href="https://forum.f-droid.org/t/known-repositories/721">Lista znanych repozytoriów F-Droid</a> jest dostępna
+tutaj.</p>
+<p>Aplikacje znajdujące się w głównym repozytorium F-Droid można z kolei podzielić na <a href="https://f-droid.org/en/docs/FAQ_-_General/#whats-the-difference-between-source-and-binary-builds">dwa typy</a>.
+Pierwszym są aplikacje budowane z konkretnych źródeł, a wynikowe pliki <code>.apk</code> są podpisywane przez
+klucz repozytorium. W efekcie wiele aplikacji jest podpisanych jednym kluczem. Drugim typem są
+aplikacje budowane i podpisywane przez swoich deweloperów. Zwykle będziemy mieć do czynienia z tym
+pierwszym typem.</p>
+<p>By aplikacja mogła zagościć w oficjalnym repozytorium F-Droid musi być ona z gatunku
+<a href="https://www.gnu.org/philosophy/free-sw.html">FreeSoftware</a>. W przypadku sklepu Google Play ogromna większość aplikacji ma zamknięty kod i
+do tego jest obłożona reklamami. Widać zatem fundamentalne różnice w podejściu do bezpieczeństwa i
+prywatności użytkowników między tymi dwoma źródłami aplikacji i niezmiernie ciężko jest do
+oficjalnego repozytorium F-Droid przemycić trefne aplikacje w przeciwieństwie do sklepu Google
+Play. Dodatkowo, Google usuwa niewygodne aplikacje, dla przykładu <a href="https://blokada.org/">Blokada</a>, <a href="https://adaway.org/">Adaway</a> czy
+sam F-Droid.</p>
+<h2 id="czy-pobieranie-aplikacji-z-apkmirrorcom-jest-bezpieczne">Czy pobieranie aplikacji z apkmirror.com jest bezpieczne</h2>
+<p>Jednym z popularniejszych serwisów z plikami <code>.apk</code> , które można pobrać i manualnie zainstalować w
+Androidzie jest <a href="https://www.apkmirror.com/">apkmirror</a>. Użytkownicy cenią go sobie ze względu na te trzy poniższe cechy,
+których im sklep Google Play nie może zapewnić.</p>
+<p>Pierwszym atutem apkmirror jest możliwość zainstalowania starszych wersji aplikacji, które w
+sklepie Google Play przestały być dostępne z racji aktualizacji pakietu. W efekcie jeśli nowsza
+wersją aplikacji zaczyna nam zjadać z niewiadomego powodu baterię (albo zachowywać się w inny
+nieprzewidziany i do końca poprawny sposób), to przy pomocy apkmirror możemy z tym problemem
+sobie poradzić instalując starszą wersję aplikacji. Druga sprawa to nowsze wersje aplikacji, do
+których można mieć dostęp w przypadku, gdy sklep Google Play ociąga się z jakiegoś powodu z ich
+publikacją. No i ostatnia rzecz, to fakt posiadania przez apkmirror aplikacji nieobecnych w
+oficjalnym sklepie Google.</p>
+<p>Te wszystkie powyższe ficzery serwisu apkmirror sprawiają, że użytkownik może być skłonny
+zainstalować z niego plik <code>.apk</code> ale czy możemy być pewni co do tych plików, które tam na stronie
+się znajdują? Czy instalując taki plik na pewno nie wgramy sobie syfu do systemu? Odpowiedź może
+być tylko jedna -- sprawdźmy co tam znajdziemy.</p>
+<p>Weźmy sobie ponownie <a href="https://www.apkmirror.com/apk/signal-foundation/">aplikację Signal</a> na celownik, z racji, że znamy odcisk palca jej
+certyfikatu. Pobieramy dowolny plik <code>.apk</code> z listy, która się nam pojawi po kliknięciu w link.
+Zanim jednak faktycznie pobierzemy plik, to na stronie mamy informację, że <code>Verified safe to install (read more)</code> , czyli, że aplikacja została zweryfikowana i jest bezpieczna do
+zainstalowania. Jeśli klikniemy w ten link, to zobaczymy to poniższe okienko:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/008-signal-app-verify-apkmirror.png" alt=""    class="huge"></p>
+<p>Mamy tutaj widoczne hash'e, z których jeden zestaw zawiera odciski palca certyfikatu (niby ten sam
+co na stronie projektu Signal). Lepiej jednak nie wierzyć co tam na podejrzanych stronach wypisują,
+więc lepiej podejść do tej informacji ostrożnie, przecie każdy mógłby przepisać ten kawałek tekstu
+z dowolnego miejsca i wstawić na stronę. Drugi zestaw hash'y odnosi się do sumy kontrolnej samego
+pliku, który figuruje w serwisie apkmirror.</p>
+<p>Pobierzmy zatem już plik i sprawdźmy czy suma kontrolna pliku się zgadza:</p>
+<pre><code>$  sha256sum org.thoughtcrime.securesms_4.51.6-5792_minAPI19(arm64-v8a)(nodpi)_apkmirror.com.apk
+b0c89cc55915839ab957f9ef7d9077fbde4550013acd2b713e51ad7e534ada2c  org.thoughtcrime.securesms_4.51.6-5792_minAPI19(arm64-v8a)(nodpi)_apkmirror.com.apk
+</code></pre>
+<p>Jak widać, suma kontrolna pliku pasuje do tego co zostało napisane na stronie. Zatem pobraliśmy
+plik w formie niezmienionej z serwera apkmirror. Sprawdźmy teraz odcisk palca certyfikatu, który
+siedzi w pliku <code>.apk</code> :</p>
+<pre><code>$ /media/Android/SDK/build-tools/29.0.2/apksigner verify --verbose --print-certs org.thoughtcrime.securesms_4.51.6-5792_minAPI19(arm64-v8a)(nodpi)_apkmirror.com.apk
+Verifies
+Verified using v1 scheme (JAR signing): true
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Number of signers: 1
+Signer #1 certificate DN: CN=Whisper Systems, OU=Research and Development, O=Whisper Systems, L=Pittsburgh, ST=PA, C=US
+Signer #1 certificate SHA-256 digest: 29f34e5f27f211b424bc5bf9d67162c0eafba2da35af35c16416fc446276ba26
+Signer #1 certificate SHA-1 digest: 45989dc9ad8728c2aa9a82fa55503e34a8879374
+Signer #1 certificate MD5 digest: d90db364e32fa3a7bda4c290fb65e310
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 1024
+Signer #1 public key SHA-256 digest: 75336a3cc9edb64202cd77cd4caa6396a9b5fc3c78c58660313c7098ea248a55
+Signer #1 public key SHA-1 digest: b46cbed18d6fbbe42045fdb93f5032c943d80266
+Signer #1 public key MD5 digest: 0f9c33bbd45db0218c86ac378067538d
+WARNING: META-INF/android.support.design_material.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.
+WARNING: META-INF/androidx.activity_activity.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.
+...
+</code></pre>
+<p>Jak widać, odcisk palca certyfikatu również się zgadza. Mamy też informację, że dane w pliku <code>.apk</code>
+nie zostały zmienione w żaden sposób, zatem mamy do czynienia z plikiem, który wyszedł spod młotka
+tego samego dewelopera. Nic zatem nie stoi na przeszkodzie by taki plik <code>.apk</code> zainstalować w
+systemie.</p>
+<h2 id="aktualizacja-aplikacji-z-niezaufanego-źródła">Aktualizacja aplikacji z niezaufanego źródła</h2>
+<p>Z racji, że wszystkie aplikacje na Androida (nie tylko te w sklepie Google Play) muszą być
+podpisane by zostać zainstalowane w systemie, to nie ma zbytnio dla nas znaczenia skąd taką
+aplikację pobierzemy, o ile weryfikacja pliku <code>.apk</code> zostanie zakończona powodzeniem.</p>
+<p>W przypadku aktualizacji pakietu nie musimy ręcznie go weryfikować. Jeśli certyfikaty będą się
+różnić albo dane w pakiecie zostaną w jakiś sposób zmienione, to Android nie dopuści do
+aktualizacji takiego pakietu. Mając zainstalowaną w systemie appkę Signal, mogę spróbować wgrać na
+telefon plik pobrany z serwisu apkmirror i zobaczyć co się w takim przypadku stanie:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/009-signal-apk-install-apkmirror.png" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/010-signal-apk-install-apkmirror.png" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/011-signal-apk-install-apkmirror.png" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>Jak widać po fotkach wyżej, paczka <code>.apk</code> bez problemu się zainstalowała w systemie dokładnie w
+taki sam sposób jakbym aktualizował ją via sklep Google Play (tylko w tym przypadku trzeba
+zaznaczyć w opcjach Androida możliwość instalowania aplikacji z nieznanych źródeł). Z racji, że
+proces aktualizacji aplikacji przebiegł pomyślnie, to weryfikacja certyfikatu i danych w pakiecie
+<code>.apk</code> również zakończyła się powodzeniem. Podobnie sprawa będzie wyglądać przy korzystaniu z Yalp
+Store czy Aurora Store, bo dla Androida nie ma znaczenia skąd i w jaki sposób pobierany jest plik,
+tylko liczą się sumy kontrolne i podpisy cyfrowe.</p>
+<p>Warto tutaj wspomnieć, że F-Droid buduje aplikacje bezpośrednio z ich źródeł, przez co wynikowe
+pliki <code>.apk</code> nie są tymi samymi, które wypuścił deweloper aplikacji. Ponadto, pliki <code>.apk</code> w
+repozytorium F-Droid są podpisane kluczem repozytorium, a nie kluczem dewelopera, zatem odcisk
+palca certyfikatu pliku <code>.apk</code> będzie się różnił. Dlatego też możemy zapomnieć o krosowym
+aktualizowaniu aplikacji (F-Droid &lt;-&gt; Google Play).</p>
+<p>By zaktualizować aplikację, która została podpisana innym kluczem niż ta obecna już w systemie
+naszego smartfona, trzeba ją pierw odinstalować (ewentualnie wgrać <a href="https://www.xda-developers.com/application-signature-verification-how-it-works-how-to-disable-it-with-xposed-and-why-you-shouldnt/">dodatek do Xposed</a>). Chodzi
+tutaj generalnie o sprawy związane z prywatnością i bezpieczeństwem. Każda aplikacja w systemie ma
+przypisany inny ID użytkownika i tylko ta aplikacja ma dostęp do swoich plików. Gdyby było możliwie
+zaktualizowanie aplikacji, która identyfikuje się innym certyfikatem, to potencjalnie inna appka
+mogłaby uzyskać dostęp do danych tej konkretnej aplikacji (w tym też przejąc jej uprawnienia, np.
+do mikrofonu czy kamery), a jak wiadomo, usunięcie aplikacji z systemu czyści jej wszystkie
+prywatne pliki.</p>
+<h2 id="instalacja-aplikacji-z-niezaufanego-źródła">Instalacja aplikacji z niezaufanego źródła</h2>
+<p>O ile proces aktualizacji jest bardzo prosty i automatyczny pod względem weryfikacji wszystkich
+tych niezbędnych z punktu widzenia bezpieczeństwa rzeczy, to w przypadku, gdy zamierzamy instalować
+po raz pierwszy aplikację z innego źródła niż oficjalny sklep Google Play, to niestety trzeba
+manualnie (najlepiej przy pomocy <code>apksigner</code> ) zweryfikować plik, który zamierzamy zainstalować w
+naszym smartfonie z Androidem. Dopiero po pomyślnym zweryfikowaniu pliku <code>.apk</code> możemy go
+zainstalować bez obaw.</p>
+<h3 id="a-jeśli-aplikacja-nie-publikuje-odcisku-palca-certyfikatu">A jeśli aplikacja nie publikuje odcisku palca certyfikatu</h3>
+<p>W przypadku aplikacji Signal wszystko było podane praktycznie na tacy i nie wymagało od użytkownika
+większego wysiłku intelektualnego, by taki plik <code>.apk</code> zweryfikować. Niemniej jednak, ogromna
+większość aplikacji niebędących spod znaku FreeSoftware nie posiada nawet swojej strony www.
+Jedyne informacje o takiej appcę są dostępne w sklepie Google Play. Przykładem mogą być aplikacje
+banków, czy też innych instytucji finansowych. Na stronie takiego banku jest z reguły tylko
+wzmianka o tym, że mają oni aplikację oraz jest podany też link do sklepu Google Play skąd ją można
+pobrać. Jak w takim przypadku zweryfikować plik <code>.apk</code> , który chcielibyśmy zainstalować w swoim
+Androidzie pozbawionym choćby tego całego Google Play Services?</p>
+<p>Jedyną opcją w takiej sytuacji jest pozyskanie wiarygodnego pliku <code>.apk</code> ze sklepu Google Play i
+poddanie go weryfikacji przy pomocy narzędzia <code>apksigner</code> . Jeśli nie ufamy Yalp/Aurora Store, to
+taki plik można też wydobyć z Androida po zainstalowaniu aplikacji przy pomocy tego oficjalnego
+klienta sklepu Google Play. By wydobyć plik <code>.apk</code> ze smartfona, wystarczy zainstalować sobie
+jakieś menadżer plików, np. <a href="https://github.com/TeamAmaze/AmazeFileManager">Amaze</a>, który posiada wbudowany menadżer aplikacji. W tym
+menadżerze wystarczy wykonać backup aplikacji i stosowny plik <code>.apk</code> zostanie zapisany np. na kacie
+SD.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/012-amaze-file-manager-app-backup.png" alt=""    class="small"></p>
+<p>Tak wykonany backup aplikacji to nic innego jak tylko skopiowanie pliku <code>.apk</code> z jednego miejsca w
+drugie. Można ten fakt potwierdzić porównując hash pliku zainstalowanej aplikacji z plikiem backupu:</p>
+<pre><code>$ sha256sum Signal_org.thoughtcrime.securesms*
+b0c89cc55915839ab957f9ef7d9077fbde4550013acd2b713e51ad7e534ada2c  Signal_org.thoughtcrime.securesms-backup.apk
+b0c89cc55915839ab957f9ef7d9077fbde4550013acd2b713e51ad7e534ada2c  Signal_org.thoughtcrime.securesms.apk
+</code></pre>
+<p>Jak widać sumy kontrolne obu plików się zgadzają. Zakładając, że nie dysponujemy żadnym hash'em
+certyfikatu, to mając wiarygodny plik można go poddać weryfikacji w <code>apksigner</code> i w ten sposób
+uzyskać dane o certyfikacie, które mogą posłużyć później do weryfikacji certyfikatu plików <code>.apk</code>
+aplikacji pobieranych z innych niezaufanych źródeł.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Jak widać na przedstawionym przykładzie aplikacji Signal, nie ma znaczenia skąd pobieramy pliki
+<code>.apk</code> do momentu, gdy jesteśmy w stanie zweryfikować/potwierdzić certyfikat i integralność danych
+w pakiecie. W przeszłości mechanizm weryfikacji plików <code>.apk</code> w Androidzie nie gwarantował tego co
+powinien (choć nie była to wina samego mechanizmu) ale ten fakt uległ zmianie po zastąpieniu
+schematu podpisu JAR-signed APK przez APK Signature Scheme v2/v3.</p>
+<p>Nie ma co zatem popadać w paranoję i zakładać, że tylko aplikacje pobrane z oficjalnego sklepu
+Google Play są wiarygodne i bezpieczne, bo gdy instalujemy aplikację w Androidzie bez jej
+weryfikacji, to zaciągamy dług wobec naszej prywatności. Z każdą kolejną bezrefleksyjnie
+zainstalowaną appką z tego sklepu coraz bardziej zapominamy jak ważny jest proces weryfikacji
+pochodzenia oprogramowania, od którego nasze życie coraz bardziej zaczyna zależeć. Jeśli dalej
+będziemy szli tą drogą, to prędzej czy później ten dług trzeba będzie spłacić i nie będziemy z tego
+faktu zbytnio zadowoleni.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aplikacje/">aplikacje</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apk/">apk</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bezpiecze%C5%84stwo/">bezpieczeństwo</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zweryfikowac-plik-apk-aplikacji-na-androida%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zweryfikowac-plik-apk-aplikacji-na-androida%2f&amp;text=Jak%20zweryfikowa%c4%87%20plik%20APK%20aplikacji%20na%20Androida" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zweryfikowac-plik-apk-aplikacji-na-androida%2f&amp;title=Jak%20zweryfikowa%c4%87%20plik%20APK%20aplikacji%20na%20Androida" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zweryfikowac-plik-apk-aplikacji-na-androida%2f&amp;title=Jak%20zweryfikowa%c4%87%20plik%20APK%20aplikacji%20na%20Androida" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zweryfikowac-plik-apk-aplikacji-na-androida%2f&title=Jak%20zweryfikowa%c4%87%20plik%20APK%20aplikacji%20na%20Androida" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zweryfikowac-plik-apk-aplikacji-na-androida%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zweryfikowac-plik-apk-aplikacji-na-androida%2f&amp;title=Jak%20zweryfikowa%c4%87%20plik%20APK%20aplikacji%20na%20Androida" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zweryfikowac-plik-apk-aplikacji-na-androida%2f&description=Jak%20zweryfikowa%c4%87%20plik%20APK%20aplikacji%20na%20Androida" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/ograniczanie-su-do-jednego-uzytkownika-w-debianie/">Ograniczenie su do jednego użytkownika w Debianie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-usunac-aplikacje-bloatware-ze-smartfona-z-androidem-bez-root/">Jak usunąć aplikacje bloatware ze smartfona z Androidem bez root</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/szyfrowanie-rozmow-i-smsow-na-smartfonie-z-androidem-signal/">Szyfrowanie rozmów i SMS&#39;ów na smartfonie z Androidem (Signal)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/">Jak skonfigurować połączenie VPN na smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/aplikacja-tpmifi-do-zarzadzania-routerami-3g-lte-tp-link/">Aplikacja tpMiFi do zarządzania routerami 3G/LTE od TP-LINK</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/aplikacja-tether-do-zarzadzania-urzadzeniami-tp-link-przez-smartfon/">Aplikacja Tether do zarządzania urządzeniami TP-LINK przez smartfon</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/aplikacja-tpcamera-do-obslugi-kamer-tp-link-z-poziomu-smartfona/">Aplikacja tpCamera do obsługi kamer TP-LINK z poziomu smartfona</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Bezpieczny klucz GPG | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Bezpieczny klucz GPG" />
+<meta property="og:description" content="W poprzednim wpisie przygotowywaliśmy sobie plik
+gpg.conf. Opcje w nim ustawione są
+niezbędne do wygenerowania dobrego pod względem bezpieczeństwa klucza GPG. Taki klucz GPG nie
+powinien być krótszy niż 4096 bitów. Dodatkowo, nie powinno się ustawiać daty ważności dłuższej niż
+2 lata, a to z tego powodu, że zawszę tę datę można zmienić i to nawet w przypadku gdy klucz straci
+ważność. Chodzi generalnie o ustawienie jakiegoś mechanizmu zabezpieczającego na wypadek gdyby nasz
+klucz GPG wpadł w niepowołane ręce i stracilibyśmy nad nim panowanie. Wtedy po jakimś czasie
+automatycznie się on unieważni i nie będziemy musieli się martwić czy ktoś może przez przypadek go
+używać. Jest również szereg innych rzecz, o które powinniśmy się zatroszczyć i tej tematyce będzie
+poświęcony ten wpis, który w dużej mierze powstał w oparciu o te
+dwa
+linki." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/bezpieczny-klucz-gpg/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-06-14T11:55:26&#43;00:00" />
+<meta property="article:modified_time" content="2015-06-14T11:55:26&#43;00:00" />
+
+
+		<meta itemprop="name" content="Bezpieczny klucz GPG">
+<meta itemprop="description" content="W poprzednim wpisie przygotowywaliśmy sobie plik
+gpg.conf. Opcje w nim ustawione są
+niezbędne do wygenerowania dobrego pod względem bezpieczeństwa klucza GPG. Taki klucz GPG nie
+powinien być krótszy niż 4096 bitów. Dodatkowo, nie powinno się ustawiać daty ważności dłuższej niż
+2 lata, a to z tego powodu, że zawszę tę datę można zmienić i to nawet w przypadku gdy klucz straci
+ważność. Chodzi generalnie o ustawienie jakiegoś mechanizmu zabezpieczającego na wypadek gdyby nasz
+klucz GPG wpadł w niepowołane ręce i stracilibyśmy nad nim panowanie. Wtedy po jakimś czasie
+automatycznie się on unieważni i nie będziemy musieli się martwić czy ktoś może przez przypadek go
+używać. Jest również szereg innych rzecz, o które powinniśmy się zatroszczyć i tej tematyce będzie
+poświęcony ten wpis, który w dużej mierze powstał w oparciu o te
+dwa
+linki."><meta itemprop="datePublished" content="2015-06-14T11:55:26&#43;00:00" />
+<meta itemprop="dateModified" content="2015-06-14T11:55:26&#43;00:00" />
+<meta itemprop="wordCount" content="2510">
+<meta itemprop="keywords" content="bezpieczeństwo,gpg,szyfrowanie," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Bezpieczny klucz GPG"/>
+<meta name="twitter:description" content="W poprzednim wpisie przygotowywaliśmy sobie plik
+gpg.conf. Opcje w nim ustawione są
+niezbędne do wygenerowania dobrego pod względem bezpieczeństwa klucza GPG. Taki klucz GPG nie
+powinien być krótszy niż 4096 bitów. Dodatkowo, nie powinno się ustawiać daty ważności dłuższej niż
+2 lata, a to z tego powodu, że zawszę tę datę można zmienić i to nawet w przypadku gdy klucz straci
+ważność. Chodzi generalnie o ustawienie jakiegoś mechanizmu zabezpieczającego na wypadek gdyby nasz
+klucz GPG wpadł w niepowołane ręce i stracilibyśmy nad nim panowanie. Wtedy po jakimś czasie
+automatycznie się on unieważni i nie będziemy musieli się martwić czy ktoś może przez przypadek go
+używać. Jest również szereg innych rzecz, o które powinniśmy się zatroszczyć i tej tematyce będzie
+poświęcony ten wpis, który w dużej mierze powstał w oparciu o te
+dwa
+linki."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Bezpieczny klucz GPG</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-06-14T11:55:26Z">Opublikowano: 14/06/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Bezpieczny klucz GPG</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#generowanie-klucza">Generowanie klucza</a></li>
+    <li><a href="#wiele-tożsamości-w-jednym-kluczu">Wiele tożsamości w jednym kluczu</a></li>
+    <li><a href="#podział-podkluczy">Podział podkluczy</a></li>
+    <li><a href="#główny-uid">Główny UID</a></li>
+    <li><a href="#zmiana-daty-ważności-klucza">Zmiana daty ważności klucza</a></li>
+    <li><a href="#certyfikat-unieważniający">Certyfikat unieważniający</a></li>
+    <li><a href="#przesyłanie-nowego-klucza-do-serwera-kluczy">Przesyłanie nowego klucza do serwera kluczy</a></li>
+    <li><a href="#usuwanie-klucza-głównego">Usuwanie klucza głównego</a></li>
+    <li><a href="#test-klucza-gpg">Test klucza GPG</a></li>
+    <li><a href="#test-szyfrowaniapodpisywania">Test szyfrowania/podpisywania</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>W poprzednim wpisie przygotowywaliśmy sobie <a href="https://morfikov.github.io/post/konfiguracja-gpg-w-pliku-gpg-conf/">plik
+gpg.conf</a>. Opcje w nim ustawione są
+niezbędne do wygenerowania dobrego pod względem bezpieczeństwa klucza GPG. Taki klucz GPG nie
+powinien być krótszy niż 4096 bitów. Dodatkowo, nie powinno się ustawiać daty ważności dłuższej niż
+2 lata, a to z tego powodu, że zawszę tę datę można zmienić i to nawet w przypadku gdy klucz straci
+ważność. Chodzi generalnie o ustawienie jakiegoś mechanizmu zabezpieczającego na wypadek gdyby nasz
+klucz GPG wpadł w niepowołane ręce i stracilibyśmy nad nim panowanie. Wtedy po jakimś czasie
+automatycznie się on unieważni i nie będziemy musieli się martwić czy ktoś może przez przypadek go
+używać. Jest również szereg innych rzecz, o które powinniśmy się zatroszczyć i tej tematyce będzie
+poświęcony ten wpis, który w dużej mierze powstał w oparciu o te
+<a href="https://www.gnupg.org/gph/en/manual/book1.html">dwa</a>
+<a href="https://riseup.net/security/message-security/openpgp/best-practices">linki</a>.</p>
+<h2 id="generowanie-klucza">Generowanie klucza</h2>
+<p>Zacznijmy od stworzenia pary kluczy GPG. Cały proces jest automatyczny i sprowadza się do wydania
+poniższego polecenia:</p>
+<pre><code>$ gpg --gen-key
+</code></pre>
+<p>Będzie to klucz <code>RSA</code> o długości <code>4096</code> bitów i mający datę ważności ustawioną na <code>2</code> lata. Podajemy
+także imię i nazwisko, email oraz krótki komentarz.</p>
+<h2 id="wiele-tożsamości-w-jednym-kluczu">Wiele tożsamości w jednym kluczu</h2>
+<p>W przypadku kiedy mamy wiele kont email, to zamiast tworzyć osobne klucze dla każdego z nich, możemy
+stworzyć wiele tożsamości w tym samym kluczu GPG:</p>
+<pre><code>$ gpg --edit-key 0x0339957BF6449112
+...
+gpg&gt; adduid
+Real name: Mikhail Morfikov
+Email address: morfik@nsa.com
+Comment: another testing key
+You selected this USER-ID:
+    &quot;Mikhail Morfikov (another testing key) &quot;
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
+
+You need a passphrase to unlock the secret key for
+user: &quot;Mikhail Morfikov (testing key) &quot;
+4096-bit RSA key, ID 0x0339957BF6449112, created 2014-09-21
+
+
+pub  4096R/0x0339957BF6449112  created: 2014-09-21  expires: 2016-09-20  usage: SC
+                               trust: ultimate      validity: ultimate
+sub  4096R/0x9845A1DBE59AC095  created: 2014-09-21  expires: 2016-09-20  usage: E
+[ultimate] (1)  Mikhail Morfikov (testing key)
+[ unknown] (2). Mikhail Morfikov (another testing key)
+
+gpg&gt; save
+</code></pre>
+<h2 id="podział-podkluczy">Podział podkluczy</h2>
+<p>Dobrze jest mieć także osobny klucz (klucz główny) do podpisów cyfrowych oraz inny podklucz używany
+do szyfrowania -- tak jak to widać wyżej. Mianowicie chodzi o flagi usage: <code>SC</code> i <code>E</code>. Można też
+mieć dwa różne podklucze -- jeden do podpisów, drugi do szyfrowania i nie używać klucza głównego w
+ogóle. Jako, że mamy osobny podklucz do szyfrowania, dodajmy podklucz do podpisów:</p>
+<pre><code>$ gpg --edit-key 0x0339957BF6449112
+...
+gpg&gt; addkey
+Key is protected.
+
+You need a passphrase to unlock the secret key for
+user: &quot;Mikhail Morfikov (another testing key) &quot;
+4096-bit RSA key, ID 0x0339957BF6449112, created 2014-09-21
+
+Please select what kind of key you want:
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+   (5) Elgamal (encrypt only)
+   (6) RSA (encrypt only)
+Your selection? 4
+RSA keys may be between 1024 and 4096 bits long.
+What keysize do you want? (2048) 4096
+Requested keysize is 4096 bits
+Please specify how long the key should be valid.
+         0 = key does not expire
+        = key expires in n days
+      w = key expires in n weeks
+      m = key expires in n months
+      y = key expires in n years
+Key is valid for? (0) 2y
+Key expires at Tue 20 Sep 2016 07:31:43 PM CEST
+Is this correct? (y/N) y
+Really create? (y/N) y
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+
+Not enough random bytes available.  Please do some other work to give
+the OS a chance to collect more entropy! (Need 212 more bytes)
+.............+++++
+
+pub  4096R/0x0339957BF6449112  created: 2014-09-21  expires: 2016-09-20  usage: SC
+                               trust: ultimate      validity: ultimate
+sub  4096R/0x9845A1DBE59AC095  created: 2014-09-21  expires: 2016-09-20  usage: E
+sub  4096R/0xDBA0A9602AF715C1  created: 2014-09-21  expires: 2016-09-20  usage: S
+[ultimate] (1)  Mikhail Morfikov (another testing key)
+[ultimate] (2)*  Mikhail Morfikov (testing key)
+
+gpg&gt; save
+</code></pre>
+<p>Jak widzimy wyżej, został utworzony drugi podklucz i przy jego pozycji jest widoczny usage: <code>S</code> .</p>
+<h2 id="główny-uid">Główny UID</h2>
+<p>Mając utworzonych kilka UID w kluczu, trzeba sprecyzować jeden z nich jako główny:</p>
+<pre><code>$ gpg --edit-key 0x0339957BF6449112
+...
+gpg&gt; uid 2
+
+pub  4096R/0x0339957BF6449112  created: 2014-09-21  expires: 2016-09-20  usage: SC
+                               trust: ultimate      validity: ultimate
+sub  4096R/0x9845A1DBE59AC095  created: 2014-09-21  expires: 2016-09-20  usage: E
+sub  4096R/0xDBA0A9602AF715C1  created: 2014-09-21  expires: 2016-09-20  usage: S
+[ultimate] (1). Mikhail Morfikov (another testing key)
+[ultimate] (2)* Mikhail Morfikov (testing key)
+
+gpg&gt; primary
+
+You need a passphrase to unlock the secret key for
+user: &quot;Mikhail Morfikov (another testing key) &quot;
+4096-bit RSA key, ID 0x0339957BF6449112, created 2014-09-21
+
+
+pub  4096R/0x0339957BF6449112  created: 2014-09-21  expires: 2016-09-20  usage: SC
+                               trust: ultimate      validity: ultimate
+sub  4096R/0x9845A1DBE59AC095  created: 2014-09-21  expires: 2016-09-20  usage: E
+sub  4096R/0xDBA0A9602AF715C1  created: 2014-09-21  expires: 2016-09-20  usage: S
+[ultimate] (1)  Mikhail Morfikov (another testing key)
+[ultimate] (2)* Mikhail Morfikov (testing key)
+
+gpg&gt; save
+</code></pre>
+<h2 id="zmiana-daty-ważności-klucza">Zmiana daty ważności klucza</h2>
+<p>Za każdym razem gdy zmienimy datę ważności, klucz trzeba wysłać do serwera kluczy, by poinformować
+innych o zmianach jakie przeprowadziliśmy. Datę ważności można ustawić osobno dla klucza głównego
+oraz dla każdego z podkluczy. My mamy póki co jeden klucz główny oraz dwa podklucze, zatem
+potrzebujemy zmienić trzy daty:</p>
+<pre><code>$ gpg --edit-key 0x0339957BF6449112
+...
+gpg&gt; expire
+Changing expiration time for the primary key.
+Please specify how long the key should be valid.
+         0 = key does not expire
+        = key expires in n days
+      w = key expires in n weeks
+      m = key expires in n months
+      y = key expires in n years
+Key is valid for? (0) 1y
+Key expires at Mon 21 Sep 2015 08:43:10 PM CEST
+Is this correct? (y/N) y
+
+You need a passphrase to unlock the secret key for
+user: &quot;Mikhail Morfikov (testing key) &quot;
+4096-bit RSA key, ID 0x0339957BF6449112, created 2014-09-21
+
+
+pub  4096R/0x0339957BF6449112  created: 2014-09-21  expires: 2015-09-21  usage: SC
+                               trust: ultimate      validity: ultimate
+sub  4096R/0x9845A1DBE59AC095  created: 2014-09-21  expires: 2016-09-20  usage: E
+sub  4096R/0xDBA0A9602AF715C1  created: 2014-09-21  expires: 2016-09-20  usage: S
+[ultimate] (1). Mikhail Morfikov (testing key)
+[ultimate] (2)  Mikhail Morfikov (another testing key)
+
+gpg&gt; key 1
+
+pub  4096R/0x0339957BF6449112  created: 2014-09-21  expires: 2015-09-21  usage: SC
+                               trust: ultimate      validity: ultimate
+sub* 4096R/0x9845A1DBE59AC095  created: 2014-09-21  expires: 2016-09-20  usage: E
+sub  4096R/0xDBA0A9602AF715C1  created: 2014-09-21  expires: 2016-09-20  usage: S
+[ultimate] (1). Mikhail Morfikov (testing key)
+[ultimate] (2)  Mikhail Morfikov (another testing key)
+
+gpg&gt; expire
+Changing expiration time for a subkey.
+Please specify how long the key should be valid.
+         0 = key does not expire
+        = key expires in n days
+      w = key expires in n weeks
+      m = key expires in n months
+      y = key expires in n years
+Key is valid for? (0) 1y
+Key expires at Mon 21 Sep 2015 08:43:24 PM CEST
+Is this correct? (y/N) y
+
+You need a passphrase to unlock the secret key for
+user: &quot;Mikhail Morfikov (testing key) &quot;
+4096-bit RSA key, ID 0x0339957BF6449112, created 2014-09-21
+
+
+pub  4096R/0x0339957BF6449112  created: 2014-09-21  expires: 2015-09-21  usage: SC
+                               trust: ultimate      validity: ultimate
+sub* 4096R/0x9845A1DBE59AC095  created: 2014-09-21  expires: 2015-09-21  usage: E
+sub  4096R/0xDBA0A9602AF715C1  created: 2014-09-21  expires: 2016-09-20  usage: S
+[ultimate] (1). Mikhail Morfikov (testing key)
+[ultimate] (2)  Mikhail Morfikov (another testing key)
+
+gpg&gt; key 2
+
+pub  4096R/0x0339957BF6449112  created: 2014-09-21  expires: 2015-09-21  usage: SC
+                               trust: ultimate      validity: ultimate
+sub  4096R/0x9845A1DBE59AC095  created: 2014-09-21  expires: 2015-09-21  usage: E
+sub* 4096R/0xDBA0A9602AF715C1  created: 2014-09-21  expires: 2016-09-20  usage: S
+[ultimate] (1). Mikhail Morfikov (testing key)
+[ultimate] (2)  Mikhail Morfikov (another testing key)
+
+gpg&gt; expire
+Changing expiration time for a subkey.
+Please specify how long the key should be valid.
+         0 = key does not expire
+        = key expires in n days
+      w = key expires in n weeks
+      m = key expires in n months
+      y = key expires in n years
+Key is valid for? (0) 1y
+Key expires at Mon 21 Sep 2015 08:43:46 PM CEST
+Is this correct? (y/N) y
+
+You need a passphrase to unlock the secret key for
+user: &quot;Mikhail Morfikov (testing key) &quot;
+4096-bit RSA key, ID 0x0339957BF6449112, created 2014-09-21
+
+
+pub  4096R/0x0339957BF6449112  created: 2014-09-21  expires: 2015-09-21  usage: SC
+                               trust: ultimate      validity: ultimate
+sub  4096R/0x9845A1DBE59AC095  created: 2014-09-21  expires: 2015-09-21  usage: E
+sub* 4096R/0xDBA0A9602AF715C1  created: 2014-09-21  expires: 2015-09-21  usage: S
+[ultimate] (1). Mikhail Morfikov (testing key)
+[ultimate] (2)  Mikhail Morfikov (another testing key)
+
+gpg&gt; save
+</code></pre>
+<p>W powyższym przykładzie zmieniliśmy datę ważności z 2 lat na 1 rok.</p>
+<h2 id="certyfikat-unieważniający">Certyfikat unieważniający</h2>
+<p>Dobrze jest także wygenerować sobie certyfikat unieważniający klucz główny -- na wypadek gdybyśmy
+zapomnieli hasła do klucza, zgubili go, czy zostałby on skompromitowany. Z tym, że tego certyfikatu
+trzeba strzec, bo jeśli dostanie się w niepowołane ręce, ten ktoś będzie mógł bez problemu
+unieważnić nasz klucz główny. Generujemy
+certyfikat:</p>
+<pre><code>$ gpg --output 0x0339957BF6449112.gpg-revocation-certificate --armor --gen-revoke 0x0339957BF6449112
+</code></pre>
+<p>W katalogu, w którym wydaliśmy powyższe polecenie został utworzony plik
+<code>0x0339957BF6449112.gpg-revocation-certificate</code> i to za jego pomocą można unieważnić klucz. Jeśli
+kiedyś by zaszła potrzeba skorzystania z tego certyfikatu, importujemy ten plik jak zwykły klucz
+gpg:</p>
+<pre><code>$ gpg --import 0x0339957BF6449112.gpg-revocation-certificate
+gpg: key 0x0339957BF6449112: &quot;Mikhail Morfikov (testing key) &quot; revocation certificate imported
+gpg: Total number processed: 1
+gpg:    new key revocations: 1
+gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: next trustdb check due at 2016-09-20
+</code></pre>
+<p>I sprawdzamy, czy klucz został cofnięty:</p>
+<pre><code>$ gpg --list-keys
+/home/morfik/.gnupg/pubring.gpg
+--------------------------------
+pub   4096R/0xD71FD9994AF34F0B 2012-08-10
+      Key fingerprint = 878F FB44 5E6E 13A6 4716  3BDC D71F D999 4AF3 4F0B
+uid                            https://www.sks-keyservers.net
+uid                            https://sks-keyservers.net
+
+pub   4096R/0x0339957BF6449112 2014-09-21 [revoked: 2014-09-21]
+      Key fingerprint = 6DF3 C313 A0FE 1E7F 168D  F9DC 0339 957B F644 9112
+uid                            Mikhail Morfikov (testing key)
+uid                            Mikhail Morfikov (another testing key)
+</code></pre>
+<p>Przy naszym kluczu widnieje <code>revoked</code> , czyli z tego klucza się już nie da skorzystać. Jedyne co nam
+jeszcze pozostaje do zrobienia, to wysłanie zaktualizowanych informacji do serwera kluczy via <code>gpg --send-keys</code> .</p>
+<h2 id="przesyłanie-nowego-klucza-do-serwera-kluczy">Przesyłanie nowego klucza do serwera kluczy</h2>
+<p>Po tym jak się przestaniemy bawić kluczami, musimy je przesłać do serwera kluczy. Robimy to w
+poniższy sposób:</p>
+<pre><code>$ gpg --send-key 0x0339957BF6449112
+gpg: sending key 0x0339957BF6449112 to hkps server hkps.pool.sks-keyservers.net
+</code></pre>
+<p>Dla sprawdzenia, czy faktycznie klucz został wyeksportowany na publiczny serwer kluczy, przeszukajmy
+serwery pod kątem naszego klucza GPG:</p>
+<pre><code>$ gpg --search-keys 0x0339957BF6449112
+gpg: searching for &quot;0x0339957BF6449112&quot; from hkps server hkps.pool.sks-keyservers.net
+(1)     Mikhail Morfikov (testing key)
+        Mikhail Morfikov (another testing key)
+          4096 bit RSA key 0x0339957BF6449112, created: 2014-09-21, expires: 2015-09-21
+Keys 1-1 of 1 for &quot;0x0339957BF6449112&quot;.  Enter number(s), N)ext, or Q)uit &gt;
+</code></pre>
+<p>Czasem klucz może nie zostać odnaleziony za pierwszym razem. To nie jest błąd tylko tak działają te
+serwery w puli. Po prostu nie zostaliśmy podłączeni do tego, który jest w posiadaniu naszego klucza.
+Po paru chwilach, wszystkie serwery sobie wymienią ten klucz automatycznie i kopia naszego klucza
+GPG będzie dostępna bez problemu na każdym z nich, także bez obaw.</p>
+<h2 id="usuwanie-klucza-głównego">Usuwanie klucza głównego</h2>
+<p>Najpierw wykonajmy backup katalogu <code>~/.gnupg/</code> . Następnie eksportujemy podklucze do pliku, po czym
+usuwamy klucz główny z keyringa systemowego i dodajemy podklucze bez klucza prywatnego:</p>
+<pre><code>$ cp -a ~/.gnupg/ ~/.gnupg.back/
+
+$ gpg -K
+/home/morfik/.gnupg/secring.gpg
+--------------------------------
+sec   4096R/0x0339957BF6449112 2014-09-21 [expires: 2016-09-20]
+      Key fingerprint = 6DF3 C313 A0FE 1E7F 168D  F9DC 0339 957B F644 9112
+uid                            Mikhail Morfikov (testing key)
+uid                            Mikhail Morfikov (another testing key)
+ssb   4096R/0x9845A1DBE59AC095 2014-09-21
+ssb   4096R/0xDBA0A9602AF715C1 2014-09-21
+
+$ gpg --export-secret-subkeys 0x9845A1DBE59AC095! 0xDBA0A9602AF715C1! &gt; subkeys
+
+$ gpg --export 0x0339957BF6449112 &gt; pubkeys
+
+$ gpg --delete-secret-key 0x0339957BF6449112
+
+$ gpg --import pubkeys subkeys
+gpg: key 0x0339957BF6449112: &quot;Mikhail Morfikov (testing key) &quot; not changed
+gpg: key 0x0339957BF6449112: secret key imported
+gpg: key 0x0339957BF6449112: &quot;Mikhail Morfikov (testing key) &quot; 1 new signature
+gpg: Total number processed: 2
+gpg:              unchanged: 1
+gpg:         new signatures: 1
+gpg:       secret keys read: 1
+gpg:   secret keys imported: 1
+</code></pre>
+<p>Teraz jeszcze zweryfikujmy czy jest tam klucz prywatny:</p>
+<pre><code>$ gpg -K
+/home/morfik/.gnupg/secring.gpg
+--------------------------------
+sec#  4096R/0x0339957BF6449112 2014-09-21 [expires: 2016-09-20]
+      Key fingerprint = 6DF3 C313 A0FE 1E7F 168D  F9DC 0339 957B F644 9112
+uid                            Mikhail Morfikov (testing key)
+uid                            Mikhail Morfikov (another testing key)
+ssb   4096R/0x9845A1DBE59AC095 2014-09-21
+ssb   4096R/0xDBA0A9602AF715C1 2014-09-21
+</code></pre>
+<p>Pamiętajmy by zaktualizować informacje o kluczu na serwerze kluczy, jak i również o skopiowaniu
+plików, które potworzyliśmy podczas operacji usuwania klucza prywatnego gdzieś w bezpieczne,
+zaszyfrowane miejsce.</p>
+<p>Hash w <code>sec#</code> wskazuje, że może i info o kluczu prywatnym jest wyświetlane ale samego klucza jako
+takiego tam nie ma.</p>
+<h2 id="test-klucza-gpg">Test klucza GPG</h2>
+<p>Mając już własny klucz, sprawdźmy czy przejdzie on testy bezpieczeństwa. W tym celu potrzebne będą
+nam narzędzia zawarte w pakiecie <code>hopenpgp-tools</code> . Testujemy klucz:</p>
+<pre><code>$ hkt export-pubkeys '6DF3 C313 A0FE 1E7F 168D  F9DC 0339 957B F644 9112' | hokey lint
+
+
+Key has potential validity: good
+Key has fingerprint: 6DF3 C313 A0FE 1E7F 168D  F9DC 0339 957B F644 9112
+Checking to see if key is OpenPGPv4: V4
+Checking to see if key is RSA or DSA (&gt;= 2048-bit): RSA 4096
+Checking user-ID- and user-attribute-related items:
+  Mikhail Morfikov (another testing key) :
+    Self-sig hash algorithms: [SHA512]
+    Preferred hash algorithms:
+      [SHA512,SHA384,SHA256,SHA224]
+    Key expiration times:
+      [1y11m29d81000s = Tue Sep 20 17:04:03 UTC 2016]
+  Mikhail Morfikov (testing key) :
+    Self-sig hash algorithms: [SHA512]
+    Preferred hash algorithms:
+      [SHA512,SHA384,SHA256,SHA224]
+    Key expiration times:
+      [1y11m29d81000s = Tue Sep 20 17:04:03 UTC 2016]
+</code></pre>
+<p>Poprawny klucz powinien przejść wszystkie etapy testu. Jeśli z jakiegoś powodu gdzieś się zapali
+czerwona lampka, znaczy, że przydałoby się poprawić coś w naszym kluczu. Na szczęście nie ma takiej
+potrzeby i mój klucz przeszedł test bez problemu.</p>
+<h2 id="test-szyfrowaniapodpisywania">Test szyfrowania/podpisywania</h2>
+<p>Jako, że nasz klucz GPG nie posiada już części prywatnej, przydałoby się sprawdzić czy jest on w
+dalszym ciągu użyteczny, czyli czy potrafi szyfrować, deszyfrować i podpisywać wiadomości. Poniżej
+jest przeprowadzony test szyfrowania kawałka tekstu:</p>
+<pre><code>$ touch wiadomosc
+$ echo &quot;To jest bardzo tajny text&quot; &gt; wiadomosc
+$ gpg --encrypt --armor -r morfik@nsa.com wiadomosc
+
+You need a passphrase to unlock the secret key for
+user: &quot;Mikhail Morfikov (testing key) &quot;
+4096-bit RSA key, ID 0xDBA0A9602AF715C1, created 2014-09-21
+         (subkey on main key ID 0x0339957BF6449112)
+</code></pre>
+<p>Wygląda na to, że klucz GPG zaszyfrował wiadomość. Można to także poznać po utworzeniu pliku
+<code>wiadomosc.asc</code> , w którym to mamy blok tekstu ujęty w <code>-----BEGIN PGP MESSAGE-----</code> oraz <code>-----END PGP MESSAGE-----</code> .</p>
+<p>Spróbujmy teraz odszyfrować tę wiadomość:</p>
+<pre><code>$ gpg --decrypt wiadomosc.asc
+...
+To jest bardzo tajny text
+</code></pre>
+<p>Jak widzimy powyżej, wiadomość została odszyfrowana.</p>
+<p>Spróbujmy teraz podpisać zaszyfrowaną wiadomość:</p>
+<pre><code>$ gpg --encrypt --sign --armor -r morfik@nsa.com wiadomosc
+</code></pre>
+<p>Odszyfrowanie i weryfikacja podpisu:</p>
+<pre><code>$ gpg --decrypt wiadomosc.asc
+...
+To jest bardzo tajny text
+gpg: Signature made Sun 21 Sep 2014 10:14:46 PM CEST
+gpg:                using RSA key 0xDBA0A9602AF715C1
+gpg: Good signature from &quot;Mikhail Morfikov (testing key) &quot;
+gpg:                 aka &quot;Mikhail Morfikov (another testing key) &quot;
+Primary key fingerprint: 6DF3 C313 A0FE 1E7F 168D  F9DC 0339 957B F644 9112
+     Subkey fingerprint: 3CDD 36C1 9AF3 4E60 60E6  6103 DBA0 A960 2AF7 15C1
+</code></pre>
+<p>Informacja o <code>Good signature</code> mówi raczej sama za siebie.</p>
+<p>Jeszcze tak tylko w ramach formalności, utwórzmy sobie podpis dołączony do wiadomości, bez jej
+szyfrowania:</p>
+<pre><code>$ gpg --clearsign -r morfik@nsa.com wiadomosc
+
+$ cat wiadomosc.asc
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+To jest bardzo tajny text
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBCgAGBQJUHz+gAAoJEM0EaBB3G2UgdBAQANhe27VYRSr+rz2NQYQIgGak
+QlbBXZiV37gRtDjgiskHaCenlhLN7GuApRXMIaEgbruC25ukc/v3uBomSHf/CgU+
+5ORPE/9hJOoc2uqTeVfBO+jaNEQEFV0+LJLIa1uSM6F6cAmsdMfZKQqSpi7Jbfv/
+FEfqYbkCPthELmBkF9My8oarh8lHFrNA6/VxG9xQI6/ht1SgYaMFBxGCVT2sgLN9
+4SVDs89JwXwEf6oZzKYfE7xdR2iyOHAHQMuTdmEV76nqDkP+aFAp66AOsIKxn/9C
+bUhxM9Bn23uW2YE3yy0PVk3GiK7gKqGv2oJWfBPef98jlzjk0kHSwCkAHzn/j4q4
+GqOpjAZRgxw/63P2+8eBN9n7YPO7F5D8/snwpGOSRK5rEzMoQO+/o6rSh9HnTCMX
+5bLP6NLTG1r7l44wJ/a7nYDy3FaEnpQjyTV1K93yhzsHufvGzwccf+62JiT8tuM5
+AdAnhHbWHuIAxFRN8vjWRkc3XVPUeztmBHhWROxsUcZZZHx09ruRtmIqZbwqKg/q
+kC/dvMzAhTRHjghYZaQ28raUovQ4saAOZ+88pnXzikAoMCyoFWFqamayPT2j1c5p
+G8rGFsOWGkfNdF498+eMB13NcpSGcXB9bN7N/DU6/PaeIcWp9knp/eHqAW4pToTd
+dNkJw0YT4gR1IUdWTm7M
+=lstD
+-----END PGP SIGNATURE-----
+</code></pre>
+<p>Teraz jeszcze weryfikujemy powyższą sygnaturę:</p>
+<pre><code>$ gpg --verify wiadomosc.asc
+gpg: Signature made Sun 21 Sep 2014 10:18:54 PM CEST
+gpg:                using RSA key 0xDBA0A9602AF715C1
+gpg: Good signature from &quot;Mikhail Morfikov (testing key) &quot;
+gpg:                 aka &quot;Mikhail Morfikov (another testing key) &quot;
+Primary key fingerprint: 6DF3 C313 A0FE 1E7F 168D  F9DC 0339 957B F644 9112
+     Subkey fingerprint: 3CDD 36C1 9AF3 4E60 60E6  6103 DBA0 A960 2AF7 15C1
+</code></pre></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bezpiecze%C5%84stwo/">bezpieczeństwo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/gpg/">gpg</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">szyfrowanie</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fbezpieczny-klucz-gpg%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbezpieczny-klucz-gpg%2f&amp;text=Bezpieczny%20klucz%20GPG" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbezpieczny-klucz-gpg%2f&amp;title=Bezpieczny%20klucz%20GPG" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbezpieczny-klucz-gpg%2f&amp;title=Bezpieczny%20klucz%20GPG" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbezpieczny-klucz-gpg%2f&title=Bezpieczny%20klucz%20GPG" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbezpieczny-klucz-gpg%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbezpieczny-klucz-gpg%2f&amp;title=Bezpieczny%20klucz%20GPG" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fbezpieczny-klucz-gpg%2f&description=Bezpieczny%20klucz%20GPG" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uwierzytelniajace-klucze-ssh/">Uwierzytelniające klucze SSH</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/persistence-czyli-zachowanie-zmian-w-systemie-live/">Persistence, czyli zachowanie zmian w systemie live</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/automatycznie-generowane-haslo-do-serwisu-www/">Automatycznie generowane hasło do serwisu WWW</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wordpress-ograniczone-prawa-dostepu/">WordPress: Ograniczone prawa dostępu</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wordpress-wylaczenie-protokolu-xml-rpc/">WordPress: Wyłączenie protokołu XML-RPC</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/problemy-wynikajace-z-uzywania-pliku-htaccess/">Problemy wynikające z używania pliku .htaccess</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wymuszenie-ssl-tls-przy-pomocy-vhostow-apache2/">Wymuszenie SSL/TLS przy pomocy vhost&#39;ów w Apache2</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

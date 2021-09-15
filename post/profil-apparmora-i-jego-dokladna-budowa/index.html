@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Profil AppArmor&#39;a i jego dokładna budowa | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Profil AppArmor&#39;a i jego dokładna budowa" />
+<meta property="og:description" content="Budowanie samych profili dla AppArmor&#39;a
+nie jest jakoś szczególnie trudne, zwłaszcza, gdy do tego celu wykorzystujemy narzędzia dostępne w
+pakiecie apparmor-utils . Dobrze jest jednak prześledzić sobie
+manual
+AppArmor&#39;a oraz to, co twórcy
+piszą na swojej stronie w oficjalnej
+dokumentacji projektu. Poniższy wpis powstał w
+celu zrozumienia składni profili AppArmor&#39;a, tak by jeszcze bardziej uprościć proces ich budowania.
+Opis składni znajdujący się poniżej został zaczerpnięty z
+wiki
+AppArmor&#39;a. Część z poniższych
+informacji może nie mieć zastosowania w przypadku starszych wersji samego AppArmor&#39;a." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/profil-apparmora-i-jego-dokladna-budowa/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-12-01T17:57:39&#43;00:00" />
+<meta property="article:modified_time" content="2015-12-01T17:57:39&#43;00:00" />
+
+
+		<meta itemprop="name" content="Profil AppArmor&#39;a i jego dokładna budowa">
+<meta itemprop="description" content="Budowanie samych profili dla AppArmor&#39;a
+nie jest jakoś szczególnie trudne, zwłaszcza, gdy do tego celu wykorzystujemy narzędzia dostępne w
+pakiecie apparmor-utils . Dobrze jest jednak prześledzić sobie
+manual
+AppArmor&#39;a oraz to, co twórcy
+piszą na swojej stronie w oficjalnej
+dokumentacji projektu. Poniższy wpis powstał w
+celu zrozumienia składni profili AppArmor&#39;a, tak by jeszcze bardziej uprościć proces ich budowania.
+Opis składni znajdujący się poniżej został zaczerpnięty z
+wiki
+AppArmor&#39;a. Część z poniższych
+informacji może nie mieć zastosowania w przypadku starszych wersji samego AppArmor&#39;a."><meta itemprop="datePublished" content="2015-12-01T17:57:39&#43;00:00" />
+<meta itemprop="dateModified" content="2015-12-01T17:57:39&#43;00:00" />
+<meta itemprop="wordCount" content="3842">
+<meta itemprop="keywords" content="bezpieczeństwo,apparmor," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Profil AppArmor&#39;a i jego dokładna budowa"/>
+<meta name="twitter:description" content="Budowanie samych profili dla AppArmor&#39;a
+nie jest jakoś szczególnie trudne, zwłaszcza, gdy do tego celu wykorzystujemy narzędzia dostępne w
+pakiecie apparmor-utils . Dobrze jest jednak prześledzić sobie
+manual
+AppArmor&#39;a oraz to, co twórcy
+piszą na swojej stronie w oficjalnej
+dokumentacji projektu. Poniższy wpis powstał w
+celu zrozumienia składni profili AppArmor&#39;a, tak by jeszcze bardziej uprościć proces ich budowania.
+Opis składni znajdujący się poniżej został zaczerpnięty z
+wiki
+AppArmor&#39;a. Część z poniższych
+informacji może nie mieć zastosowania w przypadku starszych wersji samego AppArmor&#39;a."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Profil AppArmor&#39;a i jego dokładna budowa</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-12-01T17:57:39Z">Opublikowano: 01/12/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Profil AppArmor&#39;a i jego dokładna budowa</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#przykładowy-plik-profilu-apparmora">Przykładowy plik profilu AppArmor'a</a>
+      <ol>
+        <li><a href="#sekcja-preambuły">Sekcja preambuły</a>
+          <ol>
+            <li><a href="#definiowanie-zmiennych">Definiowanie zmiennych</a></li>
+            <li><a href="#reguły-rewrite-i-aliasy">Reguły rewrite i aliasy</a></li>
+          </ol>
+        </li>
+        <li><a href="#sekcja-profilu">Sekcja profilu</a>
+          <ol>
+            <li><a href="#flagi-profilu">Flagi profilu</a></li>
+          </ol>
+        </li>
+        <li><a href="#komentarze">Komentarze</a></li>
+        <li><a href="#załączanie-plików-i-katalogów">Załączanie plików i katalogów</a></li>
+        <li><a href="#możliwości-capabilities">Możliwości (Capabilities)</a></li>
+        <li><a href="#sieć">Sieć</a></li>
+        <li><a href="#prawa-dostępu-do-plików">Prawa dostępu do plików</a></li>
+        <li><a href="#profile-lokalne">Profile lokalne</a></li>
+        <li><a href="#modyfikatory-reguł">Modyfikatory reguł</a></li>
+      </ol>
+    </li>
+    <li><a href="#globbing">Globbing</a></li>
+    <li><a href="#gotowe-profile-apparmora">Gotowe profile AppArmor'a</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p><a href="https://morfikov.github.io/post/apparmor-profilowanie-aplikacji/">Budowanie samych profili dla AppArmor'a</a>
+nie jest jakoś szczególnie trudne, zwłaszcza, gdy do tego celu wykorzystujemy narzędzia dostępne w
+pakiecie <code>apparmor-utils</code> . Dobrze jest jednak prześledzić sobie
+<a href="http://manpages.ubuntu.com/manpages/xenial/en/man5/apparmor.d.5.html">manual</a>
+<a href="http://manpages.ubuntu.com/manpages/xenial/en/man7/apparmor.7.html">AppArmor'a</a> oraz to, co twórcy
+piszą na swojej stronie w <a href="http://wiki.apparmor.net/index.php/Documentation">oficjalnej
+dokumentacji</a> projektu. Poniższy wpis powstał w
+celu zrozumienia składni profili AppArmor'a, tak by jeszcze bardziej uprościć proces ich budowania.</p>
+<p>Opis składni znajdujący się poniżej został zaczerpnięty z
+<a href="http://wiki.apparmor.net/index.php/QuickProfileLanguage">wiki</a>
+<a href="http://wiki.apparmor.net/index.php/AppArmor_Core_Policy_Reference">AppArmor'a</a>. Część z poniższych
+informacji może nie mieć zastosowania w przypadku starszych wersji samego AppArmor'a.</p>
+<h2 id="przykładowy-plik-profilu-apparmora">Przykładowy plik profilu AppArmor'a</h2>
+<p>Profil AppArmor'a zawiera reguły, które są wymuszane, gdy jest uruchamiany powiązany z nimi program.
+Te reguły, to taka biała lista praw dostępu do plików czy urządzeń, które mogą narzucić aplikacji
+poruszanie się w pewnym określonym obszarze systemu.</p>
+<p>Plik profilu jest podzielony na dwie sekcje: preambułę oraz profil właściwy. Preambuła musi znaleźć
+się na początku pliku. W przypadku, gdy w dalszej części pliku zostanie określona jakaś sekcja
+profilu, kolejne reguły preambuły nie mogą już być dodawane niżej w tym pliku. W przypadku, gdy
+polityka AppArmor'a jest rozdzielona na szereg plików, każdy z nich może mieć własną sekcję dla
+preambuły. Te pliki, które będziemy załączać w profilu (przy pomocy <code>#include</code> ), nie mogą posiadać
+sekcji preambuły.</p>
+<h3 id="sekcja-preambuły">Sekcja preambuły</h3>
+<p>Preambuła składa się z reguł, które mają globalny wpływ na zdefiniowane niżej w danym pliku sekcje
+profili. Ogólnie rzecz biorąc, te reguły, które mogą zostać wykorzystane w sekcji preambuły nie mogą
+pojawić się w sekcji profilu. Są to: definicje zmiennych, aliasy, reguły, które przepisują/zmieniają
+(rewrite) coś, reguły warunkowe oraz także załączanie plików z regułami, które nie mogą być
+definiowane bezpośrednio w obrębie sekcji profilu AppArmor'a.</p>
+<p>Poniżej przykład preambuły:</p>
+<pre><code>#include &lt;tunables/global&gt;
+
+@{MOZ_LIBDIR}=/opt/firefox
+...
+</code></pre>
+<p>Mamy tutaj jedną dyrektywę <code>#include</code> , która definiuje (przy pomocy innych plików) szereg
+zmiennych, które powinny być dostępne dla każdego profilu. Niżej zaś jest linijka ze zmienna
+<code>MOZ_LIBDIR</code> , która może zostać wykorzystana w sekcji profilu.</p>
+<h4 id="definiowanie-zmiennych">Definiowanie zmiennych</h4>
+<p>W sekcji preambuły mogą także pojawiać się zmienne, które są definiowane przez <code>@{nazwa_zmiennej}</code> ,
+tak jak to widać powyżej. Jest szereg zmiennych, które AppArmor ma już zdefiniowane, a właściwie są
+one określone w plikach w katalogu <code>/etc/apparmor.d/tunables/</code> . Z reguły każdy profil w sekcji
+preambuły powinien mieć zdefiniowaną jako pierwszą tę poniższą linijkę:</p>
+<pre><code>#include &lt;tunables/global&gt;
+</code></pre>
+<p>W pliku <code>global</code> są zawarte kolejne dyrektywy <code>#include</code> , które pociągają szereg dodatkowych plików
+z regułami.</p>
+<h4 id="reguły-rewrite-i-aliasy">Reguły rewrite i aliasy</h4>
+<p>Różnica między regułami rewrite i aliasami jest dość subtelna. Reguła rewrite przepisuje oryginalną
+ścieżkę do pliku/katalogu/urządzenia i jest aplikowana jedynie do tego nowego zasobu i nie ma przy
+tym możliwości odwołania się do starej ścieżki. Z kolei alias dodaje do starej ścieżki nową i obie z
+nich są brane pod uwagę przy aplikowaniu pasujących reguł. Przykładowo, weźmy sobie ten poniższy
+alias:</p>
+<pre><code>alias /home/ -&gt; /mnt/users/
+</code></pre>
+<p>Jeśli teraz byśmy dodali regułę w stylu tej poniższej:</p>
+<pre><code>/home/foo rw,
+</code></pre>
+<p>to aplikacja będzie w stanie dokonać zapisu i odczytu nie tylko w przypadku pliku <code>/home/foo</code> ale
+również i pliku <code>/mnt/users/foo</code> , czyli dokładnie taka sama sytuacja co w przypadku dodania
+poniższej reguły:</p>
+<pre><code>/mnt/users/foo rw,
+</code></pre>
+<p>Z kolei reguła rewrite wyglądałaby bardzo podobnie:</p>
+<pre><code>rewrite /home/ -&gt; /mnt/users/
+</code></pre>
+<p>Reguły rewrite oraz aliasty są brane pod uwagę dopiero po rozwiązaniu nazw zmiennych.</p>
+<h3 id="sekcja-profilu">Sekcja profilu</h3>
+<p>Sekcja profilu AppArmor'a składa się z jednego lub więcej profili. Ich kolejność nie ma większego
+znaczenia, natomiast przyjęło się by główny profil był określany jako pierwszy w pliku. Każdy profil
+AppArmor'a składa się z nagłówka, który określa nazwę profilu, po której zaś jest opcjonalne pole na
+flagi, które sterują zachowaniem samego profilu. Ponadto, każdy profil posiada swoje ciało, które
+jest ujęte w <code>{ }</code> , gdzie definiowane są wszystkie reguły dotyczące zezwoleń. Kolejność samych
+reguł w profilu nie ma większego znaczenia, natomiast wszystkie z nich są oddzielone od siebie przy
+pomocy <code>,</code> .</p>
+<p>Nazwa profilu powinna zaczynać się od <code>/</code> . W przypadku, gdy nazwa się nie rozpoczyna od <code>/</code> , przed
+nazwą profilu dodajemy słowo <code>profile</code> . Nazwa profili nie może jednak być zakończona znakiem <code>/</code> .
+Nazwy też nie powinny zawierać spacji ale jeśli zawierają, to muszą być one poprzedzane znakiem <code>\</code>
+lub też cała nazwa profilu powinna być ujęta w <code>&quot; &quot;</code> . Nazwy nie mogą także rozpoczynać się od <code>.</code> ,
+<code>:</code> lub <code>+</code> , choć te znaki mogą występować gdzieś w środku nazwy.</p>
+<p>Nazwy profili rozpoczynające się od <code>/</code> są wykorzystywane przy dopasowaniu profilu do plików
+wykonywalnych, które taki profil ma ograniczać. Natomiast, nazwy profili, które nie rozpoczynają się
+od <code>/</code> (zwykle te ze słówkiem <code>profile</code>) są używane jedynie w przypadku wywoływania innych aplikacji
+z danego profilu. Zwykle używa się tego mechanizmu, gdy jakiś plik wykonywalny nie powinien być
+ograniczony w systemie jako takim, natomiast powinien posiadać profil, gdy jest wywoływany przez
+ograniczoną już aplikację. Przykładowo, narzędzie <code>grep</code> . Nie powinno ono mieć profilu jako takiego
+ale użyteczny może okazać się wyspecjalizowany profil, który będzie aplikowany tylko w przypadku
+wywoływania ze skryptu, który podlega ograniczeniu przez AppArmor.</p>
+<p>Poniżej kilka przykładów poprawnych nazw profili:</p>
+<pre><code>/bin/example
+/bin/example\ name
+&quot;/bin/example name&quot;
+@{var}
+@{var}/example
+&quot;@{var}/example&quot;
+&quot;/bin/@{var}&quot;
+profile /bin/example
+profile example
+profile &quot;example name&quot;
+profile &quot;example\ name&quot;
+/bin/example\,
+&quot;/bin/example,&quot;
+profile example /bin/example
+</code></pre>
+<p>Poniżej zaś przykłady NIEpoprawnych nazw profili:</p>
+<pre><code>/bin/example/          # zakończony /
+/bin/example,          # zakończony przecinkiem, który nie jest escape'owany lub ujęty w cudzysłów
+/bin/example name      # dwie osobne nazwy zamiast jednej
+&quot;/bin/example name     # na końcu brakuje cudzysłowu
+:profile               # zaczyna się od :
++profile               # zaczyna się od +
+</code></pre>
+<p>Nie ma także większego powodu by każdy profil był umieszczany w osobnym pliku. Równie dobrze można
+to zrobić w jednym ale przyjęto taką zasadę i dobrze jest jej się trzymać.</p>
+<h4 id="flagi-profilu">Flagi profilu</h4>
+<p>Jak zostało wspomniane wyżej, pole na flagi jest pozycją opcjonalną i w przypadku, gdy nie zostaną
+określone żadne flagi, domyślne z nich są aplikowane i są to: <code>enforce</code>, <code>namespace_relative</code>,
+<code>no_attach_disconnected</code> , <code>chroot_no_attach</code> oraz <code>v2</code> .</p>
+<p>Poniżej znajduje się lista flag, które można wykorzystać:</p>
+<ul>
+<li><code>policy version flags</code> -- do wyboru <code>v2</code> lub <code>v3</code> , w zależności od wersji AppArmor'a.</li>
+<li><code>audit</code> -- wymusza logowanie wszelkich prób dostępu, bez względu na to czy są one dozwolone czy
+też i nie. Ta flaga generuje bardzo dużo komunikatów i zaleca się audytować tylko określone
+reguły wewnątrz profilu.</li>
+<li><code>debug</code> -- póki co ta flaga nie jest wspierana, niemniej jednak, włącza ona wypisywanie
+dodatkowych informacji.</li>
+<li><code>mode flag</code> -- określa tryb w jakim działa profil. Każdy z tych trybów się wzajemnie wyklucza.
+Te flagi są już nieco przestarzałe i zamiast nich powinno się korzyść z kontrolowanego stanu
+profili (Controlling Profile State). Niemniej jednak są do dyspozycji cztery opcje: <code>enforce</code> ,
+<code>complain</code> , <code>debug</code> oraz <code>kill</code> . Trzy pierwsze raczej nie powinny sprawiać problemu, natomiast
+tryb <code>kill</code> ma na celu ubijanie zadań, które próbują uzyskać nieuprawniony dostęp do zasobów
+systemowych oraz logowanie tego typu zdarzeń.</li>
+<li><code>relative flags</code> -- te flagi wzajemnie się wykluczają i kontrolują to w jaki sposób dokonuje się
+rozwiązywanie nazw ścieżek do plików dla danego profilu. W przypadku, gdy <code>chroot_relative</code>
+został określony, nazwy ścieżek są przeszukiwane względem bazy chroot, zaś nazwy zewnętrze w
+stosunku do chroot są ustalane przez flagi attach. Inną flagą do wyboru jest
+<code>namespace_relative</code> i jest ona bardzo podobna do tej poprzedniej, z tą różnicą, że nazwy
+wewnątrz środowiska chroot są rozwiązywane absolutnie w stosunku do całej przestrzeni nazw,
+natomiast zewnętrzne nazwy ścieżek są kontrolowane przez flagi attach.</li>
+<li><code>attach flags</code> -- te flagi kontrolują w jaki sposób dokonywana jest obsługa ścieżek odłączonych.
+Do wyboru są cztery różne flagi. Pierwsze dwie, tj. <code>attach_disconnect</code> oraz
+<code>no_attach_disconnected</code> wzajemnie się wykluczają i określają to czy nazwy ścieżek rozwiązane na
+te będące spoza przestrzeni nazw są poprzedzane znakiem <code>/</code> . Nie jest to dobry pomysł ponieważ
+zezwala to na dokonanie aliasu takiej odłączonej ścieżki, który może wskazywać na inny plik. Z
+kolei ostatnie dwie flagi to: <code>chroot_attach</code> oraz <code>chroot_no_attach</code> i one również się
+wzajemnie wykluczają. Kontrolują zaś to w jaki sposób są generowane nazwy ścieżek wewnątrz
+środowiska chroot w chwili, gdy następuje odwołanie do jakiegoś pliku, który jest zewnętrzny
+dla środowiska chroot ale nie dla samej przestrzeni nazw. Przy <code>chroot_attach_disconnected</code>
+nazwy ścieżek są poprzedzane przy pomocy <code>/</code> , w przeciwnym wypadku pozostają w formie
+odłączonej.</li>
+</ul>
+<p>Poniżej przykłady poprawnego wykorzystania flag:</p>
+<pre><code>flags=(enforce)
+flags=(complain)
+flags=(enforce debug)
+(complain chroot_relative)
+</code></pre>
+<h3 id="komentarze">Komentarze</h3>
+<p>Komentarze są oznaczone za pomocą znaku <code>#</code> i może on znajdować się przed danym wyrażeniem lub też i
+po nim. W obu przypadkach treść występująca po znaku <code>#</code> jest ignorowana, przykładowo:</p>
+<pre><code>/usr/bin/firefox {  # komentarz
+      # komentarz
+      /home/foo rw,  # komentarz
+}
+</code></pre>
+<h3 id="załączanie-plików-i-katalogów">Załączanie plików i katalogów</h3>
+<p>W pliku profilu może także znajdować się dyrektywa <code>#include</code> , która ma na celu dołączyć zewnętrzne
+pliki z regułami, co z kolei ułatwia budowanie i późniejsze zarządzanie tworzonym profilem. Trzeba
+dodać, że sam znak <code>#</code> jest opcjonalny i nie powinno się go używać przy budowaniu nowych profili.
+Jeśli jednak zdecydujemy się na dodanie go, to nie może on być oddzielony przy pomocy spacji, bo
+wtedy taka linijka będzie traktowana jak zwykły komentarz.</p>
+<p>Pliki możemy załączać na kilka sposobów. Pierwszy z nich zakłada wykorzystanie ścieżek relatywnych
+względem katalogu <code>/etc/apparmor.d/</code> i w takim przypadku ścieżkę musimy ująć w <code>&lt; &gt;</code> . Możemy także
+określić położenie względem pliku profilu lub też podać absolutną ścieżkę w systemie plików. W obu
+ostatnich przypadkach, ścieżkę dajemy w <code>&quot; &quot;</code> , przykładowo:</p>
+<pre><code>#include &lt;abstractions/base&gt;
+
+#include &quot;somefile&quot;
+#include &quot;../file_from_parent_directory&quot;
+
+#include &quot;/etc/apparmor.d/include/foo&quot;
+
+include &lt;abstractions/base&gt;
+</code></pre>
+<p>Dyrektywa <code>#include</code> może także zostać wykorzystana do załączenia wszystkich plików ze wskazanego
+folderu w przypadku, gdy ścieżka wskazuje na katalog. Ten mechanizm ma jednak kilka limitów. Po
+pierwsze, jedynie pliki w danym katalogu zostaną uwzględnione. Nie nastąpi za to przeszukanie
+podkatalogów i ich pliki nie zostaną załączone. Poza tym, wszystkie pliki zaczynające się od <code>.</code> nie
+zostaną uwzględnione, podobnie jak i pliki, które kończą się na: <code>.dpkg-new</code> , <code>.dpkg-old</code> ,
+<code>.dpkg-dist</code> , <code>.dpkg-bak</code> , <code>.rpmnew</code> , <code>.rpmsave</code> oraz <code>~</code> .</p>
+<p>W przypadku dyrektyw <code>#include</code> nie stawiamy <code>,</code> na końcu linijki, tak jak to robimy w przypadku
+pozostałych reguł.</p>
+<h3 id="możliwości-capabilities">Możliwości (Capabilities)</h3>
+<p>W plikach profili AppArmor'a mamy także możliwość określenia kontroli dla
+<a href="http://manpages.ubuntu.com/manpages/xenial/en/man7/capabilities.7.html">capabilities</a>. Takie reguły
+zaczynają się od słowa <code>capability</code> , po którym zwykle umieszcza się nazwę możliwości z dodatkową
+informacją (obecnie jeszcze niewspierane), lub też wiele możliwości oddzielonych przy pomocy spacji.
+Na końcu tych reguł musi pojawić się <code>,</code> . W podlinkowanym wyżej manualu jest lista możliwości,
+które możemy wykorzystać przy budowaniu profilu. Mamy tam jednak opcje typu <code>CAP_SETGID</code> . By móc
+użyć ich w profilu AppArmor'a, usuwamy <code>CAP</code> , a całą resztę piszemy z małych liter.</p>
+<p>Normalnie, AppArmor jedynie ogranicza te możliwości aplikacji, które ona już posiada, czyli niejako
+maskuje je. W taki sposób, jeśli mamy do czynienia z programem, który korzysta z bitu setuid/setgid
+i jest to pożądane, to musielibyśmy taką opcję uwzględnić w profilu samej aplikacji, co
+sprowadzałoby się do dodania poniższego kodu do pliku profilu:</p>
+<pre><code>capability setuid,
+capability setgid,
+</code></pre>
+<p>AppArmor jest też w stanie nadawać możliwości aplikacjom i do tego celu służy <code>set capability</code> . Ze
+względów bezpieczeństwa, te ustawione reguły dotyczące możliwości aplikacji nie są dziedziczone. Gdy
+tylko dany program wychodzi poza obręb profilu, traci te nadane przez AppArmor możliwości. Nie
+trzeba także osobno precyzować reguły, która miałaby na celu zezwolenie na wykorzystanie takiej
+możliwości, bo <code>set</code> automatycznie implikuje to zachowanie.</p>
+<p>Samo nadanie aplikacji możliwości nie zawsze wystarcza. Trzeba także uwzględnić ewentualne prawa
+dostępu do samego pliku, a to musi być określone przez dodatkową regułę.</p>
+<h3 id="sieć">Sieć</h3>
+<p>Dostęp do sieci w przypadku pewnych aplikacji także może podlegać obostrzeniom. Możemy pozbawić ich
+dostępu do internetu zupełnie, lub też kontrolować tworzenie soketów jak i przepływ danych
+(pakietów). Tego typu mechanizm może robić za swojego rodzaju firewall lub też być dodatkiem do
+firewall'a systemowego. Jeśli chcemy aby aplikacja miała dostęp do internetu i nie interesują nas
+zbytnio detale, to potrzebowalibyśmy dopisać w pliku profilu <code>network</code> , przykładowo:</p>
+<pre><code>network,
+</code></pre>
+<p>Jeśli nie chcemy stosować tak ogólnej reguły, zawsze możemy skorzystać z następujących uprawnień:
+create, accept, bind, connect, listen, read, write, send, receive, getsockname, getpeername,
+getsockopt, setsockopt, fcntl, ioctl, shutdown, getpeersec. Poniżej, krótki opis:</p>
+<ul>
+<li><code>create</code> -- zezwala na tworzenie gniazd o określonej domenie, typie i protokole.</li>
+<li><code>shutdown</code> -- zezwala na zamknięcie gniazda.</li>
+<li><code>listen[=X]</code> -- zezwala na nasłuchiwanie na gnieździe o określonej domenie, typie i protokole.
+Jeśli zostanie także zdefiniowany dodatkowy parametr <code>backlog</code>, to zostanie <a href="http://www.linuxjournal.com/files/linuxjournal.com/linuxjournal/articles/023/2333/2333s2.html">ograniczone tempo
+nawiązywania nowych
+połączeń</a>.</li>
+<li><code>bind</code> -- zezwala na przypisanie adresu, który pasuje do wyrażenia adresu źródłowego. Jeśli nie
+zostanie określony, zostanie przypisany do dowolnego adresu.</li>
+<li><code>connect</code> -- zezwala na połączenie gniazda z adresem, który pasuje do wyrażenia adresu
+docelowego. Jeśli nie zostanie określony, połączenie będzie możliwe z dowolnym adresem.</li>
+<li><code>accept</code> -- zezwala na akceptowanie połączeń z adresu, który pasuje do wyrażenia adresu
+docelowego. Jeśli nie zostanie określony, połączenie będą akceptowane z dowolnego adresu.</li>
+<li><code>read</code>/<code>receive</code> -- zezwala na czytanie/odbieranie pakietów i danych pochodzących z adresu
+docelowego.</li>
+<li><code>write</code>/<code>send</code> -- zezwala na zapis/wysyłąnie pakietów i danych z adresu źródłowego do adresu
+docelowego.</li>
+<li><code>getname</code> -- zezwala na uzyskanie adresu gniazda.</li>
+<li><code>getpeer</code> -- zezwala na uzyskanie zdalnego adresu gniazda.</li>
+<li><code>setopt</code> -- zezwala na ustawienie opcji dla gniazda.</li>
+</ul>
+<p>Zatem bardziej restrykcyjny dostęp do sieci może wyglądać mniej więcej tak:</p>
+<pre><code>network (read, write) inet,
+deny network bind inet,
+</code></pre>
+<p>Wyżej mamy podaną domenę <code>inet</code> , która odpowiada ipv4 , z kolei <code>inet6</code> jest dla ipv6. W pewnych
+przypadkach nie musimy określać domeny, bo ta może być implikowana automatycznie na postawie typu,
+protokołu czy samej adresacji, przykładowo:</p>
+<pre><code>network tcp,
+# implikuje
+network inet stream,
+network inet6 stream,
+</code></pre>
+<p>Niektóre typy wymagają innych uprawnień niż te z <code>network</code> , przykładowo, <code>raw</code> potrzebuje także
+odpowiedniej możliwości, tj. <code>cap_raw</code> . Podobnie jak w przypadku domeny, typu też czasem nie trzeba
+określać, bo może być implikowany przez protokół i adresację, przykładowo:</p>
+<pre><code>network inet tcp,
+# implikuje
+network inet stream,
+</code></pre>
+<p>Protokóły, które mogą pojawić się w regułach zależą od domeny i typów samych reguł. Adres zaś zależy
+od typu domeny i gniazda. W przypadku, gdy nie odpowiadają nam ogóle reguły, które nie są w stanie
+często ograniczyć się do określonego wyrażenia, możemy rozbić je na szereg mniejszych reguł,
+podobnych do tej poniżej:</p>
+<pre><code>network tcp src 192.168.1.1:80 dst 170.1.1.0:80,
+</code></pre>
+<p>Poniżej jest kilka przykładów, na temat tego jaką formę mogą przyjąć dopasowania dla protokołu ipv4:</p>
+<pre><code>192.168.1.1
+192.168.1.1-254
+192.168.1.1:80
+192.168.1.1:80,81
+192.168.1.1:80,81,100-200
+
+192.168.1.*
+192.168.1.0-255
+192.168.1.0/24
+192.168.1.0/255.255.255.0
+
+192.0-255.1.1
+192.*.1.1
+192.0.1.1/255.0.255.255
+</code></pre>
+<h3 id="prawa-dostępu-do-plików">Prawa dostępu do plików</h3>
+<p>Każdy profil posiada reguły kontrolujące dostęp do określonych plików czy katalogów w systemie.
+Składają się one ze ścieżki, uprawnień i dzielnika w postaci <code>,</code> . Tego typu reguły mogą być pisane
+zarówno z uprawnieniami przed jak i po ścieżce do pliku, choć zwykle ścieżka jest podawana jako
+pierwsza. Dodatkowo, poprawna ścieżka zawsze zaczyna się od <code>/</code> , przykładowo:</p>
+<pre><code>/sciezka/do/pliku  rw,   # reguła zaczynająca się od ścieżki
+rw /sciezka/do/pliku2,   # reguła zaczynająca się od uprawnień
+
+/sciezka/do/pliku3       # regułą podzielona na kilka linii
+   rw,
+</code></pre>
+<p>Kontrola dostępu do plików odbywa się za pomocą specjalnych oznaczań (dodawanych zaraz za ścieżką).
+Mamy możliwość skorzystania z krótkich lub długich form. Długie formy są wypisane poniżej:</p>
+<ul>
+<li><code>create</code> -- możliwość tworzenia pliku.</li>
+<li><code>open</code> -- możliwość otwarcia pliku.</li>
+<li><code>delete</code> -- możliwość skasowania pliku.</li>
+<li><code>rename</code> -- możliwość zmiany nazwy pliku (przeniesienie) bez posiadania prawa do zapisu lub
+odczytu tego pliku.</li>
+<li><code>read</code> -- możliwość odczytu pliku.</li>
+<li><code>getattr</code> -- możliwość odczytu atrybutów pliku.</li>
+<li><code>getxattr</code> -- możliwość odczytu rozszerzonych atrybutów pliku.</li>
+<li><code>write</code> -- możliwość zapisu danych do pliku, włączając w to jego rozszerzanie (dodawanie nowych
+danych). Automatycznie implikuje <code>append</code> .</li>
+<li><code>append</code> -- możliwość dodawania nowych danych do pliku bez możliwości nadpisania tych starych.
+Używany w połączeniu z otwieraniem przez aplikację pliku przy pomocy O_APPEND.</li>
+<li><code>trunc</code> -- możliwość skracania (przycinania) pliku.</li>
+<li><code>setattr</code> -- możliwość zapisu szeregu metadanych plików, tych niekontrolowanych przez
+wyspecjalizowane flagi.</li>
+<li><code>setxattr</code> -- możliwość zapisu rozszerzonych atrybutów pliku.</li>
+<li><code>chmod</code> -- możliwość zmiany uprawnień do pliku.</li>
+<li><code>chown</code> -- możliwość zmiany właściciela pliku.</li>
+<li><code>chgrp</code> -- możliwość zmiany grupy pliku.</li>
+<li><code>link</code> -- możliwość linkowania do pliku. Gdy użyty z <code>**</code> określa czy uprawnienia są aplikowane
+do całego poddrzewa plików i katalogów.</li>
+<li><code>snapshot</code> -- możliwość tworzenia migawek (snapshot) plików lub katalogów.</li>
+<li><code>lock</code> -- możliwość zablokowania pliku.</li>
+<li><code>mmap_r</code> -- oznaczenie pliku jako możliwy do odczytu przy pomocy mmap</li>
+<li><code>mmap_w</code> -- oznaczenie pliku jako możliwy do zapisu przy pomocy mmap</li>
+<li><code>mmap_x</code> -- oznaczenie pliku jako możliwy do wykonania przy pomocy mmap</li>
+<li><code>mprot_wx</code> -- zezwala na przejście z <code>w</code> do <code>x</code> .</li>
+<li><code>mprot_xw</code> -- zezwala na przejście z <code>x</code> do <code>w</code> .</li>
+<li><code>exec</code> -- możliwość wykonania pliku.</li>
+</ul>
+<p>Poniżej zaś są wypisane krótkie formy:</p>
+<ul>
+<li><code>r</code> -- zezwala programowi na odczytanie pliku lub listing katalogu.</li>
+<li><code>w</code> -- zezwala programowi na zapis do pliku. Pliki i katalogi muszą mieć to uprawnienie by można
+było je usunąć, nie jest ono jednak wymagane w przypadku zmiany nazwy lub przy tworzeniu plików
+wewnątrz katalogu.</li>
+<li><code>a</code> -- zezwala programowi tylko na dodawanie treści do pliku. Ta opcja konfliktuje z <code>w</code> .</li>
+<li><code>m</code> -- zezwala plikowi na bycie zmapowanym w pamięci przy pomocy flagi PROT_EXEC mmap'a. Ta
+flaga oznacza strony pamięci jako wykonywalne. AppArmor wykorzystuje ten tryb by wskazać
+aplikacji, które pliki mogą być wykorzystywane jako biblioteki.</li>
+<li><code>l</code> -- zezwala programowi na tworzenie dowiązań.</li>
+<li><code>k</code> -- pozwala programowi na zablokowanie dostępu do pliku.</li>
+</ul>
+<p>Poza tymi powyższymi, mamy jeszcze jedną opcję: <code>x</code> , która zezwala profilowanemu programowi na
+uruchamianie innych aplikacji. W przypadku tego parametru mamy kilka różnych sposobów dotyczących
+tego jak dany program ma być wykonany i sam <code>x</code> będzie poprzedzony dodatkowym znakiem. W zapisie
+może pojawić się wielka litera, co oznacza, że zmienne środowiskowe (np. LD_PRELOAD) nie zostaną
+zachowane przy wykonywaniu danego programu. Z kolei, jeśli wszystkie znaki będą pisane z małych
+liter, środowisko zostanie zachowane. AppArmor czyści środowisko przy pomocy kernelowskiego
+<code>unsafe_exec</code> podobnie jak w przypadku programów z ustawionym bitem setuid. Trzeba jednak brać pod
+uwagę fakt, że czasem tak wykonane aplikacje mogą nie działać jak należy.</p>
+<p>Poniżej lista trybów wykonania:</p>
+<ul>
+<li><code>ux/Ux</code> -- ten tryb zezwala programowi na uruchomienie innego programu bez jakichkolwiek
+ograniczeń ze strony AppArmor'a.</li>
+<li><code>px/Px</code> -- ten tryb wymaga by uruchamiany program posiadał profil bezpieczeństwa i w przypadku
+jego braku, aplikacja nie zostanie uruchomiona.</li>
+<li><code>cx/Cx</code> -- ten tryb wymaga by uruchamiany program posiadał lokalny profil bezpieczeństwa i w
+przypadku jego braku, aplikacja nie zostanie uruchomiona.</li>
+<li><code>ix</code> -- dziedziczenie profilu przy wykonywaniu programu.</li>
+</ul>
+<p>Mamy także do dyspozycji kilka dodatkowych trybów rezerwowych (fallback), w których to profile będą
+aplikowane jedynie w przypadku ich odnalezienia:</p>
+<ul>
+<li><code>pix/Pix</code> -- to samo co w przypadku <code>px/Px</code> , z tym, że jeśli dedykowany profil nie zostanie
+odnaleziony, to będzie dziedziczony ten, który ma profilowana aplikacja.</li>
+<li><code>pux/Pux</code> -- to samo co w przypadku <code>px/Px</code> , z tym, że w jeśli dedykowany profil nie zostanie
+odnaleziony, wykonanie kodu będzie możliwe bez jakichkolwiek ograniczeń.</li>
+<li><code>cix/Cix</code> -- to samo co w przypadku <code>cx/Cx</code> , z tym, że jeśli lokalny profil nie zostanie
+odnaleziony, będzie on dziedziczony od profilowanej aplikacji.</li>
+<li><code>cux/Cux</code> -- to samo co w przypadku <code>cx/Cx</code> , z tym, że jeśli lokalny profil nie zostanie
+odnaleziony, kod zostanie wykonany bez jakichkolwiek ograniczeń.</li>
+</ul>
+<p>Poniżej jest zawarte mapowanie krótkich nazw na długie, tak by w prosty sposób można było
+zinterpretować w logu AppArmor'a potrzebne uprawnienia:</p>
+<ul>
+<li><code>r</code> -- read, meta-read, mmap_r</li>
+<li><code>w</code> -- create, delete, trunc, write, meta-write, chmod, chown, mmap_w, mprot_wx, partial
+rename</li>
+<li><code>a</code> -- append, create</li>
+<li><code>l</code> -- link</li>
+<li><code>k</code> -- lock</li>
+<li><code>m</code> -- mmap_x, mprot_wx</li>
+<li><code>x</code> -- exec, (w przypadku <code>ix</code> również mmap_x)</li>
+</ul>
+<p>Istnieją dwa sposoby na wywoływanie programów w profilowanej aplikacji. Pierwszym z nich jest
+odwołanie się do nazwy pliku wykonywalnego, np. tak:</p>
+<pre><code>/usr/bin/foo Pux,
+</code></pre>
+<p>Drugim zaś jest skorzystanie z <code>-&gt;</code> i odwołanie się do profilu po jego nazwie, przykładowo:</p>
+<pre><code>/usr/bin/foo px -&gt; profil1,
+</code></pre>
+<h3 id="profile-lokalne">Profile lokalne</h3>
+<p>AppArmor umożliwia tworzenie profili zagnieżdżonych (podprofile), które potocznie nazywane są
+profilami lokalnymi lub też potomnymi. Mogą one posłużyć do zapewnienia bardziej ścisłego
+ograniczenia wykonywanych zadań danej aplikacji. Taki profil potomny może zostać wykorzystany w
+przypadku, gdy niekoniecznie chcemy aby dana aplikacja była ograniczona przy wywoływaniu jej w
+systemie ale pożądane jest by restrykcje były narzucone, gdy ta sama aplikacja będzie wywoływana za
+pośrednictwem wyprofilowanego już programu.</p>
+<p>Lokalne profile określa się dokładnie w taki sam sposób co zwykle profile, z tą różnicą, że trzeba
+je umieścić wewnątrz już istniejącego profilu. Poniżej przykład:</p>
+<pre><code>/parent/profile {
+
+      /path/to/child1 cx -&gt; child1,
+
+      /path/to/child2 cx,
+
+      /path/to/* cx,    # jeśli * pasuje do child3 to nastąpi przejście do profilu /path/to/child3
+                        # jeśli * pasuje do child4, child5, itd. to nastąpi przejście do profilu /path/to/child*
+                        # jeśli profil potomny nie zostanie odnaleziony, proces nie zostanie uruchomiony
+
+      /another/path/to/* cx -&gt; child1,        # przesyła wszystkie dopasowania do profile child1
+
+      profile child1 {
+
+      }
+
+      profile /path/to/child2 {
+
+      }
+
+      profile /path/to/child3 {
+
+      }
+
+      # ogólny profil rezerwowy (fallback)
+      profile /path/to/child* {
+
+      }
+}
+</code></pre>
+<p>Wszystkie profile lokalne są w logu AppArmor'a stosownie oznaczane, tj. przez odseparowanie ich od
+głównego profilu przy pomocy <code>//</code> . W taki sposób, w polu <code>profile</code> otrzymujemy ciąg podobny do
+<code>profile=&quot;/opt/google/chrome/chrome-sandbox//nacl&quot;</code> , gdzie profil <code>nacl</code> jest profilem potomnym
+profilu <code>opt.google.chrome.chrome-sandbox</code> .</p>
+<h3 id="modyfikatory-reguł">Modyfikatory reguł</h3>
+<p>W przypadku, gdy profil AppArmor'a nie ma zdefiniowanej jakiejś reguły dla określonego zasoby,
+dostęp do niego zostanie zablokowany, a informacja o tej akcji zanotowana w logu systemowym. Z
+kolei jeśli reguła istnieje, dostęp zostanie przyznany bez jakichkolwiek komunikatów w logu. Można
+jednak użyć poniższych modyfikatorów, które wpłyną na to opisane powyżej zachowanie.</p>
+<ul>
+<li><code>audit</code> -- wymuszenie logowania</li>
+<li><code>deny</code> -- blokowanie dostępu bez logowania</li>
+<li><code>audit deny</code> -- blokowanie dostępu z logowaniem</li>
+</ul>
+<p>Poniżej kilka przykładów dla lepszego zrozumienia zasady działania:</p>
+<pre><code>/path/to/file*            r,  # zezwala na odczyt /path/to/file*
+/path/to/file1            w,  # zezwala na zapis do /path/to/file1
+deny /path/to/file2,      w,  # odmawia zapisu do /path/to/file2 bez logowania
+audit /path/to/file3      w,  # zezwala na zapis do /path/to/file3 z logowaniem
+audit deny /path/to/file4 r,  # odmawia odczytu /path/to/file4 z logowaniem
+</code></pre>
+<p>Reguły poprzedzone <code>deny</code> zawsze są brane pod uwagę jako pierwsze i nie mogą zostać nadpisane przez
+reguły, które zezwalają na dostęp. W powyższym przykładzie, <code>audit deny /path/to/file4 r</code> nadpisuje
+<code>/path/to/file* r</code> , zatem odczyt wszystkich plików pasujących do <code>file*</code> za wyjątkiem <code>file4</code>
+będzie możliwy.</p>
+<h2 id="globbing">Globbing</h2>
+<p><a href="http://manpages.ubuntu.com/manpages/xenial/en/man7/glob.7.html">Globbing</a> ma na celu zapisanie
+wielu wzorów dopasowań w postaci jednej linijki. Globbing to nie wyrażenia regularne, a jedynie
+kilka znaków znane jako wildcard'y. AppArmor korzysta z mechanizmu podobnego do tego jaki jest
+wykorzystywany w shell'u bash. Nie jest on, co prawda, taki sam ale podstawy tego mechanizmu każdy z
+nas powinien już jakieś posiadać. Poniżej znajduje się kilka przykładów, które powinny być
+zrozumiane, gdy budujemy profil AppArmor'a:</p>
+<ul>
+<li><code>/dir/file </code> -- pasuje do określonego pliku w katalogu <code>/dir/</code></li>
+<li><code>/dir/* </code> -- pasuje do każdego pliku w katalogu <code>dir</code> , wliczając w to pliki rozpoczynające się
+od <code>.</code></li>
+<li><code>/dir/a*</code> -- pasuje do każdego pliku w katalogu <code>dir</code> rozpoczynającego się od <code>a</code></li>
+<li><code>/dir/*.png</code> -- pasuje do każdego pliku w katalogu <code>dir</code> zakończonego <code>.png</code></li>
+<li><code>/dir/[^.]*</code> -- pasuje do każdego pliku w katalogu <code>dir</code> za wyjątkiem plików rozpoczynających
+się od <code>.</code></li>
+<li><code>/dir/</code> -- pasuje do katalogu <code>dir</code></li>
+<li><code>/dir/*/</code> -- pasuje do każdego katalogu wewnątrz katalogu <code>dir</code></li>
+<li><code>/dir/a*/</code> -- pasuje do każdego katalogu wewnątrz katalogu <code>dir</code> rozpoczynającego się od <code>a</code></li>
+<li><code>/dir/*a/</code> -- pasuje do każdego katalogu wewnątrz katalogu <code>dir</code> , który kończy się na <code>a</code></li>
+<li><code>/dir/**</code> -- pasuje do każdego pliku lub folderu wewnątrz i poniżej katalogu <code>/dir/</code></li>
+<li><code>/dir/**/</code> -- pasuje do każdego folderu wewnątrz i poniżej katalogu <code>/dir/</code></li>
+<li><code>/dir/**[^/]</code> -- pasuje do każdego pliku wewnątrz i poniżej katalogu <code>/dir/</code></li>
+<li><code>/dir{,1,2}/**</code> -- pasuje do każdego pliku lub folderu wewnątrz lub poniżej katalogu <code>/dir/</code> ,
+<code>/dir1/</code> oraz <code>/dir2/</code></li>
+</ul>
+<p>Globbing może także zostać wykorzystany w nazwach profili, tak by reguły były aplikowane do szeregu
+plików wykonywanych zamiast tylko do jednego z nich.</p>
+<h2 id="gotowe-profile-apparmora">Gotowe profile AppArmor'a</h2>
+<p>Co raz więcej aplikacji doczekuje się swoich indywidualnych profili i nie musimy ich pisać
+samodzielnie. Te, które już posiadają swój profil, można <a href="https://wiki.ubuntu.com/SecurityTeam/KnowledgeBase/AppArmorProfiles">znaleźć
+tutaj</a> i zwykle możemy je wgrać
+do systemu instalując pakiety <code>apparmor-profiles</code> oraz <code>apparmor-profiles-extra</code> .</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bezpiecze%C5%84stwo/">bezpieczeństwo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apparmor/">apparmor</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fprofil-apparmora-i-jego-dokladna-budowa%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fprofil-apparmora-i-jego-dokladna-budowa%2f&amp;text=Profil%20AppArmor%27a%20i%20jego%20dok%c5%82adna%20budowa" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fprofil-apparmora-i-jego-dokladna-budowa%2f&amp;title=Profil%20AppArmor%27a%20i%20jego%20dok%c5%82adna%20budowa" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fprofil-apparmora-i-jego-dokladna-budowa%2f&amp;title=Profil%20AppArmor%27a%20i%20jego%20dok%c5%82adna%20budowa" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fprofil-apparmora-i-jego-dokladna-budowa%2f&title=Profil%20AppArmor%27a%20i%20jego%20dok%c5%82adna%20budowa" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fprofil-apparmora-i-jego-dokladna-budowa%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fprofil-apparmora-i-jego-dokladna-budowa%2f&amp;title=Profil%20AppArmor%27a%20i%20jego%20dok%c5%82adna%20budowa" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fprofil-apparmora-i-jego-dokladna-budowa%2f&description=Profil%20AppArmor%27a%20i%20jego%20dok%c5%82adna%20budowa" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/apparmor-profilowanie-aplikacji/">AppArmor i profilowanie aplikacji</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/programowe-sprzetowe-zerowanie-dysku/">Programowe i sprzętowe zerowanie dysku</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/integralnosc-plikow-passwd-group-shadow-gshadow/">Integralność plików passwd, group, shadow, gshadow</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czy-zmiana-nazwy-uzytkownika-root-ma-sens/">Czy zmiana nazwy użytkownika root ma sens?</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uprawnienia-do-plikow-systemowych-w-linuxie/">Uprawnienia do plików systemowych w linux&#39;ie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kiedy-uruchomiony-proces-wymaga-restartu/">Kiedy uruchomiony proces wymaga restartu</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/fwknop-z-obsluga-kuczy-gpg/">Fwknop z obsługą kuczy GPG</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

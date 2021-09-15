@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>udev on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/udev/</link>
+    <description>Recent content in udev on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Sat, 04 Sep 2021 12:36:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/udev/feed.atom" rel="self" type="application/atom+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Kontrola podświetlenia klawiatury via UDEV (backlight)</title>
+      <link>https://morfikov.github.io/post/kontrola-podswietlenia-klawiatury-via-udev-backlight/</link>
+      <pubDate>Sat, 04 Sep 2021 12:36:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/kontrola-podswietlenia-klawiatury-via-udev-backlight/</guid>
+      <description>&lt;p&gt;Ostatnio na &lt;a href=&#34;https://forum.linuxmint.pl/showthread.php?tid=1739&amp;amp;pid=13156&#34;&gt;polskim forum linux mint pojawił się wątek&lt;/a&gt;, w którym jeden z użytkowników miał
+problem z ogarnięciem podświetlania klawiatury. Chodzi generalnie o start komputera z włączonym
+backlight&#39;em klawiatury, przez co trzeba to podświetlenie manualnie wyłączać za każdym razem po
+uruchomieniu się systemu. W przypadku mojego laptopa Lenovo ThinkPad T430, taka sytuacja co prawda
+nie występuje i system uruchamia się naturalnie ze zgaszoną klawiaturą. Niemniej jednak,
+zainteresował mnie ten problem tyle, że w drugą stronę -- chodzi o możliwość startu systemu z
+włączonym podświetleniem klawiatury, bo ustawienia BIOS/EFI/UEFI mojego laptopa tego aspektu pracy
+komputera nie są w stanie w żaden sposób skonfigurować. Okazało się, że zaimplementowanie tego typu
+funkcjonalności nie jest jakoś specjalnie trudne i można bez większego trudu ogarnąć backlight
+klawiatury przy pomocy prostej reguły dla UDEV&#39;a.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux</title>
+      <link>https://morfikov.github.io/post/analiza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux/</link>
+      <pubDate>Sun, 25 Jul 2021 18:40:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/analiza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux/</guid>
+      <description>&lt;p&gt;Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików
+EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez
+strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy
+nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na
+jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC,
+to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania
+podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie
+duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można
+popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy
+wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy
+dysku twardego&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Wybudzanie linux&#39;a ze stanu uśpienia za sprawą myszy</title>
+      <link>https://morfikov.github.io/post/wybudzanie-linuxa-ze-stanu-uspienia-za-sprawa-myszy/</link>
+      <pubDate>Thu, 06 Jun 2019 16:10:15 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wybudzanie-linuxa-ze-stanu-uspienia-za-sprawa-myszy/</guid>
+      <description>&lt;p&gt;Parę dni temu na jednych z forów, które czasem odwiedzam, &lt;a href=&#34;https://forum.linuxmint.pl/showthread.php?tid=323&#34;&gt;pojawił się wątek&lt;/a&gt; dotyczący problemu
+jaki może nieść ze sobą budzenie linux&#39;a ze stanu uśpienia/wstrzymania (Suspend to RAM, STR) za
+sprawą myszy. O ile w przypadku klawiatury sprawa wybudzania komputera zdaje się być dość oczywista,
+to w przypadku tego małego gryzonia już niekoniecznie, bo wystarczy lekko mysz przemieścić po
+blacie stołu czy innego biurka i system się nam wybudzi. Część komputerów ma stosowne opcje w
+BIOS/UEFI i można za ich sprawą skonfigurować to jakie urządzenia będą mieć możliwość wybudzania
+systemu. Niekiedy jednak, opcje w BIOS są tak ubogie, że nie mamy możliwości skonfigurowania tego
+aspektu pracy naszej maszyny. Trzeba zatem w nieco inny sposób podejść do tego zagadnienia. Na
+necie można się spotkać z radami odnośnie zapisu pliku &lt;code&gt;/proc/acpi/wakeup&lt;/code&gt; przez przesłanie do
+niego czteroznakowych kodów, np. &lt;code&gt;EHC1&lt;/code&gt; czy &lt;code&gt;USB1&lt;/code&gt; . Takie rozwiązanie może nieść ze sobą negatywne
+konsekwencje i powinno się go unikać. Lepszym rozwiązaniem jest napisanie reguły dla UDEV&#39;a dla
+konkretnego urządzenia, gdzie będziemy mogli łatwo sterować (przez plik &lt;code&gt;power/wakeup&lt;/code&gt; ) tym czy
+dane urządzenie ma mieć możliwość wybudzania systemu czy też nie.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Stałe nazwy urządzeń w OpenWRT (hotplug, udev)</title>
+      <link>https://morfikov.github.io/post/stale-nazwy-urzadzen-openwrt-hotplug-udev/</link>
+      <pubDate>Mon, 20 Jun 2016 16:46:48 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/stale-nazwy-urzadzen-openwrt-hotplug-udev/</guid>
+      <description>&lt;p&gt;Bezprzewodowy router WiFi to w miarę proste urządzenie, które w zasadzie realizuje kilka
+podstawowych aspektów pracy sieci domowej. Wielu użytkownikom jednak jest nieustannie potrzebna
+jakaś nowa funkcjonalność, której oryginalny firmware producenta nie oferuje. Dlatego też mamy do
+dyspozycji OpenWRT będący minimalistyczną formą bardziej rozbudowanej dystrybucji linux&#39;a. Może i
+OpenWRT daje nam możliwość zaawansowanej konfiguracji naszej sieci ale tego typu opcja powoduje też
+szereg problemów. Chodzi o to, że kernel dynamicznie tworzy nazwy dla wszystkich podłączanych
+urządzeń do routera. W dużych dystrybucjach linux&#39;a do ogarnięcia tych nazw wykorzystywany jest
+UDEV. W przypadku OpenWRT też możemy skorzystać tego mechanizmu. Jeśli jednak mamy niewiele miejsca
+na pamięci flash routera, to możemy też skorzystać ze zdarzeń hotplug. W tym wpisie postaramy się
+przepisać nazwy pendrive/dysków twardych oraz modemów USB (LTE), tak by ich kolejność podłączania do
+routera nie stwarzała problemów w konfiguracji.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Zmiana nazwy interfejsu modemu ttyUSB0</title>
+      <link>https://morfikov.github.io/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/</link>
+      <pubDate>Sat, 09 Apr 2016 18:50:19 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/</guid>
+      <description>&lt;p&gt;Spora część osób posiada różnego rodzaju urządzenia do komunikacji GSM/UMTS/LTE. Mogą to być
+smartfony, czy też modemy USB. Zwykle po podpięciu takiego urządzenia do portu USB, system wykrywa
+je i oddaje nam do dyspozycji kilka interfejsów w katalogu &lt;code&gt;/dev/&lt;/code&gt; . W przypadku modemu Huawei
+E3372s-153 w wersji NON-HiLink, standardowo są dwa interfejsy: &lt;code&gt;ttyUSB0&lt;/code&gt; oraz &lt;code&gt;ttyUSB1&lt;/code&gt; . Gdy
+podłączamy tylko jedno urządzenie, to nie mamy problemy z tymi nazwami. Co się jednak stanie w
+przypadku, gdzie tych urządzeń będzie więcej i podepniemy je w losowej kolejności? Nawet jeśli
+będziemy wiedzieć które interfejsy są od jakich urządzeń, to i tak trzeba będzie przepisywać pliki
+konfiguracyjne różnych aplikacji pod kątem dostosowania tych nazw. Możemy jednak stworzyć unikalne
+nazwy interfejsów w oparciu o &lt;a href=&#34;https://en.wikipedia.org/wiki/Udev&#34;&gt;reguły udev&#39;a&lt;/a&gt; i tym zajmiemy się
+w niniejszym wpisie.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak zwiększyć prędkość zapisu w urządzeniach USB</title>
+      <link>https://morfikov.github.io/post/jak-zwiekszyc-predkosc-zapisu-w-urzadzeniach-usb/</link>
+      <pubDate>Wed, 02 Dec 2015 17:06:40 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-zwiekszyc-predkosc-zapisu-w-urzadzeniach-usb/</guid>
+      <description>&lt;p&gt;Przeglądając sobie &lt;a href=&#34;http://www.linux-usb.org/FAQ.html&#34;&gt;FAQ dotyczący urządzeń USB&lt;/a&gt; natknąłem się na
+punkt, który opisywał parametr &lt;code&gt;max_sectors&lt;/code&gt; . Niby nic wielkiego, w linux&#39;ie jest przecie pełno
+przeróżnych opcji, przy pomocy których jesteśmy w stanie zmienić szereg aspektów pracy naszego
+systemu operacyjnego. Rzecz w tym, że parametr &lt;code&gt;max_sectors&lt;/code&gt; potrafi nawet dość znacznie poprawić
+wydajność urządzeń USB, w tym tych wszystkich pendrive&#39;ach, w których prędkość zapisu pozostawia
+wiele do życzenia. W tym wpisie postaramy się nieco dostosować ten parametr, tak by przyśpieszyć
+transfer kopiowanych plików.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Przewidywalne nazwy interfejsów sieciowych</title>
+      <link>https://morfikov.github.io/post/przewidywalne-nazwy-interfejsow-sieciowych/</link>
+      <pubDate>Sun, 22 Nov 2015 21:44:11 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/przewidywalne-nazwy-interfejsow-sieciowych/</guid>
+      <description>&lt;p&gt;Podczas jednej z aktualizacji systemu został mi zwrócony pewien komunikat. Oświadczał on bowiem, że
+od jakiegoś czasu nazewnictwo interfejsów sieciowych w systemie uległo zmianie, oraz, że w wersji 10
+debiana, ten obecny system nazw nie będzie już wspierany. Rozchodzi się o coś co nazywa się
+&lt;a href=&#34;https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/&#34;&gt;Predictable Network Interface Names&lt;/a&gt;, czyli przewidywalne nazwy interfejsów sieciowych. Jako,
+że aktualne wydanie stabilnego debiana ma numerek 8 i w niedalekiej przyszłości zostanie wydana 9,
+to przydałoby się już zacząć migrować na ten nowy system nazw. W tym wpisie dokonamy takiej
+migracji i zobaczymy jakie zmiany musimy poczynić, by nie doświadczyć problemów związanych z tą
+migracją nazw.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Parametr readahead w dyskach twardych</title>
+      <link>https://morfikov.github.io/post/parametr-readahead-w-dyskach-twardych/</link>
+      <pubDate>Wed, 07 Oct 2015 15:45:35 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/parametr-readahead-w-dyskach-twardych/</guid>
+      <description>&lt;p&gt;W celu optymalizacji swojej pracy i poprawy wydajności przy transferze danych, dyski twarde często
+odczytują więcej sektorów niż było to określone w żądaniu. Chodzi o to, że odczytywany przez nas z
+dysku plik jest podzielony na sektory i gdy dysk odczytuje pierwszy sektor tego pliku, to wczytuje
+także kilka kolejnych sektorów zlokalizowanych za tym, którego żądanie odczytania zostało właśnie
+zrealizowane. Te dodatkowe sektory trafiają do wewnętrznego cache dysku twardego, z którego mogą
+zostać odczytane w późniejszym czasie, jeśli zajdzie taka potrzeba. Dostęp do danych w cache jest o
+wiele szybszy w porównaniu do repozycjonownia głowicy i odczytywania fizycznych sektorów na dysku. W
+efekcie czego mamy zwykle dość znaczny wzrost wydajności przy transferze danych. Ten mechanizm nosi
+nazwę &lt;strong&gt;readahead&lt;/strong&gt; i w tym wpisie przyjrzymy mu się nieco bliżej.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Parametr multcount w dyskach twardych</title>
+      <link>https://morfikov.github.io/post/parametr-multcount-w-dyskach-twardych/</link>
+      <pubDate>Tue, 06 Oct 2015 21:57:06 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/parametr-multcount-w-dyskach-twardych/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://manpages.ubuntu.com/manpages/xenial/pl/man8/hdparm.8.html&#34;&gt;W manualu hdparm&lt;/a&gt; możemy
+przeczytać o opcji &lt;code&gt;-m&lt;/code&gt; , która szerzej jest znana jako &lt;strong&gt;multcount&lt;/strong&gt;. Obecnie praktycznie każdy
+dysk w większym lub mniejszym stopniu ma zaimplementowaną jej obsługę, tj. wartość tego parametru
+różni się i zwykle im większą, tym lepiej dysk powinien się sprawować. Nie wszystkie dyski mają tę
+opcję włączoną standardowo. Na przykład te z rodziny WDC, jak czytamy w dokumentacji, są znane z
+tego, że działają wolniej po jej ustawieniu. Jako, że mam dysk firmy Western Digital, to
+postanowiłem sprawdzić jak, o ile w ogóle, zmieni się wydajność takiego urządzenia po przestawieniu
+tego parametru.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Wyłączenie WoL w karcie sieciowej</title>
+      <link>https://morfikov.github.io/post/wylaczenie-wol-w-karcie-sieciowej/</link>
+      <pubDate>Sun, 04 Oct 2015 16:36:26 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/wylaczenie-wol-w-karcie-sieciowej/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pl.wikipedia.org/wiki/Wake_on_LAN&#34;&gt;WoL&lt;/a&gt; (Wake on LAN) to taki ficzer, który umożliwia włączenie komputera przez sieć. By tego typu
+sytuacja miała miejsce, zarówno karta sieciowa oraz płyta główna komputera musi wspierać WoL.
+Dodatkowo, BIOS maszyny musi mieć aktywowaną odpowiednią opcję. Obecnie WoL jest implementowany
+praktycznie w każdej płycie głównej i karcie sieciowej, także raczej możemy przyjąć, że nasz
+komputer może zostać wybudzony za pomocą kabla sieciowego. Stwarza to oczywiście zagrożenie
+bezpieczeństwa ale poza tym, w grę wchodzi także większy pobór energii. Jeśli nie korzystamy z WoL,
+to jest on dla nas zbędny i należałoby go wyłączyć.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Aplikowanie zmiennych sysctl przy pomocy udev&#39;a</title>
+      <link>https://morfikov.github.io/post/aplikowanie-zmiennych-sysctl-przy-pomocy-udeva/</link>
+      <pubDate>Sun, 06 Sep 2015 11:08:42 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/aplikowanie-zmiennych-sysctl-przy-pomocy-udeva/</guid>
+      <description>&lt;p&gt;Kernele linux&#39;owe mają dość sporo opcji, które możemy zmienić przy pomocy pliku &lt;code&gt;/etc/sysctl.conf&lt;/code&gt; .
+Niby nic nadzwyczajnego ale co w przypadku tych zmiennych, które muszą być ustawione, z tym, że
+moduł, który stworzy odpowiednie ścieżki w katalogu &lt;code&gt;/proc/sys/&lt;/code&gt; , nie został załadowany z jakichś
+względów przy starcie systemu? Zmienne te nie zostaną ustawione, a w logu pojawi się komunikat
+informujący nas o nieodnalezieniu określonego pliku. Okazuje się, że jesteśmy w stanie aplikować
+określone ustawienia sysctl w momencie ładowania określonych modułów i temu mechanizmowi się
+przyjrzymy bliżej w tym wpisie.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Tryb oszczędzania energii w kartach WiFi na linux</title>
+      <link>https://morfikov.github.io/post/tryb-oszczedzania-energii-w-kartach-wifi/</link>
+      <pubDate>Tue, 23 Jun 2015 10:25:32 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/tryb-oszczedzania-energii-w-kartach-wifi/</guid>
+      <description>&lt;p&gt;Niektóre karty wifi znane są z tego, że niezbyt chcą one działać pod systemem operacyjnym linux. Nie
+jest to wina samego sprzętu, ani tym bardziej linuxa, tylko raczej faktu, że producent nie potrafi
+napisać pod ten OS odpowiednich sterowników. Czasem jednak pod względem programowym wszystko wydaje
+się być w porządku, tj. sterowniki zostały zainstalowane, są one dobrej jakości i karta działa
+praktycznie bez zarzutu. Niemniej jednak, strony www wydają się ładować jakoś tak ociężale, z pewnym
+opóźnieniem. Jeśli doświadczyliśmy tego typu zachowania ze strony naszej karty wifi, prawdopodobnie
+oznacza to, że ma ona włączony tryb oszczędzania energii (powersave).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>UDEV, czyli jak pisać reguły dla urządzeń</title>
+      <link>https://morfikov.github.io/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/</link>
+      <pubDate>Sun, 14 Jun 2015 18:13:33 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/</guid>
+      <description>&lt;p&gt;Zapuszczając się w coraz to i głębsze warstwy systemu podczas dążenia do zbadania jak on tak
+naprawdę działa, zacząłem się stykać z regułami &lt;a href=&#34;https://wiki.archlinux.org/index.php/Udev&#34;&gt;udev&#39;a&lt;/a&gt; (tymi umieszczanymi w katalogu
+&lt;code&gt;/etc/udev/rules.d/&lt;/code&gt; ). Jako, że nazbierało mi się już ich kilka, zaistniała potrzeba przebadania
+tego co ten katalog tak naprawdę zawiera. Na dobrą sprawę nigdy się nad tym nie zastanawiałem,
+jedynie kopiowałem rozwiązania z internetu i wklejałem je do odpowiedniego pliku i jeśli ono
+działało, to odznaczałem problem jako rozwiązany. Zwykle takich reguł się nie potrzebuje, temu
+praktycznie niewielu ludzi w ogóle się orientuje jak ogarnąć tego całego udeva. Są przypadki kiedy
+przepisanie nazw urządzeń czy wykonanie określonych akcji po podłączeniu jakiegoś sprzętu do
+komputera jest wielce niezbędne i nie ma innej opcji jak tylko zrozumieć co udev tak naprawdę robi.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jedna reguła udev&#39;a realizująca dwa zadania</title>
+      <link>https://morfikov.github.io/post/jedna-regula-udeva-realizujaca-dwa-zadania/</link>
+      <pubDate>Wed, 10 Jun 2015 10:45:05 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jedna-regula-udeva-realizujaca-dwa-zadania/</guid>
+      <description>&lt;p&gt;Jakiś czas temu opisywałem jak podejść do &lt;a href=&#34;/post/udev-czyli-jak-pisac-reguly-dla-urzadzen/&#34;&gt;pisania
+reguł&lt;/a&gt; dla
+&lt;a href=&#34;https://pl.wikipedia.org/wiki/Udev&#34;&gt;udev&#39;a&lt;/a&gt; . W tamtym przypadku wykorzystywana reguła składała się
+tak naprawdę z dwóch mniejszych, z których jedna miała ustawioną zmienną &lt;code&gt;ACTION&lt;/code&gt; na &lt;code&gt;add&lt;/code&gt; , z kolei
+zaś druga na &lt;code&gt;remove&lt;/code&gt; i w ten oto sposób pierwsza z nich była aplikowana podczas podłączania
+określonego urządzenia do komputera, a druga przy jego odłączaniu. Okazuje się jednak, że dwie
+reguły nie są konieczne w przypadku gdy mają one dotyczyć tego samego sprzętu i możemy zamiast nich
+stworzyć jedną regułę, która będzie stosowana zarówno przy podłączaniu jak i odłączeniu danego
+urządzenia.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Klawiatura multimedialna i niedziałające klawisze</title>
+      <link>https://morfikov.github.io/post/klawiatura-multimedialna-i-niedzialajace-klawisze/</link>
+      <pubDate>Mon, 08 Jun 2015 12:51:05 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/klawiatura-multimedialna-i-niedzialajace-klawisze/</guid>
+      <description>&lt;p&gt;Bardzo ciężko spotkać wypasioną klawiaturę, po której podłączeniu wszystkie przyciski będą
+funkcjonować jak należy, a to z tego względu, że nie do końca są one wykrywane przez nasz system.
+Zwykle są to klawisze multimedialne lub inne niestandardowe przyciski, które nie pasują do układu
+104 klawiszy. W większości przypadków &lt;a href=&#34;/post/klawiatura-i-jej-konfiguracja-pod-debianem/&#34;&gt;odpowiednie skonfigurowanie modelu
+klawiatury&lt;/a&gt; powinno rozwiązać
+nasze problemy. Nie zawsze jednak posiadany przez nas model jest do wyboru. Czasami nawet i jego
+wskazanie nie pomaga i najzwyczajniej w świecie niektóre klawisze po prostu nie zostaną wykryte
+przez system.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

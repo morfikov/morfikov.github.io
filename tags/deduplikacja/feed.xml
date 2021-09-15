@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>deduplikacja on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/deduplikacja/</link>
+    <description>Recent content in deduplikacja on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Sun, 18 Oct 2020 10:45:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/deduplikacja/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Zastosowanie KSM w maszynach wirtualnych QEMU/KVM</title>
+      <link>https://morfikov.github.io/post/zastosowanie-ksm-w-maszynach-wirtualnych-qemu-kvm/</link>
+      <pubDate>Sun, 18 Oct 2020 10:45:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zastosowanie-ksm-w-maszynach-wirtualnych-qemu-kvm/</guid>
+      <description>&lt;p&gt;Użytkownicy linux&#39;a, którzy korzystają z &lt;a href=&#34;https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/&#34;&gt;mechanizmu wirtualizacji QEMU/KVM&lt;/a&gt;, wiedzą, że takie
+maszyny wirtualne potrafią zjadać dość sporo pamięci operacyjnej. Im więcej takich maszyn zostanie
+uruchomionych w obrębie danego hosta, tym większe ryzyko, że nam tego RAM&#39;u zwyczajnie zabraknie.
+Można oczywiście ratować się dokupieniem dodatkowych modułów pamięci ale też nie zawsze taki zabieg
+będzie możliwy, zwłaszcza w przypadku domowych stacji roboczych pokroju desktop/laptop. Szukając
+rozwiązania tego problemu natrafiłem na coś, co nazywa się Kernel Samepage Merging. W skrócie, KSM
+to mechanizm, który ma na celu współdzielenie takich samych stron pamięci operacyjnej przez kilka
+procesów. W ten sposób można (przynajmniej teoretycznie) dość znacznie obniżyć zużycie RAM,
+zwłaszcza w przypadku korzystania na maszynach wirtualnych z tych samych systemów operacyjnych.
+Przydałoby się zatem ocenić jak bardzo KSM wpłynie na wykorzystanie pamięci i czy będzie z niego
+jakiś większy użytek zarówno przy korzystaniu z maszyn wirtualnych, czy też w codziennym użytkowaniu
+komputera.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Tworzenie kopii zapasowej linux&#39;a z BorgBackup</title>
+      <link>https://morfikov.github.io/post/tworzenie-kopii-zapasowej-linux-z-borgbackup/</link>
+      <pubDate>Thu, 08 Oct 2020 19:05:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/tworzenie-kopii-zapasowej-linux-z-borgbackup/</guid>
+      <description>&lt;p&gt;Gdy chodzi o bezpieczeństwo danych przechowywanych na nośnikach pamięci masowych, takich jak dyski
+twarde, to użytkownicy linux&#39;a często piszą sobie skrypty shell&#39;owe mające na celu przeprowadzić
+backup całego nośnika lub też jego konkretnych plików/katalogów. Zwykle zaprzęgany jest do pracy
+&lt;code&gt;rsync&lt;/code&gt; , który bez problemu jest w stanie  zsynchronizować zawartość dwóch folderów (źródłowego i
+docelowego) i po tym procesie wołany jest także &lt;code&gt;tar&lt;/code&gt; mający na celu skompresować pliki backup&#39;u,
+tak by zajmowały mniej miejsca. Nie mam nic do tego rozwiązania, bo sam też przez lata z niego
+korzystałem ale ma ono całą masę wad. Przede wszystkim, ten mechanizm nie bierze pod uwagę zmian w
+samych plikach, czyli tworzy kopię tego co mu się poda i w taki sposób mamy wiele paczek &lt;code&gt;.tar.gz&lt;/code&gt; ,
+które zajmują sporo miejsca. Kolejną sprawą jest brak zabezpieczenia przed nieuprawnionym dostępem
+do plików kopii zapasowej, np. przy pomocy szyfrowania. W ten sposób trzeba posiłkować się
+zewnętrznymi rozwiązaniami, np. pełne szyfrowanie dysku za sprawą LUKS/dm-crypt, co nie zawsze jest
+możliwe i też bardzo komplikuje cały proces tworzenia kopii zapasowej, zwłaszcza na zewnętrznych
+nośnikach czy zdalnych hostach w sieci. Ostatnio jednak trafiłem na &lt;a href=&#34;https://borgbackup.readthedocs.io/&#34;&gt;narzędzie BorgBackup&lt;/a&gt;, które
+to dość znacznie upraszcza cały proces tworzenia backup&#39;u plików na linux, a takie cechy jak
+szyfrowanie, kompresja i deduplikacja danych są w borg zaimplementowane standardowo. Postanowiłem
+zatem zmigrować z mojego skryptowego systemu tworzenia kopii zapasowych na rzecz borg&#39;a i spisać
+przy okazji te użyteczniejsze informacje dotyczące posługiwania się tym narzędziem&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

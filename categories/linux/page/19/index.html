@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Linux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Linux" />
+<meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://morfikov.github.io/categories/linux/" />
+
+
+		<meta itemprop="name" content="Linux">
+<meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux"/>
+<meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="alternate" type="application/rss+xml" href="https://morfikov.github.io/categories/linux/feed.xml" title="Morfitronik">
+	<link rel="alternate" type="application/atom+xml" href="https://morfikov.github.io/categories/linux/feed.atom" title="Morfitronik">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/categories/">Categories</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Linux</li>
+	</ol>
+</nav>
+		<div class="page block">
+			<h1 class="page__title">Linux</h1>
+			
+		</div>
+		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</a></h1>
+	<div class="entry__content"><p>W artykule poświęconym <a href="https://morfikov.github.io/post/konfiguracja-polaczenia-wifi-pod-debianem/">konfiguracji sieci WiFi na Debianie z wykorzystaniem narzędzia
+wpa_supplicant</a> wspomniałem parę słów na temat <a href="https://www.kernel.org/pub/linux/kernel/people/marcelo/linux-2.4/Documentation/networking/bonding.txt">interfejsu bond</a>. Bonding na linux
+wykorzystywany jest w zasadzie do spięcia kilku interfejsów sieciowych, w tym przewodowych
+( <code>eth0</code> ) i bezprzewodowych ( <code>wlan0</code> ) w jeden (zwykle <code>bond0</code> ). Takie rozwiązanie sprawia, że
+w przypadku awarii któregoś z podpiętych interfejsów, my nie tracimy połączenia z siecią i nie
+musimy nic nigdzie przełączać, by to połączenie przywrócić. To rozwiązanie jest o tyle użyteczne,
+że w przypadku, gdy podepniemy przewód do gniazda RJ-45 w naszym laptopie, to komunikacja będzie
+odbywać się po kablu. Natomiast jeśli przewód zostanie odłączony, to system automatycznie przejdzie
+na komunikację bezprzewodową. W tym wpisie spróbujemy zaprojektować sobie właśnie tego typu
+mechanizm zarówno za sprawą pakietu <code>ifupdown</code> , gdzie konfiguracja interfejsów sieciowych jest
+zarządzana przez plik <code>/etc/network/interfaces</code> , jak i przy pomocy natywnego rozwiązania jakie
+oferuje systemd/networkd.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-01-02T15:07:13Z">Opublikowano: 02/01/2016</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-03-29T16:20:00&#43;01:00">Zaktualizowano: 29/03/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">Instalacja debiana z wykorzystaniem debootstrap</a></h1>
+	<div class="entry__content"><p>Instalowanie debiana z wykorzystaniem <code>debootstrap</code> trochę się różni od instalacji z wykorzystaniem
+instalatora. Chodzi generalnie o to, że wszystkie kroki instalacyjne trzeba przeprowadzać ręcznie.
+Poza tym, cała konfiguracja będzie wymagać manualnego dostosowania. Plus tego rozwiązania jest
+oczywisty, albowiem mamy całkowitą władzę nad tym co się w systemie znajdzie oraz jak będzie on
+skonfigurowany. By mieć możliwość przeprowadzenia tego typu instalacji potrzebny będzie nam
+działający system. Może to być płytka lub pendrive live z <a href="https://www.debian.org/CD/live/index.pl.html">Debianem</a> czy <a href="https://www.ubuntu.com/download/desktop/try-ubuntu-before-you-install">Ubuntu</a>. Można też
+wykorzystać już zainstalowany system operacyjny. Ważne jest tylko to, aby była możliwość
+zainstalowania w takim systemie pakietu <code>debootstrap</code> , no i oczywiście wymagany jest dostęp do
+internetu. W przeciwieństwie do instalatora debiana, mamy dostęp do graficznego środowiska, a w nim
+do przeglądarki i w przypadku utknięcia gdzieś po drodze podczas instalacji, możemy sobie wygooglać
+napotkane problemy nie przerywając przy tym prac instalacyjnych.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-01-02T03:52:49Z">Opublikowano: 02/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/instalacja-i-konfiguracja-bootloadera-extlinux/">Instalacja i konfiguracja bootloader&#39;a extlinux</a></h1>
+	<div class="entry__content"><p>W debianie mamy do dyspozycji kilka
+<a href="https://pl.wikipedia.org/wiki/Program_rozruchowy">bootloader'ów</a>. Z tych częściej używanych to
+będą syslinux, extlinux oraz grub2. Jeśli potrzebujemy automatyzacji oraz szeregu zaawansowanych
+ficzerów, to dobrym wyjściem jest grub2. Jeśli natomiast korzystamy ze standardowej konfiguracji,
+którą można by określić mianem BIOS-MBR i do tego chcemy mieć pełną kontrolę na bootloader'em, to
+najlepiej wybrać extlinux'a lub syslinux'a. Syslinux jest wykorzystywany głównie w przypadku
+partycji FAT, która znajduje zastosowanie w różnego rodzaju systemach live. Natomiast jeśli w grę
+wchodzi system plików EXT4, który jest domyślny na sporej części linux'ów, to pozostaje nam do
+wyboru jedynie extlinux. W tym wpisie postaramy się przebrnąć przez proces instalacji i konfiguracji
+tego bootloader'a. Nie będziemy przy tym korzystać z żadnych automatów i wszystko postaramy się
+dostosować ręcznie.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-01-02T01:47:30Z">Opublikowano: 02/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/odszyfrowanie-kontenerow-luks-w-systemd/">Odszyfrowanie kontenerów LUKS w systemd</a></h1>
+	<div class="entry__content"><p>Osoby, które wykorzystują pełne szyfrowanie dysku, wiedzą, że nie zawsze da radę tak skonfigurować
+swój system, by upchnąć go na jednej partycji. Nawet jeśli korzystamy z LVM wewnątrz kontenera LUKS,
+to i tak zwykle możemy posiadać inne zaszyfrowane partycje, które są odrębną całością i montowane
+osobno przy starcie systemu. W takim przypadku zwykle jesteśmy zmuszeni do podawania hasła do
+każdego z tych dysków z osobna, co zajmuje czas. Ten problem opisałem po części przy okazji
+<a href="https://morfikov.github.io/post/dropbox-i-kontener-luks/">implementacji kontenera LUKS na potrzeby
+Dropbox'a</a>, jak i we wpisie poświęconym <a href="https://morfikov.github.io/post/przejscie-z-truecrypt-na-luks/">przejściu
+z kontenerów TrueCrypt'a na te linux'owe, które są wspierane natywnie przez sam
+kernel</a>. Niemniej jednak, tamto rozwiązanie
+było oparte głównie o starszy init (sysvinit), co wymagało dodatkowej konfiguracji, tak by system
+otworzył się po podaniu tylko jednego hasła. W tym wpisie postaramy się wdrożyć mechanizm, który
+jest oferowany przez systemd.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-01-01T17:18:03Z">Opublikowano: 01/01/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/kopia-struktury-dysku-twardego/">Kopia struktury dysku twardego</a></h1>
+	<div class="entry__content"><p>Wszyscy wiedzą, że zabawa z dyskiem zwykle kończy się tragicznie dla zawartych na nim danych. W tym
+wpisie spróbujemy się przyjrzeć sytuacjom, które nie jednego użytkownika linux'a potrafią przyprawić
+o zawał serca. Chodzi generalnie o uszkodzenie struktury dysku, oczywiście tylko tej programowej. Na
+błędy fizyczne nie możemy zbytnio nic poradzić. Natomiast jeśli chodzi o sferę logiczną, to mamy
+tutaj dość duże pole do popisu i jesteśmy w stanie się zabezpieczyć przed wieloma krytycznymi
+sytuacjami. Postaramy się tutaj omówić to jak wykonać kopię dysku. Taka kopia będzie miała tylko
+kilka (ew. kilkanaście) MiB, w skład której wchodzić będzie superblok systemu plików, nagłówki
+zaszyfrowanych partycji LUKS, struktura LVM i tablica partycji. Uszkodzenie każdego z tych
+powyższych uniemożliwia nam dostęp do danych zgromadzonych na dysku.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2015-12-18T17:01:12Z">Opublikowano: 18/12/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zmiana-rozmiaru-lvm/">Zmiana rozmiaru dysków w strukturze LVM</a></h1>
+	<div class="entry__content"><p><a href="https://pl.wikipedia.org/wiki/LVM">Logical Volume Manager (LVM)</a>, czyli menadżer voluminów
+logicznych w systemach linux, to mechanizm, który jest w stanie podzielić jedną partycję fizyczną na
+szereg dysków logicznych. Każdy z tych dysków może być programowo dostosowany bez potrzeby edycji
+czy zmiany tablicy partycji fizycznego dysku. Dzięki LVM jesteśmy w stanie obejść kilka ograniczeń
+płynących z wykorzystywania tablicy partycji MS-DOS. Głównie chodzi tutaj o 4 partycje podstawowe,
+które mieszczą się w <a href="https://pl.wikipedia.org/wiki/Master_Boot_Record">MBR</a>. Jeśli zdecydowaliśmy
+się na wykorzystywanie LVM, to w pewnym momencie może okazać się, że niektóre voluminy mają zbyt
+duże lub też zbyt małe rozmiary. Trzeba będzie je zatem dostosować i w tym wpisie postaramy się ten
+proces zasymulować.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2015-12-17T20:15:26Z">Opublikowano: 17/12/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zmiana-rozmiaru-zaszyfrowanego-kontenera-luks/">Zmiana rozmiaru kontenera LUKS</a></h1>
+	<div class="entry__content"><p>Ci z nas, którzy zabezpieczają swoje systemy przy pomocy technik kryptograficznych wiedzą, że taki
+system trzeba traktować nieco inaczej niż ten, który nie jest w żaden sposób zaszyfrowany. Gdy mamy
+na swoim dysku kilka <a href="https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup">kontenerów LUKS</a> (czy
+też TrueCrypt), problematyczna może się okazać zmiana rozmiaru tego typu partycji. Praktycznie żadne
+narzędzia graficzne, ewentualnie inne automaty, nie są w stanie nas przez ten proces bezstresowo
+przeprowadzić. Musimy zatem skorzystać z niskopoziomowych aplikacji, takich jak <code>fdisk</code> czy
+<code>cryptsetup</code> , by ten rozmiar sobie dostosować. Problem w tym, że nieumiejętne operowanie na tych
+narzędziach może skończyć się tragicznie dla zgromadzonych na dysku danych. W tym wpisie postaram
+się opisać cały proces zmiany rozmiaru zaszyfrowanego kontenera LUKS wliczając w to również
+dostosowanie partycji i jej systemu plików.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2015-12-17T18:38:25Z">Opublikowano: 17/12/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-fat32/">Zmiana rozmiaru partycji FAT32 pod linux&#39;em</a></h1>
+	<div class="entry__content"><p>Partycje mające system plików FAT32 są głównie wykorzystywane w przypadku pendrive i innych pamięci
+flash, gdzie nie mamy do czynienia ze sporą ilością danych czy też dużymi plikami. Czasem się zdarza
+tak, że układ partycji, który chcieliśmy zrobić, nie wyszedł nam tak jak powinien i musimy tego
+pendrive jeszcze raz przeformatować. Pół biedy, gdy na nim nie ma żadnych danych lub mamy możliwość
+zgrania ich na osobny dysk. Natomiast w przypadku, gdy nie możemy z jakiegoś powodu skorzystać z w/w
+opcji, to musimy liczyć się z utratą danych. Oczywiście, możemy także spróbować zmienić rozmiar
+takiej partycji i nic nie powinno się stać znajdującym się na niej danym. W tym wpisie postaramy się
+przejść przez proces zmiany rozmiaru partycji mającej system plików FAT32 i zobaczymy czy nasz linux
+poradzi sobie z tym zdaniem bez większego problemu.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2015-12-17T16:05:23Z">Opublikowano: 17/12/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ext4/">Zmiana rozmiaru partycji EXT4</a></h1>
+	<div class="entry__content"><p>Jeśli jeszcze nie dokonaliśmy <a href="https://morfikov.github.io/post/migracja-systemu-plikow-ext2-i-ext3-na-ext4/">migracji systemu plików z EXT2/3 na
+EXT4</a>, to powinniśmy rozważyć
+tę kwestię z przyczyn czysto praktycznych. W tym wpisie nie będziemy sobie głowy zawracać migracją
+między poszczególnymi wersjami systemu plików z rodziny EXT, a raczej skupimy się na tym jak zmienić
+rozmiar partycji, której systemem plików jest właśnie EXT4. Bawienie się rozmiarem partycji w tym
+przypadku niczym zbytnio się nie różni w stosunku do omawianego wcześniej <a href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/">systemu plików
+NTFS</a>. Będziemy wykorzystywać
+tylko nieco inne narzędzia.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2015-12-16T19:06:57Z">Opublikowano: 16/12/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/">Zmiana rozmiaru partycji NTFS pod linux&#39;em</a></h1>
+	<div class="entry__content"><p>Zmiana rozmiaru partycji, nie tylko tej zawierającej system plików NTFS, nie sprawia w dzisiejszych
+czasach praktycznie żadnych problemów. Mamy przecie do dyspozycji takie narzędzia jak
+<a href="http://gparted.org/">gparted</a>, które w dużej mierze automatyzują cały proces tworzenia i usuwania
+partycji, czy też zmiany ich rozmiaru. W tym wpisie przyjrzymy się temu procesowi z bliska, z tym,
+że nie będziemy korzystać z żadnych graficznych nakładek. Wszystkie kroki postaramy się
+zreprodukować ręcznie z poziomu konsoli przy pomocy takich narzędzi jak <code>fdisk</code> czy <code>ntfsresize</code> .</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2015-12-16T18:03:54Z">Opublikowano: 16/12/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+		</div>
+	</main>
+	
+<div class="pagination block">
+	<a href="https://morfikov.github.io/categories/linux/" class="pagination__item pagination__item--desktop" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    <a href="https://morfikov.github.io/categories/linux/page/18/" class="pagination__item pagination__item--desktop" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/categories/linux/">1</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/categories/linux/page/2/">2</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/categories/linux/page/3/">3</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/categories/linux/page/4/">4</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/categories/linux/page/5/">5</a>
+			<span class="pagination__item pagination__item--gap">&hellip;</span>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/categories/linux/page/17/">17</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/categories/linux/page/18/">18</a>
+				<span class="pagination__item pagination__item--active" data-total="37">19</span>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/categories/linux/page/20/">20</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/categories/linux/page/21/">21</a>
+			<span class="pagination__item pagination__item--gap">&hellip;</span>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/categories/linux/page/37/">37</a>
+	<a href="https://morfikov.github.io/categories/linux/page/20/" class="pagination__item pagination__item--desktop" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+      <a href="https://morfikov.github.io/categories/linux/page/37/" class="pagination__item pagination__item--desktop" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+</div>
+
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

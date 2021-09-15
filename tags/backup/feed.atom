@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>backup on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/backup/</link>
+    <description>Recent content in backup on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Thu, 08 Oct 2020 19:05:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/backup/feed.atom" rel="self" type="application/atom+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Tworzenie kopii zapasowej linux&#39;a z BorgBackup</title>
+      <link>https://morfikov.github.io/post/tworzenie-kopii-zapasowej-linux-z-borgbackup/</link>
+      <pubDate>Thu, 08 Oct 2020 19:05:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/tworzenie-kopii-zapasowej-linux-z-borgbackup/</guid>
+      <description>&lt;p&gt;Gdy chodzi o bezpieczeństwo danych przechowywanych na nośnikach pamięci masowych, takich jak dyski
+twarde, to użytkownicy linux&#39;a często piszą sobie skrypty shell&#39;owe mające na celu przeprowadzić
+backup całego nośnika lub też jego konkretnych plików/katalogów. Zwykle zaprzęgany jest do pracy
+&lt;code&gt;rsync&lt;/code&gt; , który bez problemu jest w stanie  zsynchronizować zawartość dwóch folderów (źródłowego i
+docelowego) i po tym procesie wołany jest także &lt;code&gt;tar&lt;/code&gt; mający na celu skompresować pliki backup&#39;u,
+tak by zajmowały mniej miejsca. Nie mam nic do tego rozwiązania, bo sam też przez lata z niego
+korzystałem ale ma ono całą masę wad. Przede wszystkim, ten mechanizm nie bierze pod uwagę zmian w
+samych plikach, czyli tworzy kopię tego co mu się poda i w taki sposób mamy wiele paczek &lt;code&gt;.tar.gz&lt;/code&gt; ,
+które zajmują sporo miejsca. Kolejną sprawą jest brak zabezpieczenia przed nieuprawnionym dostępem
+do plików kopii zapasowej, np. przy pomocy szyfrowania. W ten sposób trzeba posiłkować się
+zewnętrznymi rozwiązaniami, np. pełne szyfrowanie dysku za sprawą LUKS/dm-crypt, co nie zawsze jest
+możliwe i też bardzo komplikuje cały proces tworzenia kopii zapasowej, zwłaszcza na zewnętrznych
+nośnikach czy zdalnych hostach w sieci. Ostatnio jednak trafiłem na &lt;a href=&#34;https://borgbackup.readthedocs.io/&#34;&gt;narzędzie BorgBackup&lt;/a&gt;, które
+to dość znacznie upraszcza cały proces tworzenia backup&#39;u plików na linux, a takie cechy jak
+szyfrowanie, kompresja i deduplikacja danych są w borg zaimplementowane standardowo. Postanowiłem
+zatem zmigrować z mojego skryptowego systemu tworzenia kopii zapasowych na rzecz borg&#39;a i spisać
+przy okazji te użyteczniejsze informacje dotyczące posługiwania się tym narzędziem&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Backup partycji /data/ w smartfonach przez recovery TWRP</title>
+      <link>https://morfikov.github.io/post/backup-partycji-data-w-smartfonach-przez-recovery-twrp/</link>
+      <pubDate>Sun, 15 Jan 2017 18:20:11 +0100</pubDate>
+      
+      <guid>https://morfikov.github.io/post/backup-partycji-data-w-smartfonach-przez-recovery-twrp/</guid>
+      <description>&lt;p&gt;W artykułach dotyczących przeprowadzania procesu root na smartfonach Neffos &lt;a href=&#34;/post/android-root-smartfona-neffos-y5-od-tp-link/&#34;&gt;Y5&lt;/a&gt; oraz &lt;a href=&#34;/post/android-root-smartfona-neffos-y5l-tp-link/&#34;&gt;Y5L&lt;/a&gt;
+był pokazany sposób na dokonanie backup&#39;u całego flash&#39;a tych urządzeń. Jeśli Android w naszym
+telefonie jest ukorzeniony albo chociaż mamy wgrany obraz TWRP na partycję &lt;code&gt;/recovery/&lt;/code&gt; , to
+jesteśmy w stanie przeprowadzać regularny backup wszystkich danych użytkownika z poziomu trybu
+recovery. Proces takiego backup&#39;u będzie się nieco różnił w stosunku do tego opisywanego w wyżej
+podlinkowanych artykułach. W tym przypadku nie będziemy robić kopii binarnej, a jedynie zgramy
+sobie wszystkie pliki znajdujące się na partycji &lt;code&gt;/data/&lt;/code&gt; . W tym artykule zostanie pokazany sposób
+na przeprowadzanie procesu kopii zapasowej w smartfonie Neffos Y5. Niemniej jednak, taki regularny
+backup można przeprowadzać praktycznie w każdym smartfonie posiadającym recovery z TWRP.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Backup systemu przy pomocy LVM snapshot</title>
+      <link>https://morfikov.github.io/post/backup-przy-pomocy-lvm-snapshot/</link>
+      <pubDate>Fri, 15 Jan 2016 14:09:15 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/backup-przy-pomocy-lvm-snapshot/</guid>
+      <description>&lt;p&gt;W dzisiejszych czasach systemy operacyjne są bardziej odporne na błędy niż to miało miejsce kilka
+czy kilkanaście lat temu. Bardzo ciężko jest się zatem odnaleźć w sytuacji, gdzie nasz linux odmawia
+współpracy i nie chce się w ogóle uruchomić. Niemniej jednak, jeśli chodzi o samą kwestię
+naprawiania szkód po ewentualnej awarii systemu, to, jakby nie patrzeć, zajmuje ona nasz cenny czas.
+Oczywiście takie błędy sprawiają, że mamy szansę nieco zgłębić strukturę używanego systemu
+operacyjnego ale też pojawiają się one w najmniej oczekiwanym momencie. W takiej sytuacji nie ma
+mowy byśmy siedzieli paręnaście minut i zastanawiali się nad tym dlaczego coś nie działa jak należy.
+Jest kilka mechanizmów bezpieczeństwa, które mogą nam nieco czasu zaoszczędzić. W tym wpisie omówimy
+sobie zagadnienia związane z &lt;a href=&#34;http://www.tldp.org/HOWTO/html_single/LVM-HOWTO/#snapshotintro&#34;&gt;LVM snapshot&lt;/a&gt;, czyli migawką systemu, którą możemy wykonać
+praktycznie natychmiast i w razie problemów przywrócić system do stanu sprzed wprowadzenia w nim
+zmian.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

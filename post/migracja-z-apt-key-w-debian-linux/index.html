@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Migracja z apt-key w Debian linux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Migracja z apt-key w Debian linux" />
+<meta property="og:description" content="Z okazji wypuszczenia parę dni temu nowego Debiana, przeglądałem sobie notki dla wydania
+stabilnego pod kątem aktualizacji z buster (10) -&gt; bullseye (11). Niby ja i tak korzystam cały
+czas z unstable/experimental i zwykle jestem na bieżąco ze zmianami wprowadzanymi w tej dystrybucji
+linux&#39;a ale też zawsze coś może umknąć uwadze z perspektywy wielu miesięcy czy nawet kilku lat
+(a dokładnie 25 miesięcy). Sporo z tych rzeczy, które w tych podlinkowanych notatkach wyczytałem,
+miałem już załatwione wcześniej ale zapomniałem rozprawić się z repozytoriami APT. Konkretnie
+chodzi tutaj o odejście od apt-key , czyli narzędzia, które w Debianie używane jest do dodawania
+kluczy GPG do systemowego keyring&#39;a APT. Te klucze zwykle wykorzystywane są do weryfikacji sygnatur
+złożonych pod zewnętrznymi repozytoriami, a że ja mam ich sporo, to musiałem się nieco zagłębić w
+temat i ustalić w jaki sposób od następnego wydania Debiana (bookworm/12) będzie się te klucze GPG
+od takich repozytoriów ogarniać. No i właśnie o tym będzie ten poniższy kawałek artykułu." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/migracja-z-apt-key-w-debian-linux/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-08-21T14:35:00&#43;02:00" />
+<meta property="article:modified_time" content="2021-08-21T14:35:00&#43;02:00" />
+
+
+		<meta itemprop="name" content="Migracja z apt-key w Debian linux">
+<meta itemprop="description" content="Z okazji wypuszczenia parę dni temu nowego Debiana, przeglądałem sobie notki dla wydania
+stabilnego pod kątem aktualizacji z buster (10) -&gt; bullseye (11). Niby ja i tak korzystam cały
+czas z unstable/experimental i zwykle jestem na bieżąco ze zmianami wprowadzanymi w tej dystrybucji
+linux&#39;a ale też zawsze coś może umknąć uwadze z perspektywy wielu miesięcy czy nawet kilku lat
+(a dokładnie 25 miesięcy). Sporo z tych rzeczy, które w tych podlinkowanych notatkach wyczytałem,
+miałem już załatwione wcześniej ale zapomniałem rozprawić się z repozytoriami APT. Konkretnie
+chodzi tutaj o odejście od apt-key , czyli narzędzia, które w Debianie używane jest do dodawania
+kluczy GPG do systemowego keyring&#39;a APT. Te klucze zwykle wykorzystywane są do weryfikacji sygnatur
+złożonych pod zewnętrznymi repozytoriami, a że ja mam ich sporo, to musiałem się nieco zagłębić w
+temat i ustalić w jaki sposób od następnego wydania Debiana (bookworm/12) będzie się te klucze GPG
+od takich repozytoriów ogarniać. No i właśnie o tym będzie ten poniższy kawałek artykułu."><meta itemprop="datePublished" content="2021-08-21T14:35:00&#43;02:00" />
+<meta itemprop="dateModified" content="2021-08-21T14:35:00&#43;02:00" />
+<meta itemprop="wordCount" content="2665">
+<meta itemprop="keywords" content="debian,apt,repozytorium,gpg,bezpieczeństwo,apt-key," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Migracja z apt-key w Debian linux"/>
+<meta name="twitter:description" content="Z okazji wypuszczenia parę dni temu nowego Debiana, przeglądałem sobie notki dla wydania
+stabilnego pod kątem aktualizacji z buster (10) -&gt; bullseye (11). Niby ja i tak korzystam cały
+czas z unstable/experimental i zwykle jestem na bieżąco ze zmianami wprowadzanymi w tej dystrybucji
+linux&#39;a ale też zawsze coś może umknąć uwadze z perspektywy wielu miesięcy czy nawet kilku lat
+(a dokładnie 25 miesięcy). Sporo z tych rzeczy, które w tych podlinkowanych notatkach wyczytałem,
+miałem już załatwione wcześniej ale zapomniałem rozprawić się z repozytoriami APT. Konkretnie
+chodzi tutaj o odejście od apt-key , czyli narzędzia, które w Debianie używane jest do dodawania
+kluczy GPG do systemowego keyring&#39;a APT. Te klucze zwykle wykorzystywane są do weryfikacji sygnatur
+złożonych pod zewnętrznymi repozytoriami, a że ja mam ich sporo, to musiałem się nieco zagłębić w
+temat i ustalić w jaki sposób od następnego wydania Debiana (bookworm/12) będzie się te klucze GPG
+od takich repozytoriów ogarniać. No i właśnie o tym będzie ten poniższy kawałek artykułu."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Migracja z apt-key w Debian linux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2021-08-21T14:35:00&#43;02:00">Opublikowano: 21/08/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Migracja z apt-key w Debian linux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#debian-rezygnuje-z-apt-key">Debian rezygnuje z apt-key</a></li>
+    <li><a href="#pozbycie-się-pliku-etcapttrustedgpg">Pozbycie się pliku /etc/apt/trusted.gpg</a></li>
+    <li><a href="#gdzie-przechowywać-klucze-do-zewnętrznych-repozytoriów">Gdzie przechowywać klucze do zewnętrznych repozytoriów</a></li>
+    <li><a href="#dodawanie-kluczy-do-repozytoriów-z-pominięciem-apt-key">Dodawanie kluczy do repozytoriów z pominięciem apt-key</a>
+      <ol>
+        <li><a href="#brak-klucza-gpg-do-pobrania-ze-strony-repozytorium">Brak klucza GPG do pobrania ze strony repozytorium</a></li>
+        <li><a href="#podpisanie-konkretnego-repozytorium-określonym-kluczem">Podpisanie konkretnego repozytorium określonym kluczem</a>
+          <ol>
+            <li><a href="#marginalna-poprawa-bezpieczeństwa">Marginalna poprawa bezpieczeństwa</a></li>
+            <li><a href="#klucze-gpg-osadzone-w-plikach-sources">Klucze GPG osadzone w plikach .sources</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#narzędzie-extrepo">Narzędzie extrepo</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Z okazji wypuszczenia parę dni temu nowego Debiana, przeglądałem sobie <a href="https://www.debian.org/releases/bullseye/amd64/release-notes/ch-information.en.html">notki dla wydania
+stabilnego</a> pod kątem aktualizacji z buster (10) -&gt; bullseye (11). Niby ja i tak korzystam cały
+czas z unstable/experimental i zwykle jestem na bieżąco ze zmianami wprowadzanymi w tej dystrybucji
+linux'a ale też zawsze coś może umknąć uwadze z perspektywy wielu miesięcy czy nawet kilku lat
+(a dokładnie 25 miesięcy). Sporo z tych rzeczy, które w tych podlinkowanych notatkach wyczytałem,
+miałem już załatwione wcześniej ale zapomniałem rozprawić się z repozytoriami APT. Konkretnie
+chodzi tutaj o odejście od <code>apt-key</code> , czyli narzędzia, które w Debianie używane jest do dodawania
+kluczy GPG do systemowego keyring'a APT. Te klucze zwykle wykorzystywane są do weryfikacji sygnatur
+złożonych pod zewnętrznymi repozytoriami, a że ja mam ich sporo, to musiałem się nieco zagłębić w
+temat i ustalić w jaki sposób od następnego wydania Debiana (bookworm/12) będzie się te klucze GPG
+od takich repozytoriów ogarniać. No i właśnie o tym będzie ten poniższy kawałek artykułu.</p>
+<h2 id="debian-rezygnuje-z-apt-key">Debian rezygnuje z apt-key</h2>
+<p>Od dłuższego już czasu nawet w manualu <code>apt-key</code> można było wyczytać, że to narzędzie ostatecznie
+zostanie z Debiana usunięte i zastąpione innym rozwiązaniem. Generalnie ilekroć tylko dodawaliśmy
+klucze GPG do zewnętrznych repozytoriów, to lądowały one w pliku <code>/etc/apt/trusted.gpg</code> . Zwykle
+użytkownicy Debiana dodawali klucze do repozytoriów posługując się jednym z poniższych poleceń:</p>
+<pre><code># apt-key adv --keyserver keyserver.ubuntu.com --recv-keys  0xhash_klucza
+
+# wget -qO- https://morfikownia.tld/klucz.asc | apt-key add –
+</code></pre>
+<p>W notkach do nowego wydania stabilnego Debiana można jednak wyczytać, że:</p>
+<blockquote>
+<p>bullseye is the final Debian release to ship apt-key. Keys should be managed by dropping files
+into /etc/apt/trusted.gpg.d instead, in binary format as created by gpg --export with a .gpg
+extension, or ASCII armored with a .asc extension.</p>
+</blockquote>
+<p>Zgodnie z tym powyższym info, aktualne stabilne wydanie Debiana będzie ostatnim, które będzie
+wspierać dodawanie kluczy GPG via <code>apt-key</code> . Jest też informacja, że klucze powinny być teraz
+umieszczane bezpośrednio w katalogu <code>/etc/apt/trusted.gpg.d/</code> w formacie binarnym tworzonym przez
+<code>gpg --export ...</code> lub też w odpowiedniku ASCII, czyli formie tekstowej z blokiem kodu umieszczonym
+między <code>-----BEGIN PGP PUBLIC KEY BLOCK-----</code>  oraz <code>-----END PGP PUBLIC KEY BLOCK-----</code> .</p>
+<p>Starsze wydania Debiana wspierały jedynie format binarny z rozszerzeniem <code>.gpg</code> i zalecane jest by
+korzystać właśnie z tego formatu, choć ta informacja jest bardziej dla właścicieli repozytoriów
+chcących wpierać te niezbyt aktualne wydania. Tak czy inaczej, możemy się spodziewać, że oba formaty
+będą w użyciu i nie będzie to nic niezwykłego.</p>
+<h2 id="pozbycie-się-pliku-etcapttrustedgpg">Pozbycie się pliku /etc/apt/trusted.gpg</h2>
+<p>Co jednak zrobić, gdy mamy trochę tych kluczy GPG w pliku <code>/etc/apt/trusted.gpg</code> ? W moim przypadku
+przez ostatnich parę lat zebrało się ich ponad 260 KiB. Jeśli planujemy migrację na nowy system,
+który odchodzi od narzędzia <code>apt-key</code> i przez to też od pliku <code>/etc/apt/trusted.gpg</code> , to najlepiej
+jest ten plik usunąć w całości:</p>
+<pre><code># rm /etc/apt/trusted.gpg
+</code></pre>
+<p>W tej chwili powinniśmy mieć w systemie jedynie klucze <code>debian-archive-*</code> w katalogu
+<code>/etc/apt/trusted.gpg.d/</code> (no i oczywiście klucze w <code>/usr/share/keyrings/</code> ), czyli stan rzeczy
+odpowiadający standardowemu Debianowi, przynajmniej jeśli chodzi o same klucze GPG.</p>
+<p>Jeśli odświeżymy teraz przy pomocy <code>apt-get update</code> listy pakietów, to powinno nam się pojawić
+trochę błędów z informacjami o braku kluczy dla zewnętrznych repozytoriów. Poniżej przykład dla
+repozytorium Signal'a:</p>
+<pre><code># apt-get update
+...
+Err:3 https://updates.signal.org/desktop/apt xenial InRelease
+  The following signatures couldn't be verified because the public key is not available:
+  NO_PUBKEY D980A17457F6FB06
+...
+W: An error occurred during the signature verification. The repository is not updated and
+the previous index files will be used. GPG error:
+https://updates.signal.org/desktop/apt xenial InRelease: The following signatures couldn't
+be verified because the public key is not available: NO_PUBKEY D980A17457F6FB06
+...
+W: Failed to fetch https://updates.signal.org/desktop/apt/dists/xenial/InRelease  The
+following signatures couldn't be verified because the public key is not available:
+NO_PUBKEY D980A17457F6FB06
+...
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+</code></pre>
+<p>Komunikat <code>NO_PUBKEY D980A17457F6FB06</code> świadczy naturalnie o braku publicznego klucza GPG o numerku
+<code>0xD980A17457F6FB06</code> , którego prywatnym odpowiednikiem zostało podpisane repozytorium
+<code>https://updates.signal.org/desktop/apt</code> . Ten klucz trzeba będzie pozyskać teraz ręcznie i wrzucić
+go do katalogu <code>/etc/apt/trusted.gpg.d/</code> .</p>
+<p>Obojętne jest czy wybierzemy format binarny klucza (rozszerzenie <code>.gpg</code> , czy tekstowy <code>.asc</code> ), bo
+oba z nich są wspierane przez APT. Ja jednak będę korzystał z formatu binarnego, bo wszystkie
+klucze od oficjalnych repozytoriów Debiana mają ten format. Tak czy inaczej, jeśli chcemy być
+konsekwentni i używać binarnego formatu kluczy GPG, to zapewne w przyszłości spotkamy się z
+kluczami w formacie <code>.asc</code> . Warto wiedzieć, że można plik <code>.asc</code> przekonwertować do formatu <code>.gpg</code>
+przy pomocy poniższego polecenia:</p>
+<pre><code># wget -O- https://morfikownia.tld/klucz.asc | gpg --dearmor &gt; klucz.gpg
+</code></pre>
+<h2 id="gdzie-przechowywać-klucze-do-zewnętrznych-repozytoriów">Gdzie przechowywać klucze do zewnętrznych repozytoriów</h2>
+<p>Nie mam w zasadzie nic do katalogu <code>/etc/apt/trusted.gpg.d/</code> i trzymania w nim kluczy do
+zewnętrznych repozytoriów ale jednak wolałbym nie mieszać oficjalnych kluczy z tymi nieoficjalnymi.
+Dlatego też ja sobie utworzyłem osobny katalog <code>/etc/keyrings/</code> (wzorowany na
+<code>/usr/share/keyrings/</code> ) , gdzie będę umieszczał klucze do wszystkich zewnętrznych repozytoriów,
+które zamierzam włączyć w swoim Debianie. To rozwiązanie wymaga też zastosowania parametru
+<code>signed-by</code> w konfiguracji repozytorium ale o tym będzie w dalszej części artykułu.</p>
+<p>Warto w tym miejscu też wspomnieć, że wszystkie klucze umieszczone w katalogu
+<code>/etc/apt/trusted.gpg.d/</code> będą z automatu honorowane przez APT, czyli za wiele w naszym systemie
+się nie zmieni względem pojedynczego pliku <code>/etc/apt/trusted.gpg</code> -- teraz każdy klucz GPG będzie w
+osobnym pliku, a nie wszystkie klucze w jednym zbiorczym keyring'u.</p>
+<h2 id="dodawanie-kluczy-do-repozytoriów-z-pominięciem-apt-key">Dodawanie kluczy do repozytoriów z pominięciem apt-key</h2>
+<p>Weźmy zatem ten powyższy przykład aplikacji Signal i jej repozytorium APT. Jak widzieliśmy wyżej,
+podczas odświeżania repozytorium został zwrócony komunikat o braku klucza <code>0xD980A17457F6FB06</code> .
+Twórcy Signal'a mają na swojej stronie <a href="https://signal.org/download/linux/">opis na temat dodawania ich klucza GPG</a>, tak by został
+on uwzględniony przez APT. Zatem nie będzie tutaj zbytniego kombinowania. Wszystko co musimy zrobić,
+to wklepać w terminal kilka poniższych poleceń.</p>
+<p>Na sam początek pobieramy klucz GPG, którym możemy zweryfikować repozytorium Signal'a:</p>
+<pre><code>$ wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor &gt; signal-desktop-keyring.gpg
+$ cat signal-desktop-keyring.gpg | sudo tee -a /etc/apt/trusted.gpg.d/signal-desktop-keyring.gpg &gt; /dev/null
+</code></pre>
+<p>Następnie dodajemy repozytorium Signal'a do pliku <code>/etc/apt/sources.list</code> :</p>
+<pre><code>deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main'
+</code></pre>
+<p>Jeśli nie chcemy ruszać pliku <code>/etc/apt/sources.list</code> , to zawsze można też stworzyć plik
+<code>signal-desktop.list</code> w katalogu <code>/etc/apt/sources.list.d/</code> i do niego dodać powyższą zawartość:</p>
+<pre><code>$ echo 'deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
+sudo tee -a /etc/apt/sources.list.d/signal-desktop.list
+</code></pre>
+<p>Teraz już wystarczy tylko zaktualizować listę repozytoriów:</p>
+<pre><code>$ sudo apt-get update
+</code></pre>
+<p>Komunikaty, które mieliśmy wcześniej (te z <code>NO_PUBKEY</code> ) powinny nam zniknąć.</p>
+<h3 id="brak-klucza-gpg-do-pobrania-ze-strony-repozytorium">Brak klucza GPG do pobrania ze strony repozytorium</h3>
+<p>Może się też zdarzyć tak, że w instrukcji dodawania repozytorium nie będzie podana lokalizacja
+pliku klucza publicznego do prostego pobrania go i wrzucenia do określonego katalogu z kluczami GPG,
+tak jak to zostało opisane powyżej w przypadku Signal'a. W takiej sytuacji trzeba będzie poszukać
+klucza od repozytorium na publicznym serwerze kluczy GPG i pobrać go z tego serwera. Poniżej jest
+przykładowa instrukcja jak tego dokonać.</p>
+<p>Przy pomocy <code>gpg</code> szukamy klucza o ID, który pojawił się w logu podczas aktualizacji listy pakietów
+via <code>apt-get update</code> . Mieliśmy tam <code>NO_PUBKEY D980A17457F6FB06</code> , czyli szukamy klucza o ID
+<code>0xD980A17457F6FB06</code> :</p>
+<pre><code>$ gpg --search-keys 0xD980A17457F6FB06
+gpg: data source: https://162.213.33.8:443
+(1)     Open Whisper Systems &lt;support@whispersystems.org&gt;
+          4096 bit RSA key 0xD980A17457F6FB06, created: 2017-04-05
+Keys 1-1 of 1 for &quot;0xD980A17457F6FB06&quot;.  Enter number(s), N)ext, or Q)uit &gt; 1
+gpg: key 0xD980A17457F6FB06: public key &quot;Open Whisper Systems &lt;support@whispersystems.org&gt;&quot; imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+</code></pre>
+<p>Jak widać, klucz został odnaleziony. Wybieramy numerek <code>1</code> i dodajemy klucz do keyring'a lokalnego
+użytkownika systemu. Następnie eksportujemy ten klucz do pliku. W zależności od formatu wybieramy
+pierwsze (dla tekstowego) lub drugie (dla binarnego) polecenie:</p>
+<pre><code>$ gpg --armor --export 0xD980A17457F6FB06 &gt; klucz.asc
+
+$ gpg --export 0xD980A17457F6FB06 &gt; klucz.gpg
+</code></pre>
+<p>Tak wyeksportowany plik klucza publicznego wrzucamy teraz do <code>/etc/apt/trusted.gpg.d/</code> .</p>
+<h3 id="podpisanie-konkretnego-repozytorium-określonym-kluczem">Podpisanie konkretnego repozytorium określonym kluczem</h3>
+<p>Jeśli się uważnie przyjrzymy wpisowi umieszczonemu w pliku <code>/etc/apt/sources.list</code> , to możemy tam
+dostrzec, że mamy w nim określone opcje dla APT. Chodzi o to co jest w nawiasie, tj.
+<code>[arch=... signed-by=...]</code> .</p>
+<p>Mamy tutaj <code>arch=</code> , który określa dla jakich architektur jest przeznaczone to repozytorium i w
+tym przypadku jest ono jedynie dla maszyn 64-bitowych. Nas jednak bardziej interesuje ta druga
+opcja, tj. <code>signed-by=</code> . Ma ona na celu wskazanie konkretnego pliku (klucza GPG) w obrębie systemu
+plików naszego linux'a, który posłuży do zweryfikowania podpisu złożonego pod tym repozytorium
+podczas instalowania z niego jakichś pakietów.</p>
+<h4 id="marginalna-poprawa-bezpieczeństwa">Marginalna poprawa bezpieczeństwa</h4>
+<p>Przyznam, że pierwszy raz widzę taką opcję w pliku <code>/etc/apt/sources.list</code> i postanowiłem poszukać
+trochę informacji na temat jej zastosowania. <a href="https://blog.jak-linux.org/2021/06/20/migrating-away-apt-key/">Z informacji, które znalazłem tutaj</a> wynika, że
+bezpieczeństwo z tak skonfigurowanego repozytorium jest w zasadzie bardzo marginalne.</p>
+<p>Chodzi generalnie o to, że jeden klucz GPG może zostać wykorzystany do podpisania wielu
+repozytoriów. Zatem gdyby Signal miał kilka repozytoriów i dodalibyśmy kilka wpisów do pliku
+<code>/etc/apt/sources.list</code> , to mając jedno repozytorium Signal'a skonfigurowane w powyższy sposób,
+pozostałe repozytoria podczas aktualizacji pakietów zwrócą błąd klucza i nie będziemy w stanie z
+tych repozytoriów nic zainstalować do momentu dodania im stosownych opcji <code>signed-by=</code> . W ten
+sposób unikniemy sytuacji, w której możemy przeoczyć, że kilka repozytoriów jest podpisanych tym
+samym kluczem i nieświadomie z nich korzystać, co mogło mieć miejsce w przypadku korzystania z
+<code>apt-key</code> i przechowywania zebranych kluczy w zbiorczym keyring'u pod <code>/etc/apt/trusted.gpg</code> .</p>
+<p>Niemniej jednak, bardziej świadoma konfiguracja repozytoriów to jedna sprawa, a instalowanie z nich
+pakietów to wręcz osobna bajka. Instalując pakiety <code>.deb</code> , wołane są skrypty maintainer'a, które
+są w stanie poczynić bardzo zaawansowane zmiany w systemie (bo są uruchamiane na etapie instalacji
+jako root i można w nich wykonać dowolną akcję), o czym użytkownicy Debiana instalujący pakiety z
+zewnętrznych repozytoriów często zapominają. Dlatego też taka paczka <code>.deb</code> może sobie dodać swój
+klucz GPG i wpis w pliku <code>/etc/apt/sources.list</code> bez naszej świadomej zgody.</p>
+<p>Przykładem takiego zachowania może być, np. MEGAsync, w którym to możemy spotkać się m.in. z czymś
+takim w skrypcie <code>postinst</code> :</p>
+<pre><code>...
+if [ -d /etc/apt/sources.list.d ]; then
+cat &gt;/etc/apt/sources.list.d/megasync.list &lt;&lt;EOF
+deb https://mega.nz/linux/MEGAsync/$str/ ./
+EOF
+fi
+
+apt-key add - &gt;/dev/null 2&gt;&amp;1 &lt;&lt;KEY
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v2
+
+mI0EVj3AgQEEAO2XyJgpvE5HDRVsggcrMhf5+KpQepl7m7OyrPSgxLi72Wuy5GWp
+hO64BX1UzmdUirIEOc13YxdeuhwJ3YP0wnKUyUrdWA0r2HjOz555vN6ldrPlSCBI
+RxKBWRMQaR4cwNKQ8V4xV9tVdPGgrQ9L/4H3fM9fYqCwEMKBxxLZsF3PABEBAAG0
+IE1lZ2FMaW1pdGVkIDxzdXBwb3J0QG1lZ2EuY28ubno+iL8EEwECACkFAlY9wIEC
+GwMFCRLMAwAHCwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRADw606fwaOXfOS
+A/998rh6f0wsrHmX2LTw2qmrWzwPj4m+vp0m3w5swPZw1x4qSNsmNsIXX8J0ZcSE
+qymOwHZ0B9imBS3iz+U496NSfPNWABbIBnUAu8zq0IR28Q9pUcLe5MWFsw9NO+w2
+5dByoN9JKeUftZt1x76NHn5wmxB9fv7WVlCnZJ+T16+nh7iNBFY9wIEBBADHpopM
+oXNkrGZLI6Ok1F5N7+bSgiyZwkvBMAqCkPawUgwJztFKGf8F/sSbydsKRC2aQcuJ
+eOj0ZPUtJ80+o3w8MsHRtZDSxDIxqqiHeupoDRI3Be9S544vI5/UmiiygTuhmNTT
+NWgStoZz7hEK4IsELAG1EFodIMtBSkptDL92HwARAQABiKUEGAECAA8FAlY9wIEC
+GwwFCRLMAwAACgkQA8OtOn8Gjl3HlAQAoOckF5JBJWekmlX+k2RYwtgfszk31Gq+
+Jjiho4rUEW8c1EUPvK8v1jRGwjYED3ihJ6510eblYFPl+6k91OWlScnxuVVAmSn4
+35RW3vR+nYUvf3s8rctbw97gJJZAA7p5oAowTux3oHotKSYhhxKcz15goMXzSb5G
+/h7fJRhMnw4=
+=fp/e
+-----END PGP PUBLIC KEY BLOCK-----
+KEY
+...
+</code></pre>
+<p>Zatem instalacja tej paczki czy to ręcznie, czy z repozytorium, doda osobny wpis w
+<code>/etc/apt/sources.list.d/megasync.list</code> i do tego jeszcze wgra nam klucz GPG przy pomocy <code>apt-key</code>
+do zbiorczego keyring'a APT, dzięki czemu dowolne repo może zostać zweryfikowane tym powyższym
+kluczem, oczywiście jeśli zostało nim podpisane. Dlatego właśnie trzeba uważać na to co instalujemy
+w systemie i zwracać uwagę na to, co siedzi w skryptach maintainer'a w pakietach pochodzących
+spoza oficjalnego repozytorium Debiana (tyczy się to też aktualizacji takich pakietów, bo skrypty
+mogą ulec zmianie między wersjami paczki).</p>
+<h4 id="klucze-gpg-osadzone-w-plikach-sources">Klucze GPG osadzone w plikach .sources</h4>
+<p><a href="https://salsa.debian.org/apt-team/apt/-/merge_requests/176">Trwają prace</a> nad umożliwieniem osadzenia kluczy GPG bezpośrednio w plikach <code>.sources</code> . Warto
+tutaj wyraźnie zaznaczyć, że plik <code>.sources</code> to nie to samo co plik <code>.list</code> . Te dwa pliki odróżnia
+dość mocno format. Tak czy inaczej, po osadzeniu klucza GPG bezpośrednio w pliku <code>.sources</code> , jego
+zawartość prezentowałaby się mniej więcej w poniższy sposób:</p>
+<pre><code>Types: deb
+URIs: https://myrepo.example/ https://myotherrepo.example/
+Suites: stable not-so-stable
+Components: main
+Signed-By:
+ -----BEGIN PGP PUBLIC KEY BLOCK-----
+ .
+ mDMEYCQjIxYJKwYBBAHaRw8BAQdAD/P5Nvvnvk66SxBBHDbhRml9ORg1WV5CvzKY
+ CuMfoIS0BmFiY2RlZoiQBBMWCgA4FiEErCIG1VhKWMWo2yfAREZd5NfO31cFAmAk
+ IyMCGyMFCwkIBwMFFQoJCAsFFgIDAQACHgECF4AACgkQREZd5NfO31fbOwD6ArzS
+ dM0Dkd5h2Ujy1b6KcAaVW9FOa5UNfJ9FFBtjLQEBAJ7UyWD3dZzhvlaAwunsk7DG
+ 3bHcln8DMpIJVXht78sL
+ =IE0r
+ -----END PGP PUBLIC KEY BLOCK-----
+</code></pre>
+<p>Dysponując takim plikiem <code>.sources</code> , właściciele zewnętrznych repozytoriów Debiana mogliby
+dostarczać go użytkownikowi systemu, a ten mógłby wrzucić go sobie do katalogu
+<code>/etc/apt/sources.list.d/</code> i to wszystko co by było wymagane do skonfigurowania nowego
+repozytorium. Nie było by przy tym żadnego bawienia się w szukanie i dodawanie kluczy GPG. Wszystko
+by było w jednym miejscu i do tego w jednym pliku. Mam nadzieje, że uda się ten mechanizm
+zaimplementować, bo znacząco uprasza on dodawanie i zarządzanie zewnętrznymi repozytoriami w
+Debianie, zwłaszcza, gdy ma się ich dość sporo.</p>
+<h2 id="narzędzie-extrepo">Narzędzie extrepo</h2>
+<p>Teoretycznie istnieje <a href="https://salsa.debian.org/extrepo-team/extrepo">narzędzie extrepo</a>, które jest nam w stanie pomóc w oganianiu na
+Debianie zewnętrznych repozytoriów. Po instalacji pakietu <code>extrepo</code> , wszystko co musimy zrobić, to
+przeszukać aktualną listę repozytoriów, które możemy w swoim systemie włączyć. Możemy to zrobić przy
+pomocy poniższego polecenia:</p>
+<pre><code># extrepo search
+...
+
+    Found opera_stable:
+---
+description: The Opera Browser (final releases)
+gpg-key-checksum:
+  sha256: 4104b80be9afbf8ac83624b7ed67b50f98218d8f68cda72f03fc4cea4ba62f14
+gpg-key-file: opera_stable.asc
+policy: non-free
+source:
+  Architectures: amd64 i386
+  Components: non-free
+  Suites: stable
+  Types: deb
+  URIs: https://deb.opera.com/opera-stable
+
+...
+</code></pre>
+<p>Naturalnie tych repozytoriów jest więcej (<a href="https://salsa.debian.org/extrepo-team/extrepo-data/-/tree/master/repos/debian">pełna lista jest także dostępna tutaj</a>) ale nam w
+celach demonstracyjnych wystarczy tylko to powyższe. By włączyć to repozytorium, w terminalu
+wpisujemy poniższe polecenie:</p>
+<pre><code># extrepo enable opera_stable
+</code></pre>
+<p>Włączenie konkretnego repozytorium z listy, którą nam zwróci <code>extrepo</code> sprawi, że w katalogu
+<code>/etc/apt/sources.list.d/</code> zostanie utworzony plik <code>extrepo_*.sources</code> , gdzie <code>*</code> określa nazwę
+włączonego repozytorium. Poniżej jest przykładowa treść utworzonego pliku:</p>
+<pre><code># cat /etc/apt/sources.list.d/extrepo_opera_stable.sources
+Uris: https://deb.opera.com/opera-stable
+Components: non-free
+Architectures: amd64 i386
+Suites: stable
+Types: deb
+Signed-By: /var/lib/extrepo/keys/opera_stable.asc
+Enabled: yes
+</code></pre>
+<p>Z kolei by to repozytorium wyłączyć, wystarczy w terminalu wpisać poniższe polecenie:</p>
+<pre><code># extrepo disable opera_stable
+</code></pre>
+<p>W takim przypadku, widoczny wyżej plik pozostanie na swoim miejscu ale na pozycji <code>Enabled:</code>
+będziemy mieli <code>no</code> , co efektywnie wyłączy to repozytorium przy aktualizacji list pakietów i
+żadnego pakietu z tego repozytorium już nie da się zainstalować.</p>
+<p>Wydawać by się mogło, że <code>extrepo</code> to bardzo przydatne narzędzie do ogarniania zewnętrznych
+repozytoriów. I zapewne dla wielu użytkowników Debiana tak będzie. Ja jednak mam z nim drobny
+problem. Chodzi generalnie o to, że klucze, <a href="https://salsa.debian.org/extrepo-team/extrepo-data/-/tree/master/repos/debian">którymi podpisane jest repozytorium, są dociągane</a>
+w czasie włączania repozytorium w systemie zamiast siedzieć na stałe w paczce <code>extrepo</code> . Tak  czy
+inaczej, takie rozwiązanie automatyzuje cały proces włączania repozytorium, bo nie musimy tych
+kluczy szukać i dodawać ręcznie do keyring'a APT. Co jednak w przypadku, gdy ktoś ten klucz
+podmieni, np. konto/usługa <code>extrepo</code> zostanie skompromitowana w jakiś sposób? Jeśli nie
+zweryfikujemy klucza, który zostanie pobrany podczas dodawania repozytorium, to może się okazać, że
+nie jest to ten klucz, którego byśmy się spodziewali i któremu powinniśmy zaufać.</p>
+<p>Poniżej jest przykładowy plik repozytorium, które włączyliśmy wyżej:</p>
+<pre><code>---
+# Added by Wouter Verhelst
+opera_stable:
+  description: The Opera Browser (final releases)
+  source:
+    Types: deb
+    URIs: https://deb.opera.com/opera-stable
+    Suites: stable
+    Components: non-free
+    Architectures: amd64 i386
+  suites:
+  - squeeze
+  - wheezy
+  - jessie
+  - stretch
+  - buster
+  - bullseye
+  policy: non-free
+
+  gpg-key: |
+    -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+    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
+    =Grob
+    -----END PGP PUBLIC KEY BLOCK-----
+</code></pre>
+<p>Klucz publiczny jest umieszczony między <code>-----BEGIN PGP PUBLIC KEY BLOCK-----</code> a
+<code>-----END PGP PUBLIC KEY BLOCK-----</code> . Wypadałoby zatem zadać sobie pytanie: co się stanie, gdy ten
+klucz (albo/i URI) ulegnie zmianie w sposób nieuprawniony? Trzeba zatem zaufać autorom projektu w
+kwestii tak krytycznej jak repozytoria systemowe, a na to mnie ździebko nie stać. Ja zawsze ręcznie
+muszę zweryfikować dane repozytorium, by wiedzieć czy je mogę dodać do systemu, czy nie. I jeśli
+ktoś by podmienił klucz GPG w usłudze <code>extrepo</code> , to w żaden sposób nie wpłynie to na mój system,
+tj. on dalej będzie korzystał z tego klucza, który ja mu wskażę ręcznie.</p>
+<p>Już wielokrotnie przytrafiła mi się sytuacja, w której, np. klucz wygasł i trzeba było ustalić co
+się z takim repozytorium dzieje oraz czy ono w ogóle żyje i rokuje na przyszłość, albo czy można
+sobie z nim dać spokój i poszukać jakiejś alternatywy dla oprogramowania, które to repo dostarczało.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Jakby nie patrzeć, odejście Debiana od narzędzia <code>apt-key</code> mającego na celu dodawanie kluczy GPG do
+jednego zbiorczego pliku keyring'a APT, to krok w dobrą stronę. Trzeba jednak mieć na uwadze, że
+ten nowy system ogarniania kluczy do zewnętrznych repozytoriów nie zapewnia jakiejś dodatkowej
+ochrony systemu. Kluczowy z perspektywy bezpieczeństwa naszego linux'a był, jest i zawsze będzie sam
+proces instalowania pakietu <code>.deb</code> z takiego repozytorium. Skrypty maintainer'a są w stanie wykonać
+dowolny kod i to jako uprzywilejowany użytkownik root. Jeśli nie zweryfikujemy tego, co te skrypty
+dokładnie robią podczas instalacji pakietu, to żadne zabezpieczenia nas nie uchronią przed
+kompromitacją naszego systemu.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apt/">apt</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/repozytorium/">repozytorium</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/gpg/">gpg</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bezpiecze%C5%84stwo/">bezpieczeństwo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apt-key/">apt-key</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-apt-key-w-debian-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-apt-key-w-debian-linux%2f&amp;text=Migracja%20z%20apt-key%20w%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-apt-key-w-debian-linux%2f&amp;title=Migracja%20z%20apt-key%20w%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-apt-key-w-debian-linux%2f&amp;title=Migracja%20z%20apt-key%20w%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-apt-key-w-debian-linux%2f&title=Migracja%20z%20apt-key%20w%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-apt-key-w-debian-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-apt-key-w-debian-linux%2f&amp;title=Migracja%20z%20apt-key%20w%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmigracja-z-apt-key-w-debian-linux%2f&description=Migracja%20z%20apt-key%20w%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/">Klucze do repozytoriów Debiana (trusted.gpg)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/debian-bezpieczne-pobieranie-aktualizacji-apt-transport-https/">Debian: Bezpieczne pobieranie aktualizacji (apt-transport-https)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wybrac-optymalny-mirror-repozytorium-debiana/">Jak wybrać optymalny mirror repozytorium Debiana</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/debian-anonimowe-pobieranie-aktualizacji-apt-transport-tor/">Debian: Anonimowe pobieranie aktualizacji (apt-transport-tor)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/migawka-snapshot-repozytorium-debiana/">Migawka (snapshot) repozytorium debiana</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-multiarch-na-debianie/">Konfiguracja multiarch w dystrybucji Debian</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/manualna-weryfikacja-pakietu-deb-w-debianie/">Manualna weryfikacja pakietu deb w debianie</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

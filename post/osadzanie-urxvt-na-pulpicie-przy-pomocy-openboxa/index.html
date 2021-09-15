@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Osadzanie urxvt na pulpicie przy pomocy Openbox&#39;a | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Osadzanie urxvt na pulpicie przy pomocy Openbox&#39;a" />
+<meta property="og:description" content="Wszyscy wiemy, że ogromna rzesza ludzi nie patrzy w logi systemowe. Nawet jeśli części z nas zdarza
+się to raz na jakiś czas, to zwykle nie wtedy, gdy coś złego się dzieje z naszym systemem. W
+przypadku jakichkolwiek problemów, mamy spore prawdopodobieństwo, że szereg zdarzeń może zostać
+zalogowanych w dzienniku systemowym. Dlaczego zatem nie osadzić jakiegoś terminala na pulpicie, w
+którym będą zbierane logi w czasie rzeczywistym? W takim przypadku co kilka (czy kilkanaście) minut
+będziemy w stanie podejrzeć wszystkie komunikaty jakie zostały zalogowane przez system. W tym wpisie
+postaramy się osadzić na pulpicie terminal urxvt i posłużymy się w tym celu menadżerem okien
+openbox ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/osadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-11-09T21:27:51&#43;00:00" />
+<meta property="article:modified_time" content="2015-11-09T21:27:51&#43;00:00" />
+
+
+		<meta itemprop="name" content="Osadzanie urxvt na pulpicie przy pomocy Openbox&#39;a">
+<meta itemprop="description" content="Wszyscy wiemy, że ogromna rzesza ludzi nie patrzy w logi systemowe. Nawet jeśli części z nas zdarza
+się to raz na jakiś czas, to zwykle nie wtedy, gdy coś złego się dzieje z naszym systemem. W
+przypadku jakichkolwiek problemów, mamy spore prawdopodobieństwo, że szereg zdarzeń może zostać
+zalogowanych w dzienniku systemowym. Dlaczego zatem nie osadzić jakiegoś terminala na pulpicie, w
+którym będą zbierane logi w czasie rzeczywistym? W takim przypadku co kilka (czy kilkanaście) minut
+będziemy w stanie podejrzeć wszystkie komunikaty jakie zostały zalogowane przez system. W tym wpisie
+postaramy się osadzić na pulpicie terminal urxvt i posłużymy się w tym celu menadżerem okien
+openbox ."><meta itemprop="datePublished" content="2015-11-09T21:27:51&#43;00:00" />
+<meta itemprop="dateModified" content="2015-11-09T21:27:51&#43;00:00" />
+<meta itemprop="wordCount" content="1840">
+<meta itemprop="keywords" content="openbox,terminal,rsyslog,logi," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Osadzanie urxvt na pulpicie przy pomocy Openbox&#39;a"/>
+<meta name="twitter:description" content="Wszyscy wiemy, że ogromna rzesza ludzi nie patrzy w logi systemowe. Nawet jeśli części z nas zdarza
+się to raz na jakiś czas, to zwykle nie wtedy, gdy coś złego się dzieje z naszym systemem. W
+przypadku jakichkolwiek problemów, mamy spore prawdopodobieństwo, że szereg zdarzeń może zostać
+zalogowanych w dzienniku systemowym. Dlaczego zatem nie osadzić jakiegoś terminala na pulpicie, w
+którym będą zbierane logi w czasie rzeczywistym? W takim przypadku co kilka (czy kilkanaście) minut
+będziemy w stanie podejrzeć wszystkie komunikaty jakie zostały zalogowane przez system. W tym wpisie
+postaramy się osadzić na pulpicie terminal urxvt i posłużymy się w tym celu menadżerem okien
+openbox ."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Osadzanie urxvt na pulpicie przy pomocy Openbox&#39;a</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-11-09T21:27:51Z">Opublikowano: 09/11/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Osadzanie urxvt na pulpicie przy pomocy Openbox&#39;a</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#devilspie-devilspie2-openbox-i-terminale">Devilspie, devilspie2, openbox i terminale</a></li>
+    <li><a href="#identyfikacja-okna-przy-pomocy-obxprop">Identyfikacja okna przy pomocy obxprop</a></li>
+    <li><a href="#konfigurowanie-okna">Konfigurowanie okna</a>
+      <ol>
+        <li><a href="#przezroczystość-okna-transparency">Przezroczystość okna (transparency)</a></li>
+      </ol>
+    </li>
+    <li><a href="#logi-systemowe">Logi systemowe</a>
+      <ol>
+        <li><a href="#pliki-logów-w-katalogu-varlog">Pliki logów w katalogu /var/log/</a></li>
+        <li><a href="#journal-i-jego-logi">Journal i jego logi</a></li>
+        <li><a href="#wyświetlenie-logów-w-terminalu-na-pulpicie">Wyświetlenie logów w terminalu na pulpicie</a></li>
+        <li><a href="#kolorowanie-logów">Kolorowanie logów</a></li>
+      </ol>
+    </li>
+    <li><a href="#gotowy-terminal-na-pulpicie">Gotowy terminal na pulpicie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Wszyscy wiemy, że ogromna rzesza ludzi nie patrzy w logi systemowe. Nawet jeśli części z nas zdarza
+się to raz na jakiś czas, to zwykle nie wtedy, gdy coś złego się dzieje z naszym systemem. W
+przypadku jakichkolwiek problemów, mamy spore prawdopodobieństwo, że szereg zdarzeń może zostać
+zalogowanych w dzienniku systemowym. Dlaczego zatem nie osadzić jakiegoś terminala na pulpicie, w
+którym będą zbierane logi w czasie rzeczywistym? W takim przypadku co kilka (czy kilkanaście) minut
+będziemy w stanie podejrzeć wszystkie komunikaty jakie zostały zalogowane przez system. W tym wpisie
+postaramy się osadzić na pulpicie terminal urxvt i posłużymy się w tym celu menadżerem okien
+openbox .</p>
+<h2 id="devilspie-devilspie2-openbox-i-terminale">Devilspie, devilspie2, openbox i terminale</h2>
+<p>Istnieją dedykowane narzędzia, które mają na celu identyfikować i zmieniać wywoływane w środowisku
+graficznym okna. Jednym z nich jest
+<a href="https://wiki.gnome.org/action/show/Projects/DevilsPie?action=show&amp;redirect=DevilsPie">devilspie</a>.
+Ten projekt nie jest już rozwijany i został zastąpiony przez
+<a href="http://www.gusnan.se/devilspie2/">devilspie2</a>. Niemniej jednak, menadżery okien, takie jak
+<a href="http://openbox.org/wiki/Main_Page">openbox</a>, jak sama nazwa wskazuje, potrafią zarządzać oknami.
+Taki openbox jest w stanie bez większego problemu zrobić to samo, co devilspie czy devilspie2. Nie
+ma zatem potrzeby bawić się w instalowanie dodatkowego oprogramowania. No chyba, że nasz menadżer
+okien nie potrafi rysować okienek. W takim przypadku najlepiej zrezygnować z niego i dobrać sobie
+taki menadżer okien, który to potrafi. Zatem nie będziemy się w tym wpisie zajmować devilspie, a
+zamiast niego spróbujemy osadzić konsolę na pulpicie jedynie za pomocą menadżera okien.</p>
+<p>Druga kwestia dotyczy terminali. Na rynku jest ich całe mnóstwo i każdy z nich się czymś wyróżnia. W
+przypadku osadzania konsoli na pulpicie, najlepiej jest dobrać sobie taki terminal, który posiada
+opcję dzielenia okna, oraz ma do dyspozycji karty, takie jak te w przeglądarkach internetowych.
+Kiedyś korzystałem z <a href="https://gnometerminator.blogspot.fr/p/introduction.html">terminatora</a> ale miał
+on kilka rzeczy, które mnie strasznie drażniły. W efekcie czego zrezygnowałem z niego na rzecz
+multipleksera <a href="https://tmux.github.io/">tmux</a> , który w połączeniu z prostym terminalem jest w
+stanie pobić terminatora pod względem funkcjonalności. Oczywiście w tym drugim przypadku, terminal
+nie musi obsługiwać dzielenia okienek, czy zakładek, bo to już realizuje tmux. Wobec czego, możemy
+zainstalować sobie terminal <a href="https://wiki.archlinux.org/index.php/Rxvt-unicode">urxvt</a> (pakiet
+<code>rxvt-unicode-256color</code> ) i mieć konsolę na pulpicie, która nie zjada za wiele zasobów.</p>
+<h2 id="identyfikacja-okna-przy-pomocy-obxprop">Identyfikacja okna przy pomocy obxprop</h2>
+<p>Zacznijmy zatem od zidentyfikowania okna terminala urxvt w gąszczu tych, które są wyświetlane
+aktualnie na naszym pulpicie. Do tego celu mogą nam posłużyć dwa narzędzia: <code>xprop</code> oraz <code>obxprop</code> .
+Jako, że wykorzystujemy menadżer okien openbox, to skorzystamy z tego drugiego narzędzia. Odpalamy
+zatem terminal i wpisujemy w nim <code>obxprop</code> . Następnie wskazujemy myszą to okno , które chcemy
+umieścić na pulpicie. Po chwili w terminalu powinien nam się pokazać dość obszerny log z
+informacjami opisującymi to okno. Nas interesują głównie te poniższe dane:</p>
+<pre><code>$ obxprop
+...
+_OB_APP_TYPE(UTF8_STRING) = &quot;normal&quot;
+_OB_APP_TITLE(UTF8_STRING) = &quot;bash&quot;
+_OB_APP_GROUP_CLASS(UTF8_STRING) =
+_OB_APP_GROUP_NAME(UTF8_STRING) =
+_OB_APP_CLASS(UTF8_STRING) = &quot;URxvt&quot;
+_OB_APP_NAME(UTF8_STRING) = &quot;cdesktop&quot;
+_OB_APP_ROLE(UTF8_STRING) =
+...
+</code></pre>
+<p>To w oparciu o nie, openbox jest w stanie zidentyfikować konkretne okno. Zwykle opcje terminali
+zezwalają nam na dostosowanie nazwy, która jest zwracana przez <code>_OB_APP_NAME</code> . W przypadku
+terminala urxvt, możemy tę nazwę określić precyzując ją w skrócie, który odpala ten terminal,
+przykładowo:</p>
+<pre><code>urxvtc -name 'cdesktop' -e bash -c &quot;tmux attach-session -t system-logs&quot;
+</code></pre>
+<p>W powyższej linijce, parametr <code>-name</code> ustawia nazwę na <code>cdesktop</code> . Mając ustawioną unikalną nazwę,
+możemy teraz przejść do napisania regułki, która odpowiednio skonfiguruje wygląd tego okna.</p>
+<h2 id="konfigurowanie-okna">Konfigurowanie okna</h2>
+<p>Praktycznie cała konfiguracja okna odbywa się za sprawą jednego z plików konfiguracyjnych openbox'a.
+Chodzi oczywiście o plik <code>~/.config/openbox/rc.xml</code> . To w nim min. będziemy umieszczać konfigurację
+dla okien poszczególnych aplikacji. Każde okno jest ujęte w poniższy blok:</p>
+<pre><code>&lt;application class=&quot;URxvt&quot; name=&quot;cdesktop&quot; type=&quot;normal&quot;&gt;
+      ...
+&lt;/application&gt;
+</code></pre>
+<p>Między znacznikami <code>application</code> umieszczamy stosowne opcje. W przypadku terminala na pulpicie,
+interesują nas te poniższe:</p>
+<pre><code>&lt;focus&gt;no&lt;/focus&gt;
+&lt;decor&gt;no&lt;/decor&gt;
+&lt;shade&gt;no&lt;/shade&gt;
+&lt;layer&gt;below&lt;/layer&gt;
+&lt;skip_pager&gt;yes&lt;/skip_pager&gt;
+&lt;skip_taskbar&gt;yes&lt;/skip_taskbar&gt;
+&lt;size&gt;
+      &lt;width&gt;1000&lt;/width&gt;
+      &lt;height&gt;300&lt;/height&gt;
+&lt;/size&gt;
+&lt;position force=&quot;yes&quot;&gt;
+      &lt;x&gt;50&lt;/x&gt;
+      &lt;y&gt;200&lt;/y&gt;
+&lt;/position&gt;
+</code></pre>
+<p>Opcji, jakie możemy określić w pliku <code>rc.xml</code> , <a href="http://git.icculus.org/?p=mikachu/openbox.git;a=blob_plain;f=data/rc.xml;hb=master">jest oczywiście
+więcej</a>. Te
+powyższe są nam potrzebne do osadzenia okna pozbawionego obramowania ( <code>decor</code> ), które będzie na
+samym spodzie pulpitu ( <code>layer</code> ), tak by nie wchodziło na okna innych aplikacji. To okno nie
+powinno też łapać fokusu, gdy się pojawia ( <code>focus</code> ) i nie powinno rzucać żadnych cieni
+( <code>shade</code> ). Nie chcemy też by się ono pojawiało na pasku zadań ( <code>skip_taskbar</code> ) czy też na
+pager'ach (<code>skip_pager</code> ). Położenie i rozmiar okna określamy zaś w <code>position</code> i <code>size</code> .</p>
+<p>W przypadku gdyby tak ustawione okno miało obramowanie, trzeba w pliku <code>rc.xml</code> odnaleźć pozycję
+<code>keepBorder</code> i przestawić jej wartość na <code>No</code> .</p>
+<h3 id="przezroczystość-okna-transparency">Przezroczystość okna (transparency)</h3>
+<p>W taki sposób skonfigurowany terminal powinien pojawić się na pulpicie. Jeśli mamy jakąś wypasioną
+tapetę, to możemy ustawić lekką przezroczystość tego okna. Do tego celu potrzebne nam są dwie
+rzeczy: menadżer kompozycji i odpowiednie ustawienia terminala. Jeśli chodzi o menadżer kompozycji,
+to można skorzystać z <a href="https://github.com/chjj/compton">compton'a</a> . Nie będę tutaj opisywał jego
+konfiguracji, bo po instalacji pakietu <code>compton</code> i uruchomieniu tego menadżera, przezroczystość
+powinna działać OOTB. Z kolei jeśli chodzi o konfigurację urxvt, to możemy albo dostosować polecenie
+wywołujące sam terminal, albo też wpisać całą konfigurację do pliku <code>~/.Xresources</code> . Skorzystamy z
+tego drugiego rozwiązania. Dodajemy zatem te poniższe linijki do wspomnianego pliku:</p>
+<pre><code>URxvt*scrollBar:   false
+URxvt.depth:                  32
+URxvt*foreground:             #D75F00
+*cdesktop.background:         [00]#000000
+*cdesktop.highlightColor:     #000000
+*cdesktop.highlightTextColor: #D75F00
+</code></pre>
+<p>Parametr <code>scrollBar</code> wyłącza pasek przewijania. Naturalnie wyjście jakie pojawia się w terminalu w
+dalszym ciągu można przewijać. Dalej mamy <code>depth</code> , który włącza prawdziwą przezroczystość okna, do
+której obsługi potrzebny jest wyżej wspomniany menadżer kompozycji. Z kolei <code>foreground</code> oraz
+<code>background</code> ustawiają kolor czionki i tła. W przypadku tła mamy <code>[00]</code> , co oznacza, że to okno
+będzie w 100% przezroczyste. Gdyby tutaj okreslić <code>[100]</code> , tło będzie miało taki kolor jaki
+zostanie ustawiony. Ostatnie dwa parametry, tj. <code>highlightColor</code> i <code>highlightTextColor</code> , określają
+jaki kolor przyjmie tło i tekst podczas zaznaczania. W przypadku ustawienia przezroczystości na
+100%, zaznaczony tekst zwyczajnie zniknie i będzie to wyglądać mniej więcej
+tak:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/11/1.konsola-na-pulpicie-przezroczystosc.png" alt=""    class="huge"></p>
+<p>Z lewej strony jest terminal, który ma czarne tło. Ten z prawej zaś jest przezroczysty. Dlatego
+właśnie nam są potrzebne te dwa parametry. Mając już osadzony i skonfigurowany terminal na
+pulpicie, przyszła pora na wyświetlenie w nim logów systemowych.</p>
+<h2 id="logi-systemowe">Logi systemowe</h2>
+<p>Logi w debianie są trzymane w katalogu <code>/var/log/</code> . Od czasu, gdy domyślnym init'em w debianie jest
+systemd, logi są zbierane przez journal. Jak wiadomo, format plików journala ma strukturę binarną i
+w prosty sposób nie idzie wydobyć z tego pliku informacji. Dodatkowo, wszystkie aplikacje, które
+mają własne pliki logów, np. apache2, nie logują tych informacji do journala. Mamy zatem dwa
+problemy. Pierwszym z nich jest wyciągnięcie informacji z journala i umieszczenie ich w terminalu na
+pulpicie. Drugim zaś jest zebranie wszystkich pozostałych komunikatów rozrzuconych w plikach w
+katalogu <code>/var/log/</code> i wyświetlenie ich również w tym terminalu.</p>
+<h3 id="pliki-logów-w-katalogu-varlog">Pliki logów w katalogu /var/log/</h3>
+<p>Przede wszystkim musimy utworzyć urządzenie, podobne do tych w katalogu <code>/dev/</code> . Można je
+oczywiście utworzyć w dowolnym miejscu ale skoro tam są urządzenia, to lepiej wszystkie trzymać w
+jednej lokalizacji. By stworzyć takie urządzenie logujemy się na konto root i w terminalu wydajemy
+poniższe dwa polecenia:</p>
+<pre><code># mkfifo -m 0740 /dev/logi
+# chown root:adm /dev/logi
+</code></pre>
+<p>Stworzone w ten sposób urządzenie nie będą jednak trwałe i po resecie systemu trzeba będzie je
+tworzyć na nowo. Dlatego lepszym rozwiązaniem jest zdefiniowanie tych plików urządzeń w
+<code>/etc/tmpfiles.d/logi.conf</code> , przykładowo:</p>
+<pre><code># Type | Path | Mode | UID | GID | Age | Argument
+p /dev/logi 0640 root adm - -
+</code></pre>
+<p>Teraz edytujemy plik <code>/etc/rsyslog.conf </code> i dodajemy w nim tę poniższą linijkę:</p>
+<pre><code>*.*;auth,daemon,kern,user      -/dev/logi
+#&amp; stop
+</code></pre>
+<p>Za jej sprawą zostaną skopiowane pewne wpisy, które następnie zostaną wysłane do naszego urządzenia
+<code>/dev/logi</code> . To jakie opcje można dodać są zawarte pod <a href="https://wiki.archlinux.org/index.php/rsyslog#Facility_Levels">tym
+linkiem</a>. Jeśli usuniemy znak
+komentarza stojący przed <code>&amp; stop</code> , log nie będzie przetwarzany przez kolejne reguły. Ważne jest, by
+wszystkie reguły kopiujące informacji do urządzeń w katalogu <code>/dev/</code> pojawiły się jak najwyżej w
+sekcji <code>RULES</code> w pliku konfiguracyjnym rsyslog'a.</p>
+<p>Samo urządzenie posiada grupę <code>adm</code> oraz prawa tylko do odczytu. Nikt poza użytkownikami w tej
+grupie nie będzie w stanie podejrzeć logów. Dlatego też trzeba dodać określonych użytkowników do tej
+grupy:</p>
+<pre><code># adduser morfik adm
+</code></pre>
+<p>Można także stworzyć kilka urządzeń i rozdzielić odpowiednie obiekty jeśli komuś przeszkadza, że
+wszystko wędruje do jednego pliku.</p>
+<h3 id="journal-i-jego-logi">Journal i jego logi</h3>
+<p>Problem z journalem można rozwiązać w bardzo prosty sposób. Mianowicie, wszystkie, pliki jakie
+tworzy journal, mają grupę <code>systemd-journal</code> . By mieć dostęp do tych plików i móc je podejrzeć,
+potrzebne nam są prawa odczytu, które są nadawane użytkownikom będącym we wspomnianej powyżej
+grupie. Musimy zatem się dodać do tej grupy:</p>
+<pre><code># adduser morfik systemd-journal
+</code></pre>
+<h3 id="wyświetlenie-logów-w-terminalu-na-pulpicie">Wyświetlenie logów w terminalu na pulpicie</h3>
+<p>Część z terminali ma możliwość uruchamiania poleceń ilekroć są wywoływane. Tak przynajmniej było w
+przypadku terminatora. Tmux również posiada taką właściwość. Jako, że ja korzystam jedynie z tmux'a,
+to niżej przedstawię rozwiązanie, które będzie się aplikować jedynie do tego narzędzia. Myślę, że da
+radę bez problemu przepisać je na inne terminale. Edytujemy zatem plik <code>/etc/tmux</code> i dodajemy w nim
+poniższą
+zwrotkę:</p>
+<pre><code>new -d -s system-logs -n system &quot;journalctl -b --no-pager --since -10m | ccze -m ansi &amp;&amp; systemctl --failed --no-pager | ccze -m ansi &amp;&amp; journalctl -n 0 -f | ccze -m ansi&quot;
+neww -n logi &quot;cat /dev/logi | ccze -m ansi -p syslog -C&quot;
+selectw -t system-logs:1
+selectp -t system-logs:1
+</code></pre>
+<p>Mamy tutaj z grubsza po jednym przykładzie dla zwykłych logów, jak i dla tych pochodzących z
+journala. Pierwsza linijka zawiera kilka poleceń, które są wywoływane po sobie. Ich zadaniem jest
+wyciągnięcie z journala logów, które do niego trafiły w ostatnich 10 minutach. Chodzi o to by logi
+ze startu były wyświetlane, bo są one przecie dość istotne. Niemniej jednak, nie chcemy by podczas
+restartu środowiska graficznego, czy tego terminala na pulpicie, te wszystkie logi były znów
+wczytywane. Następnie mamy wywołanie <code>systemctl</code> z opcją <code>--failed</code> zwracającą usługi, których start
+zakończył się błędem z jakiegoś powodu. Na samym końcu mamy ponownie wywołany <code>journalctl</code> , który
+tym razem będzie zwracał komunikaty, które trafiają do journala w trybie rzeczywistym. Druga linijka
+zaś, cat'uje urządzenie <code>/dev/logi</code> wyświetlając tym samym jego zawartość na konsoli. Pozostałe dwie
+linijki są specyficzne dla tmux'a.</p>
+<h3 id="kolorowanie-logów">Kolorowanie logów</h3>
+<p>Wszystkie te powyższe polecenia przepuszczają swoje wyjście przez narzędzie <code>ccze</code> , które jest
+dostępne w debianie w pakiecie pod tą samą nazwą. Jego zadaniem jest kolorowanie poszczególnych
+fraz, co czyni log o wiele bardziej czytelnym. W ten sposób, np. słowa <code>error</code> czy <code>warn</code> wyróżniają
+się i nie trzeba ich zbytnio szukać w logu.</p>
+<h2 id="gotowy-terminal-na-pulpicie">Gotowy terminal na pulpicie</h2>
+<p>Polecenie, które wywołuje terminal z odpowiednimi opcjami, trzeba oczywiście dodać jeszcze do
+autostartu openbox'a. Odbywa się to przez plik <code>~/.config/openbox/autostart</code> . Sam kod zaś wygląda
+mniej więcej tak:</p>
+<pre><code>### urxvt daemon
+if [ -z &quot;$(pidof urxvtd)&quot; ] ; then
+      /usr/bin/urxvtd -q -f -o
+fi
+
+### urxvt client
+(sleep 2 &amp;&amp; urxvtc -name 'cdesktop' -e bash -c &quot;tmux attach-session -t system-logs&quot;) &amp;
+</code></pre>
+<p>Od tego momentu, po zalogowaniu się w sesji graficznej, terminal powinien się automatycznie
+uruchomić, a openbox powinien go umieścić w odpowiednim miejscu na pulpicie. U mnie prezentuje się
+tak:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/11/2.konsola-na-pulpicie-efekt-koncowy.png" alt=""    class="huge"></p>
+<p>Jako, że to okienko nie posiada żadnego obramowania, to nie mamy zbytnio możliwości jego
+przesuwania. Jeśli chcielibyśmy jednak zmienić jego pozycję lub rozmiar, to musimy wcisnąć klawisz
+Alt i za pomocą lewego lub prawego przycisku myszy odpowiednio dostosować sobie wygląd tego okna.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/openbox/">openbox</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/terminal/">terminal</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/rsyslog/">rsyslog</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/logi/">logi</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fosadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fosadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa%2f&amp;text=Osadzanie%20urxvt%20na%20pulpicie%20przy%20pomocy%20Openbox%27a" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fosadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa%2f&amp;title=Osadzanie%20urxvt%20na%20pulpicie%20przy%20pomocy%20Openbox%27a" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fosadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa%2f&amp;title=Osadzanie%20urxvt%20na%20pulpicie%20przy%20pomocy%20Openbox%27a" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fosadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa%2f&title=Osadzanie%20urxvt%20na%20pulpicie%20przy%20pomocy%20Openbox%27a" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fosadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fosadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa%2f&amp;title=Osadzanie%20urxvt%20na%20pulpicie%20przy%20pomocy%20Openbox%27a" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fosadzanie-urxvt-na-pulpicie-przy-pomocy-openboxa%2f&description=Osadzanie%20urxvt%20na%20pulpicie%20przy%20pomocy%20Openbox%27a" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zaszyfrowane-logi-w-rsyslog-i-syslog-ng/">Zaszyfrowane logi w rsyslog i syslog-ng</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/aktualizacja-systemu-logowanie-komunikatow/">Aktualizacja systemu i logowanie komunikatów</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jezyk-polski-w-srodowisku-graficznym/">Język polski w środowisku graficznym</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

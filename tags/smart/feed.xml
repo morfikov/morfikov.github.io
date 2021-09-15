@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>smart on Morfitronik</title>
+    <link>https://morfikov.github.io/tags/smart/</link>
+    <description>Recent content in smart on Morfitronik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pl-PL</language>
+    <lastBuildDate>Sun, 31 Mar 2019 12:23:42 +0000</lastBuildDate><atom:link href="https://morfikov.github.io/tags/smart/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Badsector dysku HDD w kontenerze LUKS zawierającym LVM</title>
+      <link>https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/</link>
+      <pubDate>Sun, 31 Mar 2019 12:23:42 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/</guid>
+      <description>&lt;p&gt;Podczas rutynowego skanu powierzchni dysków HDD w moim laptopie, S.M.A.R.T wykrył w jednym z nich
+podejrzany blok, który zdawał się wyzionąć już ducha, przez co proces weryfikacji integralności
+powierzchni dysku twardego nie był w stanie zakończyć się z powodzeniem. Komunikat zwracany przy
+czytaniu padniętego sektora też był nieco dziwny: &lt;code&gt;bad/missing sense data, sb[]&lt;/code&gt; . Jakiś czas temu
+już opisywałem jak &lt;a href=&#34;https://morfikov.github.io/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/&#34;&gt;realokować uszkodzony sektor dysku HDD&lt;/a&gt; i w zasadzie wszystkie informacje
+zawarte w tamtym artykule można by wykorzystać do próby poprawienia zaistniałego problemu, gdyby
+tylko nie fakt, że w tym przypadku badblock znalazł się w obszarze voluminu logicznego LVM na
+partycji zaszyfrowanej przy pomocy mechanizmu LUKS. Taki schemat układu partycji sprawia, że do
+realokowania błędnego bloku trzeba podejść nieco inaczej uwzględniając w tym procesie kilka
+offset&#39;ów, bez których w zasadzie nic nie da się zrobić. Postanowiłem zatem napisać na konkretnym
+przykładzie jak realokować badsector dysku, gdy do czynienia mamy z zaszyfrowanym linux&#39;em
+zainstalowanym na voluminach LVM.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Parkowanie głowicy w dyskach Wstern Digital</title>
+      <link>https://morfikov.github.io/post/parkowanie-glowicy-w-dyskach-wstern-digital/</link>
+      <pubDate>Wed, 08 Jul 2015 20:28:44 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/parkowanie-glowicy-w-dyskach-wstern-digital/</guid>
+      <description>&lt;p&gt;Dyski zużywają się z różnych powodów. Jednak najczęstszą przyczyną są nowe wynalazki, które
+producent w nich implementuje, bo te niezbyt dobrze działają w określonych warunkach, czy też pod
+kontrolą pewnych systemów operacyjnych. Tak właśnie jest w przypadku nowszych dysków firmy Western
+Digital (WD). Maja one wprowadzony ficzer parkowania głowicy w przypadku, gdy dysk &lt;a href=&#34;http://wdc.custhelp.com/app/answers/detail/a_id/5357&#34;&gt;jest
+nieużywany&lt;/a&gt;. Ma to na celu zmniejszyć pobór prądu i, co za tym idzie, temperaturę urządzenia.
+Jako, że parkowanie głowicy w dyskach WD nie działa poprawnie pod moim linux&#39;em (dystrybucja
+Debian), to nasuwa się pytanie: jak wyłączyć parkowanie głowicy by wydłużyć żywotność dysku
+twardego?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Bad sektor w dzienniku systemu plików ext4</title>
+      <link>https://morfikov.github.io/post/bad-sektor-w-dzienniku-systemu-plikow-ext4/</link>
+      <pubDate>Mon, 15 Jun 2015 22:28:17 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/bad-sektor-w-dzienniku-systemu-plikow-ext4/</guid>
+      <description>&lt;p&gt;Parę dni temu opisywałem jak udało mi się &lt;a href=&#34;https://morfikov.github.io/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/&#34;&gt;realokować uszkodzony sektor&lt;/a&gt; z dysku, który już
+przepracował dość długi okres czasu. Nie było to znowu jakoś specjalnie trudne, z tym, że cały
+problem dotyczył jakiegoś losowego sektora gdzieś w środku partycji. Jako, że domyślnym systemem
+plików na linuxie są te z rodziny &lt;code&gt;ext&lt;/code&gt; (ext2, ext3, ext4) , oraz, że &lt;a href=&#34;https://en.wikipedia.org/wiki/Ext3&#34;&gt;trzecia wersja&lt;/a&gt; tego
+systemu plików została wyposażona w dziennik (journal), to trzeba by się zastanowić, co w przypadku
+gdy taki uszkodzony sektor trafi się właśnie w dzienniku tego systemu plików?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Uszkodzony sektor na dysku i jego realokacja</title>
+      <link>https://morfikov.github.io/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/</link>
+      <pubDate>Mon, 15 Jun 2015 19:18:01 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/uszkodzony-sektor-na-dysku-i-jego-realokacja/</guid>
+      <description>&lt;p&gt;Uszkodzone sektory w przypadku dysków HDD, to jak sama nazwa wskazuje, sektory, które z jakichś
+przyczyn nie działają tak jak powinny. Doprowadza to z reguły do niestabilności systemu operacyjnego
+objawiającej się jego zawieszaniem w momencie próby odczytu danych z takiego padniętego sektora.
+Przyczyny mogą być różne. Zwykle jest to jednak fizyczne uszkodzenie powierzchni nośnika, np w
+wyniku wstrząsu, czy też zwyczajne zmęczenie materiału. Jest wielce prawdopodobne, że nie jesteśmy w
+stanie nic poradzić w tego typu sytuacji, a ci bardziej zaawansowani użytkownicy zalecają jak
+najszybszą wymianę dysku, bo pierwszy bad sektor oznacza, że niedługo będzie ich więcej. Czasem
+jednak błędy odczytu mogą być programowe, tj. fizycznie każdy sektor jest w porządku ale z jakiegoś
+powodu system nie potrafi odczytać z nich danych. Przy odrobinie szczęścia jesteśmy w stanie
+odblokować taki sektor.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Problematyczny parametr &#34;Offline Uncorrectable&#34;</title>
+      <link>https://morfikov.github.io/post/problematyczny-parametr-offline-uncorrectable/</link>
+      <pubDate>Mon, 15 Jun 2015 18:30:28 +0000</pubDate>
+      
+      <guid>https://morfikov.github.io/post/problematyczny-parametr-offline-uncorrectable/</guid>
+      <description>&lt;p&gt;Udało mi się znaleźć trochę informacji ma temat parametru S.M.A.R.T &lt;code&gt;198&lt;/code&gt; , tj. &lt;code&gt;Offline Uncorrectable&lt;/code&gt; . Wychodzi na to, że część dysków nie resetuje go, nawet po pomyślnym przejściu testu
+&lt;code&gt;offline&lt;/code&gt;. Za to demon &lt;code&gt;smartd&lt;/code&gt; domyślnie ma ustawione informowanie o niezerowej wartości tego
+atrybutu w logu systemowym i prawdopodobnie chyba nie da się nic zrobić w tej sprawie ale można
+poinstruować &lt;code&gt;smartd&lt;/code&gt; by wyrzucał komunikat tylko w przypadku gdy wartość tego atrybutu zostanie
+zwiększona w stosunku do wartości zapisanej przy poprzednim skanowaniu, czyli jeśli teraz mamy
+wartość, np. &lt;code&gt;2&lt;/code&gt;, to ostrzeżenie pojawi się gdy będzie tam widniało &lt;code&gt;3&lt;/code&gt; i więcej.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

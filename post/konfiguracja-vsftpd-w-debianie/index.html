@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Konfiguracja vsftpd w Debianie | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Konfiguracja vsftpd w Debianie" />
+<meta property="og:description" content="Serwery FTP umożliwiają przesyłanie plików przez sieć za pomocą protokołu TCP. Raczej wszyscy
+mieliśmy z nimi już do czynienia. Może niekoniecznie zarządzaliśmy takimi serwerami ale na pewno
+zdarzyło nam się pobierać pliki za ich pomocą. W tym wpisie jednak postaramy się skonfigurować taki
+serwer FTP w oparciu o oprogramowanie vsftpd." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-vsftpd-w-debianie/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-02-12T02:39:29&#43;00:00" />
+<meta property="article:modified_time" content="2016-02-12T02:39:29&#43;00:00" />
+
+
+		<meta itemprop="name" content="Konfiguracja vsftpd w Debianie">
+<meta itemprop="description" content="Serwery FTP umożliwiają przesyłanie plików przez sieć za pomocą protokołu TCP. Raczej wszyscy
+mieliśmy z nimi już do czynienia. Może niekoniecznie zarządzaliśmy takimi serwerami ale na pewno
+zdarzyło nam się pobierać pliki za ich pomocą. W tym wpisie jednak postaramy się skonfigurować taki
+serwer FTP w oparciu o oprogramowanie vsftpd."><meta itemprop="datePublished" content="2016-02-12T02:39:29&#43;00:00" />
+<meta itemprop="dateModified" content="2016-02-12T02:39:29&#43;00:00" />
+<meta itemprop="wordCount" content="3405">
+<meta itemprop="keywords" content="debian,sieć,ftp," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Konfiguracja vsftpd w Debianie"/>
+<meta name="twitter:description" content="Serwery FTP umożliwiają przesyłanie plików przez sieć za pomocą protokołu TCP. Raczej wszyscy
+mieliśmy z nimi już do czynienia. Może niekoniecznie zarządzaliśmy takimi serwerami ale na pewno
+zdarzyło nam się pobierać pliki za ich pomocą. W tym wpisie jednak postaramy się skonfigurować taki
+serwer FTP w oparciu o oprogramowanie vsftpd."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Konfiguracja vsftpd w Debianie</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-02-12T02:39:29Z">Opublikowano: 12/02/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Konfiguracja vsftpd w Debianie</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#instalacja-vsftpd">Instalacja vsftpd</a></li>
+    <li><a href="#konfiguracja-serwera-vsftpd-w-pliku-vsftpdconf">Konfiguracja serwera vsftpd w pliku vsftpd.conf</a>
+      <ol>
+        <li><a href="#demon-vsftpd">Demon vsftpd</a></li>
+        <li><a href="#aktywny-i-pasywny-tryb-ftp">Aktywny i pasywny tryb FTP</a></li>
+        <li><a href="#ograniczenie-ilości-połączeń">Ograniczenie ilości połączeń</a></li>
+        <li><a href="#nieudane-próby-logowania">Nieudane próby logowania</a></li>
+        <li><a href="#ograniczenie-transferu">Ograniczenie transferu</a></li>
+        <li><a href="#pobieranie-i-wysyłanie-plików">Pobieranie i wysyłanie plików</a></li>
+        <li><a href="#komunikaty-zwracane-przez-serwer">Komunikaty zwracane przez serwer</a></li>
+        <li><a href="#strefa-czasowa">Strefa czasowa</a></li>
+        <li><a href="#timeouty">Timeout'y</a></li>
+        <li><a href="#tcp-wrapper">TCP wrapper</a></li>
+        <li><a href="#wsparcie-dla-utf-8">Wsparcie dla UTF-8</a></li>
+        <li><a href="#odmawianie-dostępu-oraz-ukrywanie-plików-i-ich-atrybutów">Odmawianie dostępu oraz ukrywanie plików i ich atrybutów</a></li>
+        <li><a href="#dozwolone-i-zabronione-polecenia">Dozwolone i zabronione polecenia</a></li>
+        <li><a href="#lista-zablokowanych-klientów">Lista zablokowanych klientów</a></li>
+        <li><a href="#nadpisywanie-konfiguracji-użytkowników">Nadpisywanie konfiguracji użytkowników</a></li>
+        <li><a href="#prawa-dostępu-do-plików-umask">Prawa dostępu do plików (umask)</a></li>
+        <li><a href="#konta-z-błędnym-shellem">Konta z błędnym shell'em</a></li>
+        <li><a href="#użytkownicy-anonimowi">Użytkownicy anonimowi</a></li>
+        <li><a href="#użytkownicy-lokalni">Użytkownicy lokalni</a>
+          <ol>
+            <li><a href="#parametr-allow_writeable_chroot">Parametr allow_writeable_chroot</a></li>
+          </ol>
+        </li>
+        <li><a href="#logi-systemowe">Logi systemowe</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Serwery FTP umożliwiają przesyłanie plików przez sieć za pomocą protokołu TCP. Raczej wszyscy
+mieliśmy z nimi już do czynienia. Może niekoniecznie zarządzaliśmy takimi serwerami ale na pewno
+zdarzyło nam się pobierać pliki za ich pomocą. W tym wpisie jednak postaramy się skonfigurować taki
+serwer FTP w oparciu o oprogramowanie <a href="https://security.appspot.com/vsftpd.html">vsftpd</a>.</p>
+<h2 id="instalacja-vsftpd">Instalacja vsftpd</h2>
+<p>By postawić sobie FTP'a, w Debianie musimy doinstalować pakiet <code>vsftpd</code> . Standardowo w paczce jest
+dostępny plik konfiguracyjny <code>/etc/vsftpd.conf</code> , który będziemy musieli sobie nieco dostosować.
+Mamy także plik <code>/etc/ftpusers</code> , w którym są zawarte nazwy użytkowników, którzy <a href="http://manpages.ubuntu.com/manpages/wily/en/man5/ftpusers.5.html">nie będą w stanie
+się logować na serwer FTP</a>. Z
+pakietem <code>vsftpd</code> są także dostarczane przykładowe pliki konfiguracyjne. Są one ulokowane w katalogu
+<code>/usr/share/doc/vsftpd/examples/</code> . My jednak stworzymy sobie całą konfigurację od podstaw i
+postaramy sobie wyjaśnić większość definiowanych opcji.</p>
+<p>Przede wszystkim musimy utworzyć sobie odpowiednią strukturę katalogów. Logujemy się zatem na
+użytkownika root i wydajemy w terminalu te poniższe polecenia:</p>
+<pre><code># mkdir /var/run/vsftpd/empty/
+# mkdir /etc/vsftpd/users/
+# touch /etc/vsftpd/userlist
+# touch /etc/vsftpd/chroot_list
+# touch /etc/vsftpd/banned_emails
+# touch /etc/vsftpd/email_passwords
+# touch /etc/vsftpd/banner
+</code></pre>
+<p>Katalogu <code>/var/run/vsftpd/empty/</code> raczej nie będziemy musieli tworzyć ręcznie, bo systemd stworzy go
+automatycznie przy starcie systemu za pomocą <a href="https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html">mechanizmu
+systemd-tmpfiles</a>. W katalogu
+<code>users/</code> będzie trzymana konfiguracja specyficzna dla konkretnych użytkowników FTP. Można przy jej
+pomocy nadpisać konfigurację główną. W pliku <code>userlist</code> będą definiowani użytkownicy, który będą
+mogli (ew. nie będą mogli) uzyskać dostęp do FTP'a. Dalej mamy plik <code>chroot_list</code> , który będzie
+zawierał listę chroot'owanych użytkowników lokalnych. W pliku <code>email_passwords</code> będą trzymane hasła
+dla użytkowników anonimowych. Z kolei w pliku <code>banned_emails</code> będą hasła, których użytkownik
+anonimowy nie będzie w stanie używać do zalogowania. Ostatnim plikiem jest <code>banner</code> , gdzie może być
+przechowywana informacja zwracana użytkownikom tuż po zalogowaniu się na serwer.</p>
+<p>Tworzymy także strukturę katalogów pod samego FTP'a:</p>
+<pre><code># mkdir /media/ftp/
+# mkdir /media/ftp/anon/
+# chown ftp:ftp /media/ftp/anon/
+# mkdir /media/ftp/ftp/
+# chown morfik:ftp /media/ftp/ftp/
+# chmod -w /media/ftp/
+</code></pre>
+<p>Katalog <code>/media/ftp/anon/</code> będzie przeznaczony dla klientów anonimowych. Natomiast w
+<code>/media/ftp/ftp/</code> będzie faktyczny FTP. Ściągamy także prawa do zapisu głównego katalogu FTP. Musimy
+to zrobić na potrzeby chroot lokalnych użytkowników.</p>
+<p>Oczywiście nie potrzebujemy wszystkich tych plików, a to, które z nich wykorzystamy będzie zależeć
+głównie od tego jakie parametry umieścimy w pliku <code>/etc/vsftpd.conf</code> . W niczym jednak te puste
+pliki i katalogi nie przeszkadzają. Dlatego też można je sobie stworzyć i wykorzystać w przyszłości
+jeśli zajdzie taka potrzeba.</p>
+<h2 id="konfiguracja-serwera-vsftpd-w-pliku-vsftpdconf">Konfiguracja serwera vsftpd w pliku vsftpd.conf</h2>
+<p>Wszystkie poniższe parametry musimy umieścić w pliku <code>/etc/vsftpd.conf</code> . Zawierać może on dość
+sporo opcji i w przypadku tych, których nie będziemy używać, zostaną ustawione wartości domyślne.</p>
+<h3 id="demon-vsftpd">Demon vsftpd</h3>
+<p>Demon <code>vsftpd</code> może nasłuchiwać zarówno w protokole IPv4 jak i IPv6. Może także być uruchamiany w
+trybie &quot;standalone&quot; lub za pomocą inetd. Dodajmy zatem tę poniższą zwrotkę do konfiguracji:</p>
+<pre><code>listen=YES
+listen_address=127.0.0.1
+listen_ipv6=NO
+#listen_address6=
+listen_port=21
+background=NO
+run_as_launching_user=NO
+nopriv_user=ftp
+</code></pre>
+<p>Trzeba wiedzieć, że parametry <code>listen</code> oraz <code>listen_ipv6</code> wzajemnie się wykluczają i nie możemy obu
+z nich ustawić na <code>YES</code> . Jeśli chcemy, by serwer FTP nasłuchiwał w obu protokołach, to wystarczy,
+że ustawimy tę drugą opcję. Nie możemy jednak podawać żadnego adresu IPv6 w <code>listen_address6</code> .
+Jeśli jednak zamierzamy to zrobić, to będziemy musieli rozbić tę konfigurację na dwa pliki i
+uruchomić dwa osobne procesy <code>vsftpd</code> . My jednak ograniczymy się do protokołu IPv4 i odpalimy FTP
+na adresie określonym przez <code>listen_address</code> .</p>
+<p>Domyślny port to 21 ale możemy go zmienić dostosowując odpowiednio parametr <code>listen_port</code> . Opcja
+<code>background</code> odpowiada za odpalenie demona w tle. Nie ustawiamy jej ze względu na systemd. Dalej
+mamy jeszcze opcję <code>run_as_launching_user</code> , która określa czy demon <code>vsftpd</code> ma być uruchomiony
+jako ten użytkownik, który wywołuje proces. Nie jest to dobrym pomysłem i dużo lepszym rozwiązaniem
+jest wskazanie użytkownika w parametrze <code>nopriv_user</code> w celu zrzucenia uprawnień.</p>
+<h3 id="aktywny-i-pasywny-tryb-ftp">Aktywny i pasywny tryb FTP</h3>
+<p>Serwer FTP może operować w trybie aktywnym lub pasywnym. Chodzi o to, w jaki sposób zostanie
+nawiązane połączenie służące do przesyłu danych. W obu przypadkach, klient chcąc nawiązać
+połączenie z serwerem FTP wysyła mu żądanie na port 21. To połączenie zwykle zostaje otwarte bez
+większego problemu. Niemniej jednak, tutaj są przesyłane jedynie polecenia kontrolne i potrzeba
+zestawić drugie połączenie, by przesył danych plików był możliwy.</p>
+<p>W trybie aktywnym, klient zaczyna nasłuchiwać na losowym porcie i oczekuje połączenia od serwera FTP
+zwykle z portu 20. W tym celu klient wysyła do serwera polecenie <code>PORT</code> zawierające informacje na
+temat tego losowego portu. W trybie pasywnym zaś, klient przesyła polecenie <code>PASV</code> , na które serwer
+odpowiada swoim adresem i portem. W oparciu o te informacje, klient tworzy drugie połączenie, którym
+dane mogą zostać przesłane.</p>
+<p>Widzimy zatem, że w przypadku trybu aktywnego mogą pojawić się problemy z połączeniem, bo większość
+stacji roboczych stoi zwykle za NAT'em czy też innym firewall'em i nie może zaakceptować połączenia,
+które zainicjował serwer FTP. Dlatego też możemy ten tryb zwyczajnie wyłączyć i akceptować jedynie
+połączenia w trybie pasywnym. Dopiszmy zatem ten poniższy blok parametrów do pliku konfiguracyjnego
+<code>vsftpd</code> :</p>
+<pre><code>port_enable=NO
+connect_from_port_20=NO
+ftp_data_port=20
+port_promiscuous=NO
+pasv_enable=YES
+pasv_min_port=50000
+pasv_max_port=50999
+pasv_promiscuous=NO
+</code></pre>
+<p>Za włączenie trybu aktywnego odpowiada opcja <code>port_enable</code> . Jeśli zostanie ustawiona na <code>NO</code> , to
+serwer FTP nie będzie akceptował polecenia <code>PORT</code> podczas próby nawiązywania połączenia. Jeśli
+jednak chcielibyśmy włączyć obsługę trybu aktywnego to musimy określić w <code>connect_from_port_20</code> czy
+te połączenia będą inicjowane z portu 20 na serwerze. Jeśli chcemy określić inny port, to możemy to
+zrobić w <code>ftp_data_port</code> . Trzeba przy tym pamiętać, że część klientów FTP wymaga portu 20 i
+przestawienie go na inny może powodować problemy z połączeniem. Opcję <code>port_promiscuous</code> ustawiamy
+na <code>NO</code> , co zapewni nas, że połączenie nawiązane przez serwer trafi jedynie do klienta, który
+wyraził chęć transferu danych.</p>
+<p>Pozostałe opcje dotyczą już tylko trybu pasywnego. Który możemy włączyć lub wyłączyć przy pomocy
+<code>pasv_enable</code> . W parametrach <code>pasv_min_port</code> i <code>pasv_max_port</code> określamy zakres portów, które
+serwer będzie wykorzystywał, gdy będą przychodzić żądania transferu danych. Niekoniecznie musimy je
+tutaj podawać, bo te dwa parametry mają głównie na celu ułatwienie konfiguracji zapory sieciowej.
+Domyślnie serwer będzie korzystał z wolnych portów. Opcja <code>pasv_promiscuous</code> odpowiada za mechanizm
+bezpieczeństwa zapewniający, że połączenie rozpoczynające transfer danych pochodzi z tego samego
+adresu IP, co połączenie kontrolne na port 21.</p>
+<h3 id="ograniczenie-ilości-połączeń">Ograniczenie ilości połączeń</h3>
+<p>Każdy serwer jest w stanie obsłużyć skończoną ilość jednoczesnych połączeń. W przypadku, gdy nie
+dysponujemy za mocnym sprzętem, to możemy zmniejszyć nieco parametr <code>max_clients</code> . Możemy też
+zmniejszyć limit połączeń nawiązywanych z jednego adresu IP przy pomocy <code>max_per_ip</code> . Oczywiście
+nic nie stoi na przeszkodzie, by zaimplementować obydwa limity w tym samym czasie. Dodajmy zatem te
+dwa poniższe wpisy do pliku konfiguracyjnego <code>vsftpd</code> :</p>
+<pre><code>max_clients=100
+max_per_ip=5
+</code></pre>
+<h3 id="nieudane-próby-logowania">Nieudane próby logowania</h3>
+<p>Ograniczenie ilości prób logowania może spowolnić zautomatyzowane ataki siłowe na hasło. Przy pomocy
+parametru <code>max_login_fails</code> możemy ustawić maksymalną ilość prób, po przekroczeniu której połączenie
+zostanie unicestwione przez serwer FTP. Mamy także do dyspozycji opcje <code>delay_failed_login</code> oraz
+<code>delay_successful_login</code> , które są w stanie opóźnić ponownie próby logowania (czas w sekundach):</p>
+<pre><code>max_login_fails=3
+delay_failed_login=1
+delay_successful_login=0
+</code></pre>
+<h3 id="ograniczenie-transferu">Ograniczenie transferu</h3>
+<p>By nasz serwer FTP nie wysiadł pod naporem rządnych plików klientów, możemy wprowadzić ograniczenie
+transferu. Służą do tego dwa parametry: <code>anon_max_rate</code> oraz <code>local_max_rate</code> . Definiujemy w nim
+zarówno prędkość pobierania jak i wysyłania (w bajtach). Wartość 0 wyłącza ograniczenie:</p>
+<pre><code>anon_max_rate=0
+local_max_rate=0
+</code></pre>
+<h3 id="pobieranie-i-wysyłanie-plików">Pobieranie i wysyłanie plików</h3>
+<p>Za globalne ustawienia pobierania oraz wysyła plików z i do serwera FTP odpowiadają te poniższe
+cztery parametry:</p>
+<pre><code>write_enable=NO
+download_enable=YES
+ascii_upload_enable=NO
+ascii_download_enable=NO
+</code></pre>
+<p>Nie ma raczej potrzeby rozpisywać się nad opcjami <code>write_enable</code> oraz <code>download_enable</code> .
+Problematyczne za to mogą okazać się te dwa ostatnie parametry. Kontrolują one włączenie trybu
+ASCII, który może czasem prowadzić do ataku DoS (polecenie <code>SIZE /duzy/plik</code> ). Najlepiej jest ten
+tryb po prostu wyłączyć.</p>
+<h3 id="komunikaty-zwracane-przez-serwer">Komunikaty zwracane przez serwer</h3>
+<p>Po zalogowaniu się użytkownika, serwer FTP może zwrócić mu określoną wiadomość, którą ustawimy w
+konfiguracji. Jeśli to ma być w miarę krótka informacja, to możemy ją określić bezpośrednio w
+parametrze <code>ftpd_banner</code> . W przypadku, gdy chcemy się nieco wysilić i stworzyć bardziej rozbudowaną
+wiadomość, to możemy wskazać plik tekstowy przy pomocy opcji <code>banner_file</code> :</p>
+<pre><code>ftpd_banner=Welcome to Morfikownia.
+#banner_file=
+</code></pre>
+<p>Dodatkowo, w każdym katalogu możemy umieścić plik <code>.message</code> , który będzie czytany po włączeniu
+opcji <code>dirmessage_enable</code> . Jeśli taki plik zostanie odnaleziony w katalogu, do którego przeszedł
+klient, to zostanie mu wyświetlona jego zawartość. Nazwę samego pliku również możemy zmienić za
+pomocą parametru <code>message_file</code> :</p>
+<pre><code>dirmessage_enable=YES
+message_file=.message
+</code></pre>
+<h3 id="strefa-czasowa">Strefa czasowa</h3>
+<p>Czas modyfikacji plików zwracany przez <code>vsftpd</code> jest standardowo ustawiony w oparciu o UTC. W Polsce
+mamy czas zimowy UTC+1 i czas letni UTC+2, co będzie powodować podawanie nieprawidłowego czasu
+zwracanego w listingach plików i katalogów. Przy pomocy opcji <code>use_localtime</code> możemy wymusić, by ten
+czas był podawany w oparciu o naszą lokalną strefę czasową:</p>
+<pre><code>use_localtime=YES
+</code></pre>
+<p>By to powyższe ustawienie było w ogóle możliwe, trzeba wyeksportować zmienną <code>TZ</code> . Nie możemy
+jednak tego robić globalnie za pomocą pliku <code>/etc/environment</code> i musimy to zrobić albo w skrypcie
+startowym, albo w usłudze systemd. W tym przypadku demon <code>vsftpd</code> jest odpalany za pomocą systemd,
+zatem edytujemy plik usługi przy pomocy <code>systemctl edit --full vsftpd</code> i dopisujemy w nim tę
+poniższą linijkę:</p>
+<pre><code>[Service]
+...
+Environment=&quot;TZ=Europe/Warsaw&quot;
+</code></pre>
+<p>Pamiętajmy jednak, że klienty FTP są w stanie ustawić odpowiedni czas automatycznie i raczej nie ma
+potrzeby korzystania z parametru <code>use_localtime</code> . Jeśli jednak zdecydowaliśmy się na dopisanie go
+do pliku konfiguracyjnego, to w pewnych przypadkach listing plików i katalogów może zwracać czas z
+przyszłości, w zależności od różnicy czasu w stosunku do strefy UTC.</p>
+<h3 id="timeouty">Timeout'y</h3>
+<p>Użytkownik po zalogowaniu się na FTP wykonuje zwykle jakieś działania. Niemniej jednak, po pobraniu
+czy wysłaniu plików, sesja pozostaje przez dłuższy czas otwarta w trybie IDLE. Czas bezczynności
+możemy dostosować za pomocą parametru <code>idle_session_timeout</code> (czas w sekundach):</p>
+<pre><code>idle_session_timeout=300
+</code></pre>
+<p>Istnieje także opcja, która jest w stanie rozłączyć klienta podczas przesyłania danych. Znajduje ona
+zastosowanie jedynie w przypadku, gdy transfer z jakiegoś powodu został zablokowany i nie ma
+widocznego postępu przy przesyłaniu pliku. Jeśli taka sytuacja nastąpi, to sesja użytkownika
+zostanie zakończona po czasie określonym w parametrze <code>data_connection_timeout</code> :</p>
+<pre><code>data_connection_timeout=60
+</code></pre>
+<p>Mamy także możliwość określenia timeout'u w przypadku ustanawiania połączenia, w którym mają być
+wymieniane dane. Czas oczekiwania na połączenie w trybie pasywnym definiujemy w parametrze
+<code>accept_timeout</code> . Natomiast jeśli chodzi o tryb aktywny, to odpowiada za niego opcja
+<code>connect_timeout</code> :</p>
+<pre><code>accept_timeout=60
+connect_timeout=60
+</code></pre>
+<h3 id="tcp-wrapper">TCP wrapper</h3>
+<p><!-- raw HTML omitted -->TCP wrapper<!-- raw HTML omitted --> jest w stanie regulować dostęp do usług sieciowych za pomocą plików
+<code>/etc/hosts.allow</code> oraz <code>/etc/hosts.deny</code> . Jeśli w <code>vsftpd</code> zostało wkompilowane wsparcie dla tego
+mechanizmu, to będzie można z niego skorzystać przez ustawienie opcji <code>tcp_wrappers</code> . Jak możemy
+wyczytać <a href="https://www.archlinux.org/news/dropping-tcp_wrappers-support/">na stronie Achrlinux'a</a>,
+ten mechanizm jest bardzo stary i lepiej nie zawracać sobie nim głowy. Dlatego też wyłączmy jego
+ewentualną obsługę:</p>
+<pre><code>tcp_wrappers=NO
+</code></pre>
+<h3 id="wsparcie-dla-utf-8">Wsparcie dla UTF-8</h3>
+<p>Opcja <code>utf8_filesystem</code> nie jest nigdzie udokumentowana ale za jej pomocą możemy włączyć w <code>vsftpd</code>
+wparcie dla kodowania UTF-8. Chodzi generalnie o fakt błędnego interpretowania nazw plików w różnych
+klientach FTP, m.in. w Firefox'e. Bez określenia tej opcji, przeglądarka domyślnie w miejscu
+polskich znaków będzie pokazywać krzaki. Wszystko za sprawą wykrycia nieprawidłowego kodowania
+ISO-8859-1. Po ustawieniu tej opcji, polecenie <code>FEAT</code> będzie zwracać m.in. <code>UTF8</code> sygnalizując
+klientom, by korzystały z tego kodowania znaków:</p>
+<pre><code>utf8_filesystem=YES
+</code></pre>
+<h3 id="odmawianie-dostępu-oraz-ukrywanie-plików-i-ich-atrybutów">Odmawianie dostępu oraz ukrywanie plików i ich atrybutów</h3>
+<p>Na serwerze FTP możemy posiadać pliki i katalogi, które nie zawsze chcemy udostępniać wszystkim
+logującym się użytkownikom. Opcje <code>hide_file</code> oraz <code>deny_file</code> włączają ciekawy mechanizm, który
+sprawia, że przeciętny użytkownik nie będzie w stanie zobaczyć i pobrać pewnych rzeczy. Gdy dany
+plik jest umieszczony w pierwszej dyrektywie, to klienci nie zobaczą określonych plików i katalogów
+na listingu. Będą jednak w stanie uzyskać dostęp do tych zasobów ręcznie wpisując odpowiednie
+ścieżki. Jeśli taki schemat nie jest pożądany, możemy te wzory dopasowań umieścić także w drugiej
+dyrektywie. Pamiętajmy też, że wpisanie pliku jedynie do <code>deny_file</code> wprawdzie uniemożliwi jego
+pobranie czy usunięcie ale nie ukryje go i będzie on widoczny cały czas na listingu. Poniżej
+przykład zastosowania:</p>
+<pre><code>hide_file={*.mp3,.hidden,hide*,h?}
+deny_file={*.mp3}
+</code></pre>
+<p>Jeśli listing plików nie jest pożądany, to możemy go całkowicie wyłączyć przy pomocy opcji
+<code>dirlist_enable</code> . To ustawienie jest przydatne jedynie w przypadku, gdy chcemy aby ktoś wrzucał nam
+pliki na FTP'a bez udzielania mu informacji co do tego jakie pliki już na tym serwerze się znajdują.
+W każdym innym przypadku lepiej jest włączyć tę opcję:</p>
+<pre><code>dirlist_enable=YES
+</code></pre>
+<p>Listing plików i katalogów zawiera numery identyfikacyjne użytkowników (UID) i grup (GID). Możemy
+zamaskować tę informację korzystając z parametru <code>hide_ids</code> . W takim przypadku, numery ID będą
+wskazywać na użytkownika i grupę <code>ftp</code> :</p>
+<pre><code>hide_ids=NO
+</code></pre>
+<p>Serwer <code>vsftpd</code> standardowo nie pokazuje plików ukrytych, tj. tych, których nazwy zaczynają się od
+<code>.</code> . Jest to standardowy mechanizm spotykany w linux'ach. Jeśli jednak chcemy, by te pliki były
+pokazywane, to możemy włączyć opcję <code>force_dot_files</code> :</p>
+<pre><code>force_dot_files=YES
+</code></pre>
+<h3 id="dozwolone-i-zabronione-polecenia">Dozwolone i zabronione polecenia</h3>
+<p>W <code>vsftpd</code> mamy dwa parametry, tj. <code>cmds_allowed</code> oraz <code>cmds_denied</code> , które są w stanie odpowiednio
+wyprofilować polecenia, które zalogowany użytkownik będzie mógł przesyłać do serwera FTP. <a href="https://en.wikipedia.org/wiki/List_of_FTP_commands">Wszystkie
+polecenia używane w protokole FTP można znaleźć na
+wiki</a>.</p>
+<pre><code>#cmds_allowed=PASV,RETR,QUIT
+#cmds_denied=
+</code></pre>
+<h3 id="lista-zablokowanych-klientów">Lista zablokowanych klientów</h3>
+<p>Mechanizm listy użytkowników, który można włączyć w <code>vsftpd</code> za pomocą parametru <code>userlist_enable</code>
+działa na dobrą sprawę na dwa sposoby. Pierwszy z nich ma na celu zablokować próby logowania
+wszystkich użytkowników, który zostaną zdefiniowani w pliku określonym przez opcję <code>userlist_file</code> .
+To jest standardowe zachowanie i można je wykorzystać do blokowania próby przesłania haseł w postaci
+czystego tekstu. Z kolei drugi tryb możemy włączyć przy pomocy parametru <code>userlist_deny</code> poprzez
+przestawienie jego wartości na <code>NO</code> . W takim przypadku, tylko te loginy, które znajdują się na
+liście będą mieć możliwość zalogowania się na FTP:</p>
+<pre><code>userlist_enable=YES
+userlist_file=/etc/vsftpd/userlist
+userlist_deny=YES
+</code></pre>
+<h3 id="nadpisywanie-konfiguracji-użytkowników">Nadpisywanie konfiguracji użytkowników</h3>
+<p>Konfiguracja globalna, którą w tej chwili cały czas dostosowujemy może zostać nadpisana za pomocą
+osobnych plików, które trzeba umieścić w katalogu określonym przez parametr <code>user_config_dir</code> :</p>
+<pre><code>user_config_dir=/etc/vsftpd/users/
+</code></pre>
+<p>W tym folderze umieszczamy zwykle pliki tekstowe o nazwach kont użytkowników, którzy mogą logować
+się na FTP'a. Gdy taki użytkownik próbuje się zalogować, system może mu przypisać niestandardowe
+ustawienia. W taki sposób, można, np. wyłączyć globalnie tryb zapisu dla wszystkich użytkowników, po
+czym w tych plikach przepisać ten sam parametr ale tylko w przypadku tych klientów, którym chcemy
+zezwolić na zapis danych. Trzeba jednak mieć na uwadze, że nie wszystkie parametry można dostosować
+osobno dla każdego klienta.</p>
+<h3 id="prawa-dostępu-do-plików-umask">Prawa dostępu do plików (umask)</h3>
+<p>Pliki wysyłane przez użytkowników na serwer FTP muszą posiadać jakieś domyślne uprawnienia, które są
+aplikowane podczas ich tworzenia na maszynie zdalnej. W <code>vsftpd</code> odpowiadają za to trzy parametry:
+<code>file_open_mode</code> , <code>anon_umask</code> oraz <code>local_umask</code> . Wartość <code>file_open_mode</code> wskazuje zwykle <code>0666</code>
+lub <code>0777</code> . To, którą z nich wybierzemy zależy głównie od tego czy chcemy, aby przesyłane na FTP
+pliki posiadały domyślnie atrybut wykonywalności. Lepiej jest tutaj ustawić zatem <code>0666</code> . Pozostałe
+dwa parametry odpowiadają za umask. Bezpieczne prawa do plików wyglądają zatem tak:</p>
+<pre><code>file_open_mode=0666
+anon_umask=0022
+local_umask=0022
+</code></pre>
+<p>Oczywiście ten umask nie musi wskazywać na taką samą wartość i może być inny w przypadku
+użytkowników lokalnych jak i anonimowych. Niemniej jednak, w tym przypadku wszystkie pliki
+tworzone na FTP'ie będą posiadać prawa 644 (0666-0022). <a href="http://www.arturpyszczuk.pl/commands-umask.html">Więcej informacji na temat umask można
+znaleźć tutaj</a>.</p>
+<h3 id="konta-z-błędnym-shellem">Konta z błędnym shell'em</h3>
+<p>Konta FTP nie muszą posiadać poprawnego shell'a. Możemy tę sytuację wykorzystać i wszystkim takim
+użytkownikom zablokować możliwość logowania się w systemie, co znacznie poprawi bezpieczeństwo
+systemu. Jest tylko jeden problem. Chodzi o to, że <code>vsftpd</code> weryfikuje poprawność shell'a i gdy
+konto ma ustawiony, np. <code>/bin/false</code> , to zostanie zgłoszony błąd. Lista poprawnych shell'ów jest
+dostępna w pliku <code>/etc/shells</code> . Można by oczywiście dopisać tam kilka pozycji ale jest prostszy
+sposób. Możemy posłużyć się opcją <code>check_shell</code> , która wyłączy sprawdzanie shell'a i tym samym
+umożliwi logowanie się użytkownikom mającym <code>/bin/false</code> :</p>
+<pre><code>check_shell=NO
+</code></pre>
+<p>Ten mechanizm znajduje zastosowanie jedynie w przypadku, gdy <code>vsftpd</code> nie został skompilowany z
+obsługą PAM.</p>
+<h3 id="użytkownicy-anonimowi">Użytkownicy anonimowi</h3>
+<p>Na FTP mogą logować się przeróżni użytkownicy. W sporej części przypadków będziemy mieli do
+czynienia z użytkownikami anonimowymi. Są to tacy klienci, którzy identyfikują się loginem <code>ftp</code> lub
+<code>anonymous</code> . W zależności od przeznaczenia FTP'a możemy skonfigurować go tak, by wpuszczał takich
+użytkowników bez podania hasła lub też możemy założyć im hasło. Ustawiamy zatem odpowiednio
+parametry <code>anonymous_enable</code> oraz <code>no_anon_password</code> :</p>
+<pre><code>anonymous_enable=YES
+no_anon_password=YES
+</code></pre>
+<p>W przypadku, gdy <code>no_anon_password</code> jest ustawiony na <code>NO</code> , anonimowi klienci będą musieli podać
+jakieś hasło. Nie jest dobrym wyjściem nadawanie każdemu takiemu użytkownikowi tego samego hasła. Po
+pierwsze, system będzie ich w stanie odróżnić jeśli będą się oni posługiwać innymi hasłami. A po
+drugie, jeśli jedno z haseł zostanie skompromitowane, to zawsze można je zablokować. Ten mechanizm w
+<code>vsftpd</code> konfigurujemy za pomocą parametrów <code>deny_email_enable</code> i <code>secure_email_list_enable</code> :</p>
+<pre><code>deny_email_enable=YES
+banned_email_file=/etc/vsftpd/banned_emails
+
+secure_email_list_enable=YES
+email_password_file=/etc/vsftpd/email_passwords
+</code></pre>
+<p>Hasła, z których użytkownicy nie mogą skorzystać wpisujemy do pliku określonego przez opcję
+<code>banned_email_file</code> . Podobnie postępujemy w przypadku haseł dozwolonych, z tym, że wpisujemy je do
+pliku, który widnieje w parametrze <code>email_password_file</code> .</p>
+<p>Jeśli chcemy, by użytkownik anonimowy był w stanie wysyłać pliki na FTP, to musimy jeszcze dopisać
+do konfiguracji parametr <code>anon_upload_enable</code> :</p>
+<pre><code>anon_upload_enable=YES
+</code></pre>
+<p>Definiujemy też podstawowe uprawnienia do plików dla klienta anonimowego. Po pierwsze musimy
+oddelegować konkretne konto w systemie, na którym będą operować ci klienci. Zwykle do tego celu jest
+wyznaczany <code>nobody</code> . Niemniej jednak, jest on używany do szeregu innych rzeczy i raczej nie
+powinniśmy z niego korzystać. Zamiast tego powinniśmy w systemie utworzyć dedykowanego użytkownika,
+np. <code>ftp</code> i określić go w parametrze <code>ftp_username</code> :</p>
+<pre><code>ftp_username=ftp
+</code></pre>
+<p>Użytkownik anonimowy po zalogowaniu się na FTP'a musi znaleźć się w określonym katalogu roboczym.
+Ten katalog jest określany przez parametr <code>anon_root</code> . Pamiętajmy, że użytkownik <code>ftp</code> musi być w
+stanie zapisywać określony katalog. W przeciwnym razie klienci anonimowi nie będą mógi wysyłać
+plików. Nie jest zatem dobrym pomysłem zmiana uprawnień głównego katalogu FTP'a. Lepiej stworzyć
+wewnątrz niego podkatalog i to jemu nadać prawa do zapisu przez anonimowych klientów:</p>
+<pre><code>anon_root=/media/ftp/
+</code></pre>
+<p>Jeśli użytkownicy anonimowi mają być w stanie tworzyć nowe katalogi na FTP'ie, musimy to wyraźnie
+określić za sprawą opcji <code>anon_mkdir_write_enable</code> . Trzeba też pamiętać, że użytkownik taki, musi
+mieć prawa do zapisu danego katalogu oraz, że opcja <code>write_enable</code> musi być aktywna:</p>
+<pre><code>anon_mkdir_write_enable=YES
+</code></pre>
+<p>Przy pomocy parametru <code>anon_other_write_enable</code> jesteśmy w stanie rozszerzyć nieco uprawnienia
+anonimowych użytkowników. Standardowo nie mogą oni zmieniać nazw czy usuwać plików z serwera. Mogą
+oni jedynie zapisywać pliki i ewentualnie tworzyć nowe katalogi:</p>
+<pre><code>anon_other_write_enable=YES
+</code></pre>
+<p>W przypadku, gdybyśmy chcieli uniemożliwić użytkownikom anonimowym pobieranie plików, które mają
+uprawnienia, np. 640, to możemy pokusić się o przestawienie parametru <code>anon_world_readable_only</code> na
+<code>YES</code> :</p>
+<pre><code>anon_world_readable_only=NO
+</code></pre>
+<p>Wszystkie pliki, które są przesyłane przez anonimowych użytkowników mogą podlegać pod przepisanie
+uprawnień. Ten mechanizm możemy włączyć przy pomocy opcji <code>chown_uploads</code> . Natomiast jeśli chodzi o
+nowego właściciela plików i prawa to nich, to określamy to w <code>chown_username</code> oraz
+<code>chown_upload_mode</code> , przykładowo:</p>
+<pre><code>chown_uploads=YES
+chown_username=morfik
+chown_upload_mode=0644
+</code></pre>
+<h3 id="użytkownicy-lokalni">Użytkownicy lokalni</h3>
+<p>Poza użytkownikami anonimowymi, do FTP'a mogą mieć także dostęp użytkownicy lokalni, tj. ci, którzy
+mają fizyczne konto w systemie. By zalogować się na FTP przy pomocy takiego konta, trzeba podać jego
+login i hasło. Tych użytkowników możemy włączyć lub wyłączyć za pomocą opcji <code>local_enable</code> :</p>
+<pre><code>local_enable=YES
+</code></pre>
+<p>Podobnie jak w przypadku użytkowników anonimowych, musimy określić odpowiedni katalog roboczy, do
+którego ci użytkownicy zostaną przeniesieni po zalogowaniu. Standardowo jest to folder domowy.
+Możemy go przepisać, tak by każdy użytkownik po zalogowaniu znalazł się w konkretnym katalogu przy
+pomocy opcji <code>local_root</code> :</p>
+<pre><code>local_root=/media/ftp/
+</code></pre>
+<p>Problem z takim rozwiązaniem jest taki, że użytkownicy lokalni mogą sobie biegać praktycznie po
+całym drzewie katalogów, co nie jest zbytnio bezpieczne. Przydałoby się zatem zastosować mechanizm
+chroot, tak by nie mogli oni opuścić głównego katalogu FTP'a. Możemy to zrobić przy pomocy parametru
+<code>chroot_local_user</code> . Musimy jednak mieć gdzie ten chroot wykonać. Ścieżkę do pustego katalogu,
+który nie może być zapisywalny przez użytkownika <code>ftp</code> podajemy w <code>secure_chroot_dir</code> :</p>
+<pre><code>chroot_local_user=YES
+secure_chroot_dir=/run/vsftpd/empty/
+</code></pre>
+<p>Nie zawsze jednak wszyscy użytkownicy muszą podlegać temu mechanizmowi ochrony. Opcje
+<code>chroot_list_enable</code> oraz <code>chroot_list_file</code> aktywują listę, która może zawierać pewne określone
+nazwy kont systemowych. W takim przypadku, jeśli użytkownik zaloguje się na konto znajdujące się na
+liście, to nie będzie chroot'owany:</p>
+<pre><code>chroot_list_enable=YES
+chroot_list_file=/etc/vsftpd/chroot_list
+</code></pre>
+<h4 id="parametr-allow_writeable_chroot">Parametr allow_writeable_chroot</h4>
+<p><code>vsftpd</code> nie zezwala na dokonanie chroot'a w przypadku, gdy główny katalog serwera FTP posiada prawa
+zapisu. Jeśli spróbowalibyśmy się podłączyć do takiego serwera, to zobaczymy poniższy komunikat:</p>
+<pre><code>Response:    500 OOPS: vsftpd: refusing to run with writable root inside chroot()
+</code></pre>
+<p>Możemy oczywiście ściągnąć te uprawnienia zapisu, tak jak to zostało zrobione w tym artykule. Na
+sieci jednak można się spotkać z parametrem <code>allow_writeable_chroot</code> , który, jak nazwa wskazuje,
+umożliwia dokonanie chroot w przypadku, gdy główny katalog FTP jest zapisywalny. Nie jestem
+przekonany co do tej opcji i nigdzie nie mogę znaleźć na jej temat żadnej dokumentacji. Na dobrą
+sprawę to nie wiem czym grozi przestawienie tego parametru na <code>YES</code> , dlatego też lepiej jest go
+zostawić w spokoju.</p>
+<pre><code>allow_writeable_chroot=NO
+</code></pre>
+<h3 id="logi-systemowe">Logi systemowe</h3>
+<p>Logi to bardzo ważna rzecz, zwłaszcza w fazie testów i dostrajania konfiguracji FTP'a. <code>vsftpd</code> może
+zostać przełączony w tryb logowania za pomocą opcji <code>syslog_enable</code> . Jeśli nie odpowiada nam
+domyślny plik logu, możemy go zmienić w parametrze <code>vsftpd_log_file</code> . W przypadku, gdy
+potrzebujemy bardziej szczegółowych komunikatów dotyczących wymiany informacji w protokole FTP, to
+możemy także włączyć opcję <code>log_ftp_protocol</code> .</p>
+<pre><code>syslog_enable=YES
+vsftpd_log_file=/var/log/vsftpd.log
+log_ftp_protocol=YES
+</code></pre>
+<p>Cały plik konfiguracyjny <code>vsftpd.conf</code> znajduje się <a href="https://github.com/morfikov/files/blob/master/configs/etc/vsftpd.conf">na moim
+github'ie</a>.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sie%C4%87/">sieć</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ftp/">ftp</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-vsftpd-w-debianie%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-vsftpd-w-debianie%2f&amp;text=Konfiguracja%20vsftpd%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-vsftpd-w-debianie%2f&amp;title=Konfiguracja%20vsftpd%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-vsftpd-w-debianie%2f&amp;title=Konfiguracja%20vsftpd%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-vsftpd-w-debianie%2f&title=Konfiguracja%20vsftpd%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-vsftpd-w-debianie%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-vsftpd-w-debianie%2f&amp;title=Konfiguracja%20vsftpd%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-vsftpd-w-debianie%2f&description=Konfiguracja%20vsftpd%20w%20Debianie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/">PulseAudio i przesyłanie dźwięku przez sieć</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-polaczenia-wifi-pod-debianem/">Konfiguracja połączenia WiFi pod debianem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/riseup-vpn-na-strazy-prywatnosci/">Riseup VPN na straży prywatności</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/backup-dysku-przez-siec-przy-pomocy-dd-netcat/">Backup dysku przez sieć przy pomocy dd i netcat</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/implementacja-protokolu-ipv6-za-pomoca-tunelu-6to4/">Implementacja protokołu IPv6 za pomocą tunelu 6to4</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/streaming-obrazu-za-sprawa-ffmpeg-netcat/">Streaming obrazu za sprawą ffmpeg i netcat</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

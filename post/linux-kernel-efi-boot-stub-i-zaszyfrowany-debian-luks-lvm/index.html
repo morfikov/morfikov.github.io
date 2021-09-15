@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)" />
+<meta property="og:description" content="Szukając informacji na temat uruchamiania mojego zaszyfrowanego Debiana (LUKSv2&#43;LVM) na laptopie z
+EFI/UEFI, natrafiłem na dość ciekawy mechanizm zwany kernel EFI boot stub, czasem też zwany
+kernel EFISTUB. Zadaniem tego mechanizmu jest uruchomienie linux&#39;a bezpośrednio z poziomu firmware
+EFI z pominięciem czy też bez potrzeby stosowania dodatkowych menadżerów rozruchu (rEFInd) czy
+bootloader&#39;ów (grub/grub2/syslinux/extlinux). Jakby nie patrzeć bardzo ciekawa alternatywa, która
+wymaga, by się z nią zapoznać i ocenić jej przydatność pod kątem użyteczności." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-03-02T03:08:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-03-02T03:08:00&#43;00:00" />
+
+
+		<meta itemprop="name" content="Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)">
+<meta itemprop="description" content="Szukając informacji na temat uruchamiania mojego zaszyfrowanego Debiana (LUKSv2&#43;LVM) na laptopie z
+EFI/UEFI, natrafiłem na dość ciekawy mechanizm zwany kernel EFI boot stub, czasem też zwany
+kernel EFISTUB. Zadaniem tego mechanizmu jest uruchomienie linux&#39;a bezpośrednio z poziomu firmware
+EFI z pominięciem czy też bez potrzeby stosowania dodatkowych menadżerów rozruchu (rEFInd) czy
+bootloader&#39;ów (grub/grub2/syslinux/extlinux). Jakby nie patrzeć bardzo ciekawa alternatywa, która
+wymaga, by się z nią zapoznać i ocenić jej przydatność pod kątem użyteczności."><meta itemprop="datePublished" content="2020-03-02T03:08:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-03-02T03:08:00&#43;00:00" />
+<meta itemprop="wordCount" content="1563">
+<meta itemprop="keywords" content="debian,kernel,efi,uefi,luks,lvm," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)"/>
+<meta name="twitter:description" content="Szukając informacji na temat uruchamiania mojego zaszyfrowanego Debiana (LUKSv2&#43;LVM) na laptopie z
+EFI/UEFI, natrafiłem na dość ciekawy mechanizm zwany kernel EFI boot stub, czasem też zwany
+kernel EFISTUB. Zadaniem tego mechanizmu jest uruchomienie linux&#39;a bezpośrednio z poziomu firmware
+EFI z pominięciem czy też bez potrzeby stosowania dodatkowych menadżerów rozruchu (rEFInd) czy
+bootloader&#39;ów (grub/grub2/syslinux/extlinux). Jakby nie patrzeć bardzo ciekawa alternatywa, która
+wymaga, by się z nią zapoznać i ocenić jej przydatność pod kątem użyteczności."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2020-03-02T03:08:00Z">Opublikowano: 02/03/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#czym-jest-linux-kernel-efi-boot-stub">Czym jest linux kernel EFI boot stub</a></li>
+    <li><a href="#konfiguracja-kernela">Konfiguracja kernela</a></li>
+    <li><a href="#brak-wsparcia-dla-systemu-plików-ext234">Brak wsparcia dla systemu plików ext[,2,3,4]</a></li>
+    <li><a href="#obraz-z-końcówką-efi">Obraz z końcówką .efi</a></li>
+    <li><a href="#ograniczona-liczba-wpisów">Ograniczona liczba wpisów</a></li>
+    <li><a href="#parametry-kernela">Parametry kernela</a></li>
+    <li><a href="#bardzo-niewygodna-edycja-wpisów">Bardzo niewygodna edycja wpisów</a></li>
+    <li><a href="#czasami-parametr-initrd-nie-zadziała">Czasami parametr initrd= nie zadziała</a></li>
+    <li><a href="#odwrócone-ukośniki">Odwrócone ukośniki</a></li>
+    <li><a href="#interpretacja-dodanych-wpisów">Interpretacja dodanych wpisów</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Szukając informacji na temat uruchamiania mojego zaszyfrowanego Debiana (LUKSv2+LVM) na laptopie z
+EFI/UEFI, natrafiłem na dość ciekawy mechanizm zwany <a href="https://www.kernel.org/doc/Documentation/efi-stub.txt">kernel EFI boot stub</a>, czasem też zwany
+kernel EFISTUB. Zadaniem tego mechanizmu jest uruchomienie linux'a bezpośrednio z poziomu firmware
+EFI z pominięciem czy też bez potrzeby stosowania dodatkowych menadżerów rozruchu (rEFInd) czy
+bootloader'ów (grub/grub2/syslinux/extlinux). Jakby nie patrzeć bardzo ciekawa alternatywa, która
+wymaga, by się z nią zapoznać i ocenić jej przydatność pod kątem użyteczności.</p>
+<h2 id="czym-jest-linux-kernel-efi-boot-stub">Czym jest linux kernel EFI boot stub</h2>
+<p>Zgodnie z tym co można wyczytać w dokumentacji kernela linux, EFI boot stub to umiejętność
+tworzenia obrazu kernela w taki sposób, by podawał się on za obraz PE/COFF (<a href="https://en.wikipedia.org/wiki/Portable_Executable">Portable
+Executable</a>/<a href="https://en.wikipedia.org/wiki/COFF">Common Object File Format</a>). Firmware EFI widząc taki plik interpretuje go jako
+wykonywalny plik bootloader'a i go uruchamia. W ten sposób można zrezygnować z tradycyjnego
+podejścia przy uruchamianiu systemu, który zakłada wykorzystanie czy to jakiegoś menadżera rozruchu,
+czy też pełnowymiarowego bootloader'a. W zasadzie z racji, że EFI boot stub przeprowadza szereg
+zadań charakterystycznych dla programu rozruchowego, to można by pokusić się o nazwanie go
+bootloader'em.</p>
+<h2 id="konfiguracja-kernela">Konfiguracja kernela</h2>
+<p>By być w stanie wygenerować obraz kernela, który ma być uruchomiony przez firmware EFI, musimy mieć
+w kernelu włączoną opcję <code>CONFIG_EFI_STUB</code> .  Warto też włączyć opcję <code>CONFIG_EFI_VARS</code> jako, że
+umożliwi ona zarządzanie zmiennymi EFI za sprawą narzędzia <code>efibootmgr</code>. Jeśli korzystamy z
+dystrybucyjnego kernela dostarczanego przez deweloperów dystrybucji Debian, to on ma już stosowne
+opcje włączone i nic nie musimy dodatkowo konfigurować. Niemniej jednak, jeśli budujemy własny
+kernel, to trzeba te opcje mieć na uwadze.</p>
+<h2 id="brak-wsparcia-dla-systemu-plików-ext234">Brak wsparcia dla systemu plików ext[,2,3,4]</h2>
+<p>Pierwsza niedogodność płynąca z uruchamiania systemu za sprawą EFI boot stub to brak wsparcia dla
+natywnego systemu plików linux'a, tj. ext2, ext3 czy ext4. Do tego EFI boot stub może w zasadzie
+uruchomić jedynie pliki z partycji ESP.</p>
+<p>Warto w tym miejscu zaznaczyć, że partycja ESP może zostać zamontowana jako <code>/boot/</code> zamiast
+standardowo jako <code>/efi/</code> . W takim układzie linux będzie widział partycję <code>/efi/</code> jako jako
+partycję <code>/boot/</code> i standardowo będzie umieszczał w niej obrazy kernela i initrd przy
+instalacji/aktualizacji jądra operacyjnego. Niemniej jednak, będziemy ograniczeni przez system
+plików FAT, a ma to znaczenie choćby w przypadku <a href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">tworzenia dowiązań symbolicznych do plików
+vmlinuz i initrd.img</a>, by uniknąć ciągłej zmiany konfiguracji ilekroć zostanie wypuszczony nowy
+kernel. W systemie plików FAT możemy zapomnieć o dowiązaniach, bo zwyczajnie on ich nie wspiera.</p>
+<p>Mamy zatem do wyboru dwie opcje. W pierwszej z nich używamy dwóch partycji, tj. <code>/efi/</code>
+sformatowana jako <code>fat16/fat32</code> i <code>/boot/</code> sformatowana jako <code>ext4</code> i kopiujemy obraz
+kernela/initrd między nimi. W drugiej opcji używamy jednej partycji <code>/boot/</code> sformatowanej jako
+<code>fat32</code> i przepisujemy nazwy plików obrazu kernela/initrd za każdym razem jak tylko w systemie
+pojawi się aktualizacją jądra operacyjnego. Nie ważne którą opcję wybierzemy, to raczej bez
+dodatkowej automatyzacji tego procesu się nie obejdzie. W moim przypadku wykorzystywana była osobna
+partycja <code>/efi/</code> .</p>
+<h2 id="obraz-z-końcówką-efi">Obraz z końcówką .efi</h2>
+<p>W Debianie obraz kernela znajduje się standardowo na partycji <code>/boot/</code> pod nazwą
+<code>vmlinuz-x.x.x-x-amd64</code> . Po skopiowaniu go na partycję ESP trzeba mu zmienić nazwę dopisując na
+jej końcu rozszerzenie <code>.efi</code> .</p>
+<p>Ja nie miałem pojęcia o tym i skopiowałem jedynie obraz kernela na partycje ESP i uruchomiłem
+system. Kernel się załadował, a system uruchomił się bez problemu. Wygląda na to, że niekoniecznie
+trzeba dopisywać do nazwy obrazu kernela końcówkę <code>.efi</code> . Może to kwestia implementacji EFI, kto
+wie. Tak czy inaczej, jeśli w naszym przypadku system nie chce się uruchomić, to sprawdźmy czy ta
+końcówka coś pomoże.</p>
+<h2 id="ograniczona-liczba-wpisów">Ograniczona liczba wpisów</h2>
+<p>W przypadku mojego laptopa było zdefiniowanych 24 różnych wpisów w konfiguracji EFI. Poniżej
+znajduje się pełna ich lista:</p>
+<pre><code># efibootmgr -v
+BootCurrent: 000A
+Timeout: 0 seconds
+BootOrder: 000A,0000,0001,0002,0003,000D,0007,0008,0009,000B,000C,000E,000F,0010,0011,0012
+Boot0000  Setup	FvFile(721c8b66-426c-4e86-8e99-3457c46ab0b9)
+Boot0001  Boot Menu	FvFile(126a762d-5758-4fca-8531-201a7f57f850)
+Boot0002  Diagnostic Splash Screen	FvFile(a7d8d9a6-6ab0-4aeb-ad9d-163e59a7a380)
+Boot0003  Lenovo Diagnostics	FvFile(3f7e615b-0d45-4f80-88dc-26b234958560)
+Boot0004  Startup Interrupt Menu	FvFile(f46ee6f4-4785-43a3-923d-7f786c3c8479)
+Boot0005  ME Configuration Menu	FvFile(82988420-7467-4490-9059-feb448dd1963)
+Boot0006  Rescue and Recovery	FvFile(665d3f60-ad3e-4cad-8e26-db46eee9f1b5)
+Boot0007  USB CD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,86701296aa5a7848b66cd49dd3ba6a55)
+Boot0008  USB FDD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,6ff015a28830b543a8b8641009461e49)
+Boot0009  ATAPI CD0	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,aea2090adfde214e8b3a5e471856a35401)
+Boot000A* ATA HDD0	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,91af625956449f41a7b91f4f892ab0f600)
+Boot000B* ATA HDD1	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,91af625956449f41a7b91f4f892ab0f601)
+Boot000C* ATA HDD2	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,91af625956449f41a7b91f4f892ab0f602)
+Boot000D* USB HDD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,33e821aaaf33bc4789bd419f88c50803)
+Boot000E  PCI LAN	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,78a84aaf2b2afc4ea79cf5cc8f3d3803)
+Boot000F  ATAPI CD1	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,aea2090adfde214e8b3a5e471856a35404)
+Boot0010  Other CD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,aea2090adfde214e8b3a5e471856a35406)
+Boot0011* ATA HDD3	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,91af625956449f41a7b91f4f892ab0f604)
+Boot0012  Other HDD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,91af625956449f41a7b91f4f892ab0f606)
+Boot0013* IDER BOOT CDROM	PciRoot(0x0)/Pci(0x16,0x2)/Ata(0,1,0)
+Boot0014* IDER BOOT Floppy	PciRoot(0x0)/Pci(0x16,0x2)/Ata(0,0,0)
+Boot0015* ATA HDD	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,91af625956449f41a7b91f4f892ab0f6)
+Boot0016* ATAPI CD:	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,aea2090adfde214e8b3a5e471856a354)
+Boot0017* PCI LAN	VenMsg(bc7838d2-0f82-4d60-8316-c068ee79d25b,78a84aaf2b2afc4ea79cf5cc8f3d3803)
+</code></pre>
+<p>Do końca jeszcze nie znam przeznaczenia ich wszystkich ale jeśli chcemy mieć możliwość odpalania
+linux'a bezpośrednio przez EFI, to trzeba dodać kolejny wpis.</p>
+<p>W tym przypadku mogłem dodać maksymalnie 4 nowe wpisy. To bardzo niewiele. Na starym laptopie w
+konfiguracji syslinux/extlinux mam tych wpisów ponad 10, każdy ma nieco inny zestaw parametrów,
+tak bym mógł w przypadku zaistnienia różnych niecodziennych zdarzeń bez problemu odzyskać swój
+system.</p>
+<p>Pewnie nie wszystkie wpisy są potrzebne i kilka slotów można by odzyskać usuwając zbędne pozycje
+ale trzeba też zaznaczyć tutaj fakt, że część wpisów nie może zostać usunięta. Po tym jak się je
+usunie, to są tworzone na nowo po restarcie maszyny. Można zatem przyjąć, że w przypadku tego
+laptopa, użytkownik ma do dyspozycji tylko 4 pozycje na określenie systemu, który chce bezpośrednio
+uruchomić.</p>
+<h2 id="parametry-kernela">Parametry kernela</h2>
+<p>Gdy w grę wchodzi standardowy bootloader, parametry kernela zwykłe podaje się bezpośrednio w
+konfiguracji samego bootloader'a lub też w plikach systemowych, z których te parametry zostaną
+podebrane przez bootloader. W przypadku EFI boot stub parametry kernela trzeba na sztywno
+zdefiniować we wpisie, który dodawany jest za sprawą narzędzia <code>efibootmgr</code> z uruchomionego
+systemu. By zmienić parametry kernela, trzeba usunąć cały wpis i stworzyć go na nowo dodając lub
+zmieniając pożądane parametry i ich opcje.</p>
+<p>Możemy też zapomnieć o tymczasowej zmianie parametrów przez edycję kernel cmd podczas rozruchu
+systemu, tak jak to jest standardowo odstępne przez wciśnięcie klawisza <code>Tab</code> w okienku
+bootloader'a.</p>
+<h2 id="bardzo-niewygodna-edycja-wpisów">Bardzo niewygodna edycja wpisów</h2>
+<p>W przypadku bootloader'a, zwykle dodanie nowego wpisu nie stanowi problemu. Wystarczy edytować
+konkretny plik, skopiować zwrotkę odpowiedzialną za jeden wpis wyświetlany w fazie startu i
+przerobić go zgodnie z potrzebą. Z wpisami w EFI boot stub nie ma tak łatwo i trzeba używać tylko i
+wyłączenie poleceń shell'owych, w których to trzeba zawsze definiować wszystkie parametry. Takie
+polecenia mogą być naprawdę długie. Poniżej przykład:</p>
+<pre><code># efibootmgr --disk /dev/sda --part 5 --create --label &quot;Debian EFISTUB&quot; --loader \
+             '\EFI\BOOT\vmlinuz-5.4.0-4-amd64' --unicode 'root=/dev/mapper/sd_debian-root \
+             ro initrd=\EFI\BOOT\initrd.img-5.4.0-4-amd64' --verbose
+</code></pre>
+<p>To bardzo podstawowy przykład, do odszyfrowania mojego systemu na bazie LUKSv2 + LVM i nie zawiera
+całej masy opcji kernela, których na co dzień używam w swojej starej maszynie. Gdybym je wszystkie
+musiał tutaj określić, to ta linijka była by trzy razy dłuższa.</p>
+<h2 id="czasami-parametr-initrd-nie-zadziała">Czasami parametr initrd= nie zadziała</h2>
+<p>Mój system jest w pełni zaszyfrowany i by móc go odpalić wymagany jest obraz initrd. Używając
+tradycyjnego bootloader'a mogę wskazać dowolny plik/pliki za sprawą parametru <code>initd=</code> i problem
+mam z głowy. A jak wygląda sprawa w przypadku EFI boot stub? Ano tak, że ten parametr <code>initrd=</code>
+jest specyficzny dla firmware EFI i niekoniecznie może być wspierany w tej konkretnej implementacji.
+Akurat w przypadku mojego laptopa jest. Zatem mój system da radę odszyfrować wykorzystując ten
+mechanizm. Niemniej jednak, trzeba mieć na uwadze, że nie wszędzie i nie zawsze się to uda zrobić.</p>
+<h2 id="odwrócone-ukośniki">Odwrócone ukośniki</h2>
+<p>Z reguły w linux'ach do określania ścieżek korzysta się ze slash'a ( <code>/</code> ) , np. <code>/home/morfik/</code>
+ale do określania wpisów w EFI boot stub trzeba używać odwróconych ukośników, tj. backslash'a
+( <code>\</code> ). Może ktoś uzna, że się czepiam ale popatrzcie na to powyższe polecenie dodawania wpisów. W
+niektórych parametrach są normalne ukośniki, a w innych te odwrócone -- ten kto zaprojektował ten
+mechanizm był idiotą... :]</p>
+<h2 id="interpretacja-dodanych-wpisów">Interpretacja dodanych wpisów</h2>
+<p>Gdy już dodamy kilka wpisów na listę możliwych do uruchomienia systemów, to czasem chcielibyśmy
+podejrzeć tę listę, by się upewnić, że zostanie załadowany ten kernel, który jest nam potrzebny.
+Czasami wpisy mogą się różnić jedynie parametrami i zwykle nazwa, która nadaliśmy wpisowi, nam nic
+nie powie. Z okna wyboru systemu podczas startu za bardzo nic się nie dowiemy, bo tam widnieje
+jedynie, tylko krótka nazwa i podejrzeć parametrów nie sposób. W zasadzie to widać tylko tyle co na
+poniższym obrazku:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/001-kernel-linux-efi-boot-stub-efistub-menu.jpg" alt=""    class="huge"></p>
+<p>Ale nie o tym chciałem pisać, bo przecie istnieje narzędzie <code>efibootmgr</code> , które jest nam w stanie
+zwrócić ładnie przeformatowaną listę opcji rozruchu, tak jak to było widać na początku, prawda? No
+chyba, że się tam doda wpis z linux. Wtedy to wyjście wyglądać zaczyna tak:</p>
+<pre><code>Boot0018* Debian EFISTUB	HD(5,GPT,9d090ca2-e968-4399-9af1-adb80ba4b924,0x38b4000,0xff800)/File(\EFI\BOOT\vmlinuz-5.4.0-4-amd64)r.o.o.t.=./.d.e.v./.m.a.p.p.e.r./.s.d._.d.e.b.i.a.n.-.r.o.o.t. .r.o. .i.n.i.t.r.d.=.\.E.F.I.\.B.O.O.T.\.i.n.i.t.r.d...i.m.g.-.5...4...0.-.4.-.a.m.d.6.4.
+</code></pre>
+<p>Co się tam pan czepiasz, przecie system idzie uruchomić...</p>
+<p>Próbowałem znaleźć jakieś rozwiązanie tego problemu ale póki co mi się nie udało, a że ten
+mechanizm EFI boot stub ma już i tak całą masę wad, to raczej wątpię, że przeznaczę jeszcze czas
+na znalezienie rozwiązania problemów, których w normalnych menadżerach rozruchu się nie spotyka,
+nie mówiąc już o bohaterskich próbach ich przezwyciężenia...</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Mi jakoś niespecjalnie ten cały EFI boot stub przypadł do gustu. Może znajdzie on zastosowanie w
+przypadku przeciętnego Kowalskiego, który chce jedynie podnieść swój system jak najszybciej i bez
+zbędnych pytań czy zagłębiania się w aspekty konfiguracyjne. No dobrze, że taki mechanizm istnieje.
+Jego zaletą jest na pewno fakt, że jest on za free, nie wymaga instalowania żadnego dodatkowego
+oprogramowania i działa OOTB nie oferując przy tym w zasadzie żadnej konfiguracji. No ja jednak
+potrzebuję czegoś bardziej zaawansowanego i zwyczajnie EFI boot stub nie spełnia moich oczekiwań i
+tych nawet podstawowych wymagań. Jeśli jednak ktoś korzysta z jednego systemu i nie miesza w nim,
+to ten EFI boot stub jak najbardziej może mu się przydać ale jeśli tylko coś bardziej
+zaawansowanego będziemy chcieli robić z naszym systemem, to trzeba rozejrzeć się za pełnoprawnym
+menadżerem rozruchu czy bootloader'em.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kernel/">kernel</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/efi/">efi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/uefi/">uefi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/luks/">luks</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lvm/">lvm</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2flinux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2flinux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm%2f&amp;text=Linux%20kernel%20EFI%20boot%20stub%20i%20zaszyfrowany%20Debian%20%28LUKS%2bLVM%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2flinux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm%2f&amp;title=Linux%20kernel%20EFI%20boot%20stub%20i%20zaszyfrowany%20Debian%20%28LUKS%2bLVM%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2flinux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm%2f&amp;title=Linux%20kernel%20EFI%20boot%20stub%20i%20zaszyfrowany%20Debian%20%28LUKS%2bLVM%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2flinux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm%2f&title=Linux%20kernel%20EFI%20boot%20stub%20i%20zaszyfrowany%20Debian%20%28LUKS%2bLVM%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2flinux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2flinux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm%2f&amp;title=Linux%20kernel%20EFI%20boot%20stub%20i%20zaszyfrowany%20Debian%20%28LUKS%2bLVM%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2flinux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm%2f&description=Linux%20kernel%20EFI%20boot%20stub%20i%20zaszyfrowany%20Debian%20%28LUKS%2bLVM%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">Instalacja debiana z wykorzystaniem debootstrap</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/">Badsector dysku HDD w kontenerze LUKS zawierającym LVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/modul-tpe-trusted-path-execution-dla-kernela-linux/">Moduł TPE (Trusted Path Execution) dla kernela linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czym-jest-online-ext4-metadata-check-w-linuxowym-lvm/">Czym jest Online ext4 Metadata Check w linux&#39;owym LVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-na-debianie-zrobic-pakiet-deb-zawierajacy-modul-kernela-linux-dkms/">Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-recznie-zweryfikowac-sygnature-modulu-kernela-linux/">Jak ręcznie zweryfikować sygnaturę modułu kernela linux</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

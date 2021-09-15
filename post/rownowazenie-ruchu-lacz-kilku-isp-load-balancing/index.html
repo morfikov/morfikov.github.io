@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Równoważenie ruchu łącz kilku ISP (load balancing) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Równoważenie ruchu łącz kilku ISP (load balancing)" />
+<meta property="og:description" content="Podłączenie pojedynczego komputera do sieci raczej nie stanowi żadnego problemu dla przeciętnego
+użytkownika linux&#39;a. Wystarczy jedynie skonfigurować kilka parametrów i możemy oglądać swoje
+ulubione serwisy www. Co jednak w przypadku, gdy mamy do dyspozycji kilka łącz internetowych? Jedną
+z opcji jest używanie łącza tego ISP, które jest lepsze gabarytowo, a pozostałe łącza trzymać na
+wypadek awarii tego pierwszego. Nie jest to zbytnio satysfakcjonujące rozwiązanie, zwłaszcza w
+przypadku, gdy tym providerom płacimy za świadczone nam usługi. W taki sposób płacimy, np. za dwa
+łącza, a korzystamy z jednego w danej chwili. W linux&#39;ie obsługa wielu łącz różnych ISP jest dość
+skomplikowana. By taki mechanizm zaimplementować sobie, trzeba stworzyć kilka tablic routingu.
+Następnie ruch sieciowy musi zostać oznaczony w iptables i przekierowany do tych tablic przez
+kernel. Przy odrobienie wysiłku jesteśmy jednak w stanie zaprojektować sobie load balancer, który
+będzie równoważył obciążenie łącza między kilku ISP. Dodatkowo, jeśli jedno z łączy nam nawali, to
+automatycznie zostaniemy przełączeni na drugie łącze (failover). W tym artykule postaramy się
+zaprojektować taki właśnie mechanizm." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/rownowazenie-ruchu-lacz-kilku-isp-load-balancing/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-05-22T13:40:04&#43;00:00" />
+<meta property="article:modified_time" content="2016-05-22T13:40:04&#43;00:00" />
+
+
+		<meta itemprop="name" content="Równoważenie ruchu łącz kilku ISP (load balancing)">
+<meta itemprop="description" content="Podłączenie pojedynczego komputera do sieci raczej nie stanowi żadnego problemu dla przeciętnego
+użytkownika linux&#39;a. Wystarczy jedynie skonfigurować kilka parametrów i możemy oglądać swoje
+ulubione serwisy www. Co jednak w przypadku, gdy mamy do dyspozycji kilka łącz internetowych? Jedną
+z opcji jest używanie łącza tego ISP, które jest lepsze gabarytowo, a pozostałe łącza trzymać na
+wypadek awarii tego pierwszego. Nie jest to zbytnio satysfakcjonujące rozwiązanie, zwłaszcza w
+przypadku, gdy tym providerom płacimy za świadczone nam usługi. W taki sposób płacimy, np. za dwa
+łącza, a korzystamy z jednego w danej chwili. W linux&#39;ie obsługa wielu łącz różnych ISP jest dość
+skomplikowana. By taki mechanizm zaimplementować sobie, trzeba stworzyć kilka tablic routingu.
+Następnie ruch sieciowy musi zostać oznaczony w iptables i przekierowany do tych tablic przez
+kernel. Przy odrobienie wysiłku jesteśmy jednak w stanie zaprojektować sobie load balancer, który
+będzie równoważył obciążenie łącza między kilku ISP. Dodatkowo, jeśli jedno z łączy nam nawali, to
+automatycznie zostaniemy przełączeni na drugie łącze (failover). W tym artykule postaramy się
+zaprojektować taki właśnie mechanizm."><meta itemprop="datePublished" content="2016-05-22T13:40:04&#43;00:00" />
+<meta itemprop="dateModified" content="2016-05-22T13:40:04&#43;00:00" />
+<meta itemprop="wordCount" content="4070">
+<meta itemprop="keywords" content="iptables,sysctl,debian,sieć," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Równoważenie ruchu łącz kilku ISP (load balancing)"/>
+<meta name="twitter:description" content="Podłączenie pojedynczego komputera do sieci raczej nie stanowi żadnego problemu dla przeciętnego
+użytkownika linux&#39;a. Wystarczy jedynie skonfigurować kilka parametrów i możemy oglądać swoje
+ulubione serwisy www. Co jednak w przypadku, gdy mamy do dyspozycji kilka łącz internetowych? Jedną
+z opcji jest używanie łącza tego ISP, które jest lepsze gabarytowo, a pozostałe łącza trzymać na
+wypadek awarii tego pierwszego. Nie jest to zbytnio satysfakcjonujące rozwiązanie, zwłaszcza w
+przypadku, gdy tym providerom płacimy za świadczone nam usługi. W taki sposób płacimy, np. za dwa
+łącza, a korzystamy z jednego w danej chwili. W linux&#39;ie obsługa wielu łącz różnych ISP jest dość
+skomplikowana. By taki mechanizm zaimplementować sobie, trzeba stworzyć kilka tablic routingu.
+Następnie ruch sieciowy musi zostać oznaczony w iptables i przekierowany do tych tablic przez
+kernel. Przy odrobienie wysiłku jesteśmy jednak w stanie zaprojektować sobie load balancer, który
+będzie równoważył obciążenie łącza między kilku ISP. Dodatkowo, jeśli jedno z łączy nam nawali, to
+automatycznie zostaniemy przełączeni na drugie łącze (failover). W tym artykule postaramy się
+zaprojektować taki właśnie mechanizm."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Równoważenie ruchu łącz kilku ISP (load balancing)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-05-22T13:40:04Z">Opublikowano: 22/05/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Równoważenie ruchu łącz kilku ISP (load balancing)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#filtrowanie-trasy-powrotnej-rp_filter">Filtrowanie trasy powrotnej (rp_filter)</a></li>
+    <li><a href="#translacja-adresów-nat-maskarada">Translacja adresów (NAT, maskarada)</a></li>
+    <li><a href="#automatyczny-failover-łącza">Automatyczny failover łącza</a></li>
+    <li><a href="#wielościeżkowa-domyślna-trasa-routingu-multipath-gateway">Wielościeżkowa domyślna trasa routingu (multipath gateway)</a></li>
+    <li><a href="#tablica-routingu">Tablica routingu</a>
+      <ol>
+        <li><a href="#domyślna-bramatrasa-default-gateway">Domyślna brama/trasa (default gateway)</a></li>
+        <li><a href="#metryka-trasy-metric">Metryka trasy (metric)</a></li>
+      </ol>
+    </li>
+    <li><a href="#wiele-tablic-routingu">Wiele tablic routingu</a></li>
+    <li><a href="#reguły-routingu">Reguły routingu</a></li>
+    <li><a href="#równoważenie-obciążenia-load-balancing">Równoważenie obciążenia (load balancing)</a></li>
+    <li><a href="#test-łącza-dwóch-isp">Test łącza dwóch ISP</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Podłączenie pojedynczego komputera do sieci raczej nie stanowi żadnego problemu dla przeciętnego
+użytkownika linux'a. Wystarczy jedynie skonfigurować kilka parametrów i możemy oglądać swoje
+ulubione serwisy www. Co jednak w przypadku, gdy mamy do dyspozycji kilka łącz internetowych? Jedną
+z opcji jest używanie łącza tego ISP, które jest lepsze gabarytowo, a pozostałe łącza trzymać na
+wypadek awarii tego pierwszego. Nie jest to zbytnio satysfakcjonujące rozwiązanie, zwłaszcza w
+przypadku, gdy tym providerom płacimy za świadczone nam usługi. W taki sposób płacimy, np. za dwa
+łącza, a korzystamy z jednego w danej chwili. W linux'ie obsługa wielu łącz różnych ISP jest dość
+skomplikowana. By taki mechanizm zaimplementować sobie, trzeba stworzyć kilka tablic routingu.
+Następnie ruch sieciowy musi zostać oznaczony w <code>iptables</code> i przekierowany do tych tablic przez
+kernel. Przy odrobienie wysiłku jesteśmy jednak w stanie zaprojektować sobie load balancer, który
+będzie równoważył obciążenie łącza między kilku ISP. Dodatkowo, jeśli jedno z łączy nam nawali, to
+automatycznie zostaniemy przełączeni na drugie łącze (failover). W tym artykule postaramy się
+zaprojektować taki właśnie mechanizm.</p>
+<h2 id="filtrowanie-trasy-powrotnej-rp_filter">Filtrowanie trasy powrotnej (rp_filter)</h2>
+<p>Ze względów bezpieczeństwa, cześć dystrybucji linux'a włącza mechanizm filtrowania trasy powrotnej
+pakietów. Gdy maszyna, która ma włączony ten mechanizm otrzymuje pakiet, próbuje pierw sprawdzić czy
+źródło tego pakietu jest osiągalne przez interfejs, przez który pakiet trafił do danej maszyny.
+Jeśli źródło nie jest osiągalne, pakiety zostaną zrzucone. Znacznie poprawia to bezpieczeństwo
+ponieważ poważnie utrudnia spoof'owanie adresu IP. Trzeba jednak brać pod uwagę fakt, że włączenie
+filtrowania trasy powrotnej często stwarza problemy, gdy mamy do czynienia z wieloma interfejsami
+sieciowymi. By móc zaimplementować sobie load balancing i failover łącza kilku ISP, to musimy
+wyłączyć to filtrowanie. Możemy to zrobić zapośrednictwem pliku <code>/etc/sysctl.conf</code> dopisując w nim
+te dwa poniższe parametry:</p>
+<pre><code>net.ipv4.conf.all.rp_filter = 2
+net.ipv4.conf.default.rp_filter = 2
+</code></pre>
+<p>W niektórych linux'ach ten parametr przyjąć może wartości <code>0</code> (wyłącza) , <code>1</code> (włącza) lub <code>2</code> . W
+przypadku ustawienia <code>2</code> , nie będzie miał znaczenia interfejs, przez który pakiet dodarł do naszej
+maszyny, tylko to czy źródło pakietu jest osiągalne przez którykolwiek z nich. Jest to swojego
+rodzaju kompromis w stosunku do całkowitego wyłączenia filtrowania.</p>
+<h2 id="translacja-adresów-nat-maskarada">Translacja adresów (NAT, maskarada)</h2>
+<p>Na każdy interfejs sieciowy, który będziemy chcieli uwzględnić w konfiguracji równoważenia ruchu
+sieciowego, trzeba będzie założyć NAT, czyli translację adresów. To zadanie z kolei sprawdza się do
+dodania poniższych reguł w filtrze <code>iptables</code> :</p>
+<pre><code>iptables -t nat -A POSTROUTING -o bond0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -o wwan0 -j MASQUERADE
+</code></pre>
+<p>Mimo, że korzystamy tutaj z translacji adresów, to forwarding pakietów na tych interfejsach nie jest
+wymagany.</p>
+<h2 id="automatyczny-failover-łącza">Automatyczny failover łącza</h2>
+<p>Mając do dyspozycji minimum dwa łącza od różnych ISP, może się zdarzyć tak, że któreś z nich nam
+zwyczajnie nawali. W takiej sytuacji przy podniesionym interfejsie sieciowym i próbie połączenia
+przez niego, dostaniemy komunikat <code>No route to host</code> lub też <code>Network is unreachable</code> . Oczywistym
+jest, że takie połączenie nie zostanie zrealizowane. Natomiast od nas wymagane jest stałe
+monitorowanie łącza pod kątem dostępności. Od wersji kernela 4.4 nie musimy się już troszczyć o tego
+typu sprawy, bo mamy w nim dostępny parametr <code>ignore_routes_with_linkdown</code> . Jak jego nazwa
+wskazuje, wszystkie nieosiągalne trasy będą ignorowane. W efekcie połączenia zostaną puszczone
+automatycznie drugim łączem. Oczywiście sesje TCP zostaną powieszone, a transfer danych zatrzymany.
+Jeśli przywrócenie łączności nie nastąpi w krótkim czasie, to raczej trzeba będzie ponownie nawiązać
+połączenie. Dobrze jest zatem ustawić sobie ten parametr dodać co pliku <code>/etc/sysctl.conf</code> poniższe
+linijki:</p>
+<pre><code>net.ipv4.conf.all.ignore_routes_with_linkdown = 1
+net.ipv4.conf.default.ignore_routes_with_linkdown = 1
+
+net.ipv6.conf.all.ignore_routes_with_linkdown = 1
+net.ipv6.conf.default.ignore_routes_with_linkdown = 1
+</code></pre>
+<h2 id="wielościeżkowa-domyślna-trasa-routingu-multipath-gateway">Wielościeżkowa domyślna trasa routingu (multipath gateway)</h2>
+<p>Wielościeżkowa domyślna trasa routingu jest połączeniem kilku domyślnych bramek, które zwykle są
+przypisywane poszczególnym interfejsom sieciowym. Jeśli nie chce nam się zbytnio kombinować z
+dodatkowymi tablicami routingu, to przy pomocy takiej bramki możemy praktycznie bez większego
+wysiłku rozłożyć ruch na różnych ISP.</p>
+<p>Na necie można znaleźć informację, że ruch sieciowy możemy rozkładać na kilku providerów
+internetowych w oparciu o pakiety (per-packet), o połączenia (per-connection) oraz przepływ pakietów
+(per-flow). Różnica między nimi jest następująca. W per-packet, pakiety należące do tego samego
+połączenia mogą być przesyłane przez wielu ISP. W przypadku per-connection, pakiety są grupowane i
+przypisywane do określonego połączenia w oparciu o protokół, adres źródłowy i docelowy oraz port
+źródłowy i docelowy. Wszystkie takie pakiety w połączeniu mogą zostać przesłane tylko przez
+jednego ISP. Natomiast jeśli chodzi o per-flow, to tutaj decyduje adres źródłowy i docelowy. Jeśli
+szereg połączeń ma pasujące te dwa parametry, to zostaną one wszystkie przesłane przez tego samego
+ISP. Protokoły takie jak TCP wymagają do poprawnego działania per-connection lub per-flow. Natomiast
+per-packet może działać bez problemu z protokołem UDP.</p>
+<p>O wyborze rozdzielenia ruchu w oparciu o pakiety (per-packet) ma decydować parametr <code>equalize</code>
+dodany do <code>ip route</code> . Jeśli <code>equalize</code> zostanie określony, to będziemy mieli do czynienia z
+sytuacją, gdzie każde z połączeń będzie w stanie wykorzystać pełną przepustowość wszystkich
+dostępnych providerów internetowych. Jeśli nie skorzystamy z <code>equalize</code> , to każde z połączeń
+będzie mogło wykorzystać tylko łącze jednego z operatorów. Nadal możliwe jest nawiązywanie kilku
+równoczesnych połączeń i wtedy ruch zostanie rozłożony na wszystkich ISP.</p>
+<p>W aktualnej wersji kernela w debianie (4.5) nie ma wsparcia dla tego całego <code>equalize</code> i raczej ten
+parametr w <code>ip route</code> nie zostanie póki co zaimplementowany. Zatem nie ma co sobie nim głowy
+zawracać. Nie będziemy więc zagłębiać się w rozdzielanie ruchu w oparciu o pakiety. Do
+zaimplementowania rozwiązania opartego o przepływ pakietów (per-flow) posłuży nam wspomniane wyżej
+polecenie <code>ip route</code> . Musimy za jego pomocą określić bramę domyślą uwzględniając przy tym dwa
+dodatkowe parametry: <code>nexthop</code> oraz <code>weight</code> . Poniżej jest przykładowe polecenie:</p>
+<pre><code># ip route add default \
+    nexthop via 192.168.1.1 dev bond0 weight 4 \
+    nexthop via 10.143.105.17 dev wwan0 weight 1
+</code></pre>
+<p>Warto zaznaczyć tutaj, iż mimo, że ta trasa składa się z dwóch bram, to w dalszym ciągu jest
+uznawana przez kernel za pojedynczą trasę. Bramy określamy w parametrze <code>nexthop</code> podając mu adres
+oraz interfejs. Z kolei parametr <code>weight</code> odpowiada za częstość wybierania danej trasy dla nowych
+połączeń. W tym przypadku rozdział jest mniej więcej 4/5 dla pierwszej bramy i 1/5 dla drugiej.
+Parametry wag są opcjonalne. Jeśli ich nie podamy, wtedy nowe połączenia powinny zostać rozłożone w
+stosunku 50%:50%.</p>
+<p>Problem z tą powyższa trasą jest taki, że operuje ona na cache, który wykorzystuje <a href="https://lwn.net/Articles/657431/">hash adresów
+źródłowych i docelowych</a>. W ten sposób każde połączenie wykonane
+na określony adres IP z tego samego adresu źródłowego zawsze będzie odbywać się przez ten sam
+interfejs sieciowy. W efekcie jeśli byśmy chcieli sprawdzić swój adres IP na jednym z serwisów www
+do tego przeznaczonych, to zawsze zostanie nam pokazany taki sam adres i to bez znaczenia ile razy
+taką stronę odpowiedzmy. Nie nazwałbym tego zbytnio równoważeniem ruchu w przypadku, gdy z internetu
+korzysta tylko jeden użytkownik i do tego z jednego komputera w tym samym czasie.</p>
+<p>Jeśli potrzebujemy faktycznie mechanizmu, który zrównoważy nam ruch sieciowy, to musimy niestety
+zagłębić się w <a href="http://linux-ip.net/html/index.html">tajniki routingu na linux'ie</a> i stworzyć sobie
+<a href="http://www.policyrouting.org/PolicyRoutingBook/ONLINE/TOC.html">kilka tablic routingu</a>. Przy ich
+pomocy będziemy w stanie rozdzielić ruch na podstawie oznaczeń FWMARK w <code>iptables</code> . Zanim jednak
+przejdziemy do rozdzielenia ruchu, rzućmy okiem na te tak złowrogo wyglądające tablice routingu.</p>
+<h2 id="tablica-routingu">Tablica routingu</h2>
+<p>Każda maszyna podłączona do sieci do poprawnego komunikowania się ze światem wymaga odpowiednio
+skonfigurowanych tablic rutingu. Pakiety, które przechodzą przez taki komputer, są sprawdzane przez
+kernel pod kątem adresu IP przeznaczenia. Ten adres jest kluczowy przy określaniu trasy. To na jego
+podstawie system wie, do której sieci pakiet ma trafić, a ta sieć z kolei jest powiązana z
+określonym interfejsem sieciowy. Wszystkie te powiązania adresów, sieci i interfejsów są zbierane i
+umieszczane w tablicy routingu. Każdy linux może mieć kilka takich tablic. Standardowo są jednak do
+dyspozycji tylko trzy: <code>local</code> , <code>main</code> oraz <code>default</code> . Linux'owe narzędzia, takie jak <code>ifconfig</code> ,
+<code>route</code> czy <code>ip</code> operują domyślnie na tablicach <code>main</code> i <code>local</code> . Wpisy w tablicy <code>local</code> są
+zarządzane głównie przez kernel i my jako administrator nie możemy do tej tablicy dodawać żadnych
+nowych wpisów. Możemy za to usuwać z niej te już istniejące wpisy, choć nie powinniśmy tego robić.
+Nas głównie interesować będzie tablica <code>main</code> . Poniżej znajduje się przykład takiej tablicy:</p>
+<pre><code># ip route list table main
+default via 192.168.1.1 dev bond0
+192.168.1.0/24 dev bond0 proto kernel scope link src 192.168.1.150
+192.168.10.0/24 dev br-lxc proto kernel scope link src 192.168.10.100
+</code></pre>
+<p>Ta powyższa tablica nie jest zbytnio rozbudowana. Są w niej określone trzy reguły dotyczące dwóch
+interfejsów: <code>bond0</code> oraz <code>br-lxc</code> . Widzimy, że mamy do czynienia z dwiema sieciami, po jednej dla
+każdego z interfejsu: 192.168.1.0/24 oraz 192.168.10.0/24 . W przypadku, gdy pakiet zostanie
+zaadresowany do jednej z tych sieci, to zostanie puszczony przez jeden z tych dwóch interfejsów.
+Dodatkowo, w zależności od adresu docelowego, pakiet zostanie uzupełniony o odpowiedni adres
+źródłowy. Ten adres jest określony w parametrze <code>src</code> . Zatem jeśli pakiet będzie adresowany na
+IP 192.168.1.120, to zostanie mu ustawiony adres źródłowy 192.168.1.150 i to na ten adres host
+docelowy będzie musiał przysłać odpowiedź. Jeśli pakiet będzie zawierał inny adres docelowy niż
+określony przez te dwie powyższe sieci, to wtedy zostanie on wysłany na adres 192.168.1.1 . Jest to
+brama domyślna. Gdybyśmy nie określili tego wpisu z <code>default</code> , router zwróciłby dla takich pakietów
+komunikat ICMP <code>net unreachable</code> (ICMP Typ 3 Kod 0).</p>
+<p>Trasy mogą być różnych typów, a te mogą się zmieniać w zależności od tablicy routingu. Dla
+przykładu, wszystkie powyższe trasy w tablicy <code>main</code> są typu <code>unicast</code> . Natomiast w tablicy
+<code>local</code> mamy trasy <code>broadcast</code> i <code>local</code> . Poniżej zaś jest rozpiska możliwych do określenia typów
+tras (<a href="http://linux-ip.net/html/routing-tables.html#routing-table-entries">tutaj są przykłady</a>):</p>
+<ul>
+<li><code>unicast</code> -- wpis w tablicy opisuje rzeczywistą trasę umożliwiającą komunikację z siecią opisaną
+przez zadany prefiks.</li>
+<li><code>local</code> -- miejsca docelowe są przypisane do lokalnej maszyny. Pakiety zostaną skierowane z
+powrotem do komputera.</li>
+<li><code>broadcast</code> -- adres rozgłoszeniowy. Pakiety zostaną wysłane jako rozgłoszenie w warstwie 2.</li>
+<li><code>multicast</code> -- specjalny typ wpisu, używany do obsługi routingu typu multicast. Normalnie nie
+pojawia się w tablicach routingu.</li>
+<li><code>throw</code> -- specjalny typ wpisu, używany wraz z regułami polityki routingu. Jeżeli trasa tego
+typu zostanie dopasowana, zadziała tak, jakby w tablicy nie znaleziono pasującej trasy
+(spowoduje to przejście do następnej reguły). Brak polityki routingu jest równoznaczne z brakiem
+trasy w tablicy routingu. W ten sposób pakiety są zrzucane i generowana jest wiadomość <code>net unreachable</code> (ICMP Typ 3 Kod 0). Jeżeli nadawca jest lokalny, to otrzyma błąd ENETUNREACH.</li>
+<li><code>unreacheable</code> -- miejsce docelowe jest nieosiągalne. Dopasowanie trasy spowoduje wysłanie
+wiadomości ICMP <code>host unreachable</code> (ICMP Typ 3 Kod 1) do zdalnych nadawców. Lokalni nadawcy
+otrzymają komunikat EHOSTUNREACH.</li>
+<li><code>prohibit</code> -- miejsce docelowe jest nieosiągalne. Dopasowanie trasy spowoduje wysłanie
+komunikatu ICMP <code>communication administratively prohibited</code> (ICMP Typ 3 Kod 13). Lokalni nadawcy
+otrzymają błąd EACCESS.</li>
+<li><code>blackhole</code> -- miejsce docelowe jest nieosiągalne. Pakiety są zrzucane po cichu. Lokalni nadawcy
+otrzymują błąd EINVAL.</li>
+<li><code>nat</code> -- ten typ trasy służył do realizacji NAT. W jądrze serii &gt;2.6 nie jest obsługiwany.</li>
+<li><code>anycast</code> -- nie zaimplementowane. Miejsce docelowe jest adresem typu <code>anycast</code>
+przyporządkowanym do lokalnej maszyny. Ten typ trasy jest podobny do <code>local</code> z tą różnicą, że
+adres docelowy nie jest poprawnym adresem źródłowym.</li>
+</ul>
+<p>Podczas listowania reguł w tablicy <code>main</code> mieliśmy także określony protokół ( <code>proto</code> ). Informuje
+nas on o tym, kto daną trasę dodał do tablicy routingu. Protokół może zostać oznaczony liczbowo, lub
+za pomocą nazwy zapisanej w pliku <code>/etc/iproute2/rt_protos</code> . Wyróżniamy następujące protokoły:</p>
+<ul>
+<li><code>kernel</code> -- trasa została dodana automatycznie przez jądro podczas konfiguracji sieci.
+Przykładem mogą być trasy powiązane z adresem przypisanym do interfejsu sieciowego.</li>
+<li><code>boot</code> -- trasa została dodana podczas uruchamiania systemu. Trasy takie zostaną automatycznie
+usunięte przez demona routingu, jeżeli zostanie uruchomiony. Jest to domyślny protokół, więc
+jeżeli trasa ma być używana w konfiguracji z demonami routingu należy podawać protokół <code>static</code>
+.</li>
+<li><code>static</code> -- trasa została dodana przez administratora systemu. Trasa taka nadpisuje trasy
+dynamiczne, jest respektowana przez demony routingu, a nawet rozgłaszana przez nie sąsiadom.</li>
+<li><code>redirect</code> -- trasa została dodana w wyniku otrzymania przekierowania ICMP (5.x). Trasy takie
+mają ograniczony czas życia.</li>
+<li><code>ra</code> -- trasa została dodana w wyniku działania protokołu Router Discovery.</li>
+</ul>
+<p>Zasięg tras ( <code>scope</code> ) jest zwykle ustalany przez narzędzie <code>ip</code> automatycznie i nie trzeba go
+ręcznie określać. Niemniej jednak, wyróżniamy następujące zasięgi:</p>
+<ul>
+<li><code>host</code> -- trasa o tym zasięgu prowadzi na adres lokalnego hosta.</li>
+<li><code>link</code> -- trasa o tym zasięgu prowadzi na adres sieć lokalnej, która jest osiągalna przez
+przypisany jej interfejs sieciowy. Dotyczy również adresów broadcast. A to z tego względu, że
+broadcast ma tylko sens w sieci, gdzie mamy podłączonych ze sobą szereg komputerów, do których
+dostęp możemy uzyskać przez dany interfejs sieciowy.</li>
+<li><code>global</code> -- trasa o tym zasięgu prowadzi zwykle do bramy domyślnej.</li>
+</ul>
+<p>Konfigurując interfejs sieciowy, trasa dla pakietów dla tego interfejsu jest automatycznie
+konfigurowana przez kernel na podstawie podanych parametrów (adres i maska). Weźmy przykładowo w/w
+interfejs <code>bond0</code> . By go skonfigurować i jednocześnie określić trasy dla niego, musimy w terminalu
+wydać te poniższe polecenia:</p>
+<pre><code># ip addr add 192.168.1.150/24 brd + dev bond0
+# ip link set dev bond0 up
+</code></pre>
+<p>W ten sposób zostanie utworzona przez kernel trasa dynamiczna opisująca sieć 192.168.1.0/24 , która
+jest osiągalna przez interfejs <code>bond0</code> . Nie zawsze tego typu automatyzacja jest pożądana. Jeśli
+chcemy skonfigurować trasy statycznie, to musimy określić adresy podając maskę <code>/32</code> , np.
+<code>192.168.1.150/32</code> . W każdym innym przypadku nie ma potrzeby manualnie dodawać tras. Po
+skonfigurowaniu interfejsów <code>bond0</code> oraz <code>br-lxc</code> , pakiety mogą być przesłane między tymi dwiema
+sieciami. Czyli pakiety muszą zawierać adres IP, który należy do jednej lub drugiej sieci. Niemniej
+jednak, jeśli pojawi się pakiet, który w polu adresu docelowego zawiera IP, spoza tych dwóch
+powyższych sieci, to przy próbie połączenia wystąpi błąd.</p>
+<h3 id="domyślna-bramatrasa-default-gateway">Domyślna brama/trasa (default gateway)</h3>
+<p>By pakiety mogły się dostać do sieci innych niż te wyżej określone, musimy skonfigurować bramę
+domyślną. Nie jest ona konfigurowana automatycznie przez kernel, tak jak trasy sieci. A to z tego
+względu, że zwyczajnie nie wiemy, jaki adres może mieć brama domyślna. Dlatego też zawsze trzeba ją
+określać manualnie. Zwykle przy określaniu bramy domyślnej nie używa się dla niej adresu jako
+takiego. Zamiast niego korzysta się ze słówka <code>default</code> , który oznacza adres 0.0.0.0 i maskę
+0.0.0.0 . Poniżej jest polecenie konfigurujące bramę domyślną:</p>
+<pre><code># ip route add default via 192.168.1.1 dev bond0
+</code></pre>
+<p>W ten sposób dopełniliśmy całą tablicę routingu i kernel wie gdzie ma przesyłać pakiety o
+określonych docelowych adresach IP. Niemniej jednak, w tym artykule nie interesuje nas zbytnio
+podstawowa tablica routingu oferowana przez systemy linux'owe, a możliwość korzystania z wielu
+tablic routingu jednocześnie.</p>
+<h3 id="metryka-trasy-metric">Metryka trasy (metric)</h3>
+<p>Jeśli chcemy korzystać z dwóch, czy też i więcej, ISP jednocześnie, to musimy skonfigurować bramy
+domyślne dla każdego ISP. Robimy to mniej więcej tak samo jak zostało zrobione powyżej. By móc tego
+typu zabieg przeprowadzić, musimy określić metryki dla tras wszystkich interfejsów sieciowych, przez
+które mamy dostępny internet. Standardowo każda trasa domyślna ma ustawioną metrykę <code>0</code> , przez co w
+systemie możemy posiadać tylko jedną domyślną bramę. W przypadku różnych metryk, w tablicy routingu
+możemy mieć określonych kilka domyślnych bramek. Metryki zaś definiujemy za pomocą parametru
+<code>metric</code> dodanego do polecenia <code>ip route</code> , przykładowo:</p>
+<pre><code># ip route add default via 192.168.1.1 dev bond0 metric 10
+# ip route add default via 10.143.105.17 dev wwan0 metric 100
+</code></pre>
+<p>Im niższą wartość ustawimy w opcji <code>metric</code> , tym brama ma większy priorytet. W ten sposób możemy
+określić pożądaną przez nas kolejność bramek domyślnych. Zatem standardowo, po podniesieniu obu
+interfejsów, ruch będzie przesyłany przez interfejs <code>bond0</code> . Gdy połączenie przez ten interfejs
+zostanie w jakiś sposób utracone, wtedy pakiety zostaną przełączone na drugie łącze. W ten sposób
+mamy zapewniony automatyczny failover łącza.</p>
+<h2 id="wiele-tablic-routingu">Wiele tablic routingu</h2>
+<p>W linux'ie mamy możliwość zdefiniowania 255 różnych tablic routingu. Jako, że chcemy korzystać z
+dwóch ISP, to dla każdego z nich możemy utworzyć osobną tablicę routingu i do niej kierować ruch w
+oparciu o pewne zasady. Tego typu zabieg rozpoczynamy od edycji pliku <code>/etc/iproute2/rt_tables</code> .
+Ten plik może nie istnieć i nic złego się z tego powodu nie powinno dziać. Niemniej jednak jeśli
+chcemy określić dodatkowe tablice routingu, to musimy utworzyć ten plik. Następnie definiujemy w nim
+wpisy podobne do tych poniżej:</p>
+<pre><code>255 local
+254 main
+253 default
+0   unspec
+
+10 home
+20 lte
+</code></pre>
+<p>Wyżej określiliśmy sobie dwie dodatkowe tablice routingu: <code>home</code> oraz <code>lte</code> . Nazwy mogą być
+dowolne. Każda z tych nowych tablic jest póki co pusta. Możemy to sprawdzić wydając poniższe
+polecenia:</p>
+<pre><code># ip route show table lte
+# ip route show table home
+</code></pre>
+<p>Jeśli chcielibyśmy teraz rozdzielić ruch na kilku ISP, to w każdej tej dodatkowej tablicy routingu
+musimy określić domyślną bramę. Robimy to przy pomocy tych poniższych poleceń:</p>
+<pre><code># ip route add default via 192.168.1.1 dev bond0 table home
+# ip route add default via 10.142.117.53 dev wwan0 table lte
+</code></pre>
+<p>W tej chwili tablice routingu powinny wyglądać mniej więcej tak jak na tym poniższym
+obrazku:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/1.load-balancing-failover-debian-linux-isp-tablica-routingu.png" alt=""    class="huge"></p>
+<p>By ten cały mechanizm routujący puścić w ruch potrzebne nam są jeszcze reguły routingu. To w oparciu
+o nie, kernel będzie wiedział gdzie ma przesłać dany pakiet.</p>
+<h2 id="reguły-routingu">Reguły routingu</h2>
+<p>W przypadku, gdy mamy do czynienia z pojedynczym interfejsem sieciowym, zwykle nas nie interesują
+reguły rutingu. I tak wiemy, że pakiet opuści naszą maszynę przez ten jeden interfejs sieciowy,
+która ona posiada. Nie ma przecie innej opcji. Niemniej jednak, w bardziej skomplikowanych
+sytuacjach będziemy mieli do czynienia z wieloma interfejsami sieciowymi, tak jak mamy w tym
+przypadku. Mając do dyspozycji kila łącz różnych providerów internetowych, dostęp do hostów w
+internecie można uzyskać za sprawą kilku różnych tras. Każda z nich jest nas w stanie zaprowadzić
+tego samego miejsca przeznaczenia. Standardowo w linux'ie mamy trzy reguły, które możemy sobie
+wyświetlić przy pomocy polecenia <code>ip rule</code> :</p>
+<pre><code># ip rule show
+0:      from all lookup local
+32766:  from all lookup main
+32767:  from all lookup default
+</code></pre>
+<p>Pierwsza reguła ma priorytet <code>0</code> , następne zaś <code>32766</code> i <code>32767</code> . Im niższa wartość, tym większy
+priorytet. Każda reguła ma również selektor, w oparciu o który są przeprowadzane akcje routingu. W
+tym przypadku wszystkie trzy reguły dotyczą pakietów z każdego źródła ( <code>from all</code> ) . Po
+dopasowaniu pakietu na podstawie selektora, kernel musi podjąć jakąś akcję. W powyższych regułach,
+wszystkie akcje sprowadzają się do przeszukania określonych tablic routingu: <code>lookup local</code> ,
+<code>lookup main</code> oraz <code>lookup default</code> . O tablicach <code>local</code> i <code>main</code> powiedzieliśmy sobie parę słów
+wcześniej. Natomiast tablica <code>default</code> jest zwykle pusta. Jest ona zarezerwowana na potrzeby
+późniejszego przetwarzania w przypadku, gdy pakiet nie zostałby dopasowany do którejś z
+poprzednich reguł.</p>
+<p>Nie powinniśmy mylić ze sobą tablic routingu z regułami routingu. Reguły zawsze wskazują na którąś z
+tablic routingu. Kilka reguł może się odwoływać do jednej tablicy. Może też zaistnieć taka sytuacja,
+że do danej tablicy nie referuje żadna reguła. W takim przypadku, tablica nie jest używana ale dalej
+sobie istnieje. Tablica może jednak zniknąć, gdy wszystkie trasy wewnątrz niej zostają usunięte.</p>
+<p>Każdy pakiet jest sprawdzany w oparciu o powyższe reguły począwszy od tej z najwyższym priorytetem.
+Jeśli reguła zostanie dopasowana, to kończy się przetwarzanie pakietu. W przeciwnym wypadku, kernel
+sprawdza następną regułę i tak do samego końca. Jeśli żadna reguła nie zostanie dopasowana, to wtedy
+zostanie zwrócony odpowiedni komunikat ICMP, np. <code>net unreachable</code> .</p>
+<p>Reguły można dodawać na kilka sposobów. Można operować na źródłowych i docelowych adresach IP
+pakietów ( <code>from</code>/<code>to</code> ) . Można także posłużyć się interfejsem sieciowym ( <code>iif</code>/<code>oif</code> ). Istnieje
+także opcja kierowania pakietów w oparciu o nałożone im oznaczenia w <code>iptables</code> ( <code>fwmark</code> ).
+Analizując sobie mechanizm multiwan, który jest do zaimplementowania <a href="https://morfikov.github.io/post/failover-load-balancing-openwrt-mwan3/">w OpenWRT przy pomocy
+mwan3</a>, byłem w stanie odtworzyć
+reguły routingu, tak by można je było wprowadzić na debianie i dopasować na ich podstawie ruch.
+Generalnie rzecz biorąc będą nas interesować dwa dopasowania, po jednym dla ruchu wychodzącego i
+przychodzącego. Ruch wychodzący będzie dopasowywany w oparciu o FWMARK. Natomiast ruch przychodzący
+w oparciu o interfejs sieciowy. Poniżej są przykładowe reguły, które rozdzielają ruch (póki co
+statycznie) między tych dwóch naszych ISP:</p>
+<pre><code># ip rule add iif bond0 priority 1001 table main
+# ip rule add fwmark 0x5/0xff priority 2001 table home
+
+# ip rule add iif wwan0 priority 1002 table main
+# ip rule add fwmark 0x2/0xff priority 2002 table lte
+</code></pre>
+<p>Zasada działania przepływu pakietu w oparciu o tablice routingu <code>main</code> , <code>lte</code> oraz <code>home</code> jest
+następująca. Pakiet wychodzący z naszej maszyny wpada do <code>iptables</code> . Tam zaś jest oznaczane
+połączenie w oparciu o <a href="https://morfikov.github.io/post/target-mark-w-iptables/">target MARK i CONNMARK</a>.
+Jeśli pakiet w stanie <code>NEW</code> będzie miał mark <code>0x5/0xff</code> , to zostanie przesłany do tablicy <code>home</code> .
+Podobnie sprawa wygląda w przypadku połączenia oznaczonego markiem <code>0x2/0xff</code> , z tym, że to
+połączenie trafi to tablicy <code>lte</code> . Jako, że w obu tych tablicach jest określona inna bramka
+domyślna, to pakiety zostaną wysłane różnymi interfejsami sieciowymi przez innych ISP. Następnie w
+drodze powrotnej, pakiety znów przejdą przez tablice routingu, z tym, że tutaj już ma spore
+znaczenie priorytet, który został ustawiony w powyższych regułach. Reguły z <code>iif</code> , czyli te
+dopasowujące ruch na podstawie interfejsu wejściowego, zostaną zaaplikowane wcześniej. Ich akcją
+jest przeszukanie tablicy main, która zawiera konfigurację sieci, do których jest podłączony host. W
+oparciu o te wpisy, pakiet trafi do maszyny bez problemu.</p>
+<p>W powyżej podlinkowanym artykule opisałem sposób markowania pakietów przy pomocy <code>iptables</code> .
+Niemniej jednak, w tym wpisie nie będziemy się skupiać na tym temacie, bo nas to zbytnio nie
+interesuje w tym momencie. O ile samo markowanie pakietów i połączeń można zrobić czytając tamten
+wpis, to nie zrobimy przy jego pomocy mechanizmu równoważącego ruch (load balancing). W dalszym
+jednak ciągu działa nam failover, czyli w przypadku zaniku połączenia na jednym z tych interfejsów,
+ruch zostanie przełączony automatycznie na drugi z nich.</p>
+<h2 id="równoważenie-obciążenia-load-balancing">Równoważenie obciążenia (load balancing)</h2>
+<p>Równoważenie obciążenia również zahacza o markowanie pakietów w <code>iptables</code> . Potrzebna nam jest
+tylko reguła, która z pewnym prawdopodobieństwem oznaczy pakiety nowych połączeń markiem
+<code>0x5/0xff</code> . Natomiast pozostałe połączenia, które nie mają jeszcze nałożonego marka, zostaną
+oznaczone markerem <code>0x2/0xff</code> . Jak tego typu zadanie zrealizować? Przede wszystkim, potrzebna nam
+jest baza markująca. Jeśli korzystamy z kontroli ruchu w wykonaniu <code>tc</code> (traffic control), to po
+dokładny opis jak ten mechanizm wykonać odsyłam pod podlinkowany wyżej wpis. Nam natomiast
+potrzebne są te poniższe reguły, które trzeba dodać do <code>iptables</code> :</p>
+<pre><code>iptables -t mangle -N load-in
+iptables -t mangle -N load-out
+
+iptables -t mangle -A PREROUTING -j CONNMARK --restore-mark --nfmask 0xff --ctmask 0xff
+iptables -t mangle -A PREROUTING -m mark ! --mark 0x0/0xff -j RETURN
+iptables -t mangle -A PREROUTING -m mark --mark 0x0/0xff -j load-in
+iptables -t mangle -A PREROUTING -j CONNMARK --save-mark --nfmask 0xff --ctmask 0xff
+
+iptables -t mangle -A OUTPUT -j CONNMARK --restore-mark --nfmask 0xff --ctmask 0xff
+iptables -t mangle -A OUTPUT -m mark ! --mark 0x0/0xff -j RETURN
+iptables -t mangle -A OUTPUT -m mark --mark 0x0/0xff -j load-out
+iptables -t mangle -A OUTPUT -j CONNMARK --save-mark --nfmask 0xff --ctmask 0xff
+</code></pre>
+<p>Teraz do łańcuchów <code>load-in</code> oraz <code>load-out</code> dodajemy po dwie
+reguły:</p>
+<pre><code>iptables -t mangle -A load-in -m mark --mark 0x0/0xff -m statistic --mode random --probability 0.5 -j MARK --set-xmark 0x2/0xff
+iptables -t mangle -A load-in -m mark --mark 0x0/0xff -j MARK --set-xmark 0x5/0xff
+
+iptables -t mangle -A load-out -m mark --mark 0x0/0xff -m statistic --mode random --probability 0.5 -j MARK --set-xmark 0x2/0xff
+iptables -t mangle -A load-out -m mark --mark 0x0/0xff -j MARK --set-xmark 0x5/0xff
+</code></pre>
+<p>Wszystkie powyższe reguły dotyczą pakietów, które mają w dalszym ciągu mark <code>0x0/0xff</code> . Jeśli jakiś
+pakiet zostanie oznaczony i ten mark zostanie nałożony na połączenie, to wtedy przez te powyższe
+reguły nie będzie już on przechodził. Pierwsza z tych dwóch reguł wykorzystuje <a href="http://ipset.netfilter.org/iptables-extensions.man.html#lbCD">moduł
+statistic</a>. W tym przypadku korzystamy
+z trybu losowego i przy pomocy <code>--probability</code> określamy, że 50% pakietów zostanie dopasowana do tej
+reguły. Pakiety po dopasowaniu zostaną oznaczone markiem <code>0x2/0xff</code> . Druga z reguł zaś oznaczy
+pozostałe 50% pakietów, bo przecie w dalszym ciągu nie będą mieć żadnego oznaczenia.</p>
+<h2 id="test-łącza-dwóch-isp">Test łącza dwóch ISP</h2>
+<p>No to przyszła pora teraz przetestować, czy aby na pewno pakiety są rozsyłane do obu ISP. To co się
+nam powinno rzucić od razu w oczy, to oczywiście poprawa transferu. Można dla sprawdzenia odpalić
+klienta torrent i nim zapuścić kilka obrazów z linux'ami. Poniżej jest przykładowy wykres:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/2.load-balancing-failover-debian-linux-isp-test.png" alt=""    class="huge"></p>
+<p>Przepustowość łącza jednego z moich ISP to 15/1 mbit/s. Drugie łącze to LTE i pod względem
+przepustowości, to waha się znacznie w zależności od pory dnia. Widzimy wyżej na wykresie, że ogólny
+transfer przekroczył te 15 mbit/s. Zatem oba łącza są w wykorzystaniu. Jeśli nadal nie wierzymy, że
+pakiety idą przez obu ISP, to wystarczy zobaczyć statystyki interfejsów sieciowych w <code>bmon</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/05/3.load-balancing-failover-debian-linux-isp-test-bmon.png" alt=""    class="huge"></p>
+<p>Tu już widzimy, że tej konkretnej chwili na interfejsie <code>bond0</code> mamy transfer 1.29 MiB/s oraz, że na
+interfejsie <code>wwan0</code> mamy nieco ponad 720 KiB/s. Interfejs <code>eth0</code> jest w tym przypadku bez znaczenia,
+bo wchodzi on w skład bondingu. Efektywność podziału łącza możemy oszacować po podejrzeniu połączeń
+w tablicy conntracka w pliku <code>/proc/net/nf_conntrack</code> :</p>
+<pre><code># cat /proc/net/nf_conntrack | grep mark=5 |wc -l
+788
+
+# cat /proc/net/nf_conntrack | grep mark=2 |wc -l
+654
+</code></pre></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/iptables/">iptables</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sysctl/">sysctl</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sie%C4%87/">sieć</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2frownowazenie-ruchu-lacz-kilku-isp-load-balancing%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frownowazenie-ruchu-lacz-kilku-isp-load-balancing%2f&amp;text=R%c3%b3wnowa%c5%bcenie%20ruchu%20%c5%82%c4%85cz%20kilku%20ISP%20%28load%20balancing%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frownowazenie-ruchu-lacz-kilku-isp-load-balancing%2f&amp;title=R%c3%b3wnowa%c5%bcenie%20ruchu%20%c5%82%c4%85cz%20kilku%20ISP%20%28load%20balancing%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frownowazenie-ruchu-lacz-kilku-isp-load-balancing%2f&amp;title=R%c3%b3wnowa%c5%bcenie%20ruchu%20%c5%82%c4%85cz%20kilku%20ISP%20%28load%20balancing%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2frownowazenie-ruchu-lacz-kilku-isp-load-balancing%2f&title=R%c3%b3wnowa%c5%bcenie%20ruchu%20%c5%82%c4%85cz%20kilku%20ISP%20%28load%20balancing%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frownowazenie-ruchu-lacz-kilku-isp-load-balancing%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frownowazenie-ruchu-lacz-kilku-isp-load-balancing%2f&amp;title=R%c3%b3wnowa%c5%bcenie%20ruchu%20%c5%82%c4%85cz%20kilku%20ISP%20%28load%20balancing%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frownowazenie-ruchu-lacz-kilku-isp-load-balancing%2f&description=R%c3%b3wnowa%c5%bcenie%20ruchu%20%c5%82%c4%85cz%20kilku%20ISP%20%28load%20balancing%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czas-zycia-pakietow-czyli-zmiana-ttl/">Czas życia pakietów, czyli zmiana TTL</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/nat-reflection-oraz-nat-loopback-w-openwrt/">NAT Reflection oraz NAT Loopback w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przypisac-losowy-adres-mac-interfejsu/">Jak przypisać losowy adres MAC do interfejsu</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/przeciek-dns-dns-leak-w-vpn-resolvconf/">Przeciek DNS (DNS leak) w VPN (resolvconf)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wvdial-ppp-czyli-modem-lte-w-trybie-ras/">Wvdial i PPP, czyli modem LTE w trybie RAS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/">Konfiguracja modemu LTE w trybie NDIS (NCM)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/darmowy-internet-lte-od-rbmplay/">Darmowy internet LTE od RBM (Play)</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak odzyskać usunięte z dysku pliki | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak odzyskać usunięte z dysku pliki" />
+<meta property="og:description" content="Całkowite usuwanie plików (shred) jak i
+zerowanie całych nośników ma na celu
+nieodwracalne zniszczenie danych. W tych podlinkowanych artykułach próbowaliśmy zatrzeć ślady po
+skasowanych plikach. W tym wpisie zaś prześledzimy sobie co tak naprawdę się dzieje po utworzeniu i
+skasowaniu pliku, a także spróbujemy odzyskać te z nich, które już nie istnieją w naszym systemie.
+Ten artykuł będzie dotyczył jedynie systemu plików z rodziny ext , głównie ext4 ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-odzyskac-usuniete-z-dysku-pliki/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-11-30T19:03:05&#43;00:00" />
+<meta property="article:modified_time" content="2015-11-30T19:03:05&#43;00:00" />
+
+
+		<meta itemprop="name" content="Jak odzyskać usunięte z dysku pliki">
+<meta itemprop="description" content="Całkowite usuwanie plików (shred) jak i
+zerowanie całych nośników ma na celu
+nieodwracalne zniszczenie danych. W tych podlinkowanych artykułach próbowaliśmy zatrzeć ślady po
+skasowanych plikach. W tym wpisie zaś prześledzimy sobie co tak naprawdę się dzieje po utworzeniu i
+skasowaniu pliku, a także spróbujemy odzyskać te z nich, które już nie istnieją w naszym systemie.
+Ten artykuł będzie dotyczył jedynie systemu plików z rodziny ext , głównie ext4 ."><meta itemprop="datePublished" content="2015-11-30T19:03:05&#43;00:00" />
+<meta itemprop="dateModified" content="2015-11-30T19:03:05&#43;00:00" />
+<meta itemprop="wordCount" content="2868">
+<meta itemprop="keywords" content="system-plików,pliki,foldery,ext4," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak odzyskać usunięte z dysku pliki"/>
+<meta name="twitter:description" content="Całkowite usuwanie plików (shred) jak i
+zerowanie całych nośników ma na celu
+nieodwracalne zniszczenie danych. W tych podlinkowanych artykułach próbowaliśmy zatrzeć ślady po
+skasowanych plikach. W tym wpisie zaś prześledzimy sobie co tak naprawdę się dzieje po utworzeniu i
+skasowaniu pliku, a także spróbujemy odzyskać te z nich, które już nie istnieją w naszym systemie.
+Ten artykuł będzie dotyczył jedynie systemu plików z rodziny ext , głównie ext4 ."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak odzyskać usunięte z dysku pliki</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2015-11-30T19:03:05Z">Opublikowano: 30/11/2015</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak odzyskać usunięte z dysku pliki</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#czy-usunięcie-pliku-niszczy-dane">Czy usunięcie pliku niszczy dane?</a></li>
+    <li><a href="#czy-trudno-jest-odzyskać-usunięte-pliki">Czy trudno jest odzyskać usunięte pliki?</a></li>
+    <li><a href="#odzyskiwanie-plików-metodą-file-carving">Odzyskiwanie plików metodą File Carving</a></li>
+    <li><a href="#odzyskiwanie-plików-przy-pomocy-dziennika">Odzyskiwanie plików przy pomocy dziennika</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p><a href="https://morfikov.github.io/post/usuwanie-plikow-przy-pomocy-shred/">Całkowite usuwanie plików (shred)</a> jak i
+<a href="https://morfikov.github.io/post/programowe-sprzetowe-zerowanie-dysku/">zerowanie całych nośników</a> ma na celu
+nieodwracalne zniszczenie danych. W tych podlinkowanych artykułach próbowaliśmy zatrzeć ślady po
+skasowanych plikach. W tym wpisie zaś prześledzimy sobie co tak naprawdę się dzieje po utworzeniu i
+skasowaniu pliku, a także spróbujemy odzyskać te z nich, które już nie istnieją w naszym systemie.
+Ten artykuł będzie dotyczył jedynie systemu plików z rodziny <code>ext</code> , głównie <code>ext4</code> .</p>
+<h2 id="czy-usunięcie-pliku-niszczy-dane">Czy usunięcie pliku niszczy dane?</h2>
+<p>By być w stanie zapisywać informacje na jakimkolwiek nośniku danych, potrzebny jest odpowiedni
+system plików, a tych jest oczywiście cała masa. System plików, to metadane opisujące zbiory
+binarnych jedynek i zer, które my rozumiemy pod nazwą pliku lub katalogu (katalog to też plik). W
+przypadku gdy system nie ma informacji o pewnym interesującym nas pliku, znaczy to tylko tyle, że
+ten plik zwyczajnie nie jest opisany w strukturze systemu plików. Oczywiście w takim przypadku nie
+możemy zwyczajnie uzyskać do niego dostępu, no bo niby w jaki sposób mielibyśmy to zrobić? <a href="https://digital-forensics.sans.org/blog/2010/12/20/digital-forensics-understanding-ext4-part-1-extents">Pod tym
+linkiem</a>
+znajduje się ciekawe doświadczenie, które postanowiłem odtworzyć na mojej maszynie. Chodzi
+generalnie o zademonstrowanie, że usunięcie pliku z dysku nie niszczy danych oraz, że jesteśmy w
+stanie takie pliki bez problemu przywrócić. Stwórzmy sobie przykładowy plik tekstowy i dodajmy do
+niego jakąś treść:</p>
+<pre><code># echo &quot;Przykladowy plik tekstowy&quot; &gt; plik-tekstowy
+</code></pre>
+<p>Spróbujmy dowiedzieć się czego więcej o tym pliku. Potrzebujemy zatem ustalić najpierw numer
+<a href="https://pl.wikipedia.org/wiki/I-w%C4%99ze%C5%82">i-węzła</a> (i-node) odpowiedzialnego za ten plik.
+Możemy to zrobić za pomocą <code>ls</code> . Mając numer i-węzła, informacje o nim możemy uzyskać z <code>istat</code>
+oraz z <code>fsstat</code> , przykładowo:</p>
+<pre><code># ls -li plik-tekstowy
+262882 -rw-r--r-- 1 root root 26 2015-11-25 14:30:10 plik-tekstowy
+
+# istat /dev/mapper/debian_laptop-root 262882
+inode: 262882
+Allocated
+Group: 32
+Generation Id: 582150946
+uid / gid: 0 / 0
+mode: rrw-r--r--
+Flags: Extents,
+size: 26
+num of links: 1
+
+Inode Times:
+Accessed:       2015-11-25 14:30:10.762195266 (CET)
+File Modified:  2015-11-25 14:30:10.762195266 (CET)
+Inode Modified: 2015-11-25 14:30:10.762195266 (CET)
+File Created:   2015-11-25 14:30:10.762195266 (CET)
+
+Direct Blocks:
+1094714
+
+# fsstat /dev/mapper/debian_laptop-root
+...
+Group: 32:
+  Block Group Flags: [INODE_ZEROED]
+  Inode Range: 262145 - 270336
+  Block Range: 1048576 - 1081343
+  Layout:
+    Data bitmap: 1048576 - 1048576
+    Inode bitmap: 1048592 - 1048592
+    Inode Table: 1048608 - 1049119
+    Data Blocks: 1056800 - 1081343
+  Free Inodes: 7 (0%)
+  Free Blocks: 3821 (11%)
+  Total Directories: 1193
+  Stored Checksum: 0x632F
+...
+</code></pre>
+<p>W systemie plików <code>ext4</code> , i-węzły mają rozmiar 256 bajtów, co daje 16 i-węzłów na jeden 4KiB blok.
+Zatem, w którym dokładnie bloku znajduje się szukany przez nas i-węzeł? Zakres i-węzłów tej grupy
+zaczyna się na <code>262145</code> , zaś w <code>ls</code> został podany numerek <code>262882</code> . Odejmujemy pierwszą wartość od
+drugiej: 262882-262145=737. Dzielimy teraz tę wartość przez 16 i otrzymujemy 46.0625. Zatem, ten
+i-węzeł znajduje się gdzieś w bloku 46 w tablicy i-węzłów. Jeśli pierwszy i-węzeł w tej tablicy ma
+numer 1048608, to szukany i-węzeł znajduje się gdzieś w między 256-512 bajtami bloku 1048654. Chodzi
+o to, że blok może mieć 16 części po 256 bajtów. Jako, że dzielenie 737/16 nie dało nam liczby
+całkowitej, oznacza to, że szukany i-węzeł jest gdzieś w środku tego bloku. Gdzie dokładnie, to
+można ustalić dzieląc 1/16. Każda z tych szesnastu części odpowiada 0.0625, zatem wiemy, że są to
+bajty 256-512.</p>
+<p>Zróbmy sobie zatem kopię całego bloku 1048654:</p>
+<pre><code># blkcat /dev/mapper/debian_laptop-root 1048654 &gt; blk-1048654
+
+# ls -al | grep blk
+-rw-r--r--   1 root root 4.0K 2015-11-25 15:12:17 blk-1048654
+</code></pre>
+<p>Musimy poddać ten plik analizie w edytorze hexalnym, np. w
+<a href="http://www.wxhexeditor.org/">wxhexeditor</a>, który jest standardowo dostępny w repozytoriach debiana.
+Każdy i-węzeł rozpoczyna się od <code>A4 81</code> . Wiemy także, że rozmiar takiego i-węzła to 256 bajtów,
+zatem ładujemy plik i oszukujemy tę wspomnianą wartość. Pamiętajmy, że interesuje nas drugi i-węzeł,
+a nie pierwszy. Zaznaczony niżej fragment odpowiada rozmiarowi pliku:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/11/1.i-wezel-edytor-hex-ext4-1.png" alt=""    class="huge"></p>
+<p>W tym przypadku jest to <code>1A</code> co oznacza liczbę 26 i jeśli wrócimy wyżej do logu <code>ls</code> , to faktycznie
+nasz plik tekstowy ma 26 bajtów.</p>
+<p>Jako, że system plików <code>ext4</code> używa <a href="https://pl.wikipedia.org/wiki/Ext4">extent'ów</a>, to 60 bajtów na
+pozycji od 40-99 włącznie (licząc w stosunku do konkretnego i-węzła) przechowuje informacje o
+zakresach bloków:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/11/2.i-wezel-edytor-hex-ext4-2.png" alt=""    class="huge"></p>
+<p>W sumie jest to pięć wpisów, każdy po 12 bajtów. Z tym, że pierwsze 12 bajtów to nagłówek, pozostałe
+bajty są w stanie opisać maksymalnie 4 zakresy bloków. Rzućmy zatem okiem na sam nagłówek. Mamy tam
+następujące bajty:</p>
+<ul>
+<li>296-297: magiczna liczba (Magic number), <code>0xF30A</code> = 62218</li>
+<li>298-299: liczba zakresów <code>0x0001</code> = 1</li>
+<li>300-301: maksymalna liczba zakresów <code>0x0004</code> = 4</li>
+<li>302-303: głębokość drzewa (Depth of tree) <code>0x0000</code> = 0</li>
+<li>304-307: ID <code>0x00000000</code> = 0</li>
+</ul>
+<p>Gdy do systemu plików są dodawane nowe rzeczy lub zmianie ulegają stare, magiczna liczba może ulec
+zmianie i w ten sposób wiemy, że mamy do czynienia z dwiema różnymi implementacjami zakresów. Liczba
+zakresów odpowiada tej aktualnie zarezerwowanej przez plik i w tym przypadku, jako, że plik nie jest
+duży, to system plików jest w stanie go opisać za pomocą jednego zakresu. Maksymalna liczba zakresów
+w <code>ext4</code> wynosi póki co 4.</p>
+<p>Wiemy zatem, że nasz plik ma jeden zakres, wobec czego musimy przebadać dodatkowo kolejne 12 bajtów,
+bo to one opisują ten zakres. Poniżej opis poszczególnych bajtów:</p>
+<ul>
+<li>308-311: numer bloku logicznego (Logical block number), <code>0x00000000</code></li>
+<li>312-313: liczba bloków w zakresie<code>0x0001</code></li>
+<li>314-315: górne 16 bitów adresu fizycznego bloku <code>0x0000</code></li>
+<li>316-319: dolne 32 bity adresu fizycznego bloku <code>0x0010B43A</code></li>
+</ul>
+<p>Numer bloku logicznego informuje nas o tym gdzie ten zakres się zaczyna względem początku pliku. Ta
+pozycja staje się o wiele bardziej ważna, gdy w grę wchodzi wiele zakresów. W tym przypadku mamy do
+czynienia z jednym i ten numer zawsze będzie wskazywał na początek pliku. Liczba bloków w zakresie
+określa ile bloków zajmuje dany plik. Tutaj mamy mały plik tekstowy i nie przekracza on 4096 bajtów,
+zatem zajmuje tylko jeden blok. Ostatnie 6 bajtów mówi nam gdzie ten zakres się dokładnie zaczyna
+podając nam adres pierwszego fizycznego bloku. Jako, że obecne systemy chcą równać wartości do 16,
+32 i 64 bitów, to 48 bitowy adres bloku jest zapisywany w postaci dwóch wartości. Pierwsze 2 bajty
+dają górne 16 bitów adresu bloku, a kolejne 4 bajty zawierają 32 bity niższego rzędu. W taki sposób
+uzyskujemy adres bloku <code>0x00000010B43A</code>, który odpowiada blokowi numer <code>1094714</code> .</p>
+<p>Spróbujmy teraz usunąć z dysku ten plik cośmy go utworzyli zaraz na początku tego wpisu. Zróbmy to
+standardowo przy pomocy polecenia <code>rm</code> :</p>
+<pre><code># rm plik-tekstowy
+</code></pre>
+<p>W tej chwili może się wydawać, że plik jest usunięty ale nadal jesteśmy w stanie odczytać jego
+zawartość udowadniając tym samym, że usunęliśmy jedynie odnośnik do tego pliku nie zmieniając
+praktycznie jego zawartości. By odczytać taki usunięty plik, wpisujemy w terminal to poniższe
+polecenie:</p>
+<pre><code># blkcat /dev/mapper/debian_laptop-root 1094714
+Przykladowy plik tekstowy
+</code></pre>
+<p>Jak pokazuje ten ciekawy przykład, usuwanie plików praktycznie nic nie usuwa z dysku, zatem jesteśmy
+w stanie te pliki odzyskać. Wystarczy by przestrzeń, na której rezyduje dany plik, nie była ponownie
+nadpisana. Jeśli podłączyliśmy dysk do komputera i okazało się, że jakieś pliki zwyczajnie nam z
+niego zniknęły, to jak najszybciej przemontumy ten dysk w tryb tylko do odczytu (lub też go
+całkowicie odmontujemy) przy pomocy tego poniższego polecenia:</p>
+<pre><code># mount -o remount,ro /dev/sdb
+</code></pre>
+<p>Jeżeli nie jesteśmy w stanie odmontować danej partycji, być może jest to za sprawą jakiegoś procesu,
+który w dalszym ciągu z niej korzysta. Wtedy powinniśmy taki proces zabić i spróbować ponownie. By
+ustalić, które procesy korzystają z tego systemu plików, wpisujemy w terminalu to poniższe
+polecenie:</p>
+<pre><code># fuser -vukm /dev/mapper/kabi
+</code></pre>
+<p>Powyżej mamy określoną także flagę <code>-k</code> , która automatycznie zabije wszystkie wypisane procesy.</p>
+<h2 id="czy-trudno-jest-odzyskać-usunięte-pliki">Czy trudno jest odzyskać usunięte pliki?</h2>
+<p>Jak mogliśmy zobaczyć na powyższym przykładzie, skasowane pliki w systemie plików <code>ext4</code> w dalszym
+ciągu są obecne na dysku. Co jednak w przypadku, gdy usuniemy plik i nie mamy do niego łatwego
+odwołania, tak jak to było pokazane wyżej? W takiej sytuacji możemy posłużyć się paroma technikami.
+Pierwsza z nich nazywa jest <a href="http://www.forensicswiki.org/wiki/File_Carving">File Carving</a> , gdzie
+przeszukujemy ciąg bitów w poszukiwaniu dopasowań do wzorców pliku. Każdy plik zawiera nagłówek (i
+bardzo często też stopkę), na podstawie którego to jesteśmy w stanie określić typ pliku analizując
+jedynie same zera i jedynki. Ta metoda znajduje głównie zastosowanie w przypadku plików ciągłych,
+gdzie dane następują po sobie i nie są w żaden sposób pofragmentowane. Jeśli mamy do czynienia z
+pofragmentowanym plikiem, wtedy mogą się pojawić problemy z jego odczytem, lub też odczytanie
+takiego pliku może w ogóle nie być możliwe. Inna metodą odzyskiwania danych jest analiza dziennika,
+o ile dany system plików go udostępnia, a tak jest w przypadku <code>ext4</code> . W tym przypadku, ciągłość
+pliku nie ma większego znaczenia.</p>
+<h2 id="odzyskiwanie-plików-metodą-file-carving">Odzyskiwanie plików metodą File Carving</h2>
+<p>By móc się bawić w odzyskiwanie plików, potrzebujemy odpowiednich narzędzi. W debianie musimy sobie
+zainstalować pakiet <a href="http://www.sleuthkit.org/sleuthkit/">sleuthkit</a> oraz
+<a href="http://foremost.sourceforge.net/">foremost</a>. W pakiecie <code>sleuthkit</code> mamy szereg narzędzi, w tym też
+te, które zostały wykorzystane w doświadczeniu powyżej.</p>
+<p>Zatem do dzieła. Weźmy sobie dla przykładu jakieś plik graficzny i umieśćmy go w przykładowym
+katalogu na nieużywanym systemie plików, po czym go skasujmy, tak by nie pozostał po nim żaden
+widoczny ślad, przykładowo:</p>
+<pre><code># rm plik.pdf
+</code></pre>
+<p>Tutaj już nie znamy lokalizacji pliku, tak jak to miało miejsce w doświadczeniu, które
+przeprowadziliśmy na samym początku. Jako, że jest to symulacja przypadkowego usunięcia ważnego
+pliku, to musimy postępować tak jak to robilibyśmy gdyby faktycznie coś ważnego nam uległo
+skasowaniu. Dlatego też pamiętajmy, by przemontować system plików w tryb tylko do odczytu.
+Pamiętajmy też, by nigdy nie operować na faktycznych danych, a jedynie na backup'ie. W przypadku
+partycji czy całych dysków musimy zrobić sobie kopię binarną takiego nośnika za pomocą <code>dd</code> ,
+poniżej przykład:</p>
+<pre><code># dd if=/dev/mapper/grafi of=/media/sdb/grafi.img
+</code></pre>
+<p>Mając zrobiony obraz, możemy na nim przeprowadzić poniższe czynności. Na początek przy pomocy <code>fls</code>
+skanujemy system plików obrazu pod kątem usuniętych plików:</p>
+<pre><code># fls -dr grafi.img | grep pdf
+r/r * 12:       plik.pdf
+</code></pre>
+<p>Liczba <code>12</code> to numer i-węzła, który musimy poddać analizie przy pomocy <code>istat</code> :</p>
+<pre><code># istat grafi.img 12
+inode: 12
+Not Allocated
+Group: 0
+Generation Id: 3317407099
+uid / gid: 0 / 0
+mode: rrw-r--r--
+Flags: Extents,
+size: 0
+num of links: 0
+
+Inode Times:
+Accessed:       2015-11-28 15:55:38.612100126 (CET)
+File Modified:  2015-11-28 15:56:41.131424193 (CET)
+Inode Modified: 2015-11-28 15:56:41.131424193 (CET)
+File Created:   2015-11-28 15:55:38.612100126 (CET)
+Deleted:        2015-11-28 15:56:41 (CET)
+
+Direct Blocks:
+</code></pre>
+<p>Wyżej widzimy szereg informacji opisujących plik, gdzie mamy również pozycję <code>Deleted</code> , która nam
+mówi, że ten plik został skasowany o określonej godzinie. Lista <code>Direct Blocks</code> jest pusta, zatem
+nie mamy możliwości określenia, które bloki ten plik zajmował. Nas jednak bardziej interesuje grupa
+bloków, którą w tym przypadku ma numer <code>0</code> . Odszukujemy jej opis przy pomocy <code>fsstat</code> :</p>
+<pre><code># fsstat grafi.img
+....
+Group: 0:
+  Block Group Flags: [INODE_ZEROED]
+  Inode Range: 1 - 8192
+  Block Range: 0 - 32767
+  Layout:
+    Super Block: 0 - 0
+    Group Descriptor Table: 1 - 1
+    Group Descriptor Growth Blocks: 2 - 64
+    Data bitmap: 65 - 65
+    Inode bitmap: 73 - 73
+    Inode Table: 81 - 592
+    Uninit Data Bitmaps: 73 - 80
+    Uninit Inode Bitmaps: 81 - 88
+    Uninit Inode Table: 4177 - 8272
+    Data Blocks: 8289 - 32767
+  Free Inodes: 8029 (98%)
+  Free Blocks: 26535 (80%)
+  Total Directories: 6
+  Stored Checksum: 0xB0D7
+...
+</code></pre>
+<p>Mamy tam podaną informację, że bloki danych znajdują się na pozycji <code>8289 - 32767</code> . Generalnie
+można by przebadać cały ten obszar ale nas interesują jedynie te bloki, które nie są aktualnie
+przydzielone, bo to w nich znajduje się nasz skasowany plik. By wyciągnąć te nieprzydzielone bloki,
+posługujemy się <code>blkls</code> :</p>
+<pre><code># blkls -A grafi.img 8289-32767 &gt; free.img
+
+# ls -al free.img
+-rw-r--r-- 1 root root 89M 2015-11-28 16:58:06 free.img
+</code></pre>
+<p>Teraz już zostało nam jedynie przeszukać te 89 MiB danych przy pomocy <code>foremost</code> . Pamiętajmy, że
+szukamy pliku <code>.pdf</code> :</p>
+<pre><code># foremost -d -i free.img -o /media/sdb/odzysk -t pdf
+Processing: free.img
+</code></pre>
+<p>Po chwili proces powinien się zakończyć, a w katalogu <code>/media/sdb/odzysk/</code> powinny znajdować się
+jakieś pliki:</p>
+<pre><code># tree /media/sdb/odzysk/
+/media/sdb/odzysk
+├── audit.txt
+└── pdf
+    └── 00017960.pdf
+
+1 directory, 2 files
+</code></pre>
+<p>Plik wprawdzie nie ma starej nazwy ale za to został w pełni odzyskany i nadaje się do odczytu. Mamy
+też plik <code>audit.txt</code> , który zawiera log z operacji. W tym powyższym przykładzie chcieliśmy odzyskać
+tylko jeden plik. W przypadku, gdy plików byłoby więcej i obszar do przeszukania również byłby
+znacznie większy, wtedy najlepiej przebadać cały obraz i w opcji <code>-t</code> dać <code>all</code> . W taki sposób
+będziemy próbować odzyskać wszystkie skasowane pliki z całego obrazu.</p>
+<h2 id="odzyskiwanie-plików-przy-pomocy-dziennika">Odzyskiwanie plików przy pomocy dziennika</h2>
+<p>System plików <code>ext4</code> ma również dziennik, który loguje przeprowadzane operacje. Dzięki temu, system
+jest w stanie podnieść się po awarii i odzyskać uszkodzone za jej sprawą pliki. Skoro system potrafi
+odzyskać pliki na podstawie dziennika, to my też powinniśmy być w stanie to zrobić. Trzeba tylko
+pamiętać, że wielkość dziennika zależy od rozmiaru partycji. Na tych większych partycjach rozmiar
+dziennika przy standardowym formatowaniu sięga 128MiB. Nie jest to zatem dużo. Oczywiście, &quot;dużo&quot; to
+pojęcie względne, bo to jakie dane będą logowane do dziennika zależy od konfiguracji umieszczonej w
+pliku <code>/etc/fstab</code> . Zakładając, że mamy domyślne ustawienia, to wszystkie partycje są
+skonfigurowane z opcją <code>data=ordered</code> , która ma na celu logowanie <a href="https://www.kernel.org/doc/Documentation/filesystems/ext4.txt">jedynie
+metadanych</a> z operacji bez załączania
+faktycznych danych. W ten sposób 128MiB wydaje się być sporym zapasem.</p>
+<p>Warto zaznaczyć, że większość kroków, które przeprowadzaliśmy w poprzednim rozdziale jest dokładnie
+taka sama i nie będę ich tutaj opisywał ponownie. Generalnie rzecz biorąc, musimy utworzyć sobie
+jakiś plik, następnie go skasować, po czym stworzyć obraz zawierający kopię partycji przy pomocy
+<code>dd</code> . Tam dszukujemy oczywiście i-węzeł i patrzmy w <code>fsstat</code> na opis grupy zawierającej ten
+i-węzeł:</p>
+<pre><code># fls -rd grafi.img
+r/r * 167:      plik.mp3
+
+# istat grafi.img 167
+inode: 167
+Not Allocated
+Group: 0
+...
+
+# fsstat grafi.img
+...
+Group: 0:
+  Block Group Flags: [INODE_ZEROED]
+  Inode Range: 1 - 8192
+  Block Range: 0 - 32767
+  Layout:
+    Super Block: 0 - 0
+    Group Descriptor Table: 1 - 1
+    Group Descriptor Growth Blocks: 2 - 128
+    Data bitmap: 129 - 129
+    Inode bitmap: 145 - 145
+    Inode Table: 161 - 672
+    Uninit Data Bitmaps: 129 - 144
+    Uninit Inode Bitmaps: 145 - 160
+    Uninit Inode Table: 161 - 8352
+    Data Blocks: 8353 - 32767
+  Free Inodes: 7839 (95%)
+  Free Blocks: 24381 (74%)
+  Total Directories: 14
+  Stored Checksum: 0x26EF
+</code></pre>
+<p>Musimy ustalić pozycję i-węzeła. Każdy blok ma 4096 bajtów, każdy i-węzeł ma 256 bajtów i w sumie na
+jeden blok składa się 16 i-węzłów. Tutaj mamy numerek <code>167</code> , zatem interesuje nas dziesiąty blok w
+tablicy i-węzłów, który ma numer <code>171</code> (161+10). Tu właśnie do gry wchodzą logi z dziennika, które
+musimy prześledzić w poszukiwaniu tego numeru <code>171</code> . By przejrzeć dziennik, w terminalu wpisujemy
+<code>jls</code> podając w argumencie plik wcześniej utworzonego obrazu, przykładowo:</p>
+<pre><code># jls grafi.img | grep -i &quot; 171&quot;
+181:    Allocated FS Block 171
+191:    Allocated FS Block 171
+364:    Allocated FS Block 171
+368:    Allocated FS Block 171
+375:    Allocated FS Block 171
+</code></pre>
+<p>Jest kilka wpisów dotyczących tego bloku. Im wcześniejsze tym większe prawdopodobieństwo, że plik ma
+pierwotną formę, bo kolejne wpisy oznaczają, że został on w jakiś sposób zmieniony. Weźmy zatem wpis
+numer <code>181</code> . Musimy podejrzeć cały ten blok w edytorze hexalnym. Możemy zwyczajnie wyświetlić ten
+plik i wyjście przesłąć do <code>xxd</code> albo też możemy zapisać cały blok do pliku i wczytać go w
+<code>wxHexEditor</code> . Ja sobie zapisałem wszystkie te powyższe wpisy do osobnych plików przy pomocy tego
+poniższego polecenia:</p>
+<pre><code># jcat grafi.img 8 181 &gt; blok-171-1
+</code></pre>
+<p><a href="https://ext4.wiki.kernel.org/index.php/Ext4_Disk_Layout#Journal_.28jbd2.29">Cyfra 8 jest zwykle numerem i-węzła
+dziennika</a> systemu
+plików. Jest to standardowa wartość ale zawsze można ją ustalić w poniższy sposób:</p>
+<pre><code># fsstat grafi.img | grep -i journal
+...
+Journal Inode: 8
+</code></pre>
+<p>Jako, że i-węzeł miał numer 167, to odszukujemy 7 (7/16) i-węzeł w edytorze. Pamiętajmy, że są one
+numerowane od zera, zatem jest to 1536 bajt. Dla pewności można też sprawdzić rozmiar pliku (offset
+od 4-7 bajta włącznie, przykładowo:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/11/3.jak-odzyskac-pliki.png" alt=""    class="huge"></p>
+<p>Powyższy zapis <code>0x001A260D</code> odpowiada za <code>1713677</code> bajtów i faktycznie tyle miał ten plik <code>.mp3</code> .
+Zatem udało się odnaleźć odpowiedni blok. Teraz musimy jeszcze ten plik odzyskać.</p>
+<p>Na początek patrzymy w adresy bloków. W tym przypadku mamy poniższy zapis:</p>
+<pre><code>0A F3 01 00 04 00 00 00 00 00 00 00
+00 00 00 00 A3 01 00 00 27 6F 02 00
+00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00
+</code></pre>
+<p>Pierwsza linijka odpowiada za nagłówek. Druga za pierwszy zakres bloków. Jako, że pozostałe mają
+same zera, to oznacza to, że plik jest opisany jednym zakresem bloków. Ustalmy teraz początek
+zakresu. Drugą linijkę dzielimy na kilka części:</p>
+<pre><code>00 00 00 00
+A3 01
+00 00
+27 6F 02 00
+</code></pre>
+<p>Adres pierwszego bloku to te dwie ostatnie pozycje, zatem w zapisie hexalnym będzie to liczba
+<code>0x000000026f27</code> , czyli <code>159527</code> w zapisie dziesiętnym. Natomiast <code>0x01A3</code> to ilość kolejnych
+bloków, które plik zajmuje, w tym przypadku jest to <code>419</code> . Możemy przemnożyć tę liczbę przez 4096
+i uzyskamy wtedy rozmiar pliku, oczywiście w zaokrągleniu do pełnego bloku.</p>
+<p>Znając początkowy blok oraz ilość następnych bloków, możemy ten plik teraz wykroić z dysku przy
+pomocy <code>blkls</code> , podając zakres bloków:</p>
+<pre><code># blkls -e grafi.img 159527-159946 &gt; utracona.mp3
+</code></pre>
+<p>Jako, że kopiowaliśmy całe bloki, to plik wynikowy będzie troszeczkę większy niż ten oryginalny.
+Możemy go oczywiście przyciąć przy pomocy <code>dd</code> . Rozmiar pliku uzyskaliśmy wcześniej z dziennika i
+znamy go. Jest to <code>1713677</code> bajtów . Plik który uzyskaliśmy ma <code>1720320</code> . By teraz przyciąć ten
+plik, wklepujemy w terminal to poniższe polecenie:</p>
+<pre><code># dd if=./utracona.mp3 of=./utracona-przycieta.mp3 bs=1 count=1713677
+</code></pre></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/system-plik%C3%B3w/">system-plików</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pliki/">pliki</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/foldery/">foldery</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ext4/">ext4</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-odzyskac-usuniete-z-dysku-pliki%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-odzyskac-usuniete-z-dysku-pliki%2f&amp;text=Jak%20odzyska%c4%87%20usuni%c4%99te%20z%20dysku%20pliki" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-odzyskac-usuniete-z-dysku-pliki%2f&amp;title=Jak%20odzyska%c4%87%20usuni%c4%99te%20z%20dysku%20pliki" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-odzyskac-usuniete-z-dysku-pliki%2f&amp;title=Jak%20odzyska%c4%87%20usuni%c4%99te%20z%20dysku%20pliki" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-odzyskac-usuniete-z-dysku-pliki%2f&title=Jak%20odzyska%c4%87%20usuni%c4%99te%20z%20dysku%20pliki" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-odzyskac-usuniete-z-dysku-pliki%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-odzyskac-usuniete-z-dysku-pliki%2f&amp;title=Jak%20odzyska%c4%87%20usuni%c4%99te%20z%20dysku%20pliki" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-odzyskac-usuniete-z-dysku-pliki%2f&description=Jak%20odzyska%c4%87%20usuni%c4%99te%20z%20dysku%20pliki" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/usuwanie-plikow-przy-pomocy-shred/">Całkowite usuwanie plików przy pomocy shred</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kodowanie-nazw-plikow-i-jego-zmiana/">Kodowanie nazw plików i jego zmiana</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/uprawnienia-do-plikow-systemowych-w-linuxie/">Uprawnienia do plików systemowych w linux&#39;ie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-kodowania-znakow-w-plikach-na-utf-8/">Zmiana kodowania znaków w plikach na UTF-8</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/dzielenie-i-laczenie-pliku-mp3/">Dzielenie i łączenie pliku mp3</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/migracja-systemu-plikow-ext2-i-ext3-na-ext4/">Migracja systemu plików ext2 i ext3 na ext4</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/ostatnio-uzywane-pliki-recently-used-xbel/">Ostatnio używane pliki (recently-used.xbel)</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

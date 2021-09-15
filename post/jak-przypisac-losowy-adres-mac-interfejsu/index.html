@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak przypisać losowy adres MAC do interfejsu | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak przypisać losowy adres MAC do interfejsu" />
+<meta property="og:description" content="Interfejsy kart sieciowych, które są instalowane w komputerach, posiadają adres MAC (Media Access
+Control). Jest to unikalny identyfikator, który wyróżnia
+nasz komputer spośród tłumu. Na podstawie tego adresu można nie tylko określić markę sprzętu, którą
+się posługujemy ale także można sklasyfikować cały nasz ruch sieciowy. W ten sposób bardzo prosto
+możemy zostać zidentyfikowani wymieniając dane przez darmowe hotspoty sieci bezprzewodowych WiFi.
+Niemniej jednak, jesteśmy się w stanie obronić przed tego typu inwigilacją zmieniając adres MAC
+naszego komputera. Nie jest to zbytnio trudne ale trzeba uważać, by znowu nie przesadzić w drugą
+stronę i czasem nie zostać zidentyfikowanym przez naszą &quot;odmienność&quot;. W tym wpisie postaramy się
+wypracować taki mechanizm, który zmieni nam adres MAC przy każdym podłączeniu do sieci i przy
+zachowaniu zdroworozsądkowych zasad." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-przypisac-losowy-adres-mac-interfejsu/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-04-29T16:42:55&#43;00:00" />
+<meta property="article:modified_time" content="2016-04-29T16:42:55&#43;00:00" />
+
+
+		<meta itemprop="name" content="Jak przypisać losowy adres MAC do interfejsu">
+<meta itemprop="description" content="Interfejsy kart sieciowych, które są instalowane w komputerach, posiadają adres MAC (Media Access
+Control). Jest to unikalny identyfikator, który wyróżnia
+nasz komputer spośród tłumu. Na podstawie tego adresu można nie tylko określić markę sprzętu, którą
+się posługujemy ale także można sklasyfikować cały nasz ruch sieciowy. W ten sposób bardzo prosto
+możemy zostać zidentyfikowani wymieniając dane przez darmowe hotspoty sieci bezprzewodowych WiFi.
+Niemniej jednak, jesteśmy się w stanie obronić przed tego typu inwigilacją zmieniając adres MAC
+naszego komputera. Nie jest to zbytnio trudne ale trzeba uważać, by znowu nie przesadzić w drugą
+stronę i czasem nie zostać zidentyfikowanym przez naszą &quot;odmienność&quot;. W tym wpisie postaramy się
+wypracować taki mechanizm, który zmieni nam adres MAC przy każdym podłączeniu do sieci i przy
+zachowaniu zdroworozsądkowych zasad."><meta itemprop="datePublished" content="2016-04-29T16:42:55&#43;00:00" />
+<meta itemprop="dateModified" content="2016-04-29T16:42:55&#43;00:00" />
+<meta itemprop="wordCount" content="1485">
+<meta itemprop="keywords" content="prywatność,wifi,debian,sieć,mac,modem,huawei,e3372," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak przypisać losowy adres MAC do interfejsu"/>
+<meta name="twitter:description" content="Interfejsy kart sieciowych, które są instalowane w komputerach, posiadają adres MAC (Media Access
+Control). Jest to unikalny identyfikator, który wyróżnia
+nasz komputer spośród tłumu. Na podstawie tego adresu można nie tylko określić markę sprzętu, którą
+się posługujemy ale także można sklasyfikować cały nasz ruch sieciowy. W ten sposób bardzo prosto
+możemy zostać zidentyfikowani wymieniając dane przez darmowe hotspoty sieci bezprzewodowych WiFi.
+Niemniej jednak, jesteśmy się w stanie obronić przed tego typu inwigilacją zmieniając adres MAC
+naszego komputera. Nie jest to zbytnio trudne ale trzeba uważać, by znowu nie przesadzić w drugą
+stronę i czasem nie zostać zidentyfikowanym przez naszą &quot;odmienność&quot;. W tym wpisie postaramy się
+wypracować taki mechanizm, który zmieni nam adres MAC przy każdym podłączeniu do sieci i przy
+zachowaniu zdroworozsądkowych zasad."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak przypisać losowy adres MAC do interfejsu</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2016-04-29T16:42:55Z">Opublikowano: 29/04/2016</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak przypisać losowy adres MAC do interfejsu</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#jak-wygląda-adres-mac-i-gdzie-go-szukać">Jak wygląda adres MAC i gdzie go szukać</a></li>
+    <li><a href="#wady-i-zalety-losowego-mac">Wady i zalety losowego MAC</a></li>
+    <li><a href="#jak-wygenerować-losowy-adres-mac">Jak wygenerować losowy adres MAC</a></li>
+    <li><a href="#aplikowanie-nowego-adresu-mac-przy-podłączeniu-do-sieci">Aplikowanie nowego adresu MAC przy podłączeniu do sieci</a></li>
+    <li><a href="#generowanie-losowego-mac-za-pomocą-macchanger">Generowanie losowego MAC za pomocą macchanger</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Interfejsy kart sieciowych, które są instalowane w komputerach, posiadają adres MAC (<a href="https://en.wikipedia.org/wiki/MAC_address">Media Access
+Control</a>). Jest to unikalny identyfikator, który wyróżnia
+nasz komputer spośród tłumu. Na podstawie tego adresu można nie tylko określić markę sprzętu, którą
+się posługujemy ale także można sklasyfikować cały nasz ruch sieciowy. W ten sposób bardzo prosto
+możemy zostać zidentyfikowani wymieniając dane przez darmowe hotspoty sieci bezprzewodowych WiFi.
+Niemniej jednak, jesteśmy się w stanie obronić przed tego typu inwigilacją zmieniając adres MAC
+naszego komputera. Nie jest to zbytnio trudne ale trzeba uważać, by znowu nie przesadzić w drugą
+stronę i czasem nie zostać zidentyfikowanym przez naszą &quot;odmienność&quot;. W tym wpisie postaramy się
+wypracować taki mechanizm, który zmieni nam adres MAC przy każdym podłączeniu do sieci i przy
+zachowaniu zdroworozsądkowych zasad.</p>
+<h2 id="jak-wygląda-adres-mac-i-gdzie-go-szukać">Jak wygląda adres MAC i gdzie go szukać</h2>
+<p>Zanim zmienimy adres MAC naszego komputera, musimy pierw poznać go nieco dokładniej. Przede
+wszystkim, musimy ustalić jakim adresem posługuje się maszyna, którą podłączamy do sieci. Na
+linux'ie służą do tego zwykle dwa narzędzia <code>ifconfig</code> oraz <code>ip</code> . Oczywiście można ten MAC odczytać
+również z narzędzi graficznych, jak np. network-manager. My tutaj ograniczymy się jednak tylko do
+narzędzi konsolowych wymienionych wyżej. Poniżej jest fotka przedstawiająca szereg interfejsów
+sieciowych. Widnieją tam także adresy MAC:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/1.statystyki-interfejsow-sieciowych-adres-mac.png" alt=""    class="huge"></p>
+<p>Adresy MAC są zaraz obok <code>link/ether</code> . I tak dla przykładu, interfejs <code>eth0</code> dysponuje adresem MAC
+<code>f6:3a:37:fa:20:40</code> , natomiast interfejs <code>wwan0</code> ma przypisany adres <code>f2:f5:ed:74:0b:18</code> . Wyżej
+widzimy, że trzy interfejsy mają ten sam MAC. Nie jest to błąd, a jedynie specyfikacja konfiguracji,
+która jest używana na tej maszynie, konkretnie
+<a href="https://en.wikipedia.org/wiki/Link_aggregation">bonding</a>.</p>
+<p>Adres MAC ma 6 bajtów, czyli 48 bitów. Pierwsze trzy oktety określają producenta sprzętu. Natomiast
+ostatnie trzy są losowo przypisywane do konkretnego urządzenia. Obecnie powoli odchodzi się od tych
+48-bitowych adresów, na rzecz
+<a href="https://en.wikipedia.org/wiki/Organizationally_unique_identifier#64-bit_Extended_Unique_Identifier_.28EUI-64.29">64-bitowych</a>,
+gdzie w dalszym ciągu identyfikator producenta ma taką samą długość (24 bity) ale identyfikator
+urządzenia ma już tych bitów 40.</p>
+<p>Na necie można się spotkać z licznymi sposobami generowania losowych adresów MAC. Problem w tym, że
+te rozwiązania często generują również całą masę niewłaściwych adresów, których system nie chce
+zaakceptować. Jeśli spróbowalibyśmy taki adres wskazać systemowi, ten zwróci nam komunikat:
+<code>RTNETLINK answers: Cannot assign requested address</code> . Poniżej znajduje się fotka, która rozjaśni
+nam nieco sytuację i wyjaśni dlaczego nie wszystkie adresy się nadają do wykorzystania
+(<a href="https://en.wikipedia.org/wiki/MAC_address">źródło</a>):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/2.specyfikacja-adres-mac.png" alt=""    class="big"></p>
+<p><a href="https://superuser.com/questions/725467/set-mac-address-fails-rtnetlink-answers-cannot-assign-requested-address/725472#725472">Pierwsze dwa bity
+decydują</a>
+o tym, czy dany adres MAC jest do wykorzystania, czy też nie. Bit 1 odpowiada za określenie czy ten
+adres jest typu rozgłoszeniowego (broadcast). Wszystkie adresy MAC stosowane w komputerach powinny
+być unicast'owe. Dlatego też pierwszy bit musi być ustawiony na <code>0</code> . Z kolei drugi bit informuje
+czy adres MAC jest zarządzany lokalnie, tj. czy administrator systemu/sieci go przypisał. Jeśli tak,
+to może on nie być unikatowy. Ten bit możemy ustawić zarówno na <code>0</code> jak i <code>1</code> . Niemniej jednak,
+jeśli chcemy ustawić losowy adres, to dobrze jest przestawić ten bit na <code>1</code> .</p>
+<h2 id="wady-i-zalety-losowego-mac">Wady i zalety losowego MAC</h2>
+<p>Jeśli chcemy korzystać z losowego adresu MAC, to musimy zdawać sobie sprawę, że niesie to ze sobą
+pewne następstwa. Przede wszystkim, jeśli w danej sieci lokalnej, do której jesteśmy podłączeni,
+znajdzie się druga maszyna o takim samym MAC, to wystąpią problemy z komunikacją. Na szczęście, taki
+schemat jest bardzo mało prawdopodobny. Idąc dalej, trzeba wziąć pod uwagę serwer DHCP. Te z reguły
+przypisują statyczne lease w zależności od przesłanego adresu MAC. Może się zdarzyć taka sytuacja,
+że nie będziemy mogli zwyczajnie otrzymać adresacji, bo ten adres MAC nie został uwzględniony na
+serwerze DHCP. Ta sytuacja też raczej nam nie grozi, no chyba, że logujemy się do jakiejś sieci
+prywatnej. Niemniej jednak, przeznaczeniem losowych adresów MAC są zwykle darmowe sieci WiFi, do
+których może się zalogować każdy i tam nie powinniśmy takich problemów w ogóle napotkać. Trzeba
+pamiętać też, że jeśli będziemy się łączyć w swojej sieci domowej, to również tutaj zostanie
+przydzielony inny adres MAC, co nie zawsze jest pożądane. Dobrze jest zatem zmienić adres MAC tylko
+w stosunku do określonych interfejsów, np. <code>wwan0</code> . Przykładowo, modemy LTE zwykle udostępniają
+połączenie po interfejsie <code>ppp0</code> lub wspomnianym <code>wwan0</code> . Przy pomocy takiego modemu LTE zawsze
+będziemy logowani do BTS'a operatora GSM i w takim przypadku, bez problemu możemy posługiwać się
+losowym adresem MAC.</p>
+<h2 id="jak-wygenerować-losowy-adres-mac">Jak wygenerować losowy adres MAC</h2>
+<p>Ten adres MAC, który za moment wygenerujemy, będzie czysto losowy ale zostanie też na niego nałożony
+filtr uwzględniający te powyższe założenia. W efekcie wynikowy MAC będzie nieco inny od tego
+wygenerowanego losowo. Niemniej jednak, można powiedzieć, że ten adres będzie w znacznym stopniu
+losowy. Przede wszystkim, musimy utworzyć sobie skrypt i wrzucić do niego tę poniższą zawartość:</p>
+<pre><code>#!/bin/sh
+
+[ &quot;$IFACE&quot; != &quot;lo&quot; ] || exit 0
+
+macaddr=$(dd if=/dev/urandom bs=1024 count=1 2&gt;/dev/null|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\)\(..\).*$/:::::/')
+
+lastfive=$( echo &quot;$macaddr&quot; | cut -d: -f 2-6 )
+firstbyte=$( echo &quot;$macaddr&quot; | cut -d: -f 1 )
+
+firstbyte=$( printf '%02x' $(( 0x$firstbyte &amp; 254 | 2)) )
+
+newmac=&quot;$firstbyte:$lastfive&quot;
+
+echo &quot;Setting a new MAC address $newmac ...&quot;
+
+ip link set dev $IFACE address $newmac
+
+exit 0
+</code></pre>
+<p>Na samym początku mamy warunek, który omija tworzenie losowego adresu MAC dla pętli zwrotnej, tj.
+interfejsu <code>lo</code> . Następnie generujemy losowy adres i umieszczamy go w zmiennej <code>$macaddr</code> . Kolejne
+dwie linijki kroją ten adres, w taki sposób, by wyselekcjonować pierwszy bajt. Dalej odbywa się całą
+magia. Mamy dwie operacje na bitach. Pierwsza z nich to logiczny AND z wartością 254. Natomiast
+druga to logiczny OR z wartością 2. Dla przykładu załóżmy, że pierwszy bajt adresu MAC to <code>07</code> .
+Wartość binarna, to <code>00000111</code> z kolei <code>254</code> binarnie, to <code>11111110</code> . Przeprowadzamy operację AND,
+czyli jeśli mamy dwa bity o wartości <code>1</code> , to w wyniku również będzie <code>1</code> . W każdym innym przypadku
+będzie <code>0</code>:</p>
+<pre><code>11111110
+00000111
+-------- AND
+00000110
+</code></pre>
+<p>Tak otrzymaną wartość poddajemy operacji OR z wartością <code>2</code>, binarnie <code>00000010</code> . Tutaj z kolei
+tylko wartości dwóch bitów wskazujących na <code>0</code> dadzą w wyniku <code>0</code> . W każdym innym przypadku mamy
+mamy <code>1</code> :</p>
+<pre><code>00000110
+00000010
+-------- OR
+00000110
+</code></pre>
+<p>W rezultacie otrzymujemy wartość <code>06</code> i to jest pierwszy bajt naszego losowego MAC. Więcej
+informacji o operacjach logicznych <a href="https://pl.wikipedia.org/wiki/Bramka_logiczna">można znaleźć
+tutaj</a>.</p>
+<h2 id="aplikowanie-nowego-adresu-mac-przy-podłączeniu-do-sieci">Aplikowanie nowego adresu MAC przy podłączeniu do sieci</h2>
+<p>Wyżej zaprojektowaliśmy sobie milusi skrypt, który możemy wykorzystać w procesie nawiązywania
+połączenia. W zależności od wykorzystywanego oprogramowania, ten powyższy plik będzie trzeba
+umieścić w innym miejscu. Na debianie przy korzystaniu z pakietu <code>ifupdown</code> , skrypt wrzucamy do
+katalogu <code>/etc/network/if-pre-up.d/</code> . Jak nazwa wskazuje, skrypty w tym katalogu wykonają się tuż
+przed podniesieniem interfejsu sieciowego i pobraniem adresacji. Tylko w takim stanie interfejsu
+można zmienić jego adres MAC.</p>
+<p>Należy pamiętać, by skrypt nie posiadał żadnego rozszerzenia, typu <code>.sh</code> , bo wtedy nie zostanie
+wzięty pod uwagę. Podobnie trzeba pilnować odpowiednich praw, zwłaszcza upewnić się, że skrypt ma
+atrybut wykonywalności oraz, że jego właścicielem jest root. Dobrze jest sprawdzić przy pomocy
+poniższego polecenia, czy skrypt zostanie wykonany. Wszystkie skrypty, które zostaną
+wyszczególnione po wykonaniu tego polecenia, zostaną także uruchomione przy podnoszeniu interfejsów
+sieciowych:</p>
+<pre><code># run-parts --test /etc/network/if-pre-up.d/
+</code></pre>
+<p>W zależności od konfiguracji, taki interfejs może się uaktywnić automatycznie po podłączeniu
+przewodu sieciowego. Można także podnieść go ręcznie przy pomocy <code>ifup eth0</code> . Za każdym razem, gdy
+się rozłączymy i połączymy ponownie, adres MAC ulegnie zmianie.</p>
+<h2 id="generowanie-losowego-mac-za-pomocą-macchanger">Generowanie losowego MAC za pomocą macchanger</h2>
+<p>Istnieje także możliwość wykorzystania puli adresów MAC, która jest przypisana do poszczególnych
+znanych producentów sprzętu. Niemniej jednak, to przedsięwzięcie wymaga dodatkowego oprogramowania w
+postaci <code>macchanger</code> . Debian dysponuje tym pakietem, zatem nie powinno być problemów z jego
+instalacją jeśli chcielibyśmy tego typu adresy uzyskać.</p>
+<p>Adres MAC, który jest przypisany do urządzenia zawsze będzie widoczny i nigdy nie uda nam się
+wymazać tej informacji. Możemy jedynie zmylić system i sprawić, by taką błędną informację przesyłał
+w komunikatach sieciowych. Oryginalny adres można podejrzeć w poniższy sposób:</p>
+<pre><code># macchanger wwan0
+Current MAC:   00:1e:10:1f:00:00 (ShenZhen Huawei Communication Technologies Co.,Ltd.)
+Permanent MAC: 00:1e:10:1f:00:00 (ShenZhen Huawei Communication Technologies Co.,Ltd.)
+</code></pre>
+<p>Narzędzie <code>macchanger</code> dysponuje kilkoma ciekawymi przełącznikami:</p>
+<ul>
+<li><code>-r</code> -- ustawia w pełni losowy adres MAC.</li>
+<li><code>-e</code> -- przy ustawianiu MAC, część odpowiedzialna za identyfikację producenta nie zmienia się.</li>
+<li><code>-a</code> -- ustawia adres tego samego rodzaju, np. przydzielane będą jedynie adresy MAC kart WiFi.</li>
+<li><code>-A</code> -- ustawia adres dowolnego rodzaju.</li>
+<li><code>-b</code> -- ma znaczenie tylko przy generowaniu losowego adresu i gdy ta flaga nie zostanie
+określona, adres MAC będzie miał ustawiony bit lokalnego administrowania.</li>
+<li><code>-p</code> -- przywraca fabryczny MAC interfejsu.</li>
+</ul>
+<p>Widzimy zatem, że <code>macchanger</code> potrafi nieco lepiej dobrać losowy adres MAC i w sporej części opcja
+<code>-a</code> lub <code>-A</code> powinna nam zapewnić dostateczne ukrycie. W przypadku korzystania z <code>macchanger</code>
+naturalnie nie potrzebujemy wyżej omawianego skryptu. Zamiast niego musimy edytować plik
+<code>/etc/network/interfaces</code> i przy interfejsie sieciowym dopisać dwie dyrektywy: <code>pre-up</code> oraz
+<code>post-down</code> . Pierwsza z nich zostanie wykonana przed podniesieniem interfejsu, druga zaś po jego
+położeniu. Poniżej przykład konfiguracji interfejsu <code>wwan0</code> :</p>
+<pre><code>allow-hotplug wwan0
+iface wwan0 inet dhcp
+    pre-up macchanger -a $IFACE
+    ...
+    post-down macchanger -p $IFACE
+</code></pre>
+<p>Poniżej fotka obrazująca działający mechanizm zmiany MAC w oparciu o oprogramowanie <code>macchanger</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/3.automatyczna-zmiana-adres-mac-polaczenie.png" alt=""    class="huge"></p>
+<p>Więcej informacji na temat sposóbu zmiany adresów MAC przy pomocy różnych narzędzi można znaleźć na
+<a href="https://wiki.archlinux.org/index.php/MAC_address_spoofing">wiki ArchLinux'a</a>, jak i również <a href="https://riseup.net/pl/security/network-security/mac-address">na
+stronie riseup</a>.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/prywatno%C5%9B%C4%87/">prywatność</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wifi/">wifi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sie%C4%87/">sieć</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/mac/">mac</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/modem/">modem</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/huawei/">huawei</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/e3372/">e3372</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przypisac-losowy-adres-mac-interfejsu%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przypisac-losowy-adres-mac-interfejsu%2f&amp;text=Jak%20przypisa%c4%87%20losowy%20adres%20MAC%20do%20interfejsu" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przypisac-losowy-adres-mac-interfejsu%2f&amp;title=Jak%20przypisa%c4%87%20losowy%20adres%20MAC%20do%20interfejsu" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przypisac-losowy-adres-mac-interfejsu%2f&amp;title=Jak%20przypisa%c4%87%20losowy%20adres%20MAC%20do%20interfejsu" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przypisac-losowy-adres-mac-interfejsu%2f&title=Jak%20przypisa%c4%87%20losowy%20adres%20MAC%20do%20interfejsu" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przypisac-losowy-adres-mac-interfejsu%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przypisac-losowy-adres-mac-interfejsu%2f&amp;title=Jak%20przypisa%c4%87%20losowy%20adres%20MAC%20do%20interfejsu" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-przypisac-losowy-adres-mac-interfejsu%2f&description=Jak%20przypisa%c4%87%20losowy%20adres%20MAC%20do%20interfejsu" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wvdial-ppp-czyli-modem-lte-w-trybie-ras/">Wvdial i PPP, czyli modem LTE w trybie RAS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-modemu-lte-w-trybie-ndis-ncm/">Konfiguracja modemu LTE w trybie NDIS (NCM)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/darmowy-internet-lte-od-rbmplay/">Darmowy internet LTE od RBM (Play)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-polaczenia-aero2-na-openwrt/">Konfiguracja połączenia Aero2 na OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/obsluga-kodow-ussd-w-modemach-lte/">Obsługa kodów USSD w modemach LTE</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wysylanie-odbieranie-sms-w-wammu/">Wysyłanie i odbieranie SMS w wammu</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/gammu-smsd-czyli-wysylanie-odbieranie-sms/">Gammu-smsd, czyli wysyłanie i odbieranie SMS</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

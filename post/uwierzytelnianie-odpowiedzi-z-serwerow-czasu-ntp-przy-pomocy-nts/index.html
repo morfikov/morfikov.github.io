@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Uwierzytelnianie odpowiedzi z serwerów czasu NTP przy pomocy NTS | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Uwierzytelnianie odpowiedzi z serwerów czasu NTP przy pomocy NTS" />
+<meta property="og:description" content="Przepisując ostatnio stare artykuły dotyczące zabezpieczenia zapytań DNS za sprawą wdrożenia na
+linux dnsmasq i dnscrypt-proxy, natknąłem się na informację, że nie tylko komunikacja DNS
+w obecnych czasach w sporej mierze nie jest zaszyfrowana. W zasadzie każda maszyna podłączona do
+internetu potrzebuje dysponować w miarę dokładnym czasem. By ten czas był dokładny, wymyślono
+mechanizm synchronizacji czasu przez wysyłanie zapytań do serwerów NTP (Network Time Protocol).
+Niemniej jednak, odpowiedzi z tych serwerów czasu nie są w żaden sposób zabezpieczone i praktycznie
+każdy na drodze tych pakietów może nam zmienić ustawienia czasu w systemie (MITM). W taki sposób
+możemy zostać cofnięci w czasie, co z kolei może oznaczać, że system zaakceptuje certyfikaty SSL/TLS
+czy też klucze/bilety sesji (używane do wznawiania sesji TLS), które już dawno temu wygasły
+lub/i zostały w jakiś sposób skompromitowane. Pchnięcie nas do przodu w czasie również oznacza
+problemy, bo możemy zaakceptować certyfikat, który jeszcze nie zaczął być ważny. To z kolei otwiera
+drogę do odszyfrowania połączeń z serwisami WWW, a przecie nie po to szyfrujemy ruch, by go ktoś bez
+większego problemu odszyfrował. Dlatego też powinniśmy zadbać o to, by informacje o aktualnym czasie
+otrzymywane z sieci docierały do nas z wiarygodnego źródła i były w jakiś sposób uwierzytelnione.
+Na Debianie standardowo do synchronizacji czasu wykorzystywany jest systemd-timesyncd ale nie
+wspiera on póki co protokołu NTS. Trzeba będzie zatem się go pozbyć i zastąpić go demonem ntpd
+z pakietu ntpsec ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/uwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-09-27T12:29:00&#43;02:00" />
+<meta property="article:modified_time" content="2020-09-27T12:29:00&#43;02:00" />
+
+
+		<meta itemprop="name" content="Uwierzytelnianie odpowiedzi z serwerów czasu NTP przy pomocy NTS">
+<meta itemprop="description" content="Przepisując ostatnio stare artykuły dotyczące zabezpieczenia zapytań DNS za sprawą wdrożenia na
+linux dnsmasq i dnscrypt-proxy, natknąłem się na informację, że nie tylko komunikacja DNS
+w obecnych czasach w sporej mierze nie jest zaszyfrowana. W zasadzie każda maszyna podłączona do
+internetu potrzebuje dysponować w miarę dokładnym czasem. By ten czas był dokładny, wymyślono
+mechanizm synchronizacji czasu przez wysyłanie zapytań do serwerów NTP (Network Time Protocol).
+Niemniej jednak, odpowiedzi z tych serwerów czasu nie są w żaden sposób zabezpieczone i praktycznie
+każdy na drodze tych pakietów może nam zmienić ustawienia czasu w systemie (MITM). W taki sposób
+możemy zostać cofnięci w czasie, co z kolei może oznaczać, że system zaakceptuje certyfikaty SSL/TLS
+czy też klucze/bilety sesji (używane do wznawiania sesji TLS), które już dawno temu wygasły
+lub/i zostały w jakiś sposób skompromitowane. Pchnięcie nas do przodu w czasie również oznacza
+problemy, bo możemy zaakceptować certyfikat, który jeszcze nie zaczął być ważny. To z kolei otwiera
+drogę do odszyfrowania połączeń z serwisami WWW, a przecie nie po to szyfrujemy ruch, by go ktoś bez
+większego problemu odszyfrował. Dlatego też powinniśmy zadbać o to, by informacje o aktualnym czasie
+otrzymywane z sieci docierały do nas z wiarygodnego źródła i były w jakiś sposób uwierzytelnione.
+Na Debianie standardowo do synchronizacji czasu wykorzystywany jest systemd-timesyncd ale nie
+wspiera on póki co protokołu NTS. Trzeba będzie zatem się go pozbyć i zastąpić go demonem ntpd
+z pakietu ntpsec ."><meta itemprop="datePublished" content="2020-09-27T12:29:00&#43;02:00" />
+<meta itemprop="dateModified" content="2020-09-27T12:29:00&#43;02:00" />
+<meta itemprop="wordCount" content="5508">
+<meta itemprop="keywords" content="debian,ntp,nts,sntp,ntpsec,bezpieczeństwo,czas,systemd,systemd-timesyncd," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Uwierzytelnianie odpowiedzi z serwerów czasu NTP przy pomocy NTS"/>
+<meta name="twitter:description" content="Przepisując ostatnio stare artykuły dotyczące zabezpieczenia zapytań DNS za sprawą wdrożenia na
+linux dnsmasq i dnscrypt-proxy, natknąłem się na informację, że nie tylko komunikacja DNS
+w obecnych czasach w sporej mierze nie jest zaszyfrowana. W zasadzie każda maszyna podłączona do
+internetu potrzebuje dysponować w miarę dokładnym czasem. By ten czas był dokładny, wymyślono
+mechanizm synchronizacji czasu przez wysyłanie zapytań do serwerów NTP (Network Time Protocol).
+Niemniej jednak, odpowiedzi z tych serwerów czasu nie są w żaden sposób zabezpieczone i praktycznie
+każdy na drodze tych pakietów może nam zmienić ustawienia czasu w systemie (MITM). W taki sposób
+możemy zostać cofnięci w czasie, co z kolei może oznaczać, że system zaakceptuje certyfikaty SSL/TLS
+czy też klucze/bilety sesji (używane do wznawiania sesji TLS), które już dawno temu wygasły
+lub/i zostały w jakiś sposób skompromitowane. Pchnięcie nas do przodu w czasie również oznacza
+problemy, bo możemy zaakceptować certyfikat, który jeszcze nie zaczął być ważny. To z kolei otwiera
+drogę do odszyfrowania połączeń z serwisami WWW, a przecie nie po to szyfrujemy ruch, by go ktoś bez
+większego problemu odszyfrował. Dlatego też powinniśmy zadbać o to, by informacje o aktualnym czasie
+otrzymywane z sieci docierały do nas z wiarygodnego źródła i były w jakiś sposób uwierzytelnione.
+Na Debianie standardowo do synchronizacji czasu wykorzystywany jest systemd-timesyncd ale nie
+wspiera on póki co protokołu NTS. Trzeba będzie zatem się go pozbyć i zastąpić go demonem ntpd
+z pakietu ntpsec ."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Uwierzytelnianie odpowiedzi z serwerów czasu NTP przy pomocy NTS</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2020-09-27T12:29:00&#43;02:00">Opublikowano: 27/09/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Uwierzytelnianie odpowiedzi z serwerów czasu NTP przy pomocy NTS</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#czemu-potrzebny-jest-nam-dokładny-czas">Czemu potrzebny jest nam dokładny czas</a></li>
+    <li><a href="#jak-wygląda-synchronizacja-czasu-w-debianie">Jak wygląda synchronizacja czasu w Debianie</a>
+      <ol>
+        <li><a href="#brak-wsparcia-dla-ntp-w-systemd-timesyncd">Brak wsparcia dla NTP w systemd-timesyncd</a></li>
+        <li><a href="#podejrzenie-synchronizacji-czasu-w-wireshark">Podejrzenie synchronizacji czasu w wireshark</a></li>
+      </ol>
+    </li>
+    <li><a href="#czym-jest-protokół-nts">Czym jest protokół NTS</a>
+      <ol>
+        <li><a href="#szczegółowy-opis-działania-protokołu-nts">Szczegółowy opis działania protokołu NTS</a></li>
+      </ol>
+    </li>
+    <li><a href="#rezygnacja-z-systemd-timesyncd-na-rzecz-ntpd-ntpsec">Rezygnacja z systemd-timesyncd na rzecz ntpd (ntpsec)</a>
+      <ol>
+        <li><a href="#kwestia-serwerów-czasu-otrzymywanych-w-lease-dhcp">Kwestia serwerów czasu otrzymywanych w lease DHCP</a></li>
+      </ol>
+    </li>
+    <li><a href="#konfiguracja-ntpsec">Konfiguracja ntpsec</a>
+      <ol>
+        <li><a href="#włączenie-protokołu-nts-w-ntpsec">Włączenie protokołu NTS w ntpsec</a></li>
+        <li><a href="#polityka-kontroli-dostępu-do-ntpd">Polityka kontroli dostępu do ntpd</a></li>
+      </ol>
+    </li>
+    <li><a href="#test-synchronizacji-czasu-z-wykorzystaniem-protokołu-nts">Test synchronizacji czasu z wykorzystaniem protokołu NTS</a>
+      <ol>
+        <li><a href="#zapytania-do-ntpd-przez-ntpq">Zapytania do ntpd przez ntpq</a></li>
+      </ol>
+    </li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Przepisując ostatnio stare artykuły dotyczące <a href="https://morfikov.github.io/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/">zabezpieczenia zapytań DNS za sprawą wdrożenia na
+linux dnsmasq i dnscrypt-proxy</a>, natknąłem się <a href="https://blog.cloudflare.com/secure-time/">na informację</a>, że nie tylko komunikacja DNS
+w obecnych czasach w sporej mierze nie jest zaszyfrowana. W zasadzie każda maszyna podłączona do
+internetu potrzebuje dysponować w miarę dokładnym czasem. By ten czas był dokładny, wymyślono
+mechanizm synchronizacji czasu przez wysyłanie zapytań do serwerów NTP (<a href="https://pl.wikipedia.org/wiki/Network_Time_Protocol">Network Time Protocol</a>).
+Niemniej jednak, odpowiedzi z tych serwerów czasu nie są w żaden sposób zabezpieczone i praktycznie
+każdy na drodze tych pakietów może nam zmienić ustawienia czasu w systemie (MITM). W taki sposób
+możemy zostać cofnięci w czasie, co z kolei może oznaczać, że system zaakceptuje certyfikaty SSL/TLS
+czy też <a href="https://trimstray.github.io/posts/2019-07-21-nginx-optymalizacja_sesji_ssl-tls/#ssl_session_tickets">klucze/bilety sesji</a> (używane do wznawiania sesji TLS), które już dawno temu wygasły
+lub/i zostały w jakiś sposób skompromitowane. Pchnięcie nas do przodu w czasie również oznacza
+problemy, bo możemy zaakceptować certyfikat, który jeszcze nie zaczął być ważny. To z kolei otwiera
+drogę do odszyfrowania połączeń z serwisami WWW, a przecie nie po to szyfrujemy ruch, by go ktoś bez
+większego problemu odszyfrował. Dlatego też powinniśmy zadbać o to, by informacje o aktualnym czasie
+otrzymywane z sieci docierały do nas z wiarygodnego źródła i były w jakiś sposób uwierzytelnione.
+Na Debianie standardowo do synchronizacji czasu wykorzystywany jest <code>systemd-timesyncd</code> ale <a href="https://github.com/systemd/systemd/issues/9481">nie
+wspiera on póki co protokołu NTS</a>. Trzeba będzie zatem się go pozbyć i zastąpić go demonem <code>ntpd</code>
+z pakietu <code>ntpsec</code> .</p>
+<h2 id="czemu-potrzebny-jest-nam-dokładny-czas">Czemu potrzebny jest nam dokładny czas</h2>
+<p>O protokole NTP raczej każdy z nas już słyszał. Zwykle jest on stosowany do synchronizacji
+czasu między maszynami przy wykorzystaniu sieci, gdzie opóźnienia na drodze pakietów nie są stałe.
+Dokładny czas jest obecnie dość istotnym elementem pracy komputera podłączonego do internetu, bo
+nawet drobne różnice mogą wpływać bardzo niekorzystnie na jego zachowanie. Weźmy na przykład
+uwierzytelnianie dwuskładnikowe wykorzystujące kody jednorazowe oparte na czasie (<a href="https://en.wikipedia.org/wiki/Time-based_One-time_Password_algorithm">Time based One
+Time Password</a>, TOTP). Jak bez dokładnego czasu bylibyśmy w stanie te kody generować i z nich
+korzystać? Jeśli czas naszego komputera/smartfona nie byłby zsynchronizowany, to mógłby odbiegać od
+czasu serwera usługi, do której próbujemy się zalogować. Inny czas na tych maszynach oznacza inne
+kody. Oczywiście, drobne różnice w czasie są dopuszczalne (<a href="https://tools.ietf.org/html/rfc6238#page-7">~89 sekund</a>), bo w przeciwnym
+wypadku mielibyśmy ciągłe problemy z logowaniem, zwłaszcza przy korzystaniu z tokenów sprzętowych,
+które do sieci zwykle podłączone nie są, przez co nie mogą synchronizować czasu, a ich bateria przy
+tym wieczna nie jest. Niemniej jednak, są sytuacje, które wymagają bardzo precyzyjnych czasów, np.
+Bitcoin.</p>
+<h2 id="jak-wygląda-synchronizacja-czasu-w-debianie">Jak wygląda synchronizacja czasu w Debianie</h2>
+<p>Zwykle synchronizacja czasu na Debianie odbywa się automatycznie i tym zadaniem zajmuje się demon
+<code>systemd-timesyncd</code> przy zestawianiu połączenia sieciowego. W zasadzie nie są od nas wymagane żadne
+dodatkowe czynności, by nasz linux miał aktualny czas. Niekiedy jednak ustawienia, które mają za
+zadanie automatycznie synchronizować czas mogą być wyłączone. W takim przypadku użytkownik musi
+włączyć synchronizację czasu z serwerami NTP przy pomocy <code>timedatectl</code> :</p>
+<pre><code># timedatectl set-ntp true
+</code></pre>
+<p>Po wydaniu tego polecenia dobrze jest jeszcze zweryfikować czy synchronizacja czasu działa:</p>
+<pre><code>$ timedatectl status
+               Local time: Tue 2020-09-22 22:30:16 CEST
+           Universal time: Tue 2020-09-22 20:30:16 UTC
+                 RTC time: Tue 2020-09-22 20:30:16
+                Time zone: Europe/Warsaw (CEST, +0200)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+</code></pre>
+<p>Wyżej widzimy ustawienia czasu mojej maszyny. To co nas najbardziej interesuje tutaj, to czy usługa
+NTP jest aktywna ( <code>active</code> ) oraz czy zegar systemowy został zsynchronizowany ( <code>yes</code> ). Zatem
+system automatycznie dokonał synchronizacji czasu. Jeśli jednak by się tak zdarzyło, że czas nie
+byłby zsynchronizowany, to naturalnie możemy dokonać ręcznej synchronizacji restartując demona
+<code>systemd-timesyncd</code> :</p>
+<pre><code># systemctl restart systemd-timesyncd.service
+</code></pre>
+<p>Status synchronizacji możemy sprawdzić w <code>timedatectl</code> :</p>
+<pre><code>$ timedatectl timesync-status
+       Server: 94.154.96.7 (0.pl.pool.ntp.org)
+Poll interval: 1min 4s (min: 32s; max 34min 8s)
+         Leap: normal
+      Version: 4
+      Stratum: 2
+    Reference: C21D82FC
+    Precision: 1us (-22)
+Root distance: 34.377ms (max: 5s)
+       Offset: -12.500ms
+        Delay: 40.628ms
+       Jitter: 0
+ Packet count: 1
+    Frequency: -82.819ppm
+</code></pre>
+<p>Poniżej znajduje się krótkie wyjaśnienie tego całego magicznego wyjścia widocznego wyżej:</p>
+<ul>
+<li><code>Server</code> odpowiada za maszynę, z którą nasz linux synchronizuje czas. Jak widzimy wyżej, czas
+został zsynchronizowany z serwerem <code>0.pl.pool.ntp.org</code> . Proces tej synchronizacji będzie
+przeprowadzany automatycznie co pewien interwał czasu określony w <code>Poll interval</code> .</li>
+<li><code>Poll interval</code> odpowiada za minimalny i maksymalny interwał czasu odpytywania serwera NTP o
+aktualny czas. Z początku po uruchomieniu <code>systemd-timesyncd</code> , czas jest synchronizowany z chwilą
+wystartowania tego demona. Następna synchronizacja czasu będzie miała miejsce 32 sekundy później.
+Kolejne odpowiednio w 1:04, 2:08, 4:16, 8:32, 17:04 i 34:08. Po osiągnięciu tego ostatniego czasu,
+linux będzie przeprowadzał synchronizacje w tym najwyższym interwale, czyli co około pół godziny.
+W przypadku gdybyśmy restartowali demona <code>systemd-timesyncd</code> czy też połączenie sieciowe (albo i
+cały system), to ten proces zacznie się od nowa, tj. z początku będzie ten czas synchronizowany
+co parę sekund/minut, a później znów co pół godziny.</li>
+<li><code>Leap</code> określa (zgodnie z tym co można wyczytać w <a href="https://tools.ietf.org/html/rfc5905#section-7.3">RFC5905</a>) jak traktowana jest sekunda
+przestępna (<a href="https://en.wikipedia.org/wiki/Leap_second">leap second</a>), która raz na jakiś czas jest dodawana (lub  odejmowana) do zegara w
+chwili wybicia północy. W takim przypadku zamiast zmiany z 23:59:59 na 00:00:00, będzie zmiana na
+23:59:60 i dalej już standardowo. W linux zaś <a href="https://0xstubs.org/systemd-timesyncd-and-leap-seconds/">przez dwie sekundy będziemy mieć czas 23:59:59</a>.
+Wartość <code>normal</code> , którą widzieliśmy wyżej w wyjściu <code>timedatectl</code> oznacza, że mamy standardowy
+czas, tj. bez dodatkowych sekund przestępnych.</li>
+<li><code>Version</code> odpowiada za wersję protokołu NTP. Obecnie używa się wersji <code>4</code> .</li>
+<li><code>Stratum</code> określa z jakim typem maszyny został zsynchronizowany czas. Wyróżnia się <code>Stratum</code> od
+<code>0-255</code> . W przypadku <code>0</code> mamy nieokreślony/błędny typ, <code>1</code> odpowiada za główny serwer np.
+wyposażony w odbiornik GPS czy zegar atomowy (bardzo dokładny czas), <code>2-15</code> to standardowy typ
+serwera czasu wykorzystywany w protokole NTP, <code>16</code> oznacza zaś czas niezsynchronizowany. Pozostałe
+wartości <code>17-255</code> są póki co zarezerwowane i nieużywane. Generalnie to im mniejszy numerek tym
+czas otrzymany od takiej maszyny jest dokładniejszy. Więcej o <a href="https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_strata">hierarchii serwerów NTP można
+poczytać tutaj</a>.</li>
+<li><code>Reference</code> (brak danych).</li>
+<li><code>Precision</code> określa precyzję zegara maszyny synchronizującej czas, tj. naszego linux'a, a te
+zwykle mają precyzję pokroju jednej mikrosekundy (1 us).</li>
+<li><code>Root distance</code> to połowa <code>root delay</code> , który to odpowiada za RTD/RTT (Round-Trip Delay,
+Round-Trip Time) do serwera wzorcowego, plus <code>root dispersion</code> , który jest miarą dyspersji tego
+źródła (cokolwiek to znaczy :D).</li>
+<li><code>Offset</code> to różnica między dwoma zegarami, tj. zegarem naszej maszyny i zegarem maszyny, z którą
+czas ma być zsynchronizowany. Wartość tego czasu zawsze będzie ujemna, choć do obliczeń używa się
+wartości absolutnej/bezwzględnej.</li>
+<li><code>Delay</code> to RTD/RTT, czyli czas potrzebny na przesłanie pakietu do serwera i otrzymanie od niego
+pakietu potwierdzającego przybycie tego pakietu cośmy mu wysłali.</li>
+<li><code>Jitter</code> jest miarą wariancji opóźnienia w sieci. Jeśli opóźnienie w sieci jest stałe, to jitter
+jest zerowy.</li>
+<li><code>Packet count</code> odpowiada za zliczanie ilości dokonanych synchronizacji czasu. Z każdą kolejną
+synchronizacją, wartość tego parametru rośnie o <code>1</code> .</li>
+<li><code>Frequency</code> nie mam pojęcia od czego jest ten parametr ale mierzony jest w <code>ppm</code> (parts per
+million, czyli części na milion), gdzie 1 ppm jest równy 10^(-6), tj. 0.000001 s/s
+(seconds-per-second, czyli sekund na sekundę).</li>
+</ul>
+<h3 id="brak-wsparcia-dla-ntp-w-systemd-timesyncd">Brak wsparcia dla NTP w systemd-timesyncd</h3>
+<p>Synchronizacja czasu z wykorzystaniem protokołu NTP może odbywać się na różne sposoby. Najczęściej
+wykorzystywany jest podział na klienta i serwer, gdzie klient przesyła zapytanie w pojedynczym
+pakiecie UDP na port <code>123</code> do serwera, a ten z kolei zwraca odpowiedź w postaci swojego czasu
+zegarowego. Następnie klient oblicza szacunkową różnicę między czasem swojego zegara, a czasem
+zegara zdalnego, próbując przy tym skompensować opóźnienia związane z przesyłaniem pakietów przez
+sieć. Klient przesyła także zapytania do wielu serwerów jednocześnie, by najlepiej oszacować
+dokładny czas i odrzucić przy tym błędne odpowiedzi. Niemniej jednak, w przypadku
+<code>systemd-timesyncd</code> <a href="https://github.com/systemd/systemd/issues/2893">nie mamy do czynienia z jako takim protokołem NTP</a>, a jedynie SNTP (<a href="https://en.wikipedia.org/wiki/Network_Time_Protocol#SNTP">Simple
+Network Time Protocol</a>). W efekcie czego, synchronizacja czasu przy pomocy tego demona odbywa
+się tylko z jednym serwerem i to bez znaczenia ile serwerów czasu skonfigurujemy w pliku
+<code>/etc/systemd/timesyncd.conf</code> :</p>
+<pre><code>[Time]
+NTP=0.pl.pool.ntp.org 1.pl.pool.ntp.org 2.pl.pool.ntp.org 3.pl.pool.ntp.org
+FallbackNTP=0.debian.pool.ntp.org 1.debian.pool.ntp.org 2.debian.pool.ntp.org 3.debian.pool.ntp.org
+#RootDistanceMaxSec=5
+#PollIntervalMinSec=32
+#PollIntervalMaxSec=2048
+</code></pre>
+<p>W takiej konfiguracji jaką mamy wyżej, <code>systemd-timesyncd</code> będzie próbował zsynchronizować czas z
+serwerem <code>0.pl.pool.ntp.org</code> i jeśli ten będzie niedostępny z jakiegoś powodu, to wtedy zostanie
+użyty <code>1.pl.pool.ntp.org</code> , itd. Serwery w <code>FallbackNTP</code> są używane jedynie w momencie braku
+skonfigurowania jakiejkolwiek informacji o serwerach czasu. Nie chodzi tutaj o brak odpowiedzi z
+serwerów czasu, np. w skutek niedziałającej sieci czy problemów po stronie serwerów, tylko o fakt,
+że w systemd można skonfigurować serwer NTP dla każdego interfejsu sieciowego osobno i w takim
+przypadku ten serwer będzie miał pierwszeństwo i to on zostanie użyty przy synchronizacji czasu.
+Wyżej widoczny parametr <code>NTP</code> określa zaś serwery NTP dla wszystkich interfejsów sieciowych w
+systemie jednocześnie. Gdyby zdarzyła się taka sytuacja, że w konfiguracji interfejsu nie byłby
+określony serwer NTP i dodatkowo parametr <code>NTP</code> byłby pusty, to w takim przypadku dopiero zostaną
+wykorzystane serwery skonfigurowane w <code>FallbackNTP</code> .</p>
+<h3 id="podejrzenie-synchronizacji-czasu-w-wireshark">Podejrzenie synchronizacji czasu w wireshark</h3>
+<p>Jeśli ktoś jest ciekaw jak wygląda proces synchronizacji czasu przy wykorzystaniu
+<code>systemd-timesyncd</code> na maszynie z Debianem, to wystarczy zainstalować sniffer pakietów <code>wireshark</code>
+i odpalić go na interfejsie, którym pakiety są przesyłane w świat (w tym przypadku jest to interfejs
+<code>bond0</code> ):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/001-debian-linux-time-sync-ntp-sntp-wireshark.png" alt=""    class="huge"></p>
+<p>Zostały w zasadzie przesłane tylko dwa pakiety. Pierwszy to zapytanie o czas, a drugi to odpowiedź
+z serwera z aktualnym jego czasem. Gdyby wykorzystywany był tutaj pełny protokół NTP, to wtedy tych
+pakietów byłoby więcej.</p>
+<p>Jak widać synchronizacja czasu na linux jest w pełni automatyczna oraz odbywa się w tle, przez co
+praktycznie nie zauważamy tego procesu podczas codziennego korzystania z komputera. Niemniej jednak,
+synchronizacja czasu z wykorzystaniem protokołu NTP/SNTP (za pośrednictwem internetu) nie jest w
+żaden sposób zabezpieczona, w efekcie czego komunikaty otrzymane od serwera NTP mogą zostać
+podrobione, co implikuje problemy związane z bezpieczeństwem. By się przed takimi sytuacjami
+chronić, trzeba zrezygnować z korzystania z protokołu NTP/SNTP i przejść na protokół NTS.</p>
+<h2 id="czym-jest-protokół-nts">Czym jest protokół NTS</h2>
+<p><a href="https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-28">Protokół Network Time Security</a> (NTS) powstał w celu uporania się z problemami natury
+bezpieczeństwa, które są obecne w protokole NTP. Zgodnie z tym co możemy <a href="https://developers.cloudflare.com/time-services/nts">wyczytać na stronie
+CloudFlare</a>, protokół NTS przy wykorzystaniu kryptografii zabezpiecza protokół NTP umożliwiając
+tym samym użytkownikom dokonanie synchronizacji czasu w sposób uwierzytelniony.</p>
+<p><a href="https://blog.apnic.net/2019/11/08/network-time-security-new-ntp-authentication-mechanism/">Zasada działania protokołu NTS</a> jest stosunkowo prosta. Proces synchronizacji czasu jest
+podzielony na dwie fazy, a każda z tych faz jest obsługiwana przez inny protokół:
+<code>NTS Key Establishment</code> oraz <code>NTS Extensions for NTPv4</code> . Pierwsza faza ma miejsce na początku
+komunikacji i jej zadaniem jest negocjacja parametrów oraz wymiana materiału klucza w postaci
+plików cookie. W drugiej fazie mamy do czynienia z zabezpieczonym połączeniem NTP. Te ciasteczka,
+które serwer przesłał klientowi będą teraz przez tego klienta dołączane do zapytań NTP. Druga faza
+trwa do momentu zerwania połączenia lub skończenia się klientowi ciasteczek w skutek powtarzającej
+się utraty pakietów. Gdy taka sytuacja nastąpi, to ponownie rozpoczyna się faza pierwsza.</p>
+<h3 id="szczegółowy-opis-działania-protokołu-nts">Szczegółowy opis działania protokołu NTS</h3>
+<p>Weźmy na przykład serwer CloudFlare. Klient chcący zsynchronizować czas łączy się pierw z serwerem
+NTS na adres <code>time.cloudflare.com</code> i port <code>4460/TCP</code> . Jest to regularne połączenie TLS, w którym
+obie strony przeprowadzają proces witania (TLS handshake). Ta procedura zezwala na zastosowanie
+infrastruktury klucza publicznego (<a href="https://en.wikipedia.org/wiki/Public_key_infrastructure">PKI</a>) i sprawdzenie wiarygodności serwera, o ile jego
+certyfikat jest godny zaufania. Po sprawdzeniu i zweryfikowaniu certyfikatów, tunel TLS zostaje
+otwarty.</p>
+<p>Przy pomocy TLS Application Data Protocol negocjowane są parametry dla protokołu NTS, po
+czym zapisywane są one w rekordach TLS. Te rekordy zawierają między innymi zestaw ciasteczek
+(sztuk 8) oraz informacje o adresie i porcie serwera NTP, dla którego te ciasteczka są ważne.
+Informacje o dodatkowym adresie i porcie umożliwiają rozdzielone usług serwera NTS i NTP na kilka
+maszyn fizycznych, przez co wiele serwerów NTP może być w stanie współdzielić jeden serwer NTS.</p>
+<p>Zarówno serwer NTS jak i serwer NTP mogą generować ciasteczka i szyfrować je z wykorzystaniem
+sekretnego klucza głównego. Ciasteczka różnią się między sobą, co ma na celu przeciwdziałać
+śledzeniu hostów w sieci, np. gdy ich adres IP ulega zmianie. Ciasteczka posiadają także określony
+przez serwer czas żywotności. Co jakiś czas serwer generuje nowy klucz główny ale nie oznacza to
+automatycznie, że nie można korzystać ze starych ciasteczek. Będą one akceptowane przez serwer
+przez jakiś czas (~24h). Takie podejście sprawia, że klucz może być odświeżany w regularnych
+interwałach czasu bez potrzeby ponownego połączenia z serwerem NTS i przechodzenia przez fazę
+pierwszą. Zastosowanie ciasteczek sprawia, że serwer może pracować bezstanowo, czyli nie przechowuje
+informacji o połączeniach z klientami. Te ciasteczka zawierają także materiał klucza wydobyty z
+połączenia TLS, który klient wyciąga przy pomocy <a href="https://tools.ietf.org/html/rfc5705">TLS key export</a> po otrzymaniu ciasteczek, po
+czym kończy połączenie TLS i przechodzi w fazę drugą.</p>
+<p>W fazie drugiej przeprowadzana jest faktyczna synchronizacja czasu z serwerem NTP, którego adres i
+port został wskazany w poprzedniej fazie. Klient przesyła do serwera pakiet NTP, który zawiera
+dodatkowo szereg pól rozszerzeń (zwykle 3-10, choć póki co tylko 4 są zdefiniowane). W skład tych
+pól wchodzi też jedno ciasteczko oraz tag uwierzytelniający wyliczony przy wykorzystaniu materiału
+klucza wydobytego z TLS handshake.</p>
+<p>Ciasteczka są wykorzystywane tylko raz w kolejności od najstarszego (najkrótszy czas życia). Po
+wysłaniu zapytania do serwera NTP, takie ciasteczko jest zużywane. By u klienta nie doszło do
+wyczerpania ciasteczek, serwer w odpowiedzi odeśle jedno ciasteczko. Gdyby nastąpiła utrata pakietów
+i klient by dysponował mniejszą ilością ciasteczek, to serwer uzupełni te brakujące ciasteczka w
+następnej odpowiedzi. W ten sposób u klienta zawsze będzie dostępny zestaw 8 ciasteczek. Z kolei tag
+uwierzytelniający ma za zadanie zapewnić integralność nagłówka NTP i wszystkich wcześniejszych pól
+rozszerzeń.</p>
+<p>Po wdrożeniu protokołu NTS, pakiet NTP będzie trochę większy w stosunku do tego standardowego.
+Nagłówek niezabezpieczonego pakietu NTP ma rozmiar 48 bajtów. W przypadku pakietu NTP
+zabezpieczonego protokołem NTS, ten rozmiar będzie w granicach od 228 do 1468 (nagłówek NTP + pola
+rozszerzeń). Może zatem pojawić się problem z fragmentacją pakietów, choć można go uniknąć przez
+żądanie mniejszej ilości ciasteczek w pojedynczym zapytaniu.</p>
+<p>W momencie, gdy serwer otrzyma pakiet NTP zabezpieczony protokołem NTS, to najpierw odszyfrowywany
+jest plik cookie za pomocą klucza głównego. Następnie z tego odszyfrowanego ciasteczka wyodrębniany
+jest wynegocjowany algorytm AEAD jak i również zawarte w nim klucze. W ten sposób serwer jest w
+stanie sprawdzić integralność pakietu NTP i upewnić się, że zawarte w nim dane nie zostały w żaden
+sposób zmienione po opuszczeniu maszyny klienta. W przypadku pozytywnego zweryfikowania pakietu,
+serwer generuje jedno lub więcej ciasteczek i tworzy pakiet NTP z odpowiedzią. Serwer zawsze
+szyfruje swoje ciasteczka, w przeciwieństwie do klienta.</p>
+<p>Klient po otrzymaniu odpowiedzi sprawdza unikalny identyfikator (Unique Identifier EF) by
+wyeliminować potencjalne ryzyko przeprowadzenia <a href="https://academy.binance.com/pl/security/what-is-a-replay-attack">ataku typu replay</a>. Następnie sprawdzana jest
+integralność pakietu (zarówno klucz główny jak i algorytm AEAD są klientowi znane). Po pomyślnej
+weryfikacji, ciasteczka są deszyfrowane i dodawane do puli ciasteczek klienta. Informacje o czasie
+zawarte w pakiecie są zaś przekazywane do systemu.</p>
+<h2 id="rezygnacja-z-systemd-timesyncd-na-rzecz-ntpd-ntpsec">Rezygnacja z systemd-timesyncd na rzecz ntpd (ntpsec)</h2>
+<p>Problem z demonem <code>systemd-timesyncd</code> jest oczywisty -- nie wspiera ani protokołu NTP jako takiego,
+ani też nie potrafi zapewnić bezpiecznej synchronizacji czasu z wykorzystaniem protokołu NTS. Jak
+to bywa w świecie linux'ów, wiele różnych aplikacji jest w stanie realizować dokładnie to samo
+zadanie i jeśli jakaś aplikacja nie spełnia naszych wymagań, to naturalnie możemy ją zastąpić inną
+aplikacją. Może i CloudFlare posiada swój serwer NTS ale póki co jeszcze nie opracowali oni klienta
+NTS, który można by bez problemu wykorzystać do synchronizacji czasu. Na szczęście część klientów
+NTP dostępnych w repozytorium Debiana wspiera protokół NTS, a jednym z nich jest <code>ntpd</code> z pakietu
+<code>ntpsec</code> .</p>
+<p>Przy instalacji tego pakietu trzeba trochę uważać, bo najwyraźniej nie można posiadać w systemie
+kilku pakietów z demonami synchronizacji czasu. Dlatego też gdy będziemy instalować <code>ntpsec</code> , to
+system zażąda od nas usunięcia pakietu <code>systemd-timesyncd</code> :</p>
+<pre><code># aptitude install ntpsec
+The following NEW packages will be installed:
+  ntpsec python3-ntp{a}
+The following packages will be REMOVED:
+  systemd-timesyncd{a}
+The following packages are SUGGESTED but will NOT be installed:
+  certbot ntpsec-doc ntpsec-ntpviz
+0 packages upgraded, 2 newly installed, 1 to remove and 4 not upgraded.
+Need to get 0 B/424 kB of archives. After unpacking 1,042 kB will be used.
+Do you want to continue? [Y/n/?]
+</code></pre>
+<p>Oczywiście potwierdzamy zapytanie. Usługa <code>systemd-timesyncd</code> zostanie automatycznie zatrzymana i
+usunięta z autostartu, więc nie trzeba tych czynności przeprowadzać wcześniej ręcznie. Po
+zainstalowaniu <code>ntpsec</code> upewnijmy się, że usługa synchronizacji została dodana do autostartu:</p>
+<pre><code># systemctl enable ntpsec.service
+Synchronizing state of ntpsec.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable ntpsec
+Created symlink /etc/systemd/system/multi-user.target.wants/ntpsec.service → /lib/systemd/system/ntpsec.service.
+
+# systemctl start ntpsec.service
+</code></pre>
+<h3 id="kwestia-serwerów-czasu-otrzymywanych-w-lease-dhcp">Kwestia serwerów czasu otrzymywanych w lease DHCP</h3>
+<p>Standardowym klientem DHCP w Debianie jest <code>dhclient</code> i domyślnie jest on tak skonfigurowany, by w
+zapytaniu o konfigurację adresacji IP wysyłał również prośbę o przesłanie adresów serwerów czasu.
+Możemy ten fakt poznać po obecności parametrów <code>ntp-servers</code> oraz <code>dhcp6.sntp-servers</code> w linijce z
+<code>request</code> w pliku <code>/etc/dhcp/dhclient.conf</code> , przykładowo:</p>
+<pre><code>request subnet-mask, broadcast-address, time-offset, routers,
+    domain-name, domain-name-servers, domain-search, host-name,
+    dhcp6.name-servers, dhcp6.domain-search, dhcp6.fqdn, dhcp6.sntp-servers,
+    netbios-name-servers, netbios-scope, interface-mtu,
+    rfc3442-classless-static-routes, ntp-servers;
+</code></pre>
+<p>Jeśli teraz serwer DHCP ma skonfigurowane jakieś serwery czasu, to prześle je do klienta DHCP, a ten
+tak skonfiguruje system, by z tych serwerów czasu korzystał. Jeśli tego typu zachowanie nie jest
+pożądane i chcemy statycznie określić z jakich serwerów czasu ma korzystać demon <code>ntpd</code> , to możemy
+zrobić dwie rzeczy. Pierwszą z nich jest edycja tej powyższej konfiguracji <code>dhclient</code> i usunięcie z
+niej parametrów <code>ntp-servers</code> oraz <code>dhcp6.sntp-servers</code> . Drugim rozwiązaniem jest edycja pliku
+<code>/etc/default/ntpsec</code> i przepisanie w nim tej poniższej opcji:</p>
+<pre><code>IGNORE_DHCP=&quot;yes&quot;
+</code></pre>
+<p>W ten sposób skrypt <code>/etc/dhcp/dhclient-exit-hooks.d/ntpsec</code> nie będzie konfigurował serwerów czasu.</p>
+<p>Oczywiście nic nie stoi na przeszkodzie, by te dwa rozwiązania połączyć.</p>
+<h2 id="konfiguracja-ntpsec">Konfiguracja ntpsec</h2>
+<p>Standardowo usługa <code>ntpsec</code> nie jest skonfigurowana, tak by umożliwić nam synchronizację czasu z
+wykorzystaniem protokołu NTS. Przeglądając plik <code>/etc/ntpsec/ntp.conf</code> możemy zauważyć, że są tam
+określone te cztery poniższe serwery czasu (a właściwie pule serwerów):</p>
+<pre><code>pool 0.debian.pool.ntp.org iburst
+pool 1.debian.pool.ntp.org iburst
+pool 2.debian.pool.ntp.org iburst
+pool 3.debian.pool.ntp.org iburst
+</code></pre>
+<p>Zwykle demona NTP konfiguruje się tak, by korzystał z kilku serwerów czasu jednocześnie. Czy
+synchronizacja czasu z jednym serwerem nie powinna nam w zupełności wystarczyć? W przypadku,
+gdybyśmy synchronizowali czas tylko z jednym serwerem, to jeśli on miałby błędy czas, to po
+synchronizacji również i my byśmy mieli błędy czas. W przypadku dwóch serwerów, które mają ustawiony
+inny czas, protokół NTP nie jest w stanie oszacować, który z nich jest prawidłowy. W przypadku
+trzech serwerów, nawet jeśli któryś z nich ma błędy czas, to NTP będzie w stanie oszacować ten
+prawidłowy, przy założeniu, że dwa pozostałe serwery dysponują poprawnym czasem. Może się jednak
+zdarzyć sytuacja, że jeden z tych dwóch poprawnie skonfigurowanych serwerów czasu będzie niedostępny
+i w takim przypadku wracamy do poprzedniej konfiguracji z jednym błędnym i jednym dobrym czasem.
+Dlatego właśnie stosuje się cztery serwery czasu, by te powyżej opisane problemy ograniczyć do
+minimum. Oczywiście w dalszym ciągu można tych serwerów skonfigurować więcej, by jeszcze bardziej
+zminimalizować ryzyko dokonania synchronizacji nieprawidłowego czasu ale te cztery serwery zwykle
+wystarczają.</p>
+<p>Warto zwrócić uwagę, że każda z tych powyższych linijek zaczyna się od <code>pool</code> i zwykle taki jeden
+wpis zapewnia odpytywanie czterech serwerów czasu. Parametr <code>iburst</code> ma na celu wysłanie 6 pakietów
+do każdego ze skonfigurowanych serwerów w celu dokładniejszej synchronizacji czasu. Jak łatwo można
+policzyć, tych zapytań może być nawet 4*4*6=96 i tyle samo odpowiedzi. Zatem protokół NTP może być
+trochę bardziej rozmowny niż SNTP (gdzie było tylko jedno zapytanie i jedna odpowiedź) ale też
+powinien zapewnić dokładniejszy czas i uchronić nas przed ewentualnymi błędami w konfiguracji
+serwerów.</p>
+<h3 id="włączenie-protokołu-nts-w-ntpsec">Włączenie protokołu NTS w ntpsec</h3>
+<p>Nas jednak te domyślne ustawienia synchronizacji czasu niezbyt interesują, bo serwery
+<code>debian.pool.ntp.org</code> nie wspierają NTS. Dlatego trzeba te powyższe wpisy wykomentować. W ich
+miejsce dodajemy zaś te serwery, które wspierają protokół NTS:</p>
+<pre><code>server time.cloudflare.com iburst minpoll 6 maxpoll 10 version 4 nts aead AES_SIV_CMAC_512
+server nts.ntp.se:4443 iburst minpoll 6 maxpoll 10 version 4 nts aead AES_SIV_CMAC_512
+server ntpmon.dcs1.biz iburst minpoll 6 maxpoll 10 version 4 nts aead AES_SIV_CMAC_512
+server ntp1.glypnod.com iburst minpoll 6 maxpoll 10 version 4 nts aead AES_SIV_CMAC_512
+server ntp2.glypnod.com iburst minpoll 6 maxpoll 10 version 4 nts aead AES_SIV_CMAC_512
+</code></pre>
+<p>W powyższej linijce zamiast <code>pool</code> został określony <code>server</code> . Oznacza to, że zapytania będą
+przesyłane tylko do określonego serwera, a nie do puli serwerów. Z informacji, które znalazłem
+wynika, że CloudFlare dysponuje tylko jednym serwerem czasu, który obsługuje protokół NTS. Biorąc
+pod uwagę specyfikację NTP, tych serwerów musi być co najmniej kilka. Dlatego też gdybyśmy określili
+wyżej tylko jeden wpis z serwerem <code>time.cloudflare.com</code> , to nasz system nie będzie chciał
+przeprowadzić synchronizacji czasu (albo ta synchronizacja zajmie bardzo długo). Dlatego tych
+serwerów jest kilka, a ich adresy zostały wzięte z <a href="https://docs.ntpsec.org/latest/NTS-QuickStart.html">tej strony</a>.</p>
+<p><a href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?skey=9&amp;page=140">Domyślnym portem dla NTS jest 4460</a>. Niemniej jednak, CloudFlare początkowo wykorzystywał port
+1234 ale <a href="https://tools.ietf.org/html/rfc6238#page-7">ostatnio zmienił go na ten domyślny</a> określony w specyfikacji NTS. Póki co wygląda na
+to, że z serwera NTS oferowanego przez CloudFlare można korzystać zarówno podając port <code>1234</code> jak i
+<code>4460</code> . Trzeba jednak liczyć się z faktem, że ten pierwszy port w końcu przestanie odpowiadać i
+dobrze jest już teraz ustawić w konfiguracji tego serwera czasu port <code>4460</code> . Możemy także pominąć
+określanie portu, przez co zostanie użyty ten domyślny.</p>
+<p>Określenie parametru <code>iburst</code> znacznie przyśpieszy proces synchronizacji czasu. Jeśli chodzi o
+<code>minpoll</code> i <code>maxpoll</code> , to odpowiadają one za minimalny i maksymalny interwał odpytywania serwera o
+czas. Wartości tych parametrów są wyrażone jako potęga dwójki w sekundach, zatem minimalny interwał
+to 2^6, a maksymalny to 2^10, czyli interwał synchronizacji wynosi 64-1024 sekund. Warto dodać w tym
+miejscu, że ten interwał odpytywania serwera jest nieco inaczej zaimplementowany w <code>ntpsec</code> niż
+miało to miejsce w przypadku <code>systemd-timesyncd</code> . Tutaj <a href="https://gitlab.com/NTPsec/ntpsec/-/issues/674">nie wiadomo jak on dokładnie działa</a>,
+choć w grę mogą wchodzić takie rzeczy jak np. aktualne obciążenie systemu podczas procesu
+synchronizacji czasu. Generalnie to przy testach ciągle była wykorzystywana wartość ustawiona w
+<code>minpoll</code> . Parametr <code>version</code> odpowiada za wersję protokołu NTP, natomiast kluczowa w tej powyższej
+linijce jest fraza <code>nts</code> , która mówi, że komunikacja z tym serwerem czasu ma się odbywać z
+wykorzystaniem protokołu NTS. Opcjonalnie można także określić algorytm AEAD (<a href="https://en.wikipedia.org/wiki/Authenticated_encryption">Authenticated
+Encryption with Associated Data</a>), choć możliwość jego zmiany nie jest jeszcze zaimplementowana.</p>
+<h3 id="polityka-kontroli-dostępu-do-ntpd">Polityka kontroli dostępu do ntpd</h3>
+<p>Demon <code>ntpd</code> jest zarazem klientem jak i serwerem. Potrafi wysyłać zapytania do serwerów czasu i
+potrafi także je odbierać. Domyślnie ten demon jest tak skonfigurowany, by być w stanie wymieniać
+czas z każdym. Niemniej jednak, wszystkie zapytania, które mają na celu zmianę konfiguracji serwera,
+są domyślnie zabronione. Generalnie, to polityka <a href="https://docs.ntpsec.org/latest/accopt.html">kontroli dostępu</a> jest określona przez wpisy
+zaczynające się od <code>restrict</code> , które figurują w pliku <code>/etc/ntpsec/ntp.conf</code> . Domyślnie widnieją
+tam te trzy poniższe wpisy:</p>
+<pre><code>restrict default kod nomodify nopeer noquery limited
+
+restrict 127.0.0.1
+restrict ::1
+</code></pre>
+<p>Wpis z <code>default</code> występuje zawsze (nawet jeśli nie zostanie określony w pliku konfiguracyjnym) i
+jego zadaniem jest określenie wszystkich hostów, tj, adres <code>0.0.0.0</code> i maska <code>0.0.0.0</code> dla IPv4
+oraz adres <code>::</code> i maska <code>::</code> dla IPv6. Naturalnie w miejscu <code>default</code> może pojawić się adres IP w
+zapisie CIDR (np. 192.168.1.0/24). Kolejne parametry określają co danemu hostowi wolno podczas
+połączenia. Jeśli wpis z <code>restrict</code> ma jedynie adres IP, to wtedy hostowi wolno wszystko i ta
+powyższa konfiguracja zezwala na zarządzanie demonem <code>ntpd</code> w dowolny w sposób ale tylko z lokalnego
+hosta. Wszystkie pozostałe hosty mają te poniższe ograniczenia:</p>
+<ul>
+<li><code>kod</code> -- przy pogwałceniu polityki dostępu, <a href="http://doc.ntp.org/4.2.6/rate.html#kiss">pakiet Kiss of Death</a> zostanie przesłany do
+hosta, który tę politykę naruszył.</li>
+<li><code>nomodify</code> -- nie zezwala na zapytania <code>ntpq</code> , które są w stanie zmodyfikować stan serwera, tj.
+przekonfigurować go podczas pracy. Jedynie zapytania, które zwracają informacje są dozwolone.</li>
+<li><code>nopeer</code> -- odrzuca pakiety, które spowodowałyby mobilizację nowego powiązania. Działo się
+tak, gdy zdalny klient używał polecenia <code>peer</code> w swoim pliku konfiguracyjnym. <code>ntpsec</code> nie
+obsługuje tego trybu.</li>
+<li><code>noquery</code> -- nie zezwala na żadne zapytania <code>ntpq</code> .</li>
+<li><code>limited</code> -- odmawia usługi, jeśli odstępy między pakietami przekraczają dolne limity określone w
+poleceniu <code>limit</code> . Historia klientów jest przechowywana przy użyciu funkcji monitorowania
+<code>ntpd</code> . W związku z tym monitorowanie jest zawsze aktywne, o ile istnieje wpis z flagą
+<code>limited</code> .</li>
+</ul>
+<p>Przy konfiguracji tej powyższej polityki dostępu trzeba uważać, bo wpisy, które mogą zablokować
+dostęp do serwera, mogą także wpłynąć na funkcjonalność klienta. W zasadzie nie ma potrzeby ruszać
+ten polityki, gdy zamierzamy korzystać z <code>ntpd</code> jedynie w roli klienta.</p>
+<h2 id="test-synchronizacji-czasu-z-wykorzystaniem-protokołu-nts">Test synchronizacji czasu z wykorzystaniem protokołu NTS</h2>
+<p>Konfiguracja <code>ntpsec</code> nie była jakoś skomplikowana i po jej przeprowadzeniu, nasz linux powinien
+być w stanie synchronizować czas w sposób bezpieczny z wykorzystaniem protokołu NTS. Zrestartujmy
+zatem demona <code>ntpd</code> i popatrzy co się dzieje w logu systemowym:</p>
+<pre><code>systemd[1]: Starting ntpsec.service...
+ntpd[3082636]: INIT: ntpd ntpsec-1.1.9 2020-09-25T18:42:15Z: Starting
+ntpd[3082636]: INIT: Command line: /usr/sbin/ntpd -p /run/ntpd.pid -c /etc/ntpsec/ntp.conf -g -N -u ntpsec:ntpsec
+ntp-systemd-wrapper[3082636]: 2020-09-26T12:46:37 ntpd[3082636] INIT: ntpd ntpsec-1.1.9 2020-09-25T18:42:15Z: Starting
+ntp-systemd-wrapper[3082636]: 2020-09-26T12:46:37 ntpd[3082636] INIT: Command line: /usr/sbin/ntpd -p /run/ntpd.pid -c /etc/ntpsec/ntp.conf -g -N -u ntpsec:ntpsec
+systemd[1]: ntpsec.service: Can't open PID file /run/ntpd.pid (yet?) after start: Operation not permitted
+ntpd[3082638]: INIT: precision = 0.063 usec (-24)
+systemd[1]: Started ntpsec.service.
+ntpd[3082638]: INIT: successfully locked into RAM
+ntpd[3082638]: CONFIG: readconfig: parsing file: /etc/ntpsec/ntp.conf
+ntpd[3082638]: CONFIG: restrict nopeer ignored
+ntpd[3082638]: CLOCK: leapsecond file ('/usr/share/zoneinfo/leap-seconds.list'): good hash signature
+ntpd[3082638]: CLOCK: leapsecond file ('/usr/share/zoneinfo/leap-seconds.list'): loaded, expire=2020-12-28T00:00Z last=2017-01-01T00:00Z ofs=37
+ntpd[3082638]: INIT: Using SO_TIMESTAMPNS
+ntpd[3082638]: IO: Listen and drop on 0 v6wildcard [::]:123
+ntpd[3082638]: IO: Listen and drop on 1 v4wildcard 0.0.0.0:123
+ntpd[3082638]: IO: Listen normally on 2 lo 127.0.0.1:123
+ntpd[3082638]: IO: Listen normally on 3 bond0 192.168.1.150:123
+ntpd[3082638]: IO: Listen normally on 4 lo [::1]:123
+ntpd[3082638]: IO: Listen normally on 5 bond0 [fd80:56bf:c96:0:2d24:59fb:8003:4e1a]:123
+ntpd[3082638]: IO: Listen normally on 6 bond0 [fe80::8c2a:9317:9f2e:76%2]:123
+ntpd[3082638]: IO: Listening on routing socket on fd #23 for interface updates
+ntpd[3082638]: INIT: MRU 10922 entries, 13 hash bits, 65536 bytes
+ntpd[3082638]: INIT: OpenSSL 1.1.1g  21 Apr 2020, 1010107f
+ntpd[3082638]: NTSc: Using system default root certificates.
+
+ntpd[3082638]: DNS: dns_probe: time.cloudflare.com, cast_flags:1, flags:21901
+ntpd[3082638]: NTSc: DNS lookup of time.cloudflare.com took 0.557 sec
+ntpd[3082638]: NTSc: connecting to time.cloudflare.com:1234 =&gt; 162.159.200.123:1234
+ntpd[3082638]: NTSc: set cert host: time.cloudflare.com
+ntpd[3082638]: NTSc: Using TLSv1.3, TLS_AES_256_GCM_SHA384 (256)
+ntpd[3082638]: NTSc: certificate subject name: /C=US/ST=California/L=San Francisco/O=Cloudflare, Inc./CN=time.cloudflare.com
+ntpd[3082638]: NTSc: certificate issuer name: /C=US/O=DigiCert Inc/CN=DigiCert ECC Secure Server CA
+ntpd[3082638]: NTSc: certificate is valid.
+ntpd[3082638]: NTSc: Good ALPN from time.cloudflare.com
+ntpd[3082638]: NTSc: read 750 bytes
+ntpd[3082638]: NTSc: Using port 123
+ntpd[3082638]: NTSc: Got 7 cookies, length 100, aead=15.
+ntpd[3082638]: NTSc: NTS-KE req to time.cloudflare.com took 1.350 sec, OK
+ntpd[3082638]: DNS: dns_check: processing time.cloudflare.com, 1, 21901
+ntpd[3082638]: DNS: Server taking: 162.159.200.123
+ntpd[3082638]: DNS: dns_take_status: time.cloudflare.com=&gt;good, 0
+</code></pre>
+<p>Log jest naturalnie dłuższy, bo w tym powyższym wycinku nie zostały uwzględnione wpisy dotyczące
+wszystkich skonfigurowanych serwerów czasu. W zasadzie to ten ostatni blok (ten od pustej linijki)
+powtarza się dla każdego serwera. Widzimy zatem, że demon <code>ntpd</code> posłał zapytanie do serwera czasu
+i nawiązał z nim połączenie. Certyfikat serwera jest ważny, no i otrzymaliśmy także ciasteczka,
+które powinny zostać użyte w pakietach NTP. Przy pomocy <code>wireshark</code> możemy sprawdzić czy w istocie
+tak się dzieje:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/002-debian-linux-time-sync-ntp-sntp-nts-wireshark.png" alt=""    class="huge"></p>
+<p>Jak widać, zamiast dwóch standardowych pakietów NTP mamy teraz tych pakietów nieco więcej (wciąż
+jednak jest to pojedyncze zapytanie). Większość komunikacji jest szyfrowana ale warto zwrócić tutaj
+uwagę, że zapytanie do serwera czasu, jak i odpowiedź od niego otrzymana, leci w formie
+niezaszyfrowanej. Widzimy też, że pakiety NTP są wyraźnie większe (374 bajty vs. 90 bajtów w
+przypadku <code>systemd-timesyncd</code> ). Brak szyfrowania pakietów NTP w niczym nie przeszkadza, bo jesteśmy
+w stanie zweryfikować dane zawarte w tych pakietach. Więc nawet jeśli zdarzyłaby się sytuacja, że
+odpowiedź z serwera czasu zostałaby zmieniona, to nasz klient NTP by takiej odpowiedzi nie
+zaakceptował i zmiana czasu w systemie nie mogła by mieć miejsca.</p>
+<p>Jeśli chcemy przekonać się czy faktycznie synchronizacja czasu działa, to możemy cofnąć systemowy
+zegar o godzinę czy dwie do tyłu i zrestartować demona <code>ntpd</code> :</p>
+<pre><code># timedatectl set-time &quot;2020-09-26 13:21:00&quot;
+# systemctl restart ntpsec
+</code></pre>
+<p>Po chwili czas powinien zostać zsynchronizowany, co możemy podejrzeć w <code>timedatectl</code> :</p>
+<pre><code>$ timedatectl
+               Local time: Sat 2020-09-26 17:58:37 CEST
+           Universal time: Sat 2020-09-26 15:58:37 UTC
+                 RTC time: Sat 2020-09-26 15:58:37
+                Time zone: Europe/Warsaw (CEST, +0200)
+System clock synchronized: no
+              NTP service: n/a
+          RTC in local TZ: no
+</code></pre>
+<p>Co ciekawe systemd nie potrafi wykryć innych usług synchronizacji czasu z serwerami NTP i zgłasza
+ich brak, no i oczywiście również błędnie pokazywany jest stan synchronizacji, choć sam czas jest
+prawidłowy. Także trzeba uważać przy interpretacji tych powyższych informacji jeśli nie korzystamy
+z <code>systemd-timesyncd</code> .</p>
+<h3 id="zapytania-do-ntpd-przez-ntpq">Zapytania do ntpd przez ntpq</h3>
+<p>Na koniec przydałoby się jeszcze popatrzeć na jakieś statystyki, które by nam powiedziały co nieco
+o stanie synchronizacji. Takie informacje możemy wyciągnąć przez <code>ntpq</code> . Tym poleceniem możemy
+operować w formie interaktywnej wpisując w terminalu <code>ntpq</code> ale możemy również do niego dodać
+parametr <code>-c</code> i podać polecenie do wywołania. W takim przypadku wyjście tego polecenia zostanie
+wypisane standardowo na konsoli, a program się zakończy.</p>
+<p>Na początek podejrzyjmy listę serwerów, do których przesyłamy zapytania:</p>
+<pre><code># ntpq -p
+     remote                                   refid      st t when poll reach   delay   offset   jitter
+=======================================================================================================
++time.cloudflare.com                     10.75.8.44       3 8   40   64   37  54.8485  -6.1316   9.7063
+ ntsts.sth.ntp.se                        .STEP.          16 0    -   64    0   0.0000   0.0000   0.0001
++ntpmon.dcs1.biz                         .PPS.            1 8   25   64  177 357.4715 -13.2263  12.4706
++ntp1.glypnod.com                        204.123.2.72     2 8    6   64  377 207.7296  -1.7988  26.4537
+*ntp2.glypnod.com                        193.62.22.74     2 8   25   64  177  72.1782  -5.3229  40.3431
+</code></pre>
+<p>Kolumna <code>st</code> oznacza typ serwera (stratum). W kolumnie <code>t</code> mamy ilość ciasteczek, które zostały do
+dyspozycji klienta dla konkretnego serwera. Generalnie to powinniśmy widzieć tutaj zawsze wartość
+<code>8</code> . Każda inna wartość świadczy o utracie pakietów. No może za wyjątkiem <code>7</code> , gdzie akurat
+trafiliśmy na pakiet w locie. Kolumna <code>poll</code> oznacza interwał odpytywania serwera czasu w sekundach,
+zaś kolumna <code>when</code> mówi kiedy ostatnio serwer został odpytany. W kolumnie <code>reach</code> mamy status RR
+(<a href="https://tools.ietf.org/html/rfc1305">Reachability Register</a>), gdzie <code>377</code> oznacza, że klient uzyskuje próbki non stop od serwera
+czasu przez okres ostatnich 8 interwałów, zaś <code>0</code> wskazuje na brak komunikacji z serwerem. Wartości
+pomiędzy trzeba interpretować przeliczając je z systemu ósemkowego na system binarny. W ten sposób
+widoczny wyżej <code>0o177</code> to binarnie <code>1101 1111</code> . Jak widać cyferek jest 8, po jednej na każdą próbę.
+Zatem wartość <code>177</code> oznacza 7 otrzymanych próbek w kolejności, którą oznacza ciąg bitów. Więc 5
+ostatnich prób było udanych, potem był problem i dwie najbardziej odległe w czasie próby również
+udane. Pozostałe kolumny ( <code>delay</code> , <code>offset</code> , <code>jitter</code> ) zawierają najświeższe dane na temat
+wyliczonych opóźnień (w milisekundach). Idealnie jest, gdy <code>jitter</code> jest jak najbliższy zeru.</p>
+<p>Znaczki po lewej stronie w kolumnie <code>remote</code> wskazują na status synchronizacji. Aktualnie wybrany
+serwer, z którym czas został zsynchronizowany, jest oznaczony <code>*</code> . Serwery mające <code>+</code> to dodatkowe
+serwery wyznaczone do synchronizacji ale aktualnie nie są one wybrane. Jeden serwer nie ma żadnego
+znaczka (został odrzucony w procesie doboru i nie będzie brany pod uwagę). Tych znaczków <a href="http://doc.ntp.org/4.1.0/ntpq.htm">może być
+więcej</a>.</p>
+<p>Nieco więcej informacji o tych widocznych wyżej serwerach możemy wyciągnąć z polecenia
+<code>associations</code> w połączeniu z <code>rv</code> :</p>
+<pre><code># ntpq -c associations
+
+ind assid status  conf reach auth condition  last_event cnt
+===========================================================
+  1 17767  f43a   yes   yes   ok  candidate    sys_peer  3
+  2 17768  c011   yes    no   bad    reject    mobilize  1
+  3 17769  f41a   yes   yes   ok  candidate    sys_peer  1
+  4 17770  f42a   yes   yes   ok  candidate    sys_peer  2
+  5 17771  f65a   yes   yes   ok   sys.peer    sys_peer  5
+
+# ntpq -c &quot;rv 17767&quot;
+status=f43a conf, authenb, auth, reach, sel_candidate, 3 events, sys_peer,
+srcadr=162.159.200.123, srcport=123, dstadr=192.168.1.150, dstport=123, leap=00, hmode=3, stratum=3,
+ppoll=99, hpoll=7, precision=-24, rootdelay=7.187, rootdisp=0.458, refid=10.75.8.44,
+reftime=e319eed4.95f85048 2020-09-26T16:46:12.585Z, rec=e319ef76.b2c8337f 2020-09-26T16:48:54.698Z,
+xmt=e319ef76.9ca69d8a 2020-09-26T16:48:54.611Z, reach=377, unreach=0, delay=99.602048, offset=-36.648954,
+jitter=44.845333, dispersion=3.535664, keyid=0,
+ filtdelay =99.60       151.62  249.37  208.90  101.55  200.20  202.57  149.64,
+filtoffset =-36.65      -62.00  -110.77 -87.67  -32.02  -84.52  -86.06  -60.80, pmode=4,
+  filtdisp =0.00        1.95    3.90    5.87    6.89    7.91    8.93    9.95, flash=00 ok, headway=0, srchost=&quot;time.cloudflare.com&quot;,
+ntscookies=8
+</code></pre>
+<p>Z kolei z poniższej rozpiski możemy wyciągnąć wnioski na temat synchronizacji czasu z wykorzystaniem
+protokołu NTS:</p>
+<pre><code># ntpq -c nts
+NTS client sends:            111
+NTS client recvs good:       96
+NTS client recvs w error:    0
+NTS server recvs good:       0
+NTS server recvs w error:    0
+NTS server sends:            0
+NTS make cookies:            0
+NTS decode cookies:          0
+NTS decode cookies old:      0
+NTS decode cookies too old:  0
+NTS decode cookies error:    0
+NTS KE probes good:          6
+NTS KE probes_bad:           0
+NTS KE serves good:          0
+NTS KE serves_bad:           0
+</code></pre>
+<p>Mamy tutaj w zasadzie same zapytania klienta (nasze własne) do serwera. Od momentu uruchomienia
+demona <code>ntpd</code> było 6 prób nawiązania połączenia z serwerami NTS (pierwszej fazy). Biorąc pod
+uwagę fakt, że mamy 5 serwerów NTS, to przy restarcie demona 5 prób dostajemy z automatu. Ten
+dodatkowy pakiet do serwera NTS związany jest zapewne z <code>ntsts.sth.ntp.se</code> , który najwyraźniej ma
+jakieś problemy. Poza tym, pakiety NTP są przesyłane na linii klient-server i nie widać żadnych
+błędów.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Protokół NTP do bezpiecznych nie należy ze względu na fakt, że był on projektowany w połowie lat 80
+ubiegłego wieku. Te parę dekad temu internet wyglądał zupełnie inaczej niż ma to miejsce obecnie
+(tylko zaufane/wiarygodne podmioty miały do niego dostęp) i w tamtych czasach nikt zbytnio nie
+przejmował się bezpieczeństwem przy projektowaniu tego protokołu. Dzisiaj, prawie 40 lat później,
+protokół NTP w dalszym ciągu jest niezabezpieczony, przez co stwarza poważne zagrożenie dla innych
+protokołów wykorzystywanych do zabezpieczenia komunikacji w sieci, np. SSL/TLS.</p>
+<p>Taka prosta wymiana demona realizującego synchronizację czasu w linux'ie przez zastosowanie
+protokołu NTS jest w stanie znacznie poprawić bezpieczeństwo naszego systemu, a przez to również i
+nas samych przy codziennym korzystaniu z internetu. Póki co, ogromna większość serwerów czasu
+wspiera jedynie protokół NTP, przez co serwerów NTS nie ma jeszcze zbyt wiele. Niemniej jednak,
+CloudFlare z racji swojej pozycji może zmienić ten san rzeczy, choć pewnie jeszcze trochę czasu
+upłynie zanim ludzkość przejdzie z NTP/SNTP na NTS. Trzeba zdawać sobie sprawę jeszcze z faktu, że
+sam protokół NTS nie jest jeszcze skończony ale już teraz jego obsługę możemy sami zaimplementować
+i to zadanie do jakoś szczególnie trudnych nie należy.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ntp/">ntp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/nts/">nts</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sntp/">sntp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ntpsec/">ntpsec</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bezpiecze%C5%84stwo/">bezpieczeństwo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/czas/">czas</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd-timesyncd/">systemd-timesyncd</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fuwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts%2f&amp;text=Uwierzytelnianie%20odpowiedzi%20z%20serwer%c3%b3w%20czasu%20NTP%20przy%20pomocy%20NTS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts%2f&amp;title=Uwierzytelnianie%20odpowiedzi%20z%20serwer%c3%b3w%20czasu%20NTP%20przy%20pomocy%20NTS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts%2f&amp;title=Uwierzytelnianie%20odpowiedzi%20z%20serwer%c3%b3w%20czasu%20NTP%20przy%20pomocy%20NTS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts%2f&title=Uwierzytelnianie%20odpowiedzi%20z%20serwer%c3%b3w%20czasu%20NTP%20przy%20pomocy%20NTS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts%2f&amp;title=Uwierzytelnianie%20odpowiedzi%20z%20serwer%c3%b3w%20czasu%20NTP%20przy%20pomocy%20NTS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fuwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts%2f&description=Uwierzytelnianie%20odpowiedzi%20z%20serwer%c3%b3w%20czasu%20NTP%20przy%20pomocy%20NTS" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/">Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/ograniczanie-su-do-jednego-uzytkownika-w-debianie/">Ograniczenie su do jednego użytkownika w Debianie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux/">Jak zalogować błędy podczas zamykania systemu Debian Linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wyczyscic-tablice-conntrack-w-debianie/">Jak wyczyścić tablicę conntrack&#39;a w debianie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/strefa-czasowa-timezone-w-openwrt/">Strefa czasowa (timezone) w OpenWRT</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/rkhunter-jako-ochrona-przed-rootkitami/">Rkhunter jako ochrona przed rootkit&#39;ami</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
