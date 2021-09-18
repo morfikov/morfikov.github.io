@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak blokować rozmowy GSM w smartfonie z Androidem (YACB) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak blokować rozmowy GSM w smartfonie z Androidem (YACB)" />
+<meta property="og:description" content="Czy przytrafiła może wam się taka sytuacja, w której to ktoś dzwonił do was z niewiadomego numeru i
+przy tym nie był to nikt, kto by zasługiwał na jakąś większą uwagę z waszej strony? Zwykle, gdy mam
+do czynienia z kimś takim, to nawet nie odbieram telefonu. Niemniej jednak, najwyraźniej jeden z
+moich numerów ostatnio stał się celem ataku jakiegoś spamera z bliżej nieokreślonego call center i
+ten czteroliterowy osobnik wydzwania do mnie od kilku dni średnio co 20 minut i to z wielu różnych
+numerów. Do tej pory spamerzy w zasadzie omijali mnie szerokim łukiem ale zachowanie tej dość
+nieuprzejmej osoby sprawiło, że postanowiłem opracować jakieś rozwiązanie na wypadek, gdyby takich
+osobników z gatunku &quot;brakującego ogniwa ewolucji Homo sapiens&quot; było więcej. Po chwili wertowania
+netu udało mi się znaleźć appkę, co się zwie Yet Another Call Blocker (YACB), która w zasadzie
+jest tym, czego standardowo brakuje w każdym smartfonie z Androidem na pokładzie, tj. dość
+zaawansowanego filtra rozmów przychodzących realizowanych w przestarzałej już technologi GSM, czyli
+w zwykłych rozmowach telefonicznych na komórkę. Jako, że ten YACB jest bardzo ciekawym kawałkiem
+oprogramowania i do tego w pełni OpenSource (dostępnym w repozytorium F-Droid), to postanowiłem
+napisać o nim kilka słów, bo jest to wręcz nieocenione narzędzie w walce z wszelkim syfem pokroju
+różnych spamerów z call center." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-blokowac-rozmowy-gsm-w-smartfonie-z-androidem-yacb/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-09-18T15:22:00&#43;02:00" />
+<meta property="article:modified_time" content="2021-09-18T15:22:00&#43;02:00" />
+
+
+		<meta itemprop="name" content="Jak blokować rozmowy GSM w smartfonie z Androidem (YACB)">
+<meta itemprop="description" content="Czy przytrafiła może wam się taka sytuacja, w której to ktoś dzwonił do was z niewiadomego numeru i
+przy tym nie był to nikt, kto by zasługiwał na jakąś większą uwagę z waszej strony? Zwykle, gdy mam
+do czynienia z kimś takim, to nawet nie odbieram telefonu. Niemniej jednak, najwyraźniej jeden z
+moich numerów ostatnio stał się celem ataku jakiegoś spamera z bliżej nieokreślonego call center i
+ten czteroliterowy osobnik wydzwania do mnie od kilku dni średnio co 20 minut i to z wielu różnych
+numerów. Do tej pory spamerzy w zasadzie omijali mnie szerokim łukiem ale zachowanie tej dość
+nieuprzejmej osoby sprawiło, że postanowiłem opracować jakieś rozwiązanie na wypadek, gdyby takich
+osobników z gatunku &quot;brakującego ogniwa ewolucji Homo sapiens&quot; było więcej. Po chwili wertowania
+netu udało mi się znaleźć appkę, co się zwie Yet Another Call Blocker (YACB), która w zasadzie
+jest tym, czego standardowo brakuje w każdym smartfonie z Androidem na pokładzie, tj. dość
+zaawansowanego filtra rozmów przychodzących realizowanych w przestarzałej już technologi GSM, czyli
+w zwykłych rozmowach telefonicznych na komórkę. Jako, że ten YACB jest bardzo ciekawym kawałkiem
+oprogramowania i do tego w pełni OpenSource (dostępnym w repozytorium F-Droid), to postanowiłem
+napisać o nim kilka słów, bo jest to wręcz nieocenione narzędzie w walce z wszelkim syfem pokroju
+różnych spamerów z call center."><meta itemprop="datePublished" content="2021-09-18T15:22:00&#43;02:00" />
+<meta itemprop="dateModified" content="2021-09-18T15:22:00&#43;02:00" />
+<meta itemprop="wordCount" content="2058">
+<meta itemprop="keywords" content="smartfon,aplikacje,f-droid,spam,call-center,prywatność," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak blokować rozmowy GSM w smartfonie z Androidem (YACB)"/>
+<meta name="twitter:description" content="Czy przytrafiła może wam się taka sytuacja, w której to ktoś dzwonił do was z niewiadomego numeru i
+przy tym nie był to nikt, kto by zasługiwał na jakąś większą uwagę z waszej strony? Zwykle, gdy mam
+do czynienia z kimś takim, to nawet nie odbieram telefonu. Niemniej jednak, najwyraźniej jeden z
+moich numerów ostatnio stał się celem ataku jakiegoś spamera z bliżej nieokreślonego call center i
+ten czteroliterowy osobnik wydzwania do mnie od kilku dni średnio co 20 minut i to z wielu różnych
+numerów. Do tej pory spamerzy w zasadzie omijali mnie szerokim łukiem ale zachowanie tej dość
+nieuprzejmej osoby sprawiło, że postanowiłem opracować jakieś rozwiązanie na wypadek, gdyby takich
+osobników z gatunku &quot;brakującego ogniwa ewolucji Homo sapiens&quot; było więcej. Po chwili wertowania
+netu udało mi się znaleźć appkę, co się zwie Yet Another Call Blocker (YACB), która w zasadzie
+jest tym, czego standardowo brakuje w każdym smartfonie z Androidem na pokładzie, tj. dość
+zaawansowanego filtra rozmów przychodzących realizowanych w przestarzałej już technologi GSM, czyli
+w zwykłych rozmowach telefonicznych na komórkę. Jako, że ten YACB jest bardzo ciekawym kawałkiem
+oprogramowania i do tego w pełni OpenSource (dostępnym w repozytorium F-Droid), to postanowiłem
+napisać o nim kilka słów, bo jest to wręcz nieocenione narzędzie w walce z wszelkim syfem pokroju
+różnych spamerów z call center."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak blokować rozmowy GSM w smartfonie z Androidem (YACB)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2021-09-18T15:22:00&#43;02:00">Opublikowano: 18/09/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak blokować rozmowy GSM w smartfonie z Androidem (YACB)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#identyfikacja-rozmówcy-i-spamu-w-androidzie">Identyfikacja rozmówcy i spamu w Androidzie</a></li>
+    <li><a href="#zubożona-czarna-lista-numerów">Zubożona czarna lista numerów</a></li>
+    <li><a href="#czym-jest-yacb-i-jak-go-włączyć">Czym jest YACB i jak go włączyć</a>
+      <ol>
+        <li><a href="#jak-ustawić-yacb-jako-domyślny-filtr-spamu">Jak ustawić YACB jako domyślny filtr spamu</a></li>
+      </ol>
+    </li>
+    <li><a href="#baza-danych-numerów-telefonów-dla-yacb">Baza danych numerów telefonów dla YACB</a>
+      <ol>
+        <li><a href="#auto-update-bazy">Auto update bazy</a></li>
+        <li><a href="#optymalizacja-bazy-danych-numerów">Optymalizacja bazy danych numerów</a></li>
+      </ol>
+    </li>
+    <li><a href="#lista-kontaktów">Lista kontaktów</a></li>
+    <li><a href="#blokowanie-w-oparciu-o-ranking-numerów">Blokowanie w oparciu o ranking numerów</a>
+      <ol>
+        <li><a href="#zgłaszanie-spamerów-do-bazy-numerów">Zgłaszanie spamerów do bazy numerów</a></li>
+      </ol>
+    </li>
+    <li><a href="#lokalna-czarna-lista">Lokalna czarna lista</a></li>
+    <li><a href="#zaawansowany-tryb-blokowania-połączeń">Zaawansowany tryb blokowania połączeń</a></li>
+    <li><a href="#usługa-monitorująca">Usługa monitorująca</a></li>
+    <li><a href="#powiadomienia-o-nieodebranych-połączeniach">Powiadomienia o nieodebranych połączeniach</a>
+      <ol>
+        <li><a href="#usługa-operatora-gsm-kto-dzwonił">Usługa operatora GSM &quot;kto dzwonił&quot;</a></li>
+      </ol>
+    </li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Czy przytrafiła może wam się taka sytuacja, w której to ktoś dzwonił do was z niewiadomego numeru i
+przy tym nie był to nikt, kto by zasługiwał na jakąś większą uwagę z waszej strony? Zwykle, gdy mam
+do czynienia z kimś takim, to nawet nie odbieram telefonu. Niemniej jednak, najwyraźniej jeden z
+moich numerów ostatnio stał się celem ataku jakiegoś spamera z bliżej nieokreślonego call center i
+ten czteroliterowy osobnik wydzwania do mnie od kilku dni średnio co 20 minut i to z wielu różnych
+numerów. Do tej pory spamerzy w zasadzie omijali mnie szerokim łukiem ale zachowanie tej dość
+nieuprzejmej osoby sprawiło, że postanowiłem opracować jakieś rozwiązanie na wypadek, gdyby takich
+osobników z gatunku &quot;brakującego ogniwa ewolucji Homo sapiens&quot; było więcej. Po chwili wertowania
+netu udało mi się znaleźć appkę, co się zwie <a href="https://gitlab.com/xynngh/YetAnotherCallBlocker">Yet Another Call Blocker</a> (YACB), która w zasadzie
+jest tym, czego standardowo brakuje w każdym smartfonie z Androidem na pokładzie, tj. dość
+zaawansowanego filtra rozmów przychodzących realizowanych w przestarzałej już technologi GSM, czyli
+w zwykłych rozmowach telefonicznych na komórkę. Jako, że ten YACB jest bardzo ciekawym kawałkiem
+oprogramowania i do tego w pełni OpenSource (dostępnym w repozytorium F-Droid), to postanowiłem
+napisać o nim kilka słów, bo jest to wręcz nieocenione narzędzie w walce z wszelkim syfem pokroju
+różnych spamerów z call center.</p>
+<h2 id="identyfikacja-rozmówcy-i-spamu-w-androidzie">Identyfikacja rozmówcy i spamu w Androidzie</h2>
+<p>W Androidzie już od dłuższego czasu są <a href="https://support.google.com/phoneapp/answer/3459196?hl=en">mechanizmy</a>, które umożliwiają identyfikację osób, które
+chcą z nami nawiązywać połączenie. Gdy taki spamer będzie do nas dzwonił, to zostanie nam
+wyświetlona stosowna informacja na ekranie smartfona (tuż pod numerem), np. spam, i wtedy wiemy czy
+powinniśmy takie połączenie odebrać. To rozwiązanie ma jednak szereg wad.</p>
+<p>Jedną z nich jest to, że takie rozmowy nie są zrzucane z automatu, przynajmniej nie wszystkie,
+przez co i tak dochodzą do nas i wymagają od nas jakiegoś działania, no i odrywają przy tym nas od
+codziennych czynności czy pracy.</p>
+<p>Drugi problem zaś dotyczy naszej prywatności. Jeśli byśmy zdecydowali się korzystać z tego
+góglowskiego mechanizmu identyfikacji spamu (domyślnie włączony w każdym Androidzie), to trzeba
+liczyć się z faktem przesyłania na serwery google informacji na temat nawiązywanych przez nas
+połączeń (prawdopodobnie zarówno tych przychodzących, jak i wychodzących).</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/005.yacb-call-blocker-android-spam-filer-dialer-caller-id.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/006.yacb-call-blocker-android-spam-filer-dialer-caller-id.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>Kolejny problem związany jest z wersją Androida, którą mamy w telefonie. Jeśli mamy Andka 9 (i
+niższe), to w tych systemach aplikacja dialer'a jest zintegrowana z mechanizmem identyfikacji spamu.
+By na tych systemach móc korzystać z innego filtra połączeń przychodzących niż ten standardowy,
+trzeba wymienić całą appkę dialer'a, co nie zawsze jest pożądane czy nawet możliwe.</p>
+<p>Dobre wieści są takie, że od Androida 10, <a href="https://developer.android.com/about/versions/10/features#call-screening">filtr spamu został odseparowany od aplikacji
+dialer'a</a>, przez co została nam dana możliwość określenia zewnętrznego mechanizmu, który z tym
+spamem będzie walczył, no i też nie będzie przesyłał tak wrażliwych danych jak informacje o
+nawiązywanych połączeniach do google.</p>
+<h2 id="zubożona-czarna-lista-numerów">Zubożona czarna lista numerów</h2>
+<p>Każdy Android ma też zaszyty w sobie mechanizm czarnej listy połączeń, które system po cichu zrzuci
+ilekroć ktoś z numeru uwzględnionego na tej liście będzie próbował się z nami skontaktować. Odnoszę
+jednak wrażenie, że funkcjonalność tej listy uszczupla się z każdym kolejnym wydaniem Androida. Dla
+przykładu, w Andku 7 można było korzystać z maski, przez co dodanie, np. <code>+48*</code> , umożliwiało
+zablokowanie danego kraju bez większego problemu. W Androidzie 11 już takiej opcji maski nie widzę
+i by zablokować takiego spamera, który używa setek czy tysięcy numerów, to już naprawdę jest nie
+lada sztuka.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/001.yacb-call-blocker-android-spam-filer-stock.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/002.yacb-call-blocker-android-spam-filer-stock-phone-number-add.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>Nie mam pojęcia, czy można tutaj korzystać z maski, bo we wcześniejszych wersjach Androida było to
+wyraźnie określone via <code>prefix</code> . Tutaj jak widać jest jedynie opcja wpisania numeru telefonu.</p>
+<p>Wyżej można też zauważyć, że widnieje tam informacja o numerach typu <code>unknown</code> . Dotyczy ona (chyba)
+połączeń z numerów, które nie zostały dodane przez nas na listę naszych kontaktów w telefonie.
+Zaznaczenie tej opcji sprawi, że nikt spoza osób uwzględnionych na liście kontaktów nie będzie w
+stanie się z nami połączyć. No i w zasadzie ta opcja wydaje się być jedyną, by jakoś sobie z
+takimi spamerami poradzić ale jednocześnie pozbawia nas możliwości odbierania połączeń od osób,
+które spamerami nie są. Gdy prowadzimy firmę, to raczej nie odważymy się tej opcji przełączyć, bo
+skutkowałoby to odcięciem się od nowych klientów i w nieodległej przyszłości ubiciem naszego
+biznesu.</p>
+<h2 id="czym-jest-yacb-i-jak-go-włączyć">Czym jest YACB i jak go włączyć</h2>
+<p>Cała masa wątpliwości i pytań nasuwa się w stosunku do tych wbudowanych w Androida mechanizmów
+mających nas chronić przed spamem. Dodatkowo, słaba konfiguracja filtrów sprawiła, że trzeba było
+się rozejrzeć za czymś bardziej zaawansowanym i tak właśnie w łapki wpadł mi Yet Another Call
+Blocker, który można naturalnie <a href="https://f-droid.org/en/packages/dummydomain.yetanothercallblocker/">pobrać z repozytorium F-Droid</a>.</p>
+<h3 id="jak-ustawić-yacb-jako-domyślny-filtr-spamu">Jak ustawić YACB jako domyślny filtr spamu</h3>
+<p>Trzeba tutaj wyraźnie zaznaczyć, że YACB nie jest aplikacją dialer'a, a jedynie filtrem, który
+dialer może wykorzystać, by filtrować połączenia przychodzące na nasz telefon. Idealnie zatem
+nadaje się na smartfony, które wyposażone są w co najmniej Androida 10. Po zainstalowaniu YACB,
+musimy go ustawić jako domyślną appkę dla identyfikowania rozmów przychodzących. By to uczynić
+wchodzimy w ustawienia systemu i wpisujemy <code>Caller ID &amp; Spam</code> , po czym wskazujemy YACB:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/003.yacb-call-blocker-android-spam-filer-caller-id-settings.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/004.yacb-call-blocker-android-spam-filer-caller-id-switch.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>Mając ustawiony Yet Another Call Blocker jako domyślną appkę filtrującą ze spamu połączenia
+przychodzące, otwieramy ustawienia YACB.</p>
+<h2 id="baza-danych-numerów-telefonów-dla-yacb">Baza danych numerów telefonów dla YACB</h2>
+<p>Pierwsza rzecz jaką musimy sobie skonfigurować, to baza danych, z której YACB będzie pozyskiwał
+informacje na temat numerów chcących nawiązać z nami połączenie.</p>
+<p>Warto tutaj zaznaczyć, że bez większego problemu z tej bazy danych można korzystać w formie offline,
+zatem połączenie z internetem nie jest w ogóle wymagane, by telefoniczny filtr połączeń
+przychodzących spełniał swoje zadanie. Trzeba jednak liczyć się z faktem, że z czasem wpisy w tej
+bazie danych mogą się dość mocno zdezaktualizować. Tak czy inaczej, filtrowanie numerów w oparciu o
+tę bazę danych powinniśmy sobie włączyć:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/007.yacb-call-blocker-android-spam-filer-settings-block-by-rating.jpg" alt=""    class="small"></p>
+<h3 id="auto-update-bazy">Auto update bazy</h3>
+<p>Baza danych numerów dostępna jest w <a href="https://gitlab.com/xynngh/YetAnotherCallBlocker_data">osobnym repozytorium</a> i pozyskiwana jest z <a href="https://odebractelefon.pl/">serwisu
+odebractelefon.pl</a>. Jest też ona aktualizowana co 24 godziny, zatem upewnijmy się, że mamy
+zaznaczony auto update tej bazy. Rozmiar bazy numerów nie jest mały, tj. zajmuje około 100 MiB ale
+na szczęście aktualizacja tej bazy jest przyrostowa, a nie pobierana w całości ilekroć tylko update
+zostanie wypuszczony.</p>
+<p>Aktualny status bazy danych zawsze można sprawdzić w ustawieniach YACB:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/008.yacb-call-blocker-android-spam-filer-database-auto-update.jpg" alt=""    class="small"></p>
+<h3 id="optymalizacja-bazy-danych-numerów">Optymalizacja bazy danych numerów</h3>
+<p>Domyślnie w bazie danych są przechowywane wszystkie możliwe numery z całego świata. Jest jednak
+mało prawdopodobne, że ktoś z zagranicy będzie próbował się z nami skontaktować. Dlatego też możemy
+wstępnie odfiltrować wszystkie zbędne numery przez określenie prefiksu naszego kraju, tj. <code>+48</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/009.yacb-call-blocker-android-spam-filer-database-country-prefix.jpg" alt=""    class="small"></p>
+<h2 id="lista-kontaktów">Lista kontaktów</h2>
+<p>W ustawieniach YACB powinniśmy także zaznaczyć opcję od kontaktów. Chodzi tutaj o to, że nawet
+jeśli nasz kontakt zostanie pomyłkowo (albo i celowo) dodany do bazy numerów, to YACB bez problemu
+zezwoli takiemu numerowi na połączenie i go nie zablokuje.</p>
+<h2 id="blokowanie-w-oparciu-o-ranking-numerów">Blokowanie w oparciu o ranking numerów</h2>
+<p>Jak na złość, gdy zabrałem się do pisania artykułu, to ten delikwent dzwoniący do mnie co 20 minut
+nagle zamilkł i nie ma po nim praktycznie żadnego śladu już od kilku dni. Zatem nie do końca jestem
+w stanie zobrazować jak wygląda proces blokowania potencjalnych rozmów z numerów, które zostały
+oznaczone przez społeczność jako spam, call center, czy inny telemarketer. Tak czy inaczej, jeśli
+włączymy sobie blokowanie połączeń w oparciu o ranking numerów, to wszystkie pozycje mające
+negatywne oceny będą z automatu zrzucane. W logu YACB będzie za to widniał stosowny wpis zawierający
+wielce użyteczne dla nas informacje:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/010.yacb-call-blocker-android-spam-filer-rating-block.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/011.yacb-call-blocker-android-spam-filer-rating-block.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="zgłaszanie-spamerów-do-bazy-numerów">Zgłaszanie spamerów do bazy numerów</h3>
+<p>Może się czasem zdarzyć tak, że jakiś spamer przedostanie się przez filtr i uda się mu do nas
+dodzwonić. W takim przypadku trzeba go będzie naturalnie wpisać na czarną listę bezpośrednio w
+aplikacji YACB. Powinniśmy też zgłosić taki numer do serwisu <code>odebractelefon.pl</code> , gdzie po
+weryfikacji, ten numer zostanie dopisany i zapewne uwzględniony w kolejnej aktualizacji bazy danych,
+przez co ten spamer powinien być już blokowany u innych użytkowników appki Yet Another Call Blocker.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/012.yacb-call-blocker-android-spam-filer-report-number.jpg" alt=""    class="small"></p>
+<h2 id="lokalna-czarna-lista">Lokalna czarna lista</h2>
+<p>YACB posiada lokalną czarną listę, na którą to możemy dodawać numery niebędące aktualnie
+uwzględnione w bazie danych <code>odebractelefon.pl</code> .  Ta blacklista nie wyróżnia się zbytnio niczym na
+tle tej standardowej dostępnej w Androidzie, no może za wyjątkiem maski. W YACB mamy możliwość
+określenia zarówno <code>*</code> , która odpowiada za zero lub więcej cyferek, oraz <code>#</code> , który odpowiada za
+dokładnie jedną cyfrę, co nieco bardziej ułatwia blokowanie numerków.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/013.yacb-call-blocker-android-spam-filer-black-list.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/014.yacb-call-blocker-android-spam-filer-black-list-add-number.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>Trzeba jednak pamiętać, że połączenia od osób na liście kontaktów nie będą blokowane. Jeśli z
+jakichś powodów chcielibyśmy zablokować połączenie z takim kontaktem, to trzeba go będzie usunąć z
+listy kontaktów i dopiero wtedy dodać jego numer na czarną listę.</p>
+<h2 id="zaawansowany-tryb-blokowania-połączeń">Zaawansowany tryb blokowania połączeń</h2>
+<p>YACB posiada zaawansowany tryb blokowania połączeń (advanced call blocking mode). Zgodnie z tym co
+można wyczytać w <a href="https://gitlab.com/xynngh/YetAnotherCallBlocker/-/blob/master/FAQ.md#whats-that-advanced-call-blocking-mode">FAQ</a>, ten tryb wykorzystuje <a href="https://developer.android.com/reference/android/telecom/CallScreeningService">CallScreeningService</a> do blokowania połączeń,
+co umożliwia zablokowanie takiego połączenia zanim telefon wyda z siebie jeszcze jakikolwiek dźwięk.
+W normalnym trybie, telefon mógł dzwonić przez krótką chwilę ale w tym zaawansowanym trybie już nie
+będzie, co bardzo cieszy, bo zrzucanie spamerów jest transparentne dla nas i nie musimy sobie tym
+zadaniem wcale głowy zawracać. Dlatego też upewnijmy się, że ten tryb mamy zaznaczony.</p>
+<h2 id="usługa-monitorująca">Usługa monitorująca</h2>
+<p>Kolejną opcją, na którą możemy się natknąć w ustawieniach YACB, to usługa monitorująca, która ma na
+celu zapewnienie, że YACB będzie w stanie filtrować połączenia. Ta nazwa jest trochę myląca, bo
+YACB nie instaluje (czy korzysta) z dodatkowej usługi, która ma działać w tle. Ta dodatkowa usługa
+to jedynie permanentne powiadomienie, które będzie wyświetlane non stop (do wglądu przez belkę
+powiadomień).</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/021.yacb-call-blocker-android-spam-filer-monitoring-service.jpg" alt=""    class="small"></p>
+<p>To powiadomienie ma na celu poprawić działanie YACB na niektórych ROM'ach, np. MIUI. Zwykle jednak
+tej opcji nie ma potrzeby aktywować. Jeśli się zastanawiamy czy włączyć tę usługę, to nic się nie
+stanie, gdy zaznaczymy stosowną opcję w ustawieniach, bo nie ma ona żadnego wpływu na żywotność
+baterii.</p>
+<h2 id="powiadomienia-o-nieodebranych-połączeniach">Powiadomienia o nieodebranych połączeniach</h2>
+<p>Ciche zrzucanie spamerów bez powiadamiania nas o takich zdarzeniach cieszy i to niezmiernie.
+Niemniej jednak, od czasu do czasu przydałoby się rzucić okiem na te blokowane przez filtr numery,
+by upewnić się chociaż czy ten wdrożony przez nas mechanizm w ogóle działa albo też czy nie blokuje
+on numerów, których nie powinien.</p>
+<p>Stosowna opcja od powiadomień jest dostępna w ustawieniach YACB. Domyślna konfiguracja nie
+wyświetli nam jednak żadnych powiadomień i przydałoby się te powiadomienia skonfigurować chociaż w
+taki sposób, by były one rejestrowane ale w trybie cichym. Do tego celu można skorzystać z
+natywnego mechanizmu Androida umożliwiającego niezależną konfigurację szeregu kanałów powiadomień
+YACB. W tym celu wchodzimy w informację o aplikacji YACB i wybieramy <code>Notifications</code> :</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/015.yacb-call-blocker-android-spam-filer-notifications.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/016.yacb-call-blocker-android-spam-filer-notifications.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/017.yacb-call-blocker-android-spam-filer-notifications.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>No jak widać, YACB rejestruje trochę tych kanałów notyfikacji. Ja sobie wszystkie z nich ustawiłem
+w zasadzie w ten poniższy sposób, w którym powiadomienie jak najbardziej będzie się pojawiać ale bez
+dzwonka, zapalania ekranu czy innych wibracji telefonu:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/018.yacb-call-blocker-android-spam-filer-notifications.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/019.yacb-call-blocker-android-spam-filer-notifications.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>W ten sposób zrzucanie połączeń z call center nie będzie u mnie w ogóle widoczne, no chyba, że
+wejdę sobie w powiadomienia.</p>
+<h3 id="usługa-operatora-gsm-kto-dzwonił">Usługa operatora GSM &quot;kto dzwonił&quot;</h3>
+<p>Jedyny problem z YACB, który może być dla nas dość uciążliwy, dotyczy usługi operatora odnośnie
+tego kto próbował się z nami skontaktować. Ta usługa działa na zasadzie takiej, że jak nie
+odbierzemy jakiegoś połączenia (albo je zrzucimy/zakończymy bez odbierania, tak jak to robi YACB),
+to po chwili przychodzi do nas SMS od operatora z informacją, że dany numer próbował się z nami
+skontaktować. Zatem blokujemy numer na dialerze ale co nam po tym, skoro zaraz przychodzi SMS i
+jesteśmy o fakcie przyjścia tego SMS powiadomieni?</p>
+<p>Na szczęście większość operatorów GSM (albo i wszyscy) w Polsce oferuje możliwość wyłączenia usług
+typu &quot;kto dzwonił?&quot;. W Virgin Mobile można bez większego problemu tę usługę wyłączyć z poziomu ich
+appki:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/020.yacb-call-blocker-android-spam-filer-disable-sms-notifications.jpg" alt=""    class="small"></p>
+<p>W ten sposób te SMS'y przestaną do nas przychodzić, a jedyny ślad po spamerze zostanie odnotowany
+tylko i wyłącznie w cichym powiadomieniu (oraz logu YACB), na które możemy rzucić okiem w wolnej
+chwili.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>YACB to bardzo przydatne narzędzie w walce z całej maści spamem pokroju call center (czy innymi
+telemarketerami), którego w okół nas jest coraz więcej. Ta aplikacja ma szereg zalet w stosunku
+do natywnego rozwiązania oferowanego przez Androida w kwestii identyfikacji i blokowania połączeń
+przychodzących, zwłaszcza jeśli chodzi o poprawę naszej prywatności. Jedyną wadą, jaką YACB posiada,
+to fakt, że nie jest on domyślnie preinstalowany w smartfonach, przez co wymaga manualnej
+konfiguracji, co z kolei może zniechęcić sporą grupę użytkowników. Nie ma go też w sklepie Google
+Play Store i jedyną opcją, by go zainstalować jest repozytorium F-Droid. Niemniej jednak, YACB nie
+wymaga uprawnień root i można z niego korzystać nawet na stock'owym ROM'ie producenta telefonu,
+choć przydałoby się posiadać Androida w wersji 10 lub nowszej.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aplikacje/">aplikacje</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/f-droid/">f-droid</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/spam/">spam</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/call-center/">call-center</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/prywatno%C5%9B%C4%87/">prywatność</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-blokowac-rozmowy-gsm-w-smartfonie-z-androidem-yacb%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-blokowac-rozmowy-gsm-w-smartfonie-z-androidem-yacb%2f&amp;text=Jak%20blokowa%c4%87%20rozmowy%20GSM%20w%20smartfonie%20z%20Androidem%20%28YACB%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-blokowac-rozmowy-gsm-w-smartfonie-z-androidem-yacb%2f&amp;title=Jak%20blokowa%c4%87%20rozmowy%20GSM%20w%20smartfonie%20z%20Androidem%20%28YACB%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-blokowac-rozmowy-gsm-w-smartfonie-z-androidem-yacb%2f&amp;title=Jak%20blokowa%c4%87%20rozmowy%20GSM%20w%20smartfonie%20z%20Androidem%20%28YACB%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-blokowac-rozmowy-gsm-w-smartfonie-z-androidem-yacb%2f&title=Jak%20blokowa%c4%87%20rozmowy%20GSM%20w%20smartfonie%20z%20Androidem%20%28YACB%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-blokowac-rozmowy-gsm-w-smartfonie-z-androidem-yacb%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-blokowac-rozmowy-gsm-w-smartfonie-z-androidem-yacb%2f&amp;title=Jak%20blokowa%c4%87%20rozmowy%20GSM%20w%20smartfonie%20z%20Androidem%20%28YACB%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-blokowac-rozmowy-gsm-w-smartfonie-z-androidem-yacb%2f&description=Jak%20blokowa%c4%87%20rozmowy%20GSM%20w%20smartfonie%20z%20Androidem%20%28YACB%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/blokowanie-reklam-w-youtube-na-smartfonie-z-androidem-bez-root/">Blokowanie reklam w YouTube na smartfonie z Androidem bez root</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-usunac-aplikacje-bloatware-ze-smartfona-z-androidem-bez-root/">Jak usunąć aplikacje bloatware ze smartfona z Androidem bez root</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/szyfrowanie-rozmow-i-smsow-na-smartfonie-z-androidem-signal/">Szyfrowanie rozmów i SMS&#39;ów na smartfonie z Androidem (Signal)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/">Jak skonfigurować połączenie VPN na smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-blokowanie-reklam-z-adaway-na-smartfonie/">Android: Blokowanie reklam z AdAway na smartfonie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-youtube-bez-reklam-na-smartfonie-newpipe/">Android: YouTube bez reklam na smartfonie (NewPipe)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/android-opencamera-i-aparat-w-neffos-c5/">Android: OpenCamera i aparat w Neffos C5</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
