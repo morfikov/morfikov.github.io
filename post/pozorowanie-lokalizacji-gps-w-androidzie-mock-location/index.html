@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Pozorowanie lokalizacji GPS w Androidzie (mock location) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Pozorowanie lokalizacji GPS w Androidzie (mock location)" />
+<meta property="og:description" content="Wiele osób nie pozostawia suchej nitki na mechanizmie geolokalizacji zaszytym w smartfonach z
+Androidem na pokładzie. No i faktycznie w sporej części przypadków zastrzeżenia jakie są kierowane
+pod adresem lokalizacji/GPS w kwestii permanentnego śledzenia nas przez Google nie są przesadzone.
+Niektórzy spierają się, że wystarczy włączyć tryb samolotowy (Airplane Mode) w telefonie i nasza
+pozycja przestaje być rejestrowana w czasie rzeczywistym ale nie jest to prawdą. Jakiś czas temu
+świat obiegła informacja, że Android rejestruje dane geolokalizacji nawet, gdy tryb samolotowy
+jest włączony, a telefon nie ma włożonych kart SIM i to przy jednoczesnym wyłączeniu WiFi i BT. Jak
+to do końca jest z tą lokalizacją i czy faktycznie nie da się jej wyłączyć w Androidzie? A może
+powinniśmy pójść w drugą stronę i zamiast starać się wyłączać lokalizację, to spróbować oszukać
+system przez jej pozorowanie? Taki zabieg jest możliwy ale wymagana jest zewnętrzna aplikacja do
+pozorowania lokalizacji, np. Fake Traveler, którą trzeba określić w ustawieniach
+deweloperskich Androida. Czy ten zabieg wpłynie pozytywnie na lokalizację w kontekście naszej
+prywatności? Czy może lepiej jest jednak zostawić telefon w domu i pójść na niejawne spotkanie bez
+tego urządzenia?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/pozorowanie-lokalizacji-gps-w-androidzie-mock-location/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-09-21T19:33:00&#43;02:00" />
+<meta property="article:modified_time" content="2021-09-21T19:33:00&#43;02:00" />
+
+
+		<meta itemprop="name" content="Pozorowanie lokalizacji GPS w Androidzie (mock location)">
+<meta itemprop="description" content="Wiele osób nie pozostawia suchej nitki na mechanizmie geolokalizacji zaszytym w smartfonach z
+Androidem na pokładzie. No i faktycznie w sporej części przypadków zastrzeżenia jakie są kierowane
+pod adresem lokalizacji/GPS w kwestii permanentnego śledzenia nas przez Google nie są przesadzone.
+Niektórzy spierają się, że wystarczy włączyć tryb samolotowy (Airplane Mode) w telefonie i nasza
+pozycja przestaje być rejestrowana w czasie rzeczywistym ale nie jest to prawdą. Jakiś czas temu
+świat obiegła informacja, że Android rejestruje dane geolokalizacji nawet, gdy tryb samolotowy
+jest włączony, a telefon nie ma włożonych kart SIM i to przy jednoczesnym wyłączeniu WiFi i BT. Jak
+to do końca jest z tą lokalizacją i czy faktycznie nie da się jej wyłączyć w Androidzie? A może
+powinniśmy pójść w drugą stronę i zamiast starać się wyłączać lokalizację, to spróbować oszukać
+system przez jej pozorowanie? Taki zabieg jest możliwy ale wymagana jest zewnętrzna aplikacja do
+pozorowania lokalizacji, np. Fake Traveler, którą trzeba określić w ustawieniach
+deweloperskich Androida. Czy ten zabieg wpłynie pozytywnie na lokalizację w kontekście naszej
+prywatności? Czy może lepiej jest jednak zostawić telefon w domu i pójść na niejawne spotkanie bez
+tego urządzenia?"><meta itemprop="datePublished" content="2021-09-21T19:33:00&#43;02:00" />
+<meta itemprop="dateModified" content="2021-09-21T19:33:00&#43;02:00" />
+<meta itemprop="wordCount" content="4630">
+<meta itemprop="keywords" content="smartfon,aplikacje,f-droid,gps,wifi,bluetooth,prywatność," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Pozorowanie lokalizacji GPS w Androidzie (mock location)"/>
+<meta name="twitter:description" content="Wiele osób nie pozostawia suchej nitki na mechanizmie geolokalizacji zaszytym w smartfonach z
+Androidem na pokładzie. No i faktycznie w sporej części przypadków zastrzeżenia jakie są kierowane
+pod adresem lokalizacji/GPS w kwestii permanentnego śledzenia nas przez Google nie są przesadzone.
+Niektórzy spierają się, że wystarczy włączyć tryb samolotowy (Airplane Mode) w telefonie i nasza
+pozycja przestaje być rejestrowana w czasie rzeczywistym ale nie jest to prawdą. Jakiś czas temu
+świat obiegła informacja, że Android rejestruje dane geolokalizacji nawet, gdy tryb samolotowy
+jest włączony, a telefon nie ma włożonych kart SIM i to przy jednoczesnym wyłączeniu WiFi i BT. Jak
+to do końca jest z tą lokalizacją i czy faktycznie nie da się jej wyłączyć w Androidzie? A może
+powinniśmy pójść w drugą stronę i zamiast starać się wyłączać lokalizację, to spróbować oszukać
+system przez jej pozorowanie? Taki zabieg jest możliwy ale wymagana jest zewnętrzna aplikacja do
+pozorowania lokalizacji, np. Fake Traveler, którą trzeba określić w ustawieniach
+deweloperskich Androida. Czy ten zabieg wpłynie pozytywnie na lokalizację w kontekście naszej
+prywatności? Czy może lepiej jest jednak zostawić telefon w domu i pójść na niejawne spotkanie bez
+tego urządzenia?"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Pozorowanie lokalizacji GPS w Androidzie (mock location)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2021-09-21T19:33:00&#43;02:00">Opublikowano: 21/09/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Pozorowanie lokalizacji GPS w Androidzie (mock location)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#zasada-działania-gpsa-gps">Zasada działania GPS/A-GPS</a></li>
+    <li><a href="#ustawienia-lokalizacji-w-androidzie">Ustawienia lokalizacji w Androidzie</a>
+      <ol>
+        <li><a href="#skanowanie-bluetooth-i-wifi">Skanowanie Bluetooth i WiFi</a>
+          <ol>
+            <li><a href="#automatyczne-podłączanie-do-sieci-wifi">Automatyczne podłączanie do sieci WiFi</a></li>
+          </ol>
+        </li>
+        <li><a href="#google-location-accuracyservices">Google Location Accuracy/Services</a></li>
+        <li><a href="#emergency-location-service-els">Emergency Location Service (ELS)</a></li>
+        <li><a href="#historia-lokalizacji-google">Historia lokalizacji Google</a></li>
+        <li><a href="#udostępnianie-lokalizacji-w-czasie-rzeczywistym">Udostępnianie lokalizacji w czasie rzeczywistym</a></li>
+      </ol>
+    </li>
+    <li><a href="#tryby-pracy-lokalizacji">Tryby pracy lokalizacji</a></li>
+    <li><a href="#dostęp-aplikacji-do-lokalizacji">Dostęp aplikacji do lokalizacji</a>
+      <ol>
+        <li><a href="#access_coarse_location-oraz-access_fine_location">ACCESS_COARSE_LOCATION oraz ACCESS_FINE_LOCATION</a></li>
+      </ol>
+    </li>
+    <li><a href="#brak-kart-sim-w-telefonie">Brak kart SIM w telefonie</a></li>
+    <li><a href="#tryb-samolotowy-airplane-mode">Tryb samolotowy (Airplane Mode)</a></li>
+    <li><a href="#pozorowanie-lokalizacji">Pozorowanie lokalizacji</a>
+      <ol>
+        <li><a href="#aplikacja-do-pozorowania-lokalizacji">Aplikacja do pozorowania lokalizacji</a></li>
+        <li><a href="#pozorowanie-lokalizacji-z-fake-traveler">Pozorowanie lokalizacji z Fake Traveler</a></li>
+      </ol>
+    </li>
+    <li><a href="#robienie-zdjęć-z-pozorowaną-lokalizacją">Robienie zdjęć z pozorowaną lokalizacją</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Wiele osób nie pozostawia suchej nitki na mechanizmie geolokalizacji zaszytym w smartfonach z
+Androidem na pokładzie. No i faktycznie w sporej części przypadków zastrzeżenia jakie są kierowane
+pod adresem lokalizacji/GPS w kwestii permanentnego śledzenia nas przez Google nie są przesadzone.
+Niektórzy spierają się, że wystarczy włączyć tryb samolotowy (Airplane Mode) w telefonie i nasza
+pozycja przestaje być rejestrowana w czasie rzeczywistym ale nie jest to prawdą. Jakiś czas temu
+świat obiegła informacja, że <a href="https://www.thesun.co.uk/tech/7811918/google-is-tracking-you-even-with-airplane-mode-turned-on/">Android rejestruje dane geolokalizacji</a> nawet, gdy tryb samolotowy
+jest włączony, a telefon nie ma włożonych kart SIM i to przy jednoczesnym wyłączeniu WiFi i BT. Jak
+to do końca jest z tą lokalizacją i czy faktycznie nie da się jej wyłączyć w Androidzie? A może
+powinniśmy pójść w drugą stronę i zamiast starać się wyłączać lokalizację, to spróbować oszukać
+system przez jej pozorowanie? Taki zabieg jest możliwy ale wymagana jest zewnętrzna aplikacja do
+pozorowania lokalizacji, np. <a href="https://github.com/mcastillof/FakeTraveler">Fake Traveler</a>, którą trzeba określić w ustawieniach
+deweloperskich Androida. Czy ten zabieg wpłynie pozytywnie na lokalizację w kontekście naszej
+prywatności? Czy może lepiej jest jednak zostawić telefon w domu i pójść na niejawne spotkanie bez
+tego urządzenia?</p>
+<h2 id="zasada-działania-gpsa-gps">Zasada działania GPS/A-GPS</h2>
+<p>By <a href="https://en.wikipedia.org/wiki/Global_Positioning_System">GPS</a> mógł spełniać swoje zadanie, potrzebne nam są nadajniki i odbiorniki (oraz po części
+też jakaś infrastruktura zarządzająca). Nadajnikami są satelity latające po orbicie Ziemi (ok 20km),
+a odbiornikami zaś są różne urządzenia na Ziemni, np. nasze smartfony. Technologia GPS nie wymaga od
+naszych telefonów przesyłania jakichkolwiek informacji do satelitów -- wyobraźmy sobie setki
+milionów czy miliardy urządzeń chcących komunikować się z kilkudziesięcioma satelitami praktycznie
+w tym samym czasie. Nie ma opcji, by można było zapewnić tak ogromną przepustowość dla całej rzeszy
+urządzeń chcących korzystać z GPS. Dlatego to właśnie jedynie satelity nadają sygnał, który
+odbiorniki GPS w naszych telefonach są w stanie odebrać i odpowiednio zinterpretować.</p>
+<p>Każdy satelita jest wyposażony w kilka dość precyzyjnych zegarów atomowych, dzięki którym jest w
+stanie wysłać sygnał zawierający bardzo dokładny czas. Ten sygnał jest wysyłany nieprzerwanie i
+odbiornik GPS na jego podstawie jest w stanie ustalić położenie konkretnych satelitów na niebie w
+chwili wysłania takiego sygnału. Znajomość dokładnego położenia satelitów jest kluczowa, by system
+GPS podał bardzo dokładną lokalizację samego odbiornika.</p>
+<p>Układ satelitów na orbicie (konstelacja) jest tak zaprojektowany, by z każdego miejsca na Ziemi w
+dowolnym czasie były widoczne co najmniej 4 satelity, choć w praktyce zwykle widać ich więcej, a
+każdy dodatkowy satelita jest w stanie wpłynąć na dokładniejszy pomiar czasu, a przez to dokładniej
+wskazać lokalizację odbiornika GPS.</p>
+<p>Do ustalenia położenia danego odbiornika w przestrzeni trójwymiarowej potrzebne są dane z co
+najmniej czterech satelitów i wykorzystuje się do tego celu <a href="https://en.wikipedia.org/wiki/True-range_multilateration">trilaterację</a> (często myloną lub
+zamiennie stosowaną z terminem <a href="https://en.wikipedia.org/wiki/Triangulation">triangulacja</a> ale to nie to samo). Czemu zatem cztery satelity,
+a nie trzy? Trzeba ustalić cztery zmienne: długość (x), szerokość (y), wysokość (z) oraz czas (t).</p>
+<p>Gdybyśmy szukali odbiornika GPS na poziomie morza, wtedy wysokość w tym trójwymiarowym modelu (z)
+byłaby znana i do ustalenia pozycji GPS <a href="https://gis.stackexchange.com/a/41093/193381">wystarczyłyby tylko trzy satelity</a>. Jako, że Ziemia
+jest bardziej trójwymiarowa i zwykle musimy znać dokładną wysokość nad poziomem morza, to potrzebny
+nam jest dodatkowo czwarty satelita do poprawnego wyliczenia wysokości, na której znajduje się
+odbiornik GPS.</p>
+<p>Gdyby odbiornik GPS był wyposażony w zegar atomowy, tak jak to ma miejsce w przypadku satelitów, to
+w takiej sytuacji również do wyznaczenia położenia potrzebne byłyby jedynie trzy satelity, bo czas
+byłby znany. Niestety, zegar atomowy to wydatek na poziomie 100K dolców i znacząco by podniósł
+koszt odbiornika GPS, dlatego też w odbiornikach GPS stosuje się zwykły zegar na bazie kwarcu,
+który jest sporo tańszy ale też bardzo niedokładny, przynajmniej w stosunku do swojego atomowego
+kuzyna.</p>
+<p>Do tego wszystkiego dochodzą jeszcze problemy wynikające z <a href="https://en.wikipedia.org/wiki/Theory_of_relativity">Teorii Względności Einstein'a</a>,
+gdzie grawitacja wpływa na tempo upływu czasu obiektów na Ziemi i tych latających na orbicie około
+20K km nad nią, oraz <a href="https://en.wikipedia.org/wiki/Time_dilation">dylatacja czasu</a> z racji różnic prędkości poruszających się dwóch obiektów
+względem siebie, no i też jeszcze różnice czasu wynikające z dobowego ruchu obrotowego Ziemi, ruchu
+orbitalnego satelitów (efekt Sagnac'a), jak i dobowego obrotu pola magnetycznego Ziemi. Tak czy
+inaczej, system GPS bez stosownych poprawek czasu nie byłby za wiele warty, bo dzienne różnice w
+czasie są <a href="https://www.youtube.com/watch?v=btzFoBncPF4">na poziomie 38us/dobę</a> (między zegarami na orbicie i tymi na Ziemi), co sprawia, że
+rozrzut odległości położenia odbiornika GPS względem jego faktycznego miejsca pobytu jest na
+poziomie większym niż 10km. Niemniej jednak, istnieją stosowne mechanizmy korekcji czasu, które do
+tak drastycznych rozbieżności nie dopuszczają i ciągle ten czas korygują, co sprawia, że GPS może
+spełniać z powodzeniem swoje funkcje.</p>
+<p>Technologia GPS do najszybszych nie należy i to pomimo faktu, że fale radiowe biegną z prędkością
+światła (przynajmniej w próżni). By nie nadwyrężać baterii w satelitach, transfer danych z satelity
+jest na poziomie 50 bitów na sekundę. Jeśli zatem byśmy korzystali jedynie z technologi GPS do
+ustalenia naszego położenia, to uzyskanie pierwszego fix'a mogłoby nam zająć bardzo dużo czasu
+(kilkanaście do kilkudziesięciu minut).</p>
+<p>Generalnie to komunikat nawigacyjny wysyłany z satelity składa się z 30-sekundowych ramek o
+długości 1500 bitów (50 bitów/s * 30s). Pojedyncza ramka podzielona jest na pięć 6-sekundowych
+podramek, a w skład każdej z nich wchodzi dziesięć słów 30-bitowych. Każda podramka zawiera czas
+GPS w odstępach 6-sekundowych. Podramka nr. 1 zawiera datę GPS (numer tygodnia) oraz informacje o
+korekcji zegara satelitarnego, statusie i stanie satelity. Podramki nr. 2 i 3 łącznie zawierają
+dane dotyczące położenia nad Ziemią satelity nadającego (efemerydy). Podramki nr. 4 i 5 zawierają
+strony almanachu, tj. informacje o ogólnym położeniu wszystkich satelitów w konstelacji. Almanach
+ma długość 15.000 bitów, przez co nie jest w stanie zmieścić się cały w jednym
+komunikacie -- potrzeba 25 takich komunikatów, by przesłać do nadajnika wszystkie części almanachu,
+przez co jego transmisja trwa 12,5 minuty (25 komunikatów * 30 sekund).</p>
+<p>Jakby nie patrzeć to dość długi okres na poznanie dokładnej lokalizacji GPS, oczywiście zakładając,
+że nic nie zakłóci sygnału, bo wtedy całość trzeba będzie pobierać od nowa, co jeszcze dodatkowo
+wydłuży czas oczekiwania na pierwszego fix'a.</p>
+<p>Dlatego też stworzono A-GPS (<a href="https://en.wikipedia.org/wiki/Assisted_GNSS">Assisted GPS</a>), który to jest w stanie te wszystkie dane o
+położeniu satelitów przesłać nam na nasze żądanie wykorzystując do tego celu czy to naziemne anteny
+(GSM, CDMA, WCDMA, LTE) czy też korzystając z połączenia WiFi -- w skrócie potrzebny nam jest do
+tego celu internet lub też infrastruktura operatora komórkowego, która sama w sobie może wspierać
+A-GPS, przez co będzie buforować dane GPS (te, które byśmy pobrali bezpośrednio od satelitów).</p>
+<p>Gdy mamy odbiornik GPS, który jest w stanie obsłużyć technologię A-GPS, to nasze urządzenie prześle
+zapytanie do stosownych serwerów prosząc o dane z położeniem satelitów, które w bardzo krótkim
+czasie zostaną mu przesłane i praktycznie natychmiast GPS złapie fix'a. O ile sama technologia GPS
+nie wymagała od nas wysyłania żadnych danych z naszego telefonu w świat, o tyle A-GPS wymaga od nas
+przesłania zapytań czy to via modem GSM, czy też po WiFi. Ta informacja przyda nam się później.</p>
+<h2 id="ustawienia-lokalizacji-w-androidzie">Ustawienia lokalizacji w Androidzie</h2>
+<p>Każdy smartfon z Androidem jest standardowo wyposażony w odbiornik GPS, który wspiera A-GPS. W
+systemie mamy szereg opcji, które mogą posłużyć do konfiguracji pracy tego odbiornika. Przede
+wszystkim, w ustawieniach Androida mamy zwykle osobną pozycję dla lokalizacji:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/001.android-mock-fake-location-gps-settings.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/002.android-mock-fake-location-gps-settings.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>To tutaj włączany jest odbiornik GPS, który umożliwia różnym aplikacjom korzystanie z danych
+lokalizacji. Warto zauważyć tutaj, że po włączeniu lokalizacji w tym okienku powyżej, na pasku
+statusu nie pojawi się żadna ikonka sugerująca, że odbiornik GPS działa. Może to być mylące i
+sprawiać wrażenie, że GPS jest wyłączony, a tak wcale nie jest. Jeśli mamy włączoną lokalizację,
+to moduł GPS zaszyty w naszym smartfonie odbiera sygnał GPS z satelitów i po cichu go ignoruje,
+przynajmniej powinien, a w praktyce to różnie bywa. Ikonka lokalizacji na pasku statusu pojawi się
+dopiero wtedy, gdy jakaś aplikacja użytkownika będzie chciała skorzystać z modułu GPS:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/003.android-mock-fake-location-gps-notification.jpg" alt=""    class="small"></p>
+<p>Także pamiętajmy, że nawet jeśli nie widzimy tej ikonki lokalizacji na pasku statusu, to
+niekoniecznie oznacza to, że odbiornik GPS jest nieaktywny i Android z niego nie korzysta, bo
+zwykle jest wręcz odwrotnie.</p>
+<h3 id="skanowanie-bluetooth-i-wifi">Skanowanie Bluetooth i WiFi</h3>
+<p>Do końca nie wiadome jest jak działa skanowanie Bluetooth i WiFi. Niektórzy piszą, że te opcje
+znajdują jedynie zastosowanie, gdy GPS jest wyłączony. W takim przypadku Android może być w stanie
+bardzo orientacyjnie określić położenie urządzenia nawet bez podłączania go do internetu.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/007.android-mock-fake-location-gps-wifi-bluetooth-scan.jpg" alt=""    class="small"></p>
+<p>Kiedyś Google Street View zbierał informacje na temat publicznie dostępnych AP (ich ESSID oraz MAC).
+Znając lokalizację samochodu Google, można było powiązać AP z konkretną lokalizacją i ustalić
+położenie telefonu, choć jest to jedynie przybliżona lokalizacja, a nie dokładne wskazanie, tak jak
+w przypadku GPS. Jednak od wielu lat <a href="https://www.zdnet.com/article/how-google-and-everyone-else-gets-wi-fi-location-data/">Google nie używa usługi Street View do mapowania punktów
+dostępowych WiFi</a>. Robimy to za niego my sami przy pomocy naszych telefonów, o ile mamy
+włączone w ustawieniach lokalizacji Google Location Accuracy (o tym za moment).</p>
+<p>Zdaniem niektórych, włączenie skanowania BT czy WiFi poprawia dokładność GPS, choć nie wiadomo w
+jaki sposób. Przejrzałem sporo opinii i wychodzi na to, że nikt nie widzi żadnej poprawy z
+włączonym skanowaniem w stosunku do jego braku (albo te różnice są tak niewielkie, że się ich nie
+da realnie stwierdzić).</p>
+<p>Jedno jest pewne, takie skanowanie w tle sprawia, że radio WiFi i BT wykazują się jakąś aktywnością,
+zatem zjadają prąd, przez co cierpi na tym nasza bateria. Trzeba też wziąć pod uwagę fakt, że
+skanowanie za sieciami WiFi w okolicy (czy też za urządzeniami BT) skutkuje zbieraniem informacji i
+przesyłaniem ich do Google, co naturalnie zagraża naszej prywatności.</p>
+<h4 id="automatyczne-podłączanie-do-sieci-wifi">Automatyczne podłączanie do sieci WiFi</h4>
+<p>W ustawieniach sieci WiFi jest kilka dodatkowych funkcji, na które wypadałoby rzucić okiem. Mamy
+tam m.in. skanowanie w poszukiwaniu znanych/zapisanych sieci WiFi (przy włączonym radiu), czyli
+tzw. autoconnect:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/008.android-mock-fake-location-gps-wifi-auto-connect.jpg" alt=""    class="small"></p>
+<p>Ten mechanizm działa na takiej zasadzie, że jeśli nie wyłączymy radia WiFi w naszym telefonie, to
+ten co chwilę skanuje eter, by ustalić czy jakieś znane mu sieci WiFi są dostępne, a jeśli tak, to
+łączy się do nich z automatu.</p>
+<p>Z jednej strony jest to dość użyteczna funkcja, bo po przyjściu do domu nie trzeba włączać telefonu
+i klikać na ikonkę WiFi by uzyskać połączenie z internetem ale takie zachowanie ma też sporo wad,
+przynajmniej jeśli chodzi o naszą prywatność. Głównym problemem jest tutaj nadajnik, który co
+chwila szuka określonej sieci WiFi. Do tego skanuje non stop wszystkie sieci WiFi na drodze naszego
+poruszania się i rejestruje przy tym znajdujące się w naszym pobliżu AP. Z tych danych Google też
+robi użytek.</p>
+<p>Kolejna sprawa to powiadomienie o publicznych sieciach WiFi oraz ich rankingi:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/009.android-mock-fake-location-gps-wifi-auto-on-public-notif.jpg" alt=""    class="small"></p>
+<p>Te ustawienia również są w stanie pomóc w ustaleniu naszego położenia. No i też potrafią
+skonsumować jakiś procent baterii. Jeśli zależy nam na prywatności i przy tym na jak najdłuższej
+pracy telefonu na baterii, to te powyższe opcje powinniśmy powyłączać.</p>
+<p>Jeśli jednak z jakiegoś powodu potrzebujemy tego skanowania za sieciami WiFi, to powinniśmy tez
+rzucić okiem w ustawienia deweloperskie i zainteresować się przełącznikiem <code>WiFi scan throttling</code> .</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/010.android-mock-fake-location-gps-wifi-scan-throttling.jpg" alt=""    class="small"></p>
+<p>Gdy to <a href="https://www.xda-developers.com/android-pie-throttling-wi-fi-scans-crippling-apps/">dławienie skanowania WiFi</a> jest włączone, to aplikacje działające w tle będą mogły
+dokonywać skanowania jedynie raz na 30 minut. Wciąż jednak będą mogły to robić, choć sporo rzadziej
+(30-krotnie) niż ma to miejsce w przypadku, gdy ta opcja nie jest włączona. Choć ja jestem zdania,
+że skanowanie za sieciami WiFi powinniśmy wyłączyć kompletnie.</p>
+<h3 id="google-location-accuracyservices">Google Location Accuracy/Services</h3>
+<p>Usługa Google Location Accuracy (znana też jako Google Location Services) ma na celu poprawić
+dokładność lokalizacji poprzez zaprzęgnięcie do tego celu dodatkowych mechanizmów, takich jak
+sieci GSM, WiFi czy wskazania sensorów smartfona.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/014.android-mock-fake-location-gps-google-accuracy.jpg" alt=""    class="small"></p>
+<p><a href="https://www.zdnet.com/article/how-google-and-everyone-else-gets-wi-fi-location-data/">Z informacji które znajdują się tutaj</a> wynika, że ta usługa działa na zasadzie skanowania i
+rejestrowania komórek operatora GSM (Cell-ID) oraz publicznych sieci WiFi (ESSID, MAC) i
+przesyłania tych danych do Google. Proces skanowania jest przeprowadzany w tle i nie trzeba
+aktywnie korzystać z nawigacji czy innych aplikacji, które próbują ustalić nasze położenie. Zatem
+jeśli ta opcja zostanie zaznaczona, to Google będzie miał dostęp do naszej lokalizacji praktycznie
+non stop.</p>
+<p>W przypadku, gdybyśmy tę opcję wyłączyli, to naturalnie odetniemy Google od tych dość wrażliwych
+informacji ale wtedy tylko dane z odbiornika GPS będą wykorzystywane do ustalenia naszej
+lokalizacji, co może zająć sporo czasu, zwłaszcza w przypadku pierwszego fix'a po dłuższej
+nieaktywności modułu GPS.</p>
+<h3 id="emergency-location-service-els">Emergency Location Service (ELS)</h3>
+<p>Kolejną pozycją w zakładce lokalizacji jest Emergency Location Service (ELS). To taka usługa, która
+ma na celu przesłać dane z GPS z telefonu do służb ratunkowych po wybraniu numeru alarmowego (w
+Europie 112).</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/011.android-mock-fake-location-gps-els.jpg" alt=""    class="small"></p>
+<p>Jak można <a href="https://crisisresponse.google/emergencylocationservice/how-it-works/">przeczytać na stronie Google</a>, ten cały ELS jest wbudowany w Androida (Google Play
+Services), no i ma m.in. dostęp do naszej lokalizacji praktycznie non stop. Jasne, że w przypadku
+zagrożenia życia, taki ELS może nam się przydać. Jednak Google już wielokrotnie udowodnił nam, że w
+kwestii prywatności nie ma co mu ufać i jest wielce prawdopodobne, że ELS będzie wykorzystywany nie
+tylko zgodnie z jego przeznaczeniem, tj. po wybraniu numeru 112. Idę o zakład, że na pewnym etapie
+ta usługa będzie sobie działała w tle i monitorowała nas na wypadek, gdybyśmy nie byli w stanie
+wybrać numeru 112.</p>
+<p>Dlatego wszelkie takie usługi powinniśmy wyłączać z automatu, no chyba, że faktycznie wybieramy się
+gdzieś na Everest i mamy dość spore ryzyko załamania się pogody będąc gdzieś w pobliżu jego szczytu.</p>
+<p>No i też trzeba pamiętać, że nasz operator GSM zwykle posiada usługę na wzór ELS, która również po
+wybraniu numeru alarmowego jest w stanie zgłosić nasze położenie w oparciu o dane z odbiornika GPS
+w telefonie lub też podać przybliżoną lokalizację w oparciu o fizyczne rozmieszczenie stacji BTS. W
+tym przypadku nie znalazłem żadnej konkretnej opcji, która by i tę usługę była w stanie wyłączyć.</p>
+<h3 id="historia-lokalizacji-google">Historia lokalizacji Google</h3>
+<p>Kolejna opcja dotyczy zapisywania danych naszej lokalizacji w strukturach Google. Warto tutaj
+zaznaczyć, że historia lokalizacji będzie zbierana nawet wtedy, gdy nie korzystamy z usług Google,
+tj. nie mamy np. odpalonej nawigacji. Zatem jeśli tylko mamy telefon przy sobie, to będzie on
+rejestrował naszą pozycję i przesyłał te dane do Google, tak by każdy chętny mógł się z nimi
+zapoznać (oczywiście za naszą świadomą i dobrowolną zgodą).</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/012.android-mock-fake-location-gps-google-history.jpg" alt=""    class="small"></p>
+<p>Jeśli nie mamy problemów z pamięcią i doskonale potrafimy się odnaleźć w otaczającej nas
+rzeczywistości (szczególnie tej realnej), to nie ma praktycznie żadnego powodu, by historię
+lokalizacji włączać.</p>
+<h3 id="udostępnianie-lokalizacji-w-czasie-rzeczywistym">Udostępnianie lokalizacji w czasie rzeczywistym</h3>
+<p>Kolejna sprawa dotyczy udostępniania naszego aktualnego położenia w czasie rzeczywistym osobom czy
+urządzeniom, które wskażemy. Dzięki tej opcji, każdy (za naszym świadomym przyzwoleniem) może
+sprawdzić, gdzie aktualnie się znajdujemy i co robimy, np. czy nie ma nas w domu.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/013.android-mock-fake-location-gps-google-share.jpg" alt=""    class="small"></p>
+<p>Na telefonie kochanki (albo jej męża) taka opcja jak najbardziej się przydaje ale nie zalecam jej
+włączać u siebie.</p>
+<h2 id="tryby-pracy-lokalizacji">Tryby pracy lokalizacji</h2>
+<p>W moim Androidzie 11, kafelek lokalizacji skrywa w zasadzie cztery położenia: brak (none), wysoki
+(high), tylko sensory (sensors only) oraz oszczędność baterii (battery saving). Czym one się
+różnią?</p>
+<p>W trybie braku lokalizacji naturalnie mamy wyłączoną lokalizację. Tryb z bardzo wysoką dokładnością
+zakłada wykorzystanie wszystkich dostępnych w urządzeniu mechanizmów (GSM, WiFi, BT, sensory/GPS).
+Jeśli zaś chodzi o tryb z sensorami, to tutaj jest wykorzystywany jedynie moduł GPS (dość mocno
+zjada baterię). W przypadku oszczędności energii, lokalizacja jest ustalana w oparciu o sieci WiFi
+i stacje bazowe operatorów komórkowych (BTS) -- może i niezbyt dokładne ale potrafi odciążyć
+baterię.</p>
+<p>W przypadku mojego ROM'u ten kafelek chyba nie działa za dobrze, bo przestawienie go na różne opcje
+(za wyjątkiem wł/wył) nie wpływa na żadne opcje zdefiniowane w ustawieniach Androida. Także nie
+wiem czy przestawienie tego kafelka powinno w jakiś bardziej widoczny sposób coś zmienić w
+ustawieniach systemu.</p>
+<h2 id="dostęp-aplikacji-do-lokalizacji">Dostęp aplikacji do lokalizacji</h2>
+<p>Samo włączenie lokalizacji/GPS nic jeszcze nie oznacza, przynajmniej nie powinno. W Androidzie
+każda aplikacja, która ma zamiar korzystać z lokalizacji, musi zgłosić taką chęć użytkownikowi (no
+może za wyjątkiem pewnych systemowych appek), a ten może taką prośbę zaakceptować bądź też odrzucić.
+Kontrolowanie ustawień lokalizacji dla danej aplikacji odbywa się w informacjach o tej konkretnej
+appce:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/004.android-mock-fake-location-gps-app-permissions.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/005.android-mock-fake-location-gps-app-permissions.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/006.android-mock-fake-location-gps-app-permissions.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="access_coarse_location-oraz-access_fine_location">ACCESS_COARSE_LOCATION oraz ACCESS_FINE_LOCATION</h3>
+<p>W starszych Androidach nie było dostępnych niektórych opcji od kontroli dostępu do lokalizacji.
+We wcześniejszych wersjach można było albo zezwolić appce na korzystanie z lokalizacji albo
+zablokować jej taką możliwość. <a href="https://developer.android.com/training/location/permissions">W nowszych Andkach</a> możemy kontrolować również czy zezwolić
+aplikacji na dostęp do lokalizacji na stałe, czy tylko, gdy appka jest w użyciu (na pierwszym
+planie). Jeśli byśmy zezwolili jej na ciągły dostęp, to będzie mogła ona rejestrować naszą
+aktywność na bieżąco, o ile oczywiście włączyliśmy lokalizację w ustawieniach Androida.</p>
+<h2 id="brak-kart-sim-w-telefonie">Brak kart SIM w telefonie</h2>
+<p>Nie tylko GPS jest w stanie namierzyć nasze położenie, choć akurat on robi to najdokładniej, o ile
+oczywiście nie jesteśmy w miejskiej dżungli wewnątrz kanionu złożonego z wieżowców czy innych
+drapaczy chmur, albo wewnątrz żelbetowych budynków pokroju bunkra na Wilczym Szańcu. Sporo osób
+zapomina o naziemnych stacjach bazowych operatorów komórkowych (BTS), które rejestrują nasze
+urządzenia, gdy te tylko znajdą się w zasięgu takich stacji. Te stacje bazowe posiadają znaną
+lokalizację i przybliżony zasięg, zatem jeśli nasz telefon się w takim BTS zaloguje do sieci
+operatora GSM, to wiadome jest, że znajdujemy się gdzieś w jego pobliżu. Do tego cały czas działa
+roaming i nasz telefon przełącza się między BTS'ami tracąc zasięg u jednej stacji bazowej, wchodząc
+jednocześnie w zasięg drugiej (dla uproszczenia pomińmy obciążenie komórek i siłę sygnału). W ten
+sposób przemieszczając się z jednego krańca kraju na drugi, zostawiamy za sobą orientacyjny ślad
+naszej podróży i miejsc pobytu razem z czasem zatrzymania się w nich (czas podłączenia do BTS w
+konkretnej lokalizacji).</p>
+<p>Czasami użytkownicy telefonów komórkowych wyjmują karty SIM, by taki smartfon się u danego
+operatora GSM nie zalogował (nie podłączył do BTS'a) i by ten operator nie poznał ich przybliżonego
+położenia. Taki zabieg wyjęcia karty SIM jest jednak pozbawiony sensu, bo już od dłuższego czasu
+operatorzy GSM muszą świadczyć usługę połączeń alarmowych. Z kolei na połączenia alarmowe można
+dzwonić ze smartfonów, które <a href="https://en.wikipedia.org/wiki/Emergency_telephone_number#Emergency_numbers_and_mobile_telephones">nie posiadają kart SIM czy mają też zablokowany ekran</a>. Zatem
+telefon bez kart SIM jest w stanie się bez większego problemu zalogować do sieci operatora
+komórkowego (nawet tego, z którym nie mamy podpisanej żadnej umowy). W jaki sposób?</p>
+<p>By zalogować się do sieci operatora GSM (i być przy tym w stanie nawiązywać połączenia z innymi
+abonentami), nasz <a href="https://www.quora.com/If-a-cell-phone-doesn-t-have-a-SIM-card-how-can-it-make-emergency-calls">telefon musi podać dwie kluczowe dane</a>: identyfikator urządzenia (IMEI)
+oraz identyfikator abonenta (dane z karty SIM). Niemniej jednak, w przypadku numerów alarmowych,
+ten drugi czynnik uwierzytelniający nie jest wymagany. Zatem nasze urządzenie może zostać
+zaakceptowane przez sieć operatora komórkowego jedynie zgłaszając mu numer IMEI. W takim przypadku,
+to urządzenie będzie w stanie wykonywać jedynie połączenia alarmowe, a jeśli chcielibyśmy mieć
+możliwość nawiązywania innych połączeń, to potrzebne jest zweryfikowanie abonenta za sprawą danych z
+karty SIM.</p>
+<p>Tak czy inaczej, nasze urządzenie jest w stanie bez problemu podać operatorowi swoje unikalne
+numery identyfikacyjne. Jeśli jeszcze dodatkowo zakupiliśmy to urządzenie płacąc kartą, czy też
+zamówiliśmy je wysyłkowo na swój adres zamieszkania, to bez większego problemu można ustalić nasze
+dane osobowe (normalnie by zostały wzięte z karty SIM) oraz z mniejszą lub większą granicą błędu
+określić, gdzie w danym czasie się znajdowaliśmy (przy założeniu że GPS był wyłączony).</p>
+<p>Jeśli zamierzamy uniknąć mapowania naszej lokalizacji przez sieć GSM, to jedynym wyjściem jest
+wyłączenie modemu GSM. Ogromna większość smartfonów oferuje jedynie tryb samolotowy do tego celu.
+Gdzieniegdzie można też spotkać się z wyłączeniem kart SIM w ustawieniach Androida ale najwyraźniej
+od Andka 10 czy 11 ten zabieg powoli przestaje być możliwy, i to nawet w przypadku urządzeniach
+wyposażonych w więcej niż jedną kartę SIM.</p>
+<h2 id="tryb-samolotowy-airplane-mode">Tryb samolotowy (Airplane Mode)</h2>
+<p>Tryb samolotowy ma na celu wyłączenie w naszym telefonie źródeł fal radiowych, czyli nadajników.
+Odbiorników nie ma po co wyłączać, bo w żaden sposób nie wpływają one na generowanie fal
+radiowych -- odbiorniki je tylko odbierają. Niemniej jednak, każdy smartfon posiada moduł GSM zdolny
+łączyć się ze stacjami bazowymi operatorów komórkowych (BTS).</p>
+<p>Po aktywacji trybu samolotowego, moduł GSM zostanie efektywnie wyłączony uniemożliwiając nawiązanie
+połączenia z takiego telefonu, no i też komunikacja ze stacjami bazowymi zostanie zerwana, przez co
+nikt nie będzie się w stanie z nami połączyć. Każdy smartfon wyposażony jest też w moduł WiFi i
+Bluetooth. Jak najbardziej te moduły potrafią generować fale radiowe i te rzeczy również zostaną
+wyłączone po aktywacji trybu samolotowego.</p>
+<p>Czy którykolwiek z tych wyżej wymienionych modułów jest w stanie działać w trybie nasłuchu
+(podobnie do GPS) lub sam z siebie się aktywować, gdy uzna to za stosowne? Tego nie wiem ale wcale
+bym się nie zdziwił, gdyby to było wykonalne. Jeśli nasz smartfon nie posiada żadnych sprzętowych
+przełączników (hard kill switch) umożliwiających odcięcie zasilania modułom GSM/WiFi/BT, to tryb
+samolotowy nie daje nam żadnych gwarancji, że te rzeczy faktycznie pozostaną nieaktywne po ich
+wyłączeniu.</p>
+<p>I to w zasadzie wszystko co tryb samolotowy robi z naszym smartfonem. Jeśli jednak mamy włączoną
+lokalizację w ustawieniach Androida i jej nie wyłączyliśmy ręcznie, to nawet po aktywacji trybu
+samolotowego, nasz telefon jest w stanie bez większego problemu rejestrować swoje położenie i to w
+czasie rzeczywistym. Oczywiście z racji wyłączenia modemu GSM i WiFi, nie mamy w komórce internetu.
+Nie możemy zatem tych danych przesłać do serwerów Google, tak jak to ma miejsce, gdy transmisja
+3G/4G jest aktywna. Niemniej jednak, te dane są zbierane w formie offline i z chwilą, gdy tylko
+wyłączymy tryb samolotowy i uzyskamy połączenie z internetem, to wszystkie dane na temat naszej
+lokalizacji (tej z okresu bycia offline) zostaną przesłane na serwery Google.</p>
+<p>Niektóre ROM'y są w stanie blokować modem GSM, WiFi, BT oraz GPS, gdy się w nich włączy tryb
+samolotowy. Wygląda jednak na to, że to są domieszki producenta telefonów, a nie standardowe
+zachowanie Androida. U mnie na każdym telefonie zachowanie się urządzenia po przełączeniu mu trybu
+samolotowego wyglądało inaczej. Zwykle jednak jest wyłączany modem GSM, WiFi i BT, z tym, że te dwa
+ostatnie można w późniejszym czasie włączyć i system nie wychodzi z trybu samolotowego, czyli można
+np. korzystać z WiFi w trybie samolotowym. GPS z kolei nie jest ruszany w żaden sposób, tj. jeśli
+był aktywny, to włączenie trybu samolotowego nie wyłączy odbiornika GPS ani nie wyłączy lokalizacji
+w ustawieniach Androida. Jedna rzecz, której nie da się włączyć w trybie samolotowym, a która jest
+wyłączana automatycznie po aktywacji trybu samolotowego, to modem GSM i dane pakietowe 3G/4G.</p>
+<h2 id="pozorowanie-lokalizacji">Pozorowanie lokalizacji</h2>
+<p>Z powyżej zgromadzonych informacji wychodzi jasno, że tryb samolotowy w żaden sposób nie ma tykać
+GPS czy jakichkolwiek ustawień lokalizacji, które można określić w ustawieniach Androida. Ciężko
+jest zatem winić tryb samolotowy, że nie blokuje GPS (czy ogólnie dostępu do lokalizacji), przez co
+Google jest w stanie poznać nasze położenie, gdy tylko będzie miał na to ochotę.</p>
+<p>Teoretycznie wyłączenie usługi lokalizacji powinno uniemożliwić aplikacjom rejestrowanie danych
+pochodzących z odbiornika GPS, czy też innych źródeł lokalizacji. Niemniej jednak, biorąc pod uwagę
+fakt, że cała masa aplikacji wymaga do poprawnego działania informacji o lokalizacji, to pozbawienie
+ich tych danych może w przypadku takich appek nieść za sobą nieprzewidziane konsekwencje. W
+najlepszym wypadku, taka aplikacja będzie zgłaszać mniej lub bardziej widoczne błędy ale też może
+zwyczajnie odmówić uruchomienia się, gdy w telefonie mamy wyłączoną lokalizację. Co w takim
+przypadku zrobić? Możemy pokusić się o pozorowanie lokalizacji.</p>
+<p>Pozorowanie lokalizacji ma miejsce wtedy, gdy GPS zdaje się działać prawidłowo ale zamiast danych z
+satelitów, zwracana jest lokalizacja, którą sobie ręcznie określimy. Taki zabieg był możliwy w
+Androidzie już od dawna i nigdy nie były potrzebne do tego celu prawa administratora systemu root.
+Zatem praktycznie każdy może pozorować swoją lokalizację, co potencjalnie może nam pomóc w kwestii
+naszej prywatności.</p>
+<p>Trzeba jednak sobie zdawać sprawę, że odbiornik GPS to tylko jedno ze źródeł danych mogących pomóc
+w ustaleniu naszej (nie zawsze dokładnej) lokalizacji. Zatem pozorowanie lokalizacji może wpłynąć
+jedynie na wskazania GPS. Stacje bazowe operatorów komórkowych, sieci WiFi rozgłaszające się w
+sąsiedztwie czy urządzenia BT w dalszym ciągu mogą naszą lokalizację zdradzić lub przynajmniej
+wykazać niekonsekwencję lub próbę oszustwa, co te bardziej cwane aplikacje mogą wykryć. Dlatego też
+przydałoby się te wszystkie wyżej opisane ustawienia lokalizacji w Androidzie powyłączać.</p>
+<h3 id="aplikacja-do-pozorowania-lokalizacji">Aplikacja do pozorowania lokalizacji</h3>
+<p>Gdy już odpowiednio skonfigurowaliśmy system, pobieramy z <a href="https://f-droid.org/en/packages/cl.coders.faketraveler/">repozytorium F-Droid aplikację Fake
+Traveler</a>. Zanim jednak przejdziemy do jej uruchomienia, musimy tę appkę określić w ustawieniach
+deweloperskich jako aplikację do pozorowania lokalizacji:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/015.android-mock-fake-location-gps-fake-traveler-app.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/016.android-mock-fake-location-gps-fake-traveler-app.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/017.android-mock-fake-location-gps-fake-traveler-app.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pozorowanie-lokalizacji-z-fake-traveler">Pozorowanie lokalizacji z Fake Traveler</h3>
+<p>Pozostało nam już w zasadzie uruchomienie appki Fake Traveler i wskazanie na mapie położenia, które
+chcemy pozorować, po czym klikamy <code>APPLY</code> widoczny w prawym górnym rogu:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/018.android-mock-fake-location-gps-fake-traveler-app-set.jpg" alt=""    class="small"></p>
+<p>Naturalnie, nie ma co wierzyć tej aplikacji na słowo, że nasza lokalizacja została zamaskowana.
+Możemy ten fakt zweryfikować przez uruchomienie dowolnej appki, która korzysta z lokalizacji, np.
+OsmAnd+ czy Google Maps. W moim przypadku te appki zwracają poniższe wyniki:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/019.android-mock-fake-location-gps-fake-traveler-app-check.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/020.android-mock-fake-location-gps-fake-traveler-app-check.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>No i proszę, według mojego telefonu jestem gdzieś na Syberii.</p>
+<p>Jeśli mamy jakieś problemy z działaniem aplikacji Fake Traveler, np. appki w dalszym ciągu widzą
+nasze faktyczne położenie, to prawdopodobnie wartość w <code>How many times you want to mock the location</code> w ustawieniach Fake Traveler jest niezerowa. Powinniśmy tutaj mieć <code>0</code> , co efektywnie
+oznacza nieskończoność. Warto też rzucić okiem na uprawnienia Fake Traveler i upewnić się, że ma on
+dostęp do lokalizacji cały czas:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/021.android-mock-fake-location-gps-fake-traveler-app-settings.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/022.android-mock-fake-location-gps-fake-traveler-app-settings.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="robienie-zdjęć-z-pozorowaną-lokalizacją">Robienie zdjęć z pozorowaną lokalizacją</h2>
+<p>Pozorowanie lokalizacji nie tylko przydaje się do oszukiwania aplikacji i zwracania im błędnych
+danych GPS. Możemy też podrobić geotagi w fotkach czy filmach robionych naszym smartfonem. Zróbmy
+zatem przykładową fotkę mając uruchomioną appkę Fake Traveler i zajrzyjmy w metadane EXIF takiego
+zdjęcia:</p>
+<pre><code>$ exiftool IMG_20210920_154223.jpg | grep -i gps
+GPS Latitude Ref                : North
+GPS Altitude Ref                : Above Sea Level
+GPS Processing Method           : gps
+GPS Version ID                  : 2.2.0.0
+GPS Longitude Ref               : East
+GPS Time Stamp                  : 13:42:22
+GPS Date Stamp                  : 2021:09:20
+GPS Img Direction               : 288.28
+GPS Img Direction Ref           : Magnetic North
+GPS Altitude                    : 3 m Above Sea Level
+GPS Date/Time                   : 2021:09:20 13:42:22Z
+GPS Latitude                    : 62 deg 2' 11.12&quot; N
+GPS Longitude                   : 129 deg 45' 31.53&quot; E
+GPS Position                    : 62 deg 2' 11.12&quot; N, 129 deg 45' 31.53&quot; E
+</code></pre>
+<p>No i jak widzimy, w tagach GPS została zapisana lokalizacja <code>62 deg 2' 11.12&quot; N, 129 deg 45' 31.53&quot; E</code> , czyli dokładnie ta sama, którą określiliśmy w Fake Traveler. Znajdujemy się też 3m
+ponad poziomem morza i to wskazanie również jest błędne.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Android ma dość rozbudowane opcje dotyczące zbierania informacji o lokalizacji naszego smartfona.
+Nasze położenie można odczytać nie tylko z danych satelitów systemu GPS  ale zdradzić je mogą
+również do pewnego stopnia stacje bazowe operatora komórkowego (BTS), sieci WiFi, których przecie
+jest cała masa, czy nawet urządzenia Bluetooth, których też w ostatnim czasie dość sporo przybyło.</p>
+<p>Jeśli wierzyć w to, co Google pisze odnośnie uzyskiwania danych o położeniu swoich użytkowników, to
+technicznie rzecz biorąc można całkowicie wyłączyć rejestrowanie lokalizacji w ustawieniach
+Androida, choć jak mogliśmy zauważyć, jest kilka sytuacji (np. usługa numerów alarmowych), w
+których jest wielce prawdopodobne, że nasz smartfon prześle informacje, czy to pozyskane z GPS czy
+ze stacji BTS, do której nasz telefon się zalogował.</p>
+<p>Szereg aplikacji w Androidzie może nie działać poprawnie bez aktywnej usługi lokalizacji lub też
+całkowicie odmówić w takich sytuacjach współpracy. Na takie wredne appki jest Fake Traveler, który
+radzi sobie pierwszorzędnie z pozorowaniem lokalizacji, a same aplikacje pokroju map od Google nie
+są nawet świadome faktu, że wskazania GPS zostały podrobione.</p>
+<p>Fake Traveler jest w stanie podnieść poziom naszej prywatności przy korzystaniu ze smartfona
+maskując nasze położenie ale trzeba sobie też zdawać sprawę, że inne mechanizmy są w stanie to
+położenie zdradzić, choć nie zawsze tak dokładnie jak ma to miejsce w przypadku GPS. Nawet jeśli
+dokładność będzie na poziomie kilkuset metrów czy paru kilometrów, to wciąż pewne wnioski można z
+takiej informacji wyciągnąć, a korelacja zdarzeń w czasie może przyczynić się do poznania gdzie
+dokładnie byliśmy i co tam robiliśmy.</p>
+<p>Z racji, że zbieranie danych na temat lokalizacji smartfona przez Google nie jest do końca
+transparentne co do tego jakie dane są zbierane (i dokładnie w jaki sposób), to jeśli faktycznie
+zależy nam na prywatności, to powinniśmy zrezygnować z zabierania telefonu na te bardziej prywatne
+spotkania. Jeśli już musimy zabierać ze sobą komórkę wszędzie tam, gdzie się zamierzamy wybrać, to
+powinniśmy odejść od rozwiązań mających Androida jako bazę systemu operacyjnego i kierować się
+bardziej w stronę projektów <a href="https://shop.puri.sm/shop/librem-5/">Librem5</a> czy <a href="https://www.pine64.org/pinephone/">PinePhone</a>, które posiadają sprzętowe
+przełączniki do odcięcia konkretnych obwodów elektrycznych w telefonie, tak by mieć pewność, że nie
+działają one po ich wyłączeniu lub też żaden malware ich nam nie załączy sam z siebie bez naszej
+świadomej i dobrowolnej zgody.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aplikacje/">aplikacje</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/f-droid/">f-droid</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/gps/">gps</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wifi/">wifi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bluetooth/">bluetooth</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/prywatno%C5%9B%C4%87/">prywatność</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fpozorowanie-lokalizacji-gps-w-androidzie-mock-location%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpozorowanie-lokalizacji-gps-w-androidzie-mock-location%2f&amp;text=Pozorowanie%20lokalizacji%20GPS%20w%20Androidzie%20%28mock%20location%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpozorowanie-lokalizacji-gps-w-androidzie-mock-location%2f&amp;title=Pozorowanie%20lokalizacji%20GPS%20w%20Androidzie%20%28mock%20location%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpozorowanie-lokalizacji-gps-w-androidzie-mock-location%2f&amp;title=Pozorowanie%20lokalizacji%20GPS%20w%20Androidzie%20%28mock%20location%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpozorowanie-lokalizacji-gps-w-androidzie-mock-location%2f&title=Pozorowanie%20lokalizacji%20GPS%20w%20Androidzie%20%28mock%20location%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpozorowanie-lokalizacji-gps-w-androidzie-mock-location%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpozorowanie-lokalizacji-gps-w-androidzie-mock-location%2f&amp;title=Pozorowanie%20lokalizacji%20GPS%20w%20Androidzie%20%28mock%20location%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpozorowanie-lokalizacji-gps-w-androidzie-mock-location%2f&description=Pozorowanie%20lokalizacji%20GPS%20w%20Androidzie%20%28mock%20location%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-blokowac-rozmowy-gsm-w-smartfonie-z-androidem-yacb/">Jak blokować rozmowy GSM w smartfonie z Androidem (YACB)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zmienic-hostname-w-telefonie-z-androidem/">Jak zmienić hostname w telefonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czy-smartfon-z-androidem-bez-google-apps-services-ma-sens/">Czy smartfon z Androidem bez Google Apps/Services ma sens</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/szyfrowanie-rozmow-i-smsow-na-smartfonie-z-androidem-signal/">Szyfrowanie rozmów i SMS&#39;ów na smartfonie z Androidem (Signal)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zlokalizowac-skradziony-zagubiony-smartfon-z-androidem/">Jak zlokalizować skradziony/zagubiony smartfon z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/">Jak skonfigurować połączenie VPN na smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wifi-roaming-fix-swifi-roaming-w-smartfonie/">Wifi Roaming Fix i SWIFI, czyli roaming w smartfonie</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
