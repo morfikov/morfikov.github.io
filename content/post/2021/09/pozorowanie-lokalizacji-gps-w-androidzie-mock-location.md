@@ -395,6 +395,14 @@ był aktywny, to włączenie trybu samolotowego nie wyłączy odbiornika GPS ani
 w ustawieniach Androida. Jedna rzecz, której nie da się włączyć w trybie samolotowym, a która jest
 wyłączana automatycznie po aktywacji trybu samolotowego, to modem GSM i dane pakietowe 3G/4G.
 
+## Blokowanie sensorów
+
+Wygląda na to, że w Androidzie (począwszy od wersji 10) znalazł się mechanizm, który znakomicie
+dopełnia tryb samolotowy. Mowa tutaj o [blokowaniu wszystkich sensorów (w tym GPS)][21], co skutkuje
+brakiem możliwości uzyskania jakiegokolwiek położenia przez aplikacje korzystające z lokalizacji.
+Bardzo ciekawa alternatywa w stosunku do tych powyżej opisanych opcji, choć jeden mechanizm
+naturalnie nie wyklucza stosowania drugiego.
+
 ## Pozorowanie lokalizacji
 
 Z powyżej zgromadzonych informacji wychodzi jasno, że tryb samolotowy w żaden sposób nie ma tykać
@@ -543,3 +551,4 @@ działają one po ich wyłączeniu lub też żaden malware ich nam nie załączy
 [18]: https://developer.android.com/training/location/permissions
 [19]: https://www.quora.com/If-a-cell-phone-doesn-t-have-a-SIM-card-how-can-it-make-emergency-calls
 [20]: https://www.youtube.com/watch?v=btzFoBncPF4
+[21]: /post/blokowanie-dostepu-do-sensorow-kamera-mikrofon-gps-aplikacjom-w-androidzie/
