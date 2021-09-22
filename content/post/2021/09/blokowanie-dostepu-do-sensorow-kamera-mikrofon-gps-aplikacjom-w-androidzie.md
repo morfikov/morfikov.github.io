@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Android
-date:    2021-09-22 00:48:00 +0200
-lastmod: 2021-09-22 00:48:00 +0200
+date:    2021-09-22 02:04:00 +0200
+lastmod: 2021-09-22 02:04:00 +0200
 published: true
 status: publish
 tags:
