@@ -49,7 +49,7 @@ też poniżej jest szczegółowe wyjaśnienie całego zapisu, który został uż
     obowiązuje czas letni.
   - `-1` -- to przesunięcie czasu w godzinach. Negatywna wartość oznacza 1 godzinę na wschód.
   - `CEST` -- to czas letni (Central European Summer Time).
-  - `,` -- jako, że nie ma sprecyzowanej żadnej wartości między CEST oraz przecinkiem, używana jest
+  - `,` -- jako że nie ma sprecyzowanej żadnej wartości między CEST oraz przecinkiem, używana jest
     standardowa wartość 1 godziny do przodu przy przechodzeniu na czas letni.
   - `M3.5.0` -- określa kiedy czas letni się rozpoczyna. W tym przypadku `M3` to miesiąc 3, czyli
     marzec. Z kolei `.5` to ostatni tydzień miesiąca, a `.0` to niedziela.

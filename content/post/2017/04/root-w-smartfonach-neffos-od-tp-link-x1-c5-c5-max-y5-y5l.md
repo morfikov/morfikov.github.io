@@ -87,7 +87,7 @@ fabrycznych.
 
 ### Odblokowanie bootloader'a w Neffos C5, C5 MAX i X1
 
-W przypadku smartfonów Neffos C5, C5 MAX X1, jako, że te urządzenia posiadają SoC od MediaTek, nie
+W przypadku smartfonów Neffos C5, C5 MAX X1, jako że te urządzenia posiadają SoC od MediaTek, nie
 trzeba zdejmować blokady bootloader'a, by wgrać obraz TWRP. Możemy zatem ten obraz wgrać bez
 uprzedniego przywracania smartfona do ustawień fabrycznych. Niemniej jednak, na potrzeby
 ujednolicenia kroków w tym HowTo, my tę blokadę ściągniemy.
@@ -396,7 +396,7 @@ znaleźć w osobnym wątku.][29]
 ### Inne problemy
 
 Oczywiście, te powyżej wypisane niedogodności nie są jedynymi. Prawdopodobnie jest ich jeszcze cała
-masa ale, jako, że mam ciągle "niewielkie" doświadczenie z Androidem, to jeszcze nie wszystkie
+masa ale, jako że mam ciągle "niewielkie" doświadczenie z Androidem, to jeszcze nie wszystkie
 rzeczy udało mi się wyłapać. Niemniej jednak, jak tylko coś ciekawego znajdę, to naturalnie opiszę i
 dodam tutaj stosowny nagłówek, tak by ta lista była możliwie rozbudowana, co może przyczyni się do
 większej świadomości osób korzystających z Androida i zaowocuje zastanowieniem się nad tym, czy

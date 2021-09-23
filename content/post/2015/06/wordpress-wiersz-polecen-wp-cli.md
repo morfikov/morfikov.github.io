@@ -22,7 +22,7 @@ zaś jego źródła są dostępne na [githubie][2].
 
 Prawdopodobnie wszystkie pakiety, potrzebne do prawidłowego działania tej aplikacji będą już
 zainstalowane na serwerze gdzie będziemy trzymać WordPress'a. Niemniej jednak, warto wiedzieć, że
-skoro to jest paczka `.phar`, to wymaga do działania PHP (min. `php5-cli` ). Dodatkowo, jako, że
+skoro to jest paczka `.phar`, to wymaga do działania PHP (min. `php5-cli` ). Dodatkowo, jako że
 będziemy się łączyć z bazą danych, potrzebujemy modułu do PHP, który (przynajmniej na debianie)
 jest dostępny w pakiecie `php5-mysql` .
 

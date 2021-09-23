@@ -344,7 +344,7 @@ Mając już przygotowany katalog `debian/` możemy zbudować paczkę `.deb` w po
     $ debuild -S -sa -d -i --lintian-opts --profile debian
     $ sudo pbuilder --build ../lkrg_0.7+git20200604-1.dsc
 
-Zbudowanie paczki zajmie dosłownie chwilę jako, że nie będzie tutaj żadnego procesu kompilacji
+Zbudowanie paczki zajmie dosłownie chwilę, jako że nie będzie tutaj żadnego procesu kompilacji
 źródeł. Z chwilą, gdy budowa paczki dobiegnie końca, to w katalogu wynikowym `pbuiler`'a powinno
 pojawić się kilka plików, z których jeden ma rozszerzenie `.deb` i to ten plik właśnie musimy
 zainstalować w swoim systemie via `dpkg` . Oczywiście dobrze jest sobie [przygotować też lokalne

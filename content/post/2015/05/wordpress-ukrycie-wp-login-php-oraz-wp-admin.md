@@ -81,7 +81,7 @@ Po czym zapytanie zostanie przetworzone jeszcze raz, z tym, że w oparciu o nowy
     The certificate's owner does not match hostname 'morfitronik.lh'
     ...
 
-Po wysłaniu zapytania, klient czeka na odpowiedź z serwera i po chwili ją uzyskuje ale jako, że ten
+Po wysłaniu zapytania, klient czeka na odpowiedź z serwera i po chwili ją uzyskuje, ale jako że ten
 bot nie jest zalogowany w systemie, zamiast żądanego pliku zostanie przekierowany na `wp-login.php`:
 
     ...

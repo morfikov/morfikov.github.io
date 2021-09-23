@@ -132,7 +132,7 @@ potrzeba dania downgrade do starszej wersji, wystarczy ją wskazać:
 
 [W przypadku, gdy nasz Android ma root'a,][6] możemy odhaczyć w menu opcję ukrywającą na liście
 aplikacji te pozycje, które wymagają do działania praw administracyjnych. Generalnie nie zalecam
-instalacji tego typu aplikacji ale jako, że w tym przypadku mamy spełniony jeden z warunków
+instalacji tego typu aplikacji, ale jako że w tym przypadku mamy spełniony jeden z warunków
 bezpieczeństwa (aplikacja musi być OpenSource), to nie widzę przeszkód by możliwość instalacji
 takich programów w systemie włączyć.
 

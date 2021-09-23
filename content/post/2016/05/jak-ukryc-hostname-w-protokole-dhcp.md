@@ -90,6 +90,6 @@ W powyżej opisanej sytuacji nie przesyłamy żadnego hostname do serwera DHCP. 
 chcieliby wygenerowania losowego hostname w celach "lepszej anonimowości". Czasami losowość jest tym
 co nas może zidentyfikować. Nawet jeśli ustawimy sobie losowy hostname na `XHDYSIE` , a później
 `JDKSIWS` , to w gąszczu nielosowych nazw te powyższe dwie bardzo rzucają się w oczy. Dlatego też
-unikałbym tego rozwiązania. Oczywiście, jako, że klient DHCP wysyła standardowo hostname, to
+unikałbym tego rozwiązania. Oczywiście, jako że klient DHCP wysyła standardowo hostname, to
 istnieje też szansa, że rzucą się w oczy komuś maszyny bez zdefiniowanej nazwy i będzie on w stanie
 z mniejszym lub większym prawdopodobieństwem nas zidentyfikować.

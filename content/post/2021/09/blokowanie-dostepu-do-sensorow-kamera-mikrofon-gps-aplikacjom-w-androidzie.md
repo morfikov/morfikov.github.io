@@ -68,7 +68,7 @@ sensorów z osobna ale opcja `Sensors Off` , to jak najbardziej krok w dobrą st
 Raczej nic złego po przełączeniu opcji `Sensors Off` nie powinno się stać. Nawet jeśli coś nam
 przestanie działać w Androidzie, to należy pamiętać, że sensory zawsze możemy włączyć ponownie. Do
 testów sensorów najlepiej zaciągnąć jakąś aplikację, np [phyphox][2], którą naturalnie
-można [pobrać z repozytorium F-Droid][3], jako, że jest to appka w pełni OpenSource. W zależności
+można [pobrać z repozytorium F-Droid][3], jako że jest to appka w pełni OpenSource. W zależności
 od tego jakie sensory posiada nasz telefon, przy pomocy phyphox możemy sprawdzić czy działają one
 prawidłowo.
 

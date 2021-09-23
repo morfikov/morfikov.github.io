@@ -38,7 +38,7 @@ Power Off, którą to chciałem zaznaczyć. Wyszło tak, że zaznaczyłem tę ni
 ![](/img/2017/01/001.root-integrity-check-smartfon-android-inicjacja-procesu.jpg#big)
 
 Po aktywowaniu tej opcji rozpoczął się bliżej nie znany mi proces skanowania. Trwał on dłuższą
-chwilę, a jako, że ja nie lubię przerywać rozpoczętych rzeczy, to poczekałem aż ten proces
+chwilę, a jako że ja nie lubię przerywać rozpoczętych rzeczy, to poczekałem aż ten proces
 dobiegnie końca.
 
 ![](/img/2017/01/002.root-integrity-check-smartfon-android-skanowanie.jpg#big)

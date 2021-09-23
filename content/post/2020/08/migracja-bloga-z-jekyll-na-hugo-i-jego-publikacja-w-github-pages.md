@@ -83,7 +83,7 @@ Pierwszą rzeczą, którą będziemy musieli zrobić po imporcie bloga, to poszu
 (theme), który będzie odpowiedzialny za wyrenderowanie strony. Bez tego motywu, w przeglądarce
 przywita nas jedynie biała strona. [Skórek dla Hugo jest cała masa][7] i z pewnością znajdziemy tę,
 która nam będzie odpowiadać. Jeśli jednak będziemy mieli z tym problem, to będziemy musieli napisać
-własny motyw. Ja zdecydowałem się na [Binario][8] jako, że jego kolorystyka bardzo przypomina mi
+własny motyw. Ja zdecydowałem się na [Binario][8], jako że jego kolorystyka bardzo przypomina mi
 wygląd pulpitu mojego linux'a.
 
 Motywy dla Hugo są przechowywane w systemie kontroli wersji git, podobnie jak nasz projekt GitHub
@@ -389,8 +389,8 @@ Migrację bloga z Jekyll na Hugo mamy za sobą. Niemniej jednak, z tych plików 
 zbudować strony WWW i udostępnić jej za sprawą GitHub Pages. By strona wygenerowana przez Hugo mogła
 zostać wyświetlona przez GitHub Pages musimy poczynić kilka dodatkowych kroków.
 
-Podejścia są dwa. Pierwsze z nich zakłada zmianę nazwy budowanego katalogu z `public/` na `docs/`
-jako, że GitHub Pages jest w stanie budować projekty z plików w katalogu `docs/` . Jeśli interesuje
+Podejścia są dwa. Pierwsze z nich zakłada zmianę nazwy budowanego katalogu z `public/` na `docs/` ,
+jako że GitHub Pages jest w stanie budować projekty z plików w katalogu `docs/` . Jeśli interesuje
 nas to rozwiązanie, to wystarczy w konfiguracji Hugo (plik `config.toml` głównym katalogu
 repozytorium git) określić parametr `publishDir` i podać mu wartość `docs` . My jednak stworzymy
 nieco bardziej zaawansowaną konfigurację, która zakłada utworzenie nowej gałęzi dla wygenerowanych

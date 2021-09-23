@@ -32,7 +32,7 @@ sobie lekkość środowiska i korzystają jedynie z menadżerów okien, np. open
 konfigurować sprzęt ręcznie i mysz nie jest tu żadnym wyjątkiem.
 
 Xserver jest w stanie rozpoznać i poprawnie skonfigurować prawie każdą mysz, którą podłączymy do
-komputera i to można mu zaliczyć na plus. Domyślne ustawienia, jako, że są domyślne, mają
+komputera i to można mu zaliczyć na plus. Domyślne ustawienia, jako że są domyślne, mają
 satysfakcjonować większość osób, tak by nie wymagać od nich poświęcania czasu przy konfiguracji
 sprzętu. Jeśli nasza mysz nie działa prawidłowo lub też nie zadowalają nas te standardowe
 ustawienia, to naturalnie możemy je sobie dostosować za pomocą pliku `xorg.conf` . My generalnie nie

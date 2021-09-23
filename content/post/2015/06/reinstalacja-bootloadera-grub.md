@@ -14,7 +14,7 @@ tags:
 title: Reinstalacja bootloadera grub
 ---
 
-Domyślnym bootloaderem w systemie linux jest [grub](https://www.gnu.org/software/grub/) i jako, że
+Domyślnym bootloaderem w systemie linux jest [grub](https://www.gnu.org/software/grub/) i jako że
 to oprogramowanie jest ładowane do pamięci jako pierwsze, ma ono kluczowe zadanie w procesie startu
 systemu operacyjnego. Przy jego pomocy możemy także przekazać szereg parametrów dla modułów kernela,
 tym samym odpowiednio go konfigurując. Czasem z pewnych przyczyn, najczęściej gdy inny system

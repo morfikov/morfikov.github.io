@@ -62,7 +62,7 @@ przypadku lokalnych drukarek, powinny one być widoczne automatycznie:
 ![](/img/2016/05/3.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
 
 W polu `Connection` określamy adres drukarki sieciowej. W tym przypadku
-`socket://192.168.1.1:9100` , jako, że na routerze nasłuchuje na porcie 9100 demon `p910nd` :
+`socket://192.168.1.1:9100` , jako że na routerze nasłuchuje na porcie 9100 demon `p910nd` :
 
 ![](/img/2016/05/4.cups-drukarka-linux-debian-serwer-wydruku.png#huge)
 

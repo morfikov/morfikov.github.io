@@ -58,7 +58,7 @@ zwrotnej naszego komputera na porcie `12345` . Natomiast drugi koniec na pętli 
 tym, że na porcie `80` .
 
 Zostawiamy terminal otwarty i odpalamy przeglądarkę. W pasku adresu wpisujemy `localhost:12345` ,
-jako, że to jest nasza lokalna końcówka tunelu. Wszystkie pakiety, które zostaną przesłane na ten
+jako że to jest nasza lokalna końcówka tunelu. Wszystkie pakiety, które zostaną przesłane na ten
 adres i ten port, zostaną wrzucone w tunel SSH i polecą nim na port 22 routera. Tam zostaną odebrane
 na interfejsie WAN i przekazane na interfejs pętli zwrotnej na port 80, gdzie nasłuchuje serwer www,
 stąd nazwa SSH port forwarding.

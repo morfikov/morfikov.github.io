@@ -45,7 +45,7 @@ wiązać się z wymianą akumulatora, a dla nas z dodatkowymi kosztami.
 Drugim czynnikiem, na który możemy mieć wpływ, to poziom naładowania baterii. Z reguły w laptopach
 system będzie nam ładował akumulator do 100%. W przypadku takiego podejścia chodzi o
 zmaksymalizowanie czasu pracy na baterii w momencie, gdy nie mamy dostępu do sieci energetycznej.
-Niemniej jednak, odbywa się to kosztem żywotności baterii jako, że baterie litowo-jonowe preferują
+Niemniej jednak, odbywa się to kosztem żywotności baterii, jako że baterie litowo-jonowe preferują
 bardziej stany pośrednie, niż stan pełnego naładowania. Generalnie to im pełniejszy jest Li-ion,
 tym gorzej dla jego żywotności.
 

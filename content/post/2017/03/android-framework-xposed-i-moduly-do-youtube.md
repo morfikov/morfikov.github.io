@@ -40,7 +40,7 @@ pełna funkcjonalność framework'a Xposed zostanie aktywowana dopiero w momenci
 sobie system. Naturalnie ta pełna funkcjonalność obejmuje instalowanie dodatkowych modułów. Zatem
 jak widzimy, bez root sam instalator jest w zasadzie bezużyteczny.
 
-Ten artykuł jest pisany w oparciu o smartfony Neffos, a konkretnie o modele C5 MAX oraz Y5, jako, że
+Ten artykuł jest pisany w oparciu o smartfony Neffos, a konkretnie o modele C5 MAX oraz Y5, jako że
 dysponują one różnymi platformami sprzętowymi (Mediatek i Qualcomm) oraz różnymi wersjami Androida
 (Lollipop oraz Marshmallow). Jeśli dysponujemy smartfonami Neffos C5 lub Y5L, to naturalnie poniżej
 opisane kroki można zastosować również i do tych modeli. Niemniej jednak, by cokolwiek zacząć robić

@@ -232,7 +232,7 @@ W zasadzie to zostały zmienione tutaj dwie rzeczy. Pierwszą z nich jest dodani
 `dnscrypt-proxy.service` w `Requires=` i `After=` . Chodzi o to, by dnsmasq został uruchomiony po
 dnscrypt-proxy, a nie odwrotnie, co może czasami powodować problemy z rozwiązywaniem nazw DNS.
 Dodatkowo, te zależności sprawiają, że ilekroć będziemy restartować (czy też zatrzymywać) usługę
-dnscrypt-proxy, to również i usługa dnsmasq będzie restartowana/zatrzymywana jako, że dnsmasq w
+dnscrypt-proxy, to również i usługa dnsmasq będzie restartowana/zatrzymywana, jako że dnsmasq w
 takiej konfiguracji nie może poprawnie działać bez dnscrypt-proxy i by oszczędzić sobie nerw przy
 ewentualnym debugowaniu, dobrze jest te zależności uzupełnić.
 
@@ -846,7 +846,7 @@ Brak jakiegokolwiek ruchu, zatem na interfejsie wychodzącym z naszej maszyny ni
 zapytań DNS.
 
 To co się właściwie dzieje z tymi zapytaniami DNS? Są one przesyłane do serwera DNS CloudFlare na
-port 443 (jako, że w opisanej wyżej konfiguracji korzystamy z DoH). Zobaczmy zatem co się dzieje na
+port 443 (jako że w opisanej wyżej konfiguracji korzystamy z DoH). Zobaczmy zatem co się dzieje na
 interfejsie `bond0` na porcie 443:
 
 ![](/img/2020/09/003-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)

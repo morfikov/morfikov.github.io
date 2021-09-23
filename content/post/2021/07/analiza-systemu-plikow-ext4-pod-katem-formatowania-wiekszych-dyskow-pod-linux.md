@@ -662,7 +662,7 @@ to różnie bywało.
 ### Różnica między Advanced Format 512e i Advanced Format 4kn
 
 Warto w tym miejscu wspomnieć, że w przypadku tego powyższego dysku mamy do czynienia z technologią
-Advanced Format 512e, jako, że fizyczne sektory 4KiB muszą być tłumaczone na sektory logiczne
+Advanced Format 512e, jako że fizyczne sektory 4KiB muszą być tłumaczone na sektory logiczne
 512-bajtowe. Niemniej jednak, od dłuższego czasu na rynku są dostępne dyski, które mają wsparcie
 dla natywnych sektorów 4096 bajtów (tzw. Advanced Format 4kn). W przypadku takich dysków, system
 odczytuje i zapisuje nośnik cząstkami danych właśnie o rozmiarze 4KiB i żadne tłumaczenie na

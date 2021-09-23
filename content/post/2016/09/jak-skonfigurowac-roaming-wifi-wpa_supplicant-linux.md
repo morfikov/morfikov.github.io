@@ -210,7 +210,7 @@ poniżej tych -60 dBm, a system przełączy nas do drugiego AP:
 
 ![](/img/2016/09/5.roaming-wifi-linux-przelaczanie-sieci-rozne-essid.png#huge)
 
-W tym przypadku, jako, że są różne nazwy sieci, w logu pojawiła się informacja na temat tej, do
+W tym przypadku, jako że są różne nazwy sieci, w logu pojawiła się informacja na temat tej, do
 której zostaliśmy przyłączeni.
 
 W powyższej konfiguracji definiowaliśmy sieci, które mają być objęte roamingiem przez określenie w

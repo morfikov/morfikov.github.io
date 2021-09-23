@@ -95,7 +95,7 @@ DROP czy REJECT? Na dobrą sprawę nie ma jednoznacznej odpowiedzi i musimy się
 zdecydować. Przede wszystkim, DROP nie udostępnia żadnych informacji osobie, która próbuje się
 podłączyć. Jeśli taki pakiet zostanie zrzucony, to druga strona o tym może z początku nawet nie
 wiedzieć. Utrudnia to trochę ustalanie przyczyny ewentualnych problemów z siecią. Poza tym, szereg
-aplikacji sieciowych może reagować w bardzo powolny sposób, jako, że nie dostają żadnej odpowiedzi
+aplikacji sieciowych może reagować w bardzo powolny sposób, jako że nie dostają żadnej odpowiedzi
 od routera. W przypadku REJECT mamy te powyższe informacje i te problemy nas nie dotyczą. Z drugiej
 zaś strony, skoro my posiadamy te informacje, to i potencjalny atakujący również. Dodatkowo, jako,
 że router udziela odpowiedzi na szereg nieprawidłowych żądań komunikatami ICMP, to może to w

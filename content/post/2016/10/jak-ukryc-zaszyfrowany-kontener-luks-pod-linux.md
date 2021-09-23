@@ -314,7 +314,7 @@ zmapowania interesującego nas obszaru dysku wykorzystamy poniższe polecenie:
 
     # cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --verify-passphrase --verbose open --type=plain /dev/sdb1 sdb1 --offset=655360
 
-Tę linijkę trzeba będzie wpisywać za każdym razem odszyfrowując ukryty kontener, jako, że na
+Tę linijkę trzeba będzie wpisywać za każdym razem odszyfrowując ukryty kontener, jako że na
 partycji nie ma nagłówka, który by przechowywał choćby informacje na temat rodzaju i długości
 klucza. Może nie jest to wygodne ale za to nie musimy ze sobą targać nagłówka LUKS na osobnym
 nośniku.

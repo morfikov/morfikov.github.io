@@ -344,7 +344,7 @@ obrazu całego flash'a również można te poszczególne partycje wydobyć.
 
 W zasadzie cały backup zajmie około 2 GiB, chyba, że zrobiliśmy sobie pełną kopię. W przypadku tego
 drugiego rozwiązania potrzeba nam będzie karta SD o pojemności większej lub równej pojemności
-flash'a w telefonie. Dodatkowo, jako, że z reguły flash w smartfonach ma pojemność większą niż 4 GiB
+flash'a w telefonie. Dodatkowo, jako że z reguły flash w smartfonach ma pojemność większą niż 4 GiB
 (zwykle 16-32 GiB), to w takim przypadku karta musi zostać sformatowana innym systemem plików niż
 FAT, bo ten ma ograniczenia wielkości pliku do 4 GiB, a obraz będzie przecie zajmował tyle ile
 zajmuje pamięć flash. TWRP obsługuje bez większego problemu karty SD sformatowane jako EXT4 i z tego

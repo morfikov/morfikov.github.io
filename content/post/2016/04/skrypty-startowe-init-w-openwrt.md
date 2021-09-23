@@ -68,7 +68,7 @@ kolejność ich startu jest ustalana w oparciu o porządek alfabetyczny.
 ## Budowa skryptów startowych
 
 Wszystkie skrypty startowe obecne w katalogu `/etc/init.d/` muszą posiadać atrybut wykonywalności (
-`chmod +x` ), jako, że są to zwykle skrypty shell'owe. Każdy z tych plików musi także rozpoczynać
+`chmod +x` ), jako że są to zwykle skrypty shell'owe. Każdy z tych plików musi także rozpoczynać
 się od poniższej linijki:
 
     #!/bin/sh /etc/rc.common

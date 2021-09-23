@@ -176,7 +176,7 @@ przepisujemy ją do poniższej postaci:
           option 'password' ''
 
 To jakie wartości umieścimy wyżej zależy głównie od operatora, z którego zamierzamy korzystać. W tym
-przypadku połączenie zapewnia Play, a jako, że oferuje on [darmowy internet
+przypadku połączenie zapewnia Play, a jako że oferuje on [darmowy internet
 LTE](/post/darmowy-internet-lte-od-rbmplay/), to trzeba tutaj wymusić tryb
 połączenia LTE przy pomocy opcji `mode` . Jeśli korzystamy z innych operatorów i nie koniecznie
 łączymy się po LTE, to w pliku `/etc/gcom/ncm.json` są wyszczególnione tryby pracy modemu, z

@@ -74,7 +74,7 @@ Gdy chcemy korzystać z serwerów OpenDNS, dodajemy w pliku `/etc/resolv.conf` p
     nameserver 208.67.220.220
 
 W przypadku korzystania z [systemd][2], plik `resolv.conf` jest dowiązaniem do
-`/run/systemd/resolve/resolv.conf` i jako, że ten plik znajduje się w katalogu `/run/` jest on
+`/run/systemd/resolve/resolv.conf` i jako że ten plik znajduje się w katalogu `/run/` , jest on
 tworzony na nowo przy starcie systemu. Zatem manualna edycja tego pliku nie jest zalecana. Lepszym
 wyjściem jest konfiguracja resolver'a bezpośrednio przez [pliki .network][3].
 

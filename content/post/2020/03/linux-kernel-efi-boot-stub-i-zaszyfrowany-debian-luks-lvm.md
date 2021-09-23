@@ -37,7 +37,7 @@ bootloader'em.
 ## Konfiguracja kernela
 
 By być w stanie wygenerować obraz kernela, który ma być uruchomiony przez firmware EFI, musimy mieć
-w kernelu włączoną opcję `CONFIG_EFI_STUB` .  Warto też włączyć opcję `CONFIG_EFI_VARS` jako, że
+w kernelu włączoną opcję `CONFIG_EFI_STUB` .  Warto też włączyć opcję `CONFIG_EFI_VARS` , jako że
 umożliwi ona zarządzanie zmiennymi EFI za sprawą narzędzia `efibootmgr`. Jeśli korzystamy z
 dystrybucyjnego kernela dostarczanego przez deweloperów dystrybucji Debian, to on ma już stosowne
 opcje włączone i nic nie musimy dodatkowo konfigurować. Niemniej jednak, jeśli budujemy własny

@@ -15,7 +15,7 @@ title: Squashfs jako system plików obrazów live
 System live to nic innego jak spakowany system plików jakieś zainstalowanej dystrybucji, który
 podczas startu maszyny jest montowany w trybie tylko do odczytu, a potrzebne pliki są wypakowywane w
 czasie rzeczywistym w pamięci operacyjnej RAM. Do implementacji takiego rozwiązania stosuje się
-[squashfs](https://pl.wikipedia.org/wiki/SquashFS) i jako, że jest to system plików tylko do
+[squashfs](https://pl.wikipedia.org/wiki/SquashFS) i jako że jest to system plików tylko do
 odczytu, nie można go jako tako edytować. Nie jesteśmy też zupełnie na straconej pozycji, bo możemy
 skorzystać z dwóch rozwiązań:
 [persistence](/post/persistence-czyli-zachowanie-zmian-w-systemie-live/) lub możemy

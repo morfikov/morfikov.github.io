@@ -13,7 +13,7 @@ tags:
 title: Zdalny backup przy pomocy rsync, ssh i sudo
 ---
 
-Mój VPS, jako, że jest dość tani, nie zawiera całej masy wynalazków. Jedną z tych bardziej
+Mój VPS, jako że jest dość tani, nie zawiera całej masy wynalazków. Jedną z tych bardziej
 użytecznych rzeczy jest backup danych na dysku VPS'a. OVH liczy sobie trochę grosza za usługę
 snapshot'ów. Dlatego też byłem zmuszony poszukać innego rozwiązania, które sprawiłoby, że kopia
 wszystkich ważnych plików byłaby zawsze poza granicami tego VPS. Najlepiej, gdyby te pliki były
@@ -54,7 +54,7 @@ poleceniu `rsync` . Zatem nasza linijka upraszcza się nieco i teraz wygląda mn
 
 ## Klucze SSH i hasło do konta root
 
-To powyższe polecenie powinno już nam wykonać synchronizację katalogów ale jako, że szereg plików
+To powyższe polecenie powinno już nam wykonać synchronizację katalogów, ale jako że szereg plików
 wymaga dostępu root, to musimy korzystać z tego konta na VPS. Nie zaleca się jednak logowania przez
 SSH na root'a. Chyba, że mu [skonfigurujemy klucze SSH][1] oraz ustawimy na serwerze poniższą opcję
 w pliku `/etc/ssh/sshd_config` :

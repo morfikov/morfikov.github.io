@@ -126,7 +126,7 @@ mamy szereg kluczy:
 - `build:` -- odnosi się do etapu budowania obrazu na potrzeby kontenera. Mamy tutaj dwa dodatkowe
 parametry, które określają nazwę pliku, tj. `dockerfile` oraz jego położenie względem pliku
 `docker-compose.yml` . W tym przypadku `.` oznacza, że oba pliki znajdują się w tym samym katalogu.
-- `image:` -- jako, że budujemy własny obraz, to Docker nazwie go nam `firefox:morfitest` i w ten
+- `image:` -- jako że budujemy własny obraz, to Docker nazwie go nam `firefox:morfitest` i w ten
 sposób będziemy mogli się do tego obrazu odwoływać w strukturze Docker'a.
 - `container_name:` -- to nazwa kontenera.
 - `hostname:` -- to nazwa hosta wykorzystywana wewnątrz kontenera.
@@ -137,7 +137,7 @@ Docker'a, to określamy tutaj `"no"` .
 - `volumes:` -- przy pomocy tego klucza określamy zasoby (katalogi) maszyny hosta, które mają być
 widoczne w kontenerze (montowanie via `bind` ). Jesteśmy też w stanie poinformować Docker'a, by
 plików w katalogach wewnątrz kontenera nie zmieniał przy różnych czynnościach związanymi z
-zarządzaniem kontenerami/obrazami. W tym przypadku, jako, że będziemy korzystać z aplikacji
+zarządzaniem kontenerami/obrazami. W tym przypadku, jako że będziemy korzystać z aplikacji
 mającej interfejs graficzny, musimy w kontenerze udostępnić katalog `/tmp/.X11-unix/` . Jeśli
 zaś chodzi o pliki, których Docker nie powinien ruszać, to oczywiście określamy profil przeglądarki.
 - `environment:` -- jest w stanie ustawić pewne zmienne środowiskowe wewnątrz kontenera. Potrzebna
@@ -381,7 +381,7 @@ sprawiają, że możliwość zapakowania przeglądarki internetowej do kontenera
 przyzwoitym rozwiązaniem, mimo, że nie daje nam ono dodatkowego bezpieczeństwa w stosunku do sesji
 X działającej lokalnie.
 
-Oczywiście, jako, że to był najprostszy sposób na zamknięcie aplikacji GUI w kontenerze Docker'a, to
+Oczywiście, jako że to był najprostszy sposób na zamknięcie aplikacji GUI w kontenerze Docker'a, to
 zarazem znaczy, że nie była to jedyna opcja. Na dobrą sprawę,
 to [tych sposobów jest jeszcze kilka](http://wiki.ros.org/docker/Tutorials/GUI) i wymagają one
 osobnego przyjrzenia się im, w

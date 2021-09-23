@@ -280,7 +280,7 @@ Poniżej wyjaśnienie poszczególnych etapów przetwarzania listy:
   - `cat /etc/peerblock/$set.gz` wczytuje do pamięci plik listy
   - `gunzip` wypakowuje ten plik
   - `cut -d: -f2` dzieli linijki po znaku dwukropka i części powstałe w taki sposób oznacza kolejno
-    1,2, etc. W tym przypadku, jako, że linijka ma tylko jeden dwukropek, zostanie podzielona na 2
+    1,2, etc. W tym przypadku, jako że linijka ma tylko jeden dwukropek, zostanie podzielona na 2
     części oraz zostanie wycięty kawałek od dwukropka do końca wiersza.
   - `grep -E "^[-0-9.]+$"` nie wiem co dokładnie znaczy ale chyba wyciąga z wyniku wpisy, które mają
     cyfry, kropki i znak minusa powtórzone co najmniej raz. Czyli wynik w postaci

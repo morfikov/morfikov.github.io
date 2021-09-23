@@ -46,7 +46,7 @@ Plik `xmlrpc.php` jest odpowiedzialny za możliwość publikowania treści na st
 [różnych klientów blogowych](https://codex.wordpress.org/Weblog_Client), klientów email oraz
 otrzymywanie pingbacków i trackbacków od innych blogów. Natomiast plik `wlwmanifest.xml` jest
 potrzebny jedynie klientowi Microsoftu. Nie każdy jednak korzysta z tego typu funkcjonalności, a
-jako, że mogą one stwarzać spore zagrożenie, to przydałoby się je wyłączyć.
+jako że mogą one stwarzać spore zagrożenie, to przydałoby się je wyłączyć.
 
 ## Czyszczenie nagłówka
 

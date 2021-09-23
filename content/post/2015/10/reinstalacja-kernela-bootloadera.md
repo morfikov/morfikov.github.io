@@ -85,7 +85,7 @@ wyczyścić tę partycję:
 
 Musimy teraz przywrócić [kopię
 MBR](/post/mbr-ebr-i-tablica-partycji-dysku-twardego/) i stworzyć nową partycję
-`/boot/` , np. przy użyciu `gparted`. Jeśli nie posiadamy kopi MBR, to jako, że potrzebny nam jest
+`/boot/` , np. przy użyciu `gparted`. Jeśli nie posiadamy kopi MBR, to jako że potrzebny nam jest
 tylko kod bootloader'a, będziemy musieli go przeinstalować ale po kolei. Na sam początek otwieramy
 szyfrowany system:
 

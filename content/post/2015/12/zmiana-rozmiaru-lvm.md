@@ -228,7 +228,7 @@ Jest +10 GiB. Teraz trzeba jeszcze rozszerzyć kontener LVM:
       Total: 1 [49,06 GiB] / in use: 1 [49,06 GiB] / in no VG: 0 [0   ]
 
 Wolne miejsce wskazuje, że 10 GiB dodanych wewnątrz LVM zostało uwzględnione. Rozszerzmy zatem 2
-dyski logiczne. Powiedzmy, że będą to 2 i 5. Dodajmy im po 5 GiB. Z piątym, jako, że jest ostatni,
+dyski logiczne. Powiedzmy, że będą to 2 i 5. Dodajmy im po 5 GiB. Z piątym, jako że jest ostatni,
 nie będzie problemu:
 
     # lvresize -L +5G /dev/mapper/grupa1-volumin5

@@ -133,7 +133,7 @@ poniżej którego smartfon zdecyduje się przełączyć.
 
 Moje AP są rozlokowane na kanałach 1, 6 i 11, gdzie siła sygnału w tym konkretnym miejscu mojego
 domu jest na poziomie -52 dBm, -74 dBm i -33 dBm. Jestem aktualnie podłączony do AP na kanale 11,
-jako, że sygnał z tego punktu dostępowego jest najmocniejszy. Jeśli zmieniłbym teraz położenie i
+jako że sygnał z tego punktu dostępowego jest najmocniejszy. Jeśli zmieniłbym teraz położenie i
 przeszedł w pobliże któregoś z dwóch pozostałych AP, to nastąpi automatyczne rozłączenie sieci i
 podłączenie do tego punktu, z którego jest najmocniejszy sygnał.
 

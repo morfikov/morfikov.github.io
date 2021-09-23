@@ -15,7 +15,7 @@ title: BootHole nie taki straszny, o ile ma się własne klucze EFI/UEFI
 Dnia 29-07-2020 do publicznej wiadomości zostały podane informacje na temat podatności BootHole,
 która to za sprawą bootloader'a GRUB2 w różnych dystrybucjach linux'a jest w stanie obejść
 mechanizm bezpieczeństwa EFI/UEFI, tj. Secure Boot. [Z informacji][2], które opublikował Debian,
-sprawa nie wygląda miło jako, że poza aktualizacją GRUB2, shim, jądra linux, Fwupdate oraz Fwupd,
+sprawa nie wygląda miło, jako że poza aktualizacją GRUB2, shim, jądra linux, Fwupdate oraz Fwupd,
 unieważnieniu podlegają również klucze dystrybucji Debian/Ubuntu, przez co praktycznie cały soft
 podpisany tymi kluczami (w tym systemy live) przestaną działać w trybie Secure Boot. Czy jest się
 czego obawiać i co użytkownik korzystający z mechanizmu SB powinien w takiej sytuacji zrobić?

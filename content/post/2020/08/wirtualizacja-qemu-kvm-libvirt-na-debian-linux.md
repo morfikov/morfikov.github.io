@@ -471,7 +471,7 @@ Pakiet `libvirt-daemon` dostarcza  demona `libvirtd` zarządzającego mechanizma
 (QEMU, KVM, XEN, OpenVZ, LXC, oraz VirtualBox). Z kolei w pakiecie `libvirt-daemon-system` znajduje
 się konfiguracja dla demona `libvirtd` . Dodatkowo, pakiet `libvirt-daemon-system` pociąga w
 zależnościach również `libvirt-daemon-system-systemd` lub `libvirt-daemon-system-sysv` . W tym
-przypadku jako, że używany jest systemd, to `libvirt-daemon-system-systemd` zostanie zainstalowany.
+przypadku, jako że używany jest systemd, to `libvirt-daemon-system-systemd` zostanie zainstalowany.
 Ten pakiet zawiera jedynie zależności, które umożliwiają libvirt współpracowanie z systemd.
 
 ### Pakiet virt-manager
@@ -1588,7 +1588,7 @@ celu trzeba stworzyć nowe urządzenie typu `storage` :
 ![](/img/2020/08/077-virtualization-kvm-qemu-share-storage-disk.png#huge)
 
 W ścieżce musimy podać lokalizację dysku/partycji w katalogu `/dev/` hosta. Najlepiej jest to
-zrobić po ID jako, że numerki typu sda/sdb mogą ulec zmianie z każdym restartem maszyny hosta.
+zrobić po ID, jako że numerki typu sda/sdb mogą ulec zmianie z każdym restartem maszyny hosta.
 Linki z ID możemy wyciągnąć z katalogu `/dev/disk/by-id/` :
 
 ![](/img/2020/08/078-virtualization-kvm-qemu-share-storage-disk-id.png#huge)

@@ -484,7 +484,7 @@ lepiej skorzystać z tych dostarczanych z projektem.
 ### Odblokowanie bootloader'a via XiaoMiTool
 
 Powinniśmy być w stanie bez większego problemu uruchomić XiaoMiTool na dowolnej dystrybucji linux'a,
-jako, że wszystkie niezbędne nam rzeczy zostały dostarczone w pobranej paczce `.run` . Odpalamy
+jako że wszystkie niezbędne nam rzeczy zostały dostarczone w pobranej paczce `.run` . Odpalamy
 zatem XiaoMiTool:
 
     $ ./XMT2_Linux_*.run

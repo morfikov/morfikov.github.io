@@ -57,7 +57,7 @@ pliku usługi. Niżej mamy zawartość, którą musimy umieścić w pliku
 Widoczny wyżej warunek `ConditionPathExists` można usunąć. Niemniej jednak, przydaje się on w
 momencie, gdy do komputera nie jest podpięty modem. Standardowo ta [nazwa modemu wskazuje na
 /dev/ttyUSB0 ale można ją zmienić](/post/zmiana-nazwy-interfejsu-modemu-ttyusb0/).
-Tak czy inaczej, jako, że demon `smsd` będzie operował na skryptach, to musimy wziąć pod uwagę jakie
+Tak czy inaczej, jako że demon `smsd` będzie operował na skryptach, to musimy wziąć pod uwagę jakie
 operacje w tym skrypcie są wykonywane. Standardowo ten demon pracuje z uprawnieniami użytkownika
 `smsd` i grupy `dialout` . Jeśli jednak nasz skrypt wymaga uprawnień administratora, musimy
 przepisać powyższe parametry.

@@ -100,7 +100,7 @@ ustawionych odpowiednich właściwości, co będzie się objawiać w taki sposó
 zwyczajnie zignoruje politykę, którą wyżej sobie ustawiliśmy, a ludzie winą obarczą jak zwykle
 PulseAudio... By uniknąć tego typu sytuacji, możemy ręcznie nadać wszystkim aplikacjom odtwarzającym
 dźwięk (w tym też i playery video) odpowiednie właściwości poprzez wyeksportowanie zmiennych
-systemowych. I tak dla przykładu, jako, że potrzebujemy zmienić/nadać `PA_PROP_MEDIA_ROLE` ,
+systemowych. I tak dla przykładu, jako że potrzebujemy zmienić/nadać `PA_PROP_MEDIA_ROLE` ,
 przepiszmy właściwości SMPlayer'owi:
 
     PULSE_PROP='media.role=video' smplayer film.mp4

@@ -40,7 +40,7 @@ Ubijmy na wszelki wypadek sieć WiFi w swoich laptopach, by czasem nie dokonywa�
 pośrednictwem sieci bezprzewodowej. W panelu przechodzimy na zakładkę Administration => Firmware
 Upgrade, gdzie wskazujemy plik obrazu z firmware. Nowsze obrazy dla routera TL-WDR3600 są
 [tutaj](ftp://ftp.dd-wrt.com/betas/2016/09-01-2016-r30534/tplink_tl-wdr3600v1/). Interesuje nas plik
-`tl-wdr3600-webflash.bin` jako, że aktualizujemy firmware przez panel web.
+`tl-wdr3600-webflash.bin` , jako że aktualizujemy firmware przez panel web.
 
 ![](/img/2016/09/2.aktualizacja-firmware-dd-wrt-flash.png#huge)
 

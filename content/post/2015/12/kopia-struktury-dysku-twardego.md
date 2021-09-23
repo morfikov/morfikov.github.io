@@ -334,7 +334,7 @@ Skopiujmy teraz całą tablicę partycji:
 W przypadku, gdy zniknie nam jeden wpis, możemy odtworzyć ręcznie tylko ten, którego brakuje. Czas
 nabroić trochę. Skoro tablica partycji to 64 bajty po 446 bajtach, to uszkodzimy drugą partycję
 przez zapisanie 5 bajtów z tych 16 opisujących tą partycję. Zatem 446+16=462 , czyli na 462 zaczyna
-się drugi wpis, jako, że numerowanie zaczyna się od 0, a nie od 1:
+się drugi wpis, jako że numerowanie zaczyna się od 0, a nie od 1:
 
     # dd if=/dev/zero of=/dev/sdb bs=1 seek=462 count=5
     5+0 records in

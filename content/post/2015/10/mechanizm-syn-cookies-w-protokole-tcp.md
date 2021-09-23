@@ -25,7 +25,7 @@ Atak SYN flood polega na wysłaniu przez klienta do serwera wielu pakietów z us
 po czym taki klient nie udziela odpowiedzi `ACK` na wysłane pakiety `SYN-ACK` , które otrzymał od
 serwera. W ten sposób na serwerze tworzy się wiele niezamkniętych sesji, które w końcu zapełnią całą
 wolną pamięć. Dzieje się tak, bo dane o każdym z klientów muszą być trzymane tak długo, aż w końcu
-się on podłączy. W tym przypadku, jako, że klient nie ma na to zwyczajnie ochoty, to te informacje
+się on podłączy. W tym przypadku, jako że klient nie ma na to zwyczajnie ochoty, to te informacje
 będą trzymane w nieskończoność. Atak SYN flood skutecznie redukuje przepustowość łącza, lub też
 uniemożliwia innym klientom na podłączenie się do atakowanego serwera.
 

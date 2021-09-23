@@ -230,7 +230,7 @@ potrzebujemy, blok z konfiguracją dla protokołu IPv^:
         option proto 'dhcpv6'
 
 Teraz w pliku `/etc/config/dhcp` definiujemy, że nie chcemy by `dnsmasq` interesował się nowym
-interfejsem, jako, że jest to interfejs WAN. Dopisujemy tam poniższy blok:
+interfejsem, jako że jest to interfejs WAN. Dopisujemy tam poniższy blok:
 
     config dhcp 'wan3'
         option interface 'wan3'

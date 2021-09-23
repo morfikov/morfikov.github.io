@@ -64,7 +64,7 @@ eradykacja reklam z otaczającej mnie przestrzeni, zarówno tej realnej, jak i w
 mówię stanowczo NIE. Tą pierwszą zasadę można by pewnie jeszcze jakoś przemilczeć ale jeśli chodzi
 o tę drugą, to już tak łatwo nie będzie. Nie po to od ponad dekady staram się pozbyć ze swojego
 otoczenia reklam wdrażając rozmaite rozwiązania mające za zadanie odfiltrować ten syf, by taki
-proceder sygnować swoim imieniem. Dlatego też postanowiłem pozbyć się tego całego Disqus'a jako, że
+proceder sygnować swoim imieniem. Dlatego też postanowiłem pozbyć się tego całego Disqus'a, jako że
 nie pozostawił mi on praktycznie żadnego wyboru.
 
 ## Czy komentarze wrócą

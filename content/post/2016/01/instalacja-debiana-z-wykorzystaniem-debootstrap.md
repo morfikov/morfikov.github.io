@@ -70,7 +70,7 @@ poprawnie przygotować partycję ESP pod instalację Debiana z EFI/UEFI][4] moż
 
 Pierwszym krokiem jaki musimy poczynić po stworzeniu partycji jest utworzenie zaszyfrowanego
 kontenera LUKS, w którym umieścimy logiczne voluminy LVM pod instalowany system. Obecnie mamy do
-wyboru dwie wersję LUKS: v1 i v2. Zalecane jest korzystanie z tej drugiej wersji jako, że ona
+wyboru dwie wersję LUKS: v1 i v2. Zalecane jest korzystanie z tej drugiej wersji, jako że ona
 posiada wsparcie dla ochrony haseł z wykorzystaniem [Argon2][20], co znacząco utrudnia życie osobom
 próbującym siłowego złamania hasła klastrami graficznymi.
 

@@ -350,7 +350,7 @@ którymi będziemy chcieli się posłużyć w celu zaktualizowania zawartości z
 przydałoby się wygenerować kilka dodatkowych plików, tak na wszelki wypadek, gdyby w naszym
 przypadku to one jednak znalazły zastosowanie.
 
-Na początek tworzymy wersję formatu `.auth` (signed signature list) zmiennej `PK` jako, że
+Na początek tworzymy wersję formatu `.auth` (signed signature list) zmiennej `PK` , jako że
 `efi-updatevar` (jak i sporo graficznych interfejsów firmware EFI/UEFI) akceptuje tylko ten format.
 Pierwsze z poniższych poleceń tworzy listę sygnatur, która wymaga unikalnego ID, choć nie jest on
 dla nas tak istotny. W drugim poleceniu zaś używamy naszego prywatnego klucza `PK` (platform key),
@@ -688,7 +688,7 @@ się nam przepisać wartości zmiennych `PK` , `KEK` , `db` oraz `dbx` :
 Jak widać, wbudowane w firmware EFI/UEFI klucze zostały zastąpione tymi wygenerowanymi przez nas i
 w tej chwili tylko to oprogramowanie, które podpiszemy, może być załadowane w trybie Secure Boot na
 naszym laptopie. W zmiennej `dbx` są dokładnie takie same wpisy co poprzednio, bo została ona
-odtworzona jako, że jest to w zasadzie jedynie czarna lista hash'y, których raczej nie powinniśmy
+odtworzona, jako że jest to w zasadzie jedynie czarna lista hash'y, których raczej nie powinniśmy
 ignorować.
 
 ## Testowanie Secure Boot z własnymi kluczami

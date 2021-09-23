@@ -42,7 +42,7 @@ smartfon. W takim przypadku telefon musi mieć włączoną nawigację satelitarn
 zawsze jest aktywny i dlatego też nie od razu uda nam się taki zgubiony/skradziony telefon odnaleźć
 na mapie.
 
-Idąc dalej, jako, że ta usługa działa w oparciu o przypisanie konta Google do urządzenia z
+Idąc dalej, jako że ta usługa działa w oparciu o przypisanie konta Google do urządzenia z
 Androidem, to zresetowanie ustawień do fabrycznych w taki sposób by [obejść blokadę Factory Reset
 Protection Lock (FRP Lock)][1], skutecznie uniemożliwia nam przeprowadzenie jakichkolwiek działań
 ratunkowych. Warto o tym fakcie pamiętać w przypadku, gdy many z jakiegoś powodu odblokowany

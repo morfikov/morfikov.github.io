@@ -14,7 +14,7 @@ title: Kiedy żywot pendrive dobiega końca...
 ---
 
 Pendrive to jedno z cenniejszych urządzeń w obecnych czasach. Jest mały, poręczny i potrafi
-przechować parę set GiB danych oraz jako, że nie ma części ruchomych, można nie obchodzić się z nim
+przechować parę set GiB danych, oraz jako że nie ma części ruchomych, można nie obchodzić się z nim
 jak z jajkiem i to bez ryzyka utraty danych. Często wykorzystuje się go jako środek transportu na
 krótkie odległości między kilkoma maszynami, gdzie z pewnych powodów nie można pociągnąć kabla
 sieciowego, nie wspominając przy tym o wifi. Systemy live wręcz nie mogą się bez nich obejść.

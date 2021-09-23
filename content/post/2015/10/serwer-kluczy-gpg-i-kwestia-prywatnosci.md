@@ -144,7 +144,7 @@ do tego poniżej:
 
     Could not bind to 127.0.0.1:9050: Address already in use. Is Tor already running?
 
-Dzieje się tak ponieważ usługa systemowa TOR'a działa już w tle, a narzędzie `vidalia` , jako, że ma
+Dzieje się tak ponieważ usługa systemowa TOR'a działa już w tle, a narzędzie `vidalia` , jako że ma
 zarządzać demonem TOR'a, próbuje go uruchomić. By rozwiązać ten problem możemy albo zaprzestać
 uruchamiania demona `tor` jako usługę systemową, albo też można skorzystać z gniazda kontrolnego
 (Control Socket), który jest do skonfigurowania w opcjach `vidalia` :

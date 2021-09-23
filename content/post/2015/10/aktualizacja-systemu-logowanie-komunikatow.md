@@ -33,7 +33,7 @@ W debianie aktualizacja systemu jest przeprowadzana za pomocą jednego z dwóch 
 operacji. Znajdują się one odpowiednio w `/var/log/apt/` oraz w `/var/log/aptitude` . W katalogu
 `/var/log/apt/` jest kilka innych plików ale o tym za moment. Dodatkowo, aktualizacja systemu (jak i
 instalowanie/usuwanie pakietów) przy pomocy `aptitude` jest także logowana do plików w katalogu
-`/var/log/apt/`, jako, że `aptitutde` to nakładka na `apt`. Wiemy zatem gdzie są przechowywane logi
+`/var/log/apt/`, jako że `aptitutde` to nakładka na `apt`. Wiemy zatem gdzie są przechowywane logi
 obu z powyższych narzędzi.
 
 ### Apt
@@ -143,6 +143,6 @@ więcej tak:
 Jak widzimy, zamiast jednej długiej linijki, mamy jedną linijkę na pakiet, gdzie mamy określone
 wersje oraz to co z danym pakietem zostało zrobione i z jakiego powodu.
 
-Niestety `aptitude` nie dysponuje logiem z terminala ale jako, że `aptitude` jest nakładką na
+Niestety `aptitude` nie dysponuje logiem z terminala, ale jako że `aptitude` jest nakładką na
 `apt` , to log z akcji przeprowadzanych za pomocą `aptitude` zostanie przesłany również do pliku
 `/var/log/apt/term.log` .

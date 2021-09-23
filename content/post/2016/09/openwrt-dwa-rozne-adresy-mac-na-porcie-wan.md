@@ -58,7 +58,7 @@ potwierdzana pakietem UDP wysyłanym z adresu routera (192.168.1.1) na adres roz
 (192.168.1.255). Ten pakiet zawiera także docelowy adres MAC FF:FF:FF:FF:FF:FF, czyli każda maszyna
 w danym segmencie sieci odbierze ten pakiet.
 
-Niemniej jednak, jako, że nasz router we wczesnej fazie startu nie ma jeszcze skonfigurowanego
+Niemniej jednak, jako że nasz router we wczesnej fazie startu nie ma jeszcze skonfigurowanego
 switch'a, to ten pakiet zostaje podpisany adresem MAC, który jest nadrukowany na routerze. W tym
 przypadku jest to E8:94:F6:68:79:F0, który po konfiguracji zostanie przypisany portom LAN, a dla WAN
 zostanie wygenerowany nowy MAC. W efekcie ISP najpierw widzi pakiet failsafe z jednym adresem MAC, a

@@ -38,7 +38,7 @@ pomocą narzędzia `git` :
 
 ### Problem z DKMS
 
-W przypadku modułu `mt7610u_sta` , jako, że jest on w opłakanym stanie, nie damy rady wykorzystać
+W przypadku modułu `mt7610u_sta` , jako że jest on w opłakanym stanie, nie damy rady wykorzystać
 mechanizmu DKMS do automatycznego budowania modułów ilekroć tylko będziemy instalować w systemie
 nowszą wersję kernela. Na wypadek, gdyby kod tego modułu został poprawiony, zostawiam instrukcję dla
 DKMS.

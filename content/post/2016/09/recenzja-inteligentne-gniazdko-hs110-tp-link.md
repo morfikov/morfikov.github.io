@@ -142,7 +142,7 @@ Odpalamy aplikację KASA na naszym smartfonie i dodajemy w niej nowe urządzenie
 
 ![](/img/2016/09/12.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
 
-W tym przypadku musimy wskazać Smart Plug, jako, że chcemy zarządzać inteligentnym gniazdkiem:
+W tym przypadku musimy wskazać Smart Plug, jako że chcemy zarządzać inteligentnym gniazdkiem:
 
 ![](/img/2016/09/13.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
 

@@ -107,7 +107,7 @@ oddana nam do dyspozycji. Sprawdźmy czy tak jest w istocie:
       Total: 2 [148.12 GiB] / in use: 2 [148.12 GiB] / in no VG: 0 [0   ]
 
 Wyżej widzimy, że dysk ma przypisaną grupę `VG debian` oraz, że mamy do rozdysponowania
-`74.53 GiB` . Cała grupa voluminów, jako, że składa się z dwóch dysków 80G, ma łącznie rozmiar
+`74.53 GiB` . Cała grupa voluminów, jako że składa się z dwóch dysków 80G, ma łącznie rozmiar
 148 GiB. Na dobrą sprawę, to jest maksymalny rozmiar partycji, jaką moglibyśmy tutaj utworzyć i to
 mimo faktu, że każdy z fizycznych nośników ma do dyspozycji jedynie 80G.
 

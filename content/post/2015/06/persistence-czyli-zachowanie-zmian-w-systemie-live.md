@@ -87,7 +87,7 @@ system live by uwzględnił ją przy przeszukiwaniu partycji. W konfiguracji pow
 
 ## Szyfrowany persistence
 
-Na partycji persistence, jako, że zawiera system plików w trybie do zapisu, mogą znajdować się
+Na partycji persistence, jako że zawiera system plików w trybie do zapisu, mogą znajdować się
 poufne dane konfiguracyjne, np. hasła do aplikacji czy kont online. Z tego powodu istnieje też
 możliwość jej zaszyfrowania. W tym celu będzie nam potrzebny kontener [LUKS][3].
 

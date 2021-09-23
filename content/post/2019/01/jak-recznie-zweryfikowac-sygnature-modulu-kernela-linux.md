@@ -225,7 +225,7 @@ tego co zostanie zwrócone przez polecenie `sha512sum` na pliku modułu kernela.
     0249996a72be4f37ce2c5d03a092447e936f392ee756868172ae108
 
 Oczywiście to powyższe polecenie dotyczy modułu kernela, który jeszcze nie został podpisany. Jeśli
-byśmy spróbowali wyciągnąć hash z podpisanego modułu, to ten będzie inny, jako, że po podpisaniu
+byśmy spróbowali wyciągnąć hash z podpisanego modułu, to ten będzie inny, jako że po podpisaniu
 modułu [na jego końcu doczepiana jest sygnatura](https://www.kernel.org/doc/html/v4.17/admin-guide/module-signing.html#signed-modules-and-stripping).
 Jeśli nie dysponujemy źródłowym plikiem, to zawsze możemy uciąć tę sygnaturę z modułu w poniższy
 sposób:

@@ -64,7 +64,7 @@ kontynuację procesu instalacyjnego.
 
 W przypadku JAR-signed APK mamy do czynienia z [podpisaniem zwykłego pliku JAR][3], gdzie sumy
 kontrolne są generowane osobno dla każdego z plików aplikacji. W przypadku tego schematu występują
-jednak problemy z bezpieczeństwem, jako, że archiwum ZIP (którym jest plik `.apk` ) może zawierać
+jednak problemy z bezpieczeństwem, jako że archiwum ZIP (którym jest plik `.apk` ) może zawierać
 dodatkowe bajty na początku, jak i również przed i między kolejnymi wpisami ZIP. Podpis, który jest
 generowany pod takim archiwum (i później weryfikowany) bierze pod uwagę jedynie same wpisy w ZIP i
 ignoruje zarazem wszystkie dodatkowe bity. Taki stan rzeczy umożliwia wstrzyknięcie pliku `.dex` w

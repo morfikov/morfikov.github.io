@@ -119,7 +119,7 @@ większego problemu.
 Warto tutaj jeszcze dodać, że w przypadku, gdy rozmiar danych na partycji `/data/` jest duży, to
 plik backup'u zostanie podzielony automatycznie na mniejsze kawałki (~1,5 GiB). Nie ma zatem obawy o
 zapis takich plików na kartę SD sformatowaną system plików z rodziny FAT. Obraz całej partycji
-`/data/` , jako, że przekracza on limit 4 GIB, trzeba by umieścić na karcie SD sformatowanej innym
+`/data/` , jako że przekracza on limit 4 GIB, trzeba by umieścić na karcie SD sformatowanej innym
 systemem plików, np. linux'owym EXT4.
 
 By zrobić backup, przesuwamy strzałki na prawą stronę:

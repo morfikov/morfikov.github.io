@@ -17,7 +17,7 @@ title: 'WordPress: Wersja plików .css/.js na blogu'
 Gdy odwiedzamy jakiś blog WordPress'a po raz pierwszy, szereg jego elementów jest buforowanych w
 cache przeglądarki. W ten sposób pewne pliki, np. `.css`, `.js` czy też obrazki, nie są pobierane
 bezpośrednio z serwera www, bo mamy je lokalnie u siebie na dysku. Takie rozwiązanie zapewnia
-szybsze załadowanie się strony przez minimalizowanie ruchu sieciowego. Niemniej jednak, jako, że te
+szybsze załadowanie się strony przez minimalizowanie ruchu sieciowego. Niemniej jednak, jako że te
 pliki siedzą w cache, to muszą mieć ustawiony pewien czas ważności. Może on być różny, a my możemy
 go sobie dostosować dla poszczególnych elementów ustawiając im [nagłówek Cache-Control, Expires,
 Last-Modified, czy

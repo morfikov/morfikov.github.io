@@ -68,7 +68,7 @@ Każda ze stron zaczyna od losowo wygenerowanego numeru sekwencyjnego. Jako, że
 wysłany przez klienta, otrzymał on numer 2,955,157,473.
 
 Pakiet `127` jest odpowiedzią serwera na pakiet `SYN` klienta. Jemu też został przypisany losowy
-numer sekwencyjny 1,348,638,687, jako, że jest to pierwszy pakiet w tej sesji TCP przesłany przez
+numer sekwencyjny 1,348,638,687, jako że jest to pierwszy pakiet w tej sesji TCP przesłany przez
 serwer. Dodatkowo, widzimy, że załączony jest numer potwierdzenia. Jego wartość jest większa o 1 w
 stosunku do numeru sekwencyjnego pakietu `126` . Wskazuje on tym samym, że serwer otrzymał pakiet
 `126` od klienta. Warto zwrócić uwagę, że numer potwierdzenia został podbity o 1, mimo, że pakiet

@@ -91,7 +91,7 @@ został potraktowany zgodnie z polityką łańcucha `PREROUTING` w tablicy `nat`
 dalej.
 
 Kolejny komunikat w logu informuje nas, że pakiet trafia ponownie do tablicy `mangle` , tym razem do
-łańcucha `INPUT` . Przechodzi przez niego, jako, że mamy tutaj ponownie `policy` .
+łańcucha `INPUT` . Przechodzi przez niego, jako że mamy tutaj ponownie `policy` .
 
 Ostatnie dwa komunikaty dotyczą tablicy `filter` . Pakiet po trafieniu do tej tablicy został
 dopasowany do 8 reguły w łańcuchu `INPUT`. W tym przypadku było to przekierowanie do łańcucha

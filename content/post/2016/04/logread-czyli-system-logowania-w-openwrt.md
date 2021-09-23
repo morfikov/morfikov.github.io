@@ -81,7 +81,7 @@ odczytywać przy pomocy `logread` .
 Istnieje także możliwość przesłania logów przez sieć do określonego hosta. Do końca nie wiem czy
 takie logi można przesłać do maszyn mających na pokładzie windowsa. Niemniej jednak bez problemu ten
 mechanizm współpracuje z linux'ami. Dlatego też ograniczę się do opisania konfiguracji w oparciu
-właśnie o ten system operacyjny, jako, że go używam.
+właśnie o ten system operacyjny, jako że go używam.
 
 Przede wszystkim, potrzebna nam jest maszyna, która będzie miała zainstalowany na swoim pokładzie
 serwer logów. Obecnie większość dystrybucji linux'a korzysta z initu systemd. Jego logger, tj.

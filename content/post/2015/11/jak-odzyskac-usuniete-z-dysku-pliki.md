@@ -130,7 +130,7 @@ następujące bajty:
 
 Gdy do systemu plików są dodawane nowe rzeczy lub zmianie ulegają stare, magiczna liczba może ulec
 zmianie i w ten sposób wiemy, że mamy do czynienia z dwiema różnymi implementacjami zakresów. Liczba
-zakresów odpowiada tej aktualnie zarezerwowanej przez plik i w tym przypadku, jako, że plik nie jest
+zakresów odpowiada tej aktualnie zarezerwowanej przez plik i w tym przypadku, jako że plik nie jest
 duży, to system plików jest w stanie go opisać za pomocą jednego zakresu. Maksymalna liczba zakresów
 w `ext4` wynosi póki co 4.
 

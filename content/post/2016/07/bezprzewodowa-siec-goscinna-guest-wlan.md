@@ -32,7 +32,7 @@ Oczywiście nic nie stoi na przeszkodzie, by założyć tej sieci hasło i korzy
 WPA2-PSK. Niemniej jednak, sieć gościnna powinna być prosta, a łączenie do niej możliwie szybkie i
 bezproblemowe.
 
-Dodatkowo, jako, że sieć gościnna będzie niezabezpieczona, to musimy zatroszczyć się o hosty w sieci
+Dodatkowo, jako że sieć gościnna będzie niezabezpieczona, to musimy zatroszczyć się o hosty w sieci
 LAN. Te dwie grupy użytkowników muszą zostać od siebie odseparowane ze względów bezpieczeństwa.
 Podobnie sprawa ma się w przypadku dostępu do routera przez użytkowników sieci gościnnej. Raczej nie
 chcielibyśmy, by któryś z nich mógł nawiązywać jakiekolwiek połączenia z tym urządzeniem i mieszać w
@@ -142,7 +142,7 @@ Niemniej jednak, wciąż mamy połączenie z internetem:
 
 ![](/img/2016/07/2.openwr-guest-network-wlan-siec-goscinna.png#big)
 
-Warto wspomnieć, że sieć gościnna może dość znacznie obciążać nam łącze, jako, że sporo osób może z
+Warto wspomnieć, że sieć gościnna może dość znacznie obciążać nam łącze, jako że sporo osób może z
 niej korzystać. By się uporać z tego typu problemem, trzeba będzie pomyśleć o zaimplementowaniu
 jakiegoś [mechanizmu QoS](/post/quality-service-qos-w-openwrt/). Niekoniecznie
 trzeba ręcznie wyrzeźbić sobie cały setup. Możemy zaprzęgnąć do pracy [skrypty z pakietu

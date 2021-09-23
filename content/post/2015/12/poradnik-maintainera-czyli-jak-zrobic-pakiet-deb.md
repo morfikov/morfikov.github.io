@@ -1683,7 +1683,7 @@ plik z nazwą paczki i sufiksem `.lintian-overrides` .
 
 Źródła powinny zostać zweryfikowane, a to zwykle odbywa się przez sprawdzenie sygnatury GPG. Nie
 każdy serwis daje nam taką możliwość i nie mamy tak naprawdę żadnego pola manewru w sytuacji, gdy
-twórca źródeł nie podpisał swojego dzieła cyfrowo. Jeśli napotkamy podobny problem, to jako, że
+twórca źródeł nie podpisał swojego dzieła cyfrowo. Jeśli napotkamy podobny problem, to jako że
 komunikat dotyczy źródeł pakietu, wrzucamy poniższą linijkę do pliku
 `debian/source/lintian-overrides` :
 
@@ -2236,7 +2236,7 @@ Pobranie klucza i weryfikację podpisu możemy przeprowadzić ręcznie przy pomo
     $ gpg --search-keys 0xFF914AF0C2B35520
     $ gpg --verify wpa_2.2-1.dsc
 
-Zwykle plik zostanie poprawnie zweryfikowany ale jako, że nie mamy określonego zaufania do osoby,
+Zwykle plik zostanie poprawnie zweryfikowany, ale jako że nie mamy określonego zaufania do osoby,
 której klucz publiczny posiadamy, to zostanie nam wyświetlone ostrzeżenie: `WARNING: This key is
 not certified with a trusted signature!`. Samo ostrzeżenie nie wpływa jednak na weryfikację podpisu,
 a ten jest w porządku, zatem możemy przejść dalej.
