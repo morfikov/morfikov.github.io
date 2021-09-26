@@ -6,7 +6,33 @@
     <description>Recent content in debian on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Sat, 04 Sep 2021 12:36:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/debian/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Sep 2021 16:44:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/debian/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)</title>
+      <link>https://morfikov.github.io/post/kopia-zapasowa-danych-smartfona-z-androidem-oandbackupx-syncthing/</link>
+      <pubDate>Sun, 26 Sep 2021 16:44:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/kopia-zapasowa-danych-smartfona-z-androidem-oandbackupx-syncthing/</guid>
+      <description>&lt;p&gt;Jak to zwykło się mawiać w świecie IT: ludzie dzielą się na te osobniki, które robią backup i
+te, co backup robić będą. Jakiś czas temu pochyliłem się nad zagadnieniem &lt;a href=&#34;https://morfikov.github.io/post/czy-smartfon-z-androidem-bez-google-apps-services-ma-sens/&#34;&gt;czy smartfon z
+Androidem bez Google Play Services ma sens&lt;/a&gt;. Poruszyłem tam problem tworzenia kopi zapasowej
+danych użytkownika zgromadzonych w telefonie. W tym podlinkowanym artykule zostało przestawione jak
+przy pomocy TWRP dokonać pełnego backupu całego systemu urządzenia i o ile pod względem technicznym
+takie podejście było jak najbardziej w pełni do zaakceptowania, to jednak to rozwiązanie miało dość
+istotną wadę, tj. na czas backup&#39;u trzeba było wyłączyć smartfon. Parę dni temu natrafiłem
+na &lt;a href=&#34;https://github.com/machiav3lli/oandbackupx&#34;&gt;narzędzia OAndBackupX&lt;/a&gt;, które jest w stanie zrobić kopię zapasową wszystkich zainstalowanych
+w Androidzie aplikacji (oraz ich ustawień), wliczając w to nawet appki systemowe. OAndBackupX jest
+o tyle lepszym rozwiązaniem w stosunku do TWRP, że można przy jego pomocy robić kopię danych
+pojedynczych aplikacji, a nie od razu całego ROM&#39;u, co nie tylko jest czasochłonne ale również
+zjada sporo miejsca na dysku komputera, czy gdzie ten backup zamierzamy przechowywać. Niestety
+OAndBackupX wymaga uprawnień root, zatem na stock&#39;owym ROM&#39;ie producenta naszego telefonu nie damy
+rady z tego narzędzia skorzystać. Jeśli jednak mamy alternatywny ROM na bazie AOSP/LineageOS, to
+przydałoby się rzucić okiem na ten kawałek oprogramowania, bo zdaje się ono być wielce użyteczne,
+zwłaszcza w przypadku osób mojego pokroju, czyli linux&#39;iarzy, którzy o backup swoich danych chcą
+zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pracy choćby &lt;a href=&#34;https://github.com/syncthing/syncthing&#34;&gt;Syncthing&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Kontrola podświetlenia klawiatury via UDEV (backlight)</title>
@@ -439,28 +465,6 @@ potrzeba jego powiększenia? Czy w takiej sytuacji musimy na nowo tworzyć maszy
 odpowiednio zwiększając lub zmniejszając jej przestrzeń na pliki? A może istnieje jakiś sposób na
 zmianę rozmiaru tych istniejących już obrazów maszyn wirtualnych? Postaramy się ten fakt
 zweryfikować, a cały proces zostanie opisany przy wykorzystaniu systemu Debian Linux.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Konfiguracja HugePages pod maszyny wirtualne QEMU/KVM</title>
-      <link>https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/</link>
-      <pubDate>Sun, 09 Aug 2020 11:11:00 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/</guid>
-      <description>&lt;p&gt;W linux rozmiar stron pamięci operacyjnej RAM ma domyślnie 4096 bajtów (4 KiB). Maszyny wirtualne
-QEMU/KVM mają to do siebie, że wykorzystują dość spore zasoby pamięci (wile GiB), przez co mały
-rozmiar strony może niekorzystnie wpływać na wydajność systemów gościa. Chodzi generalnie o to, że
-rozrostowi ulega tablica stron, której przeszukiwanie jest czasochłonną operacją. By temu zaradzić,
-wymyślono TLB (&lt;a href=&#34;https://en.wikipedia.org/wiki/Translation_lookaside_buffer&#34;&gt;Translation Lookaside Buffer&lt;/a&gt;), który ulokowany jest albo w CPU albo gdzieś
-pomiędzy CPU i główną pamięcią operacyjną. TLB to mały ale za to bardzo szybki cache. W przypadku
-systemów z duża ilością pamięci RAM, niewielki rozmiar TLB sprawia, że odpowiedzi na zapytania nie
-są brane z cache, tylko system wraca do przeszukiwania normalnej tablicy stron zlokalizowanej w
-pamięci RAM (TLB miss). Taka sytuacja jest bardzo kosztowna, spowalnia cały system i dlatego trzeba
-jej unikać. Na szczęście jest &lt;a href=&#34;https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt&#34;&gt;mechanizm HugePages&lt;/a&gt;, który pozwala na zwiększenie rozmiaru
-strony pamięci z domyślnych 4 KiB do 2 MiB lub nawet do 1 GiB w zależności od właściwości głównego
-procesora. W tym artykule postaramy się skonfigurować HugePages na potrzeby maszyn wirtualnych dla
-systemu Debian Linux.&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -6,7 +6,33 @@
     <description>Recent content on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Wed, 22 Sep 2021 02:04:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Sep 2021 16:44:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)</title>
+      <link>https://morfikov.github.io/post/kopia-zapasowa-danych-smartfona-z-androidem-oandbackupx-syncthing/</link>
+      <pubDate>Sun, 26 Sep 2021 16:44:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/kopia-zapasowa-danych-smartfona-z-androidem-oandbackupx-syncthing/</guid>
+      <description>&lt;p&gt;Jak to zwykło się mawiać w świecie IT: ludzie dzielą się na te osobniki, które robią backup i
+te, co backup robić będą. Jakiś czas temu pochyliłem się nad zagadnieniem &lt;a href=&#34;https://morfikov.github.io/post/czy-smartfon-z-androidem-bez-google-apps-services-ma-sens/&#34;&gt;czy smartfon z
+Androidem bez Google Play Services ma sens&lt;/a&gt;. Poruszyłem tam problem tworzenia kopi zapasowej
+danych użytkownika zgromadzonych w telefonie. W tym podlinkowanym artykule zostało przestawione jak
+przy pomocy TWRP dokonać pełnego backupu całego systemu urządzenia i o ile pod względem technicznym
+takie podejście było jak najbardziej w pełni do zaakceptowania, to jednak to rozwiązanie miało dość
+istotną wadę, tj. na czas backup&#39;u trzeba było wyłączyć smartfon. Parę dni temu natrafiłem
+na &lt;a href=&#34;https://github.com/machiav3lli/oandbackupx&#34;&gt;narzędzia OAndBackupX&lt;/a&gt;, które jest w stanie zrobić kopię zapasową wszystkich zainstalowanych
+w Androidzie aplikacji (oraz ich ustawień), wliczając w to nawet appki systemowe. OAndBackupX jest
+o tyle lepszym rozwiązaniem w stosunku do TWRP, że można przy jego pomocy robić kopię danych
+pojedynczych aplikacji, a nie od razu całego ROM&#39;u, co nie tylko jest czasochłonne ale również
+zjada sporo miejsca na dysku komputera, czy gdzie ten backup zamierzamy przechowywać. Niestety
+OAndBackupX wymaga uprawnień root, zatem na stock&#39;owym ROM&#39;ie producenta naszego telefonu nie damy
+rady z tego narzędzia skorzystać. Jeśli jednak mamy alternatywny ROM na bazie AOSP/LineageOS, to
+przydałoby się rzucić okiem na ten kawałek oprogramowania, bo zdaje się ono być wielce użyteczne,
+zwłaszcza w przypadku osób mojego pokroju, czyli linux&#39;iarzy, którzy o backup swoich danych chcą
+zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pracy choćby &lt;a href=&#34;https://github.com/syncthing/syncthing&#34;&gt;Syncthing&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Blokowanie dostępu do sensorów (kamera/mikrofon/gps) aplikacjom w Androidzie</title>
@@ -422,34 +448,6 @@ systemowy GPG/GnuPG nie jest w ogóle wykorzystywany. Taki san rzeczy sprawia, �
 różne bazy danych kluczy (jedna dla Thunderbird&#39;a, a druga dla reszty linux&#39;a), co może trochę
 irytować. Na szczęście jest opcja wymuszenia na TB, by korzystał on z systemowego keyring&#39;a kluczy
 GPG/PGP i celem tego artykułu jest pokazanie właśnie jak tego typu zabieg przeprowadzić.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)</title>
-      <link>https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/</link>
-      <pubDate>Wed, 02 Sep 2020 18:36:00 +0200</pubDate>
-      
-      <guid>https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/</guid>
-      <description>&lt;p&gt;Parę dni temu &lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=31514&#34;&gt;na forum dug.net.pl pojawiło się zapytanie&lt;/a&gt; dotyczące skonfigurowania linux&#39;a w
-taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN,
-podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego
-ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć
-też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba
-zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel
-przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma
-przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i
-na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń
-czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów
-konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w
-zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować
-filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko
-odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe
-będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje
-jednak sposób, by nauczyć linux&#39;a aby tylko procesy określonych użytkowników czy grup miały dostęp
-do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze
-standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy &lt;code&gt;iptables&lt;/code&gt; / &lt;code&gt;nftables&lt;/code&gt; ,
-tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.&lt;/p&gt;</description>
     </item>
     
   </channel>

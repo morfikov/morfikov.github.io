@@ -43,7 +43,7 @@ trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu
 na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy
 wykorzystaniu dystrybucji Debiana."><meta itemprop="datePublished" content="2020-03-16T19:15:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-07-30T20:45:00&#43;01:00" />
-<meta itemprop="wordCount" content="9097">
+<meta itemprop="wordCount" content="9098">
 <meta itemprop="keywords" content="debian,efi,uefi,secure-boot,shim,refind,lenovo,thinkpad,t430," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux"/>
@@ -497,7 +497,7 @@ mode of 'db.key' changed from 0600 (rw-------) to 0400 (r--------)
 którymi będziemy chcieli się posłużyć w celu zaktualizowania zawartości zmiennych. Dlatego też
 przydałoby się wygenerować kilka dodatkowych plików, tak na wszelki wypadek, gdyby w naszym
 przypadku to one jednak znalazły zastosowanie.</p>
-<p>Na początek tworzymy wersję formatu <code>.auth</code> (signed signature list) zmiennej <code>PK</code> jako, że
+<p>Na początek tworzymy wersję formatu <code>.auth</code> (signed signature list) zmiennej <code>PK</code> , jako że
 <code>efi-updatevar</code> (jak i sporo graficznych interfejsów firmware EFI/UEFI) akceptuje tylko ten format.
 Pierwsze z poniższych poleceń tworzy listę sygnatur, która wymaga unikalnego ID, choć nie jest on
 dla nas tak istotny. W drugim poleceniu zaś używamy naszego prywatnego klucza <code>PK</code> (platform key),
@@ -773,7 +773,7 @@ Variable MokList has no entries
 <p>Jak widać, wbudowane w firmware EFI/UEFI klucze zostały zastąpione tymi wygenerowanymi przez nas i
 w tej chwili tylko to oprogramowanie, które podpiszemy, może być załadowane w trybie Secure Boot na
 naszym laptopie. W zmiennej <code>dbx</code> są dokładnie takie same wpisy co poprzednio, bo została ona
-odtworzona jako, że jest to w zasadzie jedynie czarna lista hash'y, których raczej nie powinniśmy
+odtworzona, jako że jest to w zasadzie jedynie czarna lista hash'y, których raczej nie powinniśmy
 ignorować.</p>
 <h2 id="testowanie-secure-boot-z-własnymi-kluczami">Testowanie Secure Boot z własnymi kluczami</h2>
 <p>Do wstępnego przetestowania mechanizmu Secure Boot z własnoręcznie wygenerowanymi kluczami
