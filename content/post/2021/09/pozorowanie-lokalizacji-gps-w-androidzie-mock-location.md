@@ -303,7 +303,7 @@ appce:
 |---|---|---|
 |![](/img/2021/09/004.android-mock-fake-location-gps-app-permissions.jpg#small) | ![](/img/2021/09/005.android-mock-fake-location-gps-app-permissions.jpg#small) | ![](/img/2021/09/006.android-mock-fake-location-gps-app-permissions.jpg#small) |
 
-### ACCESS_COARSE_LOCATION oraz ACCESS_FINE_LOCATION
+### ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION oraz ACCESS_BACKGROUND_LOCATION
 
 W starszych Androidach nie było dostępnych niektórych opcji od kontroli dostępu do lokalizacji.
 We wcześniejszych wersjach można było albo zezwolić appce na korzystanie z lokalizacji albo
