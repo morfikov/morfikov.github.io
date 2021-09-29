@@ -10,6 +10,8 @@ status: publish
 tags:
 - debian
 - smartfon
+- xiaomi
+- redmi-9
 - root
 - backup
 - aplikacje
