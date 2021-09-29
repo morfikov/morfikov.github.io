@@ -88,6 +88,34 @@
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/czy-linuxowy-firewall-powinien-blokowac-pakiety-not-syn-w-stanie-new/">Czy linux&#39;owy firewall powinien blokować pakiety not-syn w stanie NEW</a></h1>
+	<div class="entry__content"><p>Od czasu do czasu w logu systemowym mojego Debiana można zanotować szereg pakietów przychodzących,
+które są zrzucane przez linux'owy firewall (<code>nftables</code>/<code>iptables</code> ). Po krótkiej analizie okazało
+się, że są to pakiety protokołu TCP mające stan <code>NEW</code> (czyli są to nowe połączenia) ale
+niezawierające przy tym flagi <code>SYN</code> . Mój laptop nie ma aktualnie przydzielonego zewnętrznego
+routowalnego adresu IPv4/IPv6, więc nasunęło się pytanie o przyczynę takiego stanu
+rzeczy -- przecie będąc za NAT, nikt spoza sieci nie powinien być w stanie nawiązać połączenia z
+moją maszyną, a ewidentnie co się do jej bram dobija i to nie z adresu lokalnego. Niby mam też
+odfiltrowane pakiety w stanie <code>INVALID</code> (np. te mające niepoprawny zestaw flag) ale widać te
+pakiety, o których mowa, nie zaliczają się do tego stanu, więc wygląda na to, że wszystko z nimi
+jest w porządku. Czy tego typu pakiety TCP w stanie <code>NEW</code> niemające ustawionej flagi <code>SYN</code>
+stanowią jakieś zagrożenie dla naszego komputera? Czy powinno się je zablokować, a może przepuścić
+w filtrze pakietów? A jeśli zablokować, to czy zwykły <code>DROP</code> wystarczy czy może powinno się te
+pakiety potraktować przy pomocy <code>REJECT</code> ?</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-03-15T18:02:21Z">Opublikowano: 15/03/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-optymalnie-podzielic-dysk-hdd-ssd-na-partycje-pod-linux/">Jak optymalnie podzielić dysk HDD/SSD na partycje pod linux</a></h1>
 	<div class="entry__content"><p>Ostatnio przeglądając nowe wpisy na forach trafiłem
 na <a href="https://forum.linuxmint.pl/showthread.php?tid=112">pytanie o podział dysku</a> pod instalację
@@ -320,31 +348,6 @@ jak namierzyć proces, który komunikuje się z siecią (lub też próbuje), pos
 <code>iptables</code>/<code>nftables</code> .</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-02-08T20:10:41Z">Opublikowano: 08/02/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-uruchomic-kilka-uslug-w-kontenerze-dockera/">Jak uruchomić kilka usług w kontenerze Docker&#39;a</a></h1>
-	<div class="entry__content"><p>W kontenerach Docker'a nie powinno się uruchamiać więcej usług niż jedna. Czasami jednak zachodzi
-potrzeba, by właśnie uruchomić kilka niezależnych od siebie procesów, które będą ze sobą
-współpracować w obrębie takiego pojedynczego kontenera. Weźmy sobie na przykład serwer WWW Apache2
-i bazę danych MySQL/MariaDB. Każda z tych usług posiada swój dedykowany kontener (nawet oficjalny)
-i generalnie skonfigurowanie komunikacji między tymi dwoma kontenerami Docker'a nie jest niczym
-trudnym. Jeśli jednak ktoś by się uparł, to może stworzyć sobie taki kontener, który będzie
-uruchamiał obie te usługi. Oczywiście w tym przypadku raczej nikt nie będzie łączył tych dwóch
-kontenerów w jeden ale są pewne sytuacje, w których będziemy chcieli uruchomić więcej niż jeden
-proces wewnątrz kontenera i gdy ten czas nadejdzie, to wypadałoby wiedzieć jak się do tego
-przedsięwzięcia zabrać.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-02-02T07:20:43Z">Opublikowano: 02/02/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
