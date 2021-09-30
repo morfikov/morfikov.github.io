@@ -15,6 +15,8 @@ tags:
 - crdroid
 - microg
 - safetynet
+- twrp
+- shrp
 title: Jak wgrać crDroid Android ROM na Xiaomi Redmi 9 (lancelot/galahad)
 ---
 
