@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak zaktualizować firmware custom ROM&#39;ów w smartfonach Xiaomi | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak zaktualizować firmware custom ROM&#39;ów w smartfonach Xiaomi" />
+<meta property="og:description" content="Te bardziej szanujące się marki produkujące smartfony zwykle zapewniają wsparcie dla swoich
+urządzeń przez co najmniej dwa lata (a czasem nawet i dłużej) od momentu ich wypuszczenia na rynek.
+Po wgraniu sobie alternatywnego ROM&#39;u na nasz telefon, oprogramowanie w nim może być aktualizowane
+przez opiekuna czy dewelopera takiego ROM&#39;u znacznie dłużej niż producent przewidział. W ten sposób
+nie musimy wydawać pieniążków na nowy sprzęt, oczywiście zakładając, że mu nic nie dolega, np. pod
+względem wydajności, czy też ewentualnie nie zużył on się nam jakoś bardziej podczas eksploatacji.
+Jedną rzeczą, o której posiadacze smartfonów z Androidem zapominają po wgraniu custom ROM&#39;ów na
+bazie AOSP/LineageOS, to fakt, że o ile ROM faktycznie dostaje aktualizacje czy to bezpieczeństwa,
+czy też upgrade do nowszej wersji Androida, o tyle sam firmware zwykle pozostaje nietknięty. W
+przypadku mojego modelu smartfona Redmi 9, Xiaomi od czasu do czasu wypuszcza aktualizacje firmware
+do tego urządzenia i przydałoby się ten firmware co jakiś czas zaktualizować. Na szczęście nie
+trzeba w tym celu powracać do stock&#39;owego oprogramowania, a cały proces możemy przeprowadzić z
+poziomu dowolnej dystrybucji linux&#39;a." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-09-30T02:43:00&#43;02:00" />
+<meta property="article:modified_time" content="2021-09-30T02:43:00&#43;02:00" />
+
+
+		<meta itemprop="name" content="Jak zaktualizować firmware custom ROM&#39;ów w smartfonach Xiaomi">
+<meta itemprop="description" content="Te bardziej szanujące się marki produkujące smartfony zwykle zapewniają wsparcie dla swoich
+urządzeń przez co najmniej dwa lata (a czasem nawet i dłużej) od momentu ich wypuszczenia na rynek.
+Po wgraniu sobie alternatywnego ROM&#39;u na nasz telefon, oprogramowanie w nim może być aktualizowane
+przez opiekuna czy dewelopera takiego ROM&#39;u znacznie dłużej niż producent przewidział. W ten sposób
+nie musimy wydawać pieniążków na nowy sprzęt, oczywiście zakładając, że mu nic nie dolega, np. pod
+względem wydajności, czy też ewentualnie nie zużył on się nam jakoś bardziej podczas eksploatacji.
+Jedną rzeczą, o której posiadacze smartfonów z Androidem zapominają po wgraniu custom ROM&#39;ów na
+bazie AOSP/LineageOS, to fakt, że o ile ROM faktycznie dostaje aktualizacje czy to bezpieczeństwa,
+czy też upgrade do nowszej wersji Androida, o tyle sam firmware zwykle pozostaje nietknięty. W
+przypadku mojego modelu smartfona Redmi 9, Xiaomi od czasu do czasu wypuszcza aktualizacje firmware
+do tego urządzenia i przydałoby się ten firmware co jakiś czas zaktualizować. Na szczęście nie
+trzeba w tym celu powracać do stock&#39;owego oprogramowania, a cały proces możemy przeprowadzić z
+poziomu dowolnej dystrybucji linux&#39;a."><meta itemprop="datePublished" content="2021-09-30T02:43:00&#43;02:00" />
+<meta itemprop="dateModified" content="2021-09-30T02:43:00&#43;02:00" />
+<meta itemprop="wordCount" content="1211">
+<meta itemprop="keywords" content="debian,smartfon,xiaomi,redmi-9,root,aosp,firmware,twrp,shrp," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak zaktualizować firmware custom ROM&#39;ów w smartfonach Xiaomi"/>
+<meta name="twitter:description" content="Te bardziej szanujące się marki produkujące smartfony zwykle zapewniają wsparcie dla swoich
+urządzeń przez co najmniej dwa lata (a czasem nawet i dłużej) od momentu ich wypuszczenia na rynek.
+Po wgraniu sobie alternatywnego ROM&#39;u na nasz telefon, oprogramowanie w nim może być aktualizowane
+przez opiekuna czy dewelopera takiego ROM&#39;u znacznie dłużej niż producent przewidział. W ten sposób
+nie musimy wydawać pieniążków na nowy sprzęt, oczywiście zakładając, że mu nic nie dolega, np. pod
+względem wydajności, czy też ewentualnie nie zużył on się nam jakoś bardziej podczas eksploatacji.
+Jedną rzeczą, o której posiadacze smartfonów z Androidem zapominają po wgraniu custom ROM&#39;ów na
+bazie AOSP/LineageOS, to fakt, że o ile ROM faktycznie dostaje aktualizacje czy to bezpieczeństwa,
+czy też upgrade do nowszej wersji Androida, o tyle sam firmware zwykle pozostaje nietknięty. W
+przypadku mojego modelu smartfona Redmi 9, Xiaomi od czasu do czasu wypuszcza aktualizacje firmware
+do tego urządzenia i przydałoby się ten firmware co jakiś czas zaktualizować. Na szczęście nie
+trzeba w tym celu powracać do stock&#39;owego oprogramowania, a cały proces możemy przeprowadzić z
+poziomu dowolnej dystrybucji linux&#39;a."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak zaktualizować firmware custom ROM&#39;ów w smartfonach Xiaomi</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2021-09-30T02:43:00&#43;02:00">Opublikowano: 30/09/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>, 
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak zaktualizować firmware custom ROM&#39;ów w smartfonach Xiaomi</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#skąd-pobrać-firmware-do-xiaomi-redmi-9">Skąd pobrać firmware do Xiaomi Redmi 9</a></li>
+    <li><a href="#jak-zrobić-paczkę-z-firmware-do-wgrania-via-twrpshrp">Jak zrobić paczkę z firmware do wgrania via TWRP/SHRP</a></li>
+    <li><a href="#wgrywanie-firmware-via-twrpshrp">Wgrywanie firmware via TWRP/SHRP</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Te bardziej szanujące się marki produkujące smartfony zwykle zapewniają wsparcie dla swoich
+urządzeń przez co najmniej dwa lata (a czasem nawet i dłużej) od momentu ich wypuszczenia na rynek.
+Po wgraniu sobie alternatywnego ROM'u na nasz telefon, oprogramowanie w nim może być aktualizowane
+przez opiekuna czy dewelopera takiego ROM'u znacznie dłużej niż producent przewidział. W ten sposób
+nie musimy wydawać pieniążków na nowy sprzęt, oczywiście zakładając, że mu nic nie dolega, np. pod
+względem wydajności, czy też ewentualnie nie zużył on się nam jakoś bardziej podczas eksploatacji.
+Jedną rzeczą, o której posiadacze smartfonów z Androidem zapominają po wgraniu custom ROM'ów na
+bazie AOSP/LineageOS, to fakt, że o ile ROM faktycznie dostaje aktualizacje czy to bezpieczeństwa,
+czy też upgrade do nowszej wersji Androida, o tyle sam firmware zwykle pozostaje nietknięty. W
+przypadku mojego modelu smartfona Redmi 9, Xiaomi od czasu do czasu wypuszcza aktualizacje firmware
+do tego urządzenia i przydałoby się ten firmware co jakiś czas zaktualizować. Na szczęście nie
+trzeba w tym celu powracać do stock'owego oprogramowania, a cały proces możemy przeprowadzić z
+poziomu dowolnej dystrybucji linux'a.</p>
+<h2 id="skąd-pobrać-firmware-do-xiaomi-redmi-9">Skąd pobrać firmware do Xiaomi Redmi 9</h2>
+<p>Najprostszym sposobem na pozyskanie firmware do smartfona Xiaomi Redmi 9, jest odwiedzenie <a href="https://xiaomifirmwareupdater.com/firmware/lancelot/">strony
+xiaomifirmwareupdater.com</a> i pobranie stosownej paczki <code>.zip</code> , przykładowo
+<code>stable V12.5.1.0.RJCEUXM 11.0 Europe</code> (2021-09-13). Jest to firmware dla Android 11 mającego MIUI
+12.5.1.0. Jeśli szukamy wcześniejszych wersji, np. nasz telefon działa pod Androidem 10, to wtedy
+musimy <a href="https://xiaomifirmwareupdater.com/archive/firmware/lancelot/">zajrzeć do archiwum</a> i wybrać sobie tę wersję, która nas najbardziej interesuje.</p>
+<p>Użytkowników europejskich smartfonów Xiaomi interesują w zasadzie firmware dla regionu <code>Europe</code> ale
+też można korzystać z tych mających w nazwie <code>Global</code> . Nie wiem czy sam firmware się jakoś różni
+między tymi dwoma regionami ale jeśli chodzi o sam ROM, to ten <code>Global</code> ma nieco więcej funkcji,
+które w wariancie europejskim zostały obcięte ze względu na restrykcje pod kątem prywatności, które
+takie oprogramowanie musi w Europie spełnić. Dlatego też w przypadku firmware lepiej jest pozostać
+również przy wariancie europejskim. Sam smartfon zdaje się działać zarówno na jednym jak i drugim
+firmware bez zarzutu.</p>
+<p>Czasami jednak ta powyższa strona może nie być dostępna lub też nie uśmiecha nam się pobierać tak
+kluczowego w kwestii bezpieczeństwa kawałka oprogramowania, jakim jest firmware, z nieoficjalnych
+źródeł. W takim przypadku warto wiedzieć, że paczkę z firmware możemy sobie zrobić sami, a wszystko
+czego nam do szczęścia potrzeba, to oficjalny ROM Xiaomi, który można albo pobrać z <a href="https://c.mi.com/oc/miuidownload/detail?device=1900381">oficjalnej
+strony Xiaomi</a> lub też z <a href="https://xiaomifirmwareupdater.com/miui/lancelot/">xiaomifirmwareupdater.com</a>, w tym drugim przypadku również jest
+<a href="https://xiaomifirmwareupdater.com/archive/miui/lancelot/">archiwum wcześniejszych wersji</a>.</p>
+<h2 id="jak-zrobić-paczkę-z-firmware-do-wgrania-via-twrpshrp">Jak zrobić paczkę z firmware do wgrania via TWRP/SHRP</h2>
+<p>Oficjalne obrazy ROM'ów Xiaomi posiadają wszystkie niezbędne rzeczy, które podczas aktualizacji
+telefonu są wgrywane na odpowiednie partycje, w tym też te partycje, które wchodzą w skład
+firmware. Partycje, które w aktualizacji firmware biorą udział to: <code>spmfw</code> , <code>scp1</code> (oraz <code>scp2</code> ),
+<code>sspm_1</code> (oraz <code>sspm_2</code> ) <code>tee1</code> (oraz <code>tee2</code> ) <code>lk</code> (oraz <code>lk2</code> ) i <code>md1img</code> . Te dodatkowe
+partycje (mające zwykle <code>2</code> w nazwie) są zapasowe ale flash'owane są jednym i tym samym obrazem, tj.
+tym obrazem, który wgrywany jest na te główne ich odpowiedniki.</p>
+<p>Dodatkowo aktualizacja firmware zwykle niesie ze sobą aktualizację preloader'a ( <code>mmcblk0boot0</code> ),
+przynajmniej można tyle wywnioskować po obecności obrazów mających w nazwie <code>preloader*.img</code> w
+paczce z firmware. Zatem potencjalnie można taką aktualizacją zabić telefon na śmierć, choć ta
+operacja jest jakoś szczególnie bardziej niebezpieczna w stosunku do aktualizacji całego fabrycznego
+ROM'u, tylko lepiej nie przerywać tego procesu i nie wyłączać telefonu do momentu aż ten proces
+dobiegnie końca sam z siebie. Podobnie sprawa może wyglądać w przypadku wgrania firmware nie od
+tego urządzenia co potrzeba. Lepiej sprawdzić kilkakrotnie, czy ten firmware, który zamierzamy
+wrzucić na telefon, jest przeznaczony dokładnie na to urządzenie. Dlatego najlepiej jest wydobyć
+firmware z oficjalnego ROM'u zamiast pobierać go z innych źródeł, bo wtedy mamy pewność, że dany
+firmware będzie pasował do naszego telefonu.</p>
+<p>Gdy już pozyskaliśmy obraz z oficjalnym ROM'em do naszego Xiaomi Redmi 9 (lancelot/galahad), to
+musimy jeszcze pozyskać stosowne narzędzia, by odpowiednie pliki z tego obrazu wydobyć i zrobić z
+nich paczkę z firmware do wgrania via TWRP/SHRP recovery. Póki co w Debianie nie ma takich narzędzi
+i trzeba będzie je dociągnąć przy pomocy <code>pip3</code> (instalator dla python'a) -- w Debianie jest
+dostępny w paczce <code>python3-pip</code> . Przy pomocy <code>pip3</code> trzeba dociągnąć
+<code>xiaomi_flashable_firmware_creator_gui</code> :</p>
+<pre><code>$ pip3 install xiaomi_flashable_firmware_creator_gui
+</code></pre>
+<p>Wszystkie potrzebne pliki zostaną wgrane do <code>~/.local/bin/</code> :</p>
+<pre><code>$ ls -al
+total 24
+drwxr-xr-x 2 morfik morfik 4096 2021-09-10 08:58:43 ./
+drwxr-xr-x 5 morfik morfik 4096 2021-09-10 08:58:42 ../
+-rwxr-xr-x 1 morfik morfik 1517 2021-09-10 08:58:42 remotezip*
+-rwxr-xr-x 1 morfik morfik  209 2021-09-10 08:58:42 tabulate*
+-rwxr-xr-x 1 morfik morfik  266 2021-09-10 08:58:42 xiaomi_flashable_firmware_creator*
+-rwxr-xr-x 1 morfik morfik  241 2021-09-10 08:58:43 xiaomi_flashable_firmware_creator_g*
+</code></pre>
+<p>Teraz już wystarczy <code>odpalić xiaomi_flashable_firmware_creator_g</code> i powinniśmy zobaczyć to poniższe
+okienko:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/001.xiaomi-redmi-9-firmware-create.png" alt=""    class="huge"></p>
+<p>Wskazujemy naturalnie plik <code>.zip</code> ze stock'owym ROM'em od Xiaomi, który wcześniej pobraliśmy.
+Zaznaczamy też opcję <code>Firmware</code> i wciskamy <code>Create</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/002.xiaomi-redmi-9-firmware-create.png" alt=""    class="huge"></p>
+<p>Po chwili paczka z firmware powinna zostać utworzona:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/09/003.xiaomi-redmi-9-firmware-create.png" alt=""    class="huge"></p>
+<p>Możemy jeszcze dla pewności podejrzeć jej zawartość, np. przy pomocy <code>patool</code> :</p>
+<pre><code>$ patool list  'fw_lancelot_miui_LANCELOTEEAGlobal_V12.0.1.0.QJCEUXM_77fd23f7f7_10.0.zip'
+patool: Listing fw_lancelot_miui_LANCELOTEEAGlobal_V12.0.1.0.QJCEUXM_77fd23f7f7_10.0.zip ...
+patool: running /usr/bin/7z l -- fw_lancelot_miui_LANCELOTEEAGlobal_V12.0.1.0.QJCEUXM_77fd23f7f7_10.0.zip
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,4 CPUs Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz (306A9),ASM,AES-NI)
+
+Scanning the drive for archives:
+1 file, 40185787 bytes (39 MiB)
+
+Listing archive: fw_lancelot_miui_LANCELOTEEAGlobal_V12.0.1.0.QJCEUXM_77fd23f7f7_10.0.zip
+
+--
+Path = fw_lancelot_miui_LANCELOTEEAGlobal_V12.0.1.0.QJCEUXM_77fd23f7f7_10.0.zip
+Type = zip
+Physical Size = 40185787
+
+   Date      Time    Attr         Size   Compressed  Name
+------------------- ----- ------------ ------------  ------------------------
+2021-09-29 21:08:20 D....            0            0  META-INF
+2021-09-29 21:08:20 .....     59066208     35685406  md1img.img
+2021-09-29 21:08:20 .....            1            3  type.txt
+2021-09-29 21:08:20 .....          859          364  scatter.txt
+2021-09-29 21:08:20 .....       278224       169453  preloader.img
+2021-09-29 21:08:20 .....       504592       482338  sspm.img
+2021-09-29 21:08:20 .....        37984         7454  spmfw.img
+2021-09-29 21:08:20 .....       278224       169453  preloader_emmc.img
+2021-09-29 21:08:18 .....      1646848       527385  lk.img
+2021-09-29 21:08:20 .....      2363616      2011977  tee.img
+2021-09-29 21:08:20 .....       352368       144725  scp.img
+2021-09-29 21:08:18 .....         5655         5440  compatibility.zip
+2021-09-29 21:08:18 D....            0            0  META-INF/com
+2021-09-29 21:08:20 .....         2275         1052  META-INF/MANIFEST.MF
+2021-09-29 21:08:20 .....         2328         1127  META-INF/CERT.SF
+2021-09-29 21:08:20 .....         1634         1143  META-INF/CERT.RSA
+2021-09-29 21:08:20 D....            0            0  META-INF/com/android
+2021-09-29 21:08:18 D....            0            0  META-INF/com/google
+2021-09-29 21:08:18 .....          316          219  META-INF/com/android/metadata
+2021-09-29 21:08:20 .....         1594         1077  META-INF/com/android/otacert
+2021-09-29 21:08:18 D....            0            0  META-INF/com/google/android
+2021-09-29 21:08:18 .....      2143032       973739  META-INF/com/google/android/update-binary
+2021-09-29 21:08:20 .....         3541          866  META-INF/com/google/android/updater-script
+------------------- ----- ------------ ------------  ------------------------
+2021-09-29 21:08:20           66689299     40183221  18 files, 5 folders
+</code></pre>
+<h2 id="wgrywanie-firmware-via-twrpshrp">Wgrywanie firmware via TWRP/SHRP</h2>
+<p>Tak utworzoną paczkę z firmware można już wgrać na naszego Xiaomi Redmi 9 via TWRP lub SHRP
+recovery. Przełączamy zatem smartfon w tryb recovery. Z menu wybieramy <code>Flash</code> i wskazujemy ścieżkę
+do pliku z firmware:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/004.xiaomi-redmi-9-firmware-shrp-update.png" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/005.xiaomi-redmi-9-firmware-shrp-update.png" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/09/006.xiaomi-redmi-9-firmware-shrp-update.png" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>No jak widać, proces tworzenia paczki z firmware nie jest jakoś specjalnie trudny, przynajmniej w
+przypadku modelu smartfona Redmi 9, czy ogólnie urządzeń marki Xiaomi. Wszystko czego nam potrzeba
+to obraz oficjalnego ROM'u, kawałek maszyny z linux'em i prosty programik python'owy. W opisany
+wyżej sposób możemy dokonać aktualizacji firmware praktycznie w dowolnym momencie, o ile oczywiście
+posiadamy odblokowany bootloader. Jak tylko wyjdzie nowszy oficjalny ROM na nasze urządzenie, to
+jest to dla nas znak, że firmware wymaga aktualizacji. Trzeba jednak pamiętać, że custom ROM'y nie
+zawsze są przystosowane do obsługi nowszych firmware, choć zdarza się to rzadko i stosowna
+informacja na stronie takiego ROM'u powinna być zamieszczona. Aktualizując regularnie firmware
+smartfona załatamy też wszystkie wykryte w nim podatności i błędy (przynajmniej w teorii).</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">xiaomi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">redmi-9</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">root</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aosp/">aosp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/firmware/">firmware</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/twrp/">twrp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/shrp/">shrp</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi%2f&amp;text=Jak%20zaktualizowa%c4%87%20firmware%20custom%20ROM%27%c3%b3w%20w%20smartfonach%20Xiaomi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi%2f&amp;title=Jak%20zaktualizowa%c4%87%20firmware%20custom%20ROM%27%c3%b3w%20w%20smartfonach%20Xiaomi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi%2f&amp;title=Jak%20zaktualizowa%c4%87%20firmware%20custom%20ROM%27%c3%b3w%20w%20smartfonach%20Xiaomi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi%2f&title=Jak%20zaktualizowa%c4%87%20firmware%20custom%20ROM%27%c3%b3w%20w%20smartfonach%20Xiaomi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi%2f&amp;title=Jak%20zaktualizowa%c4%87%20firmware%20custom%20ROM%27%c3%b3w%20w%20smartfonach%20Xiaomi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi%2f&description=Jak%20zaktualizowa%c4%87%20firmware%20custom%20ROM%27%c3%b3w%20w%20smartfonach%20Xiaomi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wgrac-crdroid-android-rom-na-xiaomi-redmi-9-lancelot-galahad/">Jak wgrać crDroid Android ROM na Xiaomi Redmi 9 (lancelot/galahad)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kopia-zapasowa-danych-smartfona-z-androidem-oandbackupx-syncthing/">Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wgrac-twrp-recovery-i-magisk-w-xiaomi-redmi-9-galahad-lancelot/">Jak wgrać TWRP recovery i Magisk w Xiaomi Redmi 9 (galahad/lancelot)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czym-jest-tryb-lockdown-w-smartfonie-z-androidem/">Czym jest tryb lockdown w smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/optymalizacja-procesu-ladowania-baterii-via-acc-w-smartfonie-z-androidem/">Optymalizacja procesu ładowania baterii via ACC w smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/">Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/root-w-smartfonach-neffos-od-tp-link-x1-c5-c5-max-y5-y5l/">Root w smartfonach Neffos od TP-LINK (X1, C5, C5 MAX, Y5, Y5L)</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

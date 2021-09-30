@@ -91,6 +91,34 @@
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/czy-linuxowy-firewall-powinien-blokowac-pakiety-not-syn-w-stanie-new/">Czy linux&#39;owy firewall powinien blokować pakiety not-syn w stanie NEW</a></h1>
+	<div class="entry__content"><p>Od czasu do czasu w logu systemowym mojego Debiana można zanotować szereg pakietów przychodzących,
+które są zrzucane przez linux'owy firewall (<code>nftables</code>/<code>iptables</code> ). Po krótkiej analizie okazało
+się, że są to pakiety protokołu TCP mające stan <code>NEW</code> (czyli są to nowe połączenia) ale
+niezawierające przy tym flagi <code>SYN</code> . Mój laptop nie ma aktualnie przydzielonego zewnętrznego
+routowalnego adresu IPv4/IPv6, więc nasunęło się pytanie o przyczynę takiego stanu
+rzeczy -- przecie będąc za NAT, nikt spoza sieci nie powinien być w stanie nawiązać połączenia z
+moją maszyną, a ewidentnie co się do jej bram dobija i to nie z adresu lokalnego. Niby mam też
+odfiltrowane pakiety w stanie <code>INVALID</code> (np. te mające niepoprawny zestaw flag) ale widać te
+pakiety, o których mowa, nie zaliczają się do tego stanu, więc wygląda na to, że wszystko z nimi
+jest w porządku. Czy tego typu pakiety TCP w stanie <code>NEW</code> niemające ustawionej flagi <code>SYN</code>
+stanowią jakieś zagrożenie dla naszego komputera? Czy powinno się je zablokować, a może przepuścić
+w filtrze pakietów? A jeśli zablokować, to czy zwykły <code>DROP</code> wystarczy czy może powinno się te
+pakiety potraktować przy pomocy <code>REJECT</code> ?</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-03-15T18:02:21Z">Opublikowano: 15/03/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/brak-wsparcia-dla-ipset-w-nftables/">Brak wsparcia dla ipset w nftables</a></h1>
 	<div class="entry__content"><p>Użytkownicy Debiana często w roli firewall'a wykorzystują już dość leciwy <code>iptables</code> . W zasadzie,
 to tej implementacji linux'owego filtra pakietów sieciowych nic nie dolega, no może poza szeregiem
@@ -326,29 +354,6 @@ mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza.
 te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-02-02T06:12:18Z">Opublikowano: 02/02/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/uruchamianie-graficznych-aplikacji-w-kontenerach-dockera/">Uruchamianie graficznych aplikacji w kontenerach Docker&#39;a</a></h1>
-	<div class="entry__content"><p><a href="https://morfikov.github.io/post/jak-uruchomic-firefoxa-w-osobnej-przestrzeni-nazw-sieciowych/">Bawiąc się ostatnio na Debianie przestrzeniami nazw sieciowych</a>,
-wpadł mi do głowy pomysł na nieco bardziej zautomatyzowaną formę separacji procesów użytkownika od
-pozostałej części systemu. Co by nie mówić, opisany w podlinkowanym artykule sposób uruchomienia
-Firefox'a niezbyt mi przypadł do gustu. Nowy sposób separacji zakłada za to wykorzystanie
-kontenerów Docker'a, w których to będzie uruchamiany dowolny proces, np. Firefox, a całym
-przedsięwzięciem związanym z procesem konteneryzacji będzie zajmował się już Docker. W ten sposób
-uruchomienie dowolnej aplikacji, w tym też tych graficznych (GUI), będzie sprowadzać się do wydania
-w terminalu tylko jednego polecenia. Zatem do dzieła.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-01-27T11:32:18Z">Opublikowano: 27/01/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
