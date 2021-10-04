@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Po co smartfonom Xiaomi ROM&#39;y fastboot i jak z nich korzystać | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Po co smartfonom Xiaomi ROM&#39;y fastboot i jak z nich korzystać" />
+<meta property="og:description" content="Przeglądając jakiś czas temu oficjalną stronę Xiaomi w poszukiwaniu nowszych wersji oficjalnego
+ROM&#39;u na mój smartfon Redmi 9, zauważyłem, że są tam dostępne instrukcje na temat wgrania
+takiego oprogramowania za pomocą trybu fastboot. Trochę się zdziwiłem, bo przecie ROM&#39;y
+dostarczane są w paczkach .zip , przez co nie są one przeznaczone do wgrywania w tym trybie. Tak
+czy inaczej, zgodnie z informacją, która widnieje na tamtej stronie, te linki do obrazów fastboot
+jeszcze nie zostały wypuszczone, przynajmniej oficjalnie. Nieoficjalnie zaś można je pobrać ze
+strony xiaomifirmwareupdater.com. To, co się rzuca od razu w oczy, to rozmiar takiego pliku,
+bo standardowo pliki z ROM&#39;em MIUI ważą około 2,2 GiB. ROM&#39;y fastboot mają rozmiar około 4,5 GiB.
+Kolejna sprawa, to rozszerzenie samego pliku. W przypadku standardowego ROM&#39;u mamy .zip , a ROM&#39;y
+fastboot mają już rozszerzenie .tar.gz lub .tgz .  Nie mogłem przejść obojętnie obok tej
+zagadki i postanowiłem sprawdzić, co taka paczka w sobie zawiera i do czego ewentualnie ona może
+nam się przydać w kontekście alternatywnego oprogramowania wrzucanego na telefon." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/po-co-smartfonom-xiaomi-rom-fastboot-i-jak-z-nich-korzystac/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-10-05T00:47:00&#43;02:00" />
+<meta property="article:modified_time" content="2021-10-05T00:47:00&#43;02:00" />
+
+
+		<meta itemprop="name" content="Po co smartfonom Xiaomi ROM&#39;y fastboot i jak z nich korzystać">
+<meta itemprop="description" content="Przeglądając jakiś czas temu oficjalną stronę Xiaomi w poszukiwaniu nowszych wersji oficjalnego
+ROM&#39;u na mój smartfon Redmi 9, zauważyłem, że są tam dostępne instrukcje na temat wgrania
+takiego oprogramowania za pomocą trybu fastboot. Trochę się zdziwiłem, bo przecie ROM&#39;y
+dostarczane są w paczkach .zip , przez co nie są one przeznaczone do wgrywania w tym trybie. Tak
+czy inaczej, zgodnie z informacją, która widnieje na tamtej stronie, te linki do obrazów fastboot
+jeszcze nie zostały wypuszczone, przynajmniej oficjalnie. Nieoficjalnie zaś można je pobrać ze
+strony xiaomifirmwareupdater.com. To, co się rzuca od razu w oczy, to rozmiar takiego pliku,
+bo standardowo pliki z ROM&#39;em MIUI ważą około 2,2 GiB. ROM&#39;y fastboot mają rozmiar około 4,5 GiB.
+Kolejna sprawa, to rozszerzenie samego pliku. W przypadku standardowego ROM&#39;u mamy .zip , a ROM&#39;y
+fastboot mają już rozszerzenie .tar.gz lub .tgz .  Nie mogłem przejść obojętnie obok tej
+zagadki i postanowiłem sprawdzić, co taka paczka w sobie zawiera i do czego ewentualnie ona może
+nam się przydać w kontekście alternatywnego oprogramowania wrzucanego na telefon."><meta itemprop="datePublished" content="2021-10-05T00:47:00&#43;02:00" />
+<meta itemprop="dateModified" content="2021-10-05T00:47:00&#43;02:00" />
+<meta itemprop="wordCount" content="3327">
+<meta itemprop="keywords" content="smartfon,xiaomi,redmi-9,fastboot,root,miui," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Po co smartfonom Xiaomi ROM&#39;y fastboot i jak z nich korzystać"/>
+<meta name="twitter:description" content="Przeglądając jakiś czas temu oficjalną stronę Xiaomi w poszukiwaniu nowszych wersji oficjalnego
+ROM&#39;u na mój smartfon Redmi 9, zauważyłem, że są tam dostępne instrukcje na temat wgrania
+takiego oprogramowania za pomocą trybu fastboot. Trochę się zdziwiłem, bo przecie ROM&#39;y
+dostarczane są w paczkach .zip , przez co nie są one przeznaczone do wgrywania w tym trybie. Tak
+czy inaczej, zgodnie z informacją, która widnieje na tamtej stronie, te linki do obrazów fastboot
+jeszcze nie zostały wypuszczone, przynajmniej oficjalnie. Nieoficjalnie zaś można je pobrać ze
+strony xiaomifirmwareupdater.com. To, co się rzuca od razu w oczy, to rozmiar takiego pliku,
+bo standardowo pliki z ROM&#39;em MIUI ważą około 2,2 GiB. ROM&#39;y fastboot mają rozmiar około 4,5 GiB.
+Kolejna sprawa, to rozszerzenie samego pliku. W przypadku standardowego ROM&#39;u mamy .zip , a ROM&#39;y
+fastboot mają już rozszerzenie .tar.gz lub .tgz .  Nie mogłem przejść obojętnie obok tej
+zagadki i postanowiłem sprawdzić, co taka paczka w sobie zawiera i do czego ewentualnie ona może
+nam się przydać w kontekście alternatywnego oprogramowania wrzucanego na telefon."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Po co smartfonom Xiaomi ROM&#39;y fastboot i jak z nich korzystać</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2021-10-05T00:47:00&#43;02:00">Opublikowano: 05/10/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Po co smartfonom Xiaomi ROM&#39;y fastboot i jak z nich korzystać</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#zawartość-romu-fastboot">Zawartość ROM'u fastboot</a></li>
+    <li><a href="#do-czego-może-nam-się-przydać-rom-fastboot">Do czego może nam się przydać ROM fastboot</a>
+      <ol>
+        <li><a href="#zmiana-regionu-z-eea-na-global">Zmiana regionu z EEA na Global</a></li>
+        <li><a href="#downgrade-romu">Downgrade ROM'u</a></li>
+        <li><a href="#możliwość-odtworzenia-stanu-fabrycznego-romu">Możliwość odtworzenia stanu fabrycznego ROM'u</a>
+          <ol>
+            <li><a href="#odtworzenie-partycji-boot-i-recovery">Odtworzenie partycji /boot/ i /recovery/</a></li>
+            <li><a href="#odtworzenie-ustawień-mechanizmu-avb">Odtworzenie ustawień mechanizmu AVB</a></li>
+            <li><a href="#przywrócenie-oryginalnego-oprogramowania">Przywrócenie oryginalnego oprogramowania</a></li>
+            <li><a href="#naprawa-partycji-data-oraz-cache">Naprawa partycji /data/ oraz /cache/</a></li>
+            <li><a href="#aktualizacjadowngrade-firmware">Aktualizacja/downgrade firmware</a></li>
+            <li><a href="#aktualizacjadowngrade-preloadera">Aktualizacja/downgrade preloader'a</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#gdzie-rom-fastboot-nie-znajdzie-zastosowania">Gdzie ROM fastboot nie znajdzie zastosowania</a>
+      <ol>
+        <li><a href="#utrata-imei-mac-wifi-i-bluetooth">Utrata IMEI, MAC WiFi i Bluetooth</a></li>
+        <li><a href="#telefon-się-nie-uruchamia">Telefon się nie uruchamia</a></li>
+      </ol>
+    </li>
+    <li><a href="#jak-wgrać-rom-fastboot-na-smartfon-xiaomi">Jak wgrać ROM fastboot na smartfon Xiaomi</a>
+      <ol>
+        <li><a href="#linux-i-xiaomitool">Linux i XiaoMiTool</a></li>
+        <li><a href="#ręczne-wgrywanie-obrazów-via-fastboot">Ręczne wgrywanie obrazów via fastboot</a></li>
+        <li><a href="#windows-i-miflash">Windows i MiFlash</a></li>
+      </ol>
+    </li>
+    <li><a href="#zablokowany-bootloader-po-wgraniu-romu-fastboot">Zablokowany bootloader po wgraniu ROM'u fastboot</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Przeglądając jakiś czas temu oficjalną stronę Xiaomi w poszukiwaniu nowszych wersji oficjalnego
+ROM'u na mój smartfon Redmi 9, zauważyłem, że są tam dostępne <a href="https://c.mi.com/oc/miuidownload/detail?guide=2">instrukcje na temat wgrania</a>
+takiego oprogramowania za pomocą trybu <code>fastboot</code>. Trochę się zdziwiłem, bo przecie ROM'y
+dostarczane są w paczkach <code>.zip</code> , przez co nie są one przeznaczone do wgrywania w tym trybie. Tak
+czy inaczej, zgodnie z informacją, która widnieje na tamtej stronie, te linki do obrazów fastboot
+jeszcze nie zostały wypuszczone, przynajmniej oficjalnie. Nieoficjalnie zaś można je pobrać ze
+strony <a href="https://xiaomifirmwareupdater.com/miui/lancelot/">xiaomifirmwareupdater.com</a>. To, co się rzuca od razu w oczy, to rozmiar takiego pliku,
+bo standardowo pliki z ROM'em MIUI ważą około 2,2 GiB. ROM'y fastboot mają rozmiar około 4,5 GiB.
+Kolejna sprawa, to rozszerzenie samego pliku. W przypadku standardowego ROM'u mamy <code>.zip</code> , a ROM'y
+fastboot mają już rozszerzenie <code>.tar.gz</code> lub <code>.tgz</code> .  Nie mogłem przejść obojętnie obok tej
+zagadki i postanowiłem sprawdzić, co taka paczka w sobie zawiera i do czego ewentualnie ona może
+nam się przydać w kontekście alternatywnego oprogramowania wrzucanego na telefon.</p>
+<h2 id="zawartość-romu-fastboot">Zawartość ROM'u fastboot</h2>
+<p>Wszystkie alternatywne ROM'y na bazie AOSP/LineageOS zalecają, czy też wręcz wymagają, od nas by
+przed instalacją takiego oprogramowania, w telefonie znajdował się stock'owy ROM w określonej
+wersji, zwykle MIUI v12.0.1.0. Biorąc pod uwagę taki stan rzeczy, postanowiłem zaciągnąć na swój
+komputer właśnie ten najbardziej pożądany ROM, tj. plik
+<a href="https://xiaomifirmwareupdater.com/miui/lancelot/stable/V12.0.1.0.QJCEUXM/">lancelot_eea_global_images_V12.0.1.0.QJCEUXM_20210119.0000.00_10.0_eea_a197df7d17.tgz</a>. Po
+wypakowaniu tej paczki, jej zawartość prezentuje następująco:</p>
+<pre><code>$ tree -pugsh lancelot_eea_global_images_V12.0.1.0.QJCEUXM_20210119.0000.00_10.0_eea
+lancelot_eea_global_images_V12.0.1.0.QJCEUXM_20210119.0000.00_10.0_eea
+├── [drwxr-xr-x morfik   morfik   4.0K]  AP
+│   ├── [-rw-r--r-- morfik   morfik   191K]  APDB_MT6768_S01__W2006
+│   └── [-rw-r--r-- morfik   morfik    20K]  APDB_MT6768_S01__W2006_ENUM
+├── [drwxr-xr-x morfik   morfik   4.0K]  BP
+│   ├── [-rw-r--r-- morfik   morfik   3.5M]  DbgInfo_LR12A.R3.MP_HUAQIN_Q0MP1_MT6769_SP_MOLY_LR12A_R3_MP_V98_P75_2020_12_18_14_28_1_ulwctg_n
+│   ├── [-rw-r--r-- morfik   morfik   211K]  MDDB.META.ODB_MT6768_S00_MOLY_LR12A_R3_MP_V98_P75_1_ulwctg_n.XML.GZ
+│   ├── [-rw-r--r-- morfik   morfik   310K]  MDDB.META_MT6768_S00_MOLY_LR12A_R3_MP_V98_P75_1_ulwctg_n.EDB
+│   └── [-rw-r--r-- morfik   morfik    16M]  MDDB_InfoCustomAppSrcP_MT6768_S00_MOLY_LR12A_R3_MP_V98_P75_1_ulwctg_n.EDB
+├── [drwxr-xr-x morfik   morfik   4.0K]  BP_IN
+├── [-rwxr-xr-x morfik   morfik    40K]  CheckSum_Gen
+├── [drwxr-xr-x morfik   morfik   4.0K]  Log
+│   └── [-rw-r--r-- morfik   morfik    204]  ADPT_20210119-212711_0.log
+├── [-rwxr-xr-x morfik   morfik     99]  check_sum.sh
+├── [-rwxr-xr-x morfik   morfik   2.7K]  flash_all.bat
+├── [-rwxr-xr-x morfik   morfik   3.3K]  flash_all.sh
+├── [-rwxr-xr-x morfik   morfik   2.6K]  flash_all_except_data_storage.bat
+├── [-rwxr-xr-x morfik   morfik   3.2K]  flash_all_except_data_storage.sh
+├── [-rwxr-xr-x morfik   morfik   3.1K]  flash_all_lock.bat
+├── [-rwxr-xr-x morfik   morfik   3.6K]  flash_all_lock.sh
+├── [-rwxr-xr-x morfik   morfik   5.3K]  flash_gen_crc_list.py
+├── [-rwxr-xr-x morfik   morfik   1.3K]  flash_gen_md5_list.py
+├── [-rwxr-xr-x morfik   morfik   842K]  flash_gen_resparsecount
+├── [-rwxr-xr-x morfik   morfik    989]  hat_extract.py
+├── [-rwxr-xr-x morfik   morfik    591]  hat_flash.sh
+├── [drwxr-xr-x morfik   morfik   4.0K]  images
+│   ├── [-rw-r--r-- morfik   morfik    422]  Checksum.ini
+│   ├── [-rw-r--r-- morfik   morfik    20K]  MT6768_Android_scatter.txt
+│   ├── [-rw-r--r-- morfik   morfik    64M]  boot.img
+│   ├── [-rw-r--r-- morfik   morfik   176K]  cache.img
+│   ├── [-rw-r--r-- morfik   morfik    245]  crclist.txt
+│   ├── [-rw-r--r-- morfik   morfik   652M]  cust.img
+│   ├── [-rw-r--r-- morfik   morfik    16M]  dtbo.img
+│   ├── [-rw-r--r-- morfik   morfik    512]  efuse.img
+│   ├── [-rw-r--r-- morfik   morfik   200M]  exaid.img
+│   ├── [-rw-r--r-- morfik   morfik    16K]  gsort.img
+│   ├── [-rw-r--r-- morfik   morfik   1.6M]  lk.img
+│   ├── [-rw-r--r-- morfik   morfik   1.5M]  logo.bin
+│   ├── [-rw-r--r-- morfik   morfik    56M]  md1img.img
+│   ├── [-rw-r--r-- morfik   morfik    16K]  oem_misc1.img
+│   ├── [-rw-r--r-- morfik   morfik   270K]  preloader_lancelot.bin
+│   ├── [-rw-r--r-- morfik   morfik    64M]  recovery.img
+│   ├── [-rw-r--r-- morfik   morfik   344K]  scp.img
+│   ├── [-rw-r--r-- morfik   morfik     56]  sparsecrclist.txt
+│   ├── [-rw-r--r-- morfik   morfik    37K]  spmfw.img
+│   ├── [-rw-r--r-- morfik   morfik   493K]  sspm.img
+│   ├── [-rw-r--r-- morfik   morfik   4.1G]  super.img
+│   ├── [-rw-r--r-- morfik   morfik   2.3M]  tee.img
+│   ├── [-rw-r--r-- morfik   morfik   1.2G]  userdata.img
+│   ├── [-rw-r--r-- morfik   morfik   4.0K]  vbmeta.img
+│   ├── [-rw-r--r-- morfik   morfik   4.0K]  vbmeta_system.img
+│   └── [-rw-r--r-- morfik   morfik   4.0K]  vbmeta_vendor.img
+├── [-rw-r--r-- morfik   morfik   1.6M]  libflashtool.so
+├── [-rw-r--r-- morfik   morfik   7.0M]  libflashtool.v1.so
+├── [-rw-r--r-- morfik   morfik   6.6M]  libflashtoolEx.so
+├── [-rw-r--r-- morfik   morfik   2.2K]  md5sum.xml
+└── [-rw-r--r-- morfik   morfik     81]  misc.txt
+</code></pre>
+<p>Zatem mamy tutaj parę skryptów, no i też jest szereg obrazów <code>.img</code> , a konkretnie jest ich aż 22,
+jeśli dobrze policzyłem. Jest tam też plik o bardzo dźwięcznej nazwie, tj. <code>flash_all.sh</code> . Jako,
+że jest to skrypt shell'owy, to podejrzałem go sobie, by zobaczyć co takiego on skrywa, choć po
+jego nazwie nietrudno zgadnąć. Sam skrypt nie jest jako rozbudowany, więc cała jego treść jest
+poniżej:</p>
+<pre><code>fastboot $* getvar product 2&gt;&amp;1 | grep -E &quot;^product: *lancelot$&quot;
+if [ $? -ne 0 ] ; then echo &quot;error : Missmatching image and device&quot;; exit 1; fi
+
+CURRENT_ANTI_VER=2
+version=`fastboot getvar rollback_ver 2&gt;&amp;1 | grep &quot;rollback_ver:&quot; | awk -F &quot;: &quot; '{print $2}'`
+if [  &quot;${version}&quot;x == &quot;&quot;x ] ; then version=0 ; fi
+if [ ${version} -gt ${CURRENT_ANTI_VER} ] ; then  echo &quot;error : current device antirollback #version is greater than this package&quot; ; exit 1 ; fi
+
+#fastboot $* erase boot
+#if [ $? -ne 0 ] ; then echo &quot;Erase boot error&quot;; exit 1; fi
+fastboot $* flash preloader `dirname $0`/images/preloader_lancelot.bin
+if [ $? -ne 0 ] ; then echo &quot;Flash preloader error&quot;; exit 1; fi
+#fastboot $* flash efuse `dirname $0`/images/efuse.img
+#if [ $? -ne 0 ] ; then echo &quot;Flash efuse error&quot;; exit 1; fi
+fastboot $* flash logo `dirname $0`/images/logo.bin
+if [ $? -ne 0 ] ; then echo &quot;Flash logo error&quot;; exit 1; fi
+fastboot $* flash tee1 `dirname $0`/images/tee.img
+if [ $? -ne 0 ] ; then echo &quot;Flash tee1 error&quot;; exit 1; fi
+fastboot $* flash tee2 `dirname $0`/images/tee.img
+if [ $? -ne 0 ] ; then echo &quot;Flash tee2 error&quot;; exit 1; fi
+fastboot $* flash scp1 `dirname $0`/images/scp.img
+if [ $? -ne 0 ] ; then echo &quot;Flash scp1 error&quot;; exit 1; fi
+fastboot $* flash scp2 `dirname $0`/images/scp.img
+if [ $? -ne 0 ] ; then echo &quot;Flash scp2 error&quot;; exit 1; fi
+fastboot $* flash sspm_1 `dirname $0`/images/sspm.img
+if [ $? -ne 0 ] ; then echo &quot;Flash sspm_1 error&quot;; exit 1; fi
+fastboot $* flash sspm_2 `dirname $0`/images/sspm.img
+if [ $? -ne 0 ] ; then echo &quot;Flash sspm_2 error&quot;; exit 1; fi
+fastboot $* flash lk `dirname $0`/images/lk.img
+if [ $? -ne 0 ] ; then echo &quot;Flash lk error&quot;; exit 1; fi
+fastboot $* flash lk2 `dirname $0`/images/lk.img
+if [ $? -ne 0 ] ; then echo &quot;Flash lk2 error&quot;; exit 1; fi
+fastboot $* flash super `dirname $0`/images/super.img
+if [ $? -ne 0 ] ; then echo &quot;Flash super error&quot;; exit 1; fi
+fastboot $* flash cache `dirname $0`/images/cache.img
+if [ $? -ne 0 ] ; then echo &quot;Flash cache error&quot;; exit 1; fi
+fastboot $* flash recovery `dirname $0`/images/recovery.img
+if [ $? -ne 0 ] ; then echo &quot;Flash recovery error&quot;; exit 1; fi
+fastboot $* flash boot `dirname $0`/images/boot.img
+if [ $? -ne 0 ] ; then echo &quot;Flash boot error&quot;; exit 1; fi
+fastboot $* flash dtbo `dirname $0`/images/dtbo.img
+if [ $? -ne 0 ] ; then echo &quot;Flash dtbo error&quot;; exit 1; fi
+fastboot $* flash vbmeta `dirname $0`/images/vbmeta.img
+if [ $? -ne 0 ] ; then echo &quot;Flash vbmeta error&quot;; exit 1; fi
+fastboot $* flash spmfw `dirname $0`/images/spmfw.img
+if [ $? -ne 0 ] ; then echo &quot;Flash spmfw error&quot;; exit 1; fi
+fastboot $* flash md1img `dirname $0`/images/md1img.img
+if [ $? -ne 0 ] ; then echo &quot;Flash md1img error&quot;; exit 1; fi
+fastboot $* flash vbmeta_system `dirname $0`/images/vbmeta_system.img
+if [ $? -ne 0 ] ; then echo &quot;Flash vbmeta_system error&quot;; exit 1; fi
+fastboot $* flash vbmeta_vendor `dirname $0`/images/vbmeta_vendor.img
+if [ $? -ne 0 ] ; then echo &quot;Flash vbmeta_vendor error&quot;; exit 1; fi
+fastboot $* flash cust `dirname $0`/images/cust.img
+if [ $? -ne 0 ] ; then echo &quot;Flash cust error&quot;; exit 1; fi
+fastboot $* flash exaid `dirname $0`/images/exaid.img
+if [ $? -ne 0 ] ; then echo &quot;Flash exaid error&quot;; exit 1; fi
+fastboot $* flash userdata `dirname $0`/images/userdata.img
+if [ $? -ne 0 ] ; then echo &quot;Flash userdata error&quot;; exit 1; fi
+fastboot $* reboot
+if [ $? -ne 0 ] ; then echo &quot;Reboot error&quot;; exit 1; fi
+</code></pre>
+<p>Jak możemy zauważyć, mamy tutaj szereg wywołań narzędzia <code>fastboot</code> , które wrzuca stosowne obrazy
+zawarte w pobranej przez nas paczce na odpowiadające im partycje w telefonie. Zatem już wiemy skąd
+w tym ROM'ie wzięła się nazwa fastboot.</p>
+<h2 id="do-czego-może-nam-się-przydać-rom-fastboot">Do czego może nam się przydać ROM fastboot</h2>
+<p>Po zawartości paczki możemy stwierdzić, że są tam w zasadzie gołe obrazy, które wgrywane są na
+smartfon przy pomocy narzędzia <code>fastboot</code> . By móc jednak skorzystać z ROM'u fastboot, potrzebny
+nam będzie <a href="https://morfikov.github.io/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/">odblokowany bootloader (tutaj artykuł na przykładzie Redmi 9)</a>. Zakładając, że
+blokada z bootloader'a została już zdjęta, to nasuwa się jedno pytanie. Co przy pomocy takiego
+ROM'u fastboot jesteśmy w stanie zrobić z naszym telefon od Xiaomi?</p>
+<h3 id="zmiana-regionu-z-eea-na-global">Zmiana regionu z EEA na Global</h3>
+<p>Przy pomocy ROM'u fastboot jesteśmy w stanie wgrać oficjalny ROM Xiaomi, który nie jest
+przeznaczony na nasze urządzenie, tj. chodzi o region, w którym taki telefon został dopuszczony do
+użytku. Na terenie Europy smartfony mają wgrany ROM z regionem <code>EEA</code>, który z racji pewnych
+europejskich standardów w kwestii prywatności, jest pozbawiony części funkcjonalności. Jeśli
+prywatność dla nas nie ma znaczenia lub też bardziej cenimy sobie funkcjonalność urządzenia, to
+moglibyśmy wgrać sobie ROM z regionem <code>Global</code> .</p>
+<h3 id="downgrade-romu">Downgrade ROM'u</h3>
+<p>Zakładając, że Xiaomi wypuścił nowszą wersję ROM'u na nasz smartfon, oraz że ta aktualizacja
+zawiera nowszego Androida, który nie działa za dobrze na tym urządzeniu, np. z powodu zbyt słabej
+wydajności, to przy pomocy ROM'u fastboot będziemy w stanie zrobić downgrade do starszej wersji,
+tj. tej, która u nas zdawała się działać lepiej.</p>
+<h3 id="możliwość-odtworzenia-stanu-fabrycznego-romu">Możliwość odtworzenia stanu fabrycznego ROM'u</h3>
+<p>ROM fastboot powstał w zasadzie, by dać nam możliwość przywrócenia fabrycznego oprogramowania w
+naszym smartfonach Xiaomi, w sytuacji gdy coś pochrzanimy, np. bawiąc się alternatywnym softem. Być
+może są również i inne zastosowania dla tego ROM'u ale nas, tj. osoby korzystające z custom ROM'ów,
+bardziej interesuje aspekt popsucia urządzenia wskutek wgrania trefnych obrazów, czy też
+poczynienia zbyt śmiałych zmian w konfiguracji samego telefonu.</p>
+<h4 id="odtworzenie-partycji-boot-i-recovery">Odtworzenie partycji /boot/ i /recovery/</h4>
+<p>W pobranej przez nas paczce <code>.tgz</code> znajdują się partycje <code>/boot/</code> oraz <code>/recovery/</code> . Jeśli
+korzystamy z TWRP albo SHRP, to one przepisują zawartość partycji <code>/recovery/</code> . System telefonu
+zwykle jest w stanie tę partycję odtworzyć sobie sam jeśli wykryje w niej zmiany ale tylko, gdy
+partycja <code>/boot/</code> pozostaje nietknięta. Zwykle jednak po wgraniu TWRP/SHRP, wrzucany jest na
+telefon także Magisk (w celu uzyskania praw root), który modyfikuje partycję <code>/boot/</code> na swoje
+potrzeby. Może się zatem zdarzyć tak, że któraś z tych partycji nam się uszkodzi i jeśli nie mamy
+zrobionego <a href="https://morfikov.github.io/post/jak-wgrac-twrp-recovery-i-magisk-w-xiaomi-redmi-9-galahad-lancelot/#utworzenie-kopi-zapasowej-flasha-telefonu">backup'u flash'a telefonu</a>, to przy pomocy ROM'u fastboot będziemy w stanie te dwie
+partycje przywrócić do stanu fabrycznego i potencjalnie przywrócić nasz smartfon do życia.</p>
+<h4 id="odtworzenie-ustawień-mechanizmu-avb">Odtworzenie ustawień mechanizmu AVB</h4>
+<p>Następna rzecz to mechanizm AVB (Android Verified Boot), przy którym zwykle coś majstrujemy, by móc
+wgrać na smartfon TWRP/SHRP recovery lub też alternatywne ROM'y. Chodzi generalnie o zmiany
+dokonywane w obrazach <code>vbmeta</code> , <code>vbmeta_system</code> oraz <code>vbmeta_vendor</code> . Może się zatem zdarzyć tak,
+że nie będziemy w stanie tego mechanizmu włączyć ponownie, np. gdyby nam się już znudziło bawienie
+otwartym oprogramowaniem, lub też gdy zwyczajnie chcielibyśmy to urządzenie komuś odsprzedać.</p>
+<h4 id="przywrócenie-oryginalnego-oprogramowania">Przywrócenie oryginalnego oprogramowania</h4>
+<p>Tej paczce z ROM'em fastboot mamy też naturalnie obraz całej partycji <code>/super/</code> , w której skład
+wchodzi partycja <code>/system/</code> , <code>/product/</code> oraz <code>/vendor/</code> . Mamy zatem tutaj stock'owe
+oprogramowanie, na wypadek, gdybyśmy chcieli w późniejszym czasie do niego powrócić. Naturalnie nie
+tylko partycja <code>/super/</code> jest potrzebna do odtworzenia fabrycznego oprogramowania ale to tutaj
+znajduje się Android, z którego tak energicznie korzystamy na co dzień.</p>
+<h4 id="naprawa-partycji-data-oraz-cache">Naprawa partycji /data/ oraz /cache/</h4>
+<p>W paczce z ROM'em fastboot mogliśmy też ujrzeć obrazy partycji <code>/data/</code> oraz <code>/cache/</code> . Nie do
+końca nie wiem po co one zostały tam umieszczone. Intuicja mi jednak podpowiada, że może chodzić o
+sytuacje, w których użytkownik coś namiesza podczas zabawy z alternatywnym ROM'em, przez co system
+może mieć jakieś problemy z umieszczeniem danych na tych dwóch partycjach. Być może te obrazy są
+przeznaczone do fabrycznego odtworzenia ich zawartości (systemu plików, szyfrowania, etc.) i tym
+samym usunięcia wszelkich zaistniałych problemów powstałych z winy użytkownika.</p>
+<p>Raz zdarzyło mi się tak namieszać w partycji <code>/data/</code> , że by znów telefon zaczął działać poprawnie,
+to trzeba było skorzystać właśnie z tego ROM'u fastboot. Pewnie szło wszystkie zmiany cofnąć
+ręcznie, choć czasami jest to trudne, zwłaszcza w przypadku, gdy do końca się nie wie co się
+popsuło i w jaki sposób.</p>
+<h4 id="aktualizacjadowngrade-firmware">Aktualizacja/downgrade firmware</h4>
+<p>Po rzuceniu okiem na partycje, które są przepisywane podczas flash'owania telefonu tym ROM'em
+fastboot, widać, że <a href="https://morfikov.github.io/post/jak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi/">aktualizacji podlega między innymi cały firmware urządzenia</a>, tj. pozycje
+<code>/spmfw/</code> , <code>/scp1/</code> , <code>/scp2/</code> , <code>/sspm_1/</code> , <code>/sspm_2/</code> , <code>/tee1/</code> , <code>/tee2/</code> , <code>/lk/</code> , <code>/lk2/</code>
+oraz <code>/md1img/</code> . Zatem już mamy kolejny sposób zastosowania tego ROM'u, tj. jeśli z jakiegoś
+powodu potrzebujemy powrócić do określonej wersji firmware, to jak najbardziej wgranie tej paczki
+na smartfon nam to umożliwi. Podobnie też i w drugą stronę, tj. gdy firmware chcielibyśmy
+zaktualizować.</p>
+<p>Naturalnie, gdy chodzi o proces wgrywania firmware, to można go przeprowadzić niezależnie od
+wgrywania reszty ROM'u (szczegóły w podlinkowanym wyżej artykule). Niemniej jednak, warto wiedzieć,
+że po wgraniu ROM'u fastboot, firmware również zostanie zmieniony.</p>
+<h4 id="aktualizacjadowngrade-preloadera">Aktualizacja/downgrade preloader'a</h4>
+<p>Podobnie jak w przypadku firmware, preloader również może zostać zaktualizowany i podobnie możemy
+przy pomocy ROM'u fastboot zmienić jego wersję na tę, która była obecna we wcześniejszych
+oficjalnych ROM'ach od Xiaomi.</p>
+<h2 id="gdzie-rom-fastboot-nie-znajdzie-zastosowania">Gdzie ROM fastboot nie znajdzie zastosowania</h2>
+<p>Praktycznie każda z tych 22 partycji może zostać odtworzona do stanu fabrycznego po skorzystaniu z
+tego ROM'u fastboot. Trzeba jednak pamiętać, że Android na swoim flash'u ma tych partycji koło 50,
+zatem ta paczka nie będzie nam w stanie zawsze pomóc ale w sporej większości przypadków na pewno
+znajdzie zastosowanie.</p>
+<h3 id="utrata-imei-mac-wifi-i-bluetooth">Utrata IMEI, MAC WiFi i Bluetooth</h3>
+<p>Jednym z takich kluczowych problemów, na które użytkownik smartfona może trafić podczas zabawy z
+alternatywnymi ROM'ami, to uszkodzenie krytycznych z punktu widzenia funkcjonalności numerów
+urządzenia, takich jak np. IMEI, adresy MAC kart WiFi/Bluetooth czy też dane kalibracyjne do modemu
+GSM. Te dane są specyficzne dla danego urządzenia i z reguły <a href="https://forum.xda-developers.com/t/guide-how-to-restore-imei-baseband-mac-fix-nvram-warning-and-fix-nvdata-corrupted-on-merlin-redmi-note-9-redmi-10x-4g.4230423/">przechowywane na poniższych
+partycjach</a>:</p>
+<ul>
+<li><code>/nvcfg/</code>     -- przechowuje zmienną konfigurację dla <code>/nvdata/</code> i <code>/nvram/</code></li>
+<li><code>/nvdata/</code>    -- przechowuje zmienne informacje identyfikacyjne danego urządzenia, m.in. IMEI,
+WiFi MAC, Bluetooth MAC, dane kalibracyjne.</li>
+<li><code>/nvram/</code>     -- przechowuje niezmienne informacje identyfikacyjne danego urządzenia, m.in. IMEI,
+WiFi MAC, Bluetooth MAC, dane kalibracyjne.</li>
+<li><code>/persist/</code>   -- przechowuje niezmienne dane użyteczne dla mechanizmu FRP (Factory Reset
+Protection), takie jak dane do konta Google czy MIaccount/MIcloud.</li>
+<li><code>/protect_f/</code> -- przechowuje zmienne dane od ustawień SIM/RADIO/MODEM/BASEBAND.</li>
+<li><code>/protect_s/</code> -- przechowuje zmienne dane od ustawień SIM/RADIO/MODEM/BASEBAND.</li>
+</ul>
+<p>Jako, że żadna z tych partycji nie znajduje się w ROM'ie fastboot, to ich uszkodzenie, wyzerowanie
+czy nadpisanie w inny sposób może uczynić nasz telefon złomem elektronicznym, przynajmniej jeśli
+chodzi o dzwonienie i korzystanie z internetu. Dlatego też ROM fastboot nie będzie nam w stanie
+pomóc w przypadku utraty IMEI czy adresów MAC. Zawsze możemy zrobić sobie <a href="https://morfikov.github.io/post/jak-wgrac-twrp-recovery-i-magisk-w-xiaomi-redmi-9-galahad-lancelot/#utworzenie-kopi-zapasowej-flasha-telefonu">backup IMEI czy
+adresów MAC WiFi i Bluetooth we własnym zakresie</a>, tak by w razie czego być w stanie przywrócić
+te numerki.</p>
+<h3 id="telefon-się-nie-uruchamia">Telefon się nie uruchamia</h3>
+<p>ROM fastboot, jak nazwa sugeruje, wymaga, by w naszym telefonie działał tryb fastboot. Jeśli nasz
+smartfon się nie uruchamia, to siłą rzeczy nie zostanie w nim odpalona stosowna usługa, która
+byłaby w stanie zaakceptować i wgrać na partycje stosowne obrazy. Dlatego też w tym przypadku z
+tego ROM'u nie będzie za wiele pożytku.</p>
+<h2 id="jak-wgrać-rom-fastboot-na-smartfon-xiaomi">Jak wgrać ROM fastboot na smartfon Xiaomi</h2>
+<p>ROM fastboot na smartfony Xiaomi możemy wgrać zarówno z poziomu windows'a, jak i linux'a. Trzeba
+tylko posiadać odpowiednią paczkę z ROM'em oraz naturalnie stosowne oprogramowanie zainstalowane w
+systemie operacyjnym, z którego korzystamy na co dzień.</p>
+<h3 id="linux-i-xiaomitool">Linux i XiaoMiTool</h3>
+<p>Technicznie rzecz biorąc, to można bez większego problemu taki ROM fastboot wgrać na smartfon z
+poziomu dowolnej dystrybucji linux'a przy pomocy <a href="https://www.xiaomitool.com/V2/">narzędzia XiaoMiTool</a>. Wystarczy odpalić
+XiaoMiTool i wybrać opcję po prawej stronie na poniższej fotce:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/10/001.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png" alt=""    class="huge"></p>
+<p>Podczas uruchamiania się urządzenia przełączamy nasz smartfon w tryb fastboot przy pomocy
+przycisków Power + VolumeDown. Po podłączeniu telefonu do portu USB komputera, XiaoMiTool powinien
+wykryć nasz sprzęt:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/10/002.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png" alt=""    class="huge"></p>
+<p>Wskazujemy XiaoMiTool jakie to jest dokładnie urządzenie, w tym przypadku jest to Redmi 9
+(lancelot/galahad):</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/10/003.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png" alt=""    class="huge"></p>
+<p>Po chwili rozpocznie się pobieranie odpowiedniego ROM'u fastboot:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/10/004.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png" alt=""    class="huge"></p>
+<p>Problem z XiaoMiTool jest jednak taki, że nie możemy określić jaką wersję ROM'u dokładnie chcemy
+wgrać i w zasadzie wgrywana jest ta najnowsza dostępna. Być może XiaoMiTool pobiera ROM w oparciu o
+Androida, którego mamy wgranego aktualnie na smartfon. Przykładowo, jeśli mamy Androida 10, to
+pobierany jest najnowszy dostępny ROM z Androidem 10, a jeśli 11, to z Andkiem 11. Tak czy inaczej,
+nie idzie pobrać w ten sposób konkretnej wersji ROM'u Xiaomi, a to nie dobrze. Nie ma też opcji, by
+wskazać uprzednio pobraną paczkę <code>.tgz</code> .</p>
+<p>Drugi problem z XiaoMiTool jest natury technicznej, bo coś to pobieranie ROM'u via XiaoMiTool nie
+działa najlepiej. Mniej więcej w połowie pojawia się błąd pobrania i cały proces trzeba rozpocząć
+od nowa. Pół biedy, gdyby ponowne pobieranie rozpoczynało się od tego momentu, w którym się urwało
+to poprzednie ale pobieranie rozpoczyna się zupełnie od początku i przerywane jest znów w połowie.</p>
+<p>Nie byłem w stanie dokończyć tego procesu z poziomu linux'a, a biorąc pod uwagę fakt braku
+możliwości określenia jaki ROM dokładnie chciałbym wgrać, to pozostaje opcja z windows'em lub
+ręczne wgrywanie obrazów via <code>fastboot</code> .</p>
+<h3 id="ręczne-wgrywanie-obrazów-via-fastboot">Ręczne wgrywanie obrazów via fastboot</h3>
+<p>Chyba nic nie stoi na przeszkodzie, by ręcznie wgrać te wszystkie obrazy z paczki <code>.tgz</code>
+wykorzystując narzędzie <code>fastboot</code> z dowolnego systemu operacyjnego, w tym z linux'a. Praktycznie
+wszystko co trzeba zrobić, to postępować według skryptu, który jest załączony w ROM'ie, pilnując
+tylko, by w poleceniu <code>fastboot</code> wskazać odpowiedni obraz i partycję, a efekt powinien być
+dokładnie taki sam, co przy korzystaniu z XiaoMiTool.</p>
+<h3 id="windows-i-miflash">Windows i MiFlash</h3>
+<p>Oczywiście na moim laptopie nie ma windows'a i muszę posiłkować się <a href="https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/">maszyną wirtualną
+QEMU/KVM</a>. Dobre wieści są jednak takie, że bez problemu można przy pomocy takiej maszyny
+wirtualnej przeprowadzić cały proces wgrywania ROM'u fastboot na smartfon, tylko trzeba naturalnie
+odpowiednio sobie wcześniej taką maszynę przygotować. Cały proces tworzenia maszyny wirtualnej
+został opisany przy okazji <a href="https://morfikov.github.io/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/">odblokowania bootloader'a w moim Xiaomi Redmi 9</a> i tutaj nie będę
+opisywał go ponownie. Jeśli mamy problemy z przygotowaniem odpowiedniej maszyny wirtualnej, to
+zapraszam pod ten podlinkowany wyżej artykuł.</p>
+<p>Tutaj skupimy się jedynie na samym wgraniu takiego ROM'u na telefon. Zatem przełączamy nasze
+urządzenie w tryb fastboot (Power + VolumeDown), podłączamy je do portu USB komputera i uruchamiamy
+maszynę wirtualną. W systemie powinno pojawić się nowe urządzenie. W przypadku windows10 nie trzeba
+nic dodatkowo instalować w systemie. Pobieramy <a href="https://www.xiaomiflash.com/">MiFlash</a> i uruchamiamy go. Potrzebne nam
+naturalnie będą wypakowane pliki z paczki z ROM'em fastboot (możemy je wgrać na maszynę wirtualną
+via SMB). Po uruchomieniu MiFlash trzeba wskazać katalog, w którym te pliki się znajdują, po czym
+kliknąć przycisk <code>flash</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/10/005.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-windows-kvm-qemu.png" alt=""    class="huge"></p>
+<p>Cały proces flash'owania zajmie dłuższą chwilę. W tym przypadku trwało to prawie 20 minut. Gdy
+proces dobiegnie końca, uruchamiamy telefon ponownie.</p>
+<h2 id="zablokowany-bootloader-po-wgraniu-romu-fastboot">Zablokowany bootloader po wgraniu ROM'u fastboot</h2>
+<p>Po ponownym uruchomieniu telefonu, powinniśmy mieć w nim oryginalne oprogramowanie i w zasadzie
+wszystkie problemy, które nas pchnęły do wgrania ROM'u fastboot powinny natychmiast zniknąć.
+Niemniej jednak, po wgraniu ROM'u fastboot zostanie w telefonie zablokowany bootloader. Z początku
+myślałem, że wystarczy w ustawieniach deweloperskich ściągnąć blokadę OEM i wydać to poniższe
+polecenie:</p>
+<pre><code>$ fastboot flashing unlock
+(bootloader) Start unlock flow
+
+FAILED (remote: 'Token verification failed')
+fastboot: error: Command failed
+</code></pre>
+<p>Ale jak widać, został zwrócony błąd weryfikacji tokenu, tj. tego tokenu, który trzeba uzyskać od
+Xiaomi. By odblokować taki telefon, trzeba będzie przejść procedurę odblokowania bootloader'a, tj.
+przy pomocy <a href="https://en.miui.com/unlock/">MiUnlock</a> (windows) lub XiaoMiTool (linux). Nie będzie trzeba za to czekać ponownie
+7 dni na pozwolenie ze strony Xiaomi. Zatem odblokowanie bootloader'a będzie natychmiastowe, choć
+połączenie z internetem i możliwość nawiązania kontaktu z serwerami Xiaomi są wymagane, podobnie
+jak zalogowanie się w aplikacji na czas ściągania blokady z bootloader'a. Warto zatem pamiętać o
+tej niedogodności.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Dla osób mojego pokroju, które przed rozpoczęciem prac są w stanie zadbać o zrobienie kopi
+zapasowej całego ROM'u w swoim smartfonie, to taki ROM fastboot w zasadzie nie znajduje jakiegoś
+większego zastosowania, no może za wyjątkiem cofnięcia wersji fabrycznego softu. W przypadku innych
+osób, taki kawałek ROM'u może okazać się wielce użyteczny, choć naturalnie będą takie sytuacje, w
+których nic się nie da zrobić, no może poza wizytą w serwisie i wydaniem paru stów na naprawę.
+Niemniej jednak, postępując zdroworozsądkowo nie powinniśmy napotkać sytuacji, w których trzeba by
+z takiego ROM'u fastboot korzystać.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">xiaomi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">redmi-9</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/fastboot/">fastboot</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">root</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/miui/">miui</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fpo-co-smartfonom-xiaomi-rom-fastboot-i-jak-z-nich-korzystac%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpo-co-smartfonom-xiaomi-rom-fastboot-i-jak-z-nich-korzystac%2f&amp;text=Po%20co%20smartfonom%20Xiaomi%20ROM%27y%20fastboot%20i%20jak%20z%20nich%20korzysta%c4%87" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpo-co-smartfonom-xiaomi-rom-fastboot-i-jak-z-nich-korzystac%2f&amp;title=Po%20co%20smartfonom%20Xiaomi%20ROM%27y%20fastboot%20i%20jak%20z%20nich%20korzysta%c4%87" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpo-co-smartfonom-xiaomi-rom-fastboot-i-jak-z-nich-korzystac%2f&amp;title=Po%20co%20smartfonom%20Xiaomi%20ROM%27y%20fastboot%20i%20jak%20z%20nich%20korzysta%c4%87" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpo-co-smartfonom-xiaomi-rom-fastboot-i-jak-z-nich-korzystac%2f&title=Po%20co%20smartfonom%20Xiaomi%20ROM%27y%20fastboot%20i%20jak%20z%20nich%20korzysta%c4%87" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpo-co-smartfonom-xiaomi-rom-fastboot-i-jak-z-nich-korzystac%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpo-co-smartfonom-xiaomi-rom-fastboot-i-jak-z-nich-korzystac%2f&amp;title=Po%20co%20smartfonom%20Xiaomi%20ROM%27y%20fastboot%20i%20jak%20z%20nich%20korzysta%c4%87" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fpo-co-smartfonom-xiaomi-rom-fastboot-i-jak-z-nich-korzystac%2f&description=Po%20co%20smartfonom%20Xiaomi%20ROM%27y%20fastboot%20i%20jak%20z%20nich%20korzysta%c4%87" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi/">Jak zaktualizować firmware custom ROM&#39;ów w smartfonach Xiaomi</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wgrac-crdroid-android-rom-na-xiaomi-redmi-9-lancelot-galahad/">Jak wgrać crDroid Android ROM na Xiaomi Redmi 9 (lancelot/galahad)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czym-jest-tryb-lockdown-w-smartfonie-z-androidem/">Czym jest tryb lockdown w smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kopia-zapasowa-danych-smartfona-z-androidem-oandbackupx-syncthing/">Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/optymalizacja-procesu-ladowania-baterii-via-acc-w-smartfonie-z-androidem/">Optymalizacja procesu ładowania baterii via ACC w smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wgrac-twrp-recovery-i-magisk-w-xiaomi-redmi-9-galahad-lancelot/">Jak wgrać TWRP recovery i Magisk w Xiaomi Redmi 9 (galahad/lancelot)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/">Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

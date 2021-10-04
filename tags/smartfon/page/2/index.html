@@ -91,6 +91,38 @@
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/">Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)</a></h1>
+	<div class="entry__content"><p>Jakiś czas temu wpadł w moje łapki smartfon Xiaomi Redmi 9 (galahad albo lancelot, bo w różnych
+częściach systemu jest to inaczej określone), który miał preinstalowanego Androida 10 oraz MIUI 11.
+Przez parę miesięcy używania telefonu, dostał on dwa albo trzy większe update całego ROM'u,
+wliczając w to aktualizację MIUI do 12.0.1 ze stanem zabezpieczeń na dzień 2021-01-05. Zatem
+ostatnia aktualizacja zabezpieczeń tego telefonu miała miejsce zaraz na początku Stycznia. Od tego
+czasu cisza. Niby w przypadku tego modelu telefonu aktualizacje miały być wydawane <a href="https://www.mi.com/global/service/support/security-update-1.html">co trzy
+miesiące do roku 2023</a> ale najwyraźniej coś jest nie tak i urządzenie od ponad pół roku nie
+dostało żadnych aktualizacji. Niby pod tym linkiem można wyczytać informację, że planowana jest
+aktualizacja do Androida 11 ale prawdę mówiąc jestem nieco zawiedziony opieszałością Xiaomi. Tak
+się złożyło, że przez przypadek trafiłem w <a href="https://forum.xda-developers.com/f/redmi-9-poco-m2-roms-kernels-recoveries-dev.11175/">to miejsce na forum XDA</a>, gdzie z kolei znalazłem
+m.in. <a href="https://forum.xda-developers.com/t/rom-unofficial-11-0-pixel-plus-ui-for-redmi-9-lancelot-galahad.4243813/">ten wątek</a>. Zatem alternatywne ROM'y na mój smartfon istnieją i tego faktu nie byłem
+świadomy, bo w zeszłym roku jeszcze nic nie szło znaleźć. Postanowiłem zatem odblokować bootloader
+w swoim Xiaomi Redmi 9 i spróbować wgrać na niego TWRP i jeden (a może nawet kilka) przykładowy ROM
+na bazie AOSP/LineageOS. Proces odblokowania bootloader'a w urządzeniach Xiaomi nie wymaga zbytnio
+wysiłku i da się go przeprowadzić w całości pod linux korzystając czy to z XiaoMiTool, czy też przy
+pomocy <a href="https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/">maszyn wirtualnych na bazie QEMU/KVM</a>. Ten proces nie do końca jest dla każdego taki
+oczywisty, dlatego postanowiłem go dokładnie opisać.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2021-08-27T22:26:00&#43;02:00">Opublikowano: 27/08/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/blokowanie-reklam-w-youtube-na-smartfonie-z-androidem-bez-root/">Blokowanie reklam w YouTube na smartfonie z Androidem bez root</a></h1>
 	<div class="entry__content"><p>Użytkownicy Androida do przeglądania serwisu YouTube używają z reguły tej dedykowanej aplikacji od
 Google. Problem z tą appką jest taki, że serwuje ona całą masę reklam, których to nie można wykroić
@@ -331,33 +363,6 @@ ekranu), no i dane są zaszyfrowane, no chyba, że ktoś wpisze ten nieszczęsny
 <code>default_password</code> .</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2018-05-16T19:33:54&#43;02:00">Opublikowano: 16/05/2018</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-sprawdzic-czy-smartfon-z-androidem-podlega-gwarancji/">Jak sprawdzić czy smartfon z Androidem podlega gwarancji</a></h1>
-	<div class="entry__content"><p>Gdy kupujemy smartfon, to jego producent daje nam na ten sprzęt gwarancję i przez pewien okres czasu
-możemy nie martwić się o koszty ewentualnej naprawy. Niestety żyjemy w takich czasach, że sprzęt
-elektroniczny potrafi nam paść sam z siebie i to do tego jeszcze w niewyjaśnionych okolicznościach.
-Cześć wad jest fabrycznych (zwykle fizycznych) i te z reguły są oczywiste i łatwe do zdiagnozowania
-przez support producenta sprzętu, który nabyliśmy. Niemniej jednak, czasami wady są natury czysto
-programowej i tu z kolei ustalenie, gdzie dokładnie leży problem może już sprawiać kłopoty. Dlatego
-też producenci telefonów zabezpieczają się przed zmianą firmware przez użytkownika. W ten sposób
-wgrywając, np. TWRP recovery czy przeprowadzając proces root Androida, zwykle pozbawiamy się
-gwarancji i mamy problem, gdy telefon w późniejszym czasie popsuje się nie z naszej winy. Nawet
-jeśli wgramy stock'owe oprogramowanie, to i tak producent sprzętu jest w stanie ustalić czy coś w
-firmware mieszaliśmy. Zastanawialiście się może zatem skąd producent smartfona wie czy firmware
-takiego urządzenia został w jakiś sposób przez nas zmieniony?</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2017-05-02T17:19:22&#43;02:00">Opublikowano: 02/05/2017</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
