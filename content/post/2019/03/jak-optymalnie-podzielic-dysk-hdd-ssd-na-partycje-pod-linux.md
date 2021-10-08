@@ -99,7 +99,7 @@ obrębie jednego nośnika zwyczajnie nie doświadczam.
 
 ## Kwestia SWAP
 
-Ostatnimi laty pojawiło się sporo niepodpowiedzeń lub też błędnych informacji dotyczących
+Ostatnimi laty pojawiło się sporo niedopowiedzeń lub też błędnych informacji dotyczących
 konfiguracji przestrzeni wymiany SWAP pod linux. Mechanizm SWAP miał uzasadnione zastosowanie lata
 temu, gdy komputery miały relatywnie mało i do tego dość wolnej pamięci operacyjnej RAM. Przestrzeń
 wymiany SWAP w obecnych czasach ma w zasadzie spełniać jedynie dwie role.
@@ -190,14 +190,14 @@ skomplikowany.
 
 Dyski HDD mają to do siebie, że ich transfer danych i czas dostępu do plików zmienia się w
 zależności od miejsca, z którego te dane są czytane lub zapisywane. Im dalej od początku dysku, tym
-transfer danych spada, a czasy dostępu rosną. Dlatego też kluczowe znaczenie ma miejsce, w którym
-konkretna linux'owa partycja (w tym przestrzeń wymiany SWAP) zostanie ulokowana.
+szybkość transferu danych spada, a czasy dostępu rosną. Dlatego też kluczowe znaczenie ma miejsce,
+w którym konkretna linux'owa partycja (w tym przestrzeń wymiany SWAP) zostanie ulokowana.
 
 Niektórzy zalecają tworzenie przestrzeni SWAP zaraz na początku dysku celem zwiększenia jej
 wydajności. Może to mieć zbawienny skutek w sytuacji, gdy faktycznie cierpimy na niedostatek
 pamięci RAM. W każdym innym przypadku, ta najbardziej cenna przestrzeń dysku (pierwsze 10%) będzie
 szła na zmarnowanie degradując wydajność systemu. Tutaj mamy do czynienia z dyskiem 320G, zatem te
-pierwsze 30G mają dla nas ogromne znaczenie.
+pierwsze 30G ma dla nas ogromne znaczenie.
 
 Windows czasem upiera się by na dysku go zainstalować na pierwszej partycji i to tej zaraz na
 początku dysku. Jeśli ten system ma być używany jedynie sporadycznie, to powinniśmy rozważyć
