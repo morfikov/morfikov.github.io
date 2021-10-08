@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Zmiana implementacji WebView z Google/AOSP na Bromite w Androidzie | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Zmiana implementacji WebView z Google/AOSP na Bromite w Androidzie" />
+<meta property="og:description" content="Przeglądając ostatnio opcje deweloperskie w swoim telefonie z Androidem 11, wpadła mi w oczy pozycja
+WebView implementation . Nie ukrywam, że trochę mnie ona zainteresowała i zacząłem się
+zastanawiać czym tak naprawdę jest ten cały WebView. Mój smartfon działa aktualnie pod kontrolą
+crDroid (ROM na bazie AOSP/LineageOS) i nie jest on sprzęgnięty z usługami od Google (brak
+jakichkolwiek GAPPS&#39;ów). Dlatego też w tym przypadku w implementacji WebView widnieje w zasadzie
+tylko jedna opcja, tj. Android System WebView. W przypadku stock&#39;owych ROM&#39;ów producentów telefonów
+będziemy mieli zaś do czynienia z Google System WebView. Jakby nie patrzeć, zarówno Android/AOSP
+System WebView, jak i Google System WebView pochodzą od Google, który niezbyt troszczy się o naszą
+prywatność. W mojej głowie pojawiło się zatem pytanie na temat tego czym te dwie implementacje się
+od siebie różnią, no i naturalnie też czy są jakieś alternatywne implementacje WebView, z których
+można by skorzystać zastępując te domyślnie preinstalowane?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/zmiana-implementacji-webview-z-google-aosp-na-bromite-w-androidzie/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-10-08T23:47:00&#43;02:00" />
+<meta property="article:modified_time" content="2021-10-08T23:47:00&#43;02:00" />
+
+
+		<meta itemprop="name" content="Zmiana implementacji WebView z Google/AOSP na Bromite w Androidzie">
+<meta itemprop="description" content="Przeglądając ostatnio opcje deweloperskie w swoim telefonie z Androidem 11, wpadła mi w oczy pozycja
+WebView implementation . Nie ukrywam, że trochę mnie ona zainteresowała i zacząłem się
+zastanawiać czym tak naprawdę jest ten cały WebView. Mój smartfon działa aktualnie pod kontrolą
+crDroid (ROM na bazie AOSP/LineageOS) i nie jest on sprzęgnięty z usługami od Google (brak
+jakichkolwiek GAPPS&#39;ów). Dlatego też w tym przypadku w implementacji WebView widnieje w zasadzie
+tylko jedna opcja, tj. Android System WebView. W przypadku stock&#39;owych ROM&#39;ów producentów telefonów
+będziemy mieli zaś do czynienia z Google System WebView. Jakby nie patrzeć, zarówno Android/AOSP
+System WebView, jak i Google System WebView pochodzą od Google, który niezbyt troszczy się o naszą
+prywatność. W mojej głowie pojawiło się zatem pytanie na temat tego czym te dwie implementacje się
+od siebie różnią, no i naturalnie też czy są jakieś alternatywne implementacje WebView, z których
+można by skorzystać zastępując te domyślnie preinstalowane?"><meta itemprop="datePublished" content="2021-10-08T23:47:00&#43;02:00" />
+<meta itemprop="dateModified" content="2021-10-08T23:47:00&#43;02:00" />
+<meta itemprop="wordCount" content="2491">
+<meta itemprop="keywords" content="smartfon,magisk,webview,root,prywatność,aosp,xiaomi,redmi-9," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Zmiana implementacji WebView z Google/AOSP na Bromite w Androidzie"/>
+<meta name="twitter:description" content="Przeglądając ostatnio opcje deweloperskie w swoim telefonie z Androidem 11, wpadła mi w oczy pozycja
+WebView implementation . Nie ukrywam, że trochę mnie ona zainteresowała i zacząłem się
+zastanawiać czym tak naprawdę jest ten cały WebView. Mój smartfon działa aktualnie pod kontrolą
+crDroid (ROM na bazie AOSP/LineageOS) i nie jest on sprzęgnięty z usługami od Google (brak
+jakichkolwiek GAPPS&#39;ów). Dlatego też w tym przypadku w implementacji WebView widnieje w zasadzie
+tylko jedna opcja, tj. Android System WebView. W przypadku stock&#39;owych ROM&#39;ów producentów telefonów
+będziemy mieli zaś do czynienia z Google System WebView. Jakby nie patrzeć, zarówno Android/AOSP
+System WebView, jak i Google System WebView pochodzą od Google, który niezbyt troszczy się o naszą
+prywatność. W mojej głowie pojawiło się zatem pytanie na temat tego czym te dwie implementacje się
+od siebie różnią, no i naturalnie też czy są jakieś alternatywne implementacje WebView, z których
+można by skorzystać zastępując te domyślnie preinstalowane?"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Zmiana implementacji WebView z Google/AOSP na Bromite w Androidzie</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2021-10-08T23:47:00&#43;02:00">Opublikowano: 08/10/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Zmiana implementacji WebView z Google/AOSP na Bromite w Androidzie</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#co-to-jest-webview">Co to jest WebView</a>
+      <ol>
+        <li><a href="#czym-się-różni-webview-androidaosp-od-google">Czym się różni WebView Android/AOSP od Google</a></li>
+        <li><a href="#czym-jest-bromite">Czym jest Bromite</a></li>
+      </ol>
+    </li>
+    <li><a href="#jak-zmienić-webview-od-googleaosp-na-bromite">Jak zmienić WebView od Google/AOSP na Bromite</a>
+      <ol>
+        <li><a href="#kompatybilność-romu-z-bromite">Kompatybilność ROM'u z Bromite</a></li>
+        <li><a href="#próba-skorzystania-z-aplikacji-systemapp-mover">Próba skorzystania z aplikacji /system/app mover</a></li>
+        <li><a href="#brak-katalogu-systemappwebview">Brak katalogu /system/app/webview/</a></li>
+        <li><a href="#system-plików-tylko-do-odczytu">System plików tylko do odczytu</a></li>
+        <li><a href="#zaciągnięcie-do-pracy-twrpshrp">Zaciągnięcie do pracy TWRP/SHRP</a>
+          <ol>
+            <li><a href="#backup-webviewapk">Backup webview.apk</a></li>
+            <li><a href="#podmiana-webviewapk-na-ten-od-bromite">Podmiana webview.apk na ten od Bromite</a></li>
+          </ol>
+        </li>
+        <li><a href="#ponowna-instalacja-pliku-apk">Ponowna instalacja pliku .apk</a></li>
+      </ol>
+    </li>
+    <li><a href="#sprawdzenie-aktualnej-implementacji-webview">Sprawdzenie aktualnej implementacji WebView</a>
+      <ol>
+        <li><a href="#aplikacja-webview-test">Aplikacja WebView Test</a></li>
+      </ol>
+    </li>
+    <li><a href="#repozytorium-f-droid-dla-bromite">Repozytorium F-Droid dla Bromite</a></li>
+    <li><a href="#magisk-i-moduł-webview-switcher">Magisk i moduł WebView Switcher</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Przeglądając ostatnio opcje deweloperskie w swoim telefonie z Androidem 11, wpadła mi w oczy pozycja
+<code>WebView implementation</code> . Nie ukrywam, że trochę mnie ona zainteresowała i zacząłem się
+zastanawiać czym tak naprawdę jest ten cały WebView. Mój smartfon działa aktualnie pod kontrolą
+crDroid (ROM na bazie AOSP/LineageOS) i nie jest on sprzęgnięty z usługami od Google (brak
+jakichkolwiek GAPPS'ów). Dlatego też w tym przypadku w implementacji WebView widnieje w zasadzie
+tylko jedna opcja, tj. Android System WebView. W przypadku stock'owych ROM'ów producentów telefonów
+będziemy mieli zaś do czynienia z Google System WebView. Jakby nie patrzeć, zarówno Android/AOSP
+System WebView, jak i Google System WebView pochodzą od Google, który niezbyt troszczy się o naszą
+prywatność. W mojej głowie pojawiło się zatem pytanie na temat tego czym te dwie implementacje się
+od siebie różnią, no i naturalnie też czy są jakieś alternatywne implementacje WebView, z których
+można by skorzystać zastępując te domyślnie preinstalowane?</p>
+<h2 id="co-to-jest-webview">Co to jest WebView</h2>
+<p><a href="https://developer.android.com/reference/android/webkit/WebView.html">WebView to taki mechanizm</a>, z którego korzystają aplikacje Androida do generowania zawartości
+stron WWW. Zapewne każdy z nas spotkał się z taki appkami, które domyślnie otwierają linki w swoim
+obrębie, dając też opcję otwarcia takich stron w zewnętrznej przeglądarce internetowej. Za taką
+funkcjonalność właśnie odpowiada WebView, który umożliwia zaimplementowanie prostej przeglądarki
+internetowej wewnątrz danej aplikacji bez potrzeby pchania do niej całego kodu odpowiedzialnego za
+realizowanie renderowania kodu HTML. W ten sposób deweloperzy aplikacji mogą zająć się rozwijaniem
+samej aplikacji, a sprawy związane z renderowaniem stron WWW oddelegować do WebView. Każdy Android
+ma preinstalowany taki WebView domyślnie, choć jego implementacje mogą się naturalnie różnić.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/10/001.bromite-aosp-google-webview-developer-options.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/10/002.bromite-aosp-google-webview-developer-options.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>W przypadku integracji ROM'u z usługami od Google, za implementacje WebView będzie robił Google
+System WebView (oparty na Chrome). W ten sposób każda strona WWW, która zostanie otworzona wewnątrz
+jakiejś aplikacji użytkownika, będzie otwierana w środowisku Google, przez co Google ma pełny wgląd
+w to, jakie witryny oglądamy i co na nich robimy. W zasadzie otworzenie takiej strony WWW niczym
+nie różni się w stosunku do wrzucenia jej do pełnowymiarowej przeglądarki Google Chrome, gdzie
+jesteśmy zalogowani, tj. mamy powiązane w niej konto Google.</p>
+<p>W przypadku ROM'ów opartych na AOSP (np. LineageOS) bez integracji z usługami od Google, za WebView
+będzie robił Android System WebView, który jest implementacją opartą o otwartoźródłowego Chromium.
+Podobnie jak w przypadku Google System WebView, otworzenie strony w aplikacji, która korzysta z
+Android System WebView, będzie równoznaczne z renderowaniem jej w przeglądarce Chromium,
+przynajmniej w dużym uproszczeniu.</p>
+<h3 id="czym-się-różni-webview-androidaosp-od-google">Czym się różni WebView Android/AOSP od Google</h3>
+<p>Jako, że WebView robi za silnik renderujący kod HTML, to kluczowe z perspektywy bezpieczeństwa jest,
+by ten <a href="https://forum.f-droid.org/t/webkit-aosp-google-webview-gecko/486/7">mechanizm był aktualizowany dość często</a>. W przypadku Google System WebView,
+aktualizacje są wypuszczane regularnie (bo mamy tutaj do czynienia ze zwykłą aplikacją, którą można
+pobrać przez sklep Google Play). Natomiast jeśli chodzi o Android/AOSP System WebView, to z tymi
+update'ami różnie bywa, bo trzeba tutaj zaktualizować cały firmware/ROM. Warto zatem się zastanowić
+w tym miejscu czy ten ROM, z którego aktualnie korzystamy, dostaje regularnie jakieś aktualizacje
+(zwykle wydawane w interwale miesięcznym) i jeśli od dłuższego czasu nie było takiego update, to z
+punktu widzenia bezpieczeństwa powinniśmy zainstalować ten WebView od Google.</p>
+<p>Pomijając kwestię aktualizacji, wygląda na to, że te dwie implementacje WebView nie różnią się
+zbytnio od siebie, choć nie do końca wiadomo czy Google nie dokłada czegoś własnościowego do
+swojego WebView (różne są zdania na ten temat). Tak czy inaczej, rezygnacja z WebView AOSP/Google i
+zastąpienie jej inną implementacją może sprawić, że niektóre aplikacje nie będą działać poprawnie.
+Dla przykładu, przeglądarki wewnątrz aplikacji użytkownika mogą crash'ować na innych implementacjach
+WebView i jeśli doświadczamy takiego zachowania przy korzystaniu z nich, to trzeba będzie
+prawdopodobnie powrócić do Google/AOSP System WebView i raczej tej bariery nie przeskoczymy.</p>
+<h3 id="czym-jest-bromite">Czym jest Bromite</h3>
+<p>Android System WebView może i jest OpenSource ale w dalszym ciągu pochodzi od Google, a ten za
+bardzo nie troszczy się o prywatność swoich użytkowników. Sam WebView nie ma też żadnych opcji
+konfiguracyjnych, dzięki którym moglibyśmy dostosować ten aspekt przeglądania stron WWW wewnątrz
+konkretnych aplikacji. Trzeba zatem zdać się na łaskę Google w kwestii prywatności, tj. wszystkie
+informacje na temat naszej aktywności w takich aplikacjach korzystających z WebView będą przez
+Google zbierane. Takie zachowanie jest domyślnie włączone również w implementacji Android/AOSP
+System WebView, chyba, że twórca danego ROM'u ten ficzer wyłączył. Niemniej jednak, Google w
+dalszym ciągu może nas śledzić przez WebView za sprawą nadużywania nagłówka <code>X-Requested-With</code> i z
+tym za bardzo nie da się nic zrobić. Istnieje jednak inna implementacja WebView, tj. <a href="https://www.bromite.org/system_web_view">Bromite
+System WebView</a>, która jest ukierunkowana właśnie na dostarczenie swoim użytkownikom maksimum
+prywatności.</p>
+<p>Problem jednak w tym, że tego całego WebView nie da się od tak po prostu wymienić. Jest to bardzo
+kluczowy mechanizm i wręcz krytyczny pod względem bezpieczeństwa. Dlatego ta aplikacja rezyduje
+gdzieś w obrębie partycji <code>/super/</code> (zwykle <code>/system/</code> lub <code>/product/</code> ), która w nowszych
+Androidach (10+) jest dostępna tylko i wyłącznie do odczytu. Z poziomu działającego systemu nie da
+rady tej partycji zamontować w trybie do zapisu. Dlatego też by zmienić implementację WebView,
+trzeba będzie mieć ukorzenionego Androida, tj. posiadać w nim prawa administratora systemu root.</p>
+<h2 id="jak-zmienić-webview-od-googleaosp-na-bromite">Jak zmienić WebView od Google/AOSP na Bromite</h2>
+<p>Zgodnie z informacjami zawartymi na stronie projektu Bromite, <a href="https://github.com/bromite/bromite/wiki/Installing-SystemWebView">jest kilka metod by zainstalować ich
+WebView</a>. W moim przypadku żadna z tych instrukcji nie przyniosła jakiegoś wymiernego efektu.
+Zwykła próba zainstalowania <code>arm64_SystemWebView.apk</code> kończyła się niepowodzeniem. Można o tym
+problemie też poczytać na podlinkowanym wyżej wiki. Chodzi generalnie o to, że plik <code>webview.apk</code>
+rezyduje w obrębie partycji <code>/system/</code> , no i też jest podpisany innym kluczem. Nie da rady zatem
+tej appki od tak sobie zainstalować w systemie, bo mechanizmy bezpieczeństwa nam na to zwyczajnie
+nie pozwolą. Próbowałem też wyłączyć stock'owy WebView przy pomocy tego poniższego polecenia:</p>
+<pre><code>$ adb shell &quot;pm list packages | grep webview&quot;
+package:com.android.webview
+
+$ adb shell &quot;pm uninstall -k --user 0 com.android.webview&quot;
+Success
+</code></pre>
+<p>Oczywiście udało się tę aplikację wyłączyć ale w dalszym ciągu nie szło zainstalować WebView od
+Bromite. Przywróciłem zatem tę odinstalowaną appkę w poniższy sposób:</p>
+<pre><code>$ adb shell &quot;cmd package install-existing com.android.webview&quot;
+Package com.android.webview installed for user: 0
+</code></pre>
+<h3 id="kompatybilność-romu-z-bromite">Kompatybilność ROM'u z Bromite</h3>
+<p>Pomyślałem może, że mój Android nie jest jakoś specjalnie kompatybilny z Bromite, więc sprawdziłem,
+zgodnie z zaleceniem, co zwróci analiza pliku <code>/system/framework/framework-res.apk</code> (sygnatury w
+linijkach z <code>C:</code> zostały przycięte dla czytelności):</p>
+<pre><code>$ adb pull /system/framework/framework-res.apk
+/system/framework/framework-res.apk: 1 file pulled. 14.7 MB/s (53618124 bytes in 3.490s)
+
+$ aapt d xmltree framework-res.apk res/xml/config_webview_packages.xml
+E: webviewproviders (line=18)
+  E: webviewprovider (line=20)
+    A: availableByDefault=(type 0x12)0xffffffff
+    A: description=&quot;Google WebView&quot; (Raw: &quot;Google WebView&quot;)
+    A: packageName=&quot;com.google.android.webview&quot; (Raw: &quot;com.google.android.webview&quot;)
+    E: signature (line=21)
+      C: &quot;MIIDuzCC...g69H8l8M&quot;
+  E: webviewprovider (line=23)
+    A: availableByDefault=(type 0x12)0xffffffff
+    A: description=&quot;Google WebView Beta&quot; (Raw: &quot;Google WebView Beta&quot;)
+    A: packageName=&quot;com.google.android.webview.beta&quot; (Raw: &quot;com.google.android.webview.beta&quot;)
+    E: signature (line=24)
+      C: &quot;MIIFxzCC...UbGtPA==&quot;
+  E: webviewprovider (line=26)
+    A: availableByDefault=(type 0x12)0xffffffff
+    A: description=&quot;Google WebView Dev&quot; (Raw: &quot;Google WebView Dev&quot;)
+    A: packageName=&quot;com.google.android.webview.dev&quot; (Raw: &quot;com.google.android.webview.dev&quot;)
+    E: signature (line=27)
+      C: &quot;MIIFxzCC...9+p2OA==&quot;
+  E: webviewprovider (line=29)
+    A: availableByDefault=(type 0x12)0xffffffff
+    A: description=&quot;Google WebView Canary&quot; (Raw: &quot;Google WebView Canary&quot;)
+    A: packageName=&quot;com.google.android.webview.canary&quot; (Raw: &quot;com.google.android.webview.canary&quot;)
+    E: signature (line=30)
+      C: &quot;MIIFxzCC......hrFdCQ==&quot;
+  E: webviewprovider (line=34)
+    A: availableByDefault=(type 0x12)0xffffffff
+    A: description=&quot;AOSP WebView&quot; (Raw: &quot;AOSP WebView&quot;)
+    A: packageName=&quot;com.android.webview&quot; (Raw: &quot;com.android.webview&quot;)
+</code></pre>
+<p>Zgodnie z wymaganiami, powinniśmy mieć tutaj <code>packageName=&quot;com.android.webview&quot;</code> bez sygnatury i
+faktycznie, jak można wyżej zauważyć, przy tej ostatniej pozycji nie ma żadnej sygnatury. Zatem
+najwyraźniej nic nie stoi na przeszkodzie, by ten WebView wymienić.</p>
+<h3 id="próba-skorzystania-z-aplikacji-systemapp-mover">Próba skorzystania z aplikacji /system/app mover</h3>
+<p>Próbowałem więc dalej i kolejnym sposobem było skorzystanie z <a href="https://f-droid.org/en/packages/de.j4velin.systemappmover/">appki /system/app mover</a>. Ten
+sposób również okazał się bezowocny. Najwyraźniej appka <code>/system/app mover</code> jest przeznaczona dla
+starszych Androidów i próba przeniesienia aplikacji w Andku 11 z partycji systemowych na partycję
+<code>/data/</code> nie daje żadnego efektu, a jedynie kończy się błędem
+<code>Could not remount /system/</code> .</p>
+<h3 id="brak-katalogu-systemappwebview">Brak katalogu /system/app/webview/</h3>
+<p>Niezniechęcony jednak brakiem wymiernych efektów, próbowałem dalej. Kolejnym sposobem było ręczne
+usunięcie pliku <code>webview.apk</code> z katalogu <code>/system/app/webview/</code> . Niestety w przypadku ROM'u
+crDroid wgranego na mojego Xiaomi Redmi 9, taki katalog w ogóle nie istnieje. Nie poddałem się
+jednak tak łatwo i przy pomocy narzędzia <code>find</code> postanowiłem przeszukać cały flash telefonu w
+poszukiwaniu tego pliku, bo przecie gdzieś on być musi. No i znalazłem:</p>
+<pre><code>galahad:/ # find / -iname &quot;*webview.apk&quot;
+...
+/product/app/webview/webview.apk
+...
+</code></pre>
+<p>Czyli <code>webview.apk</code> znajduje się tutaj nie pod <code>/system/app/webview/</code> , a pod
+<code>/product/app/webview/</code> , ot taka drobna różnica. Niemniej jednak, usunięcie tego pliku ze
+wskazanej wyżej lokalizacji też nie wchodzi w grę, bo system plików jest domyślnie zamontowany w
+trybie tylko do odczytu.</p>
+<h3 id="system-plików-tylko-do-odczytu">System plików tylko do odczytu</h3>
+<p>W Androidzie 11 mamy partycję <code>/super/</code> , na którą składają się trzy inne partycje, tj. <code>/system/</code> ,
+<code>/vendor/</code> oraz <code>/product/</code> . Poszukałem zatem, które urządzenie odpowiada za tę partycję
+<code>/product/</code> w celu przemontowania jej systemu plików w tryb do zapisu:</p>
+<pre><code>galahad:/ # mount | grep -i product
+/dev/block/dm-2 on /product type ext4 (ro,seclabel,relatime)
+</code></pre>
+<p>Niby teraz wystarczyłoby przemontować tę partycję podając w <code>mount</code> flagę <code>-o remount,rw</code> ale (jak
+to zwykle bywa) taki zabieg się również nie powiódł:</p>
+<pre><code>galahad:/ # mount -o remount,rw /product/
+mount: '/product/' not in /proc/mounts
+
+galahad:/ # mount -o remount,rw /dev/block/dm-2
+'/dev/block/dm-2' is read-only
+</code></pre>
+<h3 id="zaciągnięcie-do-pracy-twrpshrp">Zaciągnięcie do pracy TWRP/SHRP</h3>
+<p>Trochę już zacząłem tracić cierpliwość i ostatnia rzecz, która wpadła mi do głowy, to odpalenie
+trybu recovery TWRP/SHRP. Tam były opcje montowania partycji systemowych w trybie do zapisu, w tym
+też tego nieszczęsnego <code>/product/</code> . Problem natomiast był taki, że z menu SHRP nie szło tej
+partycji zamontować w trybie do zapisu, przynajmniej bezpośrednio z GUI. Ale od czego jest
+terminal? Sprawdziłem zatem czy jak ręcznie będę próbował przemontować partycję <code>/product/</code> z
+poziomu recovery, to czy coś to da:</p>
+<pre><code>$ adb shell
+lancelot:/ # mount | grep product
+/dev/block/dm-2 on /product type ext4 (ro,seclabel,relatime)
+
+lancelot:/ # mount -o remount,rw /product
+</code></pre>
+<p>No i proszę, nie ma żadnego błędu. Sprawdziłem jeszcze by się upewnić, że coś w tym katalogu w
+ogóle się znajduje i czy jest tam ten plik, o który się nam rozchodzi:</p>
+<pre><code>lancelot:/ # ls -al /product/app/webview/
+total 159380
+drwxr-xr-x  3 root root      4096 2009-01-01 00:00 .
+drwxr-xr-x 19 root root      4096 2021-10-06 21:51 ..
+drwxr-xr-x  4 root root      4096 2009-01-01 00:00 oat
+-rw-r--r--  1 root root 163726925 2009-01-01 00:00 webview.apk
+</code></pre>
+<h4 id="backup-webviewapk">Backup webview.apk</h4>
+<p>Zatem wszystko wygląda dobrze. Postanowiłem na wszelki wypadek przenieść zarówno katalog <code>oat/</code> jak
+i sam plik <code>webview.apk</code> na kartę SD (w razie czego będzie co przywrócić jakby się coś popsuło):</p>
+<pre><code>lancelot:/product/app/webview # mv webview.apk /external_sd/
+lancelot:/product/app/webview # mv oat /external_sd/
+</code></pre>
+<h4 id="podmiana-webviewapk-na-ten-od-bromite">Podmiana webview.apk na ten od Bromite</h4>
+<p>Mając backup pliku <code>webview.apk</code> możemy kontynuować z instalacją Bromite. Ze strony
+projektu <a href="https://www.bromite.org/system_web_view">pobieramy plik .apk</a>. W tym przypadku jest to <code>arm64_SystemWebView.apk</code> . Wgrywamy go
+do katalogu <code>/product/app/webview/</code> zmieniając mu naturalnie nazwę na <code>webview.apk</code> :</p>
+<pre><code>$ adb push arm64_SystemWebView.apk /sdcard/Download
+arm64_SystemWebView.apk: 1 file pushed. 12.5 MB/s (86437563 bytes in 6.608s)
+
+lancelot:/product/app/webview # mv /sdcard/Download/arm64_SystemWebView.apk ./webview.apk
+lancelot:/product/app/webview # ls -al
+total 84420
+drwxr-xr-x  2 root     root     4096 2021-10-06 23:00 .
+drwxr-xr-x 19 root     root     4096 2021-10-06 21:51 ..
+-rw-r--r--  1 root     root 86437563 2021-10-06 21:45 webview.apk
+</code></pre>
+<p>Sprawdźmy też uprawnienia do tak wgranego pliku <code>webview.apk</code> , bo czasami mogą one nie być
+odpowiednie. Właściciel oraz grupa powinna wskazywać na <code>root:root</code> oraz prawa do pliku trzeba
+określić na <code>644</code> . Jeśli po wgraniu <code>webview.apk</code> któreś z tych powyższych rzeczy się różni, to
+trzeba te uprawnienia przepisać via <code>chown</code>/<code>chmod</code> .</p>
+<pre><code>lancelot:/product/app/webview # chown root:root webview.apk
+lancelot:/product/app/webview # chmod 644 webview.apk
+</code></pre>
+<p>Na koniec montujemy partycję <code>/product/</code> z powrotem w tryb do odczytu:</p>
+<pre><code>lancelot:/ # mount -o remount,ro /product
+</code></pre>
+<p>Z menu TWRP/SHRP czyścimy także cały cache, po czym restartujemy telefon:</p>
+<pre><code>lancelot:/ # reboot
+</code></pre>
+<h3 id="ponowna-instalacja-pliku-apk">Ponowna instalacja pliku .apk</h3>
+<p>Smartfon powinien uruchomić się bez problemu ale to nie wszystko co trzeba zrobić, by WebView od
+Bromite zainstalować w systemie. Trzeba jeszcze raz wgrać paczkę <code>arm64_SystemWebView.apk</code> , tym
+razem w zwyczajny sposób, tj. przez instalator Androida. Proces instalacji tej aplikacji powinien
+zakończyć się powodzeniem.</p>
+<h2 id="sprawdzenie-aktualnej-implementacji-webview">Sprawdzenie aktualnej implementacji WebView</h2>
+<p>Po procesie instalacyjnym wypadałoby jeszcze zweryfikować, czy aby na pewno przebiegł on tak jak
+należy. Wchodzimy zatem w ustawienia deweloperskie i sprawdzamy czy pod <code>WebView implementation</code>
+widnieje <code>Bromite System WebView</code> , tak jak na poniższym obrazku:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/10/003.bromite-aosp-google-webview-developer-options.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/10/004.bromite-aosp-google-webview-developer-options.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>Jeśli mamy podobny wynik, to znaczy, że z powodzeniem udało nam się zastąpić implementację WebView
+od Google/AOSP tą od Bromite.</p>
+<h3 id="aplikacja-webview-test">Aplikacja WebView Test</h3>
+<p>Warto też w tym miejscu dodać, że w sklepie Google Play jest dostępna aplikacja, która jest w stanie
+zweryfikować, czy aktualna implementacja WebView działa prawidłowo. Chodzi o <a href="https://play.google.com/store/apps/details?id=com.snc.test.webview2">appkę WebView
+Test</a>. Wystarczy ją uruchomić i sprawdzić czy przykładowa strona WWW jest w stanie się w tej
+aplikacji bez problemu wyrenderować.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/10/005.bromite-aosp-google-webview-app-check.jpg" alt=""    class="small"></p>
+<p>Jeśli tak, to znaczy, że wszystko jest w porządku.</p>
+<p>W aplikacji WebView Test jest też możliwość zweryfikowania aktualnie wykorzystywanej wersji silnika
+WebView -- wystarczy z menu wybrać <code>WebView Info</code> :</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/10/006.bromite-aosp-google-webview-info.jpg" alt=""    class="small"></p>
+<p>Jak możemy zauważyć na powyższej fotce, w mamy tam sporo fraz z <code>Chrome</code> . Jest to <a href="https://github.com/bromite/bromite/issues/138">intencjonalne
+zachowanie Bromite</a>, który wykorzystuje szereg technik mających przeciwdziałać profilowaniu
+przeglądarki w oparciu o jej fingerprint. Dlatego też te informacje nie do końca pokrywają się ze
+stanem faktycznym i nie ma co do nich przykładać większej wagi. Kluczowa rzecz przy ustaleniu czy
+posiadamy WebView od Bromite, to obecność stosownej implementacji w ustawieniach deweloperskich.</p>
+<p>Możemy też zrobić test oferowany przez Bromite w tej appce WebView Test. Powinniśmy uzyskać wynik
+5/9:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/10/012.bromite-aosp-google-webview-test.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/10/013.bromite-aosp-google-webview-test.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="repozytorium-f-droid-dla-bromite">Repozytorium F-Droid dla Bromite</h2>
+<p>Mając już wgrany Bromite System WebView, trzeba zatroszczyć się o jego regularną aktualizację.
+Manualne odwiedzanie strony projektu, pobieranie nowszej wersji pliku <code>.apk</code> i ręczna aktualizacja
+tej aplikacji nie jest zbyt wygodnym rozwiązaniem. Dlatego też <a href="https://www.bromite.org/fdroid">Bromite oferuje swoje własne
+repozytorium</a>, które możemy dodać do F-Droid. W ten sposób aktualizacja WebView będzie
+przebiegać o wiele sprawniej i szybciej.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/10/007.bromite-aosp-google-webview-f-droid-repo.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/10/008.bromite-aosp-google-webview-f-droid-repo.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="magisk-i-moduł-webview-switcher">Magisk i moduł WebView Switcher</h2>
+<p>Gdy już w zasadzie udało mi się ten WebView wymienić, to przez przypadek zauważyłem na liście
+modułów Magisk'a, że widnieje tam pozycja <code>WebView Switcher</code> . Z opisu wygląda na to, że ten moduł
+jest w stanie zrobić wszystkie te kroki poczynione wyżej ale bez wprowadzania żadnych zmian w
+partycji <code>/system/</code> czy <code>/product/</code> .</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/10/009.bromite-aosp-google-webview-magisk-module.jpg" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2021/10/010.bromite-aosp-google-webview-magisk-module.jpg" alt=""    class="small"></td>
+</tr>
+</tbody>
+</table>
+<p>Postanowiłem zatem przywrócić wszystko na swoje miejsce i sprawdzić jak WebView Switcher sobie
+poradzi ze zmianą WebView w Androidzie mojego smartfona.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/10/011.bromite-aosp-google-webview-magisk-module-install.jpg" alt=""    class="small"></p>
+<p>Po zainstalowaniu tego dodatku i uruchomieniu telefonu ponownie, wszystko zdaje się działać
+dokładnie w ten sam sposób, co został opisany powyżej, choć patrząc za <code>webview</code> w <code>mount</code>
+znalazłem jedynie te poniższe wpisy:</p>
+<pre><code>galahad:/ # mount | grep -i webview
+/dev/HNTLL8/.magisk/block/data on /product/overlay/WebviewOverlay.apk type ext4 (rw,seclabel,relatime,nobarrier,noauto_da_alloc,inlinecrypt,resuid=10010,resgid=1065,errors=panic,data=ordered)
+/dev/HNTLL8/.magisk/block/data on /system/app/BromiteWebview type ext4 (rw,seclabel,relatime,nobarrier,noauto_da_alloc,inlinecrypt,resuid=10010,resgid=1065,errors=panic,data=ordered)
+/dev/HNTLL8/.magisk/block/system_root on /system/etc/permissions/android.software.webview.xml type ext4 (ro,seclabel,relatime)
+</code></pre>
+<p>Zatem wygląda na to, że <code>BromiteWebview</code> został wgrany do <code>/system/app/</code> , a ten problematyczny
+plik <code>webview.apk</code> nie był w żaden sposób ruszony.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Osoby, którym zależy na prywatności w sieci, zwłaszcza w kontekście przeglądania stron WWW z
+poziomu swojego telefonu, powinny zainteresować się implementacją WebView, którą oferuje Bromite.
+Niestety nie wszędzie wymiana tego kluczowego komponentu Androida będzie wchodzić w grę, bo do tego
+celu potrzebne nam będą prawa root, a te z kolei nie są standardowo dostępne, gdy korzystamy z
+fabrycznego oprogramowania producenta smartfona. Trzeba też mieć na uwadze ewentualne problemy,
+które może ze sobą nieść wymiana silnika renderującego kod HTML, bo niektóre aplikacje mogą na
+innych implementacjach WebView nie działać prawidłowo. Póki co jednak, nie zdarzyło mi się, by
+appki, z których korzystam na co dzień (a jest ich dość sporo), zachowywały się w jakiś bliżej
+nieprzewidywalny sposób. Można zatem przyjąć, że w przypadku tych otwartoźródłowych aplikacji,
+problemów być raczej nie powinno.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/magisk/">magisk</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/webview/">webview</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">root</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/prywatno%C5%9B%C4%87/">prywatność</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aosp/">aosp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">xiaomi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">redmi-9</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-implementacji-webview-z-google-aosp-na-bromite-w-androidzie%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-implementacji-webview-z-google-aosp-na-bromite-w-androidzie%2f&amp;text=Zmiana%20implementacji%20WebView%20z%20Google%2fAOSP%20na%20Bromite%20w%20Androidzie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-implementacji-webview-z-google-aosp-na-bromite-w-androidzie%2f&amp;title=Zmiana%20implementacji%20WebView%20z%20Google%2fAOSP%20na%20Bromite%20w%20Androidzie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-implementacji-webview-z-google-aosp-na-bromite-w-androidzie%2f&amp;title=Zmiana%20implementacji%20WebView%20z%20Google%2fAOSP%20na%20Bromite%20w%20Androidzie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-implementacji-webview-z-google-aosp-na-bromite-w-androidzie%2f&title=Zmiana%20implementacji%20WebView%20z%20Google%2fAOSP%20na%20Bromite%20w%20Androidzie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-implementacji-webview-z-google-aosp-na-bromite-w-androidzie%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-implementacji-webview-z-google-aosp-na-bromite-w-androidzie%2f&amp;title=Zmiana%20implementacji%20WebView%20z%20Google%2fAOSP%20na%20Bromite%20w%20Androidzie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fzmiana-implementacji-webview-z-google-aosp-na-bromite-w-androidzie%2f&description=Zmiana%20implementacji%20WebView%20z%20Google%2fAOSP%20na%20Bromite%20w%20Androidzie" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi/">Jak zaktualizować firmware custom ROM&#39;ów w smartfonach Xiaomi</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wgrac-crdroid-android-rom-na-xiaomi-redmi-9-lancelot-galahad/">Jak wgrać crDroid Android ROM na Xiaomi Redmi 9 (lancelot/galahad)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czym-jest-tryb-lockdown-w-smartfonie-z-androidem/">Czym jest tryb lockdown w smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kopia-zapasowa-danych-smartfona-z-androidem-oandbackupx-syncthing/">Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wgrac-twrp-recovery-i-magisk-w-xiaomi-redmi-9-galahad-lancelot/">Jak wgrać TWRP recovery i Magisk w Xiaomi Redmi 9 (galahad/lancelot)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/po-co-smartfonom-xiaomi-rom-fastboot-i-jak-z-nich-korzystac/">Po co smartfonom Xiaomi ROM&#39;y fastboot i jak z nich korzystać</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/optymalizacja-procesu-ladowania-baterii-via-acc-w-smartfonie-z-androidem/">Optymalizacja procesu ładowania baterii via ACC w smartfonie z Androidem</a></li>
+		
+	</ul>
+</div>
+
+	
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+		<img alt="Licencja Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" />
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script data-goatcounter="https://morfik.goatcounter.com/count"
+  async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
