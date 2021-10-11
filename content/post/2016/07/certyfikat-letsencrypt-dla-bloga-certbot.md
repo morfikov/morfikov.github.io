@@ -2,6 +2,7 @@
 author: Morfik
 categories:
 - Linux
+- Blog
 date: "2016-07-23T12:00:28Z"
 date_gmt: 2016-07-23 10:00:28 +0200
 published: true
