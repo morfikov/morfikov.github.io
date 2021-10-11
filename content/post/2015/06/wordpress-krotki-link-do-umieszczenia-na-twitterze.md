@@ -1,13 +1,13 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-06-03T10:13:38Z"
 date_gmt: 2015-06-03 08:13:38 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 - twitter
 GHissueID: 141
 title: 'WordPress: Krótki link do umieszczenia na Twitterze'

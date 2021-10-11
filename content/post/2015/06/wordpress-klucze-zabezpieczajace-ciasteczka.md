@@ -1,14 +1,14 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-06-06T06:36:59Z"
 date_gmt: 2015-06-06 04:36:59 +0200
 published: true
 status: publish
 tags:
 - cookies
-- blog
+- wordpress
 GHissueID: 93
 title: 'WordPress: Klucze zabezpieczające ciasteczka'
 ---

@@ -1,13 +1,13 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-06-03T13:55:33Z"
 date_gmt: 2015-06-03 11:55:33 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 - bezpieczeństwo
 GHissueID: 110
 title: 'WordPress: Wyłączenie protokołu XML-RPC'

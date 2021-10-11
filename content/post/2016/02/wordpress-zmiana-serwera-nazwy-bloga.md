@@ -1,13 +1,13 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2016-02-15T15:17:56Z"
 date_gmt: 2016-02-15 14:17:56 +0100
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 GHissueID: 511
 title: 'WordPress: Zmiana serwera i nazwy bloga'
 ---
@@ -38,7 +38,7 @@ pomocy wykonać kopię bazy danych, potrzebny będzie nam plik konfiguracyjny `~
 poniższej treści:
 
     path: /apache/morfitronix
-    
+
     core config:
             dbuser: user
             dbpass: pass

@@ -1,13 +1,13 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2016-08-14T20:05:10Z"
 date_gmt: 2016-08-14 18:05:10 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 GHissueID: 573
 title: 'WordPress: Jak usunąć alias "login" dla wp-login.php'
 ---

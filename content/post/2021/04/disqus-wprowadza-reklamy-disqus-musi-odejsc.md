@@ -1,7 +1,7 @@
 ---
 author: Morfik
 categories:
-- blog
+- Blog
 date:    2021-04-09 20:00:00 +0200
 lastmod: 2021-04-09 20:00:00 +0200
 published: true
@@ -10,6 +10,7 @@ tags:
 - disqus
 - komentarze
 - reklamy
+- hugo
 GHissueID: 333
 title: Disqus wprowadza reklamy, Disqus musi odejść
 ---

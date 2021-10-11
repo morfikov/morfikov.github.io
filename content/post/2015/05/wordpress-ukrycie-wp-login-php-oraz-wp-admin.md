@@ -1,14 +1,15 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-05-31T16:19:13Z"
 date_gmt: 2015-05-31 14:19:13 +0200
 published: true
 status: publish
 tags:
 - apache2
-- blog
+- wordpress
+- bezpieczeństwo
 GHissueID: 227
 title: 'WordPress: Ukrycie wp-login.php oraz wp-admin/'
 ---

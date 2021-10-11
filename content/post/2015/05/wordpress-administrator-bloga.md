@@ -1,13 +1,13 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-05-24T11:28:16Z"
 date_gmt: 2015-05-24 09:28:16 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 GHissueID: 237
 title: 'WordPress: Administrator bloga'
 ---

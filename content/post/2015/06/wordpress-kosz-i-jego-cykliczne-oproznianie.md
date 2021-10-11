@@ -1,13 +1,14 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-06-02T18:21:18Z"
 date_gmt: 2015-06-02 16:21:18 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
+- kosz
 GHissueID: 91
 title: 'WordPress: Kosz i jego cykliczne opróżnianie'
 ---

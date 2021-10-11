@@ -1,14 +1,14 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-05-25T15:03:42Z"
 date_gmt: 2015-05-25 13:03:42 +0200
 published: true
 status: publish
 tags:
 - bezpieczeństwo
-- blog
+- wordpress
 GHissueID: 239
 title: 'WordPress: Zmiana domyślnych nazw folderów'
 ---

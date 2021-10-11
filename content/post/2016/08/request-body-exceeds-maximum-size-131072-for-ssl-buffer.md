@@ -8,7 +8,7 @@ published: true
 status: publish
 tags:
 - apache2
-- blog
+- wordpress
 - ssl
 - tls
 GHissueID: 568

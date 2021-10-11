@@ -1,13 +1,13 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-05-28T17:44:33Z"
 date_gmt: 2015-05-28 15:44:33 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 - hasła
 GHissueID: 218
 title: 'WordPress: Zapomniane hasło administratora'

@@ -1,13 +1,13 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-05-25T20:02:36Z"
 date_gmt: 2015-05-25 18:02:36 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 - baza-danych
 GHissueID: 232
 title: 'WordPress: Jak zmienić prefiks bazy danych'

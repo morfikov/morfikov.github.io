@@ -1,13 +1,13 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-05-23T11:55:52Z"
 date_gmt: 2015-05-23 09:55:52 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 GHissueID: 222
 title: 'WordPress: "Briefly unavailable for scheduled maintenance"'
 ---

@@ -8,7 +8,7 @@ published: true
 status: publish
 tags:
 - debian
-- blog
+- wordpress
 - hugo
 - jekyll
 GHissueID: 36

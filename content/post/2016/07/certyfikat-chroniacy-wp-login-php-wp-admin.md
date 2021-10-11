@@ -1,14 +1,14 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2016-07-19T14:07:05Z"
 date_gmt: 2016-07-19 12:07:05 +0200
 published: true
 status: publish
 tags:
 - apache2
-- blog
+- wordpress
 - certyfikaty
 GHissueID: 389
 title: Certyfikat chroniący wp-login.php i wp-admin/

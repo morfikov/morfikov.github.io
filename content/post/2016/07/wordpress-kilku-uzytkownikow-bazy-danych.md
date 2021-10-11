@@ -1,13 +1,13 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2016-07-20T20:15:44Z"
 date_gmt: 2016-07-20 18:15:44 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 - baza-danych
 - mysql
 GHissueID: 390

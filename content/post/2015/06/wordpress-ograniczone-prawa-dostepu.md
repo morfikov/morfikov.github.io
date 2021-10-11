@@ -1,7 +1,7 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-06-06T11:41:24Z"
 date_gmt: 2015-06-06 09:41:24 +0200
 published: true
@@ -9,7 +9,7 @@ status: publish
 tags:
 - pliki
 - foldery
-- blog
+- wordpress
 - bezpieczeństwo
 - baza-danych
 GHissueID: 81

@@ -1,14 +1,14 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-05-24T13:33:53Z"
 date_gmt: 2015-05-24 11:33:53 +0200
 published: true
 status: publish
 tags:
 - seo
-- blog
+- wordpress
 GHissueID: 221
 title: 'WordPress: Odnośniki bezpośrednie (permalinks)'
 ---

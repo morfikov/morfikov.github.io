@@ -1,14 +1,14 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-06-06T18:50:51Z"
 date_gmt: 2015-06-06 16:50:51 +0200
 published: true
 status: publish
 tags:
 - cookies
-- blog
+- wordpress
 GHissueID: 119
 title: 'WordPress: Ciasteczka i ich czas żywotności'
 ---

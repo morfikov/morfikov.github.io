@@ -1,13 +1,15 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-06-02T14:43:22Z"
 date_gmt: 2015-06-02 12:43:22 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
+- cli
+- terminal
 GHissueID: 74
 title: 'WordPress: Instalacja przy pomocy wp-cli'
 ---

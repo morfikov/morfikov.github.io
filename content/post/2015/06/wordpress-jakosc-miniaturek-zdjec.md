@@ -1,14 +1,16 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-06-19T21:23:31Z"
 date_gmt: 2015-06-19 19:23:31 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 - pliki
+- zdjęcia
+- thumbnail
 GHissueID: 126
 title: 'WordPress: Jakość miniaturek zdjęć'
 ---

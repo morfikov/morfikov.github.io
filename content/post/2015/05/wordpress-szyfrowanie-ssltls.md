@@ -1,14 +1,14 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-05-24T19:54:15Z"
 date_gmt: 2015-05-24 17:54:15 +0200
 published: true
 status: publish
 tags:
 - bezpieczeństwo
-- blog
+- wordpress
 - ssl
 - tls
 GHissueID: 225

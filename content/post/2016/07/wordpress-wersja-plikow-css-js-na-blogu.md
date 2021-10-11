@@ -1,13 +1,13 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2016-07-29T13:08:24Z"
 date_gmt: 2016-07-29 11:08:24 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 - cache
 - css
 - js

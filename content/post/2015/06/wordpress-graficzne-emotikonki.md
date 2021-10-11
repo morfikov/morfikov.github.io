@@ -1,13 +1,13 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2015-06-03T19:14:23Z"
 date_gmt: 2015-06-03 17:14:23 +0200
 published: true
 status: publish
 tags:
-- blog
+- wordpress
 GHissueID: 121
 title: 'WordPress: Graficzne emotikonki'
 ---

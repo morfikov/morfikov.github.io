@@ -8,10 +8,11 @@ published: true
 status: publish
 tags:
 - apache2
-- blog
+- wordpress
 - certyfikaty
 - ssl
 - tls
+- letsencrypt
 GHissueID: 384
 title: Certyfikat Let's Encrypt dla bloga WordPress (certbot)
 ---

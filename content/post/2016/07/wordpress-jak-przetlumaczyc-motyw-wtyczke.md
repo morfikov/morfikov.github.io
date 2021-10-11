@@ -1,14 +1,14 @@
 ---
 author: Morfik
 categories:
-- WordPress
+- Blog
 date: "2016-07-27T20:00:04Z"
 date_gmt: 2016-07-27 18:00:04 +0200
 published: true
 status: publish
 tags:
 - gettext
-- blog
+- wordpress
 - php
 GHissueID: 392
 title: 'WordPress: Jak przetłumaczyć motyw/wtyczkę'
