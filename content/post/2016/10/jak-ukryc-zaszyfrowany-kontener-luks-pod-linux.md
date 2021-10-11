@@ -12,6 +12,7 @@ tags:
 - hdd
 - ssd
 - szyfrowanie
+GHissueID: 443
 title: Jak ukryć zaszyfrowany kontener LUKS pod linux
 ---
 

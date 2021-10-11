@@ -12,6 +12,7 @@ tags:
 - router
 - failover
 - load-balancing
+GHissueID: 471
 title: Failover i load balancing w OpenWRT (mwan3)
 ---
 

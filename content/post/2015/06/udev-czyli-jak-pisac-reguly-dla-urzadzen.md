@@ -9,6 +9,7 @@ status: publish
 tags:
 - udev
 - debian
+GHissueID: 127
 title: UDEV, czyli jak pisać reguły dla urządzeń
 ---
 

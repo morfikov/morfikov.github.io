@@ -12,6 +12,7 @@ tags:
 - xposed
 - root
 - xda
+GHissueID: 500
 title: 'XDA Labs: Repozytorium aplikacji i modułów Xposed'
 ---
 

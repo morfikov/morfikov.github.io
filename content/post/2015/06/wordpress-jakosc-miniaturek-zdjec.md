@@ -9,6 +9,7 @@ status: publish
 tags:
 - blog
 - pliki
+GHissueID: 126
 title: 'WordPress: Jakość miniaturek zdjęć'
 ---
 

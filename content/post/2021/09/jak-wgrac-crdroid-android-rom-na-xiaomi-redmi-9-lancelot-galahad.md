@@ -17,6 +17,7 @@ tags:
 - safetynet
 - twrp
 - shrp
+GHissueID: 323
 title: Jak wgrać crDroid Android ROM na Xiaomi Redmi 9 (lancelot/galahad)
 ---
 

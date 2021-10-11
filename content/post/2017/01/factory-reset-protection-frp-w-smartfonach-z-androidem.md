@@ -11,6 +11,7 @@ tags:
 - prywatność
 - factory-reset
 - spflashtool
+GHissueID: 62
 title: Factory Reset Protection (FRP) w smartfonach z Androidem
 ---
 

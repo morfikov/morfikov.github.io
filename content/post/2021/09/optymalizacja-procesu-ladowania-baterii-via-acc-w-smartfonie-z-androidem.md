@@ -13,6 +13,7 @@ tags:
 - smartfon
 - bateria
 - acc
+GHissueID: 324
 title: Optymalizacja procesu ładowania baterii via ACC w smartfonie z Androidem
 ---
 

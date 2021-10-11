@@ -10,6 +10,7 @@ tags:
 - wifi
 - debian
 - sieć
+GHissueID: 163
 title: Konfiguracja połączenia WiFi pod debianem
 ---
 

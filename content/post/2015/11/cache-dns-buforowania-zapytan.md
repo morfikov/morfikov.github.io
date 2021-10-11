@@ -12,6 +12,7 @@ tags:
 - dnsmasq
 - systemd
 - resolver
+GHissueID: 261
 title: Cache DNS, czyli włączenie buforowania zapytań
 ---
 

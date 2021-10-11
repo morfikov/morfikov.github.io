@@ -11,6 +11,7 @@ tags:
 - chaos-calmer
 - sieć
 - router
+GHissueID: 473
 title: Sieć bezprzewodowa WiFi w OpenWRT (WLAN)
 ---
 

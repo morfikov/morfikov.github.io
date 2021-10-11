@@ -12,6 +12,7 @@ tags:
 - recenzja
 - tp-link
 - cups
+GHissueID: 445
 title: 'Recenzja: Serwer druku MFP TL-PS310U od TP-LINK'
 ---
 

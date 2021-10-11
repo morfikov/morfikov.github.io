@@ -12,6 +12,7 @@ tags:
 - uefi
 - luks
 - lvm
+GHissueID: 26
 title: Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS+LVM)
 ---
 

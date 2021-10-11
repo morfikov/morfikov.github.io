@@ -15,6 +15,7 @@ tags:
 - prywatność
 - aplikacje
 - f-droid
+GHissueID: 329
 title: Blokowanie dostępu do sensorów (kamera/mikrofon/gps) aplikacjom w Androidzie
 ---
 

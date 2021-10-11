@@ -11,6 +11,7 @@ tags:
 - power-bank
 - bateria
 - akumulator
+GHissueID: 457
 title: 'Recenzja: Power Bank TL-PBG6700 od TP-LINK'
 ---
 

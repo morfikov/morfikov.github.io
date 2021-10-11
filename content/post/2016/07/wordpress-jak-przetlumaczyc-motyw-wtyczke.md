@@ -10,6 +10,7 @@ tags:
 - gettext
 - blog
 - php
+GHissueID: 392
 title: 'WordPress: Jak przetłumaczyć motyw/wtyczkę'
 ---
 

@@ -11,6 +11,7 @@ tags:
 - prywatność
 - flash
 - debian
+GHissueID: 202
 title: Konfiguracja wtyczki flash na linux'ie (mms.cfg)
 ---
 

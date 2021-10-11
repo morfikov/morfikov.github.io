@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - szyfrowanie
 - online-storage
+GHissueID: 178
 title: Kontener TrueCrypt trzymany na dropbox'ie
 ---
 

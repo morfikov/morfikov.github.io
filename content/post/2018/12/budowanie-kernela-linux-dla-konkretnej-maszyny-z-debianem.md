@@ -10,6 +10,7 @@ tags:
 - debian
 - kernel
 - kompilacja
+GHissueID: 320
 title: Budowanie kernela linux dla konkretnej maszyny z Debianem
 ---
 

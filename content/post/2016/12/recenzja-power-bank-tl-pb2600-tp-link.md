@@ -11,6 +11,7 @@ tags:
 - power-bank
 - bateria
 - akumulator
+GHissueID: 458
 title: 'Recenzja: Power Bank TL-PB2600 TP-LINK'
 ---
 

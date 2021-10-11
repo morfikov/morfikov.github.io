@@ -13,6 +13,7 @@ tags:
 - prywatność
 - szyfrowanie
 - firefox
+GHissueID: 37
 title: Jak włączyć w Firefox ESNI (Encrypted SNI)
 ---
 

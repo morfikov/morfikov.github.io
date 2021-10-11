@@ -12,6 +12,7 @@ tags:
 - rbm
 - play
 - router
+GHissueID: 481
 title: Automatyczna blokada internetu LTE w OpenWRT
 ---
 

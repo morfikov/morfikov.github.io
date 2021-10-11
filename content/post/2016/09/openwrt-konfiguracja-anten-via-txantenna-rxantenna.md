@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - router
 - antena
+GHissueID: 365
 title: 'OpenWRT: Konfiguracja anten via txantenna/rxantenna'
 ---
 

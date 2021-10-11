@@ -8,6 +8,7 @@ status: publish
 tags:
 - debian
 - git
+GHissueID: 310
 title: Jak sklonować duże repozytorium git na niestabilnym łączu sieciowym
 ---
 

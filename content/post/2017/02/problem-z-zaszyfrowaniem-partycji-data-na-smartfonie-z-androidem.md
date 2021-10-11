@@ -13,6 +13,7 @@ tags:
 - adb
 - eryptfs
 - twrp
+GHissueID: 59
 title: Problem z zaszyfrowaniem partycji /data/ na smartfonie z Androidem
 ---
 

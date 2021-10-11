@@ -10,6 +10,7 @@ tags:
 - smart
 - hdd
 - ssd
+GHissueID: 75
 title: Problematyczny parametr "Offline Uncorrectable"
 ---
 

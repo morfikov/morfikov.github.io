@@ -11,6 +11,7 @@ tags:
 - szyfrowanie
 - moduły-pam
 - online-storage
+GHissueID: 169
 title: Implementacja encfs na dropbox'ie
 ---
 

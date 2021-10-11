@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - sysupgrade
 - router
+GHissueID: 415
 title: Sysupgrade, czyli aktualizacja firmware OpenWRT
 ---
 

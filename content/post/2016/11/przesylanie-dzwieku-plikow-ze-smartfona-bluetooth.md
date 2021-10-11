@@ -12,6 +12,7 @@ tags:
 - debian
 - bluetooth
 - smartfon
+GHissueID: 501
 title: Przesyłanie dźwięku i plików ze smartfona przez bluetooth
 ---
 

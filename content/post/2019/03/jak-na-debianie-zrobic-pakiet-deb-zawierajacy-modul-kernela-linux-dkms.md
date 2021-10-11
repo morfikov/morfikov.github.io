@@ -9,6 +9,7 @@ tags:
 - debian
 - kernel
 - dkms
+GHissueID: 300
 title: Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)
 ---
 

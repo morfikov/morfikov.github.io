@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - bash
+GHissueID: 242
 title: Uzupełnianie poleceń w bash (bash completion)
 ---
 

@@ -12,6 +12,7 @@ tags:
 - mysql
 - debian
 - php
+GHissueID: 560
 title: Chroot Apache2 vs dyrektywa open_basedir w PHP
 ---
 

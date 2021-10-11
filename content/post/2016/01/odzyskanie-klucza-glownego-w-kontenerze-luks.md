@@ -9,6 +9,7 @@ status: publish
 tags:
 - luks
 - szyfrowanie
+GHissueID: 529
 title: Klucz główny kontenera LUKS i jego odzyskanie
 ---
 

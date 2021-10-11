@@ -10,6 +10,7 @@ tags:
 - dźwięk
 - debian
 - pulseaudio
+GHissueID: 532
 title: Konfiguracja serwera dźwięku PulseAudio
 ---
 

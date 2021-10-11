@@ -9,6 +9,7 @@ status: publish
 tags:
 - apache2
 - debian
+GHissueID: 161
 title: Tworzenie repozytorium przy pomocy reprepro
 ---
 

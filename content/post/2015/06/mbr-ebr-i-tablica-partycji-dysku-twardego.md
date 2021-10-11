@@ -12,6 +12,7 @@ tags:
 - ebr
 - ssd
 - hdd
+GHissueID: 85
 title: MBR, EBR i tablica partycji dysku twardego
 ---
 

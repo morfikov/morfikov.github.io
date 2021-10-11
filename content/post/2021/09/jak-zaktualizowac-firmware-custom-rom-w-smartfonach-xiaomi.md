@@ -17,6 +17,7 @@ tags:
 - firmware
 - twrp
 - shrp
+GHissueID: 322
 title: Jak zaktualizować firmware custom ROM'ów w smartfonach Xiaomi
 ---
 

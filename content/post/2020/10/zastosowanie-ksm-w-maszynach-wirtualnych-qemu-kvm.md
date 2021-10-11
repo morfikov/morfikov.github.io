@@ -14,6 +14,7 @@ tags:
 - qemu
 - libvirt
 - kernel
+GHissueID: 15
 title: Zastosowanie KSM w maszynach wirtualnych QEMU/KVM
 ---
 

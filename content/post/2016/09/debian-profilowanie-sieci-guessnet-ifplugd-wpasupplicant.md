@@ -11,6 +11,7 @@ tags:
 - debian
 - openbox
 - sieć
+GHissueID: 361
 title: 'Debian: Profilowanie sieci z guessnet, ifplugd i wpasupplicant'
 ---
 

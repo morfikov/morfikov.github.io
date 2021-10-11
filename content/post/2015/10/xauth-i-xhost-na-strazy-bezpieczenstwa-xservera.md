@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - xserver
+GHissueID: 198
 title: Xauth i xhost na straży bezpieczeństwa Xserver'a
 ---
 

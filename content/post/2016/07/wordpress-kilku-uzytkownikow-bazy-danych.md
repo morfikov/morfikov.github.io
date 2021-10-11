@@ -10,6 +10,7 @@ tags:
 - blog
 - baza-danych
 - mysql
+GHissueID: 390
 title: 'WordPress: Kilku użytkowników bazy danych'
 ---
 

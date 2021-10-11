@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 573
 title: 'WordPress: Jak usunąć alias "login" dla wp-login.php'
 ---
 

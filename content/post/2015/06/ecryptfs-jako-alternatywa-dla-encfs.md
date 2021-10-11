@@ -12,6 +12,7 @@ tags:
 - pliki
 - foldery
 - pam
+GHissueID: 107
 title: ECryptfs jako alternatywa dla encfs
 ---
 

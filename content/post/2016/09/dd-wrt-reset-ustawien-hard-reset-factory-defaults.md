@@ -9,6 +9,7 @@ status: publish
 tags:
 - router
 - dd-wrt
+GHissueID: 372
 title: 'DD-WRT: Reset ustawień (Hard Reset i factory defaults)'
 ---
 

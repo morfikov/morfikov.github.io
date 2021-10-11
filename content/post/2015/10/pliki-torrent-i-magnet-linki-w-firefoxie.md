@@ -10,6 +10,7 @@ tags:
 - firefox
 - p2p
 - mime
+GHissueID: 197
 title: Pliki .torrent i magnet linki w Firefox'ie
 ---
 

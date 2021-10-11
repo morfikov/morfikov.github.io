@@ -9,6 +9,7 @@ status: publish
 tags:
 - smartfon
 - root
+GHissueID: 69
 title: Root Integrity Check w smartfonach z Androidem
 ---
 

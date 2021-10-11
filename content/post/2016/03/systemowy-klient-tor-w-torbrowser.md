@@ -9,6 +9,7 @@ status: publish
 tags:
 - firefox
 - anonimowość
+GHissueID: 508
 title: Systemowy klient Tor w TorBrowser
 ---
 

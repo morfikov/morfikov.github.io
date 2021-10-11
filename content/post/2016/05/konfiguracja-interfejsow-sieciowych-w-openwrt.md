@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - sieć
 - router
+GHissueID: 496
 title: Konfiguracja interfejsów sieciowych w OpenWRT
 ---
 

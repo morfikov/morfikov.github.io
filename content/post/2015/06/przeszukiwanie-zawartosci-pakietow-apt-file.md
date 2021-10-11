@@ -10,6 +10,7 @@ tags:
 - debian
 - apt
 - apt-file
+GHissueID: 89
 title: Przeszukiwanie zawartości pakietów (apt-file)
 ---
 

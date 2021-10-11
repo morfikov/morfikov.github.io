@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - bezpieczeństwo
+GHissueID: 254
 title: Pliki hosts.allow i hosts.deny
 ---
 

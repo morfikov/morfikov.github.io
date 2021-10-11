@@ -12,6 +12,7 @@ tags:
 - adblock
 - dns
 - adguard
+GHissueID: 16
 title: Instalacja i konfiguracja AdGuard na routerze z OpenWRT
 ---
 

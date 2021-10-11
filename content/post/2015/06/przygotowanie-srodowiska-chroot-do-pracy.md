@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - chroot
+GHissueID: 137
 title: Przygotowanie środowiska chroot do pracy
 ---
 

@@ -11,6 +11,7 @@ tags:
 - szyfrowanie
 - online-storage
 - luks
+GHissueID: 192
 title: Dropbox i kontener LUKS
 ---
 

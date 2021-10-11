@@ -10,6 +10,7 @@ tags:
 - gry
 - wine
 - quake
+GHissueID: 539
 title: Quake II pod linux'em bez Wine
 ---
 

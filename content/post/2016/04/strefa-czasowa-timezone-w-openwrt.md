@@ -11,6 +11,7 @@ tags:
 - router
 - ntp
 - czas
+GHissueID: 426
 title: Strefa czasowa (timezone) w OpenWRT
 ---
 

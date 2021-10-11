@@ -9,6 +9,7 @@ status: publish
 tags:
 - sieć
 - dhcp
+GHissueID: 357
 title: Konfiguracja interfejsów sieciowych w dhclient
 ---
 

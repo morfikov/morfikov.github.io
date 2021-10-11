@@ -9,6 +9,7 @@ status: publish
 tags:
 - cookies
 - blog
+GHissueID: 93
 title: 'WordPress: Klucze zabezpieczające ciasteczka'
 ---
 

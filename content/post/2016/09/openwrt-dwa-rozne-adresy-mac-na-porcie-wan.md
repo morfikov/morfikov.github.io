@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - router
 - mac
+GHissueID: 362
 title: 'OpenWRT: Dwa różne adresy MAC na porcie WAN'
 ---
 

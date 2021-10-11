@@ -16,6 +16,7 @@ tags:
 - spice
 - sieć
 - debian
+GHissueID: 31
 title: Zarządzanie Raspberry Pi 4B z LibreELEC przez VNC/SPICE
 ---
 

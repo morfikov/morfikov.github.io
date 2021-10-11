@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - szyfrowanie
 - openssl
+GHissueID: 184
 title: Generowanie certyfikatów przy pomocy easy-rsa
 ---
 

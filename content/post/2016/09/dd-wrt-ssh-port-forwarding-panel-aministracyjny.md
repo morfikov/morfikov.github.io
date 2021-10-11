@@ -10,6 +10,7 @@ tags:
 - ssh
 - router
 - dd-wrt
+GHissueID: 376
 title: 'DD-WRT: SSH port forwarding i panel aministracyjny'
 ---
 

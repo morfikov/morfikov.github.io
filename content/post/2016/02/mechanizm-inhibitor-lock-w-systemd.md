@@ -9,6 +9,7 @@ status: publish
 tags:
 - systemd
 - hibernacja
+GHissueID: 516
 title: Mechanizm inhibitor lock w systemd
 ---
 

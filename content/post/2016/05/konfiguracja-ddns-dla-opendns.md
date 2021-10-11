@@ -11,6 +11,7 @@ tags:
 - systemd
 - sieć
 - opendns
+GHissueID: 484
 title: Konfiguracja DDNS dla OpenDNS
 ---
 

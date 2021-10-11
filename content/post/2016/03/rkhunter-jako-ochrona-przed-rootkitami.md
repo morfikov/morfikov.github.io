@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - rootkit
 - debian
+GHissueID: 507
 title: Rkhunter jako ochrona przed rootkit'ami
 ---
 

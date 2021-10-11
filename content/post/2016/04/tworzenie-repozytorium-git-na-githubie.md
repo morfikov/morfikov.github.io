@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - git
+GHissueID: 431
 title: Tworzenie repozytorium git na GitHub
 ---
 

@@ -10,6 +10,7 @@ tags:
 - firefox
 - skrypty
 - thunderbird
+GHissueID: 515
 title: Aktualizacja Firefox'a i Thunderbird'a w debianie
 ---
 

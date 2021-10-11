@@ -11,6 +11,7 @@ tags:
 - dźwięk
 - sieć
 - debian
+GHissueID: 160
 title: PulseAudio i przesyłanie dźwięku przez sieć
 ---
 

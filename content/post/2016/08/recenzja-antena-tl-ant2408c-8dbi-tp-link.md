@@ -11,6 +11,7 @@ tags:
 - recenzja
 - tp-link
 - antena
+GHissueID: 547
 title: 'Recenzja: Antena TL-ANT2408C (8dBi, 2,4GHz) od TP-LINK'
 ---
 

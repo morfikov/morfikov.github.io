@@ -16,6 +16,7 @@ tags:
 - spflashtool
 - fastboot
 - adb
+GHissueID: 463
 title: 'Android: Root smartfona Neffos C5 MAX od TP-LINK'
 ---
 

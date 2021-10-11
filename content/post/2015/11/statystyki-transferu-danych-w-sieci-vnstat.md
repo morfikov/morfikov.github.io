@@ -9,6 +9,7 @@ status: publish
 tags:
 - statystyki
 - sieć
+GHissueID: 247
 title: Statystyki transferu danych w sieci (vnstat)
 ---
 

@@ -13,6 +13,7 @@ tags:
 - spam
 - reklamy
 - adb
+GHissueID: 316
 title: Jak usunąć aplikacje bloatware ze smartfona z Androidem bez root
 ---
 

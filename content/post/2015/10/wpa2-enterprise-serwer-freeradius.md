@@ -10,6 +10,7 @@ tags:
 - szyfrowanie
 - wifi
 - sieć
+GHissueID: 201
 title: WPA/WPA2 Enterprise i serwer freeradius
 ---
 

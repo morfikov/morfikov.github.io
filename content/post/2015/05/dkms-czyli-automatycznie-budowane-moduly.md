@@ -11,6 +11,7 @@ tags:
 - dkms
 - kernel
 - moduły-kernela
+GHissueID: 224
 title: DKMS, czyli automatycznie budowane moduły
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - seo
 - blog
+GHissueID: 221
 title: 'WordPress: Odnośniki bezpośrednie (permalinks)'
 ---
 

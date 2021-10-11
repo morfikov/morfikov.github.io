@@ -10,6 +10,7 @@ tags:
 - pliki
 - foldery
 - dźwięk
+GHissueID: 274
 title: Dzielenie i łączenie pliku mp3
 ---
 

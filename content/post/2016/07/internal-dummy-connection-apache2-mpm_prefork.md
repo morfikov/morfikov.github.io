@@ -9,6 +9,7 @@ status: publish
 tags:
 - apache2
 - logi
+GHissueID: 400
 title: '"Internal dummy connection" w logu Apache2 (mpm_prefork)'
 ---
 

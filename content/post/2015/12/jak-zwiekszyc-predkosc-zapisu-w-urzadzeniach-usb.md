@@ -10,6 +10,7 @@ tags:
 - pendrive
 - udev
 - usb
+GHissueID: 206
 title: Jak zwiększyć prędkość zapisu w urządzeniach USB
 ---
 

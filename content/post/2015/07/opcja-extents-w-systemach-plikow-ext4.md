@@ -11,6 +11,7 @@ tags:
 - hdd
 - ssd
 - ext4
+GHissueID: 151
 title: Opcja extents w systemach plików ext4
 ---
 

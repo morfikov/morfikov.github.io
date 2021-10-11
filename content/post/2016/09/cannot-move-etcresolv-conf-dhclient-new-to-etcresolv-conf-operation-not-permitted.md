@@ -10,6 +10,7 @@ tags:
 - dns
 - dhcp
 - dhclient
+GHissueID: 373
 title: 'Cannot move /etc/resolv.conf.dhclient-new to /etc/resolv.conf: Operation not permitted'
 ---
 

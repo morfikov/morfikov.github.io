@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - apache2
+GHissueID: 394
 title: Jak zablokować hotlink'i w Apache2
 ---
 

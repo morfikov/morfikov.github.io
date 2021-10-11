@@ -13,6 +13,7 @@ tags:
 - gpg
 - bezpieczeństwo
 - apt-key
+GHissueID: 339
 title: Migracja z apt-key w Debian linux
 ---
 

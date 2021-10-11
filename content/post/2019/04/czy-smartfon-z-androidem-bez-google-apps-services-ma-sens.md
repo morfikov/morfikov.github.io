@@ -17,6 +17,7 @@ tags:
 - f-droid
 - magisk
 - xposed
+GHissueID: 288
 title: Czy smartfon z Androidem bez Google Apps/Services ma sens
 ---
 

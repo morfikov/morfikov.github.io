@@ -11,6 +11,7 @@ tags:
 - moduły-kernela
 - wifi
 - usb
+GHissueID: 550
 title: Sterowniki dla karty WiFi Archer T1U (mt7610u_sta)
 ---
 

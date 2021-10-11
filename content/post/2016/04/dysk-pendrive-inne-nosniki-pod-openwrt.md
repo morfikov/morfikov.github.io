@@ -12,6 +12,7 @@ tags:
 - ssd
 - chaos-calmer
 - router
+GHissueID: 416
 title: Dysk, pendrive i inne nośniki pod OpenWRT
 ---
 

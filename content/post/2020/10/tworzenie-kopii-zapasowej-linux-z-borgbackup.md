@@ -12,6 +12,7 @@ tags:
 - szyfrowanie
 - kompresja
 - deduplikacja
+GHissueID: 14
 title: Tworzenie kopii zapasowej linux'a z BorgBackup
 ---
 

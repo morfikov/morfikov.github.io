@@ -14,6 +14,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 417
 title: Modem LTE pod OpenWRT (Huawei E3372s-153)
 ---
 

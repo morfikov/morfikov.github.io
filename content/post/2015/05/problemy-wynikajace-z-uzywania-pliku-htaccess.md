@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - apache2
+GHissueID: 220
 title: Problemy wynikające z używania pliku .htaccess
 ---
 

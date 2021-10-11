@@ -11,6 +11,7 @@ tags:
 - live
 - karta-sd
 - flash
+GHissueID: 84
 title: Jak wgrać system live na uszkodzony pendrive
 ---
 

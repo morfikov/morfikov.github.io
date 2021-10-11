@@ -13,6 +13,7 @@ tags:
 - smartfon
 - neffos
 - neffos-c5
+GHissueID: 437
 title: 'Recenzja: Smartfon Neffos C5 od TP-LINK'
 ---
 

@@ -16,6 +16,7 @@ tags:
 - lenovo
 - thinkpad
 - t430
+GHissueID: 25
 title: Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux
 ---
 

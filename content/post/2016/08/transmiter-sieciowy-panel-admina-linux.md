@@ -11,6 +11,7 @@ tags:
 - sieć
 - tp-link
 - ekstender
+GHissueID: 558
 title: Transmiter sieciowy i jego panel admina pod linux'em
 ---
 

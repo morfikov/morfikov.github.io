@@ -15,6 +15,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 411
 title: Jak przypisać losowy adres MAC do interfejsu
 ---
 

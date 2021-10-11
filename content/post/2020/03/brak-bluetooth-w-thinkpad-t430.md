@@ -11,6 +11,7 @@ tags:
 - lenovo
 - thinkpad
 - t430
+GHissueID: 27
 title: Brak bluetooth w ThinkPad T430 (BCM20702A1)
 ---
 

@@ -15,6 +15,7 @@ tags:
 - root
 - twrp
 - szyfrowanie
+GHissueID: 451
 title: Jak zaszyfrować zapytania DNS na smartfonie (dnscrypt-proxy)
 ---
 

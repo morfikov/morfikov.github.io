@@ -10,6 +10,7 @@ tags:
 - firefox
 - namespaces
 - docker
+GHissueID: 314
 title: Uruchamianie graficznych aplikacji w kontenerach Docker'a
 ---
 

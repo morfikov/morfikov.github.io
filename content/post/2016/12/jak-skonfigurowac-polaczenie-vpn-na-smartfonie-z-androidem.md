@@ -12,6 +12,7 @@ tags:
 - aplikacje
 - openvpn
 - prywatność
+GHissueID: 453
 title: Jak skonfigurować połączenie VPN na smartfonie z Androidem
 ---
 

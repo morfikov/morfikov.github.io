@@ -10,6 +10,7 @@ tags:
 - system-plików
 - pliki
 - foldery
+GHissueID: 342
 title: Sparse files (rozrzedzone pliki)
 ---
 

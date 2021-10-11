@@ -12,6 +12,7 @@ tags:
 - recenzja
 - tp-link
 - ekstender
+GHissueID: 549
 title: 'Recenzja: Transmitery sieciowe TL-WPA4226T KIT od TP-LINK'
 ---
 

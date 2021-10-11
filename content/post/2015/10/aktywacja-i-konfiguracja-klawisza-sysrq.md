@@ -9,6 +9,7 @@ status: publish
 tags:
 - sysctl
 - kernel
+GHissueID: 188
 title: Aktywacja i konfiguracja klawisza SysRq
 ---
 

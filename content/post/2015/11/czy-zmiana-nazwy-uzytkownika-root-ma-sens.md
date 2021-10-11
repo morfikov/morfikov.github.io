@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - użytkownicy
 - grupy
+GHissueID: 272
 title: Czy zmiana nazwy użytkownika root ma sens?
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - gettext
 - blog
+GHissueID: 240
 title: 'WordPress: Domyślny język instalacji'
 ---
 

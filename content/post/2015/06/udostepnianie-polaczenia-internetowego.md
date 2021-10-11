@@ -9,6 +9,7 @@ status: publish
 tags:
 - iptables
 - sysctl
+GHissueID: 117
 title: Udostępnianie połączenia internetowego
 ---
 

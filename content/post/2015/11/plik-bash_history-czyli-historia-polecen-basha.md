@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - bash
+GHissueID: 271
 title: Plik .bash_history, czyli historia poleceń bash'a
 ---
 

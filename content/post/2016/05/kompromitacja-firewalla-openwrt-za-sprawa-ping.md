@@ -10,6 +10,7 @@ tags:
 - iptables
 - chaos-calmer
 - router
+GHissueID: 485
 title: Kompromitacja firewall'a OpenWRT za sprawą ping
 ---
 

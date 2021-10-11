@@ -9,6 +9,7 @@ status: publish
 tags:
 - xserver
 - klawiatura
+GHissueID: 125
 title: Przecinek vs. kropka na klawiaturze numerycznej
 ---
 

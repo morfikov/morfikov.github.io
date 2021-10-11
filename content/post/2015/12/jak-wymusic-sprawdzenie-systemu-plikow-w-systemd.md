@@ -9,6 +9,7 @@ status: publish
 tags:
 - system-plików
 - systemd
+GHissueID: 204
 title: Jak wymusić sprawdzenie systemu plików w systemd
 ---
 

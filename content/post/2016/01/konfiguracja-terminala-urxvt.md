@@ -10,6 +10,7 @@ tags:
 - terminal
 - xserver
 - openbox
+GHissueID: 534
 title: Konfiguracja terminala urxvt
 ---
 

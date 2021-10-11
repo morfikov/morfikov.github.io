@@ -12,6 +12,7 @@ tags:
 - youtube
 - reklamy
 - spam
+GHissueID: 436
 title: 'Android: YouTube bez reklam na smartfonie (NewPipe)'
 ---
 

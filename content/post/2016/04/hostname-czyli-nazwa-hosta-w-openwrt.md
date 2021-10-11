@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - router
 - hostname
+GHissueID: 406
 title: Hostname, czyli nazwa hosta w OpenWRT
 ---
 

@@ -12,6 +12,7 @@ tags:
 - bootloader
 - spflashtool
 - twrp
+GHissueID: 41
 title: Jak usunąć blokadę bootloader'a (OEM lock) w smartfonie z Androidem
 ---
 

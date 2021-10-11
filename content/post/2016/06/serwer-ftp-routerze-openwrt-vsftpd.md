@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - ftp
 - router
+GHissueID: 351
 title: Serwer FTP na routerze z OpenWRT (vsftpd)
 ---
 

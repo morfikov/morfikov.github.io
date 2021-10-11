@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - xserver
 - sysctl
+GHissueID: 230
 title: Bezpieczeństwo Xserver'a pod linux'em
 ---
 

@@ -11,6 +11,7 @@ tags:
 - wifi
 - chaos-calmer
 - router
+GHissueID: 494
 title: WPS, czyli WiFi Protected Setup w OpenWRT
 ---
 

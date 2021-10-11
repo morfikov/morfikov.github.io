@@ -11,6 +11,7 @@ tags:
 - statystyki
 - router
 - rrdtool
+GHissueID: 487
 title: Statystyki routera w OpenWRT (collectd, rrdtool)
 ---
 

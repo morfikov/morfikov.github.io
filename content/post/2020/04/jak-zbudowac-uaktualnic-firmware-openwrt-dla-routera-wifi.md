@@ -9,6 +9,7 @@ tags:
 - router
 - kompilacja
 - tp-link
+GHissueID: 13
 title: Jak zbudować/uaktualnić firmware OpenWRT dla routera WiFi
 ---
 

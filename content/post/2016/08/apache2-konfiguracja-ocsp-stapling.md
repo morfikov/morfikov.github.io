@@ -11,6 +11,7 @@ tags:
 - apache2
 - ssl
 - tls
+GHissueID: 566
 title: 'Apache2: Konfiguracja OCSP Stapling'
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - live
 - system-plików
+GHissueID: 123
 title: Squashfs jako system plików obrazów live
 ---
 

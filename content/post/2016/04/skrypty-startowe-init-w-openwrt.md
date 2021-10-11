@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - router
 - init
+GHissueID: 425
 title: Skrypty startowe init w OpenWRT
 ---
 

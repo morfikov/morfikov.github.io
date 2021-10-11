@@ -12,6 +12,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 423
 title: Gammu-smsd, czyli wysyłanie i odbieranie SMS
 ---
 

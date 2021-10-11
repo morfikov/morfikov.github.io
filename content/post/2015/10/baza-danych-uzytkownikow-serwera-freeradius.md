@@ -9,6 +9,7 @@ status: publish
 tags:
 - baza-danych
 - wifi
+GHissueID: 189
 title: Baza danych użytkowników serwera freeradius
 ---
 

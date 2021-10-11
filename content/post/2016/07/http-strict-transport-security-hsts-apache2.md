@@ -11,6 +11,7 @@ tags:
 - apache2
 - ssl
 - tls
+GHissueID: 385
 title: HTTP Strict Transport Security (HSTS) w Apache2
 ---
 

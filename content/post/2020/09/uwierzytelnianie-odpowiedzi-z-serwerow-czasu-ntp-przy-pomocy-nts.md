@@ -16,6 +16,7 @@ tags:
 - czas
 - systemd
 - systemd-timesyncd
+GHissueID: 8
 title: Uwierzytelnianie odpowiedzi z serwerów czasu NTP przy pomocy NTS
 ---
 

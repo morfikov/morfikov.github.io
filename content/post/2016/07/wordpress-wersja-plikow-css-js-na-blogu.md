@@ -11,6 +11,7 @@ tags:
 - cache
 - css
 - js
+GHissueID: 399
 title: 'WordPress: Wersja plików .css/.js na blogu'
 ---
 

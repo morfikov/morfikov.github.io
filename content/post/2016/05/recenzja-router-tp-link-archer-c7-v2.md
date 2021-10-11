@@ -11,6 +11,7 @@ tags:
 - router
 - recenzja
 - tp-link
+GHissueID: 478
 title: 'Recenzja: router TP-LINK Archer C7 v2'
 ---
 

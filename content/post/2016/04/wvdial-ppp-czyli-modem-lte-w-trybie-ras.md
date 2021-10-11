@@ -14,6 +14,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 410
 title: Wvdial i PPP, czyli modem LTE w trybie RAS
 ---
 

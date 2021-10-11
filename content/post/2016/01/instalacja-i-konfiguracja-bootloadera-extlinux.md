@@ -9,6 +9,7 @@ status: publish
 tags:
 - mbr
 - bootloader
+GHissueID: 544
 title: Instalacja i konfiguracja bootloader'a extlinux
 ---
 

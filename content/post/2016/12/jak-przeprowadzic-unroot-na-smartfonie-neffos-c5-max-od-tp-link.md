@@ -15,6 +15,7 @@ tags:
 - spflashtool
 - fastboot
 - adb
+GHissueID: 469
 title: Jak przeprowadzić unroot na smartfonie Neffos C5 MAX od TP-LINK
 ---
 

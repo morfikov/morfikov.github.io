@@ -11,6 +11,7 @@ tags:
 - tp-link
 - kamera
 - aparat
+GHissueID: 502
 title: 'Recenzja: Kamera IP NC250 od TP-LINK'
 ---
 

@@ -10,6 +10,7 @@ tags:
 - udev
 - hdd
 - ssd
+GHissueID: 180
 title: Parametr multcount w dyskach twardych
 ---
 

@@ -11,6 +11,7 @@ tags:
 - moduły-kernela
 - wifi
 - usb
+GHissueID: 94
 title: Sterowniki do karty TP-LINK Archer T4U (8812au)
 ---
 

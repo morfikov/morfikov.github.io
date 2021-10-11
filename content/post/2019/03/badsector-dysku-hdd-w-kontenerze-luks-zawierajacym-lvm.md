@@ -11,6 +11,7 @@ tags:
 - smart
 - luks
 - lvm
+GHissueID: 301
 title: Badsector dysku HDD w kontenerze LUKS zawierającym LVM
 ---
 

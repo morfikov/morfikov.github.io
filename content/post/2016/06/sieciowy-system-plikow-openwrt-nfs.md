@@ -11,6 +11,7 @@ tags:
 - sieć
 - nfs
 - router
+GHissueID: 349
 title: Sieciowy system plików w OpenWRT (NFS)
 ---
 

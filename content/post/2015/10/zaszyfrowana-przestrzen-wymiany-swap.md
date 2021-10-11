@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - szyfrowanie
 - swap
+GHissueID: 177
 title: Zaszyfrowana przestrzeń wymiany SWAP
 ---
 

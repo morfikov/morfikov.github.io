@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - iptables
+GHissueID: 277
 title: Moduł xt_recent i limitowanie połączeń w iptables
 ---
 

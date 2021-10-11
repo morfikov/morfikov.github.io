@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - iptables
+GHissueID: 470
 title: Debugowanie reguł iptables via target TRACE
 ---
 

@@ -10,6 +10,7 @@ tags:
 - debian
 - sieć
 - ftp
+GHissueID: 510
 title: Konfiguracja vsftpd w Debianie
 ---
 

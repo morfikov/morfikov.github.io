@@ -11,6 +11,7 @@ tags:
 - ssh
 - szyfrowanie
 - dźwięk
+GHissueID: 266
 title: Szyfrowanie dźwięku przesyłanego przez sieć
 ---
 

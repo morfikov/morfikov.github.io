@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - cron
+GHissueID: 353
 title: Uruchamianie zadań cron co 15 minut lub 6 godzin
 ---
 

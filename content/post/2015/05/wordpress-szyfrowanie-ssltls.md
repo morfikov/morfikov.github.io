@@ -11,6 +11,7 @@ tags:
 - blog
 - ssl
 - tls
+GHissueID: 225
 title: 'WordPress: Szyfrowanie SSL/TLS'
 ---
 

@@ -14,6 +14,7 @@ tags:
 - root
 - aplikacje
 - f-droid
+GHissueID: 328
 title: Czym jest tryb lockdown w smartfonie z Androidem
 ---
 

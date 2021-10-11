@@ -12,6 +12,7 @@ tags:
 - live
 - luks
 - szyfrowanie
+GHissueID: 113
 title: Persistence, czyli zachowanie zmian w systemie live
 ---
 

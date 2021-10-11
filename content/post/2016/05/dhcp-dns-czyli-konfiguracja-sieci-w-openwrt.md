@@ -14,6 +14,7 @@ tags:
 - dnsmasq
 - cache
 - resolver
+GHissueID: 482
 title: DHCP i DNS, czyli konfiguracja sieci w OpenWRT
 ---
 

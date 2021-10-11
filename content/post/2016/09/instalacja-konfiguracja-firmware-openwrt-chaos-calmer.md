@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - router
 - tp-link
+GHissueID: 369
 title: Instalacja i konfiguracja firmware OpenWRT (Chaos Calmer)
 ---
 

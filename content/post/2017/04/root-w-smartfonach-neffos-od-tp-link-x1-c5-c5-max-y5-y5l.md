@@ -19,6 +19,7 @@ tags:
 - neffos-y5-l
 - adb
 - fastboot
+GHissueID: 45
 title: Root w smartfonach Neffos od TP-LINK (X1, C5, C5 MAX, Y5, Y5L)
 ---
 

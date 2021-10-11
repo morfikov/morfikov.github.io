@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 511
 title: 'WordPress: Zmiana serwera i nazwy bloga'
 ---
 

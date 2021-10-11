@@ -10,6 +10,7 @@ tags:
 - debian
 - apt
 - logi
+GHissueID: 190
 title: Aktualizacja systemu i logowanie komunikatów
 ---
 

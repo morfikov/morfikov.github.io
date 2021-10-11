@@ -11,6 +11,7 @@ tags:
 - szyfrowanie
 - anonimowość
 - proxy
+GHissueID: 179
 title: Serwer kluczy GPG i kwestia prywatności
 ---
 

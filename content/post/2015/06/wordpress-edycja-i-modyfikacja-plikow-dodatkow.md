@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 116
 title: 'WordPress: Edycja i modyfikacja plików dodatków'
 ---
 

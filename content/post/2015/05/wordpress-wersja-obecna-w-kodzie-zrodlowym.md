@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 219
 title: 'WordPress: Wersja obecna w kodzie źródłowym'
 ---
 

@@ -17,6 +17,7 @@ tags:
 - dns
 - dnsmasq
 - dnscrypt
+GHissueID: 428
 title: Aero2 w połączeniu z dnsmasq i dnscrypt-proxy
 ---
 

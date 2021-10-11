@@ -15,6 +15,7 @@ tags:
 - vnc
 - spice
 - kernel
+GHissueID: 40
 title: Wirtualizacja QEMU/KVM (libvirt) na Debian Linux
 ---
 

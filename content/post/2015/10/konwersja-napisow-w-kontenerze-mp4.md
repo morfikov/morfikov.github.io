@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - video
+GHissueID: 162
 title: Konwersja napisów w kontenerze MP4
 ---
 

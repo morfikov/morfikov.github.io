@@ -11,6 +11,7 @@ tags:
 - iptables
 - sieć
 - qos
+GHissueID: 211
 title: Konfiguracja interfejsów IFB w linux'ie
 ---
 

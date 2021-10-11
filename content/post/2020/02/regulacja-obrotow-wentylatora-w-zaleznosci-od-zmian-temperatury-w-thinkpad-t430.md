@@ -11,6 +11,7 @@ tags:
 - thinkpad
 - lenovo
 - t430
+GHissueID: 28
 title: Regulacja obrotów wentylatora w zależności od zmian temperatury w ThinkPad T430
 ---
 

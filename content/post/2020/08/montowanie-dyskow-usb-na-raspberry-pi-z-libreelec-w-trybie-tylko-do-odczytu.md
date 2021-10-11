@@ -14,6 +14,7 @@ tags:
 - ntfs
 - hdd
 - ssd
+GHissueID: 35
 title: Montowanie dysków USB na Raspberry Pi z LibreELEC w trybie tylko do odczytu
 ---
 

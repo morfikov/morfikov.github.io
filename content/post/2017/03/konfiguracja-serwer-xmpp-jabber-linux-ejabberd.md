@@ -10,6 +10,7 @@ tags:
 - debian
 - xmpp
 - jabber
+GHissueID: 49
 title: Konfiguracja serwera XMPP/Jabber pod linux (ejabberd)
 ---
 

@@ -11,6 +11,7 @@ tags:
 - drukarka
 - router
 - cups
+GHissueID: 474
 title: Drukarka sieciowa w OpenWRT (serwer wydruku)
 ---
 

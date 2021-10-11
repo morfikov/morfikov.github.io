@@ -11,6 +11,7 @@ tags:
 - sysupgrade
 - router
 - tp-link
+GHissueID: 414
 title: Jak powrócić z firmware OpenWRT do TP-LINK'a
 ---
 

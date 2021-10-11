@@ -12,6 +12,7 @@ tags:
 - prywatność
 - gtk2
 - gtk3
+GHissueID: 250
 title: Ostatnio używane pliki (recently-used.xbel)
 ---
 

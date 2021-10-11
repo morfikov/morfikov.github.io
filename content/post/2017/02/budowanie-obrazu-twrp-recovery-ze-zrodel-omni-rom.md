@@ -16,6 +16,7 @@ tags:
 - android-studio
 - adb
 - fastboot
+GHissueID: 56
 title: Budowanie obrazu TWRP recovery ze źródeł OMNI ROM
 ---
 

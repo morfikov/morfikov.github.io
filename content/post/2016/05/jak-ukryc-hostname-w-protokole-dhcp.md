@@ -12,6 +12,7 @@ tags:
 - sieć
 - dhcp
 - hostname
+GHissueID: 490
 title: Jak ukryć hostname w protokole DHCP
 ---
 

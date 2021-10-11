@@ -10,6 +10,7 @@ tags:
 - apache2
 - blog
 - certyfikaty
+GHissueID: 389
 title: Certyfikat chroniący wp-login.php i wp-admin/
 ---
 

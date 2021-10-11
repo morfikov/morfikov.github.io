@@ -10,6 +10,7 @@ tags:
 - pliki
 - foldery
 - usb
+GHissueID: 109
 title: Struktura plików urządzeń usb w katalogu /sys/
 ---
 

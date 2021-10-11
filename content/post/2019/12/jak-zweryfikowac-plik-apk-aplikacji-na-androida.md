@@ -10,6 +10,7 @@ tags:
 - aplikacje
 - apk
 - bezpieczeństwo
+GHissueID: 291
 title: Jak zweryfikować plik APK aplikacji na Androida
 ---
 

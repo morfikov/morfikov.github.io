@@ -12,6 +12,7 @@ tags:
 - mime
 - debian
 - openbox
+GHissueID: 528
 title: Domyślne aplikacje w oparciu o typy plików (MIME)
 ---
 

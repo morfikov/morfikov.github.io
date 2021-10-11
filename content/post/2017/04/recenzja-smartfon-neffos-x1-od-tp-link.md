@@ -13,6 +13,7 @@ tags:
 - smartfon
 - neffos
 - neffos-x1
+GHissueID: 42
 title: 'Recenzja: Smartfon Neffos X1 od TP-LINK'
 ---
 

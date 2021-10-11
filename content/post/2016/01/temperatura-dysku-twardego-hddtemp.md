@@ -11,6 +11,7 @@ tags:
 - ssd
 - systemd
 - temperatura
+GHissueID: 536
 title: Temperatura dysku twardego (hddtemp)
 ---
 

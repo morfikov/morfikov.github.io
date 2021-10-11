@@ -13,6 +13,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 432
 title: Obsługa kodów USSD w modemach LTE
 ---
 

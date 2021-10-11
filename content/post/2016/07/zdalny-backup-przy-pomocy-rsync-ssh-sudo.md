@@ -10,6 +10,7 @@ tags:
 - ssh
 - sudo
 - rsync
+GHissueID: 397
 title: Zdalny backup przy pomocy rsync, ssh i sudo
 ---
 

@@ -10,6 +10,7 @@ tags:
 - wifi
 - recenzja
 - tp-link
+GHissueID: 475
 title: 'Recenzja: karta WiFi TP-LINK TL-WN722N'
 ---
 

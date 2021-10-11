@@ -8,6 +8,7 @@ status: publish
 tags:
 - debian
 - nftables
+GHissueID: 286
 title: Blokowanie niepożądanej komunikacji z nftables na linux
 ---
 

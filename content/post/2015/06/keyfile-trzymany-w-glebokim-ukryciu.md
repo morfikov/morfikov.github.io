@@ -10,6 +10,7 @@ tags:
 - pendrive
 - keyfile
 - luks
+GHissueID: 111
 title: Keyfile trzymany w głębokim ukryciu
 ---
 

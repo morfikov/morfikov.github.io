@@ -18,6 +18,7 @@ tags:
 - qemu
 - wirtualizacja
 - libvirt
+GHissueID: 337
 title: Aktualizacja firmware drukarki HP LaserJet P2055dn pod linux
 ---
 

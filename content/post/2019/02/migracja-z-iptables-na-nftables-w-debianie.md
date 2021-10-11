@@ -9,6 +9,7 @@ tags:
 - debian
 - iptables
 - nftables
+GHissueID: 305
 title: Migracja z iptables na nftables w Debianie
 ---
 

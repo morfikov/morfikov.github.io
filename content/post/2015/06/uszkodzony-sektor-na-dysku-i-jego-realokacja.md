@@ -10,6 +10,7 @@ tags:
 - smart
 - hdd
 - ssd
+GHissueID: 77
 title: Uszkodzony sektor na dysku i jego realokacja
 ---
 

@@ -11,6 +11,7 @@ tags:
 - dkms
 - kernel
 - moduły-kernela
+GHissueID: 317
 title: Automatyczne podpisywanie modułów kernela przez DKMS
 ---
 

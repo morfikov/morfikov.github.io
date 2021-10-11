@@ -9,6 +9,7 @@ status: publish
 tags:
 - xserver
 - monitor
+GHissueID: 519
 title: Odpowiedni DPI (PPI) dla monitora
 ---
 

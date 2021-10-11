@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - apache2
 - openssl
+GHissueID: 148
 title: Moduł ssl w Apache2
 ---
 

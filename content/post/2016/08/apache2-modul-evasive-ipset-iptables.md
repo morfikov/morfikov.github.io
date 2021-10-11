@@ -12,6 +12,7 @@ tags:
 - ipset
 - dos
 - ddos
+GHissueID: 548
 title: 'Apache2: Moduł evasive, ipset i iptables (anty DOS/DDOS)'
 ---
 

@@ -9,6 +9,7 @@ tags:
 - debian
 - bezpieczeństwo
 - sudo
+GHissueID: 287
 title: Ograniczenie su do jednego użytkownika w Debianie
 ---
 

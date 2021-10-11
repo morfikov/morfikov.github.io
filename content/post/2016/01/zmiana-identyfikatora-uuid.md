@@ -12,6 +12,7 @@ tags:
 - ssd
 - ext4
 - luks
+GHissueID: 523
 title: Zmiana identyfikatora UUID systemu plików EXT4 i kontenera LUKS
 ---
 

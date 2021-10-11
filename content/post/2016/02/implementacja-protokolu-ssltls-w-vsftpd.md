@@ -12,6 +12,7 @@ tags:
 - ftp
 - ssl
 - tls
+GHissueID: 517
 title: Implementacja protokołu SSL/TLS w vsftpd
 ---
 

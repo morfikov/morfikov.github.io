@@ -13,6 +13,7 @@ tags:
 - sieć
 - slaac
 - prywatność
+GHissueID: 30
 title: Jak włączyć stabilne adresy prywatne w IPv6 na linux
 ---
 

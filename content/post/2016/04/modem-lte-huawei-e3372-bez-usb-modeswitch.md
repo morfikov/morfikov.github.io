@@ -12,6 +12,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 430
 title: Modem LTE HUAWEI E3372 bez usb-modeswitch
 ---
 

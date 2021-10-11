@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - hasła
+GHissueID: 99
 title: Automatycznie generowane hasło do serwisu WWW
 ---
 

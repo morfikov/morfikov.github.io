@@ -12,6 +12,7 @@ tags:
 - sieć
 - router
 - radius
+GHissueID: 350
 title: Router OpenWRT jako serwer i klient RADIUS
 ---
 

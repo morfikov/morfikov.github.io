@@ -9,6 +9,7 @@ tags:
 - debian
 - systemd
 - logi
+GHissueID: 306
 title: Jak zalogować błędy podczas zamykania systemu Debian Linux
 ---
 

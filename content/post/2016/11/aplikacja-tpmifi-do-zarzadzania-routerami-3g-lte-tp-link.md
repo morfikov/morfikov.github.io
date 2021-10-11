@@ -13,6 +13,7 @@ tags:
 - aplikacje
 - 3g
 - lte
+GHissueID: 498
 title: Aplikacja tpMiFi do zarządzania routerami 3G/LTE od TP-LINK
 ---
 

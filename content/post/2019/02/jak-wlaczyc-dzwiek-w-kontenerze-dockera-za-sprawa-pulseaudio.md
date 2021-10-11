@@ -9,6 +9,7 @@ tags:
 - docker
 - debian
 - pulseaudio
+GHissueID: 312
 title: Jak włączyć dźwięk w kontenerze Docker'a za sprawą PulseAudio
 ---
 

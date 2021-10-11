@@ -14,6 +14,7 @@ tags:
 - wifi
 - bluetooth
 - prywatność
+GHissueID: 326
 title: Pozorowanie lokalizacji GPS w Androidzie (mock location)
 ---
 

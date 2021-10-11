@@ -12,6 +12,7 @@ tags:
 - monitor
 - backlight
 - laptop
+GHissueID: 531
 title: Konfiguracja jasności ekranu w laptopie (backlight)
 ---
 

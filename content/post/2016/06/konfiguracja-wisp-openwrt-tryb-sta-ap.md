@@ -11,6 +11,7 @@ tags:
 - chaos-calmer
 - router
 - switch
+GHissueID: 344
 title: Konfiguracja WISP w OpenWRT (tryb STA + AP)
 ---
 

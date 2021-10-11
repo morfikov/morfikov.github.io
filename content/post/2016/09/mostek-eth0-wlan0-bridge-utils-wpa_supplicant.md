@@ -10,6 +10,7 @@ tags:
 - wifi
 - sieć
 - bridge
+GHissueID: 363
 title: Mostek eth0 + wlan0 z bridge-utils i wpa_supplicant
 ---
 

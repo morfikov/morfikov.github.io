@@ -10,6 +10,7 @@ tags:
 - hdd
 - ssd
 - lvm
+GHissueID: 207
 title: Zmiana rozmiaru dysków w strukturze LVM
 ---
 

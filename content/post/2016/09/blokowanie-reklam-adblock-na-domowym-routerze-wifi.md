@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - router
 - adblock
+GHissueID: 374
 title: Blokowanie reklam z adblock na domowym routerze WiFi
 ---
 

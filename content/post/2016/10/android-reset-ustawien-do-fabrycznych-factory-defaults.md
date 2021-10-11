@@ -9,6 +9,7 @@ status: publish
 tags:
 - smartfon
 - factory-reset
+GHissueID: 441
 title: 'Android: Reset ustawień do fabrycznych (factory defaults)'
 ---
 

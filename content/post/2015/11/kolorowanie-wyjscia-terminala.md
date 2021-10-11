@@ -9,6 +9,7 @@ status: publish
 tags:
 - tty
 - bash
+GHissueID: 258
 title: Kolorowanie wyjścia terminala
 ---
 

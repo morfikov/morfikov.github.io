@@ -9,6 +9,7 @@ status: publish
 tags:
 - blog
 - bezpieczeństwo
+GHissueID: 110
 title: 'WordPress: Wyłączenie protokołu XML-RPC'
 ---
 

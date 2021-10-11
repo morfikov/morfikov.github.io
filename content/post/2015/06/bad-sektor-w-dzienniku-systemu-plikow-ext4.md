@@ -12,6 +12,7 @@ tags:
 - hdd
 - ssd
 - ext4
+GHissueID: 106
 title: Bad sektor w dzienniku systemu plików ext4
 ---
 

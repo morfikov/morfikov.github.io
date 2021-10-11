@@ -9,6 +9,7 @@ status: publish
 tags:
 - gnome
 - dconf
+GHissueID: 166
 title: Oczyszczanie bazy danych dconf
 ---
 

@@ -10,6 +10,7 @@ tags:
 - pulseaudio
 - dźwięk
 - moduły-pulseaudio
+GHissueID: 146
 title: Normalizacja głośności w PulseAudio
 ---
 

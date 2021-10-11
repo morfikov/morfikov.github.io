@@ -10,6 +10,7 @@ tags:
 - xserver
 - debian
 - openbox
+GHissueID: 541
 title: Menadżer okien Openbox
 ---
 

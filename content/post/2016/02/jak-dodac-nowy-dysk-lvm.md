@@ -10,6 +10,7 @@ tags:
 - hdd
 - ssd
 - lvm
+GHissueID: 513
 title: Jak dodać nowy dysk do LVM
 ---
 

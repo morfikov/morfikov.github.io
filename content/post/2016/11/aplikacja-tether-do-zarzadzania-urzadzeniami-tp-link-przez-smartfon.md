@@ -10,6 +10,7 @@ tags:
 - tp-link
 - smartfon
 - aplikacje
+GHissueID: 505
 title: Aplikacja Tether do zarządzania urządzeniami TP-LINK przez smartfon
 ---
 

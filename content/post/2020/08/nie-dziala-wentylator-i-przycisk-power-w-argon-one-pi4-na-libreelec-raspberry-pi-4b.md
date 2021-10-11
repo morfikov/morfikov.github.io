@@ -12,6 +12,7 @@ tags:
 - kodi
 - xbmc
 - libreelec
+GHissueID: 38
 title: Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)
 ---
 

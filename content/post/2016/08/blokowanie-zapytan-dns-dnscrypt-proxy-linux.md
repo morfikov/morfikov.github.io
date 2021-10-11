@@ -11,6 +11,7 @@ tags:
 - resolver
 - ipv6
 - debian
+GHissueID: 551
 title: Blokowanie zapytań DNS z dnscrypt-proxy na linux'ie
 ---
 

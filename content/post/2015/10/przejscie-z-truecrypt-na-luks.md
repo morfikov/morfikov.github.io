@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - luks
 - szyfrowanie
+GHissueID: 164
 title: Przejście z Truecrypt na LUKS
 ---
 

@@ -12,6 +12,7 @@ tags:
 - hdd
 - ssd
 - refind
+GHissueID: 19
 title: Jak przygotować dysk pod instalację Debian linux z EFI/UEFI
 ---
 

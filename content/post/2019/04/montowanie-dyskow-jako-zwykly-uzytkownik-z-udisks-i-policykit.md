@@ -12,6 +12,7 @@ tags:
 - hdd
 - ssd
 - usb
+GHissueID: 289
 title: Montowanie dysków jako zwykły użytkownik z UDisks i PolicyKit
 ---
 

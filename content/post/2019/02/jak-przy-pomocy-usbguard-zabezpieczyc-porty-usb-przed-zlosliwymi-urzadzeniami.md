@@ -11,6 +11,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 311
 title: Jak przy pomocy USBguard zabezpieczyć porty USB przed złośliwymi urządzeniami
 ---
 

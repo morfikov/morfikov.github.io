@@ -11,6 +11,7 @@ tags:
 - chaos-calmer
 - router
 - switch
+GHissueID: 396
 title: Konfiguracja DMZ w OpenWRT
 ---
 

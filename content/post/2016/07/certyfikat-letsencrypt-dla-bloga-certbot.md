@@ -12,6 +12,7 @@ tags:
 - certyfikaty
 - ssl
 - tls
+GHissueID: 384
 title: Certyfikat Let's Encrypt dla bloga WordPress (certbot)
 ---
 

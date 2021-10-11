@@ -15,6 +15,7 @@ tags:
 - gtk2
 - gtk3
 - czcionki
+GHissueID: 23
 title: Zmiana DPI w Openbox/Xorg dla monitora HiDPI
 ---
 

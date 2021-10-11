@@ -11,6 +11,7 @@ tags:
 - dvd
 - iso
 - pliki
+GHissueID: 131
 title: Suma kontrolna nagranego obrazu .iso
 ---
 

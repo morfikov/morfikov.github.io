@@ -10,6 +10,7 @@ tags:
 - gpg
 - debian
 - apt
+GHissueID: 252
 title: Manualna weryfikacja pakietu deb w debianie
 ---
 

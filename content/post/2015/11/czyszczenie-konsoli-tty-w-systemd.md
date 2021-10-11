@@ -9,6 +9,7 @@ status: publish
 tags:
 - tty
 - systemd
+GHissueID: 279
 title: Czyszczenie konsoli TTY w systemd
 ---
 

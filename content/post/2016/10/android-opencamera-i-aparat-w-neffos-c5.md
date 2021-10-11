@@ -12,6 +12,7 @@ tags:
 - f-droid
 - kamera
 - aparat
+GHissueID: 448
 title: 'Android: OpenCamera i aparat w Neffos C5'
 ---
 

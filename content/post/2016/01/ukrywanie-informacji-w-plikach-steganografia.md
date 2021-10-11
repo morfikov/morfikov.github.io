@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - pliki
 - foldery
+GHissueID: 543
 title: Ukrywanie informacji w plikach (steganografia)
 ---
 

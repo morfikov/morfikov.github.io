@@ -14,6 +14,7 @@ tags:
 - intel
 - thinkpad
 - t430
+GHissueID: 332
 title: Energy Performance Bias (EPB) i jego wpływ na wydajność CPU Intela pod linux
 ---
 

@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 234
 title: 'WordPress: Wyłączenie systemu rewizji postów'
 ---
 

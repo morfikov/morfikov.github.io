@@ -15,6 +15,7 @@ tags:
 - refind
 - iso
 - live
+GHissueID: 18
 title: Pendrive multiboot dla EFI/UEFI z Secure Boot
 ---
 

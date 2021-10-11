@@ -10,6 +10,7 @@ tags:
 - debian
 - apt
 - cron
+GHissueID: 199
 title: Pobieranie pakietów przy pomocy cron-apt
 ---
 

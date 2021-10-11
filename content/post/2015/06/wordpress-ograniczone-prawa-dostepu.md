@@ -12,6 +12,7 @@ tags:
 - blog
 - bezpieczeństwo
 - baza-danych
+GHissueID: 81
 title: 'WordPress: Ograniczone prawa dostępu'
 ---
 

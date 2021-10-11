@@ -10,6 +10,7 @@ tags:
 - router
 - tp-link
 - dd-wrt
+GHissueID: 380
 title: 'DD-WRT: Jak wgrać firmware na router TP-LINK'
 ---
 

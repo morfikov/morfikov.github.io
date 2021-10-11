@@ -11,6 +11,7 @@ tags:
 - apt
 - multiarch
 - repozytorium
+GHissueID: 264
 title: Konfiguracja multiarch w dystrybucji Debian
 ---
 

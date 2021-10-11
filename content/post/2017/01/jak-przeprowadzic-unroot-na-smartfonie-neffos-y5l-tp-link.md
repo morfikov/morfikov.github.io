@@ -15,6 +15,7 @@ tags:
 - adb
 - fastboot
 - twrp
+GHissueID: 71
 title: Jak przeprowadzić unroot na smartfonie Neffos Y5L od TP-LINK
 ---
 

@@ -11,6 +11,7 @@ tags:
 - router
 - recenzja
 - tp-link
+GHissueID: 379
 title: 'Recenzja: Router Archer C2600 od TP-LINK'
 ---
 

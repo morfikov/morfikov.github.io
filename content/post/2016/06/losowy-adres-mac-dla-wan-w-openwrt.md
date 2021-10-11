@@ -11,6 +11,7 @@ tags:
 - sieć
 - router
 - mac
+GHissueID: 345
 title: Losowy adres MAC dla WAN w OpenWRT
 ---
 

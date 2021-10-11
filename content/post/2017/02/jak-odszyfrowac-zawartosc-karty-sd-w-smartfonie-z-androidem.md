@@ -14,6 +14,7 @@ tags:
 - root
 - adb
 - dmcrypt
+GHissueID: 57
 title: Jak odszyfrować zawartość karty SD w smartfonie z Androidem
 ---
 

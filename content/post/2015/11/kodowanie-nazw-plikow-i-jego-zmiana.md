@@ -9,6 +9,7 @@ status: publish
 tags:
 - pliki
 - foldery
+GHissueID: 270
 title: Kodowanie nazw plików i jego zmiana
 ---
 

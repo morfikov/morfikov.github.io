@@ -11,6 +11,7 @@ tags:
 - debian
 - openbox
 - sieć
+GHissueID: 367
 title: Metryki tras interfejsów eth0 i wlan0 w laptopie (metric)
 ---
 

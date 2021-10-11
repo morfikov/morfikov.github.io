@@ -12,6 +12,7 @@ tags:
 - dvd
 - hdd
 - ssd
+GHissueID: 86
 title: Udevil i montowanie zasobów bez uprawnień root
 ---
 

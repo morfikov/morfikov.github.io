@@ -10,6 +10,7 @@ tags:
 - smartfon
 - mtp
 - usb
+GHissueID: 55
 title: 'Android: Zmiana trybu USB z Charge-Only na MTP w Marshmallow'
 ---
 

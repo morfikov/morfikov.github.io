@@ -10,6 +10,7 @@ tags:
 - usb
 - recenzja
 - tp-link
+GHissueID: 360
 title: 'Recenzja: Karta sieciowa Ethernet na USB UE200 od TP-LINK'
 ---
 

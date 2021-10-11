@@ -10,6 +10,7 @@ tags:
 - udev
 - mysz
 - usb
+GHissueID: 282
 title: Wybudzanie linux'a ze stanu uśpienia za sprawą myszy
 ---
 

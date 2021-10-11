@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - udev
+GHissueID: 97
 title: Jedna reguła udev'a realizująca dwa zadania
 ---
 

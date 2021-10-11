@@ -9,6 +9,7 @@ status: publish
 tags:
 - seo
 - blog
+GHissueID: 561
 title: 'WordPress: Jak edytować plik robots.txt'
 ---
 

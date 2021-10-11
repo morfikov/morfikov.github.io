@@ -11,6 +11,7 @@ tags:
 - apt
 - tasksel
 - środowisko-graficzne
+GHissueID: 186
 title: Usuwanie środowiska graficznego
 ---
 

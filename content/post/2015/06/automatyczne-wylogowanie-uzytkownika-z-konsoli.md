@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - bash
+GHissueID: 134
 title: Automatyczne wylogowanie użytkownika z konsoli
 ---
 

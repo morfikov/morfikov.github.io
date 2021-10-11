@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - iptables
+GHissueID: 493
 title: Target MARK w iptables (sumowanie oznaczeń)
 ---
 

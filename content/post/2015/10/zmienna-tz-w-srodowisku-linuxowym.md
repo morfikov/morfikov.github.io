@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - zmienne-środowiskowe
+GHissueID: 171
 title: Zmienna TZ w środowisku linux'owym
 ---
 

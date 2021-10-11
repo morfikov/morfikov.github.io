@@ -9,6 +9,7 @@ status: publish
 tags:
 - kernel
 - logi
+GHissueID: 514
 title: Jak zdiagnozować kernel OOPS
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - systemd
 - cgroups
+GHissueID: 214
 title: Ograniczanie zasobów procesom przez cgroups
 ---
 

@@ -11,6 +11,7 @@ tags:
 - pliki
 - foldery
 - prywatność
+GHissueID: 273
 title: Całkowite usuwanie plików przy pomocy shred
 ---
 

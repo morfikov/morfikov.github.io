@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - użytkownicy
 - grupy
+GHissueID: 246
 title: Integralność plików passwd, group, shadow, gshadow
 ---
 

@@ -10,6 +10,7 @@ tags:
 - pendrive
 - flash
 - karta-sd
+GHissueID: 95
 title: Kiedy żywot pendrive dobiega końca...
 ---
 

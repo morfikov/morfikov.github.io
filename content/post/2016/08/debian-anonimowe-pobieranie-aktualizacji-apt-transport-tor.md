@@ -12,6 +12,7 @@ tags:
 - anonimowość
 - tor
 - repozytorium
+GHissueID: 556
 title: 'Debian: Anonimowe pobieranie aktualizacji (apt-transport-tor)'
 ---
 

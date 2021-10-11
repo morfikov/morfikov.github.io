@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - router
 - switch
+GHissueID: 480
 title: Podział switch'a na kilka VLAN'ów w OpenWRT
 ---
 

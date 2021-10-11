@@ -8,6 +8,7 @@ status: publish
 tags:
 - hdd
 - ssd
+GHissueID: 297
 title: Jak optymalnie podzielić dysk HDD/SSD na partycje pod linux
 ---
 

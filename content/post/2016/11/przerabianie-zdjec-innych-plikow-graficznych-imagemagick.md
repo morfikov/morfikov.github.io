@@ -9,6 +9,7 @@ status: publish
 tags:
 - imagemagick
 - grafika
+GHissueID: 503
 title: Przerabianie zdjęć i innych plików graficznych z Imagemagick
 ---
 

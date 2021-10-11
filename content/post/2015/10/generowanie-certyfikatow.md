@@ -9,6 +9,7 @@ status: publish
 tags:
 - szyfrowanie
 - openssl
+GHissueID: 187
 title: Generowanie certyfikatów
 ---
 

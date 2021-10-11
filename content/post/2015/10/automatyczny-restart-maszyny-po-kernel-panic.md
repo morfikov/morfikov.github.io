@@ -9,6 +9,7 @@ status: publish
 tags:
 - sysctl
 - kernel
+GHissueID: 200
 title: Automatyczny restart maszyny po kernel panic
 ---
 

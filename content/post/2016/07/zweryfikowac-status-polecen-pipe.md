@@ -9,6 +9,7 @@ status: publish
 tags:
 - bash
 - zsh
+GHissueID: 386
 title: Jak zweryfikować status poleceń w pipe
 ---
 

@@ -11,6 +11,7 @@ tags:
 - smartfon
 - neffos
 - neffos-c5
+GHissueID: 46
 title: Podzespoły w smartfonie Neffos C5 od TP-LINK
 ---
 

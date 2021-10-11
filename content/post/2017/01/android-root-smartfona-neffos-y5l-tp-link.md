@@ -15,6 +15,7 @@ tags:
 - adb
 - fastboot
 - twrp
+GHissueID: 60
 title: 'Android: Root smartfona Neffos Y5L od TP-LINK'
 ---
 

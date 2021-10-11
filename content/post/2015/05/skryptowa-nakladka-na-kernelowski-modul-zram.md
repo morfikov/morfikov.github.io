@@ -9,6 +9,7 @@ status: publish
 tags:
 - moduły-kernela
 - systemd
+GHissueID: 233
 title: Skryptowa nakładka na kernelowski moduł ZRAM
 ---
 

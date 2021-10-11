@@ -11,6 +11,7 @@ tags:
 - cd
 - dvd
 - iso
+GHissueID: 278
 title: Montowanie obrazów ISO (urządzenia loop)
 ---
 

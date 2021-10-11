@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - instalacja
+GHissueID: 104
 title: Dokładna data instalacji systemu linux
 ---
 

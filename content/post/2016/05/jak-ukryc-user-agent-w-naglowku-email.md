@@ -10,6 +10,7 @@ tags:
 - email
 - prywatność
 - thunderbird
+GHissueID: 491
 title: Jak ukryć user-agent w nagłówku email
 ---
 

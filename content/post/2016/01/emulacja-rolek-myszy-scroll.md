@@ -9,6 +9,7 @@ status: publish
 tags:
 - xserver
 - mysz
+GHissueID: 542
 title: Emulacja rolek myszy (scroll)
 ---
 

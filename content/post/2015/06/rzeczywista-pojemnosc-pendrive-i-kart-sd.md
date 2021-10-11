@@ -10,6 +10,7 @@ tags:
 - karta-sd
 - pendrive
 - flash
+GHissueID: 132
 title: Rzeczywista pojemność pendrive i kart SD
 ---
 

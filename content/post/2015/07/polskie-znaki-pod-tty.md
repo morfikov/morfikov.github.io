@@ -10,6 +10,7 @@ tags:
 - tty
 - locale
 - czcionki
+GHissueID: 159
 title: Polskie znaki pod TTY
 ---
 

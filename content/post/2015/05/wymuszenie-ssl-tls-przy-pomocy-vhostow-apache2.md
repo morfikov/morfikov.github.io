@@ -11,6 +11,7 @@ tags:
 - apache2
 - ssl
 - tls
+GHissueID: 236
 title: Wymuszenie SSL/TLS przy pomocy vhost'ów w Apache2
 ---
 

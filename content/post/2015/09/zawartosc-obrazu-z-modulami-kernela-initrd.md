@@ -10,6 +10,7 @@ tags:
 - kernel
 - initrd
 - initramfs
+GHissueID: 147
 title: Zawartość obrazu z modułami kernela (initrd)
 ---
 

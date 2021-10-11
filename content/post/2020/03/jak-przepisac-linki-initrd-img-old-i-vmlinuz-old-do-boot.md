@@ -15,6 +15,7 @@ tags:
 - refind
 - luks
 - lvm
+GHissueID: 22
 title: Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/
 ---
 

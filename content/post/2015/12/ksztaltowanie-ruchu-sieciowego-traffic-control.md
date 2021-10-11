@@ -12,6 +12,7 @@ tags:
 - sieć
 - cgroups
 - qos
+GHissueID: 217
 title: Kształtowanie ruchu sieciowego (Traffic Control)
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - iptables
+GHissueID: 260
 title: Port knocking i Single Packet Authorization
 ---
 

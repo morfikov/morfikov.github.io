@@ -12,6 +12,7 @@ tags:
 - g4c
 - szyfrowanie
 - factory-reset
+GHissueID: 319
 title: Kernel crash przy szyfrowaniu smartfona lub próbie resetu ustawień do fabrycznych
 ---
 

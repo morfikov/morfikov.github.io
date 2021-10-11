@@ -9,6 +9,7 @@ status: publish
 tags:
 - tcp
 - sieć
+GHissueID: 78
 title: Flagi TCP i przełączanie stanów połączeń
 ---
 

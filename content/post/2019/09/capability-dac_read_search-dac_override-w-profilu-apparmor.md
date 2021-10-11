@@ -10,6 +10,7 @@ tags:
 - capability
 - dac_read_search
 - dac_override
+GHissueID: 283
 title: Capability dac_read_search i dac_override w profilu AppArmor'a
 ---
 

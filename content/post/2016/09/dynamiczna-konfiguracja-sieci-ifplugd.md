@@ -10,6 +10,7 @@ tags:
 - debian
 - openbox
 - sieć
+GHissueID: 371
 title: Dynamiczna konfiguracja sieci w oparciu o ifplugd
 ---
 

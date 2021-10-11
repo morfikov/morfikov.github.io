@@ -9,6 +9,7 @@ status: publish
 tags:
 - tcp
 - sysctl
+GHissueID: 196
 title: Mechanizm SYN cookies w protokole TCP
 ---
 

@@ -15,6 +15,7 @@ tags:
 - root
 - smartfon
 - safetynet
+GHissueID: 338
 title: Jak wgrać TWRP recovery i Magisk w Xiaomi Redmi 9 (galahad/lancelot)
 ---
 

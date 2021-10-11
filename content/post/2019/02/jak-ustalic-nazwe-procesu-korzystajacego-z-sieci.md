@@ -14,6 +14,7 @@ tags:
 - debugfs
 - kprobes
 - ftrace
+GHissueID: 308
 title: Jak ustalić nazwę procesu korzystającego z sieci
 ---
 

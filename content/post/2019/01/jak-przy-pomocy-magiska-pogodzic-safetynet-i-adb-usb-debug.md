@@ -12,6 +12,7 @@ tags:
 - magisk
 - safetynet
 - root
+GHissueID: 318
 title: Jak przy pomocy Magisk'a pogodzić SafetyNet i ADB/USB debug
 ---
 

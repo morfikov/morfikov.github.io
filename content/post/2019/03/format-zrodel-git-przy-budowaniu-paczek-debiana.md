@@ -8,6 +8,7 @@ status: publish
 tags:
 - debian
 - git
+GHissueID: 299
 title: Format źródeł 3.0 (git) przy budowaniu paczek Debiana
 ---
 

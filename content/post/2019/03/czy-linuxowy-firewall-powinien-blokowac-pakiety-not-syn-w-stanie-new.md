@@ -9,6 +9,7 @@ tags:
 - debian
 - nftables
 - iptables
+GHissueID: 293
 title: Czy linux'owy firewall powinien blokować pakiety not-syn w stanie NEW
 ---
 

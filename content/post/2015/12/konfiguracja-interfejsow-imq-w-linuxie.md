@@ -12,6 +12,7 @@ tags:
 - kernel
 - sieć
 - qos
+GHissueID: 213
 title: Konfiguracja interfejsów IMQ w linux'ie
 ---
 

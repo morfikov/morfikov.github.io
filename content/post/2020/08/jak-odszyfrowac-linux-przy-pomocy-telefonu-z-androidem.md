@@ -12,6 +12,7 @@ tags:
 - szyfrowanie
 - luks
 - smartfon
+GHissueID: 34
 title: Jak odszyfrować linux'a przy pomocy telefonu z Androidem
 ---
 

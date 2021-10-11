@@ -11,6 +11,7 @@ tags:
 - blog
 - hugo
 - jekyll
+GHissueID: 36
 title: Migracja bloga z Jekyll na Hugo i jego publikacja w GitHub Pages
 ---
 

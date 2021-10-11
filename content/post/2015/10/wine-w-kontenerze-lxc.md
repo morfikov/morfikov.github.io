@@ -11,6 +11,7 @@ tags:
 - xserver
 - lxc
 - wine
+GHissueID: 195
 title: Wine w kontenerze LXC
 ---
 

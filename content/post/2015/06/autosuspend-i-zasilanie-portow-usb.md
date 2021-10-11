@@ -9,6 +9,7 @@ status: publish
 tags:
 - moduły-kernela
 - usb
+GHissueID: 120
 title: Autosuspend i zasilanie portów USB na linux
 ---
 

@@ -10,6 +10,7 @@ tags:
 - udev
 - systemd
 - sieć
+GHissueID: 263
 title: Przewidywalne nazwy interfejsów sieciowych
 ---
 

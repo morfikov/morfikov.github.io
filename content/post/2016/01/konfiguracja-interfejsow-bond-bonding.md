@@ -13,6 +13,7 @@ tags:
 - systemd
 - sieć
 - bonding
+GHissueID: 525
 title: Jak skonfigurować bonding w Debian linux (eth0+wlan0)
 ---
 

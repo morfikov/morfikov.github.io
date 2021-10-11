@@ -9,6 +9,7 @@ status: publish
 tags:
 - xserver
 - debian
+GHissueID: 520
 title: Menadżer logowania LightDM
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - blog
+GHissueID: 239
 title: 'WordPress: Zmiana domyślnych nazw folderów'
 ---
 

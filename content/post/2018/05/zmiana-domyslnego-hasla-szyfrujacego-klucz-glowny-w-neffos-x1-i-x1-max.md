@@ -13,6 +13,7 @@ tags:
 - neffos
 - neffos-x1
 - neffos-x1-max
+GHissueID: 321
 title: Zmiana domyślnego hasła szyfrującego klucz główny w Neffos X1 i X1 Max
 ---
 

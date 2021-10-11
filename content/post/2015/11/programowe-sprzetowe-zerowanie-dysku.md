@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - hdd
 - ssd
+GHissueID: 269
 title: Programowe i sprzętowe zerowanie dysku
 ---
 

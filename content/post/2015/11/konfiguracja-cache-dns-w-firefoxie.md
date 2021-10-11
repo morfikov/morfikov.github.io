@@ -9,6 +9,7 @@ status: publish
 tags:
 - firefox
 - dns
+GHissueID: 259
 title: Konfiguracja cache DNS w Firefox'ie
 ---
 

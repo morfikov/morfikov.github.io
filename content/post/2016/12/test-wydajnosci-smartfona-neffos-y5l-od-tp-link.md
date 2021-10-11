@@ -13,6 +13,7 @@ tags:
 - benchmark
 - neffos
 - neffos-y5l
+GHissueID: 464
 title: Test wydajności smartfona Neffos Y5L od TP-LINK
 ---
 

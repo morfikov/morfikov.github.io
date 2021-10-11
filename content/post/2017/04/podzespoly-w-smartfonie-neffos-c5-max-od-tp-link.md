@@ -11,6 +11,7 @@ tags:
 - smartfon
 - neffos
 - neffos-c5-max
+GHissueID: 47
 title: Podzespoły w smartfonie Neffos C5 MAX od TP-LINK
 ---
 

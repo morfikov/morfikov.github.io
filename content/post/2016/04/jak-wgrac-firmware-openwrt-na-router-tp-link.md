@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - router
 - tp-link
+GHissueID: 407
 title: Jak wgrać firmware OpenWRT na router TP-LINK
 ---
 

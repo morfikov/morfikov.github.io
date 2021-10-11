@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 74
 title: 'WordPress: Instalacja przy pomocy wp-cli'
 ---
 

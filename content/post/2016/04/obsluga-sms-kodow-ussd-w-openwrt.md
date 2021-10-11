@@ -14,6 +14,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 420
 title: Obsługa SMS i kodów USSD w OpenWRT
 ---
 

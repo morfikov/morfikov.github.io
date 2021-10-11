@@ -11,6 +11,7 @@ tags:
 - debian
 - ssl
 - tls
+GHissueID: 546
 title: Problemy z dyrektywą SSLOpenSSLConfCmd w Apache2
 ---
 

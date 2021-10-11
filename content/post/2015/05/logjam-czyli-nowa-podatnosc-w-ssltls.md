@@ -11,6 +11,7 @@ tags:
 - firefox
 - ssl
 - tls
+GHissueID: 231
 title: Logjam, czyli nowa podatność w SSL/TLS
 ---
 

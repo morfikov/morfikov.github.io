@@ -9,6 +9,7 @@ tags:
 - debian
 - apt
 - apparmor
+GHissueID: 290
 title: Mechanizm trigger'ów dla apt/aptitude w Debianie
 ---
 

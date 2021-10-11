@@ -11,6 +11,7 @@ tags:
 - chaos-calmer
 - sieć
 - router
+GHissueID: 477
 title: NAT Reflection oraz NAT Loopback w OpenWRT
 ---
 

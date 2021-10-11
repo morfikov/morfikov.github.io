@@ -12,6 +12,7 @@ tags:
 - prywatność
 - sieć
 - nftables
+GHissueID: 9
 title: Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)
 ---
 

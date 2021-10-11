@@ -12,6 +12,7 @@ tags:
 - router
 - tp-link
 - uart
+GHissueID: 438
 title: Konsola szeregowa, adapter USB-UART i uszkodzony router TP-LINK
 ---
 

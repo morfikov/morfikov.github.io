@@ -14,6 +14,7 @@ tags:
 - kernel
 - hugepages
 - sysctl
+GHissueID: 33
 title: Konfiguracja HugePages pod maszyny wirtualne QEMU/KVM
 ---
 

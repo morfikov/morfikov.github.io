@@ -12,6 +12,7 @@ tags:
 - chaos-calmer
 - router
 - dnsmasq
+GHissueID: 483
 title: Jak zablokować Facebook i YouTube w OpenWRT
 ---
 

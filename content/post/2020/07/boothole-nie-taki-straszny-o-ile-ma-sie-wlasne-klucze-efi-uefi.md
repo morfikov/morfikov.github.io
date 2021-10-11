@@ -9,6 +9,7 @@ tags:
 - debian
 - efi
 - uefi
+GHissueID: 12
 title: BootHole nie taki straszny, o ile ma się własne klucze EFI/UEFI
 ---
 

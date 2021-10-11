@@ -10,6 +10,7 @@ tags:
 - system-plików
 - ext4
 - lvm
+GHissueID: 302
 title: Czym jest Online ext4 Metadata Check w linux'owym LVM
 ---
 

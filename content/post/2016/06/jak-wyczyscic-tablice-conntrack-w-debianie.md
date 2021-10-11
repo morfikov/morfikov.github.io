@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - iptables
 - debian
+GHissueID: 359
 title: Jak wyczyścić tablicę conntrack'a w debianie
 ---
 

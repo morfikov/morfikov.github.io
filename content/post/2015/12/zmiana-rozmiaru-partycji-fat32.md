@@ -9,6 +9,7 @@ status: publish
 tags:
 - system-plików
 - fat32
+GHissueID: 209
 title: Zmiana rozmiaru partycji FAT32 pod linux'em
 ---
 

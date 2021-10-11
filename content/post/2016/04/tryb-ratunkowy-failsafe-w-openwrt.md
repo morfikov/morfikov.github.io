@@ -9,6 +9,7 @@ status: publish
 tags:
 - chaos-calmer
 - router
+GHissueID: 424
 title: Tryb ratunkowy (failsafe) w OpenWRT
 ---
 

@@ -12,6 +12,7 @@ tags:
 - debian
 - xserver
 - openbox
+GHissueID: 527
 title: Mysz i jej konfiguracja na linux'ie
 ---
 

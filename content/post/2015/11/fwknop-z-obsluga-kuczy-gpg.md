@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - iptables
+GHissueID: 275
 title: Fwknop z obsługą kuczy GPG
 ---
 

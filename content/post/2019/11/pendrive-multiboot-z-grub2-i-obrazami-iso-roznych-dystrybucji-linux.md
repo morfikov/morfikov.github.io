@@ -12,6 +12,7 @@ tags:
 - pendrive
 - multiboot
 - live
+GHissueID: 292
 title: Pendrive multiboot z GRUB2 i obrazami ISO różnych dystrybucji Linux
 ---
 

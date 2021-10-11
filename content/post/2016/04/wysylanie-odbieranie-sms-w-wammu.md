@@ -12,6 +12,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 435
 title: Wysyłanie i odbieranie SMS w wammu
 ---
 

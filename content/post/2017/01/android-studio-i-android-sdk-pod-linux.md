@@ -12,6 +12,7 @@ tags:
 - debian
 - sdk
 - android-studio
+GHissueID: 63
 title: Android Studio i Android SDK pod linux
 ---
 

@@ -11,6 +11,7 @@ tags:
 - czcionki
 - monitor
 - lcd
+GHissueID: 280
 title: Fontconfig i konfiguracja czcionek w Debianie
 ---
 

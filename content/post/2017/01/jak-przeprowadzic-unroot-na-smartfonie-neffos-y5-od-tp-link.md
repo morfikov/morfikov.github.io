@@ -13,6 +13,7 @@ tags:
 - neffos
 - neffos-y5
 - fastboot
+GHissueID: 67
 title: Jak przeprowadzić unroot na smartfonie Neffos Y5 od TP-LINK
 ---
 

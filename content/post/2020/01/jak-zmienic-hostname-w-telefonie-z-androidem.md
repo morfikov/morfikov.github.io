@@ -12,6 +12,7 @@ tags:
 - wifi
 - hostname
 - smartfon
+GHissueID: 29
 title: Jak zmienić hostname w telefonie z Androidem
 ---
 

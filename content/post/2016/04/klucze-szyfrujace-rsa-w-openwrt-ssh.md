@@ -11,6 +11,7 @@ tags:
 - szyfrowanie
 - chaos-calmer
 - router
+GHissueID: 409
 title: Klucze szyfrujące RSA w OpenWRT (ssh)
 ---
 

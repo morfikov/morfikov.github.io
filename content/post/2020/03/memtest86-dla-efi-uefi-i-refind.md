@@ -12,6 +12,7 @@ tags:
 - uefi
 - memtest86
 - refind
+GHissueID: 20
 title: Memtest86 dla EFI/UEFI i rEFInd
 ---
 

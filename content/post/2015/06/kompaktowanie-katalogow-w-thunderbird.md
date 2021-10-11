@@ -11,6 +11,7 @@ tags:
 - pliki
 - katalogi
 - thunderbird
+GHissueID: 138
 title: Kompaktowanie katalogów w Thunderbird
 ---
 

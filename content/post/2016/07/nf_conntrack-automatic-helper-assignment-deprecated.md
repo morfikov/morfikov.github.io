@@ -11,6 +11,7 @@ tags:
 - iptables
 - sysctl
 - ftp
+GHissueID: 391
 title: 'nf_conntrack: automatic helper assignment is deprecated'
 ---
 

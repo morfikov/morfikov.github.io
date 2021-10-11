@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 139
 title: 'WordPress: Wiersz poleceń wp-cli'
 ---
 

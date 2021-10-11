@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 121
 title: 'WordPress: Graficzne emotikonki'
 ---
 

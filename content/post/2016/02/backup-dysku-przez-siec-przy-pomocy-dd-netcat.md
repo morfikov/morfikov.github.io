@@ -10,6 +10,7 @@ tags:
 - hdd
 - ssd
 - sieć
+GHissueID: 512
 title: Backup dysku przez sieć przy pomocy dd i netcat
 ---
 

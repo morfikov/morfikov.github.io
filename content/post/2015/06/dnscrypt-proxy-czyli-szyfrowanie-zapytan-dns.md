@@ -14,6 +14,7 @@ tags:
 - dnscrypt
 - prywatność
 - bezpieczeństwo
+GHissueID: 112
 title: DNScrypt-proxy, czyli szyfrowanie zapytań DNS
 ---
 

@@ -10,6 +10,7 @@ tags:
 - sql
 - mysql
 - mariadb
+GHissueID: 144
 title: Użytkownik debian-sys-maint w MariaDB
 ---
 

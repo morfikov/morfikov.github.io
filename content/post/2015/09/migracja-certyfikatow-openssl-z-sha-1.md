@@ -11,6 +11,7 @@ tags:
 - apache2
 - certyfikaty
 - openssl
+GHissueID: 143
 title: Migracja certyfikatów OpenSSL z SHA-1
 ---
 

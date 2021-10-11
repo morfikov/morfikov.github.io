@@ -16,6 +16,7 @@ tags:
 - T430
 - initramfs
 - initrd
+GHissueID: 325
 title: Kontrola podświetlenia klawiatury via UDEV (backlight)
 ---
 

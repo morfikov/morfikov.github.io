@@ -10,6 +10,7 @@ tags:
 - tcp
 - sysctl
 - sieć
+GHissueID: 156
 title: SACK, czyli selektywne potwierdzenia pakietów
 ---
 

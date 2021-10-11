@@ -12,6 +12,7 @@ tags:
 - hdd
 - ssd
 - lvm
+GHissueID: 212
 title: Kopia struktury dysku twardego
 ---
 

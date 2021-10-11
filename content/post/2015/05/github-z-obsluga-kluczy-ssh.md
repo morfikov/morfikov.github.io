@@ -9,6 +9,7 @@ status: publish
 tags:
 - ssh
 - git
+GHissueID: 238
 title: GitHub z obsługą kluczy SSH
 ---
 

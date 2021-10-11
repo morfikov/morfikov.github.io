@@ -9,6 +9,7 @@ status: publish
 tags:
 - system-plików
 - ext4
+GHissueID: 241
 title: Migracja systemu plików ext2 i ext3 na ext4
 ---
 

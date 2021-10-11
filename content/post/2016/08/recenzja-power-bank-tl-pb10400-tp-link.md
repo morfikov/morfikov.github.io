@@ -12,6 +12,7 @@ tags:
 - energia
 - bateria
 - akumulator
+GHissueID: 562
 title: 'Recenzja: Power Bank TL-PB10400 od TP-LINK'
 ---
 

@@ -11,6 +11,7 @@ tags:
 - twrp
 - recovery
 - backup
+GHissueID: 68
 title: Backup partycji /data/ w smartfonach przez recovery TWRP
 ---
 

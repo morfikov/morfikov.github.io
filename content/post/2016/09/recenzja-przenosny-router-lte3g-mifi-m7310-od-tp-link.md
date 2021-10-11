@@ -11,6 +11,7 @@ tags:
 - router
 - recenzja
 - tp-link
+GHissueID: 382
 title: 'Recenzja: Przenośny router LTE/3G (MiFi) M7310 od TP-LINK'
 ---
 

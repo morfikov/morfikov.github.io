@@ -12,6 +12,7 @@ tags:
 - ssd
 - gpt
 - partycja
+GHissueID: 90
 title: Konwersja tablicy partycji MS-DOS na GPT
 ---
 

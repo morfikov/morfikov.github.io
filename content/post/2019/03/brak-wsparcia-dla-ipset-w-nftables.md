@@ -9,6 +9,7 @@ tags:
 - debian
 - ipset
 - nftables
+GHissueID: 294
 title: Brak wsparcia dla ipset w nftables
 ---
 

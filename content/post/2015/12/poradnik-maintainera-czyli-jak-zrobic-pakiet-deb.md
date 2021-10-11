@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - debian
+GHissueID: 215
 title: Poradnik maintainer'a, czyli jak zrobić pakiet deb
 ---
 

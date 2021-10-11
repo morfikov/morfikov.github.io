@@ -12,6 +12,7 @@ tags:
 - ssd
 - ext4
 - partycja
+GHissueID: 101
 title: Etykieta systemu plików i jej dostosowanie
 ---
 

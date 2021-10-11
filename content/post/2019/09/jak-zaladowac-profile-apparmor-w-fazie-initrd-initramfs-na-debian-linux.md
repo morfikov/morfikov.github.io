@@ -11,6 +11,7 @@ tags:
 - debian
 - initrd
 - initramfs
+GHissueID: 284
 title: Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux
 ---
 

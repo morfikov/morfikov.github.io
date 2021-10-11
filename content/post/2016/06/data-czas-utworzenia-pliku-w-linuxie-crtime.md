@@ -11,6 +11,7 @@ tags:
 - pliki
 - foldery
 - ext4
+GHissueID: 355
 title: Data i czas utworzenia pliku w linux'ie (crtime)
 ---
 

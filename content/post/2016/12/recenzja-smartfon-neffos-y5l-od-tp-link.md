@@ -13,6 +13,7 @@ tags:
 - smartfon
 - neffos
 - neffos-y5l
+GHissueID: 459
 title: 'Recenzja: Smartfon Neffos Y5L od TP-LINK'
 ---
 

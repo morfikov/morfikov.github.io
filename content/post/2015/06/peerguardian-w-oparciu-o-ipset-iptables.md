@@ -10,6 +10,7 @@ tags:
 - iptables
 - ipset
 - systemd
+GHissueID: 98
 title: PeerGuardian w oparciu o ipset i iptables
 ---
 

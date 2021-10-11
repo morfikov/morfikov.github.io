@@ -9,6 +9,7 @@ status: publish
 tags:
 - pendrive
 - sysctl
+GHissueID: 103
 title: RAM, cache i dirty pages
 ---
 

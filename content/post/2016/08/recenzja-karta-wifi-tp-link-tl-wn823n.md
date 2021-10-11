@@ -10,6 +10,7 @@ tags:
 - wifi
 - recenzja
 - tp-link
+GHissueID: 559
 title: 'Recenzja: Karta WiFi TP-LINK TL-WN823N'
 ---
 

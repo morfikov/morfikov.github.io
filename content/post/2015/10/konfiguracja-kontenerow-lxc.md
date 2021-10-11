@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - lxc
+GHissueID: 183
 title: Konfiguracja kontenerów LXC
 ---
 

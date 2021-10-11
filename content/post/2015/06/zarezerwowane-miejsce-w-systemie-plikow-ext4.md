@@ -11,6 +11,7 @@ tags:
 - hdd
 - ssd
 - ext4
+GHissueID: 114
 title: Zarezerwowane miejsce w systemie plików ext4
 ---
 

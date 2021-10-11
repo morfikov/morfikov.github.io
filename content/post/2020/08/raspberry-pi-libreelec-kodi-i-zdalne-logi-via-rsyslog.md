@@ -16,6 +16,7 @@ tags:
 - logi
 - sieć
 - debian
+GHissueID: 39
 title: Raspberry Pi, LibreELEC, Kodi i zdalne logi via rsyslog
 ---
 

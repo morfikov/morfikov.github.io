@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - bash
+GHissueID: 256
 title: Plik .bashrc, czyli konfiguracja bash'a
 ---
 

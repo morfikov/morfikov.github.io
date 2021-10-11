@@ -9,6 +9,7 @@ status: publish
 tags:
 - blog
 - twitter
+GHissueID: 141
 title: 'WordPress: Krótki link do umieszczenia na Twitterze'
 ---
 

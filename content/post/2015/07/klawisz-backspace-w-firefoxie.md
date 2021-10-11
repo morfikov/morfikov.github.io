@@ -9,6 +9,7 @@ status: publish
 tags:
 - firefox
 - klawiatura
+GHissueID: 154
 title: Klawisz Backspace w Firefox'ie
 ---
 

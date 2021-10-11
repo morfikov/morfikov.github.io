@@ -13,6 +13,7 @@ tags:
 - fastboot
 - root
 - miui
+GHissueID: 335
 title: Po co smartfonom Xiaomi ROM'y fastboot i jak z nich korzystać
 ---
 

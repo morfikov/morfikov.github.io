@@ -10,6 +10,7 @@ tags:
 - luks
 - hdd
 - ssd
+GHissueID: 208
 title: Zmiana rozmiaru kontenera LUKS
 ---
 

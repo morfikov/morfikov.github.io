@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - router
 - tp-link
+GHissueID: 450
 title: Jak przy pomocy trybu recovery odzyskać router TP-LINK
 ---
 

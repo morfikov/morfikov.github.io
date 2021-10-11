@@ -10,6 +10,7 @@ tags:
 - debian
 - apt
 - repozytorium
+GHissueID: 565
 title: Jak wybrać optymalny mirror repozytorium Debiana
 ---
 

@@ -11,6 +11,7 @@ tags:
 - szyfrowanie
 - openssl
 - rsyslog
+GHissueID: 185
 title: Zaszyfrowane logi w rsyslog i syslog-ng
 ---
 

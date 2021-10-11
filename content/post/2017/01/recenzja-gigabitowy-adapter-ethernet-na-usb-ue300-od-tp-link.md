@@ -10,6 +10,7 @@ tags:
 - usb
 - recenzja
 - tp-link
+GHissueID: 61
 title: 'Recenzja: Gigabitowy adapter Ethernet na USB UE300 od TP-LINK'
 ---
 

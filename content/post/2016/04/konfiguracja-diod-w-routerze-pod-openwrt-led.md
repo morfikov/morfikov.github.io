@@ -10,6 +10,7 @@ tags:
 - iptables
 - chaos-calmer
 - router
+GHissueID: 402
 title: Konfiguracja diod w routerze pod OpenWRT (LED)
 ---
 

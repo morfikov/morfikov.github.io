@@ -9,6 +9,7 @@ status: publish
 tags:
 - locale
 - openbox
+GHissueID: 158
 title: Język polski w środowisku graficznym
 ---
 

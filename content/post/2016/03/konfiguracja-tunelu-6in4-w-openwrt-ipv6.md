@@ -12,6 +12,7 @@ tags:
 - ipv6
 - router
 - 6in4
+GHissueID: 509
 title: Konfiguracja tunelu 6in4 w OpenWRT (IPv6)
 ---
 

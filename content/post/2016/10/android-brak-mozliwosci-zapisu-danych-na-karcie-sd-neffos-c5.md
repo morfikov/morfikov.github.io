@@ -10,6 +10,7 @@ tags:
 - karta-sd
 - smartfon
 - root
+GHissueID: 449
 title: 'Android: Brak możliwości zapisu danych na karcie SD w Neffos C5'
 ---
 

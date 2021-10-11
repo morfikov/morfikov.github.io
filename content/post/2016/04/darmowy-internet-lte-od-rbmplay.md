@@ -15,6 +15,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 419
 title: Darmowy internet LTE od RBM (Play)
 ---
 

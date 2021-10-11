@@ -12,6 +12,7 @@ tags:
 - ip
 - systemd
 - sieć
+GHissueID: 100
 title: Fragmentacja pakietu i zmiana wartości MTU
 ---
 

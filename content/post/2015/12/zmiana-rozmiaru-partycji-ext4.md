@@ -11,6 +11,7 @@ tags:
 - hdd
 - ssd
 - ext4
+GHissueID: 216
 title: Zmiana rozmiaru partycji EXT4
 ---
 

@@ -11,6 +11,7 @@ tags:
 - chaos-calmer
 - sieć
 - router
+GHissueID: 398
 title: Bezprzewodowa sieć gościnna (guest WLAN)
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - bootloader
 - grub
+GHissueID: 135
 title: Błędy bootloader'a GRUB/GRUB2
 ---
 

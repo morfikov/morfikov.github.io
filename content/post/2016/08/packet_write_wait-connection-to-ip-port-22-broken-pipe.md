@@ -10,6 +10,7 @@ tags:
 - ssh
 - sysctl
 - terminal
+GHissueID: 570
 title: 'packet_write_wait: Connection to IP port 22: Broken pipe'
 ---
 

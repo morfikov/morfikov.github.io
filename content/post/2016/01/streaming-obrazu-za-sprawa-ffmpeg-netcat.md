@@ -9,6 +9,7 @@ status: publish
 tags:
 - video
 - sieć
+GHissueID: 545
 title: Streaming obrazu za sprawą ffmpeg i netcat
 ---
 

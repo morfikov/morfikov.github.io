@@ -11,6 +11,7 @@ tags:
 - terminal
 - rsyslog
 - logi
+GHissueID: 265
 title: Osadzanie urxvt na pulpicie przy pomocy Openbox'a
 ---
 

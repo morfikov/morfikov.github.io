@@ -9,6 +9,7 @@ status: publish
 tags:
 - smartfon
 - aplikacje
+GHissueID: 444
 title: 'Android: Nova Launcher w Neffos C5'
 ---
 

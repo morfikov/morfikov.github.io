@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - sieć
 - router
+GHissueID: 489
 title: Wake On LAN z etherwake pod OpenWRT
 ---
 

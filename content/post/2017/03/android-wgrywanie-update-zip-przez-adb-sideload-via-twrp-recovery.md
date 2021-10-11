@@ -10,6 +10,7 @@ tags:
 - smartfon
 - twrp
 - adb
+GHissueID: 54
 title: 'Android: Wgrywanie update.zip przez ADB sideload via TWRP recovery'
 ---
 

@@ -10,6 +10,7 @@ tags:
 - udev
 - systemd
 - powersave
+GHissueID: 176
 title: Wyłączenie WoL w karcie sieciowej
 ---
 

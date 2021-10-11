@@ -9,6 +9,7 @@ status: publish
 tags:
 - blog
 - baza-danych
+GHissueID: 232
 title: 'WordPress: Jak zmienić prefiks bazy danych'
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - pliki
 - foldery
+GHissueID: 102
 title: Dzielenie pliku i łączenie jego części w całość
 ---
 

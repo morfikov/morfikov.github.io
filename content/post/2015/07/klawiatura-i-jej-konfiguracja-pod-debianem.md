@@ -11,6 +11,7 @@ tags:
 - initramfs
 - locale
 - klawiatura
+GHissueID: 157
 title: Klawiatura i jej konfiguracja pod Debianem
 ---
 

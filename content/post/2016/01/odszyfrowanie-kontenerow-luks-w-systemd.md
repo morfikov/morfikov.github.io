@@ -11,6 +11,7 @@ tags:
 - luks
 - szyfrowanie
 - systemd
+GHissueID: 538
 title: Odszyfrowanie kontenerów LUKS w systemd
 ---
 

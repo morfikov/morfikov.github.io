@@ -10,6 +10,7 @@ tags:
 - tcp
 - sysctl
 - sieć
+GHissueID: 142
 title: Retransmisja i duplikaty pakietów w TCP
 ---
 

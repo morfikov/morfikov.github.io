@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - apparmor
+GHissueID: 210
 title: Profil AppArmor'a i jego dokładna budowa
 ---
 

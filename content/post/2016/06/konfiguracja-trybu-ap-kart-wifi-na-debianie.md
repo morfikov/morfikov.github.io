@@ -10,6 +10,7 @@ tags:
 - wifi
 - debian
 - sieć
+GHissueID: 354
 title: Konfiguracja trybu AP kart WiFi na Debianie
 ---
 

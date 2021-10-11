@@ -11,6 +11,7 @@ tags:
 - thunderbird
 - szyfrowanie
 - gpg
+GHissueID: 7
 title: Systemowy GPG/GnuPG w Thunderbird 78+ na linux
 ---
 

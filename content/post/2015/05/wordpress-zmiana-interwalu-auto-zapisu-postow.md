@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 226
 title: 'WordPress: Zmiana interwału auto zapisu postów'
 ---
 

@@ -10,6 +10,7 @@ tags:
 - blog
 - widżet
 - tagi
+GHissueID: 555
 title: 'WordPress: Jak zwiększyć ilość elementów w chmurze tagów'
 ---
 

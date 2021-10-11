@@ -11,6 +11,7 @@ tags:
 - chaos-calmer
 - router
 - qos
+GHissueID: 492
 title: Quality of Service (QoS) w OpenWRT
 ---
 

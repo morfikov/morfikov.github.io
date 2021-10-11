@@ -10,6 +10,7 @@ tags:
 - tcp
 - lxc
 - sieć
+GHissueID: 87
 title: TSO, czyli odciążenie segmentacji TCP
 ---
 

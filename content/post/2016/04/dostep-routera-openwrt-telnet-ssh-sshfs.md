@@ -10,6 +10,7 @@ tags:
 - ssh
 - chaos-calmer
 - router
+GHissueID: 418
 title: Dostęp do routera OpenWRT (telnet, ssh, sshfs)
 ---
 

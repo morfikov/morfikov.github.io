@@ -10,6 +10,7 @@ tags:
 - pulseaudio
 - dźwięk
 - moduły-pulseaudio
+GHissueID: 235
 title: Automatyczne wyciszanie dźwięku w PulseAudio
 ---
 

@@ -10,6 +10,7 @@ tags:
 - iptables
 - chaos-calmer
 - router
+GHissueID: 488
 title: Filtr pakietów sieciowych w OpenWRT (firewall)
 ---
 

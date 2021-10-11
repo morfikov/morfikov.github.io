@@ -10,6 +10,7 @@ tags:
 - wifi
 - sieć
 - router
+GHissueID: 150
 title: Interwał pakietów Beacon w sieciach WiFi
 ---
 

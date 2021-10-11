@@ -12,6 +12,7 @@ tags:
 - router
 - recenzja
 - tp-link
+GHissueID: 569
 title: 'Recenzja: Przenośny router 3G/4G TL-MR3020  od TP-LINK'
 ---
 

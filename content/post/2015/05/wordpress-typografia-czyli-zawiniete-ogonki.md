@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 223
 title: 'WordPress: Typografia, czyli zawinięte ogonki'
 ---
 

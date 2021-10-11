@@ -11,6 +11,7 @@ tags:
 - hdd
 - ssd
 - ext4
+GHissueID: 129
 title: Sprawdzanie błędów systemu plików ext4
 ---
 

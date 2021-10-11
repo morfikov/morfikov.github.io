@@ -10,6 +10,7 @@ tags:
 - debian
 - bezpieczeństwo
 - gpg
+GHissueID: 96
 title: Konfiguracja GPG w pliku gpg.conf
 ---
 

@@ -11,6 +11,7 @@ tags:
 - kvm
 - qemu
 - libvirt
+GHissueID: 32
 title: Jak zmienić rozmiar obrazu maszyny wirtualnej QEMU/KVM
 ---
 

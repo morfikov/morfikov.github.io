@@ -9,6 +9,7 @@ tags:
 - debian
 - kernel
 - moduły-kernela
+GHissueID: 11
 title: Czym jest linux kernel driver binding
 ---
 

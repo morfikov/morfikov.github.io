@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 237
 title: 'WordPress: Administrator bloga'
 ---
 

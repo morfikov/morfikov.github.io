@@ -10,6 +10,7 @@ tags:
 - wifi
 - chaos-calmer
 - router
+GHissueID: 358
 title: Most bezprzewodowy w OpenWRT (tryb WDS)
 ---
 

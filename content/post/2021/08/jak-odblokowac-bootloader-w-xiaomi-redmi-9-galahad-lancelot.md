@@ -15,6 +15,7 @@ tags:
 - qemu
 - bootloader
 - smartfon
+GHissueID: 340
 title: Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)
 ---
 

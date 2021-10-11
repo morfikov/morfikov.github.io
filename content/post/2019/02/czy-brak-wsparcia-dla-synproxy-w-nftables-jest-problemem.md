@@ -11,6 +11,7 @@ tags:
 - iptables
 - synproxy
 - tcp
+GHissueID: 307
 title: Czy brak wsparcia dla SYNPROXY w nftables jest problemem
 ---
 

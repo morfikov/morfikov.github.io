@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - iptables
 - systemd
+GHissueID: 76
 title: Firewall na linux'owe maszyny klienckie
 ---
 

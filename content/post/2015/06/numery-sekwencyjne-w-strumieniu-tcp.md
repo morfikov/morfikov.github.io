@@ -10,6 +10,7 @@ tags:
 - tcp
 - sysctl
 - sieć
+GHissueID: 108
 title: Numery sekwencyjne w strumieniu TCP
 ---
 

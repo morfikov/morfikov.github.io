@@ -11,6 +11,7 @@ tags:
 - recenzja
 - tp-link
 - hub
+GHissueID: 552
 title: 'Recenzja: Aktywny HUB USB 3.0 UH720 od TP-LINK'
 ---
 

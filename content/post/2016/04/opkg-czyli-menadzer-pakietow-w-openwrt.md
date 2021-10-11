@@ -9,6 +9,7 @@ status: publish
 tags:
 - chaos-calmer
 - router
+GHissueID: 421
 title: OPKG, czyli menadżer pakietów w OpenWRT
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - tty
 - framebuffer
+GHissueID: 262
 title: Zrzut ekranu konsoli TTY (fbcat)
 ---
 

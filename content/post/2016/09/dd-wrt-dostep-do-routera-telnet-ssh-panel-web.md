@@ -10,6 +10,7 @@ tags:
 - ssh
 - router
 - dd-wrt
+GHissueID: 377
 title: 'DD-WRT: Dostęp do routera (telnet, ssh, panel web)'
 ---
 

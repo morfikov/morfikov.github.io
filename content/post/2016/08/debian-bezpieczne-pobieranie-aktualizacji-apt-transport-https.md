@@ -11,6 +11,7 @@ tags:
 - apt
 - prywatność
 - repozytorium
+GHissueID: 553
 title: 'Debian: Bezpieczne pobieranie aktualizacji (apt-transport-https)'
 ---
 

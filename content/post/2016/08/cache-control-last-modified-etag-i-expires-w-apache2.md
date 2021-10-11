@@ -9,6 +9,7 @@ status: publish
 tags:
 - apache2
 - cache
+GHissueID: 571
 title: Cache-Control, Last-Modified, ETag i Expires w Apache2
 ---
 

@@ -11,6 +11,7 @@ tags:
 - ipv6
 - 6to4
 - sysctl
+GHissueID: 518
 title: Implementacja protokołu IPv6 za pomocą tunelu 6to4
 ---
 

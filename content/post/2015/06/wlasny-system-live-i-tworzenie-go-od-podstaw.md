@@ -9,6 +9,7 @@ status: publish
 tags:
 - pendrive
 - live
+GHissueID: 130
 title: Własny system live i tworzenie go od podstaw
 ---
 

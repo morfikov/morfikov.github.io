@@ -11,6 +11,7 @@ tags:
 - router
 - recenzja
 - tp-link
+GHissueID: 454
 title: 'Recenzja: Router LTE Archer MR200 od TP-LINK'
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - xserver
 - touchpad
+GHissueID: 526
 title: Konfiguracja touchpad'a w laptopie pod linux'em
 ---
 

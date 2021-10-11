@@ -11,6 +11,7 @@ tags:
 - apt
 - snapshot
 - repozytorium
+GHissueID: 257
 title: Migawka (snapshot) repozytorium debiana
 ---
 

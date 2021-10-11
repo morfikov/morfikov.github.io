@@ -12,6 +12,7 @@ tags:
 - twrp
 - adb
 - debian
+GHissueID: 51
 title: 'Android: Jak odratować smartfon po usunięciu partycji /system/'
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - bash
 - archiwa
+GHissueID: 253
 title: Jak wypakować każde archiwum
 ---
 

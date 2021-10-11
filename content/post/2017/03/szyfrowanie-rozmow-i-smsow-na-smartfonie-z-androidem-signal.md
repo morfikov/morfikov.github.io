@@ -11,6 +11,7 @@ tags:
 - prywatność
 - smartfon
 - aplikacje
+GHissueID: 53
 title: Szyfrowanie rozmów i SMS'ów na smartfonie z Androidem (Signal)
 ---
 

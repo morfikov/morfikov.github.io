@@ -15,6 +15,7 @@ tags:
 - aplikacje
 - spam
 - adb
+GHissueID: 17
 title: Blokowanie reklam w YouTube na smartfonie z Androidem bez root
 ---
 

@@ -15,6 +15,7 @@ tags:
 - e3372
 - tp-link
 - chaos-calmer
+GHissueID: 65
 title: Jak wymusić pasmo/częstotliwość LTE pod LEDE/OpenWRT
 ---
 

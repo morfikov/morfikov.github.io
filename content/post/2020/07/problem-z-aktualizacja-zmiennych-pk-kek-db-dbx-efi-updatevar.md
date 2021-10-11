@@ -9,6 +9,7 @@ tags:
 - debian
 - efi
 - uefi
+GHissueID: 10
 title: Problem z aktualizacją zmiennych PK, KEK, db i dbx via efi-updatevar
 ---
 

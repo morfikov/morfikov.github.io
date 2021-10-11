@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - procesy
+GHissueID: 348
 title: Narzędzia nice, renice, ionice, taskset i trickle
 ---
 

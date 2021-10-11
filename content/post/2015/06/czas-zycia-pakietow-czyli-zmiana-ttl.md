@@ -11,6 +11,7 @@ tags:
 - sysctl
 - sieć
 - ip
+GHissueID: 122
 title: Czas życia pakietów, czyli zmiana TTL
 ---
 

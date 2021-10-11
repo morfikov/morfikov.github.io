@@ -9,6 +9,7 @@ status: publish
 tags:
 - debian
 - apt
+GHissueID: 182
 title: Konfiguracja apt i aptitude w pliku apt.conf
 ---
 

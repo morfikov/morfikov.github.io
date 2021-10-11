@@ -10,6 +10,7 @@ tags:
 - udev
 - xserver
 - klawiatura
+GHissueID: 92
 title: Klawiatura multimedialna i niedziałające klawisze
 ---
 

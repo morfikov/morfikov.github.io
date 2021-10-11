@@ -10,6 +10,7 @@ tags:
 - pliki
 - foldery
 - utf-8
+GHissueID: 255
 title: Zmiana kodowania znaków w plikach na UTF-8
 ---
 

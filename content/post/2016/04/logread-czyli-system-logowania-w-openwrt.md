@@ -11,6 +11,7 @@ tags:
 - logi
 - router
 - rsyslog
+GHissueID: 404
 title: Logread, czyli system logowania w OpenWRT
 ---
 

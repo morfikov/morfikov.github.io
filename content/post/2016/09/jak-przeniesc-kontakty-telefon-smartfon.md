@@ -11,6 +11,7 @@ tags:
 - smartfon
 - debian
 - kontakty
+GHissueID: 370
 title: Jak przenieść kontakty ze starego telefonu do smartfona
 ---
 

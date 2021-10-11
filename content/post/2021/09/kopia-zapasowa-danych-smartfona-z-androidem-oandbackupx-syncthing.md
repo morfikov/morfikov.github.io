@@ -17,6 +17,7 @@ tags:
 - aplikacje
 - f-droid
 - prywatność
+GHissueID: 327
 title: Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)
 ---
 

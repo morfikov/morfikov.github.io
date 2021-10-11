@@ -9,6 +9,7 @@ status: publish
 tags:
 - chaos-calmer
 - router
+GHissueID: 433
 title: Konfiguracja przycisków w OpenWRT
 ---
 

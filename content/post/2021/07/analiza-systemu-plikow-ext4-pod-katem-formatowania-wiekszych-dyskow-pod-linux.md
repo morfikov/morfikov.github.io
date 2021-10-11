@@ -14,6 +14,7 @@ tags:
 - udev
 - system-plików
 - apm
+GHissueID: 331
 title: Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux
 ---
 

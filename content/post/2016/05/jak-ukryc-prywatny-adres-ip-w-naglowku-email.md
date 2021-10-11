@@ -10,6 +10,7 @@ tags:
 - email
 - prywatność
 - thunderbird
+GHissueID: 497
 title: Jak ukryć prywatny adres IP w nagłówku email
 ---
 

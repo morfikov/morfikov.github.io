@@ -9,6 +9,7 @@ status: publish
 tags:
 - cookies
 - blog
+GHissueID: 119
 title: 'WordPress: Ciasteczka i ich czas żywotności'
 ---
 

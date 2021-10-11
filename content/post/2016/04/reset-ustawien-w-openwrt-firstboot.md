@@ -9,6 +9,7 @@ status: publish
 tags:
 - chaos-calmer
 - router
+GHissueID: 403
 title: Reset ustawień w OpenWRT (firstboot)
 ---
 

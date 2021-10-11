@@ -12,6 +12,7 @@ tags:
 - router
 - tp-link
 - chaos-calmer
+GHissueID: 462
 title: Jak skonfigurować klienta VPN na routerze z LEDE/OpenWRT
 ---
 

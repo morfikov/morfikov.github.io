@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - mysql
+GHissueID: 557
 title: Jak zresetować hasło root do bazy danych MySQL
 ---
 

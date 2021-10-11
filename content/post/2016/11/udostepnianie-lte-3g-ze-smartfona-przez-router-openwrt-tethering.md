@@ -12,6 +12,7 @@ tags:
 - lte
 - router
 - tethering
+GHissueID: 504
 title: Udostępnianie LTE/3G ze smartfona przez router OpenWRT (tethering)
 ---
 

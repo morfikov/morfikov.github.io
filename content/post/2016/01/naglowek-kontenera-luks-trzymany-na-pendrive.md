@@ -11,6 +11,7 @@ tags:
 - bezpieczeństwo
 - luks
 - szyfrowanie
+GHissueID: 540
 title: Nagłówek kontenera LUKS trzymany na pendrive
 ---
 

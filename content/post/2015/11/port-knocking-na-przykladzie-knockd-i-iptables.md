@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - iptables
+GHissueID: 249
 title: Port knocking na przykładzie knockd i iptables
 ---
 

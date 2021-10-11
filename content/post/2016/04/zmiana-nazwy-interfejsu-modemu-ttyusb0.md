@@ -13,6 +13,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 405
 title: Zmiana nazwy interfejsu modemu ttyUSB0
 ---
 

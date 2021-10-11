@@ -14,6 +14,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 347
 title: Stałe nazwy urządzeń w OpenWRT (hotplug, udev)
 ---
 

@@ -9,6 +9,7 @@ status: publish
 tags:
 - firefox
 - screenshot
+GHissueID: 554
 title: Jak zrobić screenshot całej strony www w Firefox
 ---
 

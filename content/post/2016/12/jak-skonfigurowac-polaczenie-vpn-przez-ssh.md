@@ -11,6 +11,7 @@ tags:
 - prywatność
 - vpn
 - debian
+GHissueID: 460
 title: Jak skonfigurować połączenie VPN przez SSH
 ---
 

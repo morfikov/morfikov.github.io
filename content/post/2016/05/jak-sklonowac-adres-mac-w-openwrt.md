@@ -11,6 +11,7 @@ tags:
 - sieć
 - router
 - mac
+GHissueID: 472
 title: Jak sklonować adres MAC w OpenWRT
 ---
 

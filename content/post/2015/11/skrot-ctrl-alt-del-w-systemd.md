@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - systemd
+GHissueID: 276
 title: Skrót Ctrl-Alt-Del w systemd
 ---
 

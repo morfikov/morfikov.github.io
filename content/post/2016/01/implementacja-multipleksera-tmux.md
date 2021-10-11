@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - terminal
+GHissueID: 533
 title: Implementacja multipleksera tmux
 ---
 

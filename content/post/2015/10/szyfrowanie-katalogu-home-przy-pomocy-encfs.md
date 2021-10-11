@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - szyfrowanie
 - moduły-pam
+GHissueID: 167
 title: Szyfrowanie katalogu /home/ przy pomocy encfs
 ---
 

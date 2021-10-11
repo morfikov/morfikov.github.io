@@ -9,6 +9,7 @@ status: publish
 tags:
 - debian
 - monitor
+GHissueID: 64
 title: Redshift i dostosowanie temperatury kolorów ekranu
 ---
 

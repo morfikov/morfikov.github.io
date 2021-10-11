@@ -11,6 +11,7 @@ tags:
 - sysctl
 - debian
 - sieć
+GHissueID: 486
 title: Równoważenie ruchu łącz kilku ISP (load balancing)
 ---
 

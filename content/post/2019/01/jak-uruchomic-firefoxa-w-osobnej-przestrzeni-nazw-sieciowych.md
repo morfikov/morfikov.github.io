@@ -9,6 +9,7 @@ tags:
 - debian
 - firefox
 - namespaces
+GHissueID: 315
 title: Jak uruchomić Firefox'a w osobnej przestrzeni nazw sieciowych
 ---
 

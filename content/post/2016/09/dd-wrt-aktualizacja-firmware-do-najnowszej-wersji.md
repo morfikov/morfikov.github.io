@@ -9,6 +9,7 @@ status: publish
 tags:
 - router
 - dd-wrt
+GHissueID: 366
 title: 'DD-WRT: Aktualizacja firmware do najnowszej wersji'
 ---
 

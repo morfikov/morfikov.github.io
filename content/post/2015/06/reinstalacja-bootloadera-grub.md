@@ -11,6 +11,7 @@ tags:
 - ssd
 - bootloader
 - grub
+GHissueID: 133
 title: Reinstalacja bootloadera grub
 ---
 

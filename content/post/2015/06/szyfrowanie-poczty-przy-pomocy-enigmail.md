@@ -10,6 +10,7 @@ tags:
 - email
 - szyfrowanie
 - prywatność
+GHissueID: 80
 title: Szyfrowanie poczty przy pomocy Enigmail
 ---
 

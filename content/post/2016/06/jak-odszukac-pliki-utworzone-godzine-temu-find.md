@@ -10,6 +10,7 @@ tags:
 - pliki
 - foldery
 - find
+GHissueID: 352
 title: Jak odszukać pliki utworzone godzinę temu (find)
 ---
 

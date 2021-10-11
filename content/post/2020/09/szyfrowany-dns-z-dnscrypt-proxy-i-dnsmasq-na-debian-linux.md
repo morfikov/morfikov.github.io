@@ -16,6 +16,7 @@ tags:
 - prywatność
 - bezpieczeństwo
 - resolver
+GHissueID: 6
 title: Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux
 ---
 

@@ -12,6 +12,7 @@ tags:
 - adb
 - root
 - adoptable-storage
+GHissueID: 468
 title: 'Android: Formatowanie karty SD jako pamięć wewnętrzna'
 ---
 

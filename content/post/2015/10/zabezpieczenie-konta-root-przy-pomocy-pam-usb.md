@@ -10,6 +10,7 @@ tags:
 - pendrive
 - bezpieczeństwo
 - moduły-pam
+GHissueID: 170
 title: Zabezpieczenie konta root przy pomocy pam-usb
 ---
 

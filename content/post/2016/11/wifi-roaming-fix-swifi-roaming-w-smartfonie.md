@@ -11,6 +11,7 @@ tags:
 - roaming
 - smartfon
 - aplikacje
+GHissueID: 506
 title: Wifi Roaming Fix i SWIFI, czyli roaming w smartfonie
 ---
 

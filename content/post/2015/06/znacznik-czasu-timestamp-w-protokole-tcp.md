@@ -10,6 +10,7 @@ tags:
 - ciasteczka
 - tcp
 - sysctl
+GHissueID: 105
 title: Znacznik czasu (timestamp) w protokole TCP
 ---
 

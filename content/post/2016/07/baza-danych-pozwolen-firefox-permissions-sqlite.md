@@ -9,6 +9,7 @@ status: publish
 tags:
 - firefox
 - baza-danych
+GHissueID: 388
 title: Baza danych pozwoleń w Firefox'ie (permissions.sqlite)
 ---
 

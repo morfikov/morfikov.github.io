@@ -10,6 +10,7 @@ tags:
 - udev
 - hdd
 - ssd
+GHissueID: 175
 title: Parametr readahead w dyskach twardych
 ---
 

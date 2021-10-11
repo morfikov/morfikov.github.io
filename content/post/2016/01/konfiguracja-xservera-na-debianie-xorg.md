@@ -9,6 +9,7 @@ status: publish
 tags:
 - xserver
 - debian
+GHissueID: 530
 title: Konfiguracja Xserver'a na debianie (Xorg)
 ---
 

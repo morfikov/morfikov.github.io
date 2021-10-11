@@ -11,6 +11,7 @@ tags:
 - kamera
 - aparat
 - monitoring
+GHissueID: 58
 title: 'Recenzja: Kamera IP NC450 od TP-LINK'
 ---
 

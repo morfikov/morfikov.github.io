@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - apparmor
+GHissueID: 281
 title: AppArmor i profilowanie aplikacji
 ---
 

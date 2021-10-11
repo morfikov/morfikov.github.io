@@ -9,6 +9,7 @@ status: publish
 tags:
 - git
 - gpg
+GHissueID: 228
 title: Implementacja kluczy GPG w repozytorium GIT
 ---
 

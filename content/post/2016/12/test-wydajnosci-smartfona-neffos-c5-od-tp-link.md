@@ -13,6 +13,7 @@ tags:
 - benchmark
 - neffos
 - neffos-c5
+GHissueID: 465
 title: Test wydajności smartfona Neffos C5 od TP-LINK
 ---
 

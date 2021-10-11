@@ -10,6 +10,7 @@ tags:
 - debian
 - smartfon
 - mtp
+GHissueID: 375
 title: Smartfon z Androidem pod linux'em (MTP/PTP)
 ---
 

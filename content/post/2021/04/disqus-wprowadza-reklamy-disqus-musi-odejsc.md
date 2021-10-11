@@ -10,6 +10,7 @@ tags:
 - disqus
 - komentarze
 - reklamy
+GHissueID: 333
 title: Disqus wprowadza reklamy, Disqus musi odejść
 ---
 

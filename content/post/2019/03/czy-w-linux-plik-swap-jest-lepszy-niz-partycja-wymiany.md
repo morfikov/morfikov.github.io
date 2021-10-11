@@ -9,6 +9,7 @@ tags:
 - ext4
 - system-plików
 - swap
+GHissueID: 296
 title: Czy w linux plik SWAP jest lepszy niż partycja wymiany
 ---
 

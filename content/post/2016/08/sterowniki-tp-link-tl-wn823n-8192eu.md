@@ -11,6 +11,7 @@ tags:
 - moduły-kernela
 - wifi
 - usb
+GHissueID: 567
 title: Sterowniki do karty TP-LINK TL-WN823N (8192eu)
 ---
 

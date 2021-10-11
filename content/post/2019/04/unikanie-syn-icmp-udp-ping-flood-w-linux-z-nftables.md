@@ -9,6 +9,7 @@ tags:
 - debian
 - nftables
 - sysctl
+GHissueID: 285
 title: Unikanie SYN/ICMP/UDP/PING flood w linux z nftables
 ---
 

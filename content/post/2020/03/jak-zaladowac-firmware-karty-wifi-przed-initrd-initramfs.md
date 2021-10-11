@@ -11,6 +11,7 @@ tags:
 - firmware
 - wifi
 - kernel
+GHissueID: 24
 title: Jak załadować firmware karty WiFi przed initrd/initramfs
 ---
 

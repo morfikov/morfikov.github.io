@@ -10,6 +10,7 @@ tags:
 - smartfon
 - gps
 - prywatność
+GHissueID: 66
 title: Jak zlokalizować skradziony/zagubiony smartfon z Androidem
 ---
 

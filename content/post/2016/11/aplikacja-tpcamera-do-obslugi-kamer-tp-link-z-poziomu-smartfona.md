@@ -12,6 +12,7 @@ tags:
 - aplikacje
 - kamera
 - aparat
+GHissueID: 499
 title: Aplikacja tpCamera do obsługi kamer TP-LINK z poziomu smartfona
 ---
 

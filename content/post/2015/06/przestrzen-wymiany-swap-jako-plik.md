@@ -10,6 +10,7 @@ tags:
 - hdd
 - ssd
 - swap
+GHissueID: 140
 title: Przestrzeń wymiany SWAP jako plik
 ---
 

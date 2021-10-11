@@ -10,6 +10,7 @@ tags:
 - router
 - tp-link
 - dd-wrt
+GHissueID: 368
 title: 'DD-WRT: Jak powrócić do firmware TP-LINK''a'
 ---
 

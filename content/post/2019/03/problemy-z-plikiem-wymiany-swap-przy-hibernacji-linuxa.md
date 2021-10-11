@@ -8,6 +8,7 @@ status: publish
 tags:
 - debian
 - hibernacja
+GHissueID: 295
 title: Problemy z plikiem wymiany SWAP przy hibernacji linux'a
 ---
 

@@ -13,6 +13,7 @@ tags:
 - spam
 - call-center
 - prywatność
+GHissueID: 330
 title: Jak blokować rozmowy GSM w smartfonie z Androidem (YACB)
 ---
 

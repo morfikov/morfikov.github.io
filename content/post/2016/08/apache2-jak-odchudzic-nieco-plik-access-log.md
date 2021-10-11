@@ -9,6 +9,7 @@ status: publish
 tags:
 - apache2
 - logi
+GHissueID: 572
 title: 'Apache2: Jak odchudzić nieco plik access.log'
 ---
 

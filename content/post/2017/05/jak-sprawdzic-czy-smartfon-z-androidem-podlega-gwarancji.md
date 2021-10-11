@@ -11,6 +11,7 @@ tags:
 - mediatek
 - fastboot
 - spflashtool
+GHissueID: 48
 title: Jak sprawdzić czy smartfon z Androidem podlega gwarancji
 ---
 

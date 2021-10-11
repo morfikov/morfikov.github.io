@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - gpg
 - szyfrowanie
+GHissueID: 118
 title: Bezpieczny klucz GPG
 ---
 

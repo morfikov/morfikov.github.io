@@ -10,6 +10,7 @@ tags:
 - tcp
 - sysctl
 - sieć
+GHissueID: 155
 title: Bufor połączeń w protokole TCP
 ---
 

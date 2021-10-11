@@ -11,6 +11,7 @@ tags:
 - udev
 - sysctl
 - systemd
+GHissueID: 145
 title: Aplikowanie zmiennych sysctl przy pomocy udev'a
 ---
 

@@ -10,6 +10,7 @@ tags:
 - wifi
 - recenzja
 - tp-link
+GHissueID: 341
 title: 'Recenzja: karta WiFi TP-LINK Archer T4U'
 ---
 

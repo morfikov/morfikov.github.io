@@ -11,6 +11,7 @@ tags:
 - router
 - recenzja
 - tp-link
+GHissueID: 495
 title: 'Recenzja: router TP-LINK TL-WR1043ND v2'
 ---
 

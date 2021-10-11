@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - dźwięk
+GHissueID: 268
 title: Nagrywanie strumienia audio radia internetowego
 ---
 

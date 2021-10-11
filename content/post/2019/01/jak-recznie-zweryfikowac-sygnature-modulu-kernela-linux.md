@@ -9,6 +9,7 @@ tags:
 - debian
 - kernel
 - moduły-kernela
+GHissueID: 313
 title: Jak ręcznie zweryfikować sygnaturę modułu kernela linux
 ---
 

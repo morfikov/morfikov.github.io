@@ -9,6 +9,7 @@ status: publish
 tags:
 - moduły-kernela
 - loop
+GHissueID: 136
 title: Obsługa wielu partycji w module loop
 ---
 

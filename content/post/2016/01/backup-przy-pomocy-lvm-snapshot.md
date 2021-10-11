@@ -12,6 +12,7 @@ tags:
 - ssd
 - pliki
 - backup
+GHissueID: 521
 title: Backup systemu przy pomocy LVM snapshot
 ---
 

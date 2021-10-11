@@ -9,6 +9,7 @@ status: publish
 tags:
 - apache2
 - blog
+GHissueID: 227
 title: 'WordPress: Ukrycie wp-login.php oraz wp-admin/'
 ---
 

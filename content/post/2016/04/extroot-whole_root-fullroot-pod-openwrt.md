@@ -9,6 +9,7 @@ status: publish
 tags:
 - chaos-calmer
 - router
+GHissueID: 401
 title: Extroot i whole_root (fullroot) pod OpenWRT
 ---
 

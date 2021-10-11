@@ -14,6 +14,7 @@ tags:
 - hdd
 - ssd
 - autostart
+GHissueID: 88
 title: Autostart i automatyczne montowanie nośników
 ---
 

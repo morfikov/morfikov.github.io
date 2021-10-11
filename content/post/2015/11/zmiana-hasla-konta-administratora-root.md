@@ -9,6 +9,7 @@ status: publish
 tags:
 - użytkownicy
 - grupy
+GHissueID: 251
 title: Zmiana hasła konta administratora root
 ---
 

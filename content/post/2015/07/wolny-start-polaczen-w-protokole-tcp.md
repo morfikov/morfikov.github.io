@@ -10,6 +10,7 @@ tags:
 - tcp
 - sysctl
 - sieć
+GHissueID: 153
 title: Wolny start połączeń w protokole TCP
 ---
 

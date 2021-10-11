@@ -9,6 +9,7 @@ status: publish
 tags:
 - bezpieczeństwo
 - system-plików
+GHissueID: 168
 title: Montowanie katalogu /tmp/ jako tmpfs
 ---
 

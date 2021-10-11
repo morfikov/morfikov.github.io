@@ -10,6 +10,7 @@ tags:
 - smart
 - hdd
 - western-digital
+GHissueID: 152
 title: Parkowanie głowicy w dyskach Wstern Digital
 ---
 

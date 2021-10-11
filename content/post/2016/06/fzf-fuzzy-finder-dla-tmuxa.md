@@ -9,6 +9,7 @@ status: publish
 tags:
 - terminal
 - tmux
+GHissueID: 356
 title: FZF (fuzzy finder) dla tmux'a
 ---
 

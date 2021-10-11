@@ -15,6 +15,7 @@ tags:
 - neffos-c5-max
 - twrp
 - adb
+GHissueID: 43
 title: Repartycjonowanie flash'a w Neffos C5 i C5 MAX od TP-LINK
 ---
 

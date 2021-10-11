@@ -8,6 +8,7 @@ status: publish
 tags:
 - debian
 - docker
+GHissueID: 309
 title: Jak uruchomić kilka usług w kontenerze Docker'a
 ---
 

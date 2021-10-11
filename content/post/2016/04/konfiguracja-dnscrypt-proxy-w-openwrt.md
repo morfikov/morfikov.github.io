@@ -12,6 +12,7 @@ tags:
 - chaos-calmer
 - router
 - dnscrypt
+GHissueID: 412
 title: Konfiguracja dnscrypt-proxy w OpenWRT
 ---
 

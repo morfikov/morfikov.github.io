@@ -13,6 +13,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 422
 title: Konfiguracja modemu LTE w trybie NDIS (NCM)
 ---
 

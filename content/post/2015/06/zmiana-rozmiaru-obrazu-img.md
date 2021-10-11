@@ -10,6 +10,7 @@ tags:
 - pliki
 - img
 - loop
+GHissueID: 124
 title: Zmiana rozmiaru obrazu .img
 ---
 

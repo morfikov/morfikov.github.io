@@ -11,6 +11,7 @@ tags:
 - systemd
 - dźwięk
 - sudo
+GHissueID: 181
 title: Brak dźwięku przy nieaktywnej sesji logowania
 ---
 

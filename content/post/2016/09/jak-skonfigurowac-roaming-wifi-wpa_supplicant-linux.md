@@ -9,6 +9,7 @@ status: publish
 tags:
 - wifi
 - sieć
+GHissueID: 364
 title: Jak skonfigurować roaming WiFi z wpa_supplicant w linux'ie
 ---
 

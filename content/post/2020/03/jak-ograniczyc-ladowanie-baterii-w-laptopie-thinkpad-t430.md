@@ -12,6 +12,7 @@ tags:
 - lenovo
 - thinkpad
 - t430
+GHissueID: 21
 title: Jak ograniczyć ładowanie baterii w laptopie ThinkPad T430
 ---
 

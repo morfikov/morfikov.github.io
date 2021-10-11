@@ -10,6 +10,7 @@ tags:
 - recenzja
 - tp-link
 - gniazdko
+GHissueID: 378
 title: 'Recenzja: Inteligentne gniazdko HS110 od TP-LINK'
 ---
 

@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 229
 title: 'WordPress: Tryb debugowania'
 ---
 

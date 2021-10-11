@@ -10,6 +10,7 @@ tags:
 - drukarka
 - cups
 - debian
+GHissueID: 479
 title: CUPS, czyli konfiguracja drukarki pod linux'em
 ---
 

@@ -11,6 +11,7 @@ tags:
 - luks
 - lvm
 - debootstrap
+GHissueID: 524
 title: Instalacja debiana z wykorzystaniem debootstrap
 ---
 

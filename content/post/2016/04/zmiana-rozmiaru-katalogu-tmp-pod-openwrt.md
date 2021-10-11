@@ -10,6 +10,7 @@ tags:
 - system-plików
 - chaos-calmer
 - router
+GHissueID: 429
 title: Zmiana rozmiaru katalogu /tmp/ pod OpenWRT
 ---
 

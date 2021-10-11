@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - firefox
 - prywatność
+GHissueID: 174
 title: Więcej niż jeden profil w Firefox'ie
 ---
 

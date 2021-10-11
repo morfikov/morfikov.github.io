@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - bezpieczeństwo
+GHissueID: 244
 title: Kiedy uruchomiony proces wymaga restartu
 ---
 

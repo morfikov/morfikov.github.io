@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - firefox
+GHissueID: 203
 title: Usuwanie wpisów z about:config w Firefox'ie
 ---
 

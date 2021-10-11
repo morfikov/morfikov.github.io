@@ -14,6 +14,7 @@ tags:
 - root
 - reklamy
 - spam
+GHissueID: 447
 title: 'Android: Blokowanie reklam z AdAway na smartfonie'
 ---
 

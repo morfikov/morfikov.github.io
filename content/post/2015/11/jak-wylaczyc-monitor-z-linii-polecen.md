@@ -10,6 +10,7 @@ tags:
 - xserver
 - tty
 - monitor
+GHissueID: 245
 title: Jak wyłączyć monitor z linii poleceń
 ---
 

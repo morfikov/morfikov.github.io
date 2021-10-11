@@ -10,6 +10,7 @@ tags:
 - bootloader
 - szyfrowanie
 - kernel
+GHissueID: 194
 title: Reinstalacja kernela i bootloader'a
 ---
 

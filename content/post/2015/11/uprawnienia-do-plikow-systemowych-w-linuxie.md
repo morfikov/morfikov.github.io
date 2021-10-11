@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - pliki
 - foldery
+GHissueID: 267
 title: Uprawnienia do plików systemowych w linux'ie
 ---
 

@@ -10,6 +10,7 @@ tags:
 - wifi
 - recenzja
 - tp-link
+GHissueID: 564
 title: 'Recenzja: Karta WiFi TP-LINK TL-WN725N (r8188eu)'
 ---
 

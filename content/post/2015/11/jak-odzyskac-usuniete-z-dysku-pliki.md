@@ -11,6 +11,7 @@ tags:
 - pliki
 - foldery
 - ext4
+GHissueID: 243
 title: Jak odzyskać usunięte z dysku pliki
 ---
 

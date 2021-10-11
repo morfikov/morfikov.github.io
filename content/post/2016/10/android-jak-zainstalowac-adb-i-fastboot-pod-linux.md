@@ -12,6 +12,7 @@ tags:
 - adb
 - fastboot
 - debian
+GHissueID: 440
 title: 'Android: Jak zainstalować ADB i fastboot pod linux'
 ---
 

@@ -14,6 +14,7 @@ tags:
 - exif
 - grafika
 - firefox
+GHissueID: 537
 title: Metadane plików graficznych (EXIF)
 ---
 

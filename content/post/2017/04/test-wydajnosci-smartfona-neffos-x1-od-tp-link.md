@@ -13,6 +13,7 @@ tags:
 - benchmark
 - neffos
 - neffos-x1
+GHissueID: 44
 title: Test wydajności smartfona Neffos X1 od TP-LINK
 ---
 

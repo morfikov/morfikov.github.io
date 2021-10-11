@@ -11,6 +11,7 @@ tags:
 - hdd
 - ssd
 - ntfs
+GHissueID: 205
 title: Zmiana rozmiaru partycji NTFS pod linux'em
 ---
 

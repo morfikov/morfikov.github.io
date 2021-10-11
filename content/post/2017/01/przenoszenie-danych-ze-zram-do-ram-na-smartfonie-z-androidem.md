@@ -10,6 +10,7 @@ tags:
 - smartfon
 - zram
 - swap
+GHissueID: 70
 title: Przenoszenie danych ze ZRAM do RAM na smartfonie z Androidem
 ---
 

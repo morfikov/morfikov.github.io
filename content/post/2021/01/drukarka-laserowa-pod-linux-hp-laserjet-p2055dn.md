@@ -15,6 +15,7 @@ tags:
 - laserjet
 - p2055dn
 - logi
+GHissueID: 336
 title: Drukarka laserowa pod linux (HP LaserJet P2055dn)
 ---
 

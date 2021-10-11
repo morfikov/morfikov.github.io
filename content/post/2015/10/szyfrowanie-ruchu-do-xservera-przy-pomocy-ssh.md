@@ -10,6 +10,7 @@ tags:
 - ssh
 - xserver
 - szyfrowanie
+GHissueID: 172
 title: Szyfrowanie ruchu do Xserver'a przy pomocy SSH
 ---
 

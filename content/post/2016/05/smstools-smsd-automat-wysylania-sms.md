@@ -12,6 +12,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 476
 title: SMStools i smsd, czyli automat do wysyłania SMS
 ---
 

@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - blog
+GHissueID: 91
 title: 'WordPress: Kosz i jego cykliczne opróżnianie'
 ---
 

@@ -10,6 +10,7 @@ tags:
 - chaos-calmer
 - router
 - qos
+GHissueID: 393
 title: Kształtowanie ruchu z qos-scripts w OpenWRT
 ---
 

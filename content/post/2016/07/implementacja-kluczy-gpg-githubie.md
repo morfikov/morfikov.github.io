@@ -10,6 +10,7 @@ tags:
 - git
 - gpg
 - github
+GHissueID: 383
 title: Implementacja kluczy GPG na github'ie
 ---
 

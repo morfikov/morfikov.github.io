@@ -15,6 +15,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 434
 title: Konfiguracja połączenia Aero2 na OpenWRT
 ---
 

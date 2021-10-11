@@ -10,6 +10,7 @@ tags:
 - moduły-kernela
 - xserver
 - dźwięk
+GHissueID: 522
 title: Jak wyłączyć systemowy "beep"
 ---
 

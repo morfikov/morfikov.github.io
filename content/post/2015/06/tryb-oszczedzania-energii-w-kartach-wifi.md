@@ -10,6 +10,7 @@ tags:
 - wifi
 - usb
 - udev
+GHissueID: 79
 title: Tryb oszczędzania energii w kartach WiFi na linux
 ---
 

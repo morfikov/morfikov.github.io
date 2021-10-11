@@ -9,6 +9,7 @@ status: publish
 tags:
 - system-plików
 - ext4
+GHissueID: 149
 title: Kompaktowanie katalogów w systemie plików ext4
 ---
 

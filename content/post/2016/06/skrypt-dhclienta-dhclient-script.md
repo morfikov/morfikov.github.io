@@ -9,6 +9,7 @@ status: publish
 tags:
 - dhcp
 - dhclient
+GHissueID: 346
 title: Skrypt dhclient'a (dhclient script)
 ---
 

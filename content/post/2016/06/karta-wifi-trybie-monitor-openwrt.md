@@ -10,6 +10,7 @@ tags:
 - wifi
 - chaos-calmer
 - router
+GHissueID: 343
 title: Karta WiFi w trybie MONITOR w OpenWRT
 ---
 

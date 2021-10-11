@@ -11,6 +11,7 @@ tags:
 - debian
 - apt
 - repozytorium
+GHissueID: 248
 title: Klucze do repozytoriów Debiana (trusted.gpg)
 ---
 

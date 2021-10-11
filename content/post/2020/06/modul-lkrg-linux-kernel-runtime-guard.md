@@ -12,6 +12,7 @@ tags:
 - lkrg
 - kernel
 - moduły-kernela
+GHissueID: 5
 title: Moduł LKRG (Linux Kernel Runtime Guard)
 ---
 

@@ -13,6 +13,7 @@ tags:
 - dos
 - ddos
 - synproxy
+GHissueID: 173
 title: Unikanie ataków DDoS z SYNproxy
 ---
 

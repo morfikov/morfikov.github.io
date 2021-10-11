@@ -9,6 +9,7 @@ tags:
 - chaos-calmer
 - router
 - tp-link
+GHissueID: 73
 title: Jak ustalić IP i nazwę pliku trybu recovery w routerach TP-Link
 ---
 

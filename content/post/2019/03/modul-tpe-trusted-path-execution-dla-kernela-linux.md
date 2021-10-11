@@ -10,6 +10,7 @@ tags:
 - kernel
 - moduły-kernela
 - tpe
+GHissueID: 298
 title: Moduł TPE (Trusted Path Execution) dla kernela linux
 ---
 

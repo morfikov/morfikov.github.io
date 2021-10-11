@@ -9,6 +9,7 @@ status: publish
 tags:
 - system-plików
 - ext4
+GHissueID: 387
 title: 'Unexpected Inconsistency: Inode has corrupt extent header'
 ---
 

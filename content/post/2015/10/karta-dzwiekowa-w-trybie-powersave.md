@@ -10,6 +10,7 @@ tags:
 - moduły-kernela
 - dźwięk
 - powersave
+GHissueID: 165
 title: Karta dźwiękowa w trybie powersave
 ---
 

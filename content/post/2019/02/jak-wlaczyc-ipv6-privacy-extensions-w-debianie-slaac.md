@@ -12,6 +12,7 @@ tags:
 - sieć
 - slaac
 - prywatność
+GHissueID: 304
 title: Jak włączyć IPv6 Privacy Extensions w Debianie (SLAAC)
 ---
 

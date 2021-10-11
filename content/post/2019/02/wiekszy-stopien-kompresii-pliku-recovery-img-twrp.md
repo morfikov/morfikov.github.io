@@ -10,6 +10,7 @@ tags:
 - smartfon
 - twrp
 - recovery
+GHissueID: 303
 title: Większy stopień kompresii pliku recovery.img (TWRP)
 ---
 

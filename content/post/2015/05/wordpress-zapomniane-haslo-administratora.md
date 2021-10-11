@@ -9,6 +9,7 @@ status: publish
 tags:
 - blog
 - hasła
+GHissueID: 218
 title: 'WordPress: Zapomniane hasło administratora'
 ---
 

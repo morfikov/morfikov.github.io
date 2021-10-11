@@ -11,6 +11,7 @@ tags:
 - chaos-calmer
 - sieć
 - router
+GHissueID: 395
 title: Różne adresy LAN i WLAN w OpenWRT (Routed AP)
 ---
 

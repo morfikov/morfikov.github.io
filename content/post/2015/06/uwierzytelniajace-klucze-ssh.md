@@ -10,6 +10,7 @@ tags:
 - bezpieczeństwo
 - ssh
 - szyfrowanie
+GHissueID: 83
 title: Uwierzytelniające klucze SSH
 ---
 

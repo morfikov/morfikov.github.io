@@ -15,6 +15,7 @@ tags:
 - modem
 - huawei
 - e3372
+GHissueID: 413
 title: Monitor połączenia 3G/LTE W OpenWRT (3ginfo)
 ---
 

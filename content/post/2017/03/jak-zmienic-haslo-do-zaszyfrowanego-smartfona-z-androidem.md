@@ -11,6 +11,7 @@ tags:
 - smartfon
 - root
 - adb
+GHissueID: 52
 title: Jak zmienić hasło do zaszyfrowanego smartfona z Androidem
 ---
 
