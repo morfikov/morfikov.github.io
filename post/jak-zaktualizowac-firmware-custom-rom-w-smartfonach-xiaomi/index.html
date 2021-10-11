@@ -393,7 +393,76 @@ smartfona załatamy też wszystkie wykryte w nim podatności i błędy (przynajm
 	</ul>
 </div>
 
-	
+	<div id="comments">
+		<script>
+  var id =  322 ;
+
+  if (id)
+  {
+    let url = "https://github.com/morfikov/morfitronik-comments/issues/".concat(id);
+    let api_url = "https://api.github.com/repos/morfikov/morfitronik-comments/issues/".concat(id, "/comments");
+
+    var commentsDiv = document.getElementById("comments");
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("GET", api_url);
+    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
+    xhr.send();
+
+    xhr.onload = function()
+    {
+      if (xhr.status != 200)
+      {
+        let errorText = document.createElement("p");
+        errorText.innerHTML = "<i>Komentarze dla tego postu nie zostały jeszcze otworzone (albo skrypty GitHub'a są wyłączone).</i>";
+        commentsDiv.appendChild(errorText);
+      }
+      else
+      {
+        let comments = xhr.response;
+
+        let mainHeader = document.createElement("h3");
+        mainHeader.innerHTML = "Komentarze: ".concat(comments.length);
+        commentsDiv.appendChild(mainHeader);
+
+        let issueLink = document.createElement("p");
+        issueLink.innerHTML = "<i>Możesz zostawić komentarz korzystając z <a href='".concat(url, "'>GitHub issue</a>.</i>");
+        commentsDiv.appendChild(issueLink);
+
+        comments.forEach(function(comment)
+        {
+			const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Europe/Warsaw' };
+			options.timeZoneName = 'short';
+            let commentContent = document.createElement("div");
+            commentContent.setAttribute('class', 'gh-comment')
+            commentContent.innerHTML = "".concat(
+                "<div class='gh-header'>",
+                  "<img src='", comment.user.avatar_url, "' />",
+                  "<div style='margin:auto 0;'>",
+                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
+                    " | <em>", (new Date(comment.created_at)).toLocaleTimeString('pl-PL', options), "</em>",
+                  "</div>",
+                "</div>",
+                "<div class='gh-body'>",
+                  comment.body_html,
+                "</div>"
+            );
+            commentsDiv.appendChild(commentContent);
+        });
+      }
+    };
+
+    xhr.onerror = function()
+    {
+      let errorText = document.createElement("p");
+      errorText.innerHTML = "<i>Wystąpił jakiś błąd przy ładowaniu komentarzy.</i>";
+      commentsDiv.appendChild(errorText);
+    };
+  }
+</script>
+
+	</div>
 
 	</div>
 	<footer class="footer">
