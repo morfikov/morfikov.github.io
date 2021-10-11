@@ -19,23 +19,25 @@
       if (xhr.status != 200)
       {
         let errorText = document.createElement("p");
-        errorText.innerHTML = "<i>Comments for this post yet are not opened yet (or you have GitHub scripts disabled).</i>";
+        errorText.innerHTML = "<i>Komentarze dla tego postu nie zostały jeszcze otworzone (albo skrypty GitHub'a są wyłączone).</i>";
         commentsDiv.appendChild(errorText);
       }
       else
       {
         let comments = xhr.response;
 
-        let mainHeader = document.createElement("h2");
-        mainHeader.innerHTML = "Comments: ".concat(comments.length);
+        let mainHeader = document.createElement("h3");
+        mainHeader.innerHTML = "Komentarze: ".concat(comments.length);
         commentsDiv.appendChild(mainHeader);
 
         let issueLink = document.createElement("p");
-        issueLink.innerHTML = "<i>You can leave a comment using this <a href='".concat(url, "'>GitHub issue</a>.</i>");
+        issueLink.innerHTML = "<i>Możesz zostawić komentarz korzystając z <a href='".concat(url, "'>GitHub issue</a>.</i>");
         commentsDiv.appendChild(issueLink);
 
         comments.forEach(function(comment)
         {
+			const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Europe/Warsaw' };
+			options.timeZoneName = 'short';
             let commentContent = document.createElement("div");
             commentContent.setAttribute('class', 'gh-comment')
             commentContent.innerHTML = "".concat(
@@ -43,7 +45,7 @@
                   "<img src='", comment.user.avatar_url, "' />",
                   "<div style='margin:auto 0;'>",
                     "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
-                    " commented at <em>", new Date(comment.created_at), "</em>",
+                    " | <em>", (new Date(comment.created_at)).toLocaleTimeString('pl-PL', options), "</em>",
                   "</div>",
                 "</div>",
                 "<div class='gh-body'>",
@@ -58,7 +60,7 @@
     xhr.onerror = function()
     {
       let errorText = document.createElement("p");
-      errorText.innerHTML = "<i>Some error loading comments.</i>";
+      errorText.innerHTML = "<i>Wystąpił jakiś błąd przy ładowaniu komentarzy.</i>";
       commentsDiv.appendChild(errorText);
     };
   }
