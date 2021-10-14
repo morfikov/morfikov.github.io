@@ -101,6 +101,41 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-na-debianie-zrobic-pakiet-deb-zawierajacy-modul-kernela-linux-dkms/">Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)</a></h1>
+	<div class="entry__content"><p>Kernel linux'a jest dość złożonym organizmem, który może zostać rozbudowany przy pomocy dodatkowego
+kodu ładowanego w postaci zewnętrznych modułów. Czasem ze względu na wczesny etap prac nad nową
+funkcjonalnością jądra, taki moduł może zachowywać się dość nieprzewidywalnie, co przekreśla jego
+szanse na pojawienie się w stabilnych wydaniach kernela. Czasem też z jakiegoś niezrozumiałego
+powodu pewne rzeczy nie są celowo dodawane do jądra operacyjnego. Jedną z nich
+jest <a href="https://github.com/cormander/tpe-lkm">moduł Trusted Path Execution</a> (TPE), który jest w
+stanie znacznie poprawić bezpieczeństwo systemu uniemożliwiając przeprowadzenie w nim szeregu
+podejrzanych działań. W Debianie tego typu niedogodności związane z brakiem pewnych modułów można
+obejść przez
+zastosowanie <a href="https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support">mechanizmu DKMS</a>, który
+przy instalacji modułu spoza głównego drzewa kernela linux'a jest nam go w stanie automatycznie
+zbudować. W repozytorium dystrybucji Debiana znajduje się już szereg pakietów z modułami (mają
+końcówki <code>-dkms</code> ) i w prosty sposób można je sobie doinstalować. Co jednak w przypadku, gdy mamy
+moduł, którego nikt jeszcze nie przygotował i nie wrzucił do repozytorium? Co, gdy takich modułów
+mamy kilka, a przy tym korzystamy z najnowszego stabilnego kernela, który jest aktualizowany
+średnio co kilka dni? Ręczna budowa wszystkich zewnętrznych modułów za każdym razem jak tylko
+wyjdzie nowsza wersja kernela, to nie najlepsze wyjście, zwłaszcza jak dojdzie nam do tego
+aktualizacja samych modułów. Można za to zrobić sobie paczkę <code>.deb</code> tak, by przy instalacji nowego
+jądra operacyjnego, system nam automatycznie zbudował wszystkie dodatkowe moduły, których nasz
+komputer wymaga do poprawnej pracy.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-03-17T09:37:28Z">Opublikowano: 17/03/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/czy-linuxowy-firewall-powinien-blokowac-pakiety-not-syn-w-stanie-new/">Czy linux&#39;owy firewall powinien blokować pakiety not-syn w stanie NEW</a></h1>
 	<div class="entry__content"><p>Od czasu do czasu w logu systemowym mojego Debiana można zanotować szereg pakietów przychodzących,
 które są zrzucane przez linux'owy firewall (<code>nftables</code>/<code>iptables</code> ). Po krótkiej analizie okazało
@@ -336,34 +371,6 @@ proces wewnątrz kontenera i gdy ten czas nadejdzie, to wypadałoby wiedzieć ja
 przedsięwzięcia zabrać.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-02-02T07:20:43Z">Opublikowano: 02/02/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux/">Jak zalogować błędy podczas zamykania systemu Debian Linux</a></h1>
-	<div class="entry__content"><p>By wyłączyć komputer, jego system operacyjny musi pierw zatrzymać (lub też ubić siłowo) wszystkie
-działające usługi za wyjątkiem tego mającego PID z numerkiem 1. Zwykle proces zamykania się systemu
-Debian Linux nie trwa więcej niż parę sekund ale czasami pojawiają się dziwne problemy, które mogą
-to zadanie utrudnić lub też całkowicie uniemożliwić. Nawet jeśli system będzie się w stanie
-zresetować, to zanim to nastąpi, to na konsoli mogą pojawić się komunikaty mogące pomóc nam w
-zdiagnozowaniu dolegliwości, która doskwiera naszej maszynie. Problem w tym, że część tych
-wiadomości nie zostanie nigdy zalogowana do pliku, gdzie moglibyśmy ich poszukać. Dzieje się tak
-dlatego, że w pewnym określonym momencie zamykania się systemu trzeba wyłączyć usługę logowania, co
-zwykle widać w logu jako <code>systemd-journald[]: Journal stopped</code> . Gdy dziennik zostanie zatrzymany,
-żadna wiadomość, która od tego momentu pojawi się na ekranie, nie zostanie już zalogowana do pliku.
-Jeśli teraz pojawią nam się ostrzeżenia lub błędy, a po chwili komputer się zresetuje, to możemy
-mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza. Przydałoby się zapisać
-te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-02-02T06:12:18Z">Opublikowano: 02/02/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

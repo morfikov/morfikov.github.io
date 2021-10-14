@@ -101,6 +101,36 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wylaczyc-mapowane-adresow-ipv4-na-ipv6-w-debian-linux/">Jak wyłączyć mapowanie adresów IPv4 na IPv6 w Debian linux</a></h1>
+	<div class="entry__content"><p>Przeglądając ostatnio połączenia w swoim telefonie z Androidem, natknąłem się na wpisy mające w
+swoich adresach źródłowych ustawione IP takie, jak <code>::ffff:192.168.1.188</code> . Podobnie sprawa wygląda
+w przypadku adresów docelowych tego samego połączenia, tj. widnieje tam np. <code>::ffff:216.58.215.1</code> .
+Na pierwszy rzut oka taka konstrukcja adresu IP przypomina IPv6, przynajmniej jej pierwsza część,
+tj. <code>::ffff:</code> , natomiast drugi kawałek już bardzo przypomina adres IPv4. Okazuje się, że za taki
+format adresów IP odpowiada <a href="https://en.wikipedia.org/wiki/IPv6#IPv4-mapped_IPv6_addresses">mechanizm mapowania adresów IPv4 na adresy IPv6</a>. Nie jest to
+jednak tożsame z <a href="https://morfikov.github.io/post/implementacja-protokolu-ipv6-za-pomoca-tunelu-6to4/">6to4</a> czy <a href="https://morfikov.github.io/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/">6in4</a>, gdzie host ze stałym publicznym adresem IPv4 jest w
+stanie komunikować się z hostami nadającymi po IPv6. W przypadku mapowania adresów IPv4 na IPv6,
+połączenia ze zdalnymi hostami mogą odbywać się zarówno po IPv4 jak i IPv6, a to z którego z tych
+protokołów nasz linux skorzysta zależy od tego czy taka maszyna dysponuje przydzielonym adresem
+IPv6. Jeśli ISP nie zapewnia nam adresu IPv6, to wtedy pakiety sieciowe będą przesyłane z
+wykorzystaniem protokołu IPv4. Wciąż jednak te mieszane konstrukcje adresów IP będą widoczne na
+wykazie połączeń w <code>netstat</code>/<code>ss</code> . Okazuje się jednak, że ten mechanizm mapowania adresów może
+powodować szereg problemów związanych z bezpieczeństwem systemu. Dlatego też tam gdzie to możliwe
+przydałoby się go wyłączyć.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2021-10-14T23:52:00&#43;02:00">Opublikowano: 14/10/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wlaczyc-stabilne-adresy-prywatne-w-ipv6-na-linux/">Jak włączyć stabilne adresy prywatne w IPv6 na linux</a></h1>
 	<div class="entry__content"><p>Jakiś już czas temu opisywałem <a href="https://morfikov.github.io/post/jak-wlaczyc-ipv6-privacy-extensions-w-debianie-slaac/">jak włączyć rozszerzenia prywatności IPv6 na Debianie</a> (IPv6
 Privacy Extensions) w przypadku korzystania z mechanizmu automatycznej konfiguracji adresacji
@@ -325,29 +355,6 @@ uszkodzeniu ulega cała partycja. To niesie ze sobą ryzyko utraty danych. Dlate
 zaprzestać resetowania komputerów przy pomocy przycisków i zacząć korzystać z klawisza SysRq .</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2015-10-29T01:57:30Z">Opublikowano: 29/10/2015</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/automatyczny-restart-maszyny-po-kernel-panic/">Automatyczny restart maszyny po kernel panic</a></h1>
-	<div class="entry__content"><p>Gdy nasz linux napotka z jakiegoś powodu błąd wewnątrz swojej struktury, to istnieją sytuacje, w
-których obsługa tego błędu czasem nie jest możliwa. Wobec czego, zostaje wyrzucony komunikat
-systemowy oznajmiający nam, że <a href="https://pl.wikipedia.org/wiki/Kernel_panic">kernel spanikował (kernel
-panic)</a>, bo nie wie co w takim przypadku zrobić. Gdy
-tego typu sytuacja się nam przytrafia, nie ma innego wyjścia jak tylko uruchomić system ponownie. Co
-jednak w przypadku gdy pracujemy zdalnie i nie jesteśmy w stanie zresetować takiej maszyny
-fizycznie? Na szczęście kernel ma kilka opcji, które mogą zainicjować automatyczny restart w
-przypadku wystąpienia kernel panic.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2015-10-28T23:56:51Z">Opublikowano: 28/10/2015</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

@@ -6,7 +6,31 @@
     <description>Recent content on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Tue, 12 Oct 2021 00:15:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 14 Oct 2021 23:52:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak wyłączyć mapowanie adresów IPv4 na IPv6 w Debian linux</title>
+      <link>https://morfikov.github.io/post/jak-wylaczyc-mapowane-adresow-ipv4-na-ipv6-w-debian-linux/</link>
+      <pubDate>Thu, 14 Oct 2021 23:52:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-wylaczyc-mapowane-adresow-ipv4-na-ipv6-w-debian-linux/</guid>
+      <description>&lt;p&gt;Przeglądając ostatnio połączenia w swoim telefonie z Androidem, natknąłem się na wpisy mające w
+swoich adresach źródłowych ustawione IP takie, jak &lt;code&gt;::ffff:192.168.1.188&lt;/code&gt; . Podobnie sprawa wygląda
+w przypadku adresów docelowych tego samego połączenia, tj. widnieje tam np. &lt;code&gt;::ffff:216.58.215.1&lt;/code&gt; .
+Na pierwszy rzut oka taka konstrukcja adresu IP przypomina IPv6, przynajmniej jej pierwsza część,
+tj. &lt;code&gt;::ffff:&lt;/code&gt; , natomiast drugi kawałek już bardzo przypomina adres IPv4. Okazuje się, że za taki
+format adresów IP odpowiada &lt;a href=&#34;https://en.wikipedia.org/wiki/IPv6#IPv4-mapped_IPv6_addresses&#34;&gt;mechanizm mapowania adresów IPv4 na adresy IPv6&lt;/a&gt;. Nie jest to
+jednak tożsame z &lt;a href=&#34;https://morfikov.github.io/post/implementacja-protokolu-ipv6-za-pomoca-tunelu-6to4/&#34;&gt;6to4&lt;/a&gt; czy &lt;a href=&#34;https://morfikov.github.io/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/&#34;&gt;6in4&lt;/a&gt;, gdzie host ze stałym publicznym adresem IPv4 jest w
+stanie komunikować się z hostami nadającymi po IPv6. W przypadku mapowania adresów IPv4 na IPv6,
+połączenia ze zdalnymi hostami mogą odbywać się zarówno po IPv4 jak i IPv6, a to z którego z tych
+protokołów nasz linux skorzysta zależy od tego czy taka maszyna dysponuje przydzielonym adresem
+IPv6. Jeśli ISP nie zapewnia nam adresu IPv6, to wtedy pakiety sieciowe będą przesyłane z
+wykorzystaniem protokołu IPv4. Wciąż jednak te mieszane konstrukcje adresów IP będą widoczne na
+wykazie połączeń w &lt;code&gt;netstat&lt;/code&gt;/&lt;code&gt;ss&lt;/code&gt; . Okazuje się jednak, że ten mechanizm mapowania adresów może
+powodować szereg problemów związanych z bezpieczeństwem systemu. Dlatego też tam gdzie to możliwe
+przydałoby się go wyłączyć.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Komentarze GitHub Issues na blogu Hugo korzystającym z GitHub Pages</title>
@@ -410,26 +434,6 @@ wyłącznie dla OS z gatunku Windows. Co mają zrobić osoby, które z Windows&#
 chciałyby przy tym mieć aktualny firmware w drukarkach HP? Możemy spróbować postawić maszynę
 wirtualną na bazie QEMU/KVM, tam zainstalować Windows&#39;a i udostępnić w obrębie tej maszyny
 wirtualnej drukarkę, której firmware mamy zamiar aktualizować.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Drukarka laserowa pod linux (HP LaserJet P2055dn)</title>
-      <link>https://morfikov.github.io/post/drukarka-laserowa-pod-linux-hp-laserjet-p2055dn/</link>
-      <pubDate>Wed, 27 Jan 2021 18:03:00 +0100</pubDate>
-      
-      <guid>https://morfikov.github.io/post/drukarka-laserowa-pod-linux-hp-laserjet-p2055dn/</guid>
-      <description>&lt;p&gt;Parę tygodni temu moja leciwa już (20 letnia) drukarka atramentowa Epson Stylus Color 760
-postanowiła odmówić współpracy i zaprzestała dalszego drukowania stron. Po rozkręceniu jej, okazało
-się, że ma ona w sobie tyle syfu (m.in. w okolicach dysz), że mechanizmy tej drukarki nie były już
-w stanie najwyraźniej tego doczyścić. Pomyślałem, że najwyższy już czas pozbyć się tej drukarki i
-poszukać jej następcy. W wytycznych kupna nowej drukarki były przede wszystkim cena (do 500 zł),
-bezproblemowa praca pod linux (Debian/Ubuntu) oraz możliwość pracy w sieci (preferowane WiFi) bez
-zaprzęgania do tego celu innych sprzętów, np. routera czy komputera stacjonarnego/laptopa. Wybór
-padł na poleasingową drukarkę laserową Hewlett Packard (HP) LaserJet P2055dn, ze względu na fakt,
-że posiada ona wszystkie te wyżej wymienione właściwości (no może poza WiFi) i można nią zarządzać
-bez większego problemu czy to przy pomocy dedykowanych narzędzi z pakietu &lt;code&gt;hplip&lt;/code&gt; / &lt;code&gt;hplip-gui&lt;/code&gt; ,
-czy też bezpośrednio za sprawą CUPS.&lt;/p&gt;</description>
     </item>
     
   </channel>

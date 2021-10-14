@@ -101,6 +101,36 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wylaczyc-mapowane-adresow-ipv4-na-ipv6-w-debian-linux/">Jak wyłączyć mapowanie adresów IPv4 na IPv6 w Debian linux</a></h1>
+	<div class="entry__content"><p>Przeglądając ostatnio połączenia w swoim telefonie z Androidem, natknąłem się na wpisy mające w
+swoich adresach źródłowych ustawione IP takie, jak <code>::ffff:192.168.1.188</code> . Podobnie sprawa wygląda
+w przypadku adresów docelowych tego samego połączenia, tj. widnieje tam np. <code>::ffff:216.58.215.1</code> .
+Na pierwszy rzut oka taka konstrukcja adresu IP przypomina IPv6, przynajmniej jej pierwsza część,
+tj. <code>::ffff:</code> , natomiast drugi kawałek już bardzo przypomina adres IPv4. Okazuje się, że za taki
+format adresów IP odpowiada <a href="https://en.wikipedia.org/wiki/IPv6#IPv4-mapped_IPv6_addresses">mechanizm mapowania adresów IPv4 na adresy IPv6</a>. Nie jest to
+jednak tożsame z <a href="https://morfikov.github.io/post/implementacja-protokolu-ipv6-za-pomoca-tunelu-6to4/">6to4</a> czy <a href="https://morfikov.github.io/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/">6in4</a>, gdzie host ze stałym publicznym adresem IPv4 jest w
+stanie komunikować się z hostami nadającymi po IPv6. W przypadku mapowania adresów IPv4 na IPv6,
+połączenia ze zdalnymi hostami mogą odbywać się zarówno po IPv4 jak i IPv6, a to z którego z tych
+protokołów nasz linux skorzysta zależy od tego czy taka maszyna dysponuje przydzielonym adresem
+IPv6. Jeśli ISP nie zapewnia nam adresu IPv6, to wtedy pakiety sieciowe będą przesyłane z
+wykorzystaniem protokołu IPv4. Wciąż jednak te mieszane konstrukcje adresów IP będą widoczne na
+wykazie połączeń w <code>netstat</code>/<code>ss</code> . Okazuje się jednak, że ten mechanizm mapowania adresów może
+powodować szereg problemów związanych z bezpieczeństwem systemu. Dlatego też tam gdzie to możliwe
+przydałoby się go wyłączyć.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2021-10-14T23:52:00&#43;02:00">Opublikowano: 14/10/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi/">Jak zaktualizować firmware custom ROM&#39;ów w smartfonach Xiaomi</a></h1>
 	<div class="entry__content"><p>Te bardziej szanujące się marki produkujące smartfony zwykle zapewniają wsparcie dla swoich
 urządzeń przez co najmniej dwa lata (a czasem nawet i dłużej) od momentu ich wypuszczenia na rynek.
@@ -341,38 +371,6 @@ jakiś większy użytek zarówno przy korzystaniu z maszyn wirtualnych, czy też
 komputera.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-10-18T10:45:00&#43;02:00">Opublikowano: 18/10/2020</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/tworzenie-kopii-zapasowej-linux-z-borgbackup/">Tworzenie kopii zapasowej linux&#39;a z BorgBackup</a></h1>
-	<div class="entry__content"><p>Gdy chodzi o bezpieczeństwo danych przechowywanych na nośnikach pamięci masowych, takich jak dyski
-twarde, to użytkownicy linux'a często piszą sobie skrypty shell'owe mające na celu przeprowadzić
-backup całego nośnika lub też jego konkretnych plików/katalogów. Zwykle zaprzęgany jest do pracy
-<code>rsync</code> , który bez problemu jest w stanie  zsynchronizować zawartość dwóch folderów (źródłowego i
-docelowego) i po tym procesie wołany jest także <code>tar</code> mający na celu skompresować pliki backup'u,
-tak by zajmowały mniej miejsca. Nie mam nic do tego rozwiązania, bo sam też przez lata z niego
-korzystałem ale ma ono całą masę wad. Przede wszystkim, ten mechanizm nie bierze pod uwagę zmian w
-samych plikach, czyli tworzy kopię tego co mu się poda i w taki sposób mamy wiele paczek <code>.tar.gz</code> ,
-które zajmują sporo miejsca. Kolejną sprawą jest brak zabezpieczenia przed nieuprawnionym dostępem
-do plików kopii zapasowej, np. przy pomocy szyfrowania. W ten sposób trzeba posiłkować się
-zewnętrznymi rozwiązaniami, np. pełne szyfrowanie dysku za sprawą LUKS/dm-crypt, co nie zawsze jest
-możliwe i też bardzo komplikuje cały proces tworzenia kopii zapasowej, zwłaszcza na zewnętrznych
-nośnikach czy zdalnych hostach w sieci. Ostatnio jednak trafiłem na <a href="https://borgbackup.readthedocs.io/">narzędzie BorgBackup</a>, które
-to dość znacznie upraszcza cały proces tworzenia backup'u plików na linux, a takie cechy jak
-szyfrowanie, kompresja i deduplikacja danych są w borg zaimplementowane standardowo. Postanowiłem
-zatem zmigrować z mojego skryptowego systemu tworzenia kopii zapasowych na rzecz borg'a i spisać
-przy okazji te użyteczniejsze informacje dotyczące posługiwania się tym narzędziem</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-10-08T19:05:00&#43;02:00">Opublikowano: 08/10/2020</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

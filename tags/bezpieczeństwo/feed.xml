@@ -6,7 +6,31 @@
     <description>Recent content in bezpieczeństwo on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Sat, 21 Aug 2021 14:35:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/bezpiecze%C5%84stwo/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 14 Oct 2021 23:52:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/bezpiecze%C5%84stwo/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Jak wyłączyć mapowanie adresów IPv4 na IPv6 w Debian linux</title>
+      <link>https://morfikov.github.io/post/jak-wylaczyc-mapowane-adresow-ipv4-na-ipv6-w-debian-linux/</link>
+      <pubDate>Thu, 14 Oct 2021 23:52:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/jak-wylaczyc-mapowane-adresow-ipv4-na-ipv6-w-debian-linux/</guid>
+      <description>&lt;p&gt;Przeglądając ostatnio połączenia w swoim telefonie z Androidem, natknąłem się na wpisy mające w
+swoich adresach źródłowych ustawione IP takie, jak &lt;code&gt;::ffff:192.168.1.188&lt;/code&gt; . Podobnie sprawa wygląda
+w przypadku adresów docelowych tego samego połączenia, tj. widnieje tam np. &lt;code&gt;::ffff:216.58.215.1&lt;/code&gt; .
+Na pierwszy rzut oka taka konstrukcja adresu IP przypomina IPv6, przynajmniej jej pierwsza część,
+tj. &lt;code&gt;::ffff:&lt;/code&gt; , natomiast drugi kawałek już bardzo przypomina adres IPv4. Okazuje się, że za taki
+format adresów IP odpowiada &lt;a href=&#34;https://en.wikipedia.org/wiki/IPv6#IPv4-mapped_IPv6_addresses&#34;&gt;mechanizm mapowania adresów IPv4 na adresy IPv6&lt;/a&gt;. Nie jest to
+jednak tożsame z &lt;a href=&#34;https://morfikov.github.io/post/implementacja-protokolu-ipv6-za-pomoca-tunelu-6to4/&#34;&gt;6to4&lt;/a&gt; czy &lt;a href=&#34;https://morfikov.github.io/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/&#34;&gt;6in4&lt;/a&gt;, gdzie host ze stałym publicznym adresem IPv4 jest w
+stanie komunikować się z hostami nadającymi po IPv6. W przypadku mapowania adresów IPv4 na IPv6,
+połączenia ze zdalnymi hostami mogą odbywać się zarówno po IPv4 jak i IPv6, a to z którego z tych
+protokołów nasz linux skorzysta zależy od tego czy taka maszyna dysponuje przydzielonym adresem
+IPv6. Jeśli ISP nie zapewnia nam adresu IPv6, to wtedy pakiety sieciowe będą przesyłane z
+wykorzystaniem protokołu IPv4. Wciąż jednak te mieszane konstrukcje adresów IP będą widoczne na
+wykazie połączeń w &lt;code&gt;netstat&lt;/code&gt;/&lt;code&gt;ss&lt;/code&gt; . Okazuje się jednak, że ten mechanizm mapowania adresów może
+powodować szereg problemów związanych z bezpieczeństwem systemu. Dlatego też tam gdzie to możliwe
+przydałoby się go wyłączyć.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Migracja z apt-key w Debian linux</title>
@@ -378,23 +402,6 @@ katalogach jak &lt;code&gt;/usr/&lt;/code&gt; czy &lt;code&gt;/etc/&lt;/code&gt;
 przytrafiła. Co w takim przypadku można zrobić? Czy jedyną opcją, jaka nam pozostaje, to ponowna
 instalacja sytemu? Na szczęście nie, bo uprawnienia do plików możemy sobie zwyczajnie spisać i
 odtworzyć je w późniejszym czasie.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Kiedy uruchomiony proces wymaga restartu</title>
-      <link>https://morfikov.github.io/post/kiedy-uruchomiony-proces-wymaga-restartu/</link>
-      <pubDate>Fri, 13 Nov 2015 14:22:21 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/kiedy-uruchomiony-proces-wymaga-restartu/</guid>
-      <description>&lt;p&gt;Linux słynie z tego, że nie są wymagane w nim częste restarty całego systemu operacyjnego. Nie ma
-przy tym znaczenia czy aktualizujemy jakieś oprogramowanie, czy też wgrywamy nową wersję kernela.
-Jeśli by to przenieść na środowisko windowsa, to tam system jest w stanie się automatycznie
-zresetować kilka razy tylko podczas samego procesu aktualizacji. Można zatem kwestionować zasadność
-twierdzenia, że linux nie wymaga restartu. Może nie koniecznie jesteśmy zmuszeni do dokonania
-restartu w danej chwili, tak jak to ma miejsce w przypadku windowsa, ale czy aby na pewno po
-instalacji jakichś pakietów w systemie, każdy proces powinien w dalszym ciągu działać bez restartu?
-Na to pytanie postaramy się odpowiedzieć w tym wpisie.&lt;/p&gt;</description>
     </item>
     
   </channel>

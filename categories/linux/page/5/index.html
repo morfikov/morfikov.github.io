@@ -101,6 +101,31 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/capability-dac_read_search-dac_override-w-profilu-apparmor/">Capability dac_read_search i dac_override w profilu AppArmor&#39;a</a></h1>
+	<div class="entry__content"><p>Od jakiegoś czasu tworzę dla aplikacji w moim Debianie <a href="https://gitlab.com/morfikov/debian-files/tree/master/configs/etc/apparmor.d">profile pod AppArmor</a>, tak by ograniczyć
+programom swobodny dostęp do plików czy urządzeń. Tych profili zebrało się już trochę i podczas
+pisania jednego z nich, zacząłem się zastanawiać czy wszystkie CAP'y (linux capabilities), których
+żądają procesy, są im faktycznie niezbędne do prawidłowego funkcjonowania. Chodzi póki co o
+<code>dac_read_search</code> i <code>dac_override</code> . Co ciekawe, odmowa <code>dac_override</code> w części aplikacji nie
+powodowała żadnych negatywnych konsekwencji. Idąc dalej tym tropem, postanowiłem z paru profili AA
+usunąć linijkę zawierającą <code>capability dac_override,</code> zostawiając tym samym jedynie
+<code>capability dac_read_search,</code>  i zobaczyć co się stanie. Okazało się, że sporo programów już o
+<code>dac_override</code> nie prosi. Zatem co się zmieniło przez tych parę lat i czy ta zmiana dotyczy samych
+aplikacji, a może kernela linux'a?</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-09-16T18:20:15Z">Opublikowano: 16/09/2019</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wybudzanie-linuxa-ze-stanu-uspienia-za-sprawa-myszy/">Wybudzanie linux&#39;a ze stanu uśpienia za sprawą myszy</a></h1>
 	<div class="entry__content"><p>Parę dni temu na jednych z forów, które czasem odwiedzam, <a href="https://forum.linuxmint.pl/showthread.php?tid=323">pojawił się wątek</a> dotyczący problemu
 jaki może nieść ze sobą budzenie linux'a ze stanu uśpienia/wstrzymania (Suspend to RAM, STR) za
@@ -336,43 +361,6 @@ przestrzeni wymiany w postaci pliku. W tym artykule rzucimy sobie okiem na ten n
 skomplikowany proces.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-03-23T19:30:22Z">Opublikowano: 23/03/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/modul-tpe-trusted-path-execution-dla-kernela-linux/">Moduł TPE (Trusted Path Execution) dla kernela linux</a></h1>
-	<div class="entry__content"><p>Użytkownicy linux'a są zwykle chronieni przez mechanizmy bezpieczeństwa, które ten system jest w
-stanie zaoferować. Oczywiście deweloperzy różnych dystrybucji, np. Debiana, dokładają wszelkich
-możliwych starań, by system jako całość był wstępnie skonfigurowany tak, by końcowy użytkownik nie
-musiał za wiele majstrować przy zabezpieczeniach i mógł się czuć i być (przynajmniej względnie)
-bezpieczny. No i faktycznie złowrogie oprogramowanie ma czasem spore problemy dostać się do maszyny,
-którą operuje linux. Niemniej jednak, gdy już taki syf się do systemu dostanie, to zwykle niewiele
-dzieli go od przejęcia kontroli nad komputerem. Może i część zabezpieczeń linux'a zadziała i sprawi,
-że taki wirus/trojan czy nawet zwykły skrypt będzie miał ograniczone pole manewru, to i tak będzie
-on mógł przeprowadzić te akcje, które zwyczajny użytkownik systemu (nie root) jest zwykle w stanie
-poczynić, np. odebrać dźwięk i video ze stosownych urządzeń i przesłać te dane przez sieć. My z
-kolei możemy nawet tego faktu nie być świadomi. Jasne, że powinno się zwracać uwagę na to jakie
-pliki się pobiera z internetu i nie uruchamiać wszystkiego lekkomyślnie ale też trzeba mieć na
-uwadze fakt, że często jedna maszyna jest współdzielona, np. z członkami rodziny i oni już
-niekoniecznie muszą władać zaawansowaną wiedza z zakresu IT, by przewidzieć wszystkie możliwe
-zagrożenia czyhające na nich w sieci. Można za to postarać się, by uczynić naszą maszynę nieco
-bardziej odporną na niezbyt przemyślane zachowania użytkowników jej systemu operacyjnego. Jednym z
-kroków, które możemy podjąć, jest wdrożenie mechanizmu Trusted Path Execution (TPE), który póki co
-jest dostępny jedynie w <a href="https://patchwork.kernel.org/patch/9773791/">formie patch'a</a> na kernel
-linux'a lub też jako jego <a href="https://github.com/cormander/tpe-lkm">osobny moduł</a> oferujący sporo
-więcej możliwości w stosunku do wspomnianej wcześniej łaty. W niniejszym artykule rzucimy sobie
-okiem na ten cały mechanizm TPE i zobaczymy jak jest on w stanie uchronić nasz OS przed niezbyt
-zaawansowaną ludzką inteligencją.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-03-22T20:10:11Z">Opublikowano: 22/03/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
