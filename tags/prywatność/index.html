@@ -101,6 +101,33 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/randomizacja-adresow-mac-wifi-w-smartfonie-z-androidem/">Randomizacja adresów MAC WiFi w smartfonie z Androidem</a></h1>
+	<div class="entry__content"><p>Posiadacze smartfonów z Androidem w wersji 10+ rzadko kiedy orientują się, że w tej wersji został
+wprowadzony dość <a href="https://source.android.com/devices/tech/connect/wifi-mac-randomization">ciekawy mechanizm mający na celu poprawnie prywatności</a> osób korzystających z
+takich urządzeń. Chodzi o randomizację adresów MAC przy połączeniach z sieciami WiFi. Nie zawsze
+ten mechanizm jest włączony domyślnie, przez co w kwestii prywatności użytkowników telefonów
+niewiele się zmienia, np. tak jest w przypadku mojego Xiaomi Redmi 9. Samo włączenie randomizacji
+MAC nie jest niczym skomplikowanym i nie trzeba do tego nawet praw administratora root (stosowna
+opcja jest do załączenia w oknie konfiguracji połączenia WiFi). Zwykle jednak przy wykorzystaniu
+standardowej randomizacji MAC mamy generowany unikalny adres MAC dla danej sieci WiFi (w oparciu o
+jej ESSID). Można jednak pójść o krok dalej i sprawić, że przy każdym połączeniu, nawet do tej
+samej sieci WiFi, będziemy mieli generowany inny adres MAC, co z kolei powinno nam zapewnić nieco
+więcej prywatności w publicznych sieciach WiFi oraz też przeciwdziałać śledzeniu nas przy roamingu
+między takimi sieciami.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2021-10-15T19:46:00&#43;02:00">Opublikowano: 15/10/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zmiana-implementacji-webview-z-google-aosp-na-bromite-w-androidzie/">Zmiana implementacji WebView z Google/AOSP na Bromite w Androidzie</a></h1>
 	<div class="entry__content"><p>Przeglądając ostatnio opcje deweloperskie w swoim telefonie z Androidem 11, wpadła mi w oczy pozycja
 <code>WebView implementation</code> . Nie ukrywam, że trochę mnie ona zainteresowała i zacząłem się
@@ -350,42 +377,6 @@ Poniższy artykuł ma za zadanie pomóc skonfigurować nam te stabilne adresy pr
 pokazać w jaki sposób są one w stanie pomóc naszej prywatności.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-08-19T19:31:00&#43;02:00">Opublikowano: 19/08/2020</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/">Jak włączyć w Firefox ESNI (Encrypted SNI)</a></h1>
-	<div class="entry__content"><p>Obecnie szyfrowanie zapytań DNS staje się powoli normą za sprawą protokołu DoH (<a href="https://en.wikipedia.org/wiki/DNS_over_HTTPS">DNS over HTTPS</a>)
-lub DoT (<a href="https://en.wikipedia.org/wiki/DNS_over_TLS">DNS over TLS</a>). Można by zatem pomyśleć, że wraz z implementacją szyfrowania tego
-kluczowego dla działania internetu protokołu (przynajmniej z naszego ludzkiego punktu widzenia),
-poprawie ulegnie również nasza prywatność w kwestii odwiedzanych przez nas stron WWW. Niemniej
-jednak, w dalszym ciągu można bez problemu wyciągnąć adresy domen, które zamierzamy odwiedzić. Nie
-ma przy tym żadnego znaczenia ile stron jest hostowanych na danym adresie IP, ani nawet fakt, że
-ruch do serwera WWW będzie szyfrowany (w pasku adresu wpiszemy <code>https://</code> ) z wykorzystaniem
-protokołu SSL/TLS (w tym również TLS v1.3). Wszystko przez rozszerzenie SNI (<a href="https://en.wikipedia.org/wiki/Server_Name_Indication">Server Name
-Indication</a>), którego to zadaniem jest umożliwienie jednemu serwerowi na prezentowanie wielu
-certyfikatów hostowanych w jego obrębie domen. Dzięki takiemu rozwiązaniu, każda domena może
-szyfrować ruch niezależnie od siebie na linii serwer&lt;-&gt;klient (używać innych kluczy szyfrujących).
-Niemniej jednak, podczas nawiązywania szyfrowanego połączenia, w pakiecie ClientHello przesyłanym
-do takiego serwera musi znaleźć się nazwa domeny, której to certyfikat serwer będzie musiał nam
-przedstawić. Niestety ten pakiet jest przesyłany przez sieć otwartym tekstem, przez co każdy, kto
-podsłuchuje naszą komunikację (w tym też nasz ISP), bez problemu może ustalić na jakie strony
-internetowe wchodzimy. Ostatnimi czasy jednak pojawiły się dwa rozszerzenia ECH (<a href="https://en.wikipedia.org/wiki/Server_Name_Indication#Encrypted_Client_Hello">Encrypted Client
-Hello</a>) oraz ESNI (<a href="https://tools.ietf.org/html/draft-ietf-tls-esni-07">Encrypted SNI</a>), które mają zaadresować problemy związane z prywatnością
-przez pełne zaszyfrowanie pakietu ClientHello lub też zaszyfrowanie jedynie pola SNI w tym pakiecie.
-Póki co, prace nad tymi rozszerzeniami nie są jeszcze skończone ale Firefox w połączeniu z
-CloudFlare powoli testują ESNI. Postanowiłem zatem dobrowolnie przyłączyć się do grupy testerów i
-wdrożyć na swoim linux'ie to rozszerzenie ESNI dla przeglądarki Firefox.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-08-10T18:15:00Z">Opublikowano: 10/08/2020</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
