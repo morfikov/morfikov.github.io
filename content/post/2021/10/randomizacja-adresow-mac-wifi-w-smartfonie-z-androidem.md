@@ -63,17 +63,17 @@ użytkowników Androida, o tyle w moim przypadku jest ona niezbyt wystarczająca
 zapewnić użytkownikom maksimum prywatności, ten adres MAC musi się zmieniać w przypadku każdego
 nowego połączeniem z sieciami WiFi, które będziemy nawiązywać w przyszłości.
 
-Tutaj do gry wchodzi właśnie rozszerzona wersja randomizacji adresów MAC (WiFi enchanced MAC
+Tutaj do gry wchodzi właśnie rozszerzona wersja randomizacji adresów MAC (WiFi enhanced MAC
 randomization). Niemniej jednak, to ustawienie jest ukryte przed oczami przeciętnego użytkownika
 telefonu. By się do tej opcji dostać, trzeba włączyć w ustawieniach Androida opcje deweloperskie
 (klikając parę razy w numerek kompilacji w informacji o telefonie). Gdy już mamy dostęp do opcji
-deweloperskich, przewijamy ustawienia, aż zauważymy pozycję `WiFi enchanced MAC randomization` :
+deweloperskich, przewijamy ustawienia, aż zauważymy pozycję `WiFi enhanced MAC randomization` :
 
 |   |   |
 |---|---|
 | ![](/img/2021/10/004.android-wifi-mac-address-randomization-developer-options.jpg#small) | ![](/img/2021/10/005.android-wifi-mac-address-randomization-developer-options.jpg#small) |
 
-W przypadku mojego Xiaomi Redmi 9, opcja `WiFi enchanced MAC randomization` była wyłączona domyślnie
+W przypadku mojego Xiaomi Redmi 9, opcja `WiFi enhanced MAC randomization` była wyłączona domyślnie
 i trzeba ją było ręcznie przestawić.
 
 Ponownie dodajemy sieć WiFi w ustawieniach systemu i również zaznaczamy opcję randomizacji adresu MAC (tak jak to było przy podstawowej randomizacji MAC).
