@@ -41,9 +41,9 @@ Dla lepszego zrozumienia tematu postanowiłem przetłumaczyć część tego teks
 
 Protokół IPv6 może w wielu przypadkach przypominać IPv4 ale są to dwa różne protokoły mające inną
 przestrzenią adresową. Programy chcące odbierać połączenia przy wykorzystaniu któregokolwiek z tych
-protokołów muszą otworzyć osobne gniazda (socket) dla każdej z tych dwóch różnych rodziny adresów,
+protokołów muszą otworzyć osobne gniazda (socket) dla każdej z tych dwóch różnych rodzin adresów,
 tj. `AF_INET` dla IPv4 oraz `AF_INET6` dla IPv6. Gdy jakiś proces chciałby akceptować połączenia na
-każdym interfejsie hosta korzystając z obu tych protokołów musi stworzyć gniazdo AF_INET przypisane
+każdym interfejsie hosta korzystając z obu tych protokołów, musi stworzyć gniazdo AF_INET przypisane
 do adresu `0.0.0.0` oraz gniazdo AF_INET6 przypisane do adresu `::` . W ten sposób taki proces
 musiałby nasłuchiwać na obu gniazdach, przynajmniej tak mogłoby się wydawać.
 
@@ -89,7 +89,7 @@ rozwijany od ponad dekady i nie powinno się już z niego korzystać.
 ## Problemy z mapowaniem adresów w aplikacjach
 
 To powyżej opisane zachowanie ma być implementowane domyślnie i większość systemów operacyjnych
-podąża za tymi wytycznymi obecnymi w przytoczonych RFC. Są jedna pewne wyjątki, z których jednym
+podąża za tymi wytycznymi obecnymi w przytoczonych RFC. Są jednak pewne wyjątki, z których jednym
 jest OpenBSD. Tutaj aplikacje muszą tworzyć niezależne gniazda dla każdego z protokołów IP.
 Dyktowane jest to względami bezpieczeństwa. W przypadku innych systemów, ten mechanizm mapowania
 adresów jest domyślnie włączony, co z kolei może powodować problemy, gdzie jednoczesne otworzenie
@@ -103,7 +103,7 @@ By rozwiązać ten problem, programy mogą korzystać z wywołania `setsockopt()
 systemie, co zapewnia portowalność aplikacji, ale nie wszystkie programy z tej opcji korzystają lub
 implementują ją prawidłowo. Jednym z przykładów są aplikacje w Androidzie (Java), które po
 wyłączeniu mapowania adresów nie potrafią nawiązywać połączeń internetowych. Dlatego też tego
-mechanizmu raczej nie da się wyłączyć w Androidach, przynajmniej jeśli chcemy by aplikacji w
+mechanizmu raczej nie da się wyłączyć w Androidach, przynajmniej jeśli chcemy by aplikacje w
 telefonie miały dostęp do internetu. Oczywiście cześć aplikacji w Androidzie jest w stanie działać
 przy wyłączeniu mapowania adresów ale nie są to wszystkie appki.
 
@@ -152,7 +152,7 @@ By zmiany miały efekt permanentny, dopisujemy poniższą linijkę do pliku `/et
 
 ## Podsumowanie
 
-Czasami ludzie zamieszczają w RFC bardzo nietrafione pomysły. Takie nie do końca nieprzemyślane
+Czasami ludzie zamieszczają w RFC bardzo nietrafione pomysły. Takie do końca nieprzemyślane
 koncepcje prowadzą do sytuacji, w których proste rzeczy stają się dość skomplikowanymi, przez co
 wymagają od przeciętnego Kowalskiego bycia ekspertem w dziedzinie IT, przynajmniej jeśli chodzi o
 administrację systemami operacyjnymi. Włączenie mapowania adresów IPv4 na adresy IPv6 może nieć ze
