@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Blog
 date:    2021-10-12 00:15:00 +0200
-lastmod: 2021-10-12 00:15:00 +0200
+lastmod: 2021-10-25 11:30:00 +0200
 published: true
 status: publish
 tags:
@@ -299,8 +299,8 @@ API GitHub'a pojawią się błędy. Później w pętli `while` podajemy listę t
 wykonywaniu zapytań.
 
 Za samo tworzenie wątków w GitHub Issues odpowiada `-d '{"title":"'"$title"'"}'` , który w polu
-tytułu wątku wstawi tytuł posta. Można naturalnie [dodać więcej pól][11] ale na nasze potrzeby
-tylko tytuł jest wymagany.
+tytułu wątku wstawi tytuł posta. Można naturalnie [dodać więcej pól][11] ale w zasadzie jedynie
+tytuł jest wymagany.
 
 #### Token uwierzytelniający zapytania do API
 
@@ -380,6 +380,51 @@ Teraz przechodzimy na bloga i szukamy tego konkretnego wpisu. Pod nim powinniśm
 komentarzy mający dokładnie tę samą zawartość co w GitHub Issue:
 
 ![](/img/2021/10/006.hugo-github-issues-disqus-comments-test.png#huge)
+
+## Dodanie linku do posta na blogu w wątku na GitHub Issues
+
+Wyżej zostało wspomniane, że do utworzenia nowego wątku w GitHub Issues wymagany jest w zasadzie
+jedynie sam tytuł wątku. Można jednak pokusić się jeszcze o dodatnie linku do postu bloga wewnątrz
+tak stworzonego wątku w GitHub Issues. W ten sposób ktoś, kto znajdzie wątek komentarzy, będzie
+wiedział gdzie znajduje się komentowany wpis.
+
+Jako, że ja wcześniej już utworzyłem wszystkie wątki, to muszę nieco inaczej sobie z tym zdaniem
+dodania linków poradzić. Potrzebny będzie kolejny skrypt:
+
+    #!/bin/sh
+
+    posts=$(egrep -r ^GHissueID /media/debuilder/hugo/blog/content/post)
+
+    echo "${posts}" | while IFS= read -r post
+    do
+
+    id=$(echo $post | cut -d" " -f 2)
+    url=$(echo $post | cut -d":" -f 1 | cut -d"/" -f 10 | sed 's@.md@@g')
+
+    body="Komentarze dla postu: https://morfikov.github.io/post/$url/"
+
+     curl \
+        --silent  \
+        -X PATCH https://api.github.com/repos/morfikov/morfitronik-comments/issues/$id \
+        -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0" \
+        -H "Content-Type: text/plain; charset=utf-8" \
+        -H "Authorization: token  tutaj_numerek" \
+        -H "Accept: application/vnd.github.v3+json" \
+        -d '{"body":"'"$body"'"}' >> output.txt 2>&1
+
+    echo "$body : $id"
+
+    sleep 5
+
+    done
+
+U mnie na blogu po frazie `https://morfikov.github.io/post/` jest podawana nazwa pliku
+sformatowanego językiem Markdown. Ten powyższy skrypt tworzy listę postów w oparciu o `GHissueID`
+(nadany wcześniej) . Później w zmiennej `$id` znajdzie się numerek wątku w GitHub Issues, a w
+zmiennej `$url` nazwa pliku bez końcówki `.md` . Za sprawą `-d '{"body":"'"$body"'"}'` oraz
+wcześniej skonstruowanej zmiennej `$body` odpowiednio uzupełnimy sobie treść pierwszego komentarza
+(tego już utworzonego, który był pusty). Cokolwiek było w tym pierwszy komentarzu, zostanie
+przepisane frazą, którą tutaj podamy.
 
 ## Podsumowanie
 
