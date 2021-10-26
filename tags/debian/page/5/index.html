@@ -101,6 +101,36 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zaladowac-profile-apparmor-w-fazie-initrd-initramfs-na-debian-linux/">Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux</a></h1>
+	<div class="entry__content"><p>Zapewne wielu użytkowników Debiana zdążyło już zauważyć, że od wydania 10 (Buster), AppArmor jest
+włączony domyślnie. Nie powinien on raczej sprawiać żadnych problemów po doinstalowaniu pakietów
+<code>apparmor-profiles</code> oraz <code>apparmor-profiles-extra</code> , które zawierają szereg profili pod różne
+aplikacje użytkowe. Niemniej jednak, pewnych procesów nie da się ograniczyć przez AppArmor,
+przynajmniej nie w standardowy sposób. Chodzi o to, że jeśli mamy już odpalony jakiś proces, to nie
+ma możliwości zamknąć go w profilu AA do momentu aż zakończy on swoje działanie i zostanie
+uruchomiony ponownie. Profile AppArmor'a są ładowane podczas startu systemu w pewnym określonym
+momencie ale szereg procesów systemowych startuje sporo wcześniej w stosunku do usługi AppArmor'a.
+W taki sposób nawet jeśli w późniejszym czasie profile zostaną załadowane, to i tak część procesów
+nie będzie ograniczona bez względu na to czy zdefiniowaliśmy im zestaw reguł. Oczywiście można
+próbować restartować usługi lub szeregować je po <code>apparmor.service</code> ale nie zawsze tak się da
+zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppArmor'a w fazie
+initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu
+z PID z numerkiem <code>1</code> .</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-09-23T19:05:21&#43;02:00">Opublikowano: 23/09/2019</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-09-02T17:50:00&#43;02:00">Zaktualizowano: 02/09/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wybudzanie-linuxa-ze-stanu-uspienia-za-sprawa-myszy/">Wybudzanie linux&#39;a ze stanu uśpienia za sprawą myszy</a></h1>
 	<div class="entry__content"><p>Parę dni temu na jednych z forów, które czasem odwiedzam, <a href="https://forum.linuxmint.pl/showthread.php?tid=323">pojawił się wątek</a> dotyczący problemu
 jaki może nieść ze sobą budzenie linux'a ze stanu uśpienia/wstrzymania (Suspend to RAM, STR) za
@@ -346,30 +376,6 @@ okiem na ten cały mechanizm TPE i zobaczymy jak jest on w stanie uchronić nasz
 zaawansowaną ludzką inteligencją.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-03-22T20:10:11Z">Opublikowano: 22/03/2019</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/czym-jest-online-ext4-metadata-check-w-linuxowym-lvm/">Czym jest Online ext4 Metadata Check w linux&#39;owym LVM</a></h1>
-	<div class="entry__content"><p>Przeglądając dzisiaj rano logi systemowe wpadł mi w oczy komunikat, którego treść brzmiała mniej
-więcej tak: <code>e2scrub Volume group &quot;wd_blue_label&quot; has insufficient free space (0 extents): 64 required</code> , po którym z kolei można zanotować <code>e2scrub snapshot FAILED, will not check!</code> oraz
-<code>Failed to start Online ext4 Metadata Check for /media/Debian</code> . Oczywiście ten punkt montowania to
-nazwa partycji odnosząca się do jednego z dysków logicznych struktury LVM. Skąd się te błędy
-wzięły? Przecież jeszcze do niedawna (przez ostatnich parę lat) wszystko z moim linux'em
-rezydującym na dysku (LUKS+LVM) było w porządku, a teraz nagle takie bardzo niepokojące błędy.
-Czym jest w ogóle ten <code>e2scrub</code> i czym jest ten cały <code>Online ext4 Metadata Check</code> , który
-najwyraźniej ma coś wspólnego ze sprawdzaniem systemu plików voluminów logicznych w locie? No i
-najważniejsze chyba pytanie -- czemu to nie działa jak należy?</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-03-17T19:10:30Z">Opublikowano: 17/03/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

@@ -22,8 +22,8 @@ mających setki czy nawet tysiące wpisów już opublikowanych. Jak zatem na tak
 komentarze GitHub&#39;a, tak by przy okazji nie wyskoczyć z okna o 5 nad ranem?" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/komentarze-github-issues-na-blogu-hugo-korzystajacym-z-github-pages/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2021-10-12T00:15:00&#43;02:00" />
-<meta property="article:modified_time" content="2021-10-12T00:15:00&#43;02:00" />
+<meta property="article:published_time" content="2021-10-12T00:15:00+02:00" />
+<meta property="article:modified_time" content="2021-10-25T11:30:00+02:00" />
 
 
 		<meta itemprop="name" content="Komentarze GitHub Issues na blogu Hugo korzystającym z GitHub Pages">
@@ -37,9 +37,9 @@ prawdopodobnie każdy z nas miał już styczność zgłaszając bug&#39;a (czy t
 swoich ulubionych linux&#39;owych projektów OpenSource. Okazało się, że przy pomocy API GitHub&#39;a można
 w dość prosty sposób te komentarze pokazać na blogu ale problem pojawił się w przypadku stron
 mających setki czy nawet tysiące wpisów już opublikowanych. Jak zatem na takich blogach wdrożyć
-komentarze GitHub&#39;a, tak by przy okazji nie wyskoczyć z okna o 5 nad ranem?"><meta itemprop="datePublished" content="2021-10-12T00:15:00&#43;02:00" />
-<meta itemprop="dateModified" content="2021-10-12T00:15:00&#43;02:00" />
-<meta itemprop="wordCount" content="2061">
+komentarze GitHub&#39;a, tak by przy okazji nie wyskoczyć z okna o 5 nad ranem?"><meta itemprop="datePublished" content="2021-10-12T00:15:00+02:00" />
+<meta itemprop="dateModified" content="2021-10-25T11:30:00+02:00" />
+<meta itemprop="wordCount" content="2312">
 <meta itemprop="keywords" content="hugo,komentarze,disqus,github,shell,sed,javascript," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Komentarze GitHub Issues na blogu Hugo korzystającym z GitHub Pages"/>
@@ -131,6 +131,7 @@ if (!doNotTrack) {
 			<article class="entry">
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2021-10-12T00:15:00&#43;02:00">Opublikowano: 12/10/2021</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2021-10-25T11:30:00&#43;02:00">Zaktualizowano: 25/10/2021</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -166,6 +167,7 @@ if (!doNotTrack) {
       </ol>
     </li>
     <li><a href="#test-instalacji-systemu-komentarzy">Test instalacji systemu komentarzy</a></li>
+    <li><a href="#dodanie-linku-do-posta-na-blogu-w-wątku-na-github-issues">Dodanie linku do posta na blogu w wątku na GitHub Issues</a></li>
     <li><a href="#podsumowanie">Podsumowanie</a></li>
   </ol>
 </nav>
@@ -424,8 +426,8 @@ API GitHub'a pojawią się błędy. Później w pętli <code>while</code> podaje
 <code>output.txt</code> , tak by na zakończenie całego procesu sprawdzić czy nie było jakichś błędów przy
 wykonywaniu zapytań.</p>
 <p>Za samo tworzenie wątków w GitHub Issues odpowiada <code>-d '{&quot;title&quot;:&quot;'&quot;$title&quot;'&quot;}'</code> , który w polu
-tytułu wątku wstawi tytuł posta. Można naturalnie <a href="https://docs.github.com/en/rest/reference/issues">dodać więcej pól</a> ale na nasze potrzeby
-tylko tytuł jest wymagany.</p>
+tytułu wątku wstawi tytuł posta. Można naturalnie <a href="https://docs.github.com/en/rest/reference/issues">dodać więcej pól</a> ale w zasadzie jedynie
+tytuł jest wymagany.</p>
 <h4 id="token-uwierzytelniający-zapytania-do-api">Token uwierzytelniający zapytania do API</h4>
 <p>Problem z automatycznym tworzeniem wątków jest taki, że bardzo szybko można uderzyć w przydzielony
 nam limit 60 zapytań na godzinę. W takim tempie tworzenie tych wszystkich potrzebnych wątków
@@ -486,6 +488,47 @@ lepszym wątku jakieś komentarze. Poniżej przykład:</p>
 <p>Teraz przechodzimy na bloga i szukamy tego konkretnego wpisu. Pod nim powinniśmy mieć blok
 komentarzy mający dokładnie tę samą zawartość co w GitHub Issue:</p>
 <p><img loading="lazy" src="https://morfikov.github.io/img/2021/10/006.hugo-github-issues-disqus-comments-test.png" alt=""    class="huge"></p>
+<h2 id="dodanie-linku-do-posta-na-blogu-w-wątku-na-github-issues">Dodanie linku do posta na blogu w wątku na GitHub Issues</h2>
+<p>Wyżej zostało wspomniane, że do utworzenia nowego wątku w GitHub Issues wymagany jest w zasadzie
+jedynie sam tytuł wątku. Można jednak pokusić się jeszcze o dodatnie linku do postu bloga wewnątrz
+tak stworzonego wątku w GitHub Issues. W ten sposób ktoś, kto znajdzie wątek komentarzy, będzie
+wiedział gdzie znajduje się komentowany wpis.</p>
+<p>Jako, że ja wcześniej już utworzyłem wszystkie wątki, to muszę nieco inaczej sobie z tym zdaniem
+dodania linków poradzić. Potrzebny będzie kolejny skrypt:</p>
+<pre><code>#!/bin/sh
+
+posts=$(egrep -r ^GHissueID /media/debuilder/hugo/blog/content/post)
+
+echo &quot;${posts}&quot; | while IFS= read -r post
+do
+
+id=$(echo $post | cut -d&quot; &quot; -f 2)
+url=$(echo $post | cut -d&quot;:&quot; -f 1 | cut -d&quot;/&quot; -f 10 | sed 's@.md@@g')
+
+body=&quot;Komentarze dla postu: https://morfikov.github.io/post/$url/&quot;
+
+ curl \
+    --silent  \
+    -X PATCH https://api.github.com/repos/morfikov/morfitronik-comments/issues/$id \
+    -H &quot;User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0&quot; \
+    -H &quot;Content-Type: text/plain; charset=utf-8&quot; \
+    -H &quot;Authorization: token  tutaj_numerek&quot; \
+    -H &quot;Accept: application/vnd.github.v3+json&quot; \
+    -d '{&quot;body&quot;:&quot;'&quot;$body&quot;'&quot;}' &gt;&gt; output.txt 2&gt;&amp;1
+
+echo &quot;$body : $id&quot;
+
+sleep 5
+
+done
+</code></pre>
+<p>U mnie na blogu po frazie <code>https://morfikov.github.io/post/</code> jest podawana nazwa pliku
+sformatowanego językiem Markdown. Ten powyższy skrypt tworzy listę postów w oparciu o <code>GHissueID</code>
+(nadany wcześniej) . Później w zmiennej <code>$id</code> znajdzie się numerek wątku w GitHub Issues, a w
+zmiennej <code>$url</code> nazwa pliku bez końcówki <code>.md</code> . Za sprawą <code>-d '{&quot;body&quot;:&quot;'&quot;$body&quot;'&quot;}'</code> oraz
+wcześniej skonstruowanej zmiennej <code>$body</code> odpowiednio uzupełnimy sobie treść pierwszego komentarza
+(tego już utworzonego, który był pusty). Cokolwiek było w tym pierwszy komentarzu, zostanie
+przepisane frazą, którą tutaj podamy.</p>
 <h2 id="podsumowanie">Podsumowanie</h2>
 <p>W taki oto prosty sposób przy pomocy mechanizmu GitHub Issues udało się nam zaimplementować system
 komentarzy na naszym blogu Hugo. Jednocześnie możemy się pozbyć Disqus'a i jego wrednego podejścia
