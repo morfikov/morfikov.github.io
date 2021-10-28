@@ -1,11 +1,13 @@
 ---
 author: Morfik
 categories:
-- LEDE
-date: "2016-12-08T18:13:41Z"
-date_gmt: 2016-12-08 17:13:41 +0100
+- OpenWRT
+date:     2016-12-08 18:13:41 +0100
+date_gmt: 2016-12-08 18:13:41 +0100
 published: true
 status: publish
+aliases:
+- /post/jak-skonfigurowac-klienta-vpn-na-routerze-z-ledeopenwrt/
 tags:
 - prywatność
 - vpn
@@ -13,13 +15,11 @@ tags:
 - tp-link
 - chaos-calmer
 GHissueID: 462
-title: Jak skonfigurować klienta VPN na routerze z LEDE/OpenWRT
+title: Jak skonfigurować klienta VPN na routerze z OpenWRT
 ---
 
-Ostatnio pisałem trochę o [konfiguracji serwera VPN na
-Debianie](/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/) oraz podłączaniu
-do niego różnych linux'owych klientów, w tym też [smartfonów wyposażonych w system
-Android](/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/). O ile
+Ostatnio pisałem trochę o [konfiguracji serwera VPN na Debianie][1] oraz podłączaniu do niego
+różnych linux'owych klientów, w tym też [smartfonów wyposażonych w system Android][2]. O ile
 konfiguracja pojedynczego klienta OpenVPN nie jest jakoś szczególnie trudna, to mając w swojej sieci
 domowej kilka urządzeń zdolnych łączyć się z internetem zarówno przewodowo jak i bezprzewodowo, to
 dostosowanie konfiguracji na każdym z tych sprzętów może być ździebko problematyczne. To co łączy te
@@ -29,9 +29,8 @@ konfigurować osobno wszystkie te urządzenia elektroniczne, możemy skonfigurow
 sposób, by cały zebrany ruch z sieci lokalnej przesłał do serwera VPN. Standardowej klasy routery
 nie wspierają połączeń VPN i by taki mechanizm zaimplementować potrzebne nam będzie alternatywne
 firmware pokroju LEDE/OpenWRT. W tym artykule postaramy się skonfigurować połączenie VPN dla sieci
-domowej w oparciu o [router Archer
-C2600](http://www.tp-link.com.pl/products/details/Archer-C2600.html) od TP-LINK, który ma wgrany
-najnowszy snapshot LEDE Chaos Calmer (r2392).
+domowej w oparciu o [router Archer C2600][3] od TP-LINK, który ma wgrany najnowszy snapshot LEDE
+Chaos Calmer (r2392).
 
 <!--more-->
 ## Niezbędne oprogramowanie na potrzeby VPN
@@ -52,11 +51,10 @@ Z tego co zauważyłem w LEDE mamy z grubsza trzy pakiety, które mogą nam pos�
 klienta VPN, są to: `openvpn-nossl` , `openvpn-openssl` oraz `openvpn-polarssl` . Ten pierwszy
 pakiet możemy sobie darować, bo nie zapewnia on wsparcia dla szyfrowanego połączenia z VPN. Musimy
 zdecydować się na jeden z dwóch pozostałych pakietów. Generalnie rzecz biorąc [PolarSSL ma niby
-zastąpić OpenSSL](https://tls.mbed.org/openssl-alternative) ale znowu [OpenVPN ma pewne
-ograniczenia w przypadku wykorzystywania
-PolarSSL](https://community.openvpn.net/openvpn/wiki/UsingPolarSSL). Dlatego też zainstalujemy sobie
-`openvpn-openssl` , z tym, że nasz router musi mieć minimum 1 MiB wolnego miejsca na flash'u.
-Logujemy się zatem na router i wydajemy w terminalu poniższe polecenia:
+zastąpić OpenSSL][4] ale znowu [OpenVPN ma pewne ograniczenia w przypadku wykorzystywania
+PolarSSL][5]. Dlatego też zainstalujemy sobie `openvpn-openssl` , z tym, że nasz router musi mieć
+minimum 1 MiB wolnego miejsca na flash'u. Logujemy się zatem na router i wydajemy w terminalu
+poniższe polecenia:
 
     # opkg update
     # opkg install openvpn-openssl
@@ -186,11 +184,10 @@ osobnych plikach.
 Ja jestem zwolennikiem uwierzytelniania użytkowników za pomocą certyfikatów klienckich. Dlatego też
 mam w taki sposób skonfigurowany swój serwer VPN. Bez przedstawienia takiego certyfikatu, żaden
 klient nie będzie w stanie zestawić połączenia. Opis [jak wygenerować takie certyfikaty w oparciu o
-easy-rsa](/post/generowanie-certyfikatow-przy-pomocy-easy-rsa/) został opisany
-osobno. Tutaj warto nadmienić, że w LEDE/OpenWRT mamy dostępny pakiet `openvpn-easy-rsa` , którym
-możemy się posłużyć przy generowaniu certyfikatów. Niemniej jednak, to rozwiązanie nie jest zbytnio
-zalecane ze względu na niewielką moc obliczeniową takiego przeciętnego routera WiFi, przez cały
-proces będzie trwał kilka godzin.
+easy-rsa][6] został opisany osobno. Tutaj warto nadmienić, że w LEDE/OpenWRT mamy dostępny pakiet
+`openvpn-easy-rsa` , którym możemy się posłużyć przy generowaniu certyfikatów. Niemniej jednak, to
+rozwiązanie nie jest zbytnio zalecane ze względu na niewielką moc obliczeniową takiego przeciętnego
+routera WiFi, przez cały proces będzie trwał kilka godzin.
 
 ## Konfiguracja firewall'a na potrzeby OpenVPN
 
@@ -225,9 +222,8 @@ Plik `/etc/config/firewall` :
 
 Zapisujemy i resetujemy router. I to w zasadzie cała konfiguracja jeśli chodzi o przesyłanie ruchu
 ze wszystkich urządzeń w sieci domowej WiFi do serwera VPN. Jeśli zaś chodzi o ewentualne [przecieki
-DNS](/post/przeciek-dns-dns-leak-w-vpn-resolvconf/), to zawsze możemy skonfigurować
-sobie [szyfrowany DNS w oparciu o
-dnscrypt-proxy](/post/konfiguracja-dnscrypt-proxy-w-openwrt/) również na routerze.
+DNS][7], to zawsze możemy skonfigurować sobie [szyfrowany DNS w oparciu o dnscrypt-proxy][8]
+również na routerze.
 
 ## Test połączenia z serwerem VPN
 
@@ -241,3 +237,13 @@ podejrzeć regułki na zaporze ( `iptables -nvL` ) i poszukać interfejsu `tun0`
 zliczane, to ruch jest zarządzany przez OpenVPN. No i oczywiście możemy podejrzeć tablicę routingu
 via `ip route show` , gdzie obecność tras `0.0.0.0/1` oraz `128.0.0.0/1` oznacza, że żaden pakiet
 wysyłany do internetu nie leci poza szyfrowanym tunelem.
+
+
+[1]: /post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/
+[2]: /post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/
+[3]: http://www.tp-link.com.pl/products/details/Archer-C2600.html
+[4]: https://tls.mbed.org/openssl-alternative
+[5]: https://community.openvpn.net/openvpn/wiki/UsingPolarSSL
+[6]: /post/generowanie-certyfikatow-przy-pomocy-easy-rsa/
+[7]: /post/przeciek-dns-dns-leak-w-vpn-resolvconf/
+[8]: /post/konfiguracja-dnscrypt-proxy-w-openwrt/
