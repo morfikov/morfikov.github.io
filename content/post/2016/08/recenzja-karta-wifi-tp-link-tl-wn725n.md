@@ -34,15 +34,15 @@ Pudełko gabarytowo jest ogromne w porównaniu do rozmiarów adaptera TL-WN725N.
 opakowania są dyktowane makulaturą (instrukcja obsługi) i płytką CD ze sterownikami. Poniżej są
 fotki opakowania oraz jego zawartości:
 
-![](/img/2016/08/1.karta-adapter-wifi-TL-WN725N.jpg#huge)
+![karta-adapter-wifi-TL-WN725N](/img/2016/08/1.karta-adapter-wifi-TL-WN725N.jpg#huge)
 
-![](/img/2016/08/2.karta-adapter-wifi-TL-WN725N-zawartosc-opakowania.jpg#huge)
+![karta-adapter-wifi-TL-WN725N-zawartosc-opakowania](/img/2016/08/2.karta-adapter-wifi-TL-WN725N-zawartosc-opakowania.jpg#huge)
 
 Instrukcja obsługi jest również w języku polskim. Niżej zaś jest przedstawiony sam adapter:
 
-![](/img/2016/08/3.karta-adapter-wifi-TL-WN725N-rozmiar.jpg#huge)
+![karta-adapter-wifi-TL-WN725N-rozmiar](/img/2016/08/3.karta-adapter-wifi-TL-WN725N-rozmiar.jpg#huge)
 
-![](/img/2016/08/4.karta-adapter-wifi-TL-WN725N-rozmiar.jpg#huge)
+![karta-adapter-wifi-TL-WN725N-rozmiar](/img/2016/08/4.karta-adapter-wifi-TL-WN725N-rozmiar.jpg#huge)
 
 Jest on mały, choć 2/3 jego wielkości to złącze USB 2.0 i raczej mniejszego urządzenia się już
 zrobić nie da. No może się i da ale raczej problematyczne byłoby wyciąganie go z portu USB.
@@ -50,7 +50,7 @@ zrobić nie da. No może się i da ale raczej problematyczne byłoby wyciąganie
 Po podłączeniu do laptopa, karta jest praktycznie niezauważalna. Jedynie podczas pracy mieni się
 zielonym kolorem sygnalizującym przesył danych w sieci WiFi. Wygląda to mniej więcej tak:
 
-![](/img/2016/08/5.karta-adapter-wifi-TL-WN725N-laptop-dioda.jpg#huge)
+![karta-adapter-wifi-TL-WN725N-laptop-dioda](/img/2016/08/5.karta-adapter-wifi-TL-WN725N-laptop-dioda.jpg#huge)
 
 Plusem tak małych rozmiarów jest fakt, że praktycznie nie uszkodzimy tego urządzenia (czy samego
 portu USB) przez przypadkowe zahaczenie o nie, tak jak to ma miejsce w przypadku innych kart
@@ -320,18 +320,18 @@ za pomocą karty TL-WN725N.
 Poniższa fotka odnosi się do sytuacji, w której laptop znajduje się w tym samym pomieszczeniu co
 router WiFi TP-LINK Archer C7 v2 (wewnętrzne anteny 2.4 GHz). Odległość nie przekracza 2 metrów:
 
-![](/img/2016/08/4.iperf-test-transfer-karta-adapter-wifi-TL-WN725N.png#huge)
+![iperf-test-transfer-karta-adapter-wifi-TL-WN725N](/img/2016/08/4.iperf-test-transfer-karta-adapter-wifi-TL-WN725N.png#huge)
 
 Zatem mamy około 80 mbit/s. Całkiem przyzwoity wynik jak na tak bardzo mały adapter, choć na
 opakowaniu widnieje 150 mbit/s. Sprawdźmy jak będzie wyglądał transfer po zmianie położenia laptopa
 i dołożeniu przeszkody w postaci niezbyt grubej ściany. Odległość około 3-4 metry:
 
-![](/img/2016/08/5.iperf-test-transfer-karta-adapter-wifi-TL-WN725N.png#huge)
+![iperf-test-transfer-karta-adapter-wifi-TL-WN725N](/img/2016/08/5.iperf-test-transfer-karta-adapter-wifi-TL-WN725N.png#huge)
 
 Transfer lekko się obniżył, choć nadal pozostaje powyżej 50 mbit/s. Dorzućmy jeszcze jedną ścianę i
 zobaczmy jak adapter TL-WN725N poradzi sobie w takiej sytuacji. Odległość 5-6 metrów:
 
-![](/img/2016/08/6.iperf-test-transfer-karta-adapter-wifi-TL-WN725N.png#huge)
+![iperf-test-transfer-karta-adapter-wifi-TL-WN725N](/img/2016/08/6.iperf-test-transfer-karta-adapter-wifi-TL-WN725N.png#huge)
 
 Tutaj już balansujemy na granicy 50 mbit/s. Choć i tak jestem pod wrażeniem, że taki transfer się
 utrzymuje.
@@ -367,7 +367,7 @@ Musimy zatem korzystać z `wpa-driver wext` lub też w ogóle nie precyzować te
 Oczywiście parametry specyficzne dla samej sieci WiFi podajemy już w konfiguracji narzędzia
 `wpa_supplicant` . Poniżej znajduje się log z podłączania do sieci bezprzewodowej:
 
-![](/img/2016/08/7.karta-TL-WN725N-dzialanie-pod-linux.png#huge)
+![karta-TL-WN725N-dzialanie-pod-linux](/img/2016/08/7.karta-TL-WN725N-dzialanie-pod-linux.png#huge)
 
 Także trochę błędów jest ale na szczęście nic poważnego.
 

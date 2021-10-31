@@ -35,7 +35,7 @@ bardziej liczy się to co siedzi w jego nagłówku. Na dobrą sprawę, to chyba 
 jest nam w stanie określić typ MIME. Te informacje widnieją zwykle we właściwościach tego pliku.
 Poniżej okienko właściwości na przykładzie menadżera plików SpaceFM:
 
-![](/img/2016/01/1.spacefm-wlasciwosci-mime-typ.png#medium)
+![spacefm-wlasciwosci-mime-typ](/img/2016/01/1.spacefm-wlasciwosci-mime-typ.png#medium)
 
 Mamy tutaj informację, że jest to dokument PDF, a jego typ MIME to `application/pdf` . Widzimy
 również jaka aplikacja jest ustawiona jako domyślna dla tego typu plików i w tym przypadku jest to
@@ -50,7 +50,7 @@ zawarte w pakiecie `xdg-utils`, przykładowo:
 Dzięki tym typom, szereg aplikacji może zostać przypisanych określonym rodzajom plików, co wygląda
 mniej więcej tak:
 
-![](/img/2016/01/2.spacefm-powiazania-typ-mime.png#medium)
+![spacefm-powiazania-typ-mime](/img/2016/01/2.spacefm-powiazania-typ-mime.png#medium)
 
 ## Domyślne aplikacje dla poszczególnych typów MIME
 
@@ -138,7 +138,7 @@ konfiguracji typów MIME za nas. Jest to o wiele wygodniejsze niż ręczna edycj
 no i unikniemy w ten sposób literówek czy jakichś większych błędów. Poniżej jest zrzut konfiguracji
 w SpaceFM:
 
-![](/img/2016/01/3.spacefm-edycja-typ-mime.png#big)
+![spacefm-edycja-typ-mime](/img/2016/01/3.spacefm-edycja-typ-mime.png#big)
 
 Każdy powiązany z plikiem typ MIME jesteśmy w stanie poddać edycji klikając na jego pozycji prawym
 przyciskiem myszki. Jesteśmy w stanie edytować pliki zarówno w katalogu `/usr/share/applications/`

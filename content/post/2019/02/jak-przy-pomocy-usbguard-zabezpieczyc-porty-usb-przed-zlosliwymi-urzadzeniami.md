@@ -586,7 +586,7 @@ W tym przypadku tylko użytkownik `root` i `morfik` oraz członkowie grupy `root
 wysyłać zapytania do demona `usbguard` . Jeśli odpalimy teraz `usbguard-applet-qt` , to w
 przypadku wykrycia nowego sprzętu powiadomi on nas o tym fakcie:
 
-![](/img/2019/02/001.usbguard-usb-device-linux-debian.png#medium)
+![usbguard-usb-device-linux-debian](/img/2019/02/001.usbguard-usb-device-linux-debian.png#medium)
 
 Nazwa urządzenia, jego numery identyfikacyjne, serial oraz aktualnie udostępniane interfejsy są
 widoczne i można łatwo ustawić czy to urządzenie jest tym, za które się faktycznie podaje. Możemy
@@ -597,7 +597,7 @@ urządzenie nie poczyni nam szkód w systemie, to możemy dodać wyjątek na sta
 Wszystkie aktualnie podłączone do komputera urządzenia USB można podejrzeć w głównym okienku
 `usbguard-applet-qt` :
 
-![](/img/2019/02/002.usbguard-usb-device-list-linux-debian.png#huge)
+![usbguard-usb-device-list-linux-debian](/img/2019/02/002.usbguard-usb-device-list-linux-debian.png#huge)
 
 `Target` możemy w dowolnej chwili zmienić, a zaznaczając przy aplikowaniu ustawień opcję
 `Permanently` , `usbguard-applet-qt` będzie w stanie automatycznie uzupełniać plik

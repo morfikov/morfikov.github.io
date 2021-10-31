@@ -34,7 +34,7 @@ mógł go użyć do odszyfrowania zabezpieczonego urządzenia? Jeśli weźmiemy 
 pendrive, czy dysk twardy, to możemy zobaczyć poniższy schemat partycji (fotka za
 wikipedią):
 
-![](/img/2015/06/1.linux-mbr-keyfile.png#huge)
+![linux-mbr-keyfile](/img/2015/06/1.linux-mbr-keyfile.png#huge)
 
 Mamy tutaj dwie różne tablice partycji: MS-DOS oraz GPT. Nas głównie interesuje
 [MS-DOS](https://pl.wikipedia.org/wiki/Master_Boot_Record), bo na nim mamy większe pole manewru. W

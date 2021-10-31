@@ -85,7 +85,7 @@ Oczywiście nie musimy ręcznie konfigurować greeter'a. Możemy zdać się na g
 `lightdm-gtk-greeter-settings` , które jest w stanie ustawić praktycznie wszystkie wyszczególnione
 wyżej opcje:
 
-![](/img/2016/01/1.lightdm-greeter-ustawienia-gui.png#medium)
+![lightdm-greeter-ustawienia-gui](/img/2016/01/1.lightdm-greeter-ustawienia-gui.png#medium)
 
 Jeśli chodzi zaś o konfigurację samego menadżera logowania, to jest ona bardziej skomplikowana.
 Dlatego też plik `lightdm.conf` jest nieco rozbudowany. Poniżej przykład konfiguracji:

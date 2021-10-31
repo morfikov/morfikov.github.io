@@ -48,7 +48,7 @@ przesyłane na tyle szybko, że odbiorca jest je w stanie przetworzyć.
 
 Rozważmy dla przykładu sytuację zobrazowaną na poniżej fotce ([źródło](http://www.tcpipguide.com/)).
 
-![](/img/2015/06/1.bufor-polaczen-tcp.png#big)
+![bufor-polaczen-tcp](/img/2015/06/1.bufor-polaczen-tcp.png#big)
 
 Klient wysłał żądanie o jakiś plik. Zarówno klient jak i serwer mają rozmiar okna TCP ustawiony na
 560 bajtów. Serwer wysyła pierwsze pakiety. W powyższym przypadku, trzeci pakiet się zgubił. Do

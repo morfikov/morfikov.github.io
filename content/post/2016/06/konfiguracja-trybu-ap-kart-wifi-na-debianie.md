@@ -243,7 +243,7 @@ z niej eter w poszukiwaniu punktu dostępowego, który utworzyliśmy. Można to 
 sposobów. My skorzystamy do tego celu z narzędzia `wpa_cli` , które jest dostarczane z pakietem
 `wpasupplicant` :
 
-![](/img/2015/11/1.wpa_cli-ap-access-point-punkt-dostepu-skanowanie.png#huge)
+![wpa_cli-ap-access-point-punkt-dostepu-skanowanie](/img/2015/11/1.wpa_cli-ap-access-point-punkt-dostepu-skanowanie.png#huge)
 
 Widzimy, że nasz AP jest na liście.
 

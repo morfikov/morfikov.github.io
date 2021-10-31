@@ -44,7 +44,7 @@ wybierze nam najlepszy z dostępnych serwerów.
 pod wskazany adres i po chwili powinniśmy zobaczyć kilka informacji wraz z sugerowanym serwerem.
 Wygląda to mniej więcej tak jak na tej fotce poniżej:
 
-![](/img/2016/08/1.debian-http-redirector-mirror-aktualizacja-systemu.png#medium)
+![debian-http-redirector-mirror-aktualizacja-systemu](/img/2016/08/1.debian-http-redirector-mirror-aktualizacja-systemu.png#medium)
 
 Zatem w tym przypadku zalecany mirror to `http://ftp.vectranet.pl/debian/` . Gdybym teraz zmienił
 położenie geograficzne, np. wyjechał za granicę, czy nawet do innego miasta gdzieś dalej, to ten

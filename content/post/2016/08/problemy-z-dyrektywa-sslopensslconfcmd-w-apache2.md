@@ -40,7 +40,7 @@ Nie koniecznie tak samo musi być i w naszym przypadku. Najlepiej jest przeprowa
 ustalić długość tej liczby. [Sam test liczby pierwszej jest dostępny tutaj][3]. W przypadku tego
 Debiana, co sieci na moim VPS, wynik się prezentuje następująco:
 
-![](/img/2016/08/1.dh-liczba-pierwsza-test.png#huge)
+![dh-liczba-pierwsza-test](/img/2016/08/1.dh-liczba-pierwsza-test.png#huge)
 
 Zatem tutaj wszystko jest w porządku. Co jednak w przypadku, gdy na powyższej fotce widniałaby
 wartość 1024 albo nawet i mniejsza? W takiej sytuacji trzeba by wygenerować własne parametry dla
@@ -87,7 +87,7 @@ letsencrypt][5], to zawartość `dhparam.pem` dopisujemy do pliku
 Teraz już wystarczy zresetować serwer Apache2 i przetestować czy ta liczba pierwsza została
 uwzględniona przeprowadzając jeszcze raz test:
 
-![](/img/2016/08/2.dh-liczba-pierwsza-test.png#huge)
+![dh-liczba-pierwsza-test](/img/2016/08/2.dh-liczba-pierwsza-test.png#huge)
 
 I jak widzimy, ilość bitów z 2048 wzrosła do 4096.
 

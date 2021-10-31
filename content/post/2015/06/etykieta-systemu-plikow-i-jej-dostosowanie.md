@@ -38,12 +38,12 @@ Na początek spróbujemy zmienić etykietę przy pomocy `gparted` . Odpalamy zat
 wybieramy pożądany dysk. Następnie klikamy prawym przyciskiem myszy na danej partycji i powinno nam
 się ukazać poniższe menu:
 
-![](/img/2015/06/1.etykieta-zmiana-gparted.png#big)
+![etykieta-zmiana-gparted](/img/2015/06/1.etykieta-zmiana-gparted.png#big)
 
 Wybieramy `Label` (etykieta) i podajemy nazwę. Przy dokonywaniu zmian, zostanie nam wyrzucony ten
 poniższy komunikat:
 
-![](/img/2015/06/2.etykieta-zmiana-blad.png#big)
+![etykieta-zmiana-blad](/img/2015/06/2.etykieta-zmiana-blad.png#big)
 
 Informuje on nas, że dokonywanie zmian w partycjach zwykle kończy się utratą danych. Nie wiem czemu
 ten komunikat jest wyświetlany w przypadku operacji, które do niej nie prowadzą, a taką przecie jest

@@ -56,7 +56,7 @@ urządzenie do sieci. Tego typu rozwiązanie praktycznie niweluje możliwość a
 kodu PIN w mechanizmie WPS. Jak widzimy z powyższego opisu, kod PIN może być bezpieczny, tylko
 trzeba się upewnić, że producent routera zastosował blokadę, poniżej przykład:
 
-![](/img/2015/06/1.wps-lock-openwrt-test.png#huge)
+![wps-lock-openwrt-test](/img/2015/06/1.wps-lock-openwrt-test.png#huge)
 
 W przypadku OpenWRT ta blokada wykonaniu `hostapd` jest średnia. Z moich ustaleń wynika, że jeden
 nieprawidłowy kod PIN powoduje założenie blokady na jakieś 30 sekund. Czasami mniej czasami więcej.

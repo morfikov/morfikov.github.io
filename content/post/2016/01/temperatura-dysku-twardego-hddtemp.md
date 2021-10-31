@@ -115,7 +115,7 @@ odpowiednie opcje od temperatury dysku. Wymagana jest jednak poprawna konfigurac
 jego pliku konfiguracyjnego dopisać `${hddtemp /dev/sda}˚C` . Temperatura dysku w conky prezentuje
 się mniej więcej tak:
 
-![](/img/2016/01/1.conky-hddtemp-temperatura-dysku.png#small)
+![conky-hddtemp-temperatura-dysku](/img/2016/01/1.conky-hddtemp-temperatura-dysku.png#small)
 
 ### Monitorowanie temperatury w monitorix
 
@@ -141,7 +141,7 @@ Zapisujemy zmiany i restartujemy usługę. Monitor systemu jest dostępny z pozi
 internetowej pod adresem `:8080/monitorix/` . Wykres temperatury wygląda mniej
 więcej tak:
 
-![](/img/2016/01/2.hddtemp-temperatura-monitoring-monitorix.png#huge)
+![hddtemp-temperatura-monitoring-monitorix](/img/2016/01/2.hddtemp-temperatura-monitoring-monitorix.png#huge)
 
 Obserwując go możemy w bardzo prosty sposób wywnioskować czy dyski w naszych komputerach mogą ulec
 przegrzaniu w wyniki zbyt wysokiej temperatury i czy już najwyższy czas, by rozkręcić laptopa i go

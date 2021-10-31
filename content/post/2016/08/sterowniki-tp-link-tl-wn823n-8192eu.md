@@ -228,7 +228,7 @@ Wyżej widzimy wyraźnie, że pojawił się w systemie nowy interfejs `wlan20` .
 większego problemu skonfigurować sobie [bezprzewodowe połączenie
 sieciowe](/post/konfiguracja-polaczenia-wifi-pod-debianem/) i wydać `ifup wlan20` :
 
-![](/img/2016/08/1.moduł-8192eu-karta-TL-WN823N-v2.png#huge)
+![moduł-8192eu-karta-TL-WN823N-v2](/img/2016/08/1.moduł-8192eu-karta-TL-WN823N-v2.png#huge)
 
 ## Problemy z modułem 8192eu
 

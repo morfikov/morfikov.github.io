@@ -95,4 +95,4 @@ komunikację sieciową, tj. jakie porty są w niej wykorzystywane. Najprościej 
 jeden od serwera dźwięku PulseAudio, drugi zaś od SSH. W przypadku gdy ruch jest szyfrowany, tylko
 ta druga reguła powinna łapać pakiety, przykładowo:
 
-![](/img/2015/11/1.szyfrowanie-dzwieku-pulseaudio-iptables.png#huge)
+![szyfrowanie-dzwieku-pulseaudio-iptables](/img/2015/11/1.szyfrowanie-dzwieku-pulseaudio-iptables.png#huge)

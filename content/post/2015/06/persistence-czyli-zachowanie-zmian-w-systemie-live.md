@@ -45,7 +45,7 @@ Nie będę opisywał tutaj jak stworzyć nową partycję przy pomocy `gparted`, 
 powinien umieć zrobić, nawet jeśli wymaga to skurczenia którejś z istniejących. Poniżej mamy już
 przygotowany odpowiedni układ partycji:
 
-![](/img/2015/06/1.gparted-persistence-live.png#big)
+![gparted-persistence-live](/img/2015/06/1.gparted-persistence-live.png#big)
 
 W tym przypadku system live rezyduje na partycji drugiej. Na trzeciej zaś będzie persistence.
 Montujemy zatem tę trzecią partycję i tworzymy na niej plik `persistence.conf` :

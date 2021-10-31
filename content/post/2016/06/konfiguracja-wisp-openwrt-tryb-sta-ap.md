@@ -88,7 +88,7 @@ wystartowaniu, router powinien nawiązać połączenie bezprzewodowe z WISP. Mo�
 podglądając log systemowy via `logread` . Interfejsowi sieciowemu (w tym przypadku `wlan0` ) powinna
 też zostać nadana odpowiednia adresacja. Możemy to sprawdzić przez `ifconfig` lub też `ip` :
 
-![](/img/2016/06/2.openwrt-wisp-tryb-sta-interfejs-wlan0.png#huge)
+![openwrt-wisp-tryb-sta-interfejs-wlan0](/img/2016/06/2.openwrt-wisp-tryb-sta-interfejs-wlan0.png#huge)
 
 ## Konfiguracja trybu STA równolegle z trybem AP
 
@@ -146,7 +146,7 @@ I to w zasadzie cała robota. Po restarcie routera, połączenie z WISP powinno 
 my możemy podłączać się do routera w wygodny nam sposób. Zarówno tryb STA jak i AP powinny być
 widoczne w `iwinfo` :
 
-![](/img/2016/06/3.openwrt-wisp-tryb-sta-ap-iwinfo.png#big)
+![openwrt-wisp-tryb-sta-ap-iwinfo](/img/2016/06/3.openwrt-wisp-tryb-sta-ap-iwinfo.png#big)
 
 ### Konfiguracja switch'a
 
@@ -173,4 +173,4 @@ W taki sposób po restarcie routera, wirtualny interfejs mostka ( `br-lan` ) pow
 interfejsy sieciowe `eth0.1` oraz `eth0.2` (łącznie 5 gniazdek zamiast standardowych 4). Możemy to
 zweryfikować przy pomocy narzędzia `brctl` :
 
-![](/img/2016/06/4.openwrt-wisp-tryb-sta-mostek.png#huge)
+![openwrt-wisp-tryb-sta-mostek](/img/2016/06/4.openwrt-wisp-tryb-sta-mostek.png#huge)

@@ -29,7 +29,7 @@ Proces uruchamiania systemu przy wykorzystaniu bootloader'a GRUB podzielony jest
 etapy. Popatrzmy na fotkę poniżej (źródło
 [wikipedia](https://en.wikipedia.org/wiki/GNU_GRUB)):
 
-![](/img/2015/06/1.linux-mbr-keyfile.png#huge)
+![linux-mbr-keyfile](/img/2015/06/1.linux-mbr-keyfile.png#huge)
 
 Pierwszy etap (stage 1) ma na celu załadowanie `boot.img` , który jest przechowywany w MBR
 (ewentualnie VBR). Zadaniem tego kodu jest wskazanie położenia `core.img` bootloader'a, który z

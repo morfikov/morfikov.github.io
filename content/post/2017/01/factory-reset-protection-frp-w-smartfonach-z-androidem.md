@@ -47,7 +47,7 @@ recovery, urządzenie w dalszym ciągu będzie zablokowane. Użytkownikowi podcz
 zostanie pokazany jedynie komunikat "Urządzenie zostało zresetowane...". By móc korzystać z takiego
 telefonu, trzeba podać dane do poprzedniego konta i innej opcji zwykle nie ma.
 
-![](/img/2017/01/001.factory-reset-protection-frp-lock-smartfon-android-blokada-telefonu.png#medium)
+![factory-reset-protection-frp-lock-smartfon-android-blokada-telefonu](/img/2017/01/001.factory-reset-protection-frp-lock-smartfon-android-blokada-telefonu.png#medium)
 
 Po aktywowaniu blokady FRP Lock, Android jest zwykle bezużyteczny. Możemy jedynie odbierać
 połączenia przychodzące i wykonywać połączenia alarmowe ale w zasadzie nic poza tym. Nie mamy
@@ -153,14 +153,14 @@ Tak wygenerowany plik trzeba przy po mocy SP Flash Tool wgrać w odpowiednie mie
 smartfona. Odpalamy zatem narzędzie SP Flash Tool i przechodzimy na zakładkę `Download` i tam
 zaznaczamy partycję `frp` i wskazujemy ścieżkę do pliku z zerami:
 
-![](/img/2017/01/002.factory-reset-protection-frp-lock-smartfon-android-czyszczenie-partycji.png#huge)
+![factory-reset-protection-frp-lock-smartfon-android-czyszczenie-partycji](/img/2017/01/002.factory-reset-protection-frp-lock-smartfon-android-czyszczenie-partycji.png#huge)
 
 Upewniamy się, że nad listingiem partycji mamy zaznaczone `Download Only` i wciskamy przycisk
 `Download` . W tym momencie SP Flash Tool będzie oczekiwał na podłączenie smartfona do portu USB
 komputera. Wyłączamy zatem telefon i podłączamy go do komputera. System powinien go automatycznie
 wykryć i zaaplikować mu wskazany plik:
 
-![](/img/2017/01/003.factory-reset-protection-frp-lock-smartfon-android-czyszczenie-partycji.png#huge)
+![factory-reset-protection-frp-lock-smartfon-android-czyszczenie-partycji](/img/2017/01/003.factory-reset-protection-frp-lock-smartfon-android-czyszczenie-partycji.png#huge)
 
 Jeśli są jakieś problemy z działaniem SP Flash Tool, to prawdopodobnie nie ma on uprawnień do
 urządzenia `/dev/ttyACM0` i trzeba będzie dodać naszego użytkownika do grupy `dialout` .
@@ -168,7 +168,7 @@ urządzenia `/dev/ttyACM0` i trzeba będzie dodać naszego użytkownika do grupy
 Po wgraniu pliku, włączamy smartfon i już nie powinniśmy mieć problemów z dodaniem nowego konta
 Google na naszym smartfonie.
 
-![](/img/2017/01/004.factory-reset-protection-frp-lock-smartfon-android-zdjecie-blokady.png#medium)
+![factory-reset-protection-frp-lock-smartfon-android-zdjecie-blokady](/img/2017/01/004.factory-reset-protection-frp-lock-smartfon-android-zdjecie-blokady.png#medium)
 
 ### Odblokowanie Neffos Y5 i Y5L
 
@@ -187,7 +187,7 @@ działającego systemu. Przynajmniej tak wynika z tych materiałów, z którymi 
 zapoznałem. Pytanie jest tylko jak wywołać ustawienia, skoro mamy zablokowaną możliwość operowania
 na smartfonie i jedyny obrazek jaki widzimy, to ten poniżej:
 
-![](/img/2017/01/005.factory-reset-protection-frp-lock-smartfon-android-blokada.png#medium)
+![factory-reset-protection-frp-lock-smartfon-android-blokada](/img/2017/01/005.factory-reset-protection-frp-lock-smartfon-android-blokada.png#medium)
 
 #### Sposób z przeglądarką
 
@@ -197,11 +197,11 @@ ustawień systemu. W jaki sposób? Wyżej widzimy formularz, w którym mamy wpis
 telefonu. Generalnie nie wpisujemy tutaj tego, o co nas proszą. Zamiast tego wpisujemy dosłownie
 cokolwiek. Na ten wpisany w formularzu wyraz możemy kliknąć i pojawi nam się proste menu:
 
-![](/img/2017/01/006.factory-reset-protection-frp-lock-smartfon-android-przegladaka-ustawienia.png#medium)
+![factory-reset-protection-frp-lock-smartfon-android-przegladaka-ustawienia](/img/2017/01/006.factory-reset-protection-frp-lock-smartfon-android-przegladaka-ustawienia.png#medium)
 
 Z tego menu wybieramy pozycję `Podpowiedzi` (przez te trzy kropki):
 
-![](/img/2017/01/007.factory-reset-protection-frp-lock-smartfon-android-przegladarka-ustawienia.png#huge)
+![factory-reset-protection-frp-lock-smartfon-android-przegladarka-ustawienia](/img/2017/01/007.factory-reset-protection-frp-lock-smartfon-android-przegladarka-ustawienia.png#huge)
 
 I jak widzimy, odpaliła nam się przeglądarka Chrome. Nie logujemy się tutaj i wciskamy "Nie Dzięki".
 
@@ -210,18 +210,18 @@ formularzu wpisujemy w zależności od wykorzystywanego języka w telefonie: `us
 `settings` (EN). Jak tylko zaczniemy wpisywać kolejne znaki w polu formularza, na dole ekranu
 powinny nam się pojawić podpowiedzi:
 
-![](/img/2017/01/008.factory-reset-protection-frp-lock-smartfon-android-przegladarka-ustawienia.png#small)
+![factory-reset-protection-frp-lock-smartfon-android-przegladarka-ustawienia](/img/2017/01/008.factory-reset-protection-frp-lock-smartfon-android-przegladarka-ustawienia.png#small)
 
 Mamy pozycję `Ustawienia` i naturalnie klikamy w nią. Powinien nam się ukazać znajomy widok ustawień
 systemowych. Zatem nawet mając aktywny mechanizm blokady telefonu, jesteśmy w stanie go ominąć i
 wejść w ustawienia telefonu.
 
-![](/img/2017/01/009.factory-reset-protection-frp-lock-smartfon-android-factory-reset.png#big)
+![factory-reset-protection-frp-lock-smartfon-android-factory-reset](/img/2017/01/009.factory-reset-protection-frp-lock-smartfon-android-factory-reset.png#big)
 
 W tak uzyskanym menu przechodzi do pozycji `Kopia zapasowa i reset` , a z niej wybieramy `Przywróć
 ustawienia Fabryczne` :
 
-![](/img/2017/01/010.factory-reset-protection-frp-lock-smartfon-android-factory-reset.png#big)
+![factory-reset-protection-frp-lock-smartfon-android-factory-reset](/img/2017/01/010.factory-reset-protection-frp-lock-smartfon-android-factory-reset.png#big)
 
 W ten sposób niby powinniśmy pozbyć się blokady, bo proces Factory Reset zostanie przeprowadzony z
 poziomu działającego systemu. Niestety najwyraźniej w nowszych wersjach Androida partycja `frp` nie
@@ -235,7 +235,7 @@ Kluczem do zdjęcia blokady FRP Lock jest odblokowanie bootloader'a, a to można
 pierw blokadę OEM z poziomu opcji developerskich. Mając dostęp do opcji telefonu, możemy wejść w
 "Informacje o telefonie" i spróbować postukać w numer kompilacji.
 
-![](/img/2017/01/011.factory-reset-protection-frp-lock-smartfon-android-numer-kompilacji.png#big)
+![factory-reset-protection-frp-lock-smartfon-android-numer-kompilacji](/img/2017/01/011.factory-reset-protection-frp-lock-smartfon-android-numer-kompilacji.png#big)
 
 Problem w tym, że ten sposób również nie działa i w tym przypadku stukanie w numerek kompilacji nic
 nie daje, a bez tego nie pojawią nam się opcje developerskie i nie ściągniemy blokady OEM.
@@ -248,7 +248,7 @@ naturalnie wskazujemy naszą sieć i uzupełniamy dane logowania do tej sieci. P
 przyciskiem Wstecz do ekranu wyboru sieci. Powinniśmy widzieć listę sieci WiFi w naszej lokalizacji
 oraz powinniśmy być podłączeni do tej, którą sobie skonfigurowaliśmy:
 
-![](/img/2017/01/012.factory-reset-protection-frp-lock-smartfon-android-wlan.png#medium)
+![factory-reset-protection-frp-lock-smartfon-android-wlan](/img/2017/01/012.factory-reset-protection-frp-lock-smartfon-android-wlan.png#medium)
 
 W tym miejscu dajemy "Dalej" i gdy na ekranie pojawi się informacja "Sprawdzam połączenie" ale przed
 "Aktualizuję oprogramowanie" (szybko przeskakuje) trzeba sieć WiFi rozłączyć. Można albo wyłączyć
@@ -260,13 +260,13 @@ Google po uprzednim zapewnieniu, że połączenie działa. Taki stan rzeczy najp
 że system głupieje i pomija proces uwierzytelniania zwracając informację "Nie można się zalogować"
 i proces konfiguracji telefonu może być kontynuowany:
 
-![](/img/2017/01/013.factory-reset-protection-frp-lock-smartfon-android-wlan-proces.png#huge)
+![factory-reset-protection-frp-lock-smartfon-android-wlan-proces](/img/2017/01/013.factory-reset-protection-frp-lock-smartfon-android-wlan-proces.png#huge)
 
 Naturalnie klikamy Dalej i Dalej i w zasadzie wszystko wskazuje na to, że proces zostanie ukończony
 z powodzeniem. Niemniej jednak, z jakiegoś powodu system stwierdza, że nie jesteśmy zalogowani i
 każe nam cały proces powtórzyć.
 
-![](/img/2017/01/014.factory-reset-protection-frp-lock-smartfon-android-wlan-blad.png#big)
+![factory-reset-protection-frp-lock-smartfon-android-wlan-blad](/img/2017/01/014.factory-reset-protection-frp-lock-smartfon-android-wlan-blad.png#big)
 
 #### Sposób z linkami w opcjach języka i klawiatury
 
@@ -277,13 +277,13 @@ języka i klawiatury (czy jak to się tam nazywa). W opcje tej aplikacji można 
 przez dłuższą chwilę znak `@` na klawiaturze ekranowej. W ten sposób powinno nam się pojawić małe
 kółko zębate oferujące "Opcje wprowadzania":
 
-![](/img/2017/01/015.factory-reset-protection-frp-lock-smartfon-android-opcje-klawiatura.png#big)
+![factory-reset-protection-frp-lock-smartfon-android-opcje-klawiatura](/img/2017/01/015.factory-reset-protection-frp-lock-smartfon-android-opcje-klawiatura.png#big)
 
 Po wejściu w te opcje, w prawym górnym rogu mamy trzy kropki z menu pomocy, które powinniśmy wywołać
 w celu uzyskania dostępu do upragnionego linku, za pomocą którego można by wywołać przeglądarkę i za
 jej pomocą wejść w główne ustawienia telefonu:
 
-![](/img/2017/01/016.factory-reset-protection-frp-lock-smartfon-android-opcje-klawiatura.png#big)
+![factory-reset-protection-frp-lock-smartfon-android-opcje-klawiatura](/img/2017/01/016.factory-reset-protection-frp-lock-smartfon-android-opcje-klawiatura.png#big)
 
 Problem w tym, że żadna z tych opcji się nie da wcisnąć, czyli kolejna ślepa uliczka. Znacie jeszcze
 jakieś ciekawe pomysły na obejście tej blokady? :D

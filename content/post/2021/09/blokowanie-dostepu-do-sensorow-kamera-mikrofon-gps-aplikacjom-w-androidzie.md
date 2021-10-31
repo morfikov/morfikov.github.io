@@ -131,7 +131,7 @@ ich liczba, w którą wyposażony jest nasz smartfon. Przy próbie dostępu do k
 taki oto komunikat: `Failed to open camera. Camera may be in use by another application` , co
 wygląda mniej więcej tak:
 
-![](/img/2021/09/009.block-sensors-android-camera-failed.jpg#small)
+![block-sensors-android-camera-failed](/img/2021/09/009.block-sensors-android-camera-failed.jpg#small)
 
 Jak widać, podglądu na kamerze nie ma, zatem smartfon nie jest w stanie nic bez naszej zgody
 zarejestrować. No i teraz już mamy pewność, że nikt nas kamerką w telefonie nie podejrzy, choć na

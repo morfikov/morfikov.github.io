@@ -31,7 +31,7 @@ certyfikatu z poprawnie ustawionym algorytmem mieszającym. Można sobie wybrać
 SHA-512 i ja wybrałem właśnie ten drugi wariant. Jeśli nie zdecydujemy się na ten krok, firefox (i
 inne przeglądarki również) będą zwracać komunikaty podobne do tych poniżej:
 
-![](/img/2015/09/01.slaby-hash-sha-1-apache-certyfikat.png#huge)
+![slaby-hash-sha-1-apache-certyfikat](/img/2015/09/01.slaby-hash-sha-1-apache-certyfikat.png#huge)
 
 Jak możemy przeczytać w wyżej przytoczonym linku, dzieje się tak, bo integralność algorytmu
 hash'ującego używanego przy podpisywaniu certyfikatu odgrywa ogromną rolę i jest elementem

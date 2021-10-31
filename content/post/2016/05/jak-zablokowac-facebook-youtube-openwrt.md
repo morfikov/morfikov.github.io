@@ -109,7 +109,7 @@ oparciu o adresy znajdujące się na tej liście. Musimy dodać kolejny blok do 
 Ta reguła ma za zadanie dopasować ruch w oparciu o set `socjal` . Zostanie ona dodana do łańcucha
 `zone_lan_forward` , tak jak to jest zobrazowane na poniższej fotce:
 
-![](/img/2016/05/1.iptables-blokowanie-facebook-youtube-twitter-openwrt-regula.png#huge)
+![iptables-blokowanie-facebook-youtube-twitter-openwrt-regula](/img/2016/05/1.iptables-blokowanie-facebook-youtube-twitter-openwrt-regula.png#huge)
 
 ## Konfiguracja dnsmasq
 
@@ -140,7 +140,7 @@ Przechodzimy na komputer i w pasku adresu przeglądarki wpisujemy adres jednej z
 domen. Niech to będzie `facebook.com` . Strona nie powinna się nam załadować. Natomiast na liście
 adresów powinno pojawić się kilka wpisów. Sprawdzamy to poleceniem `ipset list socjal` :
 
-![](/img/2016/05/2.ipset-lista-blokowanie-facebook-youtube-twitter-openwrt.png#big)
+![ipset-lista-blokowanie-facebook-youtube-twitter-openwrt](/img/2016/05/2.ipset-lista-blokowanie-facebook-youtube-twitter-openwrt.png#big)
 
 Powyżej widzimy, że trochę tych adresów się uzbierało. Mamy też statystyki dotyczące wykorzystania
 pamięci operacyjnej przez ten set. Przy każdym wpisie zaś widnieje `timeout` wraz z pewną wartością.

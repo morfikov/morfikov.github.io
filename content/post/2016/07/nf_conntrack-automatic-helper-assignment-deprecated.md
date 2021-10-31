@@ -75,14 +75,14 @@ plików i katalogów serwera przy standardowej polityce firewalla, gdzie akceptu
 wszystkie połączenia w stanie RELATED i ESTABLISHED oraz połączenia w stanie NEW na port docelowy
 21. Poniżej fotka:
 
-![](/img/2016/07/1.ftp-iptables-helper-sledzenie-polaczen-firewall.png#huge)
+![ftp-iptables-helper-sledzenie-polaczen-firewall](/img/2016/07/1.ftp-iptables-helper-sledzenie-polaczen-firewall.png#huge)
 
 Na fotce, w dolnym okienku, mamy log, który informuje nas, że listing plików i katalogów był
 dokonywany w trybie pasywnym. Rozłączmy się teraz, przestawmy parametr
 `net.netfilter.nf_conntrack_helper` na `0` i podłączmy się ponownie do FTP'a. Połączenie powinniśmy
 uzyskać jak poprzednio ale nie damy rady uzyskać już listingu plików i katalogów:
 
-![](/img/2016/07/2.ftp-iptables-helper-sledzenie-polaczen-firewall.png#huge)
+![ftp-iptables-helper-sledzenie-polaczen-firewall](/img/2016/07/2.ftp-iptables-helper-sledzenie-polaczen-firewall.png#huge)
 
 Jak widzimy wyżej, został zalgoowany pakiet, który pochodzi z portu 36952 i jest przeznaczony na
 port 59499. Ten port 59499 jest z przedziału portów pasywnych, który został określony w konfiguracji
@@ -99,4 +99,4 @@ hostach, które ma przepuszczać. W skrócie, potrzebna jest nam poniższa regu�
 Łączymy się ponownie z serwerem FTP i listujemy pliki i katalogi. Teraz już połączenie powinno
 zostać zaakceptowane:
 
-![](/img/2016/07/3.ftp-iptables-helper-sledzenie-polaczen-firewall.png#huge)
+![ftp-iptables-helper-sledzenie-polaczen-firewall](/img/2016/07/3.ftp-iptables-helper-sledzenie-polaczen-firewall.png#huge)

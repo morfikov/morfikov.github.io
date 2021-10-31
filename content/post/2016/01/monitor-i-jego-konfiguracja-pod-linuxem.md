@@ -92,7 +92,7 @@ ewentualnie proporcjonalnie większe lub mniejsze. Wtedy nie ma większego probl
 obrazu czy rozdzielaniem go na poszczególne monitory. Jeśli parametry sprzętu różnią się, to wtedy
 Screen może wyglądać tak jak ten poniżej:
 
-![](/img/2016/01/1.monitor-screen-arandr.png#medium)
+![monitor-screen-arandr](/img/2016/01/1.monitor-screen-arandr.png#medium)
 
 W taki sposób nie damy rady, np. rozdzielić filmu na oba monitory bez obcinania kawałka obrazu, lub
 całkowitego wypełnienia obu monitorów. Podobnie sprawa ma się w przypadku powielania obrazu na oba

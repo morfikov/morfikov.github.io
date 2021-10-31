@@ -40,7 +40,7 @@ również z narzędzi graficznych, jak np. network-manager. My tutaj ograniczymy
 narzędzi konsolowych wymienionych wyżej. Poniżej jest fotka przedstawiająca szereg interfejsów
 sieciowych. Widnieją tam także adresy MAC:
 
-![](/img/2016/04/1.statystyki-interfejsow-sieciowych-adres-mac.png#huge)
+![statystyki-interfejsow-sieciowych-adres-mac](/img/2016/04/1.statystyki-interfejsow-sieciowych-adres-mac.png#huge)
 
 Adresy MAC są zaraz obok `link/ether` . I tak dla przykładu, interfejs `eth0` dysponuje adresem MAC
 `f6:3a:37:fa:20:40` , natomiast interfejs `wwan0` ma przypisany adres `f2:f5:ed:74:0b:18` . Wyżej
@@ -62,7 +62,7 @@ zaakceptować. Jeśli spróbowalibyśmy taki adres wskazać systemowi, ten zwró
 nam nieco sytuację i wyjaśni dlaczego nie wszystkie adresy się nadają do wykorzystania
 ([źródło](https://en.wikipedia.org/wiki/MAC_address)):
 
-![](/img/2016/04/2.specyfikacja-adres-mac.png#big)
+![specyfikacja-adres-mac](/img/2016/04/2.specyfikacja-adres-mac.png#big)
 
 [Pierwsze dwa bity
 decydują](https://superuser.com/questions/725467/set-mac-address-fails-rtnetlink-answers-cannot-assign-requested-address/725472#725472)
@@ -206,7 +206,7 @@ położeniu. Poniżej przykład konfiguracji interfejsu `wwan0` :
 
 Poniżej fotka obrazująca działający mechanizm zmiany MAC w oparciu o oprogramowanie `macchanger` :
 
-![](/img/2016/04/3.automatyczna-zmiana-adres-mac-polaczenie.png#huge)
+![automatyczna-zmiana-adres-mac-polaczenie](/img/2016/04/3.automatyczna-zmiana-adres-mac-polaczenie.png#huge)
 
 Więcej informacji na temat sposóbu zmiany adresów MAC przy pomocy różnych narzędzi można znaleźć na
 [wiki ArchLinux'a](https://wiki.archlinux.org/index.php/MAC_address_spoofing), jak i również [na

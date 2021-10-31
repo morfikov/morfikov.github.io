@@ -43,4 +43,4 @@ polecenia:
 
 I to w sumie cała filozofia. Poniżej fotka, która została zrobiona na potrzeby tego wpisu:
 
-![](/img/2015/11/1.tty-fbcat-zrzut-ekranu.png#huge)
+![tty-fbcat-zrzut-ekranu](/img/2015/11/1.tty-fbcat-zrzut-ekranu.png#huge)

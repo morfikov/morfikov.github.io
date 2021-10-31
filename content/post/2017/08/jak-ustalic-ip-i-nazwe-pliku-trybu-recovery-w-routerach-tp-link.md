@@ -41,7 +41,7 @@ będzie próbował z nią rozmawiać i zażąda od serwera plik z firmware, któ
 żądanie zawierać będzie nazwę pliku i w ten sposób będziemy wiedzieć jak nazwać plik firmware.
 Poniżej przykład:
 
-![](/img/2017/08/001.tp-link-recovery-ip-nazwa-pliku-wireshark.png#huge)
+![tp-link-recovery-ip-nazwa-pliku-wireshark](/img/2017/08/001.tp-link-recovery-ip-nazwa-pliku-wireshark.png#huge)
 
 Jak widać wyżej na fotce, router Archer C7 v2 szukał maszyny z adresem IP `192.168.0.66` , sam zaś
 miał IP `196.168.0.86` . Jako, że mamy w zasadzie tylko jedno zapytanie ARP oraz jedną odpowiedź,
@@ -53,5 +53,5 @@ Znając adres IP oraz nazwę pliku firmware, teraz bez większego problemu może
 parametry dla trybu recovery praktycznie dowolnego routera TP-Link, a jeśli te dane będą poprawne,
 to rozpocznie się pobieranie obrazu i flash'owanie firmware:
 
-![](/img/2017/08/002.tp-link-recovery-ip-nazwa-pliku-wireshark.png#huge)
+![tp-link-recovery-ip-nazwa-pliku-wireshark](/img/2017/08/002.tp-link-recovery-ip-nazwa-pliku-wireshark.png#huge)
 

@@ -40,7 +40,7 @@ nie najlepsze oświetlenie pomieszczenia w chwili robienia fotki takiej stronie 
 telefonie. Poniżej znajduje się przykład takiej białej kartki, która została mi podsunięta do
 wydrukowania:
 
-![](/img/2021/10/001.scan-image-laser-printer-print-orig-pdf.jpg#huge)
+![scan-image-laser-printer-print-orig-pdf](/img/2021/10/001.scan-image-laser-printer-print-orig-pdf.jpg#huge)
 
 No jak widać, ta biała strona nie przypomina za bardzo tego co każdy z nas rozumie pod pojęciem
 "biały".
@@ -51,7 +51,7 @@ Patrząc na tę powyższą fotkę ze skanu dokumentacji technicznej, możemy po 
 grzbiet tego dokumentu, który również by został wydrukowany. Tego typu elementy trzeba wstępnie
 wyciąć. Do tego celu można posłużyć się narzędziem `krop` :
 
-![](/img/2021/10/007.scan-image-laser-printer-print-krop.png#huge)
+![scan-image-laser-printer-print-krop](/img/2021/10/007.scan-image-laser-printer-print-krop.png#huge)
 
 Każdy zaznaczony element na danej stronie w pliku wejściowym zostanie przekuty w osobną stronę i
 zapisany w nowym dokumencie PDF.
@@ -111,7 +111,7 @@ odcienie szarości, to może skorzystać z tego poniższego polecenia:
 
 Te zeskanowane obrazki nie powinny już tak bardzo odstraszać swoim wyglądem:
 
-![](/img/2021/10/002.scan-image-laser-printer-print-gray-pdf.jpg#huge)
+![scan-image-laser-printer-print-gray-pdf](/img/2021/10/002.scan-image-laser-printer-print-gray-pdf.jpg#huge)
 
 Nie da się ukryć, że tło dokumentu jest teraz bardziej białe ale do idealnej bieli ździebko jeszcze
 brakuje, a ta nieidealna biel zostanie na drukarce laserowej wydrukowana. W zasadzie to w kwestii
@@ -132,7 +132,7 @@ skorzystać z poniższego polecenia:
 Niemniej jednak, w przypadku tego przykładowego skanu dokumentacji, efekt jest dość daleki od
 jakiekolwiek formy, która ma cokolwiek wspólnego ze słowem "zadowalający":
 
-![](/img/2021/10/003.scan-image-laser-printer-print-black-white-pdf.png#huge)
+![scan-image-laser-printer-print-black-white-pdf](/img/2021/10/003.scan-image-laser-printer-print-black-white-pdf.png#huge)
 
 No jak widać, mamy kartkę pokrytą śnieżnobiałą ... bielą ale najwyraźniej trochę zasp się porobiło
 na tych czarnych literkach, przez co przeczytanie takiego tekstu graniczy z cudem.
@@ -159,7 +159,7 @@ większego tekstu. Przy pomocy `-resize` możemy dodatkowo powiększyć sobie ob
 pozytywnie wpłynąć na jakość wyostrzenia. Poniżej są przykłady dla `-sharpen` o wartości `0x1` ,
 `0x2` , `0x3` oraz `0x4` :
 
-![](/img/2021/10/008.scan-image-laser-printer-print-convert-sharpen.png#huge)
+![scan-image-laser-printer-print-convert-sharpen](/img/2021/10/008.scan-image-laser-printer-print-convert-sharpen.png#huge)
 
 ### Czyszczenie tła dokumentu
 
@@ -191,7 +191,7 @@ zasadzie jednolicie czarny. Podobnie jak we wcześniejszym przypadku, również 
 pobawić wartością parametru `-median` , by uzyskać jak najlepszy efekt dla danego dokumentu.
 Poniżej są przykłady dla `-median` wynoszącego `1` , `2` , `3` oraz `4` :
 
-![](/img/2021/10/009.scan-image-laser-printer-print-convert-median.png#huge)
+![scan-image-laser-printer-print-convert-median](/img/2021/10/009.scan-image-laser-printer-print-convert-median.png#huge)
 
 ## Skrypt textcleaner
 

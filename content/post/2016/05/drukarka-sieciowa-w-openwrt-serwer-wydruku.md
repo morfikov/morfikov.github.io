@@ -39,7 +39,7 @@ jest lista pakietów, które musimy doinstalować na routerze:
 Podłączamy teraz drukarkę do portu USB routera i podajemy jej zasilanie. Powinna być ona po chwili
 rozpoznana przez system:
 
-![](/img/2016/05/1.p910nd-drukarka-sieciowa-serwer-wydruku-openwrt.png#huge)
+![p910nd-drukarka-sieciowa-serwer-wydruku-openwrt](/img/2016/05/1.p910nd-drukarka-sieciowa-serwer-wydruku-openwrt.png#huge)
 
 Wyżej widzimy frazę `usblp0` . Odpowiada ona za urządzenie `/dev/usb/lp0` . To urządzenie musi
 istnieć byśmy mogli korzystać z drukarki.

@@ -133,7 +133,7 @@ każdego.
 Po zresetowaniu PulseAudio, w `pavcontrol` powinniśmy ujrzeć dodatkowy strumień, do którego możemy
 przesyłać dźwięki z określonych aplikacji, co wygląda mniej więcej tak:
 
-![](/img/2015/09/1.normalizacja-glosnosci-w-pulseaudio.png#big)
+![normalizacja-glosnosci-w-pulseaudio](/img/2015/09/1.normalizacja-glosnosci-w-pulseaudio.png#big)
 
 Mimo, że amarok został złapany na tej force podczas odtwarzania dźwięku ze sporym natężeniem, to ten
 niebieski pasek, który widnieje także pod strumieniem modułu, wskazuje, że dźwięk jest odtwarzany

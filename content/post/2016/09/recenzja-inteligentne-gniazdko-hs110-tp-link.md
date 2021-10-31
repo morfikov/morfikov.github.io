@@ -36,9 +36,9 @@ HS110](http://www.tp-link.com.pl/products/details/cat-5258_HS110.html).
 Zaczniemy oczywiście od tego co wszyscy najbardziej lubią, czyli od unboxing'u. Poniżej są fotki
 opakowania tego inteligentnego gniazda HS110 oraz jego zawartości:
 
-![](/img/2016/09/1.hs110-smart-plug-inteligentne-gniazdko-opakowanie-1.jpg#big)
+![hs110-smart-plug-inteligentne-gniazdko-opakowanie-1](/img/2016/09/1.hs110-smart-plug-inteligentne-gniazdko-opakowanie-1.jpg#big)
 
-![](/img/2016/09/2.hs110-smart-plug-inteligentne-gniazdko-opakowanie-zawartosc.jpg#big)
+![hs110-smart-plug-inteligentne-gniazdko-opakowanie-zawartosc](/img/2016/09/2.hs110-smart-plug-inteligentne-gniazdko-opakowanie-zawartosc.jpg#big)
 
 Jak widać, dość duże jest to urządzenie. Jego dokładne wymiany to nieco ponad 100 x 66 x 77 mm (dł,
 sz, wy). Samo gniazdko waży około 130 gram.
@@ -46,23 +46,23 @@ sz, wy). Samo gniazdko waży około 130 gram.
 Z wierzchu HS110 w zasadzie nie różni się zbytnio od normalnego gniazdka. Jedyną widoczną różnicą
 jest włącznik zasilania:
 
-![](/img/2016/09/3.hs110-smart-plug-inteligentne-gniazdko-wyglad.jpg#big)
+![hs110-smart-plug-inteligentne-gniazdko-wyglad](/img/2016/09/3.hs110-smart-plug-inteligentne-gniazdko-wyglad.jpg#big)
 
 Na obudowie mamy także bardzo niewielki przycisk resetu
 ustawień:
 
-![](/img/2016/09/4.hs110-smart-plug-inteligentne-gniazdko-przycisk-reset.jpg#big)
+![hs110-smart-plug-inteligentne-gniazdko-przycisk-reset](/img/2016/09/4.hs110-smart-plug-inteligentne-gniazdko-przycisk-reset.jpg#big)
 
 Poniżej zaś jest fotka obrazująca nieco duże wymiary HS110:
 
-![](/img/2016/09/5.hs110-smart-plug-inteligentne-gniazdko-wielkosc.jpg#big)
+![hs110-smart-plug-inteligentne-gniazdko-wielkosc](/img/2016/09/5.hs110-smart-plug-inteligentne-gniazdko-wielkosc.jpg#big)
 
 Jak widzimy, w przypadku chęci podłączenia tego typu urządzenia do różnego rodzaju listw
 antyprzepięciowych czy innych przedłużaczy, trzeba liczyć się z utratą jednego wolnego gniazda.
 
 Od spodu HS110 prezentuje się też raczej w standardowy sposób:
 
-![](/img/2016/09/6.hs110-smart-plug-inteligentne-gniazdko-spod.jpg#big)
+![hs110-smart-plug-inteligentne-gniazdko-spod](/img/2016/09/6.hs110-smart-plug-inteligentne-gniazdko-spod.jpg#big)
 
 Maksymalne obciążenie przy jakim to inteligentne gniazdko jest w stanie pracować, to około 3700 W.
 
@@ -86,25 +86,25 @@ to powinniśmy sobie doinstalować, bo inaczej nie zeskanujemy kodu. Ja korzysta
 Scanner](https://play.google.com/store/apps/details?id=la.droid.qr). Kod QR możemy zaś znaleźć w
 instrukcji obsługi HS110:
 
-![](/img/2016/09/7.hs110-smart-plug-inteligentne-gniazdko-kod-qr.jpg#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kod-qr](/img/2016/09/7.hs110-smart-plug-inteligentne-gniazdko-kod-qr.jpg#medium)
 
 Odpalamy teraz skaner kodów QR i celujemy w widoczny wyżej kod. Po chwili powinien on zostać
 zeskanowany, a nam pojawić się link do odpowiedniej aplikacji:
 
-![](/img/2016/09/8.hs110-smart-plug-inteligentne-gniazdko-skan-kodu-qr.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-skan-kodu-qr](/img/2016/09/8.hs110-smart-plug-inteligentne-gniazdko-skan-kodu-qr.png#medium)
 
 Otwieramy sklep Play i powinniśmy od razu zostać przeniesieni do aplikacji KASA:
 
-![](/img/2016/09/9.hs110-smart-plug-inteligentne-gniazdko-aplikacja-kasa.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-aplikacja-kasa](/img/2016/09/9.hs110-smart-plug-inteligentne-gniazdko-aplikacja-kasa.png#medium)
 
 Instalujemy:
 
-![](/img/2016/09/10.hs110-smart-plug-inteligentne-gniazdko-aplikacja-kasa.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-aplikacja-kasa](/img/2016/09/10.hs110-smart-plug-inteligentne-gniazdko-aplikacja-kasa.png#medium)
 
 Jak widzimy wyżej, aplikacja KASA waży około 30 MiB. Po tym jak proces instalacyjny dobiegnie końca,
 odpalamy aplikację. Powinniśmy zobaczyć mniej więcej takie okienko:
 
-![](/img/2016/09/11.hs110-smart-plug-inteligentne-gniazdko-aplikacja-kasa.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-aplikacja-kasa](/img/2016/09/11.hs110-smart-plug-inteligentne-gniazdko-aplikacja-kasa.png#medium)
 
 ### Konto w TP-LINK Cloud
 
@@ -141,50 +141,50 @@ siebie klientów bezprzewodowych w ustawieniach routera WiFi.
 
 Odpalamy aplikację KASA na naszym smartfonie i dodajemy w niej nowe urządzenie:
 
-![](/img/2016/09/12.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie](/img/2016/09/12.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
 
 W tym przypadku musimy wskazać Smart Plug, jako że chcemy zarządzać inteligentnym gniazdkiem:
 
-![](/img/2016/09/13.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie](/img/2016/09/13.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
 
 Jeśli jeszcze nie podłączyliśmy naszego HS110 do sieci elektrycznej, to zróbmy to teraz. Po chwili,
 dioda WLAN na przycisku power powinna się zacząć świecić i migać naprzemiennie na zielono i
 pomarańczowo:
 
-![](/img/2016/09/14.hd110-smart-plug-inteligentne-gniazdko-dioda.jpg#big)
+![hd110-smart-plug-inteligentne-gniazdko-dioda](/img/2016/09/14.hd110-smart-plug-inteligentne-gniazdko-dioda.jpg#big)
 
 W aplikacji KASA na smartfonie przechodzimy dalej zgodnie z wypisanymi nam instrukcjami. W pewnym
 momencie zacznie się wyszukiwanie HS110:
 
-![](/img/2016/09/15.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie](/img/2016/09/15.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
 
 Urządzenie powinno zostać odnalezione bez problemu. Teraz możemy mu nadać ludzką nazwę:
 
-![](/img/2016/09/16.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie](/img/2016/09/16.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
 
 I wybrać ikonkę:
 
-![](/img/2016/09/17.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie](/img/2016/09/17.hs110-smart-plug-inteligentne-gniazdko-kasa-dodaj-urzadzenie.png#medium)
 
 W przypadku utworzenia konta w serwisie TP-LINK Cloud, możemy włączyć zdalne zarządzanie gniazdkiem.
 Niemniej jednak, ja z tego ficzera nie zamierzam korzystać:
 
-![](/img/2016/09/18.hs110-smart-plug-inteligentne-gniazdko-kasa-zdalne-zarzadzanie.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-zdalne-zarzadzanie](/img/2016/09/18.hs110-smart-plug-inteligentne-gniazdko-kasa-zdalne-zarzadzanie.png#medium)
 
 Zapisujemy urządzenie i odszukujemy nazwę naszej sieci WiFi na liście dostępnych. Wybieramy ją i
 podajemy hasło do sieci:
 
-![](/img/2016/09/19.hs110-smart-plug-inteligentne-gniazdko-kasa-wifi.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-wifi](/img/2016/09/19.hs110-smart-plug-inteligentne-gniazdko-kasa-wifi.png#medium)
 
 Czekamy chwilkę na podłączenie gniazdka do sieci bezprzewodowej. W moim przypadku poszło coś nie
 tak. Hasło było prawidłowe ale zobaczyłem jedynie poniższy komunikat:
 
-![](/img/2016/09/20.hs110-smart-plug-inteligentne-gniazdko-problem-wifi.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-problem-wifi](/img/2016/09/20.hs110-smart-plug-inteligentne-gniazdko-problem-wifi.png#medium)
 
 Nie mam pojęcia dlaczego taka sytuacja zaistniała ale widać moje 64 znakowe hasło nie jest
 akceptowane przez gniazdko. Zastosowanie krótszego hasła rozwiązało ten problem:
 
-![](/img/2016/09/21.hs110-smart-plug-inteligentne-gniazdko-kasa-sukces.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-sukces](/img/2016/09/21.hs110-smart-plug-inteligentne-gniazdko-kasa-sukces.png#medium)
 
 Mając podłączone gniazdko po WiFi do sieci domowej, jego AP zostaje dezaktywowany i nikt nie spoza
 naszej sieci nie będzie w stanie się połączyć z tym Smart Plug'iem.
@@ -194,14 +194,14 @@ naszej sieci nie będzie w stanie się połączyć z tym Smart Plug'iem.
 Sprawdźmy zatem co to inteligentne gniazdko potrafi. Po dodaniu urządzenia, w aplikacji KASA
 powinniśmy mieć je na liście urządzeń:
 
-![](/img/2016/09/22.hs110-smart-plug-inteligentne-gniazdko-kasa-urzadzenia.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-urzadzenia](/img/2016/09/22.hs110-smart-plug-inteligentne-gniazdko-kasa-urzadzenia.png#medium)
 
 Jak widzimy, pod nazwą `Morfik's Plug` mamy informację, że to urządzenie jest zarządzane lokalnie.
 Ikonka power po prawej stronie wskazuje nam czy ten Smart Plug jest aktualnie włączony czy
 wyłączony. Obecnie status wskazuje na wyłączony. Kliknijmy w tę ikonkę, by gniazdko mogło
 dostarczyć zasilanie podpiętemu do niego urządzeniu:
 
-![](/img/2016/09/23.hs110-smart-plug-inteligentne-gniazdko-kasa-urzadzenia.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-urzadzenia](/img/2016/09/23.hs110-smart-plug-inteligentne-gniazdko-kasa-urzadzenia.png#medium)
 
 Ikonka ikonka zmieniła kolor, a my powinniśmy usłyszeć charakterystyczny dźwięk wydobywający się z
 gniazdka. Trochę przypomina on ten, który zwykle można było usłyszeć w grach z serii Resident Evil,
@@ -214,7 +214,7 @@ Bardzo użyteczną właściwością HS110 jest licznik energii. Przy jego pomocy
 aktualne zużycie prądu jakiegoś urządzenia czy urządzeń jeśli do naszego Smart Plug'a została
 podłączona listwa. Poniżej przykład mojego laptopa podczas pisania tego artykułu:
 
-![](/img/2016/09/24.hs110-smart-plug-inteligentne-gniazdko-kasa-pobor-energii.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-pobor-energii](/img/2016/09/24.hs110-smart-plug-inteligentne-gniazdko-kasa-pobor-energii.png#medium)
 
 Nie jest źle. Jak widzimy wyżej, mamy również licznik kWh, przez co łatwiej będzie można przeliczyć
 ile kosztuje nas eksploatacja takiego urządzenia w skali miesiąca, czy co ile nam tam rachunki za
@@ -228,7 +228,7 @@ przypadku, gdy pewne urządzenia nie mają pracować w nocy, np. od godziny 23-6
 zaprogramować HS110, by automatycznie odciął zasilanie o godzinie 23 i podłączył je o 6 rano,
 poniżej przykład:
 
-![](/img/2016/09/25.hs110-smart-plug-inteligentne-gniazdko-kasa-harmonogram.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-harmonogram](/img/2016/09/25.hs110-smart-plug-inteligentne-gniazdko-kasa-harmonogram.png#medium)
 
 Takich zdarzeń może być maksymalnie 32. Poza godzinami włączenia/wyłączenia gniazdka, mamy także
 możliwość określenia czy ta czynność ma być powtarzana, jeśli tak to w jakie dni tygodnia.
@@ -243,7 +243,7 @@ będzie się automatycznie włączać i wyłączać losowo podczas ustawionego p
 zatem podłączyć jakąś lampkę czy niezbyt głośną maszynę i ustawić godziny 18-22 oraz dni Po, Wt, Cz,
 Pi i So:
 
-![](/img/2016/09/26.hs110-smart-plug-inteligentne-gniazdko-kasa-away-mode.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-away-mode](/img/2016/09/26.hs110-smart-plug-inteligentne-gniazdko-kasa-away-mode.png#medium)
 
 Przy losowych zdarzeniach w godzinach, w których złodzieje zwykle spodziewają się lokatorów, raczej
 nie musimy się martwić, że coś złego się nam przytrafi.
@@ -259,7 +259,7 @@ i 30 minut. Jesteśmy też nieco zmęczeni i wiemy, że nie dotrwamy do końca f
 gdzieś w jego połowie. Nasz Smart Plug wyłączy za nas TV po upłynięciu tego okresu czasu. My tylko
 musimy go odpowiednio ustawić:
 
-![](/img/2016/09/27.hs110-smart-plug-inteligentne-gniazdko-kasa-zegar.png#medium)
+![hs110-smart-plug-inteligentne-gniazdko-kasa-zegar](/img/2016/09/27.hs110-smart-plug-inteligentne-gniazdko-kasa-zegar.png#medium)
 
 W przypadku, gdy czas zegara nałoży się na jedno z zaplanowanych w harmonogramie zadań, to takie
 zadanie nie zostanie zainicjowane. Podobnie sprawa ma się z Away Mode, z tym, że tutaj ten tryb

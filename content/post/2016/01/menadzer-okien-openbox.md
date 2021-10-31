@@ -86,7 +86,7 @@ zobaczymy jedynie szary pulpit i to właśnie jest Openbox. Nie zrażajmy się j
 pozory, a jak wiadomo mogą one mylić. Poniżej jest fotka obrazująca jak można dostosować sobie
 wygląd tego ogołoconego środowiska.
 
-![](/img/2016/01/1.srodowisko-graficzne-openbox.png#huge)
+![srodowisko-graficzne-openbox](/img/2016/01/1.srodowisko-graficzne-openbox.png#huge)
 
 Także jak widać, ogranicza nas jedynie nasza wyobraźnia i potrzeby. Tak czy inaczej, by przekuć tego
 standardowego szaraka w nieco bardziej wyrafinowany pod względem wyglądu desktop, musimy zając się
@@ -181,7 +181,7 @@ możemy sobie zrobić ręcznie lub też zaprzęgnąć do roboty jakiś automat. 
 generator spowolni trochę działanie samego menu, no i oczywiście doda w nim sporo śmieci. Dlatego
 też plik `menu.xml` najlepiej sobie dostosować ręcznie albo też korzystając z narzędzia `obmenu` :
 
-![](/img/2016/01/2.openbox-obmenu.png#big)
+![openbox-obmenu](/img/2016/01/2.openbox-obmenu.png#big)
 
 Po każdej edycji menu trzeba przeładować konfigurację Openbox'a przy pomocy tego poniższego
 polecenia:
@@ -193,7 +193,7 @@ polecenia:
 Wygląd Openbox'a, co prawda, nie powala na pierwszy rzut oka ale można go bez problemu zmienić.
 Trzeba tylko ustawić odpowiedni motyw, np. używając do tego celu narzędzia `obconf` :
 
-![](/img/2016/01/3.openbox-obconf.png#big)
+![openbox-obconf](/img/2016/01/3.openbox-obconf.png#big)
 
 Jak widzimy wyżej, mamy dość sporo rzeczy, które możemy sobie dostosować w tym okienku. Wszelkie
 wprowadzone zmiany są zapisywane w pliku `~/.config/openbox/rc.xml` i na dobrą sprawę, korzystanie z
@@ -205,14 +205,14 @@ okna. Cała zawartość, która znajduje się w takim okienku jest już rysowana
 lub QT, w zależności od tego z jaką aplikacją mamy do czynienia. Motyw dla GTK możemy wybrać w
 `lxappearance` . Możemy w nim także dostosować ikonki, style myszki czy też wygląd czcionek:
 
-![](/img/2016/01/4.openbox-konfiguracja-lxappearance.png#big)
+![openbox-konfiguracja-lxappearance](/img/2016/01/4.openbox-konfiguracja-lxappearance.png#big)
 
 Po zapisaniu ustawień, zostaną wygenerowane pliki `~/.gtk2rc-2.0` oraz
 `~/.config/gtk-3.0/settings.ini` zawierające wskazane wyżej ustawienia.
 
 Motyw QT jest konfigurowany za pomocą narzędzia `qtconfig` :
 
-![](/img/2016/01/5.openbox-qtconfig.png#big)
+![openbox-qtconfig](/img/2016/01/5.openbox-qtconfig.png#big)
 
 To narzędzie z kolei wygeneruje plik `~/.config/Trolltech.conf` .
 
@@ -250,7 +250,7 @@ wpis dla skrótu wygląda mniej więcej tak:
 Ręczna edycja tego pliku jest mało wygodna ale można skorzystać z graficznego narzędzia `obkey` ,
 które znacznie ułatwia definiowanie skrótów:
 
-![](/img/2016/01/6.openbox-obkey.png#big)
+![openbox-obkey](/img/2016/01/6.openbox-obkey.png#big)
 
 ### Rozmieszczanie okien
 

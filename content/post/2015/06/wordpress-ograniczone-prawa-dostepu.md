@@ -75,7 +75,7 @@ Jeśli chodzi o katalog `plugins/` , to również i w tym przypadku prawa do zap
 jedynie właściciel. Trzeba jednak mieć na uwadze, że nie zainstalujemy/zaktualizujemy już pluginów z
 poziomu panelu admina, przy najmniej nie z taką prostotą jak dotychczas:
 
-![](/img/2015/06/1.wordpress-problemy-przez-restrykcyjne-prawa.png#medium)
+![wordpress-problemy-przez-restrykcyjne-prawa](/img/2015/06/1.wordpress-problemy-przez-restrykcyjne-prawa.png#medium)
 
 Po zmianie praw będziemy zmuszeni albo do korzystania z ftp/ftps, tak jak to widać wyżęj, albo z
 `wp-cli` .
@@ -103,7 +103,7 @@ problemu potrafi operować na bardziej restrykcyjnych prawach, w których skład
 posty na blogu, dodawać użytkowników, wysyłać załączniki, dodawać komentarze pod wpisami, czy
 instalować motywy/pluginy.
 
-![](/img/2015/06/2.wordpress-mysql-prawa-uzytkownika.png#big)
+![wordpress-mysql-prawa-uzytkownika](/img/2015/06/2.wordpress-mysql-prawa-uzytkownika.png#big)
 
 Jeśli ktoś woli tekstowego klienta, to poniżej są odpowiednie linijki:
 

@@ -33,11 +33,11 @@ oraz applet) , czyli dodatkowej zakładki zawierającej polecenia JavaScript, kt
 funkcjonalność samej przeglądarki. By utworzyć taki bookmarklet, po prostu postępujemy zgodnie z
 instrukcjami na stronie projektu, tj. przeciągamy na pasek zakładek ten poniższy przycisk:
 
-![](/img/2015/06/1.supergenpass-bookmarklet.png#medium)
+![supergenpass-bookmarklet](/img/2015/06/1.supergenpass-bookmarklet.png#medium)
 
 Jeśli teraz klikniemy w nowo utworzoną zakładkę, to powinno nam się wyświetlić to poniższe okienko:
 
-![](/img/2015/06/2.supergenpass-okno-glowne.png#small)
+![supergenpass-okno-glowne](/img/2015/06/2.supergenpass-okno-glowne.png#small)
 
 Mamy tam Master Password (hasło główne) oraz morfitronix.lh (domenę). W oparciu o te dwa parametry
 zostanie wygenerowany hash (md5 lub sha1). Hasło jest tworzone na zasadzie karmienia funkcji
@@ -66,7 +66,7 @@ zawsze obecna jest co najmniej jedna wielka litera oraz jedna cyfra. Hasło nie 
 Spróbujmy zatem przetestować ten mechanizm na przykładowym blogu WordPressa. Wchodzimy na stronę
 logowania:
 
-![](/img/2015/06/3.supergenpass-haslo-generowanie.png#big)
+![supergenpass-haslo-generowanie](/img/2015/06/3.supergenpass-haslo-generowanie.png#big)
 
 Po czym uzupełniamy hasło główne i klikamy `generate` :
 
@@ -75,7 +75,7 @@ Po czym uzupełniamy hasło główne i klikamy `generate` :
 Hasło zostało automatycznie wpisane w odpowiednie miejsce. Problem z tym rozwiązaniem jest taki, że
 dalej trzeba ręcznie wpisać nazwę konta. Przynajmniej zmiana hasła działa bez problemu:
 
-![](/img/2015/06/5.supergenpass-haslo-zmiana.png#huge)
+![supergenpass-haslo-zmiana](/img/2015/06/5.supergenpass-haslo-zmiana.png#huge)
 
 Jak widać, można mieć jedno, a wykorzystywać wiele skomplikowanych haseł bez większego wysiłku w
 każdym serwisie, w którym posiadamy jakieś konto.

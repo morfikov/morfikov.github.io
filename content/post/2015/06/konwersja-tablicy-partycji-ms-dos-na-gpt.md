@@ -29,7 +29,7 @@ z MS-DOS na GPT jak i odwrotnie, choć w tym drugim przypadku trzeba się troch�
 Do celów testowych wykorzystam mój stary dysk, na którym to są obecne 4 partycje, w tym jedna
 rozszerzona, na której to zostały ulokowane dwa dyski logiczne:
 
-![](/img/2015/06/3.dysk-po-konwersji-tablicy-ms-dos-na-gpt.png#huge)
+![dysk-po-konwersji-tablicy-ms-dos-na-gpt](/img/2015/06/3.dysk-po-konwersji-tablicy-ms-dos-na-gpt.png#huge)
 
 Tak z kolei wygląda dysk widziany oczami `parted` , z tym, że z uwzględnieniem wolnych przestrzeni:
 
@@ -53,7 +53,7 @@ By przeprowadzić bezproblemowo konwersję tablicy partycji MS-DOS na GPT, trzeb
 wolnego miejsca na początku i na końcu dysku. Ile? Struktura GPT wygląda tak jak na rysunku poniżej
 (zaczerpnięty z [wiki][2]):
 
-![](/img/2015/06/2.gpt-schemat.png#medium)
+![gpt-schemat](/img/2015/06/2.gpt-schemat.png#medium)
 
 Mamy tam zatem po jednym sektorze na MBR oraz nagłówek GPT, oraz 32 sektory na tablicę partycji.
 Łącznie daje to 34 sektory 512 bajtowe, co przekłada się na `17408` bajtów wolnego miejsca na
@@ -118,7 +118,7 @@ Sprawdzamy, czy faktycznie tablica partycji uległa zmianie:
 Czyli proces bez problemu się zakończył. Rzućmy jeszcze okiem na to jak wygląda struktura partycji w
 `gparted` :
 
-![](/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png#huge)
+![konwersja-ms-dos-gpt-layout-dysk](/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png#huge)
 
 Są widoczne jakieś dwie dziury. Może `parted` nam coś więcej podpowie:
 
@@ -149,7 +149,7 @@ kod bootloader'a o rozmiarze minimum 1MiB, najlepiej dać tam 128MiB. Ważne jes
 ustawioną flagę `bios_grub` . Ja wyciąłem ten kawałek z pierwszej partycji. Cały układ powinien
 zatem wyglądać tak jak na obrazku poniżej:
 
-![](/img/2015/06/4.odpowiedni-uklad-partycji-gpt.png#huge)
+![odpowiedni-uklad-partycji-gpt](/img/2015/06/4.odpowiedni-uklad-partycji-gpt.png#huge)
 
 Jeśli na dysku mieliśmy system operacyjny, to trzeba także przeinstalować bootloader przy pomocy
 [środowiska chroot][4], najlepiej z poziomu [systemu live].

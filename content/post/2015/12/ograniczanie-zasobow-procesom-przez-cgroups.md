@@ -96,7 +96,7 @@ pakiecie `lxc` . Po weryfikacji, pakiet `lxc` możemy zwyczajnie usunąć, chyba
 jest w porządku. Generalnie rzecz biorąc, to wszystkie pozycje powinny nam się zapalić na zielono,
 tak jak to widać na fotce poniżej:
 
-![](/img/2015/12/1.cgroups-konfiguracja-linux-debian.png#big)
+![cgroups-konfiguracja-linux-debian](/img/2015/12/1.cgroups-konfiguracja-linux-debian.png#big)
 
 Operowanie na cgroups odbywa się przez identyfikację procesu i aplikowanie reguł, co do tego ile
 zasobów ten proces może wykorzystać. Tylko RAM można ustawić na sztywno. Pozostałe parametry nie

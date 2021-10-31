@@ -27,7 +27,7 @@ Jeśli nasza sesja na blogu nie wygasła i jesteśmy w stanie się na niego zalo
 ciasteczek, to bez problemu możemy zmienić hasło przez panel administracyjny (Users => Your
 Profile):
 
-![](/img/2015/05/1.zmiana-hasla-przez-panel-admina.png#huge)
+![zmiana-hasla-przez-panel-admina](/img/2015/05/1.zmiana-hasla-przez-panel-admina.png#huge)
 
 ## Formularz logowania
 
@@ -36,4 +36,4 @@ logowania/rejestracji, to zawsze pod tym formularzem mamy opcję odzyskiwania ha
 swój login lub email, to nie będzie problemu z przesłaniem linku, przy pomocy którego zresetujemy
 sobie hasło:
 
-![](/img/2015/05/2.zmiana-hasla-przez-email.png#small)
+![zmiana-hasla-przez-email](/img/2015/05/2.zmiana-hasla-przez-email.png#small)

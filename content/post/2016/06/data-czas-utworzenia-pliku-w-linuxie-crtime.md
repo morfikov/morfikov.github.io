@@ -33,7 +33,7 @@ Z tego co wyczytałem na necie, linux oferuje trzy znaczniki czasu, o których b
 Niemniej jednak, jeśli popatrzymy sobie na wyjście narzędzia `stat` , to mamy tam jedna pozycję,
 która nie jest określona. Poniżej jest przykład:
 
-![](/img/2016/06/1.stat-data-czas-utworzenia-pliku.png#huge)
+![stat-data-czas-utworzenia-pliku](/img/2016/06/1.stat-data-czas-utworzenia-pliku.png#huge)
 
 Mamy tutaj pozycje `Access:` (czas dostępu), `Modify:` (czas modyfikacji) oraz `Change:` (czas
 zmiany). Niżej mamy także `Birth:` , który jest pusty. To właśnie tutaj powinna być zawarta data i
@@ -57,7 +57,7 @@ polecenie:
 W ten sposób powinniśmy uzyskać informacje podobne do tych, które zostały zwrócone za sprawą
 `stat` :
 
-![](/img/2016/06/2.debugfs-data-czas-utworzenia-pliku-ext4.png#huge)
+![debugfs-data-czas-utworzenia-pliku-ext4](/img/2016/06/2.debugfs-data-czas-utworzenia-pliku-ext4.png#huge)
 
 Widzimy tutaj już, że `crtime:` wskazuje na określoną datę i czas: `Tue Jun 7 16:21:23 2016` . Różni
 się ona od tych trzech pozostałych i jak możemy zauważyć jest ona również najstarsza. To jest

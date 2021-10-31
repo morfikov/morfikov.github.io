@@ -72,7 +72,7 @@ zamaskować tę drugą usługę. Robimy to w poniższy sposób:
 
 Sprawdzamy też czy ta pożądana przez nas usługa działa poprawnie:
 
-![](/img/2016/01/1.backlight-systemd-usluga.png#huge)
+![backlight-systemd-usluga](/img/2016/01/1.backlight-systemd-usluga.png#huge)
 
 ## Backlight i Xserver
 

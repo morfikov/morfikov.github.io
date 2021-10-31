@@ -60,7 +60,7 @@ dostaniemy informację o byciu programistą. W tej chwili w Ustawieniach pojawi 
 "Opcje programistyczne". Tam z kolei zaznaczamy opcję "Zdjęcie blokady
 OEM".
 
-![](/img/2017/03/001.neffos-smartfon-tp-link-root-unlock-bootloader.png#huge)
+![neffos-smartfon-tp-link-root-unlock-bootloader](/img/2017/03/001.neffos-smartfon-tp-link-root-unlock-bootloader.png#huge)
 
 Zdjęcie blokady OEM umożliwi odblokowanie bootloader'a. Pamiętajmy jednak, że proces odblokowania
 bootloader'a usuwa wszystkie dane użytkownika, tj. podczas odblokowywania jest inicjowany Factory
@@ -223,20 +223,20 @@ wybrać Reboot =\> System. Przed zresetowaniem urządzenia, TWRP wyrzuci informa
 nie ma jeszcze root'a i zapyta nas czy chcemy zainstalować SuperSU (w przypadku Neffos X1 niestety
 trzeba instalować manualnie za pomocą [paczki dostępnej tutaj][21]):
 
-![](/img/2017/03/003.neffos-smartfon-tp-link-root-twrp-instalacja-supersu.png#big)
+![neffos-smartfon-tp-link-root-twrp-instalacja-supersu](/img/2017/03/003.neffos-smartfon-tp-link-root-twrp-instalacja-supersu.png#big)
 
 TWRP zainstalował również swoją aplikację, która ma na celu umożliwić łatwą aktualizację obrazów
 TWRP, gdy zostanie wypuszczona nowa wersją tego trybu recovery (można ją też pobrać z Google
 Play).
 
-![](/img/2017/03/004.neffos-smartfon-tp-link-root-instalacja-supersu.png#small)
+![neffos-smartfon-tp-link-root-instalacja-supersu](/img/2017/03/004.neffos-smartfon-tp-link-root-instalacja-supersu.png#small)
 
 Na tych dodatkowych ikonkach widocznych wyżej trzeba kliknąć i postępować zgodnie z instrukcjami
 aktualizacji:
 
-![](/img/2017/03/005.neffos-smartfon-tp-link-root-instalacja-supersu.png#huge)
+![neffos-smartfon-tp-link-root-instalacja-supersu](/img/2017/03/005.neffos-smartfon-tp-link-root-instalacja-supersu.png#huge)
 
-![](/img/2017/03/006.neffos-smartfon-tp-link-instalacja-twrp.png#huge)
+![neffos-smartfon-tp-link-instalacja-twrp](/img/2017/03/006.neffos-smartfon-tp-link-instalacja-twrp.png#huge)
 
 Po zainstalowaniu, restartujemy smartfon.
 
@@ -246,7 +246,7 @@ Po zresetowaniu urządzenia możemy sprawdzić czy Android w naszym Neffos'ie zo
 np. doinstalowując sobie [jedną z aplikacji][22], która nam ten sam rzeczy oznajmi. Poniżej są fotki
 obrazujące root smartfonów Neffos C5, C5 MAX, Y5, Y5L i X1:
 
-![](/img/2017/03/007.neffos-smartfon-tp-link-sprawdzenie-root.png#huge)
+![neffos-smartfon-tp-link-sprawdzenie-root](/img/2017/03/007.neffos-smartfon-tp-link-sprawdzenie-root.png#huge)
 
 ![](/img/2017/05/008-neffos-x1-root-check.png#small)
 

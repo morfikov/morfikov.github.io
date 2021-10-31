@@ -78,7 +78,7 @@ Informacje o kluczu jak i certyfikacie serwera FTP możemy podejrzeć za pomocą
 
 Możemy także wykorzystać do tego celu `gcr-viewer` (pakiet `gcr` ) :
 
-![](/img/2016/02/1.certyfikat-vsftpd-gcr-viewer.png#medium)
+![certyfikat-vsftpd-gcr-viewer](/img/2016/02/1.certyfikat-vsftpd-gcr-viewer.png#medium)
 
 ## Konfiguracja SSL/TLS w vsftpd
 
@@ -186,7 +186,7 @@ połączeniem. By te wiadomości zaczęły nam się pokazywać w logu, musimy do
 Poniżej komunikaty z przykładowego logowania z wykorzystaniem metody `Explicit FTP over SSL` bez
 certyfikatów klienckich:
 
-![](/img/2016/02/2.log-vsftpd-ssl-tls-debug.png#huge)
+![log-vsftpd-ssl-tls-debug](/img/2016/02/2.log-vsftpd-ssl-tls-debug.png#huge)
 
 ## Test połączenia z vsftpd
 
@@ -194,7 +194,7 @@ Odpalamy teraz klienta FTP, w tym przypadku będzie to `filezilla` i próbujemy 
 wykorzystując jedną z powyższych metod. Chwilę po wysłaniu żądania połączenia, powinien naszym oczom
 pokazać się mniej więcej taki certyfikat:
 
-![](/img/2016/02/3.vsftpd-certyfikat-polaczenie-filezilla.png#big)
+![vsftpd-certyfikat-polaczenie-filezilla](/img/2016/02/3.vsftpd-certyfikat-polaczenie-filezilla.png#big)
 
 Sprawdzamy go pod kątem poprawności i jeśli wszystko jest w porządku, to akceptujemy.
 

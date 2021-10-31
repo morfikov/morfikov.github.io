@@ -128,7 +128,7 @@ By przekonać się i sprawdzić czy faktycznie ruch przepuszczany jest za pośre
 wchodzimy na pierwszą z brzegu stronę sprawdzającą adres IP. Ja korzystałem z
 <http://whatismyipaddress.com/> . Poniżej wynik:
 
-![](/img/2015/06/1.riseup-vpn-adres-ip-test.png#medium)
+![riseup-vpn-adres-ip-test](/img/2015/06/1.riseup-vpn-adres-ip-test.png#medium)
 
 Właśnie przeprowadziłem się do US. Ale jest mały problem. Połączenia VPN, zwłaszcza te darmowe jak
 riseup, czasem nie są zbyt szybkie. W prawdzie nie ma co porównywać do TORa ale pingi mówią same za

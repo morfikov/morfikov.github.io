@@ -34,13 +34,13 @@ gdy nie możemy z jakiegoś powodu zdalnie się dostać do urządzenia. Niemniej
 zdarzenia są raczej rzadkie, dlatego też przyjrzyjmy się nieco bliżej narzędziu `logread` . Logujemy
 się zatem na router i w terminalu wpisujemy polecenie `logread` :
 
-![](/img/2016/04/1.logread-openwrt-komunikaty-log.png#huge)
+![logread-openwrt-komunikaty-log](/img/2016/04/1.logread-openwrt-komunikaty-log.png#huge)
 
 Wyżej mamy szereg komunikatów, które zostały zwrócone przez działające na routerze usługi.
 Oczywiście log uzyskany w taki sposób jest dość obszerny ale bez problemu może go przefiltrować
 przy pomocy polecenia `grep` :
 
-![](/img/2016/04/2.logread-openwrt-komunikaty-log-filtr.png#huge)
+![logread-openwrt-komunikaty-log-filtr](/img/2016/04/2.logread-openwrt-komunikaty-log-filtr.png#huge)
 
 Każdy komunikat zawiera datę zalogowanej wiadomości `Sat Apr 16` , czyli w tym przypadku sobota, 16
 kwietnia. Dalej mamy dokładny czas `08:29:29` . Następnie mamy rok `2016` chyba. Dziwny zapis. W
@@ -126,4 +126,4 @@ pochodzą z OpenWRT na routerze. Zapisujemy plik i ponownie restartujemy skrypt 
 Od tego momentu, komunikaty powinny być przesyłane przez sieć. Poniżej jest fotka dowodząca, że tak
 jest w istocie:
 
-![](/img/2016/04/3.logread-rsyslog-openwrt-komunikaty-log-siec.png#huge)
+![logread-rsyslog-openwrt-komunikaty-log-siec](/img/2016/04/3.logread-rsyslog-openwrt-komunikaty-log-siec.png#huge)

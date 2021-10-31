@@ -116,7 +116,7 @@ Mając kolejki, możemy przejść do przekierowania pakietów przy pomocy odpowi
 To co zasługuje na uwagę, to `--set-class` . Wartość tego parametru musi pasować do wartości
 `classid` w `tc` , który ustawiliśmy wyżej. Poniżej przykład działania:
 
-![](/img/2015/12/1.ksztaltowanie-ruchu-sieciowego-classify-iptables.png#huge)
+![ksztaltowanie-ruchu-sieciowego-classify-iptables](/img/2015/12/1.ksztaltowanie-ruchu-sieciowego-classify-iptables.png#huge)
 
 ### Cgroups
 
@@ -213,7 +213,7 @@ Nie potrzebujemy żadnych wpisów w `iptables` , bo wszystko jest zarządzane pr
 połączeniu z `tc` . Warto nadmienić, że wartość w `handle 200 cgroup` ma odpowiadać tej określonej
 w pliku `/etc/cgconfig.conf` (0x0001**0200**). Poniżej zaś test:
 
-![](/img/2015/12/2.ksztaltowanie-ruchu-sieciowego-cgroups.png#huge)
+![ksztaltowanie-ruchu-sieciowego-cgroups](/img/2015/12/2.ksztaltowanie-ruchu-sieciowego-cgroups.png#huge)
 
 ## Interfejsy IMQ
 

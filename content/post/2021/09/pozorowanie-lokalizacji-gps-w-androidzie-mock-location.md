@@ -137,7 +137,7 @@ to moduł GPS zaszyty w naszym smartfonie odbiera sygnał GPS z satelitów i po 
 przynajmniej powinien, a w praktyce to różnie bywa. Ikonka lokalizacji na pasku statusu pojawi się
 dopiero wtedy, gdy jakaś aplikacja użytkownika będzie chciała skorzystać z modułu GPS:
 
-![](/img/2021/09/003.android-mock-fake-location-gps-notification.jpg#small)
+![android-mock-fake-location-gps-notification](/img/2021/09/003.android-mock-fake-location-gps-notification.jpg#small)
 
 Także pamiętajmy, że nawet jeśli nie widzimy tej ikonki lokalizacji na pasku statusu, to
 niekoniecznie oznacza to, że odbiornik GPS jest nieaktywny i Android z niego nie korzysta, bo
@@ -149,7 +149,7 @@ Do końca nie wiadome jest jak działa skanowanie Bluetooth i WiFi. Niektórzy p
 znajdują jedynie zastosowanie, gdy GPS jest wyłączony. W takim przypadku Android może być w stanie
 bardzo orientacyjnie określić położenie urządzenia nawet bez podłączania go do internetu.
 
-![](/img/2021/09/007.android-mock-fake-location-gps-wifi-bluetooth-scan.jpg#small)
+![android-mock-fake-location-gps-wifi-bluetooth-scan](/img/2021/09/007.android-mock-fake-location-gps-wifi-bluetooth-scan.jpg#small)
 
 Kiedyś Google Street View zbierał informacje na temat publicznie dostępnych AP (ich ESSID oraz MAC).
 Znając lokalizację samochodu Google, można było powiązać AP z konkretną lokalizacją i ustalić
@@ -174,7 +174,7 @@ W ustawieniach sieci WiFi jest kilka dodatkowych funkcji, na które wypadałoby 
 tam m.in. skanowanie w poszukiwaniu znanych/zapisanych sieci WiFi (przy włączonym radiu), czyli
 tzw. autoconnect:
 
-![](/img/2021/09/008.android-mock-fake-location-gps-wifi-auto-connect.jpg#small)
+![android-mock-fake-location-gps-wifi-auto-connect](/img/2021/09/008.android-mock-fake-location-gps-wifi-auto-connect.jpg#small)
 
 Ten mechanizm działa na takiej zasadzie, że jeśli nie wyłączymy radia WiFi w naszym telefonie, to
 ten co chwilę skanuje eter, by ustalić czy jakieś znane mu sieci WiFi są dostępne, a jeśli tak, to
@@ -189,7 +189,7 @@ robi użytek.
 
 Kolejna sprawa to powiadomienie o publicznych sieciach WiFi oraz ich rankingi:
 
-![](/img/2021/09/009.android-mock-fake-location-gps-wifi-auto-on-public-notif.jpg#small)
+![android-mock-fake-location-gps-wifi-auto-on-public-notif](/img/2021/09/009.android-mock-fake-location-gps-wifi-auto-on-public-notif.jpg#small)
 
 Te ustawienia również są w stanie pomóc w ustaleniu naszego położenia. No i też potrafią
 skonsumować jakiś procent baterii. Jeśli zależy nam na prywatności i przy tym na jak najdłuższej
@@ -198,7 +198,7 @@ pracy telefonu na baterii, to te powyższe opcje powinniśmy powyłączać.
 Jeśli jednak z jakiegoś powodu potrzebujemy tego skanowania za sieciami WiFi, to powinniśmy tez
 rzucić okiem w ustawienia deweloperskie i zainteresować się przełącznikiem `WiFi scan throttling` .
 
-![](/img/2021/09/010.android-mock-fake-location-gps-wifi-scan-throttling.jpg#small)
+![android-mock-fake-location-gps-wifi-scan-throttling](/img/2021/09/010.android-mock-fake-location-gps-wifi-scan-throttling.jpg#small)
 
 Gdy to [dławienie skanowania WiFi][13] jest włączone, to aplikacje działające w tle będą mogły
 dokonywać skanowania jedynie raz na 30 minut. Wciąż jednak będą mogły to robić, choć sporo rzadziej
@@ -211,7 +211,7 @@ Usługa Google Location Accuracy (znana też jako Google Location Services) ma n
 dokładność lokalizacji poprzez zaprzęgnięcie do tego celu dodatkowych mechanizmów, takich jak
 sieci GSM, WiFi czy wskazania sensorów smartfona.
 
-![](/img/2021/09/014.android-mock-fake-location-gps-google-accuracy.jpg#small)
+![android-mock-fake-location-gps-google-accuracy](/img/2021/09/014.android-mock-fake-location-gps-google-accuracy.jpg#small)
 
 [Z informacji które znajdują się tutaj][12] wynika, że ta usługa działa na zasadzie skanowania i
 rejestrowania komórek operatora GSM (Cell-ID) oraz publicznych sieci WiFi (ESSID, MAC) i
@@ -231,7 +231,7 @@ Kolejną pozycją w zakładce lokalizacji jest Emergency Location Service (ELS).
 ma na celu przesłać dane z GPS z telefonu do służb ratunkowych po wybraniu numeru alarmowego (w
 Europie 112).
 
-![](/img/2021/09/011.android-mock-fake-location-gps-els.jpg#small)
+![android-mock-fake-location-gps-els](/img/2021/09/011.android-mock-fake-location-gps-els.jpg#small)
 
 Jak można [przeczytać na stronie Google][14], ten cały ELS jest wbudowany w Androida (Google Play
 Services), no i ma m.in. dostęp do naszej lokalizacji praktycznie non stop. Jasne, że w przypadku
@@ -257,7 +257,7 @@ tj. nie mamy np. odpalonej nawigacji. Zatem jeśli tylko mamy telefon przy sobie
 rejestrował naszą pozycję i przesyłał te dane do Google, tak by każdy chętny mógł się z nimi
 zapoznać (oczywiście za naszą świadomą i dobrowolną zgodą).
 
-![](/img/2021/09/012.android-mock-fake-location-gps-google-history.jpg#small)
+![android-mock-fake-location-gps-google-history](/img/2021/09/012.android-mock-fake-location-gps-google-history.jpg#small)
 
 Jeśli nie mamy problemów z pamięcią i doskonale potrafimy się odnaleźć w otaczającej nas
 rzeczywistości (szczególnie tej realnej), to nie ma praktycznie żadnego powodu, by historię
@@ -269,7 +269,7 @@ Kolejna sprawa dotyczy udostępniania naszego aktualnego położenia w czasie rz
 urządzeniom, które wskażemy. Dzięki tej opcji, każdy (za naszym świadomym przyzwoleniem) może
 sprawdzić, gdzie aktualnie się znajdujemy i co robimy, np. czy nie ma nas w domu.
 
-![](/img/2021/09/013.android-mock-fake-location-gps-google-share.jpg#small)
+![android-mock-fake-location-gps-google-share](/img/2021/09/013.android-mock-fake-location-gps-google-share.jpg#small)
 
 Na telefonie kochanki (albo jej męża) taka opcja jak najbardziej się przydaje ale nie zalecam jej
 włączać u siebie.
@@ -447,7 +447,7 @@ deweloperskich jako aplikację do pozorowania lokalizacji:
 Pozostało nam już w zasadzie uruchomienie appki Fake Traveler i wskazanie na mapie położenia, które
 chcemy pozorować, po czym klikamy `APPLY` widoczny w prawym górnym rogu:
 
-![](/img/2021/09/018.android-mock-fake-location-gps-fake-traveler-app-set.jpg#small)
+![android-mock-fake-location-gps-fake-traveler-app-set](/img/2021/09/018.android-mock-fake-location-gps-fake-traveler-app-set.jpg#small)
 
 Naturalnie, nie ma co wierzyć tej aplikacji na słowo, że nasza lokalizacja została zamaskowana.
 Możemy ten fakt zweryfikować przez uruchomienie dowolnej appki, która korzysta z lokalizacji, np.

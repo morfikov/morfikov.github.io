@@ -32,9 +32,9 @@ a konkretnie na dystrybucji Debian, której używam na co dzień.
 Na początek jak zawsze fotki omawianego urządzenia. W przypadku adaptera UE300 nie ma ich zbyt
 wiele, bo sam adapter jest w miarę prosty i niezbyt skomplikowany.
 
-![](/img/2016/12/001.ue300-tp-link-ethernet-adapter-usb3-pudelko.jpg#big)
+![ue300-tp-link-ethernet-adapter-usb3-pudelko](/img/2016/12/001.ue300-tp-link-ethernet-adapter-usb3-pudelko.jpg#big)
 
-![](/img/2016/12/002.ue300-tp-link-ethernet-adapter-usb3-zawartosc-pudelka.jpg#big)
+![ue300-tp-link-ethernet-adapter-usb3-zawartosc-pudelka](/img/2016/12/002.ue300-tp-link-ethernet-adapter-usb3-zawartosc-pudelka.jpg#big)
 
 ## Specyfikacja adaptera UE300
 
@@ -42,12 +42,12 @@ Adapter UE300 jakby nie patrzeć to w końcu zwykły kawałek sieciowego czipu w
 wyprowadzonym interfejsem USB 3.0 z jednej strony i gigabitowym portem Ethernet (RJ-45) z drugiej.
 Jeśli ktoś jest ciekaw wymiarów tego adaptera, to oto i one: 71x26x16 mm (dł/sz/wy).
 
-![](/img/2016/12/004.ue300-tp-link-ethernet-adapter-usb3-interfejs.jpg#big)
+![ue300-tp-link-ethernet-adapter-usb3-interfejs](/img/2016/12/004.ue300-tp-link-ethernet-adapter-usb3-interfejs.jpg#big)
 
 Na górnej części obudowy, znajduje się także biała dioda sygnalizująca stan połączenia/zasilania
 urządzenia:
 
-![](/img/2016/12/003.ue300-tp-link-ethernet-adapter-usb3-dioda.jpg#big)
+![ue300-tp-link-ethernet-adapter-usb3-dioda](/img/2016/12/003.ue300-tp-link-ethernet-adapter-usb3-dioda.jpg#big)
 
 ### Czip RTL8153
 

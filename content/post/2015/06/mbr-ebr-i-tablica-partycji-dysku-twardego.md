@@ -33,7 +33,7 @@ znajdują się 2 bajty sygnatury rozruchu. W sumie daje to 512 bajtów. Poniżej
 ([źródło](http://www.invoke-ir.com/2015/05/ontheforensictrail-part2.html)) przestawiająca
 strukturę MBR, na wypadek gdyby ktoś miał problemy z wyobraźnią:
 
-![](/img/2015/06/1.struktura-mbr.png#huge)
+![struktura-mbr](/img/2015/06/1.struktura-mbr.png#huge)
 
 Wraz ze wzrostem pojemności dysków i zapotrzebowaniem na kolejne partycje, pojawił się problem
 ograniczenia ich liczby jedynie do 4. Jako tymczasowe rozwiązanie zaproponowano
@@ -42,7 +42,7 @@ partycji rozszerzonej, na której można ulokować dowolną liczbę dysków logi
 posiada 512 bajtów i praktycznie niczym nie różni się od MBR, za wyjątkiem sposobu działania. Rzućmy
 zatem okiem na poniższą fotkę ([źródło](http://thestarman.pcministry.com/asm/mbr/PartTables2.htm)):
 
-![](/img/2015/06/2.struktura-mbr-ebr.png#big)
+![struktura-mbr-ebr](/img/2015/06/2.struktura-mbr-ebr.png#big)
 
 Wyżej mamy rozrysowaną dokładnie partycję rozszerzoną. Jej wpis w MBR niczym nie różni się od
 pozostałych partycji podstawowych. Generalnie rzecz biorąc, to z punktu widzenia maszyny, ten

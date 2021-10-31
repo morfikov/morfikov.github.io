@@ -78,7 +78,7 @@ internetowej, musimy zresetować połączenie sieciowe na komputerze. Później 
 pasku adresu `http://192.168.0.1/` i naszym oczom powinien ukazać się formularz logowania. Domyślny
 użytkownik to `admin` , hasło również `admin` . Logujemy się i konfigurujemy router.
 
-![](/img/2016/04/1.tp-link-router-openwrt-firmware.png#huge)
+![tp-link-router-openwrt-firmware](/img/2016/04/1.tp-link-router-openwrt-firmware.png#huge)
 
 ## Aktualizacja oryginalnego firmware
 
@@ -87,19 +87,19 @@ Przechodzimy zatem na [stronę TP-LINK'a](http://www.tp-link.com.pl/download-cen
 pobrania firmware przeznaczonego dla naszego routera. Na początek wybieramy odpowiednią wersję
 routera:
 
-![](/img/2016/04/2.tp-link-router-openwrt-firmware.png#huge)
+![tp-link-router-openwrt-firmware](/img/2016/04/2.tp-link-router-openwrt-firmware.png#huge)
 
 Następnie przewijamy stronę i na dole powinien znajdować się link do firmware:
 
-![](/img/2016/04/3.tp-link-router-openwrt-firmware.png#huge)
+![tp-link-router-openwrt-firmware](/img/2016/04/3.tp-link-router-openwrt-firmware.png#huge)
 
 Pobieramy plik i wypakowujemy zawartość. Na dysku powinniśmy mieć plik
 `wr1043v2_en_3_19_32_up_boot(150910).bin` . Wracamy teraz do panelu administracyjnego routera i
 przechodzimy kolejno do System Tools -> Firmware Upgrade. Wskazujemy plik i klikamy Upgrade:
 
-![](/img/2016/04/4.tp-link-router-openwrt-firmware.png#huge)
+![tp-link-router-openwrt-firmware](/img/2016/04/4.tp-link-router-openwrt-firmware.png#huge)
 
 Po chwili firmware powinien zostać aktualizowany do najnowszej wersji dostępnej na stronie
 TP-LINK'a:
 
-![](/img/2016/04/5.tp-link-router-openwrt-firmware.png#huge)
+![tp-link-router-openwrt-firmware](/img/2016/04/5.tp-link-router-openwrt-firmware.png#huge)

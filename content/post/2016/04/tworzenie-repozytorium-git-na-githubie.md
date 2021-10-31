@@ -264,7 +264,7 @@ Zostało dodanych kilka obiektów, oraz został utworzony log.
 
 Sam log można przeglądać przy pomocy polecenia `git log` , przykładowo:
 
-![](/img/2016/04/1.git-log.png#huge)
+![git-log](/img/2016/04/1.git-log.png#huge)
 
 Log dokumentuje wszystkie operacje, które zostały przeprowadzone na repozytorium. W przypadku, gdy
 wprowadzamy wiele zmian, powyższe polecenie może nam zwrócić sporo informacji. Oczywiście, możemy
@@ -275,26 +275,26 @@ kilka przykładów.
 
 Uwzględnianie zmian dokonanych w poszczególnych w commit'ach ( `git log -p` ):
 
-![](/img/2016/04/2.git-log-diff.png#huge)
+![git-log-diff](/img/2016/04/2.git-log-diff.png#huge)
 
 Zwracanie kilka ostatnich pozycji w logu ( `git log -2` ):
 
-![](/img/2016/04/3.git-log-ostatnie-zmiany.png#huge)
+![git-log-ostatnie-zmiany](/img/2016/04/3.git-log-ostatnie-zmiany.png#huge)
 
 Zwracanie wybranego commit'a ( `git log 4de0d7f` ). Poniżej został zwrócony commit w oparciu o kilka
 pierwszych znaków hasha. Przydatne jeśli chcemy wyświetlić informacje, a dysponujemy jedynie tym
 ciągiem.
 
-![](/img/2016/04/4.git-log-commit.png#huge)
+![git-log-commit](/img/2016/04/4.git-log-commit.png#huge)
 
 Zwracanie commit'ów z określonego przedziału czasowego ( `git log --since=14.months --until=now` ) .
 Można także używać dat w postaci `git log --until="2015-02-18 12:22:00"` :
 
-![](/img/2016/04/5.git-log-time.png#huge)
+![git-log-time](/img/2016/04/5.git-log-time.png#huge)
 
 Wyświetlanie commit'ów określonego autora `git log --author=morfik` :
 
-![](/img/2016/04/6.git-log-autor.png#huge)
+![git-log-autor](/img/2016/04/6.git-log-autor.png#huge)
 
 Co ciekawe, `morfik` zwraca szereg wpisów, mimo, że nie ma tam takiego autora. W manie z kolei można
 wyczytać, że w `--author=` podaje się jedynie wzór wyszukiwania autora, a nie jego dokładną nazwę.
@@ -302,11 +302,11 @@ Zatem wszystkie commit'y zawierające w polu `Author` frazę `morfik` zostaną z
 
 Statystyki commit'ów ( `git log --stat` ):
 
-![](/img/2016/04/7.git-log-statystyki.png#huge)
+![git-log-statystyki](/img/2016/04/7.git-log-statystyki.png#huge)
 
 Dostosowywanie wyglądu loga ( `git log --graph --decorate --oneline` ) :
 
-![](/img/2016/04/8.git-log-pretty-format.png#huge)
+![git-log-pretty-format](/img/2016/04/8.git-log-pretty-format.png#huge)
 
 Powyższe opcje możemy łączyć. Dostaniemy w ten sposób bardziej przefiltrowany log.
 
@@ -316,13 +316,13 @@ Pora przesłać kopię repozytorium na github'a. Pierw jednak musimy odwiedzić 
 github'a](https://github.com) i utworzyć tam repozytorium. Nie da rady inaczej stworzyć repo na
 github'ie, zwłaszcza jeśli ma się włączone uwierzytelnianie dwuskładnikowe.
 
-![](/img/2016/04/10.tworzenie-repozytorium-git-github.png#huge)
+![tworzenie-repozytorium-git-github](/img/2016/04/10.tworzenie-repozytorium-git-github.png#huge)
 
 Jako, że wcześniej stworzyliśmy plik `README.md` i `LICENCE` , to nie musimy ich tutaj definiować,
 bo zostaną przesłane przy synchronizacji. Po pomyślnym utworzeniu repozytorium, powinno zostać
 wyświetlone podsumowanie:
 
-![](/img/2016/04/11.tworzenie-repozytorium-git-github.png#huge)
+![tworzenie-repozytorium-git-github](/img/2016/04/11.tworzenie-repozytorium-git-github.png#huge)
 
 Jak widać, mamy tam między innymi linki potrzebne do synchronizacji. Jest tam zarówno https jak i
 ssh. Dodatkowo, jest też instrukcja jak stworzyć lokalne repozytorium (to już zrobiliśmy) i jak
@@ -359,7 +359,7 @@ Zgodnie z instrukcją wydajemy poniższe polecenie:
 
 W tej chwili odwiedzając repozytorium na github'ie powinniśmy ujrzeć już nasze pliki:
 
-![](/img/2016/04/12.tworzenie-repozytorium-git-github.png#huge)
+![tworzenie-repozytorium-git-github](/img/2016/04/12.tworzenie-repozytorium-git-github.png#huge)
 
 ## Cofanie zmian w repozytorium git
 
@@ -614,7 +614,7 @@ Został utworzony nowy commit, który cofnął zmiany tego wskazanego przy pomoc
 wystarczy zsynchronizować repozytorium na github'ie przy pomocy `git push` . Sprawdźmy co
 zarejestrował github:
 
-![](/img/2016/04/13.repozytorium-git-github-revert-commit.png#huge)
+![repozytorium-git-github-revert-commit](/img/2016/04/13.repozytorium-git-github-revert-commit.png#huge)
 
 ## Odpowiednie narzędzia
 
@@ -655,16 +655,16 @@ można ustalić wydając to poniższe polecenie:
 Jeśli chodzi o edytor tekstu, czy w ogóle o tekstowe narzędzia, to w ich przypadku, będziemy mieli
 do dyspozycji kolorowanie wyjścia. Tak wygląda `vim` podczas robienia commit'a (via `git commit` ):
 
-![](/img/2016/04/14.git-commit-vim-color.png#huge)
+![git-commit-vim-color](/img/2016/04/14.git-commit-vim-color.png#huge)
 
 A tu przykład diff'a ( `git diff` ):
 
-![](/img/2016/04/15.git-diff-color.png#huge)
+![git-diff-color](/img/2016/04/15.git-diff-color.png#huge)
 
 Jeśli chodzi o narzędzia do przeglądania zmian, to ja jednak wolę GUI. W tym przypadku mamy do
 dyspozycji, np. `meld` ( `git difftool`) :
 
-![](/img/2016/04/16.git-gui-diff-meld.png#huge)
+![git-gui-diff-meld](/img/2016/04/16.git-gui-diff-meld.png#huge)
 
 Jest jeszcze `git merge` i `git mergetool`, odpowiednio tekstowy i GUI ale póki co jeszcze nie było
 dane mi z nich skorzystać, także nic na temat tej funkcjonalności nie napiszę, może kiedyś.

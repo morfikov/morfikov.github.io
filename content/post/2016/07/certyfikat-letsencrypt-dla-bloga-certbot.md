@@ -63,7 +63,7 @@ HSTS](/post/http-strict-transport-security-hsts-apache2/). Dlatego też najlepie
 jest określić te dwa adresy i generować certyfikat dla obu domen. Gdybyśmy tego nie uczynili, to
 klienci przy przeglądaniu naszego serwisu dostaliby poniższy błąd:
 
-![](/img/2016/07/1.letsencrypt-blad-domenta-www.png#big)
+![letsencrypt-blad-domenta-www](/img/2016/07/1.letsencrypt-blad-domenta-www.png#big)
 
 ## Let's Encrypt, certbot i Debian backports
 
@@ -91,16 +91,16 @@ nie warto ufać automatom. Ten sposób sprowadza się do wydania w terminalu teg
 Teraz musimy odpowiedzieć na szereg pytań. Pierwsze z nich dotyczy adresu email, który ma być
 powiązany z certyfikatem, np. na wypadek utraty:
 
-![](/img/2016/07/2.letsencrypt-konfiguracja-apache-email.png#big)
+![letsencrypt-konfiguracja-apache-email](/img/2016/07/2.letsencrypt-konfiguracja-apache-email.png#big)
 
 Dalej mamy zapytanie dotyczące wyboru domen w oparciu o skonfigurowane vHosty:
 
-![](/img/2016/07/3.letsencrypt-konfiguracja-apache-vhost.png#big)
+![letsencrypt-konfiguracja-apache-vhost](/img/2016/07/3.letsencrypt-konfiguracja-apache-vhost.png#big)
 
 W przypadku późniejszego dodawania kolejnych domen czy subdomen będzie trzeba na nowo wybrać
 wszystkie vHosty, co zaowocuje poniższym komunikatem:
 
-![](/img/2016/07/4.letsencrypt-konfiguracja-apache-vhost-dodanie-domeny.png#big)
+![letsencrypt-konfiguracja-apache-vhost-dodanie-domeny](/img/2016/07/4.letsencrypt-konfiguracja-apache-vhost-dodanie-domeny.png#big)
 
 I w zasadzie to wszystko, przynajmniej w przypadku generowania certyfikatu. Zróbmy sobie także
 backup całego katalogu `/etc/letsencrypt/` , bo to tam są przechowywane wszystkie dane dotyczące
@@ -152,7 +152,7 @@ Pozostaje nam już tylko restart serwera Apache2 i przetestowanie szyfrowania. W
 przeglądarkę i udajemy się pod adres jednej z domen, dla których wygenerowaliśmy certyfikat. Obok
 pola adresu powinniśmy ujrzeć zieloną kłódkę:
 
-![](/img/2016/07/5.letsencrypt-test-certyfikat-www.png#huge)
+![letsencrypt-test-certyfikat-www](/img/2016/07/5.letsencrypt-test-certyfikat-www.png#huge)
 
 Widzimy wyraźnie, że certyfikat został zweryfikowany przez Let's Encrypt.
 
@@ -161,7 +161,7 @@ obsługę mamy zaimplementowaną na serwerze. By taki test przeprowadzić, udaje
 link](https://www.ssllabs.com/ssltest/index.html) i wpisujemy adres domeny, którą zamierzamy poddać
 sprawdzeniu. W przypadku tego serwisu wyszło coś takiego:
 
-![](/img/2016/07/6.test-https.png#huge)
+![test-https](/img/2016/07/6.test-https.png#huge)
 
 ## Cykliczne odnawianie certyfikatu Let's Encrypt via cron
 

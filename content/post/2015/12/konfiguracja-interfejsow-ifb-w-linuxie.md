@@ -175,7 +175,7 @@ numerki](http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 Teraz odpalmy jakąś przeglądarkę internetową, np. Firefox'a, w celach testowych. Pakiety powinny
 wędrować do kolejek 1:200 oraz 2:300. Poniżej przykład:
 
-![](/img/2015/12/1.ksztaltowanie-ruchu-interfejsy-ifb-tc.png#huge)
+![ksztaltowanie-ruchu-interfejsy-ifb-tc](/img/2015/12/1.ksztaltowanie-ruchu-interfejsy-ifb-tc.png#huge)
 
 ## Statystyki ruchu
 

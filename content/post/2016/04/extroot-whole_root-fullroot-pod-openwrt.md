@@ -106,7 +106,7 @@ partycji na routerze. W tym wpisie ograniczymy się jedynie do utworzenia partyc
 systemu live. Pendrive może zostać podzielony w dowolny sposób, np. tak jak to widać na poniższej
 fotce:
 
-![](/img/2016/04/1.gparted-linux-live-partycja-extroot-whole_root.png#huge)
+![gparted-linux-live-partycja-extroot-whole_root](/img/2016/04/1.gparted-linux-live-partycja-extroot-whole_root.png#huge)
 
 Mając przygotowaną partycję, wsadzamy pendrive do jednego z portów USB w routerze. Urządzenie
 powinno zostać wykryte przez system i stosownie oznaczone:
@@ -205,7 +205,7 @@ Po uruchomieniu routera, logujemy się na urządzenie standardowo za pomocą pro
 chyba, że skopiowaliśmy sobie konfigurację. Tak czy inaczej, naszym oczom powinien się pokazać taki
 oto obrazek:
 
-![](/img/2016/04/2.openwrt-extroot-whole_root.png#big)
+![openwrt-extroot-whole_root](/img/2016/04/2.openwrt-extroot-whole_root.png#big)
 
 Jak widzimy, ilość wolnego miejsca na flash'u to 1,7 GiB.
 

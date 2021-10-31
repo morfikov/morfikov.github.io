@@ -236,7 +236,7 @@ standardowo w debianie w pakiecie o tej samej nazwie. Ten pakiet zwykle jest ins
 środowiskach LXDE ale też jest bardzo często wykorzystywany w minimalnych instalacjach, np. gdy
 mamy do czynienia jedynie z menadżerami okiem. Tak wygląda w nim konfiguracja kursora myszy:
 
-![](/img/2016/01/1.konfiguracja-mysz-lxappearance.png#big)
+![konfiguracja-mysz-lxappearance](/img/2016/01/1.konfiguracja-mysz-lxappearance.png#big)
 
 W `lxappearance` możemy dostosować szereg innych rzeczy, tak jak to widać na fotce powyżej. Po
 zmianie ustawień, zostaną wygenerowane dwa pliki konfiguracyjne: `~/.gtkrc-2.0` oraz

@@ -32,14 +32,14 @@ odbieranego sygnału przy pomocy [jednego z narzędzi
 linuxowych](https://www.cyberciti.biz/tips/linux-find-out-wireless-network-speed-signal-strength.html).
 Poniżej fotka z `wavemon` :
 
-![](/img/2015/06/1.tryb-oszczedzania-energii-karta-wifi.png#huge)
+![tryb-oszczedzania-energii-karta-wifi](/img/2015/06/1.tryb-oszczedzania-energii-karta-wifi.png#huge)
 
 Jeśli zasięg zdaje się być w porządku, to możemy przeprowadzić inny test polegający na sprawdzeniu
 przepustowości łącza internetowego. Jeśli nie mamy wgranego na router alternatywnego firmware
 OpenWRT i akurat w tej chwili dysponujemy jedną maszyną kliencką, to pozostaje nam skorzystać, np. z
 serwisu [speedtest.net](http://beta.speedtest.net/) :
 
-![](/img/2015/06/2.tryb-oszczedzania-energii-speedtest.png#small)
+![tryb-oszczedzania-energii-speedtest](/img/2015/06/2.tryb-oszczedzania-energii-speedtest.png#small)
 
 Prawdopodobnie, tak jak i w tym przypadku, oba testy nic nie wykażą. Niby wszystko jest w porządku
 ale coś jest nie tak. Ostatni test jaki przychodzi mi do głowy to `ping` . Odpytajmy zatem jakąś

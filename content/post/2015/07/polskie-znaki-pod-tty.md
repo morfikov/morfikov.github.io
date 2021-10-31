@@ -44,23 +44,23 @@ terminal, logujemy się na konto użytkownika root i wpisujemy poniższe polecen
 Po chwili powinno nam się pokazać okienko z wyborem kodowania znaków. Oczywiście zaznaczamy
 `UTF-8` :
 
-![](/img/2015/06/1.linux-polskie-znaki-tty.png#big)
+![linux-polskie-znaki-tty](/img/2015/06/1.linux-polskie-znaki-tty.png#big)
 
 Następnie wybieramy zestaw znaków, który powinien być wspierany przez czcionkę konsoli TTY i tu
 musimy wybrać `Latin2`:
 
-![](/img/2015/06/2.linux-polskie-znaki-tty.png#big)
+![linux-polskie-znaki-tty](/img/2015/06/2.linux-polskie-znaki-tty.png#big)
 
 Następnie wybieramy czcionkę i ja tutaj zawsze ustawiam sobie `Terminus` , bo nie męczy tak
 strasznie oczu:
 
-![](/img/2015/06/3.linux-polskie-znaki-tty.png#big)
+![linux-polskie-znaki-tty](/img/2015/06/3.linux-polskie-znaki-tty.png#big)
 
 Ostatnią opcją jest dostosowanie wielkości czcionek. Jeśli odpowiada nam wielkość tych, które
 widzimy przy starcie systemu, to zaznaczamy `8x16` , jeśli natomiast są zbyt małe, to zawsze możemy
 sobie zwiększyć:
 
-![](/img/2015/06/4.linux-polskie-znaki-tty.png#big)
+![linux-polskie-znaki-tty](/img/2015/06/4.linux-polskie-znaki-tty.png#big)
 
 Po tym jak konfiguracja pakietu dobiegnie końca, zostanie wygenerowany plik
 `/etc/default/console-setup` :

@@ -74,7 +74,7 @@ I to w zasadzie cała nasza praca. Po wyeksportowaniu tej zmiennej, przesyłanie
 powinno działać OOTB i nie powinniśmy mieć z nim żadnych problemów. Poniżej jest fotka obrazująca
 odtwarzanie pliku `.mp3` w `mpv` na maszynie, która nie ma zainstalowanej karty dźwiękowej.
 
-![](/img/2015/10/1.przesylanie-dzwieku-przez-siec.png#big)
+![przesylanie-dzwieku-przez-siec](/img/2015/10/1.przesylanie-dzwieku-przez-siec.png#big)
 
 Może i karty dźwiękowej nie ma zainstalowanej w tym systemie ale widać to nie przeszkadza w żaden
 sposób by `mpv` odtwarzał dźwięk bez większych przeszkód.

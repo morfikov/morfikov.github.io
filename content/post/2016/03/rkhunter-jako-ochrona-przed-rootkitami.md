@@ -95,7 +95,7 @@ W zależności od tego z jakiego hasha korzystamy oraz jakie testy przeprowadzam
 zająć mniej lub więcej czasu. Odpalamy zatem terminal i jako root wydajemy polecenie
 `rkhunter --check` . Skanowanie wygląda mniej więcej tak:
 
-![](/img/2016/03/1.rkhunter-debian-rootkit-skan.png#big)
+![rkhunter-debian-rootkit-skan](/img/2016/03/1.rkhunter-debian-rootkit-skan.png#big)
 
 Wszystkie wyrzucone ostrzeżenia niekoniecznie oznaczają problemy z systemem. Jest duże
 prawdopodobieństwo, że to tylko fałszywy alarm. Niemniej jednak, musimy mieć pewność i dobrze jest

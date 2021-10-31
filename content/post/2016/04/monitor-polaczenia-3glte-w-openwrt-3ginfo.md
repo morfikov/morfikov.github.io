@@ -78,7 +78,7 @@ dość obszerny. W tym przypadku wersja tekstowa ma około 1,5 MiB. spakowana 14
 
 Poniżej przykład formularza:
 
-![](/img/2016/04/1.formularz-bts-3ginfo.png#big)
+![formularz-bts-3ginfo](/img/2016/04/1.formularz-bts-3ginfo.png#big)
 
 ## Monitorowanie połączenia
 
@@ -114,15 +114,15 @@ Zostanie także utworzony nowy proces:
 Czyli wiemy, że demon `uhttpd` nasłuchuje, a interfejs webowy aplikacji `3ginfo` oczekuje na nas pod
 adresem `http://192.168.1.1:81` . Przejdźmy tam i sprawdźmy co tam zastaniemy:
 
-![](/img/2016/04/2.3ginfo-rozlaczony.png#big)
+![3ginfo-rozlaczony](/img/2016/04/2.3ginfo-rozlaczony.png#big)
 
 By się połączyć, wciskamy Connect:
 
-![](/img/2016/04/3.3ginfo-polaczony.png#big)
+![3ginfo-polaczony](/img/2016/04/3.3ginfo-polaczony.png#big)
 
 Możemy także podejrzeć szczegóły połączenia rozwijając Show details:
 
-![](/img/2016/04/4.3ginfo-dodatkowe-informacje.png#big)
+![3ginfo-dodatkowe-informacje](/img/2016/04/4.3ginfo-dodatkowe-informacje.png#big)
 
 W oparciu o wygenerowaną listę BTS, `3ginfo` podał nam informacje na temat lokalizacji BTS'a, do
 którego zostaliśmy podłączeni. Nie zawsze jednak te informacje będą dostępne, nawet po

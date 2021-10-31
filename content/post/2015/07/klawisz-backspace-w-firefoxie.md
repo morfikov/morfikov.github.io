@@ -49,6 +49,6 @@ Jeśli chcemy zmienić domyślne zachowanie klawisza Backspace , to przechodzimy
 konfiguracyjnych Firefox'a, które kryją się pod `about:config` . Wpisujemy zatem ten adres w polu
 adresu i wyszukujemy `backspace` , po czym przestawiamy jego wartość tej zmiennej wedle upodobań:
 
-![](/img/2015/07/1.firefox-backspace.png#big)
+![firefox-backspace](/img/2015/07/1.firefox-backspace.png#big)
 
 [1]: http://kb.mozillazine.org/Browser.backspace_action

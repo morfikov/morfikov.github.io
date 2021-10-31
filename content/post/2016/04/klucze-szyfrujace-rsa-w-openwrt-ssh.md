@@ -59,7 +59,7 @@ kluczy RSA.
 
 Poniżej zaś jest fotka obrazująca cały proces generowania klucza RSA:
 
-![](/img/2016/04/1.generowanie-klucza-rsa-openwrt-ssh-router.png#huge)
+![generowanie-klucza-rsa-openwrt-ssh-router](/img/2016/04/1.generowanie-klucza-rsa-openwrt-ssh-router.png#huge)
 
 Jako, że klucze RSA zawierają wrażliwe informacje, można je zaszyfrować, tak by każdorazowe ich
 wykorzystanie wymagało podania hasła. Jednak wtedy przy logowaniu się do routera trzeba podać hasło

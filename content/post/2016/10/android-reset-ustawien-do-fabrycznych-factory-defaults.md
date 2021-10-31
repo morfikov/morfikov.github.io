@@ -44,7 +44,7 @@ dane nam nie przepadły.
 
 Przy resecie ustawień do fabrycznych zostaniemy powiadomieni jakie dane przepadają:
 
-![](/img/2016/10/1.android-factory-reset-defaults-backup.png#huge)
+![android-factory-reset-defaults-backup](/img/2016/10/1.android-factory-reset-defaults-backup.png#huge)
 
 ## Zaszyfrowanie zawartości telefonu
 
@@ -65,7 +65,7 @@ bitów, z których nikt nic nigdy nie wyciągnie.
 
 Szyfrowanie możemy przeprowadzić przechodząc w menu Ustawienia => Zabezpieczenia.
 
-![](/img/2016/10/2.android-factory-reset-defaults-szyfrowanie-danych.png#huge)
+![android-factory-reset-defaults-szyfrowanie-danych](/img/2016/10/2.android-factory-reset-defaults-szyfrowanie-danych.png#huge)
 
 Potwierdzamy proces zaszyfrowania danych i po chwili nasz telefon powinien się uruchomić ponownie.
 Pojawi się też ekran z zielonym robocikiem oraz informacją o szacowanym czasie jaki pozostał do
@@ -75,7 +75,7 @@ się automatycznie uruchomić ponownie.
 
 Teraz możemy zacząć zapisywać flash tak, by ilość wolnego miejsca na nim skurczyła się do 0:
 
-![](/img/2016/10/3.android-factory-reset-defaults-szyfrowanie-danych.png#medium)
+![android-factory-reset-defaults-szyfrowanie-danych](/img/2016/10/3.android-factory-reset-defaults-szyfrowanie-danych.png#medium)
 
 ## Resetowanie ustawień
 
@@ -84,7 +84,7 @@ informacja na temat backupu danych, tj. w Ustawienia => Kopia i kasowanie danych
 fabryczne. Tam z kolei klikamy już tylko przycisk `Resetuj telefon` . Zostaniemy jeszcze poproszeni
 o potwierdzenie tego kroku:
 
-![](/img/2016/10/5.android-factory-reset-defaults.png#medium)
+![android-factory-reset-defaults](/img/2016/10/5.android-factory-reset-defaults.png#medium)
 
 Potwierdzamy i telefon powinien się uruchomić ponownie, gdzie przez chwilę będziemy mogli obejrzeć
 zielonego robocika. Po paru sekundach smartfon się znów zrestartuje, tym razem już ze świeżym

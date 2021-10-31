@@ -31,7 +31,7 @@ Odpalmy sobie zatem czysty profil Firefox'a i wejdźmy w jego opcje. Konkretnie 
 Add-ons -> Plugins. Mamy tutaj wypisane wszystkie wtyczki, które zostały wykryte przez naszą
 przeglądarkę:
 
-![](/img/2016/07/1.firefox-plugins-wtyczki-konfiguracja-pozwolenia.png#huge)
+![firefox-plugins-wtyczki-konfiguracja-pozwolenia](/img/2016/07/1.firefox-plugins-wtyczki-konfiguracja-pozwolenia.png#huge)
 
 Każda strona w internecie może uzyskać do nich dostęp jeśli będzie chciała. Zwróćmy zatem szczególną
 uwagę na przyciski przy każdej z wtyczek i upewnijmy się, że mamy tam `Ask to Acticate` . W ten
@@ -40,14 +40,14 @@ z niego korzystać. Przejdźmy teraz na stronę Adobe, gdzie przetestujemy sobie
 aktywacji na wtyczce flash. Na samej stronie powinniśmy ujrzeć szereg obrazków podobnych do tego
 poniżej:
 
-![](/img/2016/07/2.firefox-strona-test-aktywacja-wtyczki.png#small)
+![firefox-strona-test-aktywacja-wtyczki](/img/2016/07/2.firefox-strona-test-aktywacja-wtyczki.png#small)
 
 Każdy taki obrazek oznacza, że strona chciała skorzystać z danej wtyczki ale Firefox zablokował te
 żądania. Informacje o tym jaka wtyczka jest potrzebna, znajduje się na widocznym wyżej obrazku.
 Jeśli faktycznie chcemy aktywować daną wtyczkę na tej stronie, to klikamy w taki obrazek i po
 chwili pojawia nam się taki oto pop-up:
 
-![](/img/2016/07/3.firefox-pop-up-allow-and-remember.png#huge)
+![firefox-pop-up-allow-and-remember](/img/2016/07/3.firefox-pop-up-allow-and-remember.png#huge)
 
 Mamy tutaj widoczne dwa przyciski: `Allow Now` oraz `Allow and Remember` . W przypadku wybrania
 pierwszej opcji, strona będzie mogła skorzystać z pluginu flash ale tylko tymczasowo. Gdy z kolei
@@ -57,12 +57,12 @@ czasie nie będziemy musieli sobie głowy zawracać aktywacją tej konkretnej wt
 Problem natomiast zaczyna się w chwili odbierania tych uprawnień. O ile znamy adres domeny, to po
 jej załadowaniu możemy wybrać z menu kontekstowego `View Page Info` :
 
-![](/img/2016/07/4.firefox-uprawnienia-strony-wtyczki.png#small)
+![firefox-uprawnienia-strony-wtyczki](/img/2016/07/4.firefox-uprawnienia-strony-wtyczki.png#small)
 
 W okienku, które nam się pojawi, przechodzimy do `Permissions` i tutaj już mamy wyszczególnione
 informacje na temat wszystkich zezwoleń dotyczących danego serwisu www:
 
-![](/img/2016/07/5.firefox-uprawnienia-strony-wtyczki.png#big)
+![firefox-uprawnienia-strony-wtyczki](/img/2016/07/5.firefox-uprawnienia-strony-wtyczki.png#big)
 
 Wszędzie tam, gdzie status różni się od `Use Default` są tworzone wyjątki, a informacje o nich
 wędrują do pliku `permissions.sqlite` .
@@ -94,7 +94,7 @@ Manager](https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/). Przy p
 jesteśmy w stanie uzyskać dostęp do tabeli z uprawnieniami, gdzie mamy ładnie opisane domeny.
 Poniżej przykład:
 
-![](/img/2016/07/6.firefox-sql-manager-add-on.png#huge)
+![firefox-sql-manager-add-on](/img/2016/07/6.firefox-sql-manager-add-on.png#huge)
 
 W kolumnie `permission` mamy dwie wartości: `1` lub `2` . Wartość `1` oznacza zezwolenie dostępu,
 zaś `2` odmowę dostępu. Każde ustawienie, które mogliśmy zmienić przez `View Page Info` na danej
@@ -102,7 +102,7 @@ stronie, będzie miało w tej tabeli osobny wpis. Jeśli chcemy teraz cofnąć w
 korzystania z pluginu flash, to wystarczy kliknąć na odpowiednich pozycjach prawym przyciskiem
 myszki i wybrać `Delete` :
 
-![](/img/2016/07/7.firefox-sql-manager-add-on.png#huge)
+![firefox-sql-manager-add-on](/img/2016/07/7.firefox-sql-manager-add-on.png#huge)
 
 Można także wykonać zwykłe zapytanie do bazy danych i przy jego pomocy usunąć konkretne rekordy. Dla
 przykładu przechodzimy na zakładkę `Execute SQL` i wybieramy Data Manipulation > DELETE . Następnie
@@ -113,6 +113,6 @@ wpisujemy to poniższe zapytanie:
 Zapytanie powinno wykonać się bez błędów, a z tabeli uprawnień powinny zniknąć wszystkie wpisy,
 które miały w kolumnie `type` wartość `plugin:flash` :
 
-![](/img/2016/07/8.firefox-sql-manager-add-on.png#huge)
+![firefox-sql-manager-add-on](/img/2016/07/8.firefox-sql-manager-add-on.png#huge)
 
 Po edycji bazy danych musimy jeszcze uruchomić ponownie przeglądarkę.

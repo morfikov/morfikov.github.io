@@ -109,12 +109,12 @@ obrazów. Istnieje również [skrypt][2], którym można się posłużyć.
 Dla tych, którzy nie przepadają za konsolą są i graficzne narzędzia. Mi osobiście bardzo przypadł do
 gustu [wxHexEditor][3]. Co w nim takiego ciekawego? Potrafi liczyć zarazem kilkadziesiąt sum:
 
-![](/img/2015/06/1.suma-kontrolna-wxhexeditor-lista.png#big)
+![suma-kontrolna-wxhexeditor-lista](/img/2015/06/1.suma-kontrolna-wxhexeditor-lista.png#big)
 
 Wystarczy wskazać mu plik, po czym wybrać interesujące nas algorytmy, a ten program nam to wszystko
 ładnie wyliczy:
 
-![](/img/2015/06/2.wynikowa-suma-kontrolna.png#huge)
+![wynikowa-suma-kontrolna](/img/2015/06/2.wynikowa-suma-kontrolna.png#huge)
 
 ## Suma kontrolna wypalonego obrazu ISO
 

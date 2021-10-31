@@ -36,7 +36,7 @@ ekranem. W powstały otwór trzeba następnie wsadzić cienki kawałek plastiku,
 przesunąć wzdłuż krawędzi. Wszystkie zatrzaski powinny nam w ten sposób łatwo zeskoczyć umożliwiając
 nam tym samym ściągnięcie obudowy.
 
-![](/img/2017/04/001.neffos-c5-tp-link-podzespoly.jpg#huge)
+![neffos-c5-tp-link-podzespoly](/img/2017/04/001.neffos-c5-tp-link-podzespoly.jpg#huge)
 
 ## Jak wyciągnąć PCB
 
@@ -46,28 +46,28 @@ przy górnej, dolnej i lewej części obudowy. By wyciągnąć tę płytkę, trz
 wibratora, z którego są wyprowadzone i przylutowane na PCB dwa przewody. Ten element jest także
 przyklejony do obudowy:
 
-![](/img/2017/04/002.neffos-c5-tp-link-podzespoly.jpg#huge)
+![neffos-c5-tp-link-podzespoly](/img/2017/04/002.neffos-c5-tp-link-podzespoly.jpg#huge)
 
 ## Podzespoły zastosowane w Neffos C5
 
 Mając wyciągnięty PCB, możemy przyjrzeć się nieco bliżej samej płytce oraz bez większego problemu
 odczytać jakie modele układów zostały zastosowane w Neffos C5.
 
-![](/img/2017/04/003.neffos-c5-tp-link-podzespoly.jpg#huge)
+![neffos-c5-tp-link-podzespoly](/img/2017/04/003.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-![](/img/2017/04/004.neffos-c5-tp-link-podzespoly.jpg#huge)
+![neffos-c5-tp-link-podzespoly](/img/2017/04/004.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-![](/img/2017/04/005.neffos-c5-tp-link-podzespoly.jpg#huge)
+![neffos-c5-tp-link-podzespoly](/img/2017/04/005.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-![](/img/2017/04/006.neffos-c5-tp-link-podzespoly.jpg#huge)
+![neffos-c5-tp-link-podzespoly](/img/2017/04/006.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-![](/img/2017/04/007.neffos-c5-tp-link-podzespoly.jpg#huge)
+![neffos-c5-tp-link-podzespoly](/img/2017/04/007.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-![](/img/2017/04/008.neffos-c5-tp-link-podzespoly.jpg#huge)
+![neffos-c5-tp-link-podzespoly](/img/2017/04/008.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-![](/img/2017/04/009.neffos-c5-tp-link-podzespoly.jpg#huge)
+![neffos-c5-tp-link-podzespoly](/img/2017/04/009.neffos-c5-tp-link-podzespoly.jpg#huge)
 
-![](/img/2017/04/010.neffos-c5-tp-link-podzespoly.jpg#huge)
+![neffos-c5-tp-link-podzespoly](/img/2017/04/010.neffos-c5-tp-link-podzespoly.jpg#huge)
 
 Niżej jest zapis tekstowy wszystkich tych układów widocznych na powyższych fotkach:
 

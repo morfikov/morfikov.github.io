@@ -77,13 +77,13 @@ Pierwszym z przypadków jest sytuacja, w której mamy do czynienia z AP skonfigu
 sieci WiFi. By nasz smartfon był w stanie przełączać się między takimi sieciami w zależności od siły
 sygnału, musimy w Androidzie doinstalować narzędzie SWIFI:
 
-![](/img/2016/11/1.swifi-roaming-smartfon-tp-link-instalacja.png#huge)
+![swifi-roaming-smartfon-tp-link-instalacja](/img/2016/11/1.swifi-roaming-smartfon-tp-link-instalacja.png#huge)
 
 SWIFI ma również opcję płatną ale w tym artykule została wykorzystana darmowa wersja. Warto tutaj
 zaznaczyć, że w darmowej wersji nie ma reklam. Sama aplikacja jest za to bardzo prosta w obsłudze,
 bo ma niewiele opcji:
 
-![](/img/2016/11/2.swifi-roaming-smartfon-tp-link-konfiguracja.png#medium)
+![swifi-roaming-smartfon-tp-link-konfiguracja](/img/2016/11/2.swifi-roaming-smartfon-tp-link-konfiguracja.png#medium)
 
 Konfiguracja roamingu w SWIFI sprowadza się do ustawienia siły sygnału, poniżej której smartfon
 rozpocznie skanowanie eteru w poszukiwaniu lepszej alternatywy dla połączenia. Zakres jaki możemy
@@ -118,19 +118,19 @@ sieć WiFi. Musimy zatem zainstalować Wifi Roaming Fix. W przypadku tej aplikac
 tylko nazwa sieci (ESSID) i hasło, które muszą pasować do siebie ale również każdy z AP musi być
 dostępny na innym kanale:
 
-![](/img/2016/11/3.wifi-roaming-fix-smartfon-tp-link-instalacja.png#huge)
+![wifi-roaming-fix-smartfon-tp-link-instalacja](/img/2016/11/3.wifi-roaming-fix-smartfon-tp-link-instalacja.png#huge)
 
 Po odpaleniu aplikacji zostanie wykryta ilość AP, które mają ten sam ESSID. W moim przypadku są to 3
 AP. W menu można wybrać pozycję info, która jest w stanie nam zwrócić informacje o sile sygnału
 docierającego z każdego punktu dostępowego w okolicy.
 
-![](/img/2016/11/4.wifi-roaming-fix-smartfon-tp-link-sila-sygnalu.png#big)
+![wifi-roaming-fix-smartfon-tp-link-sila-sygnalu](/img/2016/11/4.wifi-roaming-fix-smartfon-tp-link-sila-sygnalu.png#big)
 
 Są też proste ustawienia, które umożliwiają włączenie aplikacji Wifi Roaming Fix przy starcie
 systemu, pokazywanie notyfikacji przy przełączaniu między AP oraz konfigurację poziomu sygnału,
 poniżej którego smartfon zdecyduje się przełączyć.
 
-![](/img/2016/11/5.wifi-roaming-fix-smartfon-tp-link-konfiguracja.png#big)
+![wifi-roaming-fix-smartfon-tp-link-konfiguracja](/img/2016/11/5.wifi-roaming-fix-smartfon-tp-link-konfiguracja.png#big)
 
 Moje AP są rozlokowane na kanałach 1, 6 i 11, gdzie siła sygnału w tym konkretnym miejscu mojego
 domu jest na poziomie -52 dBm, -74 dBm i -33 dBm. Jestem aktualnie podłączony do AP na kanale 11,
@@ -138,7 +138,7 @@ jako że sygnał z tego punktu dostępowego jest najmocniejszy. Jeśli zmieniłb
 przeszedł w pobliże któregoś z dwóch pozostałych AP, to nastąpi automatyczne rozłączenie sieci i
 podłączenie do tego punktu, z którego jest najmocniejszy sygnał.
 
-![](/img/2016/11/6.wifi-roaming-fix-smartfon-tp-link-przelaczanie-sieci.png#medium)
+![wifi-roaming-fix-smartfon-tp-link-przelaczanie-sieci](/img/2016/11/6.wifi-roaming-fix-smartfon-tp-link-przelaczanie-sieci.png#medium)
 
 
 [1]: http://www.tp-link.com.pl/products/list-12.html

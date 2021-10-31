@@ -69,7 +69,7 @@ różniły, to postanowiłem nie mieszać wszystkich czterech urządzeń i zrobi
 Poniżej jest fotka obrazująca układ flash'a dla smartfona Neffos
 C5.
 
-![](/img/2017/04/001.tp-link-neffos-c5-max-flash-repartycjonowanie-fabryczny-uklad.png#huge)
+![tp-link-neffos-c5-max-flash-repartycjonowanie-fabryczny-uklad](/img/2017/04/001.tp-link-neffos-c5-max-flash-repartycjonowanie-fabryczny-uklad.png#huge)
 
 ## Tworzenie nowego układu partycji na flash'u smartfona
 
@@ -158,7 +158,7 @@ Ustawiamy typy nowo utworzonych partycji na `0700` :
 Po utworzeniu nowych partycji i określeniu ich rozmiaru, nazw oraz typów sprawdzamy czy wszystko się
 zgadza:
 
-![](/img/2017/04/002.tp-link-neffos-c5-max-flash-repartycjonowanie-zmiana-ukladu.png#huge)
+![tp-link-neffos-c5-max-flash-repartycjonowanie-zmiana-ukladu](/img/2017/04/002.tp-link-neffos-c5-max-flash-repartycjonowanie-zmiana-ukladu.png#huge)
 
 Jak widać, w tej chwili nasz smartfon ma około 11,5 GiB na partycji `/data/` w stosunku do starych
 10 GiB, czyli zysk na poziomie 15%.
@@ -437,7 +437,7 @@ wyłącznie z poziomu TWRP. Chodzi o to, że firmware wypuszczany przez TP-LINK/
 w przeciwieństwie do naszej
 paczki:
 
-![](/img/2017/04/003.tp-link-neffos-c5-max-flash-repartycjonowanie-update.png#huge)
+![tp-link-neffos-c5-max-flash-repartycjonowanie-update](/img/2017/04/003.tp-link-neffos-c5-max-flash-repartycjonowanie-update.png#huge)
 
 My nie możemy wykorzystać klucza, którym takie archiwum zostało podpisane i nasza paczka nie będzie
 honorowana przez mechanizm aktualizacji. Na szczęście w ustawieniach TWRP można pominąć weryfikację
@@ -503,7 +503,7 @@ Z logu TWRP możemy wyczytać, że ta operacja zakończyła się powodzeniem:
 Czyścimy cache i robimy Factory Reset, by potwierdzić, że z pozostałymi partycjami nie ma żadnych
 problemów:
 
-![](/img/2017/04/004.tp-link-neffos-c5-max-flash-repartycjonowanie-factory-reset-twrp.png#small)
+![tp-link-neffos-c5-max-flash-repartycjonowanie-factory-reset-twrp](/img/2017/04/004.tp-link-neffos-c5-max-flash-repartycjonowanie-factory-reset-twrp.png#small)
 
 Cały proces ze zmianą układu flash'a w smartfonach Neffos C5 i C5 MAX nie był jakoś szczególnie
 skomplikowany ale takie przepakowywanie pliku `update.zip` nie należy do przyjemnych. Na dobrą
@@ -621,7 +621,7 @@ Zapisujemy plik `scatter.txt` i ładujemy go w SP Flash Tool. Wskazujemy także 
 partycji `/system/` no i oczywiście wciskamy przycisk
 "Download":
 
-![](/img/2017/04/005.tp-link-neffos-c5-max-flash-repartycjonowanie-sp-flash-tool.png#huge)
+![tp-link-neffos-c5-max-flash-repartycjonowanie-sp-flash-tool](/img/2017/04/005.tp-link-neffos-c5-max-flash-repartycjonowanie-sp-flash-tool.png#huge)
 
 ### Wgrywanie przyciętego obrazu przez TWRP recovery
 
@@ -649,7 +649,7 @@ naturalnie przez proces wstępnej konfiguracji telefonu. Następnie sprawdzamy j
 formalności czy system widzi poprawną ilość miejsca na partycji `/system/` , `/cache/` i `/data/` ,
 np. w [aplikacji Diskinfo][11]:
 
-![](/img/2017/04/006.tp-link-neffos-c5-max-flash-repartycjonowanie-diskinfo.png#huge)
+![tp-link-neffos-c5-max-flash-repartycjonowanie-diskinfo](/img/2017/04/006.tp-link-neffos-c5-max-flash-repartycjonowanie-diskinfo.png#huge)
 
 Jak widać repartycjonowanie flash'a w smartfonach Neffos C5 i C5 MAX wyposażonych w system Android w
 wersji 5.1 (Lollipop) nie obyło się bez komplikacji. Grunt jednak, że smartfon nie ma problemów już

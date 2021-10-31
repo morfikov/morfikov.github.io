@@ -36,7 +36,7 @@ poprawiony... Test jako taki możemy sobie przeprowadzić sami. Wystarczy, że p
 <https://weakdh.org/> (lub też i na <https://www.ssllabs.com/>) , a na jej szczycie zastaniemy
 informację, która powinna jednoznacznie wskazać nam czy nasza przeglądarka jest podatna na ten atak:
 
-![](/img/2015/05/1.brak-dopornosci-na-logjam.png#huge)
+![brak-dopornosci-na-logjam](/img/2015/05/1.brak-dopornosci-na-logjam.png#huge)
 
 W prawdzie rzadko korzystam z chrome, a już praktycznie wcale nie korzystam z opery i nie powiem za
 bardzo jak na własną rękę się w tych przeglądarkach zabezpieczyć przed tą formą ataku. Natomiast
@@ -50,12 +50,12 @@ chwili powinien nam się wyświetlić listing opcji, gdzie dwie z nich mają w n
 reguły są to dwie pierwsze opcje). By wyeliminować podatność, trzeba te dwie pozycje przestawić na
 `false`
 
-![](/img/2015/05/2.uodparnianie-firefoxa-na-logjam.png#huge)
+![uodparnianie-firefoxa-na-logjam](/img/2015/05/2.uodparnianie-firefoxa-na-logjam.png#huge)
 
 Teraz możemy przejść ponownie do testowania podatności na stronie <https://weakdh.org/> i tym razem
 powinniśmy już ujrzeć komunikat oświadczający nam, że jesteśmy bezpieczni:
 
-![](/img/2015/05/3.odpornosc-na-logjam.png#huge)
+![odpornosc-na-logjam](/img/2015/05/3.odpornosc-na-logjam.png#huge)
 
 Jeśli dysponujemy serwerami, np. Apache, możemy przetestować jego podatność
 [tutaj](https://weakdh.org/sysadmin.html) . W tym linku znajdują się również informację na temat

@@ -158,7 +158,7 @@ SIM, która jest aktualnie w modemie. Jeśli wszystko pójdzie zgodnie z planem,
 powinien zalogować odpowiedni komunikat, jak i odebraną wiadomość posłać pod wskazany numer. Wyszło
 to mniej więcej tak:
 
-![](/img/2016/04/1.gammu-smsd-modem-sms-linux.png#huge)
+![gammu-smsd-modem-sms-linux](/img/2016/04/1.gammu-smsd-modem-sms-linux.png#huge)
 
 Jak widać, wiadomość została odebrana. Po chwili skrypt został wykonany i komunikat został posłany
 na telefon.

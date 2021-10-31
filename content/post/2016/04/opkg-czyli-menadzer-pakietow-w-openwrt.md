@@ -27,7 +27,7 @@ Wszystkie pakiety, które chcemy zainstalować w OpenWRT, są przechowywane w re
 pakietami dostępnymi w repozytoriach można pobrać za pomocą polecenia `opkg update` . Cały proces
 wygląda mniej więcej tak jak pokazano na obrazku poniżej:
 
-![](/img/2016/04/2.opkg-update-lista-repozytoria-openwrt.png#huge)
+![opkg-update-lista-repozytoria-openwrt](/img/2016/04/2.opkg-update-lista-repozytoria-openwrt.png#huge)
 
 Użytkownikom windowsa ten mechanizm może wydawać się początkowo obcy i niezrozumiały. Generalnie
 rzecz ujmując, na linux'ach nie zwykło się pobierać programów z pierwszego linku, który zwróci nam
@@ -88,7 +88,7 @@ Przeszukiwanie list odbywa się w oparciu o nazwę jak i opis danego pakietu. Po
 
 Wygląda to mniej więcej tak jak na poniższej fotce:
 
-![](/img/2016/04/3.opkg-list-listinstalled-openwrt.png#huge)
+![opkg-list-listinstalled-openwrt](/img/2016/04/3.opkg-list-listinstalled-openwrt.png#huge)
 
 ## Instalowanie pakietów
 
@@ -155,7 +155,7 @@ failsafe](/post/tryb-ratunkowy-failsafe-w-openwrt/).
 Menadżer pakietów `opkg` posiada pewne informacje, które mogą okazać się użyteczne dla nas. Możemy
 je wydobyć za pomocą opcji `info` . Poniżej informacje na temat przykładowego pakietu:
 
-![](/img/2016/04/4.opkg-info-openwrt.png#big)
+![opkg-info-openwrt](/img/2016/04/4.opkg-info-openwrt.png#big)
 
 Mamy tutaj nazwę pakietu, jego wersję oraz zależności, które muszą być spełnione, by ten pakiet mógł
 zostać zainstalowany w systemie. Dalej widzimy, że pakiet został zainstalowany przez użytkownika.
@@ -196,7 +196,7 @@ Przeszukiwanie pakietów za pomocą `opkg list` nie należy do przyjemnych rzecz
 o fakt, że lista pakietów, która jest nam zwracana po wydaniu powyższego polecenia, nie jest zbytnio
 czytelna. Wystarczy popatrzeć na poniższą fotkę:
 
-![](/img/2016/04/6.opkg-list-openwrt.png#huge)
+![opkg-list-openwrt](/img/2016/04/6.opkg-list-openwrt.png#huge)
 
 Na samym początku mamy nazwę pakietu, później jest jego wersja, a na końcu opis. Gdyby te wpisy były
 zwracane przez `opkg` na zasadzie jeden na linijkę, to nie byłoby jeszcze tak źle. Niemniej jednak,
@@ -236,4 +236,4 @@ poniższe polecenie:
 
 Wyniki zwracane przez `opkg` powinny teraz być bardziej czytelne:
 
-![](/img/2016/04/7.opkg-list-openwrt-fix.png#huge)
+![opkg-list-openwrt-fix](/img/2016/04/7.opkg-list-openwrt-fix.png#huge)

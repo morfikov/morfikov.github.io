@@ -311,7 +311,7 @@ musimy określić domyślną bramę. Robimy to przy pomocy tych poniższych pole
 W tej chwili tablice routingu powinny wyglądać mniej więcej tak jak na tym poniższym
 obrazku:
 
-![](/img/2016/05/1.load-balancing-failover-debian-linux-isp-tablica-routingu.png#huge)
+![load-balancing-failover-debian-linux-isp-tablica-routingu](/img/2016/05/1.load-balancing-failover-debian-linux-isp-tablica-routingu.png#huge)
 
 By ten cały mechanizm routujący puścić w ruch potrzebne nam są jeszcze reguły routingu. To w oparciu
 o nie, kernel będzie wiedział gdzie ma przesłać dany pakiet.
@@ -435,14 +435,14 @@ No to przyszła pora teraz przetestować, czy aby na pewno pakiety są rozsyłan
 nam powinno rzucić od razu w oczy, to oczywiście poprawa transferu. Można dla sprawdzenia odpalić
 klienta torrent i nim zapuścić kilka obrazów z linux'ami. Poniżej jest przykładowy wykres:
 
-![](/img/2016/05/2.load-balancing-failover-debian-linux-isp-test.png#huge)
+![load-balancing-failover-debian-linux-isp-test](/img/2016/05/2.load-balancing-failover-debian-linux-isp-test.png#huge)
 
 Przepustowość łącza jednego z moich ISP to 15/1 mbit/s. Drugie łącze to LTE i pod względem
 przepustowości, to waha się znacznie w zależności od pory dnia. Widzimy wyżej na wykresie, że ogólny
 transfer przekroczył te 15 mbit/s. Zatem oba łącza są w wykorzystaniu. Jeśli nadal nie wierzymy, że
 pakiety idą przez obu ISP, to wystarczy zobaczyć statystyki interfejsów sieciowych w `bmon` :
 
-![](/img/2016/05/3.load-balancing-failover-debian-linux-isp-test-bmon.png#huge)
+![load-balancing-failover-debian-linux-isp-test-bmon](/img/2016/05/3.load-balancing-failover-debian-linux-isp-test-bmon.png#huge)
 
 Tu już widzimy, że tej konkretnej chwili na interfejsie `bond0` mamy transfer 1.29 MiB/s oraz, że na
 interfejsie `wwan0` mamy nieco ponad 720 KiB/s. Interfejs `eth0` jest w tym przypadku bez znaczenia,

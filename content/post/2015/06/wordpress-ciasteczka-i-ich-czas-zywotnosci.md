@@ -28,7 +28,7 @@ odpowiadała naszym upodobaniom.
 WordPress przesyła szereg ciasteczek w zależności od tego jakie akcje przeprowadzamy na blogu.
 Możemy zawsze je podejrzeć w każdej przeglądarce, poniżej fotka z firefoxa:
 
-![](/img/2015/06/1.wordpress-zywotnosc-ciasteczka.png#big)
+![wordpress-zywotnosc-ciasteczka](/img/2015/06/1.wordpress-zywotnosc-ciasteczka.png#big)
 
 Na samym dole tego okienka mamy informację na temat ważności ciasteczka (Expires). W tym przypadku
 jest to `Sun 21 Jun 2015 04:53:55 AM CEST` , czyli 14 dni licząc od daty publikacji tego postu. Po

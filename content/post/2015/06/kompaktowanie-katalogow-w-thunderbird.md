@@ -39,7 +39,7 @@ powracanie usuniętych wiadomości, lub też nieprawidłowe daty w wyniku zagubi
 wiadomości. Thunderbird potrafi automatycznie przeprowadzać kompaktowanie folderów, z tym, że trzeba
 mieć zaznaczoną odpowiednią opcję (Edit => Preferences => Advanced => Network & Disk Space):
 
-![](/img/2015/06/1.thunderbird-kompaktowanie-folderow.png#big)
+![thunderbird-kompaktowanie-folderow](/img/2015/06/1.thunderbird-kompaktowanie-folderow.png#big)
 
 U mnie jakimś cudem była ona odznaczona i dlatego właśnie ten katalog się rozrósł tak potwornie. Po
 dokonaniu kompaktowania, z tych 650MiB zjechałem do nieco ponad 200MiB. Także jest spora różnica.
@@ -48,19 +48,19 @@ By nie być ciągle nurtowanym pytaniem o to czy wyrażamy zgodę na automatyczn
 folderów, możemy przestawić pewną opcję w Thunderbird, by pozbyć się tego monitu. W tym celu
 przechodzimy pod Edit => Preferences => Advanced => General:
 
-![](/img/2015/06/2.thunderbird-config-editor.png#big)
+![thunderbird-config-editor](/img/2015/06/2.thunderbird-config-editor.png#big)
 
 Tam klikamy w `Config Editor` i otworzy nam się okienko z szeregiem parametrów do ustawienia.
 Wyszukujemy `mail.purge.ask` i przestawiamy jego wartość na `False` :
 
-![](/img/2015/06/3.thunderbird-about-config.png#huge)
+![thunderbird-about-config](/img/2015/06/3.thunderbird-about-config.png#huge)
 
 Jeśli korzystamy z protokołu IMAP, to powinniśmy także zaznaczyć dwie inne opcje, z tym, że te
 akurat są specyficzne dla tego typu kont i można je znaleźć w Edit => Account Settings, a
 konkretnie, po wybraniu konta przechodzimy do `Server Settings` . I tam zaznaczamy te dwie poniższe
 opcje:
 
-![](/img/2015/06/4.thunderbird-kompaktowanie-imap.png#small)
+![thunderbird-kompaktowanie-imap](/img/2015/06/4.thunderbird-kompaktowanie-imap.png#small)
 
 Dzięki nim, folder odebranych i kosz będą automatycznie kompaktowane przy zamykaniu Thunderbird'a.
 
@@ -74,7 +74,7 @@ w nim przechowywaną. By tego dokonać, musimy pierw usunąć ten plik z katalog
 zostanie utworzona na nowo po uruchomieniu aplikacji, zaś postęp prac możemy obserwować przez
 menadżer aktywności (Tools => Activity Manager):
 
-![](/img/2015/06/5.thunderbird-activity-manager.png#big)
+![thunderbird-activity-manager](/img/2015/06/5.thunderbird-activity-manager.png#big)
 
 U mnie po przebudowanie globalnej bazy indeksów, rozmiar pliku `global-messages-db.sqlite`
 zmniejszył się ze 168MiB do niecałych 7MiB.

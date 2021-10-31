@@ -202,7 +202,7 @@ Musimy także przereinstalować bootloader. W tym przypadku jest to `grub2` :
 W momencie, gdy zostaniemy poproszeni o podanie dysku, na którym ma zostać umieszczony kod
 bootloader'a, wybieramy pendrive:
 
-![](/img/2016/01/1.grub-instalacja-pendrive-luks-naglowek.png#medium)
+![grub-instalacja-pendrive-luks-naglowek](/img/2016/01/1.grub-instalacja-pendrive-luks-naglowek.png#medium)
 
 Następnie regenerujemy initramfs:
 

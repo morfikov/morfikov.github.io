@@ -60,7 +60,7 @@ Ja korzystając z dobrodziejstw wyprowadzonego portu dla konsoli szeregowej mog�
 dzieje na routerze po uruchomieniu go z wciśniętym przyciskiem reset. Poniżej znajduje się log
 bootloader'a z mojego TL-WR1043ND V2:
 
-![](/img/2016/10/1.tryb-recovery-router-tp-link-openwrt-lede.png#huge)
+![tryb-recovery-router-tp-link-openwrt-lede](/img/2016/10/1.tryb-recovery-router-tp-link-openwrt-lede.png#huge)
 
 W stosunku do normalnego procesu boot zmienił się `is_auto_upload_firmware` z `0` na `1` , co
 sugeruje automatyczny upload obrazu firmware przy starcie routera z wciśniętym przyciskiem Reset.
@@ -131,12 +131,12 @@ powinien się samoczynnie uruchomić ponownie, tym razem już z działającym sy
 
 Cały ten powyższy proces podejrzałem sobie na konsoli szeregowej:
 
-![](/img/2016/10/2.tryb-recovery-router-tp-link-openwrt-lede.png#huge)
+![tryb-recovery-router-tp-link-openwrt-lede](/img/2016/10/2.tryb-recovery-router-tp-link-openwrt-lede.png#huge)
 
 Jak widać, tryb recovery automatyzuje cały proces naprawy routera przez konsolę szeregową. Niżej zaś
 w logu mamy jeszcze:
 
-![](/img/2016/10/3.tryb-recovery-router-tp-link-openwrt-lede.png#huge)
+![tryb-recovery-router-tp-link-openwrt-lede](/img/2016/10/3.tryb-recovery-router-tp-link-openwrt-lede.png#huge)
 
 Czyli proces flash'owania przebiegł bez problemów i router startuje. Zatem jeśli bootloader w naszym
 routerze posiada taki tryb recovery, to możemy zapomnieć o bawieniu się konsolą szeregową,

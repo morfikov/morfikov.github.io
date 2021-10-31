@@ -102,7 +102,7 @@ W zasadzie nie mamy tutaj póki co za wiele do roboty. Jedyne co musimy w tej ch
 to określić w zakładce `General` nazwę urządzenia w `Device Name` oraz domyślną ścieżkę do
 katalogu w `Default Folder Path`, w którym będą przechowywane synchronizowane foldery.
 
-![](/img/2021/09/001.oandbackupx-syncthing-backup-android-phone-settings-linux.png#huge)
+![oandbackupx-syncthing-backup-android-phone-settings-linux](/img/2021/09/001.oandbackupx-syncthing-backup-android-phone-settings-linux.png#huge)
 
 W zakładce `Connections` przydałoby się określić adres (i port), na którym Syncthing będzie
 nawiązywał połączenia. [Ustawienia domyślne wskazują na default][8] ale lepiej jest je nieco
@@ -110,7 +110,7 @@ zawęzić. Możemy też wyłączyć mechanizm `Global Discovery` , jako że nie 
 internetu do synchronizacji, a jedynie będziemy ją przeprowadzać w obrębie naszej domowej sieci
 WiFi. Jeśli nie chcemy korzystać z lokalnego mechanizmu rozgłaszania, to też możemy go wyłączyć.
 
-![](/img/2021/09/002.oandbackupx-syncthing-backup-android-phone-settings-linux.png#huge)
+![oandbackupx-syncthing-backup-android-phone-settings-linux](/img/2021/09/002.oandbackupx-syncthing-backup-android-phone-settings-linux.png#huge)
 
 To w zasadzie wszystko, co musimy ustawić pod linux, by Syncthing nam zadziałał. Teraz trzeba
 jeszcze skonfigurować drugą końcówkę synchronizacji, tj. nasz smartfon z Androidem.
@@ -313,11 +313,11 @@ przypadku gdy korzystamy z mechanizmu rozgłoszeniowego.
 Na komputerze, w panelu webowym Syncthing powinien pojawić się monit, że jakieś urządzenie wyraziło
 chęć parowania z naszą maszyną. Sprawdzamy ID i dodajemy to urządzenie do powiązanych.
 
-![](/img/2021/09/023.oandbackupx-syncthing-backup-android-phone-sync-device.png#huge)
+![oandbackupx-syncthing-backup-android-phone-sync-device](/img/2021/09/023.oandbackupx-syncthing-backup-android-phone-sync-device.png#huge)
 
-![](/img/2021/09/024.oandbackupx-syncthing-backup-android-phone-sync-device.png#huge)
+![oandbackupx-syncthing-backup-android-phone-sync-device](/img/2021/09/024.oandbackupx-syncthing-backup-android-phone-sync-device.png#huge)
 
-![](/img/2021/09/025.oandbackupx-syncthing-backup-android-phone-sync-device.png#medium)
+![oandbackupx-syncthing-backup-android-phone-sync-device](/img/2021/09/025.oandbackupx-syncthing-backup-android-phone-sync-device.png#medium)
 
 ## Synchronizacja kopi zapasowej OAndBackupX via Syncthing
 
@@ -334,22 +334,22 @@ kod QR skanowaliśmy, w tym przypadku `Morfikownia` .
 Ponownie zaglądamy do panelu webowego na komputerze. Powinien tam widnieć monit dotyczący prośby o
 zaakceptowanie synchronizacji nowego katalogu:
 
-![](/img/2021/09/029.oandbackupx-syncthing-backup-android-phone-sync-folder.png#huge)
+![oandbackupx-syncthing-backup-android-phone-sync-folder](/img/2021/09/029.oandbackupx-syncthing-backup-android-phone-sync-folder.png#huge)
 
 Potwierdzamy i określamy położenie synchronizowanego katalogu w obrębie systemu plików naszego
 linux'a.
 
-![](/img/2021/09/030.oandbackupx-syncthing-backup-android-phone-sync-folder.png#huge)
+![oandbackupx-syncthing-backup-android-phone-sync-folder](/img/2021/09/030.oandbackupx-syncthing-backup-android-phone-sync-folder.png#huge)
 
 Po dodaniu synchronizowanego katalogu, po chwili powinien rozpocząć się proces synchronizacji. Jak
 widać na poniższej fotce, do synchronizacji jest około 6,5 GiB. Byłoby tych danych więcej ale pliki
 backup'u są skompresowane.
 
-![](/img/2021/09/031.oandbackupx-syncthing-backup-android-phone-sync-data.png#medium)
+![oandbackupx-syncthing-backup-android-phone-sync-data](/img/2021/09/031.oandbackupx-syncthing-backup-android-phone-sync-data.png#medium)
 
 Proces synchronizacji możemy także podglądać ze smartfona.
 
-![](/img/2021/09/032.oandbackupx-syncthing-backup-android-phone-sync-data.jpg#small)
+![oandbackupx-syncthing-backup-android-phone-sync-data](/img/2021/09/032.oandbackupx-syncthing-backup-android-phone-sync-data.jpg#small)
 
 Po dłuższej chwili proces synchronizacji dobiegnie końca. Gdy w przyszłości OAndBackupX sporządzi
 nową kopię zapasową, to zostanie ona w dokładnie ten sam sposób automatycznie zsynchronizowana i

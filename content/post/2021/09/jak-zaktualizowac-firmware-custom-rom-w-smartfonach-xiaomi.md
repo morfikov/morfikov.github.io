@@ -102,16 +102,16 @@ Wszystkie potrzebne pliki zostaną wgrane do `~/.local/bin/` :
 Teraz już wystarczy `odpalić xiaomi_flashable_firmware_creator_g` i powinniśmy zobaczyć to poniższe
 okienko:
 
-![](/img/2021/09/001.xiaomi-redmi-9-firmware-create.png#huge)
+![xiaomi-redmi-9-firmware-create](/img/2021/09/001.xiaomi-redmi-9-firmware-create.png#huge)
 
 Wskazujemy naturalnie plik `.zip` ze stock'owym ROM'em od Xiaomi, który wcześniej pobraliśmy.
 Zaznaczamy też opcję `Firmware` i wciskamy `Create` :
 
-![](/img/2021/09/002.xiaomi-redmi-9-firmware-create.png#huge)
+![xiaomi-redmi-9-firmware-create](/img/2021/09/002.xiaomi-redmi-9-firmware-create.png#huge)
 
 Po chwili paczka z firmware powinna zostać utworzona:
 
-![](/img/2021/09/003.xiaomi-redmi-9-firmware-create.png#huge)
+![xiaomi-redmi-9-firmware-create](/img/2021/09/003.xiaomi-redmi-9-firmware-create.png#huge)
 
 Możemy jeszcze dla pewności podejrzeć jej zawartość, np. przy pomocy `patool` :
 

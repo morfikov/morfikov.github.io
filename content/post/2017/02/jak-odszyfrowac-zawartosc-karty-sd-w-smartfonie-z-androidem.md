@@ -48,12 +48,12 @@ sformatować jako pamięć wewnętrzna. Cały proces jest niemal automatyczny i 
 Ustawienia => Pamięć plików i kliknąć w "Karta SD". Mamy tam pozycję "Sformatuj jako pamięć wewn."
 i to w nią klikamy.
 
-![](/img/2017/02/001.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#medium)
+![smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd](/img/2017/02/001.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#medium)
 
 Postępujemy zgodnie z informacjami na ekranie i po chwili karta powinna zostać przygotowana do
 pracy, tj. sformatowana, zaszyfrowana i zamontowana w systemie:
 
-![](/img/2017/02/002.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#huge)
+![smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd](/img/2017/02/002.smartfon-android-marshmallow-tp-link-neffos-y5-karta-sd.png#huge)
 
 Możemy też sprawdzić, gdzie Android montuje naszą kartę SD w systemie (przez `adb`) korzystając z
 polecenia `mount` :

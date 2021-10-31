@@ -83,12 +83,12 @@ Odpalamy zatem terminal i logujemy się na konto root, po czym wydajemy poniższ
 
 Naszym oczom powinien się ukazać następujący komunikat:
 
-![](/img/2015/06/1.linux-jezyk-polski.png#huge)
+![linux-jezyk-polski](/img/2015/06/1.linux-jezyk-polski.png#huge)
 
 Mamy tam informację, że standardowo powinniśmy zaznaczyć pozycje, które mają kodowanie UTF-8 ale o
 tym za moment. Klikamy `OK` i teraz już powinniśmy mieć dostęp do wyboru lokalizacji:
 
-![](/img/2015/06/2.linux-jezyk-polski.png#huge)
+![linux-jezyk-polski](/img/2015/06/2.linux-jezyk-polski.png#huge)
 
 Jak widzimy wyżej mamy dwie pozycje odpowiadające za język polski, zgodnie ze wcześniejszą
 instrukcją zaznaczamy jedynie tę przy której stoi `UTF-8` . Mi nigdy ta druga pozycja nie była do
@@ -101,14 +101,14 @@ jeśli jakaś z nich nie została przetłumaczona na język polski, to wtedy ten
 
 Jako, że mamy co najmniej dwie różne lokalizacje, to trzeba wskazać domyślną dla całego systemu:
 
-![](/img/2015/06/3.linux-jezyk-polski.png#huge)
+![linux-jezyk-polski](/img/2015/06/3.linux-jezyk-polski.png#huge)
 
 Ten krok spowoduje utworzenie pliku `/etc/default/locale` z ustawioną zmienną `LANG` na
 `pl_PL.UTF-8` .
 
 Po konfiguracji powinno zostać wygenerowane również i archiwum:
 
-![](/img/2015/06/4.linux-jezyk-polski.png#huge)
+![linux-jezyk-polski](/img/2015/06/4.linux-jezyk-polski.png#huge)
 
 Język polski powinien być dostępny po ponownym uruchomieniu komputera. Powyższe kroki jednak nie
 wszędzie ustawią odpowiednie kodowanie znaków, mianowicie pod TTY będą problemy z ich wyświetlaniem

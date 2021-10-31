@@ -130,7 +130,7 @@ ostatniego interfejsu WAN przepisze bramę domyślną w tablicy routingu. I to o
 do połączenia z internetem. W przypadku LTE, to modem zawsze konfiguruje się kilka sekund. Dlatego
 to on na poniższym listingu określił swoją bramę jako domyślną:
 
-![](/img/2016/05/2.wwan3-openwrt-tablica-routingu-brama.png#huge)
+![wwan3-openwrt-tablica-routingu-brama](/img/2016/05/2.wwan3-openwrt-tablica-routingu-brama.png#huge)
 
 Na powyższej fotce widzimy tablicę routingu dla interfejsów routera. Mamy tam 3 interfejsy: `wwan0`
 (LTE), `eth0` (WAN), oraz `br-lan` (LAN). Mamy zatem na trzech interfejsach skonfigurowane trzy
@@ -141,7 +141,7 @@ interfejs `wwan0` na adres 10.136.111.218 .
 
 Konfiguracja interfejsów WAN routera wygląda zaś następująco:
 
-![](/img/2016/05/1.wwan3-openwrt-interfejsy-wan.png#huge)
+![wwan3-openwrt-interfejsy-wan](/img/2016/05/1.wwan3-openwrt-interfejsy-wan.png#huge)
 
 ### Metryki
 
@@ -170,7 +170,7 @@ przewodowe konfiguruje się tak jak widać powyżej.
 Mając już przypisane metryki, restartujemy interfejsy. Sprawdzamy tablicę routingu oraz testujemy
 połączenie za pomocą polecenia `ping` :
 
-![](/img/2016/05/4.wwan3-test-lacza.png#huge)
+![wwan3-test-lacza](/img/2016/05/4.wwan3-test-lacza.png#huge)
 
 Jak widzimy, bramy domyślne są dwie. Po jednej dla każdego interfejsu WAN. Również `ping` przechodzi
 przez oba interfejsy, czyli internet jest osiągalny przez obu ISP. Taka konfiguracja otwiera nam
@@ -275,15 +275,15 @@ Utworzenie reguł to jedna sprawa. Sprawdzenie czy one w ogóle działają, to o
 szczęście, `mwan3` jest nam w stanie zwrócić aktualny status łącza. W nim możemy zobaczyć czy
 interfejsy są podniesione, czy też któryś z nich ma awarię:
 
-![](/img/2016/05/5.wwan3-status.png#medium)
+![wwan3-status](/img/2016/05/5.wwan3-status.png#medium)
 
 Mamy także rozpisaną politykę:
 
-![](/img/2016/05/6.wwan3-status.png#medium)
+![wwan3-status](/img/2016/05/6.wwan3-status.png#medium)
 
 Oraz reguły:
 
-![](/img/2016/05/7.wwan3-status.png#huge)
+![wwan3-status](/img/2016/05/7.wwan3-status.png#huge)
 
 Z powyższych informacji wynika, że mam dwa interfejsy podzielone w proporcji 2/3. Oba interfejsy są
 aktywne i działają. Ruch na port 443/tcp oraz 80/tcp jest kierowany według zdefiniowanych wyżej

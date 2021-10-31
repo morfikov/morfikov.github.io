@@ -162,17 +162,17 @@ zasilania. Oprócz standardowych opcji od wykonywania połączeń alarmowych, cz
 wyłączenia/zresetowania telefonu, będzie jedna dodatkowa pozycja właśnie z trybem lockdown, co
 wygląda mniej więcej tak:
 
-![](/img/2021/09/004.android-lockdown-mode-lock-screen.jpg#small)
+![android-lockdown-mode-lock-screen](/img/2021/09/004.android-lockdown-mode-lock-screen.jpg#small)
 
 Tapnięcie w ten środkowy kafelek nic wielkiego, przynajmniej z pozoru, nie uczyni. Na pierwszy rzut
 oka wszystko wygląda normalnie i na pozór nic się nie zmieniło.
 
-![](/img/2021/09/005.android-lockdown-mode-lock-screen.jpg#small)
+![android-lockdown-mode-lock-screen](/img/2021/09/005.android-lockdown-mode-lock-screen.jpg#small)
 
 Jeśli teraz byśmy spróbowali odblokować smartfon przy pomocy biometrii, np. skanera linii
 papilarnych, to nam się to już nie uda. System zażąda od nas hasła do blokady ekranu:
 
-![](/img/2021/09/006.android-lockdown-mode-lock-screen-password.jpg#small)
+![android-lockdown-mode-lock-screen-password](/img/2021/09/006.android-lockdown-mode-lock-screen-password.jpg#small)
 
 Po wpisaniu hasła i pomyślnym odblokowaniu ekranu, tryb lockdown zostaje zdjęty i znów można z
 telefonu korzystać w normalny sposób.

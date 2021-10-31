@@ -134,12 +134,12 @@ próbujemy ukryć.
 
 Teraz w przy pomocy `gparted` stwórzmy na nim jednolitą partycję `sdb1` :
 
-![](/img/2016/10/1.gparted-linux-tworzenie-partycji-pod-luks.png#huge)
+![gparted-linux-tworzenie-partycji-pod-luks](/img/2016/10/1.gparted-linux-tworzenie-partycji-pod-luks.png#huge)
 
 Tutaj wykorzystujemy system plików EXT4. Poniżej widzimy, że struktura opisowa tej partycji zajmuje
 około 70 MiB. To jest minimum, poniżej którego nie możemy zejść.
 
-![](/img/2016/10/2.gparted-linux-tworzenie-partycji-pod-luks.png#huge)
+![gparted-linux-tworzenie-partycji-pod-luks](/img/2016/10/2.gparted-linux-tworzenie-partycji-pod-luks.png#huge)
 
 Do tego trzeba będzie przeznaczyć jeszcze jakieś miejsce na widoczne pliki. Rozmiar tej karty SD
 widziany w systemie to 1,84 GiB, a nasza przykrywka będzie miała 256 MiB. Pozostała część obszaru

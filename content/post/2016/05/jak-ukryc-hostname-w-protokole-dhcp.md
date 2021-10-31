@@ -39,13 +39,13 @@ być problemów z jego zainstalowaniem. Po procesie instalacyjnym, odpalamy tę 
 przechodzimy co "Capture Options" (4 ikonka na lewo w menu). Wybieramy interfejs sieciowy i
 ustawiamy mu filtr tak, by łapał jedynie pakiety z protokołu DHCP: `port 67 or port 68` :
 
-![](/img/2016/05/1.wireshark-filtr-dhcp.png#huge)
+![wireshark-filtr-dhcp](/img/2016/05/1.wireshark-filtr-dhcp.png#huge)
 
 Po zapuszczeniu sniffer'a, podnosimy interfejs sieciowy, np. za pomocą `ifup bond0` . Powinny zostać
 odnotowane cztery pakiety. Klikamy pierwszy z nich i rozwijamy opcje protokołu. Tam z kolei widzimy,
 że klient DHCP przesłał do serwera DHCP hostname naszego komputera:
 
-![](/img/2016/05/2.wireshark-dhcp-hostname.png#huge)
+![wireshark-dhcp-hostname](/img/2016/05/2.wireshark-dhcp-hostname.png#huge)
 
 W ten sposób sami się identyfikujemy w darmowych sieciach i to nie tylko muszą być sieci WiFi.
 
@@ -80,7 +80,7 @@ linijkę:
 Zapiszmy konfigurację i jeszcze raz zapuśćmy
 wiresharka:
 
-![](/img/2016/05/3.wireshark-dhcp-ukrycie-hostname.png#huge)
+![wireshark-dhcp-ukrycie-hostname](/img/2016/05/3.wireshark-dhcp-ukrycie-hostname.png#huge)
 
 Jak widzimy na powyższym obrazku, `dhclient` nie przesłał tym razem naszego hostname do serwera
 DHCP.

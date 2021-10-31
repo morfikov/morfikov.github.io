@@ -72,7 +72,7 @@ będzie można z nim w żaden sposób wejść w interakcję (za wyjątkiem poł�
 Nawet TWRP prosi teraz o podanie hasełka i już tak ochoczo nie potrafi zdeszyfrować danych na
 partycji `/data/` :
 
-![](/img/2018/05/twrp.png#big)
+![twrp.png](/img/2018/05/1.twrp.png#big)
 
 ## Problemy z hasłem do klucza głównego
 

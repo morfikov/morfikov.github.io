@@ -42,7 +42,7 @@ która wskazywała na ten blog. Nie były to wprawdzie klikalne linki, tylko uj�
 `code` , ale wyszukiwarka potraktowała taki tekst jako odnośnik i stąd błąd w panelu Google Search
 Console:
 
-![](/img/2016/08/1.search-console-google-bledy.png#huge)
+![search-console-google-bledy](/img/2016/08/1.search-console-google-bledy.png#huge)
 
 Rozwiązania tego problemu są dwa. Pierwszym z nich jest edycja wszystkich postów i poprawienie
 domeny, by wskazywała na jakąś poza obszarem naszego serwisu. Wtedy Google nie będzie nas winił, że
@@ -74,4 +74,4 @@ My dodatkowo musimy do niego dopisać jeszcze te dwa poniższe:
 Teraz można poprosić boty Google za sprawą penelu Search Console, by zaktualizowały sobie ten plik.
 Po chwili te dwa dodatkowe wpisy powinny zostać uwzględnione:
 
-![](/img/2016/08/2.search-console-google-robots-txt.png#huge)
+![search-console-google-robots-txt](/img/2016/08/2.search-console-google-robots-txt.png#huge)

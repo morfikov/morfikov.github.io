@@ -38,7 +38,7 @@ większe niż rozmiar całej partycji. Problem zaczyna się w momencie, gdy taki
 wypełniać faktycznymi danymi. Spójrzmy sobie na ten obrazek poniżej
 ([źródło](https://en.wikipedia.org/wiki/Sparse_file)):
 
-![](/img/2016/06/1.rozrzedone-pliki-sparse-files.png#big)
+![rozrzedone-pliki-sparse-files](/img/2016/06/1.rozrzedone-pliki-sparse-files.png#big)
 
 Zielonym kolorem oznaczono faktyczne dane w pliku. Szarym kolorem zaś zaznaczono puste bloki, które
 nie są zapisane na dysku. Gdy teraz do takiego pliku będziemy chcieli dodać kolejną porcję danych, w

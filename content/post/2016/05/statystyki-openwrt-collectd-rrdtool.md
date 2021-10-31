@@ -377,11 +377,11 @@ tych poniżej:
 
 Moduł ping:
 
-![](/img/2016/05/1.statystyki-ruch-openwrt-router-collectd-rrdtool.png#huge)
+![statystyki-ruch-openwrt-router-collectd-rrdtool](/img/2016/05/1.statystyki-ruch-openwrt-router-collectd-rrdtool.png#huge)
 
 Moduł load:
 
-![](/img/2016/05/2.statystyki-ruch-openwrt-router-collectd-rrdtool.png#huge)
+![statystyki-ruch-openwrt-router-collectd-rrdtool](/img/2016/05/2.statystyki-ruch-openwrt-router-collectd-rrdtool.png#huge)
 
 
 [1]: https://collectd.org/documentation/manpages/collectd.conf.5.shtml

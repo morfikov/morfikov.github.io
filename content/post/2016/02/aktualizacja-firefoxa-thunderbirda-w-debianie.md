@@ -117,7 +117,7 @@ Będąc w katalogu głównym Firefox'a, uruchamiamy aktualizację tym poniższym
 Firefox powinien zostać po chwili zaktualizowany. Jeśli mieliśmy odpaloną przeglądarkę w trakcie
 procesu aktualizacji, to musimy ją zrestartować, by aktualizacja zaczęła obowiązywać:
 
-![](/img/2016/02/1.aktualizacja-mozilla-firefox-about.png#big)
+![aktualizacja-mozilla-firefox-about](/img/2016/02/1.aktualizacja-mozilla-firefox-about.png#big)
 
 ## Problemy z plikiem libmozsqlite3.so
 

@@ -796,11 +796,11 @@ W tym przypadku zostały zwrócone numerki `2` oraz `71` , zatem adres, który m
 menadżerze plików to `mtp://[usb:002,071]/` . Niestety mój menadżer plików nie obsługuje tego typu
 adresów. Można natomiast posłużyć się [narzędziem gmtp](https://gmtp.sourceforge.io/):
 
-![](/img/2016/09/2.smartfon-linux-protokol-mtp-ptp-gmtp.png#huge)
+![smartfon-linux-protokol-mtp-ptp-gmtp](/img/2016/09/2.smartfon-linux-protokol-mtp-ptp-gmtp.png#huge)
 
 I jeszcze info o urządzeniu zwracane przez `gmtp` :
 
-![](/img/2016/09/3.smartfon-linux-protokol-mtp-ptp-gmtp.png#huge)
+![smartfon-linux-protokol-mtp-ptp-gmtp](/img/2016/09/3.smartfon-linux-protokol-mtp-ptp-gmtp.png#huge)
 
 ## Problemy z przeglądaniem zasobów smartfona
 

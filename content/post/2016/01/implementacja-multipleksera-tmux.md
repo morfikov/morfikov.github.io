@@ -131,7 +131,7 @@ przy pomocy skrótu `Ctrl-a-\` . Również tutaj przyda się zastosowanie opcji 
 Listę aktywnych sesji tmux'a możemy uzyskać posługując się skrótem `Ctrl-a-"` . Wygląda to mniej
 więcej tak:
 
-![](/img/2016/01/1.tmux-sesje.png#huge)
+![tmux-sesje](/img/2016/01/1.tmux-sesje.png#huge)
 
 Między tymi sesjami możemy się przełączać przy pomocy strzałek i klawisza `Enter` . Zawartość
 innych sesji nie jest tracona i zawsze możemy do nich powrócić:

@@ -72,11 +72,11 @@ tablic `raw` , `mangle` , `nat` oraz `filter` . W każdej z tablicy mamy szereg 
 routera, z routera i przez router. Wszystkie te rzeczy są dokładnie zobrazowane na poniższych
 fotkach ([źródło](https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg)):
 
-![](/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png#medium)
+![firewall-iptables-przeplyw-pakietow](/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png#medium)
 
 oraz:
 
-![](/img/2016/05/1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall.png#huge)
+![przeplyw-pakietow-netfilter-iptables-openwrt-firewall](/img/2016/05/1.przeplyw-pakietow-netfilter-iptables-openwrt-firewall.png#huge)
 
 Te schematy zostały jednak nieco rozbudowane przez OpenWRT. Chodzi generalnie o to, że w każdej z
 tych czterech tablic można definiować własne łańcuchy i kierować do nich ruch. OpenWRT dostarcza

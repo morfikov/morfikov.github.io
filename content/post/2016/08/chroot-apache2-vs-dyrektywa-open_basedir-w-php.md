@@ -82,7 +82,7 @@ dostosowanie struktury katalogów wewnątrz folderu `/jail/` . Chodzi o to, że 
 odwiedzili katalog serwera, który umożliwia listing plików, to pierwsze co nam się rzuci w oczy to
 brak ikonek. Zamiast nich zostaną nam jedynie pokazane `[ICO]` , `[DIR]` czy `[TXT]` :
 
-![](/img/2016/08/1.chroot-apache2-mysql-php-bledy.png#medium)
+![chroot-apache2-mysql-php-bledy](/img/2016/08/1.chroot-apache2-mysql-php-bledy.png#medium)
 
 Te ikonki znajdują się w katalogu `/usr/share/apache2/` i by je wyświetlić w środowisku chroot,
 musimy stworzyć taki katalog wewnątrz folderu `/jail/` i przekopiować do niego odpowiednie pliki.
@@ -121,7 +121,7 @@ Zakładając, że nasz serwer www został poprawnie skonfigurowany pod kątem pr
 możemy teraz spróbować odwiedzić nasz blog. Z reguły taki serwis wymaga do pracy serwera bazy
 danych. Po przejściu pod adres www, przywita nas ten poniższy komunikat:
 
-![](/img/2016/08/2.chroot-apache2-mysql-php-bledy.png#medium)
+![chroot-apache2-mysql-php-bledy](/img/2016/08/2.chroot-apache2-mysql-php-bledy.png#medium)
 
 Serwerowi bazy danych nic nie dolega ale skrypty PHP w środowisku chroot nie potrafią go odnaleźć. W
 efekcie zwracają błąd połączenia: `Can't connect to local MySQL server through socket

@@ -302,14 +302,14 @@ zweryfikować, czy aktualna implementacja WebView działa prawidłowo. Chodzi o 
 Test][7]. Wystarczy ją uruchomić i sprawdzić czy przykładowa strona WWW jest w stanie się w tej
 aplikacji bez problemu wyrenderować.
 
-![](/img/2021/10/005.bromite-aosp-google-webview-app-check.jpg#small)
+![bromite-aosp-google-webview-app-check](/img/2021/10/005.bromite-aosp-google-webview-app-check.jpg#small)
 
 Jeśli tak, to znaczy, że wszystko jest w porządku.
 
 W aplikacji WebView Test jest też możliwość zweryfikowania aktualnie wykorzystywanej wersji silnika
 WebView -- wystarczy z menu wybrać `WebView Info` :
 
-![](/img/2021/10/006.bromite-aosp-google-webview-info.jpg#small)
+![bromite-aosp-google-webview-info](/img/2021/10/006.bromite-aosp-google-webview-info.jpg#small)
 
 Jak możemy zauważyć na powyższej fotce, w mamy tam sporo fraz z `Chrome` . Jest to [intencjonalne
 zachowanie Bromite][8], który wykorzystuje szereg technik mających przeciwdziałać profilowaniu
@@ -350,7 +350,7 @@ partycji `/system/` czy `/product/` .
 Postanowiłem zatem przywrócić wszystko na swoje miejsce i sprawdzić jak WebView Switcher sobie
 poradzi ze zmianą WebView w Androidzie mojego smartfona.
 
-![](/img/2021/10/011.bromite-aosp-google-webview-magisk-module-install.jpg#small)
+![bromite-aosp-google-webview-magisk-module-install](/img/2021/10/011.bromite-aosp-google-webview-magisk-module-install.jpg#small)
 
 Po zainstalowaniu tego dodatku i uruchomieniu telefonu ponownie, wszystko zdaje się działać
 dokładnie w ten sam sposób, co został opisany powyżej, choć patrząc za `webview` w `mount`

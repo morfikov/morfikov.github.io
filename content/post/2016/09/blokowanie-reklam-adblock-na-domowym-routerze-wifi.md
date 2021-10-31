@@ -152,7 +152,7 @@ wp czy interia. Zanim jednak je odwiedzimy, zalogujmy się na router i wyłączm
 Odwiedźmy teraz jakiś serwis i po chwili włączmy nasz filtr. Poniżej jest fotka pokazująca różnice w
 wyglądzie przykładowej strony:
 
-![](/img/2016/09/1.adblock-reklamy-wp-router-openwrt.png#huge)
+![adblock-reklamy-wp-router-openwrt](/img/2016/09/1.adblock-reklamy-wp-router-openwrt.png#huge)
 
 Jak widzimy, różnica jest dość spora. Na onecie efekt jest podobny. Z kolei na interii są przecieki.
 Wygląda na to, że filtr nie uwzględnia pewnych domen i przydałoby się je dopisać ręcznie. Po chwili

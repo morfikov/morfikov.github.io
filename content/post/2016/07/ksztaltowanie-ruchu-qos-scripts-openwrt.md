@@ -49,7 +49,7 @@ Konfiguracja dla skryptów dostarczanych w pakiecie `qos-scripts` znajduje się 
 `/etc/config/qos` . Sam plik jest dość obszerny ale w zasadzie interesować nas będzie tylko jego
 górna połowa, a konkretnie ta poniższa część:
 
-![](/img/2016/07/1.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big)
+![qos-scripts-openwrt-router-ksztaltowanie-ruchu](/img/2016/07/1.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big)
 
 ### Interfejsy
 
@@ -74,7 +74,7 @@ która widoczna jest w pliku `/etc/config/network` .
 By zrozumieć opcję `classgroup` , która została wykorzystana w bloku `config interface wan` , musimy
 zajrzeć niżej do pliku `/etc/config/qos` . Mamy tam mniej więcej taki kod:
 
-![](/img/2016/07/2.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big)
+![qos-scripts-openwrt-router-ksztaltowanie-ruchu](/img/2016/07/2.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big)
 
 Interesuje nas tutaj `config classgroup "Default"` . Mamy zdefiniowane dwie opcje:
 
@@ -102,7 +102,7 @@ definiowany wielokrotnie. Trzeba tylko dobrać nazwę i zestaw klas.
 Jeśli chcemy nadać wyższy priorytet określonym pakietom, to korzystamy z reguł. Popatrzymy jeszcze
 raz na fotkę, na której są widoczne reguły.
 
-![](/img/2016/07/1.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big)
+![qos-scripts-openwrt-router-ksztaltowanie-ruchu](/img/2016/07/1.qos-scripts-openwrt-router-ksztaltowanie-ruchu.png#big)
 
 Poza blokami `config classify` mamy tam również inne bloki: `config reclassify` oraz `config
 default` . Co one oznaczają i czym się one różnią od `config classify` ? Wszystkie te reguły odnoszą

@@ -67,7 +67,7 @@ debianie w pakiecie `alsa-utils` . Jeśli korzystamy z PulseAudio, to musimy prz
 dźwiękowej wciskając klawisz F6 i wybierając odpowiednią pozycję. W przypadku mojej karty, suwaki
 wyglądają mniej więcej tak:
 
-![](/img/2016/01/1.glosnik-beep-alsamixer.png#huge)
+![glosnik-beep-alsamixer](/img/2016/01/1.glosnik-beep-alsamixer.png#huge)
 
 Suwak na pozycji `Beep` odpowiada za nasz głośnik. Jak widzimy jest ustawiony na full. Jeśli chcemy
 nieco przyciszyć dźwięki generowane za jego sprawą, to wystarczy tutaj dostosować sobie poziom

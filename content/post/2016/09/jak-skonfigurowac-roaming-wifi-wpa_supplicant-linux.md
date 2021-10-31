@@ -136,7 +136,7 @@ Każde skanowanie sieci zwraca listę wszystkich AP w okolicy oraz jakość odbi
 Takie skanowanie możemy sami zainicjować wpisując w terminalu polecenie `wpa_cli scan` i po chwili
 podejrzeć wynik poleceniem `wpa_cli scan_results` , poniżej przykład:
 
-![](/img/2016/09/1.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
+![roaming-wifi-linux-skan-sieci-wpasupplicant](/img/2016/09/1.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
 
 Jak widać wyżej, mamy dwa AP z tą samą nazwą sieci `Ever_Vigilant` . Widzimy też, że poziom sygnału
 docierającego do mojego laptopa to -13 dBm i -52 dBm. Jesteśmy naturalnie podłączeni w tej chwili do
@@ -148,14 +148,14 @@ zapoczątkuje agresywne skanowanie sieci co 10 sekund w celu zaktualizowania tej
 Wtedy okaże się, że w pewnym momencie sygnał będzie się prezentował tak jak na tym poniższym
 obrazku:
 
-![](/img/2016/09/2.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
+![roaming-wifi-linux-skan-sieci-wpasupplicant](/img/2016/09/2.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
 
 Zatem nastąpiła zamiana miejsc i teraz AP2 dostarcza przyzwoity sygnał. W takim przypadku po
 zastosowaniu opcji `bgscan` , system powinien nas automatycznie przełączyć między tymi dwoma AP i to
 bez żadnych powiadomień czy wymagania podjęcia jakichś akcji z naszej strony. Poniżej jest fotka
 zalogowanego zdarzenia:
 
-![](/img/2016/09/3.roaming-wifi-linux-przelaczanie-sieci-ten-sam-essid.png#huge)
+![roaming-wifi-linux-przelaczanie-sieci-ten-sam-essid](/img/2016/09/3.roaming-wifi-linux-przelaczanie-sieci-ten-sam-essid.png#huge)
 
 Wyżej w logu widzimy komunikat `wlan0: disconnect from AP c4:6e:1f:95:ef:fd for new auth to
 ec:08:6b:8d:32:aa` . Jest to informacja, która oświadcza nam, że demon roamingowy znalazł AP o
@@ -203,13 +203,13 @@ do której sieci zostaniemy podłączeni zależy od samej konfiguracji sieci w p
 
 Tak obecnie wygląda eter w mojej okolicy:
 
-![](/img/2016/09/4.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
+![roaming-wifi-linux-skan-sieci-wpasupplicant](/img/2016/09/4.roaming-wifi-linux-skan-sieci-wpasupplicant.png#huge)
 
 Dwie moje sieci są oznaczone jako `Ever_Vigilant` oraz `TP-LINK` . Obie te sieci zostały określone w
 konfiguracji `wpa_supplicant` i na obu z nich mamy ustawiony roaming. Wystarczy, że sygnał spadnie
 poniżej tych -60 dBm, a system przełączy nas do drugiego AP:
 
-![](/img/2016/09/5.roaming-wifi-linux-przelaczanie-sieci-rozne-essid.png#huge)
+![roaming-wifi-linux-przelaczanie-sieci-rozne-essid](/img/2016/09/5.roaming-wifi-linux-przelaczanie-sieci-rozne-essid.png#huge)
 
 W tym przypadku, jako że są różne nazwy sieci, w logu pojawiła się informacja na temat tej, do
 której zostaliśmy przyłączeni.

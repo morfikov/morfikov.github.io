@@ -35,7 +35,7 @@ Mając zainstalowaną dowolną aplikację, która jest nam w stanie pokazać dos
 smartfona, na liście powinniśmy być w stanie odszukać urządzenie ZRAM. Poniżej przykład z [aplikacji
 DiskInfo][2]:
 
-![](/img/2017/01/001.zram-swap-smartfon-urzadzenie-disk-info.png#medium)
+![zram-swap-smartfon-urzadzenie-disk-info](/img/2017/01/001.zram-swap-smartfon-urzadzenie-disk-info.png#medium)
 
 W przypadku mojego smartfona Neffos C5 MAX, to urządzenie ma pojemność 512 MiB (oznaczone wyżej jako
 SWAP). Generalnie tyle można tych danych tutaj upchnąć, choć trzeba uwzględnić stopień kompresji,
@@ -53,12 +53,12 @@ kilka naraz, sprawiamy, że ilość dostępnej wolnej pamięci RAM ulega zmniejs
 aplikacji będziemy otwierać bez zamykania tych już uruchomionych wcześniej, tym więcej danych
 powędruje do urządzenia ZRAM:
 
-![](/img/2017/01/002.zram-swap-smartfon-intensywne-wykorzystanie.png#medium)
+![zram-swap-smartfon-intensywne-wykorzystanie](/img/2017/01/002.zram-swap-smartfon-intensywne-wykorzystanie.png#medium)
 
 Nawet jeśli w późniejszym czasie pozamykamy wszystkie uruchomione przez nas programy, to i tak część
 danych w dalszym ciągu pozostanie w formie skompresowanej.
 
-![](/img/2017/01/003.zram-swap-smartfon-zamykanie-aplikacji.png#medium)
+![zram-swap-smartfon-zamykanie-aplikacji](/img/2017/01/003.zram-swap-smartfon-zamykanie-aplikacji.png#medium)
 
 Dzieje się tak dlatego, że system w sytuacji wyczerpywania się zasobów pamięci operacyjnej musi
 podjąć decyzję, które dane zrzucić do tego urządzenia ZRAM. Zwykle są to informacje zawarte w

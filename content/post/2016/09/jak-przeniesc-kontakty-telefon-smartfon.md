@@ -43,7 +43,7 @@ Wyżej mamy dwa [interfejsy ACM][2]. To przy ich pomocy `wammu` będzie w stanie
 z telefonem. [Konfiguracja wammu jest opisana w osobnym artykule][3]. My tutaj jedynie połączymy
 się z telefonem wykorzystując interfejs `/dev/ttyACM0` :
 
-![](/img/2016/09/1.wammu-podlaczenie-stary-telefon-linux.png#big)
+![wammu-podlaczenie-stary-telefon-linux](/img/2016/09/1.wammu-podlaczenie-stary-telefon-linux.png#big)
 
 ## Jak wykonać backup listy kontaktów w Wammu
 
@@ -51,7 +51,7 @@ Po nawiązaniu połączenia z telefonem, pobieramy listę kontaktów. Do wyboru 
 SIM, kontakty z pamięci oraz oba powyższe jednocześnie. Kontakty na karcie SIM są bardzo okrojone i
 one nas nie będą interesować. Dlatego też skupimy się jedynie na kontaktach z pamięci telefonu:
 
-![](/img/2016/09/2.wammu-podlaczenie-stary-telefon-linux-backup.png#huge)
+![wammu-podlaczenie-stary-telefon-linux-backup](/img/2016/09/2.wammu-podlaczenie-stary-telefon-linux-backup.png#huge)
 
 Po tym jak kontakty zostaną pobrane, na liście możemy zobaczyć szereg pozycji, które mają w polu
 `Name` różne zakończenia, np. `/M` (main) czy `/W` (work) , itp. W telefonie, zwykle mamy jeden
@@ -64,7 +64,7 @@ zakończeniu nazwy, tj. jeden kontakt będzie miał `/M` a drugi `/W` czy jeszcz
 kontakty będzie można w bardzo prosty sposób scalić ale o tym później. Mając listę kontaktów,
 zapisujemy ją do pliku na dysku komputera:
 
-![](/img/2016/09/3.wammu-podlaczenie-stary-telefon-linux-backup.png#huge)
+![wammu-podlaczenie-stary-telefon-linux-backup](/img/2016/09/3.wammu-podlaczenie-stary-telefon-linux-backup.png#huge)
 
 ## Konwertowanie listy kontaktów do formatu vCard
 
@@ -81,16 +81,16 @@ Następnie na smartfoine przechodzimy na `Kontakty`. Rozwijamy menu i powinniśm
 zamierzamy zaimportować te
 kontakty:
 
-![](/img/2016/09/4.importowanie-listy-kontaktow-smartfon.png#huge)
+![importowanie-listy-kontaktow-smartfon](/img/2016/09/4.importowanie-listy-kontaktow-smartfon.png#huge)
 
 Zostaniemy poproszeni o wskazanie pliku `.vcf` (powinien zostać automatycznie znaleziony) :
 
-![](/img/2016/09/5.importowanie-listy-kontaktow-smartfon.png#huge)
+![importowanie-listy-kontaktow-smartfon](/img/2016/09/5.importowanie-listy-kontaktow-smartfon.png#huge)
 
 Importowanie kontaktów chwilę potrwa, a gdy ten proces dobiegnie końca, na liście będziemy mogli
 zobaczyć takie oto zdublowane pozycje:
 
-![](/img/2016/09/6.importowanie-listy-kontaktow-smartfon.png#medium)
+![importowanie-listy-kontaktow-smartfon](/img/2016/09/6.importowanie-listy-kontaktow-smartfon.png#medium)
 
 ## Scalanie kontaktów
 
@@ -101,13 +101,13 @@ Nawet mamy listę sugerowanych pozycji, które w tym przypadku znajdują jak naj
 Wybieramy jedną z nich i proces ponawiamy dla każdego numeru, który chcemy przypisać do danego
 kontaktu.
 
-![](/img/2016/09/7.laczenie-scalanie-kontaktow-smartfon.png#huge)
+![laczenie-scalanie-kontaktow-smartfon](/img/2016/09/7.laczenie-scalanie-kontaktow-smartfon.png#huge)
 
 W tym przypadku powinniśmy mieć trzy telefony na jednym kontakcie. Wszystkie rzeczy związane z
 każdym poszczególnym numerem możemy sobie dostosować wedle uznania. Później przy wyborze tego
 kontaktu będziemy mieli dostępne trzy jego numery.
 
-![](/img/2016/09/8.laczenie-scalanie-kontaktow-smartfon.png#medium)
+![laczenie-scalanie-kontaktow-smartfon](/img/2016/09/8.laczenie-scalanie-kontaktow-smartfon.png#medium)
 
 W tym przypadku mamy do czynienia z pseudo numerem usług jednej z sieci GSM. Niemniej jednak, w
 przypadku realnych kontaktów numery komórkowe i domowe możemy upchnąć na jednej pozycji i nie

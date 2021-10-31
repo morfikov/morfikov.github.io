@@ -87,7 +87,7 @@ I to w zasadzie cała konfiguracja. Restartujemy router i łączymy się po kabl
 sprawdzenia poprawności konfiguracji. Jak widzimy poniżej, interfejsowi sieciowemu klienta zostały
 przypisane adresy z różnych sieci:
 
-![](/img/2016/07/1.rozne-adresy-lan-wlan-router-openwrt-routed-ap.png#huge)
+![rozne-adresy-lan-wlan-router-openwrt-routed-ap](/img/2016/07/1.rozne-adresy-lan-wlan-router-openwrt-routed-ap.png#huge)
 
 Zwróćmy też uwagę na fakt, że w tym przypadku nie mamy ustawionych żadnych obostrzeń w stosunku do
 klientów sieci WiFi, tak jak to ma miejsce, np. w sieci gościnnej. Hosty tutaj mogą się łączyć

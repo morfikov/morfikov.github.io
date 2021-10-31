@@ -152,7 +152,7 @@ urządzeń powinien pasować na każde z pozostałych. Na stronie crDroid mamy w
 urządzenia `lava` (Redmi G80 Series) i to właśnie ta pozycja we wspieranych oficjalnie urządzeniach
 nas interesuje dla naszego Redmi 9.
 
-![](/img/2021/09/009.crdroid-android-rom-xiaomi-redmi-9-download-crdroid.png#huge)
+![crdroid-android-rom-xiaomi-redmi-9-download-crdroid](/img/2021/09/009.crdroid-android-rom-xiaomi-redmi-9-download-crdroid.png#huge)
 
 Klikamy naturalnie w ten zielony przycisk z napisem `Download latest version` i po chwili powinno
 rozpocząć się pobieranie ROM'u crDroid Android. Jak możemy zauważyć, ten ROM waży jedynie 873.9 MiB.
@@ -183,7 +183,7 @@ Pierwsze uruchomienie telefonu zajmie dłuższą chwilę ale nie ma powodów do 
 na ekranie logo crDroid Android, to znaczy, że system się uruchamia i po paru minutach powinien się
 w pełni zainicjować.
 
-![](/img/2021/09/012.crdroid-android-rom-xiaomi-redmi-9-crdroid-status.jpg#small)
+![crdroid-android-rom-xiaomi-redmi-9-crdroid-status](/img/2021/09/012.crdroid-android-rom-xiaomi-redmi-9-crdroid-status.jpg#small)
 
 ## Root przy pomocy Magisk
 

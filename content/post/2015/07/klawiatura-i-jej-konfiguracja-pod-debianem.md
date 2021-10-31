@@ -76,28 +76,28 @@ szereg pytań i raczej nie powinno z nimi być żadnych problemów.
 
 Możemy wybrać model klawiatury:
 
-![](/img/2015/06/1.debian-konfiguracja-klawiatura.png#huge)
+![debian-konfiguracja-klawiatura](/img/2015/06/1.debian-konfiguracja-klawiatura.png#huge)
 
 Jak i również język:
 
-![](/img/2015/06/2.debian-konfiguracja-klawiatura.png#huge)
+![debian-konfiguracja-klawiatura](/img/2015/06/2.debian-konfiguracja-klawiatura.png#huge)
 
 Oraz układ:
 
-![](/img/2015/06/3.debian-konfiguracja-klawiatura.png#huge)
+![debian-konfiguracja-klawiatura](/img/2015/06/3.debian-konfiguracja-klawiatura.png#huge)
 
 A także dostosować klawisz `AltGr` , który odpowiada za możliwość wprowadzania polskich znaków:
 
-![](/img/2015/06/4.debian-konfiguracja-klawiatura.png#huge)
+![debian-konfiguracja-klawiatura](/img/2015/06/4.debian-konfiguracja-klawiatura.png#huge)
 
 Jest też opcja dla klawisza `compose` , to ten co umożliwia wprowadzanie dodatkowych znaków utf-8,
 np. `®` :
 
-![](/img/2015/06/5.debian-konfiguracja-klawiatura.png#huge)
+![debian-konfiguracja-klawiatura](/img/2015/06/5.debian-konfiguracja-klawiatura.png#huge)
 
 Możemy także zdefiniować kilka opcji dla Xserver'a, choć jedynie tylko te podstawowe:
 
-![](/img/2015/06/6.debian-konfiguracja-klawiatura.png#huge)
+![debian-konfiguracja-klawiatura](/img/2015/06/6.debian-konfiguracja-klawiatura.png#huge)
 
 Zaowocuje to stworzeniem pliku `/etc/default/keyboard` o poniższej zawartości:
 

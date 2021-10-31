@@ -330,14 +330,14 @@ Przydałoby się jeszcze na własne oczy zobaczyć czy QoS działa. Odpaliłem z
 do pobierania kilka obrazów z linux'ami. Po chwili transfer osiągnął szczyt możliwości mojego łącza
 i powstałe w ten sposób opóźnienia zostały zobrazowane na fotce poniżej:
 
-![](/img/2016/05/1.kontrola-ruchu-openwrt-router-tc-iptables-qos.png#huge)
+![kontrola-ruchu-openwrt-router-tc-iptables-qos](/img/2016/05/1.kontrola-ruchu-openwrt-router-tc-iptables-qos.png#huge)
 
 Pierwsze okienko pokazuje aktualne wykorzystanie łącza. Na drugim zaś widać statystyki pingu. W
 ostatnim, po SSH zaaplikowaliśmy wyżej stworzony skrypt. Pingi wyraźnie spadły. Wynik mówi raczej
 sam za siebie. Odpalmy teraz jakiś filmik na YouTube i sprawdźmy jak wyglądają kolejki na
 interfejsach:
 
-![](/img/2016/05/2.kontrola-ruchu-openwrt-router-tc-iptables-qos.png#huge)
+![kontrola-ruchu-openwrt-router-tc-iptables-qos](/img/2016/05/2.kontrola-ruchu-openwrt-router-tc-iptables-qos.png#huge)
 
 Ruch z sieci P2P idzie na domyślną kolejkę na obu interfejsach (:600). Natomiast ruch www idzie na
 kolejkę :200. Każda z tych kolejek wykorzystuje ponad 100% swojego przydziału. Jest to dozwolone i w

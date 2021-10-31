@@ -39,7 +39,7 @@ Przyjrzyjmy się zatem bliżej plikowi `~/.config/dconf/user` . Jest to plik bin
 podejrzeć go za pomocą edytora teksu. Wyżej wspomniałem, że możemy podejrzeć zawartość bazy
 korzystając, np. z `dconf-editor` , odpalmy go zatem:
 
-![](/img/2015/10/1.baza-danych-dconf-oczyszanie.png#big)
+![baza-danych-dconf-oczyszanie](/img/2015/10/1.baza-danych-dconf-oczyszanie.png#big)
 
 Problem w tym, że `dconf-editor` umożliwia jedynie odczyt i zapis wartości poszczególnych kluczy
 dostępnych w bazie. Nie ma jednak opcji usuwania takich kluczy, czy czyszczenia bazy danych. W tym

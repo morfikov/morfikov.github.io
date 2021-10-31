@@ -52,19 +52,19 @@ gpg.conf](/post/konfiguracja-gpg-w-pliku-gpg-conf/), jak i również ze sposobem
 Po zainstalowaniu dodatku enigmail w Thunderbirdzie, w jego menu powinna się nam pojawić dodatkowa
 pozycja:
 
-![](/img/2015/06/1.enigmail-menu-thunderbird.png#medium)
+![enigmail-menu-thunderbird](/img/2015/06/1.enigmail-menu-thunderbird.png#medium)
 
 Mamy tam do dyspozycji szereg opcji, dzięki którym jesteśmy w stanie tworzyć, usuwać klucze,
 przypisywać je do określonych kont pocztowych. Możemy również szyfrować, deszyfrować i podpisywać
 wiadomości przy pomocy tych kluczy:
 
-![](/img/2015/06/2.enigmail-menu.png#small)
+![enigmail-menu](/img/2015/06/2.enigmail-menu.png#small)
 
 Jak wspomniałem wyżej, klucze możemy tworzyć za pomocą narzędzia `gpg` . Jeśli jednak chcemy tego
 dokonać za pośrednictwem dodatku enigmail, to wybieramy z menu Enigmail => Key Managment i tam już
 dajemy Generate => New Key Pair . Powinno nam się pokazać to poniższe okienko:
 
-![](/img/2015/06/3.generowanie-klucza-enigmail.png#big)
+![generowanie-klucza-enigmail](/img/2015/06/3.generowanie-klucza-enigmail.png#big)
 
 Zgodnie z informacją widoczną wyżej, generowanie klucza może zająć nawet kilka minut. By
 przyśpieszyć ten proces i poprawić siłę samego klucza, dobrze jest zmobilizować komputer do
@@ -74,11 +74,11 @@ poruszanie myszą, czy też przez odczyt/zapis danych na dysku.
 Po wygenerowaniu klucza, zostaniemy także poproszeni o stworzenie certyfikatu unieważniającego
 klucz. To na wypadek gdyby klucz szyfrujący wpadł w niepowołane ręce:
 
-![](/img/2015/06/4.generowanie-certyfikatu-enigmail.png#huge)
+![generowanie-certyfikatu-enigmail](/img/2015/06/4.generowanie-certyfikatu-enigmail.png#huge)
 
 Klucz powinien już widnieć na liście kluczy gpg:
 
-![](/img/2015/06/5.lista-kluczy-enigmail.png#big)
+![lista-kluczy-enigmail](/img/2015/06/5.lista-kluczy-enigmail.png#big)
 
 Pamiętajmy też by wysłać klucz na jeden z serwerów kluczy.
 
@@ -87,11 +87,11 @@ Jeśli z jakichś względów byśmy zmieniali adres email, lub też klucz nie zo
 przechodzimy w menu Thunderbirda do Enigmail => Edit Per Recipient Rules i definiujemy reguły dla
 kluczy:
 
-![](/img/2015/06/6.reguly-kluczy-enigmail.png#big)
+![reguly-kluczy-enigmail](/img/2015/06/6.reguly-kluczy-enigmail.png#big)
 
 Po określeniu dopasowania, nasz klucz powinien pojawić się na liście reguł:
 
-![](/img/2015/06/7.lista-regul-enigmail.png#huge)
+![lista-regul-enigmail](/img/2015/06/7.lista-regul-enigmail.png#huge)
 
 Możemy naturalnie dostosować sobie poszczególne opcje. Ja domyślnie podpisuje wszystkie swoje
 wiadomości, dlatego też zaznaczyłem jedynie `sign` .
@@ -101,7 +101,7 @@ wiadomości, dlatego też zaznaczyłem jedynie `sign` .
 Mając już przygotowany klucz, przejdźmy do zaszyfrowania testowej wiadomości. Zaszyfrowanego maila
 tworzymy dokładnie w taki sam sposób, co w przypadku jego zwykłego odpowiednika:
 
-![](/img/2015/06/10.szyfrowanie-wiadomosci-enigmail.png#huge)
+![szyfrowanie-wiadomosci-enigmail](/img/2015/06/10.szyfrowanie-wiadomosci-enigmail.png#huge)
 
 Jeśli kłódka jest wciśnięta, wiadomość będzie szyfrowana. Podobnie sprawa ma się w przypadku ołówka,
 z tym, że on odpowiada za podpisywanie wiadomości. Jeśli nie wysyłaliśmy klucza publicznego na jeden
@@ -111,7 +111,7 @@ będzie w stanie zweryfikować sygnaturę, która zostanie przez nas złożona.
 Jeśli to my jesteśmy odbiorcą wiadomości i w przypadku gdy ona została zaszyfrowana, to raczej nie
 będziemy w stanie jej przeczytać bez odpowiedniego klucza prywatnego:
 
-![](/img/2015/06/8.zaszyfrowania-wiadomosc-enigmail.png#huge)
+![zaszyfrowania-wiadomosc-enigmail](/img/2015/06/8.zaszyfrowania-wiadomosc-enigmail.png#huge)
 
 Jeśli jednak ktoś zaszyfrował tę wiadomość przy pomocy naszego klucza publicznego, to przy
 założeniu, że mamy odpowiadający mu klucz prywatny, jesteśmy w stanie odszyfrować tę wiadomość. W
@@ -120,7 +120,7 @@ każdym razem gdy tylko otrzymamy zaszyfrowaną wiadomość.Możemy zaznaczyć o
 Automatically Decrypt/Verify Messaged, by wiadomości były automatycznie deszyfrowane i weryfikowane
 w przypadku gdy posiadamy odpowiednie klucze. Tak czy inaczej wiadomość powinna zostać odszyfrowana:
 
-![](/img/2015/06/9.odszyfrowana-wiadomosc-enigmail.png#huge)
+![odszyfrowana-wiadomosc-enigmail](/img/2015/06/9.odszyfrowana-wiadomosc-enigmail.png#huge)
 
 Jak widzimy wyżej, wszystko przebiegło bez problemów. Sygnatura także jest w porządku. Od tej chwili
 szyfrowanie/deszyfrowanie wiadomości odbywać się będzie automatycznie. W przypadku gdy ktoś prześle

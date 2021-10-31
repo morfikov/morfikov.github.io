@@ -44,12 +44,12 @@ Po wsadzeniu karty SD do slotu w smartfonie, Android powinien nam wyrzucić info
 wykrycia takiego nośnika i udostępnić nam opcje formatowania karty SD, ewentualnie zawsze możemy
 wejść w Ustawienia => Pamięć plików:
 
-![](/img/2016/12/001.karta-sd-pamiec-wewnetrzna-android-formatowanie.png#big)
+![karta-sd-pamiec-wewnetrzna-android-formatowanie](/img/2016/12/001.karta-sd-pamiec-wewnetrzna-android-formatowanie.png#big)
 
 W tym przypadku karta SD jest sformatowana w tradycyjny sposób i automatycznie zamontowana w
 systemie. Jak widzimy wyżej, mamy opcję "Sformatuj jako pamięć wewnętrzna". Klikamy w nią:
 
-![](/img/2016/12/002.karta-sd-pamiec-wewnetrzna-android-formatowanie.png#big)
+![karta-sd-pamiec-wewnetrzna-android-formatowanie](/img/2016/12/002.karta-sd-pamiec-wewnetrzna-android-formatowanie.png#big)
 
 Sformatowanie karty SD w taki sposób uniemożliwi nam korzystanie z niej na innych urządzeniach. Ten
 proces kasuje także wszystkie dane zgromadzone na karcie SD. Dlatego też przed przeprowadzeniem go
@@ -60,7 +60,7 @@ kątem oceny jego prędkości. W przypadku, gdy karta nie należy do najszybszyc
 parametrami od flash'a telefonu, to zostanie wyrzucony komunikat o możliwym spowolnieniu działania
 systemu:
 
-![](/img/2016/12/004.karta-sd-pamiec-wewnetrzna-android-wolna.png#medium)
+![karta-sd-pamiec-wewnetrzna-android-wolna](/img/2016/12/004.karta-sd-pamiec-wewnetrzna-android-wolna.png#medium)
 
 Trzeba sobie zdawać sprawę, że nawet te szybsze karty SD są parokrotnie wolniejsze niż wbudowana w
 smartfon pamięć flash, zatem i tak spowolnienie w działaniu systemu odczujemy. Dlatego też jeśli już
@@ -70,7 +70,7 @@ najszybszą kartę SD, [min. klasa 10 lub UHS-1][7].
 Po tym jak proces formatowania karty dobiegnie końca, zostaniemy poproszeni o określenie czy chcemy
 zainstalowane w systemie aplikacje oraz ich prywatne dane przenieść na kartę SD:
 
-![](/img/2016/12/005.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
+![karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych](/img/2016/12/005.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
 
 ### Przeniesienie aplikacji w późniejszym czasie
 
@@ -80,7 +80,7 @@ formatowania karty SD, to przestrzeń kary nie zostanie dodana do tej, którą m
 telefonu. W menadżerze plików nie zobaczymy też już pozycji karty SD i nie będziemy w stanie wgrać
 na nią własnych plików:
 
-![](/img/2016/12/006.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
+![karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych](/img/2016/12/006.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
 
 ### Przeniesienie aplikacji w procesie formatowania karty SD
 
@@ -91,7 +91,7 @@ ma zaś 2 G. Po przeniesieniu danych, system będzie widział jedynie 2 G, a nie
 możliwości, by te dwie przestrzenie połączyć ze sobą, no chyba, że sformatujemy kartę SD w
 standardowy sposób z wykorzystaniem systemu plików FAT.
 
-![](/img/2016/12/008.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
+![karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych](/img/2016/12/008.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#big)
 
 ### Hybrydowa lokalizacja aplikacji
 
@@ -102,7 +102,7 @@ na flash'u telefonu. Tutaj warto też zaznaczyć, że pojedyncze aplikacje może
 kartę SD. Wystarczy, że przejdziemy w Ustawienia => Aplikacje => Informacje o aplikacji => Pamięć
 plików i klikniemy przycisk "Zmień":
 
-![](/img/2016/12/009.karta-sd-pamiec-wewnetrzna-android-przenoszenie-aplikacji.png#huge)
+![karta-sd-pamiec-wewnetrzna-android-przenoszenie-aplikacji](/img/2016/12/009.karta-sd-pamiec-wewnetrzna-android-przenoszenie-aplikacji.png#huge)
 
 Wszystkie aplikacje, które zostaną w taki sposób przeniesione, są zapamiętywane przez Androida i w
 przypadku odłączenia karty SD, te programiki przestaną nam działać (przestaną być widoczne przez
@@ -133,7 +133,7 @@ odpowiada ale przenieśliśmy już dane na kartę SD, to bez problemu możemy ca
 przenieść dane z karty SD na flash smartfona. Wystarczy przejść w Ustawienia => Pamięć plików =>
 Pamięć wewnętrzna. Tam z kolei w menu po prawej stronie na górze wybieramy "Przenieść dane":
 
-![](/img/2016/12/010.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#huge)
+![karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych](/img/2016/12/010.karta-sd-pamiec-wewnetrzna-android-przenoszenie-danych.png#huge)
 
 Trzeba jednak pamiętać, że ten proces przenoszenia danych z karty SD na pamięć telefonu może w
 pewnych sytuacjach doprowadzić do bootloop, czyli zapętlenia się startu smartfona. Możemy do takiego
@@ -148,7 +148,7 @@ zapewne wiemy, efektywnie zniszczy wszystkie nasze dane.
 Kartę SD sformatowaną jako pamięć wewnętrzna w dalszym ciągu jesteśmy w stanie odłączyć od systemu.
 Niemniej jednak, nie jest to zalecane:
 
-![](/img/2016/12/011.karta-sd-pamiec-wewnetrzna-android-odlaczanie.png#big)
+![karta-sd-pamiec-wewnetrzna-android-odlaczanie](/img/2016/12/011.karta-sd-pamiec-wewnetrzna-android-odlaczanie.png#big)
 
 Tutaj taka mała uwaga. Po przeprowadzeniu procesu formatowania karty SD zawsze zrestartujmy
 smartfon. Bez tego kroku, Android może się zachowywać wręcz nieobliczalnie, co może być źródłem
@@ -162,7 +162,7 @@ proces został przeprowadzony. Taka karta zostanie sformatowana systemem plików
 zostaną na tej karcie zaszyfrowane. Spójrzmy na tę poniższa fotkę obrazującą kilka partycji
 widzianych przez Androida:
 
-![](/img/2016/12/012.karta-sd-pamiec-wewnetrzna-android-widok-podzial.png#big)
+![karta-sd-pamiec-wewnetrzna-android-widok-podzial](/img/2016/12/012.karta-sd-pamiec-wewnetrzna-android-widok-podzial.png#big)
 
 Standardowa wielkość pamięci flash w smartfonie Neffos Y5, to 16 G, z czego tylko 12 G jest
 przeznaczone dla partycji `/data/` , czyli danych użytkownika. Karta SD wykorzystywana w tym
@@ -226,7 +226,7 @@ przeznaczony na pamięć przenośną.
 Gdy proces formatowania karty dobiegnie końca, możemy sprawdzić czy Android poprawnie rozpoznał
 podział karty SD w Ustawienia => Pamięć plików:
 
-![](/img/2016/12/013.karta-sd-pamiec-wewnetrzna-android-hybryda.png#medium)
+![karta-sd-pamiec-wewnetrzna-android-hybryda](/img/2016/12/013.karta-sd-pamiec-wewnetrzna-android-hybryda.png#medium)
 
 Karta ma 2 G pamięci, z czego około 25% zostało przeznaczone na pamięć wewnętrzną, a reszta na
 pamięć przenośną, czyli wszystko się zgadza.
@@ -236,12 +236,12 @@ przestrzeni, która jest sformatowana jako pamięć wewnętrzna. By być w stani
 kartę z telefonu, musimy również wejść w opcje pamięci wewnętrznej (czerwona pozycja na powyższej
 fotce) i tam z menu wybrać "Odłącz":
 
-![](/img/2016/12/014.karta-sd-pamiec-wewnetrzna-android-hybryda-odlaczanie.png#big)
+![karta-sd-pamiec-wewnetrzna-android-hybryda-odlaczanie](/img/2016/12/014.karta-sd-pamiec-wewnetrzna-android-hybryda-odlaczanie.png#big)
 
 Jeśli ktoś jest ciekaw jak taka karta jest widziana pod linux'em, to poniżej jest fotka z
 `gparted` :
 
-![](/img/2016/12/015.karta-sd-pamiec-wewnetrzna-android-gparted.png#huge)
+![karta-sd-pamiec-wewnetrzna-android-gparted](/img/2016/12/015.karta-sd-pamiec-wewnetrzna-android-gparted.png#huge)
 
 Jako, że partycja sformatowana systemem plików FAT jest pierwsza w szeregu, to nie powinno być
 problemów z zamontowaniem jej nawet pod windows, choć ten nie zawsze może z taką kartą

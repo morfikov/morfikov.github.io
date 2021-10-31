@@ -123,7 +123,7 @@ przychodzących spełniał swoje zadanie. Trzeba jednak liczyć się z faktem, �
 bazie danych mogą się dość mocno zdezaktualizować. Tak czy inaczej, filtrowanie numerów w oparciu o
 tę bazę danych powinniśmy sobie włączyć:
 
-![](/img/2021/09/007.yacb-call-blocker-android-spam-filer-settings-block-by-rating.jpg#small)
+![yacb-call-blocker-android-spam-filer-settings-block-by-rating](/img/2021/09/007.yacb-call-blocker-android-spam-filer-settings-block-by-rating.jpg#small)
 
 ### Auto update bazy
 
@@ -135,7 +135,7 @@ zostanie wypuszczony.
 
 Aktualny status bazy danych zawsze można sprawdzić w ustawieniach YACB:
 
-![](/img/2021/09/008.yacb-call-blocker-android-spam-filer-database-auto-update.jpg#small)
+![yacb-call-blocker-android-spam-filer-database-auto-update](/img/2021/09/008.yacb-call-blocker-android-spam-filer-database-auto-update.jpg#small)
 
 ### Optymalizacja bazy danych numerów
 
@@ -143,7 +143,7 @@ Domyślnie w bazie danych są przechowywane wszystkie możliwe numery z całego 
 mało prawdopodobne, że ktoś z zagranicy będzie próbował się z nami skontaktować. Dlatego też możemy
 wstępnie odfiltrować wszystkie zbędne numery przez określenie prefiksu naszego kraju, tj. `+48` :
 
-![](/img/2021/09/009.yacb-call-blocker-android-spam-filer-database-country-prefix.jpg#small)
+![yacb-call-blocker-android-spam-filer-database-country-prefix](/img/2021/09/009.yacb-call-blocker-android-spam-filer-database-country-prefix.jpg#small)
 
 ## Lista kontaktów
 
@@ -173,7 +173,7 @@ aplikacji YACB. Powinniśmy też zgłosić taki numer do serwisu `odebractelefon
 weryfikacji, ten numer zostanie dopisany i zapewne uwzględniony w kolejnej aktualizacji bazy danych,
 przez co ten spamer powinien być już blokowany u innych użytkowników appki Yet Another Call Blocker.
 
-![](/img/2021/09/012.yacb-call-blocker-android-spam-filer-report-number.jpg#small)
+![yacb-call-blocker-android-spam-filer-report-number](/img/2021/09/012.yacb-call-blocker-android-spam-filer-report-number.jpg#small)
 
 ## Lokalna czarna lista
 
@@ -208,7 +208,7 @@ YACB nie instaluje (czy korzysta) z dodatkowej usługi, która ma działać w tl
 to jedynie permanentne powiadomienie, które będzie wyświetlane non stop (do wglądu przez belkę
 powiadomień).
 
-![](/img/2021/09/021.yacb-call-blocker-android-spam-filer-monitoring-service.jpg#small)
+![yacb-call-blocker-android-spam-filer-monitoring-service](/img/2021/09/021.yacb-call-blocker-android-spam-filer-monitoring-service.jpg#small)
 
 To powiadomienie ma na celu poprawić działanie YACB na niektórych ROM'ach, np. MIUI. Zwykle jednak
 tej opcji nie ma potrzeby aktywować. Jeśli się zastanawiamy czy włączyć tę usługę, to nic się nie
@@ -256,7 +256,7 @@ Na szczęście większość operatorów GSM (albo i wszyscy) w Polsce oferuje mo
 typu "kto dzwonił?". W Virgin Mobile można bez większego problemu tę usługę wyłączyć z poziomu ich
 appki:
 
-![](/img/2021/09/020.yacb-call-blocker-android-spam-filer-disable-sms-notifications.jpg#small)
+![yacb-call-blocker-android-spam-filer-disable-sms-notifications](/img/2021/09/020.yacb-call-blocker-android-spam-filer-disable-sms-notifications.jpg#small)
 
 W ten sposób te SMS'y przestaną do nas przychodzić, a jedyny ślad po spamerze zostanie odnotowany
 tylko i wyłącznie w cichym powiadomieniu (oraz logu YACB), na które możemy rzucić okiem w wolnej

@@ -33,16 +33,16 @@ SSH oraz, że jesteśmy w posiadaniu konta na [githabie](https://github.com/).
 Mając klucz SSH i konto, możemy przejść do powiązania tych dwóch rzeczy ze sobą. W tym celu włazimy
 w opcje konta i po lewej stronie klikamy w `SSH keys` :
 
-![](/img/2015/06/1.ssh-github-profil.png#medium)
+![ssh-github-profil](/img/2015/06/1.ssh-github-profil.png#medium)
 
 Teraz klikamy na `ADD SSH key` (prawy róg) i uzupełniamy pola od nazwy i klucza. Powinno to wyglądać
 mniej więcej tak:
 
-![](/img/2015/06/2.dodawanie-kluczy-ssh-github.png#huge)
+![dodawanie-kluczy-ssh-github](/img/2015/06/2.dodawanie-kluczy-ssh-github.png#huge)
 
 Po pomyślnym dodaniu klucza powinniśmy zobaczyć go na liście:
 
-![](/img/2015/06/3.dodawanie-kluczy-ssh-github-2.png#huge)
+![dodawanie-kluczy-ssh-github-2](/img/2015/06/3.dodawanie-kluczy-ssh-github-2.png#huge)
 
 I to w sumie z grubsza tyle jeśli chodzi o konfigurację GitHub'a. Natomiast by mieć pewność, że
 wszystkie powyższe kroki przeprowadziliśmy należycie, możemy przetestować konfigurację:

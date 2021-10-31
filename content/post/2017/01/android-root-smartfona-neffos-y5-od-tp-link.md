@@ -79,12 +79,12 @@ smartfona][10]. Pamiętajmy by pobrać plik przeznaczony na ten konkretny model 
 posiadamy (w tym przypadku TP802A). Poniżej jest pełna specyfikacja wgranego oprogramowania oraz
 dokładne numery mojego smartfona:
 
-![](/img/2017/01/001.neffos-y5-smartfon-tp-link-root-info-model.png#small)
+![neffos-y5-smartfon-tp-link-root-info-model](/img/2017/01/001.neffos-y5-smartfon-tp-link-root-info-model.png#small)
 
 W paczce `.zip` z firmware, którą pobraliśmy, znajduje się plik `boot.img` . Musimy go wydobyć w
 celu wyodrębnienia pewnych plików i wgrania ich na portowany obraz `recovery.img` .
 
-![](/img/2017/01/009.neffos-y5-smartfon-tp-link-root-boot-firmware.png#huge)
+![neffos-y5-smartfon-tp-link-root-boot-firmware](/img/2017/01/009.neffos-y5-smartfon-tp-link-root-boot-firmware.png#huge)
 
 ## Przepakowanie obrazu recovery.img
 
@@ -288,7 +288,7 @@ podczas odblokowywania jest inicjowany [factory reset][17]. Dane na karcie SD po
 By ten proces zainicjować zaczynamy od przestawienia jednej opcji w telefonie. W tym celu musimy
 udać się w Ustawienia => Opcje Programistyczne i tam przełączyć `Zdjęcie blokady OEM` :
 
-![](/img/2017/01/002.neffos-y5-smartfon-tp-link-root-unlock-bootloader.png#huge)
+![neffos-y5-smartfon-tp-link-root-unlock-bootloader](/img/2017/01/002.neffos-y5-smartfon-tp-link-root-unlock-bootloader.png#huge)
 
 Następnie w terminalu wpisujemy poniższe polecenia:
 
@@ -373,14 +373,14 @@ Jak już ustalimy jakie partycje uwzględnimy w backup'ie, to przechodzimy do po
 wybieramy kartę SD oraz zaznaczamy odpowiednie obszary pamięci flash, tak jak to widać na poniższej
 fotce:
 
-![](/img/2017/01/003.neffos-y5-smartfon-tp-link-root-backup-flash.png#huge)
+![neffos-y5-smartfon-tp-link-root-backup-flash](/img/2017/01/003.neffos-y5-smartfon-tp-link-root-backup-flash.png#huge)
 
 W przypadku robienia pełnego backup'u, cały proces może zająć dłuższą chwilę. Po jego ukończeniu, na
 karcie SD pojawi się obraz flash'a, który możemy sprawdzić w `gdisk` lub `parted` :
 
-![](/img/2017/01/0041.neffos-y5-smartfon-tp-link-root-gdisk-flash.png#huge)
+![neffos-y5-smartfon-tp-link-root-gdisk-flash](/img/2017/01/0041.neffos-y5-smartfon-tp-link-root-gdisk-flash.png#huge)
 
-![](/img/2017/01/0042.neffos-y5-smartfon-tp-link-root-parted-flash.png#huge)
+![neffos-y5-smartfon-tp-link-root-parted-flash](/img/2017/01/0042.neffos-y5-smartfon-tp-link-root-parted-flash.png#huge)
 
 ## Wgranie obrazu recovery z TWRP na Neffos Y5
 
@@ -412,7 +412,7 @@ wrzucamy ją w pobranej formie na kartę SD w telefonie. Odpalamy teraz tryb rec
 karcie SD. Tam z kolei zaznaczamy `Weryfikuj sygnatury pliku ZIP` i przeciągamy trzy strzałki na
 prawą stronę.
 
-![](/img/2017/01/005.neffos-y5-smartfon-tp-link-root-instalacja-supersu.png#huge)
+![neffos-y5-smartfon-tp-link-root-instalacja-supersu](/img/2017/01/005.neffos-y5-smartfon-tp-link-root-instalacja-supersu.png#huge)
 
 Teraz możemy uruchomić ponownie Neffos'a Y5 i zainstalować jakąś aplikację, która pokaże nam czy
 nasz smartfon ma root'a.
@@ -423,7 +423,7 @@ Po uruchomieniu się systemu na smartfonie, instalujemy aplikację [RootCheck][1
 uruchamiamy ją. Powinien się pojawić monit informujący, że ta aplikacja żąda praw administracyjnych,
 na co zezwalamy. Jeśli nasz telefon ma root'a, to powinien się pojawić stosowny komunikat:
 
-![](/img/2017/01/006.neffos-y5-smartfon-tp-link-root-check.png#huge)
+![neffos-y5-smartfon-tp-link-root-check](/img/2017/01/006.neffos-y5-smartfon-tp-link-root-check.png#huge)
 
 ### Instalacja BusyBOX
 
@@ -432,7 +432,7 @@ uruchomić i wcisnąć w niej przycisk `install` . BusyBOX również nas poprosi
 administracyjnych. Po zainstalowaniu, weryfikujemy jeszcze, czy aby wszystko zostało pomyślne
 wgrane. Możemy to zrobić zarówno w samej aplikacji BusyBOX, jak w CheckRoot:
 
-![](/img/2017/01/007.neffos-y5-smartfon-tp-link-root-busybox.png#huge)
+![neffos-y5-smartfon-tp-link-root-busybox](/img/2017/01/007.neffos-y5-smartfon-tp-link-root-busybox.png#huge)
 
 ### Instalacja terminala
 
@@ -450,7 +450,7 @@ systemie. Jako, że ja korzystam na co dzień z Debiana, to instaluję Termux'a.
 Teraz już pozostało nam tylko odpalenie terminala i zalogowanie się na użytkownika root. Do tego
 celu służy polecenie `su` . Wpiszmy je zatem w okienku Termux'a:
 
-![](/img/2017/01/008.neffos-y5-smartfon-tp-link-root-termux-check.png#huge)
+![neffos-y5-smartfon-tp-link-root-termux-check](/img/2017/01/008.neffos-y5-smartfon-tp-link-root-termux-check.png#huge)
 
 I teraz możemy uruchamiać aplikacje z prawami admina, tak jak to zwykliśmy robić w każdym innym
 linux'ie. Pamiętajmy tylko, że standardowo system plików jest zamontowany w trybie tylko do odczytu

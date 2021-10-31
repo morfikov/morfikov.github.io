@@ -30,20 +30,20 @@ Podobno obrazek jest warty więcej niż tysiąc słów, zatem zamiast się trudz
 TL-PS310U, lepiej jest go zwyczajnie ofotkować, by nie było żadnych niedomówień. Poniżej znajduje
 się pudełko jak i jego zawartość:
 
-![](/img/2016/09/1.TL-PS310U-print-server-serwer-druku-tp-link-pudelko.jpg#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-pudelko](/img/2016/09/1.TL-PS310U-print-server-serwer-druku-tp-link-pudelko.jpg#huge)
 
-![](/img/2016/09/2.TL-PS310U-print-server-serwer-druku-tp-link-pudelko-zawartosc.jpg#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-pudelko-zawartosc](/img/2016/09/2.TL-PS310U-print-server-serwer-druku-tp-link-pudelko-zawartosc.jpg#huge)
 
 Tak, to małe kwadratowe w środku, to właśnie nasz serwer druku. Jego dokładne wymiary to 56 x 52 x
 23 mm. No i jak widać, sam zasilacz jest od niego sporo większy. Co ciekawe, ten adapter zasilania
 ma 5V/2A (długość przewodu jakieś 1,5 metra), zatem niezły żarłok musi być z tego naszego małego
 urządzenia:
 
-![](/img/2016/09/3.TL-PS310U-print-server-serwer-druku-tp-link-zasilacz.jpg#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-zasilacz](/img/2016/09/3.TL-PS310U-print-server-serwer-druku-tp-link-zasilacz.jpg#huge)
 
 Przyjrzyjmy się bliżej temu TL-PS310U:
 
-![](/img/2016/09/4.TL-PS310U-print-server-serwer-druku-tp-link-rj45-diody-zasilanie.jpg#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-rj45-diody-zasilanie](/img/2016/09/4.TL-PS310U-print-server-serwer-druku-tp-link-rj45-diody-zasilanie.jpg#huge)
 
 Z lewej strony widać gniazdo do podłączenia zasilacza. Mamy też port ethernet 100 mbit/s. Na tym
 porcie są dwie diody: zielona z podpisem "100M" i pomarańczowa z podpisem "Link". Obie diody
@@ -55,17 +55,17 @@ Wyżej widzimy także trzecią diodę, na prawo od portu. Ta dioda z kolei sygna
 podłączenia jakiegoś urządzenia do portu USB 2.0, który jest ulokowany po przeciwnej stronie
 obudowy:
 
-![](/img/2016/09/5.TL-PS310U-print-server-serwer-druku-tp-link-usb.jpg#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-usb](/img/2016/09/5.TL-PS310U-print-server-serwer-druku-tp-link-usb.jpg#huge)
 
 Z kolei zaś trzeci z boków TL-PS310U skrywa czarny przycisk reset:
 
-![](/img/2016/09/6.TL-PS310U-print-server-serwer-druku-tp-link-przycisk-reset.jpg#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-przycisk-reset](/img/2016/09/6.TL-PS310U-print-server-serwer-druku-tp-link-przycisk-reset.jpg#huge)
 
 Poniżej jest jeszcze spód urządzenia zawierający min. informacje z domyślnym adresem IP, choć ten
 mój serwer druku uzyskał adresację po DHCP. Na tej etykiecie znajduje się także adres MAC
 urządzenia:
 
-![](/img/2016/09/7.TL-PS310U-print-server-serwer-druku-tp-link-spod.jpg#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-spod](/img/2016/09/7.TL-PS310U-print-server-serwer-druku-tp-link-spod.jpg#huge)
 
 Co ciekawe, na stronie TP-LINK'a jest informacja, że w opakowaniu ma znajdować się także przewód
 ethernet ale najwyraźniej go zabrakło.
@@ -75,9 +75,9 @@ ethernet ale najwyraźniej go zabrakło.
 TL-PS310U można bardzo łatwo otworzyć. Jedyną przeszkodą na drodze jest ta naklejka, której
 naruszenie oznacza utratę gwarancji. W środku obudowy znajduje się mały PCB:
 
-![](/img/2016/09/8.TL-PS310U-print-server-serwer-druku-tp-link-pcb-EST-E2868M4-B.jpg#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-pcb-EST-E2868M4-B](/img/2016/09/8.TL-PS310U-print-server-serwer-druku-tp-link-pcb-EST-E2868M4-B.jpg#huge)
 
-![](/img/2016/09/9.TL-PS310U-print-server-serwer-druku-tp-link-pcb.jpg#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-pcb](/img/2016/09/9.TL-PS310U-print-server-serwer-druku-tp-link-pcb.jpg#huge)
 
 TL-PS310U ma wbudowany SoC EST E2868M4-B, który jest w stanie obsługiwać do 4 urządzeń USB. Problem
 tylko w tym, że jak widzieliśmy wyżej na fotkach, TL-PS310U ma tylko jeden port USB. By mieć
@@ -123,7 +123,7 @@ adresację z serwera DHCP mojego routera. Zatem faktyczny adres tego urządzenia
 lease DHCP routera i to nim się posłużyć przy próbie dostępu do panelu administracyjnego. Sam panel
 wygląda mniej więcej tak:
 
-![](/img/2016/09/10.TL-PS310U-print-server-serwer-druku-tp-link-panel-admina.png#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-panel-admina](/img/2016/09/10.TL-PS310U-print-server-serwer-druku-tp-link-panel-admina.png#huge)
 
 W zasadzie, to ten panel jest głównie do odczytu. Możemy, co prawda, włączyć/wyłączyć konfigurację
 via DHCP, zresetować ustawienia do fabrycznych, zaktualizować firmware do nowszej wersji czy też
@@ -154,33 +154,33 @@ sterowników do całej masy drukarek. Po instalacji tych pakietów, logujemy si�
 administracyjnego CUPS'a, który znajduje się pod adresem `:631/` . Tam z kolei
 dodajemy nową drukarkę sieciową z wykorzystaniem protokołu LPD/LPR:
 
-![](/img/2016/09/11.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka](/img/2016/09/11.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
 
 Następnie konfigurujemy protokół LPD/LPR. Nasza drukarka sieciowa będzie miała przypisany adres IP.
 Będzie to ten sam adres IP, którym dysponuje Print Server. Ten adres poprzedzamy `lpd://` . Musimy
 także określić nazwę kolejki do której będą dodawane drukowane dokumenty. Cały adres może zatem
 przyjąć następującą postać `lpd://192.168.1.132/lpr1` . Adres IP oczywiście trzeba sobie dostosować.
 
-![](/img/2016/09/12.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka](/img/2016/09/12.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
 
 Teraz jeszcze opisujemy naszą drukarkę:
 
-![](/img/2016/09/13.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka](/img/2016/09/13.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
 
 Wybieramy jej producenta oraz model:
 
-![](/img/2016/09/14.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka](/img/2016/09/14.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
 
-![](/img/2016/09/15.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka](/img/2016/09/15.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
 
 Po chwili drukarka powinna zostać dodana:
 
-![](/img/2016/09/16.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka](/img/2016/09/16.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
 
 I to w sumie cała robota. Drukarka powinna być widoczna w edytorach tekstu i przy jej pomocy
 powinniśmy być w stanie bez problemu drukować dokumenty:
 
-![](/img/2016/09/17.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
+![TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka](/img/2016/09/17.TL-PS310U-print-server-serwer-druku-tp-link-cups-drukarka.png#huge)
 
 ## Czy taki serwer druku jest potrzebny linux'iarzom
 

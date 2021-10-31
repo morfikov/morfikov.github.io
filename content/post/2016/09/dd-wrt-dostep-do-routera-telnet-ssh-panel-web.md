@@ -29,12 +29,12 @@ oprogramowania na router jest dostępny pod adresem `http://192.168.1.1/` . W ty
 stanie przeprowadzić konfigurację praktycznie wszystkich aspektów pracy naszego routera. Po wpisaniu
 tego powyższego adresu w przeglądarce, naszym oczom powinna pokazać się poniższa strona:
 
-![](/img/2016/09/1.dd-wrt-hard-reset-panel-admina-factory-defaults.png#huge)
+![dd-wrt-hard-reset-panel-admina-factory-defaults](/img/2016/09/1.dd-wrt-hard-reset-panel-admina-factory-defaults.png#huge)
 
 Zgodnie z ostrzeżeniem zmieniamy nazwę użytkownika i hasło. Po zatwierdzeniu danych logowania,
 powinniśmy zostać przeniesieni do panelu administracyjnego:
 
-![](/img/2016/09/2.dd-wrt-panel-admina.png#huge)
+![dd-wrt-panel-admina](/img/2016/09/2.dd-wrt-panel-admina.png#huge)
 
 ### Aktywacja SSL/TLS w panelu administracyjnym
 
@@ -44,22 +44,22 @@ wymuszenia szyfrowania i w ten sposób przepiąć panel admina na `https://` . A
 SSL/TLS w panelu można dokonać przechodząc na zakładkę Administration => Management. Tam zaś w
 sekcji `Web Access` zaznaczamy `HTTPS` :
 
-![](/img/2016/09/3.dd-wrt-panel-admina-https-ssl-tls.png#big)
+![dd-wrt-panel-admina-https-ssl-tls](/img/2016/09/3.dd-wrt-panel-admina-https-ssl-tls.png#big)
 
 Niemniej jednak, trzeba się liczyć z faktem niezaufanego przez przeglądarki certyfikatu, który
 będzie w użyciu przez router. W efekcie po wpisaniu w pasku adresu `https://192.168.2.1/` pojawi
 się nam to poniższe ostrzeżenie:
 
-![](/img/2016/09/4.dd-wrt-panel-admina-https-ssl-tls-blad.png#big)
+![dd-wrt-panel-admina-https-ssl-tls-blad](/img/2016/09/4.dd-wrt-panel-admina-https-ssl-tls-blad.png#big)
 
 Oczywiście to w niczym nam nie przeszkadza i możemy dodać wyjątek:
 
-![](/img/2016/09/5.dd-wrt-panel-admina-https-ssl-tls-blad-wyjatek.png#big)
+![dd-wrt-panel-admina-https-ssl-tls-blad-wyjatek](/img/2016/09/5.dd-wrt-panel-admina-https-ssl-tls-blad-wyjatek.png#big)
 
 Po dodaniu wyjątku, powinniśmy zostać zalogowani do panelu administracyjnego już z wykorzystaniem
 szyfrowanego połączenia:
 
-![](/img/2016/09/6.dd-wrt-panel-admina-https-ssl-tls.png#huge)
+![dd-wrt-panel-admina-https-ssl-tls](/img/2016/09/6.dd-wrt-panel-admina-https-ssl-tls.png#huge)
 
 ## Dostęp do routera przez telnet
 
@@ -70,7 +70,7 @@ dane logowania w panelu administracyjnym. Hasło zaś jest takie jak ustawiliśm
 Odpalmy zatem terminal i testujemy czy aby na pewno jesteśmy w stanie się zalogować na router z
 wykorzystaniem protokołu telnet:
 
-![](/img/2016/09/7.dd-wrt-dostep-telnet-terminal.png#big)
+![dd-wrt-dostep-telnet-terminal](/img/2016/09/7.dd-wrt-dostep-telnet-terminal.png#big)
 
 ## Dostęp do routera przez SSH
 
@@ -79,7 +79,7 @@ lepiej jest zainwestować w implementację protokołu SSH. Domyślnie jednak us�
 aktywowana i musimy ją włączyć, np. z poziomu panelu webowego. W tym celu przechodzimy na zakładkę
 Services => Services i szukamy za `Secure Shell` :
 
-![](/img/2016/09/8.dd-wrt-dostep-ssh-aktywacja.png#big)
+![dd-wrt-dostep-ssh-aktywacja](/img/2016/09/8.dd-wrt-dostep-ssh-aktywacja.png#big)
 
 Samo aktywowanie usługi da nam możliwość zalogowania się na router przy wykorzystaniu terminala.
 Wyżej mamy także opcję `SSH TCP Forwarding` , która szerzej znana jest jako [SSH port
@@ -90,7 +90,7 @@ zostawiamy w spokoju. W okienku `Authorized Keys` podajemy publiczne klucze SSH 
 Po aktywowaniu SSH na routerze, odpalamy terminal i wpisujemy w nim `ssh root@192.168.2.1` , adres
 naturalnie trzeba dostosować sobie:
 
-![](/img/2016/09/9.dd-wrt-dostep-ssh-logowanie-terminal.png#big)
+![dd-wrt-dostep-ssh-logowanie-terminal](/img/2016/09/9.dd-wrt-dostep-ssh-logowanie-terminal.png#big)
 
 Przy pierwszym logowaniu na router za pomocą SSH, zostaniemy poproszeni o akceptację klucza
 publicznego routera. Oczywiście akceptujemy i podajemy hasło, czego efektem będzie uzyskanie dostępu
@@ -103,7 +103,7 @@ musimy takie klucze sobie stworzyć. Następnie musimy przesłać nasz klucz pub
 korzystając z okienka `Authorized Keys` , które mieliśmy wyżej. Po prostu wklejamy tam zawartość
 pliku `*.pub` . Teraz możemy odpalić terminal i wpisać w nim `ssh 192.168.2.1` :
 
-![](/img/2016/09/10.dd-wrt-dostep-ssh-logowanie-klucze-ssh.png#big)
+![dd-wrt-dostep-ssh-logowanie-klucze-ssh](/img/2016/09/10.dd-wrt-dostep-ssh-logowanie-klucze-ssh.png#big)
 
 Jak widzimy wyżej, tym razem nie zostaliśmy poproszeni o hasło podczas logowania. Tak właśnie
 działają uwierzytelniające klucze SSH.
@@ -119,6 +119,6 @@ sobie w jakimś menadżerze haseł, typu [keepass](http://keepass.info/).
 Po aktywowaniu usługi SSH, możemy także wyłączyć usługę telnet, która jest nieco niżej w zakładce
 Services => Services:
 
-![](/img/2016/09/11.dd-wrt-dostep-ssh-wylaczenie-telnet.png#big)
+![dd-wrt-dostep-ssh-wylaczenie-telnet](/img/2016/09/11.dd-wrt-dostep-ssh-wylaczenie-telnet.png#big)
 
 Mi ta usługa praktycznie w niczym nie przeszkadza, dlatego postanowiłem pozostawić ją aktywną.

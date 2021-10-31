@@ -71,7 +71,7 @@ sprawą zostanie uruchomiony Android SDK Manager, który da nam możliwość zai
 Platform-tools oraz Build-tools w zależności od potrzebnego nam API Androida. Ja potrzebuję zarówno
 Androida 5.1 (API 22) jak i Androida 6.0 (API 23):
 
-![](/img/2017/01/001.android-studio-sdk-narzedzia.png#huge)
+![android-studio-sdk-narzedzia](/img/2017/01/001.android-studio-sdk-narzedzia.png#huge)
 
 ### Android Studio
 
@@ -87,11 +87,11 @@ systemie, musimy pobrać paczkę `.zip` ze strony Androida. Paczkę naturalnie w
 przechodzimy do katalogu `android-studio-ide-linux/android-studio/bin/` . Z tego katalogu
 uruchamiamy plik `studio.sh` . W ten sposób będziemy w stanie pobrać szereg niezbędnych nam rzeczy.
 
-![](/img/2017/01/003.android-studio-sdk-narzedzia.png#huge)
+![android-studio-sdk-narzedzia](/img/2017/01/003.android-studio-sdk-narzedzia.png#huge)
 
-![](/img/2017/01/004.android-studio-sdk-narzedzia.png#huge)
+![android-studio-sdk-narzedzia](/img/2017/01/004.android-studio-sdk-narzedzia.png#huge)
 
-![](/img/2017/01/006.android-studio-sdk-narzedzia.png#huge)
+![android-studio-sdk-narzedzia](/img/2017/01/006.android-studio-sdk-narzedzia.png#huge)
 
 Wszystkie te składniki będą pobierane do katalogu `/tmp/` . Niektóre z nich ważą ponad 0,5 GiB, a do
 tego instalator będzie chciał jeszcze te paczki w tym katalogu `/tmp/` wypakować. W niektórych
@@ -100,7 +100,7 @@ linux'ach może nam zwyczajnie zabraknąć miejsca na te pliki tymczasowe, bo od
 pamięci. Dlatego też przed instalacją tych powyższych narzędzi upewnijmy się, że mamy wystarczającą
 ilość wolnego miejsca przeznaczoną na katalog `/tmp/` .
 
-![](/img/2017/01/007.android-studio-sdk-narzedzia.png#huge)
+![android-studio-sdk-narzedzia](/img/2017/01/007.android-studio-sdk-narzedzia.png#huge)
 
 Po puszczeniu instalatora, rozpocznie się pobieranie wszystkich uprzednio zaznaczonych rzeczy.
 Będzie tam również zawarty Android SDK i nie będziemy musieli go instalować oddzielnie. Jedyny
@@ -109,19 +109,19 @@ co nie zawsze jest prawdą. W tym przypadku potrzebne nam są wersje 5.1 (Lollip
 (Marshmallow) i trzeba będzie dociągnąć stosowne wersje narzędzi dla tych Androidów po ukończeniu
 procesu instalacyjnego.
 
-![](/img/2017/01/008.android-studio-sdk-narzedzia.png#huge)
+![android-studio-sdk-narzedzia](/img/2017/01/008.android-studio-sdk-narzedzia.png#huge)
 
 Gdy proces instalacyjny dobiegnie końca, uruchamiamy Android Studio i przechodzimy do Configure =\>
 SDK Manager. Tam z kolei zaznaczamy narzędzia pasujące do API interesujących nas Androidów:
 
-![](/img/2017/01/009.android-studio-sdk-narzedzia.png#huge)
+![android-studio-sdk-narzedzia](/img/2017/01/009.android-studio-sdk-narzedzia.png#huge)
 
-![](/img/2017/01/010.android-studio-sdk-narzedzia.png#huge)
+![android-studio-sdk-narzedzia](/img/2017/01/010.android-studio-sdk-narzedzia.png#huge)
 
 Czekamy aż proces dobiegnie końca. W moim przypadku, katalog z tymi narzędziami zajmuje nieco ponad
 4 GiB, także trochę tego jest.
 
-![](/img/2017/01/011.android-studio-sdk-narzedzia.png#huge)
+![android-studio-sdk-narzedzia](/img/2017/01/011.android-studio-sdk-narzedzia.png#huge)
 
 ### Własnoręczna kompilacja narzędzi
 

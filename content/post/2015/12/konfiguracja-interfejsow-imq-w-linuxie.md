@@ -68,11 +68,11 @@ W przypadku, gdy będziemy pobierać czyste źródła kernela, [zweryfikujmy syg
 Kopiujemy starą konfigurację kernela, odpalamy `menuconfig` i dostosowujemy konfigurację włączając
 odpowiednie opcje odpowiedzialne za interfejsy IMQ. Interesują nas te poniższe pozycje:
 
-![](/img/2015/12/1.konfiguracja-kernel-interfejsy-imq.png#huge)
+![konfiguracja-kernel-interfejsy-imq](/img/2015/12/1.konfiguracja-kernel-interfejsy-imq.png#huge)
 
 oraz:
 
-![](/img/2015/12/2.konfiguracja-kernel-interfejsy-imq.png#huge)
+![konfiguracja-kernel-interfejsy-imq](/img/2015/12/2.konfiguracja-kernel-interfejsy-imq.png#huge)
 
 W konfiguracji kernela (plik `.config` ) powinny znaleźć się te poniższe wpisy:
 
@@ -282,7 +282,7 @@ odpowiadać tej określonej przez `--set-mark` w `iptables` .
 Przy pomocy narzędzia `bmon` możemy zaobserwować czy pakiety trafiają do odpowiednich kolejek.
 Poniżej przykład:
 
-![](/img/2015/12/3.test-interfejsow-imq-bmon.png#huge)
+![test-interfejsow-imq-bmon](/img/2015/12/3.test-interfejsow-imq-bmon.png#huge)
 
 Jak można zaobserwować, obciążenie łącza jest w granicach w 8% i 9%, odpowiednio dla upload'u i
 download'u. Jest to prawie full, bo karta sieciowa w moim laptopie ma przepustowość 100 mbit/s.

@@ -70,7 +70,7 @@ Na sam początek zajmijmy się implementacją plików `.torrent` . W przypadków
 rozszerzeniu, trzeba ustalić pierw jak dany plik jest widziany w systemie, tj. jaki ma przypisany
 typ MIME. Poniżej jest fotka obrazująca właściwości pliku `.torrent` w menadżerze plików SpaceFM.
 
-![](/img/2015/10/1.spacefm-mimetypes.rdf_.png#medium)
+![spacefm-mimetypes-rdf](/img/2015/10/1.spacefm-mimetypes-rdf.png#medium)
 
 Widzimy, że plik `.torrent` ma typ MIME `application/x-bittorrent` , zatem w `mimeTypes.rdf` w
 miejscu `#1` na powyższym schemacie dodajemy ten poniższy kawałek kodu:
@@ -131,7 +131,7 @@ MIME. Edycja tego pliku jest nieco ryzykowna i dobrze jest się zaznajomić z je
 inaczej, po dokonaniu zmian, musimy jeszcze ponownie uruchomić przeglądarkę. Jeśli wszystko dobrze
 zrobiliśmy, powinniśmy zobaczyć dodatkowe pozycje w menu Firefox'a:
 
-![](/img/2015/10/2.firefox-mimetypes.rdf_.png#big)
+![firefox-mimetypes-rdf](/img/2015/10/2.firefox-mimetypes-rdf.png#big)
 
 [1]: https://pl.wikipedia.org/wiki/Typ_MIME
 [2]: http://kb.mozillazine.org/MimeTypes.rdf

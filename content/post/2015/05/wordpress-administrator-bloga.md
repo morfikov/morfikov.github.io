@@ -29,13 +29,13 @@ ułatwiające pracę z bazami danych.
 
 Poniżej znajdują się przykładowe tabele bazy danych w dopiero co zainstalowanym blogu:
 
-![](/img/2015/05/1.wordpress-tabele.png#small)
+![wordpress-tabele](/img/2015/05/1.wordpress-tabele.png#small)
 
 Przechodzimy zatem do tabeli `wp_users` i listujemy jej zawartość, a ta w moim przypadku wygląda
 mniej więcej tak jak na fotce poniżej:
 
-![](/img/2015/05/2.wordpress-tabela-wp-users.png#huge)
+![wordpress-tabela-wp-users](/img/2015/05/2.wordpress-tabela-wp-users.png#huge)
 
 Zmieniamy numerek w pierwszej kolumnie (najlepiej losowy), dla przykładu `9999` :
 
-![](/img/2015/05/3.Wordpress-zmiana-id-admina.png#small)
+![Wordpress-zmiana-id-admina](/img/2015/05/3.Wordpress-zmiana-id-admina.png#small)

@@ -32,7 +32,7 @@ pliku. W przypadku, gdy plik zostaje utworzony lub zmieniony w jakiś sposób, s
 czas i ustawia go na aktualną datę i godzinę. Jeśli chcielibyśmy się zaznajomić z informacją o tych
 znacznikach czasu, to możemy zajrzeć w wyjście polecenia `stat` , przykładowo:
 
-![](/img/2016/06/1.find-stat-czas-modyfikacji-pliku.png#huge)
+![find-stat-czas-modyfikacji-pliku](/img/2016/06/1.find-stat-czas-modyfikacji-pliku.png#huge)
 
 Te trzy pozycje na dole, tj. `Access:` , `Modify:` i `Change:` odpowiadają kolejno za ostatni czas
 dostępu do pliku, czas modyfikacji pliku i czas zmiany i-węzła odpowiedzialnego za plik.

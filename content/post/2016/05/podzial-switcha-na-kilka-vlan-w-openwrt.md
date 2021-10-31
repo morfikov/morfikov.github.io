@@ -126,7 +126,7 @@ wycięte, to statystyki każdego z portu switch'a. Ten przełącznik jest podzie
 `VLAN 1` (vid 1) oraz `VLAN 2` (vid 2). Poniżej mamy fotkę tego routera, która pokazuje jego panel
 tylni:
 
-![](/img/2016/05/1.router-switch-vlan-openwrt.jpg#big)
+![router-switch-vlan-openwrt](/img/2016/05/1.router-switch-vlan-openwrt.jpg#big)
 
 Port oznaczony na niebiesko to VLAN 2 (WAN). Z kolei porty oznaczone na pomarańczowo, to VLAN 1
 (LAN). [Na wiki OpenWRT][7] można znaleźć trochę pożytecznych informacji na temat samej
@@ -239,7 +239,7 @@ interfejsem, jako że jest to interfejs WAN. Dopisujemy tam poniższy blok:
 
 Po zresetowaniu routera, w systemie powinny być widoczne dodatkowe interfejsy:
 
-![](/img/2016/05/2.switch-podzial-vlan-openwrt-wan.png#big)
+![switch-podzial-vlan-openwrt-wan](/img/2016/05/2.switch-podzial-vlan-openwrt-wan.png#big)
 
 Jeśli się przyjrzymy adresom MAC jakie widnieją przy interfejsach `eth1`, `eth1.1` oraz `eth1.3` ,
 to zauważymy, że są one takie same. Niemniej jednak, w takiej konfiguracji switch'a to niczemu nie

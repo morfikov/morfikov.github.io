@@ -33,17 +33,17 @@ TL-PB2600](http://www.tp-link.com.pl/products/details/cat-5689_TL-PB2600.html) o
 Poniżej znajdują się fotki opakowania power banku TL-PB2600 oraz jego całej zawartości. Samo
 urządzenie jest dość niewielkich rozmiarów (94x26x26 mm) i waży zaledwie 70 gram.
 
-![](/img/2016/12/001.tl-pb2600-power-bank-tp-link-pudelko.jpg#big)
+![tl-pb2600-power-bank-tp-link-pudelko](/img/2016/12/001.tl-pb2600-power-bank-tp-link-pudelko.jpg#big)
 
-![](/img/2016/12/002.tl-pb2600-power-bank-tp-link-zawartosc-opakowania.jpg#big)
+![tl-pb2600-power-bank-tp-link-zawartosc-opakowania](/img/2016/12/002.tl-pb2600-power-bank-tp-link-zawartosc-opakowania.jpg#big)
 
 Tak wygląda TL-PB2600 z bliska:
 
-![](/img/2016/12/003.tl-pb2600-power-bank-tp-link-wyglad.jpg#medium)
+![tl-pb2600-power-bank-tp-link-wyglad](/img/2016/12/003.tl-pb2600-power-bank-tp-link-wyglad.jpg#medium)
 
-![](/img/2016/12/004.tl-pb2600-power-bank-tp-link-wyglad.jpg#medium)
+![tl-pb2600-power-bank-tp-link-wyglad](/img/2016/12/004.tl-pb2600-power-bank-tp-link-wyglad.jpg#medium)
 
-![](/img/2016/12/005.tl-pb2600-power-bank-tp-link-wyglad.jpg#medium)
+![tl-pb2600-power-bank-tp-link-wyglad](/img/2016/12/005.tl-pb2600-power-bank-tp-link-wyglad.jpg#medium)
 
 Jak widzimy wyżej, TL-PB2600 ma na przednim panelu standardowy port USB 2.0 oraz port mikro USB.
 Drugi z tych portów służy do ładowania power banku, a do pierwszego podłączamy ładowane urządzenie.
@@ -58,7 +58,7 @@ wejściu może pobierać maksymalnie 1A. I faktycznie pobór prądu przez to urz
 ładowania w stanie kompletnego rozładowania oscyluje w granicach 1A (ładowarka 3,1A). Naturalnie im
 pełniejsza bateria, tym wartość natężenia prądu spada do 0.
 
-![](/img/2016/12/006.tl-pb2600-power-bank-tp-link-ladowanie.jpg#big)
+![tl-pb2600-power-bank-tp-link-ladowanie](/img/2016/12/006.tl-pb2600-power-bank-tp-link-ladowanie.jpg#big)
 
 By naładować ten TL-PB2600 od 0% do 100% potrzebny jest czas około 2,5 godziny.
 
@@ -66,11 +66,11 @@ Na boku obudowy jest przycisk, przy pomocy którego możemy sprawdzić stan roz�
 Sygnalizuje go widoczna niżej dioda. Gdy akumulator jest pełen, to wtedy dioda się świeci ciągle
 przez okres kilku sekund. Jeśli akumulator jest na wyczerpaniu, to wtedy dioda będzie migać.
 
-![](/img/2016/12/007.tl-pb2600-power-bank-tp-link-przycisk-dioda.jpg#medium)
+![tl-pb2600-power-bank-tp-link-przycisk-dioda](/img/2016/12/007.tl-pb2600-power-bank-tp-link-przycisk-dioda.jpg#medium)
 
 Do zestawu został także dołączony przewód mikro USB.
 
-![](/img/2016/12/008.tl-pb2600-power-bank-tp-link-przewod-usb.jpg#medium)
+![tl-pb2600-power-bank-tp-link-przewod-usb](/img/2016/12/008.tl-pb2600-power-bank-tp-link-przewod-usb.jpg#medium)
 
 W zestawie nie ma natomiast ładowarki. Może to i dobrze, bo tylko by podbiła cenę samego power
 banku, a i tak raczej każdy z nas ma już kilka takich ładowarek USB.

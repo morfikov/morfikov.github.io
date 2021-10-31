@@ -78,7 +78,7 @@ transmisja wraca do normy.
 
 Poniżej jest przykładowa sytuacja, gdzie nastąpiła szybka retransmisja pakietu:
 
-![](/img/2015/07/1.szybka-retransmisja-pakietu-wireshark.png#huge)
+![szybka-retransmisja-pakietu-wireshark](/img/2015/07/1.szybka-retransmisja-pakietu-wireshark.png#huge)
 
 Jak widzimy, pakiet 344 został dostarczony do klienta i potwierdzenie (254041) w pakiecie 345
 zostało wysłane do nadawcy. Następny pakiet się zagubił i do klienta dotarł inny pakiet, który ma
@@ -175,7 +175,7 @@ zretransmitować pakiet `SYN` 4 razy i jeśli żadna z tych prób się nie powie
 kernel odpuści. Popatrzmy zatem jak takie zachowanie wygląda w
 praktyce:
 
-![](/img/2015/07/1.retransmisja-syn-wireshark.png#huge)
+![retransmisja-syn-wireshark](/img/2015/07/1.retransmisja-syn-wireshark.png#huge)
 
 ### Retransmisja pakietów SYN-ACK
 
@@ -195,7 +195,7 @@ połączeń przez zmianę ilości retransmisji pakietów `SYN-ACK` . Dopisujemy 
 Trzeba jednak pamiętać, że obniżenie wartości tego parametru w przypadku słabych łącz może powodować
 problemy. Poniżej fotka z próbą retransmisji dwóch pakietów `SYN-ACK` :
 
-![](/img/2015/07/2.retransmisja-syn-ack-wireshark.png#huge)
+![retransmisja-syn-ack-wireshark](/img/2015/07/2.retransmisja-syn-ack-wireshark.png#huge)
 
 ## Zbędna retransmisja (Spurious retransmission)
 

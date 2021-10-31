@@ -33,7 +33,7 @@ Na sam początek przydałoby się odpowiednio dostosować adres bloga, bo ten st
 **http** . Nie jest to nic trudnego i można to zrobić z poziomu panelu WordPress'a (Settings =>
 General):
 
-![](/img/2015/05/1.przepisanie-adresu-bloga-na-https.png#big)
+![przepisanie-adresu-bloga-na-https](/img/2015/05/1.przepisanie-adresu-bloga-na-https.png#big)
 
 ## Formularz logowania/rejestracji
 
@@ -95,7 +95,7 @@ Jeśli już zdecydowaliśmy się na szyfrowanie bloga (niekoniecznie w pełni), 
 spotkamy się z komunikatem na pasku adresu w przeglądarce, który będzie nas informował, że część
 elementów strony została zablokowana:
 
-![](/img/2015/05/2.blokowanie-kontentu-http.png#big)
+![blokowanie-kontentu-http](/img/2015/05/2.blokowanie-kontentu-http.png#big)
 
 Zwykle jest to wina niezabezpieczonych adresów URL i pod terminem "niezabezpieczone" rozumiem
 zawartość na stronie pochodzącą z linków zaczynających się od **http** . [Na jednym z blogów

@@ -62,11 +62,11 @@ wszystko się zgadza.
 
 By zweryfikować certyfikat dla strony www, klikamy myszą na kłódkę przy adresie:
 
-![](/img/2015/06/1.gpg_.conf-weryfikacja-certyfikatu.png#medium)
+![gpg-conf-weryfikacja-certyfikatu.png](/img/2015/06/1.gpg-conf-weryfikacja-certyfikatu.png#medium)
 
 Następnie w link `Certificate information` :
 
-![](/img/2015/06/2.gpg_.conf-weryfikacja-certyfikatu-2.png#big)
+![gpg-conf-weryfikacja-certyfikatu-2](/img/2015/06/2.gpg-conf-weryfikacja-certyfikatu-2.png#big)
 
 Na samym dole widnieje odcisk SHA1 i jak widzimy, jest on zgodny z tym podanym na stronie, czyli
 tożsamość serwera www została potwierdzona.

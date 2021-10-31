@@ -33,7 +33,7 @@ Ponadto, każda z tablic ma pewien zestaw łańcuchów, w których skład mogą 
 przechodzące przez dowolną maszynę znajdującą się w sieci, bez względu na to czy to router, serwer,
 czy klient, robią to w ściśle określonej kolejności. Najlepiej to zobrazować poniższą fotką:
 
-![](/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png#big)
+![firewall-iptables-przeplyw-pakietow](/img/2015/06/1.firewall-iptables-przeplyw-pakietow.png#big)
 
 Pakiety dzielimy na te otrzymane ( `RX` ) oraz te wysłane ( `TX` ). Każdy z nich przechodzi przez
 powyższy schemat, z tym, że nieco inną drogą. Najprostsza sytuacja ma miejsce gdy pakiet jest

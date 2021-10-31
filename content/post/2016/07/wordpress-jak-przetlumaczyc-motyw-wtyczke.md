@@ -66,11 +66,11 @@ które nam wyskoczy, przechodzimy do menu, z którego to wybieramy File \> From 
 Wskazujemy lokalizację pliku `.pot` lub `.po` . Po chwili plik powinien zostać załadowany, a my
 poproszeni o wybór języka:
 
-![](/img/2016/07/1.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png#huge)
+![poedit-tlumaczenie-theme-plugin-wordpress-gettext](/img/2016/07/1.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png#huge)
 
 Teraz wystarczy już uzupełnić odpowiednio prawą kolumnę w oparciu o tekst, który widnieje w lewej:
 
-![](/img/2016/07/2.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png#huge)
+![poedit-tlumaczenie-theme-plugin-wordpress-gettext](/img/2016/07/2.poedit-tlumaczenie-theme-plugin-wordpress-gettext.png#huge)
 
 Gdy skończymy, zapisujemy. Oba pliki zostaną utworzone, a WordPress automatycznie dobierze sobie
 nazwę pliku binarnego `.mo` w oparciu o ustawienia językowe określone w panelu administracyjnym.

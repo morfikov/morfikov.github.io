@@ -118,7 +118,7 @@ klienckiej, gdzie możemy zablokować ruch przychodzący zostawiając jednocześ
 tj. jeden dla Xserver'a i drugi dla SSH. Jeśli ruch jest szyfrowany, pakiety nie powinny trafiać do
 reguły łapiącej ruch Xserver'a. Poniżej przykład:
 
-![](/img/2015/10/1.szyfrowanie-xserver-ssh-iptables.png#huge)
+![szyfrowanie-xserver-ssh-iptables](/img/2015/10/1.szyfrowanie-xserver-ssh-iptables.png#huge)
 
 ## Uwagi końcowe
 

@@ -501,7 +501,7 @@ Innym miejscem jest repozytorium [AUR dystrybucji Archlinux][14]. Tam zawsze idz
 tylko paczki nie są zbytnio kompatybilne z debianem i trzeba wiedzieć gdzie i czego szukać.
 Przykładowo, załóżmy, że interesuje nas pakiet `monitorix` :
 
-![](/img/2015/12/1.pakiet-aur-deb.png#big)
+![pakiet-aur-deb](/img/2015/12/1.pakiet-aur-deb.png#big)
 
 Jak widzimy pakiet został odnaleziony i mamy tam info o licencji i o zależnościach. Niemniej jednak,
 to nie wszystko co możemy wyciągnąć z AUR. Tam w prawym górnym rogu jest `PKGBUILD` . Jest to plik,

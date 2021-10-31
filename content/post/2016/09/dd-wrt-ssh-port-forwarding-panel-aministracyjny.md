@@ -36,12 +36,12 @@ W przypadku routera, sprawa wygląda dość prosto. Logujemy się do panelu admi
 Shell` . Po jej aktywacji będziemy mieć dostęp do opcji `SSH TCP Forwarding` . Tę opcję również
 zaznaczamy:
 
-![](/img/2016/09/1.ssh-port-forwarding-router-dd-wrt-panel-admina.png#huge)
+![ssh-port-forwarding-router-dd-wrt-panel-admina](/img/2016/09/1.ssh-port-forwarding-router-dd-wrt-panel-admina.png#huge)
 
 Następnie przechodzimy na zakładkę Administration => Management i szukamy za `Remote Access` ,
 gdzie zaznaczamy `SSH Management` . Port możemy sobie dostosować wedle uznania, 22 jest domyślny:
 
-![](/img/2016/09/2.ssh-port-forwarding-router-dd-wrt-panel-admina.png#huge)
+![ssh-port-forwarding-router-dd-wrt-panel-admina](/img/2016/09/2.ssh-port-forwarding-router-dd-wrt-panel-admina.png#huge)
 
 Zapisujemy i aplikujemy ustawienia.
 

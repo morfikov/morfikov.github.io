@@ -50,7 +50,7 @@ stwarza on tylko niepotrzebne zagrożenie dla bezpieczeństwa systemu.
 SuperSU w Neffos Y5L możemy odinstalować z menu tejże aplikacji przechodząc w Ustawienia => Pełny
 Unroot.
 
-![](/img/2017/01/001.unroot-neffos-y5l-tp-link-smartfon-supersu.png#huge)
+![unroot-neffos-y5l-tp-link-smartfon-supersu](/img/2017/01/001.unroot-neffos-y5l-tp-link-smartfon-supersu.png#huge)
 
 Jeśli nie chcemy przywracać partycji `/recovery/` , to w ostatnim kroku wybieramy opcję NIE. Jeśli
 smartfon nie uruchomi się ponownie automatycznie, to naturalnie po całym procesie telefon
@@ -60,7 +60,7 @@ zrestartować smartfon i ponowić proces unroot bezpośrednio po włączeniu tel
 Możemy naturalnie sprawdzić czy cały proces przebiegł zgodnie z planem i czy nasz Neffos Y5L w
 dalszym ciągu posiada root:
 
-![](/img/2017/01/002.unroot-neffos-y5l-tp-link-smartfon-root-check.png#small)
+![unroot-neffos-y5l-tp-link-smartfon-root-check](/img/2017/01/002.unroot-neffos-y5l-tp-link-smartfon-root-check.png#small)
 
 Niemniej jednak, jeśli w Neffos Y5L chcemy przywrócić całą partycję `/system/` usuwając tym samym
 wszelkie zmiany wprowadzone w telefonie, to trzeba do tej kwestii podejść nieco inaczej.
@@ -72,7 +72,7 @@ partycje via `dd` i wgrać je w stosowne miejsca przez bootloader za pomocą fas
 zatem ten obraz backup'u w systemie (za pomocą `losetup` ) i sprawdźmy jak wygląda jego layout, np.
 w `gdisk` :
 
-![](/img/2017/01/003.unroot-neffos-y5l-tp-link-smartfon-uklad-flash.png#huge)
+![unroot-neffos-y5l-tp-link-smartfon-uklad-flash](/img/2017/01/003.unroot-neffos-y5l-tp-link-smartfon-uklad-flash.png#huge)
 
 Interesują nas partycje 21 ( `/system/` ), 24 ( `/recovery/` ) oraz 20 ( `/boot/` ). Robimy ich
 zrzut do osobnych plików via `dd` :
@@ -212,7 +212,7 @@ robocika przeprowadzającego proces Factory Reset. Po chwili smartfon uruchomi s
 jeszcze dłuższej chwili system powinien się załadować już na fabrycznych
 ustawieniach:
 
-![](/img/2017/01/001.unroot-neffos-y5l-tp-link-smartfon-defaults.png#small)
+![unroot-neffos-y5l-tp-link-smartfon-defaults](/img/2017/01/001.unroot-neffos-y5l-tp-link-smartfon-defaults.png#small)
 
 
 [1]: /post/android-root-smartfona-neffos-y5l-tp-link/

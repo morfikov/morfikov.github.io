@@ -36,7 +36,7 @@ przeglądarki. By skorzystać z tego wiersza poleceń, odpalamy przeglądarkę i
 klawiaturze Shift-F2 . Przy dolnej krawędzi okna przeglądarki powinien nam się pojawić pasek, w
 którym możemy zacząć wpisywać jakiś tekst. Wygląda on mniej więcej tak:
 
-![](/img/2016/08/1.firefox-screenshot-zrzut-ekranu.png#big)
+![firefox-screenshot-zrzut-ekranu](/img/2016/08/1.firefox-screenshot-zrzut-ekranu.png#big)
 
 To właśnie tutaj będziemy wpisywać różne polecenia.
 
@@ -47,7 +47,7 @@ okienku polecenia `screenshot` podając przy tym dwa argumenty. Pierwszym z nich
 jaką ma zostać zapisany zrzut ekranu. Drugim zaś jest `--fullpage` odpowiadający za zrobienie fotki
 całej witryny, a nie jedynie obszaru, który aktualnie widzimy w oknie przeglądarki:
 
-![](/img/2016/08/2.firefox-screenshot-zrzut-ekranu.png#big)
+![firefox-screenshot-zrzut-ekranu](/img/2016/08/2.firefox-screenshot-zrzut-ekranu.png#big)
 
 Nie musimy oczywiście ręcznie wpisywać całego polecenia. Działa tutaj auto uzupełnianie klawiszem
 Tab i do tego mamy dość przyzwoicie opisaną każdą opcję, którą możemy wybrać sobie za pomocą

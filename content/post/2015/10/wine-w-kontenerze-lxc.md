@@ -249,4 +249,4 @@ Wine oraz sterowniki do grafiki w kontenerze:
 Jeśli wszystkie kroki przeprowadziliśmy prawidłowo, po wydaniu polecenia `winecfg` w kontenerze,
 powinniśmy zobaczyć okno z opcjami konfiguracyjnymi Wine:
 
-![](/img/2015/10/1.kontenerl-lxc-wine.png#huge)
+![kontenerl-lxc-wine](/img/2015/10/1.kontenerl-lxc-wine.png#huge)

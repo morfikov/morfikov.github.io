@@ -37,7 +37,7 @@ polecenie:
 Mamy zatem plik o rozmiarze 400MiB. Jako, że on zawiera same zera, to nie ma także jeszcze
 utworzonej struktury dysku twardego. Zobaczmy zatem jak widzi go `fdisk` :
 
-![](/img/2015/06/1.podglad-obrazu-img.png#big)
+![podglad-obrazu-img](/img/2015/06/1.podglad-obrazu-img.png#big)
 
 Jak widać wyżej, z automatu została utworzona tablica partycji ms-dos, bo bez niej nie dalibyśmy
 rady utworzyć żadnej partycji. Stwórzmy zatem dwie partycje. Całość powinna wyglądać mniej więcej

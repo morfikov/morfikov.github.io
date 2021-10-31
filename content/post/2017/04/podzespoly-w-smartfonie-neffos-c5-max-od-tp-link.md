@@ -43,7 +43,7 @@ kilka. W powstały otwór wystarczy teraz wsunąć nasz cienki kawałek plastiku
 krawędzi. W ten sposób wszystkie zatrzaski z jednej strony obudowy nam zeskoczą. Dalej już nie
 powinno być problemów. Poniżej jest fotka mojego Neffos'a C5 MAX po zdjęciu obudowy:
 
-![](/img/2017/04/001.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/001.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
 ## Jak usunąć baterię w Neffos C5 MAX
 
@@ -52,7 +52,7 @@ Apple, że gdy użytkownicy wezmą się za wymianę takich wbudowanych baterii, 
 więc mamy taki smartfon i co teraz? By usunąć tę baterię, trzeba odłączyć ten konektor, który widać
 tuż nad baterią po lewej stronie.
 
-![](/img/2017/04/002.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/002.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
 I tak o to odłączyliśmy baterię w Neffos C5 MAX, prawda, że trudne? Na szczęście nic nie wybuchło.
 
@@ -62,36 +62,36 @@ W Neffos C5 MAX mamy w zasadzie dwa układy. Oba z nich są przykręcone śrubka
 odkręcić. Trzeba także odłączyć cztery konektory (jeden znajduje się pod tym PCB w górnej części
 smartfona).
 
-![](/img/2017/04/003.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/003.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
-![](/img/2017/04/004.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/004.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
 I tak oto powinniśmy mieć już wydobyte wszystko to, co było w obudowie smartfona. Reszty chyba nie
 da rady ruszyć, bo to raczej sklejony razem metal i plastik.
 
-![](/img/2017/04/005.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/005.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
 Może i Neffos C5 MAX ma plastikową obudowę ale za to w środku praktycznie cały jest z aluminium (to
 ta szara masa na poniższej fotce):
 
-![](/img/2017/04/006.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/006.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
 ## Podzespoły zastosowane w Neffos C5 MAX
 
 W zasadzie na tym PCB w dolnej części smartfona nie ma za wiele rzeczy. Natomiast na tym drugim PCB
 mamy już szereg czipów:
 
-![](/img/2017/04/008.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/008.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
-![](/img/2017/04/009.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/009.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
-![](/img/2017/04/010.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/010.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
-![](/img/2017/04/011.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/011.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
-![](/img/2017/04/012.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/012.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
-![](/img/2017/04/013.podzespoly-neffos-c5-max-tp-link.jpg#huge)
+![podzespoly-neffos-c5-max-tp-link](/img/2017/04/013.podzespoly-neffos-c5-max-tp-link.jpg#huge)
 
 Niżej jest zapis tekstowy wszystkich tych układów widocznych na powyższych fotkach:
 

@@ -105,19 +105,19 @@ urządzenia, w terminalu wydajemy to poniższe polecenie:
 Wskazówki dotyczące formatowania możemy wyświetlić przez wpisanie `m` . Wygląda to mniej więcej tak
 jak na tej fotce poniżej:
 
-![](/img/2016/04/1.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#big)
+![fdisk-openwrt-tworzenie-partycji-dysk-pendrive](/img/2016/04/1.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#big)
 
 W przypadku, gdy mamy do czynienia z nowym dyskiem, który nie posiada jeszcze taliby partycji, to
 trzeba mu ją stworzyć. Pendrive zwykle mają tablicę MS-DOS. W przypadku tradycyjnych dysków,
 zwłaszcza tych większych, dobrze jest utworzyć tablicę GPT. W zależności od preferencji, tablicę
 tworzymy wpisując `o` (MS-DOS) lub `g` (GPT). W tym przypadku skorzystamy z tablicy MS-DOS:
 
-![](/img/2016/04/2.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#big)
+![fdisk-openwrt-tworzenie-partycji-dysk-pendrive](/img/2016/04/2.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#big)
 
 Teraz sprawdzamy parametry dysku, w tym też ile miejsca mamy do dyspozycji. Robimy to za pomocą
 `p` :
 
-![](/img/2016/04/3.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#big)
+![fdisk-openwrt-tworzenie-partycji-dysk-pendrive](/img/2016/04/3.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#big)
 
 Mamy nieco ponad 14 GiB. Podzielmy zatem ten pendrive na 4 partycje. Tworzenie partycji aktywujemy
 przez `n` . Następnie określamy typ partycji (podstawowa `p`, rozszerzona `e` ) oraz jej numer.
@@ -127,17 +127,17 @@ zaraz za końcem poprzedniej partycji. Pierwsza partycja zawsze zaczyna się na 
 równania do 1 MiB. Na koniec podajemy rozmiar partycji, np. +3G (2 jako podstawa potęgi). Podobnie
 postępujemy z kolejnymi partycjami, aż do wykorzystania całej wolnej przestrzeni nośnika.
 
-![](/img/2016/04/4.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#huge)
+![fdisk-openwrt-tworzenie-partycji-dysk-pendrive](/img/2016/04/4.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#huge)
 
 Jeśli pomylimy się i określimy złe parametry partycji, to zawsze możemy taką partycję usunąć za
 pomocą `d` :
 
-![](/img/2016/04/5.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#huge)
+![fdisk-openwrt-tworzenie-partycji-dysk-pendrive](/img/2016/04/5.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#huge)
 
 Po utworzeniu wszystkich partycji, sprawdzamy wygląd tablicy partycji wpisując `p` . Jeśli wszystko
 się zgadza, zapisujemy tablicę partycji przy pomocy `w` :
 
-![](/img/2016/04/6.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#huge)
+![fdisk-openwrt-tworzenie-partycji-dysk-pendrive](/img/2016/04/6.fdisk-openwrt-tworzenie-partycji-dysk-pendrive.png#huge)
 
 Jeśli z jakiegoś powodu nie podoba nam się ten układ partycji albo zwyczajnie wybraliśmy nie ten
 dysk co potrzeba, to wszelkie zmiany możemy cofnąć wpisując `q` zamiast tego powyższego `w` .
@@ -153,7 +153,7 @@ miejsca na partycji na potrzeby użytkownika root. Opcja `-m 0` wyłącza rezerw
 partycji, która już posiada system plików, to zostaniemy o tym fakcie uprzedzeni i będziemy musieli
 świadomie wyrazić zgodę na to:
 
-![](/img/2016/04/6.mkfs-ext4-openwrt-tworzenie-system-plikow-dysk-pendrive.png#huge)
+![mkfs-ext4-openwrt-tworzenie-system-plikow-dysk-pendrive](/img/2016/04/6.mkfs-ext4-openwrt-tworzenie-system-plikow-dysk-pendrive.png#huge)
 
 ## Montowanie zasobów w OpenWRT
 

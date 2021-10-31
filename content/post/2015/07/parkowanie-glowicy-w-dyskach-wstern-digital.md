@@ -46,7 +46,7 @@ Aktualną wartość parametru odpowiadającego za ilość parkowań głowicy ( `
 odczytać z raportu [S.M.A.R.T][2]. Poniżej fotka tabeli parametrów zwróconych przez aplikację
 `gsmartcontrol` :
 
-![](/img/2015/07/1.parkowanie-glowicy-smart.png#huge)
+![parkowanie-glowicy-smart](/img/2015/07/1.parkowanie-glowicy-smart.png#huge)
 
 Możemy także skorzystać z tekstowego odpowiednika `smartctl` :
 

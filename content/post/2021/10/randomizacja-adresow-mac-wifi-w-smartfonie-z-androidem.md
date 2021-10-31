@@ -78,7 +78,7 @@ i trzeba ją było ręcznie przestawić.
 
 Ponownie dodajemy sieć WiFi w ustawieniach systemu i również zaznaczamy opcję randomizacji adresu MAC (tak jak to było przy podstawowej randomizacji MAC).
 
-![](/img/2021/10/006.android-wifi-mac-address-randomization-settings.jpg#small)
+![android-wifi-mac-address-randomization-settings](/img/2021/10/006.android-wifi-mac-address-randomization-settings.jpg#small)
 
 Po uzyskaniu połączenia, adres IP powinien być inny niż ten uzyskany wcześniej.
 
@@ -169,7 +169,7 @@ DHCP powinien zwracać pusty hostname][3]. Sprawdźmy na przykładzie Androida 1
 9 czy tak faktycznie się dzieje. Po zalogowaniu się na router, mamy coś takiego w aktualnie
 przydzielonych lease DHCP:
 
-![](/img/2021/10/007.android-wifi-mac-address-randomization-dhcp-lease.png#huge)
+![android-wifi-mac-address-randomization-dhcp-lease](/img/2021/10/007.android-wifi-mac-address-randomization-dhcp-lease.png#huge)
 
 Wszystkie pozycje z pustym hostname to właśnie mój telefon. Zatem te nowsze Androidy zdają się nie
 wysyłać hostname w zapytaniach DHCP ale czy aby na pewno? Postanowiłem sprawdzić przy pomocy

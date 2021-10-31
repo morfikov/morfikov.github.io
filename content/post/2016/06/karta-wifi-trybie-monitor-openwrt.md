@@ -59,7 +59,7 @@ Edytujemy zatem plik `/etc/config/wireless` i na jego końcu dodajemy ten oto po
 Teraz przy pomocy polecenia `iwinfo` sprawdzamy czy karta działa w pożądanym przez nas trybie. W tym
 przypadku, karta działa zarówno w trybie AP, jak i MONITOR. Wygląda to mniej więcej tak:
 
-![](/img/2016/06/1.openwrt-router-wifi-monitor-mode-tryb.png#big)
+![openwrt-router-wifi-monitor-mode-tryb](/img/2016/06/1.openwrt-router-wifi-monitor-mode-tryb.png#big)
 
 Mając kartę w trybie MONITOR, możemy na routerze doinstalować szereg pakietów, min. `reaver` lub
 `aircrack-ng` , których przeznaczeniem są testy penetracyjne sieci WiFi. W ten sposób możemy

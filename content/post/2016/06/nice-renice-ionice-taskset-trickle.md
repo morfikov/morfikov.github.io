@@ -47,7 +47,7 @@ na końcu którego będzie nasza główna aplikacja. Całość działa na zasadz
 procesów. Przykładowo, jeśli proces z `nice -n 19` wywoła inny proces, to ten drugi proces również
 dostanie z automatu `nice -n 19` . Jest to dokładnie zobrazowane w `htop` na poniższym obrazu:
 
-![](/img/2016/06/1.procesy-nice-htop-linux.png#huge)
+![procesy-nice-htop-linux](/img/2016/06/1.procesy-nice-htop-linux.png#huge)
 
 Wyżej widzimy, że jednemu z paneli `tint2` został przypisany `nice -n -2` . Na tym panelu jest
 szereg aktywatorów aplikacji. Każdy uruchomiony proces z tego panelu będzie procesem potomnym i

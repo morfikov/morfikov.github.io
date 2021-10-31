@@ -49,7 +49,7 @@ reklam. Nie znajdziemy tam jednak AdAway. Zgodnie z tym co możemy wyczytać na 
 to, że Google wywala z tego sklepu wszystkie niewygodne aplikacje. Oczywiście AdAway w dalszym ciągu
 możemy pobrać, z tym, że trzeba skorzystać z [alternatywnego repozytorium jakim jest F-Droid][8].
 
-![](/img/2016/10/001.adaway-blokowanie-reklam-smartfon-android-instalacja-f-droid.png#huge)
+![adaway-blokowanie-reklam-smartfon-android-instalacja-f-droid](/img/2016/10/001.adaway-blokowanie-reklam-smartfon-android-instalacja-f-droid.png#huge)
 
 ## Źródła plików hosts
 
@@ -58,7 +58,7 @@ korzystać z kilku źródeł jednocześnie. W takim przypadku, kilka plików `ho
 połączonych, a zduplikowane wpisy zostaną usunięte. Jesteśmy w stanie również korzystać z własnych
 plików `hosts` , czy dodawać niestandardowe źródła bezpośrednio w opcjach aplikacji.
 
-![](/img/2016/10/002.adaway-blokowanie-reklam-smartfon-android-zrodla-hosts.png#huge)
+![adaway-blokowanie-reklam-smartfon-android-zrodla-hosts](/img/2016/10/002.adaway-blokowanie-reklam-smartfon-android-zrodla-hosts.png#huge)
 
 Przy dodawaniu źródeł plików `hosts` trzeba zdawać sobie sprawę, że wraz ze zwiększaniem się ilości
 wpisów w tym pliku, potrzebna jest większa moc obliczeniowa, która będzie w stanie te informacje
@@ -80,7 +80,7 @@ przestaną nam działać pewne połączenia czy usługi. Jednym z wyjść byłob
 szczęście AdAway wspiera czarne i białe listy domen, które możemy ręcznie zablokować lub
 odblokować już po zaaplikowaniu plików `hosts` z adserwerami.
 
-![](/img/2016/10/003.adaway-blokowanie-reklam-smartfon-android-biala-czarna-lista.png#huge)
+![adaway-blokowanie-reklam-smartfon-android-biala-czarna-lista](/img/2016/10/003.adaway-blokowanie-reklam-smartfon-android-biala-czarna-lista.png#huge)
 
 Trzeba jednak pamiętać, że po dodaniu adresu, zmiany nie są natychmiastowe. Trzeba ręcznie odświeżyć
 listę w pliku `hosts` .
@@ -93,7 +93,7 @@ spróbować to ustalić włączając logowanie zapytań DNS. Wszystkie adresy do
 próbuje odwiedzić zostaną zalogowane. My zaś w łatwy sposób będziemy w stanie zablokować lub
 odblokować konkretne wpisy w zależności od potrzeb:
 
-![](/img/2016/10/004.adaway-blokowanie-reklam-smartfon-android-logowanie-dns.png#big)
+![adaway-blokowanie-reklam-smartfon-android-logowanie-dns](/img/2016/10/004.adaway-blokowanie-reklam-smartfon-android-logowanie-dns.png#big)
 
 ## Pozostałe opcje AdAway
 
@@ -102,7 +102,7 @@ zmienić zachowanie mechanizmu aktualizacji pliku `host` . Jest też opcja okre�
 który mają być przesyłane żądania do adserwerów. Można również włączyć opcję przekierowania domen
 na inne adresy IP, choć może to stwarzać zagrożenie dla bezpieczeństwa.
 
-![](/img/2016/10/005.adaway-blokowanie-reklam-smartfon-android-ustawienia.png#huge)
+![adaway-blokowanie-reklam-smartfon-android-ustawienia](/img/2016/10/005.adaway-blokowanie-reklam-smartfon-android-ustawienia.png#huge)
 
 ## Czy AdAway blokuje reklamy
 
@@ -111,13 +111,13 @@ liście, przydałoby się sprawdzić czy AdAway w ogóle działa. By uniknąć p
 dobrze jest uruchomić smartfon ponownie. Praktycznie przy każdej aktualizacji pliku `hosts` będziemy
 proszeni o tę czynność:
 
-![](/img/2016/10/006.adaway-blokowanie-reklam-smartfon-android-aktualizacja.png#huge)
+![adaway-blokowanie-reklam-smartfon-android-aktualizacja](/img/2016/10/006.adaway-blokowanie-reklam-smartfon-android-aktualizacja.png#huge)
 
 Po zrestartowaniu Androida warto sprawdzić czy plik `/system/etc/hosts` zawiera jakieś wpisy.
 Standardowo są tam tylko tylko linijki z localhost. Jeśli aktualizacja pliku `hosts` przebiegła
 pomyślnie, to ten plik powinien być nieco większy:
 
-![](/img/2016/10/007.adaway-blokowanie-reklam-smartfon-android-test-hosts.png#huge)
+![adaway-blokowanie-reklam-smartfon-android-test-hosts](/img/2016/10/007.adaway-blokowanie-reklam-smartfon-android-test-hosts.png#huge)
 
 Wystarczy teraz odwiedzić jedną z domen, które są na liście, np. w przeglądarce internetowej. Jeśli
 zostanie nam zwrócona biała strona, oznacza to, że mechanizm blokowania reklam działa należycie.

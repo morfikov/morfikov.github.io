@@ -35,14 +35,14 @@ procesor komputera czyniąc cały proces bardziej efektywnym.
 Poniżej fotka z wireshark'a obrazująca wymianę danych z serwerem www zamkniętym w kontenerze
 LXC:
 
-![](/img/2015/06/1.wireshark-odciazenie-segmentacji-tso.png#huge)
+![wireshark-odciazenie-segmentacji-tso](/img/2015/06/1.wireshark-odciazenie-segmentacji-tso.png#huge)
 
 Długość kilku pakietów wynosi tam 7306 bajtów. Jest to parokrotnie więcej niż przewidziane 1514
 bajtów. Jeśli przyjrzymy się procesowi witania (three-way handshake), to dostrzeżemy, że obie
 strony zgodziły się słać pakiety o wartości MSS 1460. Fragmentacja pakietu IP nie występuje, w
 przypadku gdyby ktoś był ciekaw:
 
-![](/img/2015/06/2.brak-fragmentacji-tso.png#huge)
+![brak-fragmentacji-tso](/img/2015/06/2.brak-fragmentacji-tso.png#huge)
 
 Ten pakiet widoczny wyżej może być oczywiście większy ale czemu on ma taki rozmiar? W całą zabawę
 zamieszany jest rozmiar bufora (okna) odbiorczego TCP. Im jest on większy, tym można przesłać więcej

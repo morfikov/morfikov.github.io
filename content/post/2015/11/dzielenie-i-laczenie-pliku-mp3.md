@@ -39,7 +39,7 @@ Tych opcji jest naprawdę sporo, dlatego też lepiej jest zaprzęgnąć do pracy
 graficzna nakładka na `mp3splt` , z tym, że tego narzędzia nie ma w repozytoriach debiana. Jest za
 to w repozytorium [deb-multimedia](http://www.deb-multimedia.org/). Tak wygląda ten programik:
 
-![](/img/2015/11/1.dzielenie-pliku-mp3-na-czesci.png#huge)
+![dzielenie-pliku-mp3-na-czesci](/img/2015/11/1.dzielenie-pliku-mp3-na-czesci.png#huge)
 
 ## Łączenie plików mp3
 

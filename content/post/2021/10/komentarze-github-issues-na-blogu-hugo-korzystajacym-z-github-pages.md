@@ -311,22 +311,22 @@ uwierzytelnienia zapytań do API GitHub'a. By te zapytania uwierzytelnić, potrz
 odpowiedni token. Token uwierzytelniający możemy wygenerować sobie w ustawieniach konta GitHub'a
 (avatar w prawym górnym rogu > Settings):
 
-![](/img/2021/10/001.hugo-github-issues-disqus-comments-token.png#huge)
+![hugo-github-issues-disqus-comments-token](/img/2021/10/001.hugo-github-issues-disqus-comments-token.png#huge)
 
 Z menu po lewej stronie wybieramy `Developer settings` :
 
-![](/img/2021/10/002.hugo-github-issues-disqus-comments-token.png#huge)
+![hugo-github-issues-disqus-comments-token](/img/2021/10/002.hugo-github-issues-disqus-comments-token.png#huge)
 
 Tutaj najbardziej nas interesuje `Personal access tokens` . Tworzymy nowy token klikając w przycisk
 `Generate new token` :
 
-![](/img/2021/10/003.hugo-github-issues-disqus-comments-token.png#huge)
+![hugo-github-issues-disqus-comments-token](/img/2021/10/003.hugo-github-issues-disqus-comments-token.png#huge)
 
 Dodajemy jakąś notkę i ustawiamy czas ważności. Określamy uprawnienia w `Select scopes` i
 zaznaczamy tutaj jedynie `Access public repositories` . Po wygenerowaniu tokenu powinniśmy uzyskać
 jego numerek:
 
-![](/img/2021/10/004.hugo-github-issues-disqus-comments-token.png#huge)
+![hugo-github-issues-disqus-comments-token](/img/2021/10/004.hugo-github-issues-disqus-comments-token.png#huge)
 
 Tak uzyskany token trzeba podać `curl` w nagłówku `-H "Authorization: token  tutaj_numerek"` . W
 ten sposób będziemy mieli do dyspozycji nie 60, a 6000 zapytań na godzinę. Wciąż jednak należy
@@ -374,12 +374,12 @@ Jeśli wszystkie powyższe kroki przeprowadziliśmy prawidłowo, to system komen
 Issues powinien nam działać jak należy. Możemy ten stan rzeczy zweryfikować tworząc w pierwszym
 lepszym wątku jakieś komentarze. Poniżej przykład:
 
-![](/img/2021/10/005.hugo-github-issues-disqus-comments-test.png#huge)
+![hugo-github-issues-disqus-comments-test](/img/2021/10/005.hugo-github-issues-disqus-comments-test.png#huge)
 
 Teraz przechodzimy na bloga i szukamy tego konkretnego wpisu. Pod nim powinniśmy mieć blok
 komentarzy mający dokładnie tę samą zawartość co w GitHub Issue:
 
-![](/img/2021/10/006.hugo-github-issues-disqus-comments-test.png#huge)
+![hugo-github-issues-disqus-comments-test](/img/2021/10/006.hugo-github-issues-disqus-comments-test.png#huge)
 
 ## Dodanie linku do posta na blogu w wątku na GitHub Issues
 

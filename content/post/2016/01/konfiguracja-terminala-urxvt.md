@@ -252,12 +252,12 @@ zadowalają nas te podstawowe kolory, do dopiszmy sobie do pliku `~/.Xresources`
 Są to jedynie podstawowe kolory i nie należy ich mylić z tymi, które są do dyspozycji w terminalach
 256-kolorowych. Poniżej przykład:
 
-![](/img/2016/01/1.terminal-urxvt-16-kolorow.png#medium)
+![terminal-urxvt-16-kolorow](/img/2016/01/1.terminal-urxvt-16-kolorow.png#medium)
 
 Natomiast w przypadku terminali 256-kolorowych będziemy mieli jeszcze do dyspozycji kilka
 dodatkowych opcji.
 
-![](/img/2016/01/2.terminal-urxvt-256-kolorow.png#huge)
+![terminal-urxvt-256-kolorow](/img/2016/01/2.terminal-urxvt-256-kolorow.png#huge)
 
 W obu tych przypadkach te pierwsze 16 kolorów (0-15) będzie takich samych. Poza tym, widzimy na
 powyższym obrazku, że kolory rozpoczynają się od numerka 16, a nie od 0.

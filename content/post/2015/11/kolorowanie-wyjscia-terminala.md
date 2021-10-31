@@ -49,7 +49,7 @@ skorzystać z tego dostepnego [tutaj](http://misc.flogisoft.com/bash/tip_colors_
 Po uruchomieniu tego skryptu, powinniśmy zobaczyć konfigurację terminala odpowiedzialną za
 wykorzystywane kolory:
 
-![](/img/2015/11/1.kolorowanie-wyjscia-terminal-kolory.png#big)
+![kolorowanie-wyjscia-terminal-kolory](/img/2015/11/1.kolorowanie-wyjscia-terminal-kolory.png#big)
 
 ## Kolorowanie wyjścia ls
 
@@ -57,7 +57,7 @@ Wyjście narzędzia `ls` jest dużo bardziej czytelne, gdy posiada kolory. W tak
 stanie odróżniać od siebie szereg pozycji, np. pliki od katalogów, czy też poszczególne pliki od
 siebie. Wygląda to mniej więcej tak:
 
-![](/img/2015/11/2.kolorowanie-wyjscia-ls.png#huge)
+![kolorowanie-wyjscia-ls](/img/2015/11/2.kolorowanie-wyjscia-ls.png#huge)
 
 By pokolorować wyjście `ls` , musimy stworzyć dla niego alias zawierający parametr `--color=auto` i
 umieścić go w pliku `.bashrc` , przykładowo:
@@ -102,7 +102,7 @@ Można również pokolorować manuale. Chodzi o te dostępne po wpisaniu w termi
 Nie będzie tego, co prawda, dużo ale zawsze łatwiej odnaleźć pewne rzeczy gdy się wyróżniają z
 tłumu. Efekt będzie mniej więcej taki:
 
-![](/img/2015/11/3.kolorowanie-wyjscia-man.png#huge)
+![kolorowanie-wyjscia-man](/img/2015/11/3.kolorowanie-wyjscia-man.png#huge)
 
 Jeśli nam odpowiada taki format dokumentacji (kolory można dostosować), to dopiszmy ten poniższy
 blok kodu do pliku `.bashrc` :

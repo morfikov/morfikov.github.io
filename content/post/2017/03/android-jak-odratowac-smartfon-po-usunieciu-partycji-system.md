@@ -83,7 +83,7 @@ binarnie w stosowne miejsce. Zanim jednak wgramy sam obraz, odmontujmy partycję
 to zrobić w menu Zamontuj w
 TWRP:
 
-![](/img/2017/03/001.twrp-recovery-system.png#big)
+![twrp-recovery-system](/img/2017/03/001.twrp-recovery-system.png#big)
 
 Lub też przy pomocy poniższego polecenia przez `adb` :
 

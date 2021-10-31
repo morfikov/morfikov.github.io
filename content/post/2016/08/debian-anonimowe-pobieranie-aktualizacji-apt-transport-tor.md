@@ -34,7 +34,7 @@ informacje zdradzamy takiej osobie w procesie aktualizacji naszego linux'a. Najp
 uczynić instalując sniffer sieciowy i pobierając przykładowy pakiet z repozytorium Debiana. Poniżej
 jest przykładowy zrzut tego co złapał `wireshark` :
 
-![](/img/2016/08/1.wireshark-debian-informacje-o-pakiecie.png#huge)
+![wireshark-debian-informacje-o-pakiecie](/img/2016/08/1.wireshark-debian-informacje-o-pakiecie.png#huge)
 
 Wyżej widzimy, że zdradzamy nie tylko nazwę pakietu, który zamierzamy pobrać, ale również jego
 wersję, numer rewizji, architekturę systemu, rodzaj dystrybucji linux'a oraz też natywny język
@@ -74,7 +74,7 @@ Alternatywnie możemy określić URL w taki sposób, by wskazywał na [zasób De
 Teraz już wystarczy wydać w terminalu polecenie `apt-get update` , a listy repozytoriów powinny
 polecieć przez sieć TOR:
 
-![](/img/2016/08/2.deian-apt-transport-tor-ruch-przez-siec-tor.png#huge)
+![deian-apt-transport-tor-ruch-przez-siec-tor](/img/2016/08/2.deian-apt-transport-tor-ruch-przez-siec-tor.png#huge)
 
 Wyżej określiliśmy wpisy z `tor+http://` . Zatem ruch wewnątrz sieci TOR do mirroru Debiana nie
 będzie szyfrowany. Wszystkie mechanizmy walidacji pakietów w `apt`/`aptitude` obowiązują tak jak w

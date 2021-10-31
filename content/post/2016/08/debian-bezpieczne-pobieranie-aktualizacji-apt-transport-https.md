@@ -43,7 +43,7 @@ się o instalację pakietu `apt-transport-tor`, który daje nam możliwość [pr
 aktualizacji systemu za pośrednictwem sieci TOR][1]. W przypadku, gdy korzystamy ze standardowego
 transportu przy pobieraniu pakietów trochę informacji zdradzamy wszystkim, którzy nasłuchują:
 
-![](/img/2016/08/1.wireshark-pobieranie-pakietu-http.png#huge)
+![wireshark-pobieranie-pakietu-http](/img/2016/08/1.wireshark-pobieranie-pakietu-http.png#huge)
 
 ## Pakiet apt-transport-https, a repozytoria
 
@@ -81,7 +81,7 @@ faktyczne pobieranie pakietu, zostanie zestawiony tunel TLS, który posłuży do
 wszystkich danych. Potencjalny atakujący nie będzie miał w ten sposób już możliwość podejrzeć jakie
 pliki są pobierane:
 
-![](/img/2016/08/2.wireshark-pobieranie-pakietu-https.png#huge)
+![wireshark-pobieranie-pakietu-https](/img/2016/08/2.wireshark-pobieranie-pakietu-https.png#huge)
 
 ## Kwestia security.debian.org oraz deb.debian.org/debian-security
 

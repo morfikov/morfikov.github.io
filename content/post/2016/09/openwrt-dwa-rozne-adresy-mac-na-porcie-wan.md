@@ -66,7 +66,7 @@ zostanie wygenerowany nowy MAC. W efekcie ISP najpierw widzi pakiet failsafe z j
 po skonfigurowaniu switch'a, router przesyła prośbę o konfigurację sieci przez protokół DHCP już
 portem WAN, który ma inny adres MAC. Wygląda to mniej więcej tak:
 
-![](/img/2016/09/1.rozny-adres-mac-isp-openwrt-wireshark.png#huge)
+![rozny-adres-mac-isp-openwrt-wireshark](/img/2016/09/1.rozny-adres-mac-isp-openwrt-wireshark.png#huge)
 
 Tutaj mój laptop był wpięty do portu WAN routera, by z perspektywy ISP ustalić jakie pakiety do
 niego trafiają. Widzimy, że pierwszy pakiet jest zgłoszeniem gotowości trybu failsafe. Zwróćmy uwagę
@@ -116,7 +116,7 @@ który ustawiliśmy w pliku `/etc/config/network` w sekcji `LAN` . Nie wiem czy 
 czymś przeszkadza ale jeśli teraz podepniemy się do portu WAN routera i ponownie sprawdzimy jak
 wygląda komunikacja routera z ISP, to zobaczymy coś takiego:
 
-![](/img/2016/09/2.rozny-adres-mac-isp-openwrt-wireshark.png#huge)
+![rozny-adres-mac-isp-openwrt-wireshark](/img/2016/09/2.rozny-adres-mac-isp-openwrt-wireshark.png#huge)
 
 Jak widzimy, teraz już wszystkie pakiety mają jeden i ten sam adres MAC, co powinno rozwiązać
 kwestię problemów z podwójnym adresem MAC po stronie ISP.

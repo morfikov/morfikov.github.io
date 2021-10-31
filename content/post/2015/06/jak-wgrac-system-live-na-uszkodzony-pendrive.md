@@ -47,7 +47,7 @@ czego uszkodzone sektory są rozsiane na pierwszych 5GiB. Zwykle obraz live ma n
 zatem najlepiej odpuścić sobie ten obszar początkowy i utworzyć minimum dwie partycje, z których
 jedna będzie mieć 5GiB, a druga będzie rozciągać się na pozostałe miejsce na pendrive, przykładowo:
 
-![](/img/2015/06/1.gparted-uszkodzony-pendrive-live.png#big)
+![gparted-uszkodzony-pendrive-live](/img/2015/06/1.gparted-uszkodzony-pendrive-live.png#big)
 
 Naturalnie, możemy stworzyć więcej partycji i przeznaczyć jedynie 2GiB na system live. W dalszym
 ciągu także możemy korzystać z pierwszej partycji, choć nie jest to zalecane, bo istnieje spore

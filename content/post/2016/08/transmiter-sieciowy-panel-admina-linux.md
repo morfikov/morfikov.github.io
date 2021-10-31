@@ -52,7 +52,7 @@ proces przebiegł szybko i sprawnie, a sieć działa tak jak powinna.
 Jeśli teraz podłączymy sobie maszynę kliencką do naszej sieci i odpalimy na niej sniffer
 `wireshark` , to zobaczymy coś w poniższym stylu:
 
-![](/img/2016/08/1.wireshark-duplikad-adres-ip-transmiter-sieciowy.png#huge)
+![wireshark-duplikad-adres-ip-transmiter-sieciowy](/img/2016/08/1.wireshark-duplikad-adres-ip-transmiter-sieciowy.png#huge)
 
 Dwie maszyny w naszej sieci mają przypisany ten sam adres IP: 192.168.1.1 . Taka sytuacja będzie
 powodować problemy z połączeniem. W sumie to już możemy na starcie to odczuć, choćby przez wpisanie
@@ -87,22 +87,22 @@ polecenia `ping 192.168.1.1` . Jeśli `ping` lata w obie strony, to odpalamy prz
 i w pasku adresu wpisujemy `http://192.168.1.1/` . Powinien nam pojawić się prompt z zapytaniem o
 login i hasło. W obu przypadkach wpisujemy `admin` :
 
-![](/img/2016/08/2.transmiter-sieciowy-panel-admina.png#medium)
+![transmiter-sieciowy-panel-admina](/img/2016/08/2.transmiter-sieciowy-panel-admina.png#medium)
 
 Po chwili powinien nam się już załadować znajomy panel administracyjny TP-LINK'a:
 
-![](/img/2016/08/3.transmiter-sieciowy-panel-admina.png#huge)
+![transmiter-sieciowy-panel-admina](/img/2016/08/3.transmiter-sieciowy-panel-admina.png#huge)
 
 Jak widzimy wyżej, ten ekstender WiFi ma adres 192.168.1.1 i to ten adres musimy zmienić na coś
 innego, z tym, że z klasy 192.168.1.0/24. Zmieńmy adres tego urządzenia na 192.168.1.10 .
 Pamiętajmy, że standardowa pula DHCP w OpenWRT/LEDE jest z zakresu 192.168.1.100-192.168.1.250 . W
 celu zmiany adresu przechodzimy w menu pod Network i wpisujemy w formularzu nasz nowy IP:
 
-![](/img/2016/08/4.transmiter-sieciowy-panel-admina-samiana-adresu.png#huge)
+![transmiter-sieciowy-panel-admina-samiana-adresu](/img/2016/08/4.transmiter-sieciowy-panel-admina-samiana-adresu.png#huge)
 
 Po chwili nastąpi restart urządzenia:
 
-![](/img/2016/08/5.transmiter-sieciowy-panel-admina-restart.png#huge)
+![transmiter-sieciowy-panel-admina-restart](/img/2016/08/5.transmiter-sieciowy-panel-admina-restart.png#huge)
 
 Teraz możemy kontynuować ze standardową procedurą implementacji transmitera sieciowego w naszym
 domu. Po sparowaniu urządzeń, nie powinno być już w sieci zduplikowanego adresu IP 192.168.1.1

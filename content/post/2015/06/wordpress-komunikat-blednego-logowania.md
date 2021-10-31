@@ -29,12 +29,12 @@ będzie w stanie dokonać ataku Brute Force na hasło do tego konta.
 By przekonać się jak działa powyżej opisany schemat, spróbujmy zalogować się na nieistniejące konto
 na naszym blogu. Powinniśmy dostać poniższy komunikat:
 
-![](/img/2015/06/2.wordpress-bledny-komunikat.png#small)
+![wordpress-bledny-komunikat](/img/2015/06/2.wordpress-bledny-komunikat.png#small)
 
 Z kolei, jeśli spróbujemy zalogować się na istniejące konto ale bez znajomości hasła do niego, to
 dostaniemy nieco inny monit:
 
-![](/img/2015/06/1.wordpress-bledny-komunikat.png#small)
+![wordpress-bledny-komunikat](/img/2015/06/1.wordpress-bledny-komunikat.png#small)
 
 Komunikaty są bardzo oczywiste i na ich podstawie możemy bez problemu stwierdzić, które konto
 istnieje w bazie, a które nie. Jeśli prowadzimy blog samotnie i mamy do tego zaprzęgnięty system
@@ -73,4 +73,4 @@ kod:
 I teraz już nie będzie miało znaczenia czy wprowadzimy zły login czy hasło, zawsze zostanie nam
 wyrzucony ten sam błąd:
 
-![](/img/2015/06/3.wordpress-bledny-komunikat.png#small)
+![wordpress-bledny-komunikat](/img/2015/06/3.wordpress-bledny-komunikat.png#small)

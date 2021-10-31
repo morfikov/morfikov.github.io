@@ -145,7 +145,7 @@ odtwarzać materiały wideo w rozdzielczości maksymalnej 1080p przy 30 FPS'ach.
 posiada także wsparcie dla API takich standardów jak OpenGL ES 1.1/2.0/3.0, OpenCL 1.0/1.1/1.2 oraz
 DirectX9. Proces technologiczny tego SoC'a to 28 nm.
 
-![](/img/2016/10/017.1-smartfon-neffos-c5-tp-link-cpuz-system.png#huge)
+![1-smartfon-neffos-c5-tp-link-cpuz-system](/img/2016/10/017.1-smartfon-neffos-c5-tp-link-cpuz-system.png#huge)
 
 ### Pamięć RAM oraz flash
 
@@ -162,7 +162,7 @@ aplikacje dodatkowe. Odliczając te rzeczy, zostaje nam do użytku nieco poniże
 całkiem przyzwoita ilość miejsca. Dla wymagających zawsze jest opcja skorzystania z kart SD, które
 mogą pomóc nam tę pamięć rozbudować o dodatkowe 32 GiB.
 
-![](/img/2016/10/019.1-smartfon-neffos-c5-tp-link-flash-partycje.png#medium)
+![1-smartfon-neffos-c5-tp-link-flash-partycje](/img/2016/10/019.1-smartfon-neffos-c5-tp-link-flash-partycje.png#medium)
 
 ### Pasywny Dual SIM
 
@@ -300,7 +300,7 @@ transferu w tej technologi 150/50 mbit/s (download/upload). Przy mojej lokalizac
 metrów od BTS'a (widoczność zachowana), w nocy około 2-3 godziny, transfer jest na poziomie 40/20
 mbit/s.
 
-![](/img/2016/10/029.1-smartfon-neffos-c5-tp-link-speedtest-lte.png#medium)
+![1-smartfon-neffos-c5-tp-link-speedtest-lte](/img/2016/10/029.1-smartfon-neffos-c5-tp-link-speedtest-lte.png#medium)
 
 Może jest to daleko do tych obiecanych 150/50 mbit/s ale i tak jest to prawie dwukrotnie lepiej co w
 przypadku zewnętrznego modemu Huawei E3372s (pomiary przeprowadzane w budynku).

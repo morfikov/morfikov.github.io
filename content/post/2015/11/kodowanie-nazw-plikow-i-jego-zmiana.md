@@ -45,7 +45,7 @@ w pakiecie o tej samej nazwie, zatem nie powinno być problemów z jego instalac
 na ten wypakowany katalog, który zawiera nieprawidłowe kodowanie nazw plików. Wygląda on mniej
 więcej tak:
 
-![](/img/2015/11/1.convmv-zmiana-kodowania-nazw-plikow-przed.png#big)
+![convmv-zmiana-kodowania-nazw-plikow-przed](/img/2015/11/1.convmv-zmiana-kodowania-nazw-plikow-przed.png#big)
 
 Odpalamy teraz terminal i przechodzimy do tego katalogu. Narzędzie `convmv` wymaga podania dwóch
 parametrów. Chodzi oczywiście o kodowanie wejściowe ( `-f` ) i kodowanie wyjściowe ( `-t` ).
@@ -68,4 +68,4 @@ Widzimy wyraźnie, że nazwy wynikowe nie zawierają krzaków. Zatem jest to odp
 możemy teraz dodać do polecenia parametr `--notest` i masowo zmienić nazwy plików w tym katalogu.
 Efekt jest mniej więcej taki jak na fotce poniżej:
 
-![](/img/2015/11/2.convmv-zmiana-kodowania-nazy-plikow-po.png#big)
+![convmv-zmiana-kodowania-nazy-plikow-po](/img/2015/11/2.convmv-zmiana-kodowania-nazy-plikow-po.png#big)

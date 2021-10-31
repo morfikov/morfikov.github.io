@@ -60,11 +60,11 @@ ARP. Poniżej są przykłady obu tych skanów.
 W przypadku żądań ARP, w terminalu wpisujemy polecenie `nmap -sn 192.168.1.0/24` . Czas skanowania
 zamknął się w granicach 3 sekund:
 
-![](/img/2016/09/1.wykrywanie-komputer-host-siec-arp-nmap.png#huge)
+![wykrywanie-komputer-host-siec-arp-nmap](/img/2016/09/1.wykrywanie-komputer-host-siec-arp-nmap.png#huge)
 
 Poniżej jest jeszcze fotka z wireshark'a, która obrazuje cały proces:
 
-![](/img/2016/09/2.wykrywanie-komputer-host-siec-arp-wireshark.png#huge)
+![wykrywanie-komputer-host-siec-arp-wireshark](/img/2016/09/2.wykrywanie-komputer-host-siec-arp-wireshark.png#huge)
 
 Jak widać, każdy pojedynczy adres IP został przez `nmap` odpytany. Z adresów, które są aktualnie
 wykorzystywane w sieci, zostaje zwrócona odpowiedź, tak jak to widzimy w jednym przypadku wyżej na
@@ -75,12 +75,12 @@ fotce.
 Jeśli chcielibyśmy wykonać pełen skan wszystkich hostów w sieci, to w terminalu wydajemy polecenie
 `nmap -sn --send-ip 192.168.1.0/24` . I tutaj już ten proces trwał ponad 20 sekund:
 
-![](/img/2016/09/3.wykrywanie-komputer-host-siec-nmap-pelny-skan.png#huge)
+![wykrywanie-komputer-host-siec-nmap-pelny-skan](/img/2016/09/3.wykrywanie-komputer-host-siec-nmap-pelny-skan.png#huge)
 
 Poniżej jest zaś fotka z wireshark'a, która pokazuje ruch do jednego hosta przy korzystaniu z tego
 typu skanowania:
 
-![](/img/2016/09/4.wykrywanie-komputer-host-siec-wireshark-pelny-skan-nmap.png#huge)
+![wykrywanie-komputer-host-siec-wireshark-pelny-skan-nmap](/img/2016/09/4.wykrywanie-komputer-host-siec-wireshark-pelny-skan-nmap.png#huge)
 
 ## Wykryte hosty w sieci
 
@@ -90,4 +90,4 @@ oraz przypisane im adresy IP. Szukany transmiter sieciowy ma adres 192.168.1.11 
 trzeba było wpisać w przeglądarce, by dostać się do panelu administracyjnego w celu przeniesienia AP
 na inny kanał:
 
-![](/img/2016/09/5.siec-wifi-skan-smartfon.png#medium)
+![siec-wifi-skan-smartfon](/img/2016/09/5.siec-wifi-skan-smartfon.png#medium)

@@ -29,7 +29,7 @@ identyfikatora sieci (SSID), częstotliwości nadawania (kanału), obsługiwanyc
 sygnału czy też wykorzystywanych zabezpieczeń. Poniżej przykład takiego pakietu złapanego via
 wireshark:
 
-![](/img/2016/08/1.interwal-beacon-wifi.png#huge)
+![interwal-beacon-wifi](/img/2016/08/1.interwal-beacon-wifi.png#huge)
 
 Wyżej został zastosowany filtr, tak by były widoczne jedynie pakiety Beacon. Jeśli przyjrzymy się,
 to po czasie możemy stwierdzić, że te pakiety są rozsyłane po czasie około 1 sekundy. Z reguły w

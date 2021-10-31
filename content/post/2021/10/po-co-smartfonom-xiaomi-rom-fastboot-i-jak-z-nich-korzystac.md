@@ -314,22 +314,22 @@ Technicznie rzecz biorąc, to można bez większego problemu taki ROM fastboot w
 poziomu dowolnej dystrybucji linux'a przy pomocy [narzędzia XiaoMiTool][11]. Wystarczy odpalić
 XiaoMiTool i wybrać opcję po prawej stronie na poniższej fotce:
 
-![](/img/2021/10/001.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png#huge)
+![xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux](/img/2021/10/001.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png#huge)
 
 Podczas uruchamiania się urządzenia przełączamy nasz smartfon w tryb fastboot przy pomocy
 przycisków Power + VolumeDown. Po podłączeniu telefonu do portu USB komputera, XiaoMiTool powinien
 wykryć nasz sprzęt:
 
-![](/img/2021/10/002.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png#huge)
+![xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux](/img/2021/10/002.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png#huge)
 
 Wskazujemy XiaoMiTool jakie to jest dokładnie urządzenie, w tym przypadku jest to Redmi 9
 (lancelot/galahad):
 
-![](/img/2021/10/003.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png#huge)
+![xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux](/img/2021/10/003.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png#huge)
 
 Po chwili rozpocznie się pobieranie odpowiedniego ROM'u fastboot:
 
-![](/img/2021/10/004.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png#huge)
+![xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux](/img/2021/10/004.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-linux.png#huge)
 
 Problem z XiaoMiTool jest jednak taki, że nie możemy określić jaką wersję ROM'u dokładnie chcemy
 wgrać i w zasadzie wgrywana jest ta najnowsza dostępna. Być może XiaoMiTool pobiera ROM w oparciu o
@@ -373,7 +373,7 @@ naturalnie będą wypakowane pliki z paczki z ROM'em fastboot (możemy je wgrać
 via SMB). Po uruchomieniu MiFlash trzeba wskazać katalog, w którym te pliki się znajdują, po czym
 kliknąć przycisk `flash` :
 
-![](/img/2021/10/005.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-windows-kvm-qemu.png#huge)
+![xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-windows-kvm-qemu](/img/2021/10/005.xiaomitool-fastboot-rom-xiaomi-redmi-9-flash-windows-kvm-qemu.png#huge)
 
 Cały proces flash'owania zajmie dłuższą chwilę. W tym przypadku trwało to prawie 20 minut. Gdy
 proces dobiegnie końca, uruchamiamy telefon ponownie.

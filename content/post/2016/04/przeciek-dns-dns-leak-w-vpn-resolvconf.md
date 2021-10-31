@@ -53,7 +53,7 @@ zapytania powędrują przez VPN. Natomiast ruch DNS zostanie przesłany bezpośr
 serwera DNS i tu właśnie doświadczymy DNS leak. Poniżej przykład z wireshark'a. Z lewej strony mamy
 interfejs `tun0` . Po prawej zaś jest fizyczny interfejs `eth0` :
 
-![](/img/2016/04/1.dns-leak-lokalny-serwer-isp.png#huge)
+![dns-leak-lokalny-serwer-isp](/img/2016/04/1.dns-leak-lokalny-serwer-isp.png#huge)
 
 Trzeba wyraźnie zaznaczyć, że ten problem dotyczy jedynie lokalnych serwerów DNS, które zwykle są
 implementowane w domowych routerach WiFi. Po części też taki DNS leak może wystąpić w przypadku
@@ -61,7 +61,7 @@ serwerów DNS od ISP ale to tylko wtedy, gdy ISP korzysta z prywatnych bloków a
 10.0.0.0/8 czy 192.168.0.0/16 . W przypadku globalnych providerów DNS, takich jak google, czy
 OpenDNS, DNS leak nie występuje. Poniżej przykład:
 
-![](/img/2016/04/2.brak-dns-leak-google-serwer.png#huge)
+![brak-dns-leak-google-serwer](/img/2016/04/2.brak-dns-leak-google-serwer.png#huge)
 
 Dzieje się tak dlatego, że adres IP 8.8.8.8 nie jest lokalny i zapytania do tego serwera muszą
 zostać przesłane przez bramę domyślną, tj. wrzucone w szyfrowany tunel, którym powędrują do VPN.
@@ -137,7 +137,7 @@ To oznacza, że mechanizm działa prawidłowo i zapytania DNS są kierowane do s
 od VPN. Możemy także zweryfikować połączenie pod kątem DNS leak zapuszczając ponownie wireshark'a na
 interfejsach `eth0` i `tun0` . Poniżej przykład:
 
-![](/img/2016/04/3.brak-dns-leak-serwer-vpn.png#huge)
+![brak-dns-leak-serwer-vpn](/img/2016/04/3.brak-dns-leak-serwer-vpn.png#huge)
 
 ## Dodatkowe zabezpieczenia przed DNS leak
 

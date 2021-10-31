@@ -64,7 +64,7 @@ Zatem jest to 10 pakietów. Możemy zwiększyć tę wartość do 20, np. przez d
 Jeśli teraz odpalimy sniffer sieciowy, np. wireshark, to powinniśmy ujrzeć wartość `29200` w opcjach
 okna TCP w pakietach `SYN` , poniżej fotka:
 
-![](/img/2015/06/1.wolny-start-okno-poczatkowe-wireshark.png#huge)
+![wolny-start-okno-poczatkowe-wireshark](/img/2015/06/1.wolny-start-okno-poczatkowe-wireshark.png#huge)
 
 ## Zagubione pakiety oraz połączenia IDLE
 

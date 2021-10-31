@@ -33,7 +33,7 @@ Usuwając dane z partycji `/system/` pozbawiamy nasz telefon praktycznie całego
 smartfon nie może działa bez Androida czy innego systemu operacyjnego i w zasadzie urządzenie
 resetuje się co około minutę po włączeniu.
 
-![](/img/2017/03/001.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-usuniety-system.png#medium)
+![adb-sideload-update-zip-firmware-tp-link-neffos-twrp-usuniety-system](/img/2017/03/001.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-usuniety-system.png#medium)
 
 W takim stanie po włączeniu smartfona, na ekranie można zobaczyć jedynie loga TP-LINK i Androida.
 Natomiast w logu systemowym mojego Debiana można zaobserwować poniższe komunikaty:
@@ -117,18 +117,18 @@ Problem jak widać dotyczy weryfikacji sygnatury pliku `.zip` . Musimy zatem poi
 weryfikował sygnatury. Możemy to zrobić odhaczając opcję `ZIP signature verification` w
 ustawieniach:
 
-![](/img/2017/03/002.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-opcje.png#medium)
+![adb-sideload-update-zip-firmware-tp-link-neffos-twrp-opcje](/img/2017/03/002.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-opcje.png#medium)
 
 Teraz możemy aktywować tryb ADB sideload przechodząc w Advanced => ADB Sideload:
 
-![](/img/2017/03/003.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-menu.png#big)
+![adb-sideload-update-zip-firmware-tp-link-neffos-twrp-menu](/img/2017/03/003.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-menu.png#big)
 
 Czyszczenie cache jest opcjonalne ale można je zaznaczyć. Dane użytkownika i tak pozostaną
 nietknięte, zatem bez obaw. Niemniej jednak, trzeba pamiętać, że w przypadku modyfikacji partycji
 `/system/` , np. przez Xposed, możemy napotkać dziwne problemy, które mogą uniemożliwić start lub
 też poprawne działanie systemu i wymagane będzie przeprowadzenie procesu Factory Reset.
 
-![](/img/2017/03/004.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-cache.png#medium)
+![adb-sideload-update-zip-firmware-tp-link-neffos-twrp-cache](/img/2017/03/004.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-cache.png#medium)
 
 Po przesunięciu trzech strzałek na prawą stronę, ADB przełączy się w tryb sideload. Teraz wracamy na
 komputer i ładujemy plik `update.zip` przy pomocy poniższego polecenia ([trzeba doinstalować
@@ -140,23 +140,23 @@ narzędzie adb][9]):
 Proces flash'owania plikiem `update.zip` zajmie dłuższą chwilę ale ostatecznie powinien zakończyć
 się powodzeniem:
 
-![](/img/2017/03/005.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-proces.png#medium)
+![adb-sideload-update-zip-firmware-tp-link-neffos-twrp-proces](/img/2017/03/005.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-proces.png#medium)
 
 Uruchamiamy smartfon ponownie i ignorujemy przy tym informację, że to urządzenie nie mam
 zainstalowanego systemu operacyjnego (w zasadzie właśnie go zainstalowaliśmy):
 
-![](/img/2017/03/006.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-brak-os.png#medium)
+![adb-sideload-update-zip-firmware-tp-link-neffos-twrp-brak-os](/img/2017/03/006.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-brak-os.png#medium)
 
 Po chwili powinien nam się załadować ekran z wyborem języka systemu:
 
-![](/img/2017/03/007.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-system.png#medium)
+![adb-sideload-update-zip-firmware-tp-link-neffos-twrp-system](/img/2017/03/007.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-system.png#medium)
 
 Po skonfigurowaniu systemu warto sprawdzić czy są dostępne jakieś aktualizacje. To na wypadek,
 gdybyśmy chcieli wgrać sobie jeszcze raz TWRP recovery czy przeprowadzać proces root Androida. W
 przypadku wprowadzenia jakichkolwiek zmian na partycji `/boot/` , `/system/` lub `/recovery/` nie
 będziemy w stanie tych aktualizacji wgrać na smartfon i warto o tym pamiętać.
 
-![](/img/2017/03/008.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-update.png#medium)
+![adb-sideload-update-zip-firmware-tp-link-neffos-twrp-update](/img/2017/03/008.adb-sideload-update-zip-firmware-tp-link-neffos-twrp-update.png#medium)
 
 
 [1]: /post/android-jak-odratowac-smartfon-po-usunieciu-partycji-system/
