@@ -197,7 +197,7 @@ przypisuje się smartfon do konta Mi:
 
 |   |   |   |
 |---|---|---|
-|![](/img/2021/08/004-xiaomi-redmi-9-linux-aosp-bootloader-settings.jpg#small) | ![](/img/2021/08/005-xiaomi-redmi-9-linux-aosp-bootloader-settings.jpg#small) | ![](/img/2021/08/006-xiaomi-redmi-9-linux-aosp-bootloader-additional-settings.jpg#small) |
+| ![](/img/2021/08/004-xiaomi-redmi-9-linux-aosp-bootloader-settings.jpg#small) | ![](/img/2021/08/005-xiaomi-redmi-9-linux-aosp-bootloader-settings.jpg#small) | ![](/img/2021/08/006-xiaomi-redmi-9-linux-aosp-bootloader-additional-settings.jpg#small) |
 
 Na liście ustawień deweloperskich trzeba odszukać pozycję `Mi Unlock status` . Urządzenie
 przypisuje się do konta Mi w zasadzie tylko raz ale są pewne wymagania, by takie powiązanie
