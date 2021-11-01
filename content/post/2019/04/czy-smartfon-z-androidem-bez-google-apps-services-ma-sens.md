@@ -265,7 +265,7 @@ pojawić nowa pozycja `microG settings` . Odpalamy ją i przyznajemy uprawnienia
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/04/005-microg-missing-permissions.png#small) | ![](/img/2019/04/006-microg-missing-permissions.png#small) | ![](/img/2019/04/007-microg-missing-permissions.png#small) |![](/img/2019/04/008-microg-missing-permissions.png#small) |
+| ![](/img/2019/04/005-microg-missing-permissions.png#small) | ![](/img/2019/04/006-microg-missing-permissions.png#small) | ![](/img/2019/04/007-microg-missing-permissions.png#small) | ![](/img/2019/04/008-microg-missing-permissions.png#small) |
 
 Następnie przeprowadzamy `Self-Check` :
 
@@ -448,7 +448,7 @@ konto Google:
 |     |    |     |
 | --- | ---| --- |
 | ![](/img/2019/04/044-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/045-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/046-microg-youtube-vanced-google-account.png#small) |
-|![](/img/2019/04/047-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/048-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/049-microg-youtube-vanced-google-account.png#small) |
+| ![](/img/2019/04/047-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/048-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/049-microg-youtube-vanced-google-account.png#small) |
 
 Stworzenie konta Google jak widać jest bezproblemowe i w pełni wspierane przez microG. Po
 zalogowaniu się w YouTube Vanced mamy w pełni działającą aplikację od YouTube. Zarejestrowała się

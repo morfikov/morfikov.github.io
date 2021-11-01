@@ -302,7 +302,7 @@ appce:
 
 |   |   |   |
 |---|---|---|
-|![](/img/2021/09/004.android-mock-fake-location-gps-app-permissions.jpg#small) | ![](/img/2021/09/005.android-mock-fake-location-gps-app-permissions.jpg#small) | ![](/img/2021/09/006.android-mock-fake-location-gps-app-permissions.jpg#small) |
+| ![](/img/2021/09/004.android-mock-fake-location-gps-app-permissions.jpg#small) | ![](/img/2021/09/005.android-mock-fake-location-gps-app-permissions.jpg#small) | ![](/img/2021/09/006.android-mock-fake-location-gps-app-permissions.jpg#small) |
 
 ### ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION oraz ACCESS_BACKGROUND_LOCATION
 

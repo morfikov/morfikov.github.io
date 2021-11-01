@@ -183,7 +183,7 @@ stop przez nieco ponad 8 godzin. Poniżej zaś znajdują się fotki obrazujące 
 
 |   |   |
 |---|---|
-| ![](/img/2016/12/020.neffos-y5-smartfon-tp-link-bateria-ladowanie.png#medium) | ![](/img/2016/12/021.neffos-y5-smartfon-tp-link-bateria-ladowanie.png#medium)|
+| ![](/img/2016/12/020.neffos-y5-smartfon-tp-link-bateria-ladowanie.png#medium) | ![](/img/2016/12/021.neffos-y5-smartfon-tp-link-bateria-ladowanie.png#medium) |
 
 Niemniej jednak, jeśli chodzi o stan spoczynku, to ten smartfon potrafi wytrzymać prawie miesiąc bez
 ponownego ładowania, czyli nieco dłużej niż w przypadku pozostałych modeli smartfonów TP-LINK.
