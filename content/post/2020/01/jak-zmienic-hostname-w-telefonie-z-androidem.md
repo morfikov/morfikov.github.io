@@ -58,7 +58,7 @@ to, że [bez poprawy źródeł][2] nie da się tej informacji wymazać. Tak czy 
 smartfon łączy się z routerem i chce uzyskać adres IP za pośrednictwem protokołu DHCP, to prześle w
 zapytaniu DHCP tę unikalną dość nazwę hosta i będzie ona widoczna m.in. na routerze:
 
-![](/img/2020/01/001-router-android-hostname-wifi.png#huge)
+![router-android-hostname-wifi](/img/2020/01/001-router-android-hostname-wifi.png#huge)
 
 ## Zmiana nazwy hosta w smartfonie
 
@@ -108,7 +108,7 @@ plik `/etc/dhcpcd/dhcpcd.conf` . Co ciekawe w Androidzie 6.0 w opcjach deweloper
 możliwość przełączenia między tymi dwoma klientami w zależności czy zaznaczymy opcję `Użyj
 starszego klienta DHCP` (Use legacy DHCP client):
 
-![](/img/2020/01/002-legacy-dhcp-client-android-dev-options.png#small)
+![legacy-dhcp-client-android-dev-options](/img/2020/01/002-legacy-dhcp-client-android-dev-options.png#small)
 
 W przypadku zaznaczenia tej opcji będzie wykorzystywany klient `dhcpcd`, natomiast w przeciwnym
 przypadku będzie w użyciu ten nowy klient, tj. `Java DHCP client`. W nowszych wersjach Androida, ta
@@ -180,7 +180,7 @@ to raczej nam się to nie uda. Ustawienie pustej nazwy hosta przywraca domyśln�
 nazwę hosta w tych starszych wersjach systemu trzeba ustawić. Gdy już to zrobimy, to bez problemu
 na routerze odnajdziemy szukany telefon:
 
-![](/img/2020/01/005-router-android-new-hostname-wifi.png#huge)
+![router-android-new-hostname-wifi](/img/2020/01/005-router-android-new-hostname-wifi.png#huge)
 
 
 [1]: https://source.android.com/security/enhancements/enhancements80

@@ -181,7 +181,7 @@ nie powie. Z okna wyboru systemu podczas startu za bardzo nic się nie dowiemy, 
 jedynie, tylko krótka nazwa i podejrzeć parametrów nie sposób. W zasadzie to widać tylko tyle co na
 poniższym obrazku:
 
-![](/img/2020/03/001-kernel-linux-efi-boot-stub-efistub-menu.jpg#huge)
+![kernel-linux-efi-boot-stub-efistub-menu](/img/2020/03/001-kernel-linux-efi-boot-stub-efistub-menu.jpg#huge)
 
 Ale nie o tym chciałem pisać, bo przecie istnieje narzędzie `efibootmgr` , które jest nam w stanie
 zwrócić ładnie przeformatowaną listę opcji rozruchu, tak jak to było widać na początku, prawda? No

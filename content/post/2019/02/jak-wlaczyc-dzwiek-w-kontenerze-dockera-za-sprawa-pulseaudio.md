@@ -82,7 +82,7 @@ Restartujemy na koniec jeszcze serwer dźwięku:
 I odpalamy kontener. Jeśli wszystko dobrze skonfigurowaliśmy, to odpalając przykładowy film na YT,
 powinniśmy usłyszeć dźwięk. Poniżej fotka obrazująca całe przedsięwzięcie:
 
-![](/img/2019/02/001-docker-debian-linux-pulseaudio-audio-network.png#huge)
+![docker-debian-linux-pulseaudio-audio-network](/img/2019/02/001-docker-debian-linux-pulseaudio-audio-network.png#huge)
 
 Po prawej stronie widać systemowy mikser dźwięku, w którym widoczna jest pozycja `AudioIPC server`
 i to ona właśnie odpowiada za obieranie dźwięku z kontenera Firefox'a. Jeśli jednak z jakiegoś

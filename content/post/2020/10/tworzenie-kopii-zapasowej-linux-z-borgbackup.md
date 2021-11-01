@@ -366,9 +366,9 @@ rozbudowany, to zawsze możemy zawęzić diff do konkretnego podkatalogu czy pli
 I w ten sposób już powinniśmy bez problemu dociec co dokładnie zostało zmienione między tymi dwoma
 diff'owanymi backup'ami:
 
-![](/img/2020/10/001-borgbackup-borg-backup-mount-file-linux-debian.png#huge)
+![borgbackup-borg-backup-mount-file-linux-debian](/img/2020/10/001-borgbackup-borg-backup-mount-file-linux-debian.png#huge)
 
-![](/img/2020/10/002-borgbackup-borg-backup-mount-file-linux-debian.png#huge)
+![borgbackup-borg-backup-mount-file-linux-debian](/img/2020/10/002-borgbackup-borg-backup-mount-file-linux-debian.png#huge)
 
 Jak skończymy sprawdzać zmiany, to nie zapomnijmy odmontować tych plików backup'u. Jeśli któryś z
 tych plików będzie zamontowany, to `borg` odmówi przeprowadzania kolejnych kopii zapasowych i zwróci

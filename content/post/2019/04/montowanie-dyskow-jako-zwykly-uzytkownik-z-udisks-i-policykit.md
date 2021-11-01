@@ -315,12 +315,12 @@ autoryzacji.
 Jeśli byśmy w takiej sytuacji spróbowali zamontować system plików jakiegoś pendrive czy dysku
 twardego, który podłączyliśmy do portu USB, to przywita nas taki oto komunikat:
 
-![](/img/2019/04/001-udisks-udisks2-polkit-policykit-linux-debian-hdd-pendrive-deny-mount.png#small)
+![udisks-udisks2-polkit-policykit-linux-debian-hdd-pendrive-deny-mount](/img/2019/04/001-udisks-udisks2-polkit-policykit-linux-debian-hdd-pendrive-deny-mount.png#small)
 
 Z kolei gdybyśmy skorzystali z `return polkit.Result.AUTH_ADMIN;` , to byśmy zobaczyli poniższe
 okienko, w którym trzeba by podać hasło:
 
-![](/img/2019/04/002-udisks-udisks2-polkit-policykit-linux-debian-hdd-pendrive-auth-mount.png#medium)
+![udisks-udisks2-polkit-policykit-linux-debian-hdd-pendrive-auth-mount](/img/2019/04/002-udisks-udisks2-polkit-policykit-linux-debian-hdd-pendrive-auth-mount.png#medium)
 
 Jeśli zawartość pliku `/etc/polkit-1/rules.d/40-debian-sudo.rules` zostanie wykomentaowana, to
 wtedy będziemy proszeni o hasło użytkownika root. W przeciwnym wypadku członkowie grupy `sudo`

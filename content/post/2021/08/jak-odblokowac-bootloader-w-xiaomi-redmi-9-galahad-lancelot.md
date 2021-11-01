@@ -212,13 +212,13 @@ przycisk `Add account and device` u dołu ekranu:
 Po chwili, powiązanie powinno zakończyć się powodzeniem, o czym poinformuje nas odpowiedni
 komunikat:
 
-![](/img/2021/08/011-xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status.jpg#small)
+![xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status](/img/2021/08/011-xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status.jpg#small)
 
 Po udanej próbie powiązania telefonu z kontem Mi, przechodzimy jeszcze dla pewności do
 [serwisu Xiaomi][2], w celu weryfikacji czy faktycznie na liście urządzeń pojawił się smartfon,
 który przed chwilą powiązaliśmy. W moim przypadku tak się stało:
 
-![](/img/2021/08/012-xiaomi-redmi-9-linux-aosp-bootloader-mi-account.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-mi-account](/img/2021/08/012-xiaomi-redmi-9-linux-aosp-bootloader-mi-account.png#huge)
 
 Mając powiązane urządzenie z kontem Mi, możemy rozpocząć procedurę odblokowania bootloader'a.
 
@@ -283,7 +283,7 @@ XiaoMiTool odblokować bootloader. Przy próbie odblokowania bootloader'a zostan
 zwrócony błąd `Xiaomi procedure failed: [getServiceToken] Missing serviceToken cookie` , który
 prezentuje się w aplikacji następująco:
 
-![](/img/2021/08/013-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-error-unlock.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-error-unlock](/img/2021/08/013-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-error-unlock.png#huge)
 
 Zgodnie z sugestią w podlinkowanym wyżej wątku, możemy zmienić sobie ręcznie ten URI ale trzeba to
 zrobić w źródłach XiaoMiTool.
@@ -492,26 +492,26 @@ zatem XiaoMiTool:
 
 Po chwili naszym oczom powinno ukazać się poniższe okienko:
 
-![](/img/2021/08/014-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-region.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-region](/img/2021/08/014-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-region.png#huge)
 
 Logujemy się na swoje konto Mi:
 
-![](/img/2021/08/015-xiaomi-redmi-9-linux-aosp-bootloader-account-login.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-account-login](/img/2021/08/015-xiaomi-redmi-9-linux-aosp-bootloader-account-login.png#huge)
 
 Jeśli mamy włączoną weryfikację dwuetapową w ustawieniach konta Mi, to trzeba będzie zweryfikować
 swoją tożsamość:
 
-![](/img/2021/08/016-xiaomi-redmi-9-linux-aosp-bootloader-account-login-2fa.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-account-login-2fa](/img/2021/08/016-xiaomi-redmi-9-linux-aosp-bootloader-account-login-2fa.png#huge)
 
 Po przejściu procesu weryfikacji tożsamości, powinniśmy zostać zalogowani na swoje konto, co
 poznamy po numerku umieszczonym w prawym górnym rogu okna aplikacji:
 
-![](/img/2021/08/017-xiaomi-redmi-9-linux-aosp-bootloader-account-logged-in.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-account-logged-in](/img/2021/08/017-xiaomi-redmi-9-linux-aosp-bootloader-account-logged-in.png#huge)
 
 Wybieramy region europejski. Po jego wskazaniu zostanie nam zaprezentowane okno z wyborem dwóch
 opcji:
 
-![](/img/2021/08/018-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure](/img/2021/08/018-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
 
 Opcja po lewej dotyczy sytuacji, gdy urządzenie pracuje bez problemu, zaś opcja po prawej, gdy coś
 mu dolega. Jako, że my chcemy jedynie odblokować bootloader, to wybieramy pozycję z lewej strony
@@ -520,33 +520,33 @@ mu dolega. Jako, że my chcemy jedynie odblokować bootloader, to wybieramy pozy
 Po chwili XiaoMiTool powinien rozpoznać nasz telefon, oczywiście jeśli go uprzednio podłączyliśmy
 do komputera via port USB:
 
-![](/img/2021/08/019-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure](/img/2021/08/019-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
 
 Klikamy przycisk `Select` , co rozpocznie procedurę pozyskiwania pewnych informacji z telefonu,
 m.in. status bootloader'a:
 
-![](/img/2021/08/020-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure](/img/2021/08/020-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
 
 Jak widać na powyższej fotce, status bootloader'a wskazuje na zablokowany ( `Bootloader Status:
 Locked` ).
 
 Po chwili zostanie nam zaprezentowana poniższa lista wyboru opcji:
 
-![](/img/2021/08/021-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure](/img/2021/08/021-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
 
 Wybieramy naturalnie `Unlock, lock bootloader and other` .
 
 W kolejnym okienku wybieramy `Unlock bootloader` :
 
-![](/img/2021/08/022-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure](/img/2021/08/022-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
 
 Potwierdzamy chęć odblokowania bootloader'a:
 
-![](/img/2021/08/023-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure](/img/2021/08/023-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure.png#huge)
 
 Po chwili nasz telefon powinien się automatycznie zresetować i zwrócić pewne informacje:
 
-![](/img/2021/08/024-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure-timer.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure-timer](/img/2021/08/024-xiaomi-redmi-9-linux-aosp-bootloader-xiaomitool-unlock-procedure-timer.png#huge)
 
 W tym przypadku nie udało się odblokować bootloader'a ze względu na niespełnienie wymagań co do
 czasu oczekiwania po powiązaniu urządzenia do konta Mi. Jeśli taka informacja widnieje w
@@ -556,11 +556,11 @@ będzie można przejść dalej z procesem odblokowania bootloader'a.
 Gdy już odczekaliśmy żądaną ilość czasu, ponawiamy procedurę odblokowania bootloader'a (wszystkie te
 powyższe kroki). Tym razem efekt będzie nieco inny:
 
-![](/img/2021/08/032-xiaomi-redmi-9-linux-aosp-bootloader-unlock-fastboot.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-unlock-fastboot](/img/2021/08/032-xiaomi-redmi-9-linux-aosp-bootloader-unlock-fastboot.png#huge)
 
 A po chwili operacja powinna zakończyć się powodzeniem:
 
-![](/img/2021/08/033-xiaomi-redmi-9-linux-aosp-bootloader-unlock-fastboot.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-unlock-fastboot](/img/2021/08/033-xiaomi-redmi-9-linux-aosp-bootloader-unlock-fastboot.png#huge)
 
 Smartfon zostanie przy tym przywrócony do ustawień fabrycznych i wszystkie dane użytkownika zostaną
 trwale usunięte.
@@ -568,7 +568,7 @@ trwale usunięte.
 Po ponownym uruchomieniu się urządzenia trzeba będzie je na nowo skonfigurować. Po przejściu tego
 procesu włączamy ponownie ustawienia deweloperskie i sprawdzamy status bootloader'a:
 
-![](/img/2021/08/034-xiaomi-redmi-9-linux-aosp-bootloader-unlock-status.jpg#small)
+![xiaomi-redmi-9-linux-aosp-bootloader-unlock-status](/img/2021/08/034-xiaomi-redmi-9-linux-aosp-bootloader-unlock-status.jpg#small)
 
 I jak widać wyżej, opcja `OEM unlocking` jest nieaktywna ze statusem `Bootloader is already
 unlocked` . Podobnie mamy w przypadku opcji `Mi Unlock status` , która wskazuje `Unlocked` . Te
@@ -617,9 +617,9 @@ Mając już podłączony telefon w trybie fastboot do komputera przez port USB, 
 konfigurację utworzonej już maszyny wirtualnej (tutaj wykorzystany był `virt-manager` ) i dodajemy
 nowe urządzenie. Z listy urządzeń wybieramy `USB Host Device` i wskazujemy odpowiednią pozycję:
 
-![](/img/2021/08/025-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-usb-fastboot.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-usb-fastboot](/img/2021/08/025-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-usb-fastboot.png#huge)
 
-![](/img/2021/08/026-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-usb-fastboot.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-usb-fastboot](/img/2021/08/026-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-usb-fastboot.png#huge)
 
 Zwróćmy uwagę, że to urządzenie na liście ma nazwę `Google Inc.Xiaomi Mi/Redmi 2 (fastboot)` .
 Trochę nie pasuje ona do mojego modelu telefonu ale najważniejszą rzeczą jest fraza `fastboot` ,
@@ -631,25 +631,25 @@ Po dodaniu urządzenia, uruchamiamy maszynę wirtualną. Pobieramy ze strony Xia
 Uruchamiamy pobrany plik i instalujemy narzędzie w systemie. Po zainstalowaniu Mi Unlock,
 uruchamiamy go za pomocą pliku `batch_unlock` . Naszym oczom powinno ukazać się poniższe okienko:
 
-![](/img/2021/08/027-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10](/img/2021/08/027-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10.png#huge)
 
 Jak widać, telefon został poprawnie wykryty, no może za wyjątkiem tego, że to jest `galahad` , a
 nie `lancelot` , choć szereg wpisów w konfiguracji telefonu również wskazuje na `lancelot` . Status
 bootloader'a został wskazany na zablokowany, tj. `locked`  widoczny wyżej. By tę blokadę usunąć,
 musimy zalogować się w tej aplikacji na konto Mi (w lewej dolnej części okna jest przycisk):
 
-![](/img/2021/08/028-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10](/img/2021/08/028-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10.png#huge)
 
 Podajemy dane do konta i powinniśmy zostać zalogowani z powodzeniem:
 
-![](/img/2021/08/029-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10](/img/2021/08/029-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10.png#huge)
 
 Będąc zalogowanym, klikamy w przycisk `Unlock` . Jeśli pierwszy raz przechodzimy przez procedurę
 odblokowania telefonu (zakładając, że wcześniej powiązaliśmy telefon z kontem Mi), to nie zostanie
 on odblokowany. Po przyciśnięciu przycisku `Unlock` , zostanie nam wyświetlony jedynie poniższy
 komunikat:
 
-![](/img/2021/08/030-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10-timer.png#huge)
+![xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10-timer](/img/2021/08/030-xiaomi-redmi-9-linux-aosp-bootloader-qemu-kvm-mi-unlock-win10-timer.png#huge)
 
 Mamy tam informację, że `Please unlock 165 hours later. And do not add your account in MIUI again,
 otherwise you will wait from scratch` .  Musimy zatem poczekać około jednego tygodnia, by ten

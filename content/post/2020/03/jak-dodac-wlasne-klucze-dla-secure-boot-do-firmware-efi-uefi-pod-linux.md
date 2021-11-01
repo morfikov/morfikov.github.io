@@ -465,26 +465,26 @@ ThinkPad T430, czyszczenie wbudowanych kluczy w firmware EFI/UEFI odbywa się w 
 
 Wchodzimy w ustawienia firmware EFI/UEFI i szukamy opcji od Secure Boot:
 
-![](/img/2020/03/001-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-configuration-secure-boot](/img/2020/03/001-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot.jpg#huge)
 
-![](/img/2020/03/002-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-configuration-secure-boot](/img/2020/03/002-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot.jpg#huge)
 
 Jak widać wyżej, mamy pozycję od resetowania kluczy ( `Reset to Setup Mode` ) oraz od przywrócenia
 kluczy fabrycznych ( `Restore Factory Keys` ). Nas interesuje ta pierwsza opcja:
 
-![](/img/2020/03/003-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode](/img/2020/03/003-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg#huge)
 
-![](/img/2020/03/004-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode](/img/2020/03/004-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg#huge)
 
 Po zaakceptowaniu, pozycja `Platform Mode` powinna się zmienić z `User Mode` na `Setup Mode`, a `Secure Boot Mode`
 z `Standard Mode` na `Custom Mode` :
 
-![](/img/2020/03/005-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode](/img/2020/03/005-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg#huge)
 
 Zapisujemy ustawienia firmware EFI/UEFI i restartujemy komputer (tryb Secure Boot powinien być
 automatycznie wyłączony):
 
-![](/img/2020/03/006-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-save.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-save](/img/2020/03/006-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-save.jpg#huge)
 
 Po zalogowaniu się w systemie sprawdzamy czy zmienne `PK` , `KEK` , `db` oraz `dbx` zostały
 wyczyszczone. Odpalamy zatem terminal i wpisujemy w nim polecenie `efi-readvar` :
@@ -593,55 +593,55 @@ prywatnych):
 Po zresetowaniu maszyny stosowna ikonka powinna pojawić się w menu wyboru (to ten żółty klucz) na
 fotce niżej:
 
-![](/img/2020/03/007-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-mok-keytool.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-mok-keytool](/img/2020/03/007-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-mok-keytool.jpg#huge)
 
 Naturalnie wybieramy tę pozycję, odpalamy KeyTool i z menu, które zostanie nam zaprezentowane,
 wybieramy `Edit Keys` :
 
-![](/img/2020/03/008-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit](/img/2020/03/008-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit.jpg#huge)
 
 Teraz kolejno edytujemy zmienne zastępując ich zawartość przygotowanymi wcześniej plikami.
 
 Zmienna `dbx` :
 
-![](/img/2020/03/009-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx](/img/2020/03/009-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg#huge)
 
-![](/img/2020/03/010-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx](/img/2020/03/010-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg#huge)
 
-![](/img/2020/03/011-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx](/img/2020/03/011-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg#huge)
 
 Zmienna `db` :
 
-![](/img/2020/03/012-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db](/img/2020/03/012-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg#huge)
 
-![](/img/2020/03/013-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db](/img/2020/03/013-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg#huge)
 
-![](/img/2020/03/014-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db](/img/2020/03/014-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg#huge)
 
 Zmienna `KEK` :
 
-![](/img/2020/03/015-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek](/img/2020/03/015-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg#huge)
 
-![](/img/2020/03/016-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek](/img/2020/03/016-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg#huge)
 
-![](/img/2020/03/017-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek](/img/2020/03/017-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg#huge)
 
 Zmienna `PK` :
 
-![](/img/2020/03/018-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk](/img/2020/03/018-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg#huge)
 
-![](/img/2020/03/019-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk](/img/2020/03/019-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg#huge)
 
-![](/img/2020/03/020-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk](/img/2020/03/020-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg#huge)
 
 Po wgraniu klucza do zmiennej `PK` , wracamy do menu głównego, w którym to powinniśmy zobaczyć, że
 tryb w jakim operował firmware zmienił się z `Setup Mode` na `User Mode` (w górnej części ekranu):
 
-![](/img/2020/03/021-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-exit.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-exit](/img/2020/03/021-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-exit.jpg#huge)
 
 Wychodzimy i uruchamiamy system bez włączonego póki co jeszcze Secure Boot:
 
-![](/img/2020/03/022-debian-linux-efi-uefi-firmware-bios-boot-system.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-boot-system](/img/2020/03/022-debian-linux-efi-uefi-firmware-bios-boot-system.jpg#huge)
 
 ### Sprawdzenie zmiennych
 
@@ -738,7 +738,7 @@ zamiast wszystko wkompilować na stałe w kernel, to trzeba zadbać również o 
 W konfiguracji kernela (do wglądu przez `make xconfig` ), można doszukać się opcji
 `CONFIG_MODULE_SIG_KEY` , która wygląda mniej więcej tak:
 
-![](/img/2020/03/023-debian-linux-secure-boot-kernel-config-sign-modules-key.jpg#huge)
+![debian-linux-secure-boot-kernel-config-sign-modules-key](/img/2020/03/023-debian-linux-secure-boot-kernel-config-sign-modules-key.jpg#huge)
 
 Ta opcja (jak i jej podobne) odpowiada w zasadzie za podpisanie tylko i wyłączenie modułów, które
 nie zostaną wkompilowane na stałe w kernel. Tak czy inaczej w polu widocznym wyżej musimy określić
@@ -802,22 +802,22 @@ w konfiguracji firmware EFI/UEFI:
 
 Pozostało nam już w zasadzie włączyć w konfiguracji firmware EFI/UEFI opcję Secure Boot:
 
-![](/img/2020/03/024-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable](/img/2020/03/024-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg#huge)
 
 Jak tylko przełączymy tę opcję z `Disabled` na `Enabled` , to nie będziemy w stanie zmienić
 ustawień co do trybu w jakim będzie uruchamiał się system (EFI/UEFI vs. BIOS):
 
-![](/img/2020/03/025-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable](/img/2020/03/025-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg#huge)
 
 Zapisujemy ustawienia firmware EFI/UEFI i uruchamiamy maszynę ponownie:
 
-![](/img/2020/03/026-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable](/img/2020/03/026-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg#huge)
 
 Podczas początkowej fazy startu komputera, w lewym górnym rogu ekranu powinna być informacja o tym,
 że system operacyjny uruchamiany jest w trybie Secure Boot ( `EFI stub: UEFI Secure Boot is
 enabled` ):
 
-![](/img/2020/03/027-debian-linux-secure-boot-system-boot-message.jpg#huge)
+![debian-linux-secure-boot-system-boot-message](/img/2020/03/027-debian-linux-secure-boot-system-boot-message.jpg#huge)
 
 Jeśli przegapimy tę informację, to zawsze też można sprawdzić log systemowy, by upewnić się ze nasz
 linux wystartował w trybie Secure Boot:
@@ -853,11 +853,11 @@ systemie. Naturalnie Secure Boot może działać bez kernel lockdown i jeśli po
 tych wyżej wymienionych rzeczy, to zawsze możemy skompilować kernel z wyłączoną opcją
 `CONFIG_LOCK_DOWN_IN_EFI_SECURE_BOOT` :
 
-![](/img/2020/03/028-debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown.jpg#huge)
+![debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown](/img/2020/03/028-debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown.jpg#huge)
 
 Można też całkowicie pozbyć się modułu lockdown odznaczając opcję `CONFIG_SECURITY_LOCKDOWN_LSM` :
 
-![](/img/2020/03/029-debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown.jpg#huge)
+![debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown](/img/2020/03/029-debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown.jpg#huge)
 
 W moim przypadku, mechanizm lockdown upośledza hibernację, z której korzystam dość często i nie
 zamierzam rezygnować, bo daje ona możliwość zapisania stanu środowiska pracy i nie trzeba po
@@ -1001,7 +1001,7 @@ pendrive, które są wypuszczane przez konkretną dystrybucje linux'a. Te syste
 działać i przy próbie uruchomienia systemu z zawierających je nośników dostaniemy błąd: `Secure
 Boot validation failure loading bootx64.efi` (lub podobny):
 
-![](/img/2020/03/030-debian-linux-secure-boot-validation-failure-live-ubuntu.jpg#huge)
+![debian-linux-secure-boot-validation-failure-live-ubuntu](/img/2020/03/030-debian-linux-secure-boot-validation-failure-live-ubuntu.jpg#huge)
 
 Z informacji, które widać na ekranie wynika, że mamy w zasadzie te poniższe opcje rozwiązania
 zaistniałego problemu:
@@ -1124,29 +1124,29 @@ zawsze możemy zweryfikować kolejkę nowych kluczy przy pomocy `mokutil --list-
 
 Dodawanie certyfikatów w MokManager jest stosunkowo proste:
 
-![](/img/2020/03/031-debian-linux-secure-boot-shim-configuration-mok.jpg#huge)
+![debian-linux-secure-boot-shim-configuration-mok](/img/2020/03/031-debian-linux-secure-boot-shim-configuration-mok.jpg#huge)
 
-![](/img/2020/03/032-debian-linux-secure-boot-shim-configuration-mok.jpg#huge)
+![debian-linux-secure-boot-shim-configuration-mok](/img/2020/03/032-debian-linux-secure-boot-shim-configuration-mok.jpg#huge)
 
 Sprawdzamy dane certyfikatu Debiana:
 
-![](/img/2020/03/033-debian-linux-secure-boot-shim-configuration-mok.jpg#huge)
+![debian-linux-secure-boot-shim-configuration-mok](/img/2020/03/033-debian-linux-secure-boot-shim-configuration-mok.jpg#huge)
 
 Podobnie weryfikujemy dane certyfikatu Canonical:
 
-![](/img/2020/03/034-debian-linux-secure-boot-shim-configuration-mok.jpg#huge)
+![debian-linux-secure-boot-shim-configuration-mok](/img/2020/03/034-debian-linux-secure-boot-shim-configuration-mok.jpg#huge)
 
 Jeśli dane się zgadzają, to przechodzimy dalej:
 
-![](/img/2020/03/035-debian-linux-secure-boot-shim-configuration-mok.jpg#huge)
+![debian-linux-secure-boot-shim-configuration-mok](/img/2020/03/035-debian-linux-secure-boot-shim-configuration-mok.jpg#huge)
 
 Potwierdzamy dodanie kluczy i wpisujemy hasło, które ustawiliśmy wcześniej:
 
-![](/img/2020/03/037-debian-linux-secure-boot-shim-configuration-mok-password.jpg#huge)
+![debian-linux-secure-boot-shim-configuration-mok-password](/img/2020/03/037-debian-linux-secure-boot-shim-configuration-mok-password.jpg#huge)
 
 Jeśli proces zakończył się bez żadnych błędów, to restartujemy maszynę:
 
-![](/img/2020/03/038-debian-linux-secure-boot-shim-configuration-mok-reboot.jpg#huge)
+![debian-linux-secure-boot-shim-configuration-mok-reboot](/img/2020/03/038-debian-linux-secure-boot-shim-configuration-mok-reboot.jpg#huge)
 
 Po ponownym uruchomieniu komputera, klucze powinny zostać z powodzeniem dodane, co możemy podejrzeć
 w `mokutil` :
@@ -1343,7 +1343,7 @@ przetestować czy aby na pewno ten system się nam uruchomi.
 
 W menu rEFInd powiły się dwa dodatkowe wpisy (pierwsze dwa z lewej):
 
-![](/img/2020/03/039-debian-linux-secure-boot-shim-configuration-mok-live-ubuntu.jpg#huge)
+![debian-linux-secure-boot-shim-configuration-mok-live-ubuntu](/img/2020/03/039-debian-linux-secure-boot-shim-configuration-mok-live-ubuntu.jpg#huge)
 
 Czemu dwa? Bo na pendrive znajdują się dwa bootloader'y: `grubx64.efi` (podpisany przez Canonical) i
 `BOOTx64.EFI` (podpisany przez Microsoft) . Możemy to zweryfikować montując obraz Ubuntu live i
@@ -1372,13 +1372,13 @@ Z racji, że nie mamy kluczy Microsoft'u, to uruchomienie systemu live z tego dr
 powiedzie. Natomiast dysponując certyfikatem od Canonical bez problemu możemy odpalić Ubuntu z
 pierwszego wpisu w menu rEFInd:
 
-![](/img/2020/03/040-debian-linux-secure-boot-live-ubuntu-grub.jpg#huge)
+![debian-linux-secure-boot-live-ubuntu-grub](/img/2020/03/040-debian-linux-secure-boot-live-ubuntu-grub.jpg#huge)
 
-![](/img/2020/03/041-debian-linux-secure-boot-live-ubuntu.jpg#huge)
+![debian-linux-secure-boot-live-ubuntu](/img/2020/03/041-debian-linux-secure-boot-live-ubuntu.jpg#huge)
 
 I jeszcze dowód, że system live działa w trybie Secure Boot:
 
-![](/img/2020/03/042-debian-linux-secure-boot-live-ubuntu-test.jpg#huge)
+![debian-linux-secure-boot-live-ubuntu-test](/img/2020/03/042-debian-linux-secure-boot-live-ubuntu-test.jpg#huge)
 
 ## Wsparcie Secure Boot dla windows
 
@@ -1418,11 +1418,11 @@ I na koniec podpisujemy naszym kluczem `KEK` aktualizację dla zmiennej `db` :
 Restartujemy maszynę i przy pomocy KeyTool dodajemy zawartość pliku `add_MS_db.auth` do zmiennej
 `db` :
 
-![](/img/2020/03/043-debian-linux-secure-boot-edit-db-ms-microsoft.jpg#huge)
+![debian-linux-secure-boot-edit-db-ms-microsoft](/img/2020/03/043-debian-linux-secure-boot-edit-db-ms-microsoft.jpg#huge)
 
-![](/img/2020/03/044-debian-linux-secure-boot-edit-db-ms-microsoft.jpg#huge)
+![debian-linux-secure-boot-edit-db-ms-microsoft](/img/2020/03/044-debian-linux-secure-boot-edit-db-ms-microsoft.jpg#huge)
 
-![](/img/2020/03/045-debian-linux-secure-boot-edit-db-ms-microsoft.jpg#huge)
+![debian-linux-secure-boot-edit-db-ms-microsoft](/img/2020/03/045-debian-linux-secure-boot-edit-db-ms-microsoft.jpg#huge)
 
 W keyring'u kernela powinny pojawić się dwie nowe pozycje:
 
@@ -1486,16 +1486,16 @@ w terminalu jednego polecenia:
 
 Teraz wystarczy zrestartować system i dokończyć proces w MokManager:
 
-![](/img/2020/03/046-debian-linux-secure-boot-shim-disable.jpg#huge)
+![debian-linux-secure-boot-shim-disable](/img/2020/03/046-debian-linux-secure-boot-shim-disable.jpg#huge)
 
-![](/img/2020/03/047-debian-linux-secure-boot-shim-disable-password.jpg#huge)
+![debian-linux-secure-boot-shim-disable-password](/img/2020/03/047-debian-linux-secure-boot-shim-disable-password.jpg#huge)
 
-![](/img/2020/03/048-debian-linux-secure-boot-shim-disable-reboot.jpg#huge)
+![debian-linux-secure-boot-shim-disable-reboot](/img/2020/03/048-debian-linux-secure-boot-shim-disable-reboot.jpg#huge)
 
 Po wyłączeniu Secure Boot w taki sposób, przy starcie systemu w lewym górnym rogu będziemy mieć
 teraz informację: `Booting in insecure mode` :
 
-![](/img/2020/03/049-debian-linux-secure-boot-shim-disable-insecure-mode.jpg#huge)
+![debian-linux-secure-boot-shim-disable-insecure-mode](/img/2020/03/049-debian-linux-secure-boot-shim-disable-insecure-mode.jpg#huge)
 
 W logu systemowym będzie informacja, że `secureboot: Secure boot disabled` . Różne narzędzia takie
 jak np. `bootctl` czy `mokutil` będą w dalszym ciągu zwracać, że Secure Boot jest włączony:
@@ -1523,7 +1523,7 @@ każdy, kto ma dostęp fizyczny do komputera. Dlatego też przydałoby się usta
 ktoś z marszu nie podmienił czy wgrał nam nowych kluczy, które mogą całkowicie skompromitować
 bezpieczeństwo jakie oferuje Secure Boot.
 
-![](/img/2020/03/050-debian-linux-efi-uefi-firmware-bios-configuration-supervisor-password.jpg#huge)
+![debian-linux-efi-uefi-firmware-bios-configuration-supervisor-password](/img/2020/03/050-debian-linux-efi-uefi-firmware-bios-configuration-supervisor-password.jpg#huge)
 
 ## Podsumowanie
 

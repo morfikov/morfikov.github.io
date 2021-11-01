@@ -34,7 +34,7 @@ Poniżej znajduje się fotka
 ([źródło](https://upload.wikimedia.org/wikipedia/commons/d/d3/Netfilter-packet-flow-pl.svg))
 obrazująca przepływ pakietów sieciowych przechodzących przez linux'owy firewall:
 
-![](/img/2019/04/001-nftables-packet-flow-linux-firewall-netdev.png#huge)
+![nftables-packet-flow-linux-firewall-netdev](/img/2019/04/001-nftables-packet-flow-linux-firewall-netdev.png#huge)
 
 Nie dopatrzymy się tam jednak tej tablicy `netdev` . Zgodnie z tym co jest napisane
 w [tej prezentacji](https://www.netdevconf.org/1.1/proceedings/slides/pablo-neira-nft-ingress.pdf),

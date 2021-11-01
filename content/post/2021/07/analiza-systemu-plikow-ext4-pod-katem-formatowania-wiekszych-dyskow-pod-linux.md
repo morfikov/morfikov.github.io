@@ -623,7 +623,7 @@ jeden sektor o wielkości 4KiB, a dwa, bo pojedynczy blok systemu plików o wiel
 dwóch fizycznych sektorach dysku, z których każdy również ma 4 KiB. Poniżej jest fotka dla lepszego
 zrozumienia (zaczerpnięta z tego podlinkowanego wyżej artykułu):
 
-![](/img/2021/07/001-partition-alignment-advanced-format.png#huge)
+![partition-alignment-advanced-format](/img/2021/07/001-partition-alignment-advanced-format.png#huge)
 
 Takie nieodpowiednie wyrównanie partycji może być bardzo kosztowne i niesamowicie degradować
 wydajność dysku twardego. Dlatego też za wszelką cenę trzeba takich sytuacji unikać odpowiednio

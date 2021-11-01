@@ -154,15 +154,15 @@ przygotowany plik trzeba teraz umieścić w katalogu `EFI/tools/` na partycji ES
 Jeśli wszystko zrobiliśmy prawidłowo, to rEFInd podczas startu powinien zaprezentować nam opcję
 wejścia w memtest86 (to ta kostka RAM'u pod menu wyboru systemu).
 
-![](/img/2020/03/001-memtest86-refind-selection-menu.jpg#huge)
+![memtest86-refind-selection-menu](/img/2020/03/001-memtest86-refind-selection-menu.jpg#huge)
 
 Po uruchomieniu powinien nas przywitać poniższy ekran:
 
-![](/img/2020/03/002-memtest86-config-menu.jpg#huge)
+![memtest86-config-menu](/img/2020/03/002-memtest86-config-menu.jpg#huge)
 
 Naturalnie wybieramy ikonkę `config` :
 
-![](/img/2020/03/003-memtest86-config-menu.jpg#huge)
+![memtest86-config-menu](/img/2020/03/003-memtest86-config-menu.jpg#huge)
 
 I w zasadzie tyle roboty. Teraz już wystarczy tylko postępować według instrukcji na ekranie by
 sobie przetestować pamięć operacyjną RAM.

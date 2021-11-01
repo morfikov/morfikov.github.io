@@ -829,7 +829,7 @@ cache.
 
 Na poniższym obrazku mamy widoczny podgląd portu 53 protokołu TCP/UDP interfejsu `lo` :
 
-![](/img/2020/09/001-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
+![encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark](/img/2020/09/001-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
 
 Jak widzimy, na interfejsie lokalnym ruch DNS odbywa się w postaci odszyfrowanej. Pierwsze dwa
 pakiety (te ze źródłowym i docelowym adresem `127.0.0.1` ) to zapytania linux'owego resolver'a do
@@ -841,7 +841,7 @@ i dnscrypt-proxy rozmawiają ze sobą i przekazują między sobą zarówno zapyt
 ale co się dzieje z tymi zapytaniami DNS, gdy docierają do interfejsu `bond0` ? Podejrzyjmy zatem
 port 53 na interfejsie `bond0` :
 
-![](/img/2020/09/002-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
+![encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark](/img/2020/09/002-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
 
 Brak jakiegokolwiek ruchu, zatem na interfejsie wychodzącym z naszej maszyny nie widać żadnych
 zapytań DNS.
@@ -850,7 +850,7 @@ To co się właściwie dzieje z tymi zapytaniami DNS? Są one przesyłane do ser
 port 443 (jako że w opisanej wyżej konfiguracji korzystamy z DoH). Zobaczmy zatem co się dzieje na
 interfejsie `bond0` na porcie 443:
 
-![](/img/2020/09/003-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
+![encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark](/img/2020/09/003-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
 
 Jak widzimy, nasza maszyna rozmawia z serwerem `1.0.0.1` przy wykorzystaniu protokołu TLS 1.3.
 Wiemy zatem, że nasze zapytania DNS są przesyłane przez sieć w formie zaszyfrowanej i nikt
@@ -860,7 +860,7 @@ Jeśli się przyjrzymy uważnie, to zapytania `AAAA` (o adres IPv6) są blokowan
 odpowiada na nie dnscrypt-proxy komunikatami `CPU: AAAA queries have been locally blocked by
 dnscrypt-proxy` oraz `OS: Set block_ipv6 to false to disable this feature` :
 
-![](/img/2020/09/004-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
+![encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark](/img/2020/09/004-encrypted-dns-query-dnsmasq-dnscrypt-proxy-linux-debian-wireshark.png#huge)
 
 Czyli wszystko działa prawidłowo.
 

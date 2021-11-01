@@ -49,7 +49,7 @@ ciągu taka aplikacja jest obecna w systemie ale z racji, że jest ona nieaktywn
 zapomnieć. W tych alternatywnych ROM'ach są też i takie programy, których nie damy rady się pozbyć.
 Można tu się posłużyć przykładem aplikacji od SMS'ów:
 
-![](/img/2019/01/003-android-force-stop-apps.png#small)
+![android-force-stop-apps](/img/2019/01/003-android-force-stop-apps.png#small)
 
 Mamy możliwość siłowego zatrzymania tej aplikacji ale nie ma żadnej pewności co do tego czy nie
 wystartuje nam ona w przyszłości sama z siebie.
@@ -101,7 +101,7 @@ Na
 necie jeszcze [znalazłem dokładną rozpiskę][2] na temat różnic pomiędzy `pm hide` oraz
 `pm disable` . Wrzucam ją niżej, by nie zginęła:
 
-![](/img/2019/01/006-difference-pm-hide-disable-android.png#huge)
+![difference-pm-hide-disable-android](/img/2019/01/006-difference-pm-hide-disable-android.png#huge)
 
 Tam na tej fotce jest zawarta informacja, że `pm hide` może być używany przez zwykłego użytkownika.
 Nie jest to prawdą, gdyż do czasu Android 6 (2016-08-01) były pewne problemy z uprawnieniami
@@ -213,7 +213,7 @@ Niemniej jednak, każda usunięta aplikacja za sprawą `pm uninstall -k --user 0
 ustawieniach Androida, w menu aplikacji. Zwykle trzeba będzie wybrać filtr wszystkie/systemowe, bo
 bez niego tych usuniętych aplikacji nie zobaczymy:
 
-![](/img/2019/01/007-android-removed-uninstalled-apps-menu.png#small)
+![android-removed-uninstalled-apps-menu](/img/2019/01/007-android-removed-uninstalled-apps-menu.png#small)
 
 Widać wyraźnie, których aplikacji nie ma już w systemie, a raczej, które z nich zostały usunięte
 dla tego konkretnego użytkownika, co oznajmia nam wyraźnie komunikat przy pozycji stosownej

@@ -187,7 +187,7 @@ Jeśli ktoś jest ciekaw jak wygląda proces synchronizacji czasu przy wykorzyst
 i odpalić go na interfejsie, którym pakiety są przesyłane w świat (w tym przypadku jest to interfejs
 `bond0` ):
 
-![](/img/2020/09/001-debian-linux-time-sync-ntp-sntp-wireshark.png#huge)
+![debian-linux-time-sync-ntp-sntp-wireshark](/img/2020/09/001-debian-linux-time-sync-ntp-sntp-wireshark.png#huge)
 
 Zostały w zasadzie przesłane tylko dwa pakiety. Pierwszy to zapytanie o czas, a drugi to odpowiedź
 z serwera z aktualnym jego czasem. Gdyby wykorzystywany był tutaj pełny protokół NTP, to wtedy tych
@@ -508,7 +508,7 @@ i nawiązał z nim połączenie. Certyfikat serwera jest ważny, no i otrzymali�
 które powinny zostać użyte w pakietach NTP. Przy pomocy `wireshark` możemy sprawdzić czy w istocie
 tak się dzieje:
 
-![](/img/2020/09/002-debian-linux-time-sync-ntp-sntp-nts-wireshark.png#huge)
+![debian-linux-time-sync-ntp-sntp-nts-wireshark](/img/2020/09/002-debian-linux-time-sync-ntp-sntp-nts-wireshark.png#huge)
 
 Jak widać, zamiast dwóch standardowych pakietów NTP mamy teraz tych pakietów nieco więcej (wciąż
 jednak jest to pojedyncze zapytanie). Większość komunikacji jest szyfrowana ale warto zwrócić tutaj

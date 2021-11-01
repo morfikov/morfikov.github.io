@@ -138,4 +138,4 @@ znajduje się jak zawsze [na moim
 github'ie](https://github.com/morfikov/files/blob/master/scripts/ff-tb-updater.sh). Poniżej zaś jest
 przykładowa aktualizacja Firefox'a i Thunderbird'a za pomocą tego skryptu:
 
-![](/img/2016/02/2skrypt-aktualizacja-mozilla-firefox-thunderbird.png#huge)
+![skrypt-aktualizacja-mozilla-firefox-thunderbird](/img/2016/02/2.skrypt-aktualizacja-mozilla-firefox-thunderbird.png#huge)

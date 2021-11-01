@@ -213,7 +213,7 @@ w systemie, choć będzie ona dostępna tylko do odczytu.
 
 A tu jest jeszcze widok w `gparted` :
 
-![](/img/2020/03/001-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-gparted.png#huge)
+![efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-gparted](/img/2020/03/001-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-gparted.png#huge)
 
 Ta niewykorzystana część nośnika może zostać przeznaczona na dodatkowe partycje pod obrazy ISO/IMG
 lub też można tam stworzyć zwykłą partycję na dane. Można tam nawet upchnąć zwykły system i rEFInd
@@ -327,37 +327,37 @@ wyżej utworzyliśmy. Menadżer rozruchu komputera powinien wykryć bez problemu
 znajduje się dodatkowa opcja rozruchu, co widoczne jest jako pierwsza ikonka na liście systemów
 mająca w swoim prawym dolnym rogu małą ikonkę pendrive:
 
-![](/img/2020/03/002-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-disk.jpg#huge)
+![efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-disk](/img/2020/03/002-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-disk.jpg#huge)
 
 Gdy wejdziemy w tę pozycję, to rEFInd z pendrive zostanie załadowany i zwróci nam listę obrazów
 ISO/IMG, które mamy wgrane na poszczególne partycje:
 
-![](/img/2020/03/003-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-pendrive.jpg#huge)
+![efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-pendrive](/img/2020/03/003-efi-uefi-firmware-secure-boot-linux-live-system-iso-refind-boot-screen-pendrive.jpg#huge)
 
 Uruchommy przykładowo Ubuntu LTS. Powinien się załadować Grub2 obrazu ISO/IMG, w którym wybieramy
 pierwszą pozycję, by uruchomić Ubuntu live:
 
-![](/img/2020/03/004-efi-uefi-firmware-secure-boot-linux-live-system-iso-boot-ubuntu.jpg#huge)
+![efi-uefi-firmware-secure-boot-linux-live-system-iso-boot-ubuntu](/img/2020/03/004-efi-uefi-firmware-secure-boot-linux-live-system-iso-boot-ubuntu.jpg#huge)
 
-![](/img/2020/03/005-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted.jpg#huge)
+![efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted](/img/2020/03/005-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted.jpg#huge)
 
 Podobnie sprawa wygląda w przypadku Ubuntu Latest:
 
-![](/img/2020/03/006-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-boot.jpg#huge)
+![efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-boot](/img/2020/03/006-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-boot.jpg#huge)
 
-![](/img/2020/03/007-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted.jpg#huge)
+![efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted](/img/2020/03/007-efi-uefi-firmware-secure-boot-linux-live-system-iso-ubuntu-booted.jpg#huge)
 
 W przypadku Linux Mint jest podobnie:
 
-![](/img/2020/03/008-efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-boot.jpg#huge)
+![efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-boot](/img/2020/03/008-efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-boot.jpg#huge)
 
-![](/img/2020/03/009-efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-booted.jpg#huge)
+![efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-booted](/img/2020/03/009-efi-uefi-firmware-secure-boot-linux-live-system-iso-mint-booted.jpg#huge)
 
 No i jeszcze na koniec Debian:
 
-![](/img/2020/03/010-efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-boot.jpg#huge)
+![efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-boot](/img/2020/03/010-efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-boot.jpg#huge)
 
-![](/img/2020/03/011-efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-booted.jpg#huge)
+![efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-booted](/img/2020/03/011-efi-uefi-firmware-secure-boot-linux-live-system-iso-debian-booted.jpg#huge)
 
 Co ciekawe, mając wgrany sterownik `iso9660_x64.efi` na partycji ESP dysku twardego komputera,
 możemy w zasadzie obyć się bez zewnętrznych nośników USB by system live odpalić. Wystarczy utworzyć

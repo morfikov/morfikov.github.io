@@ -324,7 +324,7 @@ Ten kontener można bez problemu odpalić przy pomocy poniższego polecenia:
 Powinien nam on bez większego problemu wystartować, a naszym oczom powinno ukazać się okno
 przeglądarki Firefox:
 
-![](/img/2019/01/001-firefox-docker-container-debian-linux.png#huge)
+![firefox-docker-container-debian-linux](/img/2019/01/001-firefox-docker-container-debian-linux.png#huge)
 
 ### Aktualizacja kontenera Docker'a z Firefox'em
 

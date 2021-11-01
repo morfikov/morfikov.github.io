@@ -195,7 +195,7 @@ wymiany znalazła się w miarę blisko początku dysku. Niekoniecznie musi być 
 ale z racji lepszych czasów dostępu w tym obszarze nośnika, umieszczenie przestrzeni wymiany w nim
 przełoży się na poprawę wydajności systemu. Spójrzmy na tę poniższą fotkę:
 
-![](/img/2019/03/001-hdd-disk-performance-degradation-linux-partition.jpg#big)
+![hdd-disk-performance-degradation-linux-partition](/img/2019/03/001-hdd-disk-performance-degradation-linux-partition.jpg#big)
 
 Widać na niej, że początkowy obszar dysku ma zarówno większy transfer jak i niższe czasy dostępu do
 danych. Gdybyśmy tworzyli partycję wymiany, to można by ją utworzyć w konkretnym miejscu. Z plikiem

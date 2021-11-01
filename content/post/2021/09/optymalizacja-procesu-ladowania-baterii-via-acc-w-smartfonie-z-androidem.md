@@ -88,7 +88,7 @@ Mając ukorzeniony system za sprawą Magisk'a, ACC możemy zainstalować w Andro
 `Advanced Charging Controller (ACC)` . Dla pełnej funkcjonalności, możemy także doinstalować moduł
 `Daily Job Scheduler (DJS)` , który ma na ceku uruchamianie poleceń m.in. przy starcie systemu.
 
-![](/img/2021/09/005-acc-acca-android-battery-controller-magisk-modules.jpg#small)
+![acc-acca-android-battery-controller-magisk-modules](/img/2021/09/005-acc-acca-android-battery-controller-magisk-modules.jpg#small)
 
 ## Jak działa zaawansowany kontroler ładowania ACC
 
@@ -122,7 +122,7 @@ naładowania baterii spadnie np. do 74%), wprowadzono ten drugi próg, który ma
 proces ładowania dopiero w momencie, gdy stopień naładowania baterii spadnie poniżej 70%. Gdy ten
 próg zostanie osiągnięty, to kontroler załączy proces ładowania i znów podładuje baterię do 75%.
 
-![](/img/2021/09/001-acc-acca-android-battery-controller-capacity.jpg#small)
+![acc-acca-android-battery-controller-capacity](/img/2021/09/001-acc-acca-android-battery-controller-capacity.jpg#small)
 
 Wyżej w pierwszej kolumnie mamy także wartość określająca przy jakim stopniu naładowania baterii,
 ACC powinien odciąć zasilanie, tj. wyłączyć telefon. Powinniśmy unikać sytuacji, w których telefon
@@ -148,7 +148,7 @@ użytkowania, pojemność baterii spadłaby do około 60% wartości nominalnej. 
 baterii czy to podczas standardowej pracy telefonu, czy podczas procesu ładowania powinna być
 możliwe niska, najlepiej poniżej tych wspomnianych wyżej 30°C.
 
-![](/img/2021/09/002-acc-acca-android-battery-controller-temperature.jpg#small)
+![acc-acca-android-battery-controller-temperature](/img/2021/09/002-acc-acca-android-battery-controller-temperature.jpg#small)
 
 Powinniśmy zatem unikać szybkiego ładowania oraz nie powinniśmy korzystać z telefonu, gdy ten jest
 podłączony pod ładowarkę. Niemniej jednak, w sytuacji, gdy nasz telefon zacznie się nagrzewać i
@@ -204,7 +204,7 @@ natychmiast podładować telefonu, to trzymajmy się tych niższych wartości na
 Biorąc pod uwagę te powyższe informacje, napięcie do którego ACC ma podładować mój telefon
 ustawiłem na 4,1V, zaś prąd ładowania na maksymalnie 1A:
 
-![](/img/2021/09/003-acc-acca-android-battery-controller-voltage-current.jpg#small)
+![acc-acca-android-battery-controller-voltage-current](/img/2021/09/003-acc-acca-android-battery-controller-voltage-current.jpg#small)
 
 ### Ładowanie z cyklami chłodzenia
 
@@ -214,7 +214,7 @@ mechanizm jest załączany od pewnego stopnia naładowania baterii, np. 50% czy 
 przerywane na jakiś czas, np. 10 sekund i w takich właśnie cyklach ten proces ładowania baterii
 przebiega.
 
-![](/img/2021/09/004-acc-acca-android-battery-controller-cool-down-charging.jpg#small)
+![acc-acca-android-battery-controller-cool-down-charging](/img/2021/09/004-acc-acca-android-battery-controller-cool-down-charging.jpg#small)
 
 Takie zachowanie jest w stanie nie dopuścić do zbytniego rozgrzania się baterii w procesie
 ładowania, zwłaszcza szybkiego ale naturalnie cały proces będzie trwał sporo dłużej.
@@ -237,7 +237,7 @@ użytkownikowi na aktywację prostej opcji, za sprawą której możemy przez jed
 wszystkie zdefiniowane restrykcje i przeprowadzić proces ładowania baterii w telefonie w tradycyjny
 sposób.
 
-![](/img/2021/09/006-acc-acca-android-battery-controller-avoid-restrictions.jpg#small)
+![acc-acca-android-battery-controller-avoid-restrictions](/img/2021/09/006-acc-acca-android-battery-controller-avoid-restrictions.jpg#small)
 
 ## Problemy z kontrolerem ACC
 

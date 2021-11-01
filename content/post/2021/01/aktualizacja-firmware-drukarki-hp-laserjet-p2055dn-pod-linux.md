@@ -83,18 +83,18 @@ winclub.pl][5], tj. plik `Win7-BN-x64-7fd8fc64.zip` ważący 3,5GiB (po wypakowa
 wypakowany obraz ISO trzeba wskazać jako nośnik instalacyjny przy tworzeniu maszyny wirtualnej, np.
 w `virt-manager` :
 
-![](/img/2021/01/001-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu.png#big)
+![drukarka-hp-laserjet-p2055dn-linux-kvm-qemu](/img/2021/01/001-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu.png#big)
 
 Najwyraźniej nie działa autodetekcja systemu operacyjnego obecnego na nośniku i trzeba ręcznie
 określić, że ma to być Windows 7:
 
-![](/img/2021/01/002-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu.png#medium)
+![drukarka-hp-laserjet-p2055dn-linux-kvm-qemu](/img/2021/01/002-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu.png#medium)
 
 Przydzielamy domyślne wartości dla pamięci RAM, procesora i dysku twardego oraz określamy przydział
 sieci dla systemu gościa. Następnie rozpoczynamy proces instalacyjny systemu Windows 7 wewnątrz
 maszyny wirtualnej:
 
-![](/img/2021/01/003-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu-instalacja-windows.png#huge)
+![drukarka-hp-laserjet-p2055dn-linux-kvm-qemu-instalacja-windows](/img/2021/01/003-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu-instalacja-windows.png#huge)
 
 Czekamy naturalnie aż proces się zakończy, po czym uruchamiamy ponownie maszynę wirtualną.
 
@@ -105,18 +105,18 @@ podpięciu drukarki pod port USB komputera, czy też gdy z drukarką będziemy k
 pomocą sieci lokalnej. W przypadku wyboru opcji pierwszej, tj. via port USB, trzeba będzie stosowne
 urządzenie USB udostępnić maszynie wirtualnej:
 
-![](/img/2021/01/004-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu-usb.png#huge)
+![drukarka-hp-laserjet-p2055dn-linux-kvm-qemu-usb](/img/2021/01/004-drukarka-hp-laserjet-p2055dn-linux-kvm-qemu-usb.png#huge)
 
 Drukarka naturalnie powinna zostać wykryta przez system Windows'a. Czasami trzeba ponownie
 uruchomić maszynę wirtualną by wszystko zadziałało. Tak czy inaczej, pozycja od naszej drukarki HP
 powinna figurować na liście drukarek i faksów:
 
-![](/img/2021/01/005-drukarka-hp-laserjet-p2055dn-linux-windows-instalacja-drukarki.png#huge)
+![drukarka-hp-laserjet-p2055dn-linux-windows-instalacja-drukarki](/img/2021/01/005-drukarka-hp-laserjet-p2055dn-linux-windows-instalacja-drukarki.png#huge)
 
 Co ciekawe, numerek tej drukarki ździebko się różni od faktycznego ale chyba to na nic nie wpływa.
 Dla pewności, że wszystko działa jak należy, możemy jeszcze wydrukować stronę testową:
 
-![](/img/2021/01/006-drukarka-hp-laserjet-p2055dn-linux-windows-instalacja-drukarki.png#huge)
+![drukarka-hp-laserjet-p2055dn-linux-windows-instalacja-drukarki](/img/2021/01/006-drukarka-hp-laserjet-p2055dn-linux-windows-instalacja-drukarki.png#huge)
 
 Teoretycznie aktualizacja firmware via port USB powinna przebiec bez większych problemów. W moim
 przypadku tak się nie stało. Nie wiem czy jest tutaj winna sama maszyna wirtualna, czy jakieś inne
@@ -134,17 +134,17 @@ większego trudu wykryć drukarkę sieciową i poprawnie ją zainstalować w sys
 Gdy mamy już dodaną drukarkę do systemu, pobieramy na maszynę wirtualną plik [HP LaserJet Firmware
 Update Utility][3] (jeśli jeszcze tego nie uczyniliśmy):
 
-![](/img/2021/01/007-drukarka-hp-laserjet-p2055dn-linux-windows-oprogramowanie.png#huge)
-![](/img/2021/01/008-drukarka-hp-laserjet-p2055dn-linux-windows-oprogramowanie.png#huge)
+![drukarka-hp-laserjet-p2055dn-linux-windows-oprogramowanie](/img/2021/01/007-drukarka-hp-laserjet-p2055dn-linux-windows-oprogramowanie.png#huge)
+![drukarka-hp-laserjet-p2055dn-linux-windows-oprogramowanie](/img/2021/01/008-drukarka-hp-laserjet-p2055dn-linux-windows-oprogramowanie.png#huge)
 
 Po pobraniu pliku, uruchamiamy go. Powinno nam się pokazać poniższe okienko:
 
-![](/img/2021/01/009-drukarka-hp-laserjet-p2055dn-linux-aktualizacja-firmware.png#medium)
+![drukarka-hp-laserjet-p2055dn-linux-aktualizacja-firmware](/img/2021/01/009-drukarka-hp-laserjet-p2055dn-linux-aktualizacja-firmware.png#medium)
 
 Upewniamy się, że w górnej części okna figuruje nasza drukarka i klikamy `Send Firmware` . Po
 chwili firmware drukarki powinien zostać zaktualizowany:
 
-![](/img/2021/01/010-drukarka-hp-laserjet-p2055dn-linux-aktualizacja-firmware.png#huge)
+![drukarka-hp-laserjet-p2055dn-linux-aktualizacja-firmware](/img/2021/01/010-drukarka-hp-laserjet-p2055dn-linux-aktualizacja-firmware.png#huge)
 
 Jeśli w trakcie tego procesu pasek postępu się zawiesi na dłużej, to trzeba trochę poczekać. U mnie
 po około 1-2 minutach proces został wznowiony i ostatecznie zakończył się powodzeniem.

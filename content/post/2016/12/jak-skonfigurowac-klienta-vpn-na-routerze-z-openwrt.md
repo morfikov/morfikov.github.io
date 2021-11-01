@@ -40,7 +40,7 @@ Trzeba także brać pod uwagę fakt szyfrowania całego ruchu, co też obciąży
 dwie rzeczy nie stanowią aż takiego problemu w przypadku Archer'a C2600, bo on ma flash 32 MiB i dwa
 rdzenie taktowane 1,2 GHz:
 
-![](/img/2016/12/001-openvpn-vpn-lede-openwrt-router-tp-link.png#huge)
+![openvpn-vpn-lede-openwrt-router-tp-link](/img/2016/12/001-openvpn-vpn-lede-openwrt-router-tp-link.png#huge)
 
 Na innych routerach, które mają mniejszy flash i słabszy procesor, OpenVPN może sprawić drobne
 problemy, zwłaszcza przy mocniejszych szyfrach. O ile w przypadku wolnego miejsca na flash możemy

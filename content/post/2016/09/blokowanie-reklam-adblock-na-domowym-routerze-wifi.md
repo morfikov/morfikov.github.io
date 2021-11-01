@@ -166,7 +166,7 @@ udało mi się wyselekcjonować adres `hub.com.pl` . Tę domenę trzeba dopisać
 
 Po zresetowaniu adblock'a, reklamy powinny zniknąć, poniżej porównanie:
 
-![](/img/2016/09/2-adblock-reklamy-interia-router-openwrt.png#huge)
+![adblock-reklamy-interia-router-openwrt](/img/2016/09/2-adblock-reklamy-interia-router-openwrt.png#huge)
 
 Podobnie trzeba postąpić ze wszystkimi reklamami, które nie są blokowane przez domyślne filtry lub
 też poszukać list, które te domeny uwzględniają. Akurat w tym przypadku, ta problematyczna domena

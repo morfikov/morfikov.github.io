@@ -39,26 +39,26 @@ i sprawdzić czy jest on w stanie zadowolić takiego wybrednego linux'iarza jak 
 Opakowanie, w którym dotarł do mnie Neffos C5 MAX, jest raczej standardowe jak na pudełko skrywające
 w środku smartfon i bardzo podobne do tego, które miał Neffos C5, z tym, że nieco większe.
 
-![](/img/2016/12/001-neffos-c5-max-tp-link-smartfon-zawartosc-pudelko.jpg#big)
+![neffos-c5-max-tp-link-smartfon-zawartosc-pudelko](/img/2016/12/001-neffos-c5-max-tp-link-smartfon-zawartosc-pudelko.jpg#big)
 
 Poniżej zaś znajduje się cała zawartość opakowania:
 
-![](/img/2016/12/002-neffos-c5-max-tp-link-smartfon-zawartosc.jpg#big)
+![neffos-c5-max-tp-link-smartfon-zawartosc](/img/2016/12/002-neffos-c5-max-tp-link-smartfon-zawartosc.jpg#big)
 
 Poza samym smartfonem, w zestawie mamy również słuchawki z wtykiem minijack 3,5 mm:
 
-![](/img/2016/12/003-neffos-c5-max-tp-link-smartfon-sluchawki.jpg#big)
+![neffos-c5-max-tp-link-smartfon-sluchawki](/img/2016/12/003-neffos-c5-max-tp-link-smartfon-sluchawki.jpg#big)
 
 Jest też ładowarka 2A/5V:
 
-![](/img/2016/12/004-neffos-c5-max-tp-link-smartfon-ladowarka.jpg#big)
+![neffos-c5-max-tp-link-smartfon-ladowarka](/img/2016/12/004-neffos-c5-max-tp-link-smartfon-ladowarka.jpg#big)
 
-![](/img/2016/12/005-neffos-c5-max-tp-link-smartfon-ladowarka-opis.jpg#medium)
+![neffos-c5-max-tp-link-smartfon-ladowarka-opis](/img/2016/12/005-neffos-c5-max-tp-link-smartfon-ladowarka-opis.jpg#medium)
 
 Jak i również standardowy przewód USB, przy pomocy którego możemy podłączyć smartfon do ładowarki
 jak i bezpośrednio do portu USB komputera.
 
-![](/img/2016/12/006-neffos-c5-max-tp-link-smartfon-przewod-usb.jpg#big)
+![neffos-c5-max-tp-link-smartfon-przewod-usb](/img/2016/12/006-neffos-c5-max-tp-link-smartfon-przewod-usb.jpg#big)
 
 ## Specyfikacja Neffos C5 MAX
 
@@ -75,28 +75,28 @@ Obudowa smartfona Neffos C5 MAX jest generalnie z plastiku. Na lewej krawędzi n
 i VolumeDown) oraz przycisk zasilania (Power). W dolnym rogu mamy lekkie wcięcie umożliwiające łatwe
 otworzenie obudowy telefonu:
 
-![](/img/2016/12/007-neffos-c5-max-tp-link-smartfon-prawa-krawedz.jpg#big)
+![neffos-c5-max-tp-link-smartfon-prawa-krawedz](/img/2016/12/007-neffos-c5-max-tp-link-smartfon-prawa-krawedz.jpg#big)
 
 Na górnej krawędzi smartfona mamy zaś jedynie gniazdko słuchawkowe:
 
-![](/img/2016/12/008-neffos-c5-max-tp-link-smartfon-gorna-krawedz.jpg#big)
+![neffos-c5-max-tp-link-smartfon-gorna-krawedz](/img/2016/12/008-neffos-c5-max-tp-link-smartfon-gorna-krawedz.jpg#big)
 
 Za to na dolnej krawędzi jest standardowo port mikro USB oraz mikrofon do rozmów telefonicznych:
 
-![](/img/2016/12/009-neffos-c5-max-tp-link-smartfon-dolna-krawedz.jpg#big)
+![neffos-c5-max-tp-link-smartfon-dolna-krawedz](/img/2016/12/009-neffos-c5-max-tp-link-smartfon-dolna-krawedz.jpg#big)
 
 Jeśli zaś chodzi o przód smartfona, to większość zajmuje naturalnie wyświetlacz. Przy górnej
 krawędzi mamy zaś (patrząc od lewej strony) czujnik światła, głośnik oraz aparat przedni 5 mpix
 (2560x1920 px fotki, 640x480 px video). Między głośnikiem, a aparatem jest również czerwona/zielona
 dioda powiadomień.
 
-![](/img/2016/12/010-neffos-c5-max-tp-link-smartfon-top.jpg#big)
+![neffos-c5-max-tp-link-smartfon-top](/img/2016/12/010-neffos-c5-max-tp-link-smartfon-top.jpg#big)
 
 Z tyłu Neffos'a C5 MAX mamy z kolei aparat 13 mpix (3120x4160 px fotki, 1920x1080 px video) z
 przysłoną f/2.0 . Z lewej strony aparatu mamy zaś dwie diody robiące za lampę błyskową jak i za
 latarkę. Nad aparatem został zaś ulokowany mikrofon z redukcją szumu.
 
-![](/img/2016/12/011-neffos-c5-max-tp-link-smartfon-aparat-tyl.jpg#big)
+![neffos-c5-max-tp-link-smartfon-aparat-tyl](/img/2016/12/011-neffos-c5-max-tp-link-smartfon-aparat-tyl.jpg#big)
 
 Ten tylny aparat jest w moim odczuciu sporo lepszy w porównaniu do tego, który jest w Neffos C5.
 Chodzi generalnie o jakość fotek czy filmów robionych przy słabym oświetleniu. Neffos C5 MAX radzi
@@ -106,12 +106,12 @@ tego aparatu przedniego zabrakło, bo użytek z niego nie jest zbyt wielki.
 
 Niżej przy dolnej krawędzi obudowy mamy dziurki na głośnik multimedialny:
 
-![](/img/2016/12/012-neffos-c5-max-tp-link-smartfon-glosnik.jpg#big)
+![neffos-c5-max-tp-link-smartfon-glosnik](/img/2016/12/012-neffos-c5-max-tp-link-smartfon-glosnik.jpg#big)
 
 Wewnątrz obudowy znajdziemy za to baterię 3045 mAh. Niestety jest to wbudowana bateria i nie damy
 rady jej wyciągnąć i ewentualnie sami wymienić, gdy zajdzie taka potrzeba.
 
-![](/img/2016/12/013-neffos-c5-max-tp-link-smartfon-bateria.jpg#huge)
+![neffos-c5-max-tp-link-smartfon-bateria](/img/2016/12/013-neffos-c5-max-tp-link-smartfon-bateria.jpg#huge)
 
 Na plus za to można zaliczyć umiejscowienie slotów oraz karty SIM i kartę mikro SD (max. 32 GiB).
 Karty nie są blokowane w żaden sposób i można je bez problemu usnąć bez potrzeby wyłączania
@@ -119,9 +119,9 @@ telefonu. Może nie jest ten zabieg zalecany w przypadku kart SIM ale jest to ba
 właściwość w przypadku karty SD, którą można ręcznie odmontować w systemie i wyciągnąć bez
 uszkadzania zgromadzonych na niej danych.
 
-![](/img/2016/12/014-1-neffos-c5-max-tp-link-smartfon-sim-sd-karta.jpg#big)
+![1-neffos-c5-max-tp-link-smartfon-sim-sd-karta](/img/2016/12/014-1-neffos-c5-max-tp-link-smartfon-sim-sd-karta.jpg#big)
 
-![](/img/2016/12/014-2-neffos-c5-max-tp-link-smartfon-sim-sd-karta.jpg#big)
+![2-neffos-c5-max-tp-link-smartfon-sim-sd-karta](/img/2016/12/014-2-neffos-c5-max-tp-link-smartfon-sim-sd-karta.jpg#big)
 
 ### Wyświetlacz IPS 5,5"
 
@@ -149,7 +149,7 @@ chciałbym się doczekać Neffos'a oferującego triple SIM (albo może i quad SI
 ludzi wydawać się dziwne ale dla zagorzałego zwolennika prepaidów, posiadanie karty SIM u kilku
 operatorów GSM jest wielce praktyczne i znacząco obniża koszty rozmów.
 
-![](/img/2016/12/016-neffos-c5-max-tp-link-smartfon-dual-sim.png#medium)
+![neffos-c5-max-tp-link-smartfon-dual-sim](/img/2016/12/016-neffos-c5-max-tp-link-smartfon-dual-sim.png#medium)
 
 ### Procesor MTK MT6753 (8 rdzeni)
 
@@ -163,7 +163,7 @@ nagrywać i odtwarzać materiały wideo w rozdzielczości maksymalnej 1080p przy
 graficzny posiada także wsparcie dla API takich standardów jak OpenGL ES 1.1/2.0/3.0, OpenCL
 1.0/1.1/1.2 oraz DirectX9. Proces technologiczny tego SoC'a to 28 nm.
 
-![](/img/2016/12/017-neffos-c5-max-tp-link-smartfon-cpu.png#huge)
+![neffos-c5-max-tp-link-smartfon-cpu](/img/2016/12/017-neffos-c5-max-tp-link-smartfon-cpu.png#huge)
 
 ### Pamięć RAM i flash
 
@@ -174,7 +174,7 @@ system nie będzie działał płynnie. Na szczęście Neffos C5 MAX spełnia moj
 zakresie dostępnej pamięci operacyjnej, tj. ma 2 GiB, z czego około 500 MiB jest używane przez
 system i wbudowane aplikacje:
 
-![](/img/2016/12/018-neffos-c5-max-tp-link-smartfon-ram.png#big)
+![neffos-c5-max-tp-link-smartfon-ram](/img/2016/12/018-neffos-c5-max-tp-link-smartfon-ram.png#big)
 
 Jeśli zaś chodzi o pamięć flash Neffos'a C5 MAX, to dysponuje on 16 GiB. Niemnie jednak, do
 dyspozycji użytkownika jest około 10 GiB. Nie wiem czemu TP-LINK tak marnotrawi miejsce w tych
@@ -183,7 +183,7 @@ partycja `/system/` ma 4 GiB. Z czego obraz ROM'u zajmuje około połowy. Zatem 
 procesu root Androida, to miejsce pozostanie niewykorzystane i na dzień dobry tracimy prawie 2 GiB,
 z których 3/4 można by z powodzeniem dodać do partycji `/data/` , tj. na dane użytkownika.
 
-![](/img/2016/12/019-neffos-c5-max-tp-link-smartfon-flash.png#medium)
+![neffos-c5-max-tp-link-smartfon-flash](/img/2016/12/019-neffos-c5-max-tp-link-smartfon-flash.png#medium)
 
 To marnotrawstwo jakże cennego miejsca na pamięci flash smartfona zdaje się być ograniczone w
 nowszych seriach Neffos'ów, dla przykładu Yx. W ich przypadku partycja `/system/` jest troszeczkę
@@ -206,14 +206,14 @@ do czasu ładowania tego smartfona 0% do 100%. Wygląda na to, że ten czas oscy
 godzin, czyli jest to bardzo dużo. Wiemy zatem, że ten model nie wspiera szybkiego ładowania, a
 szkoda. Poniżej są wykresy z procesu ładowania:
 
-![](/img/2016/12/020-neffos-c5-max-tp-link-smartfon-bateria.png#big)
+![neffos-c5-max-tp-link-smartfon-bateria](/img/2016/12/020-neffos-c5-max-tp-link-smartfon-bateria.png#big)
 
-![](/img/2016/12/021-neffos-c5-max-tp-link-smartfon-bateria-ladowanie.png#medium)
+![neffos-c5-max-tp-link-smartfon-bateria-ladowanie](/img/2016/12/021-neffos-c5-max-tp-link-smartfon-bateria-ladowanie.png#medium)
 
 Jeśli zaś chodzi o rozładowanie baterii, to tutaj już sprawa wygląda dość przyzwoicie. Z szacunków
 Androida, w pełni naładowany Neffos C5 MAX będący w spoczynku rozładowuje się jakieś 22 dni.
 
-![](/img/2016/12/022-neffos-c5-max-tp-link-smartfon-bateria-rozladowanie.png#huge)
+![neffos-c5-max-tp-link-smartfon-bateria-rozladowanie](/img/2016/12/022-neffos-c5-max-tp-link-smartfon-bateria-rozladowanie.png#huge)
 
 Jeśli zaś chodzi o rozładowanie baterii podczas używania telefonu, to ten czas ulega dość znacznemu
 skróceniu i wynosi około 8 godzin 20 i minut. Przynajmniej tyle zwrócił [test wydajności
@@ -236,7 +236,7 @@ Czujniki, w które został wyposażony Neffos C5 MAX, są raczej standardowe. Ma
 czujnik zbliżeniowy, czujnik światła no i magnetometr umożliwiający przerobienie smartfona na
 elektroniczny kompas:
 
-![](/img/2016/12/023-neffos-c5-max-tp-link-smartfon-czujniki.png#medium)
+![neffos-c5-max-tp-link-smartfon-czujniki](/img/2016/12/023-neffos-c5-max-tp-link-smartfon-czujniki.png#medium)
 
 Niemniej jednak, brakuje mi tutaj żyroskopu, wysokościomierza, termometru, barometr no i oczywiście
 licznika Geigera. To tak na wypadek apokalipsy zombi. Może przesadzam ale ten licznik Geigera bardzo
@@ -248,7 +248,7 @@ Neffos C5 MAX zalicza się do tej grupy smartfonów, które mają wbudowany mode
 (Cat4). Teoretycznie jesteśmy w stanie osiągnąć transfer na poziomie 150/50 mbit/s
 (download/upload), a jak wygląda realna prędkość? Muszę przyznać, że trochę się zdziwiłem:
 
-![](/img/2016/12/024-neffos-c5-max-tp-link-smartfon-lte.png#medium)
+![neffos-c5-max-tp-link-smartfon-lte](/img/2016/12/024-neffos-c5-max-tp-link-smartfon-lte.png#medium)
 
 W sumie nigdy wcześniej się nie zbliżyłem do 100 mbit/s po LTE ale najwyraźniej mój operator GSM
 poprawił nieco swoją infrastrukturę sieci w okolicy.
@@ -269,14 +269,14 @@ Ten nadajnik WiFi, który jest w Neffos'ie C5 MAX, obsługuje standard N do 150 
 pojedynczy strumień przestrzenny. Transfer jaki udało mi się uzyskać za pomocą tego telefonu po WiFi
 oscylował w granicach 100 mbit/s, czyli mniej więcej standardowo.
 
-![](/img/2016/12/025-neffos-c5-max-tp-link-smartfon-wifi.png#medium)
+![neffos-c5-max-tp-link-smartfon-wifi](/img/2016/12/025-neffos-c5-max-tp-link-smartfon-wifi.png#medium)
 
 Jeśli zaś chodzi o zasięg WiFi, to też jest on raczej przeciętny. Poniżej jest fotka moich trzech AP
 rozmieszczonych po domu w różnych pomieszczeniach. Kanał 11 obrazuje siłę sygnału docierającą do
 smartfona z AP zlokalizowanego w tym samym pokoju. Na kanale 6 jest AP w odległości około 4 metrów +
 ściana. Na kanale 1 jest AP w odległości 6 metrów + trzy ściany:
 
-![](/img/2016/12/026-neffos-c5-max-tp-link-smartfon-wifi.png#medium)
+![neffos-c5-max-tp-link-smartfon-wifi](/img/2016/12/026-neffos-c5-max-tp-link-smartfon-wifi.png#medium)
 
 ### Udostępnianie połączenia 3G/LTE oraz WiFi (tethering)
 
@@ -290,7 +290,7 @@ nazwach sieci są znane z tego, że powodują problemy z połączeniem. Zatem je
 sieci podaliśmy prawidłowe ale nie możemy nawiązać połączenia, to zmieńmy sobie nazwę sieci WiFi na
 taką bez spacji.
 
-![](/img/2016/12/027-neffos-c5-max-tp-link-smartfon-tethering.png#huge)
+![neffos-c5-max-tp-link-smartfon-tethering](/img/2016/12/027-neffos-c5-max-tp-link-smartfon-tethering.png#huge)
 
 Jeśli chodzi zaś o udostępnianie połączenia via USB, to na linux działa ono bez większego problemu.
 Poniżej jest log z mojego Debiana po podpięciu Neffos'a C5 MAX do portu USB komputera i przełączeniu
@@ -355,7 +355,7 @@ zewnętrznego zasilania do podłączanych do smartfona urządzeń. Jeśli dyspon
 adapterem, to taka klawiatura czy mysz jest zasilana przez smartfon. Ja akurat posiadam tylko zwykł
 kawałek przewodu ale mam też [aktywny HUB USB 3.0 UH720][5], który może robić w roli zasilacza.
 
-![](/img/2016/12/028-neffos-c5-max-tp-link-smartfon-otg.jpg#huge)
+![neffos-c5-max-tp-link-smartfon-otg](/img/2016/12/028-neffos-c5-max-tp-link-smartfon-otg.jpg#huge)
 
 Może i Neffos C5 MAX ma wsparcie dla OTG ale jest ono niepełne. Sprzęt taki jak klawiatura czy mysz
 będzie nam bez problemu na tym smartfonie działać, nawet bez dodatkowego zasilania ale już nie damy
@@ -376,7 +376,7 @@ operatora GSM. Jeśli zatem transfer na WiFi mamy 50 mbit/s i na łączu operato
 mbit/s, to taki plik będzie się pobierał w sumie 100 mbit/s. Wykorzystanie obu łącz jest
 monitorowane w czasie rzeczywistym:
 
-![](/img/2016/12/029-neffos-c5-max-tp-link-smartfon-turbo-pobieranie.png#big)
+![neffos-c5-max-tp-link-smartfon-turbo-pobieranie](/img/2016/12/029-neffos-c5-max-tp-link-smartfon-turbo-pobieranie.png#big)
 
 ### Android 5.1 Lollipop
 
@@ -391,7 +391,7 @@ ono prywatne informacje użytkowników gdzieś w świat][6].
 Poniżej jest zestawienie temperatur podczas standardowej pracy telefonu (po lewej) i przy 100%
 obciążeniu procesora (po prawej):
 
-![](/img/2016/12/030-neffos-c5-max-tp-link-smartfon-temp.png#big)
+![neffos-c5-max-tp-link-smartfon-temp](/img/2016/12/030-neffos-c5-max-tp-link-smartfon-temp.png#big)
 
 ## Czy da radę przeprowadzić root na Neffos C5 MAX
 

@@ -92,12 +92,12 @@ wypełniony zerami o odpowiedniej długości. Jak sobie wykroiłem tę partycję
 tym przypadku partycja `frp` zajmuje 1 MiB. Ten obraz trzeba załadować do edytora HEX. Jak korzystam
 z [wxhexeditor][4] . Po załadowaniu obrazu w tym programiku powinniśmy ujrzeć poniższe okienko:
 
-![](/img/2017/04/001-oem-lock-frp-smartfon-android-bootloader-hex.png#huge)
+![oem-lock-frp-smartfon-android-bootloader-hex](/img/2017/04/001-oem-lock-frp-smartfon-android-bootloader-hex.png#huge)
 
 Jak widać wyżej ostatnie dwie cyferki (bajt) mają `00` , zatem blokada jest założona. Trzeba tutaj
 ten bajt przepisać do postaci `01` .
 
-![](/img/2017/04/002-oem-lock-frp-smartfon-android-bootloader-hex.png#huge)
+![oem-lock-frp-smartfon-android-bootloader-hex](/img/2017/04/002-oem-lock-frp-smartfon-android-bootloader-hex.png#huge)
 
 Następnie zapisujemy plik i ładujemy go w SP Flash Tool i wgrywamy na partycję `frp`. Po wgraniu,
 pamiętajmy, by smartfon uruchomić w trybie bootloader'a (zwykle VolDown+Power, ewentualnie przez

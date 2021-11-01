@@ -87,7 +87,7 @@ błędem przy weryfikacji integralności danych, które są w niej zwarte. Jeśl
 między v2 i v3 to w przypadku v3 zostały wprowadzone [dodatkowe informacje][20], które są
 umieszczane w bloku podpisu (signing block).
 
-![](/img/2019/12/001-apk-integrity-protection.png#huge)
+![apk-integrity-protection](/img/2019/12/001-apk-integrity-protection.png#huge)
 
 ### Wsparcie dla wszystkich schematów podpisu
 
@@ -96,7 +96,7 @@ ma być instalowana w starszych i nowszych wersjach Androida, to trzeba ją podp
 każdego ze schematów. Później przy instalacji aplikacji, system podąża według poniższych
 instrukcji, by taki pakiet zweryfikować:
 
-![](/img/2019/12/002-apk-validation-process.png#huge)
+![apk-validation-process](/img/2019/12/002-apk-validation-process.png#huge)
 
 ## Jak zweryfikować plik APK
 
@@ -150,7 +150,7 @@ powiązaną z plikiem `*.SF` o tej samej nazwie. Plik ten jest nieczytelny dla c
 
 Na stronie projektu Signal był podany odcisk palca SHA256 certyfikatu. Wygląda on tak:
 
-![](/img/2019/12/006-signal-app-manual-download-certificate-hash.png#huge)
+![signal-app-manual-download-certificate-hash](/img/2019/12/006-signal-app-manual-download-certificate-hash.png#huge)
 
 Po co nam ten odcisk? Przy jego pomocy jesteśmy w stanie zweryfikować podmiot, który ten certyfikat
 wystawił. Informacje o certyfikacie są dostępne w pliku `META-INF/SIGNAL_S.RSA` i możemy je uzyskać
@@ -268,7 +268,7 @@ pusta linia (znak `CRLF`). Trochę to skomplikowane zatem najlepiej to zobrazowa
 
 Sekcja pliku `FingerprintProtocol.proto` w `META-INF/MANIFEST.MF` ma poniższą postać:
 
-![](/img/2019/12/007-manifest-section-hash.png#huge)
+![manifest-section-hash](/img/2019/12/007-manifest-section-hash.png#huge)
 
 Jeśli taki wycinek tekstu podda się procesowi hash'owania, to otrzymamy:
 
@@ -631,7 +631,7 @@ Zanim jednak faktycznie pobierzemy plik, to na stronie mamy informację, że `Ve
 install (read more)` , czyli, że aplikacja została zweryfikowana i jest bezpieczna do
 zainstalowania. Jeśli klikniemy w ten link, to zobaczymy to poniższe okienko:
 
-![](/img/2019/12/008-signal-app-verify-apkmirror.png#huge)
+![signal-app-verify-apkmirror](/img/2019/12/008-signal-app-verify-apkmirror.png#huge)
 
 Mamy tutaj widoczne hash'e, z których jeden zestaw zawiera odciski palca certyfikatu (niby ten sam
 co na stronie projektu Signal). Lepiej jednak nie wierzyć co tam na podejrzanych stronach wypisują,
@@ -738,7 +738,7 @@ jakieś menadżer plików, np. [Amaze][26], który posiada wbudowany menadżer a
 menadżerze wystarczy wykonać backup aplikacji i stosowny plik `.apk` zostanie zapisany np. na kacie
 SD.
 
-![](/img/2019/12/012-amaze-file-manager-app-backup.png#small)
+![amaze-file-manager-app-backup](/img/2019/12/012-amaze-file-manager-app-backup.png#small)
 
 Tak wykonany backup aplikacji to nic innego jak tylko skopiowanie pliku `.apk` z jednego miejsca w
 drugie. Można ten fakt potwierdzić porównując hash pliku zainstalowanej aplikacji z plikiem backupu:

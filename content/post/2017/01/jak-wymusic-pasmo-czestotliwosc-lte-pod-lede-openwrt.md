@@ -95,7 +95,7 @@ serwisie speedtest. Ja dla wygody testy robiłem z poziomu aplikacji na smartfon
 dla 2100 MHz, 1800 MHz, 2600 MHz i 800 MHz. Niestety na 900 MHz modem nie był w stanie zrealizować
 połączenia.
 
-![](/img/2017/01/001-czestotliwosc-pasmo-lte-test-openwrt-lede.png#huge)
+![czestotliwosc-pasmo-lte-test-openwrt-lede](/img/2017/01/001-czestotliwosc-pasmo-lte-test-openwrt-lede.png#huge)
 
 Widać zatem, że największą prędkość udało się uzyskać w paśmie 2600 MHz i w zasadzie można tę
 częstotliwość wymusić. Niemniej jednak, jeśli zmieniamy dość często miejsce pobytu, to lepiej jest

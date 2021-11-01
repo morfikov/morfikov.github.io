@@ -188,7 +188,7 @@ jeszcze raz ponowić proces flash'owania obrazem TWRP.
 
 Po wejściu w tryb recovery, naszym oczom powinien pokazać się poniższy obrazek:
 
-![](/img/2017/03/002-neffos-smartfon-tp-link-root-twrp-zmiany.png#small)
+![neffos-smartfon-tp-link-root-twrp-zmiany](/img/2017/03/002-neffos-smartfon-tp-link-root-twrp-zmiany.png#small)
 
 Mamy tutaj zapytanie odnośnie wprowadzania zmian przez TWRP na partycji `/system/` . Zmiana jest w
 zasadzie tylko jedna i polega ona na przepisaniu nazwy pliku `/system/recovery-from-boot.p` na
@@ -248,7 +248,7 @@ obrazujące root smartfonów Neffos C5, C5 MAX, Y5, Y5L i X1:
 
 ![neffos-smartfon-tp-link-sprawdzenie-root](/img/2017/03/007.neffos-smartfon-tp-link-sprawdzenie-root.png#huge)
 
-![](/img/2017/05/008-neffos-x1-root-check.png#small)
+![neffos-x1-root-check](/img/2017/05/008-neffos-x1-root-check.png#small)
 
 ## Unroot
 

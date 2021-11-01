@@ -128,9 +128,9 @@ będzie decydujący w kwestii czy ten mechanizm będzie włączony czy też nie.
 której zamierzamy używać nie posiada wsparcia dla Secure Boot, to musimy ten [mechanizm
 wyłączyć][9] w konfiguracji firmware EFI/UEFI.
 
-![](/img/2020/03/001-secure-boot-efi-uefi-config-firmware.jpg#huge)
+![secure-boot-efi-uefi-config-firmware](/img/2020/03/001-secure-boot-efi-uefi-config-firmware.jpg#huge)
 
-![](/img/2020/03/002-secure-boot-efi-uefi-config-firmware.jpg#huge)
+![secure-boot-efi-uefi-config-firmware](/img/2020/03/002-secure-boot-efi-uefi-config-firmware.jpg#huge)
 
 Warto tutaj zaznaczyć fakt, że czasami interfejs EFI/UEFI może bardzo przypominać wygląd
 tradycyjnego BIOS'u ale to tylko pozory. W zasadzie to od producenta sprzętu zależy jak to menu
@@ -174,7 +174,7 @@ systemów. Trzeba jednak pamiętać, że ten cały moduł CSM czyni proces start
 bardziej skomplikowanym i podatnym na błędy, przez co nasz komputer może zacząć zachowywać się w
 sposób bardzo nieprzewidywalny. Dlatego też zaleca się wyłączenie CSM w konfiguracji EFI/UEFI:
 
-![](/img/2020/03/003-csm-module-efi-uefi-config-firmware.jpg#huge)
+![csm-module-efi-uefi-config-firmware](/img/2020/03/003-csm-module-efi-uefi-config-firmware.jpg#huge)
 
 Niemniej jednak, jeśli ktoś już bardzo nalega na tryb BIOS, to naturalnie może ten moduł CSM sobie
 włączyć.
@@ -536,7 +536,7 @@ doinstalować.
 
 Przy instalacji pakietu zostanie wyrzucony monit dotyczący wgrania rEFInd'a na partycję ESP:
 
-![](/img/2020/03/004-refind-config-debian-ubuntu-live-install-efi-uefi.png#huge)
+![refind-config-debian-ubuntu-live-install-efi-uefi](/img/2020/03/004-refind-config-debian-ubuntu-live-install-efi-uefi.png#huge)
 
 Odpowiadamy tutaj przecząco, bo instalacją rEFInd'a zajmiemy się później sami.
 

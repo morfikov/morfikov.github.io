@@ -65,11 +65,11 @@ procesora. W przypadku mojego laptopa ThinkPad T430 takiej opcji standardowo nie
 [odblokowaniu zaawansowanego menu][4] w konfiguracji EFI/UEFI udało się uzyskać dostęp do ustawień
 CPU, co wygląda mniej więcej tak:
 
-![](/img/2021/04/001-energy-performance-bias-epb-cpu-linux-bios-efi-uefi.jpg#huge)
+![energy-performance-bias-epb-cpu-linux-bios-efi-uefi](/img/2021/04/001-energy-performance-bias-epb-cpu-linux-bios-efi-uefi.jpg#huge)
 
-![](/img/2021/04/002-energy-performance-bias-epb-cpu-linux-bios-efi-uefi.jpg#huge)
+![energy-performance-bias-epb-cpu-linux-bios-efi-uefi](/img/2021/04/002-energy-performance-bias-epb-cpu-linux-bios-efi-uefi.jpg#huge)
 
-![](/img/2021/04/003-energy-performance-bias-epb-cpu-linux-bios-efi-uefi.jpg#huge)
+![energy-performance-bias-epb-cpu-linux-bios-efi-uefi](/img/2021/04/003-energy-performance-bias-epb-cpu-linux-bios-efi-uefi.jpg#huge)
 
 Jedyną opcją, którą można by powiązać z EPB jest `Boot Performance Mode` . Jak widać na fotkach
 wyżej, ten parametr można ustawić na `Max Performance` , `Max Battery` albo `Auto` . Niestety żadne

@@ -47,7 +47,7 @@ strony twórcy aplikacji. Wymagane jest zatem włączenie w opcjach telefonu poz
 być w różnych miejscach i kryć się pod nieco zmienioną nazwą w innych wersjach Androida. U mnie na
 Andku 7.0 można ją znaleźć pod Ustawienia -> Blokowanie ekranu, odcisk palca i zabezpieczenia:
 
-![](/img/2020/11/001-android-youtube-yt-vanced-microg-manager-block-commercials-unknown-sources.png#small)
+![android-youtube-yt-vanced-microg-manager-block-commercials-unknown-sources](/img/2020/11/001-android-youtube-yt-vanced-microg-manager-block-commercials-unknown-sources.png#small)
 
 ## Włączenie debugowania USB
 
@@ -73,7 +73,7 @@ teraz na naszego linux'a i w terminalu wpisujemy `adb shell` :
 
 Na ekranie telefonu powinien nas przywitać poniższy komunikat:
 
-![](/img/2020/11/004-android-youtube-yt-vanced-microg-manager-block-commercials-adb-connect.png#small)
+![android-youtube-yt-vanced-microg-manager-block-commercials-adb-connect](/img/2020/11/004-android-youtube-yt-vanced-microg-manager-block-commercials-adb-connect.png#small)
 
 Naturalnie zezwalamy na połączenie.
 
@@ -93,12 +93,12 @@ Androida. Przy jego pomocy możemy wyłączyć stock'ową appkę YouTube i nie p
 prawa administracyjne (root). Wystarczy wpisać w terminalu polecenie
 `pm uninstall -k --user 0 com.google.android.youtube` :
 
-![](/img/2020/11/005-android-youtube-yt-vanced-microg-manager-block-commercials-adb-shell.png#big)
+![android-youtube-yt-vanced-microg-manager-block-commercials-adb-shell](/img/2020/11/005-android-youtube-yt-vanced-microg-manager-block-commercials-adb-shell.png#big)
 
 Jeśli teraz przejdziemy do listy aplikacji w telefonie, to powinniśmy zauważyć, że aplikacja YouTube
 została wyłączona dla standardowego użytkownika:
 
-![](/img/2020/11/006-android-youtube-yt-vanced-microg-manager-block-commercials-app-list.png#small)
+![android-youtube-yt-vanced-microg-manager-block-commercials-app-list](/img/2020/11/006-android-youtube-yt-vanced-microg-manager-block-commercials-app-list.png#small)
 
 ## Vanced Manager, YouTube Vanced i MicroG
 
@@ -136,7 +136,7 @@ musimy dodać swoje konto Google do MicroG:
 
 To dodane konto powinno być widoczne na liście kont systemowych:
 
-![](/img/2020/11/020-android-youtube-yt-vanced-microg-manager-block-commercials-accounts.png#small)
+![android-youtube-yt-vanced-microg-manager-block-commercials-accounts](/img/2020/11/020-android-youtube-yt-vanced-microg-manager-block-commercials-accounts.png#small)
 
 #### Wyłączenie optymalizacji baterii
 
@@ -184,7 +184,7 @@ Po ponownym uruchomieniu telefonu wchodzimy w Vanced Manager. Tym razem instaluj
 Podobnie jak w przypadku MicroG, dla aplikacji YouTube Vanced również wyłączamy optymalizację
 baterii:
 
-![](/img/2020/11/032-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-battery-optimization.png#small)
+![android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-battery-optimization](/img/2020/11/032-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-battery-optimization.png#small)
 
 #### Włączenie autostartu
 
@@ -211,7 +211,7 @@ Google. W tym celu trzeba odpalić Vanced Manager i przejść w nim do ustawień
 
 Tam z kolei mamy pozycję `Google Device Registration` . Naturalnie klikamy w nią:
 
-![](/img/2020/11/038-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-device-register.png#small)
+![android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-device-register](/img/2020/11/038-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-device-register.png#small)
 
 Powinniśmy mieć wygenerowany zarówno identyfikator, jak i informację o fakcie zarejestrowania nas w
 strukturach Google. Jeśli takie informacje posiadamy, to odpalamy aplikację YouTube Vanced:
@@ -240,12 +240,12 @@ Jak widać, jesteśmy połączeni z usługą GCM oraz aplikacja YouTube Vanced c
 notyfikacji push. Powinna być zatem ona w stanie odbierać powiadomienia z serwera Google. Gdy ten
 moment nastąpi, to w ustawieniach MicroG powinniśmy ten stan rzeczy zauważyć:
 
-![](/img/2020/11/044-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-gcm.png#small)
+![android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-gcm](/img/2020/11/044-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-gcm.png#small)
 
 I tu już widzimy, że aplikacja YouTube Vanced odebrała dwa powiadomienia, co również można zauważyć
 na ekranie telefonu:
 
-![](/img/2020/11/045-android-youtube-yt-vanced-microg-manager-block-commercials-phone-notifs.png#small)
+![android-youtube-yt-vanced-microg-manager-block-commercials-phone-notifs](/img/2020/11/045-android-youtube-yt-vanced-microg-manager-block-commercials-phone-notifs.png#small)
 
 ## Wyłączenie USB debug i nieznanych źródeł
 

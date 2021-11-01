@@ -45,12 +45,12 @@ wirtualnych -- słaba wydajność, choć do konfiguracji Kodi ten protokół pow
 By zainstalować ten dodatek, trzeba przejść w Kodi kolejno do `Dodatki` =>
 `Zainstaluj z repozytorium` => `LibreELEC Add-ons` => `Usługi` i wybrać pozycję `Raspberry Pi VNC` :
 
-![](/img/2020/08/001-raspberry-pi-libreelec-kodi-xbmc-vnc-spice-addon-install.png#huge)
+![raspberry-pi-libreelec-kodi-xbmc-vnc-spice-addon-install](/img/2020/08/001-raspberry-pi-libreelec-kodi-xbmc-vnc-spice-addon-install.png#huge)
 
 Jak większość dodatków, tak samo i `Raspberry Pi VNC` posiada parę opcji, które możemy dostosować,
 by zmienić nieco zachowanie samego addon'a:
 
-![](/img/2020/08/002-raspberry-pi-libreelec-kodi-xbmc-vnc-spice-addon-config.png#huge)
+![raspberry-pi-libreelec-kodi-xbmc-vnc-spice-addon-config](/img/2020/08/002-raspberry-pi-libreelec-kodi-xbmc-vnc-spice-addon-config.png#huge)
 
 Przy standardowych ustawieniach, obraz serwowany przez LibreELEC do klienta VNC przycina się dość
 mocno, a mysz ma przy tym strasznego laga. Możemy zatem podbić FPS z domyślnych `15` na `25` , co
@@ -99,7 +99,7 @@ się z serwerami VNC/SPICE. Po zainstalowaniu pakietu, w terminalu wpisujemy to 
 
 W przypadku poprawnej konfiguracji maliny, powinno nam się pokazać okienko z interfejsem Kodi:
 
-![](/img/2020/08/003-raspberry-pi-libreelec-kodi-xbmc-vnc-spice-remote-viewer.png#big)
+![raspberry-pi-libreelec-kodi-xbmc-vnc-spice-remote-viewer](/img/2020/08/003-raspberry-pi-libreelec-kodi-xbmc-vnc-spice-remote-viewer.png#big)
 
 ## Panel webowy Kodi
 
@@ -109,7 +109,7 @@ wgrany LibreELEC, a słaba wydajność VNC skłoniła mnie do włączenia obsłu
 Jakby nie patrzeć, Kodi może też być zarządzany z poziomu WWW. Do tej pory jednak nie interesował
 mnie ten jego webowy interfejs ale postanowiłem się mu przyjrzeć nieco bliżej.
 
-![](/img/2020/08/004-raspberry-pi-libreelec-kodi-xbmc-web-panel.png#huge)
+![raspberry-pi-libreelec-kodi-xbmc-web-panel](/img/2020/08/004-raspberry-pi-libreelec-kodi-xbmc-web-panel.png#huge)
 
 No trzeba przyznać, że wygląda trochę strasznie ale można przy jego pomocy chyba skonfigurować
 każdy aspekt pracy Kodi, przez co wydaje się być idealną alternatywą dla niewydolnego VNC.

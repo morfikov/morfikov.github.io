@@ -35,44 +35,44 @@ trzeba będzie uruchomić na maszynie wirtualnej system live, tak by móc przepa
 wirtualny dysk twardy. Zatem do dzieła. Odpalamy `virt-manager` i ustawiamy w nim rozruch systemu z
 cd-rom (zmieniając kolejność nośników), czy też zaznaczając opcję `Enable boot menu` :
 
-![](/img/2020/08/052-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/052-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Podczas rozruchu wciskamy klawisz `ESC` , co powinno zaowocować pojawieniem się menu wyboru nośnika,
 z którego wystartować system:
 
-![](/img/2020/08/053-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/053-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Wybieramy cd-rom (pozycja druga).
 
 Po chwili powinien nam się załadować system live Ubuntu:
 
-![](/img/2020/08/054-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/054-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 W tym systemie domyślnie jest już zainstalowany `gparted` ale gdybyśmy korzystali z innego systemu
 live, to trzeba będzie ten pakiet doinstalować sobie we własnym zakresie.
 
 Logujemy się na root via `sudo su` i uruchamiamy `gparted` :
 
-![](/img/2020/08/055-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/055-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Jak widać na fotce, mamy dysk o rozmiarze 20 GiB, z czego system zajmuje niecałe 8 GiB. Przydałoby
 się zmniejszyć rozmiar pliku `.qcow2` o połowę. W tym celu zmieniamy rozmiar partycji w `gparted` i
 ustawiamy go na 10 GiB:
 
-![](/img/2020/08/056-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/056-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
-![](/img/2020/08/057-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/057-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Czekamy cierpliwie aż proces dobiegnie końca. Może on zająć dłużej lub której, a wszystko zależy od
 wielkości samego nośnika oraz od tego jak bardzo chcemy go skurczyć, tj. ile danych trzeba będzie
 przenieść.
 
-![](/img/2020/08/058-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/058-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Gdy proces zmiany rozmiaru partycji się zakończy, powinniśmy mieć jedną mniejszą partycję oraz
 sporo wolnego miejsca:
 
-![](/img/2020/08/059-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/059-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Warto tutaj odnotować ostatni sektor partycji ( `20973567` ), który to posłuży nam do wyliczenia
 nowego obrazu dysku (pliku `.qcow2` ): ((20973567+1)×512)/1024/1024 = 10241 MiB.
@@ -129,12 +129,12 @@ problemu, tak by włączyć w nią te parę MiB wolnej przestrzeni.
 
 Odpalmy teraz maszynę wirtualną, by sprawdzić czy jej system działa w porządku:
 
-![](/img/2020/08/061-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/061-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Jak widać, nie mamy już żadnej wolnej przestrzeni, a systemowa partycja kończy się dokładnie na
 20973567 sektorze:
 
-![](/img/2020/08/062-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/062-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Nie ma przy tym żadnych błędów, zatem proces zmniejszenia rozmiaru dysku maszyny wirtualnej
 zakończył się powodzeniem.
@@ -157,7 +157,7 @@ Operacja jest w zasadzie natychmiastowa, choć my nie dostrzeżemy praktycznie �
 rozmiarze samego pliku `.qcow2` . Niemniej jednak, po uruchomieniu systemu maszyny wirtualnej i
 podejrzeniu dysku w `gparted` , ta różnica będzie już dość dobrze widoczna:
 
-![](/img/2020/08/081-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/081-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Jak widać, te 15 GiB, które dodaliśmy do obrazu, zostały przez maszynę wirtualną uwzględnione, choć
 oczywiście póki co partycja systemowa rozciąga się na 10 GiB. By zrobić użytek z tych dodatkowych
@@ -168,18 +168,18 @@ tak jak to miało miejsce w przypadku zmniejszania jej rozmiaru. Cały proces mo
 zalogowanym w systemie gościa. Zatem rozciągamy partycję główną, tak by zajmowała całą dostępną
 wolną przestrzeń:
 
-![](/img/2020/08/082-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/082-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Po czym rozpoczynamy proces zwiększenia rozmiaru partycji:
 
-![](/img/2020/08/083-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/083-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Jak widać, ten zabieg trwał dosłownie parę sekund.
 
 System też od razu jest w stanie dostrzec nowych rozmiarów partycję systemową bez potrzeby
 ponownego uruchomienia maszyny wirtualnej:
 
-![](/img/2020/08/084-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/084-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Jeśli teraz rzucimy okiem na rozmiar obrazu maszyny wirtualnej w systemie hosta, to niekoniecznie
 musi on zajmować 25 GiB:
@@ -244,7 +244,7 @@ zmienić nazwę pliku ale lepiej jest się pierw upewnić, czy aby na pewno ten 
 zgodnie z oczekiwaniami. Nie damy rady zmienić obrazu via `virt-manager` i trzeba w tym celu
 edytować plik XML maszyny wirtualnej (via `virsh edit ubuntu20.04` ):
 
-![](/img/2020/08/063-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
+![virtualization-kvm-qemu-system-change-image-qcow2-size](/img/2020/08/063-virtualization-kvm-qemu-system-change-image-qcow2-size.png#huge)
 
 Może i udało nam się dość znacznie zaoszczędzić miejsce na dysku stosując kompresję ale trzeba
 liczyć się z większym wykorzystaniem procesora -- nie ma nic za free.

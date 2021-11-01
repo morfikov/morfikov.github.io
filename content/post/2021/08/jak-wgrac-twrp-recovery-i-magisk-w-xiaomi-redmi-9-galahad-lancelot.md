@@ -95,7 +95,7 @@ czy inaczej, w ustawieniach deweloperskich powinniśmy mieć `Bootloader is alre
 unlocking` oraz `Unlocked` w `Mi Unlock status` , czyli mniej więcej to, co widnieje na poniższej
 fotce:
 
-![](/img/2021/08/001-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-unlocked-bootloader.jpg#small)
+![xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-unlocked-bootloader](/img/2021/08/001-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-unlocked-bootloader.jpg#small)
 
 Gdy bootloader w naszym telefonie został już odblokowany, to możemy kontynuować proces wgrywania
 TWRP i ukorzeniania Androida.
@@ -238,7 +238,7 @@ TWRP na partycję recovery, musimy uruchomić telefon w trybie recovery:
 
 Po tym jak smartfon zostanie uruchomiony w trybie recovery, zapyta nas o hasło:
 
-![](/img/2021/08/002-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-password.jpg#small)
+![xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-password](/img/2021/08/002-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-password.jpg#small)
 
 To hasło jest dokładnie tym samym hasłem, które wykorzystujemy w przypadku odblokowania ekranu. W
 przypadku wpisania prawidłowego hasła, uzyskamy pełny dostęp do telefonu z poziomu TWRP (wliczając
@@ -498,7 +498,7 @@ app` ) oraz włączamy `MagiskHide` :
 
 Sprawdzamy ponownie SafetyNet i tym razem już powinniśmy go bez problemu przejść:
 
-![](/img/2021/08/011-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-safetynet-success.jpg#small)
+![xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-safetynet-success](/img/2021/08/011-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-safetynet-success.jpg#small)
 
 ## Podsumowanie
 

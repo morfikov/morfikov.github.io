@@ -88,7 +88,7 @@ cały ruch do bramy VPN. W zakres `0.0.0.0/1` łapią się wszystkie adresy, kt�
 wartość `0` , natomiast w zakres `128.0.0.0/1` łapią się adresy mające pierwszy bit ustawiony na
 wartość `1` . Dla lepszego zrozumienia, poniżej jest rozpiska:
 
-![](/img/2020/09/002-openvpn-vpn-routing-table-routes-default.png#big)
+![openvpn-vpn-routing-table-routes-default](/img/2020/09/002-openvpn-vpn-routing-table-routes-default.png#big)
 
 W ten sposób każda z tych dwóch tras jest bardziej specyficzna niż `0.0.0.0/0` , która również
 łapie wszystkie adresy. Tym prostym zabiegiem nasza domyślna brama nie ma już żadnego wpływu na
@@ -262,7 +262,7 @@ przykładzie zobrazowanym poniżej, różnica w pingu jest i to dość znaczna. 
 potwierdzenia odpytać o nasz adres IP jakiś zewnętrzny serwis, by sprawdzić czy faktycznie te
 adresy IP widziane przez serwery WWW się różnią:
 
-![](/img/2020/09/001-openvpn-process-linux-config-vpn-test-ping-different-users.png#huge)
+![openvpn-process-linux-config-vpn-test-ping-different-users](/img/2020/09/001-openvpn-process-linux-config-vpn-test-ping-different-users.png#huge)
 
 Podczas testowania połączenia można także podejrzeć tablicę conntrack'a i sprawdzić czy przy wpisie
 od nawiązanego połączenia widnieje ustawiony przez nas mark:

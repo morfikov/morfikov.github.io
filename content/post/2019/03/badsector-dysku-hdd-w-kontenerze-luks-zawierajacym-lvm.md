@@ -58,7 +58,7 @@ No i widać tutaj `Error: UNC at LBA` oraz numer bloku, do którego ten błąd s
 
 Właściwie to tych błędów było kilka, co musiało oczywiście przerwać proces skanowania:
 
-![](/img/2019/03/001-hdd-badblock-badsector-lvm2-luks-encrypted-linux-debian-smart.png#huge)
+![hdd-badblock-badsector-lvm2-luks-encrypted-linux-debian-smart](/img/2019/03/001-hdd-badblock-badsector-lvm2-luks-encrypted-linux-debian-smart.png#huge)
 
 Patrząc w podsumowanie raportu parametrów dysków, można zauważyć, że ten sektor został przeznaczony
 do realokacji:
@@ -451,7 +451,7 @@ Czas dostępu jest niski, no i nie ma również samych `0000` , tak jak to było
 Wypadałoby teraz przeskanować całą powierzchnię dysku i rzucić okiem na raport S.M.A.R.T. W tym
 przypadku skanowanie zakończyło się już powodzeniem:
 
-![](/img/2019/03/002-hdd-badblock-badsector-lvm2-luks-encrypted-linux-debian-smart.png#huge)
+![hdd-badblock-badsector-lvm2-luks-encrypted-linux-debian-smart](/img/2019/03/002-hdd-badblock-badsector-lvm2-luks-encrypted-linux-debian-smart.png#huge)
 
 A raport pokazuje, że sektor udało się uratować:
 

@@ -120,7 +120,7 @@ umożliwia zbiorcze aktualizacje w tle bez potrzeby przeprowadzania działań ze
 Bez tego dodatku, użytkownik musiałby ręcznie każdą aplikację zaktualizować osobno, a to wymagałoby
 trochę czasu i byłoby przy tym trochę upierdliwe.
 
-![](/img/2019/04/003-f-droid-google-play.png#small)
+![f-droid-google-play](/img/2019/04/003-f-droid-google-play.png#small)
 
 #### Yalp Store
 
@@ -134,7 +134,7 @@ mu ufamy). Podobnie w późniejszym czasie, gdy zajdzie potrzeba aktualizacji ap
 tego zrobić w przypadku gdyby podpisy się różniły, czyli dokładnie tak samo jak w przypadku sklepu
 Google Play.
 
-![](/img/2019/04/004-yalp-store-google-play.png#small)
+![yalp-store-google-play](/img/2019/04/004-yalp-store-google-play.png#small)
 
 Yalp Store jest dostępny w repozytorium F-Droid i można go bez większego trudu zainstalować na
 każdym urządzeniu. Do pobierania plików `.apk` potrzebne jest jednak konto Google. Możemy albo
@@ -298,7 +298,7 @@ telefon:
 Paczkę `.zip` instalujemy z poziomu TWRP recovery, a plik `.apk` bezpośrednio w systemie jako
 zwykłą aplikację.
 
-![](/img/2019/04/013-twrp-magisk-flash-recovery.png#small)
+![twrp-magisk-flash-recovery](/img/2019/04/013-twrp-magisk-flash-recovery.png#small)
 
 Następnie odpalamy aplikację `MagiskManager` i instalujemy Xposed:
 
@@ -313,7 +313,7 @@ I dociągamy również [XposedInstaller_3.1.5-Magisk.apk][17] i wrzucamy na tele
 Naturalnie instalujemy tę paczkę w standardowy sposób i uruchamiamy smartfon ponownie. Od tego
 momentu Xposed powinien nam już działać poprawnie:
 
-![](/img/2019/04/016-xposed-systemless.png#small)
+![xposed-systemless](/img/2019/04/016-xposed-systemless.png#small)
 
 Po skończonym procesie instalacji Xposed, instalujemy moduł `FakeGApps by thermatk` :
 
@@ -324,7 +324,7 @@ Po skończonym procesie instalacji Xposed, instalujemy moduł `FakeGApps by ther
 Po raz kolejny uruchamiamy urządzenie ponownie i sprawdzamy w logu Xposed czy są jakieś wzmianki na
 temat zwracania podrobionych sygnatur przez moduł `FakeGApps`:
 
-![](/img/2019/04/019-xposed-systemless-microg-fakegapps-signature-spoofing.png#small)
+![xposed-systemless-microg-fakegapps-signature-spoofing](/img/2019/04/019-xposed-systemless-microg-fakegapps-signature-spoofing.png#small)
 
 Ich obecność świadczy, że moduł wykonuje swoją robotę poprawnie.
 
@@ -437,7 +437,7 @@ skonfigurowaliśmy.
 Jeśli chodzi akurat o YouTube Vanced, to jest on dostępny w repozytorium Magisk'a. Inne aplikacje
 Google trzeba pobrać za pomocą Yalp Store.
 
-![](/img/2019/04/043-youtube-vanced-magisk-systemless-install.png#small)
+![youtube-vanced-magisk-systemless-install](/img/2019/04/043-youtube-vanced-magisk-systemless-install.png#small)
 
 Po zainstalowaniu appki YouTube Vanced możemy bez problemu przeglądać serwis YouTube, choć
 funkcjonalność tej aplikacji zbliżona jest bardziej do tej znanej ze SkyTube albo NewPipe. Jeśli

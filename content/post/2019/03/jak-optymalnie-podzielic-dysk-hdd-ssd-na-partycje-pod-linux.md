@@ -206,7 +206,7 @@ wrzucenie go na koniec dysku, tak by nie tracić tych cennych z punktu widzenia 
 pierwszych gigabajtów przestrzeni. Poniżej jest fotka przykładowego dysku obrazująca spadek
 wydajności wraz z oddalaniem się od początku dysku.
 
-![](/img/2019/03/001-hdd-disk-performance-degradation-linux-partition.jpg#big)
+![hdd-disk-performance-degradation-linux-partition](/img/2019/03/001-hdd-disk-performance-degradation-linux-partition.jpg#big)
 
 Dlatego też krojąc dysk na partycje na potrzeby linux'a dobrze jest mieć ten stan rzeczy na uwadze
 i umieścić na samym początku dysku partycję `/` lub `/home/` , tak by pliki systemowe/użytkownika,

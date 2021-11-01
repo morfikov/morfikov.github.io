@@ -197,7 +197,7 @@ drukarki może odmówić naprawy, gdy nie korzystamy z jego materiałów eksploa
 wymienimy zamiennik na oryginał i taką drukarkę będziemy próbować serwisować, to zwykle w logu
 urządzenia są rejestrowane pewnie zdarzenia. Poniżej jest przykład z mojej drukarki:
 
-![](/img/2021/01/001-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-raport.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-raport](/img/2021/01/001-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-raport.png#huge)
 
 Jak widać parę zdarzeń tam zostało zalogowanych podczas pracy tego urządzenia. Mamy tam m.in. kod
 `10.4000` , który można robić w przypadku tego producenta drukarki na `10.400` oraz `0` . Ta
@@ -293,15 +293,15 @@ wykorzystywane zarówno do skonfigurowania drukarki podłączonej przez port USB
 drukarek udostępnianych w sieci z innych maszyn, jak i samych drukarek sieciowych. Poniżej fotka
 obrazująca wygląd `hplip-gui` :
 
-![](/img/2021/01/002-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip](/img/2021/01/002-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip.png#huge)
 
 Jak widać, z poziomu tego oprogramowania jesteśmy w stanie bez większego problemu zarządzać
 drukarką, jak i zadaniami, które do niej będą przesyłane. Oprogramowanie `hplip` bez większego
 problemu wykryje model drukarki HP i powinno ono dobrać odpowiedni sterownik dla niej:
 
-![](/img/2021/01/003-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-usb.png#huge)
-![](/img/2021/01/004-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-usb.png#huge)
-![](/img/2021/01/005-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-usb.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-usb](/img/2021/01/003-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-usb.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-usb](/img/2021/01/004-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-usb.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-usb](/img/2021/01/005-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-usb.png#huge)
 
 I to w zasadzie tyle, jeśli chodzi o konfigurowanie drukarki HP podłączonej do portu USB komputera.
 Niemniej jednak, ta drukarka ma własny system operacyjny i może działać w sieci bez potrzeby
@@ -358,7 +358,7 @@ raczej nie będziemy wystawiać drukarki na świat, tak by każdy użytkownik in
 u nas drukować ale ja uważam, że jeśli jakichś usług nie potrzebujemy, to lepiej jest je od razu
 wyłączyć. Przez panel webowy możemy odznaczyć te poniższe opcje:
 
-![](/img/2021/01/006-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-protokoly.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-protokoly](/img/2021/01/006-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-protokoly.png#huge)
 
 Co ciekawe, nawet po odznaczeniu tych wszystkich widocznych powyżej pozycji, porty 9032/tcp,
 9033/tcp, 9877/tcp pozostają aktywne. Nie mam pojęcia jaki jest cel tych portów, co na nich
@@ -376,10 +376,10 @@ zarówno port 9100/tcp  w drukarce jest aktywny oraz, że mamy włączony w niej
 Poniżej przykład konfiguracji drukarki z wykorzystaniem portu 9100 na moim Debianie przy pomocy
 graficznej nakładki `hplip-gui` :
 
-![](/img/2021/01/007-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-info-cups.png#huge)
-![](/img/2021/01/008-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec.png#huge)
-![](/img/2021/01/009-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec.png#huge)
-![](/img/2021/01/010-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-info-cups](/img/2021/01/007-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-info-cups.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec](/img/2021/01/008-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec](/img/2021/01/009-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec](/img/2021/01/010-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec.png#huge)
 
 Warto zauważyć, że został tutaj manualnie określony adres IP. Jest też możliwość automatycznej
 detekcji drukarki ale jeśli powyłączamy jej zbędne funkcje, m.in. [Service Location Protocol
@@ -388,7 +388,7 @@ trzeba będzie ręcznie określić adres IP, tak jak to zostało zrobione wyżej
 próbowali skorzystać z automatycznej detekcji drukarki w `hplip-gui` nie mając włączonego protokołu
 SLP, to przywita nas błąd `HPLIP cannot detect printers in your network` :
 
-![](/img/2021/01/011-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec](/img/2021/01/011-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-hplip-siec.png#huge)
 
 ### Drukarka sieciowa udostępniana przez router WiFi
 
@@ -435,18 +435,18 @@ drukarki Hewlett Packard LaserJet P2055dn również możemy skorzystać bezpośr
 Przechodzimy zatem na podany wyżej adres i dodajemy nową drukarkę `AppSocket/HP JetDirect` podając
 jej adres IP (w tym przypadku 192.168.1.211) oraz port 9100:
 
-![](/img/2021/01/012-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
-![](/img/2021/01/013-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups-appsocket-hp-jetdirect.png#huge)
-![](/img/2021/01/014-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups](/img/2021/01/012-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups-appsocket-hp-jetdirect](/img/2021/01/013-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups-appsocket-hp-jetdirect.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups](/img/2021/01/014-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
 
 Następnie wybieramy producenta drukarki oraz jej model:
 
-![](/img/2021/01/015-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
-![](/img/2021/01/016-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups](/img/2021/01/015-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups](/img/2021/01/016-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
 
 Po chwili drukarka powinna zostać z powodzeniem dodana:
 
-![](/img/2021/01/017-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups](/img/2021/01/017-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
 
 Możemy naturalnie wydrukować stronę testową, by sprawdzić czy wszytko działa jak należy.
 
@@ -454,7 +454,7 @@ Co ciekawe, CUPS również jest w stanie wyszukać dostępne drukarki sieciowe a
 go jakoś odpowiednio skonfigurować][8]. W moim przypadku CUPS nie potrafił znaleźć żądnej drukarki
 sieciowej. Potrafił za to znaleźć drukarkę podpiętą do portu USB:
 
-![](/img/2021/01/018-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups](/img/2021/01/018-drukarka-linux-hewlett-packard-laserjet-p2055dn-hp-cups.png#huge)
 
 Wygląda też na to, że drukarki dodane przez CUPS nie są widoczne w `hplip-gui` . Z kolei drukarki
 dodane przez `hplip-gui` są widoczne w panelu webowym CUPS. Tak czy inaczej, bez znaczenia w jaki
@@ -512,7 +512,7 @@ Zapisujemy jeszcze ustawienia i restartujemy drukarkę ponownie:
 Drukarka powinna już próbować komunikować się ze zdalnym demonem syslog, co można zauważyć np. w
 `wireshark`:
 
-![](/img/2021/01/019-drukarka-linux-hewlett-packard-laserjet-p2055dn-syslog.png#huge)
+![drukarka-linux-hewlett-packard-laserjet-p2055dn-syslog](/img/2021/01/019-drukarka-linux-hewlett-packard-laserjet-p2055dn-syslog.png#huge)
 
 Jeśli rsyslog w Debianie nie wyświetla żadnych komunikatów otrzymanych od drukarki, to upewnijmy
 się, że w konfiguracji tego demona w pliku `/etc/rsyslog.conf` widnieje poniższy wpis:
