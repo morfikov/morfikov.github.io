@@ -53,10 +53,13 @@ w systemie. Na początek zajmijmy się antyaliasingiem (anti-aliasing) oraz hint
 (Część z poniższych grafik pochodzi [z tego serwisu][3]).
 
 Zwykle gdy widzimy jakiś tekst na ekranie, to nie zastanawiamy się nad tym co tak naprawdę widzimy.
-W przypadku tekstu, może to być kilka pikseli zbitych w coś, co my postrzegamy jako
-![litera-a](/img/2015/07/2.litera-a.gif). Jest to duża litera `A` zapisana
-czcionką Times New Roman. Nie jest ona zbyt wyraźna. Jeśli powiększymy ją sobie parokrotnie, tak by
-zobaczyć układ pikseli, to naszym oczom ukaże się taki obrazek:
+W przypadku tekstu, może to być kilka pikseli zbitych w coś, co my postrzegamy jako:
+
+![litera-a](/img/2015/07/2.litera-a.gif#small)
+
+Jest to duża litera `A` zapisana czcionką Times New Roman. Nie jest ona zbyt wyraźna. Jeśli
+powiększymy ją sobie parokrotnie, tak by zobaczyć układ pikseli, to naszym oczom ukaże się taki
+obrazek:
 
 ![litera-a-piksele](/img/2015/07/3.litera-a-piksele.gif#small)
 
@@ -83,9 +86,15 @@ ostrzejsze:
 Obecnie chyba każdy korzysta z monitorów LCD, a w nich to, co my zwykliśmy nazywać pikselem nie do
 końca znajduje zastosowanie. Każdy piksel bowiem składa się z trzech podpikseli (subpixels):
 czerwonego (R), zielonego (G) oraz niebieskiego (B). W taki oto sposób nasze oko widzi piksel, np.
-tak: ![piksel](//img/2015/07/6.piksel.gif), a w rzeczywistości jeśli byśmy go powiększyli,
-dostrzeżemy coś takiego: ![piksel-lcd-podpiksele](/img/2015/07/7.piksel-lcd-podpiksele.gif). W
-przypadku gdybyśmy potraktowali te podpiksele osobno, rozdzielczości pozioma w panelu LCD potroi
+tak:
+
+![piksel](/img/2015/07/6.piksel.gif#small)
+
+W rzeczywistości jeśli byśmy go powiększyli, to dostrzeżemy coś takiego:
+
+![piksel-lcd-podpiksele](/img/2015/07/7.piksel-lcd-podpiksele.gif#small).
+
+W przypadku gdybyśmy potraktowali te podpiksele osobno, rozdzielczości pozioma w panelu LCD potroi
 się i będzie mieć 3072 piksele -- 1024 czerwonych, 1024 zielonych i 1024 niebieskich. Zatem jeśli
 nasz monitor ma poniżej 100 PPI, to czcionki przy wygładzaniu podpikselowym będą się łapać akurat
 na pułap około 300 PPI, czyli istnieje spore prawdopodobieństwo, że oko ludzkie uda się oszukać

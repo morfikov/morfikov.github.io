@@ -70,7 +70,7 @@ logowania:
 
 Po czym uzupełniamy hasło główne i klikamy `generate` :
 
-![](/img/2015/06/4supergenpass-haslo-wpisywanie.png#big)
+![supergenpass-haslo-wpisywanie](/img/2015/06/4.supergenpass-haslo-wpisywanie.png#big)
 
 Hasło zostało automatycznie wpisane w odpowiednie miejsce. Problem z tym rozwiązaniem jest taki, że
 dalej trzeba ręcznie wpisać nazwę konta. Przynajmniej zmiana hasła działa bez problemu:
