@@ -30,10 +30,9 @@ się osiągnąć dość zadowalające efekty wizualne.
 Jeśli spojrzymy na monitor LCD z odległości około pół metra, nasze oko niekoniecznie może dostrzec
 pojedyncze piksele w momencie gdy ich gęstość nie przekracza 300 PPI (Pixels Per Inch ). Ile zatem
 mają przeciętne wyświetlacze dołączone do naszych komputerów? Możemy to w łatwy sposób
-[policzyć](https://en.wikipedia.org/wiki/Pixel_density#Calculation_of_monitor_PPI). Wszystko czego
-nam trzeba to kilku informacji, tj. rozdzielczość poziomą, pionową monitora oraz długość przekątnej
-ekranu. Dla przykładu weźmy monitor 21.5 cala o rozdzielczości 1920x1080. Poniżej jest wzór, do
-którego podstawimy te liczby:
+[policzyć][1]. Wszystko czego nam trzeba to kilku informacji, tj. rozdzielczość poziomą, pionową
+monitora oraz długość przekątnej ekranu. Dla przykładu weźmy monitor 21.5 cala o rozdzielczości
+1920x1080. Poniżej jest wzór, do którego podstawimy te liczby:
 
 ![wyliczanie-ppi-wzor](/img/2015/07/1.wyliczanie-ppi-wzor.png#small)
 
@@ -41,8 +40,7 @@ którego podstawimy te liczby:
 `x` to długość przekątnej w calach. Zatem mamy 1080^2=1166400 oraz 1920^2=3686400, co po zsumowaniu
 daje wartość 4852800. Wyciągamy pierwiastek i otrzymujemy liczbę liczbę około 2203, którą to trzeba
 podzielić przez 21.5. W rezultacie PPI dla tego przykładowego monitora wynosi około 102. Jeśli ktoś
-nie chce przeprowadzać obliczeń ręcznie, to zawsze może skorzystać z [kalkulatora
-PPI](https://www.sven.de/dpi/).
+nie chce przeprowadzać obliczeń ręcznie, to zawsze może skorzystać z [kalkulatora PPI][2].
 
 PPI o wartości 102 jest niewystarczające by oko ludzkie nie zbuntowało się przy czytaniu tekstu na
 tego typu monitorze. Dlatego też jesteśmy zmuszeni do stosowania pewnych trików by oszukać nasze
@@ -52,11 +50,11 @@ oczyska.
 
 Jest kilka terminów, z którymi musimy się zaznajomić by umiejętnie podejść do konfiguracji czcionek
 w systemie. Na początek zajmijmy się antyaliasingiem (anti-aliasing) oraz hintingiem (hinting).
-(Część z poniższych grafik pochodzi [z tego serwisu](https://www.grc.com/ct/ctwhat.htm)).
+(Część z poniższych grafik pochodzi [z tego serwisu][3]).
 
 Zwykle gdy widzimy jakiś tekst na ekranie, to nie zastanawiamy się nad tym co tak naprawdę widzimy.
 W przypadku tekstu, może to być kilka pikseli zbitych w coś, co my postrzegamy jako
-![](/img/2015/07/2.litera-a.gif> . Jest to duża litera `A` zapisana
+![litera-a](/img/2015/07/2.litera-a.gif). Jest to duża litera `A` zapisana
 czcionką Times New Roman. Nie jest ona zbyt wyraźna. Jeśli powiększymy ją sobie parokrotnie, tak by
 zobaczyć układ pikseli, to naszym oczom ukaże się taki obrazek:
 
@@ -75,8 +73,8 @@ samej litery `A` , którą widzieliśmy wyżej ale z nałożonym antyaliasingiem
 
 Problem z tego typu rozwiązaniem można zaobserwować w przypadku małych czcionek, gdzie takie
 rozlanie pikseli powoduje, że tekst jest zwyczajnie nieczytelny. I tu w grę wchodzi hinting. Na
-poniższej fotce ([źródło](https://pl.wikipedia.org/wiki/Hinting)), dolne wiersze są z hintingiem i,
-jak możemy zauważyć, są wyraźnie ostrzejsze:
+poniższej fotce ([źródło][4]), dolne wiersze są z hintingiem i, jak możemy zauważyć, są wyraźnie
+ostrzejsze:
 
 ![konfiguracja-czionek-hinting](/img/2015/07/5.konfiguracja-czionek-hinting.png#small)
 
@@ -85,13 +83,13 @@ jak możemy zauważyć, są wyraźnie ostrzejsze:
 Obecnie chyba każdy korzysta z monitorów LCD, a w nich to, co my zwykliśmy nazywać pikselem nie do
 końca znajduje zastosowanie. Każdy piksel bowiem składa się z trzech podpikseli (subpixels):
 czerwonego (R), zielonego (G) oraz niebieskiego (B). W taki oto sposób nasze oko widzi piksel, np.
-tak: </img/2015/07/6.piksel.gif> , a w rzeczywistości jeśli byśmy
-go powiększyli, dostrzeżemy coś takiego:
-![](/img/2015/07/7.piksel-lcd-podpiksele.gif> . W przypadku gdybyśmy
-potraktowali te podpiksele osobno, rozdzielczości pozioma w panelu LCD potroi się i będzie mieć 3072
-piksele -- 1024 czerwonych, 1024 zielonych i 1024 niebieskich. Zatem jeśli nasz monitor ma poniżej
-100 PPI, to czcionki przy wygładzaniu podpikselowym będą się łapać akurat na pułap około 300 PPI,
-czyli istnieje spore prawdopodobieństwo, że oko ludzkie uda się oszukać przy pomocy tej techniki.
+tak: ![piksel](//img/2015/07/6.piksel.gif), a w rzeczywistości jeśli byśmy go powiększyli,
+dostrzeżemy coś takiego: ![piksel-lcd-podpiksele](/img/2015/07/7.piksel-lcd-podpiksele.gif). W
+przypadku gdybyśmy potraktowali te podpiksele osobno, rozdzielczości pozioma w panelu LCD potroi
+się i będzie mieć 3072 piksele -- 1024 czerwonych, 1024 zielonych i 1024 niebieskich. Zatem jeśli
+nasz monitor ma poniżej 100 PPI, to czcionki przy wygładzaniu podpikselowym będą się łapać akurat
+na pułap około 300 PPI, czyli istnieje spore prawdopodobieństwo, że oko ludzkie uda się oszukać
+przy pomocy tej techniki.
 
 W czym taki podział pikseli może nam pomóc? Przede wszystkim, w rysowaniu obiektów (np. czcionek),
 które mają dość postrzępione krawędzie. Popatrzmy na te poniższe obrazki. Załóżmy, że jest to
@@ -117,7 +115,7 @@ Jeśli wskażemy złą sekwencję podpikseli, jakoś obrazu ulegnie znacznemu po
 ![litera-a-zly-uklad-podpikseli](/img/2015/07/10.litera-a-zly-uklad-podpikseli.gif#small)
 
 W przypadku, gdy nie wiemy jaki układ podpikseli ma nasz monitor, zawsze możemy [przeprowadzić
-test](http://www.lagom.nl/lcd-test/subpixel.php), który pomoże nam to określić.
+test][5], który pomoże nam to określić.
 
 Większość ludzi jest zdania, że jakość czcionek ulega znacznej poprawie. Mnie jednak szlag trafia
 gdy muszę patrzeć na tekst, który wygląda mniej więcej tak:
@@ -221,8 +219,7 @@ Na sam początek ustawmy sobie antyaliasing, hinting oraz wygładzanie podpiksel
 	</match>
 
 Tych opcji oczywiście jest więcej ale na dobrą sprawę nam wystarczą tylko te powyższe. Jeśli ktoś ma
-ochotę, to może zapoznać się z [dokumentacją
-fontconfig'a](https://www.freedesktop.org/software/fontconfig/fontconfig-user.html) .
+ochotę, to może zapoznać się z [dokumentacją fontconfig'a][6].
 
 #### Ustawianie domyślnych fontów
 
@@ -314,3 +311,11 @@ Jeszcze kilka uwag na sam koniec. Przede wszystkim unikajmy stosowania autohinti
 podpikselowego jednocześnie. Na necie można wyczytać, że te dwie opcje kompletnie nie współgrają ze
 sobą. Jest także możliwość zabronienia użytkownikom zmiany konfiguracji czcionek przez usunięcie
 dowiązania `/etc/fonts/conf.d/50-user.conf` .
+
+
+[1]: https://en.wikipedia.org/wiki/Pixel_density#Calculation_of_monitor_PPI
+[2]: https://www.sven.de/dpi/
+[3]: https://www.grc.com/ct/ctwhat.htm
+[4]: https://pl.wikipedia.org/wiki/Hinting
+[5]: http://www.lagom.nl/lcd-test/subpixel.php
+[6]: https://www.freedesktop.org/software/fontconfig/fontconfig-user.html

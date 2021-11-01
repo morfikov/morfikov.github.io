@@ -66,7 +66,7 @@ W opcjach Androida możemy sobie wybrać czy zamierzamy korzystać z protokołu 
 celu wystarczy podłączyć smartfon do portu USB komputera. Na ekranie smartfona powinna nam się
 pojawić poniższa wiadomość:
 
-![](/img/2016/09/1smartfon-linux-protokol-mtp-ptp-podlaczanie-usb.png#medium)
+![smartfon-linux-protokol-mtp-ptp-podlaczanie-usb](/img/2016/09/1.smartfon-linux-protokol-mtp-ptp-podlaczanie-usb.png#medium)
 
 Jak widzimy wyżej, jeśli nasz komputer nie wspiera protokołu MTP, to wybieramy PTP. Linux'y na
 szczęście nie mają problemów z protokołem MTP i dlatego to on został wyżej zaznaczony.
