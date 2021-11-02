@@ -246,7 +246,7 @@ w to uprawnienia root):
 
 |   |   |
 |---|---|
-| ![](/img/2021/08/003-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-password-encryption.png#small) | ![](/img/2021/08/004-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp.png#small) |
+| ![xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-password-encryption](/img/2021/08/003-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-password-encryption.png#small) | ![xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp](/img/2021/08/004-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp.png#small) |
 
 ## Utworzenie kopi zapasowej flash'a telefonu
 
@@ -468,7 +468,7 @@ mówiące o tym, że partycja boot jest przepakowywana i wgrywana ponownie:
 
 |   |   |
 |---|---|
-| ![](/img/2021/08/005-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-install.png#small) | ![](/img/2021/08/006-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-install-log.png#small) |
+| ![xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-install](/img/2021/08/005-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-install.png#small) | ![xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-install-log](/img/2021/08/006-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-install-log.png#small) |
 
 To jest ten moment, w którym telefon przestanie przepisywać partycję recovery podczas startu. Po
 zainstalowaniu się Magisk'a, partycja recovery z obrazem TWRP nie będzie już zmieniana i nie będzie
@@ -487,14 +487,14 @@ komunikatem:
 
 |   |   |
 |---|---|
-| ![](/img/2021/08/007-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-app.jpg#small) | ![](/img/2021/08/008-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-safetynet-fail.jpg#small) |
+| ![xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-app](/img/2021/08/007-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-app.jpg#small) | ![xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-safetynet-fail](/img/2021/08/008-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-safetynet-fail.jpg#small) |
 
 By tę sytuację poprawić, wchodzimy w ustawienia Magisk'a i ukrywamy aplikację ( `Hide the Magisk
 app` ) oraz włączamy `MagiskHide` :
 
 |   |   |
 |---|---|
-| ![](/img/2021/08/009-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-settings.jpg#small) | ![](/img/2021/08/010-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-settings.jpg#small) |
+| ![xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-settings](/img/2021/08/009-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-settings.jpg#small) | ![xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-settings](/img/2021/08/010-xiaomi-redmi-9-galahad-lancelot-root-magisk-twrp-magisk-settings.jpg#small) |
 
 Sprawdzamy ponownie SafetyNet i tym razem już powinniśmy go bez problemu przejść:
 

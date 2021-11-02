@@ -52,7 +52,7 @@ połączeń (prawdopodobnie zarówno tych przychodzących, jak i wychodzących).
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/005.yacb-call-blocker-android-spam-filer-dialer-caller-id.jpg#small) |  ![](/img/2021/09/006.yacb-call-blocker-android-spam-filer-dialer-caller-id.jpg#small) |
+| ![yacb-call-blocker-android-spam-filer-dialer-caller-id](/img/2021/09/005.yacb-call-blocker-android-spam-filer-dialer-caller-id.jpg#small) | ![yacb-call-blocker-android-spam-filer-dialer-caller-id](/img/2021/09/006.yacb-call-blocker-android-spam-filer-dialer-caller-id.jpg#small) |
 
 Kolejny problem związany jest z wersją Androida, którą mamy w telefonie. Jeśli mamy Andka 9 (i
 niższe), to w tych systemach aplikacja dialer'a jest zintegrowana z mechanizmem identyfikacji spamu.
@@ -76,7 +76,7 @@ lada sztuka.
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/001.yacb-call-blocker-android-spam-filer-stock.jpg#small) |  ![](/img/2021/09/002.yacb-call-blocker-android-spam-filer-stock-phone-number-add.jpg#small) |
+| ![yacb-call-blocker-android-spam-filer-stock](/img/2021/09/001.yacb-call-blocker-android-spam-filer-stock.jpg#small) | ![yacb-call-blocker-android-spam-filer-stock-phone-number-add](/img/2021/09/002.yacb-call-blocker-android-spam-filer-stock-phone-number-add.jpg#small) |
 
 Nie mam pojęcia, czy można tutaj korzystać z maski, bo we wcześniejszych wersjach Androida było to
 wyraźnie określone via `prefix` . Tutaj jak widać jest jedynie opcja wpisania numeru telefonu.
@@ -107,7 +107,7 @@ wchodzimy w ustawienia systemu i wpisujemy `Caller ID & Spam` , po czym wskazuje
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/003.yacb-call-blocker-android-spam-filer-caller-id-settings.jpg#small) |  ![](/img/2021/09/004.yacb-call-blocker-android-spam-filer-caller-id-switch.jpg#small) |
+| ![yacb-call-blocker-android-spam-filer-caller-id-settings](/img/2021/09/003.yacb-call-blocker-android-spam-filer-caller-id-settings.jpg#small) | ![yacb-call-blocker-android-spam-filer-caller-id-switch](/img/2021/09/004.yacb-call-blocker-android-spam-filer-caller-id-switch.jpg#small) |
 
 Mając ustawiony Yet Another Call Blocker jako domyślną appkę filtrującą ze spamu połączenia
 przychodzące, otwieramy ustawienia YACB.
@@ -163,7 +163,7 @@ wielce użyteczne dla nas informacje:
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/010.yacb-call-blocker-android-spam-filer-rating-block.jpg#small) | ![](/img/2021/09/011.yacb-call-blocker-android-spam-filer-rating-block.jpg#small) |
+| ![yacb-call-blocker-android-spam-filer-rating-block](/img/2021/09/010.yacb-call-blocker-android-spam-filer-rating-block.jpg#small) | ![yacb-call-blocker-android-spam-filer-rating-block](/img/2021/09/011.yacb-call-blocker-android-spam-filer-rating-block.jpg#small) |
 
 ### Zgłaszanie spamerów do bazy numerów
 
@@ -185,7 +185,7 @@ dokładnie jedną cyfrę, co nieco bardziej ułatwia blokowanie numerków.
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/013.yacb-call-blocker-android-spam-filer-black-list.jpg#small) | ![](/img/2021/09/014.yacb-call-blocker-android-spam-filer-black-list-add-number.jpg#small) |
+| ![yacb-call-blocker-android-spam-filer-black-list](/img/2021/09/013.yacb-call-blocker-android-spam-filer-black-list.jpg#small) | ![yacb-call-blocker-android-spam-filer-black-list-add-number](/img/2021/09/014.yacb-call-blocker-android-spam-filer-black-list-add-number.jpg#small) |
 
 Trzeba jednak pamiętać, że połączenia od osób na liście kontaktów nie będą blokowane. Jeśli z
 jakichś powodów chcielibyśmy zablokować połączenie z takim kontaktem, to trzeba go będzie usunąć z
@@ -230,7 +230,7 @@ YACB. W tym celu wchodzimy w informację o aplikacji YACB i wybieramy `Notificat
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/015.yacb-call-blocker-android-spam-filer-notifications.jpg#small) | ![](/img/2021/09/016.yacb-call-blocker-android-spam-filer-notifications.jpg#small) | ![](/img/2021/09/017.yacb-call-blocker-android-spam-filer-notifications.jpg#small) |
+| ![yacb-call-blocker-android-spam-filer-notifications](/img/2021/09/015.yacb-call-blocker-android-spam-filer-notifications.jpg#small) | ![yacb-call-blocker-android-spam-filer-notifications](/img/2021/09/016.yacb-call-blocker-android-spam-filer-notifications.jpg#small) | ![yacb-call-blocker-android-spam-filer-notifications](/img/2021/09/017.yacb-call-blocker-android-spam-filer-notifications.jpg#small) |
 
 No jak widać, YACB rejestruje trochę tych kanałów notyfikacji. Ja sobie wszystkie z nich ustawiłem
 w zasadzie w ten poniższy sposób, w którym powiadomienie jak najbardziej będzie się pojawiać ale bez
@@ -238,7 +238,7 @@ dzwonka, zapalania ekranu czy innych wibracji telefonu:
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/018.yacb-call-blocker-android-spam-filer-notifications.jpg#small) | ![](/img/2021/09/019.yacb-call-blocker-android-spam-filer-notifications.jpg#small) |
+| ![yacb-call-blocker-android-spam-filer-notifications](/img/2021/09/018.yacb-call-blocker-android-spam-filer-notifications.jpg#small) | ![yacb-call-blocker-android-spam-filer-notifications](/img/2021/09/019.yacb-call-blocker-android-spam-filer-notifications.jpg#small) |
 
 W ten sposób zrzucanie połączeń z call center nie będzie u mnie w ogóle widoczne, no chyba, że
 wejdę sobie w powiadomienia.

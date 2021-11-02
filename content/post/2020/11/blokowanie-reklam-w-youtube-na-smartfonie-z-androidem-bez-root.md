@@ -60,7 +60,7 @@ trzeba wejść w Ustawienia -> Opcje programistyczne i zaznaczyć Debugowanie US
 
 |   |   |
 |---|---|
-| ![](/img/2020/11/002-android-youtube-yt-vanced-microg-manager-block-commercials-menu.png#small) | ![](/img/2020/11/003-android-youtube-yt-vanced-microg-manager-block-commercials-developer-options.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-menu](/img/2020/11/002-android-youtube-yt-vanced-microg-manager-block-commercials-menu.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-developer-options](/img/2020/11/003-android-youtube-yt-vanced-microg-manager-block-commercials-developer-options.png#small) |
 
 Jeśli nie mamy w ustawieniach pozycji `Opcje programistyczne` , to trzeba ją pierw odkryć stukając
 parokrotnie w numer kompilacji, który zwykle jest widoczny w menu informacji o
@@ -107,8 +107,8 @@ procesie pobierania pliku, instalujemy Vanced Manager w systemie i uruchamiamy g
 
 |   |   |
 |---|---|
-| ![](/img/2020/11/007-android-youtube-yt-vanced-microg-manager-block-commercials-website.png#small) | ![](/img/2020/11/008-android-youtube-yt-vanced-microg-manager-block-commercials-install-process.png#small) |
-| ![](/img/2020/11/009-android-youtube-yt-vanced-microg-manager-block-commercials-install-process.png#small) | ![](/img/2020/11/010-android-youtube-yt-vanced-microg-manager-block-commercials-app.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-website](/img/2020/11/007-android-youtube-yt-vanced-microg-manager-block-commercials-website.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-install-process](/img/2020/11/008-android-youtube-yt-vanced-microg-manager-block-commercials-install-process.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-install-process](/img/2020/11/009-android-youtube-yt-vanced-microg-manager-block-commercials-install-process.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-app](/img/2020/11/010-android-youtube-yt-vanced-microg-manager-block-commercials-app.png#small) |
 
 ### Instalacja MicroG
 
@@ -118,8 +118,8 @@ tym, że MicroG trzeba zainstalować jako pierwsze:
 
 |   |   |
 |---|---|
-| ![](/img/2020/11/011-android-youtube-yt-vanced-microg-manager-block-commercials-microg-install.png#small) | ![](/img/2020/11/012-android-youtube-yt-vanced-microg-manager-block-commercials-microg-install.png#small) |
-| ![](/img/2020/11/013-android-youtube-yt-vanced-microg-manager-block-commercials-microg-install.png#small) | ![](/img/2020/11/014-android-youtube-yt-vanced-microg-manager-block-commercials-microg-installed.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-install](/img/2020/11/011-android-youtube-yt-vanced-microg-manager-block-commercials-microg-install.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-install](/img/2020/11/012-android-youtube-yt-vanced-microg-manager-block-commercials-microg-install.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-install](/img/2020/11/013-android-youtube-yt-vanced-microg-manager-block-commercials-microg-install.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-installed](/img/2020/11/014-android-youtube-yt-vanced-microg-manager-block-commercials-microg-installed.png#small) |
 
 #### Dodanie konta
 
@@ -128,11 +128,11 @@ musimy dodać swoje konto Google do MicroG:
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2020/11/015-android-youtube-yt-vanced-microg-manager-block-commercials-microg-options.png#small) | ![](/img/2020/11/016-android-youtube-yt-vanced-microg-manager-block-commercials-microg-account.png#small) | ![](/img/2020/11/017-android-youtube-yt-vanced-microg-manager-block-commercials-microg-account.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-options](/img/2020/11/015-android-youtube-yt-vanced-microg-manager-block-commercials-microg-options.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-account](/img/2020/11/016-android-youtube-yt-vanced-microg-manager-block-commercials-microg-account.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-account](/img/2020/11/017-android-youtube-yt-vanced-microg-manager-block-commercials-microg-account.png#small) |
 
 |   |   |
 |---|---|
-| ![](/img/2020/11/018-android-youtube-yt-vanced-microg-manager-block-commercials-microg-account.png#small) | ![](/img/2020/11/019-android-youtube-yt-vanced-microg-manager-block-commercials-microg-account.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-account](/img/2020/11/018-android-youtube-yt-vanced-microg-manager-block-commercials-microg-account.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-account](/img/2020/11/019-android-youtube-yt-vanced-microg-manager-block-commercials-microg-account.png#small) |
 
 To dodane konto powinno być widoczne na liście kont systemowych:
 
@@ -148,8 +148,8 @@ tam odznaczyć pozycję z Vanced MicroG:
 
 |   |   |
 |---|---|
-| ![](/img/2020/11/021-android-youtube-yt-vanced-microg-manager-block-commercials-battery.png#small) | ![](/img/2020/11/022-android-youtube-yt-vanced-microg-manager-block-commercials-battery.png#small) |
-| ![](/img/2020/11/023-android-youtube-yt-vanced-microg-manager-block-commercials-battery-ptimization.png#small) | ![](/img/2020/11/024-android-youtube-yt-vanced-microg-manager-block-commercials-battery-optimization.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-battery](/img/2020/11/021-android-youtube-yt-vanced-microg-manager-block-commercials-battery.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-battery](/img/2020/11/022-android-youtube-yt-vanced-microg-manager-block-commercials-battery.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-battery-ptimization](/img/2020/11/023-android-youtube-yt-vanced-microg-manager-block-commercials-battery-ptimization.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-battery-optimization](/img/2020/11/024-android-youtube-yt-vanced-microg-manager-block-commercials-battery-optimization.png#small) |
 
 #### Włączenie autostartu
 
@@ -162,8 +162,8 @@ wyłączeniu ekranu", tak jak to widać na poniższych fotkach:
 
 |   |   |
 |---|---|
-| ![](/img/2020/11/025-android-youtube-yt-vanced-microg-manager-block-commercials-app.png#small) | ![](/img/2020/11/026-android-youtube-yt-vanced-microg-manager-block-commercials-app-list.png#small) |
-| ![](/img/2020/11/027-android-youtube-yt-vanced-microg-manager-block-commercials-app-list-microg.png#small) | ![](/img/2020/11/028-android-youtube-yt-vanced-microg-manager-block-commercials-app-list-microg-autostart.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-app](/img/2020/11/025-android-youtube-yt-vanced-microg-manager-block-commercials-app.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-app-list](/img/2020/11/026-android-youtube-yt-vanced-microg-manager-block-commercials-app-list.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-app-list-microg](/img/2020/11/027-android-youtube-yt-vanced-microg-manager-block-commercials-app-list-microg.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-app-list-microg-autostart](/img/2020/11/028-android-youtube-yt-vanced-microg-manager-block-commercials-app-list-microg-autostart.png#small) |
 
 #### Restart telefonu
 
@@ -177,7 +177,7 @@ Po ponownym uruchomieniu telefonu wchodzimy w Vanced Manager. Tym razem instaluj
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2020/11/029-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-install.png#small) | ![](/img/2020/11/030-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-installed.png#small) | ![](/img/2020/11/031-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-install](/img/2020/11/029-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-install.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-installed](/img/2020/11/030-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-installed.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced](/img/2020/11/031-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced.png#small) |
 
 #### Wyłączenie optymalizacji baterii
 
@@ -192,7 +192,7 @@ Również i w przypadku YouTube Vanced włączamy autostart:
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2020/11/033-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-app-list.png#small) | ![](/img/2020/11/034-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-app-list.png#small) | ![](/img/2020/11/035-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-app-list-autostart.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-app-list](/img/2020/11/033-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-app-list.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-app-list](/img/2020/11/034-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-app-list.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-app-list-autostart](/img/2020/11/035-android-youtube-yt-vanced-microg-manager-block-commercials-yt-vanced-app-list-autostart.png#small) |
 
 #### Restart telefonu
 
@@ -207,7 +207,7 @@ Google. W tym celu trzeba odpalić Vanced Manager i przejść w nim do ustawień
 
 |   |   |
 |---|---|
-| ![](/img/2020/11/036-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings.png#small) | ![](/img/2020/11/037-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings](/img/2020/11/036-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings](/img/2020/11/037-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings.png#small) |
 
 Tam z kolei mamy pozycję `Google Device Registration` . Naturalnie klikamy w nią:
 
@@ -218,7 +218,7 @@ strukturach Google. Jeśli takie informacje posiadamy, to odpalamy aplikację Yo
 
 |   |   |
 |---|---|
-| ![](/img/2020/11/039-android-youtube-yt-vanced-microg-manager-block-commercials-test.png#small) | ![](/img/2020/11/040-android-youtube-yt-vanced-microg-manager-block-commercials-test-account.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-test](/img/2020/11/039-android-youtube-yt-vanced-microg-manager-block-commercials-test.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-test-account](/img/2020/11/040-android-youtube-yt-vanced-microg-manager-block-commercials-test-account.png#small) |
 
 Powinniśmy zostać automatycznie zalogowani na nasze konto YouTube, co możemy zweryfikować po
 awatarze w prawym górnym rogu okna aplikacji lub też bezpośrednio w menu aplikacji. Jeśli zostaliśmy
@@ -234,7 +234,7 @@ tym celu przechodzimy do ustawień MicroG i wchodzimy w pozycję GCM (Google Clo
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2020/11/041-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings.png#small) | ![](/img/2020/11/042-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-gcm.png#small) | ![](/img/2020/11/043-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-gcm.png#small) |
+| ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings](/img/2020/11/041-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-gcm](/img/2020/11/042-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-gcm.png#small) | ![android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-gcm](/img/2020/11/043-android-youtube-yt-vanced-microg-manager-block-commercials-microg-settings-gcm.png#small) |
 
 Jak widać, jesteśmy połączeni z usługą GCM oraz aplikacja YouTube Vanced chce korzystać z
 notyfikacji push. Powinna być zatem ona w stanie odbierać powiadomienia z serwera Google. Gdy ten

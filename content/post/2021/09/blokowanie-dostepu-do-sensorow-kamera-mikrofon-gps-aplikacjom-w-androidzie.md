@@ -75,7 +75,7 @@ prawidłowo.
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/001.block-sensors-android-phyphox-menu.jpg#small) | ![](/img/2021/09/002.block-sensors-android-phyphox-menu.jpg#small) | ![](/img/2021/09/003.block-sensors-android-phyphox-menu.jpg#small) |
+| ![block-sensors-android-phyphox-menu](/img/2021/09/001.block-sensors-android-phyphox-menu.jpg#small) | ![block-sensors-android-phyphox-menu](/img/2021/09/002.block-sensors-android-phyphox-menu.jpg#small) | ![block-sensors-android-phyphox-menu](/img/2021/09/003.block-sensors-android-phyphox-menu.jpg#small) |
 
 No jak widać po samym menu phyphox'a, opcji do testowania sensorów smartfona mamy dość sporo. Na
 potrzeby testu wybrałem sobie wskazania tych bardziej rozpoznawanych sensorów, tj. akcelerometru,
@@ -83,14 +83,14 @@ potrzeby testu wybrałem sobie wskazania tych bardziej rozpoznawanych sensorów,
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/004.block-sensors-android-phyphox-accelerometer.jpg#small) | ![](/img/2021/09/005.block-sensors-android-phyphox-gyroscope.jpg#small) |   ![](/img/2021/09/006.block-sensors-android-phyphox-magnetometer.jpg#small) |
+| ![block-sensors-android-phyphox-accelerometer](/img/2021/09/004.block-sensors-android-phyphox-accelerometer.jpg#small) | ![block-sensors-android-phyphox-gyroscope](/img/2021/09/005.block-sensors-android-phyphox-gyroscope.jpg#small) |   ![](/img/2021/09/006.block-sensors-android-phyphox-magnetometer.jpg#small) |
 
 Po wykresach możemy stwierdzić, że moduły zdają się działać prawidłowo. Co jednak się stanie, gdy
 przełączymy kafelek `Sensors Off` i zablokujemy sensory?
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/007.block-sensors-android-tile.jpg#small) | ![](/img/2021/09/008.block-sensors-android-phyphox-gyroscope-failed.jpg#small) |
+| ![block-sensors-android-tile](/img/2021/09/007.block-sensors-android-tile.jpg#small) | ![block-sensors-android-phyphox-gyroscope-failed](/img/2021/09/008.block-sensors-android-phyphox-gyroscope-failed.jpg#small) |
 
 Jak widać (a właściwie nie widać), przykładowy sensor żyroskopu przestał zwracać dane, które
 phyphox mógłby sobie umieścić na grafie. No i praktycznie wszystkie sensory w ten sposób "zamilkły",

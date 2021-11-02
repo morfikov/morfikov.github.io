@@ -145,7 +145,7 @@ lockdown option` :
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/001.android-lockdown-mode-settings-lock-screen.jpg#small) | ![](/img/2021/09/002.android-lockdown-mode-settings-lock-screen.jpg#small) | ![](/img/2021/09/003.android-lockdown-mode-settings-lock-screen.jpg#small) |
+| ![android-lockdown-mode-settings-lock-screen](/img/2021/09/001.android-lockdown-mode-settings-lock-screen.jpg#small) | ![android-lockdown-mode-settings-lock-screen](/img/2021/09/002.android-lockdown-mode-settings-lock-screen.jpg#small) | ![android-lockdown-mode-settings-lock-screen](/img/2021/09/003.android-lockdown-mode-settings-lock-screen.jpg#small) |
 
 Do momentu aktywacji trybu lockdown, telefon będzie pracował sobie tak, jak dotychczas, tj.
 będziemy w stanie go odblokować przy pomocy biometrii czy Android Smart Lock'a i nie trzeba będzie
@@ -231,7 +231,7 @@ Poniżej znajdują się fotki ustawień appki Wrong PIN Shutdown:
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/007.android-lockdown-mode-wrong-pin-shutdown-settings.jpg#small) |![](/img/2021/09/008.android-lockdown-mode-wrong-pin-shutdown-settings.jpg#small) |
+| ![android-lockdown-mode-wrong-pin-shutdown-settings](/img/2021/09/007.android-lockdown-mode-wrong-pin-shutdown-settings.jpg#small) | ![android-lockdown-mode-wrong-pin-shutdown-settings](/img/2021/09/008.android-lockdown-mode-wrong-pin-shutdown-settings.jpg#small) |
 
 Ustawiając ilość błędnych prób logowania na względnie małą wartość, np. 2, sprawi, że po drugiej
 nieudanej próbie odblokowania ekranu telefon nam się wyłączy. Nawet jeśli ten niedobry człowiek
@@ -244,7 +244,7 @@ Settings > Security > Device admin apps:
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/009.android-lockdown-mode-wrong-pin-shutdown-device-admin.jpg#small) | ![](/img/2021/09/010.android-lockdown-mode-wrong-pin-shutdown-device-admin.jpg#small) |
+| ![android-lockdown-mode-wrong-pin-shutdown-device-admin](/img/2021/09/009.android-lockdown-mode-wrong-pin-shutdown-device-admin.jpg#small) | ![android-lockdown-mode-wrong-pin-shutdown-device-admin](/img/2021/09/010.android-lockdown-mode-wrong-pin-shutdown-device-admin.jpg#small) |
 
 ## Podsumowanie
 

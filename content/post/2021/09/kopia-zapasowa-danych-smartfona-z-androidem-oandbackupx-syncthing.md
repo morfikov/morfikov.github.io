@@ -124,11 +124,11 @@ webowego):
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/003.oandbackupx-syncthing-backup-android-phone-settings-phone.jpg#small) | ![](/img/2021/09/004.oandbackupx-syncthing-backup-android-phone-settings-phone.jpg#small) |
+| ![oandbackupx-syncthing-backup-android-phone-settings-phone](/img/2021/09/003.oandbackupx-syncthing-backup-android-phone-settings-phone.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-settings-phone](/img/2021/09/004.oandbackupx-syncthing-backup-android-phone-settings-phone.jpg#small) |
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/005.oandbackupx-syncthing-backup-android-phone-settings-phone.jpg#small) |![](/img/2021/09/006.oandbackupx-syncthing-backup-android-phone-settings-phone.jpg#small) |
+| ![oandbackupx-syncthing-backup-android-phone-settings-phone](/img/2021/09/005.oandbackupx-syncthing-backup-android-phone-settings-phone.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-settings-phone](/img/2021/09/006.oandbackupx-syncthing-backup-android-phone-settings-phone.jpg#small) |
 
 Warto tutaj też wspomnieć, że Syncthing jest w stanie pracować z prawami root. Niemniej jednak, ta
 funkcja jest bardzo niestabilna i powoduje bardzo dziwne problemy i nie zalecałbym z niej korzystać.
@@ -160,11 +160,11 @@ Poniżej znajdują się poglądowe fotki ustawień OAndBackupX, które po częś
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/007.oandbackupx-syncthing-backup-android-phone-oabx-settings.jpg#small) | ![](/img/2021/09/008.oandbackupx-syncthing-backup-android-phone-oabx-settings.jpg#small) |
+| ![oandbackupx-syncthing-backup-android-phone-oabx-settings](/img/2021/09/007.oandbackupx-syncthing-backup-android-phone-oabx-settings.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-oabx-settings](/img/2021/09/008.oandbackupx-syncthing-backup-android-phone-oabx-settings.jpg#small) |
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/009.oandbackupx-syncthing-backup-android-phone-oabx-settings.jpg#small) | ![](/img/2021/09/010.oandbackupx-syncthing-backup-android-phone-oabx-settings.jpg#small) |
+| ![oandbackupx-syncthing-backup-android-phone-oabx-settings](/img/2021/09/009.oandbackupx-syncthing-backup-android-phone-oabx-settings.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-oabx-settings](/img/2021/09/010.oandbackupx-syncthing-backup-android-phone-oabx-settings.jpg#small) |
 
 Te bardziej interesujące nas funkcje OAndBackupX, z którymi mogliśmy się zapoznać patrząc na
 powyższe fotki, to `Backup folder` , który określa katalog przechowywania kopi zapasowych. To
@@ -212,7 +212,7 @@ wybrać jeden z utworzonych wcześniej backup'ów:
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/018.oandbackupx-syncthing-backup-android-phone-restore.jpg#small) | ![](/img/2021/09/019.oandbackupx-syncthing-backup-android-phone-restore.jpg#small) |
+| ![oandbackupx-syncthing-backup-android-phone-restore](/img/2021/09/018.oandbackupx-syncthing-backup-android-phone-restore.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-restore](/img/2021/09/019.oandbackupx-syncthing-backup-android-phone-restore.jpg#small) |
 
 ### Rewizje kopi zapasowych
 
@@ -246,7 +246,7 @@ wykonywania kopi zapasowej jej danych.
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/013.oandbackupx-syncthing-backup-android-phone-oabx-apps.jpg#small) | ![](/img/2021/09/014.oandbackupx-syncthing-backup-android-phone-oabx-apps.jpg#small) |
+| ![oandbackupx-syncthing-backup-android-phone-oabx-apps](/img/2021/09/013.oandbackupx-syncthing-backup-android-phone-oabx-apps.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-oabx-apps](/img/2021/09/014.oandbackupx-syncthing-backup-android-phone-oabx-apps.jpg#small) |
 
 Najwyraźniej system Androida jest w stanie sam z siebie wysłać do aplikacji sygnał `SIGCONT`
 (zwłaszcza do tych systemowych aplikacji), gdy aktywnie korzystamy z telefonu. W takim przypadku
@@ -268,7 +268,7 @@ stanie skonfigurować automatyczne tworzenie backup'ów co pewien określony cza
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/011.oandbackupx-syncthing-backup-android-phone-oabx-sched.jpg#small) | ![](/img/2021/09/012.oandbackupx-syncthing-backup-android-phone-oabx-sched.jpg#small) |
+| ![oandbackupx-syncthing-backup-android-phone-oabx-sched](/img/2021/09/011.oandbackupx-syncthing-backup-android-phone-oabx-sched.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-oabx-sched](/img/2021/09/012.oandbackupx-syncthing-backup-android-phone-oabx-sched.jpg#small) |
 
 Jak widać na powyższych fotkach, mamy możliwość określenia co dokładnie ma podlegać pod backup oraz
 też kiedy ten proces tworzenia kopi zapasowej ma być przeprowadzany. U mnie co 7 dni w okolicy
@@ -288,7 +288,7 @@ backup'u w ustawieniach OAndBackupX.
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/015.oandbackupx-syncthing-backup-android-phone-files.jpg#small) | ![](/img/2021/09/016.oandbackupx-syncthing-backup-android-phone-files.jpg#small) | ![](/img/2021/09/017.oandbackupx-syncthing-backup-android-phone-files.jpg#small) |
+| ![oandbackupx-syncthing-backup-android-phone-files](/img/2021/09/015.oandbackupx-syncthing-backup-android-phone-files.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-files](/img/2021/09/016.oandbackupx-syncthing-backup-android-phone-files.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-files](/img/2021/09/017.oandbackupx-syncthing-backup-android-phone-files.jpg#small) |
 
 Jak widać, mamy tutaj plik `base.apk` , który umożliwia instalację danej aplikacji w Androidzie. To
 jest ten sam plik, który jest pobierany ze sklepu Google Play. Mamy też pliki `data.tar.gz` oraz
@@ -308,7 +308,7 @@ przypadku gdy korzystamy z mechanizmu rozgłoszeniowego.
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/020.oandbackupx-syncthing-backup-android-phone-sync-device.jpg#small) | ![](/img/2021/09/021.oandbackupx-syncthing-backup-android-phone-sync-device.jpg#small) | ![](/img/2021/09/022.oandbackupx-syncthing-backup-android-phone-sync-device.jpg#small) |
+| ![oandbackupx-syncthing-backup-android-phone-sync-device](/img/2021/09/020.oandbackupx-syncthing-backup-android-phone-sync-device.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-sync-device](/img/2021/09/021.oandbackupx-syncthing-backup-android-phone-sync-device.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-sync-device](/img/2021/09/022.oandbackupx-syncthing-backup-android-phone-sync-device.jpg#small) |
 
 Na komputerze, w panelu webowym Syncthing powinien pojawić się monit, że jakieś urządzenie wyraziło
 chęć parowania z naszą maszyną. Sprawdzamy ID i dodajemy to urządzenie do powiązanych.
@@ -326,7 +326,7 @@ wskazanie w Syncthing tego właśnie katalogu do synchronizacji:
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/026.oandbackupx-syncthing-backup-android-phone-sync-folder.jpg#small) | ![](/img/2021/09/027.oandbackupx-syncthing-backup-android-phone-sync-folder.jpg#small) | ![](/img/2021/09/028.oandbackupx-syncthing-backup-android-phone-sync-folder.jpg#small) |
+| ![oandbackupx-syncthing-backup-android-phone-sync-folder](/img/2021/09/026.oandbackupx-syncthing-backup-android-phone-sync-folder.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-sync-folder](/img/2021/09/027.oandbackupx-syncthing-backup-android-phone-sync-folder.jpg#small) | ![oandbackupx-syncthing-backup-android-phone-sync-folder](/img/2021/09/028.oandbackupx-syncthing-backup-android-phone-sync-folder.jpg#small) |
 
 Upewnijmy się, że udostępniamy ten katalog wcześniej sparowanej maszynie, tj. tej, której wcześniej
 kod QR skanowaliśmy, w tym przypadku `Morfikownia` .

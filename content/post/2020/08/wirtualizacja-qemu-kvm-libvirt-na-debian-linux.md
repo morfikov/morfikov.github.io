@@ -691,7 +691,7 @@ utworzony):
 
 |    |     |
 | ---| --- |
-| ![](/img/2020/08/014-virtualization-kvm-qemu-virt-manager-create-machine.png#medium) | ![](/img/2020/08/015-virtualization-kvm-qemu-virt-manager-create-machine-connect.png#medium) |
+| ![virtualization-kvm-qemu-virt-manager-create-machine](/img/2020/08/014-virtualization-kvm-qemu-virt-manager-create-machine.png#medium) | ![virtualization-kvm-qemu-virt-manager-create-machine-connect](/img/2020/08/015-virtualization-kvm-qemu-virt-manager-create-machine-connect.png#medium) |
 
 Następnie klikając w ikonkę monitora tworzymy maszynę wirtualną:
 

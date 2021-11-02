@@ -93,7 +93,7 @@ zrobić aby aplikacja była w stanie poprawnie działać. Poniżej przykład apl
 
 |     |    |
 | --- | ---|
-| ![](/img/2019/04/001-signal-google-play-services-missing.png#small) | ![](/img/2019/04/002-signal-google-play-services-missing.png#small) |
+| ![signal-google-play-services-missing](/img/2019/04/001-signal-google-play-services-missing.png#small) | ![signal-google-play-services-missing](/img/2019/04/002-signal-google-play-services-missing.png#small) |
 
 ### Brak sklepu Google Play
 
@@ -265,13 +265,13 @@ pojawić nowa pozycja `microG settings` . Odpalamy ją i przyznajemy uprawnienia
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/04/005-microg-missing-permissions.png#small) | ![](/img/2019/04/006-microg-missing-permissions.png#small) | ![](/img/2019/04/007-microg-missing-permissions.png#small) | ![](/img/2019/04/008-microg-missing-permissions.png#small) |
+| ![microg-missing-permissions](/img/2019/04/005-microg-missing-permissions.png#small) | ![microg-missing-permissions](/img/2019/04/006-microg-missing-permissions.png#small) | ![microg-missing-permissions](/img/2019/04/007-microg-missing-permissions.png#small) | ![microg-missing-permissions](/img/2019/04/008-microg-missing-permissions.png#small) |
 
 Następnie przeprowadzamy `Self-Check` :
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/04/009-microg-self-check-fail.png#small) | ![](/img/2019/04/010-microg-self-check-fail.png#small) | ![](/img/2019/04/011-microg-self-check-fail.png#small) | ![](/img/2019/04/012-microg-self-check-fail.png#small) |
+| ![microg-self-check-fail](/img/2019/04/009-microg-self-check-fail.png#small) | ![microg-self-check-fail](/img/2019/04/010-microg-self-check-fail.png#small) | ![microg-self-check-fail](/img/2019/04/011-microg-self-check-fail.png#small) | ![microg-self-check-fail](/img/2019/04/012-microg-self-check-fail.png#small) |
 
 No jak widać test nie wypadł po naszej myśli, bo powinny się zapalić wszystkie kontrolki, a w tym
 przypadku paru rzeczy brakuje. Te wszystkie zaistniałe problemy trzeba poprawić. Jeśli któryś z
@@ -304,7 +304,7 @@ Następnie odpalamy aplikację `MagiskManager` i instalujemy Xposed:
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/04/013-microg-magisk-xposed-installation.png#small) | ![](/img/2019/04/014-microg-magisk-xposed-installation.png#small) | ![](/img/2019/04/015-microg-magisk-xposed-installation.png#small) |
+| ![microg-magisk-xposed-installation](/img/2019/04/013-microg-magisk-xposed-installation.png#small) | ![microg-magisk-xposed-installation](/img/2019/04/014-microg-magisk-xposed-installation.png#small) | ![microg-magisk-xposed-installation](/img/2019/04/015-microg-magisk-xposed-installation.png#small) |
 
 I dociągamy również [XposedInstaller_3.1.5-Magisk.apk][17] i wrzucamy na telefon:
 
@@ -319,7 +319,7 @@ Po skończonym procesie instalacji Xposed, instalujemy moduł `FakeGApps by ther
 
 |     |    |
 | --- | ---|
-| ![](/img/2019/04/017-xposed-systemless-microg-fakegapps.png#small) | ![](/img/2019/04/018-xposed-systemless-microg-fakegapps.png#small) |
+| ![xposed-systemless-microg-fakegapps](/img/2019/04/017-xposed-systemless-microg-fakegapps.png#small) | ![xposed-systemless-microg-fakegapps](/img/2019/04/018-xposed-systemless-microg-fakegapps.png#small) |
 
 Po raz kolejny uruchamiamy urządzenie ponownie i sprawdzamy w logu Xposed czy są jakieś wzmianki na
 temat zwracania podrobionych sygnatur przez moduł `FakeGApps`:
@@ -334,7 +334,7 @@ pozycji:
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/04/020-microg-signature-spoofing-check.png#small) | ![](/img/2019/04/021-microg-signature-spoofing-check.png#small) | ![](/img/2019/04/022-microg-signature-spoofing-check.png#small) |
+| ![microg-signature-spoofing-check](/img/2019/04/020-microg-signature-spoofing-check.png#small) | ![microg-signature-spoofing-check](/img/2019/04/021-microg-signature-spoofing-check.png#small) | ![microg-signature-spoofing-check](/img/2019/04/022-microg-signature-spoofing-check.png#small) |
 
 No i jak widać, obecnie system mojego smartfona ma zapalone praktycznie wszystkie check'i. Pora
 zająć się tymi dwoma ostatnimi, czyli konfiguracją backend'ów lokalizacji.
@@ -350,31 +350,31 @@ jeden backend. [Tych backend'ów NLP jest kilka][19]. Na nasze potrzeby wystarcz
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/04/023-f-droid-nlp-backend-list.png#small) | ![](/img/2019/04/024-f-droid-nlp-backend-mozillanlpbackend.png#small) | ![](/img/2019/04/025-f-droid-nlp-backend-nominatimnlpbackend.png#small) |
+| ![f-droid-nlp-backend-list](/img/2019/04/023-f-droid-nlp-backend-list.png#small) | ![f-droid-nlp-backend-mozillanlpbackend](/img/2019/04/024-f-droid-nlp-backend-mozillanlpbackend.png#small) | ![f-droid-nlp-backend-nominatimnlpbackend](/img/2019/04/025-f-droid-nlp-backend-nominatimnlpbackend.png#small) |
 
 Teraz konfigurujemy backend'y w ustawieniach microG:
 
 |     |    |
 | --- | ---|
-| ![](/img/2019/04/026-microg-nlp-backend-configuration.png#small) | ![](/img/2019/04/027-microg-nlp-backend-configuration.png#small) |
+| ![microg-nlp-backend-configuration](/img/2019/04/026-microg-nlp-backend-configuration.png#small) | ![microg-nlp-backend-configuration](/img/2019/04/027-microg-nlp-backend-configuration.png#small) |
 
 Poniżej są ustawienia dla backend'u `MozillaNlpBackend` :
 
 |     |    |
 | --- | ---|
-| ![](/img/2019/04/028-f-microg-nlp-backend-mozillanlpbackend-configuration.png#small) | ![](/img/2019/04/029-f-microg-nlp-backend-mozillanlpbackend-configuration.png#small) |
+| ![f-microg-nlp-backend-mozillanlpbackend-configuration](/img/2019/04/028-f-microg-nlp-backend-mozillanlpbackend-configuration.png#small) | ![f-microg-nlp-backend-mozillanlpbackend-configuration](/img/2019/04/029-f-microg-nlp-backend-mozillanlpbackend-configuration.png#small) |
 
 A niżej ustawienia dla backend'u `NominatimNlpBackend`
 
 |     |    |
 | --- | ---|
-| ![](/img/2019/04/030-f-microg-nlp-backend-nominatimnlpbackend-configuration.png#small) | ![](/img/2019/04/031-f-microg-nlp-backend-nominatimnlpbackend-configuration.png#small) |
+| ![f-microg-nlp-backend-nominatimnlpbackend-configuration](/img/2019/04/030-f-microg-nlp-backend-nominatimnlpbackend-configuration.png#small) | ![f-microg-nlp-backend-nominatimnlpbackend-configuration](/img/2019/04/031-f-microg-nlp-backend-nominatimnlpbackend-configuration.png#small) |
 
 W ustawieniach Androida przestawiamy jeszcze tryb lokalizacji na ten o największej dokładności:
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/04/032-android-localization-mode.png#small) | ![](/img/2019/04/033-android-localization-mode.png#small) | ![](/img/2019/04/034-android-localization-mode-microg-fix.png#small) |
+| ![android-localization-mode](/img/2019/04/032-android-localization-mode.png#small) | ![android-localization-mode](/img/2019/04/033-android-localization-mode.png#small) | ![android-localization-mode-microg-fix](/img/2019/04/034-android-localization-mode-microg-fix.png#small) |
 
 Jeśli ostatnie dwie pozycje nie przejdą testu, to trzeba trochę poczekać, aż system ustali nasze
 położenie.
@@ -386,7 +386,7 @@ działa prawidłowo. Można zainstalować mapy OsmAnd+ i poczekać na pojawienie
 
 |     |    |
 | --- | ---|
-| ![](/img/2019/04/035-microg-gps-test-osmand-maps.png#small) | ![](/img/2019/04/036-microg-gps-test-osmand-maps.png#small) |
+| ![microg-gps-test-osmand-maps](/img/2019/04/035-microg-gps-test-osmand-maps.png#small) | ![microg-gps-test-osmand-maps](/img/2019/04/036-microg-gps-test-osmand-maps.png#small) |
 
 No i jak widać, mapy OsmAnd+ nie miały problemów ze skorzystaniem z GPS. W ustawieniach Androida
 widzimy także, że i inne aplikacje są w stanie bez problemu żądać lokalizacji GPS od microG, zatem
@@ -404,7 +404,7 @@ to musimy zezwolić na proces rejestracji swojego urządzenia. Drugą rzeczą je
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/04/037-microg-google-services-configuration.png#small) | ![](/img/2019/04/038-microg-google-device-registration.png#small) | ![](/img/2019/04/039-microg-google-cloud-messaging.png#small) |
+| ![microg-google-services-configuration](/img/2019/04/037-microg-google-services-configuration.png#small) | ![microg-google-device-registration](/img/2019/04/038-microg-google-device-registration.png#small) | ![microg-google-cloud-messaging](/img/2019/04/039-microg-google-cloud-messaging.png#small) |
 
 Od tego momentu nasz telefon będzie w stanie otrzymać powiadomienia PUSH przekazywane z serwerów
 Google.
@@ -417,7 +417,7 @@ urządzeniami, Firefox powinien zarejestrować się i otrzymać kilka wiadomośc
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/04/040-microg-push-notification-test-firefox.png#small) | ![](/img/2019/04/041-microg-push-notification-test-firefox.png#small) | ![](/img/2019/04/042-microg-push-notification-test-firefox.png#small) |
+| ![microg-push-notification-test-firefox](/img/2019/04/040-microg-push-notification-test-firefox.png#small) | ![microg-push-notification-test-firefox](/img/2019/04/041-microg-push-notification-test-firefox.png#small) | ![microg-push-notification-test-firefox](/img/2019/04/042-microg-push-notification-test-firefox.png#small) |
 
 Widać wyraźnie, że microG jest w stanie nawiązać i utrzymać połączenie z serwerami Google oraz
 odebrać od nich notyfikacje PUSH i przekazać je do konkretnych aplikacji. Zatem również i
@@ -447,8 +447,8 @@ konto Google:
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/04/044-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/045-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/046-microg-youtube-vanced-google-account.png#small) |
-| ![](/img/2019/04/047-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/048-microg-youtube-vanced-google-account.png#small) | ![](/img/2019/04/049-microg-youtube-vanced-google-account.png#small) |
+| ![microg-youtube-vanced-google-account](/img/2019/04/044-microg-youtube-vanced-google-account.png#small) | ![microg-youtube-vanced-google-account](/img/2019/04/045-microg-youtube-vanced-google-account.png#small) | ![microg-youtube-vanced-google-account](/img/2019/04/046-microg-youtube-vanced-google-account.png#small) |
+| ![microg-youtube-vanced-google-account](/img/2019/04/047-microg-youtube-vanced-google-account.png#small) | ![microg-youtube-vanced-google-account](/img/2019/04/048-microg-youtube-vanced-google-account.png#small) | ![microg-youtube-vanced-google-account](/img/2019/04/049-microg-youtube-vanced-google-account.png#small) |
 
 Stworzenie konta Google jak widać jest bezproblemowe i w pełni wspierane przez microG. Po
 zalogowaniu się w YouTube Vanced mamy w pełni działającą aplikację od YouTube. Zarejestrowała się
@@ -456,14 +456,14 @@ ona też w tym całym mechanizmie notyfikacji:
 
 |     |    |
 | --- | ---|
-| ![](/img/2019/04/050-microg-youtube-vanced-push-nitification.png#small) | ![](/img/2019/04/051-microg-youtube-vanced-push-nitification.png#small) |
+| ![microg-youtube-vanced-push-nitification](/img/2019/04/050-microg-youtube-vanced-push-nitification.png#small) | ![microg-youtube-vanced-push-nitification](/img/2019/04/051-microg-youtube-vanced-push-nitification.png#small) |
 
 Co do samego konta Google, to wypadałoby powiedzieć, że nawet po jego dodaniu cała masa rzeczy
 wymagających konta Google nie do końca będzie działać, np. synchronizacji danych:
 
 |     |    |
 | --- | ---|
-| ![](/img/2019/04/052-google-account-data-sync.png#small) | ![](/img/2019/04/053-google-account-data-sync.png#small) |
+| ![google-account-data-sync](/img/2019/04/052-google-account-data-sync.png#small) | ![google-account-data-sync](/img/2019/04/053-google-account-data-sync.png#small) |
 
 Oczywiście w przypadku innych aplikacji, które wspierają synchronizację, np. widoczny wyżej
 Firefox, ten proces jest jak najbardziej możliwy, bo to już od samej aplikacji zależy czy oferuje
@@ -471,7 +471,7 @@ ona tego typu funkcjonalność:
 
 |     |    |
 | --- | ---|
-| ![](/img/2019/04/054-firefox-sync-microg.png#small) | ![](/img/2019/04/055-firefox-sync-microg.png#small) |
+| ![firefox-sync-microg](/img/2019/04/054-firefox-sync-microg.png#small) | ![firefox-sync-microg](/img/2019/04/055-firefox-sync-microg.png#small) |
 
 W przypadku aplikacji od Google do synchronizacji wymagane jest Google Play Services i dlatego ta
 synchronizacja danych w naszym przypadku nie będzie możliwa.

@@ -127,7 +127,7 @@ wszystkim, w ustawieniach Androida mamy zwykle osobną pozycję dla lokalizacji:
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/001.android-mock-fake-location-gps-settings.jpg#small) | ![](/img/2021/09/002.android-mock-fake-location-gps-settings.jpg#small) |
+| ![android-mock-fake-location-gps-settings](/img/2021/09/001.android-mock-fake-location-gps-settings.jpg#small) | ![android-mock-fake-location-gps-settings](/img/2021/09/002.android-mock-fake-location-gps-settings.jpg#small) |
 
 To tutaj włączany jest odbiornik GPS, który umożliwia różnym aplikacjom korzystanie z danych
 lokalizacji. Warto zauważyć tutaj, że po włączeniu lokalizacji w tym okienku powyżej, na pasku
@@ -302,7 +302,7 @@ appce:
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/004.android-mock-fake-location-gps-app-permissions.jpg#small) | ![](/img/2021/09/005.android-mock-fake-location-gps-app-permissions.jpg#small) | ![](/img/2021/09/006.android-mock-fake-location-gps-app-permissions.jpg#small) |
+| ![android-mock-fake-location-gps-app-permissions](/img/2021/09/004.android-mock-fake-location-gps-app-permissions.jpg#small) | ![android-mock-fake-location-gps-app-permissions](/img/2021/09/005.android-mock-fake-location-gps-app-permissions.jpg#small) | ![android-mock-fake-location-gps-app-permissions](/img/2021/09/006.android-mock-fake-location-gps-app-permissions.jpg#small) |
 
 ### ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION oraz ACCESS_BACKGROUND_LOCATION
 
@@ -440,7 +440,7 @@ deweloperskich jako aplikację do pozorowania lokalizacji:
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/015.android-mock-fake-location-gps-fake-traveler-app.jpg#small) | ![](/img/2021/09/016.android-mock-fake-location-gps-fake-traveler-app.jpg#small) | ![](/img/2021/09/017.android-mock-fake-location-gps-fake-traveler-app.jpg#small) |
+| ![android-mock-fake-location-gps-fake-traveler-app](/img/2021/09/015.android-mock-fake-location-gps-fake-traveler-app.jpg#small) | ![android-mock-fake-location-gps-fake-traveler-app](/img/2021/09/016.android-mock-fake-location-gps-fake-traveler-app.jpg#small) | ![android-mock-fake-location-gps-fake-traveler-app](/img/2021/09/017.android-mock-fake-location-gps-fake-traveler-app.jpg#small) |
 
 ### Pozorowanie lokalizacji z Fake Traveler
 
@@ -455,7 +455,7 @@ OsmAnd+ czy Google Maps. W moim przypadku te appki zwracają poniższe wyniki:
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/019.android-mock-fake-location-gps-fake-traveler-app-check.jpg#small) | ![](/img/2021/09/020.android-mock-fake-location-gps-fake-traveler-app-check.jpg#small) |
+| ![android-mock-fake-location-gps-fake-traveler-app-check](/img/2021/09/019.android-mock-fake-location-gps-fake-traveler-app-check.jpg#small) | ![android-mock-fake-location-gps-fake-traveler-app-check](/img/2021/09/020.android-mock-fake-location-gps-fake-traveler-app-check.jpg#small) |
 
 No i proszę, według mojego telefonu jestem gdzieś na Syberii.
 
@@ -467,7 +467,7 @@ dostęp do lokalizacji cały czas:
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/021.android-mock-fake-location-gps-fake-traveler-app-settings.jpg#small) | ![](/img/2021/09/022.android-mock-fake-location-gps-fake-traveler-app-settings.jpg#small) |
+| ![android-mock-fake-location-gps-fake-traveler-app-settings](/img/2021/09/021.android-mock-fake-location-gps-fake-traveler-app-settings.jpg#small) | ![android-mock-fake-location-gps-fake-traveler-app-settings](/img/2021/09/022.android-mock-fake-location-gps-fake-traveler-app-settings.jpg#small) |
 
 ## Robienie zdjęć z pozorowaną lokalizacją
 

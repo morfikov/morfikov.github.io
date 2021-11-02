@@ -175,7 +175,7 @@ zeskanowanej strony ale potraktowanej `-fuzz 25%` , `-fuzz 50%` oraz `-fuzz 80%`
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/10/004.scan-image-laser-printer-print-convert-fuzz.jpg#small) | ![](/img/2021/10/005.scan-image-laser-printer-print-convert-fuzz.jpg#small) | ![](/img/2021/10/006.scan-image-laser-printer-print-convert-fuzz.jpg#small) |
+| ![scan-image-laser-printer-print-convert-fuzz](/img/2021/10/004.scan-image-laser-printer-print-convert-fuzz.jpg#small) | ![scan-image-laser-printer-print-convert-fuzz](/img/2021/10/005.scan-image-laser-printer-print-convert-fuzz.jpg#small) | ![scan-image-laser-printer-print-convert-fuzz](/img/2021/10/006.scan-image-laser-printer-print-convert-fuzz.jpg#small) |
 
 No jak widać, w zależności od wartości `-fuzz` , tekst staje się mniej/bardziej czytelny. Im
 bardziej tekst będzie czytelny, tym też więcej szumu tła będzie na kartce, który zostanie później

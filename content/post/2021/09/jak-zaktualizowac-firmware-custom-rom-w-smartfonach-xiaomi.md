@@ -168,7 +168,7 @@ do pliku z firmware:
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/004.xiaomi-redmi-9-firmware-shrp-update.png#small) | ![](/img/2021/09/005.xiaomi-redmi-9-firmware-shrp-update.png#small) | ![](/img/2021/09/006.xiaomi-redmi-9-firmware-shrp-update.png#small) |
+| ![xiaomi-redmi-9-firmware-shrp-update](/img/2021/09/004.xiaomi-redmi-9-firmware-shrp-update.png#small) | ![xiaomi-redmi-9-firmware-shrp-update](/img/2021/09/005.xiaomi-redmi-9-firmware-shrp-update.png#small) | ![xiaomi-redmi-9-firmware-shrp-update](/img/2021/09/006.xiaomi-redmi-9-firmware-shrp-update.png#small) |
 
 ## Podsumowanie
 

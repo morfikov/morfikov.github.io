@@ -178,7 +178,7 @@ Samo posiadanie konta Mi nam nic nie daje. Musimy także w ustawieniach telefonu
 
 |   |   |
 |---|---|
-| ![](/img/2021/08/031-xiaomi-redmi-9-linux-aosp-bootloader-mi-account-phone.jpg#small) | ![](/img/2021/08/032-xiaomi-redmi-9-linux-aosp-bootloader-mi-account-phone.jpg#small) |
+| ![xiaomi-redmi-9-linux-aosp-bootloader-mi-account-phone](/img/2021/08/031-xiaomi-redmi-9-linux-aosp-bootloader-mi-account-phone.jpg#small) | ![xiaomi-redmi-9-linux-aosp-bootloader-mi-account-phone](/img/2021/08/032-xiaomi-redmi-9-linux-aosp-bootloader-mi-account-phone.jpg#small) |
 
 Poniżej znajdują się wszystkie dane, które można ze smartfona wyciągnąć odnośnie jego specyfikacji,
 tak by uniknąć ewentualnych pytań czy to urządzenie, które ja mam, jest faktycznie tym samym, które
@@ -186,7 +186,7 @@ ktoś inny może posiadać:
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/08/001-xiaomi-redmi-9-linux-aosp-bootloader-phone-info.jpg#small) | ![](/img/2021/08/002-xiaomi-redmi-9-linux-aosp-bootloader-phone-specs.jpg#small) | ![](/img/2021/08/003-xiaomi-redmi-9-linux-aosp-bootloader-model-hardware.jpg#small) |
+| ![xiaomi-redmi-9-linux-aosp-bootloader-phone-info](/img/2021/08/001-xiaomi-redmi-9-linux-aosp-bootloader-phone-info.jpg#small) | ![xiaomi-redmi-9-linux-aosp-bootloader-phone-specs](/img/2021/08/002-xiaomi-redmi-9-linux-aosp-bootloader-phone-specs.jpg#small) | ![xiaomi-redmi-9-linux-aosp-bootloader-model-hardware](/img/2021/08/003-xiaomi-redmi-9-linux-aosp-bootloader-model-hardware.jpg#small) |
 
 Dodanie konta Mi w ustawieniach telefonu otwiera nam drogę do powiązania takiego urządzenia z tym
 kontem. W celu powiązania naszego smartfona z kontem Mi, musimy skorzystać z opcji deweloperskich.
@@ -197,7 +197,7 @@ przypisuje się smartfon do konta Mi:
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/08/004-xiaomi-redmi-9-linux-aosp-bootloader-settings.jpg#small) | ![](/img/2021/08/005-xiaomi-redmi-9-linux-aosp-bootloader-settings.jpg#small) | ![](/img/2021/08/006-xiaomi-redmi-9-linux-aosp-bootloader-additional-settings.jpg#small) |
+| ![xiaomi-redmi-9-linux-aosp-bootloader-settings](/img/2021/08/004-xiaomi-redmi-9-linux-aosp-bootloader-settings.jpg#small) | ![xiaomi-redmi-9-linux-aosp-bootloader-settings](/img/2021/08/005-xiaomi-redmi-9-linux-aosp-bootloader-settings.jpg#small) | ![xiaomi-redmi-9-linux-aosp-bootloader-additional-settings](/img/2021/08/006-xiaomi-redmi-9-linux-aosp-bootloader-additional-settings.jpg#small) |
 
 Na liście ustawień deweloperskich trzeba odszukać pozycję `Mi Unlock status` . Urządzenie
 przypisuje się do konta Mi w zasadzie tylko raz ale są pewne wymagania, by takie powiązanie
@@ -207,7 +207,7 @@ przycisk `Add account and device` u dołu ekranu:
 
 |   |   |   |   |
 |---|---|---|---|
-| ![](/img/2021/08/007-xiaomi-redmi-9-linux-aosp-bootloader-developer-options.jpg#small) | ![](/img/2021/08/008-xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status.jpg#small) | ![](/img/2021/08/009-xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status.jpg#small) | ![](/img/2021/08/010-xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status.jpg#small) |
+| ![xiaomi-redmi-9-linux-aosp-bootloader-developer-options](/img/2021/08/007-xiaomi-redmi-9-linux-aosp-bootloader-developer-options.jpg#small) | ![xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status](/img/2021/08/008-xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status.jpg#small) | ![xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status](/img/2021/08/009-xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status.jpg#small) | ![xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status](/img/2021/08/010-xiaomi-redmi-9-linux-aosp-bootloader-mi-unlock-status.jpg#small) |
 
 Po chwili, powiązanie powinno zakończyć się powodzeniem, o czym poinformuje nas odpowiedni
 komunikat:

@@ -74,7 +74,7 @@ plastikowe elementy.
 
 |    |     |
 | ---| --- |
-| ![](/img/2017/04/011.neffos-x1-tp-link-smartfon-obudowa-plastik.jpg#medium) | ![](/img/2017/04/010.neffos-x1-tp-link-smartfon-obudowa-plastik.jpg#small) |
+| ![neffos-x1-tp-link-smartfon-obudowa-plastik](/img/2017/04/011.neffos-x1-tp-link-smartfon-obudowa-plastik.jpg#medium) | ![neffos-x1-tp-link-smartfon-obudowa-plastik](/img/2017/04/010.neffos-x1-tp-link-smartfon-obudowa-plastik.jpg#small) |
 
 Może i za sprawą tej "nie do końca" metalowej obudowy Neffos X1 prezentuje się całkiem przyzwoicie
 ale też tego urządzenia nie da się za bardzo trzymać w sposób pewny. Ten metal jest bardzo śliski, a

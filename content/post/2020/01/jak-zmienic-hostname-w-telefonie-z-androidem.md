@@ -166,7 +166,7 @@ Szukając jeszcze głębiej, doszukałem się w opcjach deweloperskich pozycji `
 
 |     |    |
 | --- | ---|
-| ![](/img/2020/01/003-android-dev-options-device-hostname.png#small) | ![](/img/2020/01/004-android-dev-options-device-hostname.png#small) |
+| ![android-dev-options-device-hostname](/img/2020/01/003-android-dev-options-device-hostname.png#small) | ![android-dev-options-device-hostname](/img/2020/01/004-android-dev-options-device-hostname.png#small) |
 
 Dopiero zmiana nazwy hosta w opcjach deweloperskich przyniosła pożądany skutek, tj. po restarcie
 telefonu, w zapytaniu DHCP jest przesyłany ten hostname, który sobie tutaj ustawimy.

@@ -52,8 +52,8 @@ to urządzenie w kształcie nieco przerośniętego kurzego jaja. Dokładne wymia
 
 |   |   |
 |---|---|
-| ![](/img/2017/02/004.nc450-tp-link-kamera-ip-przod.jpg#medium) | ![](/img/2017/02/005.nc450-tp-link-kamera-ip-tyl.jpg#medium) |
-| ![](/img/2017/02/006.nc450-tp-link-kamera-ip-bok1.jpg#medium) | ![](/img/2017/02/007.nc450-tp-link-kamera-ip-bok2.jpg#medium) |
+| ![nc450-tp-link-kamera-ip-przod](/img/2017/02/004.nc450-tp-link-kamera-ip-przod.jpg#medium) | ![nc450-tp-link-kamera-ip-tyl](/img/2017/02/005.nc450-tp-link-kamera-ip-tyl.jpg#medium) |
+| ![nc450-tp-link-kamera-ip-bok1](/img/2017/02/006.nc450-tp-link-kamera-ip-bok1.jpg#medium) | ![nc450-tp-link-kamera-ip-bok2](/img/2017/02/007.nc450-tp-link-kamera-ip-bok2.jpg#medium) |
 
 Na bokach kamery mamy szereg otworów, choć dziurki są tylko z jednej strony (może zapomnieli
 dowiercić z drugiej):
@@ -97,8 +97,8 @@ w poziomie (300°) oraz pionie (110°), co zapewnia dość szerokie pole widzeni
 
 |   |   |
 |---|---|
-| ![](/img/2017/02/009.nc450-tp-link-kamera-ip-poziom1.jpg#medium) | ![](/img/2017/02/010.nc450-tp-link-kamera-ip-poziom2.jpg#medium) |
-| ![](/img/2017/02/011.nc450-tp-link-kamera-ip-pion1.jpg#medium) | ![](/img/2017/02/012.nc450-tp-link-kamera-ip-pion2.jpg#medium) |
+| ![nc450-tp-link-kamera-ip-poziom1](/img/2017/02/009.nc450-tp-link-kamera-ip-poziom1.jpg#medium) | ![nc450-tp-link-kamera-ip-poziom2](/img/2017/02/010.nc450-tp-link-kamera-ip-poziom2.jpg#medium) |
+| ![nc450-tp-link-kamera-ip-pion1](/img/2017/02/011.nc450-tp-link-kamera-ip-pion1.jpg#medium) | ![nc450-tp-link-kamera-ip-pion2](/img/2017/02/012.nc450-tp-link-kamera-ip-pion2.jpg#medium) |
 
 Co ciekawe, kamerą można obracać również programowo czy to przez aplikację na smartfona (tpCamera),
 czy też przez panel administracyjny z poziomu przeglądarki. Zatem możemy uzyskać podgląd z dowolnego
@@ -158,7 +158,7 @@ metry.
 
 |   |   |
 |---|---|
-| ![](/img/2017/02/020.nc450-tp-link-kamera-ip-zasilacz.jpg#medium) | ![](/img/2017/02/021.nc450-tp-link-kamera-ip-zasilacz-info.jpg#medium) |
+| ![nc450-tp-link-kamera-ip-zasilacz](/img/2017/02/020.nc450-tp-link-kamera-ip-zasilacz.jpg#medium) | ![nc450-tp-link-kamera-ip-zasilacz-info](/img/2017/02/021.nc450-tp-link-kamera-ip-zasilacz-info.jpg#medium) |
 
 Nasza kamera jest zatem w stanie pociągnąć do 12 Wat energii na godzinę. A jak jest w istocie? W
 zasadzie ta kamera podłączona przewodowo z podpiętym jednym klientem pobiera około 2,5W. W przypadku
@@ -175,9 +175,9 @@ regulowana podstawka, którą można przykręcić do spodu kamery:
 
 |   |   |
 |---|---|
-| ![](/img/2017/02/022.nc450-tp-link-kamera-ip-uchwyt1.jpg#medium) | ![](/img/2017/02/023.nc450-tp-link-kamera-ip-uchwyt2.jpg#medium) |
-| ![](/img/2017/02/024.nc450-tp-link-kamera-ip-urchwyt3.jpg#medium) | ![](/img/2017/02/025.nc450-tp-link-kamera-ip-spod.jpg#medium) |
-| ![](/img/2017/02/026.nc450-tp-link-kamera-ip-srubki.jpg#medium) |
+| ![nc450-tp-link-kamera-ip-uchwyt1](/img/2017/02/022.nc450-tp-link-kamera-ip-uchwyt1.jpg#medium) | ![nc450-tp-link-kamera-ip-uchwyt2](/img/2017/02/023.nc450-tp-link-kamera-ip-uchwyt2.jpg#medium) |
+| ![nc450-tp-link-kamera-ip-urchwyt3](/img/2017/02/024.nc450-tp-link-kamera-ip-urchwyt3.jpg#medium) | ![nc450-tp-link-kamera-ip-spod](/img/2017/02/025.nc450-tp-link-kamera-ip-spod.jpg#medium) |
+| ![nc450-tp-link-kamera-ip-srubki](/img/2017/02/026.nc450-tp-link-kamera-ip-srubki.jpg#medium) |
 
 Ta podstawka jest solidna, choć wykonana z plastiku. Jak widać wyżej, uchwyt ma możliwość regulacji.
 Dobrze, że w tej kamerze nie ma już tego śmiesznego kulkowego regulatora, który się odkręcał przy

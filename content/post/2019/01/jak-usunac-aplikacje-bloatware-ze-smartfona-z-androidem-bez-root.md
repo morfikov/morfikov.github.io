@@ -42,7 +42,7 @@ Poniżej fotki:
 
 |     |    |
 | --- | ---|
-| ![](/img/2019/01/001-android-disable-apps.png#small) | ![](/img/2019/01/002-android-disable-apps.png#small) |
+| ![android-disable-apps](/img/2019/01/001-android-disable-apps.png#small) | ![android-disable-apps](/img/2019/01/002-android-disable-apps.png#small) |
 
 Każda wyłączona w ten sposób aplikacja już nam się automatycznie nie uruchomi. Co prawda, w dalszym
 ciągu taka aplikacja jest obecna w systemie ale z racji, że jest ona nieaktywna, to możemy o niej
@@ -61,7 +61,7 @@ od producenta telefonu:
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/01/004-android-force-stop-apps-stock.png#small) | ![](/img/2019/01/005-android-force-stop-apps-stock.png#small) |
+| ![android-force-stop-apps-stock](/img/2019/01/004-android-force-stop-apps-stock.png#small) | ![android-force-stop-apps-stock](/img/2019/01/005-android-force-stop-apps-stock.png#small) |
 
 Zamiast tych aplikacji używam otwartoźródłowego VLC. Niemniej jednak, mimo, że nie korzystam z
 żadnego z tych dwóch preinstalowanych odtwarzaczy video, to i tak nie mam możliwości ich trwałego

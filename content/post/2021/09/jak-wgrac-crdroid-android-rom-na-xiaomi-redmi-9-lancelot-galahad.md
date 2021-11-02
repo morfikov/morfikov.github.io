@@ -95,13 +95,13 @@ najpierw czyścimy `Cache` oraz `Dalvik`/`ART Cache` :
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/001.crdroid-android-rom-xiaomi-redmi-9-shrp.png#small) | ![](/img/2021/09/002.crdroid-android-rom-xiaomi-redmi-9-shrp-wipe.png#small) | ![](/img/2021/09/003.crdroid-android-rom-xiaomi-redmi-9-shrp-wipe-cache.png#small) |
+| ![crdroid-android-rom-xiaomi-redmi-9-shrp](/img/2021/09/001.crdroid-android-rom-xiaomi-redmi-9-shrp.png#small) | ![crdroid-android-rom-xiaomi-redmi-9-shrp-wipe](/img/2021/09/002.crdroid-android-rom-xiaomi-redmi-9-shrp-wipe.png#small) | ![crdroid-android-rom-xiaomi-redmi-9-shrp-wipe-cache](/img/2021/09/003.crdroid-android-rom-xiaomi-redmi-9-shrp-wipe-cache.png#small) |
 
 Następnie z poziomu `Wipe` wybieramy `Format Data` i potwierdzamy przez wpisanie `yes` :
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/004.crdroid-android-rom-xiaomi-redmi-9-shrp-wipe.png#small) | ![](/img/2021/09/005.crdroid-android-rom-xiaomi-redmi-9-shrp-wipe-format-data.png#small) |
+| ![crdroid-android-rom-xiaomi-redmi-9-shrp-wipe](/img/2021/09/004.crdroid-android-rom-xiaomi-redmi-9-shrp-wipe.png#small) | ![crdroid-android-rom-xiaomi-redmi-9-shrp-wipe-format-data](/img/2021/09/005.crdroid-android-rom-xiaomi-redmi-9-shrp-wipe-format-data.png#small) |
 
 Ten krok efektywnie usunie wszystkie dane z partycji `/data/` . Zostaną także usunięte klucze
 szyfrujące. Później podczas konfigurowania nowego ROM'u zostaną wygenerowane nowe klucze, przez co
@@ -136,7 +136,7 @@ wgrać na stałe. Po pobraniu tego pliku, instalujemy go w standardowy sposób:
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/09/006.crdroid-android-rom-xiaomi-redmi-9-shrp.png#small) | ![](/img/2021/09/007.crdroid-android-rom-xiaomi-redmi-9-shrp-flash-firmware.png#small) | ![](/img/2021/09/008.crdroid-android-rom-xiaomi-redmi-9-shrp-flash-firmware-success.png#small) |
+| ![crdroid-android-rom-xiaomi-redmi-9-shrp](/img/2021/09/006.crdroid-android-rom-xiaomi-redmi-9-shrp.png#small) | ![crdroid-android-rom-xiaomi-redmi-9-shrp-flash-firmware](/img/2021/09/007.crdroid-android-rom-xiaomi-redmi-9-shrp-flash-firmware.png#small) | ![crdroid-android-rom-xiaomi-redmi-9-shrp-flash-firmware-success](/img/2021/09/008.crdroid-android-rom-xiaomi-redmi-9-shrp-flash-firmware-success.png#small) |
 
 ## Wgranie ROM'u crDroid Anadroid na Redmi 9
 
@@ -162,7 +162,7 @@ Po pobraniu ROM'u, wrzucamy go na telefon i instalujemy z poziomu SHRP recovery:
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/010.crdroid-android-rom-xiaomi-redmi-9-shrp-flash-crdroid-rom.png#small) | ![](/img/2021/09/011.crdroid-android-rom-xiaomi-redmi-9-shrp-flash-crdroid-rom.png#small) |
+| ![crdroid-android-rom-xiaomi-redmi-9-shrp-flash-crdroid-rom](/img/2021/09/010.crdroid-android-rom-xiaomi-redmi-9-shrp-flash-crdroid-rom.png#small) | ![crdroid-android-rom-xiaomi-redmi-9-shrp-flash-crdroid-rom](/img/2021/09/011.crdroid-android-rom-xiaomi-redmi-9-shrp-flash-crdroid-rom.png#small) |
 
 ### GAPPS (opcjonalne)
 
@@ -204,7 +204,7 @@ przedstawione. Chodzi generalnie o [moduł Magisk'a zwany microG Installer Reviv
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/013.crdroid-android-rom-xiaomi-redmi-9-magisk-microg.jpg#small) | ![](/img/2021/09/014.crdroid-android-rom-xiaomi-redmi-9-magisk-microg-info.jpg#small) |
+| ![crdroid-android-rom-xiaomi-redmi-9-magisk-microg](/img/2021/09/013.crdroid-android-rom-xiaomi-redmi-9-magisk-microg.jpg#small) | ![crdroid-android-rom-xiaomi-redmi-9-magisk-microg-info](/img/2021/09/014.crdroid-android-rom-xiaomi-redmi-9-magisk-microg-info.jpg#small) |
 
 Przy pomocy tego modułu, wszystkie potrzebne pliki zostaną umieszczone w swoich lokalizacjach i
 odpowiednio skonfigurowane do pracy. Praktycznie nic od nas nie jest wymagane, by microG zaczął
@@ -213,7 +213,7 @@ odpada nam też potrzeba wgrywania i konfigurowania Xposed.
 
 |   |   |
 |---|---|
-| ![](/img/2021/09/015.crdroid-android-rom-xiaomi-redmi-9-microg-settings.jpg#small) | ![](/img/2021/09/016.crdroid-android-rom-xiaomi-redmi-9-microg-self-check.jpg#small) |
+| ![crdroid-android-rom-xiaomi-redmi-9-microg-settings](/img/2021/09/015.crdroid-android-rom-xiaomi-redmi-9-microg-settings.jpg#small) | ![crdroid-android-rom-xiaomi-redmi-9-microg-self-check](/img/2021/09/016.crdroid-android-rom-xiaomi-redmi-9-microg-self-check.jpg#small) |
 
 ### A co z SafetyNet
 

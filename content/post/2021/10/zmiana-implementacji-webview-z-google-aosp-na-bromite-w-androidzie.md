@@ -45,7 +45,7 @@ ma preinstalowany taki WebView domyślnie, choć jego implementacje mogą się n
 
 |   |   |
 |---|---|
-| ![](/img/2021/10/001.bromite-aosp-google-webview-developer-options.jpg#small) | ![](/img/2021/10/002.bromite-aosp-google-webview-developer-options.jpg#small) |
+| ![bromite-aosp-google-webview-developer-options](/img/2021/10/001.bromite-aosp-google-webview-developer-options.jpg#small) | ![bromite-aosp-google-webview-developer-options](/img/2021/10/002.bromite-aosp-google-webview-developer-options.jpg#small) |
 
 W przypadku integracji ROM'u z usługami od Google, za implementacje WebView będzie robił Google
 System WebView (oparty na Chrome). W ten sposób każda strona WWW, która zostanie otworzona wewnątrz
@@ -290,7 +290,7 @@ widnieje `Bromite System WebView` , tak jak na poniższym obrazku:
 
 |   |   |
 |---|---|
-| ![](/img/2021/10/003.bromite-aosp-google-webview-developer-options.jpg#small) | ![](/img/2021/10/004.bromite-aosp-google-webview-developer-options.jpg#small) |
+| ![bromite-aosp-google-webview-developer-options](/img/2021/10/003.bromite-aosp-google-webview-developer-options.jpg#small) | ![bromite-aosp-google-webview-developer-options](/img/2021/10/004.bromite-aosp-google-webview-developer-options.jpg#small) |
 
 Jeśli mamy podobny wynik, to znaczy, że z powodzeniem udało nam się zastąpić implementację WebView
 od Google/AOSP tą od Bromite.
@@ -322,7 +322,7 @@ Możemy też zrobić test oferowany przez Bromite w tej appce WebView Test. Powi
 
 |   |   |
 |---|---|
-| ![](/img/2021/10/012.bromite-aosp-google-webview-test.jpg#small) | ![](/img/2021/10/013.bromite-aosp-google-webview-test.jpg#small) |
+| ![bromite-aosp-google-webview-test](/img/2021/10/012.bromite-aosp-google-webview-test.jpg#small) | ![bromite-aosp-google-webview-test](/img/2021/10/013.bromite-aosp-google-webview-test.jpg#small) |
 
 ## Repozytorium F-Droid dla Bromite
 
@@ -334,7 +334,7 @@ przebiegać o wiele sprawniej i szybciej.
 
 |   |   |
 |---|---|
-| ![](/img/2021/10/007.bromite-aosp-google-webview-f-droid-repo.jpg#small) | ![](/img/2021/10/008.bromite-aosp-google-webview-f-droid-repo.jpg#small) |
+| ![bromite-aosp-google-webview-f-droid-repo](/img/2021/10/007.bromite-aosp-google-webview-f-droid-repo.jpg#small) | ![bromite-aosp-google-webview-f-droid-repo](/img/2021/10/008.bromite-aosp-google-webview-f-droid-repo.jpg#small) |
 
 ## Magisk i moduł WebView Switcher
 
@@ -345,7 +345,7 @@ partycji `/system/` czy `/product/` .
 
 |   |   |
 |---|---|
-| ![](/img/2021/10/009.bromite-aosp-google-webview-magisk-module.jpg#small) | ![](/img/2021/10/010.bromite-aosp-google-webview-magisk-module.jpg#small) |
+| ![bromite-aosp-google-webview-magisk-module](/img/2021/10/009.bromite-aosp-google-webview-magisk-module.jpg#small) | ![bromite-aosp-google-webview-magisk-module](/img/2021/10/010.bromite-aosp-google-webview-magisk-module.jpg#small) |
 
 Postanowiłem zatem przywrócić wszystko na swoje miejsce i sprawdzić jak WebView Switcher sobie
 poradzi ze zmianą WebView w Androidzie mojego smartfona.

@@ -154,8 +154,8 @@ Tak ten modem wygląda z obu stron:
 
 |   |   |
 |---|---|
-| ![](/img/2016/12/024.archer-mr200-tp-link-router-lte-modem.jpg#medium) | ![](/img/2016/12/025.archer-mr200-tp-link-router-lte-modem.jpg#medium) |
-| ![](/img/2016/12/026.archer-mr200-tp-link-router-lte-modem.jpg#medium) | ![](/img/2016/12/027.archer-mr200-tp-link-router-lte-modem.jpg#medium) |
+| ![archer-mr200-tp-link-router-lte-modem](/img/2016/12/024.archer-mr200-tp-link-router-lte-modem.jpg#medium) | ![archer-mr200-tp-link-router-lte-modem](/img/2016/12/025.archer-mr200-tp-link-router-lte-modem.jpg#medium) |
+| ![archer-mr200-tp-link-router-lte-modem](/img/2016/12/026.archer-mr200-tp-link-router-lte-modem.jpg#medium) | ![archer-mr200-tp-link-router-lte-modem](/img/2016/12/027.archer-mr200-tp-link-router-lte-modem.jpg#medium) |
 
 Na PCB modemu znajduje się czip LTE [Qualcomm
 MDM9225](https://www.qualcomm.com/news/releases/2013/02/25/qualcomm-first-demonstrate-lte-advanced-carrier-aggregation-enables)

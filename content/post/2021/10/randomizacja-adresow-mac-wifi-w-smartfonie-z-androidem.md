@@ -40,7 +40,7 @@ sieci WiFi ma być wykorzystywany fizyczny adres MAC czy też bliżej nieokreśl
 
 |   |   |   |
 |---|---|---|
-| ![](/img/2021/10/001.android-wifi-mac-address-randomization-settings.jpg#small) | ![](/img/2021/10/002.android-wifi-mac-address-randomization-settings.jpg#small) | ![](/img/2021/10/003.android-wifi-mac-address-randomization-settings.jpg#small) |
+| ![android-wifi-mac-address-randomization-settings](/img/2021/10/001.android-wifi-mac-address-randomization-settings.jpg#small) | ![android-wifi-mac-address-randomization-settings](/img/2021/10/002.android-wifi-mac-address-randomization-settings.jpg#small) | ![android-wifi-mac-address-randomization-settings](/img/2021/10/003.android-wifi-mac-address-randomization-settings.jpg#small) |
 
 W taki oto prosty sposób możemy sprecyzować sobie by przy połączeniu do konkretnych sieci WiFi był
 wykorzystywany fizyczny adres MAC urządzenia, a w przypadku pozostałych sieci losowy MAC. Takie
@@ -71,7 +71,7 @@ deweloperskich, przewijamy ustawienia, aż zauważymy pozycję `WiFi enhanced MA
 
 |   |   |
 |---|---|
-| ![](/img/2021/10/004.android-wifi-mac-address-randomization-developer-options.jpg#small) | ![](/img/2021/10/005.android-wifi-mac-address-randomization-developer-options.jpg#small) |
+| ![android-wifi-mac-address-randomization-developer-options](/img/2021/10/004.android-wifi-mac-address-randomization-developer-options.jpg#small) | ![android-wifi-mac-address-randomization-developer-options](/img/2021/10/005.android-wifi-mac-address-randomization-developer-options.jpg#small) |
 
 W przypadku mojego Xiaomi Redmi 9, opcja `WiFi enhanced MAC randomization` była wyłączona domyślnie
 i trzeba ją było ręcznie przestawić.

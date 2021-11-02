@@ -111,7 +111,7 @@ dodatkowe linki, np. do oficjalnego forum czy kodu źródłowego.
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/12/003-signal-app-google-play.png#small) | ![](/img/2019/12/004-signal-app-google-play.png#small) |![](/img/2019/12/005-signal-app-google-play.png#small) |
+| ![signal-app-google-play](/img/2019/12/003-signal-app-google-play.png#small) | ![signal-app-google-play](/img/2019/12/004-signal-app-google-play.png#small) | ![signal-app-google-play](/img/2019/12/005-signal-app-google-play.png#small) |
 
 Nie zawsze jednak wszystkie te informacje będą podane tak jak w przypadku tej powyższej aplikacji.
 Ja generalnie zalecam trzymanie się z dala od tych appek, których identyfikacja podmiotu jest
@@ -685,7 +685,7 @@ telefon plik pobrany z serwisu apkmirror i zobaczyć co się w takim przypadku s
 
 |     |    |     |
 | --- | ---| --- |
-| ![](/img/2019/12/009-signal-apk-install-apkmirror.png#small) | ![](/img/2019/12/010-signal-apk-install-apkmirror.png#small) |![](/img/2019/12/011-signal-apk-install-apkmirror.png#small) |
+| ![signal-apk-install-apkmirror](/img/2019/12/009-signal-apk-install-apkmirror.png#small) | ![signal-apk-install-apkmirror](/img/2019/12/010-signal-apk-install-apkmirror.png#small) | ![signal-apk-install-apkmirror](/img/2019/12/011-signal-apk-install-apkmirror.png#small) |
 
 Jak widać po fotkach wyżej, paczka `.apk` bez problemu się zainstalowała w systemie dokładnie w
 taki sam sposób jakbym aktualizował ją via sklep Google Play (tylko w tym przypadku trzeba
