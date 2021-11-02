@@ -152,12 +152,12 @@ przeprowadzić segmentację danych. Zmniejsza to ilość operacji jaką musi prz
 procesor komputera czyniąc cały proces bardziej efektywnym.</p>
 <p>Poniżej fotka z wireshark'a obrazująca wymianę danych z serwerem www zamkniętym w kontenerze
 LXC:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/1.wireshark-odciazenie-segmentacji-tso.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/1.wireshark-odciazenie-segmentacji-tso.png" alt="wireshark-odciazenie-segmentacji-tso"    class="huge"></p>
 <p>Długość kilku pakietów wynosi tam 7306 bajtów. Jest to parokrotnie więcej niż przewidziane 1514
 bajtów. Jeśli przyjrzymy się procesowi witania (three-way handshake), to dostrzeżemy, że obie
 strony zgodziły się słać pakiety o wartości MSS 1460. Fragmentacja pakietu IP nie występuje, w
 przypadku gdyby ktoś był ciekaw:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/2.brak-fragmentacji-tso.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/2.brak-fragmentacji-tso.png" alt="brak-fragmentacji-tso"    class="huge"></p>
 <p>Ten pakiet widoczny wyżej może być oczywiście większy ale czemu on ma taki rozmiar? W całą zabawę
 zamieszany jest rozmiar bufora (okna) odbiorczego TCP. Im jest on większy, tym można przesłać więcej
 danych w jednym pakiecie. Zwykle ten mechanizm jest jak najbardziej użyteczny ale jeśli potrzebujemy
@@ -384,5 +384,18 @@ konfiguracji interfejsu na maszynie wirtualnej oraz na hoście poniższą linijk
   diameter: 40,
   textColor: '#c3c3c3'
 })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
 </body>
 </html>

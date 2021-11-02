@@ -186,7 +186,7 @@ GPG/PGP i celem tego artykułu jest pokazanie właśnie jak tego typu zabieg prz
 <p>Z chwilą zainstalowania Thunderbird'a w wersji 78, po jego uruchomieniu przywita nas informacja, z
 której to możemy wyczytać, że OpenPGP stało się częścią Thunderbird'a oraz, że jest to ostatnia
 wersja Enigmail, która zostanie wydana:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/001-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/001-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>Jak widać wyżej, mamy przycisk migracji ale nie będziemy z niego korzystać. Ta opcja jest raczej
 tylko dla tych osób, które chciałby zaimportować wszystkie swoje klucze do keyring'a Thunderbird'a.
 My jednak chcemy robić użytek z systemowego <code>gpg</code> , zatem całą &quot;migrację&quot; trzeba będzie
@@ -197,7 +197,7 @@ musimy go nieco przymusić do korzystania z systemowych kluczy GPG/PGP. W tym ce
 Thunderbird'a i przechodzimy kolejno w menu do <code>Edit</code> &gt; <code>Preferences</code> &gt; <code>General</code> i na samym dole
 wybieramy <code>Config Editor</code> . Odszukujemy klucz <code>mail.openpgp.allow_external_gnupg</code> i ustawiamy jego
 wartość na <code>true</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/002-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/002-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <h2 id="przypisywanie-kluczy-gpgpgp-do-kont-email">Przypisywanie kluczy GPG/PGP do kont email</h2>
 <p>Jako, że już nie korzystamy z Enigmail, to wszystkie ustawienia dotyczące szyfrowania poczty
 zostaną skasowane/usunięte i cały proces konfiguracji trzeba będzie przeprowadzić od nowa. Na
@@ -205,23 +205,23 @@ początek musimy powiązać klucze prywatne z kontami email. Wchodzimy zatem w <
 <code>Account Settings</code> i wybieramy swoje konto pocztowe. Na liście opcji powinna znajdować się pozycja
 <code>End-To-End Encryption</code> . Musimy tutaj dodać nowy klucz, zatem klikamy na <code>Add Key</code> i wybieramy
 klucz zewnętrzny przez GPG/GnuPG ( <code>Use your external key through GnuPG</code> ):</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/003-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/003-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>Następnie podajemy identyfikator klucza GPG/PGP. Przy czym warto tutaj wspomnieć, że narzędzie
 <code>gpg</code> na linux może zwracać ID klucza, np. w postaci <code>0x4796CCA1</code> lub <code>0x32D9CB634796CCA1</code> , tj. 8
 lub 16 znaków HEX. Thunderbird akceptuje jedynie ID w postaci 16 znaków. Trzeba także pozbyć się
 <code>0x</code> z początku ID. Zatem ID klucza będzie miało postać <code>32D9CB634796CCA1</code> i to tę wartość trzeba
 podać w TB:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/004-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/004-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>Po dodaniu klucza, Thunderbird powinien automatycznie dodać <code>0x</code> , przez co my będziemy w stanie z
 tego klucza skorzystać:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/005-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/005-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>Jak widać wyżej, przy kluczu widnieje tag <code>External GnuPG Key</code>, zatem Thunderbird będzie o ten
 klucz prosił nasz system ilekroć tylko będzie taka potrzeba. W przypadku niedostępności tego klucza,
 nie da rady np. odczytać zaszyfrowanych wiadomości, które ktoś do nas przyśle.</p>
 <p>Po określeniu ID klucza, możemy skonfigurować także zachowanie samego szyfrowania, tj. zdecydować
 czy wiadomości wysyłane do kontaktów powinny być domyślnie szyfrowane oraz czy kryptograficznie
 podpisywać nasze wiadomości.</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/006-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/006-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>W wiadomościach, które będziemy wysłać, może także znaleźć się nasz klucz publiczny, co powinno
 ułatwić rozmówcy nawiązanie i prowadzenie z nami szyfrowanej korespondencji. Oczywiście w dalszym
 ciągu można ręcznie przeszukać serwer kluczy za odpowiednim kluczem publicznym ale nie zmienia to
@@ -274,19 +274,19 @@ posłużyć się poniższym poleceniem:</p>
 </code></pre>
 <p>Tak uzyskany plik trzeba będzie zaimportować do keyring'a Thunderbird. Przechodzimy zatem w jego
 menu do <code>Tools</code> &gt; <code>OpenPGP Key Manager</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/007-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/007-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>Wybieramy z menu <code>File</code> &gt; <code>Import Public Key(s) From File</code> i wskazujemy ścieżkę do utworzonego
 wyżej pliku z kluczem publicznym (lub kluczami). Thunderbird powinien rozpoznać nasz klucz:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/008-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/008-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>Po dodaniu klucza, zostanie wyświetlone krótkie podsumowanie na jego temat. Będzie tam również
 niebieski link, przy pomocy którego to można wyświetlić szczegóły klucza i określić zaufanie do
 niego. Musimy kliknąć w ten link:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/009-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/010-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/009-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/010-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>Jak widać, klucz nie ma ustawionego póki co zaufania. Świadczy o tym opcja <code>Not yet, maybe later</code> .
 Do momentu określenia tutaj zaufania nie będzie można z tego klucza skorzystać przy szyfrowaniu
 wiadomości. Trzeba zatem określić maksymalny poziom zaufania:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/011-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/011-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>W tym przypadku mamy do czynienia z naszym kluczem publicznym i mu ufamy ale w przypadku innych
 kluczy publicznych dobrze jest zweryfikować odcisk palca takiego klucza zewnętrznym kanałem, a
 najlepiej osobiście.</p>
@@ -295,21 +295,21 @@ najlepiej osobiście.</p>
 do siebie wiadomość testową. Naturalnie szyfrujemy ją (kluczem publicznym). Jeśli nie wybraliśmy
 domyślnego szyfrowania, to wystarczy kliknąć na przycisk <code>Security</code> i ustawić tam co trzeba.
 Informacja o szyfrowaniu wiadomości będzie na pasku stanu w prawym dolnym rogu:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/012-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/012-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>Jeśli z jakiegoś powodu nie możemy wysłać wiadomości, to pewnie trzeba ponownie uruchomić
 Thunderbird'a. Przy wysyłaniu wiadomości, Thunderbird powinien nas poprosić o hasło do klucza (w
 przypadku, gdy mamy je ustawione). Jeśli tak się dzieje, to znaczy, że wykorzystywany jest
 systemowy keyring kluczy GPG/PGP, a nie ten wbudowany w Thunderbird i o to nam chodziło.</p>
 <p>Po chwili mail powinien do nas dotrzeć:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/013-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/013-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>Jak widać, tytuł jest zaszyfrowany i nie można go odczytać. Po zaznaczeniu wiadomości, ta zostanie
 zdeszyfrowana automatycznie naszym kluczem prywatnym, który został zbuforowany w pamięci podczas
 szyfrowania wiadomości przy jej wysyłaniu, zatem nie trzeba będzie podawać ewentualnego hasła po
 raz drugi.</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/014-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/014-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>Zielony ptaszek z prawej strony świadczy o poprawności wiadomości. Jeśli wejdziemy w informacje o
 bezpieczeństwie, to możemy sprawdzić jaki klucz został użyty przy składaniu podpisu:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/015-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/09/015-thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian.png" alt="thunderbird-gpg-pgp-gnupg-enigmail-config-linux-debian"    class="big"></p>
 <p>Zatem test szyfrowania/deszyfrowania i podpisu przebiegł pomyślnie.</p>
 <h2 id="podsumowanie">Podsumowanie</h2>
 <p>Trochę szkoda, że ten nowy Thunderbird nie potrafi robić użytku w 100% z systemowego keyring'a
@@ -518,5 +518,18 @@ to bym został na Thunderbird 68, przynajmniej póki co.</p></div>
   diameter: 40,
   textColor: '#c3c3c3'
 })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
 </body>
 </html>

@@ -158,7 +158,7 @@ dd: writing to '/dev/sdc': Input/output error
 <p>Jak widać wyżej, po skopiowaniu jedynie 50MiB, proces został przerwany w wyniku błędu. Dotyczy to
 tylko i wyłącznie wgrywania obrazów bit po bicie. W każdym innym przypadku, nie powinno być
 problemów. Samo tworzenie partycji na tym pendrive nie zwraca żadnych błędów:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/1.linux-gparted-pendrive.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/1.linux-gparted-pendrive.png" alt="linux-gparted-pendrive"    class="huge"></p>
 <p>Zatem co się z nim dzieje?</p>
 <h2 id="skanowanie-pendrive-przy-pomocy-f3">Skanowanie pendrive przy pomocy f3</h2>
 <p>By ustalić przyczynę takiego stanu rzeczy, musimy sięgnąć do narzędzi diagnostycznych. W przypadku
@@ -227,7 +227,7 @@ obszar początkowy.</p>
 <p>Innym narzędziem, które nam może pomóc w analizie struktury pendrive, to <a href="http://whdd.org/">whdd</a> .
 Skanuje ono i pokazuje czas dostępu do sektorów na całej powierzchni nośnika. W przypadku mojego
 pendrive jest trochę problemów, poniżej focia z początku skanowania:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/3.linux-pendrive-whdd-scan.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/3.linux-pendrive-whdd-scan.png" alt="linux-pendrive-whdd-scan"    class="huge"></p>
 <p>Wyraźnie coś jest nie tak z tym niejednorodnym obszarem. Są, co prawda, tylko 4 błędy ale problemy z
 odczytem/zapisem pozostałych sektorów mogą się również pojawić, dlatego <code>f3</code> zgłosił 168 sektorów.
 Gdybym przeskanował nim jeszcze raz tego pendrive, prawdopodobnie ta liczba by uległa zmianie.</p>
@@ -241,7 +241,7 @@ do użytku jedynie pozostałą przestrzeń.</p>
 przeskanować go przy pomocy <code>fsck</code> z opcją <code>-c</code> , za sprawą to której zostanie zaprzęgnięty program
 <code>badblocks</code> i wszystkie padnięte sektory zostaną oznaczone i dodane do i-węzła bad bloków, co
 zapobiegnie ich alokacji:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/2.linux-badblocks-pendrive.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/2.linux-badblocks-pendrive.png" alt="linux-badblocks-pendrive"    class="huge"></p>
 <p>U mnie jednak ilość padniętych bloków ciągle zmieniała się z każdym kolejnym skanem i raczej wątpię
 by w ten sposób szło coś ugrać.</p></div>
 				
@@ -417,5 +417,18 @@ by w ten sposób szło coś ugrać.</p></div>
   diameter: 40,
   textColor: '#c3c3c3'
 })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
 </body>
 </html>

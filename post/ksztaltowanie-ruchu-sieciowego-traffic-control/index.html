@@ -253,7 +253,7 @@ $ipt -A qos_egress -s 192.168.10.0/24 -j ACCEPT
 </code></pre>
 <p>To co zasługuje na uwagę, to <code>--set-class</code> . Wartość tego parametru musi pasować do wartości
 <code>classid</code> w <code>tc</code> , który ustawiliśmy wyżej. Poniżej przykład działania:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/12/1.ksztaltowanie-ruchu-sieciowego-classify-iptables.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/12/1.ksztaltowanie-ruchu-sieciowego-classify-iptables.png" alt="ksztaltowanie-ruchu-sieciowego-classify-iptables"    class="huge"></p>
 <h3 id="cgroups">Cgroups</h3>
 <p>Systemd robi przyzwoity użytek z cgroups. Cgroups również możemy wykorzystać do kierowania ruchu do
 odpowiednich kolejek. <a href="https://morfikov.github.io/post/ograniczanie-zasobow-procesom-przez-cgroups/">O samej konfiguracji cgroups pisałem nieco w tym
@@ -337,7 +337,7 @@ tc filter add dev bond0 protocol ip parent 1:0 prio 100 handle 1000 cgroup
 <p>Nie potrzebujemy żadnych wpisów w <code>iptables</code> , bo wszystko jest zarządzane przez cgroups w
 połączeniu z <code>tc</code> . Warto nadmienić, że wartość w <code>handle 200 cgroup</code> ma odpowiadać tej określonej
 w pliku <code>/etc/cgconfig.conf</code> (0x0001<strong>0200</strong>). Poniżej zaś test:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/12/2.ksztaltowanie-ruchu-sieciowego-cgroups.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/12/2.ksztaltowanie-ruchu-sieciowego-cgroups.png" alt="ksztaltowanie-ruchu-sieciowego-cgroups"    class="huge"></p>
 <h2 id="interfejsy-imq">Interfejsy IMQ</h2>
 <p>Dokładny opis na temat tego <a href="https://morfikov.github.io/post/konfiguracja-interfejsow-imq-w-linuxie/">jak aktywować interfejsy IMQ oraz jak przy ich pomocy ograniczyć i
 kształtować ruch</a> zostały opisane w
@@ -574,5 +574,18 @@ będzie miała dwukrotnie większy <code>quantum</code> niż ta druga, to przypa
   diameter: 40,
   textColor: '#c3c3c3'
 })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
 </body>
 </html>

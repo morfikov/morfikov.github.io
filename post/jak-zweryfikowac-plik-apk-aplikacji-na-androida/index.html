@@ -258,13 +258,13 @@ plik .apk</a> wraz z metadanymi ZIP i zmiana nawet jednego bitu w takiej paczce 
 błędem przy weryfikacji integralności danych, które są w niej zwarte. Jeśli chodzi zaś o różnice
 między v2 i v3 to w przypadku v3 zostały wprowadzone <a href="https://www.xda-developers.com/apk-signature-scheme-v3-key-rotation/">dodatkowe informacje</a>, które są
 umieszczane w bloku podpisu (signing block).</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/001-apk-integrity-protection.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/001-apk-integrity-protection.png" alt="apk-integrity-protection"    class="huge"></p>
 <h3 id="wsparcie-dla-wszystkich-schematów-podpisu">Wsparcie dla wszystkich schematów podpisu</h3>
 <p>Wszystkie te trzy schematy podpisywania nie są kompatybilne wstecznie ze sobą. Jeśli dana aplikacja
 ma być instalowana w starszych i nowszych wersjach Androida, to trzeba ją podpisać przy pomocy
 każdego ze schematów. Później przy instalacji aplikacji, system podąża według poniższych
 instrukcji, by taki pakiet zweryfikować:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/002-apk-validation-process.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/002-apk-validation-process.png" alt="apk-validation-process"    class="huge"></p>
 <h2 id="jak-zweryfikować-plik-apk">Jak zweryfikować plik APK</h2>
 <p>Dysponując wiedzą, że pliki <code>.apk</code> są podpisane, to drugorzędne znaczenie ma dla nas źródło, z
 którego je pobieramy. Niemniej jednak, wypadałoby zweryfikować kto się pod taką aplikacją podpisał
@@ -283,9 +283,9 @@ dodatkowe linki, np. do oficjalnego forum czy kodu źródłowego.</p>
 </thead>
 <tbody>
 <tr>
-<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/003-signal-app-google-play.png" alt=""    class="small"></td>
-<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/004-signal-app-google-play.png" alt=""    class="small"></td>
-<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/005-signal-app-google-play.png" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/003-signal-app-google-play.png" alt="signal-app-google-play"    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/004-signal-app-google-play.png" alt="signal-app-google-play"    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/005-signal-app-google-play.png" alt="signal-app-google-play"    class="small"></td>
 </tr>
 </tbody>
 </table>
@@ -319,7 +319,7 @@ powiązaną z plikiem <code>*.SF</code> o tej samej nazwie. Plik ten jest nieczy
 </ul>
 <h4 id="weryfikacja-certyfikatu">Weryfikacja certyfikatu</h4>
 <p>Na stronie projektu Signal był podany odcisk palca SHA256 certyfikatu. Wygląda on tak:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/006-signal-app-manual-download-certificate-hash.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/006-signal-app-manual-download-certificate-hash.png" alt="signal-app-manual-download-certificate-hash"    class="huge"></p>
 <p>Po co nam ten odcisk? Przy jego pomocy jesteśmy w stanie zweryfikować podmiot, który ten certyfikat
 wystawił. Informacje o certyfikacie są dostępne w pliku <code>META-INF/SIGNAL_S.RSA</code> i możemy je uzyskać
 za sprawą narzędzia <code>keytool</code> :</p>
@@ -422,7 +422,7 @@ obecnych w <code>META-INF/MANIFEST.MF</code> . Dzieje się tak ze względu na fa
 META-INF/MANIFEST.MF</a>. Na sekcję zaś składa się linijka z <code>Name:</code> , <code>SHA-256-Digest:</code> oraz
 pusta linia (znak <code>CRLF</code>). Trochę to skomplikowane zatem najlepiej to zobrazować na przykładzie.</p>
 <p>Sekcja pliku <code>FingerprintProtocol.proto</code> w <code>META-INF/MANIFEST.MF</code> ma poniższą postać:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/007-manifest-section-hash.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/007-manifest-section-hash.png" alt="manifest-section-hash"    class="huge"></p>
 <p>Jeśli taki wycinek tekstu podda się procesowi hash'owania, to otrzymamy:</p>
 <pre><code>$ cat data.txt | sha256sum | xxd -r -p | base64
 fWL5eppUj0x6UVdPqHusFkpDbXpq7P0sqchfublqEnA=
@@ -745,7 +745,7 @@ być tylko jedna -- sprawdźmy co tam znajdziemy.</p>
 certyfikatu. Pobieramy dowolny plik <code>.apk</code> z listy, która się nam pojawi po kliknięciu w link.
 Zanim jednak faktycznie pobierzemy plik, to na stronie mamy informację, że <code>Verified safe to install (read more)</code> , czyli, że aplikacja została zweryfikowana i jest bezpieczna do
 zainstalowania. Jeśli klikniemy w ten link, to zobaczymy to poniższe okienko:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/008-signal-app-verify-apkmirror.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/008-signal-app-verify-apkmirror.png" alt="signal-app-verify-apkmirror"    class="huge"></p>
 <p>Mamy tutaj widoczne hash'e, z których jeden zestaw zawiera odciski palca certyfikatu (niby ten sam
 co na stronie projektu Signal). Lepiej jednak nie wierzyć co tam na podejrzanych stronach wypisują,
 więc lepiej podejść do tej informacji ostrożnie, przecie każdy mógłby przepisać ten kawałek tekstu
@@ -799,9 +799,9 @@ telefon plik pobrany z serwisu apkmirror i zobaczyć co się w takim przypadku s
 </thead>
 <tbody>
 <tr>
-<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/009-signal-apk-install-apkmirror.png" alt=""    class="small"></td>
-<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/010-signal-apk-install-apkmirror.png" alt=""    class="small"></td>
-<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/011-signal-apk-install-apkmirror.png" alt=""    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/009-signal-apk-install-apkmirror.png" alt="signal-apk-install-apkmirror"    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/010-signal-apk-install-apkmirror.png" alt="signal-apk-install-apkmirror"    class="small"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2019/12/011-signal-apk-install-apkmirror.png" alt="signal-apk-install-apkmirror"    class="small"></td>
 </tr>
 </tbody>
 </table>
@@ -848,7 +848,7 @@ klienta sklepu Google Play. By wydobyć plik <code>.apk</code> ze smartfona, wys
 jakieś menadżer plików, np. <a href="https://github.com/TeamAmaze/AmazeFileManager">Amaze</a>, który posiada wbudowany menadżer aplikacji. W tym
 menadżerze wystarczy wykonać backup aplikacji i stosowny plik <code>.apk</code> zostanie zapisany np. na kacie
 SD.</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/012-amaze-file-manager-app-backup.png" alt=""    class="small"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/12/012-amaze-file-manager-app-backup.png" alt="amaze-file-manager-app-backup"    class="small"></p>
 <p>Tak wykonany backup aplikacji to nic innego jak tylko skopiowanie pliku <code>.apk</code> z jednego miejsca w
 drugie. Można ten fakt potwierdzić porównując hash pliku zainstalowanej aplikacji z plikiem backupu:</p>
 <pre><code>$ sha256sum Signal_org.thoughtcrime.securesms*
@@ -1066,5 +1066,18 @@ faktu zbytnio zadowoleni.</p></div>
   diameter: 40,
   textColor: '#c3c3c3'
 })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
 </body>
 </html>

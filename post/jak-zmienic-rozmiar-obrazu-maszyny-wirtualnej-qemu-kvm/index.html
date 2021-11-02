@@ -164,29 +164,29 @@ odpowiednie narzędzia, no i oczywiście nie da się tego zrobić automatycznie.
 trzeba będzie uruchomić na maszynie wirtualnej system live, tak by móc przepartycjonować jej
 wirtualny dysk twardy. Zatem do dzieła. Odpalamy <code>virt-manager</code> i ustawiamy w nim rozruch systemu z
 cd-rom (zmieniając kolejność nośników), czy też zaznaczając opcję <code>Enable boot menu</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/052-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/052-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Podczas rozruchu wciskamy klawisz <code>ESC</code> , co powinno zaowocować pojawieniem się menu wyboru nośnika,
 z którego wystartować system:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/053-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/053-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Wybieramy cd-rom (pozycja druga).</p>
 <p>Po chwili powinien nam się załadować system live Ubuntu:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/054-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/054-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>W tym systemie domyślnie jest już zainstalowany <code>gparted</code> ale gdybyśmy korzystali z innego systemu
 live, to trzeba będzie ten pakiet doinstalować sobie we własnym zakresie.</p>
 <p>Logujemy się na root via <code>sudo su</code> i uruchamiamy <code>gparted</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/055-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/055-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Jak widać na fotce, mamy dysk o rozmiarze 20 GiB, z czego system zajmuje niecałe 8 GiB. Przydałoby
 się zmniejszyć rozmiar pliku <code>.qcow2</code> o połowę. W tym celu zmieniamy rozmiar partycji w <code>gparted</code> i
 ustawiamy go na 10 GiB:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/056-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/057-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/056-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/057-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Czekamy cierpliwie aż proces dobiegnie końca. Może on zająć dłużej lub której, a wszystko zależy od
 wielkości samego nośnika oraz od tego jak bardzo chcemy go skurczyć, tj. ile danych trzeba będzie
 przenieść.</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/058-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/058-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Gdy proces zmiany rozmiaru partycji się zakończy, powinniśmy mieć jedną mniejszą partycję oraz
 sporo wolnego miejsca:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/059-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/059-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Warto tutaj odnotować ostatni sektor partycji ( <code>20973567</code> ), który to posłuży nam do wyliczenia
 nowego obrazu dysku (pliku <code>.qcow2</code> ): ((20973567+1)×512)/1024/1024 = 10241 MiB.</p>
 <p>Po skurczeniu partycji wyłączamy maszynę wirtualną. Na maszynie hosta zaś odpalamy terminal i
@@ -233,10 +233,10 @@ uszkodzenie systemu plików maszyny wirtualnej i utrata danych, to dobrze jest z
 dodatkowych MiB. W razie czego systemową partycję maszyny wirtualnej będzie można powiększyć bez
 problemu, tak by włączyć w nią te parę MiB wolnej przestrzeni.</p>
 <p>Odpalmy teraz maszynę wirtualną, by sprawdzić czy jej system działa w porządku:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/061-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/061-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Jak widać, nie mamy już żadnej wolnej przestrzeni, a systemowa partycja kończy się dokładnie na
 20973567 sektorze:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/062-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/062-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Nie ma przy tym żadnych błędów, zatem proces zmniejszenia rozmiaru dysku maszyny wirtualnej
 zakończył się powodzeniem.</p>
 <h2 id="jak-zwiększyć-rozmiar-obrazu-maszyny-wirtualnej">Jak zwiększyć rozmiar obrazu maszyny wirtualnej</h2>
@@ -253,7 +253,7 @@ Image resized.
 <p>Operacja jest w zasadzie natychmiastowa, choć my nie dostrzeżemy praktycznie żadnej różnicy w
 rozmiarze samego pliku <code>.qcow2</code> . Niemniej jednak, po uruchomieniu systemu maszyny wirtualnej i
 podejrzeniu dysku w <code>gparted</code> , ta różnica będzie już dość dobrze widoczna:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/081-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/081-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Jak widać, te 15 GiB, które dodaliśmy do obrazu, zostały przez maszynę wirtualną uwzględnione, choć
 oczywiście póki co partycja systemowa rozciąga się na 10 GiB. By zrobić użytek z tych dodatkowych
 GiB, trzeba rozciągnąć tę systemową partycję, tak by obejmowała również i tę wolną przestrzeń.</p>
@@ -261,13 +261,13 @@ GiB, trzeba rozciągnąć tę systemową partycję, tak by obejmowała również
 tak jak to miało miejsce w przypadku zmniejszania jej rozmiaru. Cały proces można wykonać będąc
 zalogowanym w systemie gościa. Zatem rozciągamy partycję główną, tak by zajmowała całą dostępną
 wolną przestrzeń:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/082-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/082-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Po czym rozpoczynamy proces zwiększenia rozmiaru partycji:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/083-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/083-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Jak widać, ten zabieg trwał dosłownie parę sekund.</p>
 <p>System też od razu jest w stanie dostrzec nowych rozmiarów partycję systemową bez potrzeby
 ponownego uruchomienia maszyny wirtualnej:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/084-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/084-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Jeśli teraz rzucimy okiem na rozmiar obrazu maszyny wirtualnej w systemie hosta, to niekoniecznie
 musi on zajmować 25 GiB:</p>
 <pre><code># qemu-img info ubuntu20.04.qcow2
@@ -321,7 +321,7 @@ dysku hosta o ponad 50%:</p>
 zmienić nazwę pliku ale lepiej jest się pierw upewnić, czy aby na pewno ten okrojony obraz działa
 zgodnie z oczekiwaniami. Nie damy rady zmienić obrazu via <code>virt-manager</code> i trzeba w tym celu
 edytować plik XML maszyny wirtualnej (via <code>virsh edit ubuntu20.04</code> ):</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/063-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/08/063-virtualization-kvm-qemu-system-change-image-qcow2-size.png" alt="virtualization-kvm-qemu-system-change-image-qcow2-size"    class="huge"></p>
 <p>Może i udało nam się dość znacznie zaoszczędzić miejsce na dysku stosując kompresję ale trzeba
 liczyć się z większym wykorzystaniem procesora -- nie ma nic za free.</p>
 <h2 id="defragmentacja-pliku-obrazu">Defragmentacja pliku obrazu</h2>
@@ -530,5 +530,18 @@ wirtualnej, dobrze jest to drugie polecenie wydać kilka razy.</p></div>
   diameter: 40,
   textColor: '#c3c3c3'
 })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
 </body>
 </html>

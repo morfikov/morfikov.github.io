@@ -608,18 +608,18 @@ klucze bez żadnej weryfikacji całego procesu.</p>
 by opcja do wyczyszczenia kluczy Secure Boot stała się dostępna. W przypadku mojego laptopa Lenovo
 ThinkPad T430, czyszczenie wbudowanych kluczy w firmware EFI/UEFI odbywa się w poniższy sposób.</p>
 <p>Wchodzimy w ustawienia firmware EFI/UEFI i szukamy opcji od Secure Boot:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/001-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/002-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/001-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot.jpg" alt="debian-linux-efi-uefi-firmware-bios-configuration-secure-boot"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/002-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot.jpg" alt="debian-linux-efi-uefi-firmware-bios-configuration-secure-boot"    class="huge"></p>
 <p>Jak widać wyżej, mamy pozycję od resetowania kluczy ( <code>Reset to Setup Mode</code> ) oraz od przywrócenia
 kluczy fabrycznych ( <code>Restore Factory Keys</code> ). Nas interesuje ta pierwsza opcja:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/003-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/004-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/003-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg" alt="debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/004-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg" alt="debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode"    class="huge"></p>
 <p>Po zaakceptowaniu, pozycja <code>Platform Mode</code> powinna się zmienić z <code>User Mode</code> na <code>Setup Mode</code>, a <code>Secure Boot Mode</code>
 z <code>Standard Mode</code> na <code>Custom Mode</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/005-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/005-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode.jpg" alt="debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode"    class="huge"></p>
 <p>Zapisujemy ustawienia firmware EFI/UEFI i restartujemy komputer (tryb Secure Boot powinien być
 automatycznie wyłączony):</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/006-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-save.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/006-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-save.jpg" alt="debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-save"    class="huge"></p>
 <p>Po zalogowaniu się w systemie sprawdzamy czy zmienne <code>PK</code> , <code>KEK</code> , <code>db</code> oraz <code>dbx</code> zostały
 wyczyszczone. Odpalamy zatem terminal i wpisujemy w nim polecenie <code>efi-readvar</code> :</p>
 <pre><code># efi-readvar
@@ -714,32 +714,32 @@ prywatnych):</p>
 </code></pre>
 <p>Po zresetowaniu maszyny stosowna ikonka powinna pojawić się w menu wyboru (to ten żółty klucz) na
 fotce niżej:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/007-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-mok-keytool.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/007-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-mok-keytool.jpg" alt="debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-setup-mode-mok-keytool"    class="huge"></p>
 <p>Naturalnie wybieramy tę pozycję, odpalamy KeyTool i z menu, które zostanie nam zaprezentowane,
 wybieramy <code>Edit Keys</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/008-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/008-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit"    class="huge"></p>
 <p>Teraz kolejno edytujemy zmienne zastępując ich zawartość przygotowanymi wcześniej plikami.</p>
 <p>Zmienna <code>dbx</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/009-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/010-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/011-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/009-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/010-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/011-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-dbx"    class="huge"></p>
 <p>Zmienna <code>db</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/012-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/013-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/014-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/012-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/013-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/014-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-db"    class="huge"></p>
 <p>Zmienna <code>KEK</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/015-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/016-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/017-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/015-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/016-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/017-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-kek"    class="huge"></p>
 <p>Zmienna <code>PK</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/018-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/019-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/020-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/018-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/019-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/020-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-pk"    class="huge"></p>
 <p>Po wgraniu klucza do zmiennej <code>PK</code> , wracamy do menu głównego, w którym to powinniśmy zobaczyć, że
 tryb w jakim operował firmware zmienił się z <code>Setup Mode</code> na <code>User Mode</code> (w górnej części ekranu):</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/021-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-exit.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/021-debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-exit.jpg" alt="debian-linux-efi-uefi-firmware-bios-setup-mode-keys-edit-exit"    class="huge"></p>
 <p>Wychodzimy i uruchamiamy system bez włączonego póki co jeszcze Secure Boot:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/022-debian-linux-efi-uefi-firmware-bios-boot-system.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/022-debian-linux-efi-uefi-firmware-bios-boot-system.jpg" alt="debian-linux-efi-uefi-firmware-bios-boot-system"    class="huge"></p>
 <h3 id="sprawdzenie-zmiennych">Sprawdzenie zmiennych</h3>
 <p>Po wgraniu zawartości plików do określonych zmiennych i uruchomieniu systemu sprawdzamy, czy udało
 się nam przepisać wartości zmiennych <code>PK</code> , <code>KEK</code> , <code>db</code> oraz <code>dbx</code> :</p>
@@ -823,7 +823,7 @@ Signature verification OK
 zamiast wszystko wkompilować na stałe w kernel, to trzeba zadbać również o podpisanie tych modułów.
 W konfiguracji kernela (do wglądu przez <code>make xconfig</code> ), można doszukać się opcji
 <code>CONFIG_MODULE_SIG_KEY</code> , która wygląda mniej więcej tak:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/023-debian-linux-secure-boot-kernel-config-sign-modules-key.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/023-debian-linux-secure-boot-kernel-config-sign-modules-key.jpg" alt="debian-linux-secure-boot-kernel-config-sign-modules-key"    class="huge"></p>
 <p>Ta opcja (jak i jej podobne) odpowiada w zasadzie za podpisanie tylko i wyłączenie modułów, które
 nie zostaną wkompilowane na stałe w kernel. Tak czy inaczej w polu widocznym wyżej musimy określić
 ścieżkę do pliku klucza prywatnego <code>db</code> i jego certyfikatu. Niemniej jednak, certyfikat jest w
@@ -875,15 +875,15 @@ w konfiguracji firmware EFI/UEFI:</p>
 </code></pre>
 <h3 id="włączenie-secure-boot-w-konfiguracji-efiuefi">Włączenie Secure Boot w konfiguracji EFI/UEFI</h3>
 <p>Pozostało nam już w zasadzie włączyć w konfiguracji firmware EFI/UEFI opcję Secure Boot:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/024-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/024-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg" alt="debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable"    class="huge"></p>
 <p>Jak tylko przełączymy tę opcję z <code>Disabled</code> na <code>Enabled</code> , to nie będziemy w stanie zmienić
 ustawień co do trybu w jakim będzie uruchamiał się system (EFI/UEFI vs. BIOS):</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/025-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/025-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg" alt="debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable"    class="huge"></p>
 <p>Zapisujemy ustawienia firmware EFI/UEFI i uruchamiamy maszynę ponownie:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/026-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/026-debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable.jpg" alt="debian-linux-efi-uefi-firmware-bios-configuration-secure-boot-enable"    class="huge"></p>
 <p>Podczas początkowej fazy startu komputera, w lewym górnym rogu ekranu powinna być informacja o tym,
 że system operacyjny uruchamiany jest w trybie Secure Boot ( <code>EFI stub: UEFI Secure Boot is enabled</code> ):</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/027-debian-linux-secure-boot-system-boot-message.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/027-debian-linux-secure-boot-system-boot-message.jpg" alt="debian-linux-secure-boot-system-boot-message"    class="huge"></p>
 <p>Jeśli przegapimy tę informację, to zawsze też można sprawdzić log systemowy, by upewnić się ze nasz
 linux wystartował w trybie Secure Boot:</p>
 <pre><code># journalctl -b | grep -i secureboot
@@ -913,9 +913,9 @@ kernel: Lockdown: systemd-logind: hibernation is restricted; see https://wiki.de
 systemie. Naturalnie Secure Boot może działać bez kernel lockdown i jeśli potrzebujemy którejś z
 tych wyżej wymienionych rzeczy, to zawsze możemy skompilować kernel z wyłączoną opcją
 <code>CONFIG_LOCK_DOWN_IN_EFI_SECURE_BOOT</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/028-debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/028-debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown.jpg" alt="debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown"    class="huge"></p>
 <p>Można też całkowicie pozbyć się modułu lockdown odznaczając opcję <code>CONFIG_SECURITY_LOCKDOWN_LSM</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/029-debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/029-debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown.jpg" alt="debian-linux-secure-boot-kernel-config-efi-uefi-force-lockdown"    class="huge"></p>
 <p>W moim przypadku, mechanizm lockdown upośledza hibernację, z której korzystam dość często i nie
 zamierzam rezygnować, bo daje ona możliwość zapisania stanu środowiska pracy i nie trzeba po
 starcie maszyny wszystkiego na nowo uruchamiać, co znacznie przyśpiesza gotowość systemu. Dlaczego
@@ -1036,7 +1036,7 @@ powodzeniem zignorować.</p>
 <p>Problem możemy za to mieć z różnego różnego rodzaju systemami live dostarczanymi na płytce czy
 pendrive, które są wypuszczane przez konkretną dystrybucje linux'a. Te systemy live nie będą nam
 działać i przy próbie uruchomienia systemu z zawierających je nośników dostaniemy błąd: <code>Secure Boot validation failure loading bootx64.efi</code> (lub podobny):</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/030-debian-linux-secure-boot-validation-failure-live-ubuntu.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/030-debian-linux-secure-boot-validation-failure-live-ubuntu.jpg" alt="debian-linux-secure-boot-validation-failure-live-ubuntu"    class="huge"></p>
 <p>Z informacji, które widać na ekranie wynika, że mamy w zasadzie te poniższe opcje rozwiązania
 zaistniałego problemu:</p>
 <ul>
@@ -1141,18 +1141,18 @@ input password again:
 ponownie. Jeśli nie wiemy czy to powyższe polecenie dodało jakiekolwiek klucze do kolejki, to
 zawsze możemy zweryfikować kolejkę nowych kluczy przy pomocy <code>mokutil --list-new</code> .</p>
 <p>Dodawanie certyfikatów w MokManager jest stosunkowo proste:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/031-debian-linux-secure-boot-shim-configuration-mok.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/032-debian-linux-secure-boot-shim-configuration-mok.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/031-debian-linux-secure-boot-shim-configuration-mok.jpg" alt="debian-linux-secure-boot-shim-configuration-mok"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/032-debian-linux-secure-boot-shim-configuration-mok.jpg" alt="debian-linux-secure-boot-shim-configuration-mok"    class="huge"></p>
 <p>Sprawdzamy dane certyfikatu Debiana:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/033-debian-linux-secure-boot-shim-configuration-mok.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/033-debian-linux-secure-boot-shim-configuration-mok.jpg" alt="debian-linux-secure-boot-shim-configuration-mok"    class="huge"></p>
 <p>Podobnie weryfikujemy dane certyfikatu Canonical:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/034-debian-linux-secure-boot-shim-configuration-mok.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/034-debian-linux-secure-boot-shim-configuration-mok.jpg" alt="debian-linux-secure-boot-shim-configuration-mok"    class="huge"></p>
 <p>Jeśli dane się zgadzają, to przechodzimy dalej:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/035-debian-linux-secure-boot-shim-configuration-mok.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/035-debian-linux-secure-boot-shim-configuration-mok.jpg" alt="debian-linux-secure-boot-shim-configuration-mok"    class="huge"></p>
 <p>Potwierdzamy dodanie kluczy i wpisujemy hasło, które ustawiliśmy wcześniej:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/037-debian-linux-secure-boot-shim-configuration-mok-password.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/037-debian-linux-secure-boot-shim-configuration-mok-password.jpg" alt="debian-linux-secure-boot-shim-configuration-mok-password"    class="huge"></p>
 <p>Jeśli proces zakończył się bez żadnych błędów, to restartujemy maszynę:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/038-debian-linux-secure-boot-shim-configuration-mok-reboot.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/038-debian-linux-secure-boot-shim-configuration-mok-reboot.jpg" alt="debian-linux-secure-boot-shim-configuration-mok-reboot"    class="huge"></p>
 <p>Po ponownym uruchomieniu komputera, klucze powinny zostać z powodzeniem dodane, co możemy podejrzeć
 w <code>mokutil</code> :</p>
 <pre><code># mokutil --list-enrolled
@@ -1338,7 +1338,7 @@ Variable MokList has no entries
 <p>Zrestartujmy zatem jeszcze raz komputer i podłączmy do portu USB pendrive z wgranym Ubuntu live, by
 przetestować czy aby na pewno ten system się nam uruchomi.</p>
 <p>W menu rEFInd powiły się dwa dodatkowe wpisy (pierwsze dwa z lewej):</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/039-debian-linux-secure-boot-shim-configuration-mok-live-ubuntu.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/039-debian-linux-secure-boot-shim-configuration-mok-live-ubuntu.jpg" alt="debian-linux-secure-boot-shim-configuration-mok-live-ubuntu"    class="huge"></p>
 <p>Czemu dwa? Bo na pendrive znajdują się dwa bootloader'y: <code>grubx64.efi</code> (podpisany przez Canonical) i
 <code>BOOTx64.EFI</code> (podpisany przez Microsoft) . Możemy to zweryfikować montując obraz Ubuntu live i
 listując sygnatury złożone na tych dwóch plikach przy pomocy <code>sbverify</code> :</p>
@@ -1364,10 +1364,10 @@ image signature certificates:
 <p>Z racji, że nie mamy kluczy Microsoft'u, to uruchomienie systemu live z tego drugiego wpisu się nie
 powiedzie. Natomiast dysponując certyfikatem od Canonical bez problemu możemy odpalić Ubuntu z
 pierwszego wpisu w menu rEFInd:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/040-debian-linux-secure-boot-live-ubuntu-grub.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/041-debian-linux-secure-boot-live-ubuntu.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/040-debian-linux-secure-boot-live-ubuntu-grub.jpg" alt="debian-linux-secure-boot-live-ubuntu-grub"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/041-debian-linux-secure-boot-live-ubuntu.jpg" alt="debian-linux-secure-boot-live-ubuntu"    class="huge"></p>
 <p>I jeszcze dowód, że system live działa w trybie Secure Boot:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/042-debian-linux-secure-boot-live-ubuntu-test.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/042-debian-linux-secure-boot-live-ubuntu-test.jpg" alt="debian-linux-secure-boot-live-ubuntu-test"    class="huge"></p>
 <h2 id="wsparcie-secure-boot-dla-windows">Wsparcie Secure Boot dla windows</h2>
 <p>Tworząc własne klucze i podmieniając nimi te wbudowane w firmware EFI/UEFI nie uwzględniliśmy
 kluczy Microsoft'u, bo w zasadzie jak widać do tej pory wszystko działa bez większego zarzutu i
@@ -1398,9 +1398,9 @@ poddajemy je temu samemu procesowi, który przeprowadzaliśmy w przypadku naszyc
 </code></pre>
 <p>Restartujemy maszynę i przy pomocy KeyTool dodajemy zawartość pliku <code>add_MS_db.auth</code> do zmiennej
 <code>db</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/043-debian-linux-secure-boot-edit-db-ms-microsoft.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/044-debian-linux-secure-boot-edit-db-ms-microsoft.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/045-debian-linux-secure-boot-edit-db-ms-microsoft.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/043-debian-linux-secure-boot-edit-db-ms-microsoft.jpg" alt="debian-linux-secure-boot-edit-db-ms-microsoft"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/044-debian-linux-secure-boot-edit-db-ms-microsoft.jpg" alt="debian-linux-secure-boot-edit-db-ms-microsoft"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/045-debian-linux-secure-boot-edit-db-ms-microsoft.jpg" alt="debian-linux-secure-boot-edit-db-ms-microsoft"    class="huge"></p>
 <p>W keyring'u kernela powinny pojawić się dwie nowe pozycje:</p>
 <pre><code># cat /proc/keys | grep -i asym | grep Mic
 11ffee25 I------     1 perm 1f010000     0     0 asymmetri Microsoft Windows Production PCA 2011: a92902398e16c49778cd90f99e4f9ae17c55af53: X509.rsa 7c55af53 []
@@ -1456,12 +1456,12 @@ input password:
 input password again:
 </code></pre>
 <p>Teraz wystarczy zrestartować system i dokończyć proces w MokManager:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/046-debian-linux-secure-boot-shim-disable.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/047-debian-linux-secure-boot-shim-disable-password.jpg" alt=""    class="huge"></p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/048-debian-linux-secure-boot-shim-disable-reboot.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/046-debian-linux-secure-boot-shim-disable.jpg" alt="debian-linux-secure-boot-shim-disable"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/047-debian-linux-secure-boot-shim-disable-password.jpg" alt="debian-linux-secure-boot-shim-disable-password"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/048-debian-linux-secure-boot-shim-disable-reboot.jpg" alt="debian-linux-secure-boot-shim-disable-reboot"    class="huge"></p>
 <p>Po wyłączeniu Secure Boot w taki sposób, przy starcie systemu w lewym górnym rogu będziemy mieć
 teraz informację: <code>Booting in insecure mode</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/049-debian-linux-secure-boot-shim-disable-insecure-mode.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/049-debian-linux-secure-boot-shim-disable-insecure-mode.jpg" alt="debian-linux-secure-boot-shim-disable-insecure-mode"    class="huge"></p>
 <p>W logu systemowym będzie informacja, że <code>secureboot: Secure boot disabled</code> . Różne narzędzia takie
 jak np. <code>bootctl</code> czy <code>mokutil</code> będą w dalszym ciągu zwracać, że Secure Boot jest włączony:</p>
 <pre><code># bootctl status | grep -i secure
@@ -1484,7 +1484,7 @@ konfiguracji firmware EFI/UEFI.</p>
 każdy, kto ma dostęp fizyczny do komputera. Dlatego też przydałoby się ustawić hasło, by czasem
 ktoś z marszu nie podmienił czy wgrał nam nowych kluczy, które mogą całkowicie skompromitować
 bezpieczeństwo jakie oferuje Secure Boot.</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/050-debian-linux-efi-uefi-firmware-bios-configuration-supervisor-password.jpg" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2020/03/050-debian-linux-efi-uefi-firmware-bios-configuration-supervisor-password.jpg" alt="debian-linux-efi-uefi-firmware-bios-configuration-supervisor-password"    class="huge"></p>
 <h2 id="podsumowanie">Podsumowanie</h2>
 <p>I tak oto dobrnęliśmy do końca. Jak można było zauważyć, mechanizm Secure Boot jest w pełni
 konfigurowalny, wliczając w to zastąpienie wbudowanych w firmware EFI/UEFI certyfikatów Microsoft i
@@ -1707,5 +1707,18 @@ stadium uruchamiania komputera.</p></div>
   diameter: 40,
   textColor: '#c3c3c3'
 })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
 </body>
 </html>

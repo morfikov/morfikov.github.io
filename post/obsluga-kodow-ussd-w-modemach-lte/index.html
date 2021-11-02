@@ -181,11 +181,11 @@ interfejsy <code>/dev/ttyUSB0</code> oraz <code>/dev/ttyUSB1</code> .</p>
 <p>Szukając na sieci jakiegoś przyjaznego narzędzia do obsługi kodów USSD, natrafiłem na
 <a href="https://github.com/mhogomchungu/ussd-gui">ussd-gui</a>. Ten programik posiada w miarę prosty interfejs
 QT i wygląda mniej więcej tak:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/1.ussd-gui-kod.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/1.ussd-gui-kod.png" alt="ussd-gui-kod"    class="big"></p>
 <p>W polu <code>Input</code> wpisujemy kod USSD i wciskamy przycisk <code>Send</code> . Po chwili powinna zostać nam zwrócona
 odpowiedź z sieci, tak jak to widzimy wyżej. <code>ussd-gui</code> potrafi też odbierać wiadomości SMS ale nie
 potrafi ich wysyłać.</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/3.wysylanie-sms-ussd-gui.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/3.wysylanie-sms-ussd-gui.png" alt="wysylanie-sms-ussd-gui"    class="big"></p>
 <p>Niemniej jednak, <a href="https://morfikov.github.io/post/wysylanie-odbieranie-sms-w-wammu/">wysyłanie i obieranie SMS lepiej zostawić
 wammu</a>. On chyba najlepiej ma opanowaną tę
 kwestię.</p>
@@ -219,7 +219,7 @@ efekcie czego nie działają za dobrze z tym backend'em. W <code>device</code> o
 którego ma korzystać <code>ussd-gui</code>. W <code>ussdInfo</code> zaś są przechowywane wszystkie ulubione kody USSD
 wraz z ich opisami. Kody USSD jak i opisy można definiować bezpośrednio w oknie <code>ussd-gui</code> , co
 wygląda mniej więcej tak:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/2.hostoria-kodow-ussd-gui.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/2.hostoria-kodow-ussd-gui.png" alt="hostoria-kodow-ussd-gui"    class="big"></p>
 <p>Mamy także dwie dość enigmatyczne opcje: <code>initCommand</code> oraz <code>terminatorSequence</code> . Obie z nich są
 wykorzystywane, gdy w grę wchodzi backend <code>source=internal</code> . W <code>initCommand</code> podajemy sekwencję
 poleceń AT, które mają zostać przesłane do modemu przed nawiązaniem z nim połączenia. Chodzi głównie
@@ -240,7 +240,7 @@ działaniu <code>ussd-gui</code> .</p>
 <p>Jako, że <code>ussd-gui</code> wykorzystuje <code>gammu</code> , to możemy spróbować przesłać te kody również z wiersza
 poleceń. Tak dla przykładu, by przesłać kod <code>*111#</code> , wpisujemy <code>gammu getussd '*111#'</code> . Poniżej
 przykład:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/4.gammu-kod-ussd.png" alt=""    class="big"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/4.gammu-kod-ussd.png" alt="gammu-kod-ussd"    class="big"></p>
 <p>Niestety czas oczekiwania na odpowiedź jest bardzo długi. Nie udało mi się także odpowiedzieć na
 otrzymany komunikat i to pomimo faktu, że wyraźnie widnieje tam <code>Action needed</code> . Być może było to
 za sprawą zbyt długiego oczekiwanie na zwrócenie komunikatu przez aplikację. Nie mam pojęcia jak
@@ -253,12 +253,12 @@ bezpośrednio na interfejsy modemu w katalogu <code>/dev/</code> .</p>
 <p>Czas reakcji na kody w obu przypadkach jest bardzo szybki. Niemniej jednak, trzeba nauczyć się
 poleceń AT i ręcznie je wpisywać za każdym razem do terminala, co jest bardzo niewygodne. Poniżej
 przykład:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/5.kod-ussd-cu-terminal.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/5.kod-ussd-cu-terminal.png" alt="kod-ussd-cu-terminal"    class="huge"></p>
 <p>Sposób z <code>echo</code> jest nieco wygodniejszy, bo wykorzystywana jest historia shell'a. Jeśli mamy <code>zsh</code>
 zamiast domyślnego <code>bash</code> , to operowanie na tych kodach może być naprawdę proste. Wymagane będą też
 dwa okna terminala. W jednym z nich będą wpisywane polecenia, w drugi będą zwracane wyniki. Poniżej
 przykład w oparciu o multiplekser <code>tmux</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/6.tmux-kod-ussd-echo-cat.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/6.tmux-kod-ussd-echo-cat.png" alt="tmux-kod-ussd-echo-cat"    class="huge"></p>
 <p>W górnym okienku przy pomocy <code>echo</code> wpisaliśmy dwa polecenia:</p>
 <pre><code>$ echo -e &quot;AT+CMGF=1;^CURC=0;^USSDMODE=0\r&quot; &gt; /dev/huawei-E3372-0
 $ echo -e &quot;AT+CUSD=1,\&quot;*101#\&quot;,15\r&quot; &gt;/dev/huawei-E3372-0
@@ -268,13 +268,13 @@ jest to <code>*101#</code> . Ważne jest by kod ująć w <code>&quot; &quot;</co
 Odpowiedzi są zwracane w przeciągu 2-3 sekund.</p>
 <p>W ten sposób również jesteśmy w stanie odpowiadać na komunikaty, które się pojawiają w dolnym oknie.
 Dla przykładu, w górnym oknie prześlijmy kod <code>*111#</code> .</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/7.tmux-kod-ussd-echo-cat.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/7.tmux-kod-ussd-echo-cat.png" alt="tmux-kod-ussd-echo-cat"    class="huge"></p>
 <p>Widzimy, że pojawiło się kilka opcji do wyboru. Wybierzmy <code>Kontro</code> w odpowiedzi wysyłając <code>1</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/8.tmux-kod-ussd-echo-cat.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/8.tmux-kod-ussd-echo-cat.png" alt="tmux-kod-ussd-echo-cat"    class="huge"></p>
 <p>Teraz sprawdźmy stan konta również przesyłając <code>1</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/9.tmux-kod-ussd-echo-cat.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/9.tmux-kod-ussd-echo-cat.png" alt="tmux-kod-ussd-echo-cat"    class="huge"></p>
 <p>Teraz możemy zakończyć pracę przesyłając <code>0</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/10.tmux-kod-ussd-echo-cat.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/04/10.tmux-kod-ussd-echo-cat.png" alt="tmux-kod-ussd-echo-cat"    class="huge"></p>
 <p>W ten sposób przy wykorzystaniu historii i możliwości shell'a ZSH oraz poleceń <code>echo</code> i <code>cat</code> możemy
 komunikować się z siecią przesyłając jej kody USSD.</p></div>
 				
@@ -474,5 +474,18 @@ komunikować się z siecią przesyłając jej kody USSD.</p></div>
   diameter: 40,
   textColor: '#c3c3c3'
 })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
 </body>
 </html>

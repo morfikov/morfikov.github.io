@@ -154,7 +154,7 @@ internetowych nie ma zaimplementowanej obsługi tego protokołu. W efekcie aplik
 komunikować się z siecią, mogą próbować wysyłać zapytania o rekordy AAAA (IPv6) do serwerów DNS.
 Jako, że te zapytania są zupełnie zbędne przy takiej konfiguracji sieci, to tylko spowalniają
 połączenie. Poniżej jest przykładowa sytuacja:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/1.wireshark-domena-rekord-aaaa-dns.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/1.wireshark-domena-rekord-aaaa-dns.png" alt="wireshark-domena-rekord-aaaa-dns"    class="huge"></p>
 <p>Jak widać, do serwera DNS zostały wysłane dwa zapytania o adres IP serwisu YT. Serwer DNS zwrócił
 dwie odpowiedzi zawierające dwa adresy, po jednym dla protokołu IPv4 i IPv6.</p>
 <p>W przypadku, gdy mamy <a href="https://morfikov.github.io/post/dnscrypt-proxy-czyli-szyfrowanie-zapytan-dns/">lokalnie skonfigurowaną usługę dnscrypt-proxy</a>, wszystkie te zapytania
@@ -178,7 +178,7 @@ ExecStart=/usr/sbin/dnscrypt-proxy \
 <p>Plugin powinien zostać załadowany. Możemy także przetestować, czy zapytania DNS o rekordy AAAA są
 obsługiwane
 lokalnie:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/2.wireshark-domena-rekord-aaaa-dns-dnscrypt-proxy.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/2.wireshark-domena-rekord-aaaa-dns-dnscrypt-proxy.png" alt="wireshark-domena-rekord-aaaa-dns-dnscrypt-proxy"    class="huge"></p>
 <p>Jak widzimy wyżej, ponownie aplikacja wysłała dwa zapytania o IP serwisu YT ale rekord AAAA nie
 zawiera adresu IPv6. Jeśli dodatkowo popatrzymy na znacznik czasu, to dostrzeżemy, że czas między
 zapytaniem i odpowiedzią wynosi około 0,001 s. W przypadku, gdy aplikacja odpytywała serwer DNS, ten
@@ -254,7 +254,7 @@ ads.*
 <p>Domeny mogą zawierać <code>*</code> w celu dopasowaniu szeregu adresów.</p>
 <p>Spróbujmy teraz odwiedzić serwis YT w przeglądarce. Powinien nas przywitać ten poniższy
 błąd:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/3.dnscrypt-proxy-blokowanie-domen-facebook-youtube.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2016/08/3.dnscrypt-proxy-blokowanie-domen-facebook-youtube.png" alt="dnscrypt-proxy-blokowanie-domen-facebook-youtube"    class="huge"></p>
 <p>Wszystkie inne domeny powinny działać bez zarzutu.</p></div>
 				
 				<footer class="entry__footer">
@@ -451,5 +451,18 @@ błąd:</p>
   diameter: 40,
   textColor: '#c3c3c3'
 })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
 </body>
 </html>

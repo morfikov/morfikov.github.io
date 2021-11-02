@@ -193,7 +193,7 @@ działania użytkowników naszego bloga.</p>
 przesyłane są przy pomocy ciasteczka dane uwierzytelniające, które są następnie sprawdzane przez
 funkcję <code>wp_validate_auth_cookie()</code> . Poniżej jest wyciągnięte ciasteczko przy pomocy snifera
 wireshark:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/05/1.wordpress-cookie.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/05/1.wordpress-cookie.png" alt="wordpress-cookie"    class="huge"></p>
 <p>Jeśli komuś udałoby się podrobić te zaznaczoną pozycję, mógłby on uzyskać dostęp do konta na
 stronie. Poniżej sprawdzimy czy wykucie takiego ciasteczka i tym samym obejście zabezpieczeń
 WordPressa jest w ogóle możliwe.</p>
@@ -278,7 +278,7 @@ tj. czy będą do dyspozycji dodatkowe algorytmy. Taki warunek widnieje w pliku 
 <p>Krótko mówiąc, jeśli istnieje jest funkcja <code>hash</code> to zostanie użyty <code>sha256</code> , w przeciwnym wypadku
 <code>sha1</code> . Chodzi o to, że funkcja PHP <code>hash_hmac()</code> nie obsługuje <code>sha256</code> . Jeśli nie wiemy, który
 hash zostanie użyty na konkretnym serwerze, zawsze możemy to sprawdzić via <code>&lt;php phpinfo() ?&gt;</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/05/2.php-hash.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/05/2.php-hash.png" alt="php-hash"    class="huge"></p>
 <p>Dalej w pliku mamy kod odpowiadający za generowanie samego hasha:</p>
 <pre><code>$hash = hash_hmac( $algo, $user-&gt;user_login . '|' . $expiration . '|' . $token, $key );
 </code></pre>
@@ -554,5 +554,18 @@ odgadnięcie wartości stałej <code>COOKIEHASH</code> .</p></div>
   diameter: 40,
   textColor: '#c3c3c3'
 })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
 </body>
 </html>

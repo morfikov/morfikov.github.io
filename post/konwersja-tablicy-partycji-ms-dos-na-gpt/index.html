@@ -142,7 +142,7 @@ z MS-DOS na GPT jak i odwrotnie, choć w tym drugim przypadku trzeba się troch�
 <h2 id="struktura-gpt">Struktura GPT</h2>
 <p>Do celów testowych wykorzystam mój stary dysk, na którym to są obecne 4 partycje, w tym jedna
 rozszerzona, na której to zostały ulokowane dwa dyski logiczne:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/3.dysk-po-konwersji-tablicy-ms-dos-na-gpt.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/3.dysk-po-konwersji-tablicy-ms-dos-na-gpt.png" alt="dysk-po-konwersji-tablicy-ms-dos-na-gpt"    class="huge"></p>
 <p>Tak z kolei wygląda dysk widziany oczami <code>parted</code> , z tym, że z uwzględnieniem wolnych przestrzeni:</p>
 <pre><code>(parted) print free
 Model: WDC WD80 0JB-00JJA0 (scsi)
@@ -163,7 +163,7 @@ Number  Start       End         Size       Type      File system  Flags
 <p>By przeprowadzić bezproblemowo konwersję tablicy partycji MS-DOS na GPT, trzeba mieć troszeczkę
 wolnego miejsca na początku i na końcu dysku. Ile? Struktura GPT wygląda tak jak na rysunku poniżej
 (zaczerpnięty z <a href="https://en.wikipedia.org/wiki/GUID_Partition_Table">wiki</a>):</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/2.gpt-schemat.png" alt=""    class="medium"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/2.gpt-schemat.png" alt="gpt-schemat"    class="medium"></p>
 <p>Mamy tam zatem po jednym sektorze na MBR oraz nagłówek GPT, oraz 32 sektory na tablicę partycji.
 Łącznie daje to 34 sektory 512 bajtowe, co przekłada się na <code>17408</code> bajtów wolnego miejsca na
 początku dysku. Jak możemy zaobserwować, struktura tablicy partycji GPT ma jeszcze backup swojej
@@ -220,7 +220,7 @@ Found valid GPT with protective MBR; using GPT.
 </code></pre>
 <p>Czyli proces bez problemu się zakończył. Rzućmy jeszcze okiem na to jak wygląda struktura partycji w
 <code>gparted</code> :</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/1.konwersja-ms-dos-gpt-layout-dysk.png" alt="konwersja-ms-dos-gpt-layout-dysk"    class="huge"></p>
 <p>Są widoczne jakieś dwie dziury. Może <code>parted</code> nam coś więcej podpowie:</p>
 <pre><code>(parted) print free
 Model: WDC WD80 0JB-00JJA0 (scsi)
@@ -248,7 +248,7 @@ zostaną wygenerowane nowe numerki UUID, co pociąga za sobą edycję i dostosow
 kod bootloader'a o rozmiarze minimum 1MiB, najlepiej dać tam 128MiB. Ważne jest by ta partycja miała
 ustawioną flagę <code>bios_grub</code> . Ja wyciąłem ten kawałek z pierwszej partycji. Cały układ powinien
 zatem wyglądać tak jak na obrazku poniżej:</p>
-<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/4.odpowiedni-uklad-partycji-gpt.png" alt=""    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2015/06/4.odpowiedni-uklad-partycji-gpt.png" alt="odpowiedni-uklad-partycji-gpt"    class="huge"></p>
 <p>Jeśli na dysku mieliśmy system operacyjny, to trzeba także przeinstalować bootloader przy pomocy
 <a href="https://morfikov.github.io/post/przygotowanie-srodowiska-chroot-do-pracy/">środowiska chroot</a>, najlepiej z poziomu [systemu live].</p></div>
 				
@@ -441,5 +441,18 @@ zatem wyglądać tak jak na obrazku poniżej:</p>
   diameter: 40,
   textColor: '#c3c3c3'
 })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
 </body>
 </html>
