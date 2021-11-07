@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak zaszyfrować Raspberry Pi (RasPiOS/Raspbian, LUKS) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Jak zaszyfrować Raspberry Pi (RasPiOS/Raspbian, LUKS)" />
+<meta property="og:description" content="Ostatnio napisał do mnie pewien osobnik, który miał dość spory problem z zaszyfrowaniem swojego
+Raspberry Pi. Po wymianie kilku maili zacząłem tracić rozeznanie w całej tej sytuacji i doszedłem
+do wniosku, że najwyraźniej zaszyfrowanie systemu maliny nie jest rzeczą trywialną. Postanowiłem
+zatem rzucić okiem na swojego RPI i sprawdzić czy są tutaj faktycznie jakieś odstępstwa od
+tradycyjnego szyfrowania na bazie LUKS w stosunku do szyfrowania spotykanego w pierwszej lepszej
+dystrybucji linux&#39;a, takiej jak Debian czy Ubuntu. Pobrałem więc ze strony Raspberry Pi najnowszy
+obraz systemu RasPiOS/Raspbian, wrzuciłem go na kartę SD przy pomocy dd i okazało się, że w
+zasadzie większych problemów z zaszyfrowaniem mojej maliny nie było. Przyznać trzeba, że informacje
+na temat szyfrowania RPI, które można spotkać na internetach, są w przeważającej większości bardzo
+słabej jakości i mam wrażenie, że pisane przez osoby, które nie do końca się zainteresowały
+poruszanym przez siebie zagadnieniem. Postanowiłem zatem na przykładzie mojego Raspberry Pi 4B
+opisać w miarę dokładny sposób od początku do końca jak przeprowadzić cały ten proces szyfrowania
+danych na karcie SD, którą podpinamy do naszego minikomputera." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/jak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-11-07T22:17:00+01:00" />
+<meta property="article:modified_time" content="2021-11-07T22:17:00+01:00" />
+
+
+		<meta itemprop="name" content="Jak zaszyfrować Raspberry Pi (RasPiOS/Raspbian, LUKS)">
+<meta itemprop="description" content="Ostatnio napisał do mnie pewien osobnik, który miał dość spory problem z zaszyfrowaniem swojego
+Raspberry Pi. Po wymianie kilku maili zacząłem tracić rozeznanie w całej tej sytuacji i doszedłem
+do wniosku, że najwyraźniej zaszyfrowanie systemu maliny nie jest rzeczą trywialną. Postanowiłem
+zatem rzucić okiem na swojego RPI i sprawdzić czy są tutaj faktycznie jakieś odstępstwa od
+tradycyjnego szyfrowania na bazie LUKS w stosunku do szyfrowania spotykanego w pierwszej lepszej
+dystrybucji linux&#39;a, takiej jak Debian czy Ubuntu. Pobrałem więc ze strony Raspberry Pi najnowszy
+obraz systemu RasPiOS/Raspbian, wrzuciłem go na kartę SD przy pomocy dd i okazało się, że w
+zasadzie większych problemów z zaszyfrowaniem mojej maliny nie było. Przyznać trzeba, że informacje
+na temat szyfrowania RPI, które można spotkać na internetach, są w przeważającej większości bardzo
+słabej jakości i mam wrażenie, że pisane przez osoby, które nie do końca się zainteresowały
+poruszanym przez siebie zagadnieniem. Postanowiłem zatem na przykładzie mojego Raspberry Pi 4B
+opisać w miarę dokładny sposób od początku do końca jak przeprowadzić cały ten proces szyfrowania
+danych na karcie SD, którą podpinamy do naszego minikomputera."><meta itemprop="datePublished" content="2021-11-07T22:17:00+01:00" />
+<meta itemprop="dateModified" content="2021-11-07T22:17:00+01:00" />
+<meta itemprop="wordCount" content="4145">
+<meta itemprop="keywords" content="luks,raspberry-pi-4b,raspios,raspbian,szyfrowanie,initrd,initramfs," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Jak zaszyfrować Raspberry Pi (RasPiOS/Raspbian, LUKS)"/>
+<meta name="twitter:description" content="Ostatnio napisał do mnie pewien osobnik, który miał dość spory problem z zaszyfrowaniem swojego
+Raspberry Pi. Po wymianie kilku maili zacząłem tracić rozeznanie w całej tej sytuacji i doszedłem
+do wniosku, że najwyraźniej zaszyfrowanie systemu maliny nie jest rzeczą trywialną. Postanowiłem
+zatem rzucić okiem na swojego RPI i sprawdzić czy są tutaj faktycznie jakieś odstępstwa od
+tradycyjnego szyfrowania na bazie LUKS w stosunku do szyfrowania spotykanego w pierwszej lepszej
+dystrybucji linux&#39;a, takiej jak Debian czy Ubuntu. Pobrałem więc ze strony Raspberry Pi najnowszy
+obraz systemu RasPiOS/Raspbian, wrzuciłem go na kartę SD przy pomocy dd i okazało się, że w
+zasadzie większych problemów z zaszyfrowaniem mojej maliny nie było. Przyznać trzeba, że informacje
+na temat szyfrowania RPI, które można spotkać na internetach, są w przeważającej większości bardzo
+słabej jakości i mam wrażenie, że pisane przez osoby, które nie do końca się zainteresowały
+poruszanym przez siebie zagadnieniem. Postanowiłem zatem na przykładzie mojego Raspberry Pi 4B
+opisać w miarę dokładny sposób od początku do końca jak przeprowadzić cały ten proces szyfrowania
+danych na karcie SD, którą podpinamy do naszego minikomputera."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak zaszyfrować Raspberry Pi (RasPiOS/Raspbian, LUKS)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2021-11-07T22:17:00&#43;01:00">Opublikowano: 07/11/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/raspberrypi/" rel="category">RaspberryPi</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Jak zaszyfrować Raspberry Pi (RasPiOS/Raspbian, LUKS)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#raspiosraspbian-czyli-system-operacyjny-dla-raspberry-pi">RasPiOS/Raspbian, czyli system operacyjny dla Raspberry Pi</a></li>
+    <li><a href="#instalacja-potrzebnego-oprogramowania">Instalacja potrzebnego oprogramowania</a></li>
+    <li><a href="#raspberry-pi-i-obraz-initramfsinitrd">Raspberry Pi i obraz initramfs/initrd</a>
+      <ol>
+        <li><a href="#wstępne-generowanie-obrazu">Wstępne generowanie obrazu</a>
+          <ol>
+            <li><a href="#problematyczne-nazwy-obrazów-initramfsinitrd">Problematyczne nazwy obrazów initramfs/initrd</a></li>
+            <li><a href="#przyjazne-nazwy">Przyjazne nazwy</a></li>
+          </ol>
+        </li>
+        <li><a href="#plik-etcinitramfs-toolsinitramfsconf">Plik /etc/initramfs-tools/initramfs.conf</a></li>
+        <li><a href="#plik-bootconfigtxt">Plik /boot/config.txt</a></li>
+        <li><a href="#plik-bootcmdlinetxt">Plik /boot/cmdline.txt</a></li>
+        <li><a href="#regeneracja-obrazu-initramfsinitrd">Regeneracja obrazu initramfs/initrd</a></li>
+        <li><a href="#testowanie-wsparcia-dla-initramfsinitrd-w-rpi">Testowanie wsparcia dla initramfs/initrd w RPI</a></li>
+      </ol>
+    </li>
+    <li><a href="#szyfrowanie-partycji-głównej-na-karcie-sd">Szyfrowanie partycji głównej na karcie SD</a>
+      <ol>
+        <li><a href="#zgranie-danych-z-karty-sd-przy-pomocy-rsync">Zgranie danych z karty SD przy pomocy rsync</a></li>
+      </ol>
+    </li>
+    <li><a href="#tworzenie-zaszyfrowanego-kontenera">Tworzenie zaszyfrowanego kontenera</a>
+      <ol>
+        <li><a href="#aes-vs-google-adiantum">AES vs. Google Adiantum</a></li>
+        <li><a href="#system-plików-ext4">System plików ext4</a></li>
+        <li><a href="#przenoszenie-danych-karty-sd-do-kontenera-luks">Przenoszenie danych karty SD do kontenera LUKS</a></li>
+      </ol>
+    </li>
+    <li><a href="#dostosowanie-konfiguracji-raspberry-pi">Dostosowanie konfiguracji Raspberry Pi</a>
+      <ol>
+        <li><a href="#plik-etcfstab">Plik /etc/fstab</a></li>
+        <li><a href="#plik-etccrypttab">Plik /etc/crypttab</a>
+          <ol>
+            <li><a href="#kwestia-pliku-etccryptsetup-initramfsconf-hook">Kwestia pliku /etc/cryptsetup-initramfs/conf-hook</a></li>
+          </ol>
+        </li>
+        <li><a href="#plik-bootcmdlinetxt-1">Plik /boot/cmdline.txt</a>
+          <ol>
+            <li><a href="#parametr-cryptdevice">Parametr cryptdevice</a></li>
+          </ol>
+        </li>
+        <li><a href="#regeneracja-obrazu-initramfsinitrd-1">Regeneracja obrazu initramfs/initrd</a>
+          <ol>
+            <li><a href="#chroot-failed-to-run-command-binbash-exec-format-error">chroot: failed to run command ‘/bin/bash’: Exec format error</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#test-zaszyfrowanego-kontenera-luks">Test zaszyfrowanego kontenera LUKS</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Ostatnio napisał do mnie pewien osobnik, który miał dość spory problem z zaszyfrowaniem swojego
+Raspberry Pi. Po wymianie kilku maili zacząłem tracić rozeznanie w całej tej sytuacji i doszedłem
+do wniosku, że najwyraźniej zaszyfrowanie systemu maliny nie jest rzeczą trywialną. Postanowiłem
+zatem rzucić okiem na swojego RPI i sprawdzić czy są tutaj faktycznie jakieś odstępstwa od
+tradycyjnego szyfrowania na bazie LUKS w stosunku do szyfrowania spotykanego w pierwszej lepszej
+dystrybucji linux'a, takiej jak Debian czy Ubuntu. Pobrałem więc ze strony Raspberry Pi najnowszy
+obraz systemu RasPiOS/Raspbian, wrzuciłem go na kartę SD przy pomocy <code>dd</code> i okazało się, że w
+zasadzie większych problemów z zaszyfrowaniem mojej maliny nie było. Przyznać trzeba, że informacje
+na temat szyfrowania RPI, które można spotkać na internetach, są w przeważającej większości bardzo
+słabej jakości i mam wrażenie, że pisane przez osoby, które nie do końca się zainteresowały
+poruszanym przez siebie zagadnieniem. Postanowiłem zatem na przykładzie mojego Raspberry Pi 4B
+opisać w miarę dokładny sposób od początku do końca jak przeprowadzić cały ten proces szyfrowania
+danych na karcie SD, którą podpinamy do naszego minikomputera.</p>
+<h2 id="raspiosraspbian-czyli-system-operacyjny-dla-raspberry-pi">RasPiOS/Raspbian, czyli system operacyjny dla Raspberry Pi</h2>
+<p>By przystąpić do zaszyfrowania systemu w Raspberry Pi, będzie nam potrzebna karta SD, na którą
+wgramy sobie system RasPiOS (dawniej zwany Raspbian). Będziemy także potrzebować jakiegoś nośnika
+danych, na który zrzucimy sobie pliki rezydujące na partycji <code>/</code> tego OS'a. Takim nośnikiem może
+być inna karta SD czy pendrive, lub też jakiś katalog na dysku naszego laptopa lub desktopa.</p>
+<p>Zacznijmy może od przejścia na <a href="https://www.raspberrypi.com/software/operating-systems/">oficjalną stronę RaspberryPi</a> i pobrania z niej systemu
+RasPiOS/Raspbian. Pobrany obraz jest spakowany i trzeba będzie go wypakować, po czym tak otrzymany
+plik wrzucimy sobie na kartę SD via <code>dd</code> .</p>
+<p>Zanim jednak przejdziemy do wrzucania samego obrazu, zweryfikujmy sumę kontrolną przy pomocy
+<code>sha256sum</code> , by się upewnić, że obraz w procesie pobierania nie został w żaden sposób zmieniony.
+Szkoda tylko, że brakuje podpisów cyfrowych i nie ma jak zweryfikować czy czasem tych obrazów nikt
+nie zmienił w sposób nieuprawniony:</p>
+<pre><code>$ echo &quot;84a711d9ff4c295711a40af43fea38893a20b3b087a48370d8fb926fb541faf5  2021-05-07-raspios-buster-armhf-full.zip&quot; | sha256sum -c
+2021-05-07-raspios-buster-armhf-full.zip: OK
+</code></pre>
+<p>Suma kontrolna się zgadza, zatem wypakowujemy ten plik:</p>
+<pre><code>$ patool extract  '2021-05-07-raspios-buster-armhf-full.zip'
+
+$  ls -hal 2021-05-07-raspios-buster-armhf-full.*
+-rw-r--r--+ 1 morfik p2p 8.1G 2021-05-07 17:23:51 2021-05-07-raspios-buster-armhf-full.img
+-rw-rw----+ 1 morfik p2p 2.8G 2021-11-06 19:51:04 2021-05-07-raspios-buster-armhf-full.zip
+</code></pre>
+<p>No jak widać, rozmiarowo bardzo się różnią te dwa pliki.</p>
+<p>Wrzucamy obraz na kartę SD via <code>dd</code> :</p>
+<pre><code># dd if=2021-05-07-raspios-buster-armhf-full.img of=/dev/mmcblk0 status=progress
+</code></pre>
+<p>Jak tylko ten proces dobiegnie końca, podłączamy kartę SD do naszej maliny i uruchamiamy system,
+tak by wstępnie go skonfigurować za sprawą PiWizard.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/11/001.raspberry-pi-rpi-luks-encrypt-fresh-install.png" alt="raspberry-pi-rpi-luks-encrypt-fresh-install"    class="huge"></p>
+<h2 id="instalacja-potrzebnego-oprogramowania">Instalacja potrzebnego oprogramowania</h2>
+<p>By móc z powodzeniem przeprowadzić proces szyfrowania/deszyfrowania plików zgromadzonych na
+partycji <code>/</code> na karcie SD w Raspberry Pi, potrzebujemy odpowiedniego oprogramowania. Najlepiej
+zainstalować sobie standardowy zestaw pakietów, w skład którego wchodzą <code>cryptsetup</code> , <code>lvm2</code> ,
+<code>busybox</code> oraz <code>initramfs-tools</code> .</p>
+<pre><code>root@raspberrypi:/home/pi# apt-get install cryptsetup lvm2 busybox initramfs-tools
+</code></pre>
+<p>Po instalacji potrzebnego oprogramowania dobrze jest zrestartować RPI, tak by wszystkie nowe usługi
+się poprawnie zainicjowały, tj. uruchomiły się i utworzyły wszystkie potrzebne do swojego
+prawidłowego działania pliki/katalogi, etc.</p>
+<h2 id="raspberry-pi-i-obraz-initramfsinitrd">Raspberry Pi i obraz initramfs/initrd</h2>
+<p>Domyślnie Raspberry Pi nie korzysta z obrazu initramfs/initrd, bo w zasadzie nie ma takiej potrzeby.
+Niemniej jednak, jeśli chcemy zaszyfrować główny systemu plików naszego RPI, to musimy zdawać sobie
+sprawę, że kernel nie będzie potrafił tak zaszyfrowanego systemu plików zamontować. Dlatego właśnie
+będzie nam potrzebny obraz initramfs/initrd i bez niego się zwyczajnie nie obejdziemy. Musimy zatem
+włączyć obsługę initramfs/initrd w Raspberry Pi.</p>
+<p>Na sam początek edytujemy plik <code>/etc/default/raspberrypi-kernel</code> i usuwamy komentarz z linijki
+zawierającej <code>INITRD=</code> , który ma na celu włączenie generowania obrazu initramfs/initrd ilekroć
+tylko kernel będzie instalowany/aktualizowany w systemie:</p>
+<pre><code>INITRD=Yes
+#RPI_INITRD=Yes
+</code></pre>
+<p>Parametr <code>RPI_INITRD=</code> zostawiamy w spokoju, bo w repozytorium nie ma póki co pakietu
+<code>rpi-initramfs-tools</code> . Być może kiedyś w przyszłości taki <a href="https://forums.raspberrypi.com/viewtopic.php?t=241313">pakiet się pojawi</a>.</p>
+<h3 id="wstępne-generowanie-obrazu">Wstępne generowanie obrazu</h3>
+<p>Możemy teraz wstępnie sobie wygenerować obraz initramfs/initrd korzystając z <code>update-initramfs</code> . W
+tym celu wystarczy w terminalu wpisać to poniższe polecenie:</p>
+<pre><code>root@raspberrypi:/home/pi# update-initramfs -c -k $(uname -r)
+update-initramfs: Generating /boot/initrd.img-5.10.63-v7l+
+cryptsetup: ERROR: Couldn't resolve device /dev/root
+cryptsetup: WARNING: Couldn't determine root device
+cryptsetup: WARNING: The initramfs image may not contain cryptsetup binaries
+    nor crypto modules. If that's on purpose, you may want to uninstall the
+    'cryptsetup-initramfs' package in order to disable the cryptsetup initramfs
+    integration and avoid this warning.
+</code></pre>
+<p>Mamy tutaj parę błędów generowanych przez <code>cryptsetup</code> ale na razie nie ma co się nimi przejmować,
+bo jeszcze nie utworzyliśmy zaszyfrowanego kontenera LUKS, nie wspominając nawet o jego
+konfiguracji. Jeśli jednak zajrzymy do katalogu <code>/boot/</code> , to zobaczymy, że obraz initrd/initramfs
+został wygenerowany z powodzeniem:</p>
+<pre><code>root@raspberrypi:/home/pi# ls -hal /boot | grep -i initrd
+-rwxr-xr-x  1 root root  17M Nov  6 23:24 initrd.img-5.10.63-v7l+
+</code></pre>
+<h4 id="problematyczne-nazwy-obrazów-initramfsinitrd">Problematyczne nazwy obrazów initramfs/initrd</h4>
+<p>Początkowo myślałem, że da rade utworzyć dowiązania symboliczne w <code>/boot/</code> do obrazów
+initramfs/initrd, coś na wzór przeciętnej dystrybucji linux'a. Problem jednak w tym, że Raspberry
+Pi ma partycję <code>/boot/</code> sformatowaną systemem plików <code>vfat</code> , a nie <code>ext4</code> . System plików FAT
+niestety nie wspiera linków i można zapomnieć, np. o rozwiązaniu, które <a href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">zostało przedstawione w
+tym artykule</a>. Nie da rady też sformatować partycji <code>/boot/</code> systemem plików ext4, bo
+najwyraźniej <a href="https://forums.raspberrypi.com/viewtopic.php?t=58502">bootloader Raspberry Pi</a> wymaga, by ta partycja miała system plików FAT.</p>
+<p>Wygląda na to, że domyślnie przy aktualizacji kernela trzeba będzie zwracać uwagę na numerek obecny
+w pliku <code>initrd.img</code> i za każdym razem, gdy ulegnie on zmianie będziemy musieli odpowiednio
+dostosować konfigurację RPI, by system był w stanie odszyfrować dane z karty SD. Przyznam, że
+niezbyt mi się taka opcja spodobała i postanowiłem poszukać jakiegoś bardziej cywilizowanego
+rozwiązania. <a href="https://k1024.org/posts/2021/2021-01-25-raspbian-with-initrd/">Trafiłem na taki oto post</a>, który w zasadzie idealnie rozwiązuje cały zaistniały
+problem z nazwami obrazów initramfs/initrd.</p>
+<h4 id="przyjazne-nazwy">Przyjazne nazwy</h4>
+<p>By obrazy initramfs/initrd miały nieco bardziej dające przewidzieć się nazwy i do tego niezmienne w
+czasie, musimy zaprzęgnąć do pracy <a href="https://kernel-team.pages.debian.net/kernel-handbook/ch-update-hooks.html#s-initramfs-hooks">skrypty initramfs</a> (nie mylić ze skryptami
+<code>initramfs-tools</code> ). Skrypty <code>initramfs</code> rezydują w katalogu <code>/etc/initramfs/</code> i oferują one bardzo
+ciekawą funkcjonalność, z której będziemy robić użytek. Niemniej jednak, w domyślnej instalacji
+systemu RasPiOS/Raspbian (czy nawet na Debianie) próżno takiego folderu szukać. Trzeba zatem
+stworzyć katalog <code>/etc/initramfs/</code> , a w nim podkatalog <code>post-update.d/</code> :</p>
+<pre><code># mkdir -p /etc/initramfs/post-update.d/
+</code></pre>
+<p>Następnie tworzymy skrypt <code>rpi-initrd</code> oraz nadajemy mu prawa wykonywania:</p>
+<pre><code>#  touch /etc/initramfs/post-update.d/rpi-initrd
+#  chmod +x /etc/initramfs/post-update.d/rpi-initrd
+</code></pre>
+<p>Do pliku <code>rpi-initrd</code> wrzucamy poniższą zawartość:</p>
+<pre><code>#!/bin/bash
+
+ABI=&quot;$1&quot;
+INITRD=&quot;$2&quot;
+BOOTDIR=&quot;$(dirname &quot;$INITRD&quot;)&quot;
+
+# Note: the match below _must_ be synced with the boot kernel
+if [[ &quot;$ABI&quot; == *-v7l+ ]]; then
+        echo &quot;Building v7l+ image, updating top initrd&quot;
+        cp -p &quot;$INITRD&quot; &quot;$BOOTDIR/initrd.img&quot;
+fi
+</code></pre>
+<p>W tym przypadku mamy do czynienia z 32-bitowym OS, zatem ABI kernela trzeba ustawić na <code>-v7l+</code> .
+Gdybyśmy mieli 64 bitowy system w RPI, to wtedy ABI trzeba by ustawić na <code>-v8+</code> . Nie trzeba się
+tych wartości uczyć na pamięć, bo można je sobie wyprowadzić z nazwy obrazu initramfs/initrd
+generowanego domyślnie przez system Raspberry Pi. Przykładowo, jeśli mamy plik
+<code>initrd.img-5.10.63-v7l+</code> , to ABI tutaj znajduje się po ostatnim myślniku, czyli <code>-v7l+</code> .</p>
+<p>Po ponownym wygenerowaniu obrazu initramfs/initrd, w terminalu powinniśmy zauważyć dodatkowy
+komunikat <code>Building v7l+ image, updating top initrd</code> :</p>
+<pre><code>root@raspberrypi:/home/pi# update-initramfs -u -k $(uname -r)
+ln: failed to create hard link '/boot/initrd.img-5.10.63-v7l+.dpkg-bak' =&gt; '/boot/initrd.img-5.10.63-v7l+': Operation not permitted
+update-initramfs: Generating /boot/initrd.img-5.10.63-v7l+
+Building v7l+ image, updating top initrd
+</code></pre>
+<p>Pojawiła się również informacja, że nie udało się stworzyć twardego dowiązania
+<code>/boot/initrd.img-5.10.63-v7l+.dpkg-bak</code> . Ten komunikat dotyczy poruszanej wcześniej kwestii
+braku wsparcia dla linków w systemie plików FAT. System tutaj próbował zrobić backup obrazu
+starego initramfs/initrd ale bez tych linków najwyraźniej ten krok się nie powiedzie. W niczym to
+nam jednak nie przeszkadza.</p>
+<p>Gdy teraz zajrzymy do katalogu <code>/boot/</code> , to znajdziemy tam dwa obrazy initramfs/initrd:</p>
+<pre><code>root@raspberrypi:/home/pi# ls -hal /boot | grep -i initrd
+-rwxr-xr-x  1 root root  17M Nov  7 21:10 initrd.img-5.10.63-v7l+
+-rwxr-xr-x  1 root root  17M Nov  7 21:10 initrd.img
+</code></pre>
+<p>Plik z nazwą <code>initrd.img</code> przyda nam się później.</p>
+<h3 id="plik-etcinitramfs-toolsinitramfsconf">Plik /etc/initramfs-tools/initramfs.conf</h3>
+<p>Kolejnym krokiem jest edycja pliku <code>/etc/initramfs-tools/initramfs.conf</code> . Upewnijmy się, że w
+wygenerowanym obrazie initramfs/initrd znajdą się niezbędne moduły do obsługi systemu plików i
+dysków twardych. Dodatkowo potrzebny nam będzie <code>busybox</code> oraz odpowiedni układ klawiatury (dla
+wpisywania hasła).</p>
+<p>Reasumując, w tym powyższym pliku powinniśmy mieć ustawione te poniższe opcje:</p>
+<pre><code>MODULES=most
+BUSYBOX=y
+KEYMAP=y
+</code></pre>
+<h3 id="plik-bootconfigtxt">Plik /boot/config.txt</h3>
+<p>Kolejnym plik, który trzeba poddać edycji to <code>/boot/config.txt</code> . Trzeba w nim dodać parametr
+<code>initramfs</code> oraz podać mu dwie wartości. Pierwszą z nich jest nazwa obrazu initramfs/initrd (w
+katalogu <code>/boot/</code> ) , drugą zaś adres pamięci RAM, w który zostanie wgrany obraz, przykładowo:</p>
+<pre><code>initramfs initrd.img followkernel
+</code></pre>
+<p>W tym przypadku skorzystaliśmy z <code>followkernel</code> jako adres pamięci operacyjnej, co jest
+równoznaczne z adresem <code>0x0</code> , czyli obraz initramfs/initrd zostanie wgrany do pamięci RAM
+bezpośrednio za obrazem kernela. Więcej informacji na temat opcji w pliku <code>/boot/config.txt</code> <a href="https://www.raspberrypi.com/documentation/computers/config_txt.html">można
+znaleźć tutaj</a>.</p>
+<h3 id="plik-bootcmdlinetxt">Plik /boot/cmdline.txt</h3>
+<p>Idąc dalej, musimy nieco przerobić linijkę kernela, która w przypadku Raspberry Pi znajduje się w
+pliku <code>/boot/cmdline.txt</code> . Domyślnie mamy tutaj te poniższe parametry:</p>
+<pre><code>console=serial0,115200 console=tty1 root=PARTUUID=0d03b705-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait quiet splash plymouth.ignore-serial-consoles
+</code></pre>
+<p>Usuwamy z tej linijki parametry <code>quiet</code> , <code>splash</code> oraz <code>plymouth.ignore-serial-consoles</code> . Te
+parametry nam nie są w ogóle potrzebne i tylko przeszkadzają w diagnozie ewentualnych problemów.
+Potrzebny nam za to będzie parametr <code>loglevel=4</code> oraz <code>break=premount</code> . Zatem przerobiony kernel
+cmdline powinien wyglądać mniej więcej tak:</p>
+<pre><code>console=serial0,115200 console=tty1 root=PARTUUID=0d03b705-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait loglevel=4 break=premount
+</code></pre>
+<p>Parametr <code>break=premount</code> przyda nam się jedynie do celów testowych, tj. do sprawdzenia czy te
+wszystkie powyższe ustawienia odnośnie obrazu initramfs/initrd działają prawidłowo.</p>
+<h3 id="regeneracja-obrazu-initramfsinitrd">Regeneracja obrazu initramfs/initrd</h3>
+<p>Gdy skończymy przerabiać pliki konfiguracyjne, musimy na nowo wygenerować obraz initramfs/initrd.
+Robimy to przy pomocy znanego nam już polecenia <code>update-initramfs</code> i podobnie jak wcześniej, nie
+przejmujemy się żadnym z błędów, które mogliśmy wcześniej zaobserwować.</p>
+<h3 id="testowanie-wsparcia-dla-initramfsinitrd-w-rpi">Testowanie wsparcia dla initramfs/initrd w RPI</h3>
+<p>Restartujemy teraz naszą maszynkę z Raspberry Pi i jeśli wszystkie powyższe kroki przeprowadziliśmy
+prawidłowo, to podczas startu systemu powinniśmy zostać zrzuceni do obrazu initrd/initramfs.
+Poznamy to po prompt, w którym widnieje fraza <code>initramfs</code> , tak jak to zostało zobrazowane na
+poniższej fotce:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/11/002.raspberry-pi-rpi-luks-encrypt-initramfs-initrd-test.jpg" alt="raspberry-pi-rpi-luks-encrypt-initramfs-initrd-test"    class="medium"></p>
+<p>Jeśli taki prompt udało się nam uzyskać, to znaczy, że możemy przejść do dalszej części artykułu,
+tj. do zaszyfrowania partycji <code>/</code> na karcie SD.</p>
+<p>Procedura startu systemu, którą zainicjowaliśmy może być kontynuowana. Trzeba tylko w terminalu
+wydać polecenie <code>exit</code> . Po uruchomieniu systemu, parametr <code>break=premount</code> z kernel cmdline w
+pliku <code>/boot/cmdline.txt</code> możemy usunąć, bo nie będzie on nam już w zasadzie do niczego potrzebny.
+Można naturalnie go zostawić aż do momentu zaszyfrowania karty SD, bo w obrazie initramfs/initrd
+znajduje się binarka <code>busybox</code> i szereg użytecznych skryptów oraz innych narzędzi, przy pomocy
+których to ręcznie możemy próbować odratować system Raspberry Pi bez potrzeby przekładania karty SD
+do innego urządzenia (taki dość bardzo prymitywny system live).</p>
+<h2 id="szyfrowanie-partycji-głównej-na-karcie-sd">Szyfrowanie partycji głównej na karcie SD</h2>
+<p>W tym przypadku mamy możliwość wyjęcia karty SD z Raspberry Pi i podłączenia jej do komputera. Nie
+zawsze jednak taki krok będzie możliwy i w takiej sytuacji trzeba będzie zaprzęgnąć dodatkowy
+pendrive podłączony do portu USB w Raspberry Pi, z którego to będziemy mogli uruchomić system --
+coś mniej więcej jak system live, z tą różnicą, że tutaj na pendrive będziemy mieli pełnowymiarowy
+system RasPiOS/Raspbian.</p>
+<p>Nie musimy klonować systemu z flash'a urządzenia i takie praktyki nie są zalecane. Chodzi o to, że
+po sklonowaniu partycje będą mieć takie same numerki identyfikacyjne i próba uruchomienia systemu z
+dwoma takimi nośnikami naraz zawsze będzie prowadzić do poważnych problemów. Najlepiej wgrać sobie
+czysty system RasPiOS/Raspbian na pendrive i z niego uruchomić Raspberry Pi w celu przeprowadzenia
+dalszych prac pod katem zaszyfrowania danych obecnych na wbudowanym flash'u RPI.</p>
+<p>Na karcie SD z wgranym systemem RasPiOS/Raspbian znajdują się dwie partycje: <code>/</code> oraz <code>/boot/</code> .
+Partycję <code>/</code> chcemy poddać szyfrowaniu z wykorzystaniem linux'owego mechanizmu LUKS (dm-crypt). Nie
+możemy jednak tego zrobić, gdy system RasPiOS/Raspbian jest uruchomiony z karty SD włożonej do
+Raspberry Pi (czy też tego wbudowanego flash'a). Ta karta SD nie może być używana przez system
+podczas przeprowadzania procesu szyfrowania. Dlatego właśnie trzeba będzie tę kartę z RPI wyciągnąć,
+a gdy nie mamy takiej możliwości, to trzeba się posiłkować dodatkowym pendrive.</p>
+<p>W tym przypadku karta SD została wyciągnięta z Raspberry Pi i podłączona do mojego laptopa z
+Debianem na pokładzie. Zatem cały proces szyfrowania partycji <code>/</code> będzie przeprowadzany na maszynie
+z linux'em, w którym pakiet <code>cryptsetup</code> również trzeba będzie doinstalować. Niemniej jednak,
+wszystkie opisane poniżej kroki bez większego problemu można będzie zaaplikować do wersji z
+wbudowanym flash'em, choć zapewne będzie trzeba je ździebko dostosować.</p>
+<p>Jeśli zaś chodzi o partycję <code>/boot/</code> , to w zasadzie nie będziemy jej ruszać.</p>
+<h3 id="zgranie-danych-z-karty-sd-przy-pomocy-rsync">Zgranie danych z karty SD przy pomocy rsync</h3>
+<p>Pierwszym krokiem na drodze do zaszyfrowania plików na karcie SD jest zgranie danych, które
+rezydują w obrębie partycji <code>/</code> . Podpinamy zatem kartę SD do komputera, montujemy system plików
+tej partycji (np. w katalogu <code>/media/rpi/</code> ) i zgrywamy pliki z karty SD via <code>rsync</code> :</p>
+<pre><code># mkdir /media/{rpi,rpi-back}/
+# mount /dev/mmcblk0p2 /media/rpi
+# rsync -axHAWXS --numeric-ids --info=progress2 /media/rpi/ /media/rpi-back/
+</code></pre>
+<p>Po zakończonym procesie synchronizacji trzeba odmontować system plików karty SD:</p>
+<pre><code># umount /media/rpi
+</code></pre>
+<h2 id="tworzenie-zaszyfrowanego-kontenera">Tworzenie zaszyfrowanego kontenera</h2>
+<p>Przyszła pora na utworzenie zaszyfrowanego kontenera LUKS na partycji <code>/</code> . Nie ma potrzeby
+wcześniejszego usuwania tej partycji i tworzenia jej na nowo, bo <code>cryptsetup</code> sobie wszystko sam
+przygotuje. Jedyne co nam jest potrzebne do szczęścia, to poniższe polecenie:</p>
+<pre><code># cryptsetup luksFormat /dev/mmcblk0p2 \
+  --type luks2 \
+  --cipher aes-xts-plain64 \
+  --key-size 512 \
+  --hash sha512 \
+  --pbkdf argon2i \
+  --pbkdf-force-iterations 4 \
+  --pbkdf-memory 524288 \
+  --pbkdf-parallel 2 \
+  --label rpi \
+  --subsystem &quot;&quot; \
+  --use-random \
+  --verify-passphrase \
+  --verbose
+
+WARNING: Device /dev/mmcblk0p2 already contains a 'ext4' superblock signature.
+
+WARNING!
+========
+This will overwrite data on /dev/mmcblk0p2 irrevocably.
+
+Are you sure? (Type 'yes' in capital letters): YES
+Enter passphrase for /dev/mmcblk0p2:
+Verify passphrase:
+Existing 'ext4' superblock signature on device /dev/mmcblk0p2 will be wiped.
+Key slot 0 created.
+Command successful.
+</code></pre>
+<p>Mamy tutaj kilka ostrzeżeń, że na wskazanej wyżej partycji mamy sygnaturę superbloku systemu plików
+ext4 oraz, że zostanie ona wyczyszczona. Dlatego też sprawdźmy ścieżkę do urządzenia i upewnijmy
+się dwukrotnie, że to właśnie to urządzenie ma zostać sformatowane.</p>
+<p>Następnie otwieramy kontener pod dowolną nazwą ale ta nazwa będzie miała kluczowe znaczenie w
+późniejszej części artykułu. W tym przypadku kontener został otworzony pod nazwą <code>rpi_crypt</code> :</p>
+<pre><code># cryptsetup luksOpen /dev/mmcblk0p2 rpi_crypt
+Enter passphrase for /dev/mmcblk0p2:
+
+# ls -al /dev/mapper/rpi_crypt
+lrwxrwxrwx 1 root root 8 2021-11-07 02:24:19 /dev/mapper/rpi_crypt -&gt; ../dm-11
+</code></pre>
+<h3 id="aes-vs-google-adiantum">AES vs. Google Adiantum</h3>
+<p>Procesor w Raspberry Pi nie posiada wsparcia dla instrukcji AES i szyfrowanie z wykorzystaniem tego
+algorytmu nie należy do najbardziej wydajnych. <a href="https://forums.raspberrypi.com/viewtopic.php?f=63&amp;t=252980&amp;p=1543723#p1543753">Niektórzy zalecają</a> korzystanie z szyfru <a href="https://en.wikipedia.org/wiki/Adiantum_(cipher)">Google
+Adiantum</a>, który wykorzystuje algorytm ChaCha. Z informacji zawartych na wiki można wyczytać,
+że szyfr Adiantum został opracowany z myślą o urządzeniach niskiej mocy, tj. głównie te działające
+pod kontrolą Androida. Adiantum z powodzeniem nada się zatem również i w przypadku Raspberry Pi.</p>
+<p>Niemniej jednak, w obrębie partycji <code>/</code> na Raspberry Pi raczej za dużo operacji zapisu (bo to one
+najbardziej cierpią przy szyfrowaniu) nie będziemy przeprowadzać. Osobną sprawa jest  prędkość
+samego flash'a RPI. Jeśli mamy pamięć flash z górnej półki, to faktycznie w takim przypadku
+korzystanie z AES mijałoby się z celem. Niemniej jednak, większość systemów RPI działa na flash'u,
+który prędkość zapisu ma na poziomie 10M/s i niższej, przez co raczej nie zauważymy większej
+różnicy między AES czy Adiantum.</p>
+<p>Jeśli jednak zaliczamy się do tej niewielkiej grupy ludzi, którzy mają lepszej jakości flash w
+swoim Raspberry Pi, to lepszym rozwiązaniem będzie skorzystanie z tego poniższego polecenia przy
+tworzeniu zaszyfrowanego kontenera LUKS, które robi użytek z Adiantum zamiast AES:</p>
+<pre><code># cryptsetup luksFormat /dev/mmcblk0p2 \
+  --type luks2 \
+  --cipher xchacha20,aes-adiantum-plain64 \
+  --key-size 256 \
+  --hash sha512 \
+  --pbkdf argon2i \
+  --pbkdf-force-iterations 4 \
+  --pbkdf-memory 524288 \
+  --pbkdf-parallel 2 \
+  --label rpi \
+  --subsystem &quot;&quot; \
+  --use-random \
+  --verify-passphrase \
+  --verbose
+</code></pre>
+<p>Jeśli mamy wyjątkowo słabą maszynę, wartym rozważenia jest skorzystanie z szyfru
+<code>xchacha12,aes-adiantum-plain64</code> . Ten szyfr nie jest jednak tak bezpieczny jak
+<code>xchacha20,aes-adiantum-plain64</code> ale wciąż raczej nie do złamania, przynajmniej jeśli chodzi o
+perspektywę kilku (może kilkunastu) następnych lat.</p>
+<p>Poniżej znajduje się benchmark dla tych trzech szyfrów przeprowadzony z poziomu Raspberry Pi 4B:</p>
+<pre><code>pi@raspberrypi:~ $ cryptsetup benchmark -c aes-xts-plain64 -s 512
+# Tests are approximate using memory only (no storage IO).
+# Algorithm |       Key |      Encryption |      Decryption
+    aes-xts        512b        60.4 MiB/s        55.8 MiB/s
+
+pi@raspberrypi:~ $ cryptsetup benchmark -c xchacha20,aes-adiantum-plain64
+# Tests are approximate using memory only (no storage IO).
+#            Algorithm |       Key |      Encryption |      Decryption
+xchacha20,aes-adiantum        256b        84.0 MiB/s        97.1 MiB/s
+
+pi@raspberrypi:~ $ cryptsetup benchmark -c xchacha12,aes-adiantum-plain64
+# Tests are approximate using memory only (no storage IO).
+#            Algorithm |       Key |      Encryption |      Decryption
+xchacha12,aes-adiantum        256b       104.5 MiB/s       110.4 MiB/s
+</code></pre>
+<p>Także jak widać, dla tej samej długości klucza (<a href="https://en.wikipedia.org/wiki/Disk_encryption_theory#XEX-based_tweaked-codebook_mode_with_ciphertext_stealing_.28XTS.29">AES w trybie XTS dzieli klucz na połowę</a> i
+efektywnie mamy w jego przypadku też klucz o długości 256 bitów, a nie 512). Jak widać z powyższych
+testów przy <code>xchacha12,aes-adiantum-plain64</code> mamy tak około dwukrotnie wyższą wydajność w stosunku
+do AES. Ten nieco bezpieczniejszy szyfr <code>xchacha20,aes-adiantum-plain64</code> jest trochę wolniejszy ale
+te wartości i tak są grubo powyżej 10M/s i jeśli mamy wolną kartę SD, to wszystko jedno, z którego
+szyfru skorzystamy.</p>
+<h3 id="system-plików-ext4">System plików ext4</h3>
+<p>Po stworzeniu kontenera i jego otworzeniu, w systemie pojawi się nowe urządzenie
+<code>/dev/mapper/rpi_crypt</code> . To urządzenie formatujemy systemem plików ext4:</p>
+<pre><code># mke2fs \
+    -t ext4 \
+    -m 0 \
+    -L rootfs \
+    -J size=128 \
+    -O 64bit,has_journal,extents,huge_file,flex_bg,metadata_csum,dir_nlink,extra_isize,^resize_inode,^uninit_bg \
+    -E lazy_itable_init=0,lazy_journal_init=0 \
+    /dev/mapper/rpi_crypt
+
+mke2fs 1.46.4 (18-Aug-2021)
+Creating filesystem with 7486464 4k blocks and 1872304 inodes
+Filesystem UUID: 0ca2062b-142b-4826-bb74-d465ca89b554
+Superblock backups stored on blocks:
+        32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208,
+        4096000
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (32768 blocks): done
+Writing superblocks and filesystem accounting information: done
+</code></pre>
+<h3 id="przenoszenie-danych-karty-sd-do-kontenera-luks">Przenoszenie danych karty SD do kontenera LUKS</h3>
+<p>Mając utworzony system plików ext4 w zaszyfrowanym kontenerze, możemy przenieść do niego uprzednio
+zgrane z karty SD pliki. W tym przypadku również korzystamy z <code>rsync</code> :</p>
+<pre><code># mount /dev/mapper/rpi_crypt /media/rpi
+# rsync -axHAWXS --numeric-ids --info=progress2 /media/rpi-back/ /media/rpi/
+</code></pre>
+<h2 id="dostosowanie-konfiguracji-raspberry-pi">Dostosowanie konfiguracji Raspberry Pi</h2>
+<p>Po przeniesieniu plików na ich pierwotne miejsce, musimy jeszcze dostosować kilka rzeczy jeśli
+chodzi o konfigurację samego systemu Raspberry Pi. Gdybyśmy tę kartę SD w tym momencie włożyli do
+RPI, to system zwyczajnie by nam się nie uruchomił, bo nie widziałby jak ma czytać zaszyfrowaną
+partycję <code>/</code> . Dlatego też zanim zamkniemy kontener i odłączymy kartę SD od komputera, trzeba
+dokonać edycji kilku kluczowych plików.</p>
+<h3 id="plik-etcfstab">Plik /etc/fstab</h3>
+<p>Pierwszym plikiem na który musimy rzucić okiem to <code>/etc/fstab</code> . Domyślnie u mnie miał on poniższą
+postać:</p>
+<pre><code>proc                  /proc           proc    defaults          0       0
+PARTUUID=0d03b705-01  /boot           vfat    defaults          0       2
+PARTUUID=0d03b705-02  /               ext4    defaults,noatime  0       1
+# a swapfile is not a swap partition, no line here
+#   use  dphys-swapfile swap[on|off]  for that
+</code></pre>
+<p>Interesuje nas póki co wpis z <code>/</code> . Trzeba tutaj dostosować numerek identyfikacyjny partycji oraz
+też po części opcje dla systemu plików. Jak widać wyżej, w Raspberry Pi partycje są domyślnie
+dopasowywane po <code>PARTUUID</code> . Po tych zabiegach z utworzeniem zaszyfrowanego kontenera LUKS, te
+numerki się w żaden sposób nie zmienią, co możemy zaobserwować na poniższym listingu:</p>
+<pre><code># lsblk -o &quot;NAME,SIZE,FSTYPE,TYPE,LABEL,MOUNTPOINT,UUID,PARTUUID&quot; /dev/mmcblk0
+NAME           SIZE FSTYPE      TYPE  LABEL  MOUNTPOINT UUID                                 PARTUUID
+mmcblk0       28.8G             disk
+├─mmcblk0p1    256M vfat        part  boot              B05C-D0C4                            0d03b705-01
+└─mmcblk0p2   28.6G crypto_LUKS part  rpi               0b9b66eb-d5ec-4371-80e3-f3a6ae92e0be 0d03b705-02
+  └─rpi_crypt 28.6G ext4        crypt rootfs /media/rpi 0ca2062b-142b-4826-bb74-d465ca89b554
+</code></pre>
+<p>Niemniej jednak, w pliku <code>/etc/fstab</code> trzeba by umieścić PARTUUID partycji, na której znajduje się
+główny system plików. PARTUUID odnosi się jedynie do fizycznych partycji (tych obecnych w tablicy
+partycji danego nośnika) i dlatego też przy pozycji <code>rpi_crypt</code> w <code>lsblk</code> nie mamy żadnego numerka
+w ostatniej kolumnie. Nie możemy zatem zidentyfikować tego systemu plików po PARTUUID. Trzeba wiec
+skorzystać z <code>UUID</code> .</p>
+<p>Reasumując, plik <code>/etc/fstab</code> musimy przepisać do poniższej postaci:</p>
+<pre><code>proc                                       /proc           proc    defaults          0       0
+UUID=0ca2062b-142b-4826-bb74-d465ca89b554  /               ext4    defaults,lazytime,errors=remount-ro  0       1
+PARTUUID=0d03b705-01                       /boot           vfat    defaults          0       2
+# a swapfile is not a swap partition, no line here
+#   use  dphys-swapfile swap[on|off]  for that
+</code></pre>
+<p>Jeśli zaś chodzi o opcje dla tego systemu plików, które zostały określone wyżej, to na uwagę w
+zasadzie zasługuje jedynie <a href="https://man7.org/linux/man-pages/man8/mount.8.html">lazytime</a>. W mojej ocenie, w przypadku pamięci flash, <code>lazytime</code>
+nadaje się o wiele lepiej niż ten domyślny <code>noatime</code> , bo drastycznie redukuje zapisy do tablicy
+i-węzłów, tj. aktualizacja czasów <code>atime</code> , <code>mtime</code> oraz <code>ctime</code> odbywa się tylko na obecnej w
+pamięci RAM wersji i-węzła danego pliku. Co jakiś czas te czasy są naturalnie
+synchronizowane. <a href="https://lwn.net/Articles/621046/">Więcej o lazytime można poczytać tutaj</a>.</p>
+<h3 id="plik-etccrypttab">Plik /etc/crypttab</h3>
+<p>W pliku <code>/etc/crypttab</code> trzeba utworzyć wpis wskazujący lokalizację kontenera. Kluczowe znaczenie
+ma nazwa kontenera, pod którą wcześniej został on otworzony. W tym przypadku kontener LUKS został
+otworzony jako <code>rpi_crypt</code> . Dalej, musimy też określić UUID kontenera, który możemy uzyskać z
+wyjścia <code>lsblk</code> . Dodatkowo w opcjach trzeba podać <code>initramfs</code> , który wskaże skryptom z pakietu
+<code>initramfs-tools</code> , by to urządzenie było przetwarzane w fazie initramfs/initrd, co z kolei wymusza
+dodanie do obrazu initramfs/initrd wszystkich niezbędnych plików i narzędzi.</p>
+<p>Reasumując, w pliku <code>/etc/crypttab</code> potrzebujemy linijki na wzór tej poniższej:</p>
+<pre><code># &lt;target name&gt;  &lt;source device&gt;  &lt;key file&gt;  &lt;options&gt;
+rpi_crypt  UUID=0b9b66eb-d5ec-4371-80e3-f3a6ae92e0be   none  luks,initramfs
+</code></pre>
+<h4 id="kwestia-pliku-etccryptsetup-initramfsconf-hook">Kwestia pliku /etc/cryptsetup-initramfs/conf-hook</h4>
+<p>W niektórych tutorialach poświęconych szyfrowaniu Raspberry Pi można wyczytać, by poddać edycji
+plik <code>/etc/cryptsetup-initramfs/conf-hook</code> i odkomentować w nim tę poniższą linijkę:</p>
+<pre><code>#CRYPTSETUP=y
+</code></pre>
+<p>To rozwiązanie jest już obecnie przestarzałe i zostało zastąpione tym opisanym wyżej, tj. przez
+opcję <code>initramfs</code> w pliku <code>/etc/crypttab</code> . Nie ma zatem już potrzeby edytowania pliku
+<code>/etc/cryptsetup-initramfs/conf-hook</code> , bo gdy system wykryje, że ma do czynienia z zaszyfrowanym
+nośnikiem danych, to stosowne narzędzia automatycznie załaduje do obrazu initramfs/initrd, co
+możemy zweryfikować ręcznie podglądając zawartość tego obrazu:</p>
+<pre><code># lsinitramfs /media/rpi/boot/initrd.img-5.10.63-v7l+ | grep -i cryptsetup
+usr/lib/arm-linux-gnueabihf/libcryptsetup.so.12
+usr/lib/arm-linux-gnueabihf/libcryptsetup.so.12.4.0
+usr/lib/cryptsetup
+usr/lib/cryptsetup/askpass
+usr/lib/cryptsetup/functions
+usr/sbin/cryptsetup
+</code></pre>
+<h3 id="plik-bootcmdlinetxt-1">Plik /boot/cmdline.txt</h3>
+<p>Musimy także poddać edycji plik <code>/boot/cmdline.txt</code> , w którym to trzeba zmienić parametr <code>root=</code> ,
+tak by wskazywał na UUID (czy też ścieżkę w katalogu <code>/dev/mapper/</code> ) voluminu <code>rpi_crypt</code> ,
+przykładowo:</p>
+<pre><code>console=serial0,115200 console=tty1 root=/dev/mapper/rpi_crypt rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait loglevel=4
+</code></pre>
+<h4 id="parametr-cryptdevice">Parametr cryptdevice</h4>
+<p>Gdzieniegdzie można spotkać się z dodawaniem do kernel cmdline również i parametru <code>cryptdevice</code> ,
+tj. coś na wzór <code>cryptdevice=/dev/mmcblk0p2:rpi_crypt</code> . Ten parametr nie jest jednak opisany na
+<a href="https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html">liście znanych parametrów kernela</a> i wygląda raczej na specyficzny dla niektórych dystrybucji
+linux'a, np. <a href="https://wiki.archlinux.org/title/Dm-crypt/System_configuration#cryptdevice">Archlinux</a>. Dystrybucja Debian i jej pochodne, w tym też RasPiOS/Raspbian, bez
+problemu potrafią się bez tego parametru obejść i nie ma potrzeby go dodawać do linijki kernela.</p>
+<h3 id="regeneracja-obrazu-initramfsinitrd-1">Regeneracja obrazu initramfs/initrd</h3>
+<p>Po dostosowaniu tych powyższych plików, trzeba jeszcze raz wygenerować obraz initramfs/initrd. Nie
+możemy jednak tego zrobić z poziomu działającego Raspberry Pi, bo nam on się przecież nie uruchomi
+jeszcze. Trzeba zaprzęgnąć do pracy mechanizm <code>chroot</code> .</p>
+<p>Musimy pierw przygotować środowisko pod chroot, tj. zamontować w strukturze docelowego systemu
+kilka dodatkowych katalogów. Najprościej do tego celu skorzystać z tego poniższego polecenia:</p>
+<pre><code># for f in dev dev/pts sys proc run ; do mount -o bind /$f /media/rpi/$f ; done
+</code></pre>
+<p>Jako, że obraz initramfs/initrd rezyduje w obrębie partycji <code>/boot/</code> , to tę partycję również
+musimy udostępnić w środowisku chroot:</p>
+<pre><code># mount /dev/mmcblk0p1 /media/rpi/boot/
+</code></pre>
+<p>Ostatnim krokiem jest przełączenie się do docelowego systemu przez wydanie polecenia <code>chroot</code> :</p>
+<pre><code># chroot /media/rpi/ /bin/bash
+</code></pre>
+<p>Powinniśmy być teraz wewnątrz systemu Raspberry Pi, co możemy poznać po zmianie prompt'a w
+terminalu.</p>
+<p>Generujemy obraz initramfs/initrd:</p>
+<pre><code># update-initramfs -u -k 5.10.63-v7l+
+</code></pre>
+<p>Po wygenerowaniu obrazu możemy opuścić środowisko chroot:</p>
+<pre><code># exit
+</code></pre>
+<p>Trzeba pamiętać, by odmontować wszystkie podmontowane wcześniej na potrzeby chroot katalogi:</p>
+<pre><code># for f in dev/pts dev sys proc run ; do umount /media/rpi/$f ; done
+</code></pre>
+<p>Odmontujmy także partycję <code>/boot/</code> oraz <code>/</code> i zamknijmy kontener LUKS:</p>
+<pre><code># umount /media/rpi/boot
+# umount /media/rpi/
+# cryptsetup luksClose rpi_crypt
+</code></pre>
+<h4 id="chroot-failed-to-run-command-binbash-exec-format-error">chroot: failed to run command ‘/bin/bash’: Exec format error</h4>
+<p>Być może zdarzy się nam taka sytuacja, że podczas wydawania polecenia <code>chroot</code> zostanie nam
+zwrócony poniższy błąd:</p>
+<pre><code># chroot /media/rpi /bin/bash
+chroot: failed to run command ‘/bin/bash’: Exec format error
+</code></pre>
+<p>Ten komunikat bierze się z faktu, że Raspberry Pi ma procesor oparty o architekturę ARM, podczas
+gdy przeciętny desktop czy laptop ma procesor od Intel/AMD i by polecenie <code>chroot</code> nam zadziałało
+<a href="https://morfikov.github.io/post/chroot-do-32-bit-systemu-arm-z-poziomu-64-bit-linuxowego-hosta/">musimy skorzystać z emulatora QEMU</a>.</p>
+<h2 id="test-zaszyfrowanego-kontenera-luks">Test zaszyfrowanego kontenera LUKS</h2>
+<p>Wyciągamy zatem już kartę SD z portu USB komputera, wkładamy ją do naszego Raspberry Pi i
+uruchamiamy urządzenie. System powinien nam się uruchomić do momentu, w którym na ekranie
+zostaniemy poproszeni o wpisanie hasła do zaszyfrowanego kontenera LUKS, co wygląda mniej więcej
+tak:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/11/003.raspberry-pi-rpi-luks-encrypt-unlock-luks-password.jpg" alt="raspberry-pi-rpi-luks-encrypt-unlock-luks-password"    class="huge"></p>
+<p>Po wpisaniu hasła, start systemu będzie przebiegał w standardowy sposób:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/11/004.raspberry-pi-rpi-luks-encrypt-unlock-luks-system-start.jpg" alt="raspberry-pi-rpi-luks-encrypt-unlock-luks-system-start"    class="huge"></p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>No jak widać, system Raspberry Pi bez większego problemu można zamknąć w zaszyfrowanym kontenerze
+LUKS. Pytanie jakie się nasuwa, to czy takie rozwiązanie ma jakikolwiek sens? Komputery osobiste
+mamy zwykle pod ręką i w razie czego możemy je wyłączyć, bo tylko wtedy szyfrowanie może spełniać
+swoje zadanie. Takie systemy są też zwykle stale przez nas monitorowane, np. mamy je w plecaku czy
+innej torbie. A co w przypadku takich malinek? Mogą one chodzić wiele dni czy nawet tygodni bez
+restartu i pozostawiamy je w zasadzie bez jakiegokolwiek nadzoru przez większość czasu. W takich
+sytuacjach szyfrowanie może nam dać jedynie złudne poczucie bezpieczeństwa i sprawić, że będziemy
+na RPI przechowywać dane, których tam nie powinniśmy trzymać. Z racji wdrożenia szyfrowania trzeba
+też będzie liczyć się ze spowolnieniem pracy głównego procesora, choć raczej nie powinniśmy tego
+jakoś szczególnie odczuć, zwłaszcza gdy do dyspozycji mamy kartę SD o przeciętnej wydajności.
+Problematyczne może też być wpisywanie hasła, by kartę SD odszyfrować, wszak większość
+minikomputerów Raspberry Pi działa bez podpiętej klawiatury/myszy, a nierzadko też i przy braku
+monitora. Tę kwestię wpisywania hasła można rozwiązać ale jest to zagadnienie na inny artykuł, bo
+ten już i tak wyszedł dość długi.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/luks/">luks</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/raspberry-pi-4b/">raspberry-pi-4b</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/raspios/">raspios</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/raspbian/">raspbian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">szyfrowanie</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/initrd/">initrd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/initramfs/">initramfs</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks%2f&amp;text=Jak%20zaszyfrowa%c4%87%20Raspberry%20Pi%20%28RasPiOS%2fRaspbian%2c%20LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks%2f&amp;title=Jak%20zaszyfrowa%c4%87%20Raspberry%20Pi%20%28RasPiOS%2fRaspbian%2c%20LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks%2f&amp;title=Jak%20zaszyfrowa%c4%87%20Raspberry%20Pi%20%28RasPiOS%2fRaspbian%2c%20LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks%2f&title=Jak%20zaszyfrowa%c4%87%20Raspberry%20Pi%20%28RasPiOS%2fRaspbian%2c%20LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks%2f&amp;title=Jak%20zaszyfrowa%c4%87%20Raspberry%20Pi%20%28RasPiOS%2fRaspbian%2c%20LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks%2f&description=Jak%20zaszyfrowa%c4%87%20Raspberry%20Pi%20%28RasPiOS%2fRaspbian%2c%20LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/chroot-do-32-bit-systemu-arm-z-poziomu-64-bit-linuxowego-hosta/">Chroot do 32-bit systemu ARM z poziomu 64-bit linux&#39;owego hosta</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kontrola-podswietlenia-klawiatury-via-udev-backlight/">Kontrola podświetlenia klawiatury via UDEV (backlight)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-odszyfrowac-linux-przy-pomocy-telefonu-z-androidem/">Jak odszyfrować linux&#39;a przy pomocy telefonu z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zaladowac-profile-apparmor-w-fazie-initrd-initramfs-na-debian-linux/">Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-ukryc-zaszyfrowany-kontener-luks-pod-linux/">Jak ukryć zaszyfrowany kontener LUKS pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/naglowek-kontenera-luks-trzymany-na-pendrive/">Nagłówek kontenera LUKS trzymany na pendrive</a></li>
+		
+	</ul>
+</div>
+
+	<div id="comments">
+		<script>
+  var id =  579 ;
+
+  if (id)
+  {
+    let url = "https://github.com/morfikov/morfitronik-comments/issues/".concat(id);
+    let api_url = "https://api.github.com/repos/morfikov/morfitronik-comments/issues/".concat(id, "/comments");
+
+    var commentsDiv = document.getElementById("comments");
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("GET", api_url);
+    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
+    xhr.send();
+
+    xhr.onload = function()
+    {
+      if (xhr.status != 200)
+      {
+        let errorText = document.createElement("p");
+        errorText.innerHTML = "<i>Komentarze dla tego postu nie zostały jeszcze otworzone (albo skrypty GitHub'a są wyłączone). Być może też skończył ci się przydział 60/godzinę (limit GitHub'a).</i>";
+        commentsDiv.appendChild(errorText);
+      }
+      else
+      {
+        let comments = xhr.response;
+
+        let mainHeader = document.createElement("h3");
+        mainHeader.innerHTML = "Komentarze: ".concat(comments.length);
+        commentsDiv.appendChild(mainHeader);
+
+        let issueLink = document.createElement("p");
+        issueLink.innerHTML = "<i>Możesz zostawić komentarz korzystając z <a href='".concat(url, "'>GitHub issue</a>.</i>");
+        commentsDiv.appendChild(issueLink);
+
+        comments.forEach(function(comment)
+        {
+			const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Europe/Warsaw' };
+			options.timeZoneName = 'short';
+            let commentContent = document.createElement("div");
+            commentContent.setAttribute('class', 'gh-comment')
+            commentContent.innerHTML = "".concat(
+                "<div class='gh-header'>",
+                  "<img src='", comment.user.avatar_url, "' />",
+                  "<div style='margin:auto 0;'>",
+                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
+                    " | <em>", (new Date(comment.created_at)).toLocaleTimeString('pl-PL', options), "</em>",
+                  "</div>",
+                "</div>",
+                "<div class='gh-body'>",
+                  comment.body_html,
+                "</div>"
+            );
+            commentsDiv.appendChild(commentContent);
+        });
+      }
+    };
+
+    xhr.onerror = function()
+    {
+      let errorText = document.createElement("p");
+      errorText.innerHTML = "<i>Wystąpił jakiś błąd przy ładowaniu komentarzy.</i>";
+      commentsDiv.appendChild(errorText);
+    };
+  }
+</script>
+
+	</div>
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<div class="license-icons">
+			<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons Attribution 4.0 International license">
+<i class="icon-cc"></i><i class="icon-cc-by"></i><i class="icon-cc-nc"></i><i class="icon-cc-sa"></i>
+</a>
+		</div>
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
+</body>
+</html>
