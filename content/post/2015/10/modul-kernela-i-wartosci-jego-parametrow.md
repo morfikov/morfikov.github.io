@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - moduły-kernela
+- kernel
 GHissueID: 191
 title: Moduł kernela i wartości jego parametrów
 ---

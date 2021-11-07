@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - chroot
+- debian
 GHissueID: 137
 title: Przygotowanie środowiska chroot do pracy
 ---
