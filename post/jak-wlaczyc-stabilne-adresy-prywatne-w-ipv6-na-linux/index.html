@@ -386,16 +386,16 @@ RUN=&quot;yes&quot;
 if [ &quot;$RUN&quot; = &quot;yes&quot; ]; then
 
 	if [ &quot;$IFACE&quot; = &quot;wwan0&quot; ] ||
-       [ &quot;$IFACE&quot; = &quot;bond0&quot; ] ||
-       [ &quot;$IFACE&quot; = &quot;usb0&quot; ]  ||
-       [ &quot;$IFACE&quot; = &quot;eth0&quot; ]  ||
-       [ &quot;$IFACE&quot; = &quot;wlan0&quot; ]; then
+	   [ &quot;$IFACE&quot; = &quot;bond0&quot; ] ||
+	   [ &quot;$IFACE&quot; = &quot;usb0&quot; ]  ||
+	   [ &quot;$IFACE&quot; = &quot;eth0&quot; ]  ||
+	   [ &quot;$IFACE&quot; = &quot;wlan0&quot; ]; then
 
-            secret=$(head -c16 &lt;/dev/urandom | \
-                     xxd -p | \
-                     fold -w4 | \
-                     paste -sd':')
-            sysctl -q -w net.ipv6.conf.$IFACE.stable_secret=$secret
+			secret=$(head -c16 &lt;/dev/urandom | \
+					 xxd -p | \
+					 fold -w4 | \
+					 paste -sd':')
+			sysctl -q -w net.ipv6.conf.$IFACE.stable_secret=$secret
 	fi
 fi
 </code></pre>
@@ -417,11 +417,11 @@ jednocześnie konfigurujemy wiele z nich, np. za sprawą <code>systemctl restart
 2: bond0: &lt;BROADCAST,MULTICAST,MASTER,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default qlen 1000
 	link/ether 00:21:cc:c3:05:b0 brd ff:ff:ff:ff:ff:ff
 	inet 192.168.1.150/24 brd 192.168.1.255 scope global dynamic bond0
-       valid_lft 43191sec preferred_lft 43191sec
+	   valid_lft 43191sec preferred_lft 43191sec
 	inet6 fd9d:40f3:50f5:0:9715:f78e:a22a:d5dd/64 scope global dynamic mngtmpaddr stable-privacy
-       valid_lft forever preferred_lft forever
+	   valid_lft forever preferred_lft forever
 	inet6 fe80::35a7:1164:74c1:87ca/64 scope link stable-privacy
-       valid_lft forever preferred_lft forever
+	   valid_lft forever preferred_lft forever
 
 # ifdown bond0
 # ifup bond0
@@ -430,11 +430,11 @@ jednocześnie konfigurujemy wiele z nich, np. za sprawą <code>systemctl restart
 2: bond0: &lt;BROADCAST,MULTICAST,MASTER,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default qlen 1000
 	link/ether 00:21:cc:c3:05:b0 brd ff:ff:ff:ff:ff:ff
 	inet 192.168.1.150/24 brd 192.168.1.255 scope global dynamic bond0
-       valid_lft 43198sec preferred_lft 43198sec
+	   valid_lft 43198sec preferred_lft 43198sec
 	inet6 fd9d:40f3:50f5:0:a9e8:9496:ba2e:e035/64 scope global tentative dynamic mngtmpaddr stable-privacy
-       valid_lft forever preferred_lft forever
+	   valid_lft forever preferred_lft forever
 	inet6 fe80::de92:3cfd:25b8:c944/64 scope link stable-privacy
-       valid_lft forever preferred_lft forever
+	   valid_lft forever preferred_lft forever
 </code></pre>
 <p>Jak widać, adresy IPv6 uległy zmianie po restarcie połączenia sieciowego i widać na żywym
 przykładzie, że możemy w dość prosty sposób pozbyć się identyfikatora sprzętowego adresu MAC z

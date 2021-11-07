@@ -303,19 +303,19 @@ opkg () {
 	NORM=$(echo -e '\033[0m');
 	COL=&quot;no&quot;;
 	for arg in $*; do
-        if [ $arg == &quot;whatdepends&quot; -o $arg == &quot;list&quot; \
-        -o $arg == &quot;list-installed&quot; -o $arg == &quot;list-upgradable&quot; \
-        -o $arg == &quot;list-changed-conffiles&quot; -o $arg == &quot;status&quot; \
-        -o $arg == &quot;info&quot; -o $arg == &quot;find&quot; ]; then
-            COL=&quot;yes&quot;;
-            break;
-        fi
+		if [ $arg == &quot;whatdepends&quot; -o $arg == &quot;list&quot; \
+		-o $arg == &quot;list-installed&quot; -o $arg == &quot;list-upgradable&quot; \
+		-o $arg == &quot;list-changed-conffiles&quot; -o $arg == &quot;status&quot; \
+		-o $arg == &quot;info&quot; -o $arg == &quot;find&quot; ]; then
+			COL=&quot;yes&quot;;
+			break;
+		fi
 	done
 	if [ $COL == &quot;yes&quot; ]; then
-        # (|\t*) added for 'whatdepends'
-        /bin/opkg $* | sed -re &quot;s/^(|\t*)[a-z0-9-]*/$BOLD&amp;$NORM/g&quot;;
+		# (|\t*) added for 'whatdepends'
+		/bin/opkg $* | sed -re &quot;s/^(|\t*)[a-z0-9-]*/$BOLD&amp;$NORM/g&quot;;
 	else
-        /bin/opkg $*;
+		/bin/opkg $*;
 	fi
 }
 # vim: set fdm=marker ts=4 sw=4 tw=80 fo-=t ff=unix:
