@@ -15,6 +15,7 @@ tags:
 - qemu
 - kernel
 - moduły-kernela
+- chroot
 GHissueID: 578
 title: Chroot do 32-bit systemu ARM z poziomu 64-bit linux'owego hosta
 ---
