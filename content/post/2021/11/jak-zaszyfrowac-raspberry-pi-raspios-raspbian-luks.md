@@ -92,8 +92,10 @@ sprawę, że kernel nie będzie potrafił tak zaszyfrowanego systemu plików zam
 będzie nam potrzebny obraz initramfs/initrd i bez niego się zwyczajnie nie obejdziemy. Musimy zatem
 włączyć obsługę initramfs/initrd w Raspberry Pi.
 
+### Plik /etc/default/raspberrypi-kernel
+
 Na sam początek edytujemy plik `/etc/default/raspberrypi-kernel` i usuwamy komentarz z linijki
-zawierającej `INITRD=` , który ma na celu włączenie generowania obrazu initramfs/initrd ilekroć
+zawierającej `INITRD=` , co ma na celu włączyć generowanie obrazu initramfs/initrd ilekroć
 tylko kernel będzie instalowany/aktualizowany w systemie:
 
     INITRD=Yes
@@ -108,6 +110,7 @@ Możemy teraz wstępnie sobie wygenerować obraz initramfs/initrd korzystając z
 tym celu wystarczy w terminalu wpisać to poniższe polecenie:
 
     root@raspberrypi:/home/pi# update-initramfs -c -k $(uname -r)
+
     update-initramfs: Generating /boot/initrd.img-5.10.63-v7l+
     cryptsetup: ERROR: Couldn't resolve device /dev/root
     cryptsetup: WARNING: Couldn't determine root device
@@ -202,8 +205,8 @@ Plik z nazwą `initrd.img` przyda nam się później.
 
 Kolejnym krokiem jest edycja pliku `/etc/initramfs-tools/initramfs.conf` . Upewnijmy się, że w
 wygenerowanym obrazie initramfs/initrd znajdą się niezbędne moduły do obsługi systemu plików i
-dysków twardych. Dodatkowo potrzebny nam będzie `busybox` oraz odpowiedni układ klawiatury (dla
-wpisywania hasła).
+dysków twardych. Dodatkowo potrzebny nam będzie `busybox` oraz odpowiedni układ klawiatury (przy
+wpisywaniu hasła).
 
 Reasumując, w tym powyższym pliku powinniśmy mieć ustawione te poniższe opcje:
 
@@ -213,7 +216,7 @@ Reasumując, w tym powyższym pliku powinniśmy mieć ustawione te poniższe opc
 
 ### Plik /boot/config.txt
 
-Kolejnym plik, który trzeba poddać edycji to `/boot/config.txt` . Trzeba w nim dodać parametr
+Kolejnym plikiem, który trzeba poddać edycji to `/boot/config.txt` . Trzeba w nim dodać parametr
 `initramfs` oraz podać mu dwie wartości. Pierwszą z nich jest nazwa obrazu initramfs/initrd (w
 katalogu `/boot/` ) , drugą zaś adres pamięci RAM, w który zostanie wgrany obraz, przykładowo:
 
@@ -254,7 +257,7 @@ prawidłowo, to podczas startu systemu powinniśmy zostać zrzuceni do obrazu in
 Poznamy to po prompt, w którym widnieje fraza `initramfs` , tak jak to zostało zobrazowane na
 poniższej fotce:
 
-![raspberry-pi-rpi-luks-encrypt-initramfs-initrd-test](/img/2021/11/002.raspberry-pi-rpi-luks-encrypt-initramfs-initrd-test.jpg#medium)
+![raspberry-pi-rpi-luks-encrypt-initramfs-initrd-test](/img/2021/11/002.raspberry-pi-rpi-luks-encrypt-initramfs-initrd-test.jpg#huge)
 
 Jeśli taki prompt udało się nam uzyskać, to znaczy, że możemy przejść do dalszej części artykułu,
 tj. do zaszyfrowania partycji `/` na karcie SD.
@@ -279,7 +282,7 @@ Nie musimy klonować systemu z flash'a urządzenia i takie praktyki nie są zale
 po sklonowaniu partycje będą mieć takie same numerki identyfikacyjne i próba uruchomienia systemu z
 dwoma takimi nośnikami naraz zawsze będzie prowadzić do poważnych problemów. Najlepiej wgrać sobie
 czysty system RasPiOS/Raspbian na pendrive i z niego uruchomić Raspberry Pi w celu przeprowadzenia
-dalszych prac pod katem zaszyfrowania danych obecnych na wbudowanym flash'u RPI.
+dalszych prac pod kątem zaszyfrowania danych obecnych na wbudowanym flash'u RPI.
 
 Na karcie SD z wgranym systemem RasPiOS/Raspbian znajdują się dwie partycje: `/` oraz `/boot/` .
 Partycję `/` chcemy poddać szyfrowaniu z wykorzystaniem linux'owego mechanizmu LUKS (dm-crypt). Nie
@@ -366,7 +369,7 @@ Adiantum][10], który wykorzystuje algorytm ChaCha. Z informacji zawartych na wi
 pod kontrolą Androida. Adiantum z powodzeniem nada się zatem również i w przypadku Raspberry Pi.
 
 Niemniej jednak, w obrębie partycji `/` na Raspberry Pi raczej za dużo operacji zapisu (bo to one
-najbardziej cierpią przy szyfrowaniu) nie będziemy przeprowadzać. Osobną sprawa jest  prędkość
+najbardziej cierpią przy szyfrowaniu) nie będziemy przeprowadzać. Osobną sprawą jest  prędkość
 samego flash'a RPI. Jeśli mamy pamięć flash z górnej półki, to faktycznie w takim przypadku
 korzystanie z AES mijałoby się z celem. Niemniej jednak, większość systemów RPI działa na flash'u,
 który prędkość zapisu ma na poziomie 10M/s i niższej, przez co raczej nie zauważymy większej
@@ -464,7 +467,7 @@ dokonać edycji kilku kluczowych plików.
 
 ### Plik /etc/fstab
 
-Pierwszym plikiem na który musimy rzucić okiem to `/etc/fstab` . Domyślnie u mnie miał on poniższą
+Pierwszym plikiem, na który musimy rzucić okiem, to `/etc/fstab` . Domyślnie u mnie miał on poniższą
 postać:
 
     proc                  /proc           proc    defaults          0       0
@@ -564,7 +567,7 @@ możemy jednak tego zrobić z poziomu działającego Raspberry Pi, bo nam on si�
 jeszcze. Trzeba zaprzęgnąć do pracy mechanizm `chroot` .
 
 Musimy pierw przygotować środowisko pod chroot, tj. zamontować w strukturze docelowego systemu
-kilka dodatkowych katalogów. Najprościej do tego celu skorzystać z tego poniższego polecenia:
+plików kilka dodatkowych katalogów. Najprościej do tego celu skorzystać z tego poniższego polecenia:
 
     # for f in dev dev/pts sys proc run ; do mount -o bind /$f /media/rpi/$f ; done
 
@@ -573,7 +576,8 @@ musimy udostępnić w środowisku chroot:
 
     # mount /dev/mmcblk0p1 /media/rpi/boot/
 
-Ostatnim krokiem jest przełączenie się do docelowego systemu przez wydanie polecenia `chroot` :
+Ostatnim krokiem jest przełączenie się do docelowego systemu plików przez wydanie polecenia
+`chroot` :
 
     # chroot /media/rpi/ /bin/bash
 
@@ -598,13 +602,13 @@ Odmontujmy także partycję `/boot/` oraz `/` i zamknijmy kontener LUKS:
     # umount /media/rpi/
     # cryptsetup luksClose rpi_crypt
 
-#### chroot: failed to run command ‘/bin/bash’: Exec format error
+#### chroot: failed to run command '/bin/bash': Exec format error
 
 Być może zdarzy się nam taka sytuacja, że podczas wydawania polecenia `chroot` zostanie nam
 zwrócony poniższy błąd:
 
     # chroot /media/rpi /bin/bash
-    chroot: failed to run command ‘/bin/bash’: Exec format error
+    chroot: failed to run command '/bin/bash': Exec format error
 
 Ten komunikat bierze się z faktu, że Raspberry Pi ma procesor oparty o architekturę ARM, podczas
 gdy przeciętny desktop czy laptop ma procesor od Intel/AMD i by polecenie `chroot` nam zadziałało
