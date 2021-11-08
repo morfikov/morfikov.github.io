@@ -413,12 +413,12 @@ Poniżej znajduje się benchmark dla tych trzech szyfrów przeprowadzony z pozio
     #            Algorithm |       Key |      Encryption |      Decryption
     xchacha12,aes-adiantum        256b       104.5 MiB/s       110.4 MiB/s
 
-Także jak widać, dla tej samej długości klucza ([AES w trybie XTS dzieli klucz na połowę][14] i
-efektywnie mamy w jego przypadku też klucz o długości 256 bitów, a nie 512). Jak widać z powyższych
-testów przy `xchacha12,aes-adiantum-plain64` mamy tak około dwukrotnie wyższą wydajność w stosunku
-do AES. Ten nieco bezpieczniejszy szyfr `xchacha20,aes-adiantum-plain64` jest trochę wolniejszy ale
-te wartości i tak są grubo powyżej 10M/s i jeśli mamy wolną kartę SD, to wszystko jedno, z którego
-szyfru skorzystamy.
+Powyższe wyniki są dla takiego samego rozmiaru klucza szyfrującego, tj. 256 bitów ([AES w trybie
+XTS dzieli klucz na połowę][14] i efektywnie mamy w jego przypadku też klucz o długości 256 bitów,
+a nie 512). Jak widać z powyższych testów, przy `xchacha12,aes-adiantum-plain64` mamy tak około
+dwukrotnie wyższą wydajność w stosunku do AES. Ten nieco bezpieczniejszy szyfr
+`xchacha20,aes-adiantum-plain64` jest trochę wolniejszy ale te wartości i tak są grubo powyżej
+10M/s i jeśli mamy wolną kartę SD, to wszystko jedno, który z tych trzech szyfrów sobie wybierzemy.
 
 ### System plików ext4
 
