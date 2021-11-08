@@ -43,7 +43,7 @@ poruszanym przez siebie zagadnieniem. Postanowiłem zatem na przykładzie mojego
 opisać w miarę dokładny sposób od początku do końca jak przeprowadzić cały ten proces szyfrowania
 danych na karcie SD, którą podpinamy do naszego minikomputera."><meta itemprop="datePublished" content="2021-11-07T22:17:00+01:00" />
 <meta itemprop="dateModified" content="2021-11-07T22:17:00+01:00" />
-<meta itemprop="wordCount" content="4145">
+<meta itemprop="wordCount" content="4152">
 <meta itemprop="keywords" content="luks,raspberry-pi-4b,raspios,raspbian,szyfrowanie,initrd,initramfs," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Jak zaszyfrować Raspberry Pi (RasPiOS/Raspbian, LUKS)"/>
@@ -529,12 +529,12 @@ pi@raspberrypi:~ $ cryptsetup benchmark -c xchacha12,aes-adiantum-plain64
 #            Algorithm |       Key |      Encryption |      Decryption
 xchacha12,aes-adiantum        256b       104.5 MiB/s       110.4 MiB/s
 </code></pre>
-<p>Także jak widać, dla tej samej długości klucza (<a href="https://en.wikipedia.org/wiki/Disk_encryption_theory#XEX-based_tweaked-codebook_mode_with_ciphertext_stealing_.28XTS.29">AES w trybie XTS dzieli klucz na połowę</a> i
-efektywnie mamy w jego przypadku też klucz o długości 256 bitów, a nie 512). Jak widać z powyższych
-testów przy <code>xchacha12,aes-adiantum-plain64</code> mamy tak około dwukrotnie wyższą wydajność w stosunku
-do AES. Ten nieco bezpieczniejszy szyfr <code>xchacha20,aes-adiantum-plain64</code> jest trochę wolniejszy ale
-te wartości i tak są grubo powyżej 10M/s i jeśli mamy wolną kartę SD, to wszystko jedno, z którego
-szyfru skorzystamy.</p>
+<p>Powyższe wyniki są dla takiego samego rozmiaru klucza szyfrującego, tj. 256 bitów (<a href="https://en.wikipedia.org/wiki/Disk_encryption_theory#XEX-based_tweaked-codebook_mode_with_ciphertext_stealing_.28XTS.29">AES w trybie
+XTS dzieli klucz na połowę</a> i efektywnie mamy w jego przypadku też klucz o długości 256 bitów,
+a nie 512). Jak widać z powyższych testów, przy <code>xchacha12,aes-adiantum-plain64</code> mamy tak około
+dwukrotnie wyższą wydajność w stosunku do AES. Ten nieco bezpieczniejszy szyfr
+<code>xchacha20,aes-adiantum-plain64</code> jest trochę wolniejszy ale te wartości i tak są grubo powyżej
+10M/s i jeśli mamy wolną kartę SD, to wszystko jedno, który z tych trzech szyfrów sobie wybierzemy.</p>
 <h3 id="system-plików-ext4">System plików ext4</h3>
 <p>Po stworzeniu kontenera i jego otworzeniu, w systemie pojawi się nowe urządzenie
 <code>/dev/mapper/rpi_crypt</code> . To urządzenie formatujemy systemem plików ext4:</p>
