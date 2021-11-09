@@ -83,7 +83,7 @@ potrzeby testu wybrałem sobie wskazania tych bardziej rozpoznawanych sensorów,
 
 |   |   |   |
 |---|---|---|
-| ![block-sensors-android-phyphox-accelerometer](/img/2021/09/004.block-sensors-android-phyphox-accelerometer.jpg#small) | ![block-sensors-android-phyphox-gyroscope](/img/2021/09/005.block-sensors-android-phyphox-gyroscope.jpg#small) |   ![](/img/2021/09/006.block-sensors-android-phyphox-magnetometer.jpg#small) |
+| ![block-sensors-android-phyphox-accelerometer](/img/2021/09/004.block-sensors-android-phyphox-accelerometer.jpg#small) | ![block-sensors-android-phyphox-gyroscope](/img/2021/09/005.block-sensors-android-phyphox-gyroscope.jpg#small) | ![block-sensors-android-phyphox-magnetometer](/img/2021/09/006.block-sensors-android-phyphox-magnetometer.jpg#small) |
 
 Po wykresach możemy stwierdzić, że moduły zdają się działać prawidłowo. Co jednak się stanie, gdy
 przełączymy kafelek `Sensors Off` i zablokujemy sensory?

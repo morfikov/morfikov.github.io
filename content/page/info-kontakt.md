@@ -40,12 +40,8 @@ informatycznych. W szczególności interesują mnie struktury systemów operacyj
 komputerowe, komunikacja bezprzewodowa (i przewodowa), oraz dbanie o bezpieczeństwo wszystkiego z
 powyższych. Lubię też utrudniać ludziom życie, zwłaszcza tym, którzy próbują uzyskać informacje
 nieprzeznaczone dla nich. Tutaj zawsze da radę zaimplementować jakieś techniki czy protokoły
-kryptograficzne, np. [VPN](https://pl.wikipedia.org/wiki/Virtual_Private_Network),
-[GPG/PGP](https://pl.wikipedia.org/wiki/GNU_Privacy_Guard),
-[LUKS/DM-CRYPT](https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup),
-[SSL/TLS](https://pl.wikipedia.org/wiki/Transport_Layer_Security) czy
-[OTR](https://pl.wikipedia.org/wiki/Off-the-record_messaging), i z powodzeniem ostudzić zapał
-szeroko pojętego "rządu światowego".
+kryptograficzne, np. [VPN][1], [GPG/PGP][2], [LUKS/DM-CRYPT][3], [SSL/TLS][4] czy [OTR][5], i z
+powodzeniem ostudzić zapał szeroko pojętego "rządu światowego".
 
 Staram się wspierać rozwiązania OpenSource i bynajmniej nie dlatego, że są one dostępne za free ale
 ze względu na możliwość wprowadzania w nich zmian w zależności od upodobań konkretnego użytkownika.
@@ -57,14 +53,14 @@ niewolny kod. Nigdy nie zaufam aplikacji, której mottem jest ochrona prywatnoś
 gdy w grę wchodzi niewolna licencja i zamknięty kod. To tylko proszenie się o kłopoty, podobnie jak
 klikanie w pierwszy lepszy odnośnik znaleziony na góglu.
 
-Od 14 lutego 2009 roku przeszedłem z Windowsa XP na [dystrybucję linux'a
-Debian](https://www.debian.org/). Choć w sumie tak na poważnie, to linux'em zainteresowałem się
-nieco później, bo dopiero 05 marca 2013. Daty są dokładne bo wiążą się z pewnymi zdarzeniami, które
-wtedy miały miejsce. Pierwsza z nich to data wydania stabilnego Debiana nazwanego wtedy Lenny i od
-tego się wszystko zaczęło. Z kolei ta druga data odpowiada za opublikowanie mojego pierwszego tekstu
-na łamach portalu dug.net.pl, gdzie przez następne lata aktywnie się udzielałem i publikowałem
-kolejne artykuły. Aż w końcu postanowiłem założyć blog Morfitronik, by mieć większą swobodę i lepszą
-formę wyrażania tego co mi w głowie siedzi.
+Od 14 lutego 2009 roku przeszedłem z Windowsa XP na [dystrybucję linux'a Debian][6]. Choć w sumie
+tak na poważnie, to linux'em zainteresowałem się nieco później, bo dopiero 05 marca 2013. Daty są
+dokładne bo wiążą się z pewnymi zdarzeniami, które wtedy miały miejsce. Pierwsza z nich to data
+wydania stabilnego Debiana nazwanego wtedy Lenny i od tego się wszystko zaczęło. Z kolei ta druga
+data odpowiada za opublikowanie mojego pierwszego tekstu na łamach portalu dug.net.pl, gdzie przez
+następne lata aktywnie się udzielałem i publikowałem kolejne artykuły. Aż w końcu postanowiłem
+założyć blog Morfitronik, by mieć większą swobodę i lepszą formę wyrażania tego co mi w głowie
+siedzi.
 
 Celem tego bloga jest doskonalenie własnego umysłu, tj. rozwijanie go i zdobywanie ciągle nowych
 informacji. Dużo łatwiej jest przyswoić sobie wiedzę, gdy się napisze przy okazji jakiś artykuł. Z
@@ -88,21 +84,19 @@ zrobię z nich szereg mniejszych wpisów.
 ## Prawa do kopiowania treści tego bloga
 
 Cała zawartość tego bloga jest na licencji [Creative Commons Uznanie autorstwa-Użycie
-niekomercyjne-Na tych samych
-warunkach 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pl). Niemniej jednak, to, że
-jest tam `NonCommercial` nie oznacza, że nie możemy się dogadać co do odsprzedania praw do danego
-artykułu. Choć zamiast się bawić w takie rzeczy, możesz mnie zwyczajnie zatrudnić i będę tworzył
-kontent dla Ciebie. W każdym innym przypadku, moje artykuły mogą być publikowane bez pytania mnie o
-zgodę, pod warunkiem zastosowania się do warunków w/w licencji.
+niekomercyjne-Na tych samych warunkach 4.0][7]. Niemniej jednak, to, że jest tam `NonCommercial` nie
+oznacza, że nie możemy się dogadać co do odsprzedania praw do danego artykułu. Choć zamiast się
+bawić w takie rzeczy, możesz mnie zwyczajnie zatrudnić i będę tworzył kontent dla Ciebie. W każdym
+innym przypadku, moje artykuły mogą być publikowane bez pytania mnie o zgodę, pod warunkiem
+zastosowania się do warunków w/w licencji.
 
 Na wypadek, gdyby ktoś chciał tę licencję złamać, to odradzam tego typu zachowania. Ja piszę
-artykuły w środowisku programistycznym [NetBeans](https://netbeans.org/). Może nie jestem zbytnio
-programistą ale wersjonowanie kodu bardzo przydaje się również w przypadku pisania artykułów. W taki
-sposób, praktycznie każda zmiana podczas tworzenia wpisu jest rejestrowana. Całość wygląda mniej
-więcej tak jak na tej fotce
-poniżej:
+artykuły w środowisku programistycznym [NetBeans][8]. Może nie jestem zbytnio programistą ale
+wersjonowanie kodu bardzo przydaje się również w przypadku pisania artykułów. W taki sposób,
+praktycznie każda zmiana podczas tworzenia wpisu jest rejestrowana. Całość wygląda mniej więcej tak
+jak na tej fotce poniżej:
 
-![](/img/2015/05/1.diff-art.png#huge)
+![diff-art](/img/2015/05/1.diff-art.png#huge)
 
 Tylko w taki sposób jestem w stanie udowodnić, że dany artykuł wyszedł spod mojej klawiatury, czyli,
 że to ja go napisałem.
@@ -165,3 +159,13 @@ i dotyczy problemów poruszanych w konkretnych postach, to prosiłbym, by zadawa
 komentarzu pod danym artykułem. Tego typu rozwiązanie sprawi też, że odpowiedzi będą dostępne dla
 każdego, a sam blog nie będzie sprawiał wrażenia martwego, zwłaszcza z perspektywy ewentualnych
 przyszłych "sponsorów".
+
+
+[1]: https://pl.wikipedia.org/wiki/Virtual_Private_Network
+[2]: https://pl.wikipedia.org/wiki/GNU_Privacy_Guard
+[3]: https://pl.wikipedia.org/wiki/Linux_Unified_Key_Setup
+[4]: https://pl.wikipedia.org/wiki/Transport_Layer_Security
+[5]: https://pl.wikipedia.org/wiki/Off-the-record_messaging
+[6]: https://www.debian.org/
+[7]: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pl
+[8]: https://netbeans.org/

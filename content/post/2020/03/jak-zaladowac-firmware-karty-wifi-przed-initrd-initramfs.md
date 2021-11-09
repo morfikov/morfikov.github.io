@@ -57,7 +57,7 @@ Brak firmware z kolei skutkuje problemami w obsłudze sprzętu lub też całkowi
 funkcjonowanie. W tym przypadku nawet nie pojawił się interfejs sieciowy `wlan0` sprawiając
 wrażenie, że karta sieciowa jest być może uszkodzona i nie ruszy pod linux.
 
-# EXTRA_FIRMWARE_DIR i EXTRA_FIRMWARE
+## EXTRA_FIRMWARE_DIR i EXTRA_FIRMWARE
 
 Niemniej jednak, jeśli [kompilujemy własny kernel dla określonej maszyny][1], to musimy nieco
 inaczej go skonfigurować, by ten zaistniały problem wyeliminować. W kernelu mamy dostępne dwie
