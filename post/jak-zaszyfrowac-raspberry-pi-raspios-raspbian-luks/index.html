@@ -43,7 +43,7 @@ poruszanym przez siebie zagadnieniem. Postanowiłem zatem na przykładzie mojego
 opisać w miarę dokładny sposób od początku do końca jak przeprowadzić cały ten proces szyfrowania
 danych na karcie SD, którą podpinamy do naszego minikomputera."><meta itemprop="datePublished" content="2021-11-07T22:17:00+01:00" />
 <meta itemprop="dateModified" content="2021-11-07T22:17:00+01:00" />
-<meta itemprop="wordCount" content="4156">
+<meta itemprop="wordCount" content="4280">
 <meta itemprop="keywords" content="luks,raspberry-pi-4b,raspios,raspbian,szyfrowanie,initrd,initramfs," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Jak zaszyfrować Raspberry Pi (RasPiOS/Raspbian, LUKS)"/>
@@ -185,6 +185,7 @@ if (!doNotTrack) {
         <li><a href="#plik-etccrypttab">Plik /etc/crypttab</a>
           <ol>
             <li><a href="#kwestia-pliku-etccryptsetup-initramfsconf-hook">Kwestia pliku /etc/cryptsetup-initramfs/conf-hook</a></li>
+            <li><a href="#systemd-cryptsetup-generator">Systemd cryptsetup generator</a></li>
           </ol>
         </li>
         <li><a href="#plik-bootcmdlinetxt-1">Plik /boot/cmdline.txt</a>
@@ -641,6 +642,17 @@ usr/lib/cryptsetup/askpass
 usr/lib/cryptsetup/functions
 usr/sbin/cryptsetup
 </code></pre>
+<h4 id="systemd-cryptsetup-generator">Systemd cryptsetup generator</h4>
+<p>System RasPiOS/Raspbian bazuje na dystrybucji Debian i współdzieli z nim szereg rzeczy, takich jak
+np. systemd. Warto wiedzieć, że ten menadżer systemu jakiś czas temu zastąpił konfigurację obecną w
+pliku <code>/etc/crypttab</code> swoim rozwiązaniem, do którego oddelegowany został <a href="https://www.freedesktop.org/software/systemd/man/systemd-cryptsetup-generator.html">systemd cryptsetup
+generator</a>. Ten mechanizm jednak <a href="https://manpages.debian.org/unstable/cryptsetup/crypttab.5.en.html">nie wspiera całej masy opcji</a>, które plik <code>/etc/crypttab</code>
+obsługuje w standardzie.</p>
+<p>W przypadku takiej instalacji systemu, którą tutaj sobie konfigurujemy, nie ma zbytnio znaczenia,
+na który z tych dwóch mechanizmów się zdecydujemy i z którego z nich będziemy korzystać. Jeśli
+jednak byśmy bawili się w nieco bardziej zaawansowane szyfrowanie, to jest spora szansa, że ten
+generator od systemd nie podoła zadaniu i trzeba będzie go wyłączyć przez dopisanie do kernel
+cmdline (w pliku <code>/boot/cmdline.txt</code> ) parametru <code>luks.crypttab=no</code> .</p>
 <h3 id="plik-bootcmdlinetxt-1">Plik /boot/cmdline.txt</h3>
 <p>Musimy także poddać edycji plik <code>/boot/cmdline.txt</code> , w którym to trzeba zmienić parametr <code>root=</code> ,
 tak by wskazywał na UUID (czy też ścieżkę w katalogu <code>/dev/mapper/</code> ) voluminu <code>rpi_crypt</code> ,

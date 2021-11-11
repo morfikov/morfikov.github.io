@@ -84,6 +84,33 @@ if (!doNotTrack) {
 			<div class="cards">
 					<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/">Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux</a></h1>
+	<div class="entry__content"><p>Ostatnio na forum dug.net.pl jeden z użytkowników <a href="https://forum.dug.net.pl/viewtopic.php?id=31524">miał dość spory problem</a> z ogarnięciem
+zadania polegającego na zaszyfrowaniu zapytań DNS z wykorzystaniem <a href="https://dnscrypt.info/">dnscrypt-proxy</a> i
+<a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a>. Ładnych parę lat temu opisywałem <a href="https://morfikov.github.io/tags/resolver/">jak skonfigurować te dwa narzędzia na Debianie</a>
+(i też na OpenWRT), choć od tamtego czasu w świecie linux'owym trochę rzeczy się pozmieniało. Dla
+przykładu, dnscrypt-proxy przeszedł gruntowną przebudowę, no i też systemd jest w powszechniejszym
+użyciu niż to miało miejsce w tamtych czasach, przez co w sporej części przypadków usługi takie jak
+<code>systemd-networkd.service</code> czy <code>systemd-resolved.service</code> są już włączone domyślnie. Zatem sporo
+informacji zawartych w tych napisanych przeze mnie artykułach już niekoniecznie może znaleźć
+obecnie zastosowanie. Dlatego też pomyślałem, że nadszedł już czas, by ździebko zaktualizować tamte
+wpisy. Ostatecznie stanęło jednak na tym, by w oparciu o te artykuły napisać kompletnie nowy tekst
+na temat szyfrowania zapytań DNS na linux przy wykorzystaniu oprogramowania <code>dnscrypt-proxy</code> oraz
+<code>dnsmasq</code> i zawrzeć w nim te wszystkie ciekawsze informacje, które udało mi się pozyskać przez te
+ostatnie lata w kwestii poprawy bezpieczeństwa i prywatności przy przeglądaniu stron WWW.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-09-19T14:13:00&#43;02:00">Opublikowano: 19/09/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
+					<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/systemowy-gpg-gnupg-w-thunderbird-78-na-linux/">Systemowy GPG/GnuPG w Thunderbird 78&#43; na linux</a></h1>
 	<div class="entry__content"><p>Jakiś już czas temu Mozilla ogłosiła, że Thunderbird od wersji 78 będzie posiadał natywne wsparcie
 dla szyfrowania wiadomości z wykorzystaniem kluczy GPG/PGP, przez co <a href="https://enigmail.net/index.php/en/">dodatek Enigmail</a> będzie
@@ -330,41 +357,6 @@ bo ten proces nie jest automatyczny i właśnie o tym jak dokonać migracji z Je
 kontekście GitHub Pages będzie ten poniższy artykuł.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-08-13T23:50:00&#43;02:00">Opublikowano: 13/08/2020</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-					</div>
-					<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/">Jak włączyć w Firefox ESNI (Encrypted SNI)</a></h1>
-	<div class="entry__content"><p>Obecnie szyfrowanie zapytań DNS staje się powoli normą za sprawą protokołu DoH (<a href="https://en.wikipedia.org/wiki/DNS_over_HTTPS">DNS over HTTPS</a>)
-lub DoT (<a href="https://en.wikipedia.org/wiki/DNS_over_TLS">DNS over TLS</a>). Można by zatem pomyśleć, że wraz z implementacją szyfrowania tego
-kluczowego dla działania internetu protokołu (przynajmniej z naszego ludzkiego punktu widzenia),
-poprawie ulegnie również nasza prywatność w kwestii odwiedzanych przez nas stron WWW. Niemniej
-jednak, w dalszym ciągu można bez problemu wyciągnąć adresy domen, które zamierzamy odwiedzić. Nie
-ma przy tym żadnego znaczenia ile stron jest hostowanych na danym adresie IP, ani nawet fakt, że
-ruch do serwera WWW będzie szyfrowany (w pasku adresu wpiszemy <code>https://</code> ) z wykorzystaniem
-protokołu SSL/TLS (w tym również TLS v1.3). Wszystko przez rozszerzenie SNI (<a href="https://en.wikipedia.org/wiki/Server_Name_Indication">Server Name
-Indication</a>), którego to zadaniem jest umożliwienie jednemu serwerowi na prezentowanie wielu
-certyfikatów hostowanych w jego obrębie domen. Dzięki takiemu rozwiązaniu, każda domena może
-szyfrować ruch niezależnie od siebie na linii serwer&lt;-&gt;klient (używać innych kluczy szyfrujących).
-Niemniej jednak, podczas nawiązywania szyfrowanego połączenia, w pakiecie ClientHello przesyłanym
-do takiego serwera musi znaleźć się nazwa domeny, której to certyfikat serwer będzie musiał nam
-przedstawić. Niestety ten pakiet jest przesyłany przez sieć otwartym tekstem, przez co każdy, kto
-podsłuchuje naszą komunikację (w tym też nasz ISP), bez problemu może ustalić na jakie strony
-internetowe wchodzimy. Ostatnimi czasy jednak pojawiły się dwa rozszerzenia ECH (<a href="https://en.wikipedia.org/wiki/Server_Name_Indication#Encrypted_Client_Hello">Encrypted Client
-Hello</a>) oraz ESNI (<a href="https://tools.ietf.org/html/draft-ietf-tls-esni-07">Encrypted SNI</a>), które mają zaadresować problemy związane z prywatnością
-przez pełne zaszyfrowanie pakietu ClientHello lub też zaszyfrowanie jedynie pola SNI w tym pakiecie.
-Póki co, prace nad tymi rozszerzeniami nie są jeszcze skończone ale Firefox w połączeniu z
-CloudFlare powoli testują ESNI. Postanowiłem zatem dobrowolnie przyłączyć się do grupy testerów i
-wdrożyć na swoim linux'ie to rozszerzenie ESNI dla przeglądarki Firefox.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-08-10T18:15:00Z">Opublikowano: 10/08/2020</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

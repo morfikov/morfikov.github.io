@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Wykorzystanie nośnika USB jako klucz do odszyfrowania Raspberry Pi (LUKS) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Wykorzystanie nośnika USB jako klucz do odszyfrowania Raspberry Pi (LUKS)" />
+<meta property="og:description" content="Ostatnio udało mi się zaszyfrować swojego Raspberry Pi 4B przez wdrożenie kontenera LUKS i
+upchnięcie w nim wszystkich danych z partycji / zainstalowanego w tym urządzeniu systemu
+RasPiOS/Raspbian. To jednak nie był koniec pracy, bo taki zaszyfrowany system na RPI ma szereg wad.
+Tym główniejszym uniedogodnieniem jest wpisywanie hasła na początku fazy boot, by pełny start
+systemu był w ogóle możliwy. Sytuacja się komplikuje, gdy do naszego minikomputera nie mamy
+podłączonego monitora i/lub klawiatury. Ten zaistniały problem można rozwiązać na kilka sposobów,
+np. przez zaprzęgnięcie do pracy dodatkowego nośnika USB w celu umieszczenia na nim pliku klucza
+(keyfile). Niemniej jednak, można pójść o krok dalej i wykorzystać samo urządzenie jako klucz i gdy
+takiego pendrive nie podłączymy do portu USB naszej maliny, to system nam się nie uruchomi. Te dwa
+rozwiązania są bardzo podobne do siebie ale to drugie jest nieco bardziej odporne na ewentualne
+problemy ze skasowaniem pliku klucza, co może nam się przytrafić, gdy taki pendrive jest
+wykorzystywany w roli regularnego nośnika danych przechowującego dla niepoznaki jakieś pliki. Tak
+czy inaczej oba te sposoby zostaną opisane w niniejszym artykule." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/wykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-11-11T05:32:00+01:00" />
+<meta property="article:modified_time" content="2021-11-11T05:32:00+01:00" />
+
+
+		<meta itemprop="name" content="Wykorzystanie nośnika USB jako klucz do odszyfrowania Raspberry Pi (LUKS)">
+<meta itemprop="description" content="Ostatnio udało mi się zaszyfrować swojego Raspberry Pi 4B przez wdrożenie kontenera LUKS i
+upchnięcie w nim wszystkich danych z partycji / zainstalowanego w tym urządzeniu systemu
+RasPiOS/Raspbian. To jednak nie był koniec pracy, bo taki zaszyfrowany system na RPI ma szereg wad.
+Tym główniejszym uniedogodnieniem jest wpisywanie hasła na początku fazy boot, by pełny start
+systemu był w ogóle możliwy. Sytuacja się komplikuje, gdy do naszego minikomputera nie mamy
+podłączonego monitora i/lub klawiatury. Ten zaistniały problem można rozwiązać na kilka sposobów,
+np. przez zaprzęgnięcie do pracy dodatkowego nośnika USB w celu umieszczenia na nim pliku klucza
+(keyfile). Niemniej jednak, można pójść o krok dalej i wykorzystać samo urządzenie jako klucz i gdy
+takiego pendrive nie podłączymy do portu USB naszej maliny, to system nam się nie uruchomi. Te dwa
+rozwiązania są bardzo podobne do siebie ale to drugie jest nieco bardziej odporne na ewentualne
+problemy ze skasowaniem pliku klucza, co może nam się przytrafić, gdy taki pendrive jest
+wykorzystywany w roli regularnego nośnika danych przechowującego dla niepoznaki jakieś pliki. Tak
+czy inaczej oba te sposoby zostaną opisane w niniejszym artykule."><meta itemprop="datePublished" content="2021-11-11T05:32:00+01:00" />
+<meta itemprop="dateModified" content="2021-11-11T05:32:00+01:00" />
+<meta itemprop="wordCount" content="2914">
+<meta itemprop="keywords" content="luks,raspberry-pi-4b,raspios,raspbian,szyfrowanie,udev," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Wykorzystanie nośnika USB jako klucz do odszyfrowania Raspberry Pi (LUKS)"/>
+<meta name="twitter:description" content="Ostatnio udało mi się zaszyfrować swojego Raspberry Pi 4B przez wdrożenie kontenera LUKS i
+upchnięcie w nim wszystkich danych z partycji / zainstalowanego w tym urządzeniu systemu
+RasPiOS/Raspbian. To jednak nie był koniec pracy, bo taki zaszyfrowany system na RPI ma szereg wad.
+Tym główniejszym uniedogodnieniem jest wpisywanie hasła na początku fazy boot, by pełny start
+systemu był w ogóle możliwy. Sytuacja się komplikuje, gdy do naszego minikomputera nie mamy
+podłączonego monitora i/lub klawiatury. Ten zaistniały problem można rozwiązać na kilka sposobów,
+np. przez zaprzęgnięcie do pracy dodatkowego nośnika USB w celu umieszczenia na nim pliku klucza
+(keyfile). Niemniej jednak, można pójść o krok dalej i wykorzystać samo urządzenie jako klucz i gdy
+takiego pendrive nie podłączymy do portu USB naszej maliny, to system nam się nie uruchomi. Te dwa
+rozwiązania są bardzo podobne do siebie ale to drugie jest nieco bardziej odporne na ewentualne
+problemy ze skasowaniem pliku klucza, co może nam się przytrafić, gdy taki pendrive jest
+wykorzystywany w roli regularnego nośnika danych przechowującego dla niepoznaki jakieś pliki. Tak
+czy inaczej oba te sposoby zostaną opisane w niniejszym artykule."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Wykorzystanie nośnika USB jako klucz do odszyfrowania Raspberry Pi (LUKS)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2021-11-11T05:32:00&#43;01:00">Opublikowano: 11/11/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/raspberrypi/" rel="category">RaspberryPi</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Wykorzystanie nośnika USB jako klucz do odszyfrowania Raspberry Pi (LUKS)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#nagłówek-luks-i-przechowywane-w-nim-klucze">Nagłówek LUKS i przechowywane w nim klucze</a>
+      <ol>
+        <li><a href="#tworzenie-ramdysku-na-potrzeby-wygenerowania-keyfile">Tworzenie ramdysku na potrzeby wygenerowania keyfile</a></li>
+        <li><a href="#generowanie-keyfile">Generowanie keyfile</a></li>
+        <li><a href="#dodawanie-pliku-klucza-do-nagłówka-luks">Dodawanie pliku klucza do nagłówka LUKS</a></li>
+      </ol>
+    </li>
+    <li><a href="#umieszczanie-pliku-klucza-na-pendrive">Umieszczanie pliku klucza na pendrive</a>
+      <ol>
+        <li><a href="#mbr-gap">MBR-GAP</a></li>
+        <li><a href="#test-keyfile-wgranego-na-pendrive">Test keyfile wgranego na pendrive</a></li>
+      </ol>
+    </li>
+    <li><a href="#nośnik-usb-dostępny-zawsze-pod-tą-samą-nazwą">Nośnik USB dostępny zawsze pod tą samą nazwą</a></li>
+    <li><a href="#skrypt-identyfikujący-pendrive-jako-klucz-do-kontenera">Skrypt identyfikujący pendrive jako klucz do kontenera</a></li>
+    <li><a href="#wstrzymanie-rozruchu-systemu-do-momentu-podłączenia-pendrive">Wstrzymanie rozruchu systemu do momentu podłączenia pendrive</a></li>
+    <li><a href="#regeneracja-obrazu-initramfsinitrd">Regeneracja obrazu initramfs/initrd</a>
+      <ol>
+        <li><a href="#cryptsetup-error-rpi_crypt-invalid-value-for-keyscript-option-skipping">cryptsetup: ERROR: rpi_crypt: invalid value for 'keyscript' option, skipping</a></li>
+      </ol>
+    </li>
+    <li><a href="#test-pendrive-jako-klucza-do-kontenera-luks">Test pendrive jako klucza do kontenera LUKS</a></li>
+    <li><a href="#kefile-jako-plik-w-obrębie-systemu-plików">Kefile jako plik w obrębie systemu plików</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Ostatnio udało mi się <a href="https://morfikov.github.io/post/jak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks/">zaszyfrować swojego Raspberry Pi 4B przez wdrożenie kontenera LUKS</a> i
+upchnięcie w nim wszystkich danych z partycji <code>/</code> zainstalowanego w tym urządzeniu systemu
+RasPiOS/Raspbian. To jednak nie był koniec pracy, bo taki zaszyfrowany system na RPI ma szereg wad.
+Tym główniejszym uniedogodnieniem jest wpisywanie hasła na początku fazy boot, by pełny start
+systemu był w ogóle możliwy. Sytuacja się komplikuje, gdy do naszego minikomputera nie mamy
+podłączonego monitora i/lub klawiatury. Ten zaistniały problem można rozwiązać na kilka sposobów,
+np. przez zaprzęgnięcie do pracy dodatkowego nośnika USB w celu umieszczenia na nim pliku klucza
+(keyfile). Niemniej jednak, można pójść o krok dalej i wykorzystać samo urządzenie jako klucz i gdy
+takiego pendrive nie podłączymy do portu USB naszej maliny, to system nam się nie uruchomi. Te dwa
+rozwiązania są bardzo podobne do siebie ale to drugie jest nieco bardziej odporne na ewentualne
+problemy ze skasowaniem pliku klucza, co może nam się przytrafić, gdy taki pendrive jest
+wykorzystywany w roli regularnego nośnika danych przechowującego dla niepoznaki jakieś pliki. Tak
+czy inaczej oba te sposoby zostaną opisane w niniejszym artykule.</p>
+<h2 id="nagłówek-luks-i-przechowywane-w-nim-klucze">Nagłówek LUKS i przechowywane w nim klucze</h2>
+<p>Jakiś czas temu opisywałem <a href="https://morfikov.github.io/post/keyfile-trzymany-w-glebokim-ukryciu/">sposób wykorzystania nośnika USB jako klucza do odblokowania kontenera
+LUKS</a> ale tamto rozwiązanie było opracowane na potrzeby zaszyfrowanych partycji innych niż ta
+systemowa. To opisane poniżej rozwiązanie nie jest specyficzne jedynie dla systemu RasPiOS/Raspbian
+i może być wykorzystane na dowolnym linux'ie.</p>
+<p>Mając zaszyfrowany system w Raspberry Pi, w nagłówku LUKS powinien być zajęty jeden keyslot. To
+właśnie w tym slocie znajduje się klucz, którym zaszyfrowany jest klucz główny używany do
+szyfrowania/deszyfrowania danych na partycji. Ten klucz w slocie jest również zaszyfrowany, tj. by
+ten klucz ze slotu wydobyć, trzeba podać hasło, które standardowo wpisujemy przy otwieraniu
+kontenera. Zatem wpisujemy hasło, klucz w slocie jest deszyfrowany, a potem przy pomocy tego klucza
+deszyfrowany jest klucz główny, który wędruje do pamięci RAM i później szyfrowanie danych odbywa
+się w sposób transparentny dla nas.</p>
+<p>Nie tylko hasło może pełnić rolę klucza do kontenera LUKS. Inną formą klucza jest plik binarny,
+który może rezydować w obrębie systemu plików danej partycji. Gdy korzystamy z takiej formy klucza,
+to system przy dostępie do kontenera LUKS odczytuje stosowny plik ze wskazanej na dysku lokalizacji.
+Taki plik to nic innego jak niezmienna sekwencja bitów, które podawane są do <code>cryptsetup</code> i
+przetwarzane. Jeśli dany kefile znajduje się również w nagłówku LUKS, to klucz główny zostanie
+zdeszyfrowany automatycznie, przez co my nie musimy wpisywać żadnego hasła, co niesamowicie
+usprawnia cały proces odszyfrowania kontenera i przez to też startu systemu.</p>
+<p>Poniżej jest przykład nagłówka kontenera LUKS, w którym zamknięty jest system mojego Raspberry Pi:</p>
+<pre><code>root@raspberrypi:/home/pi# cryptsetup luksDump /dev/mmcblk0p2
+
+LUKS header information
+Version:       	2
+Epoch:         	11
+Metadata area: 	16384 [bytes]
+Keyslots area: 	16744448 [bytes]
+UUID:          	0b9b66eb-d5ec-4371-80e3-f3a6ae92e0be
+Label:         	rpi
+Subsystem:     	(no subsystem)
+Flags:       	(no flags)
+
+Data segments:
+  0: crypt
+    offset: 16777216 [bytes]
+    length: (whole device)
+    cipher: aes-xts-plain64
+    sector: 512 [bytes]
+
+Keyslots:
+  0: luks2
+    Key:        512 bits
+    Priority:   normal
+    Cipher:     aes-xts-plain64
+    Cipher key: 512 bits
+    PBKDF:      argon2i
+    Time cost:  4
+    Memory:     524288
+    Threads:    2
+    Salt:       e5 83 26 da 06 e1 08 60 a0 20 08 60 00 b3 5f 9d
+                13 bf f3 46 2e 9c cc 78 dd 9a c5 90 b0 3c e8 4b
+    AF stripes: 4000
+    AF hash:    sha512
+    Area offset:32768 [bytes]
+    Area length:258048 [bytes]
+    Digest ID:  0
+Tokens:
+Digests:
+  0: pbkdf2
+    Hash:       sha512
+    Iterations: 119809
+    Salt:       28 c0 19 bf 10 5b 2a c2 79 64 d6 5f 2f 3a 50 c1
+                be 71 27 f1 f0 2d 6b bc 2e ee 94 6f b3 0b 5c 85
+    Digest:     c2 90 f2 b6 f0 58 39 65 4d 36 ba 50 63 70 bf 00 5d 10 db b2 50 91 11 09 c8 28 00 72 12 5d 9e 57
+                4a 55 c0 9f 25 d8 17 cb 62 4e 87 d9 92 ae 77 7b 4e 14 50 b9 0c c8 92 2a e2 49 b1 d9 9e 6b 75 41
+</code></pre>
+<p>Mamy tutaj całą masę informacji ale nas najbardziej interesuje zwrotka z <code>Keyslots</code> . Jak widać
+mamy tylko jeden keyslot na pozycji <code>0</code> . To właśnie tutaj jest trzymany zaszyfrowany klucz
+wykorzystywany do zdeszyfrowania klucza głównego po wpisaniu hasła. By móc zrobić użytek z keyfile,
+musimy go dodać do kolejnego slotu w tym nagłówku.</p>
+<h3 id="tworzenie-ramdysku-na-potrzeby-wygenerowania-keyfile">Tworzenie ramdysku na potrzeby wygenerowania keyfile</h3>
+<p>Zanim przejdziemy do generowania samego keyfile, dobrze jest stworzyć sobie niewielkich rozmiarów
+ramdysk, co umożliwi nam wygenerowanie pliku klucza bezpośrednio w pamięci operacyjnej RAM. Takie
+działanie ma na celu poprawę bezpieczeństwa pliku klucza ze względu na fakt, że nie zostanie on
+zapisany na dysk twardym, z którego bardzo ciężko jest go później usunąć, zwłaszcza w przypadku
+pamięci flash. Oczywiście jeśli mamy zaszyfrowany dysk, to ten problem dotyczy nas w mniejszym
+stopniu ale lepiej wyrabiać sobie dobre nawyki od samego początku.</p>
+<p>Taki ramdysk można stworzyć na dowolnym linux'ie w poniższy sposób:</p>
+<pre><code># mount -t tmpfs -o uid=root,gid=root,mode=1700,size=10M tmpfs /mnt
+
+# mount | grep -i mnt
+tmpfs on /mnt type tmpfs (rw,relatime,size=10240k,mode=1700)
+</code></pre>
+<p>Wszystkie dane zapisane w tym ramdysku zostaną usunięte wraz z odłączeniem zasilania od pamięci
+operacyjnej, np. po wyłączeniu komputera, więc po utworzonym przez nas keyfile nie pozostanie żaden
+ślad.</p>
+<h3 id="generowanie-keyfile">Generowanie keyfile</h3>
+<p>Generujemy teraz keyfile przy pomocy narzędzia <code>dd</code> . Jako plik wejściowy podajemy urządzenie
+<code>/dev/random</code> , a jako wyjściowy określamy ścieżkę do zapisu gdzieś w obrębie utworzonego ramdysku.
+Rozmiar klucza możemy podać 2048/4096 bajtów. Większych kluczy nie ma co tworzyć, bo liczba
+kombinacji oferowanych przez taki 4096-bajtowy keyfile jest i tak o wiele większa niż w przypadku
+nawet sporych długości haseł alfanumerycznych. Wykorzystanie urządzenia <code>/dev/random</code> ma na celu
+zapewnić większą losowość w stosunku do urządzenia <code>/dev/urandom</code> :</p>
+<pre><code>root@raspberrypi:/home/pi# dd if=/dev/random of=/mnt/keyfile bs=1 count=4096
+
+root@raspberrypi:/home/pi# ls -al /mnt/keyfile
+-rw-r--r-- 1 root root 4096 Nov 10 05:05 /mnt/keyfile
+</code></pre>
+<h3 id="dodawanie-pliku-klucza-do-nagłówka-luks">Dodawanie pliku klucza do nagłówka LUKS</h3>
+<p>Tak wygenerowany keyfile trzeba dodać do nagłówka zaszyfrowanego kontenera LUKS. Robimy to w
+poniższy sposób:</p>
+<pre><code>root@raspberrypi:/home/pi# cryptsetup luksAddKey /dev/mmcblk0p2 /mnt/keyfile --hash sha512
+Enter any existing passphrase:
+</code></pre>
+<p>W nagłówku LUKS powinien pojawić się dodatkowy keyslot z numerkiem <code>1</code> . Sprawdźmy czy faktycznie
+tak się stało:</p>
+<pre><code>root@raspberrypi:/home/pi# cryptsetup luksDump /dev/mmcblk0p2
+
+LUKS header information
+...
+  1: luks2
+    Key:        512 bits
+    Priority:   normal
+    Cipher:     aes-xts-plain64
+    Cipher key: 512 bits
+    PBKDF:      argon2i
+    Time cost:  4
+    Memory:     185496
+    Threads:    4
+    Salt:       79 04 9f 36 26 2f da 5d 1c c0 a1 be 8a 73 6f c5
+                d8 c7 55 97 a0 cf ee 5c ec ae 20 11 06 d0 27 62
+    AF stripes: 4000
+    AF hash:    sha512
+    Area offset:290816 [bytes]
+    Area length:258048 [bytes]
+    Digest ID:  0
+...
+</code></pre>
+<p>Klucz został z powodzeniem dodany do nagłówka LUKS.</p>
+<h2 id="umieszczanie-pliku-klucza-na-pendrive">Umieszczanie pliku klucza na pendrive</h2>
+<p>Dodanie klucza do nagłówka LUKS to tylko połowa pracy. Ten keyfile trzeba także wrzucić na pendrive,
+który zamierzamy wykorzystać do otworzenia zaszyfrowanego kontenera. W tym przypadku keyfile
+zostanie wgrany w pewne określone miejsce na pendrive z pominięciem systemu plików. Oczywiście
+takie rozwiązanie sprawiłoby, że nasz klucz byłby bardzo podatny na uszkodzenia wskutek wgrywania
+na nośnik jakichś informacji, np. plików. Dlatego też ten keyfile powędruje w miejsce, w którym
+pliki nie są umieszczane, tj. w przestrzeni MBR-GAP.</p>
+<h3 id="mbr-gap">MBR-GAP</h3>
+<p>MBR-GAP to przestrzeń za tablicą partycji (pierwszym sektorem nośnika), której granice wyznacza
+początek pierwszej partycji dysku. Zwykle partycje są równane do 1MiB, więc MBR-GAP w takim
+przypadku to 2047 sektorów 512-bajtowych. Tę przestrzeń trzeba zapisać losowymi danymi, po czym w
+którymś miejscu umieścić wcześniej wygenerowany keyfile. By mieć pewność, że to właśnie ten obszar
+trzeba wyczyścić, najlepiej sprawdzić offset pierwszej partycji via <code>fdisk</code> :</p>
+<pre><code>root@raspberrypi:/home/pi# fdisk -l /dev/sda
+Disk /dev/sda: 7.3 GiB, 7864320000 bytes, 15360000 sectors
+Disk model: DataTraveler 3.0
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x8e8b4a71
+
+Device     Boot Start      End  Sectors  Size Id Type
+/dev/sda1        2048 15359999 15357952  7.3G 83 Linux
+</code></pre>
+<p>W kolumnie <code>Start</code> mamy wartość <code>2048</code> , zatem ta partycja jest wyrównana do 1MiB.</p>
+<p>Czyścimy 2047 sektorów przy pomocy <code>dd</code> z pominięciem pierwszego, na którym znajduje się tablica
+partycji:</p>
+<pre><code>root@raspberrypi:/home/pi# dd if=/dev/urandom of=/dev/sda bs=512 count=2047 seek=1
+</code></pre>
+<p>Wczytajmy tablicę partycji na nowo, by sprawdzić czy wszystko z nią jest w porządku::</p>
+<pre><code>root@raspberrypi:/home/pi# partprobe
+</code></pre>
+<p>Weryfikujemy wpisy w <code>fdisk</code> :</p>
+<pre><code>root@raspberrypi:/home/pi# fdisk -l /dev/sda
+...
+
+Device     Boot Start      End  Sectors  Size Id Type
+/dev/sda1        2048 15359999 15357952  7.3G 83 Linux
+</code></pre>
+<p>Tablica partycji jest na swoim miejscu, a przestrzeń MBR-GAP została wyczyszczona, tj. nadpisana
+losowymi danymi.</p>
+<p>Wgrywamy teraz plik klucz gdzieś w obrębie tej przestrzeni MBR-GAP, np. na offset 100:</p>
+<pre><code>root@raspberrypi:/home/pi# dd if=/mnt/keyfile of=/dev/sda bs=512 seek=100
+</code></pre>
+<h3 id="test-keyfile-wgranego-na-pendrive">Test keyfile wgranego na pendrive</h3>
+<p>Możemy przetestować czy przy pomocy tak wgranego na pendrive keyfile jesteśmy w stanie odszyfrować
+kontener. Naturalnie do takiego testu potrzebny jest inny system, do którego podłączymy kartę SD
+wyciągniętą z Raspberry Pi oraz też podepniemy pendrive z wypalonym kluczem. Tak czy inaczej,
+poniżej znajduje się stosowne polecenie, którym taki kontener możemy odszyfrować:</p>
+<pre><code># dd if=/dev/sdb bs=512 skip=100 count=8 | \
+   cryptsetup luksOpen /dev/mmcblk0p2 rpi_crypt --key-file=-
+
+# lsblk -o &quot;NAME,SIZE,FSTYPE,TYPE,LABEL,MOUNTPOINT,UUID,PARTUUID&quot; /dev/mmcblk0
+NAME           SIZE FSTYPE      TYPE  LABEL  MOUNTPOINT UUID                                 PARTUUID
+mmcblk0       28.8G             disk
+├─mmcblk0p1    256M vfat        part  boot              B05C-D0C4                            0d03b705-01
+└─mmcblk0p2   28.6G crypto_LUKS part  rpi               0b9b66eb-d5ec-4371-80e3-f3a6ae92e0be 0d03b705-02
+  └─rpi_crypt 28.6G ext4        crypt rootfs            0ca2062b-142b-4826-bb74-d465ca89b554
+</code></pre>
+<p>I jak możemy zauważyć, kontener LUKS został otworzony bez wpisywania żadnego hasła.</p>
+<h2 id="nośnik-usb-dostępny-zawsze-pod-tą-samą-nazwą">Nośnik USB dostępny zawsze pod tą samą nazwą</h2>
+<p>Problem z urządzeniami USB podczas startu systemu jest zawsze taki sam, tj. mogą one zostać wykryte
+w innej kolejności niż miało to miejsce w przypadku poprzedniego rozruchu systemu. W taki sposób
+nasz pendrive może zmienić ścieżkę z <code>/dev/sda</code> na <code>/dev/sdb</code> . W przypadku RPI ten problem raczej
+nam nie zagraża, bo zbyt wielu urządzeń USB do niego nie będziemy podłączać. Niemniej jednak,
+możemy napisać prostą regułę dla UDEV'a, która utworzy nam link do urządzenia blokowego w
+określonym przez nas miejscu.</p>
+<p>By taką regułę utworzyć, potrzebny nam będzie, np. numer seryjny pendrive. Ten numer seryjny możemy
+możemy uzyskać zaprzęgając do pracy narzędzie <code>udevadm</code> :</p>
+<pre><code>root@raspberrypi:/home/pi# udevadm info --name /dev/sda
+...
+E: ID_SERIAL_SHORT=0019E06B9C8ABE41C7A2C3EC
+...
+</code></pre>
+<p>Mając numer seryjny, tworzymy plik <code>/etc/udev/rules.d/99-unlock-rpi.rules</code> . Dodajemy do tego pliku
+poniższą zawartość:</p>
+<pre><code>ACTION==&quot;add&quot;, SUBSYSTEM==&quot;usb&quot;, KERNEL==&quot;sd?&quot;, \
+ ENV{ID_SERIAL_SHORT}==&quot;0019E06B9C8ABE41C7A2C3EC&quot;, \
+ SYMLINK+=&quot;usbkey%n&quot;
+</code></pre>
+<p>Przeładowujemy jeszcze konfigurację UDEV'a i testujemy regułę:</p>
+<pre><code>root@raspberrypi:/home/pi# udevadm control --reload
+
+root@raspberrypi:/home/pi# udevadm test /devices/platform/scb/fd500000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0/usb1/1-1/1-1.1/1-1.1:1.0/host0/target0:0:0/0:0:0:0/block/sda
+...
+Reading rules file: /etc/udev/rules.d/99-unlock-rpi.rules
+...
+DEVLINKS=... /dev/usbkey ...
+...
+</code></pre>
+<p>Jak widać po powyższym logu, plik <code>/etc/udev/rules.d/99-unlock-rpi.rules</code> jest przetwarzany, a w
+<code>DEVLINKS</code> widnieje link <code>/dev/usbkey</code> , który sobie określiliśmy.</p>
+<h2 id="skrypt-identyfikujący-pendrive-jako-klucz-do-kontenera">Skrypt identyfikujący pendrive jako klucz do kontenera</h2>
+<p>Potrzebny nam będzie prosty skrypt shell'owy, który wyciągnie z pendrive określone bity i poda je
+do <code>cryptsetup</code> . Tworzymy zatem plik <code>/usr/sbin/unlock-rpi</code> i nadajemy mu prawa wykonywania:</p>
+<pre><code>root@raspberrypi:/home/pi# touch /usr/sbin/unlock-rpi
+root@raspberrypi:/home/pi# chmod +x /usr/sbin/unlock-rpi
+</code></pre>
+<p>Do pliku wrzucamy poniższą zawartość:</p>
+<pre><code>#!/bin/sh
+
+dd if=/dev/usbkey bs=512 skip=100 count=8
+</code></pre>
+<p>Gdzieniegdzie można się spotkać z przesłaniem wyjścia polecenia <code>dd</code> bezpośrednio do <code>cryptsetup</code>
+za sprawą potoku (pipe), np. w poniższy sposób:</p>
+<pre><code>dd if=/dev/usbkey bs=512 skip=100 count=8 | \
+cryptsetup luksOpen /dev/mmcblk0p2 rpi_crypt --key-file=-
+</code></pre>
+<p>Nie należy z tego rozwiązania korzystać, bo <code>cryptsetup</code> automatycznie podbiera wyjście ze skryptu,
+który został określony w parametrze <code>keyscript</code> w pliku <code>/etc/crypttab</code> . Musimy zatem ten plik
+dostosować:</p>
+<pre><code>rpi_crypt  UUID=0b9b66eb-d5ec-4371-80e3-f3a6ae92e0be   none  luks,initramfs,keyscript=/usr/sbin/unlock-rpi,keyslot=1
+</code></pre>
+<p>W stosunku do standardowej konfiguracji szyfrowania z wykorzystaniem hasła, w tej powyższej linijce
+pojawił się dodatkowo parametr <code>keyscript=</code> , który w argumencie ma ścieżkę <code>/usr/sbin/unlock-rpi</code>
+odpowiadającą za lokalizację naszego skryptu wyciągającego bity z pendrive. Wyjście tego skryptu
+zostanie z automatu przesłane do <code>cryptsetup</code> . Mamy też określony parametr <code>keyslot=1</code> , który
+wskazuje, że chcemy te bity z wyjścia skryptu porównać z tym co siedzi w slocie numer 1 w nagłówku
+LUKS. Ma to na celu przyśpieszenie otwarcia zaszyfrowanego kontenera, bo domyślnie system by
+przetworzył slot z numerkiem 0, dopiero później slot z numerkiem 1. Jeśli byśmy mieli zajętych
+więcej slotów, czas potrzebny na otworzenie kontenera uległby znacznemu wydłużeniu.</p>
+<h2 id="wstrzymanie-rozruchu-systemu-do-momentu-podłączenia-pendrive">Wstrzymanie rozruchu systemu do momentu podłączenia pendrive</h2>
+<p>To co chcemy uzyskać, to odszyfrowanie kontenera przy pomocy odpowiedniego urządzenia blokowego. Co
+się jednak stanie w sytuacji, gdy w porcie USB nie będzie takiego urządzenia, albo będzie inne
+urządzenie? Zapewne jakieś błędy na ekranie się pojawią ale sam system nie zostanie odszyfrowany.
+Musimy zatem wypracować rozwiązanie, które zatrzyma start systemu w przypadku, gdy pendrive z
+kluczem nie zostanie podłączony do portu USB. Możemy to zrobić przy wykorzystaniu skryptów
+<code>initramfs-tools</code> .</p>
+<p>Tworzymy zatem plik <code>/etc/initramfs-tools/scripts/local-top/delay-decrypt</code> i nadajemy mu prawa
+wykonywania:</p>
+<pre><code>root@raspberrypi:/home/pi# touch /etc/initramfs-tools/scripts/local-top/delay-decrypt
+root@raspberrypi:/home/pi# chmod +x /etc/initramfs-tools/scripts/local-top/delay-decrypt
+</code></pre>
+<p>Następnie wrzucamy do tego pliku poniższą zawartość:</p>
+<pre><code>#!/bin/sh
+
+PREREQ=&quot;udev&quot;
+prereqs()
+{
+   echo &quot;$PREREQ&quot;
+}
+
+case $1 in
+prereqs)
+   prereqs
+   exit 0
+   ;;
+esac
+
+# source for log_*_msg() functions, see LP: #272301
+. /scripts/functions
+
+# Default PATH differs between shells, and is not automatically exported
+# by klibc dash.  Make it consistent.
+export PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+DEVICE=/dev/usbkey
+if [ ! -L &quot;$DEVICE&quot; ]; then
+    echo -e &quot;\nWaiting for device...&quot; &gt;&amp;2
+    until [ -L &quot;$DEVICE&quot; ]; do
+        sleep 1
+    done
+fi
+
+exit 0
+</code></pre>
+<p>Zadaniem tego skryptu jest sprawdzenie czy link <code>/dev/usbkey</code> do pendrive został już utworzony. Ten
+link zostanie utworzony przez UDEV dopiero w momencie, gdy podepniemy pendrive do portu USB. Do
+tego czasu, system wyświetli komunikat <code>Waiting for device...</code> i zapętli się uniemożliwiając dalszy
+start systemu, co będzie wyglądało mniej więcej tak:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/11/001.raspberry-pi-rpi-cryptsetup-luks-pendrive-unlock-keyfile-wait.jpg" alt="raspberry-pi-rpi-cryptsetup-luks-pendrive-unlock-keyfile-wait"    class="huge"></p>
+<p>W interwale jednosekundowym, system będzie badał czy urządzenie zostało podłączone do portu USB.
+Gdy taka sytuacja nastąpi, bity zawarte na pendrive zostaną automatycznie odczytane:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/11/002.raspberry-pi-rpi-cryptsetup-luks-pendrive-unlock-keyfile-wait-success.jpg" alt="raspberry-pi-rpi-cryptsetup-luks-pendrive-unlock-keyfile-wait-success"    class="huge"></p>
+<h2 id="regeneracja-obrazu-initramfsinitrd">Regeneracja obrazu initramfs/initrd</h2>
+<p>Po dostosowaniu wszystkich tych powyższych plików, trzeba wygenerować na nowo obraz
+initramfs/initrd przy pomocy <code>update-initramfs</code> :</p>
+<pre><code>root@raspberrypi:/home/pi# update-initramfs -u -k $(uname -r)
+ln: failed to create hard link '/boot/initrd.img-5.10.63-v7l+.dpkg-bak' =&gt; '/boot/initrd.img-5.10.63-v7l+': Operation not permitted
+update-initramfs: Generating /boot/initrd.img-5.10.63-v7l+
+Building v7l+ image, updating top initrd
+</code></pre>
+<h3 id="cryptsetup-error-rpi_crypt-invalid-value-for-keyscript-option-skipping">cryptsetup: ERROR: rpi_crypt: invalid value for 'keyscript' option, skipping</h3>
+<p>Może się zdarzyć tak, że podczas generowania obrazu initramfs/initrd zostanie nam wyrzucony
+poniższy błąd:</p>
+<pre><code>root@raspberrypi:/home/pi# update-initramfs -u -k $(uname -r)
+ln: failed to create hard link '/boot/initrd.img-5.10.63-v7l+.dpkg-bak' =&gt; '/boot/initrd.img-5.10.63-v7l+': Operation not permitted
+update-initramfs: Generating /boot/initrd.img-5.10.63-v7l+
+cryptsetup: ERROR: rpi_crypt: invalid value for 'keyscript' option, skipping
+cryptsetup: WARNING: The initramfs image may not contain cryptsetup binaries
+    nor crypto modules. If that's on purpose, you may want to uninstall the
+    'cryptsetup-initramfs' package in order to disable the cryptsetup initramfs
+    integration and avoid this warning.
+Building v7l+ image, updating top initrd
+</code></pre>
+<p>Efektem tego błędu będzie brak binarki <code>cryptsetup</code> w obrazie initramfs/initrd, przez co nie damy
+rady odszyfrować kontenera LUKS podczas startu systemu.</p>
+<p>Taka sytuacja ma miejsce za sprawą domyślnego przejęcia kontroli nad plikiem <code>/etc/crypttab</code> przez
+systemd, a konkretnie przez <a href="https://www.freedesktop.org/software/systemd/man/systemd-cryptsetup-generator.html">systemd cryptsetup generator</a>. Ten mechanizm jednak <a href="https://manpages.debian.org/unstable/cryptsetup/crypttab.5.en.html">nie wspiera
+całej masy opcji</a>, które plik <code>/etc/crypttab</code> obsługuje w standardzie, co można poznać po
+poniższych komunikatach w logu systemowym:</p>
+<pre><code>raspberrypi systemd-cryptsetup[533]: Encountered unknown /etc/crypttab option 'keyscript=/usr/sbin/unlock-rpi', ignoring.
+raspberrypi systemd-cryptsetup[533]: Encountered unknown /etc/crypttab option 'initramfs', ignoring.
+raspberrypi systemd-cryptsetup[533]: Encountered unknown /etc/crypttab option 'keyslot=1', ignoring.
+</code></pre>
+<p>By jakoś zaradzić temu problemowi, trzeba wyłączyć generator cryptsetup od systemd. Możemy to zrobić
+przez dopisanie parametru <code>luks.crypttab=no</code> w kernel cmdline w pliku <code>/boot/cmdline.txt</code> :</p>
+<h2 id="test-pendrive-jako-klucza-do-kontenera-luks">Test pendrive jako klucza do kontenera LUKS</h2>
+<p>Po wygenerowaniu obrazu initramfs/initrd uruchamiamy system naszego Raspberry Pi ponownie.
+Podłączamy też pendrive do portu USB i obserwujemy co się dzieje na ekranie monitora. W moim
+przypadku system bez większego problemu poradził sobie z wydobyciem określonych bitów z pendrive i
+podał je do <code>cryptsetup</code> , co skutkowało odszyfrowaniem kontenera LUKS. Cały proces został
+zobrazowany na poniższej fotce:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/11/003.raspberry-pi-rpi-cryptsetup-luks-pendrive-unlock-keyfile-boot-system.jpg" alt="raspberry-pi-rpi-cryptsetup-luks-pendrive-unlock-keyfile-boot-system"    class="huge"></p>
+<h2 id="kefile-jako-plik-w-obrębie-systemu-plików">Kefile jako plik w obrębie systemu plików</h2>
+<p>We wstępie do niniejszego artykułu wspomniałem, że istnieją dwa zbliżone do siebie rozwiązania
+zakładające wykorzystanie nośnika USB w roli klucza do zaszyfrowanego kontenera LUKS. Jedno z tych
+rozwiązań zostało opisane wyżej ale jakby nie patrzeć, trochę się trzeba było nad nim napracować.
+Zapewne wielu użytkowników nie potrzebuje tak wyrafinowanego mechanizmu otwierającego kontener LUKS
+i można by skorzystać z prostszej opcji, tj. umieszczenia pliku klucza w obrębie systemu plików na
+jednej z partycji pendrive.</p>
+<p>By ten poniżej opisany sposób zadziałał potrzebny nam będzie pendrive z co najmniej jedną partycją
+sformatowaną systemem plików ext4. Taką partycję montujemy sobie gdzieś, np. w <code>/media/pendrive/</code> ,
+po czym generujemy plik klucz w sposób opisany wyżej. Ten plik klucz też trzeba dodać do nagłówka
+LUKS, co też zostało opisane wyżej. Następnie trzeba przypisać etykietę do systemu plików przy
+pomocy <code>e2label</code> w poniższy sposób (link przez UDEV też się nada ale sposób z etykietą jest dużo
+prostszy):</p>
+<pre><code>root@raspberrypi:/home/pi# e2label /dev/sda1 pendrak
+</code></pre>
+<p>Ostatnim krokiem jest dostosowanie opcji dla kontenera w pliku <code>/etc/crypttab</code> . Dokładnie chodzi o
+trzecią kolumnę, w której standardowo rezyduje fraza <code>none</code> . Trzeba ją przepisać do postaci
+<code>/sciezka/do/urzadzenia:/sciezka/do/pliku</code> , przykładowo:</p>
+<pre><code>rpi_crypt  UUID=0b9b66eb-d5ec-4371-80e3-f3a6ae92e0be   /dev/disk/by-label/pendrak:/keyfile  luks,initramfs,keyscript=passdev,keyslot=1
+</code></pre>
+<p>W tym przypadku partycja pendrive ma etykietę <code>pendrak</code> i jest dostępna pod ścieżką
+<code>/dev/disk/by-label/pendrak</code> , a klucz jest dostępny w pliku <code>keyfile</code> w głównym katalogu na
+pendrive.</p>
+<p>Po edycji pliku <code>/etc/crypttab</code> trzeba na nowo wygenerować obraz initramfs/initrd i to w zasadzie
+wszystko co trzeba zrobić aby wdrożyć keyfile na pendrive i przy jego pomocy odszyfrować kontener
+LUKS bez wpisywania jakiegokolwiek hasła.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Takie rozwiązanie uzależnienia startu Raspberry Pi od faktu podłączenia konkretnego urządzenia
+pamięci masowej do portu USB niewątpliwie jest wielce użyteczne. Odpada nam w ten sposób potrzeba
+podłączania monitora i/lub klawiatury, przez co cały proces startu systemu przebiega o wiele
+szybciej i sprawniej. Trzeba jednak zdawać sobie sprawę, że jeśli my jesteśmy w stanie bez
+większego problemu odszyfrować RPI przy pomocy takiego pendrive, to każda inna osoba również będzie
+w stanie to zrobić, jak tylko to urządzenie wpadnie w jej łapki. Dlatego trzeba się zatroszczyć o
+fizyczny dostęp do pendrive i trzymać go w bezpiecznym miejscu. Opisane wyżej dwa rozwiązania
+różnią się trochę ale efekt dają mniej więcej ten sam. Niemniej jednak, sposób z wypaleniem keyfile
+w MBR-GAP może ździebko utrudnić wyciągnięcie klucza z takiego pendrive (na działającym systemie) w
+stosunku do przechowywania tego klucza w regularnym pliku, zwłaszcza w sytuacji, gdy ta pamięć
+masowa będzie używana do czegoś więcej niż tylko do odszyfrowania systemu naszej maliny.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/luks/">luks</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/raspberry-pi-4b/">raspberry-pi-4b</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/raspios/">raspios</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/raspbian/">raspbian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">szyfrowanie</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/udev/">udev</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fwykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi%2f&amp;text=Wykorzystanie%20no%c5%9bnika%20USB%20jako%20klucz%20do%20odszyfrowania%20Raspberry%20Pi%20%28LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi%2f&amp;title=Wykorzystanie%20no%c5%9bnika%20USB%20jako%20klucz%20do%20odszyfrowania%20Raspberry%20Pi%20%28LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi%2f&amp;title=Wykorzystanie%20no%c5%9bnika%20USB%20jako%20klucz%20do%20odszyfrowania%20Raspberry%20Pi%20%28LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi%2f&title=Wykorzystanie%20no%c5%9bnika%20USB%20jako%20klucz%20do%20odszyfrowania%20Raspberry%20Pi%20%28LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi%2f&amp;title=Wykorzystanie%20no%c5%9bnika%20USB%20jako%20klucz%20do%20odszyfrowania%20Raspberry%20Pi%20%28LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fwykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi%2f&description=Wykorzystanie%20no%c5%9bnika%20USB%20jako%20klucz%20do%20odszyfrowania%20Raspberry%20Pi%20%28LUKS%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks/">Jak zaszyfrować Raspberry Pi (RasPiOS/Raspbian, LUKS)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/chroot-do-32-bit-systemu-arm-z-poziomu-64-bit-linuxowego-hosta/">Chroot do 32-bit systemu ARM z poziomu 64-bit linux&#39;owego hosta</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-odszyfrowac-linux-przy-pomocy-telefonu-z-androidem/">Jak odszyfrować linux&#39;a przy pomocy telefonu z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-ukryc-zaszyfrowany-kontener-luks-pod-linux/">Jak ukryć zaszyfrowany kontener LUKS pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/naglowek-kontenera-luks-trzymany-na-pendrive/">Nagłówek kontenera LUKS trzymany na pendrive</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/odzyskanie-klucza-glownego-w-kontenerze-luks/">Klucz główny kontenera LUKS i jego odzyskanie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/odszyfrowanie-kontenerow-luks-w-systemd/">Odszyfrowanie kontenerów LUKS w systemd</a></li>
+		
+	</ul>
+</div>
+
+	<div id="comments">
+		<script>
+  var id =  580 ;
+
+  if (id)
+  {
+    let url = "https://github.com/morfikov/morfitronik-comments/issues/".concat(id);
+    let api_url = "https://api.github.com/repos/morfikov/morfitronik-comments/issues/".concat(id, "/comments");
+
+    var commentsDiv = document.getElementById("comments");
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("GET", api_url);
+    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
+    xhr.send();
+
+    xhr.onload = function()
+    {
+      if (xhr.status != 200)
+      {
+        let errorText = document.createElement("p");
+        errorText.innerHTML = "<i>Komentarze dla tego postu nie zostały jeszcze otworzone (albo skrypty GitHub'a są wyłączone). Być może też skończył ci się przydział 60/godzinę (limit GitHub'a).</i>";
+        commentsDiv.appendChild(errorText);
+      }
+      else
+      {
+        let comments = xhr.response;
+
+        let mainHeader = document.createElement("h3");
+        mainHeader.innerHTML = "Komentarze: ".concat(comments.length);
+        commentsDiv.appendChild(mainHeader);
+
+        let issueLink = document.createElement("p");
+        issueLink.innerHTML = "<i>Możesz zostawić komentarz korzystając z <a href='".concat(url, "'>GitHub issue</a>.</i>");
+        commentsDiv.appendChild(issueLink);
+
+        comments.forEach(function(comment)
+        {
+			const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Europe/Warsaw' };
+			options.timeZoneName = 'short';
+            let commentContent = document.createElement("div");
+            commentContent.setAttribute('class', 'gh-comment')
+            commentContent.innerHTML = "".concat(
+                "<div class='gh-header'>",
+                  "<img src='", comment.user.avatar_url, "' />",
+                  "<div style='margin:auto 0;'>",
+                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
+                    " | <em>", (new Date(comment.created_at)).toLocaleTimeString('pl-PL', options), "</em>",
+                  "</div>",
+                "</div>",
+                "<div class='gh-body'>",
+                  comment.body_html,
+                "</div>"
+            );
+            commentsDiv.appendChild(commentContent);
+        });
+      }
+    };
+
+    xhr.onerror = function()
+    {
+      let errorText = document.createElement("p");
+      errorText.innerHTML = "<i>Wystąpił jakiś błąd przy ładowaniu komentarzy.</i>";
+      commentsDiv.appendChild(errorText);
+    };
+  }
+</script>
+
+	</div>
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<div class="license-icons">
+			<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons Attribution 4.0 International license">
+<i class="icon-cc"></i><i class="icon-cc-by"></i><i class="icon-cc-nc"></i><i class="icon-cc-sa"></i>
+</a>
+		</div>
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
+</body>
+</html>
