@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - RaspberryPi
 date:    2021-11-07 22:17:00 +0100
-lastmod: 2021-11-07 22:17:00 +0100
+lastmod: 2021-11-11 05:30:00 +0100
 published: true
 status: publish
 tags:
@@ -544,6 +544,20 @@ możemy zweryfikować ręcznie podglądając zawartość tego obrazu:
     usr/lib/cryptsetup/functions
     usr/sbin/cryptsetup
 
+#### Systemd cryptsetup generator
+
+System RasPiOS/Raspbian bazuje na dystrybucji Debian i współdzieli z nim szereg rzeczy, takich jak
+np. systemd. Warto wiedzieć, że ten menadżer systemu jakiś czas temu zastąpił konfigurację obecną w
+pliku `/etc/crypttab` swoim rozwiązaniem, do którego oddelegowany został [systemd cryptsetup
+generator][17]. Ten mechanizm jednak [nie wspiera całej masy opcji][18], które plik `/etc/crypttab`
+obsługuje w standardzie.
+
+W przypadku takiej instalacji systemu, którą tutaj sobie konfigurujemy, nie ma zbytnio znaczenia,
+na który z tych dwóch mechanizmów się zdecydujemy i z którego z nich będziemy korzystać. Jeśli
+jednak byśmy bawili się w nieco bardziej zaawansowane szyfrowanie, to jest spora szansa, że ten
+generator od systemd nie podoła zadaniu i trzeba będzie go wyłączyć przez dopisanie do kernel
+cmdline (w pliku `/boot/cmdline.txt` ) parametru `luks.crypttab=no` .
+
 ### Plik /boot/cmdline.txt
 
 Musimy także poddać edycji plik `/boot/cmdline.txt` , w którym to trzeba zmienić parametr `root=` ,
@@ -661,3 +675,5 @@ ten już i tak wyszedł dość długi.
 [14]: https://en.wikipedia.org/wiki/Disk_encryption_theory#XEX-based_tweaked-codebook_mode_with_ciphertext_stealing_.28XTS.29
 [15]: https://k1024.org/posts/2021/2021-01-25-raspbian-with-initrd/
 [16]: https://kernel-team.pages.debian.net/kernel-handbook/ch-update-hooks.html#s-initramfs-hooks
+[17]: https://www.freedesktop.org/software/systemd/man/systemd-cryptsetup-generator.html
+[18]: https://manpages.debian.org/unstable/cryptsetup/crypttab.5.en.html
