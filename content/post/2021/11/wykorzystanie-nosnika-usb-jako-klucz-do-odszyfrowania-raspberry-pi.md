@@ -113,7 +113,7 @@ musimy go dodać do kolejnego slotu w tym nagłówku.
 Zanim przejdziemy do generowania samego keyfile, dobrze jest stworzyć sobie niewielkich rozmiarów
 ramdysk, co umożliwi nam wygenerowanie pliku klucza bezpośrednio w pamięci operacyjnej RAM. Takie
 działanie ma na celu poprawę bezpieczeństwa pliku klucza ze względu na fakt, że nie zostanie on
-zapisany na dysk twardym, z którego bardzo ciężko jest go później usunąć, zwłaszcza w przypadku
+zapisany na dysku twardym, z którego bardzo ciężko jest go później usunąć, zwłaszcza w przypadku
 pamięci flash. Oczywiście jeśli mamy zaszyfrowany dysk, to ten problem dotyczy nas w mniejszym
 stopniu ale lepiej wyrabiać sobie dobre nawyki od samego początku.
 
@@ -188,7 +188,7 @@ pliki nie są umieszczane, tj. w przestrzeni MBR-GAP.
 
 ### MBR-GAP
 
-MBR-GAP to przestrzeń za tablicą partycji (pierwszym sektorem nośnika), której granice wyznacza
+MBR-GAP to przestrzeń za tablicą partycji (pierwszym sektorem nośnika), której granicę wyznacza
 początek pierwszej partycji dysku. Zwykle partycje są równane do 1MiB, więc MBR-GAP w takim
 przypadku to 2047 sektorów 512-bajtowych. Tę przestrzeń trzeba zapisać losowymi danymi, po czym w
 którymś miejscu umieścić wcześniej wygenerowany keyfile. By mieć pewność, że to właśnie ten obszar
@@ -261,7 +261,7 @@ możemy napisać prostą regułę dla UDEV'a, która utworzy nam link do urządz
 określonym przez nas miejscu.
 
 By taką regułę utworzyć, potrzebny nam będzie, np. numer seryjny pendrive. Ten numer seryjny możemy
-możemy uzyskać zaprzęgając do pracy narzędzie `udevadm` :
+uzyskać zaprzęgając do pracy narzędzie `udevadm` :
 
 	root@raspberrypi:/home/pi# udevadm info --name /dev/sda
 	...
@@ -322,7 +322,7 @@ zostanie z automatu przesłane do `cryptsetup` . Mamy też określony parametr `
 wskazuje, że chcemy te bity z wyjścia skryptu porównać z tym co siedzi w slocie numer 1 w nagłówku
 LUKS. Ma to na celu przyśpieszenie otwarcia zaszyfrowanego kontenera, bo domyślnie system by
 przetworzył slot z numerkiem 0, dopiero później slot z numerkiem 1. Jeśli byśmy mieli zajętych
-więcej slotów, czas potrzebny na otworzenie kontenera uległby znacznemu wydłużeniu.
+więcej slotów, to czas potrzebny na otworzenie kontenera uległby znacznemu wydłużeniu.
 
 ## Wstrzymanie rozruchu systemu do momentu podłączenia pendrive
 
@@ -374,9 +374,9 @@ Następnie wrzucamy do tego pliku poniższą zawartość:
     exit 0
 
 Zadaniem tego skryptu jest sprawdzenie czy link `/dev/usbkey` do pendrive został już utworzony. Ten
-link zostanie utworzony przez UDEV dopiero w momencie, gdy podepniemy pendrive do portu USB. Do
-tego czasu, system wyświetli komunikat `Waiting for device...` i zapętli się uniemożliwiając dalszy
-start systemu, co będzie wyglądało mniej więcej tak:
+link zostanie utworzony przez UDEV dopiero w momencie, gdy podepniemy pendrive o określonym numerze
+seryjnym do portu USB. Do tego czasu, system wyświetli komunikat `Waiting for device...` i zapętli
+się uniemożliwiając dalszy start systemu, co będzie wyglądało mniej więcej tak:
 
 ![raspberry-pi-rpi-cryptsetup-luks-pendrive-unlock-keyfile-wait](/img/2021/11/001.raspberry-pi-rpi-cryptsetup-luks-pendrive-unlock-keyfile-wait.jpg#huge)
 
@@ -461,18 +461,20 @@ trzecią kolumnę, w której standardowo rezyduje fraza `none` . Trzeba ją prze
 
 W tym przypadku partycja pendrive ma etykietę `pendrak` i jest dostępna pod ścieżką
 `/dev/disk/by-label/pendrak` , a klucz jest dostępny w pliku `keyfile` w głównym katalogu na
-pendrive.
+pendrive. By całość zadziałała, musimy zaprzęgnąć do pracy skrypt `passdev` , który wskazujemy w
+parametrze `keyscript=` .
 
-Po edycji pliku `/etc/crypttab` trzeba na nowo wygenerować obraz initramfs/initrd i to w zasadzie
-wszystko co trzeba zrobić aby wdrożyć keyfile na pendrive i przy jego pomocy odszyfrować kontener
-LUKS bez wpisywania jakiegokolwiek hasła.
+Po edycji pliku `/etc/crypttab` trzeba na nowo wygenerować obraz initramfs/initrd przy pomocy
+`update-initramfs` . To w zasadzie wszystko co trzeba zrobić, aby wdrożyć keyfile w postaci pliku
+umieszczonego w obrębie systemu plików przykładowej partycji na pendrive. Przy pomocy takiego pliku
+klucza można odszyfrować kontener LUKS bez wpisywania jakiegokolwiek hasła.
 
 ## Podsumowanie
 
-Takie rozwiązanie uzależnienia startu Raspberry Pi od faktu podłączenia konkretnego urządzenia
-pamięci masowej do portu USB niewątpliwie jest wielce użyteczne. Odpada nam w ten sposób potrzeba
-podłączania monitora i/lub klawiatury, przez co cały proces startu systemu przebiega o wiele
-szybciej i sprawniej. Trzeba jednak zdawać sobie sprawę, że jeśli my jesteśmy w stanie bez
+Takie rozwiązanie uzależnienia startu systemu Raspberry Pi od faktu podłączenia konkretnego
+urządzenia pamięci masowej do portu USB niewątpliwie jest wielce użyteczne. Odpada nam w ten sposób
+potrzeba podłączania monitora i/lub klawiatury, przez co cały proces uruchamiania systemu przebiega
+o wiele szybciej i sprawniej. Trzeba jednak zdawać sobie sprawę, że jeśli my jesteśmy w stanie bez
 większego problemu odszyfrować RPI przy pomocy takiego pendrive, to każda inna osoba również będzie
 w stanie to zrobić, jak tylko to urządzenie wpadnie w jej łapki. Dlatego trzeba się zatroszczyć o
 fizyczny dostęp do pendrive i trzymać go w bezpiecznym miejscu. Opisane wyżej dwa rozwiązania
