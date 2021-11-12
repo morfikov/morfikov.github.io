@@ -102,6 +102,34 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/odszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi/">Odszyfrowanie LUKS przez SSH z poziomu initramfs/initrd na Raspberry Pi</a></h1>
+	<div class="entry__content"><p>Od paru dni bawię się swoim Raspberry Pi w kontekście zaszyfrowania jego systemu RasPiOS/Raspbian.
+O ile samo <a href="https://morfikov.github.io/post/jak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks/">zaszyfrowanie tego minikomputera przy pomocy mechanizmu LUKS</a> nie było jakoś
+specjalnie trudne, to trzeba było pomyśleć nad rozwiązaniami mającymi ułatwić otworzenie takiego
+zaszyfrowanego kontenera przy starcie systemu. Póki co udało się wypracować w miarę zadowalające
+<a href="https://morfikov.github.io/post/wykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi/">rozwiązanie wykorzystujące dedykowane urządzenia USB w roli klucza</a>, bez którego system się nie
+uruchomi. Są jednak i inne rozwiązania, które mogą nam pomóc odszyfrować system RPI bez potrzeby
+fatygowania się do pomieszczenia i wtykania w jej port USB jakiegoś pendrive. Mowa o zaprzęgnięciu
+usługi SSH, która by została uruchomiona w fazie initramfs/initrd, chwilę przed wpisaniem hasła do
+kontenera LUKS. Takie rozwiązanie wymaga jednak zainstalowania innego serwera SSH, tj. Dropbear,
+pogodzenia go z serwerem OpenSSH oraz też trzeba odpowiednio przygotować sam obraz initramfs/initrd.
+Po pomyślnym skonfigurowaniu systemu, będziemy się logować do Raspberry Pi przez SSH i wpisywać
+hasło do kontenera LUKS, a jeśli to hasło będzie prawidłowe, to system zostanie odszyfrowany i
+uruchomiony.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2021-11-12T23:13:00&#43;01:00">Opublikowano: 12/11/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/raspberrypi/" rel="category">RaspberryPi</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi/">Wykorzystanie nośnika USB jako klucz do odszyfrowania Raspberry Pi (LUKS)</a></h1>
 	<div class="entry__content"><p>Ostatnio udało mi się <a href="https://morfikov.github.io/post/jak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks/">zaszyfrować swojego Raspberry Pi 4B przez wdrożenie kontenera LUKS</a> i
 upchnięcie w nim wszystkich danych z partycji <code>/</code> zainstalowanego w tym urządzeniu systemu
@@ -146,6 +174,7 @@ opisać w miarę dokładny sposób od początku do końca jak przeprowadzić ca�
 danych na karcie SD, którą podpinamy do naszego minikomputera.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2021-11-07T22:17:00&#43;01:00">Opublikowano: 07/11/2021</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2021-11-11T05:30:00&#43;01:00">Zaktualizowano: 11/11/2021</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -359,43 +388,15 @@ jest darmowa i otwartoźródłowa aplikacja Signal, której się przyjrzymy niec
 </article>
 				</div>
 			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zmienic-haslo-do-zaszyfrowanego-smartfona-z-androidem/">Jak zmienić hasło do zaszyfrowanego smartfona z Androidem</a></h1>
-	<div class="entry__content"><p>Każdy nowszy smartfon z Androidem oferuje możliwość zaszyfrowania wszystkich danych użytkownika
-zlokalizowanych na partycji <code>/data/</code> . Cały proces można przeprowadzić w bardzo prosty sposób i bez
-większych problemów. Raz zaszyfrowanego telefonu nie da rady cofnąć do stadium przed szyfrowaniem i
-w zasadzie to zabezpieczenie można zdjąć jedynie przez przywrócenie urządzenia do ustawień
-fabrycznych. My tutaj jednak nie będziemy zajmować się samym szyfrowaniem smartfona i skupimy się
-bardziej na hasłach zabezpieczających mających stać na straży dostępu do naszych cennych danych,
-które mamy w telefonie. Większość z nas wykorzystuje krótkie hasło do odblokowania ekranu. To samo
-hasło z kolei jest wykorzystywane do zaszyfrowania klucza używanego w procesie
-szyfrowania/deszyfrowania danych na flash'u smartfona. W ustawieniach Androida nie ma jednak opcji
-rozdzielenia tych haseł i można by pomyśleć, że wykorzystanie czterocyfrowego kodu PIN jako
-zabezpieczenie mija się z celem. Na pewno w części smartfonów tak ale niekoniecznie we wszystkich
-modelach. Tak się składa, że akurat leży u mnie nieużywany Neffos Y5 od TP-LINK, to postanowiłem
-przyjrzeć się nieco bliżej tej kwestii haseł i sprawdzić czy jest się czego obawiać stosując krótkie
-hasła w zaszyfrowanych Androidach.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2017-03-03T17:58:36&#43;01:00">Opublikowano: 03/03/2017</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
 		</div>
 	</main>
 	
 <div class="pagination block">
-				<span class="pagination__item pagination__item--active" data-total="4">1</span>
+				<span class="pagination__item pagination__item--active" data-total="5">1</span>
 				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/szyfrowanie/page/2/">2</a>
 				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/szyfrowanie/page/3/">3</a>
-				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/szyfrowanie/page/4/">4</a>
+			<span class="pagination__item pagination__item--gap">&hellip;</span>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/szyfrowanie/page/5/">5</a>
 </div>
 
 	</div>

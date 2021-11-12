@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Odszyfrowanie LUKS przez SSH z poziomu initramfs/initrd na Raspberry Pi | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Odszyfrowanie LUKS przez SSH z poziomu initramfs/initrd na Raspberry Pi" />
+<meta property="og:description" content="Od paru dni bawię się swoim Raspberry Pi w kontekście zaszyfrowania jego systemu RasPiOS/Raspbian.
+O ile samo zaszyfrowanie tego minikomputera przy pomocy mechanizmu LUKS nie było jakoś
+specjalnie trudne, to trzeba było pomyśleć nad rozwiązaniami mającymi ułatwić otworzenie takiego
+zaszyfrowanego kontenera przy starcie systemu. Póki co udało się wypracować w miarę zadowalające
+rozwiązanie wykorzystujące dedykowane urządzenia USB w roli klucza, bez którego system się nie
+uruchomi. Są jednak i inne rozwiązania, które mogą nam pomóc odszyfrować system RPI bez potrzeby
+fatygowania się do pomieszczenia i wtykania w jej port USB jakiegoś pendrive. Mowa o zaprzęgnięciu
+usługi SSH, która by została uruchomiona w fazie initramfs/initrd, chwilę przed wpisaniem hasła do
+kontenera LUKS. Takie rozwiązanie wymaga jednak zainstalowania innego serwera SSH, tj. Dropbear,
+pogodzenia go z serwerem OpenSSH oraz też trzeba odpowiednio przygotować sam obraz initramfs/initrd.
+Po pomyślnym skonfigurowaniu systemu, będziemy się logować do Raspberry Pi przez SSH i wpisywać
+hasło do kontenera LUKS, a jeśli to hasło będzie prawidłowe, to system zostanie odszyfrowany i
+uruchomiony." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/odszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-11-12T23:13:00+01:00" />
+<meta property="article:modified_time" content="2021-11-12T23:13:00+01:00" />
+
+
+		<meta itemprop="name" content="Odszyfrowanie LUKS przez SSH z poziomu initramfs/initrd na Raspberry Pi">
+<meta itemprop="description" content="Od paru dni bawię się swoim Raspberry Pi w kontekście zaszyfrowania jego systemu RasPiOS/Raspbian.
+O ile samo zaszyfrowanie tego minikomputera przy pomocy mechanizmu LUKS nie było jakoś
+specjalnie trudne, to trzeba było pomyśleć nad rozwiązaniami mającymi ułatwić otworzenie takiego
+zaszyfrowanego kontenera przy starcie systemu. Póki co udało się wypracować w miarę zadowalające
+rozwiązanie wykorzystujące dedykowane urządzenia USB w roli klucza, bez którego system się nie
+uruchomi. Są jednak i inne rozwiązania, które mogą nam pomóc odszyfrować system RPI bez potrzeby
+fatygowania się do pomieszczenia i wtykania w jej port USB jakiegoś pendrive. Mowa o zaprzęgnięciu
+usługi SSH, która by została uruchomiona w fazie initramfs/initrd, chwilę przed wpisaniem hasła do
+kontenera LUKS. Takie rozwiązanie wymaga jednak zainstalowania innego serwera SSH, tj. Dropbear,
+pogodzenia go z serwerem OpenSSH oraz też trzeba odpowiednio przygotować sam obraz initramfs/initrd.
+Po pomyślnym skonfigurowaniu systemu, będziemy się logować do Raspberry Pi przez SSH i wpisywać
+hasło do kontenera LUKS, a jeśli to hasło będzie prawidłowe, to system zostanie odszyfrowany i
+uruchomiony."><meta itemprop="datePublished" content="2021-11-12T23:13:00+01:00" />
+<meta itemprop="dateModified" content="2021-11-12T23:13:00+01:00" />
+<meta itemprop="wordCount" content="3799">
+<meta itemprop="keywords" content="luks,raspberry-pi-4b,raspios,raspbian,szyfrowanie,ssh,initramfs,initrd," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Odszyfrowanie LUKS przez SSH z poziomu initramfs/initrd na Raspberry Pi"/>
+<meta name="twitter:description" content="Od paru dni bawię się swoim Raspberry Pi w kontekście zaszyfrowania jego systemu RasPiOS/Raspbian.
+O ile samo zaszyfrowanie tego minikomputera przy pomocy mechanizmu LUKS nie było jakoś
+specjalnie trudne, to trzeba było pomyśleć nad rozwiązaniami mającymi ułatwić otworzenie takiego
+zaszyfrowanego kontenera przy starcie systemu. Póki co udało się wypracować w miarę zadowalające
+rozwiązanie wykorzystujące dedykowane urządzenia USB w roli klucza, bez którego system się nie
+uruchomi. Są jednak i inne rozwiązania, które mogą nam pomóc odszyfrować system RPI bez potrzeby
+fatygowania się do pomieszczenia i wtykania w jej port USB jakiegoś pendrive. Mowa o zaprzęgnięciu
+usługi SSH, która by została uruchomiona w fazie initramfs/initrd, chwilę przed wpisaniem hasła do
+kontenera LUKS. Takie rozwiązanie wymaga jednak zainstalowania innego serwera SSH, tj. Dropbear,
+pogodzenia go z serwerem OpenSSH oraz też trzeba odpowiednio przygotować sam obraz initramfs/initrd.
+Po pomyślnym skonfigurowaniu systemu, będziemy się logować do Raspberry Pi przez SSH i wpisywać
+hasło do kontenera LUKS, a jeśli to hasło będzie prawidłowe, to system zostanie odszyfrowany i
+uruchomiony."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Odszyfrowanie LUKS przez SSH z poziomu initramfs/initrd na Raspberry Pi</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2021-11-12T23:13:00&#43;01:00">Opublikowano: 12/11/2021</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/raspberrypi/" rel="category">RaspberryPi</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Odszyfrowanie LUKS przez SSH z poziomu initramfs/initrd na Raspberry Pi</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#konfiguracja-usługi-openssh">Konfiguracja usługi OpenSSH</a>
+      <ol>
+        <li><a href="#brak-możliwości-zalogowania-się-na-konto-root-w-rpi">Brak możliwości zalogowania się na konto root w RPI</a></li>
+        <li><a href="#zezwolenie-na-zdalne-logowanie-się-na-użytkownika-root-via-ssh">Zezwolenie na zdalne logowanie się na użytkownika root via SSH</a></li>
+        <li><a href="#transfer-publicznego-klucza-ssh-klienta-na-raspberry-pi">Transfer publicznego klucza SSH klienta na Raspberry Pi</a></li>
+        <li><a href="#włączenie-logowania-jako-root-jedynie-za-pomocą-klucza-ssh">Włączenie logowania jako root jedynie za pomocą klucza SSH</a></li>
+        <li><a href="#test-połączenia-ssh">Test połączenia SSH</a></li>
+        <li><a href="#konfiguracja-połączenia-ssh-w-pliku-sshconfig">Konfiguracja połączenia SSH w pliku ~/.ssh/config</a></li>
+      </ol>
+    </li>
+    <li><a href="#instalacja-i-konfiguracja-dropbear-na-raspberry-pi">Instalacja i konfiguracja Dropbear na Raspberry Pi</a>
+      <ol>
+        <li><a href="#dwie-różne-usługi-ssh-na-jednym-hoście">Dwie różne usługi SSH na jednym hoście</a>
+          <ol>
+            <li><a href="#ignorowanie-pliku-sshknown_hosts">Ignorowanie pliku ~/.ssh/known_hosts</a></li>
+            <li><a href="#ujednolicenie-kluczy-ssh-dla-openssh-i-dropbear">Ujednolicenie kluczy SSH dla OpenSSH i Dropbear</a>
+              <ol>
+                <li><a href="#różne-formaty-kluczy-ssh">Różne formaty kluczy SSH</a></li>
+                <li><a href="#error-unrecognised-key-type">Error: Unrecognised key type</a></li>
+                <li><a href="#zmiana-formatu-kluczy-openssh-via-dropbearconvert">Zmiana formatu kluczy OpenSSH via dropbearconvert</a></li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li><a href="#podmiana-kluczy-w-katalogu-etcdropbear-initramfs">Podmiana kluczy w katalogu /etc/dropbear-initramfs/</a></li>
+        <li><a href="#plik-etcdropbear-initramfsauthorized_keys">Plik /etc/dropbear-initramfs/authorized_keys</a></li>
+        <li><a href="#plik-etcdropbear-initramfsconfig">Plik /etc/dropbear-initramfs/config</a></li>
+      </ol>
+    </li>
+    <li><a href="#adresacja-ip-dla-maszyny-w-fazie-initramfsinitrd">Adresacja IP dla maszyny w fazie initramfs/initrd</a>
+      <ol>
+        <li><a href="#ograniczenia-związane-z-adresacją-ip-problem-z-wifi">Ograniczenia związane z adresacją IP (problem z WiFi)</a></li>
+      </ol>
+    </li>
+    <li><a href="#plik-etccrypttab">Plik /etc/crypttab</a></li>
+    <li><a href="#regeneracja-obrazu-initramfsinitrd">Regeneracja obrazu initramfs/initrd</a></li>
+    <li><a href="#próba-odszyfrowania-kontenera-luks-przez-ssh">Próba odszyfrowania kontenera LUKS przez SSH</a></li>
+    <li><a href="#problemy-związane-z-bezpieczeństwem-kluczy-prywatnych">Problemy związane z bezpieczeństwem kluczy prywatnych</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Od paru dni bawię się swoim Raspberry Pi w kontekście zaszyfrowania jego systemu RasPiOS/Raspbian.
+O ile samo <a href="https://morfikov.github.io/post/jak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks/">zaszyfrowanie tego minikomputera przy pomocy mechanizmu LUKS</a> nie było jakoś
+specjalnie trudne, to trzeba było pomyśleć nad rozwiązaniami mającymi ułatwić otworzenie takiego
+zaszyfrowanego kontenera przy starcie systemu. Póki co udało się wypracować w miarę zadowalające
+<a href="https://morfikov.github.io/post/wykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi/">rozwiązanie wykorzystujące dedykowane urządzenia USB w roli klucza</a>, bez którego system się nie
+uruchomi. Są jednak i inne rozwiązania, które mogą nam pomóc odszyfrować system RPI bez potrzeby
+fatygowania się do pomieszczenia i wtykania w jej port USB jakiegoś pendrive. Mowa o zaprzęgnięciu
+usługi SSH, która by została uruchomiona w fazie initramfs/initrd, chwilę przed wpisaniem hasła do
+kontenera LUKS. Takie rozwiązanie wymaga jednak zainstalowania innego serwera SSH, tj. Dropbear,
+pogodzenia go z serwerem OpenSSH oraz też trzeba odpowiednio przygotować sam obraz initramfs/initrd.
+Po pomyślnym skonfigurowaniu systemu, będziemy się logować do Raspberry Pi przez SSH i wpisywać
+hasło do kontenera LUKS, a jeśli to hasło będzie prawidłowe, to system zostanie odszyfrowany i
+uruchomiony.</p>
+<h2 id="konfiguracja-usługi-openssh">Konfiguracja usługi OpenSSH</h2>
+<p>Standardowo w każdym Raspberry Pi z zainstalowanym systemem RasPiOS/Raspbian mamy dostępny serwer
+SSH bazujący na oprogramowaniu <code>openssh-server</code> . Ten serwer SSH nie będzie jednak potrafił
+poradzić sobie z zadaniem, które tutaj próbujemy rozwiązać, ze względu na fakt braku integracji z
+obrazem initramfs/initrd. Taką integrację zapewnia inny serwer SSH, tj. <code>dropbear</code> . Niemniej
+jednak, te dwa serwery SSH bardzo wiele od siebie różni i Dropbear nie posiada całej masy
+opcji, które są wspierane standardowo w OpenSSH. Trzeba zatem się zastanowić czy pozostawić w
+systemie pakiet <code>openssh-server</code> i doinstalować drugi serwer SSH (i jakoś te dwie usługi
+pogodzić ze sobą) albo też pozbyć się z systemu pakietu <code>openssh-server</code> całkowicie i w jego
+miejsce wygrać <code>dropbear</code> .</p>
+<p>Jako, że pakiet <code>openssh-server</code> jest domyślnie wgrany w Raspberry Pi, to postanowiłem doinstalować
+<code>dropbear</code> i skonfigurować ten drugi serwer SSH w taki sposób, by był on uruchamiany jedynie w fazie
+initramfs/initrd. Póki co jednak skupmy się na skonfigurowaniu usługi OpenSSH. Zwykle ta usługa
+jest nieaktywna i wymaga ręcznego włączenia, co możemy zrobić w poniższy sposób:</p>
+<pre><code>root@raspberrypi:/home/pi# systemctl enable ssh.service
+</code></pre>
+<h3 id="brak-możliwości-zalogowania-się-na-konto-root-w-rpi">Brak możliwości zalogowania się na konto root w RPI</h3>
+<p>W systemie RasPiOS/Raspbian na konto administratora systemu root nie da się domyślnie zalogować.
+Dlatego też trzeba korzystać z mechanizmu <code>sudo</code> . By nieco uprościć sobie życie, możemy pokusić
+się o włączenie możliwości logowania się na konto root, co przyda nam się przy logowaniu via SSH.
+Wszytko co musimy zrobić, by mieć możliwość zalogowania się na konto root, to ustawienie hasła temu
+użytkownikowi przy pomocy <code>passwd</code> .</p>
+<p>Logujemy się zatem na użytkownika root przez <code>sudo</code> :</p>
+<pre><code>pi@raspberrypi:~ $ sudo su
+</code></pre>
+<p>Zmieniamy/ustawiamy hasło dla root:</p>
+<pre><code>root@raspberrypi:/home/pi# passwd
+New password:
+Retype new password:
+passwd: password updated successfully
+
+root@raspberrypi:/home/pi# exit
+exit
+</code></pre>
+<p>I sprawdzamy jeszcze na koniec czy jesteśmy się w stanie zalogować w terminalu przez wpisanie w
+nim polecenia <code>su -</code> podając wcześniej ustawione hasło:</p>
+<pre><code>pi@raspberrypi:~ $ su -
+Password:
+root@raspberrypi:~#
+</code></pre>
+<h3 id="zezwolenie-na-zdalne-logowanie-się-na-użytkownika-root-via-ssh">Zezwolenie na zdalne logowanie się na użytkownika root via SSH</h3>
+<p>Kolejnym krokiem jest zezwolenie na zdalne logowanie się na użytkownika root via SSH. W tym celu
+trzeba poddać edycji plik <code>/etc/ssh/sshd_config</code> i dodać do niego <a href="https://manpages.debian.org/unstable/openssh-server/sshd_config.5.en.html">parametr PermitRootLogin</a>:</p>
+<pre><code>PermitRootLogin yes
+</code></pre>
+<p>Zapisujemy plik i restartujemy usługę OpenSSH:</p>
+<pre><code>root@raspberrypi:~# systemctl restart ssh.service
+</code></pre>
+<h3 id="transfer-publicznego-klucza-ssh-klienta-na-raspberry-pi">Transfer publicznego klucza SSH klienta na Raspberry Pi</h3>
+<p>By móc się podłączyć do serwera SSH uruchomionego na Raspberry Pi i zalogować na konto
+administratora root w sposób bezpieczny, musimy przesłać na to urządzenie swój publiczny klucz SSH.
+Taki klucz możemy wygenerować przy pomocy <code>ssh-keygen</code> na maszynie klienta w poniższy sposób:</p>
+<pre><code>$ ssh-keygen -t rsa -b 4096 -C &quot;rpi-raspios-$(date -I)_rsa&quot;
+</code></pre>
+<p>Klucz publiczny został zapisany w katalogu <code>~/.ssh/</code> pod nazwą <code>rpi-raspios_rsa.pub</code> . Ten klucz
+trzeba przesłać na Raspberry Pi i możemy to zrobić na kilka sposób, choć najprostszym z nich jest
+zaprzęgnięcie do pracy narzędzia <code>ssh-copy-id</code> . Przy pomocy flagi <code>-i</code> wskazujemy położenie klucza
+publicznego na dysku:</p>
+<pre><code>$ ssh-copy-id -i ~/.ssh/rpi-raspios_rsa.pub -p 2222 root@192.168.1.239
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: &quot;/home/morfik/.ssh/rpi-raspios_rsa.pub&quot;
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@192.168.1.239's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   &quot;ssh '192.168.1.239'&quot;
+and check to make sure that only the key(s) you wanted were added.
+</code></pre>
+<p>Klucz został przesłany z powodzeniem. Możemy ten stan rzeczy zweryfikować zaglądając do pliku
+<code>/root/.ssh/authorized_keys</code> na Raspberry Pi, w którym to powinna się znajdować poniższa linijka
+(zawartość przycięta dla lepszej czytelności):</p>
+<pre><code>ssh-rsa AAAAB...xnzQ== rpi-raspios-2021-11-11_rsa
+</code></pre>
+<h3 id="włączenie-logowania-jako-root-jedynie-za-pomocą-klucza-ssh">Włączenie logowania jako root jedynie za pomocą klucza SSH</h3>
+<p>Po przesłaniu klucza SSH do Raspberry Pi, możemy wyłączyć możliwość logowania się na konto root
+przy pomocy hasła, bo takie rozwiązanie nie jest zbyt bezpieczne. Zamiast logować się z
+wykorzystaniem hasła, włączymy sobie opcję logowania za pomocą klucza SSH, który dopiero co
+przesłaliśmy do naszej maliny. Edytujemy zatem na RPI plik <code>/etc/ssh/sshd_config</code> zmieniając
+wartość uprzednio dodanego parametru <code>PermitRootLogin</code> z <code>yes</code> na <code>prohibit-password</code> :</p>
+<pre><code># PermitRootLogin yes
+PermitRootLogin prohibit-password
+</code></pre>
+<p>Zapisujemy plik i restartujemy serwer SSH:</p>
+<pre><code>root@raspberrypi:~# systemctl restart ssh.service
+</code></pre>
+<h3 id="test-połączenia-ssh">Test połączenia SSH</h3>
+<p>By być pewnym, że wszystko działa jak należy, łączymy się testowo po SSH ze stacji klienckiej na
+adres IP Raspberry Pi:</p>
+<pre><code>$ ssh root@192.168.1.239 -p 2222
+Linux raspberrypi 5.10.63-v7l+ #1459 SMP Wed Oct 6 16:41:57 BST 2021 armv7l
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Fri Nov 12 01:01:39 2021 from 192.168.1.150
+root@raspberrypi:~#
+</code></pre>
+<p>Jak widać zostaliśmy zalogowani bez najmniejszego problemu i co najważniejsze bez pytania nas o
+hasło, zatem klucz SSH działa prawidłowo.</p>
+<h3 id="konfiguracja-połączenia-ssh-w-pliku-sshconfig">Konfiguracja połączenia SSH w pliku ~/.ssh/config</h3>
+<p>By nie wpisywać w poleceniu parametrów połączenia za każdym razem ilekroć chcemy się logować do
+serwera SSH, dobrze jest w pliku <code>~/.ssh/config</code> na stacji klienckiej stworzyć zwrotkę podobną do
+tej poniżej i odpowiednio uzupełnić stosowne parametry:</p>
+<pre><code>Host 192.168.1.239
+    User root
+    IdentitiesOnly
+    IdentityFile ~/.ssh/rpi-raspios_rsa
+    CheckHostIP no
+    Port 2222
+</code></pre>
+<p>W ten sposób w terminalu wystarczy wpisać <code>ssh 192.168.1.239</code> i zostaniemy zalogowani bez większego
+problemu bez podawania tych pozostałych parametrów połączenia.</p>
+<h2 id="instalacja-i-konfiguracja-dropbear-na-raspberry-pi">Instalacja i konfiguracja Dropbear na Raspberry Pi</h2>
+<p>Konfigurację OpenSSH mamy z głowy. Przyszła pora na instalację drugiego serwera SSH, tj. Dropbear.
+Musimy zainstalować w zasadzie dwa pakiety: <code>dropbear</code> oraz <code>dropbear-initramfs</code> . Pakiet
+<code>dropbear-initramfs</code> jest wymagany, by aktywować serwer SSH w fazie initramfs/initrd. By być w
+stanie odszyfrować kontener LUKS przez SSH w fazie initramfs/initrd potrzebny nam będzie także
+pakiet <code>cryptsetup-initramfs</code> ale ten powinniśmy już posiadać w systemie. Pozostałe pakiety takie
+jak <code>busybox</code> , <code>initramfs-tools</code> oraz <code>lvm2</code> również powinniśmy mieć zainstalowane w systemie
+skoro posiadamy zaszyfrowany kontener LUKS. Reasumując, na wypadek gdyby czegoś brakowało,
+instalujemy te poniższe pakiety:</p>
+<pre><code>root@raspberrypi:/home/pi# apt-get install \
+                           dropbear dropbear-initramfs \
+                           cryptsetup-initramfs \
+                           busybox \
+                           initramfs-tools \
+                           lvm2
+</code></pre>
+<h3 id="dwie-różne-usługi-ssh-na-jednym-hoście">Dwie różne usługi SSH na jednym hoście</h3>
+<p>Mając zainstalowane w Raspberry Pi dwa różne serwery SSH, trzeba zastanowić się nad kwestią kluczy
+SSH. Każdy serwer SSH wymaga takich kluczy do swojego poprawnego działania, tj. by ruch pochodzący
+od klientów SSH mógł zostać z powodzeniem zdeszyfrowany na serwerze. Przy instalacji serwera SSH
+(czy to OpenSSH, czy też Dropbear), stosowny zestaw kluczy dla takiej usługi zostanie wygenerowany
+automatycznie. Taka rozbieżność w kluczach sprawia, że nasz Raspberry Pi w fazie initramfs/initrd
+przed otworzeniem zaszyfrowanego kontenera LUKS będzie się identyfikował innym kluczem SSH niż
+będzie to miało miejsce po odszyfrowaniu kontenera LUKS i uruchomieniu się systemu operacyjnego.
+Taka sytuacja sprawia, że będziemy mieli do zaakceptowania dwa różne fingerprint'y kluczy, którymi
+te dwa serwery SSH się będą posługiwać. Niemniej jednak, gdy odcisk palca klucza ulega zmianie, to
+podczas podłączania się do serwera, klient SSH wyrzuci nam taki oto niezbyt komfortowy komunikat:</p>
+<pre><code>$ ssh 192.168.1.239
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the RSA key sent by the remote host is
+SHA256:DxolO3jZe+KzcPuDsDqL6+y+C0Igl6DyRqxjvRZ5mfk.
+Please contact your system administrator.
+Add correct host key in /home/morfik/.ssh/known_hosts to get rid of this message.
+Offending ECDSA key in /home/morfik/.ssh/known_hosts:24
+  remove with:
+  ssh-keygen -f &quot;/home/morfik/.ssh/known_hosts&quot; -R &quot;[192.168.1.239]:2222&quot;
+Host key for [192.168.1.239]:2222 has changed and you have requested strict checking.
+Host key verification failed.
+</code></pre>
+<p>Mamy tutaj wyraźne oświadczenie, że odcisk palca klucza serwera SSH (a więc i też i jego klucz)
+uległ zmianie, co zwykle oznacza, że ktoś mógł manipulować przy serwerze SSH. By się podłączyć do
+takiego serwera SSH ze zmienionym kluczem, trzeba będzie usunąć stary klucz z bazy klienta w pliku
+<code>~/.ssh/known_hosts</code> przez wpisanie w terminalu poniższego polecenia:</p>
+<pre><code>$ ssh-keygen -f &quot;/home/morfik/.ssh/known_hosts&quot; -R &quot;[192.168.1.239]:2222&quot;
+</code></pre>
+<p>Później, gdy system się już poprawnie zainicjuje, to przy logowaniu via SSH trzeba będzie to
+powyższe polecenie wpisać jeszcze raz, bo klucz SSH na Raspberry Pi ponownie ulegnie zmianie i tak
+w kółko z każdym restartem maszyny. Trzeba przyznać, że takie zachowanie nie jest zbyt pożądane i
+trzeba ten zaistniały problem jakoś rozwiązać.</p>
+<h4 id="ignorowanie-pliku-sshknown_hosts">Ignorowanie pliku ~/.ssh/known_hosts</h4>
+<p>Jednym z rozwiązań jest pominięcie weryfikacji tożsamości serwera SSH za sprawą sprawdzania
+odcisku palca klucza, którym taka maszyna się identyfikuje podczas nawiązywania z nią połączenia.
+Taka weryfikacja jest jedynie opcjonalna i ma na celu poprawę bezpieczeństwa, tj. trudno ten
+powyższy komunikat o zmianie fingerprint'a klucza przeoczyć. W przypadku naszej maliny wiemy, że
+ten klucz będzie się zmieniał, przez co możemy rozluźnić nieco politykę weryfikacji tożsamości
+serwera przez ignorowanie pliku <code>~/.ssh/known_hosts</code> .</p>
+<p>Jeśli chcemy tylko tymczasowo zignorować plik <code>~/.ssh/known_hosts</code> , to wystarczy w poleceniu <code>ssh</code>
+podać opcję <code>-o StrictHostKeyChecking=no</code> . Jeśli chcemy dodać wyjątek na stałe, to edytujemy plik
+<code>~/.ssh/config</code> i dodajemy do niego poniższy wpis przy bloku z konfiguracją połączenia SSH dla
+Raspberry Pi:</p>
+<pre><code>Host 192.168.1.239
+    ...
+    StrictHostKeyChecking no
+    ...
+</code></pre>
+<p>Skorzystanie z tej powyższej opcji sprawi, że będziemy w stanie nawiązać połączenie z serwerem SSH,
+ale gdy fingerprint ulegnie zmianie, to na ekranie pojawi się stosowny komunikat. Jeśli
+chcielibyśmy się tego komunikatu również pozbyć, to trzeba by skorzystać z opcji
+<code>-o UserKnownHostsFile=/dev/null</code> podczas połączenia lub też dodać ten parametr na stałe do pliku
+<code>~/.ssh/config</code> :</p>
+<pre><code>Host 192.168.1.239
+    ...
+    UserKnownHostsFile=/dev/null
+    ...
+</code></pre>
+<h4 id="ujednolicenie-kluczy-ssh-dla-openssh-i-dropbear">Ujednolicenie kluczy SSH dla OpenSSH i Dropbear</h4>
+<p>Prawdę mówiąc, to pominięcie weryfikacji tożsamości serwera SSH nie jest zbyt dobrą praktyką i nie
+korzystałbym z tego rozwiązania. Zamiast tego podejścia opisanego wyżej, lepszym rozwiązaniem jest
+ujednolicenie kluczy SSH, tak by zarówno OpenSSH jak i Dropbear miały te same klucze prywatne,
+przez co ta opisana wyżej sytuacja ze zmianą fingerprint'a nie będzie mieć miejsca.</p>
+<p>By ujednolicić klucze SSH, nie musimy ich na nowo generować. Możemy skorzystać z kluczy, które
+zostały już wygenerowane podczas procesu instalacji pakietu <code>openssh-server</code> lub <code>dropbear</code> .</p>
+<p>Klucze prywatne dla serwera OpenSSH znajdują się w katalogu <code>/etc/ssh/</code> pod nazwami <code>ssh_host_*</code> :</p>
+<pre><code>root@raspberrypi:/home/pi# ls -al /etc/ssh/
+total 604
+drwxr-xr-x   2 root root   4096 Nov 12 01:14 .
+drwxr-xr-x 126 root root   4096 Nov 12 00:53 ..
+-rw-r--r--   1 root root 565189 Mar 12  2021 moduli
+-rw-r--r--   1 root root   1580 Mar 12  2021 ssh_config
+-rw-r--r--   1 root root   3271 Nov 12 01:14 sshd_config
+-rw-------   1 root root   1385 May  7  2021 ssh_host_dsa_key
+-rw-r--r--   1 root root    606 May  7  2021 ssh_host_dsa_key.pub
+-rw-------   1 root root    505 May  7  2021 ssh_host_ecdsa_key
+-rw-r--r--   1 root root    178 May  7  2021 ssh_host_ecdsa_key.pub
+-rw-------   1 root root    411 May  7  2021 ssh_host_ed25519_key
+-rw-r--r--   1 root root     98 May  7  2021 ssh_host_ed25519_key.pub
+-rw-------   1 root root   1823 May  7  2021 ssh_host_rsa_key
+-rw-r--r--   1 root root    398 May  7  2021 ssh_host_rsa_key.pub
+-rw-r--r--   1 root root    338 May  7  2021 ssh_import_id
+</code></pre>
+<p>Natomiast klucze dla serwera Dropbear znajdują się w katalogu <code>/etc/dropbear/</code> pod nazwami
+<code>dropbear_*</code> :</p>
+<pre><code>root@raspberrypi:/home/pi# ls -al /etc/dropbear/
+total 28
+drwxr-xr-x   3 root root 4096 Nov 11 07:09 .
+drwxr-xr-x 126 root root 4096 Nov 12 00:53 ..
+-rw-------   1 root root  457 Nov 11 07:09 dropbear_dss_host_key
+-rw-------   1 root root  141 Nov 11 07:09 dropbear_ecdsa_host_key
+-rw-------   1 root root  805 Nov 11 07:09 dropbear_rsa_host_key
+drwxr-xr-x   2 root root 4096 Nov 11 07:08 log
+-rwxr-xr-x   1 root root  100 Feb 12  2019 run
+</code></pre>
+<h5 id="różne-formaty-kluczy-ssh">Różne formaty kluczy SSH</h5>
+<p>Nie możemy jednak sobie od tak skopiować kluczy SSH z jednego katalogu i wrzucić ich do drugiego
+katalogu pod zmienionymi nazwami. Klucze OpenSSH są w formacie ASCII, a klucze Dropbear w formacie
+binarnym. Trzeba zatem jedne z tych kluczy przekonwertować. Najprościej jest przerobić klucze
+OpenSSH na ten format, z którego korzysta Dropbear, bo mamy do tego celu dedykowane narzędzie
+<code>dropbearconvert</code> znajdujące się w katalogu <code>/usr/lib/dropbear/</code> .</p>
+<h5 id="error-unrecognised-key-type">Error: Unrecognised key type</h5>
+<p>Problem jednak w tym, że te klucze OpenSSH, które zostały domyślnie wygenerowane na moim Raspberry
+Pi, są najwyraźniej dość egzotyczne i przy próbie skorzystania z <code>dropbearconvert</code> generowany jest
+poniższy błąd:</p>
+<pre><code>root@raspberrypi:/home/pi# /usr/lib/dropbear/dropbearconvert openssh dropbear /etc/ssh/ssh_host_rsa_key /etc/dropbear/dropbear_rsa_host_key
+Error: Unrecognised key type
+Error reading key from '/etc/ssh/ssh_host_rsa_key'
+</code></pre>
+<p>Szukając informacji na temat tego problemu znalazłem taki oto <a href="https://bbs.archlinux.org/viewtopic.php?id=250512">post na forum Archlinux</a>, w
+którym jest mowa o tym, że klucze OpenSSH są formacie RFC4716 i trzeba je przerobić do PEM zanim
+będzie można skorzystać z narzędzia <code>dropbearconvert</code> .</p>
+<p>Klucze OpenSSH do formatu PEM możemy przerobić za pomocą <code>ssh-keygen</code> w poniższy sposób (hasło
+podajemy puste):</p>
+<pre><code>root@raspberrypi:/etc/ssh# ssh-keygen -m PEM -p -f ssh_host_rsa_key
+Key has comment 'root@raspberrypi'
+Enter new passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved with the new passphrase.
+
+root@raspberrypi:/etc/ssh# ssh-keygen -m PEM -p -f ssh_host_ed25519_key
+Key has comment 'root@raspberrypi'
+Enter new passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved with the new passphrase.
+
+root@raspberrypi:/etc/ssh# ssh-keygen -m PEM -p -f ssh_host_dsa_key
+Key has comment 'root@raspberrypi'
+Enter new passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved with the new passphrase.
+
+root@raspberrypi:/etc/ssh# ssh-keygen -m PEM -p -f ssh_host_ecdsa_key
+Key has comment 'root@raspberrypi'
+Enter new passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved with the new passphrase.
+</code></pre>
+<p>Warto w tym miejscu wspomnieć, że serwer OpenSSH bez problemu działa z kluczami w formacie PEM.</p>
+<h5 id="zmiana-formatu-kluczy-openssh-via-dropbearconvert">Zmiana formatu kluczy OpenSSH via dropbearconvert</h5>
+<p>Po przerobieniu kluczy OpenSSH z RFC4716 na PEM, nie powinniśmy mieć już problemów by
+przekonwertować klucze OpenSSH na format wykorzystywany przez Dropbear. Korzystamy zatem z narzędzia
+<code>dropbearconvert</code> podając mu cztery argumenty: format klucza wejściowego, format klucza wyjściowego,
+ścieżkę do pliku wejściowego oraz ścieżkę do pliku wyjściowego:</p>
+<pre><code>root@raspberrypi:/home/pi# /usr/lib/dropbear/dropbearconvert openssh dropbear /etc/ssh/ssh_host_rsa_key /etc/dropbear/dropbear_rsa_host_key
+Key is a ssh-rsa key
+Wrote key to '/etc/dropbear/dropbear_rsa_host_key'
+
+root@raspberrypi:/home/pi# /usr/lib/dropbear/dropbearconvert openssh dropbear /etc/ssh/ssh_host_ecdsa_key /etc/dropbear/dropbear_ecdsa_host_key
+Key is a ecdsa-sha2-nistp256 key
+Wrote key to '/etc/dropbear/dropbear_ecdsa_host_key'
+
+root@raspberrypi:/home/pi# /usr/lib/dropbear/dropbearconvert openssh dropbear /etc/ssh/ssh_host_dsa_key /etc/dropbear/dropbear_dss_host_key
+Key is a ssh-dss key
+Wrote key to '/etc/dropbear/dropbear_dss_host_key'
+</code></pre>
+<h3 id="podmiana-kluczy-w-katalogu-etcdropbear-initramfs">Podmiana kluczy w katalogu /etc/dropbear-initramfs/</h3>
+<p>Klucze SSH dla Dropbear, które wyżej przerobiliśmy, byłyby wykorzystywane w przypadku, gdybyśmy
+korzystali z usługi <code>dropbear</code> w miejscu <code>sshd</code> . Domyślnie jednak ta usługa jest nieaktywna (za
+sprawą pliku <code>/etc/default/dropbear</code> ), bo w przeciwnym przypadku doszłoby do konfliktu między tymi
+dwoma usługami, które chciałyby jednocześnie nasłuchiwać na tym samym porcie 22. Niemniej jednak,
+usługa <code>dropbear</code> , którą zamierzamy uruchomić w fazie initramfs/initrd nie będzie miała dostępu do
+kluczy w katalogu <code>/etc/dropbear/</code> , bo ten katalog rezyduje w obrębie głównego systemu plików,
+który na tym etapie rozruchu systemu będzie jeszcze zaszyfrowany. Dlatego te klucze trzeba
+skopiować do katalogu <code>/etc/dropbear-initramfs/</code> :</p>
+<pre><code>root@raspberrypi:/home/pi# cp /etc/dropbear/dropbear_* /etc/dropbear-initramfs/
+</code></pre>
+<p>W ten sposób, klucze SSH będą automatycznie podbierane ilekroć tylko będziemy generować obraz
+initramfs/initrd.</p>
+<h3 id="plik-etcdropbear-initramfsauthorized_keys">Plik /etc/dropbear-initramfs/authorized_keys</h3>
+<p>Po tej całej zabawie z przerabianiem kluczy SSH, musimy jeszcze dodać publiczny klucz SSH maszyny, z
+której zamierzamy logować się w fazie initramfs/initrd w celu otworzenia kontenera LUKS. Ten klucz
+trzeba dodać do pliku <code>/etc/dropbear-initramfs/authorized_keys</code> , który standardowo nie istnieje i
+trzeba go utworzyć. Możemy naturalnie skopiować wcześniej utworzony (podczas konfiguracji OpenSSH)
+plik <code>/root/.ssh/authorized_keys</code> , bo zawiera on już potrzebny nam publiczny klucz SSH:</p>
+<pre><code>root@raspberrypi:/home/pi# cp /root/.ssh/authorized_keys /etc/dropbear-initramfs/authorized_keys
+</code></pre>
+<h3 id="plik-etcdropbear-initramfsconfig">Plik /etc/dropbear-initramfs/config</h3>
+<p>Kolejną rzeczą, którą musimy ogarnąć, to sposób w jaki usługa <code>dropbear</code> będzie uruchamiana w fazie
+initramfs/initrd. Konkretnie chodzi o flagi dla demona, które musimy ustawić w pliku
+<code>/etc/dropbear-initramfs/config</code> . Potrzebujemy czegoś na wzór poniższej linijki:</p>
+<pre><code>DROPBEAR_OPTIONS=&quot;-Fsjk -p 2222 -c /bin/cryptroot-unlock&quot;
+</code></pre>
+<p>Poniżej znajduje się <a href="https://manpages.debian.org/unstable/dropbear-bin/dropbear.8.en.html">wyjaśnienie tych bardziej użytecznych opcji</a>, które przydałoby się
+określić w  <code>DROPBEAR_OPTIONS</code> , choć niekoniecznie ich wszystkich będziemy potrzebować:</p>
+<ul>
+<li><code>-F</code> -- uruchamia serwer SSH na pierwszym planie zamiast w tle.</li>
+<li><code>-E</code> -- włącza logowanie błędów na standardowe wyjście, tj. logi pojawią się w terminalu zamiast
+przekierowania ich do logu systemowego. Ta opcja może nam się przydać w fazie testów, by
+sprawdzić czy serwer SSH w ogóle łapie zapytania od klientów i czy je poprawnie
+przetwarza.</li>
+<li><code>-s</code> -- wyłącza uwierzytelnianie za pomocą hasła. Tylko przy pomocy klucza SSH będzie można się
+zalogować na serwer.</li>
+<li><code>-j</code> oraz <code>-k</code> -- wyłączają port forwarding.</li>
+<li><code>-p</code> -- określa port, na którym usługa <code>dropbear</code> będzie nasłuchiwać zapytań z sieci.</li>
+<li><code>-c</code> -- po pomyślnym zalogowaniu się na serwer, polecenie w tym parametrze zostanie wykonane. Ta
+opcja zarazem sprawia, że użytkownik nie będzie w stanie wykonać żadnego innego polecenia
+interaktywnie po zalogowaniu się na serwer SSH w fazie initramfs/initrd.</li>
+<li><code>-R</code> -- ma na celu generować z każdym rozruchem systemu nowy prywatny klucz SSH. Nie trzeba
+dodawać tej opcji, bo przydaje się ona jedynie na wypadek, gdyby serwer miał problemy z
+brakującym kluczem.</li>
+</ul>
+<h2 id="adresacja-ip-dla-maszyny-w-fazie-initramfsinitrd">Adresacja IP dla maszyny w fazie initramfs/initrd</h2>
+<p>Problem przed jakim teraz stoimy to odpowiedź na pytanie w jaki sposób maszyna mająca uruchomioną
+usługę SSH w fazie initramfs/initrd może być w stanie odebrać jakiekolwiek połączenie sieciowe?
+Standardowo przecież na tym etapie startu systemu nie ma jeszcze podniesionych żadnych interfejsów
+sieciowych, ani też żadne usługi sieciowe nie działają. Jak zatem skonfigurować adresację IP dla
+maszyny w fazie initramfs/initrd? By to zadanie zrealizować trzeba dopisać do pliku
+<code>/etc/initramfs-tools/initramfs.conf</code> <a href="https://www.kernel.org/doc/html/latest/admin-guide/nfs/nfsroot.html">parametr IP</a>, którego składnia znajduje się poniżej:</p>
+<pre><code>IP=&lt;client-ip&gt;:&lt;server-ip&gt;:&lt;gw-ip&gt;:&lt;netmask&gt;:&lt;hostname&gt;:&lt;device&gt;:&lt;autoconf&gt;:&lt;dns0-ip&gt;:&lt;dns1-ip&gt;:&lt;ntp0-ip&gt;
+</code></pre>
+<p>Nie wszystkie te pola są wymagane, a na nasze potrzeby możemy podać tylko te poniższe (dla
+statycznej adresacji IP):</p>
+<pre><code>IP=&quot;192.168.1.239::192.168.1.1:255.255.255.0:rpi:eth0:none&quot;
+</code></pre>
+<p>Poniżej jest zaś wersja dla konfiguracji via DHCP:</p>
+<pre><code>IP=&quot;::::rpi:eth0:dhcp&quot;
+</code></pre>
+<p>Bez względu na to z której opcji skorzystamy, nasz Raspberry Pi w fazie initramfs/initrd będzie
+miał skonfigurowaną adresację IP i będzie w stanie odbierać zapytania SSH pochodzące z sieci.</p>
+<h3 id="ograniczenia-związane-z-adresacją-ip-problem-z-wifi">Ograniczenia związane z adresacją IP (problem z WiFi)</h3>
+<p>Problem z tak skonfigurowaną adresacją IP jest jeden. Mianowicie, działa ona jedynie na przewodowym
+interfejsie Raspberry Pi, tj. <code>eth0</code> . Jeśli nasza malina łączy się z siecią bezprzewodowo przez
+interfejs WiFi ( <code>wlan0</code> ), to w taki sposób nie damy rady uzyskać połączenia po SSH.</p>
+<p>Brak wsparcia dla WiFi w tym przypadku bierze się w zasadzie z faktu, że w obrazie initramfs/initrd
+brakuje oprogramowania odpowiedzialnego za zestawienie połączenia WiFi, np. <code>wpa_supplicant</code> czy
+<code>wpa_cli</code> , nie wspominając o samych sterownikach do karty WiFi. Brakuje też konfiguracji sieci
+WiFi trzymanej w pliku <code>/etc/wpa_supplicant.conf</code> .</p>
+<p>Z ogólniejszego przejrzenia internetów wynika jednak, że takie wsparcie dla WiFi w fazie
+initramfs/initrd można dorobić ale wymaga to trochę pracy. Jeśli uda mi się taki ficzer
+zaimplementować, to zapewne pojawi się na ten temat osobny artykuł i zostanie on tutaj podlinkowany.</p>
+<h2 id="plik-etccrypttab">Plik /etc/crypttab</h2>
+<p>Jeśli zaś chodzi o zawartość pliku <code>/etc/crypttab</code> , to jest ona w zasadzie standardowa, tj. taka
+sama co w przypadku zwykłego otwierania kontenera LUKS przy pomocy manualnie wpisywanego hasła z
+klawiatury podłączonej do Raspberry Pi. Poniżej znajduje się przykładowy wpis w tym pliku, tak by
+nie było żadnych niedopowiedzeń i niejasności:</p>
+<pre><code>rpi_crypt  UUID=0b9b66eb-d5ec-4371-80e3-f3a6ae92e0be   none  luks,initramfs,keyslot=0
+</code></pre>
+<h2 id="regeneracja-obrazu-initramfsinitrd">Regeneracja obrazu initramfs/initrd</h2>
+<p>Po dostosowaniu tych wszystkich wyżej wymienionych rzeczy trzeba będzie wygenerować nowy obraz
+initramfs/initrd. Robimy to tradycyjnie przy wykorzystaniu polecenia <code>update-initramfs</code> :</p>
+<pre><code>root@raspberrypi:/home/pi# update-initramfs -u -k $(uname -r)
+ln: failed to create hard link '/boot/initrd.img-5.10.63-v7l+.dpkg-bak' =&gt; '/boot/initrd.img-5.10.63-v7l+': Operation not permitted
+update-initramfs: Generating /boot/initrd.img-5.10.63-v7l+
+Building v7l+ image, updating top initrd
+</code></pre>
+<p>Warto tutaj zaznaczyć, że podczas instalowania pakietu <code>dropbear</code> , w terminalu można było dostrzec
+ten poniższy komunikat:</p>
+<pre><code>dropbear: WARNING: Invalid authorized_keys file, remote unlocking of cryptroot via SSH won't work!
+</code></pre>
+<p>Po poprawnym skonfigurowaniu serwera SSH, to ostrzeżenie powinno zniknąć.</p>
+<h2 id="próba-odszyfrowania-kontenera-luks-przez-ssh">Próba odszyfrowania kontenera LUKS przez SSH</h2>
+<p>Skrypt shell'owy <code>cryptroot-unlock</code> , który został podany w parametrze <code>-c</code> (w pliku
+<code>/etc/dropbear-initramfs/config</code> ) ma za zadanie odblokować zaszyfrowany kontener. W ten sposób, od
+razu po zalogowaniu się via SSH zobaczymy tekst <code>Please unlock disk rpi_crypt:</code> i jedyne co
+będziemy mogli w takiej sytuacji zrobić, to wpisać hasło do zaszyfrowanego kontenera LUKS, co
+wygląda mniej więcej tak:</p>
+<pre><code>$ ssh 192.168.1.239
+Please unlock disk rpi_crypt:
+</code></pre>
+<p>Po wpisaniu hasła, po chwili pojawi się taki oto błąd i połączenie z serwerem SSH zostanie
+zamknięte:</p>
+<pre><code>Error: Timeout reached while waiting for PID 215.
+Connection to 192.168.1.239 closed.
+</code></pre>
+<p>Póki co nie wiem z czego wynika ten błąd, niemniej jednak, jeśli wpisaliśmy prawidłowe hasło, to
+zaszyfrowany kontener LUKS zostanie otworzony i system się uruchomi w dokładnie taki sam sposób jak
+byśmy to hasło wpisali ręcznie z klawiatury podłączonej do Raspberry Pi.</p>
+<p>Jeśli zaś rzucimy okiem na monitor podłączony bezpośrednio do naszej maliny, to przed wpisaniem
+hasła będziemy mieli na nim takie oto poniższe informacje:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/11/001.raspberry-pi-rpi-ssh-dropbear-initramfs-initrd-luks-ip-address.jpg" alt="raspberry-pi-rpi-ssh-dropbear-initramfs-initrd-luks-ip-address"    class="huge"></p>
+<p>Jak widać, mamy tutaj wypisaną dokładną konfigurację adresacji IP, którą sobie określiliśmy w pliku
+<code>/etc/initramfs-tools/initramfs.conf</code> za sprawą parametru <code>IP</code> . Włączenie możliwości wpisania
+hasła do zaszyfrowanego kontenera LUKS przez SSH nie odbiera nam opcji wpisania tego hasła w
+tradycyjny sposób, co możemy poznać po prompt, który na powyższej fotce oczekuje od nas wpisania
+hasła. Po wpisaniu hasła przez SSH, start systemu przebiega już normalnie:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2021/11/002.raspberry-pi-rpi-ssh-dropbear-initramfs-initrd-luks-unlock-system.jpg" alt="raspberry-pi-rpi-ssh-dropbear-initramfs-initrd-luks-unlock-system"    class="huge"></p>
+<h2 id="problemy-związane-z-bezpieczeństwem-kluczy-prywatnych">Problemy związane z bezpieczeństwem kluczy prywatnych</h2>
+<p>To przedstawione wyżej rozwiązanie z ujednoliceniem kluczy serwerów OpenSSH i Dropbear oraz
+zsynchronizowanie tych kluczy z tymi obecnymi w fazie initramfs/initrd nie jest pozbawione wad.
+Trzeba sobie zdawać sprawę, że obraz initramfs/initrd obecny na partycji <code>/boot/</code> w zasadzie nie
+jest chroniony w żaden sposób. Każda osoba mająca fizyczny dostęp do Raspberry Pi potencjalnie może
+uzyskać również dostęp do tych kluczy. Jeśli ktoś wejdzie w ich posiadanie, to będzie w stanie
+przechwycić całą komunikację po SSH, w tym też hasło do kontenera LUKS.</p>
+<p>Może się wydawać, że lepszym rozwiązaniem byłoby rozdzielenie kluczy SSH, tj. osobne klucze SSH dla
+serwera OpenSSH działającego po odszyfrowaniu systemu i osobne klucze SSH dla Dropbear
+działającego w fazie initramfs/initrd. Niemniej jednak, takie rozdzielenie kluczy niewiele nam da,
+bo w dalszym ciągu obraz initramfs/initrd pozostaje niechroniony, przez co potencjalny złoczyńca
+jest w stanie podsłuchać komunikację z serwerem SSH, którą prowadzimy w fazie initramfs/initrd, a
+przecie to w tej fazie podajemy hasło do kontenera LUKS. Jeśli atakujący jest w stanie przechwycić
+hasło do kontenera LUKS, to będzie miał dostęp do naszego systemu i bez znaczenia jest to jakie
+zabezpieczenia w tym systemie sobie wdrożymy.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Problem z odszyfrowaniem kontenera LUKS przez SSH w fazie initramfs/initrd jest w zasadzie jeden,
+tj. niechroniony obraz initramfs/initrd, który może skompromitować bezpieczeństwo systemu w sposób,
+którego na pierwszy rzut oka się nawet nie da wykryć. Podobnie sprawa wyglądała w przypadku
+wykorzystywania pendrive jako klucz do kontenera LUKS. Te dwa rozwiązania łączy niezabezpieczony
+obraz initramfs/initrd czyniąc je mało użytecznymi. Korzystanie z kluczy SSH ma jednak tę przewagę
+nad kluczem w postaci pendrive, że hasło zawsze pozostaje w naszej głowie, a nie na nośniku, który
+ktoś potencjalnie może znaleźć. Jeśli się zorientujemy w porę, że coś może być nie tak, to jest
+jakaś szansa, że uda nam się zaszyfrować system Raspberry Pi (np. odcinając od niego zasilanie) i
+pozostanie on w takim stanie na już zawsze.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/luks/">luks</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/raspberry-pi-4b/">raspberry-pi-4b</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/raspios/">raspios</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/raspbian/">raspbian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">szyfrowanie</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssh/">ssh</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/initramfs/">initramfs</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/initrd/">initrd</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fodszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fodszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi%2f&amp;text=Odszyfrowanie%20LUKS%20przez%20SSH%20z%20poziomu%20initramfs%2finitrd%20na%20Raspberry%20Pi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fodszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi%2f&amp;title=Odszyfrowanie%20LUKS%20przez%20SSH%20z%20poziomu%20initramfs%2finitrd%20na%20Raspberry%20Pi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fodszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi%2f&amp;title=Odszyfrowanie%20LUKS%20przez%20SSH%20z%20poziomu%20initramfs%2finitrd%20na%20Raspberry%20Pi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fodszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi%2f&title=Odszyfrowanie%20LUKS%20przez%20SSH%20z%20poziomu%20initramfs%2finitrd%20na%20Raspberry%20Pi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fodszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fodszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi%2f&amp;title=Odszyfrowanie%20LUKS%20przez%20SSH%20z%20poziomu%20initramfs%2finitrd%20na%20Raspberry%20Pi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fodszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi%2f&description=Odszyfrowanie%20LUKS%20przez%20SSH%20z%20poziomu%20initramfs%2finitrd%20na%20Raspberry%20Pi" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks/">Jak zaszyfrować Raspberry Pi (RasPiOS/Raspbian, LUKS)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi/">Wykorzystanie nośnika USB jako klucz do odszyfrowania Raspberry Pi (LUKS)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/chroot-do-32-bit-systemu-arm-z-poziomu-64-bit-linuxowego-hosta/">Chroot do 32-bit systemu ARM z poziomu 64-bit linux&#39;owego hosta</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kontrola-podswietlenia-klawiatury-via-udev-backlight/">Kontrola podświetlenia klawiatury via UDEV (backlight)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-odszyfrowac-linux-przy-pomocy-telefonu-z-androidem/">Jak odszyfrować linux&#39;a przy pomocy telefonu z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zaladowac-profile-apparmor-w-fazie-initrd-initramfs-na-debian-linux/">Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux</a></li>
+		
+	</ul>
+</div>
+
+	<div id="comments">
+		<script>
+  var id =  581 ;
+
+  if (id)
+  {
+    let url = "https://github.com/morfikov/morfitronik-comments/issues/".concat(id);
+    let api_url = "https://api.github.com/repos/morfikov/morfitronik-comments/issues/".concat(id, "/comments");
+
+    var commentsDiv = document.getElementById("comments");
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("GET", api_url);
+    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
+    xhr.send();
+
+    xhr.onload = function()
+    {
+      if (xhr.status != 200)
+      {
+        let errorText = document.createElement("p");
+        errorText.innerHTML = "<i>Komentarze dla tego postu nie zostały jeszcze otworzone (albo skrypty GitHub'a są wyłączone). Być może też skończył ci się przydział 60/godzinę (limit GitHub'a).</i>";
+        commentsDiv.appendChild(errorText);
+      }
+      else
+      {
+        let comments = xhr.response;
+
+        let mainHeader = document.createElement("h3");
+        mainHeader.innerHTML = "Komentarze: ".concat(comments.length);
+        commentsDiv.appendChild(mainHeader);
+
+        let issueLink = document.createElement("p");
+        issueLink.innerHTML = "<i>Możesz zostawić komentarz korzystając z <a href='".concat(url, "'>GitHub issue</a>.</i>");
+        commentsDiv.appendChild(issueLink);
+
+        comments.forEach(function(comment)
+        {
+			const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Europe/Warsaw' };
+			options.timeZoneName = 'short';
+            let commentContent = document.createElement("div");
+            commentContent.setAttribute('class', 'gh-comment')
+            commentContent.innerHTML = "".concat(
+                "<div class='gh-header'>",
+                  "<img src='", comment.user.avatar_url, "' />",
+                  "<div style='margin:auto 0;'>",
+                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
+                    " | <em>", (new Date(comment.created_at)).toLocaleTimeString('pl-PL', options), "</em>",
+                  "</div>",
+                "</div>",
+                "<div class='gh-body'>",
+                  comment.body_html,
+                "</div>"
+            );
+            commentsDiv.appendChild(commentContent);
+        });
+      }
+    };
+
+    xhr.onerror = function()
+    {
+      let errorText = document.createElement("p");
+      errorText.innerHTML = "<i>Wystąpił jakiś błąd przy ładowaniu komentarzy.</i>";
+      commentsDiv.appendChild(errorText);
+    };
+  }
+</script>
+
+	</div>
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<div class="license-icons">
+			<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons Attribution 4.0 International license">
+<i class="icon-cc"></i><i class="icon-cc-by"></i><i class="icon-cc-nc"></i><i class="icon-cc-sa"></i>
+</a>
+		</div>
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
+</body>
+</html>

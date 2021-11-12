@@ -6,7 +6,29 @@
     <description>Recent content in szyfrowanie on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Thu, 11 Nov 2021 05:32:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/szyfrowanie/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Nov 2021 23:13:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/szyfrowanie/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Odszyfrowanie LUKS przez SSH z poziomu initramfs/initrd na Raspberry Pi</title>
+      <link>https://morfikov.github.io/post/odszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi/</link>
+      <pubDate>Fri, 12 Nov 2021 23:13:00 +0100</pubDate>
+      
+      <guid>https://morfikov.github.io/post/odszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi/</guid>
+      <description>&lt;p&gt;Od paru dni bawię się swoim Raspberry Pi w kontekście zaszyfrowania jego systemu RasPiOS/Raspbian.
+O ile samo &lt;a href=&#34;https://morfikov.github.io/post/jak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks/&#34;&gt;zaszyfrowanie tego minikomputera przy pomocy mechanizmu LUKS&lt;/a&gt; nie było jakoś
+specjalnie trudne, to trzeba było pomyśleć nad rozwiązaniami mającymi ułatwić otworzenie takiego
+zaszyfrowanego kontenera przy starcie systemu. Póki co udało się wypracować w miarę zadowalające
+&lt;a href=&#34;https://morfikov.github.io/post/wykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi/&#34;&gt;rozwiązanie wykorzystujące dedykowane urządzenia USB w roli klucza&lt;/a&gt;, bez którego system się nie
+uruchomi. Są jednak i inne rozwiązania, które mogą nam pomóc odszyfrować system RPI bez potrzeby
+fatygowania się do pomieszczenia i wtykania w jej port USB jakiegoś pendrive. Mowa o zaprzęgnięciu
+usługi SSH, która by została uruchomiona w fazie initramfs/initrd, chwilę przed wpisaniem hasła do
+kontenera LUKS. Takie rozwiązanie wymaga jednak zainstalowania innego serwera SSH, tj. Dropbear,
+pogodzenia go z serwerem OpenSSH oraz też trzeba odpowiednio przygotować sam obraz initramfs/initrd.
+Po pomyślnym skonfigurowaniu systemu, będziemy się logować do Raspberry Pi przez SSH i wpisywać
+hasło do kontenera LUKS, a jeśli to hasło będzie prawidłowe, to system zostanie odszyfrowany i
+uruchomiony.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Wykorzystanie nośnika USB jako klucz do odszyfrowania Raspberry Pi (LUKS)</title>
@@ -421,25 +443,6 @@ kernel&lt;/a&gt;. Niemniej jednak, tamto rozwiązanie
 było oparte głównie o starszy init (sysvinit), co wymagało dodatkowej konfiguracji, tak by system
 otworzył się po podaniu tylko jednego hasła. W tym wpisie postaramy się wdrożyć mechanizm, który
 jest oferowany przez systemd.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Szyfrowanie dźwięku przesyłanego przez sieć</title>
-      <link>https://morfikov.github.io/post/szyfrowanie-dzwieku-przesylanego-przez-siec/</link>
-      <pubDate>Sun, 01 Nov 2015 00:31:48 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/szyfrowanie-dzwieku-przesylanego-przez-siec/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.freedesktop.org/wiki/Software/PulseAudio/&#34;&gt;PulseAudio to serwer dźwięku&lt;/a&gt;, który jest w
-stanie otrzymywać zapytania ze zdalnych lokalizacji. Wobec czego, możemy realizować &lt;a href=&#34;https://morfikov.github.io/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/&#34;&gt;przesyłanie
-dźwięku przez sieć&lt;/a&gt; i usłyszeć
-go tam, gdzie go sobie życzymy. Problem w tym, że taki dźwięk jest przesyłany przez sieć w formie
-niezaszyfrowanej. Dlatego też jesteśmy narażeni na podsłuchanie wszystkiego co mówimy do mikrofonu
-lub też tego co pojawia się w naszych głośnikach. Możemy jednak zabezpieczyć komunikację między
-klientem i serwerem dźwięku wykorzystując do tego połączenie SSH. W ten sposób cały sygnał
-dźwiękowy, jaki jest generowany przez danego hosta w sieci, zostanie wrzucony w szyfrowany kanał
-TLS i nikt nie będzie w stanie go zinterpretować. Ten wpis ma na celu przedstawienie sposobu na
-zaszyfrowanie dźwięku, bez którego większość z nas nie wyobraża sobie pacy przy komputerze.&lt;/p&gt;</description>
     </item>
     
   </channel>
