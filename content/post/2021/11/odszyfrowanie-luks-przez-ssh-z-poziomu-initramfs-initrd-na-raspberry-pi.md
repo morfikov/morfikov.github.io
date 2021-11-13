@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - RaspberryPi
 date:    2021-11-12 23:13:00 +0100
-lastmod: 2021-11-12 23:13:00 +0100
+lastmod: 2021-11-13 13:25:00 +0100
 published: true
 status: publish
 tags:
@@ -464,9 +464,9 @@ brakuje oprogramowania odpowiedzialnego za zestawienie połączenia WiFi, np. `w
 `wpa_cli` , nie wspominając o samych sterownikach do karty WiFi. Brakuje też konfiguracji sieci
 WiFi trzymanej w pliku `/etc/wpa_supplicant.conf` .
 
-Z ogólniejszego przejrzenia internetów wynika jednak, że takie wsparcie dla WiFi w fazie
-initramfs/initrd można dorobić ale wymaga to trochę pracy. Jeśli uda mi się taki ficzer
-zaimplementować, to zapewne pojawi się na ten temat osobny artykuł i zostanie on tutaj podlinkowany.
+Z ogólniejszego przejrzenia internetów wynika jednak, że takie [wsparcie dla WiFi w fazie
+initramfs/initrd][7] można dorobić ale wymaga to trochę pracy. Jeśli ktoś jest zainteresowany tym
+tematem, to stosowne instrukcje zostały zamieszczone w osobnym artykule.
 
 ## Plik /etc/crypttab
 
@@ -565,3 +565,4 @@ pozostanie on w takim stanie na już zawsze.
 [4]: https://manpages.debian.org/unstable/openssh-server/sshd_config.5.en.html
 [5]: /post/jak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks/
 [6]: /post/wykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi/
+[7]: /post/wsparcie-dla-wifi-w-initramfs-initrd-by-odszyfrowac-luks-przez-ssh/
