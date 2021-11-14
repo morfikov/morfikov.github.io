@@ -565,4 +565,4 @@ pozostanie on w takim stanie na już zawsze.
 [4]: https://manpages.debian.org/unstable/openssh-server/sshd_config.5.en.html
 [5]: /post/jak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks/
 [6]: /post/wykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi/
-[7]: /post/wsparcie-dla-wifi-w-initramfs-initrd-by-odszyfrowac-luks-przez-ssh/
+[7]: /post/wsparcie-dla-wifi-w-initramfs-initrd-by-odszyfrowac-luks-przez-ssh-bezprzewodowo/
