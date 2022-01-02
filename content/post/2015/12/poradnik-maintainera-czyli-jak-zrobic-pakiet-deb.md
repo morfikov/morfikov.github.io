@@ -2020,9 +2020,9 @@ uwadze fakt, że przez taki hardening można nieco popsuć funkcjonalność paki
 Jeśli już dostosowaliśmy wszystkie pliki w katalogu `debian/` , przyszedł czas na zbudowanie źródeł.
 W tym celu przechodzimy do głównego katalogu ze źródłami i wydajemy poniższe polecenie:
 
-    morfik:~/debian_build/monitorix-3.6.0$ debuild -S -sa -d
+    morfik:~/debian_build/monitorix-3.6.0$ debuild -S -sa -d -i --lintian-opts --profile debian
 
-Skrypt `dbuild` , w zależności od konfiguracji, zainicjuje `dpkg-buildpackage` oraz kilka
+Skrypt `debuild` , w zależności od konfiguracji, zainicjuje `dpkg-buildpackage` oraz kilka
 dodatkowych narzędzi Podczas całego procesu, wszystkie łaty, które założyliśmy, zostaną
 automatycznie ściągnięte ( `quilt` ), a sam katalog `debian/` zostanie oddzielony od źródeł i
 upchnięty w osobnej paczce ( `dpkg-source` ). Takie rozwiązanie ma na celu zmniejszenie ruchu
@@ -2037,6 +2037,19 @@ zostanie wydrukowane w terminalu. Plik `.dsc` zawiera min. sumy kontrole spakowa
 katalogu `debian` . Na tym etapie, plik `.changes` zbytnio się nie różni od pliku `.dsc` ale to w
 nim będą zawarte sumy kontrole wszystkich wyprodukowanych przez nas paczek `.deb` . Jest tam również
 kilka dodatkowych informacji, takich jak np. numery błędów, które ten pakiet ma zamykać.
+
+### Potrzebne zależności
+
+Czasami może zdarzyć się tak, że podczas budowania źródeł będziemy musieli doinstalować w systemie
+kilka dodatkowych zależności. W takim przypadku można je naturalnie zainstalować ręcznie przy
+pomocy `apt-get`/`aptitude` . Można też skorzystać z `apt-get build-dep` w przypadku aktualizowania
+paczki, która już w repozytoriach Debiana się znajduje. Niemniej jednak, takie ręczne instalowanie
+zależności sprawi, że będziemy mieli kłopot z ich odinstalowaniem w późniejszym czasie (będziemy
+musieli zwracać uwagę na to co instalujemy). Dlatego też lepszym rozwiązaniem jest skorzystanie z
+narzędzia `mk-build-deps` , który jest w stanie stworzyć pusty pakiet `.deb` , w którym to znajdą
+się jedynie zależności wymagane podczas budowania źródeł. Później w dowolnym czasie ten pakiet
+możemy usunąć, a wszystkie zależności w nim określone (o ile nie wymagane przez inne pakiety)
+zostaną automatycznie usunięte z systemu.
 
 ## Budowanie pakietu
 
