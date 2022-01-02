@@ -43,7 +43,7 @@ pakietów. Ten poradnik zaś ma na celu zebranie wszystkich istotniejszych infor
 obsługą narzędzi takich jak dh_make , dpkg-buildpackage , pbuilder , quilt czy lintian ,
 tak by tworzyć pakiety w prosty sposób i przy tym równając do najwyższych standardów debiana."><meta itemprop="datePublished" content="2015-12-07T20:26:45+00:00" />
 <meta itemprop="dateModified" content="2015-12-07T20:26:45+00:00" />
-<meta itemprop="wordCount" content="15524">
+<meta itemprop="wordCount" content="15657">
 <meta itemprop="keywords" content="debian," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Poradnik maintainer&#39;a, czyli jak zrobić pakiet deb"/>
@@ -217,7 +217,11 @@ if (!doNotTrack) {
       </ol>
     </li>
     <li><a href="#hardening-pakietów">Hardening pakietów</a></li>
-    <li><a href="#budowanie-źródeł">Budowanie źródeł</a></li>
+    <li><a href="#budowanie-źródeł">Budowanie źródeł</a>
+      <ol>
+        <li><a href="#potrzebne-zależności">Potrzebne zależności</a></li>
+      </ol>
+    </li>
     <li><a href="#budowanie-pakietu">Budowanie pakietu</a>
       <ol>
         <li><a href="#manualne-budowanie-pakietów">Manualne budowanie pakietów</a></li>
@@ -1986,9 +1990,9 @@ uwadze fakt, że przez taki hardening można nieco popsuć funkcjonalność paki
 <h2 id="budowanie-źródeł">Budowanie źródeł</h2>
 <p>Jeśli już dostosowaliśmy wszystkie pliki w katalogu <code>debian/</code> , przyszedł czas na zbudowanie źródeł.
 W tym celu przechodzimy do głównego katalogu ze źródłami i wydajemy poniższe polecenie:</p>
-<pre><code>morfik:~/debian_build/monitorix-3.6.0$ debuild -S -sa -d
+<pre><code>morfik:~/debian_build/monitorix-3.6.0$ debuild -S -sa -d -i --lintian-opts --profile debian
 </code></pre>
-<p>Skrypt <code>dbuild</code> , w zależności od konfiguracji, zainicjuje <code>dpkg-buildpackage</code> oraz kilka
+<p>Skrypt <code>debuild</code> , w zależności od konfiguracji, zainicjuje <code>dpkg-buildpackage</code> oraz kilka
 dodatkowych narzędzi Podczas całego procesu, wszystkie łaty, które założyliśmy, zostaną
 automatycznie ściągnięte ( <code>quilt</code> ), a sam katalog <code>debian/</code> zostanie oddzielony od źródeł i
 upchnięty w osobnej paczce ( <code>dpkg-source</code> ). Takie rozwiązanie ma na celu zmniejszenie ruchu
@@ -2002,6 +2006,17 @@ zostanie wydrukowane w terminalu. Plik <code>.dsc</code> zawiera min. sumy kontr
 katalogu <code>debian</code> . Na tym etapie, plik <code>.changes</code> zbytnio się nie różni od pliku <code>.dsc</code> ale to w
 nim będą zawarte sumy kontrole wszystkich wyprodukowanych przez nas paczek <code>.deb</code> . Jest tam również
 kilka dodatkowych informacji, takich jak np. numery błędów, które ten pakiet ma zamykać.</p>
+<h3 id="potrzebne-zależności">Potrzebne zależności</h3>
+<p>Czasami może zdarzyć się tak, że podczas budowania źródeł będziemy musieli doinstalować w systemie
+kilka dodatkowych zależności. W takim przypadku można je naturalnie zainstalować ręcznie przy
+pomocy <code>apt-get</code>/<code>aptitude</code> . Można też skorzystać z <code>apt-get build-dep</code> w przypadku aktualizowania
+paczki, która już w repozytoriach Debiana się znajduje. Niemniej jednak, takie ręczne instalowanie
+zależności sprawi, że będziemy mieli kłopot z ich odinstalowaniem w późniejszym czasie (będziemy
+musieli zwracać uwagę na to co instalujemy). Dlatego też lepszym rozwiązaniem jest skorzystanie z
+narzędzia <code>mk-build-deps</code> , który jest w stanie stworzyć pusty pakiet <code>.deb</code> , w którym to znajdą
+się jedynie zależności wymagane podczas budowania źródeł. Później w dowolnym czasie ten pakiet
+możemy usunąć, a wszystkie zależności w nim określone (o ile nie wymagane przez inne pakiety)
+zostaną automatycznie usunięte z systemu.</p>
 <h2 id="budowanie-pakietu">Budowanie pakietu</h2>
 <p>Po zbudowaniu źródeł, przyszedł czas na zbudowanie pakietu. W tym celu przechodzimy do katalogu
 nadrzędnego (tam gdzie jest plik <code>.dsc</code> ) i zaprzęgamy pbuilder'a do roboty:</p>
@@ -2449,7 +2464,7 @@ Można ją wyciągnąć z logu git'a w poniższy sposób:</p>
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
 		</a>
 </div>
-	<div class="footer__copyright">© 2021 Mikhail Morfikov.
+	<div class="footer__copyright">© 2022 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">
 		<div class="license-icons">
