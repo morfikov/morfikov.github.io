@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Linux
-date: "2015-11-22T21:44:11Z"
-date_gmt: 2015-11-22 20:44:11 +0100
+date:    2015-11-22 21:44:11 +0100
+lastmod: 2022-01-02 15:00:00 +0100
 published: true
 status: publish
 tags:
@@ -129,7 +129,30 @@ W tym przypadku mamy do czynienia z kartą USB, dlatego lepiej nie korzystać ze
 ulec zmianie. Można natomiast wykorzystać adres MAC tego urządzenia, bo ten zwykle jest
 niepowtarzalny i stały dla konkretnej karty.
 
+## Parametry net.ifnames= oraz biosdevname=
+
+W nowszych wydaniach dystrybucji Debian lepszym rozwiązaniem zdaje się być skorzystanie z parametru
+`net.ifnames=` lub `biosdevname=` . Jaka jest różnica między tymi dwiema opcjami?
+
+Parametr `biosdevname=` jest przeznaczony do wykorzystania wszędzie tam gdzie jest
+zainstalowane [stosowne oprogramowanie od deweloperów DELL'a][4] mające na celu wspomagać UDEV'a
+przy przepisywaniu nazw interfejsów sieciowych, tak by były one konsekwentne i niezmienne w czasie.
+
+Niemniej jednak, w Debianie nie ma tego oprogramowania i na dobrą sprawę nie jest ono potrzebne,
+przynajmniej tam, [gdzie mamy do czynienia z systemd][5]. Systemd posiada własny mechanizm
+przepisywania nazw interfejsów sieciowych i do jego kontroli służy właśnie ten drugi z powyżej
+wymienionych parametrów, tj. `net.ifnames=` . Domyślnie mechanizm przepisywania tych nazw jest
+włączony i dlatego na świeżo postawionym systemie nie uświadczymy interfejsów typu `wlan0` czy
+`eth0` .
+
+Jeśli nie podobają nam się nowe nazwy interfejsów sieciowych albo też zwyczajnie ich nie
+potrzebujemy, bo nasz system posiada tylko jeden interfejs przewodowy i bezprzewodowy, to dla
+uproszenia możemy ten mechanizm przepisywania nazw wyłączyć dopisując w konfiguracji bootloader'a
+(np. GRUB) `net.ifnames=0` (ten drugi parametr można pominąć).
+
 
 [1]: https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/
 [2]: https://github.com/systemd/systemd/blob/master/src/udev/udev-builtin-net_id.c#L20
 [3]: https://www.freedesktop.org/software/systemd/man/systemd.link.html
+[4]: https://linux.dell.com/files/biosdevname/
+[5]: https://man7.org/linux/man-pages/man8/systemd-udevd.service.8.html
