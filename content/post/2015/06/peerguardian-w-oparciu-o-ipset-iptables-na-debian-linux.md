@@ -2,41 +2,48 @@
 author: Morfik
 categories:
 - Linux
-date: "2015-06-23T22:50:14Z"
-date_gmt: 2015-06-23 20:50:14 +0200
+date:    2015-06-23 22:50:14 +0200
+lastmod: 2022-01-12 07:10:00 +0200
 published: true
 status: publish
+aliases:
+- /post/peerguardian-w-oparciu-o-ipset-iptables/
 tags:
 - iptables
 - ipset
 - systemd
+- debian
+- firewall
 GHissueID: 98
-title: PeerGuardian w oparciu o ipset i iptables
+title: PeerGuardian w oparciu o ipset i iptables na Debian linux
 ---
 
-Wiele klientów torrent'a umożliwia ładowanie zewnętrznej listy z zakresami adresów IP i ta lista ma
-służyć jako swego rodzaju filtr połączeń chroniący nas przed różnego rodzaju organizacjami, które
-mogą zbierać i przetwarzać informacje na temat naszego IP i tego co on porabia w sieci p2p.
-Oczywiście, kwestia czy korzystać z takiego typu rozwiązania jest bardzo dyskusyjna i wiele osób
-jest zdania, że to tak naprawdę w niczym nie pomoże, a wręcz nawet przyczynia się do
-samounicestwienia sieci p2p. Także taki filter może czasem przynieść więcej szkody niż pożytku,
-zwłaszcza gdy się go używa lekkomyślnie, czyli na zasadzie, że ten co blokuje więcej adresów musi
-być lepszy. Poniżej opiszę wykorzystanie rozszerzenia `ipset`, przy pomocy którego zostanie
-zablokowany szereg klas adresów. Całość raczej nie skupia się na implementacji filtra, to tylko
-przykład do czego `ipset` może posłużyć, a że ja nie umiem teoretycznie pisać, to muszę na
-przykładach.
+Wiele linux'owych klientów torrent'a umożliwia ładowanie zewnętrznej listy z zakresami adresów IP i
+ta lista ma służyć jako swego rodzaju filtr połączeń chroniący nas przed różnego rodzaju
+organizacjami, które mogą zbierać i przetwarzać informacje na temat naszego IP i tego, co on
+porabia w sieci p2p. Oczywiście, kwestia czy korzystać z takiego typu rozwiązania jest bardzo
+dyskusyjna i wiele osób jest zdania, że to tak naprawdę w niczym nie pomoże, a wręcz nawet
+przyczynia się do samounicestwienia sieci p2p. Także taki filtr może czasem przynieść więcej szkody
+niż pożytku, zwłaszcza gdy się go używa lekkomyślnie, czyli na zasadzie, że ten który blokuje
+więcej adresów IP musi być lepszy. Poniżej zostanie opisane rozwiązanie zakładające wykorzystanie
+rozszerzenia `ipset` , które w połączeniu z `iptables` da nam w pełni działający filtr połączeń p2p
+(coś na wzór popularnego oprogramowania PeerGuardian), dzięki któremu będziemy w stanie wyciąć
+dowolny ruch i to nie tylko przy korzystaniu z różnych klientów torrent, np. qbittorrent, ale
+także i przy zwykłym przeglądaniu stron www.
 
 <!--more-->
 ## Reguły dla ipset'a
 
-Standardowo pakietu `ipset` nie ma wgranego w systemie i trzeba go dociągnąć. Jako, że znajduje się
-on w repozytorium debiana, to nie powinno być problemu z jego instalacją. Musimy także stworzyć
-katalog, w którym to będziemy trzymać listy z adresami IP. Ja obrałem sobie folder
-`/etc/peerblock/` . Dodatkowo musimy utworzyć osobny folder z konfiguracją dla iptables, np.
-`/etc/filtr/` i od tego katalogu zaczniemy.
+Standardowo pakietu `ipset` nie ma zainstalowanego w Debianie i trzeba go dociągnąć z repozytorium
+APT przy pomocy `apt-get`/`aptitude` . Jako, że pakiet `ipset` znajduje się w oficjalnym repo tej
+dystrybucji, to nie powinno być problemu z jego instalacją. Musimy także stworzyć katalog, w którym
+to będziemy trzymać listy z adresami IP. Ja obrałem sobie folder `/etc/peerblock/` . Dodatkowo,
+musimy utworzyć osobny folder z konfiguracją dla iptables, np. `/etc/filtr/` i od tego katalogu
+zaczniemy.
 
 Potrzebne nam będą trzy pliki: `base.sh`, `ipset.sh` oraz `iptables_raw.sh` :
 
+    # mkdir /etc/filtr/
     # cd /etc/filtr/
     # touch base.sh ipset.sh iptables_raw.sh
     # chmod 700 *
@@ -134,7 +141,7 @@ Następnie tworzymy plik `ipset.sh` , który będzie odpowiedzialny za tworzenie
 Mamy tutaj do obróbki trzy listy, które będziemy pobierać z serwisu [iblocklist.com][1].
 Naturalnie, można sobie dobrać jakiekolwiek zestawy.
 
-### Plik iptables\_raw.sh
+### Plik iptables_raw.sh
 
 Musimy także utworzyć konfigurację dla filtra `iptables` . Interesuje nas głównie tablica `raw` .
 Tworzymy plik `iptables_raw.sh` o poniższej treści:
@@ -167,18 +174,18 @@ Tworzymy plik `iptables_raw.sh` o poniższej treści:
 Zanim pakiety dotrą do celu, trafiają pierw do tablicy `raw` i tam można je wstępnie odfiltrować.
 Stworzyliśmy tam dwa dodatkowe łańcuchy, po jednym dla pakietów przychodzących i wychodzących.
 Kluczowa sprawa to wywołanie modułu przy pomocy parametru `-m set` i dopasowanie pakietów do
-odpowiedniego filtra w ipset przy pomocy `--match-set`. Ja mam 4 filtry, po 1 regule dla każdego,
+odpowiedniego filtra w `ipset` przy pomocy `--match-set`. Ja mam 4 filtry, po 1 regule dla każdego,
 w każdym łańcuchu, łącznie daje 8 wpisów. Białą listę dajemy na początek, tak by pakiety, które
 zostałyby zablokowane przez przez 3 pozostałe filtry, były przepuszczane bez większego problemu i
 wędrowały do tablicy `filter`. Lista `bt_level1` jest to typowa lista p2p i generalnie lepiej jest
 jej nie używać na portach `80` i `443` , czyli na stronach www, bo ona nawet gógla blokuje.
 Najlepiej ustawić sobie zakres portów, na których klient bittorrent'a może dokonywać połączeń. U
 mnie qbittorrent ma zabronione łączenie się na porty poniżej numeru 1024 i na dobrą sprawę,
-ustawiłem mu zakres 2k portów od 20-22k. I praktycznie można by sprecyzować ten zakres w regule
-iptables. Pozostałe dwa filtry są już użyte bardziej restrykcyjnie ale to dlatego, że zakresów
-adresów IP jest tam relatywnie niewielki i w ciągu dnia trafia mi się tam może 20-30 pakietów.
-Różnica w stosunku do tego dużego filtra polega na tym, że te dwa mniejsze filtrują ruch również na
-http i https.
+ustawiłem mu zakres 10k portów [od 55000 do 65000][5]. I praktycznie można by sprecyzować ten zakres
+w regule iptables. Pozostałe dwa filtry są już użyte bardziej restrykcyjnie ale to dlatego, że
+zakresów adresów IP jest tam relatywnie niewielki i w ciągu dnia trafia mi się tam może 20-30
+pakietów. Różnica w stosunku do tego dużego filtra polega na tym, że te dwa mniejsze filtrują ruch
+również dla http i https.
 
 ## Praca dla cron'a
 
@@ -191,7 +198,14 @@ dzień, dlatego też najlepiej po prostu obarczyć tym zadaniem cron'a i adresy 
 stworzy, ładować do ipset'a. Tworzymy zatem plik `/etc/cron.daily/peerblock_list` o poniższej
 treści:
 
-    #!/bin/bash
+    #!/bin/sh
+
+    ping -c 1 onet.pl > /dev/null 2>&1
+    retVal="$?"
+    if [ "$retVal" != "0" ]; then
+    echo "Network connection not detected, so peerblock lists are not being updated."
+       exit 0
+    fi
 
     #echo "pozyskiwanie listy bt_level1..."
     curl --silent --show-error -L "http://list.iblocklist.com/?list=bt_level1&fileformat=p2p&archiveformat=gz" > /etc/peerblock/bt_level1.gz
@@ -215,8 +229,9 @@ Pozostało nam jeszcze napisanie odpowiedniego pliku usługi dla systemd . Jeśl
     Documentation=man:iptables
     DefaultDependencies=no
     Wants=network-pre.target systemd-modules-load.service
-    Before=network-pre.target
+    Before=network-pre.target shutdown.target
     After=systemd-modules-load.service
+    Conflicts=shutdown.target
 
     [Service]
     Type=oneshot
@@ -242,12 +257,13 @@ Trzeba także pamiętać, że ilość wpisów na listach ulega zmianie i może s
 ustawiony w zmiennej `maxelem` w pliku `ipset.sh` zostanie przekroczony. Gdy taka sytuacja wystąpi,
 to wystarczy podbić ten limit. Nie należy jednak z nim przesadzać. Co prawda, przy długości `290000`
 taka lista zajmuje koło 3,5 MiB RAMu. Nie jest to dużo ale jeśli byśmy tam mieli tylko jeden adres,
-to ilość okupowanej pamięci nie ulegnie zmianie. To i tak sporo lepiej w porównaniu do qbittorrenta,
-który za obsługę tej samej listy chciał ponad 200MiB.
+to ilość okupowanej pamięci nie ulegnie zmianie. To i tak sporo lepiej w porównaniu do
+qbittorrent'a, który za obsługę tej samej listy chciał ponad 200MiB.
 
 ## Niekompatybilny format list ipset'a
 
-Format listy nie jest do przyjęcia przez ipset. Wpisy w liście wyglądają jak poniżej:
+Format listy pobranej z `iblocklist.com` różni się od tego, który można załadować do `ipset` .
+Wpisy w przykładowej liście wyglądają mniej więcej tak, jak to widać poniżej:
 
     # List distributed by iblocklist.com
 
@@ -285,18 +301,18 @@ Poniżej wyjaśnienie poszczególnych etapów przetwarzania listy:
     części oraz zostanie wycięty kawałek od dwukropka do końca wiersza.
   - `grep -E "^[-0-9.]+$"` nie wiem co dokładnie znaczy ale chyba wyciąga z wyniku wpisy, które mają
     cyfry, kropki i znak minusa powtórzone co najmniej raz. Czyli wynik w postaci
-    `62.27.97.232-62.27.97.235` . Takie zakresy IP zostaną automatycznie przepisane przez ipset z
+    `62.27.97.232-62.27.97.235` . Takie zakresy IP zostaną automatycznie przepisane przez `ipset` z
     uwzględnieniem maski podsieci (patrz [ipcalc][3]).
   - `gawk -v my_set=$set '{print "add " my_set " " $1}'` dodaje na początku frazę `add bt_level1`
 
-Tak przerobioną listę można bez problemu teraz zaaplikować w ipsecie.
+Tak przerobioną listę można bez problemu teraz podać w `ipset` .
 
 ## Biała lista
 
 Ja w powyższy sposób zaimplementowałem sobie 3 listy z adresami IP ale jest jeszcze jedna, którą
 warto mieć. Jest to lista z adresami, którym udzielimy dostępu do naszej maszyny. Te filtry mogą i z
 pewnością będą blokować sporo adresów, które są niewinne i dlatego przydałoby się mieć już gotowe
-rozwiązanie na wypadek gdy ktoś z naszych znajomych trafi na taką listę.
+rozwiązanie na wypadek, gdy ktoś z naszych znajomych trafi na taką listę.
 
 Tworzymy zatem plik `/etc/peerblock/whitelist` i dodajemy tam adresy w formie `91.121.10.104` :
 
@@ -310,21 +326,24 @@ Po edycji, plik kompresujemy programem `gzip` :
 
 ## Logowanie blokowanych przez ipset pakietów
 
-Jeśli pakiety zostaną zablokowane z jakiegoś ip, a my nie wiemy z jakiego. Możemy włączyć logowanie
-dodając do regułek iptables do łańcuchów `PREROUTING` oraz `OUTPUT` coś na wzór poniższej linijki:
+Jeśli pakiety zostaną zablokowane z jakiegoś adresu IP, a my nie wiemy z jakiego, to możemy włączyć
+logowanie dodając do regułek iptables do łańcuchów `PREROUTING` oraz `OUTPUT` tablicy `raw` coś na
+wzór poniższej linijki:
 
     -A OUTPUT -p tcp -m multiport ! --dports 80,443 -m set --match-set bt_level1 dst -j LOG -m limit --limit 10/m  --log-level 4 --log-prefix "*** BT_LEVEL1 *** "
 
-Oczywiście to tylko przykład logowania, prawdopodobnie trzeba będzie go dostosować. Jedna rzecz o
-której trzeba pamiętać to by dodać go przed faktyczną regułą filtrującą, w przeciwnym razie nie
-przejdą przez nią pakiety i nie zostaną zalogowane.
+Oczywiście to tylko przykład logowania, prawdopodobnie trzeba będzie tę regułę sobie dostosować.
+Jedna rzecz, o której trzeba pamiętać, to by ta reguła znalazła się przed faktyczną regułą
+filtrującą ruch. Jeśli tego nie zrobimy, to pakiety nigdy nie dotrą do reguły logowania, bo zostaną
+wcześniej zablokowane.
 
-I to w sumie wszystko, testowałem tego PeerGuardian'a opartego o ipset i to po prostu działa. Jeśli
-kogoś przeraża tego typu działanie, może pokusić się o [prawie gotowe rozwiązanie][4]. Wymaga tylko
-skompilowania i instalacji. W każdym razie posiada GUI i zjada więcej RAMu niż ipset.
+I to w sumie wszystko. Testowałem tego PeerGuardian'a opartego o `ipset` i `iptables` na swoim
+Debianie i to rozwiązanie po prostu działa. Jeśli kogoś przerażają kroki opisane w niniejszym
+artykule, to może pokusić się o zaimplementowanie [prawie gotowe rozwiązanie][4].
 
 
 [1]: https://www.iblocklist.com/lists.php
 [2]: /post/firewall-na-linuxowe-maszyny-klienckie/
 [3]: http://manpages.ubuntu.com/manpages/xenial/en/man1/ipcalc.1.html
 [4]: https://sourceforge.net/projects/peerguardian/
+[5]: https://en.wikipedia.org/wiki/Ephemeral_port#Range
