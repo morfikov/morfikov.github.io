@@ -8,6 +8,7 @@ published: true
 status: publish
 tags:
 - smartfon
+- lokalizacja
 - gps
 - prywatność
 GHissueID: 66

@@ -10,6 +10,7 @@ tags:
 - smartfon
 - aplikacje
 - f-droid
+- lokalizacja
 - gps
 - wifi
 - bluetooth

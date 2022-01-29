@@ -13,6 +13,7 @@ tags:
 - safetynet
 - push
 - youtube
+- lokalizacja
 - gps
 - f-droid
 - magisk

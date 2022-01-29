@@ -11,6 +11,7 @@ tags:
 - foldery
 - prywatność
 - gps
+- lokalizacja
 - exif
 - grafika
 - firefox

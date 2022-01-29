@@ -11,6 +11,7 @@ tags:
 - bateria
 - kamera
 - mikrofon
+- lokalizacja
 - gps
 - prywatność
 - aplikacje
