@@ -102,6 +102,40 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/">Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)</a></h1>
+	<div class="entry__content"><p>Parę dni temu <a href="https://forum.dug.net.pl/viewtopic.php?id=31514">na forum dug.net.pl pojawiło się zapytanie</a> dotyczące skonfigurowania linux'a w
+taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN,
+podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego
+ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć
+też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba
+zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel
+przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma
+przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i
+na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń
+czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów
+konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w
+zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować
+filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko
+odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe
+będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje
+jednak sposób, by nauczyć linux'a aby tylko procesy określonych użytkowników czy grup miały dostęp
+do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze
+standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy <code>iptables</code> / <code>nftables</code> ,
+tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-09-02T18:36:00&#43;02:00">Opublikowano: 02/09/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wlaczyc-stabilne-adresy-prywatne-w-ipv6-na-linux/">Jak włączyć stabilne adresy prywatne w IPv6 na linux</a></h1>
 	<div class="entry__content"><p>Jakiś już czas temu opisywałem <a href="https://morfikov.github.io/post/jak-wlaczyc-ipv6-privacy-extensions-w-debianie-slaac/">jak włączyć rozszerzenia prywatności IPv6 na Debianie</a> (IPv6
 Privacy Extensions) w przypadku korzystania z mechanizmu automatycznej konfiguracji adresacji
@@ -342,34 +376,6 @@ SSL/TLS. Do tego celu służy <a href="https://www.stunnel.org/index.html">narz�
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-skonfigurowac-klienta-vpn-na-routerze-z-openwrt/">Jak skonfigurować klienta VPN na routerze z OpenWRT</a></h1>
-	<div class="entry__content"><p>Ostatnio pisałem trochę o <a href="https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">konfiguracji serwera VPN na Debianie</a> oraz podłączaniu do niego
-różnych linux'owych klientów, w tym też <a href="https://morfikov.github.io/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/">smartfonów wyposażonych w system Android</a>. O ile
-konfiguracja pojedynczego klienta OpenVPN nie jest jakoś szczególnie trudna, to mając w swojej sieci
-domowej kilka urządzeń zdolnych łączyć się z internetem zarówno przewodowo jak i bezprzewodowo, to
-dostosowanie konfiguracji na każdym z tych sprzętów może być ździebko problematyczne. To co łączy te
-wszystkie urządzenia w naszym domu, to router WiFi. Zwykle każdy komputer, nawet ten najmniejszy,
-łączy się z takim routerem w celu nawiązania połączenia ze światem. Dlatego też zamiast
-konfigurować osobno wszystkie te urządzenia elektroniczne, możemy skonfigurować sobie router w taki
-sposób, by cały zebrany ruch z sieci lokalnej przesłał do serwera VPN. Standardowej klasy routery
-nie wspierają połączeń VPN i by taki mechanizm zaimplementować potrzebne nam będzie alternatywne
-firmware pokroju LEDE/OpenWRT. W tym artykule postaramy się skonfigurować połączenie VPN dla sieci
-domowej w oparciu o <a href="http://www.tp-link.com.pl/products/details/Archer-C2600.html">router Archer C2600</a> od TP-LINK, który ma wgrany najnowszy snapshot LEDE
-Chaos Calmer (r2392).</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2016-12-08T18:13:41&#43;01:00">Opublikowano: 08/12/2016</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
 	</span>
 </span>
 	</div>

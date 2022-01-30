@@ -102,6 +102,33 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zmiana-adresu-mac-bssid-routera-wifi-w-openwrt/">Zmiana adresu MAC (BSSID) routera WiFi w OpenWRT</a></h1>
+	<div class="entry__content"><p>Pisząc ostatnio artykuł o tym <a href="https://morfikov.github.io/post/jak-ukryc-nazwe-sieci-wifi-essid-przed-wigle-net-google-mozilla/">jak uchronić nasz prywatny punkt dostępu do sieci WiFi przed
+zmapowaniem</a> i umieszczeniem jego fizycznej lokalizacji w serwisach pokroju Wigle.net czy też w
+usługach Google/Mozilla, poruszony został temat ewentualnego usuwania wpisów z takich baz danych AP
+za sprawą dopisywania do nazwy sieci (ESSID) sufiksu <code>_nomap</code> . Nie wszystkie organizacje/firmy
+respektują naszą prywatność i raczej też nie będą tej końcówki w nazwie sieci honorować. Jako, że
+jednym z dwóch parametrów, na podstawie których takie mapowanie punktów dostępowych się odbywa,
+jest adres MAC interfejsu bezprzewodowego danego AP (BSSID), to możemy od czasu do czasu pokusić
+się o zmianę tego adresu. Jest to mniej więcej to samo rozwiązanie, co zastosowane przy <a href="https://morfikov.github.io/post/jak-sklonowac-adres-mac-w-openwrt/">klonowaniu
+adresu MAC dla portu WAN routera</a>, które z reguły użytkownicy wykorzystują do obchodzenia
+zabezpieczeń tych bardziej wrednych ISP. Jako, że temat zmiany BSSID trochę się różni od zmiany
+adresu MAC dla portu WAN, to w niniejszym artykule postanowiłem opisać jak w routerze z wgranym
+firmware OpenWRT podejść do tego zadania.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2022-01-30T20:23:00&#43;01:00">Opublikowano: 30/01/2022</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-ukryc-nazwe-sieci-wifi-essid-przed-wigle-net-google-mozilla/">Jak ukryć nazwę sieci WiFi (ESSID) przed Wigle.net/Google/Mozilla</a></h1>
 	<div class="entry__content"><p>Parę dni temu napisał do mnie megabajt z forum DUG z wiadomością, że nazwa mojego WiFi figuruje w
 bazie danych serwisu <a href="https://wigle.net/">Wigle.net</a> oraz, że lepiej nie zdradzać nazw swoich WiFi osobom trzecim,
@@ -119,6 +146,7 @@ danych Google/Mozilla czy też wspomnianego wyżej serwisu Wigle.net, o ile oczy
 życzymy.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2022-01-29T17:12:00&#43;01:00">Opublikowano: 29/01/2022</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2022-01-30T19:53:00&#43;01:00">Zaktualizowano: 30/01/2022</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -349,44 +377,15 @@ bardziej się jej przyjrzeć i dokładnie opisać jej właściwości.</p></div>
 </article>
 				</div>
 			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/udostepnianie-lte-3g-ze-smartfona-przez-router-openwrt-tethering/">Udostępnianie LTE/3G ze smartfona przez router OpenWRT (tethering)</a></h1>
-	<div class="entry__content"><p>Przeglądając <a href="http://eko.one.pl/forum/viewtopic.php?pid=175547">forum eko.one.pl natrafiłem ciekawy
-problem</a>, nad którym też się zastanawiałem jakiś
-czas temu. Chodzi o udostępnienie internetu komórkowego (LTE/3G) komputerom w domowej sieci za
-pomocą smartfona (tzw. <a href="https://pl.wikipedia.org/wiki/Tethering">tethering</a>). W takiej sytuacji, w
-przypadku problemów z lokalnym dostawcą internetu moglibyśmy przepiąć wszystkie komputery na
-internet świadczony przez operatora GSM, z którego korzystamy. Z reguły standardowy firmware
-routerów WiFi nie pozwala na tego typu rozwiązania. Niemniej jednak, mając do dyspozycji router z
-OpenWRT można spróbować połączyć go z naszym smartfonem udostępniając sieci lokalnej internet
-LTE/3G. W tym artykule zostanie przedstawione tego typu rozwiązanie przy wykorzystaniu <a href="http://www.tp-link.com.pl/en/products/details/cat-9_Archer-C7.html">routera
-Archer C7</a> v2 od TP-LINK oraz
-<a href="http://www.neffos.com/en/product/details/C5">smartfona Neffos C5</a>, również od TP-LINK. Na routerze
-zaś jest wgrana najnowsza stabilna wersja OpenWRT (Chaos Calmer). Sprawdzimy sobie jak takie
-rozwiązanie wygląda oraz sprawuje się w praktyce i czy jest ono w ogóle godne jakiegoś większego
-zainteresowania.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2016-11-01T18:14:53Z">Opublikowano: 01/11/2016</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
 		</div>
 	</main>
 	
 <div class="pagination block">
-				<span class="pagination__item pagination__item--active" data-total="8">1</span>
+				<span class="pagination__item pagination__item--active" data-total="9">1</span>
 				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/router/page/2/">2</a>
 				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/router/page/3/">3</a>
 			<span class="pagination__item pagination__item--gap">&hellip;</span>
-				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/router/page/8/">8</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/tags/router/page/9/">9</a>
 </div>
 
 	</div>

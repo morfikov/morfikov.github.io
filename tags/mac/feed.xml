@@ -6,7 +6,28 @@
     <description>Recent content in mac on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Fri, 15 Oct 2021 19:46:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/mac/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Jan 2022 20:23:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/mac/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Zmiana adresu MAC (BSSID) routera WiFi w OpenWRT</title>
+      <link>https://morfikov.github.io/post/zmiana-adresu-mac-bssid-routera-wifi-w-openwrt/</link>
+      <pubDate>Sun, 30 Jan 2022 20:23:00 +0100</pubDate>
+      
+      <guid>https://morfikov.github.io/post/zmiana-adresu-mac-bssid-routera-wifi-w-openwrt/</guid>
+      <description>&lt;p&gt;Pisząc ostatnio artykuł o tym &lt;a href=&#34;https://morfikov.github.io/post/jak-ukryc-nazwe-sieci-wifi-essid-przed-wigle-net-google-mozilla/&#34;&gt;jak uchronić nasz prywatny punkt dostępu do sieci WiFi przed
+zmapowaniem&lt;/a&gt; i umieszczeniem jego fizycznej lokalizacji w serwisach pokroju Wigle.net czy też w
+usługach Google/Mozilla, poruszony został temat ewentualnego usuwania wpisów z takich baz danych AP
+za sprawą dopisywania do nazwy sieci (ESSID) sufiksu &lt;code&gt;_nomap&lt;/code&gt; . Nie wszystkie organizacje/firmy
+respektują naszą prywatność i raczej też nie będą tej końcówki w nazwie sieci honorować. Jako, że
+jednym z dwóch parametrów, na podstawie których takie mapowanie punktów dostępowych się odbywa,
+jest adres MAC interfejsu bezprzewodowego danego AP (BSSID), to możemy od czasu do czasu pokusić
+się o zmianę tego adresu. Jest to mniej więcej to samo rozwiązanie, co zastosowane przy &lt;a href=&#34;https://morfikov.github.io/post/jak-sklonowac-adres-mac-w-openwrt/&#34;&gt;klonowaniu
+adresu MAC dla portu WAN routera&lt;/a&gt;, które z reguły użytkownicy wykorzystują do obchodzenia
+zabezpieczeń tych bardziej wrednych ISP. Jako, że temat zmiany BSSID trochę się różni od zmiany
+adresu MAC dla portu WAN, to w niniejszym artykule postanowiłem opisać jak w routerze z wgranym
+firmware OpenWRT podejść do tego zadania.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Randomizacja adresów MAC WiFi w smartfonie z Androidem</title>
@@ -71,21 +92,22 @@ zadanie postaramy się zrealizować w tym artykule.&lt;/p&gt;</description>
 	  <author>Mikhail Morfikov</author>
       <title>Jak sklonować adres MAC w OpenWRT</title>
       <link>https://morfikov.github.io/post/jak-sklonowac-adres-mac-w-openwrt/</link>
-      <pubDate>Mon, 02 May 2016 17:25:31 +0000</pubDate>
+      <pubDate>Mon, 02 May 2016 15:25:31 +0200</pubDate>
       
       <guid>https://morfikov.github.io/post/jak-sklonowac-adres-mac-w-openwrt/</guid>
-      <description>&lt;p&gt;Każde urządzenie sieciowe ma inny &lt;a href=&#34;https://pl.wikipedia.org/wiki/Adres_MAC&#34;&gt;adres MAC&lt;/a&gt;. Jest to
-numer, który identyfikuje je w strukturze sieci. Gdy zachodzi potrzeba rozbudowania sieci domowej,
-możemy napotkać problemy z naszym obecnym ISP. Załóżmy, że posiadaliśmy do tej pory jeden komputer,
-który był wpięty bezpośrednio do łącza ISP. Jeśli dokupiliśmy router i podłączymy go w miejsce
-komputera, to urządzenie, które widzi nasz provider, ulega zmianie. Konkretnie, to nie ma znaczenia
-samo urządzenie. Liczy się jedynie adres MAC. Providerzy internetowi mają powiązane adresy MAC z
-adresami IP i nowo wpięty router nie otrzyma adresu IP, bo ma nieautoryzowany MAC. W takiej sytuacji
-zwykle wystarczy telefon do ISP z prośbą przepisanie adresu. Niemniej jednak, czasami ISP każą sobie
-dodatkowo płacić za tę czynność. Jeśli jesteśmy postawieni w takiej sytuacji, to możemy sklonować
-sobie adres MAC tej maszyny, którą wcześniej widział nasz provider internetowy. Z jego perspektywy
-nic się nie zmieni, a my będziemy mogli sobie rozdzielić sygnał na tyle komputerów, ile tylko
-chcemy. W tym wpisie zobaczymy jak pod OpenWRT przeprowadzić klonowanie adresu MAC.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Każde urządzenie sieciowe ma przypisany jakiś &lt;a href=&#34;https://pl.wikipedia.org/wiki/Adres_MAC&#34;&gt;adres MAC&lt;/a&gt;. Jest to numer, który identyfikuje je
+w strukturze sieci. Gdy zachodzi potrzeba rozbudowania sieci domowej, możemy napotkać problemy z
+naszym obecnym ISP. Załóżmy, że posiadaliśmy do tej pory jeden komputer, który był wpięty
+bezpośrednio do łącza ISP. Jeśli dokupiliśmy router i podłączymy go w miejsce komputera, to
+urządzenie, które widzi nasz provider, ulega zmianie. W takim przypadku nie ma znaczenia samo
+urządzenie, a liczy się jedynie zmiana adresu MAC. Providerzy internetowi mają powiązane adresy MAC
+z adresami IP i nowo wpięty router nie otrzyma adresu IP, bo ma nieautoryzowany MAC. W takiej
+sytuacji zwykle wystarczy telefon do ISP z prośbą o aktualizację tego adresu. Niemniej jednak,
+czasami ISP każą sobie dodatkowo płacić za tę czynność. Jeśli jesteśmy postawieni w takiej sytuacji,
+to możemy sklonować sobie adres MAC tej maszyny, którą wcześniej widział nasz ISP. Z jego
+perspektywy nic się nie zmieni, a my będziemy mogli sobie rozdzielić sygnał na tyle komputerów, ile
+tylko chcemy, nie ponosząc przy tym dodatkowych opłat. W niniejszym artykule zostanie opisany
+sposób na przeprowadzenie klonowania adresu MAC na routerze z wgranym firmware OpenWRT.&lt;/p&gt;</description>
     </item>
     
     <item>
