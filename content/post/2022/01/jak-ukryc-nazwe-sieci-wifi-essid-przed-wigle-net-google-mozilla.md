@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - OpenWRT
 date:    2022-01-29 17:12:00 +0100
-lastmod: 2022-01-29 17:12:00 +0100
+lastmod: 2022-01-30 19:53:00 +0100
 published: true
 status: publish
 tags:
@@ -109,6 +109,15 @@ wystarczy w pliku `/etc/config/wireless` dopisać parametr `hidden '1'` w zwrotk
         option hidden '1'
         ...
 
+### Zmiana adresu MAC (BSSID) routera WiFi
+
+Z racji, że do baz danych AP dodawane są informacje na temat BSSID, to możemy pokusić się o
+[przepisanie adresu MAC bezprzewodowego interfejsu routera][9], który odpowiada także za BSSID tej
+sieci WiFi. Niemniej jednak, trzeba pamiętać, że zmiana BSSID bez zmiany nazwy sieci (ESSID) raczej
+zbyt wiele nam nie da w kwestii ukrycia położenia naszego routera, zwłaszcza jeśli zamierzamy
+pozostać w tej samej fizycznej lokalizacji. Nazwa sieci i/lub BSSID powinny być zmieniane za każdym
+razem, gdy przeprowadzamy się do nowego domu lub w inny sposób zmieniamy miejsce swojego pobytu.
+
 ## Co robić, gdy nasz AP figuruje w bazie Wigle.net/Google/Mozilla
 
 Odwiedzając serwis Wigle.net i podając w nim ESSID i/lub BSSID, możemy zweryfikować czy AP naszej
@@ -149,3 +158,4 @@ czy nawet ukrywanie sieci i będą mapować punkty dostępu pomimo naszego wyra�
 [6]: /post/pozorowanie-lokalizacji-gps-w-androidzie-mock-location/
 [7]: https://developers.google.com/maps/documentation/geolocation/overview
 [8]: https://en.wikipedia.org/wiki/Network_cloaking
+[9]: /post/zmiana-adresu-mac-bssid-routera-wifi-w-openwrt/
