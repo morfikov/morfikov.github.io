@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Rekalibracja baterii w laptopach Lenovo ThinkPad pod linux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Rekalibracja baterii w laptopach Lenovo ThinkPad pod linux" />
+<meta property="og:description" content="Jakiś już czas temu opisywałem temat konfiguracji progów ładowania baterii w laptopie Lenovo
+ThinkPad T430, tak by przedłużyć parokrotnie jej żywotność. Niemniej jednak, ustawienie na
+dłuższy czas progów 30-40% nie pozostaje bez wpływu na pracę maszyny. Może i same baterie
+litowo-jonowe nie posiadają efektu pamięci ale elektronika, która tymi bateriami zarządza, już tę
+pamięć może posiadać. Chodzi generalnie o to, że brak pełnych cyklów baterii (rozładowanie do 0% i
+ładowanie do 100%) może powodować różne błędy w ocenie ile faktycznie tego ładunku w takim
+akumulatorze pozostało. Efektem tych błędów są wskazania sugerujące, że nasz laptop może jeszcze
+popracować, np. 20-30 minut dłużej, gdy stan faktyczny na to nie pozwala, co skończyć może się
+utratą niezapisanych danych w skutek nagłego odcięcia zasilania. Dlatego też jeśli wykorzystujemy
+jedynie pewien zakres pojemności baterii w laptopie, to co pewien czas (co 30-50 takich niepełnych
+cykli albo raz na 2 miesiące) przydałoby się przeprowadzić w laptopie proces rekalibracji baterii
+(a raczej rekalibrację jej kontrolera/elektroniki), tak by ewentualne straty pojemności zostały
+uwzględnione w szacunkach systemu. Zabieg rekalibracji baterii można bez większego problemu
+przeprowadzić z poziomu dowolnej dystrybucji linux&#39;a, np. Debian/Ubuntu, i tym zagadnieniem się
+zajmiemy w niniejszym artykule." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/rekalibracja-baterii-w-laptopach-lenovo-thinkpad-pod-linux/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-02-01T18:09:00+01:00" />
+<meta property="article:modified_time" content="2022-02-01T18:09:00+01:00" />
+
+
+		<meta itemprop="name" content="Rekalibracja baterii w laptopach Lenovo ThinkPad pod linux">
+<meta itemprop="description" content="Jakiś już czas temu opisywałem temat konfiguracji progów ładowania baterii w laptopie Lenovo
+ThinkPad T430, tak by przedłużyć parokrotnie jej żywotność. Niemniej jednak, ustawienie na
+dłuższy czas progów 30-40% nie pozostaje bez wpływu na pracę maszyny. Może i same baterie
+litowo-jonowe nie posiadają efektu pamięci ale elektronika, która tymi bateriami zarządza, już tę
+pamięć może posiadać. Chodzi generalnie o to, że brak pełnych cyklów baterii (rozładowanie do 0% i
+ładowanie do 100%) może powodować różne błędy w ocenie ile faktycznie tego ładunku w takim
+akumulatorze pozostało. Efektem tych błędów są wskazania sugerujące, że nasz laptop może jeszcze
+popracować, np. 20-30 minut dłużej, gdy stan faktyczny na to nie pozwala, co skończyć może się
+utratą niezapisanych danych w skutek nagłego odcięcia zasilania. Dlatego też jeśli wykorzystujemy
+jedynie pewien zakres pojemności baterii w laptopie, to co pewien czas (co 30-50 takich niepełnych
+cykli albo raz na 2 miesiące) przydałoby się przeprowadzić w laptopie proces rekalibracji baterii
+(a raczej rekalibrację jej kontrolera/elektroniki), tak by ewentualne straty pojemności zostały
+uwzględnione w szacunkach systemu. Zabieg rekalibracji baterii można bez większego problemu
+przeprowadzić z poziomu dowolnej dystrybucji linux&#39;a, np. Debian/Ubuntu, i tym zagadnieniem się
+zajmiemy w niniejszym artykule."><meta itemprop="datePublished" content="2022-02-01T18:09:00+01:00" />
+<meta itemprop="dateModified" content="2022-02-01T18:09:00+01:00" />
+<meta itemprop="wordCount" content="1808">
+<meta itemprop="keywords" content="debian,bateria,akumulator,laptop,thinkpad,lenovo,t430," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Rekalibracja baterii w laptopach Lenovo ThinkPad pod linux"/>
+<meta name="twitter:description" content="Jakiś już czas temu opisywałem temat konfiguracji progów ładowania baterii w laptopie Lenovo
+ThinkPad T430, tak by przedłużyć parokrotnie jej żywotność. Niemniej jednak, ustawienie na
+dłuższy czas progów 30-40% nie pozostaje bez wpływu na pracę maszyny. Może i same baterie
+litowo-jonowe nie posiadają efektu pamięci ale elektronika, która tymi bateriami zarządza, już tę
+pamięć może posiadać. Chodzi generalnie o to, że brak pełnych cyklów baterii (rozładowanie do 0% i
+ładowanie do 100%) może powodować różne błędy w ocenie ile faktycznie tego ładunku w takim
+akumulatorze pozostało. Efektem tych błędów są wskazania sugerujące, że nasz laptop może jeszcze
+popracować, np. 20-30 minut dłużej, gdy stan faktyczny na to nie pozwala, co skończyć może się
+utratą niezapisanych danych w skutek nagłego odcięcia zasilania. Dlatego też jeśli wykorzystujemy
+jedynie pewien zakres pojemności baterii w laptopie, to co pewien czas (co 30-50 takich niepełnych
+cykli albo raz na 2 miesiące) przydałoby się przeprowadzić w laptopie proces rekalibracji baterii
+(a raczej rekalibrację jej kontrolera/elektroniki), tak by ewentualne straty pojemności zostały
+uwzględnione w szacunkach systemu. Zabieg rekalibracji baterii można bez większego problemu
+przeprowadzić z poziomu dowolnej dystrybucji linux&#39;a, np. Debian/Ubuntu, i tym zagadnieniem się
+zajmiemy w niniejszym artykule."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Rekalibracja baterii w laptopach Lenovo ThinkPad pod linux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2022-02-01T18:09:00&#43;01:00">Opublikowano: 01/02/2022</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Rekalibracja baterii w laptopach Lenovo ThinkPad pod linux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#prymitywne-podejście-do-rekalibracji-baterii">Prymitywne podejście do rekalibracji baterii</a>
+      <ol>
+        <li><a href="#problematyczne-osiągnięcie-0-na-akumulatorze">Problematyczne osiągnięcie 0% na akumulatorze</a></li>
+      </ol>
+    </li>
+    <li><a href="#rekalibracja-baterii-za-sprawą-tlp">Rekalibracja baterii za sprawą TLP</a>
+      <ol>
+        <li><a href="#tlp-v15-i-patch-na-kernel">TLP v1.5 i patch na kernel</a></li>
+        <li><a href="#tlp-w-akcji">TLP w akcji</a></li>
+        <li><a href="#co-się-stanie-gdy-bateria-osiągnie-0">Co się stanie gdy bateria osiągnie 0%</a></li>
+        <li><a href="#nieoczekiwany-spadek-poziomu-naładowania-o-x">Nieoczekiwany spadek poziomu naładowania o x%</a></li>
+      </ol>
+    </li>
+    <li><a href="#ocena-stanu-baterii-po-rekalibracji">Ocena stanu baterii po rekalibracji</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Jakiś już czas temu opisywałem temat <a href="https://morfikov.github.io/post/jak-ograniczyc-ladowanie-baterii-w-laptopie-thinkpad-t430/">konfiguracji progów ładowania baterii w laptopie Lenovo
+ThinkPad T430</a>, tak by przedłużyć parokrotnie jej żywotność. Niemniej jednak, ustawienie na
+dłuższy czas progów 30-40% nie pozostaje bez wpływu na pracę maszyny. Może i same baterie
+litowo-jonowe nie posiadają efektu pamięci ale elektronika, która tymi bateriami zarządza, już tę
+pamięć może posiadać. Chodzi generalnie o to, że brak pełnych cyklów baterii (rozładowanie do 0% i
+ładowanie do 100%) może powodować różne błędy w ocenie ile faktycznie tego ładunku w takim
+akumulatorze pozostało. Efektem tych błędów są wskazania sugerujące, że nasz laptop może jeszcze
+popracować, np. 20-30 minut dłużej, gdy stan faktyczny na to nie pozwala, co skończyć może się
+utratą niezapisanych danych w skutek nagłego odcięcia zasilania. Dlatego też jeśli wykorzystujemy
+jedynie pewien zakres pojemności baterii w laptopie, to co pewien czas (co 30-50 takich niepełnych
+cykli albo raz na 2 miesiące) przydałoby się przeprowadzić w laptopie proces rekalibracji baterii
+(a raczej rekalibrację jej kontrolera/elektroniki), tak by ewentualne straty pojemności zostały
+uwzględnione w szacunkach systemu. Zabieg rekalibracji baterii można bez większego problemu
+przeprowadzić z poziomu dowolnej dystrybucji linux'a, np. Debian/Ubuntu, i tym zagadnieniem się
+zajmiemy w niniejszym artykule.</p>
+<h2 id="prymitywne-podejście-do-rekalibracji-baterii">Prymitywne podejście do rekalibracji baterii</h2>
+<p>Jako, że proces rekalibracji baterii nie wymaga zbytniego zaangażowania z naszej strony, to nie
+potrzeba do jego przeprowadzenia żadnych zaawansowanych narzędzi. Wszystko co musimy zrobić, to
+zmienić progi ładowania (jeśli je wcześniej oczywiście ustawiliśmy), tak by wartości wskazywały na
+0-100%, przykładowo:</p>
+<pre><code># echo 0 &gt; /sys/class/power_supply/BAT0/charge_start_threshold
+# echo 100 &gt; /sys/class/power_supply/BAT0/charge_stop_threshold
+</code></pre>
+<p>Po zmianie wartości progów ładowania, trzeba doładować baterię do 100%. Jak tylko akumulator
+zostanie podładowany do 100%, odłączamy zewnętrzne zasilanie i czekamy aż poziom baterii spadnie do
+0%, po czym ponownie ładujemy baterię do 100%.</p>
+<p>Te opisane wyżej kroki są niezbędne, by odczyt poziomu naładowania (State of Charge, SoC) był
+akuratny. Chodzi o to, że w kontrolerze baterii zostaną sprecyzowane nowe wartości dla stanu
+pełnego naładowania i pełnego rozładowania akumulatora.</p>
+<h3 id="problematyczne-osiągnięcie-0-na-akumulatorze">Problematyczne osiągnięcie 0% na akumulatorze</h3>
+<p>Przeprowadzenie procesu rekalibracji baterii w opisany powyżej sposób ma jedną zasadniczą wadę.
+Jeśli poziom naładowania baterii spadnie nam do 0%, to laptop nam się wyłączy, co może nieść ze
+sobą poważne skutki, np. rozsypanie się systemu plików wskutek nagłej utraty zasilania. Oczywiście
+można powyłączać zbędne aplikacje i przemontować systemy plików wszystkich partycji w tryb tylko do
+odczytu. Niemniej jednak, wciąż pozostają aktywne pewne mechanizmy mające na celu monitorowanie
+stanu akumulatora i podejmowanie stosownych akcji, gdy ten stan jest zbyt niski. Tutaj też można te
+usługi powyłączać ale właśnie w tym tkwi cały problem, tj. by przeprowadzić proces rekalibracji
+baterii w laptopie, użytkownik musi się zatroszczyć o całą masę rzeczy, czego zwykle mu się robić
+nie chce.</p>
+<h2 id="rekalibracja-baterii-za-sprawą-tlp">Rekalibracja baterii za sprawą TLP</h2>
+<p>W Debianie od dłuższego czasu dostępne jest <a href="https://linrunner.de/tlp/introduction.html">narzędzie TLP</a>, które ma na celu zatroszczyć się o
+żywotność baterii w laptopie. W zasadzie nie korzystałem z tego oprogramowania, bo u siebie
+potrzebowałem skonfigurować jedynie progi ładowania, które to można ustawić z powodzeniem także i
+ręcznie. Niemniej jednak, TLP w wersji 1.5 zyskał bardzo ciekawą cechę, a jest nią rekalibracja
+baterii w laptopach Lenovo ThinkPad, które korzystają ze sterownika <code>thinkpad_acpi</code> (standardowo
+obecny w jądrze linux'a). Wcześniejsze wersje TLP również oferowały rekalibrację baterii ale trzeba
+było własnoręcznie kompilować <a href="https://github.com/mkottman/acpi_call">zewnętrzny moduł kernela acpi_call</a>, co było trochę upierdliwe,
+nie wspominając już o tym, że ten moduł od prawie dekady nie miał żadnej aktualizacji.</p>
+<h3 id="tlp-v15-i-patch-na-kernel">TLP v1.5 i patch na kernel</h3>
+<p>Póki co, w Debianie pakiet <code>tlp</code> dostępny jest jedynie w starszej wersji 1.4 i by móc przeprowadzić
+proces rekalibracji baterii bez potrzeby instalowania zewnętrznych modułów kernela, trzeba będzie
+albo poczekać, aż ta nowsza wersja trafi do repozytorium Debiana, albo możemy sobie <a href="https://morfikov.github.io/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">paczkę deb
+zbudować ręcznie</a>.</p>
+<p>Samo posiadanie TLP w wersji 1.5 to nie wszystko. Póki co, w najnowszym stabilnym kernelu, tj.
+5.16.4, nie ma jeszcze stosownego kodu, który by zapewniał możliwość przeprowadzenia procesu
+rekalibracji akumulatora przy wykorzystaniu modułu <code>thinkpad_acpi</code> (prawdopodobnie będzie w 5.17).
+Potrzebny zatem będzie nam <a href="https://patchwork.kernel.org/project/platform-driver-x86/cover/20211123232704.25394-1-linux@weissschuh.net/">stosowny patch</a>, przez co bez <a href="https://morfikov.github.io/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/">rekompilacji kernela</a> się nie
+obejdzie.</p>
+<h3 id="tlp-w-akcji">TLP w akcji</h3>
+<p>Zakładając, że udało nam się przezwyciężyć przeciwności i mamy TLP w wersji 1.5, a w kernelu linux'a
+znalazł się stosowny kod, możemy przejść do przeprowadzenia procesu rekalibracji baterii w naszym
+laptopie.</p>
+<p>Przede wszystkim zweryfikujmy, czy wszystko mamy na swoim miejscu. Odpalamy zatem <code>tlp-stat</code> i
+patrzymy na zwrotkę z <code>Battery Care</code> :</p>
+<pre><code># tlp-stat -b
+--- TLP 1.5.0 --------------------------------------------
+
++++ Battery Care
+Plugin: thinkpad
+Supported features: charge thresholds, recalibration
+Driver usage:
+* natacpi (thinkpad_acpi) = active (charge thresholds, recalibration)
+Parameter value ranges:
+* START_CHARGE_THRESH_BAT0/1:  0(off)..96(default)..99
+* STOP_CHARGE_THRESH_BAT0/1:   1..100(default)
+...
+</code></pre>
+<p>Jak widzimy wyżej, w przypadku mojego laptopa Lenovo ThinkPad T430 użyty został plugin <code>thinkpad</code> .
+Widzimy też, że mamy wsparcie dla progów ładowania ( <code>charge thresholds</code> ) oraz również dla
+rekalibracji baterii ( <code>recalibration</code> ).</p>
+<p>Ładujemy zatem baterię laptopa do 100%. Po naładowaniu baterii do pełna nie odłączamy zasilania
+sieciowego. Następnie w terminalu jako root wpisujemy polecenie <code>tlp recalibrate</code> podając w jego
+argumencie tę baterię, którą zamierzamy skalibrować. Jeśli nie wiemy jaki numerek ma bateria, którą
+chcemy poddać rekalibracji, to zawsze możemy ten fakt ustalić przy pomocy <code>upower</code> :</p>
+<pre><code>$ upower -e | grep BAT
+/org/freedesktop/UPower/devices/battery_BAT0
+
+# tlp recalibrate BAT0
+Setting temporary charge thresholds for BAT0:
+  stop  = 100
+  start =  96
+Initiating discharge of battery BAT0
+
+Currently discharging battery BAT0:
+voltage            =  10840 [mV]
+remaining capacity =  19870 [mWh]
+remaining percent  =    100 [%]
+remaining time     =     89 [min]
+power              =  13315 [mW]
+state              = Discharging
+force-discharge    = 1
+Press Ctrl+C to cancel.
+...
+</code></pre>
+<p>Wartym odnotowania tutaj jest fakt, że bateria ulega rozładowaniu ale przewód zasilający laptopa
+jest cały czas podłączony. By uzyskać jak najlepsze wyniki, nie powinniśmy zbytnio obciążać maszyny
+podczas procesu rekalibracji, tj. przydałoby się ograniczyć zużycie przez nią energii do minimum,
+np. wyłączając monitor, czy przełączając kill-switch od WiFi/BT.</p>
+<h3 id="co-się-stanie-gdy-bateria-osiągnie-0">Co się stanie gdy bateria osiągnie 0%</h3>
+<p>Przy prymitywnym procesie rekalibracji, gdy bateria osiągnęła stan naładowania 0%, to laptop nam
+się wyłączał. W przypadku TLP, po osiągnięciu przez baterię stanu pełnego rozładowania, komputer
+nam się nie wyłączy.</p>
+<p>Mierząc pobór prądu podczas procesu rekalibracji z poziomu gniazdka sieciowego, do którego wpięty
+był laptop, można było zauważyć, że laptop pobierał około 17W. Po wpisaniu tego powyższego
+polecenia, zużycie prądu nie spadło do 0W, a do 5W (sam zasilacz w zasadzie nie pobiera prądu, od
+czasu do czasu wskazania na mierniku pokazywały od 0,2W do 0,4W). Zatem komputer nie zaprzestał
+pobierania energii z sieci elektrycznej, a jedynie ten pobór dość mocno ograniczył. Gdy poziom
+baterii był już w zasadzie na 0%, system przełączył się na zasilanie z sieci i pobór prądu wzrósł
+natychmiast do 55W.</p>
+<h3 id="nieoczekiwany-spadek-poziomu-naładowania-o-x">Nieoczekiwany spadek poziomu naładowania o x%</h3>
+<p>Podczas procesu rozładowywania baterii nie było większych niespodzianek. Bateria rozładowywała się
+przez około 69 minut. Pod koniec zaś, gdy stan naładowania akumulatora wskazywał około 16%,
+nastąpiło obniżenie się tego stanu z 16% do 5%, co zostało też odnotowane w logu:</p>
+<pre><code>...
+Currently discharging battery BAT0:
+voltage            =  10142 [mV]
+remaining capacity =   3270 [mWh]
+remaining percent  =     16 [%]
+remaining time     =     15 [min]
+power              =  12778 [mW]
+state              = Discharging
+force-discharge    = 1
+Press Ctrl+C to cancel.
+Currently discharging battery BAT0:
+voltage            =  10167 [mV]
+remaining capacity =   3230 [mWh]
+remaining percent  =     16 [%]
+remaining time     =     15 [min]
+power              =  12810 [mW]
+state              = Discharging
+force-discharge    = 1
+--------------------------------------
+Press Ctrl+C to cancel.
+Currently discharging battery BAT0:
+voltage            =  10081 [mV]
+remaining capacity =   1170 [mWh]
+remaining percent  =      5 [%]
+remaining time     =      5 [min]
+power              =  12722 [mW]
+state              = Discharging
+force-discharge    = 1
+Press Ctrl+C to cancel.
+Currently discharging battery BAT0:
+voltage            =   9865 [mV]
+remaining capacity =   1150 [mWh]
+remaining percent  =      5 [%]
+remaining time     =      5 [min]
+power              =  12627 [mW]
+state              = Discharging
+force-discharge    = 1
+...
+</code></pre>
+<p>Pobór energii z baterii był mniej więcej stały i jak widać wyżej, stan naładowania z pojemność
+3230 mWh w przeciągu jednego odświeżenia spadł do 1170 mWh, zatem ubytek jest na poziomie 2060 mWh.
+Trzeba jednak pamiętać, że mWh to nie to samo co mAh. Formuła do wyliczenia mAh z mWh to mWh/V=mAh.
+Zatem 2060/10=206 mAh.</p>
+<p>Sprawdziłem jak sprawa będzie wyglądać podczas ponownej rekalibracji i tutaj już spadek pojemności
+nastąpił z 10% (a nie z 16%) do 5%, tj. pojemność spadła o około 1030 mWh (103 mAh), a nie tak jak
+wcześniej o 2060 mWh.</p>
+<pre><code>...
+Currently discharging battery BAT0:
+voltage            =   9963 [mV]
+remaining capacity =   2180 [mWh]
+remaining percent  =     10 [%]
+remaining time     =      8 [min]
+power              =  15970 [mW]
+state              = Discharging
+force-discharge    = 1
+Press Ctrl+C to cancel.
+--------------------------------------
+Currently discharging battery BAT0:
+voltage            =  10208 [mV]
+remaining capacity =   1150 [mWh]
+remaining percent  =      5 [%]
+remaining time     =      4 [min]
+power              =  16363 [mW]
+state              = Discharging
+force-discharge    = 1
+...
+</code></pre>
+<p>Zatem jakoś ten poprzedni proces rekalibracji wpłynął na kontroler tej baterii. Być może trzeba by
+proces rekalibracji powtórzyć jeszcze z raz czy dwa, by tak by ten spadek pojemności pod koniec
+wyeliminować całkowicie, bo co by nie mówić ale przez te 2 lata użytkowania tego laptopa
+praktycznie nie przeprowadzany był żaden proces rekalibracji baterii i tak sobie ta maszyna na tych
+30-40% naładowania pracowała. Być może też wiek samej baterii się nieco tutaj dokłada, bo jakby
+nie patrzeć to ten akumulator ma już ponad 11 lat i nie był nigdy wymieniany.</p>
+<h2 id="ocena-stanu-baterii-po-rekalibracji">Ocena stanu baterii po rekalibracji</h2>
+<p>Po przeprowadzeniu procesu rekalibracji baterii, dobrze jest rzucić okiem na szacowany pomiar
+pojemności, który jest zwracany przez kontroler. Dane w ten sposób uzyskane porównujemy z
+wcześniejszymi odczytami.</p>
+<p>Informacje o aktualnym stanie baterii można wyciągnąć z <code>upower</code> . Przykładowo, gdy kupiłem tego
+laptopa, stan jego baterii prezentował się tak jak to widać poniżej:</p>
+<pre><code># upower /org/freedesktop/UPower/devices/battery_BAT0  -d
+...
+    energy-full:         19.94 Wh
+    energy-full-design:  56.16 Wh
+    capacity:            35.5057%
+...
+</code></pre>
+<p>Te powyższe wskazania zostały zarejestrowane chwilę po wprowadzeniu progów ładowania.</p>
+<p>Obecnie zaś, tj. prawie dwa lata później, te powyższe wartości (po przeprowadzonym procesie
+rekalibracji) wyglądają następująco:</p>
+<pre><code># upower /org/freedesktop/UPower/devices/battery_BAT0  -d
+...
+    energy-full:         19.87 Wh
+    energy-full-design:  56.16 Wh
+    capacity:            35.3811%
+...
+</code></pre>
+<p>Zatem ubytek pojemności, jaki nastąpił przez ten okres prawie dwóch lat, nie jest zbyt duży i jest
+to około 0,1246% fabrycznej pojemności akumulatora, tj. 7 mWh (albo 0,6 mAh). Oczywiście ta bateria
+i tak była już mocno wyjechana przed zakupem laptopa i jej pojemność była szacowana na zaledwie
+35,5% tej fabrycznej. Niemniej jednak, widać na żywym przykładzie, że progi ładowania dość mocno
+ograniczają degradację baterii w laptopie.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Przeprowadzanie procesu rekalibracji baterii w laptopie powinno mieć miejsce w sytuacjach, gdy nie
+wykorzystujemy całej dostępnej w takim akumulatorze energii. Jeśli potrzebę tego procesu
+zignorujemy, to z czasem szacowany przez kontroler czas pracy na baterii będzie na tyle odbiegał od
+stanu faktycznego, że przestaniemy na te odczyty w ogóle zwracać uwagę. Dlatego też by uniknąć
+nieporozumień, dobrze jest co około dwa miesiące przeprowadzić proces rekalibracji baterii, tak by
+jej kontroler zaktualizował sobie wartości dla maksymalnego i minimalnego stanu naładowania
+akumulatora, co z powodzeniem przełoży się na bardziej bliskie rzeczywistości wskazania i
+dokładniejsze szacunki pracy laptopa na baterii.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bateria/">bateria</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/akumulator/">akumulator</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/laptop/">laptop</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/thinkpad/">thinkpad</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lenovo/">lenovo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/t430/">t430</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2frekalibracja-baterii-w-laptopach-lenovo-thinkpad-pod-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frekalibracja-baterii-w-laptopach-lenovo-thinkpad-pod-linux%2f&amp;text=Rekalibracja%20baterii%20w%20laptopach%20Lenovo%20ThinkPad%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frekalibracja-baterii-w-laptopach-lenovo-thinkpad-pod-linux%2f&amp;title=Rekalibracja%20baterii%20w%20laptopach%20Lenovo%20ThinkPad%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frekalibracja-baterii-w-laptopach-lenovo-thinkpad-pod-linux%2f&amp;title=Rekalibracja%20baterii%20w%20laptopach%20Lenovo%20ThinkPad%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2frekalibracja-baterii-w-laptopach-lenovo-thinkpad-pod-linux%2f&title=Rekalibracja%20baterii%20w%20laptopach%20Lenovo%20ThinkPad%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frekalibracja-baterii-w-laptopach-lenovo-thinkpad-pod-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frekalibracja-baterii-w-laptopach-lenovo-thinkpad-pod-linux%2f&amp;title=Rekalibracja%20baterii%20w%20laptopach%20Lenovo%20ThinkPad%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2frekalibracja-baterii-w-laptopach-lenovo-thinkpad-pod-linux%2f&description=Rekalibracja%20baterii%20w%20laptopach%20Lenovo%20ThinkPad%20pod%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-ograniczyc-ladowanie-baterii-w-laptopie-thinkpad-t430/">Jak ograniczyć ładowanie baterii w laptopie ThinkPad T430</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/">Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/brak-bluetooth-w-thinkpad-t430/">Brak bluetooth w ThinkPad T430 (BCM20702A1)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/regulacja-obrotow-wentylatora-w-zaleznosci-od-zmian-temperatury-w-thinkpad-t430/">Regulacja obrotów wentylatora w zależności od zmian temperatury w ThinkPad T430</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kontrola-podswietlenia-klawiatury-via-udev-backlight/">Kontrola podświetlenia klawiatury via UDEV (backlight)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/energy-performance-bias-epb-i-jego-wplyw-na-wydajnosc-cpu-intela-pod-linux/">Energy Performance Bias (EPB) i jego wpływ na wydajność CPU Intela pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/recenzja-power-bank-tl-pbg6700-od-tp-link/">Recenzja: Power Bank TL-PBG6700 od TP-LINK</a></li>
+		
+	</ul>
+</div>
+
+	<div id="comments">
+		<script>
+  var id =  587 ;
+
+  if (id)
+  {
+    let url = "https://github.com/morfikov/morfitronik-comments/issues/".concat(id);
+    let api_url = "https://api.github.com/repos/morfikov/morfitronik-comments/issues/".concat(id, "/comments");
+
+    var commentsDiv = document.getElementById("comments");
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("GET", api_url);
+    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
+    xhr.send();
+
+    xhr.onload = function()
+    {
+      if (xhr.status != 200)
+      {
+        let errorText = document.createElement("p");
+        errorText.innerHTML = "<i>Komentarze dla tego postu nie zostały jeszcze otworzone (albo skrypty GitHub'a są wyłączone). Być może też skończył ci się przydział 60/godzinę (limit GitHub'a).</i>";
+        commentsDiv.appendChild(errorText);
+      }
+      else
+      {
+        let comments = xhr.response;
+
+        let mainHeader = document.createElement("h3");
+        mainHeader.innerHTML = "Komentarze: ".concat(comments.length);
+        commentsDiv.appendChild(mainHeader);
+
+        let issueLink = document.createElement("p");
+        issueLink.innerHTML = "<i>Możesz zostawić komentarz korzystając z <a href='".concat(url, "'>GitHub issue</a>.</i>");
+        commentsDiv.appendChild(issueLink);
+
+        comments.forEach(function(comment)
+        {
+			const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Europe/Warsaw' };
+			options.timeZoneName = 'short';
+            let commentContent = document.createElement("div");
+            commentContent.setAttribute('class', 'gh-comment')
+            commentContent.innerHTML = "".concat(
+                "<div class='gh-header'>",
+                  "<img src='", comment.user.avatar_url, "' />",
+                  "<div style='margin:auto 0;'>",
+                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
+                    " | <em>", (new Date(comment.created_at)).toLocaleTimeString('pl-PL', options), "</em>",
+                  "</div>",
+                "</div>",
+                "<div class='gh-body'>",
+                  comment.body_html,
+                "</div>"
+            );
+            commentsDiv.appendChild(commentContent);
+        });
+      }
+    };
+
+    xhr.onerror = function()
+    {
+      let errorText = document.createElement("p");
+      errorText.innerHTML = "<i>Wystąpił jakiś błąd przy ładowaniu komentarzy.</i>";
+      commentsDiv.appendChild(errorText);
+    };
+  }
+</script>
+
+	</div>
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2022 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<div class="license-icons">
+			<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons Attribution 4.0 International license">
+<i class="icon-cc"></i><i class="icon-cc-by"></i><i class="icon-cc-nc"></i><i class="icon-cc-sa"></i>
+</a>
+		</div>
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
+</body>
+</html>
