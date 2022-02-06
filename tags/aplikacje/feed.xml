@@ -6,7 +6,31 @@
     <description>Recent content in aplikacje on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Sat, 29 Jan 2022 17:12:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/aplikacje/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Feb 2022 17:52:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/aplikacje/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Tryb bezczynności baterii (IDLE mode) w smartfonach z Androidem</title>
+      <link>https://morfikov.github.io/post/tryb-bezczynnosci-baterii-idle-mode-w-smartfonach-z-androidem/</link>
+      <pubDate>Sun, 06 Feb 2022 17:52:00 +0100</pubDate>
+      
+      <guid>https://morfikov.github.io/post/tryb-bezczynnosci-baterii-idle-mode-w-smartfonach-z-androidem/</guid>
+      <description>&lt;p&gt;Gdy zapytamy użytkowników smartfonów z Androidem o to, czy taki sprzęt jest w stanie pracować z
+pominięciem układu baterii, zapewne wiele z tych osób odpowiedziałoby, że nie ma takiej opcji, bo
+przecież w tych telefonach od lat baterii się już nie da wyciągnąć. Nawet w tych starszych
+modelach, po wyjęciu baterii i podłączeniu ładowarki, system w takim urządzeniu nie chciał się
+uruchomić. Okazuje się jednak, że nie trzeba wyjmować akumulatora ze smartfona, by to urządzenie
+było w stanie działać z pominięciem układu baterii, tj. w tzw. trybie bezczynności baterii (battery
+IDLE mode), coś na wzór rozwiązania stosowanego od dekad w laptopach. Niemniej jednak, takiej
+funkcjonalności zwykle nie uświadczymy w stock&#39;owych Androidach. Możemy się jednak o nią postarać
+ale do tego celu niezbędne będzie nam uzyskanie praw administratora systemu root, choć lepiej wgrać
+sobie na smartfon ROM na bazie AOSP/LineageOS. Bez ukorzenionego Androida nie mamy nawet co
+podchodzić do implementacji tego mechanizmu. Dodatkowo będzie nam potrzebny &lt;a href=&#34;https://github.com/VR-25/acc&#34;&gt;zaawansowany kontroler
+ładowania baterii ACC&lt;/a&gt; (w postaci modułu do Magisk&#39;a) i opcjonalnie też &lt;a href=&#34;https://github.com/MatteCarra/AccA&#34;&gt;graficzna nakładka
+ACCA&lt;/a&gt; (do pobrania z F-Droid). W poniższym artykule postaramy się odpowiedzieć na pytanie czy
+takie rozwiązanie na bazie IDLE mode w przypadku baterii w smartfonach z Androidem ma w ogóle sens
+i czy może nam się ewentualnie do czegoś przydać.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Jak ukryć nazwę sieci WiFi (ESSID) przed Wigle.net/Google/Mozilla</title>
@@ -167,6 +191,30 @@ w zwykłych rozmowach telefonicznych na komórkę. Jako, że ten YACB jest bardz
 oprogramowania i do tego w pełni OpenSource (dostępnym w repozytorium F-Droid), to postanowiłem
 napisać o nim kilka słów, bo jest to wręcz nieocenione narzędzie w walce z wszelkim syfem pokroju
 różnych spamerów z call center.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Optymalizacja procesu ładowania baterii via ACC w smartfonie z Androidem</title>
+      <link>https://morfikov.github.io/post/optymalizacja-procesu-ladowania-baterii-via-acc-w-smartfonie-z-androidem/</link>
+      <pubDate>Fri, 03 Sep 2021 20:53:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/optymalizacja-procesu-ladowania-baterii-via-acc-w-smartfonie-z-androidem/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://morfikov.github.io/post/jak-wgrac-twrp-recovery-i-magisk-w-xiaomi-redmi-9-galahad-lancelot/&#34;&gt;Odblokowanie bootloader&#39;a&lt;/a&gt; w smartfonie Xiaomi Redmi 9 (Galahad/Lancelot) mamy już z głowy.
+Podobnie sprawa wygląda z &lt;a href=&#34;https://morfikov.github.io/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/&#34;&gt;wgrywaniem na partycję recovery obrazu TWRP&lt;/a&gt; i uzyskiwaniem praw
+administratora systemu root za sprawą Magisk&#39;a. Te dwa kluczowe procesy otworzyły nam drogę do
+nieco bardziej zaawansowanych prac jeśli chodzi o konfigurację samego urządzenia. W tym artykule
+nie będziemy się jeszcze bawić we wgrywanie alternatywnych ROM&#39;ów na bazie AOSP/LineageOS ale za to
+zainteresujemy się nieco bardziej procesem ładowania samej baterii w takim telefonie. Chodzi
+generalnie o fakt przedłużenia żywotności baterii smartfona za sprawą limitowania maksymalnej
+wartości, do jakiej można taką baterię podładować podłączając telefon czy to do portu USB
+komputera, czy też do pełnowymiarowej ładowarki. Taki stopień konfiguracji można osiągnąć
+zaprzęgając do pracy zaawansowany kontroler ładowania (&lt;a href=&#34;https://github.com/VR-25/acc&#34;&gt;Advanced Charging Controller&lt;/a&gt;, ACC),
+który manipuluje niskopoziomowymi ustawieniami kernela linux. W standardowym Androidzie tego typu
+funkcjonalności nie uświadczymy, przez co bateria zużywa się parokrotnie szybciej niż powinna, co
+przekłada się na wymianę urządzenia na nowe po niecałym roku czy dwóch jego użytkowania. Jeśli nie
+uśmiecha nam się wydawać hajsu co roku na nowy telefon tylko dlatego, że nie można w nim wymienić
+baterii, to powinniśmy rozważyć rozwiązanie jakie nam daje ACC.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -386,48 +434,6 @@ szyfrowanego ruchu DNS. Jednym z rozwiązań jest wykorzystanie &lt;a href=&#34;
 pomocy pliku &lt;code&gt;/etc/hosts&lt;/code&gt; i lokalnego serwera www jest w stanie zablokować sporą większość reklam,
 na które możemy natknąć się w internecie. Opis instalacji i konfiguracji AdAway zostanie
 przedstawiony w niniejszym wpisie.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Jak zaszyfrować zapytania DNS na smartfonie (dnscrypt-proxy)</title>
-      <link>https://morfikov.github.io/post/jak-zaszyfrowac-zapytania-dns-na-smartfonie-dnscrypt-proxy/</link>
-      <pubDate>Thu, 27 Oct 2016 18:52:19 +0200</pubDate>
-      
-      <guid>https://morfikov.github.io/post/jak-zaszyfrowac-zapytania-dns-na-smartfonie-dnscrypt-proxy/</guid>
-      <description>&lt;p&gt;Smartfony to takie małe komputery, z których praktycznie każdy z nas korzysta na co dzień. Nie
-różnią się one zbytnio od tych domowych PC czy laptopów, no może za wyjątkiem rozmiarów.
-Wszystkie elementy tyczące się spraw sieciowych, np. korzystanie z internetu za pomocą przeglądarki,
-są dokładnie taka same co w przypadku zwykłych komputerów. Na smartfonach domeny również trzeba
-jakoś rozwiązać. Standardowo w Androidzie są wykorzystywane serwery od Google (8.8.8.8 i 8.8.4.4).
-Jeśli nasza sieć WiFi oferuje inne DNS&#39;y, to wtedy one mają pierwszeństwo. Niemniej jednak, nie
-zawsze będziemy w stanie kontrolować środowisko sieciowe, do którego zostaniemy podłączeni. W takiej
-sytuacji będziemy zdani na łaskę admina obcej sieci w kwestii poufności odwiedzanych przez nas stron
-www czy jakichkolwiek innych domen w internecie. Z doświadczenia wiem, by nie składać swojej
-prywatności w czyjeś ręce i dlatego też postanowiłem poszukać sposobu na zaszyfrowanie zapytań DNS
-bezpośrednio na smartfonie. Długo nie musiałem szukać, bo okazuje się, że &lt;a href=&#34;https://dnscrypt.org/#dnscrypt-android&#34;&gt;dnscrypt-proxy jest
-dostępny również na Androida&lt;/a&gt;.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Android: YouTube bez reklam na smartfonie (NewPipe)</title>
-      <link>https://morfikov.github.io/post/android-youtube-bez-reklam-na-smartfonie-newpipe/</link>
-      <pubDate>Thu, 20 Oct 2016 19:41:01 +0200</pubDate>
-      
-      <guid>https://morfikov.github.io/post/android-youtube-bez-reklam-na-smartfonie-newpipe/</guid>
-      <description>&lt;p&gt;Ja generalnie zaliczam się do grona osób bardzo spokojnych ale tylko do czasu aż się zdenerwuję.
-Jedną taką bardziej wyprowadzającą mnie z równowagi kwestią są reklamy w serwisie YouTube. Problem
-jest o wiele bardziej dotkliwy, gdy w grę wchodzą urządzenia mobilne, np. smartfony. Na komputerze
-nie mam większego problemu, bo wszystkie reklamy mogę zablokować stosując adblock/ublock w
-przeglądarce lub też korzystać z aplikacji &lt;a href=&#34;https://github.com/mps-youtube/mps-youtube&#34;&gt;mpsyt&lt;/a&gt;/&lt;a href=&#34;http://flavio.tordini.org/minitube&#34;&gt;minitube&lt;/a&gt;. Gdy chcę wesprzeć kogoś, to
-odpalam kilka kanałów z reklamami, wyciszam dźwięk i mój linux ogląda za mnie ten cały syf
-reklamowy, a ja go ani nie słyszę, ani nie widzę i wszyscy są happy. W przypadku smartfonów
-oglądanie serwisu YT jest nieco problematyczne. Nie dość, że nie ma jak obejść tych reklam, to
-jeszcze zwykle są one głośniejsze niż ścieżka dźwiękowa materiału video, co bardzo wnerwia w
-godzinach nocnych. Przy szukaniu rozwiązania tego problemu natknąłem się na &lt;a href=&#34;https://github.com/TeamNewPipe/NewPipe&#34;&gt;NewPipe&lt;/a&gt;. Jest to
-przeglądarkę YT z otwartym kodem źródłowym (OpenSource), która działa podobnie do mpsyt/minitube i
-to ten programik zostanie opisany w niniejszym artykule.&lt;/p&gt;</description>
     </item>
     
   </channel>

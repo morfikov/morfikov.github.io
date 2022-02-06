@@ -6,7 +6,31 @@
     <description>Recent content in f-droid on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Sat, 29 Jan 2022 17:12:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/f-droid/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Feb 2022 17:52:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/f-droid/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Tryb bezczynności baterii (IDLE mode) w smartfonach z Androidem</title>
+      <link>https://morfikov.github.io/post/tryb-bezczynnosci-baterii-idle-mode-w-smartfonach-z-androidem/</link>
+      <pubDate>Sun, 06 Feb 2022 17:52:00 +0100</pubDate>
+      
+      <guid>https://morfikov.github.io/post/tryb-bezczynnosci-baterii-idle-mode-w-smartfonach-z-androidem/</guid>
+      <description>&lt;p&gt;Gdy zapytamy użytkowników smartfonów z Androidem o to, czy taki sprzęt jest w stanie pracować z
+pominięciem układu baterii, zapewne wiele z tych osób odpowiedziałoby, że nie ma takiej opcji, bo
+przecież w tych telefonach od lat baterii się już nie da wyciągnąć. Nawet w tych starszych
+modelach, po wyjęciu baterii i podłączeniu ładowarki, system w takim urządzeniu nie chciał się
+uruchomić. Okazuje się jednak, że nie trzeba wyjmować akumulatora ze smartfona, by to urządzenie
+było w stanie działać z pominięciem układu baterii, tj. w tzw. trybie bezczynności baterii (battery
+IDLE mode), coś na wzór rozwiązania stosowanego od dekad w laptopach. Niemniej jednak, takiej
+funkcjonalności zwykle nie uświadczymy w stock&#39;owych Androidach. Możemy się jednak o nią postarać
+ale do tego celu niezbędne będzie nam uzyskanie praw administratora systemu root, choć lepiej wgrać
+sobie na smartfon ROM na bazie AOSP/LineageOS. Bez ukorzenionego Androida nie mamy nawet co
+podchodzić do implementacji tego mechanizmu. Dodatkowo będzie nam potrzebny &lt;a href=&#34;https://github.com/VR-25/acc&#34;&gt;zaawansowany kontroler
+ładowania baterii ACC&lt;/a&gt; (w postaci modułu do Magisk&#39;a) i opcjonalnie też &lt;a href=&#34;https://github.com/MatteCarra/AccA&#34;&gt;graficzna nakładka
+ACCA&lt;/a&gt; (do pobrania z F-Droid). W poniższym artykule postaramy się odpowiedzieć na pytanie czy
+takie rozwiązanie na bazie IDLE mode w przypadku baterii w smartfonach z Androidem ma w ogóle sens
+i czy może nam się ewentualnie do czegoś przydać.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Jak ukryć nazwę sieci WiFi (ESSID) przed Wigle.net/Google/Mozilla</title>
@@ -167,6 +191,30 @@ w zwykłych rozmowach telefonicznych na komórkę. Jako, że ten YACB jest bardz
 oprogramowania i do tego w pełni OpenSource (dostępnym w repozytorium F-Droid), to postanowiłem
 napisać o nim kilka słów, bo jest to wręcz nieocenione narzędzie w walce z wszelkim syfem pokroju
 różnych spamerów z call center.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Optymalizacja procesu ładowania baterii via ACC w smartfonie z Androidem</title>
+      <link>https://morfikov.github.io/post/optymalizacja-procesu-ladowania-baterii-via-acc-w-smartfonie-z-androidem/</link>
+      <pubDate>Fri, 03 Sep 2021 20:53:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/optymalizacja-procesu-ladowania-baterii-via-acc-w-smartfonie-z-androidem/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://morfikov.github.io/post/jak-wgrac-twrp-recovery-i-magisk-w-xiaomi-redmi-9-galahad-lancelot/&#34;&gt;Odblokowanie bootloader&#39;a&lt;/a&gt; w smartfonie Xiaomi Redmi 9 (Galahad/Lancelot) mamy już z głowy.
+Podobnie sprawa wygląda z &lt;a href=&#34;https://morfikov.github.io/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/&#34;&gt;wgrywaniem na partycję recovery obrazu TWRP&lt;/a&gt; i uzyskiwaniem praw
+administratora systemu root za sprawą Magisk&#39;a. Te dwa kluczowe procesy otworzyły nam drogę do
+nieco bardziej zaawansowanych prac jeśli chodzi o konfigurację samego urządzenia. W tym artykule
+nie będziemy się jeszcze bawić we wgrywanie alternatywnych ROM&#39;ów na bazie AOSP/LineageOS ale za to
+zainteresujemy się nieco bardziej procesem ładowania samej baterii w takim telefonie. Chodzi
+generalnie o fakt przedłużenia żywotności baterii smartfona za sprawą limitowania maksymalnej
+wartości, do jakiej można taką baterię podładować podłączając telefon czy to do portu USB
+komputera, czy też do pełnowymiarowej ładowarki. Taki stopień konfiguracji można osiągnąć
+zaprzęgając do pracy zaawansowany kontroler ładowania (&lt;a href=&#34;https://github.com/VR-25/acc&#34;&gt;Advanced Charging Controller&lt;/a&gt;, ACC),
+który manipuluje niskopoziomowymi ustawieniami kernela linux. W standardowym Androidzie tego typu
+funkcjonalności nie uświadczymy, przez co bateria zużywa się parokrotnie szybciej niż powinna, co
+przekłada się na wymianę urządzenia na nowe po niecałym roku czy dwóch jego użytkowania. Jeśli nie
+uśmiecha nam się wydawać hajsu co roku na nowy telefon tylko dlatego, że nie można w nim wymienić
+baterii, to powinniśmy rozważyć rozwiązanie jakie nam daje ACC.&lt;/p&gt;</description>
     </item>
     
     <item>
