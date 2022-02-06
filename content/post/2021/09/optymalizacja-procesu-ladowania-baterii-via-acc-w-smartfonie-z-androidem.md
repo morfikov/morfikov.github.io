@@ -12,7 +12,10 @@ tags:
 - root
 - smartfon
 - bateria
+- akumulator
 - acc
+- f-droid
+- aplikacje
 GHissueID: 324
 title: Optymalizacja procesu ładowania baterii via ACC w smartfonie z Androidem
 ---
