@@ -8,6 +8,17 @@ published: true
 status: publish
 tags:
 - debian
+- apt
+- dpkg
+- dpkg-buildpackage
+- quilt
+- pbuilder
+- lintian
+- sudo
+- chroot
+- gpg
+- hardening
+- git
 GHissueID: 215
 title: Poradnik maintainer'a, czyli jak zrobić pakiet deb
 ---
