@@ -44,7 +44,7 @@ obsługą narzędzi takich jak dh_make , dpkg-buildpackage , pbuilder , quilt cz
 tak by tworzyć pakiety w prosty sposób i przy tym równając do najwyższych standardów debiana."><meta itemprop="datePublished" content="2015-12-07T20:26:45+00:00" />
 <meta itemprop="dateModified" content="2015-12-07T20:26:45+00:00" />
 <meta itemprop="wordCount" content="15657">
-<meta itemprop="keywords" content="debian," />
+<meta itemprop="keywords" content="debian,apt,dpkg,dpkg-buildpackage,quilt,pbuilder,lintian,sudo,chroot,gpg,hardening,git," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Poradnik maintainer&#39;a, czyli jak zrobić pakiet deb"/>
 <meta name="twitter:description" content="Debian posiada bardzo rozbudowany system robienia pakietów. Generalnie rzecz biorąc, to wszystkie z
@@ -2299,6 +2299,17 @@ Można ją wyciągnąć z logu git'a w poniższy sposób:</p>
 					
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apt/">apt</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dpkg/">dpkg</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dpkg-buildpackage/">dpkg-buildpackage</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/quilt/">quilt</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pbuilder/">pbuilder</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lintian/">lintian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sudo/">sudo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chroot/">chroot</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/gpg/">gpg</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hardening/">hardening</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/git/">git</a>
 </div>
 					
 <div class="entry__share share">
@@ -2354,90 +2365,30 @@ Można ją wyciągnąć z logu git'a w poniższy sposób:</p>
 	<h3 class="related__title">Powiązane</h3>
 	<ul class="related__list">
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/migawka-snapshot-repozytorium-debiana/">Migawka (snapshot) repozytorium debiana</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-multiarch-na-debianie/">Konfiguracja multiarch w dystrybucji Debian</a></li>
-		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/manualna-weryfikacja-pakietu-deb-w-debianie/">Manualna weryfikacja pakietu deb w debianie</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/klucze-do-repozytoriow-debiana-trusted-gpg/">Klucze do repozytoriów Debiana (trusted.gpg)</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/pulseaudio-i-przesylanie-dzwieku-przez-siec/">PulseAudio i przesyłanie dźwięku przez sieć</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/migawka-snapshot-repozytorium-debiana/">Migawka (snapshot) repozytorium debiana</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-wtyczki-flash-na-linuxie-mms-cfg/">Konfiguracja wtyczki flash na linux&#39;ie (mms.cfg)</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-multiarch-na-debianie/">Konfiguracja multiarch w dystrybucji Debian</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/pobieranie-pakietow-przy-pomocy-cron-apt/">Pobieranie pakietów przy pomocy cron-apt</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konfiguracja-apt-i-aptitude-w-pliku-apt-conf/">Konfiguracja apt i aptitude w pliku apt.conf</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/usuwanie-srodowiska-graficznego/">Usuwanie środowiska graficznego</a></li>
 		
 	</ul>
 </div>
 
 	<div id="comments">
-		<script>
-  var id =  215 ;
-
-  if (id)
-  {
-    let url = "https://github.com/morfikov/morfitronik-comments/issues/".concat(id);
-    let api_url = "https://api.github.com/repos/morfikov/morfitronik-comments/issues/".concat(id, "/comments");
-
-    var commentsDiv = document.getElementById("comments");
-
-    let xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-    xhr.open("GET", api_url);
-    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
-    xhr.send();
-
-    xhr.onload = function()
-    {
-      if (xhr.status != 200)
-      {
-        let errorText = document.createElement("p");
-        errorText.innerHTML = "<i>Komentarze dla tego postu nie zostały jeszcze otworzone (albo skrypty GitHub'a są wyłączone). Być może też skończył ci się przydział 60/godzinę (limit GitHub'a).</i>";
-        commentsDiv.appendChild(errorText);
-      }
-      else
-      {
-        let comments = xhr.response;
-
-        let mainHeader = document.createElement("h3");
-        mainHeader.innerHTML = "Komentarze: ".concat(comments.length);
-        commentsDiv.appendChild(mainHeader);
-
-        let issueLink = document.createElement("p");
-        issueLink.innerHTML = "<i>Możesz zostawić komentarz korzystając z <a href='".concat(url, "'>GitHub issue</a>.</i>");
-        commentsDiv.appendChild(issueLink);
-
-        comments.forEach(function(comment)
-        {
-			const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Europe/Warsaw' };
-			options.timeZoneName = 'short';
-            let commentContent = document.createElement("div");
-            commentContent.setAttribute('class', 'gh-comment')
-            commentContent.innerHTML = "".concat(
-                "<div class='gh-header'>",
-                  "<img src='", comment.user.avatar_url, "' />",
-                  "<div style='margin:auto 0;'>",
-                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
-                    " | <em>", (new Date(comment.created_at)).toLocaleTimeString('pl-PL', options), "</em>",
-                  "</div>",
-                "</div>",
-                "<div class='gh-body'>",
-                  comment.body_html,
-                "</div>"
-            );
-            commentsDiv.appendChild(commentContent);
-        });
-      }
-    };
-
-    xhr.onerror = function()
-    {
-      let errorText = document.createElement("p");
-      errorText.innerHTML = "<i>Wystąpił jakiś błąd przy ładowaniu komentarzy.</i>";
-      commentsDiv.appendChild(errorText);
-    };
-  }
+		<script src="https://utteranc.es/client.js"
+        repo="morfikov/morfitronik-comments"
+        issue-term="og:title"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
 </script>
 
 	</div>
