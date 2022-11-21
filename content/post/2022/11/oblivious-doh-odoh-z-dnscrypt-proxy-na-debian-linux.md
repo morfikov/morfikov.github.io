@@ -14,7 +14,7 @@ tags:
 - odoh
 - prywatność
 - resolver
-GHissueID: 590
+GHissueID: 592
 title: Oblivious DoH (ODoH) z dnscrypt-proxy na Debian Linux
 ---
 
