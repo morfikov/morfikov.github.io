@@ -99,6 +99,36 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zablokowanie-mozliwosci-ladowania-modulow-kernela-na-debian-linux/">Zablokowanie możliwości ładowania modułów kernela na Debian linux</a></h1>
+	<div class="entry__content"><p>Kernele oferowane przez różne dystrybucje linux'a, np. Debian czy Ubuntu, są tak budowane by
+możliwie jak największa ilość sprzętu na takim jądrze operacyjnym nam zadziałała bez zbędnego
+przerabiania systemu. Takie podejście sprawia, że nowo nabyty przez nas sprzęt możemy od razu
+podłączyć do komputera, a stosowne moduły po rozpoznaniu urządzenia zostaną załadowane do pamięci
+operacyjnej, przez co my będziemy mogli wejść w interakcję z takim kawałkiem elektroniki. Problem w
+tym, że kernel ma bardzo dużo tych modłów. Dużo modułów, to więcej kodu, a więcej kodu to więcej
+błędów, które na poziomie jądra mogą być bardzo opłakane w skutkach. Z zagrożeniem, jakie niosą
+moduły zewnętrzne (te spoza drzewa kernela linux), można sobie poradzić <a href="https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/#podpisywanie-kernela">podpisując kernel kluczami
+od firmware EFI/UEFI</a>. W takim przypadku załadowanie niepodpisanego modułu już się nie powiedzie.
+Niemniej jednak, dystrybucyjne kernele mają całą masę modułów do różnorakiego sprzętu, które na
+etapie budowania kernela są podpisywane, co otwiera im drogę do bycia załadowanymi w naszym
+systemie nawet jeśli nie posiadamy urządzeń, które by użytek z tych modułów robiły. Przydałoby się
+zatem zabezpieczyć możliwość ładowania modułów kernela w taki sposób, by jedynie administrator
+systemu miał możliwość określenia jakie moduły i na którym etapie pracy systemu mogą one zostać
+załadowane.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2022-12-13T13:03:00&#43;01:00">Opublikowano: 13/12/2022</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/oblivious-doh-odoh-z-dnscrypt-proxy-na-debian-linux/">Oblivious DoH (ODoH) z dnscrypt-proxy na Debian Linux</a></h1>
 	<div class="entry__content"><p>Parę miesięcy temu natrafiłem na taki oto <a href="https://blog.cloudflare.com/oblivious-dns/">artykuł na blogu Cloudflare</a>, który poświęcony jest
 poprawie prywatności wykonywanych przez klientów zapytań DNS za sprawą wykorzystania mechanizmu
@@ -341,35 +371,6 @@ jakiegoś powodu nie chcemy lub też nie możemy korzystać z przewodowego inter
 minikomputera z zainstalowanym system RasPiOS/Raspbian.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2021-11-13T13:26:00&#43;01:00">Opublikowano: 13/11/2021</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/raspberrypi/" rel="category">RaspberryPi</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/odszyfrowanie-luks-przez-ssh-z-poziomu-initramfs-initrd-na-raspberry-pi/">Odszyfrowanie LUKS przez SSH z poziomu initramfs/initrd na Raspberry Pi</a></h1>
-	<div class="entry__content"><p>Od paru dni bawię się swoim Raspberry Pi w kontekście zaszyfrowania jego systemu RasPiOS/Raspbian.
-O ile samo <a href="https://morfikov.github.io/post/jak-zaszyfrowac-raspberry-pi-raspios-raspbian-luks/">zaszyfrowanie tego minikomputera przy pomocy mechanizmu LUKS</a> nie było jakoś
-specjalnie trudne, to trzeba było pomyśleć nad rozwiązaniami mającymi ułatwić otworzenie takiego
-zaszyfrowanego kontenera przy starcie systemu. Póki co udało się wypracować w miarę zadowalające
-<a href="https://morfikov.github.io/post/wykorzystanie-nosnika-usb-jako-klucz-do-odszyfrowania-raspberry-pi/">rozwiązanie wykorzystujące dedykowane urządzenia USB w roli klucza</a>, bez którego system się nie
-uruchomi. Są jednak i inne rozwiązania, które mogą nam pomóc odszyfrować system RPI bez potrzeby
-fatygowania się do pomieszczenia i wtykania w jej port USB jakiegoś pendrive. Mowa o zaprzęgnięciu
-usługi SSH, która by została uruchomiona w fazie initramfs/initrd, chwilę przed wpisaniem hasła do
-kontenera LUKS. Takie rozwiązanie wymaga jednak zainstalowania innego serwera SSH, tj. Dropbear,
-pogodzenia go z serwerem OpenSSH oraz też trzeba odpowiednio przygotować sam obraz initramfs/initrd.
-Po pomyślnym skonfigurowaniu systemu, będziemy się logować do Raspberry Pi przez SSH i wpisywać
-hasło do kontenera LUKS, a jeśli to hasło będzie prawidłowe, to system zostanie odszyfrowany i
-uruchomiony.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2021-11-12T23:13:00&#43;01:00">Opublikowano: 12/11/2021</time>
-	<time class="entry__meta-lastmod meta-lastmod" datetime="2021-11-13T13:25:00&#43;01:00">Zaktualizowano: 13/11/2021</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
