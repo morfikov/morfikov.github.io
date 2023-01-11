@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - OpenWRT
 date:    2021-11-30 20:25:00 +0100
-lastmod: 2021-11-30 20:25:00 +0100
+lastmod: 2023-01-11 13:30:00 +0100
 published: true
 status: publish
 tags:
@@ -12,6 +12,7 @@ tags:
 - lte
 - huawei
 - e3372
+- kernel
 - usb
 GHissueID: 583
 title: Automatyczny restart połączenia LTE na routerze WiFi z OpenWRT
@@ -105,12 +106,14 @@ zawsze będzie sporo dłuższy niż samo skonfigurowanie modemu LTE po podpięci
 Pojawiło się zatem zapytanie na temat tego w jaki sposób rozłączyć modem LTE bez wyciągania go z
 portu USB? Okazało się, że nie jest to jakoś specjalnie trudne i można do tego celu skorzystać z
 [mechanizmu autoryzacji urządzeń USB][3], który jest wbudowany bezpośrednio w kernel linux'a. To
-jest dokładnie ten sam mechanizm, który jest [wykorzystywany np. przez usbguard][2].
+jest dokładnie ten sam mechanizm, który jest [wykorzystywany np. przez usbguard][2]. Można także
+wykorzystać do tego celu mechanizm manualnego przypisania sterowników do
+urządzeń ( `bind`/`unbind` ). Postanowiłem zatem przerobić nieco skrypt watchdog'a, który był
+podany na stronie `eko.one.pl` .
 
-### Skrypt watchdog'a
+### Skrypt watchdog'a (wersja z plikiem authorized)
 
-Przerobiłem zatem nieco skrypt watchdog'a, który był podany na stronie `eko.one.pl` do poniższej
-postaci:
+Poniżej znajduje się wersja skryptu watchdog'a wykorzystująca mechanizm autoryzacji urządzeń USB:
 
     #!/bin/sh
 
@@ -125,23 +128,11 @@ postaci:
         echo 1 > /sys/bus/usb/devices/usb3/authorized
     fi
 
-W poleceniu `ping` zostały użyte poniższe flagi:
-
- - `-q`      -- odpowiada za ciche wyjście, tj. nic poza podsumowaniem nie zostanie wydrukowane w
-                terminalu.
- - `-c 1`    -- odpowiada za przesłanie do serwera tylko jednego pakietu.
- - `-W 15`   -- odpowiada za czas oczekiwania na odpowiedź od serwera, który w tym przypadku został
-                ustawiony na 15 sekund.
- - `8.8.8.8` -- to adres IP, na który mają zostać posłane zapytania. Można także skorzystać z
-                domeny.
-
-Zatem jeśli to powyższe polecenie `ping` nie otrzyma odpowiedzi od serwera w ciągu 15 sekund, to
-zostaną zainicjowane instrukcje zawarte poniżej w skrypcie watchdog'a.
-
-W skrypcie mamy w zasadzie przesłanie wartości `0` do pliku `authorized` hub'a `usb3` , bo to tutaj
-został wpięty modem LTE. Można by odszukać ścieżkę do samego modemu LTE ale ta może ulec zmianie po
-rozłączeniu modemu, co skomplikowałoby nam nieco życie. Z racji, że odłączymy cały hub, to
-wszystkie urządzenia podłączone do `usb3` zostaną zresetowane.
+Gdy wykorzystujemy mechanizm autoryzacji urządzeń USB, to skrypt prześle wartość `0` do pliku
+`authorized` hub'a `usb3` (bo to tutaj został wpięty modem LTE). Można by odszukać ścieżkę do
+samego modemu LTE ale ta może ulec zmianie po rozłączeniu modemu, co skomplikowałoby nam nieco
+życie. Z racji, że odłączymy cały hub, to wszystkie urządzenia podłączone do `usb3` zostaną
+zresetowane.
 
 Warto też zaznaczyć, że mój router ma 2 fizyczne porty USB ale hub'ów dostępnych w systemie jest 4,
 z czego 2 wewnętrzne. Akurat w przypadku mojego routera jest tak, że każdy port USB jest wpięty do
@@ -155,7 +146,42 @@ włączy modem mniej więcej w taki sposób gdybyśmy go fizycznie podłączyli 
 Przesłanie wartości `0` i `1` trzeba też nieco opóźnić, bo inaczej mogą pojawić się problemy z
 ponownym włączeniem modemu LTE.
 
-### Praca dla cron
+W poleceniu `ping` zostały użyte poniższe flagi:
+
+ - `-q`      -- odpowiada za ciche wyjście, tj. nic poza podsumowaniem nie zostanie wydrukowane w
+                terminalu.
+ - `-c 1`    -- odpowiada za przesłanie do serwera tylko jednego pakietu.
+ - `-W 15`   -- odpowiada za czas oczekiwania na odpowiedź od serwera, który w tym przypadku został
+                ustawiony na 15 sekund.
+ - `8.8.8.8` -- to adres IP, na który mają zostać posłane zapytania. Można także skorzystać z
+                domeny, choć wiarygodniejsze jest podanie tutaj adresu IP.
+
+Zatem jeśli to powyższe polecenie `ping` nie otrzyma odpowiedzi od serwera w ciągu 15 sekund, to
+zostaną zainicjowane instrukcje zawarte dalej w skrypcie watchdog'a.
+
+### Skrypt watchdog'a (wersja z plikami bind/unbind)
+
+Poniżej znajduje się wersja skryptu watchdog'a wykorzystująca mechanizm manualnego przypisywania
+sterowników do urządzeń:
+
+    #!/bin/sh
+
+    if ! ping -q -c 1 -W 15 8.8.8.8 > /dev/null
+    then
+        logger "*************************************************"
+        logger "**** Brak internetu. Restartuje modem LTE... ****"
+        logger "*************************************************"
+
+        echo "usb1" > /sys/bus/usb/drivers/usb/unbind
+        sleep 1
+        echo "usb1" > /sys/bus/usb/drivers/usb/bind
+
+    fi
+
+W tym przypadku, do plików `unbind` i `bind` zostaje przesłany numerek urządzenia USB, które
+zostanie rozłączone i ponownie podłączone. Reszta skryptu się nie zmienia.
+
+## Praca dla cron
 
 By całość nam jeszcze zadziałała i modem się faktycznie zresetował, gdy połączenie z internetem
 zaniknie, musimy stworzyć zadanie dla cron'a, które będzie cyklicznie wykonywane. Tworzymy zatem
@@ -270,15 +296,18 @@ ISP, czego efektem jest przywrócenie połączenia sieciowego do pełnej sprawno
 ## Podsumowanie
 
 W taki oto dość prosty sposób, kawałek skryptu oraz odpowiednie wykorzystanie mechanizmu
-autoryzacji podłączanych do portów USB urządzeń umożliwiły nam zaimplementowanie watchdog'a na
+autoryzacji podłączanych do portów USB urządzeń (ewentualnie też mechanizmu manualnego
+przypisywania sterowników do urządzeń) umożliwiły nam zaimplementowanie watchdog'a na
 routerze z wgranym firmware OpenWRT. Ilekroć tylko połączenie LTE nam zaniknie z jakiegoś powodu,
 nasz watchdog zresetuje modem LTE i przywróci je do pełnej sprawności. Nie musimy już się obawiać,
 że w środku nocy internet nam po cichu zdechnie, a obrazy ISO różnych dystrybucji linux'a nie
 pobiorą się nam przez torrent'a. No i oczywiście też nasz komputer nie będzie pracował całą noc na
-marne.
+marne. Z moich obserwacji wynika też, że watchdog oparty o mechanizm przypisywania sterowników do
+urządzeń działa nieco lepiej niż ten, w którym wykorzystywana jest autoryzacja urządzeń USB.
 
 
 [1]: https://eko.one.pl/?p=openwrt-3g#automatycznyrestartpoczenia
 [2]: /post/jak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami/
 [3]: https://www.kernel.org/doc/Documentation/usb/authorization.txt
 [4]: /post/struktura-plikow-urzadzen-usb-w-katalogu-sys/
+[5]: https://lwn.net/Articles/143397/
