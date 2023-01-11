@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Linux
 date:    2020-10-08 19:05:00 +0200
-lastmod: 2020-10-08 19:05:00 +0200
+lastmod: 2023-01-08 13:10:00 +0100
 published: true
 status: publish
 tags:
@@ -490,6 +490,21 @@ backup, tak by liczba plików kopii zapasowych się zgadzała. Dodatkowo kolejno
 Jeśli backup z danego dnia zostanie dopasowany do pierwszej reguły, to automatycznie ten plik
 backup'u wypada z drugiej reguły (i kolejnych jeśli są określone). Dlatego tych plików jest 11, a
 nie 10.
+
+#### Odzyskiwanie miejsca na dysku po skasowaniu starych backup'ów
+
+Warto tutaj zaznaczyć, że wywołanie polecenia `borg prune` nie odzyska nam miejsca na dysku. O ile
+przy wyświetlaniu listy backup'ów będziemy mieli mniej pozycji, to ilość zajmowanego przez nie
+miejsca będzie dokładnie taka sama co przed czyszczeniem repozytorium. By odzyskać to miejsce,
+trzeba posłużyć się poleceniem `borg compact` , które wykonujemy na katalogu z konkretnym
+repozytorium, przykładowo:
+
+    # borg compact --progress --verbose /media/Arti/backup-home
+    compaction freed about 34.86 GB repository space.
+
+Wyżej mamy informację, że odzyskano prawie 35GiB miejsca na dysku i faktycznie po wydaniu tego
+polecenia system jest w stanie te dodatkowe gigabajty w końcu ujrzeć. Dlatego też raz na jakiś czas
+przyda się skorzystać z `borg compact` .
 
 ## Zdalny backup via SSH
 
