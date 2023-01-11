@@ -29,7 +29,7 @@ przy okazji te użyteczniejsze informacje dotyczące posługiwania się tym narz
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/tworzenie-kopii-zapasowej-linux-z-borgbackup/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2020-10-08T19:05:00+02:00" />
-<meta property="article:modified_time" content="2020-10-08T19:05:00+02:00" />
+<meta property="article:modified_time" content="2023-01-08T13:10:00+01:00" />
 
 
 		<meta itemprop="name" content="Tworzenie kopii zapasowej linux&#39;a z BorgBackup">
@@ -50,8 +50,8 @@ to dość znacznie upraszcza cały proces tworzenia backup&#39;u plików na linu
 szyfrowanie, kompresja i deduplikacja danych są w borg zaimplementowane standardowo. Postanowiłem
 zatem zmigrować z mojego skryptowego systemu tworzenia kopii zapasowych na rzecz borg&#39;a i spisać
 przy okazji te użyteczniejsze informacje dotyczące posługiwania się tym narzędziem"><meta itemprop="datePublished" content="2020-10-08T19:05:00+02:00" />
-<meta itemprop="dateModified" content="2020-10-08T19:05:00+02:00" />
-<meta itemprop="wordCount" content="3981">
+<meta itemprop="dateModified" content="2023-01-08T13:10:00+01:00" />
+<meta itemprop="wordCount" content="4098">
 <meta itemprop="keywords" content="debian,backup,szyfrowanie,kompresja,deduplikacja," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tworzenie kopii zapasowej linux&#39;a z BorgBackup"/>
@@ -149,6 +149,7 @@ if (!doNotTrack) {
 			<article class="entry">
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2020-10-08T19:05:00&#43;02:00">Opublikowano: 08/10/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2023-01-08T13:10:00&#43;01:00">Zaktualizowano: 08/01/2023</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -180,6 +181,7 @@ if (!doNotTrack) {
             <li><a href="#ustawienie-limitu-jednej-kopii-na-dzień">Ustawienie limitu jednej kopii na dzień</a></li>
             <li><a href="#usuwanie-kopii-zapasowych-po-przekroczeniu-określonej-ich-liczby">Usuwanie kopii zapasowych po przekroczeniu określonej ich liczby</a></li>
             <li><a href="#ustawienia-mieszane">Ustawienia mieszane</a></li>
+            <li><a href="#odzyskiwanie-miejsca-na-dysku-po-skasowaniu-starych-backupów">Odzyskiwanie miejsca na dysku po skasowaniu starych backup'ów</a></li>
           </ol>
         </li>
       </ol>
@@ -608,6 +610,18 @@ backup, tak by liczba plików kopii zapasowych się zgadzała. Dodatkowo kolejno
 Jeśli backup z danego dnia zostanie dopasowany do pierwszej reguły, to automatycznie ten plik
 backup'u wypada z drugiej reguły (i kolejnych jeśli są określone). Dlatego tych plików jest 11, a
 nie 10.</p>
+<h4 id="odzyskiwanie-miejsca-na-dysku-po-skasowaniu-starych-backupów">Odzyskiwanie miejsca na dysku po skasowaniu starych backup'ów</h4>
+<p>Warto tutaj zaznaczyć, że wywołanie polecenia <code>borg prune</code> nie odzyska nam miejsca na dysku. O ile
+przy wyświetlaniu listy backup'ów będziemy mieli mniej pozycji, to ilość zajmowanego przez nie
+miejsca będzie dokładnie taka sama co przed czyszczeniem repozytorium. By odzyskać to miejsce,
+trzeba posłużyć się poleceniem <code>borg compact</code> , które wykonujemy na katalogu z konkretnym
+repozytorium, przykładowo:</p>
+<pre><code># borg compact --progress --verbose /media/Arti/backup-home
+compaction freed about 34.86 GB repository space.
+</code></pre>
+<p>Wyżej mamy informację, że odzyskano prawie 35GiB miejsca na dysku i faktycznie po wydaniu tego
+polecenia system jest w stanie te dodatkowe gigabajty w końcu ujrzeć. Dlatego też raz na jakiś czas
+przyda się skorzystać z <code>borg compact</code> .</p>
 <h2 id="zdalny-backup-via-ssh">Zdalny backup via SSH</h2>
 <p>W tym artykule skupiliśmy się głównie na tworzeniu lokalnych kopii zapasowych ale borg jest w
 stanie również działać w konfiguracji klient-server. Niestety nie mam jak obecnie przetestować tej
@@ -747,7 +761,7 @@ naturalnie paczki <code>tar.gz</code> również można sobie będzie bez problem
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
 		</a>
 </div>
-	<div class="footer__copyright">© 2022 Mikhail Morfikov.
+	<div class="footer__copyright">© 2023 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">
 		<div class="license-icons">

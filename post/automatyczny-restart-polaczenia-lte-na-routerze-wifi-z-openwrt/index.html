@@ -26,7 +26,7 @@ końcu ten problem rozwiązać raz na zawsze i mieć przy tym nieco spokojniejsz
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/automatyczny-restart-polaczenia-lte-na-routerze-wifi-z-openwrt/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-11-30T20:25:00+01:00" />
-<meta property="article:modified_time" content="2021-11-30T20:25:00+01:00" />
+<meta property="article:modified_time" content="2023-01-11T13:30:00+01:00" />
 
 
 		<meta itemprop="name" content="Automatyczny restart połączenia LTE na routerze WiFi z OpenWRT">
@@ -44,9 +44,9 @@ innej dystrybucji linux&#39;a. Niemniej jednak, jak mi net rozłączą, to nie z
 z siebie. Modem Huawei E3372s-153 w wersji NON-HiLink zdaje się pracować poprawnie, bo świeci się
 na nim dioda sugerująca, że połączenie z internetem jest nawiązane. Dlatego też postanowiłem w
 końcu ten problem rozwiązać raz na zawsze i mieć przy tym nieco spokojniejszy sen."><meta itemprop="datePublished" content="2021-11-30T20:25:00+01:00" />
-<meta itemprop="dateModified" content="2021-11-30T20:25:00+01:00" />
-<meta itemprop="wordCount" content="1882">
-<meta itemprop="keywords" content="router,modem,lte,huawei,e3372,usb," />
+<meta itemprop="dateModified" content="2023-01-11T13:30:00+01:00" />
+<meta itemprop="wordCount" content="2033">
+<meta itemprop="keywords" content="router,modem,lte,huawei,e3372,kernel,usb," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Automatyczny restart połączenia LTE na routerze WiFi z OpenWRT"/>
 <meta name="twitter:description" content="Od już dłuższego czasu (będzie parę lat) korzystam z internetu LTE zamiast tradycyjnego połączenia
@@ -140,6 +140,7 @@ if (!doNotTrack) {
 			<article class="entry">
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2021-11-30T20:25:00&#43;01:00">Opublikowano: 30/11/2021</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2023-01-11T13:30:00&#43;01:00">Zaktualizowano: 11/01/2023</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -155,10 +156,11 @@ if (!doNotTrack) {
     <li><a href="#problemy-z-modemem-lte-przy-restarcie-interfejsu-wan">Problemy z modemem LTE przy restarcie interfejsu WAN</a></li>
     <li><a href="#restart-modemu-lte-bez-wyciągania-go-z-portu-usb">Restart modemu LTE bez wyciągania go z portu USB</a>
       <ol>
-        <li><a href="#skrypt-watchdoga">Skrypt watchdog'a</a></li>
-        <li><a href="#praca-dla-cron">Praca dla cron</a></li>
+        <li><a href="#skrypt-watchdoga-wersja-z-plikiem-authorized">Skrypt watchdog'a (wersja z plikiem authorized)</a></li>
+        <li><a href="#skrypt-watchdoga-wersja-z-plikami-bindunbind">Skrypt watchdog'a (wersja z plikami bind/unbind)</a></li>
       </ol>
     </li>
+    <li><a href="#praca-dla-cron">Praca dla cron</a></li>
     <li><a href="#test-internetowego-watchdoga">Test internetowego watchdog'a</a></li>
     <li><a href="#podsumowanie">Podsumowanie</a></li>
   </ol>
@@ -242,10 +244,12 @@ zawsze będzie sporo dłuższy niż samo skonfigurowanie modemu LTE po podpięci
 <p>Pojawiło się zatem zapytanie na temat tego w jaki sposób rozłączyć modem LTE bez wyciągania go z
 portu USB? Okazało się, że nie jest to jakoś specjalnie trudne i można do tego celu skorzystać z
 <a href="https://www.kernel.org/doc/Documentation/usb/authorization.txt">mechanizmu autoryzacji urządzeń USB</a>, który jest wbudowany bezpośrednio w kernel linux'a. To
-jest dokładnie ten sam mechanizm, który jest <a href="https://morfikov.github.io/post/jak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami/">wykorzystywany np. przez usbguard</a>.</p>
-<h3 id="skrypt-watchdoga">Skrypt watchdog'a</h3>
-<p>Przerobiłem zatem nieco skrypt watchdog'a, który był podany na stronie <code>eko.one.pl</code> do poniższej
-postaci:</p>
+jest dokładnie ten sam mechanizm, który jest <a href="https://morfikov.github.io/post/jak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami/">wykorzystywany np. przez usbguard</a>. Można także
+wykorzystać do tego celu mechanizm manualnego przypisania sterowników do
+urządzeń ( <code>bind</code>/<code>unbind</code> ). Postanowiłem zatem przerobić nieco skrypt watchdog'a, który był
+podany na stronie <code>eko.one.pl</code> .</p>
+<h3 id="skrypt-watchdoga-wersja-z-plikiem-authorized">Skrypt watchdog'a (wersja z plikiem authorized)</h3>
+<p>Poniżej znajduje się wersja skryptu watchdog'a wykorzystująca mechanizm autoryzacji urządzeń USB:</p>
 <pre><code>#!/bin/sh
 
 if ! ping -q -c 1 -W 15 8.8.8.8 &gt; /dev/null
@@ -259,22 +263,11 @@ then
     echo 1 &gt; /sys/bus/usb/devices/usb3/authorized
 fi
 </code></pre>
-<p>W poleceniu <code>ping</code> zostały użyte poniższe flagi:</p>
-<ul>
-<li><code>-q</code>      -- odpowiada za ciche wyjście, tj. nic poza podsumowaniem nie zostanie wydrukowane w
-terminalu.</li>
-<li><code>-c 1</code>    -- odpowiada za przesłanie do serwera tylko jednego pakietu.</li>
-<li><code>-W 15</code>   -- odpowiada za czas oczekiwania na odpowiedź od serwera, który w tym przypadku został
-ustawiony na 15 sekund.</li>
-<li><code>8.8.8.8</code> -- to adres IP, na który mają zostać posłane zapytania. Można także skorzystać z
-domeny.</li>
-</ul>
-<p>Zatem jeśli to powyższe polecenie <code>ping</code> nie otrzyma odpowiedzi od serwera w ciągu 15 sekund, to
-zostaną zainicjowane instrukcje zawarte poniżej w skrypcie watchdog'a.</p>
-<p>W skrypcie mamy w zasadzie przesłanie wartości <code>0</code> do pliku <code>authorized</code> hub'a <code>usb3</code> , bo to tutaj
-został wpięty modem LTE. Można by odszukać ścieżkę do samego modemu LTE ale ta może ulec zmianie po
-rozłączeniu modemu, co skomplikowałoby nam nieco życie. Z racji, że odłączymy cały hub, to
-wszystkie urządzenia podłączone do <code>usb3</code> zostaną zresetowane.</p>
+<p>Gdy wykorzystujemy mechanizm autoryzacji urządzeń USB, to skrypt prześle wartość <code>0</code> do pliku
+<code>authorized</code> hub'a <code>usb3</code> (bo to tutaj został wpięty modem LTE). Można by odszukać ścieżkę do
+samego modemu LTE ale ta może ulec zmianie po rozłączeniu modemu, co skomplikowałoby nam nieco
+życie. Z racji, że odłączymy cały hub, to wszystkie urządzenia podłączone do <code>usb3</code> zostaną
+zresetowane.</p>
 <p>Warto też zaznaczyć, że mój router ma 2 fizyczne porty USB ale hub'ów dostępnych w systemie jest 4,
 z czego 2 wewnętrzne. Akurat w przypadku mojego routera jest tak, że każdy port USB jest wpięty do
 innego hub'a ale <a href="https://morfikov.github.io/post/struktura-plikow-urzadzen-usb-w-katalogu-sys/">nie jest to regułą</a>. Jeśli mamy problem z ustaleniem, który hub jest od
@@ -284,7 +277,38 @@ ten prawidłowy ujawni się rozłączając modem LTE.</p>
 włączy modem mniej więcej w taki sposób gdybyśmy go fizycznie podłączyli do portu USB.</p>
 <p>Przesłanie wartości <code>0</code> i <code>1</code> trzeba też nieco opóźnić, bo inaczej mogą pojawić się problemy z
 ponownym włączeniem modemu LTE.</p>
-<h3 id="praca-dla-cron">Praca dla cron</h3>
+<p>W poleceniu <code>ping</code> zostały użyte poniższe flagi:</p>
+<ul>
+<li><code>-q</code>      -- odpowiada za ciche wyjście, tj. nic poza podsumowaniem nie zostanie wydrukowane w
+terminalu.</li>
+<li><code>-c 1</code>    -- odpowiada za przesłanie do serwera tylko jednego pakietu.</li>
+<li><code>-W 15</code>   -- odpowiada za czas oczekiwania na odpowiedź od serwera, który w tym przypadku został
+ustawiony na 15 sekund.</li>
+<li><code>8.8.8.8</code> -- to adres IP, na który mają zostać posłane zapytania. Można także skorzystać z
+domeny, choć wiarygodniejsze jest podanie tutaj adresu IP.</li>
+</ul>
+<p>Zatem jeśli to powyższe polecenie <code>ping</code> nie otrzyma odpowiedzi od serwera w ciągu 15 sekund, to
+zostaną zainicjowane instrukcje zawarte dalej w skrypcie watchdog'a.</p>
+<h3 id="skrypt-watchdoga-wersja-z-plikami-bindunbind">Skrypt watchdog'a (wersja z plikami bind/unbind)</h3>
+<p>Poniżej znajduje się wersja skryptu watchdog'a wykorzystująca mechanizm manualnego przypisywania
+sterowników do urządzeń:</p>
+<pre><code>#!/bin/sh
+
+if ! ping -q -c 1 -W 15 8.8.8.8 &gt; /dev/null
+then
+    logger &quot;*************************************************&quot;
+    logger &quot;**** Brak internetu. Restartuje modem LTE... ****&quot;
+    logger &quot;*************************************************&quot;
+
+    echo &quot;usb1&quot; &gt; /sys/bus/usb/drivers/usb/unbind
+    sleep 1
+    echo &quot;usb1&quot; &gt; /sys/bus/usb/drivers/usb/bind
+
+fi
+</code></pre>
+<p>W tym przypadku, do plików <code>unbind</code> i <code>bind</code> zostaje przesłany numerek urządzenia USB, które
+zostanie rozłączone i ponownie podłączone. Reszta skryptu się nie zmienia.</p>
+<h2 id="praca-dla-cron">Praca dla cron</h2>
 <p>By całość nam jeszcze zadziałała i modem się faktycznie zresetował, gdy połączenie z internetem
 zaniknie, musimy stworzyć zadanie dla cron'a, które będzie cyklicznie wykonywane. Tworzymy zatem
 plik <code>/etc/crontabs/root</code> (jeśli nie istnieje) i dodajemy do niego poniższą zawartość:</p>
@@ -385,12 +409,14 @@ firewall: Reloading firewall due to ifup of lte_4 (wwan0)
 ISP, czego efektem jest przywrócenie połączenia sieciowego do pełnej sprawności.</p>
 <h2 id="podsumowanie">Podsumowanie</h2>
 <p>W taki oto dość prosty sposób, kawałek skryptu oraz odpowiednie wykorzystanie mechanizmu
-autoryzacji podłączanych do portów USB urządzeń umożliwiły nam zaimplementowanie watchdog'a na
+autoryzacji podłączanych do portów USB urządzeń (ewentualnie też mechanizmu manualnego
+przypisywania sterowników do urządzeń) umożliwiły nam zaimplementowanie watchdog'a na
 routerze z wgranym firmware OpenWRT. Ilekroć tylko połączenie LTE nam zaniknie z jakiegoś powodu,
 nasz watchdog zresetuje modem LTE i przywróci je do pełnej sprawności. Nie musimy już się obawiać,
 że w środku nocy internet nam po cichu zdechnie, a obrazy ISO różnych dystrybucji linux'a nie
 pobiorą się nam przez torrent'a. No i oczywiście też nasz komputer nie będzie pracował całą noc na
-marne.</p></div>
+marne. Z moich obserwacji wynika też, że watchdog oparty o mechanizm przypisywania sterowników do
+urządzeń działa nieco lepiej niż ten, w którym wykorzystywana jest autoryzacja urządzeń USB.</p></div>
 				
 				<footer class="entry__footer">
 					
@@ -400,6 +426,7 @@ marne.</p></div>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lte/">lte</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/huawei/">huawei</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/e3372/">e3372</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kernel/">kernel</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/usb/">usb</a>
 </div>
 					
@@ -506,7 +533,7 @@ marne.</p></div>
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
 		</a>
 </div>
-	<div class="footer__copyright">© 2022 Mikhail Morfikov.
+	<div class="footer__copyright">© 2023 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">
 		<div class="license-icons">
