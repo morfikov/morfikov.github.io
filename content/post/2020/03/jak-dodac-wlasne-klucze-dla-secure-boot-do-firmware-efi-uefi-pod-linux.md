@@ -1567,7 +1567,7 @@ stadium uruchamiania komputera.
 [13]: /post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/
 [14]: https://wiki.gentoo.org/wiki/Sakaki%27s_EFI_Install_Guide/Configuring_Secure_Boot
 [15]: https://sourceforge.net/p/refind/code/ci/master/tree/keys/
-[16]: /jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/
+[16]: /post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/
 [17]: https://lwn.net/Articles/750730/
 [18]: https://www.rodsbooks.com/efi-bootloaders/controlling-sb.html
 [19]: http://man7.org/linux/man-pages/man7/keyrings.7.html

@@ -20,7 +20,7 @@ sobie możliwość bezgranicznego zarządzania posiadanym sprzętem elektroniczn
 zwykłego desktopa czy laptopa ale też o urządzenia z systemami wbudowanymi jak, np. routery WiFi.
 Większość routerów nie obsługuje modemów LTE ale mogłaby, gdyby pozwalało im na to zainstalowane na
 nich oprogramowanie. Na moim blogu jest kilka artykułów dotyczących [instalacji i konfiguracji
-modemów LTE](/post/tag/modem/) właśnie na takich routerach, z tym, że w oparciu o
+modemów LTE](/tags/modem/) właśnie na takich routerach, z tym, że w oparciu o
 firmware OpenWRT/LEDE. Niemniej jednak, w przypadku takiego alternatywnego firmware wymagana jest
 drobna znajomość obsługi komputera, a cała masa użytkowników nie chce poświęcać czasu na zgłębianie
 technik informatycznych. Te osoby chcą zwyczajnie podłączyć dane urządzenie do prądu i móc z niego
