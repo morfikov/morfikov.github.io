@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Martwy smartfon Xiaomi Redmi 9 i jego odzysk via SP Flash Tool | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Martwy smartfon Xiaomi Redmi 9 i jego odzysk via SP Flash Tool" />
+<meta property="og:description" content="Przeglądając ostatnio stronę xiaomifirmwareupdater.com zauważyłem, że jest tam dostępna nowsza
+wersja firmware dla mojego telefonu Xiaomi Redmi 9 (lancelot/galahad). Patrząc po numerkach
+V13.0.1.0.SJCEUXM (nowy dla Android 12) oraz V12.5.4.0.RJCEUXM (stary dla Android 11), miałem
+pewne wątpliwości czy wgrać sobie ten nowszy firmware. Niby na tym smartfonie mam wgrany ROM
+crDrdoid v8.9, który dostarcza Androida 12.1, więc aktualizacja firmware sposobem opisanym
+tutaj powinna przebiec bez żadnych problemów. No i przebiegła, tylko po zrestartowaniu telefonu,
+ten już się nie uruchomił. Działał mi jedynie tryb fastboot (normalny boot i tryb recovery były
+martwe). Postanowiłem przywrócić poprzedni firmware wydobywając obrazy ze starej paczki firmware i
+ręcznie przy pomocy narzędzia fastboot wgrać te obrazy na odpowiadające im partycje w telefonie z
+poziomu mojego Debiana. Tutaj jednak zostało poczynionych parę błędów (o tym później), które
+doprowadziły do całkowitego uwalenia telefonu (hard brick), gdzie nawet tryb fastboot zdechł. W
+efekcie telefon już nie reagował na żadne kombinacje przycisków, a ekran pozostawał czarny -- jednym
+słowem nie działał żaden tryb pracy telefonu i wyglądało na to, że mam w łapkach już tylko sam złom
+elektroniczny i tak by w istocie było, gdyby z pomocą nie przyszedł mi SP Flash Tool." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/martwy-smartfon-xiaomi-redmi-9-i-jego-odzysk-via-sp-flash-tool/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-01-29T19:33:00+01:00" />
+<meta property="article:modified_time" content="2023-01-29T19:33:00+01:00" />
+
+
+		<meta itemprop="name" content="Martwy smartfon Xiaomi Redmi 9 i jego odzysk via SP Flash Tool">
+<meta itemprop="description" content="Przeglądając ostatnio stronę xiaomifirmwareupdater.com zauważyłem, że jest tam dostępna nowsza
+wersja firmware dla mojego telefonu Xiaomi Redmi 9 (lancelot/galahad). Patrząc po numerkach
+V13.0.1.0.SJCEUXM (nowy dla Android 12) oraz V12.5.4.0.RJCEUXM (stary dla Android 11), miałem
+pewne wątpliwości czy wgrać sobie ten nowszy firmware. Niby na tym smartfonie mam wgrany ROM
+crDrdoid v8.9, który dostarcza Androida 12.1, więc aktualizacja firmware sposobem opisanym
+tutaj powinna przebiec bez żadnych problemów. No i przebiegła, tylko po zrestartowaniu telefonu,
+ten już się nie uruchomił. Działał mi jedynie tryb fastboot (normalny boot i tryb recovery były
+martwe). Postanowiłem przywrócić poprzedni firmware wydobywając obrazy ze starej paczki firmware i
+ręcznie przy pomocy narzędzia fastboot wgrać te obrazy na odpowiadające im partycje w telefonie z
+poziomu mojego Debiana. Tutaj jednak zostało poczynionych parę błędów (o tym później), które
+doprowadziły do całkowitego uwalenia telefonu (hard brick), gdzie nawet tryb fastboot zdechł. W
+efekcie telefon już nie reagował na żadne kombinacje przycisków, a ekran pozostawał czarny -- jednym
+słowem nie działał żaden tryb pracy telefonu i wyglądało na to, że mam w łapkach już tylko sam złom
+elektroniczny i tak by w istocie było, gdyby z pomocą nie przyszedł mi SP Flash Tool."><meta itemprop="datePublished" content="2023-01-29T19:33:00+01:00" />
+<meta itemprop="dateModified" content="2023-01-29T19:33:00+01:00" />
+<meta itemprop="wordCount" content="2747">
+<meta itemprop="keywords" content="smartfon,xiaomi,redmi-9,crdroid,spflashtool,aosp,firmware,hard-brick," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Martwy smartfon Xiaomi Redmi 9 i jego odzysk via SP Flash Tool"/>
+<meta name="twitter:description" content="Przeglądając ostatnio stronę xiaomifirmwareupdater.com zauważyłem, że jest tam dostępna nowsza
+wersja firmware dla mojego telefonu Xiaomi Redmi 9 (lancelot/galahad). Patrząc po numerkach
+V13.0.1.0.SJCEUXM (nowy dla Android 12) oraz V12.5.4.0.RJCEUXM (stary dla Android 11), miałem
+pewne wątpliwości czy wgrać sobie ten nowszy firmware. Niby na tym smartfonie mam wgrany ROM
+crDrdoid v8.9, który dostarcza Androida 12.1, więc aktualizacja firmware sposobem opisanym
+tutaj powinna przebiec bez żadnych problemów. No i przebiegła, tylko po zrestartowaniu telefonu,
+ten już się nie uruchomił. Działał mi jedynie tryb fastboot (normalny boot i tryb recovery były
+martwe). Postanowiłem przywrócić poprzedni firmware wydobywając obrazy ze starej paczki firmware i
+ręcznie przy pomocy narzędzia fastboot wgrać te obrazy na odpowiadające im partycje w telefonie z
+poziomu mojego Debiana. Tutaj jednak zostało poczynionych parę błędów (o tym później), które
+doprowadziły do całkowitego uwalenia telefonu (hard brick), gdzie nawet tryb fastboot zdechł. W
+efekcie telefon już nie reagował na żadne kombinacje przycisków, a ekran pozostawał czarny -- jednym
+słowem nie działał żaden tryb pracy telefonu i wyglądało na to, że mam w łapkach już tylko sam złom
+elektroniczny i tak by w istocie było, gdyby z pomocą nie przyszedł mi SP Flash Tool."/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Martwy smartfon Xiaomi Redmi 9 i jego odzysk via SP Flash Tool</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2023-01-29T19:33:00&#43;01:00">Opublikowano: 29/01/2023</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Martwy smartfon Xiaomi Redmi 9 i jego odzysk via SP Flash Tool</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#problematyczny-firmware">Problematyczny firmware</a></li>
+    <li><a href="#bootrom-i-jego-tryb-pobierania-mtk-download-mode">BootROM i jego tryb pobierania (MTK Download Mode)</a></li>
+    <li><a href="#błąd-autoryzacji-w-sp-flash-tool-i-obejście-go-via-mtk-bypass-utility">Błąd autoryzacji w SP Flash Tool i obejście go via MTK Bypass Utility</a></li>
+    <li><a href="#konfiguracja-interfejsu-uart-w-sp-flash-tool">Konfiguracja interfejsu UART w SP Flash Tool</a>
+      <ol>
+        <li><a href="#wgrywanie-obrazów-firmware">Wgrywanie obrazów firmware</a>
+          <ol>
+            <li><a href="#problem-niezgodności-soc">Problem niezgodności SoC</a></li>
+          </ol>
+        </li>
+        <li><a href="#przywrócenie-poprzedniej-wersji-preloadera">Przywrócenie poprzedniej wersji preloader'a</a></li>
+      </ol>
+    </li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Przeglądając ostatnio stronę <code>xiaomifirmwareupdater.com</code> zauważyłem, że jest tam <a href="https://xiaomifirmwareupdater.com/firmware/lancelot/">dostępna nowsza
+wersja firmware dla mojego telefonu Xiaomi Redmi 9</a> (lancelot/galahad). Patrząc po numerkach
+<code>V13.0.1.0.SJCEUXM</code> (nowy dla Android 12) oraz <code>V12.5.4.0.RJCEUXM</code> (stary dla Android 11), miałem
+pewne wątpliwości czy wgrać sobie ten nowszy firmware. Niby na tym smartfonie mam wgrany <a href="https://crdroid.net/lava/8">ROM
+crDrdoid v8.9</a>, który dostarcza Androida 12.1, więc <a href="https://morfikov.github.io/post/jak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi/">aktualizacja firmware sposobem opisanym
+tutaj</a> powinna przebiec bez żadnych problemów. No i przebiegła, tylko po zrestartowaniu telefonu,
+ten już się nie uruchomił. Działał mi jedynie tryb fastboot (normalny boot i tryb recovery były
+martwe). Postanowiłem przywrócić poprzedni firmware wydobywając obrazy ze starej paczki firmware i
+ręcznie przy pomocy narzędzia <code>fastboot</code> wgrać te obrazy na odpowiadające im partycje w telefonie z
+poziomu mojego Debiana. Tutaj jednak zostało poczynionych parę błędów (o tym później), które
+doprowadziły do całkowitego uwalenia telefonu (hard brick), gdzie nawet tryb fastboot zdechł. W
+efekcie telefon już nie reagował na żadne kombinacje przycisków, a ekran pozostawał czarny -- jednym
+słowem nie działał żaden tryb pracy telefonu i wyglądało na to, że mam w łapkach już tylko sam złom
+elektroniczny i tak by w istocie było, gdyby z pomocą nie przyszedł mi SP Flash Tool.</p>
+<h2 id="problematyczny-firmware">Problematyczny firmware</h2>
+<p>Gdy trzymamy się ROM'u producenta telefonu, to praktycznie każdy element takiego oprogramowania
+jest ze sobą zgrany i działa prawidłowo, przynajmniej powinien. W przypadku custom ROM'ów, nie do
+końca musi być to prawdą, bo taki ROM można wgrać na telefon w dowolnym czasie jego użytkowania,
+czyli może on posiadać starsze lub nowsze wersje oficjalnego oprogramowania. Dlatego też przy
+przechodzeniu z oficjalnego ROM'u na ten nieoficjalny, deweloperzy informują użytkownika odnośnie
+wymagań, które muszą być spełnione, by zmiana ROM'u przebiegła w miarę bezproblemowo i zakończyła
+się powodzeniem. Jednym z tych wymagań jest <a href="https://telegra.ph/Firmware-Download-Link-09-30">odpowiednia wersja firmware</a>.</p>
+<p>Na firmware składa się kilka obrazów, które są wgrywane na odpowiadające im partycje w telefonie.
+Poniżej przykład dla mojego smartfona Xiaomi Redmi 9 (lancelot/galahad):</p>
+<pre><code>$ patool list fw_lancelot_miui_LANCELOTEEAGlobal_V12.5.4.0.RJCEUXM_67a1671939_11.0.zip'
+patool: Listing fw_lancelot_miui_LANCELOTEEAGlobal_V12.5.4.0.RJCEUXM_67a1671939_11.0.zip ...
+patool: running /usr/bin/7z l -- fw_lancelot_miui_LANCELOTEEAGlobal_V12.5.4.0.RJCEUXM_67a1671939_11.0.zip
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,4 CPUs Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz (306A9),ASM,AES-NI)
+
+Scanning the drive for archives:
+1 file, 40808894 bytes (39 MiB)
+
+Listing archive: fw_lancelot_miui_LANCELOTEEAGlobal_V12.5.4.0.RJCEUXM_67a1671939_11.0.zip
+
+--
+Path = fw_lancelot_miui_LANCELOTEEAGlobal_V12.5.4.0.RJCEUXM_67a1671939_11.0.zip
+Type = zip
+Physical Size = 40808894
+
+   Date      Time    Attr         Size   Compressed  Name
+------------------- ----- ------------ ------------  ------------------------
+2022-02-28 13:40:44 D....            0            0  META-INF
+2022-02-28 13:40:40 .....       280488       171992  preloader_raw.img
+2022-02-28 13:40:40 .....       282536       172052  preloader_ufs.img
+2022-02-28 13:40:42 .....            1            3  type.txt
+2022-02-28 13:40:40 .....          859          364  scatter.txt
+2022-02-28 13:40:40 .....       282536       172052  preloader_emmc.img
+2022-02-28 13:40:40 .....     59329408     35869684  md1img.img
+2022-02-28 13:40:42 .....      2505440      2166963  tee.img
+2022-02-28 13:40:42 .....        37984         7454  spmfw.img
+2022-02-28 13:40:40 .....       352816       144110  scp.img
+2022-02-28 13:40:42 .....       505616       483321  sspm.img
+2022-02-28 13:40:24 .....      1302976       522804  lk.img
+2022-02-28 13:40:22 D....            0            0  META-INF/com
+2022-02-28 13:40:44 .....         1634         1144  META-INF/CERT.RSA
+2022-02-28 13:40:42 .....         2217          999  META-INF/MANIFEST.MF
+2022-02-28 13:40:42 .....         2270         1091  META-INF/CERT.SF
+2022-02-28 13:40:42 D....            0            0  META-INF/com/android
+2022-02-28 13:40:22 D....            0            0  META-INF/com/google
+2022-02-28 13:40:24 D....            0            0  META-INF/com/google/android
+2022-02-28 13:40:24 .....      2340536      1090127  META-INF/com/google/android/update-binary
+2022-02-28 13:40:44 .....         3559          863  META-INF/com/google/android/updater-script
+2022-02-28 13:40:22 .....          316          220  META-INF/com/android/metadata
+2022-02-28 13:40:42 .....         1594         1077  META-INF/com/android/otacert
+------------------- ----- ------------ ------------  ------------------------
+2022-02-28 13:40:44           67232786     40806320  18 files, 5 folders
+</code></pre>
+<p>Interesują nas głównie pliki <code>md1img.img</code> , <code>tee.img</code> , <code>spmfw.img</code> , <code>scp.img</code> , <code>sspm.img</code> oraz
+<code>lk.img</code> . Nie jestem pewien czy obrazy <code>preloader_raw.img</code> , <code>preloader_ufs.img</code> i
+<code>preloader_emmc.img</code> biorą udział w procesie aktualizacji firmware. Gdy jakiś już czas temu
+aktualizowałem firmware przez TWRP/SHRP, to nie było w logu wzmianki o tym, by preloader był w
+jakiś sposób ruszany.</p>
+<p>Gdy podejrzymy sobie układ partycji w smartfonie, to zobaczymy coś takiego:</p>
+<pre><code># gdisk -l mmcblk0-stock-original.img
+GPT fdisk (gdisk) version 1.0.9
+
+Partition table scan:
+  MBR: protective
+  BSD: not present
+  APM: not present
+  GPT: present
+
+Found valid GPT with protective MBR; using GPT.
+Disk mmcblk0-stock-original.img: 122142720 sectors, 58.2 GiB
+Sector size (logical): 512 bytes
+Disk identifier (GUID): 00000000-0000-0000-0000-000000000000
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 122142686
+Partitions will be aligned on 16-sector boundaries
+Total free space is 61 sectors (30.5 KiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1              64          131135   64.0 MiB    0700  recovery
+   2          131136          132159   512.0 KiB   0700  misc
+   3          132160          133183   512.0 KiB   0700  para
+   4          133184          174143   20.0 MiB    0700  expdb
+   5          174144          176191   1024.0 KiB  0700  frp
+   6          176192          192575   8.0 MiB     0700  vbmeta
+   7          192576          208959   8.0 MiB     0700  vbmeta_system
+   8          208960          225343   8.0 MiB     0700  vbmeta_vendor
+   9          225344          271631   22.6 MiB    0700  md_udc
+  10          271632          337167   32.0 MiB    0700  metadata
+  11          337168          402703   32.0 MiB    0700  nvcfg
+  12          402704          533775   64.0 MiB    0700  nvdata
+  13          533776          632079   48.0 MiB    0700  persist
+  14          632080          730383   48.0 MiB    0700  persistbak
+  15          730384          746767   8.0 MiB     0700  protect1
+  16          746768          770047   11.4 MiB    0700  protect2
+  17          770048          786431   8.0 MiB     0700  seccfg
+  18          786432          790527   2.0 MiB     0700  sec1
+  19          790528          796671   3.0 MiB     0700  proinfo
+  20          796672          797695   512.0 KiB   0700  efuse
+  21          797696          850943   26.0 MiB    0700  boot_para
+  22          850944          982015   64.0 MiB    0700  nvram
+  23          982016          998399   8.0 MiB     0700  logo
+  24          998400         1260543   128.0 MiB   0700  md1img
+  25         1260544         1262591   1024.0 KiB  0700  spmfw
+  26         1262592         1274879   6.0 MiB     0700  scp1
+  27         1274880         1287167   6.0 MiB     0700  scp2
+  28         1287168         1289215   1024.0 KiB  0700  sspm_1
+  29         1289216         1291263   1024.0 KiB  0700  sspm_2
+  30         1291264         1324031   16.0 MiB    0700  gz1
+  31         1324032         1356799   16.0 MiB    0700  gz2
+  32         1356800         1360895   2.0 MiB     0700  lk
+  33         1360896         1364991   2.0 MiB     0700  lk2
+  34         1364992         1496063   64.0 MiB    0700  boot
+  35         1496064         1528831   16.0 MiB    0700  dtbo
+  36         1528832         1539071   5.0 MiB     0700  tee1
+  37         1539072         1549311   5.0 MiB     0700  tee2
+  38         1549312         1582079   16.0 MiB    0700  gsort
+  39         1582080         1844223   128.0 MiB   0700  minidump
+  40         1844224         2630655   384.0 MiB   0700  exaid
+  41         2630656         4727807   1024.0 MiB  0700  cust
+  42         4727808         4744191   8.0 MiB     0700  devinfo
+  43         4744192         4767743   11.5 MiB    0700  ffu
+  44         4767744        19447807   7.0 GiB     0700  super
+  45        19447808        20332543   432.0 MiB   0700  cache
+  46        20332544       122021823   48.5 GiB    0700  userdata
+  47       122021824       122109887   43.0 MiB    0700  otp
+  48       122109888       122142655   16.0 MiB    0700  flashinfo
+</code></pre>
+<p>Jeśli się przyjrzymy uważniej, to dostrzeżemy, że niektóre partycje są dublowane (np. <code>lk</code> oraz
+<code>lk2</code> ) i ten fakt ma dość istotne znaczenie przy wgrywaniu firmware. Można by pomyśleć, że skoro
+mamy do czynienia z plikiem obrazu <code>lk.img</code> , to powinniśmy wgrać go jedynie na partycję oznaczoną
+<code>lk</code> . Niemniej jednak, trzeba ten obraz wgrać zarówno na partycję <code>lk</code> jak i <code>lk2</code> . Podobnie
+trzeba postąpić z pozostałymi obrazami w paczce z firmware:</p>
+<ul>
+<li><code>md1img.img</code> -- wgrywamy na partycję <code>md1img</code> (nr. 24)</li>
+<li><code>tee.img</code>    -- wgrywamy na partycje <code>tee1</code> i <code>tee2</code> (nr. 36 i 37)</li>
+<li><code>spmfw.img</code>  -- wgrywamy na partycję <code>spmfw</code> (nr. 25)</li>
+<li><code>scp.img</code>    -- wgrywamy na partycje <code>scp1</code> i <code>scp2</code> (nr. 26 i 27)</li>
+<li><code>sspm.img</code>   -- wgrywamy na partycje <code>sspm_1</code> i <code>sspm_2</code> (nr. 28 i 29)</li>
+<li><code>lk.img</code>     -- wgrywamy na partycje <code>lk</code> i <code>lk2</code> (nr. 32 i 33)</li>
+<li><code>preloader_raw.img</code>  -- brak danych</li>
+<li><code>preloader_ufs.img</code>  -- brak danych</li>
+<li><code>preloader_emmc.img</code> -- brak danych</li>
+</ul>
+<p>Obrazy <code>sspm_1</code> , <code>tee1</code> , <code>scp1</code> i <code>lk</code> odpowiadają za aktualizację głównego loader'a, zaś obrazy
+<code>sspm_2</code> , <code>tee2</code> , <code>scp2</code> i <code>lk2</code> za aktualizację alternatywnego loader'a. Nie wiem co skrywa się
+na partycjach <code>md1img</code> i <code>spmfw</code> .</p>
+<p>Po aktualizacji firmware z <code>V12.5.4.0.RJCEUXM</code> do <code>V13.0.1.0.SJCEUXM</code> , działał jedynie tryb
+fastboot i gdyby przy jego pomocy wgrać stare obrazy na swoje miejsca, to smartfon po takim zabiegu
+powróciłby do życia. Póki co nie wiem, który z obrazów mających w nazwie <code>preloader_*</code> trzeba użyć
+(o ile w ogóle się je używa do czegoś). Tak czy inaczej, brak wgrania starych obrazów preloader'a
+i/lub wgranie obrazów tylko na jedną z dwóch bliźniaczych partycji sprawia, że telefon zdycha na
+amen i jakakolwiek interakcja z nim przestaje być możliwa.</p>
+<h2 id="bootrom-i-jego-tryb-pobierania-mtk-download-mode">BootROM i jego tryb pobierania (MTK Download Mode)</h2>
+<p>Brak wibracji przy przyciskaniu przycisków na obudowie telefonu może oznaczać w zasadzie tylko
+jedną rzecz, a jest nią brak możliwości włączenia urządzenia, co potwierdza niedziałający
+wyświetlacz czy brak na nim animacji ładowania po podłączeniu pod ładowarkę. Gdy taki telefon
+podłączyłem do portu USB komputera, to w logu nie został zanotowany żaden komunikat.</p>
+<p>Ja nie należę do osób, które łatwo się poddają, więc spróbowałem jakoś ten smartfon przywrócić do
+życia. Jako, że w tym przypadku mamy do czynienia z SoC Mediatek, to była jakaś szansa na to, że
+BootROM (pierwszy poziom procesu boot Androida) lub też i preloader (drugi poziom procesu boot
+Androida) w dalszym ciągu funkcjonują prawidłowo.</p>
+<p>Brak komunikatów w logu nie wróżył najlepiej ale przy przyciskaniu kolejno różnych kombinacji
+przycisków natrafiłem na <code>Power + VolDown</code> . Ta kombinacja sprawiła w systemie pojawiło się nowe
+urządzenie USB o numerkach <code>idVendor=0e8d</code> oraz <code>idProduct=0003</code> władające portem szeregowym
+<code>/dev/ttyACM0</code> :</p>
+<pre><code>kernel: usb 3-1: new high-speed USB device number 10 using xhci_hcd
+kernel: usb 3-1: New USB device found, idVendor=0e8d, idProduct=0003, bcdDevice= 1.00
+kernel: usb 3-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+kernel: usb 3-1: Device is not authorized for usage
+kernel: cdc_acm 3-1:1.0: ttyACM0: USB ACM device
+kernel: usb 3-1: authorized to connect
+kernel: usb 3-1: USB disconnect, device number 10
+</code></pre>
+<p>To urządzenie znika z systemu praktycznie natychmiast po pojawieniu się, choć ten fakt nie ma tutaj
+najmniejszego znaczenia. Ponowne przyciśnięcie <code>Power + VolDown</code> owocuje podobnym komunikatem na
+konsoli. Jeśli taki komunikat się pojawi przy całkowitym uwaleniu telefonu, oznacza to, że BootROM
+i jego Download Mode działa prawidłowo, co otwiera nam drogę do odratowania telefonu przy pomocy SP
+Flash Tool.</p>
+<h2 id="błąd-autoryzacji-w-sp-flash-tool-i-obejście-go-via-mtk-bypass-utility">Błąd autoryzacji w SP Flash Tool i obejście go via MTK Bypass Utility</h2>
+<p>SP Flash Tool to narzędzie, które jest w stanie przesłać na telefon obrazy poszczególnych partycji
+przy wykorzystaniu trybu pobierania (Download Mode). Wymagane jest posiadanie surowych obrazów
+partycji oraz mapy flash'a telefonu, tj. pliku <code>scatter.txt</code> .  Ten plik można samemu napisać albo
+można go pobrać z sieci. Ja go <a href="https://sourceforge.net/projects/boxaltroms/files/mirror/">pozyskałem z obrazu inżynieryjnego</a> (plik
+<code>Redmi_9_Engineering_Rom.zip</code> ) ale można też posłużyć się <a href="https://xiaomifirmwareupdater.com/miui/lancelot/">ROM'em fastboot</a>.</p>
+<p>Nawet jeśli mamy już wszystkie pliki przygotowane do wgrania, to nie będziemy mogli tego zrobić, bo
+zwykle nie będziemy autoryzowani do przeprowadzania operacji niskopoziomowych, których realizację
+umożliwia SP Flash Tool. Dlaczego? Wszystko przez niezbyt miłych ludzi, którzy kierując się tylko i
+wyłącznie zyskiem <a href="https://www.xda-developers.com/xiaomi-edl-unbrick-authorized-mi-accounts/">zaczęli działać na niekorzyść marki Xiaomi oraz jej klientów</a>.</p>
+<p>Chodzi o to, że telefony z rynku chińskiego były wyprowadzane poza Chiny i sprzedawane, np. w
+Europie. Tu się pojawił problem, bo te urządzenia oferowały jedynie język chiński i angielski, co
+zaowocowało wgrywaniem przez sprzedawców różnych modyfikacji ROM'ów wizualnie podobnych do
+oficjalnego oprogramowania, gdzie wybór języków był sporo większy. Dodatkowo te ROM'y często nie
+działały albo miały masę błędów, co prowadziło do wzrostu liczby niezadowolonych klientów, którzy
+uważali, że kupili oficjalne urządzenie od Xiaomi i żądali często zwrotu hajsu za niedziałający
+sprzęt.</p>
+<p>W późniejszym czasie, sprzedawcy handlujący telefonami marki Xiaomi zaczęli się jeszcze bardziej
+zamieniać z pewnym organem na łby i dorzucali do oferowanych przez siebie smartfonów syf w postaci
+adware/spyware/spamware czy innego rodzaju malware. Za takie działania sprzedawcy dostawali
+oczywiście hajs od firm trzecich (tych, które chciały implementacji tych śmieciowych aplikacji),
+psując przy tym dobre imię marki Xiaomi, która w pewnym momencie postanowiła raz na zawsze takie
+praktyki ukrócić podpisując szereg kluczowych elementów procesu startu telefonu.</p>
+<p>W ten sposób zablokowano możliwość zdjęcia blokady bootloader'a (trzeba wysłać żądanie do Xiaomi i
+posiadać zarejestrowane konto powiązane z danym urządzeniem), oraz też zablokowano tryb Emergency
+Download Mode (dla SoC Qualcomm) czy Download Mode (dla SoC Mediatek), które bardzo przydają się do
+odzyskiwania telefonu w takich przypadkach jak ten opisywany w niniejszym artykule.</p>
+<p>Póki co nie mam pojęcia jak uzyskać autoryzację od Xiaomi, by móc bez problemów korzystać z SP
+Flash Tool. Wygląda jednak na to, że nie trzeba już się prosić o pozwolenie, przynajmniej w
+przypadku modelu Redmi 9 (i też kilku innych), bo paru <a href="https://www.xda-developers.com/bypass-mediatek-sp-flash-tool-authentication-requirement/">deweloperom udało się obejść mechanizm
+autoryzacyjny</a> w BootROM (Boot Read-Only Memory), który <a href="https://research.nccgroup.com/2020/10/15/theres-a-hole-in-your-soc-glitching-the-mediatek-bootrom/">zwykle ładuje binarkę preloader'a</a>
+co w następstwie uruchamia system Androida.</p>
+<p>Owocem działania tych deweloperów jest projekt <a href="https://xiaomifirmwareupdater.com/miui/lancelot/">MTK Bypass Utility</a>. By MTK Bypass Utility mógł
+realizować swoje zadanie, potrzebuje określonego pliku wsadowego, konfiguracji oraz <a href="https://github.com/amonet-kamakiri/kamakiri/blob/master/kernel.patch">drobnej
+modyfikacji kernela linux w sterowniku USB</a>. Wygląda na to, że nowsze kernele (mam aktualnie
+6.1.6) nie wymagają już tego patch'a na kernel. Jeśli zaś chodzi o pliki wsadowe i konfigurację,
+to te dwie rzeczy są <a href="https://github.com/MTK-bypass/exploits_collection">dostępne w osobnym repozytorium</a>.</p>
+<p>Przygotujmy sobie zatem katalog roboczy:</p>
+<pre><code>$ git clone https://github.com/MTK-bypass/bypass_utility
+$ cd bypass_utility/
+$ git clone https://github.com/MTK-bypass/exploits_collection
+$ cd exploits_collection/
+$ cp ./default_config.json5 ../
+$ cp -a ./payloads/ ../
+$ cd ..
+</code></pre>
+<p>Następnie odpalamy program:</p>
+<pre><code>$ python3 main.py
+[2023-01-28 12:04:55.807367] Waiting for device
+</code></pre>
+<p>W tym momencie mając podłączony telefon do portu USB komputera przyciskamy przyciski <code>Power + VolDown</code> . Po chwili powinniśmy zobaczyć w logu poniższe komunikaty:</p>
+<pre><code>[2023-01-28 12:05:06.892077] Found device = 0e8d:0003
+
+[2023-01-28 12:05:07.012749] Device hw code: 0x707
+[2023-01-28 12:05:07.012871] Device hw sub code: 0x8a00
+[2023-01-28 12:05:07.012936] Device hw version: 0xca00
+[2023-01-28 12:05:07.012994] Device sw version: 0x0
+[2023-01-28 12:05:07.013076] Device secure boot: True
+[2023-01-28 12:05:07.013140] Device serial link authorization: True
+[2023-01-28 12:05:07.013232] Device download agent authorization: True
+
+[2023-01-28 12:05:07.013301] Disabling watchdog timer
+[2023-01-28 12:05:07.014062] Disabling protection
+[2023-01-28 12:05:07.038921] Protection disabled
+</code></pre>
+<p>Komunikat <code>Protection disabled</code> świadczy o obejściu procesu autoryzacji. Nasz smartfon nie zostanie
+też rozłączony, przez co urządzenie <code>/dev/ttyACM0</code> będzie dostępne w systemie cały czas:</p>
+<pre><code># ls -al /dev/ttyACM0
+crw-rw----+ 1 root dialout 166, 0 2023-01-28 11:38:45 /dev/ttyACM0
+</code></pre>
+<h2 id="konfiguracja-interfejsu-uart-w-sp-flash-tool">Konfiguracja interfejsu UART w SP Flash Tool</h2>
+<p>By móc wgrać coś na telefon w tym stanie, do którego go doprowadziliśmy, musimy nawiązać z nim
+połączenie. SP Flash Tool jest w stanie nawiązać takie połączenie albo przez interfejs USB, albo
+przez interfejs szeregowy UART. Dla naszych celów niezbędne będzie wykorzystanie interfejsu UART, a
+że urządzenie <code>/dev/ttyACM0</code> nie znika nam już z systemu, to możemy skonfigurować to połączenie w
+opcjach SP Flash Tool:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2023/01/001.smartfon-xiaomi-redmi-9-sp-flash-tool-uart-config.png" alt="smartfon-xiaomi-redmi-9-sp-flash-tool-uart-config"    class="huge"></p>
+<h3 id="wgrywanie-obrazów-firmware">Wgrywanie obrazów firmware</h3>
+<p>Po obejściu procesu autoryzacji, możemy przystąpić do wgrania obrazów firmware na telefon
+wykorzystując SP Flash Tool. Jeśli posiadamy ROM inżynieryjny, to możemy wykorzystać dostarczony w
+nim pliki <code>DA</code> oraz plik <code>scatter.txt</code> . Wystarczy podać ścieżki do nich, tak jak to widać poniżej:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2023/01/002.smartfon-xiaomi-redmi-9-sp-flash-tool-da-scatter-txt-file.png" alt="smartfon-xiaomi-redmi-9-sp-flash-tool-da-scatter-txt-file"    class="huge"></p>
+<p>Po wczytaniu pliku <code>scatter.txt</code> zostanie załadowana lista partycji, które będziemy mogli wgrać na
+telefon. Możemy skorzystać z obrazów dostarczonych w ROM'ie inżynieryjnym. Możemy też dociągnąć ROM
+fastboot i skorzystać z oferowanych przez niego obrazów. Możemy także skorzystać z obrazów partycji
+zawartych w różnego rodzaju custom ROM'ach.</p>
+<p>W tym przypadku prawie wszystkie obrazy pochodzą z oficjalnego ROM'u fastboot od Xiaomi (był chyba
+nowszy niż ten inżynieryjny). Wyjątkiem są obrazy <code>dtbo</code> i <code>boot</code> , które pochodzą z ROM'u crDroid
+(aktualnie wgrany na telefon).</p>
+<h4 id="problem-niezgodności-soc">Problem niezgodności SoC</h4>
+<p>Zanim jednak wgramy pełny zestaw obrazów, dobrze jest wgrać testowo jedną pozycję, by sprawdzić czy
+komunikacja na linii SP Flash Tool i nasz telefon w ogóle działa. Podczas próby wgrania obrazów
+wyskoczył mi komunikat niezgodności SoC (tym w telefonie i tym w konfiguracji), co objawiało się
+poniższym wiadomością w logu:</p>
+<pre><code>[error] Chip mismatch! scatter: platform[MT6768] type[]; device: hw_code[0xb8e8],
+hw_subcode[0x9400], hw_ver[0x7fb2], sw_ver[0x0], chip_evolution[0] #(chip_mapping.cpp, line:259)
+</code></pre>
+<p>A tak to wglądało w SP Flash Tool:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2023/01/003.smartfon-xiaomi-redmi-9-sp-flash-tool-chip-mismatch.png" alt="smartfon-xiaomi-redmi-9-sp-flash-tool-chip-mismatch"    class="huge"></p>
+<p>Jeśli natrafiliśmy na taki problem po wciśnięciu przycisku <code>Download</code> w SP Flash Tool, to wystarczy
+zignorować ten błąd i jeszcze raz przycisnąć przycisk <code>Download</code> . Tym razem proces przesyłania
+obrazu na telefon powinien się rozpocząć i zakończyć powodzeniem.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2023/01/004.smartfon-xiaomi-redmi-9-sp-flash-tool-flashing.png" alt="smartfon-xiaomi-redmi-9-sp-flash-tool-flashing"    class="huge"></p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2023/01/005.smartfon-xiaomi-redmi-9-sp-flash-tool-flashing-success.png" alt="smartfon-xiaomi-redmi-9-sp-flash-tool-flashing-success"    class="huge"></p>
+<h3 id="przywrócenie-poprzedniej-wersji-preloadera">Przywrócenie poprzedniej wersji preloader'a</h3>
+<p>Po wgraniu wszystkich obrazów na swoje miejsca, telefon w dalszym ciągu nie chciał dać żadnego znaku
+życia. Przeglądając skrypt aktualizacji dostarczany w ROM'ie fastboot ( <code>flash_all.sh</code> ),
+zauważyłem, że widnieje tam poniższa linijka:</p>
+<pre><code>fastboot $* flash preloader `dirname $0`/images/preloader_lancelot.bin
+</code></pre>
+<p>Zajrzałem zatem do katalogu <code>images/</code> i obok obrazów partycji znalazłem też obraz preloader'a, tj.
+<code>preloader_lancelot.bin</code> . Różni się on nieco od tych trzech poprzednich, tj. <code>preloader_raw.img</code> ,
+<code>preloader_ufs.img</code> czy <code>preloader_emmc.img</code> ale mając do wyboru ten plik lub tamte, to jednak
+zdecydowałem się wgrać <code>preloader_lancelot.bin</code> .</p>
+<p>Dopiero po wgraniu <code>preloader_lancelot.bin</code> (oraz wszystkich poprzednich obrazów partycji) telefon
+się uruchomił. No i oczywiście żadne dane nie zostały stracone. Jedynie trzeba było ponownie
+przepakować obraz partycji <code>/boot/</code> , by wgrać Magisk'a w celu uzyskania praw administratora
+systemu.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Opisana w tym artykule sytuacja do doskonały przykład na to jak producenci smartfonów świadomie
+działają na niekorzyść swoich klientów. O ile pewne działania marki Xiaomi mające na celu
+powstrzymać rozprzestrzenianie się syfu w produkowanych przez nich urządzeniach są nawet
+uzasadnione, to pozbawienie przy tym końcowego użytkownika możliwości naprawy telefonu we własnym
+zakresie jest moim zdaniem niedopuszczalne. Parę klików i 800 zł zostało w kieszeni, szkoda tylko,
+że trzeba było dopuszczać się tak niecnych czynów jak przełamywanie zabezpieczeń. Nie nastąpiła też
+żadna utrata danych użytkownika telefonu, co zapewne nie miałoby miejsca, gdyby oddać ten telefon
+do serwisu.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">xiaomi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">redmi-9</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/crdroid/">crdroid</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/spflashtool/">spflashtool</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aosp/">aosp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/firmware/">firmware</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hard-brick/">hard-brick</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fmartwy-smartfon-xiaomi-redmi-9-i-jego-odzysk-via-sp-flash-tool%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmartwy-smartfon-xiaomi-redmi-9-i-jego-odzysk-via-sp-flash-tool%2f&amp;text=Martwy%20smartfon%20Xiaomi%20Redmi%209%20i%20jego%20odzysk%20via%20SP%20Flash%20Tool" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmartwy-smartfon-xiaomi-redmi-9-i-jego-odzysk-via-sp-flash-tool%2f&amp;title=Martwy%20smartfon%20Xiaomi%20Redmi%209%20i%20jego%20odzysk%20via%20SP%20Flash%20Tool" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmartwy-smartfon-xiaomi-redmi-9-i-jego-odzysk-via-sp-flash-tool%2f&amp;title=Martwy%20smartfon%20Xiaomi%20Redmi%209%20i%20jego%20odzysk%20via%20SP%20Flash%20Tool" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmartwy-smartfon-xiaomi-redmi-9-i-jego-odzysk-via-sp-flash-tool%2f&title=Martwy%20smartfon%20Xiaomi%20Redmi%209%20i%20jego%20odzysk%20via%20SP%20Flash%20Tool" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmartwy-smartfon-xiaomi-redmi-9-i-jego-odzysk-via-sp-flash-tool%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmartwy-smartfon-xiaomi-redmi-9-i-jego-odzysk-via-sp-flash-tool%2f&amp;title=Martwy%20smartfon%20Xiaomi%20Redmi%209%20i%20jego%20odzysk%20via%20SP%20Flash%20Tool" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fmartwy-smartfon-xiaomi-redmi-9-i-jego-odzysk-via-sp-flash-tool%2f&description=Martwy%20smartfon%20Xiaomi%20Redmi%209%20i%20jego%20odzysk%20via%20SP%20Flash%20Tool" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zainstalowac-magisk-bez-dostepu-do-twrp-shrp-recovery/">Jak zainstalować Magisk bez dostępu do TWRP/SHRP recovery</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zaktualizowac-firmware-custom-rom-w-smartfonach-xiaomi/">Jak zaktualizować firmware custom ROM&#39;ów w smartfonach Xiaomi</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wgrac-crdroid-android-rom-na-xiaomi-redmi-9-lancelot-galahad/">Jak wgrać crDroid Android ROM na Xiaomi Redmi 9 (lancelot/galahad)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/tryb-bezczynnosci-baterii-idle-mode-w-smartfonach-z-androidem/">Tryb bezczynności baterii (IDLE mode) w smartfonach z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/nagrywanie-rozmow-telefonicznych-w-smartfonie-z-androidem/">Nagrywanie rozmów telefonicznych w smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-implementacji-webview-z-google-aosp-na-bromite-w-androidzie/">Zmiana implementacji WebView z Google/AOSP na Bromite w Androidzie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/randomizacja-adresow-mac-wifi-w-smartfonie-z-androidem/">Randomizacja adresów MAC WiFi w smartfonie z Androidem</a></li>
+		
+	</ul>
+</div>
+
+	<div id="comments">
+		<script src="https://utteranc.es/client.js"
+        repo="morfikov/morfitronik-comments"
+        issue-term="og:title"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+</script>
+
+	</div>
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2023 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<div class="license-icons">
+			<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons Attribution 4.0 International license">
+<i class="icon-cc"></i><i class="icon-cc-by"></i><i class="icon-cc-nc"></i><i class="icon-cc-sa"></i>
+</a>
+		</div>
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
+</body>
+</html>
