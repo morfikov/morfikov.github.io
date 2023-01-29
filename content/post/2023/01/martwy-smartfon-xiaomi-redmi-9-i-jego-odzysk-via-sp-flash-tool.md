@@ -15,7 +15,7 @@ tags:
 - aosp
 - firmware
 - hard-brick
-GHissueID: 594
+GHissueID: 595
 title: Martwy smartfon Xiaomi Redmi 9 i jego odzysk via SP Flash Tool
 ---
 
