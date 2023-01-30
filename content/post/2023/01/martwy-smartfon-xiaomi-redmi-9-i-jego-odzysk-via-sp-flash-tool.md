@@ -267,7 +267,7 @@ przypadku modelu Redmi 9 (i też kilku innych), bo paru [deweloperom udało się
 autoryzacyjny][10] w BootROM (Boot Read-Only Memory), który [zwykle ładuje binarkę preloader'a][12]
 co w następstwie uruchamia system Androida.
 
-Owocem działania tych deweloperów jest projekt [MTK Bypass Utility][5]. By MTK Bypass Utility mógł
+Owocem działania tych deweloperów jest projekt [MTK Bypass Utility][6]. By MTK Bypass Utility mógł
 realizować swoje zadanie, potrzebuje określonego pliku wsadowego, konfiguracji oraz [drobnej
 modyfikacji kernela linux w sterowniku USB][11]. Wygląda na to, że nowsze kernele (mam aktualnie
 6.1.6) nie wymagają już tego patch'a na kernel. Jeśli zaś chodzi o pliki wsadowe i konfigurację,
