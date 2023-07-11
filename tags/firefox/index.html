@@ -14,7 +14,6 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/tags/firefox/" />
 
-
 		<meta itemprop="name" content="firefox">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
 		<meta name="twitter:card" content="summary"/>
@@ -126,6 +125,33 @@ CloudFlare powoli testują ESNI. Postanowiłem zatem dobrowolnie przyłączyć s
 wdrożyć na swoim linux'ie to rozszerzenie ESNI dla przeglądarki Firefox.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-08-10T18:15:00Z">Opublikowano: 10/08/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/mechanizm-trigger-dla-apt-aptitude-w-debianie/">Mechanizm trigger&#39;ów dla apt/aptitude w Debianie</a></h1>
+	<div class="entry__content"><p>Czasami pewna niestandardowa konfiguracja naszego linux'a może sprawiać pewne problemy podczas
+aktualizacji zainstalowanych w nim pakietów. Dla przykładu, wykorzystując mechanizm AppArmor do
+okrojenia profilów Firefox'a, muszę tworzyć osobne twarde dowiązania do binarki tej przeglądarki.
+Te dowiązania mają taki problem, że jak usunie się plik, na który wskazywały, np. podczas
+aktualizacji paczki, to utworzenie pliku w tym samym miejscu przez menadżer pakietów
+<code>apt</code>/<code>aptitude</code> nie sprawi, że te dowiązania zaczną ponownie funkcjonować poprawnie (tak jak to
+jest w przypadku dowiązań symbolicznych). Z początku usuwałem te stare dowiązania i tworzyłem nowe
+ale postanowiłem w końcu <a href="https://forum.dug.net.pl/viewtopic.php?id=30382">poszukać rozwiązania</a>, które by zautomatyzowało cały ten proces i
+uczyniło go transparentnym dla użytkownika końcowego. Tak natrafiłem na mechanizm Debianowych
+trigger'ów (<a href="https://manpages.debian.org/unstable/dpkg-dev/deb-triggers.5.en.html">deb-trigger</a>), które aktywują się za każdym razem ilekroć pliki w konkretnych
+ścieżkach są ruszane w jakiś sposób przez menadżer pakietów. W tym artykule spróbujemy sobie
+zaprojektować taki trigger i obadać czy może on nam się w ogóle do czegoś przydać</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-04-14T00:10:11Z">Opublikowano: 14/04/2019</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -344,28 +370,6 @@ przy przeglądaniu internetu. Zajrzyjmy zatem Firefox'owi pod maskę i sprawdźm
 dotyczące cache DNS wymagają dostosowania.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2015-11-20T14:01:17Z">Opublikowano: 20/11/2015</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wiecej-niz-jeden-profil-w-firefoxie/">Więcej niż jeden profil w Firefox&#39;ie</a></h1>
-	<div class="entry__content"><p>Ogromna większość ludzi korzysta z jednego profilu swojej przeglądarki internetowej. Niesie to ze
-sobą spore zagrożenie bezpieczeństwa jak i może godzić w naszą prywatność. Jeśli dzielimy z kimś
-komputer, to raczej wszyscy domownicy posiadają osobne konta w systemie, a co z tym się wiąże, inny
-profil przeglądarki. I na tym zwykle podział się kończy ale przecie to nie wszystko. Profil, jak
-sama nazwa wskazuje, jest w stanie dostosować opcje przeglądarki, np. pod kątem pewnych aktywności.
-W tym wpisie postaramy się utworzyć kilka profili w Firefox'ie i sprawdzimy korzystanie z nich
-będzie odczuwalne w jakiś sposób dla przeciętnego użytkownika internetu.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2015-10-29T16:50:34Z">Opublikowano: 29/10/2015</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

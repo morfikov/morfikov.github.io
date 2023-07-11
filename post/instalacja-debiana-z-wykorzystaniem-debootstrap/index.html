@@ -22,9 +22,8 @@ do przeglądarki i w przypadku utknięcia gdzieś po drodze podczas instalacji, 
 napotkane problemy nie przerywając przy tym prac instalacyjnych." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2016-01-02T03:52:49+00:00" />
-<meta property="article:modified_time" content="2016-01-02T03:52:49+00:00" />
-
+<meta property="article:published_time" content="2016-01-02T03:52:49+01:00" />
+<meta property="article:modified_time" content="2023-07-11T11:10:00+02:00" />
 
 		<meta itemprop="name" content="Instalacja debiana z wykorzystaniem debootstrap">
 <meta itemprop="description" content="Instalowanie debiana z wykorzystaniem debootstrap trochę się różni od instalacji z wykorzystaniem
@@ -37,9 +36,9 @@ wykorzystać już zainstalowany system operacyjny. Ważne jest tylko to, aby by�
 zainstalowania w takim systemie pakietu debootstrap , no i oczywiście wymagany jest dostęp do
 internetu. W przeciwieństwie do instalatora debiana, mamy dostęp do graficznego środowiska, a w nim
 do przeglądarki i w przypadku utknięcia gdzieś po drodze podczas instalacji, możemy sobie wygooglać
-napotkane problemy nie przerywając przy tym prac instalacyjnych."><meta itemprop="datePublished" content="2016-01-02T03:52:49+00:00" />
-<meta itemprop="dateModified" content="2016-01-02T03:52:49+00:00" />
-<meta itemprop="wordCount" content="5099">
+napotkane problemy nie przerywając przy tym prac instalacyjnych."><meta itemprop="datePublished" content="2016-01-02T03:52:49+01:00" />
+<meta itemprop="dateModified" content="2023-07-11T11:10:00+02:00" />
+<meta itemprop="wordCount" content="5135">
 <meta itemprop="keywords" content="debian,luks,lvm,debootstrap," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Instalacja debiana z wykorzystaniem debootstrap"/>
@@ -130,7 +129,8 @@ if (!doNotTrack) {
 		<div class="single block">
 			<article class="entry">
 	<div class="entry__meta meta mb">
-	<time class="entry__meta-published meta-published" datetime="2016-01-02T03:52:49Z">Opublikowano: 02/01/2016</time>
+	<time class="entry__meta-published meta-published" datetime="2016-01-02T03:52:49&#43;01:00">Opublikowano: 02/01/2016</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2023-07-11T11:10:00&#43;02:00">Zaktualizowano: 11/07/2023</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -261,13 +261,16 @@ próbującym siłowego złamania hasła klastrami graficznymi.</p>
   --cipher aes-xts-plain64 \
   --key-size 512 \
   --hash sha512 \
-  --pbkdf argon2i \
+  --pbkdf argon2id \
   --label debian \
   --subsystem &quot;&quot; \
   --use-random \
   --verify-passphrase \
   --verbose
 </code></pre>
+<p>Warto też wspomnieć, że nie powinno się stosować <code>argon2i</code> do takich rzeczy jak szyfrowanie
+partycji ze względu na słabą odporność przed atakami, w których wykorzystywane są klastry GPU i
+lepszym rozwiązaniem jest korzystanie z <code>argon2id</code> .</p>
 <p>Poniżej opis wykorzystanych parametrów:</p>
 <ul>
 <li><code>--cipher </code> określa wykorzystany szyfr. W tym przypadku jest to <code>aes</code> w trybie <code>xts</code>. Z kolei
