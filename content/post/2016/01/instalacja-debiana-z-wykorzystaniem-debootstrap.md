@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Linux
-date: "2016-01-02T03:52:49Z"
-date_gmt: 2016-01-02 02:52:49 +0100
+date: 2016-01-02 03:52:49 +0100
+lastmod: 2023-07-11 11:10:00 +0200
 published: true
 status: publish
 tags:
@@ -96,12 +96,16 @@ Niżej zaś jest linijka tworząca kontener LUKSv2 (można też ręcznie określ
       --cipher aes-xts-plain64 \
       --key-size 512 \
       --hash sha512 \
-      --pbkdf argon2i \
+      --pbkdf argon2id \
       --label debian \
       --subsystem "" \
       --use-random \
       --verify-passphrase \
       --verbose
+
+Warto też wspomnieć, że nie powinno się stosować `argon2i` do takich rzeczy jak szyfrowanie
+partycji ze względu na słabą odporność przed atakami, w których wykorzystywane są klastry GPU i
+lepszym rozwiązaniem jest korzystanie z `argon2id` .
 
 Poniżej opis wykorzystanych parametrów:
 
@@ -939,3 +943,4 @@ odpalić. Jest to czysty tryb tekstowy. Czeka nas jeszcze instalacja środowiska
 [18]: /post/konfiguracja-xservera-na-debianie-xorg/
 [19]: /post/menadzer-okien-openbox/
 [20]: https://en.wikipedia.org/wiki/Argon2
+[21]: https://mjg59.dreamwidth.org/66429.html
