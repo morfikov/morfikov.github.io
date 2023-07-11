@@ -8,7 +8,7 @@ status: publish
 tags:
 - debian
 - apt
-- apparmor
+- firefox
 GHissueID: 290
 title: Mechanizm trigger'ów dla apt/aptitude w Debianie
 ---
@@ -187,7 +187,7 @@ zostanie aktywowany ( `triggered)` ):
         ;;
 
         *)
-            echo "postinst called with unknown argument \`$1'" >&2
+            echo "postinst called with unknown argument '$1'" >&2
             exit 1
         ;;
     esac
