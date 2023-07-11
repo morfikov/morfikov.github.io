@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Linux
 date:    2020-09-02 18:36:00 +0200
-lastmod: 2020-09-02 18:36:00 +0200
+lastmod: 2023-03-01 08:30:00 +0100
 published: true
 status: publish
 tags:
@@ -12,6 +12,8 @@ tags:
 - prywatność
 - sieć
 - nftables
+- proton-vpn
+- routing
 GHissueID: 9
 title: Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)
 ---
@@ -45,10 +47,11 @@ Nie będę tutaj opisywał jako takiej [konfiguracji OpenVPN][2], bo to zostało
 artykule. Dlatego jeśli ktoś potrzebuje informacji na temat jak skonfigurować OpenVPN, to odsyłam
 do podlinkowanego wpisu. Tutaj zakładam, że mamy już działające połączenie VPN i jesteśmy w stanie
 bez większego problemu nawiązać łączność ze światem zewnętrznym przy jego pomocy. W tym przypadku
-wykorzystywany będzie [VPN riseup][3], którego konfiguracja znajduje się w pliku
-`/etc/openvpn/riseup.conf` . Ten plik trzeba będzie poddać edycji (o tym za moment).
+wykorzystywany będzie [Proton VPN][3], którego konfiguracja znajduje się w pliku
+`/etc/openvpn/nl-free-02.protonvpn.com.udp1194.conf` . Ten plik trzeba będzie poddać edycji (o tym
+za moment).
 
-W przypadku części serwerów OpenVPN (VPN riseup się do nich zalicza), cały ruch klienta po
+W przypadku części serwerów OpenVPN (Proton VPN się do nich zalicza), cały ruch klienta po
 zestawieniu połączenia jest wrzucany w tunel SSL/TLS i szyfrowany na linii klient-serwer. By ten
 zabieg zrealizować, serwer przesyła do klienta żądanie `push "redirect-gateway"` , które ma na
 celu przekonfigurować trasy u klienta w taki sposób, by znalazło się w jego tablicy routingu kilka
@@ -95,8 +98,8 @@ W ten sposób każda z tych dwóch tras jest bardziej specyficzna niż `0.0.0.0/
 routing pakietów. Każda z tych dwóch tras ma określony `via 172.27.100.1` oraz  `dev tun0` , przez
 co nową bramą domyślną staje się adres `172.27.100.1` osiągalny przez interfejs `tun0` . Dalej w
 tablicy routingu widzimy, że została także skonfigurowana trasa dla nowej sieci `172.27.100.0/22`
-(sieć VPN) oraz pojawił się wpis `198.252.153.226` , którego IP wskazuje na adres serwera VPN
-riseup. Chodzi tutaj o to, że pakiety po zaszyfrowaniu (odebrane z interfejsu `tun0` ) muszą zostać
+(sieć VPN) oraz pojawił się wpis `198.252.153.226` , którego IP wskazuje na adres serwera VPN.
+Chodzi tutaj o to, że pakiety po zaszyfrowaniu (odebrane z interfejsu `tun0` ) muszą zostać
 przesłane do serwera VPN. Nie mogą jednak lecieć kanałem VPN. Zatem wszystkie pakiety (te wrzucone
 w tunel SSL/TLS) kierowane są na adres `198.252.153.226` . Dalej w tej trasie mamy `via 192.168.1.1
 dev bond0` , przez co pakiety kierowane na adres `198.252.153.226` będą przesyłane przez naszą
@@ -108,7 +111,7 @@ Po skonfigurowaniu tras routingu, wszystkie aplikacje sieciowe będą przesyła�
 Niemniej jednak, ta domyślna polityka przekonfigurowania tras routingu sprawia, że nie damy rady
 rozdzielić procesów w taki sposób, by tylko określone z nich przesyłały pakiety przez VPN. Trzeba
 zatem tych domyślnych tras routingu się pozbyć i do tego służy parametr `route-nopull` , który
-trzeba dopisać w konfiguracji OpenVPN w pliku `/etc/openvpn/riseup.conf` :
+trzeba dopisać w konfiguracji OpenVPN w pliku `/etc/openvpn/nl-free-02.protonvpn.com.udp1194.conf` :
 
     route-nopull
 
@@ -165,7 +168,11 @@ cicho niszczone bez przekazywania ich dalej w przypadku braku połączenia VPN:
     # ip route append blackhole default table vpn
 
 W ten sposób upewnimy się, że proces korzystający z VPN nie będzie miał możliwości bezpośredniego
-kontaktu z siecią.
+kontaktu z siecią:
+
+    # ip route show table vpn
+    default dev tun0 scope link
+    blackhole default
 
 [Cache routingu został usunięty z kernela][11] dość dawno (od wersji v3.6), zatem nie musimy już
 wydawać tego poniższego polecenia:
@@ -176,16 +183,16 @@ Mamy zatem domyślną trasę w tablicy `vpn` ale potrzebujemy jeszcze jakiejś r
 ta trasa będzie w ogóle brana pod uwagę. Bez tej reguły, kernel przy routingu pakietów będzie
 posługiwał się w zasadzie tablicą `main` , przez co połączenie VPN nie będzie używane:
 
-    # ip rule add fwmark 0x1111 priority 20002 table vpn
+    # ip rule add fwmark 0x1111 priority 2002 table vpn
 
 Za sprawą tej powyższej reguły, pakiety będą dopasowane na podstawie `fwmark` nakładanego przez
 netfilter ( `iptables` / `nftables`). Wartość `fwmark` możemy określić z zakresu od `0x00000000` do
 `0xffffffff` , zarówno dziesiętnie, jak i w HEX. Jeśli chcemy podać wartość w HEX, to używamy `0x` .
-Trzeba mieć na uwadze fakt, że niektóre aplikacje (np. `conntrack` ) przelicza HEX'y na wartości
+Trzeba mieć na uwadze fakt, że niektóre aplikacje (np. `conntrack` ) przeliczają HEX'y na wartości
 dziesiętne. W taki sposób `0x00001111` przyjmie wartość `4369` . Zatem lepiej uważać jaką wartość w
 `fwmark` podajemy. Priorytet określony w `priority` nie ma znaczenia, gdy w grę wchodzi tylko jedna
 reguła. Niemniej jednak, każda reguła musi mieć określony priorytet i ten priorytet musi być inny
-dla każdej z nich. Warto tutaj zaznaczyć, że im wyższa wartość parametru `priority` , tym niż
+dla każdej z nich. Warto tutaj zaznaczyć, że im wyższa wartość parametru `priority` , tym niższy
 priorytet. Z kolei `table vpn` nakazuje kernelowi sprawdzenie tablicy `vpn` ilekroć tylko mark w
 pakietach zostanie dopasowany.
 
@@ -211,14 +218,14 @@ nałożony przez filtr pakietów w tablicy `mangle` w łańcuchu `OUTPUT` . Stw�
 łańcuch w tej tablicy i przekierujmy do niego ruch w oparciu [o informacje o pakiecie][8], tj UID
 ( `skuid` ) lub GID ( `skgid` ):
 
-    nft create chain ip mangle force-vpn
-    nft add rule ip mangle OUTPUT meta skuid 1001 counter jump force-vpn
+    nft create chain inet mangle force-vpn
+    nft add rule inet mangle OUTPUT meta skuid 1001 counter jump force-vpn
 
 Każdy pakiet sieciowy, który zostanie stworzony przez aplikacje uruchomione przez użytkownika
 mającego ID `1001` zostanie dopasowany do tej drugiej reguły i przesłany do łańcucha `force-vpn` .
 W tym łańcuchu dodajemy kolejną regułę, której zadaniem jest oznaczenie pakietów markiem `0x1111` :
 
-    nft add rule ip mangle force-vpn meta skgid 1001 meta mark set 0x1111 counter
+    nft add rule inet mangle force-vpn meta skgid 1001 meta mark set 0x1111 counter
 
 W tej chwili każdy pakiet sieciowy użytkownika z ID `1001` będzie oznaczany w `nftables` , a reguła
 routingu sprawi, że pakiety zostaną skierowane do kanału VPN. Warto tutaj zaznaczyć, że takie
@@ -228,7 +235,27 @@ wydajność. Naturalnie taki mechanizm oznaczania pakietów nie sprawi, że prę
 sieciowego ucierpi ale to rozwiązanie oznaczania pakietów można poprawić przez oznaczanie całego
 połączenia zamiast pojedynczych pakietów. Niemniej jednak, jest to ździebko skomplikowane i nie
 będę tej kwestii tutaj poruszał. Ci, których interesuje to zagadnienie, mogą rzucić okiem na
-artykuł o [oznaczaniu połączeń przy pomocy targetu MARK w iptables][10].
+artykuł o [oznaczaniu połączeń przy pomocy targetu MARK w iptables][10]. Poniżej jest tylko
+przykładowa konfiguracja dla `nftables` (do umieszczenia, np. w skrypcie firewall'a ):
+
+    table inet mangle {
+        chain PREROUTING {
+            type filter hook prerouting priority -150; policy accept;
+            iifname != "lo" jump marking
+        }
+
+        chain OUTPUT {
+            type route hook output priority -150; policy accept;
+            oifname != "lo" jump marking
+        }
+
+        chain marking {
+            counter meta mark set ct mark & 0x0000ffff
+            meta mark & 0x0000ffff != 0x00000000 counter return
+            meta skgid 1001 meta mark & 0x0000ffff == 0x00000000 meta mark set 0x00001111 counter
+            counter ct mark set meta mark & 0x0000ffff
+        }
+    }
 
 Oznaczenie pakietów i przekierowanie ich pod określony adres mamy z głowy. Problem jednak w tym, że
 te pakiety nie będą chciały opuścić naszej maszyny, bo nie jest jeszcze realizowany NAT. Musimy
@@ -237,28 +264,28 @@ zatem dodać parę reguł w `nftables` dla tablicy NAT.
 Podobnie jak poprzednio, tworzymy osobny łańcuch i przekierowujemy ruch do niego, tym razem w
 oparciu o interfejs wychodzący, który ma wskazywać na interfejs VPN (w tym przypadku `tun0` ):
 
-    nft create chain ip nat force-vpn
-    nft add rule ip nat POSTROUTING meta oifname tun0 counter jump force-vpn
+    nft create chain inet nat force-vpn
+    nft add rule inet nat POSTROUTING meta oifname tun0 counter jump force-vpn
 
 W łańcuchu `force-vpn` dodajemy teraz regułę, która ma przepisać źródło pakietów na adres jaki
 klient OpenVPN otrzymał z serwera. W tym przypadku serwer VPN dynamicznie przydziela klientom
 adresy IP i nigdy nie wiadomo na jaki się trafi, dlatego lepiej skorzystać z maskarady:
 
-    nft add rule ip nat force-vpn meta oifname tun0 counter masquerade
+    nft add rule inet nat force-vpn meta oifname tun0 counter masquerade
 
 Jeśli jednak mamy przydzielony stały adres IP, to [można również dać SNAT zamiast maskarady][9],
 choć nie jest to wymagane:
 
-    nft add rule ip nat force-vpn meta oifname tun0 counter snat 172.27.100.18
+    nft add rule inet nat force-vpn meta oifname tun0 counter snat 172.27.100.18
 
 ## Test VPN dla określonego użytkownika
 
 Te powyżej przeprowadzone kroki to w zasadzie wszystko co jest nam potrzebne do skonfigurowania VPN
 dla pojedynczego procesu czy użytkownika/grupy, przy założeniu, że mieliśmy wcześniej działający
-VPN. Wystarczy się teraz zalogować na tego określonego usera lub też odpalić jakiś proces z
+VPN. Wystarczy się teraz zalogować na tego określonego user'a lub też odpalić jakiś proces z
 konkretną grupą i przetestować np. przy pomocy `ping` czy opóźnienia do tego samego serwera ulegają
 zmianie w zależności czy `ping` leci przez VPN czy bezpośrednio do docelowego hosta. Jak widać na
-przykładzie zobrazowanym poniżej, różnica w pingu jest i to dość znaczna. Zawsze można też dla
+przykładzie zobrazowanym poniżej, różnica w ping'u jest i to dość znaczna. Zawsze można też dla
 potwierdzenia odpytać o nasz adres IP jakiś zewnętrzny serwis, by sprawdzić czy faktycznie te
 adresy IP widziane przez serwery WWW się różnią:
 
@@ -288,8 +315,7 @@ skrypt shell'owy dla OpenVPN. Poniżej jest przykład takiego skryptu, który za
 
     #!/bin/sh
 
-    user_id="1001"
-    group_id="1001"
+    id="1001"
     mark="0x1111"
     route_table="vpn"
     rule_prio="2002"
@@ -327,8 +353,8 @@ skrypt shell'owy dla OpenVPN. Poniżej jest przykład takiego skryptu, który za
       if ! nft -a list table ip mangle | grep force-vpn > /dev/null
       then
         nft create chain ip mangle force-vpn
-        nft add rule ip mangle OUTPUT meta skuid ${user_id} counter jump force-vpn
-        nft add rule ip mangle force-vpn meta skuid ${user_id} meta mark set ${mark} counter
+        nft add rule ip mangle OUTPUT meta skuid ${id} counter jump force-vpn
+        nft add rule ip mangle force-vpn meta skuid ${id} meta mark set ${mark} counter
       fi
 
         ;;
@@ -340,7 +366,7 @@ W zasadzie wszystkie kroki, które przeprowadziliśmy wcześniej, zostały zebra
 on, co prawda, akcje `up` oraz `down` ale w `down` nie ma żadnych poleceń. Chodzi o to, by nie cofać
 zmian w konfiguracji systemu, tj. tych wprowadzonych podczas zestawiania połączenia VPN po raz
 pierwszy. W ten sposób, gdy nastąpi zerwanie połączenia VPN, to proces korzystający z niego nie
-będzie miał dostępu do sieć hosta i nie będzie w stanie przesłać żadnego pakietu przez sieci do
+będzie miał dostępu do sieć hosta i nie będzie w stanie przesłać żadnego pakietu przez sieć do
 momentu aż to połączenie z VPN zostanie nawiązane ponownie.
 
 By ten skrypt był wykonywany podczas zestawiania połączenia VPN, musimy jeszcze edytować
@@ -359,8 +385,8 @@ a zwykłym połączeniem internetowym.
 
 
 [1]: https://forum.dug.net.pl/viewtopic.php?id=31514
-[2]: /post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/
-[3]: https://riseup.net/pl/vpn
+[2]: /post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/#konfiguracja-klienta-vpn
+[3]: https://protonvpn.com/support/linux-openvpn/
 [4]: https://community.openvpn.net/openvpn/wiki/IgnoreRedirectGateway
 [5]: https://forum.dug.net.pl/viewtopic.php?id=31514
 [6]: https://en.wikipedia.org/wiki/0.0.0.0
