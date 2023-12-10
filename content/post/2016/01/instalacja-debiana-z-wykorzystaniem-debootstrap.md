@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Linux
-date: 2016-01-02 03:52:49 +0100
-lastmod: 2023-07-11 11:10:00 +0200
+date:    2016-01-02 03:52:49 +0100
+lastmod: 2023-12-10 16:00:00 +0100
 published: true
 status: publish
 tags:
@@ -265,24 +265,41 @@ z tego względu, że potrzebują one systemu plików. Do ich utworzenia posłuż
 `mkfs.ext4` . Jest ich oczywiście więcej ale my ograniczymy się jedynie do systemu plików EXT4.
 System plików tworzymy w poniższy sposób:
 
-    # mkfs.ext4 -c 20 -m 0 -L root /dev/mapper/debian_laptop-root
+    # mkfs.ext4 -m 0 -L root /dev/mapper/debian_laptop-root
     Filesystem UUID: 451861b7-fec1-49cb-9fec-33cc7a2fe5fb
 
-    # mkfs.ext4 -c 20 -m 0 -L home /dev/mapper/debian_laptop-home
+    # mkfs.ext4 -m 0 -L home /dev/mapper/debian_laptop-home
     Filesystem UUID: a530563d-e254-4b05-8f67-fe695941741b
 
-    # mkfs.ext4 -c 20 -m 0 -L tmp /dev/mapper/debian_laptop-tmp
+    # mkfs.ext4 -m 0 -L tmp /dev/mapper/debian_laptop-tmp
     Filesystem UUID: ad2501b1-0bf1-4dbe-b12e-26254bfdb3f7
 
-    # mkfs.ext4 -c 20 -m 0 -L boot /dev/sda2
+    # mkfs.ext4 -m 0 -L boot /dev/sda2
     Filesystem UUID: 7e58cc8f-0426-4b0b-81ea-06e8274f8af4
 
 Użyte opcje odpowiadają za:
 
-  - `-c` ustawia maksymalna liczbę montować dla danego systemu plików. Po przekroczeniu tej wartości
-    nastąpi sprawdzanie systemu plików pod kątem ewentualnych błędów.
   - `-m` określa procent przestrzeni jaki zostanie zarezerwowany dla użytkownika root.
   - `-L` odpowiada za etykietę systemu plików.
+
+Po utworzeniu systemu plików dobrze jest też ustawić parametr odpowiadający za maksymalną liczbę
+montowań takiego systemu plików. Po przekroczeniu zadanej wartości nastąpi sprawdzanie systemu
+plików pod kątem ewentualnych błędów. Do tego celu potrzebne nam będzie narzędzie `tune2fs` :
+
+    # tune2fs -C 50 /dev/mapper/debian_laptop-root
+    tune2fs 1.47.0 (5-Feb-2023)
+    Setting current mount count to 50
+
+    # tune2fs -c 50 /dev/mapper/debian_laptop-root
+    tune2fs 1.47.0 (5-Feb-2023)
+    Setting maximal mount count to 50
+
+Polecenia są podobne choć różnią się parametrami `-c` i `-C` . Pierwsze polecenie przestawia
+licznik montowań systemu plików na `50` . Z każdym kolejnym montowaniem tego systemu plików ta
+wartość jest podbijana o `1` . Z kolei drugie polecenie przestawia licznik maksymalnej ilości
+montowań. W przypadku gdy obie wartości się zrównają (tak jak w tym przypadku), to przy następnym
+montowaniu systemu plików (np. podczas startu systemu) zostanie zainicjowane skanowanie w
+poszukiwaniu błędów. Po zakończeniu skanowania, licznik montowań zostanie wyzerowany i tak w kółko.
 
 Dodatkowo trzeba utworzyć przestrzeń wymiany:
 
@@ -349,7 +366,7 @@ zainstalowane przy jego pomocy. Jako, że niedawno była aktualizacja wydania De
 wybrać `testing` czy też i `sid` . Przejdźmy zatem do instalacji bardzo podstawowego systemu. By
 tego dokonać, wpisujemy w terminal to poniższe polecenie:
 
-    # debootstrap --verbose --arch amd64 sid /mnt http://ftp.pl.debian.org/debian
+    # debootstrap --verbose --arch amd64 sid /mnt https://deb.debian.org/debian/
     I: Retrieving Release
     I: Retrieving Release.gpg
     I: Checking Release signature
@@ -396,8 +413,8 @@ Na sam początek dostosujmy sobie źródła pakietów, które są przechowywane 
 `main` . Dobrze jest nieco zmienić ten stan rzeczy i [przerobić wpisy w pliku sources.list][6] do
 poniższej postaci:
 
-    deb http://ftp.pl.debian.org/debian/ sid main non-free contrib
-    #deb-src http://ftp.pl.debian.org/debian/ sid main non-free contrib
+     deb     https://deb.debian.org/debian/ sid main non-free non-free-firmware contrib
+    #deb-src https://deb.debian.org/debian/ sid main non-free non-free-firmware contrib
 
 Zapisujemy plik i aktualizujemy listę repozytoriów:
 
@@ -593,7 +610,7 @@ plików, który może być zamontowany.
 W przypadku wykorzystywania LVM i/lub LUKS, potrzebne nam będą dodatkowe narzędzia, które musimy
 zainstalować:
 
-    # aptitude install cryptsetup lvm2
+    # aptitude install cryptsetup cryptsetup-initramfs lvm2 zstd
 
 #### Plik /etc/crypttab
 
@@ -601,18 +618,32 @@ W tym pliku musimy dopisać linijkę odpowiadającą za wskazanie zaszyfrowanej 
 podczas startu wiedział, którą partycje musi odszyfrować. Plik ma taką postać:
 
     # target name    source device                             key file  options
-    sda1_crypt       UUID=1820485b-6587-47ab-baa4-761ecc104c25 none        luks
+    sda1_crypt       UUID=1820485b-6587-47ab-baa4-761ecc104c25 none  luks,initramfs
+    #sda1_crypt      UUID=1820485b-6587-47ab-baa4-761ecc104c25 c1    luks,initramfs,keyscript=decrypt_keyctl
 
 Wyjaśnienie użytych opcji:
 
-  - `sda1_crypt` odpowiada za nazwę pod jaką ma być otwierany kontener LUKS.
-  - `UUID` to numer identyfikacyjny kontneera. Można także podawać urządzenia w postaci `/dev/sda1`
-    .
-  - `none` oznacza brak pliku klucza, zatem ten kontener będzie otwierany przy pomocy zwykłego
-    hasła.
-  - `luks` definiuje typ kontenera.
+  - `target name`   -- odpowiada za nazwę pod jaką ma być otwierany kontener LUKS.
+  - `source device` -- numer identyfikacyjny kontenera. Można także podawać urządzenia w postaci
+                       `/dev/sda1` .
+  - `key file`      -- określa plik klucz, który ma zostać użyty do otworzenia kontenera. Gdy
+                       określimy tutaj wartość `none` , to hasło do kontenera trzeba będzie podać w
+                       formie interaktywnej.
 
-UUID możemy odczytać przez `lsblk -o name,uuid` lub `blkid` , przykładowo:
+Dodatkowo można określić kilka opcji (rozdzielonych przecinkiem):
+
+  - `luks`       -- definiuje typ kontenera.
+  - `keyscript=decrypt_keyctl` -- odpowiada za mechanizm buforowania haseł (w przypadku odblokowania
+                    kilku kontenerów tym samym hasłem). Do wyboru jeden ze skryptów zlokalizowanych
+                    w katalogu `/lib/cryptsetup/scripts/` . W przypadku określenia skryptu, pole
+                    `key file` zmienia znaczenie i jego wartość jest podawana w argumencie do tego
+                    skryptu. W ten sposób wiadomo, które kontenery powinny zostać otwarte przy
+                    pomocy tego samego hasła (ta sama wartość pola `key file` obecna przy kilku
+                    kontenerach).
+  - `initramfs`  -- odpowiada za przetwarzanie danego kontenera na wczesnym etapie startu systemu (w
+                    fazie initramfs/initrd).
+
+Numerek UUID możemy odczytać przez `lsblk -o name,uuid` lub `blkid` , przykładowo:
 
     # lsblk -o name,uuid /dev/sda
     NAME                     UUID
