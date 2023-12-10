@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Linux
-date: "2020-08-08T14:55:00Z"
-lastmod: 2020-08-09 13:52:00 +0200
+date:    2020-08-08 14:55:00 +0200
+lastmod: 2023-12-09 12:52:00 +0100
 published: true
 status: publish
 tags:
@@ -421,7 +421,7 @@ maszynami wirtualnymi na naszym linux'ie. Poniżej znajduje się lista pakietów
 zainstalować w systemie:
 
     # aptitude install \
-             qemu-system-x86 qemu-system-gui qemu-utils \
+             qemu-system-x86 qemu-system-gui qemu-utils qemu-system-modules-spice \
              libvirt-daemon libvirt-daemon-system virt-manager \
              bridge-utils dnsmasq-base iptables \
              gir1.2-spiceclientgtk-3.0
@@ -518,6 +518,29 @@ zależnościach `gir1.2-spiceclientgtk-3.0` , a mimo to, ten powyższy błąd ci
 ustał dopiero po odinstalowaniu pakietu `spice-client-gtk` i bezpośrednim zainstalowaniu
 `gir1.2-spiceclientgtk-3.0` . To tak na wypadek, gdyby ktoś miał podobny problem z uruchamianiem
 maszyn wirtualnych.
+
+### Pakiet qemu-system-modules-spice
+
+Po postawieniu świeżego systemu, chcąc uruchomić jedną z moich maszyn wirtualnych okazało się, że
+taka akcja kończy się poniższym komunikatem:
+
+    Error starting domain: unsupported configuration: domain configuration does not support video model 'qxl'
+
+    Traceback (most recent call last):
+      File "/usr/share/virt-manager/virtManager/asyncjob.py", line 72, in cb_wrapper
+        callback(asyncjob, *args, **kwargs)
+      File "/usr/share/virt-manager/virtManager/asyncjob.py", line 108, in tmpcb
+        callback(*args, **kwargs)
+      File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", line 57, in newfn
+        ret = fn(self, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "/usr/share/virt-manager/virtManager/object/domain.py", line 1402, in startup
+        self._backend.create()
+      File "/usr/lib/python3/dist-packages/libvirt.py", line 1373, in create
+        raise libvirtError('virDomainCreate() failed')
+    libvirt.libvirtError: unsupported configuration: domain configuration does not support video model 'qxl'
+
+Zainstalowanie pakietu `qemu-system-modules-spice` niweluje ten problem.
 
 ## Grupy w linux a operowanie na maszynach wirtualnych
 
