@@ -6,7 +6,30 @@
     <description>Recent content in debian on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Tue, 13 Dec 2022 13:03:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/debian/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 10 Dec 2023 22:00:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/debian/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux</title>
+      <link>https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/</link>
+      <pubDate>Sun, 10 Dec 2023 22:00:00 +0100</pubDate>
+      
+      <guid>https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/</guid>
+      <description>&lt;p&gt;Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go
+na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i
+experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera
+LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo
+zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a.
+Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim &lt;a href=&#34;https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/&#34;&gt;postawić świeżego
+Debiana z wykorzystaniem narzędzia debootstrap&lt;/a&gt;. Sama instalacja linux&#39;a na dysku SSD nie różni
+się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu
+trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został
+poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest &lt;a href=&#34;https://en.wikipedia.org/wiki/Device_mapper&#34;&gt;device-mapper&lt;/a&gt;,
+który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
+LUKS/dm-crypt czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
+zaszyfrowanego systemu na bazie LUKS+LVM.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Zablokowanie możliwości ładowania modułów kernela na Debian linux</title>
@@ -429,34 +452,6 @@ systemowy GPG/GnuPG nie jest w ogóle wykorzystywany. Taki san rzeczy sprawia, �
 różne bazy danych kluczy (jedna dla Thunderbird&#39;a, a druga dla reszty linux&#39;a), co może trochę
 irytować. Na szczęście jest opcja wymuszenia na TB, by korzystał on z systemowego keyring&#39;a kluczy
 GPG/PGP i celem tego artykułu jest pokazanie właśnie jak tego typu zabieg przeprowadzić.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)</title>
-      <link>https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/</link>
-      <pubDate>Wed, 02 Sep 2020 18:36:00 +0200</pubDate>
-      
-      <guid>https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/</guid>
-      <description>&lt;p&gt;Parę dni temu &lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=31514&#34;&gt;na forum dug.net.pl pojawiło się zapytanie&lt;/a&gt; dotyczące skonfigurowania linux&#39;a w
-taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN,
-podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego
-ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć
-też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba
-zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel
-przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma
-przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i
-na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń
-czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów
-konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w
-zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować
-filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko
-odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe
-będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje
-jednak sposób, by nauczyć linux&#39;a aby tylko procesy określonych użytkowników czy grup miały dostęp
-do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze
-standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy &lt;code&gt;iptables&lt;/code&gt; / &lt;code&gt;nftables&lt;/code&gt; ,
-tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.&lt;/p&gt;</description>
     </item>
     
   </channel>

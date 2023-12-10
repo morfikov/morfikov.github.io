@@ -14,11 +14,13 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://morfikov.github.io/tags/ssd/" />
 
+
 		<meta itemprop="name" content="ssd">
 <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ssd"/>
 <meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)"/>
+<meta name="twitter:site" content="@mikhailmorfikov"/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -98,6 +100,35 @@ if (!doNotTrack) {
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/">Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux</a></h1>
+	<div class="entry__content"><p>Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go
+na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux'a z włączonymi gałęziami unstable i
+experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera
+LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo
+zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux'a.
+Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim <a href="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">postawić świeżego
+Debiana z wykorzystaniem narzędzia debootstrap</a>. Sama instalacja linux'a na dysku SSD nie różni
+się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu
+trim/discard. Standardowi użytkownicy linux'a nie muszą zbytnio nic robić, aby ten mechanizm został
+poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest <a href="https://en.wikipedia.org/wiki/Device_mapper">device-mapper</a>,
+który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
+LUKS/dm-crypt czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
+zaszyfrowanego systemu na bazie LUKS+LVM.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2023-12-10T22:00:00&#43;01:00">Opublikowano: 10/12/2023</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -337,33 +368,6 @@ dysku laptopa przy pomocy narzędzi <code>dd</code> i <code>nc</code> (netcat). 
 czy też podłączać do portu USB zewnętrznego nośnika. Dane prześlemy zwyczajnie przez sieć.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-02-08T00:45:07Z">Opublikowano: 08/02/2016</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-dodac-nowy-dysk-lvm/">Jak dodać nowy dysk do LVM</a></h1>
-	<div class="entry__content"><p>Rozmiary obecnych dysków twardych zwykliśmy już liczyć w TiB. Jest to dość sporo ale ciągle zdarzają
-się sytuacje, gdzie zaczyna nam brakować miejsca na pliki. W takich przypadkach myślimy raczej o
-zmianie rozmiaru istniejących już partycji czy też dokupieniu nowego dysku. Pierwsza z powyższych
-opcji nie zawsze może wchodzić w grę, no chyba, że zaimplementowaliśmy sobie <a href="https://pl.wikipedia.org/wiki/LVM">LVM</a>. Jeśli tak,
-to możemy bez większego problemu <a href="https://morfikov.github.io/post/zmiana-rozmiaru-lvm/">zmieniać rozmiar każdego z tych voluminów LVM</a>. Niemniej
-jednak, nawet jeśli już dostosujemy sobie te wirtualne dyski, to miejsce wciąż może nam się
-skończyć i raczej można przyjąć za pewne, że tak się stanie w bliżej nieokreślonej przyszłości. Gdy
-to nastąpi, czeka nas druga opcja wymieniona wyżej, tj. zaopatrzenie się w dodatkowy nośnik danych.
-Przy pomocy LVM jesteśmy w stanie ten nowy dysk dodać do istniejącej grupy voluminów i zwiększyć tym
-wirtualnym partycjom rozmiar bez potrzeby przerywania pracy systemu, czy też wykonywania dodatkowych
-czynności związanych z formatowaniem i instalowaniem systemu na nowo. W tym wpisie postaramy się
-przebrnąć przez ten proces.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2016-02-02T16:21:08Z">Opublikowano: 02/02/2016</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

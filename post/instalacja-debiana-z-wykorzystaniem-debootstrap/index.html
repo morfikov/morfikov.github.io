@@ -23,7 +23,8 @@ napotkane problemy nie przerywając przy tym prac instalacyjnych." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2016-01-02T03:52:49+01:00" />
-<meta property="article:modified_time" content="2023-07-11T11:10:00+02:00" />
+<meta property="article:modified_time" content="2023-12-10T16:00:00+01:00" />
+
 
 		<meta itemprop="name" content="Instalacja debiana z wykorzystaniem debootstrap">
 <meta itemprop="description" content="Instalowanie debiana z wykorzystaniem debootstrap trochę się różni od instalacji z wykorzystaniem
@@ -37,8 +38,8 @@ zainstalowania w takim systemie pakietu debootstrap , no i oczywiście wymagany 
 internetu. W przeciwieństwie do instalatora debiana, mamy dostęp do graficznego środowiska, a w nim
 do przeglądarki i w przypadku utknięcia gdzieś po drodze podczas instalacji, możemy sobie wygooglać
 napotkane problemy nie przerywając przy tym prac instalacyjnych."><meta itemprop="datePublished" content="2016-01-02T03:52:49+01:00" />
-<meta itemprop="dateModified" content="2023-07-11T11:10:00+02:00" />
-<meta itemprop="wordCount" content="5135">
+<meta itemprop="dateModified" content="2023-12-10T16:00:00+01:00" />
+<meta itemprop="wordCount" content="5373">
 <meta itemprop="keywords" content="debian,luks,lvm,debootstrap," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Instalacja debiana z wykorzystaniem debootstrap"/>
@@ -53,6 +54,7 @@ zainstalowania w takim systemie pakietu debootstrap , no i oczywiście wymagany 
 internetu. W przeciwieństwie do instalatora debiana, mamy dostęp do graficznego środowiska, a w nim
 do przeglądarki i w przypadku utknięcia gdzieś po drodze podczas instalacji, możemy sobie wygooglać
 napotkane problemy nie przerywając przy tym prac instalacyjnych."/>
+<meta name="twitter:site" content="@mikhailmorfikov"/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -130,7 +132,7 @@ if (!doNotTrack) {
 			<article class="entry">
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2016-01-02T03:52:49&#43;01:00">Opublikowano: 02/01/2016</time>
-	<time class="entry__meta-lastmod meta-lastmod" datetime="2023-07-11T11:10:00&#43;02:00">Zaktualizowano: 11/07/2023</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2023-12-10T16:00:00&#43;01:00">Zaktualizowano: 10/12/2023</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -412,25 +414,40 @@ klawisz Tab przyciśnięty dwukrotnie (automatycznie uzupełnianie).</p>
 z tego względu, że potrzebują one systemu plików. Do ich utworzenia posłuży nam narzędzie
 <code>mkfs.ext4</code> . Jest ich oczywiście więcej ale my ograniczymy się jedynie do systemu plików EXT4.
 System plików tworzymy w poniższy sposób:</p>
-<pre><code># mkfs.ext4 -c 20 -m 0 -L root /dev/mapper/debian_laptop-root
+<pre><code># mkfs.ext4 -m 0 -L root /dev/mapper/debian_laptop-root
 Filesystem UUID: 451861b7-fec1-49cb-9fec-33cc7a2fe5fb
 
-# mkfs.ext4 -c 20 -m 0 -L home /dev/mapper/debian_laptop-home
+# mkfs.ext4 -m 0 -L home /dev/mapper/debian_laptop-home
 Filesystem UUID: a530563d-e254-4b05-8f67-fe695941741b
 
-# mkfs.ext4 -c 20 -m 0 -L tmp /dev/mapper/debian_laptop-tmp
+# mkfs.ext4 -m 0 -L tmp /dev/mapper/debian_laptop-tmp
 Filesystem UUID: ad2501b1-0bf1-4dbe-b12e-26254bfdb3f7
 
-# mkfs.ext4 -c 20 -m 0 -L boot /dev/sda2
+# mkfs.ext4 -m 0 -L boot /dev/sda2
 Filesystem UUID: 7e58cc8f-0426-4b0b-81ea-06e8274f8af4
 </code></pre>
 <p>Użyte opcje odpowiadają za:</p>
 <ul>
-<li><code>-c</code> ustawia maksymalna liczbę montować dla danego systemu plików. Po przekroczeniu tej wartości
-nastąpi sprawdzanie systemu plików pod kątem ewentualnych błędów.</li>
 <li><code>-m</code> określa procent przestrzeni jaki zostanie zarezerwowany dla użytkownika root.</li>
 <li><code>-L</code> odpowiada za etykietę systemu plików.</li>
 </ul>
+<p>Po utworzeniu systemu plików dobrze jest też ustawić parametr odpowiadający za maksymalną liczbę
+montowań takiego systemu plików. Po przekroczeniu zadanej wartości nastąpi sprawdzanie systemu
+plików pod kątem ewentualnych błędów. Do tego celu potrzebne nam będzie narzędzie <code>tune2fs</code> :</p>
+<pre><code># tune2fs -C 50 /dev/mapper/debian_laptop-root
+tune2fs 1.47.0 (5-Feb-2023)
+Setting current mount count to 50
+
+# tune2fs -c 50 /dev/mapper/debian_laptop-root
+tune2fs 1.47.0 (5-Feb-2023)
+Setting maximal mount count to 50
+</code></pre>
+<p>Polecenia są podobne choć różnią się parametrami <code>-c</code> i <code>-C</code> . Pierwsze polecenie przestawia
+licznik montowań systemu plików na <code>50</code> . Z każdym kolejnym montowaniem tego systemu plików ta
+wartość jest podbijana o <code>1</code> . Z kolei drugie polecenie przestawia licznik maksymalnej ilości
+montowań. W przypadku gdy obie wartości się zrównają (tak jak w tym przypadku), to przy następnym
+montowaniu systemu plików (np. podczas startu systemu) zostanie zainicjowane skanowanie w
+poszukiwaniu błędów. Po zakończeniu skanowania, licznik montowań zostanie wyzerowany i tak w kółko.</p>
 <p>Dodatkowo trzeba utworzyć przestrzeń wymiany:</p>
 <pre><code># mkswap /dev/mapper/debian_laptop-swap
 Setting up swapspace version 1, size = 2093052 KiB
@@ -486,7 +503,7 @@ zainstalowane przy jego pomocy. Jako, że niedawno była aktualizacja wydania De
 <code>debootstrap</code> mogą wrzucać błąd przy instalacji określonych wydań. W każdym razie, zawsze można
 wybrać <code>testing</code> czy też i <code>sid</code> . Przejdźmy zatem do instalacji bardzo podstawowego systemu. By
 tego dokonać, wpisujemy w terminal to poniższe polecenie:</p>
-<pre><code># debootstrap --verbose --arch amd64 sid /mnt http://ftp.pl.debian.org/debian
+<pre><code># debootstrap --verbose --arch amd64 sid /mnt https://deb.debian.org/debian/
 I: Retrieving Release
 I: Retrieving Release.gpg
 I: Checking Release signature
@@ -526,8 +543,8 @@ upewnić, że mamy łączność, że światem. Wpisujemy zatem do terminala to p
 <code>deb-src</code> , odpowiednio dla pakietów binarnych i źródłowych. No i też mamy w nich jedną sekcję
 <code>main</code> . Dobrze jest nieco zmienić ten stan rzeczy i <a href="https://github.com/morfikov/files/tree/master/configs/etc/apt">przerobić wpisy w pliku sources.list</a> do
 poniższej postaci:</p>
-<pre><code>deb http://ftp.pl.debian.org/debian/ sid main non-free contrib
-#deb-src http://ftp.pl.debian.org/debian/ sid main non-free contrib
+<pre><code> deb     https://deb.debian.org/debian/ sid main non-free non-free-firmware contrib
+#deb-src https://deb.debian.org/debian/ sid main non-free non-free-firmware contrib
 </code></pre>
 <p>Zapisujemy plik i aktualizujemy listę repozytoriów:</p>
 <pre><code># apt-get update
@@ -689,24 +706,38 @@ nie patrzeć, taki kontener pierw trzeba otworzyć i dopiero wtedy uzyskujemy do
 plików, który może być zamontowany.</p>
 <p>W przypadku wykorzystywania LVM i/lub LUKS, potrzebne nam będą dodatkowe narzędzia, które musimy
 zainstalować:</p>
-<pre><code># aptitude install cryptsetup lvm2
+<pre><code># aptitude install cryptsetup cryptsetup-initramfs lvm2 zstd
 </code></pre>
 <h4 id="plik-etccrypttab">Plik /etc/crypttab</h4>
 <p>W tym pliku musimy dopisać linijkę odpowiadającą za wskazanie zaszyfrowanej partycji, tak by system
 podczas startu wiedział, którą partycje musi odszyfrować. Plik ma taką postać:</p>
 <pre><code># target name    source device                             key file  options
-sda1_crypt       UUID=1820485b-6587-47ab-baa4-761ecc104c25 none        luks
+sda1_crypt       UUID=1820485b-6587-47ab-baa4-761ecc104c25 none  luks,initramfs
+#sda1_crypt      UUID=1820485b-6587-47ab-baa4-761ecc104c25 c1    luks,initramfs,keyscript=decrypt_keyctl
 </code></pre>
 <p>Wyjaśnienie użytych opcji:</p>
 <ul>
-<li><code>sda1_crypt</code> odpowiada za nazwę pod jaką ma być otwierany kontener LUKS.</li>
-<li><code>UUID</code> to numer identyfikacyjny kontneera. Można także podawać urządzenia w postaci <code>/dev/sda1</code>
-.</li>
-<li><code>none</code> oznacza brak pliku klucza, zatem ten kontener będzie otwierany przy pomocy zwykłego
-hasła.</li>
-<li><code>luks</code> definiuje typ kontenera.</li>
+<li><code>target name</code>   -- odpowiada za nazwę pod jaką ma być otwierany kontener LUKS.</li>
+<li><code>source device</code> -- numer identyfikacyjny kontenera. Można także podawać urządzenia w postaci
+<code>/dev/sda1</code> .</li>
+<li><code>key file</code>      -- określa plik klucz, który ma zostać użyty do otworzenia kontenera. Gdy
+określimy tutaj wartość <code>none</code> , to hasło do kontenera trzeba będzie podać w
+formie interaktywnej.</li>
 </ul>
-<p>UUID możemy odczytać przez <code>lsblk -o name,uuid</code> lub <code>blkid</code> , przykładowo:</p>
+<p>Dodatkowo można określić kilka opcji (rozdzielonych przecinkiem):</p>
+<ul>
+<li><code>luks</code>       -- definiuje typ kontenera.</li>
+<li><code>keyscript=decrypt_keyctl</code> -- odpowiada za mechanizm buforowania haseł (w przypadku odblokowania
+kilku kontenerów tym samym hasłem). Do wyboru jeden ze skryptów zlokalizowanych
+w katalogu <code>/lib/cryptsetup/scripts/</code> . W przypadku określenia skryptu, pole
+<code>key file</code> zmienia znaczenie i jego wartość jest podawana w argumencie do tego
+skryptu. W ten sposób wiadomo, które kontenery powinny zostać otwarte przy
+pomocy tego samego hasła (ta sama wartość pola <code>key file</code> obecna przy kilku
+kontenerach).</li>
+<li><code>initramfs</code>  -- odpowiada za przetwarzanie danego kontenera na wczesnym etapie startu systemu (w
+fazie initramfs/initrd).</li>
+</ul>
+<p>Numerek UUID możemy odczytać przez <code>lsblk -o name,uuid</code> lub <code>blkid</code> , przykładowo:</p>
 <pre><code># lsblk -o name,uuid /dev/sda
 NAME                     UUID
 sda

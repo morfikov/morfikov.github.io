@@ -30,8 +30,9 @@ naszego Debiana w taki sposób, by przygotować go do pracy z maszynami wirtualn
 qemu/libvirt/virt-manager ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2020-08-08T14:55:00+00:00" />
-<meta property="article:modified_time" content="2020-08-09T13:52:00+02:00" />
+<meta property="article:published_time" content="2020-08-08T14:55:00+02:00" />
+<meta property="article:modified_time" content="2023-12-09T12:52:00+01:00" />
+
 
 		<meta itemprop="name" content="Wirtualizacja QEMU/KVM (libvirt) na Debian Linux">
 <meta itemprop="description" content="Prawdopodobnie dla większości użytkowników linux&#39;a, wirtualizacja kojarzy się w zasadzie z jednym
@@ -52,9 +53,9 @@ wiadomość dla takich osób, bo istnieje virt-manager , który jest dość rozb
 maszyn wirtualnych pozwalającym na ich tworzenie, konfigurowanie i zarządzanie nimi przy
 wykorzystaniu graficznego interfejsu użytkownika. W tym artykule postaramy się skonfigurować
 naszego Debiana w taki sposób, by przygotować go do pracy z maszynami wirtualnymi posługując się
-qemu/libvirt/virt-manager ."><meta itemprop="datePublished" content="2020-08-08T14:55:00+00:00" />
-<meta itemprop="dateModified" content="2020-08-09T13:52:00+02:00" />
-<meta itemprop="wordCount" content="11734">
+qemu/libvirt/virt-manager ."><meta itemprop="datePublished" content="2020-08-08T14:55:00+02:00" />
+<meta itemprop="dateModified" content="2023-12-09T12:52:00+01:00" />
+<meta itemprop="wordCount" content="11837">
 <meta itemprop="keywords" content="debian,wirtualizacja,kvm,qemu,libvirt,vnc,spice,kernel," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Wirtualizacja QEMU/KVM (libvirt) na Debian Linux"/>
@@ -77,6 +78,7 @@ maszyn wirtualnych pozwalającym na ich tworzenie, konfigurowanie i zarządzanie
 wykorzystaniu graficznego interfejsu użytkownika. W tym artykule postaramy się skonfigurować
 naszego Debiana w taki sposób, by przygotować go do pracy z maszynami wirtualnymi posługując się
 qemu/libvirt/virt-manager ."/>
+<meta name="twitter:site" content="@mikhailmorfikov"/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -153,8 +155,8 @@ if (!doNotTrack) {
 		<div class="single block">
 			<article class="entry">
 	<div class="entry__meta meta mb">
-	<time class="entry__meta-published meta-published" datetime="2020-08-08T14:55:00Z">Opublikowano: 08/08/2020</time>
-	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-08-09T13:52:00&#43;02:00">Zaktualizowano: 09/08/2020</time>
+	<time class="entry__meta-published meta-published" datetime="2020-08-08T14:55:00&#43;02:00">Opublikowano: 08/08/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2023-12-09T12:52:00&#43;01:00">Zaktualizowano: 09/12/2023</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -203,6 +205,7 @@ if (!doNotTrack) {
         <li><a href="#pakiet-virt-manager">Pakiet virt-manager</a></li>
         <li><a href="#pakiety-bridge-utils-dnsmasq-base-i-iptables">Pakiety bridge-utils, dnsmasq-base i iptables</a></li>
         <li><a href="#pakiet-gir12-spiceclientgtk-30">Pakiet gir1.2-spiceclientgtk-3.0</a></li>
+        <li><a href="#pakiet-qemu-system-modules-spice">Pakiet qemu-system-modules-spice</a></li>
       </ol>
     </li>
     <li><a href="#grupy-w-linux-a-operowanie-na-maszynach-wirtualnych">Grupy w linux a operowanie na maszynach wirtualnych</a>
@@ -633,7 +636,7 @@ artykule.</p>
 maszynami wirtualnymi na naszym linux'ie. Poniżej znajduje się lista pakietów, które trzeba
 zainstalować w systemie:</p>
 <pre><code># aptitude install \
-         qemu-system-x86 qemu-system-gui qemu-utils \
+         qemu-system-x86 qemu-system-gui qemu-utils qemu-system-modules-spice \
          libvirt-daemon libvirt-daemon-system virt-manager \
          bridge-utils dnsmasq-base iptables \
          gir1.2-spiceclientgtk-3.0
@@ -709,6 +712,26 @@ zależnościach <code>gir1.2-spiceclientgtk-3.0</code> , a mimo to, ten powyższ
 ustał dopiero po odinstalowaniu pakietu <code>spice-client-gtk</code> i bezpośrednim zainstalowaniu
 <code>gir1.2-spiceclientgtk-3.0</code> . To tak na wypadek, gdyby ktoś miał podobny problem z uruchamianiem
 maszyn wirtualnych.</p>
+<h3 id="pakiet-qemu-system-modules-spice">Pakiet qemu-system-modules-spice</h3>
+<p>Po postawieniu świeżego systemu, chcąc uruchomić jedną z moich maszyn wirtualnych okazało się, że
+taka akcja kończy się poniższym komunikatem:</p>
+<pre><code>Error starting domain: unsupported configuration: domain configuration does not support video model 'qxl'
+
+Traceback (most recent call last):
+  File &quot;/usr/share/virt-manager/virtManager/asyncjob.py&quot;, line 72, in cb_wrapper
+    callback(asyncjob, *args, **kwargs)
+  File &quot;/usr/share/virt-manager/virtManager/asyncjob.py&quot;, line 108, in tmpcb
+    callback(*args, **kwargs)
+  File &quot;/usr/share/virt-manager/virtManager/object/libvirtobject.py&quot;, line 57, in newfn
+    ret = fn(self, *args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/usr/share/virt-manager/virtManager/object/domain.py&quot;, line 1402, in startup
+    self._backend.create()
+  File &quot;/usr/lib/python3/dist-packages/libvirt.py&quot;, line 1373, in create
+    raise libvirtError('virDomainCreate() failed')
+libvirt.libvirtError: unsupported configuration: domain configuration does not support video model 'qxl'
+</code></pre>
+<p>Zainstalowanie pakietu <code>qemu-system-modules-spice</code> niweluje ten problem.</p>
 <h2 id="grupy-w-linux-a-operowanie-na-maszynach-wirtualnych">Grupy w linux a operowanie na maszynach wirtualnych</h2>
 <p>Po zainstalowaniu potrzebnego oprogramowania, w linux'ie powinny pojawić się dodatkowe grupy, tj.
 <code>kvm</code> , <code>libvirt</code> oraz <code>libvirt-qemu</code> . W wielu tutorialach poświęconych QEMU/KVM pojawiają się

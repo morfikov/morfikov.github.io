@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux" />
+<meta property="og:description" content="Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go
+na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i
+experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera
+LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo
+zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a.
+Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim postawić świeżego
+Debiana z wykorzystaniem narzędzia debootstrap. Sama instalacja linux&#39;a na dysku SSD nie różni
+się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu
+trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został
+poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper,
+który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
+LUKS/dm-crypt czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
+zaszyfrowanego systemu na bazie LUKS&#43;LVM." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-12-10T22:00:00+01:00" />
+<meta property="article:modified_time" content="2023-12-10T22:00:00+01:00" />
+
+
+		<meta itemprop="name" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux">
+<meta itemprop="description" content="Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go
+na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i
+experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera
+LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo
+zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a.
+Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim postawić świeżego
+Debiana z wykorzystaniem narzędzia debootstrap. Sama instalacja linux&#39;a na dysku SSD nie różni
+się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu
+trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został
+poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper,
+który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
+LUKS/dm-crypt czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
+zaszyfrowanego systemu na bazie LUKS&#43;LVM."><meta itemprop="datePublished" content="2023-12-10T22:00:00+01:00" />
+<meta itemprop="dateModified" content="2023-12-10T22:00:00+01:00" />
+<meta itemprop="wordCount" content="5893">
+<meta itemprop="keywords" content="debian,ssd,trim,discard,luks,lvm," />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux"/>
+<meta name="twitter:description" content="Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go
+na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i
+experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera
+LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo
+zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a.
+Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim postawić świeżego
+Debiana z wykorzystaniem narzędzia debootstrap. Sama instalacja linux&#39;a na dysku SSD nie różni
+się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu
+trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został
+poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper,
+który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
+LUKS/dm-crypt czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
+zaszyfrowanego systemu na bazie LUKS&#43;LVM."/>
+<meta name="twitter:site" content="@mikhailmorfikov"/>
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-119125303-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+<body>
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2023-12-10T22:00:00&#43;01:00">Opublikowano: 10/12/2023</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+				<h1 class="entry__title">Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#czy-kupowanie-używanego-dysku-ssd-to-dobry-pomysł">Czy kupowanie używanego dysku SSD to dobry pomysł</a>
+      <ol>
+        <li><a href="#raport-smart-i-parametr-lifetime_writes_gib">Raport SMART i parametr Lifetime_Writes_GiB</a></li>
+        <li><a href="#czy-dysk-zawiera-błędy">Czy dysk zawiera błędy</a></li>
+      </ol>
+    </li>
+    <li><a href="#różnica-między-discard-trim-i-fstrim">Różnica między discard, trim i fstrim</a>
+      <ol>
+        <li><a href="#co-lepsze-trimfstrim-czy-discard">Co lepsze trim/fstrim czy discard</a></li>
+      </ol>
+    </li>
+    <li><a href="#czy-mój-dysk-ssd-wspiera-trimdiscard">Czy mój dysk SSD wspiera trim/discard</a>
+      <ol>
+        <li><a href="#problematyczny-device-mapper-lukslvm">Problematyczny device-mapper (LUKS/LVM)</a></li>
+      </ol>
+    </li>
+    <li><a href="#włączenie-trimdiscard-dla-luksdm-crypt">Włączenie trim/discard dla LUKS/dm-crypt</a>
+      <ol>
+        <li><a href="#luksv2-i-jego-flagi">LUKSv2 i jego flagi</a></li>
+      </ol>
+    </li>
+    <li><a href="#włączenie-trimdiscard-dla-lvm">Włączenie trim/discard dla LVM</a></li>
+    <li><a href="#opcja-discard-w-pliku-etcfstab">Opcja discard w pliku /etc/fstab</a></li>
+    <li><a href="#cykliczny-trimdiscard-za-sprawą-usługi-systemd">Cykliczny trim/discard za sprawą usługi systemd</a></li>
+    <li><a href="#manualny-trimdiscard">Manualny trim/discard</a></li>
+    <li><a href="#czy-hibernować-system-mając-dysk-ssd">Czy hibernować system mając dysk SSD</a></li>
+    <li><a href="#odciążenie-dysku-ssd-przez-wykorzystanie-ramdysków">Odciążenie dysku SSD przez wykorzystanie ramdysków</a>
+      <ol>
+        <li><a href="#katalog-cache">Katalog ~/.cache/</a>
+          <ol>
+            <li><a href="#plik-etcfstab">Plik /etc/fstab</a></li>
+            <li><a href="#plik-usługi-dla-systemd">Plik usługi dla systemd</a></li>
+          </ol>
+        </li>
+        <li><a href="#katalog-tmp">Katalog /tmp/</a>
+          <ol>
+            <li><a href="#plik-etcfstab-1">Plik /etc/fstab</a></li>
+            <li><a href="#plik-usługi-dla-systemd-1">Plik usługi dla systemd</a></li>
+          </ol>
+        </li>
+        <li><a href="#katalog-varcache">Katalog /var/cache/</a>
+          <ol>
+            <li><a href="#plik-etcfstab-2">Plik /etc/fstab</a></li>
+            <li><a href="#plik-usługi-dla-systemd-2">Plik usługi dla systemd</a></li>
+          </ol>
+        </li>
+        <li><a href="#logi">Logi</a>
+          <ol>
+            <li><a href="#systemd-i-jego-journal">Systemd i jego journal</a></li>
+            <li><a href="#sesja-graficzna-plik-xsession-errors">Sesja graficzna (plik ~/.xsession-errors)</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#optymalizacja-wykorzystania-pamięci-ram">Optymalizacja wykorzystania pamięci RAM</a>
+      <ol>
+        <li><a href="#kompresja-danych-w-ram-za-sprawą-zram">Kompresja danych w RAM za sprawą ZRAM</a></li>
+      </ol>
+    </li>
+    <li><a href="#optymalizacja-mechanizmu-równoważenia-zużycia-komórek-flash">Optymalizacja mechanizmu równoważenia zużycia komórek flash</a></li>
+    <li><a href="#poprawa-wydajności-szyfrowania-w-dyskach-ssd">Poprawa wydajności szyfrowania w dyskach SSD</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go
+na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux'a z włączonymi gałęziami unstable i
+experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera
+LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo
+zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux'a.
+Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim <a href="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">postawić świeżego
+Debiana z wykorzystaniem narzędzia debootstrap</a>. Sama instalacja linux'a na dysku SSD nie różni
+się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu
+trim/discard. Standardowi użytkownicy linux'a nie muszą zbytnio nic robić, aby ten mechanizm został
+poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest <a href="https://en.wikipedia.org/wiki/Device_mapper">device-mapper</a>,
+który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
+LUKS/dm-crypt czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
+zaszyfrowanego systemu na bazie LUKS+LVM.</p>
+<h2 id="czy-kupowanie-używanego-dysku-ssd-to-dobry-pomysł">Czy kupowanie używanego dysku SSD to dobry pomysł</h2>
+<p>We wstępie wspomniałem, że dysk SSD, który zakupiłem, nie był nowy ino używany. Konkretnie jest to
+<a href="https://www.goodram.com/produkty/ssd-irdm-gen-2-sata-iii-25/">model IR-SSDPR-S25A-240 od Goodram</a>, czyli dysk o pojemności 240GB, którego komórki flash są
+wykonane w technologi MLC. Dlaczego zdecydowałem się na dysk używany, a nie nowy? Z kilku powodów.</p>
+<p>Ten używany dysk SSD kosztował w granicach 50zł, gdzie orientacyjna cena nowego urządzenia (tego
+samego modelu) waha się w granicach 250zł. Druga sprawa, to raport SMART, który został opublikowany
+przez sprzedającego, a na który ja przed zakupem bardzo lubię sobie popatrzeć. W oparciu o ten
+raport podejmuję decyzję czy dysk zakupić.</p>
+<h3 id="raport-smart-i-parametr-lifetime_writes_gib">Raport SMART i parametr Lifetime_Writes_GiB</h3>
+<p>Poniżej znajduje się pełny raport SMART tego dysku SSD:</p>
+<pre><code># smartctl -x /dev/sdb
+smartctl 7.4 2023-08-01 r5530 [x86_64-linux-6.6.1-amd64] (local build)
+Copyright (C) 2002-23, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF INFORMATION SECTION ===
+Model Family:     Phison Driven SSDs
+Device Model:     IR-SSDPR-S25A-240
+Serial Number:    GUX033073
+Firmware Version: SBFM91.3
+User Capacity:    240,057,409,536 bytes [240 GB]
+Sector Size:      512 bytes logical/physical
+Rotation Rate:    Solid State Device
+Form Factor:      2.5 inches
+TRIM Command:     Available
+Device is:        In smartctl database 7.3/5528
+ATA Version is:   ACS-4 (minor revision not indicated)
+SATA Version is:  SATA 3.2, 6.0 Gb/s (current: 6.0 Gb/s)
+Local Time is:    Fri Dec  8 09:47:18 2023 CET
+SMART support is: Available - device has SMART capability.
+SMART support is: Enabled
+AAM feature is:   Unavailable
+APM feature is:   Unavailable
+Rd look-ahead is: Enabled
+Write cache is:   Enabled
+DSN feature is:   Unavailable
+ATA Security is:  Disabled, NOT FROZEN [SEC1]
+Wt Cache Reorder: Unavailable
+
+=== START OF READ SMART DATA SECTION ===
+SMART overall-health self-assessment test result: PASSED
+
+General SMART Values:
+Offline data collection status:  (0x00) Offline data collection activity
+                                        was never started.
+                                        Auto Offline Data Collection: Disabled.
+Self-test execution status:      (   0) The previous self-test routine completed
+                                        without error or no self-test has ever
+                                        been run.
+Total time to complete Offline
+data collection:                (65535) seconds.
+Offline data collection
+capabilities:                    (0x79) SMART execute Offline immediate.
+                                        No Auto Offline data collection support.
+                                        Suspend Offline collection upon new
+                                        command.
+                                        Offline surface scan supported.
+                                        Self-test supported.
+                                        Conveyance Self-test supported.
+                                        Selective Self-test supported.
+SMART capabilities:            (0x0003) Saves SMART data before entering
+                                        power-saving mode.
+                                        Supports SMART auto save timer.
+Error logging capability:        (0x01) Error logging supported.
+                                        General Purpose Logging supported.
+Short self-test routine
+recommended polling time:        (   2) minutes.
+Extended self-test routine
+recommended polling time:        (  30) minutes.
+Conveyance self-test routine
+recommended polling time:        (   6) minutes.
+
+SMART Attributes Data Structure revision number: 16
+Vendor Specific SMART Attributes with Thresholds:
+ID# ATTRIBUTE_NAME          FLAGS    VALUE WORST THRESH FAIL RAW_VALUE
+  1 Raw_Read_Error_Rate     PO-R--   100   100   050    -    0
+  9 Power_On_Hours          -O--C-   100   100   000    -    5738
+ 12 Power_Cycle_Count       -O--C-   100   100   000    -    820
+168 SATA_Phy_Error_Count    -O--C-   100   100   000    -    0
+170 Bad_Blk_Ct_Lat/Erl      PO----   100   100   010    -    0/370
+173 MaxAvgErase_Ct          -O--C-   100   100   000    -    135 (Average 85)
+192 Unsafe_Shutdown_Count   -O--C-   100   100   000    -    27
+194 Temperature_Celsius     PO---K   067   067   000    -    33 (Min/Max 33/33)
+218 CRC_Error_Count         PO-R--   100   100   050    -    0
+231 SSD_Life_Left           PO--C-   100   100   000    -    97
+241 Lifetime_Writes_GiB     -O--C-   100   100   000    -    9037
+                            ||||||_ K auto-keep
+                            |||||__ C event count
+                            ||||___ R error rate
+                            |||____ S speed/performance
+                            ||_____ O updated online
+                            |______ P prefailure warning
+
+General Purpose Log Directory Version 1
+SMART           Log Directory Version 1 [multi-sector log support]
+Address    Access  R/W   Size  Description
+0x00       GPL,SL  R/O      1  Log Directory
+0x01           SL  R/O      1  Summary SMART error log
+0x02           SL  R/O     51  Comprehensive SMART error log
+0x03       GPL     R/O     64  Ext. Comprehensive SMART error log
+0x04       GPL,SL  R/O      8  Device Statistics log
+0x06           SL  R/O      1  SMART self-test log
+0x07       GPL     R/O      1  Extended self-test log
+0x09           SL  R/W      1  Selective self-test log
+0x10       GPL     R/O      1  NCQ Command Error log
+0x11       GPL     R/O      1  SATA Phy Event Counters log
+0x30       GPL,SL  R/O      9  IDENTIFY DEVICE data log
+0x80-0x9f  GPL,SL  R/W     16  Host vendor specific log
+
+SMART Extended Comprehensive Error Log Version: 1 (64 sectors)
+No Errors Logged
+
+SMART Extended Self-test Log Version: 1 (1 sectors)
+Num  Test_Description    Status                  Remaining  LifeTime(hours)  LBA_of_first_error
+# 1  Extended offline    Completed without error       00%      5714         -
+
+SMART Selective self-test log data structure revision number 0
+Note: revision number not 1 implies that no selective self-test has ever been run
+ SPAN  MIN_LBA  MAX_LBA  CURRENT_TEST_STATUS
+    1        0        0  Not_testing
+    2        0        0  Not_testing
+    3        0        0  Not_testing
+    4        0        0  Not_testing
+    5        0        0  Not_testing
+Selective self-test flags (0x0):
+  After scanning selected spans, do NOT read-scan remainder of disk.
+If Selective self-test is pending on power-up, resume after 0 minute delay.
+
+SCT Commands not supported
+
+Device Statistics (GP Log 0x04)
+Page  Offset Size        Value Flags Description
+0x01  =====  =               =  ===  == General Statistics (rev 1) ==
+0x01  0x008  4             820  ---  Lifetime Power-On Resets
+0x01  0x010  4            5738  ---  Power-on Hours
+0x01  0x018  6     18953043829  ---  Logical Sectors Written
+0x01  0x028  6     26744769960  ---  Logical Sectors Read
+0x04  =====  =               =  ===  == General Errors Statistics (rev 1) ==
+0x04  0x008  4               0  ---  Number of Reported Uncorrectable Errors
+0x05  =====  =               =  ===  == Temperature Statistics (rev 1) ==
+0x05  0x008  1              33  ---  Current Temperature
+0x05  0x020  1              33  ---  Highest Temperature
+0x05  0x028  1              33  ---  Lowest Temperature
+0x06  =====  =               =  ===  == Transport Statistics (rev 1) ==
+0x06  0x008  4            2890  ---  Number of Hardware Resets
+0x06  0x018  4               0  ---  Number of Interface CRC Errors
+0x07  =====  =               =  ===  == Solid State Device Statistics (rev 1) ==
+0x07  0x008  1               2  ---  Percentage Used Endurance Indicator
+                                |||_ C monitored condition met
+                                ||__ D supports DSN
+                                |___ N normalized value
+
+Pending Defects log (GP Log 0x0c) not supported
+
+SATA Phy Event Counters (GP Log 0x11)
+ID      Size     Value  Description
+0x0001  2            0  Command failed due to ICRC error
+0x0003  2            0  R_ERR response for device-to-host data FIS
+0x0004  2            0  R_ERR response for host-to-device data FIS
+0x0006  2            0  R_ERR response for device-to-host non-data FIS
+0x0007  2            0  R_ERR response for host-to-device non-data FIS
+0x0008  2            0  Device-to-host non-data FIS retries
+0x0009  4          134  Transition from drive PhyRdy to drive PhyNRdy
+0x000a  4            2  Device-to-host register FISes sent due to a COMRESET
+0x000f  2            0  R_ERR response for host-to-device data FIS, CRC
+0x0010  2            0  R_ERR response for host-to-device data FIS, non-CRC
+0x0012  2            0  R_ERR response for host-to-device non-data FIS, CRC
+0x0013  2            0  R_ERR response for host-to-device non-data FIS, non-CRC
+</code></pre>
+<p>To co nas interesuje najbardziej w tym raporcie SMART, to parametr <code>241 Lifetime_Writes_GiB</code> ,
+czyli ilość danych, które użytkownik zapisał na takim nośniku od momentu wyciągnięcia tego dysku z
+pudełka do chwili, gdy trafił on w nasze łapki. Czasami ta wartość może być zakodowana w HEX ale
+tutaj mamy wartość dziesiętną ( <code>18953043829 Logical Sectors Written</code> ), czyli
+(18953043829×512)/1024/1024/1024= <code>9037</code> ).</p>
+<p>Patrząc na wspomniany parametr, widzimy wartość <code>9037</code> , czyli około 9 TiB. Dodatkowo z parametru
+<code>Power_On_Hours</code> (czas pracy w godzinach) i <code>Power_Cycle_Count</code> (ilość cykli zasilania) możemy
+wyciągnąć nieco informacji o wykorzystaniu dysku do momentu jego sprzedaży przez właściciela.
+Wartość <code>5738</code> w <code>Power_On_Hours</code> odpowiada 239 przepracowanym dniom, a gdy podzielimy tę wartość
+przez 820, to otrzymamy około 7 godzin na cykl zasilania. Jeśli teraz podzielimy ilość zapisanych
+danych przez ilość przepracowanych godzin, to wychodzi nam średnio około 1,5 GiB zapisanych danych
+na godzinę. Z kolei jeśli podzielimy ilość zapisanych danych przez ilość cykli zasilania, to
+dostaniemy około 11 GiB (można przyjąć, że poprzedni użytkownik tego dysku SSD zapisywał około 11
+GiB dziennie). Czy zapisanie 11 GiB na dzień to dużo czy mało?</p>
+<p>Zaglądając na stronę producenta, możemy doszukać się wiadomości, że parametr <code>TBW</code> (możliwa ilość
+zapisanych danych w TB), po przekroczeniu którego produkt już nie podlega gwarancji ma wartość
+<code>180</code> . Jest to 180 TB, czyli jakieś 172 TiB i tyle komórki flash tego dysku SSD powinny wytrzymać.
+Zapisane 9 TiB stanowi około 5%, zatem komórki dysku nie są jakoś szczególnie zajechane cyklami
+(130 GiB dołożyłem instalując i przenosząc stary system na ten dysk SSD). Gdyby przyjąć, że
+użytkownik będzie zapisywał na tym dysku 100 GiB dziennie, to ten nośnik posłuży mu jeszcze przez
+co najmniej 4,5 roku, choć trzeba tutaj jeszcze wyraźnie zaznaczyć, że po takim czasie
+wyrobilibyśmy jedynie gwarantowaną normę danych do zapisu, co nie oznacza, że dysk nam od razu
+przestanie działać.</p>
+<h3 id="czy-dysk-zawiera-błędy">Czy dysk zawiera błędy</h3>
+<p>Drugą ważną sprawą jest przeskanowanie dysku i sprawdzenie czy są na nim jakieś błędy. W tym
+przypadku błędów brak:</p>
+<pre><code># smartctl -l selftest /dev/sdb
+smartctl 7.4 2023-08-01 r5530 [x86_64-linux-6.6.1-amd64] (local build)
+Copyright (C) 2002-23, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF READ SMART DATA SECTION ===
+SMART Self-test log structure revision number 1
+Num  Test_Description    Status                  Remaining  LifeTime(hours)  LBA_of_first_error
+# 1  Extended offline    Completed without error       00%      5714         -
+
+# smartctl -l error /dev/sdb
+smartctl 7.4 2023-08-01 r5530 [x86_64-linux-6.6.1-amd64] (local build)
+Copyright (C) 2002-23, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF READ SMART DATA SECTION ===
+SMART Error Log Version: 1
+No Errors Logged
+</code></pre>
+<p>Mając na uwadze powyższe informacje, 50zł za taki dysk SSD wydaje się być dobrą ceną, biorąc pod
+uwagę fakt, że jest on w stanie znacznie przyśpieszyć pracę i responsywność naszego linux'a.</p>
+<h2 id="różnica-między-discard-trim-i-fstrim">Różnica między discard, trim i fstrim</h2>
+<p>Szukając informacji na temat konfiguracji dysku SSD pod linux, można natknąć się na dwa lub trzy
+terminy, tj. <code>trim</code> , <code>fstrim</code> oraz <code>discard</code> . Z początku myślałem, że są to osobne rzeczy
+ale <a href="https://wiki.gentoo.org/wiki/Discard_over_USB">okazuje się, że trim, fstrim i discard odnoszą się do tego samego mechanizmu</a> i użytkownicy
+z reguły stosują te pojęcia zamiennie. Dlatego dobrze byłoby doprecyzować czym jest <code>trim</code> , <code>fstrim</code>
+oraz <code>discard</code> .</p>
+<p>Generalnie <code>discard</code> to opcja montowania systemu plików i po jej ustawieniu firmware dysku jest
+powiadamiany o blokach, które już nie są wykorzystywane przez ten konkretny system plików. Efektem
+ustawienia opcji <code>discard</code> dla takiego systemu plików jest zerowanie bloków fizycznych dysku
+praktycznie natychmiast po usunięciu jakiegoś pliku. Z kolei <code>trim</code> (albo bardziej precyzyjnie
+polecenie <code>fstrim</code> ) robi dokładnie to samo ale nie w chwili, w której operacja usuwania danych ma
+miejsce. Czyli zarówno opcja <code>discard</code> jak i <code>trim</code>/<code>fstrim</code> informują urządzenie blokowe o
+przestrzeni, która była używana przez system plików ale została zwolniona i wróciła z powrotem do
+wolnej puli.</p>
+<p>Takie powiadamianie o zwolnionych blokach nie jest niczym niezwykłym, bo urządzenia oparte o
+technologię flash muszą pierw wyzerować komórki zanim będzie możliwy w nich ponowny zapis
+faktycznych danych. Ten proces zerowania jest jednak bardzo powolny w porównaniu do operacji zapisu
+realnych danych. Jeśli teraz weźmiemy dysk SSD bez opcji <code>discard</code>, który był wcześniej zapisany w
+całości i będziemy chcieli zapisać w nim jakieś dane, to określone komórki flash będzie trzeba
+uprzednio wyzerować i dopiero po zakończeniu tego procesu zapisać te interesujące nas dane. Widać
+zatem, że dysk może mieć problemy z wydajnością w takim przypadku, bo nie zapisuje od razu tych
+danych, które byśmy sobie życzyli. Dlatego też by zachować dobrą wydajność przy zapisie danych na
+dysku SSD trzeba korzystać z opcji <code>discard</code> lub cyklicznie wydawać polecenie <code>fstrim</code> .</p>
+<h3 id="co-lepsze-trimfstrim-czy-discard">Co lepsze trim/fstrim czy discard</h3>
+<p>Zarówno <code>trim</code> (wywoływanie polecenia <code>fstrim</code> ) jak i opcja montowania <code>discard</code> mogą negatywnie
+odbić się na wydajności, jak i żywotności dysku SSD. Nie powinniśmy zatem korzystać z opcji
+<code>discard</code> , np. w pliku <code>/etc/fstab</code> . Z kolei jeśli chodzi o <code>trim</code> , to nie powinno się korzystać
+z polecenia <code>fstrim</code> <a href="https://man7.org/linux/man-pages/man8/fstrim.8.html">częściej niż raz w tygodniu</a>.</p>
+<p>Dodatkowo dyski SSD mogą wspierać coś co się nazywa <code>queued trim</code> , czyli w określonych interwałach
+czasowych lub przy określonych zdarzeniach, dysk SSD będzie automatycznie czyścił wolne bloki, tak
+by te operacje trim/discard nie kolidowały z operacjami zapisu/odczytu danych na dysku. Jeśli nasz
+dysk nie wspiera <code>queued trim</code> , to stosowanie opcji <code>discard</code> <a href="https://en.wikipedia.org/wiki/Trim_(computing)#Disadvantages">może znacznie degradować wydajność
+dysku SSD</a>. Ten sytuacja jest na tyle uporczywa, że deweloperzy kernela wpisują na <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/ata/libata-core.c">czarną
+listę</a> ( <code>ata_device_blacklist</code> ) takie dyski SSD, by jakoś radzić sobie z tym problemem.</p>
+<h2 id="czy-mój-dysk-ssd-wspiera-trimdiscard">Czy mój dysk SSD wspiera trim/discard</h2>
+<p>Wsparcie dla trim/discard można odczytać z raportu SMART lub z wyjścia polecenia <code>hdparm</code>:</p>
+<pre><code>#  smartctl -x  /dev/sdb | grep -i trim
+TRIM Command:     Available
+
+# hdparm -I /dev/sdb | grep -i trim
+           *    Data Set Management TRIM supported (limit 8 blocks)
+</code></pre>
+<p>Trzeba tutaj wyraźnie zaznaczyć, że fakt wspierania trim/discard przez dysk SSD nie oznacza
+automatycznie, że partycje utworzone w obrębie takiego dysku również będą posiadały wsparcie dla
+tego mechanizmu. Możemy się o tym fakcie przekonać wydając poniższe polecenie:</p>
+<pre><code># lsblk --discard /dev/sdb
+NAME                        DISC-ALN DISC-GRAN DISC-MAX DISC-ZERO
+sdb                                0      512B       2G         0
+├─sdb1                             0      512B       2G         0
+├─sdb2                             0      512B       2G         0
+└─sdb3                             0      512B       2G         0
+  └─debian_crypt                   0        0B       0B         0
+    ├─goodram_ssd-ccache           0        0B       0B         0
+    ├─goodram_ssd-debuilder        0        0B       0B         0
+    ├─goodram_ssd-root             0        0B       0B         0
+    └─goodram_ssd-home             0        0B       0B         0
+</code></pre>
+<p>Jak widać, pozycje <code>/dev/sdb[1-3]</code> posiadają wsparcie dla trim/discard z tym, że na <code>/dev/sdb3</code> mamy
+zaszyfrowany kontener LUKS, a w nim LVM z 4 voluminami logicznymi. Patrząc po kolumnie <code>DISC-GRAN</code>
+(discard granularity) oraz <code>DISC-MAX</code> (discard max bytes) możemy stwierdzić, że dysk <code>/dev/sdb</code>
+oraz jego partycje <code>/dev/sdb[1-3]</code> wspierają trim/discard ale kontener LUKS i dyski logiczne LVM
+już nie.</p>
+<p>Jeśli w takim przypadku, jak wyżej, wydamy polecenie <code>fstrim</code>, to uzyskamy poniższy wynik:</p>
+<pre><code># fstrim -v /efi
+/efi: 501.6 MiB (526008320 bytes) trimmed
+
+# fstrim -v /boot
+/boot: 1.8 GiB (1928638464 bytes) trimmed
+
+# fstrim -v /home
+fstrim: /home: the discard operation is not supported
+
+# fstrim -v /
+fstrim: /: the discard operation is not supported
+</code></pre>
+<p>Zatem, niby mamy dysk wspierający trim/discard , to jednak część partycji/dysków logicznych nie
+wspiera tego mechanizmu. Dlaczego?</p>
+<h3 id="problematyczny-device-mapper-lukslvm">Problematyczny device-mapper (LUKS/LVM)</h3>
+<p>Zgodnie z tym co można <a href="https://wiki.archlinux.org/title/Dm-crypt/Specialties">wyczytać tutaj</a>, developerzy device-mapper nie włączą mechanizmu
+trim/discard dla zaszyfrowanych voluminów ze względów bezpieczeństwa. Wypadałoby w tym miejscu
+sobie zadać pytanie o te względy bezpieczeństwa, tj. jakie dokładnie informacje mogą zostać
+ujawnione, gdy włączymy trim/discard dla zaszyfrowanego kontenera LUKS/dm-crypt. <a href="https://asalor.blogspot.com/2011/08/trim-dm-crypt-problems.html">Odpowiedź można
+znaleźć w tym artykule</a>.</p>
+<p>Po przeczytaniu tego posta naszły mnie mieszane uczucia. Argumenty przemawiające za tym, by nie
+włączać domyślnie trim/discard dla LUKS/dm-crypt są takie, że będzie wiadomo, w którym miejscu na
+dysku twardym są przechowywane jakieś dane, a które miejsce zostało wyzerowane i nie zawiera
+danych. Ponadto, może wyciec informacja z jakiego systemu plików korzystamy na tym urządzeniu.
+Można też ustalić czy w obrębie danego wycinku dysku mamy ukryty jakiś zaszyfrowany volumin. No
+tak, z czym tu polemizować. Jaki system plików może być wykorzystywany w przypadku linux'a, no
+jaki... nie wiem... W którym miejscu na dysku są przechowywane dane, hmmm... a jakie dane? Nie
+wiadomo ale wiadomo, że jakieś są... albo ich nie ma... Poważnie to są argumenty przeciw włączeniu
+trim/discard? Nie mogłem się powstrzymać.</p>
+<p>No tak czy inaczej z tym ukrytym zaszyfrowanym voluminem to tu już jakiś sens to by miało. Nie
+chodzi o fakt zatajenia korzystania z szyfrowania, tylko o coś na wzór opisywanego przeze mnie
+jakiś czas temu <a href="https://morfikov.github.io/post/jak-ukryc-zaszyfrowany-kontener-luks-pod-linux/">rozwiązania mającego na celu obejście cenzury przy przekraczaniu graniczy</a>. W
+przypadku posiadania tak ukrytego kontenera, mechanizm trim/discard zwyczajnie go wyzeruje (lub
+wyzeruje jego część) przy usuwaniu danych, co efektywnie go zniszczy.</p>
+<p>Poza tymi powyższymi argumentami, dochodzi też fakt braku możliwości odwrócenia operacji usuwania
+danych.  W przypadku dysku HDD (talerzowego), jak usuniemy plik, to on dalej na tym dysku rezyduje
+do momentu ponownego zapisania danego sektora przez głowicę magnetyczną. Można kopię takiego pliku
+wydobyć znając fizyczne jego położenie. Z kolei na dysku SSD z załączonym trim/discard , jak
+usuniemy jakiś plik, to już tych danych nie będziemy w stanie odzyskać, bo stosowne komórki flash
+zostaną natychmiast (lub po jakimś krótszym czasie) wyzerowane. Jak dla mnie to spory plus, by mieć
+pewność, że skasowanych danych się nie da odzyskać, przynajmniej nie standardowymi technikami
+wykorzystywanymi w przypadku dysków HDD.</p>
+<h2 id="włączenie-trimdiscard-dla-luksdm-crypt">Włączenie trim/discard dla LUKS/dm-crypt</h2>
+<p>W moim przypadku, gdzie wszyscy wiedzą, że ja w zasadzie wszystko i zawsze szyfruję, to mogę sobie
+włączyć trim/discard dla zaszyfrowanych kontenerów LUKS. A to, że ktoś pozna, że korzystam z
+systemu plików NTFS na swoim Debianie, to dla mnie nie ma większego znaczenia. :]</p>
+<p>By włączyć trim/discard dla kontenerów LUKS/dm-crypt, trzeba edytować plik <code>/etc/crypttab</code> i
+dopisać w nim opcję <code>discard</code> przy pozycji z kontenerem, przykładowo:</p>
+<pre><code># &lt;target name&gt;	&lt;source device&gt;		&lt;key file&gt;	&lt;options&gt;
+debian_crypt  UUID=9e3c1bb4-570f-4eb2-a1c5-51a4aabedeb4   c1  luks,keyscript=decrypt_keyctl,initramfs,discard
+sys_crypt     UUID=66861f93-9fc7-46f9-b969-1ade25dcb898   c1  luks,keyscript=decrypt_keyctl,initramfs
+</code></pre>
+<p>Pierwsza pozycja odpowiada za kontener na dysku SSD, druga za kontener na dysku HDD.</p>
+<p>Po uzupełnieniu pliku <code>/etc/crypttab</code> trzeba na nowo wygenerować obraz initramfs/initrd:</p>
+<pre><code># update-initramfs -u -k all
+</code></pre>
+<p>Po wygenerowaniu obrazu initramfs/initrd trzeba uruchomić ponownie system.</p>
+<p>Po tym jak się już system uruchomi, sprawdzamy, czy wsparcie dla trim/discard w kontenerze LUKS
+zostało włączone:</p>
+<pre><code># lsblk --discard /dev/sdb
+NAME                        DISC-ALN DISC-GRAN DISC-MAX DISC-ZERO
+sdb                                0      512B       2G         0
+├─sdb1                             0      512B       2G         0
+├─sdb2                             0      512B       2G         0
+└─sdb3                             0      512B       2G         0
+  └─debian_crypt                   0      512B       2G         0
+    ├─goodram_ssd-ccache           0      512B       2G         0
+    ├─goodram_ssd-debuilder        0      512B       2G         0
+    ├─goodram_ssd-root             0      512B       2G         0
+    └─goodram_ssd-home             0      512B       2G         0
+</code></pre>
+<p>I jak widzimy wyżej, pozycja z kontenerem <code>debian_crypt</code> posiada już niezerowe wartości w kolumnach
+<code>DISC-GRAN</code> oraz <code>DISC-MAX</code> .</p>
+<p>Możemy też zajrzeć w <code>dmsetup</code> :</p>
+<pre><code># dmsetup table
+debian_crypt: 0 463583232 crypt aes-xts-plain64 :64:logon:cryptsetup:000etc000-d0 0 8:19 32768 1 allow_discards
+</code></pre>
+<p>Sprawdźmy zatem czy trim/discard działa na tych logicznych voluminach LVM, które znajdują się
+wewnątrz tego kontenera LUKS:</p>
+<pre><code># fstrim  --all -v
+/efi: 501.6 MiB (526008320 bytes) trimmed on /dev/sdb2
+/boot: 1.8 GiB (1928650752 bytes) trimmed on /dev/sdb1
+/media/ccache: 12.7 GiB (13622022144 bytes) trimmed on /dev/mapper/goodram_ssd-ccache
+/home: 43.7 GiB (46881816576 bytes)  trimmed on /dev/mapper/goodram_ssd-home
+/media/debuilder: 29.7 GiB (31883202560 bytes) trimmed on /dev/mapper/goodram_ssd-debuilder
+/: 21.9 GiB (23515930624 bytes) trimmed on /dev/mapper/goodram_ssd-root
+</code></pre>
+<p>Wygląda na to, że teraz wszystko działa tak jak powinno.</p>
+<h3 id="luksv2-i-jego-flagi">LUKSv2 i jego flagi</h3>
+<p>Jeśli korzystamy z kontenerów LUKSv2, to opcji dla tego kontenera nie musimy określać w pliku
+<code>/etc/crypttab</code> , bo możemy to zrobić trwale przy pomocy flag oferowanych przez LUKSv2 (dany
+kontener będzie tak samo skonfigurowany OOTB na różnych systemach). Robimy to standardowo przy
+pomocy narzędzia <code>cryptsetup</code> :</p>
+<pre><code># cryptsetup --allow-discards --persistent refresh debian_crypt
+Enter passphrase for /dev/sdb3:
+</code></pre>
+<p>Po czym weryfikujemy czy flagi zostały poprawnie ustawione:</p>
+<pre><code># cryptsetup luksDump /dev/sdb3 | grep -i flags
+Flags:          allow-discards
+</code></pre>
+<p>By usunąć flagi, trzeba wydać to powyższe polecenie bez flag, czyli:</p>
+<pre><code># cryptsetup refresh debian_crypt
+</code></pre>
+<h2 id="włączenie-trimdiscard-dla-lvm">Włączenie trim/discard dla LVM</h2>
+<p>Jak widzieliśmy wyżej, dodanie do pliku <code>/etc/crypttab</code> opcji <code>discard</code> włączyło mechanizm
+trim/discard zarówno dla kontenera LUKS, jak i dla wszystkich voluminów logicznych LVM wewnątrz
+tego kontenera. Niemniej jednak, jak się przejrzy plik <code>/etc/lvm/lvm.conf</code> , to mamy tam do
+dyspozycji opcję <code>issue_discards</code> :</p>
+<pre><code>issue_discards = 1
+</code></pre>
+<p>Ta opcja jest domyślnie wyłączona, a mimo to, i tak trim/discard na tych logicznych voluminach się
+pojawił.</p>
+<p>Opcja <code>issue_discards</code> dotyczy nieco innego aspektu pracy LVM. Zgodnie z opisem tej opcji,
+trim/discard jest wysyłany do fizycznego voluminu, do którego odnosi się logiczny volumin, w
+momencie gdy ten logiczny volumin już nie korzysta z konkretnego miejsca fizycznego voluminu, np.
+po wydaniu poleceń <code>lvremove</code> czy <code>lvreduce</code> . W takiej sytuacji LVM informuje dysk, że
+dany region, który był we władaniu jakiegoś logicznego voluminu nie jest już używany. Jeśli zaś
+chodzi o system plików obecny na takim logicznym voluminie LVM, to opcja <code>issue_discards</code> nie ma
+tutaj większego znaczenia i jeśli urządzenie wspiera trim/discard (fizyczny nośnik albo kontener
+LUKS), to polecenie <code>fstrim</code> wysłane przez system plików do dysku przejdzie transparentnie przez
+warstwę LVM.</p>
+<p>Jeśli korzystamy z <a href="https://morfikov.github.io/post/backup-przy-pomocy-lvm-snapshot/">mechanizmu LVM snapshot</a>, to możemy ustawić sobie <code>issue_discards = 1</code> w
+pliku <code>/etc/lvm/lvm.conf</code> i w takim przypadku, bloki wykorzystywane przez volumin snapshot'a będą
+odzyskiwane po usunięciu takiego snapshot'a.</p>
+<h2 id="opcja-discard-w-pliku-etcfstab">Opcja discard w pliku /etc/fstab</h2>
+<p>Przeglądając internet, natknąłem się na szereg postów, których autorzy doradzali, by w pliku
+<code>/etc/fstab</code> dopisać parametr <code>discard</code> przy wszystkich systemach plików, które zamierzamy montować,
+np. <code>/</code> czy <code>/home/</code> , coś na poniższy wzór:</p>
+<pre><code>UUID=bcc4149e-7ec6-417c-97f4-23c5b6793450  /home  ext4  defaults,discard,nodev,nosuid,noexec,lazytime,errors=remount-ro 0 2
+</code></pre>
+<p>Lub przy pomocy tego poniższego polecenia ustawić opcję <code>discard</code> w superbloku danego systemu
+plików bez potrzeby ruszania pliku <code>/etc/fstab</code> , co może przydać się nam, gdy dysk jest używany na
+kilku systemach, np. dysk zewnętrzny:</p>
+<pre><code># tune2fs -o discard /dev/mapper/goodram_ssd-home
+</code></pre>
+<p>Opcja <code>discard</code> powoduje jednak, że system plików za każdym, gdy zostanie skasowany jakiś plik,
+będzie przesyłał polecenie <code>fstrim</code> do firmware dysku w celu wyzerowania tych zwolnionych bloków.
+Tego typu działanie może odbić się bardzo negatywnie na wydajności dysku SSD oraz skrócić jego
+żywotność. Dlatego w zasadzie nie zaleca się korzystania z tej opcji systemu plików. Lepszym
+rozwiązaniem jest okresowe wywoływanie polecenia <code>fstrim</code>, czy to ręcznie czy też automatycznie, np.
+za sprawą usługi systemd.</p>
+<h2 id="cykliczny-trimdiscard-za-sprawą-usługi-systemd">Cykliczny trim/discard za sprawą usługi systemd</h2>
+<p>Na usługę systemd odpowiedzialną za ogarnianie mechanizmu trim/discard składają się dwa pliki:
+<code>fstrim.service</code> oraz <code>fstrim.timer</code> .</p>
+<p>Plik <code>fstrim.service</code> odpowiada za wywołanie polecenia <code>fstrim</code> na każdym z zamontowanych systemów
+plików, który opcję <code>discard</code> wspiera:</p>
+<pre><code># systemctl cat fstrim.service
+# /usr/lib/systemd/system/fstrim.service
+...
+[Service]
+...
+ExecStart=/sbin/fstrim --listed-in /etc/fstab:/proc/self/mountinfo --verbose --quiet-unsupported
+...
+</code></pre>
+<p>Plik <code>fstrim.timer</code> to zegar, którego zadaniem jest uruchomić w odpowiednim czasie usługę z pliku
+<code>fstrim.service</code> :</p>
+<pre><code># systemctl cat fstrim.timer
+# /usr/lib/systemd/system/fstrim.timer
+...
+[Timer]
+OnCalendar=weekly
+AccuracySec=1h
+Persistent=true
+RandomizedDelaySec=100min
+...
+</code></pre>
+<p>Jak widzimy, zegar domyślnie jest ustawiony na około 7 dni. Czyli co 7 dni system będzie wywoływał
+polecenie <code>fstrim</code> na każdym zamontowanym systemie plików.</p>
+<p>Wszystko co musimy zrobić to aktywować ten zegar:</p>
+<pre><code># systemctl enable fstrim.timer
+Created symlink /etc/systemd/system/timers.target.wants/fstrim.timer → /usr/lib/systemd/system/fstrim.timer.
+</code></pre>
+<p>Sprawdźmy jak wygląda status zegara:</p>
+<pre><code># systemctl list-timers
+NEXT                            LEFT LAST                              PASSED UNIT                         ACTIVATES
+...
+Mon 2023-12-11 01:12:15 CET       8h Wed 2023-12-06 22:26:57 CET            - fstrim.timer                 fstrim.service
+...
+</code></pre>
+<p>Za około 8 godzin usługa mająca na celu wydanie polecenia <code>fstrim</code> zostanie uruchomiona.</p>
+<h2 id="manualny-trimdiscard">Manualny trim/discard</h2>
+<p>W każdym momencie pracy maszyny, polecenie <code>fstrim</code> możemy zainicjować ręcznie. Wystarczy odpalić
+usługę <code>fstrim.service</code> lub wpisać polecenie tej usługi w terminalu:</p>
+<pre><code># systemctl restart fstrim.service
+</code></pre>
+<p>W logu systemowym zaś można zaobserwować poniższe komunikaty:</p>
+<pre><code>systemd[1]: Starting fstrim.service - Discard unused blocks on filesystems from /etc/fstab...
+fstrim[18369]: /media/debuilder: 29.7 GiB (31879254016 bytes) trimmed on /dev/mapper/goodram_ssd-debuilder
+fstrim[18369]: /media/ccache: 12.7 GiB (13622022144 bytes) trimmed on /dev/mapper/goodram_ssd-ccache
+fstrim[18369]: /boot: 1.8 GiB (1928536064 bytes) trimmed on /dev/sdb1
+fstrim[18369]: /home: 45.2 GiB (48578965504 bytes) trimmed on /dev/mapper/goodram_ssd-home
+fstrim[18369]: /: 26.8 GiB (28801794048 bytes) trimmed on /dev/mapper/goodram_ssd-root
+systemd[1]: fstrim.service: Deactivated successfully.
+systemd[1]: Finished fstrim.service - Discard unused blocks on filesystems from /etc/fstab.
+</code></pre>
+<p>Wiemy zatem, że polecenie <code>fstrim</code> zostało przesłane do dysku SSD.</p>
+<h2 id="czy-hibernować-system-mając-dysk-ssd">Czy hibernować system mając dysk SSD</h2>
+<p>Bardzo cenię sobie hibernację ze względu na fakt możliwości odtworzenia stanu pracy po odcięciu
+zasilania i wyłączeniu maszyny. Aktualnie mój laptop ma 16 GiB pamięci RAM, z czego zwykle połowa
+jest w użyciu. Jeśli bym hibernował system, to z każdą hibernacją, te 8 GiB by było zapisywane na
+dysk. Widać zatem, że hibernacja trochę mija się z celem w przypadku dysku SSD, bo dziennie, 20-50
+GiB by szło na jej obsługę i komórki flash by się dość szybko zużyły.</p>
+<p>Biorąc pod uwagę fakt, że stary dysk HDD w laptopie mi został (w kieszeni w miejscu wyciągniętego
+już dawno temu cd-rom'u), to kawałek tego dysku mogę przeznaczyć na SWAP -- dokładnie ten sam
+kawałek, który robił za SWAP, gdy system działał na tym dysku. W zasadzie nic się tutaj nie
+zmieni, nawet wpis od SWAP zostanie ten sam w pliku <code>/etc/fstab</code> . Podobnie zawartość pliku
+<code>/etc/initramfs-tools/conf.d/resume</code> zostanie taka sama:</p>
+<pre><code># cat /etc/initramfs-tools/conf.d/resume
+RESUME=/dev/mapper/wd_blue_label-swap
+</code></pre>
+<p>Czyli system będzie sobie działał na dysku SSD ale hibernował się będzie na starym dysku HDD
+oszczędzając tym samym zapis cennych gigabajtów. Oczywiście ten stary dysk też jest na bazie
+LUKSv2+LVM, przez co dane w SWAP pozostają zaszyfrowane.</p>
+<p>A co w przypadku, gdy nasz laptop ma tylko jeden dysk i jest nim SSD? W takim przypadku bym
+zrezygnował z opcji hibernacji, bo skróciłaby ona znacząco żywotność dysku, przynajmniej w moim
+przypadku, gdzie potrafię hibernować system parę razy dziennie.</p>
+<h2 id="odciążenie-dysku-ssd-przez-wykorzystanie-ramdysków">Odciążenie dysku SSD przez wykorzystanie ramdysków</h2>
+<p>Część danych na dysku twardym podczas pracy systemu operacyjnego czy też korzystania z określonych
+aplikacji jest zapisywana w formie cache. Niby cache ma na celu przyśpieszenie pracy systemu ale
+niekiedy mija się to z celem, np. gdy w grę wchodzi przeglądarka internetowa. Jasne, bez cache
+strony będą się ładować wolniej i więcej danych trzeba będzie pobrać przez sieć ale w obecnych
+czasach strony WWW podlegają nieustannym zmianom z racji pojawiania się na nich nowego kontentu, a
+gdy taka strona zostanie zmieniona, to cache trzeba na nowo wygenerować. Taki cache jest ważny
+(daje nam jakiś boost) jedynie przez kilka minut, może parę godzin, po czym znów trzeba go
+wygenerować i zapisać na dysku. Do takich aplikacji lepszym rozwiązaniem jest cache przechowywany w
+pamięci operacyjnej RAM. Nie dość, że będzie on o wiele szybszy, to nawet jeśli nam on zniknie po
+wyłączeniu maszyny, to nie zauważymy spowolnienia w działaniu systemu albo będzie ono na tyle
+niewielkie, że go realnie nie odczujemy.</p>
+<h3 id="katalog-cache">Katalog ~/.cache/</h3>
+<p>Pierwszym miejscem, które przydałoby się zamontować w RAM, to katalog cache użytkownika, tj.
+<code>~/.cache/</code> . Przy intensywnym korzystaniu z internetu, ten katalog może nam się bardzo szybko
+rozrastać lub też stare pliki mogą być zastępowane nowym. Montując ten katalog w RAM, dziennie
+możemy zaoszczędzić na zapisie dysku SSD nawet kilka GiB (może nawet i kilkanaście).</p>
+<h4 id="plik-etcfstab">Plik /etc/fstab</h4>
+<p>Montowanie katalogu <code>~/.cache/</code> w RAM możemy przeprowadzić na dwa sposoby. Pierwszym z nich jest
+dodanie poniższego wpisu w pliku <code>/etc/fstab</code> :</p>
+<pre><code>tmpfs /home/morfik/.cache tmpfs uid=morfik,gid=morfik,mode=1700,size=6000M,nodev,nosuid,noexec 0 0
+</code></pre>
+<h4 id="plik-usługi-dla-systemd">Plik usługi dla systemd</h4>
+<p>Drugim sposobem jest zaś napisanie pliku usługi dla systemd:</p>
+<pre><code># cat /etc/systemd/system/home-morfik-.cache.mount
+[Unit]
+Description = Mount Morfik's cache directory as tmpfs
+DefaultDependencies=no
+RequiresMountsFor=/home/morfik/.cache
+Before=local-fs.target
+
+[Mount]
+Where=/home/morfik/.cache
+What=tmpfs
+Type=tmpfs
+Options=uid=morfik,gid=morfik,mode=1700,size=6000M,nodev,nosuid,noexec
+
+[Install]
+WantedBy = multi-user.target
+</code></pre>
+<p>Włączamy usługę:</p>
+<pre><code># systemctl enable home-morfik-.cache.mount
+Created symlink /etc/systemd/system/multi-user.target.wants/home-morfik-.cache.mount → /etc/systemd/system/home-morfik-.cache.mount.
+</code></pre>
+<p>Przed aktywowaniem tej usługi, dobrze jest wyczyścić pierw katalog <code>~/.cache/</code> .</p>
+<pre><code># systemctl start home-morfik-.cache.mount
+</code></pre>
+<p>Sprawdzamy, czy zasób został zamontowany:</p>
+<pre><code>$ mount | grep cache
+tmpfs on /home/morfik/.cache type tmpfs (rw,nosuid,nodev,noexec,relatime,size=6144000k,mode=1700,uid=1000,gid=1000)
+</code></pre>
+<h3 id="katalog-tmp">Katalog /tmp/</h3>
+<p>W przypadku, gdy nasza maszyna jest wyposażona w większą ilość pamięci operacyjnej, możemy
+zamontować sobie cały katalog <code>/tmp/</code> w RAM. Tutaj również możemy skorzystać z pliku <code>/etc/fstab</code>
+lub wykorzystać dedykowaną do tego celu usługę systemd.</p>
+<h4 id="plik-etcfstab-1">Plik /etc/fstab</h4>
+<p>Poniżej jest stosowny wpis do umieszczenia w pliku <code>/etc/fstab</code> :</p>
+<pre><code>tmpfs /tmp      tmpfs nodev,nosuid,noexec,mode=1777,size=50% 0 0
+</code></pre>
+<h4 id="plik-usługi-dla-systemd-1">Plik usługi dla systemd</h4>
+<p>W przypadku korzystania z systemd, do ogarniania plików tymczasowych w katalogu <code>/tmp/</code> mamy
+specjalnie tego celu zaprojektowaną usługę, tj. <code>tmp.mount</code> :</p>
+<pre><code># cp /usr/share/systemd/tmp.mount /etc/systemd/system
+# systemctl enable tmp.mount
+Created symlink /etc/systemd/system/local-fs.target.wants/tmp.mount → /etc/systemd/system/tmp.mount.
+</code></pre>
+<p>Domyślnie maksymalnie 50% RAM będzie mogło zostać wykorzystane pod katalog <code>/tmp/</code> . Jeśli
+potrzebujemy zmienić tę wartość na wyższą/niższą, to robimy to w pliku usługi manipulując wartością
+parametru <code>size=50%</code> .</p>
+<p>Po włączeniu tej usługi, dobrze jest wyłączyć środowisko graficzne i z poziomu TTY usunąć
+wszystkie pliki zalegające w katalogu <code>/tmp/</code> .</p>
+<h3 id="katalog-varcache">Katalog /var/cache/</h3>
+<p>W katalogu  <code>/var/cache/</code> znajduje się cache różnych aplikacji, który nie powinien być usuwany z
+każdym restartem komputera. Niemniej jednak, są tam pewne katalogi, np. <code>/var/cache/apt/</code> , który
+przechowuje pobrane przez menadżer pakietów paczki <code>.deb</code> . Przy standardowych instalacjach
+Debiana, pliki w tym katalogu znajdują zastosowanie z reguły jedynie podczas
+instalacji/aktualizacji pakietów. Z chwilą, gdy te pakiety zostaną już zainstalowane, to te pliki
+są zbędne i z jednej strony tylko zajmują nam miejsce na dysku, z drugiej zaś strony utylizują
+komórki flash. Jeśli do tego dojdzie nam jeszcze wykorzystywanie gałęzi unstable/experimental, to
+dziennie może nam się tych aktualizacji uzbierać nawet kilkaset MiB, a nierzadko nawet 1-2 GiB.
+Jeśli z tym cache APT nic nie robimy, np. <a href="https://morfikov.github.io/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">nie budujemy sobie lokalnie pakietów .deb</a>, to nie
+ma większego sensu zapisywanie tych danych na dysk, bo i tak z nich większego użytku nie zrobimy.</p>
+<h4 id="plik-etcfstab-2">Plik /etc/fstab</h4>
+<p>Poniżej jest stosowny wpis do umieszczenia w pliku <code>/etc/fstab</code> :</p>
+<pre><code>tmpfs /var/cache/apt      tmpfs 0 0
+</code></pre>
+<h4 id="plik-usługi-dla-systemd-2">Plik usługi dla systemd</h4>
+<p>W przypadku korzystania z systemd, możemy napisać sobie plik usługi:</p>
+<pre><code># cat /etc/systemd/system/var-cache-apt.mount
+[Unit]
+Description = Mount APT cache
+DefaultDependencies=no
+RequiresMountsFor=/var/cache/apt
+Before=local-fs.target
+
+[Mount]
+Where=/var/cache/apt
+What=tmpfs
+Type=tmpfs
+
+[Install]
+WantedBy = multi-user.target
+</code></pre>
+<p>Włączamy usługę:</p>
+<pre><code># systemctl enable var-cache-apt.mount
+Created symlink /etc/systemd/system/multi-user.target.wants/var-cache-apt.mount → /etc/systemd/system/var-cache-apt.mount.
+</code></pre>
+<p>I podobnie jak w poprzednich przypadkach, czyścimy katalog <code>/var/cache/apt/</code> i uruchamiamy usługę:</p>
+<pre><code># systemctl start var-cache-apt.mount
+
+# mount | grep apt
+tmpfs on /var/cache/apt type tmpfs (rw,relatime)
+</code></pre>
+<p>Dobrze jest przetestować sobie jeszcze czy menadżer pakietów działa prawidłowo:</p>
+<pre><code># apt-get update
+# aptitude safe-upgrade
+
+# ls -al /var/cache/apt
+total 98296
+drwxrwxrwt  3 root root      100 2023-12-09 15:24:02 ./
+drwxr-xr-x 24 root root     4096 2023-12-09 15:17:08 ../
+drwxr-xr-x  3 root root      540 2023-12-09 15:20:56 archives/
+-rw-r--r--  1 root root 50353616 2023-12-09 15:24:02 pkgcache.bin
+-rw-r--r--  1 root root 50291843 2023-12-09 15:18:32 srcpkgcache.bin
+
+# ls -al /var/cache/apt/archives
+total 106808
+drwxr-xr-x 3 root root      540 2023-12-09 15:20:56 ./
+drwxrwxrwt 3 root root      100 2023-12-09 15:24:02 ../
+drwx------ 2 _apt root       40 2023-12-09 15:20:56 partial/
+-rw-r--r-- 1 root root 12826068 2023-12-08 09:24:30 groovy_2.4.21-10_all.deb
+-rw-r--r-- 1 root root  1451740 2023-12-09 01:14:23 libglib2.0-0_2.78.3-1_amd64.deb
+-rw-r--r-- 1 root root  1223328 2023-12-09 00:59:12 libglib2.0-data_2.78.3-1_all.deb
+...
+</code></pre>
+<h3 id="logi">Logi</h3>
+<p>Przeciętny użytkownik bardzo rzadko kiedy zagląda do logów systemowych, bo albo w swoim systemie
+nie napotyka żadnych problemów (więc nie ma po co), albo nawet nie wie co to takiego te logi
+systemowe i jak w nie zajrzeć. Niemniej jednak, te logi mogą się rozrastać (zwłaszcza na systemach,
+o które się słabo dba) za sprawą np. całej masy takich samych (lub podobnych komunikatów), które są
+efektem jakiegoś błędu. Pół biedy, gdy zareagujemy w porę, ustalimy przyczynę i ją wyeliminujemy.
+Ale jeśli zostawimy taki system sam sobie, to setki MiB w ciągu minut będą zapisane na dysk, a tego
+chcielibyśmy uniknąć mając dysk SSD.</p>
+<h4 id="systemd-i-jego-journal">Systemd i jego journal</h4>
+<p>W przypadku systemd, możemy skonfigurować sobie logowanie komunikatów systemowych do pamięci
+operacyjnej RAM. Wystarczy w pliku <code>/etc/systemd/journald.conf</code> zmienić wartość parametru
+<code>Storage</code> . Mamy w zasadzie do wyboru te trzy poniższe opcje:</p>
+<ul>
+<li><code>persistent</code>-- logi będą przechowywane na dysku, tj. w katalogu <code>/var/log/journal/</code> .</li>
+<li><code>volatile</code> -- logi będą przechowywane w pamięci RAM, tj. w katalogu <code>/run/log/journal/</code> .</li>
+<li><code>none</code> -- wyłącza logowanie.</li>
+</ul>
+<p>Jeśli bardzo rzadko zaglądamy w logi systemowe, to nie musimy ich trzymać na dysku. Nie zalecałbym
+całkowitego wyłączania logowania, dlatego też lepszym rozwiązaniem będzie opcja <code>volatile</code> :</p>
+<pre><code>[Journal]
+...
+Storage=volatile
+</code></pre>
+<p>By nam się te logi w RAM nie rozrastały za bardzo, możemy także ograniczyć ich rozmiar, powiedzmy
+do 128 MiB:</p>
+<pre><code>RuntimeMaxUse=128M
+RuntimeMaxFileSize=128M
+</code></pre>
+<h4 id="sesja-graficzna-plik-xsession-errors">Sesja graficzna (plik ~/.xsession-errors)</h4>
+<p>Logi systemowe to nie jedyne logi w naszym linux'ie. Sesja graficzna również generuje całą masę
+logów, a konkretnie to te wszystkie okienkowe aplikacje te logi mogą generować i ich też może się
+sporo nazbierać. Wszystkie te logi wędrują do pliku <code>~/.xsession-errors</code> , przynajmniej gdy
+korzystamy z Xserver'a.</p>
+<p>Swojego czasu przestałem korzystać z tego pliku na rzecz przekierowania tych logów do urządzenia
+FIFO celem wyświetlenia ich na konsoli, co efektywnie wrzuciło te logi do pamięci RAM i odciążyło
+wtedy mój dysk HDD. Nie będę opisywał tutaj całego tego zagadnienia jedynie skrótowo nadmienię, że
+w pliku <code>/etc/X11/Xsession</code> znajduje się ten poniższy kod:</p>
+<pre><code>ERRFILE=$HOME/.xsession-errors
+...
+exec &gt;&gt;&quot;$ERRFILE&quot; 2&gt;&amp;1
+</code></pre>
+<p>Możemy np. zmienić lokalizację tego pliku na <code>$HOME/.cache/.xsession-errors</code> , który już powinien
+być zamontowany w RAM i po sprawie.</p>
+<h2 id="optymalizacja-wykorzystania-pamięci-ram">Optymalizacja wykorzystania pamięci RAM</h2>
+<p>Takie montowanie katalogów w RAM niesie ze sobą ryzyko wyczerpania się w pewnym momencie pamięci
+operacyjnej. Nawet jeśli mamy jej dużo, to ciągłe wgrywanie kolejnych plików do tych folderów
+zamontowanych w RAM ostatecznie sprawi, że nam tej pamięci RAM zabraknie. By się przed takim stanem
+rzeczy zabezpieczyć, dobrze jest co jakiś czas czyścić te katalogi z nieużywanych danych. Do tego
+celu systemd ma stosowną usługę, którą konfiguruje się przez pliki w katalogu <code>/etc/tmpfiles.d/</code> .</p>
+<p>Stwórzmy sobie zatem w katalogu <code>/etc/tmpfiles.d/</code> plik <code>tmp-cache.conf</code> o poniższej zawartości:</p>
+<pre><code># Type	Path	Mode	User	Group	Age		Argument
+
+d /home/morfik/.cache/ 0700 morfik morfik 6h -
+d /var/cache/apt/ 0755 root root 2h -
+D /tmp/ 1777 root root 6h -
+</code></pre>
+<p>Pliki i katalogi obecne w folderach <code>/home/morfik/.cache/</code> , <code>/var/cache/apt/</code> oraz <code>/tmp/</code>  będą
+czyszczone według zadanego interwału czasowego. Katalogu <code>/tmp/</code> raczej nie powinno być potrzeby by
+go czyścić ale na wszelki wypadek stosowny wpis został dodany.</p>
+<h3 id="kompresja-danych-w-ram-za-sprawą-zram">Kompresja danych w RAM za sprawą ZRAM</h3>
+<p>W przypadku, gdy naszemu systemowi zaczyna brakować pamięci RAM, możemy pokusić się o
+zaprzęgnięcie <a href="https://docs.kernel.org/admin-guide/blockdev/zram.html">mechanizmu ZRAM</a>. Ma on na celu poddać kompresji dane obecne w pamięci
+operacyjnej i w ten sposób niejako więcej danych będziemy w stanie do niej załadować, oczywiście
+kosztem cykli procesora. ZRAM jest w stanie oddalić trochę w czasie potrzebę stosowania fizycznej
+przestrzeni wymiany SWAP (tej obecnej na dysku).</p>
+<p>Warto też zainteresować się <a href="https://github.com/vaeth/zram-init/">projektem zram-init</a>, który to przy pomocy usług dla systemd jest
+w stanie zamontować katalogi takie jak <code>/tmp/</code> czy <code>/var/tmp/</code> w pamięci RAM oraz też jest w stanie
+zaimplementować SWAP na bazie ZRAM, czyli przestrzeń wymiany SWAP ale będzie ona obecna również w
+pamięci operacyjnej.</p>
+<h2 id="optymalizacja-mechanizmu-równoważenia-zużycia-komórek-flash">Optymalizacja mechanizmu równoważenia zużycia komórek flash</h2>
+<p>W artykule, który był poświęcony <a href="https://morfikov.github.io/post/jak-optymalnie-podzielic-dysk-hdd-ssd-na-partycje-pod-linux/">optymalnemu podziałowi dysku HDD/SSD pod linux</a>, wspomniałem,
+że na dysku SSD powinno się zostawić trochę miejsca, by proces równoważenia zużycia komórek flash
+przebiegał swobodnie. Z informacji, które znalazłem na necie, ta wartość wolnej przestrzeni powinna
+być w granicach 20-30% w skali całego dysku. Jako, że ja wykorzystuję LVM, to postanowiłem około
+10% przestrzeni dysku pozostawić w formie nieużywanej, tak by na wszelki wypadek trochę wolnego
+miejsca zostało, nawet w przypadku, gdy cały dysk by się zapchał z jakiegoś powodu.</p>
+<pre><code># pvscan
+  PV /dev/mapper/sys_crypt      VG wd_blue_label   lvm2 [928.98 GiB / 4.00 GiB free]
+  PV /dev/mapper/debian_crypt   VG goodram_ssd     lvm2 [221.05 GiB / 21.05 GiB free]
+  Total: 2 [1.12 TiB] / in use: 2 [1.12 TiB] / in no VG: 0 [0   ]
+</code></pre>
+<p>To wolne miejsce przyda się także pod mechanizm LVM snapshot, ze względu na fakt, że tylko
+tymczasowo taki volumin jest wykorzystywany, np. podczas sprawdzania systemu plików w poszukiwaniu
+błędów, czy też podczas bardziej ryzykownej aktualizacji systemu.</p>
+<h2 id="poprawa-wydajności-szyfrowania-w-dyskach-ssd">Poprawa wydajności szyfrowania w dyskach SSD</h2>
+<p><a href="https://www.kernel.org/doc/html/latest/admin-guide/device-mapper/dm-crypt.html">W kontenerze LUKSv2 możemy określić więcej flag</a>. Dwie z nich, tj. <code>--perf-no_read_workqueue</code>
+oraz <code>--perf-no_write_workqueue</code> zdają się być wielce użyteczne, bo <a href="https://blog.cloudflare.com/speeding-up-linux-disk-encryption/">są w stanie poprawić wydajność
+szyfrowania</a> i przez to zwiększyć przepustowość dysku SSD dwukrotnie przy jednoczesnym
+zredukowaniu opóźnień I/O o połowę. Te dwie flagi możemy dodać do kontenera LUKSv2:</p>
+<pre><code># cryptsetup --allow-discards --perf-no_read_workqueue --perf-no_write_workqueue --persistent refresh debian_crypt
+Enter passphrase for /dev/sdb3:
+
+# cryptsetup luksDump /dev/sdb3 | grep -i flags
+Flags:          allow-discards perf-no_read_workqueue perf-no_write_workqueue
+</code></pre>
+<p>Trzeba jednak tutaj zaznaczyć, by móc skorzystać z tych flag, <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/md/dm-crypt.c?id=39d42fa96ba1b7d2544db3f8ed5da8fb0d5cb877">trzeba posiadać w miarę nowy kernel,
+tj. 5.9+</a>.</p>
+<p>Gdy korzystamy ze starszej wersji kontenerów LUKS, to te dwie opcje trzeba określić w pliku
+<code>/etc/crypttab</code> :</p>
+<pre><code>debian_crypt  UUID=9e3c1bb4-570f-4eb2-a1c5-51a4aabedeb4   c1  luks,keyscript=decrypt_keyctl,initramfs,discard,perf-no_read_workqueue,perf-no_write_workqueue
+</code></pre>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Poprawne skonfigurowanie trim/discard w przypadku dysków SSD na linux, to podstawa jeśli chcemy z
+tego typu nośników pamięci masowej korzystać. Proces konfiguracji tego mechanizmu w aktualnych
+dystrybucjach linux'a sprowadza się w zasadzie do aktywacji jednego zegara oferowanego przez
+systemd. W przypadku nieco bardziej zaawansowanej konfiguracji systemu zakładającej wykorzystanie
+zaszyfrowanych kontenerów LUKS oraz dysków logicznych na bazie LVM, trzeba się nieco bardziej się
+wysilić ale wciąż wszystkie kroki sprowadzają się do edycji tylko jednego pliku. Ważniejszym
+aspektem konfiguracji linux'a działającego na dysku SSD jest odpowiednie przygotowanie systemu
+plików, tj. wykorzystanie ramdysków wszędzie tam, gdzie wiemy, że dane z konkretnych katalogów
+niekoniecznie muszą być przechowywane w formie umożliwiającej do nich dostęp po odcięciu zasilania,
+co pozwoli nam na znaczne ograniczenie operacji zapisu nośnika SSD, przez co zostanie dość znacznie
+wydłużona jego żywotność.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssd/">ssd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/trim/">trim</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/discard/">discard</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/luks/">luks</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lvm/">lvm</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2ftrim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftrim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux%2f&amp;text=Trim%2fdiscard%20przy%20LUKS%2fLVM%20na%20dysku%20SSD%20pod%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftrim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux%2f&amp;title=Trim%2fdiscard%20przy%20LUKS%2fLVM%20na%20dysku%20SSD%20pod%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftrim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux%2f&amp;title=Trim%2fdiscard%20przy%20LUKS%2fLVM%20na%20dysku%20SSD%20pod%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftrim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux%2f&title=Trim%2fdiscard%20przy%20LUKS%2fLVM%20na%20dysku%20SSD%20pod%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftrim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftrim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux%2f&amp;title=Trim%2fdiscard%20przy%20LUKS%2fLVM%20na%20dysku%20SSD%20pod%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2ftrim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux%2f&description=Trim%2fdiscard%20przy%20LUKS%2fLVM%20na%20dysku%20SSD%20pod%20Debian%20linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/">Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/">Badsector dysku HDD w kontenerze LUKS zawierającym LVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">Instalacja debiana z wykorzystaniem debootstrap</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kopia-struktury-dysku-twardego/">Kopia struktury dysku twardego</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/analiza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux/">Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-odszyfrowac-linux-przy-pomocy-telefonu-z-androidem/">Jak odszyfrować linux&#39;a przy pomocy telefonu z Androidem</a></li>
+		
+	</ul>
+</div>
+
+	<div id="comments">
+		<script src="https://utteranc.es/client.js"
+        repo="morfikov/morfitronik-comments"
+        issue-term="og:title"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+</script>
+
+	</div>
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
+			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2023 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<div class="license-icons">
+			<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons Attribution 4.0 International license">
+<i class="icon-cc"></i><i class="icon-cc-by"></i><i class="icon-cc-nc"></i><i class="icon-cc-sa"></i>
+</a>
+		</div>
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
+</body>
+</html>
