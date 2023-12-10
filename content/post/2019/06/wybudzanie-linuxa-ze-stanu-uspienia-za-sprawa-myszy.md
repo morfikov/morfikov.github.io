@@ -10,7 +10,7 @@ tags:
 - udev
 - mysz
 - usb
-GHissueID: 282
+GHissueID: 598
 title: Wybudzanie linux'a ze stanu uśpienia za sprawą myszy
 ---
 
@@ -33,7 +33,7 @@ dane urządzenie ma mieć możliwość wybudzania systemu czy też nie.
 
 Wypadałoby pierw zająć się tym co możemy znaleźć w pliku `/proc/acpi/wakeup` . W zasadzie w każdym
 przypadku, wyjście poniższego polecenia zwróci inny wynik ale część rzeczy zawsze będzie wspólna i
-można się do nich odnieść. Odpalamy zatem terminal i wpisujemy w nim to poniższego polecenie:
+można się do nich odnieść. Odpalamy zatem terminal i wpisujemy w nim to poniższe polecenie:
 
     # cat /proc/acpi/wakeup
     Device  S-state   Status   Sysfs node
