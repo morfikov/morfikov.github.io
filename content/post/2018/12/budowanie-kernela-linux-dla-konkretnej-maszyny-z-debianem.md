@@ -328,8 +328,6 @@ Dodajemy teraz nowe alternatywy:
     # update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 50  \
                           --slave /usr/bin/g++ g++ /usr/bin/g++-10
 
-    # update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-10
-
     # update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100 \
                           --slave /usr/bin/g++ g++ /usr/bin/g++-11
 
