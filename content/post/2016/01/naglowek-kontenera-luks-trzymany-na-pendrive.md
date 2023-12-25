@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Linux
-date: "2016-01-15T20:28:24Z"
-date_gmt: 2016-01-15 19:28:24 +0100
+date:    2016-01-15 20:28:24 +0100
+lastmod: 2016-01-15 20:28:24 +0100
 published: true
 status: publish
 tags:
@@ -16,16 +16,16 @@ title: Nagłówek kontenera LUKS trzymany na pendrive
 ---
 
 Jeśli kiedyś rozważaliśmy [umieszczenie pliku klucza (keyfile) do zaszyfrowanego kontenera LUKS na
-pendrive](/post/keyfile-trzymany-w-glebokim-ukryciu/), to ciekawszą alternatywą
-może okazać się umieszczenie całego nagłówka takiego kontenera na zewnętrznym nośniku. Ma to tę
-przewagę nad keyfile, że wszystkie informacje zapewniające dostęp do kontenera, wliczając w to klucz
-główny, są oddzielone od zaszyfrowanych danych. W ten sposób nawet jeśli kontener wpadnie w
-niepowołane ręce, to nie ma żadnego sposobu na to, by ten ktoś te dane odzyskał, no bo przecie nie
-ma klucza szyfrującego. Przechwycenie hasła również nic to nie zmieni, no chyba, że ten ktoś
-zdobędzie również pendrive z nagłówkiem kontenera. Z ludzkiego punktu widzenia, to na takim dysku
-będą znajdować się jedynie losowymi dane i do tego w formie kompletnie nieczytelnej dla człowieka
-(brak systemu plików). Niemniej jednak, jest kilka rzeczy, o których warto pamiętać, gdy w grę
-wchodzi nagłówek LUKS i to o nich porozmawiamy sobie w tym wpisie.
+pendrive][1], to ciekawszą alternatywą może okazać się umieszczenie całego nagłówka takiego
+kontenera na zewnętrznym nośniku. Ma to tę przewagę nad keyfile, że wszystkie informacje
+zapewniające dostęp do kontenera, wliczając w to klucz główny, są oddzielone od zaszyfrowanych
+danych. W ten sposób nawet jeśli kontener wpadnie w niepowołane ręce, to nie ma żadnego sposobu na
+to, by ten ktoś te dane odzyskał, no bo przecie nie ma klucza szyfrującego. Przechwycenie hasła
+również nic to nie zmieni, no chyba, że ten ktoś zdobędzie również pendrive z nagłówkiem kontenera.
+Z ludzkiego punktu widzenia, to na takim dysku będą znajdować się jedynie losowe dane i do tego w
+formie kompletnie nieczytelnej dla człowieka (brak systemu plików). Niemniej jednak, jest kilka
+rzeczy, o których warto pamiętać, gdy w grę wchodzi nagłówek LUKS i to o nich porozmawiamy sobie w
+tym wpisie.
 
 <!--more-->
 ## Nagłówek LUKS
@@ -35,8 +35,7 @@ partycji. Sam kontener i jego nagłówek są niezależne od siebie. Mogą zatem 
 fizycznych mediach, np. kontener na jednym dysku, a jego nagłówek na pendrive. Jeśli taki schemat
 zastosujemy, to do otworzenia kontenera będzie nam potrzebny ten zewnętrzny nośnik, o czym trzeba
 pamiętać podczas startu systemu, oczywiście jeśli będziemy chcieli go w tym czasie montować ale tym
-zajmiemy się później. Natomiast teraz stwórzmy sobie kontener,
-    przykładowo:
+zajmiemy się później. Natomiast teraz stwórzmy sobie kontener, przykładowo:
 
     # cryptsetup \
       --cipher aes-xts-plain64 \
@@ -68,9 +67,8 @@ Jeśli byśmy nadpisali cały nagłówek przy pomocy `dd` , to system nie rozpoz
 kontener LUKS. Jeśli jej nie rozpozna, to nie wykryje jej UUID, a bez UUID będą problemy z
 automatycznym montowaniem takiego zasobu.
 
-Zgodnie z informacjami jakie znalazłem w [FAQ
-cryptsetup](https://gitlab.com/cryptsetup/cryptsetup/wikis/FrequentlyAskedQuestions), nagłówek LUKS
-ma pewien określony format:
+Zgodnie z informacjami jakie znalazłem w [FAQ cryptsetup][2], nagłówek LUKS ma pewien określony
+format:
 
     Refers to LUKS On-Disk Format Specification Version 1.2.1
 
@@ -249,8 +247,12 @@ wystartować tę usługę lub też uruchomić komputer ponownie. Niemniej jednak
 zostaniemy poproszeni o hasło. Jeśli nie chce nam się dodatkowo wpisywać hasła podczas startu, to
 zawsze możemy korzystać z keyfile, który również można umieścić na pendrive. Choć nie zalecałbym
 tego rozwiązania. Można także skorzystać z [keyring'u kernela, który jest w stanie przechowywać
-hasła LUKS](/post/odszyfrowanie-kontenerow-luks-w-systemd/), o ile ma się
-zaszyfrowaną jakąś partycję, najlepiej tę systemową. W ten sposób unikniemy wprowadzania wielu haseł
-do zaszyfrowanych zasobów. Po odszyfrowaniu systemu, partycję `/boot/` można zwyczajnie odmontować,
-a pendrive wyciągnąć. Pamiętajmy jednak, by nie aktualizować bootloader'a czy kernela, gdy partycja
-`/boot/` jest niezamontowana.
+hasła LUKS][3], o ile ma się zaszyfrowaną jakąś partycję, najlepiej tę systemową. W ten sposób
+unikniemy wprowadzania wielu haseł do zaszyfrowanych zasobów. Po odszyfrowaniu systemu, partycję
+`/boot/` można zwyczajnie odmontować, a pendrive wyciągnąć. Pamiętajmy jednak, by nie aktualizować
+bootloader'a czy kernela, gdy partycja `/boot/` jest niezamontowana.
+
+
+[1]: /post/keyfile-trzymany-w-glebokim-ukryciu/
+[2]: https://gitlab.com/cryptsetup/cryptsetup/wikis/FrequentlyAskedQuestions
+[3]: /post/odszyfrowanie-kontenerow-luks-w-systemd/
