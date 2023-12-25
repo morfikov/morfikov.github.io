@@ -2,7 +2,8 @@
 author: Morfik
 categories:
 - Linux
-date: "2019-04-26T21:10:15Z"
+date:    2019-04-26 21:10:15 +0200
+lastmod: 2023-12-18 18:00:00 +0100
 published: true
 status: publish
 tags:
@@ -295,6 +296,27 @@ pliku `00-log-access.rules` w katalogu `/etc/polkit-1/rules.d/` i dodanie do nie
 
 Od tej pory za każdym razem jak tylko mechanizm PolicyKit zadziała w jakiś sposób, to będzie
 generował stosowny komunikat w logu.
+
+#### Usunięcie flagi --no-debug
+
+Od jakiegoś czasu, demon `polkitd` jest wywoływany z flagą `--no-debug` za sprawą usługi systemd
+zlokalizowanej w pliku `/usr/lib/systemd/system/polkit.service` . By być w stanie skorzystać z tej
+powyższej regułki i zobaczyć logi w terminalu, musimy tę flagę `--no-debug` usunąć. Robimy to
+edytując plik usługi:
+
+    # systemctl edit polkit.service
+
+Po czym dopisujemy tę poniższą zawartość:
+
+    [Service]
+    ExecStart=
+    ExecStart=/usr/lib/polkit-1/polkitd
+
+Tę powyższą zawartość możemy też zapisać bezpośrednio w pliku
+`/etc/systemd/system/polkit.service.d/override.conf` , tylko w takim przypadku trzeba też wydać to
+poniższe polecenie:
+
+    # systemctl daemon-reload
 
 ### Domyślne blokowanie montowania zasobów
 
