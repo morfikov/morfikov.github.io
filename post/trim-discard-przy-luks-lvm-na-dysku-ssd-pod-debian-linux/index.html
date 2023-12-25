@@ -20,13 +20,13 @@ się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim s
 trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został
 poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper,
 który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
-LUKS/dm-crypt czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
 nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
 zaszyfrowanego systemu na bazie LUKS&#43;LVM." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2023-12-10T22:00:00+01:00" />
-<meta property="article:modified_time" content="2023-12-10T22:00:00+01:00" />
+<meta property="article:published_time" content="2023-12-15T17:00:00+01:00" />
+<meta property="article:modified_time" content="2023-12-25T19:15:00+01:00" />
 
 
 		<meta itemprop="name" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux">
@@ -41,12 +41,12 @@ się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim s
 trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został
 poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper,
 który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
-LUKS/dm-crypt czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
 nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
-zaszyfrowanego systemu na bazie LUKS&#43;LVM."><meta itemprop="datePublished" content="2023-12-10T22:00:00+01:00" />
-<meta itemprop="dateModified" content="2023-12-10T22:00:00+01:00" />
-<meta itemprop="wordCount" content="5893">
-<meta itemprop="keywords" content="debian,ssd,trim,discard,luks,lvm," />
+zaszyfrowanego systemu na bazie LUKS&#43;LVM."><meta itemprop="datePublished" content="2023-12-15T17:00:00+01:00" />
+<meta itemprop="dateModified" content="2023-12-25T19:15:00+01:00" />
+<meta itemprop="wordCount" content="9599">
+<meta itemprop="keywords" content="debian,ssd,trim,discard,luks,lvm,system-plików,ext4," />
 		<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux"/>
 <meta name="twitter:description" content="Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go
@@ -60,7 +60,7 @@ się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim s
 trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został
 poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper,
 który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
-LUKS/dm-crypt czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
 nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
 zaszyfrowanego systemu na bazie LUKS&#43;LVM."/>
 <meta name="twitter:site" content="@mikhailmorfikov"/>
@@ -140,7 +140,8 @@ if (!doNotTrack) {
 		<div class="single block">
 			<article class="entry">
 	<div class="entry__meta meta mb">
-	<time class="entry__meta-published meta-published" datetime="2023-12-10T22:00:00&#43;01:00">Opublikowano: 10/12/2023</time>
+	<time class="entry__meta-published meta-published" datetime="2023-12-15T17:00:00&#43;01:00">Opublikowano: 15/12/2023</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2023-12-25T19:15:00&#43;01:00">Zaktualizowano: 25/12/2023</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -159,6 +160,18 @@ if (!doNotTrack) {
         <li><a href="#czy-dysk-zawiera-błędy">Czy dysk zawiera błędy</a></li>
       </ol>
     </li>
+    <li><a href="#budowa-i-zasada-działania-dysku-ssd">Budowa i zasada działania dysku SSD</a>
+      <ol>
+        <li><a href="#nor-i-nand-flash">NOR i NAND flash</a></li>
+        <li><a href="#różnice-w-komórkach-slc-mlc-tlc-qlc-i-plc">Różnice w komórkach SLC, MLC, TLC, QLC i PLC</a></li>
+        <li><a href="#technologia-flash-a-degradacja-wydajności">Technologia flash, a degradacja wydajności</a></li>
+        <li><a href="#struktury-danych-w-dyskach-ssd">Struktury danych w dyskach SSD</a></li>
+        <li><a href="#spadek-wydajności-wraz-z-zapełnianiem-się-dysku-ssd">Spadek wydajności wraz z zapełnianiem się dysku SSD</a></li>
+        <li><a href="#garbage-collection">Garbage Collection</a></li>
+        <li><a href="#wolne-miejsce-na-dysku-ssd">Wolne miejsce na dysku SSD</a></li>
+        <li><a href="#trim-lekiem-na-całe-zło">Trim lekiem na całe zło</a></li>
+      </ol>
+    </li>
     <li><a href="#różnica-między-discard-trim-i-fstrim">Różnica między discard, trim i fstrim</a>
       <ol>
         <li><a href="#co-lepsze-trimfstrim-czy-discard">Co lepsze trim/fstrim czy discard</a></li>
@@ -174,10 +187,27 @@ if (!doNotTrack) {
         <li><a href="#luksv2-i-jego-flagi">LUKSv2 i jego flagi</a></li>
       </ol>
     </li>
-    <li><a href="#włączenie-trimdiscard-dla-lvm">Włączenie trim/discard dla LVM</a></li>
+    <li><a href="#włączenie-trimdiscard-dla-lvm">Włączenie trim/discard dla LVM</a>
+      <ol>
+        <li><a href="#opcja-issue_discards1-w-przypadku-stosowania-e2scrub">Opcja issue_discards=1 w przypadku stosowania e2scrub</a></li>
+        <li><a href="#brak-możliwości-odtworzenia-zmian-w-strukturze-lvm-backup">Brak możliwości odtworzenia zmian w strukturze LVM (backup)</a></li>
+        <li><a href="#wyrównanie-struktury-lvm">Wyrównanie struktury LVM</a></li>
+      </ol>
+    </li>
     <li><a href="#opcja-discard-w-pliku-etcfstab">Opcja discard w pliku /etc/fstab</a></li>
-    <li><a href="#cykliczny-trimdiscard-za-sprawą-usługi-systemd">Cykliczny trim/discard za sprawą usługi systemd</a></li>
+    <li><a href="#cykliczny-trimdiscard-za-sprawą-usługi-systemd">Cykliczny trim/discard za sprawą usługi systemd</a>
+      <ol>
+        <li><a href="#dostosowanie-zegara-dla-fstrimservice-w-zależności-od-obciążenia-dysku-ssd">Dostosowanie zegara dla fstrim.service w zależności od obciążenia dysku SSD</a></li>
+      </ol>
+    </li>
     <li><a href="#manualny-trimdiscard">Manualny trim/discard</a></li>
+    <li><a href="#przygotowanie-systemu-plików-ext4-do-pracy-z-dyskiem-ssd">Przygotowanie systemu plików EXT4 do pracy z dyskiem SSD</a>
+      <ol>
+        <li><a href="#jak-ustalić-rozmiar-strony-i-rozmiar-bloku-wymazywania-dysku-ssd">Jak ustalić rozmiar strony i rozmiar bloku wymazywania dysku SSD</a></li>
+        <li><a href="#parametry-stride-oraz-stripe_width-w-przypadku-nowszych-dysków-ssd">Parametry stride= oraz stripe_width= w przypadku nowszych dysków SSD</a></li>
+      </ol>
+    </li>
+    <li><a href="#kompresja-danych-w-obrębie-systemu-plików">Kompresja danych w obrębie systemu plików</a></li>
     <li><a href="#czy-hibernować-system-mając-dysk-ssd">Czy hibernować system mając dysk SSD</a></li>
     <li><a href="#odciążenie-dysku-ssd-przez-wykorzystanie-ramdysków">Odciążenie dysku SSD przez wykorzystanie ramdysków</a>
       <ol>
@@ -193,10 +223,16 @@ if (!doNotTrack) {
             <li><a href="#plik-usługi-dla-systemd-1">Plik usługi dla systemd</a></li>
           </ol>
         </li>
-        <li><a href="#katalog-varcache">Katalog /var/cache/</a>
+        <li><a href="#katalog-vartmp">Katalog /var/tmp/</a>
           <ol>
             <li><a href="#plik-etcfstab-2">Plik /etc/fstab</a></li>
             <li><a href="#plik-usługi-dla-systemd-2">Plik usługi dla systemd</a></li>
+          </ol>
+        </li>
+        <li><a href="#katalog-varcache">Katalog /var/cache/</a>
+          <ol>
+            <li><a href="#plik-etcfstab-3">Plik /etc/fstab</a></li>
+            <li><a href="#plik-usługi-dla-systemd-3">Plik usługi dla systemd</a></li>
           </ol>
         </li>
         <li><a href="#logi">Logi</a>
@@ -214,6 +250,7 @@ if (!doNotTrack) {
     </li>
     <li><a href="#optymalizacja-mechanizmu-równoważenia-zużycia-komórek-flash">Optymalizacja mechanizmu równoważenia zużycia komórek flash</a></li>
     <li><a href="#poprawa-wydajności-szyfrowania-w-dyskach-ssd">Poprawa wydajności szyfrowania w dyskach SSD</a></li>
+    <li><a href="#fragmentacja-danych-na-dysku-ssd">Fragmentacja danych na dysku SSD</a></li>
     <li><a href="#podsumowanie">Podsumowanie</a></li>
   </ol>
 </nav>
@@ -229,15 +266,15 @@ się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim s
 trim/discard. Standardowi użytkownicy linux'a nie muszą zbytnio nic robić, aby ten mechanizm został
 poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest <a href="https://en.wikipedia.org/wiki/Device_mapper">device-mapper</a>,
 który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
-LUKS/dm-crypt czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
 nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
 zaszyfrowanego systemu na bazie LUKS+LVM.</p>
 <h2 id="czy-kupowanie-używanego-dysku-ssd-to-dobry-pomysł">Czy kupowanie używanego dysku SSD to dobry pomysł</h2>
 <p>We wstępie wspomniałem, że dysk SSD, który zakupiłem, nie był nowy ino używany. Konkretnie jest to
-<a href="https://www.goodram.com/produkty/ssd-irdm-gen-2-sata-iii-25/">model IR-SSDPR-S25A-240 od Goodram</a>, czyli dysk o pojemności 240GB, którego komórki flash są
+<a href="https://www.goodram.com/produkty/ssd-irdm-gen-2-sata-iii-25/">model IR-SSDPR-S25A-240 od Goodram</a>, czyli dysk o pojemności 240 GB, którego komórki flash są
 wykonane w technologi MLC. Dlaczego zdecydowałem się na dysk używany, a nie nowy? Z kilku powodów.</p>
-<p>Ten używany dysk SSD kosztował w granicach 50zł, gdzie orientacyjna cena nowego urządzenia (tego
-samego modelu) waha się w granicach 250zł. Druga sprawa, to raport SMART, który został opublikowany
+<p>Ten używany dysk SSD kosztował w granicach 50 zł, gdzie orientacyjna cena nowego urządzenia (tego
+samego modelu) waha się w granicach 250 zł. Druga sprawa, to raport SMART, który został opublikowany
 przez sprzedającego, a na który ja przed zakupem bardzo lubię sobie popatrzeć. W oparciu o ten
 raport podejmuję decyzję czy dysk zakupić.</p>
 <h3 id="raport-smart-i-parametr-lifetime_writes_gib">Raport SMART i parametr Lifetime_Writes_GiB</h3>
@@ -414,7 +451,7 @@ danych przez ilość przepracowanych godzin, to wychodzi nam średnio około 1,5
 na godzinę. Z kolei jeśli podzielimy ilość zapisanych danych przez ilość cykli zasilania, to
 dostaniemy około 11 GiB (można przyjąć, że poprzedni użytkownik tego dysku SSD zapisywał około 11
 GiB dziennie). Czy zapisanie 11 GiB na dzień to dużo czy mało?</p>
-<p>Zaglądając na stronę producenta, możemy doszukać się wiadomości, że parametr <code>TBW</code> (możliwa ilość
+<p>Zaglądając na stronę producenta, możemy doszukać się informacji, że parametr <code>TBW</code> (możliwa ilość
 zapisanych danych w TB), po przekroczeniu którego produkt już nie podlega gwarancji ma wartość
 <code>180</code> . Jest to 180 TB, czyli jakieś 172 TiB i tyle komórki flash tego dysku SSD powinny wytrzymać.
 Zapisane 9 TiB stanowi około 5%, zatem komórki dysku nie są jakoś szczególnie zajechane cyklami
@@ -445,29 +482,165 @@ No Errors Logged
 </code></pre>
 <p>Mając na uwadze powyższe informacje, 50zł za taki dysk SSD wydaje się być dobrą ceną, biorąc pod
 uwagę fakt, że jest on w stanie znacznie przyśpieszyć pracę i responsywność naszego linux'a.</p>
+<h2 id="budowa-i-zasada-działania-dysku-ssd">Budowa i zasada działania dysku SSD</h2>
+<p>By być w stanie prawidłowo skonfigurować dysk SSD do pracy pod linux (choć na dobrą sprawę, to pod
+każdym innym systemem operacyjnym), trzeba się zaznajomić nieco z budową takich dysków oraz tym jak
+one w rzeczywistości działają. Informacje zawarte poniżej zostały zebrane w oparciu o te artykuły:</p>
+<ul>
+<li><a href="https://www.anandtech.com/show/2738">The SSD Anthology: Understanding SSDs and New Drives from OCZ</a></li>
+<li><a href="https://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/">Solid-state revolution: in-depth on how SSDs really work</a></li>
+<li><a href="https://www.techtarget.com/searchstorage/podcast/How-NAND-flash-degrades-and-what-vendors-do-to-increase-SSD-endurance">How NAND flash degrades and what vendors do to increase SSD endurance</a></li>
+</ul>
+<p>Zaznajomienie się z tą wiedzą pozwoli nam zrozumieć kilka istotnych kwestii związanych z
+technologią flash, przez co unikniemy całej masy rozczarowań czy innych nieporozumień.</p>
+<h3 id="nor-i-nand-flash">NOR i NAND flash</h3>
+<p>Gdy rozmawiamy o dyskach SSD, pendrive czy kartach SD, zwykle referujemy do nich jako nośniki
+pamięci flash. Niemniej jednak, pamięć flash można podzielić na dwa typy: NOR i NAND. Z jakiego
+zatem typu pamięci flash są zbudowane nasze nośniki pamięci masowych?</p>
+<p>Konstrukcja pamięci NOR flash jest niby dość prosta ale jednak czipy budowane w oparciu o tę
+technologię są dość skomplikowane. Zaletą pamięci NOR flash jest możliwość zapisywania i
+odczytywania pojedynczych bitów. Są miejsca, w których pamięć NOR flash idealnie znajduje
+zastosowanie, ale gdy w grę wchodzą dysk twarde, to zapis tutaj odbywa się na sektorach 512 (lub
+4096) bajtów, przez co ta zaleta pamięci NOR flash nie ma tutaj większego znaczenia.</p>
+<p>Jeśli zaś chodzi o pamięć NAND flash, to ich budowa jest o wiele prostsza, choć nie jest pozbawiona
+wad. W tym typie pamięci, komórki są pogrupowane na strony i bloki, co ma swoje konsekwencje w
+przypadku zapisu i odczytu danych, tj. nie da się już zapisać/odczytać tylko pojedynczego bitu, tak
+jak to miało miejsce w pamięci NOR flash -- tutaj trzeba zapisać/odczytać cały zestaw bitów
+jednocześnie (zwany stroną), zwykle 4-16 KiB, co w wpasowuje się w budowę systemu plików, który
+również operuje na klastrach danych o podobnym rozmiarze.</p>
+<p>Ze względu właśnie na te różnice w konstrukcji pamięci flash, obecnie do budowy pamięci masowych
+(nie tylko dysków SSD) wykorzystuje się pamięć NAND flash. Chodzi o to, że jesteśmy w stanie upchnąć
+w niej około 60% więcej danych, tj. na tej samej przestrzeni fizycznej, którą taka pamięć flash
+będzie zajmować na nośniku danych.</p>
+<h3 id="różnice-w-komórkach-slc-mlc-tlc-qlc-i-plc">Różnice w komórkach SLC, MLC, TLC, QLC i PLC</h3>
+<p>Modele dysków SSD odróżnia od siebie wewnętrzna budowa ich komórek flash. <a href="https://en.wikipedia.org/wiki/Multi-level_cell">Obecnie mamy</a> dyski
+z komórkami SLC (Single Level Cell), MLC (Multi Level Cell), TLC (Triple Level Cell), QLC (Quad
+Level Cell) i niebawem także PLC (Penta Level Cell).</p>
+<p>Powszechnie uważa się, że każdy z tych typów komórek charakteryzuje się inną żywotnością. W
+zasadzie to ta żywotność jest taka sama w przypadku wszystkich tych typów komórek. Problem tkwi
+jednak w stanach napięć, które oprogramowanie dysku SSD musi być w stanie rozpoznać, by nie doszło
+do uszkodzenia danych.</p>
+<p>Ilości stanów napięć, które taka komórka flash jest w stanie przechowywać wzrasta wraz z rozwojem
+nowszych technologi, tj. 2 stany dla SLC (1 bit), 4 dla MLC (2 bity), 8 dla TLC (3 bity), 16 dla
+QLC (4 bity) i 32 dla PLC (5 bitów). W przypadku każdej z tych technologii oprogramowanie dysku
+musi być w stanie poprawnie zinterpretować napięcie na komórce. To zadanie jest proste w przypadku,
+gdy w komórce trzeba zapisać tylko 1 bit informacji, czyli 0 (brak napięcia) albo 1 (obecność
+napięcia). Gdy trzeba rozpoznać więcej stanów napięć, to zaczynają się problemy, bo próg
+rozróżnienia tych napięć ulega obniżeniu.</p>
+<p>Dodatkowo każdy cykl programowania/wymazywania komórki sprawia, że zaczyna ona ulegać degradacji.
+Chodzi generalnie o fakt, że proces wymazywania komórki flash polega na oddziaływaniu na nią
+stosunkowo dużym ładunkiem energii elektrycznej. Taki stan rzeczy powoduje, że warstwa
+półprzewodnikowa czipu ulega niewielkiej degradacji, co z czasem zwiększa współczynnik błędów przy
+odczytywaniu bitów z takiej komórki.</p>
+<p>Początkowo błędy te są korygowane programowo ale ostatecznie procedury kodu korekcji błędów w
+kontrolerze pamięci flash nie będą w stanie nadążyć za tymi błędami i komórka pamięci flash stanie
+się niestabilna, a odczyt jej zawartości zupełnie już nie będzie możliwy. Dlatego właśnie komórki
+SLC potrafiły wytrzymać do 100K cykli, MLC do 10K cykli (zwykle około 3K), TLC do 3K cykli (zwykle
+około 1K), QLC do 1K cykli (zwykle koło 100), a PLC szacuje się, że wytrzymają 10 cykli (pewnie
+będą jednorazowego użytku).</p>
+<h3 id="technologia-flash-a-degradacja-wydajności">Technologia flash, a degradacja wydajności</h3>
+<p>Żywotność komórek flash to nie wszystko, bo z racji potrzeby rozpoznawania większej ilości stanów
+napięć, to czasy dostępu do tych komórek muszą zostać zwiększone dość znacznie. I jeśli zestawimy
+sobie te wszystkie technologie budowy komórek flash, to zobaczymy coś na wzór poniższej tabelki:</p>
+<pre><code>                        SLC     MLC     TLC     QLC     PLC
+Czas odczytu (us)       30      50      75      b/d     b/d
+Czas programowania (us) 300     600     1000    b/d     b/d
+Czas wymazywania (us)   1500    3000    5000    6000+   b/d
+</code></pre>
+<p>Może i dyski TLC/QLC są dość sporych rozmiarów ale czas wymazywania w połączeniu z czasem
+programowania komórki (zapis danych na dysku) przekraczają już czasy dostępów w przypadku dysków
+HDD z głowicą magnetyczną... Wciąż jednak czas odczytu danych jest na w miarę przyzwoitym poziomie.</p>
+<h3 id="struktury-danych-w-dyskach-ssd">Struktury danych w dyskach SSD</h3>
+<p>Komórki na dysku SSD są pogrupowane w strony (pages), czyli najmniejsze struktury, które mogą
+zostać zapisane lub odczytane przez taki nośnik. Takie strony mogą mieć różny rozmiar w zależności
+od producenta dysku SSD, choć zwykle można się spotkać z wartością 4-16 KiB. Te strony są grupowane
+razem tworząc bloki. Taki blok jest to najmniejsza struktura, która może zostać wymazana na flash'u.
+Rozmiar bloku też może się różnic w zależności od producenta dysku ale typowy rozmiar to 128-512
+stron, czyli 512 KiB - 4 MiB.</p>
+<p>Tego typu rozwiązanie powoduje, że zapis i odczyt z dysku SSD może być przeprowadzany w porcjach,
+np. 4 KiB ale by ponownie zapisać daną stronę, to trzeba wyczyścić obszar całego bloku. Robi się to
+zwykle przez skopiowane danych takiego bloku do cache dysku (lub dedykowanej pamięci RAM), po czym
+czyści/modyfikuje się daną stronę i cały blok ponownie jest zapisywany na dysk. I tu właśnie
+zaczynają się problemy z wydajnością dysków SSD.</p>
+<h3 id="spadek-wydajności-wraz-z-zapełnianiem-się-dysku-ssd">Spadek wydajności wraz z zapełnianiem się dysku SSD</h3>
+<p>W przypadku dysku HDD, gdzie głowica magnetyczna musi się wypozycjonować nad odpowiednim miejscem
+na talerzu, czasy dostępu do sektorów są rzędu 7-10 ms i to w najlepszym wypadku. Oddalając się od
+zewnętrznej krawędzi talerza w stronę jego środka, czas dostępu oraz przepustowość dysku ulegają
+degradacji.</p>
+<p>Dyski SSD nie cierpią z powodu ruchów głowicy magnetycznej, bo jej tam zwyczajnie nie ma, przez co
+czasy dostępu do danych zgromadzonych na dysku sięgają około 0,1 ms i to jest czas dostępu do
+każdej komórki bez znaczenia gdzie ona by nie była zlokalizowana, przez co transfer danych również
+jest na wyższym poziomie, w stosunku do dysku HDD.</p>
+<p>Przynajmniej taka jest teoria, bo realne testy pokazują coś zupełnie innego. Chodzi o fakt spadku
+wydajności dysku SSD wraz z zapełnianiem go danymi, czyli pusty dysk SSD będzie nam działał bardzo
+szybko i sprawnie, natomiast pełny dysk SSD będzie nam mulił i to nierzadko bardziej niż dysk HDD.</p>
+<h3 id="garbage-collection">Garbage Collection</h3>
+<p>By zrozumieć czym jest proces zwany Garbage Collection, trzeba pierw zrozumieć jak dysk SSD
+zapisuje, czyści i ponownie zapisuje dane na nośniku flash. Przede wszystkim, taki nośnik flash nie
+może zostać przepisany od tak na poziomie bitowym, tak jak to ma miejsce w przypadku dysków
+talerzowych z głowicą magnetyczną.</p>
+<p>W przypadku dysku SSD zmiany są zapisywane w nowych blokach, zaś stare dane obecne w oryginalnych
+blokach są oznaczane jako możliwe do skasowania. Gdy cały nośnik flash zostanie zapełniony po raz
+pierwszy, kontroler musi wymazać dane w całych blokach zanim nastąpi zapis nowych danych. Taki stan
+rzeczy może dość znacznie degradować wydajność dysku SSD przy zapisie danych.</p>
+<p>Dlatego też został opracowany mechanizm zwany Garbage Collection, który to czyści stare bloki
+poprzez przenoszenie dobrych danych z częściowo pełnych bloków do nowego obszaru pamięci flash. Ten
+proces opiera się na konsolidacji dobrych danych w istniejących blokach, tj. tych danych, które nie
+są oznaczone do usunięcia. Przykładowo, mamy 2 bloki (każdy po 512 KiB danych), które są zapisane w
+połowie, bo wcześniej skasowaliśmy z dysku jakieś pliki. Zadaniem Garbage Collection jest
+skopiowanie tych bloków do cache (lub dedykowanej pamięci operacyjnej) dysku SSD, wydobycie z nich
+tych dobrych danych (256 KiB z jednego bloku i 256 KiB z drugiego bloku), połączenie ich w jeden
+blok 512 KiB i zapisanie tych danych w wolnym bloku na dysku. Te dwa poprzednie bloki jako, że nie
+zawierają już użytecznych danych, mogą zostać w całości wyczyszczone.</p>
+<p>Trzeba jednak zdawać sobie sprawę, że ten proces może przepisywać więcej danych niż my faktycznie
+zapisujemy na dysku (tzw. Write Amplification), np. skopiowaliśmy plik 4 KiB, a na flash zostanie
+zapisany cały blok 512 KiB. Te dodatkowe cykle zapisu komórek mogą degradować wydajność dysku przez
+kolizję z operacjami zapisu/odczytu innych danych, a ponadto nie pozostają bez znaczenia dla
+żywotności samych komórek flash. Dlatego też proces Garbage Collection stara się przeprowadzać
+konsolidację danych, gdy dysk nie jest aktywnie używany lub też projektuje się te nośniki w taki
+sposób, by były w stanie zapewnić deklarowaną wydajność nawet w przypadku, gdy GC przeprowadza swoje
+operacje podczas normalnej aktywności dysku.</p>
+<h3 id="wolne-miejsce-na-dysku-ssd">Wolne miejsce na dysku SSD</h3>
+<p>Prawdziwy dramat zaczyna się jednak w momencie, gdy dysk SSD zaczynamy zapełniać prawie w całości.
+W takim przypadku, mechanizm Garbage Collection będzie miał ogromne problemy z odzyskiwaniem
+bloków -- trzeba będzie kopiować więcej bloków zajętych częściowo, a im więcej danych dysk
+odczytuje, modyfikuje i zapisuje, tym więcej operacji taki nośnik przeprowadza, co przekłada się
+czas w jakim to robi, czyli obniżeniu jego wydajności.</p>
+<p>Dlatego też producenci dysków SSD projektują te nośniki w taki sposób, by część dostępnej
+przestrzeni nie była nigdy dostępna dla użytkownika, tzw. Over Provisioning, zwykle koło 10%
+deklarowanej pojemności.</p>
+<h3 id="trim-lekiem-na-całe-zło">Trim lekiem na całe zło</h3>
+<p>Te problemy z wydajnością dysków SSD biorą się ze względu na fakt, że taki nośnik nie wie, że pliki
+zostały skasowane, w przeciwieństwie do systemu plików, który to jest na bieżąco z tymi
+informacjami. Dopiero w momencie, gdy trzeba nadpisać konkretne komórki flash, dysk SSD zyskuje tę
+potrzebną informację i przystępuje do ich wyczyszczenia i ponownego zapisania. I tu właśnie do gry
+wchodzi mechanizm TRIM, którego zadaniem jest powiadomienie dysku SSD, że pewne dane zostały
+usunięte z systemu plików, a co za tym idzie, można je wyczyścić z nośnika fizycznego. W ten sposób,
+czyszczenie komórek flash ma miejsce w innym czasie niż ich ponowny zapis, co sprawia, że wydajność
+dysku SSD ponownie wzrasta do tej deklarowanej przez producenta.</p>
 <h2 id="różnica-między-discard-trim-i-fstrim">Różnica między discard, trim i fstrim</h2>
 <p>Szukając informacji na temat konfiguracji dysku SSD pod linux, można natknąć się na dwa lub trzy
 terminy, tj. <code>trim</code> , <code>fstrim</code> oraz <code>discard</code> . Z początku myślałem, że są to osobne rzeczy
 ale <a href="https://wiki.gentoo.org/wiki/Discard_over_USB">okazuje się, że trim, fstrim i discard odnoszą się do tego samego mechanizmu</a> i użytkownicy
 z reguły stosują te pojęcia zamiennie. Dlatego dobrze byłoby doprecyzować czym jest <code>trim</code> , <code>fstrim</code>
 oraz <code>discard</code> .</p>
-<p>Generalnie <code>discard</code> to opcja montowania systemu plików i po jej ustawieniu firmware dysku jest
+<p>Generalnie <code>discard</code> to opcja montowania systemu plików i po jej ustawieniu firmware dysku będzie
 powiadamiany o blokach, które już nie są wykorzystywane przez ten konkretny system plików. Efektem
-ustawienia opcji <code>discard</code> dla takiego systemu plików jest zerowanie bloków fizycznych dysku
+ustawienia opcji <code>discard</code> dla takiego systemu plików jest wyczyszczenie bloków fizycznych dysku
 praktycznie natychmiast po usunięciu jakiegoś pliku. Z kolei <code>trim</code> (albo bardziej precyzyjnie
 polecenie <code>fstrim</code> ) robi dokładnie to samo ale nie w chwili, w której operacja usuwania danych ma
 miejsce. Czyli zarówno opcja <code>discard</code> jak i <code>trim</code>/<code>fstrim</code> informują urządzenie blokowe o
 przestrzeni, która była używana przez system plików ale została zwolniona i wróciła z powrotem do
 wolnej puli.</p>
 <p>Takie powiadamianie o zwolnionych blokach nie jest niczym niezwykłym, bo urządzenia oparte o
-technologię flash muszą pierw wyzerować komórki zanim będzie możliwy w nich ponowny zapis
-faktycznych danych. Ten proces zerowania jest jednak bardzo powolny w porównaniu do operacji zapisu
-realnych danych. Jeśli teraz weźmiemy dysk SSD bez opcji <code>discard</code>, który był wcześniej zapisany w
-całości i będziemy chcieli zapisać w nim jakieś dane, to określone komórki flash będzie trzeba
-uprzednio wyzerować i dopiero po zakończeniu tego procesu zapisać te interesujące nas dane. Widać
-zatem, że dysk może mieć problemy z wydajnością w takim przypadku, bo nie zapisuje od razu tych
-danych, które byśmy sobie życzyli. Dlatego też by zachować dobrą wydajność przy zapisie danych na
-dysku SSD trzeba korzystać z opcji <code>discard</code> lub cyklicznie wydawać polecenie <code>fstrim</code> .</p>
+technologię flash muszą pierw wyczyścić komórki zanim będzie możliwy w nich ponowny zapis
+faktycznych danych. Ten proces czyszczenia jest jednak bardzo powolny w porównaniu do operacji
+zapisu realnych danych. Jeśli teraz weźmiemy dysk SSD bez opcji <code>discard</code>, który był wcześniej
+zapisany w całości i będziemy chcieli zapisać w nim jakieś dane, to określone komórki flash będzie
+trzeba uprzednio wyczyścić i dopiero po zakończeniu tego procesu zapisać te interesujące nas dane.
+Widać zatem, że dysk może mieć problemy z wydajnością w takim przypadku, bo nie zapisuje od razu
+tych danych, które byśmy sobie życzyli. Dlatego też by zachować dobrą wydajność przy zapisie danych
+na dysku SSD trzeba korzystać z opcji <code>discard</code> lub cyklicznie wydawać polecenie <code>fstrim</code> .</p>
 <h3 id="co-lepsze-trimfstrim-czy-discard">Co lepsze trim/fstrim czy discard</h3>
 <p>Zarówno <code>trim</code> (wywoływanie polecenia <code>fstrim</code> ) jak i opcja montowania <code>discard</code> mogą negatywnie
 odbić się na wydajności, jak i żywotności dysku SSD. Nie powinniśmy zatem korzystać z opcji
@@ -477,11 +650,11 @@ z polecenia <code>fstrim</code> <a href="https://man7.org/linux/man-pages/man8/f
 czasowych lub przy określonych zdarzeniach, dysk SSD będzie automatycznie czyścił wolne bloki, tak
 by te operacje trim/discard nie kolidowały z operacjami zapisu/odczytu danych na dysku. Jeśli nasz
 dysk nie wspiera <code>queued trim</code> , to stosowanie opcji <code>discard</code> <a href="https://en.wikipedia.org/wiki/Trim_(computing)#Disadvantages">może znacznie degradować wydajność
-dysku SSD</a>. Ten sytuacja jest na tyle uporczywa, że deweloperzy kernela wpisują na <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/ata/libata-core.c">czarną
+dysku SSD</a>. Ta sytuacja jest na tyle uporczywa, że deweloperzy kernela wpisują na <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/ata/libata-core.c">czarną
 listę</a> ( <code>ata_device_blacklist</code> ) takie dyski SSD, by jakoś radzić sobie z tym problemem.</p>
 <h2 id="czy-mój-dysk-ssd-wspiera-trimdiscard">Czy mój dysk SSD wspiera trim/discard</h2>
 <p>Wsparcie dla trim/discard można odczytać z raportu SMART lub z wyjścia polecenia <code>hdparm</code>:</p>
-<pre><code>#  smartctl -x  /dev/sdb | grep -i trim
+<pre><code># smartctl -x  /dev/sdb | grep -i trim
 TRIM Command:     Available
 
 # hdparm -I /dev/sdb | grep -i trim
@@ -520,7 +693,7 @@ fstrim: /home: the discard operation is not supported
 # fstrim -v /
 fstrim: /: the discard operation is not supported
 </code></pre>
-<p>Zatem, niby mamy dysk wspierający trim/discard , to jednak część partycji/dysków logicznych nie
+<p>Zatem, niby mamy dysk wspierający trim/discard, to jednak część partycji/dysków logicznych nie
 wspiera tego mechanizmu. Dlaczego?</p>
 <h3 id="problematyczny-device-mapper-lukslvm">Problematyczny device-mapper (LUKS/LVM)</h3>
 <p>Zgodnie z tym co można <a href="https://wiki.archlinux.org/title/Dm-crypt/Specialties">wyczytać tutaj</a>, developerzy device-mapper nie włączą mechanizmu
@@ -530,7 +703,7 @@ ujawnione, gdy włączymy trim/discard dla zaszyfrowanego kontenera LUKS/dm-cryp
 znaleźć w tym artykule</a>.</p>
 <p>Po przeczytaniu tego posta naszły mnie mieszane uczucia. Argumenty przemawiające za tym, by nie
 włączać domyślnie trim/discard dla LUKS/dm-crypt są takie, że będzie wiadomo, w którym miejscu na
-dysku twardym są przechowywane jakieś dane, a które miejsce zostało wyzerowane i nie zawiera
+dysku twardym są przechowywane jakieś dane, a które miejsce zostało wyczyszczone i nie zawiera
 danych. Ponadto, może wyciec informacja z jakiego systemu plików korzystamy na tym urządzeniu.
 Można też ustalić czy w obrębie danego wycinku dysku mamy ukryty jakiś zaszyfrowany volumin. No
 tak, z czym tu polemizować. Jaki system plików może być wykorzystywany w przypadku linux'a, no
@@ -545,10 +718,10 @@ wyzeruje jego część) przy usuwaniu danych, co efektywnie go zniszczy.</p>
 <p>Poza tymi powyższymi argumentami, dochodzi też fakt braku możliwości odwrócenia operacji usuwania
 danych.  W przypadku dysku HDD (talerzowego), jak usuniemy plik, to on dalej na tym dysku rezyduje
 do momentu ponownego zapisania danego sektora przez głowicę magnetyczną. Można kopię takiego pliku
-wydobyć znając fizyczne jego położenie. Z kolei na dysku SSD z załączonym trim/discard , jak
+wydobyć znając fizyczne jego położenie. Z kolei na dysku SSD z załączonym trim/discard, jak
 usuniemy jakiś plik, to już tych danych nie będziemy w stanie odzyskać, bo stosowne komórki flash
-zostaną natychmiast (lub po jakimś krótszym czasie) wyzerowane. Jak dla mnie to spory plus, by mieć
-pewność, że skasowanych danych się nie da odzyskać, przynajmniej nie standardowymi technikami
+zostaną natychmiast (lub po jakimś krótszym czasie) wyczyszczone. Jak dla mnie to spory plus, by
+mieć pewność, że skasowanych danych się nie da odzyskać, przynajmniej nie standardowymi technikami
 wykorzystywanymi w przypadku dysków HDD.</p>
 <h2 id="włączenie-trimdiscard-dla-luksdm-crypt">Włączenie trim/discard dla LUKS/dm-crypt</h2>
 <p>W moim przypadku, gdzie wszyscy wiedzą, że ja w zasadzie wszystko i zawsze szyfruję, to mogę sobie
@@ -629,9 +802,34 @@ chodzi o system plików obecny na takim logicznym voluminie LVM, to opcja <code>
 tutaj większego znaczenia i jeśli urządzenie wspiera trim/discard (fizyczny nośnik albo kontener
 LUKS), to polecenie <code>fstrim</code> wysłane przez system plików do dysku przejdzie transparentnie przez
 warstwę LVM.</p>
-<p>Jeśli korzystamy z <a href="https://morfikov.github.io/post/backup-przy-pomocy-lvm-snapshot/">mechanizmu LVM snapshot</a>, to możemy ustawić sobie <code>issue_discards = 1</code> w
+<p>Jeśli korzystamy z mechanizmu LVM snapshot, to możemy ustawić sobie <code>issue_discards = 1</code> w
 pliku <code>/etc/lvm/lvm.conf</code> i w takim przypadku, bloki wykorzystywane przez volumin snapshot'a będą
 odzyskiwane po usunięciu takiego snapshot'a.</p>
+<h3 id="opcja-issue_discards1-w-przypadku-stosowania-e2scrub">Opcja issue_discards=1 w przypadku stosowania e2scrub</h3>
+<p>Jest chyba jeden przypadek, w którym to nie powinniśmy ustawiać <code>issue_discards=1</code> w pliku
+<code>/etc/lvm/lvm.conf</code> . Chodzi o wykorzystywanie <a href="https://morfikov.github.io/post/backup-przy-pomocy-lvm-snapshot/">mechanizmu LVM snapshot</a> do sprawdzania systemu
+plików ext4 w poszukiwaniu błędów, tzw. Online ext4 Metadata Check.</p>
+<p>Podczas sprawdzania systemu plików tworzony będzie volumin LVM o określonym rozmiarze, np. 4 GiB.
+Ten volumin jest jedynie tymczasowy, by przechować dane, które zostaną zmienione lub utworzone w
+czasie, gdy ma miejsce sprawdzanie systemu plików. Danych raczej za dużo w tym czasie nie zapiszemy
+ale po zakończonym procesie skanowania ten volumin LVM zostanie usunięty, przez co wszystkie jego
+bloki zostaną oznaczone do wyczyszczenia, czyli całe 4 GiB, nawet gdy tylko kilka MiB zostało
+zapisanych. Jeśli teraz mamy sporo voluminów w strukturze LVM i wszystkie one będą sprawdzane w
+poszukiwaniu błędów, to wiele GiB będzie czyszczonych przez dysk SSD, a tego chcielibyśmy uniknąć.</p>
+<h3 id="brak-możliwości-odtworzenia-zmian-w-strukturze-lvm-backup">Brak możliwości odtworzenia zmian w strukturze LVM (backup)</h3>
+<p>Wygląda na to, że włączenie opcji <code>issue_discards=1</code> nie pozostaje bez wpływu na działanie
+struktury LVM, a konkretnie chodzi o możliwość jej odtworzenia po dokonywaniu ewentualnych zmian
+(<a href="https://wiki.archlinux.org/title/Solid_state_drive#LVM">a raczej jej braku</a>) przy pomocy polecenia <code>vgcfgrestore</code> . Dlatego biorąc pod uwagę fakt, że
+ta opcja nie ma wpływu na zapytania trim systemu plików przesyłane do dysku SSD, to lepiej
+pozostawić ją wyłączoną.</p>
+<h3 id="wyrównanie-struktury-lvm">Wyrównanie struktury LVM</h3>
+<p>Kolejna sprawa, to wyrównanie struktury LVM, by uniknąć niepotrzebnych operacji
+odczyt-modyfikacja-zapis. Obecnie w zasadzie nie ma potrzeby nic ręcznie ustawiać, bo struktura LVM
+zdaje się być już odpowiednio wyrównana i fizyczny volumin zaczyna się na granicy 1 MiB:</p>
+<pre><code># pvs /dev/mapper/debian_crypt -o+pe_start
+  PV                       VG          Fmt  Attr PSize   PFree  1st PE
+  /dev/mapper/debian_crypt goodram_ssd lvm2 a--  221.05g 21.05g   1.00m
+</code></pre>
 <h2 id="opcja-discard-w-pliku-etcfstab">Opcja discard w pliku /etc/fstab</h2>
 <p>Przeglądając internet, natknąłem się na szereg postów, których autorzy doradzali, by w pliku
 <code>/etc/fstab</code> dopisać parametr <code>discard</code> przy wszystkich systemach plików, które zamierzamy montować,
@@ -644,11 +842,14 @@ kilku systemach, np. dysk zewnętrzny:</p>
 <pre><code># tune2fs -o discard /dev/mapper/goodram_ssd-home
 </code></pre>
 <p>Opcja <code>discard</code> powoduje jednak, że system plików za każdym, gdy zostanie skasowany jakiś plik,
-będzie przesyłał polecenie <code>fstrim</code> do firmware dysku w celu wyzerowania tych zwolnionych bloków.
-Tego typu działanie może odbić się bardzo negatywnie na wydajności dysku SSD oraz skrócić jego
-żywotność. Dlatego w zasadzie nie zaleca się korzystania z tej opcji systemu plików. Lepszym
-rozwiązaniem jest okresowe wywoływanie polecenia <code>fstrim</code>, czy to ręcznie czy też automatycznie, np.
-za sprawą usługi systemd.</p>
+będzie przesyłał polecenie <code>fstrim</code> do firmware dysku w celu wyczyszczenia tych zwolnionych komórek
+flash. Tego typu działanie może odbić się bardzo negatywnie na wydajności dysku SSD oraz skrócić
+jego żywotność. Chodzi generalnie o to, że przykładowo usuniemy plik 4 KiB, a kontroler dysku
+będzie musiał wyczyścić cały blok komórek flash (512 KiB - 2 MiB w zależności od modelu dysku), co
+z kolei wiązać będzie się z zapisem na dysku całego takiego bloku (odczyt-modyfikacja-zapis) i w
+ten sposób więcej komórek flash zostanie ponownie zapisanych. Dlatego w zasadzie nie zaleca się
+korzystania z tej opcji systemu plików. Lepszym rozwiązaniem jest okresowe wywoływanie polecenia
+<code>fstrim</code>, czy to ręcznie czy też automatycznie, np. za sprawą usługi systemd.</p>
 <h2 id="cykliczny-trimdiscard-za-sprawą-usługi-systemd">Cykliczny trim/discard za sprawą usługi systemd</h2>
 <p>Na usługę systemd odpowiedzialną za ogarnianie mechanizmu trim/discard składają się dwa pliki:
 <code>fstrim.service</code> oraz <code>fstrim.timer</code> .</p>
@@ -684,10 +885,35 @@ Created symlink /etc/systemd/system/timers.target.wants/fstrim.timer → /usr/li
 <pre><code># systemctl list-timers
 NEXT                            LEFT LAST                              PASSED UNIT                         ACTIVATES
 ...
-Mon 2023-12-11 01:12:15 CET       8h Wed 2023-12-06 22:26:57 CET            - fstrim.timer                 fstrim.service
+Mon 2024-01-01 01:35:46 CET   6 days Mon 2023-12-25 00:54:11 CET            - fstrim.timer                 fstrim.service
 ...
 </code></pre>
-<p>Za około 8 godzin usługa mająca na celu wydanie polecenia <code>fstrim</code> zostanie uruchomiona.</p>
+<p>Za około 6 dni usługa mająca na celu wydanie polecenia <code>fstrim</code> zostanie uruchomiona.</p>
+<h3 id="dostosowanie-zegara-dla-fstrimservice-w-zależności-od-obciążenia-dysku-ssd">Dostosowanie zegara dla fstrim.service w zależności od obciążenia dysku SSD</h3>
+<p>Warto tutaj zaznaczyć, że wywoływanie usługi <code>fstrim.service</code> w odstępie cotygodniowym powinno
+wystarczyć w przypadku przeciętnego użytkownika linux'a (lub tych użytkowników, którzy nie chcą za
+dużo zmieniać w swoich systemach). Może się jednak zdarzyć tak, że w naszym linux'ie albo
+zapisujemy bardzo dużo danych na dysku SSD, albo też tych danych niewiele zmieniamy.</p>
+<p>W jednym i drugim przypadku przydałoby się nieco dostosować czas wywoływania tej usługi systemd.
+Jeśli wiemy, że za wiele danych nasz system nie będzie zmieniał, to usługę <code>fstrim.service</code> możemy
+wywoływać raz na miesiąc. Podobnie w drugą stronę, gdy danych zapisujemy całą masę, to lepszym
+rozwiązaniem jest wywołać tę usługę raz dziennie.</p>
+<p>By dostosować czas zegara dla usługi <code>fstrim.service</code> , edytujemy plik tej usługi:</p>
+<pre><code># systemctl edit fstrim.timer
+</code></pre>
+<p>I dopisujemy poniższą treść:</p>
+<pre><code>[Timer]
+OnCalendar=monthly
+</code></pre>
+<p>To dostosowanie czasu zegara dla usługi <code>fstrim.service</code> ma za zadanie ograniczyć narzut związany z
+czymś, co się nazywa Write Amplification przy wywoływaniu przez dysk SSD procesu zwanego Garbage
+Collection. Chodzi o to, by dysk SSD niekoniecznie czyścił wszystkie wolne komórki flash, tj. te, z
+których dane zostały usunięte, co może powodować wzrost ilości danych, które ten dysk będzie
+zapisywał na nośnik przyśpieszając w ten sposób degradację komórek flash.</p>
+<p>Optimum w tej kwestii zależy od wykorzystania dysku, tj. im więcej danych zapisujemy, tym bardziej
+pożądane jest, by tych komórek gotowych do zapisu (wyczyszczonych) było więcej, co przekłada się na
+wydajność. Jeśli jednak nie zapisujemy dużo danych, to możemy sobie pozwolić, by w części komórek
+dalej zalegały dane, tj. nie zostały jeszcze oznaczone przez system plików do wyczyszczenia.</p>
 <h2 id="manualny-trimdiscard">Manualny trim/discard</h2>
 <p>W każdym momencie pracy maszyny, polecenie <code>fstrim</code> możemy zainicjować ręcznie. Wystarczy odpalić
 usługę <code>fstrim.service</code> lub wpisać polecenie tej usługi w terminalu:</p>
@@ -703,7 +929,71 @@ fstrim[18369]: /: 26.8 GiB (28801794048 bytes) trimmed on /dev/mapper/goodram_ss
 systemd[1]: fstrim.service: Deactivated successfully.
 systemd[1]: Finished fstrim.service - Discard unused blocks on filesystems from /etc/fstab.
 </code></pre>
-<p>Wiemy zatem, że polecenie <code>fstrim</code> zostało przesłane do dysku SSD.</p>
+<p>Wiemy zatem, że polecenie <code>fstrim</code> wysłało stosowne zapytanie do dysku SSD.</p>
+<h2 id="przygotowanie-systemu-plików-ext4-do-pracy-z-dyskiem-ssd">Przygotowanie systemu plików EXT4 do pracy z dyskiem SSD</h2>
+<p>Ze względu na budowę dysków SSD, a konkretnie struktur przechowywania w nich danych, gdzie taki
+nośnik jest w stanie zapisać lub odczytać pojedyncze strony (4-16 KiB) ale wymazać już musi cały
+blok danych (512 KiB - 4 MiB), system plików powinien zostać odpowiednio sformatowany do pracy pod
+tego typu dyskami SSD. <a href="https://thelastmaimou.wordpress.com/2013/05/04/magic-soup-ext4-with-ssd-stripes-and-strides/">Chodzi o parametry stride= oraz stripe_width=</a> .</p>
+<blockquote>
+<p>Parametr <code>stride=</code> konfiguruje system plików do macierzy RAID z rozmiarem części (ang. stride size
+lub chunk size) bloków systemu plików. Jest to liczba bloków odczytywanych lub zapisywanych na
+dysk przed przejściem na następny dysk. To ustawienie wpływa głównie na położenie metadanych
+systemu plików, takich jak mapy bitów podczas wykonywania mke2fs, aby zapobiec umieszczeniu ich
+na jednym dysku, co mogłoby negatywnie wpłynąć na wydajność. Może być również użyte przez alokator
+bloków.</p>
+</blockquote>
+<blockquote>
+<p>Parametr <code>stripe_width=</code> konfiguruje system plików do macierzy for RAID z rozmiarem-paska (ang.
+stripe width) bloków systemu plików na pasek. Zazwyczaj jest to rozmiar-części * N, gdzie N jest
+liczbą dysków z danymi w macierzy RAID (np. przy RAID 5, gdzie jest jeden dysk parzystości, M jest
+liczbą dysków w macierzy minus jeden). Pozwala to alokatorowi bloków na przeciwdziałanie cyklowi
+odczytu-modyfikacji-zapisu w pasku RAID, jeśli to możliwe, przy zapisie danych.</p>
+</blockquote>
+<p>Tłumacząc te powyższe słowa na ludzki język. Opcja <code>stride=</code> określa minimalną ilość danych, które
+można zapisać (lub odczytać) na dysk. Natomiast <code>stripe-width</code> sprawia, że system plików spróbuje
+zorganizować zapisy w blokach o tym rozmiarze, aby zminimalizować kosztowne operacje. W
+konfiguracjach RAID wykorzystujących parzystość (takich jak RAID 5) operacje
+odczyt-modyfikacja-zapis są kosztowne, ponieważ oryginalne dane i ich parzystość są najpierw
+odczytywane, dane następnie są poddawane modyfikacji, po czym obliczana jest nowa parzystość, a
+następnie nowe dane i nowa parzystość są zapisywane z powrotem na dysku.</p>
+<p>Co parametry RAID mają wspólnego z dyskami SSD? Dane na dysku SSD są przechowywane w komórkach,
+które są zbierane w strony, czyli minimalną strukturę, którą kontroler takiego nośnika jest w
+stanie zapisać albo odczytać z dysku. Strony są grupowane w bloki, tj. minimalną strukturę, którą
+kontroler dysku SSD jest w stanie wymazać. Wygląda na to, że te parametry RAID pokrywają się ze
+sposobem działania dysku SSD, czyli określając te opcje, struktury systemu plików mogą zostać
+dopasowane do struktur nośnika, na którym ten system plików rezyduje.</p>
+<p>Zatem jak dobrać te dwa parametry i czy w ogóle je dobierać przy tworzeniu nowego systemu plików
+EXT4 na dysku SSD? Zdania na ten temat są podzielone. Jedni mówią, by tego nie robić i zdać się na
+automatyczny dobór parametrów przy tworzeniu systemu plików, inni zaś mówią, że dobrze jest te
+parametry określić, by zminimalizować ilość tych kosztownych operacji. Jeśli jednak już zdecydujemy
+się na podanie tych dwóch parametrów przy tworzeniu systemu plików EXT4, to sposób wyliczenia ich
+wartości również się nieco różni w zależności od tego, kogo spytamy.</p>
+<p>W moim odczuciu najlepiej uargumentowany dobór wartości dla parametrów <code>stride=</code> oraz
+<code>stripe_width=</code> jest przedstawiony w powyżej podlinkowanym artykule. Przy założeniu, że rozmiar
+bloku systemu plików jest standardowy, tj. 4 KiB i mamy do czynienia z dyskiem SSD, który posiada
+rozmiar strony 8 KiB i rozmiar bloku wymazywania 2 MiB, to <code>stride = 8 KiB / 4 KiB = 2</code> , zaś
+<code>stripe-width = 2 MiB / 4 KiB = 512</code> .</p>
+<h3 id="jak-ustalić-rozmiar-strony-i-rozmiar-bloku-wymazywania-dysku-ssd">Jak ustalić rozmiar strony i rozmiar bloku wymazywania dysku SSD</h3>
+<p>Pytanie pozostanie w zasadzie jedno -- jak ustalić rozmiar strony i rozmiar bloku wymazywania dla
+konkretnego modelu dysku SSD? Wygląda na to, że nie ma innej opcji jak zapytać producenta dysku SSD.
+Ja wysłałem stosowne zapytanie do marki Goodram ale nie wiem czy mi w ogóle odpiszą. Jeśli tak by
+się stało, to stosowne wartości dla tych parametrów tego konkretnego modelu dysku SSD zamieszczę w
+tutaj.</p>
+<h3 id="parametry-stride-oraz-stripe_width-w-przypadku-nowszych-dysków-ssd">Parametry stride= oraz stripe_width= w przypadku nowszych dysków SSD</h3>
+<p>Przeglądając internet <a href="https://utcc.utoronto.ca/~cks/space/blog/linux/Ext4AndRAIDStripes">natrafiłem na ten artykuł</a>, który nieco podważa potrzebę stosowania tych
+powyżej opisanych parametrów. Czytając dalej, <a href="https://tytso.livejournal.com/2009/02/20/">natknąłem się na ten wpis</a>, w którym to możemy
+wyczytać, że te powyższe parametry były krytyczne dla dysków SSD pierwszej generacji. W nowszych
+dyskach SSD już raczej ma potrzeby ich stosowania, bo oprogramowanie tych nośników (i kernel
+linux'a) jest nieco bardziej inteligentne i powinno sobie poradzić, nawet w przypadku, gdy tych
+parametrów nie określimy. Niemniej jednak, wyrównanie systemu plików i dopasowanie go do struktury
+komórek flash konkretnego dysku SSD nie zaszkodzi.</p>
+<h2 id="kompresja-danych-w-obrębie-systemu-plików">Kompresja danych w obrębie systemu plików</h2>
+<p>By zwiększyć żywotność komórek flash na dysku SSD, możemy skorzystać z kompresji danych oferowanej
+przez system plików. Stosując kompresję danych będziemy mniej informacji zapisywać bezpośrednio na
+nośniku SSD, oczywiście kosztem cykli procesora, bo operacje kompresji/dekompresji danych nie są za
+free. Niestety system plików EXT4 nie wspiera póki co kompresji danych. Warto jednak wiedzieć, że
+tego typu opcja dostępna jest w <a href="https://btrfs.readthedocs.io/en/latest/Compression.html">systemie plików BTRFS</a>.</p>
 <h2 id="czy-hibernować-system-mając-dysk-ssd">Czy hibernować system mając dysk SSD</h2>
 <p>Bardzo cenię sobie hibernację ze względu na fakt możliwości odtworzenia stanu pracy po odcięciu
 zasilania i wyłączeniu maszyny. Aktualnie mój laptop ma 16 GiB pamięci RAM, z czego zwykle połowa
@@ -713,10 +1003,11 @@ GiB by szło na jej obsługę i komórki flash by się dość szybko zużyły.</
 <p>Biorąc pod uwagę fakt, że stary dysk HDD w laptopie mi został (w kieszeni w miejscu wyciągniętego
 już dawno temu cd-rom'u), to kawałek tego dysku mogę przeznaczyć na SWAP -- dokładnie ten sam
 kawałek, który robił za SWAP, gdy system działał na tym dysku. W zasadzie nic się tutaj nie
-zmieni, nawet wpis od SWAP zostanie ten sam w pliku <code>/etc/fstab</code> . Podobnie zawartość pliku
-<code>/etc/initramfs-tools/conf.d/resume</code> zostanie taka sama:</p>
-<pre><code># cat /etc/initramfs-tools/conf.d/resume
-RESUME=/dev/mapper/wd_blue_label-swap
+zmieni, nawet wpis od SWAP zostanie ten sam w pliku <code>/etc/fstab</code> :</p>
+<pre><code>UUID=063c13f4-39b8-4965-bafd-7edb8b078774       swap             swap    defaults,pri=1024 0 0
+</code></pre>
+<p>Podobnie zawartość pliku <code>/etc/initramfs-tools/conf.d/resume</code> zostanie taka sama:</p>
+<pre><code>RESUME=/dev/mapper/wd_blue_label-swap
 </code></pre>
 <p>Czyli system będzie sobie działał na dysku SSD ale hibernował się będzie na starym dysku HDD
 oszczędzając tym samym zapis cennych gigabajtów. Oczywiście ten stary dysk też jest na bazie
@@ -749,6 +1040,7 @@ dodanie poniższego wpisu w pliku <code>/etc/fstab</code> :</p>
 <h4 id="plik-usługi-dla-systemd">Plik usługi dla systemd</h4>
 <p>Drugim sposobem jest zaś napisanie pliku usługi dla systemd:</p>
 <pre><code># cat /etc/systemd/system/home-morfik-.cache.mount
+
 [Unit]
 Description = Mount Morfik's cache directory as tmpfs
 DefaultDependencies=no
@@ -781,7 +1073,7 @@ zamontować sobie cały katalog <code>/tmp/</code> w RAM. Tutaj również możem
 lub wykorzystać dedykowaną do tego celu usługę systemd.</p>
 <h4 id="plik-etcfstab-1">Plik /etc/fstab</h4>
 <p>Poniżej jest stosowny wpis do umieszczenia w pliku <code>/etc/fstab</code> :</p>
-<pre><code>tmpfs /tmp      tmpfs nodev,nosuid,noexec,mode=1777,size=50% 0 0
+<pre><code>tmpfs /tmp      tmpfs mode=1777,defaults,strictatime,size=50%,nr_inodes=1m 0 0
 </code></pre>
 <h4 id="plik-usługi-dla-systemd-1">Plik usługi dla systemd</h4>
 <p>W przypadku korzystania z systemd, do ogarniania plików tymczasowych w katalogu <code>/tmp/</code> mamy
@@ -795,6 +1087,65 @@ potrzebujemy zmienić tę wartość na wyższą/niższą, to robimy to w pliku u
 parametru <code>size=50%</code> .</p>
 <p>Po włączeniu tej usługi, dobrze jest wyłączyć środowisko graficzne i z poziomu TTY usunąć
 wszystkie pliki zalegające w katalogu <code>/tmp/</code> .</p>
+<h3 id="katalog-vartmp">Katalog /var/tmp/</h3>
+<p>Pod tym linkiem możemy zapoznać się z informacjami na temat <a href="https://systemd.io/TEMPORARY_DIRECTORIES/">różnic między katalogiem /tmp/ i
+/var/tmp/</a>. W zasadzie różnica jest bardzo subtelna i sprowadza się do tego czy pliki
+tymczasowe powinny przetrwać cykl restartu systemu czy nie. Niestety deweloperzy różnych aplikacji
+bardzo swobodnie podchodzą do tego tematu i pliki, które powinny powędrować do <code>/tmp/</code> są
+umieszczane w <code>/var/tmp/</code> . Czy mając zatem dysk SSD powinniśmy zamontować w pamięci RAM również i
+katalog <code>/var/tmp/</code> ?</p>
+<p>Analizując zawartość katalogu <code>/var/tmp/</code> po uruchomieniu systemu, nie zauważyłem w nim w zasadzie
+żadnych plików za wyjątkiem katalogów podobnym do <code>systemd-private-*.service-*/</code> , które są efektem
+ustawienia w plikach usług opcji <code>PrivateTmp=true</code> . Ten mechanizm ma na celu poprawę
+bezpieczeństwa, bo wszystkie pliki tymczasowe utworzone przez taką usługę zostaną usunięte po jej
+zatrzymaniu. Można zatem przyjąć, że zawartość tych katalogów nie ma znaczenia z punktu widzenia
+restartu systemu.</p>
+<p>Niemniej jednak, są pewne polecenia, np. <code>update-initramfs</code> (a dokładniej <code>mkinitramfs</code> ) , które
+domyślnie umieszcza pliki w katalogu <code>/var/tmp/</code> . Proces generowania takiego obrazu
+initramfs/initrd zapisuje sporo danych na dysku tyko po to, by po jego zakończeniu przenieść
+wynikowy plik do katalogu <code>/boot/</code> . Możemy co prawda zmienić zachowanie polecenia <code>mkinitramfs</code>
+przez zastosowanie zmiennej <code>$TMPDIR</code> ale to wiązałoby się z przepisywaniem konfiguracji systemowej,
+bo <code>update-initramfs</code> generuje obrazy initramfs/initrd przy aktualizacji systemu czy instalacji
+nowego kernela.</p>
+<p>Reasumując, ja na swoim systemie postanowiłem zamontować katalog <code>/var/tmp/</code> w RAM, mniej więcej w
+ten sam sposób co w przypadku katalogu <code>/tmp/</code> .</p>
+<h4 id="plik-etcfstab-2">Plik /etc/fstab</h4>
+<p>Poniżej jest stosowny wpis do umieszczenia w pliku <code>/etc/fstab</code> :</p>
+<pre><code>tmpfs /var/tmp      tmpfs mode=1777,defaults,strictatime,size=50%,nr_inodes=1m 0 0
+</code></pre>
+<h4 id="plik-usługi-dla-systemd-2">Plik usługi dla systemd</h4>
+<p>A niżej usługa dla systemd:</p>
+<pre><code># cat /etc/systemd/system/var-tmp.mount
+
+#  SPDX-License-Identifier: LGPL-2.1-or-later
+#
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+
+[Unit]
+Description=Temporary Directory /var/tmp
+Documentation=https://systemd.io/TEMPORARY_DIRECTORIES
+Documentation=man:file-hierarchy(7)
+Documentation=https://www.freedesktop.org/wiki/Software/systemd/APIFileSystems
+ConditionPathIsSymbolicLink=!/var/tmp
+DefaultDependencies=no
+Conflicts=umount.target
+Before=local-fs.target umount.target
+After=swap.target
+
+[Mount]
+What=tmpfs
+Where=/var/tmp
+Type=tmpfs
+Options=mode=1777,defaults,strictatime,size=50%,nr_inodes=1m
+
+[Install]
+WantedBy=local-fs.target
+</code></pre>
 <h3 id="katalog-varcache">Katalog /var/cache/</h3>
 <p>W katalogu  <code>/var/cache/</code> znajduje się cache różnych aplikacji, który nie powinien być usuwany z
 każdym restartem komputera. Niemniej jednak, są tam pewne katalogi, np. <code>/var/cache/apt/</code> , który
@@ -806,11 +1157,11 @@ komórki flash. Jeśli do tego dojdzie nam jeszcze wykorzystywanie gałęzi unst
 dziennie może nam się tych aktualizacji uzbierać nawet kilkaset MiB, a nierzadko nawet 1-2 GiB.
 Jeśli z tym cache APT nic nie robimy, np. <a href="https://morfikov.github.io/post/poradnik-maintainera-czyli-jak-zrobic-pakiet-deb/">nie budujemy sobie lokalnie pakietów .deb</a>, to nie
 ma większego sensu zapisywanie tych danych na dysk, bo i tak z nich większego użytku nie zrobimy.</p>
-<h4 id="plik-etcfstab-2">Plik /etc/fstab</h4>
+<h4 id="plik-etcfstab-3">Plik /etc/fstab</h4>
 <p>Poniżej jest stosowny wpis do umieszczenia w pliku <code>/etc/fstab</code> :</p>
 <pre><code>tmpfs /var/cache/apt      tmpfs 0 0
 </code></pre>
-<h4 id="plik-usługi-dla-systemd-2">Plik usługi dla systemd</h4>
+<h4 id="plik-usługi-dla-systemd-3">Plik usługi dla systemd</h4>
 <p>W przypadku korzystania z systemd, możemy napisać sobie plik usługi:</p>
 <pre><code># cat /etc/systemd/system/var-cache-apt.mount
 [Unit]
@@ -911,9 +1262,9 @@ celu systemd ma stosowną usługę, którą konfiguruje się przez pliki w katal
 <p>Stwórzmy sobie zatem w katalogu <code>/etc/tmpfiles.d/</code> plik <code>tmp-cache.conf</code> o poniższej zawartości:</p>
 <pre><code># Type	Path	Mode	User	Group	Age		Argument
 
-d /home/morfik/.cache/ 0700 morfik morfik 6h -
+d /home/morfik/.cache/ 0700 morfik morfik 24h -
 d /var/cache/apt/ 0755 root root 2h -
-D /tmp/ 1777 root root 6h -
+D /tmp/ 1777 root root 24h -
 </code></pre>
 <p>Pliki i katalogi obecne w folderach <code>/home/morfik/.cache/</code> , <code>/var/cache/apt/</code> oraz <code>/tmp/</code>  będą
 czyszczone według zadanego interwału czasowego. Katalogu <code>/tmp/</code> raczej nie powinno być potrzeby by
@@ -960,6 +1311,29 @@ tj. 5.9+</a>.</p>
 <code>/etc/crypttab</code> :</p>
 <pre><code>debian_crypt  UUID=9e3c1bb4-570f-4eb2-a1c5-51a4aabedeb4   c1  luks,keyscript=decrypt_keyctl,initramfs,discard,perf-no_read_workqueue,perf-no_write_workqueue
 </code></pre>
+<h2 id="fragmentacja-danych-na-dysku-ssd">Fragmentacja danych na dysku SSD</h2>
+<p>Pliki na dysku SSD podlegają tym samym mechanizmom fragmentacji, co w przypadku dysków HDD. Czy
+powinniśmy zatem raz na jakiś czas defragmentować pliki na dysku SSD? Wygląda na to, że
+niekoniecznie. Czas dostępu do komórek flash jest taki sam dla wszystkich komórek na dysku SSD,
+zatem co nam za różnica ile części ma dany plik i w którym miejscu nośnika taka część rezyduje?</p>
+<p>Dodatkowo dyski SSD są projektowane w taki sposób, by dane były porozrzucane po całym nośniku,
+zamiast je gromadzić w jednej części dysku, tak jak to ma miejsce w przypadku dysku HDD.
+Porozrzucanie danych po całym dysku SSD ma na celu poprawić przepustowość takiego nośnika. Można to
+zagadnienie zobrazować na przykładzie pendrive USB.</p>
+<p>Każdy z nas miał styczność z pendrive podpinanym do portu USB. Komórki takiego pendrive są
+dokładnie takim samym rodzajem pamięci flash co w przypadku dysków SSD. Niemniej jednak, jeśli
+popatrzymy na wydajność pendrive i porównamy ją z wydajnością dysków SSD, to zobaczymy dość sporą
+przepaść.</p>
+<p>Co by się jednak stało, gdyby zebrać kilka czy kilkadziesiąt takich pendrive i upchnąć je w jednej
+obudowie? Wtedy przepustowość takiego nośnika byłaby te kilkadziesiąt razy większa ale tylko w
+przypadku, gdyby te dane zapisywać na wszystkie te nośniki jednocześnie.</p>
+<p>I mniej więcej tak wygląda budowa dysku SSD, czyli posiada on kilka-kilkadziesiąt kontrolerów
+kanałowych (channel controllers) i jeśli dane, które zamierzamy odczytać lub zapisać, będą
+transferowane różnymi kanałami, to w tej samej jednostce czasu jesteśmy w stanie tych danych
+przesłać więcej.</p>
+<p>Dlatego też nie ma co sobie zaprzątać głowy ewentualną defragmentacją danych na dyskach SSD, bo
+mija się ona z celem. Dodatkowo, zapis kilkudziesięciu czy kilkuset GiB danych tylko po to, by były
+one obok siebie, nie jest warte skracania żywotności komórek flash.</p>
 <h2 id="podsumowanie">Podsumowanie</h2>
 <p>Poprawne skonfigurowanie trim/discard w przypadku dysków SSD na linux, to podstawa jeśli chcemy z
 tego typu nośników pamięci masowej korzystać. Proces konfiguracji tego mechanizmu w aktualnych
@@ -982,6 +1356,8 @@ wydłużona jego żywotność.</p></div>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/discard/">discard</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/luks/">luks</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lvm/">lvm</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/system-plikow/">system-plików</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ext4/">ext4</a>
 </div>
 					
 <div class="entry__share share">
@@ -1037,19 +1413,19 @@ wydłużona jego żywotność.</p></div>
 	<h3 class="related__title">Powiązane</h3>
 	<ul class="related__list">
 		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/analiza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux/">Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czym-jest-online-ext4-metadata-check-w-linuxowym-lvm/">Czym jest Online ext4 Metadata Check w linux&#39;owym LVM</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-identyfikatora-uuid/">Zmiana identyfikatora UUID systemu plików EXT4 i kontenera LUKS</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kopia-struktury-dysku-twardego/">Kopia struktury dysku twardego</a></li>
+		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/linux-kernel-efi-boot-stub-i-zaszyfrowany-debian-luks-lvm/">Linux kernel EFI boot stub i zaszyfrowany Debian (LUKS&#43;LVM)</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/">Badsector dysku HDD w kontenerze LUKS zawierającym LVM</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">Instalacja debiana z wykorzystaniem debootstrap</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/kopia-struktury-dysku-twardego/">Kopia struktury dysku twardego</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/analiza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux/">Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-odszyfrowac-linux-przy-pomocy-telefonu-z-androidem/">Jak odszyfrować linux&#39;a przy pomocy telefonu z Androidem</a></li>
 		
 	</ul>
 </div>
