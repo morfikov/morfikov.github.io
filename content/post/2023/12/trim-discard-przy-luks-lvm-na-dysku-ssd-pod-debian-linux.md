@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Linux
 date:    2023-12-15 17:00:00 +0100
-lastmod: 2023-12-25 19:15:00 +0100
+lastmod: 2024-01-06 17:30:00 +0100
 published: true
 status: publish
 tags:
@@ -15,6 +15,8 @@ tags:
 - lvm
 - system-plików
 - ext4
+- sysctl
+- udev
 GHissueID: 599
 title: Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux
 ---
@@ -208,6 +210,14 @@ Poniżej znajduje się pełny raport SMART tego dysku SSD:
     0x0012  2            0  R_ERR response for host-to-device non-data FIS, CRC
     0x0013  2            0  R_ERR response for host-to-device non-data FIS, non-CRC
 
+Gdyby naszego dysku SSD nie było w [bazie danych SMART][31], co możemy wywnioskować po informacji:
+`Device is: Not in smartctl database 7.3/5319` oraz atrybutach mających w nazwach
+`Unknown_Attribute` , to być może albo mamy za starą bazę danych, albo ten konkretny nośnik
+zwyczajnie jeszcze nie został do niej dodany, bo nie wielu ludzi ma ten model dysku SSD i korzysta
+z niego pod linux. Tak czy inaczej, dobrze jest wydać to poniższe polecenie:
+
+    # update-smart-drivedb
+
 To co nas interesuje najbardziej w tym raporcie SMART, to parametr `241 Lifetime_Writes_GiB` ,
 czyli ilość danych, które użytkownik zapisał na takim nośniku od momentu wyciągnięcia tego dysku z
 pudełka do chwili, gdy trafił on w nasze łapki. Czasami ta wartość może być zakodowana w HEX ale
@@ -268,6 +278,7 @@ one w rzeczywistości działają. Informacje zawarte poniżej zostały zebrane w
 - [The SSD Anthology: Understanding SSDs and New Drives from OCZ][21]
 - [Solid-state revolution: in-depth on how SSDs really work][22]
 - [How NAND flash degrades and what vendors do to increase SSD endurance][23]
+- [SSD endurance myths and legends][29]
 
 Zaznajomienie się z tą wiedzą pozwoli nam zrozumieć kilka istotnych kwestii związanych z
 technologią flash, przez co unikniemy całej masy rozczarowań czy innych nieporozumień.
@@ -414,7 +425,7 @@ odczytuje, modyfikuje i zapisuje, tym więcej operacji taki nośnik przeprowadza
 czas w jakim to robi, czyli obniżeniu jego wydajności.
 
 Dlatego też producenci dysków SSD projektują te nośniki w taki sposób, by część dostępnej
-przestrzeni nie była nigdy dostępna dla użytkownika, tzw. Over Provisioning, zwykle koło 10%
+przestrzeni nie była nigdy widoczna dla użytkownika, tzw. Over Provisioning, zwykle koło 10%
 deklarowanej pojemności.
 
 ### Trim lekiem na całe zło
@@ -539,8 +550,8 @@ trim/discard? Nie mogłem się powstrzymać.
 No tak czy inaczej z tym ukrytym zaszyfrowanym voluminem to tu już jakiś sens to by miało. Nie
 chodzi o fakt zatajenia korzystania z szyfrowania, tylko o coś na wzór opisywanego przeze mnie
 jakiś czas temu [rozwiązania mającego na celu obejście cenzury przy przekraczaniu graniczy][8]. W
-przypadku posiadania tak ukrytego kontenera, mechanizm trim/discard zwyczajnie go wyzeruje (lub
-wyzeruje jego część) przy usuwaniu danych, co efektywnie go zniszczy.
+przypadku posiadania tak ukrytego kontenera, mechanizm trim/discard zwyczajnie go wyczyści (lub
+wyczyści jego część) przy usuwaniu danych, co efektywnie go zniszczy.
 
 Poza tymi powyższymi argumentami, dochodzi też fakt braku możliwości odwrócenia operacji usuwania
 danych.  W przypadku dysku HDD (talerzowego), jak usuniemy plik, to on dalej na tym dysku rezyduje
@@ -590,7 +601,7 @@ zostało włączone:
 I jak widzimy wyżej, pozycja z kontenerem `debian_crypt` posiada już niezerowe wartości w kolumnach
 `DISC-GRAN` oraz `DISC-MAX` .
 
-Możemy też zajrzeć w `dmsetup` :
+Możemy też zajrzeć w `dmsetup` , gdzie powinna figurować flaga `allow_discards` :
 
     # dmsetup table
     debian_crypt: 0 463583232 crypt aes-xts-plain64 :64:logon:cryptsetup:000etc000-d0 0 8:19 32768 1 allow_discards
@@ -662,10 +673,11 @@ plików ext4 w poszukiwaniu błędów, tzw. Online ext4 Metadata Check.
 Podczas sprawdzania systemu plików tworzony będzie volumin LVM o określonym rozmiarze, np. 4 GiB.
 Ten volumin jest jedynie tymczasowy, by przechować dane, które zostaną zmienione lub utworzone w
 czasie, gdy ma miejsce sprawdzanie systemu plików. Danych raczej za dużo w tym czasie nie zapiszemy
-ale po zakończonym procesie skanowania ten volumin LVM zostanie usunięty, przez co wszystkie jego
+ale po zakończonym procesie skanowania, ten volumin LVM zostanie usunięty, przez co wszystkie jego
 bloki zostaną oznaczone do wyczyszczenia, czyli całe 4 GiB, nawet gdy tylko kilka MiB zostało
-zapisanych. Jeśli teraz mamy sporo voluminów w strukturze LVM i wszystkie one będą sprawdzane w
-poszukiwaniu błędów, to wiele GiB będzie czyszczonych przez dysk SSD, a tego chcielibyśmy uniknąć.
+zapisanych (ekwiwalent skorzystania z `blkdiscard /dev/grupa/volumin` ). Jeśli teraz mamy sporo
+voluminów w strukturze LVM i wszystkie one będą sprawdzane w poszukiwaniu błędów, to wiele GiB
+będzie czyszczonych przez dysk SSD, a tego chcielibyśmy uniknąć.
 
 ### Brak możliwości odtworzenia zmian w strukturze LVM (backup)
 
@@ -874,6 +886,95 @@ linux'a) jest nieco bardziej inteligentne i powinno sobie poradzić, nawet w prz
 parametrów nie określimy. Niemniej jednak, wyrównanie systemu plików i dopasowanie go do struktury
 komórek flash konkretnego dysku SSD nie zaszkodzi.
 
+## Opcje systemu plików EXT4
+
+Poniżej zostały zebrane te bardziej użyteczne opcje systemu plików EXT4, które są w stanie wpłynąć
+w pozytywny sposób na działanie systemu operacyjnej oraz przy okazji odciążyć nieco nasz dysk SSD.
+
+### Opcje relatime, atime, noatime, strictatime, nodiratime i lazytime
+
+W metadanych systemu plików EXT4 jest przechowywanych szereg czasów, które są aktualizowane, gdy
+jakieś operacje na plikach (np. utworzenie pliku czy jego zmiana) mają miejsce. W taki sposób mamy
+dostępne cztery czasy: czas utworzenia pliku (Birth), czas ostatniego dostępu do pliku (Access,
+atime), czas ostatniej modyfikacji pliku (Modify, mtime) i czas ostatniej zmiany pliku (Change,
+ctime). Te dwa ostatnie brzmią podobnie ale różnica w nich tyczy się zmiany zawartości samego pliku
+oraz zmiany i-węzła opisującego dany plik, czyli metadanych pliku, np. zmiana uprawnień w dostępie
+do pliku. Te czasy można podejrzeć, np. w `stat` :
+
+    $ stat plik.txt
+      File: plik.txt
+      Size: 41              Blocks: 8          IO Block: 4096   regular file
+    Device: 253,4   Inode: 132350      Links: 1
+    Access: (0644/-rw-r--r--)  Uid: ( 1000/  morfik)   Gid: ( 1000/  morfik)
+    Access: 2024-01-05 14:33:50.468578496 +0100
+    Modify: 2024-01-05 14:34:02.259752485 +0100
+    Change: 2024-01-05 14:34:02.259752485 +0100
+     Birth: 2024-01-05 14:33:50.468578496 +0100
+
+Te powyższe czasy będą aktualizowane ilekroć tylko będziemy dokonywać jakichś operacji na plikach.
+Czas utworzenia danego pliku w zasadzie nie ulega zmianie. Czasy ostatniej modyfikacji/zmiany są
+aktualizowane przy zapisie danych na dysk. Natomiast czas ostatniego dostępu do pliku jest
+uaktualniany za każdym razem, gdy plik jest odczytywany. Pojawia się tutaj pewien problem, bo przy
+odczycie plików jest także dokonywany zapis danych na dysk i jeśli tych plików odczytujemy bardzo
+dużo (ewentualnie też bardzo często), to sporo danych na dysku może zostać zapisanych, co może
+skrócić żywotność dysku SSD, czy też bardzo degradować wydajność dysków HDD. Dlatego też by jakoś
+poradzić sobie z tym problemem, zostały oddane użytkownikowi do dyspozycji [pewne opcje montowania
+systemu plików EXT4][30], tj. `relatime` , `atime` , `noatime` , `strictatime` , `nodiratime` i
+`lazytime` .
+
+Poniżej jest krótkie wyjaśnienie tych opcji:
+
+- `atime`       -- domyślne ustawienia kernela dla danego systemu plików (obecnie `relatime` ).
+- `relatime`    -- aktualizuje czas ostatniego dostępu tylko w przypadku, gdy jest on wcześniejszy
+                    niż aktualny czas modyfikacji/zmiany. Jeśli te czasy będą takie same lub czas
+                    ostatniego dostępu będzie nowszy niż czas ostatniej modyfikacji/zmiany, to przy
+                    ponownej próbie odczytu pliku nie nastąpi aktualizacja czasu ostatniego dostępu,
+                    chyba że ten czas będzie starszy niż 1 dzień w stosunku do aktualnej daty.
+- `noatime`     -- sprawia, że czas ostatniego dostępu nie będzie w ogóle aktualizowany (niektóre
+                    aplikacje mogą przestać poprawnie funkcjonować).
+- `nodiratime`  -- podobnie jak wyżej, z tą różnicą, że dla katalogów. Określenie opcji `noatime`
+                    implikuje wykorzystanie `nodiratime` .
+- `strictatime` -- aktualizuje czas ostatniego dostępu za każdym razem, gdy uzyskiwany jest dostęp
+                    do pliku lub jego kopi w cache pamięci operacyjnej. Przydatne jedynie w
+                    przypadku serwerów.
+- `lazytime`    -- sprawia, że aktualizacja czasów (utworzenia, ostatniego dostępu i ostatniej
+                    modyfikacji pliku) jest dokonywana jedynie w pamięci operacyjnej. Niemniej
+                    jednak, aktualizacja tych czasów też będzie dokonywana na dysku ale tylko
+                    w czterech przypadkach. Po pierwsze, gdy trzeba dokonać zmian w i-węźle, które
+                    nie są powiązane z powyższymi znacznikami czasu. Po drugie, gdy zostanie
+                    wywołane polecenie `sync` . Po trzecie, gdy nieskasowany i-węzeł zostanie
+                    usunięty z pamięci operacyjnej. I po czwarte, jeśli minęło więcej niż 24 godziny
+                    od ostatniego zapisu na dysk kopi znacznika czasowego obecnej w pamięci
+                    operacyjnej. Opcja `lazytime` może być stosowana jako dodatek do wszystkich
+                    pozostałych opcji.
+
+Od już dłuższego czasu domyślnie wykorzystywana jest opcja `relatime` i w zasadzie jest to dobre
+rozwiązanie wszędzie tam, gdzie ryzyko utraty zasilania wchodzi w grę. Niemniej jednak, jeśli
+dysponujemy jakimś UPS'em, czy mamy laptopa, w którym jest obecna bateria, to możemy skorzystać
+dodatkowo z opcji `lazytime` i zoptymalizować w ten sposób zachowanie kernela, by te znaczniki
+czasów przechowywał w pamięci RAM i co jakiś czas je synchronizował sobie na dysk.
+
+Opcję `lazytime` określamy w pliku `/etc/fstab/` , przykładowo:
+
+    UUID=bcc4149e-7ec6-417c-97f4-23c5b6793450       /home            ext4    defaults,nodev,nosuid,noexec,lazytime,errors=remount-ro 0 2
+
+### Opcja commit
+
+Wszystkie zmiany w systemie plików są przechowywane w pamięci operacyjnej i dopiero po określonym
+czasie są synchronizowane na dysk. Ten czas w przypadku systemu plików EXT4 wynosi 5 sekund. Tego
+typu zachowanie ma poprawić wydajność, bo po co nieustannie zapisywać na dysku dane w małych
+porcjach, gdy można chwilę poczekać i zapisać więcej danych w jednym podejściu.
+
+Czas synchronizacji danych (i metadanych) systemu plików EXT4 możemy dostosować wykorzystując do
+tego celu opcję `commit` . Ustawienie w jej argumencie niskiej wartości będzie degradować wydajność
+ale sprawi, że dane będą bezpieczne. Ustawienie większych wartości poprawi wydajność ale w przypadku
+utraty zasilania stracimy niezapisane dane z okresu, który tutaj ustawimy. Nie zaleca się ustawiać
+więcej niż 300 sekund (5 minut).
+
+Opcję `commit` również określamy w pliku `/etc/fstab` , przykładowo:
+
+    UUID=bcc4149e-7ec6-417c-97f4-23c5b6793450       /home            ext4    defaults,nodev,nosuid,noexec,lazytime,commit=15,errors=remount-ro 0 2
+
 ## Kompresja danych w obrębie systemu plików
 
 By zwiększyć żywotność komórek flash na dysku SSD, możemy skorzystać z kompresji danych oferowanej
@@ -884,11 +985,11 @@ tego typu opcja dostępna jest w [systemie plików BTRFS][28].
 
 ## Czy hibernować system mając dysk SSD
 
-Bardzo cenię sobie hibernację ze względu na fakt możliwości odtworzenia stanu pracy po odcięciu
-zasilania i wyłączeniu maszyny. Aktualnie mój laptop ma 16 GiB pamięci RAM, z czego zwykle połowa
-jest w użyciu. Jeśli bym hibernował system, to z każdą hibernacją, te 8 GiB by było zapisywane na
-dysk. Widać zatem, że hibernacja trochę mija się z celem w przypadku dysku SSD, bo dziennie, 20-50
-GiB by szło na jej obsługę i komórki flash by się dość szybko zużyły.
+Bardzo cenię sobie hibernację ze względu na fakt możliwości odtworzenia stanu pracy systemu po
+odcięciu zasilania. Aktualnie mój laptop ma 16 GiB pamięci RAM, z czego zwykle połowa jest w użyciu.
+Jeśli bym hibernował system, to z każdą hibernacją, te 8 GiB by było zapisywane na dysk. Widać
+zatem, że hibernacja trochę mija się z celem w przypadku dysku SSD, bo dziennie, 20-50 GiB by szło
+na jej obsługę i komórki flash by się dość szybko zużyły.
 
 Biorąc pod uwagę fakt, że stary dysk HDD w laptopie mi został (w kieszeni w miejscu wyciągniętego
 już dawno temu cd-rom'u), to kawałek tego dysku mogę przeznaczyć na SWAP -- dokładnie ten sam
@@ -1010,7 +1111,7 @@ umieszczane w `/var/tmp/` . Czy mając zatem dysk SSD powinniśmy zamontować w 
 katalog `/var/tmp/` ?
 
 Analizując zawartość katalogu `/var/tmp/` po uruchomieniu systemu, nie zauważyłem w nim w zasadzie
-żadnych plików za wyjątkiem katalogów podobnym do `systemd-private-*.service-*/` , które są efektem
+żadnych plików za wyjątkiem katalogów podobnych do `systemd-private-*.service-*/` , które są efektem
 ustawienia w plikach usług opcji `PrivateTmp=true` . Ten mechanizm ma na celu poprawę
 bezpieczeństwa, bo wszystkie pliki tymczasowe utworzone przez taką usługę zostaną usunięte po jej
 zatrzymaniu. Można zatem przyjąć, że zawartość tych katalogów nie ma znaczenia z punktu widzenia
@@ -1093,15 +1194,19 @@ W przypadku korzystania z systemd, możemy napisać sobie plik usługi:
 
 	# cat /etc/systemd/system/var-cache-apt.mount
 	[Unit]
-	Description = Mount APT cache
-	DefaultDependencies=no
-	RequiresMountsFor=/var/cache/apt
-	Before=local-fs.target
+    Description = Mount APT cache
+    DefaultDependencies=no
+    RequiresMountsFor=/var/cache/apt
+    ConditionPathIsSymbolicLink=!/var/cache/apt
+    Conflicts=umount.target
+    Before=local-fs.target umount.target
+    After=swap.target
 
 	[Mount]
 	Where=/var/cache/apt
 	What=tmpfs
 	Type=tmpfs
+    Options=mode=0755,defaults,strictatime,size=50%,nr_inodes=1m
 
 	[Install]
 	WantedBy = multi-user.target
@@ -1226,6 +1331,41 @@ w stanie zamontować katalogi takie jak `/tmp/` czy `/var/tmp/` w pamięci RAM o
 zaimplementować SWAP na bazie ZRAM, czyli przestrzeń wymiany SWAP ale będzie ona obecna również w
 pamięci operacyjnej.
 
+#### Parametry vm.swappiness i vm.vfs_cache_pressure
+
+Jeśli zdecydujemy się na zaprzęgnięcie do pracy mechanizmu ZRAM i zrobimy sobie w oparciu o niego
+przestrzeń wymiany SWAP, to dobrze jest też rzucić okiem na parametry `vm.swappiness` oraz
+`vm.vfs_cache_pressure` , które to można określić w pliku `/etc/sysctl.conf` :
+
+    vm.swappiness = 0
+    vm.vfs_cache_pressure = 50
+
+Parametr `vm.swappiness` określa tendencje do zrzucania nieużywanych (z punktu widzenia kernela)
+danych z pamięci RAM do przestrzeni wymiany SWAP. Im wyższa jest wartość tego parametru (max 100,
+od kernela 5.8 jest to 200), tym kernel chętniej to robi, co może czasem niebyt pozytywnie się
+odbić na wydajności systemu. Ustawienie zbyt niskiej wartości może doprowadzić do przywieszania
+się systemu w chwili wyczerpywania się dostępnej ilości pamięci operacyjnej. W przypadku
+ustawienia "0", kernel nie będzie przenosił danych do SWAP do momentu aż ilość wolnych stron (free
+and file-backed pages) będzie mniejsza niż wartość "high" w danej strefie pamięci (zone). Aktualną
+wartość "high" można podejrzeć w pliku `/proc/zoneinfo` .
+
+Te problemy z wydajnością dotyczą głównie przestrzeni wymiany ulokowanej na dysku HDD i gdy
+korzystamy z mechanizmu ZRAM, to one nas praktycznie nie dotyczą. Niemniej jednak, trzeba rozsądnie
+dobrać wartość parametru `vm.swappiness` w zależności od przeznaczenia systemu i tego ile mamy w
+nim zainstalowanej (i do tego wolnej) pamięci RAM.
+
+Jeśli zaś chodzi o parametr `vm.vfs_cache_pressure` , to trzeba zdawać sobie sprawę, że system
+plików jest reprezentowany w pamięci za pomocą i-węzłów (i-node, index-node) oraz dentrów (dentry).
+I-węzły reprezentują podległe im pliki lub katalogi, zaś dentry są to obiekty składające się z
+nazwy, linku do i-węzła oraz linku do katalogu nadrzędnego, innymi słowy, jest to struktura drzewa
+katalogów.  Przy przeglądaniu struktury plików i katalogów, dane na jej temat są buforowane w
+pamięci RAM. Przy sporej ilości operacji dyskowych, ten cache pod i-wężły i dentry może zająć sporo
+miejsca. Ustawienie niższych wartości w parametrze `vm.vfs_cache_pressure` sprawi, że kernel będzie
+chciał zachować te dane w pamięci RAM dłużej. W przypadku ustawienia tego parametru na "0", nigdy
+ich nie usunie, co może zakończyć się brakiem pamięci (OOM). Z kolei zwiększenie wartości (> 100)
+sprawi, że kernel będzie się upominał o pamięć, którą zajmują i-węzły i dentry w przypadku sporego
+obciążenia maszyny. Zwiększenie wartości >100 może odbić się negatywnie na wydajności maszyny.
+
 ## Optymalizacja mechanizmu równoważenia zużycia komórek flash
 
 W artykule, który był poświęcony [optymalnemu podziałowi dysku HDD/SSD pod linux][14], wspomniałem,
@@ -1265,6 +1405,64 @@ Gdy korzystamy ze starszej wersji kontenerów LUKS, to te dwie opcje trzeba okre
 
     debian_crypt  UUID=9e3c1bb4-570f-4eb2-a1c5-51a4aabedeb4   c1  luks,keyscript=decrypt_keyctl,initramfs,discard,perf-no_read_workqueue,perf-no_write_workqueue
 
+## Dobór dyspozytora/planisty dla dysku SSD (scheduler)
+
+Dyspozytor/planista dla operacji I/O to taki mechanizm, który ma na celu zoptymalizować dostęp do
+danych na nośniku pamięci masowej. Spora część planistów I/O była projektowana w erze dysków HDD i
+była przystosowana do pojedynczej kolejki I/O. W obecnych czasach z kolei, gdzie już powoli
+zaczynają dominować dyski SSD, [ci planiści są już trochę bezużyteczni][32], bo taki dysk SSD
+potrzebuje planisty zdolnego obsługiwać wiele kolejek I/O jednocześnie (Multi-Queue, MQ), by
+wydajność nośnika nie uległa degradacji. Dlatego też w kernelu pojawiło się kilku nowych planistów
+I/O czyniąc swoich poprzedników przestarzałymi.
+
+W kernelu mamy czterech planistów I/O. Są nimi `none` , `mq-deadline` , `bfq` oraz `kyber` .
+Aktualnie dostępnych w systemie planistów możemy sprawdzić w pliku
+`/sys/block/sda/queue/scheduler` :
+
+    $ cat /sys/block/sda/queue/scheduler
+    none mq-deadline kyber [bfq]
+
+Poniżej znajduje się krótki opis powyżej widocznych planistów I/O:
+
+- `none`        -- zastąpił uprzednio używany `noop` . Jego [zadaniem jest][33] umieszczenie
+                    zapytań w dowolnej kolejce I/O bez ingerowania w kolejność tych zapytań. Mówi
+                    się, że czasami lepiej jest wybrać tego planistę ze względu na najmniejszy
+                    narzut związany z obsługą takich kolejek I/O, co może poprawić wydajność dysków
+                    SSD, w sytuacjach gdzie ilość IOPS ma dla nas ogromne znaczenie.
+- `mq-deadline` -- zastąpił uprzednio używany `deadline` , który nie posiadał wsparcia dla wielu
+                    kolejek I/O.
+- `kyber`       -- jest takim `noop`'em z dodatkową optymalizacją dla bardzo szybkich dysków SSD.
+- `bfq`         -- zastąpił uprzednio używany `cfq` (Completely Fair Queuing). Ten
+                    planista [zalecany jest w przypadku dysków HDD][34], ze względu na dość znaczną
+                    poprawę przepustowości tego typu nośników.
+
+Biorąc pod uwagę te powyższe informacje, dla standardowych dysków SSD (tych z interfejsem
+SATA/mSATA) powinniśmy ustawić zwykle `mq-deadline` . Dla dysków NVMe SSD powinniśmy wybrać albo
+`kyber` , albo `none` . Natomiast `bfq` powinien zostać oddelegowany do pracy z dyskami HDD.
+
+Wyboru planisty I/O dokonujemy zapisując plik `/sys/block/sda/queue/scheduler` . Można też
+wykorzystać do tego celu plik `/etc/sysfs.conf` i dopisać w nim poniższą linijkę:
+
+    block/sda/queue/scheduler = mq-deadline
+
+Niemniej jednak, jeśli w systemie mamy wiele dysków SSD i HDD, to podczas startu systemu te literki
+`sda` , `sdb` , etc mogą się zamieniać miejscami i lepszym rozwiązaniem jest napisanie sobie reguł
+dla UDEV'a i umieścić je w pliku `/etc/udev/rules.d/95-iosched.rules` , przykładowo:
+
+    ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
+    ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+
+Po dodaniu reguł, restartujemy politykę UDEV'a i wyzwalamy reguły bez potrzeby restartowania
+systemu:
+
+    # udevadm control --reload-rules
+    # udevadm trigger --type=devices --action=change
+
+Weryfikujemy czy planista I/O został prawidłowo wybrany:
+
+    # cat /sys/block/sda/queue/scheduler
+    none [mq-deadline] kyber bfq
+
 ## Fragmentacja danych na dysku SSD
 
 Pliki na dysku SSD podlegają tym samym mechanizmom fragmentacji, co w przypadku dysków HDD. Czy
@@ -1294,6 +1492,39 @@ przesłać więcej.
 Dlatego też nie ma co sobie zaprzątać głowy ewentualną defragmentacją danych na dyskach SSD, bo
 mija się ona z celem. Dodatkowo, zapis kilkudziesięciu czy kilkuset GiB danych tylko po to, by były
 one obok siebie, nie jest warte skracania żywotności komórek flash.
+
+## Test wydajności dysku SSD pod linux
+
+Na zakończenie możemy jeszcze pokusić się o niedestruktywny test wydajności dysku SSD przy pomocy
+`hdparm` . Poniżej przykład wydajności dysku SSD użytkownika @Jacekalex z forum DUG przed
+zastosowaniem mechanizmu TRIM:
+
+    # root ~> hdparm -tT /dev/sdb
+
+    /dev/sdb:
+     Timing cached reads:   21454 MB in  1.99 seconds = 10780.56 MB/sec
+     Timing buffered disk reads: 108 MB in  3.01 seconds =  35.84 MB/sec
+
+oraz po zastosowaniu TRIM:
+
+    # root ~> hdparm -tT /dev/sdb
+
+    /dev/sdb:
+     Timing cached reads:   23136 MB in  1.99 seconds = 11630.34 MB/sec
+     Timing buffered disk reads: 806 MB in  3.00 seconds = 268.31 MB/sec
+
+Także różnica jest dość spora.
+
+W przypadku mojego dysku SSD, ten krótki teścik prezentuje się następująco:
+
+    # hdparm -tT /dev/sda
+
+    /dev/sda:
+     Timing cached reads:   12914 MB in  1.99 seconds = 6477.70 MB/sec
+     Timing buffered disk reads: 1470 MB in  3.00 seconds = 489.98 MB/sec
+
+Także jest trochę szybciej ale raczej jest to zaleta technologi MLC, w stosunku do TLC, która
+została zastosowana w przypadku dysku użytkownika @Jacekalex.
 
 ## Podsumowanie
 
@@ -1338,3 +1569,9 @@ wydłużona jego żywotność.
 [26]: https://utcc.utoronto.ca/~cks/space/blog/linux/Ext4AndRAIDStripes
 [27]: https://tytso.livejournal.com/2009/02/20/
 [28]: https://btrfs.readthedocs.io/en/latest/Compression.html
+[29]: https://www.storagesearch.com/ssdmyths-endurance.html
+[30]: https://smarttech101.com/relatime-atime-noatime-strictatime-lazytime/
+[31]: https://github.com/smartmontools/smartmontools/blob/198175f77e5e8332cdd4bcbd87a6e112979f4e32/smartmontools/drivedb.h
+[32]: https://docs.kernel.org/block/blk-mq.html
+[33]: https://en.wikipedia.org/wiki/Noop_scheduler
+[34]: https://www.kernel.org/doc/html/latest/block/bfq-iosched.html
