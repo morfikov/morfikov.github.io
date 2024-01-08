@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Android
 date:    2021-10-05 00:47:00 +0200
-lastmod: 2021-10-05 00:47:00 +0200
+lastmod: 2024-01-08 11:45:00 +0100
 published: true
 status: publish
 tags:
@@ -204,7 +204,7 @@ poczynienia zbyt śmiałych zmian w konfiguracji samego telefonu.
 
 #### Odtworzenie partycji /boot/ i /recovery/
 
-W pobranej przez nas paczce `.tgz` znajdują się partycje `/boot/` oraz `/recovery/` . Jeśli
+W pobranej przez nas paczce `.tgz` znajdują się obrazy partycji `/boot/` oraz `/recovery/` . Jeśli
 korzystamy z TWRP albo SHRP, to one przepisują zawartość partycji `/recovery/` . System telefonu
 zwykle jest w stanie tę partycję odtworzyć sobie sam jeśli wykryje w niej zmiany ale tylko, gdy
 partycja `/boot/` pozostaje nietknięta. Zwykle jednak po wgraniu TWRP/SHRP, wrzucany jest na
@@ -232,7 +232,7 @@ znajduje się Android, z którego tak energicznie korzystamy na co dzień.
 #### Naprawa partycji /data/ oraz /cache/
 
 W paczce z ROM'em fastboot mogliśmy też ujrzeć obrazy partycji `/data/` oraz `/cache/` . Nie do
-końca nie wiem po co one zostały tam umieszczone. Intuicja mi jednak podpowiada, że może chodzić o
+końca wiem po co one zostały tam umieszczone. Intuicja mi jednak podpowiada, że może chodzić o
 sytuacje, w których użytkownik coś namiesza podczas zabawy z alternatywnym ROM'em, przez co system
 może mieć jakieś problemy z umieszczeniem danych na tych dwóch partycjach. Być może te obrazy są
 przeznaczone do fabrycznego odtworzenia ich zawartości (systemu plików, szyfrowania, etc.) i tym
@@ -299,7 +299,7 @@ te numerki.
 
 ROM fastboot, jak nazwa sugeruje, wymaga, by w naszym telefonie działał tryb fastboot. Jeśli nasz
 smartfon się nie uruchamia, to siłą rzeczy nie zostanie w nim odpalona stosowna usługa, która
-byłaby w stanie zaakceptować i wgrać na partycje stosowne obrazy. Dlatego też w tym przypadku z
+byłaby w stanie zaakceptować i wgrać na partycje odpowiednie obrazy. Dlatego też w tym przypadku z
 tego ROM'u nie będzie za wiele pożytku.
 
 ## Jak wgrać ROM fastboot na smartfon Xiaomi
@@ -349,11 +349,292 @@ ręczne wgrywanie obrazów via `fastboot` .
 
 ### Ręczne wgrywanie obrazów via fastboot
 
-Chyba nic nie stoi na przeszkodzie, by ręcznie wgrać te wszystkie obrazy z paczki `.tgz`
-wykorzystując narzędzie `fastboot` z dowolnego systemu operacyjnego, w tym z linux'a. Praktycznie
-wszystko co trzeba zrobić, to postępować według skryptu, który jest załączony w ROM'ie, pilnując
-tylko, by w poleceniu `fastboot` wskazać odpowiedni obraz i partycję, a efekt powinien być
-dokładnie taki sam, co przy korzystaniu z XiaoMiTool.
+Nic nie stoi na przeszkodzie, by ręcznie wgrać te wszystkie obrazy z paczki `.tgz` wykorzystując
+narzędzie `fastboot` z dowolnego systemu operacyjnego, w tym z linux'a. Praktycznie wszystko co
+trzeba zrobić, to postępować według skryptu, który jest załączony w ROM'ie, pilnując tylko, by w
+poleceniu `fastboot` wskazać odpowiedni obraz i partycję, a efekt powinien być dokładnie taki sam,
+co przy korzystaniu z XiaoMiTool.
+
+Choć lepszym rozwiązaniem będzie odpalić jeden ze skryptów, tj. `flash_all.sh` ,
+`flash_all_except_data_storage.sh` albo `flash_all_lock.sh` . Te dwa pierwsze skrypty różnią się od
+siebie tym czy dane użytkownika zostaną wyczyszczone. Natomiast ten ostatni skrypt wyczyści dane
+użytkownika i dodatkowo zablokuje bootloader po całym procesie flash'owania, co przydaje się gdy
+powracamy do fabrycznego oprogramowania producenta telefonu.
+
+Poniżej przykład wywołania skryptu `flash_all_lock.sh` :
+
+    $ ./flash_all_lock.sh
+    product: lancelot
+    ./flash_all_lock.sh: 6: [: 2x: unexpected operator
+    Erasing 'boot'                                     OKAY [  0.006s]
+    Finished. Total time: 0.007s
+    Sending 'crclist' (0 KB)                           OKAY [  0.011s]
+    Writing 'crclist'                                  OKAY [  0.001s]
+    Finished. Total time: 0.013s
+    Sending 'preloader' (280 KB)                       OKAY [  0.020s]
+    Writing 'preloader'                                OKAY [  0.010s]
+    Finished. Total time: 0.053s
+    Sending 'logo' (1168 KB)                           OKAY [  0.042s]
+    Writing 'logo'                                     OKAY [  0.029s]
+    Finished. Total time: 0.076s
+    Sending 'tee1' (2488 KB)                           OKAY [  0.079s]
+    Writing 'tee1'                                     OKAY [  0.036s]
+    Finished. Total time: 0.115s
+    Sending 'tee2' (2488 KB)                           OKAY [  0.077s]
+    Writing 'tee2'                                     OKAY [  0.036s]
+    Finished. Total time: 0.114s
+    Sending 'scp1' (344 KB)                            OKAY [  0.020s]
+    Writing 'scp1'                                     OKAY [  0.009s]
+    Finished. Total time: 0.030s
+    Sending 'scp2' (344 KB)                            OKAY [  0.020s]
+    Writing 'scp2'                                     OKAY [  0.009s]
+    Finished. Total time: 0.031s
+    Sending 'sspm_1' (494 KB)                          OKAY [  0.025s]
+    Writing 'sspm_1'                                   OKAY [  0.010s]
+    Finished. Total time: 0.036s
+    Sending 'sspm_2' (494 KB)                          OKAY [  0.024s]
+    Writing 'sspm_2'                                   OKAY [  0.011s]
+    Finished. Total time: 0.036s
+    Sending 'lk' (1130 KB)                             OKAY [  0.041s]
+    Writing 'lk'                                       OKAY [  0.027s]
+    Finished. Total time: 0.069s
+    Sending 'lk2' (1130 KB)                            OKAY [  0.041s]
+    Writing 'lk2'                                      OKAY [  0.018s]
+    Finished. Total time: 0.060s
+    Sending sparse 'super' 1/46 (131071 KB)            OKAY [  3.883s]
+    Writing 'super'                                    OKAY [  2.770s]
+    Sending sparse 'super' 2/46 (130397 KB)            OKAY [  3.778s]
+    Writing 'super'                                    OKAY [  2.257s]
+    Sending sparse 'super' 3/46 (130574 KB)            OKAY [  3.829s]
+    Writing 'super'                                    OKAY [  2.490s]
+    Sending sparse 'super' 4/46 (130785 KB)            OKAY [  4.030s]
+    Writing 'super'                                    OKAY [  2.259s]
+    Sending sparse 'super' 5/46 (131064 KB)            OKAY [  4.136s]
+    Writing 'super'                                    OKAY [  1.822s]
+    Sending sparse 'super' 6/46 (130645 KB)            OKAY [  3.846s]
+    Writing 'super'                                    OKAY [  2.310s]
+    Sending sparse 'super' 7/46 (129901 KB)            OKAY [  4.038s]
+    Writing 'super'                                    OKAY [  3.337s]
+    Sending sparse 'super' 8/46 (130514 KB)            OKAY [  3.996s]
+    Writing 'super'                                    OKAY [  2.518s]
+    Sending sparse 'super' 9/46 (130511 KB)            OKAY [  4.121s]
+    Writing 'super'                                    OKAY [  2.693s]
+    Sending sparse 'super' 10/46 (131068 KB)           OKAY [  4.293s]
+    Writing 'super'                                    OKAY [  1.836s]
+    Sending sparse 'super' 11/46 (126823 KB)           OKAY [  3.999s]
+    Writing 'super'                                    OKAY [  5.190s]
+    Sending sparse 'super' 12/46 (131068 KB)           OKAY [  4.214s]
+    Writing 'super'                                    OKAY [  1.924s]
+    Sending sparse 'super' 13/46 (124176 KB)           OKAY [  3.960s]
+    Writing 'super'                                    OKAY [  1.819s]
+    Sending sparse 'super' 14/46 (131068 KB)           OKAY [  3.745s]
+    Writing 'super'                                    OKAY [  1.805s]
+    Sending sparse 'super' 15/46 (116312 KB)           OKAY [  3.346s]
+    Writing 'super'                                    OKAY [  1.622s]
+    Sending sparse 'super' 16/46 (128981 KB)           OKAY [  3.680s]
+    Writing 'super'                                    OKAY [  2.026s]
+    Sending sparse 'super' 17/46 (117493 KB)           OKAY [  3.258s]
+    Writing 'super'                                    OKAY [  1.984s]
+    Sending sparse 'super' 18/46 (131069 KB)           OKAY [  3.697s]
+    Writing 'super'                                    OKAY [  2.263s]
+    Sending sparse 'super' 19/46 (120084 KB)           OKAY [  3.299s]
+    Writing 'super'                                    OKAY [  1.775s]
+    Sending sparse 'super' 20/46 (121336 KB)           OKAY [  3.333s]
+    Writing 'super'                                    OKAY [  1.865s]
+    Sending sparse 'super' 21/46 (131068 KB)           OKAY [  3.636s]
+    Writing 'super'                                    OKAY [  1.841s]
+    Sending sparse 'super' 22/46 (131069 KB)           OKAY [  3.676s]
+    Writing 'super'                                    OKAY [  2.099s]
+    Sending sparse 'super' 23/46 (120810 KB)           OKAY [  3.551s]
+    Writing 'super'                                    OKAY [ 11.678s]
+    Sending sparse 'super' 24/46 (126768 KB)           OKAY [  3.542s]
+    Writing 'super'                                    OKAY [  1.744s]
+    Sending sparse 'super' 25/46 (116196 KB)           OKAY [  3.245s]
+    Writing 'super'                                    OKAY [  1.716s]
+    Sending sparse 'super' 26/46 (130900 KB)           OKAY [  3.685s]
+    Writing 'super'                                    OKAY [  1.885s]
+    Sending sparse 'super' 27/46 (131032 KB)           OKAY [  3.677s]
+    Writing 'super'                                    OKAY [  1.809s]
+    Sending sparse 'super' 28/46 (130984 KB)           OKAY [  3.717s]
+    Writing 'super'                                    OKAY [  1.905s]
+    Sending sparse 'super' 29/46 (130793 KB)           OKAY [  3.690s]
+    Writing 'super'                                    OKAY [  2.093s]
+    Sending sparse 'super' 30/46 (129879 KB)           OKAY [  3.785s]
+    Writing 'super'                                    OKAY [  3.913s]
+    Sending sparse 'super' 31/46 (130996 KB)           OKAY [  3.755s]
+    Writing 'super'                                    OKAY [  1.853s]
+    Sending sparse 'super' 32/46 (130007 KB)           OKAY [  3.681s]
+    Writing 'super'                                    OKAY [  3.912s]
+    Sending sparse 'super' 33/46 (130348 KB)           OKAY [  3.700s]
+    Writing 'super'                                    OKAY [  1.824s]
+    Sending sparse 'super' 34/46 (129941 KB)           OKAY [  3.666s]
+    Writing 'super'                                    OKAY [  3.348s]
+    Sending sparse 'super' 35/46 (129795 KB)           OKAY [  3.633s]
+    Writing 'super'                                    OKAY [  2.745s]
+    Sending sparse 'super' 36/46 (131052 KB)           OKAY [  3.629s]
+    Writing 'super'                                    OKAY [  1.813s]
+    Sending sparse 'super' 37/46 (131036 KB)           OKAY [  3.654s]
+    Writing 'super'                                    OKAY [  1.844s]
+    Sending sparse 'super' 38/46 (131036 KB)           OKAY [  3.724s]
+    Writing 'super'                                    OKAY [  1.812s]
+    Sending sparse 'super' 39/46 (115698 KB)           OKAY [  3.323s]
+    Writing 'super'                                    OKAY [  3.471s]
+    Sending sparse 'super' 40/46 (131068 KB)           OKAY [  3.840s]
+    Writing 'super'                                    OKAY [  4.703s]
+    Sending sparse 'super' 41/46 (131068 KB)           OKAY [  3.634s]
+    Writing 'super'                                    OKAY [  1.835s]
+    Sending sparse 'super' 42/46 (117208 KB)           OKAY [  3.240s]
+    Writing 'super'                                    OKAY [  1.684s]
+    Sending sparse 'super' 43/46 (131068 KB)           OKAY [  3.636s]
+    Writing 'super'                                    OKAY [  1.829s]
+    Sending sparse 'super' 44/46 (121936 KB)           OKAY [  3.386s]
+    Writing 'super'                                    OKAY [  1.741s]
+    Sending sparse 'super' 45/46 (127036 KB)           OKAY [  3.516s]
+    Writing 'super'                                    OKAY [  1.936s]
+    Sending sparse 'super' 46/46 (71052 KB)            OKAY [  1.975s]
+    Writing 'super'                                    OKAY [  1.026s]
+    Finished. Total time: 288.741s
+    Sending 'cache' (68 KB)                            OKAY [  0.013s]
+    Writing 'cache'                                    OKAY [  0.042s]
+    Finished. Total time: 0.056s
+    Sending 'recovery' (65536 KB)                      OKAY [  1.781s]
+    Writing 'recovery'                                 OKAY [  1.333s]
+    Finished. Total time: 3.116s
+    Sending 'boot' (65536 KB)                          OKAY [  1.998s]
+    Writing 'boot'                                     OKAY [  1.343s]
+    Finished. Total time: 3.366s
+    Sending 'dtbo' (129 KB)                            OKAY [  0.015s]
+    Writing 'dtbo'                                     OKAY [  0.008s]
+    Finished. Total time: 0.023s
+    Sending 'vbmeta' (4 KB)                            OKAY [  0.011s]
+    Writing 'vbmeta'                                   OKAY [  0.002s]
+    Finished. Total time: 0.014s
+    Sending 'spmfw' (48 KB)                            OKAY [  0.012s]
+    Writing 'spmfw'                                    OKAY [  0.005s]
+    Finished. Total time: 0.018s
+    Sending 'md1img' (58066 KB)                        OKAY [  1.615s]
+    Writing 'md1img'                                   OKAY [  1.195s]
+    Finished. Total time: 2.811s
+    Sending sparse 'cust' 1/3 (129728 KB)              OKAY [  3.969s]
+    Writing 'cust'                                     OKAY [  1.794s]
+    Sending sparse 'cust' 2/3 (129160 KB)              OKAY [  3.794s]
+    Writing 'cust'                                     OKAY [  1.763s]
+    Sending sparse 'cust' 3/3 (52632 KB)               OKAY [  1.600s]
+    Writing 'cust'                                     OKAY [  0.731s]
+    Finished. Total time: 13.684s
+    Sending 'vbmeta_system' (4 KB)                     OKAY [  0.011s]
+    Writing 'vbmeta_system'                            OKAY [  0.002s]
+    Finished. Total time: 0.027s
+    Sending 'vbmeta_vendor' (4 KB)                     OKAY [  0.011s]
+    Writing 'vbmeta_vendor'                            OKAY [  0.002s]
+    Finished. Total time: 0.014s
+    Invalid sparse file format at header magic
+    Sending sparse 'exaid' 1/1 (328 KB)                OKAY [  0.022s]
+    Writing 'exaid'                                    OKAY [  2.942s]
+    Finished. Total time: 3.060s
+    Sending sparse 'userdata' 1/13 (129064 KB)         OKAY [  3.920s]
+    Writing 'userdata'                                 OKAY [  1.754s]
+    Sending sparse 'userdata' 2/13 (129012 KB)         OKAY [  3.806s]
+    Writing 'userdata'                                 OKAY [  1.754s]
+    Sending sparse 'userdata' 3/13 (129028 KB)         OKAY [  3.826s]
+    Writing 'userdata'                                 OKAY [  1.736s]
+    Sending sparse 'userdata' 4/13 (129012 KB)         OKAY [  3.900s]
+    Writing 'userdata'                                 OKAY [  1.747s]
+    Sending sparse 'userdata' 5/13 (129028 KB)         OKAY [  3.832s]
+    Writing 'userdata'                                 OKAY [  1.732s]
+    Sending sparse 'userdata' 6/13 (129012 KB)         OKAY [  3.823s]
+    Writing 'userdata'                                 OKAY [  1.748s]
+    Sending sparse 'userdata' 7/13 (129028 KB)         OKAY [  3.834s]
+    Writing 'userdata'                                 OKAY [  1.748s]
+    Sending sparse 'userdata' 8/13 (129012 KB)         OKAY [  3.932s]
+    Writing 'userdata'                                 OKAY [  1.753s]
+    Sending sparse 'userdata' 9/13 (129028 KB)         OKAY [  3.803s]
+    Writing 'userdata'                                 OKAY [  1.741s]
+    Sending sparse 'userdata' 10/13 (129012 KB)        OKAY [  3.648s]
+    Writing 'userdata'                                 OKAY [  1.753s]
+    Sending sparse 'userdata' 11/13 (129024 KB)        OKAY [  3.699s]
+    Writing 'userdata'                                 OKAY [  1.746s]
+    Sending sparse 'userdata' 12/13 (129020 KB)        OKAY [  3.927s]
+    Writing 'userdata'                                 OKAY [  1.756s]
+    Sending sparse 'userdata' 13/13 (73608 KB)         OKAY [  2.178s]
+    Writing 'userdata'                                 OKAY [  1.013s]
+    Finished. Total time: 70.261s
+    FAILED (remote: 'unknown command')
+    fastboot: error: Command failed
+    (bootloader) Start lock flow
+
+    OKAY [  2.145s]
+    Finished. Total time: 2.145s
+
+W tym powyższym logu pojawiło się trochę błędów ale żaden z nich nie jest krytyczny i nie wpływa na
+poprawne wgranie ROM'u na telefon.
+
+#### FAILED (remote: 'update sparse crc list failed')
+
+Czasami przy powrocie do fabrycznego oprogramowania producenta telefonu mogą się pojawić błędy
+uniemożliwiające wgranie ROM'u fastboot. Poniżej mamy właśnie taki przykład, w którym to z jakiegoś
+powodu próba wgrania `sparsecrclist` kończy się błędem:
+
+    $ ./flash_all_lock.sh
+    product: lancelot
+    ./flash_all_lock.sh: 6: [: 2x: unexpected operator
+    Erasing 'boot'                                     OKAY [  0.006s]
+    Finished. Total time: 0.007s
+    Warning: skip copying crclist image avb footer (crclist partition size: 0, crclist image size: 277).
+    Sending 'crclist' (0 KB)                           OKAY [  0.011s]
+    Writing 'crclist'                                  OKAY [  0.001s]
+    Finished. Total time: 0.014s
+    Warning: skip copying sparsecrclist image avb footer (sparsecrclist partition size: 0, sparsecrclist image size: 725).
+    Sending 'sparsecrclist' (0 KB)                     OKAY [  0.011s]
+    Writing 'sparsecrclist'                            FAILED (remote: 'update sparse crc list failed')
+    fastboot: error: Command failed
+    Flash sparsecrclist error
+
+Z jakiego powodu aktualizacja tego `sparsecrclist` kończy się niepowodzeniem, to nie mam pojęcia.
+Niektórzy [winą obarczają program, który wypakowuje paczkę .tgz z ROM'em fastboot][12]. W tym
+przypadku został użyty `patool` :
+
+    $ patool extract lancelot_eea_global_images_V13.0.3.0.SJCEUXM_20230111.0000.00_12.0_eea_04fc56f80c.tgz
+    INFO patool: Extracting lancelot_eea_global_images_V13.0.3.0.SJCEUXM_20230111.0000.00_12.0_eea_04fc56f80c.tgz ...
+    INFO patool: running /usr/bin/tar --force-local --help
+    INFO patool:     with stderr='-3', input=''
+    INFO patool: running /usr/bin/tar --extract -z --force-local --file lancelot_eea_global_images_V13.0.3.0.SJCEUXM_20230111.0000.00_12.0_eea_04fc56f80c.tgz --directory ./Unpack_mv6qph5g
+    INFO patool:     with input=''
+    INFO patool: ... lancelot_eea_global_images_V13.0.3.0.SJCEUXM_20230111.0000.00_12.0_eea_04fc56f80c.tgz extracted to `lancelot_eea_global_images_V13.0.3.0.SJCEUXM_20230111.0000.00_12.0_eea'.
+
+No jak widać, `patool` woła bezpośrednio binarkę `/usr/bin/tar` , a co innego może się bardziej
+nadawać do wypakowania paczki `.tgz` niż `tar` , który te paczki tworzy?
+
+Inni użytkownicy z kolei [widzą problem w samym narzędziu fastboot][13], bo najwyraźniej Google ma
+swoją implementację tego narzędzia, a Xiaomi swoją. Wgyląda na to, ze na tym `fastboot` od Google
+mogą się pojawić tego typu błędy, gdy w grę wchodzi ROM od Xiaomi.
+
+W moim przypadku, na jednym z telefonów podmiana binarki `fastboot` pomogła. I faktycznie problem
+się rozwiązał sam z siebie. Niestety w przypadku drugiego telefonu, ani jeden `fastboot` , ani
+drugi nie były w stanie tego błędu poprawić.
+
+Czy to znaczy, że możemy zapomnieć o wgraniu takiego ROM'u i zwyczajnie uruchomić telefon ponownie
+i jakoś żyć dalej? Prawdę mówiąc to nie miałem odwagi tego sprawdzić, bo z tego powyższego logu
+można było wyczytać, że `Erasing 'boot' OKAY` , czyli partycja `/boot/` została wyczyszczona i
+lepiej nie uruchamiać teraz tego telefonu ponownie.
+
+#### Pozbycie się plików z sumami kontrolnymi CRC (crclist.txt oraz sparsecrclist.txt)
+
+Analizując skrypt `flash_all_lock.sh` można w nim zauważyć te poniższe wpisy:
+
+    fastboot $* flash crclist `dirname $0`/images/crclist.txt
+    if [ $? -ne 0 ] ; then echo "Flash crclist error"; exit 1; fi
+    fastboot $* flash sparsecrclist `dirname $0`/images/sparsecrclist.txt
+    if [ $? -ne 0 ] ; then echo "Flash sparsecrclist error"; exit 1; fi
+
+W tym przypadku to drugie wywołanie polecenia `fastboot` powoduje błąd ale może się też zdarzyć tak,
+że to pierwsze będzie przyczyną problemów. Jeśli nie możemy wgrać ROM'u fastboot na telefon, bo coś
+z tymi plikami (albo samymi sumami kontrolnymi CRC) jest nie tak, to te powyższe wpisy możemy
+zwyczajnie usunąć ze skryptu i jeszcze raz ten skrypt wywołać.
+
+Czy usunięcie wpisów z `crclist.txt` oraz `sparsecrclist.txt` będzie  miało jakiś wpływ na
+działanie telefonu? Tego nie jestem do końca pewny, bo telefon się uruchomił bez problemu na
+stock'owym ROM'ie i wszystko zdaje się działać bez najmniejszego problemu.
 
 ### Windows i MiFlash
 
@@ -422,3 +703,5 @@ z takiego ROM'u fastboot korzystać.
 [9]: https://en.miui.com/unlock/
 [10]: /post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/
 [11]: https://www.xiaomitool.com/V2/
+[12]: https://www.reddit.com/r/Xiaomi/comments/xz9wly/error_on_miflash_tool_check_crc_failed_redmi_note/
+[13]: https://xdaforums.com/t/solved-fastboot-flash-super-error-failed-remote-failed-to-check-sparse-crc.4429745/
