@@ -254,7 +254,7 @@ przesłane do serwera VPN. Nie mogą jednak lecieć kanałem VPN. Zatem wszystki
 w tunel SSL/TLS) kierowane są na adres <code>198.252.153.226</code> . Dalej w tej trasie mamy <code>via 192.168.1.1 dev bond0</code> , przez co pakiety kierowane na adres <code>198.252.153.226</code> będą przesyłane przez naszą
 wcześniejszą bramę domyślną.</p>
 <h3 id="parametr-route-nopull">Parametr route-nopull</h3>
-<p>Po skonfigurowaniu tras routingu, wszystkie aplikacje sieciowe będą przesyłać ruch prze VPN.
+<p>Po skonfigurowaniu tras routingu, wszystkie aplikacje sieciowe będą przesyłać ruch przez VPN.
 Niemniej jednak, ta domyślna polityka przekonfigurowania tras routingu sprawia, że nie damy rady
 rozdzielić procesów w taki sposób, by tylko określone z nich przesyłały pakiety przez VPN. Trzeba
 zatem tych domyślnych tras routingu się pozbyć i do tego służy parametr <code>route-nopull</code> , który
@@ -291,7 +291,7 @@ trzeba edytować plik <code>/etc/iproute2/rt_tables</code> i umieścić w niej p
 <pre><code>200 vpn
 </code></pre>
 <p>Numerek może być dowolny, podobnie jak i nazwa tablicy. Nazwy są bardziej dla ludzi, maszyny wolną
-numerki i ta para to właśnie takie mapowanie nazwy na numery. Do obu tych wartości będzie można się
+numerki i ta para to właśnie takie mapowanie nazw na numery. Do obu tych wartości będzie można się
 odwoływać w poleceniach.</p>
 <p>Następnie dodajemy nowy wpis do tablicy <code>vpn</code> , który ma za zadanie skonfigurować trasę domyślną
 dla interfejsu <code>tun0</code> :</p>
@@ -330,7 +330,7 @@ reguła. Niemniej jednak, każda reguła musi mieć określony priorytet i ten p
 dla każdej z nich. Warto tutaj zaznaczyć, że im wyższa wartość parametru <code>priority</code> , tym niższy
 priorytet. Z kolei <code>table vpn</code> nakazuje kernelowi sprawdzenie tablicy <code>vpn</code> ilekroć tylko mark w
 pakietach zostanie dopasowany.</p>
-<p>Po dodaniu tej powyższej reguły, reguły routingu powinny wyglądać mniej więcej tak:</p>
+<p>Po wydaniu tego powyższego polecenia, reguły routingu powinny wyglądać mniej więcej tak:</p>
 <pre><code># ip rule show
 0:      from all lookup local
 2002:   from all fwmark 0x1111 lookup vpn
@@ -459,18 +459,18 @@ case &quot;$script_type&quot; in
     ip rule add fwmark ${mark} priority ${rule_prio} table ${route_table}
   fi
 
-  if ! nft -a list table ip nat | grep force-vpn &gt; /dev/null
+  if ! nft -a list table inet nat | grep force-vpn &gt; /dev/null
   then
-    nft create chain ip nat force-vpn
-    nft add rule ip nat POSTROUTING meta oifname ${dev} counter jump force-vpn
-    nft add rule ip nat force-vpn meta oifname ${dev} counter masquerade
+    nft create chain inet nat force-vpn
+    nft add rule inet nat POSTROUTING meta oifname ${dev} counter jump force-vpn
+    nft add rule inet nat force-vpn meta oifname ${dev} counter masquerade
   fi
 
-  if ! nft -a list table ip mangle | grep force-vpn &gt; /dev/null
+  if ! nft -a list table inet mangle | grep force-vpn &gt; /dev/null
   then
-    nft create chain ip mangle force-vpn
-    nft add rule ip mangle OUTPUT meta skuid ${id} counter jump force-vpn
-    nft add rule ip mangle force-vpn meta skuid ${id} meta mark set ${mark} counter
+    nft create chain inet mangle force-vpn
+    nft add rule inet mangle OUTPUT meta skuid ${id} counter jump force-vpn
+    nft add rule inet mangle force-vpn meta skuid ${id} meta mark set ${mark} counter
   fi
 
     ;;

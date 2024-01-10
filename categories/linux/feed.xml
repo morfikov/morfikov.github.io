@@ -6,7 +6,31 @@
     <description>Recent content in Linux on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Fri, 15 Dec 2023 17:00:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/categories/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Jan 2024 20:05:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/categories/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Przestrzeń wymiany SWAP tylko na potrzebny hibernacji w Debian linux</title>
+      <link>https://morfikov.github.io/post/przestrzen-wymiany-swap-tylko-na-potrzebny-hibernacji-w-debian-linux/</link>
+      <pubDate>Wed, 10 Jan 2024 20:05:00 +0100</pubDate>
+      
+      <guid>https://morfikov.github.io/post/przestrzen-wymiany-swap-tylko-na-potrzebny-hibernacji-w-debian-linux/</guid>
+      <description>&lt;p&gt;W obecnych czasach, rola przestrzeni wymiany w zasadzie ograniczyła się z grubsza do umożliwienia
+nam przeprowadzenia procesu hibernacji. Inne aspekty pracy systemu, w których SWAP brał udział
+zostały albo zepchnięte na margines (bardzo stare maszyny z niewielką ilością RAM), albo zupełnie
+wyeliminowane za sprawą nowszych technologi lub/i posiadania większej ilości pamięci operacyjnej w
+takich systemach. Obecnie domowy komputer z 32 GiB pamięci RAM to nic niezwykłego i przestrzeń
+wymiany na takich maszynach nie jest już nam w zasadzie do niczego potrzebna, bo raczej jest mało
+prawdopodobne, że nam tej pamięci zabraknie przy codziennym użytkowaniu naszego linux&#39;a. Niemniej
+jednak, hibernacja systemu jest czymś pozytywnym z perspektywy użytkownika, bo umożliwia mu
+zapisanie stanu pracy przed wyłączeniem komputera i odtworzenie tego stanu po ponownym uruchomieniu
+systemu. Jeśli chcielibyśmy się cieszyć urokami hibernacji, to bez konfiguracji SWAP&#39;a się nie
+obejdzie. Problem jednak zaczyna się, gdy mamy dysk SSD i taka przestrzeń wymiany zostanie na nim
+skonfigurowana. Chodzi generalnie o pewne aplikacje, które są w stanie generować bardzo dużo cache
+w pamięci operacyjnej, czego efektem będzie przenoszenie danych z RAM do SWAP, a to może bardzo
+szybko wykończyć taki nośnik flash. Dlatego też przydałoby się nieco zabezpieczyć przestrzeń
+wymiany przed tego typu sytuacjami, tak by można było jej używać jedynie w przypadku hibernacji.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux</title>
@@ -423,34 +447,6 @@ systemowy GPG/GnuPG nie jest w ogóle wykorzystywany. Taki san rzeczy sprawia, �
 różne bazy danych kluczy (jedna dla Thunderbird&#39;a, a druga dla reszty linux&#39;a), co może trochę
 irytować. Na szczęście jest opcja wymuszenia na TB, by korzystał on z systemowego keyring&#39;a kluczy
 GPG/PGP i celem tego artykułu jest pokazanie właśnie jak tego typu zabieg przeprowadzić.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)</title>
-      <link>https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/</link>
-      <pubDate>Wed, 02 Sep 2020 18:36:00 +0200</pubDate>
-      
-      <guid>https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/</guid>
-      <description>&lt;p&gt;Parę dni temu &lt;a href=&#34;https://forum.dug.net.pl/viewtopic.php?id=31514&#34;&gt;na forum dug.net.pl pojawiło się zapytanie&lt;/a&gt; dotyczące skonfigurowania linux&#39;a w
-taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN,
-podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego
-ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć
-też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba
-zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel
-przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma
-przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i
-na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń
-czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów
-konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w
-zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować
-filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko
-odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe
-będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje
-jednak sposób, by nauczyć linux&#39;a aby tylko procesy określonych użytkowników czy grup miały dostęp
-do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze
-standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy &lt;code&gt;iptables&lt;/code&gt; / &lt;code&gt;nftables&lt;/code&gt; ,
-tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.&lt;/p&gt;</description>
     </item>
     
   </channel>

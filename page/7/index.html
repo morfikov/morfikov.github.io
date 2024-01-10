@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="pl-PL">
 <head>
-	<meta name="generator" content="Hugo 0.121.1">
+	<meta name="generator" content="Hugo 0.121.2">
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -82,6 +82,38 @@ if (!doNotTrack) {
 	
 	<main class="main">
 			<div class="cards">
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/czym-jest-linux-kernel-driver-binding/">Czym jest linux kernel driver binding</a></h1>
+	<div class="entry__content"><p>Bawiąc się ostatnio QEMU/KVM na swoim laptopie z zainstalowanym Debianem natrafiłem na ciekawe
+zagadnienie związane z wirtualizacją, tj. z PCI passthrough. Nie chodzi mi tutaj o samą technikę
+PCI passthrough ale o dobór sterowników do urządzeń działających pod kontrolą linux. Każdy sprzęt,
+który ma działać w systemie, musi mieć załadowany w pamięci RAM stosowny moduł kernela. Te moduły
+zwykle są ładowane automatycznie podczas pracy systemu, np. gdy podłączamy nowy sprzęt do komputera
+(można też te moduły ładować i ręcznie via <code>modprobe</code> ). Gdy nasz linux z jakiegoś powodu dobierze
+niewłaściwy (z naszego punktu widzenia) moduł dla jakiegoś urządzenia, to możemy to urządzenie
+odłączyć od komputera, a moduł bez problemu wyładować, po czym dokonać stosownych poprawek w
+systemie. Problem zaczyna się w sytuacji, gdy mamy do czynienia ze sprzętem, którego nie da się od
+komputera fizycznie odłączyć, np. wbudowana w płytę główną karta dźwiękowa, czy też wbudowana
+grafika bezpośrednio w CPU. Podobnie sprawa wygląda w przypadku wkompilowania modułów na stałe w
+kernel -- jak wyładować moduł, którego się nie da wyładować? By w takich sytuacjach zmienić
+przypisany urządzeniu sterownik trzeba dodać parę plików w katalogach <code>/etc/modules-load.d/</code> /
+<code>/etc/modprobe.d/</code> oraz zrestartować maszynę, tak by podczas fazy boot kernel dobrał sprzętowi
+pożądane przez nas moduły i ich konfigurację. Niemniej jednak, istnieje prostszy sposób na zmianę
+sterownika działającego w systemie sprzętu i to bez potrzeby fizycznego restartowania maszyny.
+Chodzi o mechanizm ręcznego przypisywania urządzeń do konkretnych sterowników (<a href="https://lwn.net/Articles/143397/">manual driver
+binding and unbinding</a>).</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-07-28T19:39:00Z">Opublikowano: 28/07/2020</time>
+
+<span class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</span>
+	</div>
+</article>
+					</div>
 					<div class="card card--2col">
 					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/modul-lkrg-linux-kernel-runtime-guard/">Moduł LKRG (Linux Kernel Runtime Guard)</a></h1>
@@ -298,31 +330,6 @@ wyświetlacz ma mniejsze DPI niż 192. W takiej sytuacji konfiguracja interfejsu
 czcionek dla ekranów wysokiej rozdzielczości może być nie lada wyzwaniem.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-03-08T19:00:00Z">Opublikowano: 08/03/2020</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
-	</div>
-</article>
-					</div>
-					<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zaladowac-firmware-karty-wifi-przed-initrd-initramfs/">Jak załadować firmware karty WiFi przed initrd/initramfs</a></h1>
-	<div class="entry__content"><p>Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową
-sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: <code>Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2</code> . W tym przypadku sprawa dotyczyła karty <code>Intel Corporation Centrino Advanced-N 6205 [Taylor Peak]</code> działającej w oparciu o moduł kernela
-<code>iwlwifi</code> . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po
-kłopocie. No i faktycznie w Debianie jest dostępny pakiet <code>firmware-iwlwifi</code> , który zawiera ten
-potrzebny plik <code>iwlwifi-6000g2a-6.ucode</code> . Problem jednak w tym, że instalacja paczki z firmware
-niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware
-muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W
-takim przypadku zainstalowanie paczki z firmware w naszym linux'ie nic nam nie da, bo pliki
-rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej
-sytuacji?</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-03-06T02:45:00Z">Opublikowano: 06/03/2020</time>
-	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-03-12T16:30:00&#43;01:00">Zaktualizowano: 12/03/2020</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
