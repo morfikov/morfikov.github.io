@@ -107,7 +107,7 @@ wcześniejszą bramę domyślną.
 
 ### Parametr route-nopull
 
-Po skonfigurowaniu tras routingu, wszystkie aplikacje sieciowe będą przesyłać ruch prze VPN.
+Po skonfigurowaniu tras routingu, wszystkie aplikacje sieciowe będą przesyłać ruch przez VPN.
 Niemniej jednak, ta domyślna polityka przekonfigurowania tras routingu sprawia, że nie damy rady
 rozdzielić procesów w taki sposób, by tylko określone z nich przesyłały pakiety przez VPN. Trzeba
 zatem tych domyślnych tras routingu się pozbyć i do tego służy parametr `route-nopull` , który
@@ -150,7 +150,7 @@ trzeba edytować plik `/etc/iproute2/rt_tables` i umieścić w niej poniższy wp
     200 vpn
 
 Numerek może być dowolny, podobnie jak i nazwa tablicy. Nazwy są bardziej dla ludzi, maszyny wolną
-numerki i ta para to właśnie takie mapowanie nazwy na numery. Do obu tych wartości będzie można się
+numerki i ta para to właśnie takie mapowanie nazw na numery. Do obu tych wartości będzie można się
 odwoływać w poleceniach.
 
 Następnie dodajemy nowy wpis do tablicy `vpn` , który ma za zadanie skonfigurować trasę domyślną
@@ -196,7 +196,7 @@ dla każdej z nich. Warto tutaj zaznaczyć, że im wyższa wartość parametru `
 priorytet. Z kolei `table vpn` nakazuje kernelowi sprawdzenie tablicy `vpn` ilekroć tylko mark w
 pakietach zostanie dopasowany.
 
-Po dodaniu tej powyższej reguły, reguły routingu powinny wyglądać mniej więcej tak:
+Po wydaniu tego powyższego polecenia, reguły routingu powinny wyglądać mniej więcej tak:
 
     # ip rule show
     0:      from all lookup local
@@ -343,18 +343,18 @@ skrypt shell'owy dla OpenVPN. Poniżej jest przykład takiego skryptu, który za
         ip rule add fwmark ${mark} priority ${rule_prio} table ${route_table}
       fi
 
-      if ! nft -a list table ip nat | grep force-vpn > /dev/null
+      if ! nft -a list table inet nat | grep force-vpn > /dev/null
       then
-        nft create chain ip nat force-vpn
-        nft add rule ip nat POSTROUTING meta oifname ${dev} counter jump force-vpn
-        nft add rule ip nat force-vpn meta oifname ${dev} counter masquerade
+        nft create chain inet nat force-vpn
+        nft add rule inet nat POSTROUTING meta oifname ${dev} counter jump force-vpn
+        nft add rule inet nat force-vpn meta oifname ${dev} counter masquerade
       fi
 
-      if ! nft -a list table ip mangle | grep force-vpn > /dev/null
+      if ! nft -a list table inet mangle | grep force-vpn > /dev/null
       then
-        nft create chain ip mangle force-vpn
-        nft add rule ip mangle OUTPUT meta skuid ${id} counter jump force-vpn
-        nft add rule ip mangle force-vpn meta skuid ${id} meta mark set ${mark} counter
+        nft create chain inet mangle force-vpn
+        nft add rule inet mangle OUTPUT meta skuid ${id} counter jump force-vpn
+        nft add rule inet mangle force-vpn meta skuid ${id} meta mark set ${mark} counter
       fi
 
         ;;
