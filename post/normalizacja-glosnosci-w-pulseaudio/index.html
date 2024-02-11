@@ -18,8 +18,8 @@ cicho, natomiast kolejna zbyt głośno. PulseAudio jest w stanie poradzić sobie
 problemami." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://morfikov.github.io/post/normalizacja-glosnosci-w-pulseaudio/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2015-09-28T16:13:16+00:00" />
-<meta property="article:modified_time" content="2015-09-28T16:13:16+00:00" />
+<meta property="article:published_time" content="2015-09-28T16:13:16+02:00" />
+<meta property="article:modified_time" content="2024-02-06T14:00:00+01:00" />
 
 
 		<meta itemprop="name" content="Normalizacja głośności w PulseAudio">
@@ -29,10 +29,10 @@ dyskomfortu psychicznego. Tego typu efekt jest też bardzo często spotykany prz
 gdzie zwykle muzyka jest sporo głośniejsza od samych dialogów, nie wspominając już o reklamach,
 którymi filmy są przerywane. Innym przykładem mogą być mp3, gdzie jedna z nich jest grana zbyt
 cicho, natomiast kolejna zbyt głośno. PulseAudio jest w stanie poradzić sobie z tego typu
-problemami."><meta itemprop="datePublished" content="2015-09-28T16:13:16+00:00" />
-<meta itemprop="dateModified" content="2015-09-28T16:13:16+00:00" />
-<meta itemprop="wordCount" content="958">
-<meta itemprop="keywords" content="pulseaudio,dźwięk,moduły-pulseaudio," />
+problemami."><meta itemprop="datePublished" content="2015-09-28T16:13:16+02:00" />
+<meta itemprop="dateModified" content="2024-02-06T14:00:00+01:00" />
+<meta itemprop="wordCount" content="1363">
+<meta itemprop="keywords" content="pulseaudio,dźwięk,moduły-pulseaudio,ladspa," />
 		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Normalizacja głośności w PulseAudio"/>
 <meta name="twitter:description" content="Każdy z nas spotkał się z sytuacją, gdzie dźwięki odtwarzane na naszych maszynach zmieniają swoje
 natężenie w krótkich odstępach czasu, a my przy tym odczuwamy bardzo nieprzyjemne uczucie
@@ -41,7 +41,6 @@ gdzie zwykle muzyka jest sporo głośniejsza od samych dialogów, nie wspominaj�
 którymi filmy są przerywane. Innym przykładem mogą być mp3, gdzie jedna z nich jest grana zbyt
 cicho, natomiast kolejna zbyt głośno. PulseAudio jest w stanie poradzić sobie z tego typu
 problemami."/>
-<meta name="twitter:site" content="@mikhailmorfikov"/>
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -118,7 +117,8 @@ if (!doNotTrack) {
 		<div class="single block">
 			<article class="entry">
 	<div class="entry__meta meta mb">
-	<time class="entry__meta-published meta-published" datetime="2015-09-28T16:13:16Z">Opublikowano: 28/09/2015</time>
+	<time class="entry__meta-published meta-published" datetime="2015-09-28T16:13:16&#43;02:00">Opublikowano: 28/09/2015</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2024-02-06T14:00:00&#43;01:00">Zaktualizowano: 06/02/2024</time>
 
 <span class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -134,6 +134,7 @@ if (!doNotTrack) {
     <li><a href="#dynamic-range-compression">Dynamic range compression</a></li>
     <li><a href="#normalizacja-głośności-i-jej-aktywacja">Normalizacja głośności i jej aktywacja</a>
       <ol>
+        <li><a href="#failed-to-load-plugin-sc4m_1916">Failed to load plugin &quot;sc4m_1916&quot;</a></li>
         <li><a href="#porty-w-sc4m_1916">Porty w sc4m_1916</a></li>
       </ol>
     </li>
@@ -149,11 +150,10 @@ którymi filmy są przerywane. Innym przykładem mogą być mp3, gdzie jedna z n
 cicho, natomiast kolejna zbyt głośno. PulseAudio jest w stanie poradzić sobie z tego typu
 problemami.</p>
 <h2 id="dynamic-range-compression">Dynamic range compression</h2>
-<p>Przeglądając youtube, natrafiłem na <a href="https://www.youtube.com/watch?v=NXE-kSrhk_w">materiał</a>
-opisujący ciekawy moduł, który można załadować w PulseAudio. Rozchodzi się o <code>module-ladspa-sink</code> ,
-który ma za zadanie przerobić strumień audio przyciszając go tam gdzie jest zbyt głośny i
-pogłaśniając tam gdzie jest zbyt cichy. Fachowo się to nazywa <a href="https://en.wikipedia.org/wiki/Dynamic_range_compression">Dynamic range
-compression</a>.</p>
+<p>Przeglądając youtube, natrafiłem na <a href="https://www.youtube.com/watch?v=NXE-kSrhk_w">materiał</a> opisujący ciekawy moduł, który można załadować w
+PulseAudio. Rozchodzi się o <code>module-ladspa-sink</code> , który ma za zadanie przerobić strumień audio
+przyciszając go tam gdzie jest zbyt głośny i pogłaśniając tam gdzie jest zbyt cichy. Fachowo się to
+nazywa <a href="https://en.wikipedia.org/wiki/Dynamic_range_compression">Dynamic range compression</a>.</p>
 <p>Moduł <code>module-ladspa-sink</code> nie jest ładowany domyślnie, dlatego też będziemy musieli nieco przerobić
 konfigurację samego PulseAudio tak by normalizacja głośności została aktywowana. Dodatkowo, wymagany
 jest pakiet <code>swh-plugins</code> , który prawdopodobnie będziemy musieli sobie doinstalować (jest dostępny
@@ -172,8 +172,7 @@ odpowiedni moduł. Dalej mamy dwie dyrektywy: <code>.nofail</code> oraz <code>.f
 wykonywanie skryptu zostanie przerwane gdy określone niżej akcje zwrócą jakiś błąd. Powyższa
 instrukcja zakłada wykonanie się skryptu nawet w przypadku gdy załadowanie modułu
 <code>module-ladspa-sink</code> się nie powiedzie z jakichś przyczyn.</p>
-<p>Dyrektywa <code>load-module</code> ładuje określony moduł. Dalej są precyzowane <a href="https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/">opcje dla samego
-modułu</a>:</p>
+<p>Dyrektywa <code>load-module</code> ładuje określony moduł. Dalej są precyzowane <a href="https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/">opcje dla samego modułu</a>:</p>
 <ul>
 <li><code>sink_name</code> definiuje nazwę, która zwracana jest, np. w <code>pacmd</code> .</li>
 <li><code>plugin</code> ładuje pożądany filter.</li>
@@ -182,9 +181,8 @@ modułu</a>:</p>
 </ul>
 <p>Problematyczne może być rozszyfrowanie wartości, które zostały podane w opcji <code>control</code> . Generalnie
 rzecz biorąc, zależą one od samego pluginu i mogą się dość znacznie różnić. W tym przypadku został
-użyty plugin <a href="http://plugin.org.uk/ladspa-swh/docs/ladspa-swh.html#tth_sEc2.92">sc4m_1916</a> . By
-dowiedzieć się coś nieco więcej o tym pluginie, musimy doinstalować pakiet <code>ladspa-sdk</code> , po czym
-wydać poniższe polecenie:</p>
+użyty plugin <a href="http://plugin.org.uk/ladspa-swh/docs/ladspa-swh.html#tth_sEc2.92">sc4m_1916</a>. By dowiedzieć się coś nieco więcej o tym pluginie, musimy doinstalować
+pakiet <code>ladspa-sdk</code> , po czym wydać poniższe polecenie:</p>
 <pre><code>$ analyseplugin sc4m_1916
 Plugin Name: &quot;SC4 mono&quot;
 Plugin Label: &quot;sc4m&quot;
@@ -212,34 +210,77 @@ Ports:  &quot;RMS/peak&quot; input, control, 0 to 1, default 0
 wartości wraz z wartościami domyślnymi (na wypadek ich nie podania w konfiguracji). Jest tam, co
 prawda, 9 portów ale te dwa ostatnie (bez wartości default) są dla wyjścia (np. podejrzenie w locie
 o ile dB sygnał jest redukowany), jednak PulseAudio nie potrafi ich obsłużyć.</p>
+<h3 id="failed-to-load-plugin-sc4m_1916">Failed to load plugin &quot;sc4m_1916&quot;</h3>
+<p>W przypadku gdy przy próbie analizy pluginu wyskoczy nam poniższy błąd:</p>
+<pre><code>$ analyseplugin sc4m_1916
+Failed to load plugin &quot;sc4m_1916&quot;: sc4m_1916: cannot open shared object file: No such file or directory
+</code></pre>
+<p>Oznacza to, że nie posiadamy w systemie ustawionej zmiennej <code>$LADSPA_PATH</code> i by ten powyższy błąd
+poprawić, wystarczy w terminalu (lub w konfiguracji shell'a bash/zsh) dopisać sobie poniższą
+linijkę.</p>
+<pre><code>export LADSPA_PATH=&quot;/usr/lib/ladspa/&quot;
+</code></pre>
 <h3 id="porty-w-sc4m_1916">Porty w sc4m_1916</h3>
-<p>Doszukałem się na necie w miarę przystępnego wyjaśnienia <a href="http://www.studiomastering.net/mastering05.html">jak działa kompresor
-dźwięku</a>. Poniżej jest krótki opis portów
-wykorzystywanych przez plugin <code>sc4m_1916</code> .</p>
+<p>Doszukałem się na necie w miarę przystępnego wyjaśnienia jak działa kompresor dźwięku. Poniżej jest
+krótki opis portów wykorzystywanych przez plugin <code>sc4m_1916</code> .</p>
 <ul>
+<li><code>RMS/peak</code> -- w przypadku wielu współczesnych kompresorów, mamy do wyboru tryb pracy detektora
+sygnału sterującego, który może działać w trybie szczytowym (Peak) lub uśrednionym (RMS, Root
+Mean Square). Przy ustawieniu na 0, kompresor reaguje na bezwzględny poziom chwilowy (true
+peak). W przypadku ustawienia na 1, uśrednianiu podlega dłuższy fragment sygnału, na podstawie
+którego działa blok tłumienia. W praktyce reakcja na poziomy chwilowe sprawdza się, gdy chcemy
+uzyskać mocną i słyszalną kompresję lub stłumić transjenty, tj. gwałtowne szczyty i skoki w
+sygnale, np. w przypadku bębnów. Tryb RMS jest znacznie łagodniejszy w działaniu, dając
+wyrównaną kompresję w przypadku wokalu, gitar, grup i całych miksów.</li>
+<li><code>Attack/Release time</code> (ms) -- służą do ustawienia czasu zadziałania kompresora oraz czasu
+powrotu całego układu do stanu neutralnego. Im mniejszy <code>Attack time</code>, tym miej szybkich
+skoków w sygnale przedostaje się przez kompresor. Z kolei <code>Release time</code> określa, jak długo
+kompresor ma działać na dźwięk. Zbyt krótki <code>Release time</code> może spowodować zniekształcenie
+dźwięku.</li>
 <li><code>Threshold level</code> (dB) -- poziom sygnału, od którego kompresor zaczyna działać. Z reguły nie ma
 większych wartości od 0 (max) i jest niewiele mniejszych od -30 (min). W tym przypadku próg
-został ustawiony na -30, czyli przez kompresor będą przepuszczane praktycznie wszystkie dźwięki.
-Nie za dobre dla mp3 ale idealne dla filmów.</li>
-<li><code>Ratio</code> -- stosunek, w jakim kompresor będzie redukował dynamikę sygnału gdy ta przekroczy
-Threshold level. Jeśli jest tutaj ustawiona duża wartość (jak w tym przypadku, 20), to będzie
-stanowić to limit głośności określony przez Threshold level, którego sygnał nie będzie mógł
-przekroczyć. Niższe wartości będą ucinać nieco dB wyciszając tym samym dźwięk. Np. dla ratio
-4:1, każdy dźwięk powyżej Threshold level zostanie zredukowany o 75%. W przypadku 2:1, o 50%,
-itd. Zatem jeśli by pojawił się dźwięk o 8dB ponad Threshold level, to przy ratio 4:1 zostanie
-przycięty do wartości 2dB ponad limit, w przypadku 2:1, do 4dB ponad limit. Dźwięk poniżej
-Threshold level nie jest ruszany.</li>
+został ustawiony na -30, czyli przez kompresor będą przepuszczane praktycznie wszystkie
+dźwięki. Nie za dobre dla mp3 ale idealne dla filmów.</li>
+<li><code>Ratio</code> -- stosunek, w jakim kompresor będzie redukował dynamikę sygnału, gdy ta przekroczy
+<code>Threshold level</code> . Jeśli jest tutaj ustawiona duża wartość (jak w tym przypadku, 20), to
+będzie stanowić to limit głośności określony przez <code>Threshold level</code> , którego sygnał nie
+będzie mógł przekroczyć. Niższe wartości będą ucinać nieco dB wyciszając tym samym dźwięk. Np.
+dla <code>Ratio 4:1</code> , każdy dźwięk powyżej <code>Threshold level</code> zostanie zredukowany o 75%. W
+przypadku 2:1, o 50%, itd. Zatem jeśli by pojawił się dźwięk o 8 dB ponad <code>Threshold level</code> ,
+to przy ratio 4:1 zostanie przycięty do wartości 2 dB ponad limit, w przypadku 2:1, do 4 dB
+ponad limit. Dźwięk poniżej <code>Threshold level</code> nie jest ruszany.</li>
+<li><code>Knee radius</code> -- parametr Knee ma wpływ na początkowy etap działania kompresji, określając, jak
+wyraziście będzie następowało tłumienie z chwilą zbliżenia się poziomu sygnału do ustawionego
+progu w Threshold level. Może to następować natychmiast (tzw. twarde kolano, od 0 dB),
+stopniowo (miękkie kolano, do 40 dB) lub w każdy sposób pomiędzy tymi dwoma pozycjami. W
+przypadku twardego kolana kompresja aplikowana jest od razu z chwilą, gdy sygnał przekroczy
+próg kompresji, i z poziomem ustawionym regulatorem Ratio. Przy miękkim kolanie kompresja
+zaczyna stopniowo działać gdy poziom sygnału zbliża się do progu Threshold level, a pełne
+Ratio aplikowane jest wtedy, gdy go w niewielkim stopniu przekroczy. W praktyce element ten
+wpływa na brzmienie kompresji, od wyraźnie słyszalnego zakolorowania przy twardym kolanie (co
+sprawdza się przy precyzyjnej obróbce bębnów), do praktycznie niesłyszalnej kompresji
+stosowanej głównie przy masteringu.</li>
 <li><code>Makeup gain</code> (dB) -- określa o ile dB podbić ciche dźwięki, lub też te wyciszone za sprawą
 Ratio, tak by były głośniejsze.</li>
-<li><code>Attack/Release time</code> (ms) -- służą do ustawienia czasu zadziałania kompresora oraz czasu
-powrotu całego układu do stanu neutralnego. Im mniejszy Attack time, tym miej szybkich skoków w
-sygnale przedostaje się przez kompresor. Z kolei Release time określa, jak długo kompresor ma
-działać na dźwięk. Zbyt krótki Release time może spowodować zniekształcenie dźwięku.</li>
-<li><code>Knee radius</code> -- odpowiada za to jak kompresor podchodzi do obcinania dB. Im niższa wartość, tym
-kompresor będzie działał bardziej gwałtownie przy zbliżaniu się do poziomu dźwięku określonego w
-Threshold level, przez co będziemy w stanie odczuć kompresję dźwięku. Z kolei, im większa
-wartość, tym kompresor wcześniej zacznie obcinać dB (nawet te poniżej Threshold level) ale za
-to przejście będzie o wiele łagodniejsze i mniej odczuwalne dla naszych uszu.</li>
+<li><code>Amplitude</code> (dB) -- Poziom sygnału wejściowego.</li>
+<li><code>Gain reduction</code> (dB) -- stopień redukcji wzmocnienia stosowany dla sygnału wejściowego.</li>
+</ul>
+<p>Poniżej jest jeszcze parę rzeczy, które można napotkać w innych kompresorach, np. tym oferowanym
+przez <a href="https://github.com/wwmm/easyeffects">Easy Effects</a>:</p>
+<ul>
+<li><code>Dry/Wet Level</code> -- kompresja równoległa, zwana czasem &quot;nowojorską&quot;, polega na zmieszaniu
+sygnału skompresowanego z sygnałem bez kompresji. Wiele współczesnych kompresorów już ma
+odpowiedni regulator -- zwykle pod postacią Dry/Wet w okolicach regulatora poziomu
+wyjściowego. Funkcja ta pozwala zachować definicję transjentów, a jednocześnie zaaplikować
+bardziej agresywną kompresję, uwypuklając towarzyszące jej zakolorowanie dźwięku. Sprawdza
+się to szczególnie dobrze przy przetwarzaniu surowo brzmiących bitów, ale można zastosować tę
+funkcję także na całym miksie.</li>
+<li><code>Lookahead</code> -- funkcja wyprzedzenia (lookahead) polega na opóźnianiu sygnału audio, ale nie w
+torze sterowania, dzięki czemu kompresor odpowiednio wcześniej &quot;wie&quot;, jak ma zareagować.
+Teoretycznie jest to bardzo korzystna konfiguracja, ale należy pamiętać, że odpowiednio
+wcześniej pojawi się też etap powrotu (Release). Aby to skompensować można użyć parametru
+podtrzymania (Hold, jeśli jest taki dostępny), ustawionego na taki sam czas, jak czas
+wyprzedzenia.</li>
 </ul>
 <p>Warto jednak dodać, że te domyślne ustawienia spisują się całkiem dobrze i raczej powinny zadowolić
 każdego.</p>
@@ -258,6 +299,7 @@ muszą być one przepuszczone przez kompresor dźwięku</p></div>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pulseaudio/">pulseaudio</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dzwiek/">dźwięk</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/modu%C5%82y-pulseaudio/">moduły-pulseaudio</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ladspa/">ladspa</a>
 </div>
 					
 <div class="entry__share share">
@@ -334,9 +376,6 @@ muszą być one przepuszczone przez kompresor dźwięku</p></div>
 <div class="footer__social social">
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
 			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
-		</a>
-		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://twitter.com/mikhailmorfikov">
-			<svg class="social__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
 			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
