@@ -2,15 +2,11 @@
 <html class="no-js" lang="{{ .Site.LanguageCode | default "en-us" }}">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="{{ .Site.Params.Manifest.themeColor | default "#1b1b1b" }}">
 	<title>{{ block "title" . }}{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ .Site.Title }}{{ end }}</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}">
-	{{- if and (ne .Kind "home") (ne .Kind "page") }}
-	<meta name="robots" content="noindex, follow" />
-	{{- end }}
 	{{- if .Site.Params.opengraph }}
 		{{ template "_internal/opengraph.html" . }}
 	{{- end }}
@@ -40,10 +36,10 @@
 	<link rel="manifest" href="{{ "manifest.json" | relURL }}">
 	{{- end }}
 	{{- if not .Site.IsServer }}
-		{{ template "_internal/google_analytics_async.html" . }}
+		{{ template "_internal/google_analytics.html" . }}
 	{{- end }}
 </head>
-<body>
+<body class="body kind-{{ .Kind }}">
 	{{ partial "header" . }}
 	<div class="primary">
 	{{ block "main" . }}
