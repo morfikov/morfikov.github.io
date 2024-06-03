@@ -6,7 +6,33 @@
     <description>Recent content in Posts on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Wed, 10 Jan 2024 20:05:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/post/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 03 Jun 2024 20:00:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/post/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)</title>
+      <link>https://morfikov.github.io/post/konfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs/</link>
+      <pubDate>Mon, 03 Jun 2024 20:00:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs/</guid>
+      <description>&lt;p&gt;Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne
+systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to
+postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej
+sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery
+HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś
+większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows.
+W zasadzie to pozostała mi ostatnia opcja w postaci protokołu &lt;a href=&#34;https://www.samba.org/&#34;&gt;CIFS/SMB/SAMBA&lt;/a&gt;, który
+przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego
+Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w
+stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez
+znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj.
+udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie
+obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet
+&lt;code&gt;samba&lt;/code&gt; , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy
+sobie nieco ułatwić życie, tak by w menadżerze plików (np. &lt;code&gt;nemo&lt;/code&gt; , &lt;code&gt;caja&lt;/code&gt; , &lt;code&gt;pcmanfm&lt;/code&gt; ) te
+wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do
+rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Przestrzeń wymiany SWAP tylko na potrzebny hibernacji w Debian linux</title>
@@ -425,30 +451,6 @@ jej ESSID). Można jednak pójść o krok dalej i sprawić, że przy każdym po�
 samej sieci WiFi, będziemy mieli generowany inny adres MAC, co z kolei powinno nam zapewnić nieco
 więcej prywatności w publicznych sieciach WiFi oraz też przeciwdziałać śledzeniu nas przy roamingu
 między takimi sieciami.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Jak wyłączyć mapowanie adresów IPv4 na IPv6 w Debian linux</title>
-      <link>https://morfikov.github.io/post/jak-wylaczyc-mapowane-adresow-ipv4-na-ipv6-w-debian-linux/</link>
-      <pubDate>Thu, 14 Oct 2021 23:52:00 +0200</pubDate>
-      
-      <guid>https://morfikov.github.io/post/jak-wylaczyc-mapowane-adresow-ipv4-na-ipv6-w-debian-linux/</guid>
-      <description>&lt;p&gt;Przeglądając ostatnio połączenia w swoim telefonie z Androidem, natknąłem się na wpisy mające w
-swoich adresach źródłowych ustawione IP takie, jak &lt;code&gt;::ffff:192.168.1.188&lt;/code&gt; . Podobnie sprawa wygląda
-w przypadku adresów docelowych tego samego połączenia, tj. widnieje tam np. &lt;code&gt;::ffff:216.58.215.1&lt;/code&gt; .
-Na pierwszy rzut oka taka konstrukcja adresu IP przypomina IPv6, przynajmniej jej pierwsza część,
-tj. &lt;code&gt;::ffff:&lt;/code&gt; , natomiast drugi kawałek już bardzo przypomina adres IPv4. Okazuje się, że za taki
-format adresów IP odpowiada &lt;a href=&#34;https://en.wikipedia.org/wiki/IPv6#IPv4-mapped_IPv6_addresses&#34;&gt;mechanizm mapowania adresów IPv4 na adresy IPv6&lt;/a&gt;. Nie jest to
-jednak tożsame z &lt;a href=&#34;https://morfikov.github.io/post/implementacja-protokolu-ipv6-za-pomoca-tunelu-6to4/&#34;&gt;6to4&lt;/a&gt; czy &lt;a href=&#34;https://morfikov.github.io/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/&#34;&gt;6in4&lt;/a&gt;, gdzie host ze stałym publicznym adresem IPv4 jest w
-stanie komunikować się z hostami nadającymi po IPv6. W przypadku mapowania adresów IPv4 na IPv6,
-połączenia ze zdalnymi hostami mogą odbywać się zarówno po IPv4 jak i IPv6, a to z którego z tych
-protokołów nasz linux skorzysta zależy od tego czy taka maszyna dysponuje przydzielonym adresem
-IPv6. Jeśli ISP nie zapewnia nam adresu IPv6, to wtedy pakiety sieciowe będą przesyłane z
-wykorzystaniem protokołu IPv4. Wciąż jednak te mieszane konstrukcje adresów IP będą widoczne na
-wykazie połączeń w &lt;code&gt;netstat&lt;/code&gt;/&lt;code&gt;ss&lt;/code&gt; . Okazuje się jednak, że ten mechanizm mapowania adresów może
-powodować szereg problemów związanych z bezpieczeństwem systemu. Dlatego też tam gdzie to możliwe
-przydałoby się go wyłączyć.&lt;/p&gt;</description>
     </item>
     
   </channel>

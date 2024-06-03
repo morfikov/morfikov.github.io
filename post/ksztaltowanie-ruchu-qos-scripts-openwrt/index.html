@@ -2,54 +2,35 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Kształtowanie ruchu z qos-scripts w OpenWRT | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Kształtowanie ruchu z qos-scripts w OpenWRT" />
-<meta property="og:description" content="Każdy bardziej zaawansowany administrator sieci prędzej czy później będzie chciał wdrożyć na swoim
-routerze wyposażonym w firmware OpenWRT pewien mechanizm QoS umożliwiający kształtowanie ruchu
-sieciowego. Ci, którzy się za ten temat zabierali, wiedzą, że nie jest on prosty w realizacji.
-Zwłaszcza, gdy chce się cały ten system zarządzania pakietami skonfigurować od podstaw przy pomocy
-narzędzi takich jak iptables , tc oraz ip . Z tego też względu OpenWRT umożliwia nam nieco
-prostszą w konfiguracji alternatywę polegającą na zainstalowaniu narzędzi zawartych w pakietach
-wshaper , qos-scripts lub sqm-scripts . Trzeba przy tym pamiętać, że mechanizm, który zostanie
-stworzony z wykorzystaniem jednego z tych w/w pakietów nie będzie tak elastyczny jak przy ręcznej
-konfiguracji od podstaw. Niemniej jednak, w tym artykule postaramy się ogarnąć kształtowanie ruchu
-przy pomocy tych pakietów." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/ksztaltowanie-ruchu-qos-scripts-openwrt/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2016-07-08T18:00:54+00:00" />
-<meta property="article:modified_time" content="2016-07-08T18:00:54+00:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/ksztaltowanie-ruchu-qos-scripts-openwrt/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Kształtowanie ruchu z qos-scripts w OpenWRT">
+  <meta property="og:description" content="Każdy bardziej zaawansowany administrator sieci prędzej czy później będzie chciał wdrożyć na swoim routerze wyposażonym w firmware OpenWRT pewien mechanizm QoS umożliwiający kształtowanie ruchu sieciowego. Ci, którzy się za ten temat zabierali, wiedzą, że nie jest on prosty w realizacji. Zwłaszcza, gdy chce się cały ten system zarządzania pakietami skonfigurować od podstaw przy pomocy narzędzi takich jak iptables , tc oraz ip . Z tego też względu OpenWRT umożliwia nam nieco prostszą w konfiguracji alternatywę polegającą na zainstalowaniu narzędzi zawartych w pakietach wshaper , qos-scripts lub sqm-scripts . Trzeba przy tym pamiętać, że mechanizm, który zostanie stworzony z wykorzystaniem jednego z tych w/w pakietów nie będzie tak elastyczny jak przy ręcznej konfiguracji od podstaw. Niemniej jednak, w tym artykule postaramy się ogarnąć kształtowanie ruchu przy pomocy tych pakietów.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2016-07-08T18:00:54+00:00">
+    <meta property="article:modified_time" content="2016-07-08T18:00:54+00:00">
+    <meta property="article:tag" content="Chaos-Calmer">
+    <meta property="article:tag" content="Router">
+    <meta property="article:tag" content="Qos">
 
-
-		<meta itemprop="name" content="Kształtowanie ruchu z qos-scripts w OpenWRT">
-<meta itemprop="description" content="Każdy bardziej zaawansowany administrator sieci prędzej czy później będzie chciał wdrożyć na swoim
-routerze wyposażonym w firmware OpenWRT pewien mechanizm QoS umożliwiający kształtowanie ruchu
-sieciowego. Ci, którzy się za ten temat zabierali, wiedzą, że nie jest on prosty w realizacji.
-Zwłaszcza, gdy chce się cały ten system zarządzania pakietami skonfigurować od podstaw przy pomocy
-narzędzi takich jak iptables , tc oraz ip . Z tego też względu OpenWRT umożliwia nam nieco
-prostszą w konfiguracji alternatywę polegającą na zainstalowaniu narzędzi zawartych w pakietach
-wshaper , qos-scripts lub sqm-scripts . Trzeba przy tym pamiętać, że mechanizm, który zostanie
-stworzony z wykorzystaniem jednego z tych w/w pakietów nie będzie tak elastyczny jak przy ręcznej
-konfiguracji od podstaw. Niemniej jednak, w tym artykule postaramy się ogarnąć kształtowanie ruchu
-przy pomocy tych pakietów."><meta itemprop="datePublished" content="2016-07-08T18:00:54+00:00" />
-<meta itemprop="dateModified" content="2016-07-08T18:00:54+00:00" />
-<meta itemprop="wordCount" content="964">
-<meta itemprop="keywords" content="chaos-calmer,router,qos," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Kształtowanie ruchu z qos-scripts w OpenWRT"/>
-<meta name="twitter:description" content="Każdy bardziej zaawansowany administrator sieci prędzej czy później będzie chciał wdrożyć na swoim
-routerze wyposażonym w firmware OpenWRT pewien mechanizm QoS umożliwiający kształtowanie ruchu
-sieciowego. Ci, którzy się za ten temat zabierali, wiedzą, że nie jest on prosty w realizacji.
-Zwłaszcza, gdy chce się cały ten system zarządzania pakietami skonfigurować od podstaw przy pomocy
-narzędzi takich jak iptables , tc oraz ip . Z tego też względu OpenWRT umożliwia nam nieco
-prostszą w konfiguracji alternatywę polegającą na zainstalowaniu narzędzi zawartych w pakietach
-wshaper , qos-scripts lub sqm-scripts . Trzeba przy tym pamiętać, że mechanizm, który zostanie
-stworzony z wykorzystaniem jednego z tych w/w pakietów nie będzie tak elastyczny jak przy ręcznej
-konfiguracji od podstaw. Niemniej jednak, w tym artykule postaramy się ogarnąć kształtowanie ruchu
-przy pomocy tych pakietów."/>
+		
+  <meta itemprop="name" content="Kształtowanie ruchu z qos-scripts w OpenWRT">
+  <meta itemprop="description" content="Każdy bardziej zaawansowany administrator sieci prędzej czy później będzie chciał wdrożyć na swoim routerze wyposażonym w firmware OpenWRT pewien mechanizm QoS umożliwiający kształtowanie ruchu sieciowego. Ci, którzy się za ten temat zabierali, wiedzą, że nie jest on prosty w realizacji. Zwłaszcza, gdy chce się cały ten system zarządzania pakietami skonfigurować od podstaw przy pomocy narzędzi takich jak iptables , tc oraz ip . Z tego też względu OpenWRT umożliwia nam nieco prostszą w konfiguracji alternatywę polegającą na zainstalowaniu narzędzi zawartych w pakietach wshaper , qos-scripts lub sqm-scripts . Trzeba przy tym pamiętać, że mechanizm, który zostanie stworzony z wykorzystaniem jednego z tych w/w pakietów nie będzie tak elastyczny jak przy ręcznej konfiguracji od podstaw. Niemniej jednak, w tym artykule postaramy się ogarnąć kształtowanie ruchu przy pomocy tych pakietów.">
+  <meta itemprop="datePublished" content="2016-07-08T18:00:54+00:00">
+  <meta itemprop="dateModified" content="2016-07-08T18:00:54+00:00">
+  <meta itemprop="wordCount" content="964">
+  <meta itemprop="keywords" content="Chaos-Calmer,Router,Qos">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kształtowanie ruchu z qos-scripts w OpenWRT">
+  <meta name="twitter:description" content="Każdy bardziej zaawansowany administrator sieci prędzej czy później będzie chciał wdrożyć na swoim routerze wyposażonym w firmware OpenWRT pewien mechanizm QoS umożliwiający kształtowanie ruchu sieciowego. Ci, którzy się za ten temat zabierali, wiedzą, że nie jest on prosty w realizacji. Zwłaszcza, gdy chce się cały ten system zarządzania pakietami skonfigurować od podstaw przy pomocy narzędzi takich jak iptables , tc oraz ip . Z tego też względu OpenWRT umożliwia nam nieco prostszą w konfiguracji alternatywę polegającą na zainstalowaniu narzędzi zawartych w pakietach wshaper , qos-scripts lub sqm-scripts . Trzeba przy tym pamiętać, że mechanizm, który zostanie stworzony z wykorzystaniem jednego z tych w/w pakietów nie będzie tak elastyczny jak przy ręcznej konfiguracji od podstaw. Niemniej jednak, w tym artykule postaramy się ogarnąć kształtowanie ruchu przy pomocy tych pakietów.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -57,19 +38,11 @@ przy pomocy tych pakietów."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -128,11 +101,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2016-07-08T18:00:54Z">Opublikowano: 08/07/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Kształtowanie ruchu z qos-scripts w OpenWRT</h1>
 <details class="entry__toc toc" >
@@ -256,9 +229,9 @@ na temat tych modułów można znaleźć <a href="http://ipset.netfilter.org/ipt
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chaos-calmer/">chaos-calmer</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">router</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/qos/">qos</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chaos-calmer/">Chaos-Calmer</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">Router</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/qos/">Qos</a>
 </div>
 					
 <div class="entry__share share">
@@ -359,6 +332,9 @@ na temat tych modułów można znaleźć <a href="http://ipset.netfilter.org/ipt
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

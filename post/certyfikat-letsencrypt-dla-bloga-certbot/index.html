@@ -2,51 +2,38 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Certyfikat Let&#39;s Encrypt dla bloga WordPress (certbot) | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Certyfikat Let&#39;s Encrypt dla bloga WordPress (certbot)" />
-<meta property="og:description" content="Jeszcze nie tak dawno temu, rzadko który serwis internetowy wykorzystywał certyfikaty SSL/TLS do
-zabezpieczenia komunikacji między serwerem, a łączącymi się do niego klientami. W dalszym ciągu
-jednak notuje się strony bez &quot;zielonej kłódki&quot; ale na szczęście jest ich coraz mniej w naszym
-otoczeniu. Liczbę tych stron można by z powodzeniem ograniczyć jeszcze bardziej, gdyby takie
-certyfikaty były za free, łatwe do zaimplementowania i dostępne praktycznie dla każdego od tak. No i
-na dobrą sprawę są, tylko ludzie jeszcze nie zdają sobie z tego sprawy. Istnieje bowiem projekt
-Let&#39;s Encrypt, który umożliwia stosunkowo bardzo proste wdrożenie
-certyfikatu na serwerze www opartym, np. o oprogramowanie Apache2. W tym wpisie zobaczymy jak ta
-cała procedura implementacji certyfikatu SSL/TLS przebiega." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/certyfikat-letsencrypt-dla-bloga-certbot/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2016-07-23T12:00:28+00:00" />
-<meta property="article:modified_time" content="2016-07-23T12:00:28+00:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/certyfikat-letsencrypt-dla-bloga-certbot/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Certyfikat Let&#39;s Encrypt dla bloga WordPress (certbot)">
+  <meta property="og:description" content="Jeszcze nie tak dawno temu, rzadko który serwis internetowy wykorzystywał certyfikaty SSL/TLS do zabezpieczenia komunikacji między serwerem, a łączącymi się do niego klientami. W dalszym ciągu jednak notuje się strony bez &#34;zielonej kłódki&#34; ale na szczęście jest ich coraz mniej w naszym otoczeniu. Liczbę tych stron można by z powodzeniem ograniczyć jeszcze bardziej, gdyby takie certyfikaty były za free, łatwe do zaimplementowania i dostępne praktycznie dla każdego od tak. No i na dobrą sprawę są, tylko ludzie jeszcze nie zdają sobie z tego sprawy. Istnieje bowiem projekt Let&#39;s Encrypt, który umożliwia stosunkowo bardzo proste wdrożenie certyfikatu na serwerze www opartym, np. o oprogramowanie Apache2. W tym wpisie zobaczymy jak ta cała procedura implementacji certyfikatu SSL/TLS przebiega.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2016-07-23T12:00:28+00:00">
+    <meta property="article:modified_time" content="2016-07-23T12:00:28+00:00">
+    <meta property="article:tag" content="Apache2">
+    <meta property="article:tag" content="Wordpress">
+    <meta property="article:tag" content="Certyfikaty">
+    <meta property="article:tag" content="Ssl">
+    <meta property="article:tag" content="Tls">
+    <meta property="article:tag" content="Letsencrypt">
 
-
-		<meta itemprop="name" content="Certyfikat Let&#39;s Encrypt dla bloga WordPress (certbot)">
-<meta itemprop="description" content="Jeszcze nie tak dawno temu, rzadko który serwis internetowy wykorzystywał certyfikaty SSL/TLS do
-zabezpieczenia komunikacji między serwerem, a łączącymi się do niego klientami. W dalszym ciągu
-jednak notuje się strony bez &quot;zielonej kłódki&quot; ale na szczęście jest ich coraz mniej w naszym
-otoczeniu. Liczbę tych stron można by z powodzeniem ograniczyć jeszcze bardziej, gdyby takie
-certyfikaty były za free, łatwe do zaimplementowania i dostępne praktycznie dla każdego od tak. No i
-na dobrą sprawę są, tylko ludzie jeszcze nie zdają sobie z tego sprawy. Istnieje bowiem projekt
-Let&#39;s Encrypt, który umożliwia stosunkowo bardzo proste wdrożenie
-certyfikatu na serwerze www opartym, np. o oprogramowanie Apache2. W tym wpisie zobaczymy jak ta
-cała procedura implementacji certyfikatu SSL/TLS przebiega."><meta itemprop="datePublished" content="2016-07-23T12:00:28+00:00" />
-<meta itemprop="dateModified" content="2016-07-23T12:00:28+00:00" />
-<meta itemprop="wordCount" content="871">
-<meta itemprop="keywords" content="apache2,wordpress,certyfikaty,ssl,tls,letsencrypt," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Certyfikat Let&#39;s Encrypt dla bloga WordPress (certbot)"/>
-<meta name="twitter:description" content="Jeszcze nie tak dawno temu, rzadko który serwis internetowy wykorzystywał certyfikaty SSL/TLS do
-zabezpieczenia komunikacji między serwerem, a łączącymi się do niego klientami. W dalszym ciągu
-jednak notuje się strony bez &quot;zielonej kłódki&quot; ale na szczęście jest ich coraz mniej w naszym
-otoczeniu. Liczbę tych stron można by z powodzeniem ograniczyć jeszcze bardziej, gdyby takie
-certyfikaty były za free, łatwe do zaimplementowania i dostępne praktycznie dla każdego od tak. No i
-na dobrą sprawę są, tylko ludzie jeszcze nie zdają sobie z tego sprawy. Istnieje bowiem projekt
-Let&#39;s Encrypt, który umożliwia stosunkowo bardzo proste wdrożenie
-certyfikatu na serwerze www opartym, np. o oprogramowanie Apache2. W tym wpisie zobaczymy jak ta
-cała procedura implementacji certyfikatu SSL/TLS przebiega."/>
+		
+  <meta itemprop="name" content="Certyfikat Let&#39;s Encrypt dla bloga WordPress (certbot)">
+  <meta itemprop="description" content="Jeszcze nie tak dawno temu, rzadko który serwis internetowy wykorzystywał certyfikaty SSL/TLS do zabezpieczenia komunikacji między serwerem, a łączącymi się do niego klientami. W dalszym ciągu jednak notuje się strony bez &#34;zielonej kłódki&#34; ale na szczęście jest ich coraz mniej w naszym otoczeniu. Liczbę tych stron można by z powodzeniem ograniczyć jeszcze bardziej, gdyby takie certyfikaty były za free, łatwe do zaimplementowania i dostępne praktycznie dla każdego od tak. No i na dobrą sprawę są, tylko ludzie jeszcze nie zdają sobie z tego sprawy. Istnieje bowiem projekt Let&#39;s Encrypt, który umożliwia stosunkowo bardzo proste wdrożenie certyfikatu na serwerze www opartym, np. o oprogramowanie Apache2. W tym wpisie zobaczymy jak ta cała procedura implementacji certyfikatu SSL/TLS przebiega.">
+  <meta itemprop="datePublished" content="2016-07-23T12:00:28+00:00">
+  <meta itemprop="dateModified" content="2016-07-23T12:00:28+00:00">
+  <meta itemprop="wordCount" content="871">
+  <meta itemprop="keywords" content="Apache2,Wordpress,Certyfikaty,Ssl,Tls,Letsencrypt">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Certyfikat Let&#39;s Encrypt dla bloga WordPress (certbot)">
+  <meta name="twitter:description" content="Jeszcze nie tak dawno temu, rzadko który serwis internetowy wykorzystywał certyfikaty SSL/TLS do zabezpieczenia komunikacji między serwerem, a łączącymi się do niego klientami. W dalszym ciągu jednak notuje się strony bez &#34;zielonej kłódki&#34; ale na szczęście jest ich coraz mniej w naszym otoczeniu. Liczbę tych stron można by z powodzeniem ograniczyć jeszcze bardziej, gdyby takie certyfikaty były za free, łatwe do zaimplementowania i dostępne praktycznie dla każdego od tak. No i na dobrą sprawę są, tylko ludzie jeszcze nie zdają sobie z tego sprawy. Istnieje bowiem projekt Let&#39;s Encrypt, który umożliwia stosunkowo bardzo proste wdrożenie certyfikatu na serwerze www opartym, np. o oprogramowanie Apache2. W tym wpisie zobaczymy jak ta cała procedura implementacji certyfikatu SSL/TLS przebiega.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -54,19 +41,11 @@ cała procedura implementacji certyfikatu SSL/TLS przebiega."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -125,12 +104,12 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2016-07-23T12:00:28Z">Opublikowano: 23/07/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>, 
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/blog/" rel="category">Blog</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Certyfikat Let&#39;s Encrypt dla bloga WordPress (certbot)</h1>
 <details class="entry__toc toc" >
@@ -271,12 +250,12 @@ niż 30 dni.</p></div>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apache2/">apache2</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wordpress/">wordpress</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/certyfikaty/">certyfikaty</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssl/">ssl</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/tls/">tls</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/letsencrypt/">letsencrypt</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apache2/">Apache2</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wordpress/">Wordpress</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/certyfikaty/">Certyfikaty</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssl/">Ssl</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/tls/">Tls</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/letsencrypt/">Letsencrypt</a>
 </div>
 					
 <div class="entry__share share">
@@ -377,6 +356,9 @@ niż 30 dni.</p></div>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

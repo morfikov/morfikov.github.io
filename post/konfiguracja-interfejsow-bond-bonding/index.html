@@ -2,60 +2,38 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0) | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)" />
-<meta property="og:description" content="W artykule poświęconym konfiguracji sieci WiFi na Debianie z wykorzystaniem narzędzia
-wpa_supplicant wspomniałem parę słów na temat interfejsu bond. Bonding na linux
-wykorzystywany jest w zasadzie do spięcia kilku interfejsów sieciowych, w tym przewodowych
-( eth0 ) i bezprzewodowych ( wlan0 ) w jeden (zwykle bond0 ). Takie rozwiązanie sprawia, że
-w przypadku awarii któregoś z podpiętych interfejsów, my nie tracimy połączenia z siecią i nie
-musimy nic nigdzie przełączać, by to połączenie przywrócić. To rozwiązanie jest o tyle użyteczne,
-że w przypadku, gdy podepniemy przewód do gniazda RJ-45 w naszym laptopie, to komunikacja będzie
-odbywać się po kablu. Natomiast jeśli przewód zostanie odłączony, to system automatycznie przejdzie
-na komunikację bezprzewodową. W tym wpisie spróbujemy zaprojektować sobie właśnie tego typu
-mechanizm zarówno za sprawą pakietu ifupdown , gdzie konfiguracja interfejsów sieciowych jest
-zarządzana przez plik /etc/network/interfaces , jak i przy pomocy natywnego rozwiązania jakie
-oferuje systemd/networkd." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2016-01-02T15:07:13+00:00" />
-<meta property="article:modified_time" content="2020-03-29T16:20:00+01:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-interfejsow-bond-bonding/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)">
+  <meta property="og:description" content="W artykule poświęconym konfiguracji sieci WiFi na Debianie z wykorzystaniem narzędzia wpa_supplicant wspomniałem parę słów na temat interfejsu bond. Bonding na linux wykorzystywany jest w zasadzie do spięcia kilku interfejsów sieciowych, w tym przewodowych ( eth0 ) i bezprzewodowych ( wlan0 ) w jeden (zwykle bond0 ). Takie rozwiązanie sprawia, że w przypadku awarii któregoś z podpiętych interfejsów, my nie tracimy połączenia z siecią i nie musimy nic nigdzie przełączać, by to połączenie przywrócić. To rozwiązanie jest o tyle użyteczne, że w przypadku, gdy podepniemy przewód do gniazda RJ-45 w naszym laptopie, to komunikacja będzie odbywać się po kablu. Natomiast jeśli przewód zostanie odłączony, to system automatycznie przejdzie na komunikację bezprzewodową. W tym wpisie spróbujemy zaprojektować sobie właśnie tego typu mechanizm zarówno za sprawą pakietu ifupdown , gdzie konfiguracja interfejsów sieciowych jest zarządzana przez plik /etc/network/interfaces , jak i przy pomocy natywnego rozwiązania jakie oferuje systemd/networkd.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2016-01-02T15:07:13+00:00">
+    <meta property="article:modified_time" content="2020-03-29T16:20:00+01:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Moduły-Kernela">
+    <meta property="article:tag" content="Wifi">
+    <meta property="article:tag" content="Systemd">
+    <meta property="article:tag" content="Sieć">
+    <meta property="article:tag" content="Bonding">
 
-
-		<meta itemprop="name" content="Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)">
-<meta itemprop="description" content="W artykule poświęconym konfiguracji sieci WiFi na Debianie z wykorzystaniem narzędzia
-wpa_supplicant wspomniałem parę słów na temat interfejsu bond. Bonding na linux
-wykorzystywany jest w zasadzie do spięcia kilku interfejsów sieciowych, w tym przewodowych
-( eth0 ) i bezprzewodowych ( wlan0 ) w jeden (zwykle bond0 ). Takie rozwiązanie sprawia, że
-w przypadku awarii któregoś z podpiętych interfejsów, my nie tracimy połączenia z siecią i nie
-musimy nic nigdzie przełączać, by to połączenie przywrócić. To rozwiązanie jest o tyle użyteczne,
-że w przypadku, gdy podepniemy przewód do gniazda RJ-45 w naszym laptopie, to komunikacja będzie
-odbywać się po kablu. Natomiast jeśli przewód zostanie odłączony, to system automatycznie przejdzie
-na komunikację bezprzewodową. W tym wpisie spróbujemy zaprojektować sobie właśnie tego typu
-mechanizm zarówno za sprawą pakietu ifupdown , gdzie konfiguracja interfejsów sieciowych jest
-zarządzana przez plik /etc/network/interfaces , jak i przy pomocy natywnego rozwiązania jakie
-oferuje systemd/networkd."><meta itemprop="datePublished" content="2016-01-02T15:07:13+00:00" />
-<meta itemprop="dateModified" content="2020-03-29T16:20:00+01:00" />
-<meta itemprop="wordCount" content="1426">
-<meta itemprop="keywords" content="debian,moduły-kernela,wifi,systemd,sieć,bonding," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)"/>
-<meta name="twitter:description" content="W artykule poświęconym konfiguracji sieci WiFi na Debianie z wykorzystaniem narzędzia
-wpa_supplicant wspomniałem parę słów na temat interfejsu bond. Bonding na linux
-wykorzystywany jest w zasadzie do spięcia kilku interfejsów sieciowych, w tym przewodowych
-( eth0 ) i bezprzewodowych ( wlan0 ) w jeden (zwykle bond0 ). Takie rozwiązanie sprawia, że
-w przypadku awarii któregoś z podpiętych interfejsów, my nie tracimy połączenia z siecią i nie
-musimy nic nigdzie przełączać, by to połączenie przywrócić. To rozwiązanie jest o tyle użyteczne,
-że w przypadku, gdy podepniemy przewód do gniazda RJ-45 w naszym laptopie, to komunikacja będzie
-odbywać się po kablu. Natomiast jeśli przewód zostanie odłączony, to system automatycznie przejdzie
-na komunikację bezprzewodową. W tym wpisie spróbujemy zaprojektować sobie właśnie tego typu
-mechanizm zarówno za sprawą pakietu ifupdown , gdzie konfiguracja interfejsów sieciowych jest
-zarządzana przez plik /etc/network/interfaces , jak i przy pomocy natywnego rozwiązania jakie
-oferuje systemd/networkd."/>
+		
+  <meta itemprop="name" content="Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)">
+  <meta itemprop="description" content="W artykule poświęconym konfiguracji sieci WiFi na Debianie z wykorzystaniem narzędzia wpa_supplicant wspomniałem parę słów na temat interfejsu bond. Bonding na linux wykorzystywany jest w zasadzie do spięcia kilku interfejsów sieciowych, w tym przewodowych ( eth0 ) i bezprzewodowych ( wlan0 ) w jeden (zwykle bond0 ). Takie rozwiązanie sprawia, że w przypadku awarii któregoś z podpiętych interfejsów, my nie tracimy połączenia z siecią i nie musimy nic nigdzie przełączać, by to połączenie przywrócić. To rozwiązanie jest o tyle użyteczne, że w przypadku, gdy podepniemy przewód do gniazda RJ-45 w naszym laptopie, to komunikacja będzie odbywać się po kablu. Natomiast jeśli przewód zostanie odłączony, to system automatycznie przejdzie na komunikację bezprzewodową. W tym wpisie spróbujemy zaprojektować sobie właśnie tego typu mechanizm zarówno za sprawą pakietu ifupdown , gdzie konfiguracja interfejsów sieciowych jest zarządzana przez plik /etc/network/interfaces , jak i przy pomocy natywnego rozwiązania jakie oferuje systemd/networkd.">
+  <meta itemprop="datePublished" content="2016-01-02T15:07:13+00:00">
+  <meta itemprop="dateModified" content="2020-03-29T16:20:00+01:00">
+  <meta itemprop="wordCount" content="1426">
+  <meta itemprop="keywords" content="Debian,Moduły-Kernela,Wifi,Systemd,Sieć,Bonding">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)">
+  <meta name="twitter:description" content="W artykule poświęconym konfiguracji sieci WiFi na Debianie z wykorzystaniem narzędzia wpa_supplicant wspomniałem parę słów na temat interfejsu bond. Bonding na linux wykorzystywany jest w zasadzie do spięcia kilku interfejsów sieciowych, w tym przewodowych ( eth0 ) i bezprzewodowych ( wlan0 ) w jeden (zwykle bond0 ). Takie rozwiązanie sprawia, że w przypadku awarii któregoś z podpiętych interfejsów, my nie tracimy połączenia z siecią i nie musimy nic nigdzie przełączać, by to połączenie przywrócić. To rozwiązanie jest o tyle użyteczne, że w przypadku, gdy podepniemy przewód do gniazda RJ-45 w naszym laptopie, to komunikacja będzie odbywać się po kablu. Natomiast jeśli przewód zostanie odłączony, to system automatycznie przejdzie na komunikację bezprzewodową. W tym wpisie spróbujemy zaprojektować sobie właśnie tego typu mechanizm zarówno za sprawą pakietu ifupdown , gdzie konfiguracja interfejsów sieciowych jest zarządzana przez plik /etc/network/interfaces , jak i przy pomocy natywnego rozwiązania jakie oferuje systemd/networkd.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -63,19 +41,11 @@ oferuje systemd/networkd."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -135,11 +105,11 @@ if (!doNotTrack) {
 	<time class="entry__meta-published meta-published" datetime="2016-01-02T15:07:13Z">Opublikowano: 02/01/2016</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-03-29T16:20:00&#43;01:00">Zaktualizowano: 29/03/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Jak skonfigurować bonding w Debian linux (eth0&#43;wlan0)</h1>
 <details class="entry__toc toc" >
@@ -382,12 +352,11 @@ IDX LINK  TYPE     OPERATIONAL SETUP
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/modu%C5%82y-kernela/">moduły-kernela</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wifi/">wifi</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/siec/">sieć</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bonding/">bonding</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/modu%C5%82y-kernela/">Moduły-Kernela</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wifi/">Wifi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">Systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bonding/">Bonding</a>
 </div>
 					
 <div class="entry__share share">
@@ -488,6 +457,9 @@ IDX LINK  TYPE     OPERATIONAL SETUP
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

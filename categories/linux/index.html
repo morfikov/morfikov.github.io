@@ -2,23 +2,26 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Linux | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta name="robots" content="noindex, follow" />
-		<meta property="og:title" content="Linux" />
-<meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://morfikov.github.io/categories/linux/" />
+		<meta property="og:url" content="https://morfikov.github.io/categories/linux/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Linux">
+  <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="website">
 
-
-		<meta itemprop="name" content="Linux">
-<meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Linux"/>
-<meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)"/>
+		
+  <meta itemprop="name" content="Linux">
+  <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+  <meta itemprop="dateModified" content="2024-06-03T20:00:00+02:00">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux">
+  <meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -27,19 +30,11 @@
 	<link rel="alternate" type="application/rss+xml" href="https://morfikov.github.io/categories/linux/feed.xml" title="Morfitronik">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-term">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -101,6 +96,38 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs/">Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)</a></h1>
+	<div class="entry__content"><p>Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne
+systemy operacyjne (począwszy od linux'ów, przez androidy, a na windows'ach skończywszy), to
+postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej
+sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux'ów. Serwery
+HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś
+większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows.
+W zasadzie to pozostała mi ostatnia opcja w postaci protokołu <a href="https://www.samba.org/">CIFS/SMB/SAMBA</a>, który
+przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego
+Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w
+stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez
+znaczenia czy robimy to z windows'a i docelowo siedzimy na linux'ie, czy też w drugą stronę, tj.
+udostępniamy katalogi z linux'a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie
+obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet
+<code>samba</code> , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy
+sobie nieco ułatwić życie, tak by w menadżerze plików (np. <code>nemo</code> , <code>caja</code> , <code>pcmanfm</code> ) te
+wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do
+rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2024-06-03T20:00:00&#43;02:00">Opublikowano: 03/06/2024</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/przestrzen-wymiany-swap-tylko-na-potrzebny-hibernacji-w-debian-linux/">Przestrzeń wymiany SWAP tylko na potrzebny hibernacji w Debian linux</a></h1>
 	<div class="entry__content"><p>W obecnych czasach, rola przestrzeni wymiany w zasadzie ograniczyła się z grubsza do umożliwienia
 nam przeprowadzenia procesu hibernacji. Inne aspekty pracy systemu, w których SWAP brał udział
@@ -120,11 +147,11 @@ wymiany przed tego typu sytuacjami, tak by można było jej używać jedynie w p
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2024-01-10T20:05:00&#43;01:00">Opublikowano: 10/01/2024</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -150,11 +177,11 @@ zaszyfrowanego systemu na bazie LUKS+LVM.</p></div>
 	<time class="entry__meta-published meta-published" datetime="2023-12-15T17:00:00&#43;01:00">Opublikowano: 15/12/2023</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2024-01-06T17:30:00&#43;01:00">Zaktualizowano: 06/01/2024</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -180,11 +207,11 @@ załadowane.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2022-12-13T13:03:00&#43;01:00">Opublikowano: 13/12/2022</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -206,11 +233,11 @@ niniejszy wpis.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2022-11-21T17:42:00&#43;01:00">Opublikowano: 21/11/2022</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -236,11 +263,11 @@ zajmiemy w niniejszym artykule.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2022-02-01T18:09:00&#43;01:00">Opublikowano: 01/02/2022</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -260,12 +287,12 @@ przynajmniej nie bez zaprzęgnięcia do tego celu emulatora QEMU.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2021-11-07T10:20:00&#43;01:00">Opublikowano: 07/11/2021</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/raspberrypi/" rel="category">RaspberryPi</a>, 
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -289,11 +316,11 @@ specjalnie trudne zadanie, zwłaszcza, gdy na linux zaprzęgnie się do tego cel
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2021-10-26T19:57:00&#43;02:00">Opublikowano: 26/10/2021</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -319,11 +346,11 @@ przydałoby się go wyłączyć.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2021-10-14T23:52:00&#43;02:00">Opublikowano: 14/10/2021</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -347,45 +374,12 @@ poziomu dowolnej dystrybucji linux'a.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2021-09-30T02:43:00&#43;02:00">Opublikowano: 30/09/2021</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>, 
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/kopia-zapasowa-danych-smartfona-z-androidem-oandbackupx-syncthing/">Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)</a></h1>
-	<div class="entry__content"><p>Jak to zwykło się mawiać w świecie IT: ludzie dzielą się na te osobniki, które robią backup i
-te, co backup robić będą. Jakiś czas temu pochyliłem się nad zagadnieniem <a href="https://morfikov.github.io/post/czy-smartfon-z-androidem-bez-google-apps-services-ma-sens/">czy smartfon z
-Androidem bez Google Play Services ma sens</a>. Poruszyłem tam problem tworzenia kopi zapasowej
-danych użytkownika zgromadzonych w telefonie. W tym podlinkowanym artykule zostało przestawione jak
-przy pomocy TWRP dokonać pełnego backupu całego systemu urządzenia i o ile pod względem technicznym
-takie podejście było jak najbardziej w pełni do zaakceptowania, to jednak to rozwiązanie miało dość
-istotną wadę, tj. na czas backup'u trzeba było wyłączyć smartfon. Parę dni temu natrafiłem
-na <a href="https://github.com/machiav3lli/oandbackupx">narzędzia OAndBackupX</a>, które jest w stanie zrobić kopię zapasową wszystkich zainstalowanych
-w Androidzie aplikacji (oraz ich ustawień), wliczając w to nawet appki systemowe. OAndBackupX jest
-o tyle lepszym rozwiązaniem w stosunku do TWRP, że można przy jego pomocy robić kopię danych
-pojedynczych aplikacji, a nie od razu całego ROM'u, co nie tylko jest czasochłonne ale również
-zjada sporo miejsca na dysku komputera, czy gdzie ten backup zamierzamy przechowywać. Niestety
-OAndBackupX wymaga uprawnień root, zatem na stock'owym ROM'ie producenta naszego telefonu nie damy
-rady z tego narzędzia skorzystać. Jeśli jednak mamy alternatywny ROM na bazie AOSP/LineageOS, to
-przydałoby się rzucić okiem na ten kawałek oprogramowania, bo zdaje się ono być wielce użyteczne,
-zwłaszcza w przypadku osób mojego pokroju, czyli linux'iarzy, którzy o backup swoich danych chcą
-zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pracy choćby <a href="https://github.com/syncthing/syncthing">Syncthing</a>.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2021-09-26T16:44:00&#43;02:00">Opublikowano: 26/09/2021</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>, 
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -418,6 +412,9 @@ zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pra
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

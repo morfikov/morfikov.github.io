@@ -2,23 +2,26 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Posts | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta name="robots" content="noindex, follow" />
-		<meta property="og:title" content="Posts" />
-<meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://morfikov.github.io/post/" />
+		<meta property="og:url" content="https://morfikov.github.io/post/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Posts">
+  <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="website">
 
-
-		<meta itemprop="name" content="Posts">
-<meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Posts"/>
-<meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)"/>
+		
+  <meta itemprop="name" content="Posts">
+  <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+  <meta itemprop="dateModified" content="2024-06-03T20:00:00+02:00">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Posts">
+  <meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -27,19 +30,11 @@
 	<link rel="alternate" type="application/rss+xml" href="https://morfikov.github.io/post/feed.xml" title="Morfitronik">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-section">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -98,6 +93,36 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/quality-service-qos-w-openwrt/">Quality of Service (QoS) w OpenWRT</a></h1>
+	<div class="entry__content"><p>Wszyscy spotkaliśmy się z sytuacją, w której z bliżej nieokreślonego powodu nie mogliśmy przeglądać
+stron w internecie. Niby połączenie jest, mamy też dobrej klasy ISP ale net nam muli. W olbrzymiej
+części przypadków winą można obarczyć sieć <a href="https://pl.wikipedia.org/wiki/Peer-to-peer">Peer to Peer
+(P2P)</a>. Przy nieodpowiedniej konfiguracji klientów tej
+sieci może dojść do nawiązywania całej masy połączeń w ułamku chwili. W ten sposób nawet jeśli nic
+aktualnie nie wysyłamy lub nie pobieramy, to i tak te połączenia same w sobie zapychają łącze, no bo
+przecież nawet puste pakiety w protokołach TCP/UDP zawierają nagłówki, a te już swoje ważą. Gdy sami
+korzystamy z łącza, to taka sytuacja nie stanowi większego problemu, bo wystarczy odpalić klienta
+torrent'a w wolnym czasie. Natomiast w przypadku, gdy zachodzi potrzeba wejścia na jakiś serwis www,
+to możemy zwyczajnie tego klienta wyłączyć. Nie jest to jednak wygodne. Jak zatem wyeliminować
+problemy związane z siecią P2P? Jeśli na routerze mamy wgrany firmware OpenWRT, to możemy
+zaimplementować na nim <a href="https://pl.wikipedia.org/wiki/Quality_of_service">mechanizm QoS (Qality of
+Service)</a>. W ten sposób możemy nadać usługom
+priorytety. W niniejszym wpisie postaramy się wdrożyć takie rozwiązanie w oparciu o narzędzia
+<code>iptables</code> oraz <code>tc</code> .</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-05-19T15:07:54Z">Opublikowano: 19/05/2016</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/target-mark-w-iptables/">Target MARK w iptables (sumowanie oznaczeń)</a></h1>
 	<div class="entry__content"><p>Pakiety i połączenia można oznaczać w <code>iptables</code> za pomocą target <code>MARK</code> oraz <code>CONNMARK</code> . Ta
 właściwość tego filtra jest znana chyba większość użytkowników linux'a. Z reguły nie interesujemy
@@ -111,11 +136,11 @@ jak i drugiego mechanizmu? To właśnie spróbujemy ustalić w tym wpisie.</p></
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-05-18T15:17:25Z">Opublikowano: 18/05/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -138,11 +163,11 @@ różnych ISP.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-05-15T13:37:08Z">Opublikowano: 15/05/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -161,11 +186,11 @@ skonfigurować to powyższe urządzenie.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-05-11T21:45:38Z">Opublikowano: 11/05/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -188,11 +213,11 @@ sieci LAN.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-05-11T21:39:37Z">Opublikowano: 11/05/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -212,11 +237,11 @@ wydruku w oparciu o drukarkę EPSON Stylus Color 760 i oprogramowanie <code>p910
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-05-11T19:32:50Z">Opublikowano: 11/05/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -235,11 +260,11 @@ artykule zobaczymy jak przy pomocy <code>TRACE</code> ustalić, przez które reg
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-05-11T13:20:25Z">Opublikowano: 11/05/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -263,11 +288,11 @@ do praktycznie każdego serwisu www. W tym artykule zobaczymy jak taki filtr sko
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-05-10T22:17:38Z">Opublikowano: 10/05/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -288,11 +313,11 @@ te zadania realizowane są przez <code>iptables</code> i w tym wpisie postaramy 
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-05-09T23:26:58Z">Opublikowano: 09/05/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -310,35 +335,11 @@ zasadę działania tego mechanizmu.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-05-09T22:09:47Z">Opublikowano: 09/05/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
 	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/kompromitacja-firewalla-openwrt-za-sprawa-ping/">Kompromitacja firewall&#39;a OpenWRT za sprawą ping</a></h1>
-	<div class="entry__content"><p>Ten standardowy firewall, który oferuje OpenWRT, ma w zamiarze blokować wszystkie nowe próby
-połączeń od strony WAN. Faktycznie tak jest w istocie. Niemniej jednak, mamy tam jedną regułę,
-która zezwala na wysyłanie żądań <code>ping</code> . Niby te żądania wydają się być niepozorne ale przy takiej
-konfiguracji <code>iptables</code> jaką oferuje OpenWRT istnieje ryzyko, że ktoś z zewnątrz może utworzyć sporo
-sesji bez jakiegokolwiek nadzoru. Każda z tych sesji musi być śledzona przez kernel w tablicy
-conntrack'a. Nie mając kontroli nad tym ile takich sesji może zostać utworzonych, łatwo może dojść
-do zapełnienia tej tablicy. Jeśli do tego dojdzie, to router przestanie nawiązywać nowe połączenia.
-Przydałoby się zatem jakoś ten cały <code>ping</code> ogarnąć i to niekoniecznie blokując go po stronie WAN. W
-tym wpisie zaimplementujemy sobie mechanizm ochrony przez tego typu zagrożeniem.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2016-05-09T15:40:47Z">Opublikowano: 09/05/2016</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
-	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -352,10 +353,10 @@ tym wpisie zaimplementujemy sobie mechanizm ochrony przez tego typu zagrożeniem
 				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/post/page/3/">3</a>
 			<span class="pagination__item pagination__item--gap">&hellip;</span>
 				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/post/page/29/">29</a>
-				<span class="pagination__item pagination__item--active" data-total="59">30</span>
+				<span class="pagination__item pagination__item--active" data-total="60">30</span>
 				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/post/page/31/">31</a>
 			<span class="pagination__item pagination__item--gap">&hellip;</span>
-				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/post/page/59/">59</a>
+				<a class="pagination__item pagination__item--desktop" href="https://morfikov.github.io/post/page/60/">60</a>
 </div>
 
 	</div>
@@ -375,6 +376,9 @@ tym wpisie zaimplementujemy sobie mechanizm ochrony przez tego typu zagrożeniem
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

@@ -2,66 +2,36 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux" />
-<meta property="og:description" content="Zapewne wielu użytkowników Debiana zdążyło już zauważyć, że od wydania 10 (Buster), AppArmor jest
-włączony domyślnie. Nie powinien on raczej sprawiać żadnych problemów po doinstalowaniu pakietów
-apparmor-profiles oraz apparmor-profiles-extra , które zawierają szereg profili pod różne
-aplikacje użytkowe. Niemniej jednak, pewnych procesów nie da się ograniczyć przez AppArmor,
-przynajmniej nie w standardowy sposób. Chodzi o to, że jeśli mamy już odpalony jakiś proces, to nie
-ma możliwości zamknąć go w profilu AA do momentu aż zakończy on swoje działanie i zostanie
-uruchomiony ponownie. Profile AppArmor&#39;a są ładowane podczas startu systemu w pewnym określonym
-momencie ale szereg procesów systemowych startuje sporo wcześniej w stosunku do usługi AppArmor&#39;a.
-W taki sposób nawet jeśli w późniejszym czasie profile zostaną załadowane, to i tak część procesów
-nie będzie ograniczona bez względu na to czy zdefiniowaliśmy im zestaw reguł. Oczywiście można
-próbować restartować usługi lub szeregować je po apparmor.service ale nie zawsze tak się da
-zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppArmor&#39;a w fazie
-initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu
-z PID z numerkiem 1 ." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/jak-zaladowac-profile-apparmor-w-fazie-initrd-initramfs-na-debian-linux/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2019-09-23T19:05:21+02:00" />
-<meta property="article:modified_time" content="2020-09-02T17:50:00+02:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/jak-zaladowac-profile-apparmor-w-fazie-initrd-initramfs-na-debian-linux/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux">
+  <meta property="og:description" content="Zapewne wielu użytkowników Debiana zdążyło już zauważyć, że od wydania 10 (Buster), AppArmor jest włączony domyślnie. Nie powinien on raczej sprawiać żadnych problemów po doinstalowaniu pakietów apparmor-profiles oraz apparmor-profiles-extra , które zawierają szereg profili pod różne aplikacje użytkowe. Niemniej jednak, pewnych procesów nie da się ograniczyć przez AppArmor, przynajmniej nie w standardowy sposób. Chodzi o to, że jeśli mamy już odpalony jakiś proces, to nie ma możliwości zamknąć go w profilu AA do momentu aż zakończy on swoje działanie i zostanie uruchomiony ponownie. Profile AppArmor&#39;a są ładowane podczas startu systemu w pewnym określonym momencie ale szereg procesów systemowych startuje sporo wcześniej w stosunku do usługi AppArmor&#39;a. W taki sposób nawet jeśli w późniejszym czasie profile zostaną załadowane, to i tak część procesów nie będzie ograniczona bez względu na to czy zdefiniowaliśmy im zestaw reguł. Oczywiście można próbować restartować usługi lub szeregować je po apparmor.service ale nie zawsze tak się da zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppArmor&#39;a w fazie initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu z PID z numerkiem 1 .">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2019-09-23T19:05:21+02:00">
+    <meta property="article:modified_time" content="2020-09-02T17:50:00+02:00">
+    <meta property="article:tag" content="Apparmor">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Initrd">
+    <meta property="article:tag" content="Initramfs">
 
-
-		<meta itemprop="name" content="Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux">
-<meta itemprop="description" content="Zapewne wielu użytkowników Debiana zdążyło już zauważyć, że od wydania 10 (Buster), AppArmor jest
-włączony domyślnie. Nie powinien on raczej sprawiać żadnych problemów po doinstalowaniu pakietów
-apparmor-profiles oraz apparmor-profiles-extra , które zawierają szereg profili pod różne
-aplikacje użytkowe. Niemniej jednak, pewnych procesów nie da się ograniczyć przez AppArmor,
-przynajmniej nie w standardowy sposób. Chodzi o to, że jeśli mamy już odpalony jakiś proces, to nie
-ma możliwości zamknąć go w profilu AA do momentu aż zakończy on swoje działanie i zostanie
-uruchomiony ponownie. Profile AppArmor&#39;a są ładowane podczas startu systemu w pewnym określonym
-momencie ale szereg procesów systemowych startuje sporo wcześniej w stosunku do usługi AppArmor&#39;a.
-W taki sposób nawet jeśli w późniejszym czasie profile zostaną załadowane, to i tak część procesów
-nie będzie ograniczona bez względu na to czy zdefiniowaliśmy im zestaw reguł. Oczywiście można
-próbować restartować usługi lub szeregować je po apparmor.service ale nie zawsze tak się da
-zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppArmor&#39;a w fazie
-initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu
-z PID z numerkiem 1 ."><meta itemprop="datePublished" content="2019-09-23T19:05:21+02:00" />
-<meta itemprop="dateModified" content="2020-09-02T17:50:00+02:00" />
-<meta itemprop="wordCount" content="930">
-<meta itemprop="keywords" content="apparmor,debian,initrd,initramfs," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux"/>
-<meta name="twitter:description" content="Zapewne wielu użytkowników Debiana zdążyło już zauważyć, że od wydania 10 (Buster), AppArmor jest
-włączony domyślnie. Nie powinien on raczej sprawiać żadnych problemów po doinstalowaniu pakietów
-apparmor-profiles oraz apparmor-profiles-extra , które zawierają szereg profili pod różne
-aplikacje użytkowe. Niemniej jednak, pewnych procesów nie da się ograniczyć przez AppArmor,
-przynajmniej nie w standardowy sposób. Chodzi o to, że jeśli mamy już odpalony jakiś proces, to nie
-ma możliwości zamknąć go w profilu AA do momentu aż zakończy on swoje działanie i zostanie
-uruchomiony ponownie. Profile AppArmor&#39;a są ładowane podczas startu systemu w pewnym określonym
-momencie ale szereg procesów systemowych startuje sporo wcześniej w stosunku do usługi AppArmor&#39;a.
-W taki sposób nawet jeśli w późniejszym czasie profile zostaną załadowane, to i tak część procesów
-nie będzie ograniczona bez względu na to czy zdefiniowaliśmy im zestaw reguł. Oczywiście można
-próbować restartować usługi lub szeregować je po apparmor.service ale nie zawsze tak się da
-zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppArmor&#39;a w fazie
-initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu
-z PID z numerkiem 1 ."/>
+		
+  <meta itemprop="name" content="Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux">
+  <meta itemprop="description" content="Zapewne wielu użytkowników Debiana zdążyło już zauważyć, że od wydania 10 (Buster), AppArmor jest włączony domyślnie. Nie powinien on raczej sprawiać żadnych problemów po doinstalowaniu pakietów apparmor-profiles oraz apparmor-profiles-extra , które zawierają szereg profili pod różne aplikacje użytkowe. Niemniej jednak, pewnych procesów nie da się ograniczyć przez AppArmor, przynajmniej nie w standardowy sposób. Chodzi o to, że jeśli mamy już odpalony jakiś proces, to nie ma możliwości zamknąć go w profilu AA do momentu aż zakończy on swoje działanie i zostanie uruchomiony ponownie. Profile AppArmor&#39;a są ładowane podczas startu systemu w pewnym określonym momencie ale szereg procesów systemowych startuje sporo wcześniej w stosunku do usługi AppArmor&#39;a. W taki sposób nawet jeśli w późniejszym czasie profile zostaną załadowane, to i tak część procesów nie będzie ograniczona bez względu na to czy zdefiniowaliśmy im zestaw reguł. Oczywiście można próbować restartować usługi lub szeregować je po apparmor.service ale nie zawsze tak się da zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppArmor&#39;a w fazie initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu z PID z numerkiem 1 .">
+  <meta itemprop="datePublished" content="2019-09-23T19:05:21+02:00">
+  <meta itemprop="dateModified" content="2020-09-02T17:50:00+02:00">
+  <meta itemprop="wordCount" content="930">
+  <meta itemprop="keywords" content="Apparmor,Debian,Initrd,Initramfs">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux">
+  <meta name="twitter:description" content="Zapewne wielu użytkowników Debiana zdążyło już zauważyć, że od wydania 10 (Buster), AppArmor jest włączony domyślnie. Nie powinien on raczej sprawiać żadnych problemów po doinstalowaniu pakietów apparmor-profiles oraz apparmor-profiles-extra , które zawierają szereg profili pod różne aplikacje użytkowe. Niemniej jednak, pewnych procesów nie da się ograniczyć przez AppArmor, przynajmniej nie w standardowy sposób. Chodzi o to, że jeśli mamy już odpalony jakiś proces, to nie ma możliwości zamknąć go w profilu AA do momentu aż zakończy on swoje działanie i zostanie uruchomiony ponownie. Profile AppArmor&#39;a są ładowane podczas startu systemu w pewnym określonym momencie ale szereg procesów systemowych startuje sporo wcześniej w stosunku do usługi AppArmor&#39;a. W taki sposób nawet jeśli w późniejszym czasie profile zostaną załadowane, to i tak część procesów nie będzie ograniczona bez względu na to czy zdefiniowaliśmy im zestaw reguł. Oczywiście można próbować restartować usługi lub szeregować je po apparmor.service ale nie zawsze tak się da zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppArmor&#39;a w fazie initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu z PID z numerkiem 1 .">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -69,19 +39,11 @@ z PID z numerkiem 1 ."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -141,11 +103,11 @@ if (!doNotTrack) {
 	<time class="entry__meta-published meta-published" datetime="2019-09-23T19:05:21&#43;02:00">Opublikowano: 23/09/2019</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-09-02T17:50:00&#43;02:00">Zaktualizowano: 02/09/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux</h1>
 <details class="entry__toc toc" >
@@ -320,10 +282,10 @@ wiele szybciej niż w sytuacji, gdy nie robiło się użytku z tego cache.</p></
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apparmor/">apparmor</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/initrd/">initrd</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/initramfs/">initramfs</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apparmor/">Apparmor</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/initrd/">Initrd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/initramfs/">Initramfs</a>
 </div>
 					
 <div class="entry__share share">
@@ -424,6 +386,9 @@ wiele szybciej niż w sytuacji, gdy nie robiło się użytku z tego cache.</p></
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

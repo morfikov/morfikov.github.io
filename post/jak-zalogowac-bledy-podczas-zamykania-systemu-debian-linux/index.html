@@ -2,63 +2,35 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Jak zalogować błędy podczas zamykania systemu Debian Linux | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Jak zalogować błędy podczas zamykania systemu Debian Linux" />
-<meta property="og:description" content="By wyłączyć komputer, jego system operacyjny musi pierw zatrzymać (lub też ubić siłowo) wszystkie
-działające usługi za wyjątkiem tego mającego PID z numerkiem 1. Zwykle proces zamykania się systemu
-Debian Linux nie trwa więcej niż parę sekund ale czasami pojawiają się dziwne problemy, które mogą
-to zadanie utrudnić lub też całkowicie uniemożliwić. Nawet jeśli system będzie się w stanie
-zresetować, to zanim to nastąpi, to na konsoli mogą pojawić się komunikaty mogące pomóc nam w
-zdiagnozowaniu dolegliwości, która doskwiera naszej maszynie. Problem w tym, że część tych
-wiadomości nie zostanie nigdy zalogowana do pliku, gdzie moglibyśmy ich poszukać. Dzieje się tak
-dlatego, że w pewnym określonym momencie zamykania się systemu trzeba wyłączyć usługę logowania, co
-zwykle widać w logu jako systemd-journald[]: Journal stopped . Gdy dziennik zostanie zatrzymany,
-żadna wiadomość, która od tego momentu pojawi się na ekranie, nie zostanie już zalogowana do pliku.
-Jeśli teraz pojawią nam się ostrzeżenia lub błędy, a po chwili komputer się zresetuje, to możemy
-mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza. Przydałoby się zapisać
-te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/jak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2019-02-02T06:12:18+00:00" />
-<meta property="article:modified_time" content="2019-02-02T06:12:18+00:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/jak-zalogowac-bledy-podczas-zamykania-systemu-debian-linux/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Jak zalogować błędy podczas zamykania systemu Debian Linux">
+  <meta property="og:description" content="By wyłączyć komputer, jego system operacyjny musi pierw zatrzymać (lub też ubić siłowo) wszystkie działające usługi za wyjątkiem tego mającego PID z numerkiem 1. Zwykle proces zamykania się systemu Debian Linux nie trwa więcej niż parę sekund ale czasami pojawiają się dziwne problemy, które mogą to zadanie utrudnić lub też całkowicie uniemożliwić. Nawet jeśli system będzie się w stanie zresetować, to zanim to nastąpi, to na konsoli mogą pojawić się komunikaty mogące pomóc nam w zdiagnozowaniu dolegliwości, która doskwiera naszej maszynie. Problem w tym, że część tych wiadomości nie zostanie nigdy zalogowana do pliku, gdzie moglibyśmy ich poszukać. Dzieje się tak dlatego, że w pewnym określonym momencie zamykania się systemu trzeba wyłączyć usługę logowania, co zwykle widać w logu jako systemd-journald[]: Journal stopped . Gdy dziennik zostanie zatrzymany, żadna wiadomość, która od tego momentu pojawi się na ekranie, nie zostanie już zalogowana do pliku. Jeśli teraz pojawią nam się ostrzeżenia lub błędy, a po chwili komputer się zresetuje, to możemy mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza. Przydałoby się zapisać te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2019-02-02T06:12:18+00:00">
+    <meta property="article:modified_time" content="2019-02-02T06:12:18+00:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Systemd">
+    <meta property="article:tag" content="Logi">
 
-
-		<meta itemprop="name" content="Jak zalogować błędy podczas zamykania systemu Debian Linux">
-<meta itemprop="description" content="By wyłączyć komputer, jego system operacyjny musi pierw zatrzymać (lub też ubić siłowo) wszystkie
-działające usługi za wyjątkiem tego mającego PID z numerkiem 1. Zwykle proces zamykania się systemu
-Debian Linux nie trwa więcej niż parę sekund ale czasami pojawiają się dziwne problemy, które mogą
-to zadanie utrudnić lub też całkowicie uniemożliwić. Nawet jeśli system będzie się w stanie
-zresetować, to zanim to nastąpi, to na konsoli mogą pojawić się komunikaty mogące pomóc nam w
-zdiagnozowaniu dolegliwości, która doskwiera naszej maszynie. Problem w tym, że część tych
-wiadomości nie zostanie nigdy zalogowana do pliku, gdzie moglibyśmy ich poszukać. Dzieje się tak
-dlatego, że w pewnym określonym momencie zamykania się systemu trzeba wyłączyć usługę logowania, co
-zwykle widać w logu jako systemd-journald[]: Journal stopped . Gdy dziennik zostanie zatrzymany,
-żadna wiadomość, która od tego momentu pojawi się na ekranie, nie zostanie już zalogowana do pliku.
-Jeśli teraz pojawią nam się ostrzeżenia lub błędy, a po chwili komputer się zresetuje, to możemy
-mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza. Przydałoby się zapisać
-te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?"><meta itemprop="datePublished" content="2019-02-02T06:12:18+00:00" />
-<meta itemprop="dateModified" content="2019-02-02T06:12:18+00:00" />
-<meta itemprop="wordCount" content="1113">
-<meta itemprop="keywords" content="debian,systemd,logi," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Jak zalogować błędy podczas zamykania systemu Debian Linux"/>
-<meta name="twitter:description" content="By wyłączyć komputer, jego system operacyjny musi pierw zatrzymać (lub też ubić siłowo) wszystkie
-działające usługi za wyjątkiem tego mającego PID z numerkiem 1. Zwykle proces zamykania się systemu
-Debian Linux nie trwa więcej niż parę sekund ale czasami pojawiają się dziwne problemy, które mogą
-to zadanie utrudnić lub też całkowicie uniemożliwić. Nawet jeśli system będzie się w stanie
-zresetować, to zanim to nastąpi, to na konsoli mogą pojawić się komunikaty mogące pomóc nam w
-zdiagnozowaniu dolegliwości, która doskwiera naszej maszynie. Problem w tym, że część tych
-wiadomości nie zostanie nigdy zalogowana do pliku, gdzie moglibyśmy ich poszukać. Dzieje się tak
-dlatego, że w pewnym określonym momencie zamykania się systemu trzeba wyłączyć usługę logowania, co
-zwykle widać w logu jako systemd-journald[]: Journal stopped . Gdy dziennik zostanie zatrzymany,
-żadna wiadomość, która od tego momentu pojawi się na ekranie, nie zostanie już zalogowana do pliku.
-Jeśli teraz pojawią nam się ostrzeżenia lub błędy, a po chwili komputer się zresetuje, to możemy
-mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza. Przydałoby się zapisać
-te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?"/>
+		
+  <meta itemprop="name" content="Jak zalogować błędy podczas zamykania systemu Debian Linux">
+  <meta itemprop="description" content="By wyłączyć komputer, jego system operacyjny musi pierw zatrzymać (lub też ubić siłowo) wszystkie działające usługi za wyjątkiem tego mającego PID z numerkiem 1. Zwykle proces zamykania się systemu Debian Linux nie trwa więcej niż parę sekund ale czasami pojawiają się dziwne problemy, które mogą to zadanie utrudnić lub też całkowicie uniemożliwić. Nawet jeśli system będzie się w stanie zresetować, to zanim to nastąpi, to na konsoli mogą pojawić się komunikaty mogące pomóc nam w zdiagnozowaniu dolegliwości, która doskwiera naszej maszynie. Problem w tym, że część tych wiadomości nie zostanie nigdy zalogowana do pliku, gdzie moglibyśmy ich poszukać. Dzieje się tak dlatego, że w pewnym określonym momencie zamykania się systemu trzeba wyłączyć usługę logowania, co zwykle widać w logu jako systemd-journald[]: Journal stopped . Gdy dziennik zostanie zatrzymany, żadna wiadomość, która od tego momentu pojawi się na ekranie, nie zostanie już zalogowana do pliku. Jeśli teraz pojawią nam się ostrzeżenia lub błędy, a po chwili komputer się zresetuje, to możemy mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza. Przydałoby się zapisać te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?">
+  <meta itemprop="datePublished" content="2019-02-02T06:12:18+00:00">
+  <meta itemprop="dateModified" content="2019-02-02T06:12:18+00:00">
+  <meta itemprop="wordCount" content="1113">
+  <meta itemprop="keywords" content="Debian,Systemd,Logi">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jak zalogować błędy podczas zamykania systemu Debian Linux">
+  <meta name="twitter:description" content="By wyłączyć komputer, jego system operacyjny musi pierw zatrzymać (lub też ubić siłowo) wszystkie działające usługi za wyjątkiem tego mającego PID z numerkiem 1. Zwykle proces zamykania się systemu Debian Linux nie trwa więcej niż parę sekund ale czasami pojawiają się dziwne problemy, które mogą to zadanie utrudnić lub też całkowicie uniemożliwić. Nawet jeśli system będzie się w stanie zresetować, to zanim to nastąpi, to na konsoli mogą pojawić się komunikaty mogące pomóc nam w zdiagnozowaniu dolegliwości, która doskwiera naszej maszynie. Problem w tym, że część tych wiadomości nie zostanie nigdy zalogowana do pliku, gdzie moglibyśmy ich poszukać. Dzieje się tak dlatego, że w pewnym określonym momencie zamykania się systemu trzeba wyłączyć usługę logowania, co zwykle widać w logu jako systemd-journald[]: Journal stopped . Gdy dziennik zostanie zatrzymany, żadna wiadomość, która od tego momentu pojawi się na ekranie, nie zostanie już zalogowana do pliku. Jeśli teraz pojawią nam się ostrzeżenia lub błędy, a po chwili komputer się zresetuje, to możemy mieć nie lada problem z ustaleniem przyczyny mimo, że system nam ją zgłasza. Przydałoby się zapisać te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywna?">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -66,19 +38,11 @@ te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywn
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -137,11 +101,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2019-02-02T06:12:18Z">Opublikowano: 02/02/2019</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Jak zalogować błędy podczas zamykania systemu Debian Linux</h1>
 <details class="entry__toc toc" >
@@ -286,9 +250,9 @@ maszyny zostaje zainicjowany ale to zadanie nie powinno już sprawić problemu.<
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/logi/">logi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">Systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/logi/">Logi</a>
 </div>
 					
 <div class="entry__share share">
@@ -389,6 +353,9 @@ maszyny zostaje zainicjowany ale to zadanie nie powinno już sprawić problemu.<
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

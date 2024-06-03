@@ -2,54 +2,36 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Jak załadować firmware karty WiFi przed initrd/initramfs | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Jak załadować firmware karty WiFi przed initrd/initramfs" />
-<meta property="og:description" content="Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową
-sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2 . W tym przypadku sprawa dotyczyła karty Intel Corporation Centrino Advanced-N 6205 [Taylor Peak] działającej w oparciu o moduł kernela
-iwlwifi . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po
-kłopocie. No i faktycznie w Debianie jest dostępny pakiet firmware-iwlwifi , który zawiera ten
-potrzebny plik iwlwifi-6000g2a-6.ucode . Problem jednak w tym, że instalacja paczki z firmware
-niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware
-muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W
-takim przypadku zainstalowanie paczki z firmware w naszym linux&#39;ie nic nam nie da, bo pliki
-rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej
-sytuacji?" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/jak-zaladowac-firmware-karty-wifi-przed-initrd-initramfs/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2020-03-06T02:45:00+00:00" />
-<meta property="article:modified_time" content="2020-03-12T16:30:00+01:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/jak-zaladowac-firmware-karty-wifi-przed-initrd-initramfs/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Jak załadować firmware karty WiFi przed initrd/initramfs">
+  <meta property="og:description" content="Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2 . W tym przypadku sprawa dotyczyła karty Intel Corporation Centrino Advanced-N 6205 [Taylor Peak] działającej w oparciu o moduł kernela iwlwifi . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po kłopocie. No i faktycznie w Debianie jest dostępny pakiet firmware-iwlwifi , który zawiera ten potrzebny plik iwlwifi-6000g2a-6.ucode . Problem jednak w tym, że instalacja paczki z firmware niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W takim przypadku zainstalowanie paczki z firmware w naszym linux&#39;ie nic nam nie da, bo pliki rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej sytuacji?">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2020-03-06T02:45:00+00:00">
+    <meta property="article:modified_time" content="2020-03-12T16:30:00+01:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Firmware">
+    <meta property="article:tag" content="Wifi">
+    <meta property="article:tag" content="Kernel">
 
-
-		<meta itemprop="name" content="Jak załadować firmware karty WiFi przed initrd/initramfs">
-<meta itemprop="description" content="Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową
-sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2 . W tym przypadku sprawa dotyczyła karty Intel Corporation Centrino Advanced-N 6205 [Taylor Peak] działającej w oparciu o moduł kernela
-iwlwifi . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po
-kłopocie. No i faktycznie w Debianie jest dostępny pakiet firmware-iwlwifi , który zawiera ten
-potrzebny plik iwlwifi-6000g2a-6.ucode . Problem jednak w tym, że instalacja paczki z firmware
-niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware
-muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W
-takim przypadku zainstalowanie paczki z firmware w naszym linux&#39;ie nic nam nie da, bo pliki
-rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej
-sytuacji?"><meta itemprop="datePublished" content="2020-03-06T02:45:00+00:00" />
-<meta itemprop="dateModified" content="2020-03-12T16:30:00+01:00" />
-<meta itemprop="wordCount" content="849">
-<meta itemprop="keywords" content="debian,firmware,wifi,kernel," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Jak załadować firmware karty WiFi przed initrd/initramfs"/>
-<meta name="twitter:description" content="Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową
-sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2 . W tym przypadku sprawa dotyczyła karty Intel Corporation Centrino Advanced-N 6205 [Taylor Peak] działającej w oparciu o moduł kernela
-iwlwifi . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po
-kłopocie. No i faktycznie w Debianie jest dostępny pakiet firmware-iwlwifi , który zawiera ten
-potrzebny plik iwlwifi-6000g2a-6.ucode . Problem jednak w tym, że instalacja paczki z firmware
-niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware
-muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W
-takim przypadku zainstalowanie paczki z firmware w naszym linux&#39;ie nic nam nie da, bo pliki
-rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej
-sytuacji?"/>
+		
+  <meta itemprop="name" content="Jak załadować firmware karty WiFi przed initrd/initramfs">
+  <meta itemprop="description" content="Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2 . W tym przypadku sprawa dotyczyła karty Intel Corporation Centrino Advanced-N 6205 [Taylor Peak] działającej w oparciu o moduł kernela iwlwifi . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po kłopocie. No i faktycznie w Debianie jest dostępny pakiet firmware-iwlwifi , który zawiera ten potrzebny plik iwlwifi-6000g2a-6.ucode . Problem jednak w tym, że instalacja paczki z firmware niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W takim przypadku zainstalowanie paczki z firmware w naszym linux&#39;ie nic nam nie da, bo pliki rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej sytuacji?">
+  <meta itemprop="datePublished" content="2020-03-06T02:45:00+00:00">
+  <meta itemprop="dateModified" content="2020-03-12T16:30:00+01:00">
+  <meta itemprop="wordCount" content="849">
+  <meta itemprop="keywords" content="Debian,Firmware,Wifi,Kernel">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jak załadować firmware karty WiFi przed initrd/initramfs">
+  <meta name="twitter:description" content="Każdy kto ma laptopa wyposażonego w kartę WiFi, czy też ogólnie komputer posiadający bezprzewodową sieciówkę, ten prawdopodobnie spotkał się z błędem podobnym do tego: Direct firmware load for iwlwifi-6000g2a-6.ucode failed with error -2 . W tym przypadku sprawa dotyczyła karty Intel Corporation Centrino Advanced-N 6205 [Taylor Peak] działającej w oparciu o moduł kernela iwlwifi . W takich przypadkach zwykle wystarczy zainstalować firmware od określonego modułu i po kłopocie. No i faktycznie w Debianie jest dostępny pakiet firmware-iwlwifi , który zawiera ten potrzebny plik iwlwifi-6000g2a-6.ucode . Problem jednak w tym, że instalacja paczki z firmware niekoniecznie może nam pomóc. Ten powyższy przykład nie jest odosobniony i czasami pliki z firmware muszą być dostępne w chwili ładowania kernela do pamięci RAM czy też na etapie initramfs/initrd. W takim przypadku zainstalowanie paczki z firmware w naszym linux&#39;ie nic nam nie da, bo pliki rezydują na niezamontowanym jeszcze dysku. Jak zatem wybrnąć z tej wydawać by się było patowej sytuacji?">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -57,19 +39,11 @@ sytuacji?"/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -129,11 +103,11 @@ if (!doNotTrack) {
 	<time class="entry__meta-published meta-published" datetime="2020-03-06T02:45:00Z">Opublikowano: 06/03/2020</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-03-12T16:30:00&#43;01:00">Zaktualizowano: 12/03/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Jak załadować firmware karty WiFi przed initrd/initramfs</h1>
 <details class="entry__toc toc" >
@@ -278,10 +252,10 @@ wkompilowanie firmware bezpośrednio w kernel.</p></div>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/firmware/">firmware</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wifi/">wifi</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kernel/">kernel</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/firmware/">Firmware</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wifi/">Wifi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kernel/">Kernel</a>
 </div>
 					
 <div class="entry__share share">
@@ -382,6 +356,9 @@ wkompilowanie firmware bezpośrednio w kernel.</p></div>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

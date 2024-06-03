@@ -2,60 +2,37 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Memtest86 dla EFI/UEFI i rEFInd | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Memtest86 dla EFI/UEFI i rEFInd" />
-<meta property="og:description" content="Zapewne każdy z nas słyszał o narzędziu do testowania pamięci operacyjnej RAM zwanym memtest86. W
-Debianie są dostępne dwa pakiety memtest86 (strona projektu) oraz memtest86&#43;
-(strona projektu) , które można sobie zainstalować w systemie. Niemniej jednak, jak się
-popatrzy na daty ostatnich wersji obu tych aplikacji (rok 2014), to mamy do czynienia z dość starym
-oprogramowaniem. Tak czy inaczej, jeśli dany soft działa, to bez znaczenia powinno być jak stary on
-jest. Problem w przypadku memtest86 dostarczanego w tych dwóch pakietach jest taki, że działa on w
-zasadzie jedynie w konfiguracji BIOS, a nie EFI/UEFI. Dodatkowo, oryginalny memtest86 został
-sprzedany PassMark&#39;owi, który od wersji 5.0 uczynił go własnościowym softem. To dlatego w
-Debianie nie będzie już nowszej wersji memtest86. W dalszym ciągu memtest86 może działać w
-konfiguracji EFI/UEFI ale potrzebna nam jest wersja, która to EFI/UEFI wspiera. Memtest86 zaczął
-wspierać EFI/UEFI od wersji 5.0. Jeśli nam nie przeszkadza licencja własnościowa, to możemy sobie
-przygotować memtest86, tak by można go było bez problemu odpalić z menadżera rozruchu rEFInd." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/memtest86-dla-efi-uefi-i-refind/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2020-03-03T04:05:00+00:00" />
-<meta property="article:modified_time" content="2020-06-13T14:52:00+02:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/memtest86-dla-efi-uefi-i-refind/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Memtest86 dla EFI/UEFI i rEFInd">
+  <meta property="og:description" content="Zapewne każdy z nas słyszał o narzędziu do testowania pamięci operacyjnej RAM zwanym memtest86. W Debianie są dostępne dwa pakiety memtest86 (strona projektu) oraz memtest86&#43; (strona projektu) , które można sobie zainstalować w systemie. Niemniej jednak, jak się popatrzy na daty ostatnich wersji obu tych aplikacji (rok 2014), to mamy do czynienia z dość starym oprogramowaniem. Tak czy inaczej, jeśli dany soft działa, to bez znaczenia powinno być jak stary on jest. Problem w przypadku memtest86 dostarczanego w tych dwóch pakietach jest taki, że działa on w zasadzie jedynie w konfiguracji BIOS, a nie EFI/UEFI. Dodatkowo, oryginalny memtest86 został sprzedany PassMark&#39;owi, który od wersji 5.0 uczynił go własnościowym softem. To dlatego w Debianie nie będzie już nowszej wersji memtest86. W dalszym ciągu memtest86 może działać w konfiguracji EFI/UEFI ale potrzebna nam jest wersja, która to EFI/UEFI wspiera. Memtest86 zaczął wspierać EFI/UEFI od wersji 5.0. Jeśli nam nie przeszkadza licencja własnościowa, to możemy sobie przygotować memtest86, tak by można go było bez problemu odpalić z menadżera rozruchu rEFInd.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2020-03-03T04:05:00+00:00">
+    <meta property="article:modified_time" content="2020-06-13T14:52:00+02:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Efi">
+    <meta property="article:tag" content="Uefi">
+    <meta property="article:tag" content="Memtest86">
+    <meta property="article:tag" content="Refind">
 
-
-		<meta itemprop="name" content="Memtest86 dla EFI/UEFI i rEFInd">
-<meta itemprop="description" content="Zapewne każdy z nas słyszał o narzędziu do testowania pamięci operacyjnej RAM zwanym memtest86. W
-Debianie są dostępne dwa pakiety memtest86 (strona projektu) oraz memtest86&#43;
-(strona projektu) , które można sobie zainstalować w systemie. Niemniej jednak, jak się
-popatrzy na daty ostatnich wersji obu tych aplikacji (rok 2014), to mamy do czynienia z dość starym
-oprogramowaniem. Tak czy inaczej, jeśli dany soft działa, to bez znaczenia powinno być jak stary on
-jest. Problem w przypadku memtest86 dostarczanego w tych dwóch pakietach jest taki, że działa on w
-zasadzie jedynie w konfiguracji BIOS, a nie EFI/UEFI. Dodatkowo, oryginalny memtest86 został
-sprzedany PassMark&#39;owi, który od wersji 5.0 uczynił go własnościowym softem. To dlatego w
-Debianie nie będzie już nowszej wersji memtest86. W dalszym ciągu memtest86 może działać w
-konfiguracji EFI/UEFI ale potrzebna nam jest wersja, która to EFI/UEFI wspiera. Memtest86 zaczął
-wspierać EFI/UEFI od wersji 5.0. Jeśli nam nie przeszkadza licencja własnościowa, to możemy sobie
-przygotować memtest86, tak by można go było bez problemu odpalić z menadżera rozruchu rEFInd."><meta itemprop="datePublished" content="2020-03-03T04:05:00+00:00" />
-<meta itemprop="dateModified" content="2020-06-13T14:52:00+02:00" />
-<meta itemprop="wordCount" content="1031">
-<meta itemprop="keywords" content="debian,efi,uefi,memtest86,refind," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Memtest86 dla EFI/UEFI i rEFInd"/>
-<meta name="twitter:description" content="Zapewne każdy z nas słyszał o narzędziu do testowania pamięci operacyjnej RAM zwanym memtest86. W
-Debianie są dostępne dwa pakiety memtest86 (strona projektu) oraz memtest86&#43;
-(strona projektu) , które można sobie zainstalować w systemie. Niemniej jednak, jak się
-popatrzy na daty ostatnich wersji obu tych aplikacji (rok 2014), to mamy do czynienia z dość starym
-oprogramowaniem. Tak czy inaczej, jeśli dany soft działa, to bez znaczenia powinno być jak stary on
-jest. Problem w przypadku memtest86 dostarczanego w tych dwóch pakietach jest taki, że działa on w
-zasadzie jedynie w konfiguracji BIOS, a nie EFI/UEFI. Dodatkowo, oryginalny memtest86 został
-sprzedany PassMark&#39;owi, który od wersji 5.0 uczynił go własnościowym softem. To dlatego w
-Debianie nie będzie już nowszej wersji memtest86. W dalszym ciągu memtest86 może działać w
-konfiguracji EFI/UEFI ale potrzebna nam jest wersja, która to EFI/UEFI wspiera. Memtest86 zaczął
-wspierać EFI/UEFI od wersji 5.0. Jeśli nam nie przeszkadza licencja własnościowa, to możemy sobie
-przygotować memtest86, tak by można go było bez problemu odpalić z menadżera rozruchu rEFInd."/>
+		
+  <meta itemprop="name" content="Memtest86 dla EFI/UEFI i rEFInd">
+  <meta itemprop="description" content="Zapewne każdy z nas słyszał o narzędziu do testowania pamięci operacyjnej RAM zwanym memtest86. W Debianie są dostępne dwa pakiety memtest86 (strona projektu) oraz memtest86&#43; (strona projektu) , które można sobie zainstalować w systemie. Niemniej jednak, jak się popatrzy na daty ostatnich wersji obu tych aplikacji (rok 2014), to mamy do czynienia z dość starym oprogramowaniem. Tak czy inaczej, jeśli dany soft działa, to bez znaczenia powinno być jak stary on jest. Problem w przypadku memtest86 dostarczanego w tych dwóch pakietach jest taki, że działa on w zasadzie jedynie w konfiguracji BIOS, a nie EFI/UEFI. Dodatkowo, oryginalny memtest86 został sprzedany PassMark&#39;owi, który od wersji 5.0 uczynił go własnościowym softem. To dlatego w Debianie nie będzie już nowszej wersji memtest86. W dalszym ciągu memtest86 może działać w konfiguracji EFI/UEFI ale potrzebna nam jest wersja, która to EFI/UEFI wspiera. Memtest86 zaczął wspierać EFI/UEFI od wersji 5.0. Jeśli nam nie przeszkadza licencja własnościowa, to możemy sobie przygotować memtest86, tak by można go było bez problemu odpalić z menadżera rozruchu rEFInd.">
+  <meta itemprop="datePublished" content="2020-03-03T04:05:00+00:00">
+  <meta itemprop="dateModified" content="2020-06-13T14:52:00+02:00">
+  <meta itemprop="wordCount" content="1031">
+  <meta itemprop="keywords" content="Debian,Efi,Uefi,Memtest86,Refind">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Memtest86 dla EFI/UEFI i rEFInd">
+  <meta name="twitter:description" content="Zapewne każdy z nas słyszał o narzędziu do testowania pamięci operacyjnej RAM zwanym memtest86. W Debianie są dostępne dwa pakiety memtest86 (strona projektu) oraz memtest86&#43; (strona projektu) , które można sobie zainstalować w systemie. Niemniej jednak, jak się popatrzy na daty ostatnich wersji obu tych aplikacji (rok 2014), to mamy do czynienia z dość starym oprogramowaniem. Tak czy inaczej, jeśli dany soft działa, to bez znaczenia powinno być jak stary on jest. Problem w przypadku memtest86 dostarczanego w tych dwóch pakietach jest taki, że działa on w zasadzie jedynie w konfiguracji BIOS, a nie EFI/UEFI. Dodatkowo, oryginalny memtest86 został sprzedany PassMark&#39;owi, który od wersji 5.0 uczynił go własnościowym softem. To dlatego w Debianie nie będzie już nowszej wersji memtest86. W dalszym ciągu memtest86 może działać w konfiguracji EFI/UEFI ale potrzebna nam jest wersja, która to EFI/UEFI wspiera. Memtest86 zaczął wspierać EFI/UEFI od wersji 5.0. Jeśli nam nie przeszkadza licencja własnościowa, to możemy sobie przygotować memtest86, tak by można go było bez problemu odpalić z menadżera rozruchu rEFInd.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -63,19 +40,11 @@ przygotować memtest86, tak by można go było bez problemu odpalić z menadżer
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -135,11 +104,11 @@ if (!doNotTrack) {
 	<time class="entry__meta-published meta-published" datetime="2020-03-03T04:05:00Z">Opublikowano: 03/03/2020</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-06-13T14:52:00&#43;02:00">Zaktualizowano: 13/06/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Memtest86 dla EFI/UEFI i rEFInd</h1>
 <details class="entry__toc toc" >
@@ -351,11 +320,11 @@ uniknąć problemów przy weryfikacji podpisu przez firmware EFI/UEFI.</p></div>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/efi/">efi</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/uefi/">uefi</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/memtest86/">memtest86</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/refind/">refind</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/efi/">Efi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/uefi/">Uefi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/memtest86/">Memtest86</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/refind/">Refind</a>
 </div>
 					
 <div class="entry__share share">
@@ -456,6 +425,9 @@ uniknąć problemów przy weryfikacji podpisu przez firmware EFI/UEFI.</p></div>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

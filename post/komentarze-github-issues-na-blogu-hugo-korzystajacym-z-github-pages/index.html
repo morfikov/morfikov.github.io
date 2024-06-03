@@ -2,57 +2,38 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Komentarze GitHub Issues na blogu Hugo korzystającym z GitHub Pages | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Komentarze GitHub Issues na blogu Hugo korzystającym z GitHub Pages" />
-<meta property="og:description" content="Jakiś czas temu Disqus wprowadził reklamy w swoim systemie komentarzy i bez mojej świadomej
-oraz dobrowolnej zgody serwował je użytkownikom odwiedzającym mojego bloga. W tamtym czasie nie
-miałem za bardzo informacji jak te komentarze zastąpić na statycznej stronie renderowanej przy
-pomocy Hugo. Jako, że sporo osób narzekało na to, że tutaj nie ma komentarzy, przez co liczba
-maili, które do mnie docierały, była trochę ponad moje moce przerobowe. Postanowiłem zatem
-zaimplementować system komentarzy oparty o GitHub Issues, czyli ten mechanizm, z którym
-prawdopodobnie każdy z nas miał już styczność zgłaszając bug&#39;a (czy też inne zapytanie) twórcom
-swoich ulubionych linux&#39;owych projektów OpenSource. Okazało się, że przy pomocy API GitHub&#39;a można
-w dość prosty sposób te komentarze pokazać na blogu ale problem pojawił się w przypadku stron
-mających setki czy nawet tysiące wpisów już opublikowanych. Jak zatem na takich blogach wdrożyć
-komentarze GitHub&#39;a, tak by przy okazji nie wyskoczyć z okna o 5 nad ranem?" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/komentarze-github-issues-na-blogu-hugo-korzystajacym-z-github-pages/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2021-10-12T00:15:00+02:00" />
-<meta property="article:modified_time" content="2021-10-25T11:30:00+02:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/komentarze-github-issues-na-blogu-hugo-korzystajacym-z-github-pages/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Komentarze GitHub Issues na blogu Hugo korzystającym z GitHub Pages">
+  <meta property="og:description" content="Jakiś czas temu Disqus wprowadził reklamy w swoim systemie komentarzy i bez mojej świadomej oraz dobrowolnej zgody serwował je użytkownikom odwiedzającym mojego bloga. W tamtym czasie nie miałem za bardzo informacji jak te komentarze zastąpić na statycznej stronie renderowanej przy pomocy Hugo. Jako, że sporo osób narzekało na to, że tutaj nie ma komentarzy, przez co liczba maili, które do mnie docierały, była trochę ponad moje moce przerobowe. Postanowiłem zatem zaimplementować system komentarzy oparty o GitHub Issues, czyli ten mechanizm, z którym prawdopodobnie każdy z nas miał już styczność zgłaszając bug&#39;a (czy też inne zapytanie) twórcom swoich ulubionych linux&#39;owych projektów OpenSource. Okazało się, że przy pomocy API GitHub&#39;a można w dość prosty sposób te komentarze pokazać na blogu ale problem pojawił się w przypadku stron mających setki czy nawet tysiące wpisów już opublikowanych. Jak zatem na takich blogach wdrożyć komentarze GitHub&#39;a, tak by przy okazji nie wyskoczyć z okna o 5 nad ranem?">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2021-10-12T00:15:00+02:00">
+    <meta property="article:modified_time" content="2021-10-25T11:30:00+02:00">
+    <meta property="article:tag" content="Hugo">
+    <meta property="article:tag" content="Komentarze">
+    <meta property="article:tag" content="Disqus">
+    <meta property="article:tag" content="Github">
+    <meta property="article:tag" content="Shell">
+    <meta property="article:tag" content="Sed">
 
-
-		<meta itemprop="name" content="Komentarze GitHub Issues na blogu Hugo korzystającym z GitHub Pages">
-<meta itemprop="description" content="Jakiś czas temu Disqus wprowadził reklamy w swoim systemie komentarzy i bez mojej świadomej
-oraz dobrowolnej zgody serwował je użytkownikom odwiedzającym mojego bloga. W tamtym czasie nie
-miałem za bardzo informacji jak te komentarze zastąpić na statycznej stronie renderowanej przy
-pomocy Hugo. Jako, że sporo osób narzekało na to, że tutaj nie ma komentarzy, przez co liczba
-maili, które do mnie docierały, była trochę ponad moje moce przerobowe. Postanowiłem zatem
-zaimplementować system komentarzy oparty o GitHub Issues, czyli ten mechanizm, z którym
-prawdopodobnie każdy z nas miał już styczność zgłaszając bug&#39;a (czy też inne zapytanie) twórcom
-swoich ulubionych linux&#39;owych projektów OpenSource. Okazało się, że przy pomocy API GitHub&#39;a można
-w dość prosty sposób te komentarze pokazać na blogu ale problem pojawił się w przypadku stron
-mających setki czy nawet tysiące wpisów już opublikowanych. Jak zatem na takich blogach wdrożyć
-komentarze GitHub&#39;a, tak by przy okazji nie wyskoczyć z okna o 5 nad ranem?"><meta itemprop="datePublished" content="2021-10-12T00:15:00+02:00" />
-<meta itemprop="dateModified" content="2021-10-25T11:30:00+02:00" />
-<meta itemprop="wordCount" content="2312">
-<meta itemprop="keywords" content="hugo,komentarze,disqus,github,shell,sed,javascript," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Komentarze GitHub Issues na blogu Hugo korzystającym z GitHub Pages"/>
-<meta name="twitter:description" content="Jakiś czas temu Disqus wprowadził reklamy w swoim systemie komentarzy i bez mojej świadomej
-oraz dobrowolnej zgody serwował je użytkownikom odwiedzającym mojego bloga. W tamtym czasie nie
-miałem za bardzo informacji jak te komentarze zastąpić na statycznej stronie renderowanej przy
-pomocy Hugo. Jako, że sporo osób narzekało na to, że tutaj nie ma komentarzy, przez co liczba
-maili, które do mnie docierały, była trochę ponad moje moce przerobowe. Postanowiłem zatem
-zaimplementować system komentarzy oparty o GitHub Issues, czyli ten mechanizm, z którym
-prawdopodobnie każdy z nas miał już styczność zgłaszając bug&#39;a (czy też inne zapytanie) twórcom
-swoich ulubionych linux&#39;owych projektów OpenSource. Okazało się, że przy pomocy API GitHub&#39;a można
-w dość prosty sposób te komentarze pokazać na blogu ale problem pojawił się w przypadku stron
-mających setki czy nawet tysiące wpisów już opublikowanych. Jak zatem na takich blogach wdrożyć
-komentarze GitHub&#39;a, tak by przy okazji nie wyskoczyć z okna o 5 nad ranem?"/>
+		
+  <meta itemprop="name" content="Komentarze GitHub Issues na blogu Hugo korzystającym z GitHub Pages">
+  <meta itemprop="description" content="Jakiś czas temu Disqus wprowadził reklamy w swoim systemie komentarzy i bez mojej świadomej oraz dobrowolnej zgody serwował je użytkownikom odwiedzającym mojego bloga. W tamtym czasie nie miałem za bardzo informacji jak te komentarze zastąpić na statycznej stronie renderowanej przy pomocy Hugo. Jako, że sporo osób narzekało na to, że tutaj nie ma komentarzy, przez co liczba maili, które do mnie docierały, była trochę ponad moje moce przerobowe. Postanowiłem zatem zaimplementować system komentarzy oparty o GitHub Issues, czyli ten mechanizm, z którym prawdopodobnie każdy z nas miał już styczność zgłaszając bug&#39;a (czy też inne zapytanie) twórcom swoich ulubionych linux&#39;owych projektów OpenSource. Okazało się, że przy pomocy API GitHub&#39;a można w dość prosty sposób te komentarze pokazać na blogu ale problem pojawił się w przypadku stron mających setki czy nawet tysiące wpisów już opublikowanych. Jak zatem na takich blogach wdrożyć komentarze GitHub&#39;a, tak by przy okazji nie wyskoczyć z okna o 5 nad ranem?">
+  <meta itemprop="datePublished" content="2021-10-12T00:15:00+02:00">
+  <meta itemprop="dateModified" content="2021-10-25T11:30:00+02:00">
+  <meta itemprop="wordCount" content="2312">
+  <meta itemprop="keywords" content="Hugo,Komentarze,Disqus,Github,Shell,Sed,Javascript">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Komentarze GitHub Issues na blogu Hugo korzystającym z GitHub Pages">
+  <meta name="twitter:description" content="Jakiś czas temu Disqus wprowadził reklamy w swoim systemie komentarzy i bez mojej świadomej oraz dobrowolnej zgody serwował je użytkownikom odwiedzającym mojego bloga. W tamtym czasie nie miałem za bardzo informacji jak te komentarze zastąpić na statycznej stronie renderowanej przy pomocy Hugo. Jako, że sporo osób narzekało na to, że tutaj nie ma komentarzy, przez co liczba maili, które do mnie docierały, była trochę ponad moje moce przerobowe. Postanowiłem zatem zaimplementować system komentarzy oparty o GitHub Issues, czyli ten mechanizm, z którym prawdopodobnie każdy z nas miał już styczność zgłaszając bug&#39;a (czy też inne zapytanie) twórcom swoich ulubionych linux&#39;owych projektów OpenSource. Okazało się, że przy pomocy API GitHub&#39;a można w dość prosty sposób te komentarze pokazać na blogu ale problem pojawił się w przypadku stron mających setki czy nawet tysiące wpisów już opublikowanych. Jak zatem na takich blogach wdrożyć komentarze GitHub&#39;a, tak by przy okazji nie wyskoczyć z okna o 5 nad ranem?">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -60,19 +41,11 @@ komentarze GitHub&#39;a, tak by przy okazji nie wyskoczyć z okna o 5 nad ranem?
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -132,11 +105,11 @@ if (!doNotTrack) {
 	<time class="entry__meta-published meta-published" datetime="2021-10-12T00:15:00&#43;02:00">Opublikowano: 12/10/2021</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2021-10-25T11:30:00&#43;02:00">Zaktualizowano: 25/10/2021</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/blog/" rel="category">Blog</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Komentarze GitHub Issues na blogu Hugo korzystającym z GitHub Pages</h1>
 <details class="entry__toc toc" >
@@ -540,13 +513,13 @@ naturalnie w opcjach wątku zaznaczyli sobie stosowne opcje.</p></div>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hugo/">hugo</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/komentarze/">komentarze</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/disqus/">disqus</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/github/">github</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/shell/">shell</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sed/">sed</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/javascript/">javascript</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hugo/">Hugo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/komentarze/">Komentarze</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/disqus/">Disqus</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/github/">Github</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/shell/">Shell</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sed/">Sed</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/javascript/">Javascript</a>
 </div>
 					
 <div class="entry__share share">
@@ -639,6 +612,9 @@ naturalnie w opcjach wątku zaznaczyli sobie stosowne opcje.</p></div>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

@@ -2,63 +2,37 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Jak przy pomocy Magisk&#39;a pogodzić SafetyNet i ADB/USB debug | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Jak przy pomocy Magisk&#39;a pogodzić SafetyNet i ADB/USB debug" />
-<meta property="og:description" content="Do tej pory zbytnio nie interesowałem się zagadnieniami dotyczącymi mechanizmu SafetyNet, który
-ma na celu utrudnić nieco życie użytkownikom smartfonów z Androidem lubiącym posiadać pełny dostęp
-do systemu swoich urządzeń za sprawą uzyskania praw administratora (root). To co się zmieniło na
-przestrzeni ostatnich paru miesięcy, to fakt, że coraz więcej aplikacji polega na tym całym
-SafetyNet, a przynajmniej ja zaczynam coraz częściej korzystać z tego typu oprogramowania. Jeśli
-jednak nasze urządzenie nie przejdzie testów SafetyNet, to funkcjonalność aplikacji polegających na
-tym mechanizmie może zostać dość znacznie ograniczona. Przykładem może być appka Revolut i jej
-odblokowanie za pomocą czytnika linii papilarnych. Bez SafetyNet trzeba podawać PIN za każdym
-razem, gdy się do tej aplikacji będziemy próbowali zalogować. Zwykle do obejścia SafetyNet używa
-się Magisk&#39;a ale w pewnych sytuacjach, nawet i on nie jest w stanie z tym zdaniem sobie poradzić,
-przynajmniej nie bez dodatkowej konfiguracji. Jeśli na co dzień korzystamy z opcji debugowania
-ADB/USB, to może nas spotkać nie lada dylemat -- ADB/USB debug vs. SafetyNet. Okazuje się, że można
-pogodzić te dwie rzeczy." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/jak-przy-pomocy-magiska-pogodzic-safetynet-i-adb-usb-debug/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2019-01-19T21:12:11+01:00" />
-<meta property="article:modified_time" content="2019-01-19T21:13:11+01:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/jak-przy-pomocy-magiska-pogodzic-safetynet-i-adb-usb-debug/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Jak przy pomocy Magisk&#39;a pogodzić SafetyNet i ADB/USB debug">
+  <meta property="og:description" content="Do tej pory zbytnio nie interesowałem się zagadnieniami dotyczącymi mechanizmu SafetyNet, który ma na celu utrudnić nieco życie użytkownikom smartfonów z Androidem lubiącym posiadać pełny dostęp do systemu swoich urządzeń za sprawą uzyskania praw administratora (root). To co się zmieniło na przestrzeni ostatnich paru miesięcy, to fakt, że coraz więcej aplikacji polega na tym całym SafetyNet, a przynajmniej ja zaczynam coraz częściej korzystać z tego typu oprogramowania. Jeśli jednak nasze urządzenie nie przejdzie testów SafetyNet, to funkcjonalność aplikacji polegających na tym mechanizmie może zostać dość znacznie ograniczona. Przykładem może być appka Revolut i jej odblokowanie za pomocą czytnika linii papilarnych. Bez SafetyNet trzeba podawać PIN za każdym razem, gdy się do tej aplikacji będziemy próbowali zalogować. Zwykle do obejścia SafetyNet używa się Magisk&#39;a ale w pewnych sytuacjach, nawet i on nie jest w stanie z tym zdaniem sobie poradzić, przynajmniej nie bez dodatkowej konfiguracji. Jeśli na co dzień korzystamy z opcji debugowania ADB/USB, to może nas spotkać nie lada dylemat -- ADB/USB debug vs. SafetyNet. Okazuje się, że można pogodzić te dwie rzeczy.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2019-01-19T21:12:11+01:00">
+    <meta property="article:modified_time" content="2019-01-19T21:13:11+01:00">
+    <meta property="article:tag" content="Smartfon">
+    <meta property="article:tag" content="Adb">
+    <meta property="article:tag" content="Magisk">
+    <meta property="article:tag" content="Safetynet">
+    <meta property="article:tag" content="Root">
 
-
-		<meta itemprop="name" content="Jak przy pomocy Magisk&#39;a pogodzić SafetyNet i ADB/USB debug">
-<meta itemprop="description" content="Do tej pory zbytnio nie interesowałem się zagadnieniami dotyczącymi mechanizmu SafetyNet, który
-ma na celu utrudnić nieco życie użytkownikom smartfonów z Androidem lubiącym posiadać pełny dostęp
-do systemu swoich urządzeń za sprawą uzyskania praw administratora (root). To co się zmieniło na
-przestrzeni ostatnich paru miesięcy, to fakt, że coraz więcej aplikacji polega na tym całym
-SafetyNet, a przynajmniej ja zaczynam coraz częściej korzystać z tego typu oprogramowania. Jeśli
-jednak nasze urządzenie nie przejdzie testów SafetyNet, to funkcjonalność aplikacji polegających na
-tym mechanizmie może zostać dość znacznie ograniczona. Przykładem może być appka Revolut i jej
-odblokowanie za pomocą czytnika linii papilarnych. Bez SafetyNet trzeba podawać PIN za każdym
-razem, gdy się do tej aplikacji będziemy próbowali zalogować. Zwykle do obejścia SafetyNet używa
-się Magisk&#39;a ale w pewnych sytuacjach, nawet i on nie jest w stanie z tym zdaniem sobie poradzić,
-przynajmniej nie bez dodatkowej konfiguracji. Jeśli na co dzień korzystamy z opcji debugowania
-ADB/USB, to może nas spotkać nie lada dylemat -- ADB/USB debug vs. SafetyNet. Okazuje się, że można
-pogodzić te dwie rzeczy."><meta itemprop="datePublished" content="2019-01-19T21:12:11+01:00" />
-<meta itemprop="dateModified" content="2019-01-19T21:13:11+01:00" />
-<meta itemprop="wordCount" content="1369">
-<meta itemprop="keywords" content="smartfon,adb,magisk,safetynet,root," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Jak przy pomocy Magisk&#39;a pogodzić SafetyNet i ADB/USB debug"/>
-<meta name="twitter:description" content="Do tej pory zbytnio nie interesowałem się zagadnieniami dotyczącymi mechanizmu SafetyNet, który
-ma na celu utrudnić nieco życie użytkownikom smartfonów z Androidem lubiącym posiadać pełny dostęp
-do systemu swoich urządzeń za sprawą uzyskania praw administratora (root). To co się zmieniło na
-przestrzeni ostatnich paru miesięcy, to fakt, że coraz więcej aplikacji polega na tym całym
-SafetyNet, a przynajmniej ja zaczynam coraz częściej korzystać z tego typu oprogramowania. Jeśli
-jednak nasze urządzenie nie przejdzie testów SafetyNet, to funkcjonalność aplikacji polegających na
-tym mechanizmie może zostać dość znacznie ograniczona. Przykładem może być appka Revolut i jej
-odblokowanie za pomocą czytnika linii papilarnych. Bez SafetyNet trzeba podawać PIN za każdym
-razem, gdy się do tej aplikacji będziemy próbowali zalogować. Zwykle do obejścia SafetyNet używa
-się Magisk&#39;a ale w pewnych sytuacjach, nawet i on nie jest w stanie z tym zdaniem sobie poradzić,
-przynajmniej nie bez dodatkowej konfiguracji. Jeśli na co dzień korzystamy z opcji debugowania
-ADB/USB, to może nas spotkać nie lada dylemat -- ADB/USB debug vs. SafetyNet. Okazuje się, że można
-pogodzić te dwie rzeczy."/>
+		
+  <meta itemprop="name" content="Jak przy pomocy Magisk&#39;a pogodzić SafetyNet i ADB/USB debug">
+  <meta itemprop="description" content="Do tej pory zbytnio nie interesowałem się zagadnieniami dotyczącymi mechanizmu SafetyNet, który ma na celu utrudnić nieco życie użytkownikom smartfonów z Androidem lubiącym posiadać pełny dostęp do systemu swoich urządzeń za sprawą uzyskania praw administratora (root). To co się zmieniło na przestrzeni ostatnich paru miesięcy, to fakt, że coraz więcej aplikacji polega na tym całym SafetyNet, a przynajmniej ja zaczynam coraz częściej korzystać z tego typu oprogramowania. Jeśli jednak nasze urządzenie nie przejdzie testów SafetyNet, to funkcjonalność aplikacji polegających na tym mechanizmie może zostać dość znacznie ograniczona. Przykładem może być appka Revolut i jej odblokowanie za pomocą czytnika linii papilarnych. Bez SafetyNet trzeba podawać PIN za każdym razem, gdy się do tej aplikacji będziemy próbowali zalogować. Zwykle do obejścia SafetyNet używa się Magisk&#39;a ale w pewnych sytuacjach, nawet i on nie jest w stanie z tym zdaniem sobie poradzić, przynajmniej nie bez dodatkowej konfiguracji. Jeśli na co dzień korzystamy z opcji debugowania ADB/USB, to może nas spotkać nie lada dylemat -- ADB/USB debug vs. SafetyNet. Okazuje się, że można pogodzić te dwie rzeczy.">
+  <meta itemprop="datePublished" content="2019-01-19T21:12:11+01:00">
+  <meta itemprop="dateModified" content="2019-01-19T21:13:11+01:00">
+  <meta itemprop="wordCount" content="1369">
+  <meta itemprop="keywords" content="Smartfon,Adb,Magisk,Safetynet,Root">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jak przy pomocy Magisk&#39;a pogodzić SafetyNet i ADB/USB debug">
+  <meta name="twitter:description" content="Do tej pory zbytnio nie interesowałem się zagadnieniami dotyczącymi mechanizmu SafetyNet, który ma na celu utrudnić nieco życie użytkownikom smartfonów z Androidem lubiącym posiadać pełny dostęp do systemu swoich urządzeń za sprawą uzyskania praw administratora (root). To co się zmieniło na przestrzeni ostatnich paru miesięcy, to fakt, że coraz więcej aplikacji polega na tym całym SafetyNet, a przynajmniej ja zaczynam coraz częściej korzystać z tego typu oprogramowania. Jeśli jednak nasze urządzenie nie przejdzie testów SafetyNet, to funkcjonalność aplikacji polegających na tym mechanizmie może zostać dość znacznie ograniczona. Przykładem może być appka Revolut i jej odblokowanie za pomocą czytnika linii papilarnych. Bez SafetyNet trzeba podawać PIN za każdym razem, gdy się do tej aplikacji będziemy próbowali zalogować. Zwykle do obejścia SafetyNet używa się Magisk&#39;a ale w pewnych sytuacjach, nawet i on nie jest w stanie z tym zdaniem sobie poradzić, przynajmniej nie bez dodatkowej konfiguracji. Jeśli na co dzień korzystamy z opcji debugowania ADB/USB, to może nas spotkać nie lada dylemat -- ADB/USB debug vs. SafetyNet. Okazuje się, że można pogodzić te dwie rzeczy.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -66,19 +40,11 @@ pogodzić te dwie rzeczy."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -138,11 +104,11 @@ if (!doNotTrack) {
 	<time class="entry__meta-published meta-published" datetime="2019-01-19T21:12:11&#43;01:00">Opublikowano: 19/01/2019</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2019-01-19T21:13:11&#43;01:00">Zaktualizowano: 19/01/2019</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Jak przy pomocy Magisk&#39;a pogodzić SafetyNet i ADB/USB debug</h1>
 <details class="entry__toc toc" >
@@ -332,11 +298,11 @@ jak można zobaczyć na poniższej fotce, mój telefon radzi sobie z tym zadanie
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/adb/">adb</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/magisk/">magisk</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/safetynet/">safetynet</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">root</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">Smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/adb/">Adb</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/magisk/">Magisk</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/safetynet/">Safetynet</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">Root</a>
 </div>
 					
 <div class="entry__share share">
@@ -437,6 +403,9 @@ jak można zobaczyć na poniższej fotce, mój telefon radzi sobie z tym zadanie
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

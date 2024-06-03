@@ -6,7 +6,33 @@
     <description>Recent content in Linux on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Wed, 10 Jan 2024 20:05:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/categories/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 03 Jun 2024 20:00:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/categories/linux/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)</title>
+      <link>https://morfikov.github.io/post/konfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs/</link>
+      <pubDate>Mon, 03 Jun 2024 20:00:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/konfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs/</guid>
+      <description>&lt;p&gt;Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne
+systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to
+postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej
+sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery
+HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś
+większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows.
+W zasadzie to pozostała mi ostatnia opcja w postaci protokołu &lt;a href=&#34;https://www.samba.org/&#34;&gt;CIFS/SMB/SAMBA&lt;/a&gt;, który
+przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego
+Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w
+stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez
+znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj.
+udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie
+obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet
+&lt;code&gt;samba&lt;/code&gt; , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy
+sobie nieco ułatwić życie, tak by w menadżerze plików (np. &lt;code&gt;nemo&lt;/code&gt; , &lt;code&gt;caja&lt;/code&gt; , &lt;code&gt;pcmanfm&lt;/code&gt; ) te
+wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do
+rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Przestrzeń wymiany SWAP tylko na potrzebny hibernacji w Debian linux</title>
@@ -423,30 +449,6 @@ wpisy. Ostatecznie stanęło jednak na tym, by w oparciu o te artykuły napisać
 na temat szyfrowania zapytań DNS na linux przy wykorzystaniu oprogramowania &lt;code&gt;dnscrypt-proxy&lt;/code&gt; oraz
 &lt;code&gt;dnsmasq&lt;/code&gt; i zawrzeć w nim te wszystkie ciekawsze informacje, które udało mi się pozyskać przez te
 ostatnie lata w kwestii poprawy bezpieczeństwa i prywatności przy przeglądaniu stron WWW.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Systemowy GPG/GnuPG w Thunderbird 78&#43; na linux</title>
-      <link>https://morfikov.github.io/post/systemowy-gpg-gnupg-w-thunderbird-78-na-linux/</link>
-      <pubDate>Mon, 07 Sep 2020 20:15:00 +0200</pubDate>
-      
-      <guid>https://morfikov.github.io/post/systemowy-gpg-gnupg-w-thunderbird-78-na-linux/</guid>
-      <description>&lt;p&gt;Jakiś już czas temu Mozilla ogłosiła, że Thunderbird od wersji 78 będzie posiadał natywne wsparcie
-dla szyfrowania wiadomości z wykorzystaniem kluczy GPG/PGP, przez co &lt;a href=&#34;https://enigmail.net/index.php/en/&#34;&gt;dodatek Enigmail&lt;/a&gt; będzie
-już zwyczajnie zbędny. Dziś z kolei czytam sobie o &lt;a href=&#34;https://blog.thunderbird.net/2020/09/openpgp-in-thunderbird-78/&#34;&gt;zakończeniu wsparcia dla wersji 68&lt;/a&gt; tego
-klienta pocztowego, które będzie miało miejsce z końcem września 2020, czyli został już niespełna
-miesiąc i ta starsza wersja Thunderbird&#39;a nie będzie już dostawać łat bezpieczeństwa. Pewne jest
-zatem, że dystrybucje linux&#39;a w niedługim czasie pchną wersję 78 do głównych repozytoriów. W
-Debianie, wersja 78 Thunderbird&#39;a od dłuższego czasu jest dostępna w gałęzi eksperymentalnej i można
-było ją już wcześniej sobie zainstalować, jeśli ktoś wyrażał taką chęć. Gdy ja ostatni raz
-testowałem wersję 78, to nie była ona zbytnio do użytku ale wygląda na to, że większość
-niedogodności, których mi się udało doświadczyć, została już wyeliminowana. Pozostał w zasadzie
-jeden problem, tj. Thunderbird domyślnie używa własnego keyring&#39;a kluczy GPG/PGP, w efekcie czego
-systemowy GPG/GnuPG nie jest w ogóle wykorzystywany. Taki san rzeczy sprawia, że będziemy mieć dwie
-różne bazy danych kluczy (jedna dla Thunderbird&#39;a, a druga dla reszty linux&#39;a), co może trochę
-irytować. Na szczęście jest opcja wymuszenia na TB, by korzystał on z systemowego keyring&#39;a kluczy
-GPG/PGP i celem tego artykułu jest pokazanie właśnie jak tego typu zabieg przeprowadzić.&lt;/p&gt;</description>
     </item>
     
   </channel>

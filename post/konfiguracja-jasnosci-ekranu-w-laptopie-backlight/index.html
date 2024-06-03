@@ -2,57 +2,37 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Konfiguracja jasności ekranu w laptopie (backlight) | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Konfiguracja jasności ekranu w laptopie (backlight)" />
-<meta property="og:description" content="Linux nigdy nie był popularnym systemem operacyjnym na stacjach klienckich. Może i cieszy się sporym
-wzięciem wśród środowisk serwerowych ale jego niezbyt prosta obsługa nie przemawia do przeciętnego
-użytkownika komputera. Wraz z rozwojem technologi, zmienił się też rodzaj urządzeń na jakich
-obecnie pracujemy. W dzisiejszych czasach liczy się przede wszystkim mobilność i praktycznie każdy z
-nas miał już prawdopodobnie do czynienia z laptopami. Producenci tych urządzeń lubią nam wciskać
-windowsa z dopiskiem, że ten laptop bez niego nie będzie w ogóle nam działał. Już od dość dawna
-szereg laptopów jest w stanie pracować pod linux&#39;em ale, jakby nie patrzeć, sporo rzeczy w nich nie
-działa OOTB i trzeba poświęcić trochę czasu, by tę maszynę doprowadzić do porządku. W tym wpisie
-zajmiemy się zagadnieniem podświetlania matrycy (backlight), tak by system był w stanie bez problemu
-zapisać ustawienia jasności ekranu przy wyłączaniu komputera oraz, by potrafił je także wczytać
-podczas fazy rozruchu." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-jasnosci-ekranu-w-laptopie-backlight/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2016-01-05T21:52:41+00:00" />
-<meta property="article:modified_time" content="2016-01-05T21:52:41+00:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-jasnosci-ekranu-w-laptopie-backlight/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Konfiguracja jasności ekranu w laptopie (backlight)">
+  <meta property="og:description" content="Linux nigdy nie był popularnym systemem operacyjnym na stacjach klienckich. Może i cieszy się sporym wzięciem wśród środowisk serwerowych ale jego niezbyt prosta obsługa nie przemawia do przeciętnego użytkownika komputera. Wraz z rozwojem technologi, zmienił się też rodzaj urządzeń na jakich obecnie pracujemy. W dzisiejszych czasach liczy się przede wszystkim mobilność i praktycznie każdy z nas miał już prawdopodobnie do czynienia z laptopami. Producenci tych urządzeń lubią nam wciskać windowsa z dopiskiem, że ten laptop bez niego nie będzie w ogóle nam działał. Już od dość dawna szereg laptopów jest w stanie pracować pod linux&#39;em ale, jakby nie patrzeć, sporo rzeczy w nich nie działa OOTB i trzeba poświęcić trochę czasu, by tę maszynę doprowadzić do porządku. W tym wpisie zajmiemy się zagadnieniem podświetlania matrycy (backlight), tak by system był w stanie bez problemu zapisać ustawienia jasności ekranu przy wyłączaniu komputera oraz, by potrafił je także wczytać podczas fazy rozruchu.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2016-01-05T21:52:41+00:00">
+    <meta property="article:modified_time" content="2016-01-05T21:52:41+00:00">
+    <meta property="article:tag" content="Xserver">
+    <meta property="article:tag" content="Systemd">
+    <meta property="article:tag" content="Monitor">
+    <meta property="article:tag" content="Backlight">
+    <meta property="article:tag" content="Laptop">
 
-
-		<meta itemprop="name" content="Konfiguracja jasności ekranu w laptopie (backlight)">
-<meta itemprop="description" content="Linux nigdy nie był popularnym systemem operacyjnym na stacjach klienckich. Może i cieszy się sporym
-wzięciem wśród środowisk serwerowych ale jego niezbyt prosta obsługa nie przemawia do przeciętnego
-użytkownika komputera. Wraz z rozwojem technologi, zmienił się też rodzaj urządzeń na jakich
-obecnie pracujemy. W dzisiejszych czasach liczy się przede wszystkim mobilność i praktycznie każdy z
-nas miał już prawdopodobnie do czynienia z laptopami. Producenci tych urządzeń lubią nam wciskać
-windowsa z dopiskiem, że ten laptop bez niego nie będzie w ogóle nam działał. Już od dość dawna
-szereg laptopów jest w stanie pracować pod linux&#39;em ale, jakby nie patrzeć, sporo rzeczy w nich nie
-działa OOTB i trzeba poświęcić trochę czasu, by tę maszynę doprowadzić do porządku. W tym wpisie
-zajmiemy się zagadnieniem podświetlania matrycy (backlight), tak by system był w stanie bez problemu
-zapisać ustawienia jasności ekranu przy wyłączaniu komputera oraz, by potrafił je także wczytać
-podczas fazy rozruchu."><meta itemprop="datePublished" content="2016-01-05T21:52:41+00:00" />
-<meta itemprop="dateModified" content="2016-01-05T21:52:41+00:00" />
-<meta itemprop="wordCount" content="946">
-<meta itemprop="keywords" content="xserver,systemd,monitor,backlight,laptop," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Konfiguracja jasności ekranu w laptopie (backlight)"/>
-<meta name="twitter:description" content="Linux nigdy nie był popularnym systemem operacyjnym na stacjach klienckich. Może i cieszy się sporym
-wzięciem wśród środowisk serwerowych ale jego niezbyt prosta obsługa nie przemawia do przeciętnego
-użytkownika komputera. Wraz z rozwojem technologi, zmienił się też rodzaj urządzeń na jakich
-obecnie pracujemy. W dzisiejszych czasach liczy się przede wszystkim mobilność i praktycznie każdy z
-nas miał już prawdopodobnie do czynienia z laptopami. Producenci tych urządzeń lubią nam wciskać
-windowsa z dopiskiem, że ten laptop bez niego nie będzie w ogóle nam działał. Już od dość dawna
-szereg laptopów jest w stanie pracować pod linux&#39;em ale, jakby nie patrzeć, sporo rzeczy w nich nie
-działa OOTB i trzeba poświęcić trochę czasu, by tę maszynę doprowadzić do porządku. W tym wpisie
-zajmiemy się zagadnieniem podświetlania matrycy (backlight), tak by system był w stanie bez problemu
-zapisać ustawienia jasności ekranu przy wyłączaniu komputera oraz, by potrafił je także wczytać
-podczas fazy rozruchu."/>
+		
+  <meta itemprop="name" content="Konfiguracja jasności ekranu w laptopie (backlight)">
+  <meta itemprop="description" content="Linux nigdy nie był popularnym systemem operacyjnym na stacjach klienckich. Może i cieszy się sporym wzięciem wśród środowisk serwerowych ale jego niezbyt prosta obsługa nie przemawia do przeciętnego użytkownika komputera. Wraz z rozwojem technologi, zmienił się też rodzaj urządzeń na jakich obecnie pracujemy. W dzisiejszych czasach liczy się przede wszystkim mobilność i praktycznie każdy z nas miał już prawdopodobnie do czynienia z laptopami. Producenci tych urządzeń lubią nam wciskać windowsa z dopiskiem, że ten laptop bez niego nie będzie w ogóle nam działał. Już od dość dawna szereg laptopów jest w stanie pracować pod linux&#39;em ale, jakby nie patrzeć, sporo rzeczy w nich nie działa OOTB i trzeba poświęcić trochę czasu, by tę maszynę doprowadzić do porządku. W tym wpisie zajmiemy się zagadnieniem podświetlania matrycy (backlight), tak by system był w stanie bez problemu zapisać ustawienia jasności ekranu przy wyłączaniu komputera oraz, by potrafił je także wczytać podczas fazy rozruchu.">
+  <meta itemprop="datePublished" content="2016-01-05T21:52:41+00:00">
+  <meta itemprop="dateModified" content="2016-01-05T21:52:41+00:00">
+  <meta itemprop="wordCount" content="946">
+  <meta itemprop="keywords" content="Xserver,Systemd,Monitor,Backlight,Laptop">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Konfiguracja jasności ekranu w laptopie (backlight)">
+  <meta name="twitter:description" content="Linux nigdy nie był popularnym systemem operacyjnym na stacjach klienckich. Może i cieszy się sporym wzięciem wśród środowisk serwerowych ale jego niezbyt prosta obsługa nie przemawia do przeciętnego użytkownika komputera. Wraz z rozwojem technologi, zmienił się też rodzaj urządzeń na jakich obecnie pracujemy. W dzisiejszych czasach liczy się przede wszystkim mobilność i praktycznie każdy z nas miał już prawdopodobnie do czynienia z laptopami. Producenci tych urządzeń lubią nam wciskać windowsa z dopiskiem, że ten laptop bez niego nie będzie w ogóle nam działał. Już od dość dawna szereg laptopów jest w stanie pracować pod linux&#39;em ale, jakby nie patrzeć, sporo rzeczy w nich nie działa OOTB i trzeba poświęcić trochę czasu, by tę maszynę doprowadzić do porządku. W tym wpisie zajmiemy się zagadnieniem podświetlania matrycy (backlight), tak by system był w stanie bez problemu zapisać ustawienia jasności ekranu przy wyłączaniu komputera oraz, by potrafił je także wczytać podczas fazy rozruchu.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -60,19 +40,11 @@ podczas fazy rozruchu."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -131,11 +103,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2016-01-05T21:52:41Z">Opublikowano: 05/01/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Konfiguracja jasności ekranu w laptopie (backlight)</h1>
 <details class="entry__toc toc" >
@@ -267,11 +239,11 @@ systemd i ręcznie zmienić wartość w plikach w katalogu <code>/var/lib/system
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xserver/">xserver</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">systemd</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/monitor/">monitor</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/backlight/">backlight</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/laptop/">laptop</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xserver/">Xserver</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/systemd/">Systemd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/monitor/">Monitor</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/backlight/">Backlight</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/laptop/">Laptop</a>
 </div>
 					
 <div class="entry__share share">
@@ -372,6 +344,9 @@ systemd i ręcznie zmienić wartość w plikach w katalogu <code>/var/lib/system
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

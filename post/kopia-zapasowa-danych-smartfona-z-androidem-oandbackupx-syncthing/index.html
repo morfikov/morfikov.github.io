@@ -2,75 +2,38 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing) | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)" />
-<meta property="og:description" content="Jak to zwykło się mawiać w świecie IT: ludzie dzielą się na te osobniki, które robią backup i
-te, co backup robić będą. Jakiś czas temu pochyliłem się nad zagadnieniem czy smartfon z
-Androidem bez Google Play Services ma sens. Poruszyłem tam problem tworzenia kopi zapasowej
-danych użytkownika zgromadzonych w telefonie. W tym podlinkowanym artykule zostało przestawione jak
-przy pomocy TWRP dokonać pełnego backupu całego systemu urządzenia i o ile pod względem technicznym
-takie podejście było jak najbardziej w pełni do zaakceptowania, to jednak to rozwiązanie miało dość
-istotną wadę, tj. na czas backup&#39;u trzeba było wyłączyć smartfon. Parę dni temu natrafiłem
-na narzędzia OAndBackupX, które jest w stanie zrobić kopię zapasową wszystkich zainstalowanych
-w Androidzie aplikacji (oraz ich ustawień), wliczając w to nawet appki systemowe. OAndBackupX jest
-o tyle lepszym rozwiązaniem w stosunku do TWRP, że można przy jego pomocy robić kopię danych
-pojedynczych aplikacji, a nie od razu całego ROM&#39;u, co nie tylko jest czasochłonne ale również
-zjada sporo miejsca na dysku komputera, czy gdzie ten backup zamierzamy przechowywać. Niestety
-OAndBackupX wymaga uprawnień root, zatem na stock&#39;owym ROM&#39;ie producenta naszego telefonu nie damy
-rady z tego narzędzia skorzystać. Jeśli jednak mamy alternatywny ROM na bazie AOSP/LineageOS, to
-przydałoby się rzucić okiem na ten kawałek oprogramowania, bo zdaje się ono być wielce użyteczne,
-zwłaszcza w przypadku osób mojego pokroju, czyli linux&#39;iarzy, którzy o backup swoich danych chcą
-zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pracy choćby Syncthing." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/kopia-zapasowa-danych-smartfona-z-androidem-oandbackupx-syncthing/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2021-09-26T16:44:00+02:00" />
-<meta property="article:modified_time" content="2021-09-26T16:44:00+02:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/kopia-zapasowa-danych-smartfona-z-androidem-oandbackupx-syncthing/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)">
+  <meta property="og:description" content="Jak to zwykło się mawiać w świecie IT: ludzie dzielą się na te osobniki, które robią backup i te, co backup robić będą. Jakiś czas temu pochyliłem się nad zagadnieniem czy smartfon z Androidem bez Google Play Services ma sens. Poruszyłem tam problem tworzenia kopi zapasowej danych użytkownika zgromadzonych w telefonie. W tym podlinkowanym artykule zostało przestawione jak przy pomocy TWRP dokonać pełnego backupu całego systemu urządzenia i o ile pod względem technicznym takie podejście było jak najbardziej w pełni do zaakceptowania, to jednak to rozwiązanie miało dość istotną wadę, tj. na czas backup&#39;u trzeba było wyłączyć smartfon. Parę dni temu natrafiłem na narzędzia OAndBackupX, które jest w stanie zrobić kopię zapasową wszystkich zainstalowanych w Androidzie aplikacji (oraz ich ustawień), wliczając w to nawet appki systemowe. OAndBackupX jest o tyle lepszym rozwiązaniem w stosunku do TWRP, że można przy jego pomocy robić kopię danych pojedynczych aplikacji, a nie od razu całego ROM&#39;u, co nie tylko jest czasochłonne ale również zjada sporo miejsca na dysku komputera, czy gdzie ten backup zamierzamy przechowywać. Niestety OAndBackupX wymaga uprawnień root, zatem na stock&#39;owym ROM&#39;ie producenta naszego telefonu nie damy rady z tego narzędzia skorzystać. Jeśli jednak mamy alternatywny ROM na bazie AOSP/LineageOS, to przydałoby się rzucić okiem na ten kawałek oprogramowania, bo zdaje się ono być wielce użyteczne, zwłaszcza w przypadku osób mojego pokroju, czyli linux&#39;iarzy, którzy o backup swoich danych chcą zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pracy choćby Syncthing.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2021-09-26T16:44:00+02:00">
+    <meta property="article:modified_time" content="2021-09-26T16:44:00+02:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Smartfon">
+    <meta property="article:tag" content="Xiaomi">
+    <meta property="article:tag" content="Redmi-9">
+    <meta property="article:tag" content="Root">
+    <meta property="article:tag" content="Backup">
 
-
-		<meta itemprop="name" content="Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)">
-<meta itemprop="description" content="Jak to zwykło się mawiać w świecie IT: ludzie dzielą się na te osobniki, które robią backup i
-te, co backup robić będą. Jakiś czas temu pochyliłem się nad zagadnieniem czy smartfon z
-Androidem bez Google Play Services ma sens. Poruszyłem tam problem tworzenia kopi zapasowej
-danych użytkownika zgromadzonych w telefonie. W tym podlinkowanym artykule zostało przestawione jak
-przy pomocy TWRP dokonać pełnego backupu całego systemu urządzenia i o ile pod względem technicznym
-takie podejście było jak najbardziej w pełni do zaakceptowania, to jednak to rozwiązanie miało dość
-istotną wadę, tj. na czas backup&#39;u trzeba było wyłączyć smartfon. Parę dni temu natrafiłem
-na narzędzia OAndBackupX, które jest w stanie zrobić kopię zapasową wszystkich zainstalowanych
-w Androidzie aplikacji (oraz ich ustawień), wliczając w to nawet appki systemowe. OAndBackupX jest
-o tyle lepszym rozwiązaniem w stosunku do TWRP, że można przy jego pomocy robić kopię danych
-pojedynczych aplikacji, a nie od razu całego ROM&#39;u, co nie tylko jest czasochłonne ale również
-zjada sporo miejsca na dysku komputera, czy gdzie ten backup zamierzamy przechowywać. Niestety
-OAndBackupX wymaga uprawnień root, zatem na stock&#39;owym ROM&#39;ie producenta naszego telefonu nie damy
-rady z tego narzędzia skorzystać. Jeśli jednak mamy alternatywny ROM na bazie AOSP/LineageOS, to
-przydałoby się rzucić okiem na ten kawałek oprogramowania, bo zdaje się ono być wielce użyteczne,
-zwłaszcza w przypadku osób mojego pokroju, czyli linux&#39;iarzy, którzy o backup swoich danych chcą
-zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pracy choćby Syncthing."><meta itemprop="datePublished" content="2021-09-26T16:44:00+02:00" />
-<meta itemprop="dateModified" content="2021-09-26T16:44:00+02:00" />
-<meta itemprop="wordCount" content="2775">
-<meta itemprop="keywords" content="debian,smartfon,xiaomi,redmi-9,root,backup,aplikacje,f-droid,prywatność," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)"/>
-<meta name="twitter:description" content="Jak to zwykło się mawiać w świecie IT: ludzie dzielą się na te osobniki, które robią backup i
-te, co backup robić będą. Jakiś czas temu pochyliłem się nad zagadnieniem czy smartfon z
-Androidem bez Google Play Services ma sens. Poruszyłem tam problem tworzenia kopi zapasowej
-danych użytkownika zgromadzonych w telefonie. W tym podlinkowanym artykule zostało przestawione jak
-przy pomocy TWRP dokonać pełnego backupu całego systemu urządzenia i o ile pod względem technicznym
-takie podejście było jak najbardziej w pełni do zaakceptowania, to jednak to rozwiązanie miało dość
-istotną wadę, tj. na czas backup&#39;u trzeba było wyłączyć smartfon. Parę dni temu natrafiłem
-na narzędzia OAndBackupX, które jest w stanie zrobić kopię zapasową wszystkich zainstalowanych
-w Androidzie aplikacji (oraz ich ustawień), wliczając w to nawet appki systemowe. OAndBackupX jest
-o tyle lepszym rozwiązaniem w stosunku do TWRP, że można przy jego pomocy robić kopię danych
-pojedynczych aplikacji, a nie od razu całego ROM&#39;u, co nie tylko jest czasochłonne ale również
-zjada sporo miejsca na dysku komputera, czy gdzie ten backup zamierzamy przechowywać. Niestety
-OAndBackupX wymaga uprawnień root, zatem na stock&#39;owym ROM&#39;ie producenta naszego telefonu nie damy
-rady z tego narzędzia skorzystać. Jeśli jednak mamy alternatywny ROM na bazie AOSP/LineageOS, to
-przydałoby się rzucić okiem na ten kawałek oprogramowania, bo zdaje się ono być wielce użyteczne,
-zwłaszcza w przypadku osób mojego pokroju, czyli linux&#39;iarzy, którzy o backup swoich danych chcą
-zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pracy choćby Syncthing."/>
+		
+  <meta itemprop="name" content="Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)">
+  <meta itemprop="description" content="Jak to zwykło się mawiać w świecie IT: ludzie dzielą się na te osobniki, które robią backup i te, co backup robić będą. Jakiś czas temu pochyliłem się nad zagadnieniem czy smartfon z Androidem bez Google Play Services ma sens. Poruszyłem tam problem tworzenia kopi zapasowej danych użytkownika zgromadzonych w telefonie. W tym podlinkowanym artykule zostało przestawione jak przy pomocy TWRP dokonać pełnego backupu całego systemu urządzenia i o ile pod względem technicznym takie podejście było jak najbardziej w pełni do zaakceptowania, to jednak to rozwiązanie miało dość istotną wadę, tj. na czas backup&#39;u trzeba było wyłączyć smartfon. Parę dni temu natrafiłem na narzędzia OAndBackupX, które jest w stanie zrobić kopię zapasową wszystkich zainstalowanych w Androidzie aplikacji (oraz ich ustawień), wliczając w to nawet appki systemowe. OAndBackupX jest o tyle lepszym rozwiązaniem w stosunku do TWRP, że można przy jego pomocy robić kopię danych pojedynczych aplikacji, a nie od razu całego ROM&#39;u, co nie tylko jest czasochłonne ale również zjada sporo miejsca na dysku komputera, czy gdzie ten backup zamierzamy przechowywać. Niestety OAndBackupX wymaga uprawnień root, zatem na stock&#39;owym ROM&#39;ie producenta naszego telefonu nie damy rady z tego narzędzia skorzystać. Jeśli jednak mamy alternatywny ROM na bazie AOSP/LineageOS, to przydałoby się rzucić okiem na ten kawałek oprogramowania, bo zdaje się ono być wielce użyteczne, zwłaszcza w przypadku osób mojego pokroju, czyli linux&#39;iarzy, którzy o backup swoich danych chcą zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pracy choćby Syncthing.">
+  <meta itemprop="datePublished" content="2021-09-26T16:44:00+02:00">
+  <meta itemprop="dateModified" content="2021-09-26T16:44:00+02:00">
+  <meta itemprop="wordCount" content="2775">
+  <meta itemprop="keywords" content="Debian,Smartfon,Xiaomi,Redmi-9,Root,Backup,Aplikacje,F-Droid,Prywatność">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)">
+  <meta name="twitter:description" content="Jak to zwykło się mawiać w świecie IT: ludzie dzielą się na te osobniki, które robią backup i te, co backup robić będą. Jakiś czas temu pochyliłem się nad zagadnieniem czy smartfon z Androidem bez Google Play Services ma sens. Poruszyłem tam problem tworzenia kopi zapasowej danych użytkownika zgromadzonych w telefonie. W tym podlinkowanym artykule zostało przestawione jak przy pomocy TWRP dokonać pełnego backupu całego systemu urządzenia i o ile pod względem technicznym takie podejście było jak najbardziej w pełni do zaakceptowania, to jednak to rozwiązanie miało dość istotną wadę, tj. na czas backup&#39;u trzeba było wyłączyć smartfon. Parę dni temu natrafiłem na narzędzia OAndBackupX, które jest w stanie zrobić kopię zapasową wszystkich zainstalowanych w Androidzie aplikacji (oraz ich ustawień), wliczając w to nawet appki systemowe. OAndBackupX jest o tyle lepszym rozwiązaniem w stosunku do TWRP, że można przy jego pomocy robić kopię danych pojedynczych aplikacji, a nie od razu całego ROM&#39;u, co nie tylko jest czasochłonne ale również zjada sporo miejsca na dysku komputera, czy gdzie ten backup zamierzamy przechowywać. Niestety OAndBackupX wymaga uprawnień root, zatem na stock&#39;owym ROM&#39;ie producenta naszego telefonu nie damy rady z tego narzędzia skorzystać. Jeśli jednak mamy alternatywny ROM na bazie AOSP/LineageOS, to przydałoby się rzucić okiem na ten kawałek oprogramowania, bo zdaje się ono być wielce użyteczne, zwłaszcza w przypadku osób mojego pokroju, czyli linux&#39;iarzy, którzy o backup swoich danych chcą zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pracy choćby Syncthing.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -78,19 +41,11 @@ zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pra
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -149,12 +104,12 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2021-09-26T16:44:00&#43;02:00">Opublikowano: 26/09/2021</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>, 
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)</h1>
 <details class="entry__toc toc" >
@@ -596,15 +551,14 @@ zapewniony.</p></div>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">xiaomi</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">redmi-9</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">root</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/backup/">backup</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aplikacje/">aplikacje</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/f-droid/">f-droid</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/prywatnosc/">prywatność</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">Smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">Xiaomi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">Redmi-9</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">Root</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/backup/">Backup</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aplikacje/">Aplikacje</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/f-droid/">F-Droid</a>
 </div>
 					
 <div class="entry__share share">
@@ -705,6 +659,9 @@ zapewniony.</p></div>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

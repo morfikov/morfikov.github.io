@@ -2,87 +2,38 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Jak włączyć w Firefox ESNI (Encrypted SNI) | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Jak włączyć w Firefox ESNI (Encrypted SNI)" />
-<meta property="og:description" content="Obecnie szyfrowanie zapytań DNS staje się powoli normą za sprawą protokołu DoH (DNS over HTTPS)
-lub DoT (DNS over TLS). Można by zatem pomyśleć, że wraz z implementacją szyfrowania tego
-kluczowego dla działania internetu protokołu (przynajmniej z naszego ludzkiego punktu widzenia),
-poprawie ulegnie również nasza prywatność w kwestii odwiedzanych przez nas stron WWW. Niemniej
-jednak, w dalszym ciągu można bez problemu wyciągnąć adresy domen, które zamierzamy odwiedzić. Nie
-ma przy tym żadnego znaczenia ile stron jest hostowanych na danym adresie IP, ani nawet fakt, że
-ruch do serwera WWW będzie szyfrowany (w pasku adresu wpiszemy https:// ) z wykorzystaniem
-protokołu SSL/TLS (w tym również TLS v1.3). Wszystko przez rozszerzenie SNI (Server Name
-Indication), którego to zadaniem jest umożliwienie jednemu serwerowi na prezentowanie wielu
-certyfikatów hostowanych w jego obrębie domen. Dzięki takiemu rozwiązaniu, każda domena może
-szyfrować ruch niezależnie od siebie na linii serwer&lt;-&gt;klient (używać innych kluczy szyfrujących).
-Niemniej jednak, podczas nawiązywania szyfrowanego połączenia, w pakiecie ClientHello przesyłanym
-do takiego serwera musi znaleźć się nazwa domeny, której to certyfikat serwer będzie musiał nam
-przedstawić. Niestety ten pakiet jest przesyłany przez sieć otwartym tekstem, przez co każdy, kto
-podsłuchuje naszą komunikację (w tym też nasz ISP), bez problemu może ustalić na jakie strony
-internetowe wchodzimy. Ostatnimi czasy jednak pojawiły się dwa rozszerzenia ECH (Encrypted Client
-Hello) oraz ESNI (Encrypted SNI), które mają zaadresować problemy związane z prywatnością
-przez pełne zaszyfrowanie pakietu ClientHello lub też zaszyfrowanie jedynie pola SNI w tym pakiecie.
-Póki co, prace nad tymi rozszerzeniami nie są jeszcze skończone ale Firefox w połączeniu z
-CloudFlare powoli testują ESNI. Postanowiłem zatem dobrowolnie przyłączyć się do grupy testerów i
-wdrożyć na swoim linux&#39;ie to rozszerzenie ESNI dla przeglądarki Firefox." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2020-08-10T18:15:00+00:00" />
-<meta property="article:modified_time" content="2020-08-10T18:15:00+00:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Jak włączyć w Firefox ESNI (Encrypted SNI)">
+  <meta property="og:description" content="Obecnie szyfrowanie zapytań DNS staje się powoli normą za sprawą protokołu DoH (DNS over HTTPS) lub DoT (DNS over TLS). Można by zatem pomyśleć, że wraz z implementacją szyfrowania tego kluczowego dla działania internetu protokołu (przynajmniej z naszego ludzkiego punktu widzenia), poprawie ulegnie również nasza prywatność w kwestii odwiedzanych przez nas stron WWW. Niemniej jednak, w dalszym ciągu można bez problemu wyciągnąć adresy domen, które zamierzamy odwiedzić. Nie ma przy tym żadnego znaczenia ile stron jest hostowanych na danym adresie IP, ani nawet fakt, że ruch do serwera WWW będzie szyfrowany (w pasku adresu wpiszemy https:// ) z wykorzystaniem protokołu SSL/TLS (w tym również TLS v1.3). Wszystko przez rozszerzenie SNI (Server Name Indication), którego to zadaniem jest umożliwienie jednemu serwerowi na prezentowanie wielu certyfikatów hostowanych w jego obrębie domen. Dzięki takiemu rozwiązaniu, każda domena może szyfrować ruch niezależnie od siebie na linii serwer&lt;-&gt;klient (używać innych kluczy szyfrujących). Niemniej jednak, podczas nawiązywania szyfrowanego połączenia, w pakiecie ClientHello przesyłanym do takiego serwera musi znaleźć się nazwa domeny, której to certyfikat serwer będzie musiał nam przedstawić. Niestety ten pakiet jest przesyłany przez sieć otwartym tekstem, przez co każdy, kto podsłuchuje naszą komunikację (w tym też nasz ISP), bez problemu może ustalić na jakie strony internetowe wchodzimy. Ostatnimi czasy jednak pojawiły się dwa rozszerzenia ECH (Encrypted Client Hello) oraz ESNI (Encrypted SNI), które mają zaadresować problemy związane z prywatnością przez pełne zaszyfrowanie pakietu ClientHello lub też zaszyfrowanie jedynie pola SNI w tym pakiecie. Póki co, prace nad tymi rozszerzeniami nie są jeszcze skończone ale Firefox w połączeniu z CloudFlare powoli testują ESNI. Postanowiłem zatem dobrowolnie przyłączyć się do grupy testerów i wdrożyć na swoim linux&#39;ie to rozszerzenie ESNI dla przeglądarki Firefox.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2020-08-10T18:15:00+00:00">
+    <meta property="article:modified_time" content="2020-08-10T18:15:00+00:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Dns">
+    <meta property="article:tag" content="Dot">
+    <meta property="article:tag" content="Doh">
+    <meta property="article:tag" content="Prywatność">
+    <meta property="article:tag" content="Szyfrowanie">
 
-
-		<meta itemprop="name" content="Jak włączyć w Firefox ESNI (Encrypted SNI)">
-<meta itemprop="description" content="Obecnie szyfrowanie zapytań DNS staje się powoli normą za sprawą protokołu DoH (DNS over HTTPS)
-lub DoT (DNS over TLS). Można by zatem pomyśleć, że wraz z implementacją szyfrowania tego
-kluczowego dla działania internetu protokołu (przynajmniej z naszego ludzkiego punktu widzenia),
-poprawie ulegnie również nasza prywatność w kwestii odwiedzanych przez nas stron WWW. Niemniej
-jednak, w dalszym ciągu można bez problemu wyciągnąć adresy domen, które zamierzamy odwiedzić. Nie
-ma przy tym żadnego znaczenia ile stron jest hostowanych na danym adresie IP, ani nawet fakt, że
-ruch do serwera WWW będzie szyfrowany (w pasku adresu wpiszemy https:// ) z wykorzystaniem
-protokołu SSL/TLS (w tym również TLS v1.3). Wszystko przez rozszerzenie SNI (Server Name
-Indication), którego to zadaniem jest umożliwienie jednemu serwerowi na prezentowanie wielu
-certyfikatów hostowanych w jego obrębie domen. Dzięki takiemu rozwiązaniu, każda domena może
-szyfrować ruch niezależnie od siebie na linii serwer&lt;-&gt;klient (używać innych kluczy szyfrujących).
-Niemniej jednak, podczas nawiązywania szyfrowanego połączenia, w pakiecie ClientHello przesyłanym
-do takiego serwera musi znaleźć się nazwa domeny, której to certyfikat serwer będzie musiał nam
-przedstawić. Niestety ten pakiet jest przesyłany przez sieć otwartym tekstem, przez co każdy, kto
-podsłuchuje naszą komunikację (w tym też nasz ISP), bez problemu może ustalić na jakie strony
-internetowe wchodzimy. Ostatnimi czasy jednak pojawiły się dwa rozszerzenia ECH (Encrypted Client
-Hello) oraz ESNI (Encrypted SNI), które mają zaadresować problemy związane z prywatnością
-przez pełne zaszyfrowanie pakietu ClientHello lub też zaszyfrowanie jedynie pola SNI w tym pakiecie.
-Póki co, prace nad tymi rozszerzeniami nie są jeszcze skończone ale Firefox w połączeniu z
-CloudFlare powoli testują ESNI. Postanowiłem zatem dobrowolnie przyłączyć się do grupy testerów i
-wdrożyć na swoim linux&#39;ie to rozszerzenie ESNI dla przeglądarki Firefox."><meta itemprop="datePublished" content="2020-08-10T18:15:00+00:00" />
-<meta itemprop="dateModified" content="2020-08-10T18:15:00+00:00" />
-<meta itemprop="wordCount" content="1625">
-<meta itemprop="keywords" content="debian,dns,dot,doh,prywatność,szyfrowanie,firefox," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Jak włączyć w Firefox ESNI (Encrypted SNI)"/>
-<meta name="twitter:description" content="Obecnie szyfrowanie zapytań DNS staje się powoli normą za sprawą protokołu DoH (DNS over HTTPS)
-lub DoT (DNS over TLS). Można by zatem pomyśleć, że wraz z implementacją szyfrowania tego
-kluczowego dla działania internetu protokołu (przynajmniej z naszego ludzkiego punktu widzenia),
-poprawie ulegnie również nasza prywatność w kwestii odwiedzanych przez nas stron WWW. Niemniej
-jednak, w dalszym ciągu można bez problemu wyciągnąć adresy domen, które zamierzamy odwiedzić. Nie
-ma przy tym żadnego znaczenia ile stron jest hostowanych na danym adresie IP, ani nawet fakt, że
-ruch do serwera WWW będzie szyfrowany (w pasku adresu wpiszemy https:// ) z wykorzystaniem
-protokołu SSL/TLS (w tym również TLS v1.3). Wszystko przez rozszerzenie SNI (Server Name
-Indication), którego to zadaniem jest umożliwienie jednemu serwerowi na prezentowanie wielu
-certyfikatów hostowanych w jego obrębie domen. Dzięki takiemu rozwiązaniu, każda domena może
-szyfrować ruch niezależnie od siebie na linii serwer&lt;-&gt;klient (używać innych kluczy szyfrujących).
-Niemniej jednak, podczas nawiązywania szyfrowanego połączenia, w pakiecie ClientHello przesyłanym
-do takiego serwera musi znaleźć się nazwa domeny, której to certyfikat serwer będzie musiał nam
-przedstawić. Niestety ten pakiet jest przesyłany przez sieć otwartym tekstem, przez co każdy, kto
-podsłuchuje naszą komunikację (w tym też nasz ISP), bez problemu może ustalić na jakie strony
-internetowe wchodzimy. Ostatnimi czasy jednak pojawiły się dwa rozszerzenia ECH (Encrypted Client
-Hello) oraz ESNI (Encrypted SNI), które mają zaadresować problemy związane z prywatnością
-przez pełne zaszyfrowanie pakietu ClientHello lub też zaszyfrowanie jedynie pola SNI w tym pakiecie.
-Póki co, prace nad tymi rozszerzeniami nie są jeszcze skończone ale Firefox w połączeniu z
-CloudFlare powoli testują ESNI. Postanowiłem zatem dobrowolnie przyłączyć się do grupy testerów i
-wdrożyć na swoim linux&#39;ie to rozszerzenie ESNI dla przeglądarki Firefox."/>
+		
+  <meta itemprop="name" content="Jak włączyć w Firefox ESNI (Encrypted SNI)">
+  <meta itemprop="description" content="Obecnie szyfrowanie zapytań DNS staje się powoli normą za sprawą protokołu DoH (DNS over HTTPS) lub DoT (DNS over TLS). Można by zatem pomyśleć, że wraz z implementacją szyfrowania tego kluczowego dla działania internetu protokołu (przynajmniej z naszego ludzkiego punktu widzenia), poprawie ulegnie również nasza prywatność w kwestii odwiedzanych przez nas stron WWW. Niemniej jednak, w dalszym ciągu można bez problemu wyciągnąć adresy domen, które zamierzamy odwiedzić. Nie ma przy tym żadnego znaczenia ile stron jest hostowanych na danym adresie IP, ani nawet fakt, że ruch do serwera WWW będzie szyfrowany (w pasku adresu wpiszemy https:// ) z wykorzystaniem protokołu SSL/TLS (w tym również TLS v1.3). Wszystko przez rozszerzenie SNI (Server Name Indication), którego to zadaniem jest umożliwienie jednemu serwerowi na prezentowanie wielu certyfikatów hostowanych w jego obrębie domen. Dzięki takiemu rozwiązaniu, każda domena może szyfrować ruch niezależnie od siebie na linii serwer&lt;-&gt;klient (używać innych kluczy szyfrujących). Niemniej jednak, podczas nawiązywania szyfrowanego połączenia, w pakiecie ClientHello przesyłanym do takiego serwera musi znaleźć się nazwa domeny, której to certyfikat serwer będzie musiał nam przedstawić. Niestety ten pakiet jest przesyłany przez sieć otwartym tekstem, przez co każdy, kto podsłuchuje naszą komunikację (w tym też nasz ISP), bez problemu może ustalić na jakie strony internetowe wchodzimy. Ostatnimi czasy jednak pojawiły się dwa rozszerzenia ECH (Encrypted Client Hello) oraz ESNI (Encrypted SNI), które mają zaadresować problemy związane z prywatnością przez pełne zaszyfrowanie pakietu ClientHello lub też zaszyfrowanie jedynie pola SNI w tym pakiecie. Póki co, prace nad tymi rozszerzeniami nie są jeszcze skończone ale Firefox w połączeniu z CloudFlare powoli testują ESNI. Postanowiłem zatem dobrowolnie przyłączyć się do grupy testerów i wdrożyć na swoim linux&#39;ie to rozszerzenie ESNI dla przeglądarki Firefox.">
+  <meta itemprop="datePublished" content="2020-08-10T18:15:00+00:00">
+  <meta itemprop="dateModified" content="2020-08-10T18:15:00+00:00">
+  <meta itemprop="wordCount" content="1625">
+  <meta itemprop="keywords" content="Debian,Dns,Dot,Doh,Prywatność,Szyfrowanie,Firefox">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jak włączyć w Firefox ESNI (Encrypted SNI)">
+  <meta name="twitter:description" content="Obecnie szyfrowanie zapytań DNS staje się powoli normą za sprawą protokołu DoH (DNS over HTTPS) lub DoT (DNS over TLS). Można by zatem pomyśleć, że wraz z implementacją szyfrowania tego kluczowego dla działania internetu protokołu (przynajmniej z naszego ludzkiego punktu widzenia), poprawie ulegnie również nasza prywatność w kwestii odwiedzanych przez nas stron WWW. Niemniej jednak, w dalszym ciągu można bez problemu wyciągnąć adresy domen, które zamierzamy odwiedzić. Nie ma przy tym żadnego znaczenia ile stron jest hostowanych na danym adresie IP, ani nawet fakt, że ruch do serwera WWW będzie szyfrowany (w pasku adresu wpiszemy https:// ) z wykorzystaniem protokołu SSL/TLS (w tym również TLS v1.3). Wszystko przez rozszerzenie SNI (Server Name Indication), którego to zadaniem jest umożliwienie jednemu serwerowi na prezentowanie wielu certyfikatów hostowanych w jego obrębie domen. Dzięki takiemu rozwiązaniu, każda domena może szyfrować ruch niezależnie od siebie na linii serwer&lt;-&gt;klient (używać innych kluczy szyfrujących). Niemniej jednak, podczas nawiązywania szyfrowanego połączenia, w pakiecie ClientHello przesyłanym do takiego serwera musi znaleźć się nazwa domeny, której to certyfikat serwer będzie musiał nam przedstawić. Niestety ten pakiet jest przesyłany przez sieć otwartym tekstem, przez co każdy, kto podsłuchuje naszą komunikację (w tym też nasz ISP), bez problemu może ustalić na jakie strony internetowe wchodzimy. Ostatnimi czasy jednak pojawiły się dwa rozszerzenia ECH (Encrypted Client Hello) oraz ESNI (Encrypted SNI), które mają zaadresować problemy związane z prywatnością przez pełne zaszyfrowanie pakietu ClientHello lub też zaszyfrowanie jedynie pola SNI w tym pakiecie. Póki co, prace nad tymi rozszerzeniami nie są jeszcze skończone ale Firefox w połączeniu z CloudFlare powoli testują ESNI. Postanowiłem zatem dobrowolnie przyłączyć się do grupy testerów i wdrożyć na swoim linux&#39;ie to rozszerzenie ESNI dla przeglądarki Firefox.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -90,19 +41,11 @@ wdrożyć na swoim linux&#39;ie to rozszerzenie ESNI dla przeglądarki Firefox."
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -161,11 +104,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2020-08-10T18:15:00Z">Opublikowano: 10/08/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Jak włączyć w Firefox ESNI (Encrypted SNI)</h1>
 <details class="entry__toc toc" >
@@ -371,13 +314,12 @@ korzystamy z <code>dnscrypt-proxy</code> , a nie z wbudowanego w Firefox resolve
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dns/">dns</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dot/">dot</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/doh/">doh</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/prywatnosc/">prywatność</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">szyfrowanie</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/firefox/">firefox</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dns/">Dns</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dot/">Dot</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/doh/">Doh</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/szyfrowanie/">Szyfrowanie</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/firefox/">Firefox</a>
 </div>
 					
 <div class="entry__share share">
@@ -478,6 +420,9 @@ korzystamy z <code>dnscrypt-proxy</code> , a nie z wbudowanego w Firefox resolve
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

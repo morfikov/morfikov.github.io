@@ -2,63 +2,38 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux" />
-<meta property="og:description" content="W środowiskach linux&#39;owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako
-źródło wszelkiego zła na świecie. Sporo użytkowników linux&#39;a dopatruje się w Secure Boot zamachu na
-wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak,
-odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu
-użytkowników linux&#39;a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak shim
-(no i jest też PreLoader), który umożliwia dystrybucjom linux&#39;a (jak i ich końcowym
-użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie
-się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich
-miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod
-podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w
-trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma
-na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy
-wykorzystaniu dystrybucji Debiana." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2020-03-16T19:15:00+00:00" />
-<meta property="article:modified_time" content="2020-07-30T20:45:00+01:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/jak-dodac-wlasne-klucze-dla-secure-boot-do-firmware-efi-uefi-pod-linux/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux">
+  <meta property="og:description" content="W środowiskach linux&#39;owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako źródło wszelkiego zła na świecie. Sporo użytkowników linux&#39;a dopatruje się w Secure Boot zamachu na wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak, odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu użytkowników linux&#39;a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak shim (no i jest też PreLoader), który umożliwia dystrybucjom linux&#39;a (jak i ich końcowym użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy wykorzystaniu dystrybucji Debiana.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2020-03-16T19:15:00+00:00">
+    <meta property="article:modified_time" content="2020-07-30T20:45:00+01:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Efi">
+    <meta property="article:tag" content="Uefi">
+    <meta property="article:tag" content="Secure-Boot">
+    <meta property="article:tag" content="Shim">
+    <meta property="article:tag" content="Refind">
 
-
-		<meta itemprop="name" content="Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux">
-<meta itemprop="description" content="W środowiskach linux&#39;owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako
-źródło wszelkiego zła na świecie. Sporo użytkowników linux&#39;a dopatruje się w Secure Boot zamachu na
-wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak,
-odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu
-użytkowników linux&#39;a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak shim
-(no i jest też PreLoader), który umożliwia dystrybucjom linux&#39;a (jak i ich końcowym
-użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie
-się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich
-miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod
-podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w
-trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma
-na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy
-wykorzystaniu dystrybucji Debiana."><meta itemprop="datePublished" content="2020-03-16T19:15:00+00:00" />
-<meta itemprop="dateModified" content="2020-07-30T20:45:00+01:00" />
-<meta itemprop="wordCount" content="9098">
-<meta itemprop="keywords" content="debian,efi,uefi,secure-boot,shim,refind,lenovo,thinkpad,t430," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux"/>
-<meta name="twitter:description" content="W środowiskach linux&#39;owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako
-źródło wszelkiego zła na świecie. Sporo użytkowników linux&#39;a dopatruje się w Secure Boot zamachu na
-wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak,
-odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu
-użytkowników linux&#39;a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak shim
-(no i jest też PreLoader), który umożliwia dystrybucjom linux&#39;a (jak i ich końcowym
-użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie
-się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich
-miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod
-podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w
-trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma
-na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy
-wykorzystaniu dystrybucji Debiana."/>
+		
+  <meta itemprop="name" content="Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux">
+  <meta itemprop="description" content="W środowiskach linux&#39;owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako źródło wszelkiego zła na świecie. Sporo użytkowników linux&#39;a dopatruje się w Secure Boot zamachu na wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak, odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu użytkowników linux&#39;a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak shim (no i jest też PreLoader), który umożliwia dystrybucjom linux&#39;a (jak i ich końcowym użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy wykorzystaniu dystrybucji Debiana.">
+  <meta itemprop="datePublished" content="2020-03-16T19:15:00+00:00">
+  <meta itemprop="dateModified" content="2020-07-30T20:45:00+01:00">
+  <meta itemprop="wordCount" content="9098">
+  <meta itemprop="keywords" content="Debian,Efi,Uefi,Secure-Boot,Shim,Refind,Lenovo,Thinkpad,T430">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux">
+  <meta name="twitter:description" content="W środowiskach linux&#39;owych Secure Boot nie jest zbyt mile widziany i raczej postrzegany jako źródło wszelkiego zła na świecie. Sporo użytkowników linux&#39;a dopatruje się w Secure Boot zamachu na wolność decydowania o swoim sprzęcie, który ma być serwowany przez Microsoft. Niemniej jednak, odsądzanie tego mechanizmu od czci i wiary jest moim zdaniem lekko nie na miejscu. Niewielu użytkowników linux&#39;a zdaje sobie sprawę, że od prawie dekady istnieje taki wynalazek jak shim (no i jest też PreLoader), który umożliwia dystrybucjom linux&#39;a (jak i ich końcowym użytkownikom) zaimplementowanie Secure Boot we własnym zakresie. Niemniej jednak, można całkowicie się obejść bez tych dodatków usuwając wbudowane w firmware EFI/UEFI certyfikaty i dodając na ich miejsce własnoręcznie wygenerowane klucze kryptograficzne. Takie podejście sprawia, że kod podpisany tylko i wyłącznie przez nas będzie mógł zostać uruchomiony przez firmware komputera w trybie Secure Boot, co może ździebko poprawić bezpieczeństwo naszego systemu. Poniższy artykuł ma na celu pokazać w jaki sposób zastąpić wbudowane w firmware EFI/UEFI klucze swoimi własnymi przy wykorzystaniu dystrybucji Debiana.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -66,19 +41,11 @@ wykorzystaniu dystrybucji Debiana."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -138,11 +105,11 @@ if (!doNotTrack) {
 	<time class="entry__meta-published meta-published" datetime="2020-03-16T19:15:00Z">Opublikowano: 16/03/2020</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-07-30T20:45:00&#43;01:00">Zaktualizowano: 30/07/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Jak dodać własne klucze dla Secure Boot do firmware EFI/UEFI pod linux</h1>
 <details class="entry__toc toc" >
@@ -1510,15 +1477,15 @@ stadium uruchamiania komputera.</p></div>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/efi/">efi</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/uefi/">uefi</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/secure-boot/">secure-boot</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/shim/">shim</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/refind/">refind</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lenovo/">lenovo</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/thinkpad/">thinkpad</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/t430/">t430</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/efi/">Efi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/uefi/">Uefi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/secure-boot/">Secure-Boot</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/shim/">Shim</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/refind/">Refind</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lenovo/">Lenovo</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/thinkpad/">Thinkpad</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/t430/">T430</a>
 </div>
 					
 <div class="entry__share share">
@@ -1619,6 +1586,9 @@ stadium uruchamiania komputera.</p></div>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

@@ -2,69 +2,38 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Tryb bezczynności baterii (IDLE mode) w smartfonach z Androidem | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Tryb bezczynności baterii (IDLE mode) w smartfonach z Androidem" />
-<meta property="og:description" content="Gdy zapytamy użytkowników smartfonów z Androidem o to, czy taki sprzęt jest w stanie pracować z
-pominięciem układu baterii, zapewne wiele z tych osób odpowiedziałoby, że nie ma takiej opcji, bo
-przecież w tych telefonach od lat baterii się już nie da wyciągnąć. Nawet w tych starszych
-modelach, po wyjęciu baterii i podłączeniu ładowarki, system w takim urządzeniu nie chciał się
-uruchomić. Okazuje się jednak, że nie trzeba wyjmować akumulatora ze smartfona, by to urządzenie
-było w stanie działać z pominięciem układu baterii, tj. w tzw. trybie bezczynności baterii (battery
-IDLE mode), coś na wzór rozwiązania stosowanego od dekad w laptopach. Niemniej jednak, takiej
-funkcjonalności zwykle nie uświadczymy w stock&#39;owych Androidach. Możemy się jednak o nią postarać
-ale do tego celu niezbędne będzie nam uzyskanie praw administratora systemu root, choć lepiej wgrać
-sobie na smartfon ROM na bazie AOSP/LineageOS. Bez ukorzenionego Androida nie mamy nawet co
-podchodzić do implementacji tego mechanizmu. Dodatkowo będzie nam potrzebny zaawansowany kontroler
-ładowania baterii ACC (w postaci modułu do Magisk&#39;a) i opcjonalnie też graficzna nakładka
-ACCA (do pobrania z F-Droid). W poniższym artykule postaramy się odpowiedzieć na pytanie czy
-takie rozwiązanie na bazie IDLE mode w przypadku baterii w smartfonach z Androidem ma w ogóle sens
-i czy może nam się ewentualnie do czegoś przydać." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/tryb-bezczynnosci-baterii-idle-mode-w-smartfonach-z-androidem/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2022-02-06T17:52:00+01:00" />
-<meta property="article:modified_time" content="2022-02-06T17:52:00+01:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/tryb-bezczynnosci-baterii-idle-mode-w-smartfonach-z-androidem/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Tryb bezczynności baterii (IDLE mode) w smartfonach z Androidem">
+  <meta property="og:description" content="Gdy zapytamy użytkowników smartfonów z Androidem o to, czy taki sprzęt jest w stanie pracować z pominięciem układu baterii, zapewne wiele z tych osób odpowiedziałoby, że nie ma takiej opcji, bo przecież w tych telefonach od lat baterii się już nie da wyciągnąć. Nawet w tych starszych modelach, po wyjęciu baterii i podłączeniu ładowarki, system w takim urządzeniu nie chciał się uruchomić. Okazuje się jednak, że nie trzeba wyjmować akumulatora ze smartfona, by to urządzenie było w stanie działać z pominięciem układu baterii, tj. w tzw. trybie bezczynności baterii (battery IDLE mode), coś na wzór rozwiązania stosowanego od dekad w laptopach. Niemniej jednak, takiej funkcjonalności zwykle nie uświadczymy w stock&#39;owych Androidach. Możemy się jednak o nią postarać ale do tego celu niezbędne będzie nam uzyskanie praw administratora systemu root, choć lepiej wgrać sobie na smartfon ROM na bazie AOSP/LineageOS. Bez ukorzenionego Androida nie mamy nawet co podchodzić do implementacji tego mechanizmu. Dodatkowo będzie nam potrzebny zaawansowany kontroler ładowania baterii ACC (w postaci modułu do Magisk&#39;a) i opcjonalnie też graficzna nakładka ACCA (do pobrania z F-Droid). W poniższym artykule postaramy się odpowiedzieć na pytanie czy takie rozwiązanie na bazie IDLE mode w przypadku baterii w smartfonach z Androidem ma w ogóle sens i czy może nam się ewentualnie do czegoś przydać.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2022-02-06T17:52:00+01:00">
+    <meta property="article:modified_time" content="2022-02-06T17:52:00+01:00">
+    <meta property="article:tag" content="Xiaomi">
+    <meta property="article:tag" content="Redmi-9">
+    <meta property="article:tag" content="Root">
+    <meta property="article:tag" content="Smartfon">
+    <meta property="article:tag" content="Bateria">
+    <meta property="article:tag" content="Akumulator">
 
-
-		<meta itemprop="name" content="Tryb bezczynności baterii (IDLE mode) w smartfonach z Androidem">
-<meta itemprop="description" content="Gdy zapytamy użytkowników smartfonów z Androidem o to, czy taki sprzęt jest w stanie pracować z
-pominięciem układu baterii, zapewne wiele z tych osób odpowiedziałoby, że nie ma takiej opcji, bo
-przecież w tych telefonach od lat baterii się już nie da wyciągnąć. Nawet w tych starszych
-modelach, po wyjęciu baterii i podłączeniu ładowarki, system w takim urządzeniu nie chciał się
-uruchomić. Okazuje się jednak, że nie trzeba wyjmować akumulatora ze smartfona, by to urządzenie
-było w stanie działać z pominięciem układu baterii, tj. w tzw. trybie bezczynności baterii (battery
-IDLE mode), coś na wzór rozwiązania stosowanego od dekad w laptopach. Niemniej jednak, takiej
-funkcjonalności zwykle nie uświadczymy w stock&#39;owych Androidach. Możemy się jednak o nią postarać
-ale do tego celu niezbędne będzie nam uzyskanie praw administratora systemu root, choć lepiej wgrać
-sobie na smartfon ROM na bazie AOSP/LineageOS. Bez ukorzenionego Androida nie mamy nawet co
-podchodzić do implementacji tego mechanizmu. Dodatkowo będzie nam potrzebny zaawansowany kontroler
-ładowania baterii ACC (w postaci modułu do Magisk&#39;a) i opcjonalnie też graficzna nakładka
-ACCA (do pobrania z F-Droid). W poniższym artykule postaramy się odpowiedzieć na pytanie czy
-takie rozwiązanie na bazie IDLE mode w przypadku baterii w smartfonach z Androidem ma w ogóle sens
-i czy może nam się ewentualnie do czegoś przydać."><meta itemprop="datePublished" content="2022-02-06T17:52:00+01:00" />
-<meta itemprop="dateModified" content="2022-02-06T17:52:00+01:00" />
-<meta itemprop="wordCount" content="1696">
-<meta itemprop="keywords" content="xiaomi,redmi-9,root,smartfon,bateria,akumulator,acc,f-droid,aplikacje,aosp," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Tryb bezczynności baterii (IDLE mode) w smartfonach z Androidem"/>
-<meta name="twitter:description" content="Gdy zapytamy użytkowników smartfonów z Androidem o to, czy taki sprzęt jest w stanie pracować z
-pominięciem układu baterii, zapewne wiele z tych osób odpowiedziałoby, że nie ma takiej opcji, bo
-przecież w tych telefonach od lat baterii się już nie da wyciągnąć. Nawet w tych starszych
-modelach, po wyjęciu baterii i podłączeniu ładowarki, system w takim urządzeniu nie chciał się
-uruchomić. Okazuje się jednak, że nie trzeba wyjmować akumulatora ze smartfona, by to urządzenie
-było w stanie działać z pominięciem układu baterii, tj. w tzw. trybie bezczynności baterii (battery
-IDLE mode), coś na wzór rozwiązania stosowanego od dekad w laptopach. Niemniej jednak, takiej
-funkcjonalności zwykle nie uświadczymy w stock&#39;owych Androidach. Możemy się jednak o nią postarać
-ale do tego celu niezbędne będzie nam uzyskanie praw administratora systemu root, choć lepiej wgrać
-sobie na smartfon ROM na bazie AOSP/LineageOS. Bez ukorzenionego Androida nie mamy nawet co
-podchodzić do implementacji tego mechanizmu. Dodatkowo będzie nam potrzebny zaawansowany kontroler
-ładowania baterii ACC (w postaci modułu do Magisk&#39;a) i opcjonalnie też graficzna nakładka
-ACCA (do pobrania z F-Droid). W poniższym artykule postaramy się odpowiedzieć na pytanie czy
-takie rozwiązanie na bazie IDLE mode w przypadku baterii w smartfonach z Androidem ma w ogóle sens
-i czy może nam się ewentualnie do czegoś przydać."/>
+		
+  <meta itemprop="name" content="Tryb bezczynności baterii (IDLE mode) w smartfonach z Androidem">
+  <meta itemprop="description" content="Gdy zapytamy użytkowników smartfonów z Androidem o to, czy taki sprzęt jest w stanie pracować z pominięciem układu baterii, zapewne wiele z tych osób odpowiedziałoby, że nie ma takiej opcji, bo przecież w tych telefonach od lat baterii się już nie da wyciągnąć. Nawet w tych starszych modelach, po wyjęciu baterii i podłączeniu ładowarki, system w takim urządzeniu nie chciał się uruchomić. Okazuje się jednak, że nie trzeba wyjmować akumulatora ze smartfona, by to urządzenie było w stanie działać z pominięciem układu baterii, tj. w tzw. trybie bezczynności baterii (battery IDLE mode), coś na wzór rozwiązania stosowanego od dekad w laptopach. Niemniej jednak, takiej funkcjonalności zwykle nie uświadczymy w stock&#39;owych Androidach. Możemy się jednak o nią postarać ale do tego celu niezbędne będzie nam uzyskanie praw administratora systemu root, choć lepiej wgrać sobie na smartfon ROM na bazie AOSP/LineageOS. Bez ukorzenionego Androida nie mamy nawet co podchodzić do implementacji tego mechanizmu. Dodatkowo będzie nam potrzebny zaawansowany kontroler ładowania baterii ACC (w postaci modułu do Magisk&#39;a) i opcjonalnie też graficzna nakładka ACCA (do pobrania z F-Droid). W poniższym artykule postaramy się odpowiedzieć na pytanie czy takie rozwiązanie na bazie IDLE mode w przypadku baterii w smartfonach z Androidem ma w ogóle sens i czy może nam się ewentualnie do czegoś przydać.">
+  <meta itemprop="datePublished" content="2022-02-06T17:52:00+01:00">
+  <meta itemprop="dateModified" content="2022-02-06T17:52:00+01:00">
+  <meta itemprop="wordCount" content="1696">
+  <meta itemprop="keywords" content="Xiaomi,Redmi-9,Root,Smartfon,Bateria,Akumulator,Acc,F-Droid,Aplikacje,Aosp">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Tryb bezczynności baterii (IDLE mode) w smartfonach z Androidem">
+  <meta name="twitter:description" content="Gdy zapytamy użytkowników smartfonów z Androidem o to, czy taki sprzęt jest w stanie pracować z pominięciem układu baterii, zapewne wiele z tych osób odpowiedziałoby, że nie ma takiej opcji, bo przecież w tych telefonach od lat baterii się już nie da wyciągnąć. Nawet w tych starszych modelach, po wyjęciu baterii i podłączeniu ładowarki, system w takim urządzeniu nie chciał się uruchomić. Okazuje się jednak, że nie trzeba wyjmować akumulatora ze smartfona, by to urządzenie było w stanie działać z pominięciem układu baterii, tj. w tzw. trybie bezczynności baterii (battery IDLE mode), coś na wzór rozwiązania stosowanego od dekad w laptopach. Niemniej jednak, takiej funkcjonalności zwykle nie uświadczymy w stock&#39;owych Androidach. Możemy się jednak o nią postarać ale do tego celu niezbędne będzie nam uzyskanie praw administratora systemu root, choć lepiej wgrać sobie na smartfon ROM na bazie AOSP/LineageOS. Bez ukorzenionego Androida nie mamy nawet co podchodzić do implementacji tego mechanizmu. Dodatkowo będzie nam potrzebny zaawansowany kontroler ładowania baterii ACC (w postaci modułu do Magisk&#39;a) i opcjonalnie też graficzna nakładka ACCA (do pobrania z F-Droid). W poniższym artykule postaramy się odpowiedzieć na pytanie czy takie rozwiązanie na bazie IDLE mode w przypadku baterii w smartfonach z Androidem ma w ogóle sens i czy może nam się ewentualnie do czegoś przydać.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -72,19 +41,11 @@ i czy może nam się ewentualnie do czegoś przydać."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -143,11 +104,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2022-02-06T17:52:00&#43;01:00">Opublikowano: 06/02/2022</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Tryb bezczynności baterii (IDLE mode) w smartfonach z Androidem</h1>
 <details class="entry__toc toc" >
@@ -363,16 +324,16 @@ nowe.</p></div>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">xiaomi</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">redmi-9</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">root</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bateria/">bateria</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/akumulator/">akumulator</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/acc/">acc</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/f-droid/">f-droid</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aplikacje/">aplikacje</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aosp/">aosp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">Xiaomi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">Redmi-9</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">Root</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">Smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bateria/">Bateria</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/akumulator/">Akumulator</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/acc/">Acc</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/f-droid/">F-Droid</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aplikacje/">Aplikacje</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aosp/">Aosp</a>
 </div>
 					
 <div class="entry__share share">
@@ -473,6 +434,9 @@ nowe.</p></div>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

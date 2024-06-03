@@ -2,51 +2,37 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Moduł LKRG (Linux Kernel Runtime Guard) | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Moduł LKRG (Linux Kernel Runtime Guard)" />
-<meta property="og:description" content="Jakiś czas temu opisywałem moduł TPE (Trusted Path Execution) dla kernela linux, który jest w
-stanie dość znacznie poprawić bezpieczeństwo naszego systemu. Ostatnio jednak natknąłem się na
-moduł LKRG (Linux Kernel Runtime Guard), którego to zadaniem jest stać na straży samego jądra
-operacyjnego i chronić je w czasie rzeczywistym przed różnego rodzaju zagrożeniami poprzez
-wykrywanie eksploitów wykorzystujących luki w jego mechanizmach bezpieczeństwa. Jako, że ja
-bardzo lubię zbroić swojego Debiana, to postanowiłem się przyjrzeć nieco bliżej temu całemu LKRG i
-sprawdzić jego użyteczność. Trzeba jednak wiedzieć, że LKRG jest dostarczany w formie osobnego
-modułu zamiast łaty na kernel, przez co trzeba będzie także postarać się o automatyzację pewnych
-rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/modul-lkrg-linux-kernel-runtime-guard/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2020-06-09T20:56:00+00:00" />
-<meta property="article:modified_time" content="2020-06-26T20:56:00+02:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/modul-lkrg-linux-kernel-runtime-guard/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Moduł LKRG (Linux Kernel Runtime Guard)">
+  <meta property="og:description" content="Jakiś czas temu opisywałem moduł TPE (Trusted Path Execution) dla kernela linux, który jest w stanie dość znacznie poprawić bezpieczeństwo naszego systemu. Ostatnio jednak natknąłem się na moduł LKRG (Linux Kernel Runtime Guard), którego to zadaniem jest stać na straży samego jądra operacyjnego i chronić je w czasie rzeczywistym przed różnego rodzaju zagrożeniami poprzez wykrywanie eksploitów wykorzystujących luki w jego mechanizmach bezpieczeństwa. Jako, że ja bardzo lubię zbroić swojego Debiana, to postanowiłem się przyjrzeć nieco bliżej temu całemu LKRG i sprawdzić jego użyteczność. Trzeba jednak wiedzieć, że LKRG jest dostarczany w formie osobnego modułu zamiast łaty na kernel, przez co trzeba będzie także postarać się o automatyzację pewnych rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2020-06-09T20:56:00+00:00">
+    <meta property="article:modified_time" content="2020-06-26T20:56:00+02:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Dkms">
+    <meta property="article:tag" content="Lkrg">
+    <meta property="article:tag" content="Kernel">
+    <meta property="article:tag" content="Moduły-Kernela">
 
-
-		<meta itemprop="name" content="Moduł LKRG (Linux Kernel Runtime Guard)">
-<meta itemprop="description" content="Jakiś czas temu opisywałem moduł TPE (Trusted Path Execution) dla kernela linux, który jest w
-stanie dość znacznie poprawić bezpieczeństwo naszego systemu. Ostatnio jednak natknąłem się na
-moduł LKRG (Linux Kernel Runtime Guard), którego to zadaniem jest stać na straży samego jądra
-operacyjnego i chronić je w czasie rzeczywistym przed różnego rodzaju zagrożeniami poprzez
-wykrywanie eksploitów wykorzystujących luki w jego mechanizmach bezpieczeństwa. Jako, że ja
-bardzo lubię zbroić swojego Debiana, to postanowiłem się przyjrzeć nieco bliżej temu całemu LKRG i
-sprawdzić jego użyteczność. Trzeba jednak wiedzieć, że LKRG jest dostarczany w formie osobnego
-modułu zamiast łaty na kernel, przez co trzeba będzie także postarać się o automatyzację pewnych
-rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS."><meta itemprop="datePublished" content="2020-06-09T20:56:00+00:00" />
-<meta itemprop="dateModified" content="2020-06-26T20:56:00+02:00" />
-<meta itemprop="wordCount" content="3964">
-<meta itemprop="keywords" content="debian,dkms,lkrg,kernel,moduły-kernela," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Moduł LKRG (Linux Kernel Runtime Guard)"/>
-<meta name="twitter:description" content="Jakiś czas temu opisywałem moduł TPE (Trusted Path Execution) dla kernela linux, który jest w
-stanie dość znacznie poprawić bezpieczeństwo naszego systemu. Ostatnio jednak natknąłem się na
-moduł LKRG (Linux Kernel Runtime Guard), którego to zadaniem jest stać na straży samego jądra
-operacyjnego i chronić je w czasie rzeczywistym przed różnego rodzaju zagrożeniami poprzez
-wykrywanie eksploitów wykorzystujących luki w jego mechanizmach bezpieczeństwa. Jako, że ja
-bardzo lubię zbroić swojego Debiana, to postanowiłem się przyjrzeć nieco bliżej temu całemu LKRG i
-sprawdzić jego użyteczność. Trzeba jednak wiedzieć, że LKRG jest dostarczany w formie osobnego
-modułu zamiast łaty na kernel, przez co trzeba będzie także postarać się o automatyzację pewnych
-rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS."/>
+		
+  <meta itemprop="name" content="Moduł LKRG (Linux Kernel Runtime Guard)">
+  <meta itemprop="description" content="Jakiś czas temu opisywałem moduł TPE (Trusted Path Execution) dla kernela linux, który jest w stanie dość znacznie poprawić bezpieczeństwo naszego systemu. Ostatnio jednak natknąłem się na moduł LKRG (Linux Kernel Runtime Guard), którego to zadaniem jest stać na straży samego jądra operacyjnego i chronić je w czasie rzeczywistym przed różnego rodzaju zagrożeniami poprzez wykrywanie eksploitów wykorzystujących luki w jego mechanizmach bezpieczeństwa. Jako, że ja bardzo lubię zbroić swojego Debiana, to postanowiłem się przyjrzeć nieco bliżej temu całemu LKRG i sprawdzić jego użyteczność. Trzeba jednak wiedzieć, że LKRG jest dostarczany w formie osobnego modułu zamiast łaty na kernel, przez co trzeba będzie także postarać się o automatyzację pewnych rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS.">
+  <meta itemprop="datePublished" content="2020-06-09T20:56:00+00:00">
+  <meta itemprop="dateModified" content="2020-06-26T20:56:00+02:00">
+  <meta itemprop="wordCount" content="3964">
+  <meta itemprop="keywords" content="Debian,Dkms,Lkrg,Kernel,Moduły-Kernela">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Moduł LKRG (Linux Kernel Runtime Guard)">
+  <meta name="twitter:description" content="Jakiś czas temu opisywałem moduł TPE (Trusted Path Execution) dla kernela linux, który jest w stanie dość znacznie poprawić bezpieczeństwo naszego systemu. Ostatnio jednak natknąłem się na moduł LKRG (Linux Kernel Runtime Guard), którego to zadaniem jest stać na straży samego jądra operacyjnego i chronić je w czasie rzeczywistym przed różnego rodzaju zagrożeniami poprzez wykrywanie eksploitów wykorzystujących luki w jego mechanizmach bezpieczeństwa. Jako, że ja bardzo lubię zbroić swojego Debiana, to postanowiłem się przyjrzeć nieco bliżej temu całemu LKRG i sprawdzić jego użyteczność. Trzeba jednak wiedzieć, że LKRG jest dostarczany w formie osobnego modułu zamiast łaty na kernel, przez co trzeba będzie także postarać się o automatyzację pewnych rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -54,19 +40,11 @@ rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -126,11 +104,11 @@ if (!doNotTrack) {
 	<time class="entry__meta-published meta-published" datetime="2020-06-09T20:56:00Z">Opublikowano: 09/06/2020</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-06-26T20:56:00&#43;02:00">Zaktualizowano: 26/06/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Moduł LKRG (Linux Kernel Runtime Guard)</h1>
 <details class="entry__toc toc" >
@@ -775,11 +753,11 @@ sporemu uproszczeniu, co powinno przyczynić się do większego zainteresowania 
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dkms/">dkms</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lkrg/">lkrg</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kernel/">kernel</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/modu%C5%82y-kernela/">moduły-kernela</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dkms/">Dkms</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lkrg/">Lkrg</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kernel/">Kernel</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/modu%C5%82y-kernela/">Moduły-Kernela</a>
 </div>
 					
 <div class="entry__share share">
@@ -880,6 +858,9 @@ sporemu uproszczeniu, co powinno przyczynić się do większego zainteresowania 
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

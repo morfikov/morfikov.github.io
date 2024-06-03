@@ -2,57 +2,38 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Blokowanie dostępu do sensorów (kamera/mikrofon/gps) aplikacjom w Androidzie | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Blokowanie dostępu do sensorów (kamera/mikrofon/gps) aplikacjom w Androidzie" />
-<meta property="og:description" content="Raczej już nikogo nie dziwią różne moduły elektroniczne implementowane w smartfonach pokroju
-żyroskopu, akcelerometru, magnetometru czy też i innych czujników realizujących pewne określone
-funkcje. Te wszystkie rzeczy potocznie zwykło nazywać się sensorami i na dobrą sprawę zdążyły się
-one zadomowić na dobre w tych naszych telefonach i to do tego stopnia, że nawet sobie nie zdajemy
-sprawy, że w ogóle one istnieją i non stop działają w tle. Przekopując ostatnio ustawienia Androida,
-natknąłem się w opcjach deweloperskich na dość enigmatycznie brzmiącą opcję Sensors Off , która
-była ukryta pod Quick settings developer tiles . Zaznaczenie tej opcji sprawiło, że do dyspozycji
-użytkownika został oddany dodatkowy kafelek (dostępny z poziomu górnej belki), którego zadaniem
-jest sterowanie dostępem aplikacji do sensorów smartfona (nie tylko tych wymienionych wyżej ale też
-do kamery mikrofonu, czy nawet GPS). Postanowiłem się trochę pobawić tym mechanizmem i zobaczyć czy
-można z niego zrobić jakieś użyteczne narzędzie w kontekście ochrony prywatności." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/blokowanie-dostepu-do-sensorow-kamera-mikrofon-gps-aplikacjom-w-androidzie/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2021-09-22T02:04:00+02:00" />
-<meta property="article:modified_time" content="2021-09-22T02:04:00+02:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/blokowanie-dostepu-do-sensorow-kamera-mikrofon-gps-aplikacjom-w-androidzie/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Blokowanie dostępu do sensorów (kamera/mikrofon/gps) aplikacjom w Androidzie">
+  <meta property="og:description" content="Raczej już nikogo nie dziwią różne moduły elektroniczne implementowane w smartfonach pokroju żyroskopu, akcelerometru, magnetometru czy też i innych czujników realizujących pewne określone funkcje. Te wszystkie rzeczy potocznie zwykło nazywać się sensorami i na dobrą sprawę zdążyły się one zadomowić na dobre w tych naszych telefonach i to do tego stopnia, że nawet sobie nie zdajemy sprawy, że w ogóle one istnieją i non stop działają w tle. Przekopując ostatnio ustawienia Androida, natknąłem się w opcjach deweloperskich na dość enigmatycznie brzmiącą opcję Sensors Off , która była ukryta pod Quick settings developer tiles . Zaznaczenie tej opcji sprawiło, że do dyspozycji użytkownika został oddany dodatkowy kafelek (dostępny z poziomu górnej belki), którego zadaniem jest sterowanie dostępem aplikacji do sensorów smartfona (nie tylko tych wymienionych wyżej ale też do kamery mikrofonu, czy nawet GPS). Postanowiłem się trochę pobawić tym mechanizmem i zobaczyć czy można z niego zrobić jakieś użyteczne narzędzie w kontekście ochrony prywatności.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2021-09-22T02:04:00+02:00">
+    <meta property="article:modified_time" content="2021-09-22T02:04:00+02:00">
+    <meta property="article:tag" content="Smartfon">
+    <meta property="article:tag" content="Bateria">
+    <meta property="article:tag" content="Kamera">
+    <meta property="article:tag" content="Mikrofon">
+    <meta property="article:tag" content="Lokalizacja">
+    <meta property="article:tag" content="Gps">
 
-
-		<meta itemprop="name" content="Blokowanie dostępu do sensorów (kamera/mikrofon/gps) aplikacjom w Androidzie">
-<meta itemprop="description" content="Raczej już nikogo nie dziwią różne moduły elektroniczne implementowane w smartfonach pokroju
-żyroskopu, akcelerometru, magnetometru czy też i innych czujników realizujących pewne określone
-funkcje. Te wszystkie rzeczy potocznie zwykło nazywać się sensorami i na dobrą sprawę zdążyły się
-one zadomowić na dobre w tych naszych telefonach i to do tego stopnia, że nawet sobie nie zdajemy
-sprawy, że w ogóle one istnieją i non stop działają w tle. Przekopując ostatnio ustawienia Androida,
-natknąłem się w opcjach deweloperskich na dość enigmatycznie brzmiącą opcję Sensors Off , która
-była ukryta pod Quick settings developer tiles . Zaznaczenie tej opcji sprawiło, że do dyspozycji
-użytkownika został oddany dodatkowy kafelek (dostępny z poziomu górnej belki), którego zadaniem
-jest sterowanie dostępem aplikacji do sensorów smartfona (nie tylko tych wymienionych wyżej ale też
-do kamery mikrofonu, czy nawet GPS). Postanowiłem się trochę pobawić tym mechanizmem i zobaczyć czy
-można z niego zrobić jakieś użyteczne narzędzie w kontekście ochrony prywatności."><meta itemprop="datePublished" content="2021-09-22T02:04:00+02:00" />
-<meta itemprop="dateModified" content="2021-09-22T02:04:00+02:00" />
-<meta itemprop="wordCount" content="1189">
-<meta itemprop="keywords" content="smartfon,bateria,kamera,mikrofon,lokalizacja,gps,prywatność,aplikacje,f-droid," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Blokowanie dostępu do sensorów (kamera/mikrofon/gps) aplikacjom w Androidzie"/>
-<meta name="twitter:description" content="Raczej już nikogo nie dziwią różne moduły elektroniczne implementowane w smartfonach pokroju
-żyroskopu, akcelerometru, magnetometru czy też i innych czujników realizujących pewne określone
-funkcje. Te wszystkie rzeczy potocznie zwykło nazywać się sensorami i na dobrą sprawę zdążyły się
-one zadomowić na dobre w tych naszych telefonach i to do tego stopnia, że nawet sobie nie zdajemy
-sprawy, że w ogóle one istnieją i non stop działają w tle. Przekopując ostatnio ustawienia Androida,
-natknąłem się w opcjach deweloperskich na dość enigmatycznie brzmiącą opcję Sensors Off , która
-była ukryta pod Quick settings developer tiles . Zaznaczenie tej opcji sprawiło, że do dyspozycji
-użytkownika został oddany dodatkowy kafelek (dostępny z poziomu górnej belki), którego zadaniem
-jest sterowanie dostępem aplikacji do sensorów smartfona (nie tylko tych wymienionych wyżej ale też
-do kamery mikrofonu, czy nawet GPS). Postanowiłem się trochę pobawić tym mechanizmem i zobaczyć czy
-można z niego zrobić jakieś użyteczne narzędzie w kontekście ochrony prywatności."/>
+		
+  <meta itemprop="name" content="Blokowanie dostępu do sensorów (kamera/mikrofon/gps) aplikacjom w Androidzie">
+  <meta itemprop="description" content="Raczej już nikogo nie dziwią różne moduły elektroniczne implementowane w smartfonach pokroju żyroskopu, akcelerometru, magnetometru czy też i innych czujników realizujących pewne określone funkcje. Te wszystkie rzeczy potocznie zwykło nazywać się sensorami i na dobrą sprawę zdążyły się one zadomowić na dobre w tych naszych telefonach i to do tego stopnia, że nawet sobie nie zdajemy sprawy, że w ogóle one istnieją i non stop działają w tle. Przekopując ostatnio ustawienia Androida, natknąłem się w opcjach deweloperskich na dość enigmatycznie brzmiącą opcję Sensors Off , która była ukryta pod Quick settings developer tiles . Zaznaczenie tej opcji sprawiło, że do dyspozycji użytkownika został oddany dodatkowy kafelek (dostępny z poziomu górnej belki), którego zadaniem jest sterowanie dostępem aplikacji do sensorów smartfona (nie tylko tych wymienionych wyżej ale też do kamery mikrofonu, czy nawet GPS). Postanowiłem się trochę pobawić tym mechanizmem i zobaczyć czy można z niego zrobić jakieś użyteczne narzędzie w kontekście ochrony prywatności.">
+  <meta itemprop="datePublished" content="2021-09-22T02:04:00+02:00">
+  <meta itemprop="dateModified" content="2021-09-22T02:04:00+02:00">
+  <meta itemprop="wordCount" content="1189">
+  <meta itemprop="keywords" content="Smartfon,Bateria,Kamera,Mikrofon,Lokalizacja,Gps,Prywatność,Aplikacje,F-Droid">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Blokowanie dostępu do sensorów (kamera/mikrofon/gps) aplikacjom w Androidzie">
+  <meta name="twitter:description" content="Raczej już nikogo nie dziwią różne moduły elektroniczne implementowane w smartfonach pokroju żyroskopu, akcelerometru, magnetometru czy też i innych czujników realizujących pewne określone funkcje. Te wszystkie rzeczy potocznie zwykło nazywać się sensorami i na dobrą sprawę zdążyły się one zadomowić na dobre w tych naszych telefonach i to do tego stopnia, że nawet sobie nie zdajemy sprawy, że w ogóle one istnieją i non stop działają w tle. Przekopując ostatnio ustawienia Androida, natknąłem się w opcjach deweloperskich na dość enigmatycznie brzmiącą opcję Sensors Off , która była ukryta pod Quick settings developer tiles . Zaznaczenie tej opcji sprawiło, że do dyspozycji użytkownika został oddany dodatkowy kafelek (dostępny z poziomu górnej belki), którego zadaniem jest sterowanie dostępem aplikacji do sensorów smartfona (nie tylko tych wymienionych wyżej ale też do kamery mikrofonu, czy nawet GPS). Postanowiłem się trochę pobawić tym mechanizmem i zobaczyć czy można z niego zrobić jakieś użyteczne narzędzie w kontekście ochrony prywatności.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -60,19 +41,11 @@ można z niego zrobić jakieś użyteczne narzędzie w kontekście ochrony prywa
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -131,11 +104,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2021-09-22T02:04:00&#43;02:00">Opublikowano: 22/09/2021</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Blokowanie dostępu do sensorów (kamera/mikrofon/gps) aplikacjom w Androidzie</h1>
 <details class="entry__toc toc" >
@@ -297,15 +270,14 @@ Androidowi nie zawierzał i na prywatne spotkania wybierał się bez smartfona.<
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bateria/">bateria</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kamera/">kamera</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/mikrofon/">mikrofon</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lokalizacja/">lokalizacja</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/gps/">gps</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/prywatnosc/">prywatność</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aplikacje/">aplikacje</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/f-droid/">f-droid</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">Smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bateria/">Bateria</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kamera/">Kamera</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/mikrofon/">Mikrofon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/lokalizacja/">Lokalizacja</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/gps/">Gps</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aplikacje/">Aplikacje</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/f-droid/">F-Droid</a>
 </div>
 					
 <div class="entry__share share">
@@ -406,6 +378,9 @@ Androidowi nie zawierzał i na prywatne spotkania wybierał się bez smartfona.<
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

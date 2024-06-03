@@ -2,23 +2,26 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Linux | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta name="robots" content="noindex, follow" />
-		<meta property="og:title" content="Linux" />
-<meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://morfikov.github.io/categories/linux/" />
+		<meta property="og:url" content="https://morfikov.github.io/categories/linux/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Linux">
+  <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="website">
 
-
-		<meta itemprop="name" content="Linux">
-<meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)">
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Linux"/>
-<meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT/LEDE i Android)"/>
+		
+  <meta itemprop="name" content="Linux">
+  <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+  <meta itemprop="dateModified" content="2024-06-03T20:00:00+02:00">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux">
+  <meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -27,19 +30,11 @@
 	<link rel="alternate" type="application/rss+xml" href="https://morfikov.github.io/categories/linux/feed.xml" title="Morfitronik">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-term">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -101,6 +96,41 @@ if (!doNotTrack) {
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/">Wirtualizacja QEMU/KVM (libvirt) na Debian Linux</a></h1>
+	<div class="entry__content"><p>Prawdopodobnie dla większości użytkowników linux'a, wirtualizacja kojarzy się w zasadzie z jednym
+oprogramowaniem, tj. VirtualBox. <a href="https://www.virtualbox.org/">Niby strona VBox'a podaje, że jest on na licencji GPL-2</a> ale
+w Debianie nie ma go w głównym repozytorium (jest on obecny w sekcji <code>contrib</code> ). Problem z
+VirtualBox'em jest taki, że <a href="https://salsa.debian.org/pkg-virtualbox-team/virtualbox/-/blob/master/debian/copyright">wymaga on kompilatora Open Watcom</a>, który już wolnym
+oprogramowaniem nie jest. VBox też nie jest jedynym oprogramowaniem, które na linux można
+wykorzystać w roli hiperwizora do obsługi maszyn wirtualnych. Jest o wiele lepsze rozwiązanie,
+mianowicie QEMU, które jest w stanie zrobić użytek z maszyny wirtualnej kernela (Kernel Virtual
+Machine, KVM) i realizować dokładnie to samo zadanie, które zwykł ogarniać VirtualBox.
+Wirtualizacja na bazie QEMU/KVM jest w pełni OpenSource, co ucieszy pewnie fanów wolnego i
+otwartego oprogramowania, choć zarządzanie maszynami wirtualnymi odbywa się za sprawą konsoli.
+Oczywiście, osoby które korzystają z VirtualBox'a zdają sobie sprawę, że to narzędzie oferuje
+graficzny menadżer maszyn wirtualnych (Virtual Machine Manager, VMM), który usprawnia i znacznie
+ułatwia zarządzanie wirtualnymi maszynami. Jeśli GUI jest dla nas ważnym elementem środowiska pracy
+i nie uśmiecha nam się konfigurować maszyn wirtualnych przy pomocy terminala, to jest i dobra
+wiadomość dla takich osób, bo istnieje <code>virt-manager</code> , który jest dość rozbudowanym menadżerem
+maszyn wirtualnych pozwalającym na ich tworzenie, konfigurowanie i zarządzanie nimi przy
+wykorzystaniu graficznego interfejsu użytkownika. W tym artykule postaramy się skonfigurować
+naszego Debiana w taki sposób, by przygotować go do pracy z maszynami wirtualnymi posługując się
+<code>qemu</code>/<code>libvirt</code>/<code>virt-manager</code> .</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-08-08T14:55:00&#43;02:00">Opublikowano: 08/08/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2023-12-09T12:52:00&#43;01:00">Zaktualizowano: 09/12/2023</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/boothole-nie-taki-straszny-o-ile-ma-sie-wlasne-klucze-efi-uefi/">BootHole nie taki straszny, o ile ma się własne klucze EFI/UEFI</a></h1>
 	<div class="entry__content"><p>Dnia 29-07-2020 do publicznej wiadomości zostały podane informacje na temat podatności BootHole,
 która to za sprawą bootloader'a GRUB2 w różnych dystrybucjach linux'a jest w stanie obejść
@@ -112,11 +142,11 @@ czego obawiać i co użytkownik korzystający z mechanizmu SB powinien w takiej 
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-07-31T21:07:00Z">Opublikowano: 31/07/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -136,11 +166,11 @@ zdania. Rzeczywistość okazała się nieco inna, a rozwiązanie samego problemu
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-07-30T20:30:00Z">Opublikowano: 30/07/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -169,11 +199,11 @@ binding and unbinding</a>).</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-07-28T19:39:00Z">Opublikowano: 28/07/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -194,11 +224,11 @@ rzeczy, m.in. procesu budowania modułu przy aktualizacji kernela via DKMS.</p><
 	<time class="entry__meta-published meta-published" datetime="2020-06-09T20:56:00Z">Opublikowano: 09/06/2020</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-06-26T20:56:00&#43;02:00">Zaktualizowano: 26/06/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -223,11 +253,11 @@ pendrive multiboot.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-03-23T21:50:00Z">Opublikowano: 23/03/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -252,11 +282,11 @@ wykorzystaniu dystrybucji Debiana.</p></div>
 	<time class="entry__meta-published meta-published" datetime="2020-03-16T19:15:00Z">Opublikowano: 16/03/2020</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-07-30T20:45:00&#43;01:00">Zaktualizowano: 30/07/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -279,11 +309,11 @@ laptopa od degradowania baterii za sprawą ładowania jej ciągle do 100%?</p></
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-03-13T18:30:00Z">Opublikowano: 13/03/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -299,11 +329,11 @@ pracy pod linux.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-03-11T21:03:00Z">Opublikowano: 11/03/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -325,37 +355,11 @@ dystrybucję linux'a w trybie EFI/UEFI.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-03-10T03:28:00Z">Opublikowano: 10/03/2020</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/zmiana-dpi-w-openbox-xorg-dla-monitora-hidpi/">Zmiana DPI w Openbox/Xorg dla monitora HiDPI</a></h1>
-	<div class="entry__content"><p>Jeśli mieliśmy do czynienia z monitorami wysokiej rozdzielczości, to za pewne natrafiliśmy na
-problem zbyt małych czcionek, które czyniły interfejs aplikacji w naszym linux'ie mało czytelnym. W
-przypadku środowisk graficznych takich jak GNOME czy KDE5/Plasma5 skalowanie interfejsu i czcionek
-powinno odbywać się automatycznie (<a href="https://wiki.gnome.org/HowDoI/HiDpi">jeśli nasz ekran ma 192+ DPI i rozdzielczość 1200+ pikseli</a>)
-lub też za sprawą drobnej zmiany w konfiguracji, tak by użytkownik mógł w miarę komfortowo
-korzystać z systemu. O ile w przypadku tych pełnowymiarowych środowisk graficznych można w zasadzie
-przełączyć tylko jedną opcję i wszystkie jego aplikacje powinny zostać z powodzeniem odpowiednio
-zeskalowane, o tyle problem zaczyna się w momencie, gdy mamy mieszane aplikacje lub też zwyczajnie
-używamy jedynie prostego menadżera okien dla Xserver'a, np. Openbox i do tego jeszcze nasz
-wyświetlacz ma mniejsze DPI niż 192. W takiej sytuacji konfiguracja interfejsu użytkownika i
-czcionek dla ekranów wysokiej rozdzielczości może być nie lada wyzwaniem.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-03-08T19:00:00Z">Opublikowano: 08/03/2020</time>
-
-<span class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</span>
+</div>
 	</div>
 </article>
 				</div>
@@ -390,6 +394,9 @@ czcionek dla ekranów wysokiej rozdzielczości może być nie lada wyzwaniem.</p
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

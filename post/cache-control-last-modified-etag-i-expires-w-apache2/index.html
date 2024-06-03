@@ -2,60 +2,34 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Cache-Control, Last-Modified, ETag i Expires w Apache2 | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Cache-Control, Last-Modified, ETag i Expires w Apache2" />
-<meta property="og:description" content="Każda przeglądarka internetowa potrafi buforować dane w swoim cache w celach optymalizacji
-przeglądanych stron www. Dzięki temu, szereg elementów odwiedzonych już witryn nie musi być
-ponownie pobieranych z serwera. Zyskuje na tym nie tylko serwer ale również i sam klient, któremu
-strona ładuje się parokrotnie szybciej. Pod ten mechanizm podpadają nie tylko pliki graficzne ale
-również style CSS, skrypty JS, a nawet pliki .html . Generalnie rzecz ujmując, wszystko co serwer
-www jest w stanie przesłać przeglądarce. Problemem może jednak się okazać zbyt krótki/długi okres
-ważności cache. Jeśli ten czas jest za krótki, to elementy strony będą niepotrzebnie utylizować
-łącze, nie tylko nasze ale również i serwera www. Z kolei, jeśli okres ważności będzie za długi,
-to będziemy odwiedzać nieaktualną stronę. Optymalnym rozwiązaniem byłaby taka konfiguracja serwera
-www, gdzie dla konkretnych elementów strony sami moglibyśmy ustalić czas ważności cache. Apache2
-daje nam taką możliwość przez ustawienie nagłówków HTTP Cache-Control , Expires , ETag oraz
-Last-Modified ." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/cache-control-last-modified-etag-i-expires-w-apache2/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2016-08-01T18:50:48+00:00" />
-<meta property="article:modified_time" content="2016-08-01T18:50:48+00:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/cache-control-last-modified-etag-i-expires-w-apache2/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Cache-Control, Last-Modified, ETag i Expires w Apache2">
+  <meta property="og:description" content="Każda przeglądarka internetowa potrafi buforować dane w swoim cache w celach optymalizacji przeglądanych stron www. Dzięki temu, szereg elementów odwiedzonych już witryn nie musi być ponownie pobieranych z serwera. Zyskuje na tym nie tylko serwer ale również i sam klient, któremu strona ładuje się parokrotnie szybciej. Pod ten mechanizm podpadają nie tylko pliki graficzne ale również style CSS, skrypty JS, a nawet pliki .html . Generalnie rzecz ujmując, wszystko co serwer www jest w stanie przesłać przeglądarce. Problemem może jednak się okazać zbyt krótki/długi okres ważności cache. Jeśli ten czas jest za krótki, to elementy strony będą niepotrzebnie utylizować łącze, nie tylko nasze ale również i serwera www. Z kolei, jeśli okres ważności będzie za długi, to będziemy odwiedzać nieaktualną stronę. Optymalnym rozwiązaniem byłaby taka konfiguracja serwera www, gdzie dla konkretnych elementów strony sami moglibyśmy ustalić czas ważności cache. Apache2 daje nam taką możliwość przez ustawienie nagłówków HTTP Cache-Control , Expires , ETag oraz Last-Modified .">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2016-08-01T18:50:48+00:00">
+    <meta property="article:modified_time" content="2016-08-01T18:50:48+00:00">
+    <meta property="article:tag" content="Apache2">
+    <meta property="article:tag" content="Cache">
 
-
-		<meta itemprop="name" content="Cache-Control, Last-Modified, ETag i Expires w Apache2">
-<meta itemprop="description" content="Każda przeglądarka internetowa potrafi buforować dane w swoim cache w celach optymalizacji
-przeglądanych stron www. Dzięki temu, szereg elementów odwiedzonych już witryn nie musi być
-ponownie pobieranych z serwera. Zyskuje na tym nie tylko serwer ale również i sam klient, któremu
-strona ładuje się parokrotnie szybciej. Pod ten mechanizm podpadają nie tylko pliki graficzne ale
-również style CSS, skrypty JS, a nawet pliki .html . Generalnie rzecz ujmując, wszystko co serwer
-www jest w stanie przesłać przeglądarce. Problemem może jednak się okazać zbyt krótki/długi okres
-ważności cache. Jeśli ten czas jest za krótki, to elementy strony będą niepotrzebnie utylizować
-łącze, nie tylko nasze ale również i serwera www. Z kolei, jeśli okres ważności będzie za długi,
-to będziemy odwiedzać nieaktualną stronę. Optymalnym rozwiązaniem byłaby taka konfiguracja serwera
-www, gdzie dla konkretnych elementów strony sami moglibyśmy ustalić czas ważności cache. Apache2
-daje nam taką możliwość przez ustawienie nagłówków HTTP Cache-Control , Expires , ETag oraz
-Last-Modified ."><meta itemprop="datePublished" content="2016-08-01T18:50:48+00:00" />
-<meta itemprop="dateModified" content="2016-08-01T18:50:48+00:00" />
-<meta itemprop="wordCount" content="1884">
-<meta itemprop="keywords" content="apache2,cache," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Cache-Control, Last-Modified, ETag i Expires w Apache2"/>
-<meta name="twitter:description" content="Każda przeglądarka internetowa potrafi buforować dane w swoim cache w celach optymalizacji
-przeglądanych stron www. Dzięki temu, szereg elementów odwiedzonych już witryn nie musi być
-ponownie pobieranych z serwera. Zyskuje na tym nie tylko serwer ale również i sam klient, któremu
-strona ładuje się parokrotnie szybciej. Pod ten mechanizm podpadają nie tylko pliki graficzne ale
-również style CSS, skrypty JS, a nawet pliki .html . Generalnie rzecz ujmując, wszystko co serwer
-www jest w stanie przesłać przeglądarce. Problemem może jednak się okazać zbyt krótki/długi okres
-ważności cache. Jeśli ten czas jest za krótki, to elementy strony będą niepotrzebnie utylizować
-łącze, nie tylko nasze ale również i serwera www. Z kolei, jeśli okres ważności będzie za długi,
-to będziemy odwiedzać nieaktualną stronę. Optymalnym rozwiązaniem byłaby taka konfiguracja serwera
-www, gdzie dla konkretnych elementów strony sami moglibyśmy ustalić czas ważności cache. Apache2
-daje nam taką możliwość przez ustawienie nagłówków HTTP Cache-Control , Expires , ETag oraz
-Last-Modified ."/>
+		
+  <meta itemprop="name" content="Cache-Control, Last-Modified, ETag i Expires w Apache2">
+  <meta itemprop="description" content="Każda przeglądarka internetowa potrafi buforować dane w swoim cache w celach optymalizacji przeglądanych stron www. Dzięki temu, szereg elementów odwiedzonych już witryn nie musi być ponownie pobieranych z serwera. Zyskuje na tym nie tylko serwer ale również i sam klient, któremu strona ładuje się parokrotnie szybciej. Pod ten mechanizm podpadają nie tylko pliki graficzne ale również style CSS, skrypty JS, a nawet pliki .html . Generalnie rzecz ujmując, wszystko co serwer www jest w stanie przesłać przeglądarce. Problemem może jednak się okazać zbyt krótki/długi okres ważności cache. Jeśli ten czas jest za krótki, to elementy strony będą niepotrzebnie utylizować łącze, nie tylko nasze ale również i serwera www. Z kolei, jeśli okres ważności będzie za długi, to będziemy odwiedzać nieaktualną stronę. Optymalnym rozwiązaniem byłaby taka konfiguracja serwera www, gdzie dla konkretnych elementów strony sami moglibyśmy ustalić czas ważności cache. Apache2 daje nam taką możliwość przez ustawienie nagłówków HTTP Cache-Control , Expires , ETag oraz Last-Modified .">
+  <meta itemprop="datePublished" content="2016-08-01T18:50:48+00:00">
+  <meta itemprop="dateModified" content="2016-08-01T18:50:48+00:00">
+  <meta itemprop="wordCount" content="1884">
+  <meta itemprop="keywords" content="Apache2,Cache">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Cache-Control, Last-Modified, ETag i Expires w Apache2">
+  <meta name="twitter:description" content="Każda przeglądarka internetowa potrafi buforować dane w swoim cache w celach optymalizacji przeglądanych stron www. Dzięki temu, szereg elementów odwiedzonych już witryn nie musi być ponownie pobieranych z serwera. Zyskuje na tym nie tylko serwer ale również i sam klient, któremu strona ładuje się parokrotnie szybciej. Pod ten mechanizm podpadają nie tylko pliki graficzne ale również style CSS, skrypty JS, a nawet pliki .html . Generalnie rzecz ujmując, wszystko co serwer www jest w stanie przesłać przeglądarce. Problemem może jednak się okazać zbyt krótki/długi okres ważności cache. Jeśli ten czas jest za krótki, to elementy strony będą niepotrzebnie utylizować łącze, nie tylko nasze ale również i serwera www. Z kolei, jeśli okres ważności będzie za długi, to będziemy odwiedzać nieaktualną stronę. Optymalnym rozwiązaniem byłaby taka konfiguracja serwera www, gdzie dla konkretnych elementów strony sami moglibyśmy ustalić czas ważności cache. Apache2 daje nam taką możliwość przez ustawienie nagłówków HTTP Cache-Control , Expires , ETag oraz Last-Modified .">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -63,19 +37,11 @@ Last-Modified ."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -134,11 +100,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2016-08-01T18:50:48Z">Opublikowano: 01/08/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Cache-Control, Last-Modified, ETag i Expires w Apache2</h1>
 <details class="entry__toc toc" >
@@ -356,8 +322,8 @@ wprowadzone w wersji 1.1 protokołu HTTP. To jedyne wytłumaczenie, które przyc
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apache2/">apache2</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/cache/">cache</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apache2/">Apache2</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/cache/">Cache</a>
 </div>
 					
 <div class="entry__share share">
@@ -458,6 +424,9 @@ wprowadzone w wersji 1.1 protokołu HTTP. To jedyne wytłumaczenie, które przyc
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

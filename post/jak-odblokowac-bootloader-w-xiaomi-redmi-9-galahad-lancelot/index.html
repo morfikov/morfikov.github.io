@@ -2,75 +2,38 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot) | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)" />
-<meta property="og:description" content="Jakiś czas temu wpadł w moje łapki smartfon Xiaomi Redmi 9 (galahad albo lancelot, bo w różnych
-częściach systemu jest to inaczej określone), który miał preinstalowanego Androida 10 oraz MIUI 11.
-Przez parę miesięcy używania telefonu, dostał on dwa albo trzy większe update całego ROM&#39;u,
-wliczając w to aktualizację MIUI do 12.0.1 ze stanem zabezpieczeń na dzień 2021-01-05. Zatem
-ostatnia aktualizacja zabezpieczeń tego telefonu miała miejsce zaraz na początku Stycznia. Od tego
-czasu cisza. Niby w przypadku tego modelu telefonu aktualizacje miały być wydawane co trzy
-miesiące do roku 2023 ale najwyraźniej coś jest nie tak i urządzenie od ponad pół roku nie
-dostało żadnych aktualizacji. Niby pod tym linkiem można wyczytać informację, że planowana jest
-aktualizacja do Androida 11 ale prawdę mówiąc jestem nieco zawiedziony opieszałością Xiaomi. Tak
-się złożyło, że przez przypadek trafiłem w to miejsce na forum XDA, gdzie z kolei znalazłem
-m.in. ten wątek. Zatem alternatywne ROM&#39;y na mój smartfon istnieją i tego faktu nie byłem
-świadomy, bo w zeszłym roku jeszcze nic nie szło znaleźć. Postanowiłem zatem odblokować bootloader
-w swoim Xiaomi Redmi 9 i spróbować wgrać na niego TWRP i jeden (a może nawet kilka) przykładowy ROM
-na bazie AOSP/LineageOS. Proces odblokowania bootloader&#39;a w urządzeniach Xiaomi nie wymaga zbytnio
-wysiłku i da się go przeprowadzić w całości pod linux korzystając czy to z XiaoMiTool, czy też przy
-pomocy maszyn wirtualnych na bazie QEMU/KVM. Ten proces nie do końca jest dla każdego taki
-oczywisty, dlatego postanowiłem go dokładnie opisać." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2021-08-27T22:26:00+02:00" />
-<meta property="article:modified_time" content="2021-08-27T22:26:00+02:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/jak-odblokowac-bootloader-w-xiaomi-redmi-9-galahad-lancelot/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)">
+  <meta property="og:description" content="Jakiś czas temu wpadł w moje łapki smartfon Xiaomi Redmi 9 (galahad albo lancelot, bo w różnych częściach systemu jest to inaczej określone), który miał preinstalowanego Androida 10 oraz MIUI 11. Przez parę miesięcy używania telefonu, dostał on dwa albo trzy większe update całego ROM&#39;u, wliczając w to aktualizację MIUI do 12.0.1 ze stanem zabezpieczeń na dzień 2021-01-05. Zatem ostatnia aktualizacja zabezpieczeń tego telefonu miała miejsce zaraz na początku Stycznia. Od tego czasu cisza. Niby w przypadku tego modelu telefonu aktualizacje miały być wydawane co trzy miesiące do roku 2023 ale najwyraźniej coś jest nie tak i urządzenie od ponad pół roku nie dostało żadnych aktualizacji. Niby pod tym linkiem można wyczytać informację, że planowana jest aktualizacja do Androida 11 ale prawdę mówiąc jestem nieco zawiedziony opieszałością Xiaomi. Tak się złożyło, że przez przypadek trafiłem w to miejsce na forum XDA, gdzie z kolei znalazłem m.in. ten wątek. Zatem alternatywne ROM&#39;y na mój smartfon istnieją i tego faktu nie byłem świadomy, bo w zeszłym roku jeszcze nic nie szło znaleźć. Postanowiłem zatem odblokować bootloader w swoim Xiaomi Redmi 9 i spróbować wgrać na niego TWRP i jeden (a może nawet kilka) przykładowy ROM na bazie AOSP/LineageOS. Proces odblokowania bootloader&#39;a w urządzeniach Xiaomi nie wymaga zbytnio wysiłku i da się go przeprowadzić w całości pod linux korzystając czy to z XiaoMiTool, czy też przy pomocy maszyn wirtualnych na bazie QEMU/KVM. Ten proces nie do końca jest dla każdego taki oczywisty, dlatego postanowiłem go dokładnie opisać.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2021-08-27T22:26:00+02:00">
+    <meta property="article:modified_time" content="2021-08-27T22:26:00+02:00">
+    <meta property="article:tag" content="Xiaomi">
+    <meta property="article:tag" content="Redmi-9">
+    <meta property="article:tag" content="Xiaomitool">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Kvm">
+    <meta property="article:tag" content="Qemu">
 
-
-		<meta itemprop="name" content="Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)">
-<meta itemprop="description" content="Jakiś czas temu wpadł w moje łapki smartfon Xiaomi Redmi 9 (galahad albo lancelot, bo w różnych
-częściach systemu jest to inaczej określone), który miał preinstalowanego Androida 10 oraz MIUI 11.
-Przez parę miesięcy używania telefonu, dostał on dwa albo trzy większe update całego ROM&#39;u,
-wliczając w to aktualizację MIUI do 12.0.1 ze stanem zabezpieczeń na dzień 2021-01-05. Zatem
-ostatnia aktualizacja zabezpieczeń tego telefonu miała miejsce zaraz na początku Stycznia. Od tego
-czasu cisza. Niby w przypadku tego modelu telefonu aktualizacje miały być wydawane co trzy
-miesiące do roku 2023 ale najwyraźniej coś jest nie tak i urządzenie od ponad pół roku nie
-dostało żadnych aktualizacji. Niby pod tym linkiem można wyczytać informację, że planowana jest
-aktualizacja do Androida 11 ale prawdę mówiąc jestem nieco zawiedziony opieszałością Xiaomi. Tak
-się złożyło, że przez przypadek trafiłem w to miejsce na forum XDA, gdzie z kolei znalazłem
-m.in. ten wątek. Zatem alternatywne ROM&#39;y na mój smartfon istnieją i tego faktu nie byłem
-świadomy, bo w zeszłym roku jeszcze nic nie szło znaleźć. Postanowiłem zatem odblokować bootloader
-w swoim Xiaomi Redmi 9 i spróbować wgrać na niego TWRP i jeden (a może nawet kilka) przykładowy ROM
-na bazie AOSP/LineageOS. Proces odblokowania bootloader&#39;a w urządzeniach Xiaomi nie wymaga zbytnio
-wysiłku i da się go przeprowadzić w całości pod linux korzystając czy to z XiaoMiTool, czy też przy
-pomocy maszyn wirtualnych na bazie QEMU/KVM. Ten proces nie do końca jest dla każdego taki
-oczywisty, dlatego postanowiłem go dokładnie opisać."><meta itemprop="datePublished" content="2021-08-27T22:26:00+02:00" />
-<meta itemprop="dateModified" content="2021-08-27T22:26:00+02:00" />
-<meta itemprop="wordCount" content="4571">
-<meta itemprop="keywords" content="xiaomi,redmi-9,xiaomitool,debian,kvm,qemu,bootloader,smartfon," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)"/>
-<meta name="twitter:description" content="Jakiś czas temu wpadł w moje łapki smartfon Xiaomi Redmi 9 (galahad albo lancelot, bo w różnych
-częściach systemu jest to inaczej określone), który miał preinstalowanego Androida 10 oraz MIUI 11.
-Przez parę miesięcy używania telefonu, dostał on dwa albo trzy większe update całego ROM&#39;u,
-wliczając w to aktualizację MIUI do 12.0.1 ze stanem zabezpieczeń na dzień 2021-01-05. Zatem
-ostatnia aktualizacja zabezpieczeń tego telefonu miała miejsce zaraz na początku Stycznia. Od tego
-czasu cisza. Niby w przypadku tego modelu telefonu aktualizacje miały być wydawane co trzy
-miesiące do roku 2023 ale najwyraźniej coś jest nie tak i urządzenie od ponad pół roku nie
-dostało żadnych aktualizacji. Niby pod tym linkiem można wyczytać informację, że planowana jest
-aktualizacja do Androida 11 ale prawdę mówiąc jestem nieco zawiedziony opieszałością Xiaomi. Tak
-się złożyło, że przez przypadek trafiłem w to miejsce na forum XDA, gdzie z kolei znalazłem
-m.in. ten wątek. Zatem alternatywne ROM&#39;y na mój smartfon istnieją i tego faktu nie byłem
-świadomy, bo w zeszłym roku jeszcze nic nie szło znaleźć. Postanowiłem zatem odblokować bootloader
-w swoim Xiaomi Redmi 9 i spróbować wgrać na niego TWRP i jeden (a może nawet kilka) przykładowy ROM
-na bazie AOSP/LineageOS. Proces odblokowania bootloader&#39;a w urządzeniach Xiaomi nie wymaga zbytnio
-wysiłku i da się go przeprowadzić w całości pod linux korzystając czy to z XiaoMiTool, czy też przy
-pomocy maszyn wirtualnych na bazie QEMU/KVM. Ten proces nie do końca jest dla każdego taki
-oczywisty, dlatego postanowiłem go dokładnie opisać."/>
+		
+  <meta itemprop="name" content="Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)">
+  <meta itemprop="description" content="Jakiś czas temu wpadł w moje łapki smartfon Xiaomi Redmi 9 (galahad albo lancelot, bo w różnych częściach systemu jest to inaczej określone), który miał preinstalowanego Androida 10 oraz MIUI 11. Przez parę miesięcy używania telefonu, dostał on dwa albo trzy większe update całego ROM&#39;u, wliczając w to aktualizację MIUI do 12.0.1 ze stanem zabezpieczeń na dzień 2021-01-05. Zatem ostatnia aktualizacja zabezpieczeń tego telefonu miała miejsce zaraz na początku Stycznia. Od tego czasu cisza. Niby w przypadku tego modelu telefonu aktualizacje miały być wydawane co trzy miesiące do roku 2023 ale najwyraźniej coś jest nie tak i urządzenie od ponad pół roku nie dostało żadnych aktualizacji. Niby pod tym linkiem można wyczytać informację, że planowana jest aktualizacja do Androida 11 ale prawdę mówiąc jestem nieco zawiedziony opieszałością Xiaomi. Tak się złożyło, że przez przypadek trafiłem w to miejsce na forum XDA, gdzie z kolei znalazłem m.in. ten wątek. Zatem alternatywne ROM&#39;y na mój smartfon istnieją i tego faktu nie byłem świadomy, bo w zeszłym roku jeszcze nic nie szło znaleźć. Postanowiłem zatem odblokować bootloader w swoim Xiaomi Redmi 9 i spróbować wgrać na niego TWRP i jeden (a może nawet kilka) przykładowy ROM na bazie AOSP/LineageOS. Proces odblokowania bootloader&#39;a w urządzeniach Xiaomi nie wymaga zbytnio wysiłku i da się go przeprowadzić w całości pod linux korzystając czy to z XiaoMiTool, czy też przy pomocy maszyn wirtualnych na bazie QEMU/KVM. Ten proces nie do końca jest dla każdego taki oczywisty, dlatego postanowiłem go dokładnie opisać.">
+  <meta itemprop="datePublished" content="2021-08-27T22:26:00+02:00">
+  <meta itemprop="dateModified" content="2021-08-27T22:26:00+02:00">
+  <meta itemprop="wordCount" content="4571">
+  <meta itemprop="keywords" content="Xiaomi,Redmi-9,Xiaomitool,Debian,Kvm,Qemu,Bootloader,Smartfon">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)">
+  <meta name="twitter:description" content="Jakiś czas temu wpadł w moje łapki smartfon Xiaomi Redmi 9 (galahad albo lancelot, bo w różnych częściach systemu jest to inaczej określone), który miał preinstalowanego Androida 10 oraz MIUI 11. Przez parę miesięcy używania telefonu, dostał on dwa albo trzy większe update całego ROM&#39;u, wliczając w to aktualizację MIUI do 12.0.1 ze stanem zabezpieczeń na dzień 2021-01-05. Zatem ostatnia aktualizacja zabezpieczeń tego telefonu miała miejsce zaraz na początku Stycznia. Od tego czasu cisza. Niby w przypadku tego modelu telefonu aktualizacje miały być wydawane co trzy miesiące do roku 2023 ale najwyraźniej coś jest nie tak i urządzenie od ponad pół roku nie dostało żadnych aktualizacji. Niby pod tym linkiem można wyczytać informację, że planowana jest aktualizacja do Androida 11 ale prawdę mówiąc jestem nieco zawiedziony opieszałością Xiaomi. Tak się złożyło, że przez przypadek trafiłem w to miejsce na forum XDA, gdzie z kolei znalazłem m.in. ten wątek. Zatem alternatywne ROM&#39;y na mój smartfon istnieją i tego faktu nie byłem świadomy, bo w zeszłym roku jeszcze nic nie szło znaleźć. Postanowiłem zatem odblokować bootloader w swoim Xiaomi Redmi 9 i spróbować wgrać na niego TWRP i jeden (a może nawet kilka) przykładowy ROM na bazie AOSP/LineageOS. Proces odblokowania bootloader&#39;a w urządzeniach Xiaomi nie wymaga zbytnio wysiłku i da się go przeprowadzić w całości pod linux korzystając czy to z XiaoMiTool, czy też przy pomocy maszyn wirtualnych na bazie QEMU/KVM. Ten proces nie do końca jest dla każdego taki oczywisty, dlatego postanowiłem go dokładnie opisać.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -78,19 +41,11 @@ oczywisty, dlatego postanowiłem go dokładnie opisać."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -149,11 +104,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2021-08-27T22:26:00&#43;02:00">Opublikowano: 27/08/2021</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Jak odblokować bootloader w Xiaomi Redmi 9 (galahad/lancelot)</h1>
 <details class="entry__toc toc" >
@@ -785,14 +740,14 @@ jej poziomu bez większych przeszkód odblokować telefon.</p></div>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">xiaomi</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">redmi-9</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomitool/">xiaomitool</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kvm/">kvm</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/qemu/">qemu</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bootloader/">bootloader</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">Xiaomi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">Redmi-9</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomitool/">Xiaomitool</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kvm/">Kvm</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/qemu/">Qemu</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/bootloader/">Bootloader</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">Smartfon</a>
 </div>
 					
 <div class="entry__share share">
@@ -893,6 +848,9 @@ jej poziomu bez większych przeszkód odblokować telefon.</p></div>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

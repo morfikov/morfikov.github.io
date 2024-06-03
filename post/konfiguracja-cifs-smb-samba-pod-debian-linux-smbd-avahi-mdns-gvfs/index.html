@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)">
+  <meta property="og:description" content="Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows. W zasadzie to pozostała mi ostatnia opcja w postaci protokołu CIFS/SMB/SAMBA, który przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj. udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet samba , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy sobie nieco ułatwić życie, tak by w menadżerze plików (np. nemo , caja , pcmanfm ) te wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-06-03T20:00:00+02:00">
+    <meta property="article:modified_time" content="2024-06-03T20:00:00+02:00">
+    <meta property="article:tag" content="Samba">
+    <meta property="article:tag" content="Smb">
+    <meta property="article:tag" content="Cifs">
+    <meta property="article:tag" content="Avahi">
+    <meta property="article:tag" content="Wsdd">
+    <meta property="article:tag" content="Iptables">
+
+		
+  <meta itemprop="name" content="Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)">
+  <meta itemprop="description" content="Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows. W zasadzie to pozostała mi ostatnia opcja w postaci protokołu CIFS/SMB/SAMBA, który przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj. udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet samba , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy sobie nieco ułatwić życie, tak by w menadżerze plików (np. nemo , caja , pcmanfm ) te wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.">
+  <meta itemprop="datePublished" content="2024-06-03T20:00:00+02:00">
+  <meta itemprop="dateModified" content="2024-06-03T20:00:00+02:00">
+  <meta itemprop="wordCount" content="7406">
+  <meta itemprop="keywords" content="Samba,Smb,Cifs,Avahi,Wsdd,Iptables,Nftables,Firewall,Serwer-Plików,Keepassxc">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)">
+  <meta name="twitter:description" content="Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows. W zasadzie to pozostała mi ostatnia opcja w postaci protokołu CIFS/SMB/SAMBA, który przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj. udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet samba , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy sobie nieco ułatwić życie, tak by w menadżerze plików (np. nemo , caja , pcmanfm ) te wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.">
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+		
+  
+
+
+</head>
+<body class="body kind-page">
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2024-06-03T20:00:00&#43;02:00">Opublikowano: 03/06/2024</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+				<h1 class="entry__title">Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#różnice-między-cifs-smb-samba">Różnice między CIFS, SMB, SAMBA</a></li>
+    <li><a href="#potrzebne-oprogramowanie-smbd-avahi-mdns-gvfs">Potrzebne oprogramowanie (smbd, avahi, mdns, gvfs)</a>
+      <ol>
+        <li><a href="#kwestia-nmbd-wsddwsdd2-i-winbind">Kwestia nmbd, wsdd/wsdd2 i winbind</a></li>
+        <li><a href="#microsoft-rezygnuje-z-llmnrnbt-ns-na-rzecz-mdns">Microsoft rezygnuje z LLMNR/NBT-NS na rzecz mDNS</a></li>
+      </ol>
+    </li>
+    <li><a href="#konfiguracja-mdns-plik-etcnsswitchconf">Konfiguracja mDNS (plik /etc/nsswitch.conf)</a></li>
+    <li><a href="#konfiguracja-dns-plik-etcresolvconf">Konfiguracja DNS (plik /etc/resolv.conf)</a>
+      <ol>
+        <li><a href="#konfiguracja-reverse-dns-lookups">Konfiguracja reverse DNS lookups</a></li>
+      </ol>
+    </li>
+    <li><a href="#usługa-avahi-daemonservice">Usługa avahi-daemon.service</a>
+      <ol>
+        <li><a href="#konfiguracja-avahi-daemon-plik-etcavahiavahi-daemonconf">Konfiguracja avahi-daemon (plik /etc/avahi/avahi-daemon.conf)</a></li>
+      </ol>
+    </li>
+    <li><a href="#usługi-smbdservice-oraz-nmbdservice">Usługi smbd.service oraz nmbd.service</a></li>
+    <li><a href="#konfiguracja-cifssmbsamba-plik-etcsambasmbconf">Konfiguracja CIFS/SMB/SAMBA (plik /etc/samba/smb.conf)</a>
+      <ol>
+        <li><a href="#parametr-restrict-anonymous">Parametr &quot;restrict anonymous&quot;</a></li>
+        <li><a href="#minimalna-wersja-protokołu">Minimalna wersja protokołu</a></li>
+        <li><a href="#wyłączenie-obsługi-netbios-i-wins">Wyłączenie obsługi NetBIOS i WINS</a></li>
+        <li><a href="#dostosowanie-parametru-name-resolve-order">Dostosowanie parametru &quot;name resolve order&quot;</a></li>
+        <li><a href="#restrykcje-dostępu-do-serwerazasobów">Restrykcje dostępu do serwera/zasobów</a></li>
+        <li><a href="#użytkownicy">Użytkownicy</a>
+          <ol>
+            <li><a href="#samba-i-backendy-tdbsam-oraz-smbpasswd">SAMBA i backend'y tdbsam oraz smbpasswd</a></li>
+          </ol>
+        </li>
+        <li><a href="#uprawnienia-do-zasobów">Uprawnienia do zasobów</a></li>
+      </ol>
+    </li>
+    <li><a href="#sprawdzenie-konfiguracji-serwera-cifssmbsamba-via-testparm">Sprawdzenie konfiguracji serwera CIFS/SMB/SAMBA via testparm</a>
+      <ol>
+        <li><a href="#weak-crypto-is-allowed-by-gnutls-eg-ntlm-as-a-compatibility-fallback">Weak crypto is allowed by GnuTLS (e.g. NTLM as a compatibility fallback)</a></li>
+      </ol>
+    </li>
+    <li><a href="#demon-gvfsd-i-backendy-gvfs">Demon gvfsd i backend'y gvfs</a></li>
+    <li><a href="#testy-konfiguracji">Testy konfiguracji</a>
+      <ol>
+        <li><a href="#zdalne-podłączenie">Zdalne podłączenie</a></li>
+      </ol>
+    </li>
+    <li><a href="#konfiguracja-iptablesnfstables-na-potrzeby-cifssmbsamba">Konfiguracja iptables/nfstables na potrzeby CIFS/SMB/SAMBA</a>
+      <ol>
+        <li><a href="#ruch-przychodzący-input">Ruch przychodzący (INPUT)</a></li>
+        <li><a href="#ruch-wychodzący-output">Ruch wychodzący (OUTPUT)</a></li>
+        <li><a href="#test-firewalla">Test firewall'a</a></li>
+      </ol>
+    </li>
+    <li><a href="#apparmor">Apparmor</a></li>
+    <li><a href="#wpisy-w-etcfstab">Wpisy w /etc/fstab</a>
+      <ol>
+        <li><a href="#różnica-między-mountcifs-i-mountsmb3">Różnica między mount.cifs i mount.smb3</a></li>
+        <li><a href="#kwestia-cifsd">Kwestia cifsd</a></li>
+      </ol>
+    </li>
+    <li><a href="#zapisywanie-haseł-samba-w-keepassxc">Zapisywanie haseł SAMBA w keepassxc</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne
+systemy operacyjne (począwszy od linux'ów, przez androidy, a na windows'ach skończywszy), to
+postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej
+sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux'ów. Serwery
+HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś
+większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows.
+W zasadzie to pozostała mi ostatnia opcja w postaci protokołu <a href="https://www.samba.org/">CIFS/SMB/SAMBA</a>, który
+przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego
+Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w
+stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez
+znaczenia czy robimy to z windows'a i docelowo siedzimy na linux'ie, czy też w drugą stronę, tj.
+udostępniamy katalogi z linux'a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie
+obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet
+<code>samba</code> , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy
+sobie nieco ułatwić życie, tak by w menadżerze plików (np. <code>nemo</code> , <code>caja</code> , <code>pcmanfm</code> ) te
+wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do
+rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.</p>
+<h2 id="różnice-między-cifs-smb-samba">Różnice między CIFS, SMB, SAMBA</h2>
+<p>Najprościej rzecz ujmując, pakiet SAMBA to zbiór programów, które implementują w systemach UNIX
+protokół SMB (Server Message Block) i zapewniają usługi Active Directory. Pierwsza wersja protokołu
+SMB jest czasami określana także jako CIFS (Common Internet File System). SAMBA implementuje również
+protokół NetBIOS w <code>nmbd</code> . <a href="http://www.ubiqx.org/cifs/">Więcej informacji na temat historii CIFS/SMB/SAMBA</a> można znaleźć
+tutaj.</p>
+<h2 id="potrzebne-oprogramowanie-smbd-avahi-mdns-gvfs">Potrzebne oprogramowanie (smbd, avahi, mdns, gvfs)</h2>
+<p>Opisywany w niniejszym artykule sposób konfiguracji protokołu CIFS/SMB/SAMBA będzie zakładał
+wdrożenie niezbędnej funkcjonalności potrzebnej w celu udostępniania plików w sieci lokalnej. Do
+tego celu będzie nam potrzebny demon <code>smbd</code> (z pakietu <code>samba</code> ), demon <code>avahi-daemon</code> (z pakietu
+<code>avahi-daemon</code> ), biblioteka <code>libnss-mdns</code> oferująca rozwiązywanie nazw hosta via Multicast DNS
+przy wykorzystaniu Zeroconf zwanej także Apple Bonjour / Apple Rendezvous oraz demon <code>gvfsd</code> (z
+pakietu <code>gvfs-daemons</code> ) wraz z paroma backend'ami gvfs (z pakietu <code>gvfs-backends</code> ).</p>
+<p>Poniżej jest lista rzeczy, które musimy zainstalować w swoim linux'ie.</p>
+<pre><code># apptitude install \
+    samba \
+    libnss-mdns
+    avahi-daemon avahi-utils \
+    gvfs gvfs-daemons gvfs-backends gvfs-fuse
+</code></pre>
+<p>Jako, że będziemy udostępniać pliki via CIFS/SMB/SAMBA na wyraźne żądanie, to ze względów
+bezpieczeństwa wszystkie te nowo zainstalowane usługi lepiej jest pozostawić w Debianie domyślnie
+wyłączone. Gdy tylko zajdzie potrzeba wymiany plików, to te usługi najzwyczajniej w świecie można
+sobie uruchomić ręcznie i nie ma większej potrzeby, by startowały one wraz z podnoszeniem się
+naszego linux'a:</p>
+<pre><code># systemctl disable smbd.service nmbd.service
+# systemctl disable avahi-daemon.service avahi-daemon.socket
+</code></pre>
+<h3 id="kwestia-nmbd-wsddwsdd2-i-winbind">Kwestia nmbd, wsdd/wsdd2 i winbind</h3>
+<p>Starsze serwery CIFS/SMB/SAMBA mogą być dodatkowo wyposażone w demony  <code>nmbd</code> , <code>wsdd</code> / <code>wsdd2</code>
+oraz <code>winbindd</code> , które obecnie zdają się być już przestarzałe.</p>
+<p>Demon <code>nmbd</code> jest w stanie odpowiadać na żądania obsługi nazw NetBIOS poprzez IP takie, jakie są
+tworzone przez klientów CIFS/SMB/SAMBA (Windows 95/98, Windows NT i klientów LanManager).
+Partycypuje również w protokołach przeglądania, które tworzą widok &quot;Otoczenie Sieciowe&quot; Windows.
+Demon <code>nmbd</code> może być również użyty jako serwer WINS (Windows Interner Name Server). To w praktyce
+oznacza, że będzie funkcjonował jako serwer bazy danych WINS tworząc bazę danych z żądań
+rejestracyjnych, które otrzymuje i odpowiadając na zapytania od klientów o nazwy. Dodatkowo, <code>nmbd</code>
+może funkcjonować jako serwer proxy WINS, przekazujący zapytania rozgłaszane przez klientów, którzy
+nie wiedzą jak rozmawiać protokołem WINS z serwerem WINS.</p>
+<p>WSD to skrót od Web Services on Devices i jest to interfejs API firmy Microsoft upraszczający
+programowanie połączeń z urządzeniami obsługującymi usługi sieciowe, takie jak drukarki, skanery i
+udostępnianie plików. <a href="https://github.com/Netgear/wsdd2">Demon wssd</a> rozgłasza i odpowiada na żądania klientów Windows szukających
+udostępnionych plików. Implementuje on również usługi wyszukiwania nazw LLMNR (Link-Local Multicast
+Name Resolution). LLMNR został wprowadzony w systemie Microsoft Windows Vista i jest następcą
+NBT-NS (NetBIOS Name Service).</p>
+<p>Demon <code>winbindd</code> dostarcza usług do funkcjonalności Przełącznika Usług Nazewniczych (Name Service
+Switch, który jest obecny w większości nowych bibliotek C. Name Service Switch pozwala na uzyskanie
+informacji użytkownika i systemu z różnych usług bazodanowych, takich jak NIS lub DNS. Dokładne
+zachowanie może być skonfigurowane poprzez plik <code>/etc/nsswitch.conf</code> . Użytkownicy i grupy są
+alokowani, gdy tylko zostaną odwzorowani w obrębie zakresu identyfikatorów użytkowników i grup
+określonego przez administratora systemu Samba. Usługa dostarczana przez <code>winbindd</code> może być użyta
+do odwzorowania danych użytkownika i grupy z serwera Windows NT. Może również dostarczyć usług
+uwierzytelniających poprzez moduł PAM.</p>
+<p>Te wymienione wyżej demony/usługi miały na celu obsługę protokołów LLMNR (Link-Local Multicast Name
+Resolution) oraz NBT-NS (NetBIOS Name Service) i oferować tym samym usługi rozwiązywania nazw
+hostów w sieci lokalnej. Niemniej jednak, te protokoły nie są zbyt bezpieczne i lepiej się
+zastanowić, czy chcemy ich obsługę implementować na naszym linux'ie. <a href="https://kapitanhack.pl/2019/12/09/killchain/atak-na-uzytkownikow-w-sieci-lokalnej-poprzez-sfalszowanie-komunikacji-llmnr-i-nbt-ns-przyklad-i-porady/">O problemach natury
+bezpieczeństwa protokołów LLMNR i NBT-NS</a> można przeczytać tutaj.</p>
+<h3 id="microsoft-rezygnuje-z-llmnrnbt-ns-na-rzecz-mdns">Microsoft rezygnuje z LLMNR/NBT-NS na rzecz mDNS</h3>
+<p>Na wiki można wyczytać, że od kwietnia 2022 <a href="https://en.wikipedia.org/wiki/Link-Local_Multicast_Name_Resolution">Microsoft rozpoczął proces stopniowego wycofywania</a>
+zarówno LLMNR, jak i rozpoznawania nazw NetBIOS na rzecz <a href="http://www.multicastdns.org/">mDNS</a>. Wygląda zatem na to, że jeśli
+w sieci mamy tylko nowsze windows'y, to można całkowicie zrezygnować z <code>nmbd</code> , <code>wsdd</code> / <code>wsdd2</code>
+oraz <code>winbindd</code> .</p>
+<p>Jeśli jednak mamy w sieci starsze klienty windows, to trzeba będzie doinstalować także poniższe
+pakiety:</p>
+<pre><code># apptitude install \
+    wsdd wsdd2 \
+    winbind
+</code></pre>
+<h2 id="konfiguracja-mdns-plik-etcnsswitchconf">Konfiguracja mDNS (plik /etc/nsswitch.conf)</h2>
+<p>Multicast DNS (mDNS) jest w Debianie konfigurowany za sprawą pliku <code>/etc/nsswitch.conf</code> . W tym
+pliku znajduje się linijka z <code>hosts</code> , która to jest automatycznie dostosowywana za nas przy
+instalacji pakietu <code>libnss-mdns</code>. W przypadku, gdy nie korzystamy z <code>systemd-resolved</code> lub też
+robimy z niego jakiś użytek ale bez funkcjonalności oferowanej przez pakiet <code>libnss-resolve</code> , to
+ta linijka z <code>hosts</code> zostanie przepisana do poniższej postaci:</p>
+<pre><code>hosts:          files mdns4_minimal [NOTFOUND=return] dns
+</code></pre>
+<p>Gdy <code>libnss-resolve</code> w <code>systemd-resolved</code> jest włączony, to wtedy ta linijka będzie miała poniższą
+postać:</p>
+<pre><code>hosts:          files mdns4_minimal [NOTFOUND=return] resolve [!UNAVAIL=return] dns
+</code></pre>
+<p>W razie problemów z rozwiązywaniem nazw maszyn lokalnych, dobrze jest się upewnić czy wpisy w pliku
+<code>/etc/nsswitch.conf</code> są takie jak być powinny.</p>
+<h2 id="konfiguracja-dns-plik-etcresolvconf">Konfiguracja DNS (plik /etc/resolv.conf)</h2>
+<p>Standardowo w linux'ach konfiguracja DNS jest pobierana z serwera DHCP naszego domowego routera
+WiFi. Po jej uzyskaniu, dostosowywany jest plik <code>/etc/resolv.conf</code> , w którym to powinno się
+znaleźć szereg potrzebnych wpisów, przykładowo:</p>
+<pre><code>nameserver 127.0.0.1
+nameserver ::1
+options edns0 trust-ad
+options timeout:2
+search mhouse
+</code></pre>
+<p>Te opcje, które nas interesują najbardziej to <code>nameserver</code> oraz <code>search</code> . Parametr <code>nameserver</code>
+wskazuje na adres serwera DNS, który będzie rozwiązywał nazwy hostów/domen na adresy IP. Z kolei
+parametr <code>search</code> ma na celu dodać do wszystkich zapytań DNS nieposiadających części domeny (brak
+choć jednej <code>.</code> ) frazę, którą w nim sobie określimy. Zatem próbując rozwiązać, np. nazwę
+<code>janek-laptop</code> , do serwera DNS powędruje tak naprawdę zapytanie o adres hosta
+<code>janek-laptop.mhouse</code> , które zostanie lokalnie rozwiązane przez serwer DNS naszego domowego
+routera WiFi, bo to on jest odpowiedzialny za rozwiązywanie nazw na adresy IP w tej domenie.
+Sprawdźmy czy tak faktycznie się stanie:</p>
+<pre><code>$ ping -4 janek-laptop -c 4
+PING janek-laptop (192.168.1.193) 56(84) bytes of data.
+64 bytes from janek-laptop.mhouse (192.168.1.193): icmp_seq=1 ttl=64 time=2.01 ms
+64 bytes from janek-laptop.mhouse (192.168.1.193): icmp_seq=2 ttl=64 time=1.35 ms
+64 bytes from janek-laptop.mhouse (192.168.1.193): icmp_seq=3 ttl=64 time=3.15 ms
+64 bytes from janek-laptop.mhouse (192.168.1.193): icmp_seq=4 ttl=64 time=4.88 ms
+
+--- janek-laptop ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3019ms
+rtt min/avg/max/mdev = 1.354/2.848/4.880/1.337 ms
+</code></pre>
+<p>Jak widać, odpowiedź <code>ping</code> do hosta <code>janek-laptop</code> została zwrócona z adresu <code>192.168.1.193</code> ,
+czyli tego, który jest tej maszynie przypisany. Widzimy też, że niby podaliśmy w żądaniu <code>ping</code>
+jedynie nazwę <code>janek-laptop</code> ale została ona automatycznie przepisana do postaci
+<code>janek-laptop.mhouse</code> .</p>
+<h3 id="konfiguracja-reverse-dns-lookups">Konfiguracja reverse DNS lookups</h3>
+<p>Gdyby w tym powyższym logu widniał jedynie sam adres IP, to wtedy mamy problemy z
+konfiguracją <a href="https://www.cloudflare.com/learning/dns/dns-records/dns-ptr-record/">rekordów DNS PTR</a>, które są wykorzystywane przy <a href="https://www.cloudflare.com/learning/dns/glossary/reverse-dns/">reverse DNS lookups</a>. Zwykle
+nie trzeba nic dodatkowo zmieniać w systemie, jednak trzeba mieć na uwadze fakt, że jeśli korzystamy
+z oprogramowania oferującego cache DNS, np. <code>dnsmasq</code> , to stosowny wpis w jego konfiguracji musimy
+zamieścić, by nam ten cały mechanizm działał prawidłowo, przykładowo:</p>
+<pre><code>...
+server=::1#5333
+server=127.0.2.1#5333
+server=/mhouse/192.168.1.1#53
+server=/1.168.192.in-addr.arpa/192.168.1.1
+...
+</code></pre>
+<p>W tym przypadku, wszystkie zapytania o domeny będą  przesyłane do serwera DNS, który nasłuchuje na
+porcie <code>5333</code> (tutaj akurat jest to <code>dnscrypt-proxy</code> ). Niemniej jednak, robimy wyjątek dla
+lokalnej domeny <code>mhouse</code> i zapytania o hosty w tej domenie będą przesyłane na adres naszego routera
+WiFi i tam rozwiązywane. Ostatnia linijka konfiguruje właśnie reverse DNS lookups , tak by zapytania
+o adresy IP z zakresu 192.168.1.0/24, były przesyłane również do routera WiFi, bo tylko tam może
+zostać na nie udzielona odpowiedź.</p>
+<p>By przetestować czy reverse DNS lookups działa prawidłowo, możemy posłużyć się do tego celu
+narzędziem <code>nslookup</code> :</p>
+<pre><code>$ nslookup janek-laptop
+Server:         127.0.0.1
+Address:        127.0.0.1#53
+
+Name:   janek-laptop.mhouse
+Address: 192.168.1.193
+Name:   janek-laptop.mhouse
+Address: fda9:1892:e9f3::707
+
+$ nslookup 192.168.1.193
+193.1.168.192.in-addr.arpa      name = janek-laptop.mhouse.
+
+Authoritative answers can be found from:
+</code></pre>
+<p>Jak widzimy, przy próbie odpytania po IP o nazwę hosta, został zwrócony
+<code>name = janek-laptop.mhouse</code> , zatem wszystko działa poprawnie.</p>
+<h2 id="usługa-avahi-daemonservice">Usługa avahi-daemon.service</h2>
+<p><a href="https://avahi.org/">Avahi</a> to system, który ułatwia wykrywanie usług w sieci lokalnej za pośrednictwem zestawu
+protokołów mDNS/DNS-SD (<a href="http://www.multicastdns.org/">Multicast DNS</a>/<a href="http://www.dns-sd.org/">DNS Service Discovery</a>). Umożliwia to podłączenie
+laptopa lub komputera do sieci i natychmiastowe wyświetlenie innych osób, z którymi można czatować.
+Podobnie sprawa wygląda w przypadku drukarek, którymi można coś wydrukować lub też z udostępnionymi
+plikami, które możemy przeglądać. Pliki, o których mowa, to zasoby CIFS/SMB/SAMBA, dlatego też
+<code>avahi-daemon</code> musi być aktywny w systemie, by bez problemów te zasoby mogły być automatycznie
+odnalezione. Kompatybilna technologia znajduje się w systemach Apple MacOS X (pod nazwą &quot;Bonjour&quot;,
+czasami zwaną też &quot;<a href="http://www.zeroconf.org/">Zeroconf</a>&quot;).</p>
+<h3 id="konfiguracja-avahi-daemon-plik-etcavahiavahi-daemonconf">Konfiguracja avahi-daemon (plik /etc/avahi/avahi-daemon.conf)</h3>
+<p>Konfiguracja <code>avahi-daemon</code> odbywa się przez plik <code>/etc/avahi/avahi-daemon.conf</code> , w którym to
+musimy zmienić kilka rzeczy. Poniżej znajduje się zawartość mojego pliku:</p>
+<pre><code>[server]
+host-name=morfikownia
+domain-name=local
+#browse-domains=
+use-ipv4=yes
+use-ipv6=no
+allow-interfaces=bond0
+#deny-interfaces=eth1
+check-response-ttl=yes
+#use-iff-running=no
+enable-dbus=yes
+disallow-other-stacks=yes
+#allow-point-to-point=no
+cache-entries-max=4096
+clients-max=4096
+objects-per-client-max=1024
+entries-per-entry-group-max=32
+ratelimit-interval-usec=1000000
+ratelimit-burst=1000
+
+[wide-area]
+enable-wide-area=no
+
+[publish]
+disable-publishing=no
+disable-user-service-publishing=no
+add-service-cookie=yes
+publish-addresses=yes
+publish-hinfo=no
+publish-workstation=no
+publish-domain=yes
+#publish-dns-servers=127.0.0.1
+publish-resolv-conf-dns-servers=yes
+publish-aaaa-on-ipv4=yes
+publish-a-on-ipv6=no
+
+[reflector]
+enable-reflector=no
+#reflect-ipv=no
+#reflect-filters=_airplay._tcp.local,_raop._tcp.local
+
+[rlimits]
+#rlimit-as=
+rlimit-core=0
+rlimit-data=8388608
+rlimit-fsize=0
+rlimit-nofile=32
+rlimit-stack=8388608
+rlimit-nproc=3
+</code></pre>
+<p>Większość użytych parametrów raczej jest zrozumiała, jeśli jednak mamy z nimi problemy, to warto
+zajrzeć do <a href="https://linux.die.net/man/5/avahi-daemon.conf">man avahi-daemon.conf</a>. Na wyjaśnienie zasługuje w zasadzie jedynie <code>domain-name=</code> .
+Najwyraźniej nazwa domeny <code>local</code> jest swojego rodzaju standardem i sporo systemów i usług w nich
+korzysta właśnie z tej nazwy. Jeśli nie chcemy zmieniać konfiguracji pozostałych systemów, to
+dobrze jest w tym parametrze określić właśnie <code>local</code> jako nazwę domeny.</p>
+<p>Po zapisaniu konfiguracji i zrestartowaniu usługi <code>avahi-daemon.service</code> dobrze jest przetestować
+czy nazwy hostów w domenie <code>.local</code> są poprawnie rozwiązywane na adresy IP i podobnie też w drugą
+stronę:</p>
+<pre><code>$ avahi-resolve -n -4 morfikownia.local
+morfikownia.local       192.168.1.150
+
+$ avahi-resolve -a 192.168.1.150
+192.168.1.150   morfikownia.local
+</code></pre>
+<p>Jeśli mamy w sieci jakieś usługi, to możemy sprawdzić czy <code>avahi-browse</code> je odnajdzie:</p>
+<pre><code>$ avahi-browse -art
++  bond0 IPv4 LibreELEC                                     SSH Remote Terminal  local
++  bond0 IPv4 LibreELEC                                     SFTP File Transfer   local
++  bond0 IPv4 root@LibreELEC: Dummy Output                  PulseAudio Sound Sink local
+=  bond0 IPv4 LibreELEC                                     SSH Remote Terminal  local
+   hostname = [LibreELEC.local]
+   address = [192.168.1.238]
+   port = [22]
+   txt = []
++  bond0 IPv4 root@LibreELEC                                PulseAudio Sound Server local
+=  bond0 IPv4 LibreELEC                                     SFTP File Transfer   local
+   hostname = [LibreELEC.local]
+   address = [192.168.1.238]
+   port = [22]
+   txt = [&quot;u=root&quot; &quot;path=/storage&quot;]
+=  bond0 IPv4 root@LibreELEC: Dummy Output                  PulseAudio Sound Sink local
+   hostname = [LibreELEC.local]
+   address = [192.168.1.238]
+   port = [4713]
+   txt = [&quot;icon-name=computer&quot; &quot;class=abstract&quot; &quot;description=Dummy Output&quot; &quot;subtype=virtual&quot; &quot;channel_map=front-left,front-right&quot; &quot;format=s16le&quot; &quot;channels=2&quot; &quot;rate=44100&quot; &quot;device=auto_null&quot; &quot;cookie=0x51620f5e&quot; &quot;fqdn=LibreELEC&quot; &quot;uname=Linux aarch64 6.6.28 #1 SMP Thu Apr 25 10:02:13 UTC 2024&quot; &quot;machine-id=1c89e42466b4894bf5195fc45caf6b34&quot; &quot;user-name=root&quot; &quot;server-version=pulseaudio 17.0&quot;]
++  bond0 IPv4 Kodi (LibreELEC)                              _xbmc-events._udp    local
++  bond0 IPv4 Kodi (LibreELEC)                              _xbmc-jsonrpc._tcp   local
+=  bond0 IPv4 root@LibreELEC                                PulseAudio Sound Server local
+   hostname = [LibreELEC.local]
+   address = [192.168.1.238]
+   port = [4713]
+   txt = [&quot;cookie=0x51620f5e&quot; &quot;fqdn=LibreELEC&quot; &quot;uname=Linux aarch64 6.6.28 #1 SMP Thu Apr 25 10:02:13 UTC 2024&quot; &quot;machine-id=1c89e42466b4894bf5195fc45caf6b34&quot; &quot;user-name=root&quot; &quot;server-version=pulseaudio 17.0&quot;]
++  bond0 IPv4 Kodi (LibreELEC)                              Web Site             local
++  bond0 IPv4 Kodi (LibreELEC)                              _xbmc-jsonrpc-h._tcp local
++  bond0 IPv4 LIBREELEC                                     Device Info          local
++  bond0 IPv4 MORFIKOWNIA                                   Device Info          local
++  bond0 IPv4 LIBREELEC                                     Microsoft Windows Network local
++  bond0 IPv4 MORFIKOWNIA                                   Microsoft Windows Network local
+=  bond0 IPv4 Kodi (LibreELEC)                              _xbmc-events._udp    local
+   hostname = [LibreELEC.local]
+   address = [192.168.1.238]
+   port = [9777]
+   txt = []
+=  bond0 IPv4 Kodi (LibreELEC)                              _xbmc-jsonrpc._tcp   local
+   hostname = [LibreELEC.local]
+   address = [192.168.1.238]
+   port = [9090]
+   txt = [&quot;uuid=29bb0091-9d68-4e3f-8360-3df837e16f2e&quot; &quot;txtvers=1&quot;]
+=  bond0 IPv4 Kodi (LibreELEC)                              Web Site             local
+   hostname = [LibreELEC.local]
+   address = [192.168.1.238]
+   port = [8080]
+   txt = [&quot;uuid=29bb0091-9d68-4e3f-8360-3df837e16f2e&quot; &quot;txtvers=1&quot;]
+=  bond0 IPv4 Kodi (LibreELEC)                              _xbmc-jsonrpc-h._tcp local
+   hostname = [LibreELEC.local]
+   address = [192.168.1.238]
+   port = [8080]
+   txt = [&quot;uuid=29bb0091-9d68-4e3f-8360-3df837e16f2e&quot; &quot;txtvers=1&quot;]
+=  bond0 IPv4 LIBREELEC                                     Device Info          local
+   hostname = [LibreELEC.local]
+   address = [192.168.1.238]
+   port = [0]
+   txt = [&quot;model=Xserve&quot;]
+=  bond0 IPv4 MORFIKOWNIA                                   Device Info          local
+   hostname = [morfikownia.local]
+   address = [192.168.1.150]
+   port = [0]
+   txt = [&quot;org.freedesktop.Avahi.cookie=2384891314&quot; &quot;model=Xserve&quot;]
+=  bond0 IPv4 LIBREELEC                                     Microsoft Windows Network local
+   hostname = [LibreELEC.local]
+   address = [192.168.1.238]
+   port = [445]
+   txt = []
+=  bond0 IPv4 MORFIKOWNIA                                   Microsoft Windows Network local
+   hostname = [morfikownia.local]
+   address = [192.168.1.150]
+   port = [445]
+   txt = [&quot;org.freedesktop.Avahi.cookie=2384891314&quot;]
+</code></pre>
+<p>W sieci mam maszynkę RPI z zainstalowanym <a href="https://libreelec.tv/">LibreELEC</a> i ta maszyna sporo usług zgłasza. Jest
+też moja morfikownia, z usługą CIFS/SMB/SAMBA. Zatem konfiguracja demona Avahi zdaje się być
+poprawna.</p>
+<h2 id="usługi-smbdservice-oraz-nmbdservice">Usługi smbd.service oraz nmbd.service</h2>
+<p>Jeśli zaś chodzi o pakiet <code>samba</code> , to interesować nas będą dwie usługi, tj. <code>smbd.service</code>
+uruchamiający <a href="https://www.samba.org/samba/docs/current/man-html/smbd.8.html">demona smbd</a> oraz <code>nmbd.service</code> uruchamiający <a href="https://www.samba.org/samba/docs/current/man-html/nmbd.8.html">demona nmbd</a> . Poza tymi
+usługami trzeba też będzie rzucić okiem na plik z konfiguracją <code>/etc/samba/smb.conf</code> .</p>
+<p>Jak już zostało wyżej wspomniane, w przypadku linux'ów i nowszych windows'ów możemy zrezygnować z
+obsługi NetBIOS w naszym serwerze CIFS/SMB/SAMBA. Co ciekawe usługa <code>nmbd.service</code> posiada warunek
+do uruchomienia:</p>
+<pre><code>ExecCondition=/usr/share/samba/is-configured nmb
+</code></pre>
+<p>W skrypcie <code>/usr/share/samba/is-configured</code> mamy m.in. tę poniższą zwrotkę:</p>
+<pre><code>( nmb | nmbd )
+    [ &quot;$addc&quot; = 1 ] &amp;&amp; exit 1
+    disable_netbios=$(testparm -s --parameter-name=&quot;disable netbios&quot; 2&gt;/dev/null)
+    [ Yes = &quot;$disable_netbios&quot; ] &amp;&amp; exit 1 || exit 0
+    ;;
+</code></pre>
+<p>Zatem jeśli w pliku <code>/etc/samba/smb.conf</code> znajdzie się parametr <code>disable netbios = yes</code> , to demon
+<code>nmbd</code> nie zostanie uruchomiony -- trzeba o tym pamiętać.</p>
+<h2 id="konfiguracja-cifssmbsamba-plik-etcsambasmbconf">Konfiguracja CIFS/SMB/SAMBA (plik /etc/samba/smb.conf)</h2>
+<p>Jeśli chodzi o plik konfiguracyjny <code>/etc/samba/smb.conf</code> , to trzeba będzie go nieco dostosować.
+Poniżej znajduje się zawartość mojego pliku:</p>
+<pre><code>#======================= Global Settings =======================
+
+[global]
+
+    server role = standalone server
+    server string = morfikownia
+    server smb encrypt = disabled
+    netbios name = MORFIKOWNIA
+    workgroup = MHOUSE
+    interfaces = lo 192.168.1.0/24
+    bind interfaces only = yes
+    client min protocol = SMB3_11
+    server min protocol = SMB3_11
+    client ipc min protocol = SMB3_11
+    ntlm auth = ntlmv2-only
+    #security = user
+
+    #name resolve order = lmhosts wins host bcast
+    name resolve order = host
+    hostname lookups = yes
+    dns proxy = no
+    hosts allow = 127.0.0.0/8, 192.168.1.150, 192.168.1.128, janek-laptop.local, janek-laptop.mhouse
+    hosts deny = ALL
+
+    deadtime = 30
+
+    wins support = no
+    disable netbios = yes
+    disable spoolss = yes
+
+    usershare allow guests = no
+    restrict anonymous = 2
+
+    browseable = yes
+    read only = yes
+    printable = no
+
+    map to guest = never
+    #map to guest = Bad User
+
+    invalid users = root nobody
+    valid users = samba sambina
+    #guest account = nobody
+
+    create mask = 0660
+    directory mask = 0770
+    mangled names = no
+    #mangled names = illegal
+
+    load printers = no
+    printing = cups
+    printcap name = cups
+    #printcap name = /etc/printcap
+
+    enable core files = yes
+
+    passdb backend = tdbsam
+    #passdb backend = smbpasswd
+    #smb passwd file = /etc/samba/smbpasswd
+    #username map = /etc/samba/smbusers
+
+
+    # samba tuning options
+    socket options = TCP_NODELAY IPTOS_LOWDELAY
+    min receivefile size = 16384
+    aio read size = 16384
+    aio write size = 16384
+    use sendfile = yes
+
+    local master = yes
+    preferred master = auto
+    domain master = auto
+    os level = 20
+
+    strict allocate = no
+
+    fruit:model = Xserve
+
+    #logging = file
+    #log file = /var/log/samba/log.%m.
+    #max log size = 1000
+    log level = 5
+
+    panic action = /usr/share/samba/panic-action %d
+
+    obey pam restrictions = yes
+    unix password sync = yes
+    passwd program = /usr/bin/passwd %u
+    passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+    pam password change = yes
+
+
+#======================= Share Definitions =======================
+
+[samba-android]
+    comment = Samba na /media/Android/
+    path = /media/Android/samba
+    available = yes
+    browseable = yes
+    read only = yes
+    printable = no
+    guest ok = no
+    write list = samba
+    read list = samba sambina
+
+[samba-zami]
+    comment = Samba na /media/Zami/
+    path = /media/Zami/samba
+    available = yes
+    browseable = yes
+    read only = yes
+    printable = no
+    guest ok = no
+    write list = samba
+    read list = samba sambina
+</code></pre>
+<p>Konfiguracja w pliku <code>/etc/samba/smb.conf</code> jest podzielona na dwie sekcje. Wszystko co jest pod
+<code>[global]</code> określa ustawienia globalne dla serwera CIFS/SMB/SAMBA. Mamy także dwie zwrotki
+<code>[samba-*]</code> , które są odpowiedzialne za sekcję usług. Część parametrów konfiguracyjnych jest
+charakterystyczna jedynie dla sekcji globalnej. Natomiast wszystkie parametry z sekcji usług można
+dodać również do sekcji globalnej. W ten sposób można zdefiniować konfigurację dla wszystkich usług
+w jednym podejściu i mogą one robić za ustawienia domyślne.</p>
+<p>Konfiguracja, którą wyżej widzimy, ma w założeniu umożliwić dostęp do dwóch katalogów, tj.
+<code>/media/Android/samba/</code> oraz <code>/media/Zami/samba/</code> . Dostęp do tych katalogów ma być wyłącznie dla
+zalogowanych użytkowników ( <code>usershare allow guests = no</code> oraz <code>guest ok = no</code> ), którzy będą w
+stanie jedynie odczytać zawartość tych folderów bez praw do zapisu ( <code>read only = yes</code> oraz
+<code>printable = no</code> ). W tym modelu, dostęp dla anonimowych użytkowników jest wyłączony i tylko
+podanie nazwy użytkownika i hasła będzie skutkować możliwością przeglądania zasobów.</p>
+<h3 id="parametr-restrict-anonymous">Parametr &quot;restrict anonymous&quot;</h3>
+<p>Mogłoby się wydawać, że skoro mamy wyłączony anonimowy dostęp do zasobów, to nie da się zalogować
+na nasz serwer CIFS/SMB/SAMBA anonimowo. Wygląda jednak na to, że część funkcjonalności serwera
+jest dostępna bez logowania, o czym możemy się przekonać wydając w terminalu poniższe polecenie:</p>
+<pre><code>$ net rpc user
+Password for [MHOUSE\morfik]:
+Anonymous login successful
+samba
+sambina
+</code></pre>
+<p>Jak widać, nawet nie podając hasła, zostaje zwrócony komunikat <code>Anonymous login successful</code> oraz
+lista użytkowników serwera CIFS/SMB/SAMBA.</p>
+<p>Wszystko dlatego, że domyślnie w konfiguracji SAMBA mamy ustawiony parametr
+<code>restrict anonymous = 0</code> , który umożliwia anonimowy dostęp do usług SAMRP (Security Account
+Manager Remote Protocol) oraz LSA DCERPC (Local Security Authority, DCE 1.1: Remote Procedure Call).
+Anonimowy dostęp do tych usług jest wymagany podczas przeglądania zasobów przez stare klienty,
+które polegają na NetBIOS. Nowsze wersje windows nie powinny mieć problemów, z ustawieniem
+restrykcji dla anonimowych zapytań, choć niektóre aplikacje wciąż mogą polegać na anonimowym
+dostępie.</p>
+<p>W zasadzie to <code>restrict anonymous</code> możemy ustawić na <code>1</code> i przez to wyłączyć anonimowy dostęp do
+SAMRP, lub też <code>2</code> , co zaowocuje dodatkowo brakiem pozwolenia na anonimowe połączenia do <code>IPC$</code>
+(chyba że w sekcji usługi ustawi się parametr <code>guest ok = yes</code> ).</p>
+<p>Gdy ustawimy <code>restrict anonymous = 2</code> , to powyższe polecenie zwróci nam błąd:
+<code>NT_STATUS_ACCESS_DENIED</code> dla użytkowników anonimowych lub też tych, których nie ma w bazie danych:</p>
+<pre><code>$ net rpc user -U morfik
+Password for [MHOUSE\morfik]:
+Anonymous login successful
+tree connect failed: NT_STATUS_ACCESS_DENIED
+
+$ net rpc user -U samba
+Password for [MHOUSE\samba]:
+samba
+sambina
+</code></pre>
+<p>Jeśli po ustawieniu <code>restrict anonymous = 2</code> i przeładowaniu serwera nie widzimy zasobów
+CIFS/SMB/SAMBA w menadżerze plików, to prawdopodobnie trzeba zrestartować sesję graficzną.</p>
+<h3 id="minimalna-wersja-protokołu">Minimalna wersja protokołu</h3>
+<p>Ze względów bezpieczeństwa dobrze jest ustawić minimalną wersję protokołu CIFS/SMB/SAMBA zarówno
+serwera, jak i podłączających się do niego klientów. Do wyboru mamy:</p>
+<ul>
+<li><code>CORE</code>     - Najwcześniejsza wersja.</li>
+<li><code>COREPLUS</code> - Nieznaczne ulepszenia <code>CORE</code> w celu zwiększenia wydajności.</li>
+<li><code>LANMAN1</code>  - Pierwsza nowocześniejsza wersja protokołu. Obsługa długich nazw plików.</li>
+<li><code>LANMAN2</code>  - Aktualizacja do protokołu Lanman1.</li>
+<li><code>NT1</code>      - Aktualna wersja protokołu. Używany przez system Windows NT. Znany jako CIFS.</li>
+<li><code>SMB2</code>     - Reimplementacja protokołu SMB. Używany przez Windows Vista i późniejsze wersje
+Windows. SMB2 ma dostępne podprotokoły. Domyślnie SMB2 wybiera wariant SMB2_10.</li>
+<li><code>SMB2_02</code>  - Najwcześniejsza wersja SMB2.</li>
+<li><code>SMB2_10</code>  - Wersja SMB2 systemu Windows 7.</li>
+<li><code>SMB3</code>     - Taki sam jak SMB2. Używany przez Windows 8. SMB3 ma dostępne podprotokoły.
+Domyślnie SMB3 wybiera wariant SMB3_11.</li>
+<li><code>SMB3_00</code>  - Wersja SMB3 dla systemu Windows 8.</li>
+<li><code>SMB3_02</code>  - Wersja SMB3 dla systemu Windows 8.1.</li>
+<li><code>SMB3_11</code>  - Wersja SMB3 dla systemu Windows 10.</li>
+</ul>
+<p>W manualu można wyczytać, że nie powinno się ustawiać na sztywno wersji protokołu SMB, ze względu
+na fakt automatycznej negocjacji między klientem a serwerem przy nawiązywaniu połączenia. Ja jednak
+jestem zdania, że takim automatycznym rozwiązaniom lepiej nie zawierzać i lepiej określić wersję
+protokołu, z której zamierzamy korzystać:</p>
+<pre><code>    client min protocol = SMB3_11
+    server min protocol = SMB3_11
+    client ipc min protocol = SMB3_11
+</code></pre>
+<h3 id="wyłączenie-obsługi-netbios-i-wins">Wyłączenie obsługi NetBIOS i WINS</h3>
+<p>W założeniach naszego serwera CIFS/SMB/SAMBA postawiliśmy na bezpieczeństwo i obsługę najnowszych
+protokołów. Dlatego też wyłączany obsługę NetBIOS i WINS:</p>
+<pre><code>wins support = no
+disable netbios = yes
+disable spoolss = yes
+dns proxy = no
+</code></pre>
+<h3 id="dostosowanie-parametru-name-resolve-order">Dostosowanie parametru &quot;name resolve order&quot;</h3>
+<p>Po wyłączeniu NetBIOS i WINS możemy też nieco dostosować parametr <code>name resolve order</code> , w którym to
+możemy określić te poniższe opcje:</p>
+<ul>
+<li><code>lmhosts</code> - Wyszukuje adres IP w pliku lmhosts SAMBA.</li>
+<li><code>host</code>    - Wykonuje standardowe rozwiązywanie nazwy hosta na adres IP, używając pliku
+<code>/etc/hosts</code> lub DNS.</li>
+<li><code>wins</code>    - Wysyła zapytanie o nazwę do serwera WINS, którego adres IP figuruje w parametrze
+WINSSERVER. Jeśli nie określono serwera WINS, ta metoda zostanie zignorowana.</li>
+<li><code>bcast</code>   - Wykonuje rozgłaszanie na każdym ze znanych interfejsów lokalnych wymienionych w
+parametrze <code>interfaces</code> . Jest to najmniej niezawodna z metod rozwiązywania nazw,
+ponieważ zależy ona od tego czy docelowy host znajduje się w lokalnie podłączonej
+podsieci.</li>
+</ul>
+<p>Biorąc pod uwagę te powyższe informacje, to jedyną interesującą nas opcją będzie <code>host</code> :</p>
+<pre><code>#name resolve order = lmhosts wins host bcast
+name resolve order = host
+hostname lookups = yes
+</code></pre>
+<h3 id="restrykcje-dostępu-do-serwerazasobów">Restrykcje dostępu do serwera/zasobów</h3>
+<p>Serwer CIFS/SMB/SAMBA posiada wbudowany mechanizm restrykcji dostępu, dzięki któremu jesteśmy w
+stanie ograniczyć dostęp do zasobów (czy też całego serwera) określonym hostom w sieci lokalnej.
+Jeśli chcemy ograniczyć dostęp do udostępnianych na naszej maszynie katalogów, to do pliku
+<code>/etc/samba/smb.conf</code> trzeba dodać te dwa poniższe parametry:</p>
+<pre><code>hosts allow = 127.0.0.0/8, 192.168.1.150, 192.168.1.128
+hosts deny = ALL
+</code></pre>
+<p>Ta powyższa konfiguracja zezwoli na połączenie jedynie użytkownikom z adresów <code>192.168.1.150</code> oraz
+<code>192.168.1.128</code> (no i oczywiście z localhost, którego nie możemy zablokować) . Naturalnym jest fakt,
+że adresy IP mogą i będą ulegać zmianie, dlatego też istnieje opcja zidentyfikowania użytkowników
+po nazwie hosta, przykładowo:</p>
+<pre><code>hosts allow = 127.0.0.0/8, 192.168.1.150, 192.168.1.128, janek-laptop.mhouse
+hosts deny = ALL
+</code></pre>
+<p>Te dwa parametry możemy także określić w sekcji usług i w ten sposób zezwolić określonym hostom na
+dostęp do konkretnych katalogów udostępnianych na serwerze.</p>
+<p>By restrykcje dostępu działały w oparciu o nazwy hostów, nie można zapomnieć o parametrze
+<code>hostname lookups</code> .</p>
+<h3 id="użytkownicy">Użytkownicy</h3>
+<p>Wiemy już, że by być w stanie zajrzeć w udostępniony katalog, będzie trzeba się zalogować na
+jakiegoś użytkownika. Pytanie tylko na jakiego użytkownika? Odpowiedź brzmi: na użytkownika
+dedykowanego, którego musimy sobie utworzyć zarówno w Debianie, jak i w bazie danych SAMBA.</p>
+<p>Zatem tworzymy użytkownika w systemie przy pomocy narzędzia <code>useradd</code> :</p>
+<pre><code># useradd -u 7777 --home /run/samba --no-create-home -s /usr/sbin/nologin samba
+</code></pre>
+<p>W tym powyższym poleceniu kluczowe jest określenie kilku dodatkowych parametrów:</p>
+<ul>
+<li><code>-u</code>               -- odpowiada za wybór konkretnego identyfikatora użytkownika (UID) w systemie.
+Jeśli go nie określimy, to system przypisze dla tego konta pierwszy UID,
+który będzie dostępny dla zwykłego użytkownika, zwykle 1001.</li>
+<li><code>--home</code>           -- zmienia lokalizację katalogu domowego. Normalnie lokalizacja tego katalogu
+domowego wskazywała by na <code>/home/$USER/</code> , choć w tym przypadku to i tak
+ma marginalne znaczenie.</li>
+<li><code>--no-create-home</code> -- sprawi, że katalog domowy dla tego użytkownika nie zostanie utworzony.</li>
+<li><code>-s</code>               -- ma na celu ustawić shell dla tego konta na <code>/usr/sbin/nologin</code> , co
+efektywnie uniemożliwi temu użytkownikowi logowanie się na konto shell.</li>
+</ul>
+<p>Ustawiamy także hasło dla tego konta:</p>
+<pre><code># passwd samba
+New password:
+Retype new password:
+passwd: password updated successfully
+</code></pre>
+<p>Teraz przechodzimy do utworzenia użytkownika w bazie danych SAMBA.</p>
+<h4 id="samba-i-backendy-tdbsam-oraz-smbpasswd">SAMBA i backend'y tdbsam oraz smbpasswd</h4>
+<p>Domyślnym backend'em dla haseł w SAMBA jest <code>tdbsam</code> , który przechowuje hasła w pliku
+<code>/var/lib/samba/private/passdb.tdb</code> . Możemy także wybrać backend <code>smbpasswd</code> , który hasła trzyma
+w pliku <code>/etc/samba/smbpasswd</code> ). Jedno lub drugie rozwiązanie powinno bez problemu wystarczyć dla
+naszych lokalnych potrzeb.</p>
+<p>Wybór backend'u określamy w pliku <code>/etc/samba/smb.conf</code> . Po określeniu backend'u dla haseł,
+tworzymy użytkownika w bazie danych SAMBA:</p>
+<pre><code># smbpasswd -a samba
+New SMB password:
+Retype new SMB password:
+Added user samba.
+</code></pre>
+<p>lub:</p>
+<pre><code># pdbedit -a -u samba
+new password:
+retype new password:
+</code></pre>
+<p>W przypadku korzystania z backend'u <code>smbpasswd</code> jesteśmy w stanie w prosty sposób podejrzeć wpisy
+w tej tekstowej bazie danych, tj. plik <code>/etc/samba/smbpasswd</code> :</p>
+<pre><code># cat /etc/samba/smbpasswd
+
+samba:7777:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX:11437065C4BA9F865A30488E7FFCF8FA:[U          ]:LCT-663C6155:
+</code></pre>
+<p>Mamy tutaj:</p>
+<ul>
+<li><code>samba</code>   -- nazwa użytkownika.</li>
+<li><code>7777</code>    -- identyfikator użytkownika (UID).</li>
+<li><code>XX...XX</code> -- hash Lanman'a hasła użytkownika (w tym przypadku mamy same <code>X</code> , co oznacza, że
+to konto jest wyłączone w systemie i nie można się na nie zalogować).</li>
+<li><code>11...FA</code> -- hash Windows NT hasła użytkownika.</li>
+<li><code>[ ]</code>     -- flagi dla konta użytkownika (w tym przypadku <code>U</code> oznacza konto zwykłego
+użytkownika).</li>
+<li><code>LCT-</code>    -- czas ostatniej zmiany konta (Last Change Time).</li>
+</ul>
+<p>Jeśli zaś chodzi o podejrzenie bazy haseł w przypadku korzystania z backend'u <code>tdbsam</code> , to tutaj
+trzeba już posłużyć się narzędziem <code>pdbedit</code> , przykładowo:</p>
+<pre><code># pdbedit -L -v
+
+---------------
+Unix username:        samba
+NT username:
+Account Flags:        [U          ]
+User SID:             S-1-5-21-935451880-3819277430-3145174144-1001
+Primary Group SID:    S-1-5-21-935451880-3819277430-3145174144-513
+Full Name:
+Home Directory:       \\MORFIKOWNIA\samba
+HomeDir Drive:
+Logon Script:
+Profile Path:         \\MORFIKOWNIA\samba\profile
+Domain:               MORFIKOWNIA
+Account desc:
+Workstations:
+Munged dial:
+Logon time:           0
+Logoff time:          Wed, 06 Feb 2036 16:06:39 CET
+Kickoff time:         Wed, 06 Feb 2036 16:06:39 CET
+Password last set:    Sun, 12 May 2024 09:47:02 CEST
+Password can change:  Sun, 12 May 2024 09:47:02 CEST
+Password must change: never
+Last bad password   : 0
+Bad password count  : 0
+Logon hours         : FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+</code></pre>
+<p>Posiadając tylko jeden wpis w bazie danych SAMBA będziemy mieli tak naprawdę możliwość dostępu do
+udostępnionych katalogów podając nazwę użytkownika <code>samba</code> oraz określone dla niego hasło. Jeśli
+chcielibyśmy rozdzielić dostęp na wielu użytkowników, to naturalnie trzeba dodać więcej kont
+(zarówno w Debianie, jak i bazie danych SAMBA).</p>
+<h3 id="uprawnienia-do-zasobów">Uprawnienia do zasobów</h3>
+<p>Jeśli chcemy dać użytkownikom możliwość zapisu katalogów, to wystarczy nazwy tych użytkowników
+określić w linijce z <code>write list</code> w pliku <code>/etc/samba/smb.conf</code> . Niemniej jednak, trzeba także
+nadać odpowiednie uprawnienia w systemie dla udostępnianych katalogów.</p>
+<p>Tworzymy sobie w naszym Debianie przykładową grupę i dodajemy do niej wszystkich użytkowników,
+którzy mają mieć możliwość korzystania z udostępnionych zasobów CIFS/SMB/SAMBA:</p>
+<pre><code># groupadd -g 8000 sambafiles
+# usermod -a -G sambafiles samba
+</code></pre>
+<p>Zmieniamy grupę na udostępnionych katalogach i nadajemy im uprawnienia <code>2770</code> :</p>
+<pre><code># chgrp -R sambafiles /media/Android/samba/
+# chmod 2770 /media/Android/samba
+</code></pre>
+<p>Cyfra <code>2</code> w <code>chmod 2770</code> odpowiada za bit SGID, tak by wszystkie nowo tworzone pliki i katalogi
+dziedziczyły tę grupę.</p>
+<h2 id="sprawdzenie-konfiguracji-serwera-cifssmbsamba-via-testparm">Sprawdzenie konfiguracji serwera CIFS/SMB/SAMBA via testparm</h2>
+<p>Gdy skończymy się bawić z konfiguracją serwera i ustawieniem jej tych wszystkich niezbędnych
+parametrów, dobrze jest sprawdzić przy pomocy <code>testparm</code> czy nie narobiliśmy jakichś mniejszych czy
+większych błędów. To narzędzie jest też w stanie sprawdzić czy nie korzystamy przestarzałych opcji,
+oraz też podpowiedzieć nam, które opcje powinniśmy zmienić/usunąć, by nasz serwer CIFS/SMB/SAMBA,
+był możliwie bezpieczny. Wpiszmy zatem w terminalu to poniższe polecenie i zobaczmy co zostanie
+wydrukowane:</p>
+<pre><code># testparm -s
+Load smb config files from /etc/samba/smb.conf
+Loaded services file OK.
+Weak crypto is allowed by GnuTLS (e.g. NTLM as a compatibility fallback)
+
+Server role: ROLE_STANDALONE
+
+# Global parameters
+...
+</code></pre>
+<p>Nie ma żadnych błędów czy komunikatów ostrzegawczych za wyjątkiem tego <code>Weak crypto is allowed by GnuTLS</code> .</p>
+<h3 id="weak-crypto-is-allowed-by-gnutls-eg-ntlm-as-a-compatibility-fallback">Weak crypto is allowed by GnuTLS (e.g. NTLM as a compatibility fallback)</h3>
+<p>Szukając informacji na temat tego całego <code>Weak crypto is allowed by GnuTLS</code> , <a href="https://bugzilla.samba.org/show_bug.cgi?id=14583">natknąłem się na ten
+wątek</a>, w którym ludzie piszą, że problem ze słabymi szyframi nie dotyczy bezpośrednio samego
+oprogramowania SAMBA, a biblioteki GnuTLS, której konfiguracja umożliwia wykorzystanie
+starych/połamanych już szyfrów, np. TLS_1.0. Gdzieniegdzie też można przeczytać, że ten komunikat
+pojawia się w przypadku, gdy serwer SAMBA nie spełnia <a href="https://ubuntu.com/security/fips">warunków FIPS</a>, czyli np. nie
+wykorzystuje <a href="https://en.wikipedia.org/wiki/Kerberos_(protocol)">protokołu Kerberos</a> podczas uwierzytelniania użytkowników przy dostępie do
+udostępnianych zasobów. Raczej nic w tej sprawie nie da się zrobić bez odpowiedniej konfiguracji
+biblioteki GnuTLS i/lub protokołu Kerberos w SAMBA.</p>
+<h2 id="demon-gvfsd-i-backendy-gvfs">Demon gvfsd i backend'y gvfs</h2>
+<p><a href="https://wiki.gnome.org/Projects/gvfs">Gnome Virtual File System</a> (GnomeVFS, gvfs) to wirtualny system plików przestrzeni użytkownika,
+w którym punkty montowania działają jako oddzielne procesy, z którymi można się komunikować za
+pośrednictwem magistrali D-Bus. Gvfs zawiera również moduł GIO (Gnome Input/Output), który dodaje
+obsługę gvfs do wszystkich aplikacji korzystających z API GIO.</p>
+<p>W skład gvfs wchodzi kilka usług, które będą podnoszone na żądanie w sesji użytkownika, np. przy
+uruchomieniu po raz pierwszy aplikacji, która korzysta z tej funkcjonalności. Później przykład:</p>
+<pre><code>├─systemd(4551)─┬─(sd-pam)(4552)
+...
+│               ├─gvfs-afc-volume(5586)─┬─{gvfs-afc-volume}(5587)
+│               │                       ├─{gvfs-afc-volume}(5588)
+│               │                       ├─{gvfs-afc-volume}(5589)
+│               │                       └─{gvfs-afc-volume}(5591)
+│               ├─gvfs-goa-volume(5581)─┬─{gvfs-goa-volume}(5582)
+│               │                       ├─{gvfs-goa-volume}(5583)
+│               │                       └─{gvfs-goa-volume}(5584)
+│               ├─gvfs-gphoto2-vo(5592)─┬─{gvfs-gphoto2-vo}(5593)
+│               │                       ├─{gvfs-gphoto2-vo}(5594)
+│               │                       └─{gvfs-gphoto2-vo}(5596)
+│               ├─gvfs-mtp-volume(5597)─┬─{gvfs-mtp-volume}(5598)
+│               │                       ├─{gvfs-mtp-volume}(5599)
+│               │                       └─{gvfs-mtp-volume}(5601)
+│               ├─gvfs-udisks2-vo(5564)─┬─{gvfs-udisks2-vo}(5566)
+│               │                       ├─{gvfs-udisks2-vo}(5567)
+│               │                       ├─{gvfs-udisks2-vo}(5568)
+│               │                       └─{gvfs-udisks2-vo}(5570)
+│               ├─gvfsd(4810)─┬─gvfsd-computer(758797)─┬─{gvfsd-computer}(758798)
+│               │             │                        ├─{gvfsd-computer}(758799)
+│               │             │                        └─{gvfsd-computer}(758800)
+│               │             ├─gvfsd-dnssd(5678)─┬─{gvfsd-dnssd}(5679)
+│               │             │                   ├─{gvfsd-dnssd}(5680)
+│               │             │                   └─{gvfsd-dnssd}(5681)
+│               │             ├─gvfsd-http(783582)─┬─{gvfsd-http}(783583)
+│               │             │                    ├─{gvfsd-http}(783584)
+│               │             │                    └─{gvfsd-http}(783585)
+│               │             ├─gvfsd-network(5659)─┬─{gvfsd-network}(5660)
+│               │             │                     ├─{gvfsd-network}(5661)
+│               │             │                     ├─{gvfsd-network}(5662)
+│               │             │                     └─{gvfsd-network}(5664)
+│               │             ├─gvfsd-smb(2501577)─┬─{gvfsd-smb}(2501578)
+│               │             │                    ├─{gvfsd-smb}(2501579)
+│               │             │                    ├─{gvfsd-smb}(2501580)
+│               │             │                    └─{gvfsd-smb}(2501583)
+│               │             ├─gvfsd-smb(2508944)─┬─{gvfsd-smb}(2508945)
+│               │             │                    ├─{gvfsd-smb}(2508946)
+│               │             │                    ├─{gvfsd-smb}(2508947)
+│               │             │                    └─{gvfsd-smb}(2508950)
+│               │             ├─gvfsd-smb-brows(5665)─┬─{gvfsd-smb-brows}(5666)
+│               │             │                       ├─{gvfsd-smb-brows}(5667)
+│               │             │                       ├─{gvfsd-smb-brows}(5668)
+│               │             │                       └─{gvfsd-smb-brows}(5670)
+│               │             ├─gvfsd-trash(5605)─┬─{gvfsd-trash}(5606)
+│               │             │                   ├─{gvfsd-trash}(5607)
+│               │             │                   ├─{gvfsd-trash}(5608)
+│               │             │                   └─{gvfsd-trash}(5612)
+│               │             ├─gvfsd-wsdd(9603)─┬─{gvfsd-wsdd}(9605)
+│               │             │                  ├─{gvfsd-wsdd}(9606)
+│               │             │                  └─{gvfsd-wsdd}(9607)
+│               │             ├─{gvfsd}(4853)
+│               │             ├─{gvfsd}(4854)
+│               │             └─{gvfsd}(4857)
+│               ├─gvfsd-fuse(4888)─┬─{gvfsd-fuse}(4903)
+│               │                  ├─{gvfsd-fuse}(4907)
+│               │                  ├─{gvfsd-fuse}(4908)
+│               │                  ├─{gvfsd-fuse}(4909)
+│               │                  ├─{gvfsd-fuse}(4910)
+│               │                  ├─{gvfsd-fuse}(4932)
+│               │                  ├─{gvfsd-fuse}(994851)
+│               │                  └─{gvfsd-fuse}(1831004)
+│               ├─gvfsd-metadata(5622)─┬─{gvfsd-metadata}(5623)
+│               │                      ├─{gvfsd-metadata}(5624)
+│               │                      └─{gvfsd-metadata}(5625)
+...
+</code></pre>
+<p>Oczywiście nie wszystkie procesy widoczne wyżej są odpowiedzialne za realizację postawionego w tym
+artykule zadania i nie wszystkie też muszą być uruchomione w naszym Debianie. Dużo zależy od tego
+jakie programy mamy w swoim linux'ie, bo to za ich sprawą te procesy będą uruchamiane automatycznie
+w chwili, gdy jakaś aplikacja użytkownika będzie chciała skorzystać z danej funkcjonalności
+oferowanej przez te procesy/usługi gvfs. Nam najbardziej zależy by uruchomione były
+<code>gvfsd-smb-browse</code> , <code>gvfsd-smb</code> , <code>gvfsd-network</code> , <code>gvfsd-dnssd</code> , bo to one nam są potrzebne do
+prawidłowej integracji protokołu CIFS/SMB/SAMBA w menadżerach plików.</p>
+<h2 id="testy-konfiguracji">Testy konfiguracji</h2>
+<p>Pora odpalić wszystkie te usługi i sprawdzić czy będziemy w stanie uzyskać dostęp do lokalnego
+zasobu CIFS/SMB/SAMBA:</p>
+<pre><code># systemctl restart smbd.service avahi-daemon.service
+</code></pre>
+<p>By przetestować konfigurację, w terminalu wpisujemy poniższe polecenie:</p>
+<pre><code>$ smbclient -U samba -L morfikownia.local
+Password for [MHOUSE\samba]:
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        samba-android   Disk      Samba na /media/Android/
+        samba-zami      Disk      Samba na /media/Zami/
+        IPC$            IPC       IPC Service (morfikownia)
+SMB1 disabled -- no workgroup available
+</code></pre>
+<p>Gdy podamy błędne hasło albo innego użytkownika, powinniśmy otrzymać poniższy komunikat:</p>
+<pre><code>$ smbclient -U samba -L morfikownia.local
+
+Password for [MHOUSE\samba]:
+session setup failed: NT_STATUS_LOGON_FAILURE
+</code></pre>
+<p>Spróbujmy podejrzeć listę plików:</p>
+<pre><code>$ smbclient -U samba //morfikownia.local/samba-android
+Password for [MHOUSE\samba]:
+Try &quot;help&quot; to get a list of possible commands.
+smb: \&gt; ls
+  .                                   D        0  Mon May 13 19:27:56 2024
+  ..                                  D        0  Mon May 13 19:27:56 2024
+  test                                A        0  Mon May 13 19:27:49 2024
+  test2                               D        0  Mon May 13 19:28:00 2024
+
+                164029204 blocks of size 1024. 114452312 blocks available
+smb: \&gt;
+</code></pre>
+<p>Wygląda na to, że jesteśmy się w stanie lokalnie podłączyć do tego zasobu CIFS/SMB/SAMBA,
+przynajmniej korzystając z konsolowego narzędzia <code>smbclient</code> . Nas jednak interesuje jak sprawa
+wygląda w przypadku menadżera plików, np. <code>nemo</code> po przejściu na zakładkę <code>network</code> . W tym
+przypadku lokalne zasoby CIFS/SMB/SAMBA zostały wyświetlone bez większych problemów:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/001.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/002.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/003.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
+<td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/004.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
+</tr>
+</tbody>
+</table>
+<p>Oczywiście nie wdrożyliśmy sobie wszystkich tych usług, by cieszyć się funkcjonalnością oferowaną
+przez CIFS/SMB/SAMBA na localhost. Trzeba teraz jeszcze skonfigurować naszą maszynę do pracy w
+sieci, tj. trzeba jej dodać kilka regułek dla firewall'a <code>nftables</code> / <code>iptables</code> , tak by choć
+trochę ograniczyć różnym osobom dostęp do naszego komputera.</p>
+<p>Jeśli udostępniliśmy użytkownikom możliwość zapisu zasobów CIFS/SMB/SAMBA, to możemy przetestować
+jak wygląda wgrywanie plików, np. przy pomocy pierwszego lepszego menadżera plików. Po utworzeniu
+testowego pliku i katalogu listujemy lokalnie zasób CIFS/SMB/SAMBA:</p>
+<pre><code># ls -al /media/Android/samba
+total 12
+drwxrws---  3 morfik sambafiles 4096 2024-05-13 19:27:56 ./
+drwxr-xr-x 17 morfik morfik     4096 2024-05-10 20:54:58 ../
+drwxrws---  2 samba  sambafiles 4096 2024-05-13 19:28:00 test2/
+-rw-rw----  1 samba  sambafiles    0 2024-05-13 19:27:49 test
+</code></pre>
+<p>Pliki zostały z powodzeniem utworzone. Właściciel plików odpowiada temu użytkownikowi, na którego
+się zalogowaliśmy przy dostępie do zasobu CIFS/SMB/SAMBA. Grupa jest dziedziczona w nowo utworzonych
+plikach/katalogach. Prawa dostępu do katalogów/plików wskazują na 770/660, czyli są zgodne z maską
+ustawioną w pliku <code>/etc/samba/smb.conf</code> . Zatem wszystko zostało skonfigurowane poprawnie i działa
+bez zarzutu.</p>
+<h3 id="zdalne-podłączenie">Zdalne podłączenie</h3>
+<p>Możemy teraz przy pomocy innej maszyny spróbować podłączyć się do naszego serwera CIFS/SMB/SAMBA.
+Po podłączeniu, wszystkie aktywne połączenia będą widoczne w <code>smbstatus</code> , przykładowo:</p>
+<pre><code># smbstatus
+
+Samba version 4.20.1-Debian
+PID     Username     Group        Machine                                   Protocol Version  Encryption           Signing
+----------------------------------------------------------------------------------------------------------------------------------------
+28993   samba        samba        Redmi-Note-9-Pro.mhouse (ipv4:192.168.1.128:48112) SMB3_11           -                    partial(AES-128-CMAC)
+
+Service      pid     Machine       Connected at                     Encryption   Signing
+---------------------------------------------------------------------------------------------
+samba-android 28993   Redmi-Note-9-Pro.mhouse Mon Jun  3 16:57:36 2024 CEST    -            AES-128-CMAC
+samba-zami   28993   Redmi-Note-9-Pro.mhouse Mon Jun  3 16:57:39 2024 CEST    -            AES-128-CMAC
+
+
+Locked files:
+Pid          User(ID)   DenyMode   Access      R/W        Oplock           SharePath   Name   Time
+--------------------------------------------------------------------------------------------------
+28993        7777       DENY_WRITE 0x120089    RDONLY     NONE             /media/Zami/samba   Film.mkv   Mon Jun  3 17:00:44 2024
+</code></pre>
+<p>Widzimy tutaj połączenie z adresu <code>192.168.1.128</code> , które korzysta z protokołu <code>SMB3_11</code> i uzyskało
+dostęp do zasobów <code>samba-android</code> oraz <code>samba-zami</code> po uprzednim zalogowaniu się na użytkownika
+<code>samba</code> .  Dodatkowo widzimy, że plik  <code>Film.mkv</code> jest w użyciu (film oglądany w mpv ze smartfona z
+androidem).</p>
+<p>Wszystkie zamontowane zasoby będą dostępne pod <code>/run/user/1000/gvfs/smb-share:*/</code> i bez większego
+problemu będziemy w stanie takie zasoby przeglądać również za pośrednictwem terminala.</p>
+<h2 id="konfiguracja-iptablesnfstables-na-potrzeby-cifssmbsamba">Konfiguracja iptables/nfstables na potrzeby CIFS/SMB/SAMBA</h2>
+<p>Skupimy się tutaj w zasadzie jedynie na konfiguracji <code>nftables</code> , choć reguły powinno się dać bez
+większego problemu przetłumaczyć na <code>iptables</code> .</p>
+<h3 id="ruch-przychodzący-input">Ruch przychodzący (INPUT)</h3>
+<p>Osoby, które filtrują jedynie ruch przychodzący, mają w miarę ułatwione zadanie, bo potrzebują w
+zasadzie poniższych regułek:</p>
+<pre><code>table inet filter {
+    chain INPUT {
+        type filter hook input priority 0; policy drop;
+        ...
+        tcp flags syn / fin,syn,rst,ack ct state { new } counter jump input-tcp
+        meta l4proto udp ct state { new } counter jump input-udp
+        ...
+    }
+
+    chain input-tcp {
+    #   tcp dport { 137 } ip saddr 192.168.1.0/24 counter accept comment &quot;samba smb netbios name service&quot;
+    #   tcp dport { 139 } ip saddr 192.168.1.0/24 counter accept comment &quot;samba smb netbios session service&quot;
+        tcp dport { 445 } ip saddr 192.168.1.0/24 counter accept comment &quot;samba smb active directory&quot;
+    #	tcp dport { 3702 } ip saddr { 192.168.1.0/24 } counter accept comment &quot;wsdd Unicast SOAP HTTP WS-Discovery responder&quot;
+    #	tcp dport { 5355 } ip saddr { 192.168.1.0/24 } counter accept comment &quot;wsdd Unicast LLMNR responder&quot;
+    }
+
+    chain input-udp {
+    #   udp dport { 137 } ip saddr 192.168.1.0/24 counter accept comment &quot;samba smb netbios name service&quot;
+    #   udp dport { 138 } ip saddr 192.168.1.0/24 counter accept comment &quot;samba smb netbios datagram service&quot;
+        udp dport { 445 } ip saddr 192.168.1.0/24 counter accept comment &quot;samba smb active directory&quot;
+    #   udp dport { 3702 } udp sport { 3702 } ip daddr { 239.255.255.250 } counter accept comment &quot;wsdd WSD multicast address&quot;
+    #   udp dport { 3702 } udp sport { 3702 } ip6 daddr { ff02::c } counter accept comment &quot;wsdd WSD multicast address&quot;
+    #   udp sport { 3702 } ip saddr { 192.168.1.0/24 } counter accept comment &quot;wsdd UDP&quot;
+    #   udp dport { 5355 } udp sport { 5355 } ip daddr { 224.0.0.252 } counter accept comment &quot;wsdd LLMNR&quot;
+    #   udp dport { 5355 } udp sport { 5355 } ip6 daddr { ff02::1:3 } counter accept comment &quot;wsdd LLMNR&quot;
+        udp sport { 5353 } udp dport { 5353 } ip daddr { 224.0.0.251 } counter accept comment &quot;Bonjour/mDNS&quot;
+    }
+}
+</code></pre>
+<p>Jak widać wyżej ruch został rozbity na dwa łańcuchy w zależności od protokołu TCP i UDP. Po słówku
+<code>comment</code> jest krótki opis reguły. Szereg reguł jest wykomentowanych, ze względu na fakt, że w
+przypadku naszego serwera CIFS/SMB/SAMBA został wyłączony NetBIOS i nie ma potrzeby otwierać na
+firewall'u portów <code>137/tcp</code>, <code>139/tcp</code> , <code>137/udp</code> oraz <code>138/udp</code> . Zbędne nam też są reguły z
+portami <code>3702/tcp</code> , <code>3702/udp</code> , <code>5355/tcp</code> i <code>5355/udp</code> , bo nie korzystamy z demona <code>wsdd</code> .
+Jedyne co musi zostać otwarte, to porty od usługi Active Directory ( <code>445/tcp</code> i <code>445/udp</code> ) oraz
+port <code>5353/udp</code> , na którym operuje Avahi i realizuje rozwiązywanie nazw na adresy IP. Jeśli
+jednak korzystamy ze starszych wersji windows, to te reguły na zaporze jak najbardziej trzeba
+uwzględnić.</p>
+<h3 id="ruch-wychodzący-output">Ruch wychodzący (OUTPUT)</h3>
+<p>Jeśli ktoś filtruje, tak jak ja, ruch wychodzący z maszyny, to trzeba napisać dodatkowo regułki dla
+poszczególnych demonów/usług/procesów, tak by były w stanie wysyłać pakiety sieciowe bez przeszkód.</p>
+<pre><code>chain OUTPUT {
+    type filter hook output priority 0; policy drop;
+    ...
+    socket cgroupv2 level 1 &quot;morfikownia/&quot; counter jump check-cgroup
+    ...
+}
+
+chain check-cgroup {
+    ...
+    socket cgroupv2 level 2 &quot;morfikownia/user/&quot; jump check-cgroup-user
+    socket cgroupv2 level 2 &quot;morfikownia/system/&quot; jump check-cgroup-system
+    ...
+}
+
+chain check-cgroup-system {
+	...
+	socket cgroupv2 level 3 &quot;morfikownia/system/samba/&quot; udp sport { 137 } ip daddr 192.168.1.0/24 counter accept comment &quot;samba smb netbios name service&quot;
+	socket cgroupv2 level 3 &quot;morfikownia/system/samba/&quot; tcp sport { 137 } ip daddr 192.168.1.0/24 counter accept comment &quot;samba smb netbios name service&quot;
+	socket cgroupv2 level 3 &quot;morfikownia/system/samba/&quot; udp dport { 138 } ip daddr 192.168.1.0/24 counter accept comment &quot;samba smb netbios datagram service&quot;
+	socket cgroupv2 level 3 &quot;morfikownia/system/samba/&quot; tcp dport { 139 } ip daddr 192.168.1.0/24 counter accept comment &quot;samba smb netbios session service&quot;
+	socket cgroupv2 level 3 &quot;morfikownia/system/samba/&quot; tcp dport { 445 } ip daddr 192.168.1.0/24 counter accept comment &quot;samba smb active directory&quot;
+	socket cgroupv2 level 3 &quot;morfikownia/system/samba/&quot; udp dport { 445 } ip daddr 192.168.1.0/24 counter accept comment &quot;samba smb active directory&quot;
+	socket cgroupv2 level 3 &quot;morfikownia/system/avahi/&quot; udp dport { 5353 } ip daddr { 224.0.0.251 } counter accept comment &quot;Bonjour/mDNS/Avahi&quot;
+	socket cgroupv2 level 3 &quot;morfikownia/system/avahi/&quot; udp dport { 5353 } udp sport { 5353 } counter accept comment &quot;Bonjour/mDNS/Avahi&quot;
+	#socket cgroupv2 level 3 &quot;morfikownia/system/wsdd/&quot; udp dport { 3702 } ip daddr { 239.255.255.250 } counter accept comment &quot;wsdd WSD multicast address&quot;
+	#socket cgroupv2 level 3 &quot;morfikownia/system/wsdd/&quot; udp dport { 3702 } ip6 daddr { ff02::c } counter accept comment &quot;wsdd WSD multicast address&quot;
+	#socket cgroupv2 level 3 &quot;morfikownia/system/wsdd/&quot; udp dport { 3702 } udp sport { 3702 } ip daddr { 192.168.1.0/24 } counter accept comment &quot;wsdd UDP&quot;
+	#socket cgroupv2 level 3 &quot;morfikownia/system/wsdd/&quot; tcp dport { 3702 } ip daddr { 192.168.1.0/24 } counter accept comment &quot;wsdd Unicast SOAP HTTP WS-Discovery responder&quot;
+	#socket cgroupv2 level 3 &quot;morfikownia/system/wsdd/&quot; tcp dport { 5355 } tcp sport { 5355 } ip daddr { 192.168.1.0/24 } counter accept comment &quot;wsdd Unicast LLMNR responder&quot;
+	#socket cgroupv2 level 3 &quot;morfikownia/system/wsdd/&quot; udp dport { 5355 } udp sport { 5355 } ip daddr { 224.0.0.252 } counter accept comment &quot;wsdd LLMNR&quot;
+	#socket cgroupv2 level 3 &quot;morfikownia/system/wsdd/&quot; udp dport { 5355 } udp sport { 5355 } ip6 daddr { ff02::1:3 } counter accept comment &quot;wsdd LLMNR&quot;
+    ...
+}
+</code></pre>
+<p>Powyższe reguły <code>nftables</code> zakładają wykorzystanie <a href="https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html">mechanizmu kernela cgroups w wersji 2</a>.
+Ścieżki typu <code>morfikownia/system/samba/</code> odpowiadają pozycjom w drzewie katalogów pod
+<code>/sys/fs/cgroup/</code> i w każdym takim podfolderze są dodawane numerki PID określonych procesów za
+sprawą demona <code>cgrulesengd</code> z pakietu <code>cgroup-tools</code> , przykładowo:</p>
+<pre><code>*:wsdd               cpu,memory,pids,io     morfikownia/system/wsdd/
+*:wsdd2              cpu,memory,pids,io     morfikownia/system/wsdd/
+*:smbd               cpu,memory,pids,io     morfikownia/system/samba/
+*:nmbd               cpu,memory,pids,io     morfikownia/system/samba/
+*:avahi-daemon       cpu,memory,pids,io     morfikownia/system/avahi/
+</code></pre>
+<p>Jak skonfigurować system do pracy z cgroupsv2 jest poza zakresem tego artykułu. Niemniej jednak,
+mechanizm cgroups nie jest niezbędny w konfiguracji <code>nftables</code> i można bez większego problemu się
+bez niego obyć, tylko trzeba zastosować inne reguły filtrujące OUTPUT (porty i adresy są podane
+wyżej).</p>
+<h3 id="test-firewalla">Test firewall'a</h3>
+<p>Po zaaplikowaniu reguł, próbujemy odwiedzić zasoby CIFS/SMB/SAMBA z naszej maszyny lub/i innych
+maszyn i sprawdzamy czy zdefiniowane reguły rejestrują jakieś pakiety. Jeśli nie widzimy przy tym,
+by ruch był w jakiś sposób blokowany, oznacza to, że zapora sieciowa realizuje swoje zadanie
+poprawnie, poniżej przykład:</p>
+<pre><code># nft list chain inet filter input-tcp
+table inet filter {
+    chain input-tcp {
+        tcp dport 445 ip saddr 192.168.1.0/24 counter packets 7 bytes 420 accept comment &quot;samba smb active directory&quot;
+    }
+}
+
+# nft list chain inet filter input-udp
+table inet filter {
+    chain input-udp {
+        udp dport 445 ip saddr 192.168.1.0/24 counter packets 0 bytes 0 accept comment &quot;samba smb active directory&quot;
+        udp sport 5353 udp dport 5353 ip daddr 224.0.0.251 counter packets 73 bytes 25054 accept comment &quot;Bonjour/mDNS/Avahi&quot;
+    }
+}
+</code></pre>
+<h2 id="apparmor">Apparmor</h2>
+<p>By dodatkowo poprawić bezpieczeństwo systemu,  <code>nmbd</code> , <code>smbd</code> oraz <code>avahi-daemon</code> mają
+dedykowane profile dla apparmor (w pakiecie <code>apparmor-profiles</code> ). Jeśli planujemy udostępniać
+zasoby w sieci, to dobrze jest sobie te profile aktywować.</p>
+<h2 id="wpisy-w-etcfstab">Wpisy w /etc/fstab</h2>
+<p>Oczywiście ten cały skonfigurowany wyżej mechanizm nie jest niezbędny, by nasz linux był w stanie
+przeglądać zasoby CIFS/SMB/SAMBA innych użytkowników w sieci. Jeśli nie planujemy udostępniać
+katalogów z naszej maszyny, to możemy jedynie się ograniczyć do zwykłych wpisów w pliku
+<code>/etc/fstab</code> , przykład:</p>
+<pre><code>//192.168.1.238/bigdata  /media/rpi-tv-bigdata  cifs guest,domain=domainauto,users,noauto,nofail,nodev,nosuid,noexec,vers=3.11,iocharset=utf8 0 0
+
+//192.168.1.238/bigdata  /media/rpi-tv-bigdata  cifs username=user,password=pass,domain=domainauto,users,noauto,nofail,nodev,nosuid,noexec,vers=3.11,iocharset=utf8, 0 0
+
+//192.168.1.238/bigdata  /media/rpi-tv-bigdata  cifs credentials=/home/morfik/.smbcredentials,users,noauto,nofail,nodev,nosuid,noexec,vers=3.11,iocharset=utf8 0 0
+</code></pre>
+<p>Mamy tutaj trzy opcje montowania zdalnych zasobów CIFS/SMB/SAMBA. Pierwsza pozycja montuje zasób
+niewymagający jakiegokolwiek uwierzytelnienia. Druga zaś zasób, który takiego uwierzytelnienia
+wymaga, a dane do logowania określone są przez <code>username=user</code> , <code>password=pass</code> oraz
+<code>domain=domainauto</code> . Natomiast ostatnia pozycja jest podobna do poprzedniej, z tą różnicą, że dane
+do logowania są określone w zewnętrznym pliku przy pomocy
+<code>credentials=/home/morfik/.smbcredentials</code> , który ma poniższą postać:</p>
+<pre><code>username=user
+password=pass
+domain=domainauto
+</code></pre>
+<h3 id="różnica-między-mountcifs-i-mountsmb3">Różnica między mount.cifs i mount.smb3</h3>
+<p>W powyższym przykładzie w pliku <code>/etc/fstab</code> typ systemu plików określiliśmy na <code>cifs</code> . Niemniej
+jednak, możemy tam także sprecyzować <code>smb3</code> , przykładowo:</p>
+<pre><code>//192.168.1.238/bigdata  /media/rpi-tv-bigdata  smb3 guest,users,noauto,nofail,nodev,nosuid,noexec,vers=3.11,iocharset=utf8 0 0
+</code></pre>
+<p>Jaka jest różnica między <code>cifs</code> i <code>smb3</code> ? W zasadzie różnica sprowadza się do wersji protokołu SMB.
+Jeśli nie mamy pojęcia jaka wersja protokołu SMB jest wykorzystywana na serwerze, którego zasób
+chcemy zamontować, to lepiej jest określić <code>cifs</code> . Natomiast jeśli wiemy, że na serwerze jest
+wykorzystywany protokół SMB w wersji 3 (i wyższych), wtedy możemy bez problemu skorzystać z <code>smb3</code> .</p>
+<p>Wersję protokołu CIFS/SMB/SAMBA możemy określić także za pomocą parametru <code>vers=</code> w pliku
+<code>/etc/fstab</code> . Do wyboru mamy:</p>
+<ul>
+<li><code>1.0</code>            - protokół CIFS/SMBv1.</li>
+<li><code>2.0</code>            - protokół SMBv2.002. Wprowadzony po raz pierwszy w Windows Vista Service Pack
+1 oraz Windows Server 2008. Trzeba zaznaczyć tutaj, że pierwsze wydanie
+Windows Vista wykorzystywało nieco inny dialekt, tj. 2.000, który nie jest
+wspierany.</li>
+<li><code>2.1</code>            - protokół SMBv2.1, który został wprowadzony w Microsoft Windows 7 i Windows
+Server 2008R2.</li>
+<li><code>3.0</code>            - protokół SMBv3.0, który został wprowadzony w Microsoft Windows 8 i Windows
+Server 2012.</li>
+<li><code>3.02</code> / <code>3.0.2</code> - protokół SMBv3.0.2, który został wprowadzony w Microsoft Windows 8.1 i
+Windows Server 2012R2.</li>
+<li><code>3.1.1</code> / <code>3.11</code> - protokół SMBv3.1.1, który został wprowadzony w Microsoft Windows 10 i
+Windows  Server 2016.</li>
+<li><code>3</code>              - protokół SMBv3.0 i wyżej.</li>
+<li><code>default</code>        - próbuje negocjować najwyższą wersję protokołu SMB2+ wspieraną zarówno przez
+klienta jak i serwer.</li>
+</ul>
+<p>Warto w tym miejscu dodać, że jeśli z jakichś względów mamy problemy z zamontowanie zdalnego zasobu
+CIFS/SMB/SAMBA, to zmiana wersji w parametrze <code>vers=</code> może pomóc. Dobrze jest też rzucić okiem na
+konfigurację serwera, a konkretnie na te dwa parametry: <code>client min protocol</code> oraz
+<code>server min protocol</code> .</p>
+<h3 id="kwestia-cifsd">Kwestia cifsd</h3>
+<p>Posiadając odpowiednie wpisy w pliku <code>/etc/fstab</code> możemy zamontować zdalny zasób wydając poniższe
+polecenie w terminalu (jako zwykły użytkownik):</p>
+<pre><code>$ mount /media/rpi-tv-bigdata
+</code></pre>
+<p>W ten sposób zostanie uruchomiony kernelowski demon <code>cifsd</code> , który będzie realizował połączenie, i
+ten demon pozostanie aktywny do momentu odmontowania zdalnego zasobu. Trzeba to wziąć pod uwagę,
+gdy filtrujemy OUTPUT, tak by nie zapomnieć dodać odpowiedniej regułki zezwalającej naszej maszynie
+na połączenie na porty 139/tcp i 445/tcp:</p>
+<pre><code>chain OUTPUT {
+    ...
+    tcp dport { 139, 445 } ip daddr { 192.168.1.0/24 }  counter accept comment &quot;kernel cifsd&quot;
+    ...
+}
+</code></pre>
+<h2 id="zapisywanie-haseł-samba-w-keepassxc">Zapisywanie haseł SAMBA w keepassxc</h2>
+<p>Menadżery plików pokroju <code>nemo</code> są w stanie współpracować z menadżerem haseł <code>keepassxc</code> za sprawą
+obsługi <a href="https://c3pb.de/blog/keepassxc-secrets-service.html">Secret Services</a> ( <code>libsecret</code> ). Jeśli mamy wspomniany menadżer haseł i włączymy w nim
+integrację Secret Services (Tools &gt; Settings &gt; Secret-Service-Integration), to od tego momentu
+<code>keepassxc</code> będzie odpytywany o dane uwierzytelniające ilekroć będziemy chcieli zamontować zdalny
+zasób CIFS/SMB/SAMBA. Tego typu integracja z menadżerem haseł może nam zaoszczędzić sporo czasu, bo
+nie będziemy musieli pamiętać danych logowania i podawać ich ilekroć tylko będziemy z takich zasobów
+korzystać.</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2024/06/005.cifs-smb-samba-password-keepassxc.png" alt="cifs-smb-samba-password-keepassxc"    class="huge"></p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Trzeba tutaj wyraźnie zaznaczyć, że mechanizm opisany w niniejszym artykule nie jest niezbędny do
+przeglądania sieciowych zasobów CIFS/SMB/SAMBA. Jeśli znamy adres, pod którym taki zasób się
+znajduje, to bez większego problemu możemy zamontować go ręcznie przy pomocy <code>mount</code> podając
+wszystkie niezbędne parametry, bądź też możemy posłużyć się plikiem <code>/etc/fstab</code> i w nim
+zdefiniować potrzebne opcje montowania zdalnych katalogów. Wdrożenie opisanych w tym artykule kilku
+dodatkowych usług ma jedynie na celu zautomatyzować cały proces odnajdywania i montowania tych
+zasobów, tak by wszystkie one były dostępne w zakładce sieć/network w menadżerze plików, przez co
+może nam to zaoszczędzić sporo czasu. Oczywiście, jeśli mamy w sieci tylko dwa komputery, to
+raczej nie potrzebujemy tych wszystkich usług, ale gdy mamy do czynienia z większą ilością maszyn i
+dojdą nam do tego różne systemy operacyjne (Windows/Linux/Android), to dobrze sobie taki mechanizm
+zaimplementować, trzeba tylko pamiętać o jego zabezpieczeniu.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/samba/">Samba</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smb/">Smb</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/cifs/">Cifs</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/avahi/">Avahi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wsdd/">Wsdd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/iptables/">Iptables</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/nftables/">Nftables</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/firewall/">Firewall</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/keepassxc/">Keepassxc</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs%2f&amp;text=Konfiguracja%20CIFS%2fSMB%2fSAMBA%20pod%20Debian%20Linux%20%28smbd%2favahi%2fmdns%2fgvfs%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs%2f&amp;title=Konfiguracja%20CIFS%2fSMB%2fSAMBA%20pod%20Debian%20Linux%20%28smbd%2favahi%2fmdns%2fgvfs%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs%2f&amp;title=Konfiguracja%20CIFS%2fSMB%2fSAMBA%20pod%20Debian%20Linux%20%28smbd%2favahi%2fmdns%2fgvfs%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs%2f&title=Konfiguracja%20CIFS%2fSMB%2fSAMBA%20pod%20Debian%20Linux%20%28smbd%2favahi%2fmdns%2fgvfs%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs%2f&amp;title=Konfiguracja%20CIFS%2fSMB%2fSAMBA%20pod%20Debian%20Linux%20%28smbd%2favahi%2fmdns%2fgvfs%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fkonfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs%2f&description=Konfiguracja%20CIFS%2fSMB%2fSAMBA%20pod%20Debian%20Linux%20%28smbd%2favahi%2fmdns%2fgvfs%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czy-linuxowy-firewall-powinien-blokowac-pakiety-not-syn-w-stanie-new/">Czy linux&#39;owy firewall powinien blokować pakiety not-syn w stanie NEW</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/migracja-z-iptables-na-nftables-w-debianie/">Migracja z iptables na nftables w Debianie</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czy-brak-wsparcia-dla-synproxy-w-nftables-jest-problemem/">Czy brak wsparcia dla SYNPROXY w nftables jest problemem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-ustalic-nazwe-procesu-korzystajacego-z-sieci/">Jak ustalić nazwę procesu korzystającego z sieci</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/peerguardian-w-oparciu-o-ipset-iptables-na-debian-linux/">PeerGuardian w oparciu o ipset i iptables na Debian linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/">Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/blokowanie-niepozadanej-komunikacji-z-nftables-na-linux/">Blokowanie niepożądanej komunikacji z nftables na linux</a></li>
+		
+	</ul>
+</div>
+
+	<div id="comments">
+		<script src="https://utteranc.es/client.js"
+        repo="morfikov/morfitronik-comments"
+        issue-term="og:title"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+</script>
+
+	</div>
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2024 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<div class="license-icons">
+			<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons Attribution 4.0 International license">
+<i class="icon-cc"></i><i class="icon-cc-by"></i><i class="icon-cc-nc"></i><i class="icon-cc-sa"></i>
+</a>
+		</div>
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
+</body>
+</html>

@@ -2,42 +2,35 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>DD-WRT: Dostęp do routera (telnet, ssh, panel web) | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="DD-WRT: Dostęp do routera (telnet, ssh, panel web)" />
-<meta property="og:description" content="Do routera posiadającego na pokładzie firmware DD-WRT możemy uzyskać dostęp na kilka sposobów. Ten
-najbardziej popularny, to oczywiście panel administracyjny dostępny z poziomu www, na który możemy
-się dostać wpisując w pasku adresu przeglądarki http://192.168.1.1/ . Niemniej jednak, to nie jest
-jedyna droga do zarządzania routerem. Standardowo również mamy aktywną usługę telnet. Dodatkowo
-możemy aktywować SSL/TLS w panelu admina oraz dorobić usługę SSH. W tym artykule omówimy sobie
-wszystkie te formy dostępu do routera." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/dd-wrt-dostep-do-routera-telnet-ssh-panel-web/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2016-09-11T12:42:30+00:00" />
-<meta property="article:modified_time" content="2016-09-11T12:42:30+00:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/dd-wrt-dostep-do-routera-telnet-ssh-panel-web/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="DD-WRT: Dostęp do routera (telnet, ssh, panel web)">
+  <meta property="og:description" content="Do routera posiadającego na pokładzie firmware DD-WRT możemy uzyskać dostęp na kilka sposobów. Ten najbardziej popularny, to oczywiście panel administracyjny dostępny z poziomu www, na który możemy się dostać wpisując w pasku adresu przeglądarki http://192.168.1.1/ . Niemniej jednak, to nie jest jedyna droga do zarządzania routerem. Standardowo również mamy aktywną usługę telnet. Dodatkowo możemy aktywować SSL/TLS w panelu admina oraz dorobić usługę SSH. W tym artykule omówimy sobie wszystkie te formy dostępu do routera.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2016-09-11T12:42:30+00:00">
+    <meta property="article:modified_time" content="2016-09-11T12:42:30+00:00">
+    <meta property="article:tag" content="Ssh">
+    <meta property="article:tag" content="Router">
+    <meta property="article:tag" content="Dd-Wrt">
 
-
-		<meta itemprop="name" content="DD-WRT: Dostęp do routera (telnet, ssh, panel web)">
-<meta itemprop="description" content="Do routera posiadającego na pokładzie firmware DD-WRT możemy uzyskać dostęp na kilka sposobów. Ten
-najbardziej popularny, to oczywiście panel administracyjny dostępny z poziomu www, na który możemy
-się dostać wpisując w pasku adresu przeglądarki http://192.168.1.1/ . Niemniej jednak, to nie jest
-jedyna droga do zarządzania routerem. Standardowo również mamy aktywną usługę telnet. Dodatkowo
-możemy aktywować SSL/TLS w panelu admina oraz dorobić usługę SSH. W tym artykule omówimy sobie
-wszystkie te formy dostępu do routera."><meta itemprop="datePublished" content="2016-09-11T12:42:30+00:00" />
-<meta itemprop="dateModified" content="2016-09-11T12:42:30+00:00" />
-<meta itemprop="wordCount" content="666">
-<meta itemprop="keywords" content="ssh,router,dd-wrt," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="DD-WRT: Dostęp do routera (telnet, ssh, panel web)"/>
-<meta name="twitter:description" content="Do routera posiadającego na pokładzie firmware DD-WRT możemy uzyskać dostęp na kilka sposobów. Ten
-najbardziej popularny, to oczywiście panel administracyjny dostępny z poziomu www, na który możemy
-się dostać wpisując w pasku adresu przeglądarki http://192.168.1.1/ . Niemniej jednak, to nie jest
-jedyna droga do zarządzania routerem. Standardowo również mamy aktywną usługę telnet. Dodatkowo
-możemy aktywować SSL/TLS w panelu admina oraz dorobić usługę SSH. W tym artykule omówimy sobie
-wszystkie te formy dostępu do routera."/>
+		
+  <meta itemprop="name" content="DD-WRT: Dostęp do routera (telnet, ssh, panel web)">
+  <meta itemprop="description" content="Do routera posiadającego na pokładzie firmware DD-WRT możemy uzyskać dostęp na kilka sposobów. Ten najbardziej popularny, to oczywiście panel administracyjny dostępny z poziomu www, na który możemy się dostać wpisując w pasku adresu przeglądarki http://192.168.1.1/ . Niemniej jednak, to nie jest jedyna droga do zarządzania routerem. Standardowo również mamy aktywną usługę telnet. Dodatkowo możemy aktywować SSL/TLS w panelu admina oraz dorobić usługę SSH. W tym artykule omówimy sobie wszystkie te formy dostępu do routera.">
+  <meta itemprop="datePublished" content="2016-09-11T12:42:30+00:00">
+  <meta itemprop="dateModified" content="2016-09-11T12:42:30+00:00">
+  <meta itemprop="wordCount" content="666">
+  <meta itemprop="keywords" content="Ssh,Router,Dd-Wrt">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DD-WRT: Dostęp do routera (telnet, ssh, panel web)">
+  <meta name="twitter:description" content="Do routera posiadającego na pokładzie firmware DD-WRT możemy uzyskać dostęp na kilka sposobów. Ten najbardziej popularny, to oczywiście panel administracyjny dostępny z poziomu www, na który możemy się dostać wpisując w pasku adresu przeglądarki http://192.168.1.1/ . Niemniej jednak, to nie jest jedyna droga do zarządzania routerem. Standardowo również mamy aktywną usługę telnet. Dodatkowo możemy aktywować SSL/TLS w panelu admina oraz dorobić usługę SSH. W tym artykule omówimy sobie wszystkie te formy dostępu do routera.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -45,19 +38,11 @@ wszystkie te formy dostępu do routera."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -116,11 +101,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2016-09-11T12:42:30Z">Opublikowano: 11/09/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/dd-wrt/" rel="category">DD-WRT</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">DD-WRT: Dostęp do routera (telnet, ssh, panel web)</h1>
 <details class="entry__toc toc" >
@@ -218,9 +203,9 @@ Services =&gt; Services:</p>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssh/">ssh</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">router</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dd-wrt/">dd-wrt</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssh/">Ssh</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">Router</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dd-wrt/">Dd-Wrt</a>
 </div>
 					
 <div class="entry__share share">
@@ -321,6 +306,9 @@ Services =&gt; Services:</p>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

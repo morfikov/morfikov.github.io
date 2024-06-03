@@ -2,57 +2,38 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux" />
-<meta property="og:description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików
-EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez
-strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy
-nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na
-jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC,
-to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania
-podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie
-duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można
-popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy
-wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy
-dysku twardego" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/analiza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2021-07-25T18:40:00+02:00" />
-<meta property="article:modified_time" content="2021-07-31T21:25:00+02:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/analiza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux">
+  <meta property="og:description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC, to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy dysku twardego">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2021-07-25T18:40:00+02:00">
+    <meta property="article:modified_time" content="2021-07-31T21:25:00+02:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Hdd">
+    <meta property="article:tag" content="Ssd">
+    <meta property="article:tag" content="Ext4">
+    <meta property="article:tag" content="Udev">
+    <meta property="article:tag" content="System-Plików">
 
-
-		<meta itemprop="name" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux">
-<meta itemprop="description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików
-EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez
-strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy
-nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na
-jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC,
-to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania
-podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie
-duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można
-popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy
-wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy
-dysku twardego"><meta itemprop="datePublished" content="2021-07-25T18:40:00+02:00" />
-<meta itemprop="dateModified" content="2021-07-31T21:25:00+02:00" />
-<meta itemprop="wordCount" content="8878">
-<meta itemprop="keywords" content="debian,hdd,ssd,ext4,udev,system-plików,apm," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux"/>
-<meta name="twitter:description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików
-EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez
-strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy
-nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na
-jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC,
-to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania
-podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie
-duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można
-popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy
-wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy
-dysku twardego"/>
+		
+  <meta itemprop="name" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux">
+  <meta itemprop="description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC, to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy dysku twardego">
+  <meta itemprop="datePublished" content="2021-07-25T18:40:00+02:00">
+  <meta itemprop="dateModified" content="2021-07-31T21:25:00+02:00">
+  <meta itemprop="wordCount" content="8878">
+  <meta itemprop="keywords" content="Debian,Hdd,Ssd,Ext4,Udev,System-Plików,Apm">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux">
+  <meta name="twitter:description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC, to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy dysku twardego">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -60,19 +41,11 @@ dysku twardego"/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -132,11 +105,11 @@ if (!doNotTrack) {
 	<time class="entry__meta-published meta-published" datetime="2021-07-25T18:40:00&#43;02:00">Opublikowano: 25/07/2021</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2021-07-31T21:25:00&#43;02:00">Zaktualizowano: 31/07/2021</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux</h1>
 <details class="entry__toc toc" >
@@ -1210,13 +1183,12 @@ nas technologi ułożenia ścieżek.</p></div>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/">hdd</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssd/">ssd</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ext4/">ext4</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/udev/">udev</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/system-plikow/">system-plików</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apm/">apm</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/hdd/">Hdd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssd/">Ssd</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ext4/">Ext4</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/udev/">Udev</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/apm/">Apm</a>
 </div>
 					
 <div class="entry__share share">
@@ -1317,6 +1289,9 @@ nas technologi ułożenia ścieżek.</p></div>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

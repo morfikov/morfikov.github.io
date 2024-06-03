@@ -2,84 +2,35 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS) | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)" />
-<meta property="og:description" content="Kernel linux&#39;a jest dość złożonym organizmem, który może zostać rozbudowany przy pomocy dodatkowego
-kodu ładowanego w postaci zewnętrznych modułów. Czasem ze względu na wczesny etap prac nad nową
-funkcjonalnością jądra, taki moduł może zachowywać się dość nieprzewidywalnie, co przekreśla jego
-szanse na pojawienie się w stabilnych wydaniach kernela. Czasem też z jakiegoś niezrozumiałego
-powodu pewne rzeczy nie są celowo dodawane do jądra operacyjnego. Jedną z nich
-jest moduł Trusted Path Execution (TPE), który jest w
-stanie znacznie poprawić bezpieczeństwo systemu uniemożliwiając przeprowadzenie w nim szeregu
-podejrzanych działań. W Debianie tego typu niedogodności związane z brakiem pewnych modułów można
-obejść przez
-zastosowanie mechanizmu DKMS, który
-przy instalacji modułu spoza głównego drzewa kernela linux&#39;a jest nam go w stanie automatycznie
-zbudować. W repozytorium dystrybucji Debiana znajduje się już szereg pakietów z modułami (mają
-końcówki -dkms ) i w prosty sposób można je sobie doinstalować. Co jednak w przypadku, gdy mamy
-moduł, którego nikt jeszcze nie przygotował i nie wrzucił do repozytorium? Co, gdy takich modułów
-mamy kilka, a przy tym korzystamy z najnowszego stabilnego kernela, który jest aktualizowany
-średnio co kilka dni? Ręczna budowa wszystkich zewnętrznych modułów za każdym razem jak tylko
-wyjdzie nowsza wersja kernela, to nie najlepsze wyjście, zwłaszcza jak dojdzie nam do tego
-aktualizacja samych modułów. Można za to zrobić sobie paczkę .deb tak, by przy instalacji nowego
-jądra operacyjnego, system nam automatycznie zbudował wszystkie dodatkowe moduły, których nasz
-komputer wymaga do poprawnej pracy." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/jak-na-debianie-zrobic-pakiet-deb-zawierajacy-modul-kernela-linux-dkms/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2019-03-17T09:37:28+00:00" />
-<meta property="article:modified_time" content="2019-03-17T09:37:28+00:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/jak-na-debianie-zrobic-pakiet-deb-zawierajacy-modul-kernela-linux-dkms/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)">
+  <meta property="og:description" content="Kernel linux&#39;a jest dość złożonym organizmem, który może zostać rozbudowany przy pomocy dodatkowego kodu ładowanego w postaci zewnętrznych modułów. Czasem ze względu na wczesny etap prac nad nową funkcjonalnością jądra, taki moduł może zachowywać się dość nieprzewidywalnie, co przekreśla jego szanse na pojawienie się w stabilnych wydaniach kernela. Czasem też z jakiegoś niezrozumiałego powodu pewne rzeczy nie są celowo dodawane do jądra operacyjnego. Jedną z nich jest moduł Trusted Path Execution (TPE), który jest w stanie znacznie poprawić bezpieczeństwo systemu uniemożliwiając przeprowadzenie w nim szeregu podejrzanych działań. W Debianie tego typu niedogodności związane z brakiem pewnych modułów można obejść przez zastosowanie mechanizmu DKMS, który przy instalacji modułu spoza głównego drzewa kernela linux&#39;a jest nam go w stanie automatycznie zbudować. W repozytorium dystrybucji Debiana znajduje się już szereg pakietów z modułami (mają końcówki -dkms ) i w prosty sposób można je sobie doinstalować. Co jednak w przypadku, gdy mamy moduł, którego nikt jeszcze nie przygotował i nie wrzucił do repozytorium? Co, gdy takich modułów mamy kilka, a przy tym korzystamy z najnowszego stabilnego kernela, który jest aktualizowany średnio co kilka dni? Ręczna budowa wszystkich zewnętrznych modułów za każdym razem jak tylko wyjdzie nowsza wersja kernela, to nie najlepsze wyjście, zwłaszcza jak dojdzie nam do tego aktualizacja samych modułów. Można za to zrobić sobie paczkę .deb tak, by przy instalacji nowego jądra operacyjnego, system nam automatycznie zbudował wszystkie dodatkowe moduły, których nasz komputer wymaga do poprawnej pracy.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2019-03-17T09:37:28+00:00">
+    <meta property="article:modified_time" content="2019-03-17T09:37:28+00:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Kernel">
+    <meta property="article:tag" content="Dkms">
 
-
-		<meta itemprop="name" content="Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)">
-<meta itemprop="description" content="Kernel linux&#39;a jest dość złożonym organizmem, który może zostać rozbudowany przy pomocy dodatkowego
-kodu ładowanego w postaci zewnętrznych modułów. Czasem ze względu na wczesny etap prac nad nową
-funkcjonalnością jądra, taki moduł może zachowywać się dość nieprzewidywalnie, co przekreśla jego
-szanse na pojawienie się w stabilnych wydaniach kernela. Czasem też z jakiegoś niezrozumiałego
-powodu pewne rzeczy nie są celowo dodawane do jądra operacyjnego. Jedną z nich
-jest moduł Trusted Path Execution (TPE), który jest w
-stanie znacznie poprawić bezpieczeństwo systemu uniemożliwiając przeprowadzenie w nim szeregu
-podejrzanych działań. W Debianie tego typu niedogodności związane z brakiem pewnych modułów można
-obejść przez
-zastosowanie mechanizmu DKMS, który
-przy instalacji modułu spoza głównego drzewa kernela linux&#39;a jest nam go w stanie automatycznie
-zbudować. W repozytorium dystrybucji Debiana znajduje się już szereg pakietów z modułami (mają
-końcówki -dkms ) i w prosty sposób można je sobie doinstalować. Co jednak w przypadku, gdy mamy
-moduł, którego nikt jeszcze nie przygotował i nie wrzucił do repozytorium? Co, gdy takich modułów
-mamy kilka, a przy tym korzystamy z najnowszego stabilnego kernela, który jest aktualizowany
-średnio co kilka dni? Ręczna budowa wszystkich zewnętrznych modułów za każdym razem jak tylko
-wyjdzie nowsza wersja kernela, to nie najlepsze wyjście, zwłaszcza jak dojdzie nam do tego
-aktualizacja samych modułów. Można za to zrobić sobie paczkę .deb tak, by przy instalacji nowego
-jądra operacyjnego, system nam automatycznie zbudował wszystkie dodatkowe moduły, których nasz
-komputer wymaga do poprawnej pracy."><meta itemprop="datePublished" content="2019-03-17T09:37:28+00:00" />
-<meta itemprop="dateModified" content="2019-03-17T09:37:28+00:00" />
-<meta itemprop="wordCount" content="2223">
-<meta itemprop="keywords" content="debian,kernel,dkms," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)"/>
-<meta name="twitter:description" content="Kernel linux&#39;a jest dość złożonym organizmem, który może zostać rozbudowany przy pomocy dodatkowego
-kodu ładowanego w postaci zewnętrznych modułów. Czasem ze względu na wczesny etap prac nad nową
-funkcjonalnością jądra, taki moduł może zachowywać się dość nieprzewidywalnie, co przekreśla jego
-szanse na pojawienie się w stabilnych wydaniach kernela. Czasem też z jakiegoś niezrozumiałego
-powodu pewne rzeczy nie są celowo dodawane do jądra operacyjnego. Jedną z nich
-jest moduł Trusted Path Execution (TPE), który jest w
-stanie znacznie poprawić bezpieczeństwo systemu uniemożliwiając przeprowadzenie w nim szeregu
-podejrzanych działań. W Debianie tego typu niedogodności związane z brakiem pewnych modułów można
-obejść przez
-zastosowanie mechanizmu DKMS, który
-przy instalacji modułu spoza głównego drzewa kernela linux&#39;a jest nam go w stanie automatycznie
-zbudować. W repozytorium dystrybucji Debiana znajduje się już szereg pakietów z modułami (mają
-końcówki -dkms ) i w prosty sposób można je sobie doinstalować. Co jednak w przypadku, gdy mamy
-moduł, którego nikt jeszcze nie przygotował i nie wrzucił do repozytorium? Co, gdy takich modułów
-mamy kilka, a przy tym korzystamy z najnowszego stabilnego kernela, który jest aktualizowany
-średnio co kilka dni? Ręczna budowa wszystkich zewnętrznych modułów za każdym razem jak tylko
-wyjdzie nowsza wersja kernela, to nie najlepsze wyjście, zwłaszcza jak dojdzie nam do tego
-aktualizacja samych modułów. Można za to zrobić sobie paczkę .deb tak, by przy instalacji nowego
-jądra operacyjnego, system nam automatycznie zbudował wszystkie dodatkowe moduły, których nasz
-komputer wymaga do poprawnej pracy."/>
+		
+  <meta itemprop="name" content="Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)">
+  <meta itemprop="description" content="Kernel linux&#39;a jest dość złożonym organizmem, który może zostać rozbudowany przy pomocy dodatkowego kodu ładowanego w postaci zewnętrznych modułów. Czasem ze względu na wczesny etap prac nad nową funkcjonalnością jądra, taki moduł może zachowywać się dość nieprzewidywalnie, co przekreśla jego szanse na pojawienie się w stabilnych wydaniach kernela. Czasem też z jakiegoś niezrozumiałego powodu pewne rzeczy nie są celowo dodawane do jądra operacyjnego. Jedną z nich jest moduł Trusted Path Execution (TPE), który jest w stanie znacznie poprawić bezpieczeństwo systemu uniemożliwiając przeprowadzenie w nim szeregu podejrzanych działań. W Debianie tego typu niedogodności związane z brakiem pewnych modułów można obejść przez zastosowanie mechanizmu DKMS, który przy instalacji modułu spoza głównego drzewa kernela linux&#39;a jest nam go w stanie automatycznie zbudować. W repozytorium dystrybucji Debiana znajduje się już szereg pakietów z modułami (mają końcówki -dkms ) i w prosty sposób można je sobie doinstalować. Co jednak w przypadku, gdy mamy moduł, którego nikt jeszcze nie przygotował i nie wrzucił do repozytorium? Co, gdy takich modułów mamy kilka, a przy tym korzystamy z najnowszego stabilnego kernela, który jest aktualizowany średnio co kilka dni? Ręczna budowa wszystkich zewnętrznych modułów za każdym razem jak tylko wyjdzie nowsza wersja kernela, to nie najlepsze wyjście, zwłaszcza jak dojdzie nam do tego aktualizacja samych modułów. Można za to zrobić sobie paczkę .deb tak, by przy instalacji nowego jądra operacyjnego, system nam automatycznie zbudował wszystkie dodatkowe moduły, których nasz komputer wymaga do poprawnej pracy.">
+  <meta itemprop="datePublished" content="2019-03-17T09:37:28+00:00">
+  <meta itemprop="dateModified" content="2019-03-17T09:37:28+00:00">
+  <meta itemprop="wordCount" content="2223">
+  <meta itemprop="keywords" content="Debian,Kernel,Dkms">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)">
+  <meta name="twitter:description" content="Kernel linux&#39;a jest dość złożonym organizmem, który może zostać rozbudowany przy pomocy dodatkowego kodu ładowanego w postaci zewnętrznych modułów. Czasem ze względu na wczesny etap prac nad nową funkcjonalnością jądra, taki moduł może zachowywać się dość nieprzewidywalnie, co przekreśla jego szanse na pojawienie się w stabilnych wydaniach kernela. Czasem też z jakiegoś niezrozumiałego powodu pewne rzeczy nie są celowo dodawane do jądra operacyjnego. Jedną z nich jest moduł Trusted Path Execution (TPE), który jest w stanie znacznie poprawić bezpieczeństwo systemu uniemożliwiając przeprowadzenie w nim szeregu podejrzanych działań. W Debianie tego typu niedogodności związane z brakiem pewnych modułów można obejść przez zastosowanie mechanizmu DKMS, który przy instalacji modułu spoza głównego drzewa kernela linux&#39;a jest nam go w stanie automatycznie zbudować. W repozytorium dystrybucji Debiana znajduje się już szereg pakietów z modułami (mają końcówki -dkms ) i w prosty sposób można je sobie doinstalować. Co jednak w przypadku, gdy mamy moduł, którego nikt jeszcze nie przygotował i nie wrzucił do repozytorium? Co, gdy takich modułów mamy kilka, a przy tym korzystamy z najnowszego stabilnego kernela, który jest aktualizowany średnio co kilka dni? Ręczna budowa wszystkich zewnętrznych modułów za każdym razem jak tylko wyjdzie nowsza wersja kernela, to nie najlepsze wyjście, zwłaszcza jak dojdzie nam do tego aktualizacja samych modułów. Można za to zrobić sobie paczkę .deb tak, by przy instalacji nowego jądra operacyjnego, system nam automatycznie zbudował wszystkie dodatkowe moduły, których nasz komputer wymaga do poprawnej pracy.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -87,19 +38,11 @@ komputer wymaga do poprawnej pracy."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -158,11 +101,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2019-03-17T09:37:28Z">Opublikowano: 17/03/2019</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Jak na Debianie zrobić pakiet .deb zawierający moduł kernela linux (DKMS)</h1>
 <details class="entry__toc toc" >
@@ -536,9 +479,9 @@ o <a href="https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-ker
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">debian</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kernel/">kernel</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dkms/">dkms</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/kernel/">Kernel</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/dkms/">Dkms</a>
 </div>
 					
 <div class="entry__share share">
@@ -639,6 +582,9 @@ o <a href="https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-ker
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

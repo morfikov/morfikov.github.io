@@ -2,75 +2,36 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Android: Framework Xposed i moduły do YouTube | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Android: Framework Xposed i moduły do YouTube" />
-<meta property="og:description" content="Stock&#39;owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji
-od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy
-wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się
-ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w
-Firefox&#39;ie i jeśli mamy zainstalowanego w telefonie adblock&#39;a, np. AdAway, czy też wdrożony
-podobny filtr na domowym routerze WiFi z LEDE/OpenWRT, to te reklamy mogą zostać z powodzeniem
-odfiltrowane, przynajmniej w Firefox&#39;ie. Jestem też świadom istnienia aplikacji NewPipe, która
-jest zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową
-wadę. Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być
-powiadamiania w przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał
-video. Taką opcję ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że
-włączy nam się jakaś wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć.
-Innym problemem w przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle
-czy też przy zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej
-aplikacji YouTube i wyeliminować te drażniące mnie problemy instalując w smartfonie framework
-Xposed wraz z odpowiednimi modułami: YouTube Background Playback oraz YouTube AdAway.
-Jako, że nie jest to proces łatwy, to postanowiłem go opisać krok po kroku." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/android-framework-xposed-i-moduly-do-youtube/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2017-03-04T21:56:54+01:00" />
-<meta property="article:modified_time" content="2017-03-04T21:56:54+01:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/android-framework-xposed-i-moduly-do-youtube/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Android: Framework Xposed i moduły do YouTube">
+  <meta property="og:description" content="Stock&#39;owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w Firefox&#39;ie i jeśli mamy zainstalowanego w telefonie adblock&#39;a, np. AdAway, czy też wdrożony podobny filtr na domowym routerze WiFi z LEDE/OpenWRT, to te reklamy mogą zostać z powodzeniem odfiltrowane, przynajmniej w Firefox&#39;ie. Jestem też świadom istnienia aplikacji NewPipe, która jest zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową wadę. Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być powiadamiania w przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał video. Taką opcję ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że włączy nam się jakaś wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć. Innym problemem w przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle czy też przy zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej aplikacji YouTube i wyeliminować te drażniące mnie problemy instalując w smartfonie framework Xposed wraz z odpowiednimi modułami: YouTube Background Playback oraz YouTube AdAway. Jako, że nie jest to proces łatwy, to postanowiłem go opisać krok po kroku.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2017-03-04T21:56:54+01:00">
+    <meta property="article:modified_time" content="2017-03-04T21:56:54+01:00">
+    <meta property="article:tag" content="Smartfon">
+    <meta property="article:tag" content="Xposed">
+    <meta property="article:tag" content="Youtube">
+    <meta property="article:tag" content="Root">
 
-
-		<meta itemprop="name" content="Android: Framework Xposed i moduły do YouTube">
-<meta itemprop="description" content="Stock&#39;owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji
-od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy
-wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się
-ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w
-Firefox&#39;ie i jeśli mamy zainstalowanego w telefonie adblock&#39;a, np. AdAway, czy też wdrożony
-podobny filtr na domowym routerze WiFi z LEDE/OpenWRT, to te reklamy mogą zostać z powodzeniem
-odfiltrowane, przynajmniej w Firefox&#39;ie. Jestem też świadom istnienia aplikacji NewPipe, która
-jest zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową
-wadę. Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być
-powiadamiania w przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał
-video. Taką opcję ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że
-włączy nam się jakaś wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć.
-Innym problemem w przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle
-czy też przy zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej
-aplikacji YouTube i wyeliminować te drażniące mnie problemy instalując w smartfonie framework
-Xposed wraz z odpowiednimi modułami: YouTube Background Playback oraz YouTube AdAway.
-Jako, że nie jest to proces łatwy, to postanowiłem go opisać krok po kroku."><meta itemprop="datePublished" content="2017-03-04T21:56:54+01:00" />
-<meta itemprop="dateModified" content="2017-03-04T21:56:54+01:00" />
-<meta itemprop="wordCount" content="1370">
-<meta itemprop="keywords" content="smartfon,xposed,youtube,root," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Android: Framework Xposed i moduły do YouTube"/>
-<meta name="twitter:description" content="Stock&#39;owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji
-od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy
-wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się
-ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w
-Firefox&#39;ie i jeśli mamy zainstalowanego w telefonie adblock&#39;a, np. AdAway, czy też wdrożony
-podobny filtr na domowym routerze WiFi z LEDE/OpenWRT, to te reklamy mogą zostać z powodzeniem
-odfiltrowane, przynajmniej w Firefox&#39;ie. Jestem też świadom istnienia aplikacji NewPipe, która
-jest zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową
-wadę. Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być
-powiadamiania w przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał
-video. Taką opcję ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że
-włączy nam się jakaś wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć.
-Innym problemem w przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle
-czy też przy zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej
-aplikacji YouTube i wyeliminować te drażniące mnie problemy instalując w smartfonie framework
-Xposed wraz z odpowiednimi modułami: YouTube Background Playback oraz YouTube AdAway.
-Jako, że nie jest to proces łatwy, to postanowiłem go opisać krok po kroku."/>
+		
+  <meta itemprop="name" content="Android: Framework Xposed i moduły do YouTube">
+  <meta itemprop="description" content="Stock&#39;owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w Firefox&#39;ie i jeśli mamy zainstalowanego w telefonie adblock&#39;a, np. AdAway, czy też wdrożony podobny filtr na domowym routerze WiFi z LEDE/OpenWRT, to te reklamy mogą zostać z powodzeniem odfiltrowane, przynajmniej w Firefox&#39;ie. Jestem też świadom istnienia aplikacji NewPipe, która jest zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową wadę. Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być powiadamiania w przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał video. Taką opcję ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że włączy nam się jakaś wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć. Innym problemem w przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle czy też przy zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej aplikacji YouTube i wyeliminować te drażniące mnie problemy instalując w smartfonie framework Xposed wraz z odpowiednimi modułami: YouTube Background Playback oraz YouTube AdAway. Jako, że nie jest to proces łatwy, to postanowiłem go opisać krok po kroku.">
+  <meta itemprop="datePublished" content="2017-03-04T21:56:54+01:00">
+  <meta itemprop="dateModified" content="2017-03-04T21:56:54+01:00">
+  <meta itemprop="wordCount" content="1370">
+  <meta itemprop="keywords" content="Smartfon,Xposed,Youtube,Root">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Android: Framework Xposed i moduły do YouTube">
+  <meta name="twitter:description" content="Stock&#39;owe Androidy w smartfonach mają ten problem, że zawierają całą masę preinstalowanych aplikacji od Google. Nie to by jakoś mnie to bolało, no może za wyjątkiem braku możliwości ich wywalenia czy wyłączenia. To co mnie trochę irytuje, to fakt obecności reklam w aplikacji YouTube. Nie da rady się ich pozbyć praktycznie w żaden sposób. Zdaję sobie sprawę, że serwis YT można przeglądać w Firefox&#39;ie i jeśli mamy zainstalowanego w telefonie adblock&#39;a, np. AdAway, czy też wdrożony podobny filtr na domowym routerze WiFi z LEDE/OpenWRT, to te reklamy mogą zostać z powodzeniem odfiltrowane, przynajmniej w Firefox&#39;ie. Jestem też świadom istnienia aplikacji NewPipe, która jest zubożonym klientem YouTube. Niemniej jednak, te opisane wyżej sposoby mają jedną podstawową wadę. Mianowicie tracimy lwią część funkcjonalności serwisu YouTube. Przykładem mogą być powiadamiania w przypadku, gdy na jeden z subskrybowanych kanałów zostanie wrzucony jaki materiał video. Taką opcję ma ta aplikacja od Google ale klikając w powiadomienie jest niemal pewne, że włączy nam się jakaś wredna reklama o wiele głośniejsza niż sam filmik, który zamierzamy obejrzeć. Innym problemem w przypadku tej góglowskiej aplikacji jest brak możliwości odtwarzania video w tle czy też przy zgaszonym wyświetlaczu. Postanowiłem w końcu wziąć się za ogarnięcie tej góglowskiej aplikacji YouTube i wyeliminować te drażniące mnie problemy instalując w smartfonie framework Xposed wraz z odpowiednimi modułami: YouTube Background Playback oraz YouTube AdAway. Jako, że nie jest to proces łatwy, to postanowiłem go opisać krok po kroku.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -78,19 +39,11 @@ Jako, że nie jest to proces łatwy, to postanowiłem go opisać krok po kroku."
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -149,11 +102,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2017-03-04T21:56:54&#43;01:00">Opublikowano: 04/03/2017</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Android: Framework Xposed i moduły do YouTube</h1>
 <details class="entry__toc toc" >
@@ -324,10 +277,10 @@ Xposed. Po usunięciu modułów, instalator można usunąć w XDA Labs lub F-Dro
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xposed/">xposed</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/youtube/">youtube</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">root</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">Smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xposed/">Xposed</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/youtube/">Youtube</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">Root</a>
 </div>
 					
 <div class="entry__share share">
@@ -428,6 +381,9 @@ Xposed. Po usunięciu modułów, instalator można usunąć w XDA Labs lub F-Dro
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

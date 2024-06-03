@@ -2,57 +2,35 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Sparse files (rozrzedzone pliki) | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Sparse files (rozrzedzone pliki)" />
-<meta property="og:description" content="Każdy system plików opiera się na blokach danych. Standardowo taki blok w systemie plików EXT4 ma 4
-KiB (8 x 512 bajtów). Za każdym razem, gdy tworzymy jakiś plik na dysku, alokowana jest pewna część
-bloków, na których ten plik ma zostać zapisany. Te większe pliki rezerwują więcej bloków, choć nie
-zawsze są to bloki ciągłe. W taki sposób, plik o rozmiarze 10 GiB okupowałby dokładnie tyle miejsca
-na dysku ile sam waży. Niemniej jednak są pewne pliki, które może i ważą te 10 GiB ale system plików
-postrzega je tak jakby miały 100 MiB czy 200 MiB, w zależności od tego ile &quot;faktycznie&quot; taki plik
-zajmuje miejsca. Jak to możliwe? Pliki, o których mowa, to tzw. &quot;rozrzedzone pliki&quot; (Sparse
-files). Taki plik składa się z szeregu bloków pustych
-(mających same zera), których nie trzeba zapisywać na dysk. Zamiast tego, można jedynie zapisać
-metadane w strykturze systemu plików, które będą opisywać te puste bloki. Poniższy artykuł ma na
-celu pokazać do czego takie pliki sparse mogą nam się przydać i jak z nich korzystać." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/sparse-files-rozrzedzone-pliki/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2016-06-02T16:42:26+00:00" />
-<meta property="article:modified_time" content="2016-06-02T16:42:26+00:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/sparse-files-rozrzedzone-pliki/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Sparse files (rozrzedzone pliki)">
+  <meta property="og:description" content="Każdy system plików opiera się na blokach danych. Standardowo taki blok w systemie plików EXT4 ma 4 KiB (8 x 512 bajtów). Za każdym razem, gdy tworzymy jakiś plik na dysku, alokowana jest pewna część bloków, na których ten plik ma zostać zapisany. Te większe pliki rezerwują więcej bloków, choć nie zawsze są to bloki ciągłe. W taki sposób, plik o rozmiarze 10 GiB okupowałby dokładnie tyle miejsca na dysku ile sam waży. Niemniej jednak są pewne pliki, które może i ważą te 10 GiB ale system plików postrzega je tak jakby miały 100 MiB czy 200 MiB, w zależności od tego ile &#34;faktycznie&#34; taki plik zajmuje miejsca. Jak to możliwe? Pliki, o których mowa, to tzw. &#34;rozrzedzone pliki&#34; (Sparse files). Taki plik składa się z szeregu bloków pustych (mających same zera), których nie trzeba zapisywać na dysk. Zamiast tego, można jedynie zapisać metadane w strykturze systemu plików, które będą opisywać te puste bloki. Poniższy artykuł ma na celu pokazać do czego takie pliki sparse mogą nam się przydać i jak z nich korzystać.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2016-06-02T16:42:26+00:00">
+    <meta property="article:modified_time" content="2016-06-02T16:42:26+00:00">
+    <meta property="article:tag" content="System-Plików">
+    <meta property="article:tag" content="Pliki">
+    <meta property="article:tag" content="Foldery">
 
-
-		<meta itemprop="name" content="Sparse files (rozrzedzone pliki)">
-<meta itemprop="description" content="Każdy system plików opiera się na blokach danych. Standardowo taki blok w systemie plików EXT4 ma 4
-KiB (8 x 512 bajtów). Za każdym razem, gdy tworzymy jakiś plik na dysku, alokowana jest pewna część
-bloków, na których ten plik ma zostać zapisany. Te większe pliki rezerwują więcej bloków, choć nie
-zawsze są to bloki ciągłe. W taki sposób, plik o rozmiarze 10 GiB okupowałby dokładnie tyle miejsca
-na dysku ile sam waży. Niemniej jednak są pewne pliki, które może i ważą te 10 GiB ale system plików
-postrzega je tak jakby miały 100 MiB czy 200 MiB, w zależności od tego ile &quot;faktycznie&quot; taki plik
-zajmuje miejsca. Jak to możliwe? Pliki, o których mowa, to tzw. &quot;rozrzedzone pliki&quot; (Sparse
-files). Taki plik składa się z szeregu bloków pustych
-(mających same zera), których nie trzeba zapisywać na dysk. Zamiast tego, można jedynie zapisać
-metadane w strykturze systemu plików, które będą opisywać te puste bloki. Poniższy artykuł ma na
-celu pokazać do czego takie pliki sparse mogą nam się przydać i jak z nich korzystać."><meta itemprop="datePublished" content="2016-06-02T16:42:26+00:00" />
-<meta itemprop="dateModified" content="2016-06-02T16:42:26+00:00" />
-<meta itemprop="wordCount" content="1713">
-<meta itemprop="keywords" content="system-plików,pliki,foldery," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Sparse files (rozrzedzone pliki)"/>
-<meta name="twitter:description" content="Każdy system plików opiera się na blokach danych. Standardowo taki blok w systemie plików EXT4 ma 4
-KiB (8 x 512 bajtów). Za każdym razem, gdy tworzymy jakiś plik na dysku, alokowana jest pewna część
-bloków, na których ten plik ma zostać zapisany. Te większe pliki rezerwują więcej bloków, choć nie
-zawsze są to bloki ciągłe. W taki sposób, plik o rozmiarze 10 GiB okupowałby dokładnie tyle miejsca
-na dysku ile sam waży. Niemniej jednak są pewne pliki, które może i ważą te 10 GiB ale system plików
-postrzega je tak jakby miały 100 MiB czy 200 MiB, w zależności od tego ile &quot;faktycznie&quot; taki plik
-zajmuje miejsca. Jak to możliwe? Pliki, o których mowa, to tzw. &quot;rozrzedzone pliki&quot; (Sparse
-files). Taki plik składa się z szeregu bloków pustych
-(mających same zera), których nie trzeba zapisywać na dysk. Zamiast tego, można jedynie zapisać
-metadane w strykturze systemu plików, które będą opisywać te puste bloki. Poniższy artykuł ma na
-celu pokazać do czego takie pliki sparse mogą nam się przydać i jak z nich korzystać."/>
+		
+  <meta itemprop="name" content="Sparse files (rozrzedzone pliki)">
+  <meta itemprop="description" content="Każdy system plików opiera się na blokach danych. Standardowo taki blok w systemie plików EXT4 ma 4 KiB (8 x 512 bajtów). Za każdym razem, gdy tworzymy jakiś plik na dysku, alokowana jest pewna część bloków, na których ten plik ma zostać zapisany. Te większe pliki rezerwują więcej bloków, choć nie zawsze są to bloki ciągłe. W taki sposób, plik o rozmiarze 10 GiB okupowałby dokładnie tyle miejsca na dysku ile sam waży. Niemniej jednak są pewne pliki, które może i ważą te 10 GiB ale system plików postrzega je tak jakby miały 100 MiB czy 200 MiB, w zależności od tego ile &#34;faktycznie&#34; taki plik zajmuje miejsca. Jak to możliwe? Pliki, o których mowa, to tzw. &#34;rozrzedzone pliki&#34; (Sparse files). Taki plik składa się z szeregu bloków pustych (mających same zera), których nie trzeba zapisywać na dysk. Zamiast tego, można jedynie zapisać metadane w strykturze systemu plików, które będą opisywać te puste bloki. Poniższy artykuł ma na celu pokazać do czego takie pliki sparse mogą nam się przydać i jak z nich korzystać.">
+  <meta itemprop="datePublished" content="2016-06-02T16:42:26+00:00">
+  <meta itemprop="dateModified" content="2016-06-02T16:42:26+00:00">
+  <meta itemprop="wordCount" content="1713">
+  <meta itemprop="keywords" content="System-Plików,Pliki,Foldery">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Sparse files (rozrzedzone pliki)">
+  <meta name="twitter:description" content="Każdy system plików opiera się na blokach danych. Standardowo taki blok w systemie plików EXT4 ma 4 KiB (8 x 512 bajtów). Za każdym razem, gdy tworzymy jakiś plik na dysku, alokowana jest pewna część bloków, na których ten plik ma zostać zapisany. Te większe pliki rezerwują więcej bloków, choć nie zawsze są to bloki ciągłe. W taki sposób, plik o rozmiarze 10 GiB okupowałby dokładnie tyle miejsca na dysku ile sam waży. Niemniej jednak są pewne pliki, które może i ważą te 10 GiB ale system plików postrzega je tak jakby miały 100 MiB czy 200 MiB, w zależności od tego ile &#34;faktycznie&#34; taki plik zajmuje miejsca. Jak to możliwe? Pliki, o których mowa, to tzw. &#34;rozrzedzone pliki&#34; (Sparse files). Taki plik składa się z szeregu bloków pustych (mających same zera), których nie trzeba zapisywać na dysk. Zamiast tego, można jedynie zapisać metadane w strykturze systemu plików, które będą opisywać te puste bloki. Poniższy artykuł ma na celu pokazać do czego takie pliki sparse mogą nam się przydać i jak z nich korzystać.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -60,19 +38,11 @@ celu pokazać do czego takie pliki sparse mogą nam się przydać i jak z nich k
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -131,11 +101,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2016-06-02T16:42:26Z">Opublikowano: 02/06/2016</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Sparse files (rozrzedzone pliki)</h1>
 <details class="entry__toc toc" >
@@ -343,9 +313,8 @@ sposób:</p>
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/system-plikow/">system-plików</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pliki/">pliki</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/foldery/">foldery</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/pliki/">Pliki</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/foldery/">Foldery</a>
 </div>
 					
 <div class="entry__share share">
@@ -446,6 +415,9 @@ sposób:</p>
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.

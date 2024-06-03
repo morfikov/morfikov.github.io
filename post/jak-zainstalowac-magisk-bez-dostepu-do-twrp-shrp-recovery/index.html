@@ -2,63 +2,38 @@
 <html class="no-js" lang="pl-PL">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1b1b1b">
 	<title>Jak zainstalować Magisk bez dostępu do TWRP/SHRP recovery | Morfitronik</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Jak zainstalować Magisk bez dostępu do TWRP/SHRP recovery" />
-<meta property="og:description" content="Parę dni temu na mój telefon Xiaomi Redmi 9 (lancelot/galahad/shiva/lava) została wypuszczona
-aktualizacja ROM&#39;u crDroid, który bazuje na AOSP/LineageOS. Ten update nie tylko miał
-uwzględnione najnowsze poprawki bezpieczeństwa ale również podbijał wersję Androida z 11 na 12.
-Problem w tym, że TWRP/SHRP recovery ma problemy z obsługą sposobu szyfrowania partycji /data/ ,
-który najwyraźniej uległ przeobrażeniu w Androidzie 12. Efektem braku wsparcia dla szyfrowania w
-TWRP/SHRP jest naturalnie brak możliwości wgrywania danych na partycję /data/ . Niestety niesie
-to za sobą przykre konsekwencje w postaci uniemożliwienia użytkownikowi przeprowadzenia procesu
-patch&#39;owania obrazu partycji /boot/ z poziomu trybu recovery, czego efektem jest brak możliwości
-zainstalowania Magisk&#39;a w systemie smartfona. Bez Magisk&#39;a nie damy rady ukorzenić systemu, tj.
-uzyskać w nim praw administratora root. Na szczęście nie wszystko stracone. Magisk&#39;a można
-zainstalować w telefonie ręcznie przy pomocy ADB oraz trybu bootloader&#39;a (fastboot) eliminując tym
-samym potrzebę przełączenia się w tryb recovery. Niniejszy artykuł ma na celu pokazanie jak
-zainstalować Magisk&#39;a bez odwoływania się do trybu TWRP/SHRP recovery." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://morfikov.github.io/post/jak-zainstalowac-magisk-bez-dostepu-do-twrp-shrp-recovery/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2022-02-28T19:46:00+01:00" />
-<meta property="article:modified_time" content="2022-02-28T19:46:00+01:00" />
+		<meta property="og:url" content="https://morfikov.github.io/post/jak-zainstalowac-magisk-bez-dostepu-do-twrp-shrp-recovery/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Jak zainstalować Magisk bez dostępu do TWRP/SHRP recovery">
+  <meta property="og:description" content="Parę dni temu na mój telefon Xiaomi Redmi 9 (lancelot/galahad/shiva/lava) została wypuszczona aktualizacja ROM&#39;u crDroid, który bazuje na AOSP/LineageOS. Ten update nie tylko miał uwzględnione najnowsze poprawki bezpieczeństwa ale również podbijał wersję Androida z 11 na 12. Problem w tym, że TWRP/SHRP recovery ma problemy z obsługą sposobu szyfrowania partycji /data/ , który najwyraźniej uległ przeobrażeniu w Androidzie 12. Efektem braku wsparcia dla szyfrowania w TWRP/SHRP jest naturalnie brak możliwości wgrywania danych na partycję /data/ . Niestety niesie to za sobą przykre konsekwencje w postaci uniemożliwienia użytkownikowi przeprowadzenia procesu patch&#39;owania obrazu partycji /boot/ z poziomu trybu recovery, czego efektem jest brak możliwości zainstalowania Magisk&#39;a w systemie smartfona. Bez Magisk&#39;a nie damy rady ukorzenić systemu, tj. uzyskać w nim praw administratora root. Na szczęście nie wszystko stracone. Magisk&#39;a można zainstalować w telefonie ręcznie przy pomocy ADB oraz trybu bootloader&#39;a (fastboot) eliminując tym samym potrzebę przełączenia się w tryb recovery. Niniejszy artykuł ma na celu pokazanie jak zainstalować Magisk&#39;a bez odwoływania się do trybu TWRP/SHRP recovery.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2022-02-28T19:46:00+01:00">
+    <meta property="article:modified_time" content="2022-02-28T19:46:00+01:00">
+    <meta property="article:tag" content="Smartfon">
+    <meta property="article:tag" content="Xiaomi">
+    <meta property="article:tag" content="Redmi-9">
+    <meta property="article:tag" content="Root">
+    <meta property="article:tag" content="Aosp">
+    <meta property="article:tag" content="Crdroid">
 
-
-		<meta itemprop="name" content="Jak zainstalować Magisk bez dostępu do TWRP/SHRP recovery">
-<meta itemprop="description" content="Parę dni temu na mój telefon Xiaomi Redmi 9 (lancelot/galahad/shiva/lava) została wypuszczona
-aktualizacja ROM&#39;u crDroid, który bazuje na AOSP/LineageOS. Ten update nie tylko miał
-uwzględnione najnowsze poprawki bezpieczeństwa ale również podbijał wersję Androida z 11 na 12.
-Problem w tym, że TWRP/SHRP recovery ma problemy z obsługą sposobu szyfrowania partycji /data/ ,
-który najwyraźniej uległ przeobrażeniu w Androidzie 12. Efektem braku wsparcia dla szyfrowania w
-TWRP/SHRP jest naturalnie brak możliwości wgrywania danych na partycję /data/ . Niestety niesie
-to za sobą przykre konsekwencje w postaci uniemożliwienia użytkownikowi przeprowadzenia procesu
-patch&#39;owania obrazu partycji /boot/ z poziomu trybu recovery, czego efektem jest brak możliwości
-zainstalowania Magisk&#39;a w systemie smartfona. Bez Magisk&#39;a nie damy rady ukorzenić systemu, tj.
-uzyskać w nim praw administratora root. Na szczęście nie wszystko stracone. Magisk&#39;a można
-zainstalować w telefonie ręcznie przy pomocy ADB oraz trybu bootloader&#39;a (fastboot) eliminując tym
-samym potrzebę przełączenia się w tryb recovery. Niniejszy artykuł ma na celu pokazanie jak
-zainstalować Magisk&#39;a bez odwoływania się do trybu TWRP/SHRP recovery."><meta itemprop="datePublished" content="2022-02-28T19:46:00+01:00" />
-<meta itemprop="dateModified" content="2022-02-28T19:46:00+01:00" />
-<meta itemprop="wordCount" content="2240">
-<meta itemprop="keywords" content="smartfon,xiaomi,redmi-9,root,aosp,crdroid,twrp,shrp,magisk," />
-		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Jak zainstalować Magisk bez dostępu do TWRP/SHRP recovery"/>
-<meta name="twitter:description" content="Parę dni temu na mój telefon Xiaomi Redmi 9 (lancelot/galahad/shiva/lava) została wypuszczona
-aktualizacja ROM&#39;u crDroid, który bazuje na AOSP/LineageOS. Ten update nie tylko miał
-uwzględnione najnowsze poprawki bezpieczeństwa ale również podbijał wersję Androida z 11 na 12.
-Problem w tym, że TWRP/SHRP recovery ma problemy z obsługą sposobu szyfrowania partycji /data/ ,
-który najwyraźniej uległ przeobrażeniu w Androidzie 12. Efektem braku wsparcia dla szyfrowania w
-TWRP/SHRP jest naturalnie brak możliwości wgrywania danych na partycję /data/ . Niestety niesie
-to za sobą przykre konsekwencje w postaci uniemożliwienia użytkownikowi przeprowadzenia procesu
-patch&#39;owania obrazu partycji /boot/ z poziomu trybu recovery, czego efektem jest brak możliwości
-zainstalowania Magisk&#39;a w systemie smartfona. Bez Magisk&#39;a nie damy rady ukorzenić systemu, tj.
-uzyskać w nim praw administratora root. Na szczęście nie wszystko stracone. Magisk&#39;a można
-zainstalować w telefonie ręcznie przy pomocy ADB oraz trybu bootloader&#39;a (fastboot) eliminując tym
-samym potrzebę przełączenia się w tryb recovery. Niniejszy artykuł ma na celu pokazanie jak
-zainstalować Magisk&#39;a bez odwoływania się do trybu TWRP/SHRP recovery."/>
+		
+  <meta itemprop="name" content="Jak zainstalować Magisk bez dostępu do TWRP/SHRP recovery">
+  <meta itemprop="description" content="Parę dni temu na mój telefon Xiaomi Redmi 9 (lancelot/galahad/shiva/lava) została wypuszczona aktualizacja ROM&#39;u crDroid, który bazuje na AOSP/LineageOS. Ten update nie tylko miał uwzględnione najnowsze poprawki bezpieczeństwa ale również podbijał wersję Androida z 11 na 12. Problem w tym, że TWRP/SHRP recovery ma problemy z obsługą sposobu szyfrowania partycji /data/ , który najwyraźniej uległ przeobrażeniu w Androidzie 12. Efektem braku wsparcia dla szyfrowania w TWRP/SHRP jest naturalnie brak możliwości wgrywania danych na partycję /data/ . Niestety niesie to za sobą przykre konsekwencje w postaci uniemożliwienia użytkownikowi przeprowadzenia procesu patch&#39;owania obrazu partycji /boot/ z poziomu trybu recovery, czego efektem jest brak możliwości zainstalowania Magisk&#39;a w systemie smartfona. Bez Magisk&#39;a nie damy rady ukorzenić systemu, tj. uzyskać w nim praw administratora root. Na szczęście nie wszystko stracone. Magisk&#39;a można zainstalować w telefonie ręcznie przy pomocy ADB oraz trybu bootloader&#39;a (fastboot) eliminując tym samym potrzebę przełączenia się w tryb recovery. Niniejszy artykuł ma na celu pokazanie jak zainstalować Magisk&#39;a bez odwoływania się do trybu TWRP/SHRP recovery.">
+  <meta itemprop="datePublished" content="2022-02-28T19:46:00+01:00">
+  <meta itemprop="dateModified" content="2022-02-28T19:46:00+01:00">
+  <meta itemprop="wordCount" content="2240">
+  <meta itemprop="keywords" content="Smartfon,Xiaomi,Redmi-9,Root,Aosp,Crdroid,Twrp,Shrp,Magisk">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jak zainstalować Magisk bez dostępu do TWRP/SHRP recovery">
+  <meta name="twitter:description" content="Parę dni temu na mój telefon Xiaomi Redmi 9 (lancelot/galahad/shiva/lava) została wypuszczona aktualizacja ROM&#39;u crDroid, który bazuje na AOSP/LineageOS. Ten update nie tylko miał uwzględnione najnowsze poprawki bezpieczeństwa ale również podbijał wersję Androida z 11 na 12. Problem w tym, że TWRP/SHRP recovery ma problemy z obsługą sposobu szyfrowania partycji /data/ , który najwyraźniej uległ przeobrażeniu w Androidzie 12. Efektem braku wsparcia dla szyfrowania w TWRP/SHRP jest naturalnie brak możliwości wgrywania danych na partycję /data/ . Niestety niesie to za sobą przykre konsekwencje w postaci uniemożliwienia użytkownikowi przeprowadzenia procesu patch&#39;owania obrazu partycji /boot/ z poziomu trybu recovery, czego efektem jest brak możliwości zainstalowania Magisk&#39;a w systemie smartfona. Bez Magisk&#39;a nie damy rady ukorzenić systemu, tj. uzyskać w nim praw administratora root. Na szczęście nie wszystko stracone. Magisk&#39;a można zainstalować w telefonie ręcznie przy pomocy ADB oraz trybu bootloader&#39;a (fastboot) eliminując tym samym potrzebę przełączenia się w tryb recovery. Niniejszy artykuł ma na celu pokazanie jak zainstalować Magisk&#39;a bez odwoływania się do trybu TWRP/SHRP recovery.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -66,19 +41,11 @@ zainstalować Magisk&#39;a bez odwoływania się do trybu TWRP/SHRP recovery."/>
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
 		
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-119125303-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
 
 </head>
-<body>
+<body class="body kind-page">
 	<header class="header">
 	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
 	
@@ -137,11 +104,11 @@ if (!doNotTrack) {
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2022-02-28T19:46:00&#43;01:00">Opublikowano: 28/02/2022</time>
 
-<span class="entry__meta-categories meta-categories">
+<div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
 	</span>
-</span>
+</div>
 	</div>
 				<h1 class="entry__title">Jak zainstalować Magisk bez dostępu do TWRP/SHRP recovery</h1>
 <details class="entry__toc toc" >
@@ -448,15 +415,15 @@ przez tryb recovery, będzie w zasadzie wiązał się z przywróceniem systemu d
 				<footer class="entry__footer">
 					
 <div class="entry__tags">
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">smartfon</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">xiaomi</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">redmi-9</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">root</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aosp/">aosp</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/crdroid/">crdroid</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/twrp/">twrp</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/shrp/">shrp</a>
-			<a class="entry__tag btn" href="https://morfikov.github.io/tags/magisk/">magisk</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/smartfon/">Smartfon</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/xiaomi/">Xiaomi</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/redmi-9/">Redmi-9</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/root/">Root</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/aosp/">Aosp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/crdroid/">Crdroid</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/twrp/">Twrp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/shrp/">Shrp</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/magisk/">Magisk</a>
 </div>
 					
 <div class="entry__share share">
@@ -557,6 +524,9 @@ przez tryb recovery, będzie w zasadzie wiązał się z przywróceniem systemu d
 		</a>
 		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
 			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
 	<div class="footer__copyright">© 2024 Mikhail Morfikov.
