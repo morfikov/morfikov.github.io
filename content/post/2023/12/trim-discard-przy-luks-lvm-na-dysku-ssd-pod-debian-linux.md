@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Linux
 date:    2023-12-15 17:00:00 +0100
-lastmod: 2024-01-06 17:30:00 +0100
+lastmod: 2024-06-16 16:30:00 +0200
 published: true
 status: publish
 tags:
@@ -17,6 +17,7 @@ tags:
 - ext4
 - sysctl
 - udev
+- usb
 GHissueID: 599
 title: Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux
 ---
@@ -1526,6 +1527,15 @@ W przypadku mojego dysku SSD, ten krótki teścik prezentuje się następująco:
 Także jest trochę szybciej ale raczej jest to zaleta technologi MLC, w stosunku do TLC, która
 została zastosowana w przypadku dysku użytkownika @Jacekalex.
 
+## Problematyczny trim/discard w dyskach SSD na USB
+
+Wygląda na to, że w przypadku dysków SSD podpiętych do portu USB komputera przy pomocy adaptera
+USB-SATA (lub zewnętrznej obudowy USB), mechanizm TRIM jest domyślnie wyłączony, bo w takich
+konfiguracjach może on doprowadzić do uszkodzenia danych lub też całkowitego uwalenia nośnika SSD.
+Zwykle jednak, mechanizm TRIM w tego typu sytuacjach da radę bez obaw włączyć, choć trzeba mieć na
+uwadze kilka istotnych kwestii. Zagadnienie [włączenia TRIM dla dysków SSD podpiętych po USB][35]
+zostało opisane w osobnym artykule.
+
 ## Podsumowanie
 
 Poprawne skonfigurowanie trim/discard w przypadku dysków SSD na linux, to podstawa jeśli chcemy z
@@ -1575,3 +1585,4 @@ wydłużona jego żywotność.
 [32]: https://docs.kernel.org/block/blk-mq.html
 [33]: https://en.wikipedia.org/wiki/Noop_scheduler
 [34]: https://www.kernel.org/doc/html/latest/block/bfq-iosched.html
+[35]: /post/trim-unmap-w-dyskach-ssd-podlaczonych-viaaadapter-usb-sata-na-linux/
