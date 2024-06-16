@@ -17,7 +17,7 @@
 		
   <meta itemprop="name" content="Usb">
   <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="dateModified" content="2023-12-18T18:00:00+01:00">
+  <meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Usb">
@@ -93,6 +93,67 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/trim-unmap-w-dyskach-ssd-podlaczonych-via-adapter-usb-sata-na-linux/">TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux</a></h1>
+	<div class="entry__content"><p>Jakiś czas temu opisywałem <a href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/">jak na Debianie włączyć obsługę mechanizmu TRIM</a> (realizowanego
+przez polecenie <code>fstrim</code> ) na podpiętych do komputera dyskach SSD. Problem w tym, że dyski SSD, z
+którymi będziemy wchodzić w interakcję, nie zawsze będą podłączane do dedykowanych portów
+SATA/mSATA. Jak zachowa się zatem nasz linux, gdy będziemy chcieli podłączyć po portu USB
+zewnętrzny dysk SSD? Przez zewnętrzny dysk USB nie mam na myśli dedykowanych zewnętrznych dysków
+USB, bo te raczej nie powinny sprawiać kłopotów. Chodzi mi bardziej o wewnętrzne dyski SSD (np. ze
+starego laptopa), które zamkniemy w dedykowanej obudowie USB, lub też będziemy taki dysk podłączać
+na krótko za pomocą adaptera USB-SATA. W takich przypadkach zwykle kernel linux'a nie odważy się
+włączyć wsparcia dla TRIM dla nośników SSD i tak właśnie się stało w przypadku mojego nowo
+zakupionego dysku od Goodram, a konkretnie jest to model <code>SSDPR-CX400-02T-G2</code> , który to został
+podłączony do portu USB3 mojego Raspberry PI (i Debiana) przy pomocy kabelka USB-SATA (Unitek
+USB3.1 USB-A to 2.5&quot; SATA6G). Przez kilka miesięcy dysk sprawował się bez zarzutu ale ostatnio przy
+próbie wgrania na niego danych (przez sieć), transfer spadł do dosłownie pojedynczych MiB/s.
+Poszukałem trochę informacji i okazało się, że dla tego typu nośników <a href="https://www.jeffgeerling.com/blog/2020/enabling-trim-on-external-ssd-on-raspberry-pi">trzeba ręcznie włączyć
+TRIM</a>, o ile będzie to w ogóle możliwe.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2024-06-16T16:30:00&#43;02:00">Opublikowano: 16/06/2024</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>, 
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/raspberrypi/" rel="category">RaspberryPi</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/">Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux</a></h1>
+	<div class="entry__content"><p>Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go
+na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux'a z włączonymi gałęziami unstable i
+experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera
+LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo
+zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux'a.
+Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim <a href="https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/">postawić świeżego
+Debiana z wykorzystaniem narzędzia debootstrap</a>. Sama instalacja linux'a na dysku SSD nie różni
+się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu
+trim/discard. Standardowi użytkownicy linux'a nie muszą zbytnio nic robić, aby ten mechanizm został
+poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest <a href="https://en.wikipedia.org/wiki/Device_mapper">device-mapper</a>,
+który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
+LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
+zaszyfrowanego systemu na bazie LUKS+LVM.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2023-12-15T17:00:00&#43;01:00">Opublikowano: 15/12/2023</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2024-06-16T16:30:00&#43;02:00">Zaktualizowano: 16/06/2024</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -306,54 +367,6 @@ linux'em. W tym wpisie obadamy sobie właśnie tę kwestię.</p></div>
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/hardware/" rel="category">Hardware</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/recenzja-aktywny-hub-usb-3-0-uh720-tp-link/">Recenzja: Aktywny HUB USB 3.0 UH720 od TP-LINK</a></h1>
-	<div class="entry__content"><p>Nasze potrzeby są zawsze nieograniczone i raczej nigdy nie uda się nam ich zaspokoić. Weźmy sobie
-dla przykładu urządzenia, które można podpiąć do komputera. Obecnie mamy całą masę sprzętu, a nasz
-PC, laptop czy router ma skończoną i często też bardzo niewielką ilość portów USB. Problematyczne
-może być zatem podłączenie do komputera w tym samym czasie kamer, pendrive, dysków,
-telefonów/smartfonów, mp3player'ów, drukarek, myszy czy klawiatury. Można oczywiście wyciągać z
-gniazdek jedne urządzenia, by zrobić miejsce dla innych ale istnieje przecie taki wynalazek jak HUB
-USB, który umożliwiają nam podłączone kilku urządzeń do jednego portu USB. Jakość tych HUB'ów oraz
-ich właściwości są różne i w tym wpisie zobaczymy co ma nam do zaoferowania<a href="http://www.tp-link.com.pl/products/details/UH720.html">HUB USB 3.0
-UH720</a>od TP-LINK</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2016-08-28T14:50:36Z">Opublikowano: 28/08/2016</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/hardware/" rel="category">Hardware</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/sterowniki-karta-wifi-archer-t1u-mt7610u_sta/">Sterowniki dla karty WiFi Archer T1U (mt7610u_sta)</a></h1>
-	<div class="entry__content"><p>Dziś postanowiłem się wziąć za ostatnią kartę WiFi, którą podesłał mi TP-LINK. Jest to nano adapter
-Archer T1U V1 na <a href="https://wikidevi.com/wiki/TP-LINK_TL-WDN5200">czipie MediaTek MT7610U</a>
-identyfikowany w systemie jako <code>idVendor=2357</code> , <code>idProduct=0105</code> . Na opakowaniu pisało, że ta
-karta działa na linux'ach ale oczywiście w przypadku mojego Debiana, ten adapter nie został w ogóle
-wykryty. Winą są zbyt stare sterowniki, które nie zostały zaktualizowane przez MediaTek od 2013
-roku. TP-Link może i ma u siebie na stronie <a href="http://www.tp-link.com/en/download/Archer-T1U.html#Driver">nieco nowszą wersję
-sterowników</a>, bo z 2015 roku ale nie
-udało mi się za ich sprawą zbudować poprawnie modułu <code>mt7610u_sta</code> na kernelu 4.6 . Na szczęście
-mamy jedną alternatywę, która pomoże nam jako tako wybrnąć z tej sytuacji.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2016-08-18T14:35:52Z">Opublikowano: 18/08/2016</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
 </div>
 	</div>

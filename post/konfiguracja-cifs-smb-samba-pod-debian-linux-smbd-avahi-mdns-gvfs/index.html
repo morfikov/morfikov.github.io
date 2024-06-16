@@ -15,7 +15,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
     <meta property="article:published_time" content="2024-06-03T20:00:00+02:00">
-    <meta property="article:modified_time" content="2024-06-03T20:00:00+02:00">
+    <meta property="article:modified_time" content="2024-06-16T16:30:00+02:00">
     <meta property="article:tag" content="Samba">
     <meta property="article:tag" content="Smb">
     <meta property="article:tag" content="Cifs">
@@ -27,8 +27,8 @@
   <meta itemprop="name" content="Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)">
   <meta itemprop="description" content="Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows. W zasadzie to pozostała mi ostatnia opcja w postaci protokołu CIFS/SMB/SAMBA, który przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj. udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet samba , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy sobie nieco ułatwić życie, tak by w menadżerze plików (np. nemo , caja , pcmanfm ) te wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.">
   <meta itemprop="datePublished" content="2024-06-03T20:00:00+02:00">
-  <meta itemprop="dateModified" content="2024-06-03T20:00:00+02:00">
-  <meta itemprop="wordCount" content="7406">
+  <meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
+  <meta itemprop="wordCount" content="7708">
   <meta itemprop="keywords" content="Samba,Smb,Cifs,Avahi,Wsdd,Iptables,Nftables,Firewall,Serwer-Plików,Keepassxc">
 		
   <meta name="twitter:card" content="summary">
@@ -103,6 +103,7 @@
 			<article class="entry">
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2024-06-03T20:00:00&#43;02:00">Opublikowano: 03/06/2024</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2024-06-16T16:30:00&#43;02:00">Zaktualizowano: 16/06/2024</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -175,6 +176,8 @@
       </ol>
     </li>
     <li><a href="#zapisywanie-haseł-samba-w-keepassxc">Zapisywanie haseł SAMBA w keepassxc</a></li>
+    <li><a href="#problemy-z-wydajnością-cifssmbsamba-przez-gvfs">Problemy z wydajnością CIFS/SMB/SAMBA przez GVFS</a></li>
+    <li><a href="#kwestia-domeny-local">Kwestia domeny .local</a></li>
     <li><a href="#podsumowanie">Podsumowanie</a></li>
   </ol>
 </nav>
@@ -1288,6 +1291,31 @@ zasób CIFS/SMB/SAMBA. Tego typu integracja z menadżerem haseł może nam zaosz
 nie będziemy musieli pamiętać danych logowania i podawać ich ilekroć tylko będziemy z takich zasobów
 korzystać.</p>
 <p><img loading="lazy" src="https://morfikov.github.io/img/2024/06/005.cifs-smb-samba-password-keepassxc.png" alt="cifs-smb-samba-password-keepassxc"    class="huge"></p>
+<h2 id="problemy-z-wydajnością-cifssmbsamba-przez-gvfs">Problemy z wydajnością CIFS/SMB/SAMBA przez GVFS</h2>
+<p>Wygląda na to, że ta opisana tutaj automatyczna konfiguracja zasobów CIFS/SMB/SAMBA ma dość spore
+problemy z wydajnością, gdy wykorzystywany jest GVFS. W moim przypadku osiągane transfery plików są
+na poziomie 35-40MiB/s, co jest wynikiem dość słabym. Dla porównania, transfery osiągane, gdy ten
+sam zasób jest montowany z wykorzystaniem polecenia <code>mount</code> i pliku <code>/etc/fstab</code> , wysycają
+praktycznie w całości łącze gigabitowe. <a href="https://gitlab.gnome.org/GNOME/gvfs/-/issues/292">Ten problem jest znany od lat i do tej pory nie został
+rozwiązany</a>. Zatem jeśli zależy nam na wydajności i szybkim transferze (zwłaszcza dużych
+plików), to CIFS/SMB/SAMBA przez GVFS raczej odpada.</p>
+<h2 id="kwestia-domeny-local">Kwestia domeny .local</h2>
+<p>W mojej sieci domowej od lat była skonfigurowana domena <code>.mhouse</code> . Niemniej jednak, w tym artykule
+została skonfigurowana również druga domena, tj. <code>.local</code> . Pytanie nasuwa się wiec takie, czy
+potrzebne nam są dwie domeny, czy wystarczy jedna z nich?</p>
+<p>Teoretycznie wystarczyłaby nam jedynie domena <code>.local</code> , bo rozwiązywanie nazw w protokole mDNS na
+tej domenie domyślnie operuje. Niemniej jednak, ta domena jest dość wyjątkowa i <a href="https://en.wikipedia.org/wiki/.local">została
+zarezerwowana na potrzeby specjalnego wykorzystania</a>. W tym podlinkowanym artykule są
+wymienione za i przeciw dla stosowania tej domeny w sieciach lokalnych/domowych. Ja jednak
+skłaniałbym się do korzystania z dwóch osobnych domen, tj. jedna (w tym przypadku <code>.mhouse</code> ) dla
+sieci lokalnej, druga zaś <code>.local</code> dla mechanizmu mDNS.</p>
+<p>Nic raczej nie stoi na przeszkodzie, by korzystać jedynie z domeny <code>.local</code> w sieciach, gdzie mamy
+obecne jedynie same maszyny z system operacyjnym na bazie linux'a. Trzeba jednak pamiętać, że
+domyślna konfiguracja systemu (określona w pliku <code>/etc/nsswitch.conf</code> ) będzie wymagać od nas, by
+<code>avahi-daemon</code> był w naszym Debianie aktywny. Chodzi generalnie o to, że <code>avahi-daemon</code> będzie
+rozwiązywał zapytania w domenie <code>.local</code> i  jeśli go zabraknie, to zapytania o tę domenę nie będą
+rozwiązywane już dalej przez system DNS. Przynajmniej taka jest domyślna konfiguracja, którą
+naturalnie możemy sobie zmienić.</p>
 <h2 id="podsumowanie">Podsumowanie</h2>
 <p>Trzeba tutaj wyraźnie zaznaczyć, że mechanizm opisany w niniejszym artykule nie jest niezbędny do
 przeglądania sieciowych zasobów CIFS/SMB/SAMBA. Jeśli znamy adres, pod którym taki zasób się

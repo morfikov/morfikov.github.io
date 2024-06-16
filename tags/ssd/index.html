@@ -17,7 +17,7 @@
 		
   <meta itemprop="name" content="Ssd">
   <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="dateModified" content="2024-01-10T20:05:00+01:00">
+  <meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Ssd">
@@ -96,6 +96,37 @@
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/trim-unmap-w-dyskach-ssd-podlaczonych-via-adapter-usb-sata-na-linux/">TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux</a></h1>
+	<div class="entry__content"><p>Jakiś czas temu opisywałem <a href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/">jak na Debianie włączyć obsługę mechanizmu TRIM</a> (realizowanego
+przez polecenie <code>fstrim</code> ) na podpiętych do komputera dyskach SSD. Problem w tym, że dyski SSD, z
+którymi będziemy wchodzić w interakcję, nie zawsze będą podłączane do dedykowanych portów
+SATA/mSATA. Jak zachowa się zatem nasz linux, gdy będziemy chcieli podłączyć po portu USB
+zewnętrzny dysk SSD? Przez zewnętrzny dysk USB nie mam na myśli dedykowanych zewnętrznych dysków
+USB, bo te raczej nie powinny sprawiać kłopotów. Chodzi mi bardziej o wewnętrzne dyski SSD (np. ze
+starego laptopa), które zamkniemy w dedykowanej obudowie USB, lub też będziemy taki dysk podłączać
+na krótko za pomocą adaptera USB-SATA. W takich przypadkach zwykle kernel linux'a nie odważy się
+włączyć wsparcia dla TRIM dla nośników SSD i tak właśnie się stało w przypadku mojego nowo
+zakupionego dysku od Goodram, a konkretnie jest to model <code>SSDPR-CX400-02T-G2</code> , który to został
+podłączony do portu USB3 mojego Raspberry PI (i Debiana) przy pomocy kabelka USB-SATA (Unitek
+USB3.1 USB-A to 2.5&quot; SATA6G). Przez kilka miesięcy dysk sprawował się bez zarzutu ale ostatnio przy
+próbie wgrania na niego danych (przez sieć), transfer spadł do dosłownie pojedynczych MiB/s.
+Poszukałem trochę informacji i okazało się, że dla tego typu nośników <a href="https://www.jeffgeerling.com/blog/2020/enabling-trim-on-external-ssd-on-raspberry-pi">trzeba ręcznie włączyć
+TRIM</a>, o ile będzie to w ogóle możliwe.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2024-06-16T16:30:00&#43;02:00">Opublikowano: 16/06/2024</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>, 
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/raspberrypi/" rel="category">RaspberryPi</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/przestrzen-wymiany-swap-tylko-na-potrzebny-hibernacji-w-debian-linux/">Przestrzeń wymiany SWAP tylko na potrzebny hibernacji w Debian linux</a></h1>
 	<div class="entry__content"><p>W obecnych czasach, rola przestrzeni wymiany w zasadzie ograniczyła się z grubsza do umożliwienia
 nam przeprowadzenia procesu hibernacji. Inne aspekty pracy systemu, w których SWAP brał udział
@@ -143,7 +174,7 @@ nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w pr
 zaszyfrowanego systemu na bazie LUKS+LVM.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2023-12-15T17:00:00&#43;01:00">Opublikowano: 15/12/2023</time>
-	<time class="entry__meta-lastmod meta-lastmod" datetime="2024-01-06T17:30:00&#43;01:00">Zaktualizowano: 06/01/2024</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2024-06-16T16:30:00&#43;02:00">Zaktualizowano: 16/06/2024</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -343,30 +374,6 @@ pewno?</p></div>
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/dysk-pendrive-inne-nosniki-pod-openwrt/">Dysk, pendrive i inne nośniki pod OpenWRT</a></h1>
-	<div class="entry__content"><p>Czym by był router bez portów USB? Obecnie chyba wszystkie routery posiadają przy najmniej jeden
-taki port. Umożliwia to podłączenie pendrive, dysku USB, drukarki i innych urządzeń posiadających
-interfejs USB. W przypadku, gdy posiadamy jeden port USB i chcemy podłączyć dwa (lub więcej)
-urządzenia, musimy skorzystać z hubów USB. Ja w przypadku swojego routera <a href="http://www.tp-link.com.pl/products/details/TL-WR1043ND.html">TP-LINK TL-WR1043N/ND
-v2</a> mam zastosowane właśnie takie
-rozwiązanie. Niby potrzebuję trzy porty USB, a ten router ma tylko jeden. Co prawda, pojawia się
-problem z zapotrzebowaniem na energię ale aktywne huby USB wyposażone w zasilacze niwelują tę
-dolegliwość. Ten wpis ma na celu przedstawić zarządzanie tymi wszystkimi nośnikami pod OpenWRT.
-Zostanie tutaj pokazane jak stworzyć i zamontować partycje o systemie plików EXT4, NTFS, FAT.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2016-04-27T00:32:19Z">Opublikowano: 27/04/2016</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
 	</span>
 </div>
 	</div>

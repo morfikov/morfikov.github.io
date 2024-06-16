@@ -15,7 +15,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
     <meta property="article:published_time" content="2023-12-15T17:00:00+01:00">
-    <meta property="article:modified_time" content="2024-01-06T17:30:00+01:00">
+    <meta property="article:modified_time" content="2024-06-16T16:30:00+02:00">
     <meta property="article:tag" content="Debian">
     <meta property="article:tag" content="Ssd">
     <meta property="article:tag" content="Trim">
@@ -27,9 +27,9 @@
   <meta itemprop="name" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux">
   <meta itemprop="description" content="Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a. Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim postawić świeżego Debiana z wykorzystaniem narzędzia debootstrap. Sama instalacja linux&#39;a na dysku SSD nie różni się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper, który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku zaszyfrowanego systemu na bazie LUKS&#43;LVM.">
   <meta itemprop="datePublished" content="2023-12-15T17:00:00+01:00">
-  <meta itemprop="dateModified" content="2024-01-06T17:30:00+01:00">
-  <meta itemprop="wordCount" content="11396">
-  <meta itemprop="keywords" content="Debian,Ssd,Trim,Discard,Luks,Lvm,System-Plików,Ext4,Sysctl,Udev">
+  <meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
+  <meta itemprop="wordCount" content="11480">
+  <meta itemprop="keywords" content="Debian,Ssd,Trim,Discard,Luks,Lvm,System-Plików,Ext4,Sysctl,Udev,Usb">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux">
@@ -103,7 +103,7 @@
 			<article class="entry">
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2023-12-15T17:00:00&#43;01:00">Opublikowano: 15/12/2023</time>
-	<time class="entry__meta-lastmod meta-lastmod" datetime="2024-01-06T17:30:00&#43;01:00">Zaktualizowano: 06/01/2024</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2024-06-16T16:30:00&#43;02:00">Zaktualizowano: 16/06/2024</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -225,6 +225,7 @@
     <li><a href="#dobór-dyspozytoraplanisty-dla-dysku-ssd-scheduler">Dobór dyspozytora/planisty dla dysku SSD (scheduler)</a></li>
     <li><a href="#fragmentacja-danych-na-dysku-ssd">Fragmentacja danych na dysku SSD</a></li>
     <li><a href="#test-wydajności-dysku-ssd-pod-linux">Test wydajności dysku SSD pod linux</a></li>
+    <li><a href="#problematyczny-trimdiscard-w-dyskach-ssd-na-usb">Problematyczny trim/discard w dyskach SSD na USB</a></li>
     <li><a href="#podsumowanie">Podsumowanie</a></li>
   </ol>
 </nav>
@@ -1506,6 +1507,13 @@ zastosowaniem mechanizmu TRIM:</p>
 </code></pre>
 <p>Także jest trochę szybciej ale raczej jest to zaleta technologi MLC, w stosunku do TLC, która
 została zastosowana w przypadku dysku użytkownika @Jacekalex.</p>
+<h2 id="problematyczny-trimdiscard-w-dyskach-ssd-na-usb">Problematyczny trim/discard w dyskach SSD na USB</h2>
+<p>Wygląda na to, że w przypadku dysków SSD podpiętych do portu USB komputera przy pomocy adaptera
+USB-SATA (lub zewnętrznej obudowy USB), mechanizm TRIM jest domyślnie wyłączony, bo w takich
+konfiguracjach może on doprowadzić do uszkodzenia danych lub też całkowitego uwalenia nośnika SSD.
+Zwykle jednak, mechanizm TRIM w tego typu sytuacjach da radę bez obaw włączyć, choć trzeba mieć na
+uwadze kilka istotnych kwestii. Zagadnienie <a href="https://morfikov.github.io/post/trim-unmap-w-dyskach-ssd-podlaczonych-viaaadapter-usb-sata-na-linux/">włączenia TRIM dla dysków SSD podpiętych po USB</a>
+zostało opisane w osobnym artykule.</p>
 <h2 id="podsumowanie">Podsumowanie</h2>
 <p>Poprawne skonfigurowanie trim/discard w przypadku dysków SSD na linux, to podstawa jeśli chcemy z
 tego typu nośników pamięci masowej korzystać. Proces konfiguracji tego mechanizmu w aktualnych
@@ -1531,6 +1539,7 @@ wydłużona jego żywotność.</p></div>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ext4/">Ext4</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/sysctl/">Sysctl</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/udev/">Udev</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/usb/">Usb</a>
 </div>
 					
 <div class="entry__share share">
@@ -1598,7 +1607,7 @@ wydłużona jego żywotność.</p></div>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przepisac-linki-initrd-img-old-i-vmlinuz-old-do-boot/">Jak przepisać linki initrd.img{,.old} i vmlinuz{,.old} z / do /boot/</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/">Badsector dysku HDD w kontenerze LUKS zawierającym LVM</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/wybudzanie-linuxa-ze-stanu-uspienia-za-sprawa-myszy/">Wybudzanie linux&#39;a ze stanu uśpienia za sprawą myszy</a></li>
 		
 	</ul>
 </div>

@@ -6,7 +6,54 @@
     <description>Recent content in Usb on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Tue, 30 Nov 2021 20:25:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/usb/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Jun 2024 16:30:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/usb/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux</title>
+      <link>https://morfikov.github.io/post/trim-unmap-w-dyskach-ssd-podlaczonych-via-adapter-usb-sata-na-linux/</link>
+      <pubDate>Sun, 16 Jun 2024 16:30:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/trim-unmap-w-dyskach-ssd-podlaczonych-via-adapter-usb-sata-na-linux/</guid>
+      <description>&lt;p&gt;Jakiś czas temu opisywałem &lt;a href=&#34;https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/&#34;&gt;jak na Debianie włączyć obsługę mechanizmu TRIM&lt;/a&gt; (realizowanego
+przez polecenie &lt;code&gt;fstrim&lt;/code&gt; ) na podpiętych do komputera dyskach SSD. Problem w tym, że dyski SSD, z
+którymi będziemy wchodzić w interakcję, nie zawsze będą podłączane do dedykowanych portów
+SATA/mSATA. Jak zachowa się zatem nasz linux, gdy będziemy chcieli podłączyć po portu USB
+zewnętrzny dysk SSD? Przez zewnętrzny dysk USB nie mam na myśli dedykowanych zewnętrznych dysków
+USB, bo te raczej nie powinny sprawiać kłopotów. Chodzi mi bardziej o wewnętrzne dyski SSD (np. ze
+starego laptopa), które zamkniemy w dedykowanej obudowie USB, lub też będziemy taki dysk podłączać
+na krótko za pomocą adaptera USB-SATA. W takich przypadkach zwykle kernel linux&#39;a nie odważy się
+włączyć wsparcia dla TRIM dla nośników SSD i tak właśnie się stało w przypadku mojego nowo
+zakupionego dysku od Goodram, a konkretnie jest to model &lt;code&gt;SSDPR-CX400-02T-G2&lt;/code&gt; , który to został
+podłączony do portu USB3 mojego Raspberry PI (i Debiana) przy pomocy kabelka USB-SATA (Unitek
+USB3.1 USB-A to 2.5&amp;quot; SATA6G). Przez kilka miesięcy dysk sprawował się bez zarzutu ale ostatnio przy
+próbie wgrania na niego danych (przez sieć), transfer spadł do dosłownie pojedynczych MiB/s.
+Poszukałem trochę informacji i okazało się, że dla tego typu nośników &lt;a href=&#34;https://www.jeffgeerling.com/blog/2020/enabling-trim-on-external-ssd-on-raspberry-pi&#34;&gt;trzeba ręcznie włączyć
+TRIM&lt;/a&gt;, o ile będzie to w ogóle możliwe.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux</title>
+      <link>https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/</link>
+      <pubDate>Fri, 15 Dec 2023 17:00:00 +0100</pubDate>
+      
+      <guid>https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/</guid>
+      <description>&lt;p&gt;Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go
+na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i
+experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera
+LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo
+zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a.
+Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim &lt;a href=&#34;https://morfikov.github.io/post/instalacja-debiana-z-wykorzystaniem-debootstrap/&#34;&gt;postawić świeżego
+Debiana z wykorzystaniem narzędzia debootstrap&lt;/a&gt;. Sama instalacja linux&#39;a na dysku SSD nie różni
+się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu
+trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został
+poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest &lt;a href=&#34;https://en.wikipedia.org/wiki/Device_mapper&#34;&gt;device-mapper&lt;/a&gt;,
+który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem
+LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się
+nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku
+zaszyfrowanego systemu na bazie LUKS+LVM.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Automatyczny restart połączenia LTE na routerze WiFi z OpenWRT</title>

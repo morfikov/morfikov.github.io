@@ -17,7 +17,7 @@
 		
   <meta itemprop="name" content="Debian">
   <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="dateModified" content="2024-01-10T20:05:00+01:00">
+  <meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Debian">
@@ -93,6 +93,39 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/kopia-zapasowa-danych-smartfona-z-androidem-oandbackupx-syncthing/">Kopia zapasowa danych smartfona z Androidem (OAndBackupX, Syncthing)</a></h1>
+	<div class="entry__content"><p>Jak to zwykło się mawiać w świecie IT: ludzie dzielą się na te osobniki, które robią backup i
+te, co backup robić będą. Jakiś czas temu pochyliłem się nad zagadnieniem <a href="https://morfikov.github.io/post/czy-smartfon-z-androidem-bez-google-apps-services-ma-sens/">czy smartfon z
+Androidem bez Google Play Services ma sens</a>. Poruszyłem tam problem tworzenia kopi zapasowej
+danych użytkownika zgromadzonych w telefonie. W tym podlinkowanym artykule zostało przestawione jak
+przy pomocy TWRP dokonać pełnego backupu całego systemu urządzenia i o ile pod względem technicznym
+takie podejście było jak najbardziej w pełni do zaakceptowania, to jednak to rozwiązanie miało dość
+istotną wadę, tj. na czas backup'u trzeba było wyłączyć smartfon. Parę dni temu natrafiłem
+na <a href="https://github.com/machiav3lli/oandbackupx">narzędzia OAndBackupX</a>, które jest w stanie zrobić kopię zapasową wszystkich zainstalowanych
+w Androidzie aplikacji (oraz ich ustawień), wliczając w to nawet appki systemowe. OAndBackupX jest
+o tyle lepszym rozwiązaniem w stosunku do TWRP, że można przy jego pomocy robić kopię danych
+pojedynczych aplikacji, a nie od razu całego ROM'u, co nie tylko jest czasochłonne ale również
+zjada sporo miejsca na dysku komputera, czy gdzie ten backup zamierzamy przechowywać. Niestety
+OAndBackupX wymaga uprawnień root, zatem na stock'owym ROM'ie producenta naszego telefonu nie damy
+rady z tego narzędzia skorzystać. Jeśli jednak mamy alternatywny ROM na bazie AOSP/LineageOS, to
+przydałoby się rzucić okiem na ten kawałek oprogramowania, bo zdaje się ono być wielce użyteczne,
+zwłaszcza w przypadku osób mojego pokroju, czyli linux'iarzy, którzy o backup swoich danych chcą
+zatroszczyć się tylko i wyłącznie we własnym zakresie, zaprzęgając do pracy choćby <a href="https://github.com/syncthing/syncthing">Syncthing</a>.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2021-09-26T16:44:00&#43;02:00">Opublikowano: 26/09/2021</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>, 
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -339,34 +372,6 @@ wspiera on póki co protokołu NTS</a>. Trzeba będzie zatem się go pozbyć i z
 z pakietu <code>ntpsec</code> .</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-09-27T12:29:00&#43;02:00">Opublikowano: 27/09/2020</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/">Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux</a></h1>
-	<div class="entry__content"><p>Ostatnio na forum dug.net.pl jeden z użytkowników <a href="https://forum.dug.net.pl/viewtopic.php?id=31524">miał dość spory problem</a> z ogarnięciem
-zadania polegającego na zaszyfrowaniu zapytań DNS z wykorzystaniem <a href="https://dnscrypt.info/">dnscrypt-proxy</a> i
-<a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a>. Ładnych parę lat temu opisywałem <a href="https://morfikov.github.io/tags/resolver/">jak skonfigurować te dwa narzędzia na Debianie</a>
-(i też na OpenWRT), choć od tamtego czasu w świecie linux'owym trochę rzeczy się pozmieniało. Dla
-przykładu, dnscrypt-proxy przeszedł gruntowną przebudowę, no i też systemd jest w powszechniejszym
-użyciu niż to miało miejsce w tamtych czasach, przez co w sporej części przypadków usługi takie jak
-<code>systemd-networkd.service</code> czy <code>systemd-resolved.service</code> są już włączone domyślnie. Zatem sporo
-informacji zawartych w tych napisanych przeze mnie artykułach już niekoniecznie może znaleźć
-obecnie zastosowanie. Dlatego też pomyślałem, że nadszedł już czas, by ździebko zaktualizować tamte
-wpisy. Ostatecznie stanęło jednak na tym, by w oparciu o te artykuły napisać kompletnie nowy tekst
-na temat szyfrowania zapytań DNS na linux przy wykorzystaniu oprogramowania <code>dnscrypt-proxy</code> oraz
-<code>dnsmasq</code> i zawrzeć w nim te wszystkie ciekawsze informacje, które udało mi się pozyskać przez te
-ostatnie lata w kwestii poprawy bezpieczeństwa i prywatności przy przeglądaniu stron WWW.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-09-19T14:13:00&#43;02:00">Opublikowano: 19/09/2020</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

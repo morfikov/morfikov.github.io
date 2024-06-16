@@ -6,7 +6,31 @@
     <description>Recent content in Ssd on Morfitronik</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language>
-    <lastBuildDate>Wed, 10 Jan 2024 20:05:00 +0100</lastBuildDate><atom:link href="https://morfikov.github.io/tags/ssd/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Jun 2024 16:30:00 +0200</lastBuildDate><atom:link href="https://morfikov.github.io/tags/ssd/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+	  <author>Mikhail Morfikov</author>
+      <title>TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux</title>
+      <link>https://morfikov.github.io/post/trim-unmap-w-dyskach-ssd-podlaczonych-via-adapter-usb-sata-na-linux/</link>
+      <pubDate>Sun, 16 Jun 2024 16:30:00 +0200</pubDate>
+      
+      <guid>https://morfikov.github.io/post/trim-unmap-w-dyskach-ssd-podlaczonych-via-adapter-usb-sata-na-linux/</guid>
+      <description>&lt;p&gt;Jakiś czas temu opisywałem &lt;a href=&#34;https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/&#34;&gt;jak na Debianie włączyć obsługę mechanizmu TRIM&lt;/a&gt; (realizowanego
+przez polecenie &lt;code&gt;fstrim&lt;/code&gt; ) na podpiętych do komputera dyskach SSD. Problem w tym, że dyski SSD, z
+którymi będziemy wchodzić w interakcję, nie zawsze będą podłączane do dedykowanych portów
+SATA/mSATA. Jak zachowa się zatem nasz linux, gdy będziemy chcieli podłączyć po portu USB
+zewnętrzny dysk SSD? Przez zewnętrzny dysk USB nie mam na myśli dedykowanych zewnętrznych dysków
+USB, bo te raczej nie powinny sprawiać kłopotów. Chodzi mi bardziej o wewnętrzne dyski SSD (np. ze
+starego laptopa), które zamkniemy w dedykowanej obudowie USB, lub też będziemy taki dysk podłączać
+na krótko za pomocą adaptera USB-SATA. W takich przypadkach zwykle kernel linux&#39;a nie odważy się
+włączyć wsparcia dla TRIM dla nośników SSD i tak właśnie się stało w przypadku mojego nowo
+zakupionego dysku od Goodram, a konkretnie jest to model &lt;code&gt;SSDPR-CX400-02T-G2&lt;/code&gt; , który to został
+podłączony do portu USB3 mojego Raspberry PI (i Debiana) przy pomocy kabelka USB-SATA (Unitek
+USB3.1 USB-A to 2.5&amp;quot; SATA6G). Przez kilka miesięcy dysk sprawował się bez zarzutu ale ostatnio przy
+próbie wgrania na niego danych (przez sieć), transfer spadł do dosłownie pojedynczych MiB/s.
+Poszukałem trochę informacji i okazało się, że dla tego typu nośników &lt;a href=&#34;https://www.jeffgeerling.com/blog/2020/enabling-trim-on-external-ssd-on-raspberry-pi&#34;&gt;trzeba ręcznie włączyć
+TRIM&lt;/a&gt;, o ile będzie to w ogóle możliwe.&lt;/p&gt;</description>
+    </item>
+    
     <item>
 	  <author>Mikhail Morfikov</author>
       <title>Przestrzeń wymiany SWAP tylko na potrzebny hibernacji w Debian linux</title>
@@ -397,21 +421,6 @@ rozmiar partycji, której systemem plików jest właśnie EXT4. Bawienie się ro
 przypadku niczym zbytnio się nie różni w stosunku do omawianego wcześniej &lt;a href=&#34;https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/&#34;&gt;systemu plików
 NTFS&lt;/a&gt;. Będziemy wykorzystywać
 tylko nieco inne narzędzia.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-	  <author>Mikhail Morfikov</author>
-      <title>Zmiana rozmiaru partycji NTFS pod linux&#39;em</title>
-      <link>https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/</link>
-      <pubDate>Wed, 16 Dec 2015 18:03:54 +0000</pubDate>
-      
-      <guid>https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ntfs-pod-linuxem/</guid>
-      <description>&lt;p&gt;Zmiana rozmiaru partycji, nie tylko tej zawierającej system plików NTFS, nie sprawia w dzisiejszych
-czasach praktycznie żadnych problemów. Mamy przecie do dyspozycji takie narzędzia jak
-&lt;a href=&#34;http://gparted.org/&#34;&gt;gparted&lt;/a&gt;, które w dużej mierze automatyzują cały proces tworzenia i usuwania
-partycji, czy też zmiany ich rozmiaru. W tym wpisie przyjrzymy się temu procesowi z bliska, z tym,
-że nie będziemy korzystać z żadnych graficznych nakładek. Wszystkie kroki postaramy się
-zreprodukować ręcznie z poziomu konsoli przy pomocy takich narzędzi jak &lt;code&gt;fdisk&lt;/code&gt; czy &lt;code&gt;ntfsresize&lt;/code&gt; .&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -17,7 +17,7 @@
 		
   <meta itemprop="name" content="Linux">
   <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="dateModified" content="2024-06-08T13:55:00+02:00">
+  <meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Linux">
@@ -93,6 +93,36 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-sklonowac-duze-repozytorium-git-na-niestabilnym-laczu-sieciowym/">Jak sklonować duże repozytorium git na niestabilnym łączu sieciowym</a></h1>
+	<div class="entry__content"><p>Połączenie z internetem, z którego ostatnio przyszło mi korzystać, nie należało zbytnio do tych
+najbardziej wydajnych pod względem prędkości przesyłu danych. O ile szybkość transferu można by
+jeszcze przemilczeć, to owe łącze nie należało też do tych najstabilniejszych i czasem kontakt
+ze światem był zwyczajnie zrywany. Krótko rzecz ujmując, ten net nadawał się chyba jedynie do
+przeglądania stron WWW. Pech jednak chciał, że potrzebowałem zassać na takim
+połączeniu <a href="https://salsa.debian.org/kernel-team/linux">repozytorium git'a z patch'ami Debiana</a>
+nakładanymi na kernel linux'a. To repozytorium nie należy do największych ale też do małych ono
+się nie zalicza -- waży około 2 GiB. Oczywiście można by zrobić jedynie płytki klon takiego repo za
+sprawą <code>git clone --depth=1</code> , co skutkowałoby pobraniem plików w wersji z ostatniego commit'a, co
+z kolei zredukowałoby w znacznym stopniu wielkość pobieranych danych (parę-paręnaście MiB). Co
+jednak zrobić w przypadku, gdy musimy sklonować sporych rozmiarów repozytorium git, a dysponujemy
+przy tym dość wolnym połączeniem sieciowym? Czy jest to w ogóle możliwe, bo przecież git nie ma
+zaimplementowanej opcji wznawiania przerwanej synchronizacji i każde zakłócenie tego procesu
+skutkować będzie tym, że całe repozytorium trzeba będzie pobrać jeszcze raz i to bez względu na to,
+czy proces się zawiesi zaraz na początku, czy też pod koniec operacji.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-02-16T05:29:25Z">Opublikowano: 16/02/2019</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -333,37 +363,6 @@ tak i w tym artykule prześledzimy sobie cały ten proces.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2018-12-27T22:14:00Z">Opublikowano: 27/12/2018</time>
 	<time class="entry__meta-lastmod meta-lastmod" datetime="2021-04-30T06:00:00&#43;02:00">Zaktualizowano: 30/04/2021</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-serwer-xmpp-jabber-linux-ejabberd/">Konfiguracja serwera XMPP/Jabber pod linux (ejabberd)</a></h1>
-	<div class="entry__content"><p>Użytkownicy internetu mają całą masę różnych sposobów na komunikację miedzy sobą. Kiedyś wszyscy
-korzystali z komunikatorów typu Gadu-Gadu. Ja byłem jedyną osobą, która od samego początku wolała
-alternatywne rozwiązania i jechałem na komunikatorze Tlen (ten od O2), a w niedługim czasie
-przesiadłem się na Jabber'a i tak z niego korzystam do dziś. W zasadzie GG i Tlen są obecnie już
-chyba na wymarciu, bo większość ludzi (jak nie wszyscy) przerzuciła się na Facebook'a czy Twitter'a.
-Niemniej jednak, pisanie o sprawach prywatnych w tych serwisach nie jest najlepszym rozwiązaniem.
-Jeśli chcemy zadbać o poufność przesyłanych przez internet komunikatów, to trzeba to robić na inne
-sposoby. Jednym z nich jest właśnie korzystanie z <a href="https://xmpp.org/">protokołu XMPP/Jabber</a>. To co odróżnia
-Jabber'a od innych technologii na rynku, to fakt zdecentralizowania sieci, czyli mamy całą masę
-serwerów Jabber'a, na których możemy sobie stworzyć konto. Uwalenie jednego serwera nie wpływa na
-działanie pozostałych. Google także wykorzystuje protokół XMPP/Jabber i mając konto na gmail'u,
-mamy również stosowny JID w postaci adresu email, który możemy sobie wklepać do jednego z klientów
-Jabber'a, np. <a href="https://xmpp.org/software/clients.html">PSI czy Gajim</a>, i jesteśmy już w stanie rozmawiać z osobami, które mają konta na
-innych serwerach. Właśnie, inne serwery, a może by tak sobie postawić własny serwer Jabber'a? Tak
-się składa, że w repozytorium Debiana znajduje się <a href="https://www.ejabberd.im/">oprogramowanie ejabberd</a>, które jest nam w
-stanie umożliwić realizację tego przedsięwzięcia.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2017-03-20T20:26:15Z">Opublikowano: 20/03/2017</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
