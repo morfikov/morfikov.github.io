@@ -1585,4 +1585,4 @@ wydłużona jego żywotność.
 [32]: https://docs.kernel.org/block/blk-mq.html
 [33]: https://en.wikipedia.org/wiki/Noop_scheduler
 [34]: https://www.kernel.org/doc/html/latest/block/bfq-iosched.html
-[35]: /post/trim-unmap-w-dyskach-ssd-podlaczonych-viaaadapter-usb-sata-na-linux/
+[35]: /post/trim-unmap-w-dyskach-ssd-podlaczonych-via-adapter-usb-sata-na-linux/
