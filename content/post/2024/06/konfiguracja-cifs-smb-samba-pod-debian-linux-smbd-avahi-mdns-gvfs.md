@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Linux
 date:    2024-06-03 20:00:00 +0200
-lastmod: 2024-06-03 20:00:00 +0200
+lastmod: 2024-06-16 16:30:00 +0200
 published: true
 status: publish
 tags:
@@ -1243,6 +1243,37 @@ korzystać.
 
 ![cifs-smb-samba-password-keepassxc](/img/2024/06/005.cifs-smb-samba-password-keepassxc.png#huge)
 
+## Problemy z wydajnością CIFS/SMB/SAMBA przez GVFS
+
+Wygląda na to, że ta opisana tutaj automatyczna konfiguracja zasobów CIFS/SMB/SAMBA ma dość spore
+problemy z wydajnością, gdy wykorzystywany jest GVFS. W moim przypadku osiągane transfery plików są
+na poziomie 35-40MiB/s, co jest wynikiem dość słabym. Dla porównania, transfery osiągane, gdy ten
+sam zasób jest montowany z wykorzystaniem polecenia `mount` i pliku `/etc/fstab` , wysycają
+praktycznie w całości łącze gigabitowe. [Ten problem jest znany od lat i do tej pory nie został
+rozwiązany][22]. Zatem jeśli zależy nam na wydajności i szybkim transferze (zwłaszcza dużych
+plików), to CIFS/SMB/SAMBA przez GVFS raczej odpada.
+
+## Kwestia domeny .local
+
+W mojej sieci domowej od lat była skonfigurowana domena `.mhouse` . Niemniej jednak, w tym artykule
+została skonfigurowana również druga domena, tj. `.local` . Pytanie nasuwa się wiec takie, czy
+potrzebne nam są dwie domeny, czy wystarczy jedna z nich?
+
+Teoretycznie wystarczyłaby nam jedynie domena `.local` , bo rozwiązywanie nazw w protokole mDNS na
+tej domenie domyślnie operuje. Niemniej jednak, ta domena jest dość wyjątkowa i [została
+zarezerwowana na potrzeby specjalnego wykorzystania][23]. W tym podlinkowanym artykule są
+wymienione za i przeciw dla stosowania tej domeny w sieciach lokalnych/domowych. Ja jednak
+skłaniałbym się do korzystania z dwóch osobnych domen, tj. jedna (w tym przypadku `.mhouse` ) dla
+sieci lokalnej, druga zaś `.local` dla mechanizmu mDNS.
+
+Nic raczej nie stoi na przeszkodzie, by korzystać jedynie z domeny `.local` w sieciach, gdzie mamy
+obecne jedynie same maszyny z system operacyjnym na bazie linux'a. Trzeba jednak pamiętać, że
+domyślna konfiguracja systemu (określona w pliku `/etc/nsswitch.conf` ) będzie wymagać od nas, by
+`avahi-daemon` był w naszym Debianie aktywny. Chodzi generalnie o to, że `avahi-daemon` będzie
+rozwiązywał zapytania w domenie `.local` i  jeśli go zabraknie, to zapytania o tę domenę nie będą
+rozwiązywane już dalej przez system DNS. Przynajmniej taka jest domyślna konfiguracja, którą
+naturalnie możemy sobie zmienić.
+
 ## Podsumowanie
 
 Trzeba tutaj wyraźnie zaznaczyć, że mechanizm opisany w niniejszym artykule nie jest niezbędny do
@@ -1279,3 +1310,5 @@ zaimplementować, trzeba tylko pamiętać o jego zabezpieczeniu.
 [19]: https://ubuntu.com/security/fips
 [20]: https://en.wikipedia.org/wiki/Kerberos_(protocol)
 [21]: https://www.cloudflare.com/learning/dns/glossary/reverse-dns/
+[22]: https://gitlab.gnome.org/GNOME/gvfs/-/issues/292
+[23]: https://en.wikipedia.org/wiki/.local
