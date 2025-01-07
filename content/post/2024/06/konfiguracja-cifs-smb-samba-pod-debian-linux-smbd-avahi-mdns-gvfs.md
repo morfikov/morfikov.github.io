@@ -60,7 +60,7 @@ pakietu `gvfs-daemons` ) wraz z paroma backend'ami gvfs (z pakietu `gvfs-backend
 
 Poniżej jest lista rzeczy, które musimy zainstalować w swoim linux'ie.
 
-    # apptitude install \
+    # aptitude install \
         samba \
         libnss-mdns
         avahi-daemon avahi-utils \
