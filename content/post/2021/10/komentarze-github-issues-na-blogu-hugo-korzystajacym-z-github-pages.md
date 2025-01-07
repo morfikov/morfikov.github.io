@@ -51,7 +51,7 @@ komentarzy i te komentarze można wyświetlić pod konkretnymi postami na blogu.
 
 ### Konto na GitHub i potrzeba logowania
 
-Komentarze oparte o GitHub Issues nie są pozbawione was. Pierwszy problem dotyczy logowania. Disqus
+Komentarze oparte o GitHub Issues nie są pozbawione wad. Pierwszy problem dotyczy logowania. Disqus
 oferował możliwość komentowania bez identyfikacji autorów komentarzy, przynajmniej patrząc z
 perspektywy samego bloga. W przypadku GitHub Issues już takiej możliwości nie będzie. By być w
 stanie skomentować jakiś post, trzeba posiadać konto w [serwisie GitHub][5]. Naturalnie, by
