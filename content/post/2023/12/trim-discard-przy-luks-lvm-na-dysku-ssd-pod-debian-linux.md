@@ -890,7 +890,7 @@ komórek flash konkretnego dysku SSD nie zaszkodzi.
 ## Opcje systemu plików EXT4
 
 Poniżej zostały zebrane te bardziej użyteczne opcje systemu plików EXT4, które są w stanie wpłynąć
-w pozytywny sposób na działanie systemu operacyjnej oraz przy okazji odciążyć nieco nasz dysk SSD.
+w pozytywny sposób na działanie systemu operacyjnego oraz przy okazji odciążyć nieco nasz dysk SSD.
 
 ### Opcje relatime, atime, noatime, strictatime, nodiratime i lazytime
 
