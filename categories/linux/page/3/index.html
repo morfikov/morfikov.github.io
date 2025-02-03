@@ -17,8 +17,8 @@
 		
   <meta itemprop="name" content="Linux">
   <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="datePublished" content="2024-06-16T16:30:00+02:00">
-  <meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
+  <meta itemprop="datePublished" content="2025-02-02T23:25:00+01:00">
+  <meta itemprop="dateModified" content="2025-02-02T23:25:00+01:00">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Linux">
@@ -30,7 +30,6 @@
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="alternate" type="application/rss+xml" href="https://morfikov.github.io/categories/linux/feed.xml" title="Morfitronik">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
-		
   
 
 
@@ -94,6 +93,38 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/uwierzytelnianie-odpowiedzi-z-serwerow-czasu-ntp-przy-pomocy-nts/">Uwierzytelnianie odpowiedzi z serwerów czasu NTP przy pomocy NTS</a></h1>
+	<div class="entry__content"><p>Przepisując ostatnio stare artykuły dotyczące <a href="https://morfikov.github.io/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/">zabezpieczenia zapytań DNS za sprawą wdrożenia na
+linux dnsmasq i dnscrypt-proxy</a>, natknąłem się <a href="https://blog.cloudflare.com/secure-time/">na informację</a>, że nie tylko komunikacja DNS
+w obecnych czasach w sporej mierze nie jest zaszyfrowana. W zasadzie każda maszyna podłączona do
+internetu potrzebuje dysponować w miarę dokładnym czasem. By ten czas był dokładny, wymyślono
+mechanizm synchronizacji czasu przez wysyłanie zapytań do serwerów NTP (<a href="https://pl.wikipedia.org/wiki/Network_Time_Protocol">Network Time Protocol</a>).
+Niemniej jednak, odpowiedzi z tych serwerów czasu nie są w żaden sposób zabezpieczone i praktycznie
+każdy na drodze tych pakietów może nam zmienić ustawienia czasu w systemie (MITM). W taki sposób
+możemy zostać cofnięci w czasie, co z kolei może oznaczać, że system zaakceptuje certyfikaty SSL/TLS
+czy też <a href="https://trimstray.github.io/posts/2019-07-21-nginx-optymalizacja_sesji_ssl-tls/#ssl_session_tickets">klucze/bilety sesji</a> (używane do wznawiania sesji TLS), które już dawno temu wygasły
+lub/i zostały w jakiś sposób skompromitowane. Pchnięcie nas do przodu w czasie również oznacza
+problemy, bo możemy zaakceptować certyfikat, który jeszcze nie zaczął być ważny. To z kolei otwiera
+drogę do odszyfrowania połączeń z serwisami WWW, a przecie nie po to szyfrujemy ruch, by go ktoś bez
+większego problemu odszyfrował. Dlatego też powinniśmy zadbać o to, by informacje o aktualnym czasie
+otrzymywane z sieci docierały do nas z wiarygodnego źródła i były w jakiś sposób uwierzytelnione.
+Na Debianie standardowo do synchronizacji czasu wykorzystywany jest <code>systemd-timesyncd</code> ale <a href="https://github.com/systemd/systemd/issues/9481">nie
+wspiera on póki co protokołu NTS</a>. Trzeba będzie zatem się go pozbyć i zastąpić go demonem <code>ntpd</code>
+z pakietu <code>ntpsec</code> .</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-09-27T12:29:00&#43;02:00">Opublikowano: 27/09/2020</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -360,31 +391,6 @@ CloudFlare powoli testują ESNI. Postanowiłem zatem dobrowolnie przyłączyć s
 wdrożyć na swoim linux'ie to rozszerzenie ESNI dla przeglądarki Firefox.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-08-10T18:15:00Z">Opublikowano: 10/08/2020</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zmienic-rozmiar-obrazu-maszyny-wirtualnej-qemu-kvm/">Jak zmienić rozmiar obrazu maszyny wirtualnej QEMU/KVM</a></h1>
-	<div class="entry__content"><p>Bawiąc się ostatnio <a href="https://morfikov.github.io/post/wirtualizacja-qemu-kvm-libvirt-na-debian-linux/">maszynami wirtualnymi na bazie QEMU/KVM</a>, zauważyłem, że sugerowany rozmiar
-pliku <code>.qcow2</code> waha się w okolicach 25 GiB. Nie jest to może jakoś specjalnie dużo ale mało to też
-nie jest, zwłaszcza jeśli tworzymy maszyny wirtualne na dysku swojego laptopa. Co jeśli
-przeholowaliśmy z szacunkami co do rozmiaru takiego obrazu i po zainstalowaniu systemu operacyjnego
-gościa okazało się, że w sumie to ten obraz można by zmniejszyć o połowę? Albo też i w drugą stronę,
-tj. co w przypadku, gdy stworzony obraz maszyny wirtualnej okazał się zbyt mały i teraz zachodzi
-potrzeba jego powiększenia? Czy w takiej sytuacji musimy na nowo tworzyć maszynę wirtualną
-odpowiednio zwiększając lub zmniejszając jej przestrzeń na pliki? A może istnieje jakiś sposób na
-zmianę rozmiaru tych istniejących już obrazów maszyn wirtualnych? Postaramy się ten fakt
-zweryfikować, a cały proces zostanie opisany przy wykorzystaniu systemu Debian Linux.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-08-09T13:45:00Z">Opublikowano: 09/08/2020</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

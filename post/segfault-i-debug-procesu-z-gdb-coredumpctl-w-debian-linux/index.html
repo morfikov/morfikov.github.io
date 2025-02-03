@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Segfault i debug procesu z GDB/coredumpctl w Debian Linux | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:url" content="https://morfikov.github.io/post/segfault-i-debug-procesu-z-gdb-coredumpctl-w-debian-linux/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Segfault i debug procesu z GDB/coredumpctl w Debian Linux">
+  <meta property="og:description" content="Każdy z nas korzysta z całej masy aplikacji na swoich linux&#39;ach. Na ogół te appki działają w sposób oczekiwany i nie ma z nimi większych problemów. Czasem jednak zdarza się tak, że z jakiegoś powodu taki program niespodziewanie kończy swoje działanie i w konsoli (czy logu systemowym) zostaje wydrukowany komunikat zawierający frazę segfault (segmentation fault, naruszenie ochrony pamięci). Ostatnio taki problem dotknął jedną z moich ulubionych aplikacji, z których korzystam na co dzień, tj. strawberry . Gdyby ta sytuacja wystąpiła raz, to pewnie nawet bym się nią bardziej nie zainteresował ale w tym przypadku ten cały segfault potrafił wyskoczyć kilka-kilkanaście razy w ciągu godziny, co trochę zaczęło mnie irytować. Postanowiłem poszukać przyczyny i nawet znalazłem stosowny bug na git projektu strawberry, no ale sytuacja niby nowa, a mi ta appka crash&#39;owała od dobrych kilku tygodni, jeśli nie miesięcy. Dlatego też zacząłem udzielać się w tamtym wątku i przy okazji nauczyłem się jak przy pomocy gdb (GNU Debugger) pozyskać nieco bardziej użyteczne informacje i podesłać je deweloperowi aplikacji, tak by był on w stanie namierzyć przyczynę i wyeliminować zaistniały problem. W tym artykule została zebrana garść użytecznych informacji, które mogą przydać się użytkownikowi Debiana, na wypadek gdyby i jego aplikacje cierpiały na podobne problemy.">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2025-02-02T23:25:00+01:00">
+    <meta property="article:modified_time" content="2025-02-02T23:25:00+01:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Gdb">
+    <meta property="article:tag" content="Backtrace">
+    <meta property="article:tag" content="Debug">
+    <meta property="article:tag" content="Segfault">
+    <meta property="article:tag" content="Crash">
+
+		
+  <meta itemprop="name" content="Segfault i debug procesu z GDB/coredumpctl w Debian Linux">
+  <meta itemprop="description" content="Każdy z nas korzysta z całej masy aplikacji na swoich linux&#39;ach. Na ogół te appki działają w sposób oczekiwany i nie ma z nimi większych problemów. Czasem jednak zdarza się tak, że z jakiegoś powodu taki program niespodziewanie kończy swoje działanie i w konsoli (czy logu systemowym) zostaje wydrukowany komunikat zawierający frazę segfault (segmentation fault, naruszenie ochrony pamięci). Ostatnio taki problem dotknął jedną z moich ulubionych aplikacji, z których korzystam na co dzień, tj. strawberry . Gdyby ta sytuacja wystąpiła raz, to pewnie nawet bym się nią bardziej nie zainteresował ale w tym przypadku ten cały segfault potrafił wyskoczyć kilka-kilkanaście razy w ciągu godziny, co trochę zaczęło mnie irytować. Postanowiłem poszukać przyczyny i nawet znalazłem stosowny bug na git projektu strawberry, no ale sytuacja niby nowa, a mi ta appka crash&#39;owała od dobrych kilku tygodni, jeśli nie miesięcy. Dlatego też zacząłem udzielać się w tamtym wątku i przy okazji nauczyłem się jak przy pomocy gdb (GNU Debugger) pozyskać nieco bardziej użyteczne informacje i podesłać je deweloperowi aplikacji, tak by był on w stanie namierzyć przyczynę i wyeliminować zaistniały problem. W tym artykule została zebrana garść użytecznych informacji, które mogą przydać się użytkownikowi Debiana, na wypadek gdyby i jego aplikacje cierpiały na podobne problemy.">
+  <meta itemprop="datePublished" content="2025-02-02T23:25:00+01:00">
+  <meta itemprop="dateModified" content="2025-02-02T23:25:00+01:00">
+  <meta itemprop="wordCount" content="2259">
+  <meta itemprop="keywords" content="Debian,Gdb,Backtrace,Debug,Segfault,Crash,Coredump">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Segfault i debug procesu z GDB/coredumpctl w Debian Linux">
+  <meta name="twitter:description" content="Każdy z nas korzysta z całej masy aplikacji na swoich linux&#39;ach. Na ogół te appki działają w sposób oczekiwany i nie ma z nimi większych problemów. Czasem jednak zdarza się tak, że z jakiegoś powodu taki program niespodziewanie kończy swoje działanie i w konsoli (czy logu systemowym) zostaje wydrukowany komunikat zawierający frazę segfault (segmentation fault, naruszenie ochrony pamięci). Ostatnio taki problem dotknął jedną z moich ulubionych aplikacji, z których korzystam na co dzień, tj. strawberry . Gdyby ta sytuacja wystąpiła raz, to pewnie nawet bym się nią bardziej nie zainteresował ale w tym przypadku ten cały segfault potrafił wyskoczyć kilka-kilkanaście razy w ciągu godziny, co trochę zaczęło mnie irytować. Postanowiłem poszukać przyczyny i nawet znalazłem stosowny bug na git projektu strawberry, no ale sytuacja niby nowa, a mi ta appka crash&#39;owała od dobrych kilku tygodni, jeśli nie miesięcy. Dlatego też zacząłem udzielać się w tamtym wątku i przy okazji nauczyłem się jak przy pomocy gdb (GNU Debugger) pozyskać nieco bardziej użyteczne informacje i podesłać je deweloperowi aplikacji, tak by był on w stanie namierzyć przyczynę i wyeliminować zaistniały problem. W tym artykule została zebrana garść użytecznych informacji, które mogą przydać się użytkownikowi Debiana, na wypadek gdyby i jego aplikacje cierpiały na podobne problemy.">
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+  
+
+
+</head>
+<body class="body kind-page">
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Segfault i debug procesu z GDB/coredumpctl w Debian Linux</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2025-02-02T23:25:00&#43;01:00">Opublikowano: 02/02/2025</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+				<h1 class="entry__title">Segfault i debug procesu z GDB/coredumpctl w Debian Linux</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#debugger-gnu-gdb-oraz-symbole-debugowania">Debugger GNU (gdb) oraz symbole debugowania</a>
+      <ol>
+        <li><a href="#automatycznie-pobieranie-symboli-debugowania-przez-internet">Automatycznie pobieranie symboli debugowania przez internet</a></li>
+      </ol>
+    </li>
+    <li><a href="#konfiguracja-kernela">Konfiguracja kernela</a></li>
+    <li><a href="#konfiguracja-systemd-i-sysctl">Konfiguracja systemd i sysctl</a></li>
+    <li><a href="#backtrace-procesu">Backtrace procesu</a></li>
+    <li><a href="#czyszczenie-plików-coredump">Czyszczenie plików coredump</a></li>
+    <li><a href="#konfiguracja-usługi-systemd-coredump">Konfiguracja usługi systemd-coredump</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Każdy z nas korzysta z całej masy aplikacji na swoich linux'ach. Na ogół te appki działają w sposób
+oczekiwany i nie ma z nimi większych problemów. Czasem jednak zdarza się tak, że z jakiegoś powodu
+taki program niespodziewanie kończy swoje działanie i w konsoli (czy logu systemowym) zostaje
+wydrukowany komunikat zawierający frazę <code>segfault</code> (segmentation fault, naruszenie ochrony pamięci).
+Ostatnio taki problem dotknął jedną z moich ulubionych aplikacji, z których korzystam na co dzień,
+tj. <code>strawberry</code> . Gdyby ta sytuacja wystąpiła raz, to pewnie nawet bym się nią bardziej nie
+zainteresował ale w tym przypadku ten cały <code>segfault</code> potrafił wyskoczyć kilka-kilkanaście razy w
+ciągu godziny, co trochę zaczęło mnie irytować. Postanowiłem poszukać przyczyny i nawet <a href="https://github.com/strawberrymusicplayer/strawberry/issues/1633">znalazłem
+stosowny bug na git projektu strawberry</a>, no ale sytuacja niby nowa, a mi ta appka crash'owała
+od dobrych kilku tygodni, jeśli nie miesięcy. Dlatego też zacząłem udzielać się w tamtym wątku i
+przy okazji nauczyłem się jak przy pomocy <code>gdb</code> (GNU Debugger) pozyskać nieco bardziej użyteczne
+informacje i podesłać je deweloperowi aplikacji, tak by był on w stanie namierzyć przyczynę i
+wyeliminować zaistniały problem. W tym artykule została zebrana garść użytecznych informacji, które
+mogą przydać się użytkownikowi Debiana, na wypadek gdyby i jego aplikacje cierpiały na podobne
+problemy.</p>
+<h2 id="debugger-gnu-gdb-oraz-symbole-debugowania">Debugger GNU (gdb) oraz symbole debugowania</h2>
+<p>Przede wszystkim, by móc mówić o debugowaniu aplikacji, musimy zaopatrzyć się w odpowiednie
+narzędzia. Pierwszym z nim jest <code>gdb</code> , tj. <a href="https://www.gnu.org/software/gdb/">Debugger GNU</a>. W Debianie ten debugger znajduje się
+w pakiecie <code>gdb</code> i raczej nie powinno być problemów z jego instalacją w systemie.</p>
+<p>Drugą rzeczą, która będzie nam potrzebna, to symbole debugowania (debugging symbols). Każda
+aplikacja obecna w repozytoriach Debiana posiada takie symbole. By mieć do nich dostęp, trzeba
+dodać <a href="https://wiki.debian.org/AutomaticDebugPackages">archiwum AutomaticDebugPackages</a> do pliku <code>/etc/apt/sources.list</code> . W zależności z
+jakiego wydania Debiana korzystamy, to ten wpis będzie się nieco różnił. Poniżej jest przykład
+dla <code>sid</code> i <code>experimental</code> :</p>
+<pre><code>deb https://deb.debian.org/debian-debug/ sid-debug main
+deb https://deb.debian.org/debian-debug/ experimental-debug main
+</code></pre>
+<p>Posiadając odpowiednie wpisy w pliku <code>/etc/apt/sources.list</code> musimy pobrać nie tylko symbole dla
+aplikacji, która wyrzuca nam <code>segfault</code> ale też dla wszystkich bibliotek, z których ten program
+korzysta. W przeszłości z wyszukaniem tych dodatkowych pakietów mógł być problem ale obecnie mamy
+do dyspozycji narzędzie <code>find-dbgsym-packages</code> z pakietu <code>debian-goodies</code> , który jest nam w stanie
+te wszystkie pakiety bez większego problemu pomóc ustalić. Poniżej przykład dla <code>strawberry</code></p>
+<pre><code># find-dbgsym-packages /usr/bin/strawberry
+
+libasound2t64-dbgsym libasyncns0-dbgsym libatomic1-dbgsym libb2-1-dbgsym libblkid1-dbgsym
+libbrotli1-dbgsym libbz2-1.0-dbgsym libcap2-dbgsym libcdio19t64-dbgsym libchromaprint1-dbgsym
+libcom-err2-dbgsym libcurl3t64-gnutls-dbgsym libdbus-1-3-dbgsym libdouble-conversion3-dbgsym
+libduktape207-dbgsym libdw1t64-dbgsym libebur128-1-dbgsym libegl1-dbgsym libelf1t64-dbgsym
+libexpat1-dbgsym libffi8-dbgsym libfftw3-double3-dbgsym libflac12t64-dbgsym
+libfontconfig1-dbgsym libfreetype6-dbgsym libgcc-s1-dbgsym libgcrypt20-dbgsym
+libgdk-pixbuf-2.0-0-dbgsym libglib2.0-0t64-dbgsym libglvnd0-dbgsym libglx0-dbgsym
+libgmp10-dbgsym libgnutls30t64-dbgsym libgomp1-dbgsym libgpg-error0-dbgsym libgpod4t64-dbgsym
+libgraphite2-3-dbgsym libgstreamer-plugins-base1.0-0-dbgsym libgstreamer1.0-0-dbgsym
+libharfbuzz0b-dbgsym libhogweed6t64-dbgsym libicu72-dbgsym libidn2-0-dbgsym
+libimobiledevice-1.0-6-dbgsym libimobiledevice-glue-1.0-0-dbgsym libjpeg62-turbo-dbgsym
+libkeyutils1-dbgsym libkrb5-dbg libldap-2.5-0-dbgsym liblzma5-dbgsym libmd4c0-dbgsym
+libmount1-dbgsym libmp3lame0-dbgsym libmpg123-0t64-dbgsym libmtp9t64-dbgsym
+libnettle8t64-dbgsym libnghttp2-14-dbgsym libnghttp3-9-dbgsym libngtcp2-16-dbgsym
+libngtcp2-crypto-gnutls8-dbgsym libogg0-dbgsym libopengl0-dbgsym libopus0-dbgsym
+liborc-0.4-0t64-dbgsym libp11-kit0-dbgsym libpcre2-16-0-dbgsym libpcre2-8-0-dbgsym
+libplist-2.0-4-dbgsym libpng16-16t64-dbgsym libproxy1v5-dbgsym libpsl5t64-dbgsym
+libpulse0-dbgsym libqt6concurrent6-dbgsym libqt6core6t64-dbgsym libqt6dbus6-dbgsym
+libqt6gui6-dbgsym libqt6network6-dbgsym libqt6sql6-dbgsym libqt6widgets6-dbgsym librtmp1-dbgsym
+libsasl2-2-dbgsym libselinux1-dbgsym libsndfile1-dbgsym libsqlite3-0-dbgsym libssh2-1t64-dbgsym
+libssl3t64-dbgsym libstdc++6-dbgsym libsystemd0-dbgsym libtag2-dbgsym libtasn1-6-dbgsym
+libudev1-dbgsym libunistring5-dbgsym libunwind8-dbgsym libusb-1.0-0-dbgsym
+libusbmuxd-2.0-7-dbgsym libvorbis0a-dbgsym libvorbisenc2-dbgsym libx11-6-dbgsym
+libx11-xcb1-dbgsym libxau6-dbgsym libxcb1-dbgsym libxdmcp6-dbgsym libxkbcommon0-dbgsym
+libxml2-dbgsym libzstd1-dbgsym zlib1g-dbgsym
+</code></pre>
+<p>No jakby nie patrzeć trochę tego jest.</p>
+<p>Wszystko co zostało wydrukowane wyżej przez <code>find-dbgsym-packages</code> trzeba zainstalować przez
+menadżer pakietów <code>apt</code> / <code>aptitude</code> . W przypadku gdybyśmy zainstalowali jedynie sam pakiet
+<code>strawberry-dbgsym</code> , to wynik zwracany przez <code>gdb</code> w sporej części zawierałby jedynie same adresy
+pamięci, a nie o to nam chodzi. Poniżej przykład:</p>
+<pre><code>...
+Thread 1 &quot;strawberry&quot; received signal SIGSEGV, Segmentation fault.
+0x00007b9659bb209f in ?? ()
+(gdb) bt
+#0  0x00007b9659bb209f in ?? ()
+#1  0x00005b3cc60ddab0 in ?? ()
+#2  0x00005b3cc61b7850 in ?? ()
+#3  0x00005b3cc60ddab0 in ?? ()
+#4  0x00005b3cc2c47950 in ?? ()
+#5  0x00005b3c845a6b90 in stdout ()
+#6  0x00007b9657b87928 in ?? ()
+#7  0x0000003000000028 in ?? ()
+#8  0x00007ffd30b448a0 in ?? ()
+#9  0x00005b3cc61b7850 in ?? ()
+#10 0x00005b3cc60ddab0 in ?? ()
+#11 0x00007ffd30b447cf in ?? ()
+#12 0xf8062d8205732a00 in ?? ()
+#13 0x00005b3cc2c47950 in ?? ()
+#14 0x00005b3cc60ddab0 in ?? ()
+#15 0x0000000000000000 in ?? ()
+</code></pre>
+<p>No z tych powyższych informacji to za wiele się wyczytać nie da.</p>
+<h3 id="automatycznie-pobieranie-symboli-debugowania-przez-internet">Automatycznie pobieranie symboli debugowania przez internet</h3>
+<p>Istnieje również <a href="https://wiki.debian.org/HowToGetABacktrace#Automatically_loading_debugging_symbols_from_the_Internet">metoda pozyskiwania symboli debugowania</a> bezpośrednio przez internet w
+procesie debugowania aplikacji. Wystarczy doinstalować pakiet <code>debuginfod</code> i wyeksportować w
+terminalu zmienną <code>DEBUGINFOD_URLS</code> , przykładowo:</p>
+<pre><code>export DEBUGINFOD_URLS=&quot;https://debuginfod.debian.net&quot;
+</code></pre>
+<p>I teraz już tylko wystarczy odpalić <code>gdb</code> :</p>
+<pre><code>$ gdb strawberry
+GNU gdb (Debian 15.2-1+b1) 15.2
+...
+Enable debuginfod for this session? (y or [n]) y
+Debuginfod has been enabled.
+To make this setting permanent, add 'set debuginfod enabled on' to .gdbinit.
+Downloading 34.41 M separate debug info for /usr/bin/strawberry
+[##########       ]   63% (64.41 M)
+Reading symbols from /home/morfik/.cache/debuginfod_client/da5aa053968f350dd1dbaefaf2a2dbbf8bb9565b/debuginfo...
+(gdb)
+</code></pre>
+<p>Jak widać wyżej, stosowne symbole debugowania zostały pobrane i umieszczone w katalogu
+<code>/home/morfik/.cache/debuginfod_client/</code> i <code>gdb</code> powinien z nich zrobić użytek.</p>
+<h2 id="konfiguracja-kernela">Konfiguracja kernela</h2>
+<p>W dystrybucyjnych kernelach Debiana wszystkie stosowne opcje są już włączone i w zasadzie nie
+trzeba nic ruszać. Niemniej jednak, jeśli <a href="https://morfikov.github.io/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/">sami budujemy własne jądro</a>, to pamiętajmy by włączyć
+w konfiguracji kernela <code>CONFIG_COREDUMP</code> .</p>
+<h2 id="konfiguracja-systemd-i-sysctl">Konfiguracja systemd i sysctl</h2>
+<p>W przypadku korzystania z systemd, przydałoby się też doinstalować dodatkowo
+pakiet <code>systemd-coredump</code> . Jest on opcjonalny jeśli chcemy korzystać manualnie z <code>gdb</code> ale może
+się okazać iście użyteczny. Podczas instalacji pakietu <code>systemd-coredump</code> , system skonfiguruje nam
+też te poniższe parametry <code>sysctl</code> :</p>
+<pre><code>kernel.core_pattern=|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h
+kernel.core_pipe_limit=16
+fs.suid_dumpable=2
+</code></pre>
+<p>Skoro już mowa o pliku <code>/etc/sysctl.conf</code> , to jeśli posiadamy w nim jakieś ustawienia poprawiające
+bezpieczeństwo systemu, to upewnijmy się, że <code>kernel.yama.ptrace_scope</code> jest ustawiony na <code>0</code> na
+czas debugowania aplikacji:</p>
+<pre><code>kernel.yama.ptrace_scope = 0
+</code></pre>
+<h2 id="backtrace-procesu">Backtrace procesu</h2>
+<p>W przypadku korzystania z systemd, nie musimy nic więcej robić, tj. uruchamiamy sobie naszą
+aplikację, tak jak to zwykle robimy i czekamy, aż zaliczy crash. Gdy to nastąpi, to przy pomocy
+narzędzia <code>coredumpctl</code> patrzymy co się wydarzyło:</p>
+<pre><code># coredumpctl list
+TIME                          PID  UID  GID SIG     COREFILE EXE                   SIZE
+Mon 2025-01-13 21:42:41 CET 17440 1000 1000 SIGSEGV present  /usr/bin/strawberry  49.7M
+Mon 2025-01-13 21:51:24 CET 19897 1000 1000 SIGSEGV present  /usr/bin/strawberry  41.6M
+Mon 2025-01-13 22:54:37 CET 23453 1000 1000 SIGSEGV present  /usr/bin/strawberry 133.3M
+</code></pre>
+<p>Widzimy tutaj crash'e procesu <code>/usr/bin/strawberry</code> . By podejrzeć którykolwiek z nich, w
+argumencie <code>coredumpctl</code> podajemy kolejno nazwę debugger'a oraz numerek coredump'a. Przykładowo,
+jeśli chcemy podejrzeć drugą pozycję widoczną wyżej, to w terminalu wpisujemy:</p>
+<pre><code>$ coredumpctl gdb -2
+           PID: 19897 (strawberry)
+           UID: 1000 (morfik)
+           GID: 1000 (morfik)
+        Signal: 11 (SEGV)
+     Timestamp: Mon 2025-01-13 21:51:20 CET (2min 57s ago)
+  Command Line: strawberry
+    Executable: /usr/bin/strawberry
+ Control Group: /morfikownia.slice/libcgroup.scope/apps-user/strawberry
+          Unit: libcgroup.scope
+         Slice: morfikownia.slice
+       Boot ID: 9b3e8d11480f41b0bff7c41b8220cf9a
+    Machine ID: c59721c157404b63a846368d354b7ccf
+      Hostname: morfikownia
+       Storage: /var/lib/systemd/coredump/core.strawberry.1000.9b3e8d11480f41b0bff7c41b8220cf9a.19897.1736801480000000.zst (present)
+  Size on Disk: 41.6M
+       Message: Process 19897 (strawberry) of user 1000 dumped core.
+
+                Module libuuid.so.1 from deb util-linux-2.40.3-1.amd64
+                Module libgomp.so.1 from deb gcc-14-14.2.0-13.amd64
+                Module libudev.so.1 from deb systemd-257.2-1.amd64
+                Module libblkid.so.1 from deb util-linux-2.40.3-1.amd64
+                Module libsystemd.so.0 from deb systemd-257.2-1.amd64
+                Module libzstd.so.1 from deb libzstd-1.5.6+dfsg-2.amd64
+                Module libatomic.so.1 from deb gcc-14-14.2.0-13.amd64
+                Module libmount.so.1 from deb util-linux-2.40.3-1.amd64
+                Module libgcc_s.so.1 from deb gcc-14-14.2.0-13.amd64
+                Module libstdc++.so.6 from deb gcc-14-14.2.0-13.amd64
+                Stack trace of thread 19897:
+                ...
+                #4  0x00007400b098e897 postEventSourceDispatch (libQt6Core.so.6 + 0x38e897)
+                #5  0x00007400b0eb381f g_main_dispatch (libglib-2.0.so.0 + 0x5a81f)
+                ...
+                ELF object binary architecture: AMD x86-64
+
+GNU gdb (Debian 15.2-1+b1) 15.2
+...
+Reading symbols from /usr/bin/strawberry...
+Reading symbols from /usr/lib/debug/.build-id/e0/0d220ad54e9112741ff9ace5286a6401d8c96d.debug...
+...
+[New LWP 19897]
+...
+[New LWP 19910]
+...
+[New LWP 20039]
+...
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library &quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;.
+Core was generated by `strawberry'.
+Program terminated with signal SIGSEGV, Segmentation fault.
+
+#0  0x00005bf45f01ee52 in QtPrivate::FunctorCall&lt;QtPrivate::IndexesList&lt;&gt;, QtPrivate::List&lt;&gt;, void, void (TagReaderReply::*)()&gt;::call(void (TagReaderReply::*)(), TagReaderReply*, void**) (arg=&lt;optimized out&gt;, f=&amp;virtual table offset 104, o=&lt;optimized out&gt;)
+    at /usr/include/x86_64-linux-gnu/qt6/QtCore/qobjectdefs_impl.h:118
+118         template&lt;typename Obj&gt; inline void assertObjectType(QObject *o)
+[Current thread is 1 (Thread 0x7400ab86ad00 (LWP 19897))]
+</code></pre>
+<p>Powyższe wyjście zostało trochę okrojone dla czytelności.</p>
+<p>W tym przypadku, deweloper projektu <code>strawberry</code> poprosił mnie o wydanie dwóch poleceń w obrębie debugger'a <code>gdb</code> , tj. <code>bt</code> oraz <code>thread apply all bt</code> :</p>
+<p>Poniżej jest polecenie <code>bt</code> :</p>
+<pre><code>(gdb) bt
+
+#0  0x00005bf45f01ee52 in QtPrivate::FunctorCall&lt;QtPrivate::IndexesList&lt;&gt;, QtPrivate::List&lt;&gt;, void, void (TagReaderReply::*)()&gt;::call(void (TagReaderReply::*)(), TagReaderReply*, void**) (arg=&lt;optimized out&gt;, f=&amp;virtual table offset 104, o=&lt;optimized out&gt;)
+    at /usr/include/x86_64-linux-gnu/qt6/QtCore/qobjectdefs_impl.h:118
+#1  QtPrivate::FunctionPointer&lt;void (TagReaderReply::*)()&gt;::call&lt;QtPrivate::List&lt;&gt;, void&gt;(void (TagReaderReply::*)(), TagReaderReply*, void**) (f=&amp;virtual table offset 104, o=&lt;optimized out&gt;, arg=&lt;optimized out&gt;)
+    at /usr/include/x86_64-linux-gnu/qt6/QtCore/qobjectdefs_impl.h:182
+...
+#15 0x00007400b078a908 in QCoreApplication::exec () at ./src/corelib/global/qflags.h:74
+#16 0x00005bf45ef1f220 in main (argc=&lt;optimized out&gt;, argv=&lt;optimized out&gt;) at ./src/main.cpp:330
+</code></pre>
+<p>A niżej polecenie <code>thread apply all bt</code> :</p>
+<pre><code>(gdb) thread apply all bt
+
+Thread 33 (Thread 0x7400367fc6c0 (LWP 20139)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007400b0ee5c04 in g_cond_wait_impl (cond=0x5bf4640ff420, mutex=0x5bf4640ff3d8) at ../../../glib/gthread-posix.c:1007
+
+...
+
+#6  0x00007400b009c043 in start_thread (arg=&lt;optimized out&gt;) at ./nptl/pthread_create.c:447
+#7  0x00007400b011a778 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 32 (Thread 0x74000dffb6c0 (LWP 20141)):
+#0  0x00007400b00989de in __futex_abstimed_wait_common64 (private=0, futex_word=0x5bf4641e3440, expected=0, op=137, abstime=0x74000dffa780, cancel=true) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (futex_word=futex_word@entry=0x5bf4641e3440, expected=expected@entry=0, clockid=clockid@entry=1, abstime=abstime@entry=0x74000dffa780, private=private@entry=0, cancel=cancel@entry=true) at ./nptl/futex-internal.c:87
+
+...
+
+#12 0x00007400b009c043 in start_thread (arg=&lt;optimized out&gt;) at ./nptl/pthread_create.c:447
+--Type &lt;RET&gt; for more, q to quit, c to continue without paging--c
+#13 0x00007400b011a778 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+...
+...
+...
+
+Thread 2 (Thread 0x7400377fe6c0 (LWP 20026)):
+#0  futex_wait (futex_word=0x74002c02f880, expected=2, private=0) at ../sysdeps/nptl/futex-internal.h:146
+#1  __GI___lll_lock_wait (futex=futex@entry=0x74002c02f880, private=0) at ./nptl/lowlevellock.c:49
+
+...
+
+#23 0x00007400b009c043 in start_thread (arg=&lt;optimized out&gt;) at ./nptl/pthread_create.c:447
+#24 0x00007400b011a778 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 1 (Thread 0x7400ab86ad00 (LWP 19897)):
+#0  0x00005bf45f01ee52 in QtPrivate::FunctorCall&lt;QtPrivate::IndexesList&lt;&gt;, QtPrivate::List&lt;&gt;, void, void (TagReaderReply::*)()&gt;::call(void (TagReaderReply::*)(), TagReaderReply*, void**) (arg=&lt;optimized out&gt;, f=&amp;virtual table offset 104, o=&lt;optimized out&gt;) at /usr/include/x86_64-linux-gnu/qt6/QtCore/qobjectdefs_impl.h:118
+#1  QtPrivate::FunctionPointer&lt;void (TagReaderReply::*)()&gt;::call&lt;QtPrivate::List&lt;&gt;, void&gt;(void (TagReaderReply::*)(), TagReaderReply*, void**) (f=&amp;virtual table offset 104, o=&lt;optimized out&gt;, arg=&lt;optimized out&gt;) at /usr/include/x86_64-linux-gnu/qt6/QtCore/qobjectdefs_impl.h:182
+
+...
+
+#15 0x00007400b078a908 in QCoreApplication::exec () at ./src/corelib/global/qflags.h:74
+#16 0x00005bf45ef1f220 in main (argc=&lt;optimized out&gt;, argv=&lt;optimized out&gt;) at ./src/main.cpp:330
+</code></pre>
+<p>Powyższe wyjścia obu poleceń zostały przycięte dla czytelności. Tak czy inaczej to właśnie takiej
+mniej więcej informacji będzie oczekiwał od nas deweloper projektu, którego crash zaobserwujemy i
+który chcemy zgłosić. W tym przypadku <a href="https://github.com/strawberrymusicplayer/strawberry/commit/decd0a1dc617f0f561636b281f3f369468e21b5b">szybko udało się ustalić przyczynę i kod aplikacji został
+odpowiednio poprawiony</a>. No i co najważniejsze, <code>strawberry</code> już nie wyrzuca segfault'ów.</p>
+<h2 id="czyszczenie-plików-coredump">Czyszczenie plików coredump</h2>
+<p>Od czasu do czasu przydałoby się przeczyścić stare pliki coredump, które automatycznie systemd
+zapisuje w katalogu <code>/var/lib/systemd/coredump/</code> . Możemy naturalnie ręcznie usunąć całą zawartość
+tego katalogu (albo jedynie pojedyncze pliki), tylko w takim przypadku wywołanie
+polecenia <code>coredumpctl list</code> zwróci nam <code>missing</code> w kolumnie <code>COREFILE</code> , przykładowo:</p>
+<pre><code># rm /var/lib/systemd/coredump/*.zst
+
+# coredumpctl list
+TIME                          PID  UID  GID SIG     COREFILE EXE               SIZE
+Sat 2025-01-18 10:53:54 CET 65549 1000 1000 SIGABRT missing  /usr/bin/birdtray    -
+Sat 2025-01-18 10:55:56 CET 65854 1000 1000 SIGABRT missing  /usr/bin/birdtray    -
+Sat 2025-01-18 10:57:49 CET 66119 1000 1000 SIGABRT missing  /usr/bin/birdtray    -
+</code></pre>
+<p>I jak widzimy wyżej, niby usunęliśmy pliki coredump powiązane z procesem <code>birdtray</code> ale wpisy na
+liście dalej występują. Jak je usunąć? No trzeba się pierw zastanowić skąd te wpisy na listingu
+powyżej się biorą. <a href="https://www.freedesktop.org/software/systemd/man/latest/coredumpctl.html#Examples">Biorą się one z journal'a systemd</a>. Zatem nawet jeśli usuniemy plik coredump,
+to wpisy o zdarzeniu dalej są obecne w dzienniku systemowym i narzędzie <code>coredumpctl</code> je widzi.
+Trzeba by przeczyścić dziennik i do tego celu możemy posłużyć się poniższym poleceniem:</p>
+<pre><code># journalctl --rotate &amp;&amp; journalctl --vacuum-time=1s
+Vacuuming done, freed 2.7M of archived journals from /var/log/journal/b52721c15af44b63a846368d354b7aad.
+Vacuuming done, freed 0B of archived journals from /var/log/journal.
+</code></pre>
+<p>Opcja <code>--rotate</code> ma za zadanie wymusić otwarcie nowego pliku z logami oraz oznaczenie wszystkich
+poprzednich jako archiwalne. Z kolei opcja <code>--vacuum-time</code> usuwa pliki archiwalne starsze niż czas
+określony w tym parametrze. My tutaj ustawiliśmy jedną sekundę, bo chcieliśmy wyczyścić całkowicie
+dziennik. Jeśli teraz wywołamy polecenie <code>coredumpctl list</code> , to już żadne wpisy nie zostaną nam
+zwrócone:</p>
+<pre><code># coredumpctl list
+No coredumps found.
+</code></pre>
+<p>Trzeba tutaj tylko pamiętać o tym, że jak wyczyścimy dziennik (wyżej opisaną metodą), to pliki
+coredump nie są w żaden sposób ruszane, przez co <code>coredumpctl list</code> zwróci nam pusty wynik mimo
+obecności tych plików na dysku.</p>
+<h2 id="konfiguracja-usługi-systemd-coredump">Konfiguracja usługi systemd-coredump</h2>
+<p>Jeśli nie chcemy by systemd zapisywał pliki coredump na dysku, możemy go poprosić by tego nie robił.
+W tym celu edytujemy plik <code>/etc/systemd/coredump.conf</code> i przestawiamy <code>Storage</code> na <code>none</code> :</p>
+<pre><code>Storage=none
+</code></pre>
+<p>Od tego momentu pliki nie będą już zapisywane w katalogu <code>/var/lib/systemd/coredump/</code> , zaś
+<code>coredumpctl list</code> zwróci nam <code>none</code> w kolumnie <code>COREFILE</code></p>
+<pre><code># coredumpctl list
+TIME                          PID  UID  GID SIG     COREFILE EXE               SIZE
+Sat 2025-01-18 11:10:53 CET 66309 1000 1000 SIGABRT none     /usr/bin/birdtray    -
+</code></pre>
+<p>Niemniej jednak, w dalszym ciągu usługa <code>systemd-coredump</code> przetworzy nam taki wygenerowany
+coredump i zapisze w logu systemowym.</p>
+<pre><code>systemd-coredump[67188]: Process 66309 (birdtray) of user 1000 terminated abnormally with signal 6/ABRT, processing...
+ystemd[1]: Started systemd-coredump@5-67188-0.service - Process Core Dump (PID 67188/UID 0).
+systemd-coredump[67189]: Process 66309 (birdtray) of user 1000 dumped core.
+
+         Module libblkid.so.1 from deb util-linux-2.40.4-1.amd64
+         Module libmount.so.1 from deb util-linux-2.40.4-1.amd64
+         ....
+         Stack trace of thread 66321:
+         #0  0x000075eeb709dd8c __pthread_kill_implementation (libc.so.6 + 0x93d8c)
+         ...
+</code></pre>
+<p>Jeśli i to zachowanie jest niepożądane, to w pliku <code>/etc/systemd/coredump.conf</code> dopiszmy sobie
+jeszcze parametr <code>ProcessSizeMax</code> :</p>
+<pre><code>ProcessSizeMax=0
+</code></pre>
+<p>I teraz w logu systemowym powinniśmy mieć jedynie informację o tym, że proces zakończył się w
+sposób inny niż oczekiwany:</p>
+<pre><code>systemd-coredump[67630]: Process 67214 (birdtray) of user 1000 terminated abnormally with signal 6/ABRT, processing...
+systemd[1]: Started systemd-coredump@6-67630-0.service - Process Core Dump (PID 67630/UID 0).
+systemd-coredump[67631]: Process 67214 (birdtray) of user 1000 terminated abnormally without generating a coredump.
+systemd[1]: systemd-coredump@6-67630-0.service: Deactivated successfully.
+</code></pre>
+<p>Taka informacja mówi nam jedynie, że coś w systemie dzieje się nie tak, a podglądając wyjście
+polecenia <code>coredumpctl list</code> bardzo łatwo możemy ustalić z jakimi procesami i jak często:</p>
+<pre><code># coredumpctl list
+TIME                          PID  UID  GID SIG     COREFILE EXE               SIZE
+Sat 2025-01-18 11:10:53 CET 66309 1000 1000 SIGABRT none     /usr/bin/birdtray    -
+Sat 2025-01-18 11:14:34 CET 67214 1000 1000 SIGABRT none     /usr/bin/birdtray    -
+Sat 2025-01-18 11:22:19 CET 67851 1000 1000 SIGABRT none     /usr/bin/birdtray    -
+</code></pre>
+<p>Chodzi tutaj generalnie o to, by te pliki coredump nie zapchały nad dysku twardego, bo potrafią one
+swoje ważyć. Do tego jeśli korzystamy z nośnika SSD, to raczej nie chcemy marnować cykli życia
+komórek flash na tego typu zapis danych.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Posiadając odpowiednie narzędzia w swoich linux'ach jesteśmy w stanie w dość łatwy sposób namierzyć
+problem dręczący działające w nim programy. Nawet niekoniecznie potrzebujemy fachowej wiedzy z
+zakresu debugowania aplikacji, czy też sami być programistami ale mając na wyposażeniu te powyżej
+opisane narzędzia możemy dostarczyć nieocenionych informacji deweloperom aplikacji pomagając im
+zdiagnozować i wyeliminować problem.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/gdb/">Gdb</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/backtrace/">Backtrace</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debug/">Debug</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/segfault/">Segfault</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/crash/">Crash</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/coredump/">Coredump</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fsegfault-i-debug-procesu-z-gdb-coredumpctl-w-debian-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsegfault-i-debug-procesu-z-gdb-coredumpctl-w-debian-linux%2f&amp;text=Segfault%20i%20debug%20procesu%20z%20GDB%2fcoredumpctl%20w%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsegfault-i-debug-procesu-z-gdb-coredumpctl-w-debian-linux%2f&amp;title=Segfault%20i%20debug%20procesu%20z%20GDB%2fcoredumpctl%20w%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsegfault-i-debug-procesu-z-gdb-coredumpctl-w-debian-linux%2f&amp;title=Segfault%20i%20debug%20procesu%20z%20GDB%2fcoredumpctl%20w%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsegfault-i-debug-procesu-z-gdb-coredumpctl-w-debian-linux%2f&title=Segfault%20i%20debug%20procesu%20z%20GDB%2fcoredumpctl%20w%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsegfault-i-debug-procesu-z-gdb-coredumpctl-w-debian-linux%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsegfault-i-debug-procesu-z-gdb-coredumpctl-w-debian-linux%2f&amp;title=Segfault%20i%20debug%20procesu%20z%20GDB%2fcoredumpctl%20w%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fsegfault-i-debug-procesu-z-gdb-coredumpctl-w-debian-linux%2f&description=Segfault%20i%20debug%20procesu%20z%20GDB%2fcoredumpctl%20w%20Debian%20Linux" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 10 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/trim-unmap-w-dyskach-ssd-podlaczonych-via-adapter-usb-sata-na-linux/">TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/przestrzen-wymiany-swap-tylko-na-potrzebny-hibernacji-w-debian-linux/">Przestrzeń wymiany SWAP tylko na potrzebny hibernacji w Debian linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/">Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zablokowanie-mozliwosci-ladowania-modulow-kernela-na-debian-linux/">Zablokowanie możliwości ładowania modułów kernela na Debian linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/oblivious-doh-odoh-z-dnscrypt-proxy-na-debian-linux/">Oblivious DoH (ODoH) z dnscrypt-proxy na Debian Linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/rekalibracja-baterii-w-laptopach-lenovo-thinkpad-pod-linux/">Rekalibracja baterii w laptopach Lenovo ThinkPad pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/chroot-do-32-bit-systemu-arm-z-poziomu-64-bit-linuxowego-hosta/">Chroot do 32-bit systemu ARM z poziomu 64-bit linux&#39;owego hosta</a></li>
+		
+	</ul>
+</div>
+
+	<div id="comments">
+		<script src="https://utteranc.es/client.js"
+        repo="morfikov/morfitronik-comments"
+        issue-term="og:title"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+</script>
+
+	</div>
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2025 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<div class="license-icons">
+			<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons Attribution 4.0 International license">
+<i class="icon-cc"></i><i class="icon-cc-by"></i><i class="icon-cc-nc"></i><i class="icon-cc-sa"></i>
+</a>
+		</div>
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
+</body>
+</html>

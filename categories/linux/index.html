@@ -17,8 +17,8 @@
 		
   <meta itemprop="name" content="Linux">
   <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="datePublished" content="2024-06-16T16:30:00+02:00">
-  <meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
+  <meta itemprop="datePublished" content="2025-02-02T23:25:00+01:00">
+  <meta itemprop="dateModified" content="2025-02-02T23:25:00+01:00">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Linux">
@@ -30,7 +30,6 @@
 	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
 	<link rel="alternate" type="application/rss+xml" href="https://morfikov.github.io/categories/linux/feed.xml" title="Morfitronik">
 	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
-		
   
 
 
@@ -94,6 +93,36 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/segfault-i-debug-procesu-z-gdb-coredumpctl-w-debian-linux/">Segfault i debug procesu z GDB/coredumpctl w Debian Linux</a></h1>
+	<div class="entry__content"><p>Każdy z nas korzysta z całej masy aplikacji na swoich linux'ach. Na ogół te appki działają w sposób
+oczekiwany i nie ma z nimi większych problemów. Czasem jednak zdarza się tak, że z jakiegoś powodu
+taki program niespodziewanie kończy swoje działanie i w konsoli (czy logu systemowym) zostaje
+wydrukowany komunikat zawierający frazę <code>segfault</code> (segmentation fault, naruszenie ochrony pamięci).
+Ostatnio taki problem dotknął jedną z moich ulubionych aplikacji, z których korzystam na co dzień,
+tj. <code>strawberry</code> . Gdyby ta sytuacja wystąpiła raz, to pewnie nawet bym się nią bardziej nie
+zainteresował ale w tym przypadku ten cały <code>segfault</code> potrafił wyskoczyć kilka-kilkanaście razy w
+ciągu godziny, co trochę zaczęło mnie irytować. Postanowiłem poszukać przyczyny i nawet <a href="https://github.com/strawberrymusicplayer/strawberry/issues/1633">znalazłem
+stosowny bug na git projektu strawberry</a>, no ale sytuacja niby nowa, a mi ta appka crash'owała
+od dobrych kilku tygodni, jeśli nie miesięcy. Dlatego też zacząłem udzielać się w tamtym wątku i
+przy okazji nauczyłem się jak przy pomocy <code>gdb</code> (GNU Debugger) pozyskać nieco bardziej użyteczne
+informacje i podesłać je deweloperowi aplikacji, tak by był on w stanie namierzyć przyczynę i
+wyeliminować zaistniały problem. W tym artykule została zebrana garść użytecznych informacji, które
+mogą przydać się użytkownikowi Debiana, na wypadek gdyby i jego aplikacje cierpiały na podobne
+problemy.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2025-02-02T23:25:00&#43;01:00">Opublikowano: 02/02/2025</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -348,36 +377,6 @@ stanu, w którym można by mówić o ewentualnym ich wydrukowaniu. Okazało się
 specjalnie trudne zadanie, zwłaszcza, gdy na linux zaprzęgnie się do tego celu ImageMagick.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2021-10-26T19:57:00&#43;02:00">Opublikowano: 26/10/2021</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-wylaczyc-mapowane-adresow-ipv4-na-ipv6-w-debian-linux/">Jak wyłączyć mapowanie adresów IPv4 na IPv6 w Debian linux</a></h1>
-	<div class="entry__content"><p>Przeglądając ostatnio połączenia w swoim telefonie z Androidem, natknąłem się na wpisy mające w
-swoich adresach źródłowych ustawione IP takie, jak <code>::ffff:192.168.1.188</code> . Podobnie sprawa wygląda
-w przypadku adresów docelowych tego samego połączenia, tj. widnieje tam np. <code>::ffff:216.58.215.1</code> .
-Na pierwszy rzut oka taka konstrukcja adresu IP przypomina IPv6, przynajmniej jej pierwsza część,
-tj. <code>::ffff:</code> , natomiast drugi kawałek już bardzo przypomina adres IPv4. Okazuje się, że za taki
-format adresów IP odpowiada <a href="https://en.wikipedia.org/wiki/IPv6#IPv4-mapped_IPv6_addresses">mechanizm mapowania adresów IPv4 na adresy IPv6</a>. Nie jest to
-jednak tożsame z <a href="https://morfikov.github.io/post/implementacja-protokolu-ipv6-za-pomoca-tunelu-6to4/">6to4</a> czy <a href="https://morfikov.github.io/post/konfiguracja-tunelu-6in4-w-openwrt-ipv6/">6in4</a>, gdzie host ze stałym publicznym adresem IPv4 jest w
-stanie komunikować się z hostami nadającymi po IPv6. W przypadku mapowania adresów IPv4 na IPv6,
-połączenia ze zdalnymi hostami mogą odbywać się zarówno po IPv4 jak i IPv6, a to z którego z tych
-protokołów nasz linux skorzysta zależy od tego czy taka maszyna dysponuje przydzielonym adresem
-IPv6. Jeśli ISP nie zapewnia nam adresu IPv6, to wtedy pakiety sieciowe będą przesyłane z
-wykorzystaniem protokołu IPv4. Wciąż jednak te mieszane konstrukcje adresów IP będą widoczne na
-wykazie połączeń w <code>netstat</code>/<code>ss</code> . Okazuje się jednak, że ten mechanizm mapowania adresów może
-powodować szereg problemów związanych z bezpieczeństwem systemu. Dlatego też tam gdzie to możliwe
-przydałoby się go wyłączyć.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2021-10-14T23:52:00&#43;02:00">Opublikowano: 14/10/2021</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
