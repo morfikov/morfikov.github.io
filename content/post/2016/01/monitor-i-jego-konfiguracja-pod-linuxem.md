@@ -11,7 +11,7 @@ tags:
 - monitor
 - openbox
 - debian
-GHissueID: 535
+GHissueID: 604
 title: Monitor i jego konfiguracja pod linux'em
 ---
 
