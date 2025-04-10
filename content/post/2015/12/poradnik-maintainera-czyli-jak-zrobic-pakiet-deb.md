@@ -2,8 +2,8 @@
 author: Morfik
 categories:
 - Linux
-date: "2015-12-07T20:26:45Z"
-date_gmt: 2015-12-07 19:26:45 +0100
+date:    2015-12-07 19:26:00 +0100
+lastmod: 2025-03-30 10:25:00 +0200
 published: true
 status: publish
 tags:
@@ -381,6 +381,24 @@ W `EXTRAPACKAGES` umieściłem kilka dodatkowych pakietów, które będą instal
 pakietów. Te pozycje tutaj nie są obowiązkowe i raczej nic się paczkom nie stanie z powodu ich
 braku. Jeśli ktoś nie rozumie konkretnych opcji, to odsyłam do [manuala][11], gdzie wszystkie z
 nich są przystępnie opisane.
+
+#### Wywołanie apt-get update przed instalowaniem zależności
+
+Może się zdarzyć tak, że będziemy potrzebować pobrać nowsze wersje zależności na potrzeby procesu
+budowania naszego pakietu. Być może będziemy też budować wcześniej szereg pakietów zależnych, które
+np. umieścimy w swoim własnym repozytorium, by być w stanie zbudować ten pakiet, o który nam chodzi
+w pierwszej kolejności. By być pewnym, że informacje o pakietach zawsze są aktualne podczas procesu
+budowania nowych paczek `.deb` , dobrze jest [stworzyć sobie skrypt D70][58] i umieścić go w
+katalogu  `/media/Kabi/pbuilder/hooks/D70update-apt-cache` .
+
+Poniżej zawartość samego skryptu:
+
+    #!/bin/sh
+
+    /usr/bin/apt-get update
+
+Skrypty `D` są wywoływane przed instalowaniem zależności i w ten sposób listy pakietów zawsze będą
+aktualne ilekroć tylko będziemy przystępować do budowania pakietów.
 
 ### ccache
 
@@ -2443,3 +2461,4 @@ Tak przygotowane źródła można zbudować standardową metodą.
 [55]: https://www.debian.org/doc/manuals/developers-reference/index.html
 [56]: https://www.debian.org/doc/debian-policy/index.html
 [57]: https://wiki.debian.org/Packaging/Intro
+[58]: https://pbuilder-team.pages.debian.net/pbuilder/#apt-getupdateonbuild-depend
