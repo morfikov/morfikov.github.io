@@ -14,8 +14,8 @@
   <meta property="og:locale" content="pl_PL">
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2015-12-07T20:26:45+00:00">
-    <meta property="article:modified_time" content="2015-12-07T20:26:45+00:00">
+    <meta property="article:published_time" content="2015-12-07T19:26:00+01:00">
+    <meta property="article:modified_time" content="2025-03-30T10:25:00+02:00">
     <meta property="article:tag" content="Debian">
     <meta property="article:tag" content="Apt">
     <meta property="article:tag" content="Dpkg">
@@ -26,9 +26,9 @@
 		
   <meta itemprop="name" content="Poradnik maintainer&#39;a, czyli jak zrobić pakiet deb">
   <meta itemprop="description" content="Debian posiada bardzo rozbudowany system robienia pakietów. Generalnie rzecz biorąc, to wszystkie z nich musiały przejść przez ten proces zanim trafiły do głównego repozytorium dystrybucji. Dzięki takiemu stanu rzeczy, nie musimy ręcznie powielać pracy szeregu innych osób i odpada nam własnoręczna kompilacja pakietów, a wszyscy wiemy, że zajmuje ona cenny czas i zasoby. Paczki .deb są tworzone ze źródeł i instalowane przy pomocy menadżera pakietów aptitude/apt/dpkg . Nic jednak nie stoi na przeszkodzie by daną aplikację skompilować sobie ręcznie i zainstalować ją przy pomocy make install . Problem w tym, że w taki sposób robi się śmietnik w naszym systemie i śledzenie wszystkich zainstalowanych w ten sposób pakietów w pewnym momencie stanie się wręcz niemożliwe. Dlatego też przydałby nam się mechanizm, który ułatwiłby nam nieco to zadanie. Debian udostępnia szereg narzędzi, które są w stanie w pełni zautomatyzować cały ten proces budowy pakietów. Ten poradnik zaś ma na celu zebranie wszystkich istotniejszych informacji związanych z obsługą narzędzi takich jak dh_make , dpkg-buildpackage , pbuilder , quilt czy lintian , tak by tworzyć pakiety w prosty sposób i przy tym równając do najwyższych standardów debiana.">
-  <meta itemprop="datePublished" content="2015-12-07T20:26:45+00:00">
-  <meta itemprop="dateModified" content="2015-12-07T20:26:45+00:00">
-  <meta itemprop="wordCount" content="15657">
+  <meta itemprop="datePublished" content="2015-12-07T19:26:00+01:00">
+  <meta itemprop="dateModified" content="2025-03-30T10:25:00+02:00">
+  <meta itemprop="wordCount" content="15770">
   <meta itemprop="keywords" content="Debian,Apt,Dpkg,Dpkg-Buildpackage,Quilt,Pbuilder,Lintian,Sudo,Chroot,Gpg,Hardening,Git">
 		
   <meta name="twitter:card" content="summary">
@@ -101,7 +101,8 @@
 		<div class="single block">
 			<article class="entry">
 	<div class="entry__meta meta mb">
-	<time class="entry__meta-published meta-published" datetime="2015-12-07T20:26:45Z">Opublikowano: 07/12/2015</time>
+	<time class="entry__meta-published meta-published" datetime="2015-12-07T19:26:00&#43;01:00">Opublikowano: 07/12/2015</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2025-03-30T10:25:00&#43;02:00">Zaktualizowano: 30/03/2025</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -122,7 +123,11 @@
         <li><a href="#devscripts">devscripts</a></li>
         <li><a href="#lintian">lintian</a></li>
         <li><a href="#apt-file">apt-file</a></li>
-        <li><a href="#pbuilder">pbuilder</a></li>
+        <li><a href="#pbuilder">pbuilder</a>
+          <ol>
+            <li><a href="#wywołanie-apt-get-update-przed-instalowaniem-zależności">Wywołanie apt-get update przed instalowaniem zależności</a></li>
+          </ol>
+        </li>
         <li><a href="#ccache">ccache</a></li>
         <li><a href="#sudo">sudo</a></li>
       </ol>
@@ -537,6 +542,20 @@ COMPRESSPROG=&quot;gzip&quot;
 pakietów. Te pozycje tutaj nie są obowiązkowe i raczej nic się paczkom nie stanie z powodu ich
 braku. Jeśli ktoś nie rozumie konkretnych opcji, to odsyłam do <a href="http://manpages.ubuntu.com/manpages/wily/en/man5/pbuilderrc.5.html">manuala</a>, gdzie wszystkie z
 nich są przystępnie opisane.</p>
+<h4 id="wywołanie-apt-get-update-przed-instalowaniem-zależności">Wywołanie apt-get update przed instalowaniem zależności</h4>
+<p>Może się zdarzyć tak, że będziemy potrzebować pobrać nowsze wersje zależności na potrzeby procesu
+budowania naszego pakietu. Być może będziemy też budować wcześniej szereg pakietów zależnych, które
+np. umieścimy w swoim własnym repozytorium, by być w stanie zbudować ten pakiet, o który nam chodzi
+w pierwszej kolejności. By być pewnym, że informacje o pakietach zawsze są aktualne podczas procesu
+budowania nowych paczek <code>.deb</code> , dobrze jest <a href="https://pbuilder-team.pages.debian.net/pbuilder/#apt-getupdateonbuild-depend">stworzyć sobie skrypt D70</a> i umieścić go w
+katalogu  <code>/media/Kabi/pbuilder/hooks/D70update-apt-cache</code> .</p>
+<p>Poniżej zawartość samego skryptu:</p>
+<pre><code>#!/bin/sh
+
+/usr/bin/apt-get update
+</code></pre>
+<p>Skrypty <code>D</code> są wywoływane przed instalowaniem zależności i w ten sposób listy pakietów zawsze będą
+aktualne ilekroć tylko będziemy przystępować do budowania pakietów.</p>
 <h3 id="ccache">ccache</h3>
 <p>W przypadku <code>ccache</code> nie musimy zbytnio nic robić, bo wszystko zostało już określone w pliku
 konfiguracyjnym pbuilder'a. Konkretnie chodzi o te wpisy:</p>
@@ -2322,7 +2341,6 @@ Można ją wyciągnąć z logu git'a w poniższy sposób:</p>
 		</div>
 	</div>
 </div>
-
 	
 
 
