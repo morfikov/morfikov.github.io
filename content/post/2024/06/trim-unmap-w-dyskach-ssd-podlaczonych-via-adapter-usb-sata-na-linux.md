@@ -446,7 +446,7 @@ SATA6G):
 ## Ryzyko utraty danych i uszkodzenia dysku SSD
 
 Trzeba tutaj wyraźnie rozgraniczyć dwie rzeczy. To, że w firmware dysku SSD zaimplementowano
-wsparcie dla TRIM nie oznacza z automatu, że kernel linux'a będzie do takiego kośnika przesyłał
+wsparcie dla TRIM nie oznacza z automatu, że kernel linux'a będzie do takiego nośnika przesyłał
 takie żądania, przez co sam nośnik SSD może (i prawdopodobnie będzie) nam się zachowywać tak, jakby
 wsparcia dla TRIM nie posiadał. Przyczyny mogą być różne, choć ta najpopularniejsza to błędy w
 komunikacji między kernelem a dyskiem, co może prowadzić do uwalenia dysku lub utraty
@@ -625,7 +625,7 @@ Czasem może się zdarzyć tak, że gdy system będzie czyścił zbyt wiele blok
 dość znacznie opóźnienia w zapytaniach do dysku SSD, co zdegraduje jego wydajność. Dlatego
 istnieje taki mechanizm bezpieczeństwa w kernelu, by ilość tych danych ograniczyć, co powinno
 zredukować opóźnienia. Ja bym pozostawił wartość domyślną i jedynie w przypadku ewentualnej
-odczuwalnej degradacji wydajności dysku SSD by próbował tę wartość w pliku `discard_max_bytes`
+odczuwalnej degradacji wydajności dysku SSD tę wartość w pliku `discard_max_bytes` bym próbował
 przepisać.
 
 Tak czy inaczej w wyjściu `lsblk` na pozycji `DISC-MAX` powinna już być widoczna jakaś wartość:
