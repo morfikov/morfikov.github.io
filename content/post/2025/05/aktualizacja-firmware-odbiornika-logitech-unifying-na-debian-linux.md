@@ -14,7 +14,7 @@ tags:
 - k350
 - unifying
 - fwupd
-GHissueID: 604
+GHissueID: 605
 title: Aktualizacja firmware odbiornika Logitech Unifying na Debian Linux
 ---
 
