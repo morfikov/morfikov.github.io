@@ -50,7 +50,7 @@ jak poprzednik, ma dość sporo wad. Przede wszystkim, podaje złe kody. Dla prz
 poniższą linijkę do
     terminala:
 
-    $ xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/ /p'
+    $ xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-3s %s\n", $5, $8 }'
 
 to po wciśnięciu klawisza `a` zostanie zwrócony wynik `38 a` . Co w tym dziwnego? Mamy KEYCODE oraz
 odpowiadający mu znak, z tym, że nie do końca. Jeśli byśmy skorzystali z `showkey` , to on z kolei
