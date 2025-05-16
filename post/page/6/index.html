@@ -17,8 +17,8 @@
 		
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="datePublished" content="2025-02-02T23:25:00+01:00">
-  <meta itemprop="dateModified" content="2025-03-30T10:25:00+02:00">
+  <meta itemprop="datePublished" content="2025-05-16T18:20:00+02:00">
+  <meta itemprop="dateModified" content="2025-05-16T18:20:00+02:00">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Posts">
@@ -90,6 +90,41 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/">Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)</a></h1>
+	<div class="entry__content"><p>Parę dni temu <a href="https://forum.dug.net.pl/viewtopic.php?id=31514">na forum dug.net.pl pojawiło się zapytanie</a> dotyczące skonfigurowania linux'a w
+taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN,
+podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego
+ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć
+też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba
+zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel
+przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma
+przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i
+na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń
+czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów
+konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w
+zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować
+filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko
+odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe
+będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje
+jednak sposób, by nauczyć linux'a aby tylko procesy określonych użytkowników czy grup miały dostęp
+do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze
+standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy <code>iptables</code> / <code>nftables</code> ,
+tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-09-02T18:36:00&#43;02:00">Opublikowano: 02/09/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2023-03-01T08:30:00&#43;01:00">Zaktualizowano: 01/03/2023</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -344,34 +379,6 @@ zmianę rozmiaru tych istniejących już obrazów maszyn wirtualnych? Postaramy 
 zweryfikować, a cały proces zostanie opisany przy wykorzystaniu systemu Debian Linux.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2020-08-09T13:45:00Z">Opublikowano: 09/08/2020</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-hugepages-pod-maszyny-wirtualne-qemu-kvm/">Konfiguracja HugePages pod maszyny wirtualne QEMU/KVM</a></h1>
-	<div class="entry__content"><p>W linux rozmiar stron pamięci operacyjnej RAM ma domyślnie 4096 bajtów (4 KiB). Maszyny wirtualne
-QEMU/KVM mają to do siebie, że wykorzystują dość spore zasoby pamięci (wile GiB), przez co mały
-rozmiar strony może niekorzystnie wpływać na wydajność systemów gościa. Chodzi generalnie o to, że
-rozrostowi ulega tablica stron, której przeszukiwanie jest czasochłonną operacją. By temu zaradzić,
-wymyślono TLB (<a href="https://en.wikipedia.org/wiki/Translation_lookaside_buffer">Translation Lookaside Buffer</a>), który ulokowany jest albo w CPU albo gdzieś
-pomiędzy CPU i główną pamięcią operacyjną. TLB to mały ale za to bardzo szybki cache. W przypadku
-systemów z duża ilością pamięci RAM, niewielki rozmiar TLB sprawia, że odpowiedzi na zapytania nie
-są brane z cache, tylko system wraca do przeszukiwania normalnej tablicy stron zlokalizowanej w
-pamięci RAM (TLB miss). Taka sytuacja jest bardzo kosztowna, spowalnia cały system i dlatego trzeba
-jej unikać. Na szczęście jest <a href="https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt">mechanizm HugePages</a>, który pozwala na zwiększenie rozmiaru
-strony pamięci z domyślnych 4 KiB do 2 MiB lub nawet do 1 GiB w zależności od właściwości głównego
-procesora. W tym artykule postaramy się skonfigurować HugePages na potrzeby maszyn wirtualnych dla
-systemu Debian Linux.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2020-08-09T11:11:00Z">Opublikowano: 09/08/2020</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

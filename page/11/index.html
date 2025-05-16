@@ -18,8 +18,8 @@
 		
   <meta itemprop="name" content="Morfitronik">
   <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="datePublished" content="2025-02-02T23:25:00+01:00">
-  <meta itemprop="dateModified" content="2025-03-30T10:25:00+02:00">
+  <meta itemprop="datePublished" content="2025-05-16T18:20:00+02:00">
+  <meta itemprop="dateModified" content="2025-05-16T18:20:00+02:00">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Morfitronik">
@@ -77,6 +77,35 @@
 	
 	<main class="main">
 			<div class="cards">
+					<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/brak-wsparcia-dla-ipset-w-nftables/">Brak wsparcia dla ipset w nftables</a></h1>
+	<div class="entry__content"><p>Użytkownicy Debiana często w roli firewall'a wykorzystują już dość leciwy <code>iptables</code> . W zasadzie,
+to tej implementacji linux'owego filtra pakietów sieciowych nic nie dolega, no może poza szeregiem
+wad konstrukcyjnych, które są obecnie tak ciężkie do zaadresowania, że w sumie trzeba by cały ten
+<code>iptables</code> napisać od początku. Wszystko przez rozwój internetu, za sprawą którego pojawiło się
+zapotrzebowanie na tworzenie całej masy reguł (w postaci adresów/portów źródłowych/docelowych),
+gdzie w standardowym <code>iptables</code> trzeba tworzyć osobne wpisy. Im więcej reguł w filtrze, tym
+przechodzenie pakietów przez zaporę sieciową trwa dłużej i wiąże się z mocnym obciążeniem dla
+procesora (zwłaszcza, gdy tych reguł jest kilkadziesiąt tysięcy). By jakoś uporać się z tymi
+problemami (nieznanymi w innych filtrach sieciowych) stworzono <code>ipset</code> . I faktycznie odciążył on
+mocno procesor maszyny ale i tak nie wyeliminował on podstawowych wad <code>iptables</code> . Dlatego też
+zaczęto szukać innego rozwiązania i tak pojawiła się alternatywa m.in. w postaci <code>nftables</code> . W
+przyszłym stabilnym Debianie (buster) <code>nftables</code> będzie wykorzystywany jako domyślny filtr pakietów
+i ci, który korzystali z <code>ipset</code> mogą się nieco zdziwić, że <code>nftables</code> nie posiada dla niego
+wsparcia. Rzecz w tym, że <code>nftables</code> potrafi natywnie obsługiwać listy adresów/portów i <code>ipset</code>
+nie jest mu w tym do niczego potrzebny.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-03-02T02:21:12Z">Opublikowano: 02/03/2019</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+					</div>
 					<div class="card card--2col">
 					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami/">Jak przy pomocy USBguard zabezpieczyć porty USB przed złośliwymi urządzeniami</a></h1>
@@ -304,31 +333,6 @@ te komunikaty, tylko jak to zrobić, skoro usługa logowania jest już nieaktywn
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</div>
-	</div>
-</article>
-					</div>
-					<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/wiekszy-stopien-kompresii-pliku-recovery-img-twrp/">Większy stopień kompresii pliku recovery.img (TWRP)</a></h1>
-	<div class="entry__content"><p>Ostatnio próbowałem zaktualizować obraz TWRP recovery dla jednego z moich telefonów. Ja generalnie
-buduje te obrazy ze źródeł OMNI ROM, a tam jest dostępnych szereg gałęzi, np. 6.0, 7.1, 8.1 , etc,
-które naturalnie pasują do odpowiadających im wersji Androida. Do tej pory budowałem w oparciu o
-gałąź 7.1 ale po wydaniu polecenia <code>repo sync</code> , szereg aktualizacji w stosunku do repozytorium
-<code>bootable/recovery</code> zostało pobranych, w tym też i jedna trefna, która uwalała proces kompilacji.
-Ostatecznie <a href="https://gerrit.omnirom.org/#/c/android_bootable_recovery/+/33485/">udało się problem namierzyć i zlikwidować</a> ale w międzyczasie próbowałem zbudować
-obraz TWRP recovery z gałęzi 8.1. Wygląda na to, że im nowszy Android, tym obrazy recovery rosną w
-objętość i 16M, które u mnie jest limitem, zostało przekroczone o jakieś 500K i to przy najbardziej
-okrojonej funkcjonalności trybu recovery. Czy istnieje jakieś rozwiązanie, które by umożliwiło
-zmniejszenie rozmiaru obrazu <code>ramdisk-recovery.img</code> , co przełożyłoby się również na wagę pliku
-<code>recovery.img</code> ? Tak, trzeba tylko zmienić rodzaj kompresji z domyślnego <code>gzip</code> na <code>lzma</code>.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-02-02T06:33:44&#43;01:00">Opublikowano: 02/02/2019</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
 	</span>
 </div>
 	</div>

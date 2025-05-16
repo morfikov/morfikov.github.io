@@ -25,7 +25,7 @@
   <meta itemprop="description" content="Bardzo ciężko spotkać wypasioną klawiaturę, po której podłączeniu wszystkie przyciski będą funkcjonować jak należy, a to z tego względu, że nie do końca są one wykrywane przez nasz system. Zwykle są to klawisze multimedialne lub inne niestandardowe przyciski, które nie pasują do układu 104 klawiszy. W większości przypadków odpowiednie skonfigurowanie modelu klawiatury powinno rozwiązać nasze problemy. Nie zawsze jednak posiadany przez nas model jest do wyboru. Czasami nawet i jego wskazanie nie pomaga i najzwyczajniej w świecie niektóre klawisze po prostu nie zostaną wykryte przez system.">
   <meta itemprop="datePublished" content="2015-06-08T12:51:05+00:00">
   <meta itemprop="dateModified" content="2015-06-08T12:51:05+00:00">
-  <meta itemprop="wordCount" content="1407">
+  <meta itemprop="wordCount" content="1411">
   <meta itemprop="keywords" content="Udev,Xserver,Klawiatura">
 		
   <meta name="twitter:card" content="summary">
@@ -149,7 +149,7 @@ Tak było z klawiszami na mojej klawiaturze.</p>
 jak poprzednik, ma dość sporo wad. Przede wszystkim, podaje złe kody. Dla przykładu, jeśli wklepiemy
 poniższą linijkę do
 terminala:</p>
-<pre><code>$ xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/ /p'
+<pre><code>$ xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf &quot;%-3s %s\n&quot;, $5, $8 }'
 </code></pre>
 <p>to po wciśnięciu klawisza <code>a</code> zostanie zwrócony wynik <code>38 a</code> . Co w tym dziwnego? Mamy KEYCODE oraz
 odpowiadający mu znak, z tym, że nie do końca. Jeśli byśmy skorzystali z <code>showkey</code> , to on z kolei

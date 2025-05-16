@@ -17,8 +17,8 @@
 		
   <meta itemprop="name" content="Linux">
   <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="datePublished" content="2025-02-02T23:25:00+01:00">
-  <meta itemprop="dateModified" content="2025-03-30T10:25:00+02:00">
+  <meta itemprop="datePublished" content="2025-05-16T18:20:00+02:00">
+  <meta itemprop="dateModified" content="2025-05-16T18:20:00+02:00">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Linux">
@@ -93,6 +93,36 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zaladowac-profile-apparmor-w-fazie-initrd-initramfs-na-debian-linux/">Jak załadować profile AppArmor w fazie initrd/initramfs na Debian Linux</a></h1>
+	<div class="entry__content"><p>Zapewne wielu użytkowników Debiana zdążyło już zauważyć, że od wydania 10 (Buster), AppArmor jest
+włączony domyślnie. Nie powinien on raczej sprawiać żadnych problemów po doinstalowaniu pakietów
+<code>apparmor-profiles</code> oraz <code>apparmor-profiles-extra</code> , które zawierają szereg profili pod różne
+aplikacje użytkowe. Niemniej jednak, pewnych procesów nie da się ograniczyć przez AppArmor,
+przynajmniej nie w standardowy sposób. Chodzi o to, że jeśli mamy już odpalony jakiś proces, to nie
+ma możliwości zamknąć go w profilu AA do momentu aż zakończy on swoje działanie i zostanie
+uruchomiony ponownie. Profile AppArmor'a są ładowane podczas startu systemu w pewnym określonym
+momencie ale szereg procesów systemowych startuje sporo wcześniej w stosunku do usługi AppArmor'a.
+W taki sposób nawet jeśli w późniejszym czasie profile zostaną załadowane, to i tak część procesów
+nie będzie ograniczona bez względu na to czy zdefiniowaliśmy im zestaw reguł. Oczywiście można
+próbować restartować usługi lub szeregować je po <code>apparmor.service</code> ale nie zawsze tak się da
+zrobić. Alternatywnym rozwiązaniem tego problemu jest ładowanie polityki AppArmor'a w fazie
+initrd/initramfs, czyli w momencie, w którym nasz system nie ma jeszcze nawet uruchomionego procesu
+z PID z numerkiem <code>1</code> .</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-09-23T19:05:21&#43;02:00">Opublikowano: 23/09/2019</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2020-09-02T17:50:00&#43;02:00">Zaktualizowano: 02/09/2020</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -334,29 +364,6 @@ hostowane w takich serwisach jak GitHub, czy GitLab i można za jego sprawą nie
 pakietów dla Debiana.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2019-03-27T05:23:42Z">Opublikowano: 27/03/2019</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/problemy-z-plikiem-wymiany-swap-przy-hibernacji-linuxa/">Problemy z plikiem wymiany SWAP przy hibernacji linux&#39;a</a></h1>
-	<div class="entry__content"><p>Po wyjaśnieniu paru rzeczy w kwestii przestrzeni wymiany, a
-konkretnie [co jest lepsze: plik SWAP czy osobna partycja]({{ site.baseurl  }}/post/czy-w-linux-plik-swap-jest-lepszy-niz-partycja-wymiany/),
-postanowiłem nieco zmienić układ partycji na dysku mojego laptopa (LUKS+LVM) i zaimplementować
-sobie przestrzeń wymiany w postaci pliku SWAP. Standardowo jednak plik SWAP nie działa w przypadku
-hibernacji linux'a i kernel ma problemy z wybudzeniem maszyny z głębokiego snu. Jeśli zamierzamy
-korzystać z hibernacji, to trzeba inaczej skonfigurować system, by nauczyć go korzystać z
-przestrzeni wymiany w postaci pliku. W tym artykule rzucimy sobie okiem na ten niezbyt
-skomplikowany proces.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-03-23T19:30:22Z">Opublikowano: 23/03/2019</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
