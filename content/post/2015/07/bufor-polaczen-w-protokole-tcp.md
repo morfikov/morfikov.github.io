@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-07-01T10:20:16Z"
 date_gmt: 2015-07-01 08:20:16 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - tcp

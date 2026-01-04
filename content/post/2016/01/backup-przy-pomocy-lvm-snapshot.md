@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-01-15T14:09:15Z"
 lastmod: 2020-08-16 17:11:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - lvm

@@ -5,7 +5,8 @@ categories:
 - Hardware
 date:    2021-01-27 19:10:00 +0100
 lastmod: 2021-01-27 19:10:00 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - drukarka

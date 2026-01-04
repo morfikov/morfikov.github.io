@@ -4,7 +4,8 @@ categories:
 - Hardware
 date: "2016-10-01T18:09:35Z"
 date_gmt: 2016-10-01 16:09:35 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - sieć

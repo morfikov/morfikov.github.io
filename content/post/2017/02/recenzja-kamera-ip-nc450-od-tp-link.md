@@ -4,7 +4,8 @@ categories:
 - Hardware
 date: "2017-02-02T19:27:54Z"
 date_gmt: 2017-02-02 18:27:54 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - tp-link

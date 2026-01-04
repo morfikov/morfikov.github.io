@@ -4,7 +4,8 @@ categories:
 - Linux
 date:    2016-01-15 20:28:24 +0100
 lastmod: 2016-01-15 20:28:24 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - pendrive

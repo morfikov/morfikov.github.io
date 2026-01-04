@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date:    2021-11-30 20:25:00 +0100
 lastmod: 2023-01-11 13:30:00 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - router

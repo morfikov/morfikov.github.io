@@ -4,7 +4,8 @@ categories:
 - Hardware
 date:    2017-04-07 20:44:35 +0200
 lastmod: 2017-04-07 20:44:35 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - tp-link

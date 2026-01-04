@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-18T17:52:42Z"
 date_gmt: 2015-10-18 15:52:42 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - debian

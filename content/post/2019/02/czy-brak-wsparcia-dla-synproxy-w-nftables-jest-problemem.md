@@ -3,7 +3,8 @@ author: Morfik
 categories:
 - Linux
 date: "2019-02-16T10:20:52Z"
-published: true
+params:
+  published: true
 status: publish
 tags:
 - kernel

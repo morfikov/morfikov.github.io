@@ -4,7 +4,8 @@ categories:
 - Hardware
 date: "2016-09-25T22:06:06Z"
 date_gmt: 2016-09-25 20:06:06 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - lte

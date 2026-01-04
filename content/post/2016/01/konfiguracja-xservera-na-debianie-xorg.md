@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-01-08T17:53:35Z"
 date_gmt: 2016-01-08 16:53:35 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - xserver

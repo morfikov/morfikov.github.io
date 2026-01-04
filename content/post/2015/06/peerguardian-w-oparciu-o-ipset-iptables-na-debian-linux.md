@@ -4,7 +4,8 @@ categories:
 - Linux
 date:    2015-06-23 22:50:14 +0200
 lastmod: 2022-01-12 07:10:00 +0200
-published: true
+params:
+  published: true
 status: publish
 aliases:
 - /post/peerguardian-w-oparciu-o-ipset-iptables/

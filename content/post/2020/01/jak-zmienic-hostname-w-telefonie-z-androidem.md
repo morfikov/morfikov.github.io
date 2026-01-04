@@ -4,7 +4,8 @@ categories:
 - Android
 date:    2020-01-29 19:00:00 +0100
 lastmod: 2020-01-29 19:00:00 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - prywatność

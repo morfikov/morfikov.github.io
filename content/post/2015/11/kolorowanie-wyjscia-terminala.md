@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-11-09T14:57:01Z"
 date_gmt: 2015-11-09 13:57:01 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - tty

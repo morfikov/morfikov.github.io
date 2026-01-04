@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-06-21T15:55:30Z"
 date_gmt: 2015-06-21 13:55:30 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - email

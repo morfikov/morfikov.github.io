@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-06-15T15:20:52Z"
 date_gmt: 2015-06-15 13:20:52 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - cd

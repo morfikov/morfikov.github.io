@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-17T18:00:43Z"
 date_gmt: 2015-10-17 16:00:43 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - gnome

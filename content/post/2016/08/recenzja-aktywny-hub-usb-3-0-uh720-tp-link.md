@@ -4,7 +4,8 @@ categories:
 - Hardware
 date: "2016-08-28T14:50:36Z"
 date_gmt: 2016-08-28 12:50:36 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - usb

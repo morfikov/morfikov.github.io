@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date:     2017-01-13 18:43:37 +0100
 date_gmt: 2017-01-13 18:43:37 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - lte

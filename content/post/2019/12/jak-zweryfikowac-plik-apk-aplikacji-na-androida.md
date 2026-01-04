@@ -4,7 +4,8 @@ categories:
 - Android
 date:    2019-12-13 19:26:14 +0100
 lastmod: 2019-12-13 19:26:14 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - aplikacje

@@ -4,7 +4,8 @@ categories:
 - RaspberryPi
 date:    2021-11-11 05:32:00 +0100
 lastmod: 2021-11-11 05:32:00 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - luks

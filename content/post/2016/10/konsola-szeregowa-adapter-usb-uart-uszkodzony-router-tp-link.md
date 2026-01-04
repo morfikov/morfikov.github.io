@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date: "2016-10-16T20:36:17Z"
 date_gmt: 2016-10-16 18:36:17 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - usb

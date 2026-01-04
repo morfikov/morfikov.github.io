@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-05-17T21:06:05Z"
 date_gmt: 2015-05-17 19:06:05 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - ssh

@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-19T19:29:10Z"
 date_gmt: 2015-10-19 17:29:10 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - video

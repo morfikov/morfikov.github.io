@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-29T01:57:30Z"
 date_gmt: 2015-10-28 23:57:30 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - sysctl

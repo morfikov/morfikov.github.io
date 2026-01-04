@@ -3,7 +3,8 @@ author: Morfik
 categories:
 - OpenWRT
 date: "2020-04-13T21:03:00Z"
-published: true
+params:
+  published: true
 status: publish
 tags:
 - router

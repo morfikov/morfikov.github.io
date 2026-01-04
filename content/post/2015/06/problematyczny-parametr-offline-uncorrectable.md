@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-06-15T18:30:28Z"
 date_gmt: 2015-06-15 16:30:28 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - smart

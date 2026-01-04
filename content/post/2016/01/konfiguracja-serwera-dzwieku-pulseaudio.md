@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-01-11T21:49:37Z"
 date_gmt: 2016-01-11 20:49:37 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - dźwięk

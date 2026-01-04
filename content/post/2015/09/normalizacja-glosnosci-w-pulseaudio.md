@@ -4,7 +4,8 @@ categories:
 - Linux
 date:    2015-09-28 16:13:16 +0200
 lastmod: 2024-02-06 14:00:00 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - pulseaudio

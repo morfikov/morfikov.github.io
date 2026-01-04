@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-13T18:42:28Z"
 date_gmt: 2015-10-13 16:42:28 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - szyfrowanie

@@ -4,7 +4,8 @@ categories:
 - Linux
 date:    2019-09-23 19:05:21 +0200
 lastmod: 2020-09-02 17:50:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - apparmor

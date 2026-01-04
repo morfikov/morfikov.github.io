@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-11-13T16:18:56Z"
 date_gmt: 2015-11-13 15:18:56 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - pliki

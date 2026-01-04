@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-11-09T21:27:51Z"
 date_gmt: 2015-11-09 20:27:51 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - openbox

@@ -4,7 +4,8 @@ categories:
 - Linux
 date:    2015-07-08 20:28:44 +0200
 lastmod: 2024-06-08 13:55:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - smart

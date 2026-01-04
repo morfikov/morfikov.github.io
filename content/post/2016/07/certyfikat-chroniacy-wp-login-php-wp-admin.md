@@ -4,7 +4,8 @@ categories:
 - Blog
 date: "2016-07-19T14:07:05Z"
 date_gmt: 2016-07-19 12:07:05 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - apache2

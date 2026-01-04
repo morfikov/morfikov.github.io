@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date: "2016-04-30T17:11:47Z"
 date_gmt: 2016-04-30 15:11:47 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - iptables

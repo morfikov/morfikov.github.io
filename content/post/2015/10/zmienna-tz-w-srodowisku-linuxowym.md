@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-15T17:02:25Z"
 date_gmt: 2015-10-15 15:02:25 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - zmienne-środowiskowe

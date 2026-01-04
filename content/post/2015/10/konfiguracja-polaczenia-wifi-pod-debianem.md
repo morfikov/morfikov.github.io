@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-15T19:32:48Z"
 date_gmt: 2015-10-15 17:32:48 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - wifi

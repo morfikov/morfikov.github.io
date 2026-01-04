@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date:    2016-05-02 15:25:31 +0200
 lastmod: 2022-01-30 19:50:00 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - chaos-calmer

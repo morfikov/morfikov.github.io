@@ -4,7 +4,8 @@ categories:
 - Blog
 date:    2021-10-12 00:15:00 +0200
 lastmod: 2021-10-25 11:30:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - hugo

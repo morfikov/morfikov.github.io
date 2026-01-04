@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-06-07T18:56:45Z"
 date_gmt: 2016-06-07 16:56:45 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - cron

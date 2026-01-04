@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-06-08T20:21:27Z"
 date_gmt: 2015-06-08 19:21:27 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - instalacja

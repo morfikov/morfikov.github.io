@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date:    2016-05-02 16:21:20 +0200
 lastmod: 2016-05-02 16:21:20 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - dns

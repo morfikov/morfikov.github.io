@@ -4,7 +4,8 @@ categories:
 - Android
 date:    2018-09-22 11:13:00 +0200
 lastmod: 2018-09-22 11:13:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - smartfon

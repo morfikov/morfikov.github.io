@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-06-21T00:33:38Z"
 date_gmt: 2015-06-20 22:33:38 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - bootloader

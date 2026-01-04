@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-27T20:02:45Z"
 date_gmt: 2015-10-27 18:02:45 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - firefox

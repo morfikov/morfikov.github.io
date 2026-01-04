@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-07-15T17:29:27Z"
 date_gmt: 2015-07-15 15:29:27 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - locale

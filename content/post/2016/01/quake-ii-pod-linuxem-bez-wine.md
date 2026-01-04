@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-01-19T16:59:36Z"
 date_gmt: 2016-01-19 15:59:36 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - gry

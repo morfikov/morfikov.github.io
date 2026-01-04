@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-11-07T10:12:15Z"
 date_gmt: 2015-11-07 09:12:15 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - systemd

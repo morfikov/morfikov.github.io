@@ -4,7 +4,8 @@ categories:
 - Android
 date:    2016-11-25 20:57:39 +0100
 lastmod: 2016-11-25 20:57:39 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - router

@@ -4,7 +4,8 @@ categories:
 - Linux
 date:    2015-11-22 21:44:11 +0100
 lastmod: 2022-01-02 15:00:00 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - udev

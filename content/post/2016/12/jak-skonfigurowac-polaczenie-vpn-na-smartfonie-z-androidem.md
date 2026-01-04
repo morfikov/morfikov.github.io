@@ -4,7 +4,8 @@ categories:
 - Android
 date:    2016-12-07 18:54:37 +0100
 lastmod: 2016-12-07 18:54:37 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - vpn

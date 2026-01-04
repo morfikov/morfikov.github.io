@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-09-06T11:08:42Z"
 date_gmt: 2015-09-06 09:08:42 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - moduły-kernela

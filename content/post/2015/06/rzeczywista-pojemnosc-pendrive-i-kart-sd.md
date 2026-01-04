@@ -4,7 +4,8 @@ categories:
 - Hardware
 date: "2015-06-14T09:08:09Z"
 date_gmt: 2015-06-14 07:08:09 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - karta-sd

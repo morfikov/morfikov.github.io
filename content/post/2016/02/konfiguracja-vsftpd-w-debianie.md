@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-02-12T02:39:29Z"
 date_gmt: 2016-02-12 01:39:29 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - debian
@@ -261,7 +262,7 @@ wymieniane dane. Czas oczekiwania na połączenie w trybie pasywnym definiujemy 
 
 ### TCP wrapper
 
-<span>TCP wrapper</span> jest w stanie regulować dostęp do usług sieciowych za pomocą plików
+TCP wrapper jest w stanie regulować dostęp do usług sieciowych za pomocą plików
 `/etc/hosts.allow` oraz `/etc/hosts.deny` . Jeśli w `vsftpd` zostało wkompilowane wsparcie dla tego
 mechanizmu, to będzie można z niego skorzystać przez ustawienie opcji `tcp_wrappers` . Jak możemy
 wyczytać [na stronie Achrlinux'a](https://www.archlinux.org/news/dropping-tcp_wrappers-support/),

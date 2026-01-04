@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-04T16:36:26Z"
 date_gmt: 2015-10-04 14:36:26 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - udev

@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date: "2016-04-24T00:00:51Z"
 date_gmt: 2016-04-23 22:00:51 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - ssh

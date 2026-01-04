@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-30T17:13:58Z"
 date_gmt: 2015-10-30 15:13:58 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - pulseaudio

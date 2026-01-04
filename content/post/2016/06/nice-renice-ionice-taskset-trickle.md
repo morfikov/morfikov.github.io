@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-06-16T21:35:20Z"
 date_gmt: 2016-06-16 19:35:20 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - procesy

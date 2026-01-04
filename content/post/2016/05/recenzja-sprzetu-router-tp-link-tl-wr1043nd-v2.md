@@ -4,7 +4,8 @@ categories:
 - Hardware
 date: "2016-05-31T15:14:24Z"
 date_gmt: 2016-05-31 13:14:24 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - wifi

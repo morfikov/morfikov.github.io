@@ -3,7 +3,8 @@ author: Morfik
 categories:
 - OpenWRT
 date: "2017-08-17T21:22:08Z"
-published: true
+params:
+  published: true
 status: publish
 tags:
 - chaos-calmer

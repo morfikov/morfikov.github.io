@@ -4,7 +4,8 @@ categories:
 - Linux
 date:    2015-06-18 20:00:54 +0200
 lastmod: 2020-00-19 15:40:54 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - dns

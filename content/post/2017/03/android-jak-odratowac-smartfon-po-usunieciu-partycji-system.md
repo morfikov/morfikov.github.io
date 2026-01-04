@@ -5,7 +5,8 @@ categories:
 - Linux
 date:    2017-03-09 14:24:44 +0100
 lastmod: 2017-03-09 14:24:44 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - smartfon

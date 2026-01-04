@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-11-19T16:16:51Z"
 date_gmt: 2015-11-19 15:16:51 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - statystyki

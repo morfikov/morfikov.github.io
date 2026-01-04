@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date: "2016-05-05T18:04:55Z"
 date_gmt: 2016-05-05 16:04:55 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - wps

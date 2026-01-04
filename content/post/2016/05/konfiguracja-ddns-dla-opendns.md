@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-05-23T20:09:42Z"
 date_gmt: 2016-05-23 18:09:42 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - dns

@@ -4,7 +4,8 @@ categories:
 - Android
 date:     2018-05-16 19:33:54 +0200
 lastmod:  2018-05-16 19:33:54 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - tp-link

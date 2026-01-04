@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date: "2016-06-20T16:46:48Z"
 date_gmt: 2016-06-20 14:46:48 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - pendrive

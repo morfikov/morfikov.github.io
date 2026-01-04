@@ -4,7 +4,8 @@ categories:
 - DD-WRT
 date: "2016-09-13T19:06:25Z"
 date_gmt: 2016-09-13 17:06:25 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - router

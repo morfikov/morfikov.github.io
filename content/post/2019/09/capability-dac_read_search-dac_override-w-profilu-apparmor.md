@@ -3,7 +3,8 @@ author: Morfik
 categories:
 - Linux
 date: "2019-09-16T18:20:15Z"
-published: true
+params:
+  published: true
 status: publish
 tags:
 - apparmor

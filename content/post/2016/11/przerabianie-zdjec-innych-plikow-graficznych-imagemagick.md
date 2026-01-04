@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-11-06T12:40:11Z"
 date_gmt: 2016-11-06 11:40:11 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - imagemagick

@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-05-30T21:05:27Z"
 lastmod: 2020-03-14 01:21:00 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - debian

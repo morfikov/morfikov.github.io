@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-08-12T20:50:39Z"
 date_gmt: 2016-08-12 18:50:39 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - dkms

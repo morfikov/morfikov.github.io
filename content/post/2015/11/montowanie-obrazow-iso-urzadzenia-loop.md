@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-11-19T14:17:20Z"
 date_gmt: 2015-11-19 13:17:20 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - loop

@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date:     2016-12-08 18:13:41 +0100
 date_gmt: 2016-12-08 18:13:41 +0100
-published: true
+params:
+  published: true
 status: publish
 aliases:
 - /post/jak-skonfigurowac-klienta-vpn-na-routerze-z-ledeopenwrt/

@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-09-27T15:10:04Z"
 date_gmt: 2015-09-27 13:10:04 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - sql

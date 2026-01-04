@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-02-04T16:57:37Z"
 date_gmt: 2016-02-04 15:57:37 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - sieć

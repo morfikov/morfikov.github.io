@@ -4,7 +4,8 @@ categories:
 - RaspberryPi
 date:    2020-08-22 14:35:00 +0200
 lastmod: 2021-09-04 16:00:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - raspberry-pi-4b

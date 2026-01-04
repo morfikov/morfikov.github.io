@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-01-15T16:25:39Z"
 date_gmt: 2016-01-15 15:25:39 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - luks

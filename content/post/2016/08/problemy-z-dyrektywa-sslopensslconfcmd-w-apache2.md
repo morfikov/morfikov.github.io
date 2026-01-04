@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-08-05T15:52:05Z"
 date_gmt: 2016-08-05 13:52:05 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - apache2

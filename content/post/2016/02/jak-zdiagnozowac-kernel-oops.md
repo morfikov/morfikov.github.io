@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-02-22T18:41:27Z"
 date_gmt: 2016-02-22 17:41:27 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - kernel

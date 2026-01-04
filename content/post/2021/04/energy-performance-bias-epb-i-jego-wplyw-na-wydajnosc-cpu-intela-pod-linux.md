@@ -4,7 +4,8 @@ categories:
 - linux
 date:    2021-04-30 22:10:00 +0200
 lastmod: 2021-04-30 22:10:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - kernel

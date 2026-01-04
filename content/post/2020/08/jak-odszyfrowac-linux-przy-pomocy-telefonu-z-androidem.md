@@ -5,7 +5,8 @@ categories:
 - Android
 date:    2020-08-15 02:43:00 +0200
 lastmod: 2020-08-15 02:43:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - debian

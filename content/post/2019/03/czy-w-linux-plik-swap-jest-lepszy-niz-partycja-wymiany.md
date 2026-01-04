@@ -3,7 +3,8 @@ author: Morfik
 categories:
 - Linux
 date: "2019-03-22T16:23:42Z"
-published: true
+params:
+  published: true
 status: publish
 tags:
 - ext4

@@ -4,7 +4,8 @@ categories:
 - Blog
 date: "2015-05-30T17:59:03Z"
 date_gmt: 2015-05-30 15:59:03 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - gettext

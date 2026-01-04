@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-06-18T18:32:32Z"
 date_gmt: 2015-06-18 16:32:32 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - system-plików

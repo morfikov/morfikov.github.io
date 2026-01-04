@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-06-11T14:43:35Z"
 date_gmt: 2015-06-11 12:43:35 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - pendrive

@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-02-02T16:21:08Z"
 date_gmt: 2016-02-02 15:21:08 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - hdd

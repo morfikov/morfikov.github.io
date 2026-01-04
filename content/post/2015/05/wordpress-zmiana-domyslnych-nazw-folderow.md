@@ -4,7 +4,8 @@ categories:
 - Blog
 date: "2015-05-25T15:03:42Z"
 date_gmt: 2015-05-25 13:03:42 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - bezpieczeństwo

@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date: "2016-07-05T18:05:31Z"
 date_gmt: 2016-07-05 16:05:31 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - bezpieczeństwo

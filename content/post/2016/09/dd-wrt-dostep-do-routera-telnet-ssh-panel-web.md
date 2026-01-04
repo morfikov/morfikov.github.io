@@ -4,7 +4,8 @@ categories:
 - DD-WRT
 date: "2016-09-11T12:42:30Z"
 date_gmt: 2016-09-11 10:42:30 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - ssh

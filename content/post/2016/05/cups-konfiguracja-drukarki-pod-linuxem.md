@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-05-11T21:45:38Z"
 date_gmt: 2016-05-11 19:45:38 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - drukarka

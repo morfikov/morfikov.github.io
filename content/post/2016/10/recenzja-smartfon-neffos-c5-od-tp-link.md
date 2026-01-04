@@ -5,7 +5,8 @@ categories:
 - Android
 date:    2016-10-08 13:20:42 +0200
 lastmod: 2016-10-08 13:20:42 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - recenzja

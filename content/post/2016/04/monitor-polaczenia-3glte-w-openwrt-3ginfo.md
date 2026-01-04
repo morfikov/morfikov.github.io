@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date: "2016-04-22T19:53:08Z"
 date_gmt: 2016-04-22 17:53:08 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - chaos-calmer

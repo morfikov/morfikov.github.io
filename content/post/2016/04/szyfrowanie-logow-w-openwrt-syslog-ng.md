@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date: "2016-04-29T02:36:00Z"
 date_gmt: 2016-04-29 00:36:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - szyfrowanie

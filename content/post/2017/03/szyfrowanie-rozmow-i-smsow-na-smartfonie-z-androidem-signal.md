@@ -4,7 +4,8 @@ categories:
 - Android
 date:    2017-03-26 18:35:14 +0200
 lastmod: 2017-03-26 18:35:14 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - szyfrowanie

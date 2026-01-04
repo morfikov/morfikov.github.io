@@ -3,7 +3,8 @@ author: Morfik
 categories:
 - Linux
 date: "2019-11-08T18:02:33Z"
-published: true
+params:
+  published: true
 status: publish
 tags:
 - grub

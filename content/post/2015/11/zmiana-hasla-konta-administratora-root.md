@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-11-25T13:55:44Z"
 date_gmt: 2015-11-25 12:55:44 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - użytkownicy

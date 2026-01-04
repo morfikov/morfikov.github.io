@@ -4,7 +4,8 @@ categories:
 - Linux
 date:    2016-04-02 18:47:47 +0200
 lastmod: 2016-04-02 18:47:47 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - resolver

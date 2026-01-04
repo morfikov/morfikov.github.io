@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-06-11T23:24:07Z"
 date_gmt: 2015-06-11 21:24:07 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - chroot

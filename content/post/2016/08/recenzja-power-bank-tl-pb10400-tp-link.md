@@ -4,7 +4,8 @@ categories:
 - Hardware
 date: "2016-08-14T08:12:13Z"
 date_gmt: 2016-08-14 06:12:13 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - recenzja

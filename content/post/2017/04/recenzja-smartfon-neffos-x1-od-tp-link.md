@@ -5,7 +5,8 @@ categories:
 - Android
 date:     2017-04-22 18:51:37 +0200
 date_gmt: 2017-04-22 18:51:37 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - recenzja

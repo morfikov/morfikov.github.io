@@ -4,7 +4,8 @@ categories:
 - Blog
 date: "2016-08-08T09:44:17Z"
 date_gmt: 2016-08-08 07:44:17 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - seo

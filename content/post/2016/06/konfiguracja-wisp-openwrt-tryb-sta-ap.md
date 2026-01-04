@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date: "2016-06-18T22:13:09Z"
 date_gmt: 2016-06-18 20:13:09 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - wifi

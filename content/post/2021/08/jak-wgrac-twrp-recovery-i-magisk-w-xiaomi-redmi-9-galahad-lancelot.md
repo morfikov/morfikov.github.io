@@ -4,7 +4,8 @@ categories:
 - Android
 date:    2021-08-31 19:45:00 +0200
 lastmod: 2021-08-31 19:45:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - xiaomi

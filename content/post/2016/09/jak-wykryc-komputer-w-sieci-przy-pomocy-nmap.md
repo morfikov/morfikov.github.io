@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-09-26T18:29:27Z"
 date_gmt: 2016-09-26 16:29:27 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - nmap

@@ -5,7 +5,8 @@ categories:
 - RaspberryPi
 date:    2024-06-16 16:30:00 +0200
 lastmod: 2024-06-16 16:30:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - debian

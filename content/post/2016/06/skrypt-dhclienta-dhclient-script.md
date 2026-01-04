@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-06-14T16:26:15Z"
 date_gmt: 2016-06-14 14:26:15 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - dhcp

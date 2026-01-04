@@ -3,7 +3,8 @@ author: Morfik
 categories:
 - Linux
 date: "2019-06-06T16:10:15Z"
-published: true
+params:
+  published: true
 status: publish
 tags:
 - debian

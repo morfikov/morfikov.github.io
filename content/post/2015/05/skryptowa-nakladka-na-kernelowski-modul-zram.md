@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-05-17T21:01:24Z"
 lastmod: 2015-05-17 21:01:24 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - moduły-kernela

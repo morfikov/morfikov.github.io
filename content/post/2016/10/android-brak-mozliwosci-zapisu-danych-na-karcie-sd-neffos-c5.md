@@ -4,7 +4,8 @@ categories:
 - Android
 date:    2016-10-14 20:56:20 +0200
 lastmod: 2016-10-14 20:56:20 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - karta-sd

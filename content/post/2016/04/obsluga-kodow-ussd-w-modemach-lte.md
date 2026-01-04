@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-04-20T15:31:46Z"
 date_gmt: 2016-04-20 13:31:46 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - lte

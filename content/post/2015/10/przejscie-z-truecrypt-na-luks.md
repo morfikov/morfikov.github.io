@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-20T09:58:18Z"
 date_gmt: 2015-10-20 07:58:18 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - bezpieczeństwo

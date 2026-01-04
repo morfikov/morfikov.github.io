@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-01-02T01:47:30Z"
 date_gmt: 2016-01-02 00:47:30 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - mbr

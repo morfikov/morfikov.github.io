@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date: "2020-05-12T21:03:00Z"
 lastmod: 2020-05-30 15:03:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - router

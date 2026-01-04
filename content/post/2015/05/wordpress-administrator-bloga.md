@@ -4,7 +4,8 @@ categories:
 - Blog
 date: "2015-05-24T11:28:16Z"
 date_gmt: 2015-05-24 09:28:16 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - wordpress

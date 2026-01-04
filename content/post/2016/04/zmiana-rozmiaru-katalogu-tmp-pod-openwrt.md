@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date: "2016-04-27T18:24:12Z"
 date_gmt: 2016-04-27 16:24:12 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - system-plików

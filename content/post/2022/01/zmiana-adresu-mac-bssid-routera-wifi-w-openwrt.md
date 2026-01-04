@@ -4,7 +4,8 @@ categories:
 - OpenWRT
 date:    2022-01-30 20:23:00 +0100
 lastmod: 2022-01-30 20:23:00 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - wifi

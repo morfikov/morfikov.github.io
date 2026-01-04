@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-06-28T17:33:54Z"
 date_gmt: 2015-06-28 15:33:54 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - ciasteczka

@@ -4,7 +4,8 @@ categories:
 - Blog
 date:    2021-04-09 20:00:00 +0200
 lastmod: 2021-04-09 20:00:00 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - disqus

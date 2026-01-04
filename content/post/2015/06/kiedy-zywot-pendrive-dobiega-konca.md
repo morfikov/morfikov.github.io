@@ -4,7 +4,8 @@ categories:
 - Hardware
 date: "2015-06-09T20:47:42Z"
 date_gmt: 2015-06-09 18:47:42 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - pendrive

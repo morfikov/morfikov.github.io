@@ -5,7 +5,8 @@ categories:
 - Linux
 date:    2021-11-07 10:20:00 +0100
 lastmod: 2021-11-07 10:20:00 +0100
-published: true
+params:
+  published: true
 status: publish
 tags:
 - raspberry-pi-4b

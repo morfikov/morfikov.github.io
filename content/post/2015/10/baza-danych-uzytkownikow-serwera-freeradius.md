@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2015-10-13T19:31:05Z"
 date_gmt: 2015-10-13 17:31:05 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - baza-danych

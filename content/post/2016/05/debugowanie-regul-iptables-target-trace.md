@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-05-11T13:20:25Z"
 date_gmt: 2016-05-11 11:20:25 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - iptables

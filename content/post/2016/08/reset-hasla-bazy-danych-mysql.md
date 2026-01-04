@@ -4,7 +4,8 @@ categories:
 - Linux
 date: "2016-08-16T18:36:20Z"
 date_gmt: 2016-08-16 16:36:20 +0200
-published: true
+params:
+  published: true
 status: publish
 tags:
 - mysql
