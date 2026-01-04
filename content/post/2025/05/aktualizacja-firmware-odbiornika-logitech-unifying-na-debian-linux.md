@@ -29,9 +29,9 @@ prawie 20 lat czyściłem mojego Logitech'a (kompletne rozkręcenie i powyciąga
 obstawiam, że co najmniej kilkanaście razy (średnio raz do roku). Z przycisków nawet jedno
 oznaczenie się nie starło. Dlatego też miałem ogromne problemy znaleźć coś bezprzewodowego, w miarę
 taniego, co by mi posłużyło kolejne dwie dekady. Gdy straciłem już wiarę w producentów klawiatur,
-udało mi się za 50zł dorwać klawiaturę (używaną) od Logitech. Jest to [model Logitech K350][1] i
-jest on bardzo podobny do tej mojej starej klawiatury, z tą różnicą że jest bezprzewodowa. Do tej
-klawiatury jest dostarczony [odbiornik Logitech Unifying][2] i całość w zasadzie działa
+udało mi się za 50zł dorwać klawiaturę (używaną) od Logitech. Jest to [model Logitech K350][1],
+który jest bardzo podobny do tej mojej starej klawiatury, z tą różnicą że jest on bezprzewodowy.
+Do tej klawiatury jest dostarczony [odbiornik Logitech Unifying][2] i całość w zasadzie działa
 bezproblemowo na moim Debianie, choć trzeba było parę rzeczy skonfigurować. Nie obyło się także bez
 aktualizacji firmware w tym odbiorniku, bo czynił on to urządzenie podatne na atak typu MouseJack.
 
