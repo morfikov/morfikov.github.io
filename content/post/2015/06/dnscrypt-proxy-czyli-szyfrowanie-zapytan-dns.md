@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Linux
 date:    2015-06-18 20:00:54 +0200
-lastmod: 2020-00-19 15:40:54 +0200
+lastmod: 2020-06-19 15:40:54 +0200
 params:
   published: true
 status: publish
