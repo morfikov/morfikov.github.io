@@ -83,7 +83,7 @@ oraz `winbindd` , które obecnie zdają się być już przestarzałe.
 Demon `nmbd` jest w stanie odpowiadać na żądania obsługi nazw NetBIOS poprzez IP takie, jakie są
 tworzone przez klientów CIFS/SMB/SAMBA (Windows 95/98, Windows NT i klientów LanManager).
 Partycypuje również w protokołach przeglądania, które tworzą widok "Otoczenie Sieciowe" Windows.
-Demon `nmbd` może być również użyty jako serwer WINS (Windows Interner Name Server). To w praktyce
+Demon `nmbd` może być również użyty jako serwer WINS (Windows Internet Name Server). To w praktyce
 oznacza, że będzie funkcjonował jako serwer bazy danych WINS tworząc bazę danych z żądań
 rejestracyjnych, które otrzymuje i odpowiadając na zapytania od klientów o nazwy. Dodatkowo, `nmbd`
 może funkcjonować jako serwer proxy WINS, przekazujący zapytania rozgłaszane przez klientów, którzy
