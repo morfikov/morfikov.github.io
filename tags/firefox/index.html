@@ -17,8 +17,8 @@
 		
   <meta itemprop="name" content="Firefox">
   <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="datePublished" content="2020-08-10T18:15:00+00:00">
-  <meta itemprop="dateModified" content="2020-08-10T18:15:00+00:00">
+  <meta itemprop="datePublished" content="2026-01-22T14:55:00+01:00">
+  <meta itemprop="dateModified" content="2026-01-22T14:55:00+01:00">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Firefox">
@@ -90,6 +90,38 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-video-downloadhelper-vdh-zabija-dyski-ssd-firefox-chrome/">Jak Video DownloadHelper (VDH) zabija dyski SSD (Firefox/Chrome)</a></h1>
+	<div class="entry__content"><p>Jakiś już czas temu naskrobałem kawałek artykułu na temat <a href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/">mechanizmu Trim/discard w kontekście
+LUKS/LVM na dysku SSD pod Debian linux</a>, przy okazji poruszając tam kwestie nieco daleko
+idącej <a href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/#odci%C4%85%C5%BCenie-dysku-ssd-przez-wykorzystanie-ramdysk%C3%B3w">optymalizacji systemu pod kątem przedłużenia żywotności tego typu dyskom opartym o
+technologię flash</a>. Opisane w tym powyższym artykule zabiegi sprawiły, że zapis danych na tym
+dysku systemowym waha się w okolicy 3 GiB na dzień (średnia za rok 2024 i 2025). Gdyby ten stan
+rzeczy utrzymać, to ten dysk SSD posłużyłby jeszcze przez około 160 lat i taka żywotność nośnika
+SSD mnie jak najbardziej zadowala... Przez te dwa ostatnie lata tylko kilka aplikacji chciało
+zapisywać ogromne ilości danych na dysku systemowym bez wyraźnej przyczyny, np <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1058022">QuiteRSS</a>, a tak
+poza tym, to ten dysk SSD nie wykazywał większych odchyłów od normy w kwestii zapisu danych.
+Niestety ten stan rzeczy uległ zmianie kilka dni temu. Szukając przyczyny udało się zawęzić krąg
+podejrzanych do przeglądarki Firefox (ewentualnie też Google Chrome i Chromium). Okazało się, że
+jeden z jej dodatków, a konkretnie <a href="https://github.com/aclap-dev/video-downloadhelper">Video DownloadHelper</a> (VDH), z jakiegoś powodu zapisuje
+ogromne ilości danych w katalogu profilu tej przeglądarki (tj. w <code>~/.mozilla/firefox/</code> ).
+Pobierając dużo materiałów audio/video, np. z YouTube czy CDA, bardzo szybko nam taki dysk SSD
+padnie i to bez znaczenia czy docelowy katalog zapisu pobranych danych z internetu mamy ustawiony,
+np. na osobnym dysku HDD. Czy istnieje zatem jakiś sposób, który by powstrzymał dodatek Video
+DownloadHelper od zniszczenia nam dysku SSD?</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2026-01-22T14:55:00&#43;01:00">Opublikowano: 22/01/2026</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -337,31 +369,6 @@ EXIF</a> zawartych w plikach graficznych,
 które postaramy się wydobyć, zmienić i usunąć.</p></div>
 	<div class="entry__meta meta mt tar">
 	<time class="entry__meta-published meta-published" datetime="2016-01-21T16:58:55Z">Opublikowano: 21/01/2016</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/konfiguracja-cache-dns-w-firefoxie/">Konfiguracja cache DNS w Firefox&#39;ie</a></h1>
-	<div class="entry__content"><p>We wpisie poświęconym <a href="https://morfikov.github.io/post/cache-dns-buforowania-zapytan/">systemowemu cache DNS w
-linux'ie</a> mieliśmy okazję zobaczyć jak
-wzrasta wydajność po zaimplementowaniu tego mechanizmu. W skrócie, to ponad drugie tyle zapytań było
-rozwiązywanych lokalnie bez potrzeby odwoływania się do zdalnego serwera DNS, co zajmuje sporo czasu
-(20-40ms). Przeglądarki internetowe, np. Firefox, mają swoje wynalazki, które potrafią wyeliminować
-opóźnienia związane z surfowaniem po stronach www. Do nich zalicza się również cache DNS, z tym, że
-w tym przypadku zaimplementowany jest on na poziomie przeglądarki, a nie globalnie w systemie.
-Dzięki temu rozwiązaniu, nawet bez <code>dnsmasq</code> , Firefox jest nam w stanie zaoszczędzić sporo czasu
-przy przeglądaniu internetu. Zajrzyjmy zatem Firefox'owi pod maskę i sprawdźmy, które parametry
-dotyczące cache DNS wymagają dostosowania.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2015-11-20T14:01:17Z">Opublikowano: 20/11/2015</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:

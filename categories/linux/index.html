@@ -17,8 +17,8 @@
 		
   <meta itemprop="name" content="Linux">
   <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="datePublished" content="2025-05-16T18:20:00+02:00">
-  <meta itemprop="dateModified" content="2025-05-16T18:20:00+02:00">
+  <meta itemprop="datePublished" content="2026-01-22T14:55:00+01:00">
+  <meta itemprop="dateModified" content="2026-01-22T14:55:00+01:00">
 		
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Linux">
@@ -90,6 +90,38 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-video-downloadhelper-vdh-zabija-dyski-ssd-firefox-chrome/">Jak Video DownloadHelper (VDH) zabija dyski SSD (Firefox/Chrome)</a></h1>
+	<div class="entry__content"><p>Jakiś już czas temu naskrobałem kawałek artykułu na temat <a href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/">mechanizmu Trim/discard w kontekście
+LUKS/LVM na dysku SSD pod Debian linux</a>, przy okazji poruszając tam kwestie nieco daleko
+idącej <a href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/#odci%C4%85%C5%BCenie-dysku-ssd-przez-wykorzystanie-ramdysk%C3%B3w">optymalizacji systemu pod kątem przedłużenia żywotności tego typu dyskom opartym o
+technologię flash</a>. Opisane w tym powyższym artykule zabiegi sprawiły, że zapis danych na tym
+dysku systemowym waha się w okolicy 3 GiB na dzień (średnia za rok 2024 i 2025). Gdyby ten stan
+rzeczy utrzymać, to ten dysk SSD posłużyłby jeszcze przez około 160 lat i taka żywotność nośnika
+SSD mnie jak najbardziej zadowala... Przez te dwa ostatnie lata tylko kilka aplikacji chciało
+zapisywać ogromne ilości danych na dysku systemowym bez wyraźnej przyczyny, np <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1058022">QuiteRSS</a>, a tak
+poza tym, to ten dysk SSD nie wykazywał większych odchyłów od normy w kwestii zapisu danych.
+Niestety ten stan rzeczy uległ zmianie kilka dni temu. Szukając przyczyny udało się zawęzić krąg
+podejrzanych do przeglądarki Firefox (ewentualnie też Google Chrome i Chromium). Okazało się, że
+jeden z jej dodatków, a konkretnie <a href="https://github.com/aclap-dev/video-downloadhelper">Video DownloadHelper</a> (VDH), z jakiegoś powodu zapisuje
+ogromne ilości danych w katalogu profilu tej przeglądarki (tj. w <code>~/.mozilla/firefox/</code> ).
+Pobierając dużo materiałów audio/video, np. z YouTube czy CDA, bardzo szybko nam taki dysk SSD
+padnie i to bez znaczenia czy docelowy katalog zapisu pobranych danych z internetu mamy ustawiony,
+np. na osobnym dysku HDD. Czy istnieje zatem jakiś sposób, który by powstrzymał dodatek Video
+DownloadHelper od zniszczenia nam dysku SSD?</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2026-01-22T14:55:00&#43;01:00">Opublikowano: 22/01/2026</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -355,31 +387,6 @@ zajmiemy w niniejszym artykule.</p></div>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/chroot-do-32-bit-systemu-arm-z-poziomu-64-bit-linuxowego-hosta/">Chroot do 32-bit systemu ARM z poziomu 64-bit linux&#39;owego hosta</a></h1>
-	<div class="entry__content"><p>Eksperymentując ostatnio z moją maszynką Raspberry Pi 4B, zaszła potrzeba, by zejść do systemu
-RasPiOS/Raspbian przy pomocy mechanizmu chroot. Problem w tym, że system wyrzuca  komunikat:
-<code>chroot: failed to run command ‘/bin/bash’: Exec format error</code> . Niby wszystko jest na swoim
-miejscu ale ta widoczna wyżej wiadomość nie chce zniknąć uniemożliwiając tym samym dalszą zabawę z
-RPI. Okazało się, że winna jest tutaj architektura CPU. Mój laptop działa pod kontrolą 64-bitowego
-Intel'owskiego procesora (x64, x86-64, AMD64), na którym uruchomiony jest również 64-bitowy Debian
-linux. Z kolei Raspberry Pi ma 64-bitowy procesor ARM (ARMv8-A) działający pod kontrolą 32-bitowego
-systemu operacyjnego. Te dość spore rozbieżności sprawiają, że nie damy rady skorzystać z chroot,
-przynajmniej nie bez zaprzęgnięcia do tego celu emulatora QEMU.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2021-11-07T10:20:00&#43;01:00">Opublikowano: 07/11/2021</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/raspberrypi/" rel="category">RaspberryPi</a>, 
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
 </div>

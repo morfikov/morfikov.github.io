@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak Video DownloadHelper (VDH) zabija dyski SSD (Firefox/Chrome) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:url" content="https://morfikov.github.io/post/jak-video-downloadhelper-vdh-zabija-dyski-ssd-firefox-chrome/">
+  <meta property="og:site_name" content="Morfitronik">
+  <meta property="og:title" content="Jak Video DownloadHelper (VDH) zabija dyski SSD (Firefox/Chrome)">
+  <meta property="og:description" content="Jakiś już czas temu naskrobałem kawałek artykułu na temat mechanizmu Trim/discard w kontekście LUKS/LVM na dysku SSD pod Debian linux, przy okazji poruszając tam kwestie nieco daleko idącej optymalizacji systemu pod kątem przedłużenia żywotności tego typu dyskom opartym o technologię flash. Opisane w tym powyższym artykule zabiegi sprawiły, że zapis danych na tym dysku systemowym waha się w okolicy 3 GiB na dzień (średnia za rok 2024 i 2025). Gdyby ten stan rzeczy utrzymać, to ten dysk SSD posłużyłby jeszcze przez około 160 lat i taka żywotność nośnika SSD mnie jak najbardziej zadowala... Przez te dwa ostatnie lata tylko kilka aplikacji chciało zapisywać ogromne ilości danych na dysku systemowym bez wyraźnej przyczyny, np QuiteRSS, a tak poza tym, to ten dysk SSD nie wykazywał większych odchyłów od normy w kwestii zapisu danych. Niestety ten stan rzeczy uległ zmianie kilka dni temu. Szukając przyczyny udało się zawęzić krąg podejrzanych do przeglądarki Firefox (ewentualnie też Google Chrome i Chromium). Okazało się, że jeden z jej dodatków, a konkretnie Video DownloadHelper (VDH), z jakiegoś powodu zapisuje ogromne ilości danych w katalogu profilu tej przeglądarki (tj. w ~/.mozilla/firefox/ ). Pobierając dużo materiałów audio/video, np. z YouTube czy CDA, bardzo szybko nam taki dysk SSD padnie i to bez znaczenia czy docelowy katalog zapisu pobranych danych z internetu mamy ustawiony, np. na osobnym dysku HDD. Czy istnieje zatem jakiś sposób, który by powstrzymał dodatek Video DownloadHelper od zniszczenia nam dysku SSD?">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2026-01-22T14:55:00+01:00">
+    <meta property="article:modified_time" content="2026-01-22T14:55:00+01:00">
+    <meta property="article:tag" content="Debian">
+    <meta property="article:tag" content="Firefox">
+    <meta property="article:tag" content="Chrome">
+    <meta property="article:tag" content="Chromium">
+    <meta property="article:tag" content="Vdh">
+    <meta property="article:tag" content="Ssd">
+
+		
+  <meta itemprop="name" content="Jak Video DownloadHelper (VDH) zabija dyski SSD (Firefox/Chrome)">
+  <meta itemprop="description" content="Jakiś już czas temu naskrobałem kawałek artykułu na temat mechanizmu Trim/discard w kontekście LUKS/LVM na dysku SSD pod Debian linux, przy okazji poruszając tam kwestie nieco daleko idącej optymalizacji systemu pod kątem przedłużenia żywotności tego typu dyskom opartym o technologię flash. Opisane w tym powyższym artykule zabiegi sprawiły, że zapis danych na tym dysku systemowym waha się w okolicy 3 GiB na dzień (średnia za rok 2024 i 2025). Gdyby ten stan rzeczy utrzymać, to ten dysk SSD posłużyłby jeszcze przez około 160 lat i taka żywotność nośnika SSD mnie jak najbardziej zadowala... Przez te dwa ostatnie lata tylko kilka aplikacji chciało zapisywać ogromne ilości danych na dysku systemowym bez wyraźnej przyczyny, np QuiteRSS, a tak poza tym, to ten dysk SSD nie wykazywał większych odchyłów od normy w kwestii zapisu danych. Niestety ten stan rzeczy uległ zmianie kilka dni temu. Szukając przyczyny udało się zawęzić krąg podejrzanych do przeglądarki Firefox (ewentualnie też Google Chrome i Chromium). Okazało się, że jeden z jej dodatków, a konkretnie Video DownloadHelper (VDH), z jakiegoś powodu zapisuje ogromne ilości danych w katalogu profilu tej przeglądarki (tj. w ~/.mozilla/firefox/ ). Pobierając dużo materiałów audio/video, np. z YouTube czy CDA, bardzo szybko nam taki dysk SSD padnie i to bez znaczenia czy docelowy katalog zapisu pobranych danych z internetu mamy ustawiony, np. na osobnym dysku HDD. Czy istnieje zatem jakiś sposób, który by powstrzymał dodatek Video DownloadHelper od zniszczenia nam dysku SSD?">
+  <meta itemprop="datePublished" content="2026-01-22T14:55:00+01:00">
+  <meta itemprop="dateModified" content="2026-01-22T14:55:00+01:00">
+  <meta itemprop="wordCount" content="1563">
+  <meta itemprop="keywords" content="Debian,Firefox,Chrome,Chromium,Vdh,Ssd">
+		
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jak Video DownloadHelper (VDH) zabija dyski SSD (Firefox/Chrome)">
+  <meta name="twitter:description" content="Jakiś już czas temu naskrobałem kawałek artykułu na temat mechanizmu Trim/discard w kontekście LUKS/LVM na dysku SSD pod Debian linux, przy okazji poruszając tam kwestie nieco daleko idącej optymalizacji systemu pod kątem przedłużenia żywotności tego typu dyskom opartym o technologię flash. Opisane w tym powyższym artykule zabiegi sprawiły, że zapis danych na tym dysku systemowym waha się w okolicy 3 GiB na dzień (średnia za rok 2024 i 2025). Gdyby ten stan rzeczy utrzymać, to ten dysk SSD posłużyłby jeszcze przez około 160 lat i taka żywotność nośnika SSD mnie jak najbardziej zadowala... Przez te dwa ostatnie lata tylko kilka aplikacji chciało zapisywać ogromne ilości danych na dysku systemowym bez wyraźnej przyczyny, np QuiteRSS, a tak poza tym, to ten dysk SSD nie wykazywał większych odchyłów od normy w kwestii zapisu danych. Niestety ten stan rzeczy uległ zmianie kilka dni temu. Szukając przyczyny udało się zawęzić krąg podejrzanych do przeglądarki Firefox (ewentualnie też Google Chrome i Chromium). Okazało się, że jeden z jej dodatków, a konkretnie Video DownloadHelper (VDH), z jakiegoś powodu zapisuje ogromne ilości danych w katalogu profilu tej przeglądarki (tj. w ~/.mozilla/firefox/ ). Pobierając dużo materiałów audio/video, np. z YouTube czy CDA, bardzo szybko nam taki dysk SSD padnie i to bez znaczenia czy docelowy katalog zapisu pobranych danych z internetu mamy ustawiony, np. na osobnym dysku HDD. Czy istnieje zatem jakiś sposób, który by powstrzymał dodatek Video DownloadHelper od zniszczenia nam dysku SSD?">
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+</head>
+<body class="body kind-page">
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak Video DownloadHelper (VDH) zabija dyski SSD (Firefox/Chrome)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2026-01-22T14:55:00&#43;01:00">Opublikowano: 22/01/2026</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+				<h1 class="entry__title">Jak Video DownloadHelper (VDH) zabija dyski SSD (Firefox/Chrome)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#video-downloadhelper-do-wersji-9503">Video DownloadHelper do wersji 9.5.0.3</a></li>
+    <li><a href="#nowy-video-downloadhelper-v10x">Nowy Video DownloadHelper (v10.x)</a></li>
+    <li><a href="#vdh-v10x-i-pliki-tmp">VDH v10.x i pliki tmp</a></li>
+    <li><a href="#próba-wyłączenia-disk-cache-w-firefox">Próba wyłączenia disk cache w Firefox</a></li>
+    <li><a href="#jak-zmusić-vdh-v10x-by-zapisywał-pliki-tmp-w-katalogu-tmp--a-nie-w-profilu-firefox">Jak zmusić VDH v10.x by zapisywał pliki tmp w katalogu /tmp/ , a nie w profilu Firefox</a></li>
+    <li><a href="#downgrade-vdh-do-v9x">Downgrade VDH do v9.x</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Jakiś już czas temu naskrobałem kawałek artykułu na temat <a href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/">mechanizmu Trim/discard w kontekście
+LUKS/LVM na dysku SSD pod Debian linux</a>, przy okazji poruszając tam kwestie nieco daleko
+idącej <a href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/#odci%C4%85%C5%BCenie-dysku-ssd-przez-wykorzystanie-ramdysk%C3%B3w">optymalizacji systemu pod kątem przedłużenia żywotności tego typu dyskom opartym o
+technologię flash</a>. Opisane w tym powyższym artykule zabiegi sprawiły, że zapis danych na tym
+dysku systemowym waha się w okolicy 3 GiB na dzień (średnia za rok 2024 i 2025). Gdyby ten stan
+rzeczy utrzymać, to ten dysk SSD posłużyłby jeszcze przez około 160 lat i taka żywotność nośnika
+SSD mnie jak najbardziej zadowala... Przez te dwa ostatnie lata tylko kilka aplikacji chciało
+zapisywać ogromne ilości danych na dysku systemowym bez wyraźnej przyczyny, np <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1058022">QuiteRSS</a>, a tak
+poza tym, to ten dysk SSD nie wykazywał większych odchyłów od normy w kwestii zapisu danych.
+Niestety ten stan rzeczy uległ zmianie kilka dni temu. Szukając przyczyny udało się zawęzić krąg
+podejrzanych do przeglądarki Firefox (ewentualnie też Google Chrome i Chromium). Okazało się, że
+jeden z jej dodatków, a konkretnie <a href="https://github.com/aclap-dev/video-downloadhelper">Video DownloadHelper</a> (VDH), z jakiegoś powodu zapisuje
+ogromne ilości danych w katalogu profilu tej przeglądarki (tj. w <code>~/.mozilla/firefox/</code> ).
+Pobierając dużo materiałów audio/video, np. z YouTube czy CDA, bardzo szybko nam taki dysk SSD
+padnie i to bez znaczenia czy docelowy katalog zapisu pobranych danych z internetu mamy ustawiony,
+np. na osobnym dysku HDD. Czy istnieje zatem jakiś sposób, który by powstrzymał dodatek Video
+DownloadHelper od zniszczenia nam dysku SSD?</p>
+<h2 id="video-downloadhelper-do-wersji-9503">Video DownloadHelper do wersji 9.5.0.3</h2>
+<p>Z Video DownloadHelper korzystam od dawna i w zasadzie nie było z tym dodatkiem żadnych problemów.
+No może za wyjątkiem wsparcia pewnych stron, do których to obsługi trzeba było
+posiadać <a href="https://github.com/aclap-dev/video-downloadhelper/wiki/CoApp-Installation">Companion Application</a> (CoApp). Tak czy inaczej, poprawnie skonfigurowany VDH i CoApp
+potrafiły obrabiać bardzo dużo serwisów i pobierać z nich materiały audio/video. Tak pobrane pliki
+zapisywane były bezpośrednio w miejscu docelowym, tj. tam gdzie wskazywała
+opcja <code>Download directory</code> w ustawieniach dodatku -- nie było przy tym żadnych plików tymczasowych
+czy innych pośrednich katalogów. I tak to sobie działało bez zarzutu do wersji <code>9.5.0.3</code>
+włącznie (<a href="https://github.com/aclap-dev/video-downloadhelper/wiki/Older-versions">ostatnia wersja v9.x</a>).</p>
+<h2 id="nowy-video-downloadhelper-v10x">Nowy Video DownloadHelper (v10.x)</h2>
+<p>VDH wypuścił wersje v10.x dnia 2025-12-09. Przez ten ostatni miesiąc za wiele materiałów nie
+pobierałem przy pomocy tego dodatku, więc w zasadzie nie było widać, że jakieś większe zmiany
+zostały poczynione, które mogą się odbić na żywotności dysku SSD.</p>
+<p>Parę dni temu jednak, zaszła potrzeba by z Video DownloadHelper skorzystać i się okazało, że
+mechanika jego działania uległa zmianie. Niby pliki były pobierane ale coś było nie tak... Próbując
+dojść WTF, zauważyłem, że przy <a href="https://github.com/aclap-dev/vdhcoapp/">repozytorium CoApp</a> widnieje złowrogi
+komunikat <code>This repository was archived by the owner on Dec 15, 2025. It is now read-only.</code>, co
+zwykle oznacza zakończenie projektu. Niby CoApp nie działa już ale VDH w v10.x pobiera pliki bez
+problemu. Pomyślałem, że może CoApp już nie jest do niczego potrzebny i cała jego funkcjonalność
+została zaimplementowana bezpośrednio w VDH v10.x.</p>
+<p>Pobierając kolejny plik (już do testów), dalej coś nie grało. Niby po kliknięciu &quot;pobierz plik&quot;,
+pobieranie się rozpoczynało ale zaglądając do katalogu docelowego pliku brak... Nie było nawet
+pliku z końcówką <code>.part</code> (czy jakąkolwiek inną), który wskazywałby, że proces pobierania pliku w
+Firefox jeszcze się nie zakończył. Gdzie zatem się ten plik pobiera?</p>
+<p>Z początku myślałem, że może gdzieś do katalogu <code>/tmp/</code> (podmontowany w RAM) ale nie rozrasta się
+on praktycznie wcale. Podobnie katalog <code>~/.cache/mozilla/firefox/</code> , który również trzymał swój
+rozmiar (u mnie cały <code>~/.cache/</code> podmontowany jest w RAM). Po wydaniu polecenia <code>sync</code>, na
+monitorze systemu <code>conky</code> zauważyłem sporą aktywność na dysku systemowym... Więc podejrzenie padło
+na katalog <code>~/.mozilla/firefox/</code> . Tutaj <code>ncdu</code> pokazał, rozrastający się
+folder <code>~/.mozilla/firefox/PROFILE_NUMBERS/storage/default/moz-extension+++VDH_HASH/fs/</code> . Te
+zmienne PROFILE_NUMBERS i VDH_HASH są chyba unikatowe dla każdej instalacji, reszta ścieżki jest
+już stała.</p>
+<h2 id="vdh-v10x-i-pliki-tmp">VDH v10.x i pliki tmp</h2>
+<p>Wiedząc już gdzie tkwi problem, zacząłem szukaj informacji o możliwym błędzie, no bo przecie
+ścieżka docelowa wskazuje na inny dysk, a Video DownloadHelper zapisuje dane w zupełnie innym
+miejscu i dopiero gdy plik zostanie całkowicie pobrany, to jest przenoszony do lokalizacji
+docelowej. Natrafiłem na <a href="https://github.com/aclap-dev/video-downloadhelper/discussions/2866#discussioncomment-15260008">kilka pośrednich postów</a>, które nie do końca traktowały o tym moim
+problemie ale najwyraźniej inni użytkownicy też mieli jakiś większy czy mniejszy problem po zmianie
+wersji z v9.x na v10.x.</p>
+<p>Postanowiłem <a href="https://github.com/aclap-dev/video-downloadhelper/discussions/3040">zapytać o tę przypadłość na forum VDH</a> opisując również tymczasowe obejście tego
+problemu. Z informacji zwrotnej, którą otrzymałem wynika, że moje zapytanie zostało potraktowane
+jako SPAM, no bo najwyraźniej to nie bug a ficzer... Zostało mi podlinkowanych parę innych
+podobnych tematów, które w żaden sposób nie odnoszą się do kwestii poruszanej przeze mnie, a mój
+wpis został oznaczony jako ich duplikat -- no nie mam pytań. :] Mam za to takie nieodparte wrażenie,
+że to A.I. pisało odpowiedź na moje zapytanie... Tak czy inaczej, dowiedziałem się tylko tyle,
+że <code>nie</code> , tj. VDH v10.x <code>będzie zabijało</code> dyski SSD i co nam pan zrobisz?</p>
+<h2 id="próba-wyłączenia-disk-cache-w-firefox">Próba wyłączenia disk cache w Firefox</h2>
+<p>Można by pomyśleć, że skoro przeglądarka Firefox ma opcje od cache trzymanego na dysku, to różnego
+rodzaju dodatki, w tym też i  Video DownloadHelper będą te ustawienia respektować. No nic bardziej
+mylnego.</p>
+<p>Mając w <code>about:config</code> ustawione <code>browser.cache.disk.enable</code> na <code>false</code> jesteśmy w stanie
+całkowicie wyłączyć cache na dysku i wymusić na Firefox korzystanie tylko z cache w pamięci RAM, co
+możemy zaobserwować przechodząc w pasku adresu pod <code>about:cache</code> :</p>
+<pre><code>Information about the Network Cache Storage Service
+
+memory
+Number of entries: 	260
+Maximum storage size: 	2048000 KiB
+Storage in use: 	8232 KiB
+Storage disk location: 	none, only stored in memory
+List Cache Entries
+
+disk
+Number of entries: 	260
+Maximum storage size: 	2048000 KiB
+Storage in use: 	8232 KiB
+Storage disk location: 	none, only stored in memory
+List Cache Entries
+</code></pre>
+<p>Widzimy tutaj, że <code>Storage disk location: 	none, only stored in memory</code> , a mimo to VDH pobiera
+tymczasowo plik do katalogu profilu przeglądarki i to tylko po to, by po ukończeniu pobierania
+przenieść go w miejsce docelowe...</p>
+<h2 id="jak-zmusić-vdh-v10x-by-zapisywał-pliki-tmp-w-katalogu-tmp--a-nie-w-profilu-firefox">Jak zmusić VDH v10.x by zapisywał pliki tmp w katalogu /tmp/ , a nie w profilu Firefox</h2>
+<p>Najwyraźniej nie ma woli ze strony twórców Video DownloadHelper'a, by się zając problemem, który
+dotyczy całej masy ludzi i przy okazji niszczy nośniki pamięci masowej w postaci dysków SSD. Na
+szczęście istnieje proste rozwiązanie całej sytuacji, choć nie do końca jeszcze wiem jak trwałe ono
+będzie -- o ile numerek profilu w katalogu <code>~/.mozilla/firefox/</code> jest stały, to nie wiem jak z
+numerkami dodatków tj. <code>moz-extension+++...</code> , bo w zasadzie nigdy się tymi katalogami nie
+interesowałem. Tak czy inaczej, możemy zmusić VDH, by zapisywał dane w katalogu <code>/tmp/</code> (lub
+dowolnym innym), który w Debianie standardowo jest montowany w pamięci RAM. W ten sposób będziemy w
+stanie dramatycznie odciążyć dysk SSD, choć kosztem pamięci RAM i maszyny z niewielką ilością
+pamięci operacyjnej mogą nie być w stanie sobie z takim rozwiązaniem poradzić. Wszystko zależy od
+wielkości plików, które będziemy pobierać -- jeśli film będzie miał 4 GiB, to o tyle wzrośnie nam
+wykorzystanie pamięci RAM podczas pobierania plików.</p>
+<p>Zaczynamy od zamknięcia przeglądarki Firefox i usunięcia folderu <code>/fs/</code> z katalogu dodatku VDH, tj.</p>
+<pre><code># rm -R /home/morfik/.mozilla/firefox/PROFILE_NUMBERS/storage/default/moz-extension+++VDH_HASH/fs/
+</code></pre>
+<p>Następnie tworzymy sobie plik <code>/etc/tmpfiles.d/vdh.conf</code> , który wypełniamy poniższą treścią:</p>
+<pre><code>d /tmp/video-download-helper/    0700 morfik morfik 24h -
+L+ /home/morfik/.mozilla/firefox/PROFILE_NUMBERS/storage/default/moz-extension+++VDH_HASH/fs/    - morfik morfik - /tmp/video-download-helper/
+</code></pre>
+<p>Pamiętajmy o dostosowaniu zmiennych <code>PROFILE_NUMBERS</code> oraz <code>VDH_HASH</code> .</p>
+<p>Teraz w terminalu wydajemy poniższe polecenie:</p>
+<pre><code># systemd-tmpfiles --create --exclude-prefix=/dev
+</code></pre>
+<p>Powinniśmy mieć już katalog <code>/tmp/video-download-helper/</code> na swoim miejscu oraz link do tego
+katalogu w strukturze folderów dodatku VDH:</p>
+<pre><code>$ ls -al /home/morfik/.mozilla/firefox/PROFILE_NUMBERS/storage/default/moz-extension+++VDH_HASH/
+
+total 96
+drwxr-xr-x    3 morfik morfik  4096 2026-01-21 19:40:23 ./
+drwxr-xr-x 1253 morfik morfik 81920 2026-01-21 19:44:54 ../
+lrwxrwxrwx    1 morfik morfik    27 2026-01-21 19:29:05 fs -&gt; /tmp/video-download-helper/
+drwxr-xr-x    2 morfik morfik  4096 2026-01-21 19:21:45 ls/
+-rw-r--r--    1 morfik morfik   142 2026-01-21 20:09:55 .metadata-v2
+</code></pre>
+<p>Widzimy, że link wskazuje na <code>fs -&gt; /tmp/video-download-helper/</code> i wszystko co powędruje do
+katalogu <code>/fs/</code> poleci tak naprawdę do katalogu <code>/tmp/</code> , czyli do pamięci RAM.</p>
+<p>Zarówno link jak i katalog w <code>/tmp/</code> będą tworzone wraz ze startem systemu i nie ma co sobie nimi
+już głowy zawracać w późniejszym czasie -- ten mechanizm jest w pełni automatyczny. Dodatkowo
+katalog <code>/tmp/video-download-helper/</code> będzie cyklicznie czyszczony z plików, do których procesy nie
+odwoływały się przez ostatnie 24 godziny (czas można sobie naturalnie dostosować), np. jakieś
+pozostałości po przerwanym pobieraniu, etc.</p>
+<h2 id="downgrade-vdh-do-v9x">Downgrade VDH do v9.x</h2>
+<p>Jeśli to powyższe rozwiązanie nam nie pasuje z jakiegoś powodu i nie chcemy z niego korzystać, to
+możemy cofnąć wersję VDH do v9.x. Wystarczy <a href="https://github.com/aclap-dev/video-downloadhelper/wiki/Older-versions">przejść pod ten link</a> i zainstalować zarówno VDH
+jak i CoApp (jeśli go nie mamy już zainstalowanego). Wszystko powinno praktycznie natychmiast
+wrócić do normy. Trzeba jednak zdawać sobie sprawę, że ta starsza wersja prawdopodobnie nie jest
+już rozwijana i prędzej czy później przestanie wykrywać materiały audio/video w różnych serwisach.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Co by nie mówić o Video DownloadHelper, to jednak jest to dość użyteczne narzędzie, które
+automatyzuje w dużej mierze proces pobierania plików audio/video z różnych serwisów internetowych
+pokroju YouTube czy CDA. Niemniej jednak, podejście twórców tego dodatku do Firefox/Chrome
+pozostawia sporo do życzenia. Jakby nie patrzeć, tworzenie nowej wersji dodatku, która niszczy
+nośniki SSD i to tylko dlatego, że nie potrafi zapisać pliku w dedykowanym katalogu TMP (czy też
+bezpośrednio w docelowej lokalizacji) zasługuje wręcz na naganę. Widzimy też, że zgłoszenie dev'om
+tego faktu jest traktowane jako SPAM. No nic dodać, nic ująć. Dobrze chociaż, że &quot;linux jest linux&quot;
+i można przy pomocy systemd i jego mechanizmu obrabiania plików tymczasowych zautomatyzować
+tworzenie odpowiedniej struktury katalogów i linków, które są w stanie wymusić na VDH umieszczanie
+plików w katalogach, które są do tego bardziej odpowiednie niż profil przeglądarki...</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/firefox/">Firefox</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chrome/">Chrome</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chromium/">Chromium</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/vdh/">Vdh</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/ssd/">Ssd</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-video-downloadhelper-vdh-zabija-dyski-ssd-firefox-chrome%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-video-downloadhelper-vdh-zabija-dyski-ssd-firefox-chrome%2f&amp;text=Jak%20Video%20DownloadHelper%20%28VDH%29%20zabija%20dyski%20SSD%20%28Firefox%2fChrome%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-video-downloadhelper-vdh-zabija-dyski-ssd-firefox-chrome%2f&amp;title=Jak%20Video%20DownloadHelper%20%28VDH%29%20zabija%20dyski%20SSD%20%28Firefox%2fChrome%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-video-downloadhelper-vdh-zabija-dyski-ssd-firefox-chrome%2f&amp;title=Jak%20Video%20DownloadHelper%20%28VDH%29%20zabija%20dyski%20SSD%20%28Firefox%2fChrome%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-video-downloadhelper-vdh-zabija-dyski-ssd-firefox-chrome%2f&title=Jak%20Video%20DownloadHelper%20%28VDH%29%20zabija%20dyski%20SSD%20%28Firefox%2fChrome%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-video-downloadhelper-vdh-zabija-dyski-ssd-firefox-chrome%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-video-downloadhelper-vdh-zabija-dyski-ssd-firefox-chrome%2f&amp;title=Jak%20Video%20DownloadHelper%20%28VDH%29%20zabija%20dyski%20SSD%20%28Firefox%2fChrome%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-video-downloadhelper-vdh-zabija-dyski-ssd-firefox-chrome%2f&description=Jak%20Video%20DownloadHelper%20%28VDH%29%20zabija%20dyski%20SSD%20%28Firefox%2fChrome%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 15 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/trim-unmap-w-dyskach-ssd-podlaczonych-via-adapter-usb-sata-na-linux/">TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/przestrzen-wymiany-swap-tylko-na-potrzebny-hibernacji-w-debian-linux/">Przestrzeń wymiany SWAP tylko na potrzebny hibernacji w Debian linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/">Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/analiza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux/">Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wlaczyc-w-firefox-esni-encrypted-sni/">Jak włączyć w Firefox ESNI (Encrypted SNI)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/">Jak przygotować dysk pod instalację Debian linux z EFI/UEFI</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/montowanie-dyskow-jako-zwykly-uzytkownik-z-udisks-i-policykit/">Montowanie dysków jako zwykły użytkownik z UDisks i PolicyKit</a></li>
+		
+	</ul>
+</div>
+
+	<div id="comments">
+		<script src="https://utteranc.es/client.js"
+        repo="morfikov/morfitronik-comments"
+        issue-term="og:title"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+</script>
+
+	</div>
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
+		</a>
+</div>
+	<div class="footer__copyright">© 2026 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<div class="license-icons">
+			<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons Attribution 4.0 International license">
+<i class="icon-cc"></i><i class="icon-cc-by"></i><i class="icon-cc-nc"></i><i class="icon-cc-sa"></i>
+</a>
+		</div>
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
+</body>
+</html>
