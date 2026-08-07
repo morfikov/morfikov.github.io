@@ -466,7 +466,7 @@ Niżej zaś jest skrypt `/etc/initramfs-tools/scripts/local-bottom/umount-boot` 
 
 	exit 0
 
-Te dwa plik muszą mieć być wykonywalne:
+Te dwa plik muszą być wykonywalne:
 
     # chmod +x /etc/initramfs-tools/scripts/local-top/mount-boot
     # chmod +x /etc/initramfs-tools/scripts/local-bottom/umount-boot
