@@ -14,6 +14,7 @@ tags:
 - sieć
 - dns
 - resolver
+- openvpn
 GHissueID: 408
 title: Przeciek DNS (DNS leak) w VPN (resolvconf)
 ---
