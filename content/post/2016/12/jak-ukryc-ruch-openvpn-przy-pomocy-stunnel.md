@@ -12,6 +12,8 @@ tags:
 - vpn
 - debian
 - sieć
+- stunnel
+- openvpn
 GHissueID: 456
 title: Jak ukryć ruch OpenVPN przy pomocy stunnel
 ---
