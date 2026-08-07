@@ -197,7 +197,7 @@ tworzenie odpowiedniej struktury katalogów i linków, które są w stanie wymus
 plików w katalogach, które są do tego bardziej odpowiednie niż profil przeglądarki...
 
 
-[1]: https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/
+[1]: /post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/
 [2]: /post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/#odci%C4%85%C5%BCenie-dysku-ssd-przez-wykorzystanie-ramdysk%C3%B3w
 [3]: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1058022
 [4]: https://github.com/aclap-dev/video-downloadhelper
