@@ -3,7 +3,7 @@ author: Morfik
 categories:
 - Linux
 date:    2020-09-02 18:36:00 +0200
-lastmod: 2023-03-01 08:30:00 +0100
+lastmod: 2026-08-02 10:30:00 +0200
 params:
   published: true
 status: publish
@@ -15,6 +15,7 @@ tags:
 - nftables
 - proton-vpn
 - routing
+- openvpn
 GHissueID: 9
 title: Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)
 ---
@@ -332,12 +333,13 @@ skrypt shell'owy dla OpenVPN. Poniżej jest przykład takiego skryptu, który za
           echo "200 ${route_table}" >> /etc/iproute2/rt_tables
       fi
 
-      if ip route show table ${route_table} | grep blackhole > /dev/null
+      if ip route show table ${route_table} | grep -q blackhole
       then
-        ip route del default table ${route_table}
+        ip route prepend default dev ${dev} table ${route_table}
+      else
+        ip route add default dev ${dev} table ${route_table} && \
+        ip route append blackhole default table ${route_table}
       fi
-      ip route add default dev ${dev} table ${route_table}
-      ip route append blackhole default table ${route_table}
 
       if ! ip rule show | grep ${mark} > /dev/null
       then
