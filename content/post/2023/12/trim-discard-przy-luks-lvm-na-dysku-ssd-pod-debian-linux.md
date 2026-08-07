@@ -1031,8 +1031,8 @@ niewielkie, że go realnie nie odczujemy.
 
 Pierwszym miejscem, które przydałoby się zamontować w RAM, to katalog cache użytkownika, tj.
 `~/.cache/` . Przy intensywnym korzystaniu z internetu, ten katalog może nam się bardzo szybko
-rozrastać lub też stare pliki mogą być zastępowane nowym. Montując ten katalog w RAM, dziennie
-możemy zaoszczędzić na zapisie dysku SSD nawet kilka GiB (może nawet i kilkanaście).
+rozrastać lub też stare pliki mogą być zastępowane nowymi. Montując ten katalog w RAM, dziennie
+możemy zaoszczędzić na zapisie dysku SSD nawet kilka (może nawet i kilkanaście) GiB.
 
 #### Plik /etc/fstab
 
