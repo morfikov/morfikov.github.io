@@ -15,6 +15,7 @@ tags:
 - router
 - tp-link
 - chaos-calmer
+- openvpn
 GHissueID: 462
 title: Jak skonfigurować klienta VPN na routerze z OpenWRT
 ---
