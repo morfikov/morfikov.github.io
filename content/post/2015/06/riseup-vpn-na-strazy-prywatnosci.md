@@ -14,6 +14,7 @@ tags:
 - vpn
 - sieć
 - prywatność
+- openvpn
 GHissueID: 128
 title: Riseup VPN na straży prywatności
 ---
