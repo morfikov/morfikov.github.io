@@ -9,6 +9,10 @@ status: publish
 tags:
 - hdd
 - ssd
+- optymalizacja
+- debian
+- partycja
+- ext4
 GHissueID: 297
 title: Jak optymalnie podzielić dysk HDD/SSD na partycje pod linux
 ---
@@ -401,12 +405,14 @@ Podobnie też nie powinno się mieszać dużych plików z małymi.
 
 W przypadku dysków SSD proces fragmentacji ma z kolei marginalne znaczenie jeśli chodzi o wydajność
 przy odczycie/zapisie danych ale znowu liczy się wolne miejsce patrząc z perspektywy całego nośnika,
-tak by proces równoważenia obciążenia zużycia komórek był w stanie wykonywać swoje zadanie. I jeśli
+tak by proces równoważenia zużycia komórek był w stanie wykonywać swoje zadanie. I jeśli
 chodzi o te nośniki to nie powinniśmy schodzić poniżej tych 20-30% wolnego miejsca w skali dysku.
 Nie powinniśmy też zbytnio przechowywać na tych dyskach większych plików, których nie mamy zamiaru
 w ogóle ruszać miesiącami albo nawet latami, np. filmy czy obrazy `.img` . Ogólnie chodzi o
 wykorzystywanie dysku SSD jako storage. Jeśli będziemy ten dysk wykorzystywać w taki sposób, to
-komórki będą się zużywać nierównomiernie, co dodatkowo skróci żywotność samego dysku.
+komórki będą się zużywać nierównomiernie. Może też dojść do sytuacji, gdzie system zacznie
+przerzucać te pliki do komórek, które mają mniejsze zużycie, co z kolei podniesie ilość ich cykli
+zapisu i dodatkowo skróci żywotność samego dysku.
 
 ## TL;DR
 
@@ -414,7 +420,7 @@ Mając na uwadze powyższe informacje dotyczące rozsądnego krojenia dysku na p
 maszyny mającej działać pod kontrolą dowolnej dystrybucji linux'a, optymalny podział dysku
 prezentuje się w następujący sposób:
 
-	SWAP        --     4G, SWAP, umieścić między 20-30% licząc od początku dysku
+	SWAP        --     4G, SWAP, umieścić między 20-30% dysku (licząc od jego początku)
 	/           --    30G, EXT4, umieścić na początku dysku
 	/boot/      --     1G, EXT4
 	/tmp/       --     4G, EXT4
