@@ -8,32 +8,32 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/trim-discard-przy-luks-lvm-na-dysku-ssd-pod-debian-linux/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux">
-  <meta property="og:description" content="Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a. Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim postawić świeżego Debiana z wykorzystaniem narzędzia debootstrap. Sama instalacja linux&#39;a na dysku SSD nie różni się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper, który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku zaszyfrowanego systemu na bazie LUKS&#43;LVM.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2023-12-15T17:00:00+01:00">
-    <meta property="article:modified_time" content="2024-06-16T16:30:00+02:00">
-    <meta property="article:tag" content="Debian">
-    <meta property="article:tag" content="Ssd">
-    <meta property="article:tag" content="Trim">
-    <meta property="article:tag" content="Discard">
-    <meta property="article:tag" content="Luks">
-    <meta property="article:tag" content="Lvm">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux">
+	<meta property="og:description" content="Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a. Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim postawić świeżego Debiana z wykorzystaniem narzędzia debootstrap. Sama instalacja linux&#39;a na dysku SSD nie różni się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper, który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku zaszyfrowanego systemu na bazie LUKS&#43;LVM.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2023-12-15T17:00:00+01:00">
+		<meta property="article:modified_time" content="2024-06-16T16:30:00+02:00">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Ssd">
+		<meta property="article:tag" content="Trim">
+		<meta property="article:tag" content="Discard">
+		<meta property="article:tag" content="Luks">
+		<meta property="article:tag" content="Lvm">
 
 		
-  <meta itemprop="name" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux">
-  <meta itemprop="description" content="Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a. Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim postawić świeżego Debiana z wykorzystaniem narzędzia debootstrap. Sama instalacja linux&#39;a na dysku SSD nie różni się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper, który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku zaszyfrowanego systemu na bazie LUKS&#43;LVM.">
-  <meta itemprop="datePublished" content="2023-12-15T17:00:00+01:00">
-  <meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
-  <meta itemprop="wordCount" content="11480">
-  <meta itemprop="keywords" content="Debian,Ssd,Trim,Discard,Luks,Lvm,System-Plików,Ext4,Sysctl,Udev,Usb">
+	<meta itemprop="name" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux">
+	<meta itemprop="description" content="Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a. Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim postawić świeżego Debiana z wykorzystaniem narzędzia debootstrap. Sama instalacja linux&#39;a na dysku SSD nie różni się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper, który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku zaszyfrowanego systemu na bazie LUKS&#43;LVM.">
+	<meta itemprop="datePublished" content="2023-12-15T17:00:00+01:00">
+	<meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
+	<meta itemprop="wordCount" content="11480">
+	<meta itemprop="keywords" content="Debian,Ssd,Trim,Discard,Luks,Lvm,System-Plików,Ext4,Sysctl,Udev,Usb">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux">
-  <meta name="twitter:description" content="Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a. Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim postawić świeżego Debiana z wykorzystaniem narzędzia debootstrap. Sama instalacja linux&#39;a na dysku SSD nie różni się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper, który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku zaszyfrowanego systemu na bazie LUKS&#43;LVM.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Trim/discard przy LUKS/LVM na dysku SSD pod Debian linux">
+	<meta name="twitter:description" content="Z okazji zbliżającego się końca roku, postanowiłem nieco ogarnąć swojego Debiana, tj. postawić go na nowo. Jakby nie patrzeć 4 lata korzystania z tego linux&#39;a z włączonymi gałęziami unstable i experimental sprawiło, że trochę syfu się nazbierało. Nie chciałem też czyścić całego kontenera LUKS czy samej struktury LVM z systemowymi voluminami logicznymi na starym dysku HDD, bo zainstalowany tam system zawsze może się do czegoś przydać, np. do odratowania tego nowego linux&#39;a. Dlatego też postanowiłem zakupić niedrogi dysk SSD (MLC, używany) i to na nim postawić świeżego Debiana z wykorzystaniem narzędzia debootstrap. Sama instalacja linux&#39;a na dysku SSD nie różni się zbytnio od instalacji na dysku HDD, za wyjątkiem skonfigurowania w takim systemie mechanizmu trim/discard. Standardowi użytkownicy linux&#39;a nie muszą zbytnio nic robić, aby ten mechanizm został poprawnie skonfigurowany. Sprawa się nieco komplikuje, gdy wykorzystywany jest device-mapper, który mapuje fizyczne bloki urządzenia na te wirtualne, np. przy szyfrowaniu dysku z wykorzystaniem LUKS/dm-crypt, czy korzystaniu z voluminów logicznych LVM. Dlatego też postanowiłem przyjrzeć się nieco bliżej zagadnieniu konfiguracji mechanizmu trim/discard na dysku SSD w przypadku zaszyfrowanego systemu na bazie LUKS&#43;LVM.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -1088,8 +1088,8 @@ niewielkie, że go realnie nie odczujemy.</p>
 <h3 id="katalog-cache">Katalog ~/.cache/</h3>
 <p>Pierwszym miejscem, które przydałoby się zamontować w RAM, to katalog cache użytkownika, tj.
 <code>~/.cache/</code> . Przy intensywnym korzystaniu z internetu, ten katalog może nam się bardzo szybko
-rozrastać lub też stare pliki mogą być zastępowane nowym. Montując ten katalog w RAM, dziennie
-możemy zaoszczędzić na zapisie dysku SSD nawet kilka GiB (może nawet i kilkanaście).</p>
+rozrastać lub też stare pliki mogą być zastępowane nowymi. Montując ten katalog w RAM, dziennie
+możemy zaoszczędzić na zapisie dysku SSD nawet kilka (może nawet i kilkanaście) GiB.</p>
 <h4 id="plik-etcfstab">Plik /etc/fstab</h4>
 <p>Montowanie katalogu <code>~/.cache/</code> w RAM możemy przeprowadzić na dwa sposoby. Pierwszym z nich jest
 dodanie poniższego wpisu w pliku <code>/etc/fstab</code> :</p>
@@ -1642,6 +1642,7 @@ wydłużona jego żywotność.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

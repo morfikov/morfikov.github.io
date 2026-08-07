@@ -8,32 +8,32 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/trim-unmap-w-dyskach-ssd-podlaczonych-via-adapter-usb-sata-na-linux/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux">
-  <meta property="og:description" content="Jakiś czas temu opisywałem jak na Debianie włączyć obsługę mechanizmu TRIM (realizowanego przez polecenie fstrim ) na podpiętych do komputera dyskach SSD. Problem w tym, że dyski SSD, z którymi będziemy wchodzić w interakcję, nie zawsze będą podłączane do dedykowanych portów SATA/mSATA. Jak zachowa się zatem nasz linux, gdy będziemy chcieli podłączyć po portu USB zewnętrzny dysk SSD? Przez zewnętrzny dysk USB nie mam na myśli dedykowanych zewnętrznych dysków USB, bo te raczej nie powinny sprawiać kłopotów. Chodzi mi bardziej o wewnętrzne dyski SSD (np. ze starego laptopa), które zamkniemy w dedykowanej obudowie USB, lub też będziemy taki dysk podłączać na krótko za pomocą adaptera USB-SATA. W takich przypadkach zwykle kernel linux&#39;a nie odważy się włączyć wsparcia dla TRIM dla nośników SSD i tak właśnie się stało w przypadku mojego nowo zakupionego dysku od Goodram, a konkretnie jest to model SSDPR-CX400-02T-G2 , który to został podłączony do portu USB3 mojego Raspberry PI (i Debiana) przy pomocy kabelka USB-SATA (Unitek USB3.1 USB-A to 2.5&#34; SATA6G). Przez kilka miesięcy dysk sprawował się bez zarzutu ale ostatnio przy próbie wgrania na niego danych (przez sieć), transfer spadł do dosłownie pojedynczych MiB/s. Poszukałem trochę informacji i okazało się, że dla tego typu nośników trzeba ręcznie włączyć TRIM, o ile będzie to w ogóle możliwe.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2024-06-16T16:30:00+02:00">
-    <meta property="article:modified_time" content="2024-06-16T16:30:00+02:00">
-    <meta property="article:tag" content="Debian">
-    <meta property="article:tag" content="Ssd">
-    <meta property="article:tag" content="Trim">
-    <meta property="article:tag" content="Discard">
-    <meta property="article:tag" content="System-Plików">
-    <meta property="article:tag" content="Ext4">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux">
+	<meta property="og:description" content="Jakiś czas temu opisywałem jak na Debianie włączyć obsługę mechanizmu TRIM (realizowanego przez polecenie fstrim ) na podpiętych do komputera dyskach SSD. Problem w tym, że dyski SSD, z którymi będziemy wchodzić w interakcję, nie zawsze będą podłączane do dedykowanych portów SATA/mSATA. Jak zachowa się zatem nasz linux, gdy będziemy chcieli podłączyć po portu USB zewnętrzny dysk SSD? Przez zewnętrzny dysk USB nie mam na myśli dedykowanych zewnętrznych dysków USB, bo te raczej nie powinny sprawiać kłopotów. Chodzi mi bardziej o wewnętrzne dyski SSD (np. ze starego laptopa), które zamkniemy w dedykowanej obudowie USB, lub też będziemy taki dysk podłączać na krótko za pomocą adaptera USB-SATA. W takich przypadkach zwykle kernel linux&#39;a nie odważy się włączyć wsparcia dla TRIM dla nośników SSD i tak właśnie się stało w przypadku mojego nowo zakupionego dysku od Goodram, a konkretnie jest to model SSDPR-CX400-02T-G2 , który to został podłączony do portu USB3 mojego Raspberry PI (i Debiana) przy pomocy kabelka USB-SATA (Unitek USB3.1 USB-A to 2.5&#34; SATA6G). Przez kilka miesięcy dysk sprawował się bez zarzutu ale ostatnio przy próbie wgrania na niego danych (przez sieć), transfer spadł do dosłownie pojedynczych MiB/s. Poszukałem trochę informacji i okazało się, że dla tego typu nośników trzeba ręcznie włączyć TRIM, o ile będzie to w ogóle możliwe.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2024-06-16T16:30:00+02:00">
+		<meta property="article:modified_time" content="2024-06-16T16:30:00+02:00">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Ssd">
+		<meta property="article:tag" content="Trim">
+		<meta property="article:tag" content="Discard">
+		<meta property="article:tag" content="System-Plików">
+		<meta property="article:tag" content="Ext4">
 
 		
-  <meta itemprop="name" content="TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux">
-  <meta itemprop="description" content="Jakiś czas temu opisywałem jak na Debianie włączyć obsługę mechanizmu TRIM (realizowanego przez polecenie fstrim ) na podpiętych do komputera dyskach SSD. Problem w tym, że dyski SSD, z którymi będziemy wchodzić w interakcję, nie zawsze będą podłączane do dedykowanych portów SATA/mSATA. Jak zachowa się zatem nasz linux, gdy będziemy chcieli podłączyć po portu USB zewnętrzny dysk SSD? Przez zewnętrzny dysk USB nie mam na myśli dedykowanych zewnętrznych dysków USB, bo te raczej nie powinny sprawiać kłopotów. Chodzi mi bardziej o wewnętrzne dyski SSD (np. ze starego laptopa), które zamkniemy w dedykowanej obudowie USB, lub też będziemy taki dysk podłączać na krótko za pomocą adaptera USB-SATA. W takich przypadkach zwykle kernel linux&#39;a nie odważy się włączyć wsparcia dla TRIM dla nośników SSD i tak właśnie się stało w przypadku mojego nowo zakupionego dysku od Goodram, a konkretnie jest to model SSDPR-CX400-02T-G2 , który to został podłączony do portu USB3 mojego Raspberry PI (i Debiana) przy pomocy kabelka USB-SATA (Unitek USB3.1 USB-A to 2.5&#34; SATA6G). Przez kilka miesięcy dysk sprawował się bez zarzutu ale ostatnio przy próbie wgrania na niego danych (przez sieć), transfer spadł do dosłownie pojedynczych MiB/s. Poszukałem trochę informacji i okazało się, że dla tego typu nośników trzeba ręcznie włączyć TRIM, o ile będzie to w ogóle możliwe.">
-  <meta itemprop="datePublished" content="2024-06-16T16:30:00+02:00">
-  <meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
-  <meta itemprop="wordCount" content="4072">
-  <meta itemprop="keywords" content="Debian,Ssd,Trim,Discard,System-Plików,Ext4,Udev,Usb">
+	<meta itemprop="name" content="TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux">
+	<meta itemprop="description" content="Jakiś czas temu opisywałem jak na Debianie włączyć obsługę mechanizmu TRIM (realizowanego przez polecenie fstrim ) na podpiętych do komputera dyskach SSD. Problem w tym, że dyski SSD, z którymi będziemy wchodzić w interakcję, nie zawsze będą podłączane do dedykowanych portów SATA/mSATA. Jak zachowa się zatem nasz linux, gdy będziemy chcieli podłączyć po portu USB zewnętrzny dysk SSD? Przez zewnętrzny dysk USB nie mam na myśli dedykowanych zewnętrznych dysków USB, bo te raczej nie powinny sprawiać kłopotów. Chodzi mi bardziej o wewnętrzne dyski SSD (np. ze starego laptopa), które zamkniemy w dedykowanej obudowie USB, lub też będziemy taki dysk podłączać na krótko za pomocą adaptera USB-SATA. W takich przypadkach zwykle kernel linux&#39;a nie odważy się włączyć wsparcia dla TRIM dla nośników SSD i tak właśnie się stało w przypadku mojego nowo zakupionego dysku od Goodram, a konkretnie jest to model SSDPR-CX400-02T-G2 , który to został podłączony do portu USB3 mojego Raspberry PI (i Debiana) przy pomocy kabelka USB-SATA (Unitek USB3.1 USB-A to 2.5&#34; SATA6G). Przez kilka miesięcy dysk sprawował się bez zarzutu ale ostatnio przy próbie wgrania na niego danych (przez sieć), transfer spadł do dosłownie pojedynczych MiB/s. Poszukałem trochę informacji i okazało się, że dla tego typu nośników trzeba ręcznie włączyć TRIM, o ile będzie to w ogóle możliwe.">
+	<meta itemprop="datePublished" content="2024-06-16T16:30:00+02:00">
+	<meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
+	<meta itemprop="wordCount" content="4072">
+	<meta itemprop="keywords" content="Debian,Ssd,Trim,Discard,System-Plików,Ext4,Udev,Usb">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux">
-  <meta name="twitter:description" content="Jakiś czas temu opisywałem jak na Debianie włączyć obsługę mechanizmu TRIM (realizowanego przez polecenie fstrim ) na podpiętych do komputera dyskach SSD. Problem w tym, że dyski SSD, z którymi będziemy wchodzić w interakcję, nie zawsze będą podłączane do dedykowanych portów SATA/mSATA. Jak zachowa się zatem nasz linux, gdy będziemy chcieli podłączyć po portu USB zewnętrzny dysk SSD? Przez zewnętrzny dysk USB nie mam na myśli dedykowanych zewnętrznych dysków USB, bo te raczej nie powinny sprawiać kłopotów. Chodzi mi bardziej o wewnętrzne dyski SSD (np. ze starego laptopa), które zamkniemy w dedykowanej obudowie USB, lub też będziemy taki dysk podłączać na krótko za pomocą adaptera USB-SATA. W takich przypadkach zwykle kernel linux&#39;a nie odważy się włączyć wsparcia dla TRIM dla nośników SSD i tak właśnie się stało w przypadku mojego nowo zakupionego dysku od Goodram, a konkretnie jest to model SSDPR-CX400-02T-G2 , który to został podłączony do portu USB3 mojego Raspberry PI (i Debiana) przy pomocy kabelka USB-SATA (Unitek USB3.1 USB-A to 2.5&#34; SATA6G). Przez kilka miesięcy dysk sprawował się bez zarzutu ale ostatnio przy próbie wgrania na niego danych (przez sieć), transfer spadł do dosłownie pojedynczych MiB/s. Poszukałem trochę informacji i okazało się, że dla tego typu nośników trzeba ręcznie włączyć TRIM, o ile będzie to w ogóle możliwe.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="TRIM/UNMAP w dyskach SSD podłączonych via adapter USB-SATA na linux">
+	<meta name="twitter:description" content="Jakiś czas temu opisywałem jak na Debianie włączyć obsługę mechanizmu TRIM (realizowanego przez polecenie fstrim ) na podpiętych do komputera dyskach SSD. Problem w tym, że dyski SSD, z którymi będziemy wchodzić w interakcję, nie zawsze będą podłączane do dedykowanych portów SATA/mSATA. Jak zachowa się zatem nasz linux, gdy będziemy chcieli podłączyć po portu USB zewnętrzny dysk SSD? Przez zewnętrzny dysk USB nie mam na myśli dedykowanych zewnętrznych dysków USB, bo te raczej nie powinny sprawiać kłopotów. Chodzi mi bardziej o wewnętrzne dyski SSD (np. ze starego laptopa), które zamkniemy w dedykowanej obudowie USB, lub też będziemy taki dysk podłączać na krótko za pomocą adaptera USB-SATA. W takich przypadkach zwykle kernel linux&#39;a nie odważy się włączyć wsparcia dla TRIM dla nośników SSD i tak właśnie się stało w przypadku mojego nowo zakupionego dysku od Goodram, a konkretnie jest to model SSDPR-CX400-02T-G2 , który to został podłączony do portu USB3 mojego Raspberry PI (i Debiana) przy pomocy kabelka USB-SATA (Unitek USB3.1 USB-A to 2.5&#34; SATA6G). Przez kilka miesięcy dysk sprawował się bez zarzutu ale ostatnio przy próbie wgrania na niego danych (przez sieć), transfer spadł do dosłownie pojedynczych MiB/s. Poszukałem trochę informacji i okazało się, że dla tego typu nośników trzeba ręcznie włączyć TRIM, o ile będzie to w ogóle możliwe.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -827,9 +827,9 @@ się zapełni.</p></div>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/czym-jest-online-ext4-metadata-check-w-linuxowym-lvm/">Czym jest Online ext4 Metadata Check w linux&#39;owym LVM</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-identyfikatora-uuid/">Zmiana identyfikatora UUID systemu plików EXT4 i kontenera LUKS</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-optymalnie-podzielic-dysk-hdd-ssd-na-partycje-pod-linux/">Jak optymalnie podzielić dysk HDD/SSD na partycje pod linux</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ext4/">Zmiana rozmiaru partycji EXT4</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-identyfikatora-uuid/">Zmiana identyfikatora UUID systemu plików EXT4 i kontenera LUKS</a></li>
 		
 	</ul>
 </div>
@@ -867,6 +867,7 @@ się zapełni.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

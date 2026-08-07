@@ -8,32 +8,32 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux">
-  <meta property="og:description" content="Ostatnio na forum dug.net.pl jeden z użytkowników miał dość spory problem z ogarnięciem zadania polegającego na zaszyfrowaniu zapytań DNS z wykorzystaniem dnscrypt-proxy i dnsmasq. Ładnych parę lat temu opisywałem jak skonfigurować te dwa narzędzia na Debianie (i też na OpenWRT), choć od tamtego czasu w świecie linux&#39;owym trochę rzeczy się pozmieniało. Dla przykładu, dnscrypt-proxy przeszedł gruntowną przebudowę, no i też systemd jest w powszechniejszym użyciu niż to miało miejsce w tamtych czasach, przez co w sporej części przypadków usługi takie jak systemd-networkd.service czy systemd-resolved.service są już włączone domyślnie. Zatem sporo informacji zawartych w tych napisanych przeze mnie artykułach już niekoniecznie może znaleźć obecnie zastosowanie. Dlatego też pomyślałem, że nadszedł już czas, by ździebko zaktualizować tamte wpisy. Ostatecznie stanęło jednak na tym, by w oparciu o te artykuły napisać kompletnie nowy tekst na temat szyfrowania zapytań DNS na linux przy wykorzystaniu oprogramowania dnscrypt-proxy oraz dnsmasq i zawrzeć w nim te wszystkie ciekawsze informacje, które udało mi się pozyskać przez te ostatnie lata w kwestii poprawy bezpieczeństwa i prywatności przy przeglądaniu stron WWW.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2020-09-19T14:13:00+02:00">
-    <meta property="article:modified_time" content="2020-09-19T14:13:00+02:00">
-    <meta property="article:tag" content="Debian">
-    <meta property="article:tag" content="Dns">
-    <meta property="article:tag" content="Dhcp">
-    <meta property="article:tag" content="Dnscrypt">
-    <meta property="article:tag" content="Doh">
-    <meta property="article:tag" content="Dnsmasq">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux">
+	<meta property="og:description" content="Ostatnio na forum dug.net.pl jeden z użytkowników miał dość spory problem z ogarnięciem zadania polegającego na zaszyfrowaniu zapytań DNS z wykorzystaniem dnscrypt-proxy i dnsmasq. Ładnych parę lat temu opisywałem jak skonfigurować te dwa narzędzia na Debianie (i też na OpenWRT), choć od tamtego czasu w świecie linux&#39;owym trochę rzeczy się pozmieniało. Dla przykładu, dnscrypt-proxy przeszedł gruntowną przebudowę, no i też systemd jest w powszechniejszym użyciu niż to miało miejsce w tamtych czasach, przez co w sporej części przypadków usługi takie jak systemd-networkd.service czy systemd-resolved.service są już włączone domyślnie. Zatem sporo informacji zawartych w tych napisanych przeze mnie artykułach już niekoniecznie może znaleźć obecnie zastosowanie. Dlatego też pomyślałem, że nadszedł już czas, by ździebko zaktualizować tamte wpisy. Ostatecznie stanęło jednak na tym, by w oparciu o te artykuły napisać kompletnie nowy tekst na temat szyfrowania zapytań DNS na linux przy wykorzystaniu oprogramowania dnscrypt-proxy oraz dnsmasq i zawrzeć w nim te wszystkie ciekawsze informacje, które udało mi się pozyskać przez te ostatnie lata w kwestii poprawy bezpieczeństwa i prywatności przy przeglądaniu stron WWW.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2020-09-19T14:13:00+02:00">
+		<meta property="article:modified_time" content="2020-09-19T14:13:00+02:00">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Dns">
+		<meta property="article:tag" content="Dhcp">
+		<meta property="article:tag" content="Dnscrypt">
+		<meta property="article:tag" content="Doh">
+		<meta property="article:tag" content="Dnsmasq">
 
 		
-  <meta itemprop="name" content="Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux">
-  <meta itemprop="description" content="Ostatnio na forum dug.net.pl jeden z użytkowników miał dość spory problem z ogarnięciem zadania polegającego na zaszyfrowaniu zapytań DNS z wykorzystaniem dnscrypt-proxy i dnsmasq. Ładnych parę lat temu opisywałem jak skonfigurować te dwa narzędzia na Debianie (i też na OpenWRT), choć od tamtego czasu w świecie linux&#39;owym trochę rzeczy się pozmieniało. Dla przykładu, dnscrypt-proxy przeszedł gruntowną przebudowę, no i też systemd jest w powszechniejszym użyciu niż to miało miejsce w tamtych czasach, przez co w sporej części przypadków usługi takie jak systemd-networkd.service czy systemd-resolved.service są już włączone domyślnie. Zatem sporo informacji zawartych w tych napisanych przeze mnie artykułach już niekoniecznie może znaleźć obecnie zastosowanie. Dlatego też pomyślałem, że nadszedł już czas, by ździebko zaktualizować tamte wpisy. Ostatecznie stanęło jednak na tym, by w oparciu o te artykuły napisać kompletnie nowy tekst na temat szyfrowania zapytań DNS na linux przy wykorzystaniu oprogramowania dnscrypt-proxy oraz dnsmasq i zawrzeć w nim te wszystkie ciekawsze informacje, które udało mi się pozyskać przez te ostatnie lata w kwestii poprawy bezpieczeństwa i prywatności przy przeglądaniu stron WWW.">
-  <meta itemprop="datePublished" content="2020-09-19T14:13:00+02:00">
-  <meta itemprop="dateModified" content="2020-09-19T14:13:00+02:00">
-  <meta itemprop="wordCount" content="7185">
-  <meta itemprop="keywords" content="Debian,Dns,Dhcp,Dnscrypt,Doh,Dnsmasq,Prywatność,Bezpieczeństwo,Resolver">
+	<meta itemprop="name" content="Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux">
+	<meta itemprop="description" content="Ostatnio na forum dug.net.pl jeden z użytkowników miał dość spory problem z ogarnięciem zadania polegającego na zaszyfrowaniu zapytań DNS z wykorzystaniem dnscrypt-proxy i dnsmasq. Ładnych parę lat temu opisywałem jak skonfigurować te dwa narzędzia na Debianie (i też na OpenWRT), choć od tamtego czasu w świecie linux&#39;owym trochę rzeczy się pozmieniało. Dla przykładu, dnscrypt-proxy przeszedł gruntowną przebudowę, no i też systemd jest w powszechniejszym użyciu niż to miało miejsce w tamtych czasach, przez co w sporej części przypadków usługi takie jak systemd-networkd.service czy systemd-resolved.service są już włączone domyślnie. Zatem sporo informacji zawartych w tych napisanych przeze mnie artykułach już niekoniecznie może znaleźć obecnie zastosowanie. Dlatego też pomyślałem, że nadszedł już czas, by ździebko zaktualizować tamte wpisy. Ostatecznie stanęło jednak na tym, by w oparciu o te artykuły napisać kompletnie nowy tekst na temat szyfrowania zapytań DNS na linux przy wykorzystaniu oprogramowania dnscrypt-proxy oraz dnsmasq i zawrzeć w nim te wszystkie ciekawsze informacje, które udało mi się pozyskać przez te ostatnie lata w kwestii poprawy bezpieczeństwa i prywatności przy przeglądaniu stron WWW.">
+	<meta itemprop="datePublished" content="2020-09-19T14:13:00+02:00">
+	<meta itemprop="dateModified" content="2020-09-19T14:13:00+02:00">
+	<meta itemprop="wordCount" content="7185">
+	<meta itemprop="keywords" content="Debian,Dns,Dhcp,Dnscrypt,Doh,Dnsmasq,Prywatność,Bezpieczeństwo,Resolver">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux">
-  <meta name="twitter:description" content="Ostatnio na forum dug.net.pl jeden z użytkowników miał dość spory problem z ogarnięciem zadania polegającego na zaszyfrowaniu zapytań DNS z wykorzystaniem dnscrypt-proxy i dnsmasq. Ładnych parę lat temu opisywałem jak skonfigurować te dwa narzędzia na Debianie (i też na OpenWRT), choć od tamtego czasu w świecie linux&#39;owym trochę rzeczy się pozmieniało. Dla przykładu, dnscrypt-proxy przeszedł gruntowną przebudowę, no i też systemd jest w powszechniejszym użyciu niż to miało miejsce w tamtych czasach, przez co w sporej części przypadków usługi takie jak systemd-networkd.service czy systemd-resolved.service są już włączone domyślnie. Zatem sporo informacji zawartych w tych napisanych przeze mnie artykułach już niekoniecznie może znaleźć obecnie zastosowanie. Dlatego też pomyślałem, że nadszedł już czas, by ździebko zaktualizować tamte wpisy. Ostatecznie stanęło jednak na tym, by w oparciu o te artykuły napisać kompletnie nowy tekst na temat szyfrowania zapytań DNS na linux przy wykorzystaniu oprogramowania dnscrypt-proxy oraz dnsmasq i zawrzeć w nim te wszystkie ciekawsze informacje, które udało mi się pozyskać przez te ostatnie lata w kwestii poprawy bezpieczeństwa i prywatności przy przeglądaniu stron WWW.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Szyfrowany DNS z dnscrypt-proxy i dnsmasq na Debian linux">
+	<meta name="twitter:description" content="Ostatnio na forum dug.net.pl jeden z użytkowników miał dość spory problem z ogarnięciem zadania polegającego na zaszyfrowaniu zapytań DNS z wykorzystaniem dnscrypt-proxy i dnsmasq. Ładnych parę lat temu opisywałem jak skonfigurować te dwa narzędzia na Debianie (i też na OpenWRT), choć od tamtego czasu w świecie linux&#39;owym trochę rzeczy się pozmieniało. Dla przykładu, dnscrypt-proxy przeszedł gruntowną przebudowę, no i też systemd jest w powszechniejszym użyciu niż to miało miejsce w tamtych czasach, przez co w sporej części przypadków usługi takie jak systemd-networkd.service czy systemd-resolved.service są już włączone domyślnie. Zatem sporo informacji zawartych w tych napisanych przeze mnie artykułach już niekoniecznie może znaleźć obecnie zastosowanie. Dlatego też pomyślałem, że nadszedł już czas, by ździebko zaktualizować tamte wpisy. Ostatecznie stanęło jednak na tym, by w oparciu o te artykuły napisać kompletnie nowy tekst na temat szyfrowania zapytań DNS na linux przy wykorzystaniu oprogramowania dnscrypt-proxy oraz dnsmasq i zawrzeć w nim te wszystkie ciekawsze informacje, które udało mi się pozyskać przez te ostatnie lata w kwestii poprawy bezpieczeństwa i prywatności przy przeglądaniu stron WWW.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -1124,6 +1124,7 @@ naszą prywatność) będzie miało nieco więcej sensu.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

@@ -8,28 +8,28 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/statystyki-transferu-danych-w-sieci-vnstat/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Statystyki transferu danych w sieci (vnstat)">
-  <meta property="og:description" content="W prehistorycznych czasach, internet był bardzo limitowany. Nie chodzi tutaj o prędkość, która obecnie sięga 100&#43; mbit/s, a o transfer danych. Świat poszedł już trochę do przodu od tamtego czasu i chyba żaden ISP, który obecnie dostarcza internet stacjonarny, nie narzuca swoim klientom ile danych mogą pobrać i/lub wysłać w konkretnym miesiącu. Problem pojawia się w przypadku internetu mobilnego, który w niedługim czasie prawdopodobnie zapanuje nad światem. Mowa oczywiście o LTE, czyli szerokopasmowym internecie bezprzewodowym. Chodzi generalnie o to, że spora cześć providerów (jak nie wszyscy) limitują transfer danych w tej usłudze. Jest to około 100GB na miesiąc. Może to wydawać się dużo ale trzeba mieć na względzie, że dotyczy to zarówno download&#39;u jak i upload&#39;u. No i oczywiście, dziś wszystko mamy w HD i rzadko kto korzysta z internetu sam. Nawet przeciętna strona www waży już kilka MiB. Przydałoby się zatem wiedzieć ile danych transmitujemy przez sieć każdego dnia, tak by czasem nie doświadczyć problemów związanych z przekroczeniem transferu. W tym wpisie postaramy się pozyskać te informacje i wygenerujemy sobie przyzwoite statystyki transferu przy pomocy narzędzia vnstat .">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2015-11-19T16:16:51+00:00">
-    <meta property="article:modified_time" content="2015-11-19T16:16:51+00:00">
-    <meta property="article:tag" content="Statystyki">
-    <meta property="article:tag" content="Sieć">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Statystyki transferu danych w sieci (vnstat)">
+	<meta property="og:description" content="W prehistorycznych czasach, internet był bardzo limitowany. Nie chodzi tutaj o prędkość, która obecnie sięga 100&#43; mbit/s, a o transfer danych. Świat poszedł już trochę do przodu od tamtego czasu i chyba żaden ISP, który obecnie dostarcza internet stacjonarny, nie narzuca swoim klientom ile danych mogą pobrać i/lub wysłać w konkretnym miesiącu. Problem pojawia się w przypadku internetu mobilnego, który w niedługim czasie prawdopodobnie zapanuje nad światem. Mowa oczywiście o LTE, czyli szerokopasmowym internecie bezprzewodowym. Chodzi generalnie o to, że spora cześć providerów (jak nie wszyscy) limitują transfer danych w tej usłudze. Jest to około 100GB na miesiąc. Może to wydawać się dużo ale trzeba mieć na względzie, że dotyczy to zarówno download&#39;u jak i upload&#39;u. No i oczywiście, dziś wszystko mamy w HD i rzadko kto korzysta z internetu sam. Nawet przeciętna strona www waży już kilka MiB. Przydałoby się zatem wiedzieć ile danych transmitujemy przez sieć każdego dnia, tak by czasem nie doświadczyć problemów związanych z przekroczeniem transferu. W tym wpisie postaramy się pozyskać te informacje i wygenerujemy sobie przyzwoite statystyki transferu przy pomocy narzędzia vnstat .">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2015-11-19T16:16:51+00:00">
+		<meta property="article:modified_time" content="2015-11-19T16:16:51+00:00">
+		<meta property="article:tag" content="Statystyki">
+		<meta property="article:tag" content="Sieć">
 
 		
-  <meta itemprop="name" content="Statystyki transferu danych w sieci (vnstat)">
-  <meta itemprop="description" content="W prehistorycznych czasach, internet był bardzo limitowany. Nie chodzi tutaj o prędkość, która obecnie sięga 100&#43; mbit/s, a o transfer danych. Świat poszedł już trochę do przodu od tamtego czasu i chyba żaden ISP, który obecnie dostarcza internet stacjonarny, nie narzuca swoim klientom ile danych mogą pobrać i/lub wysłać w konkretnym miesiącu. Problem pojawia się w przypadku internetu mobilnego, który w niedługim czasie prawdopodobnie zapanuje nad światem. Mowa oczywiście o LTE, czyli szerokopasmowym internecie bezprzewodowym. Chodzi generalnie o to, że spora cześć providerów (jak nie wszyscy) limitują transfer danych w tej usłudze. Jest to około 100GB na miesiąc. Może to wydawać się dużo ale trzeba mieć na względzie, że dotyczy to zarówno download&#39;u jak i upload&#39;u. No i oczywiście, dziś wszystko mamy w HD i rzadko kto korzysta z internetu sam. Nawet przeciętna strona www waży już kilka MiB. Przydałoby się zatem wiedzieć ile danych transmitujemy przez sieć każdego dnia, tak by czasem nie doświadczyć problemów związanych z przekroczeniem transferu. W tym wpisie postaramy się pozyskać te informacje i wygenerujemy sobie przyzwoite statystyki transferu przy pomocy narzędzia vnstat .">
-  <meta itemprop="datePublished" content="2015-11-19T16:16:51+00:00">
-  <meta itemprop="dateModified" content="2015-11-19T16:16:51+00:00">
-  <meta itemprop="wordCount" content="442">
-  <meta itemprop="keywords" content="Statystyki,Sieć">
+	<meta itemprop="name" content="Statystyki transferu danych w sieci (vnstat)">
+	<meta itemprop="description" content="W prehistorycznych czasach, internet był bardzo limitowany. Nie chodzi tutaj o prędkość, która obecnie sięga 100&#43; mbit/s, a o transfer danych. Świat poszedł już trochę do przodu od tamtego czasu i chyba żaden ISP, który obecnie dostarcza internet stacjonarny, nie narzuca swoim klientom ile danych mogą pobrać i/lub wysłać w konkretnym miesiącu. Problem pojawia się w przypadku internetu mobilnego, który w niedługim czasie prawdopodobnie zapanuje nad światem. Mowa oczywiście o LTE, czyli szerokopasmowym internecie bezprzewodowym. Chodzi generalnie o to, że spora cześć providerów (jak nie wszyscy) limitują transfer danych w tej usłudze. Jest to około 100GB na miesiąc. Może to wydawać się dużo ale trzeba mieć na względzie, że dotyczy to zarówno download&#39;u jak i upload&#39;u. No i oczywiście, dziś wszystko mamy w HD i rzadko kto korzysta z internetu sam. Nawet przeciętna strona www waży już kilka MiB. Przydałoby się zatem wiedzieć ile danych transmitujemy przez sieć każdego dnia, tak by czasem nie doświadczyć problemów związanych z przekroczeniem transferu. W tym wpisie postaramy się pozyskać te informacje i wygenerujemy sobie przyzwoite statystyki transferu przy pomocy narzędzia vnstat .">
+	<meta itemprop="datePublished" content="2015-11-19T16:16:51+00:00">
+	<meta itemprop="dateModified" content="2015-11-19T16:16:51+00:00">
+	<meta itemprop="wordCount" content="442">
+	<meta itemprop="keywords" content="Statystyki,Sieć">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Statystyki transferu danych w sieci (vnstat)">
-  <meta name="twitter:description" content="W prehistorycznych czasach, internet był bardzo limitowany. Nie chodzi tutaj o prędkość, która obecnie sięga 100&#43; mbit/s, a o transfer danych. Świat poszedł już trochę do przodu od tamtego czasu i chyba żaden ISP, który obecnie dostarcza internet stacjonarny, nie narzuca swoim klientom ile danych mogą pobrać i/lub wysłać w konkretnym miesiącu. Problem pojawia się w przypadku internetu mobilnego, który w niedługim czasie prawdopodobnie zapanuje nad światem. Mowa oczywiście o LTE, czyli szerokopasmowym internecie bezprzewodowym. Chodzi generalnie o to, że spora cześć providerów (jak nie wszyscy) limitują transfer danych w tej usłudze. Jest to około 100GB na miesiąc. Może to wydawać się dużo ale trzeba mieć na względzie, że dotyczy to zarówno download&#39;u jak i upload&#39;u. No i oczywiście, dziś wszystko mamy w HD i rzadko kto korzysta z internetu sam. Nawet przeciętna strona www waży już kilka MiB. Przydałoby się zatem wiedzieć ile danych transmitujemy przez sieć każdego dnia, tak by czasem nie doświadczyć problemów związanych z przekroczeniem transferu. W tym wpisie postaramy się pozyskać te informacje i wygenerujemy sobie przyzwoite statystyki transferu przy pomocy narzędzia vnstat .">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Statystyki transferu danych w sieci (vnstat)">
+	<meta name="twitter:description" content="W prehistorycznych czasach, internet był bardzo limitowany. Nie chodzi tutaj o prędkość, która obecnie sięga 100&#43; mbit/s, a o transfer danych. Świat poszedł już trochę do przodu od tamtego czasu i chyba żaden ISP, który obecnie dostarcza internet stacjonarny, nie narzuca swoim klientom ile danych mogą pobrać i/lub wysłać w konkretnym miesiącu. Problem pojawia się w przypadku internetu mobilnego, który w niedługim czasie prawdopodobnie zapanuje nad światem. Mowa oczywiście o LTE, czyli szerokopasmowym internecie bezprzewodowym. Chodzi generalnie o to, że spora cześć providerów (jak nie wszyscy) limitują transfer danych w tej usłudze. Jest to około 100GB na miesiąc. Może to wydawać się dużo ale trzeba mieć na względzie, że dotyczy to zarówno download&#39;u jak i upload&#39;u. No i oczywiście, dziś wszystko mamy w HD i rzadko kto korzysta z internetu sam. Nawet przeciętna strona www waży już kilka MiB. Przydałoby się zatem wiedzieć ile danych transmitujemy przez sieć każdego dnia, tak by czasem nie doświadczyć problemów związanych z przekroczeniem transferu. W tym wpisie postaramy się pozyskać te informacje i wygenerujemy sobie przyzwoite statystyki transferu przy pomocy narzędzia vnstat .">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -267,6 +267,7 @@ zdecydować czy dany ISP nam odpowiada.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

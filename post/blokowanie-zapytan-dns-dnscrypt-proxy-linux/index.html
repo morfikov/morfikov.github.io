@@ -8,30 +8,30 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/blokowanie-zapytan-dns-dnscrypt-proxy-linux/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Blokowanie zapytań DNS z dnscrypt-proxy na linux&#39;ie">
-  <meta property="og:description" content="Narzędzie dnscrypt-proxy począwszy od wersji 1.7.0 ma domyślnie włączoną obsługę wtyczek. W standardzie nie ma ich dużo, bo jedynie trzy ale mogą one się okazać dla pewnych osób bardzo użyteczne. Dzięki tym pluginom możemy, np. zablokować rozwiązywanie nazw w protokole IPv6 na wypadek, gdyby ten protokół nie był wspierany w naszej sieci domowej czy też u naszego ISP. Możemy także zdefiniować sobie adresy/domeny, które powinny zostać zablokowane i w efekcie użytkownicy nie będą w stanie odwiedzić tych miejsc w internecie. Jest także wtyczka, która może nam pomóc zalogować zapytania DNS. Jak widać, całkiem przyzwoite są te dodatki. W tym wpisie przyjrzymy się nieco bliżej konfiguracji poszczególnych wtyczek dla dnscrypt-proxy .">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2016-08-25T20:04:33+02:00">
-    <meta property="article:modified_time" content="2016-08-25T20:04:33+02:00">
-    <meta property="article:tag" content="Dns">
-    <meta property="article:tag" content="Resolver">
-    <meta property="article:tag" content="Ipv6">
-    <meta property="article:tag" content="Debian">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Blokowanie zapytań DNS z dnscrypt-proxy na linux&#39;ie">
+	<meta property="og:description" content="Narzędzie dnscrypt-proxy począwszy od wersji 1.7.0 ma domyślnie włączoną obsługę wtyczek. W standardzie nie ma ich dużo, bo jedynie trzy ale mogą one się okazać dla pewnych osób bardzo użyteczne. Dzięki tym pluginom możemy, np. zablokować rozwiązywanie nazw w protokole IPv6 na wypadek, gdyby ten protokół nie był wspierany w naszej sieci domowej czy też u naszego ISP. Możemy także zdefiniować sobie adresy/domeny, które powinny zostać zablokowane i w efekcie użytkownicy nie będą w stanie odwiedzić tych miejsc w internecie. Jest także wtyczka, która może nam pomóc zalogować zapytania DNS. Jak widać, całkiem przyzwoite są te dodatki. W tym wpisie przyjrzymy się nieco bliżej konfiguracji poszczególnych wtyczek dla dnscrypt-proxy .">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2016-08-25T20:04:33+02:00">
+		<meta property="article:modified_time" content="2016-08-25T20:04:33+02:00">
+		<meta property="article:tag" content="Dns">
+		<meta property="article:tag" content="Resolver">
+		<meta property="article:tag" content="Ipv6">
+		<meta property="article:tag" content="Debian">
 
 		
-  <meta itemprop="name" content="Blokowanie zapytań DNS z dnscrypt-proxy na linux&#39;ie">
-  <meta itemprop="description" content="Narzędzie dnscrypt-proxy począwszy od wersji 1.7.0 ma domyślnie włączoną obsługę wtyczek. W standardzie nie ma ich dużo, bo jedynie trzy ale mogą one się okazać dla pewnych osób bardzo użyteczne. Dzięki tym pluginom możemy, np. zablokować rozwiązywanie nazw w protokole IPv6 na wypadek, gdyby ten protokół nie był wspierany w naszej sieci domowej czy też u naszego ISP. Możemy także zdefiniować sobie adresy/domeny, które powinny zostać zablokowane i w efekcie użytkownicy nie będą w stanie odwiedzić tych miejsc w internecie. Jest także wtyczka, która może nam pomóc zalogować zapytania DNS. Jak widać, całkiem przyzwoite są te dodatki. W tym wpisie przyjrzymy się nieco bliżej konfiguracji poszczególnych wtyczek dla dnscrypt-proxy .">
-  <meta itemprop="datePublished" content="2016-08-25T20:04:33+02:00">
-  <meta itemprop="dateModified" content="2016-08-25T20:04:33+02:00">
-  <meta itemprop="wordCount" content="773">
-  <meta itemprop="keywords" content="Dns,Resolver,Ipv6,Debian">
+	<meta itemprop="name" content="Blokowanie zapytań DNS z dnscrypt-proxy na linux&#39;ie">
+	<meta itemprop="description" content="Narzędzie dnscrypt-proxy począwszy od wersji 1.7.0 ma domyślnie włączoną obsługę wtyczek. W standardzie nie ma ich dużo, bo jedynie trzy ale mogą one się okazać dla pewnych osób bardzo użyteczne. Dzięki tym pluginom możemy, np. zablokować rozwiązywanie nazw w protokole IPv6 na wypadek, gdyby ten protokół nie był wspierany w naszej sieci domowej czy też u naszego ISP. Możemy także zdefiniować sobie adresy/domeny, które powinny zostać zablokowane i w efekcie użytkownicy nie będą w stanie odwiedzić tych miejsc w internecie. Jest także wtyczka, która może nam pomóc zalogować zapytania DNS. Jak widać, całkiem przyzwoite są te dodatki. W tym wpisie przyjrzymy się nieco bliżej konfiguracji poszczególnych wtyczek dla dnscrypt-proxy .">
+	<meta itemprop="datePublished" content="2016-08-25T20:04:33+02:00">
+	<meta itemprop="dateModified" content="2016-08-25T20:04:33+02:00">
+	<meta itemprop="wordCount" content="773">
+	<meta itemprop="keywords" content="Dns,Resolver,Ipv6,Debian">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Blokowanie zapytań DNS z dnscrypt-proxy na linux&#39;ie">
-  <meta name="twitter:description" content="Narzędzie dnscrypt-proxy począwszy od wersji 1.7.0 ma domyślnie włączoną obsługę wtyczek. W standardzie nie ma ich dużo, bo jedynie trzy ale mogą one się okazać dla pewnych osób bardzo użyteczne. Dzięki tym pluginom możemy, np. zablokować rozwiązywanie nazw w protokole IPv6 na wypadek, gdyby ten protokół nie był wspierany w naszej sieci domowej czy też u naszego ISP. Możemy także zdefiniować sobie adresy/domeny, które powinny zostać zablokowane i w efekcie użytkownicy nie będą w stanie odwiedzić tych miejsc w internecie. Jest także wtyczka, która może nam pomóc zalogować zapytania DNS. Jak widać, całkiem przyzwoite są te dodatki. W tym wpisie przyjrzymy się nieco bliżej konfiguracji poszczególnych wtyczek dla dnscrypt-proxy .">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Blokowanie zapytań DNS z dnscrypt-proxy na linux&#39;ie">
+	<meta name="twitter:description" content="Narzędzie dnscrypt-proxy począwszy od wersji 1.7.0 ma domyślnie włączoną obsługę wtyczek. W standardzie nie ma ich dużo, bo jedynie trzy ale mogą one się okazać dla pewnych osób bardzo użyteczne. Dzięki tym pluginom możemy, np. zablokować rozwiązywanie nazw w protokole IPv6 na wypadek, gdyby ten protokół nie był wspierany w naszej sieci domowej czy też u naszego ISP. Możemy także zdefiniować sobie adresy/domeny, które powinny zostać zablokowane i w efekcie użytkownicy nie będą w stanie odwiedzić tych miejsc w internecie. Jest także wtyczka, która może nam pomóc zalogować zapytania DNS. Jak widać, całkiem przyzwoite są te dodatki. W tym wpisie przyjrzymy się nieco bliżej konfiguracji poszczególnych wtyczek dla dnscrypt-proxy .">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -345,6 +345,7 @@ błąd:</p>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

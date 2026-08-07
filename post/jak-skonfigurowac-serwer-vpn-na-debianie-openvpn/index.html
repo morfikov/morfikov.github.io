@@ -8,30 +8,31 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Jak skonfigurować serwer VPN na Debianie (OpenVPN)">
-  <meta property="og:description" content="Co raz częściej słychać w mediach o próbie cenzurowania internetu i blokowaniu dostępu do kolejnych serwisów i stron www. Ostatnio znowu podnieśli kwestię blokowania pokemonów bezpośrednio u ISP tak, by za zgodą ISP (władzy) można przeglądać tego typu serwisy. W sumie mam już tego dość i korzystając z okazji, że posiadam za granicą niewielkich rozmiarów VPS, który i tak nie jest zbytnio obciążony, to postanowiłem sobie skonfigurować na nim serwer VPN w oparciu o oprogramowanie OpenVPN, które jest standardowo dostępne w każdej dystrybucji linux&#39;a. Proces konfiguracji serwera jak i klienta z zainstalowanym Debianem zostanie opisany poniżej. Niemniej jednak, inne urządzenia takie jak routery WiFi i smartfony również wymagają zaimplementowania w nich mechanizmu szyfrującego ruch ale te rozwiązania zostaną opisane w osobnych wątkach.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2016-12-06T19:22:49+00:00">
-    <meta property="article:modified_time" content="2016-12-06T19:22:49+00:00">
-    <meta property="article:tag" content="Prywatność">
-    <meta property="article:tag" content="Vpn">
-    <meta property="article:tag" content="Debian">
-    <meta property="article:tag" content="Sieć">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Jak skonfigurować serwer VPN na Debianie (OpenVPN)">
+	<meta property="og:description" content="Co raz częściej słychać w mediach o próbie cenzurowania internetu i blokowaniu dostępu do kolejnych serwisów i stron www. Ostatnio znowu podnieśli kwestię blokowania pokemonów bezpośrednio u ISP tak, by za zgodą ISP (władzy) można przeglądać tego typu serwisy. W sumie mam już tego dość i korzystając z okazji, że posiadam za granicą niewielkich rozmiarów VPS, który i tak nie jest zbytnio obciążony, to postanowiłem sobie skonfigurować na nim serwer VPN w oparciu o oprogramowanie OpenVPN, które jest standardowo dostępne w każdej dystrybucji linux&#39;a. Proces konfiguracji serwera jak i klienta z zainstalowanym Debianem zostanie opisany poniżej. Niemniej jednak, inne urządzenia takie jak routery WiFi i smartfony również wymagają zaimplementowania w nich mechanizmu szyfrującego ruch ale te rozwiązania zostaną opisane w osobnych wątkach.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2016-12-06T19:22:49+00:00">
+		<meta property="article:modified_time" content="2016-12-06T19:22:49+00:00">
+		<meta property="article:tag" content="Prywatność">
+		<meta property="article:tag" content="Vpn">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Sieć">
+		<meta property="article:tag" content="Openvpn">
 
 		
-  <meta itemprop="name" content="Jak skonfigurować serwer VPN na Debianie (OpenVPN)">
-  <meta itemprop="description" content="Co raz częściej słychać w mediach o próbie cenzurowania internetu i blokowaniu dostępu do kolejnych serwisów i stron www. Ostatnio znowu podnieśli kwestię blokowania pokemonów bezpośrednio u ISP tak, by za zgodą ISP (władzy) można przeglądać tego typu serwisy. W sumie mam już tego dość i korzystając z okazji, że posiadam za granicą niewielkich rozmiarów VPS, który i tak nie jest zbytnio obciążony, to postanowiłem sobie skonfigurować na nim serwer VPN w oparciu o oprogramowanie OpenVPN, które jest standardowo dostępne w każdej dystrybucji linux&#39;a. Proces konfiguracji serwera jak i klienta z zainstalowanym Debianem zostanie opisany poniżej. Niemniej jednak, inne urządzenia takie jak routery WiFi i smartfony również wymagają zaimplementowania w nich mechanizmu szyfrującego ruch ale te rozwiązania zostaną opisane w osobnych wątkach.">
-  <meta itemprop="datePublished" content="2016-12-06T19:22:49+00:00">
-  <meta itemprop="dateModified" content="2016-12-06T19:22:49+00:00">
-  <meta itemprop="wordCount" content="3333">
-  <meta itemprop="keywords" content="Prywatność,Vpn,Debian,Sieć">
+	<meta itemprop="name" content="Jak skonfigurować serwer VPN na Debianie (OpenVPN)">
+	<meta itemprop="description" content="Co raz częściej słychać w mediach o próbie cenzurowania internetu i blokowaniu dostępu do kolejnych serwisów i stron www. Ostatnio znowu podnieśli kwestię blokowania pokemonów bezpośrednio u ISP tak, by za zgodą ISP (władzy) można przeglądać tego typu serwisy. W sumie mam już tego dość i korzystając z okazji, że posiadam za granicą niewielkich rozmiarów VPS, który i tak nie jest zbytnio obciążony, to postanowiłem sobie skonfigurować na nim serwer VPN w oparciu o oprogramowanie OpenVPN, które jest standardowo dostępne w każdej dystrybucji linux&#39;a. Proces konfiguracji serwera jak i klienta z zainstalowanym Debianem zostanie opisany poniżej. Niemniej jednak, inne urządzenia takie jak routery WiFi i smartfony również wymagają zaimplementowania w nich mechanizmu szyfrującego ruch ale te rozwiązania zostaną opisane w osobnych wątkach.">
+	<meta itemprop="datePublished" content="2016-12-06T19:22:49+00:00">
+	<meta itemprop="dateModified" content="2016-12-06T19:22:49+00:00">
+	<meta itemprop="wordCount" content="3333">
+	<meta itemprop="keywords" content="Prywatność,Vpn,Debian,Sieć,Openvpn">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Jak skonfigurować serwer VPN na Debianie (OpenVPN)">
-  <meta name="twitter:description" content="Co raz częściej słychać w mediach o próbie cenzurowania internetu i blokowaniu dostępu do kolejnych serwisów i stron www. Ostatnio znowu podnieśli kwestię blokowania pokemonów bezpośrednio u ISP tak, by za zgodą ISP (władzy) można przeglądać tego typu serwisy. W sumie mam już tego dość i korzystając z okazji, że posiadam za granicą niewielkich rozmiarów VPS, który i tak nie jest zbytnio obciążony, to postanowiłem sobie skonfigurować na nim serwer VPN w oparciu o oprogramowanie OpenVPN, które jest standardowo dostępne w każdej dystrybucji linux&#39;a. Proces konfiguracji serwera jak i klienta z zainstalowanym Debianem zostanie opisany poniżej. Niemniej jednak, inne urządzenia takie jak routery WiFi i smartfony również wymagają zaimplementowania w nich mechanizmu szyfrującego ruch ale te rozwiązania zostaną opisane w osobnych wątkach.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Jak skonfigurować serwer VPN na Debianie (OpenVPN)">
+	<meta name="twitter:description" content="Co raz częściej słychać w mediach o próbie cenzurowania internetu i blokowaniu dostępu do kolejnych serwisów i stron www. Ostatnio znowu podnieśli kwestię blokowania pokemonów bezpośrednio u ISP tak, by za zgodą ISP (władzy) można przeglądać tego typu serwisy. W sumie mam już tego dość i korzystając z okazji, że posiadam za granicą niewielkich rozmiarów VPS, który i tak nie jest zbytnio obciążony, to postanowiłem sobie skonfigurować na nim serwer VPN w oparciu o oprogramowanie OpenVPN, które jest standardowo dostępne w każdej dystrybucji linux&#39;a. Proces konfiguracji serwera jak i klienta z zainstalowanym Debianem zostanie opisany poniżej. Niemniej jednak, inne urządzenia takie jak routery WiFi i smartfony również wymagają zaimplementowania w nich mechanizmu szyfrującego ruch ale te rozwiązania zostaną opisane w osobnych wątkach.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -570,6 +571,7 @@ problemów zsynchronizujmy sobie czas z serwerami czasu NTP na obu maszynach.</p
 <div class="entry__tags">
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/vpn/">Vpn</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/openvpn/">Openvpn</a>
 </div>
 					
 <div class="entry__share share">
@@ -676,6 +678,7 @@ problemów zsynchronizujmy sobie czas z serwerami czasu NTP na obu maszynach.</p
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

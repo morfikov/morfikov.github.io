@@ -8,31 +8,31 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/zabezpieczenie-konta-root-przy-pomocy-pam-usb/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Zabezpieczenie konta root przy pomocy pam-usb">
-  <meta property="og:description" content="Jakiś czas temu natknąłem się na moduł pam-usb , który to w dość ciekawy sposób zabezpiecza dostęp do konta użytkownika root. Cały mechanizm opiera się o pendrive, którego to unikalne cechy są brane pod uwagę przy uwierzytelnianiu podczas logowania się na konto super użytkownika, czyli min. gdy wydajemy polecenie su albo sudo . Jest to o tyle ciekawa rzecz, że konto użytkownika root możne stać się niewrażliwe na próby złamania hasła w przypadku połączenia sieciowego. Jak by nie patrzeć, atakujący, który łączy się zdalnie, nie jest w stanie podłączyć do naszego komputera żadnego fizycznego urządzenia, w wyniku czego nigdy nie uzyska dostępu do konta administratora.
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Zabezpieczenie konta root przy pomocy pam-usb">
+	<meta property="og:description" content="Jakiś czas temu natknąłem się na moduł pam-usb , który to w dość ciekawy sposób zabezpiecza dostęp do konta użytkownika root. Cały mechanizm opiera się o pendrive, którego to unikalne cechy są brane pod uwagę przy uwierzytelnianiu podczas logowania się na konto super użytkownika, czyli min. gdy wydajemy polecenie su albo sudo . Jest to o tyle ciekawa rzecz, że konto użytkownika root możne stać się niewrażliwe na próby złamania hasła w przypadku połączenia sieciowego. Jak by nie patrzeć, atakujący, który łączy się zdalnie, nie jest w stanie podłączyć do naszego komputera żadnego fizycznego urządzenia, w wyniku czego nigdy nie uzyska dostępu do konta administratora.
 Pakiet libpam-usb wyleciał z debiana jakiś czas temu. Powodem były zależności, które wskazywały na przestarzały już pakiet udisks . Poza tym, nikt nie zajmował się tym pakietem. Obecnie jest on dostępny jedynie w starszych wydaniach debiana.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2015-10-19T21:01:03+00:00">
-    <meta property="article:modified_time" content="2015-10-19T21:01:03+00:00">
-    <meta property="article:tag" content="Pendrive">
-    <meta property="article:tag" content="Bezpieczeństwo">
-    <meta property="article:tag" content="Moduły-Pam">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2015-10-19T21:01:03+00:00">
+		<meta property="article:modified_time" content="2015-10-19T21:01:03+00:00">
+		<meta property="article:tag" content="Pendrive">
+		<meta property="article:tag" content="Bezpieczeństwo">
+		<meta property="article:tag" content="Moduły-Pam">
 
 		
-  <meta itemprop="name" content="Zabezpieczenie konta root przy pomocy pam-usb">
-  <meta itemprop="description" content="Jakiś czas temu natknąłem się na moduł pam-usb , który to w dość ciekawy sposób zabezpiecza dostęp do konta użytkownika root. Cały mechanizm opiera się o pendrive, którego to unikalne cechy są brane pod uwagę przy uwierzytelnianiu podczas logowania się na konto super użytkownika, czyli min. gdy wydajemy polecenie su albo sudo . Jest to o tyle ciekawa rzecz, że konto użytkownika root możne stać się niewrażliwe na próby złamania hasła w przypadku połączenia sieciowego. Jak by nie patrzeć, atakujący, który łączy się zdalnie, nie jest w stanie podłączyć do naszego komputera żadnego fizycznego urządzenia, w wyniku czego nigdy nie uzyska dostępu do konta administratora.
+	<meta itemprop="name" content="Zabezpieczenie konta root przy pomocy pam-usb">
+	<meta itemprop="description" content="Jakiś czas temu natknąłem się na moduł pam-usb , który to w dość ciekawy sposób zabezpiecza dostęp do konta użytkownika root. Cały mechanizm opiera się o pendrive, którego to unikalne cechy są brane pod uwagę przy uwierzytelnianiu podczas logowania się na konto super użytkownika, czyli min. gdy wydajemy polecenie su albo sudo . Jest to o tyle ciekawa rzecz, że konto użytkownika root możne stać się niewrażliwe na próby złamania hasła w przypadku połączenia sieciowego. Jak by nie patrzeć, atakujący, który łączy się zdalnie, nie jest w stanie podłączyć do naszego komputera żadnego fizycznego urządzenia, w wyniku czego nigdy nie uzyska dostępu do konta administratora.
 Pakiet libpam-usb wyleciał z debiana jakiś czas temu. Powodem były zależności, które wskazywały na przestarzały już pakiet udisks . Poza tym, nikt nie zajmował się tym pakietem. Obecnie jest on dostępny jedynie w starszych wydaniach debiana.">
-  <meta itemprop="datePublished" content="2015-10-19T21:01:03+00:00">
-  <meta itemprop="dateModified" content="2015-10-19T21:01:03+00:00">
-  <meta itemprop="wordCount" content="767">
-  <meta itemprop="keywords" content="Pendrive,Bezpieczeństwo,Moduły-Pam">
+	<meta itemprop="datePublished" content="2015-10-19T21:01:03+00:00">
+	<meta itemprop="dateModified" content="2015-10-19T21:01:03+00:00">
+	<meta itemprop="wordCount" content="767">
+	<meta itemprop="keywords" content="Pendrive,Bezpieczeństwo,Moduły-Pam">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Zabezpieczenie konta root przy pomocy pam-usb">
-  <meta name="twitter:description" content="Jakiś czas temu natknąłem się na moduł pam-usb , który to w dość ciekawy sposób zabezpiecza dostęp do konta użytkownika root. Cały mechanizm opiera się o pendrive, którego to unikalne cechy są brane pod uwagę przy uwierzytelnianiu podczas logowania się na konto super użytkownika, czyli min. gdy wydajemy polecenie su albo sudo . Jest to o tyle ciekawa rzecz, że konto użytkownika root możne stać się niewrażliwe na próby złamania hasła w przypadku połączenia sieciowego. Jak by nie patrzeć, atakujący, który łączy się zdalnie, nie jest w stanie podłączyć do naszego komputera żadnego fizycznego urządzenia, w wyniku czego nigdy nie uzyska dostępu do konta administratora.
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Zabezpieczenie konta root przy pomocy pam-usb">
+	<meta name="twitter:description" content="Jakiś czas temu natknąłem się na moduł pam-usb , który to w dość ciekawy sposób zabezpiecza dostęp do konta użytkownika root. Cały mechanizm opiera się o pendrive, którego to unikalne cechy są brane pod uwagę przy uwierzytelnianiu podczas logowania się na konto super użytkownika, czyli min. gdy wydajemy polecenie su albo sudo . Jest to o tyle ciekawa rzecz, że konto użytkownika root możne stać się niewrażliwe na próby złamania hasła w przypadku połączenia sieciowego. Jak by nie patrzeć, atakujący, który łączy się zdalnie, nie jest w stanie podłączyć do naszego komputera żadnego fizycznego urządzenia, w wyniku czego nigdy nie uzyska dostępu do konta administratora.
 Pakiet libpam-usb wyleciał z debiana jakiś czas temu. Powodem były zależności, które wskazywały na przestarzały już pakiet udisks . Poza tym, nikt nie zajmował się tym pakietem. Obecnie jest on dostępny jedynie w starszych wydaniach debiana.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
@@ -358,6 +358,7 @@ systemu plików, stracimy dostęp do konta root i trzeba będzie ratować się s
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

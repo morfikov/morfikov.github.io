@@ -8,21 +8,21 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/categories/linux/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Linux">
-  <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="website">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Linux">
+	<meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="website">
 
 		
-  <meta itemprop="name" content="Linux">
-  <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="datePublished" content="2026-01-22T14:55:00+01:00">
-  <meta itemprop="dateModified" content="2026-01-22T14:55:00+01:00">
+	<meta itemprop="name" content="Linux">
+	<meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+	<meta itemprop="datePublished" content="2026-08-07T02:42:00+02:00">
+	<meta itemprop="dateModified" content="2026-08-07T02:42:00+02:00">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Linux">
-  <meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Linux">
+	<meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -90,6 +90,33 @@
 			
 		</div>
 		<div class="cards">
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-przy-pomocy-usbguard-zabezpieczyc-porty-usb-przed-zlosliwymi-urzadzeniami/">Jak przy pomocy USBguard zabezpieczyć porty USB przed złośliwymi urządzeniami</a></h1>
+	<div class="entry__content"><p>Ostatnio na
+Niebezpieczniku <a href="https://niebezpiecznik.pl/post/zlosliwy-kabel-usb-ktory-zmienia-sie-w-klawiature-i-infekuje-twoj-komputer/">pojawił się artykuł</a>
+na temat niezbyt przyjaznych urządzeń podłączanych do komputera za sprawą portów USB (opisanych na
+przykładzie niepozornego przewodu) i tego jaką szkodę tego typu hardware może nam wyrządzić w
+systemie. Ataki z wykorzystaniem podstawionych urządzeń zadziałają nawet na linux, choć pewnie cała
+masa użytkowników wyznaje jeszcze mit, że ich komputer jest bezpieczny, bo przecie używają
+alternatywnego systemu operacyjnego, który jest OpenSource i za priorytet obrał sobie szeroko
+rozumiane bezpieczeństwo. Niestety nie jest tak różowo jakby mogło się co niektórym wydawać ale
+można ten stan rzeczy naturalnie zmienić i nie trzeba przy tym rekompilować kernela z zamiarem
+wyłączenia obsługi modułu USB, co ten opisany w podlinkowanym artykule atak oczywiście by również
+powstrzymało. Zamiast tego możemy zainstalować sobie narzędzie <code>usbguard</code> i przy jego pomocy
+skonfigurować politykę podłączanych do portów USB urządzeń.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2019-02-24T12:00:33Z">Opublikowano: 24/02/2019</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
@@ -328,34 +355,6 @@ w terminalu tylko jednego polecenia. Zatem do dzieła.</p></div>
 </article>
 				</div>
 			
-				<div class="card card--2col">
-					<article class="entry card__box block">
-	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-recznie-zweryfikowac-sygnature-modulu-kernela-linux/">Jak ręcznie zweryfikować sygnaturę modułu kernela linux</a></h1>
-	<div class="entry__content"><p>Bawiąc się ostatnio kernelem linux na dystrybucji Debian i opcjami mającymi poprawić jego
-bezpieczeństwo, włączyłem
-sobie <a href="https://morfikov.github.io/post/automatyczne-podpisywanie-modulow-kernela-przez-dkms/">mechanizm podpisywania modułów</a>.
-W ten sposób żaden zewnętrzny moduł nie zostanie załadowany przez jądro operacyjne, no chyba, że
-taki moduł będzie podpisany przez ten sam klucz co i kernel. Zdziwiłem się odrobinę, gdy moim
-oczom pokazał się hash <code>md4</code> w wyjściu polecenia <code>modinfo</code> . Jak się okazało później, to niezbyt
-dokładne zinterpretowanie wiadomości PKCS#7 przez <code>kmod</code> było (i nadal jest) wynikiem <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1320921">błędu
-obecnego w tym pakiecie od już paru lat</a>. W
-efekcie <code>modinfo</code> nie jest w stanie zweryfikować tej sygnatury, a w moim umyśle zaistniało pytanie:
-czy istnieje w ogóle możliwość manualnego sprawdzenia czy ta sygnatura jest w porządku? Kernel co
-prawda ten cały zabieg przeprowadza automatycznie ale przydałoby się ręcznie zweryfikować
-poprawność sygnatury modułu i przy okazji obadać sobie co tak naprawdę się dzieje podczas tego
-procesu.</p></div>
-	<div class="entry__meta meta mt tar">
-	<time class="entry__meta-published meta-published" datetime="2019-01-26T10:10:12Z">Opublikowano: 26/01/2019</time>
-
-<div class="entry__meta-categories meta-categories">
-	<span class="meta-categories__list">Kategorie:
-		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
-	</span>
-</div>
-	</div>
-</article>
-				</div>
-			
 		</div>
 	</main>
 	
@@ -393,6 +392,7 @@ procesu.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

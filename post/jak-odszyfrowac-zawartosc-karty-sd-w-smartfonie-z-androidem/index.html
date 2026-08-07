@@ -8,32 +8,32 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/jak-odszyfrowac-zawartosc-karty-sd-w-smartfonie-z-androidem/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Jak odszyfrować zawartość karty SD w smartfonie z Androidem">
-  <meta property="og:description" content="W Androidzie 6.0 Marshmallow został wprowadzony ciekawy mechanizm zwany Adoptable Storage, który umożliwia zamontowanie karty SD w smartfonie jako pamięć wewnętrzna. W ten sposób pamięć flash w telefonach, które mają jej niewiele, może zostać nieco rozbudowana. Jedyny problem z tym całym Adoptable Storage jest taki, że Android szyfruje zawartość karty SD automatycznie, przez co nie jesteśmy w stanie odczytać żadnych informacji z takiego nośnika na innych urządzeniach. Istnieje jednak sposób, by rozszyfrować i tym samym uzyskać dostęp do danych zgromadzonych na karcie SD z poziomu linux&#39;a, np. dystrybucji Debian. W tym artykule prześledzimy sobie właśnie ten proces na przykładzie smartfona Neffos Y5 od TP-LINK.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2017-02-09T18:01:56+01:00">
-    <meta property="article:modified_time" content="2017-02-09T18:01:56+01:00">
-    <meta property="article:tag" content="Karta-Sd">
-    <meta property="article:tag" content="Smartfon">
-    <meta property="article:tag" content="Szyfrowanie">
-    <meta property="article:tag" content="Adoptable-Storage">
-    <meta property="article:tag" content="Root">
-    <meta property="article:tag" content="Adb">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Jak odszyfrować zawartość karty SD w smartfonie z Androidem">
+	<meta property="og:description" content="W Androidzie 6.0 Marshmallow został wprowadzony ciekawy mechanizm zwany Adoptable Storage, który umożliwia zamontowanie karty SD w smartfonie jako pamięć wewnętrzna. W ten sposób pamięć flash w telefonach, które mają jej niewiele, może zostać nieco rozbudowana. Jedyny problem z tym całym Adoptable Storage jest taki, że Android szyfruje zawartość karty SD automatycznie, przez co nie jesteśmy w stanie odczytać żadnych informacji z takiego nośnika na innych urządzeniach. Istnieje jednak sposób, by rozszyfrować i tym samym uzyskać dostęp do danych zgromadzonych na karcie SD z poziomu linux&#39;a, np. dystrybucji Debian. W tym artykule prześledzimy sobie właśnie ten proces na przykładzie smartfona Neffos Y5 od TP-LINK.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2017-02-09T18:01:56+01:00">
+		<meta property="article:modified_time" content="2017-02-09T18:01:56+01:00">
+		<meta property="article:tag" content="Karta-Sd">
+		<meta property="article:tag" content="Smartfon">
+		<meta property="article:tag" content="Szyfrowanie">
+		<meta property="article:tag" content="Adoptable-Storage">
+		<meta property="article:tag" content="Root">
+		<meta property="article:tag" content="Adb">
 
 		
-  <meta itemprop="name" content="Jak odszyfrować zawartość karty SD w smartfonie z Androidem">
-  <meta itemprop="description" content="W Androidzie 6.0 Marshmallow został wprowadzony ciekawy mechanizm zwany Adoptable Storage, który umożliwia zamontowanie karty SD w smartfonie jako pamięć wewnętrzna. W ten sposób pamięć flash w telefonach, które mają jej niewiele, może zostać nieco rozbudowana. Jedyny problem z tym całym Adoptable Storage jest taki, że Android szyfruje zawartość karty SD automatycznie, przez co nie jesteśmy w stanie odczytać żadnych informacji z takiego nośnika na innych urządzeniach. Istnieje jednak sposób, by rozszyfrować i tym samym uzyskać dostęp do danych zgromadzonych na karcie SD z poziomu linux&#39;a, np. dystrybucji Debian. W tym artykule prześledzimy sobie właśnie ten proces na przykładzie smartfona Neffos Y5 od TP-LINK.">
-  <meta itemprop="datePublished" content="2017-02-09T18:01:56+01:00">
-  <meta itemprop="dateModified" content="2017-02-09T18:01:56+01:00">
-  <meta itemprop="wordCount" content="1104">
-  <meta itemprop="keywords" content="Karta-Sd,Smartfon,Szyfrowanie,Adoptable-Storage,Root,Adb,Dmcrypt">
+	<meta itemprop="name" content="Jak odszyfrować zawartość karty SD w smartfonie z Androidem">
+	<meta itemprop="description" content="W Androidzie 6.0 Marshmallow został wprowadzony ciekawy mechanizm zwany Adoptable Storage, który umożliwia zamontowanie karty SD w smartfonie jako pamięć wewnętrzna. W ten sposób pamięć flash w telefonach, które mają jej niewiele, może zostać nieco rozbudowana. Jedyny problem z tym całym Adoptable Storage jest taki, że Android szyfruje zawartość karty SD automatycznie, przez co nie jesteśmy w stanie odczytać żadnych informacji z takiego nośnika na innych urządzeniach. Istnieje jednak sposób, by rozszyfrować i tym samym uzyskać dostęp do danych zgromadzonych na karcie SD z poziomu linux&#39;a, np. dystrybucji Debian. W tym artykule prześledzimy sobie właśnie ten proces na przykładzie smartfona Neffos Y5 od TP-LINK.">
+	<meta itemprop="datePublished" content="2017-02-09T18:01:56+01:00">
+	<meta itemprop="dateModified" content="2017-02-09T18:01:56+01:00">
+	<meta itemprop="wordCount" content="1104">
+	<meta itemprop="keywords" content="Karta-Sd,Smartfon,Szyfrowanie,Adoptable-Storage,Root,Adb,Dmcrypt">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Jak odszyfrować zawartość karty SD w smartfonie z Androidem">
-  <meta name="twitter:description" content="W Androidzie 6.0 Marshmallow został wprowadzony ciekawy mechanizm zwany Adoptable Storage, który umożliwia zamontowanie karty SD w smartfonie jako pamięć wewnętrzna. W ten sposób pamięć flash w telefonach, które mają jej niewiele, może zostać nieco rozbudowana. Jedyny problem z tym całym Adoptable Storage jest taki, że Android szyfruje zawartość karty SD automatycznie, przez co nie jesteśmy w stanie odczytać żadnych informacji z takiego nośnika na innych urządzeniach. Istnieje jednak sposób, by rozszyfrować i tym samym uzyskać dostęp do danych zgromadzonych na karcie SD z poziomu linux&#39;a, np. dystrybucji Debian. W tym artykule prześledzimy sobie właśnie ten proces na przykładzie smartfona Neffos Y5 od TP-LINK.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Jak odszyfrować zawartość karty SD w smartfonie z Androidem">
+	<meta name="twitter:description" content="W Androidzie 6.0 Marshmallow został wprowadzony ciekawy mechanizm zwany Adoptable Storage, który umożliwia zamontowanie karty SD w smartfonie jako pamięć wewnętrzna. W ten sposób pamięć flash w telefonach, które mają jej niewiele, może zostać nieco rozbudowana. Jedyny problem z tym całym Adoptable Storage jest taki, że Android szyfruje zawartość karty SD automatycznie, przez co nie jesteśmy w stanie odczytać żadnych informacji z takiego nośnika na innych urządzeniach. Istnieje jednak sposób, by rozszyfrować i tym samym uzyskać dostęp do danych zgromadzonych na karcie SD z poziomu linux&#39;a, np. dystrybucji Debian. W tym artykule prześledzimy sobie właśnie ten proces na przykładzie smartfona Neffos Y5 od TP-LINK.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -361,6 +361,7 @@ trochę na telefonach będzie w stanie uzyskać dostęp do danych zgromadzonych 
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

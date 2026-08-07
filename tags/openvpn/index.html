@@ -8,21 +8,21 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/tags/openvpn/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Openvpn">
-  <meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="website">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Openvpn">
+	<meta property="og:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="website">
 
 		
-  <meta itemprop="name" content="Openvpn">
-  <meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
-  <meta itemprop="datePublished" content="2016-12-07T18:54:37+01:00">
-  <meta itemprop="dateModified" content="2016-12-07T18:54:37+01:00">
+	<meta itemprop="name" content="Openvpn">
+	<meta itemprop="description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+	<meta itemprop="datePublished" content="2020-09-02T18:36:00+02:00">
+	<meta itemprop="dateModified" content="2026-08-02T10:30:00+02:00">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Openvpn">
-  <meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Openvpn">
+	<meta name="twitter:description" content="Blog o bezpieczeństwie, prywatności oraz systemach linux (Debian/Ubuntu, OpenWRT i Android)">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -93,6 +93,98 @@
 			
 				<div class="card card--2col">
 					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/">Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)</a></h1>
+	<div class="entry__content"><p>Parę dni temu <a href="https://forum.dug.net.pl/viewtopic.php?id=31514">na forum dug.net.pl pojawiło się zapytanie</a> dotyczące skonfigurowania linux'a w
+taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN,
+podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego
+ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć
+też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba
+zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel
+przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma
+przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i
+na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń
+czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów
+konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w
+zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować
+filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko
+odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe
+będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje
+jednak sposób, by nauczyć linux'a aby tylko procesy określonych użytkowników czy grup miały dostęp
+do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze
+standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy <code>iptables</code> / <code>nftables</code> ,
+tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2020-09-02T18:36:00&#43;02:00">Opublikowano: 02/09/2020</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2026-08-02T10:30:00&#43;02:00">Zaktualizowano: 02/08/2026</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-ukryc-ruch-openvpn-przy-pomocy-stunnel/">Jak ukryć ruch OpenVPN przy pomocy stunnel</a></h1>
+	<div class="entry__content"><p>Ci z nas, którzy korzystają codziennie z internetu, wiedzą, że większość nawiązywanych połączeń
+między dwoma punktami w tej sieci globalnej przechodzi przez szereg węzłów i jest podatnych na
+przechwycenie i podsłuchanie. Nawet jeśli ruch z określonymi serwisami jest szyfrowany, to w dalszym
+ciągu nie jesteśmy w stanie ukryć pewnych newralgicznych informacji, takich jak docelowy adres IP i
+port, na którym nasłuchuje zdalna usługa. Wszystkie połączenia sieciowe zestawiane z naszego
+komputera czy routera domowego przechodzą przez infrastrukturę ISP, u którego mamy wykupiony
+internet. Tacy ISP są nam w stanie pod naciskiem rządu zablokować połączenia z konkretnymi adresami
+wprowadzając na terenie danego kraju cenzurę treści dostępnej w internecie, czego obecnie jesteśmy
+świadkami w Europie, no i w Polsce. Można oczywiście posiłkować się rozwiązaniami opartymi o VPN,
+np. <a href="https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">stawiając serwer OpenVPN w innym kraju</a>. Problem jednak w tym, że ruch OpenVPN różni się od
+tego, z którym mamy do czynienia w przypadku choćby HTTPS. Jest zatem możliwość rozpoznania ruchu
+VPN i zablokowania go stosując <a href="https://en.wikipedia.org/wiki/Deep_packet_inspection">głęboką analizę pakietów</a> (Deep Packet Inspection, DPI). By się
+przed tego typu sytuacją ochronić, trzeba upodobnić ruch generowany przez OpenVPN do zwykłego ruchu
+SSL/TLS. Do tego celu służy <a href="https://www.stunnel.org/index.html">narzędzie stunnel</a>.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-12-10T15:18:18Z">Opublikowano: 10/12/2016</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-skonfigurowac-klienta-vpn-na-routerze-z-openwrt/">Jak skonfigurować klienta VPN na routerze z OpenWRT</a></h1>
+	<div class="entry__content"><p>Ostatnio pisałem trochę o <a href="https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">konfiguracji serwera VPN na Debianie</a> oraz podłączaniu do niego
+różnych linux'owych klientów, w tym też <a href="https://morfikov.github.io/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/">smartfonów wyposażonych w system Android</a>. O ile
+konfiguracja pojedynczego klienta OpenVPN nie jest jakoś szczególnie trudna, to mając w swojej sieci
+domowej kilka urządzeń zdolnych łączyć się z internetem zarówno przewodowo jak i bezprzewodowo, to
+dostosowanie konfiguracji na każdym z tych sprzętów może być ździebko problematyczne. To co łączy te
+wszystkie urządzenia w naszym domu, to router WiFi. Zwykle każdy komputer, nawet ten najmniejszy,
+łączy się z takim routerem w celu nawiązania połączenia ze światem. Dlatego też zamiast
+konfigurować osobno wszystkie te urządzenia elektroniczne, możemy skonfigurować sobie router w taki
+sposób, by cały zebrany ruch z sieci lokalnej przesłał do serwera VPN. Standardowej klasy routery
+nie wspierają połączeń VPN i by taki mechanizm zaimplementować potrzebne nam będzie alternatywne
+firmware pokroju LEDE/OpenWRT. W tym artykule postaramy się skonfigurować połączenie VPN dla sieci
+domowej w oparciu o <a href="http://www.tp-link.com.pl/products/details/Archer-C2600.html">router Archer C2600</a> od TP-LINK, który ma wgrany najnowszy snapshot LEDE
+Chaos Calmer (r2392).</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-12-08T18:13:41&#43;01:00">Opublikowano: 08/12/2016</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/openwrt/" rel="category">OpenWRT</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
 	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/">Jak skonfigurować połączenie VPN na smartfonie z Androidem</a></h1>
 	<div class="entry__content"><p><a href="https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">W artykule o postawieniu serwera VPN</a> poruszyłem jedynie kwestię konfiguracji klienta mającego
 system operacyjny z rodziny linux, a konkretnie była to dystrybucja Debian. Niemniej jednak, mając
@@ -109,6 +201,82 @@ Neffos C5</a> od TP-LINK mający na pokładzie Androida w wersji 5.1 (Lollipop).
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
 		<a class="meta-categories__link" href="https://morfikov.github.io/categories/android/" rel="category">Android</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">Jak skonfigurować serwer VPN na Debianie (OpenVPN)</a></h1>
+	<div class="entry__content"><p>Co raz częściej słychać w mediach o próbie cenzurowania internetu i blokowaniu dostępu do kolejnych
+serwisów i stron www. Ostatnio znowu podnieśli kwestię blokowania pokemonów bezpośrednio u ISP tak,
+by za zgodą ISP (władzy) można przeglądać tego typu serwisy. W sumie mam już tego dość i korzystając
+z okazji, że posiadam za granicą niewielkich rozmiarów VPS, który i tak nie jest zbytnio obciążony,
+to postanowiłem sobie skonfigurować na nim serwer VPN w oparciu o <a href="https://openvpn.net/index.php/open-source/documentation/howto.html">oprogramowanie
+OpenVPN</a>, które jest standardowo
+dostępne w każdej dystrybucji linux'a. Proces konfiguracji serwera jak i klienta z zainstalowanym
+Debianem zostanie opisany poniżej. Niemniej jednak, inne urządzenia takie jak routery WiFi i
+smartfony również wymagają zaimplementowania w nich mechanizmu szyfrującego ruch ale te rozwiązania
+zostaną opisane w osobnych wątkach.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-12-06T19:22:49Z">Opublikowano: 06/12/2016</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/przeciek-dns-dns-leak-w-vpn-resolvconf/">Przeciek DNS (DNS leak) w VPN (resolvconf)</a></h1>
+	<div class="entry__content"><p><a href="https://dnsleaktest.com/what-is-a-dns-leak.html">Przeciek DNS (dns leak)</a> to nic innego jak wyciek
+poufnej informacji, za sprawą nieprawidłowej konfiguracji resolver'a DNS. Może niekoniecznie jest
+winne tutaj samo oprogramowanie, które realizuje zapytania DNS, czy też serwer domen jakiejś
+organizacji. Chodzi głównie o tematykę <a href="https://pl.wikipedia.org/wiki/Virtual_Private_Network">VPN</a>,
+gdzie cały ruch sieciowy powinien być wrzucany do tunelu SSL/TLS i szyfrowany. W pewnych sytuacjach,
+zapytania DNS mogą zostać wysyłane pod zewnętrzny resolver, często w formie niezaszyfrowanej i do
+tego poza połączeniem VPN. Ten ruch można podsłuchać, przechwycić i poddać analizie. Celem tego
+artykułu jest tak skonfigurowanie linux'a (w tym przypadku dystrybucja Debian), by te przecieki
+wyeliminować. Jest to możliwe za sprawą narzędzia <code>resolvconf</code>.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2016-04-25T14:37:51Z">Opublikowano: 25/04/2016</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+</article>
+				</div>
+			
+				<div class="card card--2col">
+					<article class="entry card__box block">
+	<h1 class="entry__title title-excerpt"><a class="entry__title-link" href="https://morfikov.github.io/post/riseup-vpn-na-strazy-prywatnosci/">Riseup VPN na straży prywatności</a></h1>
+	<div class="entry__content"><p>W dobie NSA, podsłuchów rządowych i wszelkiego rodzaju pogwałcenia prawa do prywatności, ludzie
+wymyślili <a href="https://pl.wikipedia.org/wiki/Virtual_Private_Network">VPN</a>. VPN to nic innego jak tunel
+łączący dwie odległe od siebie maszyny, które chcą wymieniać ze sobą dane w sposób uniemożliwiający
+osobom trzecim podejrzenie całej tej komunikacji. Zalety korzystania z takiego dobrodziejstwa natury
+są oczywiste. Można obejść cenzorów, gdyż cały ruch z naszej maszyny jest przesyłany do serwera w
+postaci szyfrowanej, a dopiero z tego serwera sygnał idzie dalej w świat. Jest wiele komercyjnych
+usług, które za drobną opłatą mogą zapewnić nam tego tupu usługi ale ja nie będę tutaj się o nich
+rozpisywał. Bez problemu można je znaleźć w góglu. My tutaj za to zajmiemy się VPN jaki zapewnia
+<a href="https://riseup.net/">riseup</a>. By móc korzystać z ich usług, trzeba założyć na ich stronie konto, a
+to z kolei jest przyznawane tym, którzy w jakiś sposób działają na rzecz szeroko pojętej wolności.
+Ja wysłałem zgłoszenie i konto zostało mi przyznane. Dlatego też opiszę jak wygląda konfiguracja VPN
+na ich przykładzie.</p></div>
+	<div class="entry__meta meta mt tar">
+	<time class="entry__meta-published meta-published" datetime="2015-06-21T17:05:45Z">Opublikowano: 21/06/2015</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
 	</span>
 </div>
 	</div>
@@ -141,6 +309,7 @@ Neffos C5</a> od TP-LINK mający na pokładzie Androida w wersji 5.1 (Lollipop).
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

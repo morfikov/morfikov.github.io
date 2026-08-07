@@ -8,29 +8,29 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/kompromitacja-firewalla-openwrt-za-sprawa-ping/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Kompromitacja firewall&#39;a OpenWRT za sprawą ping">
-  <meta property="og:description" content="Ten standardowy firewall, który oferuje OpenWRT, ma w zamiarze blokować wszystkie nowe próby połączeń od strony WAN. Faktycznie tak jest w istocie. Niemniej jednak, mamy tam jedną regułę, która zezwala na wysyłanie żądań ping . Niby te żądania wydają się być niepozorne ale przy takiej konfiguracji iptables jaką oferuje OpenWRT istnieje ryzyko, że ktoś z zewnątrz może utworzyć sporo sesji bez jakiegokolwiek nadzoru. Każda z tych sesji musi być śledzona przez kernel w tablicy conntrack&#39;a. Nie mając kontroli nad tym ile takich sesji może zostać utworzonych, łatwo może dojść do zapełnienia tej tablicy. Jeśli do tego dojdzie, to router przestanie nawiązywać nowe połączenia. Przydałoby się zatem jakoś ten cały ping ogarnąć i to niekoniecznie blokując go po stronie WAN. W tym wpisie zaimplementujemy sobie mechanizm ochrony przez tego typu zagrożeniem.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2016-05-09T15:40:47+00:00">
-    <meta property="article:modified_time" content="2016-05-09T15:40:47+00:00">
-    <meta property="article:tag" content="Iptables">
-    <meta property="article:tag" content="Chaos-Calmer">
-    <meta property="article:tag" content="Router">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Kompromitacja firewall&#39;a OpenWRT za sprawą ping">
+	<meta property="og:description" content="Ten standardowy firewall, który oferuje OpenWRT, ma w zamiarze blokować wszystkie nowe próby połączeń od strony WAN. Faktycznie tak jest w istocie. Niemniej jednak, mamy tam jedną regułę, która zezwala na wysyłanie żądań ping . Niby te żądania wydają się być niepozorne ale przy takiej konfiguracji iptables jaką oferuje OpenWRT istnieje ryzyko, że ktoś z zewnątrz może utworzyć sporo sesji bez jakiegokolwiek nadzoru. Każda z tych sesji musi być śledzona przez kernel w tablicy conntrack&#39;a. Nie mając kontroli nad tym ile takich sesji może zostać utworzonych, łatwo może dojść do zapełnienia tej tablicy. Jeśli do tego dojdzie, to router przestanie nawiązywać nowe połączenia. Przydałoby się zatem jakoś ten cały ping ogarnąć i to niekoniecznie blokując go po stronie WAN. W tym wpisie zaimplementujemy sobie mechanizm ochrony przez tego typu zagrożeniem.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2016-05-09T15:40:47+00:00">
+		<meta property="article:modified_time" content="2016-05-09T15:40:47+00:00">
+		<meta property="article:tag" content="Iptables">
+		<meta property="article:tag" content="Chaos-Calmer">
+		<meta property="article:tag" content="Router">
 
 		
-  <meta itemprop="name" content="Kompromitacja firewall&#39;a OpenWRT za sprawą ping">
-  <meta itemprop="description" content="Ten standardowy firewall, który oferuje OpenWRT, ma w zamiarze blokować wszystkie nowe próby połączeń od strony WAN. Faktycznie tak jest w istocie. Niemniej jednak, mamy tam jedną regułę, która zezwala na wysyłanie żądań ping . Niby te żądania wydają się być niepozorne ale przy takiej konfiguracji iptables jaką oferuje OpenWRT istnieje ryzyko, że ktoś z zewnątrz może utworzyć sporo sesji bez jakiegokolwiek nadzoru. Każda z tych sesji musi być śledzona przez kernel w tablicy conntrack&#39;a. Nie mając kontroli nad tym ile takich sesji może zostać utworzonych, łatwo może dojść do zapełnienia tej tablicy. Jeśli do tego dojdzie, to router przestanie nawiązywać nowe połączenia. Przydałoby się zatem jakoś ten cały ping ogarnąć i to niekoniecznie blokując go po stronie WAN. W tym wpisie zaimplementujemy sobie mechanizm ochrony przez tego typu zagrożeniem.">
-  <meta itemprop="datePublished" content="2016-05-09T15:40:47+00:00">
-  <meta itemprop="dateModified" content="2016-05-09T15:40:47+00:00">
-  <meta itemprop="wordCount" content="991">
-  <meta itemprop="keywords" content="Iptables,Chaos-Calmer,Router">
+	<meta itemprop="name" content="Kompromitacja firewall&#39;a OpenWRT za sprawą ping">
+	<meta itemprop="description" content="Ten standardowy firewall, który oferuje OpenWRT, ma w zamiarze blokować wszystkie nowe próby połączeń od strony WAN. Faktycznie tak jest w istocie. Niemniej jednak, mamy tam jedną regułę, która zezwala na wysyłanie żądań ping . Niby te żądania wydają się być niepozorne ale przy takiej konfiguracji iptables jaką oferuje OpenWRT istnieje ryzyko, że ktoś z zewnątrz może utworzyć sporo sesji bez jakiegokolwiek nadzoru. Każda z tych sesji musi być śledzona przez kernel w tablicy conntrack&#39;a. Nie mając kontroli nad tym ile takich sesji może zostać utworzonych, łatwo może dojść do zapełnienia tej tablicy. Jeśli do tego dojdzie, to router przestanie nawiązywać nowe połączenia. Przydałoby się zatem jakoś ten cały ping ogarnąć i to niekoniecznie blokując go po stronie WAN. W tym wpisie zaimplementujemy sobie mechanizm ochrony przez tego typu zagrożeniem.">
+	<meta itemprop="datePublished" content="2016-05-09T15:40:47+00:00">
+	<meta itemprop="dateModified" content="2016-05-09T15:40:47+00:00">
+	<meta itemprop="wordCount" content="991">
+	<meta itemprop="keywords" content="Iptables,Chaos-Calmer,Router">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Kompromitacja firewall&#39;a OpenWRT za sprawą ping">
-  <meta name="twitter:description" content="Ten standardowy firewall, który oferuje OpenWRT, ma w zamiarze blokować wszystkie nowe próby połączeń od strony WAN. Faktycznie tak jest w istocie. Niemniej jednak, mamy tam jedną regułę, która zezwala na wysyłanie żądań ping . Niby te żądania wydają się być niepozorne ale przy takiej konfiguracji iptables jaką oferuje OpenWRT istnieje ryzyko, że ktoś z zewnątrz może utworzyć sporo sesji bez jakiegokolwiek nadzoru. Każda z tych sesji musi być śledzona przez kernel w tablicy conntrack&#39;a. Nie mając kontroli nad tym ile takich sesji może zostać utworzonych, łatwo może dojść do zapełnienia tej tablicy. Jeśli do tego dojdzie, to router przestanie nawiązywać nowe połączenia. Przydałoby się zatem jakoś ten cały ping ogarnąć i to niekoniecznie blokując go po stronie WAN. W tym wpisie zaimplementujemy sobie mechanizm ochrony przez tego typu zagrożeniem.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Kompromitacja firewall&#39;a OpenWRT za sprawą ping">
+	<meta name="twitter:description" content="Ten standardowy firewall, który oferuje OpenWRT, ma w zamiarze blokować wszystkie nowe próby połączeń od strony WAN. Faktycznie tak jest w istocie. Niemniej jednak, mamy tam jedną regułę, która zezwala na wysyłanie żądań ping . Niby te żądania wydają się być niepozorne ale przy takiej konfiguracji iptables jaką oferuje OpenWRT istnieje ryzyko, że ktoś z zewnątrz może utworzyć sporo sesji bez jakiegokolwiek nadzoru. Każda z tych sesji musi być śledzona przez kernel w tablicy conntrack&#39;a. Nie mając kontroli nad tym ile takich sesji może zostać utworzonych, łatwo może dojść do zapełnienia tej tablicy. Jeśli do tego dojdzie, to router przestanie nawiązywać nowe połączenia. Przydałoby się zatem jakoś ten cały ping ogarnąć i to niekoniecznie blokując go po stronie WAN. W tym wpisie zaimplementujemy sobie mechanizm ochrony przez tego typu zagrożeniem.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -329,6 +329,7 @@ osiągnąć zamierzony cel.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

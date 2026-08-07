@@ -8,32 +8,32 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/analiza-systemu-plikow-ext4-pod-katem-formatowania-wiekszych-dyskow-pod-linux/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux">
-  <meta property="og:description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC, to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy dysku twardego">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2021-07-25T18:40:00+02:00">
-    <meta property="article:modified_time" content="2021-07-31T21:25:00+02:00">
-    <meta property="article:tag" content="Debian">
-    <meta property="article:tag" content="Hdd">
-    <meta property="article:tag" content="Ssd">
-    <meta property="article:tag" content="Ext4">
-    <meta property="article:tag" content="Udev">
-    <meta property="article:tag" content="System-Plików">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux">
+	<meta property="og:description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC, to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy dysku twardego">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2021-07-25T18:40:00+02:00">
+		<meta property="article:modified_time" content="2021-07-31T21:25:00+02:00">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Hdd">
+		<meta property="article:tag" content="Ssd">
+		<meta property="article:tag" content="Ext4">
+		<meta property="article:tag" content="Udev">
+		<meta property="article:tag" content="System-Plików">
 
 		
-  <meta itemprop="name" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux">
-  <meta itemprop="description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC, to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy dysku twardego">
-  <meta itemprop="datePublished" content="2021-07-25T18:40:00+02:00">
-  <meta itemprop="dateModified" content="2021-07-31T21:25:00+02:00">
-  <meta itemprop="wordCount" content="8878">
-  <meta itemprop="keywords" content="Debian,Hdd,Ssd,Ext4,Udev,System-Plików,Apm">
+	<meta itemprop="name" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux">
+	<meta itemprop="description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC, to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy dysku twardego">
+	<meta itemprop="datePublished" content="2021-07-25T18:40:00+02:00">
+	<meta itemprop="dateModified" content="2021-07-31T21:25:00+02:00">
+	<meta itemprop="wordCount" content="8878">
+	<meta itemprop="keywords" content="Debian,Hdd,Ssd,Ext4,Udev,System-Plików,Apm">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux">
-  <meta name="twitter:description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC, to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy dysku twardego">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Analiza systemu plików EXT4 pod kątem formatowania większych dysków pod linux">
+	<meta name="twitter:description" content="Zapewne każdy użytkownik linux&#39;a tworzył na dysku HDD/SSD partycje sformatowane systemem plików EXT4. Prawdopodobnie też zastanawiało nas pytanie odnośnie ilości zajmowanego miejsca przez strukturę samego systemu plików, zwłaszcza w przypadku dysków o sporych rozmiarach (setki GiB, czy nawet kilka TiB). Jako, że musiałem ostatnio zmigrować kolekcję filmów ze strych dysków na jeden większy, który miał zostać podłączony pod Raspberry Pi z działającym Kodi na bazie LibreELEC, to przy okazji postanowiłem ten dysk sformatować w taki sposób, w jaki powinno się do tego zadania podchodzić wiedząc, że ma się do czynienia z dużym dyskiem, na którym będą przechowywane głównie duże pliki. Celem tego artykułu jest pokazanie jakie błędy przy tworzeniu systemu plików EXT4 można popełnić przez posiadanie niezbyt wystarczającej wiedzy z jego zakresu, oraz jak te błędy wyeliminować przed rozpoczęciem korzystania z tak nie do końca poprawnie przygotowanego do pracy dysku twardego">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -1241,6 +1241,8 @@ nas technologi ułożenia ścieżek.</p></div>
 	<h3 class="related__title">Powiązane</h3>
 	<ul class="related__list">
 		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-optymalnie-podzielic-dysk-hdd-ssd-na-partycje-pod-linux/">Jak optymalnie podzielić dysk HDD/SSD na partycje pod linux</a></li>
+		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-identyfikatora-uuid/">Zmiana identyfikatora UUID systemu plików EXT4 i kontenera LUKS</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zmiana-rozmiaru-partycji-ext4/">Zmiana rozmiaru partycji EXT4</a></li>
@@ -1252,8 +1254,6 @@ nas technologi ułożenia ścieżek.</p></div>
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/zarezerwowane-miejsce-w-systemie-plikow-ext4/">Zarezerwowane miejsce w systemie plików ext4</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/sprawdzanie-bledow-systemu-plikow-ext4/">Sprawdzanie błędów systemu plików ext4</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/bad-sektor-w-dzienniku-systemu-plikow-ext4/">Bad sektor w dzienniku systemu plików ext4</a></li>
 		
 	</ul>
 </div>
@@ -1291,6 +1291,7 @@ nas technologi ułożenia ścieżek.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

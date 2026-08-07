@@ -8,29 +8,29 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/jak-recznie-zweryfikowac-sygnature-modulu-kernela-linux/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Jak ręcznie zweryfikować sygnaturę modułu kernela linux">
-  <meta property="og:description" content="Bawiąc się ostatnio kernelem linux na dystrybucji Debian i opcjami mającymi poprawić jego bezpieczeństwo, włączyłem sobie mechanizm podpisywania modułów. W ten sposób żaden zewnętrzny moduł nie zostanie załadowany przez jądro operacyjne, no chyba, że taki moduł będzie podpisany przez ten sam klucz co i kernel. Zdziwiłem się odrobinę, gdy moim oczom pokazał się hash md4 w wyjściu polecenia modinfo . Jak się okazało później, to niezbyt dokładne zinterpretowanie wiadomości PKCS#7 przez kmod było (i nadal jest) wynikiem błędu obecnego w tym pakiecie od już paru lat. W efekcie modinfo nie jest w stanie zweryfikować tej sygnatury, a w moim umyśle zaistniało pytanie: czy istnieje w ogóle możliwość manualnego sprawdzenia czy ta sygnatura jest w porządku? Kernel co prawda ten cały zabieg przeprowadza automatycznie ale przydałoby się ręcznie zweryfikować poprawność sygnatury modułu i przy okazji obadać sobie co tak naprawdę się dzieje podczas tego procesu.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2019-01-26T10:10:12+00:00">
-    <meta property="article:modified_time" content="2019-01-26T10:10:12+00:00">
-    <meta property="article:tag" content="Debian">
-    <meta property="article:tag" content="Kernel">
-    <meta property="article:tag" content="Moduły-Kernela">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Jak ręcznie zweryfikować sygnaturę modułu kernela linux">
+	<meta property="og:description" content="Bawiąc się ostatnio kernelem linux na dystrybucji Debian i opcjami mającymi poprawić jego bezpieczeństwo, włączyłem sobie mechanizm podpisywania modułów. W ten sposób żaden zewnętrzny moduł nie zostanie załadowany przez jądro operacyjne, no chyba, że taki moduł będzie podpisany przez ten sam klucz co i kernel. Zdziwiłem się odrobinę, gdy moim oczom pokazał się hash md4 w wyjściu polecenia modinfo . Jak się okazało później, to niezbyt dokładne zinterpretowanie wiadomości PKCS#7 przez kmod było (i nadal jest) wynikiem błędu obecnego w tym pakiecie od już paru lat. W efekcie modinfo nie jest w stanie zweryfikować tej sygnatury, a w moim umyśle zaistniało pytanie: czy istnieje w ogóle możliwość manualnego sprawdzenia czy ta sygnatura jest w porządku? Kernel co prawda ten cały zabieg przeprowadza automatycznie ale przydałoby się ręcznie zweryfikować poprawność sygnatury modułu i przy okazji obadać sobie co tak naprawdę się dzieje podczas tego procesu.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2019-01-26T10:10:12+00:00">
+		<meta property="article:modified_time" content="2019-01-26T10:10:12+00:00">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Kernel">
+		<meta property="article:tag" content="Moduły-Kernela">
 
 		
-  <meta itemprop="name" content="Jak ręcznie zweryfikować sygnaturę modułu kernela linux">
-  <meta itemprop="description" content="Bawiąc się ostatnio kernelem linux na dystrybucji Debian i opcjami mającymi poprawić jego bezpieczeństwo, włączyłem sobie mechanizm podpisywania modułów. W ten sposób żaden zewnętrzny moduł nie zostanie załadowany przez jądro operacyjne, no chyba, że taki moduł będzie podpisany przez ten sam klucz co i kernel. Zdziwiłem się odrobinę, gdy moim oczom pokazał się hash md4 w wyjściu polecenia modinfo . Jak się okazało później, to niezbyt dokładne zinterpretowanie wiadomości PKCS#7 przez kmod było (i nadal jest) wynikiem błędu obecnego w tym pakiecie od już paru lat. W efekcie modinfo nie jest w stanie zweryfikować tej sygnatury, a w moim umyśle zaistniało pytanie: czy istnieje w ogóle możliwość manualnego sprawdzenia czy ta sygnatura jest w porządku? Kernel co prawda ten cały zabieg przeprowadza automatycznie ale przydałoby się ręcznie zweryfikować poprawność sygnatury modułu i przy okazji obadać sobie co tak naprawdę się dzieje podczas tego procesu.">
-  <meta itemprop="datePublished" content="2019-01-26T10:10:12+00:00">
-  <meta itemprop="dateModified" content="2019-01-26T10:10:12+00:00">
-  <meta itemprop="wordCount" content="1818">
-  <meta itemprop="keywords" content="Debian,Kernel,Moduły-Kernela">
+	<meta itemprop="name" content="Jak ręcznie zweryfikować sygnaturę modułu kernela linux">
+	<meta itemprop="description" content="Bawiąc się ostatnio kernelem linux na dystrybucji Debian i opcjami mającymi poprawić jego bezpieczeństwo, włączyłem sobie mechanizm podpisywania modułów. W ten sposób żaden zewnętrzny moduł nie zostanie załadowany przez jądro operacyjne, no chyba, że taki moduł będzie podpisany przez ten sam klucz co i kernel. Zdziwiłem się odrobinę, gdy moim oczom pokazał się hash md4 w wyjściu polecenia modinfo . Jak się okazało później, to niezbyt dokładne zinterpretowanie wiadomości PKCS#7 przez kmod było (i nadal jest) wynikiem błędu obecnego w tym pakiecie od już paru lat. W efekcie modinfo nie jest w stanie zweryfikować tej sygnatury, a w moim umyśle zaistniało pytanie: czy istnieje w ogóle możliwość manualnego sprawdzenia czy ta sygnatura jest w porządku? Kernel co prawda ten cały zabieg przeprowadza automatycznie ale przydałoby się ręcznie zweryfikować poprawność sygnatury modułu i przy okazji obadać sobie co tak naprawdę się dzieje podczas tego procesu.">
+	<meta itemprop="datePublished" content="2019-01-26T10:10:12+00:00">
+	<meta itemprop="dateModified" content="2019-01-26T10:10:12+00:00">
+	<meta itemprop="wordCount" content="1818">
+	<meta itemprop="keywords" content="Debian,Kernel,Moduły-Kernela">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Jak ręcznie zweryfikować sygnaturę modułu kernela linux">
-  <meta name="twitter:description" content="Bawiąc się ostatnio kernelem linux na dystrybucji Debian i opcjami mającymi poprawić jego bezpieczeństwo, włączyłem sobie mechanizm podpisywania modułów. W ten sposób żaden zewnętrzny moduł nie zostanie załadowany przez jądro operacyjne, no chyba, że taki moduł będzie podpisany przez ten sam klucz co i kernel. Zdziwiłem się odrobinę, gdy moim oczom pokazał się hash md4 w wyjściu polecenia modinfo . Jak się okazało później, to niezbyt dokładne zinterpretowanie wiadomości PKCS#7 przez kmod było (i nadal jest) wynikiem błędu obecnego w tym pakiecie od już paru lat. W efekcie modinfo nie jest w stanie zweryfikować tej sygnatury, a w moim umyśle zaistniało pytanie: czy istnieje w ogóle możliwość manualnego sprawdzenia czy ta sygnatura jest w porządku? Kernel co prawda ten cały zabieg przeprowadza automatycznie ale przydałoby się ręcznie zweryfikować poprawność sygnatury modułu i przy okazji obadać sobie co tak naprawdę się dzieje podczas tego procesu.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Jak ręcznie zweryfikować sygnaturę modułu kernela linux">
+	<meta name="twitter:description" content="Bawiąc się ostatnio kernelem linux na dystrybucji Debian i opcjami mającymi poprawić jego bezpieczeństwo, włączyłem sobie mechanizm podpisywania modułów. W ten sposób żaden zewnętrzny moduł nie zostanie załadowany przez jądro operacyjne, no chyba, że taki moduł będzie podpisany przez ten sam klucz co i kernel. Zdziwiłem się odrobinę, gdy moim oczom pokazał się hash md4 w wyjściu polecenia modinfo . Jak się okazało później, to niezbyt dokładne zinterpretowanie wiadomości PKCS#7 przez kmod było (i nadal jest) wynikiem błędu obecnego w tym pakiecie od już paru lat. W efekcie modinfo nie jest w stanie zweryfikować tej sygnatury, a w moim umyśle zaistniało pytanie: czy istnieje w ogóle możliwość manualnego sprawdzenia czy ta sygnatura jest w porządku? Kernel co prawda ten cały zabieg przeprowadza automatycznie ale przydałoby się ręcznie zweryfikować poprawność sygnatury modułu i przy okazji obadać sobie co tak naprawdę się dzieje podczas tego procesu.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -433,6 +433,7 @@ i <a href="https://qistoph.blogspot.com/2012/01/manual-verify-pkcs7-signed-data-
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

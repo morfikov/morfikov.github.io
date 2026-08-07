@@ -8,31 +8,32 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/jak-skonfigurowac-klienta-vpn-na-routerze-z-openwrt/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Jak skonfigurować klienta VPN na routerze z OpenWRT">
-  <meta property="og:description" content="Ostatnio pisałem trochę o konfiguracji serwera VPN na Debianie oraz podłączaniu do niego różnych linux&#39;owych klientów, w tym też smartfonów wyposażonych w system Android. O ile konfiguracja pojedynczego klienta OpenVPN nie jest jakoś szczególnie trudna, to mając w swojej sieci domowej kilka urządzeń zdolnych łączyć się z internetem zarówno przewodowo jak i bezprzewodowo, to dostosowanie konfiguracji na każdym z tych sprzętów może być ździebko problematyczne. To co łączy te wszystkie urządzenia w naszym domu, to router WiFi. Zwykle każdy komputer, nawet ten najmniejszy, łączy się z takim routerem w celu nawiązania połączenia ze światem. Dlatego też zamiast konfigurować osobno wszystkie te urządzenia elektroniczne, możemy skonfigurować sobie router w taki sposób, by cały zebrany ruch z sieci lokalnej przesłał do serwera VPN. Standardowej klasy routery nie wspierają połączeń VPN i by taki mechanizm zaimplementować potrzebne nam będzie alternatywne firmware pokroju LEDE/OpenWRT. W tym artykule postaramy się skonfigurować połączenie VPN dla sieci domowej w oparciu o router Archer C2600 od TP-LINK, który ma wgrany najnowszy snapshot LEDE Chaos Calmer (r2392).">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2016-12-08T18:13:41+01:00">
-    <meta property="article:modified_time" content="2016-12-08T18:13:41+01:00">
-    <meta property="article:tag" content="Prywatność">
-    <meta property="article:tag" content="Vpn">
-    <meta property="article:tag" content="Router">
-    <meta property="article:tag" content="Tp-Link">
-    <meta property="article:tag" content="Chaos-Calmer">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Jak skonfigurować klienta VPN na routerze z OpenWRT">
+	<meta property="og:description" content="Ostatnio pisałem trochę o konfiguracji serwera VPN na Debianie oraz podłączaniu do niego różnych linux&#39;owych klientów, w tym też smartfonów wyposażonych w system Android. O ile konfiguracja pojedynczego klienta OpenVPN nie jest jakoś szczególnie trudna, to mając w swojej sieci domowej kilka urządzeń zdolnych łączyć się z internetem zarówno przewodowo jak i bezprzewodowo, to dostosowanie konfiguracji na każdym z tych sprzętów może być ździebko problematyczne. To co łączy te wszystkie urządzenia w naszym domu, to router WiFi. Zwykle każdy komputer, nawet ten najmniejszy, łączy się z takim routerem w celu nawiązania połączenia ze światem. Dlatego też zamiast konfigurować osobno wszystkie te urządzenia elektroniczne, możemy skonfigurować sobie router w taki sposób, by cały zebrany ruch z sieci lokalnej przesłał do serwera VPN. Standardowej klasy routery nie wspierają połączeń VPN i by taki mechanizm zaimplementować potrzebne nam będzie alternatywne firmware pokroju LEDE/OpenWRT. W tym artykule postaramy się skonfigurować połączenie VPN dla sieci domowej w oparciu o router Archer C2600 od TP-LINK, który ma wgrany najnowszy snapshot LEDE Chaos Calmer (r2392).">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2016-12-08T18:13:41+01:00">
+		<meta property="article:modified_time" content="2016-12-08T18:13:41+01:00">
+		<meta property="article:tag" content="Prywatność">
+		<meta property="article:tag" content="Vpn">
+		<meta property="article:tag" content="Router">
+		<meta property="article:tag" content="Tp-Link">
+		<meta property="article:tag" content="Chaos-Calmer">
+		<meta property="article:tag" content="Openvpn">
 
 		
-  <meta itemprop="name" content="Jak skonfigurować klienta VPN na routerze z OpenWRT">
-  <meta itemprop="description" content="Ostatnio pisałem trochę o konfiguracji serwera VPN na Debianie oraz podłączaniu do niego różnych linux&#39;owych klientów, w tym też smartfonów wyposażonych w system Android. O ile konfiguracja pojedynczego klienta OpenVPN nie jest jakoś szczególnie trudna, to mając w swojej sieci domowej kilka urządzeń zdolnych łączyć się z internetem zarówno przewodowo jak i bezprzewodowo, to dostosowanie konfiguracji na każdym z tych sprzętów może być ździebko problematyczne. To co łączy te wszystkie urządzenia w naszym domu, to router WiFi. Zwykle każdy komputer, nawet ten najmniejszy, łączy się z takim routerem w celu nawiązania połączenia ze światem. Dlatego też zamiast konfigurować osobno wszystkie te urządzenia elektroniczne, możemy skonfigurować sobie router w taki sposób, by cały zebrany ruch z sieci lokalnej przesłał do serwera VPN. Standardowej klasy routery nie wspierają połączeń VPN i by taki mechanizm zaimplementować potrzebne nam będzie alternatywne firmware pokroju LEDE/OpenWRT. W tym artykule postaramy się skonfigurować połączenie VPN dla sieci domowej w oparciu o router Archer C2600 od TP-LINK, który ma wgrany najnowszy snapshot LEDE Chaos Calmer (r2392).">
-  <meta itemprop="datePublished" content="2016-12-08T18:13:41+01:00">
-  <meta itemprop="dateModified" content="2016-12-08T18:13:41+01:00">
-  <meta itemprop="wordCount" content="1232">
-  <meta itemprop="keywords" content="Prywatność,Vpn,Router,Tp-Link,Chaos-Calmer">
+	<meta itemprop="name" content="Jak skonfigurować klienta VPN na routerze z OpenWRT">
+	<meta itemprop="description" content="Ostatnio pisałem trochę o konfiguracji serwera VPN na Debianie oraz podłączaniu do niego różnych linux&#39;owych klientów, w tym też smartfonów wyposażonych w system Android. O ile konfiguracja pojedynczego klienta OpenVPN nie jest jakoś szczególnie trudna, to mając w swojej sieci domowej kilka urządzeń zdolnych łączyć się z internetem zarówno przewodowo jak i bezprzewodowo, to dostosowanie konfiguracji na każdym z tych sprzętów może być ździebko problematyczne. To co łączy te wszystkie urządzenia w naszym domu, to router WiFi. Zwykle każdy komputer, nawet ten najmniejszy, łączy się z takim routerem w celu nawiązania połączenia ze światem. Dlatego też zamiast konfigurować osobno wszystkie te urządzenia elektroniczne, możemy skonfigurować sobie router w taki sposób, by cały zebrany ruch z sieci lokalnej przesłał do serwera VPN. Standardowej klasy routery nie wspierają połączeń VPN i by taki mechanizm zaimplementować potrzebne nam będzie alternatywne firmware pokroju LEDE/OpenWRT. W tym artykule postaramy się skonfigurować połączenie VPN dla sieci domowej w oparciu o router Archer C2600 od TP-LINK, który ma wgrany najnowszy snapshot LEDE Chaos Calmer (r2392).">
+	<meta itemprop="datePublished" content="2016-12-08T18:13:41+01:00">
+	<meta itemprop="dateModified" content="2016-12-08T18:13:41+01:00">
+	<meta itemprop="wordCount" content="1232">
+	<meta itemprop="keywords" content="Prywatność,Vpn,Router,Tp-Link,Chaos-Calmer,Openvpn">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Jak skonfigurować klienta VPN na routerze z OpenWRT">
-  <meta name="twitter:description" content="Ostatnio pisałem trochę o konfiguracji serwera VPN na Debianie oraz podłączaniu do niego różnych linux&#39;owych klientów, w tym też smartfonów wyposażonych w system Android. O ile konfiguracja pojedynczego klienta OpenVPN nie jest jakoś szczególnie trudna, to mając w swojej sieci domowej kilka urządzeń zdolnych łączyć się z internetem zarówno przewodowo jak i bezprzewodowo, to dostosowanie konfiguracji na każdym z tych sprzętów może być ździebko problematyczne. To co łączy te wszystkie urządzenia w naszym domu, to router WiFi. Zwykle każdy komputer, nawet ten najmniejszy, łączy się z takim routerem w celu nawiązania połączenia ze światem. Dlatego też zamiast konfigurować osobno wszystkie te urządzenia elektroniczne, możemy skonfigurować sobie router w taki sposób, by cały zebrany ruch z sieci lokalnej przesłał do serwera VPN. Standardowej klasy routery nie wspierają połączeń VPN i by taki mechanizm zaimplementować potrzebne nam będzie alternatywne firmware pokroju LEDE/OpenWRT. W tym artykule postaramy się skonfigurować połączenie VPN dla sieci domowej w oparciu o router Archer C2600 od TP-LINK, który ma wgrany najnowszy snapshot LEDE Chaos Calmer (r2392).">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Jak skonfigurować klienta VPN na routerze z OpenWRT">
+	<meta name="twitter:description" content="Ostatnio pisałem trochę o konfiguracji serwera VPN na Debianie oraz podłączaniu do niego różnych linux&#39;owych klientów, w tym też smartfonów wyposażonych w system Android. O ile konfiguracja pojedynczego klienta OpenVPN nie jest jakoś szczególnie trudna, to mając w swojej sieci domowej kilka urządzeń zdolnych łączyć się z internetem zarówno przewodowo jak i bezprzewodowo, to dostosowanie konfiguracji na każdym z tych sprzętów może być ździebko problematyczne. To co łączy te wszystkie urządzenia w naszym domu, to router WiFi. Zwykle każdy komputer, nawet ten najmniejszy, łączy się z takim routerem w celu nawiązania połączenia ze światem. Dlatego też zamiast konfigurować osobno wszystkie te urządzenia elektroniczne, możemy skonfigurować sobie router w taki sposób, by cały zebrany ruch z sieci lokalnej przesłał do serwera VPN. Standardowej klasy routery nie wspierają połączeń VPN i by taki mechanizm zaimplementować potrzebne nam będzie alternatywne firmware pokroju LEDE/OpenWRT. W tym artykule postaramy się skonfigurować połączenie VPN dla sieci domowej w oparciu o router Archer C2600 od TP-LINK, który ma wgrany najnowszy snapshot LEDE Chaos Calmer (r2392).">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -322,6 +323,7 @@ wysyłany do internetu nie leci poza szyfrowanym tunelem.</p></div>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/router/">Router</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/tp-link/">Tp-Link</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/chaos-calmer/">Chaos-Calmer</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/openvpn/">Openvpn</a>
 </div>
 					
 <div class="entry__share share">
@@ -378,6 +380,10 @@ wysyłany do internetu nie leci poza szyfrowanym tunelem.</p></div>
 	<h3 class="related__title">Powiązane</h3>
 	<ul class="related__list">
 		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/">Jak skonfigurować połączenie VPN na smartfonie z Androidem</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">Jak skonfigurować serwer VPN na Debianie (OpenVPN)</a></li>
+		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-przy-pomocy-trybu-recovery-odzyskac-router-tp-link/">Jak przy pomocy trybu recovery odzyskać router TP-LINK</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/konsola-szeregowa-adapter-usb-uart-uszkodzony-router-tp-link/">Konsola szeregowa, adapter USB-UART i uszkodzony router TP-LINK</a></li>
@@ -386,11 +392,7 @@ wysyłany do internetu nie leci poza szyfrowanym tunelem.</p></div>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-sklonowac-adres-mac-w-openwrt/">Jak sklonować adres MAC w OpenWRT</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wgrac-firmware-openwrt-na-router-tp-link/">Jak wgrać firmware OpenWRT na router TP-LINK</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-powrocic-z-firmware-openwrt-tp-linka/">Jak powrócić z firmware OpenWRT do TP-LINK&#39;a</a></li>
-		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-skonfigurowac-polaczenie-vpn-na-smartfonie-z-androidem/">Jak skonfigurować połączenie VPN na smartfonie z Androidem</a></li>
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/przeciek-dns-dns-leak-w-vpn-resolvconf/">Przeciek DNS (DNS leak) w VPN (resolvconf)</a></li>
 		
 	</ul>
 </div>
@@ -428,6 +430,7 @@ wysyłany do internetu nie leci poza szyfrowanym tunelem.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

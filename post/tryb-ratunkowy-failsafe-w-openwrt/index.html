@@ -8,28 +8,28 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/tryb-ratunkowy-failsafe-w-openwrt/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Tryb ratunkowy (failsafe) w OpenWRT">
-  <meta property="og:description" content="Obrazy OpenWRT mają wbudowany tryb failsafe obchodzący całą konfigurację, która została zapisana na partycji JFFS2. To jest ta części pamięci flash routera, w której możemy dokonywać własnych zmian w konfiguracji tego firmware. Jak to zwykle bywa, czasem coś uszkodzimy przez przypadek i masz router nie chce zbytnio działać tak jak byśmy od niego oczekiwali. Tryb failsafe nie jest tym samym co firstboot, który resetuje ustawienia do fabrycznych. W przypadku failsafe , wszelkie zmiany jakich dokonaliśmy w procesie konfiguracji zostają i nic nie tracimy. Jedynie co, to nie jest montowana partycja, na której ten zmiany figurują. Dodatkowo, ilość odpalonych usług jest ograniczona do minimum. Nie mamy, np. dostępu do internetu, nie działa WiFi, resolver DNS i nie mamy możliwości uzyskania adresu za pomocą protokołu DHCP. W tym wpisie przyjrzymy się nieco bliżej temu mechanizmowi.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2016-04-23T18:50:55+00:00">
-    <meta property="article:modified_time" content="2016-04-23T18:50:55+00:00">
-    <meta property="article:tag" content="Chaos-Calmer">
-    <meta property="article:tag" content="Router">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Tryb ratunkowy (failsafe) w OpenWRT">
+	<meta property="og:description" content="Obrazy OpenWRT mają wbudowany tryb failsafe obchodzący całą konfigurację, która została zapisana na partycji JFFS2. To jest ta części pamięci flash routera, w której możemy dokonywać własnych zmian w konfiguracji tego firmware. Jak to zwykle bywa, czasem coś uszkodzimy przez przypadek i masz router nie chce zbytnio działać tak jak byśmy od niego oczekiwali. Tryb failsafe nie jest tym samym co firstboot, który resetuje ustawienia do fabrycznych. W przypadku failsafe , wszelkie zmiany jakich dokonaliśmy w procesie konfiguracji zostają i nic nie tracimy. Jedynie co, to nie jest montowana partycja, na której ten zmiany figurują. Dodatkowo, ilość odpalonych usług jest ograniczona do minimum. Nie mamy, np. dostępu do internetu, nie działa WiFi, resolver DNS i nie mamy możliwości uzyskania adresu za pomocą protokołu DHCP. W tym wpisie przyjrzymy się nieco bliżej temu mechanizmowi.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2016-04-23T18:50:55+00:00">
+		<meta property="article:modified_time" content="2016-04-23T18:50:55+00:00">
+		<meta property="article:tag" content="Chaos-Calmer">
+		<meta property="article:tag" content="Router">
 
 		
-  <meta itemprop="name" content="Tryb ratunkowy (failsafe) w OpenWRT">
-  <meta itemprop="description" content="Obrazy OpenWRT mają wbudowany tryb failsafe obchodzący całą konfigurację, która została zapisana na partycji JFFS2. To jest ta części pamięci flash routera, w której możemy dokonywać własnych zmian w konfiguracji tego firmware. Jak to zwykle bywa, czasem coś uszkodzimy przez przypadek i masz router nie chce zbytnio działać tak jak byśmy od niego oczekiwali. Tryb failsafe nie jest tym samym co firstboot, który resetuje ustawienia do fabrycznych. W przypadku failsafe , wszelkie zmiany jakich dokonaliśmy w procesie konfiguracji zostają i nic nie tracimy. Jedynie co, to nie jest montowana partycja, na której ten zmiany figurują. Dodatkowo, ilość odpalonych usług jest ograniczona do minimum. Nie mamy, np. dostępu do internetu, nie działa WiFi, resolver DNS i nie mamy możliwości uzyskania adresu za pomocą protokołu DHCP. W tym wpisie przyjrzymy się nieco bliżej temu mechanizmowi.">
-  <meta itemprop="datePublished" content="2016-04-23T18:50:55+00:00">
-  <meta itemprop="dateModified" content="2016-04-23T18:50:55+00:00">
-  <meta itemprop="wordCount" content="710">
-  <meta itemprop="keywords" content="Chaos-Calmer,Router">
+	<meta itemprop="name" content="Tryb ratunkowy (failsafe) w OpenWRT">
+	<meta itemprop="description" content="Obrazy OpenWRT mają wbudowany tryb failsafe obchodzący całą konfigurację, która została zapisana na partycji JFFS2. To jest ta części pamięci flash routera, w której możemy dokonywać własnych zmian w konfiguracji tego firmware. Jak to zwykle bywa, czasem coś uszkodzimy przez przypadek i masz router nie chce zbytnio działać tak jak byśmy od niego oczekiwali. Tryb failsafe nie jest tym samym co firstboot, który resetuje ustawienia do fabrycznych. W przypadku failsafe , wszelkie zmiany jakich dokonaliśmy w procesie konfiguracji zostają i nic nie tracimy. Jedynie co, to nie jest montowana partycja, na której ten zmiany figurują. Dodatkowo, ilość odpalonych usług jest ograniczona do minimum. Nie mamy, np. dostępu do internetu, nie działa WiFi, resolver DNS i nie mamy możliwości uzyskania adresu za pomocą protokołu DHCP. W tym wpisie przyjrzymy się nieco bliżej temu mechanizmowi.">
+	<meta itemprop="datePublished" content="2016-04-23T18:50:55+00:00">
+	<meta itemprop="dateModified" content="2016-04-23T18:50:55+00:00">
+	<meta itemprop="wordCount" content="710">
+	<meta itemprop="keywords" content="Chaos-Calmer,Router">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Tryb ratunkowy (failsafe) w OpenWRT">
-  <meta name="twitter:description" content="Obrazy OpenWRT mają wbudowany tryb failsafe obchodzący całą konfigurację, która została zapisana na partycji JFFS2. To jest ta części pamięci flash routera, w której możemy dokonywać własnych zmian w konfiguracji tego firmware. Jak to zwykle bywa, czasem coś uszkodzimy przez przypadek i masz router nie chce zbytnio działać tak jak byśmy od niego oczekiwali. Tryb failsafe nie jest tym samym co firstboot, który resetuje ustawienia do fabrycznych. W przypadku failsafe , wszelkie zmiany jakich dokonaliśmy w procesie konfiguracji zostają i nic nie tracimy. Jedynie co, to nie jest montowana partycja, na której ten zmiany figurują. Dodatkowo, ilość odpalonych usług jest ograniczona do minimum. Nie mamy, np. dostępu do internetu, nie działa WiFi, resolver DNS i nie mamy możliwości uzyskania adresu za pomocą protokołu DHCP. W tym wpisie przyjrzymy się nieco bliżej temu mechanizmowi.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Tryb ratunkowy (failsafe) w OpenWRT">
+	<meta name="twitter:description" content="Obrazy OpenWRT mają wbudowany tryb failsafe obchodzący całą konfigurację, która została zapisana na partycji JFFS2. To jest ta części pamięci flash routera, w której możemy dokonywać własnych zmian w konfiguracji tego firmware. Jak to zwykle bywa, czasem coś uszkodzimy przez przypadek i masz router nie chce zbytnio działać tak jak byśmy od niego oczekiwali. Tryb failsafe nie jest tym samym co firstboot, który resetuje ustawienia do fabrycznych. W przypadku failsafe , wszelkie zmiany jakich dokonaliśmy w procesie konfiguracji zostają i nic nie tracimy. Jedynie co, to nie jest montowana partycja, na której ten zmiany figurują. Dodatkowo, ilość odpalonych usług jest ograniczona do minimum. Nie mamy, np. dostępu do internetu, nie działa WiFi, resolver DNS i nie mamy możliwości uzyskania adresu za pomocą protokołu DHCP. W tym wpisie przyjrzymy się nieco bliżej temu mechanizmowi.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -301,6 +301,7 @@ firstboot</a>, przez wpisanie w terminalu
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

@@ -8,31 +8,31 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/ecryptfs-jako-alternatywa-dla-encfs/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="ECryptfs jako alternatywa dla encfs">
-  <meta property="og:description" content="Dnia 2014-10-07 w Debianie była aktualizacja pakietu encfs , która to zawierała informację na temat audytu bezpieczeństwa jaki się dokonał parę miesięcy wstecz. Wyniki niezbyt dobrze wypadły, a nawet można powiedzieć, że wręcz katastrofalnie. Generalnie cały test został skwitowany słowami, że jeśli szyfrujemy pliki przy pomocy tego narzędzia, to jesteśmy relatywnie bezpieczni, nawet w przypadku jeśli ktoś te pliki przechwyci. Natomiast jeśli zaczniemy zmieniać/dodawać pliki i ten ktoś ponownie przechwyci nasz zaszyfrowany katalog, wtedy może on bez problemu odszyfrować całą jego zawartość. Jeśli wykorzystujemy encfs lokalnie, to być może nam nic nie grozi, nawet w przypadku raidu NSA na naszą chałupę. Problem w tym, że ogromna rzesza ludzi wykorzystuje encfs do zaszyfrowania plików w chmurze, np. na Dropbox&#39;ie czy MEGA, a jak wiadomo, przy każdej synchronizacji, zmiany w danym katalogu są przesyłane do chmury i wszelkie zabezpieczenie jakie daje encfs diabli biorą. Może najwyższy czas zainteresować się ecryptfs?">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2015-06-22T18:58:18+00:00">
-    <meta property="article:modified_time" content="2015-06-22T18:58:18+00:00">
-    <meta property="article:tag" content="Bezpieczeństwo">
-    <meta property="article:tag" content="Szyfrowanie">
-    <meta property="article:tag" content="Pliki">
-    <meta property="article:tag" content="Foldery">
-    <meta property="article:tag" content="Pam">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="ECryptfs jako alternatywa dla encfs">
+	<meta property="og:description" content="Dnia 2014-10-07 w Debianie była aktualizacja pakietu encfs , która to zawierała informację na temat audytu bezpieczeństwa jaki się dokonał parę miesięcy wstecz. Wyniki niezbyt dobrze wypadły, a nawet można powiedzieć, że wręcz katastrofalnie. Generalnie cały test został skwitowany słowami, że jeśli szyfrujemy pliki przy pomocy tego narzędzia, to jesteśmy relatywnie bezpieczni, nawet w przypadku jeśli ktoś te pliki przechwyci. Natomiast jeśli zaczniemy zmieniać/dodawać pliki i ten ktoś ponownie przechwyci nasz zaszyfrowany katalog, wtedy może on bez problemu odszyfrować całą jego zawartość. Jeśli wykorzystujemy encfs lokalnie, to być może nam nic nie grozi, nawet w przypadku raidu NSA na naszą chałupę. Problem w tym, że ogromna rzesza ludzi wykorzystuje encfs do zaszyfrowania plików w chmurze, np. na Dropbox&#39;ie czy MEGA, a jak wiadomo, przy każdej synchronizacji, zmiany w danym katalogu są przesyłane do chmury i wszelkie zabezpieczenie jakie daje encfs diabli biorą. Może najwyższy czas zainteresować się ecryptfs?">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2015-06-22T18:58:18+00:00">
+		<meta property="article:modified_time" content="2015-06-22T18:58:18+00:00">
+		<meta property="article:tag" content="Bezpieczeństwo">
+		<meta property="article:tag" content="Szyfrowanie">
+		<meta property="article:tag" content="Pliki">
+		<meta property="article:tag" content="Foldery">
+		<meta property="article:tag" content="Pam">
 
 		
-  <meta itemprop="name" content="ECryptfs jako alternatywa dla encfs">
-  <meta itemprop="description" content="Dnia 2014-10-07 w Debianie była aktualizacja pakietu encfs , która to zawierała informację na temat audytu bezpieczeństwa jaki się dokonał parę miesięcy wstecz. Wyniki niezbyt dobrze wypadły, a nawet można powiedzieć, że wręcz katastrofalnie. Generalnie cały test został skwitowany słowami, że jeśli szyfrujemy pliki przy pomocy tego narzędzia, to jesteśmy relatywnie bezpieczni, nawet w przypadku jeśli ktoś te pliki przechwyci. Natomiast jeśli zaczniemy zmieniać/dodawać pliki i ten ktoś ponownie przechwyci nasz zaszyfrowany katalog, wtedy może on bez problemu odszyfrować całą jego zawartość. Jeśli wykorzystujemy encfs lokalnie, to być może nam nic nie grozi, nawet w przypadku raidu NSA na naszą chałupę. Problem w tym, że ogromna rzesza ludzi wykorzystuje encfs do zaszyfrowania plików w chmurze, np. na Dropbox&#39;ie czy MEGA, a jak wiadomo, przy każdej synchronizacji, zmiany w danym katalogu są przesyłane do chmury i wszelkie zabezpieczenie jakie daje encfs diabli biorą. Może najwyższy czas zainteresować się ecryptfs?">
-  <meta itemprop="datePublished" content="2015-06-22T18:58:18+00:00">
-  <meta itemprop="dateModified" content="2015-06-22T18:58:18+00:00">
-  <meta itemprop="wordCount" content="3706">
-  <meta itemprop="keywords" content="Bezpieczeństwo,Szyfrowanie,Pliki,Foldery,Pam">
+	<meta itemprop="name" content="ECryptfs jako alternatywa dla encfs">
+	<meta itemprop="description" content="Dnia 2014-10-07 w Debianie była aktualizacja pakietu encfs , która to zawierała informację na temat audytu bezpieczeństwa jaki się dokonał parę miesięcy wstecz. Wyniki niezbyt dobrze wypadły, a nawet można powiedzieć, że wręcz katastrofalnie. Generalnie cały test został skwitowany słowami, że jeśli szyfrujemy pliki przy pomocy tego narzędzia, to jesteśmy relatywnie bezpieczni, nawet w przypadku jeśli ktoś te pliki przechwyci. Natomiast jeśli zaczniemy zmieniać/dodawać pliki i ten ktoś ponownie przechwyci nasz zaszyfrowany katalog, wtedy może on bez problemu odszyfrować całą jego zawartość. Jeśli wykorzystujemy encfs lokalnie, to być może nam nic nie grozi, nawet w przypadku raidu NSA na naszą chałupę. Problem w tym, że ogromna rzesza ludzi wykorzystuje encfs do zaszyfrowania plików w chmurze, np. na Dropbox&#39;ie czy MEGA, a jak wiadomo, przy każdej synchronizacji, zmiany w danym katalogu są przesyłane do chmury i wszelkie zabezpieczenie jakie daje encfs diabli biorą. Może najwyższy czas zainteresować się ecryptfs?">
+	<meta itemprop="datePublished" content="2015-06-22T18:58:18+00:00">
+	<meta itemprop="dateModified" content="2015-06-22T18:58:18+00:00">
+	<meta itemprop="wordCount" content="3706">
+	<meta itemprop="keywords" content="Bezpieczeństwo,Szyfrowanie,Pliki,Foldery,Pam">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="ECryptfs jako alternatywa dla encfs">
-  <meta name="twitter:description" content="Dnia 2014-10-07 w Debianie była aktualizacja pakietu encfs , która to zawierała informację na temat audytu bezpieczeństwa jaki się dokonał parę miesięcy wstecz. Wyniki niezbyt dobrze wypadły, a nawet można powiedzieć, że wręcz katastrofalnie. Generalnie cały test został skwitowany słowami, że jeśli szyfrujemy pliki przy pomocy tego narzędzia, to jesteśmy relatywnie bezpieczni, nawet w przypadku jeśli ktoś te pliki przechwyci. Natomiast jeśli zaczniemy zmieniać/dodawać pliki i ten ktoś ponownie przechwyci nasz zaszyfrowany katalog, wtedy może on bez problemu odszyfrować całą jego zawartość. Jeśli wykorzystujemy encfs lokalnie, to być może nam nic nie grozi, nawet w przypadku raidu NSA na naszą chałupę. Problem w tym, że ogromna rzesza ludzi wykorzystuje encfs do zaszyfrowania plików w chmurze, np. na Dropbox&#39;ie czy MEGA, a jak wiadomo, przy każdej synchronizacji, zmiany w danym katalogu są przesyłane do chmury i wszelkie zabezpieczenie jakie daje encfs diabli biorą. Może najwyższy czas zainteresować się ecryptfs?">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="ECryptfs jako alternatywa dla encfs">
+	<meta name="twitter:description" content="Dnia 2014-10-07 w Debianie była aktualizacja pakietu encfs , która to zawierała informację na temat audytu bezpieczeństwa jaki się dokonał parę miesięcy wstecz. Wyniki niezbyt dobrze wypadły, a nawet można powiedzieć, że wręcz katastrofalnie. Generalnie cały test został skwitowany słowami, że jeśli szyfrujemy pliki przy pomocy tego narzędzia, to jesteśmy relatywnie bezpieczni, nawet w przypadku jeśli ktoś te pliki przechwyci. Natomiast jeśli zaczniemy zmieniać/dodawać pliki i ten ktoś ponownie przechwyci nasz zaszyfrowany katalog, wtedy może on bez problemu odszyfrować całą jego zawartość. Jeśli wykorzystujemy encfs lokalnie, to być może nam nic nie grozi, nawet w przypadku raidu NSA na naszą chałupę. Problem w tym, że ogromna rzesza ludzi wykorzystuje encfs do zaszyfrowania plików w chmurze, np. na Dropbox&#39;ie czy MEGA, a jak wiadomo, przy każdej synchronizacji, zmiany w danym katalogu są przesyłane do chmury i wszelkie zabezpieczenie jakie daje encfs diabli biorą. Może najwyższy czas zainteresować się ecryptfs?">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -752,6 +752,7 @@ pół roku aplikacja przebywała w stanie uśpienia ale 10 marca 2015 roku docze
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

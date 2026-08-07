@@ -8,32 +8,32 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)">
-  <meta property="og:description" content="Parę dni temu na forum dug.net.pl pojawiło się zapytanie dotyczące skonfigurowania linux&#39;a w taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN, podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje jednak sposób, by nauczyć linux&#39;a aby tylko procesy określonych użytkowników czy grup miały dostęp do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy iptables / nftables , tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2020-09-02T18:36:00+02:00">
-    <meta property="article:modified_time" content="2023-03-01T08:30:00+01:00">
-    <meta property="article:tag" content="Debian">
-    <meta property="article:tag" content="Vpn">
-    <meta property="article:tag" content="Prywatność">
-    <meta property="article:tag" content="Sieć">
-    <meta property="article:tag" content="Nftables">
-    <meta property="article:tag" content="Proton-Vpn">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)">
+	<meta property="og:description" content="Parę dni temu na forum dug.net.pl pojawiło się zapytanie dotyczące skonfigurowania linux&#39;a w taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN, podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje jednak sposób, by nauczyć linux&#39;a aby tylko procesy określonych użytkowników czy grup miały dostęp do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy iptables / nftables , tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2020-09-02T18:36:00+02:00">
+		<meta property="article:modified_time" content="2026-08-02T10:30:00+02:00">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Vpn">
+		<meta property="article:tag" content="Prywatność">
+		<meta property="article:tag" content="Sieć">
+		<meta property="article:tag" content="Nftables">
+		<meta property="article:tag" content="Proton-Vpn">
 
 		
-  <meta itemprop="name" content="Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)">
-  <meta itemprop="description" content="Parę dni temu na forum dug.net.pl pojawiło się zapytanie dotyczące skonfigurowania linux&#39;a w taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN, podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje jednak sposób, by nauczyć linux&#39;a aby tylko procesy określonych użytkowników czy grup miały dostęp do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy iptables / nftables , tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.">
-  <meta itemprop="datePublished" content="2020-09-02T18:36:00+02:00">
-  <meta itemprop="dateModified" content="2023-03-01T08:30:00+01:00">
-  <meta itemprop="wordCount" content="2877">
-  <meta itemprop="keywords" content="Debian,Vpn,Prywatność,Sieć,Nftables,Proton-Vpn,Routing">
+	<meta itemprop="name" content="Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)">
+	<meta itemprop="description" content="Parę dni temu na forum dug.net.pl pojawiło się zapytanie dotyczące skonfigurowania linux&#39;a w taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN, podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje jednak sposób, by nauczyć linux&#39;a aby tylko procesy określonych użytkowników czy grup miały dostęp do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy iptables / nftables , tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.">
+	<meta itemprop="datePublished" content="2020-09-02T18:36:00+02:00">
+	<meta itemprop="dateModified" content="2026-08-02T10:30:00+02:00">
+	<meta itemprop="wordCount" content="2881">
+	<meta itemprop="keywords" content="Debian,Vpn,Prywatność,Sieć,Nftables,Proton-Vpn,Routing,Openvpn">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)">
-  <meta name="twitter:description" content="Parę dni temu na forum dug.net.pl pojawiło się zapytanie dotyczące skonfigurowania linux&#39;a w taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN, podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje jednak sposób, by nauczyć linux&#39;a aby tylko procesy określonych użytkowników czy grup miały dostęp do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy iptables / nftables , tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)">
+	<meta name="twitter:description" content="Parę dni temu na forum dug.net.pl pojawiło się zapytanie dotyczące skonfigurowania linux&#39;a w taki sposób, by ten umożliwił pojedynczemu procesowi w systemie (i tylko jemu) korzystanie z VPN, podczas gdy wszystkie pozostałe aplikacje korzystają ze standardowego łącza internetowego naszego ISP. Oczywiście to niekoniecznie musi być tylko jeden proces, bo to zagadnienie można rozciągnąć też na większą grupę procesów jednego lub więcej użytkowników. By to zadanie zrealizować, trzeba zdać sobie sprawę z faktu, że każdy proces w linux ma swojego właściciela, a ten właściciel przynależy do co najmniej jednej grupy. Dzięki takiemu rozwiązaniu, każdy proces w systemie ma przypisany m.in. identyfikator użytkownika (UID) oraz identyfikatory grup (GID), z którymi działa i na podstawie których to linux przyznaje uprawienia dostępu do różnych części systemu, np. urządzeń czy plików na dysku. W ten sposób możemy bardzo prosto ograniczyć dostęp do określonych zasobów konkretnym użytkownikom (bardziej ich procesom). Problem się zaczyna w przypadku sieci, gdzie w zasadzie dostęp do internetu ma domyślnie przyznany każdy proces. Naturalnie możemy skonfigurować filtr pakietów i zezwolić tylko części aplikacji na dostęp do sieci ale w dalszym ciągu, gdy tylko odpalimy VPN (w tym przypadku OpenVPN), to każdy proces mający prawo wysyłać pakiety sieciowe będzie je przesyłał z automatu przez VPN, jak tylko to połączenie zostanie zestawione. Istnieje jednak sposób, by nauczyć linux&#39;a aby tylko procesy określonych użytkowników czy grup miały dostęp do VPN i gdy to połączenie zostanie zerwane, to te procesy nie będą mogły korzystać ze standardowego łącza internetowego. Trzeba jednak zaprzęgnąć do pracy iptables / nftables , tablice routingu oraz nieco inaczej skonfigurować klienta OpenVPN.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -99,7 +99,7 @@
 			<article class="entry">
 	<div class="entry__meta meta mb">
 	<time class="entry__meta-published meta-published" datetime="2020-09-02T18:36:00&#43;02:00">Opublikowano: 02/09/2020</time>
-	<time class="entry__meta-lastmod meta-lastmod" datetime="2023-03-01T08:30:00&#43;01:00">Zaktualizowano: 01/03/2023</time>
+	<time class="entry__meta-lastmod meta-lastmod" datetime="2026-08-02T10:30:00&#43;02:00">Zaktualizowano: 02/08/2026</time>
 
 <div class="entry__meta-categories meta-categories">
 	<span class="meta-categories__list">Kategorie:
@@ -391,12 +391,13 @@ case &quot;$script_type&quot; in
       echo &quot;200 ${route_table}&quot; &gt;&gt; /etc/iproute2/rt_tables
   fi
 
-  if ip route show table ${route_table} | grep blackhole &gt; /dev/null
+  if ip route show table ${route_table} | grep -q blackhole
   then
-    ip route del default table ${route_table}
+    ip route prepend default dev ${dev} table ${route_table}
+  else
+    ip route add default dev ${dev} table ${route_table} &amp;&amp; \
+    ip route append blackhole default table ${route_table}
   fi
-  ip route add default dev ${dev} table ${route_table}
-  ip route append blackhole default table ${route_table}
 
   if ! ip rule show | grep ${mark} &gt; /dev/null
   then
@@ -449,6 +450,7 @@ a zwykłym połączeniem internetowym.</p></div>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/nftables/">Nftables</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/proton-vpn/">Proton-Vpn</a>
 			<a class="entry__tag btn" href="https://morfikov.github.io/tags/routing/">Routing</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/openvpn/">Openvpn</a>
 </div>
 					
 <div class="entry__share share">
@@ -555,6 +557,7 @@ a zwykłym połączeniem internetowym.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

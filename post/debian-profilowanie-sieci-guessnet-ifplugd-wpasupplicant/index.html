@@ -8,32 +8,32 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/debian-profilowanie-sieci-guessnet-ifplugd-wpasupplicant/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Debian: Profilowanie sieci z guessnet, ifplugd i wpasupplicant">
-  <meta property="og:description" content="Kilka dni temu na forum dug.net.pl pojawił się ciekawy wątek dotyczący problemu skonfigurowania profilowanych sieci. Chodzi o to, że praktycznie każdy z nas jest po części w jakiś sposób mobilny i zabiera laptopa ze sobą w dziwne miejsca. Sieci w tych lokalizacjach mogą cechować się różnym poziomem bezpieczeństwa. Dlatego też zamiast korzystać z jednej konfiguracji sieci na linux&#39;ie, można stworzyć szereg profili i w oparciu o nie dostosować sobie połączenie sieciowe. W tym artykule spróbujemy zaimplementować takie rozwiązanie na Debianie wyposażonym w menadżer okien Openbox. W skrócie stworzymy automat, który będzie nam działał w oparciu o pakiety guessnet, ifplugd oraz wpasupplicant. Cała konfiguracja zaś sprowadzać się będzie jedynie do edycji plików /etc/network/interfaces oraz /etc/wpa_supplicant/wpa_supplicant.conf .
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Debian: Profilowanie sieci z guessnet, ifplugd i wpasupplicant">
+	<meta property="og:description" content="Kilka dni temu na forum dug.net.pl pojawił się ciekawy wątek dotyczący problemu skonfigurowania profilowanych sieci. Chodzi o to, że praktycznie każdy z nas jest po części w jakiś sposób mobilny i zabiera laptopa ze sobą w dziwne miejsca. Sieci w tych lokalizacjach mogą cechować się różnym poziomem bezpieczeństwa. Dlatego też zamiast korzystać z jednej konfiguracji sieci na linux&#39;ie, można stworzyć szereg profili i w oparciu o nie dostosować sobie połączenie sieciowe. W tym artykule spróbujemy zaimplementować takie rozwiązanie na Debianie wyposażonym w menadżer okien Openbox. W skrócie stworzymy automat, który będzie nam działał w oparciu o pakiety guessnet, ifplugd oraz wpasupplicant. Cała konfiguracja zaś sprowadzać się będzie jedynie do edycji plików /etc/network/interfaces oraz /etc/wpa_supplicant/wpa_supplicant.conf .
 Niniejszy artykuł został nieco przerobiony po fazach eksperymentów. Przede wszystkim, zrezygnowałem z zaprzęgania guessnet do rozpoznawania sieci WiFi i aplikowania roamingu. Zamiast tego zostały wykorzystane natywne rozwiązania roamingowe oferowane przez wpa_supplicant . Zaowocowało to uproszczeniem całej konfiguracji, co przełożyło się na wyeliminowanie pewnych błędów.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2016-09-05T13:01:08+00:00">
-    <meta property="article:modified_time" content="2016-09-05T13:01:08+00:00">
-    <meta property="article:tag" content="Wifi">
-    <meta property="article:tag" content="Debian">
-    <meta property="article:tag" content="Openbox">
-    <meta property="article:tag" content="Sieć">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2016-09-05T13:01:08+00:00">
+		<meta property="article:modified_time" content="2016-09-05T13:01:08+00:00">
+		<meta property="article:tag" content="Wifi">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Openbox">
+		<meta property="article:tag" content="Sieć">
 
 		
-  <meta itemprop="name" content="Debian: Profilowanie sieci z guessnet, ifplugd i wpasupplicant">
-  <meta itemprop="description" content="Kilka dni temu na forum dug.net.pl pojawił się ciekawy wątek dotyczący problemu skonfigurowania profilowanych sieci. Chodzi o to, że praktycznie każdy z nas jest po części w jakiś sposób mobilny i zabiera laptopa ze sobą w dziwne miejsca. Sieci w tych lokalizacjach mogą cechować się różnym poziomem bezpieczeństwa. Dlatego też zamiast korzystać z jednej konfiguracji sieci na linux&#39;ie, można stworzyć szereg profili i w oparciu o nie dostosować sobie połączenie sieciowe. W tym artykule spróbujemy zaimplementować takie rozwiązanie na Debianie wyposażonym w menadżer okien Openbox. W skrócie stworzymy automat, który będzie nam działał w oparciu o pakiety guessnet, ifplugd oraz wpasupplicant. Cała konfiguracja zaś sprowadzać się będzie jedynie do edycji plików /etc/network/interfaces oraz /etc/wpa_supplicant/wpa_supplicant.conf .
+	<meta itemprop="name" content="Debian: Profilowanie sieci z guessnet, ifplugd i wpasupplicant">
+	<meta itemprop="description" content="Kilka dni temu na forum dug.net.pl pojawił się ciekawy wątek dotyczący problemu skonfigurowania profilowanych sieci. Chodzi o to, że praktycznie każdy z nas jest po części w jakiś sposób mobilny i zabiera laptopa ze sobą w dziwne miejsca. Sieci w tych lokalizacjach mogą cechować się różnym poziomem bezpieczeństwa. Dlatego też zamiast korzystać z jednej konfiguracji sieci na linux&#39;ie, można stworzyć szereg profili i w oparciu o nie dostosować sobie połączenie sieciowe. W tym artykule spróbujemy zaimplementować takie rozwiązanie na Debianie wyposażonym w menadżer okien Openbox. W skrócie stworzymy automat, który będzie nam działał w oparciu o pakiety guessnet, ifplugd oraz wpasupplicant. Cała konfiguracja zaś sprowadzać się będzie jedynie do edycji plików /etc/network/interfaces oraz /etc/wpa_supplicant/wpa_supplicant.conf .
 Niniejszy artykuł został nieco przerobiony po fazach eksperymentów. Przede wszystkim, zrezygnowałem z zaprzęgania guessnet do rozpoznawania sieci WiFi i aplikowania roamingu. Zamiast tego zostały wykorzystane natywne rozwiązania roamingowe oferowane przez wpa_supplicant . Zaowocowało to uproszczeniem całej konfiguracji, co przełożyło się na wyeliminowanie pewnych błędów.">
-  <meta itemprop="datePublished" content="2016-09-05T13:01:08+00:00">
-  <meta itemprop="dateModified" content="2016-09-05T13:01:08+00:00">
-  <meta itemprop="wordCount" content="1916">
-  <meta itemprop="keywords" content="Wifi,Debian,Openbox,Sieć">
+	<meta itemprop="datePublished" content="2016-09-05T13:01:08+00:00">
+	<meta itemprop="dateModified" content="2016-09-05T13:01:08+00:00">
+	<meta itemprop="wordCount" content="1916">
+	<meta itemprop="keywords" content="Wifi,Debian,Openbox,Sieć">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Debian: Profilowanie sieci z guessnet, ifplugd i wpasupplicant">
-  <meta name="twitter:description" content="Kilka dni temu na forum dug.net.pl pojawił się ciekawy wątek dotyczący problemu skonfigurowania profilowanych sieci. Chodzi o to, że praktycznie każdy z nas jest po części w jakiś sposób mobilny i zabiera laptopa ze sobą w dziwne miejsca. Sieci w tych lokalizacjach mogą cechować się różnym poziomem bezpieczeństwa. Dlatego też zamiast korzystać z jednej konfiguracji sieci na linux&#39;ie, można stworzyć szereg profili i w oparciu o nie dostosować sobie połączenie sieciowe. W tym artykule spróbujemy zaimplementować takie rozwiązanie na Debianie wyposażonym w menadżer okien Openbox. W skrócie stworzymy automat, który będzie nam działał w oparciu o pakiety guessnet, ifplugd oraz wpasupplicant. Cała konfiguracja zaś sprowadzać się będzie jedynie do edycji plików /etc/network/interfaces oraz /etc/wpa_supplicant/wpa_supplicant.conf .
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Debian: Profilowanie sieci z guessnet, ifplugd i wpasupplicant">
+	<meta name="twitter:description" content="Kilka dni temu na forum dug.net.pl pojawił się ciekawy wątek dotyczący problemu skonfigurowania profilowanych sieci. Chodzi o to, że praktycznie każdy z nas jest po części w jakiś sposób mobilny i zabiera laptopa ze sobą w dziwne miejsca. Sieci w tych lokalizacjach mogą cechować się różnym poziomem bezpieczeństwa. Dlatego też zamiast korzystać z jednej konfiguracji sieci na linux&#39;ie, można stworzyć szereg profili i w oparciu o nie dostosować sobie połączenie sieciowe. W tym artykule spróbujemy zaimplementować takie rozwiązanie na Debianie wyposażonym w menadżer okien Openbox. W skrócie stworzymy automat, który będzie nam działał w oparciu o pakiety guessnet, ifplugd oraz wpasupplicant. Cała konfiguracja zaś sprowadzać się będzie jedynie do edycji plików /etc/network/interfaces oraz /etc/wpa_supplicant/wpa_supplicant.conf .
 Niniejszy artykuł został nieco przerobiony po fazach eksperymentów. Przede wszystkim, zrezygnowałem z zaprzęgania guessnet do rozpoznawania sieci WiFi i aplikowania roamingu. Zamiast tego zostały wykorzystane natywne rozwiązania roamingowe oferowane przez wpa_supplicant . Zaowocowało to uproszczeniem całej konfiguracji, co przełożyło się na wyeliminowanie pewnych błędów.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
@@ -491,6 +491,7 @@ problem z zapętlaniem demona roamingowego.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

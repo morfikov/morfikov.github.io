@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pl-PL">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Jak zmusić jeden proces do korzystania z VPN na linux (Wireguard) | Morfitronik</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:url" content="https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-wireguard/">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Jak zmusić jeden proces do korzystania z VPN na linux (Wireguard)">
+	<meta property="og:description" content="Jakiś już dłuższy czas temu opisywałem mechanizm przekierowania ruchu sieciowego jednego lub wybranych procesów do VPN na przykładzie OpenVPN pod moim Debianem. Zawarta w tamtym artykule konfiguracja jak najbardziej działa do tej pory, choć minęło już prawie 6 lat od jej wdrożenia w życie. Od tamtego momentu jednak, sporo się zmieniło w świecie linux&#39;a, a konkretnie pojawił się wireguard, który jest nieco bardziej dostosowany do otaczającej nas rzeczywistości i kładzie na łopatki wysłużonego już OpenVPN. Nie mam nic do OpenVPN ale przydałoby się zrobić podobne rozwiązanie opisane w powyżej podlinkowanym artykule ale na przykładzie właśnie wireguard. Samo skonfigurowanie do pracy VPN na bazie wireguard jest w zasadzie dość proste i nie trzeba pisać kolejnego artykułu na ten temat. Niemniej jednak, stawiając VPN w opisany na stronie wireguard sposób będziemy przesyłać przez to połączenie cały ruch sieciowy, czego raczej nie chcemy. To tutaj właśnie zaczynają się problemy z wireguard, których w OpenVPN nie szło zaobserwować, a które uniemożliwiają poprawne działanie (zapętlanie się) połączenia VPN. Postaramy się zatem przyjrzeć nieco bliżej samej konfiguracji wireguard i spróbować sprawić, by ruch sieciowy tylko wybranych przez nas procesów był kierowany w tunel VPN.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-08-07T02:42:00+02:00">
+		<meta property="article:modified_time" content="2026-08-07T02:42:00+02:00">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Wireguard">
+		<meta property="article:tag" content="Vpn">
+		<meta property="article:tag" content="Proton-Vpn">
+		<meta property="article:tag" content="Nftables">
+		<meta property="article:tag" content="Routing">
+
+		
+	<meta itemprop="name" content="Jak zmusić jeden proces do korzystania z VPN na linux (Wireguard)">
+	<meta itemprop="description" content="Jakiś już dłuższy czas temu opisywałem mechanizm przekierowania ruchu sieciowego jednego lub wybranych procesów do VPN na przykładzie OpenVPN pod moim Debianem. Zawarta w tamtym artykule konfiguracja jak najbardziej działa do tej pory, choć minęło już prawie 6 lat od jej wdrożenia w życie. Od tamtego momentu jednak, sporo się zmieniło w świecie linux&#39;a, a konkretnie pojawił się wireguard, który jest nieco bardziej dostosowany do otaczającej nas rzeczywistości i kładzie na łopatki wysłużonego już OpenVPN. Nie mam nic do OpenVPN ale przydałoby się zrobić podobne rozwiązanie opisane w powyżej podlinkowanym artykule ale na przykładzie właśnie wireguard. Samo skonfigurowanie do pracy VPN na bazie wireguard jest w zasadzie dość proste i nie trzeba pisać kolejnego artykułu na ten temat. Niemniej jednak, stawiając VPN w opisany na stronie wireguard sposób będziemy przesyłać przez to połączenie cały ruch sieciowy, czego raczej nie chcemy. To tutaj właśnie zaczynają się problemy z wireguard, których w OpenVPN nie szło zaobserwować, a które uniemożliwiają poprawne działanie (zapętlanie się) połączenia VPN. Postaramy się zatem przyjrzeć nieco bliżej samej konfiguracji wireguard i spróbować sprawić, by ruch sieciowy tylko wybranych przez nas procesów był kierowany w tunel VPN.">
+	<meta itemprop="datePublished" content="2026-08-07T02:42:00+02:00">
+	<meta itemprop="dateModified" content="2026-08-07T02:42:00+02:00">
+	<meta itemprop="wordCount" content="3576">
+	<meta itemprop="keywords" content="Debian,Wireguard,Vpn,Proton-Vpn,Nftables,Routing,Prywatność,Sieć">
+		
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Jak zmusić jeden proces do korzystania z VPN na linux (Wireguard)">
+	<meta name="twitter:description" content="Jakiś już dłuższy czas temu opisywałem mechanizm przekierowania ruchu sieciowego jednego lub wybranych procesów do VPN na przykładzie OpenVPN pod moim Debianem. Zawarta w tamtym artykule konfiguracja jak najbardziej działa do tej pory, choć minęło już prawie 6 lat od jej wdrożenia w życie. Od tamtego momentu jednak, sporo się zmieniło w świecie linux&#39;a, a konkretnie pojawił się wireguard, który jest nieco bardziej dostosowany do otaczającej nas rzeczywistości i kładzie na łopatki wysłużonego już OpenVPN. Nie mam nic do OpenVPN ale przydałoby się zrobić podobne rozwiązanie opisane w powyżej podlinkowanym artykule ale na przykładzie właśnie wireguard. Samo skonfigurowanie do pracy VPN na bazie wireguard jest w zasadzie dość proste i nie trzeba pisać kolejnego artykułu na ten temat. Niemniej jednak, stawiając VPN w opisany na stronie wireguard sposób będziemy przesyłać przez to połączenie cały ruch sieciowy, czego raczej nie chcemy. To tutaj właśnie zaczynają się problemy z wireguard, których w OpenVPN nie szło zaobserwować, a które uniemożliwiają poprawne działanie (zapętlanie się) połączenia VPN. Postaramy się zatem przyjrzeć nieco bliżej samej konfiguracji wireguard i spróbować sprawić, by ruch sieciowy tylko wybranych przez nas procesów był kierowany w tunel VPN.">
+
+	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
+	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
+	<link rel="icon" href="https://morfikov.github.io/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="https://morfikov.github.io/icons/32.png" sizes="32x32" type="image/png">
+	<link rel="manifest" href="https://morfikov.github.io/manifest.json">
+</head>
+<body class="body kind-page">
+	<header class="header">
+	<a class="logo" href="https://morfikov.github.io/">Morfitronik</a>
+	
+<nav class="main-nav main-nav--right" role="navigation">
+	<button id="toggle" class="main-nav__btn" aria-label="Menu toggle" aria-expanded="false" tabindex="0">
+		<div class="main-nav__btn-box" tabindex="-1">
+			<svg class="main-nav__icon icon-menu" width="18" height="18" viewBox="0 0 18 18">
+				<path class="icon-menu__burger" d="M18 0v3.6H0V0h18zM0 10.8h18V7.2H0v3.6zM0 18h18v-3.6H0V18z"/>
+				<path class="icon-menu__x" d="M11.55 9L18 15.45 15.45 18 9 11.55 2.55 18 0 15.45 6.45 9 0 2.55 2.55 0 9 6.45 15.45 0 18 2.55 11.55 9z"/>
+			</svg>
+		</div>
+	</button>
+	<ul id="menu" class="main-nav__list">
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/categories/">
+					
+					<span class="main-nav__text">Kategorie</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/tags/">
+					
+					<span class="main-nav__text">Tagi</span>
+					
+				</a>
+			</li>
+			<li class="main-nav__item">
+				<a class="main-nav__link" href="https://morfikov.github.io/page/info-kontakt/">
+					
+					<span class="main-nav__text">Info/Kontakt</span>
+					
+				</a>
+			</li>
+	</ul>
+</nav>
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+<nav class="breadcrumb block" aria-label="breadcrumb">
+	<ol class="breadcrumb__list">
+		
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/">Home</a>
+		</li>
+		<li class="breadcrumb__item">
+			<a class="breadcrumbs__link" href="https://morfikov.github.io/post/">Posts</a>
+		</li>
+		<li class="breadcrumbs__item breadcrumb__item--active" aria-current="page">Jak zmusić jeden proces do korzystania z VPN na linux (Wireguard)</li>
+	</ol>
+</nav>
+		<div class="single block">
+			<article class="entry">
+	<div class="entry__meta meta mb">
+	<time class="entry__meta-published meta-published" datetime="2026-08-07T02:42:00&#43;02:00">Opublikowano: 07/08/2026</time>
+
+<div class="entry__meta-categories meta-categories">
+	<span class="meta-categories__list">Kategorie:
+		<a class="meta-categories__link" href="https://morfikov.github.io/categories/linux/" rel="category">Linux</a>
+	</span>
+</div>
+	</div>
+				<h1 class="entry__title">Jak zmusić jeden proces do korzystania z VPN na linux (Wireguard)</h1>
+<details class="entry__toc toc" >
+	<summary class="toc__title">Spis treści</summary>
+	<nav id="TableOfContents">
+  <ol>
+    <li><a href="#potrzebne-narzędzia">Potrzebne narzędzia</a></li>
+    <li><a href="#konfiguracja-kernela">Konfiguracja kernela</a>
+      <ol>
+        <li><a href="#obsługa-debugfs">Obsługa debugfs</a></li>
+      </ol>
+    </li>
+    <li><a href="#konfiguracja-wireguard">Konfiguracja wireguard</a></li>
+    <li><a href="#poprawienie-standardowej-konfiguracji-wireguard">Poprawienie standardowej konfiguracji wireguard</a>
+      <ol>
+        <li><a href="#puszczenie-ruchu-dns-innym-kanałem-niż-przez-vpn">Puszczenie ruchu DNS innym kanałem niż przez VPN</a></li>
+        <li><a href="#wyłączenie-automatycznej-konfiguracji-iptablesnftables">Wyłączenie automatycznej konfiguracji iptables/nftables</a></li>
+        <li><a href="#problematyczne-oznaczanie-pakietów">Problematyczne oznaczanie pakietów</a></li>
+      </ol>
+    </li>
+    <li><a href="#tablica-i-reguły-routingu-na-potrzeby-wireguard">Tablica i reguły routingu na potrzeby wireguard</a>
+      <ol>
+        <li><a href="#mechanizm-kill-switch">Mechanizm kill switch</a></li>
+      </ol>
+    </li>
+    <li><a href="#ręczna-konfiguracja-nftables">Ręczna konfiguracja nftables</a>
+      <ol>
+        <li><a href="#podmiana-źródłowego-adresu-ip-masquerade">Podmiana źródłowego adresu IP (masquerade)</a></li>
+        <li><a href="#oznaczanie-pakietów-sieciowych-fwmark">Oznaczanie pakietów sieciowych (fwmark)</a>
+          <ol>
+            <li><a href="#zapętlenie-się-wireguarda-routing-loop">Zapętlenie się wireguard'a (routing loop)</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#automatyzacja-konfiguracji-interfejsu-vpn">Automatyzacja konfiguracji interfejsu VPN</a></li>
+    <li><a href="#testowanie-konfiguracji">Testowanie konfiguracji</a>
+      <ol>
+        <li><a href="#testowanie-tablic-i-reguł-routingu">Testowanie tablic i reguł routingu</a></li>
+      </ol>
+    </li>
+    <li><a href="#uruchamianie-aplikacji-puszczanych-w-tunel-vpn">Uruchamianie aplikacji puszczanych w tunel VPN</a></li>
+    <li><a href="#podsumowanie">Podsumowanie</a></li>
+  </ol>
+</nav>
+</details>
+				<div class="entry__content"><p>Jakiś już dłuższy czas temu opisywałem mechanizm <a href="https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/">przekierowania ruchu sieciowego jednego lub
+wybranych procesów do VPN na przykładzie OpenVPN</a> pod moim Debianem. Zawarta w tamtym artykule
+konfiguracja jak najbardziej działa do tej pory, choć minęło już prawie 6 lat od jej wdrożenia w
+życie. Od tamtego momentu jednak, sporo się zmieniło w świecie linux'a, a konkretnie pojawił się
+<a href="https://www.wireguard.com/">wireguard</a>, który jest nieco bardziej dostosowany do otaczającej nas rzeczywistości i kładzie
+na łopatki wysłużonego już OpenVPN. Nie mam nic do OpenVPN ale przydałoby się zrobić podobne
+rozwiązanie opisane w powyżej podlinkowanym artykule ale na przykładzie właśnie wireguard.
+Samo <a href="https://www.wireguard.com/quickstart/">skonfigurowanie do pracy VPN na bazie wireguard</a> jest w zasadzie dość proste i nie trzeba
+pisać kolejnego artykułu na ten temat. Niemniej jednak, stawiając VPN w opisany na stronie
+wireguard sposób będziemy przesyłać przez to połączenie cały ruch sieciowy, czego raczej nie chcemy.
+To tutaj właśnie zaczynają się problemy z wireguard, których w OpenVPN nie szło zaobserwować, a
+które uniemożliwiają poprawne działanie (zapętlanie się) połączenia VPN. Postaramy się zatem
+przyjrzeć nieco bliżej samej konfiguracji wireguard i spróbować sprawić, by ruch sieciowy tylko
+wybranych przez nas procesów był kierowany w tunel VPN.</p>
+<h2 id="potrzebne-narzędzia">Potrzebne narzędzia</h2>
+<p>By poprawnie skonfigurować połączenie VPN na bazie wireguard będziemy potrzebować narzędzi z
+pakietu <code>wireguard-tools</code> oraz <code>nftables</code> . Można oczywiście korzystać również i z <code>iptables</code> ale w
+tym przypadku będziemy pisać reguły dla <code>nftables</code> .</p>
+<h2 id="konfiguracja-kernela">Konfiguracja kernela</h2>
+<p>Dodatkowo będzie nam potrzebna odpowiednia konfiguracja samego kernela linux. Dystrybucyjne jądra
+Debiana powinny mieć już wszystko, co jest potrzebne. Tak czy inaczej, jeśli <a href="https://morfikov.github.io/post/budowanie-kernela-linux-dla-konkretnej-maszyny-z-debianem/">budujemy sobie własny
+kernel</a>, to upewnijmy się, że mamy włączoną poniższą opcję:</p>
+<pre><code>CONFIG_WIREGUARD
+</code></pre>
+<h3 id="obsługa-debugfs">Obsługa debugfs</h3>
+<p>Dobrze jest sobie włączyć też te dwie opcje odpowiadające za wirtualny system plików <code>debugfs</code> ,
+które przydadzą nam się przy ewentualnym debugowaniu wireguard'a:</p>
+<pre><code>CONFIG_DEBUG_FS=y
+CONFIG_DEBUG_FS_ALLOW_NONE=y
+</code></pre>
+<p>Opcja <code>CONFIG_DEBUG_FS_ALLOW_NONE</code> domyślnie wyłącza dostęp do systemu plików <code>debugfs</code> i potrzebny
+nam będzie dodatkowy parametr <code>debugfs=on</code> , który trzeba będzie dopisać w linijce kernela w
+konfiguracji EFI/UEFI czy też konfiguracji samego bootloader'a. Tego typu ustawienie sprawi, że
+domyślnie system będzie nam startował z wyłączonym <code>debugfs</code> , a gdy zajdzie potrzeba, to będziemy
+mogli go sobie włączyć bez ponownej kompilacji kernela.</p>
+<h2 id="konfiguracja-wireguard">Konfiguracja wireguard</h2>
+<p>By być w stanie zestawić połączenie VPN przy pomocy wireguard, potrzebujemy jakaś maszynę, do
+której chcemy się podłączyć w sposób bezpieczny. Tutaj skorzystamy sobie z VPN oferowanego przez
+<a href="https://protonvpn.com/">protonvpn</a>, bo on wspiera wireguard i jest darmowy. <a href="https://account.protonvpn.com/downloads">Standardowa konfiguracja wireguard</a>,
+którą można pobrać od tego operatora VPN, wygląda mniej więcej tak:</p>
+<pre><code>[Interface]
+# Key for morfikownia
+# Bouncing = 3
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = off
+PrivateKey = scisle-tajne-lamane-przez-poufne
+Address = 10.2.0.2/32
+DNS = 10.2.0.1
+
+[Peer]
+# US-FREE#70
+PublicKey = MNTtBSAv3VQ8W059Rbf7pQ37WDxQ4h5vkhmBARjmmiU=
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 151.243.141.159:51820
+
+PersistentKeepalive = 25
+</code></pre>
+<p>Klucz widoczny w <code>PrivateKey</code> generujemy przy pomocy poniższego polecenia:</p>
+<pre><code># wg genkey
+scisle-tajne-lamane-przez-poufne
+</code></pre>
+<p>Gdybyśmy zapisali tę powyższą konfigurację w pliku <code>/etc/wireguard/wgvpn0.conf</code> i skonfigurowali
+interfejs <code>wgvpn0</code> przy pomocy skryptu <code>wg-quick</code> , to po chwili mielibyśmy działający tunel VPN i
+cały ruch sieciowy (tj. tylko ten kierowany przez bramę domyślną) z naszego hosta byłby szyfrowany i
+przesyłany na adres określony w <code>Endpoint</code> .</p>
+<h2 id="poprawienie-standardowej-konfiguracji-wireguard">Poprawienie standardowej konfiguracji wireguard</h2>
+<p>Problemów z tą domyślną konfiguracją wireguard'a jest kilka. Pierwszy problem dotyczy braku
+możliwości określenia procesów, które chcemy puścić przez VPN. Drugi problem to przesyłanie ruchu
+DNS przez połączenie VPN. A trzeci problem to dotykanie konfiguracji <code>iptables</code> / <code>nftables</code> , choć
+dla osób mało technicznych (niemających własnej konfiguracji firewall'a) to akurat uzasadnione.
+Musimy wyeliminować wszystkie te trzy problemy.</p>
+<h3 id="puszczenie-ruchu-dns-innym-kanałem-niż-przez-vpn">Puszczenie ruchu DNS innym kanałem niż przez VPN</h3>
+<p>Standardowo cały ruch sieciowy naszej maszyny (w tym ruch DNS) jest kierowany do VPN wireguard, o
+ile to połączenie konfigurowaliśmy via <code>wg-quick</code> . W pobranej od operatora VPN konfiguracji
+wireguard mieliśmy opcję <code>DNS</code> , która odpowiada za skonfigurowanie adresu resolver'a DNS na
+maszynie hosta, tak by zapobiec przeciekom DNS (<a href="https://dnsleaktest.com/what-is-a-dns-leak.html">DNS leak</a>). Jeśli zatem mamy umieszczoną
+opcję <code>DNS</code> w konfiguracji wireguard, to system podmieni nam wpisy w pliku <code>/etc/resolv.conf</code> za
+sprawą automatu <code>resolvconf</code> , który zwykle jest obecny w standardowych instalacjach Debiana.</p>
+<p>U mnie w systemie nie ma <code>resolvconf</code> , ani też żadne procesy czy użytkownicy (w tym też root) nie
+mają prawa dotykać pliku <code>/etc/resolv.conf</code> za sprawą nadania temu pliku atrybutu odporności,
+tj. <code>chattr +i</code> . W tym pliku mam w zasadzie jedynie wpis <code>nameserver 127.0.0.1</code> , który wskazuje
+na adres pętli zwrotnej, na którym to nasłuchuje <code>dnsmasq</code> , który to z kolei łapie wszystkie
+zapytania DNS i kieruje je do <code>dnscrypt-proxy</code> , który również nasłuchuje lokalnie. To ten
+cały <a href="https://morfikov.github.io/post/szyfrowany-dns-z-dnscrypt-proxy-i-dnsmasq-na-debian-linux/">mechanizm dnsmasq i dnscrypt-proxy</a> odpowiadają za przesyłanie w moim Debianie zapytań DNS
+do upstream'owego serwera DNS niezależnym zaszyfrowanym kanałem.</p>
+<p>U mnie zawsze tylko część procesów korzysta z VPN, zatem równolegle są wysyłane zapytania DNS przez
+procesy korzystające i niekorzystające z VPN. Mając <code>dnscrypt-proxy</code> i <code>dnsmasq</code> oraz atrybut
+<code>chattr +i</code> na pliku <code>/etc/resolv.conf</code> mam pewność, że zapytania DNS będą szyfrowane bez względu
+na to, z którego (i w ogóle czy) VPN korzystam (wireguard/openvpn).</p>
+<p>Dla osób, które uważają, że ten powyższy mechanizm to lekka przesada (albo i nieco większa), to
+trzeba tutaj zaznaczyć, że jeśli puścimy ruch DNS przez tunel VPN, którym będzie leciał także
+pozostały ruch sieciowy, to operator VPN analizując ruch DNS jest w stanie pozyskać informacje o
+domenach, które odwiedzamy. Jeśli kierujemy ruch DNS osobnym szyfrowanym kanałem, to te informacje
+operatorowi VPN odbieramy i widzi on jedynie adresy IP (choć naturalnie <a href="https://www.cloudflare.com/learning/ssl/what-is-encrypted-sni/">trzeba pamiętać o SNI</a>).
+Z kolei operator DNS widzi domeny, które odwiedzamy ale nie ma żadnych informacji dotyczących
+samych połączeń (np. czas trwania takiego połączenia czy ilość danych wysłanych/odebranych). Tego
+typu rozdział ról między dwa podmioty rzutuje dość istotnie na kwestię naszej prywatności, a
+przecież nie po to używamy VPN, by za chwilę wręczać naszą prywatność w ręce tegoż operatora VPN.</p>
+<p>Dlatego jeśli mamy własną konfigurację resolver'a, np. tę wspomnianą wyżej, to najlepiej pozbyć się
+opcji <code>DNS</code> z pliku <code>/etc/wireguard/wgvpn0.conf</code> .</p>
+<h3 id="wyłączenie-automatycznej-konfiguracji-iptablesnftables">Wyłączenie automatycznej konfiguracji iptables/nftables</h3>
+<p>Wireguard standardowo sam sobie konfiguruje filtr pakietów <code>iptables</code> / <code>nftables</code> dodając do niego
+własne łańcuchy i określając w nich odpowiednie reguły, np. te od przepisywania adresu źródłowego
+przy pomocy <code>masquerade</code> . Niemniej jednak, na nasze potrzeby będzie trzeba utworzyć kilka
+dodatkowych reguł dla <code>nftables</code> i dobrze jest całkowicie wyłączyć dotykanie firewall'a przez
+wireguard. Możemy to zrobić dodając do tej standardowej konfiguracji, którą pobraliśmy ze strony
+protonvpn, parametr <code>Table</code> , przykładowo:</p>
+<pre><code>Table = off
+</code></pre>
+<p>W ten sposób skrypt <code>wg-quick</code> całkowicie odpuści sobie konfigurowanie filtra pakietów i zrzuci ten
+obowiązek na nas.</p>
+<h3 id="problematyczne-oznaczanie-pakietów">Problematyczne oznaczanie pakietów</h3>
+<p>By ruch VPN mógł się realizować, trzeba rozdzielić pakiety, które są puszczane w tunel VPN od tych
+pakietów, które chcemy wypuścić przez fizyczny interfejs karty sieciowej naszego hosta. Przy
+ustawionym parametrze <code>Table = off</code> , skrypt <code>wg-quick</code> w ogóle nie tyka reguł filtra pakietów
+<code>nftables</code> , przez co wszystkie pakiety sieciowe domyślnie są kierowane na fizyczny interfejs karty
+sieciowej. Gdybyśmy teraz uruchomili wireguard'a, to pakiety mimo podniesionego interfejsu VPN i
+tak polecą bezpośrednio w świat.</p>
+<p>Trzeba zatem obmyślić własny mechanizm, który będzie stosownie oznaczał ruch VPN, tak by pakiety
+sieciowe zostały skierowane w tunel VPN zanim zostaną wysłane w świat. Do tego celu służy mechanizm
+oznaczania pakietów w <code>nftables</code> , tj. <code>fwmark</code> . W pliku konfiguracyjnym
+wireguard <code>/etc/wireguard/wgvpn0.conf</code> możemy taki mark również ustawić przy pomocy
+parametru <code>FwMark</code> . Trzeba jednak tutaj wyraźnie zaznaczyć, że ten mark nie odnosi się do pakietów
+kierowanych do wnętrza tunelu VPN, tylko do samego połączenia VPN, tj. tych pakietów, które
+będziemy wysyłać w świat. Naturalnie ten ruch musimy sobie również oznaczyć, przykładowo:</p>
+<pre><code>FwMark = 0x5555
+</code></pre>
+<p>O ile oznaczenie ruchu samego połączenia VPN mamy z głowy, to trzeba jeszcze pomyśleć jak
+zrealizować oznaczenie ruchu pakietów, które mają trafiać do tunelu VPN ale o tym za moment.</p>
+<h2 id="tablica-i-reguły-routingu-na-potrzeby-wireguard">Tablica i reguły routingu na potrzeby wireguard</h2>
+<p>Jako, że konfiguracja wireguard w takiej postaci, do której ją doprowadziliśmy, ogranicza się
+jedynie do ustawienia samego interfejsu sieciowego <code>wgvpn0</code> , to trzeba samemu skonfigurować sobie
+routing pakietów sieciowych połączenia VPN.</p>
+<p>Na sam początek tworzymy nową tablicę routingu w pliku <code>/etc/iproute2/rt_tables</code> , przykładowo:</p>
+<pre><code>300 wireguard
+</code></pre>
+<p>Mając tablice routingu, dodajemy jeszcze regułę routingu, której zadaniem będzie skierować
+określone pakiety do tej tablicy:</p>
+<pre><code># ip rule add fwmark 0x2222 priority 2005 table wireguard
+</code></pre>
+<p>Ta reguła ma za zadanie przekierować pakiety oznaczone markiem <code>0x2222</code> do
+tablicy <code>wireguard</code> -- to będą te pakiety, które trzeba zaszyfrować przed wypuszczeniem ich w
+świat. Nie tworzymy osobno reguły dla pakietów z markiem <code>0x5555</code> , bo one domyślnie i tak będą
+trafiać to tablicy <code>main</code> . Teraz już wystarczy zająć się konfiguracją wpisów w tablicy <code>wireguard</code>
+oraz stosownym oznaczaniem pakietów sieciowych.</p>
+<h3 id="mechanizm-kill-switch">Mechanizm kill switch</h3>
+<p>Przy takiej konfiguracji, jaką my tutaj zrobiliśmy, warto pomyśleć o jakiejś formie kill switch'a,
+czyli mechanizmu uniemożliwiającemu wysłanie pakietów z pominięciem VPN, np. w przypadku zniknięcia
+z systemu interfejsu <code>wgvpn0</code> . Tego typu sytuacja może nam się przytrafić w skutek jakiegoś
+nieprzewidzianego błędu lub też gdy intencjonalnie usuniemy ten interfejs zatrzymując usługę
+systemd dla wireguard'a ( <code>wg-quick@wgvpn0.service</code> ) albo też gdy ręcznie położymy interfejs via
+<code>wg-quick down wgvpn0</code> lub też będziemy manipulować interfejsami sieciowymi przy pomocy
+polecenia <code>ip</code> . W żadnym z tych przypadków nie może być mowy o tym, że procesy, których ruch
+kierujemy do tunelu VPN, będą przesyłać pakiety bezpośrednio na adres docelowy.</p>
+<p>By tego typu mechanizm kill switch zaprojektować, skorzystamy z tablicy routingu, którą
+utworzyliśmy wcześniej, tj. <code>wireguard</code> . To tej tablicy trzeba dodać wpis z trasą
+typu <a href="https://linux.die.net/man/8/ip">blackhole</a>, przykładowo:</p>
+<pre><code># ip route append blackhole default table wireguard
+</code></pre>
+<p>W ten sposób, gdy interfejs <code>wgvpn0</code> zniknie z systemu, pakiety będą w dalszym ciągu kierowane do
+tablicy <code>wireguard</code> ale zastaną tam jedynie trasę <code>blackhole</code> , przez co będą cicho niszczone przez
+kernel bez dalszego ich przetwarzania, czego efektem będzie brak połączenia sieciowego w
+aplikacjach puszczonych przez VPN. Wszystkie pozostałe aplikacje jak najbardziej będą mieć dostęp
+do sieci i będą mogły bez problemu komunikować się ze światem.</p>
+<h2 id="ręczna-konfiguracja-nftables">Ręczna konfiguracja nftables</h2>
+<p>Przyszła pora na skonfigurowanie filtra pakietów <code>nftables</code> . Tutaj musimy zrobić w zasadzie dwie
+rzeczy. Pierwszą z nich jest przepisanie źródłowego adresu IP pakietów VPN i w jego miejsce
+postawić IP interfejsu karty sieciowej naszej maszyny. Drugą zaś oznaczenie pakietów ruchu
+sieciowego puszczonego w tunel VPN.</p>
+<h3 id="podmiana-źródłowego-adresu-ip-masquerade">Podmiana źródłowego adresu IP (masquerade)</h3>
+<p>By zmienić źródło pakietów sieciowych ruchu VPN tworzymy w konfiguracji <code>nftables</code> tablicę <code>nat</code>
+podobną do tej poniżej:</p>
+<pre><code>table inet nat {
+
+    chain POSTROUTING {
+        # priority 100=srcnat
+        type nat hook postrouting priority 100; policy accept;
+        oifname &quot;wgvpn0&quot; counter masquerade
+    }
+
+}
+</code></pre>
+<h3 id="oznaczanie-pakietów-sieciowych-fwmark">Oznaczanie pakietów sieciowych (fwmark)</h3>
+<p>Z kolei by oznaczyć pakiety ruchu sieciowego, tworzymy w konfiguracji <code>nftables</code> tablicę <code>mangle</code> o
+poniższej zawartości:</p>
+<pre><code>table inet mangle {
+
+    chain PREROUTING {
+        # priority -150=mangle
+        type filter hook prerouting priority -150; policy accept;
+        iifname != &quot;lo&quot; jump marking
+    }
+
+    chain OUTPUT {
+        # priority -150=mangle
+        type route hook output priority -150; policy accept;
+        oifname != &quot;lo&quot; jump marking
+    }
+
+    chain marking {
+        counter meta mark set ct mark &amp; 0x0000ffff
+        meta mark &amp; 0x0000ffff != 0x00000000 counter return
+        meta skgid 8888 meta mark &amp; 0x0000ffff == 0x00000000 meta mark set 0x00002222 counter
+        counter ct mark set meta mark &amp; 0x0000ffff
+    }
+
+}
+</code></pre>
+<p>Oznaczanie pakietów wyjściowych dokonujemy w łańcuchu <code>OUTPUT</code> tablicy <code>mangle</code> ze względu na fakt
+badania zmiany trasy, co jest kluczowe przy wirtualnych interfejsach tworzonych w systemie na
+potrzeby ruchu VPN. Gdybyśmy to oznaczanie ruchu dokonali w łańcuchu <code>POSTROUTING</code> , to byłoby już
+za późno i pakiety nie zostałyby skierowane do tunelu VPN. Jeśli zaś chodzi o łańcuch <code>PREROUTING</code> ,
+to oznaczanie tutaj pakietów przychodzących ma głównie za zadanie odtworzenie marka dla konkretnego
+połączenia śledzonego przez mechanizm <code>conntrack</code> , tak by pakiety ruchu sieciowego VPN powracające
+do naszej maszyny mogły być z powodzeniem poprawnie oznaczone i skierowane do interfejsu VPN.</p>
+<p>Dla lepszego zrozumienia, poniżej jest fotka obrazująca przepływ pakietów przez filtr w linux'ie:</p>
+<p><img loading="lazy" src="https://morfikov.github.io/img/2019/04/001-nftables-packet-flow-linux-firewall-netdev.png" alt="nftables-packet-flow-linux-firewall-netdev"    class="huge"></p>
+<h4 id="zapętlenie-się-wireguarda-routing-loop">Zapętlenie się wireguard'a (routing loop)</h4>
+<p>Ta powyższa baza markująca działała w moim systemie prawie przez dekadę i np. OpenVPN nie sprawiał
+mi żadnych problemów przez cały ten czas. Niemniej jednak, wireguard przy takim markowaniu nie chce
+działać. Niby interfejs <code>wgvpn0</code> się podnosi i wszystko jest w należytym porządku, nie ma przy tym
+żadnych błędów w terminalu czy logu systemowym, no tylko pakiety kierowane do tunelu VPN giną bez
+wieści.</p>
+<p><a href="https://serverfault.com/questions/1147215/prevent-routing-loop-with-fwmark-in-wireguard/1147291#1147291">Problem tutaj dotyczy zapętlania się ruchu VPN</a>. By to nieco bardziej zobrazować, prześledźmy
+to, co dokładnie system chce zrobić z pakietami sieciowymi. Uruchamiamy sobie przykładową aplikację,
+np. firefox z grupa <code>8888</code> . Chcemy oznaczyć ruch tej aplikacji w <code>nftables</code> markiem <code>0x00002222</code> .
+W regułach routingu mamy <code>2005:	from all fwmark 0x2222 lookup wireguard</code> , czyli pakiety są
+kierowane do tablicy routingu <code>wireguard</code> , gdzie widnieje wpis <code>default dev wgvpn0 scope link</code> i w
+ten sposób pakiety sieciowe generowane przez firefox, trafiają na interfejs <code>wgvpn0</code> , czyli do
+tunelu VPN. Następne pakiety są szyfrowane i opuszczają interfejs <code>wgvpn0</code> , a w  <code>nftables</code> jest
+im przepisywany źródłowy adres IP, na adres IP karty sieciowej (przy pomocy maskarady). Pakiety są
+gotowe do puszczenia na interfejs fizyczny karty sieciowej ale zamiast tego, są ponownie wpuszczane
+w tunel VPN. Dlaczego? Wygląda na to, że kernel wiąże jakoś połączenie oznaczone
+markiem <code>0x00002222</code> (firefox) i markiem <code>0x00005555</code> (ustawionym w konfiguracji wireguard) i
+przepisuje mark <code>0x00005555</code> na <code>0x00002222</code> i przez to ruch połączenia VPN (tego kierowanego w
+świat) ma dokładnie takie samo oznaczenie co ruch kierowany do tunelu VPN. Taki stan rzeczy sprawia,
+że kernel dochodzi do wniosku, że trzeba ten pakiet jeszcze raz puścić w tunel VPN i tak w kółko.</p>
+<p>Rozwiązaniem tego zapętlania się połączenia VPN jest dodanie na samym początku <code>chain marking</code>
+dodatkowej reguły, tj. <code>meta mark 0x00005555 counter return</code> , co wygląda mniej więcej tak:</p>
+<pre><code>...
+        chain marking {
+            meta mark 0x00005555 counter return
+            counter meta mark set ct mark &amp; 0x0000ffff
+            meta mark &amp; 0x0000ffff != 0x00000000 counter return
+            meta skgid 8888 meta mark &amp; 0x0000ffff == 0x00000000 meta mark set 0x00002222 counter
+            counter ct mark set meta mark &amp; 0x0000ffff
+        }
+...
+</code></pre>
+<p>Ta dodatkowa reguła sprawia, że wszystkie pakiety posiadające mark <code>0x00005555</code> nie będą
+przetwarzane przez następne reguły markujące, co rozwiązuje problem z zapętlaniem się VPN.</p>
+<h2 id="automatyzacja-konfiguracji-interfejsu-vpn">Automatyzacja konfiguracji interfejsu VPN</h2>
+<p>Ostatnie co musimy zrobić, to dodać kilka wpisów <code>PostUp</code> do pliku <code>/etc/wireguard/wgvpn0.conf</code> ,
+tak by konfigurowanie interfejsu <code>wgvpn0</code> przebiegało automatycznie. Poniżej znajduje się
+ostateczna wersja tego pliku, a niżej wyjaśnienie dodanych linijek:</p>
+<pre><code>[Interface]
+# Key for wgvpn0
+# Bouncing = 1
+# NAT-PMP (Port Forwarding) = off
+# VPN Accelerator = off
+PrivateKey = scisle-tajne-lamane-przez-poufne
+Address = 10.2.0.2/32
+#DNS = 10.2.0.1
+Table = off
+FwMark = 0x5555
+
+PostUp = if ip route show table wireguard | grep -q blackhole; then ip route prepend default dev %i table wireguard; else ip route add default dev %i table wireguard &amp;&amp; ip route append blackhole default table wireguard; fi
+
+PostUp = if ! ip rule show table wireguard | grep -q &quot;fwmark 0x2222&quot;; then ip rule add fwmark 0x2222 priority 2005 table wireguard; fi
+
+[Peer]
+# CA-FREE#9
+PublicKey = 7nj3Zh17Dzx+1SKIPE+dPfFmDbTTOggDK6SfK6tlEgE=
+#AllowedIPs = 0.0.0.0/0, ::/0
+AllowedIPs = 0.0.0.0/0
+Endpoint = 149.22.82.1:51820
+PersistentKeepalive = 25
+</code></pre>
+<p>Mamy tutaj dwie linijki <code>PostUp</code> . Pierwsza z nich ma za zadanie sprawdzić czy w
+tablicy <code>wireguard</code> znajduje się trasa typu <code>blackhole</code> i jeśli tak, to ma dodać wpis z trasą do
+interfejsu naszego VPN. Z tym, że ten wpis musi być przed trasą typu <code>blackhole</code> , bo inaczej to
+pakiety będą cicho niszczone przez kernel. Jeśli jednak nie ma trasy typu <code>blackhole</code> , to trzeba
+dodać zarówno trasę do interfejsu VPN, jak i trasę typu <code>blackhole</code> .</p>
+<p>Druga linijka <code>PostUp</code> zaś bada czy w regułach routingu znajduje się wpis odnoszący się do
+tablicy <code>wireguard</code> , tj. ten który przy pomocy marka <code>nftables</code> będzie kierował ruch sieciowy w
+tunel VPN. Jeśli takiej reguły nie ma, to ma ją dodać.</p>
+<p>Te dwa wpisy <code>PostUp</code> sprawiają, że konfiguracja tras i reguł routingu będzie dla nas transparentna
+i mamy pewność, że routing zawsze będzie skonfigurowany poprawnie, przynajmniej z naszego punktu
+widzenia i to bez względu na to czy połączenie VPN będzie aktywne czy nie.</p>
+<p>W przypadku, gdy interfejs VPN nam z jakiegoś powodu zniknie, to bama domyślna powiązana z tym
+interfejsem również nam zniknie. Niemniej jednak, reguła z markiem oraz trasa typu <code>blackhole</code>
+pozostają nieruszone, przez co ruch przy rozłączonym połączeniu VPN będzie cicho niszczony i nic
+bezpośrednio w świat nie poleci.</p>
+<h2 id="testowanie-konfiguracji">Testowanie konfiguracji</h2>
+<p>Plik <code>/etc/wireguard/wgvpn0.conf</code> w zasadzie mamy już gotowy i możemy zestawić połączenie VPN przy
+pomocy <code>wg-quick</code> . Odpalamy zatem terminal i wpisujemy w nim poniższe polecenie:</p>
+<pre><code># wg-quick up wgvpn0
+[#] ip link add dev wgvpn0 type wireguard
+[#] wg addconf wgvpn0 /dev/fd/63
+[#] ip -4 address add 10.2.0.2/32 dev wgvpn0
+[#] ip link set mtu 1420 up dev wgvpn0
+[#] if ip route show table wireguard | grep -q blackhole; \
+       then ip route prepend default dev wgvpn0 table wireguard; \
+       else ip route add default dev wgvpn0 table wireguard &amp;&amp; \
+       ip route append blackhole default table wireguard; \
+    fi
+[#] if ! ip rule show table wireguard | grep -q &quot;fwmark 0x2222&quot;; \
+       then ip rule add fwmark 0x2222 priority 2005 table wireguard; \
+    fi
+</code></pre>
+<p>Wyżej widzimy komendy, które <code>wg-quick</code> wydaje. Nie ma przy tym żadnych błędów, zatem zdaje się, że
+połączenie VPN działa. Podejrzymy jeszcze status wireguard'a wpisując w terminal polecenie <code>wg</code> :</p>
+<pre><code># wg
+interface: wgvpn0
+  public key: SNq4tmGcDoDCZQkm1x9SdXuVs2Qbe+G/bJqGz5eChDE=
+  private key: (hidden)
+  listening port: 36032
+  fwmark: 0x5555
+
+peer: 7nj3Zh17Dzx+1SKIPE+dPfFmDbTTOggDK6SfK6tlEgE=
+  endpoint: 149.22.82.1:51820
+  allowed ips: 0.0.0.0/0
+  latest handshake: 27 seconds ago
+  transfer: 27.16 KiB received, 18.85 KiB sent
+  persistent keepalive: every 25 seconds
+</code></pre>
+<p>Jak widać wyżej, <code>latest handshake: 27 seconds ago</code> oznacza, że nasza maszyna i ta określona
+w <code>endpoint</code> były w stanie się ze sobą przywitać i wymienić klucze szyfrujące. Przy dobrze
+skonfigurowanym wireguard, te klucze są wymieniane co 2 minuty. Nigdy zatem w zasadzie nie
+powinniśmy tutaj widzieć czasu dłuższego niż te 2 minuty. Jeśli tak się dzieje, oznacza to, że coś
+w konfiguracji wireguard'a jest nie tak, a maszyny mają problem z komunikacją.</p>
+<p>Natomiast w linijce <code>transfer</code> mamy <code>27.16 KiB received</code> oraz <code>18.85 KiB sent</code> . Jeśli te dwie
+wartości ulegają zwiększeniu, to pakiety wysyłane przez nasze aplikacje będą w stanie dotrzeć na
+adres określony w <code>endpoint</code> oraz z niego powrócić. Jeśli by się zdarzyło tak, że żadna z tych
+wartości nie rośnie z czasem, to pakiety od ruchu VPN są gdzieś gubione albo blokowane, zwykle na
+naszym firewall'u. Jeśli zaś wartość <code>sent</code> (dane, które wysyłamy) ulega zwiększeniu ale wartość
+<code>received</code> pozostaje niezmienna, to zwykle oznacza to problem opisywaną wcześniej pętlą routingu.</p>
+<h3 id="testowanie-tablic-i-reguł-routingu">Testowanie tablic i reguł routingu</h3>
+<p>Możemy teraz sprawdzić jeszcze czy wpisy w tablicy routingu oraz reguły routingu są prawidłowe
+wydając w terminalu to poniższe polecenie przy podniesionym interfejsie <code>wgvpn0</code> (uruchomionym
+wireguard):</p>
+<pre><code># ip route get 8.8.8.8 mark 0x2222
+8.8.8.8 dev wgvpn0 table wireguard src 10.2.0.2 mark 0x2222 uid 0
+    cache
+</code></pre>
+<p>To polecenie służy do przetestowania (bez faktycznego przesyłania pakietów w świat) reguły routingu
+w oparciu o mark, który nakładamy na pakiety w <code>nftables</code> aplikacjom, których ruch sieciowy
+zamierzamy przesyłać przez VPN. Jak widzimy, pakiety kierowane na przykładowy adres <code>8.8.8.8</code> ,
+które zostaną oznaczone markiem <code>0x2222</code> polecą przez interfejs <code>wgvpn0</code> , a to za sprawą tablicy
+routingu <code>wireguard</code> . Wszystkie te pakiety będą mieć przypisany adres źródłowy <code>10.2.0.2</code> .
+Natomiast <code>uid 0</code> określa ID użytkownika w naszym linux'ie, który wygenerował ten ruch. Widzimy
+również słówko <code>cache</code> , które informuje nas, że do obsługi tej trasy został <a href="https://thermalcircle.de/doku.php?id=blog:linux:routing_decisions_in_the_linux_kernel_2_caching">wykorzystany cache
+kernela</a> (chodzi o FIB Nexthop Caching, nie mylić z routing cache, który został usunięty w
+kernelu 3.6).</p>
+<p>Jeśli zaś położymy interfejs <code>wgvpn0</code> (rozłączymy VPN), to wynik powinien być następujący:</p>
+<pre><code># ip route get 8.8.8.8 mark 0x2222
+RTNETLINK answers: Invalid argument
+</code></pre>
+<p>Zwrócona wyżej odpowiedź mówi nam, że kernel nie potrafi znaleźć poprawnej trasy dla tak
+oznaczonych pakietów, a konkretnie trafiają one we wpis zawierający <code>blackhole</code> w
+tablicy <code>wireguard</code> i stąd komunikat o błędzie.</p>
+<h2 id="uruchamianie-aplikacji-puszczanych-w-tunel-vpn">Uruchamianie aplikacji puszczanych w tunel VPN</h2>
+<p>Przyszła pora uruchomić jakaś przykładową aplikację, by sprawdzić czy tunel VPN faktycznie działa.
+Do tego celu trzeba sobie w Debianie stworzyć nową grupę i dodać do niej naszego użytkownika,
+przykładowo:</p>
+<pre><code># groupadd -g 8888 forcewg
+# adduser morfik forcewg
+</code></pre>
+<p>W tym momencie musimy zakończyć wszystkie sesje użytkownika, tj. trzeba wylogować się ze wszystkich
+terminali, w tym również i z graficznej sesji. Wystarczy zrestartować sesję graficzną ale można też
+zrestartować cały system, choć nie jest to konieczne.</p>
+<p>Gdy już się przelogowaliśmy, wpisujemy w terminal jedno z tych dwóch poniższych poleceń:</p>
+<pre><code>$ newgrp forcewg -c &quot;curl -s https://ifconfig.me&quot;
+149.22.82.3
+
+$ sg forcewg &quot;curl http://ifconfig.me&quot;
+149.22.82.3
+</code></pre>
+<p>Jeśli adres IP zwrócony tutaj różni się od tego, który przypisał nam ISP, to pakiety sieciowe
+procesów uruchomionych z grupa <code>forcewg</code> poszły w tunel VPN, a nie bezpośrednio w świat. Jeśli
+teraz byśmy położyli interfejs <code>wgvpn0</code> i ponownie wydali te powyższe polecenia, to wynik powinien
+być następujący:</p>
+<pre><code># wg-quick down wgvpn0
+[#] ip link delete dev wgvpn0
+
+$ sg forcewg &quot;cgexec http://ifconfig.me&quot;
+curl: (28) Failed to connect to ifconfig.me:80 after 133566 ms: Could not connect to server
+</code></pre>
+<p>Możemy także posłużyć się poleceniem <code>ping</code> , by sprawdzić czy ruch zamiera na czas wyłączenia VPN.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Jak widać, wireguard nie jest taki straszny i konfiguracja VPN przy jego pomocy może i trochę się
+różni od tej znanej z OpenVPN ale też nie jest to nic z czym przeciętny śmiertelnik nie mógłby
+sobie poradzić. Tutaj trudność polega głównie na realizacji zadania przesyłania ruchu
+sieciowego tylko wybranych aplikacji/procesów przez VPN w stosunku do całego ruchu sieciowego
+generowanego przez nasz komputer. W standardowych konfiguracjach wireguard nie trzeba tych
+dodatkowych kroków przeprowadzać, a całe zadanie zestawienia połączenia upraszcza się w zasadzie do
+pobrania jednego pliku od operatora VPN i wydaniu polecenia <code>wg-quick</code> . Niemniej jednak, warto się
+zatroszczyć również o ruch DNS, by go nie przesyłać przez połączenie VPN tylko osobno szyfrować
+oraz też dobrze jest sobie zaimplementować mechanizm kill switch, który uniemożliwi wysłanie
+pakietów bezpośrednio w świat na wypadek, gdyby z jakiegoś powodu interfejs VPN nam znikł z systemu.</p></div>
+				
+				<footer class="entry__footer">
+					
+<div class="entry__tags">
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/debian/">Debian</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/wireguard/">Wireguard</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/vpn/">Vpn</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/proton-vpn/">Proton-Vpn</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/nftables/">Nftables</a>
+			<a class="entry__tag btn" href="https://morfikov.github.io/tags/routing/">Routing</a>
+</div>
+					
+<div class="entry__share share">
+	<a class="share__link btn" title="Podziel się na Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-wireguard%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Facebook', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Facebook" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M330 512V322h64l9-74h-73v-47c0-22 6-36 37-36h39V99c-7-1-30-3-57-3-57 0-95 34-95 98v54h-64v74h64v190z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Twitter" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-wireguard%2f&amp;text=Jak%20zmusi%c4%87%20jeden%20proces%20do%20korzystania%20z%20VPN%20na%20linux%20%28Wireguard%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Twitter', 'width=800,height=450,resizable=yes,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Twitter" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Reddit" href="https://www.reddit.com/submit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-wireguard%2f&amp;title=Jak%20zmusi%c4%87%20jeden%20proces%20do%20korzystania%20z%20VPN%20na%20linux%20%28Wireguard%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Reddit', 'width=832,height=624,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Reddit" role="img" width="32" height="32" viewBox="0 0 512 512"><path fill-rule="evenodd" d="M375 146a32 32 0 1 0-29-46l-65-13c-5-1-9 2-10 6l-22 97c-45 1-85 15-113 36a42 42 0 1 0-45 69l-1 12c0 65 74 117 166 117s166-52 166-117l-1-11a42 42 0 1 0-44-69c-28-21-67-35-111-37l19-86 58 13a32 32 0 0 0 32 29zM190 353c2-1 4 0 5 1 15 11 38 18 61 18s46-6 61-18a7 7 0 0 1 8 10c-18 14-44 21-69 21-25-1-51-7-69-21a6 6 0 0 1 3-11zm23-44a31 31 0 1 1-44-44 31 31 0 0 1 44 44zm130 0a31 31 0 1 0-44-44 31 31 0 0 0 44 44z"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na Telegram" href="https://t.me/share/url?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-wireguard%2f&amp;title=Jak%20zmusi%c4%87%20jeden%20proces%20do%20korzystania%20z%20VPN%20na%20linux%20%28Wireguard%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na Telegram', 'width=800,height=600,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-wireguard%2f&title=Jak%20zmusi%c4%87%20jeden%20proces%20do%20korzystania%20z%20VPN%20na%20linux%20%28Wireguard%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na LinkedIn', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="LinkedIn" role="img" width="32" height="32" viewBox="0 0 512 512"><circle cx="142" cy="138" r="37"/><path stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+	</a>
+	<a class="share__link btn" title="Podziel się na VK" href="https://vk.com/share.php?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-wireguard%2f" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Podziel się na VK', 'width=640,height=480,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="VK" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M274 363c5-1 14-3 14-15 0 0-1-30 13-34s32 29 51 42c14 9 25 8 25 8l51-1s26-2 14-23c-1-2-9-15-39-42-31-30-26-25 11-76 23-31 33-50 30-57-4-7-20-6-20-6h-57c-6 0-9 1-12 6 0 0-9 25-21 45-25 43-35 45-40 42-9-5-7-24-7-37 0-45 7-61-13-65-13-2-59-4-73 3-7 4-11 11-8 12 3 0 12 1 17 7 8 13 9 75-2 81-15 11-53-62-62-86-2-6-5-7-12-9H79c-6 0-15 1-11 13 27 56 83 193 184 192z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pocket" href="https://getpocket.com/edit?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-wireguard%2f&amp;title=Jak%20zmusi%c4%87%20jeden%20proces%20do%20korzystania%20z%20VPN%20na%20linux%20%28Wireguard%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=480,height=320,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pocket" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M388.8 88.9H123.2A47.4 47.4 0 0 0 76 136.5v131.9c0 2.4.2 4.8.5 7.2a101.8 101.8 0 0 0-.5 10.6c0 75.6 80.6 137 180 137s180-61.4 180-137c0-3.6-.2-7.1-.5-10.6.3-2.4.5-4.8.5-7.2v-132A47.4 47.4 0 0 0 388.8 89zm-22.4 132.6l-93 93c-4.7 4.6-11 7-17.1 7a23.8 23.8 0 0 1-17.7-7l-93-93a24 24 0 0 1 33.8-33.8l76.6 76.5 76.6-76.5a24 24 0 0 1 33.8 33.8z"/></svg>
+	</a>
+	<a class="share__link btn" title="Zapisz do Pinterest" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2fmorfikov.github.io%2fpost%2fjak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-wireguard%2f&description=Jak%20zmusi%c4%87%20jeden%20proces%20do%20korzystania%20z%20VPN%20na%20linux%20%28Wireguard%29" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, 'Zapisz do Pocket', 'width=800,height=720,toolbar=0,status=0'); return false">
+		<svg class="share__icon" aria-label="Pinterest" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="m265 65c-104 0-157 75-157 138 0 37 14 71 45 83 5 2 10 0 12-5l3-18c2-6 1-7-2-12-9-11-15-24-15-43 0-56 41-106 108-106 60 0 92 37 92 85 0 64-28 116-70 116-23 0-40-18-34-42 6-27 19-57 19-77 0-18-9-34-30-34-24 0-42 25-42 58 0 20 7 34 7 34l-29 120a249 249 0 0 0 2 86l3-1c2-3 31-37 40-72l16-61c7 15 29 28 53 28 71 0 119-64 119-151 0-66-56-126-140-126z"/></svg>
+	</a>
+</div>
+				</footer>
+				
+			</article>
+		</div>
+	</main>
+	
+<div class="authorbox block">
+	<div class="author">
+		<figure class="author__avatar">
+			<img class="author__img" alt="Mikhail Morfikov avatar" src="https://morfikov.github.io/img/avatar.png" height="90" width="90">
+		</figure>
+		<div class="author__body">
+			<div class="author__name">
+				Mikhail Morfikov
+			</div>
+			<div class="author__bio">Po ponad 15 latach spędzonych z różnej maści linux&#39;ami (Debian/Ubuntu, OpenWRT, Android) mogę śmiało powiedzieć, że nie ma rzeczy niemożliwych i problemów, których nie da się rozwiązać. Jedną umiejętność, którą ludzki umysł musi posiąść, by wybrnąć nawet z tej najbardziej nieprzyjemniej sytuacji, to zdolność logicznego rozumowania.</div>
+		</div>
+	</div>
+</div>
+
+	
+
+
+
+<div class="related block">
+	<h3 class="related__title">Powiązane</h3>
+	<ul class="related__list">
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-zmusic-jeden-proces-do-korzystania-z-vpn-na-linux-openvpn/">Jak zmusić jeden proces do korzystania z VPN na linux (OpenVPN)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-ukryc-ruch-openvpn-przy-pomocy-stunnel/">Jak ukryć ruch OpenVPN przy pomocy stunnel</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-skonfigurowac-serwer-vpn-na-debianie-openvpn/">Jak skonfigurować serwer VPN na Debianie (OpenVPN)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/przeciek-dns-dns-leak-w-vpn-resolvconf/">Przeciek DNS (DNS leak) w VPN (resolvconf)</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/riseup-vpn-na-strazy-prywatnosci/">Riseup VPN na straży prywatności</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wlaczyc-stabilne-adresy-prywatne-w-ipv6-na-linux/">Jak włączyć stabilne adresy prywatne w IPv6 na linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-wlaczyc-ipv6-privacy-extensions-w-debianie-slaac/">Jak włączyć IPv6 Privacy Extensions w Debianie (SLAAC)</a></li>
+		
+	</ul>
+</div>
+
+	<div id="comments">
+		<script src="https://utteranc.es/client.js"
+        repo="morfikov/morfitronik-comments"
+        issue-term="og:title"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+</script>
+
+	</div>
+
+	</div>
+	<footer class="footer">
+<div class="footer__social social">
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="mailto:morfitronik@gmail.com">
+			<svg class="social__icon" aria-label="Email" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M299 268l124 106c-4 4-10 7-17 7H106c-7 0-13-3-17-7l124-106 43 38 43-38zm-43 13L89 138c4-4 10-7 17-7h300c7 0 13 3 17 7L256 281zm54-23l121-105v208L310 258zM81 153l121 105L81 361V153z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://t.me/morfikov">
+			<svg class="social__icon" aria-label="Telegram" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/><path d="M199 404c7 0 11-4 16-8l45-43-56-34"/><path d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://github.com/morfikov">
+			<svg class="social__icon" aria-label="Github" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://gitlab.com/morfikov">
+			<svg class="social__icon" aria-label="Gitlab" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M450 282l-22-67-43-133c-2-7-12-7-14 0l-43.3 133H184.3L141 82c-2-7-12-7-14 0L84 215l-22 67c-2 6 0 13 6 16l188 137 188-137c6-3 8-10 6-16z"/></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/users/3015317">
+			<svg class="social__icon" aria-label="Stack Overflow" role="img" width="32" height="32" viewBox="0 0 512 512"><g stroke-width="30"><path fill="none" d="M125 297v105h241V297"/><path d="M170 341h150m-144-68l148 31M199 204l136 64m-95-129l115 97M293 89l90 120"/></g></svg>
+		</a>
+		<a class="social__link" target="_blank" rel="noopener noreferrer" href="https://mastodon.social/@morfik">
+			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
+		</a>
+</div>
+
+	<div class="footer__copyright">© 2026 Mikhail Morfikov.
+	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
+	<span class="footer__copyright-cc">
+		<div class="license-icons">
+			<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" title="Creative Commons Attribution 4.0 International license">
+<i class="icon-cc"></i><i class="icon-cc-by"></i><i class="icon-cc-nc"></i><i class="icon-cc-sa"></i>
+</a>
+		</div>
+		Except where otherwise noted, content on this site is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license</a>.
+	</span>
+	</div>
+</footer>
+
+<script src="https://morfikov.github.io/js/menu.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+
+<script src="https://morfikov.github.io/js/custom.js"></script>
+<script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+<script>addBackToTop({
+  diameter: 40,
+  textColor: '#c3c3c3'
+})</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const images = Array.from(document.querySelectorAll(".entry__content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0,  
+    scrollOffset: 40,  
+    container: null,  
+    template: null,  
+    background: 'rgba(0, 0, 0, 0.8)'
+  });
+});
+</script>
+</body>
+</html>

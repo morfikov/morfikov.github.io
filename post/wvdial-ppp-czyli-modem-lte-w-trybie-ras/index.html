@@ -8,32 +8,32 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/wvdial-ppp-czyli-modem-lte-w-trybie-ras/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Wvdial i PPP, czyli modem LTE w trybie RAS">
-  <meta property="og:description" content="Jak wielu użytkowników linux&#39;a zapewne wie, modem GSM/UMTS/LTE może pracować w kilku trybach. Najpopularniejszym z nich jest tryb RAS wykorzystujący interfejsy udostępniane przez to urządzenie w katalogu /dev/ , zwykle ttyUSB0 , ttyUSB1 , etc. By taki modem mógł nawiązać połączenie z siecią, potrzebny jest demon PPP. O trybie RAS wspominałem już parokrotnie, min. we wpisach dotyczących konfiguracji połączenia LTE w RBM/Play jak i przy omawianiu problemów z resolver&#39;em DNS w przypadku Aero2. Generalnie ten tryb różni się trochę od trybu NDIS(NCM) głównie tym, że tutaj nie uzyskamy większych prędkości niż 20-30 mbit/s. Niemniej jednak, jeśli nie mamy dobrej jakości połączenia LTE, lub nasz modem z jakiegoś powodu pod linux&#39;em nie potrafi pracować w trybie NDIS, to możemy skonfigurować połączenie w trybie RAS wykorzystując do tego celu wvdial oraz demona PPP.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2016-04-14T19:01:46+00:00">
-    <meta property="article:modified_time" content="2016-04-14T19:01:46+00:00">
-    <meta property="article:tag" content="Sieć">
-    <meta property="article:tag" content="Lte">
-    <meta property="article:tag" content="Ppp">
-    <meta property="article:tag" content="Debian">
-    <meta property="article:tag" content="Modem">
-    <meta property="article:tag" content="Huawei">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Wvdial i PPP, czyli modem LTE w trybie RAS">
+	<meta property="og:description" content="Jak wielu użytkowników linux&#39;a zapewne wie, modem GSM/UMTS/LTE może pracować w kilku trybach. Najpopularniejszym z nich jest tryb RAS wykorzystujący interfejsy udostępniane przez to urządzenie w katalogu /dev/ , zwykle ttyUSB0 , ttyUSB1 , etc. By taki modem mógł nawiązać połączenie z siecią, potrzebny jest demon PPP. O trybie RAS wspominałem już parokrotnie, min. we wpisach dotyczących konfiguracji połączenia LTE w RBM/Play jak i przy omawianiu problemów z resolver&#39;em DNS w przypadku Aero2. Generalnie ten tryb różni się trochę od trybu NDIS(NCM) głównie tym, że tutaj nie uzyskamy większych prędkości niż 20-30 mbit/s. Niemniej jednak, jeśli nie mamy dobrej jakości połączenia LTE, lub nasz modem z jakiegoś powodu pod linux&#39;em nie potrafi pracować w trybie NDIS, to możemy skonfigurować połączenie w trybie RAS wykorzystując do tego celu wvdial oraz demona PPP.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2016-04-14T19:01:46+00:00">
+		<meta property="article:modified_time" content="2016-04-14T19:01:46+00:00">
+		<meta property="article:tag" content="Sieć">
+		<meta property="article:tag" content="Lte">
+		<meta property="article:tag" content="Ppp">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Modem">
+		<meta property="article:tag" content="Huawei">
 
 		
-  <meta itemprop="name" content="Wvdial i PPP, czyli modem LTE w trybie RAS">
-  <meta itemprop="description" content="Jak wielu użytkowników linux&#39;a zapewne wie, modem GSM/UMTS/LTE może pracować w kilku trybach. Najpopularniejszym z nich jest tryb RAS wykorzystujący interfejsy udostępniane przez to urządzenie w katalogu /dev/ , zwykle ttyUSB0 , ttyUSB1 , etc. By taki modem mógł nawiązać połączenie z siecią, potrzebny jest demon PPP. O trybie RAS wspominałem już parokrotnie, min. we wpisach dotyczących konfiguracji połączenia LTE w RBM/Play jak i przy omawianiu problemów z resolver&#39;em DNS w przypadku Aero2. Generalnie ten tryb różni się trochę od trybu NDIS(NCM) głównie tym, że tutaj nie uzyskamy większych prędkości niż 20-30 mbit/s. Niemniej jednak, jeśli nie mamy dobrej jakości połączenia LTE, lub nasz modem z jakiegoś powodu pod linux&#39;em nie potrafi pracować w trybie NDIS, to możemy skonfigurować połączenie w trybie RAS wykorzystując do tego celu wvdial oraz demona PPP.">
-  <meta itemprop="datePublished" content="2016-04-14T19:01:46+00:00">
-  <meta itemprop="dateModified" content="2016-04-14T19:01:46+00:00">
-  <meta itemprop="wordCount" content="3035">
-  <meta itemprop="keywords" content="Sieć,Lte,Ppp,Debian,Modem,Huawei,E3372">
+	<meta itemprop="name" content="Wvdial i PPP, czyli modem LTE w trybie RAS">
+	<meta itemprop="description" content="Jak wielu użytkowników linux&#39;a zapewne wie, modem GSM/UMTS/LTE może pracować w kilku trybach. Najpopularniejszym z nich jest tryb RAS wykorzystujący interfejsy udostępniane przez to urządzenie w katalogu /dev/ , zwykle ttyUSB0 , ttyUSB1 , etc. By taki modem mógł nawiązać połączenie z siecią, potrzebny jest demon PPP. O trybie RAS wspominałem już parokrotnie, min. we wpisach dotyczących konfiguracji połączenia LTE w RBM/Play jak i przy omawianiu problemów z resolver&#39;em DNS w przypadku Aero2. Generalnie ten tryb różni się trochę od trybu NDIS(NCM) głównie tym, że tutaj nie uzyskamy większych prędkości niż 20-30 mbit/s. Niemniej jednak, jeśli nie mamy dobrej jakości połączenia LTE, lub nasz modem z jakiegoś powodu pod linux&#39;em nie potrafi pracować w trybie NDIS, to możemy skonfigurować połączenie w trybie RAS wykorzystując do tego celu wvdial oraz demona PPP.">
+	<meta itemprop="datePublished" content="2016-04-14T19:01:46+00:00">
+	<meta itemprop="dateModified" content="2016-04-14T19:01:46+00:00">
+	<meta itemprop="wordCount" content="3035">
+	<meta itemprop="keywords" content="Sieć,Lte,Ppp,Debian,Modem,Huawei,E3372">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Wvdial i PPP, czyli modem LTE w trybie RAS">
-  <meta name="twitter:description" content="Jak wielu użytkowników linux&#39;a zapewne wie, modem GSM/UMTS/LTE może pracować w kilku trybach. Najpopularniejszym z nich jest tryb RAS wykorzystujący interfejsy udostępniane przez to urządzenie w katalogu /dev/ , zwykle ttyUSB0 , ttyUSB1 , etc. By taki modem mógł nawiązać połączenie z siecią, potrzebny jest demon PPP. O trybie RAS wspominałem już parokrotnie, min. we wpisach dotyczących konfiguracji połączenia LTE w RBM/Play jak i przy omawianiu problemów z resolver&#39;em DNS w przypadku Aero2. Generalnie ten tryb różni się trochę od trybu NDIS(NCM) głównie tym, że tutaj nie uzyskamy większych prędkości niż 20-30 mbit/s. Niemniej jednak, jeśli nie mamy dobrej jakości połączenia LTE, lub nasz modem z jakiegoś powodu pod linux&#39;em nie potrafi pracować w trybie NDIS, to możemy skonfigurować połączenie w trybie RAS wykorzystując do tego celu wvdial oraz demona PPP.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Wvdial i PPP, czyli modem LTE w trybie RAS">
+	<meta name="twitter:description" content="Jak wielu użytkowników linux&#39;a zapewne wie, modem GSM/UMTS/LTE może pracować w kilku trybach. Najpopularniejszym z nich jest tryb RAS wykorzystujący interfejsy udostępniane przez to urządzenie w katalogu /dev/ , zwykle ttyUSB0 , ttyUSB1 , etc. By taki modem mógł nawiązać połączenie z siecią, potrzebny jest demon PPP. O trybie RAS wspominałem już parokrotnie, min. we wpisach dotyczących konfiguracji połączenia LTE w RBM/Play jak i przy omawianiu problemów z resolver&#39;em DNS w przypadku Aero2. Generalnie ten tryb różni się trochę od trybu NDIS(NCM) głównie tym, że tutaj nie uzyskamy większych prędkości niż 20-30 mbit/s. Niemniej jednak, jeśli nie mamy dobrej jakości połączenia LTE, lub nasz modem z jakiegoś powodu pod linux&#39;em nie potrafi pracować w trybie NDIS, to możemy skonfigurować połączenie w trybie RAS wykorzystując do tego celu wvdial oraz demona PPP.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -678,6 +678,7 @@ github'ie</a>.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

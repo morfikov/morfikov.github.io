@@ -8,28 +8,28 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/aktywacja-i-konfiguracja-klawisza-sysrq/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Aktywacja i konfiguracja klawisza SysRq">
-  <meta property="og:description" content="SysRq (System Request) to klawisz na klawiaturze, po którego przyciśnięciu można wysłać niskopoziomowe zapytana bezpośrednio do kernela linux&#39;a. Te komendy działają nawet w przypadku pozornego braku kontaktu z systemem operacyjnym, tj. zacięcia dźwięku, nieruchomy kursor myszy, a nawet w przypadku braku możliwości wpisywania znaków z klawiatury. Zwykle po opisanych wyżej symptomach, człowiek jest skłonny przycisnąć przycisk reset na obudowie swojego komputera, no bo jak inaczej odwiesić taki system? Problem z twardym resetem (za pomocą przycisku) jest taki, że praktycznie zawsze po nim występuje uszkodzenie struktury systemu plików na dysku, a czasami uszkodzeniu ulega cała partycja. To niesie ze sobą ryzyko utraty danych. Dlatego też powinniśmy zaprzestać resetowania komputerów przy pomocy przycisków i zacząć korzystać z klawisza SysRq .">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2015-10-29T01:57:30+00:00">
-    <meta property="article:modified_time" content="2015-10-29T01:57:30+00:00">
-    <meta property="article:tag" content="Sysctl">
-    <meta property="article:tag" content="Kernel">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Aktywacja i konfiguracja klawisza SysRq">
+	<meta property="og:description" content="SysRq (System Request) to klawisz na klawiaturze, po którego przyciśnięciu można wysłać niskopoziomowe zapytana bezpośrednio do kernela linux&#39;a. Te komendy działają nawet w przypadku pozornego braku kontaktu z systemem operacyjnym, tj. zacięcia dźwięku, nieruchomy kursor myszy, a nawet w przypadku braku możliwości wpisywania znaków z klawiatury. Zwykle po opisanych wyżej symptomach, człowiek jest skłonny przycisnąć przycisk reset na obudowie swojego komputera, no bo jak inaczej odwiesić taki system? Problem z twardym resetem (za pomocą przycisku) jest taki, że praktycznie zawsze po nim występuje uszkodzenie struktury systemu plików na dysku, a czasami uszkodzeniu ulega cała partycja. To niesie ze sobą ryzyko utraty danych. Dlatego też powinniśmy zaprzestać resetowania komputerów przy pomocy przycisków i zacząć korzystać z klawisza SysRq .">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2015-10-29T01:57:30+00:00">
+		<meta property="article:modified_time" content="2015-10-29T01:57:30+00:00">
+		<meta property="article:tag" content="Sysctl">
+		<meta property="article:tag" content="Kernel">
 
 		
-  <meta itemprop="name" content="Aktywacja i konfiguracja klawisza SysRq">
-  <meta itemprop="description" content="SysRq (System Request) to klawisz na klawiaturze, po którego przyciśnięciu można wysłać niskopoziomowe zapytana bezpośrednio do kernela linux&#39;a. Te komendy działają nawet w przypadku pozornego braku kontaktu z systemem operacyjnym, tj. zacięcia dźwięku, nieruchomy kursor myszy, a nawet w przypadku braku możliwości wpisywania znaków z klawiatury. Zwykle po opisanych wyżej symptomach, człowiek jest skłonny przycisnąć przycisk reset na obudowie swojego komputera, no bo jak inaczej odwiesić taki system? Problem z twardym resetem (za pomocą przycisku) jest taki, że praktycznie zawsze po nim występuje uszkodzenie struktury systemu plików na dysku, a czasami uszkodzeniu ulega cała partycja. To niesie ze sobą ryzyko utraty danych. Dlatego też powinniśmy zaprzestać resetowania komputerów przy pomocy przycisków i zacząć korzystać z klawisza SysRq .">
-  <meta itemprop="datePublished" content="2015-10-29T01:57:30+00:00">
-  <meta itemprop="dateModified" content="2015-10-29T01:57:30+00:00">
-  <meta itemprop="wordCount" content="517">
-  <meta itemprop="keywords" content="Sysctl,Kernel">
+	<meta itemprop="name" content="Aktywacja i konfiguracja klawisza SysRq">
+	<meta itemprop="description" content="SysRq (System Request) to klawisz na klawiaturze, po którego przyciśnięciu można wysłać niskopoziomowe zapytana bezpośrednio do kernela linux&#39;a. Te komendy działają nawet w przypadku pozornego braku kontaktu z systemem operacyjnym, tj. zacięcia dźwięku, nieruchomy kursor myszy, a nawet w przypadku braku możliwości wpisywania znaków z klawiatury. Zwykle po opisanych wyżej symptomach, człowiek jest skłonny przycisnąć przycisk reset na obudowie swojego komputera, no bo jak inaczej odwiesić taki system? Problem z twardym resetem (za pomocą przycisku) jest taki, że praktycznie zawsze po nim występuje uszkodzenie struktury systemu plików na dysku, a czasami uszkodzeniu ulega cała partycja. To niesie ze sobą ryzyko utraty danych. Dlatego też powinniśmy zaprzestać resetowania komputerów przy pomocy przycisków i zacząć korzystać z klawisza SysRq .">
+	<meta itemprop="datePublished" content="2015-10-29T01:57:30+00:00">
+	<meta itemprop="dateModified" content="2015-10-29T01:57:30+00:00">
+	<meta itemprop="wordCount" content="517">
+	<meta itemprop="keywords" content="Sysctl,Kernel">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Aktywacja i konfiguracja klawisza SysRq">
-  <meta name="twitter:description" content="SysRq (System Request) to klawisz na klawiaturze, po którego przyciśnięciu można wysłać niskopoziomowe zapytana bezpośrednio do kernela linux&#39;a. Te komendy działają nawet w przypadku pozornego braku kontaktu z systemem operacyjnym, tj. zacięcia dźwięku, nieruchomy kursor myszy, a nawet w przypadku braku możliwości wpisywania znaków z klawiatury. Zwykle po opisanych wyżej symptomach, człowiek jest skłonny przycisnąć przycisk reset na obudowie swojego komputera, no bo jak inaczej odwiesić taki system? Problem z twardym resetem (za pomocą przycisku) jest taki, że praktycznie zawsze po nim występuje uszkodzenie struktury systemu plików na dysku, a czasami uszkodzeniu ulega cała partycja. To niesie ze sobą ryzyko utraty danych. Dlatego też powinniśmy zaprzestać resetowania komputerów przy pomocy przycisków i zacząć korzystać z klawisza SysRq .">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Aktywacja i konfiguracja klawisza SysRq">
+	<meta name="twitter:description" content="SysRq (System Request) to klawisz na klawiaturze, po którego przyciśnięciu można wysłać niskopoziomowe zapytana bezpośrednio do kernela linux&#39;a. Te komendy działają nawet w przypadku pozornego braku kontaktu z systemem operacyjnym, tj. zacięcia dźwięku, nieruchomy kursor myszy, a nawet w przypadku braku możliwości wpisywania znaków z klawiatury. Zwykle po opisanych wyżej symptomach, człowiek jest skłonny przycisnąć przycisk reset na obudowie swojego komputera, no bo jak inaczej odwiesić taki system? Problem z twardym resetem (za pomocą przycisku) jest taki, że praktycznie zawsze po nim występuje uszkodzenie struktury systemu plików na dysku, a czasami uszkodzeniu ulega cała partycja. To niesie ze sobą ryzyko utraty danych. Dlatego też powinniśmy zaprzestać resetowania komputerów przy pomocy przycisków i zacząć korzystać z klawisza SysRq .">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -273,6 +273,7 @@ należy dopisać do pliku <code>/etc/sysctl.conf</code> , przykładowo:</p>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

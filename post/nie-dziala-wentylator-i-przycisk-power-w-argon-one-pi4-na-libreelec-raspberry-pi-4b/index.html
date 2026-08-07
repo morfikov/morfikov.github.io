@@ -8,31 +8,31 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/nie-dziala-wentylator-i-przycisk-power-w-argon-one-pi4-na-libreelec-raspberry-pi-4b/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)">
-  <meta property="og:description" content="Ostatnio wpadł mi w łapki minikomputer Raspberry Pi 4B (wersja z 2G RAM). Chciałem wykorzystać go w roli serwera multimediów na bazie Kodi/XBMC i podpiąć go pod TV. Jako, że procesory tych malinek czasem potrafią się mocniej rozgrzewać, to do całego zestawu wziąłem również aluminiową obudowę z wentylatorem Argon One Pi4. Po pobraniu najnowszego Raspberry Pi OS, zainstalowaniu go oraz dociągnięciu skryptu producenta obudowy, przyszła pora na poddanie tego RPI stres testowi, w którym temperatura CPU nie wzrosła w zasadzie powyżej 52°C. Niemniej jednak, ten Raspberry Pi ma realizować dwa zadania, tj. serwować filmy z domowej wideoteki oraz umożliwić oglądanie VoD/strimingu video, w tym też materiały na YouTube. Dlatego właśnie potrzebny jest Kodi/XBMC, który nie wymagałby większych nakładów pracy przy konfiguracji tej zabawki. Tak właśnie natrafiłem na projekt LibreELEC, który to dostarcza system operacyjny na bazie linux&#39;a wraz z wbudowanym Kodi uruchamiającym się automatycznie bez zbędnej dodatkowej konfiguracji. Problem z tym LibreELEC jest natomiast taki, że standardowo nie da rady ani zaprogramować przycisku Power w obudowie Argon One Pi4, ani ustawić progów temperatury dla jej wentylatora. Niemniej jednak, istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony niniejszy wpis.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2020-08-22T14:35:00+02:00">
-    <meta property="article:modified_time" content="2021-09-04T16:00:00+02:00">
-    <meta property="article:tag" content="Raspberry-Pi-4b">
-    <meta property="article:tag" content="Argon-One-Pi4">
-    <meta property="article:tag" content="Kodi">
-    <meta property="article:tag" content="Xbmc">
-    <meta property="article:tag" content="Libreelec">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)">
+	<meta property="og:description" content="Ostatnio wpadł mi w łapki minikomputer Raspberry Pi 4B (wersja z 2G RAM). Chciałem wykorzystać go w roli serwera multimediów na bazie Kodi/XBMC i podpiąć go pod TV. Jako, że procesory tych malinek czasem potrafią się mocniej rozgrzewać, to do całego zestawu wziąłem również aluminiową obudowę z wentylatorem Argon One Pi4. Po pobraniu najnowszego Raspberry Pi OS, zainstalowaniu go oraz dociągnięciu skryptu producenta obudowy, przyszła pora na poddanie tego RPI stres testowi, w którym temperatura CPU nie wzrosła w zasadzie powyżej 52°C. Niemniej jednak, ten Raspberry Pi ma realizować dwa zadania, tj. serwować filmy z domowej wideoteki oraz umożliwić oglądanie VoD/strimingu video, w tym też materiały na YouTube. Dlatego właśnie potrzebny jest Kodi/XBMC, który nie wymagałby większych nakładów pracy przy konfiguracji tej zabawki. Tak właśnie natrafiłem na projekt LibreELEC, który to dostarcza system operacyjny na bazie linux&#39;a wraz z wbudowanym Kodi uruchamiającym się automatycznie bez zbędnej dodatkowej konfiguracji. Problem z tym LibreELEC jest natomiast taki, że standardowo nie da rady ani zaprogramować przycisku Power w obudowie Argon One Pi4, ani ustawić progów temperatury dla jej wentylatora. Niemniej jednak, istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony niniejszy wpis.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2020-08-22T14:35:00+02:00">
+		<meta property="article:modified_time" content="2021-09-04T16:00:00+02:00">
+		<meta property="article:tag" content="Raspberry-Pi-4b">
+		<meta property="article:tag" content="Argon-One-Pi4">
+		<meta property="article:tag" content="Kodi">
+		<meta property="article:tag" content="Xbmc">
+		<meta property="article:tag" content="Libreelec">
 
 		
-  <meta itemprop="name" content="Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)">
-  <meta itemprop="description" content="Ostatnio wpadł mi w łapki minikomputer Raspberry Pi 4B (wersja z 2G RAM). Chciałem wykorzystać go w roli serwera multimediów na bazie Kodi/XBMC i podpiąć go pod TV. Jako, że procesory tych malinek czasem potrafią się mocniej rozgrzewać, to do całego zestawu wziąłem również aluminiową obudowę z wentylatorem Argon One Pi4. Po pobraniu najnowszego Raspberry Pi OS, zainstalowaniu go oraz dociągnięciu skryptu producenta obudowy, przyszła pora na poddanie tego RPI stres testowi, w którym temperatura CPU nie wzrosła w zasadzie powyżej 52°C. Niemniej jednak, ten Raspberry Pi ma realizować dwa zadania, tj. serwować filmy z domowej wideoteki oraz umożliwić oglądanie VoD/strimingu video, w tym też materiały na YouTube. Dlatego właśnie potrzebny jest Kodi/XBMC, który nie wymagałby większych nakładów pracy przy konfiguracji tej zabawki. Tak właśnie natrafiłem na projekt LibreELEC, który to dostarcza system operacyjny na bazie linux&#39;a wraz z wbudowanym Kodi uruchamiającym się automatycznie bez zbędnej dodatkowej konfiguracji. Problem z tym LibreELEC jest natomiast taki, że standardowo nie da rady ani zaprogramować przycisku Power w obudowie Argon One Pi4, ani ustawić progów temperatury dla jej wentylatora. Niemniej jednak, istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony niniejszy wpis.">
-  <meta itemprop="datePublished" content="2020-08-22T14:35:00+02:00">
-  <meta itemprop="dateModified" content="2021-09-04T16:00:00+02:00">
-  <meta itemprop="wordCount" content="1811">
-  <meta itemprop="keywords" content="Raspberry-Pi-4b,Argon-One-Pi4,Kodi,Xbmc,Libreelec">
+	<meta itemprop="name" content="Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)">
+	<meta itemprop="description" content="Ostatnio wpadł mi w łapki minikomputer Raspberry Pi 4B (wersja z 2G RAM). Chciałem wykorzystać go w roli serwera multimediów na bazie Kodi/XBMC i podpiąć go pod TV. Jako, że procesory tych malinek czasem potrafią się mocniej rozgrzewać, to do całego zestawu wziąłem również aluminiową obudowę z wentylatorem Argon One Pi4. Po pobraniu najnowszego Raspberry Pi OS, zainstalowaniu go oraz dociągnięciu skryptu producenta obudowy, przyszła pora na poddanie tego RPI stres testowi, w którym temperatura CPU nie wzrosła w zasadzie powyżej 52°C. Niemniej jednak, ten Raspberry Pi ma realizować dwa zadania, tj. serwować filmy z domowej wideoteki oraz umożliwić oglądanie VoD/strimingu video, w tym też materiały na YouTube. Dlatego właśnie potrzebny jest Kodi/XBMC, który nie wymagałby większych nakładów pracy przy konfiguracji tej zabawki. Tak właśnie natrafiłem na projekt LibreELEC, który to dostarcza system operacyjny na bazie linux&#39;a wraz z wbudowanym Kodi uruchamiającym się automatycznie bez zbędnej dodatkowej konfiguracji. Problem z tym LibreELEC jest natomiast taki, że standardowo nie da rady ani zaprogramować przycisku Power w obudowie Argon One Pi4, ani ustawić progów temperatury dla jej wentylatora. Niemniej jednak, istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony niniejszy wpis.">
+	<meta itemprop="datePublished" content="2020-08-22T14:35:00+02:00">
+	<meta itemprop="dateModified" content="2021-09-04T16:00:00+02:00">
+	<meta itemprop="wordCount" content="1811">
+	<meta itemprop="keywords" content="Raspberry-Pi-4b,Argon-One-Pi4,Kodi,Xbmc,Libreelec">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)">
-  <meta name="twitter:description" content="Ostatnio wpadł mi w łapki minikomputer Raspberry Pi 4B (wersja z 2G RAM). Chciałem wykorzystać go w roli serwera multimediów na bazie Kodi/XBMC i podpiąć go pod TV. Jako, że procesory tych malinek czasem potrafią się mocniej rozgrzewać, to do całego zestawu wziąłem również aluminiową obudowę z wentylatorem Argon One Pi4. Po pobraniu najnowszego Raspberry Pi OS, zainstalowaniu go oraz dociągnięciu skryptu producenta obudowy, przyszła pora na poddanie tego RPI stres testowi, w którym temperatura CPU nie wzrosła w zasadzie powyżej 52°C. Niemniej jednak, ten Raspberry Pi ma realizować dwa zadania, tj. serwować filmy z domowej wideoteki oraz umożliwić oglądanie VoD/strimingu video, w tym też materiały na YouTube. Dlatego właśnie potrzebny jest Kodi/XBMC, który nie wymagałby większych nakładów pracy przy konfiguracji tej zabawki. Tak właśnie natrafiłem na projekt LibreELEC, który to dostarcza system operacyjny na bazie linux&#39;a wraz z wbudowanym Kodi uruchamiającym się automatycznie bez zbędnej dodatkowej konfiguracji. Problem z tym LibreELEC jest natomiast taki, że standardowo nie da rady ani zaprogramować przycisku Power w obudowie Argon One Pi4, ani ustawić progów temperatury dla jej wentylatora. Niemniej jednak, istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony niniejszy wpis.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Nie działa wentylator i przycisk Power w Argon One Pi4 na LibreELEC (Raspberry Pi 4B)">
+	<meta name="twitter:description" content="Ostatnio wpadł mi w łapki minikomputer Raspberry Pi 4B (wersja z 2G RAM). Chciałem wykorzystać go w roli serwera multimediów na bazie Kodi/XBMC i podpiąć go pod TV. Jako, że procesory tych malinek czasem potrafią się mocniej rozgrzewać, to do całego zestawu wziąłem również aluminiową obudowę z wentylatorem Argon One Pi4. Po pobraniu najnowszego Raspberry Pi OS, zainstalowaniu go oraz dociągnięciu skryptu producenta obudowy, przyszła pora na poddanie tego RPI stres testowi, w którym temperatura CPU nie wzrosła w zasadzie powyżej 52°C. Niemniej jednak, ten Raspberry Pi ma realizować dwa zadania, tj. serwować filmy z domowej wideoteki oraz umożliwić oglądanie VoD/strimingu video, w tym też materiały na YouTube. Dlatego właśnie potrzebny jest Kodi/XBMC, który nie wymagałby większych nakładów pracy przy konfiguracji tej zabawki. Tak właśnie natrafiłem na projekt LibreELEC, który to dostarcza system operacyjny na bazie linux&#39;a wraz z wbudowanym Kodi uruchamiającym się automatycznie bez zbędnej dodatkowej konfiguracji. Problem z tym LibreELEC jest natomiast taki, że standardowo nie da rady ani zaprogramować przycisku Power w obudowie Argon One Pi4, ani ustawić progów temperatury dla jej wentylatora. Niemniej jednak, istnieje sposób by to zrobić i właśnie temu zagadnieniu będzie poświęcony niniejszy wpis.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -431,6 +431,7 @@ hajsu przeznaczyć na więcej pamięci operacyjnej RAM w Raspberry Pi 4B.</p></d
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

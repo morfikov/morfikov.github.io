@@ -8,32 +8,32 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/konfiguracja-cifs-smb-samba-pod-debian-linux-smbd-avahi-mdns-gvfs/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)">
-  <meta property="og:description" content="Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows. W zasadzie to pozostała mi ostatnia opcja w postaci protokołu CIFS/SMB/SAMBA, który przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj. udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet samba , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy sobie nieco ułatwić życie, tak by w menadżerze plików (np. nemo , caja , pcmanfm ) te wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2024-06-03T20:00:00+02:00">
-    <meta property="article:modified_time" content="2024-06-16T16:30:00+02:00">
-    <meta property="article:tag" content="Samba">
-    <meta property="article:tag" content="Smb">
-    <meta property="article:tag" content="Cifs">
-    <meta property="article:tag" content="Avahi">
-    <meta property="article:tag" content="Wsdd">
-    <meta property="article:tag" content="Iptables">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)">
+	<meta property="og:description" content="Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows. W zasadzie to pozostała mi ostatnia opcja w postaci protokołu CIFS/SMB/SAMBA, który przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj. udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet samba , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy sobie nieco ułatwić życie, tak by w menadżerze plików (np. nemo , caja , pcmanfm ) te wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2024-06-03T20:00:00+02:00">
+		<meta property="article:modified_time" content="2024-06-16T16:30:00+02:00">
+		<meta property="article:tag" content="Samba">
+		<meta property="article:tag" content="Smb">
+		<meta property="article:tag" content="Cifs">
+		<meta property="article:tag" content="Avahi">
+		<meta property="article:tag" content="Wsdd">
+		<meta property="article:tag" content="Iptables">
 
 		
-  <meta itemprop="name" content="Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)">
-  <meta itemprop="description" content="Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows. W zasadzie to pozostała mi ostatnia opcja w postaci protokołu CIFS/SMB/SAMBA, który przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj. udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet samba , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy sobie nieco ułatwić życie, tak by w menadżerze plików (np. nemo , caja , pcmanfm ) te wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.">
-  <meta itemprop="datePublished" content="2024-06-03T20:00:00+02:00">
-  <meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
-  <meta itemprop="wordCount" content="7708">
-  <meta itemprop="keywords" content="Samba,Smb,Cifs,Avahi,Wsdd,Iptables,Nftables,Firewall,Serwer-Plików,Keepassxc">
+	<meta itemprop="name" content="Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)">
+	<meta itemprop="description" content="Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows. W zasadzie to pozostała mi ostatnia opcja w postaci protokołu CIFS/SMB/SAMBA, który przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj. udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet samba , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy sobie nieco ułatwić życie, tak by w menadżerze plików (np. nemo , caja , pcmanfm ) te wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.">
+	<meta itemprop="datePublished" content="2024-06-03T20:00:00+02:00">
+	<meta itemprop="dateModified" content="2024-06-16T16:30:00+02:00">
+	<meta itemprop="wordCount" content="7708">
+	<meta itemprop="keywords" content="Samba,Smb,Cifs,Avahi,Wsdd,Iptables,Nftables,Firewall,Serwer-Plików,Keepassxc">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)">
-  <meta name="twitter:description" content="Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows. W zasadzie to pozostała mi ostatnia opcja w postaci protokołu CIFS/SMB/SAMBA, który przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj. udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet samba , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy sobie nieco ułatwić życie, tak by w menadżerze plików (np. nemo , caja , pcmanfm ) te wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Konfiguracja CIFS/SMB/SAMBA pod Debian Linux (smbd/avahi/mdns/gvfs)">
+	<meta name="twitter:description" content="Z racji, że w mojej sieci domowej pojawia się coraz więcej maszyn, które mają na pokładzie różne systemy operacyjne (począwszy od linux&#39;ów, przez androidy, a na windows&#39;ach skończywszy), to postanowiłem w końcu wypracować jakiś w miarę uniwersalny sposób na dzielenie się plikami w tej sieci LAN. Rozwiązania pokroju SSH/SSHFS są w porządku ale jedynie w przypadku linux&#39;ów. Serwery HTTP/FTP są trochę mało poręczne i słabo się nadają do tego celu. Z kolei NFS miał u mnie jakieś większe/mniejsze problemy z wydajnością, a i też nie wiem jak wygląda wsparcie dla NFS na windows. W zasadzie to pozostała mi ostatnia opcja w postaci protokołu CIFS/SMB/SAMBA, który przynajmniej na windows powinien działać bez zarzutu. Trzeba jednak będzie przystosować mojego Debiana do pracy z tym protokołem. Chodzi generalnie o to, by bez większego problemu być w stanie udostępnić z jednej maszyny kilka katalogów innym użytkownikom sieci domowej i to bez znaczenia czy robimy to z windows&#39;a i docelowo siedzimy na linux&#39;ie, czy też w drugą stronę, tj. udostępniamy katalogi z linux&#39;a, by być w stanie przeglądać ich zawartość na windows. Wdrożenie obsługi protokołu CIFS/SMB/SAMBA na linux jest stosunkowo proste, bo wystarczy zainstalować pakiet samba , wydać w terminalu kilka poleceń i po sprawie. Problem jednak zaczyna się, gdy chcemy sobie nieco ułatwić życie, tak by w menadżerze plików (np. nemo , caja , pcmanfm ) te wszystkie zasoby były z automatu widoczne po przejściu do zakładki sieć/network. Pozostają też do rozważenia kwestie związane z bezpieczeństwem tego całego mechanizmu wymiany plików.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -1016,32 +1016,32 @@ przynajmniej korzystając z konsolowego narzędzia <code>smbclient</code> . Nas 
 wygląda w przypadku menadżera plików, np. <code>nemo</code> po przejściu na zakładkę <code>network</code> . W tym
 przypadku lokalne zasoby CIFS/SMB/SAMBA zostały wyświetlone bez większych problemów:</p>
 <table>
-  <thead>
-      <tr>
-          <th></th>
-          <th></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/001.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
-          <td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/002.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th></th>
+					<th></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/001.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
+					<td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/002.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
+			</tr>
+	</tbody>
 </table>
 <table>
-  <thead>
-      <tr>
-          <th></th>
-          <th></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/003.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
-          <td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/004.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th></th>
+					<th></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/003.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
+					<td><img loading="lazy" src="https://morfikov.github.io/img/2024/06/004.cifs-smb-samba-file-manager-nemo-connect-listing-share.png" alt="cifs-smb-samba-file-manager-nemo-connect-listing-share"    class="huge"></td>
+			</tr>
+	</tbody>
 </table>
 <p>Oczywiście nie wdrożyliśmy sobie wszystkich tych usług, by cieszyć się funkcjonalnością oferowaną
 przez CIFS/SMB/SAMBA na localhost. Trzeba teraz jeszcze skonfigurować naszą maszynę do pracy w
@@ -1443,6 +1443,7 @@ zaimplementować, trzeba tylko pamiętać o jego zabezpieczeniu.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

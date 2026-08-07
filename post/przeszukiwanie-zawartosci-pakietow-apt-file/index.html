@@ -8,29 +8,29 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/przeszukiwanie-zawartosci-pakietow-apt-file/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Przeszukiwanie zawartości pakietów (apt-file)">
-  <meta property="og:description" content="Podczas procesu kompilacji pakietów często zdarza się tak, że brakuje jakichś zależności, bez których dany pakietów nie chce się nam zbudować. W większości przypadków, system powinien nam podpowiedzieć jaki pakiet powinniśmy doinstalować. Nie zawsze jednak będzie to takie oczywiste i jedyne co nam zostanie zwrócone, to ścieżka danego pliku lub tylko jego nazwa. Nawet jeśli nie kompilujemy programów, to podczas zwykłego użytkowania komputera możemy potrzebować odnaleźć pakiet, który zawiera pewien określony plik binarny czy konfiguracyjny. Jak zatem odnaleźć się w gąszczu plików i katalogów by efektywnie ustalić pakiet, który zawiera interesujące nas pliki?">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2015-06-30T12:03:20+00:00">
-    <meta property="article:modified_time" content="2015-06-30T12:03:20+00:00">
-    <meta property="article:tag" content="Debian">
-    <meta property="article:tag" content="Apt">
-    <meta property="article:tag" content="Apt-File">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Przeszukiwanie zawartości pakietów (apt-file)">
+	<meta property="og:description" content="Podczas procesu kompilacji pakietów często zdarza się tak, że brakuje jakichś zależności, bez których dany pakietów nie chce się nam zbudować. W większości przypadków, system powinien nam podpowiedzieć jaki pakiet powinniśmy doinstalować. Nie zawsze jednak będzie to takie oczywiste i jedyne co nam zostanie zwrócone, to ścieżka danego pliku lub tylko jego nazwa. Nawet jeśli nie kompilujemy programów, to podczas zwykłego użytkowania komputera możemy potrzebować odnaleźć pakiet, który zawiera pewien określony plik binarny czy konfiguracyjny. Jak zatem odnaleźć się w gąszczu plików i katalogów by efektywnie ustalić pakiet, który zawiera interesujące nas pliki?">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2015-06-30T12:03:20+00:00">
+		<meta property="article:modified_time" content="2015-06-30T12:03:20+00:00">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Apt">
+		<meta property="article:tag" content="Apt-File">
 
 		
-  <meta itemprop="name" content="Przeszukiwanie zawartości pakietów (apt-file)">
-  <meta itemprop="description" content="Podczas procesu kompilacji pakietów często zdarza się tak, że brakuje jakichś zależności, bez których dany pakietów nie chce się nam zbudować. W większości przypadków, system powinien nam podpowiedzieć jaki pakiet powinniśmy doinstalować. Nie zawsze jednak będzie to takie oczywiste i jedyne co nam zostanie zwrócone, to ścieżka danego pliku lub tylko jego nazwa. Nawet jeśli nie kompilujemy programów, to podczas zwykłego użytkowania komputera możemy potrzebować odnaleźć pakiet, który zawiera pewien określony plik binarny czy konfiguracyjny. Jak zatem odnaleźć się w gąszczu plików i katalogów by efektywnie ustalić pakiet, który zawiera interesujące nas pliki?">
-  <meta itemprop="datePublished" content="2015-06-30T12:03:20+00:00">
-  <meta itemprop="dateModified" content="2015-06-30T12:03:20+00:00">
-  <meta itemprop="wordCount" content="654">
-  <meta itemprop="keywords" content="Debian,Apt,Apt-File">
+	<meta itemprop="name" content="Przeszukiwanie zawartości pakietów (apt-file)">
+	<meta itemprop="description" content="Podczas procesu kompilacji pakietów często zdarza się tak, że brakuje jakichś zależności, bez których dany pakietów nie chce się nam zbudować. W większości przypadków, system powinien nam podpowiedzieć jaki pakiet powinniśmy doinstalować. Nie zawsze jednak będzie to takie oczywiste i jedyne co nam zostanie zwrócone, to ścieżka danego pliku lub tylko jego nazwa. Nawet jeśli nie kompilujemy programów, to podczas zwykłego użytkowania komputera możemy potrzebować odnaleźć pakiet, który zawiera pewien określony plik binarny czy konfiguracyjny. Jak zatem odnaleźć się w gąszczu plików i katalogów by efektywnie ustalić pakiet, który zawiera interesujące nas pliki?">
+	<meta itemprop="datePublished" content="2015-06-30T12:03:20+00:00">
+	<meta itemprop="dateModified" content="2015-06-30T12:03:20+00:00">
+	<meta itemprop="wordCount" content="654">
+	<meta itemprop="keywords" content="Debian,Apt,Apt-File">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Przeszukiwanie zawartości pakietów (apt-file)">
-  <meta name="twitter:description" content="Podczas procesu kompilacji pakietów często zdarza się tak, że brakuje jakichś zależności, bez których dany pakietów nie chce się nam zbudować. W większości przypadków, system powinien nam podpowiedzieć jaki pakiet powinniśmy doinstalować. Nie zawsze jednak będzie to takie oczywiste i jedyne co nam zostanie zwrócone, to ścieżka danego pliku lub tylko jego nazwa. Nawet jeśli nie kompilujemy programów, to podczas zwykłego użytkowania komputera możemy potrzebować odnaleźć pakiet, który zawiera pewien określony plik binarny czy konfiguracyjny. Jak zatem odnaleźć się w gąszczu plików i katalogów by efektywnie ustalić pakiet, który zawiera interesujące nas pliki?">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Przeszukiwanie zawartości pakietów (apt-file)">
+	<meta name="twitter:description" content="Podczas procesu kompilacji pakietów często zdarza się tak, że brakuje jakichś zależności, bez których dany pakietów nie chce się nam zbudować. W większości przypadków, system powinien nam podpowiedzieć jaki pakiet powinniśmy doinstalować. Nie zawsze jednak będzie to takie oczywiste i jedyne co nam zostanie zwrócone, to ścieżka danego pliku lub tylko jego nazwa. Nawet jeśli nie kompilujemy programów, to podczas zwykłego użytkowania komputera możemy potrzebować odnaleźć pakiet, który zawiera pewien określony plik binarny czy konfiguracyjny. Jak zatem odnaleźć się w gąszczu plików i katalogów by efektywnie ustalić pakiet, który zawiera interesujące nas pliki?">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -320,6 +320,7 @@ powodzeniem budowę tego przykładowego pakietu.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">

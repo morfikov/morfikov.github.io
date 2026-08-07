@@ -8,32 +8,32 @@
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 		<meta property="og:url" content="https://morfikov.github.io/post/jak-przygotowac-dysk-pod-instalacje-debian-linux-z-efi-uefi/">
-  <meta property="og:site_name" content="Morfitronik">
-  <meta property="og:title" content="Jak przygotować dysk pod instalację Debian linux z EFI/UEFI">
-  <meta property="og:description" content="Instalacja linux&#39;a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu debootstrap Jeśli kupujemy nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows&#39;a i tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie. Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną dystrybucję linux&#39;a w trybie EFI/UEFI.">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="post">
-    <meta property="article:published_time" content="2020-03-10T03:28:00+00:00">
-    <meta property="article:modified_time" content="2020-03-10T03:28:00+00:00">
-    <meta property="article:tag" content="Debian">
-    <meta property="article:tag" content="Efi">
-    <meta property="article:tag" content="Uefi">
-    <meta property="article:tag" content="Hdd">
-    <meta property="article:tag" content="Ssd">
-    <meta property="article:tag" content="Refind">
+	<meta property="og:site_name" content="Morfitronik">
+	<meta property="og:title" content="Jak przygotować dysk pod instalację Debian linux z EFI/UEFI">
+	<meta property="og:description" content="Instalacja linux&#39;a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu debootstrap Jeśli kupujemy nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows&#39;a i tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie. Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną dystrybucję linux&#39;a w trybie EFI/UEFI.">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2020-03-10T03:28:00+00:00">
+		<meta property="article:modified_time" content="2020-03-10T03:28:00+00:00">
+		<meta property="article:tag" content="Debian">
+		<meta property="article:tag" content="Efi">
+		<meta property="article:tag" content="Uefi">
+		<meta property="article:tag" content="Hdd">
+		<meta property="article:tag" content="Ssd">
+		<meta property="article:tag" content="Refind">
 
 		
-  <meta itemprop="name" content="Jak przygotować dysk pod instalację Debian linux z EFI/UEFI">
-  <meta itemprop="description" content="Instalacja linux&#39;a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu debootstrap Jeśli kupujemy nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows&#39;a i tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie. Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną dystrybucję linux&#39;a w trybie EFI/UEFI.">
-  <meta itemprop="datePublished" content="2020-03-10T03:28:00+00:00">
-  <meta itemprop="dateModified" content="2020-03-10T03:28:00+00:00">
-  <meta itemprop="wordCount" content="5078">
-  <meta itemprop="keywords" content="Debian,Efi,Uefi,Hdd,Ssd,Refind">
+	<meta itemprop="name" content="Jak przygotować dysk pod instalację Debian linux z EFI/UEFI">
+	<meta itemprop="description" content="Instalacja linux&#39;a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu debootstrap Jeśli kupujemy nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows&#39;a i tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie. Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną dystrybucję linux&#39;a w trybie EFI/UEFI.">
+	<meta itemprop="datePublished" content="2020-03-10T03:28:00+00:00">
+	<meta itemprop="dateModified" content="2020-03-10T03:28:00+00:00">
+	<meta itemprop="wordCount" content="5078">
+	<meta itemprop="keywords" content="Debian,Efi,Uefi,Hdd,Ssd,Refind">
 		
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Jak przygotować dysk pod instalację Debian linux z EFI/UEFI">
-  <meta name="twitter:description" content="Instalacja linux&#39;a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu debootstrap Jeśli kupujemy nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows&#39;a i tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie. Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną dystrybucję linux&#39;a w trybie EFI/UEFI.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Jak przygotować dysk pod instalację Debian linux z EFI/UEFI">
+	<meta name="twitter:description" content="Instalacja linux&#39;a w trybie EFI/UEFI nieco inaczej wygląda niż tradycyjna instalacja systemu, zwana często dla odróżnienia trybem BIOS, przynajmniej przy wykorzystaniu debootstrap Jeśli kupujemy nowego desktopa czy laptopa, to zwykle będziemy mieli na dysku twardym zainstalowanego windows&#39;a i tym samym przygotowany cały układ partycji niezbędny do prawidłowego uruchomienia systemu w trybie EFI/UEFI. Co jednak w przypadku, gdy kupimy komputer bez systemu operacyjnego? W takiej sytuacji trzeba będzie ręcznie podzielić dysk na partycje oraz zainstalować menadżer rozruchu (rEFInd) lub też bootloader (grub/grub2/syslinux/extlinux) i skonfigurować wszystkie te elementy samodzielnie. Prawdopodobnie instalator Debiana jest w stanie za nas te kroki przeprowadzić automatycznie ale my nie będziemy korzystać z automatycznych rozwiązań, bo one nieco odmóżdżają. Spróbujemy za to stworzyć sobie uniwersalną konfigurację, która pozwoli nam zainstalować i odpalić dowolną dystrybucję linux&#39;a w trybie EFI/UEFI.">
 
 	<link rel="stylesheet" href="https://morfikov.github.io/css/bundle.css">
 	<link rel="stylesheet" href="https://morfikov.github.io/css/custom.css">
@@ -783,9 +783,9 @@ prosta -- zadziała.</p></div>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/montowanie-dyskow-jako-zwykly-uzytkownik-z-udisks-i-policykit/">Montowanie dysków jako zwykły użytkownik z UDisks i PolicyKit</a></li>
 		
-		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/">Badsector dysku HDD w kontenerze LUKS zawierającym LVM</a></li>
-		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-optymalnie-podzielic-dysk-hdd-ssd-na-partycje-pod-linux/">Jak optymalnie podzielić dysk HDD/SSD na partycje pod linux</a></li>
+		
+		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/badsector-dysku-hdd-w-kontenerze-luks-zawierajacym-lvm/">Badsector dysku HDD w kontenerze LUKS zawierającym LVM</a></li>
 		
 		<li class="related__item"><a class="related__link" href="https://morfikov.github.io/post/jak-ukryc-zaszyfrowany-kontener-luks-pod-linux/">Jak ukryć zaszyfrowany kontener LUKS pod linux</a></li>
 		
@@ -825,6 +825,7 @@ prosta -- zadziała.</p></div>
 			<svg class="social__icon" aria-label="Mastodon" role="img" width="32" height="32" viewBox="0 0 512 512"><path d="M416 197c0-74-49-96-49-96-42-22-172-24-222 0 0 0-49 22-49 96v59c2 72 14 145 81 162 33 9 89 18 140-6l-2-27s-27 7-58 7c-74 2-67-39-70-52 0 0 51 17 137 6 42-6 80-32 85-56 8-38 7-93 7-93zm-58 96h-35v-88c0-18-8-27-23-27-18 0-27 11-27 33v47h-34v-47c0-22-9-33-27-33-15 0-23 9-23 27v88h-35v-91c0-18 5-60 52-60 39 0 50 37 50 37s10-37 50-37c45 0 52 42 52 60v91z"/></svg>
 		</a>
 </div>
+
 	<div class="footer__copyright">© 2026 Mikhail Morfikov.
 	<span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span>
 	<span class="footer__copyright-cc">
