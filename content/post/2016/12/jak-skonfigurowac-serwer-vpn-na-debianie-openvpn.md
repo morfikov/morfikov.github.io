@@ -12,6 +12,7 @@ tags:
 - vpn
 - debian
 - sieć
+- openvpn
 GHissueID: 466
 title: Jak skonfigurować serwer VPN na Debianie (OpenVPN)
 ---
